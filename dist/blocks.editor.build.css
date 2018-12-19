@@ -1,0 +1,38 @@
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
+ */
+.wp-block-cgb-block-generate-blocks {
+  background: #bada55;
+  border: 0.2rem solid #292929;
+  color: #292929;
+  margin: 0 auto;
+  max-width: 740px;
+  padding: 2rem; }
+
+body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-list__block,
+[data-type="generatepress/section"] .wp-block-heading h3,
+[data-type="generatepress/section"] .wp-block-heading h3.editor-rich-text__tinymce {
+  color: inherit; }
+
+.edit-bg-buttons {
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+.edit-bg-buttons button.components-button {
+  margin-bottom: 10px; }
+
+.section-colors-panel .components-base-control__label {
+  display: inline-block;
+  margin-bottom: 10px; }
+
+.additional-class-notice .components-notice {
+  margin: 0 0 10px; }

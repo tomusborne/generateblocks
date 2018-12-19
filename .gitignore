@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+.editorconfig
+.eslintignore
+.eslintrc.json
+package-lock.json
+package.json
+## Uncomment line below if you prefer to
+## keep compiled files out of version control
+# dist/
