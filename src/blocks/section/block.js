@@ -20,15 +20,6 @@ const {
 	componentDidMount
 } = wp.components;
 
-const {
-	compose,
-	withInstanceId
-} = wp.compose;
-
-const {
-	withColors,
-} = wp.editor;
-
 /**
  * Register: aa Gutenberg Block.
  *
@@ -53,7 +44,10 @@ registerBlockType( 'generatepress/section', {
 		__( 'generatepress' ),
 	],
 	attributes: blockAttributes,
-	anchor: true,
+	supports: {
+		className: false,
+		customClassName: false
+	},
 
 	/**
 	 * The edit function describes the structure of your block in the context of the editor.
@@ -63,10 +57,7 @@ registerBlockType( 'generatepress/section', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	 edit: compose( [
- 		withColors( 'backgroundColor', { textColor: 'color' } ),
-		withInstanceId
- 	] )( editSection ),
+	 edit: editSection,
 
 	/**
 	 * The save function defines the way in which the different attributes should be combined
@@ -78,17 +69,3 @@ registerBlockType( 'generatepress/section', {
 	 */
 	save: saveSection,
 } );
-
-function setBlockCustomClassName( className, blockName ) {
-	if ( blockName === 'generatepress/section' && 'wp-block-generatepress-section' === className ) {
-		className = 'generate-section';
-	}
-
-	return className;
-}
-
-wp.hooks.addFilter(
-    'blocks.getBlockDefaultClassName',
-    'generatepress/set-section-class-name',
-    setBlockCustomClassName
-);

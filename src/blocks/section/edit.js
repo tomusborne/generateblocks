@@ -18,6 +18,7 @@ const {
 	SelectControl,
 	ColorPicker,
 	BaseControl,
+	TextControl,
 	Notice
 } = wp.components;
 
@@ -35,9 +36,15 @@ const {
 
 class GenerateSection extends Component {
 	componentDidMount() {
-		this.props.setAttributes( {
-			uniqueID: this.props.instanceId,
-		} );
+		if ( ! this.props.attributes.uniqueID ) {
+			this.props.setAttributes( {
+				uniqueID: this.props.clientId.substr( 2, 6 ),
+			} );
+		} else if ( this.props.attributes.uniqueID && this.props.attributes.uniqueID !== '_' + this.props.clientId.substr( 2, 6 ) ) {
+			this.props.setAttributes( {
+				uniqueID: this.props.clientId.substr( 2, 6 ),
+			} );
+		}
 	}
 
 	render() {
@@ -65,6 +72,7 @@ class GenerateSection extends Component {
 		const {
 			uniqueID,
 			tagName,
+			cssClasses,
 			outerContainer,
 			innerContainer,
 			customBackgroundColor,
@@ -351,7 +359,7 @@ class GenerateSection extends Component {
 				</InspectorControls>
 				<InspectorAdvancedControls>
 					<SelectControl
-						label="Tag"
+						label={ __( 'Element Tag', 'gp-premium' ) }
 						value={ tagName }
 						options={ [
 							{ label: 'section', value: 'section' },
@@ -362,14 +370,11 @@ class GenerateSection extends Component {
 						onChange={ ( tagName ) => { setAttributes( { tagName } ) } }
 					/>
 
-					<div className={ 'additional-class-notice' }>
-						<Notice
-							status={ 'warning' }
-							isDismissible={ false }
-						>
-							{ __( 'The first additional CSS class must be unique to this section.', 'gp-premium' ) }
-						</Notice>
-					</div>
+					<TextControl
+						label={ __( 'CSS Classes', 'gp-premium' ) }
+						value={ cssClasses }
+						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+					/>
 				</InspectorAdvancedControls>
 
 				<style>{ css }</style>
@@ -377,9 +382,11 @@ class GenerateSection extends Component {
 				<Section
 					tagName={ tagName }
 					className={ classnames( {
-						[`section-${ attributes.uniqueID }`]: attributes.uniqueID,
+						'generate-section': true,
+						[`section-${ attributes.uniqueID }`]: true,
 						'grid-container grid-parent': 'contained' === attributes.outerContainer,
-						'parallax': attributes.bgOptions.parallax
+						'parallax': attributes.bgOptions.parallax,
+						[`${ attributes.cssClasses }`]: '' !== attributes.cssClasses
 					} ) }
 				>
 					<div

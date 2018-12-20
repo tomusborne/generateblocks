@@ -16,6 +16,7 @@ export default ( { attributes, className } ) => {
 	const {
 		uniqueID,
 		tagName,
+		cssClasses,
 		outerContainer,
 		innerContainer,
 		backgroundColor,
@@ -35,9 +36,11 @@ export default ( { attributes, className } ) => {
 		<Section
 			tagName={ tagName }
 			className={ classnames( {
-				[`section-${ attributes.uniqueID }`]: attributes.uniqueID,
+				'generate-section': true,
+				[`section-${ attributes.uniqueID }`]: true,
 				'grid-container grid-parent': 'contained' === attributes.outerContainer,
-				'parallax': attributes.bgOptions.parallax
+				'parallax': attributes.bgOptions.parallax,
+				[`${ attributes.cssClasses }`]: '' !== attributes.cssClasses
 			} ) }
 		>
 			<div className={ classnames( {

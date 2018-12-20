@@ -3,6 +3,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	cssClasses: {
+		type: 'string',
+		default: '',
+	},
 	tagName: {
 		type: 'string',
 		default: 'section',

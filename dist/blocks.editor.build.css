@@ -19,8 +19,18 @@
   padding: 2rem; }
 
 body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-list__block,
+[data-type="generatepress/section"] .wp-block-heading h1,
+[data-type="generatepress/section"] .wp-block-heading h1.editor-rich-text__tinymce,
+[data-type="generatepress/section"] .wp-block-heading h2,
+[data-type="generatepress/section"] .wp-block-heading h2.editor-rich-text__tinymce,
 [data-type="generatepress/section"] .wp-block-heading h3,
-[data-type="generatepress/section"] .wp-block-heading h3.editor-rich-text__tinymce {
+[data-type="generatepress/section"] .wp-block-heading h3.editor-rich-text__tinymce,
+[data-type="generatepress/section"] .wp-block-heading h4,
+[data-type="generatepress/section"] .wp-block-heading h4.editor-rich-text__tinymce,
+[data-type="generatepress/section"] .wp-block-heading h5,
+[data-type="generatepress/section"] .wp-block-heading h5.editor-rich-text__tinymce,
+[data-type="generatepress/section"] .wp-block-heading h6,
+[data-type="generatepress/section"] .wp-block-heading h6.editor-rich-text__tinymce {
   color: inherit; }
 
 .edit-bg-buttons {
