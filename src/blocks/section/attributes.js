@@ -1,15 +1,15 @@
 export default {
 	uniqueID: {
-		type: 'string',
-		default: '',
-	},
-	cssClasses: {
-		type: 'string',
+		type: 'number',
 		default: '',
 	},
 	tagName: {
 		type: 'string',
 		default: 'section',
+	},
+	cssClasses: {
+		type: 'string',
+		default: '',
 	},
 	outerContainer: {
 		type: 'string',
@@ -34,9 +34,6 @@ export default {
 	spacingLeft: {
 		type: 'number',
 		default: 0
-	},
-	backgroundColor: {
-		type: 'string',
 	},
 	customBackgroundColor: {
 		type: 'string',

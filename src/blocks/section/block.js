@@ -20,6 +20,10 @@ const {
 	componentDidMount
 } = wp.components;
 
+const {
+	withInstanceId
+} = wp.compose;
+
 /**
  * Register: aa Gutenberg Block.
  *
@@ -57,7 +61,7 @@ registerBlockType( 'generatepress/section', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	 edit: editSection,
+	 edit: withInstanceId( editSection ),
 
 	/**
 	 * The save function defines the way in which the different attributes should be combined

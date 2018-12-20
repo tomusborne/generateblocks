@@ -11,7 +11,7 @@ const {
 	InnerBlocks
 } = wp.editor;
 
-export default ( { attributes, className } ) => {
+export default ( { attributes } ) => {
 
 	const {
 		uniqueID,
@@ -19,33 +19,34 @@ export default ( { attributes, className } ) => {
 		cssClasses,
 		outerContainer,
 		innerContainer,
-		backgroundColor,
-		customTextColor,
-		customBackgroundColor,
-		linkColor,
-		linkColorHover,
-		spacingBottom,
 		spacingTop,
 		spacingRight,
+		spacingBottom,
 		spacingLeft,
+		customBackgroundColor,
+		customTextColor,
+		linkColor,
+		linkColorHover,
 		bgImage,
 		bgOptions
 	} = attributes;
+
+	console.log(attributes);
 
 	return (
 		<Section
 			tagName={ tagName }
 			className={ classnames( {
 				'generate-section': true,
-				[`section-${ attributes.uniqueID }`]: true,
-				'grid-container grid-parent': 'contained' === attributes.outerContainer,
-				'parallax': attributes.bgOptions.parallax,
-				[`${ attributes.cssClasses }`]: '' !== attributes.cssClasses
+				[`section-${ uniqueID }`]: true,
+				'grid-container grid-parent': 'contained' === outerContainer,
+				'parallax': bgOptions.parallax,
+				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 		>
 			<div className={ classnames( {
 				'inside-section': true,
-				'grid-container grid-parent': 'contained' === attributes.innerContainer
+				'grid-container grid-parent': 'contained' === innerContainer
 			} ) }>
 				<InnerBlocks.Content />
 			</div>

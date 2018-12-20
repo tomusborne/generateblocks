@@ -17,6 +17,7 @@ const {
 	ToggleControl,
 	SelectControl,
 	ColorPicker,
+	ColorPalette,
 	BaseControl,
 	TextControl,
 	Notice
@@ -38,11 +39,7 @@ class GenerateSection extends Component {
 	componentDidMount() {
 		if ( ! this.props.attributes.uniqueID ) {
 			this.props.setAttributes( {
-				uniqueID: this.props.clientId.substr( 2, 6 ),
-			} );
-		} else if ( this.props.attributes.uniqueID && this.props.attributes.uniqueID !== '_' + this.props.clientId.substr( 2, 6 ) ) {
-			this.props.setAttributes( {
-				uniqueID: this.props.clientId.substr( 2, 6 ),
+				uniqueID: this.props.instanceId + 1,
 			} );
 		}
 	}
@@ -51,7 +48,8 @@ class GenerateSection extends Component {
 		const {
 			attributes,
 			setAttributes,
-			toggleSelection
+			toggleSelection,
+			instanceId
 		} = this.props;
 
 		const onSelectBgImage = ( media ) => {
@@ -75,28 +73,30 @@ class GenerateSection extends Component {
 			cssClasses,
 			outerContainer,
 			innerContainer,
+			spacingTop,
+			spacingRight,
+			spacingBottom,
+			spacingLeft,
 			customBackgroundColor,
 			customTextColor,
 			linkColor,
 			linkColorHover,
-			resizeTopIsActive,
-			resizeBottomIsActive,
 			bgImage,
 			bgOptions
 		} = attributes;
 
 		var backgroundImageValue;
 
-		if ( attributes.bgImage ) {
-			backgroundImageValue = 'url(' + attributes.bgImage.image.url + ')';
+		if ( bgImage ) {
+			backgroundImageValue = 'url(' + bgImage.image.url + ')';
 
-			if ( attributes.bgOptions.overlay ) {
-				backgroundImageValue = 'linear-gradient(0deg, ' + customBackgroundColor + ', ' + customBackgroundColor + '), url(' + attributes.bgImage.image.url + ')';
+			if ( bgOptions.overlay ) {
+				backgroundImageValue = 'linear-gradient(0deg, ' + customBackgroundColor + ', ' + customBackgroundColor + '), url(' + bgImage.image.url + ')';
 			}
 		}
 
 		const css = `
-			.section-` + attributes.uniqueID + ` {
+			.section-` + uniqueID + ` {
 				background-color: ` + customBackgroundColor + `;
 				color: ` + customTextColor + `;
 		  		background-image: ` + backgroundImageValue + `;
@@ -104,19 +104,19 @@ class GenerateSection extends Component {
 		  		background-position: center center;
 			}
 
-			.section-` + attributes.uniqueID + ` a, .section-` + attributes.uniqueID + ` a:visited {
-			  color: ` + attributes.linkColor + `;
+			.section-` + uniqueID + ` a, .section-` + uniqueID + ` a:visited {
+			  color: ` + linkColor + `;
 			}
 
-			.section-` + attributes.uniqueID + ` a:hover {
-			  color: ` + attributes.linkColorHover + `;
+			.section-` + uniqueID + ` a:hover {
+			  color: ` + linkColorHover + `;
 			}
 
-			.section-` + attributes.uniqueID + ` .inside-section {
-			  padding-top: ` + attributes.spacingTop + `px;
-			  padding-right: ` + attributes.spacingRight + `px;
-			  padding-bottom: ` + attributes.spacingBottom + `px;
-			  padding-left: ` + attributes.spacingLeft + `px;
+			.section-` + uniqueID + ` .inside-section {
+			  padding-top: ` + spacingTop + `px;
+			  padding-right: ` + spacingRight + `px;
+			  padding-bottom: ` + spacingBottom + `px;
+			  padding-left: ` + spacingLeft + `px;
 			}
 		`
 
@@ -149,7 +149,7 @@ class GenerateSection extends Component {
 
 						<RangeControl
 							label={ __( 'Spacing top' ) }
-							value={ attributes.spacingTop }
+							value={ spacingTop }
 							onChange={ ( nextSpacing ) => {
 								setAttributes( {
 									spacingTop: nextSpacing
@@ -162,7 +162,7 @@ class GenerateSection extends Component {
 
 						<RangeControl
 							label={ __( 'Spacing right' ) }
-							value={ attributes.spacingRight }
+							value={ spacingRight }
 							onChange={ ( nextSpacing ) => {
 								setAttributes( {
 									spacingRight: nextSpacing,
@@ -175,7 +175,7 @@ class GenerateSection extends Component {
 
 						<RangeControl
 							label={ __( 'Spacing bottom' ) }
-							value={ attributes.spacingBottom }
+							value={ spacingBottom }
 							onChange={ ( nextSpacing ) => {
 								setAttributes( {
 									spacingBottom: nextSpacing,
@@ -188,7 +188,7 @@ class GenerateSection extends Component {
 
 						<RangeControl
 							label={ __( 'Spacing left' ) }
-							value={ attributes.spacingLeft }
+							value={ spacingLeft }
 							onChange={ ( nextSpacing ) => {
 								setAttributes( {
 									spacingLeft: nextSpacing,
@@ -210,7 +210,7 @@ class GenerateSection extends Component {
 							label={ __( 'Background Color', 'gp-premium' ) }
 						>
 							<ColorPicker
-						   		color={ attributes.customBackgroundColor }
+						   		color={ customBackgroundColor }
 								onChangeComplete={ ( nextBgColor ) => {
 									let colorString;
 
@@ -233,42 +233,39 @@ class GenerateSection extends Component {
 						<BaseControl
 							label={ __( 'Text Color', 'gp-premium' ) }
 						>
-							<ColorPicker
-								color={ attributes.customTextColor }
-								onChangeComplete={ ( nextTextColor ) => {
+							<ColorPalette
+								value={customTextColor}
+								onChange={ ( nextTextColor ) =>
 									setAttributes( {
-										customTextColor: nextTextColor.hex
+										customTextColor: nextTextColor
 									} )
-								} }
-								disableAlpha
+								}
 							/>
 						</BaseControl>
 
 						<BaseControl
 							label={ __( 'Link Color', 'gp-premium' ) }
 						>
-							<ColorPicker
-								color={ attributes.linkColor }
-								onChangeComplete={ ( nextLinkColor ) => {
+							<ColorPalette
+								value={ linkColor }
+								onChange={ ( nextLinkColor ) =>
 									setAttributes( {
-										linkColor: nextLinkColor.hex
+										linkColor: nextLinkColor
 									} )
-								} }
-								disableAlpha
+								}
 							/>
 						</BaseControl>
 
 						<BaseControl
 							label={ __( 'Link Color Hover', 'gp-premium' ) }
 						>
-							<ColorPicker
-								color={ attributes.linkColorHover }
-								onChangeComplete={ ( nextLinkColorHover ) => {
+							<ColorPalette
+								value={ linkColorHover }
+								onChange={ ( nextLinkColorHover ) =>
 									setAttributes( {
-										linkColorHover: nextLinkColorHover.hex
+										linkColorHover: nextLinkColorHover
 									} )
-								} }
-								disableAlpha
+								}
 							/>
 						</BaseControl>
 					</PanelBody>
@@ -383,16 +380,16 @@ class GenerateSection extends Component {
 					tagName={ tagName }
 					className={ classnames( {
 						'generate-section': true,
-						[`section-${ attributes.uniqueID }`]: true,
-						'grid-container grid-parent': 'contained' === attributes.outerContainer,
-						'parallax': attributes.bgOptions.parallax,
-						[`${ attributes.cssClasses }`]: '' !== attributes.cssClasses
+						[`section-${ uniqueID }`]: true,
+						'grid-container grid-parent': 'contained' === outerContainer,
+						'parallax': bgOptions.parallax,
+						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 				>
 					<div
 						className={ classnames( {
 						'inside-section': true,
-						'grid-container grid-parent': 'contained' === attributes.innerContainer
+						'grid-container grid-parent': 'contained' === innerContainer
 						} ) }
 					>
 						<InnerBlocks />
