@@ -35,7 +35,7 @@ function generate_section_block_enqueue_scripts() { // phpcs:ignore
 
 	// Styles.
 	wp_enqueue_style(
-		'generatepress-section-block', // Handle.
+		'generatepress-blocks', // Handle.
 		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
 		array( 'wp-edit-blocks' ) // Dependency to include the CSS after it.
 		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' ) // Version: File modification time.
@@ -47,13 +47,7 @@ function generate_section_block_enqueue_scripts() { // phpcs:ignore
 	}
 }
 
-add_action( 'wp_enqueue_scripts', 'generate_section_block_frontend_css', 200 );
-/**
- * Print our CSS for each section.
- *
- * @since TBA
- */
-function generate_section_block_frontend_css() {
+function generate_section_block_data() {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}
@@ -71,94 +65,144 @@ function generate_section_block_frontend_css() {
 			return;
 		}
 
-		wp_register_script(
-			'generatepress-sections-parallax',
-			plugins_url( 'dist/parallax.js', dirname( __FILE__ ) ),
-			array()
-		);
+		//print_r($blocks);
 
-		wp_localize_script(
-			'generatepress-sections-parallax',
-			'sectionParallaxArgs',
-			array(
-				'speed' => apply_filters( 'generate_sections_parallax_speed', 6 ),
-			)
-		);
-
-		$css = '';
+		$data = array();
 
 		foreach ( $blocks as $index => $block ) {
 			if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
 				if ( 'generatepress/section' === $block['blockName'] ) {
+					$data[] = $block['attrs'];
+
+					if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] && is_array( $block['innerBlocks'] ) ) ) {
+						foreach ( $block['innerBlocks'] as $inner_block ) {
+							if ( 'generatepress/section' === $inner_block['blockName'] ) {
+								$data[] = $inner_block['attrs'];
+							}
+						}
+					}
+				}
+
+				if ( 'core/block' === $block['blockName'] ) {
 					$atts = $block['attrs'];
 
-					if ( ! isset( $atts['uniqueID'] ) ) {
-						return;
-					}
+					if ( isset( $atts['ref'] ) ) {
+						$reusable_block = get_post( $atts['ref'] );
 
-					//print_r($atts);
+						if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
+							$blocks = parse_blocks( $reusable_block->post_content );
 
-					$id = 'section-' . $atts['uniqueID'];
+							foreach ( $blocks as $index => $block ) {
+								if ( 'generatepress/section' === $block['blockName'] ) {
+									$data[] = $block['attrs'];
+								}
 
-					if ( isset( $atts['className'] ) && ! empty( $atts['className'] ) ) {
-						$id = explode( ' ', $atts['className'] );
-						$id = $id[0];
-					}
-
-					$values = array(
-						'background_color' => isset( $atts['customBackgroundColor'] ) ? 'background-color:' . $atts['customBackgroundColor'] . ';' : '',
-						'text_color' => isset( $atts['customTextColor'] ) ? 'color:' . $atts['customTextColor'] . ';' : '',
-						'padding_top' => isset( $atts['spacingTop'] ) ? 'padding-top:' . $atts['spacingTop'] . 'px;' : '',
-						'padding_right' => isset( $atts['spacingRight'] ) ? 'padding-right:' . $atts['spacingRight'] . 'px;' : '',
-						'padding_bottom' => isset( $atts['spacingBottom'] ) ? 'padding-bottom:' . $atts['spacingBottom'] . 'px;' : '',
-						'padding_left' => isset( $atts['spacingLeft'] ) ? 'padding-left:' . $atts['spacingLeft'] . 'px;' : '',
-						'link_color' => isset( $atts['linkColor'] ) ? 'color:' . $atts['linkColor'] . ';' : '',
-						'link_color_hover' => isset( $atts['linkColorHover'] ) ? 'color:' . $atts['linkColorHover'] . ';' : '',
-						'background_image' => isset( $atts['bgImage'] ) ? $atts['bgImage'] : '',
-						'background_options' => isset( $atts['bgOptions'] ) ? $atts['bgOptions'] : '',
-					);
-
-					if ( isset( $values['background_options']['parallax'] ) && $values['background_options']['parallax'] ) {
-						wp_enqueue_script( 'generatepress-sections-parallax' );
-					}
-
-					if ( $values['background_color'] || $values['text_color'] ) {
-						$css .= '.generate-section.' . $id . '{' . $values['background_color'] . $values['text_color'] . '}';
-					}
-
-					if ( $values['background_image'] ) {
-						$url = $values['background_image']['image']['url'];
-
-						$background_position = 'center center';
-
-						if ( isset( $values['background_options']['parallax'] ) && $values['background_options']['parallax'] ) {
-							$background_position = 'center top';
+								if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] && is_array( $block['innerBlocks'] ) ) ) {
+									foreach ( $block['innerBlocks'] as $inner_block ) {
+										if ( 'generatepress/section' === $inner_block['blockName'] ) {
+											$data[] = $inner_block['attrs'];
+										}
+									}
+								}
+							}
 						}
-
-						if ( $values['background_color'] && isset( $values['background_options']['overlay'] ) && $values['background_options']['overlay'] ) {
-							$css .= '.generate-section.' . $id . '{background-image: linear-gradient(0deg, ' . $atts['customBackgroundColor'] . ', ' . $atts['customBackgroundColor'] . '), url(' . $url . ');background-size: cover;background-position: ' . $background_position . ';}';
-						} else {
-							$css .= '.generate-section.' . $id . '{background-image: url(' . $url . ');background-size: cover;background-position: ' . $background_position . ';}';
-						}
-					}
-
-					if ( $values['padding_top'] || $values['padding_right'] || $values['padding_bottom'] || $values['padding_left'] ) {
-						$css .= ".generate-section." . $id . " .inside-section{" . $values['padding_top'] . $values['padding_right'] . $values['padding_bottom'] . $values['padding_left'] . "}";
-					}
-
-					if ( $values['link_color'] ) {
-						$css .= ".generate-section." . $id . " a, .generate-section." . $id . " a:visited{" . $values['link_color'] . "}";
-					}
-
-					if ( $values['link_color_hover'] ) {
-						$css .= ".generate-section." . $id . " a:hover{" . $values['link_color_hover'] . "}";
 					}
 				}
 			}
 		}
 
-		$css .= '.inside-section > *:last-child {margin-bottom:0}';
-
-		wp_add_inline_style( 'generate-style', $css );
+		return $data;
 	}
+}
+
+add_action( 'wp_enqueue_scripts', 'generate_section_block_frontend_css', 200 );
+/**
+ * Print our CSS for each section.
+ *
+ * @since TBA
+ */
+function generate_section_block_frontend_css() {
+
+	$data = generate_section_block_data();
+
+	if ( empty( $data ) ) {
+		return;
+	}
+
+	wp_register_script(
+		'generatepress-sections-parallax',
+		plugins_url( 'dist/parallax.js', dirname( __FILE__ ) ),
+		array()
+	);
+
+	wp_localize_script(
+		'generatepress-sections-parallax',
+		'sectionParallaxArgs',
+		array(
+			'speed' => apply_filters( 'generate_sections_parallax_speed', 6 ),
+		)
+	);
+
+	$css = '';
+
+	foreach ( $data as $atts ) {
+		if ( ! isset( $atts['uniqueID'] ) ) {
+			return;
+		}
+
+		$id = 'section-' . $atts['uniqueID'];
+
+		$values = array(
+			'background_color' => isset( $atts['customBackgroundColor'] ) ? 'background-color:' . $atts['customBackgroundColor'] . ';' : '',
+			'text_color' => isset( $atts['customTextColor'] ) ? 'color:' . $atts['customTextColor'] . ';' : '',
+			'padding_top' => isset( $atts['spacingTop'] ) ? 'padding-top:' . $atts['spacingTop'] . 'px;' : '',
+			'padding_right' => isset( $atts['spacingRight'] ) ? 'padding-right:' . $atts['spacingRight'] . 'px;' : '',
+			'padding_bottom' => isset( $atts['spacingBottom'] ) ? 'padding-bottom:' . $atts['spacingBottom'] . 'px;' : '',
+			'padding_left' => isset( $atts['spacingLeft'] ) ? 'padding-left:' . $atts['spacingLeft'] . 'px;' : '',
+			'link_color' => isset( $atts['linkColor'] ) ? 'color:' . $atts['linkColor'] . ';' : '',
+			'link_color_hover' => isset( $atts['linkColorHover'] ) ? 'color:' . $atts['linkColorHover'] . ';' : '',
+			'background_image' => isset( $atts['bgImage'] ) ? $atts['bgImage'] : '',
+			'background_options' => isset( $atts['bgOptions'] ) ? $atts['bgOptions'] : '',
+		);
+
+		if ( isset( $values['background_options']['parallax'] ) && $values['background_options']['parallax'] ) {
+			wp_enqueue_script( 'generatepress-sections-parallax' );
+		}
+
+		if ( $values['background_color'] || $values['text_color'] ) {
+			$css .= '.generate-section.' . $id . '{' . $values['background_color'] . $values['text_color'] . '}';
+		}
+
+		if ( $values['background_image'] ) {
+			$url = $values['background_image']['image']['url'];
+
+			$background_position = 'center center';
+
+			if ( isset( $values['background_options']['parallax'] ) && $values['background_options']['parallax'] ) {
+				$background_position = 'center top';
+			}
+
+			if ( $values['background_color'] && isset( $values['background_options']['overlay'] ) && $values['background_options']['overlay'] ) {
+				$css .= '.generate-section.' . $id . '{background-image: linear-gradient(0deg, ' . $atts['customBackgroundColor'] . ', ' . $atts['customBackgroundColor'] . '), url(' . $url . ');background-size: cover;background-position: ' . $background_position . ';}';
+			} else {
+				$css .= '.generate-section.' . $id . '{background-image: url(' . $url . ');background-size: cover;background-position: ' . $background_position . ';}';
+			}
+		}
+
+		if ( $values['padding_top'] || $values['padding_right'] || $values['padding_bottom'] || $values['padding_left'] ) {
+			$css .= ".generate-section." . $id . " .inside-section{" . $values['padding_top'] . $values['padding_right'] . $values['padding_bottom'] . $values['padding_left'] . "}";
+		}
+
+		if ( $values['link_color'] ) {
+			$css .= ".generate-section." . $id . " a, .generate-section." . $id . " a:visited{" . $values['link_color'] . "}";
+		}
+
+		if ( $values['link_color_hover'] ) {
+			$css .= ".generate-section." . $id . " a:hover{" . $values['link_color_hover'] . "}";
+		}
+	}
+
+	$css .= '.inside-section > *:last-child {margin-bottom:0}';
+
+	wp_add_inline_style( 'generate-style', $css );
 }

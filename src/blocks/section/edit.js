@@ -37,9 +37,15 @@ const {
 
 class GenerateSection extends Component {
 	componentDidMount() {
+		var instanceId = this.props.instanceId + 1;
+
 		if ( ! this.props.attributes.uniqueID ) {
 			this.props.setAttributes( {
-				uniqueID: this.props.instanceId + 1,
+				uniqueID: instanceId,
+			} );
+		} else if ( this.props.attributes.uniqueID && this.props.attributes.uniqueID !== instanceId ) {
+			this.props.setAttributes( {
+				uniqueID: instanceId,
 			} );
 		}
 	}
