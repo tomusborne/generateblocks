@@ -23,22 +23,20 @@ add_action( 'enqueue_block_editor_assets', 'generate_section_block_enqueue_scrip
  * @uses {wp-editor} for WP editor styles.
  * @since 1.0.0
  */
-function generate_section_block_enqueue_scripts() { // phpcs:ignore
-	// Scripts.
+function generate_section_block_enqueue_scripts() {
 	wp_enqueue_script(
-		'generatepress-blocks', // Handle.
-		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ), // Block.build.js: We register the block here. Built with Webpack.
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ), // Dependencies, defined above.
-		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ), // Version: File modification time.
-		true // Enqueue the script in the footer.
+		'generatepress-blocks',
+		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ),
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
+		filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ),
+		true
 	);
 
-	// Styles.
 	wp_enqueue_style(
-		'generatepress-blocks', // Handle.
-		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ), // Block editor CSS.
-		array( 'wp-edit-blocks' ) // Dependency to include the CSS after it.
-		// filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' ) // Version: File modification time.
+		'generatepress-blocks',
+		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ),
+		array( 'wp-edit-blocks' ),
+		filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' )
 	);
 
 	if ( function_exists( 'generate_get_option' ) ) {
@@ -59,13 +57,15 @@ function generate_section_block_data() {
 			return;
 		}
 
+		if ( ! function_exists( 'parse_blocks' ) ) {
+			return;
+		}
+
 		$blocks = parse_blocks( $post->post_content );
 
 		if ( ! is_array( $blocks ) || empty( $blocks ) ) {
 			return;
 		}
-
-		//print_r($blocks);
 
 		$data = array();
 
@@ -74,10 +74,20 @@ function generate_section_block_data() {
 				if ( 'generatepress/section' === $block['blockName'] ) {
 					$data[] = $block['attrs'];
 
+					// Second level.
 					if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] && is_array( $block['innerBlocks'] ) ) ) {
 						foreach ( $block['innerBlocks'] as $inner_block ) {
 							if ( 'generatepress/section' === $inner_block['blockName'] ) {
 								$data[] = $inner_block['attrs'];
+
+								// Third level.
+								if ( isset( $inner_block['innerBlocks'] ) && ! empty( $inner_block['innerBlocks'] && is_array( $inner_block['innerBlocks'] ) ) ) {
+									foreach ( $inner_block['innerBlocks'] as $inner_block ) {
+										if ( 'generatepress/section' === $inner_block['blockName'] ) {
+											$data[] = $inner_block['attrs'];
+										}
+									}
+								}
 							}
 						}
 					}
@@ -97,10 +107,20 @@ function generate_section_block_data() {
 									$data[] = $block['attrs'];
 								}
 
+								// Second level.
 								if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] && is_array( $block['innerBlocks'] ) ) ) {
 									foreach ( $block['innerBlocks'] as $inner_block ) {
 										if ( 'generatepress/section' === $inner_block['blockName'] ) {
 											$data[] = $inner_block['attrs'];
+
+											// Third level.
+											if ( isset( $inner_block['innerBlocks'] ) && ! empty( $inner_block['innerBlocks'] && is_array( $inner_block['innerBlocks'] ) ) ) {
+												foreach ( $inner_block['innerBlocks'] as $inner_block ) {
+													if ( 'generatepress/section' === $inner_block['blockName'] ) {
+														$data[] = $inner_block['attrs'];
+													}
+												}
+											}
 										}
 									}
 								}
