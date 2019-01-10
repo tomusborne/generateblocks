@@ -19,26 +19,26 @@ export default {
 		type: 'string',
 		default: 'contained',
 	},
-	spacingTop: {
+	paddingTop: {
 		type: 'number',
 		default: 0
 	},
-	spacingRight: {
+	paddingRight: {
 		type: 'number',
 		default: 0
 	},
-	spacingBottom: {
+	paddingBottom: {
 		type: 'number',
 		default: 0
 	},
-	spacingLeft: {
+	paddingLeft: {
 		type: 'number',
 		default: 0
 	},
-	customBackgroundColor: {
+	backgroundColor: {
 		type: 'string',
 	},
-	customTextColor: {
+	textColor: {
 		type: 'string',
 	},
 	linkColor: {

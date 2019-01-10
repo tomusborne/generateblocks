@@ -79,12 +79,12 @@ class GenerateSection extends Component {
 			cssClasses,
 			outerContainer,
 			innerContainer,
-			spacingTop,
-			spacingRight,
-			spacingBottom,
-			spacingLeft,
-			customBackgroundColor,
-			customTextColor,
+			paddingTop,
+			paddingRight,
+			paddingBottom,
+			paddingLeft,
+			backgroundColor,
+			textColor,
 			linkColor,
 			linkColorHover,
 			bgImage,
@@ -103,8 +103,8 @@ class GenerateSection extends Component {
 
 		const css = `
 			.section-` + uniqueID + ` {
-				background-color: ` + customBackgroundColor + `;
-				color: ` + customTextColor + `;
+				background-color: ` + backgroundColor + `;
+				color: ` + textColor + `;
 		  		background-image: ` + backgroundImageValue + `;
 		  		background-size: cover;
 		  		background-position: center center;
@@ -119,10 +119,10 @@ class GenerateSection extends Component {
 			}
 
 			.section-` + uniqueID + ` .inside-section {
-			  padding-top: ` + spacingTop + `px;
-			  padding-right: ` + spacingRight + `px;
-			  padding-bottom: ` + spacingBottom + `px;
-			  padding-left: ` + spacingLeft + `px;
+			  padding-top: ` + paddingTop + `px;
+			  padding-right: ` + paddingRight + `px;
+			  padding-bottom: ` + paddingBottom + `px;
+			  padding-left: ` + paddingLeft + `px;
 			}
 		`
 
@@ -154,11 +154,11 @@ class GenerateSection extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Spacing top' ) }
-							value={ spacingTop }
+							label={ __( 'Top Padding', 'gp-premium' ) }
+							value={ paddingTop }
 							onChange={ ( nextSpacing ) => {
 								setAttributes( {
-									spacingTop: nextSpacing
+									paddingTop: nextSpacing
 								} );
 							} }
 							min={ 0 }
@@ -167,11 +167,11 @@ class GenerateSection extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Spacing right' ) }
-							value={ spacingRight }
+							label={ __( 'Right Padding', 'gp-premium' ) }
+							value={ paddingRight }
 							onChange={ ( nextSpacing ) => {
 								setAttributes( {
-									spacingRight: nextSpacing,
+									paddingRight: nextSpacing,
 								} );
 							} }
 							min={ 0 }
@@ -180,11 +180,11 @@ class GenerateSection extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Spacing bottom' ) }
-							value={ spacingBottom }
+							label={ __( 'Bottom Padding', 'gp-premium' ) }
+							value={ paddingBottom }
 							onChange={ ( nextSpacing ) => {
 								setAttributes( {
-									spacingBottom: nextSpacing,
+									paddingBottom: nextSpacing,
 								} );
 							} }
 							min={ 0 }
@@ -193,11 +193,11 @@ class GenerateSection extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Spacing left' ) }
-							value={ spacingLeft }
+							label={ __( 'Left Padding', 'gp-premium' ) }
+							value={ paddingLeft }
 							onChange={ ( nextSpacing ) => {
 								setAttributes( {
-									spacingLeft: nextSpacing,
+									paddingLeft: nextSpacing,
 								} );
 							} }
 							min={ 0 }
@@ -216,7 +216,7 @@ class GenerateSection extends Component {
 							label={ __( 'Background Color', 'gp-premium' ) }
 						>
 							<ColorPicker
-						   		color={ customBackgroundColor }
+						   		color={ backgroundColor }
 								onChangeComplete={ ( nextBgColor ) => {
 									let colorString;
 
@@ -230,7 +230,7 @@ class GenerateSection extends Component {
 	                                }
 
 									setAttributes( {
-										customBackgroundColor: colorString
+										backgroundColor: colorString
 									} )
 								} }
 							/>
@@ -240,10 +240,10 @@ class GenerateSection extends Component {
 							label={ __( 'Text Color', 'gp-premium' ) }
 						>
 							<ColorPalette
-								value={customTextColor}
+								value={ textColor }
 								onChange={ ( nextTextColor ) =>
 									setAttributes( {
-										customTextColor: nextTextColor
+										textColor: nextTextColor
 									} )
 								}
 							/>

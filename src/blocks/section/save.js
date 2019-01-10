@@ -19,19 +19,17 @@ export default ( { attributes } ) => {
 		cssClasses,
 		outerContainer,
 		innerContainer,
-		spacingTop,
-		spacingRight,
-		spacingBottom,
-		spacingLeft,
-		customBackgroundColor,
-		customTextColor,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		backgroundColor,
+		textColor,
 		linkColor,
 		linkColorHover,
 		bgImage,
 		bgOptions
 	} = attributes;
-
-	console.log(attributes);
 
 	return (
 		<Section
