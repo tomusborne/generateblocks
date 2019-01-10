@@ -45,31 +45,14 @@ function generate_section_block_enqueue_scripts() {
 	}
 }
 
-function generate_get_nested_section_data( $block, $data ) {
-	// Second level.
-	if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] && is_array( $block['innerBlocks'] ) ) ) {
+function generate_get_inner_section_data( $block, $data ) {
+	if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
 		foreach ( $block['innerBlocks'] as $inner_block ) {
 			if ( 'generatepress/section' === $inner_block['blockName'] ) {
 				$data[] = $inner_block['attrs'];
-
-				// Third level.
-				if ( isset( $inner_block['innerBlocks'] ) && ! empty( $inner_block['innerBlocks'] && is_array( $inner_block['innerBlocks'] ) ) ) {
-					foreach ( $inner_block['innerBlocks'] as $inner_block ) {
-						if ( 'generatepress/section' === $inner_block['blockName'] ) {
-							$data[] = $inner_block['attrs'];
-
-							// Fourth level.
-							if ( isset( $inner_block['innerBlocks'] ) && ! empty( $inner_block['innerBlocks'] && is_array( $inner_block['innerBlocks'] ) ) ) {
-								foreach ( $inner_block['innerBlocks'] as $inner_block ) {
-									if ( 'generatepress/section' === $inner_block['blockName'] ) {
-										$data[] = $inner_block['attrs'];
-									}
-								}
-							}
-						}
-					}
-				}
 			}
+
+			$data = generate_get_inner_section_data( $inner_block, $data );
 		}
 	}
 
@@ -105,7 +88,7 @@ function generate_section_block_data() {
 				if ( 'generatepress/section' === $block['blockName'] ) {
 					$data[] = $block['attrs'];
 
-					$data = generate_get_nested_section_data( $block, $data );
+					$data = generate_get_inner_section_data( $block, $data );
 				}
 
 				if ( 'core/block' === $block['blockName'] ) {
@@ -121,7 +104,7 @@ function generate_section_block_data() {
 								if ( 'generatepress/section' === $block['blockName'] ) {
 									$data[] = $block['attrs'];
 
-									$data = generate_get_nested_section_data( $block, $data );
+									$data = generate_get_inner_section_data( $block, $data );
 								}
 							}
 						}
