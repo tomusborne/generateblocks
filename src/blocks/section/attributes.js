@@ -7,6 +7,10 @@ export default {
 		type: 'string',
 		default: 'section',
 	},
+	elementID: {
+		type: 'string',
+		default: '',
+	},
 	cssClasses: {
 		type: 'string',
 		default: '',

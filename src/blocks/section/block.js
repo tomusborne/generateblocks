@@ -49,6 +49,7 @@ registerBlockType( 'generatepress/section', {
 	],
 	attributes: blockAttributes,
 	supports: {
+		anchor: false,
 		className: false,
 		customClassName: false
 	},

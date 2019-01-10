@@ -16,6 +16,7 @@ export default ( { attributes } ) => {
 	const {
 		uniqueID,
 		tagName,
+		elementID,
 		cssClasses,
 		outerContainer,
 		innerContainer,
@@ -34,6 +35,7 @@ export default ( { attributes } ) => {
 	return (
 		<Section
 			tagName={ tagName }
+			id={ elementID }
 			className={ classnames( {
 				'generate-section': true,
 				[`section-${ uniqueID }`]: true,

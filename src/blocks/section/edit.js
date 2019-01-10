@@ -35,6 +35,8 @@ const {
 	MediaUpload,
 } = wp.editor;
 
+const ELEMENT_ID_REGEX = /[\s#]/g;
+
 class GenerateSection extends Component {
 	componentDidMount() {
 		var instanceId = this.props.instanceId + 1;
@@ -76,6 +78,7 @@ class GenerateSection extends Component {
 		const {
 			uniqueID,
 			tagName,
+			elementID,
 			cssClasses,
 			outerContainer,
 			innerContainer,
@@ -374,6 +377,15 @@ class GenerateSection extends Component {
 					/>
 
 					<TextControl
+						label={ __( 'Element ID', 'gp-premium' ) }
+						value={ elementID }
+						onChange={ ( elementID ) => {
+							elementID = elementID.replace( ELEMENT_ID_REGEX, '-' );
+							setAttributes( { elementID } );
+						} }
+					/>
+
+					<TextControl
 						label={ __( 'CSS Classes', 'gp-premium' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
@@ -384,6 +396,7 @@ class GenerateSection extends Component {
 
 				<Section
 					tagName={ tagName }
+					id={ elementID }
 					className={ classnames( {
 						'generate-section': true,
 						[`section-${ uniqueID }`]: true,
