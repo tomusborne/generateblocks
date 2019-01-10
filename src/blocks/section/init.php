@@ -183,7 +183,7 @@ function generate_do_section_block_frontend_css() {
 		}
 
 		if ( $values['padding_top'] || $values['padding_right'] || $values['padding_bottom'] || $values['padding_left'] ) {
-			$css .= ".generate-section." . $id . " .inside-section{" . $values['padding_top'] . $values['padding_right'] . $values['padding_bottom'] . $values['padding_left'] . "}";
+			$css .= ".generate-section." . $id . " > .inside-section{" . $values['padding_top'] . $values['padding_right'] . $values['padding_bottom'] . $values['padding_left'] . "}";
 		}
 
 		if ( $values['link_color'] ) {
