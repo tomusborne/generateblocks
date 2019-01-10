@@ -17,7 +17,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
+define( 'GENERATE_BLOCK_MODULE_DIR', plugin_dir_path( __FILE__ ) );
+define( 'GENERATE_BLOCK_MODULE_DIR_URL', plugin_dir_url( __FILE__ ) );
+
 /**
  * Block Initializer.
  */
-require_once plugin_dir_path( __FILE__ ) . 'src/init.php';
+require_once plugin_dir_path( __FILE__ ) . 'src/blocks/section/init.php';

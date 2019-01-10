@@ -1,19 +1,10 @@
 <?php
-/**
- * Blocks Initializer
- *
- * Enqueue CSS/JS of all the blocks.
- *
- * @since   1.0.0
- * @package CGB
- */
-
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_action( 'enqueue_block_editor_assets', 'generate_section_block_enqueue_scripts' );
+add_action( 'enqueue_block_editor_assets', 'generate_enqueue_section_block_scripts' );
 /**
  * Enqueue Gutenberg block assets for backend editor.
  *
@@ -23,20 +14,20 @@ add_action( 'enqueue_block_editor_assets', 'generate_section_block_enqueue_scrip
  * @uses {wp-editor} for WP editor styles.
  * @since 1.0.0
  */
-function generate_section_block_enqueue_scripts() {
+function generate_enqueue_section_block_scripts() {
 	wp_enqueue_script(
 		'generatepress-blocks',
-		plugins_url( '/dist/blocks.build.js', dirname( __FILE__ ) ),
+		GENERATE_BLOCK_MODULE_DIR_URL . 'dist/blocks.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
-		filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.build.js' ),
+		filemtime( GENERATE_BLOCK_MODULE_DIR . 'dist/blocks.build.js' ),
 		true
 	);
 
 	wp_enqueue_style(
 		'generatepress-blocks',
-		plugins_url( 'dist/blocks.editor.build.css', dirname( __FILE__ ) ),
+		GENERATE_BLOCK_MODULE_DIR_URL . 'dist/blocks.editor.build.css',
 		array( 'wp-edit-blocks' ),
-		filemtime( plugin_dir_path( __DIR__ ) . 'dist/blocks.editor.build.css' )
+		filemtime( GENERATE_BLOCK_MODULE_DIR . 'dist/blocks.editor.build.css' )
 	);
 
 	if ( function_exists( 'generate_get_option' ) ) {
@@ -45,21 +36,21 @@ function generate_section_block_enqueue_scripts() {
 	}
 }
 
-function generate_get_inner_section_data( $block, $data ) {
+function generate_get_nested_section_block_data( $block, $data ) {
 	if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
 		foreach ( $block['innerBlocks'] as $inner_block ) {
 			if ( 'generatepress/section' === $inner_block['blockName'] ) {
 				$data[] = $inner_block['attrs'];
 			}
 
-			$data = generate_get_inner_section_data( $inner_block, $data );
+			$data = generate_get_nested_section_block_data( $inner_block, $data );
 		}
 	}
 
 	return $data;
 }
 
-function generate_section_block_data() {
+function generate_get_section_block_data() {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}
@@ -88,7 +79,7 @@ function generate_section_block_data() {
 				if ( 'generatepress/section' === $block['blockName'] ) {
 					$data[] = $block['attrs'];
 
-					$data = generate_get_inner_section_data( $block, $data );
+					$data = generate_get_nested_section_block_data( $block, $data );
 				}
 
 				if ( 'core/block' === $block['blockName'] ) {
@@ -104,7 +95,7 @@ function generate_section_block_data() {
 								if ( 'generatepress/section' === $block['blockName'] ) {
 									$data[] = $block['attrs'];
 
-									$data = generate_get_inner_section_data( $block, $data );
+									$data = generate_get_nested_section_block_data( $block, $data );
 								}
 							}
 						}
@@ -117,15 +108,15 @@ function generate_section_block_data() {
 	}
 }
 
-add_action( 'wp_enqueue_scripts', 'generate_section_block_frontend_css', 200 );
+add_action( 'wp_enqueue_scripts', 'generate_do_section_block_frontend_css', 200 );
 /**
  * Print our CSS for each section.
  *
  * @since TBA
  */
-function generate_section_block_frontend_css() {
+function generate_do_section_block_frontend_css() {
 
-	$data = generate_section_block_data();
+	$data = generate_get_section_block_data();
 
 	if ( empty( $data ) ) {
 		return;
@@ -155,12 +146,12 @@ function generate_section_block_frontend_css() {
 		$id = 'section-' . $atts['uniqueID'];
 
 		$values = array(
-			'background_color' => isset( $atts['customBackgroundColor'] ) ? 'background-color:' . $atts['customBackgroundColor'] . ';' : '',
-			'text_color' => isset( $atts['customTextColor'] ) ? 'color:' . $atts['customTextColor'] . ';' : '',
-			'padding_top' => isset( $atts['spacingTop'] ) ? 'padding-top:' . $atts['spacingTop'] . 'px;' : '',
-			'padding_right' => isset( $atts['spacingRight'] ) ? 'padding-right:' . $atts['spacingRight'] . 'px;' : '',
-			'padding_bottom' => isset( $atts['spacingBottom'] ) ? 'padding-bottom:' . $atts['spacingBottom'] . 'px;' : '',
-			'padding_left' => isset( $atts['spacingLeft'] ) ? 'padding-left:' . $atts['spacingLeft'] . 'px;' : '',
+			'background_color' => isset( $atts['backgroundColor'] ) ? 'background-color:' . $atts['backgroundColor'] . ';' : '',
+			'text_color' => isset( $atts['textColor'] ) ? 'color:' . $atts['textColor'] . ';' : '',
+			'padding_top' => isset( $atts['paddingTop'] ) ? 'padding-top:' . $atts['paddingTop'] . 'px;' : '',
+			'padding_right' => isset( $atts['paddingRight'] ) ? 'padding-right:' . $atts['paddingRight'] . 'px;' : '',
+			'padding_bottom' => isset( $atts['paddingBottom'] ) ? 'padding-bottom:' . $atts['paddingBottom'] . 'px;' : '',
+			'padding_left' => isset( $atts['paddingLeft'] ) ? 'padding-left:' . $atts['paddingLeft'] . 'px;' : '',
 			'link_color' => isset( $atts['linkColor'] ) ? 'color:' . $atts['linkColor'] . ';' : '',
 			'link_color_hover' => isset( $atts['linkColorHover'] ) ? 'color:' . $atts['linkColorHover'] . ';' : '',
 			'background_image' => isset( $atts['bgImage'] ) ? $atts['bgImage'] : '',
