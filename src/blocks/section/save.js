@@ -1,9 +1,7 @@
 /**
- * BLOCK: section-block
- *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
+ * Block: Section
  */
+
 import Section from './section-tag';
 import classnames from 'classnames';
 
