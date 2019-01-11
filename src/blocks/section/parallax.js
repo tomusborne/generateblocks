@@ -16,5 +16,5 @@ window.addEventListener( "scroll", function() {
         } else {
             el.style.backgroundPositionY = "0";
         }
-    });
-});
+    } );
+} );

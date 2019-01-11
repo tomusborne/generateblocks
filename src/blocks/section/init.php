@@ -124,7 +124,7 @@ function generate_do_section_block_frontend_css() {
 
 	wp_register_script(
 		'generatepress-sections-parallax',
-		plugins_url( 'dist/parallax.js', dirname( __FILE__ ) ),
+		plugins_url( 'parallax.min.js', __FILE__ ),
 		array()
 	);
 
