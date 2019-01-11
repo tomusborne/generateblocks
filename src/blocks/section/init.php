@@ -139,11 +139,11 @@ function generate_do_section_block_frontend_css() {
 	$css = '';
 
 	foreach ( $data as $atts ) {
-		if ( ! isset( $atts['uniqueID'] ) ) {
+		if ( ! isset( $atts['uniqueId'] ) ) {
 			continue;
 		}
 
-		$id = 'section-' . $atts['uniqueID'];
+		$id = 'section-' . $atts['uniqueId'];
 
 		$values = array(
 			'background_color' => isset( $atts['backgroundColor'] ) ? 'background-color:' . $atts['backgroundColor'] . ';' : '',

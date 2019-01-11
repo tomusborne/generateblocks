@@ -1,5 +1,5 @@
 export default {
-	uniqueID: {
+	uniqueId: {
 		type: 'number',
 		default: '',
 	},
@@ -7,7 +7,7 @@ export default {
 		type: 'string',
 		default: 'section',
 	},
-	elementID: {
+	elementId: {
 		type: 'string',
 		default: '',
 	},

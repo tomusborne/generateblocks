@@ -12,9 +12,9 @@ const {
 export default ( { attributes } ) => {
 
 	const {
-		uniqueID,
+		uniqueId,
 		tagName,
-		elementID,
+		elementId,
 		cssClasses,
 		outerContainer,
 		innerContainer,
@@ -33,10 +33,10 @@ export default ( { attributes } ) => {
 	return (
 		<Section
 			tagName={ tagName }
-			id={ elementID }
+			id={ elementId }
 			className={ classnames( {
 				'generate-section': true,
-				[`section-${ uniqueID }`]: true,
+				[`section-${ uniqueId }`]: true,
 				'grid-container grid-parent': 'contained' === outerContainer,
 				'parallax': bgOptions.parallax,
 				[`${ cssClasses }`]: '' !== cssClasses

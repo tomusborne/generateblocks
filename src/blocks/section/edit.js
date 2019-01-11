@@ -38,13 +38,13 @@ class GenerateSection extends Component {
 	componentDidMount() {
 		var instanceId = this.props.instanceId + 1;
 
-		if ( ! this.props.attributes.uniqueID ) {
+		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
-				uniqueID: instanceId,
+				uniqueId: instanceId,
 			} );
-		} else if ( this.props.attributes.uniqueID && this.props.attributes.uniqueID !== instanceId ) {
+		} else if ( this.props.attributes.uniqueId && this.props.attributes.uniqueId !== instanceId ) {
 			this.props.setAttributes( {
-				uniqueID: instanceId,
+				uniqueId: instanceId,
 			} );
 		}
 	}
@@ -73,9 +73,9 @@ class GenerateSection extends Component {
 		}
 
 		const {
-			uniqueID,
+			uniqueId,
 			tagName,
-			elementID,
+			elementId,
 			cssClasses,
 			outerContainer,
 			innerContainer,
@@ -102,7 +102,7 @@ class GenerateSection extends Component {
 		}
 
 		const css = `
-			.section-` + uniqueID + ` {
+			.section-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
 		  		background-image: ` + backgroundImageValue + `;
@@ -110,15 +110,15 @@ class GenerateSection extends Component {
 		  		background-position: center center;
 			}
 
-			.section-` + uniqueID + ` a, .section-` + uniqueID + ` a:visited {
+			.section-` + uniqueId + ` a, .section-` + uniqueId + ` a:visited {
 			  color: ` + linkColor + `;
 			}
 
-			.section-` + uniqueID + ` a:hover {
+			.section-` + uniqueId + ` a:hover {
 			  color: ` + linkColorHover + `;
 			}
 
-			.section-` + uniqueID + ` .inside-section {
+			.section-` + uniqueId + ` .inside-section {
 			  padding-top: ` + paddingTop + `px;
 			  padding-right: ` + paddingRight + `px;
 			  padding-bottom: ` + paddingBottom + `px;
@@ -375,10 +375,10 @@ class GenerateSection extends Component {
 
 					<TextControl
 						label={ __( 'Element ID', 'gp-premium' ) }
-						value={ elementID }
-						onChange={ ( elementID ) => {
-							elementID = elementID.replace( ELEMENT_ID_REGEX, '-' );
-							setAttributes( { elementID } );
+						value={ elementId }
+						onChange={ ( elementId ) => {
+							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+							setAttributes( { elementId } );
 						} }
 					/>
 
@@ -393,10 +393,10 @@ class GenerateSection extends Component {
 
 				<Section
 					tagName={ tagName }
-					id={ elementID }
+					id={ elementId }
 					className={ classnames( {
 						'generate-section': true,
-						[`section-${ uniqueID }`]: true,
+						[`section-${ uniqueId }`]: true,
 						'grid-container grid-parent': 'contained' === outerContainer,
 						'parallax': bgOptions.parallax,
 						[`${ cssClasses }`]: '' !== cssClasses
