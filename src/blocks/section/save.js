@@ -22,6 +22,10 @@ export default ( { attributes } ) => {
 		paddingRight,
 		paddingBottom,
 		paddingLeft,
+		paddingTopMobile,
+		paddingRightMobile,
+		paddingBottomMobile,
+		paddingLeftMobile,
 		backgroundColor,
 		textColor,
 		linkColor,
@@ -37,14 +41,11 @@ export default ( { attributes } ) => {
 			className={ classnames( {
 				'generate-section': true,
 				[`section-${ uniqueId }`]: true,
-				'grid-container grid-parent': 'contained' === outerContainer,
-				'parallax': bgOptions.parallax,
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 		>
 			<div className={ classnames( {
-				'inside-section': true,
-				'grid-container grid-parent': 'contained' === innerContainer
+				'inside-section': true
 			} ) }>
 				<InnerBlocks.Content />
 			</div>

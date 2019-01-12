@@ -1,5 +1,8 @@
 const { createElement } = wp.element;
-export default function Section( { tagName, id, className, style, children } ){
+export default function Section( { tagName, id, className, style, children } ) {
+	if ( ! id ) {
+		id = null;
+	}
 
 	return createElement(
 		tagName,

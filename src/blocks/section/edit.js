@@ -15,6 +15,7 @@ const {
 	SelectControl,
 	ColorPicker,
 	ColorPalette,
+	ColorIndicator,
 	BaseControl,
 	TextControl,
 	Notice
@@ -72,6 +73,12 @@ class GenerateSection extends Component {
 			} )
 		}
 
+		const onClearBackgroundColor = () => {
+			setAttributes( {
+				backgroundColor: null
+			} )
+		}
+
 		const {
 			uniqueId,
 			tagName,
@@ -83,6 +90,12 @@ class GenerateSection extends Component {
 			paddingRight,
 			paddingBottom,
 			paddingLeft,
+			paddingTopMobile,
+			paddingRightMobile,
+			paddingBottomMobile,
+			paddingLeftMobile,
+			columnGutter,
+			columnGutterMobile,
 			backgroundColor,
 			textColor,
 			linkColor,
@@ -97,7 +110,7 @@ class GenerateSection extends Component {
 			backgroundImageValue = 'url(' + bgImage.image.url + ')';
 
 			if ( bgOptions.overlay ) {
-				backgroundImageValue = 'linear-gradient(0deg, ' + customBackgroundColor + ', ' + customBackgroundColor + '), url(' + bgImage.image.url + ')';
+				backgroundImageValue = 'linear-gradient(0deg, ' + backgroundColor + ', ' + backgroundColor + '), url(' + bgImage.image.url + ')';
 			}
 		}
 
@@ -106,8 +119,10 @@ class GenerateSection extends Component {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
 		  		background-image: ` + backgroundImageValue + `;
-		  		background-size: cover;
-		  		background-position: center center;
+		  		background-size: ` + bgOptions.size + `;
+		  		background-position: ` + bgOptions.position + `;
+				background-repeat: ` + bgOptions.repeat + `;
+				background-attachment: ` + bgOptions.attachment + `;
 			}
 
 			.section-` + uniqueId + ` a, .section-` + uniqueId + ` a:visited {
@@ -205,6 +220,108 @@ class GenerateSection extends Component {
 							step={ 10 }
 						/>
 
+						<RangeControl
+							label={ __( 'Column Gutter', 'gp-premium' ) }
+							value={ columnGutter }
+							onChange={ ( nextSpacing ) => {
+								setAttributes( {
+									columnGutter: nextSpacing,
+								} );
+							} }
+							min={ 0 }
+							max={ 200 }
+							step={ 10 }
+						/>
+
+						<div className={ 'additional-class-notice' }>
+							<Notice
+								status={ 'warning' }
+								isDismissible={ false }
+							>
+								{ __( 'Column gutters can not be live previewed at the moment.', 'gp-premium' ) }
+							</Notice>
+						</div>
+
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Mobile Layout', 'gp-premium' ) }
+						initialOpen={ false }
+					>
+						<div className={ 'additional-class-notice' }>
+							<Notice
+								status={ 'warning' }
+								isDismissible={ false }
+							>
+								{ __( 'Mobile options can not be live previewed at the moment.', 'gp-premium' ) }
+							</Notice>
+						</div>
+
+						<RangeControl
+							label={ __( 'Top Padding', 'gp-premium' ) }
+							value={ paddingTopMobile }
+							onChange={ ( nextSpacing ) => {
+								setAttributes( {
+									paddingTopMobile: nextSpacing
+								} );
+							} }
+							min={ 0 }
+							max={ 200 }
+							step={ 10 }
+						/>
+
+						<RangeControl
+							label={ __( 'Right Padding', 'gp-premium' ) }
+							value={ paddingRightMobile }
+							onChange={ ( nextSpacing ) => {
+								setAttributes( {
+									paddingRightMobile: nextSpacing,
+								} );
+							} }
+							min={ 0 }
+							max={ 200 }
+							step={ 10 }
+						/>
+
+						<RangeControl
+							label={ __( 'Bottom Padding', 'gp-premium' ) }
+							value={ paddingBottomMobile }
+							onChange={ ( nextSpacing ) => {
+								setAttributes( {
+									paddingBottomMobile: nextSpacing,
+								} );
+							} }
+							min={ 0 }
+							max={ 200 }
+							step={ 10 }
+						/>
+
+						<RangeControl
+							label={ __( 'Left Padding', 'gp-premium' ) }
+							value={ paddingLeftMobile }
+							onChange={ ( nextSpacing ) => {
+								setAttributes( {
+									paddingLeftMobile: nextSpacing,
+								} );
+							} }
+							min={ 0 }
+							max={ 200 }
+							step={ 10 }
+						/>
+
+						<RangeControl
+							label={ __( 'Column Gutter', 'gp-premium' ) }
+							value={ columnGutterMobile }
+							onChange={ ( nextSpacing ) => {
+								setAttributes( {
+									columnGutterMobile: nextSpacing,
+								} );
+							} }
+							min={ 0 }
+							max={ 200 }
+							step={ 10 }
+						/>
+
 					</PanelBody>
 
 					<PanelBody
@@ -214,6 +331,7 @@ class GenerateSection extends Component {
 
 						<BaseControl
 							label={ __( 'Background Color', 'gp-premium' ) }
+							className="section-background-color"
 						>
 							<ColorPicker
 						   		color={ backgroundColor }
@@ -234,11 +352,23 @@ class GenerateSection extends Component {
 									} )
 								} }
 							/>
+
+							<Button
+								className="components-color-picker__clear"
+								type="button"
+								onClick={ onClearBackgroundColor }
+								isSmall
+								isDefault
+							>
+								{ __( 'Clear' ) }
+							</Button>
 						</BaseControl>
 
 						<BaseControl
 							label={ __( 'Text Color', 'gp-premium' ) }
+							className={ 'color-control' }
 						>
+							<ColorIndicator colorValue={ textColor } />
 							<ColorPalette
 								value={ textColor }
 								onChange={ ( nextTextColor ) =>
@@ -251,7 +381,9 @@ class GenerateSection extends Component {
 
 						<BaseControl
 							label={ __( 'Link Color', 'gp-premium' ) }
+							className={ 'color-control' }
 						>
+							<ColorIndicator colorValue={ linkColor } />
 							<ColorPalette
 								value={ linkColor }
 								onChange={ ( nextLinkColor ) =>
@@ -264,7 +396,9 @@ class GenerateSection extends Component {
 
 						<BaseControl
 							label={ __( 'Link Color Hover', 'gp-premium' ) }
+							className={ 'color-control' }
 						>
+							<ColorIndicator colorValue={ linkColorHover } />
 							<ColorPalette
 								value={ linkColorHover }
 								onChange={ ( nextLinkColorHover ) =>
@@ -336,23 +470,64 @@ class GenerateSection extends Component {
 								} }
 							/>
 
-							<div className={ 'additional-class-notice' }>
-								<Notice
-									status={ 'warning' }
-									isDismissible={ false }
-								>
-									{ __( 'Parallax can not be previewed in the editor.', 'gp-premium' ) }
-								</Notice>
-							</div>
-
-							<ToggleControl
-								label={ __( 'Parallax', 'gp-premium' ) }
-								checked={ !! bgOptions.parallax }
-								onChange={ ( nextFixed ) => {
+							<TextControl
+								label={ __( 'Size', 'gp-premium' ) }
+								value={ bgOptions.size }
+								onChange={ ( nextSize ) => {
 									setAttributes( {
 										bgOptions: {
 											...bgOptions,
-											parallax: nextFixed,
+											size: nextSize,
+										},
+									} );
+								} }
+							/>
+
+							<TextControl
+								label={ __( 'Position', 'gp-premium' ) }
+								value={ bgOptions.position }
+								onChange={ ( nextPosition ) => {
+									setAttributes( {
+										bgOptions: {
+											...bgOptions,
+											position: nextPosition,
+										},
+									} );
+								} }
+							/>
+
+							<SelectControl
+								label={ __( 'Repeat', 'gp-premium' ) }
+								value={ bgOptions.repeat }
+								options={ [
+									{ label: 'no-repeat', value: 'no-repeat' },
+									{ label: 'repeat', value: 'repeat' },
+									{ label: 'repeat-x', value: 'repeat-x' },
+									{ label: 'repeat-y', value: 'repeat-y' },
+								] }
+								onChange={ ( nextRepeat ) => {
+									setAttributes( {
+										bgOptions: {
+											...bgOptions,
+											repeat: nextRepeat,
+										},
+									} );
+								} }
+							/>
+
+							<SelectControl
+								label={ __( 'Attachment', 'gp-premium' ) }
+								value={ bgOptions.attachment }
+								options={ [
+									{ label: 'scroll', value: '' },
+									{ label: 'fixed', value: 'fixed' },
+									{ label: 'local', value: 'local' },
+								] }
+								onChange={ ( nextAttachment ) => {
+									setAttributes( {
+										bgOptions: {
+											...bgOptions,
+											attachment: nextAttachment,
 										},
 									} );
 								} }
@@ -397,15 +572,12 @@ class GenerateSection extends Component {
 					className={ classnames( {
 						'generate-section': true,
 						[`section-${ uniqueId }`]: true,
-						'grid-container grid-parent': 'contained' === outerContainer,
-						'parallax': bgOptions.parallax,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 				>
 					<div
 						className={ classnames( {
-						'inside-section': true,
-						'grid-container grid-parent': 'contained' === innerContainer
+						'inside-section': true
 						} ) }
 					>
 						<InnerBlocks />

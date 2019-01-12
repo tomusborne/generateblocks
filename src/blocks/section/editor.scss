@@ -47,3 +47,21 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
 .additional-class-notice .components-notice {
 	margin: 0 0 10px;
 }
+
+.color-control .components-base-control__label,
+.color-control .component-color-indicator {
+    display: inline-block;
+}
+
+.color-control .component-color-indicator {
+    position: relative;
+    top: 2px;
+}
+
+.components-base-control.section-unit {
+    float: right;
+}
+
+.section-unit .components-base-control__label {
+    opacity: 0;
+}

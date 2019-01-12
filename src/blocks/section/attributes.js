@@ -25,19 +25,43 @@ export default {
 	},
 	paddingTop: {
 		type: 'number',
-		default: 0
+		default: 10
 	},
 	paddingRight: {
 		type: 'number',
-		default: 0
+		default: 10
 	},
 	paddingBottom: {
 		type: 'number',
-		default: 0
+		default: 10
 	},
 	paddingLeft: {
 		type: 'number',
-		default: 0
+		default: 10
+	},
+	paddingTopMobile: {
+		type: 'number',
+		default: 10
+	},
+	paddingRightMobile: {
+		type: 'number',
+		default: 10
+	},
+	paddingBottomMobile: {
+		type: 'number',
+		default: 10
+	},
+	paddingLeftMobile: {
+		type: 'number',
+		default: 10
+	},
+	columnGutter: {
+		type: 'number',
+		default: '',
+	},
+	columnGutterMobile: {
+		type: 'number',
+		default: '',
 	},
 	backgroundColor: {
 		type: 'string',
@@ -61,7 +85,10 @@ export default {
 		type: 'object',
 		default: {
 			overlay: false,
-			parallax: false,
+			position: 'center center',
+			size: 'cover',
+			repeat: 'no-repeat',
+			attachment: '',
 		}
 	},
 }
