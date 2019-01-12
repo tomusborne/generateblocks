@@ -213,7 +213,7 @@ function generate_do_section_block_frontend_css() {
 			$css .= ".generate-section." . $id . " a:hover{" . $values['link_color_hover'] . "}";
 		}
 
-		if ( $values['column_gutter'] ) {
+		if ( $values['column_gutter'] || 0 === $values['column_gutter'] ) {
 			$css .= ".generate-section." . $id . " .wp-block-columns {margin-left: -" . $values['column_gutter'] . "px}";
 			$css .= ".generate-section." . $id . " .wp-block-columns .wp-block-column {margin-left: " . $values['column_gutter'] . "px}";
 		}
@@ -236,7 +236,7 @@ function generate_do_section_block_frontend_css() {
 					$css .= ".generate-section." . $id . " > .inside-section{" . $values['padding_top_mobile'] . $values['padding_right_mobile'] . $values['padding_bottom_mobile'] . $values['padding_left_mobile'] . "}";
 				}
 
-				if ( $values['column_gutter_mobile'] ) {
+				if ( $values['column_gutter_mobile'] || 0 === $values['column_gutter_mobile'] ) {
 					$css .= ".generate-section." . $id . " .wp-block-columns .wp-block-column {margin-bottom: " . $values['column_gutter_mobile'] . "px}";
 				}
 			$css .= "}";
