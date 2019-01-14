@@ -129,7 +129,7 @@ function generate_do_section_block_frontend_css() {
 			continue;
 		}
 
-		$id = 'section-' . $atts['uniqueId'];
+		$id = 'section-' . absint( $atts['uniqueId'] );
 
 		$values = array(
 			'outer_container' => isset( $atts['outerContainer'] ) ? $atts['outerContainer'] : 'full',
@@ -159,11 +159,11 @@ function generate_do_section_block_frontend_css() {
 		}
 
 		if ( 'contained' === $values['outer_container'] ) {
-			$css .= '.generate-section.' . $id . '{max-width: ' . $container_width . 'px;margin-left: auto;margin-right: auto;}';
+			$css .= '.generate-section.' . $id . '{max-width: ' . absint( $container_width ) . 'px;margin-left: auto;margin-right: auto;}';
 		}
 
 		if ( 'contained' === $values['inner_container'] ) {
-			$css .= '.generate-section.' . $id . ' .inside-section{max-width: ' . $container_width . 'px;margin-left: auto;margin-right: auto;}';
+			$css .= '.generate-section.' . $id . ' .inside-section{max-width: ' . absint( $container_width ) . 'px;margin-left: auto;margin-right: auto;}';
 		}
 
 		if ( $values['background_color'] || $values['text_color'] ) {
@@ -195,9 +195,9 @@ function generate_do_section_block_frontend_css() {
 			}
 
 			if ( $values['background_color'] && isset( $values['background_options']['overlay'] ) && $values['background_options']['overlay'] ) {
-				$css .= '.generate-section.' . $id . '{background-image: linear-gradient(0deg, ' . $atts['backgroundColor'] . ', ' . $atts['backgroundColor'] . '), url(' . $url . ');background-size: ' . $background_size . ';background-position: ' . $background_position . ';background-repeat: ' . $background_repeat . ';' . $background_attachment . '}';
+				$css .= '.generate-section.' . $id . '{background-image: linear-gradient(0deg, ' . $atts['backgroundColor'] . ', ' . $atts['backgroundColor'] . '), url(' . esc_url( $url ) . ');background-size: ' . $background_size . ';background-position: ' . $background_position . ';background-repeat: ' . $background_repeat . ';' . $background_attachment . '}';
 			} else {
-				$css .= '.generate-section.' . $id . '{background-image: url(' . $url . ');background-size: ' . $background_size . ';background-position: ' . $background_position . ';background-repeat: ' . $background_repeat . ';' . $background_attachment . '}';
+				$css .= '.generate-section.' . $id . '{background-image: url(' . esc_url( $url ) . ');background-size: ' . $background_size . ';background-position: ' . $background_position . ';background-repeat: ' . $background_repeat . ';' . $background_attachment . '}';
 			}
 		}
 
