@@ -580,7 +580,11 @@ class GenerateSection extends Component {
 						'inside-section': true
 						} ) }
 					>
-						<InnerBlocks />
+						<InnerBlocks
+							renderAppender={ () => (
+								<InnerBlocks.ButtonBlockAppender />
+							) }
+						/>
 					</div>
 				</Section>
 			</Fragment>
