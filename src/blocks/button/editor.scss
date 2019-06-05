@@ -1,0 +1,125 @@
+/**
+ * Editor Styles
+ */
+@import "../../common";
+
+.gp-button-wrapper {
+    position: relative;
+    margin-top: 0;
+
+    .gp-button {
+        margin: 0 !important; // stylelint-disable-line
+		display: inline-block;
+	    padding: .75em 1em;
+	    line-height: 1em;
+	    text-decoration: none !important;
+	    border: none;
+	    transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
+
+        .editor-rich-text__tinymce {
+            line-height: 1em;
+        }
+    }
+
+    > .editor-inner-blocks > .editor-block-list__layout {
+        // we need to use inline-flex because of bug with selecting wrapper block in editor.
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin-right: 0;
+        margin-left: 0;
+
+        > div {
+            width: auto;
+        }
+    }
+
+    &.gp-button-wrapper-align-right > .editor-inner-blocks > .editor-block-list__layout {
+        justify-content: flex-end;
+    }
+
+    &.gp-button-wrapper-align-center > .editor-inner-blocks > .editor-block-list__layout {
+        justify-content: center;
+    }
+
+    > .editor-inner-blocks > .editor-block-list__layout > * {
+        > .editor-block-list__block-edit {
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+
+    .blocks-format-toolbar__link-modal {
+        top: calc(100% + 2px);
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 2;
+    }
+
+    .blocks-link-url__suggestions {
+        right: -35px;
+    }
+
+    .blocks-rich-text__tinymce {
+        cursor: text;
+    }
+
+    // add new button
+    .components-icon-button {
+        align-self: center;
+
+        &:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
+            box-shadow: none;
+        }
+    }
+}
+
+// hide drag handler from single buttons
+// rotate move buttons
+[data-type="generatepress/button"] > .editor-block-mover {
+    > .editor-block-mover__control-drag-handle {
+        display: none;
+    }
+    > .components-button:first-child svg,
+    > .editor-block-mover__control-drag-handle + .components-button svg {
+        transform: rotate(-90deg);
+    }
+}
+
+// URL input
+.generatepress-component-url-input-float {
+    $blocks-button__link-input-width: 260px;
+
+    position: absolute;
+    min-width: $blocks-button__link-input-width;
+    max-width: $blocks-button__link-input-width;
+    box-shadow: 0 3px 30px rgba(25, 30, 35, .1);
+    z-index: 7;
+
+    // arrow.
+    &::after,
+    &::before {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 20px;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+        border: solid transparent;
+    }
+    &::after {
+        border: 5px solid rgba(255, 255, 255, 0);
+        border-bottom-color: #fff;
+    }
+    &::before {
+        margin-left: -1px;
+        border: 6px solid rgba(226, 228, 231, 0);
+        border-bottom-color: #e2e4e7;
+    }
+
+    .editor-url-input__suggestions {
+        max-width: $blocks-button__link-input-width - $icon-button-size - $icon-button-size;
+    }
+}
