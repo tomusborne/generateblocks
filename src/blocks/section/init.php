@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_action( 'enqueue_block_editor_assets', 'generate_enqueue_section_block_scripts' );
+add_action( 'enqueue_block_editor_assets', 'generate_do_block_editor_assets' );
 /**
  * Enqueue Gutenberg block assets for backend editor.
  *
@@ -14,7 +14,7 @@ add_action( 'enqueue_block_editor_assets', 'generate_enqueue_section_block_scrip
  * @uses {wp-editor} for WP editor styles.
  * @since 1.0.0
  */
-function generate_enqueue_section_block_scripts() {
+function generate_do_block_editor_assets() {
 	wp_enqueue_script(
 		'generatepress-blocks',
 		GENERATE_BLOCK_MODULE_DIR_URL . 'dist/blocks.build.js',
