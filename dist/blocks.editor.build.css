@@ -4,20 +4,13 @@
  * Can include things like variables and mixins
  * that are used across the project.
 */
+/* Colors */
 /**
  * #.# Editor Styles
  *
  * CSS for just Backend enqueued after style.scss
  * which makes it higher in priority.
  */
-.wp-block-cgb-block-generate-blocks {
-  background: #bada55;
-  border: 0.2rem solid #292929;
-  color: #292929;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem; }
-
 body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-list__block,
 [data-type="generatepress/section"] .wp-block-heading h1,
 [data-type="generatepress/section"] .wp-block-heading h1.editor-rich-text__tinymce,
@@ -60,3 +53,221 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
 
 .section-unit .components-base-control__label {
   opacity: 0; }
+
+.generatepress-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.generatepress-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px; }
+
+.generatepress-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+.generatepress-component-color-picker-wrapper .generatepress-component-color-picker-wrapper + .generatepress-component-color-picker-wrapper {
+  margin-top: -5px; }
+
+.generatepress-component-color-picker-wrapper > .components-base-control__field {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  margin-top: 16px; }
+  .generatepress-component-color-picker-wrapper > .components-base-control__field .components-color-palette__item-wrapper {
+    margin: 0; }
+    .generatepress-component-color-picker-wrapper > .components-base-control__field .components-color-palette__item-wrapper > .components-color-palette__item {
+      background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 0), -webkit-linear-gradient(135deg, #ddd 25%, transparent 0), -webkit-linear-gradient(45deg, transparent 75%, #ddd 0), -webkit-linear-gradient(135deg, transparent 75%, #ddd 0);
+      background-image: -o-linear-gradient(45deg, #ddd 25%, transparent 0), -o-linear-gradient(135deg, #ddd 25%, transparent 0), -o-linear-gradient(45deg, transparent 75%, #ddd 0), -o-linear-gradient(135deg, transparent 75%, #ddd 0);
+      background-image: linear-gradient(45deg, #ddd 25%, transparent 0), linear-gradient(-45deg, #ddd 25%, transparent 0), linear-gradient(45deg, transparent 75%, #ddd 0), linear-gradient(-45deg, transparent 75%, #ddd 0);
+      background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+      background-size: 10px 10px; }
+
+.generatepress-component-color-picker .generatepress-component-color-picker-palette {
+  margin: 0 17px; }
+
+.generatepress-component-color-picker .components-color-palette {
+  margin: 0; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+/**
+ * Editor Styles
+ */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+.gp-button-wrapper {
+  position: relative;
+  margin-top: 0; }
+  .gp-button-wrapper .gp-button {
+    margin: 0 !important;
+    display: inline-block;
+    padding: .75em 1em;
+    line-height: 1em;
+    text-decoration: none !important;
+    border: none;
+    -webkit-transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
+    -o-transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
+    transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out; }
+    .gp-button-wrapper .gp-button .editor-rich-text__tinymce {
+      line-height: 1em; }
+  .gp-button-wrapper > .editor-inner-blocks > .editor-block-list__layout {
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -ms-flex-align: start;
+        align-items: flex-start;
+    -ms-flex-pack: start;
+        justify-content: flex-start;
+    margin-right: 0;
+    margin-left: 0; }
+    .gp-button-wrapper > .editor-inner-blocks > .editor-block-list__layout > div {
+      width: auto; }
+  .gp-button-wrapper.gp-button-wrapper-align-right > .editor-inner-blocks > .editor-block-list__layout {
+    -ms-flex-pack: end;
+        justify-content: flex-end; }
+  .gp-button-wrapper.gp-button-wrapper-align-center > .editor-inner-blocks > .editor-block-list__layout {
+    -ms-flex-pack: center;
+        justify-content: center; }
+  .gp-button-wrapper > .editor-inner-blocks > .editor-block-list__layout > * > .editor-block-list__block-edit {
+    margin-top: 0;
+    margin-bottom: 0; }
+  .gp-button-wrapper .blocks-format-toolbar__link-modal {
+    top: calc(100% + 2px);
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+            transform: translateX(-50%);
+    z-index: 2; }
+  .gp-button-wrapper .blocks-link-url__suggestions {
+    right: -35px; }
+  .gp-button-wrapper .blocks-rich-text__tinymce {
+    cursor: text; }
+  .gp-button-wrapper .components-icon-button {
+    -ms-flex-item-align: center;
+        align-self: center; }
+    .gp-button-wrapper .components-icon-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
+      -webkit-box-shadow: none;
+              box-shadow: none; }
+
+[data-type="generatepress/button"] > .editor-block-mover > .editor-block-mover__control-drag-handle {
+  display: none; }
+
+[data-type="generatepress/button"] > .editor-block-mover > .components-button:first-child svg,
+[data-type="generatepress/button"] > .editor-block-mover > .editor-block-mover__control-drag-handle + .components-button svg {
+  -webkit-transform: rotate(-90deg);
+      -ms-transform: rotate(-90deg);
+          transform: rotate(-90deg); }
+
+.generatepress-component-url-input-float {
+  position: absolute;
+  min-width: 260px;
+  max-width: 260px;
+  -webkit-box-shadow: 0 3px 30px rgba(25, 30, 35, 0.1);
+          box-shadow: 0 3px 30px rgba(25, 30, 35, 0.1);
+  z-index: 7; }
+  .generatepress-component-url-input-float::after, .generatepress-component-url-input-float::before {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 20px;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    border: solid transparent; }
+  .generatepress-component-url-input-float::after {
+    border: 5px solid rgba(255, 255, 255, 0);
+    border-bottom-color: #fff; }
+  .generatepress-component-url-input-float::before {
+    margin-left: -1px;
+    border: 6px solid rgba(226, 228, 231, 0);
+    border-bottom-color: #e2e4e7; }
+  .generatepress-component-url-input-float .editor-url-input__suggestions {
+    max-width: 188px; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+.generatepress-component-url-input {
+  width: 100%;
+  margin-top: 10px;
+  font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  background: #fff;
+  border: 1px solid #e2e4e7; }
+  .generatepress-component-url-input .generatepress-component-url-input-flex {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center; }
+    .generatepress-component-url-input .generatepress-component-url-input-flex .editor-url-input {
+      width: auto; }
+      .generatepress-component-url-input .generatepress-component-url-input-flex .editor-url-input input[type="text"] {
+        width: 100%; }
+    .generatepress-component-url-input .generatepress-component-url-input-flex .editor-url-input input[type="text"]::-webkit-input-placeholder {
+      color: #222; }
+    .generatepress-component-url-input .generatepress-component-url-input-flex .editor-url-input input[type="text"]::-ms-input-placeholder {
+      color: #222; }
+    .generatepress-component-url-input .generatepress-component-url-input-flex .editor-url-input input[type="text"]::placeholder {
+      color: #222; }
+    .generatepress-component-url-input .generatepress-component-url-input-flex > .dashicon {
+      width: 20px;
+      color: #222; }
+  .generatepress-component-url-input .generatepress-component-url-input-more-options {
+    padding: 10px;
+    border-top: 1px solid #e2e4e7; }
+    .generatepress-component-url-input .generatepress-component-url-input-more-options .components-base-control .components-base-control__field {
+      margin-bottom: 0; }
+    .generatepress-component-url-input .generatepress-component-url-input-more-options .components-base-control + .components-base-control {
+      margin-top: 12px; }
