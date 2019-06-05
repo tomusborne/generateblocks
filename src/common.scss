@@ -5,9 +5,12 @@
  * that are used across the project.
 */
 
-// Colors.
-$black: rgb(41, 41, 41);
-$white: #f4f4f4;
-$gray: #dedede;
-$green: #bada55;
-$red: orangered;
+$default-font: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif !default;
+$default-font-size: 13px !default;
+$default-line-height: 1.4 !default;
+$icon-button-size: 36px !default;
+
+/* Colors */
+$dark-gray-100: #8f98a1 !default;
+$dark-gray-700: #32373c !default;
+$white: #fff;
