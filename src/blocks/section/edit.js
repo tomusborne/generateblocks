@@ -3,6 +3,7 @@
  */
 
 import Section from './section-tag';
+import ColorPicker from '../../components/color-picker';
 import classnames from 'classnames';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
@@ -13,10 +14,6 @@ const {
 	ResponsiveWrapper,
 	ToggleControl,
 	SelectControl,
-	ColorPicker,
-	ColorPalette,
-	ColorIndicator,
-	BaseControl,
 	TextControl,
 	Notice
 } = wp.components;
@@ -329,86 +326,59 @@ class GenerateSection extends Component {
 						initialOpen={ false }
 					>
 
-						<BaseControl
-							label={ __( 'Background Color', 'gp-premium' ) }
-							className="section-background-color"
-						>
+						<Fragment>
 							<ColorPicker
-						   		color={ backgroundColor }
-								onChangeComplete={ ( nextBgColor ) => {
-									let colorString;
-
-	                                if ( typeof nextBgColor.rgb === 'undefined' || nextBgColor.rgb.a === 1 ) {
-	                                    colorString = nextBgColor.hex;
-	                                } else {
-	                                    const {
-	                                        r, g, b, a,
-	                                    } = nextBgColor.rgb;
-	                                    colorString = `rgba(${r}, ${g}, ${b}, ${a})`;
-	                                }
-
+								label={ __( 'Background Color', 'gp-premium' ) }
+								value={ backgroundColor }
+								onChange={ ( nextBackgroundColor ) =>
 									setAttributes( {
-										backgroundColor: colorString
+										backgroundColor: nextBackgroundColor
 									} )
-								} }
+								}
+								alpha={ true }
 							/>
+						</Fragment>
 
-							<Button
-								className="components-color-picker__clear"
-								type="button"
-								onClick={ onClearBackgroundColor }
-								isSmall
-								isDefault
-							>
-								{ __( 'Clear' ) }
-							</Button>
-						</BaseControl>
-
-						<BaseControl
-							label={ __( 'Text Color', 'gp-premium' ) }
-							className={ 'color-control' }
-						>
-							<ColorIndicator colorValue={ textColor } />
-							<ColorPalette
+						<Fragment>
+							<ColorPicker
+								label={ __( 'Text Color', 'gp-premium' ) }
 								value={ textColor }
 								onChange={ ( nextTextColor ) =>
 									setAttributes( {
 										textColor: nextTextColor
 									} )
 								}
+								alpha={ false }
 							/>
-						</BaseControl>
+						</Fragment>
 
-						<BaseControl
-							label={ __( 'Link Color', 'gp-premium' ) }
-							className={ 'color-control' }
-						>
-							<ColorIndicator colorValue={ linkColor } />
-							<ColorPalette
+						<Fragment>
+							<ColorPicker
+								label={ __( 'Link Color', 'gp-premium' ) }
 								value={ linkColor }
 								onChange={ ( nextLinkColor ) =>
 									setAttributes( {
 										linkColor: nextLinkColor
 									} )
 								}
+								alpha={ false }
 							/>
-						</BaseControl>
+						</Fragment>
 
-						<BaseControl
-							label={ __( 'Link Color Hover', 'gp-premium' ) }
-							className={ 'color-control' }
-						>
-							<ColorIndicator colorValue={ linkColorHover } />
-							<ColorPalette
+						<Fragment>
+							<ColorPicker
+								label={ __( 'Link Color Hover', 'gp-premium' ) }
 								value={ linkColorHover }
 								onChange={ ( nextLinkColorHover ) =>
 									setAttributes( {
 										linkColorHover: nextLinkColorHover
 									} )
 								}
+								alpha={ false }
 							/>
-						</BaseControl>
+						</Fragment>
 					</PanelBody>
+
 					<PanelBody
 						title={ __( 'Background image' ) }
 						initialOpen={ false }
