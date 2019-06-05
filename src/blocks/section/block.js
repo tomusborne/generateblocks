@@ -34,9 +34,9 @@ const iconEl = el('svg', { width: 20, height: 20, viewBox: "0 0 600 600" },
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generatepress/section', {
-	title: __( 'Section' ),
+	title: __( 'Section', 'gp-premium' ),
 	icon: iconEl,
-	category: 'layout',
+	category: 'generatepress',
 	keywords: [
 		__( 'section' ),
 		__( 'container' ),
