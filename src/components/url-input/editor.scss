@@ -1,0 +1,45 @@
+@import "../../common";
+
+.generatepress-component-url-input {
+    width: 100%;
+    margin-top: 10px;
+    font-family: $default-font;
+    font-size: $default-font-size;
+    line-height: $default-line-height;
+    background: #fff;
+    border: 1px solid #e2e4e7;
+
+    .generatepress-component-url-input-flex {
+        display: flex;
+        align-items: center;
+
+        .editor-url-input {
+            width: auto;
+
+            input[type="text"] {
+                width: 100%;
+            }
+        }
+
+        .editor-url-input input[type="text"]::placeholder {
+            color: #222;
+        }
+
+        > .dashicon {
+            width: 20px;
+            color: #222;
+        }
+    }
+
+    .generatepress-component-url-input-more-options {
+        padding: 10px;
+        border-top: 1px solid #e2e4e7;
+
+        .components-base-control .components-base-control__field {
+            margin-bottom: 0;
+        }
+        .components-base-control + .components-base-control {
+            margin-top: 12px;
+        }
+    }
+}
