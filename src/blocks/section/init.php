@@ -36,21 +36,21 @@ function generate_enqueue_section_block_scripts() {
 	}
 }
 
-function generate_get_nested_section_block_data( $block, $data ) {
+function generate_get_nested_block_data( $block, $data, $blockName ) {
 	if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
 		foreach ( $block['innerBlocks'] as $inner_block ) {
-			if ( 'generatepress/section' === $inner_block['blockName'] ) {
+			if ( $blockName === $inner_block['blockName'] ) {
 				$data[] = $inner_block['attrs'];
 			}
 
-			$data = generate_get_nested_section_block_data( $inner_block, $data );
+			$data = generate_get_nested_block_data( $inner_block, $data, $blockName );
 		}
 	}
 
 	return $data;
 }
 
-function generate_get_section_block_data() {
+function generate_get_block_data( $blockName = 'generatepress/section' ) {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}
@@ -76,10 +76,10 @@ function generate_get_section_block_data() {
 
 		foreach ( $blocks as $index => $block ) {
 			if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
-				if ( 'generatepress/section' === $block['blockName'] ) {
+				if ( $blockName === $block['blockName'] || 'generatepress/button-container' === $block['blockName'] ) {
 					$data[] = $block['attrs'];
 
-					$data = generate_get_nested_section_block_data( $block, $data );
+					$data = generate_get_nested_block_data( $block, $data, $blockName );
 				}
 
 				if ( 'core/block' === $block['blockName'] ) {
@@ -92,10 +92,10 @@ function generate_get_section_block_data() {
 							$blocks = parse_blocks( $reusable_block->post_content );
 
 							foreach ( $blocks as $index => $block ) {
-								if ( 'generatepress/section' === $block['blockName'] ) {
+								if ( $blockName === $block['blockName'] ) {
 									$data[] = $block['attrs'];
 
-									$data = generate_get_nested_section_block_data( $block, $data );
+									$data = generate_get_nested_block_data( $block, $data, $blockName );
 								}
 							}
 						}
@@ -108,7 +108,7 @@ function generate_get_section_block_data() {
 	}
 }
 
-add_action( 'wp_enqueue_scripts', 'generate_do_section_block_frontend_css', 200 );
+add_action( 'wp_head', 'generate_do_section_block_frontend_css', 200 );
 /**
  * Print our CSS for each section.
  *
@@ -116,7 +116,7 @@ add_action( 'wp_enqueue_scripts', 'generate_do_section_block_frontend_css', 200 
  */
 function generate_do_section_block_frontend_css() {
 
-	$data = generate_get_section_block_data();
+	$data = generate_get_block_data( 'generatepress/section' );
 
 	if ( empty( $data ) ) {
 		return;
@@ -245,5 +245,9 @@ function generate_do_section_block_frontend_css() {
 
 	$css .= '.inside-section > *:last-child {margin-bottom:0}';
 
-	wp_add_inline_style( 'generate-style', $css );
+	echo '<style>';
+		echo $css;
+	echo '</style>';
+}
+
 }
