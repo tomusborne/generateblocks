@@ -15,7 +15,8 @@ const {
 	ToggleControl,
 	SelectControl,
 	TextControl,
-	Notice
+	Notice,
+	TabPanel
 } = wp.components;
 
 const {
@@ -145,179 +146,207 @@ class GenerateSection extends Component {
 						title={ __( 'Layout', 'gp-premium' ) }
 						initialOpen={ false }
 					>
-						<SelectControl
-							label={ __( 'Container', 'gp-premium' ) }
-							value={ outerContainer }
-							options={ [
-								{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
-								{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
-							] }
-							onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
-						/>
 
-						<SelectControl
-							label={ __( 'Inner Container', 'gp-premium' ) }
-							value={ innerContainer }
-							options={ [
-								{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
-								{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
-							] }
-							onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
-						/>
+						<TabPanel className="layout-tab-panel generatepress-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'layout-desktop',
+									title: __( 'Desktop', 'gp-premium' ),
+									className: 'layout-desktop',
+								},
+								{
+									name: 'layout-mobile',
+									title: __( 'Mobile', 'gp-premium' ),
+									className: 'layout-mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									const isDesktop = tab.name === 'layout-desktop';
 
-						<RangeControl
-							label={ __( 'Top Padding', 'gp-premium' ) }
-							value={ paddingTop }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									paddingTop: nextSpacing
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+									return (
+										<div>
+											{ isDesktop ? (
+												<Fragment>
+													<SelectControl
+														label={ __( 'Container', 'gp-premium' ) }
+														value={ outerContainer }
+														options={ [
+															{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
+															{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
+														] }
+														onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
+													/>
 
-						<RangeControl
-							label={ __( 'Right Padding', 'gp-premium' ) }
-							value={ paddingRight }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									paddingRight: nextSpacing,
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+													<SelectControl
+														label={ __( 'Inner Container', 'gp-premium' ) }
+														value={ innerContainer }
+														options={ [
+															{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
+															{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
+														] }
+														onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
+													/>
 
-						<RangeControl
-							label={ __( 'Bottom Padding', 'gp-premium' ) }
-							value={ paddingBottom }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									paddingBottom: nextSpacing,
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+													<RangeControl
+														label={ __( 'Top Padding', 'gp-premium' ) }
+														value={ paddingTop }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingTop: nextSpacing
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
 
-						<RangeControl
-							label={ __( 'Left Padding', 'gp-premium' ) }
-							value={ paddingLeft }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									paddingLeft: nextSpacing,
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+													<RangeControl
+														label={ __( 'Right Padding', 'gp-premium' ) }
+														value={ paddingRight }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingRight: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
 
-						<RangeControl
-							label={ __( 'Column Gutter', 'gp-premium' ) }
-							value={ columnGutter }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									columnGutter: nextSpacing,
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+													<RangeControl
+														label={ __( 'Bottom Padding', 'gp-premium' ) }
+														value={ paddingBottom }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingBottom: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
 
-						<div className={ 'additional-class-notice' }>
-							<Notice
-								status={ 'warning' }
-								isDismissible={ false }
-							>
-								{ __( 'Column gutters can not be live previewed at the moment.', 'gp-premium' ) }
-							</Notice>
-						</div>
+													<RangeControl
+														label={ __( 'Left Padding', 'gp-premium' ) }
+														value={ paddingLeft }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingLeft: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
 
-					</PanelBody>
+													<RangeControl
+														label={ __( 'Column Gutter', 'gp-premium' ) }
+														value={ columnGutter }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																columnGutter: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
 
-					<PanelBody
-						title={ __( 'Mobile Layout', 'gp-premium' ) }
-						initialOpen={ false }
-					>
-						<div className={ 'additional-class-notice' }>
-							<Notice
-								status={ 'warning' }
-								isDismissible={ false }
-							>
-								{ __( 'Mobile options can not be live previewed at the moment.', 'gp-premium' ) }
-							</Notice>
-						</div>
+													<div className={ 'additional-class-notice' }>
+														<Notice
+															status={ 'warning' }
+															isDismissible={ false }
+														>
+															{ __( 'Column gutters can not be live previewed at the moment.', 'gp-premium' ) }
+														</Notice>
+													</div>
+												</Fragment>
 
-						<RangeControl
-							label={ __( 'Top Padding', 'gp-premium' ) }
-							value={ paddingTopMobile }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									paddingTopMobile: nextSpacing
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+											) : (
 
-						<RangeControl
-							label={ __( 'Right Padding', 'gp-premium' ) }
-							value={ paddingRightMobile }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									paddingRightMobile: nextSpacing,
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+												<Fragment>
+													<div className={ 'additional-class-notice' }>
+														<Notice
+															status={ 'warning' }
+															isDismissible={ false }
+														>
+															{ __( 'Mobile options can not be live previewed at the moment.', 'gp-premium' ) }
+														</Notice>
+													</div>
 
-						<RangeControl
-							label={ __( 'Bottom Padding', 'gp-premium' ) }
-							value={ paddingBottomMobile }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									paddingBottomMobile: nextSpacing,
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+													<RangeControl
+														label={ __( 'Top Padding', 'gp-premium' ) }
+														value={ paddingTopMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingTopMobile: nextSpacing
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
 
-						<RangeControl
-							label={ __( 'Left Padding', 'gp-premium' ) }
-							value={ paddingLeftMobile }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									paddingLeftMobile: nextSpacing,
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+													<RangeControl
+														label={ __( 'Right Padding', 'gp-premium' ) }
+														value={ paddingRightMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingRightMobile: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
 
-						<RangeControl
-							label={ __( 'Column Gutter', 'gp-premium' ) }
-							value={ columnGutterMobile }
-							onChange={ ( nextSpacing ) => {
-								setAttributes( {
-									columnGutterMobile: nextSpacing,
-								} );
-							} }
-							min={ 0 }
-							max={ 200 }
-							step={ 10 }
-						/>
+													<RangeControl
+														label={ __( 'Bottom Padding', 'gp-premium' ) }
+														value={ paddingBottomMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingBottomMobile: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Left Padding', 'gp-premium' ) }
+														value={ paddingLeftMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingLeftMobile: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Column Gutter', 'gp-premium' ) }
+														value={ columnGutterMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																columnGutterMobile: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
+												</Fragment>
+											) }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
 
 					</PanelBody>
 

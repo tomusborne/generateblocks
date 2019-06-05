@@ -5,15 +5,6 @@
  * which makes it higher in priority.
  */
 
-.wp-block-cgb-block-generate-blocks  {
-  background: $green;
-  border: 0.2rem solid $black;
-  color: $black;
-  margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem;
-}
-
 body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-list__block,
 [data-type="generatepress/section"] .wp-block-heading h1,
 [data-type="generatepress/section"] .wp-block-heading h1.editor-rich-text__tinymce,
@@ -64,4 +55,31 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
 
 .section-unit .components-base-control__label {
     opacity: 0;
+}
+
+.generatepress-control-tabs .components-tab-panel__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e8eaeb;
+}
+
+.generatepress-control-tabs .components-tab-panel__tabs button {
+    padding: 9px 11px;
+    padding-bottom: 11px;
+    margin: 0;
+    margin-bottom: -1px;
+    color: #555d66;
+    cursor: pointer;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 0;
+    outline-offset: -1px;
+}
+
+.generatepress-control-tabs .components-tab-panel__tabs button.active-tab {
+    position: relative;
+    border-bottom: 2px solid #00a0d2;
+    z-index: 1;
 }
