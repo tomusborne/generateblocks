@@ -6,7 +6,11 @@ import classnames from 'classnames';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
-	TextControl
+	TextControl,
+	PanelBody,
+	TabPanel,
+	RangeControl,
+	Notice,
 } = wp.components;
 
 const {
@@ -50,10 +54,183 @@ class GenerateButtonContainer extends Component {
 			uniqueId,
 			elementId,
 			cssClasses,
+			paddingTop,
+			paddingRight,
+			paddingBottom,
+			paddingLeft,
+			paddingTopMobile,
+			paddingRightMobile,
+			paddingBottomMobile,
+			paddingLeftMobile,
 		} = attributes;
+
+		const css = `
+			.gp-button-wrapper-` + uniqueId + ` {
+			  padding-top: ` + paddingTop + `px;
+			  padding-right: ` + paddingRight + `px;
+			  padding-bottom: ` + paddingBottom + `px;
+			  padding-left: ` + paddingLeft + `px;
+			}
+		`
 
 		return (
 			<Fragment>
+
+				<InspectorControls>
+				<PanelBody
+					title={ __( 'Spacing', 'gp-premium' ) }
+					initialOpen={ true }
+					>
+						<TabPanel className="generatepress-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'desktop',
+									title: __( 'Desktop', 'gp-premium' ),
+									className: 'desktop',
+								},
+								{
+									name: 'mobile',
+									title: __( 'Mobile', 'gp-premium' ),
+									className: 'mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									const isDesktop = tab.name === 'desktop';
+
+									return (
+										<div>
+											{ isDesktop ? (
+												<Fragment>
+
+													<RangeControl
+														label={ __( 'Top Padding', 'gp-premium' ) }
+														value={ paddingTop }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingTop: nextSpacing
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+													/>
+
+													<RangeControl
+														label={ __( 'Right Padding', 'gp-premium' ) }
+														value={ paddingRight }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingRight: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+													/>
+
+													<RangeControl
+														label={ __( 'Bottom Padding', 'gp-premium' ) }
+														value={ paddingBottom }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingBottom: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Left Padding', 'gp-premium' ) }
+														value={ paddingLeft }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingLeft: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+												</Fragment>
+
+											) : (
+
+												<Fragment>
+													<div className={ 'additional-class-notice' }>
+														<Notice
+															status={ 'warning' }
+															isDismissible={ false }
+														>
+															{ __( 'Mobile options can not be live previewed at the moment.', 'gp-premium' ) }
+														</Notice>
+													</div>
+
+													<RangeControl
+														label={ __( 'Top Padding', 'gp-premium' ) }
+														value={ paddingTopMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingTopMobile: nextSpacing
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+													/>
+
+													<RangeControl
+														label={ __( 'Right Padding', 'gp-premium' ) }
+														value={ paddingRightMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingRightMobile: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+													/>
+
+													<RangeControl
+														label={ __( 'Bottom Padding', 'gp-premium' ) }
+														value={ paddingBottomMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingBottomMobile: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+													/>
+
+													<RangeControl
+														label={ __( 'Left Padding', 'gp-premium' ) }
+														value={ paddingLeftMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingLeftMobile: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+													/>
+
+												</Fragment>
+											) }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
+					</PanelBody>
+				</InspectorControls>
 
 				<InspectorAdvancedControls>
 					<TextControl
@@ -72,8 +249,10 @@ class GenerateButtonContainer extends Component {
 					/>
 				</InspectorAdvancedControls>
 
+				<style>{ css }</style>
+
 				<div
-					id={ !! elementId ? elementId : false }
+					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
 						'gp-button-wrapper': true,
 						[`gp-button-wrapper-${ uniqueId }`]: true,
