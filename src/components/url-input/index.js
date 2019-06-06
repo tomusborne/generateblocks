@@ -78,7 +78,7 @@ export default class URLInput extends Component {
                         autoFocus={ autoFocus }
                     />
                     <IconButton
-                        //icon={ getIcon( 'icon-kebab-menu' ) }
+                        icon={ 'ellipsis' }
                         label={ moreOptions ? __( 'Hide More Options' ) : __( 'Show More Options' ) }
                         onClick={ () => {
                             this.setState( {
