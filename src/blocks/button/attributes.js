@@ -51,6 +51,14 @@ export default {
         type: 'string',
         default: '#ffffff',
     },
+	borderColor: {
+		type: 'string',
+		default: '#0366d6',
+	},
+	borderColorHover: {
+		type: 'string',
+		default: '',
+	},
 	borderRadius: {
 		type: 'number',
 		default: 2,
@@ -61,6 +69,10 @@ export default {
 	},
 	gap: {
 		type: 'number',
-		default: 25
+		default: 25,
+	},
+	borderSize: {
+		type: 'number',
+		default: 0,
 	},
 }
