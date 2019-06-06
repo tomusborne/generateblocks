@@ -267,8 +267,6 @@ function generate_get_button_css() {
 		return;
 	}
 
-	var_dump($data);
-
 	$css = '.gp-button-wrapper{display: flex;flex-wrap: wrap;align-items: flex-start;justify-content: flex-start;clear: both;}';
 	$css .= '.gp-button {display: inline-flex;align-items: center;justify-content: center;padding: .75em 1em;line-height: 1em;text-decoration: none !important;transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;}';
 
