@@ -76,9 +76,11 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 
 		foreach ( $blocks as $index => $block ) {
 			if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
-				if ( $blockName === $block['blockName'] || 'generatepress/button-container' === $block['blockName'] ) {
+				if ( $blockName === $block['blockName'] ) {
 					$data[] = $block['attrs'];
 
+					$data = generate_get_nested_block_data( $block, $data, $blockName );
+				} else {
 					$data = generate_get_nested_block_data( $block, $data, $blockName );
 				}
 
