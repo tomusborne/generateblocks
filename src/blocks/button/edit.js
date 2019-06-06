@@ -67,11 +67,16 @@ class GenerateButton extends Component {
 			borderRadius,
 			fontSize,
 			gap,
+			borderSize,
+			borderColor,
+			borderColorHover,
 		} = attributes;
 
 		var borderRadiusValue = '',
 			fontSizeValue = '',
-			gapValue = '';
+			gapValue = '',
+			borderValue = '',
+			borderHoverValue = '';
 
 		if ( borderRadius ) {
 			borderRadiusValue = borderRadius + 'px';
@@ -81,10 +86,21 @@ class GenerateButton extends Component {
 			fontSizeValue = fontSize + 'em';
 		}
 
+		if ( borderSize && borderColor ) {
+			borderValue = borderSize + 'px solid ' + borderColor;
+		}
+
+		if ( borderSize && borderColorHover ) {
+			borderHoverValue = borderSize + 'px solid ' + borderColorHover;
+		}
+
 		const css = `
 			.editor-block-list__block a.gp-button-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
+				border-radius: ` + borderRadiusValue + `;
+				font-size: ` + fontSizeValue + `;
+				border: ` + borderValue + `;
 			}
 
 			.editor-block-list__block a.gp-button-` + uniqueId + `:hover,
@@ -92,11 +108,7 @@ class GenerateButton extends Component {
 			.editor-block-list__block a.gp-button-` + uniqueId + `:active {
 				background-color: ` + backgroundColorHover + `;
 				color: ` + textColorHover + `;
-			}
-
-			a.gp-button-` + uniqueId + ` {
-				border-radius: ` + borderRadiusValue + `;
-				font-size: ` + fontSizeValue + `;
+				border: ` + borderHoverValue + `;
 			}
 		`
 
@@ -134,6 +146,7 @@ class GenerateButton extends Component {
 							min={ 0 }
 							max={ 50 }
 							step={ 1 }
+							allowReset={ true }
 						/>
 
 						<RangeControl
@@ -147,7 +160,21 @@ class GenerateButton extends Component {
 							min={ 0 }
 							max={ 50 }
 							step={ 1 }
-							initialPosition={ 0 }
+							allowReset={ true }
+						/>
+
+						<RangeControl
+							label={ __( 'Border Size', 'gp-premium' ) }
+							value={ borderSize }
+							onChange={ ( value ) => {
+								setAttributes( {
+									borderSize: value
+								} );
+							} }
+							min={ 0 }
+							max={ 10 }
+							step={ 1 }
+							allowReset={ true }
 						/>
 					</PanelBody>
 
@@ -186,7 +213,7 @@ class GenerateButton extends Component {
 																backgroundColor: nextBackgroundColor
 															} )
 														}
-														alpha={ false }
+														alpha={ true }
 													/>
 
 													<ColorPicker
@@ -195,6 +222,17 @@ class GenerateButton extends Component {
 														onChange={ ( nextTextColor ) =>
 															setAttributes( {
 																textColor: nextTextColor
+															} )
+														}
+														alpha={ false }
+													/>
+
+													<ColorPicker
+														label={ __( 'Border Color', 'gp-premium' ) }
+														value={ borderColor }
+														onChange={ ( value ) =>
+															setAttributes( {
+																borderColor: value
 															} )
 														}
 														alpha={ false }
@@ -212,7 +250,7 @@ class GenerateButton extends Component {
 																backgroundColorHover: nextBackgroundColorHover
 															} )
 														}
-														alpha={ false }
+														alpha={ true }
 													/>
 
 													<ColorPicker
@@ -221,6 +259,17 @@ class GenerateButton extends Component {
 														onChange={ ( nextTextColorHover ) =>
 															setAttributes( {
 																textColorHover: nextTextColorHover
+															} )
+														}
+														alpha={ false }
+													/>
+
+													<ColorPicker
+														label={ __( 'Border Color', 'gp-premium' ) }
+														value={ borderColorHover }
+														onChange={ ( value ) =>
+															setAttributes( {
+																borderColorHover: value
 															} )
 														}
 														alpha={ false }
