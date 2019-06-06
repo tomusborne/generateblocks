@@ -13,7 +13,15 @@ export default ( { attributes } ) => {
 	const {
 		uniqueId,
 		elementId,
-		cssClasses
+		cssClasses,
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+		paddingTopMobile,
+		paddingRightMobile,
+		paddingBottomMobile,
+		paddingLeftMobile,
 	} = attributes;
 
 	return (
