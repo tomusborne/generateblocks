@@ -17,6 +17,7 @@ export default ( { attributes } ) => {
 		text,
 		url,
 		target,
+		rel,
 	} = attributes;
 
 	return (
@@ -29,6 +30,7 @@ export default ( { attributes } ) => {
 			} ) }
 			href={ !! url ? url : undefined }
 			target={ !! target ? target : undefined }
+			rel={ !! rel ? rel : undefined }
 		>
 			<RichText.Content tagName="span" className="button-text" value={ text } key="button-text" />
 		</a>

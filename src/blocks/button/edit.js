@@ -196,6 +196,7 @@ class GenerateButton extends Component {
 					} ) }
 					href={ !! url ? url : undefined }
 					target={ !! target ? target : undefined }
+					rel={ !! rel ? rel : undefined }
 				>
 					<span className={ 'button-text' }>
 						<RichText
