@@ -118,6 +118,16 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
  * that are used across the project.
 */
 /* Colors */
+.gp-button-wrapper {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -ms-flex-align: start;
+      align-items: flex-start;
+  -ms-flex-pack: start;
+      justify-content: flex-start;
+  clear: both; }
 /**
  * #.# Common SCSS
  *

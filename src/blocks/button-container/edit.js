@@ -11,6 +11,8 @@ const {
 	TabPanel,
 	RangeControl,
 	Notice,
+	Tooltip,
+	IconButton,
 } = wp.components;
 
 const {
@@ -23,6 +25,15 @@ const {
 	InspectorAdvancedControls,
 	InnerBlocks,
 } = wp.editor;
+
+const {
+	createBlock,
+} = wp.blocks;
+
+const {
+    withSelect,
+    withDispatch,
+} = wp.data;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 
@@ -46,7 +57,8 @@ class GenerateButtonContainer extends Component {
 			attributes,
 			setAttributes,
 			toggleSelection,
-			instanceId
+			instanceId,
+			clientId,
 		} = this.props;
 
 		const {
@@ -263,6 +275,15 @@ class GenerateButtonContainer extends Component {
 						template={ [ [ 'generatepress/button' ] ] }
 						allowedBlocks={ [ 'generatepress/button' ] }
 					/>
+
+					<Tooltip text={ __( 'Add Button', 'gp-premium' ) }>
+                        <IconButton
+                            icon={ 'insert' }
+                            onClick={ () => {
+								wp.data.dispatch( 'core/editor' ).insertBlocks( wp.blocks.createBlock( 'generatepress/button' ), undefined, clientId );
+                            } }
+                        />
+                    </Tooltip>
 				</div>
 			</Fragment>
 		);

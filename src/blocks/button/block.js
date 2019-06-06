@@ -47,7 +47,8 @@ registerBlockType( 'generatepress/button', {
 	supports: {
 		anchor: false,
 		className: false,
-		customClassName: false
+		customClassName: false,
+		inserter: false,
 	},
 
 	edit: withInstanceId( editButtonContainer ),
