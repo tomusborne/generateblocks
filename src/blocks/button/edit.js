@@ -10,7 +10,8 @@ const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
 	PanelBody,
 	TabPanel,
-	TextControl
+	TextControl,
+	RangeControl,
 } = wp.components;
 
 const {
@@ -63,7 +64,22 @@ class GenerateButton extends Component {
 			textColor,
 			backgroundColorHover,
 			textColorHover,
+			borderRadius,
+			fontSize,
+			gap,
 		} = attributes;
+
+		var borderRadiusValue = '',
+			fontSizeValue = '',
+			gapValue = '';
+
+		if ( borderRadius ) {
+			borderRadiusValue = borderRadius + 'px';
+		}
+
+		if ( fontSize ) {
+			fontSizeValue = fontSize + 'em';
+		}
 
 		const css = `
 			.editor-block-list__block a.gp-button-` + uniqueId + ` {
@@ -77,12 +93,64 @@ class GenerateButton extends Component {
 				background-color: ` + backgroundColorHover + `;
 				color: ` + textColorHover + `;
 			}
+
+			a.gp-button-` + uniqueId + ` {
+				border-radius: ` + borderRadiusValue + `;
+				font-size: ` + fontSizeValue + `;
+			}
 		`
+
+		$( '.gp-button' ).on( 'click', function( e ) {
+			e.preventDefault();
+		} );
 
 		return (
 			<Fragment>
 
 				<InspectorControls>
+					<PanelBody>
+						<RangeControl
+							label={ __( 'Font Size', 'gp-premium' ) }
+							value={ fontSize }
+							onChange={ ( value ) => {
+								setAttributes( {
+									fontSize: value
+								} );
+							} }
+							min={ 0.3 }
+							max={ 3 }
+							step={ 0.1 }
+							allowReset={ true }
+						/>
+
+						<RangeControl
+							label={ __( 'Gap', 'gp-premium' ) }
+							value={ gap }
+							onChange={ ( value ) => {
+								setAttributes( {
+									gap: value
+								} );
+							} }
+							min={ 0 }
+							max={ 50 }
+							step={ 1 }
+						/>
+
+						<RangeControl
+							label={ __( 'Border Radius', 'gp-premium' ) }
+							value={ borderRadius }
+							onChange={ ( nextBorderRadius ) => {
+								setAttributes( {
+									borderRadius: nextBorderRadius
+								} );
+							} }
+							min={ 0 }
+							max={ 50 }
+							step={ 1 }
+							initialPosition={ 0 }
+						/>
+					</PanelBody>
+
 					<PanelBody
 						title={ __( 'Colors', 'gp-premium' ) }
 						initialOpen={ false }

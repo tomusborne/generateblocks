@@ -51,4 +51,16 @@ export default {
         type: 'string',
         default: '#ffffff',
     },
+	borderRadius: {
+		type: 'number',
+		default: 2,
+	},
+	fontSize: {
+		type: 'number',
+		default: 1,
+	},
+	gap: {
+		type: 'number',
+		default: 25
+	},
 }

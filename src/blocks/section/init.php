@@ -108,14 +108,14 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 	}
 }
 
-add_action( 'wp_head', 'generate_do_section_block_frontend_css', 200 );
 /**
- * Print our CSS for each section.
+ * Get our Section block CSS.
  *
- * @since 1.8
+ * @since 0.1
+ *
+ * @return string
  */
-function generate_do_section_block_frontend_css() {
-
+function generate_get_section_css() {
 	$data = generate_get_block_data( 'generatepress/section' );
 
 	if ( empty( $data ) ) {
@@ -245,19 +245,70 @@ function generate_do_section_block_frontend_css() {
 
 	$css .= '.inside-section > *:last-child {margin-bottom:0}';
 
-	echo '<style>';
-		echo $css;
-	echo '</style>';
+	return $css;
 }
 
-add_action( 'wp_head', 'generate_do_multi_button_block_css', 200 );
 /**
- * Output custom CSS for multi buttons.
+ * Get our Button block CSS.
  *
  * @since 0.1
+ *
+ * @return string
  */
-function generate_do_multi_button_block_css() {
+function generate_get_button_css() {
 	$data = generate_get_block_data( 'generatepress/button' );
+
+	if ( empty( $data ) ) {
+		return;
+	}
+
+	$css = '.gp-button-wrapper{display: flex;flex-wrap: wrap;align-items: flex-start;justify-content: flex-start;clear: both;}';
+	$css .= '.gp-button {display: inline-flex;align-items: center;justify-content: center;padding: .75em 1em;line-height: 1em;text-decoration: none !important;transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;}';
+
+	foreach ( $data as $atts ) {
+		if ( ! isset( $atts['uniqueId'] ) ) {
+			continue;
+		}
+
+		$id = absint( $atts['uniqueId'] );
+
+		$values = array(
+			'background_color' => isset( $atts['backgroundColor'] ) ? 'background-color:' . $atts['backgroundColor'] . ';' : 'background-color: #0366d6;',
+			'text_color' => isset( $atts['textColor'] ) ? 'color:' . $atts['textColor'] . ';' : 'color: #ffffff;',
+			'background_color_hover' => isset( $atts['backgroundColorHover'] ) ? 'background-color:' . $atts['backgroundColorHover'] . ';' : 'background-color: #222222;',
+			'text_color_hover' => isset( $atts['textColorHover'] ) ? 'color:' . $atts['textColorHover'] . ';' : 'color: #ffffff;',
+			'border_radius' => isset( $atts['borderRadius'] ) ? 'border-radius:' . $atts['borderRadius'] . 'px;' : 'border-radius: 2px;',
+			'font_size' => isset( $atts['fontSize'] ) ? 'font-size:' . $atts['fontSize'] . 'em;' : '',
+			'gap' => isset( $atts['gap'] ) ? 'margin-right:' . $atts['gap'] . 'px;' : 'margin-right: 25px;',
+		);
+
+		if (
+			$values['background_color'] ||
+			$values['text_color'] ||
+			$values['border_radius'] ||
+			$values['font_size'] ||
+			$values['gap']
+		) {
+			$css .= 'a.gp-button-' . $id . '{' . $values['background_color'] . $values['text_color'] . $values['border_radius'] . $values['font_size'] . $values['gap'] . '}';
+		}
+
+		if ( $values['background_color_hover'] || $values['text_color_hover'] ) {
+			$css .= 'a.gp-button-' . $id . ':hover,a.gp-button-' . $id . ':active, a.gp-button-' . $id . ':focus{' . $values['background_color_hover'] . $values['text_color_hover'] . '}';
+		}
+	}
+
+	return $css;
+}
+
+/**
+ * Get our Button Container block CSS.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function generate_get_button_container_css() {
+	$data = generate_get_block_data( 'generatepress/button-container' );
 
 	if ( empty( $data ) ) {
 		return;
@@ -273,27 +324,56 @@ function generate_do_multi_button_block_css() {
 		$id = absint( $atts['uniqueId'] );
 
 		$values = array(
-			'background_color' => isset( $atts['backgroundColor'] ) ? 'background-color:' . $atts['backgroundColor'] . ';' : 'background-color: #0366d6;',
-			'text_color' => isset( $atts['textColor'] ) ? 'color:' . $atts['textColor'] . ';' : 'color: #ffffff;',
-			'background_color_hover' => isset( $atts['backgroundColorHover'] ) ? 'background-color:' . $atts['backgroundColorHover'] . ';' : 'background-color: #222222;',
-			'text_color_hover' => isset( $atts['textColorHover'] ) ? 'color:' . $atts['textColorHover'] . ';' : 'color: #ffffff;',
+			'padding_top' => isset( $atts['paddingTop'] ) ? 'padding-top:' . $atts['paddingTop'] . 'px;' : '',
+			'padding_right' => isset( $atts['paddingRight'] ) ? 'padding-right:' . $atts['paddingRight'] . 'px;' : '',
+			'padding_bottom' => isset( $atts['paddingBottom'] ) ? 'padding-bottom:' . $atts['paddingBottom'] . 'px;' : 'padding-bottom: 25px;',
+			'padding_left' => isset( $atts['paddingLeft'] ) ? 'padding-left:' . $atts['paddingLeft'] . 'px;' : '',
+			'padding_top_mobile' => isset( $atts['paddingTopMobile'] ) ? 'padding-top:' . $atts['paddingTopMobile'] . 'px;' : '',
+			'padding_right_mobile' => isset( $atts['paddingRightMobile'] ) ? 'padding-right:' . $atts['paddingRightMobile'] . 'px;' : '',
+			'padding_bottom_mobile' => isset( $atts['paddingBottomMobile'] ) ? 'padding-bottom:' . $atts['paddingBottomMobile'] . 'px;' : 'padding-bottom: 25px;',
+			'padding_left_mobile' => isset( $atts['paddingLeftMobile'] ) ? 'padding-left:' . $atts['paddingLeftMobile'] . 'px;' : '',
 		);
 
-		$css .= '.gp-button-wrapper{display: flex;flex-wrap: wrap;align-items: flex-start;justify-content: flex-start;clear: both;}';
-		$css .= '.gp-button {display: inline-flex;align-items: center;justify-content: center;padding: .75em 1em;line-height: 1em;text-decoration: none !important;transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;}';
-
-		if ( $values['background_color'] || $values['text_color'] ) {
-			$css .= 'a.gp-button-' . $id . '{' . $values['background_color'] . $values['text_color'] . '}';
+		if ( $values['padding_top'] || $values['padding_right'] || $values['padding_bottom'] || $values['padding_left'] ) {
+			$css .= ".gp-button-wrapper-" . $id . "{" . $values['padding_top'] . $values['padding_right'] . $values['padding_bottom'] . $values['padding_left'] . "}";
 		}
 
-		if ( $values['background_color_hover'] || $values['text_color_hover'] ) {
-			$css .= 'a.gp-button-' . $id . ':hover,a.gp-button-' . $id . ':active, a.gp-button-' . $id . ':focus{' . $values['background_color_hover'] . $values['text_color_hover'] . '}';
+		if (
+			$values['padding_top_mobile'] ||
+			$values['padding_right_mobile'] ||
+			$values['padding_bottom_mobile'] ||
+			$values['padding_left_mobile']
+		) {
+			$media_query = apply_filters( 'generate_mobile_media_query', '(max-width:768px)' );
+			$css .= "@media " . $media_query . " {";
+				if (
+					$values['padding_top_mobile'] ||
+					$values['padding_right_mobile'] ||
+					$values['padding_bottom_mobile'] ||
+					$values['padding_left_mobile']
+				) {
+					$css .= ".gp-button-wrapper-" . $id . " {" . $values['padding_top_mobile'] . $values['padding_right_mobile'] . $values['padding_bottom_mobile'] . $values['padding_left_mobile'] . "}";
+				}
+			$css .= "}";
 		}
 	}
 
-	if ( $css ) {
-		echo '<style>';
-			echo $css;
-		echo '</style>';
-	}
+	return $css;
+}
+
+add_action( 'wp_head', 'generate_do_section_block_frontend_css', 200 );
+/**
+ * Print our CSS for each section.
+ *
+ * @since 1.8
+ */
+function generate_do_section_block_frontend_css() {
+
+	$section_css = generate_get_section_css();
+	$button_container_css = generate_get_button_container_css();
+	$button_css = generate_get_button_css();
+
+	echo '<style>';
+		echo $section_css . $button_container_css . $button_css;
+	echo '</style>';
 }
