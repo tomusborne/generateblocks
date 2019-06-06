@@ -80,8 +80,6 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 					$data[] = $block['attrs'];
 
 					$data = generate_get_nested_block_data( $block, $data, $blockName );
-				} else {
-					$data = generate_get_nested_block_data( $block, $data, $blockName );
 				}
 
 				if ( 'core/block' === $block['blockName'] ) {
@@ -102,6 +100,11 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 							}
 						}
 					}
+				}
+
+				// Need to check for nested blocks.
+				if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
+					$data = generate_get_nested_block_data( $block, $data, $blockName );
 				}
 			}
 		}
