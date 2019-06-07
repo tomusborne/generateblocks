@@ -14,25 +14,22 @@ export default ( { attributes } ) => {
 		uniqueId,
 		elementId,
 		cssClasses,
-		text,
-		url,
-		target,
-		rel,
+		level,
+		content,
 	} = attributes;
 
+	const tagName = 'h' + level;
+
 	return (
-		<a
+		<RichText.Content
+			tagName={ tagName }
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
-				'gp-button': true,
-				[`gp-button-${ uniqueId }`]: true,
+				'gp-heading': true,
+				[`gp-heading-${ uniqueId }`]: true,
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
-			href={ !! url ? url : undefined }
-			target={ !! target ? target : undefined }
-			rel={ !! rel ? rel : undefined }
-		>
-			<RichText.Content tagName="span" className="button-text" value={ text } key="button-text" />
-		</a>
+			value={ content }
+		/>
 	);
 }
