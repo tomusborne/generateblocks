@@ -103,9 +103,11 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 				}
 
 				// Pass our grid container attributes to the grid.
-				if ( 'generatepress/grid-column' === $blockName && 'generatepress/grid-container' === $block['blockName'] ) {
-					if ( isset( $block['attrs']['gap'] ) ) {
-						$data[] = $block['attrs']['gap'];
+				if ( 'generatepress/grid-container' === $block['blockName'] ) {
+					foreach ( $block['attrs'] as $key => $val ) {
+						if ( 'gap' === $key ) {
+							$data['grid-container-gap'] = $val;
+						}
 					}
 				}
 
@@ -462,7 +464,7 @@ function generate_get_grid_column_css() {
 
 		$values = array(
 			'width' => isset( $atts['width'] ) ?  $atts['width'] : '50',
-			'gap' => isset( $atts['gap'] ) ? $atts['gap'] : '30',
+			'gap' => isset( $data['grid-container-gap'] ) ? $data['grid-container-gap'] : '30',
 			'margin-left' => false,
 			'margin-right' => false,
 			'margin-bottom' => false,
