@@ -468,15 +468,32 @@ function generate_get_grid_column_css() {
 }
 
 function generate_get_grid_container_css() {
-	if ( ! function_exists( 'has_block' ) ) {
+	$data = generate_get_block_data( 'generatepress/grid-container' );
+
+	if ( empty( $data ) ) {
 		return;
 	}
 
-	global $post;
+	$css = '.gp-grid-wrapper {display: flex;flex-wrap: wrap;}.gp-grid {box-sizing: border-box;}';
 
-	if ( has_block( 'generatepress/grid-container', $post ) ) {
-		$css = '.gp-grid-wrapper {display: flex;flex-wrap: wrap;}';
+	foreach ( $data as $atts ) {
+		if ( ! isset( $atts['uniqueId'] ) ) {
+			continue;
+		}
 
-		return $css;
+		$id = absint( $atts['uniqueId'] );
+
+		$values = array(
+			'gap' => isset( $atts['gap'] ) ? $atts['gap'] : '30',
+		);
+
+		if (
+			$values['gap']
+		) {
+			$css .= '.gp-grid-wrapper-' . $id . '{margin-left: -' . $values['gap'] . 'px;}';
+			$css .= '.gp-grid-wrapper-' . $id . ' .gp-grid{padding-left: ' . $values['gap'] . 'px;}';
+		}
 	}
+
+	return $css;
 }

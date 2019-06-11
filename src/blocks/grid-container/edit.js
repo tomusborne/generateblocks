@@ -161,6 +161,7 @@ class GenerateGridContainer extends Component {
 			elementId,
 			cssClasses,
 			columns,
+			gap,
 		} = attributes;
 
 		const css = `
@@ -173,13 +174,23 @@ class GenerateGridContainer extends Component {
 			<Fragment>
 
 				<InspectorControls>
-					<RangeControl
-						label={ __( 'Columns' ) }
-						value={ columns }
-						onChange={ ( value ) => setAttributes( { columns: value } ) }
-						min={ 1 }
-						max={ 6 }
-					/>
+					<PanelBody>
+						<RangeControl
+							label={ __( 'Columns', 'gp-premium' ) }
+							value={ columns }
+							onChange={ ( value ) => setAttributes( { columns: value } ) }
+							min={ 1 }
+							max={ 6 }
+						/>
+
+						<RangeControl
+							label={ __( 'Gap', 'gp-premium' ) }
+							value={ gap }
+							onChange={ ( value ) => setAttributes( { gap: value } ) }
+							min={ 0 }
+							max={ 100 }
+						/>
+					</PanelBody>
 				</InspectorControls>
 
 				<InspectorAdvancedControls>

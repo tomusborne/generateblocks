@@ -15,4 +15,8 @@ export default {
         type: 'number',
         default: 2,
     },
+	gap: {
+        type: 'number',
+        default: 30,
+    },
 }
