@@ -102,6 +102,13 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 					}
 				}
 
+				// Pass our grid container attributes to the grid.
+				if ( 'generatepress/grid-column' === $blockName && 'generatepress/grid-container' === $block['blockName'] ) {
+					if ( isset( $block['attrs']['gap'] ) ) {
+						$data[] = $block['attrs']['gap'];
+					}
+				}
+
 				// Need to check for nested blocks.
 				if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
 					$data = generate_get_nested_block_data( $block, $data, $blockName );
@@ -454,13 +461,26 @@ function generate_get_grid_column_css() {
 		$id = absint( $atts['uniqueId'] );
 
 		$values = array(
-			'width' => isset( $atts['width'] ) ? 'width:' . $atts['width'] . '%;' : 'width: 50%;',
+			'width' => isset( $atts['width'] ) ?  $atts['width'] : '50',
+			'gap' => isset( $atts['gap'] ) ? $atts['gap'] : '30',
+			'margin-left' => false,
+			'margin-right' => false,
+			'margin-bottom' => false,
 		);
+
+		if ( $values['gap'] ) {
+			$values['width'] = 'width: calc(' . $values['width'] . '% - ' . $values['gap'] . 'px);';
+			$values['margin-left'] = 'margin-left: ' . $values['gap'] / 2 . 'px;';
+			$values['margin-right'] = 'margin-right: ' . $values['gap'] / 2 . 'px;';
+			$values['margin-bottom'] = 'margin-bottom: ' . $values['gap'] . 'px';
+		} else {
+			$values['width'] = 'width: ' . $values['width'] . '%;';
+		}
 
 		if (
 			$values['width']
 		) {
-			$css .= '.gp-grid-' . $id . '{' . $values['width'] . '}';
+			$css .= '.gp-grid-' . $id . '{' . $values['width'] . $values['margin-left'] . $values['margin-right'] . $values['margin-bottom'] . '}';
 		}
 	}
 
@@ -485,13 +505,19 @@ function generate_get_grid_container_css() {
 
 		$values = array(
 			'gap' => isset( $atts['gap'] ) ? $atts['gap'] : '30',
+			'margin-left' => false,
+			'margin-right' => false,
 		);
+
+		if ( $values['gap'] ) {
+			$values['margin-left'] = 'margin-left: -' . $values['gap'] / 2 . 'px;';
+			$values['margin-right'] = 'margin-right: -' . $values['gap'] / 2 . 'px;';
+		}
 
 		if (
 			$values['gap']
 		) {
-			$css .= '.gp-grid-wrapper-' . $id . '{margin-left: -' . $values['gap'] . 'px;}';
-			$css .= '.gp-grid-wrapper-' . $id . ' .gp-grid{padding-left: ' . $values['gap'] . 'px;}';
+			$css .= '.gp-grid-wrapper-' . $id . '{' . $values['margin-left'] . $values['margin-right'] . '}';
 		}
 	}
 
