@@ -422,8 +422,61 @@ function generate_do_section_block_frontend_css() {
 	$button_container_css = generate_get_button_container_css();
 	$button_css = generate_get_button_css();
 	$heading_css = generate_get_heading_css();
+	$grid_container_css = generate_get_grid_container_css();
+	$grid_column_css = generate_get_grid_column_css();
 
 	echo '<style>';
-		echo $section_css . $button_container_css . $button_css . $heading_css;
+		echo $section_css . $button_container_css . $button_css . $heading_css . $grid_container_css . $grid_column_css;
 	echo '</style>';
+}
+
+/**
+ * Get our Grid column block CSS.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function generate_get_grid_column_css() {
+	$data = generate_get_block_data( 'generatepress/grid-column' );
+
+	if ( empty( $data ) ) {
+		return;
+	}
+
+	$css = '';
+
+	foreach ( $data as $atts ) {
+		if ( ! isset( $atts['uniqueId'] ) ) {
+			continue;
+		}
+
+		$id = absint( $atts['uniqueId'] );
+
+		$values = array(
+			'width' => isset( $atts['width'] ) ? 'width:' . $atts['width'] . '%;' : 'width: 50%;',
+		);
+
+		if (
+			$values['width']
+		) {
+			$css .= '.gp-grid-' . $id . '{' . $values['width'] . '}';
+		}
+	}
+
+	return $css;
+}
+
+function generate_get_grid_container_css() {
+	if ( ! function_exists( 'has_block' ) ) {
+		return;
+	}
+
+	global $post;
+
+	if ( has_block( 'generatepress/grid-container', $post ) ) {
+		$css = '.gp-grid-wrapper {display: flex;flex-wrap: wrap;}';
+
+		return $css;
+	}
 }

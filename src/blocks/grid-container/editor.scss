@@ -1,0 +1,241 @@
+// Styles from core Columns block
+// https://github.com/WordPress/gutenberg/blob/master/blocks/library/columns/editor.scss
+.gp-grid-wrapper {
+    position: relative;
+    display: block;
+    // These margins make sure that nested blocks stack/overlay with the parent block chrome
+    // This is sort of an experiment at making sure the editor looks as much like the end result as possible
+    // Potentially the rules here can apply to all nested blocks and enable stacking, in which case it should be moved elsewhere
+    margin-right: 0;
+    margin-left: 0;
+
+    > .editor-inner-blocks > .editor-block-list__layout {
+        position: relative;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        margin-right: -15px;
+        margin-left: -15px;
+
+        // This max-width is used to constrain the main editor column, it should not cascade into columns
+        .editor-block-list__block {
+            max-width: none;
+            margin-right: 0;
+            margin-left: 0;
+        }
+    }
+
+    // Fullwide: show margin left/right to ensure there's room for the side UI
+    // This is not a 1:1 preview with the front-end where these margins would presumably be zero
+    // @todo this could be revisited, by for example showing this margin only when the parent block was selected first
+    // Then at least an unselected columns block would be an accurate preview
+    .editor-block-list__block[data-align="full"][data-type="generatepress/grid-container"] > .editor-block-list__block-edit > div > & {
+        > .gp-grid-wrapper-button-select {
+            right: 1px;
+        }
+        > .editor-inner-blocks > .editor-block-list__layout {
+            margin-right: 1px;
+            margin-left: 1px;
+        }
+    }
+
+    // Hide appender shortcuts in columns
+    // @todo This essentially duplicates the mobile styles for the appender component
+    // It would be nice to be able to use element queries in that component instead https://github.com/tomhodgins/element-queries-spec
+    .editor-inserter-with-shortcuts {
+        display: none;
+    }
+    .editor-block-list__empty-block-inserter,
+    .editor-default-block-appender .editor-inserter {
+        right: $item-spacing;
+        left: auto;
+    }
+}
+
+// Fix columns overflowing.
+.gp-grid-wrapper > .editor-inner-blocks::before {
+    content: "";
+    display: block;
+    height: 1px;
+    margin-bottom: -30px;
+}
+.wp-block.gp-col {
+    margin-top: 29px;
+}
+
+// Highlight the label to easily select grid/column block by clicking on it.
+.gp-grid-wrapper-button-select,
+.gp-column-button-select {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    padding: 2px 4px;
+    font-family: $default-font;
+    font-size: 17px;
+    line-height: 1;
+    color: #fff;
+    cursor: pointer;
+    visibility: hidden;
+    background-color: $light-gray-700;
+    border-bottom-left-radius: 3px;
+    opacity: 0;
+    transition: .2s opacity, .2s visibility, .2s background-color;
+    z-index: 21;
+
+    svg {
+        width: auto;
+        height: 1em;
+    }
+}
+.gp-grid-wrapper-button-select {
+    top: auto;
+    bottom: 100%;
+    margin-bottom: 14px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    border-bottom-left-radius: 0;
+}
+[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > div > .gp-grid-wrapper-button-select,
+[data-type="generatepress/grid-column"]:hover > .editor-block-list__block-edit > div > div > .gp-column-button-select {
+    visibility: visible;
+    opacity: 1;
+}
+.gp-grid-wrapper-button-select:hover,
+.gp-column-button-select:hover {
+    background-color: $blue-wordpress;
+}
+
+// add outlines on hover
+.editor-block-list__layout > [data-type="generatepress/grid-column"] > .editor-block-list__block-edit::before {
+    left: -15px;
+}
+// stylelint-disable-next-line
+[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before,
+[data-type="generatepress/grid-container"].is-hovered > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before,
+[data-type="generatepress/grid-container"].is-selected > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before {
+    outline: 1px dashed rgba(145, 151, 162, .25);
+}
+// stylelint-disable-next-line
+[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout >  [data-type="generatepress/grid-column"].is-hovered > .editor-block-list__block-edit::before {
+    outline: 1px solid $blue-wordpress;
+}
+
+// fix background overlap outlines
+.editor-block-list__layout > [data-type="generatepress/grid-container"] > .editor-block-list__block-edit::before,
+.editor-block-list__layout > [data-type="generatepress/grid-column"] > .editor-block-list__block-edit::before {
+    z-index: 1;
+}
+
+// hide default grid and column breadcrumb
+[data-type="generatepress/grid-container"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb,
+[data-type="generatepress/grid-column"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb {
+    display: none;
+}
+
+// Layouts selector.
+.gp-select-layout {
+    padding: 25px;
+
+    .components-placeholder__fieldset > em {
+        margin-bottom: 25px;
+    }
+
+    .gp-grid-wrapper-layout-preview {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-right: -7px;
+        margin-left: -7px;
+
+        .gp-grid-wrapper-layout-preview-btn {
+            display: flex;
+            flex-wrap: wrap;
+            width: 85px;
+            padding: 0;
+            margin-right: 7px;
+            margin-bottom: 14px;
+            margin-left: 7px;
+            overflow: hidden;
+            cursor: pointer;
+            background: none;
+            border: 2px solid rgba($color-brand-3, .75);
+            border-radius: 4px;
+            transition: .15s border-color, .15s background-color;
+
+            .gp-col {
+                height: 40px;
+                border-right: 2px solid rgba($color-brand-3, .75);
+                transition: .15s border-color;
+
+                &:last-of-type {
+                    border-right: none;
+                }
+            }
+
+            &:hover,
+            &:focus {
+                background-color: #fff;
+                border-color: $color-brand-3;
+
+                .gp-col {
+                    border-color: $color-brand-3;
+                }
+            }
+        }
+    }
+
+    // templates button.
+    .components-button.is-primary {
+        height: 35px;
+        padding: 0 15px;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+}
+
+.gp-col {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 0;
+
+    > .editor-block-list__block-edit {
+        display: flex;
+        flex-basis: 100%;
+        // stylelint-disable-next-line
+        margin-top: 0 !important;
+        // stylelint-disable-next-line
+        margin-bottom: 0 !important;
+
+        > [data-block] {
+            flex: 100%;
+        }
+
+        // fix selected column block content position.
+        > .editor-block-contextual-toolbar + [data-block] {
+            margin-left: 30px;
+        }
+    }
+}
+
+// Vertical align.
+.gp-grid-wrapper-align-items-center > .editor-inner-blocks > .editor-block-list__layout > .gp-col > .editor-block-list__block-edit > [data-block] {
+    align-self: center;
+}
+.gp-grid-wrapper-align-items-end > .editor-inner-blocks > .editor-block-list__layout > .gp-col > .editor-block-list__block-edit > [data-block] {
+    align-self: flex-end;
+}
+
+// Horizontal align.
+.gp-grid-wrapper-justify-content-center > .editor-inner-blocks > .editor-block-list__layout {
+    justify-content: center;
+}
+.gp-grid-wrapper-justify-content-end > .editor-inner-blocks > .editor-block-list__layout {
+    justify-content: flex-end;
+}
+.gp-grid-wrapper-justify-content-around > .editor-inner-blocks > .editor-block-list__layout {
+    justify-content: space-around;
+}
+.ghostkit-grid-justify-content-between > .editor-inner-blocks > .editor-block-list__layout {
+    justify-content: space-between;
+}

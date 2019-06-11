@@ -5,6 +5,214 @@
  * that are used across the project.
 */
 /* Colors */
+.gp-grid-wrapper {
+  position: relative;
+  display: block;
+  margin-right: 0;
+  margin-left: 0; }
+  .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout {
+    position: relative;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -ms-flex-pack: start;
+        justify-content: flex-start;
+    margin-right: -15px;
+    margin-left: -15px; }
+    .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout .editor-block-list__block {
+      max-width: none;
+      margin-right: 0;
+      margin-left: 0; }
+  .editor-block-list__block[data-align="full"][data-type="generatepress/grid-container"] > .editor-block-list__block-edit > div > .gp-grid-wrapper > .gp-grid-wrapper-button-select {
+    right: 1px; }
+  .editor-block-list__block[data-align="full"][data-type="generatepress/grid-container"] > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout {
+    margin-right: 1px;
+    margin-left: 1px; }
+  .gp-grid-wrapper .editor-inserter-with-shortcuts {
+    display: none; }
+  .gp-grid-wrapper .editor-block-list__empty-block-inserter,
+  .gp-grid-wrapper .editor-default-block-appender .editor-inserter {
+    right: 10px;
+    left: auto; }
+
+.gp-grid-wrapper > .editor-inner-blocks::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-bottom: -30px; }
+
+.wp-block.gp-col {
+  margin-top: 29px; }
+
+.gp-grid-wrapper-button-select,
+.gp-column-button-select {
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  padding: 2px 4px;
+  font-family: -apple-system, "BlinkMacSystemFont", "Segoe UI", "Roboto", "Oxygen-Sans", "Ubuntu", "Cantarell", "Helvetica Neue", sans-serif;
+  font-size: 17px;
+  line-height: 1;
+  color: #fff;
+  cursor: pointer;
+  visibility: hidden;
+  background-color: #ccd0d4;
+  border-bottom-left-radius: 3px;
+  opacity: 0;
+  -webkit-transition: .2s opacity, .2s visibility, .2s background-color;
+  -o-transition: .2s opacity, .2s visibility, .2s background-color;
+  transition: .2s opacity, .2s visibility, .2s background-color;
+  z-index: 21; }
+  .gp-grid-wrapper-button-select svg,
+  .gp-column-button-select svg {
+    width: auto;
+    height: 1em; }
+
+.gp-grid-wrapper-button-select {
+  top: auto;
+  bottom: 100%;
+  margin-bottom: 14px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  border-bottom-left-radius: 0; }
+
+[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > div > .gp-grid-wrapper-button-select,
+[data-type="generatepress/grid-column"]:hover > .editor-block-list__block-edit > div > div > .gp-column-button-select {
+  visibility: visible;
+  opacity: 1; }
+
+.gp-grid-wrapper-button-select:hover,
+.gp-column-button-select:hover {
+  background-color: #0073aa; }
+
+.editor-block-list__layout > [data-type="generatepress/grid-column"] > .editor-block-list__block-edit::before {
+  left: -15px; }
+
+[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before,
+[data-type="generatepress/grid-container"].is-hovered > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before,
+[data-type="generatepress/grid-container"].is-selected > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before {
+  outline: 1px dashed rgba(145, 151, 162, 0.25); }
+
+[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"].is-hovered > .editor-block-list__block-edit::before {
+  outline: 1px solid #0073aa; }
+
+.editor-block-list__layout > [data-type="generatepress/grid-container"] > .editor-block-list__block-edit::before,
+.editor-block-list__layout > [data-type="generatepress/grid-column"] > .editor-block-list__block-edit::before {
+  z-index: 1; }
+
+[data-type="generatepress/grid-container"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb,
+[data-type="generatepress/grid-column"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb {
+  display: none; }
+
+.gp-select-layout {
+  padding: 25px; }
+  .gp-select-layout .components-placeholder__fieldset > em {
+    margin-bottom: 25px; }
+  .gp-select-layout .gp-grid-wrapper-layout-preview {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    -ms-flex-pack: center;
+        justify-content: center;
+    margin-right: -7px;
+    margin-left: -7px; }
+    .gp-select-layout .gp-grid-wrapper-layout-preview .gp-grid-wrapper-layout-preview-btn {
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+      width: 85px;
+      padding: 0;
+      margin-right: 7px;
+      margin-bottom: 14px;
+      margin-left: 7px;
+      overflow: hidden;
+      cursor: pointer;
+      background: none;
+      border: 2px solid rgba(79, 89, 105, 0.75);
+      border-radius: 4px;
+      -webkit-transition: .15s border-color, .15s background-color;
+      -o-transition: .15s border-color, .15s background-color;
+      transition: .15s border-color, .15s background-color; }
+      .gp-select-layout .gp-grid-wrapper-layout-preview .gp-grid-wrapper-layout-preview-btn .gp-col {
+        height: 40px;
+        border-right: 2px solid rgba(79, 89, 105, 0.75);
+        -webkit-transition: .15s border-color;
+        -o-transition: .15s border-color;
+        transition: .15s border-color; }
+        .gp-select-layout .gp-grid-wrapper-layout-preview .gp-grid-wrapper-layout-preview-btn .gp-col:last-of-type {
+          border-right: none; }
+      .gp-select-layout .gp-grid-wrapper-layout-preview .gp-grid-wrapper-layout-preview-btn:hover, .gp-select-layout .gp-grid-wrapper-layout-preview .gp-grid-wrapper-layout-preview-btn:focus {
+        background-color: #fff;
+        border-color: #4f5969; }
+        .gp-select-layout .gp-grid-wrapper-layout-preview .gp-grid-wrapper-layout-preview-btn:hover .gp-col, .gp-select-layout .gp-grid-wrapper-layout-preview .gp-grid-wrapper-layout-preview-btn:focus .gp-col {
+          border-color: #4f5969; }
+  .gp-select-layout .components-button.is-primary {
+    height: 35px;
+    padding: 0 15px;
+    margin-top: 10px;
+    font-size: 14px; }
+
+.gp-col {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-direction: column;
+      flex-direction: column;
+  width: 0; }
+  .gp-col > .editor-block-list__block-edit {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-preferred-size: 100%;
+        flex-basis: 100%;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important; }
+    .gp-col > .editor-block-list__block-edit > [data-block] {
+      -ms-flex: 100%;
+          flex: 100%; }
+    .gp-col > .editor-block-list__block-edit > .editor-block-contextual-toolbar + [data-block] {
+      margin-left: 30px; }
+
+.gp-grid-wrapper-align-items-center > .editor-inner-blocks > .editor-block-list__layout > .gp-col > .editor-block-list__block-edit > [data-block] {
+  -ms-flex-item-align: center;
+      align-self: center; }
+
+.gp-grid-wrapper-align-items-end > .editor-inner-blocks > .editor-block-list__layout > .gp-col > .editor-block-list__block-edit > [data-block] {
+  -ms-flex-item-align: end;
+      align-self: flex-end; }
+
+.gp-grid-wrapper-justify-content-center > .editor-inner-blocks > .editor-block-list__layout {
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gp-grid-wrapper-justify-content-end > .editor-inner-blocks > .editor-block-list__layout {
+  -ms-flex-pack: end;
+      justify-content: flex-end; }
+
+.gp-grid-wrapper-justify-content-around > .editor-inner-blocks > .editor-block-list__layout {
+  -ms-flex-pack: distribute;
+      justify-content: space-around; }
+
+.ghostkit-grid-justify-content-between > .editor-inner-blocks > .editor-block-list__layout {
+  -ms-flex-pack: justify;
+      justify-content: space-between; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
 /**
  * #.# Editor Styles
  *
