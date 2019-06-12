@@ -23,7 +23,7 @@ const {
 	InspectorControls,
 	InspectorAdvancedControls,
 	RichText,
-} = wp.editor;
+} = wp.blockEditor;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 

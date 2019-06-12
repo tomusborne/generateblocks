@@ -24,7 +24,7 @@ const {
 	InspectorControls,
 	InspectorAdvancedControls,
 	InnerBlocks,
-} = wp.editor;
+} = wp.blockEditor;
 
 const {
 	createBlock,
@@ -280,7 +280,7 @@ class GenerateButtonContainer extends Component {
                         <IconButton
                             icon={ 'insert' }
                             onClick={ () => {
-								wp.data.dispatch( 'core/editor' ).insertBlocks( wp.blocks.createBlock( 'generatepress/button' ), undefined, clientId );
+								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generatepress/button' ), undefined, clientId );
                             } }
                         />
                     </Tooltip>

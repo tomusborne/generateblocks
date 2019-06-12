@@ -17,7 +17,7 @@ const {
 
 const {
     ColorPalette,
-} = wp.editor;
+} = wp.blockEditor;
 
 export default class ColorPicker extends Component {
     render() {

@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 const {
 	RichText
-} = wp.editor;
+} = wp.blockEditor;
 
 export default ( { attributes } ) => {
 

@@ -6,7 +6,7 @@ import classnames from 'classnames';
 
 const {
 	InnerBlocks
-} = wp.editor;
+} = wp.blockEditor;
 
 export default ( { attributes } ) => {
 
