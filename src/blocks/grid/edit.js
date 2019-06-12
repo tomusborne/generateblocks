@@ -59,6 +59,7 @@ class GenerateGrid extends Component {
 			elementId,
 			cssClasses,
 			width,
+			mobileWidth,
 		} = attributes;
 
 		const css = `
@@ -71,19 +72,66 @@ class GenerateGrid extends Component {
 			<Fragment>
 				<InspectorControls>
 					<PanelBody>
-						<RangeControl
-							label={ __( 'Width', 'gp-premium' ) }
-							value={ width }
-							onChange={ ( value ) => {
-								setAttributes( {
-									width: value
-								} );
-							} }
-							min={ 5 }
-							max={ 100 }
-							step={ 5 }
-							allowReset={ true }
-						/>
+						<TabPanel className="grid-tab-panel generatepress-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'grid-desktop',
+									title: __( 'Desktop', 'gp-premium' ),
+									className: 'grid-desktop',
+								},
+								{
+									name: 'grid-mobile',
+									title: __( 'Mobile', 'gp-premium' ),
+									className: 'grid-mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									const isDesktop = tab.name === 'grid-desktop';
+
+									return (
+										<div>
+											{ isDesktop ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Width', 'gp-premium' ) }
+														value={ width }
+														onChange={ ( value ) => {
+															setAttributes( {
+																width: value
+															} );
+														} }
+														min={ 5 }
+														max={ 100 }
+														step={ 5 }
+														allowReset={ true }
+													/>
+												</Fragment>
+
+											) : (
+
+												<Fragment>
+													<RangeControl
+														label={ __( 'Width', 'gp-premium' ) }
+														value={ mobileWidth }
+														onChange={ ( value ) => {
+															setAttributes( {
+																mobileWidth: value
+															} );
+														} }
+														min={ 5 }
+														max={ 100 }
+														step={ 5 }
+														allowReset={ true }
+													/>
+												</Fragment>
+											) }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
 					</PanelBody>
 				</InspectorControls>
 

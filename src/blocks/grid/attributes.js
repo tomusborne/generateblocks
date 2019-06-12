@@ -15,4 +15,8 @@ export default {
         type: 'number',
         default: 50,
     },
+	mobileWidth: {
+        type: 'number',
+        default: 100,
+    },
 }
