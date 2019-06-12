@@ -33,18 +33,18 @@ export default {
 	},
 	paddingTopMobile: {
 		type: 'number',
-		default: 0
+		default: ''
 	},
 	paddingRightMobile: {
 		type: 'number',
-		default: 0
+		default: ''
 	},
 	paddingBottomMobile: {
 		type: 'number',
-		default: 25
+		default: ''
 	},
 	paddingLeftMobile: {
 		type: 'number',
-		default: 0
+		default: ''
 	},
 }
