@@ -180,7 +180,7 @@ class GenerateGridContainer extends Component {
 							value={ columns }
 							onChange={ ( value ) => setAttributes( { columns: value } ) }
 							min={ 1 }
-							max={ 6 }
+							max={ 50 }
 						/>
 
 						<RangeControl
