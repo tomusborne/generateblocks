@@ -42,3 +42,4 @@ function generate_blocks_do_category( $categories ) {
  * Block Initializer.
  */
 require_once plugin_dir_path( __FILE__ ) . 'src/blocks/section/init.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-do-css.php';
