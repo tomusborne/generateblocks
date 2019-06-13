@@ -25,7 +25,7 @@ const {
 	InspectorControls,
 	InspectorAdvancedControls,
 	InnerBlocks,
-} = wp.editor;
+} = wp.blockEditor;
 
 const {
 	createBlock,
