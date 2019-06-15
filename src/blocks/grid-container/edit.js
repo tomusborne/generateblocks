@@ -127,9 +127,11 @@ class GenerateGridContainer extends Component {
 		// create columns template from columns count.
 		} else {
 			for ( let k = 1; k <= columns; k++ ) {
-				result.push( [ 'generatepress/grid-column' ] );
+				result.push( [ 'generatepress/section' ] );
 			}
 		}
+
+		console.log(result);
 
 		return result;
 	}
@@ -230,7 +232,7 @@ class GenerateGridContainer extends Component {
 					<InnerBlocks
 						template={ this.getColumnsTemplate() }
 						templateLock="all"
-						allowedBlocks={ [ 'generatepress/grid-column' ] }
+						allowedBlocks={ [ 'generatepress/section' ] }
 					/>
 				</div>
 			</Fragment>

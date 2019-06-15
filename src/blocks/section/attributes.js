@@ -15,6 +15,14 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	width: {
+		type: 'number',
+		default: 50,
+	},
+	mobileWidth: {
+		type: 'number',
+		default: 100,
+	},
 	outerContainer: {
 		type: 'string',
 		default: 'full',
@@ -41,27 +49,19 @@ export default {
 	},
 	paddingTopMobile: {
 		type: 'number',
-		default: 10
+		default: ''
 	},
 	paddingRightMobile: {
 		type: 'number',
-		default: 10
+		default: ''
 	},
 	paddingBottomMobile: {
 		type: 'number',
-		default: 10
+		default: ''
 	},
 	paddingLeftMobile: {
 		type: 'number',
-		default: 10
-	},
-	columnGutter: {
-		type: 'number',
-		default: '',
-	},
-	columnGutterMobile: {
-		type: 'number',
-		default: '',
+		default: ''
 	},
 	backgroundColor: {
 		type: 'string',

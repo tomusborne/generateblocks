@@ -16,7 +16,9 @@ const {
 	SelectControl,
 	TextControl,
 	Notice,
-	TabPanel
+	TabPanel,
+	Tooltip,
+	Icon,
 } = wp.components;
 
 const {
@@ -53,7 +55,10 @@ class GenerateSection extends Component {
 			attributes,
 			setAttributes,
 			toggleSelection,
-			instanceId
+			instanceId,
+			hasChildBlocks,
+			clientId,
+			isSelected,
 		} = this.props;
 
 		const onSelectBgImage = ( media ) => {
@@ -82,6 +87,8 @@ class GenerateSection extends Component {
 			tagName,
 			elementId,
 			cssClasses,
+			width,
+			mobileWidth,
 			outerContainer,
 			innerContainer,
 			paddingTop,
@@ -92,8 +99,6 @@ class GenerateSection extends Component {
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
-			columnGutter,
-			columnGutterMobile,
 			backgroundColor,
 			textColor,
 			linkColor,
@@ -137,11 +142,78 @@ class GenerateSection extends Component {
 			  padding-bottom: ` + paddingBottom + `px;
 			  padding-left: ` + paddingLeft + `px;
 			}
+
+			.gp-grid-wrapper #block-` + clientId + ` {
+				width: ` + width + `%;
+			}
 		`
 
 		return (
 			<Fragment>
 				<InspectorControls>
+					<PanelBody className="section-grid-panel">
+						<TabPanel className="grid-tab-panel generatepress-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'grid-desktop',
+									title: __( 'Desktop', 'gp-premium' ),
+									className: 'grid-desktop',
+								},
+								{
+									name: 'grid-mobile',
+									title: __( 'Mobile', 'gp-premium' ),
+									className: 'grid-mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									const isDesktop = tab.name === 'grid-desktop';
+
+									return (
+										<div>
+											{ isDesktop ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Width', 'gp-premium' ) }
+														value={ width }
+														onChange={ ( value ) => {
+															setAttributes( {
+																width: value
+															} );
+														} }
+														min={ 5 }
+														max={ 100 }
+														step={ 5 }
+														allowReset={ true }
+													/>
+												</Fragment>
+
+											) : (
+
+												<Fragment>
+													<RangeControl
+														label={ __( 'Width', 'gp-premium' ) }
+														value={ mobileWidth }
+														onChange={ ( value ) => {
+															setAttributes( {
+																mobileWidth: value
+															} );
+														} }
+														min={ 5 }
+														max={ 100 }
+														step={ 5 }
+														allowReset={ true }
+													/>
+												</Fragment>
+											) }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
+					</PanelBody>
+
 					<PanelBody
 						title={ __( 'Layout', 'gp-premium' ) }
 						initialOpen={ false }
@@ -240,28 +312,6 @@ class GenerateSection extends Component {
 														max={ 200 }
 														step={ 10 }
 													/>
-
-													<RangeControl
-														label={ __( 'Column Gutter', 'gp-premium' ) }
-														value={ columnGutter }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																columnGutter: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-													/>
-
-													<div className={ 'additional-class-notice' }>
-														<Notice
-															status={ 'warning' }
-															isDismissible={ false }
-														>
-															{ __( 'Column gutters can not be live previewed at the moment.', 'gp-premium' ) }
-														</Notice>
-													</div>
 												</Fragment>
 
 											) : (
@@ -321,19 +371,6 @@ class GenerateSection extends Component {
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
 																paddingLeftMobile: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-													/>
-
-													<RangeControl
-														label={ __( 'Column Gutter', 'gp-premium' ) }
-														value={ columnGutterMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																columnGutterMobile: nextSpacing,
 															} );
 														} }
 														min={ 0 }
@@ -579,9 +616,19 @@ class GenerateSection extends Component {
 						'inside-section': true
 						} ) }
 					>
+						{ ! isSelected ? (
+							<div className="gp-section-button-select">
+								<Tooltip text={ __( 'Select Column', 'gp-premium' ) }>
+									<Icon icon="screenoptions" />
+								</Tooltip>
+							</div>
+						) : '' }
 						<InnerBlocks
-							renderAppender={ () => (
-								<InnerBlocks.ButtonBlockAppender />
+							templateLock={ false }
+							renderAppender={ (
+								hasChildBlocks ?
+									undefined :
+									() => <InnerBlocks.ButtonBlockAppender />
 							) }
 						/>
 					</div>

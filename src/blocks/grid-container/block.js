@@ -38,8 +38,8 @@ registerBlockType( 'generatepress/grid-container', {
 	icon: iconEl,
 	category: 'generatepress',
 	keywords: [
-		__( 'button' ),
-		__( 'buttons' ),
+		__( 'grid' ),
+		__( 'column' ),
 		__( 'generatepress' ),
 	],
 	attributes: blockAttributes,

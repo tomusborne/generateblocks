@@ -46,7 +46,7 @@
   margin-top: 29px; }
 
 .gp-grid-wrapper-button-select,
-.gp-column-button-select {
+.gp-section-button-select {
   position: absolute;
   top: -15px;
   right: -15px;
@@ -65,9 +65,17 @@
   transition: .2s opacity, .2s visibility, .2s background-color;
   z-index: 21; }
   .gp-grid-wrapper-button-select svg,
-  .gp-column-button-select svg {
+  .gp-section-button-select svg {
     width: auto;
     height: 1em; }
+
+.gp-section-button-select {
+  top: 0;
+  right: 0; }
+
+.gp-grid-wrapper .gp-section-button-select {
+  top: -15px;
+  right: -15px; }
 
 .gp-grid-wrapper-button-select {
   top: auto;
@@ -78,31 +86,31 @@
   border-bottom-left-radius: 0; }
 
 [data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > div > .gp-grid-wrapper-button-select,
-[data-type="generatepress/grid-column"]:hover > .editor-block-list__block-edit > div > div > .gp-column-button-select {
+[data-type="generatepress/section"]:hover > .editor-block-list__block-edit > div > .generate-section > .inside-section > .gp-section-button-select {
   visibility: visible;
   opacity: 1; }
 
 .gp-grid-wrapper-button-select:hover,
-.gp-column-button-select:hover {
+.gp-section-button-select:hover {
   background-color: #0073aa; }
 
-.editor-block-list__layout > [data-type="generatepress/grid-column"] > .editor-block-list__block-edit::before {
+[data-type="generatepress/grid-container"] .editor-block-list__layout > [data-type="generatepress/section"] > .editor-block-list__block-edit::before {
   left: -15px; }
 
-[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before,
-[data-type="generatepress/grid-container"].is-hovered > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before,
-[data-type="generatepress/grid-container"].is-selected > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"]:not(.is-selected) > .editor-block-list__block-edit::before {
+[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/section"]:not(.is-selected) > .editor-block-list__block-edit::before,
+[data-type="generatepress/grid-container"].is-hovered > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/section"]:not(.is-selected) > .editor-block-list__block-edit::before,
+[data-type="generatepress/grid-container"].is-selected > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/section"]:not(.is-selected) > .editor-block-list__block-edit::before {
   outline: 1px dashed rgba(145, 151, 162, 0.25); }
 
-[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/grid-column"].is-hovered > .editor-block-list__block-edit::before {
+[data-type="generatepress/grid-container"]:hover > .editor-block-list__block-edit > div > .gp-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="generatepress/section"].is-hovered > .editor-block-list__block-edit::before {
   outline: 1px solid #0073aa; }
 
 .editor-block-list__layout > [data-type="generatepress/grid-container"] > .editor-block-list__block-edit::before,
-.editor-block-list__layout > [data-type="generatepress/grid-column"] > .editor-block-list__block-edit::before {
+.editor-block-list__layout > [data-type="generatepress/section"] > .editor-block-list__block-edit::before {
   z-index: 1; }
 
 [data-type="generatepress/grid-container"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb,
-[data-type="generatepress/grid-column"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb {
+[data-type="generatepress/grid-container"] [data-type="generatepress/section"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb {
   display: none; }
 
 .gp-select-layout {
