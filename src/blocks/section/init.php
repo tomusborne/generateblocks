@@ -123,6 +123,48 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 }
 
 /**
+ * Build our grid container CSS.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function generate_get_grid_container_css() {
+	$data = generate_get_block_data( 'generatepress/grid-container' );
+
+	if ( empty( $data ) ) {
+		return;
+	}
+
+	$css = new GeneratePress_Blocks_Dynamic_CSS;
+
+	$css->set_selector( '.gp-grid-wrapper' );
+	$css->add_property( 'display', 'flex' );
+	$css->add_property( 'flex-wrap', 'wrap' );
+
+	foreach ( $data as $atts ) {
+		if ( ! isset( $atts['uniqueId'] ) ) {
+			continue;
+		}
+
+		$settings = wp_parse_args(
+			$atts,
+			generate_get_block_defaults( 'grid-container' )
+		);
+
+		$id = absint( $atts['uniqueId'] );
+
+		if ( $settings['gap'] ) {
+			$css->set_selector( '.gp-grid-wrapper-' . $id );
+			$css->add_property( 'margin-left', '-' . $settings['gap'] / 2 . 'px' );
+			$css->add_property( 'margin-right', '-' . $settings['gap'] / 2 . 'px' );
+		}
+	}
+
+	return $css->css_output();
+}
+
+/**
  * Get our Section block CSS.
  *
  * @since 0.1
@@ -136,130 +178,162 @@ function generate_get_section_css() {
 		return;
 	}
 
-	$css = '';
+	$css = new GeneratePress_Blocks_Dynamic_CSS;
 
 	foreach ( $data as $atts ) {
 		if ( ! isset( $atts['uniqueId'] ) ) {
 			continue;
 		}
 
-		$id = 'section-' . absint( $atts['uniqueId'] );
-
-		$values = array(
-			'outer_container' => isset( $atts['outerContainer'] ) ? $atts['outerContainer'] : 'full',
-			'inner_container' => isset( $atts['innerContainer'] ) ? $atts['innerContainer'] : 'contained',
-			'background_color' => isset( $atts['backgroundColor'] ) ? 'background-color:' . $atts['backgroundColor'] . ';' : '',
-			'text_color' => isset( $atts['textColor'] ) ? 'color:' . $atts['textColor'] . ';' : '',
-			'padding_top' => isset( $atts['paddingTop'] ) ? 'padding-top:' . $atts['paddingTop'] . 'px;' : 'padding-top: 10px;',
-			'padding_right' => isset( $atts['paddingRight'] ) ? 'padding-right:' . $atts['paddingRight'] . 'px;' : 'padding-right: 10px;',
-			'padding_bottom' => isset( $atts['paddingBottom'] ) ? 'padding-bottom:' . $atts['paddingBottom'] . 'px;' : 'padding-bottom: 10px;',
-			'padding_left' => isset( $atts['paddingLeft'] ) ? 'padding-left:' . $atts['paddingLeft'] . 'px;' : 'padding-left: 10px;',
-			'padding_top_mobile' => isset( $atts['paddingTopMobile'] ) ? 'padding-top:' . $atts['paddingTopMobile'] . 'px;' : 'padding-top: 10px;',
-			'padding_right_mobile' => isset( $atts['paddingRightMobile'] ) ? 'padding-right:' . $atts['paddingRightMobile'] . 'px;' : 'padding-right: 10px;',
-			'padding_bottom_mobile' => isset( $atts['paddingBottomMobile'] ) ? 'padding-bottom:' . $atts['paddingBottomMobile'] . 'px;' : 'padding-bottom: 10px;',
-			'padding_left_mobile' => isset( $atts['paddingLeftMobile'] ) ? 'padding-left:' . $atts['paddingLeftMobile'] . 'px;' : 'padding-left: 10px;',
-			'column_gutter' => isset( $atts['columnGutter'] ) ? $atts['columnGutter'] : '',
-			'column_gutter_mobile' => isset( $atts['columnGutterMobile'] ) ? $atts['columnGutterMobile'] : '',
-			'link_color' => isset( $atts['linkColor'] ) ? 'color:' . $atts['linkColor'] . ';' : '',
-			'link_color_hover' => isset( $atts['linkColorHover'] ) ? 'color:' . $atts['linkColorHover'] . ';' : '',
-			'background_image' => isset( $atts['bgImage'] ) ? $atts['bgImage'] : '',
-			'background_options' => isset( $atts['bgOptions'] ) ? $atts['bgOptions'] : '',
+		$settings = wp_parse_args(
+			$atts,
+			generate_get_block_defaults( 'section' )
 		);
 
-		$container_width = 1100;
+		$id = 'section-' . absint( $atts['uniqueId'] );
 
-		if ( function_exists( 'generate_get_option' ) ) {
-			$container_width = generate_get_option( 'container_width' );
+		// Open main container element.
+		$css->set_selector( '.generate-section.' . $id );
+
+		if ( 'contained' === $settings['outerContainer'] ) {
+			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
+			$css->add_property( 'margin-left', 'auto' );
+			$css->add_property( 'margin-right', 'auto' );
 		}
 
-		if ( 'contained' === $values['outer_container'] ) {
-			$css .= '.generate-section.' . $id . '{max-width: ' . absint( $container_width ) . 'px;margin-left: auto;margin-right: auto;}';
-		}
+		$css->add_property( 'background-color', $settings['backgroundColor'] );
+		$css->add_property( 'color', $settings['textColor'] );
 
-		if ( 'contained' === $values['inner_container'] ) {
-			$css .= '.generate-section.' . $id . ' .inside-section{max-width: ' . absint( $container_width ) . 'px;margin-left: auto;margin-right: auto;}';
-		}
+		if ( $settings['bgImage'] ) {
+			$url = $settings['bgImage']['image']['url'];
 
-		if ( $values['background_color'] || $values['text_color'] ) {
-			$css .= '.generate-section.' . $id . '{' . $values['background_color'] . $values['text_color'] . '}';
-		}
-
-		if ( $values['background_image'] ) {
-			$url = $values['background_image']['image']['url'];
-
-			$background_position = 'center center';
-			$background_size = 'cover';
-			$background_repeat = 'no-repeat';
-			$background_attachment = '';
-
-			if ( ! empty( $values['background_options']['position'] ) ) {
-				$background_position = $values['background_options']['position'];
-			}
-
-			if ( ! empty( $values['background_options']['size'] ) ) {
-				$background_size = $values['background_options']['size'];
-			}
-
-			if ( ! empty( $values['background_options']['repeat'] ) ) {
-				$background_repeat = $values['background_options']['repeat'];
-			}
-
-			if ( ! empty( $values['background_options']['attachment'] ) ) {
-				$background_attachment = 'background-attachment: ' . $values['background_options']['attachment'] . ';';
-			}
-
-			if ( $values['background_color'] && isset( $values['background_options']['overlay'] ) && $values['background_options']['overlay'] ) {
-				$css .= '.generate-section.' . $id . '{background-image: linear-gradient(0deg, ' . $atts['backgroundColor'] . ', ' . $atts['backgroundColor'] . '), url(' . esc_url( $url ) . ');background-size: ' . $background_size . ';background-position: ' . $background_position . ';background-repeat: ' . $background_repeat . ';' . $background_attachment . '}';
+			if ( $settings['backgroundColor'] && isset( $settings['bgOptions']['overlay'] ) && $settings['bgOptions']['overlay'] ) {
+				$css->add_property( 'background-image', 'linear-gradient(0deg, ' . $settings['backgroundColor'] . ', ' . $settings['backgroundColor'] . '), url(' . esc_url( $url ) . ')' );
 			} else {
-				$css .= '.generate-section.' . $id . '{background-image: url(' . esc_url( $url ) . ');background-size: ' . $background_size . ';background-position: ' . $background_position . ';background-repeat: ' . $background_repeat . ';' . $background_attachment . '}';
+				$css->add_property( 'background-image', 'url(' . esc_url( $url ) . ')' );
 			}
+
+			$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
+			$css->add_property( 'background-position', $settings['bgOptions']['position'] );
+			$css->add_property( 'background-size', $settings['bgOptions']['size'] );
+			$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
 		}
 
-		if ( $values['padding_top'] || $values['padding_right'] || $values['padding_bottom'] || $values['padding_left'] ) {
-			$css .= ".generate-section." . $id . " > .inside-section{" . $values['padding_top'] . $values['padding_right'] . $values['padding_bottom'] . $values['padding_left'] . "}";
+		$css->set_selector( '.generate-section.' . $id . ' .inside-section' );
+
+		if ( 'contained' === $settings['innerContainer'] ) {
+			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
+			$css->add_property( 'margin-left', 'auto' );
+			$css->add_property( 'margin-right', 'auto' );
 		}
 
-		if ( $values['link_color'] ) {
-			$css .= ".generate-section." . $id . " a, .generate-section." . $id . " a:visited{" . $values['link_color'] . "}";
+		$css->set_selector( '.generate-section.' . $id . ' > .inside-section' );
+
+		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
+		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
+		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
+		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
+
+		$css->set_selector( '.generate-section.' . $id . ' a, .generate-section.' . $id . ' a:visited' );
+		$css->add_property( 'color', $settings['linkColor'] );
+
+		$css->set_selector( '.generate-section.' . $id . ' a:hover' );
+		$css->add_property( 'color', $settings['linkColorHover'] );
+
+		$container_defaults = generate_get_block_defaults( 'grid-container' );
+
+		$gap = $container_defaults['gap'];
+
+		if ( isset( $data['grid-container-gap'] ) ) {
+			$gap = $data['grid-container-gap'];
 		}
 
-		if ( $values['link_color_hover'] ) {
-			$css .= ".generate-section." . $id . " a:hover{" . $values['link_color_hover'] . "}";
+		$css->set_selector( '.gp-grid-wrapper > .generate-section.' . $id );
+
+		if ( $gap ) {
+			$css->add_property( 'width', 'calc(' . $settings['width'] . '% - ' . $gap . 'px)' );
+			$css->add_property( 'margin-left', $gap / 2, 'px' );
+			$css->add_property( 'margin-right', $gap / 2, 'px' );
+			$css->add_property( 'margin-bottom', $gap, 'px' );
+		} else {
+			$css->add_property( 'width', $settings['width'], '%' );
 		}
 
-		if ( $values['column_gutter'] || 0 === $values['column_gutter'] ) {
-			$css .= ".generate-section." . $id . " .wp-block-columns {margin-left: -" . $values['column_gutter'] . "px}";
-			$css .= ".generate-section." . $id . " .wp-block-columns .wp-block-column {margin-left: " . $values['column_gutter'] . "px}";
-		}
+		$css->start_media_query( apply_filters( 'generate_mobile_media_query', '(max-width:768px)' ) );
+			$css->set_selector( '.generate-section.' . $id . ' > .inside-section' );
 
-		if (
-			$values['padding_top_mobile'] ||
-			$values['padding_right_mobile'] ||
-			$values['padding_bottom_mobile'] ||
-			$values['padding_left_mobile'] ||
-			$values['column_gutter_mobile']
-		) {
-			$media_query = apply_filters( 'generate_mobile_media_query', '(max-width:768px)' );
-			$css .= "@media " . $media_query . " {";
-				if (
-					$values['padding_top_mobile'] ||
-					$values['padding_right_mobile'] ||
-					$values['padding_bottom_mobile'] ||
-					$values['padding_left_mobile']
-				) {
-					$css .= ".generate-section." . $id . " > .inside-section{" . $values['padding_top_mobile'] . $values['padding_right_mobile'] . $values['padding_bottom_mobile'] . $values['padding_left_mobile'] . "}";
-				}
+			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
+			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
+			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
+			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
 
-				if ( $values['column_gutter_mobile'] || 0 === $values['column_gutter_mobile'] ) {
-					$css .= ".generate-section." . $id . " .wp-block-columns .wp-block-column {margin-bottom: " . $values['column_gutter_mobile'] . "px}";
-				}
-			$css .= "}";
-		}
+			$css->set_selector( '.gp-grid-wrapper > .generate-section.' . $id );
+
+			if ( $gap ) {
+				$css->add_property( 'width', 'calc(' . $settings['mobileWidth'] . '% - ' . $gap . 'px)' );
+			} else {
+				$css->add_property( 'width', $settings['mobileWidth'], '%' );
+			}
+		$css->stop_media_query();
 	}
 
-	$css .= '.inside-section > *:last-child {margin-bottom:0}';
+	$css->set_selector( '.inside-section > *:last-child' );
+	$css->add_property( 'margin-bottom', '0px' );
 
-	return $css;
+	return $css->css_output();
+}
+
+/**
+ * Get our Button Container block CSS.
+ *
+ * @since 0.1
+ *
+ * @return string
+ */
+function generate_get_button_container_css() {
+	$data = generate_get_block_data( 'generatepress/button-container' );
+
+	if ( empty( $data ) ) {
+		return;
+	}
+
+	$css = new GeneratePress_Blocks_Dynamic_CSS;
+
+	$css->set_selector( '.gp-button-wrapper' );
+	$css->add_property( 'display', 'flex' );
+	$css->add_property( 'flex-wrap', 'wrap' );
+	$css->add_property( 'align-items', 'flex-start' );
+	$css->add_property( 'justify-content', 'flex-start' );
+	$css->add_property( 'clear', 'both' );
+
+	foreach ( $data as $atts ) {
+		if ( ! isset( $atts['uniqueId'] ) ) {
+			continue;
+		}
+
+		$settings = wp_parse_args(
+			$atts,
+			generate_get_block_defaults( 'button-container' )
+		);
+
+		$id = absint( $atts['uniqueId'] );
+
+		$css->set_selector( '.gp-button-wrapper-' . $id );
+		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
+		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
+		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
+		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
+
+		$css->start_media_query( apply_filters( 'generate_mobile_media_query', '(max-width:768px)' ) );
+			$css->set_selector( '.gp-button-wrapper-' . $id );
+			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
+			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
+			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
+			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
+		$css->stop_media_query();
+	}
+
+	return $css->css_output();
 }
 
 /**
@@ -319,59 +393,6 @@ function generate_get_button_css() {
 }
 
 /**
- * Get our Button Container block CSS.
- *
- * @since 0.1
- *
- * @return string
- */
-function generate_get_button_container_css() {
-	$data = generate_get_block_data( 'generatepress/button-container' );
-
-	if ( empty( $data ) ) {
-		return;
-	}
-
-	$css = new GeneratePress_Blocks_Dynamic_CSS;
-
-	$css->set_selector( '.gp-button-wrapper' );
-	$css->add_property( 'display', 'flex' );
-	$css->add_property( 'flex-wrap', 'wrap' );
-	$css->add_property( 'align-items', 'flex-start' );
-	$css->add_property( 'justify-content', 'flex-start' );
-	$css->add_property( 'clear', 'both' );
-
-	foreach ( $data as $atts ) {
-		if ( ! isset( $atts['uniqueId'] ) ) {
-			continue;
-		}
-
-		$settings = wp_parse_args(
-			$atts,
-			generate_get_block_defaults( 'button-container' )
-		);
-
-		$id = absint( $atts['uniqueId'] );
-
-		$css->set_selector( '.gp-button-wrapper-' . $id );
-		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
-		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
-		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
-		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
-
-		$css->start_media_query( apply_filters( 'generate_mobile_media_query', '(max-width:768px)' ) );
-			$css->set_selector( '.gp-button-wrapper-' . $id );
-			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
-			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
-			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
-			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
-		$css->stop_media_query();
-	}
-
-	return $css->css_output();
-}
-
-/**
  * Get our Heading block CSS.
  *
  * @since 0.1
@@ -408,105 +429,6 @@ function generate_get_heading_css() {
 	return $css->css_output();
 }
 
-/**
- * Get our Grid column block CSS.
- *
- * @since 0.1
- *
- * @return string
- */
-function generate_get_grid_column_css() {
-	$data = generate_get_block_data( 'generatepress/grid-column' );
-
-	if ( empty( $data ) ) {
-		return;
-	}
-
-	$css = new GeneratePress_Blocks_Dynamic_CSS;
-
-	$css->set_selector( '.gp-grid' );
-	$css->add_property( 'box-sizing', 'border-box' );
-
-	foreach ( $data as $atts ) {
-		if ( ! isset( $atts['uniqueId'] ) ) {
-			continue;
-		}
-
-		$settings = wp_parse_args(
-			$atts,
-			generate_get_block_defaults( 'grid-column' )
-		);
-
-		$container_defaults = generate_get_block_defaults( 'grid-container' );
-
-		$id = absint( $atts['uniqueId'] );
-
-		$gap = $container_defaults['gap'];
-
-		if ( isset( $data['grid-container-gap'] ) ) {
-			$gap = $data['grid-container-gap'];
-		}
-
-		$css->set_selector( '.gp-grid-' . $id );
-
-		if ( $gap ) {
-			$css->add_property( 'width', 'calc(' . $settings['width'] . '% - ' . $gap . 'px)' );
-			$css->add_property( 'margin-left', $gap / 2, 'px' );
-			$css->add_property( 'margin-right', $gap / 2, 'px' );
-			$css->add_property( 'margin-bottom', $gap, 'px' );
-		} else {
-			$css->add_property( 'width', $settings['width'], '%' );
-		}
-
-		$css->start_media_query( apply_filters( 'generate_mobile_media_query', '(max-width:768px)' ) );
-			$css->set_selector( '.gp-grid-' . $id );
-
-			if ( $gap ) {
-				$css->add_property( 'width', 'calc(' . $settings['mobileWidth'] . '% - ' . $gap . 'px)' );
-			} else {
-				$css->add_property( 'width', $settings['mobileWidth'], '%' );
-			}
-		$css->stop_media_query();
-	}
-
-	return $css->css_output();
-}
-
-function generate_get_grid_container_css() {
-	$data = generate_get_block_data( 'generatepress/grid-container' );
-
-	if ( empty( $data ) ) {
-		return;
-	}
-
-	$css = new GeneratePress_Blocks_Dynamic_CSS;
-
-	$css->set_selector( '.gp-grid-wrapper' );
-	$css->add_property( 'display', 'flex' );
-	$css->add_property( 'flex-wrap', 'wrap' );
-
-	foreach ( $data as $atts ) {
-		if ( ! isset( $atts['uniqueId'] ) ) {
-			continue;
-		}
-
-		$settings = wp_parse_args(
-			$atts,
-			generate_get_block_defaults( 'grid-container' )
-		);
-
-		$id = absint( $atts['uniqueId'] );
-
-		if ( $settings['gap'] ) {
-			$css->set_selector( '.gp-grid-wrapper-' . $id );
-			$css->add_property( 'margin-left', '-' . $settings['gap'] / 2 . 'px' );
-			$css->add_property( 'margin-right', '-' . $settings['gap'] / 2 . 'px' );
-		}
-	}
-
-	return $css->css_output();
-}
-
 add_action( 'wp_head', 'generate_do_section_block_frontend_css', 200 );
 /**
  * Print our CSS for each section.
@@ -520,13 +442,20 @@ function generate_do_section_block_frontend_css() {
 	$button_css = generate_get_button_css();
 	$heading_css = generate_get_heading_css();
 	$grid_container_css = generate_get_grid_container_css();
-	$grid_column_css = generate_get_grid_column_css();
 
 	echo '<style>';
-		echo $section_css . $button_container_css . $button_css . $heading_css . $grid_container_css . $grid_column_css;
+		echo $section_css . $button_container_css . $button_css . $heading_css . $grid_container_css;
 	echo '</style>';
 }
 
+/**
+ * Set our block defaults.
+ *
+ * @since 0.1
+ *
+ * @param string $block The name of our block.
+ * @return array
+ */
 function generate_get_block_defaults( $block ) {
 	if ( ! $block ) {
 		return false;
@@ -534,21 +463,30 @@ function generate_get_block_defaults( $block ) {
 
 	if ( 'section' === $block ) {
 		$defaults = array(
-			'outer_container' => 'full',
-			'inner_container' => 'contained',
-			'padding_top' => 10,
-			'padding_right' => 10,
-			'padding_bottom' => 10,
-			'padding_left' => 10,
-			'padding_top_mobile' => '',
-			'padding_right_mobile' => '',
-			'padding_bottom_mobile' => '',
-			'padding_left_mobile' => '',
-			'background_color' => '',
-			'text_color' => '',
-			'link_color' => '',
-			'link_color_hover' => '',
-			'background_image' => '',
+			'containerWidth' => 1100,
+			'outerContainer' => 'full',
+			'innerContainer' => 'contained',
+			'paddingTop' => 10,
+			'paddingRight' => 10,
+			'paddingBottom' => 10,
+			'paddingLeft' => 10,
+			'paddingTopMobile' => '',
+			'paddingRightMobile' => '',
+			'paddingBottomMobile' => '',
+			'paddingLeftMobile' => '',
+			'backgroundColor' => '',
+			'textColor' => '',
+			'linkColor' => '',
+			'linkColorHover' => '',
+			'bgImage' => '',
+			'bgOptions' => array(
+				'position' => 'center center',
+				'size' => 'cover',
+				'repeat' => 'no-repeat',
+				'attachment' => '',
+			),
+			'width' => 50,
+			'mobileWidth' => 100,
 		);
 	}
 
