@@ -87,6 +87,7 @@ class GenerateSection extends Component {
 			tagName,
 			elementId,
 			cssClasses,
+			isGrid,
 			width,
 			mobileWidth,
 			outerContainer,
@@ -151,73 +152,99 @@ class GenerateSection extends Component {
 		return (
 			<Fragment>
 				<InspectorControls>
-					<PanelBody className="section-grid-panel">
-						<TabPanel className="grid-tab-panel generatepress-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
+					{ isGrid ? (
+						<PanelBody className="section-grid-panel">
+							<TabPanel className="grid-tab-panel generatepress-control-tabs"
+								activeClass="active-tab"
+								tabs={ [
+									{
+										name: 'grid-desktop',
+										title: __( 'Desktop', 'gp-premium' ),
+										className: 'grid-desktop',
+									},
+									{
+										name: 'grid-mobile',
+										title: __( 'Mobile', 'gp-premium' ),
+										className: 'grid-mobile',
+									},
+								] }>
 								{
-									name: 'grid-desktop',
-									title: __( 'Desktop', 'gp-premium' ),
-									className: 'grid-desktop',
-								},
-								{
-									name: 'grid-mobile',
-									title: __( 'Mobile', 'gp-premium' ),
-									className: 'grid-mobile',
-								},
-							] }>
-							{
-								( tab ) => {
-									const isDesktop = tab.name === 'grid-desktop';
+									( tab ) => {
+										const isDesktop = tab.name === 'grid-desktop';
 
-									return (
-										<div>
-											{ isDesktop ? (
-												<Fragment>
-													<RangeControl
-														label={ __( 'Width', 'gp-premium' ) }
-														value={ width }
-														onChange={ ( value ) => {
-															setAttributes( {
-																width: value
-															} );
-														} }
-														min={ 5 }
-														max={ 100 }
-														step={ 5 }
-														allowReset={ true }
-													/>
-												</Fragment>
+										return (
+											<div>
+												{ isDesktop ? (
+													<Fragment>
+														<RangeControl
+															label={ __( 'Width', 'gp-premium' ) }
+															value={ width }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	width: value
+																} );
+															} }
+															min={ 5 }
+															max={ 100 }
+															step={ 1 }
+															allowReset={ true }
+														/>
+													</Fragment>
 
-											) : (
+												) : (
 
-												<Fragment>
-													<RangeControl
-														label={ __( 'Width', 'gp-premium' ) }
-														value={ mobileWidth }
-														onChange={ ( value ) => {
-															setAttributes( {
-																mobileWidth: value
-															} );
-														} }
-														min={ 5 }
-														max={ 100 }
-														step={ 5 }
-														allowReset={ true }
-													/>
-												</Fragment>
-											) }
-										</div>
-									);
+													<Fragment>
+														<RangeControl
+															label={ __( 'Width', 'gp-premium' ) }
+															value={ mobileWidth }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	mobileWidth: value
+																} );
+															} }
+															min={ 5 }
+															max={ 100 }
+															step={ 1 }
+															allowReset={ true }
+														/>
+													</Fragment>
+												) }
+											</div>
+										);
+									}
 								}
-							}
-						</TabPanel>
-					</PanelBody>
+							</TabPanel>
+						</PanelBody>
+					) : '' }
 
 					<PanelBody
 						title={ __( 'Layout', 'gp-premium' ) }
 						initialOpen={ false }
 					>
+
+						{ ! isGrid ? (
+							<Fragment>
+								<SelectControl
+									label={ __( 'Container', 'gp-premium' ) }
+									value={ outerContainer }
+									options={ [
+										{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
+										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
+									] }
+									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
+								/>
+
+								<SelectControl
+									label={ __( 'Inner Container', 'gp-premium' ) }
+									value={ innerContainer }
+									options={ [
+										{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
+										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
+									] }
+									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
+								/>
+							</Fragment>
+						) : '' }
 
 						<TabPanel className="layout-tab-panel generatepress-control-tabs"
 							activeClass="active-tab"
@@ -241,26 +268,6 @@ class GenerateSection extends Component {
 										<div>
 											{ isDesktop ? (
 												<Fragment>
-													<SelectControl
-														label={ __( 'Container', 'gp-premium' ) }
-														value={ outerContainer }
-														options={ [
-															{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
-															{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
-														] }
-														onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
-													/>
-
-													<SelectControl
-														label={ __( 'Inner Container', 'gp-premium' ) }
-														value={ innerContainer }
-														options={ [
-															{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
-															{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
-														] }
-														onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
-													/>
-
 													<RangeControl
 														label={ __( 'Top Padding', 'gp-premium' ) }
 														value={ paddingTop }
@@ -317,15 +324,6 @@ class GenerateSection extends Component {
 											) : (
 
 												<Fragment>
-													<div className={ 'additional-class-notice' }>
-														<Notice
-															status={ 'warning' }
-															isDismissible={ false }
-														>
-															{ __( 'Mobile options can not be live previewed at the moment.', 'gp-premium' ) }
-														</Notice>
-													</div>
-
 													<RangeControl
 														label={ __( 'Top Padding', 'gp-premium' ) }
 														value={ paddingTopMobile }

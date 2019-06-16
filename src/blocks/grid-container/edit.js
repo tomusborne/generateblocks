@@ -111,6 +111,10 @@ class GenerateGridContainer extends Component {
 		// Appender added in Gutenberg 5.7.0, so we need to add fallback to columns.
 		const appenderExist = typeof InnerBlocks.ButtonBlockAppender !== 'undefined';
 
+		const colAttrs = {
+			isGrid: true,
+		};
+
 		// create columns from selected layout.
 		if ( columns < 1 && this.state.selectedLayout ) {
 			// const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
@@ -127,7 +131,10 @@ class GenerateGridContainer extends Component {
 		// create columns template from columns count.
 		} else {
 			for ( let k = 1; k <= columns; k++ ) {
-				result.push( [ 'generatepress/section' ] );
+				result.push( [
+					'generatepress/section',
+					colAttrs
+				] );
 			}
 		}
 
@@ -182,7 +189,7 @@ class GenerateGridContainer extends Component {
 							value={ columns }
 							onChange={ ( value ) => setAttributes( { columns: value } ) }
 							min={ 1 }
-							max={ 50 }
+							max={ 25 }
 						/>
 
 						<RangeControl

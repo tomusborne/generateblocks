@@ -15,6 +15,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	isGrid: {
+		type: 'boolean',
+		default: false,
+	},
 	width: {
 		type: 'number',
 		default: 50,
