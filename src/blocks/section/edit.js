@@ -100,6 +100,14 @@ class GenerateSection extends Component {
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
+			marginTop,
+			marginRight,
+			marginBottom,
+			marginLeft,
+			marginTopMobile,
+			marginRightMobile,
+			marginBottomMobile,
+			marginLeftMobile,
 			backgroundColor,
 			textColor,
 			linkColor,
@@ -107,6 +115,7 @@ class GenerateSection extends Component {
 			bgImage,
 			bgOptions,
 			verticalAlignment,
+			zindex,
 		} = attributes;
 
 		var backgroundImageValue;
@@ -156,6 +165,32 @@ class GenerateSection extends Component {
 		return (
 			<Fragment>
 				<InspectorControls>
+					{ ! isGrid ? (
+						<PanelBody>
+							<Fragment>
+								<SelectControl
+									label={ __( 'Container', 'gp-premium' ) }
+									value={ outerContainer }
+									options={ [
+										{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
+										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
+									] }
+									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
+								/>
+
+								<SelectControl
+									label={ __( 'Inner Container', 'gp-premium' ) }
+									value={ innerContainer }
+									options={ [
+										{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
+										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
+									] }
+									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
+								/>
+							</Fragment>
+						</PanelBody>
+					) : '' }
+
 					{ isGrid ? (
 						<PanelBody className="section-grid-panel">
 							<Fragment>
@@ -236,33 +271,9 @@ class GenerateSection extends Component {
 					) : '' }
 
 					<PanelBody
-						title={ __( 'Layout', 'gp-premium' ) }
+						title={ __( 'Padding', 'gp-premium' ) }
 						initialOpen={ false }
 					>
-
-						{ ! isGrid ? (
-							<Fragment>
-								<SelectControl
-									label={ __( 'Container', 'gp-premium' ) }
-									value={ outerContainer }
-									options={ [
-										{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
-										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
-									] }
-									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
-								/>
-
-								<SelectControl
-									label={ __( 'Inner Container', 'gp-premium' ) }
-									value={ innerContainer }
-									options={ [
-										{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
-										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
-									] }
-									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
-								/>
-							</Fragment>
-						) : '' }
 
 						<TabPanel className="layout-tab-panel generatepress-control-tabs"
 							activeClass="active-tab"
@@ -390,6 +401,150 @@ class GenerateSection extends Component {
 															} );
 														} }
 														min={ 0 }
+														max={ 200 }
+														step={ 10 }
+													/>
+												</Fragment>
+											) }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
+
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Margin', 'gp-premium' ) }
+						initialOpen={ false }
+					>
+
+						<TabPanel className="margin-tab-panel generatepress-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'margin-desktop',
+									title: __( 'Desktop', 'gp-premium' ),
+									className: 'margin-desktop',
+								},
+								{
+									name: 'margin-mobile',
+									title: __( 'Mobile', 'gp-premium' ),
+									className: 'margin-mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									const isDesktop = tab.name === 'margin-desktop';
+
+									return (
+										<div>
+											{ isDesktop ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Top Margin', 'gp-premium' ) }
+														value={ marginTop }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																marginTop: nextSpacing
+															} );
+														} }
+														min={ -200 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Right Margin', 'gp-premium' ) }
+														value={ marginRight }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																marginRight: nextSpacing,
+															} );
+														} }
+														min={ -200 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Bottom Margin', 'gp-premium' ) }
+														value={ marginBottom }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																marginBottom: nextSpacing,
+															} );
+														} }
+														min={ -200 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Left Margin', 'gp-premium' ) }
+														value={ marginLeft }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																marginLeft: nextSpacing,
+															} );
+														} }
+														min={ -200 }
+														max={ 200 }
+														step={ 10 }
+													/>
+												</Fragment>
+
+											) : (
+
+												<Fragment>
+													<RangeControl
+														label={ __( 'Top Margin', 'gp-premium' ) }
+														value={ marginTopMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																marginTopMobile: nextSpacing
+															} );
+														} }
+														min={ -200 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Right Margin', 'gp-premium' ) }
+														value={ marginRightMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																marginRightMobile: nextSpacing,
+															} );
+														} }
+														min={ -200 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Bottom Margin', 'gp-premium' ) }
+														value={ marginBottomMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																marginBottomMobile: nextSpacing,
+															} );
+														} }
+														min={ -200 }
+														max={ 200 }
+														step={ 10 }
+													/>
+
+													<RangeControl
+														label={ __( 'Left Margin', 'gp-premium' ) }
+														value={ marginLeftMobile }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																marginLeftMobile: nextSpacing,
+															} );
+														} }
+														min={ -200 }
 														max={ 200 }
 														step={ 10 }
 													/>
@@ -613,6 +768,19 @@ class GenerateSection extends Component {
 						label={ __( 'CSS Classes', 'gp-premium' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+					/>
+
+					<RangeControl
+						label={ __( 'z-index', 'gp-premium' ) }
+						value={ zindex }
+						onChange={ ( nextSpacing ) => {
+							setAttributes( {
+								zindex: nextSpacing
+							} );
+						} }
+						min={ -200 }
+						max={ 200 }
+						step={ 10 }
 					/>
 				</InspectorAdvancedControls>
 

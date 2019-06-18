@@ -223,6 +223,16 @@ function generate_get_section_css() {
 			$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
 		}
 
+		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
+		$css->add_property( 'margin-right', $settings['marginRight'], 'px' );
+		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
+		$css->add_property( 'margin-left', $settings['marginLeft'], 'px' );
+
+		if ( $settings['zindex'] ) {
+			$css->add_property( 'position', 'relative' );
+			$css->add_property( 'z-index', $settings['zindex'] );
+		}
+
 		$css->set_selector( '.generate-section.section-' . $id . ' .inside-section' );
 
 		if ( 'contained' === $settings['innerContainer'] ) {
@@ -249,6 +259,13 @@ function generate_get_section_css() {
 		$css->add_property( 'align-self', $settings['verticalAlignment'] );
 
 		$css->start_media_query( apply_filters( 'generate_mobile_media_query', '(max-width:768px)' ) );
+			$css->set_selector( '.generate-section.section-' . $id );
+
+			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
+			$css->add_property( 'margin-right', $settings['marginRightMobile'], 'px' );
+			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
+			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
+
 			$css->set_selector( '.generate-section.section-' . $id . ' > .inside-section' );
 
 			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
@@ -458,6 +475,14 @@ function generate_get_block_defaults( $block ) {
 			'paddingRightMobile' => '',
 			'paddingBottomMobile' => '',
 			'paddingLeftMobile' => '',
+			'marginTop' => '',
+			'marginRight' => '',
+			'marginBottom' => '',
+			'marginLeft' => '',
+			'marginTopMobile' => '',
+			'marginRightMobile' => '',
+			'marginBottomMobile' => '',
+			'marginLeftMobile' => '',
 			'backgroundColor' => '',
 			'textColor' => '',
 			'linkColor' => '',
@@ -472,6 +497,7 @@ function generate_get_block_defaults( $block ) {
 			'width' => 50,
 			'mobileWidth' => 100,
 			'verticalAlignment' => '',
+			'zindex' => '',
 		);
 	}
 

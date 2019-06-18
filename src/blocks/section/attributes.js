@@ -67,6 +67,38 @@ export default {
 		type: 'number',
 		default: ''
 	},
+	marginTop: {
+		type: 'number',
+		default: '',
+	},
+	marginRight: {
+		type: 'number',
+		default: ''
+	},
+	marginBottom: {
+		type: 'number',
+		default: ''
+	},
+	marginLeft: {
+		type: 'number',
+		default: ''
+	},
+	marginTopMobile: {
+		type: 'number',
+		default: ''
+	},
+	marginRightMobile: {
+		type: 'number',
+		default: ''
+	},
+	marginBottomMobile: {
+		type: 'number',
+		default: ''
+	},
+	marginLeftMobile: {
+		type: 'number',
+		default: ''
+	},
 	backgroundColor: {
 		type: 'string',
 	},
@@ -97,6 +129,10 @@ export default {
 	},
 	verticalAlignment: {
 		type: 'string',
+		default: '',
+	},
+	zindex: {
+		type: 'number',
 		default: '',
 	},
 }
