@@ -25,6 +25,6 @@ export default {
     },
 	verticalAlignment: {
         type: 'string',
-        default: 'flex-start',
+        default: '',
     },
 }

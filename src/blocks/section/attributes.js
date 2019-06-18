@@ -95,4 +95,8 @@ export default {
 			attachment: '',
 		}
 	},
+	verticalAlignment: {
+		type: 'string',
+		default: '',
+	},
 }

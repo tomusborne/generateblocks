@@ -213,6 +213,7 @@ class GenerateGridContainer extends Component {
 							label={ __( 'Vertical Alignment', 'gp-premium' ) }
 							value={ verticalAlignment }
 							options={ [
+								{ label: __( 'Default', 'gp-premium' ), value: '' },
 								{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
 								{ label: __( 'Center', 'gp-premium' ), value: 'center' },
 								{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },

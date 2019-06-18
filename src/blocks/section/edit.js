@@ -105,7 +105,8 @@ class GenerateSection extends Component {
 			linkColor,
 			linkColorHover,
 			bgImage,
-			bgOptions
+			bgOptions,
+			verticalAlignment,
 		} = attributes;
 
 		var backgroundImageValue;
@@ -146,6 +147,7 @@ class GenerateSection extends Component {
 
 			.gp-grid-wrapper #block-` + clientId + ` {
 				width: ` + width + `%;
+				align-self: ` + verticalAlignment + `;
 			}
 		`
 
@@ -156,6 +158,20 @@ class GenerateSection extends Component {
 				<InspectorControls>
 					{ isGrid ? (
 						<PanelBody className="section-grid-panel">
+							<Fragment>
+								<SelectControl
+									label={ __( 'Vertical Alignment', 'gp-premium' ) }
+									value={ verticalAlignment }
+									options={ [
+										{ label: __( 'Default', 'gp-premium' ), value: '' },
+										{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
+										{ label: __( 'Center', 'gp-premium' ), value: 'center' },
+										{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+									] }
+									onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
+								/>
+							</Fragment>
+
 							<TabPanel className="grid-tab-panel generatepress-control-tabs"
 								activeClass="active-tab"
 								tabs={ [

@@ -246,6 +246,7 @@ function generate_get_section_css() {
 
 		$css->set_selector( '.gp-grid-wrapper > .grid-column-' . $id );
 		$css->add_property( 'width', $settings['width'], '%' );
+		$css->add_property( 'align-self', $settings['verticalAlignment'] );
 
 		$css->start_media_query( apply_filters( 'generate_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.generate-section.section-' . $id . ' > .inside-section' );
@@ -470,6 +471,7 @@ function generate_get_block_defaults( $block ) {
 			),
 			'width' => 50,
 			'mobileWidth' => 100,
+			'verticalAlignment' => '',
 		);
 	}
 
@@ -505,7 +507,7 @@ function generate_get_block_defaults( $block ) {
 		$defaults = array(
 			'horizontalGap' => 30,
 			'verticalGap' => 30,
-			'verticalAlignment' => 'flex-start',
+			'verticalAlignment' => '',
 		);
 	}
 
