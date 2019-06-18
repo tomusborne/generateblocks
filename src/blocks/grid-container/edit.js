@@ -138,8 +138,6 @@ class GenerateGridContainer extends Component {
 			}
 		}
 
-		console.log(result);
-
 		return result;
 	}
 
@@ -170,7 +168,8 @@ class GenerateGridContainer extends Component {
 			elementId,
 			cssClasses,
 			columns,
-			gap,
+			horizontalGap,
+			verticalGap,
 		} = attributes;
 
 		const css = `
@@ -193,9 +192,17 @@ class GenerateGridContainer extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Gap', 'gp-premium' ) }
-							value={ gap }
-							onChange={ ( value ) => setAttributes( { gap: value } ) }
+							label={ __( 'Horizontal Gap', 'gp-premium' ) }
+							value={ horizontalGap }
+							onChange={ ( value ) => setAttributes( { horizontalGap: value } ) }
+							min={ 0 }
+							max={ 100 }
+						/>
+
+						<RangeControl
+							label={ __( 'Vertical Gap', 'gp-premium' ) }
+							value={ verticalGap }
+							onChange={ ( value ) => setAttributes( { verticalGap: value } ) }
 							min={ 0 }
 							max={ 100 }
 						/>

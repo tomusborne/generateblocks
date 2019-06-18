@@ -15,7 +15,11 @@ export default {
         type: 'number',
         default: 2,
     },
-	gap: {
+	horizontalGap: {
+        type: 'number',
+        default: 30,
+    },
+	verticalGap: {
         type: 'number',
         default: 30,
     },

@@ -102,15 +102,6 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 					}
 				}
 
-				// Pass our grid container attributes to the grid.
-				if ( 'generatepress/grid-container' === $block['blockName'] ) {
-					foreach ( $block['attrs'] as $key => $val ) {
-						if ( 'gap' === $key ) {
-							$data['grid-container-gap'] = $val;
-						}
-					}
-				}
-
 				// Need to check for nested blocks.
 				if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
 					$data = generate_get_nested_block_data( $block, $data, $blockName );
@@ -154,11 +145,23 @@ function generate_get_grid_container_css() {
 
 		$id = absint( $atts['uniqueId'] );
 
-		if ( $settings['gap'] ) {
-			$css->set_selector( '.gp-grid-wrapper-' . $id );
-			$css->add_property( 'margin-left', '-' . $settings['gap'] / 2 . 'px' );
-			$css->add_property( 'margin-right', '-' . $settings['gap'] / 2 . 'px' );
+		$css->set_selector( '.gp-grid-wrapper-' . $id );
+
+		if ( $settings['horizontalGap'] ) {
+			$css->add_property( 'margin-left', '-' . $settings['horizontalGap'] / 2 . 'px' );
+			$css->add_property( 'margin-right', '-' . $settings['horizontalGap'] / 2 . 'px' );
 		}
+
+
+		$css->set_selector( '.gp-grid-wrapper-' . $id . ' > .gp-grid-column' );
+
+		if ( $settings['horizontalGap'] ) {
+			$css->add_property( 'box-sizing', 'border-box' );
+			$css->add_property( 'padding-left', $settings['horizontalGap'] / 2, 'px' );
+			$css->add_property( 'padding-right', $settings['horizontalGap'] / 2, 'px' );
+		}
+
+		$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
 	}
 
 	return $css->css_output();
@@ -190,10 +193,10 @@ function generate_get_section_css() {
 			generate_get_block_defaults( 'section' )
 		);
 
-		$id = 'section-' . absint( $atts['uniqueId'] );
+		$id = absint( $atts['uniqueId'] );
 
 		// Open main container element.
-		$css->set_selector( '.generate-section.' . $id );
+		$css->set_selector( '.generate-section.section-' . $id );
 
 		if ( 'contained' === $settings['outerContainer'] ) {
 			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
@@ -219,7 +222,7 @@ function generate_get_section_css() {
 			$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
 		}
 
-		$css->set_selector( '.generate-section.' . $id . ' .inside-section' );
+		$css->set_selector( '.generate-section.section-' . $id . ' .inside-section' );
 
 		if ( 'contained' === $settings['innerContainer'] ) {
 			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
@@ -227,53 +230,32 @@ function generate_get_section_css() {
 			$css->add_property( 'margin-right', 'auto' );
 		}
 
-		$css->set_selector( '.generate-section.' . $id . ' > .inside-section' );
+		$css->set_selector( '.generate-section.section-' . $id . ' > .inside-section' );
 
 		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
 		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
 		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
 		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
 
-		$css->set_selector( '.generate-section.' . $id . ' a, .generate-section.' . $id . ' a:visited' );
+		$css->set_selector( '.generate-section.section-' . $id . ' a, .generate-section.section-' . $id . ' a:visited' );
 		$css->add_property( 'color', $settings['linkColor'] );
 
-		$css->set_selector( '.generate-section.' . $id . ' a:hover' );
+		$css->set_selector( '.generate-section.section-' . $id . ' a:hover' );
 		$css->add_property( 'color', $settings['linkColorHover'] );
 
-		$container_defaults = generate_get_block_defaults( 'grid-container' );
-
-		$gap = $container_defaults['gap'];
-
-		if ( isset( $data['grid-container-gap'] ) ) {
-			$gap = $data['grid-container-gap'];
-		}
-
-		$css->set_selector( '.gp-grid-wrapper > .generate-section.' . $id );
-
-		if ( $gap ) {
-			$css->add_property( 'width', 'calc(' . $settings['width'] . '% - ' . $gap . 'px)' );
-			$css->add_property( 'margin-left', $gap / 2, 'px' );
-			$css->add_property( 'margin-right', $gap / 2, 'px' );
-			$css->add_property( 'margin-bottom', $gap, 'px' );
-		} else {
-			$css->add_property( 'width', $settings['width'], '%' );
-		}
+		$css->set_selector( '.gp-grid-wrapper > .grid-column-' . $id );
+		$css->add_property( 'width', $settings['width'], '%' );
 
 		$css->start_media_query( apply_filters( 'generate_mobile_media_query', '(max-width:768px)' ) );
-			$css->set_selector( '.generate-section.' . $id . ' > .inside-section' );
+			$css->set_selector( '.generate-section.section-' . $id . ' > .inside-section' );
 
 			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
 			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
 			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
 			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
 
-			$css->set_selector( '.gp-grid-wrapper > .generate-section.' . $id );
-
-			if ( $gap ) {
-				$css->add_property( 'width', 'calc(' . $settings['mobileWidth'] . '% - ' . $gap . 'px)' );
-			} else {
-				$css->add_property( 'width', $settings['mobileWidth'], '%' );
-			}
+			$css->set_selector( '.gp-grid-wrapper > .grid-column-' . $id );
+			$css->add_property( 'width', $settings['mobileWidth'], '%' );
 		$css->stop_media_query();
 	}
 
@@ -520,7 +502,8 @@ function generate_get_block_defaults( $block ) {
 
 	if ( 'grid-container' === $block ) {
 		$defaults = array(
-			'gap' => 30,
+			'horizontalGap' => 30,
+			'verticalGap' => 30,
 		);
 	}
 

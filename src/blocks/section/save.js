@@ -16,6 +16,7 @@ export default ( { attributes } ) => {
 		tagName,
 		elementId,
 		cssClasses,
+		isGrid,
 		outerContainer,
 		innerContainer,
 		paddingTop,
@@ -34,21 +35,31 @@ export default ( { attributes } ) => {
 		bgOptions
 	} = attributes;
 
+	const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
+
 	return (
-		<Section
-			tagName={ tagName }
-			id={ elementId }
-			className={ classnames( {
-				'generate-section': true,
-				[`section-${ uniqueId }`]: true,
-				[`${ cssClasses }`]: '' !== cssClasses
-			} ) }
+		<ConditionalWrap
+			condition={ isGrid }
+			wrap={ children => <div className={ classnames( {
+				'gp-grid-column': true,
+				[`grid-column-${ uniqueId }`]: true
+			} ) }>{ children }</div>}
 		>
-			<div className={ classnames( {
-				'inside-section': true
-			} ) }>
-				<InnerBlocks.Content />
-			</div>
-		</Section>
+			<Section
+				tagName={ tagName }
+				id={ elementId }
+				className={ classnames( {
+					'generate-section': true,
+					[`section-${ uniqueId }`]: true,
+					[`${ cssClasses }`]: '' !== cssClasses
+				} ) }
+			>
+				<div className={ classnames( {
+					'inside-section': true
+				} ) }>
+					<InnerBlocks.Content />
+				</div>
+			</Section>
+		</ConditionalWrap>
 	);
 }

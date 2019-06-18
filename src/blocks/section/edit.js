@@ -149,6 +149,8 @@ class GenerateSection extends Component {
 			}
 		`
 
+		const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
+
 		return (
 			<Fragment>
 				<InspectorControls>
@@ -600,37 +602,45 @@ class GenerateSection extends Component {
 
 				<style>{ css }</style>
 
-				<Section
-					tagName={ tagName }
-					id={ elementId }
-					className={ classnames( {
-						'generate-section': true,
-						[`section-${ uniqueId }`]: true,
-						[`${ cssClasses }`]: '' !== cssClasses
-					} ) }
+				<ConditionalWrap
+					condition={ isGrid }
+					wrap={ children => <div className={ classnames( {
+						'gp-grid-column': true,
+						[`grid-column-${ uniqueId }`]: true
+					} ) }>{ children }</div>}
 				>
-					<div
+					<Section
+						tagName={ tagName }
+						id={ elementId }
 						className={ classnames( {
-						'inside-section': true
+							'generate-section': true,
+							[`section-${ uniqueId }`]: true,
+							[`${ cssClasses }`]: '' !== cssClasses
 						} ) }
 					>
-						{ ! isSelected ? (
-							<div className="gp-section-button-select">
-								<Tooltip text={ __( 'Select Column', 'gp-premium' ) }>
-									<Icon icon="screenoptions" />
-								</Tooltip>
-							</div>
-						) : '' }
-						<InnerBlocks
-							templateLock={ false }
-							renderAppender={ (
-								hasChildBlocks ?
-									undefined :
-									() => <InnerBlocks.ButtonBlockAppender />
-							) }
-						/>
-					</div>
-				</Section>
+						<div
+							className={ classnames( {
+							'inside-section': true
+							} ) }
+						>
+							{ ! isSelected ? (
+								<div className="gp-section-button-select">
+									<Tooltip text={ __( 'Select Column', 'gp-premium' ) }>
+										<Icon icon="screenoptions" />
+									</Tooltip>
+								</div>
+							) : '' }
+							<InnerBlocks
+								templateLock={ false }
+								renderAppender={ (
+									hasChildBlocks ?
+										undefined :
+										() => <InnerBlocks.ButtonBlockAppender />
+								) }
+							/>
+						</div>
+					</Section>
+				</ConditionalWrap>
 			</Fragment>
 		);
 	}
