@@ -23,4 +23,8 @@ export default {
         type: 'number',
         default: 30,
     },
+	verticalAlignment: {
+        type: 'string',
+        default: 'flex-start',
+    },
 }

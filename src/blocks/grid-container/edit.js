@@ -10,6 +10,7 @@ const {
 	PanelBody,
 	TabPanel,
 	RangeControl,
+	SelectControl,
 	Notice,
 	Tooltip,
 	IconButton,
@@ -170,11 +171,12 @@ class GenerateGridContainer extends Component {
 			columns,
 			horizontalGap,
 			verticalGap,
+			verticalAlignment,
 		} = attributes;
 
 		const css = `
-			.gp-button-wrapper-` + uniqueId + ` {
-
+			.gp-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
+				align-items: ` + verticalAlignment + `;
 			}
 		`
 
@@ -205,6 +207,17 @@ class GenerateGridContainer extends Component {
 							onChange={ ( value ) => setAttributes( { verticalGap: value } ) }
 							min={ 0 }
 							max={ 100 }
+						/>
+
+						<SelectControl
+							label={ __( 'Vertical Alignment', 'gp-premium' ) }
+							value={ verticalAlignment }
+							options={ [
+								{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
+								{ label: __( 'Center', 'gp-premium' ), value: 'center' },
+								{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+							] }
+							onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
 						/>
 					</PanelBody>
 				</InspectorControls>

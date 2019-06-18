@@ -146,6 +146,7 @@ function generate_get_grid_container_css() {
 		$id = absint( $atts['uniqueId'] );
 
 		$css->set_selector( '.gp-grid-wrapper-' . $id );
+		$css->add_property( 'align-items', $settings['verticalAlignment'] );
 
 		if ( $settings['horizontalGap'] ) {
 			$css->add_property( 'margin-left', '-' . $settings['horizontalGap'] / 2 . 'px' );
@@ -504,6 +505,7 @@ function generate_get_block_defaults( $block ) {
 		$defaults = array(
 			'horizontalGap' => 30,
 			'verticalGap' => 30,
+			'verticalAlignment' => 'flex-start',
 		);
 	}
 
