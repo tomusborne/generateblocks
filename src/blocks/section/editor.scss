@@ -83,3 +83,13 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
     border-bottom: 2px solid #00a0d2;
     z-index: 1;
 }
+
+.widthButtons button {
+    font-size: 12px;
+    flex: 1;
+}
+
+.widthButtons {
+    margin-bottom: 10px;
+    display: flex;
+}

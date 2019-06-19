@@ -11,6 +11,7 @@ const {
 	PanelBody,
 	RangeControl,
 	Button,
+	ButtonGroup,
 	ResponsiveWrapper,
 	ToggleControl,
 	SelectControl,
@@ -229,17 +230,24 @@ class GenerateSection extends Component {
 											<div>
 												{ isDesktop ? (
 													<Fragment>
+														<ButtonGroup className={ 'widthButtons' }>
+															<Button isLarge isPrimary={ width === 25 } onClick={ () => { setAttributes( { width: 25 } ); } }>25%</Button>
+															<Button isLarge isPrimary={ width === 33.33 } onClick={ () => { setAttributes( { width: 33.33 } ); } }>33%</Button>
+															<Button isLarge isPrimary={ width === 50 } onClick={ () => { setAttributes( { width: 50 } ); } }>50%</Button>
+															<Button isLarge isPrimary={ width === 66.66 } onClick={ () => { setAttributes( { width: 66.66 } ); } }>66%</Button>
+															<Button isLarge isPrimary={ width === 75 } onClick={ () => { setAttributes( { width: 75 } ); } }>75%</Button>
+														</ButtonGroup>
+
 														<RangeControl
-															label={ __( 'Width', 'gp-premium' ) }
-															value={ width }
+															value={ parseFloat( width ) }
 															onChange={ ( value ) => {
 																setAttributes( {
 																	width: value
 																} );
 															} }
-															min={ 5 }
-															max={ 100 }
-															step={ 1 }
+															min={ 10.00 }
+															max={ 100.00 }
+															step={ 0.01 }
 															allowReset={ true }
 														/>
 													</Fragment>
@@ -255,9 +263,9 @@ class GenerateSection extends Component {
 																	mobileWidth: value
 																} );
 															} }
-															min={ 5 }
-															max={ 100 }
-															step={ 1 }
+															min={ 10.00 }
+															max={ 100.00 }
+															step={ 0.01 }
 															allowReset={ true }
 														/>
 													</Fragment>
