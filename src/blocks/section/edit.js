@@ -239,6 +239,7 @@ class GenerateSection extends Component {
 														</ButtonGroup>
 
 														<RangeControl
+															className={ 'gp-column-width-control' }
 															value={ parseFloat( width ) }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -255,9 +256,17 @@ class GenerateSection extends Component {
 												) : (
 
 													<Fragment>
+														<ButtonGroup className={ 'widthButtons' }>
+															<Button isLarge isPrimary={ mobileWidth === 25 } onClick={ () => { setAttributes( { mobileWidth: 25 } ); } }>25%</Button>
+															<Button isLarge isPrimary={ mobileWidth === 33.33 } onClick={ () => { setAttributes( { mobileWidth: 33.33 } ); } }>33%</Button>
+															<Button isLarge isPrimary={ mobileWidth === 50 } onClick={ () => { setAttributes( { mobileWidth: 50 } ); } }>50%</Button>
+															<Button isLarge isPrimary={ mobileWidth === 66.66 } onClick={ () => { setAttributes( { mobileWidth: 66.66 } ); } }>66%</Button>
+															<Button isLarge isPrimary={ mobileWidth === 100 } onClick={ () => { setAttributes( { mobileWidth: 100 } ); } }>100%</Button>
+														</ButtonGroup>
+
 														<RangeControl
-															label={ __( 'Width', 'gp-premium' ) }
-															value={ mobileWidth }
+															className={ 'gp-column-width-control' }
+															value={ parseFloat( mobileWidth ) }
 															onChange={ ( value ) => {
 																setAttributes( {
 																	mobileWidth: value
