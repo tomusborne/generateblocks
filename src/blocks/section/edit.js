@@ -172,12 +172,12 @@ class GenerateSection extends Component {
 			  ` + innerContainerWidth + `;
 			}
 
-			.gp-grid-wrapper #block-` + clientId + ` {
+			.gp-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {
 				width: ` + width + `%;
 				align-self: ` + verticalAlignment + `;
 			}
 
-			.editor-block-list__layout > #block-` + clientId + ` {
+			.block-editor-block-list__layout > #block-` + clientId + ` {
 				max-width: ` + outerContainerWidth + `;
 			}
 		`
