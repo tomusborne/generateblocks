@@ -210,11 +210,18 @@ class GenerateSection extends Component {
 									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
 								/>
 
-								<TextControl
+								<RangeControl
 									label={ __( 'Container Width', 'gp-premium' ) }
-									value={ containerWidth }
-									type={ 'number' }
-									onChange={ ( containerWidth ) => { setAttributes( { containerWidth } ) } }
+									value={ parseFloat( containerWidth ) }
+									onChange={ ( value ) => {
+										setAttributes( {
+											containerWidth: value
+										} );
+									} }
+									min={ 100 }
+									max={ 2000 }
+									step={ 5 }
+									allowReset={ true }
 								/>
 							</Fragment>
 						</PanelBody>
