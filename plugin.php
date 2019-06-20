@@ -20,26 +20,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'GENERATE_BLOCK_MODULE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENERATE_BLOCK_MODULE_DIR_URL', plugin_dir_url( __FILE__ ) );
 
-add_filter( 'block_categories', 'generate_blocks_do_category' );
-/**
- * Add GeneratePress category to Gutenberg.
- *
- * @since 0.1
- */
-function generate_blocks_do_category( $categories ) {
-	return array_merge(
-		array(
-			array(
-				'slug'  => 'generatepress',
-				'title' => __( 'GeneratePress', 'gp-premium' ),
-			),
-		),
-		$categories
-    );
-}
-
-/**
- * Block Initializer.
- */
-require_once plugin_dir_path( __FILE__ ) . 'src/blocks/section/init.php';
+// Load necessary files.
+require_once plugin_dir_path( __FILE__ ) . 'includes/functions.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/general.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/defaults.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/css-output.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-do-css.php';
