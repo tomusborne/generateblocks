@@ -21,118 +21,124 @@ export default {
 	},
 	width: {
 		type: 'number',
-		default: 50,
+		default: generatepressDefaults.section.width,
 	},
 	mobileWidth: {
 		type: 'number',
-		default: 100,
+		default: generatepressDefaults.section.mobileWidth,
 	},
 	outerContainer: {
 		type: 'string',
-		default: 'full',
+		default: generatepressDefaults.section.outerContainer,
 	},
 	innerContainer: {
 		type: 'string',
-		default: 'contained',
+		default: generatepressDefaults.section.innerContainer,
+	},
+	containerWidth: {
+		type: 'number',
+		default: generatepressDefaults.section.containerWidth,
 	},
 	paddingTop: {
 		type: 'number',
-		default: 10
+		default: generatepressDefaults.section.paddingTop,
 	},
 	paddingRight: {
 		type: 'number',
-		default: 10
+		default: generatepressDefaults.section.paddingRight,
 	},
 	paddingBottom: {
 		type: 'number',
-		default: 10
+		default: generatepressDefaults.section.paddingBottom,
 	},
 	paddingLeft: {
 		type: 'number',
-		default: 10
+		default: generatepressDefaults.section.paddingLeft,
 	},
 	paddingTopMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.paddingTopMobile,
 	},
 	paddingRightMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.paddingRightMobile,
 	},
 	paddingBottomMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.paddingBottomMobile,
 	},
 	paddingLeftMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.paddingLeftMobile,
 	},
 	marginTop: {
 		type: 'number',
-		default: '',
+		default: generatepressDefaults.section.marginTop,
 	},
 	marginRight: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.marginRight,
 	},
 	marginBottom: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.marginBottom,
 	},
 	marginLeft: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.marginLeft,
 	},
 	marginTopMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.marginTopMobile,
 	},
 	marginRightMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.marginRightMobile,
 	},
 	marginBottomMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.marginBottomMobile,
 	},
 	marginLeftMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.section.marginLeftMobile,
 	},
 	backgroundColor: {
 		type: 'string',
+		default: generatepressDefaults.section.backgroundColor,
 	},
 	textColor: {
 		type: 'string',
+		default: generatepressDefaults.section.textColor,
 	},
 	linkColor: {
 		type: 'string',
-		default: ''
+		default: generatepressDefaults.section.linkColor,
 	},
 	linkColorHover: {
 		type: 'string',
-		default: ''
+		default: generatepressDefaults.section.linkColorHover,
 	},
 	bgImage: {
 		type: 'object',
-		default: null,
+		default: generatepressDefaults.section.bgImage,
 	},
 	bgOptions: {
 		type: 'object',
 		default: {
-			overlay: false,
-			position: 'center center',
-			size: 'cover',
-			repeat: 'no-repeat',
-			attachment: '',
+			overlay: generatepressDefaults.section.bgOptions.overlay,
+			position: generatepressDefaults.section.bgOptions.position,
+			size: generatepressDefaults.section.bgOptions.size,
+			repeat: generatepressDefaults.section.bgOptions.repeat,
+			attachment: generatepressDefaults.section.bgOptions.attachment,
 		}
 	},
 	verticalAlignment: {
 		type: 'string',
-		default: '',
+		default: generatepressDefaults.section.verticalAlignment,
 	},
 	zindex: {
 		type: 'number',
-		default: '',
+		default: generatepressDefaults.section.zindex,
 	},
 }

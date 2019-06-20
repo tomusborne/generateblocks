@@ -34,6 +34,12 @@ function generate_do_block_editor_assets() {
 		$css = 'body.wp-admin .editor-styles-wrapper .grid-container {max-width: ' . generate_get_option( 'container_width' ) . 'px;margin-left: auto;margin-right:auto;';
 		wp_add_inline_style( 'generatepress-section-block', $css );
 	}
+
+	wp_localize_script(
+		'generatepress-blocks',
+		'generatepressDefaults',
+		generate_get_block_defaults()
+	);
 }
 
 function generate_get_nested_block_data( $block, $data, $blockName ) {
@@ -138,9 +144,11 @@ function generate_get_grid_container_css() {
 			continue;
 		}
 
+		$defaults = generate_get_block_defaults();
+
 		$settings = wp_parse_args(
 			$atts,
-			generate_get_block_defaults( 'grid-container' )
+			$defaults['grid-container']
 		);
 
 		$id = absint( $atts['uniqueId'] );
@@ -189,9 +197,11 @@ function generate_get_section_css() {
 			continue;
 		}
 
+		$defaults = generate_get_block_defaults();
+
 		$settings = wp_parse_args(
 			$atts,
-			generate_get_block_defaults( 'section' )
+			$defaults['section']
 		);
 
 		$id = absint( $atts['uniqueId'] );
@@ -312,9 +322,11 @@ function generate_get_button_container_css() {
 			continue;
 		}
 
+		$defaults = generate_get_block_defaults();
+
 		$settings = wp_parse_args(
 			$atts,
-			generate_get_block_defaults( 'button-container' )
+			$defaults['button-container']
 		);
 
 		$id = absint( $atts['uniqueId'] );
@@ -367,9 +379,11 @@ function generate_get_button_css() {
 			continue;
 		}
 
+		$defaults = generate_get_block_defaults();
+
 		$settings = wp_parse_args(
 			$atts,
-			generate_get_block_defaults( 'button' )
+			$defaults['button']
 		);
 
 		$id = absint( $atts['uniqueId'] );
@@ -414,9 +428,11 @@ function generate_get_heading_css() {
 			continue;
 		}
 
+		$defaults = generate_get_block_defaults();
+
 		$settings = wp_parse_args(
 			$atts,
-			generate_get_block_defaults( 'heading' )
+			$defaults['heading']
 		);
 
 		$id = absint( $atts['uniqueId'] );
@@ -457,100 +473,93 @@ function generate_do_section_block_frontend_css() {
  * @param string $block The name of our block.
  * @return array
  */
-function generate_get_block_defaults( $block ) {
-	if ( ! $block ) {
-		return false;
+function generate_get_block_defaults() {
+	$defaults = array();
+
+	$container_width = 1100;
+
+	if ( function_exists( 'generate_get_option' ) ) {
+		$container_width = generate_get_option( 'container_width' );
 	}
 
-	if ( 'section' === $block ) {
-		$defaults = array(
-			'containerWidth' => 1100,
-			'outerContainer' => 'full',
-			'innerContainer' => 'contained',
-			'paddingTop' => 10,
-			'paddingRight' => 10,
-			'paddingBottom' => 10,
-			'paddingLeft' => 10,
-			'paddingTopMobile' => '',
-			'paddingRightMobile' => '',
-			'paddingBottomMobile' => '',
-			'paddingLeftMobile' => '',
-			'marginTop' => '',
-			'marginRight' => '',
-			'marginBottom' => '',
-			'marginLeft' => '',
-			'marginTopMobile' => '',
-			'marginRightMobile' => '',
-			'marginBottomMobile' => '',
-			'marginLeftMobile' => '',
-			'backgroundColor' => '',
-			'textColor' => '',
-			'linkColor' => '',
-			'linkColorHover' => '',
-			'bgImage' => '',
-			'bgOptions' => array(
-				'position' => 'center center',
-				'size' => 'cover',
-				'repeat' => 'no-repeat',
-				'attachment' => '',
-			),
-			'width' => 50,
-			'mobileWidth' => 100,
-			'verticalAlignment' => '',
-			'zindex' => '',
-		);
-	}
+	$defaults['section'] = array(
+		'containerWidth' => $container_width,
+		'outerContainer' => 'full',
+		'innerContainer' => 'contained',
+		'paddingTop' => 10,
+		'paddingRight' => 10,
+		'paddingBottom' => 10,
+		'paddingLeft' => 10,
+		'paddingTopMobile' => '',
+		'paddingRightMobile' => '',
+		'paddingBottomMobile' => '',
+		'paddingLeftMobile' => '',
+		'marginTop' => '',
+		'marginRight' => '',
+		'marginBottom' => '',
+		'marginLeft' => '',
+		'marginTopMobile' => '',
+		'marginRightMobile' => '',
+		'marginBottomMobile' => '',
+		'marginLeftMobile' => '',
+		'backgroundColor' => '',
+		'textColor' => '',
+		'linkColor' => '',
+		'linkColorHover' => '',
+		'bgImage' => '',
+		'bgOptions' => array(
+			'overlay' => false,
+			'position' => 'center center',
+			'size' => 'cover',
+			'repeat' => 'no-repeat',
+			'attachment' => '',
+		),
+		'width' => 50,
+		'mobileWidth' => 100,
+		'verticalAlignment' => '',
+		'zindex' => '',
+	);
 
-	if ( 'button-container' === $block ) {
-		$defaults = array(
-			'paddingTop' => false,
-			'paddingRight' => false,
-			'paddingBottom' => 25,
-			'paddingLeft' => false,
-			'paddingTopMobile' => false,
-			'paddingRightMobile' => false,
-			'paddingBottomMobile' => false,
-			'paddingLeftMobile' => false,
-		);
-	}
+	$defaults['button-container'] = array(
+		'paddingTop' => false,
+		'paddingRight' => false,
+		'paddingBottom' => 25,
+		'paddingLeft' => false,
+		'paddingTopMobile' => false,
+		'paddingRightMobile' => false,
+		'paddingBottomMobile' => false,
+		'paddingLeftMobile' => false,
+	);
 
-	if ( 'button' === $block ) {
-		$defaults = array(
-			'backgroundColor' => '#0366d6',
-			'textColor' => '#ffffff',
-			'backgroundColorHover' => '#222222',
-			'textColorHover' => '#ffffff',
-			'borderRadius' => 2,
-			'fontSize' => false,
-			'gap' => 25,
-			'borderSize' => 0,
-			'borderColor' => false,
-			'borderColorHover' => false,
-		);
-	}
+	$defaults['button'] = array(
+		'backgroundColor' => '#0366d6',
+		'textColor' => '#ffffff',
+		'backgroundColorHover' => '#222222',
+		'textColorHover' => '#ffffff',
+		'borderRadius' => 2,
+		'fontSize' => false,
+		'gap' => 25,
+		'borderSize' => 0,
+		'borderColor' => '#0366d6',
+		'borderColorHover' => false,
+	);
 
-	if ( 'grid-container' === $block ) {
-		$defaults = array(
-			'horizontalGap' => 30,
-			'verticalGap' => 30,
-			'verticalAlignment' => '',
-		);
-	}
+	$defaults['grid-container'] = array(
+		'horizontalGap' => 30,
+		'verticalGap' => 30,
+		'verticalAlignment' => '',
+	);
 
-	if ( 'grid-column' === $block ) {
-		$defaults = array(
-			'width' => 50,
-			'mobileWidth' => 100,
-		);
-	}
+	$defaults['grid-column'] = array(
+		'width' => 50,
+		'mobileWidth' => 100,
+	);
 
-	if ( 'heading' === $block ) {
-		$defaults = array(
-			'align' => false,
-			'color' => false,
-			'size' => false,
-		);
-	}
+	$defaults['heading'] = array(
+		'align' => false,
+		'color' => false,
+		'size' => false,
+	);
 
-	return apply_filters( 'generate_block_defaults', $defaults, $block );
+	return apply_filters( 'generate_block_defaults', $defaults );
 }
