@@ -93,6 +93,7 @@ class GenerateSection extends Component {
 			mobileWidth,
 			outerContainer,
 			innerContainer,
+			containerWidth,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -129,6 +130,21 @@ class GenerateSection extends Component {
 			}
 		}
 
+		var outerContainerWidth = '';
+		var innerContainerWidth = '';
+
+		if ( 'full' === outerContainer ) {
+			outerContainerWidth = 'none';
+		} else {
+			outerContainerWidth = containerWidth + 'px';
+		}
+
+		if ( 'full' === innerContainer ) {
+			innerContainerWidth = 'none';
+		} else {
+			innerContainerWidth = 'max-width:' + containerWidth + 'px;margin-left: auto;margin-right:auto;';
+		}
+
 		const css = `
 			.section-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
@@ -153,11 +169,16 @@ class GenerateSection extends Component {
 			  padding-right: ` + paddingRight + `px;
 			  padding-bottom: ` + paddingBottom + `px;
 			  padding-left: ` + paddingLeft + `px;
+			  ` + innerContainerWidth + `;
 			}
 
 			.gp-grid-wrapper #block-` + clientId + ` {
 				width: ` + width + `%;
 				align-self: ` + verticalAlignment + `;
+			}
+
+			.editor-block-list__layout > #block-` + clientId + ` {
+				max-width: ` + outerContainerWidth + `;
 			}
 		`
 
@@ -187,6 +208,13 @@ class GenerateSection extends Component {
 										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
 									] }
 									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
+								/>
+
+								<TextControl
+									label={ __( 'Container Width', 'gp-premium' ) }
+									value={ containerWidth }
+									type={ 'number' }
+									onChange={ ( containerWidth ) => { setAttributes( { containerWidth } ) } }
 								/>
 							</Fragment>
 						</PanelBody>
