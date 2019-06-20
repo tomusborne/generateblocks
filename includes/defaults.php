@@ -94,10 +94,15 @@ function generate_get_block_defaults() {
 		'mobileWidth' => 100,
 	);
 
-	$defaults['heading'] = array(
+	$defaults['text'] = array(
+		'element' => 'p',
 		'align' => false,
 		'color' => false,
 		'size' => false,
+		'lineHeight' => '',
+		'letterSpacing' => '',
+		'marginTop' => '',
+		'marginBottom' => '1.5',
 	);
 
 	return apply_filters( 'generate_block_defaults', $defaults );

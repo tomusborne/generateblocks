@@ -12,6 +12,7 @@ const {
 	Toolbar,
 	PanelBody,
 	RangeControl,
+	SelectControl,
 } = wp.components;
 
 const {
@@ -29,7 +30,7 @@ const {
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 
-class GenerateHeading extends Component {
+class GenerateText extends Component {
 	componentDidMount() {
 		var instanceId = this.props.instanceId + 1;
 
@@ -57,56 +58,54 @@ class GenerateHeading extends Component {
 			elementId,
 			cssClasses,
 			content,
-			level,
+			element,
 			align,
 			color,
 			size,
+			lineHeight,
+			marginTop,
+			marginBottom,
+			letterSpacing,
 		} = attributes;
 
 		const css = `
-			.editor-styles-wrapper .gp-heading-` + uniqueId + ` {
+			.editor-styles-wrapper .gp-text-` + uniqueId + ` {
 				text-align: ` + align + `;
 				font-size: ` + size + `px;
 				color: ` + color + `;
+				line-height: ` + lineHeight + `em;
+				letter-spacing: ` + letterSpacing + `em;
+				margin-top: ` + marginTop + `em;
+				margin-bottom: ` + marginBottom + `em;
 			}
 		`
-
-		const createLevelControl = ( targetLevel ) => {
-			return [ {
-				icon: 'heading',
-				// translators: %s: heading level e.g: "1", "2", "3"
-				title: sprintf( __( 'Heading %d' ), targetLevel ),
-				isActive: targetLevel === level,
-				onClick: () => setAttributes( { level: targetLevel } ),
-				subscript: String( targetLevel ),
-			} ];
-		};
-
-		const tagName = 'h' + level;
 
 		return (
 			<Fragment>
 
 				<InspectorControls>
 					<PanelBody>
-						<Toolbar controls={ range( 1, 7 ).map( createLevelControl ) } />
+						<SelectControl
+							label={ __( 'Element', 'gp-premium' ) }
+							value={ element }
+							options={ [
+								{ label: 'span', value: 'span' },
+								{ label: 'p', value: 'p' },
+								{ label: 'h1', value: 'h1' },
+								{ label: 'h2', value: 'h2' },
+								{ label: 'h3', value: 'h3' },
+								{ label: 'h4', value: 'h4' },
+								{ label: 'h5', value: 'h5' },
+								{ label: 'h6', value: 'h6' },
+							] }
+							onChange={ ( element ) => { setAttributes( { element } ) } }
+						/>
 
 						<AlignmentToolbar
 							value={ align }
 							onChange={ ( value ) => {
 								setAttributes( { align: value } );
 							} }
-						/>
-
-						<ColorPicker
-							label={ __( 'Color', 'gp-premium' ) }
-							value={ color }
-							onChange={ ( value ) =>
-								setAttributes( {
-									color: value
-								} )
-							}
-							alpha={ false }
 						/>
 
 						<RangeControl
@@ -121,6 +120,73 @@ class GenerateHeading extends Component {
 							max={ 100 }
 							step={ 1 }
 							allowReset={ true }
+						/>
+
+						<RangeControl
+							label={ __( 'Line Height', 'gp-premium' ) }
+							value={ lineHeight }
+							onChange={ ( value ) => {
+								setAttributes( {
+									lineHeight: value
+								} );
+							} }
+							min={ 0 }
+							max={ 5 }
+							step={ 0.1 }
+							allowReset={ true }
+						/>
+
+						<RangeControl
+							label={ __( 'Letter Spacing', 'gp-premium' ) }
+							value={ letterSpacing }
+							onChange={ ( value ) => {
+								setAttributes( {
+									letterSpacing: value
+								} );
+							} }
+							min={ 0 }
+							max={ 5 }
+							step={ 0.01 }
+							allowReset={ true }
+						/>
+
+						<RangeControl
+							label={ __( 'Margin Top', 'gp-premium' ) }
+							value={ marginTop }
+							onChange={ ( value ) => {
+								setAttributes( {
+									marginTop: value
+								} );
+							} }
+							min={ 0 }
+							max={ 5 }
+							step={ 0.1 }
+							allowReset={ true }
+						/>
+
+						<RangeControl
+							label={ __( 'Margin Bottom', 'gp-premium' ) }
+							value={ marginBottom }
+							onChange={ ( value ) => {
+								setAttributes( {
+									marginBottom: value
+								} );
+							} }
+							min={ 0 }
+							max={ 5 }
+							step={ 0.1 }
+							allowReset={ true }
+						/>
+
+						<ColorPicker
+							label={ __( 'Color', 'gp-premium' ) }
+							value={ color }
+							onChange={ ( value ) =>
+								setAttributes( {
+									color: value
+								} )
+							}
+							alpha={ false }
 						/>
 					</PanelBody>
 				</InspectorControls>
@@ -146,20 +212,20 @@ class GenerateHeading extends Component {
 
 				<RichText
 					formattingControls={ [ 'bold', 'italic', 'link', 'underline', 'mark' ] }
-					tagName={ tagName }
+					tagName={ element }
 					value={ content }
 					onChange={ ( value ) => setAttributes( { content: value } ) }
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
-						'gp-heading': true,
-						[`gp-heading-${ uniqueId }`]: true,
+						'gp-text': true,
+						[`gp-text-${ uniqueId }`]: true,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
-					placeholder={ __( 'Write heading…' ) }
+					placeholder={ __( 'Write text…' ) }
 				/>
 			</Fragment>
 		);
 	}
 }
 
-export default ( GenerateHeading );
+export default ( GenerateText );

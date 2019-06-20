@@ -293,14 +293,14 @@ function generate_get_button_css() {
 }
 
 /**
- * Get our Heading block CSS.
+ * Get our Text block CSS.
  *
  * @since 0.1
  *
  * @return string
  */
-function generate_get_heading_css() {
-	$data = generate_get_block_data( 'generatepress/heading' );
+function generate_get_text_css() {
+	$data = generate_get_block_data( 'generatepress/text' );
 
 	if ( empty( $data ) ) {
 		return;
@@ -317,15 +317,19 @@ function generate_get_heading_css() {
 
 		$settings = wp_parse_args(
 			$atts,
-			$defaults['heading']
+			$defaults['text']
 		);
 
 		$id = absint( $atts['uniqueId'] );
 
-		$css->set_selector( '.gp-heading-' . $id );
+		$css->set_selector( '.gp-text-' . $id );
 		$css->add_property( 'text-align', $settings['align'] );
 		$css->add_property( 'color', $settings['color'] );
 		$css->add_property( 'font-size', $settings['size'], 'px' );
+		$css->add_property( 'line-height', $settings['lineHeight'], 'em' );
+		$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
+		$css->add_property( 'margin-top', $settings['marginTop'], 'em' );
+		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'em' );
 	}
 
 	return $css->css_output();
@@ -342,7 +346,7 @@ function generate_do_section_block_frontend_css() {
 	$section_css = generate_get_section_css();
 	$button_container_css = generate_get_button_container_css();
 	$button_css = generate_get_button_css();
-	$heading_css = generate_get_heading_css();
+	$heading_css = generate_get_text_css();
 	$grid_container_css = generate_get_grid_container_css();
 
 	echo '<style>';

@@ -16,9 +16,9 @@ export default {
 		source: 'children',
 		selector: 'h1,h2,h3,h4,h5,h6',
 	},
-	level: {
-		type: 'number',
-		default: 2,
+	element: {
+		type: 'string',
+		default: 'p',
 	},
 	align: {
 		type: 'string',
@@ -32,8 +32,20 @@ export default {
 		type: 'number',
 		default: '',
 	},
-	headingLoadGoogleFonts: {
-		type: "boolean",
-		default: false
+	lineHeight: {
+		type: 'number',
+		default: '',
+	},
+	marginTop: {
+		type: 'number',
+		default: '',
+	},
+	marginBottom: {
+		type: 'number',
+		default: '1.5',
+	},
+	latterSpacing: {
+		type: 'number',
+		default: '',
 	},
 }

@@ -5,8 +5,8 @@
 //import './style.scss';
 import './editor.scss';
 
-import editHeading from './edit'
-import saveHeading from './save'
+import editText from './edit'
+import saveText from './save'
 import blockAttributes from './attributes'
 
 const { __ } = wp.i18n;
@@ -33,13 +33,14 @@ const iconEl = el('svg', { width: 20, height: 20, viewBox: "0 0 600 600" },
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'generatepress/heading', {
-	title: __( 'Heading', 'gp-premium' ),
+registerBlockType( 'generatepress/text', {
+	title: __( 'Text', 'gp-premium' ),
 	icon: iconEl,
 	category: 'generatepress',
 	keywords: [
 		__( 'heading' ),
 		__( 'title' ),
+		__( 'text' ),
 		__( 'generatepress' ),
 	],
 	attributes: blockAttributes,
@@ -49,7 +50,7 @@ registerBlockType( 'generatepress/heading', {
 		customClassName: false
 	},
 
-	edit: withInstanceId( editHeading ),
+	edit: withInstanceId( editText ),
 
-	save: saveHeading,
+	save: saveText,
 } );

@@ -14,19 +14,17 @@ export default ( { attributes } ) => {
 		uniqueId,
 		elementId,
 		cssClasses,
-		level,
+		element,
 		content,
 	} = attributes;
 
-	const tagName = 'h' + level;
-
 	return (
 		<RichText.Content
-			tagName={ tagName }
+			tagName={ element }
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
-				'gp-heading': true,
-				[`gp-heading-${ uniqueId }`]: true,
+				'gp-text': true,
+				[`gp-text-${ uniqueId }`]: true,
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 			value={ content }
