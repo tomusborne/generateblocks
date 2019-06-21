@@ -328,8 +328,8 @@ function generate_get_text_css() {
 		$css->add_property( 'font-size', $settings['size'], 'px' );
 		$css->add_property( 'line-height', $settings['lineHeight'], 'em' );
 		$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
-		$css->add_property( 'margin-top', $settings['marginTop'], 'em' );
-		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'em' );
+		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
+		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
 	}
 
 	return $css->css_output();

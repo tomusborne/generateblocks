@@ -75,8 +75,8 @@ class GenerateText extends Component {
 				color: ` + color + `;
 				line-height: ` + lineHeight + `em;
 				letter-spacing: ` + letterSpacing + `em;
-				margin-top: ` + marginTop + `em;
-				margin-bottom: ` + marginBottom + `em;
+				margin-top: ` + marginTop + `px;
+				margin-bottom: ` + marginBottom + `px;
 			}
 		`
 
@@ -159,8 +159,8 @@ class GenerateText extends Component {
 								} );
 							} }
 							min={ 0 }
-							max={ 5 }
-							step={ 0.1 }
+							max={ 100 }
+							step={ 1 }
 							allowReset={ true }
 						/>
 
@@ -173,8 +173,8 @@ class GenerateText extends Component {
 								} );
 							} }
 							min={ 0 }
-							max={ 5 }
-							step={ 0.1 }
+							max={ 100 }
+							step={ 1 }
 							allowReset={ true }
 						/>
 

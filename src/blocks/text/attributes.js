@@ -42,7 +42,7 @@ export default {
 	},
 	marginBottom: {
 		type: 'number',
-		default: '1.5',
+		default: '25',
 	},
 	latterSpacing: {
 		type: 'number',

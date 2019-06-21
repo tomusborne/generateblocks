@@ -102,7 +102,7 @@ function generate_get_block_defaults() {
 		'lineHeight' => '',
 		'letterSpacing' => '',
 		'marginTop' => '',
-		'marginBottom' => '1.5',
+		'marginBottom' => '25',
 	);
 
 	return apply_filters( 'generate_block_defaults', $defaults );
