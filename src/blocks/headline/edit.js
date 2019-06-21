@@ -143,7 +143,7 @@ class GenerateHeadline extends Component {
 									letterSpacing: value
 								} );
 							} }
-							min={ 0 }
+							min={ -5 }
 							max={ 5 }
 							step={ 0.01 }
 							allowReset={ true }
