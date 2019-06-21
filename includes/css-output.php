@@ -299,8 +299,8 @@ function generate_get_button_css() {
  *
  * @return string
  */
-function generate_get_heading_css() {
-	$data = generate_get_block_data( 'generatepress/heading' );
+function generate_get_headline_css() {
+	$data = generate_get_block_data( 'generatepress/headline' );
 
 	if ( empty( $data ) ) {
 		return;
@@ -317,12 +317,12 @@ function generate_get_heading_css() {
 
 		$settings = wp_parse_args(
 			$atts,
-			$defaults['text']
+			$defaults['headline']
 		);
 
 		$id = absint( $atts['uniqueId'] );
 
-		$css->set_selector( '.gp-text-' . $id );
+		$css->set_selector( '.gp-headline-' . $id );
 		$css->add_property( 'text-align', $settings['align'] );
 		$css->add_property( 'color', $settings['color'] );
 		$css->add_property( 'font-size', $settings['size'], 'px' );
@@ -346,10 +346,10 @@ function generate_do_section_block_frontend_css() {
 	$section_css = generate_get_section_css();
 	$button_container_css = generate_get_button_container_css();
 	$button_css = generate_get_button_css();
-	$heading_css = generate_get_heading_css();
+	$headline_css = generate_get_headline_css();
 	$grid_container_css = generate_get_grid_container_css();
 
 	echo '<style>';
-		echo $section_css . $button_container_css . $button_css . $heading_css . $grid_container_css;
+		echo $section_css . $button_container_css . $button_css . $headline_css . $grid_container_css;
 	echo '</style>';
 }

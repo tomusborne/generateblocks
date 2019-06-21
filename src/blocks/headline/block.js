@@ -1,12 +1,12 @@
 /**
- * Block: Section
+ * Block: Headline
  */
 
 //import './style.scss';
 import './editor.scss';
 
-import editHeading from './edit'
-import saveHeading from './save'
+import editHeadline from './edit'
+import saveHeadline from './save'
 import blockAttributes from './attributes'
 
 const { __ } = wp.i18n;
@@ -26,19 +26,20 @@ const iconEl = el('svg', { width: 20, height: 20, viewBox: "0 0 600 600" },
 );
 
 /**
- * Register our Heading block.
+ * Register our Headline block.
  *
  * @param  {string}   name     Block name.
  * @param  {Object}   settings Block settings.
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'generatepress/heading', {
-	title: __( 'Heading', 'gp-premium' ),
+registerBlockType( 'generatepress/headline', {
+	title: __( 'Headline', 'gp-premium' ),
 	icon: iconEl,
 	category: 'generatepress',
 	keywords: [
 		__( 'heading' ),
+		__( 'headline' ),
 		__( 'title' ),
 		__( 'generatepress' ),
 	],
@@ -49,7 +50,7 @@ registerBlockType( 'generatepress/heading', {
 		customClassName: false
 	},
 
-	edit: withInstanceId( editHeading ),
+	edit: withInstanceId( editHeadline ),
 
-	save: saveHeading,
+	save: saveHeadline,
 } );

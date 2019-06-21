@@ -94,7 +94,7 @@ function generate_get_block_defaults() {
 		'mobileWidth' => 100,
 	);
 
-	$defaults['text'] = array(
+	$defaults['headline'] = array(
 		'element' => 'p',
 		'align' => false,
 		'color' => false,

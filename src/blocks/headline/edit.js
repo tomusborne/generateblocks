@@ -30,7 +30,7 @@ const {
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 
-class GenerateText extends Component {
+class GenerateHeadline extends Component {
 	componentDidMount() {
 		var instanceId = this.props.instanceId + 1;
 
@@ -69,7 +69,7 @@ class GenerateText extends Component {
 		} = attributes;
 
 		const css = `
-			.editor-styles-wrapper .gp-text-` + uniqueId + ` {
+			.editor-styles-wrapper .gp-headline-` + uniqueId + ` {
 				text-align: ` + align + `;
 				font-size: ` + size + `px;
 				color: ` + color + `;
@@ -216,15 +216,15 @@ class GenerateText extends Component {
 					onChange={ ( value ) => setAttributes( { content: value } ) }
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
-						'gp-text': true,
-						[`gp-text-${ uniqueId }`]: true,
+						'gp-headline': true,
+						[`gp-headline-${ uniqueId }`]: true,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
-					placeholder={ __( 'Write text…' ) }
+					placeholder={ __( 'Write headline…' ) }
 				/>
 			</Fragment>
 		);
 	}
 }
 
-export default ( GenerateText );
+export default ( GenerateHeadline );
