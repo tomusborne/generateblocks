@@ -5,8 +5,8 @@
 //import './style.scss';
 import './editor.scss';
 
-import editText from './edit'
-import saveText from './save'
+import editHeading from './edit'
+import saveHeading from './save'
 import blockAttributes from './attributes'
 
 const { __ } = wp.i18n;
@@ -26,21 +26,20 @@ const iconEl = el('svg', { width: 20, height: 20, viewBox: "0 0 600 600" },
 );
 
 /**
- * Register our Section block.
+ * Register our Heading block.
  *
  * @param  {string}   name     Block name.
  * @param  {Object}   settings Block settings.
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'generatepress/text', {
-	title: __( 'Text', 'gp-premium' ),
+registerBlockType( 'generatepress/heading', {
+	title: __( 'Heading', 'gp-premium' ),
 	icon: iconEl,
 	category: 'generatepress',
 	keywords: [
 		__( 'heading' ),
 		__( 'title' ),
-		__( 'text' ),
 		__( 'generatepress' ),
 	],
 	attributes: blockAttributes,
@@ -50,7 +49,7 @@ registerBlockType( 'generatepress/text', {
 		customClassName: false
 	},
 
-	edit: withInstanceId( editText ),
+	edit: withInstanceId( editHeading ),
 
-	save: saveText,
+	save: saveHeading,
 } );

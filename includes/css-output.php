@@ -293,14 +293,14 @@ function generate_get_button_css() {
 }
 
 /**
- * Get our Text block CSS.
+ * Get our Heading block CSS.
  *
  * @since 0.1
  *
  * @return string
  */
-function generate_get_text_css() {
-	$data = generate_get_block_data( 'generatepress/text' );
+function generate_get_heading_css() {
+	$data = generate_get_block_data( 'generatepress/heading' );
 
 	if ( empty( $data ) ) {
 		return;
@@ -346,7 +346,7 @@ function generate_do_section_block_frontend_css() {
 	$section_css = generate_get_section_css();
 	$button_container_css = generate_get_button_container_css();
 	$button_css = generate_get_button_css();
-	$heading_css = generate_get_text_css();
+	$heading_css = generate_get_heading_css();
 	$grid_container_css = generate_get_grid_container_css();
 
 	echo '<style>';

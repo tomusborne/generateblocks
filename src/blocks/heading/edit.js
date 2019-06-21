@@ -89,7 +89,6 @@ class GenerateText extends Component {
 							label={ __( 'Element', 'gp-premium' ) }
 							value={ element }
 							options={ [
-								{ label: 'span', value: 'span' },
 								{ label: 'p', value: 'p' },
 								{ label: 'h1', value: 'h1' },
 								{ label: 'h2', value: 'h2' },
