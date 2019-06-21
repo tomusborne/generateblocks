@@ -127,6 +127,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
+														initialPosition={ generatepressDefaults.buttonContainer.paddingTop }
 													/>
 
 													<RangeControl
@@ -140,6 +141,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
+														initialPosition={ generatepressDefaults.buttonContainer.paddingRight }
 													/>
 
 													<RangeControl
@@ -153,6 +155,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.buttonContainer.paddingBottom }
 													/>
 
 													<RangeControl
@@ -166,6 +169,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.buttonContainer.paddingLeft }
 													/>
 
 												</Fragment>
@@ -193,6 +197,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
+														initialPosition={ generatepressDefaults.buttonContainer.paddingTopMobile }
 													/>
 
 													<RangeControl
@@ -206,6 +211,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
+														initialPosition={ generatepressDefaults.buttonContainer.paddingRightMobile }
 													/>
 
 													<RangeControl
@@ -219,6 +225,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
+														initialPosition={ generatepressDefaults.buttonContainer.paddingBottomMobile }
 													/>
 
 													<RangeControl
@@ -232,6 +239,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
+														initialPosition={ generatepressDefaults.buttonContainer.paddingLeftMobile }
 													/>
 
 												</Fragment>

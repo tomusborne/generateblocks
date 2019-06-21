@@ -191,6 +191,7 @@ class GenerateGridContainer extends Component {
 							onChange={ ( value ) => setAttributes( { columns: value } ) }
 							min={ 1 }
 							max={ 25 }
+							initialPosition={ generatepressDefaults.gridContainer.columns }
 						/>
 
 						<RangeControl
@@ -199,6 +200,7 @@ class GenerateGridContainer extends Component {
 							onChange={ ( value ) => setAttributes( { horizontalGap: value } ) }
 							min={ 0 }
 							max={ 100 }
+							initialPosition={ generatepressDefaults.gridContainer.horizontalGap }
 						/>
 
 						<RangeControl
@@ -207,6 +209,7 @@ class GenerateGridContainer extends Component {
 							onChange={ ( value ) => setAttributes( { verticalGap: value } ) }
 							min={ 0 }
 							max={ 100 }
+							initialPosition={ generatepressDefaults.gridContainer.verticalGap }
 						/>
 
 						<SelectControl

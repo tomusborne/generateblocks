@@ -59,7 +59,7 @@ function generate_get_block_defaults() {
 		'zindex' => '',
 	);
 
-	$defaults['button-container'] = array(
+	$defaults['buttonContainer'] = array(
 		'paddingTop' => false,
 		'paddingRight' => false,
 		'paddingBottom' => 25,
@@ -83,15 +83,11 @@ function generate_get_block_defaults() {
 		'borderColorHover' => false,
 	);
 
-	$defaults['grid-container'] = array(
+	$defaults['gridContainer'] = array(
+		'columns' => 2,
 		'horizontalGap' => 30,
 		'verticalGap' => 30,
 		'verticalAlignment' => '',
-	);
-
-	$defaults['grid-column'] = array(
-		'width' => 50,
-		'mobileWidth' => 100,
 	);
 
 	$defaults['headline'] = array(

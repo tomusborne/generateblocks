@@ -37,42 +37,42 @@ export default {
 	},
 	backgroundColor: {
         type: 'string',
-        default: '#0366d6',
+        default: generatepressDefaults.button.backgroundColor,
     },
 	textColor: {
         type: 'string',
-        default: '#ffffff',
+        default: generatepressDefaults.button.textColor,
     },
 	backgroundColorHover: {
         type: 'string',
-        default: '#222222',
+        default: generatepressDefaults.button.backgroundColorHover,
     },
 	textColorHover: {
         type: 'string',
-        default: '#ffffff',
+        default: generatepressDefaults.button.textColorHover,
     },
 	borderColor: {
 		type: 'string',
-		default: '#0366d6',
+		default: generatepressDefaults.button.borderColor,
 	},
 	borderColorHover: {
 		type: 'string',
-		default: '',
+		default: generatepressDefaults.button.borderColorHover,
 	},
 	borderRadius: {
 		type: 'number',
-		default: 2,
+		default: generatepressDefaults.button.borderRadius,
 	},
 	fontSize: {
 		type: 'number',
-		default: 1,
+		default: generatepressDefaults.button.fontSize,
 	},
 	gap: {
 		type: 'number',
-		default: 25,
+		default: generatepressDefaults.button.gap,
 	},
 	borderSize: {
 		type: 'number',
-		default: 0,
+		default: generatepressDefaults.button.borderSize,
 	},
 }

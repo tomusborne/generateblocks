@@ -119,6 +119,7 @@ class GenerateHeadline extends Component {
 							max={ 100 }
 							step={ 1 }
 							allowReset={ true }
+							initialPosition={ generatepressDefaults.headline.size }
 						/>
 
 						<RangeControl
@@ -133,6 +134,7 @@ class GenerateHeadline extends Component {
 							max={ 5 }
 							step={ 0.1 }
 							allowReset={ true }
+							initialPosition={ 1 }
 						/>
 
 						<RangeControl
@@ -147,6 +149,7 @@ class GenerateHeadline extends Component {
 							max={ 5 }
 							step={ 0.01 }
 							allowReset={ true }
+							initialPosition={ 1 }
 						/>
 
 						<RangeControl
@@ -161,6 +164,7 @@ class GenerateHeadline extends Component {
 							max={ 100 }
 							step={ 1 }
 							allowReset={ true }
+							initialPosition={ 0 }
 						/>
 
 						<RangeControl
@@ -175,6 +179,7 @@ class GenerateHeadline extends Component {
 							max={ 100 }
 							step={ 1 }
 							allowReset={ true }
+							initialPosition={ generatepressDefaults.headline.marginBottom }
 						/>
 
 						<ColorPicker

@@ -1,8 +1,4 @@
 export default {
-	count: {
-		type: 'number',
-		default: 1,
-	},
 	uniqueId: {
 		type: 'number',
 		default: '',
@@ -17,34 +13,34 @@ export default {
 	},
 	paddingTop: {
 		type: 'number',
-		default: 0
+		default: generatepressDefaults.buttonContainer.paddingTop
 	},
 	paddingRight: {
 		type: 'number',
-		default: 0
+		default: generatepressDefaults.buttonContainer.paddingRight
 	},
 	paddingBottom: {
 		type: 'number',
-		default: 25
+		default: generatepressDefaults.buttonContainer.paddingBottom
 	},
 	paddingLeft: {
 		type: 'number',
-		default: 0
+		default: generatepressDefaults.buttonContainer.paddingLeft
 	},
 	paddingTopMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.buttonContainer.paddingTopMobile
 	},
 	paddingRightMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.buttonContainer.paddingRightMobile
 	},
 	paddingBottomMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.buttonContainer.paddingBottomMobile
 	},
 	paddingLeftMobile: {
 		type: 'number',
-		default: ''
+		default: generatepressDefaults.buttonContainer.paddingLeftMobile
 	},
 }

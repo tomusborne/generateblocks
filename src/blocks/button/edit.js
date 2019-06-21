@@ -133,6 +133,7 @@ class GenerateButton extends Component {
 							max={ 3 }
 							step={ 0.1 }
 							allowReset={ true }
+							initialPosition={ generatepressDefaults.button.fontSize }
 						/>
 
 						<RangeControl
@@ -147,6 +148,7 @@ class GenerateButton extends Component {
 							max={ 50 }
 							step={ 1 }
 							allowReset={ true }
+							initialPosition={ generatepressDefaults.button.gap }
 						/>
 
 						<RangeControl
@@ -161,6 +163,7 @@ class GenerateButton extends Component {
 							max={ 50 }
 							step={ 1 }
 							allowReset={ true }
+							initialPosition={ generatepressDefaults.button.borderRadius }
 						/>
 
 						<RangeControl
@@ -175,6 +178,7 @@ class GenerateButton extends Component {
 							max={ 10 }
 							step={ 1 }
 							allowReset={ true }
+							initialPosition={ generatepressDefaults.button.borderSize }
 						/>
 					</PanelBody>
 

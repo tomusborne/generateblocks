@@ -33,7 +33,7 @@ function generate_get_grid_container_css() {
 
 		$settings = wp_parse_args(
 			$atts,
-			$defaults['grid-container']
+			$defaults['gridContainer']
 		);
 
 		$id = absint( $atts['uniqueId'] );
@@ -211,7 +211,7 @@ function generate_get_button_container_css() {
 
 		$settings = wp_parse_args(
 			$atts,
-			$defaults['button-container']
+			$defaults['buttonContainer']
 		);
 
 		$id = absint( $atts['uniqueId'] );

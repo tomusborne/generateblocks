@@ -13,18 +13,18 @@ export default {
 	},
 	columns: {
         type: 'number',
-        default: 2,
+        default: generatepressDefaults.gridContainer.columns,
     },
 	horizontalGap: {
         type: 'number',
-        default: 30,
+        default: generatepressDefaults.gridContainer.horizontalGap,
     },
 	verticalGap: {
         type: 'number',
-        default: 30,
+        default: generatepressDefaults.gridContainer.verticalGap,
     },
 	verticalAlignment: {
         type: 'string',
-        default: '',
+        default: generatepressDefaults.gridContainer.verticalAlignment,
     },
 }

@@ -18,34 +18,34 @@ export default {
 	},
 	element: {
 		type: 'string',
-		default: 'p',
+		default: generatepressDefaults.headline.element,
 	},
 	align: {
 		type: 'string',
-		default: '',
+		default: generatepressDefaults.headline.align,
 	},
 	color: {
 		type: 'string',
-		default: '',
+		default: generatepressDefaults.headline.color,
 	},
 	size: {
 		type: 'number',
-		default: '',
+		default: generatepressDefaults.headline.size,
 	},
 	lineHeight: {
 		type: 'number',
-		default: '',
+		default: generatepressDefaults.headline.lineHeight,
 	},
 	marginTop: {
 		type: 'number',
-		default: '',
+		default: generatepressDefaults.headline.marginTop,
 	},
 	marginBottom: {
 		type: 'number',
-		default: '25',
+		default: generatepressDefaults.headline.marginBottom,
 	},
-	latterSpacing: {
+	letterSpacing: {
 		type: 'number',
-		default: '',
+		default: generatepressDefaults.headline.letterSpacing,
 	},
 }

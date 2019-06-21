@@ -222,6 +222,7 @@ class GenerateSection extends Component {
 									max={ 2000 }
 									step={ 5 }
 									allowReset={ true }
+									initialPosition={ generatepressDefaults.section.containerWidth }
 								/>
 							</Fragment>
 						</PanelBody>
@@ -285,6 +286,7 @@ class GenerateSection extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
+															initialPosition={ generatepressDefaults.section.width }
 														/>
 													</Fragment>
 
@@ -311,6 +313,7 @@ class GenerateSection extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
+															initialPosition={ generatepressDefaults.section.mobileWidth }
 														/>
 													</Fragment>
 												) }
@@ -360,6 +363,7 @@ class GenerateSection extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.paddingTop }
 													/>
 
 													<RangeControl
@@ -373,6 +377,7 @@ class GenerateSection extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.paddingRight }
 													/>
 
 													<RangeControl
@@ -386,6 +391,7 @@ class GenerateSection extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.paddingBottom }
 													/>
 
 													<RangeControl
@@ -399,6 +405,7 @@ class GenerateSection extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.paddingLeft }
 													/>
 												</Fragment>
 
@@ -416,6 +423,7 @@ class GenerateSection extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.paddingTopMobile }
 													/>
 
 													<RangeControl
@@ -429,6 +437,7 @@ class GenerateSection extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.paddingRightMobile }
 													/>
 
 													<RangeControl
@@ -442,6 +451,7 @@ class GenerateSection extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.paddingBottomMobile }
 													/>
 
 													<RangeControl
@@ -455,6 +465,7 @@ class GenerateSection extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.paddingLeftMobile }
 													/>
 												</Fragment>
 											) }
@@ -504,6 +515,7 @@ class GenerateSection extends Component {
 														min={ -200 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.marginTop }
 													/>
 
 													<RangeControl
@@ -517,6 +529,7 @@ class GenerateSection extends Component {
 														min={ -200 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.marginRight }
 													/>
 
 													<RangeControl
@@ -530,6 +543,7 @@ class GenerateSection extends Component {
 														min={ -200 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.marginBottom }
 													/>
 
 													<RangeControl
@@ -543,6 +557,7 @@ class GenerateSection extends Component {
 														min={ -200 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.marginLeft }
 													/>
 												</Fragment>
 
@@ -560,6 +575,7 @@ class GenerateSection extends Component {
 														min={ -200 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.marginTopMobile }
 													/>
 
 													<RangeControl
@@ -573,6 +589,7 @@ class GenerateSection extends Component {
 														min={ -200 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.marginRightMobile }
 													/>
 
 													<RangeControl
@@ -586,6 +603,7 @@ class GenerateSection extends Component {
 														min={ -200 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.marginBottomMobile }
 													/>
 
 													<RangeControl
@@ -599,6 +617,7 @@ class GenerateSection extends Component {
 														min={ -200 }
 														max={ 200 }
 														step={ 10 }
+														initialPosition={ generatepressDefaults.section.marginLeftMobile }
 													/>
 												</Fragment>
 											) }
