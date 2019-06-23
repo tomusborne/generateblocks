@@ -15,6 +15,8 @@ const {
 	Tooltip,
 	IconButton,
 	Icon,
+	Placeholder,
+	Button,
 } = wp.components;
 
 const {
@@ -50,8 +52,8 @@ class GenerateGridContainer extends Component {
 
         this.getColumnsTemplate = this.getColumnsTemplate.bind( this );
         this.onLayoutSelect = this.onLayoutSelect.bind( this );
-        //this.getColumnsFromLayout = this.getColumnsFromLayout.bind( this );
-        //this.getLayoutsSelector = this.getLayoutsSelector.bind( this );
+        this.getColumnsFromLayout = this.getColumnsFromLayout.bind( this );
+        this.getLayoutsSelector = this.getLayoutsSelector.bind( this );
     }
 
 	componentDidMount() {
@@ -79,18 +81,18 @@ class GenerateGridContainer extends Component {
         } = attributes;
 
         // update columns number
-        // if ( this.state.selectedLayout ) {
-        //     const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
-        //     columns = columnsData.length;
-		//
-        //     setAttributes( {
-        //         columns,
-        //     } );
-		//
-        //     this.setState( {
-        //         selectedLayout: false,
-        //     } );
-        // }
+        if ( this.state.selectedLayout ) {
+            const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
+            columns = columnsData.length;
+
+            setAttributes( {
+                columns,
+            } );
+
+            this.setState( {
+                selectedLayout: false,
+            } );
+        }
     }
 
 	/**
@@ -118,16 +120,15 @@ class GenerateGridContainer extends Component {
 
 		// create columns from selected layout.
 		if ( columns < 1 && this.state.selectedLayout ) {
-			// const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
-			// columns = columnsData.length;
-			//
-			// columnsData.forEach( ( colAttrs ) => {
-			// 	result.push( [
-			// 		'generatepress/grid-column',
-			// 		colAttrs,
-			// 		appenderExist ? [] : [ [ 'core/paragraph', { content: 'Column ' + ( colAttrs.size === 'auto' ? 'Auto' : colAttrs.size ) } ] ],
-			// 	] );
-			// } );
+			const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
+			columns = columnsData.length;
+
+			columnsData.forEach( ( colAttrs ) => {
+				result.push( [
+					'generatepress/section',
+					colAttrs,
+				] );
+			} );
 
 		// create columns template from columns count.
 		} else {
@@ -141,6 +142,87 @@ class GenerateGridContainer extends Component {
 
 		return result;
 	}
+
+	/**
+     * Get columns sizes array from layout string
+     *
+     * @param {string} layout - layout data. Example: `3-6-3`
+     *
+     * @return {array}.
+     */
+    getColumnsFromLayout( layout ) {
+        const result = [];
+        const columnsData = layout.split( '-' );
+
+		var i = 0;
+        columnsData.forEach( ( col ) => {
+            const colAttrs = {
+                isGrid: true,
+            };
+
+			colAttrs.width = columnsData[i];
+			i++;
+
+            result.push( colAttrs );
+        } );
+
+        return result;
+    }
+
+	/**
+     * Layouts selector when no columns selected.
+     *
+     * @return {jsx}.
+     */
+    getLayoutsSelector() {
+        let layouts = [
+            '100',
+            '50-50',
+            '33.33-33.33-33.33',
+            '25-25-25-25',
+
+            '25-75',
+            '75-25',
+            '25-25-50',
+            '25-50-25',
+
+            '50-25-25',
+            '20-60-20',
+            '20-20-20-20-20',
+            '16.66-16.66-16.66-16.66-16.66-16.66',
+        ];
+
+        return (
+            <Placeholder
+                label={ __( 'Grid' ) }
+                instructions={ __( 'Select one layout to get started.' ) }
+                className="gp-select-layout"
+            >
+                <div className="gp-grid-wrapper-layout-preview">
+                    { layouts.map( ( layout ) => {
+                        const columnsData = this.getColumnsFromLayout( layout );
+
+                        return (
+                            <button
+                                key={ `layout-${ layout }` }
+                                className="gp-grid-wrapper-layout-preview-btn"
+                                onClick={ () => this.onLayoutSelect( layout ) }
+                            >
+                                { columnsData.map( ( colAttrs, i ) => {
+                                    return (
+                                        <div
+                                            key={ `layout-${ layout }-col-${ i }` }
+                                            className={ classnames( 'gp-col', `gp-col-${ colAttrs.width }` ) }
+                                        />
+                                    );
+                                } ) }
+                            </button>
+                        );
+                    } ) }
+                </div>
+            </Placeholder>
+        );
+    }
 
 	/**
      * Select predefined layout.
@@ -253,18 +335,22 @@ class GenerateGridContainer extends Component {
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 				>
-					{ ! isSelected ? (
-						<div className="gp-grid-wrapper-button-select">
-							<Tooltip text={ __( 'Select Grid', 'gp-premium' ) }>
-								<Icon icon="screenoptions" />
-							</Tooltip>
-						</div>
-					) : '' }
-					<InnerBlocks
-						template={ this.getColumnsTemplate() }
-						templateLock="all"
-						allowedBlocks={ [ 'generatepress/section' ] }
-					/>
+					{ columns > 0 || this.state.selectedLayout ? (
+						<Fragment>
+							{ ! isSelected ? (
+								<div className="gp-grid-wrapper-button-select">
+									<Tooltip text={ __( 'Select Grid', 'gp-premium' ) }>
+										<Icon icon="screenoptions" />
+									</Tooltip>
+								</div>
+							) : '' }
+							<InnerBlocks
+								template={ this.getColumnsTemplate() }
+								templateLock="all"
+								allowedBlocks={ [ 'generatepress/section' ] }
+							/>
+						</Fragment>
+						) : this.getLayoutsSelector() }
 				</div>
 			</Fragment>
 		);
