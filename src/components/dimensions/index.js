@@ -25,23 +25,23 @@ class DimensionsControl extends Component {
 	}
 
 	onChangeTop( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: parseFloat( value ) } );
 	}
 
 	onChangeRight( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrRight' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrRight' ] ]: parseFloat( value ) } );
 	}
 
 	onChangeBottom( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrBottom' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrBottom' ] ]: parseFloat( value ) } );
 	}
 
 	onChangeLeft( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrLeft' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrLeft' ] ]: parseFloat( value ) } );
 	}
 
 	onChangeAll( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: value, [ this.props[ 'attrRight' ] ]: value, [ this.props[ 'attrBottom' ] ]: value, [ this.props[ 'attrLeft' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: parseFloat( value ), [ this.props[ 'attrRight' ] ]: parseFloat( value ), [ this.props[ 'attrBottom' ] ]: parseFloat( value ), [ this.props[ 'attrLeft' ] ]: parseFloat( value ) } );
 	}
 
 	syncUnits( value ) {
@@ -50,7 +50,7 @@ class DimensionsControl extends Component {
 		const syncValue = Math.max.apply( null, numbers )
 
 		this.props.setAttributes( {  [ this.props[ 'attrSyncUnits' ] ]: ! this.props[ 'syncUnits' ] } )
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: syncValue, [ this.props[ 'attrRight' ] ]: syncValue, [ this.props[ 'attrBottom' ] ]: syncValue, [ this.props[ 'attrLeft' ] ]: syncValue } );
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: parseFloat( syncValue ), [ this.props[ 'attrRight' ] ]: parseFloat( syncValue ), [ this.props[ 'attrBottom' ] ]: parseFloat( syncValue ), [ this.props[ 'attrLeft' ] ]: parseFloat( syncValue ) } );
 	}
 
 	render() {
@@ -89,9 +89,9 @@ class DimensionsControl extends Component {
 			const newValue = event.target.value;
 
 			if  ( this.props[ 'syncUnits' ] ) {
-				this.onChangeAll( Number( newValue ) );
+				this.onChangeAll( newValue );
 			} else {
-				this.onChangeTop( Number( newValue ) );
+				this.onChangeTop( newValue );
 			}
 		};
 
@@ -99,9 +99,9 @@ class DimensionsControl extends Component {
 			const newValue = event.target.value;
 
 			if  ( this.props[ 'syncUnits' ] ) {
-				this.onChangeAll( Number( newValue ) );
+				this.onChangeAll( newValue );
 			} else {
-				this.onChangeRight( Number( newValue ) );
+				this.onChangeRight( newValue );
 			}
 		};
 
@@ -109,9 +109,9 @@ class DimensionsControl extends Component {
 			const newValue = event.target.value;
 
 			if  ( this.props[ 'syncUnits' ] ) {
-				this.onChangeAll( Number( newValue ) );
+				this.onChangeAll( newValue );
 			} else {
-				this.onChangeBottom( Number( newValue ) );
+				this.onChangeBottom( newValue );
 			}
 		};
 
@@ -119,9 +119,9 @@ class DimensionsControl extends Component {
 			const newValue = event.target.value;
 
 			if  ( this.props[ 'syncUnits' ] ) {
-				this.onChangeAll( Number( newValue ) );
+				this.onChangeAll( newValue );
 			} else {
-				this.onChangeLeft( Number( newValue ) );
+				this.onChangeLeft( newValue );
 			}
 		};
 
@@ -134,7 +134,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeTopValue }
 							aria-label={ sprintf( __( '%s Top' ), label ) }
-							value={ valueTop ? valueTop : '' }
+							value={ parseFloat( valueTop ) }
 							min={ type == 'padding' ? 0 : undefined }
 						/>
 						<input
@@ -142,7 +142,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeRightValue }
 							aria-label={ sprintf( __( '%s Right' ), label ) }
-							value={ valueRight ? valueRight : '' }
+							value={ parseFloat( valueRight ) }
 							min={ type == 'padding' ? 0 : undefined }
 						/>
 						<input
@@ -150,7 +150,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeBottomValue }
 							aria-label={ sprintf( __( '%s Bottom' ), label ) }
-							value={ valueBottom ? valueBottom : '' }
+							value={ parseFloat( valueBottom ) }
 							min={ type == 'padding' ? 0 : undefined }
 						/>
 						<input
@@ -158,7 +158,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeLeftValue }
 							aria-label={ sprintf( __( '%s Left' ), label ) }
-							value={ valueLeft ? valueLeft : '' }
+							value={ parseFloat( valueLeft ) }
 							min={ type == 'padding' ? 0 : undefined }
 						/>
 						<Tooltip text={ !! syncUnits ? __( 'Unsync' ) : __( 'Sync' ) } >

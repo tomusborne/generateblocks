@@ -217,19 +217,15 @@ class GenerateSection extends Component {
 									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
 								/>
 
-								<RangeControl
+								<TextControl
+									type={ 'number' }
 									label={ __( 'Container Width', 'gp-premium' ) }
 									value={ parseFloat( containerWidth ) }
 									onChange={ ( value ) => {
 										setAttributes( {
-											containerWidth: value
+											containerWidth: parseFloat( value )
 										} );
 									} }
-									min={ 100 }
-									max={ 2000 }
-									step={ 5 }
-									allowReset={ true }
-									initialPosition={ generatepressDefaults.section.containerWidth }
 								/>
 							</Fragment>
 						</PanelBody>

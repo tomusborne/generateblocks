@@ -97,7 +97,7 @@ class GeneratePress_Blocks_Dynamic_CSS {
 	 */
 	public function add_property( $property, $value, $unit = false ) {
 		// If we don't have a value or our value is the same as our og default, bail.
-		if ( empty( $value ) ) {
+		if ( empty( $value ) && 0 !== $value ) {
 			return false;
 		}
 
