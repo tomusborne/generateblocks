@@ -55,6 +55,10 @@ export default {
 		type: 'number',
 		default: generatepressDefaults.section.paddingLeft,
 	},
+	paddingSyncUnits: {
+		type: 'boolean',
+		default: false,
+	},
 	paddingTopMobile: {
 		type: 'number',
 		default: generatepressDefaults.section.paddingTopMobile,
@@ -86,6 +90,10 @@ export default {
 	marginLeft: {
 		type: 'number',
 		default: generatepressDefaults.section.marginLeft,
+	},
+	marginSyncUnits: {
+		type: 'boolean',
+		default: false,
 	},
 	marginTopMobile: {
 		type: 'number',

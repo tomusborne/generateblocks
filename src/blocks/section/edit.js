@@ -4,7 +4,9 @@
 
 import Section from './section-tag';
 import ColorPicker from '../../components/color-picker';
+import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
+import DimensionsControl from '../../components/dimensions/';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -20,6 +22,7 @@ const {
 	TabPanel,
 	Tooltip,
 	Icon,
+	BaseControl,
 } = wp.components;
 
 const {
@@ -98,18 +101,22 @@ class GenerateSection extends Component {
 			paddingRight,
 			paddingBottom,
 			paddingLeft,
+			paddingSyncUnits,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
+			paddingSyncUnitsMobile,
 			marginTop,
 			marginRight,
 			marginBottom,
 			marginLeft,
+			marginSyncUnits,
 			marginTopMobile,
 			marginRightMobile,
 			marginBottomMobile,
 			marginLeftMobile,
+			marginSyncUnitsMobile,
 			backgroundColor,
 			textColor,
 			linkColor,
@@ -326,7 +333,7 @@ class GenerateSection extends Component {
 					) : '' }
 
 					<PanelBody
-						title={ __( 'Padding', 'gp-premium' ) }
+						title={ __( 'Spacing', 'gp-premium' ) }
 						initialOpen={ false }
 					>
 
@@ -352,273 +359,81 @@ class GenerateSection extends Component {
 										<div>
 											{ isDesktop ? (
 												<Fragment>
-													<RangeControl
-														label={ __( 'Top Padding', 'gp-premium' ) }
-														value={ paddingTop }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingTop: nextSpacing
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.paddingTop }
-													/>
+													<BaseControl label={ __( 'Padding', 'gp-premium' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'gp-premium' ) }
+															valueTop={ paddingTop }
+															valueRight={ paddingRight }
+															valueBottom={ paddingBottom }
+															valueLeft={ paddingLeft }
+															//unit={ paddingUnit }
+															syncUnits={ paddingSyncUnits }
+															attrTop={ 'paddingTop' }
+															attrRight={ 'paddingRight' }
+															attrBottom={ 'paddingBottom' }
+															attrLeft={ 'paddingLeft' }
+															attrSyncUnits={ 'paddingSyncUnits' }
+														/>
+													</BaseControl>
 
-													<RangeControl
-														label={ __( 'Right Padding', 'gp-premium' ) }
-														value={ paddingRight }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingRight: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.paddingRight }
-													/>
-
-													<RangeControl
-														label={ __( 'Bottom Padding', 'gp-premium' ) }
-														value={ paddingBottom }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingBottom: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.paddingBottom }
-													/>
-
-													<RangeControl
-														label={ __( 'Left Padding', 'gp-premium' ) }
-														value={ paddingLeft }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingLeft: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.paddingLeft }
-													/>
+													<BaseControl label={ __( 'Margin', 'gp-premium' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'gp-premium' ) }
+															valueTop={ marginTop }
+															valueRight={ marginRight }
+															valueBottom={ marginBottom }
+															valueLeft={ marginLeft }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnits }
+															attrTop={ 'marginTop' }
+															attrRight={ 'marginRight' }
+															attrBottom={ 'marginBottom' }
+															attrLeft={ 'marginLeft' }
+															attrSyncUnits={ 'marginSyncUnits' }
+														/>
+													</BaseControl>
 												</Fragment>
 
 											) : (
 
 												<Fragment>
-													<RangeControl
-														label={ __( 'Top Padding', 'gp-premium' ) }
-														value={ paddingTopMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingTopMobile: nextSpacing
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.paddingTopMobile }
-													/>
+													<BaseControl label={ __( 'Padding', 'gp-premium' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'gp-premium' ) }
+															valueTop={ paddingTopMobile }
+															valueRight={ paddingRightMobile }
+															valueBottom={ paddingBottomMobile }
+															valueLeft={ paddingLeftMobile }
+															//unit={ paddingUnit }
+															syncUnits={ paddingSyncUnitsMobile }
+															attrTop={ 'paddingTopMobile' }
+															attrRight={ 'paddingRightMobile' }
+															attrBottom={ 'paddingBottomMobile' }
+															attrLeft={ 'paddingLeftMobile' }
+															attrSyncUnits={ 'paddingSyncUnitsMobile' }
+														/>
+													</BaseControl>
 
-													<RangeControl
-														label={ __( 'Right Padding', 'gp-premium' ) }
-														value={ paddingRightMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingRightMobile: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.paddingRightMobile }
-													/>
-
-													<RangeControl
-														label={ __( 'Bottom Padding', 'gp-premium' ) }
-														value={ paddingBottomMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingBottomMobile: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.paddingBottomMobile }
-													/>
-
-													<RangeControl
-														label={ __( 'Left Padding', 'gp-premium' ) }
-														value={ paddingLeftMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingLeftMobile: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.paddingLeftMobile }
-													/>
-												</Fragment>
-											) }
-										</div>
-									);
-								}
-							}
-						</TabPanel>
-
-					</PanelBody>
-
-					<PanelBody
-						title={ __( 'Margin', 'gp-premium' ) }
-						initialOpen={ false }
-					>
-
-						<TabPanel className="margin-tab-panel generatepress-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
-								{
-									name: 'margin-desktop',
-									title: __( 'Desktop', 'gp-premium' ),
-									className: 'margin-desktop',
-								},
-								{
-									name: 'margin-mobile',
-									title: __( 'Mobile', 'gp-premium' ),
-									className: 'margin-mobile',
-								},
-							] }>
-							{
-								( tab ) => {
-									const isDesktop = tab.name === 'margin-desktop';
-
-									return (
-										<div>
-											{ isDesktop ? (
-												<Fragment>
-													<RangeControl
-														label={ __( 'Top Margin', 'gp-premium' ) }
-														value={ marginTop }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																marginTop: nextSpacing
-															} );
-														} }
-														min={ -200 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.marginTop }
-													/>
-
-													<RangeControl
-														label={ __( 'Right Margin', 'gp-premium' ) }
-														value={ marginRight }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																marginRight: nextSpacing,
-															} );
-														} }
-														min={ -200 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.marginRight }
-													/>
-
-													<RangeControl
-														label={ __( 'Bottom Margin', 'gp-premium' ) }
-														value={ marginBottom }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																marginBottom: nextSpacing,
-															} );
-														} }
-														min={ -200 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.marginBottom }
-													/>
-
-													<RangeControl
-														label={ __( 'Left Margin', 'gp-premium' ) }
-														value={ marginLeft }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																marginLeft: nextSpacing,
-															} );
-														} }
-														min={ -200 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.marginLeft }
-													/>
-												</Fragment>
-
-											) : (
-
-												<Fragment>
-													<RangeControl
-														label={ __( 'Top Margin', 'gp-premium' ) }
-														value={ marginTopMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																marginTopMobile: nextSpacing
-															} );
-														} }
-														min={ -200 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.marginTopMobile }
-													/>
-
-													<RangeControl
-														label={ __( 'Right Margin', 'gp-premium' ) }
-														value={ marginRightMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																marginRightMobile: nextSpacing,
-															} );
-														} }
-														min={ -200 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.marginRightMobile }
-													/>
-
-													<RangeControl
-														label={ __( 'Bottom Margin', 'gp-premium' ) }
-														value={ marginBottomMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																marginBottomMobile: nextSpacing,
-															} );
-														} }
-														min={ -200 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.marginBottomMobile }
-													/>
-
-													<RangeControl
-														label={ __( 'Left Margin', 'gp-premium' ) }
-														value={ marginLeftMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																marginLeftMobile: nextSpacing,
-															} );
-														} }
-														min={ -200 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ generatepressDefaults.section.marginLeftMobile }
-													/>
+													<BaseControl label={ __( 'Margin', 'gp-premium' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'gp-premium' ) }
+															valueTop={ marginTopMobile }
+															valueRight={ marginRightMobile }
+															valueBottom={ marginBottomMobile }
+															valueLeft={ marginLeftMobile }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnitsMobile }
+															attrTop={ 'marginTopMobile' }
+															attrRight={ 'marginRightMobile' }
+															attrBottom={ 'marginBottomMobile' }
+															attrLeft={ 'marginLeftMobile' }
+															attrSyncUnits={ 'marginSyncUnitsMobile' }
+														/>
+													</BaseControl>
 												</Fragment>
 											) }
 										</div>

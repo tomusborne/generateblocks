@@ -410,6 +410,64 @@ body .generate-section .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.components-generatepress-dimensions-control__inputs,
+.components-generatepress-dimensions-control__input-labels {
+  display: -ms-flexbox;
+  display: flex; }
+
+.components-generatepress-dimensions-control input[type="number"] {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  height: 30px;
+  margin: 0 -1px 0 0;
+  padding: 5px;
+  width: 25%; }
+
+.components-generatepress-dimensions-control input[type="number"]:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0; }
+
+.components-generatepress-dimensions-control__input-labels > span {
+  width: 25%;
+  font-size: 11px; }
+
+.components-generatepress-dimensions-control__input-labels > span:last-child {
+  width: 30px; }
+
+.components-generatepress-dimensions-control_sync.components-button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  height: auto;
+  -ms-flex-pack: center;
+  justify-content: center;
+  padding: 0;
+  text-align: center;
+  text-shadow: none;
+  width: 30px; }
+
+.components-generatepress-dimensions-control_sync.components-button:not(.is-primary) {
+  background: #fff;
+  border: 1px solid #8d96a0;
+  color: #555d66; }
+
+.components-generatepress-dimensions-control_sync.components-button svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor; }
+
+.components-generatepress-dimensions-control_sync.components-button:hover,
+.components-generatepress-dimensions-control_sync.components-button:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
 .gp-button-wrapper {
   display: -ms-flexbox;
   display: flex;
