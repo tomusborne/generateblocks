@@ -116,6 +116,7 @@ class GenerateGridContainer extends Component {
 
 		const colAttrs = {
 			isGrid: true,
+			tagName: 'div',
 		};
 
 		// create columns from selected layout.
@@ -158,6 +159,7 @@ class GenerateGridContainer extends Component {
         columnsData.forEach( ( col ) => {
             const colAttrs = {
                 isGrid: true,
+				tagName: 'div',
             };
 
 			colAttrs.width = columnsData[i];
