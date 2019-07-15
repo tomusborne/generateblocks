@@ -24,24 +24,28 @@ class DimensionsControl extends Component {
 		this.syncUnits = this.syncUnits.bind( this );
 	}
 
+	onReset( type ) {
+		this.props.setAttributes( { [ this.props[ type ] ]: '' } );
+	}
+
 	onChangeTop( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: parseFloat( value ) } );
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: value } );
 	}
 
 	onChangeRight( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrRight' ] ]: parseFloat( value ) } );
+		this.props.setAttributes( { [ this.props[ 'attrRight' ] ]: value } );
 	}
 
 	onChangeBottom( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrBottom' ] ]: parseFloat( value ) } );
+		this.props.setAttributes( { [ this.props[ 'attrBottom' ] ]: value } );
 	}
 
 	onChangeLeft( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrLeft' ] ]: parseFloat( value ) } );
+		this.props.setAttributes( { [ this.props[ 'attrLeft' ] ]: value } );
 	}
 
 	onChangeAll( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: parseFloat( value ), [ this.props[ 'attrRight' ] ]: parseFloat( value ), [ this.props[ 'attrBottom' ] ]: parseFloat( value ), [ this.props[ 'attrLeft' ] ]: parseFloat( value ) } );
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: value, [ this.props[ 'attrRight' ] ]: value, [ this.props[ 'attrBottom' ] ]: value, [ this.props[ 'attrLeft' ] ]: value } );
 	}
 
 	syncUnits( value ) {
@@ -49,8 +53,8 @@ class DimensionsControl extends Component {
 
 		const syncValue = Math.max.apply( null, numbers )
 
-		this.props.setAttributes( {  [ this.props[ 'attrSyncUnits' ] ]: ! this.props[ 'syncUnits' ] } )
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: parseFloat( syncValue ), [ this.props[ 'attrRight' ] ]: parseFloat( syncValue ), [ this.props[ 'attrBottom' ] ]: parseFloat( syncValue ), [ this.props[ 'attrLeft' ] ]: parseFloat( syncValue ) } );
+		this.props.setAttributes( { [ this.props[ 'attrSyncUnits' ] ]: ! this.props[ 'syncUnits' ] } )
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: syncValue, [ this.props[ 'attrRight' ] ]: syncValue, [ this.props[ 'attrBottom' ] ]: syncValue, [ this.props[ 'attrLeft' ] ]: syncValue } );
 	}
 
 	render() {
@@ -88,7 +92,12 @@ class DimensionsControl extends Component {
 		const onChangeTopValue = ( event ) => {
 			const newValue = event.target.value;
 
-			if  ( this.props[ 'syncUnits' ] ) {
+			if ( '' === newValue ) {
+				this.onReset( 'attrTop' );
+				return;
+			}
+
+			if ( this.props[ 'syncUnits' ] ) {
 				this.onChangeAll( newValue );
 			} else {
 				this.onChangeTop( newValue );
@@ -98,7 +107,12 @@ class DimensionsControl extends Component {
 		const onChangeRightValue = ( event ) => {
 			const newValue = event.target.value;
 
-			if  ( this.props[ 'syncUnits' ] ) {
+			if ( '' === newValue ) {
+				this.onReset( 'attrRight' );
+				return;
+			}
+
+			if ( this.props[ 'syncUnits' ] ) {
 				this.onChangeAll( newValue );
 			} else {
 				this.onChangeRight( newValue );
@@ -108,7 +122,12 @@ class DimensionsControl extends Component {
 		const onChangeBottomValue = ( event ) => {
 			const newValue = event.target.value;
 
-			if  ( this.props[ 'syncUnits' ] ) {
+			if ( '' === newValue ) {
+				this.onReset( 'attrBottom' );
+				return;
+			}
+
+			if ( this.props[ 'syncUnits' ] ) {
 				this.onChangeAll( newValue );
 			} else {
 				this.onChangeBottom( newValue );
@@ -118,7 +137,12 @@ class DimensionsControl extends Component {
 		const onChangeLeftValue = ( event ) => {
 			const newValue = event.target.value;
 
-			if  ( this.props[ 'syncUnits' ] ) {
+			if ( '' === newValue ) {
+				this.onReset( 'attrLeft' );
+				return;
+			}
+
+			if ( this.props[ 'syncUnits' ] ) {
 				this.onChangeAll( newValue );
 			} else {
 				this.onChangeLeft( newValue );
@@ -134,7 +158,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeTopValue }
 							aria-label={ sprintf( __( '%s Top' ), label ) }
-							value={ parseFloat( valueTop ) }
+							value={ valueTop ? valueTop : '' }
 							min={ type == 'padding' ? 0 : undefined }
 						/>
 						<input
@@ -142,7 +166,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeRightValue }
 							aria-label={ sprintf( __( '%s Right' ), label ) }
-							value={ parseFloat( valueRight ) }
+							value={ valueRight ? valueRight : '' }
 							min={ type == 'padding' ? 0 : undefined }
 						/>
 						<input
@@ -150,7 +174,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeBottomValue }
 							aria-label={ sprintf( __( '%s Bottom' ), label ) }
-							value={ parseFloat( valueBottom ) }
+							value={ valueBottom ? valueBottom : '' }
 							min={ type == 'padding' ? 0 : undefined }
 						/>
 						<input
@@ -158,7 +182,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeLeftValue }
 							aria-label={ sprintf( __( '%s Left' ), label ) }
-							value={ parseFloat( valueLeft ) }
+							value={ valueLeft ? valueLeft : '' }
 							min={ type == 'padding' ? 0 : undefined }
 						/>
 						<Tooltip text={ !! syncUnits ? __( 'Unsync' ) : __( 'Sync' ) } >

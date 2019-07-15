@@ -76,19 +76,19 @@ export default {
 		default: generatepressDefaults.section.paddingLeftMobile,
 	},
 	marginTop: {
-		type: 'number',
+		type: 'string',
 		default: generatepressDefaults.section.marginTop,
 	},
 	marginRight: {
-		type: 'number',
+		type: 'string',
 		default: generatepressDefaults.section.marginRight,
 	},
 	marginBottom: {
-		type: 'number',
+		type: 'string',
 		default: generatepressDefaults.section.marginBottom,
 	},
 	marginLeft: {
-		type: 'number',
+		type: 'string',
 		default: generatepressDefaults.section.marginLeft,
 	},
 	marginSyncUnits: {
@@ -96,19 +96,19 @@ export default {
 		default: false,
 	},
 	marginTopMobile: {
-		type: 'number',
+		type: 'string',
 		default: generatepressDefaults.section.marginTopMobile,
 	},
 	marginRightMobile: {
-		type: 'number',
+		type: 'string',
 		default: generatepressDefaults.section.marginRightMobile,
 	},
 	marginBottomMobile: {
-		type: 'number',
+		type: 'string',
 		default: generatepressDefaults.section.marginBottomMobile,
 	},
 	marginLeftMobile: {
-		type: 'number',
+		type: 'string',
 		default: generatepressDefaults.section.marginLeftMobile,
 	},
 	backgroundColor: {
