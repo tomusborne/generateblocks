@@ -270,7 +270,7 @@ class GenerateGridContainer extends Component {
 				<InspectorControls>
 					<PanelBody>
 						<RangeControl
-							label={ __( 'Columns', 'gp-premium' ) }
+							label={ __( 'Sections', 'gp-premium' ) }
 							value={ columns }
 							onChange={ ( value ) => setAttributes( { columns: value } ) }
 							min={ 1 }

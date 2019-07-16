@@ -90,7 +90,11 @@ class DimensionsControl extends Component {
 		);
 
 		const onChangeTopValue = ( event ) => {
-			const newValue = event.target.value;
+			var newValue = event.target.value;
+
+			if ( 'padding' === event.target.getAttribute( 'data-attribute' ) ) {
+				var newValue = Number( event.target.value );
+			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrTop' );
@@ -105,7 +109,11 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeRightValue = ( event ) => {
-			const newValue = event.target.value;
+			var newValue = event.target.value;
+
+			if ( 'padding' === event.target.getAttribute( 'data-attribute' ) ) {
+				var newValue = Number( event.target.value );
+			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrRight' );
@@ -120,7 +128,11 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeBottomValue = ( event ) => {
-			const newValue = event.target.value;
+			var newValue = event.target.value;
+
+			if ( 'padding' === event.target.getAttribute( 'data-attribute' ) ) {
+				var newValue = Number( event.target.value );
+			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrBottom' );
@@ -135,7 +147,11 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeLeftValue = ( event ) => {
-			const newValue = event.target.value;
+			var newValue = event.target.value;
+
+			if ( 'padding' === event.target.getAttribute( 'data-attribute' ) ) {
+				var newValue = Number( event.target.value );
+			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrLeft' );
@@ -160,6 +176,7 @@ class DimensionsControl extends Component {
 							aria-label={ sprintf( __( '%s Top' ), label ) }
 							value={ valueTop ? valueTop : '' }
 							min={ type == 'padding' ? 0 : undefined }
+							data-attribute={ type }
 						/>
 						<input
 							className="components-generatepress-dimensions-control__number"
@@ -168,6 +185,7 @@ class DimensionsControl extends Component {
 							aria-label={ sprintf( __( '%s Right' ), label ) }
 							value={ valueRight ? valueRight : '' }
 							min={ type == 'padding' ? 0 : undefined }
+							data-attribute={ type }
 						/>
 						<input
 							className="components-generatepress-dimensions-control__number"
@@ -176,6 +194,7 @@ class DimensionsControl extends Component {
 							aria-label={ sprintf( __( '%s Bottom' ), label ) }
 							value={ valueBottom ? valueBottom : '' }
 							min={ type == 'padding' ? 0 : undefined }
+							data-attribute={ type }
 						/>
 						<input
 							className="components-generatepress-dimensions-control__number"
@@ -184,6 +203,7 @@ class DimensionsControl extends Component {
 							aria-label={ sprintf( __( '%s Left' ), label ) }
 							value={ valueLeft ? valueLeft : '' }
 							min={ type == 'padding' ? 0 : undefined }
+							data-attribute={ type }
 						/>
 						<Tooltip text={ !! syncUnits ? __( 'Unsync' ) : __( 'Sync' ) } >
 							<Button
