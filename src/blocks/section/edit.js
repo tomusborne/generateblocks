@@ -93,7 +93,8 @@ class GenerateSection extends Component {
 			cssClasses,
 			isGrid,
 			width,
-			mobileWidth,
+			widthTablet,
+			widthMobile,
 			outerContainer,
 			innerContainer,
 			containerWidth,
@@ -124,6 +125,8 @@ class GenerateSection extends Component {
 			bgImage,
 			bgOptions,
 			verticalAlignment,
+			verticalAlignmentTablet,
+			verticalAlignmentMobile,
 			zindex,
 		} = attributes;
 
@@ -233,27 +236,18 @@ class GenerateSection extends Component {
 
 					{ isGrid ? (
 						<PanelBody className="section-grid-panel">
-							<Fragment>
-								<SelectControl
-									label={ __( 'Vertical Alignment', 'gp-premium' ) }
-									value={ verticalAlignment }
-									options={ [
-										{ label: __( 'Default', 'gp-premium' ), value: '' },
-										{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
-										{ label: __( 'Center', 'gp-premium' ), value: 'center' },
-										{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
-									] }
-									onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
-								/>
-							</Fragment>
-
 							<TabPanel className="grid-tab-panel generatepress-control-tabs"
 								activeClass="active-tab"
 								tabs={ [
 									{
-										name: 'grid-desktop',
-										title: __( 'Desktop', 'gp-premium' ),
-										className: 'grid-desktop',
+										name: 'grid-default',
+										title: __( 'Default', 'gp-premium' ),
+										className: 'grid-default',
+									},
+									{
+										name: 'grid-tablet',
+										title: __( 'Tablet', 'gp-premium' ),
+										className: 'grid-tablet',
 									},
 									{
 										name: 'grid-mobile',
@@ -267,7 +261,7 @@ class GenerateSection extends Component {
 
 										return (
 											<div>
-												{ isDesktop ? (
+												{ 'grid-default' === tab.name ? (
 													<Fragment>
 														<ButtonGroup className={ 'widthButtons' }>
 															<Button isLarge isPrimary={ width === 25 } onClick={ () => { setAttributes( { width: 25 } ); } }>25%</Button>
@@ -291,35 +285,100 @@ class GenerateSection extends Component {
 															allowReset={ true }
 															initialPosition={ generatepressDefaults.section.width }
 														/>
+
+														<SelectControl
+															label={ __( 'Vertical Alignment', 'gp-premium' ) }
+															value={ verticalAlignment }
+															options={ [
+																{ label: __( 'Default', 'gp-premium' ), value: '' },
+																{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
+																{ label: __( 'Center', 'gp-premium' ), value: 'center' },
+																{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+															] }
+															onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
+														/>
 													</Fragment>
+												) : '' }
 
-												) : (
-
+												{ 'grid-tablet' === tab.name ? (
 													<Fragment>
 														<ButtonGroup className={ 'widthButtons' }>
-															<Button isLarge isPrimary={ mobileWidth === 25 } onClick={ () => { setAttributes( { mobileWidth: 25 } ); } }>25%</Button>
-															<Button isLarge isPrimary={ mobileWidth === 33.33 } onClick={ () => { setAttributes( { mobileWidth: 33.33 } ); } }>33%</Button>
-															<Button isLarge isPrimary={ mobileWidth === 50 } onClick={ () => { setAttributes( { mobileWidth: 50 } ); } }>50%</Button>
-															<Button isLarge isPrimary={ mobileWidth === 66.66 } onClick={ () => { setAttributes( { mobileWidth: 66.66 } ); } }>66%</Button>
-															<Button isLarge isPrimary={ mobileWidth === 100 } onClick={ () => { setAttributes( { mobileWidth: 100 } ); } }>100%</Button>
+															<Button isLarge isPrimary={ widthTablet === 25 } onClick={ () => { setAttributes( { widthTablet: 25 } ); } }>25%</Button>
+															<Button isLarge isPrimary={ widthTablet === 33.33 } onClick={ () => { setAttributes( { widthTablet: 33.33 } ); } }>33%</Button>
+															<Button isLarge isPrimary={ widthTablet === 50 } onClick={ () => { setAttributes( { widthTablet: 50 } ); } }>50%</Button>
+															<Button isLarge isPrimary={ widthTablet === 66.66 } onClick={ () => { setAttributes( { widthTablet: 66.66 } ); } }>66%</Button>
+															<Button isLarge isPrimary={ widthTablet === 100 } onClick={ () => { setAttributes( { widthTablet: 100 } ); } }>100%</Button>
 														</ButtonGroup>
 
 														<RangeControl
 															className={ 'gp-column-width-control' }
-															value={ parseFloat( mobileWidth ) }
+															value={ parseFloat( widthTablet ) }
 															onChange={ ( value ) => {
 																setAttributes( {
-																	mobileWidth: value
+																	widthTablet: value
 																} );
 															} }
 															min={ 10.00 }
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ generatepressDefaults.section.mobileWidth }
+															initialPosition={ generatepressDefaults.section.widthTablet }
+														/>
+
+														<SelectControl
+															label={ __( 'Vertical Alignment', 'gp-premium' ) }
+															value={ verticalAlignmentTablet }
+															options={ [
+																{ label: __( 'Inherit', 'gp-premium' ), value: 'inherit'},
+																{ label: __( 'Default', 'gp-premium' ), value: '' },
+																{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
+																{ label: __( 'Center', 'gp-premium' ), value: 'center' },
+																{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+															] }
+															onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
 														/>
 													</Fragment>
-												) }
+												) : '' }
+
+												{ 'grid-mobile' === tab.name ? (
+													<Fragment>
+														<ButtonGroup className={ 'widthButtons' }>
+															<Button isLarge isPrimary={ widthMobile === 25 } onClick={ () => { setAttributes( { widthMobile: 25 } ); } }>25%</Button>
+															<Button isLarge isPrimary={ widthMobile === 33.33 } onClick={ () => { setAttributes( { widthMobile: 33.33 } ); } }>33%</Button>
+															<Button isLarge isPrimary={ widthMobile === 50 } onClick={ () => { setAttributes( { widthMobile: 50 } ); } }>50%</Button>
+															<Button isLarge isPrimary={ widthMobile === 66.66 } onClick={ () => { setAttributes( { widthMobile: 66.66 } ); } }>66%</Button>
+															<Button isLarge isPrimary={ widthMobile === 100 } onClick={ () => { setAttributes( { widthMobile: 100 } ); } }>100%</Button>
+														</ButtonGroup>
+
+														<RangeControl
+															className={ 'gp-column-width-control' }
+															value={ parseFloat( widthMobile ) }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	widthMobile: value
+																} );
+															} }
+															min={ 10.00 }
+															max={ 100.00 }
+															step={ 0.01 }
+															allowReset={ true }
+															initialPosition={ generatepressDefaults.section.widthMobile }
+														/>
+
+														<SelectControl
+															label={ __( 'Vertical Alignment', 'gp-premium' ) }
+															value={ verticalAlignmentMobile }
+															options={ [
+																{ label: __( 'Inherit', 'gp-premium' ), value: 'inherit'},
+																{ label: __( 'Default', 'gp-premium' ), value: '' },
+																{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
+																{ label: __( 'Center', 'gp-premium' ), value: 'center' },
+																{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+															] }
+															onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
+														/>
+													</Fragment>
+												) : '' }
 											</div>
 										);
 									}

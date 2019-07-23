@@ -54,8 +54,11 @@ function generate_get_block_defaults() {
 			'attachment' => '',
 		),
 		'width' => 50,
-		'mobileWidth' => 100,
+		'widthTablet' => '',
+		'widthMobile' => 100,
 		'verticalAlignment' => '',
+		'verticalAlignmentTablet' => 'inherit',
+		'verticalAlignmentMobile' => 'inherit',
 		'zindex' => '',
 	);
 
@@ -88,6 +91,12 @@ function generate_get_block_defaults() {
 		'horizontalGap' => 30,
 		'verticalGap' => 30,
 		'verticalAlignment' => '',
+		'horizontalGapTablet' => '',
+		'verticalGapTablet' => '',
+		'verticalAlignmentTablet' => 'inherit',
+		'horizontalGapMobile' => '',
+		'verticalGapMobile' => '',
+		'verticalAlignmentMobile' => 'inherit',
 	);
 
 	$defaults['headline'] = array(

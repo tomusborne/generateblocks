@@ -56,6 +56,52 @@ function generate_get_grid_container_css() {
 		}
 
 		$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
+
+		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->set_selector( '.gp-grid-wrapper-' . $id );
+
+			if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+				$css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
+			}
+
+			if ( $settings['horizontalGapTablet'] ) {
+				$css->add_property( 'margin-left', '-' . $settings['horizontalGapTablet'] / 2 . 'px' );
+				$css->add_property( 'margin-right', '-' . $settings['horizontalGapTablet'] / 2 . 'px' );
+			}
+
+			$css->set_selector( '.gp-grid-wrapper-' . $id . ' > .gp-grid-column' );
+
+			if ( $settings['horizontalGapTablet'] ) {
+				$css->add_property( 'box-sizing', 'border-box' );
+				$css->add_property( 'padding-left', $settings['horizontalGapTablet'] / 2, 'px' );
+				$css->add_property( 'padding-right', $settings['horizontalGapTablet'] / 2, 'px' );
+			}
+
+			$css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
+		$css->stop_media_query();
+
+		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
+			$css->set_selector( '.gp-grid-wrapper-' . $id );
+
+			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+				$css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
+			}
+
+			if ( $settings['horizontalGapMobile'] ) {
+				$css->add_property( 'margin-left', '-' . $settings['horizontalGapMobile'] / 2 . 'px' );
+				$css->add_property( 'margin-right', '-' . $settings['horizontalGapMobile'] / 2 . 'px' );
+			}
+
+			$css->set_selector( '.gp-grid-wrapper-' . $id . ' > .gp-grid-column' );
+
+			if ( $settings['horizontalGapMobile'] ) {
+				$css->add_property( 'box-sizing', 'border-box' );
+				$css->add_property( 'padding-left', $settings['horizontalGapMobile'] / 2, 'px' );
+				$css->add_property( 'padding-right', $settings['horizontalGapMobile'] / 2, 'px' );
+			}
+
+			$css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
+		$css->stop_media_query();
 	}
 
 	return $css->css_output();
@@ -153,7 +199,16 @@ function generate_get_section_css() {
 		$css->add_property( 'width', $settings['width'], '%' );
 		$css->add_property( 'align-self', $settings['verticalAlignment'] );
 
-		$css->start_media_query( apply_filters( 'generate_mobile_media_query', '(max-width:768px)' ) );
+		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->set_selector( '.gp-grid-wrapper > .grid-column-' . $id );
+			$css->add_property( 'width', $settings['widthTablet'], '%' );
+
+			if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+				$css->add_property( 'align-self', $settings['verticalAlignmentTablet'] );
+			}
+		$css->stop_media_query();
+
+		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.generate-section.section-' . $id );
 
 			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
@@ -169,7 +224,12 @@ function generate_get_section_css() {
 			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
 
 			$css->set_selector( '.gp-grid-wrapper > .grid-column-' . $id );
-			$css->add_property( 'width', $settings['mobileWidth'], '%' );
+			$css->add_property( 'width', $settings['widthMobile'], '%' );
+
+			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+				$css->add_property( 'align-self', $settings['verticalAlignmentMobile'] );
+			}
+
 		$css->stop_media_query();
 	}
 

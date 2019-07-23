@@ -27,4 +27,28 @@ export default {
         type: 'string',
         default: generatepressDefaults.gridContainer.verticalAlignment,
     },
+	horizontalGapTablet: {
+        type: 'number',
+        default: generatepressDefaults.gridContainer.horizontalGapTablet,
+    },
+	verticalGapTablet: {
+        type: 'number',
+        default: generatepressDefaults.gridContainer.verticalGapTablet,
+    },
+	verticalAlignmentTablet: {
+        type: 'string',
+        default: generatepressDefaults.gridContainer.verticalAlignmentTablet,
+    },
+	horizontalGapMobile: {
+        type: 'number',
+        default: generatepressDefaults.gridContainer.horizontalGapMobile,
+    },
+	verticalGapMobile: {
+        type: 'number',
+        default: generatepressDefaults.gridContainer.verticalGapMobile,
+    },
+	verticalAlignmentMobile: {
+        type: 'string',
+        default: generatepressDefaults.gridContainer.verticalAlignmentMobile,
+    },
 }

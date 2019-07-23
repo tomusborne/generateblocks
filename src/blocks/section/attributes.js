@@ -23,9 +23,13 @@ export default {
 		type: 'number',
 		default: generatepressDefaults.section.width,
 	},
-	mobileWidth: {
+	widthTablet: {
 		type: 'number',
-		default: generatepressDefaults.section.mobileWidth,
+		default: generatepressDefaults.section.widthTablet,
+	},
+	widthMobile: {
+		type: 'number',
+		default: generatepressDefaults.section.widthMobile,
 	},
 	outerContainer: {
 		type: 'string',
@@ -144,6 +148,14 @@ export default {
 	verticalAlignment: {
 		type: 'string',
 		default: generatepressDefaults.section.verticalAlignment,
+	},
+	verticalAlignmentTablet: {
+		type: 'string',
+		default: generatepressDefaults.section.verticalAlignmentTablet,
+	},
+	verticalAlignmentMobile: {
+		type: 'string',
+		default: generatepressDefaults.section.verticalAlignmentMobile,
 	},
 	zindex: {
 		type: 'number',

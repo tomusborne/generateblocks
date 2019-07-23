@@ -256,6 +256,12 @@ class GenerateGridContainer extends Component {
 			horizontalGap,
 			verticalGap,
 			verticalAlignment,
+			horizontalGapTablet,
+			verticalGapTablet,
+			verticalAlignmentTablet,
+			horizontalGapMobile,
+			verticalGapMobile,
+			verticalAlignmentMobile,
 		} = attributes;
 
 		const css = `
@@ -278,35 +284,139 @@ class GenerateGridContainer extends Component {
 							initialPosition={ generatepressDefaults.gridContainer.columns }
 						/>
 
-						<RangeControl
-							label={ __( 'Horizontal Gap', 'gp-premium' ) }
-							value={ horizontalGap }
-							onChange={ ( value ) => setAttributes( { horizontalGap: value } ) }
-							min={ 0 }
-							max={ 100 }
-							initialPosition={ generatepressDefaults.gridContainer.horizontalGap }
-						/>
+						<TabPanel className="grid-tab-panel generatepress-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'grid-default',
+									title: __( 'Default', 'gp-premium' ),
+									className: 'grid-default',
+								},
+								{
+									name: 'grid-tablet',
+									title: __( 'Tablet', 'gp-premium' ),
+									className: 'grid-tablet',
+								},
+								{
+									name: 'grid-mobile',
+									title: __( 'Mobile', 'gp-premium' ),
+									className: 'grid-mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									const isDefault = tab.name === 'grid-default';
 
-						<RangeControl
-							label={ __( 'Vertical Gap', 'gp-premium' ) }
-							value={ verticalGap }
-							onChange={ ( value ) => setAttributes( { verticalGap: value } ) }
-							min={ 0 }
-							max={ 100 }
-							initialPosition={ generatepressDefaults.gridContainer.verticalGap }
-						/>
+									return (
+										<div>
+											{ 'grid-default' === tab.name ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Horizontal Gap', 'gp-premium' ) }
+														value={ horizontalGap }
+														onChange={ ( value ) => setAttributes( { horizontalGap: value } ) }
+														min={ 0 }
+														max={ 100 }
+														initialPosition={ generatepressDefaults.gridContainer.horizontalGap }
+													/>
 
-						<SelectControl
-							label={ __( 'Vertical Alignment', 'gp-premium' ) }
-							value={ verticalAlignment }
-							options={ [
-								{ label: __( 'Default', 'gp-premium' ), value: '' },
-								{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
-								{ label: __( 'Center', 'gp-premium' ), value: 'center' },
-								{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
-							] }
-							onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
-						/>
+													<RangeControl
+														label={ __( 'Vertical Gap', 'gp-premium' ) }
+														value={ verticalGap }
+														onChange={ ( value ) => setAttributes( { verticalGap: value } ) }
+														min={ 0 }
+														max={ 100 }
+														initialPosition={ generatepressDefaults.gridContainer.verticalGap }
+													/>
+
+													<SelectControl
+														label={ __( 'Vertical Alignment', 'gp-premium' ) }
+														value={ verticalAlignment }
+														options={ [
+															{ label: __( 'Default', 'gp-premium' ), value: '' },
+															{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
+															{ label: __( 'Center', 'gp-premium' ), value: 'center' },
+															{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+														] }
+														onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'grid-tablet' === tab.name ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Horizontal Gap', 'gp-premium' ) }
+														value={ horizontalGapTablet }
+														onChange={ ( value ) => setAttributes( { horizontalGapTablet: value } ) }
+														min={ 0 }
+														max={ 100 }
+														initialPosition={ generatepressDefaults.gridContainer.horizontalGapTablet }
+													/>
+
+													<RangeControl
+														label={ __( 'Vertical Gap', 'gp-premium' ) }
+														value={ verticalGapTablet }
+														onChange={ ( value ) => setAttributes( { verticalGapTablet: value } ) }
+														min={ 0 }
+														max={ 100 }
+														initialPosition={ generatepressDefaults.gridContainer.verticalGapTablet }
+													/>
+
+													<SelectControl
+														label={ __( 'Vertical Alignment', 'gp-premium' ) }
+														value={ verticalAlignmentTablet }
+														options={ [
+															{ label: __( 'Inherit', 'gp-premium' ), value: 'inherit' },
+															{ label: __( 'Default', 'gp-premium' ), value: '' },
+															{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
+															{ label: __( 'Center', 'gp-premium' ), value: 'center' },
+															{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+														] }
+														onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'grid-mobile' === tab.name ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Horizontal Gap', 'gp-premium' ) }
+														value={ horizontalGapMobile }
+														onChange={ ( value ) => setAttributes( { horizontalGapMobile: value } ) }
+														min={ 0 }
+														max={ 100 }
+														initialPosition={ generatepressDefaults.gridContainer.horizontalGapMobile }
+													/>
+
+													<RangeControl
+														label={ __( 'Vertical Gap', 'gp-premium' ) }
+														value={ verticalGapMobile }
+														onChange={ ( value ) => setAttributes( { verticalGapMobile: value } ) }
+														min={ 0 }
+														max={ 100 }
+														initialPosition={ generatepressDefaults.gridContainer.verticalGapMobile }
+													/>
+
+													<SelectControl
+														label={ __( 'Vertical Alignment', 'gp-premium' ) }
+														value={ verticalAlignmentMobile }
+														options={ [
+															{ label: __( 'Inherit', 'gp-premium' ), value: 'inherit' },
+															{ label: __( 'Default', 'gp-premium' ), value: '' },
+															{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
+															{ label: __( 'Center', 'gp-premium' ), value: 'center' },
+															{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+														] }
+														onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
+													/>
+												</Fragment>
+											) : '' }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
 					</PanelBody>
 				</InspectorControls>
 
