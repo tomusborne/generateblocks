@@ -63,6 +63,26 @@ export default {
 		type: 'boolean',
 		default: false,
 	},
+	paddingTopTablet: {
+		type: 'number',
+		default: generatepressDefaults.section.paddingTopTablet,
+	},
+	paddingRightTablet: {
+		type: 'number',
+		default: generatepressDefaults.section.paddingRightTablet,
+	},
+	paddingBottomTablet: {
+		type: 'number',
+		default: generatepressDefaults.section.paddingBottomTablet,
+	},
+	paddingLeftTablet: {
+		type: 'number',
+		default: generatepressDefaults.section.paddingLeftTablet,
+	},
+	paddingSyncUnitsTablet: {
+		type: 'boolean',
+		default: false,
+	},
 	paddingTopMobile: {
 		type: 'number',
 		default: generatepressDefaults.section.paddingTopMobile,
@@ -78,6 +98,10 @@ export default {
 	paddingLeftMobile: {
 		type: 'number',
 		default: generatepressDefaults.section.paddingLeftMobile,
+	},
+	paddingSyncUnitsMobile: {
+		type: 'boolean',
+		default: false,
 	},
 	marginTop: {
 		type: 'string',
@@ -99,6 +123,26 @@ export default {
 		type: 'boolean',
 		default: false,
 	},
+	marginTopTablet: {
+		type: 'string',
+		default: generatepressDefaults.section.marginTopTablet,
+	},
+	marginRightTablet: {
+		type: 'string',
+		default: generatepressDefaults.section.marginRightTablet,
+	},
+	marginBottomTablet: {
+		type: 'string',
+		default: generatepressDefaults.section.marginBottomTablet,
+	},
+	marginLeftTablet: {
+		type: 'string',
+		default: generatepressDefaults.section.marginLeftTablet,
+	},
+	marginSyncUnitsTablet: {
+		type: 'boolean',
+		default: false,
+	},
 	marginTopMobile: {
 		type: 'string',
 		default: generatepressDefaults.section.marginTopMobile,
@@ -114,6 +158,10 @@ export default {
 	marginLeftMobile: {
 		type: 'string',
 		default: generatepressDefaults.section.marginLeftMobile,
+	},
+	marginSyncUnitsMobile: {
+		type: 'boolean',
+		default: false,
 	},
 	backgroundColor: {
 		type: 'string',

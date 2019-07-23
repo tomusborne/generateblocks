@@ -200,6 +200,20 @@ function generate_get_section_css() {
 		$css->add_property( 'align-self', $settings['verticalAlignment'] );
 
 		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->set_selector( '.generate-section.section-' . $id );
+
+			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
+			$css->add_property( 'margin-right', $settings['marginRightTablet'], 'px' );
+			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
+			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
+
+			$css->set_selector( '.generate-section.section-' . $id . ' > .inside-section' );
+
+			$css->add_property( 'padding-top', $settings['paddingTopTablet'], 'px' );
+			$css->add_property( 'padding-right', $settings['paddingRightTablet'], 'px' );
+			$css->add_property( 'padding-bottom', $settings['paddingBottomTablet'], 'px' );
+			$css->add_property( 'padding-left', $settings['paddingLeftTablet'], 'px' );
+
 			$css->set_selector( '.gp-grid-wrapper > .grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthTablet'], '%' );
 

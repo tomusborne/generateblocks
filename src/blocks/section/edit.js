@@ -103,6 +103,11 @@ class GenerateSection extends Component {
 			paddingBottom,
 			paddingLeft,
 			paddingSyncUnits,
+			paddingTopTablet,
+			paddingRightTablet,
+			paddingBottomTablet,
+			paddingLeftTablet,
+			paddingSyncUnitsTablet,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -113,6 +118,11 @@ class GenerateSection extends Component {
 			marginBottom,
 			marginLeft,
 			marginSyncUnits,
+			marginTopTablet,
+			marginRightTablet,
+			marginBottomTablet,
+			marginLeftTablet,
+			marginSyncUnitsTablet,
 			marginTopMobile,
 			marginRightMobile,
 			marginBottomMobile,
@@ -396,23 +406,26 @@ class GenerateSection extends Component {
 							activeClass="active-tab"
 							tabs={ [
 								{
-									name: 'layout-desktop',
-									title: __( 'Desktop', 'gp-premium' ),
-									className: 'layout-desktop',
+									name: 'grid-default',
+									title: __( 'Default', 'gp-premium' ),
+									className: 'grid-default',
 								},
 								{
-									name: 'layout-mobile',
+									name: 'grid-tablet',
+									title: __( 'Tablet', 'gp-premium' ),
+									className: 'grid-tablet',
+								},
+								{
+									name: 'grid-mobile',
 									title: __( 'Mobile', 'gp-premium' ),
-									className: 'layout-mobile',
+									className: 'grid-mobile',
 								},
 							] }>
 							{
 								( tab ) => {
-									const isDesktop = tab.name === 'layout-desktop';
-
 									return (
 										<div>
-											{ isDesktop ? (
+											{ 'grid-default' === tab.name ? (
 												<Fragment>
 													<BaseControl label={ __( 'Padding', 'gp-premium' ) }>
 														<DimensionsControl { ...this.props }
@@ -450,9 +463,49 @@ class GenerateSection extends Component {
 														/>
 													</BaseControl>
 												</Fragment>
+											) : '' }
 
-											) : (
+											{ 'grid-tablet' === tab.name ? (
+												<Fragment>
+													<BaseControl label={ __( 'Padding', 'gp-premium' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'gp-premium' ) }
+															valueTop={ paddingTopTablet }
+															valueRight={ paddingRightTablet }
+															valueBottom={ paddingBottomTablet }
+															valueLeft={ paddingLeftTablet }
+															//unit={ paddingUnit }
+															syncUnits={ paddingSyncUnitsTablet }
+															attrTop={ 'paddingTopTablet' }
+															attrRight={ 'paddingRightTablet' }
+															attrBottom={ 'paddingBottomTablet' }
+															attrLeft={ 'paddingLeftTablet' }
+															attrSyncUnits={ 'paddingSyncUnitsTablet' }
+														/>
+													</BaseControl>
 
+													<BaseControl label={ __( 'Margin', 'gp-premium' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'gp-premium' ) }
+															valueTop={ marginTopTablet }
+															valueRight={ marginRightTablet }
+															valueBottom={ marginBottomTablet }
+															valueLeft={ marginLeftTablet }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnitsTablet }
+															attrTop={ 'marginTopTablet' }
+															attrRight={ 'marginRightTablet' }
+															attrBottom={ 'marginBottomTablet' }
+															attrLeft={ 'marginLeftTablet' }
+															attrSyncUnits={ 'marginSyncUnitsTablet' }
+														/>
+													</BaseControl>
+												</Fragment>
+											) : '' }
+
+											{ 'grid-mobile' === tab.name ? (
 												<Fragment>
 													<BaseControl label={ __( 'Padding', 'gp-premium' ) }>
 														<DimensionsControl { ...this.props }
@@ -490,7 +543,7 @@ class GenerateSection extends Component {
 														/>
 													</BaseControl>
 												</Fragment>
-											) }
+											) : '' }
 										</div>
 									);
 								}
