@@ -350,7 +350,10 @@ function generate_get_button_css() {
 		$css->set_selector( 'a.gp-button-' . $id );
 		$css->add_property( 'background-color', $settings['backgroundColor'] );
 		$css->add_property( 'color', $settings['textColor'] );
-		$css->add_property( 'border-radius', $settings['borderRadius'], 'px' );
+		$css->add_property( 'border-top-right-radius', $settings['borderRadiusTopRight'], 'px' );
+		$css->add_property( 'border-bottom-right-radius', $settings['borderRadiusBottomRight'], 'px' );
+		$css->add_property( 'border-bottom-left-radius', $settings['borderRadiusBottomLeft'], 'px' );
+		$css->add_property( 'border-top-left-radius', $settings['borderRadiusTopLeft'], 'px' );
 		$css->add_property( 'font-size', $settings['fontSize'], 'em' );
 		$css->add_property( 'margin-right', $settings['gap'], 'px' );
 		$css->add_property( 'border-top-width', $settings['borderSizeTop'], 'px' );

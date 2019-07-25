@@ -74,6 +74,11 @@ class GenerateButton extends Component {
 			borderSizeBottom,
 			borderSizeLeft,
 			borderSizeSyncUnits,
+			borderRadiusTopRight,
+			borderRadiusBottomRight,
+			borderRadiusBottomLeft,
+			borderRadiusTopLeft,
+			borderRadiusSyncUnits,
 			borderColor,
 			borderColorHover,
 		} = attributes;
@@ -81,12 +86,8 @@ class GenerateButton extends Component {
 		var borderRadiusValue = '',
 			fontSizeValue = '',
 			gapValue = '',
-			borderValue = '',
-			borderHoverValue = '';
-
-		if ( borderRadius ) {
-			borderRadiusValue = borderRadius + 'px';
-		}
+			borderHoverValue = '',
+			borderStyleValue = '';
 
 		if ( fontSize ) {
 			fontSizeValue = fontSize + 'em';
@@ -100,7 +101,10 @@ class GenerateButton extends Component {
 			.editor-block-list__block a.gp-button-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
-				border-radius: ` + borderRadiusValue + `;
+				border-top-right-radius: ` + borderRadiusTopRight + `px;
+				border-bottom-right-radius: ` + borderRadiusBottomRight + `px;
+				border-bottom-left-radius: ` + borderRadiusBottomLeft + `px;
+				border-top-left-radius: ` + borderRadiusTopLeft + `px;
 				font-size: ` + fontSizeValue + `;
 				border-width: 0;
 				border-top-width: ` + borderSizeTop + `px;

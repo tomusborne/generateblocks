@@ -59,10 +59,6 @@ export default {
 		type: 'string',
 		default: generatepressDefaults.button.borderColorHover,
 	},
-	borderRadius: {
-		type: 'number',
-		default: generatepressDefaults.button.borderRadius,
-	},
 	fontSize: {
 		type: 'number',
 		default: generatepressDefaults.button.fontSize,
@@ -87,7 +83,20 @@ export default {
 		type: 'number',
 		default: generatepressDefaults.button.borderSizeLeft,
 	},
+	borderRadiusTopRight: {
 		type: 'number',
-		default: generatepressDefaults.button.borderSize,
+		default: generatepressDefaults.button.borderRadiusTopRight,
+	},
+	borderRadiusBottomRight: {
+		type: 'number',
+		default: generatepressDefaults.button.borderRadiusBottomRight,
+	},
+	borderRadiusBottomLeft: {
+		type: 'number',
+		default: generatepressDefaults.button.borderRadiusBottomLeft,
+	},
+	borderRadiusTopLeft: {
+		type: 'number',
+		default: generatepressDefaults.button.borderRadiusTopLeft,
 	},
 }

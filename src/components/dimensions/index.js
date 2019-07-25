@@ -80,7 +80,11 @@ class DimensionsControl extends Component {
 			attrRight,
 			attrBottom,
 			attrLeft,
-			attrSyncUnits
+			attrSyncUnits,
+			labelTop = __( 'Top', 'flex-blocks' ),
+			labelRight = __( 'Right', 'flex-blocks' ),
+			labelBottom = __( 'Bottom', 'flex-blocks' ),
+			labelLeft = __( 'Left', 'flex-blocks' ),
 		} = this.props;
 
 		const classes = classnames(
@@ -220,10 +224,10 @@ class DimensionsControl extends Component {
 					</div>
 
 					<div className='components-generatepress-dimensions-control__input-labels'>
-						<span className='components-generatepress-dimensions-control__number-label'>{  __( 'Top' ) }</span>
-						<span className='components-generatepress-dimensions-control__number-label'>{  __( 'Right' ) }</span>
-						<span className='components-generatepress-dimensions-control__number-label'>{  __( 'Bottom' ) }</span>
-						<span className='components-generatepress-dimensions-control__number-label'>{  __( 'Left' ) }</span>
+						<span className='components-generatepress-dimensions-control__number-label'>{  labelTop }</span>
+						<span className='components-generatepress-dimensions-control__number-label'>{  labelRight }</span>
+						<span className='components-generatepress-dimensions-control__number-label'>{  labelBottom }</span>
+						<span className='components-generatepress-dimensions-control__number-label'>{  labelLeft }</span>
 						<span className='components-generatepress-dimensions-control__number-label'></span>
 					</div>
 				</div>
