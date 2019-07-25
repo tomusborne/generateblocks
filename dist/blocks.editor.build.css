@@ -478,6 +478,9 @@ body .generate-section .wp-block {
   -ms-flex-pack: start;
       justify-content: flex-start;
   clear: both; }
+
+.gp-button-wrapper .editor-block-list__layout > .block-list-appender {
+  display: none; }
 /**
  * #.# Common SCSS
  *
@@ -558,32 +561,6 @@ body .generate-section .wp-block {
   -webkit-transform: rotate(-90deg);
       -ms-transform: rotate(-90deg);
           transform: rotate(-90deg); }
-
-.generatepress-component-url-input-float {
-  position: absolute;
-  min-width: 260px;
-  max-width: 260px;
-  -webkit-box-shadow: 0 3px 30px rgba(25, 30, 35, 0.1);
-          box-shadow: 0 3px 30px rgba(25, 30, 35, 0.1);
-  z-index: 7; }
-  .generatepress-component-url-input-float::after, .generatepress-component-url-input-float::before {
-    content: " ";
-    position: absolute;
-    bottom: 100%;
-    left: 20px;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-    border: solid transparent; }
-  .generatepress-component-url-input-float::after {
-    border: 5px solid rgba(255, 255, 255, 0);
-    border-bottom-color: #fff; }
-  .generatepress-component-url-input-float::before {
-    margin-left: -1px;
-    border: 6px solid rgba(226, 228, 231, 0);
-    border-bottom-color: #e2e4e7; }
-  .generatepress-component-url-input-float .editor-url-input__suggestions {
-    max-width: 188px; }
 /**
  * #.# Common SCSS
  *
@@ -631,6 +608,32 @@ body .generate-section .wp-block {
       margin-bottom: 0; }
     .generatepress-component-url-input .generatepress-component-url-input-more-options .components-base-control + .components-base-control {
       margin-top: 12px; }
+
+.generatepress-component-url-input-float {
+  position: absolute;
+  min-width: 260px;
+  max-width: 260px;
+  -webkit-box-shadow: 0 3px 30px rgba(25, 30, 35, 0.1);
+          box-shadow: 0 3px 30px rgba(25, 30, 35, 0.1);
+  z-index: 150; }
+  .generatepress-component-url-input-float::after, .generatepress-component-url-input-float::before {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 20px;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    border: solid transparent; }
+  .generatepress-component-url-input-float::after {
+    border: 5px solid rgba(255, 255, 255, 0);
+    border-bottom-color: #fff; }
+  .generatepress-component-url-input-float::before {
+    margin-left: -1px;
+    border: 6px solid rgba(226, 228, 231, 0);
+    border-bottom-color: #e2e4e7; }
+  .generatepress-component-url-input-float .editor-url-input__suggestions {
+    max-width: 188px; }
 /**
  * #.# Common SCSS
  *
