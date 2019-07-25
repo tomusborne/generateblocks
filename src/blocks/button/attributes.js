@@ -71,7 +71,22 @@ export default {
 		type: 'number',
 		default: generatepressDefaults.button.gap,
 	},
-	borderSize: {
+	borderSizeTop: {
+		type: 'number',
+		default: generatepressDefaults.button.borderSizeTop,
+	},
+	borderSizeRight: {
+		type: 'number',
+		default: generatepressDefaults.button.borderSizeRight,
+	},
+	borderSizeBottom: {
+		type: 'number',
+		default: generatepressDefaults.button.borderSizeBottom,
+	},
+	borderSizeLeft: {
+		type: 'number',
+		default: generatepressDefaults.button.borderSizeLeft,
+	},
 		type: 'number',
 		default: generatepressDefaults.button.borderSize,
 	},

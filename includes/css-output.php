@@ -353,8 +353,15 @@ function generate_get_button_css() {
 		$css->add_property( 'border-radius', $settings['borderRadius'], 'px' );
 		$css->add_property( 'font-size', $settings['fontSize'], 'em' );
 		$css->add_property( 'margin-right', $settings['gap'], 'px' );
-		$css->add_property( 'border-width', $settings['borderSize'], 'px' );
-		$css->add_property( 'border-style', 'solid' );
+		$css->add_property( 'border-top-width', $settings['borderSizeTop'], 'px' );
+		$css->add_property( 'border-right-width', $settings['borderSizeRight'], 'px' );
+		$css->add_property( 'border-bottom-width', $settings['borderSizeBottom'], 'px' );
+		$css->add_property( 'border-left-width', $settings['borderSizeLeft'], 'px' );
+
+		if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
+			$css->add_property( 'border-style', 'solid' );
+		}
+
 		$css->add_property( 'border-color', $settings['borderColor'] );
 
 		$css->set_selector( 'a.gp-button-' . $id . ':hover,a.gp-button-' . $id . ':active, a.gp-button-' . $id . ':focus' );

@@ -89,7 +89,10 @@ function generate_get_block_defaults() {
 		'borderRadius' => 2,
 		'fontSize' => false,
 		'gap' => 25,
-		'borderSize' => 0,
+		'borderSizeTop' => '',
+		'borderSizeRight' => '',
+		'borderSizeBottom' => '',
+		'borderSizeLeft' => '',
 		'borderColor' => '#0366d6',
 		'borderColorHover' => false,
 	);

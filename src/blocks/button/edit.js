@@ -5,11 +5,13 @@
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
 import URLInput from '../../components/url-input';
+import DimensionsControl from '../../components/dimensions/';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
 	PanelBody,
 	TabPanel,
+	BaseControl,
 	TextControl,
 	RangeControl,
 } = wp.components;
@@ -67,7 +69,11 @@ class GenerateButton extends Component {
 			borderRadius,
 			fontSize,
 			gap,
-			borderSize,
+			borderSizeTop,
+			borderSizeRight,
+			borderSizeBottom,
+			borderSizeLeft,
+			borderSizeSyncUnits,
 			borderColor,
 			borderColorHover,
 		} = attributes;
@@ -86,12 +92,8 @@ class GenerateButton extends Component {
 			fontSizeValue = fontSize + 'em';
 		}
 
-		if ( borderSize && borderColor ) {
-			borderValue = borderSize + 'px solid ' + borderColor;
-		}
-
-		if ( borderSize && borderColorHover ) {
-			borderHoverValue = borderSize + 'px solid ' + borderColorHover;
+		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
+			borderStyleValue = 'solid';
 		}
 
 		const css = `
@@ -100,7 +102,13 @@ class GenerateButton extends Component {
 				color: ` + textColor + `;
 				border-radius: ` + borderRadiusValue + `;
 				font-size: ` + fontSizeValue + `;
-				border: ` + borderValue + `;
+				border-width: 0;
+				border-top-width: ` + borderSizeTop + `px;
+				border-right-width: ` + borderSizeRight + `px;
+				border-bottom-width: ` + borderSizeBottom + `px;
+				border-left-width: ` + borderSizeLeft + `px;
+				border-style: ` + borderStyleValue + `;
+				border-color: ` + borderColor + `;
 			}
 
 			.editor-block-list__block a.gp-button-` + uniqueId + `:hover,
@@ -108,7 +116,7 @@ class GenerateButton extends Component {
 			.editor-block-list__block a.gp-button-` + uniqueId + `:active {
 				background-color: ` + backgroundColorHover + `;
 				color: ` + textColorHover + `;
-				border: ` + borderHoverValue + `;
+				border-color: ` + borderHoverValue + `;
 			}
 		`
 
@@ -121,65 +129,131 @@ class GenerateButton extends Component {
 
 				<InspectorControls>
 					<PanelBody>
-						<RangeControl
-							label={ __( 'Font Size', 'gp-premium' ) }
-							value={ fontSize }
-							onChange={ ( value ) => {
-								setAttributes( {
-									fontSize: value
-								} );
-							} }
-							min={ 0.3 }
-							max={ 3 }
-							step={ 0.1 }
-							allowReset={ true }
-							initialPosition={ generatepressDefaults.button.fontSize }
-						/>
+						<TabPanel className="grid-tab-panel generatepress-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'grid-default',
+									title: __( 'Default', 'gp-premium' ),
+									className: 'grid-default',
+								},
+								{
+									name: 'grid-tablet',
+									title: __( 'Tablet', 'gp-premium' ),
+									className: 'grid-tablet',
+								},
+								{
+									name: 'grid-mobile',
+									title: __( 'Mobile', 'gp-premium' ),
+									className: 'grid-mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									return (
+										<div>
+											{ 'grid-default' === tab.name ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Font Size', 'gp-premium' ) }
+														value={ fontSize }
+														onChange={ ( value ) => {
+															setAttributes( {
+																fontSize: value
+															} );
+														} }
+														min={ 0.3 }
+														max={ 3 }
+														step={ 0.1 }
+														allowReset={ true }
+														initialPosition={ generatepressDefaults.button.fontSize }
+													/>
 
-						<RangeControl
-							label={ __( 'Gap', 'gp-premium' ) }
-							value={ gap }
-							onChange={ ( value ) => {
-								setAttributes( {
-									gap: value
-								} );
-							} }
-							min={ 0 }
-							max={ 50 }
-							step={ 1 }
-							allowReset={ true }
-							initialPosition={ generatepressDefaults.button.gap }
-						/>
+													<SelectControl
+														label={ __( 'Text Transform', 'gp-premium' ) }
+														value={ textTransform }
+														options={ [
+															{ label: 'none', value: '' },
+															{ label: 'uppercase', value: 'uppercase' },
+															{ label: 'lowercase', value: 'lowercase' },
+															{ label: 'capitalize', value: 'capitalize' },
+														] }
+														onChange={ ( textTransform ) => { setAttributes( { textTransform } ) } }
+													/>
 
-						<RangeControl
-							label={ __( 'Border Radius', 'gp-premium' ) }
-							value={ borderRadius }
-							onChange={ ( nextBorderRadius ) => {
-								setAttributes( {
-									borderRadius: nextBorderRadius
-								} );
-							} }
-							min={ 0 }
-							max={ 50 }
-							step={ 1 }
-							allowReset={ true }
-							initialPosition={ generatepressDefaults.button.borderRadius }
-						/>
+													<RangeControl
+														label={ __( 'Gap', 'gp-premium' ) }
+														value={ gap }
+														onChange={ ( value ) => {
+															setAttributes( {
+																gap: value
+															} );
+														} }
+														min={ 0 }
+														max={ 50 }
+														step={ 1 }
+														allowReset={ true }
+														initialPosition={ generatepressDefaults.button.gap }
+													/>
 
-						<RangeControl
-							label={ __( 'Border Size', 'gp-premium' ) }
-							value={ borderSize }
-							onChange={ ( value ) => {
-								setAttributes( {
-									borderSize: value
-								} );
-							} }
-							min={ 0 }
-							max={ 10 }
-							step={ 1 }
-							allowReset={ true }
-							initialPosition={ generatepressDefaults.button.borderSize }
-						/>
+													<BaseControl label={ __( 'Border Radius', 'gp-premium' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Radius', 'gp-premium' ) }
+															valueTop={ borderRadiusTopRight }
+															valueRight={ borderRadiusBottomRight }
+															valueBottom={ borderRadiusBottomLeft }
+															valueLeft={ borderRadiusTopLeft }
+															//unit={ paddingUnit }
+															syncUnits={ borderRadiusSyncUnits }
+															attrTop={ 'borderRadiusTopRight' }
+															attrRight={ 'borderRadiusBottomRight' }
+															attrBottom={ 'borderRadiusBottomLeft' }
+															attrLeft={ 'borderRadiusTopLeft' }
+															attrSyncUnits={ 'borderRadiusSyncUnits' }
+															labelTop={ __( 'T-Right', 'flex-blocks' ) }
+															labelRight={ __( 'B-Right', 'flex-blocks' ) }
+															labelBottom={ __( 'B-Left', 'flex-blocks' ) }
+															labelLeft={ __( 'T-Left', 'flex-blocks' ) }
+														/>
+													</BaseControl>
+
+													<BaseControl label={ __( 'Border Size', 'gp-premium' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Size', 'gp-premium' ) }
+															valueTop={ borderSizeTop }
+															valueRight={ borderSizeRight }
+															valueBottom={ borderSizeBottom }
+															valueLeft={ borderSizeLeft }
+															//unit={ paddingUnit }
+															syncUnits={ borderSizeSyncUnits }
+															attrTop={ 'borderSizeTop' }
+															attrRight={ 'borderSizeRight' }
+															attrBottom={ 'borderSizeBottom' }
+															attrLeft={ 'borderSizeLeft' }
+															attrSyncUnits={ 'borderSizeSyncUnits' }
+														/>
+													</BaseControl>
+												</Fragment>
+											) : '' }
+
+											{ 'grid-tablet' === tab.name ? (
+												<Fragment>
+
+												</Fragment>
+											) : '' }
+
+											{ 'grid-mobile' === tab.name ? (
+												<Fragment>
+
+												</Fragment>
+											) : '' }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
 					</PanelBody>
 
 					<PanelBody
