@@ -62,6 +62,7 @@ class GenerateHeadline extends Component {
 			align,
 			color,
 			size,
+			textTransform,
 			lineHeight,
 			marginTop,
 			marginBottom,
@@ -70,6 +71,7 @@ class GenerateHeadline extends Component {
 
 		const css = `
 			.editor-styles-wrapper .gp-headline-` + uniqueId + ` {
+				text-transform: ` + textTransform + `;
 				text-align: ` + align + `;
 				font-size: ` + size + `px;
 				color: ` + color + `;
@@ -120,6 +122,18 @@ class GenerateHeadline extends Component {
 							step={ 1 }
 							allowReset={ true }
 							initialPosition={ generatepressDefaults.headline.size }
+						/>
+
+						<SelectControl
+							label={ __( 'Text Transform', 'gp-premium' ) }
+							value={ textTransform }
+							options={ [
+								{ label: 'none', value: '' },
+								{ label: 'uppercase', value: 'uppercase' },
+								{ label: 'lowercase', value: 'lowercase' },
+								{ label: 'capitalize', value: 'capitalize' },
+							] }
+							onChange={ ( textTransform ) => { setAttributes( { textTransform } ) } }
 						/>
 
 						<RangeControl

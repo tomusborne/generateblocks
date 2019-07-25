@@ -14,6 +14,7 @@ const {
 	BaseControl,
 	TextControl,
 	RangeControl,
+	SelectControl,
 } = wp.components;
 
 const {
@@ -66,8 +67,8 @@ class GenerateButton extends Component {
 			textColor,
 			backgroundColorHover,
 			textColorHover,
-			borderRadius,
 			fontSize,
+			textTransform,
 			gap,
 			borderSizeTop,
 			borderSizeRight,
@@ -113,6 +114,7 @@ class GenerateButton extends Component {
 				border-left-width: ` + borderSizeLeft + `px;
 				border-style: ` + borderStyleValue + `;
 				border-color: ` + borderColor + `;
+				text-transform: ` + textTransform + `;
 			}
 
 			.editor-block-list__block a.gp-button-` + uniqueId + `:hover,

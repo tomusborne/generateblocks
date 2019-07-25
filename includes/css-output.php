@@ -366,6 +366,7 @@ function generate_get_button_css() {
 		}
 
 		$css->add_property( 'border-color', $settings['borderColor'] );
+		$css->add_property( 'text-transform', $settings['textTransform'] );
 
 		$css->set_selector( 'a.gp-button-' . $id . ':hover,a.gp-button-' . $id . ':active, a.gp-button-' . $id . ':focus' );
 		$css->add_property( 'background-color', $settings['backgroundColorHover'] );
@@ -410,6 +411,7 @@ function generate_get_headline_css() {
 		$css->add_property( 'text-align', $settings['align'] );
 		$css->add_property( 'color', $settings['color'] );
 		$css->add_property( 'font-size', $settings['size'], 'px' );
+		$css->add_property( 'text-transform', $settings['textTransform'] );
 		$css->add_property( 'line-height', $settings['lineHeight'], 'em' );
 		$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );

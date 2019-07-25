@@ -32,6 +32,10 @@ export default {
 		type: 'number',
 		default: generatepressDefaults.headline.size,
 	},
+	textTransform: {
+		type: 'string',
+		default: '',
+	},
 	lineHeight: {
 		type: 'number',
 		default: generatepressDefaults.headline.lineHeight,

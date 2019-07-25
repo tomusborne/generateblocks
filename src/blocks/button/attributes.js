@@ -63,6 +63,10 @@ export default {
 		type: 'number',
 		default: generatepressDefaults.button.fontSize,
 	},
+	textTransform: {
+		type: 'string',
+		default: '',
+	},
 	gap: {
 		type: 'number',
 		default: generatepressDefaults.button.gap,
