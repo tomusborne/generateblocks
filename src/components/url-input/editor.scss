@@ -43,3 +43,39 @@
         }
     }
 }
+
+.generatepress-component-url-input-float {
+    $blocks-button__link-input-width: 260px;
+
+    position: absolute;
+    min-width: $blocks-button__link-input-width;
+    max-width: $blocks-button__link-input-width;
+    box-shadow: 0 3px 30px rgba(25, 30, 35, .1);
+    z-index: 150;
+
+    // arrow.
+    &::after,
+    &::before {
+        content: " ";
+        position: absolute;
+        bottom: 100%;
+        left: 20px;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+        border: solid transparent;
+    }
+    &::after {
+        border: 5px solid rgba(255, 255, 255, 0);
+        border-bottom-color: #fff;
+    }
+    &::before {
+        margin-left: -1px;
+        border: 6px solid rgba(226, 228, 231, 0);
+        border-bottom-color: #e2e4e7;
+    }
+
+    .editor-url-input__suggestions {
+        max-width: $blocks-button__link-input-width - $icon-button-size - $icon-button-size;
+    }
+}
