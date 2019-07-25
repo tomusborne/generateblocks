@@ -447,13 +447,6 @@ class GenerateGridContainer extends Component {
 				>
 					{ columns > 0 || this.state.selectedLayout ? (
 						<Fragment>
-							{ ! isSelected ? (
-								<div className="gp-grid-wrapper-button-select">
-									<Tooltip text={ __( 'Select Grid', 'gp-premium' ) }>
-										<Icon icon="screenoptions" />
-									</Tooltip>
-								</div>
-							) : '' }
 							<InnerBlocks
 								template={ this.getColumnsTemplate() }
 								templateLock="all"

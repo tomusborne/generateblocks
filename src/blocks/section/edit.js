@@ -801,13 +801,6 @@ class GenerateSection extends Component {
 							'inside-section': true
 							} ) }
 						>
-							{ ! isSelected ? (
-								<div className="gp-section-button-select">
-									<Tooltip text={ __( 'Select Column', 'gp-premium' ) }>
-										<Icon icon="screenoptions" />
-									</Tooltip>
-								</div>
-							) : '' }
 							<InnerBlocks
 								templateLock={ false }
 								renderAppender={ (
