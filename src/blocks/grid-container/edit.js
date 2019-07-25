@@ -305,8 +305,6 @@ class GenerateGridContainer extends Component {
 							] }>
 							{
 								( tab ) => {
-									const isDefault = tab.name === 'grid-default';
-
 									return (
 										<div>
 											{ 'grid-default' === tab.name ? (
