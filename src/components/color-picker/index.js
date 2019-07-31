@@ -31,7 +31,7 @@ export default class ColorPicker extends Component {
         return (
             <BaseControl
                 label={ label }
-                className="generatepress-component-color-picker-wrapper"
+                className="fx-component-color-picker-wrapper"
             >
                 <Dropdown
                     className={ classnames( 'components-color-palette__item-wrapper', value ? '' : 'components-color-palette__custom-color' ) }
@@ -51,7 +51,7 @@ export default class ColorPicker extends Component {
                         </Tooltip>
                     ) }
                     renderContent={ () => (
-                        <div className="generatepress-component-color-picker">
+                        <div className="fx-component-color-picker">
                             <WPColorPicker
                                 color={ value }
                                 onChangeComplete={ ( color ) => {
@@ -70,7 +70,7 @@ export default class ColorPicker extends Component {
                             />
                             <BaseControl
                                 label={ __( 'Color palette' ) }
-                                className="generatepress-component-color-picker-palette"
+                                className="fx-component-color-picker-palette"
                             >
                                 <ColorPalette
                                     value={ value }

@@ -3,11 +3,11 @@
  */
 @import "../../common";
 
-.gp-button-wrapper {
+.fx-button-wrapper {
     position: relative;
     margin-top: 0;
 
-    .gp-button {
+    .fx-button {
         margin: 0 !important; // stylelint-disable-line
 		display: inline-block;
 	    padding: .75em 1em;
@@ -35,11 +35,11 @@
         }
     }
 
-    &.gp-button-wrapper-align-right > .editor-inner-blocks > .editor-block-list__layout {
+    &.fx-button-wrapper-align-right > .editor-inner-blocks > .editor-block-list__layout {
         justify-content: flex-end;
     }
 
-    &.gp-button-wrapper-align-center > .editor-inner-blocks > .editor-block-list__layout {
+    &.fx-button-wrapper-align-center > .editor-inner-blocks > .editor-block-list__layout {
         justify-content: center;
     }
 
@@ -77,7 +77,7 @@
 
 // hide drag handler from single buttons
 // rotate move buttons
-[data-type="generatepress/button"] > .editor-block-mover {
+[data-type="flex-blocks/button"] > .editor-block-mover {
     > .editor-block-mover__control-drag-handle {
         display: none;
     }

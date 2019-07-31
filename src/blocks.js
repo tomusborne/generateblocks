@@ -1,5 +1,5 @@
 /**
- * GeneratePress Blocks
+ * Flex Blocks
  */
 
 import './blocks/grid-container/block.js';

@@ -39,7 +39,7 @@ const {
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 
-class GenerateSection extends Component {
+class FlexBlockSection extends Component {
 	componentDidMount() {
 		var instanceId = this.props.instanceId + 1;
 
@@ -192,7 +192,7 @@ class GenerateSection extends Component {
 			  ` + innerContainerWidth + `;
 			}
 
-			.gp-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {
+			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {
 				width: ` + width + `%;
 				align-self: ` + verticalAlignment + `;
 			}
@@ -211,28 +211,28 @@ class GenerateSection extends Component {
 						<PanelBody>
 							<Fragment>
 								<SelectControl
-									label={ __( 'Container', 'gp-premium' ) }
+									label={ __( 'Container', 'flex-blocks' ) }
 									value={ outerContainer }
 									options={ [
-										{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
-										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
+										{ label: __( 'Full width', 'flex-blocks' ), value: 'full' },
+										{ label: __( 'Contained', 'flex-blocks' ), value: 'contained' },
 									] }
 									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
 								/>
 
 								<SelectControl
-									label={ __( 'Inner Container', 'gp-premium' ) }
+									label={ __( 'Inner Container', 'flex-blocks' ) }
 									value={ innerContainer }
 									options={ [
-										{ label: __( 'Full width', 'gp-premium' ), value: 'full' },
-										{ label: __( 'Contained', 'gp-premium' ), value: 'contained' },
+										{ label: __( 'Full width', 'flex-blocks' ), value: 'full' },
+										{ label: __( 'Contained', 'flex-blocks' ), value: 'contained' },
 									] }
 									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
 								/>
 
 								<TextControl
 									type={ 'number' }
-									label={ __( 'Container Width', 'gp-premium' ) }
+									label={ __( 'Container Width', 'flex-blocks' ) }
 									value={ parseFloat( containerWidth ) }
 									onChange={ ( value ) => {
 										setAttributes( {
@@ -246,22 +246,22 @@ class GenerateSection extends Component {
 
 					{ isGrid ? (
 						<PanelBody className="section-grid-panel">
-							<TabPanel className="grid-tab-panel generatepress-control-tabs"
+							<TabPanel className="grid-tab-panel flex-blocks-control-tabs"
 								activeClass="active-tab"
 								tabs={ [
 									{
 										name: 'grid-default',
-										title: __( 'Default', 'gp-premium' ),
+										title: __( 'Default', 'flex-blocks' ),
 										className: 'grid-default',
 									},
 									{
 										name: 'grid-tablet',
-										title: __( 'Tablet', 'gp-premium' ),
+										title: __( 'Tablet', 'flex-blocks' ),
 										className: 'grid-tablet',
 									},
 									{
 										name: 'grid-mobile',
-										title: __( 'Mobile', 'gp-premium' ),
+										title: __( 'Mobile', 'flex-blocks' ),
 										className: 'grid-mobile',
 									},
 								] }>
@@ -282,7 +282,7 @@ class GenerateSection extends Component {
 														</ButtonGroup>
 
 														<RangeControl
-															className={ 'gp-column-width-control' }
+															className={ 'fx-column-width-control' }
 															value={ parseFloat( width ) }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -293,17 +293,17 @@ class GenerateSection extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ generatepressDefaults.section.width }
+															initialPosition={ flexBlocksDefaults.section.width }
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'gp-premium' ) }
+															label={ __( 'Vertical Alignment', 'flex-blocks' ) }
 															value={ verticalAlignment }
 															options={ [
-																{ label: __( 'Default', 'gp-premium' ), value: '' },
-																{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
-																{ label: __( 'Center', 'gp-premium' ), value: 'center' },
-																{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+																{ label: __( 'Default', 'flex-blocks' ), value: '' },
+																{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
 														/>
@@ -321,7 +321,7 @@ class GenerateSection extends Component {
 														</ButtonGroup>
 
 														<RangeControl
-															className={ 'gp-column-width-control' }
+															className={ 'fx-column-width-control' }
 															value={ parseFloat( widthTablet ) }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -332,18 +332,18 @@ class GenerateSection extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ generatepressDefaults.section.widthTablet }
+															initialPosition={ flexBlocksDefaults.section.widthTablet }
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'gp-premium' ) }
+															label={ __( 'Vertical Alignment', 'flex-blocks' ) }
 															value={ verticalAlignmentTablet }
 															options={ [
-																{ label: __( 'Inherit', 'gp-premium' ), value: 'inherit'},
-																{ label: __( 'Default', 'gp-premium' ), value: '' },
-																{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
-																{ label: __( 'Center', 'gp-premium' ), value: 'center' },
-																{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+																{ label: __( 'Inherit', 'flex-blocks' ), value: 'inherit'},
+																{ label: __( 'Default', 'flex-blocks' ), value: '' },
+																{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
 														/>
@@ -361,7 +361,7 @@ class GenerateSection extends Component {
 														</ButtonGroup>
 
 														<RangeControl
-															className={ 'gp-column-width-control' }
+															className={ 'fx-column-width-control' }
 															value={ parseFloat( widthMobile ) }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -372,18 +372,18 @@ class GenerateSection extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ generatepressDefaults.section.widthMobile }
+															initialPosition={ flexBlocksDefaults.section.widthMobile }
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'gp-premium' ) }
+															label={ __( 'Vertical Alignment', 'flex-blocks' ) }
 															value={ verticalAlignmentMobile }
 															options={ [
-																{ label: __( 'Inherit', 'gp-premium' ), value: 'inherit'},
-																{ label: __( 'Default', 'gp-premium' ), value: '' },
-																{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
-																{ label: __( 'Center', 'gp-premium' ), value: 'center' },
-																{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+																{ label: __( 'Inherit', 'flex-blocks' ), value: 'inherit'},
+																{ label: __( 'Default', 'flex-blocks' ), value: '' },
+																{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
 														/>
@@ -398,26 +398,26 @@ class GenerateSection extends Component {
 					) : '' }
 
 					<PanelBody
-						title={ __( 'Spacing', 'gp-premium' ) }
+						title={ __( 'Spacing', 'flex-blocks' ) }
 						initialOpen={ false }
 					>
 
-						<TabPanel className="layout-tab-panel generatepress-control-tabs"
+						<TabPanel className="layout-tab-panel flex-blocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'grid-default',
-									title: __( 'Default', 'gp-premium' ),
+									title: __( 'Default', 'flex-blocks' ),
 									className: 'grid-default',
 								},
 								{
 									name: 'grid-tablet',
-									title: __( 'Tablet', 'gp-premium' ),
+									title: __( 'Tablet', 'flex-blocks' ),
 									className: 'grid-tablet',
 								},
 								{
 									name: 'grid-mobile',
-									title: __( 'Mobile', 'gp-premium' ),
+									title: __( 'Mobile', 'flex-blocks' ),
 									className: 'grid-mobile',
 								},
 							] }>
@@ -427,10 +427,10 @@ class GenerateSection extends Component {
 										<div>
 											{ 'grid-default' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'gp-premium' ) }>
+													<BaseControl label={ __( 'Padding', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Padding', 'gp-premium' ) }
+															label={ __( 'Padding', 'flex-blocks' ) }
 															valueTop={ paddingTop }
 															valueRight={ paddingRight }
 															valueBottom={ paddingBottom }
@@ -445,10 +445,10 @@ class GenerateSection extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Margin', 'gp-premium' ) }>
+													<BaseControl label={ __( 'Margin', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
-															label={ __( 'Margin', 'gp-premium' ) }
+															label={ __( 'Margin', 'flex-blocks' ) }
 															valueTop={ marginTop }
 															valueRight={ marginRight }
 															valueBottom={ marginBottom }
@@ -467,10 +467,10 @@ class GenerateSection extends Component {
 
 											{ 'grid-tablet' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'gp-premium' ) }>
+													<BaseControl label={ __( 'Padding', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Padding', 'gp-premium' ) }
+															label={ __( 'Padding', 'flex-blocks' ) }
 															valueTop={ paddingTopTablet }
 															valueRight={ paddingRightTablet }
 															valueBottom={ paddingBottomTablet }
@@ -485,10 +485,10 @@ class GenerateSection extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Margin', 'gp-premium' ) }>
+													<BaseControl label={ __( 'Margin', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
-															label={ __( 'Margin', 'gp-premium' ) }
+															label={ __( 'Margin', 'flex-blocks' ) }
 															valueTop={ marginTopTablet }
 															valueRight={ marginRightTablet }
 															valueBottom={ marginBottomTablet }
@@ -507,10 +507,10 @@ class GenerateSection extends Component {
 
 											{ 'grid-mobile' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'gp-premium' ) }>
+													<BaseControl label={ __( 'Padding', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Padding', 'gp-premium' ) }
+															label={ __( 'Padding', 'flex-blocks' ) }
 															valueTop={ paddingTopMobile }
 															valueRight={ paddingRightMobile }
 															valueBottom={ paddingBottomMobile }
@@ -525,10 +525,10 @@ class GenerateSection extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Margin', 'gp-premium' ) }>
+													<BaseControl label={ __( 'Margin', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
-															label={ __( 'Margin', 'gp-premium' ) }
+															label={ __( 'Margin', 'flex-blocks' ) }
 															valueTop={ marginTopMobile }
 															valueRight={ marginRightMobile }
 															valueBottom={ marginBottomMobile }
@@ -553,13 +553,13 @@ class GenerateSection extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Colors', 'gp-premium' ) }
+						title={ __( 'Colors', 'flex-blocks' ) }
 						initialOpen={ false }
 					>
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Background Color', 'gp-premium' ) }
+								label={ __( 'Background Color', 'flex-blocks' ) }
 								value={ backgroundColor }
 								onChange={ ( nextBackgroundColor ) =>
 									setAttributes( {
@@ -572,7 +572,7 @@ class GenerateSection extends Component {
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Text Color', 'gp-premium' ) }
+								label={ __( 'Text Color', 'flex-blocks' ) }
 								value={ textColor }
 								onChange={ ( nextTextColor ) =>
 									setAttributes( {
@@ -585,7 +585,7 @@ class GenerateSection extends Component {
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Link Color', 'gp-premium' ) }
+								label={ __( 'Link Color', 'flex-blocks' ) }
 								value={ linkColor }
 								onChange={ ( nextLinkColor ) =>
 									setAttributes( {
@@ -598,7 +598,7 @@ class GenerateSection extends Component {
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Link Color Hover', 'gp-premium' ) }
+								label={ __( 'Link Color Hover', 'flex-blocks' ) }
 								value={ linkColorHover }
 								onChange={ ( nextLinkColorHover ) =>
 									setAttributes( {
@@ -659,7 +659,7 @@ class GenerateSection extends Component {
 						}
 						{ !! bgImage && <div className="section-bg-settings">
 							<ToggleControl
-								label={ __( 'Background Color Overlay', 'gp-premium' ) }
+								label={ __( 'Background Color Overlay', 'flex-blocks' ) }
 								checked={ !! bgOptions.overlay }
 								onChange={ ( nextOverlay ) => {
 									setAttributes( {
@@ -672,7 +672,7 @@ class GenerateSection extends Component {
 							/>
 
 							<TextControl
-								label={ __( 'Size', 'gp-premium' ) }
+								label={ __( 'Size', 'flex-blocks' ) }
 								value={ bgOptions.size }
 								onChange={ ( nextSize ) => {
 									setAttributes( {
@@ -685,7 +685,7 @@ class GenerateSection extends Component {
 							/>
 
 							<TextControl
-								label={ __( 'Position', 'gp-premium' ) }
+								label={ __( 'Position', 'flex-blocks' ) }
 								value={ bgOptions.position }
 								onChange={ ( nextPosition ) => {
 									setAttributes( {
@@ -698,7 +698,7 @@ class GenerateSection extends Component {
 							/>
 
 							<SelectControl
-								label={ __( 'Repeat', 'gp-premium' ) }
+								label={ __( 'Repeat', 'flex-blocks' ) }
 								value={ bgOptions.repeat }
 								options={ [
 									{ label: 'no-repeat', value: 'no-repeat' },
@@ -717,7 +717,7 @@ class GenerateSection extends Component {
 							/>
 
 							<SelectControl
-								label={ __( 'Attachment', 'gp-premium' ) }
+								label={ __( 'Attachment', 'flex-blocks' ) }
 								value={ bgOptions.attachment }
 								options={ [
 									{ label: 'scroll', value: '' },
@@ -738,7 +738,7 @@ class GenerateSection extends Component {
 				</InspectorControls>
 				<InspectorAdvancedControls>
 					<SelectControl
-						label={ __( 'Element Tag', 'gp-premium' ) }
+						label={ __( 'Element Tag', 'flex-blocks' ) }
 						value={ tagName }
 						options={ [
 							{ label: 'section', value: 'section' },
@@ -750,7 +750,7 @@ class GenerateSection extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'Element ID', 'gp-premium' ) }
+						label={ __( 'Element ID', 'flex-blocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -759,13 +759,13 @@ class GenerateSection extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'gp-premium' ) }
+						label={ __( 'CSS Classes', 'flex-blocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>
 
 					<RangeControl
-						label={ __( 'z-index', 'gp-premium' ) }
+						label={ __( 'z-index', 'flex-blocks' ) }
 						value={ zindex }
 						onChange={ ( nextSpacing ) => {
 							setAttributes( {
@@ -783,7 +783,7 @@ class GenerateSection extends Component {
 				<ConditionalWrap
 					condition={ isGrid }
 					wrap={ children => <div className={ classnames( {
-						'gp-grid-column': true,
+						'fx-grid-column': true,
 						[`grid-column-${ uniqueId }`]: true
 					} ) }>{ children }</div>}
 				>
@@ -791,7 +791,7 @@ class GenerateSection extends Component {
 						tagName={ tagName }
 						id={ elementId }
 						className={ classnames( {
-							'generate-section': true,
+							'fx-section': true,
 							[`section-${ uniqueId }`]: true,
 							[`${ cssClasses }`]: '' !== cssClasses
 						} ) }
@@ -817,4 +817,4 @@ class GenerateSection extends Component {
 	}
 }
 
-export default ( GenerateSection );
+export default ( FlexBlockSection );

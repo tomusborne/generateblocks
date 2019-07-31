@@ -2,20 +2,18 @@
 /**
  * Builds our dynamic CSS.
  *
- * @package GeneratePress
+ * @package Flex Blocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-	/**
+/**
  * Creates minified css via PHP.
  *
- * @author  Carlos Rios
- * Modified by Tom Usborne for GeneratePress
  */
-class GeneratePress_Blocks_Dynamic_CSS {
+class Flex_Blocks_Dynamic_CSS {
 
 	/**
 	 * The css selector that you're currently adding rules to

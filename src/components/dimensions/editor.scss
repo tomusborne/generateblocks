@@ -1,9 +1,9 @@
-.components-generatepress-dimensions-control__inputs,
-.components-generatepress-dimensions-control__input-labels {
+.components-fx-dimensions-control__inputs,
+.components-fx-dimensions-control__input-labels {
     display: flex;
 }
 
-.components-generatepress-dimensions-control input[type="number"] {
+.components-fx-dimensions-control input[type="number"] {
 	border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     height: 30px;
@@ -12,21 +12,21 @@
     width: 25%;
 }
 
-.components-generatepress-dimensions-control input[type="number"]:not(:first-child) {
+.components-fx-dimensions-control input[type="number"]:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.components-generatepress-dimensions-control__input-labels > span {
+.components-fx-dimensions-control__input-labels > span {
     width: 25%;
 	font-size: 11px;
 }
 
-.components-generatepress-dimensions-control__input-labels > span:last-child {
+.components-fx-dimensions-control__input-labels > span:last-child {
     width: 30px;
 }
 
-.components-generatepress-dimensions-control_sync.components-button {
+.components-fx-dimensions-control_sync.components-button {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
     -webkit-box-shadow: none;
@@ -41,19 +41,19 @@
     width: 30px;
 }
 
-.components-generatepress-dimensions-control_sync.components-button:not(.is-primary) {
+.components-fx-dimensions-control_sync.components-button:not(.is-primary) {
 	background: #fff;
 	border: 1px solid #8d96a0;
 	color: #555d66;
 }
 
-.components-generatepress-dimensions-control_sync.components-button svg {
+.components-fx-dimensions-control_sync.components-button svg {
 	width: 18px;
 	height: 18px;
 	fill: currentColor;
 }
 
-.components-generatepress-dimensions-control_sync.components-button:hover,
-.components-generatepress-dimensions-control_sync.components-button:focus {
+.components-fx-dimensions-control_sync.components-button:hover,
+.components-fx-dimensions-control_sync.components-button:focus {
 	box-shadow: none;
 }

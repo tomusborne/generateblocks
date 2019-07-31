@@ -21,43 +21,43 @@ export default {
 	},
 	width: {
 		type: 'number',
-		default: generatepressDefaults.section.width,
+		default: flexBlocksDefaults.section.width,
 	},
 	widthTablet: {
 		type: 'number',
-		default: generatepressDefaults.section.widthTablet,
+		default: flexBlocksDefaults.section.widthTablet,
 	},
 	widthMobile: {
 		type: 'number',
-		default: generatepressDefaults.section.widthMobile,
+		default: flexBlocksDefaults.section.widthMobile,
 	},
 	outerContainer: {
 		type: 'string',
-		default: generatepressDefaults.section.outerContainer,
+		default: flexBlocksDefaults.section.outerContainer,
 	},
 	innerContainer: {
 		type: 'string',
-		default: generatepressDefaults.section.innerContainer,
+		default: flexBlocksDefaults.section.innerContainer,
 	},
 	containerWidth: {
 		type: 'number',
-		default: generatepressDefaults.section.containerWidth,
+		default: flexBlocksDefaults.section.containerWidth,
 	},
 	paddingTop: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingTop,
+		default: flexBlocksDefaults.section.paddingTop,
 	},
 	paddingRight: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingRight,
+		default: flexBlocksDefaults.section.paddingRight,
 	},
 	paddingBottom: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingBottom,
+		default: flexBlocksDefaults.section.paddingBottom,
 	},
 	paddingLeft: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingLeft,
+		default: flexBlocksDefaults.section.paddingLeft,
 	},
 	paddingSyncUnits: {
 		type: 'boolean',
@@ -65,19 +65,19 @@ export default {
 	},
 	paddingTopTablet: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingTopTablet,
+		default: flexBlocksDefaults.section.paddingTopTablet,
 	},
 	paddingRightTablet: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingRightTablet,
+		default: flexBlocksDefaults.section.paddingRightTablet,
 	},
 	paddingBottomTablet: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingBottomTablet,
+		default: flexBlocksDefaults.section.paddingBottomTablet,
 	},
 	paddingLeftTablet: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingLeftTablet,
+		default: flexBlocksDefaults.section.paddingLeftTablet,
 	},
 	paddingSyncUnitsTablet: {
 		type: 'boolean',
@@ -85,19 +85,19 @@ export default {
 	},
 	paddingTopMobile: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingTopMobile,
+		default: flexBlocksDefaults.section.paddingTopMobile,
 	},
 	paddingRightMobile: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingRightMobile,
+		default: flexBlocksDefaults.section.paddingRightMobile,
 	},
 	paddingBottomMobile: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingBottomMobile,
+		default: flexBlocksDefaults.section.paddingBottomMobile,
 	},
 	paddingLeftMobile: {
 		type: 'number',
-		default: generatepressDefaults.section.paddingLeftMobile,
+		default: flexBlocksDefaults.section.paddingLeftMobile,
 	},
 	paddingSyncUnitsMobile: {
 		type: 'boolean',
@@ -105,19 +105,19 @@ export default {
 	},
 	marginTop: {
 		type: 'string',
-		default: generatepressDefaults.section.marginTop,
+		default: flexBlocksDefaults.section.marginTop,
 	},
 	marginRight: {
 		type: 'string',
-		default: generatepressDefaults.section.marginRight,
+		default: flexBlocksDefaults.section.marginRight,
 	},
 	marginBottom: {
 		type: 'string',
-		default: generatepressDefaults.section.marginBottom,
+		default: flexBlocksDefaults.section.marginBottom,
 	},
 	marginLeft: {
 		type: 'string',
-		default: generatepressDefaults.section.marginLeft,
+		default: flexBlocksDefaults.section.marginLeft,
 	},
 	marginSyncUnits: {
 		type: 'boolean',
@@ -125,19 +125,19 @@ export default {
 	},
 	marginTopTablet: {
 		type: 'string',
-		default: generatepressDefaults.section.marginTopTablet,
+		default: flexBlocksDefaults.section.marginTopTablet,
 	},
 	marginRightTablet: {
 		type: 'string',
-		default: generatepressDefaults.section.marginRightTablet,
+		default: flexBlocksDefaults.section.marginRightTablet,
 	},
 	marginBottomTablet: {
 		type: 'string',
-		default: generatepressDefaults.section.marginBottomTablet,
+		default: flexBlocksDefaults.section.marginBottomTablet,
 	},
 	marginLeftTablet: {
 		type: 'string',
-		default: generatepressDefaults.section.marginLeftTablet,
+		default: flexBlocksDefaults.section.marginLeftTablet,
 	},
 	marginSyncUnitsTablet: {
 		type: 'boolean',
@@ -145,19 +145,19 @@ export default {
 	},
 	marginTopMobile: {
 		type: 'string',
-		default: generatepressDefaults.section.marginTopMobile,
+		default: flexBlocksDefaults.section.marginTopMobile,
 	},
 	marginRightMobile: {
 		type: 'string',
-		default: generatepressDefaults.section.marginRightMobile,
+		default: flexBlocksDefaults.section.marginRightMobile,
 	},
 	marginBottomMobile: {
 		type: 'string',
-		default: generatepressDefaults.section.marginBottomMobile,
+		default: flexBlocksDefaults.section.marginBottomMobile,
 	},
 	marginLeftMobile: {
 		type: 'string',
-		default: generatepressDefaults.section.marginLeftMobile,
+		default: flexBlocksDefaults.section.marginLeftMobile,
 	},
 	marginSyncUnitsMobile: {
 		type: 'boolean',
@@ -165,48 +165,48 @@ export default {
 	},
 	backgroundColor: {
 		type: 'string',
-		default: generatepressDefaults.section.backgroundColor,
+		default: flexBlocksDefaults.section.backgroundColor,
 	},
 	textColor: {
 		type: 'string',
-		default: generatepressDefaults.section.textColor,
+		default: flexBlocksDefaults.section.textColor,
 	},
 	linkColor: {
 		type: 'string',
-		default: generatepressDefaults.section.linkColor,
+		default: flexBlocksDefaults.section.linkColor,
 	},
 	linkColorHover: {
 		type: 'string',
-		default: generatepressDefaults.section.linkColorHover,
+		default: flexBlocksDefaults.section.linkColorHover,
 	},
 	bgImage: {
 		type: 'object',
-		default: generatepressDefaults.section.bgImage,
+		default: flexBlocksDefaults.section.bgImage,
 	},
 	bgOptions: {
 		type: 'object',
 		default: {
-			overlay: generatepressDefaults.section.bgOptions.overlay,
-			position: generatepressDefaults.section.bgOptions.position,
-			size: generatepressDefaults.section.bgOptions.size,
-			repeat: generatepressDefaults.section.bgOptions.repeat,
-			attachment: generatepressDefaults.section.bgOptions.attachment,
+			overlay: flexBlocksDefaults.section.bgOptions.overlay,
+			position: flexBlocksDefaults.section.bgOptions.position,
+			size: flexBlocksDefaults.section.bgOptions.size,
+			repeat: flexBlocksDefaults.section.bgOptions.repeat,
+			attachment: flexBlocksDefaults.section.bgOptions.attachment,
 		}
 	},
 	verticalAlignment: {
 		type: 'string',
-		default: generatepressDefaults.section.verticalAlignment,
+		default: flexBlocksDefaults.section.verticalAlignment,
 	},
 	verticalAlignmentTablet: {
 		type: 'string',
-		default: generatepressDefaults.section.verticalAlignmentTablet,
+		default: flexBlocksDefaults.section.verticalAlignmentTablet,
 	},
 	verticalAlignmentMobile: {
 		type: 'string',
-		default: generatepressDefaults.section.verticalAlignmentMobile,
+		default: flexBlocksDefaults.section.verticalAlignmentMobile,
 	},
 	zindex: {
 		type: 'number',
-		default: generatepressDefaults.section.zindex,
+		default: flexBlocksDefaults.section.zindex,
 	},
 }

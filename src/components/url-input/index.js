@@ -63,10 +63,10 @@ export default class URLInput extends Component {
 
         return (
             <form
-                className={ classnames( 'generatepress-component-url-input', className ) }
+                className={ classnames( 'fx-component-url-input', className ) }
                 onSubmit={ ( e ) => e.preventDefault() }
             >
-                <div className="generatepress-component-url-input-flex">
+                <div className="fx-component-url-input-flex">
                     <Dashicon icon="admin-links" />
                     <WPURLInput
                         value={ url }
@@ -88,7 +88,7 @@ export default class URLInput extends Component {
                     />
                 </div>
                 { moreOptions ? (
-                    <div className="generatepress-component-url-input-more-options">
+                    <div className="fx-component-url-input-more-options">
                         <ToggleControl
                             label={ __( 'Open link in a new tab' ) }
                             checked={ '_blank' === target }

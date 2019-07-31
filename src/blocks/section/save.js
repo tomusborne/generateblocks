@@ -41,7 +41,7 @@ export default ( { attributes } ) => {
 		<ConditionalWrap
 			condition={ isGrid }
 			wrap={ children => <div className={ classnames( {
-				'gp-grid-column': true,
+				'fx-grid-column': true,
 				[`grid-column-${ uniqueId }`]: true
 			} ) }>{ children }</div>}
 		>
@@ -49,7 +49,7 @@ export default ( { attributes } ) => {
 				tagName={ tagName }
 				id={ elementId }
 				className={ classnames( {
-					'generate-section': true,
+					'fx-section': true,
 					[`section-${ uniqueId }`]: true,
 					[`${ cssClasses }`]: '' !== cssClasses
 				} ) }

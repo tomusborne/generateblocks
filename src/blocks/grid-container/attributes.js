@@ -13,42 +13,42 @@ export default {
 	},
 	columns: {
         type: 'number',
-        default: generatepressDefaults.gridContainer.columns,
+        default: flexBlocksDefaults.gridContainer.columns,
     },
 	horizontalGap: {
         type: 'number',
-        default: generatepressDefaults.gridContainer.horizontalGap,
+        default: flexBlocksDefaults.gridContainer.horizontalGap,
     },
 	verticalGap: {
         type: 'number',
-        default: generatepressDefaults.gridContainer.verticalGap,
+        default: flexBlocksDefaults.gridContainer.verticalGap,
     },
 	verticalAlignment: {
         type: 'string',
-        default: generatepressDefaults.gridContainer.verticalAlignment,
+        default: flexBlocksDefaults.gridContainer.verticalAlignment,
     },
 	horizontalGapTablet: {
         type: 'number',
-        default: generatepressDefaults.gridContainer.horizontalGapTablet,
+        default: flexBlocksDefaults.gridContainer.horizontalGapTablet,
     },
 	verticalGapTablet: {
         type: 'number',
-        default: generatepressDefaults.gridContainer.verticalGapTablet,
+        default: flexBlocksDefaults.gridContainer.verticalGapTablet,
     },
 	verticalAlignmentTablet: {
         type: 'string',
-        default: generatepressDefaults.gridContainer.verticalAlignmentTablet,
+        default: flexBlocksDefaults.gridContainer.verticalAlignmentTablet,
     },
 	horizontalGapMobile: {
         type: 'number',
-        default: generatepressDefaults.gridContainer.horizontalGapMobile,
+        default: flexBlocksDefaults.gridContainer.horizontalGapMobile,
     },
 	verticalGapMobile: {
         type: 'number',
-        default: generatepressDefaults.gridContainer.verticalGapMobile,
+        default: flexBlocksDefaults.gridContainer.verticalGapMobile,
     },
 	verticalAlignmentMobile: {
         type: 'string',
-        default: generatepressDefaults.gridContainer.verticalAlignmentMobile,
+        default: flexBlocksDefaults.gridContainer.verticalAlignmentMobile,
     },
 }

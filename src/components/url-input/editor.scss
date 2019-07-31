@@ -1,6 +1,6 @@
 @import "../../common";
 
-.generatepress-component-url-input {
+.fx-component-url-input {
     width: 100%;
     margin-top: 10px;
     font-family: $default-font;
@@ -9,7 +9,7 @@
     background: #fff;
     border: 1px solid #e2e4e7;
 
-    .generatepress-component-url-input-flex {
+    .fx-component-url-input-flex {
         display: flex;
         align-items: center;
 
@@ -31,7 +31,7 @@
         }
     }
 
-    .generatepress-component-url-input-more-options {
+    .fx-component-url-input-more-options {
         padding: 10px;
         border-top: 1px solid #e2e4e7;
 
@@ -44,7 +44,7 @@
     }
 }
 
-.generatepress-component-url-input-float {
+.fx-component-url-input-float {
     $blocks-button__link-input-width: 260px;
 
     position: absolute;

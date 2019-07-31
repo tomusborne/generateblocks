@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $blockName The name of the block to get attributes from.
  * @return array
  */
-function generate_get_block_data( $blockName = 'generatepress/section' ) {
+function flex_get_block_data( $blockName = 'flex-blocks/section' ) {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}
@@ -41,7 +41,7 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 				if ( $blockName === $block['blockName'] ) {
 					$data[] = $block['attrs'];
 
-					$data = generate_get_nested_block_data( $block, $data, $blockName );
+					$data = flex_get_nested_block_data( $block, $data, $blockName );
 				}
 
 				if ( 'core/block' === $block['blockName'] ) {
@@ -57,7 +57,7 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 								if ( $blockName === $block['blockName'] ) {
 									$data[] = $block['attrs'];
 
-									$data = generate_get_nested_block_data( $block, $data, $blockName );
+									$data = flex_get_nested_block_data( $block, $data, $blockName );
 								}
 							}
 						}
@@ -66,7 +66,7 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
 
 				// Need to check for nested blocks.
 				if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
-					$data = generate_get_nested_block_data( $block, $data, $blockName );
+					$data = flex_get_nested_block_data( $block, $data, $blockName );
 				}
 			}
 		}
@@ -85,14 +85,14 @@ function generate_get_block_data( $blockName = 'generatepress/section' ) {
  * @param string $blockName The name of the block we're targeting.
  * @return array
  */
-function generate_get_nested_block_data( $block, $data, $blockName ) {
+function flex_get_nested_block_data( $block, $data, $blockName ) {
 	if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
 		foreach ( $block['innerBlocks'] as $inner_block ) {
 			if ( $blockName === $inner_block['blockName'] ) {
 				$data[] = $inner_block['attrs'];
 			}
 
-			$data = generate_get_nested_block_data( $inner_block, $data, $blockName );
+			$data = flex_get_nested_block_data( $inner_block, $data, $blockName );
 		}
 	}
 

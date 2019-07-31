@@ -37,7 +37,7 @@ const {
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 
-class GenerateButtonContainer extends Component {
+class FlexButtonContainer extends Component {
 	componentDidMount() {
 		var instanceId = this.props.instanceId + 1;
 
@@ -77,7 +77,7 @@ class GenerateButtonContainer extends Component {
 		} = attributes;
 
 		const css = `
-			.gp-button-wrapper-` + uniqueId + ` {
+			.fx-button-wrapper-` + uniqueId + ` {
 			  padding-top: ` + paddingTop + `px;
 			  padding-right: ` + paddingRight + `px;
 			  padding-bottom: ` + paddingBottom + `px;
@@ -90,20 +90,20 @@ class GenerateButtonContainer extends Component {
 
 				<InspectorControls>
 				<PanelBody
-					title={ __( 'Spacing', 'gp-premium' ) }
+					title={ __( 'Spacing', 'flex-blocks' ) }
 					initialOpen={ true }
 					>
-						<TabPanel className="generatepress-control-tabs"
+						<TabPanel className="flex-blocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'desktop',
-									title: __( 'Desktop', 'gp-premium' ),
+									title: __( 'Desktop', 'flex-blocks' ),
 									className: 'desktop',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'gp-premium' ),
+									title: __( 'Mobile', 'flex-blocks' ),
 									className: 'mobile',
 								},
 							] }>
@@ -117,7 +117,7 @@ class GenerateButtonContainer extends Component {
 												<Fragment>
 
 													<RangeControl
-														label={ __( 'Top Padding', 'gp-premium' ) }
+														label={ __( 'Top Padding', 'flex-blocks' ) }
 														value={ paddingTop }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -127,11 +127,11 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
-														initialPosition={ generatepressDefaults.buttonContainer.paddingTop }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingTop }
 													/>
 
 													<RangeControl
-														label={ __( 'Right Padding', 'gp-premium' ) }
+														label={ __( 'Right Padding', 'flex-blocks' ) }
 														value={ paddingRight }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -141,11 +141,11 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
-														initialPosition={ generatepressDefaults.buttonContainer.paddingRight }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingRight }
 													/>
 
 													<RangeControl
-														label={ __( 'Bottom Padding', 'gp-premium' ) }
+														label={ __( 'Bottom Padding', 'flex-blocks' ) }
 														value={ paddingBottom }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -155,11 +155,11 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
-														initialPosition={ generatepressDefaults.buttonContainer.paddingBottom }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingBottom }
 													/>
 
 													<RangeControl
-														label={ __( 'Left Padding', 'gp-premium' ) }
+														label={ __( 'Left Padding', 'flex-blocks' ) }
 														value={ paddingLeft }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -169,7 +169,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 10 }
-														initialPosition={ generatepressDefaults.buttonContainer.paddingLeft }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingLeft }
 													/>
 
 												</Fragment>
@@ -182,12 +182,12 @@ class GenerateButtonContainer extends Component {
 															status={ 'warning' }
 															isDismissible={ false }
 														>
-															{ __( 'Mobile options can not be live previewed at the moment.', 'gp-premium' ) }
+															{ __( 'Mobile options can not be live previewed at the moment.', 'flex-blocks' ) }
 														</Notice>
 													</div>
 
 													<RangeControl
-														label={ __( 'Top Padding', 'gp-premium' ) }
+														label={ __( 'Top Padding', 'flex-blocks' ) }
 														value={ paddingTopMobile }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -197,11 +197,11 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
-														initialPosition={ generatepressDefaults.buttonContainer.paddingTopMobile }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingTopMobile }
 													/>
 
 													<RangeControl
-														label={ __( 'Right Padding', 'gp-premium' ) }
+														label={ __( 'Right Padding', 'flex-blocks' ) }
 														value={ paddingRightMobile }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -211,11 +211,11 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
-														initialPosition={ generatepressDefaults.buttonContainer.paddingRightMobile }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingRightMobile }
 													/>
 
 													<RangeControl
-														label={ __( 'Bottom Padding', 'gp-premium' ) }
+														label={ __( 'Bottom Padding', 'flex-blocks' ) }
 														value={ paddingBottomMobile }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -225,11 +225,11 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
-														initialPosition={ generatepressDefaults.buttonContainer.paddingBottomMobile }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingBottomMobile }
 													/>
 
 													<RangeControl
-														label={ __( 'Left Padding', 'gp-premium' ) }
+														label={ __( 'Left Padding', 'flex-blocks' ) }
 														value={ paddingLeftMobile }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -239,7 +239,7 @@ class GenerateButtonContainer extends Component {
 														min={ 0 }
 														max={ 200 }
 														step={ 1 }
-														initialPosition={ generatepressDefaults.buttonContainer.paddingLeftMobile }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingLeftMobile }
 													/>
 
 												</Fragment>
@@ -254,7 +254,7 @@ class GenerateButtonContainer extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'Element ID', 'gp-premium' ) }
+						label={ __( 'Element ID', 'flex-blocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -263,7 +263,7 @@ class GenerateButtonContainer extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'gp-premium' ) }
+						label={ __( 'CSS Classes', 'flex-blocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>
@@ -274,21 +274,21 @@ class GenerateButtonContainer extends Component {
 				<div
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
-						'gp-button-wrapper': true,
-						[`gp-button-wrapper-${ uniqueId }`]: true,
+						'fx-button-wrapper': true,
+						[`fx-button-wrapper-${ uniqueId }`]: true,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 				>
 					<InnerBlocks
-						template={ [ [ 'generatepress/button' ] ] }
-						allowedBlocks={ [ 'generatepress/button' ] }
+						template={ [ [ 'flex-blocks/button' ] ] }
+						allowedBlocks={ [ 'flex-blocks/button' ] }
 					/>
 
-					<Tooltip text={ __( 'Add Button', 'gp-premium' ) }>
+					<Tooltip text={ __( 'Add Button', 'flex-blocks' ) }>
                         <IconButton
                             icon={ 'insert' }
                             onClick={ () => {
-								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generatepress/button' ), undefined, clientId );
+								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'flex-blocks/button' ), undefined, clientId );
                             } }
                         />
                     </Tooltip>
@@ -298,4 +298,4 @@ class GenerateButtonContainer extends Component {
 	}
 }
 
-export default ( GenerateButtonContainer );
+export default ( FlexButtonContainer );

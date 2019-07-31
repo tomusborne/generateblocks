@@ -18,19 +18,19 @@ export default {
 	},
 	element: {
 		type: 'string',
-		default: generatepressDefaults.headline.element,
+		default: flexBlocksDefaults.headline.element,
 	},
 	align: {
 		type: 'string',
-		default: generatepressDefaults.headline.align,
+		default: flexBlocksDefaults.headline.align,
 	},
 	color: {
 		type: 'string',
-		default: generatepressDefaults.headline.color,
+		default: flexBlocksDefaults.headline.color,
 	},
 	size: {
 		type: 'number',
-		default: generatepressDefaults.headline.size,
+		default: flexBlocksDefaults.headline.size,
 	},
 	textTransform: {
 		type: 'string',
@@ -38,18 +38,18 @@ export default {
 	},
 	lineHeight: {
 		type: 'number',
-		default: generatepressDefaults.headline.lineHeight,
+		default: flexBlocksDefaults.headline.lineHeight,
 	},
 	marginTop: {
 		type: 'number',
-		default: generatepressDefaults.headline.marginTop,
+		default: flexBlocksDefaults.headline.marginTop,
 	},
 	marginBottom: {
 		type: 'number',
-		default: generatepressDefaults.headline.marginBottom,
+		default: flexBlocksDefaults.headline.marginBottom,
 	},
 	letterSpacing: {
 		type: 'number',
-		default: generatepressDefaults.headline.letterSpacing,
+		default: flexBlocksDefaults.headline.letterSpacing,
 	},
 }

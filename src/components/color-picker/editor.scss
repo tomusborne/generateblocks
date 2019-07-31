@@ -1,5 +1,5 @@
-.generatepress-component-color-picker-wrapper {
-    .generatepress-component-color-picker-wrapper + .generatepress-component-color-picker-wrapper {
+.fx-component-color-picker-wrapper {
+    .fx-component-color-picker-wrapper + .fx-component-color-picker-wrapper {
         margin-top: -5px;
     }
 
@@ -20,8 +20,8 @@
         }
     }
 }
-.generatepress-component-color-picker {
-    .generatepress-component-color-picker-palette {
+.fx-component-color-picker {
+    .fx-component-color-picker-palette {
         margin: 0 17px;
     }
     .components-color-palette {

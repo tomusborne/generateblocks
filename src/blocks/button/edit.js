@@ -30,7 +30,7 @@ const {
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 
-class GenerateButton extends Component {
+class FlexBlockButton extends Component {
 	componentDidMount() {
 		var instanceId = this.props.instanceId + 1;
 
@@ -99,7 +99,7 @@ class GenerateButton extends Component {
 		}
 
 		const css = `
-			.editor-block-list__block a.gp-button-` + uniqueId + ` {
+			.editor-block-list__block a.fx-button-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
 				border-top-right-radius: ` + borderRadiusTopRight + `px;
@@ -117,16 +117,16 @@ class GenerateButton extends Component {
 				text-transform: ` + textTransform + `;
 			}
 
-			.editor-block-list__block a.gp-button-` + uniqueId + `:hover,
-			.editor-block-list__block a.gp-button-` + uniqueId + `:focus,
-			.editor-block-list__block a.gp-button-` + uniqueId + `:active {
+			.editor-block-list__block a.fx-button-` + uniqueId + `:hover,
+			.editor-block-list__block a.fx-button-` + uniqueId + `:focus,
+			.editor-block-list__block a.fx-button-` + uniqueId + `:active {
 				background-color: ` + backgroundColorHover + `;
 				color: ` + textColorHover + `;
 				border-color: ` + borderHoverValue + `;
 			}
 		`
 
-		$( '.gp-button' ).on( 'click', function( e ) {
+		$( '.fx-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 		} );
 
@@ -135,22 +135,22 @@ class GenerateButton extends Component {
 
 				<InspectorControls>
 					<PanelBody>
-						<TabPanel className="grid-tab-panel generatepress-control-tabs"
+						<TabPanel className="grid-tab-panel flex-blocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'grid-default',
-									title: __( 'Default', 'gp-premium' ),
+									title: __( 'Default', 'flex-blocks' ),
 									className: 'grid-default',
 								},
 								{
 									name: 'grid-tablet',
-									title: __( 'Tablet', 'gp-premium' ),
+									title: __( 'Tablet', 'flex-blocks' ),
 									className: 'grid-tablet',
 								},
 								{
 									name: 'grid-mobile',
-									title: __( 'Mobile', 'gp-premium' ),
+									title: __( 'Mobile', 'flex-blocks' ),
 									className: 'grid-mobile',
 								},
 							] }>
@@ -161,7 +161,7 @@ class GenerateButton extends Component {
 											{ 'grid-default' === tab.name ? (
 												<Fragment>
 													<RangeControl
-														label={ __( 'Font Size', 'gp-premium' ) }
+														label={ __( 'Font Size', 'flex-blocks' ) }
 														value={ fontSize }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -172,11 +172,11 @@ class GenerateButton extends Component {
 														max={ 3 }
 														step={ 0.1 }
 														allowReset={ true }
-														initialPosition={ generatepressDefaults.button.fontSize }
+														initialPosition={ flexBlocksDefaults.button.fontSize }
 													/>
 
 													<SelectControl
-														label={ __( 'Text Transform', 'gp-premium' ) }
+														label={ __( 'Text Transform', 'flex-blocks' ) }
 														value={ textTransform }
 														options={ [
 															{ label: 'none', value: '' },
@@ -188,7 +188,7 @@ class GenerateButton extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Gap', 'gp-premium' ) }
+														label={ __( 'Gap', 'flex-blocks' ) }
 														value={ gap }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -199,13 +199,13 @@ class GenerateButton extends Component {
 														max={ 50 }
 														step={ 1 }
 														allowReset={ true }
-														initialPosition={ generatepressDefaults.button.gap }
+														initialPosition={ flexBlocksDefaults.button.gap }
 													/>
 
-													<BaseControl label={ __( 'Border Radius', 'gp-premium' ) }>
+													<BaseControl label={ __( 'Border Radius', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Border Radius', 'gp-premium' ) }
+															label={ __( 'Border Radius', 'flex-blocks' ) }
 															valueTop={ borderRadiusTopRight }
 															valueRight={ borderRadiusBottomRight }
 															valueBottom={ borderRadiusBottomLeft }
@@ -224,10 +224,10 @@ class GenerateButton extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Border Size', 'gp-premium' ) }>
+													<BaseControl label={ __( 'Border Size', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Border Size', 'gp-premium' ) }
+															label={ __( 'Border Size', 'flex-blocks' ) }
 															valueTop={ borderSizeTop }
 															valueRight={ borderSizeRight }
 															valueBottom={ borderSizeBottom }
@@ -263,21 +263,21 @@ class GenerateButton extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Colors', 'gp-premium' ) }
+						title={ __( 'Colors', 'flex-blocks' ) }
 						initialOpen={ false }
 						>
 
-						<TabPanel className="layout-tab-panel generatepress-control-tabs"
+						<TabPanel className="layout-tab-panel flex-blocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'button-colors',
-									title: __( 'Normal', 'gp-premium' ),
+									title: __( 'Normal', 'flex-blocks' ),
 									className: 'button-colors',
 								},
 								{
 									name: 'button-colors-hover',
-									title: __( 'Hover', 'gp-premium' ),
+									title: __( 'Hover', 'flex-blocks' ),
 									className: 'button-colors-hover',
 								},
 							] }>
@@ -290,7 +290,7 @@ class GenerateButton extends Component {
 											{ isNormal ? (
 												<Fragment>
 													<ColorPicker
-														label={ __( 'Background Color', 'gp-premium' ) }
+														label={ __( 'Background Color', 'flex-blocks' ) }
 														value={ backgroundColor }
 														onChange={ ( nextBackgroundColor ) =>
 															setAttributes( {
@@ -301,7 +301,7 @@ class GenerateButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Text Color', 'gp-premium' ) }
+														label={ __( 'Text Color', 'flex-blocks' ) }
 														value={ textColor }
 														onChange={ ( nextTextColor ) =>
 															setAttributes( {
@@ -312,7 +312,7 @@ class GenerateButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Border Color', 'gp-premium' ) }
+														label={ __( 'Border Color', 'flex-blocks' ) }
 														value={ borderColor }
 														onChange={ ( value ) =>
 															setAttributes( {
@@ -327,7 +327,7 @@ class GenerateButton extends Component {
 
 												<Fragment>
 													<ColorPicker
-														label={ __( 'Background Color', 'gp-premium' ) }
+														label={ __( 'Background Color', 'flex-blocks' ) }
 														value={ backgroundColorHover }
 														onChange={ ( nextBackgroundColorHover ) =>
 															setAttributes( {
@@ -338,7 +338,7 @@ class GenerateButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Text Color', 'gp-premium' ) }
+														label={ __( 'Text Color', 'flex-blocks' ) }
 														value={ textColorHover }
 														onChange={ ( nextTextColorHover ) =>
 															setAttributes( {
@@ -349,7 +349,7 @@ class GenerateButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Border Color', 'gp-premium' ) }
+														label={ __( 'Border Color', 'flex-blocks' ) }
 														value={ borderColorHover }
 														onChange={ ( value ) =>
 															setAttributes( {
@@ -371,7 +371,7 @@ class GenerateButton extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'Element ID', 'gp-premium' ) }
+						label={ __( 'Element ID', 'flex-blocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -380,7 +380,7 @@ class GenerateButton extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'gp-premium' ) }
+						label={ __( 'CSS Classes', 'flex-blocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>
@@ -391,8 +391,8 @@ class GenerateButton extends Component {
 				<a
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
-						'gp-button': true,
-						[`gp-button-${ uniqueId }`]: true,
+						'fx-button': true,
+						[`fx-button-${ uniqueId }`]: true,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 					href={ !! url ? url : undefined }
@@ -419,7 +419,7 @@ class GenerateButton extends Component {
                             setAttributes( data );
                         } }
                         autoFocus={ false }
-                        className="generatepress-component-url-input-float"
+                        className="fx-component-url-input-float"
                     />
                 ) : '' }
 			</Fragment>
@@ -427,4 +427,4 @@ class GenerateButton extends Component {
 	}
 }
 
-export default ( GenerateButton );
+export default ( FlexBlockButton );

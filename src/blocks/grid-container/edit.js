@@ -41,7 +41,7 @@ const {
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 
-class GenerateGridContainer extends Component {
+class FlexBlockGridContainer extends Component {
 	constructor() {
         super( ...arguments );
 
@@ -126,7 +126,7 @@ class GenerateGridContainer extends Component {
 
 			columnsData.forEach( ( colAttrs ) => {
 				result.push( [
-					'generatepress/section',
+					'flex-blocks/section',
 					colAttrs,
 				] );
 			} );
@@ -135,7 +135,7 @@ class GenerateGridContainer extends Component {
 		} else {
 			for ( let k = 1; k <= columns; k++ ) {
 				result.push( [
-					'generatepress/section',
+					'flex-blocks/section',
 					colAttrs
 				] );
 			}
@@ -162,7 +162,7 @@ class GenerateGridContainer extends Component {
 				tagName: 'div',
             };
 
-			colAttrs.width = columnsData[i];
+			colAttrs.width = Number( columnsData[i] );
 			i++;
 
             result.push( colAttrs );
@@ -198,23 +198,23 @@ class GenerateGridContainer extends Component {
             <Placeholder
                 label={ __( 'Grid' ) }
                 instructions={ __( 'Select one layout to get started.' ) }
-                className="gp-select-layout"
+                className="fx-select-layout"
             >
-                <div className="gp-grid-wrapper-layout-preview">
+                <div className="fx-grid-wrapper-layout-preview">
                     { layouts.map( ( layout ) => {
                         const columnsData = this.getColumnsFromLayout( layout );
 
                         return (
                             <button
                                 key={ `layout-${ layout }` }
-                                className="gp-grid-wrapper-layout-preview-btn"
+                                className="fx-grid-wrapper-layout-preview-btn"
                                 onClick={ () => this.onLayoutSelect( layout ) }
                             >
                                 { columnsData.map( ( colAttrs, i ) => {
                                     return (
                                         <div
                                             key={ `layout-${ layout }-col-${ i }` }
-                                            className={ classnames( 'gp-col', `gp-col-${ colAttrs.width }` ) }
+                                            className={ classnames( 'fx-col', `fx-col-${ colAttrs.width }` ) }
                                         />
                                     );
                                 } ) }
@@ -265,7 +265,7 @@ class GenerateGridContainer extends Component {
 		} = attributes;
 
 		const css = `
-			.gp-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
+			.fx-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
 				align-items: ` + verticalAlignment + `;
 			}
 		`
@@ -276,30 +276,30 @@ class GenerateGridContainer extends Component {
 				<InspectorControls>
 					<PanelBody>
 						<RangeControl
-							label={ __( 'Sections', 'gp-premium' ) }
+							label={ __( 'Sections', 'flex-blocks' ) }
 							value={ columns }
 							onChange={ ( value ) => setAttributes( { columns: value } ) }
 							min={ 1 }
 							max={ 25 }
-							initialPosition={ generatepressDefaults.gridContainer.columns }
+							initialPosition={ flexBlocksDefaults.gridContainer.columns }
 						/>
 
-						<TabPanel className="grid-tab-panel generatepress-control-tabs"
+						<TabPanel className="grid-tab-panel flex-blocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'grid-default',
-									title: __( 'Default', 'gp-premium' ),
+									title: __( 'Default', 'flex-blocks' ),
 									className: 'grid-default',
 								},
 								{
 									name: 'grid-tablet',
-									title: __( 'Tablet', 'gp-premium' ),
+									title: __( 'Tablet', 'flex-blocks' ),
 									className: 'grid-tablet',
 								},
 								{
 									name: 'grid-mobile',
-									title: __( 'Mobile', 'gp-premium' ),
+									title: __( 'Mobile', 'flex-blocks' ),
 									className: 'grid-mobile',
 								},
 							] }>
@@ -310,31 +310,31 @@ class GenerateGridContainer extends Component {
 											{ 'grid-default' === tab.name ? (
 												<Fragment>
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'gp-premium' ) }
+														label={ __( 'Horizontal Gap', 'flex-blocks' ) }
 														value={ horizontalGap }
 														onChange={ ( value ) => setAttributes( { horizontalGap: value } ) }
 														min={ 0 }
 														max={ 100 }
-														initialPosition={ generatepressDefaults.gridContainer.horizontalGap }
+														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGap }
 													/>
 
 													<RangeControl
-														label={ __( 'Vertical Gap', 'gp-premium' ) }
+														label={ __( 'Vertical Gap', 'flex-blocks' ) }
 														value={ verticalGap }
 														onChange={ ( value ) => setAttributes( { verticalGap: value } ) }
 														min={ 0 }
 														max={ 100 }
-														initialPosition={ generatepressDefaults.gridContainer.verticalGap }
+														initialPosition={ flexBlocksDefaults.gridContainer.verticalGap }
 													/>
 
 													<SelectControl
-														label={ __( 'Vertical Alignment', 'gp-premium' ) }
+														label={ __( 'Vertical Alignment', 'flex-blocks' ) }
 														value={ verticalAlignment }
 														options={ [
-															{ label: __( 'Default', 'gp-premium' ), value: '' },
-															{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
-															{ label: __( 'Center', 'gp-premium' ), value: 'center' },
-															{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+															{ label: __( 'Default', 'flex-blocks' ), value: '' },
+															{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
 													/>
@@ -344,32 +344,32 @@ class GenerateGridContainer extends Component {
 											{ 'grid-tablet' === tab.name ? (
 												<Fragment>
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'gp-premium' ) }
+														label={ __( 'Horizontal Gap', 'flex-blocks' ) }
 														value={ horizontalGapTablet }
 														onChange={ ( value ) => setAttributes( { horizontalGapTablet: value } ) }
 														min={ 0 }
 														max={ 100 }
-														initialPosition={ generatepressDefaults.gridContainer.horizontalGapTablet }
+														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGapTablet }
 													/>
 
 													<RangeControl
-														label={ __( 'Vertical Gap', 'gp-premium' ) }
+														label={ __( 'Vertical Gap', 'flex-blocks' ) }
 														value={ verticalGapTablet }
 														onChange={ ( value ) => setAttributes( { verticalGapTablet: value } ) }
 														min={ 0 }
 														max={ 100 }
-														initialPosition={ generatepressDefaults.gridContainer.verticalGapTablet }
+														initialPosition={ flexBlocksDefaults.gridContainer.verticalGapTablet }
 													/>
 
 													<SelectControl
-														label={ __( 'Vertical Alignment', 'gp-premium' ) }
+														label={ __( 'Vertical Alignment', 'flex-blocks' ) }
 														value={ verticalAlignmentTablet }
 														options={ [
-															{ label: __( 'Inherit', 'gp-premium' ), value: 'inherit' },
-															{ label: __( 'Default', 'gp-premium' ), value: '' },
-															{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
-															{ label: __( 'Center', 'gp-premium' ), value: 'center' },
-															{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+															{ label: __( 'Inherit', 'flex-blocks' ), value: 'inherit' },
+															{ label: __( 'Default', 'flex-blocks' ), value: '' },
+															{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
 													/>
@@ -379,32 +379,32 @@ class GenerateGridContainer extends Component {
 											{ 'grid-mobile' === tab.name ? (
 												<Fragment>
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'gp-premium' ) }
+														label={ __( 'Horizontal Gap', 'flex-blocks' ) }
 														value={ horizontalGapMobile }
 														onChange={ ( value ) => setAttributes( { horizontalGapMobile: value } ) }
 														min={ 0 }
 														max={ 100 }
-														initialPosition={ generatepressDefaults.gridContainer.horizontalGapMobile }
+														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGapMobile }
 													/>
 
 													<RangeControl
-														label={ __( 'Vertical Gap', 'gp-premium' ) }
+														label={ __( 'Vertical Gap', 'flex-blocks' ) }
 														value={ verticalGapMobile }
 														onChange={ ( value ) => setAttributes( { verticalGapMobile: value } ) }
 														min={ 0 }
 														max={ 100 }
-														initialPosition={ generatepressDefaults.gridContainer.verticalGapMobile }
+														initialPosition={ flexBlocksDefaults.gridContainer.verticalGapMobile }
 													/>
 
 													<SelectControl
-														label={ __( 'Vertical Alignment', 'gp-premium' ) }
+														label={ __( 'Vertical Alignment', 'flex-blocks' ) }
 														value={ verticalAlignmentMobile }
 														options={ [
-															{ label: __( 'Inherit', 'gp-premium' ), value: 'inherit' },
-															{ label: __( 'Default', 'gp-premium' ), value: '' },
-															{ label: __( 'Top', 'gp-premium' ), value: 'flex-start' },
-															{ label: __( 'Center', 'gp-premium' ), value: 'center' },
-															{ label: __( 'Bottom', 'gp-premium' ), value: 'flex-end' },
+															{ label: __( 'Inherit', 'flex-blocks' ), value: 'inherit' },
+															{ label: __( 'Default', 'flex-blocks' ), value: '' },
+															{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
 													/>
@@ -420,7 +420,7 @@ class GenerateGridContainer extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'Element ID', 'gp-premium' ) }
+						label={ __( 'Element ID', 'flex-blocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -429,7 +429,7 @@ class GenerateGridContainer extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'gp-premium' ) }
+						label={ __( 'CSS Classes', 'flex-blocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>
@@ -440,8 +440,8 @@ class GenerateGridContainer extends Component {
 				<div
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
-						'gp-grid-wrapper': true,
-						[`gp-grid-wrapper-${ uniqueId }`]: true,
+						'fx-grid-wrapper': true,
+						[`fx-grid-wrapper-${ uniqueId }`]: true,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 				>
@@ -450,7 +450,7 @@ class GenerateGridContainer extends Component {
 							<InnerBlocks
 								template={ this.getColumnsTemplate() }
 								templateLock="all"
-								allowedBlocks={ [ 'generatepress/section' ] }
+								allowedBlocks={ [ 'flex-blocks/section' ] }
 							/>
 						</Fragment>
 						) : this.getLayoutsSelector() }
@@ -460,4 +460,4 @@ class GenerateGridContainer extends Component {
 	}
 }
 
-export default ( GenerateGridContainer );
+export default ( FlexBlockGridContainer );

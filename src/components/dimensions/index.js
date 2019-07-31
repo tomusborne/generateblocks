@@ -89,7 +89,7 @@ class DimensionsControl extends Component {
 
 		const classes = classnames(
 			'components-base-control',
-			'components-generatepress-dimensions-control', {
+			'components-fx-dimensions-control', {
 			}
 		);
 
@@ -172,9 +172,9 @@ class DimensionsControl extends Component {
 		return (
 			<Fragment>
 				<div className={ classes }>
-					<div className='components-generatepress-dimensions-control__inputs'>
+					<div className='components-fx-dimensions-control__inputs'>
 						<input
-							className="components-generatepress-dimensions-control__number"
+							className="components-fx-dimensions-control__number"
 							type="number"
 							onChange={ onChangeTopValue }
 							aria-label={ sprintf( __( '%s Top' ), label ) }
@@ -183,7 +183,7 @@ class DimensionsControl extends Component {
 							data-attribute={ type }
 						/>
 						<input
-							className="components-generatepress-dimensions-control__number"
+							className="components-fx-dimensions-control__number"
 							type="number"
 							onChange={ onChangeRightValue }
 							aria-label={ sprintf( __( '%s Right' ), label ) }
@@ -192,7 +192,7 @@ class DimensionsControl extends Component {
 							data-attribute={ type }
 						/>
 						<input
-							className="components-generatepress-dimensions-control__number"
+							className="components-fx-dimensions-control__number"
 							type="number"
 							onChange={ onChangeBottomValue }
 							aria-label={ sprintf( __( '%s Bottom' ), label ) }
@@ -201,7 +201,7 @@ class DimensionsControl extends Component {
 							data-attribute={ type }
 						/>
 						<input
-							className="components-generatepress-dimensions-control__number"
+							className="components-fx-dimensions-control__number"
 							type="number"
 							onChange={ onChangeLeftValue }
 							aria-label={ sprintf( __( '%s Left' ), label ) }
@@ -211,7 +211,7 @@ class DimensionsControl extends Component {
 						/>
 						<Tooltip text={ !! syncUnits ? __( 'Unsync' ) : __( 'Sync' ) } >
 							<Button
-								className="components-generatepress-dimensions-control_sync"
+								className="components-fx-dimensions-control_sync"
 								aria-label={ __( 'Sync Units' ) }
 								isPrimary={ syncUnits ? syncUnits : false }
 								aria-pressed={ syncUnits ? syncUnits : false }
@@ -223,12 +223,12 @@ class DimensionsControl extends Component {
 						</Tooltip>
 					</div>
 
-					<div className='components-generatepress-dimensions-control__input-labels'>
-						<span className='components-generatepress-dimensions-control__number-label'>{  labelTop }</span>
-						<span className='components-generatepress-dimensions-control__number-label'>{  labelRight }</span>
-						<span className='components-generatepress-dimensions-control__number-label'>{  labelBottom }</span>
-						<span className='components-generatepress-dimensions-control__number-label'>{  labelLeft }</span>
-						<span className='components-generatepress-dimensions-control__number-label'></span>
+					<div className='components-fx-dimensions-control__input-labels'>
+						<span className='components-fx-dimensions-control__number-label'>{  labelTop }</span>
+						<span className='components-fx-dimensions-control__number-label'>{  labelRight }</span>
+						<span className='components-fx-dimensions-control__number-label'>{  labelBottom }</span>
+						<span className='components-fx-dimensions-control__number-label'>{  labelLeft }</span>
+						<span className='components-fx-dimensions-control__number-label'></span>
 					</div>
 				</div>
 			</Fragment>

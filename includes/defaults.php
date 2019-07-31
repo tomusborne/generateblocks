@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $block The name of our block.
  * @return array
  */
-function generate_get_block_defaults() {
+function flex_get_block_defaults() {
 	$defaults = array();
 
 	$container_width = 1100;
@@ -126,5 +126,5 @@ function generate_get_block_defaults() {
 		'marginBottom' => '25',
 	);
 
-	return apply_filters( 'generate_block_defaults', $defaults );
+	return apply_filters( 'flex_block_defaults', $defaults );
 }

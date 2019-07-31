@@ -24,8 +24,8 @@ export default ( { attributes } ) => {
 		<a
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
-				'gp-button': true,
-				[`gp-button-${ uniqueId }`]: true,
+				'fx-button': true,
+				[`fx-button-${ uniqueId }`]: true,
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 			href={ !! url ? url : undefined }

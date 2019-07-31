@@ -27,7 +27,7 @@
  * that are used across the project.
 */
 /* Colors */
-.gp-button {
+.fx-button {
   display: inline-block;
   padding: .75em 1em;
   line-height: 1em;
@@ -38,6 +38,6 @@
   -webkit-transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
   -o-transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
   transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out; }
-  .gp-button:hover, .gp-button:focus, .gp-button:active {
+  .fx-button:hover, .fx-button:focus, .fx-button:active {
     color: #fff;
     background-color: #32373c; }

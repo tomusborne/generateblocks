@@ -30,7 +30,7 @@ const {
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 
-class GenerateHeadline extends Component {
+class FlexBlockHeadline extends Component {
 	componentDidMount() {
 		var instanceId = this.props.instanceId + 1;
 
@@ -70,7 +70,7 @@ class GenerateHeadline extends Component {
 		} = attributes;
 
 		const css = `
-			.editor-styles-wrapper .gp-headline-` + uniqueId + ` {
+			.editor-styles-wrapper .fx-headline-` + uniqueId + ` {
 				text-transform: ` + textTransform + `;
 				text-align: ` + align + `;
 				font-size: ` + size + `px;
@@ -88,7 +88,7 @@ class GenerateHeadline extends Component {
 				<InspectorControls>
 					<PanelBody>
 						<SelectControl
-							label={ __( 'Element', 'gp-premium' ) }
+							label={ __( 'Element', 'flex-blocks' ) }
 							value={ element }
 							options={ [
 								{ label: 'p', value: 'p' },
@@ -110,7 +110,7 @@ class GenerateHeadline extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Font Size', 'gp-premium' ) }
+							label={ __( 'Font Size', 'flex-blocks' ) }
 							value={ size }
 							onChange={ ( value ) => {
 								setAttributes( {
@@ -121,11 +121,11 @@ class GenerateHeadline extends Component {
 							max={ 100 }
 							step={ 1 }
 							allowReset={ true }
-							initialPosition={ generatepressDefaults.headline.size }
+							initialPosition={ flexBlocksDefaults.headline.size }
 						/>
 
 						<SelectControl
-							label={ __( 'Text Transform', 'gp-premium' ) }
+							label={ __( 'Text Transform', 'flex-blocks' ) }
 							value={ textTransform }
 							options={ [
 								{ label: 'none', value: '' },
@@ -137,7 +137,7 @@ class GenerateHeadline extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Line Height', 'gp-premium' ) }
+							label={ __( 'Line Height', 'flex-blocks' ) }
 							value={ lineHeight }
 							onChange={ ( value ) => {
 								setAttributes( {
@@ -152,7 +152,7 @@ class GenerateHeadline extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Letter Spacing', 'gp-premium' ) }
+							label={ __( 'Letter Spacing', 'flex-blocks' ) }
 							value={ letterSpacing }
 							onChange={ ( value ) => {
 								setAttributes( {
@@ -167,7 +167,7 @@ class GenerateHeadline extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Margin Top', 'gp-premium' ) }
+							label={ __( 'Margin Top', 'flex-blocks' ) }
 							value={ marginTop }
 							onChange={ ( value ) => {
 								setAttributes( {
@@ -182,7 +182,7 @@ class GenerateHeadline extends Component {
 						/>
 
 						<RangeControl
-							label={ __( 'Margin Bottom', 'gp-premium' ) }
+							label={ __( 'Margin Bottom', 'flex-blocks' ) }
 							value={ marginBottom }
 							onChange={ ( value ) => {
 								setAttributes( {
@@ -193,11 +193,11 @@ class GenerateHeadline extends Component {
 							max={ 100 }
 							step={ 1 }
 							allowReset={ true }
-							initialPosition={ generatepressDefaults.headline.marginBottom }
+							initialPosition={ flexBlocksDefaults.headline.marginBottom }
 						/>
 
 						<ColorPicker
-							label={ __( 'Color', 'gp-premium' ) }
+							label={ __( 'Color', 'flex-blocks' ) }
 							value={ color }
 							onChange={ ( value ) =>
 								setAttributes( {
@@ -211,7 +211,7 @@ class GenerateHeadline extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'Element ID', 'gp-premium' ) }
+						label={ __( 'Element ID', 'flex-blocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -220,7 +220,7 @@ class GenerateHeadline extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'gp-premium' ) }
+						label={ __( 'CSS Classes', 'flex-blocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>
@@ -235,8 +235,8 @@ class GenerateHeadline extends Component {
 					onChange={ ( value ) => setAttributes( { content: value } ) }
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
-						'gp-headline': true,
-						[`gp-headline-${ uniqueId }`]: true,
+						'fx-headline': true,
+						[`fx-headline-${ uniqueId }`]: true,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 					placeholder={ __( 'Write headline…' ) }
@@ -246,4 +246,4 @@ class GenerateHeadline extends Component {
 	}
 }
 
-export default ( GenerateHeadline );
+export default ( FlexBlockHeadline );

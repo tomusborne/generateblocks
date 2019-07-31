@@ -13,34 +13,34 @@ export default {
 	},
 	paddingTop: {
 		type: 'number',
-		default: generatepressDefaults.buttonContainer.paddingTop
+		default: flexBlocksDefaults.buttonContainer.paddingTop
 	},
 	paddingRight: {
 		type: 'number',
-		default: generatepressDefaults.buttonContainer.paddingRight
+		default: flexBlocksDefaults.buttonContainer.paddingRight
 	},
 	paddingBottom: {
 		type: 'number',
-		default: generatepressDefaults.buttonContainer.paddingBottom
+		default: flexBlocksDefaults.buttonContainer.paddingBottom
 	},
 	paddingLeft: {
 		type: 'number',
-		default: generatepressDefaults.buttonContainer.paddingLeft
+		default: flexBlocksDefaults.buttonContainer.paddingLeft
 	},
 	paddingTopMobile: {
 		type: 'number',
-		default: generatepressDefaults.buttonContainer.paddingTopMobile
+		default: flexBlocksDefaults.buttonContainer.paddingTopMobile
 	},
 	paddingRightMobile: {
 		type: 'number',
-		default: generatepressDefaults.buttonContainer.paddingRightMobile
+		default: flexBlocksDefaults.buttonContainer.paddingRightMobile
 	},
 	paddingBottomMobile: {
 		type: 'number',
-		default: generatepressDefaults.buttonContainer.paddingBottomMobile
+		default: flexBlocksDefaults.buttonContainer.paddingBottomMobile
 	},
 	paddingLeftMobile: {
 		type: 'number',
-		default: generatepressDefaults.buttonContainer.paddingLeftMobile
+		default: flexBlocksDefaults.buttonContainer.paddingLeftMobile
 	},
 }

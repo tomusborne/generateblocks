@@ -5,19 +5,19 @@
  * which makes it higher in priority.
  */
 
-body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-list__block,
-[data-type="generatepress/section"] .wp-block-heading h1,
-[data-type="generatepress/section"] .wp-block-heading h1.editor-rich-text__tinymce,
-[data-type="generatepress/section"] .wp-block-heading h2,
-[data-type="generatepress/section"] .wp-block-heading h2.editor-rich-text__tinymce,
-[data-type="generatepress/section"] .wp-block-heading h3,
-[data-type="generatepress/section"] .wp-block-heading h3.editor-rich-text__tinymce,
-[data-type="generatepress/section"] .wp-block-heading h4,
-[data-type="generatepress/section"] .wp-block-heading h4.editor-rich-text__tinymce,
-[data-type="generatepress/section"] .wp-block-heading h5,
-[data-type="generatepress/section"] .wp-block-heading h5.editor-rich-text__tinymce,
-[data-type="generatepress/section"] .wp-block-heading h6,
-[data-type="generatepress/section"] .wp-block-heading h6.editor-rich-text__tinymce {
+body.gutenberg-editor-page [data-type="flex-blocks/section"] .editor-block-list__block,
+[data-type="flex-blocks/section"] .wp-block-heading h1,
+[data-type="flex-blocks/section"] .wp-block-heading h1.editor-rich-text__tinymce,
+[data-type="flex-blocks/section"] .wp-block-heading h2,
+[data-type="flex-blocks/section"] .wp-block-heading h2.editor-rich-text__tinymce,
+[data-type="flex-blocks/section"] .wp-block-heading h3,
+[data-type="flex-blocks/section"] .wp-block-heading h3.editor-rich-text__tinymce,
+[data-type="flex-blocks/section"] .wp-block-heading h4,
+[data-type="flex-blocks/section"] .wp-block-heading h4.editor-rich-text__tinymce,
+[data-type="flex-blocks/section"] .wp-block-heading h5,
+[data-type="flex-blocks/section"] .wp-block-heading h5.editor-rich-text__tinymce,
+[data-type="flex-blocks/section"] .wp-block-heading h6,
+[data-type="flex-blocks/section"] .wp-block-heading h6.editor-rich-text__tinymce {
 	color: inherit;
 }
 
@@ -30,7 +30,7 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
     margin-bottom: 10px;
 }
 
-.section-colors-panel .components-base-control__label {
+.fx-section-colors-panel .components-base-control__label {
 	display: inline-block;
 	margin-bottom: 10px;
 }
@@ -49,22 +49,22 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
     top: 2px;
 }
 
-.components-base-control.section-unit {
+.components-base-control.fx-section-unit {
     float: right;
 }
 
-.section-unit .components-base-control__label {
+.fx-section-unit .components-base-control__label {
     opacity: 0;
 }
 
-.generatepress-control-tabs .components-tab-panel__tabs {
+.flex-blocks-control-tabs .components-tab-panel__tabs {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
     border-bottom: 1px solid #e8eaeb;
 }
 
-.generatepress-control-tabs .components-tab-panel__tabs button {
+.flex-blocks-control-tabs .components-tab-panel__tabs button {
     padding: 9px 11px;
     padding-bottom: 11px;
     margin: 0;
@@ -78,7 +78,7 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
     outline-offset: -1px;
 }
 
-.generatepress-control-tabs .components-tab-panel__tabs button.active-tab {
+.flex-blocks-control-tabs .components-tab-panel__tabs button.active-tab {
     position: relative;
     border-bottom: 2px solid #00a0d2;
     z-index: 1;
@@ -94,10 +94,10 @@ body.gutenberg-editor-page [data-type="generatepress/section"] .editor-block-lis
     display: flex;
 }
 
-.gp-column-width-control input[type="number"] {
+.fx-column-width-control input[type="number"] {
 	width: 65px;
 }
 
-body .generate-section .wp-block {
+body .fx-section .wp-block {
     max-width: none;
 }

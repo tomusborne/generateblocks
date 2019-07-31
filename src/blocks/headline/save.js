@@ -23,8 +23,8 @@ export default ( { attributes } ) => {
 			tagName={ element }
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
-				'gp-headline': true,
-				[`gp-headline-${ uniqueId }`]: true,
+				'fx-headline': true,
+				[`fx-headline-${ uniqueId }`]: true,
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 			value={ content }
