@@ -32,13 +32,9 @@ const ELEMENT_ID_REGEX = /[\s#]/g;
 
 class FlexBlockButton extends Component {
 	componentDidMount() {
-		var instanceId = this.props.instanceId + 1;
-
 		if ( ! this.props.attributes.uniqueId ) {
-			this.props.setAttributes( {
-				uniqueId: instanceId,
-			} );
-		} else if ( this.props.attributes.uniqueId && this.props.attributes.uniqueId !== instanceId ) {
+			var instanceId = this.props.instanceId + 1;
+			
 			this.props.setAttributes( {
 				uniqueId: instanceId,
 			} );
