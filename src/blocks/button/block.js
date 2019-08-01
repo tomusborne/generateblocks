@@ -37,7 +37,7 @@ registerBlockType( 'flex-blocks/button', {
 	title: __( 'Button', 'flex-blocks' ),
 	parent: [ 'flex-blocks/button-container' ],
 	icon: iconEl,
-	category: 'flex',
+	category: 'flex-blocks',
 	keywords: [
 		__( 'button' ),
 		__( 'buttons' ),

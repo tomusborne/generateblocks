@@ -52,7 +52,7 @@ function flex_blocks_do_category( $categories ) {
 	return array_merge(
 		array(
 			array(
-				'slug'  => 'flex',
+				'slug'  => 'flex-blocks',
 				'title' => __( 'Flex Blocks', 'flex-blocks' ),
 			),
 		),

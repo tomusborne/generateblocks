@@ -36,7 +36,7 @@ const iconEl = el('svg', { width: 20, height: 20, viewBox: "0 0 600 600" },
 registerBlockType( 'flex-blocks/headline', {
 	title: __( 'Headline', 'flex-blocks' ),
 	icon: iconEl,
-	category: 'flex',
+	category: 'flex-blocks',
 	keywords: [
 		__( 'heading' ),
 		__( 'headline' ),
