@@ -138,7 +138,7 @@ function flex_get_section_css() {
 		$id = absint( $atts['uniqueId'] );
 
 		// Open main container element.
-		$css->set_selector( '.fx-section.section-' . $id );
+		$css->set_selector( '.fx-section.fx-section-' . $id );
 
 		if ( 'contained' === $settings['outerContainer'] ) {
 			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
@@ -174,7 +174,7 @@ function flex_get_section_css() {
 			$css->add_property( 'z-index', $settings['zindex'] );
 		}
 
-		$css->set_selector( '.fx-section.section-' . $id . ' .inside-section' );
+		$css->set_selector( '.fx-section.fx-section-' . $id . ' .fx-inside-section' );
 
 		if ( 'contained' === $settings['innerContainer'] ) {
 			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
@@ -182,39 +182,39 @@ function flex_get_section_css() {
 			$css->add_property( 'margin-right', 'auto' );
 		}
 
-		$css->set_selector( '.fx-section.section-' . $id . ' > .inside-section' );
+		$css->set_selector( '.fx-section.fx-section-' . $id . ' > .fx-inside-section' );
 
 		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
 		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
 		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
 		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
 
-		$css->set_selector( '.fx-section.section-' . $id . ' a, .fx-section.section-' . $id . ' a:visited' );
+		$css->set_selector( '.fx-section.fx-section-' . $id . ' a, .fx-section.fx-section-' . $id . ' a:visited' );
 		$css->add_property( 'color', $settings['linkColor'] );
 
-		$css->set_selector( '.fx-section.section-' . $id . ' a:hover' );
+		$css->set_selector( '.fx-section.fx-section-' . $id . ' a:hover' );
 		$css->add_property( 'color', $settings['linkColorHover'] );
 
-		$css->set_selector( '.fx-grid-wrapper > .grid-column-' . $id );
+		$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 		$css->add_property( 'width', $settings['width'], '%' );
 		$css->add_property( 'align-self', $settings['verticalAlignment'] );
 
 		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
-			$css->set_selector( '.fx-section.section-' . $id );
+			$css->set_selector( '.fx-section.fx-section-' . $id );
 
 			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
 			$css->add_property( 'margin-right', $settings['marginRightTablet'], 'px' );
 			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
 			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
 
-			$css->set_selector( '.fx-section.section-' . $id . ' > .inside-section' );
+			$css->set_selector( '.fx-section.fx-section-' . $id . ' > .fx-inside-section' );
 
 			$css->add_property( 'padding-top', $settings['paddingTopTablet'], 'px' );
 			$css->add_property( 'padding-right', $settings['paddingRightTablet'], 'px' );
 			$css->add_property( 'padding-bottom', $settings['paddingBottomTablet'], 'px' );
 			$css->add_property( 'padding-left', $settings['paddingLeftTablet'], 'px' );
 
-			$css->set_selector( '.fx-grid-wrapper > .grid-column-' . $id );
+			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthTablet'], '%' );
 
 			if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
@@ -223,14 +223,14 @@ function flex_get_section_css() {
 		$css->stop_media_query();
 
 		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
-			$css->set_selector( '.fx-section.section-' . $id );
+			$css->set_selector( '.fx-section.fx-section-' . $id );
 
 			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
 			$css->add_property( 'margin-right', $settings['marginRightMobile'], 'px' );
 			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
 			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
 
-			$css->set_selector( '.fx-section.section-' . $id . ' > .inside-section' );
+			$css->set_selector( '.fx-section.fx-section-' . $id . ' > .fx-inside-section' );
 
 			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
 			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
@@ -238,6 +238,7 @@ function flex_get_section_css() {
 			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
 
 			$css->set_selector( '.fx-grid-wrapper > .grid-column-' . $id );
+			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthMobile'], '%' );
 
 			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
@@ -247,7 +248,7 @@ function flex_get_section_css() {
 		$css->stop_media_query();
 	}
 
-	$css->set_selector( '.inside-section > *:last-child' );
+	$css->set_selector( '.fx-inside-section > *:last-child' );
 	$css->add_property( 'margin-bottom', '0px' );
 
 	return $css->css_output();

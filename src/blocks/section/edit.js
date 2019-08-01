@@ -162,7 +162,7 @@ class FlexBlockSection extends Component {
 		}
 
 		const css = `
-			.section-` + uniqueId + ` {
+			.fx-section-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
 		  		background-image: ` + backgroundImageValue + `;
@@ -172,15 +172,15 @@ class FlexBlockSection extends Component {
 				background-attachment: ` + bgOptions.attachment + `;
 			}
 
-			.section-` + uniqueId + ` a, .section-` + uniqueId + ` a:visited {
+			.fx-section-` + uniqueId + ` a, .fx-section-` + uniqueId + ` a:visited {
 			  color: ` + linkColor + `;
 			}
 
-			.section-` + uniqueId + ` a:hover {
+			.fx-section-` + uniqueId + ` a:hover {
 			  color: ` + linkColorHover + `;
 			}
 
-			.section-` + uniqueId + ` .inside-section {
+			.fx-section-` + uniqueId + ` .fx-inside-section {
 			  padding-top: ` + paddingTop + `px;
 			  padding-right: ` + paddingRight + `px;
 			  padding-bottom: ` + paddingBottom + `px;
@@ -780,7 +780,7 @@ class FlexBlockSection extends Component {
 					condition={ isGrid }
 					wrap={ children => <div className={ classnames( {
 						'fx-grid-column': true,
-						[`grid-column-${ uniqueId }`]: true
+						[`fx-grid-column-${ uniqueId }`]: true
 					} ) }>{ children }</div>}
 				>
 					<Section
@@ -788,13 +788,13 @@ class FlexBlockSection extends Component {
 						id={ elementId }
 						className={ classnames( {
 							'fx-section': true,
-							[`section-${ uniqueId }`]: true,
+							[`fx-section-${ uniqueId }`]: true,
 							[`${ cssClasses }`]: '' !== cssClasses
 						} ) }
 					>
 						<div
 							className={ classnames( {
-							'inside-section': true
+							'fx-inside-section': true
 							} ) }
 						>
 							<InnerBlocks

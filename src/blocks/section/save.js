@@ -42,7 +42,7 @@ export default ( { attributes } ) => {
 			condition={ isGrid }
 			wrap={ children => <div className={ classnames( {
 				'fx-grid-column': true,
-				[`grid-column-${ uniqueId }`]: true
+				[`fx-grid-column-${ uniqueId }`]: true
 			} ) }>{ children }</div>}
 		>
 			<Section
@@ -50,12 +50,12 @@ export default ( { attributes } ) => {
 				id={ elementId }
 				className={ classnames( {
 					'fx-section': true,
-					[`section-${ uniqueId }`]: true,
+					[`fx-section-${ uniqueId }`]: true,
 					[`${ cssClasses }`]: '' !== cssClasses
 				} ) }
 			>
 				<div className={ classnames( {
-					'inside-section': true
+					'fx-inside-section': true
 				} ) }>
 					<InnerBlocks.Content />
 				</div>
