@@ -34,7 +34,7 @@ class FlexBlockButton extends Component {
 	componentDidMount() {
 		if ( ! this.props.attributes.uniqueId ) {
 			var instanceId = this.props.instanceId + 1;
-			
+
 			this.props.setAttributes( {
 				uniqueId: instanceId,
 			} );
@@ -66,6 +66,11 @@ class FlexBlockButton extends Component {
 			fontSize,
 			textTransform,
 			gap,
+			paddingTop,
+			paddingRight,
+			paddingBottom,
+			paddingLeft,
+			paddingSyncUnits,
 			borderSizeTop,
 			borderSizeRight,
 			borderSizeBottom,
@@ -98,6 +103,10 @@ class FlexBlockButton extends Component {
 			.editor-block-list__block a.fx-button-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
+				padding-top: ` + paddingTop + `px;
+				padding-right: ` + paddingRight + `px;
+				padding-bottom: ` + paddingBottom + `px;
+				padding-left: ` + paddingLeft + `px;
 				border-top-right-radius: ` + borderRadiusTopRight + `px;
 				border-bottom-right-radius: ` + borderRadiusBottomRight + `px;
 				border-bottom-left-radius: ` + borderRadiusBottomLeft + `px;
@@ -198,6 +207,42 @@ class FlexBlockButton extends Component {
 														initialPosition={ flexBlocksDefaults.button.gap }
 													/>
 
+													<BaseControl label={ __( 'Padding', 'flex-blocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'flex-blocks' ) }
+															valueTop={ paddingTop }
+															valueRight={ paddingRight }
+															valueBottom={ paddingBottom }
+															valueLeft={ paddingLeft }
+															//unit={ paddingUnit }
+															syncUnits={ paddingSyncUnits }
+															attrTop={ 'paddingTop' }
+															attrRight={ 'paddingRight' }
+															attrBottom={ 'paddingBottom' }
+															attrLeft={ 'paddingLeft' }
+															attrSyncUnits={ 'paddingSyncUnits' }
+														/>
+													</BaseControl>
+
+													<BaseControl label={ __( 'Border Size', 'flex-blocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Size', 'flex-blocks' ) }
+															valueTop={ borderSizeTop }
+															valueRight={ borderSizeRight }
+															valueBottom={ borderSizeBottom }
+															valueLeft={ borderSizeLeft }
+															//unit={ paddingUnit }
+															syncUnits={ borderSizeSyncUnits }
+															attrTop={ 'borderSizeTop' }
+															attrRight={ 'borderSizeRight' }
+															attrBottom={ 'borderSizeBottom' }
+															attrLeft={ 'borderSizeLeft' }
+															attrSyncUnits={ 'borderSizeSyncUnits' }
+														/>
+													</BaseControl>
+
 													<BaseControl label={ __( 'Border Radius', 'flex-blocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
@@ -217,24 +262,6 @@ class FlexBlockButton extends Component {
 															labelRight={ __( 'B-Right', 'flex-blocks' ) }
 															labelBottom={ __( 'B-Left', 'flex-blocks' ) }
 															labelLeft={ __( 'T-Left', 'flex-blocks' ) }
-														/>
-													</BaseControl>
-
-													<BaseControl label={ __( 'Border Size', 'flex-blocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Border Size', 'flex-blocks' ) }
-															valueTop={ borderSizeTop }
-															valueRight={ borderSizeRight }
-															valueBottom={ borderSizeBottom }
-															valueLeft={ borderSizeLeft }
-															//unit={ paddingUnit }
-															syncUnits={ borderSizeSyncUnits }
-															attrTop={ 'borderSizeTop' }
-															attrRight={ 'borderSizeRight' }
-															attrBottom={ 'borderSizeBottom' }
-															attrLeft={ 'borderSizeLeft' }
-															attrSyncUnits={ 'borderSizeSyncUnits' }
 														/>
 													</BaseControl>
 												</Fragment>

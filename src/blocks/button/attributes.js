@@ -71,6 +71,22 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.button.gap,
 	},
+	paddingTop: {
+		type: 'number',
+		default: flexBlocksDefaults.button.paddingTop,
+	},
+	paddingRight: {
+		type: 'number',
+		default: flexBlocksDefaults.button.paddingRight,
+	},
+	paddingBottom: {
+		type: 'number',
+		default: flexBlocksDefaults.button.paddingBottom,
+	},
+	paddingLeft: {
+		type: 'number',
+		default: flexBlocksDefaults.button.paddingLeft,
+	},
 	borderSizeTop: {
 		type: 'number',
 		default: flexBlocksDefaults.button.borderSizeTop,

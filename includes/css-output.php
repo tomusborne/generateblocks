@@ -328,7 +328,6 @@ function flex_get_button_css() {
 	$css->add_property( 'display', 'inline-flex' );
 	$css->add_property( 'align-items', 'center' );
 	$css->add_property( 'justify-content', 'center' );
-	$css->add_property( 'padding', '.75em 1em' );
 	$css->add_property( 'line-height', '1em' );
 	$css->add_property( 'text-decoration', 'none !important' );
 	$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
@@ -350,6 +349,10 @@ function flex_get_button_css() {
 		$css->set_selector( 'a.fx-button-' . $id );
 		$css->add_property( 'background-color', $settings['backgroundColor'] );
 		$css->add_property( 'color', $settings['textColor'] );
+		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
+		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
+		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
+		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
 		$css->add_property( 'border-top-right-radius', $settings['borderRadiusTopRight'], 'px' );
 		$css->add_property( 'border-bottom-right-radius', $settings['borderRadiusBottomRight'], 'px' );
 		$css->add_property( 'border-bottom-left-radius', $settings['borderRadiusBottomLeft'], 'px' );
