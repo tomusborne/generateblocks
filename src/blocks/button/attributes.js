@@ -72,51 +72,51 @@ export default {
 		default: flexBlocksDefaults.button.gap,
 	},
 	paddingTop: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.paddingTop,
 	},
 	paddingRight: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.paddingRight,
 	},
 	paddingBottom: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.paddingBottom,
 	},
 	paddingLeft: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.paddingLeft,
 	},
 	borderSizeTop: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.borderSizeTop,
 	},
 	borderSizeRight: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.borderSizeRight,
 	},
 	borderSizeBottom: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.borderSizeBottom,
 	},
 	borderSizeLeft: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.borderSizeLeft,
 	},
 	borderRadiusTopRight: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.borderRadiusTopRight,
 	},
 	borderRadiusBottomRight: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.borderRadiusBottomRight,
 	},
 	borderRadiusBottomLeft: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.borderRadiusBottomLeft,
 	},
 	borderRadiusTopLeft: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.button.borderRadiusTopLeft,
 	},
 }
