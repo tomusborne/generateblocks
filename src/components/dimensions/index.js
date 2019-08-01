@@ -96,10 +96,6 @@ class DimensionsControl extends Component {
 		const onChangeTopValue = ( event ) => {
 			var newValue = event.target.value;
 
-			if ( 'padding' === event.target.getAttribute( 'data-attribute' ) ) {
-				var newValue = Number( event.target.value );
-			}
-
 			if ( '' === newValue ) {
 				this.onReset( 'attrTop' );
 				return;
@@ -114,10 +110,6 @@ class DimensionsControl extends Component {
 
 		const onChangeRightValue = ( event ) => {
 			var newValue = event.target.value;
-
-			if ( 'padding' === event.target.getAttribute( 'data-attribute' ) ) {
-				var newValue = Number( event.target.value );
-			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrRight' );
@@ -134,10 +126,6 @@ class DimensionsControl extends Component {
 		const onChangeBottomValue = ( event ) => {
 			var newValue = event.target.value;
 
-			if ( 'padding' === event.target.getAttribute( 'data-attribute' ) ) {
-				var newValue = Number( event.target.value );
-			}
-
 			if ( '' === newValue ) {
 				this.onReset( 'attrBottom' );
 				return;
@@ -152,10 +140,6 @@ class DimensionsControl extends Component {
 
 		const onChangeLeftValue = ( event ) => {
 			var newValue = event.target.value;
-
-			if ( 'padding' === event.target.getAttribute( 'data-attribute' ) ) {
-				var newValue = Number( event.target.value );
-			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrLeft' );

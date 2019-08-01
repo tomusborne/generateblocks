@@ -44,19 +44,19 @@ export default {
 		default: flexBlocksDefaults.section.containerWidth,
 	},
 	paddingTop: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingTop,
 	},
 	paddingRight: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingRight,
 	},
 	paddingBottom: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingBottom,
 	},
 	paddingLeft: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingLeft,
 	},
 	paddingSyncUnits: {
@@ -64,19 +64,19 @@ export default {
 		default: false,
 	},
 	paddingTopTablet: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingTopTablet,
 	},
 	paddingRightTablet: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingRightTablet,
 	},
 	paddingBottomTablet: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingBottomTablet,
 	},
 	paddingLeftTablet: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingLeftTablet,
 	},
 	paddingSyncUnitsTablet: {
@@ -84,19 +84,19 @@ export default {
 		default: false,
 	},
 	paddingTopMobile: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingTopMobile,
 	},
 	paddingRightMobile: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingRightMobile,
 	},
 	paddingBottomMobile: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingBottomMobile,
 	},
 	paddingLeftMobile: {
-		type: 'number',
+		type: 'string',
 		default: flexBlocksDefaults.section.paddingLeftMobile,
 	},
 	paddingSyncUnitsMobile: {
