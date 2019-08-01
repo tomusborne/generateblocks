@@ -102,7 +102,7 @@ function flex_get_block_defaults() {
 		'borderRadiusBottomLeft' => '',
 		'borderRadiusTopLeft' => '',
 		'borderColor' => '#0366d6',
-		'borderColorHover' => false,
+		'borderColorHover' => '#222222',
 	);
 
 	$defaults['gridContainer'] = array(
