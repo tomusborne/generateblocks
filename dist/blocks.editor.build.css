@@ -114,7 +114,8 @@
   display: none; }
 
 .fx-select-layout {
-  padding: 25px; }
+  padding: 25px;
+  background: #fff; }
   .fx-select-layout .components-placeholder__fieldset > em {
     margin-bottom: 25px; }
   .fx-select-layout .fx-grid-wrapper-layout-preview {
