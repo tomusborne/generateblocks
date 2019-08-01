@@ -237,7 +237,6 @@ function flex_get_section_css() {
 			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
 			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
 
-			$css->set_selector( '.fx-grid-wrapper > .grid-column-' . $id );
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthMobile'], '%' );
 
