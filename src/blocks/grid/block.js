@@ -33,8 +33,8 @@ const iconEl = el('svg', { width: 20, height: 20, viewBox: "0 0 600 600" },
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'flex-blocks/grid-container', {
-	title: __( 'Grid Container', 'flex-blocks' ),
+registerBlockType( 'flex-blocks/grid', {
+	title: __( 'Grid', 'flex-blocks' ),
 	icon: iconEl,
 	category: 'flex',
 	keywords: [

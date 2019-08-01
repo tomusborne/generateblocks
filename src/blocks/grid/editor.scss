@@ -29,7 +29,7 @@
     // This is not a 1:1 preview with the front-end where these margins would presumably be zero
     // @todo this could be revisited, by for example showing this margin only when the parent block was selected first
     // Then at least an unselected columns block would be an accurate preview
-    .editor-block-list__block[data-align="full"][data-type="flex-blocks/grid-container"] > .editor-block-list__block-edit > div > & {
+    .editor-block-list__block[data-align="full"][data-type="flex-blocks/grid"] > .editor-block-list__block-edit > div > & {
         > .fx-grid-wrapper-button-select {
             right: 1px;
         }
@@ -106,8 +106,8 @@
     border-top-right-radius: 3px;
     border-bottom-left-radius: 0;
 }
-[data-type="flex-blocks/grid-container"]:hover > .editor-block-list__block-edit > div > div > .fx-grid-wrapper-button-select,
-[data-type="flex-blocks/section"]:hover > .editor-block-list__block-edit > div > .fx-section > .inside-section > .fx-section-button-select {
+[data-type="flex-blocks/grid"]:hover > .editor-block-list__block-edit > div > div > .fx-grid-wrapper-button-select,
+[data-type="flex-blocks/section"]:hover > .editor-block-list__block-edit > div > .fx-section > .fx-inside-section > .fx-section-button-select {
     visibility: visible;
     opacity: 1;
 }
@@ -117,29 +117,29 @@
 }
 
 // add outlines on hover
-[data-type="flex-blocks/grid-container"] .editor-block-list__layout > [data-type="flex-blocks/section"] > .editor-block-list__block-edit::before {
+[data-type="flex-blocks/grid"] .editor-block-list__layout > [data-type="flex-blocks/section"] > .editor-block-list__block-edit::before {
     left: -15px;
 }
 // stylelint-disable-next-line
-[data-type="flex-blocks/grid-container"]:hover > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before,
-[data-type="flex-blocks/grid-container"].is-hovered > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before,
-[data-type="flex-blocks/grid-container"].is-selected > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before {
+[data-type="flex-blocks/grid"]:hover > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before,
+[data-type="flex-blocks/grid"].is-hovered > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before,
+[data-type="flex-blocks/grid"].is-selected > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before {
     outline: 1px dashed rgba(145, 151, 162, .25);
 }
 // stylelint-disable-next-line
-[data-type="flex-blocks/grid-container"]:hover > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout >  [data-type="flex-blocks/section"].is-hovered > .editor-block-list__block-edit::before {
+[data-type="flex-blocks/grid"]:hover > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout >  [data-type="flex-blocks/section"].is-hovered > .editor-block-list__block-edit::before {
     outline: 1px solid $blue-wordpress;
 }
 
 // fix background overlap outlines
-.editor-block-list__layout > [data-type="flex-blocks/grid-container"] > .editor-block-list__block-edit::before,
+.editor-block-list__layout > [data-type="flex-blocks/grid"] > .editor-block-list__block-edit::before,
 .editor-block-list__layout > [data-type="flex-blocks/section"] > .editor-block-list__block-edit::before {
     z-index: 1;
 }
 
 // hide default grid and column breadcrumb
-[data-type="flex-blocks/grid-container"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb,
-[data-type="flex-blocks/grid-container"] [data-type="flex-blocks/section"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb {
+[data-type="flex-blocks/grid"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb,
+[data-type="flex-blocks/grid"] [data-type="flex-blocks/section"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb {
     display: none;
 }
 

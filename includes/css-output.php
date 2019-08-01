@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string
  */
 function flex_get_grid_container_css() {
-	$data = flex_get_block_data( 'flex-blocks/grid-container' );
+	$data = flex_get_block_data( 'flex-blocks/grid' );
 
 	if ( empty( $data ) ) {
 		return;
