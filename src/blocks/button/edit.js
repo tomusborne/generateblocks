@@ -85,10 +85,7 @@ class FlexBlockButton extends Component {
 			borderColorHover,
 		} = attributes;
 
-		var borderRadiusValue = '',
-			fontSizeValue = '',
-			gapValue = '',
-			borderHoverValue = '',
+		var fontSizeValue = '',
 			borderStyleValue = '';
 
 		if ( fontSize ) {
@@ -127,7 +124,7 @@ class FlexBlockButton extends Component {
 			.editor-block-list__block a.fx-button-` + uniqueId + `:active {
 				background-color: ` + backgroundColorHover + `;
 				color: ` + textColorHover + `;
-				border-color: ` + borderHoverValue + `;
+				border-color: ` + borderColorHover + `;
 			}
 		`
 
