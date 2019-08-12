@@ -98,3 +98,12 @@ function flex_get_nested_block_data( $block, $data, $blockName ) {
 
 	return $data;
 }
+
+/**
+ * Return our necessary permission to register a meta entry.
+ *
+ * @since 0.1
+ */
+function flex_auth_callback() {
+	return current_user_can( 'edit_posts' );
+}

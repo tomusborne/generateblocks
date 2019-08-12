@@ -642,3 +642,12 @@ body .fx-section .wp-block {
  * that are used across the project.
 */
 /* Colors */
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+.edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.fx-font-family-shortcuts {
+  margin-bottom: 2px; }

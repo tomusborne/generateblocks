@@ -411,9 +411,11 @@ function flex_get_headline_css() {
 		$id = absint( $atts['uniqueId'] );
 
 		$css->set_selector( '.fx-headline-' . $id );
+		$css->add_property( 'font-family', $settings['fontFamily'] );
 		$css->add_property( 'text-align', $settings['align'] );
 		$css->add_property( 'color', $settings['color'] );
 		$css->add_property( 'font-size', $settings['size'], 'px' );
+		$css->add_property( 'font-weight', $settings['fontWeight'] );
 		$css->add_property( 'text-transform', $settings['textTransform'] );
 		$css->add_property( 'line-height', $settings['lineHeight'], 'em' );
 		$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );

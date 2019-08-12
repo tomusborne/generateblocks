@@ -59,3 +59,88 @@ function flex_blocks_do_category( $categories ) {
 		$categories
     );
 }
+
+add_action( 'init', 'flex_blocks_register_meta' );
+/**
+ * Register post meta.
+ *
+ * @since 0.1
+ */
+function flex_blocks_register_meta() {
+	register_meta(
+		'post',
+		'_flexblocks_google_fonts',
+		array(
+			'show_in_rest'  => true,
+			'single'		=> true,
+			'auth_callback' => 'flex_auth_callback',
+		)
+	);
+}
+
+/**
+ * Build our list of Google fonts on this page.
+ *
+ * @since 0.1
+ */
+function flex_blocks_get_google_fonts() {
+	$meta = json_decode( get_post_meta( get_the_ID(), '_flexblocks_google_fonts', true ), true );
+	$fonts = array();
+
+	foreach ( $meta as $font ) {
+		$id = str_replace( ' ', '', strtolower( $font['name'] ) );
+
+		$fonts[ $id ]['name'] = $font['name'];
+
+		if ( ! empty( $font['variants'] ) ) {
+			$fonts[ $id ]['variants'][] = $font['variants'];
+		}
+	}
+
+	return $fonts;
+}
+
+add_action( 'wp_enqueue_scripts', 'flex_blocks_do_google_fonts' );
+add_action( 'enqueue_block_editor_assets', 'flex_blocks_do_google_fonts' );
+/**
+ * Do Google Fonts.
+ *
+ * @since 0.1
+ */
+function flex_blocks_do_google_fonts() {
+	$google_fonts = flex_blocks_get_google_fonts();
+
+	if ( ! $google_fonts ) {
+		return;
+	}
+
+	$data = array();
+
+	foreach( $google_fonts as $font ) {
+		$variants = array();
+
+		if ( ! empty( $font['variants'] ) ) {
+			foreach( $font['variants'] as $variant ) {
+				$variants[] = $variant;
+				$variants[] = $variant . 'i';
+			}
+		}
+
+		$name = str_replace( ' ', '+', $font['name'] );
+
+		if ( $variants ) {
+			$data[] = $name . ':' . implode( ',', $variants );
+		} else {
+			$data[] = $name;
+		}
+	}
+
+	$font_args = array(
+		'family' => implode( '|', $data ),
+		'subset' => apply_filters( 'flex_blocks_google_font_subset', null ),
+		'display' => apply_filters( 'flex_blocks_google_font_display', 'swap' ),
+	);
+
+	$fonts_url = add_query_arg( $font_args, '//fonts.googleapis.com/css' );
+	wp_enqueue_style( 'flex-blocks-google-fonts', $fonts_url, array(), null, 'all' );
+}

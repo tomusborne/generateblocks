@@ -5,6 +5,7 @@
 import classnames from 'classnames';
 import range from 'lodash/range';
 import ColorPicker from '../../components/color-picker';
+import TypographyControls from '../../components/typography';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -13,6 +14,7 @@ const {
 	PanelBody,
 	RangeControl,
 	SelectControl,
+	BaseControl,
 } = wp.components;
 
 const {
@@ -57,6 +59,9 @@ class FlexBlockHeadline extends Component {
 			element,
 			align,
 			color,
+			fontFamily,
+			googleFont,
+			fontWeight,
 			size,
 			textTransform,
 			lineHeight,
@@ -67,6 +72,8 @@ class FlexBlockHeadline extends Component {
 
 		const css = `
 			.editor-styles-wrapper .fx-headline-` + uniqueId + ` {
+				font-family: ` + fontFamily + `;
+				font-weight: ` + fontWeight + `;
 				text-transform: ` + textTransform + `;
 				text-align: ` + align + `;
 				font-size: ` + size + `px;
@@ -98,6 +105,17 @@ class FlexBlockHeadline extends Component {
 							onChange={ ( element ) => { setAttributes( { element } ) } }
 						/>
 
+						<ColorPicker
+							label={ __( 'Color', 'flex-blocks' ) }
+							value={ color }
+							onChange={ ( value ) =>
+								setAttributes( {
+									color: value
+								} )
+							}
+							alpha={ false }
+						/>
+
 						<AlignmentToolbar
 							value={ align }
 							onChange={ ( value ) => {
@@ -105,61 +123,25 @@ class FlexBlockHeadline extends Component {
 							} }
 						/>
 
-						<RangeControl
-							label={ __( 'Font Size', 'flex-blocks' ) }
-							value={ size }
-							onChange={ ( value ) => {
-								setAttributes( {
-									size: value
-								} );
-							} }
-							min={ 5 }
-							max={ 100 }
-							step={ 1 }
-							allowReset={ true }
-							initialPosition={ flexBlocksDefaults.headline.size }
-						/>
-
-						<SelectControl
-							label={ __( 'Text Transform', 'flex-blocks' ) }
-							value={ textTransform }
-							options={ [
-								{ label: 'none', value: '' },
-								{ label: 'uppercase', value: 'uppercase' },
-								{ label: 'lowercase', value: 'lowercase' },
-								{ label: 'capitalize', value: 'capitalize' },
-							] }
-							onChange={ ( textTransform ) => { setAttributes( { textTransform } ) } }
-						/>
-
-						<RangeControl
-							label={ __( 'Line Height', 'flex-blocks' ) }
-							value={ lineHeight }
-							onChange={ ( value ) => {
-								setAttributes( {
-									lineHeight: value
-								} );
-							} }
-							min={ 0 }
-							max={ 5 }
-							step={ 0.1 }
-							allowReset={ true }
-							initialPosition={ 1 }
-						/>
-
-						<RangeControl
-							label={ __( 'Letter Spacing', 'flex-blocks' ) }
-							value={ letterSpacing }
-							onChange={ ( value ) => {
-								setAttributes( {
-									letterSpacing: value
-								} );
-							} }
-							min={ -5 }
-							max={ 5 }
-							step={ 0.01 }
-							allowReset={ true }
-							initialPosition={ 1 }
+						<TypographyControls { ...this.props }
+							valueFontFamily={ fontFamily }
+							valueFontWeight={ fontWeight }
+							valueGoogleFont={ googleFont }
+							valueTextTransform={ textTransform }
+							valueFontSize={ size }
+							valueLineHeight={ lineHeight }
+							valueLetterSpacing={ letterSpacing }
+							attrFontFamily={ 'fontFamily' }
+							attrGoogleFont={ 'googleFont' }
+							attrFontWeight={ 'fontWeight' }
+							attrTextTransform={ 'textTransform' }
+							attrFontSize={ 'size' }
+							attrLineHeight={ 'lineHeight' }
+							attrLetterSpacing={ 'letterSpacing' }
+							initialFontSize={ flexBlocksDefaults.headline.size }
+							initialLineHeight={ flexBlocksDefaults.headline.lineHeight }
+							initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
+							uniqueId={ uniqueId }
 						/>
 
 						<RangeControl
@@ -190,17 +172,6 @@ class FlexBlockHeadline extends Component {
 							step={ 1 }
 							allowReset={ true }
 							initialPosition={ flexBlocksDefaults.headline.marginBottom }
-						/>
-
-						<ColorPicker
-							label={ __( 'Color', 'flex-blocks' ) }
-							value={ color }
-							onChange={ ( value ) =>
-								setAttributes( {
-									color: value
-								} )
-							}
-							alpha={ false }
 						/>
 					</PanelBody>
 				</InspectorControls>

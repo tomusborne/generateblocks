@@ -28,6 +28,18 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.color,
 	},
+	fontFamily: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.fontFamily,
+	},
+	googleFont: {
+		type: 'boolean',
+		default: flexBlocksDefaults.headline.googleFont,
+	},
+	fontWeight: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.fontWeight,
+	},
 	size: {
 		type: 'number',
 		default: flexBlocksDefaults.headline.size,
