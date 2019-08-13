@@ -87,7 +87,7 @@ function flex_blocks_get_google_fonts() {
 	$meta = json_decode( get_post_meta( get_the_ID(), '_flexblocks_google_fonts', true ), true );
 	$fonts = array();
 
-	foreach ( $meta as $font ) {
+	foreach ( (array) $meta as $font ) {
 		$id = str_replace( ' ', '', strtolower( $font['name'] ) );
 
 		$fonts[ $id ]['name'] = $font['name'];
