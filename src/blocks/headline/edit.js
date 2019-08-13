@@ -31,15 +31,26 @@ const {
 } = wp.blockEditor;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
+const fbHeadlineIds = [];
 
 class FlexBlockHeadline extends Component {
 	componentDidMount() {
-		if ( ! this.props.attributes.uniqueId ) {
-			var instanceId = this.props.instanceId + 1;
+		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
+		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
-				uniqueId: instanceId,
+				uniqueId: id,
 			} );
+
+			fbHeadlineIds.push( id );
+		} else if ( fbHeadlineIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.setAttributes( {
+				uniqueId: id,
+			} );
+
+			fbHeadlineIds.push( id );
+		} else {
+			fbHeadlineIds.push( this.props.attributes.uniqueId );
 		}
 	}
 

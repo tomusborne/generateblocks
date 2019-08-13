@@ -38,15 +38,26 @@ const {
 } = wp.blockEditor;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
+const fbSectionIds = [];
 
 class FlexBlockSection extends Component {
 	componentDidMount() {
-		if ( ! this.props.attributes.uniqueId ) {
-			var instanceId = this.props.instanceId + 1;
+		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
+		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
-				uniqueId: instanceId,
+				uniqueId: id,
 			} );
+
+			fbSectionIds.push( id );
+		} else if ( fbSectionIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.setAttributes( {
+				uniqueId: id,
+			} );
+
+			fbSectionIds.push( id );
+		} else {
+			fbSectionIds.push( this.props.attributes.uniqueId );
 		}
 	}
 

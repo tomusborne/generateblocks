@@ -36,7 +36,7 @@ function flex_get_grid_container_css() {
 			$defaults['gridContainer']
 		);
 
-		$id = absint( $atts['uniqueId'] );
+		$id = $atts['uniqueId'];
 
 		$css->set_selector( '.fx-grid-wrapper-' . $id );
 		$css->add_property( 'align-items', $settings['verticalAlignment'] );
@@ -135,7 +135,7 @@ function flex_get_section_css() {
 			$defaults['section']
 		);
 
-		$id = absint( $atts['uniqueId'] );
+		$id = $atts['uniqueId'];
 
 		// Open main container element.
 		$css->set_selector( '.fx-section.fx-section-' . $id );
@@ -288,7 +288,7 @@ function flex_get_button_container_css() {
 			$defaults['buttonContainer']
 		);
 
-		$id = absint( $atts['uniqueId'] );
+		$id = $atts['uniqueId'];
 
 		$css->set_selector( '.fx-button-wrapper-' . $id );
 		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
@@ -344,7 +344,7 @@ function flex_get_button_css() {
 			$defaults['button']
 		);
 
-		$id = absint( $atts['uniqueId'] );
+		$id = $atts['uniqueId'];
 
 		$css->set_selector( 'a.fx-button-' . $id );
 		$css->add_property( 'background-color', $settings['backgroundColor'] );
@@ -408,7 +408,7 @@ function flex_get_headline_css() {
 			$defaults['headline']
 		);
 
-		$id = absint( $atts['uniqueId'] );
+		$id = $atts['uniqueId'];
 
 		$css->set_selector( '.fx-headline-' . $id );
 		$css->add_property( 'font-family', $settings['fontFamily'] );

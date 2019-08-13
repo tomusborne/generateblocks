@@ -29,15 +29,26 @@ const {
 } = wp.blockEditor;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
+const fbButtonIds = [];
 
 class FlexBlockButton extends Component {
 	componentDidMount() {
-		if ( ! this.props.attributes.uniqueId ) {
-			var instanceId = this.props.instanceId + 1;
+		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
+		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
-				uniqueId: instanceId,
+				uniqueId: id,
 			} );
+
+			fbButtonIds.push( id );
+		} else if ( fbButtonIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.setAttributes( {
+				uniqueId: id,
+			} );
+
+			fbButtonIds.push( id );
+		} else {
+			fbButtonIds.push( this.props.attributes.uniqueId );
 		}
 	}
 
@@ -51,7 +62,6 @@ class FlexBlockButton extends Component {
 		} = this.props;
 
 		const {
-			count,
 			uniqueId,
 			elementId,
 			cssClasses,

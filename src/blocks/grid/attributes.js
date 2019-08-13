@@ -1,6 +1,6 @@
 export default {
 	uniqueId: {
-		type: 'number',
+		type: 'string',
 		default: '',
 	},
 	elementId: {

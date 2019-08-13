@@ -36,15 +36,26 @@ const {
 } = wp.data;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
+const fbButtonContainerIds = [];
 
 class FlexButtonContainer extends Component {
 	componentDidMount() {
-		if ( ! this.props.attributes.uniqueId ) {
-			var instanceId = this.props.instanceId + 1;
+		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
+		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
-				uniqueId: instanceId,
+				uniqueId: id,
 			} );
+
+			fbButtonContainerIds.push( id );
+		} else if ( fbButtonContainerIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.setAttributes( {
+				uniqueId: id,
+			} );
+
+			fbButtonContainerIds.push( id );
+		} else {
+			fbButtonContainerIds.push( this.props.attributes.uniqueId );
 		}
 	}
 
@@ -58,7 +69,6 @@ class FlexButtonContainer extends Component {
 		} = this.props;
 
 		const {
-			count,
 			uniqueId,
 			elementId,
 			cssClasses,
