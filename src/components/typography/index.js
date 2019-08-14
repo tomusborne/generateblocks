@@ -270,7 +270,7 @@ class TypographyControls extends Component {
 				{ ( typeof valueFontSize !== 'undefined' ) ?
 					<RangeControl
 						label={ __( 'Font Size' ) }
-						value={ parseFloat( valueFontSize ) || null }
+						value={ parseFloat( valueFontSize ) || undefined }
 						onChange={ ( nextFontSize ) => setAttributes( { [ this.props[ 'attrFontSize' ] ]: nextFontSize } ) }
 						min={ 1 }
 						max={ 100 }
@@ -283,7 +283,7 @@ class TypographyControls extends Component {
 				{ ( typeof valueLineHeight !== 'undefined' ) ?
 					<RangeControl
 						label={ __( 'Line Height' ) }
-						value={ parseFloat( valueLineHeight ) || null }
+						value={ parseFloat( valueLineHeight ) || undefined }
 						onChange={ ( nextLineHeight ) => setAttributes( { [ this.props[ 'attrLineHeight' ] ]: nextLineHeight } ) }
 						min={ 1 }
 						max={ 3 }
@@ -296,7 +296,7 @@ class TypographyControls extends Component {
 				{ ( typeof valueLetterSpacing !== 'undefined' ) ?
 					<RangeControl
 						label={ __( 'Letter Spacing' ) }
-						value={ parseFloat( valueLetterSpacing ) || null }
+						value={ parseFloat( valueLetterSpacing ) || undefined }
 						onChange={ ( nextLetterSpacing ) => setAttributes( { [ this.props[ 'attrLetterSpacing' ] ]: nextLetterSpacing } ) }
 						min={ -1 }
 						max={ 3 }

@@ -211,7 +211,7 @@ class FlexBlockHeadline extends Component {
 				<style>{ css }</style>
 
 				<RichText
-					formattingControls={ [ 'bold', 'italic', 'link', 'underline', 'mark' ] }
+					allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'core/mark' ] }
 					tagName={ element }
 					value={ content }
 					onChange={ ( value ) => setAttributes( { content: value } ) }

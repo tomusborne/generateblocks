@@ -438,7 +438,7 @@ class FlexBlockButton extends Component {
 							placeholder={ __( 'Add text…' ) }
 							value={ text }
 							onChange={ ( value ) => setAttributes( { text: value } ) }
-							formattingControls={ [ 'bold', 'italic', 'strikethrough' ] }
+							allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 							isSelected={ isSelected }
 							keepPlaceholderOnFocus
 						/>
