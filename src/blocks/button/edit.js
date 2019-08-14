@@ -32,6 +32,10 @@ const ELEMENT_ID_REGEX = /[\s#]/g;
 const fbButtonIds = [];
 
 class FlexBlockButton extends Component {
+	constructor() {
+		super( ...arguments );
+	}
+
 	componentDidMount() {
 		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 

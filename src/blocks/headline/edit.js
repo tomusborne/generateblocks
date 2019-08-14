@@ -34,6 +34,10 @@ const ELEMENT_ID_REGEX = /[\s#]/g;
 const fbHeadlineIds = [];
 
 class FlexBlockHeadline extends Component {
+	constructor() {
+		super( ...arguments );
+	}
+
 	componentDidMount() {
 		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 

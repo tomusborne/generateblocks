@@ -41,6 +41,10 @@ const ELEMENT_ID_REGEX = /[\s#]/g;
 const fbSectionIds = [];
 
 class FlexBlockSection extends Component {
+	constructor() {
+		super( ...arguments );
+	}
+
 	componentDidMount() {
 		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
@@ -66,10 +70,8 @@ class FlexBlockSection extends Component {
 			attributes,
 			setAttributes,
 			toggleSelection,
-			instanceId,
 			hasChildBlocks,
 			clientId,
-			isSelected,
 		} = this.props;
 
 		const onSelectBgImage = ( media ) => {
@@ -208,8 +210,6 @@ class FlexBlockSection extends Component {
 				max-width: ` + outerContainerWidth + `;
 			}
 		`
-
-		const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
 
 		return (
 			<Fragment>
@@ -787,13 +787,39 @@ class FlexBlockSection extends Component {
 
 				<style>{ css }</style>
 
-				<ConditionalWrap
-					condition={ isGrid }
-					wrap={ children => <div className={ classnames( {
+				{ !! isGrid && (
+					<div className={ classnames( {
 						'fx-grid-column': true,
 						[`fx-grid-column-${ uniqueId }`]: true
-					} ) }>{ children }</div>}
-				>
+					} ) }>
+						<Section
+							tagName={ tagName }
+							id={ elementId }
+							className={ classnames( {
+								'fx-section': true,
+								[`fx-section-${ uniqueId }`]: true,
+								[`${ cssClasses }`]: '' !== cssClasses
+							} ) }
+						>
+							<div
+								className={ classnames( {
+								'fx-inside-section': true
+								} ) }
+							>
+								<InnerBlocks
+									templateLock={ false }
+									renderAppender={ (
+										hasChildBlocks ?
+											undefined :
+											() => <InnerBlocks.ButtonBlockAppender />
+									) }
+								/>
+							</div>
+						</Section>
+					</div>
+				) }
+
+				{ ! isGrid && (
 					<Section
 						tagName={ tagName }
 						id={ elementId }
@@ -818,7 +844,8 @@ class FlexBlockSection extends Component {
 							/>
 						</div>
 					</Section>
-				</ConditionalWrap>
+				) }
+
 			</Fragment>
 		);
 	}
