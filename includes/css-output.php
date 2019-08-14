@@ -174,6 +174,11 @@ function flex_get_section_css() {
 			$css->add_property( 'z-index', $settings['zindex'] );
 		}
 
+		$css->add_property( 'display', 'flex' );
+		$css->add_property( 'flex-direction', 'column' );
+		$css->add_property( 'height', '100%' );
+		$css->add_property( 'justify-content', $settings['verticalAlignment'] );
+
 		$css->set_selector( '.fx-section.fx-section-' . $id . ' .fx-inside-section' );
 
 		if ( 'contained' === $settings['innerContainer'] ) {
@@ -197,7 +202,6 @@ function flex_get_section_css() {
 
 		$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 		$css->add_property( 'width', $settings['width'], '%' );
-		$css->add_property( 'align-self', $settings['verticalAlignment'] );
 
 		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-section.fx-section-' . $id );
@@ -206,6 +210,10 @@ function flex_get_section_css() {
 			$css->add_property( 'margin-right', $settings['marginRightTablet'], 'px' );
 			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
 			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
+
+			if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+				$css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
+			}
 
 			$css->set_selector( '.fx-section.fx-section-' . $id . ' > .fx-inside-section' );
 
@@ -216,10 +224,6 @@ function flex_get_section_css() {
 
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthTablet'], '%' );
-
-			if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-				$css->add_property( 'align-self', $settings['verticalAlignmentTablet'] );
-			}
 		$css->stop_media_query();
 
 		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
@@ -230,6 +234,10 @@ function flex_get_section_css() {
 			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
 			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
 
+			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+				$css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
+			}
+
 			$css->set_selector( '.fx-section.fx-section-' . $id . ' > .fx-inside-section' );
 
 			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
@@ -239,10 +247,6 @@ function flex_get_section_css() {
 
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthMobile'], '%' );
-
-			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-				$css->add_property( 'align-self', $settings['verticalAlignmentMobile'] );
-			}
 
 		$css->stop_media_query();
 	}
