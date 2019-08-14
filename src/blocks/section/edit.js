@@ -203,11 +203,17 @@ class FlexBlockSection extends Component {
 
 			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {
 				width: ` + width + `%;
-				align-self: ` + verticalAlignment + `;
 			}
 
 			.block-editor-block-list__layout > #block-` + clientId + ` {
 				max-width: ` + outerContainerWidth + `;
+			}
+
+			.fx-grid-column > .fx-section-` + uniqueId + ` {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				justify-content: ` + verticalAlignment + `;
 			}
 		`
 
