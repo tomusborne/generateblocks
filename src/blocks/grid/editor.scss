@@ -59,88 +59,9 @@
     height: 1px;
     margin-bottom: -30px;
 }
+
 .wp-block.fx-col {
     margin-top: 29px;
-}
-
-// Highlight the label to easily select grid/column block by clicking on it.
-.fx-grid-wrapper-button-select,
-.fx-section-button-select {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    padding: 2px 4px;
-    font-family: $default-font;
-    font-size: 17px;
-    line-height: 1;
-    color: #fff;
-    cursor: pointer;
-    visibility: hidden;
-    background-color: $light-gray-700;
-    border-bottom-left-radius: 3px;
-    opacity: 0;
-    transition: .2s opacity, .2s visibility, .2s background-color;
-    z-index: 21;
-
-    svg {
-        width: auto;
-        height: 1em;
-    }
-}
-
-.fx-section-button-select {
-    top: 0;
-    right: 0;
-}
-
-.fx-grid-wrapper .fx-section-button-select {
-    top: -15px;
-    right: -15px;
-}
-
-.fx-grid-wrapper-button-select {
-    top: auto;
-    bottom: 100%;
-    margin-bottom: 14px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    border-bottom-left-radius: 0;
-}
-[data-type="flex-blocks/grid"]:hover > .editor-block-list__block-edit > div > div > .fx-grid-wrapper-button-select,
-[data-type="flex-blocks/section"]:hover > .editor-block-list__block-edit > div > .fx-section > .fx-inside-section > .fx-section-button-select {
-    visibility: visible;
-    opacity: 1;
-}
-.fx-grid-wrapper-button-select:hover,
-.fx-section-button-select:hover {
-    background-color: $blue-wordpress;
-}
-
-// add outlines on hover
-[data-type="flex-blocks/grid"] .editor-block-list__layout > [data-type="flex-blocks/section"] > .editor-block-list__block-edit::before {
-    left: -15px;
-}
-// stylelint-disable-next-line
-[data-type="flex-blocks/grid"]:hover > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before,
-[data-type="flex-blocks/grid"].is-hovered > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before,
-[data-type="flex-blocks/grid"].is-selected > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > [data-type="flex-blocks/section"]:not(.is-selected) > .editor-block-list__block-edit::before {
-    outline: 1px dashed rgba(145, 151, 162, .25);
-}
-// stylelint-disable-next-line
-[data-type="flex-blocks/grid"]:hover > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout >  [data-type="flex-blocks/section"].is-hovered > .editor-block-list__block-edit::before {
-    outline: 1px solid $blue-wordpress;
-}
-
-// fix background overlap outlines
-.editor-block-list__layout > [data-type="flex-blocks/grid"] > .editor-block-list__block-edit::before,
-.editor-block-list__layout > [data-type="flex-blocks/section"] > .editor-block-list__block-edit::before {
-    z-index: 1;
-}
-
-// hide default grid and column breadcrumb
-[data-type="flex-blocks/grid"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb,
-[data-type="flex-blocks/grid"] [data-type="flex-blocks/section"] > .editor-block-list__block-edit > .editor-block-list__breadcrumb {
-    display: none;
 }
 
 // Layouts selector.
