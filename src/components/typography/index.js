@@ -205,7 +205,7 @@ class TypographyControls extends Component {
 			<Fragment>
 				<BaseControl className={ 'fx-font-family-shortcuts' } label={ __( 'Font Family', 'flex-blocks' ) }>
 					<select
-						className="components-select-control__input components-select-control__input--coblocks-fontfamily"
+						className="components-select-control__input components-select-control__input--flexblocks-fontfamily"
 						onChange={ onFontShortcut }
 					>
 						{ fonts.map( ( option, index ) =>
