@@ -132,6 +132,7 @@ class FlexBlockHeadline extends Component {
 						/>
 
 						<AlignmentToolbar
+							isCollapsed={ false }
 							value={ align }
 							onChange={ ( value ) => {
 								setAttributes( { align: value } );
