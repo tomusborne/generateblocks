@@ -449,8 +449,7 @@ body .fx-section .wp-block {
         align-items: flex-start;
     -ms-flex-pack: start;
         justify-content: flex-start;
-    margin-right: 0;
-    margin-left: 0; }
+    margin-right: 0; }
     .fx-button-wrapper > .editor-inner-blocks > .editor-block-list__layout > div {
       width: auto; }
   .fx-button-wrapper.fx-button-wrapper-align-right > .editor-inner-blocks > .editor-block-list__layout {
