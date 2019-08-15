@@ -222,6 +222,7 @@ class FlexBlockSection extends Component {
 				height: calc(100% - 56px);
 			}
 
+			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .editor-block-list__block-edit,
 			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .editor-block-list__block-edit > [data-block="` + clientId + `"] > .fx-grid-column {
 				height: 100%;
 			}
