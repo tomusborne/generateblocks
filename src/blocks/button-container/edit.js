@@ -80,6 +80,10 @@ class FlexButtonContainer extends Component {
 			paddingRight,
 			paddingBottom,
 			paddingLeft,
+			paddingTopTablet,
+			paddingRightTablet,
+			paddingBottomTablet,
+			paddingLeftTablet,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -99,17 +103,22 @@ class FlexButtonContainer extends Component {
 			<Fragment>
 
 				<InspectorControls>
-				<PanelBody
-					title={ __( 'Spacing', 'flex-blocks' ) }
-					initialOpen={ true }
+					<PanelBody
+						title={ __( 'Spacing', 'flex-blocks' ) }
+						initialOpen={ true }
 					>
 						<TabPanel className="flex-blocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
-									name: 'desktop',
-									title: __( 'Desktop', 'flex-blocks' ),
-									className: 'desktop',
+									name: 'default',
+									title: __( 'Default', 'flex-blocks' ),
+									className: 'default',
+								},
+								{
+									name: 'tablet',
+									title: __( 'Tablet', 'flex-blocks' ),
+									className: 'tablet',
 								},
 								{
 									name: 'mobile',
@@ -123,7 +132,7 @@ class FlexButtonContainer extends Component {
 
 									return (
 										<div>
-											{ isDesktop ? (
+											{ 'default' === tab.name ? (
 												<Fragment>
 
 													<RangeControl
@@ -184,17 +193,85 @@ class FlexButtonContainer extends Component {
 
 												</Fragment>
 
-											) : (
+											) : '' }
 
+											{ 'tablet' === tab.name ? (
 												<Fragment>
-													<div className={ 'additional-class-notice' }>
-														<Notice
-															status={ 'warning' }
-															isDismissible={ false }
-														>
-															{ __( 'Mobile options can not be live previewed at the moment.', 'flex-blocks' ) }
-														</Notice>
-													</div>
+													<AlignmentToolbar
+														isCollapsed={ false }
+														value={ alignmentTablet }
+														onChange={ ( value ) => {
+															setAttributes( { alignmentTablet: value } );
+														} }
+													/>
+
+													<RangeControl
+														label={ __( 'Top Padding', 'flex-blocks' ) }
+														value={ paddingTopTablet }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingTopTablet: nextSpacing
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingTopTablet }
+													/>
+
+													<RangeControl
+														label={ __( 'Right Padding', 'flex-blocks' ) }
+														value={ paddingRightTablet }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingRightTablet: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingRightTablet }
+													/>
+
+													<RangeControl
+														label={ __( 'Bottom Padding', 'flex-blocks' ) }
+														value={ paddingBottomTablet }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingBottomTablet: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingBottomTablet }
+													/>
+
+													<RangeControl
+														label={ __( 'Left Padding', 'flex-blocks' ) }
+														value={ paddingLeftTablet }
+														onChange={ ( nextSpacing ) => {
+															setAttributes( {
+																paddingLeftTablet: nextSpacing,
+															} );
+														} }
+														min={ 0 }
+														max={ 200 }
+														step={ 1 }
+														initialPosition={ flexBlocksDefaults.buttonContainer.paddingLeftTablet }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'mobile' === tab.name ? (
+												<Fragment>
+													<AlignmentToolbar
+														isCollapsed={ false }
+														value={ alignmentMobile }
+														onChange={ ( value ) => {
+															setAttributes( { alignmentMobile: value } );
+														} }
+													/>
 
 													<RangeControl
 														label={ __( 'Top Padding', 'flex-blocks' ) }
@@ -253,7 +330,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 												</Fragment>
-											) }
+											) : '' }
 										</div>
 									);
 								}
