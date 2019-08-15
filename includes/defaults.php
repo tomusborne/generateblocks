@@ -127,17 +127,29 @@ function flex_get_block_defaults() {
 
 	$defaults['headline'] = array(
 		'element' => 'p',
-		'align' => false,
+		'alignment' => false,
+		'alignmentTablet' => false,
+		'alignmentMobile' => false,
 		'color' => false,
 		'fontFamily' => '',
 		'googleFont' => false,
 		'fontWeight' => '',
-		'size' => false,
+		'fontSize' => false,
+		'fontSizeTablet' => false,
+		'fontSizeMobile' => false,
 		'textTransform' => '',
 		'lineHeight' => '',
+		'lineHeightTablet' => '',
+		'lineHeightMobile' => '',
 		'letterSpacing' => '',
+		'letterSpacingTablet' => '',
+		'letterSpacingMobile' => '',
 		'marginTop' => '',
+		'marginTopTablet' => '',
+		'marginTopMobile' => '',
 		'marginBottom' => '25',
+		'marginBottomTablet' => '',
+		'marginBottomMobile' => '',
 	);
 
 	return apply_filters( 'flex_block_defaults', $defaults );

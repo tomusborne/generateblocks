@@ -15,6 +15,7 @@ const {
 	RangeControl,
 	SelectControl,
 	BaseControl,
+	TabPanel,
 } = wp.components;
 
 const {
@@ -72,17 +73,29 @@ class FlexBlockHeadline extends Component {
 			cssClasses,
 			content,
 			element,
-			align,
+			alignment,
+			alignmentTablet,
+			alignmentMobile,
 			color,
 			fontFamily,
 			googleFont,
 			fontWeight,
-			size,
+			fontSize,
+			fontSizeTablet,
+			fontSizeMobile,
 			textTransform,
 			lineHeight,
+			lineHeightTablet,
+			lineHeightMobile,
 			marginTop,
+			marginTopTablet,
+			marginTopMobile,
 			marginBottom,
+			marginBottomTablet,
+			marginBottomMobile,
 			letterSpacing,
+			letterSpacingTablet,
+			letterSpacingMobile
 		} = attributes;
 
 		const css = `
@@ -90,8 +103,8 @@ class FlexBlockHeadline extends Component {
 				font-family: ` + fontFamily + `;
 				font-weight: ` + fontWeight + `;
 				text-transform: ` + textTransform + `;
-				text-align: ` + align + `;
-				font-size: ` + size + `px;
+				text-align: ` + alignment + `;
+				font-size: ` + fontSize + `px;
 				color: ` + color + `;
 				line-height: ` + lineHeight + `em;
 				letter-spacing: ` + letterSpacing + `em;
@@ -106,99 +119,241 @@ class FlexBlockHeadline extends Component {
 				<BlockControls>
 					<AlignmentToolbar
 						isCollapsed={ false }
-						value={ align }
+						value={ alignment }
 						onChange={ ( nextAlign ) => {
-							setAttributes( { align: nextAlign } );
+							setAttributes( { alignment: nextAlign } );
 						} }
 					/>
 				</BlockControls>
 
 				<InspectorControls>
 					<PanelBody>
-						<SelectControl
-							label={ __( 'Element', 'flex-blocks' ) }
-							value={ element }
-							options={ [
-								{ label: 'p', value: 'p' },
-								{ label: 'h1', value: 'h1' },
-								{ label: 'h2', value: 'h2' },
-								{ label: 'h3', value: 'h3' },
-								{ label: 'h4', value: 'h4' },
-								{ label: 'h5', value: 'h5' },
-								{ label: 'h6', value: 'h6' },
-							] }
-							onChange={ ( element ) => { setAttributes( { element } ) } }
-						/>
+						<TabPanel className="headline-tab-panel flex-blocks-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'default',
+									title: __( 'Default', 'flex-blocks' ),
+									className: 'default',
+								},
+								{
+									name: 'tablet',
+									title: __( 'Tablet', 'flex-blocks' ),
+									className: 'tablet',
+								},
+								{
+									name: 'mobile',
+									title: __( 'Mobile', 'flex-blocks' ),
+									className: 'mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									return (
+										<div>
+											{ 'default' === tab.name ? (
+												<Fragment>
+													<SelectControl
+														label={ __( 'Element', 'flex-blocks' ) }
+														value={ element }
+														options={ [
+															{ label: 'p', value: 'p' },
+															{ label: 'h1', value: 'h1' },
+															{ label: 'h2', value: 'h2' },
+															{ label: 'h3', value: 'h3' },
+															{ label: 'h4', value: 'h4' },
+															{ label: 'h5', value: 'h5' },
+															{ label: 'h6', value: 'h6' },
+														] }
+														onChange={ ( element ) => { setAttributes( { element } ) } }
+													/>
 
-						<ColorPicker
-							label={ __( 'Color', 'flex-blocks' ) }
-							value={ color }
-							onChange={ ( value ) =>
-								setAttributes( {
-									color: value
-								} )
+													<AlignmentToolbar
+														isCollapsed={ false }
+														value={ alignment }
+														onChange={ ( value ) => {
+															setAttributes( { alignment: value } );
+														} }
+													/>
+
+													<ColorPicker
+														label={ __( 'Color', 'flex-blocks' ) }
+														value={ color }
+														onChange={ ( value ) =>
+															setAttributes( {
+																color: value
+															} )
+														}
+														alpha={ false }
+													/>
+
+													<TypographyControls { ...this.props }
+														valueFontFamily={ fontFamily }
+														valueFontWeight={ fontWeight }
+														valueGoogleFont={ googleFont }
+														valueTextTransform={ textTransform }
+														valueFontSize={ fontSize }
+														valueLineHeight={ lineHeight }
+														valueLetterSpacing={ letterSpacing }
+														attrFontFamily={ 'fontFamily' }
+														attrGoogleFont={ 'googleFont' }
+														attrFontWeight={ 'fontWeight' }
+														attrTextTransform={ 'textTransform' }
+														attrFontSize={ 'fontSize' }
+														attrLineHeight={ 'lineHeight' }
+														attrLetterSpacing={ 'letterSpacing' }
+														initialFontSize={ flexBlocksDefaults.headline.fontSize }
+														initialLineHeight={ flexBlocksDefaults.headline.lineHeight }
+														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
+														uniqueId={ uniqueId }
+													/>
+
+													<RangeControl
+														label={ __( 'Margin Top', 'flex-blocks' ) }
+														value={ marginTop }
+														onChange={ ( value ) => {
+															setAttributes( {
+																marginTop: value
+															} );
+														} }
+														min={ 0 }
+														max={ 100 }
+														step={ 1 }
+														allowReset={ true }
+														initialPosition={ 0 }
+													/>
+
+													<RangeControl
+														label={ __( 'Margin Bottom', 'flex-blocks' ) }
+														value={ marginBottom }
+														onChange={ ( value ) => {
+															setAttributes( {
+																marginBottom: value
+															} );
+														} }
+														min={ 0 }
+														max={ 100 }
+														step={ 1 }
+														allowReset={ true }
+														initialPosition={ flexBlocksDefaults.headline.marginBottom }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'tablet' === tab.name ? (
+												<Fragment>
+													<AlignmentToolbar
+														isCollapsed={ false }
+														value={ alignmentTablet }
+														onChange={ ( value ) => {
+															setAttributes( { alignmentTablet: value } );
+														} }
+													/>
+
+													<TypographyControls { ...this.props }
+														valueFontSize={ fontSizeTablet }
+														valueLineHeight={ lineHeightTablet }
+														valueLetterSpacing={ letterSpacingTablet }
+														attrFontSize={ 'fontSizeTablet' }
+														attrLineHeight={ 'lineHeightTablet' }
+														attrLetterSpacing={ 'letterSpacingTablet' }
+														initialFontSize={ flexBlocksDefaults.headline.fontSizeTablet }
+														initialLineHeight={ flexBlocksDefaults.headline.lineHeightTablet }
+														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingTablet }
+														uniqueId={ uniqueId }
+													/>
+
+													<RangeControl
+														label={ __( 'Margin Top', 'flex-blocks' ) }
+														value={ marginTopTablet }
+														onChange={ ( value ) => {
+															setAttributes( {
+																marginTopTablet: value
+															} );
+														} }
+														min={ 0 }
+														max={ 100 }
+														step={ 1 }
+														allowReset={ true }
+														initialPosition={ 0 }
+													/>
+
+													<RangeControl
+														label={ __( 'Margin Bottom', 'flex-blocks' ) }
+														value={ marginBottomTablet }
+														onChange={ ( value ) => {
+															setAttributes( {
+																marginBottomTablet: value
+															} );
+														} }
+														min={ 0 }
+														max={ 100 }
+														step={ 1 }
+														allowReset={ true }
+														initialPosition={ flexBlocksDefaults.headline.marginBottomTablet }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'mobile' === tab.name ? (
+												<Fragment>
+													<AlignmentToolbar
+														isCollapsed={ false }
+														value={ alignmentMobile }
+														onChange={ ( value ) => {
+															setAttributes( { alignmentMobile: value } );
+														} }
+													/>
+
+													<TypographyControls { ...this.props }
+														valueFontSize={ fontSizeMobile }
+														valueLineHeight={ lineHeightMobile }
+														valueLetterSpacing={ letterSpacingMobile }
+														attrFontSize={ 'fontSizeMobile' }
+														attrLineHeight={ 'lineHeightMobile' }
+														attrLetterSpacing={ 'letterSpacingMobile' }
+														initialFontSize={ flexBlocksDefaults.headline.fontSizeMobile }
+														initialLineHeight={ flexBlocksDefaults.headline.lineHeightMobile }
+														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingMobile }
+														uniqueId={ uniqueId }
+													/>
+
+													<RangeControl
+														label={ __( 'Margin Top', 'flex-blocks' ) }
+														value={ marginTopMobile }
+														onChange={ ( value ) => {
+															setAttributes( {
+																marginTopMobile: value
+															} );
+														} }
+														min={ 0 }
+														max={ 100 }
+														step={ 1 }
+														allowReset={ true }
+														initialPosition={ 0 }
+													/>
+
+													<RangeControl
+														label={ __( 'Margin Bottom', 'flex-blocks' ) }
+														value={ marginBottomMobile }
+														onChange={ ( value ) => {
+															setAttributes( {
+																marginBottomMobile: value
+															} );
+														} }
+														min={ 0 }
+														max={ 100 }
+														step={ 1 }
+														allowReset={ true }
+														initialPosition={ flexBlocksDefaults.headline.marginBottomMobile }
+													/>
+												</Fragment>
+											) : '' }
+										</div>
+									);
+								}
 							}
-							alpha={ false }
-						/>
-
-						<AlignmentToolbar
-							isCollapsed={ false }
-							value={ align }
-							onChange={ ( value ) => {
-								setAttributes( { align: value } );
-							} }
-						/>
-
-						<TypographyControls { ...this.props }
-							valueFontFamily={ fontFamily }
-							valueFontWeight={ fontWeight }
-							valueGoogleFont={ googleFont }
-							valueTextTransform={ textTransform }
-							valueFontSize={ size }
-							valueLineHeight={ lineHeight }
-							valueLetterSpacing={ letterSpacing }
-							attrFontFamily={ 'fontFamily' }
-							attrGoogleFont={ 'googleFont' }
-							attrFontWeight={ 'fontWeight' }
-							attrTextTransform={ 'textTransform' }
-							attrFontSize={ 'size' }
-							attrLineHeight={ 'lineHeight' }
-							attrLetterSpacing={ 'letterSpacing' }
-							initialFontSize={ flexBlocksDefaults.headline.size }
-							initialLineHeight={ flexBlocksDefaults.headline.lineHeight }
-							initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
-							uniqueId={ uniqueId }
-						/>
-
-						<RangeControl
-							label={ __( 'Margin Top', 'flex-blocks' ) }
-							value={ marginTop }
-							onChange={ ( value ) => {
-								setAttributes( {
-									marginTop: value
-								} );
-							} }
-							min={ 0 }
-							max={ 100 }
-							step={ 1 }
-							allowReset={ true }
-							initialPosition={ 0 }
-						/>
-
-						<RangeControl
-							label={ __( 'Margin Bottom', 'flex-blocks' ) }
-							value={ marginBottom }
-							onChange={ ( value ) => {
-								setAttributes( {
-									marginBottom: value
-								} );
-							} }
-							min={ 0 }
-							max={ 100 }
-							step={ 1 }
-							allowReset={ true }
-							initialPosition={ flexBlocksDefaults.headline.marginBottom }
-						/>
+						</TabPanel>
 					</PanelBody>
 				</InspectorControls>
 

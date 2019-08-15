@@ -20,9 +20,17 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.element,
 	},
-	align: {
+	alignment: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.align,
+		default: flexBlocksDefaults.headline.alignment,
+	},
+	alignmentTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.alignmentTablet,
+	},
+	alignmentMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.alignmentMobile,
 	},
 	color: {
 		type: 'string',
@@ -40,9 +48,17 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.fontWeight,
 	},
-	size: {
+	fontSize: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.size,
+		default: flexBlocksDefaults.headline.fontSize,
+	},
+	fontSizeTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.fontSizeTablet,
+	},
+	fontSizeMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.fontSizeMobile,
 	},
 	textTransform: {
 		type: 'string',
@@ -52,16 +68,48 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.headline.lineHeight,
 	},
+	lineHeightTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.lineHeightTablet,
+	},
+	lineHeightMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.lineHeightMobile,
+	},
 	marginTop: {
 		type: 'number',
 		default: flexBlocksDefaults.headline.marginTop,
+	},
+	marginTopTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.marginTopTablet,
+	},
+	marginTopMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.marginTopMobile,
 	},
 	marginBottom: {
 		type: 'number',
 		default: flexBlocksDefaults.headline.marginBottom,
 	},
+	marginBottomTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.marginBottomTablet,
+	},
+	marginBottomMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.marginBottomMobile,
+	},
 	letterSpacing: {
 		type: 'number',
 		default: flexBlocksDefaults.headline.letterSpacing,
+	},
+	letterSpacingTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.letterSpacingTablet,
+	},
+	letterSpacingMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.letterSpacingMobile,
 	},
 }

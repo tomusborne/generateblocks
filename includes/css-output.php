@@ -432,15 +432,36 @@ function flex_get_headline_css() {
 
 		$css->set_selector( '.fx-headline-' . $id );
 		$css->add_property( 'font-family', $settings['fontFamily'] );
-		$css->add_property( 'text-align', $settings['align'] );
+		$css->add_property( 'text-align', $settings['alignment'] );
 		$css->add_property( 'color', $settings['color'] );
-		$css->add_property( 'font-size', $settings['size'], 'px' );
+		$css->add_property( 'font-size', $settings['fontSize'], 'px' );
 		$css->add_property( 'font-weight', $settings['fontWeight'] );
 		$css->add_property( 'text-transform', $settings['textTransform'] );
 		$css->add_property( 'line-height', $settings['lineHeight'], 'em' );
 		$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
 		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
+
+		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->set_selector( '.fx-headline-' . $id );
+			$css->add_property( 'text-align', $settings['alignmentTablet'] );
+			$css->add_property( 'font-size', $settings['fontSizeTablet'], 'px' );
+			$css->add_property( 'line-height', $settings['lineHeightTablet'], 'em' );
+			$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
+			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
+			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
+		$css->stop_media_query();
+
+
+		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
+			$css->set_selector( '.fx-headline-' . $id );
+			$css->add_property( 'text-align', $settings['alignmentMobile'] );
+			$css->add_property( 'font-size', $settings['fontSizeMobile'], 'px' );
+			$css->add_property( 'line-height', $settings['lineHeightMobile'], 'em' );
+			$css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
+			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
+			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
+		$css->stop_media_query();
 	}
 
 	return $css->css_output();
