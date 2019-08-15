@@ -52,14 +52,6 @@
     }
 }
 
-// Fix columns overflowing.
-.fx-grid-wrapper > .editor-inner-blocks::before {
-    content: "";
-    display: block;
-    height: 1px;
-    margin-bottom: -30px;
-}
-
 .wp-block.fx-col {
     margin-top: 29px;
 }
