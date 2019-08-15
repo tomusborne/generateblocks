@@ -207,21 +207,23 @@ class TypographyControls extends Component {
 
 		return (
 			<Fragment>
-				<BaseControl className={ 'fx-font-family-shortcuts' } label={ __( 'Font Family', 'flex-blocks' ) }>
-					<select
-						className="components-select-control__input components-select-control__input--flexblocks-fontfamily"
-						onChange={ onFontShortcut }
-					>
-						{ fonts.map( ( option, index ) =>
-							<option
-								key={ `${ option.label }-${ option.value }-${ index }` }
-								value={ option.value }
-							>
-								{ option.label }
-							</option>
-						) }
-					</select>
-				</BaseControl>
+				{ ( typeof valueFontFamily !== 'undefined' ) ?
+					<BaseControl className={ 'fx-font-family-shortcuts' } label={ __( 'Font Family', 'flex-blocks' ) }>
+						<select
+							className="components-select-control__input components-select-control__input--flexblocks-fontfamily"
+							onChange={ onFontShortcut }
+						>
+							{ fonts.map( ( option, index ) =>
+								<option
+									key={ `${ option.label }-${ option.value }-${ index }` }
+									value={ option.value }
+								>
+									{ option.label }
+								</option>
+							) }
+						</select>
+					</BaseControl> : null
+				}
 
 				{ ( typeof valueFontFamily !== 'undefined' ) ?
 					<TextControl
