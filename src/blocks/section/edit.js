@@ -162,13 +162,13 @@ class FlexBlockSection extends Component {
 		var outerContainerWidth = '';
 		var innerContainerWidth = '';
 
-		if ( 'full' === outerContainer ) {
+		if ( 'full' === outerContainer || isGrid ) {
 			outerContainerWidth = 'none';
 		} else {
 			outerContainerWidth = containerWidth + 'px';
 		}
 
-		if ( 'full' === innerContainer ) {
+		if ( 'full' === innerContainer || isGrid ) {
 			innerContainerWidth = 'none';
 		} else {
 			innerContainerWidth = 'max-width:' + containerWidth + 'px;margin-left: auto;margin-right:auto;';
@@ -193,7 +193,7 @@ class FlexBlockSection extends Component {
 			  color: ` + linkColorHover + `;
 			}
 
-			.fx-section-` + uniqueId + ` .fx-inside-section {
+			.fx-section-` + uniqueId + ` > .fx-inside-section {
 			  padding-top: ` + paddingTop + `px;
 			  padding-right: ` + paddingRight + `px;
 			  padding-bottom: ` + paddingBottom + `px;
@@ -204,6 +204,7 @@ class FlexBlockSection extends Component {
 			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {
 				width: ` + width + `%;
 				display: flex;
+				flex-direction: column;
 			}
 
 			.block-editor-block-list__layout > #block-` + clientId + ` {
@@ -233,28 +234,28 @@ class FlexBlockSection extends Component {
 						<PanelBody>
 							<Fragment>
 								<SelectControl
-									label={ __( 'Container', 'flex-blocks' ) }
+									label={ __( 'Container', 'flexblocks' ) }
 									value={ outerContainer }
 									options={ [
-										{ label: __( 'Full width', 'flex-blocks' ), value: 'full' },
-										{ label: __( 'Contained', 'flex-blocks' ), value: 'contained' },
+										{ label: __( 'Full width', 'flexblocks' ), value: 'full' },
+										{ label: __( 'Contained', 'flexblocks' ), value: 'contained' },
 									] }
 									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
 								/>
 
 								<SelectControl
-									label={ __( 'Inner Container', 'flex-blocks' ) }
+									label={ __( 'Inner Container', 'flexblocks' ) }
 									value={ innerContainer }
 									options={ [
-										{ label: __( 'Full width', 'flex-blocks' ), value: 'full' },
-										{ label: __( 'Contained', 'flex-blocks' ), value: 'contained' },
+										{ label: __( 'Full width', 'flexblocks' ), value: 'full' },
+										{ label: __( 'Contained', 'flexblocks' ), value: 'contained' },
 									] }
 									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
 								/>
 
 								<TextControl
 									type={ 'number' }
-									label={ __( 'Container Width', 'flex-blocks' ) }
+									label={ __( 'Container Width', 'flexblocks' ) }
 									value={ parseFloat( containerWidth ) }
 									onChange={ ( value ) => {
 										setAttributes( {
@@ -268,22 +269,22 @@ class FlexBlockSection extends Component {
 
 					{ isGrid ? (
 						<PanelBody className="section-grid-panel">
-							<TabPanel className="grid-tab-panel flex-blocks-control-tabs"
+							<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 								activeClass="active-tab"
 								tabs={ [
 									{
 										name: 'grid-default',
-										title: __( 'Default', 'flex-blocks' ),
+										title: __( 'Default', 'flexblocks' ),
 										className: 'grid-default',
 									},
 									{
 										name: 'grid-tablet',
-										title: __( 'Tablet', 'flex-blocks' ),
+										title: __( 'Tablet', 'flexblocks' ),
 										className: 'grid-tablet',
 									},
 									{
 										name: 'grid-mobile',
-										title: __( 'Mobile', 'flex-blocks' ),
+										title: __( 'Mobile', 'flexblocks' ),
 										className: 'grid-mobile',
 									},
 								] }>
@@ -319,13 +320,13 @@ class FlexBlockSection extends Component {
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'flex-blocks' ) }
+															label={ __( 'Vertical Alignment', 'flexblocks' ) }
 															value={ verticalAlignment }
 															options={ [
-																{ label: __( 'Default', 'flex-blocks' ), value: '' },
-																{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
-																{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
+																{ label: __( 'Default', 'flexblocks' ), value: '' },
+																{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
 														/>
@@ -358,14 +359,14 @@ class FlexBlockSection extends Component {
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'flex-blocks' ) }
+															label={ __( 'Vertical Alignment', 'flexblocks' ) }
 															value={ verticalAlignmentTablet }
 															options={ [
-																{ label: __( 'Inherit', 'flex-blocks' ), value: 'inherit'},
-																{ label: __( 'Default', 'flex-blocks' ), value: '' },
-																{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
-																{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
+																{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit'},
+																{ label: __( 'Default', 'flexblocks' ), value: '' },
+																{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
 														/>
@@ -398,14 +399,14 @@ class FlexBlockSection extends Component {
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'flex-blocks' ) }
+															label={ __( 'Vertical Alignment', 'flexblocks' ) }
 															value={ verticalAlignmentMobile }
 															options={ [
-																{ label: __( 'Inherit', 'flex-blocks' ), value: 'inherit'},
-																{ label: __( 'Default', 'flex-blocks' ), value: '' },
-																{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
-																{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
+																{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit'},
+																{ label: __( 'Default', 'flexblocks' ), value: '' },
+																{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
 														/>
@@ -420,26 +421,26 @@ class FlexBlockSection extends Component {
 					) : '' }
 
 					<PanelBody
-						title={ __( 'Spacing', 'flex-blocks' ) }
+						title={ __( 'Spacing', 'flexblocks' ) }
 						initialOpen={ false }
 					>
 
-						<TabPanel className="layout-tab-panel flex-blocks-control-tabs"
+						<TabPanel className="layout-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'grid-default',
-									title: __( 'Default', 'flex-blocks' ),
+									title: __( 'Default', 'flexblocks' ),
 									className: 'grid-default',
 								},
 								{
 									name: 'grid-tablet',
-									title: __( 'Tablet', 'flex-blocks' ),
+									title: __( 'Tablet', 'flexblocks' ),
 									className: 'grid-tablet',
 								},
 								{
 									name: 'grid-mobile',
-									title: __( 'Mobile', 'flex-blocks' ),
+									title: __( 'Mobile', 'flexblocks' ),
 									className: 'grid-mobile',
 								},
 							] }>
@@ -449,10 +450,10 @@ class FlexBlockSection extends Component {
 										<div>
 											{ 'grid-default' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Padding', 'flex-blocks' ) }
+															label={ __( 'Padding', 'flexblocks' ) }
 															valueTop={ paddingTop }
 															valueRight={ paddingRight }
 															valueBottom={ paddingBottom }
@@ -467,10 +468,10 @@ class FlexBlockSection extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Margin', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
-															label={ __( 'Margin', 'flex-blocks' ) }
+															label={ __( 'Margin', 'flexblocks' ) }
 															valueTop={ marginTop }
 															valueRight={ marginRight }
 															valueBottom={ marginBottom }
@@ -489,10 +490,10 @@ class FlexBlockSection extends Component {
 
 											{ 'grid-tablet' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Padding', 'flex-blocks' ) }
+															label={ __( 'Padding', 'flexblocks' ) }
 															valueTop={ paddingTopTablet }
 															valueRight={ paddingRightTablet }
 															valueBottom={ paddingBottomTablet }
@@ -507,10 +508,10 @@ class FlexBlockSection extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Margin', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
-															label={ __( 'Margin', 'flex-blocks' ) }
+															label={ __( 'Margin', 'flexblocks' ) }
 															valueTop={ marginTopTablet }
 															valueRight={ marginRightTablet }
 															valueBottom={ marginBottomTablet }
@@ -529,10 +530,10 @@ class FlexBlockSection extends Component {
 
 											{ 'grid-mobile' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Padding', 'flex-blocks' ) }
+															label={ __( 'Padding', 'flexblocks' ) }
 															valueTop={ paddingTopMobile }
 															valueRight={ paddingRightMobile }
 															valueBottom={ paddingBottomMobile }
@@ -547,10 +548,10 @@ class FlexBlockSection extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Margin', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
-															label={ __( 'Margin', 'flex-blocks' ) }
+															label={ __( 'Margin', 'flexblocks' ) }
 															valueTop={ marginTopMobile }
 															valueRight={ marginRightMobile }
 															valueBottom={ marginBottomMobile }
@@ -575,13 +576,13 @@ class FlexBlockSection extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Colors', 'flex-blocks' ) }
+						title={ __( 'Colors', 'flexblocks' ) }
 						initialOpen={ false }
 					>
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Background Color', 'flex-blocks' ) }
+								label={ __( 'Background Color', 'flexblocks' ) }
 								value={ backgroundColor }
 								onChange={ ( nextBackgroundColor ) =>
 									setAttributes( {
@@ -594,7 +595,7 @@ class FlexBlockSection extends Component {
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Text Color', 'flex-blocks' ) }
+								label={ __( 'Text Color', 'flexblocks' ) }
 								value={ textColor }
 								onChange={ ( nextTextColor ) =>
 									setAttributes( {
@@ -607,7 +608,7 @@ class FlexBlockSection extends Component {
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Link Color', 'flex-blocks' ) }
+								label={ __( 'Link Color', 'flexblocks' ) }
 								value={ linkColor }
 								onChange={ ( nextLinkColor ) =>
 									setAttributes( {
@@ -620,7 +621,7 @@ class FlexBlockSection extends Component {
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Link Color Hover', 'flex-blocks' ) }
+								label={ __( 'Link Color Hover', 'flexblocks' ) }
 								value={ linkColorHover }
 								onChange={ ( nextLinkColorHover ) =>
 									setAttributes( {
@@ -681,7 +682,7 @@ class FlexBlockSection extends Component {
 						}
 						{ !! bgImage && <div className="section-bg-settings">
 							<ToggleControl
-								label={ __( 'Background Color Overlay', 'flex-blocks' ) }
+								label={ __( 'Background Color Overlay', 'flexblocks' ) }
 								checked={ !! bgOptions.overlay }
 								onChange={ ( nextOverlay ) => {
 									setAttributes( {
@@ -694,7 +695,7 @@ class FlexBlockSection extends Component {
 							/>
 
 							<TextControl
-								label={ __( 'Size', 'flex-blocks' ) }
+								label={ __( 'Size', 'flexblocks' ) }
 								value={ bgOptions.size }
 								onChange={ ( nextSize ) => {
 									setAttributes( {
@@ -707,7 +708,7 @@ class FlexBlockSection extends Component {
 							/>
 
 							<TextControl
-								label={ __( 'Position', 'flex-blocks' ) }
+								label={ __( 'Position', 'flexblocks' ) }
 								value={ bgOptions.position }
 								onChange={ ( nextPosition ) => {
 									setAttributes( {
@@ -720,7 +721,7 @@ class FlexBlockSection extends Component {
 							/>
 
 							<SelectControl
-								label={ __( 'Repeat', 'flex-blocks' ) }
+								label={ __( 'Repeat', 'flexblocks' ) }
 								value={ bgOptions.repeat }
 								options={ [
 									{ label: 'no-repeat', value: 'no-repeat' },
@@ -739,7 +740,7 @@ class FlexBlockSection extends Component {
 							/>
 
 							<SelectControl
-								label={ __( 'Attachment', 'flex-blocks' ) }
+								label={ __( 'Attachment', 'flexblocks' ) }
 								value={ bgOptions.attachment }
 								options={ [
 									{ label: 'scroll', value: '' },
@@ -760,7 +761,7 @@ class FlexBlockSection extends Component {
 				</InspectorControls>
 				<InspectorAdvancedControls>
 					<SelectControl
-						label={ __( 'Element Tag', 'flex-blocks' ) }
+						label={ __( 'Element Tag', 'flexblocks' ) }
 						value={ tagName }
 						options={ [
 							{ label: 'section', value: 'section' },
@@ -772,7 +773,7 @@ class FlexBlockSection extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'Element ID', 'flex-blocks' ) }
+						label={ __( 'Element ID', 'flexblocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -781,13 +782,13 @@ class FlexBlockSection extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'flex-blocks' ) }
+						label={ __( 'CSS Classes', 'flexblocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>
 
 					<RangeControl
-						label={ __( 'z-index', 'flex-blocks' ) }
+						label={ __( 'z-index', 'flexblocks' ) }
 						value={ zindex }
 						onChange={ ( nextSpacing ) => {
 							setAttributes( {

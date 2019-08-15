@@ -24,9 +24,9 @@
       max-width: none;
       margin-right: 0;
       margin-left: 0; }
-  .editor-block-list__block[data-align="full"][data-type="flex-blocks/grid"] > .editor-block-list__block-edit > div > .fx-grid-wrapper > .fx-grid-wrapper-button-select {
+  .editor-block-list__block[data-align="full"][data-type="flexblocks/grid"] > .editor-block-list__block-edit > div > .fx-grid-wrapper > .fx-grid-wrapper-button-select {
     right: 1px; }
-  .editor-block-list__block[data-align="full"][data-type="flex-blocks/grid"] > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout {
+  .editor-block-list__block[data-align="full"][data-type="flexblocks/grid"] > .editor-block-list__block-edit > div > .fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout {
     margin-right: 1px;
     margin-left: 1px; }
   .fx-grid-wrapper .editor-inserter-with-shortcuts {
@@ -214,19 +214,19 @@
  * CSS for just Backend enqueued after style.scss
  * which makes it higher in priority.
  */
-body.gutenberg-editor-page [data-type="flex-blocks/section"] .editor-block-list__block,
-[data-type="flex-blocks/section"] .wp-block-heading h1,
-[data-type="flex-blocks/section"] .wp-block-heading h1.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h2,
-[data-type="flex-blocks/section"] .wp-block-heading h2.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h3,
-[data-type="flex-blocks/section"] .wp-block-heading h3.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h4,
-[data-type="flex-blocks/section"] .wp-block-heading h4.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h5,
-[data-type="flex-blocks/section"] .wp-block-heading h5.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h6,
-[data-type="flex-blocks/section"] .wp-block-heading h6.editor-rich-text__tinymce {
+body.gutenberg-editor-page [data-type="flexblocks/section"] .editor-block-list__block,
+[data-type="flexblocks/section"] .wp-block-heading h1,
+[data-type="flexblocks/section"] .wp-block-heading h1.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h2,
+[data-type="flexblocks/section"] .wp-block-heading h2.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h3,
+[data-type="flexblocks/section"] .wp-block-heading h3.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h4,
+[data-type="flexblocks/section"] .wp-block-heading h4.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h5,
+[data-type="flexblocks/section"] .wp-block-heading h5.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h6,
+[data-type="flexblocks/section"] .wp-block-heading h6.editor-rich-text__tinymce {
   color: inherit; }
 
 .edit-bg-buttons {
@@ -257,7 +257,7 @@ body.gutenberg-editor-page [data-type="flex-blocks/section"] .editor-block-list_
 .fx-section-unit .components-base-control__label {
   opacity: 0; }
 
-.flex-blocks-control-tabs .components-tab-panel__tabs {
+.flexblocks-control-tabs .components-tab-panel__tabs {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
@@ -265,7 +265,7 @@ body.gutenberg-editor-page [data-type="flex-blocks/section"] .editor-block-list_
   margin-bottom: 15px;
   border-bottom: 1px solid #e8eaeb; }
 
-.flex-blocks-control-tabs .components-tab-panel__tabs button {
+.flexblocks-control-tabs .components-tab-panel__tabs button {
   padding: 9px 11px;
   padding-bottom: 11px;
   margin: 0;
@@ -278,7 +278,7 @@ body.gutenberg-editor-page [data-type="flex-blocks/section"] .editor-block-list_
   border-radius: 0;
   outline-offset: -1px; }
 
-.flex-blocks-control-tabs .components-tab-panel__tabs button.active-tab {
+.flexblocks-control-tabs .components-tab-panel__tabs button.active-tab {
   position: relative;
   border-bottom: 2px solid #00a0d2;
   z-index: 1; }
@@ -479,11 +479,11 @@ body .fx-section .wp-block {
       -webkit-box-shadow: none;
               box-shadow: none; }
 
-[data-type="flex-blocks/button"] > .editor-block-mover > .editor-block-mover__control-drag-handle {
+[data-type="flexblocks/button"] > .editor-block-mover > .editor-block-mover__control-drag-handle {
   display: none; }
 
-[data-type="flex-blocks/button"] > .editor-block-mover > .components-button:first-child svg,
-[data-type="flex-blocks/button"] > .editor-block-mover > .editor-block-mover__control-drag-handle + .components-button svg {
+[data-type="flexblocks/button"] > .editor-block-mover > .components-button:first-child svg,
+[data-type="flexblocks/button"] > .editor-block-mover > .editor-block-mover__control-drag-handle + .components-button svg {
   -webkit-transform: rotate(-90deg);
       -ms-transform: rotate(-90deg);
           transform: rotate(-90deg); }

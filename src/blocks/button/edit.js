@@ -151,22 +151,22 @@ class FlexBlockButton extends Component {
 
 				<InspectorControls>
 					<PanelBody>
-						<TabPanel className="grid-tab-panel flex-blocks-control-tabs"
+						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'grid-default',
-									title: __( 'Default', 'flex-blocks' ),
+									title: __( 'Default', 'flexblocks' ),
 									className: 'grid-default',
 								},
 								{
 									name: 'grid-tablet',
-									title: __( 'Tablet', 'flex-blocks' ),
+									title: __( 'Tablet', 'flexblocks' ),
 									className: 'grid-tablet',
 								},
 								{
 									name: 'grid-mobile',
-									title: __( 'Mobile', 'flex-blocks' ),
+									title: __( 'Mobile', 'flexblocks' ),
 									className: 'grid-mobile',
 								},
 							] }>
@@ -177,7 +177,7 @@ class FlexBlockButton extends Component {
 											{ 'grid-default' === tab.name ? (
 												<Fragment>
 													<RangeControl
-														label={ __( 'Font Size', 'flex-blocks' ) }
+														label={ __( 'Font Size', 'flexblocks' ) }
 														value={ fontSize }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -192,7 +192,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<SelectControl
-														label={ __( 'Text Transform', 'flex-blocks' ) }
+														label={ __( 'Text Transform', 'flexblocks' ) }
 														value={ textTransform }
 														options={ [
 															{ label: 'none', value: '' },
@@ -204,7 +204,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Gap', 'flex-blocks' ) }
+														label={ __( 'Gap', 'flexblocks' ) }
 														value={ gap }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -218,10 +218,10 @@ class FlexBlockButton extends Component {
 														initialPosition={ flexBlocksDefaults.button.gap }
 													/>
 
-													<BaseControl label={ __( 'Padding', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Padding', 'flex-blocks' ) }
+															label={ __( 'Padding', 'flexblocks' ) }
 															valueTop={ paddingTop }
 															valueRight={ paddingRight }
 															valueBottom={ paddingBottom }
@@ -236,10 +236,10 @@ class FlexBlockButton extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Border Size', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Border Size', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Border Size', 'flex-blocks' ) }
+															label={ __( 'Border Size', 'flexblocks' ) }
 															valueTop={ borderSizeTop }
 															valueRight={ borderSizeRight }
 															valueBottom={ borderSizeBottom }
@@ -254,10 +254,10 @@ class FlexBlockButton extends Component {
 														/>
 													</BaseControl>
 
-													<BaseControl label={ __( 'Border Radius', 'flex-blocks' ) }>
+													<BaseControl label={ __( 'Border Radius', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
-															label={ __( 'Border Radius', 'flex-blocks' ) }
+															label={ __( 'Border Radius', 'flexblocks' ) }
 															valueTop={ borderRadiusTopRight }
 															valueRight={ borderRadiusBottomRight }
 															valueBottom={ borderRadiusBottomLeft }
@@ -269,10 +269,10 @@ class FlexBlockButton extends Component {
 															attrBottom={ 'borderRadiusBottomLeft' }
 															attrLeft={ 'borderRadiusTopLeft' }
 															attrSyncUnits={ 'borderRadiusSyncUnits' }
-															labelTop={ __( 'T-Right', 'flex-blocks' ) }
-															labelRight={ __( 'B-Right', 'flex-blocks' ) }
-															labelBottom={ __( 'B-Left', 'flex-blocks' ) }
-															labelLeft={ __( 'T-Left', 'flex-blocks' ) }
+															labelTop={ __( 'T-Right', 'flexblocks' ) }
+															labelRight={ __( 'B-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Left', 'flexblocks' ) }
+															labelLeft={ __( 'T-Left', 'flexblocks' ) }
 														/>
 													</BaseControl>
 												</Fragment>
@@ -297,21 +297,21 @@ class FlexBlockButton extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Colors', 'flex-blocks' ) }
+						title={ __( 'Colors', 'flexblocks' ) }
 						initialOpen={ false }
 						>
 
-						<TabPanel className="layout-tab-panel flex-blocks-control-tabs"
+						<TabPanel className="layout-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'button-colors',
-									title: __( 'Normal', 'flex-blocks' ),
+									title: __( 'Normal', 'flexblocks' ),
 									className: 'button-colors',
 								},
 								{
 									name: 'button-colors-hover',
-									title: __( 'Hover', 'flex-blocks' ),
+									title: __( 'Hover', 'flexblocks' ),
 									className: 'button-colors-hover',
 								},
 							] }>
@@ -324,7 +324,7 @@ class FlexBlockButton extends Component {
 											{ isNormal ? (
 												<Fragment>
 													<ColorPicker
-														label={ __( 'Background Color', 'flex-blocks' ) }
+														label={ __( 'Background Color', 'flexblocks' ) }
 														value={ backgroundColor }
 														onChange={ ( nextBackgroundColor ) =>
 															setAttributes( {
@@ -335,7 +335,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Text Color', 'flex-blocks' ) }
+														label={ __( 'Text Color', 'flexblocks' ) }
 														value={ textColor }
 														onChange={ ( nextTextColor ) =>
 															setAttributes( {
@@ -346,7 +346,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Border Color', 'flex-blocks' ) }
+														label={ __( 'Border Color', 'flexblocks' ) }
 														value={ borderColor }
 														onChange={ ( value ) =>
 															setAttributes( {
@@ -361,7 +361,7 @@ class FlexBlockButton extends Component {
 
 												<Fragment>
 													<ColorPicker
-														label={ __( 'Background Color', 'flex-blocks' ) }
+														label={ __( 'Background Color', 'flexblocks' ) }
 														value={ backgroundColorHover }
 														onChange={ ( nextBackgroundColorHover ) =>
 															setAttributes( {
@@ -372,7 +372,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Text Color', 'flex-blocks' ) }
+														label={ __( 'Text Color', 'flexblocks' ) }
 														value={ textColorHover }
 														onChange={ ( nextTextColorHover ) =>
 															setAttributes( {
@@ -383,7 +383,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Border Color', 'flex-blocks' ) }
+														label={ __( 'Border Color', 'flexblocks' ) }
 														value={ borderColorHover }
 														onChange={ ( value ) =>
 															setAttributes( {
@@ -405,7 +405,7 @@ class FlexBlockButton extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'Element ID', 'flex-blocks' ) }
+						label={ __( 'Element ID', 'flexblocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -414,7 +414,7 @@ class FlexBlockButton extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'flex-blocks' ) }
+						label={ __( 'CSS Classes', 'flexblocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>

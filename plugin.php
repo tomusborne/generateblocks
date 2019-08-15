@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Flex Blocks
+ * Plugin Name: FlexBlocks
  * Plugin URI: https://flexblocks.com
  * Description: A small but powerful collection of flexible blocks to help you design your content.
  * Author: tomusborne
@@ -9,7 +9,7 @@
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  *
- * @package Flex Blocks
+ * @package FlexBlocks
  */
 
 // Exit if accessed directly.
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'FLEX_BLOCKS_MODULE_DIR', plugin_dir_path( __FILE__ ) );
-define( 'FLEX_BLOCKS_MODULE_DIR_URL', plugin_dir_url( __FILE__ ) );
+define( 'FLEXBLOCKS_MODULE_DIR', plugin_dir_path( __FILE__ ) );
+define( 'FLEXBLOCKS_MODULE_DIR_URL', plugin_dir_url( __FILE__ ) );
 
 // Load necessary files.
 require_once plugin_dir_path( __FILE__ ) . 'includes/functions.php';

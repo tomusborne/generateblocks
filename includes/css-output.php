@@ -11,14 +11,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return string
  */
-function flex_get_grid_container_css() {
-	$data = flex_get_block_data( 'flex-blocks/grid' );
+function flexblocks_get_grid_container_css() {
+	$data = flexblocks_get_block_data( 'flexblocks/grid' );
 
 	if ( empty( $data ) ) {
 		return;
 	}
 
-	$css = new Flex_Blocks_Dynamic_CSS;
+	$css = new FlexBlocks_Dynamic_CSS;
 
 	$css->set_selector( '.fx-grid-wrapper' );
 	$css->add_property( 'display', 'flex' );
@@ -29,7 +29,7 @@ function flex_get_grid_container_css() {
 			continue;
 		}
 
-		$defaults = flex_get_block_defaults();
+		$defaults = flexblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
 			$atts,
@@ -57,7 +57,7 @@ function flex_get_grid_container_css() {
 
 		$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
 
-		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-grid-wrapper-' . $id );
 
 			if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
@@ -80,7 +80,7 @@ function flex_get_grid_container_css() {
 			$css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
 		$css->stop_media_query();
 
-		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
+		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-grid-wrapper-' . $id );
 
 			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
@@ -114,21 +114,21 @@ function flex_get_grid_container_css() {
  *
  * @return string
  */
-function flex_get_section_css() {
-	$data = flex_get_block_data( 'flex-blocks/section' );
+function flexblocks_get_section_css() {
+	$data = flexblocks_get_block_data( 'flexblocks/section' );
 
 	if ( empty( $data ) ) {
 		return;
 	}
 
-	$css = new Flex_Blocks_Dynamic_CSS;
+	$css = new FlexBlocks_Dynamic_CSS;
 
 	foreach ( $data as $atts ) {
 		if ( ! isset( $atts['uniqueId'] ) ) {
 			continue;
 		}
 
-		$defaults = flex_get_block_defaults();
+		$defaults = flexblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
 			$atts,
@@ -204,7 +204,7 @@ function flex_get_section_css() {
 		$css->add_property( 'height', '100%' );
 		$css->add_property( 'justify-content', $settings['verticalAlignment'] );
 
-		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-section.fx-section-' . $id );
 
 			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
@@ -229,7 +229,7 @@ function flex_get_section_css() {
 			}
 		$css->stop_media_query();
 
-		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
+		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-section.fx-section-' . $id );
 
 			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
@@ -268,14 +268,14 @@ function flex_get_section_css() {
  *
  * @return string
  */
-function flex_get_button_container_css() {
-	$data = flex_get_block_data( 'flex-blocks/button-container' );
+function flexblocks_get_button_container_css() {
+	$data = flexblocks_get_block_data( 'flexblocks/button-container' );
 
 	if ( empty( $data ) ) {
 		return;
 	}
 
-	$css = new Flex_Blocks_Dynamic_CSS;
+	$css = new FlexBlocks_Dynamic_CSS;
 
 	$css->set_selector( '.fx-button-wrapper' );
 	$css->add_property( 'display', 'flex' );
@@ -289,7 +289,7 @@ function flex_get_button_container_css() {
 			continue;
 		}
 
-		$defaults = flex_get_block_defaults();
+		$defaults = flexblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
 			$atts,
@@ -305,7 +305,7 @@ function flex_get_button_container_css() {
 		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
 		$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
 
-		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
 			$css->add_property( 'padding-top', $settings['paddingTopTablet'], 'px' );
 			$css->add_property( 'padding-right', $settings['paddingRightTablet'], 'px' );
@@ -315,7 +315,7 @@ function flex_get_button_container_css() {
 		$css->stop_media_query();
 
 
-		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
+		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
 			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
 			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
@@ -335,14 +335,14 @@ function flex_get_button_container_css() {
  *
  * @return string
  */
-function flex_get_button_css() {
-	$data = flex_get_block_data( 'flex-blocks/button' );
+function flexblocks_get_button_css() {
+	$data = flexblocks_get_block_data( 'flexblocks/button' );
 
 	if ( empty( $data ) ) {
 		return;
 	}
 
-	$css = new Flex_Blocks_Dynamic_CSS;
+	$css = new FlexBlocks_Dynamic_CSS;
 
 	$css->set_selector( '.fx-button' );
 	$css->add_property( 'display', 'inline-flex' );
@@ -357,7 +357,7 @@ function flex_get_button_css() {
 			continue;
 		}
 
-		$defaults = flex_get_block_defaults();
+		$defaults = flexblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
 			$atts,
@@ -407,21 +407,21 @@ function flex_get_button_css() {
  *
  * @return string
  */
-function flex_get_headline_css() {
-	$data = flex_get_block_data( 'flex-blocks/headline' );
+function flexblocks_get_headline_css() {
+	$data = flexblocks_get_block_data( 'flexblocks/headline' );
 
 	if ( empty( $data ) ) {
 		return;
 	}
 
-	$css = new Flex_Blocks_Dynamic_CSS;
+	$css = new FlexBlocks_Dynamic_CSS;
 
 	foreach ( $data as $atts ) {
 		if ( ! isset( $atts['uniqueId'] ) ) {
 			continue;
 		}
 
-		$defaults = flex_get_block_defaults();
+		$defaults = flexblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
 			$atts,
@@ -442,7 +442,7 @@ function flex_get_headline_css() {
 		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
 		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
 
-		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-headline-' . $id );
 			$css->add_property( 'text-align', $settings['alignmentTablet'] );
 			$css->add_property( 'font-size', $settings['fontSizeTablet'], 'px' );
@@ -453,7 +453,7 @@ function flex_get_headline_css() {
 		$css->stop_media_query();
 
 
-		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
+		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-headline-' . $id );
 			$css->add_property( 'text-align', $settings['alignmentMobile'] );
 			$css->add_property( 'font-size', $settings['fontSizeMobile'], 'px' );
@@ -467,19 +467,19 @@ function flex_get_headline_css() {
 	return $css->css_output();
 }
 
-add_action( 'wp_head', 'flex_do_frontend_block_css', 200 );
+add_action( 'wp_head', 'flexblocks_do_frontend_block_css', 200 );
 /**
  * Print our CSS for each section.
  *
  * @since 1.8
  */
-function flex_do_frontend_block_css() {
+function flexblocks_do_frontend_block_css() {
 
-	$section_css = flex_get_section_css();
-	$button_container_css = flex_get_button_container_css();
-	$button_css = flex_get_button_css();
-	$headline_css = flex_get_headline_css();
-	$grid_container_css = flex_get_grid_container_css();
+	$section_css = flexblocks_get_section_css();
+	$button_container_css = flexblocks_get_button_container_css();
+	$button_css = flexblocks_get_button_css();
+	$headline_css = flexblocks_get_headline_css();
+	$grid_container_css = flexblocks_get_grid_container_css();
 
 	echo '<style>';
 		echo $section_css . $button_container_css . $button_css . $headline_css . $grid_container_css;

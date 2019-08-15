@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $blockName The name of the block to get attributes from.
  * @return array
  */
-function flex_get_block_data( $blockName = 'flex-blocks/section' ) {
+function flexblocks_get_block_data( $blockName = 'flexblocks/section' ) {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}
@@ -41,7 +41,7 @@ function flex_get_block_data( $blockName = 'flex-blocks/section' ) {
 				if ( $blockName === $block['blockName'] ) {
 					$data[] = $block['attrs'];
 
-					$data = flex_get_nested_block_data( $block, $data, $blockName );
+					$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
 				}
 
 				if ( 'core/block' === $block['blockName'] ) {
@@ -57,7 +57,7 @@ function flex_get_block_data( $blockName = 'flex-blocks/section' ) {
 								if ( $blockName === $block['blockName'] ) {
 									$data[] = $block['attrs'];
 
-									$data = flex_get_nested_block_data( $block, $data, $blockName );
+									$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
 								}
 							}
 						}
@@ -66,7 +66,7 @@ function flex_get_block_data( $blockName = 'flex-blocks/section' ) {
 
 				// Need to check for nested blocks.
 				if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
-					$data = flex_get_nested_block_data( $block, $data, $blockName );
+					$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
 				}
 			}
 		}
@@ -85,14 +85,14 @@ function flex_get_block_data( $blockName = 'flex-blocks/section' ) {
  * @param string $blockName The name of the block we're targeting.
  * @return array
  */
-function flex_get_nested_block_data( $block, $data, $blockName ) {
+function flexblocks_get_nested_block_data( $block, $data, $blockName ) {
 	if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
 		foreach ( $block['innerBlocks'] as $inner_block ) {
 			if ( $blockName === $inner_block['blockName'] ) {
 				$data[] = $inner_block['attrs'];
 			}
 
-			$data = flex_get_nested_block_data( $inner_block, $data, $blockName );
+			$data = flexblocks_get_nested_block_data( $inner_block, $data, $blockName );
 		}
 	}
 
@@ -104,6 +104,6 @@ function flex_get_nested_block_data( $block, $data, $blockName ) {
  *
  * @since 0.1
  */
-function flex_auth_callback() {
+function flexblocks_auth_callback() {
 	return current_user_can( 'edit_posts' );
 }

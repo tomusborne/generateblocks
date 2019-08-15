@@ -2,7 +2,7 @@
 /**
  * Builds our dynamic CSS.
  *
- * @package Flex Blocks
+ * @package FlexBlocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Creates minified css via PHP.
  *
  */
-class Flex_Blocks_Dynamic_CSS {
+class FlexBlocks_Dynamic_CSS {
 
 	/**
 	 * The css selector that you're currently adding rules to

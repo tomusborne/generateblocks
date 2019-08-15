@@ -81,10 +81,10 @@ class DimensionsControl extends Component {
 			attrBottom,
 			attrLeft,
 			attrSyncUnits,
-			labelTop = __( 'Top', 'flex-blocks' ),
-			labelRight = __( 'Right', 'flex-blocks' ),
-			labelBottom = __( 'Bottom', 'flex-blocks' ),
-			labelLeft = __( 'Left', 'flex-blocks' ),
+			labelTop = __( 'Top', 'flexblocks' ),
+			labelRight = __( 'Right', 'flexblocks' ),
+			labelBottom = __( 'Bottom', 'flexblocks' ),
+			labelLeft = __( 'Left', 'flexblocks' ),
 		} = this.props;
 
 		const classes = classnames(

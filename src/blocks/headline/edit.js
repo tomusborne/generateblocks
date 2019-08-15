@@ -128,22 +128,22 @@ class FlexBlockHeadline extends Component {
 
 				<InspectorControls>
 					<PanelBody>
-						<TabPanel className="headline-tab-panel flex-blocks-control-tabs"
+						<TabPanel className="headline-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'default',
-									title: __( 'Default', 'flex-blocks' ),
+									title: __( 'Default', 'flexblocks' ),
 									className: 'default',
 								},
 								{
 									name: 'tablet',
-									title: __( 'Tablet', 'flex-blocks' ),
+									title: __( 'Tablet', 'flexblocks' ),
 									className: 'tablet',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'flex-blocks' ),
+									title: __( 'Mobile', 'flexblocks' ),
 									className: 'mobile',
 								},
 							] }>
@@ -154,7 +154,7 @@ class FlexBlockHeadline extends Component {
 											{ 'default' === tab.name ? (
 												<Fragment>
 													<SelectControl
-														label={ __( 'Element', 'flex-blocks' ) }
+														label={ __( 'Element', 'flexblocks' ) }
 														value={ element }
 														options={ [
 															{ label: 'p', value: 'p' },
@@ -177,7 +177,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Color', 'flex-blocks' ) }
+														label={ __( 'Color', 'flexblocks' ) }
 														value={ color }
 														onChange={ ( value ) =>
 															setAttributes( {
@@ -209,7 +209,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Margin Top', 'flex-blocks' ) }
+														label={ __( 'Margin Top', 'flexblocks' ) }
 														value={ marginTop }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -224,7 +224,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Margin Bottom', 'flex-blocks' ) }
+														label={ __( 'Margin Bottom', 'flexblocks' ) }
 														value={ marginBottom }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -264,7 +264,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Margin Top', 'flex-blocks' ) }
+														label={ __( 'Margin Top', 'flexblocks' ) }
 														value={ marginTopTablet }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -279,7 +279,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Margin Bottom', 'flex-blocks' ) }
+														label={ __( 'Margin Bottom', 'flexblocks' ) }
 														value={ marginBottomTablet }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -319,7 +319,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Margin Top', 'flex-blocks' ) }
+														label={ __( 'Margin Top', 'flexblocks' ) }
 														value={ marginTopMobile }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -334,7 +334,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Margin Bottom', 'flex-blocks' ) }
+														label={ __( 'Margin Bottom', 'flexblocks' ) }
 														value={ marginBottomMobile }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -359,7 +359,7 @@ class FlexBlockHeadline extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'Element ID', 'flex-blocks' ) }
+						label={ __( 'Element ID', 'flexblocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -368,7 +368,7 @@ class FlexBlockHeadline extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'flex-blocks' ) }
+						label={ __( 'CSS Classes', 'flexblocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>

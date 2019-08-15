@@ -66,7 +66,7 @@ class TypographyControls extends Component {
 		} );
 
 		fonts.push(
-			{ value: 'other', label: __( 'Other', 'flex-blocks' ) }
+			{ value: 'other', label: __( 'Other', 'flexblocks' ) }
 		);
 
 		var weight = [
@@ -208,7 +208,7 @@ class TypographyControls extends Component {
 		return (
 			<Fragment>
 				{ ( typeof valueFontFamily !== 'undefined' ) ?
-					<BaseControl className={ 'fx-font-family-shortcuts' } label={ __( 'Font Family', 'flex-blocks' ) }>
+					<BaseControl className={ 'fx-font-family-shortcuts' } label={ __( 'Font Family', 'flexblocks' ) }>
 						<select
 							className="components-select-control__input components-select-control__input--flexblocks-fontfamily"
 							onChange={ onFontShortcut }
@@ -228,14 +228,14 @@ class TypographyControls extends Component {
 				{ ( typeof valueFontFamily !== 'undefined' ) ?
 					<TextControl
 						value={ valueFontFamily }
-						placeholder={ __( 'Enter font name...', 'flex-blocks' ) }
+						placeholder={ __( 'Enter font name...', 'flexblocks' ) }
 						onChange={ ( nextFontFamily ) => onFontChange( nextFontFamily ) }
 					/> : null
 				}
 
 				{ ( typeof valueFontFamily !== 'undefined' && '' !== valueFontFamily ) ?
 					<ToggleControl
-						label={ __( 'Google Font', 'flex-blocks' ) }
+						label={ __( 'Google Font', 'flexblocks' ) }
 						checked={ !! valueGoogleFont }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -273,10 +273,10 @@ class TypographyControls extends Component {
 					/> : null
 				}
 
-				{ ( typeof valueFontSize !== 'undefined' ) ?
+				{ ( null !== valueFontSize ) ?
 					<RangeControl
 						label={ __( 'Font Size' ) }
-						value={ parseFloat( valueFontSize ) || undefined }
+						value={ parseFloat( valueFontSize ) || '' }
 						onChange={ ( nextFontSize ) => setAttributes( { [ this.props[ 'attrFontSize' ] ]: nextFontSize } ) }
 						min={ 1 }
 						max={ 100 }
@@ -286,10 +286,10 @@ class TypographyControls extends Component {
 					/> : null
 				}
 
-				{ ( typeof valueLineHeight !== 'undefined' ) ?
+				{ ( null !== valueLineHeight ) ?
 					<RangeControl
 						label={ __( 'Line Height' ) }
-						value={ parseFloat( valueLineHeight ) || undefined }
+						value={ parseFloat( valueLineHeight ) || '' }
 						onChange={ ( nextLineHeight ) => setAttributes( { [ this.props[ 'attrLineHeight' ] ]: nextLineHeight } ) }
 						min={ 1 }
 						max={ 3 }
@@ -299,10 +299,10 @@ class TypographyControls extends Component {
 					/> : null
 				}
 
-				{ ( typeof valueLetterSpacing !== 'undefined' ) ?
+				{ ( null !== valueLetterSpacing ) ?
 					<RangeControl
 						label={ __( 'Letter Spacing' ) }
-						value={ parseFloat( valueLetterSpacing ) || undefined }
+						value={ parseFloat( valueLetterSpacing ) || '' }
 						onChange={ ( nextLetterSpacing ) => setAttributes( { [ this.props[ 'attrLetterSpacing' ] ]: nextLetterSpacing } ) }
 						min={ -1 }
 						max={ 3 }

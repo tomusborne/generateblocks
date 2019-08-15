@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_action( 'enqueue_block_editor_assets', 'flex_do_block_editor_assets' );
+add_action( 'enqueue_block_editor_assets', 'flexblocks_do_block_editor_assets' );
 /**
  * Enqueue Gutenberg block assets for backend editor.
  *
@@ -14,66 +14,66 @@ add_action( 'enqueue_block_editor_assets', 'flex_do_block_editor_assets' );
  * @uses {wp-editor} for WP editor styles.
  * @since 1.0.0
  */
-function flex_do_block_editor_assets() {
+function flexblocks_do_block_editor_assets() {
 	wp_enqueue_script(
-		'flex-blocks',
-		FLEX_BLOCKS_MODULE_DIR_URL . 'dist/blocks.build.js',
+		'flexblocks',
+		FLEXBLOCKS_MODULE_DIR_URL . 'dist/blocks.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
-		filemtime( FLEX_BLOCKS_MODULE_DIR . 'dist/blocks.build.js' ),
+		filemtime( FLEXBLOCKS_MODULE_DIR . 'dist/blocks.build.js' ),
 		true
 	);
 
 	wp_enqueue_style(
-		'flex-blocks',
-		FLEX_BLOCKS_MODULE_DIR_URL . 'dist/blocks.editor.build.css',
+		'flexblocks',
+		FLEXBLOCKS_MODULE_DIR_URL . 'dist/blocks.editor.build.css',
 		array( 'wp-edit-blocks' ),
-		filemtime( FLEX_BLOCKS_MODULE_DIR . 'dist/blocks.editor.build.css' )
+		filemtime( FLEXBLOCKS_MODULE_DIR . 'dist/blocks.editor.build.css' )
 	);
 
 	if ( function_exists( 'generate_get_option' ) ) {
 		$css = 'body.wp-admin .editor-styles-wrapper .grid-container {max-width: ' . generate_get_option( 'container_width' ) . 'px;margin-left: auto;margin-right:auto;';
-		wp_add_inline_style( 'generatepress-section-block', $css );
+		wp_add_inline_style( 'flexblocks', $css );
 	}
 
 	wp_localize_script(
-		'flex-blocks',
+		'flexblocks',
 		'flexBlocksDefaults',
-		flex_get_block_defaults()
+		flexblocks_get_block_defaults()
 	);
 }
 
-add_filter( 'block_categories', 'flex_blocks_do_category' );
+add_filter( 'block_categories', 'flexblocks_do_category' );
 /**
  * Add GeneratePress category to Gutenberg.
  *
  * @since 0.1
  */
-function flex_blocks_do_category( $categories ) {
+function flexblocks_do_category( $categories ) {
 	return array_merge(
 		array(
 			array(
-				'slug'  => 'flex-blocks',
-				'title' => __( 'Flex Blocks', 'flex-blocks' ),
+				'slug'  => 'flexblocks',
+				'title' => __( 'FlexBlocks', 'flexblocks' ),
 			),
 		),
 		$categories
     );
 }
 
-add_action( 'init', 'flex_blocks_register_meta' );
+add_action( 'init', 'flexblocks_register_meta' );
 /**
  * Register post meta.
  *
  * @since 0.1
  */
-function flex_blocks_register_meta() {
+function flexblocks_register_meta() {
 	register_meta(
 		'post',
 		'_flexblocks_google_fonts',
 		array(
 			'show_in_rest'  => true,
 			'single'		=> true,
-			'auth_callback' => 'flex_auth_callback',
+			'auth_callback' => 'flexblocks_auth_callback',
 		)
 	);
 }
@@ -83,7 +83,7 @@ function flex_blocks_register_meta() {
  *
  * @since 0.1
  */
-function flex_blocks_get_google_fonts() {
+function flexblocks_get_google_fonts() {
 	$meta = json_decode( get_post_meta( get_the_ID(), '_flexblocks_google_fonts', true ), true );
 	$fonts = array();
 
@@ -100,15 +100,15 @@ function flex_blocks_get_google_fonts() {
 	return $fonts;
 }
 
-add_action( 'wp_enqueue_scripts', 'flex_blocks_do_google_fonts' );
-add_action( 'enqueue_block_editor_assets', 'flex_blocks_do_google_fonts' );
+add_action( 'wp_enqueue_scripts', 'flexblocks_do_google_fonts' );
+add_action( 'enqueue_block_editor_assets', 'flexblocks_do_google_fonts' );
 /**
  * Do Google Fonts.
  *
  * @since 0.1
  */
-function flex_blocks_do_google_fonts() {
-	$google_fonts = flex_blocks_get_google_fonts();
+function flexblocks_do_google_fonts() {
+	$google_fonts = flexblocks_get_google_fonts();
 
 	if ( ! $google_fonts ) {
 		return;
@@ -137,10 +137,10 @@ function flex_blocks_do_google_fonts() {
 
 	$font_args = array(
 		'family' => implode( '|', $data ),
-		'subset' => apply_filters( 'flex_blocks_google_font_subset', null ),
-		'display' => apply_filters( 'flex_blocks_google_font_display', 'swap' ),
+		'subset' => apply_filters( 'flexblocks_google_font_subset', null ),
+		'display' => apply_filters( 'flexblocks_google_font_display', 'swap' ),
 	);
 
 	$fonts_url = add_query_arg( $font_args, '//fonts.googleapis.com/css' );
-	wp_enqueue_style( 'flex-blocks-google-fonts', $fonts_url, array(), null, 'all' );
+	wp_enqueue_style( 'flexblocks-google-fonts', $fonts_url, array(), null, 'all' );
 }

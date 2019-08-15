@@ -5,19 +5,19 @@
  * which makes it higher in priority.
  */
 
-body.gutenberg-editor-page [data-type="flex-blocks/section"] .editor-block-list__block,
-[data-type="flex-blocks/section"] .wp-block-heading h1,
-[data-type="flex-blocks/section"] .wp-block-heading h1.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h2,
-[data-type="flex-blocks/section"] .wp-block-heading h2.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h3,
-[data-type="flex-blocks/section"] .wp-block-heading h3.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h4,
-[data-type="flex-blocks/section"] .wp-block-heading h4.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h5,
-[data-type="flex-blocks/section"] .wp-block-heading h5.editor-rich-text__tinymce,
-[data-type="flex-blocks/section"] .wp-block-heading h6,
-[data-type="flex-blocks/section"] .wp-block-heading h6.editor-rich-text__tinymce {
+body.gutenberg-editor-page [data-type="flexblocks/section"] .editor-block-list__block,
+[data-type="flexblocks/section"] .wp-block-heading h1,
+[data-type="flexblocks/section"] .wp-block-heading h1.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h2,
+[data-type="flexblocks/section"] .wp-block-heading h2.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h3,
+[data-type="flexblocks/section"] .wp-block-heading h3.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h4,
+[data-type="flexblocks/section"] .wp-block-heading h4.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h5,
+[data-type="flexblocks/section"] .wp-block-heading h5.editor-rich-text__tinymce,
+[data-type="flexblocks/section"] .wp-block-heading h6,
+[data-type="flexblocks/section"] .wp-block-heading h6.editor-rich-text__tinymce {
 	color: inherit;
 }
 
@@ -57,14 +57,14 @@ body.gutenberg-editor-page [data-type="flex-blocks/section"] .editor-block-list_
     opacity: 0;
 }
 
-.flex-blocks-control-tabs .components-tab-panel__tabs {
+.flexblocks-control-tabs .components-tab-panel__tabs {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
     border-bottom: 1px solid #e8eaeb;
 }
 
-.flex-blocks-control-tabs .components-tab-panel__tabs button {
+.flexblocks-control-tabs .components-tab-panel__tabs button {
     padding: 9px 11px;
     padding-bottom: 11px;
     margin: 0;
@@ -78,7 +78,7 @@ body.gutenberg-editor-page [data-type="flex-blocks/section"] .editor-block-list_
     outline-offset: -1px;
 }
 
-.flex-blocks-control-tabs .components-tab-panel__tabs button.active-tab {
+.flexblocks-control-tabs .components-tab-panel__tabs button.active-tab {
     position: relative;
     border-bottom: 2px solid #00a0d2;
     z-index: 1;

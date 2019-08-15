@@ -127,25 +127,25 @@ class FlexButtonContainer extends Component {
 
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Spacing', 'flex-blocks' ) }
+						title={ __( 'Spacing', 'flexblocks' ) }
 						initialOpen={ true }
 					>
-						<TabPanel className="flex-blocks-control-tabs"
+						<TabPanel className="flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'default',
-									title: __( 'Default', 'flex-blocks' ),
+									title: __( 'Default', 'flexblocks' ),
 									className: 'default',
 								},
 								{
 									name: 'tablet',
-									title: __( 'Tablet', 'flex-blocks' ),
+									title: __( 'Tablet', 'flexblocks' ),
 									className: 'tablet',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'flex-blocks' ),
+									title: __( 'Mobile', 'flexblocks' ),
 									className: 'mobile',
 								},
 							] }>
@@ -166,7 +166,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Top Padding', 'flex-blocks' ) }
+														label={ __( 'Top Padding', 'flexblocks' ) }
 														value={ paddingTop }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -180,7 +180,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Right Padding', 'flex-blocks' ) }
+														label={ __( 'Right Padding', 'flexblocks' ) }
 														value={ paddingRight }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -194,7 +194,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Bottom Padding', 'flex-blocks' ) }
+														label={ __( 'Bottom Padding', 'flexblocks' ) }
 														value={ paddingBottom }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -208,7 +208,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Left Padding', 'flex-blocks' ) }
+														label={ __( 'Left Padding', 'flexblocks' ) }
 														value={ paddingLeft }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -236,7 +236,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Top Padding', 'flex-blocks' ) }
+														label={ __( 'Top Padding', 'flexblocks' ) }
 														value={ paddingTopTablet }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -250,7 +250,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Right Padding', 'flex-blocks' ) }
+														label={ __( 'Right Padding', 'flexblocks' ) }
 														value={ paddingRightTablet }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -264,7 +264,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Bottom Padding', 'flex-blocks' ) }
+														label={ __( 'Bottom Padding', 'flexblocks' ) }
 														value={ paddingBottomTablet }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -278,7 +278,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Left Padding', 'flex-blocks' ) }
+														label={ __( 'Left Padding', 'flexblocks' ) }
 														value={ paddingLeftTablet }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -304,7 +304,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Top Padding', 'flex-blocks' ) }
+														label={ __( 'Top Padding', 'flexblocks' ) }
 														value={ paddingTopMobile }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -318,7 +318,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Right Padding', 'flex-blocks' ) }
+														label={ __( 'Right Padding', 'flexblocks' ) }
 														value={ paddingRightMobile }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -332,7 +332,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Bottom Padding', 'flex-blocks' ) }
+														label={ __( 'Bottom Padding', 'flexblocks' ) }
 														value={ paddingBottomMobile }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -346,7 +346,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Left Padding', 'flex-blocks' ) }
+														label={ __( 'Left Padding', 'flexblocks' ) }
 														value={ paddingLeftMobile }
 														onChange={ ( nextSpacing ) => {
 															setAttributes( {
@@ -371,7 +371,7 @@ class FlexButtonContainer extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'Element ID', 'flex-blocks' ) }
+						label={ __( 'Element ID', 'flexblocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -380,7 +380,7 @@ class FlexButtonContainer extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'flex-blocks' ) }
+						label={ __( 'CSS Classes', 'flexblocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>
@@ -397,15 +397,15 @@ class FlexButtonContainer extends Component {
 					} ) }
 				>
 					<InnerBlocks
-						template={ [ [ 'flex-blocks/button' ] ] }
-						allowedBlocks={ [ 'flex-blocks/button' ] }
+						template={ [ [ 'flexblocks/button' ] ] }
+						allowedBlocks={ [ 'flexblocks/button' ] }
 					/>
 
-					<Tooltip text={ __( 'Add Button', 'flex-blocks' ) }>
+					<Tooltip text={ __( 'Add Button', 'flexblocks' ) }>
                         <IconButton
                             icon={ 'insert' }
                             onClick={ () => {
-								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'flex-blocks/button' ), undefined, clientId );
+								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'flexblocks/button' ), undefined, clientId );
                             } }
                         />
                     </Tooltip>

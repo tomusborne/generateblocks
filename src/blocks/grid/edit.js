@@ -133,7 +133,7 @@ class FlexBlockGridContainer extends Component {
 
 			columnsData.forEach( ( colAttrs ) => {
 				result.push( [
-					'flex-blocks/section',
+					'flexblocks/section',
 					colAttrs,
 				] );
 			} );
@@ -142,7 +142,7 @@ class FlexBlockGridContainer extends Component {
 		} else {
 			for ( let k = 1; k <= columns; k++ ) {
 				result.push( [
-					'flex-blocks/section',
+					'flexblocks/section',
 					colAttrs
 				] );
 			}
@@ -283,7 +283,7 @@ class FlexBlockGridContainer extends Component {
 				<InspectorControls>
 					<PanelBody>
 						<RangeControl
-							label={ __( 'Sections', 'flex-blocks' ) }
+							label={ __( 'Sections', 'flexblocks' ) }
 							value={ columns }
 							onChange={ ( value ) => setAttributes( { columns: value } ) }
 							min={ 1 }
@@ -291,22 +291,22 @@ class FlexBlockGridContainer extends Component {
 							initialPosition={ flexBlocksDefaults.gridContainer.columns }
 						/>
 
-						<TabPanel className="grid-tab-panel flex-blocks-control-tabs"
+						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'grid-default',
-									title: __( 'Default', 'flex-blocks' ),
+									title: __( 'Default', 'flexblocks' ),
 									className: 'grid-default',
 								},
 								{
 									name: 'grid-tablet',
-									title: __( 'Tablet', 'flex-blocks' ),
+									title: __( 'Tablet', 'flexblocks' ),
 									className: 'grid-tablet',
 								},
 								{
 									name: 'grid-mobile',
-									title: __( 'Mobile', 'flex-blocks' ),
+									title: __( 'Mobile', 'flexblocks' ),
 									className: 'grid-mobile',
 								},
 							] }>
@@ -317,7 +317,7 @@ class FlexBlockGridContainer extends Component {
 											{ 'grid-default' === tab.name ? (
 												<Fragment>
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'flex-blocks' ) }
+														label={ __( 'Horizontal Gap', 'flexblocks' ) }
 														value={ horizontalGap }
 														onChange={ ( value ) => setAttributes( { horizontalGap: value } ) }
 														min={ 0 }
@@ -326,7 +326,7 @@ class FlexBlockGridContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Vertical Gap', 'flex-blocks' ) }
+														label={ __( 'Vertical Gap', 'flexblocks' ) }
 														value={ verticalGap }
 														onChange={ ( value ) => setAttributes( { verticalGap: value } ) }
 														min={ 0 }
@@ -335,13 +335,13 @@ class FlexBlockGridContainer extends Component {
 													/>
 
 													<SelectControl
-														label={ __( 'Vertical Alignment', 'flex-blocks' ) }
+														label={ __( 'Vertical Alignment', 'flexblocks' ) }
 														value={ verticalAlignment }
 														options={ [
-															{ label: __( 'Default', 'flex-blocks' ), value: '' },
-															{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
+															{ label: __( 'Default', 'flexblocks' ), value: '' },
+															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
 													/>
@@ -351,7 +351,7 @@ class FlexBlockGridContainer extends Component {
 											{ 'grid-tablet' === tab.name ? (
 												<Fragment>
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'flex-blocks' ) }
+														label={ __( 'Horizontal Gap', 'flexblocks' ) }
 														value={ horizontalGapTablet }
 														onChange={ ( value ) => setAttributes( { horizontalGapTablet: value } ) }
 														min={ 0 }
@@ -360,7 +360,7 @@ class FlexBlockGridContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Vertical Gap', 'flex-blocks' ) }
+														label={ __( 'Vertical Gap', 'flexblocks' ) }
 														value={ verticalGapTablet }
 														onChange={ ( value ) => setAttributes( { verticalGapTablet: value } ) }
 														min={ 0 }
@@ -369,14 +369,14 @@ class FlexBlockGridContainer extends Component {
 													/>
 
 													<SelectControl
-														label={ __( 'Vertical Alignment', 'flex-blocks' ) }
+														label={ __( 'Vertical Alignment', 'flexblocks' ) }
 														value={ verticalAlignmentTablet }
 														options={ [
-															{ label: __( 'Inherit', 'flex-blocks' ), value: 'inherit' },
-															{ label: __( 'Default', 'flex-blocks' ), value: '' },
-															{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
+															{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit' },
+															{ label: __( 'Default', 'flexblocks' ), value: '' },
+															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
 													/>
@@ -386,7 +386,7 @@ class FlexBlockGridContainer extends Component {
 											{ 'grid-mobile' === tab.name ? (
 												<Fragment>
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'flex-blocks' ) }
+														label={ __( 'Horizontal Gap', 'flexblocks' ) }
 														value={ horizontalGapMobile }
 														onChange={ ( value ) => setAttributes( { horizontalGapMobile: value } ) }
 														min={ 0 }
@@ -395,7 +395,7 @@ class FlexBlockGridContainer extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Vertical Gap', 'flex-blocks' ) }
+														label={ __( 'Vertical Gap', 'flexblocks' ) }
 														value={ verticalGapMobile }
 														onChange={ ( value ) => setAttributes( { verticalGapMobile: value } ) }
 														min={ 0 }
@@ -404,14 +404,14 @@ class FlexBlockGridContainer extends Component {
 													/>
 
 													<SelectControl
-														label={ __( 'Vertical Alignment', 'flex-blocks' ) }
+														label={ __( 'Vertical Alignment', 'flexblocks' ) }
 														value={ verticalAlignmentMobile }
 														options={ [
-															{ label: __( 'Inherit', 'flex-blocks' ), value: 'inherit' },
-															{ label: __( 'Default', 'flex-blocks' ), value: '' },
-															{ label: __( 'Top', 'flex-blocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'flex-blocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'flex-blocks' ), value: 'flex-end' },
+															{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit' },
+															{ label: __( 'Default', 'flexblocks' ), value: '' },
+															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
 													/>
@@ -427,7 +427,7 @@ class FlexBlockGridContainer extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'Element ID', 'flex-blocks' ) }
+						label={ __( 'Element ID', 'flexblocks' ) }
 						value={ elementId }
 						onChange={ ( elementId ) => {
 							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -436,7 +436,7 @@ class FlexBlockGridContainer extends Component {
 					/>
 
 					<TextControl
-						label={ __( 'CSS Classes', 'flex-blocks' ) }
+						label={ __( 'CSS Classes', 'flexblocks' ) }
 						value={ cssClasses }
 						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 					/>
@@ -457,7 +457,7 @@ class FlexBlockGridContainer extends Component {
 							<InnerBlocks
 								template={ this.getColumnsTemplate() }
 								templateLock="all"
-								allowedBlocks={ [ 'flex-blocks/section' ] }
+								allowedBlocks={ [ 'flexblocks/section' ] }
 							/>
 						</Fragment>
 						) : this.getLayoutsSelector() }
