@@ -109,6 +109,7 @@ class FlexButtonContainer extends Component {
 			  padding-right: ` + paddingRight + `px;
 			  padding-bottom: ` + paddingBottom + `px;
 			  padding-left: ` + paddingLeft + `px;
+			  justify-content: ` + flexAlignment + `;
 			}
 		`
 

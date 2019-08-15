@@ -305,6 +305,15 @@ function flex_get_button_container_css() {
 		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
 		$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
 
+		$css->start_media_query( apply_filters( 'flex_blocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->set_selector( '.fx-button-wrapper-' . $id );
+			$css->add_property( 'padding-top', $settings['paddingTopTablet'], 'px' );
+			$css->add_property( 'padding-right', $settings['paddingRightTablet'], 'px' );
+			$css->add_property( 'padding-bottom', $settings['paddingBottomTablet'], 'px' );
+			$css->add_property( 'padding-left', $settings['paddingLeftTablet'], 'px' );
+			$css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+		$css->stop_media_query();
+
 
 		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
