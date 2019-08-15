@@ -103,6 +103,16 @@ class FlexBlockHeadline extends Component {
 		return (
 			<Fragment>
 
+				<BlockControls>
+					<AlignmentToolbar
+						isCollapsed={ false }
+						value={ align }
+						onChange={ ( nextAlign ) => {
+							setAttributes( { align: nextAlign } );
+						} }
+					/>
+				</BlockControls>
+
 				<InspectorControls>
 					<PanelBody>
 						<SelectControl
