@@ -303,6 +303,8 @@ function flex_get_button_container_css() {
 		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
 		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
 		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
+		$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
+
 
 		$css->start_media_query( apply_filters( 'flex_blocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
@@ -310,6 +312,7 @@ function flex_get_button_container_css() {
 			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
 			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
 			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
+			$css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
 		$css->stop_media_query();
 	}
 

@@ -24,6 +24,8 @@ const {
 	InspectorControls,
 	InspectorAdvancedControls,
 	InnerBlocks,
+	AlignmentToolbar,
+	BlockControls,
 } = wp.blockEditor;
 
 const {
@@ -76,6 +78,9 @@ class FlexButtonContainer extends Component {
 			uniqueId,
 			elementId,
 			cssClasses,
+			alignment,
+			alignmentTablet,
+			alignmentMobile,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -90,6 +95,14 @@ class FlexButtonContainer extends Component {
 			paddingLeftMobile,
 		} = attributes;
 
+		let flexAlignment = '';
+
+		if ( 'right' === alignment ) {
+			flexAlignment = 'flex-end';
+		} else {
+			flexAlignment = alignment;
+		}
+
 		const css = `
 			.fx-button-wrapper-` + uniqueId + ` {
 			  padding-top: ` + paddingTop + `px;
@@ -101,6 +114,15 @@ class FlexButtonContainer extends Component {
 
 		return (
 			<Fragment>
+				<BlockControls>
+					<AlignmentToolbar
+						isCollapsed={ false }
+						value={ alignment }
+						onChange={ ( nextAlign ) => {
+							setAttributes( { alignment: nextAlign } );
+						} }
+					/>
+				</BlockControls>
 
 				<InspectorControls>
 					<PanelBody
@@ -134,6 +156,13 @@ class FlexButtonContainer extends Component {
 										<div>
 											{ 'default' === tab.name ? (
 												<Fragment>
+													<AlignmentToolbar
+														isCollapsed={ false }
+														value={ alignment }
+														onChange={ ( value ) => {
+															setAttributes( { alignment: value } );
+														} }
+													/>
 
 													<RangeControl
 														label={ __( 'Top Padding', 'flex-blocks' ) }

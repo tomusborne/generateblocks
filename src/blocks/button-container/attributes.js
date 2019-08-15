@@ -11,6 +11,18 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	alignment: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.alignment
+	},
+	alignmentTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.alignment
+	},
+	alignmentMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.alignment
+	},
 	paddingTop: {
 		type: 'number',
 		default: flexBlocksDefaults.buttonContainer.paddingTop

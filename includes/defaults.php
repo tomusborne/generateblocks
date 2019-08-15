@@ -71,6 +71,9 @@ function flex_get_block_defaults() {
 	);
 
 	$defaults['buttonContainer'] = array(
+		'alignment'	=> '',
+		'alignmentTablet' => '',
+		'alignmentMobile' => '',
 		'paddingTop' => false,
 		'paddingRight' => false,
 		'paddingBottom' => 25,
