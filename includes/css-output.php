@@ -378,7 +378,10 @@ function flexblocks_get_button_css() {
 		$css->add_property( 'border-bottom-left-radius', $settings['borderRadiusBottomLeft'], 'px' );
 		$css->add_property( 'border-top-left-radius', $settings['borderRadiusTopLeft'], 'px' );
 		$css->add_property( 'font-size', $settings['fontSize'], 'em' );
-		$css->add_property( 'margin-right', $settings['gap'], 'px' );
+		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
+		$css->add_property( 'margin-right', $settings['marginRight'], 'px' );
+		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
+		$css->add_property( 'margin-left', $settings['marginLeft'], 'px' );
 		$css->add_property( 'border-top-width', $settings['borderSizeTop'], 'px' );
 		$css->add_property( 'border-right-width', $settings['borderSizeRight'], 'px' );
 		$css->add_property( 'border-bottom-width', $settings['borderSizeBottom'], 'px' );

@@ -65,11 +65,23 @@ export default {
 	},
 	textTransform: {
 		type: 'string',
-		default: '',
+		default: flexBlocksDefaults.button.textTransform,
 	},
-	gap: {
-		type: 'number',
-		default: flexBlocksDefaults.button.gap,
+	marginTop: {
+		type: 'string',
+		default: flexBlocksDefaults.button.marginTop,
+	},
+	marginRight: {
+		type: 'string',
+		default: flexBlocksDefaults.button.marginRight,
+	},
+	marginBottom: {
+		type: 'string',
+		default: flexBlocksDefaults.button.marginBottom,
+	},
+	marginLeft: {
+		type: 'string',
+		default: flexBlocksDefaults.button.marginLeft,
 	},
 	paddingTop: {
 		type: 'string',

@@ -79,7 +79,11 @@ class FlexBlockButton extends Component {
 			textColorHover,
 			fontSize,
 			textTransform,
-			gap,
+			marginTop,
+			marginRight,
+			marginBottom,
+			marginLeft,
+			marginSyncUnits,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -203,20 +207,23 @@ class FlexBlockButton extends Component {
 														onChange={ ( textTransform ) => { setAttributes( { textTransform } ) } }
 													/>
 
-													<RangeControl
-														label={ __( 'Gap', 'flexblocks' ) }
-														value={ gap }
-														onChange={ ( value ) => {
-															setAttributes( {
-																gap: value
-															} );
-														} }
-														min={ 0 }
-														max={ 50 }
-														step={ 1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.button.gap }
-													/>
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTop }
+															valueRight={ marginRight }
+															valueBottom={ marginBottom }
+															valueLeft={ marginLeft }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnits }
+															attrTop={ 'marginTop' }
+															attrRight={ 'marginRight' }
+															attrBottom={ 'marginBottom' }
+															attrLeft={ 'marginLeft' }
+															attrSyncUnits={ 'marginSyncUnits' }
+														/>
+													</BaseControl>
 
 													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
