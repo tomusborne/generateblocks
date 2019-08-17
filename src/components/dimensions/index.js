@@ -51,10 +51,10 @@ class DimensionsControl extends Component {
 	syncUnits( value ) {
 		var numbers = [ this.props[ 'valueTop' ], this.props[ 'valueRight' ], this.props[ 'valueBottom' ], this.props[ 'valueLeft' ]];
 
-		const syncValue = Math.max.apply( null, numbers )
+		const syncValue = Math.max.apply( null, numbers );
 
 		this.props.setAttributes( { [ this.props[ 'attrSyncUnits' ] ]: ! this.props[ 'syncUnits' ] } )
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: syncValue, [ this.props[ 'attrRight' ] ]: syncValue, [ this.props[ 'attrBottom' ] ]: syncValue, [ this.props[ 'attrLeft' ] ]: syncValue } );
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: syncValue.toString(), [ this.props[ 'attrRight' ] ]: syncValue.toString(), [ this.props[ 'attrBottom' ] ]: syncValue.toString(), [ this.props[ 'attrLeft' ] ]: syncValue.toString() } );
 	}
 
 	render() {
