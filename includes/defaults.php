@@ -21,7 +21,7 @@ function flexblocks_get_block_defaults() {
 		$container_width = generate_get_option( 'container_width' );
 	}
 
-	$defaults['section'] = array(
+	$defaults['container'] = array(
 		'containerWidth' => $container_width,
 		'outerContainer' => 'full',
 		'innerContainer' => 'contained',

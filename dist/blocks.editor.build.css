@@ -214,19 +214,19 @@
  * CSS for just Backend enqueued after style.scss
  * which makes it higher in priority.
  */
-body.gutenberg-editor-page [data-type="flexblocks/section"] .editor-block-list__block,
-[data-type="flexblocks/section"] .wp-block-heading h1,
-[data-type="flexblocks/section"] .wp-block-heading h1.editor-rich-text__tinymce,
-[data-type="flexblocks/section"] .wp-block-heading h2,
-[data-type="flexblocks/section"] .wp-block-heading h2.editor-rich-text__tinymce,
-[data-type="flexblocks/section"] .wp-block-heading h3,
-[data-type="flexblocks/section"] .wp-block-heading h3.editor-rich-text__tinymce,
-[data-type="flexblocks/section"] .wp-block-heading h4,
-[data-type="flexblocks/section"] .wp-block-heading h4.editor-rich-text__tinymce,
-[data-type="flexblocks/section"] .wp-block-heading h5,
-[data-type="flexblocks/section"] .wp-block-heading h5.editor-rich-text__tinymce,
-[data-type="flexblocks/section"] .wp-block-heading h6,
-[data-type="flexblocks/section"] .wp-block-heading h6.editor-rich-text__tinymce {
+body.gutenberg-editor-page [data-type="flexblocks/container"] .editor-block-list__block,
+[data-type="flexblocks/container"] .wp-block-heading h1,
+[data-type="flexblocks/container"] .wp-block-heading h1.editor-rich-text__tinymce,
+[data-type="flexblocks/container"] .wp-block-heading h2,
+[data-type="flexblocks/container"] .wp-block-heading h2.editor-rich-text__tinymce,
+[data-type="flexblocks/container"] .wp-block-heading h3,
+[data-type="flexblocks/container"] .wp-block-heading h3.editor-rich-text__tinymce,
+[data-type="flexblocks/container"] .wp-block-heading h4,
+[data-type="flexblocks/container"] .wp-block-heading h4.editor-rich-text__tinymce,
+[data-type="flexblocks/container"] .wp-block-heading h5,
+[data-type="flexblocks/container"] .wp-block-heading h5.editor-rich-text__tinymce,
+[data-type="flexblocks/container"] .wp-block-heading h6,
+[data-type="flexblocks/container"] .wp-block-heading h6.editor-rich-text__tinymce {
   color: inherit; }
 
 .edit-bg-buttons {
@@ -236,7 +236,7 @@ body.gutenberg-editor-page [data-type="flexblocks/section"] .editor-block-list__
 .edit-bg-buttons button.components-button {
   margin-bottom: 10px; }
 
-.fx-section-colors-panel .components-base-control__label {
+.fx-container-colors-panel .components-base-control__label {
   display: inline-block;
   margin-bottom: 10px; }
 
@@ -251,10 +251,10 @@ body.gutenberg-editor-page [data-type="flexblocks/section"] .editor-block-list__
   position: relative;
   top: 2px; }
 
-.components-base-control.fx-section-unit {
+.components-base-control.fx-container-unit {
   float: right; }
 
-.fx-section-unit .components-base-control__label {
+.fx-container-unit .components-base-control__label {
   opacity: 0; }
 
 .flexblocks-control-tabs .components-tab-panel__tabs {
@@ -296,7 +296,7 @@ body.gutenberg-editor-page [data-type="flexblocks/section"] .editor-block-list__
 .fx-column-width-control input[type="number"] {
   width: 65px; }
 
-body .fx-section .wp-block {
+body .fx-container .wp-block {
   max-width: none; }
 /**
  * #.# Common SCSS

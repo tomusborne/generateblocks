@@ -1,5 +1,5 @@
 /**
- * Block: Buttons
+ * Block: Grid
  */
 
 import classnames from 'classnames';
@@ -133,7 +133,7 @@ class FlexBlockGridContainer extends Component {
 
 			columnsData.forEach( ( colAttrs ) => {
 				result.push( [
-					'flexblocks/section',
+					'flexblocks/container',
 					colAttrs,
 				] );
 			} );
@@ -142,7 +142,7 @@ class FlexBlockGridContainer extends Component {
 		} else {
 			for ( let k = 1; k <= columns; k++ ) {
 				result.push( [
-					'flexblocks/section',
+					'flexblocks/container',
 					colAttrs
 				] );
 			}
@@ -283,7 +283,7 @@ class FlexBlockGridContainer extends Component {
 				<InspectorControls>
 					<PanelBody>
 						<RangeControl
-							label={ __( 'Sections', 'flexblocks' ) }
+							label={ __( 'Grid Items', 'flexblocks' ) }
 							value={ columns }
 							onChange={ ( value ) => setAttributes( { columns: value } ) }
 							min={ 1 }
@@ -457,7 +457,7 @@ class FlexBlockGridContainer extends Component {
 							<InnerBlocks
 								template={ this.getColumnsTemplate() }
 								templateLock="all"
-								allowedBlocks={ [ 'flexblocks/section' ] }
+								allowedBlocks={ [ 'flexblocks/container' ] }
 							/>
 						</Fragment>
 						) : this.getLayoutsSelector() }

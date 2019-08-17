@@ -1,5 +1,5 @@
 /**
- * Block: Section
+ * Block: Button Container
  */
 
 //import './style.scss';
@@ -26,7 +26,7 @@ const iconEl = el('svg', { width: 20, height: 20, viewBox: "0 0 600 600" },
 );
 
 /**
- * Register our Section block.
+ * Register our Button Container block.
  *
  * @param  {string}   name     Block name.
  * @param  {Object}   settings Block settings.

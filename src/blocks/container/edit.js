@@ -1,5 +1,5 @@
 /**
- * Block: Section
+ * Block: Container
  */
 
 import Section from './section-tag';
@@ -38,9 +38,9 @@ const {
 } = wp.blockEditor;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
-const fbSectionIds = [];
+const fbContainerIds = [];
 
-class FlexBlockSection extends Component {
+class FlexBlockContainer extends Component {
 	constructor() {
 		super( ...arguments );
 	}
@@ -53,15 +53,15 @@ class FlexBlockSection extends Component {
 				uniqueId: id,
 			} );
 
-			fbSectionIds.push( id );
-		} else if ( fbSectionIds.includes( this.props.attributes.uniqueId ) ) {
+			fbContainerIds.push( id );
+		} else if ( fbContainerIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
 
-			fbSectionIds.push( id );
+			fbContainerIds.push( id );
 		} else {
-			fbSectionIds.push( this.props.attributes.uniqueId );
+			fbContainerIds.push( this.props.attributes.uniqueId );
 		}
 	}
 
@@ -175,7 +175,7 @@ class FlexBlockSection extends Component {
 		}
 
 		const css = `
-			.fx-section-` + uniqueId + ` {
+			.fx-container-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
 		  		background-image: ` + backgroundImageValue + `;
@@ -185,15 +185,15 @@ class FlexBlockSection extends Component {
 				background-attachment: ` + bgOptions.attachment + `;
 			}
 
-			.fx-section-` + uniqueId + ` a, .fx-section-` + uniqueId + ` a:visited {
+			.fx-container-` + uniqueId + ` a, .fx-container-` + uniqueId + ` a:visited {
 			  color: ` + linkColor + `;
 			}
 
-			.fx-section-` + uniqueId + ` a:hover {
+			.fx-container-` + uniqueId + ` a:hover {
 			  color: ` + linkColorHover + `;
 			}
 
-			.fx-section-` + uniqueId + ` > .fx-inside-section {
+			.fx-container-` + uniqueId + ` > .fx-inside-container {
 			  padding-top: ` + paddingTop + `px;
 			  padding-right: ` + paddingRight + `px;
 			  padding-bottom: ` + paddingBottom + `px;
@@ -211,7 +211,7 @@ class FlexBlockSection extends Component {
 				max-width: ` + outerContainerWidth + `;
 			}
 
-			.fx-grid-column > .fx-section-` + uniqueId + ` {
+			.fx-grid-column > .fx-container-` + uniqueId + ` {
 				display: flex;
 				flex-direction: column;
 				height: 100%;
@@ -317,7 +317,7 @@ class FlexBlockSection extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ flexBlocksDefaults.section.width }
+															initialPosition={ flexBlocksDefaults.container.width }
 														/>
 
 														<SelectControl
@@ -356,7 +356,7 @@ class FlexBlockSection extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ flexBlocksDefaults.section.widthTablet }
+															initialPosition={ flexBlocksDefaults.container.widthTablet }
 														/>
 
 														<SelectControl
@@ -396,7 +396,7 @@ class FlexBlockSection extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ flexBlocksDefaults.section.widthMobile }
+															initialPosition={ flexBlocksDefaults.container.widthMobile }
 														/>
 
 														<SelectControl
@@ -765,10 +765,10 @@ class FlexBlockSection extends Component {
 						label={ __( 'Element Tag', 'flexblocks' ) }
 						value={ tagName }
 						options={ [
+							{ label: 'div', value: 'div' },
 							{ label: 'section', value: 'section' },
 							{ label: 'header', value: 'header' },
 							{ label: 'footer', value: 'footer' },
-							{ label: 'div', value: 'div' },
 						] }
 						onChange={ ( tagName ) => { setAttributes( { tagName } ) } }
 					/>
@@ -813,14 +813,14 @@ class FlexBlockSection extends Component {
 							tagName={ tagName }
 							id={ elementId }
 							className={ classnames( {
-								'fx-section': true,
-								[`fx-section-${ uniqueId }`]: true,
+								'fx-container': true,
+								[`fx-container-${ uniqueId }`]: true,
 								[`${ cssClasses }`]: '' !== cssClasses
 							} ) }
 						>
 							<div
 								className={ classnames( {
-								'fx-inside-section': true
+								'fx-inside-container': true
 								} ) }
 							>
 								<InnerBlocks
@@ -841,14 +841,14 @@ class FlexBlockSection extends Component {
 						tagName={ tagName }
 						id={ elementId }
 						className={ classnames( {
-							'fx-section': true,
-							[`fx-section-${ uniqueId }`]: true,
+							'fx-container': true,
+							[`fx-container-${ uniqueId }`]: true,
 							[`${ cssClasses }`]: '' !== cssClasses
 						} ) }
 					>
 						<div
 							className={ classnames( {
-							'fx-inside-section': true
+							'fx-inside-container': true
 							} ) }
 						>
 							<InnerBlocks
@@ -868,4 +868,4 @@ class FlexBlockSection extends Component {
 	}
 }
 
-export default ( FlexBlockSection );
+export default ( FlexBlockContainer );

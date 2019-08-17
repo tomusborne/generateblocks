@@ -1,5 +1,5 @@
 /**
- * Block: Section
+ * Block: Container
  */
 
 import Section from './section-tag';
@@ -49,13 +49,13 @@ export default ( { attributes } ) => {
 				tagName={ tagName }
 				id={ elementId }
 				className={ classnames( {
-					'fx-section': true,
-					[`fx-section-${ uniqueId }`]: true,
+					'fx-container': true,
+					[`fx-container-${ uniqueId }`]: true,
 					[`${ cssClasses }`]: '' !== cssClasses
 				} ) }
 			>
 				<div className={ classnames( {
-					'fx-inside-section': true
+					'fx-inside-container': true
 				} ) }>
 					<InnerBlocks.Content />
 				</div>

@@ -108,14 +108,14 @@ function flexblocks_get_grid_container_css() {
 }
 
 /**
- * Get our Section block CSS.
+ * Get our Container block CSS.
  *
  * @since 0.1
  *
  * @return string
  */
-function flexblocks_get_section_css() {
-	$data = flexblocks_get_block_data( 'flexblocks/section' );
+function flexblocks_get_container_css() {
+	$data = flexblocks_get_block_data( 'flexblocks/container' );
 
 	if ( empty( $data ) ) {
 		return;
@@ -132,13 +132,13 @@ function flexblocks_get_section_css() {
 
 		$settings = wp_parse_args(
 			$atts,
-			$defaults['section']
+			$defaults['container']
 		);
 
 		$id = $atts['uniqueId'];
 
 		// Open main container element.
-		$css->set_selector( '.fx-section.fx-section-' . $id );
+		$css->set_selector( '.fx-container.fx-container-' . $id );
 
 		if ( 'contained' === $settings['outerContainer'] ) {
 			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
@@ -174,45 +174,43 @@ function flexblocks_get_section_css() {
 			$css->add_property( 'z-index', $settings['zindex'] );
 		}
 
-		$css->set_selector( '.fx-section.fx-section-' . $id . ' .fx-inside-section' );
-
-		if ( 'contained' === $settings['innerContainer'] ) {
-			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
-			$css->add_property( 'margin-left', 'auto' );
-			$css->add_property( 'margin-right', 'auto' );
-		}
-
-		$css->set_selector( '.fx-section.fx-section-' . $id . ' > .fx-inside-section' );
+		$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
 
 		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
 		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
 		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
 		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
 
-		$css->set_selector( '.fx-section.fx-section-' . $id . ' a, .fx-section.fx-section-' . $id . ' a:visited' );
+		if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
+			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
+			$css->add_property( 'margin-left', 'auto' );
+			$css->add_property( 'margin-right', 'auto' );
+		}
+
+		$css->set_selector( '.fx-container.fx-container-' . $id . ' a, .fx-container.fx-container-' . $id . ' a:visited' );
 		$css->add_property( 'color', $settings['linkColor'] );
 
-		$css->set_selector( '.fx-section.fx-section-' . $id . ' a:hover' );
+		$css->set_selector( '.fx-container.fx-container-' . $id . ' a:hover' );
 		$css->add_property( 'color', $settings['linkColorHover'] );
 
 		$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 		$css->add_property( 'width', $settings['width'], '%' );
 
-		$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-section' );
+		$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-container' );
 		$css->add_property( 'display', 'flex' );
 		$css->add_property( 'flex-direction', 'column' );
 		$css->add_property( 'height', '100%' );
 		$css->add_property( 'justify-content', $settings['verticalAlignment'] );
 
 		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
-			$css->set_selector( '.fx-section.fx-section-' . $id );
+			$css->set_selector( '.fx-container.fx-container-' . $id );
 
 			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
 			$css->add_property( 'margin-right', $settings['marginRightTablet'], 'px' );
 			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
 			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
 
-			$css->set_selector( '.fx-section.fx-section-' . $id . ' > .fx-inside-section' );
+			$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
 
 			$css->add_property( 'padding-top', $settings['paddingTopTablet'], 'px' );
 			$css->add_property( 'padding-right', $settings['paddingRightTablet'], 'px' );
@@ -222,7 +220,7 @@ function flexblocks_get_section_css() {
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthTablet'], '%' );
 
-			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-section' );
+			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-container' );
 
 			if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 				$css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
@@ -230,14 +228,14 @@ function flexblocks_get_section_css() {
 		$css->stop_media_query();
 
 		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
-			$css->set_selector( '.fx-section.fx-section-' . $id );
+			$css->set_selector( '.fx-container.fx-container-' . $id );
 
 			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
 			$css->add_property( 'margin-right', $settings['marginRightMobile'], 'px' );
 			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
 			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
 
-			$css->set_selector( '.fx-section.fx-section-' . $id . ' > .fx-inside-section' );
+			$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
 
 			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
 			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
@@ -247,7 +245,7 @@ function flexblocks_get_section_css() {
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthMobile'], '%' );
 
-			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-section' );
+			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-container' );
 
 			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 				$css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
@@ -255,7 +253,7 @@ function flexblocks_get_section_css() {
 		$css->stop_media_query();
 	}
 
-	$css->set_selector( '.fx-inside-section > *:last-child' );
+	$css->set_selector( '.fx-inside-container > *:last-child' );
 	$css->add_property( 'margin-bottom', '0px' );
 
 	return $css->css_output();
@@ -472,19 +470,19 @@ function flexblocks_get_headline_css() {
 
 add_action( 'wp_head', 'flexblocks_do_frontend_block_css', 200 );
 /**
- * Print our CSS for each section.
+ * Print our CSS for each block.
  *
  * @since 1.8
  */
 function flexblocks_do_frontend_block_css() {
 
-	$section_css = flexblocks_get_section_css();
+	$container_css = flexblocks_get_container_css();
 	$button_container_css = flexblocks_get_button_container_css();
 	$button_css = flexblocks_get_button_css();
 	$headline_css = flexblocks_get_headline_css();
 	$grid_container_css = flexblocks_get_grid_container_css();
 
 	echo '<style>';
-		echo $section_css . $button_container_css . $button_css . $headline_css . $grid_container_css;
+		echo $container_css . $button_container_css . $button_css . $headline_css . $grid_container_css;
 	echo '</style>';
 }

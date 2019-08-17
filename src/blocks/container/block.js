@@ -1,12 +1,12 @@
 /**
- * Block: Section
+ * Block: Container
  */
 
 import './style.scss';
 import './editor.scss';
 
-import editSection from './edit'
-import saveSection from './save'
+import editContainer from './edit'
+import saveContainer from './save'
 import blockAttributes from './attributes'
 
 const { __ } = wp.i18n;
@@ -18,15 +18,15 @@ const iconEl = el('svg', { width: 20, height: 20, viewBox: "0 0 600 600" },
 );
 
 /**
- * Register our Section block.
+ * Register our Container block.
  *
  * @param  {string}   name     Block name.
  * @param  {Object}   settings Block settings.
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'flexblocks/section', {
-	title: __( 'Section', 'flexblocks' ),
+registerBlockType( 'flexblocks/container', {
+	title: __( 'Container', 'flexblocks' ),
 	icon: iconEl,
 	category: 'flexblocks',
 	keywords: [
@@ -41,7 +41,7 @@ registerBlockType( 'flexblocks/section', {
 		customClassName: false
 	},
 
-	edit: editSection,
+	edit: editContainer,
 
-	save: saveSection,
+	save: saveContainer,
 } );

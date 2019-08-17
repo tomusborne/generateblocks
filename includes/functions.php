@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $blockName The name of the block to get attributes from.
  * @return array
  */
-function flexblocks_get_block_data( $blockName = 'flexblocks/section' ) {
+function flexblocks_get_block_data( $blockName = 'flexblocks/container' ) {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}

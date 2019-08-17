@@ -1,5 +1,5 @@
 /**
- * Block: Section
+ * Block: Buttons
  */
 
 import classnames from 'classnames';
