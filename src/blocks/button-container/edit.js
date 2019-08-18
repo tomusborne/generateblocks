@@ -3,6 +3,7 @@
  */
 
 import classnames from 'classnames';
+import DimensionsControl from '../../components/dimensions/';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -13,6 +14,7 @@ const {
 	Notice,
 	Tooltip,
 	IconButton,
+	BaseControl,
 } = wp.components;
 
 const {
@@ -81,18 +83,21 @@ class FlexButtonContainer extends Component {
 			alignment,
 			alignmentTablet,
 			alignmentMobile,
-			paddingTop,
-			paddingRight,
-			paddingBottom,
-			paddingLeft,
-			paddingTopTablet,
-			paddingRightTablet,
-			paddingBottomTablet,
-			paddingLeftTablet,
-			paddingTopMobile,
-			paddingRightMobile,
-			paddingBottomMobile,
-			paddingLeftMobile,
+			marginTop,
+			marginRight,
+			marginBottom,
+			marginLeft,
+			marginSyncUnits,
+			marginTopTablet,
+			marginRightTablet,
+			marginBottomTablet,
+			marginLeftTablet,
+			marginSyncUnitsTablet,
+			marginTopMobile,
+			marginRightMobile,
+			marginBottomMobile,
+			marginLeftMobile,
+			marginSyncUnitsMobile,
 		} = attributes;
 
 		let flexAlignment = '';
@@ -105,10 +110,10 @@ class FlexButtonContainer extends Component {
 
 		const css = `
 			.fx-button-wrapper-` + uniqueId + ` {
-			  padding-top: ` + paddingTop + `px;
-			  padding-right: ` + paddingRight + `px;
-			  padding-bottom: ` + paddingBottom + `px;
-			  padding-left: ` + paddingLeft + `px;
+			  margin-top: ` + marginTop + `px;
+			  margin-right: ` + marginRight + `px;
+			  margin-bottom: ` + marginBottom + `px;
+			  margin-left: ` + marginLeft + `px;
 			  justify-content: ` + flexAlignment + `;
 			}
 		`
@@ -165,62 +170,23 @@ class FlexButtonContainer extends Component {
 														} }
 													/>
 
-													<RangeControl
-														label={ __( 'Top Padding', 'flexblocks' ) }
-														value={ paddingTop }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingTop: nextSpacing
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingTop }
-													/>
-
-													<RangeControl
-														label={ __( 'Right Padding', 'flexblocks' ) }
-														value={ paddingRight }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingRight: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingRight }
-													/>
-
-													<RangeControl
-														label={ __( 'Bottom Padding', 'flexblocks' ) }
-														value={ paddingBottom }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingBottom: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingBottom }
-													/>
-
-													<RangeControl
-														label={ __( 'Left Padding', 'flexblocks' ) }
-														value={ paddingLeft }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingLeft: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 10 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingLeft }
-													/>
-
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTop }
+															valueRight={ marginRight }
+															valueBottom={ marginBottom }
+															valueLeft={ marginLeft }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnits }
+															attrTop={ 'marginTop' }
+															attrRight={ 'marginRight' }
+															attrBottom={ 'marginBottom' }
+															attrLeft={ 'marginLeft' }
+															attrSyncUnits={ 'marginSyncUnits' }
+														/>
+													</BaseControl>
 												</Fragment>
 
 											) : '' }
@@ -235,61 +201,23 @@ class FlexButtonContainer extends Component {
 														} }
 													/>
 
-													<RangeControl
-														label={ __( 'Top Padding', 'flexblocks' ) }
-														value={ paddingTopTablet }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingTopTablet: nextSpacing
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingTopTablet }
-													/>
-
-													<RangeControl
-														label={ __( 'Right Padding', 'flexblocks' ) }
-														value={ paddingRightTablet }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingRightTablet: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingRightTablet }
-													/>
-
-													<RangeControl
-														label={ __( 'Bottom Padding', 'flexblocks' ) }
-														value={ paddingBottomTablet }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingBottomTablet: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingBottomTablet }
-													/>
-
-													<RangeControl
-														label={ __( 'Left Padding', 'flexblocks' ) }
-														value={ paddingLeftTablet }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingLeftTablet: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingLeftTablet }
-													/>
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTopTablet }
+															valueRight={ marginRightTablet }
+															valueBottom={ marginBottomTablet }
+															valueLeft={ marginLeftTablet }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnitsTablet }
+															attrTop={ 'marginTopTablet' }
+															attrRight={ 'marginRightTablet' }
+															attrBottom={ 'marginBottomTablet' }
+															attrLeft={ 'marginLeftTablet' }
+															attrSyncUnits={ 'marginSyncUnitsTablet' }
+														/>
+													</BaseControl>
 												</Fragment>
 											) : '' }
 
@@ -303,62 +231,23 @@ class FlexButtonContainer extends Component {
 														} }
 													/>
 
-													<RangeControl
-														label={ __( 'Top Padding', 'flexblocks' ) }
-														value={ paddingTopMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingTopMobile: nextSpacing
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingTopMobile }
-													/>
-
-													<RangeControl
-														label={ __( 'Right Padding', 'flexblocks' ) }
-														value={ paddingRightMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingRightMobile: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingRightMobile }
-													/>
-
-													<RangeControl
-														label={ __( 'Bottom Padding', 'flexblocks' ) }
-														value={ paddingBottomMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingBottomMobile: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingBottomMobile }
-													/>
-
-													<RangeControl
-														label={ __( 'Left Padding', 'flexblocks' ) }
-														value={ paddingLeftMobile }
-														onChange={ ( nextSpacing ) => {
-															setAttributes( {
-																paddingLeftMobile: nextSpacing,
-															} );
-														} }
-														min={ 0 }
-														max={ 200 }
-														step={ 1 }
-														initialPosition={ flexBlocksDefaults.buttonContainer.paddingLeftMobile }
-													/>
-
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTopMobile }
+															valueRight={ marginRightMobile }
+															valueBottom={ marginBottomMobile }
+															valueLeft={ marginLeftMobile }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnitsMobile }
+															attrTop={ 'marginTopMobile' }
+															attrRight={ 'marginRightMobile' }
+															attrBottom={ 'marginBottomMobile' }
+															attrLeft={ 'marginLeftMobile' }
+															attrSyncUnits={ 'marginSyncUnitsMobile' }
+														/>
+													</BaseControl>
 												</Fragment>
 											) : '' }
 										</div>

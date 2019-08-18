@@ -297,28 +297,28 @@ function flexblocks_get_button_container_css() {
 		$id = $atts['uniqueId'];
 
 		$css->set_selector( '.fx-button-wrapper-' . $id );
-		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
-		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
-		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
-		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
+		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
+		$css->add_property( 'margin-right', $settings['marginRight'], 'px' );
+		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
+		$css->add_property( 'margin-left', $settings['marginLeft'], 'px' );
 		$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
 
 		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
-			$css->add_property( 'padding-top', $settings['paddingTopTablet'], 'px' );
-			$css->add_property( 'padding-right', $settings['paddingRightTablet'], 'px' );
-			$css->add_property( 'padding-bottom', $settings['paddingBottomTablet'], 'px' );
-			$css->add_property( 'padding-left', $settings['paddingLeftTablet'], 'px' );
+			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
+			$css->add_property( 'margin-right', $settings['marginRightTablet'], 'px' );
+			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
+			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
 			$css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
 		$css->stop_media_query();
 
 
 		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
-			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
-			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
-			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
-			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
+			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
+			$css->add_property( 'margin-right', $settings['marginRightMobile'], 'px' );
+			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
+			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
 			$css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
 		$css->stop_media_query();
 	}

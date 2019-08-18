@@ -23,36 +23,52 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.buttonContainer.alignment
 	},
-	paddingTop: {
-		type: 'number',
-		default: flexBlocksDefaults.buttonContainer.paddingTop
+	marginTop: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginTop
 	},
-	paddingRight: {
-		type: 'number',
-		default: flexBlocksDefaults.buttonContainer.paddingRight
+	marginRight: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginRight
 	},
-	paddingBottom: {
-		type: 'number',
-		default: flexBlocksDefaults.buttonContainer.paddingBottom
+	marginBottom: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginBottom
 	},
-	paddingLeft: {
-		type: 'number',
-		default: flexBlocksDefaults.buttonContainer.paddingLeft
+	marginLeft: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginLeft
 	},
-	paddingTopMobile: {
-		type: 'number',
-		default: flexBlocksDefaults.buttonContainer.paddingTopMobile
+	marginTopTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginTopTablet
 	},
-	paddingRightMobile: {
-		type: 'number',
-		default: flexBlocksDefaults.buttonContainer.paddingRightMobile
+	marginRightTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginRightTablet
 	},
-	paddingBottomMobile: {
-		type: 'number',
-		default: flexBlocksDefaults.buttonContainer.paddingBottomMobile
+	marginBottomTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginBottomTablet
 	},
-	paddingLeftMobile: {
-		type: 'number',
-		default: flexBlocksDefaults.buttonContainer.paddingLeftMobile
+	marginLeftTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginLeftTablet
+	},
+	marginTopMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginTopMobile
+	},
+	marginRightMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginRightMobile
+	},
+	marginBottomMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginBottomMobile
+	},
+	marginLeftMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginLeftMobile
 	},
 }
