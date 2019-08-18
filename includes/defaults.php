@@ -127,6 +127,9 @@ function flexblocks_get_block_defaults() {
 		'horizontalGapMobile' => '',
 		'verticalGapMobile' => '',
 		'verticalAlignmentMobile' => 'inherit',
+		'horizontalAlignment' => '',
+		'horizontalAlignmentTablet' => '',
+		'horizontalAlignmentMobile' => '',
 	);
 
 	$defaults['headline'] = array(

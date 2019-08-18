@@ -40,6 +40,7 @@ function flexblocks_get_grid_container_css() {
 
 		$css->set_selector( '.fx-grid-wrapper-' . $id );
 		$css->add_property( 'align-items', $settings['verticalAlignment'] );
+		$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
 		if ( $settings['horizontalGap'] ) {
 			$css->add_property( 'margin-left', '-' . $settings['horizontalGap'] / 2 . 'px' );
@@ -64,6 +65,10 @@ function flexblocks_get_grid_container_css() {
 				$css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
 			}
 
+			if ( 'inherit' !== $settings['horizontalAlignmentTablet'] ) {
+				$css->add_property( 'justify-content', $settings['horizontalAlignmentTablet'] );
+			}
+
 			if ( $settings['horizontalGapTablet'] ) {
 				$css->add_property( 'margin-left', '-' . $settings['horizontalGapTablet'] / 2 . 'px' );
 				$css->add_property( 'margin-right', '-' . $settings['horizontalGapTablet'] / 2 . 'px' );
@@ -85,6 +90,10 @@ function flexblocks_get_grid_container_css() {
 
 			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 				$css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
+			}
+
+			if ( 'inherit' !== $settings['horizontalAlignmentMobile'] ) {
+				$css->add_property( 'justify-content', $settings['horizontalAlignmentMobile'] );
 			}
 
 			if ( $settings['horizontalGapMobile'] ) {

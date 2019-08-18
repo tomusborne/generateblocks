@@ -269,11 +269,15 @@ class FlexBlockGridContainer extends Component {
 			horizontalGapMobile,
 			verticalGapMobile,
 			verticalAlignmentMobile,
+			horizontalAlignment,
+			horizontalAlignmentTablet,
+			horizontalAlignmentMobile,
 		} = attributes;
 
 		const css = `
 			.fx-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
 				align-items: ` + verticalAlignment + `;
+				justify-content: ` + horizontalAlignment + `;
 			}
 		`
 
@@ -345,6 +349,18 @@ class FlexBlockGridContainer extends Component {
 														] }
 														onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
 													/>
+
+													<SelectControl
+														label={ __( 'Horizontal Alignment', 'flexblocks' ) }
+														value={ horizontalAlignment }
+														options={ [
+															{ label: __( 'Default', 'flexblocks' ), value: '' },
+															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+														] }
+														onChange={ ( horizontalAlignment ) => { setAttributes( { horizontalAlignment } ) } }
+													/>
 												</Fragment>
 											) : '' }
 
@@ -380,6 +396,19 @@ class FlexBlockGridContainer extends Component {
 														] }
 														onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
 													/>
+
+													<SelectControl
+														label={ __( 'Horizontal Alignment', 'flexblocks' ) }
+														value={ horizontalAlignmentTablet }
+														options={ [
+															{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit' },
+															{ label: __( 'Default', 'flexblocks' ), value: '' },
+															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+														] }
+														onChange={ ( horizontalAlignmentTablet ) => { setAttributes( { horizontalAlignmentTablet } ) } }
+													/>
 												</Fragment>
 											) : '' }
 
@@ -414,6 +443,19 @@ class FlexBlockGridContainer extends Component {
 															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
+													/>
+
+													<SelectControl
+														label={ __( 'Horizontal Alignment', 'flexblocks' ) }
+														value={ horizontalAlignmentMobile }
+														options={ [
+															{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit' },
+															{ label: __( 'Default', 'flexblocks' ), value: '' },
+															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+														] }
+														onChange={ ( horizontalAlignmentMobile ) => { setAttributes( { horizontalAlignmentMobile } ) } }
 													/>
 												</Fragment>
 											) : '' }

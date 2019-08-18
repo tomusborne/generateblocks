@@ -51,4 +51,16 @@ export default {
         type: 'string',
         default: flexBlocksDefaults.gridContainer.verticalAlignmentMobile,
     },
+	horizontalAlignment: {
+        type: 'string',
+        default: flexBlocksDefaults.gridContainer.horizontalAlignment,
+    },
+	horizontalAlignmentTablet: {
+        type: 'string',
+        default: flexBlocksDefaults.gridContainer.horizontalAlignmentTablet,
+    },
+	horizontalAlignmentMobile: {
+        type: 'string',
+        default: flexBlocksDefaults.gridContainer.horizontalAlignmentMobile,
+    },
 }
