@@ -22,6 +22,7 @@ function flexblocks_get_block_defaults() {
 	}
 
 	$defaults['container'] = array(
+		'isGrid' => false,
 		'containerWidth' => $container_width,
 		'outerContainer' => 'full',
 		'innerContainer' => 'contained',
