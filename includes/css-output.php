@@ -173,10 +173,7 @@ function flexblocks_get_container_css() {
 			$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
 		}
 
-		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
-		$css->add_property( 'margin-right', $settings['marginRight'], 'px' );
-		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
-		$css->add_property( 'margin-left', $settings['marginLeft'], 'px' );
+		$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], 'px' ) );
 
 		if ( $settings['zindex'] ) {
 			$css->add_property( 'position', 'relative' );
@@ -184,11 +181,7 @@ function flexblocks_get_container_css() {
 		}
 
 		$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
-
-		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
-		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
-		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
-		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
+		$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], 'px' ) );
 
 		if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
 			$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
@@ -213,18 +206,10 @@ function flexblocks_get_container_css() {
 
 		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-container.fx-container-' . $id );
-
-			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
-			$css->add_property( 'margin-right', $settings['marginRightTablet'], 'px' );
-			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
-			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
+			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], 'px' ) );
 
 			$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
-
-			$css->add_property( 'padding-top', $settings['paddingTopTablet'], 'px' );
-			$css->add_property( 'padding-right', $settings['paddingRightTablet'], 'px' );
-			$css->add_property( 'padding-bottom', $settings['paddingBottomTablet'], 'px' );
-			$css->add_property( 'padding-left', $settings['paddingLeftTablet'], 'px' );
+			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], 'px' ) );
 
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthTablet'], '%' );
@@ -238,18 +223,10 @@ function flexblocks_get_container_css() {
 
 		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-container.fx-container-' . $id );
-
-			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
-			$css->add_property( 'margin-right', $settings['marginRightMobile'], 'px' );
-			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
-			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
+			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], 'px' ) );
 
 			$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
-
-			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
-			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
-			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
-			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
+			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], 'px' ) );
 
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 			$css->add_property( 'width', $settings['widthMobile'], '%' );
@@ -306,10 +283,7 @@ function flexblocks_get_button_container_css() {
 		$id = $atts['uniqueId'];
 
 		$css->set_selector( '.fx-button-wrapper-' . $id );
-		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
-		$css->add_property( 'margin-right', $settings['marginRight'], 'px' );
-		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
-		$css->add_property( 'margin-left', $settings['marginLeft'], 'px' );
+		$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], 'px' ) );
 		$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
 
 		if ( $settings['stack'] ) {
@@ -319,10 +293,7 @@ function flexblocks_get_button_container_css() {
 
 		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
-			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
-			$css->add_property( 'margin-right', $settings['marginRightTablet'], 'px' );
-			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
-			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
+			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], 'px' ) );
 			$css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
 
 			if ( $settings['stackTablet'] ) {
@@ -334,10 +305,7 @@ function flexblocks_get_button_container_css() {
 
 		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
-			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
-			$css->add_property( 'margin-right', $settings['marginRightMobile'], 'px' );
-			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
-			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
+			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], 'px' ) );
 			$css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
 
 			if ( $settings['stackMobile'] ) {
@@ -391,23 +359,11 @@ function flexblocks_get_button_css() {
 		$css->set_selector( 'a.fx-button-' . $id );
 		$css->add_property( 'background-color', $settings['backgroundColor'] );
 		$css->add_property( 'color', $settings['textColor'] );
-		$css->add_property( 'padding-top', $settings['paddingTop'], 'px' );
-		$css->add_property( 'padding-right', $settings['paddingRight'], 'px' );
-		$css->add_property( 'padding-bottom', $settings['paddingBottom'], 'px' );
-		$css->add_property( 'padding-left', $settings['paddingLeft'], 'px' );
-		$css->add_property( 'border-top-right-radius', $settings['borderRadiusTopRight'], 'px' );
-		$css->add_property( 'border-bottom-right-radius', $settings['borderRadiusBottomRight'], 'px' );
-		$css->add_property( 'border-bottom-left-radius', $settings['borderRadiusBottomLeft'], 'px' );
-		$css->add_property( 'border-top-left-radius', $settings['borderRadiusTopLeft'], 'px' );
 		$css->add_property( 'font-size', $settings['fontSize'], 'em' );
-		$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
-		$css->add_property( 'margin-right', $settings['marginRight'], 'px' );
-		$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
-		$css->add_property( 'margin-left', $settings['marginLeft'], 'px' );
-		$css->add_property( 'border-top-width', $settings['borderSizeTop'], 'px' );
-		$css->add_property( 'border-right-width', $settings['borderSizeRight'], 'px' );
-		$css->add_property( 'border-bottom-width', $settings['borderSizeBottom'], 'px' );
-		$css->add_property( 'border-left-width', $settings['borderSizeLeft'], 'px' );
+		$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], 'px' ) );
+		$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], $settings['borderRadiusTopLeft'], 'px' ) );
+		$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], 'px' ) );
+		$css->add_property( 'border-width', flexblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
 
 		if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
 			$css->add_property( 'border-style', 'solid' );
@@ -423,44 +379,20 @@ function flexblocks_get_button_css() {
 
 		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( 'a.fx-button-' . $id );
-			$css->add_property( 'padding-top', $settings['paddingTopTablet'], 'px' );
-			$css->add_property( 'padding-right', $settings['paddingRightTablet'], 'px' );
-			$css->add_property( 'padding-bottom', $settings['paddingBottomTablet'], 'px' );
-			$css->add_property( 'padding-left', $settings['paddingLeftTablet'], 'px' );
-			$css->add_property( 'border-top-right-radius', $settings['borderRadiusTopRightTablet'], 'px' );
-			$css->add_property( 'border-bottom-right-radius', $settings['borderRadiusBottomRightTablet'], 'px' );
-			$css->add_property( 'border-bottom-left-radius', $settings['borderRadiusBottomLeftTablet'], 'px' );
-			$css->add_property( 'border-top-left-radius', $settings['borderRadiusTopLeftTablet'], 'px' );
 			$css->add_property( 'font-size', $settings['fontSizeTablet'], 'em' );
-			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
-			$css->add_property( 'margin-right', $settings['marginRightTablet'], 'px' );
-			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
-			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
-			$css->add_property( 'border-top-width', $settings['borderSizeTopTablet'], 'px' );
-			$css->add_property( 'border-right-width', $settings['borderSizeRightTablet'], 'px' );
-			$css->add_property( 'border-bottom-width', $settings['borderSizeBottomTablet'], 'px' );
-			$css->add_property( 'border-left-width', $settings['borderSizeLeftTablet'], 'px' );
+			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], 'px' ) );
+			$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'], $settings['borderRadiusTopLeftTablet'], 'px' ) );
+			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], 'px' ) );
+			$css->add_property( 'border-width', flexblocks_get_shorthand_css( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'], 'px' ) );
 		$css->stop_media_query();
 
 		$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 			$css->set_selector( 'a.fx-button-' . $id );
-			$css->add_property( 'padding-top', $settings['paddingTopMobile'], 'px' );
-			$css->add_property( 'padding-right', $settings['paddingRightMobile'], 'px' );
-			$css->add_property( 'padding-bottom', $settings['paddingBottomMobile'], 'px' );
-			$css->add_property( 'padding-left', $settings['paddingLeftMobile'], 'px' );
-			$css->add_property( 'border-top-right-radius', $settings['borderRadiusTopRightMobile'], 'px' );
-			$css->add_property( 'border-bottom-right-radius', $settings['borderRadiusBottomRightMobile'], 'px' );
-			$css->add_property( 'border-bottom-left-radius', $settings['borderRadiusBottomLeftMobile'], 'px' );
-			$css->add_property( 'border-top-left-radius', $settings['borderRadiusTopLeftMobile'], 'px' );
 			$css->add_property( 'font-size', $settings['fontSizeMobile'], 'em' );
-			$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
-			$css->add_property( 'margin-right', $settings['marginRightMobile'], 'px' );
-			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
-			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
-			$css->add_property( 'border-top-width', $settings['borderSizeTopMobile'], 'px' );
-			$css->add_property( 'border-right-width', $settings['borderSizeRightMobile'], 'px' );
-			$css->add_property( 'border-bottom-width', $settings['borderSizeBottomMobile'], 'px' );
-			$css->add_property( 'border-left-width', $settings['borderSizeLeftMobile'], 'px' );
+			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], 'px' ) );
+			$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'], $settings['borderRadiusTopLeftMobile'], 'px' ) );
+			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], 'px' ) );
+			$css->add_property( 'border-width', flexblocks_get_shorthand_css( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'], 'px' ) );
 		$css->stop_media_query();
 	}
 

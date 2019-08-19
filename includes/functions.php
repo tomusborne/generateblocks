@@ -107,3 +107,34 @@ function flexblocks_get_nested_block_data( $block, $data, $blockName ) {
 function flexblocks_auth_callback() {
 	return current_user_can( 'edit_posts' );
 }
+
+/**
+ * Shorthand CSS values (padding, margin, border etc..).
+ *
+ * @since 0.1
+ *
+ * @param int $top The first value.
+ * @param int $right The second value.
+ * @param int $bottom The third value.
+ * @param int $left The fourth value.
+ *
+ * @return string The shorthand value.
+ */
+function flexblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit ) {
+	$top = ( intval( $top ) <> 0 ) ? intval( $top ) . $unit . ' ' : '0 ';
+	$right = ( intval( $right ) <> 0 ) ? intval( $right ) . $unit . ' ' : '0 ';
+	$bottom = ( intval( $bottom ) <> 0 ) ? intval( $bottom ) . $unit . ' ' : '0 ';
+	$left = ( intval( $left ) <> 0 ) ? intval( $left ) . $unit . ' ' : '0 ';
+
+	if ( $right === $left ) {
+		$left = '';
+		if ( $top === $bottom ) {
+			$bottom = '';
+			if ( $top === $right ) {
+				$right = '';
+			}
+		}
+	}
+
+	return trim( $top . $right . $bottom . $left );
+}
