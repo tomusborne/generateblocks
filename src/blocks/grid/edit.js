@@ -355,9 +355,9 @@ class FlexBlockGridContainer extends Component {
 														value={ horizontalAlignment }
 														options={ [
 															{ label: __( 'Default', 'flexblocks' ), value: '' },
-															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Left', 'flexblocks' ), value: 'flex-start' },
 															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+															{ label: __( 'Right', 'flexblocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( horizontalAlignment ) => { setAttributes( { horizontalAlignment } ) } }
 													/>
@@ -403,9 +403,9 @@ class FlexBlockGridContainer extends Component {
 														options={ [
 															{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit' },
 															{ label: __( 'Default', 'flexblocks' ), value: '' },
-															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Left', 'flexblocks' ), value: 'flex-start' },
 															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+															{ label: __( 'Right', 'flexblocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( horizontalAlignmentTablet ) => { setAttributes( { horizontalAlignmentTablet } ) } }
 													/>
@@ -451,9 +451,9 @@ class FlexBlockGridContainer extends Component {
 														options={ [
 															{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit' },
 															{ label: __( 'Default', 'flexblocks' ), value: '' },
-															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
+															{ label: __( 'Left', 'flexblocks' ), value: 'flex-start' },
 															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+															{ label: __( 'Right', 'flexblocks' ), value: 'flex-end' },
 														] }
 														onChange={ ( horizontalAlignmentMobile ) => { setAttributes( { horizontalAlignmentMobile } ) } }
 													/>
