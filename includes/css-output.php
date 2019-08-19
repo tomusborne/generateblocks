@@ -312,6 +312,11 @@ function flexblocks_get_button_container_css() {
 		$css->add_property( 'margin-left', $settings['marginLeft'], 'px' );
 		$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
 
+		if ( $settings['stack'] ) {
+			$css->add_property( 'flex-direction', 'column' );
+			$css->add_property( 'align-items', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
+		}
+
 		$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 			$css->set_selector( '.fx-button-wrapper-' . $id );
 			$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
@@ -319,6 +324,11 @@ function flexblocks_get_button_container_css() {
 			$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
 			$css->add_property( 'margin-left', $settings['marginLeftTablet'], 'px' );
 			$css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+
+			if ( $settings['stackTablet'] ) {
+				$css->add_property( 'flex-direction', 'column' );
+				$css->add_property( 'align-items', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+			}
 		$css->stop_media_query();
 
 
@@ -329,6 +339,11 @@ function flexblocks_get_button_container_css() {
 			$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
 			$css->add_property( 'margin-left', $settings['marginLeftMobile'], 'px' );
 			$css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+
+			if ( $settings['stackMobile'] ) {
+				$css->add_property( 'flex-direction', 'column' );
+				$css->add_property( 'align-items', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+			}
 		$css->stop_media_query();
 	}
 

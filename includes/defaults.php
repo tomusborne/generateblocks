@@ -87,6 +87,9 @@ function flexblocks_get_block_defaults() {
 		'marginRightMobile' => '',
 		'marginBottomMobile' => '',
 		'marginLeftMobile' => '',
+		'stack' => false,
+		'stackTablet' => false,
+		'stackMobile' => false,
 	);
 
 	$defaults['button'] = array(

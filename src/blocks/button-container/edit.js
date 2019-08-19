@@ -15,6 +15,7 @@ const {
 	Tooltip,
 	IconButton,
 	BaseControl,
+	ToggleControl,
 } = wp.components;
 
 const {
@@ -98,14 +99,31 @@ class FlexButtonContainer extends Component {
 			marginBottomMobile,
 			marginLeftMobile,
 			marginSyncUnitsMobile,
+			stack,
+			stackTablet,
+			stackMobile,
 		} = attributes;
 
-		let flexAlignment = '';
+		let flexAlignment = '',
+			stacked = '';
 
 		if ( 'right' === alignment ) {
 			flexAlignment = 'flex-end';
 		} else {
 			flexAlignment = alignment;
+		}
+
+		if ( stack ) {
+			stacked = `
+				.fx-button-wrapper-` + uniqueId + ` {
+					flex-direction: column;
+					align-items: ` + flexAlignment + `;
+				}
+
+				.fx-button-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
+					flex-direction: column;
+				}
+			`
 		}
 
 		const css = `
@@ -116,6 +134,8 @@ class FlexButtonContainer extends Component {
 			  margin-left: ` + marginLeft + `px;
 			  justify-content: ` + flexAlignment + `;
 			}
+
+			` + stacked + `
 		`
 
 		return (
@@ -187,6 +207,16 @@ class FlexButtonContainer extends Component {
 															attrSyncUnits={ 'marginSyncUnits' }
 														/>
 													</BaseControl>
+
+													<ToggleControl
+														label={ __( 'Stack Vertically', 'flexblocks' ) }
+														checked={ !! stack }
+														onChange={ ( value ) => {
+															setAttributes( {
+																stack: value
+															} );
+														} }
+													/>
 												</Fragment>
 
 											) : '' }
@@ -218,6 +248,16 @@ class FlexButtonContainer extends Component {
 															attrSyncUnits={ 'marginSyncUnitsTablet' }
 														/>
 													</BaseControl>
+
+													<ToggleControl
+														label={ __( 'Stack Vertically', 'flexblocks' ) }
+														checked={ !! stackTablet }
+														onChange={ ( value ) => {
+															setAttributes( {
+																stackTablet: value
+															} );
+														} }
+													/>
 												</Fragment>
 											) : '' }
 
@@ -248,6 +288,16 @@ class FlexButtonContainer extends Component {
 															attrSyncUnits={ 'marginSyncUnitsMobile' }
 														/>
 													</BaseControl>
+
+													<ToggleControl
+														label={ __( 'Stack Vertically', 'flexblocks' ) }
+														checked={ !! stackMobile }
+														onChange={ ( value ) => {
+															setAttributes( {
+																stackMobile: value
+															} );
+														} }
+													/>
 												</Fragment>
 											) : '' }
 										</div>

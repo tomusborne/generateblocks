@@ -71,4 +71,16 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.buttonContainer.marginLeftMobile
 	},
+	stack: {
+		type: 'boolean',
+		default: flexBlocksDefaults.button.stack,
+	},
+	stackTablet: {
+		type: 'boolean',
+		default: flexBlocksDefaults.button.stackTablet,
+	},
+	stackMobile: {
+		type: 'boolean',
+		default: flexBlocksDefaults.button.stackMobile,
+	},
 }
