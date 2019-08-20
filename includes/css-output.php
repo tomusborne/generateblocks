@@ -470,7 +470,7 @@ add_action( 'wp_head', 'flexblocks_do_frontend_block_css', 200 );
 /**
  * Print our CSS for each block.
  *
- * @since 1.8
+ * @since 0.1
  */
 function flexblocks_do_frontend_block_css() {
 
