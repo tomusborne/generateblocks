@@ -43,8 +43,7 @@ function flexblocks_get_grid_container_css() {
 		$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
 		if ( $settings['horizontalGap'] ) {
-			$css->add_property( 'margin-left', '-' . $settings['horizontalGap'] / 2 . 'px' );
-			$css->add_property( 'margin-right', '-' . $settings['horizontalGap'] / 2 . 'px' );
+			$css->add_property( 'margin-left', '-' . $settings['horizontalGap'] . 'px' );
 		}
 
 
@@ -52,8 +51,7 @@ function flexblocks_get_grid_container_css() {
 
 		if ( $settings['horizontalGap'] ) {
 			$css->add_property( 'box-sizing', 'border-box' );
-			$css->add_property( 'padding-left', $settings['horizontalGap'] / 2, 'px' );
-			$css->add_property( 'padding-right', $settings['horizontalGap'] / 2, 'px' );
+			$css->add_property( 'padding-left', $settings['horizontalGap'], 'px' );
 		}
 
 		$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
@@ -70,16 +68,14 @@ function flexblocks_get_grid_container_css() {
 			}
 
 			if ( $settings['horizontalGapTablet'] ) {
-				$css->add_property( 'margin-left', '-' . $settings['horizontalGapTablet'] / 2 . 'px' );
-				$css->add_property( 'margin-right', '-' . $settings['horizontalGapTablet'] / 2 . 'px' );
+				$css->add_property( 'margin-left', '-' . $settings['horizontalGapTablet'] . 'px' );
 			}
 
 			$css->set_selector( '.fx-grid-wrapper-' . $id . ' > .fx-grid-column' );
 
 			if ( $settings['horizontalGapTablet'] ) {
 				$css->add_property( 'box-sizing', 'border-box' );
-				$css->add_property( 'padding-left', $settings['horizontalGapTablet'] / 2, 'px' );
-				$css->add_property( 'padding-right', $settings['horizontalGapTablet'] / 2, 'px' );
+				$css->add_property( 'padding-left', $settings['horizontalGapTablet'], 'px' );
 			}
 
 			$css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
@@ -97,16 +93,14 @@ function flexblocks_get_grid_container_css() {
 			}
 
 			if ( $settings['horizontalGapMobile'] ) {
-				$css->add_property( 'margin-left', '-' . $settings['horizontalGapMobile'] / 2 . 'px' );
-				$css->add_property( 'margin-right', '-' . $settings['horizontalGapMobile'] / 2 . 'px' );
+				$css->add_property( 'margin-left', '-' . $settings['horizontalGapMobile'] . 'px' );
 			}
 
 			$css->set_selector( '.fx-grid-wrapper-' . $id . ' > .fx-grid-column' );
 
 			if ( $settings['horizontalGapMobile'] ) {
 				$css->add_property( 'box-sizing', 'border-box' );
-				$css->add_property( 'padding-left', $settings['horizontalGapMobile'] / 2, 'px' );
-				$css->add_property( 'padding-right', $settings['horizontalGapMobile'] / 2, 'px' );
+				$css->add_property( 'padding-left', $settings['horizontalGapMobile'], 'px' );
 			}
 
 			$css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
