@@ -322,6 +322,7 @@ class FlexBlockContainer extends Component {
 
 														<SelectControl
 															label={ __( 'Vertical Alignment', 'flexblocks' ) }
+															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'flexblocks' ) }
 															value={ verticalAlignment }
 															options={ [
 																{ label: __( 'Default', 'flexblocks' ), value: '' },
@@ -361,6 +362,7 @@ class FlexBlockContainer extends Component {
 
 														<SelectControl
 															label={ __( 'Vertical Alignment', 'flexblocks' ) }
+															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'flexblocks' ) }
 															value={ verticalAlignmentTablet }
 															options={ [
 																{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit'},
@@ -401,6 +403,7 @@ class FlexBlockContainer extends Component {
 
 														<SelectControl
 															label={ __( 'Vertical Alignment', 'flexblocks' ) }
+															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'flexblocks' ) }
 															value={ verticalAlignmentMobile }
 															options={ [
 																{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit'},

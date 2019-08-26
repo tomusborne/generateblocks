@@ -341,6 +341,7 @@ class FlexBlockGridContainer extends Component {
 													<SelectControl
 														label={ __( 'Vertical Alignment', 'flexblocks' ) }
 														value={ verticalAlignment }
+														help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'flexblocks' ) }
 														options={ [
 															{ label: __( 'Default', 'flexblocks' ), value: '' },
 															{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
@@ -386,6 +387,7 @@ class FlexBlockGridContainer extends Component {
 
 													<SelectControl
 														label={ __( 'Vertical Alignment', 'flexblocks' ) }
+														help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'flexblocks' ) }
 														value={ verticalAlignmentTablet }
 														options={ [
 															{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit' },
@@ -434,6 +436,7 @@ class FlexBlockGridContainer extends Component {
 
 													<SelectControl
 														label={ __( 'Vertical Alignment', 'flexblocks' ) }
+														help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'flexblocks' ) }
 														value={ verticalAlignmentMobile }
 														options={ [
 															{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit' },
