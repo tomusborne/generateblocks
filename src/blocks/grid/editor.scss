@@ -216,6 +216,10 @@
 .fx-grid-wrapper-justify-content-around > .editor-inner-blocks > .editor-block-list__layout {
     justify-content: space-around;
 }
-.ghostkit-grid-justify-content-between > .editor-inner-blocks > .editor-block-list__layout {
+.fx-grid-justify-content-between > .editor-inner-blocks > .editor-block-list__layout {
     justify-content: space-between;
+}
+
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="flexblocks/grid"].has-child-selected>.block-editor-block-list__block-edit>[data-block]>div>.block-editor-inner-blocks {
+    padding: 14px;
 }
