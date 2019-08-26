@@ -498,7 +498,6 @@ class FlexBlockGridContainer extends Component {
 						<Fragment>
 							<InnerBlocks
 								template={ this.getColumnsTemplate() }
-								templateLock="all"
 								allowedBlocks={ [ 'flexblocks/container' ] }
 							/>
 						</Fragment>
