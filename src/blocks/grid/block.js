@@ -14,14 +14,6 @@ const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const el = wp.element.createElement;
 
-const {
-	componentDidMount
-} = wp.components;
-
-const {
-	withInstanceId
-} = wp.compose;
-
 /**
  * Register our Grid block.
  *
@@ -45,8 +37,6 @@ registerBlockType( 'flexblocks/grid', {
 		className: false,
 		customClassName: false
 	},
-
-	edit: withInstanceId( editGridContainer ),
-
+	edit: editGridContainer,
 	save: saveGridContainer,
 } );

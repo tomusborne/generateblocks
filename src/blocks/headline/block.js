@@ -14,14 +14,6 @@ const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
 const el = wp.element.createElement;
 
-const {
-	componentDidMount
-} = wp.components;
-
-const {
-	withInstanceId
-} = wp.compose;
-
 /**
  * Register our Headline block.
  *
@@ -46,8 +38,6 @@ registerBlockType( 'flexblocks/headline', {
 		className: false,
 		customClassName: false
 	},
-
-	edit: withInstanceId( editHeadline ),
-
+	edit: editHeadline,
 	save: saveHeadline,
 } );

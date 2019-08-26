@@ -37,8 +37,6 @@ registerBlockType( 'flexblocks/container', {
 		className: false,
 		customClassName: false
 	},
-
 	edit: editContainer,
-
 	save: saveContainer,
 } );
