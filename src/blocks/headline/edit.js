@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import range from 'lodash/range';
 import ColorPicker from '../../components/color-picker';
 import TypographyControls from '../../components/typography';
+import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -16,6 +17,7 @@ const {
 	SelectControl,
 	BaseControl,
 	TabPanel,
+	DropdownMenu,
 } = wp.components;
 
 const {
@@ -117,6 +119,35 @@ class FlexBlockHeadline extends Component {
 			<Fragment>
 
 				<BlockControls>
+					<Toolbar>
+						<DropdownMenu
+							icon={ getIcon( 'paragraph' ) }
+							label={ __( 'Element' ) }
+							controls={ [
+								{
+									title: 'paragraph',
+									onClick: () => setAttributes( { element: 'p' } ),
+								},
+								{
+									title: 'h1',
+									onClick: () => setAttributes( { element: 'h1' } ),
+								},
+								{
+									title: 'h2',
+									onClick: () => setAttributes( { element: 'h2' } ),
+								},
+								{
+									title: 'h3',
+									onClick: () => setAttributes( { element: 'h3' } ),
+								},
+								{
+									title: 'h4',
+									onClick: () => setAttributes( { element: 'h4' } ),
+								},
+							] }
+						/>
+					</Toolbar>
+
 					<AlignmentToolbar
 						isCollapsed={ false }
 						value={ alignment }
