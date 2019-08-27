@@ -291,7 +291,7 @@ class TypographyControls extends Component {
 						label={ __( 'Line Height' ) }
 						value={ parseFloat( valueLineHeight ) || '' }
 						onChange={ ( nextLineHeight ) => setAttributes( { [ this.props[ 'attrLineHeight' ] ]: nextLineHeight } ) }
-						min={ 1 }
+						min={ -1 }
 						max={ 3 }
 						step={ .01 }
 						allowReset={ true }
@@ -306,7 +306,7 @@ class TypographyControls extends Component {
 						onChange={ ( nextLetterSpacing ) => setAttributes( { [ this.props[ 'attrLetterSpacing' ] ]: nextLetterSpacing } ) }
 						min={ -1 }
 						max={ 3 }
-						step={ .1 }
+						step={ .01 }
 						allowReset={ true }
 						initialPosition={ [ this.props[ 'initialLetterSpacing' ] ] }
 					/> : null
