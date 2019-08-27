@@ -156,7 +156,7 @@ function flexblocks_get_block_defaults() {
 	$defaults['gridContainer'] = array(
 		'columns' => 0,
 		'horizontalGap' => 30,
-		'verticalGap' => 30,
+		'verticalGap' => '',
 		'verticalAlignment' => '',
 		'horizontalGapTablet' => '',
 		'verticalGapTablet' => '',
