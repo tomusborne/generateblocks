@@ -76,6 +76,8 @@ body.gutenberg-editor-page [data-type="flexblocks/container"] .editor-block-list
     border-bottom: 2px solid transparent;
     border-radius: 0;
     outline-offset: -1px;
+	flex: 1;
+	justify-content: center;
 }
 
 .flexblocks-control-tabs .components-tab-panel__tabs button.active-tab {
