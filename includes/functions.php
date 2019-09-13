@@ -12,67 +12,73 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param string $blockName The name of the block to get attributes from.
  * @return array
  */
-function flexblocks_get_block_data( $blockName = 'flexblocks/container' ) {
+function flexblocks_get_block_data( $blockName = 'flexblocks/container', $content = '' ) {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}
 
-	if ( is_singular() && has_blocks( get_the_ID() ) ) {
+	if ( ! $content && is_singular() && has_blocks( get_the_ID() ) ) {
 		global $post;
 
 		if ( ! is_object( $post ) ) {
 			return;
 		}
 
-		if ( ! function_exists( 'parse_blocks' ) ) {
-			return;
-		}
+		$content = $post->post_content;
+	}
 
-		$blocks = parse_blocks( $post->post_content );
+	if ( ! $content ) {
+		return;
+	}
 
-		if ( ! is_array( $blocks ) || empty( $blocks ) ) {
-			return;
-		}
+	if ( ! function_exists( 'parse_blocks' ) ) {
+		return;
+	}
 
-		$data = array();
+	$blocks = parse_blocks( $content );
 
-		foreach ( $blocks as $index => $block ) {
-			if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
-				if ( $blockName === $block['blockName'] ) {
-					$data[] = $block['attrs'];
+	if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+		return;
+	}
 
-					$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
-				}
+	$data = array();
 
-				if ( 'core/block' === $block['blockName'] ) {
-					$atts = $block['attrs'];
+	foreach ( $blocks as $index => $block ) {
+		if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
+			if ( $blockName === $block['blockName'] ) {
+				$data[] = $block['attrs'];
 
-					if ( isset( $atts['ref'] ) ) {
-						$reusable_block = get_post( $atts['ref'] );
+				$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
+			}
 
-						if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
-							$blocks = parse_blocks( $reusable_block->post_content );
+			if ( 'core/block' === $block['blockName'] ) {
+				$atts = $block['attrs'];
 
-							foreach ( $blocks as $index => $block ) {
-								if ( $blockName === $block['blockName'] ) {
-									$data[] = $block['attrs'];
+				if ( isset( $atts['ref'] ) ) {
+					$reusable_block = get_post( $atts['ref'] );
 
-									$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
-								}
+					if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
+						$blocks = parse_blocks( $reusable_block->post_content );
+
+						foreach ( $blocks as $index => $block ) {
+							if ( $blockName === $block['blockName'] ) {
+								$data[] = $block['attrs'];
+
+								$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
 							}
 						}
 					}
 				}
+			}
 
-				// Need to check for nested blocks.
-				if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
-					$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
-				}
+			// Need to check for nested blocks.
+			if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
+				$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
 			}
 		}
-
-		return $data;
 	}
+
+	return $data;
 }
 
 /**

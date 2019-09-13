@@ -83,8 +83,12 @@ function flexblocks_register_meta() {
  *
  * @since 0.1
  */
-function flexblocks_get_google_fonts() {
-	$meta = json_decode( get_post_meta( get_the_ID(), '_flexblocks_google_fonts', true ), true );
+function flexblocks_get_google_fonts( $post_id = '' ) {
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$meta = json_decode( get_post_meta( $post_id, '_flexblocks_google_fonts', true ), true );
 	$fonts = array();
 
 	foreach ( (array) $meta as $font ) {
@@ -100,15 +104,17 @@ function flexblocks_get_google_fonts() {
 	return $fonts;
 }
 
-add_action( 'wp_enqueue_scripts', 'flexblocks_do_google_fonts' );
-add_action( 'enqueue_block_editor_assets', 'flexblocks_do_google_fonts' );
 /**
- * Do Google Fonts.
+ * Build the Google Font request URI.
  *
  * @since 0.1
  */
-function flexblocks_do_google_fonts() {
-	$google_fonts = flexblocks_get_google_fonts();
+function flexblocks_get_google_fonts_uri( $post_id = '' ) {
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$google_fonts = flexblocks_get_google_fonts( $post_id );
 
 	if ( ! $google_fonts ) {
 		return;
@@ -141,6 +147,20 @@ function flexblocks_do_google_fonts() {
 		'display' => apply_filters( 'flexblocks_google_font_display', 'swap' ),
 	);
 
-	$fonts_url = add_query_arg( $font_args, '//fonts.googleapis.com/css' );
-	wp_enqueue_style( 'flexblocks-google-fonts', $fonts_url, array(), null, 'all' );
+	return add_query_arg( $font_args, '//fonts.googleapis.com/css' );
+}
+
+add_action( 'wp_enqueue_scripts', 'flexblocks_do_google_fonts' );
+add_action( 'enqueue_block_editor_assets', 'flexblocks_do_google_fonts' );
+/**
+ * Do Google Fonts.
+ *
+ * @since 0.1
+ */
+function flexblocks_do_google_fonts() {
+	$fonts_url = flexblocks_get_google_fonts_uri( get_the_ID() );
+
+	if ( $fonts_url ) {
+		wp_enqueue_style( 'flexblocks-google-fonts', $fonts_url, array(), null, 'all' );
+	}
 }
