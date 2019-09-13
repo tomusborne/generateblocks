@@ -147,6 +147,9 @@ class FlexBlockContainer extends Component {
 			verticalAlignmentTablet,
 			verticalAlignmentMobile,
 			zindex,
+			removeVerticalGap,
+			removeVerticalGapTablet,
+			removeVerticalGapMobile,
 		} = attributes;
 
 		var backgroundImageValue;
@@ -332,6 +335,16 @@ class FlexBlockContainer extends Component {
 															] }
 															onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
 														/>
+
+														<ToggleControl
+															label={ __( 'Remove Vertical Gap', 'flexblocks' ) }
+															checked={ !! removeVerticalGap }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	removeVerticalGap: value
+																} );
+															} }
+														/>
 													</Fragment>
 												) : '' }
 
@@ -373,6 +386,16 @@ class FlexBlockContainer extends Component {
 															] }
 															onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
 														/>
+
+														<ToggleControl
+															label={ __( 'Remove Vertical Gap', 'flexblocks' ) }
+															checked={ !! removeVerticalGapTablet }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	removeVerticalGapTablet: value
+																} );
+															} }
+														/>
 													</Fragment>
 												) : '' }
 
@@ -413,6 +436,16 @@ class FlexBlockContainer extends Component {
 																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
+														/>
+
+														<ToggleControl
+															label={ __( 'Remove Vertical Gap', 'flexblocks' ) }
+															checked={ !! removeVerticalGapMobile }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	removeVerticalGapMobile: value
+																} );
+															} }
 														/>
 													</Fragment>
 												) : '' }

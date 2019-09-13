@@ -69,6 +69,9 @@ function flexblocks_get_block_defaults() {
 		'verticalAlignmentTablet' => 'inherit',
 		'verticalAlignmentMobile' => 'inherit',
 		'zindex' => '',
+		'removeVerticalGap' => false,
+		'removeVerticalGapTablet' => false,
+		'removeVerticalGapMobile' => false,
 	);
 
 	$defaults['buttonContainer'] = array(

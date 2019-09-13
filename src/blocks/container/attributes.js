@@ -209,4 +209,16 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.container.zindex,
 	},
+	removeVerticalGap: {
+		type: 'boolean',
+		default: flexBlocksDefaults.container.removeVerticalGap,
+	},
+	removeVerticalGapTablet: {
+		type: 'boolean',
+		default: flexBlocksDefaults.container.removeVerticalGapTablet,
+	},
+	removeVerticalGapMobile: {
+		type: 'boolean',
+		default: flexBlocksDefaults.container.removeVerticalGapMobile,
+	},
 }
