@@ -245,9 +245,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->stop_media_query();
 		}
 
-		$css->set_selector( '.fx-inside-container > *:last-child' );
-		$css->add_property( 'margin-bottom', '0px' );
-
 		return $css->css_output();
 	}
 
