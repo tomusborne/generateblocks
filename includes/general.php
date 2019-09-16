@@ -89,6 +89,7 @@ function flexblocks_get_google_fonts( $post_id = '' ) {
 	}
 
 	$meta = json_decode( get_post_meta( $post_id, '_flexblocks_google_fonts', true ), true );
+
 	$fonts = array();
 
 	foreach ( (array) $meta as $font ) {
@@ -101,7 +102,7 @@ function flexblocks_get_google_fonts( $post_id = '' ) {
 		}
 	}
 
-	return $fonts;
+	return apply_filters( 'flexblocks_google_fonts', $fonts );
 }
 
 /**
