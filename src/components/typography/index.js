@@ -279,7 +279,7 @@ class TypographyControls extends Component {
 						value={ parseFloat( valueFontSize ) || '' }
 						onChange={ ( nextFontSize ) => setAttributes( { [ this.props[ 'attrFontSize' ] ]: nextFontSize } ) }
 						min={ 1 }
-						max={ 100 }
+						max={ 200 }
 						step={ 1 }
 						allowReset={ true }
 						initialPosition={ [ this.props[ 'initialFontSize' ] ] }
