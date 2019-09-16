@@ -164,10 +164,10 @@ class FlexBlockButton extends Component {
 				padding-right: ` + paddingRight + `px;
 				padding-bottom: ` + paddingBottom + `px;
 				padding-left: ` + paddingLeft + `px;
+				border-top-left-radius: ` + borderRadiusTopLeft + `px;
 				border-top-right-radius: ` + borderRadiusTopRight + `px;
 				border-bottom-right-radius: ` + borderRadiusBottomRight + `px;
 				border-bottom-left-radius: ` + borderRadiusBottomLeft + `px;
-				border-top-left-radius: ` + borderRadiusTopLeft + `px;
 				font-size: ` + fontSizeValue + `;
 				border-width: 0;
 				border-top-width: ` + borderSizeTop + `px;
@@ -307,21 +307,21 @@ class FlexBlockButton extends Component {
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
 															label={ __( 'Border Radius', 'flexblocks' ) }
-															valueTop={ borderRadiusTopRight }
-															valueRight={ borderRadiusBottomRight }
-															valueBottom={ borderRadiusBottomLeft }
-															valueLeft={ borderRadiusTopLeft }
+															valueTop={ borderRadiusTopLeft }
+															valueRight={ borderRadiusTopRight }
+															valueBottom={ borderRadiusBottomRight }
+															valueLeft={ borderRadiusBottomLeft }
 															//unit={ paddingUnit }
 															syncUnits={ borderRadiusSyncUnits }
-															attrTop={ 'borderRadiusTopRight' }
-															attrRight={ 'borderRadiusBottomRight' }
-															attrBottom={ 'borderRadiusBottomLeft' }
-															attrLeft={ 'borderRadiusTopLeft' }
+															attrTop={ 'borderRadiusTopLeft' }
+															attrRight={ 'borderRadiusTopRight' }
+															attrBottom={ 'borderRadiusBottomRight' }
+															attrLeft={ 'borderRadiusBottomLeft' }
 															attrSyncUnits={ 'borderRadiusSyncUnits' }
-															labelTop={ __( 'T-Right', 'flexblocks' ) }
-															labelRight={ __( 'B-Right', 'flexblocks' ) }
-															labelBottom={ __( 'B-Left', 'flexblocks' ) }
-															labelLeft={ __( 'T-Left', 'flexblocks' ) }
+															labelTop={ __( 'T-Left', 'flexblocks' ) }
+															labelRight={ __( 'T-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Right', 'flexblocks' ) }
+															labelLeft={ __( 'B-Left', 'flexblocks' ) }
 														/>
 													</BaseControl>
 												</Fragment>
@@ -402,21 +402,21 @@ class FlexBlockButton extends Component {
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
 															label={ __( 'Border Radius', 'flexblocks' ) }
-															valueTop={ borderRadiusTopRightTablet }
-															valueRight={ borderRadiusBottomRightTablet }
-															valueBottom={ borderRadiusBottomLeftTablet }
-															valueLeft={ borderRadiusTopLeftTablet }
+															valueTop={ borderRadiusTopLeftTablet }
+															valueRight={ borderRadiusTopRightTablet }
+															valueBottom={ borderRadiusBottomRightTablet }
+															valueLeft={ borderRadiusBottomLeftTablet }
 															//unit={ paddingUnit }
-															syncUnits={ borderRadiusSyncUnitsTablet }
-															attrTop={ 'borderRadiusTopRightTablet' }
-															attrRight={ 'borderRadiusBottomRightTablet' }
-															attrBottom={ 'borderRadiusBottomLeftTablet' }
-															attrLeft={ 'borderRadiusTopLeftTablet' }
+															syncUnits={ borderRadiusSyncUnits }
+															attrTop={ 'borderRadiusTopLeftTablet' }
+															attrRight={ 'borderRadiusTopRightTablet' }
+															attrBottom={ 'borderRadiusBottomRightTablet' }
+															attrLeft={ 'borderRadiusBottomLeftTablet' }
 															attrSyncUnits={ 'borderRadiusSyncUnitsTablet' }
-															labelTop={ __( 'T-Right', 'flexblocks' ) }
-															labelRight={ __( 'B-Right', 'flexblocks' ) }
-															labelBottom={ __( 'B-Left', 'flexblocks' ) }
-															labelLeft={ __( 'T-Left', 'flexblocks' ) }
+															labelTop={ __( 'T-Left', 'flexblocks' ) }
+															labelRight={ __( 'T-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Right', 'flexblocks' ) }
+															labelLeft={ __( 'B-Left', 'flexblocks' ) }
 														/>
 													</BaseControl>
 												</Fragment>
@@ -441,19 +441,23 @@ class FlexBlockButton extends Component {
 
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopMobile }
-															valueRight={ marginRightMobile }
-															valueBottom={ marginBottomMobile }
-															valueLeft={ marginLeftMobile }
+															type={ 'padding' }
+															label={ __( 'Border Radius', 'flexblocks' ) }
+															valueTop={ borderRadiusTopRightMobile }
+															valueRight={ borderRadiusBottomRightMobile }
+															valueBottom={ borderRadiusBottomLeftMobile }
+															valueLeft={ borderRadiusTopLeftMobile }
 															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnitsMobile }
-															attrTop={ 'marginTopMobile' }
-															attrRight={ 'marginRightMobile' }
-															attrBottom={ 'marginBottomMobile' }
-															attrLeft={ 'marginLeftMobile' }
-															attrSyncUnits={ 'marginSyncUnitsMobile' }
+															syncUnits={ borderRadiusSyncUnitsMobile }
+															attrTop={ 'borderRadiusTopRightMobile' }
+															attrRight={ 'borderRadiusBottomRightMobile' }
+															attrBottom={ 'borderRadiusBottomLeftMobile' }
+															attrLeft={ 'borderRadiusTopLeftMobile' }
+															attrSyncUnits={ 'borderRadiusSyncUnitsMobile' }
+															labelTop={ __( 'T-Left', 'flexblocks' ) }
+															labelRight={ __( 'T-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Right', 'flexblocks' ) }
+															labelLeft={ __( 'B-Left', 'flexblocks' ) }
 														/>
 													</BaseControl>
 
@@ -508,10 +512,10 @@ class FlexBlockButton extends Component {
 															attrBottom={ 'borderRadiusBottomLeftMobile' }
 															attrLeft={ 'borderRadiusTopLeftMobile' }
 															attrSyncUnits={ 'borderRadiusSyncUnitsMobile' }
-															labelTop={ __( 'T-Right', 'flexblocks' ) }
-															labelRight={ __( 'B-Right', 'flexblocks' ) }
-															labelBottom={ __( 'B-Left', 'flexblocks' ) }
-															labelLeft={ __( 'T-Left', 'flexblocks' ) }
+															labelTop={ __( 'T-Left', 'flexblocks' ) }
+															labelRight={ __( 'T-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Right', 'flexblocks' ) }
+															labelLeft={ __( 'B-Left', 'flexblocks' ) }
 														/>
 													</BaseControl>
 												</Fragment>

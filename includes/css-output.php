@@ -364,6 +364,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'font-size', $settings['fontSize'], 'em' );
 			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], 'px' ) );
 			$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], $settings['borderRadiusTopLeft'], 'px' ) );
+			$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], 'px' ) );
 			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], 'px' ) );
 			$css->add_property( 'border-width', flexblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
 
