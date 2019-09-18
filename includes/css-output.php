@@ -429,6 +429,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->set_selector( '.fx-headline-' . $id );
 			$css->add_property( 'font-family', $settings['fontFamily'] );
 			$css->add_property( 'text-align', $settings['alignment'] );
+			$css->add_property( 'background-color', $settings['backgroundColor'] );
 			$css->add_property( 'color', $settings['textColor'] );
 			$css->add_property( 'font-size', $settings['fontSize'], 'px' );
 			$css->add_property( 'font-weight', $settings['fontWeight'] );

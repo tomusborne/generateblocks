@@ -32,6 +32,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.alignmentMobile,
 	},
+	backgroundColor: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.backgroundColor,
+	},
 	textColor: {
 		type: 'string',
 		default: flexBlocksDefaults.headline.textColor,
