@@ -41,6 +41,12 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'align-items', $settings['verticalAlignment'] );
 			$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
+			if ( $settings['width'] ) {
+				$css->add_property( 'max-width', $settings['width'], 'px' );
+				$css->add_property( 'margin-left', 'auto' );
+				$css->add_property( 'margin-right', 'auto' );
+			}
+
 			if ( $settings['horizontalGap'] ) {
 				$css->add_property( 'margin-left', '-' . $settings['horizontalGap'] . 'px' );
 			}
@@ -57,6 +63,12 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 
 			$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 				$css->set_selector( '.fx-grid-wrapper-' . $id );
+
+				if ( $settings['widthTablet'] ) {
+					$css->add_property( 'max-width', $settings['widthTablet'], 'px' );
+					$css->add_property( 'margin-left', 'auto' );
+					$css->add_property( 'margin-right', 'auto' );
+				}
 
 				if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 					$css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
@@ -82,6 +94,12 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 
 			$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
 				$css->set_selector( '.fx-grid-wrapper-' . $id );
+
+				if ( $settings['widthMobile'] ) {
+					$css->add_property( 'max-width', $settings['widthMobile'], 'px' );
+					$css->add_property( 'margin-left', 'auto' );
+					$css->add_property( 'margin-right', 'auto' );
+				}
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 					$css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );

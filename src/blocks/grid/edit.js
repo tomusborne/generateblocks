@@ -262,12 +262,15 @@ class FlexBlockGridContainer extends Component {
 			columns,
 			horizontalGap,
 			verticalGap,
+			width,
 			verticalAlignment,
 			horizontalGapTablet,
 			verticalGapTablet,
+			widthTablet,
 			verticalAlignmentTablet,
 			horizontalGapMobile,
 			verticalGapMobile,
+			widthMobile,
 			verticalAlignmentMobile,
 			horizontalAlignment,
 			horizontalAlignmentTablet,
@@ -278,6 +281,9 @@ class FlexBlockGridContainer extends Component {
 			.fx-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
 				align-items: ` + verticalAlignment + `;
 				justify-content: ` + horizontalAlignment + `;
+				max-width: ` + width + `px;
+				margin-left: auto;
+				margin-right: auto;
 			}
 		`
 
@@ -337,6 +343,17 @@ class FlexBlockGridContainer extends Component {
 														initialPosition={ flexBlocksDefaults.gridContainer.verticalGap }
 													/>
 
+													<TextControl
+														type={ 'number' }
+														label={ __( 'Width', 'flexblocks' ) }
+														value={ parseFloat( width ) }
+														onChange={ ( value ) => {
+															setAttributes( {
+																width: parseFloat( value )
+															} );
+														} }
+													/>
+
 													<SelectControl
 														label={ __( 'Vertical Alignment', 'flexblocks' ) }
 														value={ verticalAlignment }
@@ -382,6 +399,17 @@ class FlexBlockGridContainer extends Component {
 														min={ 0 }
 														max={ 100 }
 														initialPosition={ flexBlocksDefaults.gridContainer.verticalGapTablet }
+													/>
+
+													<TextControl
+														type={ 'number' }
+														label={ __( 'Width', 'flexblocks' ) }
+														value={ parseFloat( widthTablet ) }
+														onChange={ ( value ) => {
+															setAttributes( {
+																widthTablet: parseFloat( value )
+															} );
+														} }
 													/>
 
 													<SelectControl
@@ -431,6 +459,17 @@ class FlexBlockGridContainer extends Component {
 														min={ 0 }
 														max={ 100 }
 														initialPosition={ flexBlocksDefaults.gridContainer.verticalGapMobile }
+													/>
+
+													<TextControl
+														type={ 'number' }
+														label={ __( 'Width', 'flexblocks' ) }
+														value={ parseFloat( widthMobile ) }
+														onChange={ ( value ) => {
+															setAttributes( {
+																widthMobile: parseFloat( value )
+															} );
+														} }
 													/>
 
 													<SelectControl
