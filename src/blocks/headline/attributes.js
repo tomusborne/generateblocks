@@ -40,6 +40,14 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.textColor,
 	},
+	linkColor: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.linkColor,
+	},
+	linkColorHover: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.linkColorHover,
+	},
 	fontFamily: {
 		type: 'string',
 		default: flexBlocksDefaults.headline.fontFamily,

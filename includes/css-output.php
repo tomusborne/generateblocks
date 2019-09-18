@@ -439,6 +439,12 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
 			$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
 
+			$css->set_selector( '.fx-headline-' . $id . ' a, .fx-headline-' . $id . ' a:visited' );
+			$css->add_property( 'color', $settings['linkColor'] );
+
+			$css->set_selector( '.fx-headline-' . $id . ' a:hover' );
+			$css->add_property( 'color', $settings['linkColorHover'] );
+
 			$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 				$css->set_selector( '.fx-headline-' . $id );
 				$css->add_property( 'text-align', $settings['alignmentTablet'] );

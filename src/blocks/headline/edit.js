@@ -80,6 +80,8 @@ class FlexBlockHeadline extends Component {
 			alignmentMobile,
 			backgroundColor,
 			textColor,
+			linkColor,
+			linkColorHover,
 			fontFamily,
 			googleFont,
 			fontWeight,
@@ -114,6 +116,10 @@ class FlexBlockHeadline extends Component {
 				letter-spacing: ` + letterSpacing + `em;
 				margin-top: ` + marginTop + `px;
 				margin-bottom: ` + marginBottom + `px;
+			}
+
+			.editor-styles-wrapper .fx-headline-` + uniqueId + ` a {
+				color: ` + linkColor + `;
 			}
 		`
 
@@ -226,6 +232,28 @@ class FlexBlockHeadline extends Component {
 														onChange={ ( value ) =>
 															setAttributes( {
 																textColor: value
+															} )
+														}
+														alpha={ false }
+													/>
+
+													<ColorPicker
+														label={ __( 'Link Color', 'flexblocks' ) }
+														value={ linkColor }
+														onChange={ ( value ) =>
+															setAttributes( {
+																linkColor: value
+															} )
+														}
+														alpha={ false }
+													/>
+
+													<ColorPicker
+														label={ __( 'Link Color Hover', 'flexblocks' ) }
+														value={ linkColorHover }
+														onChange={ ( value ) =>
+															setAttributes( {
+																linkColorHover: value
 															} )
 														}
 														alpha={ false }

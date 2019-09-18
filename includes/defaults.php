@@ -179,6 +179,8 @@ function flexblocks_get_block_defaults() {
 		'alignmentMobile' => false,
 		'backgroundColor' => false,
 		'textColor' => false,
+		'linkColor' => false,
+		'linkColorHover' => false,
 		'fontFamily' => '',
 		'googleFont' => false,
 		'fontWeight' => '',
