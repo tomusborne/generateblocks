@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import range from 'lodash/range';
 import ColorPicker from '../../components/color-picker';
 import TypographyControls from '../../components/typography';
+import DimensionsControl from '../../components/dimensions/';
 import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
@@ -93,11 +94,35 @@ class FlexBlockHeadline extends Component {
 			lineHeightTablet,
 			lineHeightMobile,
 			marginTop,
-			marginTopTablet,
-			marginTopMobile,
+			marginRight,
 			marginBottom,
+			marginLeft,
+			marginSyncUnits,
+			marginTopTablet,
+			marginRightTablet,
+			marginLeftTablet,
 			marginBottomTablet,
+			marginSyncUnitsTablet,
+			marginTopMobile,
+			marginRightMobile,
 			marginBottomMobile,
+			marginLeftMobile,
+			marginSyncUnitsMobile,
+			paddingTop,
+			paddingRight,
+			paddingBottom,
+			paddingLeft,
+			paddingSyncUnits,
+			paddingTopTablet,
+			paddingRightTablet,
+			paddingBottomTablet,
+			paddingLeftTablet,
+			paddingSyncUnitsTablet,
+			paddingTopMobile,
+			paddingRightMobile,
+			paddingBottomMobile,
+			paddingLeftMobile,
+			paddingSyncUnitsMobile,
 			letterSpacing,
 			letterSpacingTablet,
 			letterSpacingMobile
@@ -116,6 +141,10 @@ class FlexBlockHeadline extends Component {
 				letter-spacing: ` + letterSpacing + `em;
 				margin-top: ` + marginTop + `px;
 				margin-bottom: ` + marginBottom + `px;
+				padding-top: ` + paddingTop + `px;
+				padding-right: ` + paddingRight + `px;
+				padding-bottom: ` + paddingBottom + `px;
+				padding-left: ` + paddingLeft + `px;
 			}
 
 			.editor-styles-wrapper .fx-headline-` + uniqueId + ` a {
@@ -280,35 +309,41 @@ class FlexBlockHeadline extends Component {
 														uniqueId={ uniqueId }
 													/>
 
-													<RangeControl
-														label={ __( 'Margin Top', 'flexblocks' ) }
-														value={ marginTop }
-														onChange={ ( value ) => {
-															setAttributes( {
-																marginTop: value
-															} );
-														} }
-														min={ 0 }
-														max={ 100 }
-														step={ 1 }
-														allowReset={ true }
-														initialPosition={ 0 }
-													/>
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTop }
+															valueRight={ marginRight }
+															valueBottom={ marginBottom }
+															valueLeft={ marginLeft }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnits }
+															attrTop={ 'marginTop' }
+															attrRight={ 'marginRight' }
+															attrBottom={ 'marginBottom' }
+															attrLeft={ 'marginLeft' }
+															attrSyncUnits={ 'marginSyncUnits' }
+														/>
+													</BaseControl>
 
-													<RangeControl
-														label={ __( 'Margin Bottom', 'flexblocks' ) }
-														value={ marginBottom }
-														onChange={ ( value ) => {
-															setAttributes( {
-																marginBottom: value
-															} );
-														} }
-														min={ 0 }
-														max={ 100 }
-														step={ 1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.headline.marginBottom }
-													/>
+													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'flexblocks' ) }
+															valueTop={ paddingTop }
+															valueRight={ paddingRight }
+															valueBottom={ paddingBottom }
+															valueLeft={ paddingLeft }
+															//unit={ paddingUnit }
+															syncUnits={ paddingSyncUnits }
+															attrTop={ 'paddingTop' }
+															attrRight={ 'paddingRight' }
+															attrBottom={ 'paddingBottom' }
+															attrLeft={ 'paddingLeft' }
+															attrSyncUnits={ 'paddingSyncUnits' }
+														/>
+													</BaseControl>
 												</Fragment>
 											) : '' }
 
@@ -335,35 +370,41 @@ class FlexBlockHeadline extends Component {
 														uniqueId={ uniqueId }
 													/>
 
-													<RangeControl
-														label={ __( 'Margin Top', 'flexblocks' ) }
-														value={ marginTopTablet }
-														onChange={ ( value ) => {
-															setAttributes( {
-																marginTopTablet: value
-															} );
-														} }
-														min={ 0 }
-														max={ 100 }
-														step={ 1 }
-														allowReset={ true }
-														initialPosition={ 0 }
-													/>
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTopTablet }
+															valueRight={ marginRightTablet }
+															valueBottom={ marginBottomTablet }
+															valueLeft={ marginLeftTablet }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnitsTablet }
+															attrTop={ 'marginTopTablet' }
+															attrRight={ 'marginRightTablet' }
+															attrBottom={ 'marginBottomTablet' }
+															attrLeft={ 'marginLeftTablet' }
+															attrSyncUnits={ 'marginSyncUnitsTablet' }
+														/>
+													</BaseControl>
 
-													<RangeControl
-														label={ __( 'Margin Bottom', 'flexblocks' ) }
-														value={ marginBottomTablet }
-														onChange={ ( value ) => {
-															setAttributes( {
-																marginBottomTablet: value
-															} );
-														} }
-														min={ 0 }
-														max={ 100 }
-														step={ 1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.headline.marginBottomTablet }
-													/>
+													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'flexblocks' ) }
+															valueTop={ paddingTopTablet }
+															valueRight={ paddingRightTablet }
+															valueBottom={ paddingBottomTablet }
+															valueLeft={ paddingLeftTablet }
+															//unit={ paddingUnit }
+															syncUnits={ paddingSyncUnitsTablet }
+															attrTop={ 'paddingTopTablet' }
+															attrRight={ 'paddingRightTablet' }
+															attrBottom={ 'paddingBottomTablet' }
+															attrLeft={ 'paddingLeftTablet' }
+															attrSyncUnits={ 'paddingSyncUnitsTablet' }
+														/>
+													</BaseControl>
 												</Fragment>
 											) : '' }
 
@@ -390,35 +431,41 @@ class FlexBlockHeadline extends Component {
 														uniqueId={ uniqueId }
 													/>
 
-													<RangeControl
-														label={ __( 'Margin Top', 'flexblocks' ) }
-														value={ marginTopMobile }
-														onChange={ ( value ) => {
-															setAttributes( {
-																marginTopMobile: value
-															} );
-														} }
-														min={ 0 }
-														max={ 100 }
-														step={ 1 }
-														allowReset={ true }
-														initialPosition={ 0 }
-													/>
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTopMobile }
+															valueRight={ marginRightMobile }
+															valueBottom={ marginBottomMobile }
+															valueLeft={ marginLeftMobile }
+															//unit={ paddingUnit }
+															syncUnits={ marginSyncUnitsMobile }
+															attrTop={ 'marginTopMobile' }
+															attrRight={ 'marginRightMobile' }
+															attrBottom={ 'marginBottomMobile' }
+															attrLeft={ 'marginLeftMobile' }
+															attrSyncUnits={ 'marginSyncUnitsMobile' }
+														/>
+													</BaseControl>
 
-													<RangeControl
-														label={ __( 'Margin Bottom', 'flexblocks' ) }
-														value={ marginBottomMobile }
-														onChange={ ( value ) => {
-															setAttributes( {
-																marginBottomMobile: value
-															} );
-														} }
-														min={ 0 }
-														max={ 100 }
-														step={ 1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.headline.marginBottomMobile }
-													/>
+													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'flexblocks' ) }
+															valueTop={ paddingTopMobile }
+															valueRight={ paddingRightMobile }
+															valueBottom={ paddingBottomMobile }
+															valueLeft={ paddingLeftMobile }
+															//unit={ paddingUnit }
+															syncUnits={ paddingSyncUnitsMobile }
+															attrTop={ 'paddingTopMobile' }
+															attrRight={ 'paddingRightMobile' }
+															attrBottom={ 'paddingBottomMobile' }
+															attrLeft={ 'paddingLeftMobile' }
+															attrSyncUnits={ 'paddingSyncUnitsMobile' }
+														/>
+													</BaseControl>
 												</Fragment>
 											) : '' }
 										</div>

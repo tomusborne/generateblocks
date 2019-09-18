@@ -436,8 +436,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'text-transform', $settings['textTransform'] );
 			$css->add_property( 'line-height', $settings['lineHeight'], 'em' );
 			$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
-			$css->add_property( 'margin-top', $settings['marginTop'], 'px' );
-			$css->add_property( 'margin-bottom', $settings['marginBottom'], 'px' );
+			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], 'px' ) );
+			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], 'px' ) );
 
 			$css->set_selector( '.fx-headline-' . $id . ' a, .fx-headline-' . $id . ' a:visited' );
 			$css->add_property( 'color', $settings['linkColor'] );
@@ -451,8 +451,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'font-size', $settings['fontSizeTablet'], 'px' );
 				$css->add_property( 'line-height', $settings['lineHeightTablet'], 'em' );
 				$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
-				$css->add_property( 'margin-top', $settings['marginTopTablet'], 'px' );
-				$css->add_property( 'margin-bottom', $settings['marginBottomTablet'], 'px' );
+				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], 'px' ) );
+				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], 'px' ) );
 			$css->stop_media_query();
 
 
@@ -462,8 +462,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'font-size', $settings['fontSizeMobile'], 'px' );
 				$css->add_property( 'line-height', $settings['lineHeightMobile'], 'em' );
 				$css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
-				$css->add_property( 'margin-top', $settings['marginTopMobile'], 'px' );
-				$css->add_property( 'margin-bottom', $settings['marginBottomMobile'], 'px' );
+				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], 'px' ) );
+				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], 'px' ) );
 			$css->stop_media_query();
 		}
 
