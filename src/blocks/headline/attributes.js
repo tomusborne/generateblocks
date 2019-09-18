@@ -32,9 +32,9 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.alignmentMobile,
 	},
-	color: {
+	textColor: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.color,
+		default: flexBlocksDefaults.headline.textColor,
 	},
 	fontFamily: {
 		type: 'string',

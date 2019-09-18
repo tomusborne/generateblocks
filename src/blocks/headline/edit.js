@@ -78,7 +78,7 @@ class FlexBlockHeadline extends Component {
 			alignment,
 			alignmentTablet,
 			alignmentMobile,
-			color,
+			textColor,
 			fontFamily,
 			googleFont,
 			fontWeight,
@@ -107,7 +107,7 @@ class FlexBlockHeadline extends Component {
 				text-transform: ` + textTransform + `;
 				text-align: ` + alignment + `;
 				font-size: ` + fontSize + `px;
-				color: ` + color + `;
+				color: ` + textColor + `;
 				line-height: ` + lineHeight + `em;
 				letter-spacing: ` + letterSpacing + `em;
 				margin-top: ` + marginTop + `px;
@@ -209,10 +209,10 @@ class FlexBlockHeadline extends Component {
 
 													<ColorPicker
 														label={ __( 'Color', 'flexblocks' ) }
-														value={ color }
+														value={ textColor }
 														onChange={ ( value ) =>
 															setAttributes( {
-																color: value
+																textColor: value
 															} )
 														}
 														alpha={ false }
