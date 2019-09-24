@@ -163,6 +163,106 @@ export default {
 		type: 'boolean',
 		default: false,
 	},
+	borderSizeTop: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeTop,
+	},
+	borderSizeRight: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeRight,
+	},
+	borderSizeBottom: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeBottom,
+	},
+	borderSizeLeft: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeLeft,
+	},
+	borderSizeTopTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeTopTablet,
+	},
+	borderSizeRightTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeRightTablet,
+	},
+	borderSizeBottomTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeBottomTablet,
+	},
+	borderSizeLeftTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeLeftTablet,
+	},
+	borderSizeTopMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeTopMobile,
+	},
+	borderSizeRightMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeRightMobile,
+	},
+	borderSizeBottomMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeBottomMobile,
+	},
+	borderSizeLeftMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderSizeLeftMobile,
+	},
+	borderRadiusTopRight: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusTopRight,
+	},
+	borderRadiusBottomRight: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusBottomRight,
+	},
+	borderRadiusBottomLeft: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusBottomLeft,
+	},
+	borderRadiusTopLeft: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusTopLeft,
+	},
+	borderRadiusTopRightTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusTopRightTablet,
+	},
+	borderRadiusBottomRightTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusBottomRightTablet,
+	},
+	borderRadiusBottomLeftTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusBottomLeftTablet,
+	},
+	borderRadiusTopLeftTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusTopLeftTablet,
+	},
+	borderRadiusTopRightMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusTopRightMobile,
+	},
+	borderRadiusBottomRightMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusBottomRightMobile,
+	},
+	borderRadiusBottomLeftMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusBottomLeftMobile,
+	},
+	borderRadiusTopLeftMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusTopLeftMobile,
+	},
+	borderColor: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderColor,
+	},
 	backgroundColor: {
 		type: 'string',
 		default: flexBlocksDefaults.container.backgroundColor,

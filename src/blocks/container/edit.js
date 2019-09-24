@@ -137,6 +137,38 @@ class FlexBlockContainer extends Component {
 			marginBottomMobile,
 			marginLeftMobile,
 			marginSyncUnitsMobile,
+			borderSizeTop,
+			borderSizeRight,
+			borderSizeBottom,
+			borderSizeLeft,
+			borderSizeSyncUnits,
+			borderSizeTopTablet,
+			borderSizeRightTablet,
+			borderSizeBottomTablet,
+			borderSizeLeftTablet,
+			borderSizeSyncUnitsTablet,
+			borderSizeTopMobile,
+			borderSizeRightMobile,
+			borderSizeBottomMobile,
+			borderSizeLeftMobile,
+			borderSizeSyncUnitsMobile,
+			borderRadiusTopRight,
+			borderRadiusBottomRight,
+			borderRadiusBottomLeft,
+			borderRadiusTopLeft,
+			borderRadiusSyncUnits,
+			borderRadiusTopRightTablet,
+			borderRadiusBottomRightTablet,
+			borderRadiusBottomLeftTablet,
+			borderRadiusTopLeftTablet,
+			borderRadiusSyncUnitsTablet,
+			borderRadiusTopRightMobile,
+			borderRadiusBottomRightMobile,
+			borderRadiusBottomLeftMobile,
+			borderRadiusTopLeftMobile,
+			borderRadiusSyncUnitsMobile,
+			borderColor,
+			borderColorHover,
 			backgroundColor,
 			textColor,
 			linkColor,
@@ -177,6 +209,12 @@ class FlexBlockContainer extends Component {
 			innerContainerWidth = 'max-width:' + containerWidth + 'px;margin-left: auto;margin-right:auto;';
 		}
 
+		var borderStyleValue = '';
+
+		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
+			borderStyleValue = 'solid';
+		}
+
 		const css = `
 			.fx-container-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
@@ -186,6 +224,17 @@ class FlexBlockContainer extends Component {
 		  		background-position: ` + bgOptions.position + `;
 				background-repeat: ` + bgOptions.repeat + `;
 				background-attachment: ` + bgOptions.attachment + `;
+				border-top-left-radius: ` + borderRadiusTopLeft + `px;
+				border-top-right-radius: ` + borderRadiusTopRight + `px;
+				border-bottom-right-radius: ` + borderRadiusBottomRight + `px;
+				border-bottom-left-radius: ` + borderRadiusBottomLeft + `px;
+				border-width: 0;
+				border-top-width: ` + borderSizeTop + `px;
+				border-right-width: ` + borderSizeRight + `px;
+				border-bottom-width: ` + borderSizeBottom + `px;
+				border-left-width: ` + borderSizeLeft + `px;
+				border-style: ` + borderStyleValue + `;
+				border-color: ` + borderColor + `;
 			}
 
 			.fx-container-` + uniqueId + ` a, .fx-container-` + uniqueId + ` a:visited {
@@ -522,6 +571,46 @@ class FlexBlockContainer extends Component {
 															attrSyncUnits={ 'marginSyncUnits' }
 														/>
 													</BaseControl>
+
+													<BaseControl label={ __( 'Border Size', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Size', 'flexblocks' ) }
+															valueTop={ borderSizeTop }
+															valueRight={ borderSizeRight }
+															valueBottom={ borderSizeBottom }
+															valueLeft={ borderSizeLeft }
+															//unit={ paddingUnit }
+															syncUnits={ borderSizeSyncUnits }
+															attrTop={ 'borderSizeTop' }
+															attrRight={ 'borderSizeRight' }
+															attrBottom={ 'borderSizeBottom' }
+															attrLeft={ 'borderSizeLeft' }
+															attrSyncUnits={ 'borderSizeSyncUnits' }
+														/>
+													</BaseControl>
+
+													<BaseControl label={ __( 'Border Radius', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Radius', 'flexblocks' ) }
+															valueTop={ borderRadiusTopLeft }
+															valueRight={ borderRadiusTopRight }
+															valueBottom={ borderRadiusBottomRight }
+															valueLeft={ borderRadiusBottomLeft }
+															//unit={ paddingUnit }
+															syncUnits={ borderRadiusSyncUnits }
+															attrTop={ 'borderRadiusTopLeft' }
+															attrRight={ 'borderRadiusTopRight' }
+															attrBottom={ 'borderRadiusBottomRight' }
+															attrLeft={ 'borderRadiusBottomLeft' }
+															attrSyncUnits={ 'borderRadiusSyncUnits' }
+															labelTop={ __( 'T-Left', 'flexblocks' ) }
+															labelRight={ __( 'T-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Right', 'flexblocks' ) }
+															labelLeft={ __( 'B-Left', 'flexblocks' ) }
+														/>
+													</BaseControl>
 												</Fragment>
 											) : '' }
 
@@ -562,6 +651,46 @@ class FlexBlockContainer extends Component {
 															attrSyncUnits={ 'marginSyncUnitsTablet' }
 														/>
 													</BaseControl>
+
+													<BaseControl label={ __( 'Border Size', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Size', 'flexblocks' ) }
+															valueTop={ borderSizeTopTablet }
+															valueRight={ borderSizeRightTablet }
+															valueBottom={ borderSizeBottomTablet }
+															valueLeft={ borderSizeLeftTablet }
+															//unit={ paddingUnit }
+															syncUnits={ borderSizeSyncUnitsTablet }
+															attrTop={ 'borderSizeTopTablet' }
+															attrRight={ 'borderSizeRightTablet' }
+															attrBottom={ 'borderSizeBottomTablet' }
+															attrLeft={ 'borderSizeLeftTablet' }
+															attrSyncUnits={ 'borderSizeSyncUnitsTablet' }
+														/>
+													</BaseControl>
+
+													<BaseControl label={ __( 'Border Radius', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Radius', 'flexblocks' ) }
+															valueTop={ borderRadiusTopLeftTablet }
+															valueRight={ borderRadiusTopRightTablet }
+															valueBottom={ borderRadiusBottomRightTablet }
+															valueLeft={ borderRadiusBottomLeftTablet }
+															//unit={ paddingUnit }
+															syncUnits={ borderRadiusSyncUnits }
+															attrTop={ 'borderRadiusTopLeftTablet' }
+															attrRight={ 'borderRadiusTopRightTablet' }
+															attrBottom={ 'borderRadiusBottomRightTablet' }
+															attrLeft={ 'borderRadiusBottomLeftTablet' }
+															attrSyncUnits={ 'borderRadiusSyncUnitsTablet' }
+															labelTop={ __( 'T-Left', 'flexblocks' ) }
+															labelRight={ __( 'T-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Right', 'flexblocks' ) }
+															labelLeft={ __( 'B-Left', 'flexblocks' ) }
+														/>
+													</BaseControl>
 												</Fragment>
 											) : '' }
 
@@ -600,6 +729,46 @@ class FlexBlockContainer extends Component {
 															attrBottom={ 'marginBottomMobile' }
 															attrLeft={ 'marginLeftMobile' }
 															attrSyncUnits={ 'marginSyncUnitsMobile' }
+														/>
+													</BaseControl>
+
+													<BaseControl label={ __( 'Border Size', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Size', 'flexblocks' ) }
+															valueTop={ borderSizeTopMobile }
+															valueRight={ borderSizeRightMobile }
+															valueBottom={ borderSizeBottomMobile }
+															valueLeft={ borderSizeLeftMobile }
+															//unit={ paddingUnit }
+															syncUnits={ borderSizeSyncUnitsMobile }
+															attrTop={ 'borderSizeTopMobile' }
+															attrRight={ 'borderSizeRightMobile' }
+															attrBottom={ 'borderSizeBottomMobile' }
+															attrLeft={ 'borderSizeLeftMobile' }
+															attrSyncUnits={ 'borderSizeSyncUnitsMobile' }
+														/>
+													</BaseControl>
+
+													<BaseControl label={ __( 'Border Radius', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Border Radius', 'flexblocks' ) }
+															valueTop={ borderRadiusTopRightMobile }
+															valueRight={ borderRadiusBottomRightMobile }
+															valueBottom={ borderRadiusBottomLeftMobile }
+															valueLeft={ borderRadiusTopLeftMobile }
+															//unit={ paddingUnit }
+															syncUnits={ borderRadiusSyncUnitsMobile }
+															attrTop={ 'borderRadiusTopRightMobile' }
+															attrRight={ 'borderRadiusBottomRightMobile' }
+															attrBottom={ 'borderRadiusBottomLeftMobile' }
+															attrLeft={ 'borderRadiusTopLeftMobile' }
+															attrSyncUnits={ 'borderRadiusSyncUnitsMobile' }
+															labelTop={ __( 'T-Left', 'flexblocks' ) }
+															labelRight={ __( 'T-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Right', 'flexblocks' ) }
+															labelLeft={ __( 'B-Left', 'flexblocks' ) }
 														/>
 													</BaseControl>
 												</Fragment>
@@ -666,6 +835,19 @@ class FlexBlockContainer extends Component {
 									} )
 								}
 								alpha={ false }
+							/>
+						</Fragment>
+
+						<Fragment>
+							<ColorPicker
+								label={ __( 'Border Color', 'flexblocks' ) }
+								value={ borderColor }
+								onChange={ ( value ) =>
+									setAttributes( {
+										borderColor: value
+									} )
+								}
+								alpha={ true }
 							/>
 						</Fragment>
 					</PanelBody>
