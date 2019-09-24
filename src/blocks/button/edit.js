@@ -441,23 +441,19 @@ class FlexBlockButton extends Component {
 
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Border Radius', 'flexblocks' ) }
-															valueTop={ borderRadiusTopRightMobile }
-															valueRight={ borderRadiusBottomRightMobile }
-															valueBottom={ borderRadiusBottomLeftMobile }
-															valueLeft={ borderRadiusTopLeftMobile }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTopMobile }
+															valueRight={ marginRightMobile }
+															valueBottom={ marginBottomMobile }
+															valueLeft={ marginLeftMobile }
 															//unit={ paddingUnit }
-															syncUnits={ borderRadiusSyncUnitsMobile }
-															attrTop={ 'borderRadiusTopRightMobile' }
-															attrRight={ 'borderRadiusBottomRightMobile' }
-															attrBottom={ 'borderRadiusBottomLeftMobile' }
-															attrLeft={ 'borderRadiusTopLeftMobile' }
-															attrSyncUnits={ 'borderRadiusSyncUnitsMobile' }
-															labelTop={ __( 'T-Left', 'flexblocks' ) }
-															labelRight={ __( 'T-Right', 'flexblocks' ) }
-															labelBottom={ __( 'B-Right', 'flexblocks' ) }
-															labelLeft={ __( 'B-Left', 'flexblocks' ) }
+															syncUnits={ marginSyncUnitsMobile }
+															attrTop={ 'marginTopMobile' }
+															attrRight={ 'marginRightMobile' }
+															attrBottom={ 'marginBottomMobile' }
+															attrLeft={ 'marginLeftMobile' }
+															attrSyncUnits={ 'marginSyncUnitsMobile' }
 														/>
 													</BaseControl>
 
