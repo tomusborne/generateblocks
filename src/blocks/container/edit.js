@@ -283,6 +283,18 @@ class FlexBlockContainer extends Component {
 		return (
 			<Fragment>
 				<InspectorControls>
+					<TextControl
+						type={ 'text' }
+						readOnly={ true }
+						label={ __( 'Unique ID', 'flexblocks' ) }
+						value={ uniqueId }
+						onChange={ ( value ) => {
+							setAttributes( {
+								uniqueId: value
+							} );
+						} }
+					/>
+
 					{ ! isGrid ? (
 						<PanelBody>
 							<Fragment>
