@@ -127,6 +127,10 @@ function flexblocks_auth_callback() {
  * @return string The shorthand value.
  */
 function flexblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit ) {
+	if ( '' === $top && '' === $right && '' === $bottom && '' === $left ) {
+		return;
+	}
+
 	$top = ( intval( $top ) <> 0 ) ? intval( $top ) . $unit . ' ' : '0 ';
 	$right = ( intval( $right ) <> 0 ) ? intval( $right ) . $unit . ' ' : '0 ';
 	$bottom = ( intval( $bottom ) <> 0 ) ? intval( $bottom ) . $unit . ' ' : '0 ';
