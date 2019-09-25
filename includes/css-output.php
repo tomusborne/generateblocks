@@ -179,6 +179,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			}
 
 			$css->add_property( 'border-color', $settings['borderColor'] );
+			$css->add_property( 'box-sizing', 'border-box' );
 
 			$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
 			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], 'px' ) );
