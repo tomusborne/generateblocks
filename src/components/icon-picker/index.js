@@ -35,6 +35,13 @@ class IconPicker extends Component {
 			attrIcon,
 			valueCustomIcon,
 			attrCustomIcon,
+			valueIconLocation,
+			attrIconLocation,
+			locationOptions,
+			valueRemoveText,
+			attrRemoveText,
+			valueAriaLabel,
+			attrAriaLabel,
 		} = this.props;
 
 		const sanitizeSVG = ( svg ) => {
@@ -99,30 +106,32 @@ class IconPicker extends Component {
 					</BaseControl>
 				</div>
 
-				<Button
-					isLarge
-					className="choose-custom-icon"
-					onClick={ () => {
-						setAttributes( { [ this.props[ 'attrCustomIcon' ] ]: true } );
-					} }
-				>
-					<span className="editor-block-types-list__item-icon">
-						{ __( 'Custom SVG', 'flexblocks' ) }
-					</span>
-				</Button>
+				<BaseControl className="advanced-icon-controls">
+					<Button
+						isLarge
+						className="choose-custom-icon"
+						onClick={ () => {
+							setAttributes( { [ this.props[ 'attrCustomIcon' ] ]: true } );
+						} }
+					>
+						<span className="editor-block-types-list__item-icon">
+							{ __( 'Custom SVG', 'flexblocks' ) }
+						</span>
+					</Button>
 
-				<Button
-					isLarge
-					className="reset-icon"
-					onClick={ () => {
-						setAttributes( { [ this.props[ 'attrCustomIcon' ] ]: false } );
-						setAttributes( { [ this.props[ 'attrIcon' ] ]: '' } );
-					} }
-				>
-					<span className="editor-block-types-list__item-icon">
-						{ __( 'Reset', 'flexblocks' ) }
-					</span>
-				</Button>
+					<Button
+						isLarge
+						className="reset-icon"
+						onClick={ () => {
+							setAttributes( { [ this.props[ 'attrCustomIcon' ] ]: false } );
+							setAttributes( { [ this.props[ 'attrIcon' ] ]: '' } );
+						} }
+					>
+						<span className="editor-block-types-list__item-icon">
+							{ __( 'Reset', 'flexblocks' ) }
+						</span>
+					</Button>
+				</BaseControl>
 
 				{ !! valueCustomIcon ? (
 					<BaseControl className="fx-svg-html">
@@ -136,6 +145,41 @@ class IconPicker extends Component {
 							} }
 						/>
 					</BaseControl>
+				) : '' }
+
+				<SelectControl
+					label={ __( 'Icon Location', 'flexblocks' ) }
+					value={ valueIconLocation }
+					options={ locationOptions }
+					onChange={ ( value ) => {
+						setAttributes( {
+							[ this.props[ 'attrIconLocation' ] ]: value
+						} );
+					} }
+				/>
+
+
+				<ToggleControl
+					label={ __( 'Remove Text', 'flexblocks' ) }
+					checked={ !! valueRemoveText }
+					onChange={ ( value ) => {
+						setAttributes( {
+							[ this.props[ 'attrRemoveText' ] ]: value
+						} );
+					} }
+				/>
+
+				{ !! valueRemoveText ? (
+					<TextControl
+						label={ __( 'ARIA Label', 'flexblocks' ) }
+						help={ __( 'Helpful to people using screen readers.', 'flexblocks' ) }
+						value={ valueAriaLabel }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ this.props[ 'attrAriaLabel' ] ]: value
+							} );
+						} }
+					/>
 				) : '' }
 			</Fragment>
 		);

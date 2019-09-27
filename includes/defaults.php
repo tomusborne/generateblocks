@@ -179,9 +179,10 @@ function flexblocks_get_block_defaults() {
 		'borderRadiusTopLeftMobile' => '',
 		'borderColor' => '#0366d6',
 		'borderColorHover' => '#222222',
-		'svg' => '',
-		'iconName' => '',
+		'icon' => '',
 		'iconLocation' => 'left',
+		'removeText' => false,
+		'ariaLabel' => '',
 	);
 
 	$defaults['gridContainer'] = array(

@@ -417,10 +417,12 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			if ( $settings['icon'] ) {
 				$css->set_selector( 'a.fx-button-' . $id . ' .fx-icon' );
 
-				if ( 'left' === $settings['iconLocation'] ) {
-					$css->add_property( 'margin-right', '0.5em' );
-				} else {
-					$css->add_property( 'margin-left', '0.5em' );
+				if ( ! $settings['removeText'] ) {
+					if ( 'left' === $settings['iconLocation'] ) {
+						$css->add_property( 'margin-right', '0.5em' );
+					} else {
+						$css->add_property( 'margin-left', '0.5em' );
+					}
 				}
 			}
 

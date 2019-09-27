@@ -20,6 +20,8 @@ export default ( { attributes } ) => {
 		rel,
 		icon,
 		iconLocation,
+		removeText,
+		ariaLabel,
 	} = attributes;
 
 	const sanitizeSVG = ( svg ) => {
@@ -37,6 +39,7 @@ export default ( { attributes } ) => {
 			href={ !! url ? url : undefined }
 			target={ !! target ? target : undefined }
 			rel={ !! rel ? rel : undefined }
+			aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 		>
 			{ icon && 'left' === iconLocation ? (
 				<span
@@ -44,7 +47,9 @@ export default ( { attributes } ) => {
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			) : '' }
-			<RichText.Content tagName="span" className="button-text" value={ text } key="button-text" />
+			{ ! removeText ? (
+				<RichText.Content tagName="span" className="button-text" value={ text } key="button-text" />
+			) : '' }
 			{ icon && 'right' === iconLocation ? (
 				<span
 					className="fx-icon"

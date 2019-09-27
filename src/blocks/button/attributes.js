@@ -47,6 +47,14 @@ export default {
 		type: 'boolean',
 		default: false,
 	},
+	removeText: {
+		type: 'boolean',
+		default: flexBlocksDefaults.button.removeText,
+	},
+	ariaLabel: {
+		type: 'string',
+		default: flexBlocksDefaults.button.ariaLabel,
+	},
 	backgroundColor: {
         type: 'string',
         default: flexBlocksDefaults.button.backgroundColor,

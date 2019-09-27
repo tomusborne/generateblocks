@@ -77,6 +77,8 @@ class FlexBlockButton extends Component {
 			icon,
 			iconLocation,
 			customIcon,
+			removeText,
+			ariaLabel,
 			backgroundColor,
 			textColor,
 			backgroundColorHover,
@@ -163,6 +165,10 @@ class FlexBlockButton extends Component {
 
 		if ( 'right' === iconLocation ) {
 			iconMargin = 'margin-left: 0.5em;';
+		}
+
+		if ( removeText ) {
+			iconMargin = 'margin: 0;';
 		}
 
 		const css = `
@@ -711,18 +717,17 @@ class FlexBlockButton extends Component {
 							attrIcon={ 'icon' }
 							valueCustomIcon={ customIcon }
 							attrCustomIcon={ 'customIcon' }
-						/>
-
-						<SelectControl
-							label={ __( 'Icon Location', 'flexblocks' ) }
-							value={ iconLocation }
-							options={ [
+							valueIconLocation={ iconLocation }
+							attrIconLocation={ 'iconLocation' }
+							locationOptions={ [
 								{ label: __( 'Left', 'flexblocks' ), value: 'left' },
 								{ label: __( 'Right', 'flexblocks' ), value: 'right' },
 							] }
-							onChange={ ( iconLocation ) => { setAttributes( { iconLocation } ) } }
+							valueRemoveText={ removeText }
+							attrRemoveText={ 'removeText' }
+							valueAriaLabel={ ariaLabel }
+							attrAriaLabel={ 'ariaLabel' }
 						/>
-
 					</PanelBody>
 				</InspectorControls>
 
@@ -755,6 +760,7 @@ class FlexBlockButton extends Component {
 					href={ !! url ? url : undefined }
 					target={ !! target ? target : undefined }
 					rel={ !! rel ? rel : undefined }
+					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 				>
 					{ icon && 'left' === iconLocation ? (
 						<span
@@ -762,16 +768,18 @@ class FlexBlockButton extends Component {
 							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 						/>
 					) : '' }
-					<span className={ 'button-text' }>
-						<RichText
-							placeholder={ __( 'Add text…' ) }
-							value={ text }
-							onChange={ ( value ) => setAttributes( { text: value } ) }
-							allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
-							isSelected={ isSelected }
-							keepPlaceholderOnFocus
-						/>
-					</span>
+					{ ! removeText ? (
+						<span className={ 'button-text' }>
+							<RichText
+								placeholder={ __( 'Add text…' ) }
+								value={ text }
+								onChange={ ( value ) => setAttributes( { text: value } ) }
+								allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
+								isSelected={ isSelected }
+								keepPlaceholderOnFocus
+							/>
+						</span>
+					) : '' }
 					{ icon && 'right' === iconLocation ? (
 						<span
 							className="fx-icon"
