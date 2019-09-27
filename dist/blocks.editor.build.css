@@ -436,8 +436,10 @@ body .fx-container .wp-block {
   position: relative;
   margin-top: 0; }
   .fx-button-wrapper .fx-button {
-    margin: 0 !important;
-    display: inline-block;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -ms-flex-align: center;
+        align-items: center;
     padding: .75em 1em;
     line-height: 1em;
     text-decoration: none !important;
@@ -486,14 +488,101 @@ body .fx-container .wp-block {
       -webkit-box-shadow: none;
               box-shadow: none; }
 
-[data-type="flexblocks/button"] > .editor-block-mover > .editor-block-mover__control-drag-handle {
+.fx-icon {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-item-align: center;
+      align-self: center; }
+
+.fx-icon svg {
+  height: 1em;
+  width: 1em;
+  fill: currentColor; }
+
+[data-type="flexblocks/button-container"] .fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout {
+  margin-left: 0;
+  margin-right: 0; }
+
+[data-type="flexblocks/button-container"] .fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
+  width: auto;
+  padding-left: 0;
+  padding-right: 0; }
+
+[data-type="flexblocks/button-container"] .fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit {
+  margin-left: 0;
+  margin-right: 0; }
+
+[data-type="flexblocks/button-container"] .fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit::before {
+  border-right: none;
+  border-top: none;
+  border-bottom: none; }
+
+[data-type="flexblocks/button-container"] .fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block.is-hovered:not(.is-navigate-mode) > .block-editor-block-list__block-edit::before {
+  -webkit-box-shadow: none;
+          box-shadow: none; }
+
+[data-type="flexblocks/button-container"].is-hovered .fx-button-wrapper .block-editor-block-list__block-edit::before,
+[data-type="flexblocks/button-container"].is-selected .fx-button-wrapper .block-editor-block-list__block-edit::before,
+[data-type="flexblocks/button-container"].has-child-selected .fx-button-wrapper .block-editor-block-list__block-edit::before {
+  border-color: transparent !important; }
+
+[data-type="flexblocks/button-container"] .fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit > [data-block] {
+  margin-top: 0;
+  margin-bottom: 0; }
+
+[data-type="flexblocks/button-container"] .fx-button-wrapper .block-editor-block-list__insertion-point,
+[data-type="flexblocks/button-container"] .fx-button-wrapper .block-editor-block-list__breadcrumb {
   display: none; }
 
-[data-type="flexblocks/button"] > .editor-block-mover > .components-button:first-child svg,
-[data-type="flexblocks/button"] > .editor-block-mover > .editor-block-mover__control-drag-handle + .components-button svg {
-  -webkit-transform: rotate(-90deg);
-      -ms-transform: rotate(-90deg);
-          transform: rotate(-90deg); }
+[data-type="flexblocks/button-container"]:not(.is-selected):not(.has-child-selected) .fx-button-wrapper {
+  min-height: 36px; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+.fx-icon-chooser {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  list-style: none;
+  margin-top: 0;
+  margin-left: -2px; }
+  .fx-icon-chooser li {
+    display: block;
+    margin: 0 0 4px;
+    padding: 0 2px;
+    width: calc(100% / 6); }
+    .fx-icon-chooser li button.components-button {
+      background: #fff;
+      border: 1px solid rgba(25, 30, 35, 0.2);
+      border-radius: 3px;
+      -webkit-box-shadow: none;
+      box-shadow: none;
+      padding: 5px;
+      line-height: normal;
+      height: auto;
+      font-size: 17px;
+      width: 100%;
+      -ms-flex-pack: center;
+          justify-content: center; }
+      .fx-icon-chooser li button.components-button span {
+        line-height: 0; }
+      .fx-icon-chooser li button.components-button:hover {
+        -webkit-box-shadow: none;
+                box-shadow: none; }
+
+.icon-chooser-container {
+  min-height: 150px;
+  overflow-y: auto;
+  background: #fafafa;
+  padding: 10px;
+  margin-bottom: 20px; }
+  .icon-chooser-container .components-base-control__label {
+    font-weight: 500; }
 /**
  * #.# Common SCSS
  *
