@@ -583,6 +583,12 @@ body .fx-container .wp-block {
   margin-bottom: 20px; }
   .icon-chooser-container .components-base-control__label {
     font-weight: 500; }
+
+.advanced-icon-controls .components-base-control__field {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between; }
 /**
  * #.# Common SCSS
  *
