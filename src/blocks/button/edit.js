@@ -186,6 +186,10 @@ class FlexBlockButton extends Component {
 				border-style: ` + borderStyleValue + `;
 				border-color: ` + borderColor + `;
 				text-transform: ` + textTransform + `;
+				margin-top: ` + marginTop + `px;
+				margin-right: ` + marginRight + `px;
+				margin-bottom: ` + marginBottom + `px;
+				margin-left: ` + marginLeft + `px;
 			}
 
 			.editor-block-list__block a.fx-button-` + uniqueId + `:hover,
@@ -194,6 +198,10 @@ class FlexBlockButton extends Component {
 				background-color: ` + backgroundColorHover + `;
 				color: ` + textColorHover + `;
 				border-color: ` + borderColorHover + `;
+			}
+
+			.editor-block-list__block a.fx-button-` + uniqueId + ` .fx-icon {
+				` + iconMargin + `
 			}
 		`
 
@@ -454,19 +462,23 @@ class FlexBlockButton extends Component {
 
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopMobile }
-															valueRight={ marginRightMobile }
-															valueBottom={ marginBottomMobile }
-															valueLeft={ marginLeftMobile }
+															type={ 'padding' }
+															label={ __( 'Border Radius', 'flexblocks' ) }
+															valueTop={ borderRadiusTopRightMobile }
+															valueRight={ borderRadiusBottomRightMobile }
+															valueBottom={ borderRadiusBottomLeftMobile }
+															valueLeft={ borderRadiusTopLeftMobile }
 															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnitsMobile }
-															attrTop={ 'marginTopMobile' }
-															attrRight={ 'marginRightMobile' }
-															attrBottom={ 'marginBottomMobile' }
-															attrLeft={ 'marginLeftMobile' }
-															attrSyncUnits={ 'marginSyncUnitsMobile' }
+															syncUnits={ borderRadiusSyncUnitsMobile }
+															attrTop={ 'borderRadiusTopRightMobile' }
+															attrRight={ 'borderRadiusBottomRightMobile' }
+															attrBottom={ 'borderRadiusBottomLeftMobile' }
+															attrLeft={ 'borderRadiusTopLeftMobile' }
+															attrSyncUnits={ 'borderRadiusSyncUnitsMobile' }
+															labelTop={ __( 'T-Left', 'flexblocks' ) }
+															labelRight={ __( 'T-Right', 'flexblocks' ) }
+															labelBottom={ __( 'B-Right', 'flexblocks' ) }
+															labelLeft={ __( 'B-Left', 'flexblocks' ) }
 														/>
 													</BaseControl>
 
