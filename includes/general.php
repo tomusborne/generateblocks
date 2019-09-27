@@ -23,6 +23,14 @@ function flexblocks_do_block_editor_assets() {
 		true
 	);
 
+	wp_enqueue_script(
+		'flexblocks-dompurify',
+		FLEXBLOCKS_MODULE_DIR_URL . 'dist/js/purify.min.js',
+		array( 'flexblocks' ),
+		filemtime( FLEXBLOCKS_MODULE_DIR . 'dist/js/purify.min.js' ),
+		true
+	);
+
 	wp_enqueue_style(
 		'flexblocks',
 		FLEXBLOCKS_MODULE_DIR_URL . 'dist/blocks.editor.build.css',

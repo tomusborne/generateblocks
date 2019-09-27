@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
+import IconPicker from '../../components/icon-picker';
 import URLInput from '../../components/url-input';
 import DimensionsControl from '../../components/dimensions/';
 
@@ -73,6 +74,9 @@ class FlexBlockButton extends Component {
 			url,
 			target,
 			rel,
+			icon,
+			iconLocation,
+			customIcon,
 			backgroundColor,
 			textColor,
 			backgroundColorHover,
@@ -145,8 +149,9 @@ class FlexBlockButton extends Component {
 			borderColorHover,
 		} = attributes;
 
-		var fontSizeValue = '',
-			borderStyleValue = '';
+		let fontSizeValue = '',
+			borderStyleValue = '',
+			iconMargin = 'margin-right: 0.5em;';
 
 		if ( fontSize ) {
 			fontSizeValue = fontSize + 'em';
@@ -154,6 +159,10 @@ class FlexBlockButton extends Component {
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			borderStyleValue = 'solid';
+		}
+
+		if ( 'right' === iconLocation ) {
+			iconMargin = 'margin-left: 0.5em;';
 		}
 
 		const css = `
@@ -191,6 +200,10 @@ class FlexBlockButton extends Component {
 		$( '.fx-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 		} );
+
+		const sanitizeSVG = ( svg ) => {
+			return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
+		}
 
 		return (
 			<Fragment>
@@ -524,6 +537,30 @@ class FlexBlockButton extends Component {
 					</PanelBody>
 
 					<PanelBody
+						title={ __( 'Icon', 'flexblocks' ) }
+						initialOpen={ false }
+						>
+
+						<IconPicker { ...this.props }
+							valueIcon={ icon }
+							attrIcon={ 'icon' }
+							valueCustomIcon={ customIcon }
+							attrCustomIcon={ 'customIcon' }
+						/>
+
+						<SelectControl
+							label={ __( 'Icon Location', 'flexblocks' ) }
+							value={ iconLocation }
+							options={ [
+								{ label: __( 'Left', 'flexblocks' ), value: 'left' },
+								{ label: __( 'Right', 'flexblocks' ), value: 'right' },
+							] }
+							onChange={ ( iconLocation ) => { setAttributes( { iconLocation } ) } }
+						/>
+
+					</PanelBody>
+
+					<PanelBody
 						title={ __( 'Colors', 'flexblocks' ) }
 						initialOpen={ false }
 						>
@@ -660,6 +697,12 @@ class FlexBlockButton extends Component {
 					target={ !! target ? target : undefined }
 					rel={ !! rel ? rel : undefined }
 				>
+					{ icon && 'left' === iconLocation ? (
+						<span
+							className="fx-icon"
+							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+						/>
+					) : '' }
 					<span className={ 'button-text' }>
 						<RichText
 							placeholder={ __( 'Add text…' ) }
@@ -670,6 +713,12 @@ class FlexBlockButton extends Component {
 							keepPlaceholderOnFocus
 						/>
 					</span>
+					{ icon && 'right' === iconLocation ? (
+						<span
+							className="fx-icon"
+							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+						/>
+					) : '' }
 				</a>
 				{ isSelected ? (
                     <URLInput

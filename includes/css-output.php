@@ -356,12 +356,23 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 		$css = new FlexBlocks_Dynamic_CSS;
 
 		$css->set_selector( '.fx-button' );
+		$css->add_property( 'display', 'inline-block' );
 		$css->add_property( 'display', 'inline-flex' );
 		$css->add_property( 'align-items', 'center' );
 		$css->add_property( 'justify-content', 'center' );
 		$css->add_property( 'line-height', '1em' );
 		$css->add_property( 'text-decoration', 'none !important' );
 		$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
+
+		$css->set_selector( '.fx-button .fx-icon' );
+		$css->add_property( 'display', 'inline-block' );
+		$css->add_property( 'display', 'inline-flex' );
+		$css->add_property( 'align-items', 'center' );
+
+		$css->set_selector( '.fx-button .fx-icon svg' );
+		$css->add_property( 'height', '1em' );
+		$css->add_property( 'width', '1em' );
+		$css->add_property( 'fill', 'currentColor' );
 
 		foreach ( $data as $atts ) {
 			if ( ! isset( $atts['uniqueId'] ) ) {
@@ -393,10 +404,25 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'border-color', $settings['borderColor'] );
 			$css->add_property( 'text-transform', $settings['textTransform'] );
 
+			if ( $settings['icon'] ) {
+				$css->add_property( 'display', 'inline-flex' );
+				$css->add_property( 'align-items', 'center' );
+			}
+
 			$css->set_selector( 'a.fx-button-' . $id . ':hover,a.fx-button-' . $id . ':active, a.fx-button-' . $id . ':focus' );
 			$css->add_property( 'background-color', $settings['backgroundColorHover'] );
 			$css->add_property( 'color', $settings['textColorHover'] );
 			$css->add_property( 'border-color', $settings['borderColorHover'] );
+
+			if ( $settings['icon'] ) {
+				$css->set_selector( 'a.fx-button-' . $id . ' .fx-icon' );
+
+				if ( 'left' === $settings['iconLocation'] ) {
+					$css->add_property( 'margin-right', '0.5em' );
+				} else {
+					$css->add_property( 'margin-left', '0.5em' );
+				}
+			}
 
 			$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
 				$css->set_selector( 'a.fx-button-' . $id );

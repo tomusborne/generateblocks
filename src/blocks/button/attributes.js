@@ -35,6 +35,18 @@ export default {
 		selector: '.fx-button .button-text',
 		default: 'Button',
 	},
+	icon: {
+        type: 'string',
+        default: flexBlocksDefaults.button.icon,
+    },
+	iconLocation: {
+        type: 'string',
+        default: flexBlocksDefaults.button.iconLocation,
+    },
+	customIcon: {
+		type: 'boolean',
+		default: false,
+	},
 	backgroundColor: {
         type: 'string',
         default: flexBlocksDefaults.button.backgroundColor,

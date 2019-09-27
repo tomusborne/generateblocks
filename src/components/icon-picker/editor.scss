@@ -1,0 +1,50 @@
+.fx-icon-chooser {
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	list-style: none;
+	margin-top: 0;
+	margin-left: -2px;
+
+	li {
+		display: block;
+	    margin: 0 0 4px;
+	    padding: 0 2px;
+		width: calc(100% / 6);
+
+		button.components-button {
+			background: #fff;
+			border: 1px solid rgba(25, 30, 35, 0.2);
+			border-radius: 3px;
+			-webkit-box-shadow: none;
+			box-shadow: none;
+			padding: 5px;
+			line-height: normal;
+			height: auto;
+			font-size: 17px;
+			width: 100%;
+			justify-content: center;
+
+			span {
+				line-height: 0;
+			}
+
+			&:hover {
+				box-shadow: none;
+			}
+		}
+	}
+}
+
+.icon-chooser-container {
+    min-height: 150px;
+    overflow-y: auto;
+    background: #fafafa;
+    padding: 10px;
+    margin-bottom: 20px;
+
+	.components-base-control__label {
+		font-weight: 500;
+	}
+}

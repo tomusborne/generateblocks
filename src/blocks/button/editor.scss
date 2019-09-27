@@ -8,8 +8,8 @@
     margin-top: 0;
 
     .fx-button {
-        margin: 0 !important; // stylelint-disable-line
-		display: inline-block;
+		display: inline-flex;
+		align-items: center;
 	    padding: .75em 1em;
 	    line-height: 1em;
 	    text-decoration: none !important;
@@ -74,14 +74,15 @@
     }
 }
 
-// hide drag handler from single buttons
-// rotate move buttons
-[data-type="flexblocks/button"] > .editor-block-mover {
-    > .editor-block-mover__control-drag-handle {
-        display: none;
-    }
-    > .components-button:first-child svg,
-    > .editor-block-mover__control-drag-handle + .components-button svg {
-        transform: rotate(-90deg);
-    }
+.fx-icon {
+	display: inline-flex;
+	align-self: center;
+}
+
+.fx-icon svg {
+	height: 1em;
+	width: 1em;
+	fill: currentColor;
+}
+
 }

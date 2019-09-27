@@ -18,7 +18,13 @@ export default ( { attributes } ) => {
 		url,
 		target,
 		rel,
+		icon,
+		iconLocation,
 	} = attributes;
+
+	const sanitizeSVG = ( svg ) => {
+		return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
+	}
 
 	return (
 		<a
@@ -32,7 +38,19 @@ export default ( { attributes } ) => {
 			target={ !! target ? target : undefined }
 			rel={ !! rel ? rel : undefined }
 		>
+			{ icon && 'left' === iconLocation ? (
+				<span
+					className="fx-icon"
+					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+				/>
+			) : '' }
 			<RichText.Content tagName="span" className="button-text" value={ text } key="button-text" />
+			{ icon && 'right' === iconLocation ? (
+				<span
+					className="fx-icon"
+					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+				/>
+			) : '' }
 		</a>
 	);
 }
