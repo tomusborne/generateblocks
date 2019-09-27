@@ -217,31 +217,34 @@ class FlexBlockButton extends Component {
 			<Fragment>
 
 				<InspectorControls>
-					<PanelBody>
+					<PanelBody
+						title={ __( 'Typography', 'flexblocks' ) }
+						initialOpen={ true }
+						>
 						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
-									name: 'grid-default',
+									name: 'default',
 									title: __( 'Default', 'flexblocks' ),
-									className: 'grid-default',
+									className: 'default',
 								},
 								{
-									name: 'grid-tablet',
+									name: 'tablet',
 									title: __( 'Tablet', 'flexblocks' ),
-									className: 'grid-tablet',
+									className: 'tablet',
 								},
 								{
-									name: 'grid-mobile',
+									name: 'mobile',
 									title: __( 'Mobile', 'flexblocks' ),
-									className: 'grid-mobile',
+									className: 'mobile',
 								},
 							] }>
 							{
 								( tab ) => {
 									return (
 										<div>
-											{ 'grid-default' === tab.name ? (
+											{ 'default' === tab.name ? (
 												<Fragment>
 													<RangeControl
 														label={ __( 'Font Size', 'flexblocks' ) }
@@ -269,7 +272,82 @@ class FlexBlockButton extends Component {
 														] }
 														onChange={ ( textTransform ) => { setAttributes( { textTransform } ) } }
 													/>
+												</Fragment>
+											) : '' }
 
+											{ 'tablet' === tab.name ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Font Size', 'flexblocks' ) }
+														value={ fontSizeTablet }
+														onChange={ ( value ) => {
+															setAttributes( {
+																fontSizeTablet: value
+															} );
+														} }
+														min={ 0.3 }
+														max={ 3 }
+														step={ 0.1 }
+														allowReset={ true }
+														initialPosition={ flexBlocksDefaults.button.fontSizeTablet }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'mobile' === tab.name ? (
+												<Fragment>
+													<RangeControl
+														label={ __( 'Font Size', 'flexblocks' ) }
+														value={ fontSizeMobile }
+														onChange={ ( value ) => {
+															setAttributes( {
+																fontSizeMobile: value
+															} );
+														} }
+														min={ 0.3 }
+														max={ 3 }
+														step={ 0.1 }
+														allowReset={ true }
+														initialPosition={ flexBlocksDefaults.button.fontSizeMobile }
+													/>
+												</Fragment>
+											) : '' }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Spacing', 'flexblocks' ) }
+						initialOpen={ false }
+						>
+						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'grid-default',
+									title: __( 'Default', 'flexblocks' ),
+									className: 'grid-default',
+								},
+								{
+									name: 'grid-tablet',
+									title: __( 'Tablet', 'flexblocks' ),
+									className: 'grid-tablet',
+								},
+								{
+									name: 'grid-mobile',
+									title: __( 'Mobile', 'flexblocks' ),
+									className: 'grid-mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									return (
+										<div>
+											{ 'grid-default' === tab.name ? (
+												<Fragment>
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
@@ -350,21 +428,6 @@ class FlexBlockButton extends Component {
 
 											{ 'grid-tablet' === tab.name ? (
 												<Fragment>
-													<RangeControl
-														label={ __( 'Font Size', 'flexblocks' ) }
-														value={ fontSizeTablet }
-														onChange={ ( value ) => {
-															setAttributes( {
-																fontSizeTablet: value
-															} );
-														} }
-														min={ 0.3 }
-														max={ 3 }
-														step={ 0.1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.button.fontSizeTablet }
-													/>
-
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
@@ -445,21 +508,6 @@ class FlexBlockButton extends Component {
 
 											{ 'grid-mobile' === tab.name ? (
 												<Fragment>
-													<RangeControl
-														label={ __( 'Font Size', 'flexblocks' ) }
-														value={ fontSizeMobile }
-														onChange={ ( value ) => {
-															setAttributes( {
-																fontSizeMobile: value
-															} );
-														} }
-														min={ 0.3 }
-														max={ 3 }
-														step={ 0.1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.button.fontSizeMobile }
-													/>
-
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
@@ -546,30 +594,6 @@ class FlexBlockButton extends Component {
 								}
 							}
 						</TabPanel>
-					</PanelBody>
-
-					<PanelBody
-						title={ __( 'Icon', 'flexblocks' ) }
-						initialOpen={ false }
-						>
-
-						<IconPicker { ...this.props }
-							valueIcon={ icon }
-							attrIcon={ 'icon' }
-							valueCustomIcon={ customIcon }
-							attrCustomIcon={ 'customIcon' }
-						/>
-
-						<SelectControl
-							label={ __( 'Icon Location', 'flexblocks' ) }
-							value={ iconLocation }
-							options={ [
-								{ label: __( 'Left', 'flexblocks' ), value: 'left' },
-								{ label: __( 'Right', 'flexblocks' ), value: 'right' },
-							] }
-							onChange={ ( iconLocation ) => { setAttributes( { iconLocation } ) } }
-						/>
-
 					</PanelBody>
 
 					<PanelBody
@@ -675,6 +699,29 @@ class FlexBlockButton extends Component {
 								}
 							}
 						</TabPanel>
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Icon', 'flexblocks' ) }
+						initialOpen={ false }
+						>
+
+						<IconPicker { ...this.props }
+							valueIcon={ icon }
+							attrIcon={ 'icon' }
+							valueCustomIcon={ customIcon }
+							attrCustomIcon={ 'customIcon' }
+						/>
+
+						<SelectControl
+							label={ __( 'Icon Location', 'flexblocks' ) }
+							value={ iconLocation }
+							options={ [
+								{ label: __( 'Left', 'flexblocks' ), value: 'left' },
+								{ label: __( 'Right', 'flexblocks' ), value: 'right' },
+							] }
+							onChange={ ( iconLocation ) => { setAttributes( { iconLocation } ) } }
+						/>
 
 					</PanelBody>
 				</InspectorControls>

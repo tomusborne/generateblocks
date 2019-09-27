@@ -195,7 +195,10 @@ class FlexBlockHeadline extends Component {
 				</BlockControls>
 
 				<InspectorControls>
-					<PanelBody>
+					<PanelBody
+						title={ __( 'Typography', 'flexblocks' ) }
+						initialOpen={ true }
+						>
 						<TabPanel className="headline-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
@@ -244,50 +247,6 @@ class FlexBlockHeadline extends Component {
 														} }
 													/>
 
-													<ColorPicker
-														label={ __( 'Background Color', 'flexblocks' ) }
-														value={ backgroundColor }
-														onChange={ ( value ) =>
-															setAttributes( {
-																backgroundColor: value
-															} )
-														}
-														alpha={ true }
-													/>
-
-													<ColorPicker
-														label={ __( 'Color', 'flexblocks' ) }
-														value={ textColor }
-														onChange={ ( value ) =>
-															setAttributes( {
-																textColor: value
-															} )
-														}
-														alpha={ false }
-													/>
-
-													<ColorPicker
-														label={ __( 'Link Color', 'flexblocks' ) }
-														value={ linkColor }
-														onChange={ ( value ) =>
-															setAttributes( {
-																linkColor: value
-															} )
-														}
-														alpha={ false }
-													/>
-
-													<ColorPicker
-														label={ __( 'Link Color Hover', 'flexblocks' ) }
-														value={ linkColorHover }
-														onChange={ ( value ) =>
-															setAttributes( {
-																linkColorHover: value
-															} )
-														}
-														alpha={ false }
-													/>
-
 													<TypographyControls { ...this.props }
 														valueFontFamily={ fontFamily }
 														valueFontWeight={ fontWeight }
@@ -308,7 +267,143 @@ class FlexBlockHeadline extends Component {
 														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
 														uniqueId={ uniqueId }
 													/>
+												</Fragment>
+											) : '' }
 
+											{ 'tablet' === tab.name ? (
+												<Fragment>
+													<AlignmentToolbar
+														isCollapsed={ false }
+														value={ alignmentTablet }
+														onChange={ ( value ) => {
+															setAttributes( { alignmentTablet: value } );
+														} }
+													/>
+
+													<TypographyControls { ...this.props }
+														valueFontSize={ fontSizeTablet }
+														valueLineHeight={ lineHeightTablet }
+														valueLetterSpacing={ letterSpacingTablet }
+														attrFontSize={ 'fontSizeTablet' }
+														attrLineHeight={ 'lineHeightTablet' }
+														attrLetterSpacing={ 'letterSpacingTablet' }
+														initialFontSize={ flexBlocksDefaults.headline.fontSizeTablet }
+														initialLineHeight={ flexBlocksDefaults.headline.lineHeightTablet }
+														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingTablet }
+														uniqueId={ uniqueId }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'mobile' === tab.name ? (
+												<Fragment>
+													<AlignmentToolbar
+														isCollapsed={ false }
+														value={ alignmentMobile }
+														onChange={ ( value ) => {
+															setAttributes( { alignmentMobile: value } );
+														} }
+													/>
+
+													<TypographyControls { ...this.props }
+														valueFontSize={ fontSizeMobile }
+														valueLineHeight={ lineHeightMobile }
+														valueLetterSpacing={ letterSpacingMobile }
+														attrFontSize={ 'fontSizeMobile' }
+														attrLineHeight={ 'lineHeightMobile' }
+														attrLetterSpacing={ 'letterSpacingMobile' }
+														initialFontSize={ flexBlocksDefaults.headline.fontSizeMobile }
+														initialLineHeight={ flexBlocksDefaults.headline.lineHeightMobile }
+														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingMobile }
+														uniqueId={ uniqueId }
+													/>
+												</Fragment>
+											) : '' }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Colors', 'flexblocks' ) }
+						initialOpen={ false }
+						>
+						<ColorPicker
+							label={ __( 'Background Color', 'flexblocks' ) }
+							value={ backgroundColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									backgroundColor: value
+								} )
+							}
+							alpha={ true }
+						/>
+
+						<ColorPicker
+							label={ __( 'Color', 'flexblocks' ) }
+							value={ textColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									textColor: value
+								} )
+							}
+							alpha={ false }
+						/>
+
+						<ColorPicker
+							label={ __( 'Link Color', 'flexblocks' ) }
+							value={ linkColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									linkColor: value
+								} )
+							}
+							alpha={ false }
+						/>
+
+						<ColorPicker
+							label={ __( 'Link Color Hover', 'flexblocks' ) }
+							value={ linkColorHover }
+							onChange={ ( value ) =>
+								setAttributes( {
+									linkColorHover: value
+								} )
+							}
+							alpha={ false }
+						/>
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Spacing', 'flexblocks' ) }
+						initialOpen={ false }
+						>
+						<TabPanel className="headline-tab-panel flexblocks-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'default',
+									title: __( 'Default', 'flexblocks' ),
+									className: 'default',
+								},
+								{
+									name: 'tablet',
+									title: __( 'Tablet', 'flexblocks' ),
+									className: 'tablet',
+								},
+								{
+									name: 'mobile',
+									title: __( 'Mobile', 'flexblocks' ),
+									className: 'mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									return (
+										<div>
+											{ 'default' === tab.name ? (
+												<Fragment>
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
@@ -349,27 +444,6 @@ class FlexBlockHeadline extends Component {
 
 											{ 'tablet' === tab.name ? (
 												<Fragment>
-													<AlignmentToolbar
-														isCollapsed={ false }
-														value={ alignmentTablet }
-														onChange={ ( value ) => {
-															setAttributes( { alignmentTablet: value } );
-														} }
-													/>
-
-													<TypographyControls { ...this.props }
-														valueFontSize={ fontSizeTablet }
-														valueLineHeight={ lineHeightTablet }
-														valueLetterSpacing={ letterSpacingTablet }
-														attrFontSize={ 'fontSizeTablet' }
-														attrLineHeight={ 'lineHeightTablet' }
-														attrLetterSpacing={ 'letterSpacingTablet' }
-														initialFontSize={ flexBlocksDefaults.headline.fontSizeTablet }
-														initialLineHeight={ flexBlocksDefaults.headline.lineHeightTablet }
-														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingTablet }
-														uniqueId={ uniqueId }
-													/>
-
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
@@ -410,27 +484,6 @@ class FlexBlockHeadline extends Component {
 
 											{ 'mobile' === tab.name ? (
 												<Fragment>
-													<AlignmentToolbar
-														isCollapsed={ false }
-														value={ alignmentMobile }
-														onChange={ ( value ) => {
-															setAttributes( { alignmentMobile: value } );
-														} }
-													/>
-
-													<TypographyControls { ...this.props }
-														valueFontSize={ fontSizeMobile }
-														valueLineHeight={ lineHeightMobile }
-														valueLetterSpacing={ letterSpacingMobile }
-														attrFontSize={ 'fontSizeMobile' }
-														attrLineHeight={ 'lineHeightMobile' }
-														attrLetterSpacing={ 'letterSpacingMobile' }
-														initialFontSize={ flexBlocksDefaults.headline.fontSizeMobile }
-														initialLineHeight={ flexBlocksDefaults.headline.lineHeightMobile }
-														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingMobile }
-														uniqueId={ uniqueId }
-													/>
-
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'margin' }
