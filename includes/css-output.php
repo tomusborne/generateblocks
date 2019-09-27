@@ -20,7 +20,10 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 		$css = new FlexBlocks_Dynamic_CSS;
 
 		$css->set_selector( '.fx-grid-wrapper' );
+		$css->add_property( 'display', '-webkit-box' );
+		$css->add_property( 'display', '-ms-flexbox' );
 		$css->add_property( 'display', 'flex' );
+		$css->add_property( '-ms-flex-wrap', 'wrap' );
 		$css->add_property( 'flex-wrap', 'wrap' );
 
 		foreach ( $data as $atts ) {
