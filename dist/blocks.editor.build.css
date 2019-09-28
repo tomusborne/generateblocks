@@ -550,19 +550,19 @@ body .fx-container .wp-block {
   flex-wrap: wrap;
   list-style: none;
   margin-top: 0;
-  margin-left: -2px; }
+  margin-left: -1px; }
   .fx-icon-chooser li {
     display: block;
-    margin: 0 0 4px;
-    padding: 0 2px;
-    width: calc(100% / 6); }
+    margin: 0 0 1px;
+    padding: 0 1px;
+    width: calc(100% / 5); }
     .fx-icon-chooser li button.components-button {
       background: #fff;
       border: 1px solid rgba(25, 30, 35, 0.2);
-      border-radius: 3px;
+      border-radius: 0;
       -webkit-box-shadow: none;
       box-shadow: none;
-      padding: 5px;
+      padding: 8px;
       line-height: normal;
       height: auto;
       font-size: 17px;
@@ -572,11 +572,12 @@ body .fx-container .wp-block {
       .fx-icon-chooser li button.components-button span {
         line-height: 0; }
       .fx-icon-chooser li button.components-button:hover {
+        background: #fff;
         -webkit-box-shadow: none;
                 box-shadow: none; }
 
 .icon-chooser-container {
-  min-height: 150px;
+  max-height: 200px;
   overflow-y: auto;
   background: #fafafa;
   padding: 10px;
