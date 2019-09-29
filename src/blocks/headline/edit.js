@@ -338,6 +338,11 @@ class FlexBlockHeadline extends Component {
 									backgroundColor: value
 								} )
 							}
+							onClear={ () =>
+								setAttributes( {
+									backgroundColor: flexBlocksDefaults.headline.backgroundColor
+								} )
+							}
 							alpha={ true }
 						/>
 
@@ -347,6 +352,11 @@ class FlexBlockHeadline extends Component {
 							onChange={ ( value ) =>
 								setAttributes( {
 									textColor: value
+								} )
+							}
+							onClear={ () =>
+								setAttributes( {
+									textColor: flexBlocksDefaults.headline.textColor
 								} )
 							}
 							alpha={ false }
@@ -360,6 +370,11 @@ class FlexBlockHeadline extends Component {
 									linkColor: value
 								} )
 							}
+							onClear={ () =>
+								setAttributes( {
+									linkColor: flexBlocksDefaults.headline.linkColor
+								} )
+							}
 							alpha={ false }
 						/>
 
@@ -369,6 +384,11 @@ class FlexBlockHeadline extends Component {
 							onChange={ ( value ) =>
 								setAttributes( {
 									linkColorHover: value
+								} )
+							}
+							onClear={ () =>
+								setAttributes( {
+									linkColorHover: flexBlocksDefaults.headline.linkColorHover
 								} )
 							}
 							alpha={ false }

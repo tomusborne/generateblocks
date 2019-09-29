@@ -633,6 +633,11 @@ class FlexBlockButton extends Component {
 																backgroundColor: nextBackgroundColor
 															} )
 														}
+														onClear={ () =>
+															setAttributes( {
+																backgroundColor: flexBlocksDefaults.button.backgroundColor
+															} )
+														}
 														alpha={ true }
 													/>
 
@@ -644,6 +649,11 @@ class FlexBlockButton extends Component {
 																textColor: nextTextColor
 															} )
 														}
+														onClear={ () =>
+															setAttributes( {
+																textColor: flexBlocksDefaults.button.textColor
+															} )
+														}
 														alpha={ false }
 													/>
 
@@ -653,6 +663,11 @@ class FlexBlockButton extends Component {
 														onChange={ ( value ) =>
 															setAttributes( {
 																borderColor: value
+															} )
+														}
+														onClear={ () =>
+															setAttributes( {
+																borderColor: flexBlocksDefaults.button.borderColor
 															} )
 														}
 														alpha={ false }
@@ -670,6 +685,11 @@ class FlexBlockButton extends Component {
 																backgroundColorHover: nextBackgroundColorHover
 															} )
 														}
+														onClear={ () =>
+															setAttributes( {
+																backgroundColorHover: flexBlocksDefaults.button.backgroundColorHover
+															} )
+														}
 														alpha={ true }
 													/>
 
@@ -681,6 +701,11 @@ class FlexBlockButton extends Component {
 																textColorHover: nextTextColorHover
 															} )
 														}
+														onClear={ () =>
+															setAttributes( {
+																textColorHover: flexBlocksDefaults.button.textColorHover
+															} )
+														}
 														alpha={ false }
 													/>
 
@@ -690,6 +715,11 @@ class FlexBlockButton extends Component {
 														onChange={ ( value ) =>
 															setAttributes( {
 																borderColorHover: value
+															} )
+														}
+														onClear={ () =>
+															setAttributes( {
+																borderColorHover: flexBlocksDefaults.button.borderColorHover
 															} )
 														}
 														alpha={ false }
