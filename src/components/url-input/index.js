@@ -105,7 +105,7 @@ export default class URLInput extends Component {
                             } }
                         />
                         <ToggleControl
-                            label={ __( 'Add nofollow option to link' ) }
+                            label={ __( 'Add rel="nofollow"' ) }
                             checked={ 'nofollow' === rel }
                             onChange={ () => {
                                 if ( 'nofollow' === rel ) {
