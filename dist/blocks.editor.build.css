@@ -337,6 +337,10 @@ body .fx-container .wp-block {
 
 .fx-component-color-picker .components-color-palette {
   margin: 0; }
+
+.components-base-control.color-picker-clear {
+  text-align: center;
+  padding-bottom: 5px; }
 /**
  * #.# Common SCSS
  *
