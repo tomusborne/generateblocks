@@ -24,6 +24,12 @@ const el = wp.element.createElement;
  */
 registerBlockType( 'flexblocks/button-container', {
 	title: __( 'Buttons', 'flexblocks' ),
+	description: __( 'Add as many advanced buttons as needed. Can be used for regular buttons or icon buttons.', 'flexblocks' ),
+	example: {
+		attributes: {
+			text: __( 'Example Button' ),
+		},
+	},
 	icon: getIcon( 'button' ),
 	category: 'flexblocks',
 	keywords: [
