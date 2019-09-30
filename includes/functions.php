@@ -131,10 +131,10 @@ function flexblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit ) {
 		return;
 	}
 
-	$top = ( intval( $top ) <> 0 ) ? intval( $top ) . $unit . ' ' : '0 ';
-	$right = ( intval( $right ) <> 0 ) ? intval( $right ) . $unit . ' ' : '0 ';
-	$bottom = ( intval( $bottom ) <> 0 ) ? intval( $bottom ) . $unit . ' ' : '0 ';
-	$left = ( intval( $left ) <> 0 ) ? intval( $left ) . $unit . ' ' : '0 ';
+	$top = ( floatval( $top ) <> 0 ) ? floatval( $top ) . $unit . ' ' : '0 ';
+	$right = ( floatval( $right ) <> 0 ) ? floatval( $right ) . $unit . ' ' : '0 ';
+	$bottom = ( floatval( $bottom ) <> 0 ) ? floatval( $bottom ) . $unit . ' ' : '0 ';
+	$left = ( floatval( $left ) <> 0 ) ? floatval( $left ) . $unit . ' ' : '0 ';
 
 	if ( $right === $left ) {
 		$left = '';

@@ -59,6 +59,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.container.paddingLeft,
 	},
+	paddingUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.container.paddingUnit,
+	},
 	paddingSyncUnits: {
 		type: 'boolean',
 		default: false,
@@ -118,6 +122,10 @@ export default {
 	marginLeft: {
 		type: 'string',
 		default: flexBlocksDefaults.container.marginLeft,
+	},
+	marginUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.container.marginUnit,
 	},
 	marginSyncUnits: {
 		type: 'boolean',
@@ -226,6 +234,10 @@ export default {
 	borderRadiusTopLeft: {
 		type: 'string',
 		default: flexBlocksDefaults.container.borderRadiusTopLeft,
+	},
+	borderRadiusUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.container.borderRadiusUnit,
 	},
 	borderRadiusTopRightTablet: {
 		type: 'string',

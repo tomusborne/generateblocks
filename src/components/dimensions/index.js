@@ -10,7 +10,7 @@ import getIcon from '../../utils/get-icon';
  */
 const { __, _x, sprintf } = wp.i18n;
 const { Component, Fragment } = wp.element;
-const { BaseControl, Button, Tooltip } = wp.components;
+const { BaseControl, Button, Tooltip, ButtonGroup } = wp.components;
 
 class DimensionsControl extends Component {
 
@@ -22,6 +22,7 @@ class DimensionsControl extends Component {
 		this.onChangeLeft = this.onChangeLeft.bind( this );
 		this.onChangeAll = this.onChangeAll.bind( this );
 		this.syncUnits = this.syncUnits.bind( this );
+		this.onChangeUnits = this.onChangeUnits.bind( this );
 	}
 
 	onReset( type ) {
@@ -57,6 +58,10 @@ class DimensionsControl extends Component {
 		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: syncValue.toString(), [ this.props[ 'attrRight' ] ]: syncValue.toString(), [ this.props[ 'attrBottom' ] ]: syncValue.toString(), [ this.props[ 'attrLeft' ] ]: syncValue.toString() } );
 	}
 
+	onChangeUnits( value ) {
+		this.props.setAttributes( { [ this.props[ 'attrUnit' ] ]: value } );
+	}
+
 	render() {
 
 		const {
@@ -85,6 +90,9 @@ class DimensionsControl extends Component {
 			labelRight = __( 'Right', 'flexblocks' ),
 			labelBottom = __( 'Bottom', 'flexblocks' ),
 			labelLeft = __( 'Left', 'flexblocks' ),
+			valueUnit,
+			attrUnit,
+			unitChoices,
 		} = this.props;
 
 		const classes = classnames(
@@ -153,10 +161,59 @@ class DimensionsControl extends Component {
 			}
 		};
 
+		let unitSizes = [
+			{
+				name: _x( 'Pixel', 'A size unit for CSS markup' ),
+				unitValue: 'px',
+			},
+			{
+				name: _x( 'Em', 'A size unit for CSS markup' ),
+				unitValue: 'em',
+			},
+			{
+				name: _x( 'Percentage', 'A size unit for CSS markup' ),
+				unitValue: '%',
+			},
+		];
+
+		unitSizes.map( ( unitValue ) => {
+			console.log(unitValue);
+		} );
+
 		return (
 			<Fragment>
 				<div className={ classes }>
-					<div className='components-fx-dimensions-control__inputs'>
+					<div className="components-fx-dimensions-control__header">
+						<div className="components-fx-dimensions-control__label">
+							{ label }
+						</div>
+
+						{ ( typeof valueUnit !== 'undefined' ) ?
+							<div className="components-fx-dimensions-control__units">
+								<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+									{ unitSizes.map( ( unit ) =>
+										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+										<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+											<Button
+												key={ unit.unitValue }
+												className={ 'components-fx-dimensions-control__units--' + unit.name }
+												isSmall
+												isPrimary={ valueUnit === unit.unitValue }
+												aria-pressed={ valueUnit === unit.unitValue }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+												onClick={ () => this.onChangeUnits( unit.unitValue ) }
+											>
+												{ unit.unitValue }
+											</Button>
+										</Tooltip>
+									) }
+								</ButtonGroup>
+							</div> : null
+						}
+					</div>
+
+					<div className="components-fx-dimensions-control__inputs">
 						<input
 							className="components-fx-dimensions-control__number"
 							type="number"

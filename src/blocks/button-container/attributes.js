@@ -39,6 +39,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.buttonContainer.marginLeft
 	},
+	marginUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.buttonContainer.marginUnit
+	},
 	marginTopTablet: {
 		type: 'string',
 		default: flexBlocksDefaults.buttonContainer.marginTopTablet

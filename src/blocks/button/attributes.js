@@ -111,6 +111,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.button.marginLeft,
 	},
+	marginUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.button.marginUnit,
+	},
 	marginTopTablet: {
 		type: 'string',
 		default: flexBlocksDefaults.button.marginTopTablet,
@@ -158,6 +162,10 @@ export default {
 	paddingLeft: {
 		type: 'string',
 		default: flexBlocksDefaults.button.paddingLeft,
+	},
+	paddingUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.button.paddingUnit,
 	},
 	paddingTopTablet: {
 		type: 'string',
@@ -254,6 +262,10 @@ export default {
 	borderRadiusTopLeft: {
 		type: 'string',
 		default: flexBlocksDefaults.button.borderRadiusTopLeft,
+	},
+	borderRadiusUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.button.borderRadiusUnit,
 	},
 	borderRadiusTopRightTablet: {
 		type: 'string',

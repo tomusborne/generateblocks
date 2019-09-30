@@ -88,6 +88,7 @@ class FlexButtonContainer extends Component {
 			marginRight,
 			marginBottom,
 			marginLeft,
+			marginUnit,
 			marginSyncUnits,
 			marginTopTablet,
 			marginRightTablet,
@@ -128,10 +129,10 @@ class FlexButtonContainer extends Component {
 
 		const css = `
 			.fx-button-wrapper-` + uniqueId + ` {
-			  margin-top: ` + marginTop + `px;
-			  margin-right: ` + marginRight + `px;
-			  margin-bottom: ` + marginBottom + `px;
-			  margin-left: ` + marginLeft + `px;
+			  margin-top: ` + marginTop + marginUnit + `;
+			  margin-right: ` + marginRight + marginUnit + `;
+			  margin-bottom: ` + marginBottom + marginUnit + `;
+			  margin-left: ` + marginLeft + marginUnit + `;
 			  justify-content: ` + flexAlignment + `;
 			}
 
@@ -190,23 +191,22 @@ class FlexButtonContainer extends Component {
 														} }
 													/>
 
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTop }
-															valueRight={ marginRight }
-															valueBottom={ marginBottom }
-															valueLeft={ marginLeft }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnits }
-															attrTop={ 'marginTop' }
-															attrRight={ 'marginRight' }
-															attrBottom={ 'marginBottom' }
-															attrLeft={ 'marginLeft' }
-															attrSyncUnits={ 'marginSyncUnits' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTop }
+														valueRight={ marginRight }
+														valueBottom={ marginBottom }
+														valueLeft={ marginLeft }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnits }
+														attrTop={ 'marginTop' }
+														attrRight={ 'marginRight' }
+														attrBottom={ 'marginBottom' }
+														attrLeft={ 'marginLeft' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnits' }
+													/>
 
 													<ToggleControl
 														label={ __( 'Stack Vertically', 'flexblocks' ) }
@@ -231,23 +231,22 @@ class FlexButtonContainer extends Component {
 														} }
 													/>
 
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopTablet }
-															valueRight={ marginRightTablet }
-															valueBottom={ marginBottomTablet }
-															valueLeft={ marginLeftTablet }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnitsTablet }
-															attrTop={ 'marginTopTablet' }
-															attrRight={ 'marginRightTablet' }
-															attrBottom={ 'marginBottomTablet' }
-															attrLeft={ 'marginLeftTablet' }
-															attrSyncUnits={ 'marginSyncUnitsTablet' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTopTablet }
+														valueRight={ marginRightTablet }
+														valueBottom={ marginBottomTablet }
+														valueLeft={ marginLeftTablet }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnitsTablet }
+														attrTop={ 'marginTopTablet' }
+														attrRight={ 'marginRightTablet' }
+														attrBottom={ 'marginBottomTablet' }
+														attrLeft={ 'marginLeftTablet' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnitsTablet' }
+													/>
 
 													<ToggleControl
 														label={ __( 'Stack Vertically', 'flexblocks' ) }
@@ -271,23 +270,22 @@ class FlexButtonContainer extends Component {
 														} }
 													/>
 
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopMobile }
-															valueRight={ marginRightMobile }
-															valueBottom={ marginBottomMobile }
-															valueLeft={ marginLeftMobile }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnitsMobile }
-															attrTop={ 'marginTopMobile' }
-															attrRight={ 'marginRightMobile' }
-															attrBottom={ 'marginBottomMobile' }
-															attrLeft={ 'marginLeftMobile' }
-															attrSyncUnits={ 'marginSyncUnitsMobile' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTopMobile }
+														valueRight={ marginRightMobile }
+														valueBottom={ marginBottomMobile }
+														valueLeft={ marginLeftMobile }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnitsMobile }
+														attrTop={ 'marginTopMobile' }
+														attrRight={ 'marginRightMobile' }
+														attrBottom={ 'marginBottomMobile' }
+														attrLeft={ 'marginLeftMobile' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnitsMobile' }
+													/>
 
 													<ToggleControl
 														label={ __( 'Stack Vertically', 'flexblocks' ) }

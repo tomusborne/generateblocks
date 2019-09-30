@@ -72,6 +72,10 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.headline.fontSizeMobile,
 	},
+	fontSizeUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.fontSizeUnit,
+	},
 	textTransform: {
 		type: 'string',
 		default: '',
@@ -88,6 +92,10 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.headline.lineHeightMobile,
 	},
+	lineHeightUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.lineHeightUnit,
+	},
 	letterSpacing: {
 		type: 'number',
 		default: flexBlocksDefaults.headline.letterSpacing,
@@ -99,6 +107,10 @@ export default {
 	letterSpacingMobile: {
 		type: 'number',
 		default: flexBlocksDefaults.headline.letterSpacingMobile,
+	},
+	letterSpacingUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.letterSpacingUnit,
 	},
 	marginTop: {
 		type: 'string',
@@ -115,6 +127,10 @@ export default {
 	marginLeft: {
 		type: 'string',
 		default: flexBlocksDefaults.headline.marginLeft,
+	},
+	marginUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.marginUnit,
 	},
 	marginSyncUnits: {
 		type: 'boolean',
@@ -175,6 +191,10 @@ export default {
 	paddingLeft: {
 		type: 'string',
 		default: flexBlocksDefaults.headline.paddingLeft,
+	},
+	paddingUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.paddingUnit,
 	},
 	paddingSyncUnits: {
 		type: 'boolean',

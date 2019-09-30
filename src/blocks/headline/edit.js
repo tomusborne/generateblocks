@@ -89,14 +89,17 @@ class FlexBlockHeadline extends Component {
 			fontSize,
 			fontSizeTablet,
 			fontSizeMobile,
+			fontSizeUnit,
 			textTransform,
 			lineHeight,
 			lineHeightTablet,
 			lineHeightMobile,
+			lineHeightUnit,
 			marginTop,
 			marginRight,
 			marginBottom,
 			marginLeft,
+			marginUnit,
 			marginSyncUnits,
 			marginTopTablet,
 			marginRightTablet,
@@ -112,6 +115,7 @@ class FlexBlockHeadline extends Component {
 			paddingRight,
 			paddingBottom,
 			paddingLeft,
+			paddingUnit,
 			paddingSyncUnits,
 			paddingTopTablet,
 			paddingRightTablet,
@@ -125,7 +129,8 @@ class FlexBlockHeadline extends Component {
 			paddingSyncUnitsMobile,
 			letterSpacing,
 			letterSpacingTablet,
-			letterSpacingMobile
+			letterSpacingMobile,
+			letterSpacingUnit,
 		} = attributes;
 
 		const css = `
@@ -134,17 +139,19 @@ class FlexBlockHeadline extends Component {
 				font-weight: ` + fontWeight + `;
 				text-transform: ` + textTransform + `;
 				text-align: ` + alignment + `;
-				font-size: ` + fontSize + `px;
+				font-size: ` + fontSize + fontSizeUnit + `;
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
-				line-height: ` + lineHeight + `em;
-				letter-spacing: ` + letterSpacing + `em;
-				margin-top: ` + marginTop + `px;
-				margin-bottom: ` + marginBottom + `px;
-				padding-top: ` + paddingTop + `px;
-				padding-right: ` + paddingRight + `px;
-				padding-bottom: ` + paddingBottom + `px;
-				padding-left: ` + paddingLeft + `px;
+				line-height: ` + lineHeight + lineHeightUnit + `;
+				letter-spacing: ` + letterSpacing + letterSpacingUnit + `;
+				margin-top: ` + marginTop + marginUnit + `;
+				margin-right: ` + marginRight + marginUnit + `;
+				margin-bottom: ` + marginBottom + marginUnit + `;
+				margin-left: ` + marginLeft + marginUnit + `;
+				padding-top: ` + paddingTop + paddingUnit + `;
+				padding-right: ` + paddingRight + paddingUnit + `;
+				padding-bottom: ` + paddingBottom + paddingUnit + `;
+				padding-left: ` + paddingLeft + paddingUnit + `;
 			}
 
 			.editor-styles-wrapper .fx-headline-` + uniqueId + ` a {
@@ -253,15 +260,21 @@ class FlexBlockHeadline extends Component {
 														valueGoogleFont={ googleFont }
 														valueTextTransform={ textTransform }
 														valueFontSize={ fontSize }
+														valueFontSizeUnit={ fontSizeUnit }
 														valueLineHeight={ lineHeight }
+														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacing }
+														valueLetterSpacingUnit={ letterSpacingUnit }
 														attrFontFamily={ 'fontFamily' }
 														attrGoogleFont={ 'googleFont' }
 														attrFontWeight={ 'fontWeight' }
 														attrTextTransform={ 'textTransform' }
 														attrFontSize={ 'fontSize' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLineHeight={ 'lineHeight' }
+														attrLineHeight={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
+														attrLetterSpacingUnit={ 'letterSpacingUnit' }
 														initialFontSize={ flexBlocksDefaults.headline.fontSize }
 														initialLineHeight={ flexBlocksDefaults.headline.lineHeight }
 														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
@@ -282,11 +295,17 @@ class FlexBlockHeadline extends Component {
 
 													<TypographyControls { ...this.props }
 														valueFontSize={ fontSizeTablet }
+														valueFontSizeUnit={ fontSizeUnit }
 														valueLineHeight={ lineHeightTablet }
+														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacingTablet }
+														valueLetterSpacingUnit={ letterSpacingUnit }
 														attrFontSize={ 'fontSizeTablet' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLineHeight={ 'lineHeightTablet' }
+														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
+														attrLineHeightUnit={ 'lineHeightUnit' }
 														initialFontSize={ flexBlocksDefaults.headline.fontSizeTablet }
 														initialLineHeight={ flexBlocksDefaults.headline.lineHeightTablet }
 														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingTablet }
@@ -307,11 +326,17 @@ class FlexBlockHeadline extends Component {
 
 													<TypographyControls { ...this.props }
 														valueFontSize={ fontSizeMobile }
+														valueFontSizeUnit={ fontSizeUnit }
 														valueLineHeight={ lineHeightMobile }
+														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacingMobile }
+														valueLetterSpacingUnit={ letterSpacingUnit }
 														attrFontSize={ 'fontSizeMobile' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLineHeight={ 'lineHeightMobile' }
+														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
+														attrLetterSpacingUnit={ 'letterSpacingUnit' }
 														initialFontSize={ flexBlocksDefaults.headline.fontSizeMobile }
 														initialLineHeight={ flexBlocksDefaults.headline.lineHeightMobile }
 														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingMobile }
@@ -424,121 +449,115 @@ class FlexBlockHeadline extends Component {
 										<div>
 											{ 'default' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTop }
-															valueRight={ marginRight }
-															valueBottom={ marginBottom }
-															valueLeft={ marginLeft }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnits }
-															attrTop={ 'marginTop' }
-															attrRight={ 'marginRight' }
-															attrBottom={ 'marginBottom' }
-															attrLeft={ 'marginLeft' }
-															attrSyncUnits={ 'marginSyncUnits' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTop }
+														valueRight={ marginRight }
+														valueBottom={ marginBottom }
+														valueLeft={ marginLeft }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnits }
+														attrTop={ 'marginTop' }
+														attrRight={ 'marginRight' }
+														attrBottom={ 'marginBottom' }
+														attrLeft={ 'marginLeft' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnits' }
+													/>
 
-													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'flexblocks' ) }
-															valueTop={ paddingTop }
-															valueRight={ paddingRight }
-															valueBottom={ paddingBottom }
-															valueLeft={ paddingLeft }
-															//unit={ paddingUnit }
-															syncUnits={ paddingSyncUnits }
-															attrTop={ 'paddingTop' }
-															attrRight={ 'paddingRight' }
-															attrBottom={ 'paddingBottom' }
-															attrLeft={ 'paddingLeft' }
-															attrSyncUnits={ 'paddingSyncUnits' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ paddingTop }
+														valueRight={ paddingRight }
+														valueBottom={ paddingBottom }
+														valueLeft={ paddingLeft }
+														valueUnit={ paddingUnit }
+														syncUnits={ paddingSyncUnits }
+														attrTop={ 'paddingTop' }
+														attrRight={ 'paddingRight' }
+														attrBottom={ 'paddingBottom' }
+														attrLeft={ 'paddingLeft' }
+														attrUnit={ 'paddingUnit' }
+														attrSyncUnits={ 'paddingSyncUnits' }
+													/>
 												</Fragment>
 											) : '' }
 
 											{ 'tablet' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopTablet }
-															valueRight={ marginRightTablet }
-															valueBottom={ marginBottomTablet }
-															valueLeft={ marginLeftTablet }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnitsTablet }
-															attrTop={ 'marginTopTablet' }
-															attrRight={ 'marginRightTablet' }
-															attrBottom={ 'marginBottomTablet' }
-															attrLeft={ 'marginLeftTablet' }
-															attrSyncUnits={ 'marginSyncUnitsTablet' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTopTablet }
+														valueRight={ marginRightTablet }
+														valueBottom={ marginBottomTablet }
+														valueLeft={ marginLeftTablet }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnitsTablet }
+														attrTop={ 'marginTopTablet' }
+														attrRight={ 'marginRightTablet' }
+														attrBottom={ 'marginBottomTablet' }
+														attrLeft={ 'marginLeftTablet' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnitsTablet' }
+													/>
 
-													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'flexblocks' ) }
-															valueTop={ paddingTopTablet }
-															valueRight={ paddingRightTablet }
-															valueBottom={ paddingBottomTablet }
-															valueLeft={ paddingLeftTablet }
-															//unit={ paddingUnit }
-															syncUnits={ paddingSyncUnitsTablet }
-															attrTop={ 'paddingTopTablet' }
-															attrRight={ 'paddingRightTablet' }
-															attrBottom={ 'paddingBottomTablet' }
-															attrLeft={ 'paddingLeftTablet' }
-															attrSyncUnits={ 'paddingSyncUnitsTablet' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ paddingTopTablet }
+														valueRight={ paddingRightTablet }
+														valueBottom={ paddingBottomTablet }
+														valueLeft={ paddingLeftTablet }
+														valueUnit={ paddingUnit }
+														syncUnits={ paddingSyncUnitsTablet }
+														attrTop={ 'paddingTopTablet' }
+														attrRight={ 'paddingRightTablet' }
+														attrBottom={ 'paddingBottomTablet' }
+														attrLeft={ 'paddingLeftTablet' }
+														attrUnit={ 'paddingUnit' }
+														attrSyncUnits={ 'paddingSyncUnitsTablet' }
+													/>
 												</Fragment>
 											) : '' }
 
 											{ 'mobile' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopMobile }
-															valueRight={ marginRightMobile }
-															valueBottom={ marginBottomMobile }
-															valueLeft={ marginLeftMobile }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnitsMobile }
-															attrTop={ 'marginTopMobile' }
-															attrRight={ 'marginRightMobile' }
-															attrBottom={ 'marginBottomMobile' }
-															attrLeft={ 'marginLeftMobile' }
-															attrSyncUnits={ 'marginSyncUnitsMobile' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTopMobile }
+														valueRight={ marginRightMobile }
+														valueBottom={ marginBottomMobile }
+														valueLeft={ marginLeftMobile }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnitsMobile }
+														attrTop={ 'marginTopMobile' }
+														attrRight={ 'marginRightMobile' }
+														attrBottom={ 'marginBottomMobile' }
+														attrLeft={ 'marginLeftMobile' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnitsMobile' }
+													/>
 
-													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'flexblocks' ) }
-															valueTop={ paddingTopMobile }
-															valueRight={ paddingRightMobile }
-															valueBottom={ paddingBottomMobile }
-															valueLeft={ paddingLeftMobile }
-															//unit={ paddingUnit }
-															syncUnits={ paddingSyncUnitsMobile }
-															attrTop={ 'paddingTopMobile' }
-															attrRight={ 'paddingRightMobile' }
-															attrBottom={ 'paddingBottomMobile' }
-															attrLeft={ 'paddingLeftMobile' }
-															attrSyncUnits={ 'paddingSyncUnitsMobile' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ paddingTopMobile }
+														valueRight={ paddingRightMobile }
+														valueBottom={ paddingBottomMobile }
+														valueLeft={ paddingLeftMobile }
+														valueUnit={ paddingUnit }
+														syncUnits={ paddingSyncUnitsMobile }
+														attrTop={ 'paddingTopMobile' }
+														attrRight={ 'paddingRightMobile' }
+														attrBottom={ 'paddingBottomMobile' }
+														attrLeft={ 'paddingLeftMobile' }
+														attrUnit={ 'paddingUnit' }
+														attrSyncUnits={ 'paddingSyncUnitsMobile' }
+													/>
 												</Fragment>
 											) : '' }
 										</div>

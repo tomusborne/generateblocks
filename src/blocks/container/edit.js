@@ -111,31 +111,37 @@ class FlexBlockContainer extends Component {
 			paddingRight,
 			paddingBottom,
 			paddingLeft,
+			paddingUnit,
 			paddingSyncUnits,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
 			paddingLeftTablet,
+			paddingUnitTablet,
 			paddingSyncUnitsTablet,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
+			paddingUnitMobile,
 			paddingSyncUnitsMobile,
 			marginTop,
 			marginRight,
 			marginBottom,
 			marginLeft,
+			marginUnit,
 			marginSyncUnits,
 			marginTopTablet,
 			marginRightTablet,
 			marginBottomTablet,
 			marginLeftTablet,
+			marginUnitTablet,
 			marginSyncUnitsTablet,
 			marginTopMobile,
 			marginRightMobile,
 			marginBottomMobile,
 			marginLeftMobile,
+			marginUnitMobile,
 			marginSyncUnitsMobile,
 			borderSizeTop,
 			borderSizeRight,
@@ -156,6 +162,7 @@ class FlexBlockContainer extends Component {
 			borderRadiusBottomRight,
 			borderRadiusBottomLeft,
 			borderRadiusTopLeft,
+			borderRadiusUnit,
 			borderRadiusSyncUnits,
 			borderRadiusTopRightTablet,
 			borderRadiusBottomRightTablet,
@@ -224,10 +231,10 @@ class FlexBlockContainer extends Component {
 		  		background-position: ` + bgOptions.position + `;
 				background-repeat: ` + bgOptions.repeat + `;
 				background-attachment: ` + bgOptions.attachment + `;
-				border-top-left-radius: ` + borderRadiusTopLeft + `px;
-				border-top-right-radius: ` + borderRadiusTopRight + `px;
-				border-bottom-right-radius: ` + borderRadiusBottomRight + `px;
-				border-bottom-left-radius: ` + borderRadiusBottomLeft + `px;
+				border-top-left-radius: ` + borderRadiusTopLeft + borderRadiusUnit + `;
+				border-top-right-radius: ` + borderRadiusTopRight + borderRadiusUnit + `;
+				border-bottom-right-radius: ` + borderRadiusBottomRight + borderRadiusUnit + `;
+				border-bottom-left-radius: ` + borderRadiusBottomLeft + borderRadiusUnit + `;
 				border-width: 0;
 				border-top-width: ` + borderSizeTop + `px;
 				border-right-width: ` + borderSizeRight + `px;
@@ -246,10 +253,10 @@ class FlexBlockContainer extends Component {
 			}
 
 			.fx-container-` + uniqueId + ` > .fx-inside-container {
-			  padding-top: ` + paddingTop + `px;
-			  padding-right: ` + paddingRight + `px;
-			  padding-bottom: ` + paddingBottom + `px;
-			  padding-left: ` + paddingLeft + `px;
+			  padding-top: ` + paddingTop + paddingUnit + `;
+			  padding-right: ` + paddingRight + paddingUnit + `;
+			  padding-bottom: ` + paddingBottom + paddingUnit + `;
+			  padding-left: ` + paddingLeft + paddingUnit + `;
 			  ` + innerContainerWidth + `;
 			}
 
@@ -548,241 +555,226 @@ class FlexBlockContainer extends Component {
 										<div>
 											{ 'grid-default' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'flexblocks' ) }
-															valueTop={ paddingTop }
-															valueRight={ paddingRight }
-															valueBottom={ paddingBottom }
-															valueLeft={ paddingLeft }
-															//unit={ paddingUnit }
-															syncUnits={ paddingSyncUnits }
-															attrTop={ 'paddingTop' }
-															attrRight={ 'paddingRight' }
-															attrBottom={ 'paddingBottom' }
-															attrLeft={ 'paddingLeft' }
-															attrSyncUnits={ 'paddingSyncUnits' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ paddingTop }
+														valueRight={ paddingRight }
+														valueBottom={ paddingBottom }
+														valueLeft={ paddingLeft }
+														valueUnit={ paddingUnit }
+														syncUnits={ paddingSyncUnits }
+														attrTop={ 'paddingTop' }
+														attrRight={ 'paddingRight' }
+														attrBottom={ 'paddingBottom' }
+														attrLeft={ 'paddingLeft' }
+														attrUnit={ 'paddingUnit' }
+														attrSyncUnits={ 'paddingSyncUnits' }
+													/>
 
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTop }
-															valueRight={ marginRight }
-															valueBottom={ marginBottom }
-															valueLeft={ marginLeft }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnits }
-															attrTop={ 'marginTop' }
-															attrRight={ 'marginRight' }
-															attrBottom={ 'marginBottom' }
-															attrLeft={ 'marginLeft' }
-															attrSyncUnits={ 'marginSyncUnits' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTop }
+														valueRight={ marginRight }
+														valueBottom={ marginBottom }
+														valueLeft={ marginLeft }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnits }
+														attrTop={ 'marginTop' }
+														attrRight={ 'marginRight' }
+														attrBottom={ 'marginBottom' }
+														attrLeft={ 'marginLeft' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnits' }
+													/>
 
-													<BaseControl label={ __( 'Border Size', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Border Size', 'flexblocks' ) }
-															valueTop={ borderSizeTop }
-															valueRight={ borderSizeRight }
-															valueBottom={ borderSizeBottom }
-															valueLeft={ borderSizeLeft }
-															//unit={ paddingUnit }
-															syncUnits={ borderSizeSyncUnits }
-															attrTop={ 'borderSizeTop' }
-															attrRight={ 'borderSizeRight' }
-															attrBottom={ 'borderSizeBottom' }
-															attrLeft={ 'borderSizeLeft' }
-															attrSyncUnits={ 'borderSizeSyncUnits' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Size', 'flexblocks' ) }
+														valueTop={ borderSizeTop }
+														valueRight={ borderSizeRight }
+														valueBottom={ borderSizeBottom }
+														valueLeft={ borderSizeLeft }
+														//unit={ paddingUnit }
+														syncUnits={ borderSizeSyncUnits }
+														attrTop={ 'borderSizeTop' }
+														attrRight={ 'borderSizeRight' }
+														attrBottom={ 'borderSizeBottom' }
+														attrLeft={ 'borderSizeLeft' }
+														attrSyncUnits={ 'borderSizeSyncUnits' }
+													/>
 
-													<BaseControl label={ __( 'Border Radius', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Border Radius', 'flexblocks' ) }
-															valueTop={ borderRadiusTopLeft }
-															valueRight={ borderRadiusTopRight }
-															valueBottom={ borderRadiusBottomRight }
-															valueLeft={ borderRadiusBottomLeft }
-															//unit={ paddingUnit }
-															syncUnits={ borderRadiusSyncUnits }
-															attrTop={ 'borderRadiusTopLeft' }
-															attrRight={ 'borderRadiusTopRight' }
-															attrBottom={ 'borderRadiusBottomRight' }
-															attrLeft={ 'borderRadiusBottomLeft' }
-															attrSyncUnits={ 'borderRadiusSyncUnits' }
-															labelTop={ __( 'T-Left', 'flexblocks' ) }
-															labelRight={ __( 'T-Right', 'flexblocks' ) }
-															labelBottom={ __( 'B-Right', 'flexblocks' ) }
-															labelLeft={ __( 'B-Left', 'flexblocks' ) }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Radius', 'flexblocks' ) }
+														valueTop={ borderRadiusTopLeft }
+														valueRight={ borderRadiusTopRight }
+														valueBottom={ borderRadiusBottomRight }
+														valueLeft={ borderRadiusBottomLeft }
+														valueUnit={ borderRadiusUnit }
+														syncUnits={ borderRadiusSyncUnits }
+														attrTop={ 'borderRadiusTopLeft' }
+														attrRight={ 'borderRadiusTopRight' }
+														attrBottom={ 'borderRadiusBottomRight' }
+														attrLeft={ 'borderRadiusBottomLeft' }
+														attrUnit={ 'borderRadiusUnit' }
+														attrSyncUnits={ 'borderRadiusSyncUnits' }
+														labelTop={ __( 'T-Left', 'flexblocks' ) }
+														labelRight={ __( 'T-Right', 'flexblocks' ) }
+														labelBottom={ __( 'B-Right', 'flexblocks' ) }
+														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+													/>
 												</Fragment>
 											) : '' }
 
 											{ 'grid-tablet' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'flexblocks' ) }
-															valueTop={ paddingTopTablet }
-															valueRight={ paddingRightTablet }
-															valueBottom={ paddingBottomTablet }
-															valueLeft={ paddingLeftTablet }
-															//unit={ paddingUnit }
-															syncUnits={ paddingSyncUnitsTablet }
-															attrTop={ 'paddingTopTablet' }
-															attrRight={ 'paddingRightTablet' }
-															attrBottom={ 'paddingBottomTablet' }
-															attrLeft={ 'paddingLeftTablet' }
-															attrSyncUnits={ 'paddingSyncUnitsTablet' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ paddingTopTablet }
+														valueRight={ paddingRightTablet }
+														valueBottom={ paddingBottomTablet }
+														valueLeft={ paddingLeftTablet }
+														valueUnit={ paddingUnit }
+														syncUnits={ paddingSyncUnitsTablet }
+														attrTop={ 'paddingTopTablet' }
+														attrRight={ 'paddingRightTablet' }
+														attrBottom={ 'paddingBottomTablet' }
+														attrLeft={ 'paddingLeftTablet' }
+														attrUnit={ 'paddingUnit' }
+														attrSyncUnits={ 'paddingSyncUnitsTablet' }
+													/>
 
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopTablet }
-															valueRight={ marginRightTablet }
-															valueBottom={ marginBottomTablet }
-															valueLeft={ marginLeftTablet }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnitsTablet }
-															attrTop={ 'marginTopTablet' }
-															attrRight={ 'marginRightTablet' }
-															attrBottom={ 'marginBottomTablet' }
-															attrLeft={ 'marginLeftTablet' }
-															attrSyncUnits={ 'marginSyncUnitsTablet' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTopTablet }
+														valueRight={ marginRightTablet }
+														valueBottom={ marginBottomTablet }
+														valueLeft={ marginLeftTablet }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnitsTablet }
+														attrTop={ 'marginTopTablet' }
+														attrRight={ 'marginRightTablet' }
+														attrBottom={ 'marginBottomTablet' }
+														attrLeft={ 'marginLeftTablet' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnitsTablet' }
+													/>
 
-													<BaseControl label={ __( 'Border Size', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Border Size', 'flexblocks' ) }
-															valueTop={ borderSizeTopTablet }
-															valueRight={ borderSizeRightTablet }
-															valueBottom={ borderSizeBottomTablet }
-															valueLeft={ borderSizeLeftTablet }
-															//unit={ paddingUnit }
-															syncUnits={ borderSizeSyncUnitsTablet }
-															attrTop={ 'borderSizeTopTablet' }
-															attrRight={ 'borderSizeRightTablet' }
-															attrBottom={ 'borderSizeBottomTablet' }
-															attrLeft={ 'borderSizeLeftTablet' }
-															attrSyncUnits={ 'borderSizeSyncUnitsTablet' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Size', 'flexblocks' ) }
+														valueTop={ borderSizeTopTablet }
+														valueRight={ borderSizeRightTablet }
+														valueBottom={ borderSizeBottomTablet }
+														valueLeft={ borderSizeLeftTablet }
+														//unit={ paddingUnit }
+														syncUnits={ borderSizeSyncUnitsTablet }
+														attrTop={ 'borderSizeTopTablet' }
+														attrRight={ 'borderSizeRightTablet' }
+														attrBottom={ 'borderSizeBottomTablet' }
+														attrLeft={ 'borderSizeLeftTablet' }
+														attrSyncUnits={ 'borderSizeSyncUnitsTablet' }
+													/>
 
-													<BaseControl label={ __( 'Border Radius', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Border Radius', 'flexblocks' ) }
-															valueTop={ borderRadiusTopLeftTablet }
-															valueRight={ borderRadiusTopRightTablet }
-															valueBottom={ borderRadiusBottomRightTablet }
-															valueLeft={ borderRadiusBottomLeftTablet }
-															//unit={ paddingUnit }
-															syncUnits={ borderRadiusSyncUnits }
-															attrTop={ 'borderRadiusTopLeftTablet' }
-															attrRight={ 'borderRadiusTopRightTablet' }
-															attrBottom={ 'borderRadiusBottomRightTablet' }
-															attrLeft={ 'borderRadiusBottomLeftTablet' }
-															attrSyncUnits={ 'borderRadiusSyncUnitsTablet' }
-															labelTop={ __( 'T-Left', 'flexblocks' ) }
-															labelRight={ __( 'T-Right', 'flexblocks' ) }
-															labelBottom={ __( 'B-Right', 'flexblocks' ) }
-															labelLeft={ __( 'B-Left', 'flexblocks' ) }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Radius', 'flexblocks' ) }
+														valueTop={ borderRadiusTopLeftTablet }
+														valueRight={ borderRadiusTopRightTablet }
+														valueBottom={ borderRadiusBottomRightTablet }
+														valueLeft={ borderRadiusBottomLeftTablet }
+														valueUnit={ borderRadiusUnit }
+														syncUnits={ borderRadiusSyncUnits }
+														attrTop={ 'borderRadiusTopLeftTablet' }
+														attrRight={ 'borderRadiusTopRightTablet' }
+														attrBottom={ 'borderRadiusBottomRightTablet' }
+														attrLeft={ 'borderRadiusBottomLeftTablet' }
+														attrUnit={ 'borderRadiusUnit' }
+														attrSyncUnits={ 'borderRadiusSyncUnitsTablet' }
+														labelTop={ __( 'T-Left', 'flexblocks' ) }
+														labelRight={ __( 'T-Right', 'flexblocks' ) }
+														labelBottom={ __( 'B-Right', 'flexblocks' ) }
+														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+													/>
 												</Fragment>
 											) : '' }
 
 											{ 'grid-mobile' === tab.name ? (
 												<Fragment>
-													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'flexblocks' ) }
-															valueTop={ paddingTopMobile }
-															valueRight={ paddingRightMobile }
-															valueBottom={ paddingBottomMobile }
-															valueLeft={ paddingLeftMobile }
-															//unit={ paddingUnit }
-															syncUnits={ paddingSyncUnitsMobile }
-															attrTop={ 'paddingTopMobile' }
-															attrRight={ 'paddingRightMobile' }
-															attrBottom={ 'paddingBottomMobile' }
-															attrLeft={ 'paddingLeftMobile' }
-															attrSyncUnits={ 'paddingSyncUnitsMobile' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ paddingTopMobile }
+														valueRight={ paddingRightMobile }
+														valueBottom={ paddingBottomMobile }
+														valueLeft={ paddingLeftMobile }
+														valueUnit={ paddingUnit }
+														syncUnits={ paddingSyncUnitsMobile }
+														attrTop={ 'paddingTopMobile' }
+														attrRight={ 'paddingRightMobile' }
+														attrBottom={ 'paddingBottomMobile' }
+														attrLeft={ 'paddingLeftMobile' }
+														attrUnit={ 'paddingUnit' }
+														attrSyncUnits={ 'paddingSyncUnitsMobile' }
+													/>
 
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopMobile }
-															valueRight={ marginRightMobile }
-															valueBottom={ marginBottomMobile }
-															valueLeft={ marginLeftMobile }
-															//unit={ paddingUnit }
-															syncUnits={ marginSyncUnitsMobile }
-															attrTop={ 'marginTopMobile' }
-															attrRight={ 'marginRightMobile' }
-															attrBottom={ 'marginBottomMobile' }
-															attrLeft={ 'marginLeftMobile' }
-															attrSyncUnits={ 'marginSyncUnitsMobile' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTopMobile }
+														valueRight={ marginRightMobile }
+														valueBottom={ marginBottomMobile }
+														valueLeft={ marginLeftMobile }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnitsMobile }
+														attrTop={ 'marginTopMobile' }
+														attrRight={ 'marginRightMobile' }
+														attrBottom={ 'marginBottomMobile' }
+														attrLeft={ 'marginLeftMobile' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnitsMobile' }
+													/>
 
-													<BaseControl label={ __( 'Border Size', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Border Size', 'flexblocks' ) }
-															valueTop={ borderSizeTopMobile }
-															valueRight={ borderSizeRightMobile }
-															valueBottom={ borderSizeBottomMobile }
-															valueLeft={ borderSizeLeftMobile }
-															//unit={ paddingUnit }
-															syncUnits={ borderSizeSyncUnitsMobile }
-															attrTop={ 'borderSizeTopMobile' }
-															attrRight={ 'borderSizeRightMobile' }
-															attrBottom={ 'borderSizeBottomMobile' }
-															attrLeft={ 'borderSizeLeftMobile' }
-															attrSyncUnits={ 'borderSizeSyncUnitsMobile' }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Size', 'flexblocks' ) }
+														valueTop={ borderSizeTopMobile }
+														valueRight={ borderSizeRightMobile }
+														valueBottom={ borderSizeBottomMobile }
+														valueLeft={ borderSizeLeftMobile }
+														//unit={ paddingUnit }
+														syncUnits={ borderSizeSyncUnitsMobile }
+														attrTop={ 'borderSizeTopMobile' }
+														attrRight={ 'borderSizeRightMobile' }
+														attrBottom={ 'borderSizeBottomMobile' }
+														attrLeft={ 'borderSizeLeftMobile' }
+														attrSyncUnits={ 'borderSizeSyncUnitsMobile' }
+													/>
 
-													<BaseControl label={ __( 'Border Radius', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Border Radius', 'flexblocks' ) }
-															valueTop={ borderRadiusTopRightMobile }
-															valueRight={ borderRadiusBottomRightMobile }
-															valueBottom={ borderRadiusBottomLeftMobile }
-															valueLeft={ borderRadiusTopLeftMobile }
-															//unit={ paddingUnit }
-															syncUnits={ borderRadiusSyncUnitsMobile }
-															attrTop={ 'borderRadiusTopRightMobile' }
-															attrRight={ 'borderRadiusBottomRightMobile' }
-															attrBottom={ 'borderRadiusBottomLeftMobile' }
-															attrLeft={ 'borderRadiusTopLeftMobile' }
-															attrSyncUnits={ 'borderRadiusSyncUnitsMobile' }
-															labelTop={ __( 'T-Left', 'flexblocks' ) }
-															labelRight={ __( 'T-Right', 'flexblocks' ) }
-															labelBottom={ __( 'B-Right', 'flexblocks' ) }
-															labelLeft={ __( 'B-Left', 'flexblocks' ) }
-														/>
-													</BaseControl>
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Radius', 'flexblocks' ) }
+														valueTop={ borderRadiusTopRightMobile }
+														valueRight={ borderRadiusBottomRightMobile }
+														valueBottom={ borderRadiusBottomLeftMobile }
+														valueLeft={ borderRadiusTopLeftMobile }
+														valueUnit={ borderRadiusUnit }
+														syncUnits={ borderRadiusSyncUnitsMobile }
+														attrTop={ 'borderRadiusTopRightMobile' }
+														attrRight={ 'borderRadiusBottomRightMobile' }
+														attrBottom={ 'borderRadiusBottomLeftMobile' }
+														attrLeft={ 'borderRadiusTopLeftMobile' }
+														attrUnit={ 'borderRadiusUnit' }
+														attrSyncUnits={ 'borderRadiusSyncUnitsMobile' }
+														labelTop={ __( 'T-Left', 'flexblocks' ) }
+														labelRight={ __( 'T-Right', 'flexblocks' ) }
+														labelBottom={ __( 'B-Right', 'flexblocks' ) }
+														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+													/>
 												</Fragment>
 											) : '' }
 										</div>
