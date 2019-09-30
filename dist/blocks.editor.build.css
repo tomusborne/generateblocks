@@ -416,23 +416,19 @@ body .fx-container .wp-block {
   box-shadow: none !important;
   color: #6c7781;
   font-size: 10px;
-  height: 22px;
-  -ms-flex-pack: center;
-  justify-content: center;
-  line-height: 20px;
-  padding: 0;
+  padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none;
-  text-transform: uppercase;
-  top: -1px;
-  width: 22px; }
+  text-shadow: none; }
   .components-panel__body .components-fx-dimensions-control__units .components-button.is-primary {
-    background: #555d66;
-    border-color: #555d66;
+    background: #666;
+    border-color: #666;
     color: #fff;
     cursor: default;
     z-index: 1; }
+
+.components-fx-dimensions-control__inputs + .components-fx-dimensions-control__header {
+  margin-top: 25px; }
 /**
  * #.# Common SCSS
  *
@@ -734,20 +730,16 @@ body .fx-container .wp-block {
   box-shadow: none !important;
   color: #6c7781;
   font-size: 10px;
-  height: 22px;
-  -ms-flex-pack: center;
-  justify-content: center;
-  line-height: 20px;
-  padding: 0;
+  padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none;
-  text-transform: uppercase;
-  top: -1px;
-  width: 22px; }
+  text-shadow: none; }
   .components-panel__body .components-fx-typography-control__units .components-button.is-primary {
-    background: #555d66;
-    border-color: #555d66;
+    background: #666;
+    border-color: #666;
     color: #fff;
     cursor: default;
     z-index: 1; }
+
+.components-fx-typography-control__inputs + .components-fx-typography-control__header {
+  margin-top: 25px; }
