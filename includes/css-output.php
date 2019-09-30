@@ -184,6 +184,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'border-color', $settings['borderColor'] );
 			$css->add_property( 'box-sizing', 'border-box' );
 
+			$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
+
 			$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
 			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 
@@ -223,6 +225,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 					$css->add_property( 'border-style', 'solid' );
 				}
 
+				$css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
+
 				$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
 
@@ -250,6 +254,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				if ( $settings['borderSizeTopMobile'] || $settings['borderSizeRightMobile'] || $settings['borderSizeBottomMobile'] || $settings['borderSizeLeftMobile'] ) {
 					$css->add_property( 'border-style', 'solid' );
 				}
+
+				$css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
 
 				$css->set_selector( '.fx-container.fx-container-' . $id . ' > .fx-inside-container' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );

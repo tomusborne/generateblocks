@@ -43,6 +43,30 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.container.containerWidth,
 	},
+	minHeight: {
+		type: 'number',
+		default: flexBlocksDefaults.container.minHeight,
+	},
+	minHeightUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.container.minHeightUnit,
+	},
+	minHeightTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.container.minHeightTablet,
+	},
+	minHeightUnitTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.container.minHeightUnitTablet,
+	},
+	minHeightMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.container.minHeightMobile,
+	},
+	minHeightUnitMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.container.minHeightUnitMobile,
+	},
 	paddingTop: {
 		type: 'string',
 		default: flexBlocksDefaults.container.paddingTop,

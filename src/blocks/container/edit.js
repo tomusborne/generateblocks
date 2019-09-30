@@ -8,7 +8,7 @@ import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+const { __, _x } = wp.i18n; // Import __() from wp.i18n
 const {
 	PanelBody,
 	RangeControl,
@@ -107,6 +107,12 @@ class FlexBlockContainer extends Component {
 			outerContainer,
 			innerContainer,
 			containerWidth,
+			minHeight,
+			minHeightUnit,
+			minHeightTablet,
+			minHeightUnitTablet,
+			minHeightMobile,
+			minHeightUnitMobile,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -242,6 +248,7 @@ class FlexBlockContainer extends Component {
 				border-left-width: ` + borderSizeLeft + `px;
 				border-style: ` + borderStyleValue + `;
 				border-color: ` + borderColor + `;
+				min-height: ` + minHeight + minHeightUnit + `;
 			}
 
 			.fx-container-` + uniqueId + ` a, .fx-container-` + uniqueId + ` a:visited {
@@ -286,6 +293,21 @@ class FlexBlockContainer extends Component {
 				height: 100%;
 			}
 		`
+
+		const minHeightUnits = [
+			{
+				name: _x( 'Pixel', 'A size unit for CSS markup' ),
+				unitValue: 'px',
+			},
+			{
+				name: _x( 'VH', 'A size unit for CSS markup' ),
+				unitValue: 'vh',
+			},
+			{
+				name: _x( 'VW', 'A size unit for CSS markup' ),
+				unitValue: 'vw',
+			},
+		];
 
 		return (
 			<Fragment>
@@ -555,6 +577,44 @@ class FlexBlockContainer extends Component {
 										<div>
 											{ 'grid-default' === tab.name ? (
 												<Fragment>
+													<div className="components-fx-dimensions-control__header">
+														<div className="components-fx-dimensions-control__label">
+															{ __( 'Minimum Height', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-dimensions-control__units">
+															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+																{ minHeightUnits.map( ( unit ) =>
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+																		<Button
+																			key={ unit.unitValue }
+																			className={ 'components-fx-dimensions-control__units--' + unit.name }
+																			isSmall
+																			isPrimary={ minHeightUnit === unit.unitValue }
+																			aria-pressed={ minHeightUnit === unit.unitValue }
+																			/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																			aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+																			onClick={ () => setAttributes( { minHeightUnit: unit.unitValue } ) }
+																		>
+																			{ unit.unitValue }
+																		</Button>
+																	</Tooltip>
+																) }
+															</ButtonGroup>
+														</div>
+													</div>
+
+													<TextControl
+														type={ 'number' }
+														value={ parseFloat( minHeight ) }
+														onChange={ ( value ) => {
+															setAttributes( {
+																minHeight: parseFloat( value )
+															} );
+														} }
+													/>
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'flexblocks' ) }
@@ -630,6 +690,44 @@ class FlexBlockContainer extends Component {
 
 											{ 'grid-tablet' === tab.name ? (
 												<Fragment>
+													<div className="components-fx-dimensions-control__header">
+														<div className="components-fx-dimensions-control__label">
+															{ __( 'Minimum Height', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-dimensions-control__units">
+															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+																{ minHeightUnits.map( ( unit ) =>
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+																		<Button
+																			key={ unit.unitValue }
+																			className={ 'components-fx-dimensions-control__units--' + unit.name }
+																			isSmall
+																			isPrimary={ minHeightUnitTablet === unit.unitValue }
+																			aria-pressed={ minHeightUnitTablet === unit.unitValue }
+																			/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																			aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+																			onClick={ () => setAttributes( { minHeightUnitTablet: unit.unitValue } ) }
+																		>
+																			{ unit.unitValue }
+																		</Button>
+																	</Tooltip>
+																) }
+															</ButtonGroup>
+														</div>
+													</div>
+
+													<TextControl
+														type={ 'number' }
+														value={ parseFloat( minHeightTablet ) }
+														onChange={ ( value ) => {
+															setAttributes( {
+																minHeightTablet: parseFloat( value )
+															} );
+														} }
+													/>
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'flexblocks' ) }
@@ -705,6 +803,44 @@ class FlexBlockContainer extends Component {
 
 											{ 'grid-mobile' === tab.name ? (
 												<Fragment>
+													<div className="components-fx-dimensions-control__header">
+														<div className="components-fx-dimensions-control__label">
+															{ __( 'Minimum Height', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-dimensions-control__units">
+															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+																{ minHeightUnits.map( ( unit ) =>
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+																		<Button
+																			key={ unit.unitValue }
+																			className={ 'components-fx-dimensions-control__units--' + unit.name }
+																			isSmall
+																			isPrimary={ minHeightUnitMobile === unit.unitValue }
+																			aria-pressed={ minHeightUnitMobile === unit.unitValue }
+																			/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																			aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+																			onClick={ () => setAttributes( { minHeightUnitMobile: unit.unitValue } ) }
+																		>
+																			{ unit.unitValue }
+																		</Button>
+																	</Tooltip>
+																) }
+															</ButtonGroup>
+														</div>
+													</div>
+
+													<TextControl
+														type={ 'number' }
+														value={ parseFloat( minHeightMobile ) }
+														onChange={ ( value ) => {
+															setAttributes( {
+																minHeightMobile: parseFloat( value )
+															} );
+														} }
+													/>
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'flexblocks' ) }
