@@ -624,6 +624,17 @@ body .fx-container .wp-block {
   display: flex;
   -ms-flex-pack: justify;
       justify-content: space-between; }
+
+.fx-icon {
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -ms-flex-item-align: center;
+      align-self: center; }
+
+.fx-icon svg {
+  height: 1em;
+  width: 1em;
+  fill: currentColor; }
 /**
  * #.# Common SCSS
  *
@@ -743,3 +754,27 @@ body .fx-container .wp-block {
 
 .components-fx-typography-control__inputs + .components-fx-typography-control__header {
   margin-top: 25px; }
+
+.components-fx-typography-control__inputs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: justify;
+      justify-content: space-between; }
+
+.edit-post-settings-sidebar__panel-block .components-panel__body .components-fx-typography-control__inputs .components-base-control,
+.components-fx-typography-control__inputs .components-base-control .components-base-control__field {
+  margin-bottom: 0; }
+
+.components-fx-typography-weight-transform {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between; }
+
+.components-fx-typography-weight-transform > div {
+  width: 48%; }
+
+.components-fx-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
+  border-radius: 3px; }
