@@ -373,15 +373,27 @@ class TypographyControls extends Component {
 						</div>
 
 						<div className="components-fx-typography-control__inputs">
-							<RangeControl
-								value={ parseFloat( valueLineHeight ) || '' }
-								onChange={ ( nextLineHeight ) => setAttributes( { [ this.props[ 'attrLineHeight' ] ]: nextLineHeight } ) }
-								min={ -1 }
-								max={ 3 }
-								step={ .01 }
-								allowReset={ true }
-								initialPosition={ [ this.props[ 'initialLineHeight' ] ] }
+							<TextControl
+								type={ 'number' }
+								value={ valueLineHeight }
+								onChange={ ( value ) => {
+									setAttributes( {
+										[ this.props[ 'attrLineHeight' ] ]: value
+									} );
+								} }
 							/>
+							<Button
+								key={ uniqueId + '-reset-line-height' }
+								isSmall
+								onClick={ () => {
+									setAttributes( {
+										[ this.props[ 'attrLineHeight' ] ]: flexBlocksDefaults.headline.lineHeight,
+										[ this.props[ 'attrLineHeightUnit' ] ]: flexBlocksDefaults.headline.lineHeightUnit
+									} )
+								} }
+							>
+								{ __( 'Reset', 'flexblocks' ) }
+							</Button>
 						</div>
 					</Fragment>
 				}
@@ -392,30 +404,6 @@ class TypographyControls extends Component {
 							<div className="components-fx-typography-control__label components-base-control__label">
 								{ __( 'Letter Spacing', 'flexblocks' ) }
 							</div>
-
-							{ ( typeof valueFontSizeUnit !== 'undefined' ) ?
-								<div className="components-fx-typography-control__units">
-									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units' ) }>
-										{ unitSizes.map( ( unit, i ) =>
-											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
-												<Button
-													key={ unit.unitValue + '-' + i }
-													className={ 'components-fx-typography-control__units--' + unit.name }
-													isSmall
-													isPrimary={ valueLetterSpacingUnit === unit.unitValue }
-													aria-pressed={ valueLetterSpacingUnit === unit.unitValue }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ sprintf( __( '%s Units' ), unit.name ) }
-													onClick={ () => setAttributes( { [ this.props[ 'attrLetterSpacingUnit' ] ]: unit.unitValue } ) }
-												>
-													{ unit.unitValue }
-												</Button>
-											</Tooltip>
-										) }
-									</ButtonGroup>
-								</div> : null
-							}
 						</div>
 
 						<div className="components-fx-typography-control__inputs">

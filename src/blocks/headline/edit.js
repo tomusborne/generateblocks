@@ -270,7 +270,7 @@ class FlexBlockHeadline extends Component {
 														attrFontSize={ 'fontSize' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLineHeight={ 'lineHeight' }
-														attrLineHeight={ 'lineHeightUnit' }
+														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
 														initialFontSize={ flexBlocksDefaults.headline.fontSize }
 														initialLineHeight={ flexBlocksDefaults.headline.lineHeight }

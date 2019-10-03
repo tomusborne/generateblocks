@@ -33,3 +33,27 @@
 .components-fx-typography-control__inputs + .components-fx-typography-control__header {
     margin-top: 25px;
 }
+
+.components-fx-typography-control__inputs {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.edit-post-settings-sidebar__panel-block .components-panel__body .components-fx-typography-control__inputs .components-base-control,
+.components-fx-typography-control__inputs .components-base-control .components-base-control__field {
+    margin-bottom: 0;
+}
+
+.components-fx-typography-weight-transform {
+    display: flex;
+    justify-content: space-between;
+}
+
+.components-fx-typography-weight-transform > div {
+    width: 48%;
+}
+
+.components-fx-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
+    border-radius: 3px;
+}
