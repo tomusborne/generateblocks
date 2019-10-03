@@ -130,7 +130,6 @@ class FlexBlockHeadline extends Component {
 			letterSpacing,
 			letterSpacingTablet,
 			letterSpacingMobile,
-			letterSpacingUnit,
 		} = attributes;
 
 		const css = `
@@ -143,7 +142,7 @@ class FlexBlockHeadline extends Component {
 				background-color: ` + backgroundColor + `;
 				color: ` + textColor + `;
 				line-height: ` + lineHeight + lineHeightUnit + `;
-				letter-spacing: ` + letterSpacing + letterSpacingUnit + `;
+				letter-spacing: ` + letterSpacing + `em;
 				margin-top: ` + marginTop + marginUnit + `;
 				margin-right: ` + marginRight + marginUnit + `;
 				margin-bottom: ` + marginBottom + marginUnit + `;
@@ -264,7 +263,6 @@ class FlexBlockHeadline extends Component {
 														valueLineHeight={ lineHeight }
 														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacing }
-														valueLetterSpacingUnit={ letterSpacingUnit }
 														attrFontFamily={ 'fontFamily' }
 														attrGoogleFont={ 'googleFont' }
 														attrFontWeight={ 'fontWeight' }
@@ -274,7 +272,6 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeight' }
 														attrLineHeight={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
-														attrLetterSpacingUnit={ 'letterSpacingUnit' }
 														initialFontSize={ flexBlocksDefaults.headline.fontSize }
 														initialLineHeight={ flexBlocksDefaults.headline.lineHeight }
 														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
@@ -299,7 +296,6 @@ class FlexBlockHeadline extends Component {
 														valueLineHeight={ lineHeightTablet }
 														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacingTablet }
-														valueLetterSpacingUnit={ letterSpacingUnit }
 														attrFontSize={ 'fontSizeTablet' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLineHeight={ 'lineHeightTablet' }
@@ -330,7 +326,6 @@ class FlexBlockHeadline extends Component {
 														valueLineHeight={ lineHeightMobile }
 														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacingMobile }
-														valueLetterSpacingUnit={ letterSpacingUnit }
 														attrFontSize={ 'fontSizeMobile' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLineHeight={ 'lineHeightMobile' }

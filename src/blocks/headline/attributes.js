@@ -108,10 +108,6 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.headline.letterSpacingMobile,
 	},
-	letterSpacingUnit: {
-		type: 'string',
-		default: flexBlocksDefaults.headline.letterSpacingUnit,
-	},
 	marginTop: {
 		type: 'string',
 		default: flexBlocksDefaults.headline.marginTop,

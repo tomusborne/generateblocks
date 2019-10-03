@@ -419,15 +419,26 @@ class TypographyControls extends Component {
 						</div>
 
 						<div className="components-fx-typography-control__inputs">
-							<RangeControl
-								value={ parseFloat( valueLetterSpacing ) || '' }
-								onChange={ ( nextLetterSpacing ) => setAttributes( { [ this.props[ 'attrLetterSpacing' ] ]: nextLetterSpacing } ) }
-								min={ -1 }
-								max={ 3 }
-								step={ .01 }
-								allowReset={ true }
-								initialPosition={ [ this.props[ 'initialLetterSpacing' ] ] }
+							<TextControl
+								type={ 'number' }
+								value={ valueLetterSpacing }
+								onChange={ ( value ) => {
+									setAttributes( {
+										[ this.props[ 'attrLetterSpacing' ] ]: value
+									} );
+								} }
 							/>
+							<Button
+								key={ uniqueId + '-reset-letter-spacing' }
+								isSmall
+								onClick={ () => {
+									setAttributes( {
+										[ this.props[ 'attrLetterSpacing' ] ]: flexBlocksDefaults.headline.letterSpacing
+									} )
+								} }
+							>
+								{ __( 'Reset', 'flexblocks' ) }
+							</Button>
 						</div>
 					</Fragment>
 				}
