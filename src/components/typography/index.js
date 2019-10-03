@@ -15,7 +15,17 @@ import googleFonts from './fonts';
 const { __, _x } = wp.i18n;
 const { Component, Fragment } = wp.element;
 const { compose } = wp.compose;
-const { BaseControl, RangeControl, SelectControl, ToggleControl, TextControl, ButtonGroup, Tooltip, Button } = wp.components;
+
+const {
+	BaseControl,
+	RangeControl,
+	SelectControl,
+	ToggleControl,
+	TextControl,
+	ButtonGroup,
+	Tooltip,
+	Button,
+} = wp.components;
 
 /**
  * Typography Component
@@ -42,17 +52,14 @@ class TypographyControls extends Component {
 			attrFontSize,
 			valueFontSizeUnit,
 			attrFontSizeUnit,
-			initialFontSize,
 			valueLineHeight,
 			attrLineHeight,
 			valueLineHeightUnit,
 			attrLineHeightUnit,
-			initialLineHeight,
 			valueLetterSpacing,
 			attrLetterSpacing,
 			valueLetterSpacingUnit,
 			attrLetterSpacingUnit,
-			initialLetterSpacing,
 			uniqueId,
 		} = this.props;
 
@@ -170,8 +177,6 @@ class TypographyControls extends Component {
 				delete googleFontMeta[ id ];
 			}
 
-			console.log(JSON.stringify( googleFontMeta ));
-
 			wp.data.dispatch( 'core/editor' ).editPost( {
 				meta: {
 					_flexblocks_google_fonts: JSON.stringify( googleFontMeta ),
@@ -228,7 +233,7 @@ class TypographyControls extends Component {
 
 		return (
 			<Fragment>
-				{ ( typeof valueFontFamily !== 'undefined' ) ?
+				{ ( typeof valueFontFamily !== 'undefined' ) &&
 					<BaseControl className={ 'fx-font-family-shortcuts' } label={ __( 'Font Family', 'flexblocks' ) }>
 						<select
 							className="components-select-control__input components-select-control__input--flexblocks-fontfamily"
@@ -243,18 +248,18 @@ class TypographyControls extends Component {
 								</option>
 							) }
 						</select>
-					</BaseControl> : null
+					</BaseControl>
 				}
 
-				{ ( typeof valueFontFamily !== 'undefined' ) ?
+				{ ( typeof valueFontFamily !== 'undefined' ) &&
 					<TextControl
 						value={ valueFontFamily }
 						placeholder={ __( 'Enter font name...', 'flexblocks' ) }
 						onChange={ ( nextFontFamily ) => onFontChange( nextFontFamily ) }
-					/> : null
+					/>
 				}
 
-				{ ( typeof valueFontFamily !== 'undefined' && '' !== valueFontFamily ) ?
+				{ ( typeof valueFontFamily !== 'undefined' && '' !== valueFontFamily ) &&
 					<ToggleControl
 						label={ __( 'Google Font', 'flexblocks' ) }
 						checked={ !! valueGoogleFont }
@@ -265,34 +270,41 @@ class TypographyControls extends Component {
 
 							saveGoogleMeta( valueFontFamily, valueFontWeight, value );
 						} }
-					/> : null
+					/>
 				}
 
-				{ ( typeof valueFontWeight !== 'undefined' ) ?
-					<SelectControl
-						label={ __( 'Weight' ) }
-						value={ valueFontWeight }
-						options={ weight }
-						onChange={ ( value ) => {
-							setAttributes( {
-								[ this.props[ 'attrFontWeight' ] ]: value
-							} );
+				<div className={ 'components-fx-typography-weight-transform' }>
 
-							saveGoogleMeta( valueFontFamily, value, valueGoogleFont );
-						} }
-						className="components-base-control"
-					/> : null
-				}
+					{ ( typeof valueFontWeight !== 'undefined' ) &&
+						<SelectControl
+							label={ __( 'Weight' ) }
+							value={ valueFontWeight }
+							options={ weight }
+							onChange={ ( value ) => {
+								setAttributes( {
+									[ this.props[ 'attrFontWeight' ] ]: value
+								} );
 
-				{ ( typeof valueTextTransform !== 'undefined' ) ?
-					<SelectControl
-						label={ __( 'Transform' ) }
-						value={ valueTextTransform }
-						options={ transform }
-						onChange={ ( nextTextTransform ) => setAttributes( { [ this.props[ 'attrTextTransform' ] ]: nextTextTransform } ) }
-						className="components-base-control"
-					/> : null
-				}
+								saveGoogleMeta( valueFontFamily, value, valueGoogleFont );
+							} }
+							className="components-base-control"
+						/>
+					}
+
+					{ ( typeof valueTextTransform !== 'undefined' ) &&
+						<SelectControl
+							label={ __( 'Transform' ) }
+							value={ valueTextTransform }
+							options={ transform }
+							onChange={ ( nextTextTransform ) => {
+								setAttributes( {
+									[ this.props[ 'attrTextTransform' ] ]: nextTextTransform
+								} )
+							} }
+							className="components-base-control"
+						/>
+					}
+				</div>
 
 				{ ( typeof valueFontSize !== 'undefined' ) &&
 					<Fragment>
@@ -301,14 +313,13 @@ class TypographyControls extends Component {
 								{ __( 'Font Size', 'flexblocks' ) }
 							</div>
 
-							{ ( typeof valueFontSizeUnit !== 'undefined' ) ?
+							{ ( typeof valueFontSizeUnit !== 'undefined' ) &&
 								<div className="components-fx-typography-control__units">
 									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units' ) }>
 										{ unitSizes.map( ( unit, i ) =>
 											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
 												<Button
-													key={ unit.unitValue + '-' + i }
 													className={ 'components-fx-typography-control__units--' + unit.name }
 													isSmall
 													isPrimary={ valueFontSizeUnit === unit.unitValue }
@@ -322,20 +333,32 @@ class TypographyControls extends Component {
 											</Tooltip>
 										) }
 									</ButtonGroup>
-								</div> : null
+								</div>
 							}
 						</div>
 
 						<div className="components-fx-typography-control__inputs">
-							<RangeControl
-								value={ parseFloat( valueFontSize ) || '' }
-								onChange={ ( nextFontSize ) => setAttributes( { [ this.props[ 'attrFontSize' ] ]: nextFontSize } ) }
-								min={ 1 }
-								max={ 200 }
-								step={ 1 }
-								allowReset={ true }
-								initialPosition={ [ this.props[ 'initialFontSize' ] ] }
+							<TextControl
+								type={ 'number' }
+								value={ valueFontSize }
+								onChange={ ( value ) => {
+									setAttributes( {
+										[ this.props[ 'attrFontSize' ] ]: value
+									} );
+								} }
 							/>
+							<Button
+								key={ uniqueId + '-reset-font-size' }
+								isSmall
+								onClick={ () => {
+									setAttributes( {
+										[ this.props[ 'attrFontSize' ] ]: flexBlocksDefaults.headline.fontSize,
+										[ this.props[ 'attrFontSizeUnit' ] ]: flexBlocksDefaults.headline.fontSizeUnit
+									} )
+								} }
+							>
+								{ __( 'Reset', 'flexblocks' ) }
+							</Button>
 						</div>
 					</Fragment>
 				}
@@ -347,14 +370,13 @@ class TypographyControls extends Component {
 								{ __( 'Line Height', 'flexblocks' ) }
 							</div>
 
-							{ ( typeof valueFontSizeUnit !== 'undefined' ) ?
+							{ ( typeof valueLineHeight !== 'undefined' ) &&
 								<div className="components-fx-typography-control__units">
 									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units' ) }>
 										{ unitSizes.map( ( unit, i ) =>
 											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
 												<Button
-													key={ unit.unitValue + '-' + i }
 													className={ 'components-fx-typography-control__units--' + unit.name }
 													isSmall
 													isPrimary={ valueLineHeightUnit === unit.unitValue }
@@ -368,7 +390,7 @@ class TypographyControls extends Component {
 											</Tooltip>
 										) }
 									</ButtonGroup>
-								</div> : null
+								</div>
 							}
 						</div>
 

@@ -54,8 +54,10 @@ class DimensionsControl extends Component {
 
 		const syncValue = Math.max.apply( null, numbers );
 
-		this.props.setAttributes( { [ this.props[ 'attrSyncUnits' ] ]: ! this.props[ 'syncUnits' ] } )
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: syncValue.toString(), [ this.props[ 'attrRight' ] ]: syncValue.toString(), [ this.props[ 'attrBottom' ] ]: syncValue.toString(), [ this.props[ 'attrLeft' ] ]: syncValue.toString() } );
+		this.props.setAttributes( {
+			[ this.props[ 'attrSyncUnits' ] ]: ! this.props[ 'syncUnits' ],
+			[ this.props[ 'attrTop' ] ]: syncValue.toString(), [ this.props[ 'attrRight' ] ]: syncValue.toString(), [ this.props[ 'attrBottom' ] ]: syncValue.toString(), [ this.props[ 'attrLeft' ] ]: syncValue.toString()
+		} );
 	}
 
 	onChangeUnits( value ) {
@@ -97,8 +99,7 @@ class DimensionsControl extends Component {
 
 		const classes = classnames(
 			'components-base-control',
-			'components-fx-dimensions-control', {
-			}
+			'components-fx-dimensions-control',
 		);
 
 		const onChangeTopValue = ( event ) => {
@@ -175,10 +176,6 @@ class DimensionsControl extends Component {
 				unitValue: '%',
 			},
 		];
-
-		unitSizes.map( ( unitValue ) => {
-			console.log(unitValue);
-		} );
 
 		return (
 			<Fragment>

@@ -234,7 +234,7 @@ class FlexBlockHeadline extends Component {
 														label={ __( 'Element', 'flexblocks' ) }
 														value={ element }
 														options={ [
-															{ label: 'p', value: 'p' },
+															{ label: 'paragraph', value: 'p' },
 															{ label: 'h1', value: 'h1' },
 															{ label: 'h2', value: 'h2' },
 															{ label: 'h3', value: 'h3' },
@@ -272,9 +272,6 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeight' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
-														initialFontSize={ flexBlocksDefaults.headline.fontSize }
-														initialLineHeight={ flexBlocksDefaults.headline.lineHeight }
-														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -301,10 +298,6 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeightTablet' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
-														attrLineHeightUnit={ 'lineHeightUnit' }
-														initialFontSize={ flexBlocksDefaults.headline.fontSizeTablet }
-														initialLineHeight={ flexBlocksDefaults.headline.lineHeightTablet }
-														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingTablet }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -331,10 +324,6 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeightMobile' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
-														attrLetterSpacingUnit={ 'letterSpacingUnit' }
-														initialFontSize={ flexBlocksDefaults.headline.fontSizeMobile }
-														initialLineHeight={ flexBlocksDefaults.headline.lineHeightMobile }
-														initialLetterSpacing={ flexBlocksDefaults.headline.letterSpacingMobile }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>

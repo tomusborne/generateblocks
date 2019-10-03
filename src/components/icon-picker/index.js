@@ -13,10 +13,29 @@ import generalSvgs from './svgs-general';
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
-const { Component, Fragment, renderToString } = wp.element;
-const { compose } = wp.compose;
-const { BaseControl, SelectControl, ToggleControl, TextControl, Tooltip, Button, Popover } = wp.components;
+const {
+	__
+} = wp.i18n;
+
+const {
+	Component,
+	Fragment,
+	renderToString
+} = wp.element;
+
+const {
+	compose
+} = wp.compose;
+
+const {
+	BaseControl,
+	SelectControl,
+	ToggleControl,
+	TextControl,
+	Tooltip,
+	Button,
+	Popover
+} = wp.components;
 
 /**
  * Typography Component
@@ -62,8 +81,10 @@ class IconPicker extends Component {
 												isLarge
 												className="editor-block-list-item-button"
 												onClick={ () => {
-													setAttributes( { [ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ]['icon'] ) } );
-													setAttributes( { [ this.props[ 'attrCustomIcon' ] ]: false } );
+													setAttributes( {
+														[ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ]['icon'] ),
+														[ this.props[ 'attrCustomIcon' ] ]: false
+													} );
 												} }
 											>
 												<span className="editor-block-types-list__item-icon">
@@ -89,8 +110,10 @@ class IconPicker extends Component {
 												isLarge
 												className="editor-block-list-item-button"
 												onClick={ () => {
-													setAttributes( { [ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ]['icon'] ) } );
-													setAttributes( { [ this.props[ 'attrCustomIcon' ] ]: false } );
+													setAttributes( {
+														[ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ]['icon'] ),
+														[ this.props[ 'attrCustomIcon' ] ]: false
+													} );
 												} }
 											>
 												<span className="editor-block-types-list__item-icon">
@@ -123,8 +146,10 @@ class IconPicker extends Component {
 						isLarge
 						className="reset-icon"
 						onClick={ () => {
-							setAttributes( { [ this.props[ 'attrCustomIcon' ] ]: false } );
-							setAttributes( { [ this.props[ 'attrIcon' ] ]: '' } );
+							setAttributes( {
+								[ this.props[ 'attrCustomIcon' ] ]: false,
+								[ this.props[ 'attrIcon' ] ]: ''
+							} );
 						} }
 					>
 						<span className="editor-block-types-list__item-icon">
@@ -133,7 +158,7 @@ class IconPicker extends Component {
 					</Button>
 				</BaseControl>
 
-				{ !! valueCustomIcon ? (
+				{ !! valueCustomIcon &&
 					<BaseControl className="fx-svg-html">
 						<TextControl
 							label={ __( 'Icon SVG HTML', 'flexblocks' ) }
@@ -145,9 +170,9 @@ class IconPicker extends Component {
 							} }
 						/>
 					</BaseControl>
-				) : '' }
+				}
 
-				{ ( typeof valueIconLocation !== 'undefined' ) ?
+				{ ( typeof valueIconLocation !== 'undefined' ) &&
 					<SelectControl
 						label={ __( 'Icon Location', 'flexblocks' ) }
 						value={ valueIconLocation }
@@ -157,10 +182,10 @@ class IconPicker extends Component {
 								[ this.props[ 'attrIconLocation' ] ]: value
 							} );
 						} }
-					/> : null
+					/>
 				}
 
-				{ ( typeof valueRemoveText !== 'undefined' ) ?
+				{ ( typeof valueRemoveText !== 'undefined' ) &&
 					<ToggleControl
 						label={ __( 'Remove Text', 'flexblocks' ) }
 						checked={ !! valueRemoveText }
@@ -169,10 +194,10 @@ class IconPicker extends Component {
 								[ this.props[ 'attrRemoveText' ] ]: value
 							} );
 						} }
-					/> : null
+					/>
 				}
 
-				{ typeof valueAriaLabel !== 'undefined' && !! valueRemoveText ? (
+				{ typeof valueAriaLabel !== 'undefined' && !! valueRemoveText &&
 					<TextControl
 						label={ __( 'ARIA Label', 'flexblocks' ) }
 						help={ __( 'Helpful to people using screen readers.', 'flexblocks' ) }
@@ -183,7 +208,7 @@ class IconPicker extends Component {
 							} );
 						} }
 					/>
-				) : '' }
+				}
 			</Fragment>
 		);
 	}
