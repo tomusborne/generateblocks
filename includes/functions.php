@@ -148,3 +148,21 @@ function flexblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit ) {
 
 	return trim( $top . $right . $bottom . $left );
 }
+
+/**
+ * Get our media query.
+ *
+ * @since 0.1
+ * @param string $type The media query we're getting.
+ *
+ * @return string
+ */
+function flexblocks_get_media_query( $type ) {
+	$queries = apply_filters( 'flexblocks_media_query', array(
+		'mobile' => '(max-width: 767px)',
+		'tablet' => '(max-width: 1024px)',
+	) );
+
+	return $queries[ $type ];
+}
+

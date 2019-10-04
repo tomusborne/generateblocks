@@ -58,7 +58,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 
 			$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
 
-			$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
 				$css->set_selector( '.fx-grid-wrapper-' . $id );
 
 				if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
@@ -83,7 +83,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
 			$css->stop_media_query();
 
-			$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'mobile' ) );
 				$css->set_selector( '.fx-grid-wrapper-' . $id );
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
@@ -215,7 +215,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'height', '100%' );
 			$css->add_property( 'justify-content', $settings['verticalAlignment'] );
 
-			$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
 				$css->set_selector( '.fx-container.fx-container-' . $id );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 				$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'], $settings['borderRadiusUnit'] ) );
@@ -245,7 +245,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				}
 			$css->stop_media_query();
 
-			$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'mobile' ) );
 				$css->set_selector( '.fx-container.fx-container-' . $id );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'], $settings['borderRadiusUnit'] ) );
@@ -323,7 +323,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'align-items', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
 			}
 
-			$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
 				$css->set_selector( '.fx-button-wrapper-' . $id );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 				$css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
@@ -335,7 +335,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->stop_media_query();
 
 
-			$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'mobile' ) );
 				$css->set_selector( '.fx-button-wrapper-' . $id );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
@@ -435,7 +435,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				}
 			}
 
-			$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
 				$css->set_selector( 'a.fx-button-' . $id );
 				$css->add_property( 'font-size', $settings['fontSizeTablet'], 'em' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
@@ -444,7 +444,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'border-width', flexblocks_get_shorthand_css( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'], 'px' ) );
 			$css->stop_media_query();
 
-			$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'mobile' ) );
 				$css->set_selector( 'a.fx-button-' . $id );
 				$css->add_property( 'font-size', $settings['fontSizeMobile'], 'em' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
@@ -504,7 +504,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->set_selector( '.fx-headline-' . $id . ' a:hover' );
 			$css->add_property( 'color', $settings['linkColorHover'] );
 
-			$css->start_media_query( apply_filters( 'flexblocks_tablet_media_query', '(max-width: 1024px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
 				$css->set_selector( '.fx-headline-' . $id );
 				$css->add_property( 'text-align', $settings['alignmentTablet'] );
 				$css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
@@ -515,7 +515,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->stop_media_query();
 
 
-			$css->start_media_query( apply_filters( 'flexblocks_mobile_media_query', '(max-width:768px)' ) );
+			$css->start_media_query( flexblocks_get_media_query( 'mobile' ) );
 				$css->set_selector( '.fx-headline-' . $id );
 				$css->add_property( 'text-align', $settings['alignmentMobile'] );
 				$css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
