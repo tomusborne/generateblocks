@@ -1,15 +1,20 @@
 <?php
-// Exit if accessed directly.
+/**
+ * Set our block attribute defaults.
+ *
+ * @package FlexBlocks
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly.
 }
 
 /**
  * Set our block defaults.
  *
  * @since 0.1
- *
  * @param string $block The name of our block.
+ *
  * @return array
  */
 function flexblocks_get_block_defaults() {
@@ -36,7 +41,6 @@ function flexblocks_get_block_defaults() {
 		'paddingRight' => 10,
 		'paddingBottom' => 10,
 		'paddingLeft' => 10,
-		'paddingUnit' => 'px',
 		'paddingTopTablet' => '',
 		'paddingRightTablet' => '',
 		'paddingBottomTablet' => '',
@@ -45,11 +49,11 @@ function flexblocks_get_block_defaults() {
 		'paddingRightMobile' => '',
 		'paddingBottomMobile' => '',
 		'paddingLeftMobile' => '',
+		'paddingUnit' => 'px',
 		'marginTop' => '',
 		'marginRight' => '',
 		'marginBottom' => '',
 		'marginLeft' => '',
-		'marginUnit' => 'px',
 		'marginTopTablet' => '',
 		'marginRightTablet' => '',
 		'marginBottomTablet' => '',
@@ -58,6 +62,7 @@ function flexblocks_get_block_defaults() {
 		'marginRightMobile' => '',
 		'marginBottomMobile' => '',
 		'marginLeftMobile' => '',
+		'marginUnit' => 'px',
 		'borderSizeTop' => '',
 		'borderSizeRight' => '',
 		'borderSizeBottom' => '',
@@ -74,7 +79,6 @@ function flexblocks_get_block_defaults() {
 		'borderRadiusBottomRight' => '',
 		'borderRadiusBottomLeft' => '',
 		'borderRadiusTopLeft' => '',
-		'borderRadiusUnit' => 'px',
 		'borderRadiusTopRightTablet' => '',
 		'borderRadiusBottomRightTablet' => '',
 		'borderRadiusBottomLeftTablet' => '',
@@ -83,6 +87,7 @@ function flexblocks_get_block_defaults() {
 		'borderRadiusBottomRightMobile' => '',
 		'borderRadiusBottomLeftMobile' => '',
 		'borderRadiusTopLeftMobile' => '',
+		'borderRadiusUnit' => 'px',
 		'borderColor' => '',
 		'backgroundColor' => '',
 		'textColor' => '',
@@ -116,7 +121,6 @@ function flexblocks_get_block_defaults() {
 		'marginRight' => '',
 		'marginBottom' => '',
 		'marginLeft' => '',
-		'marginUnit' => 'px',
 		'marginTopTablet' => '',
 		'marginRightTablet' => '',
 		'marginBottomTablet' => '',
@@ -125,6 +129,7 @@ function flexblocks_get_block_defaults() {
 		'marginRightMobile' => '',
 		'marginBottomMobile' => '',
 		'marginLeftMobile' => '',
+		'marginUnit' => 'px',
 		'stack' => false,
 		'stackTablet' => false,
 		'stackMobile' => false,
@@ -140,10 +145,9 @@ function flexblocks_get_block_defaults() {
 		'fontSizeMobile' => false,
 		'textTransform' => '',
 		'marginTop' => '',
-		'marginRight' => 20,
+		'marginRight' => '20',
 		'marginBottom' => '',
 		'marginLeft' => '',
-		'marginUnit' => 'px',
 		'marginTopTablet' => '',
 		'marginRightTablet' => '',
 		'marginBottomTablet' => '',
@@ -152,11 +156,11 @@ function flexblocks_get_block_defaults() {
 		'marginRightMobile' => '',
 		'marginBottomMobile' => '',
 		'marginLeftMobile' => '',
-		'paddingTop' => 10,
-		'paddingRight' => 15,
-		'paddingBottom' => 10,
-		'paddingLeft' => 15,
-		'paddingUnit' => 'px',
+		'marginUnit' => 'px',
+		'paddingTop' => '10',
+		'paddingRight' => '15',
+		'paddingBottom' => '10',
+		'paddingLeft' => '15',
 		'paddingTopTablet' => '',
 		'paddingRightTablet' => '',
 		'paddingBottomTablet' => '',
@@ -165,6 +169,7 @@ function flexblocks_get_block_defaults() {
 		'paddingRightMobile' => '',
 		'paddingBottomMobile' => '',
 		'paddingLeftMobile' => '',
+		'paddingUnit' => 'px',
 		'borderSizeTop' => '',
 		'borderSizeRight' => '',
 		'borderSizeBottom' => '',
@@ -181,7 +186,6 @@ function flexblocks_get_block_defaults() {
 		'borderRadiusBottomRight' => '',
 		'borderRadiusBottomLeft' => '',
 		'borderRadiusTopLeft' => '',
-		'borderRadiusUnit' => 'px',
 		'borderRadiusTopRightTablet' => '',
 		'borderRadiusBottomRightTablet' => '',
 		'borderRadiusBottomLeftTablet' => '',
@@ -190,6 +194,7 @@ function flexblocks_get_block_defaults() {
 		'borderRadiusBottomRightMobile' => '',
 		'borderRadiusBottomLeftMobile' => '',
 		'borderRadiusTopLeftMobile' => '',
+		'borderRadiusUnit' => 'px',
 		'borderColor' => '#0366d6',
 		'borderColorHover' => '#222222',
 		'icon' => '',
@@ -216,6 +221,8 @@ function flexblocks_get_block_defaults() {
 
 	$defaults['headline'] = array(
 		'element' => 'p',
+		'dynamicText' => 'post-title',
+		'cssClasses' => '',
 		'alignment' => false,
 		'alignmentTablet' => false,
 		'alignmentMobile' => false,
@@ -238,33 +245,32 @@ function flexblocks_get_block_defaults() {
 		'letterSpacing' => '',
 		'letterSpacingTablet' => '',
 		'letterSpacingMobile' => '',
-		'letterSpacingUnit' => 'em',
 		'marginTop' => '',
-		'marginTopTablet' => '',
-		'marginTopMobile' => '',
 		'marginRight' => '',
-		'marginRightTablet' => '',
-		'marginRightMobile' => '',
 		'marginBottom' => '25',
-		'marginBottomTablet' => '',
-		'marginBottomMobile' => '',
 		'marginLeft' => '',
-		'marginUnit' => 'px',
+		'marginTopTablet' => '',
+		'marginRightTablet' => '',
+		'marginBottomTablet' => '',
 		'marginLeftTablet' => '',
+		'marginTopMobile' => '',
+		'marginRightMobile' => '',
+		'marginBottomMobile' => '',
 		'marginLeftMobile' => '',
+		'marginUnit' => 'px',
 		'paddingTop' => '',
-		'paddingTopTablet' => '',
-		'paddingTopMobile' => '',
 		'paddingRight' => '',
-		'paddingRightTablet' => '',
-		'paddingRightMobile' => '',
 		'paddingBottom' => '',
-		'paddingBottomTablet' => '',
-		'paddingBottomMobile' => '',
 		'paddingLeft' => '',
-		'paddingUnit' => 'px',
+		'paddingTopTablet' => '',
+		'paddingRightTablet' => '',
+		'paddingBottomTablet' => '',
 		'paddingLeftTablet' => '',
+		'paddingTopMobile' => '',
+		'paddingRightMobile' => '',
+		'paddingBottomMobile' => '',
 		'paddingLeftMobile' => '',
+		'paddingUnit' => 'px',
 	);
 
 	return apply_filters( 'flexblocks_defaults', $defaults );

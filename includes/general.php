@@ -1,7 +1,12 @@
 <?php
-// Exit if accessed directly.
+/**
+ * General actions and filters.
+ *
+ * @package FlexBlocks
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly.
 }
 
 add_action( 'enqueue_block_editor_assets', 'flexblocks_do_block_editor_assets' );
@@ -12,7 +17,7 @@ add_action( 'enqueue_block_editor_assets', 'flexblocks_do_block_editor_assets' )
  * @uses {wp-element} for WP Element abstraction — structure of blocks.
  * @uses {wp-i18n} to internationalize the block's text.
  * @uses {wp-editor} for WP editor styles.
- * @since 1.0.0
+ * @since 0.1
  */
 function flexblocks_do_block_editor_assets() {
 	wp_enqueue_script(
@@ -84,79 +89,6 @@ function flexblocks_register_meta() {
 			'auth_callback' => 'flexblocks_auth_callback',
 		)
 	);
-}
-
-/**
- * Build our list of Google fonts on this page.
- *
- * @since 0.1
- */
-function flexblocks_get_google_fonts( $post_id = '' ) {
-	if ( ! $post_id ) {
-		$post_id = get_the_ID();
-	}
-
-	$meta = json_decode( get_post_meta( $post_id, '_flexblocks_google_fonts', true ), true );
-
-	$fonts = array();
-
-	foreach ( (array) $meta as $font ) {
-		$id = str_replace( ' ', '', strtolower( $font['name'] ) );
-
-		$fonts[ $id ]['name'] = $font['name'];
-
-		if ( ! empty( $font['variants'] ) ) {
-			$fonts[ $id ]['variants'][] = $font['variants'];
-		}
-	}
-
-	return apply_filters( 'flexblocks_google_fonts', $fonts );
-}
-
-/**
- * Build the Google Font request URI.
- *
- * @since 0.1
- */
-function flexblocks_get_google_fonts_uri( $post_id = '' ) {
-	if ( ! $post_id ) {
-		$post_id = get_the_ID();
-	}
-
-	$google_fonts = flexblocks_get_google_fonts( $post_id );
-
-	if ( ! $google_fonts ) {
-		return;
-	}
-
-	$data = array();
-
-	foreach( $google_fonts as $font ) {
-		$variants = array();
-
-		if ( ! empty( $font['variants'] ) ) {
-			foreach( $font['variants'] as $variant ) {
-				$variants[] = $variant;
-				$variants[] = $variant . 'i';
-			}
-		}
-
-		$name = str_replace( ' ', '+', $font['name'] );
-
-		if ( $variants ) {
-			$data[] = $name . ':' . implode( ',', $variants );
-		} else {
-			$data[] = $name;
-		}
-	}
-
-	$font_args = array(
-		'family' => implode( '|', $data ),
-		'subset' => apply_filters( 'flexblocks_google_font_subset', null ),
-		'display' => apply_filters( 'flexblocks_google_font_display', 'swap' ),
-	);
-
-	return add_query_arg( $font_args, '//fonts.googleapis.com/css' );
 }
 
 add_action( 'wp_enqueue_scripts', 'flexblocks_do_google_fonts' );

@@ -1,15 +1,20 @@
 <?php
-// Exit if accessed directly.
+/**
+ * Functions used throughout the plugin.
+ *
+ * @package FlexBlocks
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly.
 }
 
 /**
  * Retrive attributes from our blocks.
  *
  * @since 0.1
- *
  * @param string $blockName The name of the block to get attributes from.
+ *
  * @return array
  */
 function flexblocks_get_block_data( $blockName = 'flexblocks/container', $content = '' ) {
@@ -85,10 +90,10 @@ function flexblocks_get_block_data( $blockName = 'flexblocks/container', $conten
  * Retrive attributes from our blocks when they're nested within eachother.
  *
  * @since 0.1
- *
  * @param array $block The current block.
  * @param array $data The current data.
  * @param string $blockName The name of the block we're targeting.
+ *
  * @return array
  */
 function flexblocks_get_nested_block_data( $block, $data, $blockName ) {
@@ -166,3 +171,81 @@ function flexblocks_get_media_query( $type ) {
 	return $queries[ $type ];
 }
 
+/**
+ * Build our list of Google fonts on this page.
+ *
+ * @since 0.1
+ * @param int $post_id The post ID we're checking.
+ *
+ * @return array
+ */
+function flexblocks_get_google_fonts( $post_id = '' ) {
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$meta = json_decode( get_post_meta( $post_id, '_flexblocks_google_fonts', true ), true );
+
+	$fonts = array();
+
+	foreach ( (array) $meta as $font ) {
+		$id = str_replace( ' ', '', strtolower( $font['name'] ) );
+
+		$fonts[ $id ]['name'] = $font['name'];
+
+		if ( ! empty( $font['variants'] ) ) {
+			$fonts[ $id ]['variants'][] = $font['variants'];
+		}
+	}
+
+	return apply_filters( 'flexblocks_google_fonts', $fonts );
+}
+
+/**
+ * Build the Google Font request URI.
+ *
+ * @since 0.1
+ * @param int $post_id The post ID we're checking.
+ *
+ * @return string The request URI to Google Fonts.
+ */
+function flexblocks_get_google_fonts_uri( $post_id = '' ) {
+	if ( ! $post_id ) {
+		$post_id = get_the_ID();
+	}
+
+	$google_fonts = flexblocks_get_google_fonts( $post_id );
+
+	if ( ! $google_fonts ) {
+		return;
+	}
+
+	$data = array();
+
+	foreach( $google_fonts as $font ) {
+		$variants = array();
+
+		if ( ! empty( $font['variants'] ) ) {
+			foreach( $font['variants'] as $variant ) {
+				$variants[] = $variant;
+				$variants[] = $variant . 'i';
+			}
+		}
+
+		$name = str_replace( ' ', '+', $font['name'] );
+
+		if ( $variants ) {
+			$data[] = $name . ':' . implode( ',', $variants );
+		} else {
+			$data[] = $name;
+		}
+	}
+
+	$font_args = array(
+		'family' => implode( '|', $data ),
+		'subset' => apply_filters( 'flexblocks_google_font_subset', null ),
+		'display' => apply_filters( 'flexblocks_google_font_display', 'swap' ),
+	);
+
+	return add_query_arg( $font_args, '//fonts.googleapis.com/css' );
+}

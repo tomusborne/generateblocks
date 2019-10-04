@@ -1,9 +1,23 @@
 <?php
-// Exit if accessed directly.
+/**
+ * Output our dynamic CSS.
+ *
+ * @package FlexBlocks
+ */
+
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly.
 }
 
+/**
+ *  Build the CSS from our block attributes.
+ *
+ * @since 0.1
+ * @param string $block The block we're looking for.
+ * @param string $content The content we're looking through.
+ *
+ * @return string The dynamic CSS.
+ */
 function flexblocks_get_dynamic_css( $block, $content = '' ) {
 	/**
 	 * Get our Grid block CSS.
@@ -494,7 +508,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'font-weight', $settings['fontWeight'] );
 			$css->add_property( 'text-transform', $settings['textTransform'] );
 			$css->add_property( 'line-height', $settings['lineHeight'], $settings['lineHeightUnit'] );
-			$css->add_property( 'letter-spacing', $settings['letterSpacing'], $settings['letterSpacingUnit'] );
+			$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 
@@ -509,7 +523,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'text-align', $settings['alignmentTablet'] );
 				$css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 				$css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
-				$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], $settings['letterSpacingUnit'] );
+				$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], 'px' ) );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], 'px' ) );
 			$css->stop_media_query();
@@ -520,7 +534,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'text-align', $settings['alignmentMobile'] );
 				$css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 				$css->add_property( 'line-height', $settings['lineHeightMobile'], $settings['lineHeightUnit'] );
-				$css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], $settings['letterSpacingUnit'] );
+				$css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
 			$css->stop_media_query();
