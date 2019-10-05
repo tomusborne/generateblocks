@@ -100,34 +100,30 @@ class FlexBlockHeadline extends Component {
 			marginRight,
 			marginBottom,
 			marginLeft,
-			marginUnit,
 			marginSyncUnits,
 			marginTopTablet,
 			marginRightTablet,
 			marginLeftTablet,
 			marginBottomTablet,
-			marginSyncUnitsTablet,
 			marginTopMobile,
 			marginRightMobile,
 			marginBottomMobile,
 			marginLeftMobile,
-			marginSyncUnitsMobile,
+			marginUnit,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
 			paddingLeft,
-			paddingUnit,
-			paddingSyncUnits,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
 			paddingLeftTablet,
-			paddingSyncUnitsTablet,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
-			paddingSyncUnitsMobile,
+			paddingUnit,
+			paddingSyncUnits,
 			letterSpacing,
 			letterSpacingTablet,
 			letterSpacingMobile,
@@ -533,13 +529,13 @@ class FlexBlockHeadline extends Component {
 														valueBottom={ marginBottomTablet }
 														valueLeft={ marginLeftTablet }
 														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnitsTablet }
+														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopTablet' }
 														attrRight={ 'marginRightTablet' }
 														attrBottom={ 'marginBottomTablet' }
 														attrLeft={ 'marginLeftTablet' }
 														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnitsTablet' }
+														attrSyncUnits={ 'marginSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -550,13 +546,13 @@ class FlexBlockHeadline extends Component {
 														valueBottom={ paddingBottomTablet }
 														valueLeft={ paddingLeftTablet }
 														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnitsTablet }
+														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTopTablet' }
 														attrRight={ 'paddingRightTablet' }
 														attrBottom={ 'paddingBottomTablet' }
 														attrLeft={ 'paddingLeftTablet' }
 														attrUnit={ 'paddingUnit' }
-														attrSyncUnits={ 'paddingSyncUnitsTablet' }
+														attrSyncUnits={ 'paddingSyncUnits' }
 													/>
 												</Fragment>
 											) : '' }
@@ -571,13 +567,13 @@ class FlexBlockHeadline extends Component {
 														valueBottom={ marginBottomMobile }
 														valueLeft={ marginLeftMobile }
 														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnitsMobile }
+														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopMobile' }
 														attrRight={ 'marginRightMobile' }
 														attrBottom={ 'marginBottomMobile' }
 														attrLeft={ 'marginLeftMobile' }
 														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnitsMobile' }
+														attrSyncUnits={ 'marginSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -588,13 +584,23 @@ class FlexBlockHeadline extends Component {
 														valueBottom={ paddingBottomMobile }
 														valueLeft={ paddingLeftMobile }
 														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnitsMobile }
+														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTopMobile' }
 														attrRight={ 'paddingRightMobile' }
 														attrBottom={ 'paddingBottomMobile' }
 														attrLeft={ 'paddingLeftMobile' }
 														attrUnit={ 'paddingUnit' }
-														attrSyncUnits={ 'paddingSyncUnitsMobile' }
+														attrSyncUnits={ 'paddingSyncUnits' }
+													/>
+												</Fragment>
+											) : '' }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
+					</PanelBody>
+
 					<PanelBody
 						title={ __( 'Icon', 'flexblocks' ) }
 						initialOpen={ false }

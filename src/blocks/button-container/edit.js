@@ -94,12 +94,10 @@ class FlexButtonContainer extends Component {
 			marginRightTablet,
 			marginBottomTablet,
 			marginLeftTablet,
-			marginSyncUnitsTablet,
 			marginTopMobile,
 			marginRightMobile,
 			marginBottomMobile,
 			marginLeftMobile,
-			marginSyncUnitsMobile,
 			stack,
 			stackTablet,
 			stackMobile,
@@ -239,13 +237,13 @@ class FlexButtonContainer extends Component {
 														valueBottom={ marginBottomTablet }
 														valueLeft={ marginLeftTablet }
 														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnitsTablet }
+														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopTablet' }
 														attrRight={ 'marginRightTablet' }
 														attrBottom={ 'marginBottomTablet' }
 														attrLeft={ 'marginLeftTablet' }
 														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnitsTablet' }
+														attrSyncUnits={ 'marginSyncUnits' }
 													/>
 
 													<ToggleControl
@@ -278,13 +276,13 @@ class FlexButtonContainer extends Component {
 														valueBottom={ marginBottomMobile }
 														valueLeft={ marginLeftMobile }
 														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnitsMobile }
+														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopMobile' }
 														attrRight={ 'marginRightMobile' }
 														attrBottom={ 'marginBottomMobile' }
 														attrLeft={ 'marginLeftMobile' }
 														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnitsMobile' }
+														attrSyncUnits={ 'marginSyncUnits' }
 													/>
 
 													<ToggleControl

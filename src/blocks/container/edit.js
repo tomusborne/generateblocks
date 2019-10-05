@@ -124,13 +124,11 @@ class FlexBlockContainer extends Component {
 			paddingBottomTablet,
 			paddingLeftTablet,
 			paddingUnitTablet,
-			paddingSyncUnitsTablet,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
 			paddingUnitMobile,
-			paddingSyncUnitsMobile,
 			marginTop,
 			marginRight,
 			marginBottom,
@@ -142,13 +140,11 @@ class FlexBlockContainer extends Component {
 			marginBottomTablet,
 			marginLeftTablet,
 			marginUnitTablet,
-			marginSyncUnitsTablet,
 			marginTopMobile,
 			marginRightMobile,
 			marginBottomMobile,
 			marginLeftMobile,
 			marginUnitMobile,
-			marginSyncUnitsMobile,
 			borderSizeTop,
 			borderSizeRight,
 			borderSizeBottom,
@@ -158,12 +154,10 @@ class FlexBlockContainer extends Component {
 			borderSizeRightTablet,
 			borderSizeBottomTablet,
 			borderSizeLeftTablet,
-			borderSizeSyncUnitsTablet,
 			borderSizeTopMobile,
 			borderSizeRightMobile,
 			borderSizeBottomMobile,
 			borderSizeLeftMobile,
-			borderSizeSyncUnitsMobile,
 			borderRadiusTopRight,
 			borderRadiusBottomRight,
 			borderRadiusBottomLeft,
@@ -174,12 +168,10 @@ class FlexBlockContainer extends Component {
 			borderRadiusBottomRightTablet,
 			borderRadiusBottomLeftTablet,
 			borderRadiusTopLeftTablet,
-			borderRadiusSyncUnitsTablet,
 			borderRadiusTopRightMobile,
 			borderRadiusBottomRightMobile,
 			borderRadiusBottomLeftMobile,
 			borderRadiusTopLeftMobile,
-			borderRadiusSyncUnitsMobile,
 			borderColor,
 			borderColorHover,
 			backgroundColor,
@@ -656,7 +648,6 @@ class FlexBlockContainer extends Component {
 														valueRight={ borderSizeRight }
 														valueBottom={ borderSizeBottom }
 														valueLeft={ borderSizeLeft }
-														//unit={ paddingUnit }
 														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTop' }
 														attrRight={ 'borderSizeRight' }
@@ -736,13 +727,13 @@ class FlexBlockContainer extends Component {
 														valueBottom={ paddingBottomTablet }
 														valueLeft={ paddingLeftTablet }
 														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnitsTablet }
+														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTopTablet' }
 														attrRight={ 'paddingRightTablet' }
 														attrBottom={ 'paddingBottomTablet' }
 														attrLeft={ 'paddingLeftTablet' }
 														attrUnit={ 'paddingUnit' }
-														attrSyncUnits={ 'paddingSyncUnitsTablet' }
+														attrSyncUnits={ 'paddingSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -753,13 +744,13 @@ class FlexBlockContainer extends Component {
 														valueBottom={ marginBottomTablet }
 														valueLeft={ marginLeftTablet }
 														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnitsTablet }
+														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopTablet' }
 														attrRight={ 'marginRightTablet' }
 														attrBottom={ 'marginBottomTablet' }
 														attrLeft={ 'marginLeftTablet' }
 														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnitsTablet' }
+														attrSyncUnits={ 'marginSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -769,13 +760,12 @@ class FlexBlockContainer extends Component {
 														valueRight={ borderSizeRightTablet }
 														valueBottom={ borderSizeBottomTablet }
 														valueLeft={ borderSizeLeftTablet }
-														//unit={ paddingUnit }
-														syncUnits={ borderSizeSyncUnitsTablet }
+														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTopTablet' }
 														attrRight={ 'borderSizeRightTablet' }
 														attrBottom={ 'borderSizeBottomTablet' }
 														attrLeft={ 'borderSizeLeftTablet' }
-														attrSyncUnits={ 'borderSizeSyncUnitsTablet' }
+														attrSyncUnits={ 'borderSizeSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -792,7 +782,7 @@ class FlexBlockContainer extends Component {
 														attrBottom={ 'borderRadiusBottomRightTablet' }
 														attrLeft={ 'borderRadiusBottomLeftTablet' }
 														attrUnit={ 'borderRadiusUnit' }
-														attrSyncUnits={ 'borderRadiusSyncUnitsTablet' }
+														attrSyncUnits={ 'borderRadiusSyncUnits' }
 														labelTop={ __( 'T-Left', 'flexblocks' ) }
 														labelRight={ __( 'T-Right', 'flexblocks' ) }
 														labelBottom={ __( 'B-Right', 'flexblocks' ) }
@@ -849,13 +839,13 @@ class FlexBlockContainer extends Component {
 														valueBottom={ paddingBottomMobile }
 														valueLeft={ paddingLeftMobile }
 														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnitsMobile }
+														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTopMobile' }
 														attrRight={ 'paddingRightMobile' }
 														attrBottom={ 'paddingBottomMobile' }
 														attrLeft={ 'paddingLeftMobile' }
 														attrUnit={ 'paddingUnit' }
-														attrSyncUnits={ 'paddingSyncUnitsMobile' }
+														attrSyncUnits={ 'paddingSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -866,13 +856,13 @@ class FlexBlockContainer extends Component {
 														valueBottom={ marginBottomMobile }
 														valueLeft={ marginLeftMobile }
 														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnitsMobile }
+														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopMobile' }
 														attrRight={ 'marginRightMobile' }
 														attrBottom={ 'marginBottomMobile' }
 														attrLeft={ 'marginLeftMobile' }
 														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnitsMobile' }
+														attrSyncUnits={ 'marginSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -882,13 +872,12 @@ class FlexBlockContainer extends Component {
 														valueRight={ borderSizeRightMobile }
 														valueBottom={ borderSizeBottomMobile }
 														valueLeft={ borderSizeLeftMobile }
-														//unit={ paddingUnit }
-														syncUnits={ borderSizeSyncUnitsMobile }
+														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTopMobile' }
 														attrRight={ 'borderSizeRightMobile' }
 														attrBottom={ 'borderSizeBottomMobile' }
 														attrLeft={ 'borderSizeLeftMobile' }
-														attrSyncUnits={ 'borderSizeSyncUnitsMobile' }
+														attrSyncUnits={ 'borderSizeSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -899,13 +888,13 @@ class FlexBlockContainer extends Component {
 														valueBottom={ borderRadiusBottomLeftMobile }
 														valueLeft={ borderRadiusTopLeftMobile }
 														valueUnit={ borderRadiusUnit }
-														syncUnits={ borderRadiusSyncUnitsMobile }
+														syncUnits={ borderRadiusSyncUnits }
 														attrTop={ 'borderRadiusTopRightMobile' }
 														attrRight={ 'borderRadiusBottomRightMobile' }
 														attrBottom={ 'borderRadiusBottomLeftMobile' }
 														attrLeft={ 'borderRadiusTopLeftMobile' }
 														attrUnit={ 'borderRadiusUnit' }
-														attrSyncUnits={ 'borderRadiusSyncUnitsMobile' }
+														attrSyncUnits={ 'borderRadiusSyncUnits' }
 														labelTop={ __( 'T-Left', 'flexblocks' ) }
 														labelRight={ __( 'T-Right', 'flexblocks' ) }
 														labelBottom={ __( 'B-Right', 'flexblocks' ) }

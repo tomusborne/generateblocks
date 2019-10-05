@@ -107,10 +107,6 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.container.paddingLeftTablet,
 	},
-	paddingSyncUnitsTablet: {
-		type: 'boolean',
-		default: false,
-	},
 	paddingTopMobile: {
 		type: 'string',
 		default: flexBlocksDefaults.container.paddingTopMobile,
@@ -126,10 +122,6 @@ export default {
 	paddingLeftMobile: {
 		type: 'string',
 		default: flexBlocksDefaults.container.paddingLeftMobile,
-	},
-	paddingSyncUnitsMobile: {
-		type: 'boolean',
-		default: false,
 	},
 	marginTop: {
 		type: 'string',
@@ -171,10 +163,6 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.container.marginLeftTablet,
 	},
-	marginSyncUnitsTablet: {
-		type: 'boolean',
-		default: false,
-	},
 	marginTopMobile: {
 		type: 'string',
 		default: flexBlocksDefaults.container.marginTopMobile,
@@ -190,10 +178,6 @@ export default {
 	marginLeftMobile: {
 		type: 'string',
 		default: flexBlocksDefaults.container.marginLeftMobile,
-	},
-	marginSyncUnitsMobile: {
-		type: 'boolean',
-		default: false,
 	},
 	borderSizeTop: {
 		type: 'string',
