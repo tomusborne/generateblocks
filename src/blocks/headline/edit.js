@@ -3,7 +3,6 @@
  */
 
 import classnames from 'classnames';
-import range from 'lodash/range';
 import ColorPicker from '../../components/color-picker';
 import IconPicker from '../../components/icon-picker';
 import TypographyControls from '../../components/typography';
