@@ -628,6 +628,7 @@ add_action( 'wp_head', 'flexblocks_do_frontend_block_css', 200 );
  */
 function flexblocks_do_frontend_block_css() {
 
+	$general_css = flexblocks_get_dynamic_css( 'general' );
 	$container_css = flexblocks_get_dynamic_css( 'container' );
 	$button_container_css = flexblocks_get_dynamic_css( 'button-container' );
 	$button_css = flexblocks_get_dynamic_css( 'button' );
