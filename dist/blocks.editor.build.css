@@ -522,16 +522,9 @@ body .fx-container .wp-block {
       -webkit-box-shadow: none;
               box-shadow: none; }
 
-.fx-icon {
-  display: -ms-inline-flexbox;
-  display: inline-flex;
+.fx-button .fx-icon {
   -ms-flex-item-align: center;
       align-self: center; }
-
-.fx-icon svg {
-  height: 1em;
-  width: 1em;
-  fill: currentColor; }
 
 [data-type="flexblocks/button-container"] .fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout {
   margin-left: 0;
@@ -627,9 +620,7 @@ body .fx-container .wp-block {
 
 .fx-icon {
   display: -ms-inline-flexbox;
-  display: inline-flex;
-  -ms-flex-item-align: center;
-      align-self: center; }
+  display: inline-flex; }
 
 .fx-icon svg {
   height: 1em;
@@ -715,6 +706,13 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-headline-wrapper {
+  display: -ms-flexbox;
+  display: flex; }
+
+.editor-styles-wrapper .fx-headline {
+  margin-top: 0;
+  margin-bottom: 0; }
 /**
  * #.# Common SCSS
  *
