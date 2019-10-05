@@ -488,8 +488,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 	 *
 	 * @since 0.1
 	 */
-	if ( 'headline' === $block || 'dynamic-headline' === $block ) {
-		$data = flexblocks_get_block_data( 'flexblocks/' . $block, $content );
+	if ( 'headline' === $block ) {
+		$data = flexblocks_get_block_data( 'flexblocks/headline', $content );
 
 		if ( empty( $data ) ) {
 			return;
