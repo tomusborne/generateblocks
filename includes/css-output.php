@@ -558,8 +558,9 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 				$css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
 				$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
-				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], 'px' ) );
-				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], 'px' ) );
+				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
+				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
+
 				if ( $settings['icon'] ) {
 					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon' );
 					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'], $settings['iconPaddingUnit'] ) );
