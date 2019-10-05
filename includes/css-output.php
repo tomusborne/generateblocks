@@ -19,6 +19,25 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string The dynamic CSS.
  */
 function flexblocks_get_dynamic_css( $block, $content = '' ) {
+	if ( 'general' === $block ) {
+		$css = new FlexBlocks_Dynamic_CSS;
+
+		$css->set_selector( '.fx-icon' );
+		$css->add_property( 'display', 'inline-block' );
+		$css->add_property( 'display', 'inline-flex' );
+
+		$css->set_selector( '.fx-icon svg' );
+		$css->add_property( 'height', '1em' );
+		$css->add_property( 'width', '1em' );
+		$css->add_property( 'fill', 'currentColor' );
+
+		$css->set_selector( '.fx-headline-wrapper' );
+		$css->add_property( 'display', '-ms-flexbox' );
+		$css->add_property( 'display', 'flex' );
+
+		return $css->css_output();
+	}
+
 	/**
 	 * Get our Grid block CSS.
 	 *
@@ -388,14 +407,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 		$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
 
 		$css->set_selector( '.fx-button .fx-icon' );
-		$css->add_property( 'display', 'inline-block' );
-		$css->add_property( 'display', 'inline-flex' );
 		$css->add_property( 'align-items', 'center' );
-
-		$css->set_selector( '.fx-button .fx-icon svg' );
-		$css->add_property( 'height', '1em' );
-		$css->add_property( 'width', '1em' );
-		$css->add_property( 'fill', 'currentColor' );
 
 		foreach ( $data as $atts ) {
 			if ( ! isset( $atts['uniqueId'] ) ) {
@@ -518,6 +530,28 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->set_selector( '.fx-headline-' . $id . ' a:hover' );
 			$css->add_property( 'color', $settings['linkColorHover'] );
 
+			if ( $settings['icon'] ) {
+				$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon' );
+				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+				$css->add_property( 'color', $settings['iconColor'] );
+
+				if ( 'above' === $settings['iconLocation'] ) {
+					$css->add_property( 'align-self', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
+				}
+
+				$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon svg' );
+				$css->add_property( 'width', $settings['iconSize'], 'em' );
+				$css->add_property( 'height', $settings['iconSize'], 'em' );
+			}
+
+			$css->set_selector( '.fx-headline-wrapper-' . $id );
+
+			if ( $settings['icon'] ) {
+				if ( 'above' === $settings['iconLocation'] ) {
+					$css->add_property( 'flex-direction', 'column' );
+				}
+			}
+
 			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
 				$css->set_selector( '.fx-headline-' . $id );
 				$css->add_property( 'text-align', $settings['alignmentTablet'] );
@@ -526,6 +560,26 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], 'px' ) );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], 'px' ) );
+				if ( $settings['icon'] ) {
+					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon' );
+					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'], $settings['iconPaddingUnit'] ) );
+
+					if ( 'above' === $settings['iconLocationTablet'] ) {
+						$css->add_property( 'align-self', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+					}
+
+					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon svg' );
+					$css->add_property( 'width', $settings['iconSizeTablet'], 'em' );
+					$css->add_property( 'height', $settings['iconSizeTablet'], 'em' );
+				}
+
+				$css->set_selector( '.fx-headline-wrapper-' . $id );
+
+				if ( $settings['icon'] ) {
+					if ( 'above' === $settings['iconLocationTablet'] ) {
+						$css->add_property( 'flex-direction', 'column' );
+					}
+				}
 			$css->stop_media_query();
 
 
@@ -537,6 +591,27 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
+
+				if ( $settings['icon'] ) {
+					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon' );
+					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'], $settings['iconPaddingUnit'] ) );
+
+					if ( 'above' === $settings['iconLocationMobile'] ) {
+						$css->add_property( 'align-self', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+					}
+
+					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon svg' );
+					$css->add_property( 'width', $settings['iconSizeMobile'], 'em' );
+					$css->add_property( 'height', $settings['iconSizeMobile'], 'em' );
+				}
+
+				$css->set_selector( '.fx-headline-wrapper-' . $id );
+
+				if ( $settings['icon'] ) {
+					if ( 'above' === $settings['iconLocationMobile'] ) {
+						$css->add_property( 'flex-direction', 'column' );
+					}
+				}
 			$css->stop_media_query();
 		}
 

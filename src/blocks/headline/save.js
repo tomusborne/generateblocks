@@ -16,18 +16,40 @@ export default ( { attributes } ) => {
 		cssClasses,
 		element,
 		content,
+		icon,
 	} = attributes;
 
+	const sanitizeSVG = ( svg ) => {
+		return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
+	}
+
+	const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
+
 	return (
-		<RichText.Content
-			tagName={ element }
-			id={ !! elementId ? elementId : undefined }
-			className={ classnames( {
-				'fx-headline': true,
-				[`fx-headline-${ uniqueId }`]: true,
-				[`${ cssClasses }`]: '' !== cssClasses
-			} ) }
-			value={ content }
-		/>
+		<ConditionalWrap
+			condition={ icon }
+			wrap={ children => <div className={ classnames( {
+				'fx-headline-wrapper': true,
+				[`fx-headline-wrapper-${ uniqueId }`]: true,
+			} ) }>{ children }</div>}
+		>
+			{ icon &&
+				<span
+					className="fx-icon"
+					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+				/>
+			}
+
+			<RichText.Content
+				tagName={ element }
+				id={ !! elementId ? elementId : undefined }
+				className={ classnames( {
+					'fx-headline': true,
+					[`fx-headline-${ uniqueId }`]: true,
+					[`${ cssClasses }`]: '' !== cssClasses
+				} ) }
+				value={ content }
+			/>
+		</ConditionalWrap>
 	);
 }

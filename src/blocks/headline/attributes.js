@@ -233,7 +233,96 @@ export default {
 		default: flexBlocksDefaults.headline.paddingLeftMobile,
 	},
 	paddingSyncUnitsMobile: {
+	icon: {
+        type: 'string',
+        default: flexBlocksDefaults.headline.icon,
+    },
+	iconColor: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconColor,
+	},
+	customIcon: {
 		type: 'boolean',
 		default: false,
+	},
+	iconLocation: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconLocation,
+	},
+	iconLocationTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconLocationTablet,
+	},
+	iconLocationMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconLocationMobile,
+	},
+	iconPaddingTop: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingTop,
+	},
+	iconPaddingRight: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingRight,
+	},
+	iconPaddingBottom: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingBottom,
+	},
+	iconPaddingLeft: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingLeft,
+	},
+	iconPaddingTopTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingTopTablet,
+	},
+	iconPaddingRightTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingRightTablet,
+	},
+	iconPaddingBottomTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingBottomTablet,
+	},
+	iconPaddingLeftTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingLeftTablet,
+	},
+	iconPaddingTopMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingTopMobile,
+	},
+	iconPaddingRightMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingRightMobile,
+	},
+	iconPaddingBottomMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingBottomMobile,
+	},
+	iconPaddingLeftMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingLeftMobile,
+	},
+	iconPaddingUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconPaddingUnit,
+	},
+	iconPaddingSyncUnits: {
+		type: 'boolean',
+		default: false,
+	},
+	iconSize: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.iconSize,
+	},
+	iconSizeTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.iconSizeTablet,
+	},
+	iconSizeMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.iconSizeMobile,
 	},
 }

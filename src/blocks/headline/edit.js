@@ -5,6 +5,7 @@
 import classnames from 'classnames';
 import range from 'lodash/range';
 import ColorPicker from '../../components/color-picker';
+import IconPicker from '../../components/icon-picker';
 import TypographyControls from '../../components/typography';
 import DimensionsControl from '../../components/dimensions/';
 import getIcon from '../../utils/get-icon';
@@ -130,7 +131,38 @@ class FlexBlockHeadline extends Component {
 			letterSpacing,
 			letterSpacingTablet,
 			letterSpacingMobile,
+			icon,
+			iconColor,
+			customIcon,
+			iconLocation,
+			iconLocationTablet,
+			iconLocationMobile,
+			iconPaddingTop,
+			iconPaddingRight,
+			iconPaddingBottom,
+			iconPaddingLeft,
+			iconPaddingTopTablet,
+			iconPaddingRightTablet,
+			iconPaddingBottomTablet,
+			iconPaddingLeftTablet,
+			iconPaddingTopMobile,
+			iconPaddingRightMobile,
+			iconPaddingBottomMobile,
+			iconPaddingLeftMobile,
+			iconPaddingUnit,
+			iconPaddingSyncUnits,
+			iconSize,
+			iconSizeTablet,
+			iconSizeMobile,
 		} = attributes;
+
+		let iconFlexDirection = '',
+			iconAlignment = '';
+
+		if ( 'above' === iconLocation ) {
+			iconFlexDirection = 'column';
+			iconAlignment = 'right' === alignment ? 'flex-end' : alignment;
+		}
 
 		const css = `
 			.editor-styles-wrapper .fx-headline-` + uniqueId + ` {
@@ -143,9 +175,9 @@ class FlexBlockHeadline extends Component {
 				color: ` + textColor + `;
 				line-height: ` + lineHeight + lineHeightUnit + `;
 				letter-spacing: ` + letterSpacing + `em;
-				margin-top: ` + marginTop + marginUnit + `;
+				margin-top: ` + marginTop + marginUnit + ` !important;
 				margin-right: ` + marginRight + marginUnit + `;
-				margin-bottom: ` + marginBottom + marginUnit + `;
+				margin-bottom: ` + marginBottom + marginUnit + ` !important;
 				margin-left: ` + marginLeft + marginUnit + `;
 				padding-top: ` + paddingTop + paddingUnit + `;
 				padding-right: ` + paddingRight + paddingUnit + `;
@@ -156,7 +188,29 @@ class FlexBlockHeadline extends Component {
 			.editor-styles-wrapper .fx-headline-` + uniqueId + ` a {
 				color: ` + linkColor + `;
 			}
+
+			.fx-headline-wrapper-` + uniqueId + ` .fx-icon {
+				padding-top: ` + iconPaddingTop + iconPaddingUnit + `;
+				padding-right: ` + iconPaddingRight + iconPaddingUnit + `;
+				padding-bottom: ` + iconPaddingBottom + iconPaddingUnit + `;
+				padding-left: ` + iconPaddingLeft + iconPaddingUnit + `;
+				align-self: ` + iconAlignment + `;
+				color: ` + iconColor + `;
+			}
+
+			.fx-headline-wrapper-` + uniqueId + ` .fx-icon svg {
+				width: ` + iconSize + `em;
+				height: ` + iconSize + `em;
+			}
+
+			.fx-headline-wrapper-` + uniqueId + ` {
+				flex-direction: ` + iconFlexDirection + `;
+			}
 		`
+
+		const sanitizeSVG = ( svg ) => {
+			return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
+		}
 
 		return (
 			<Fragment>
@@ -541,6 +595,196 @@ class FlexBlockHeadline extends Component {
 														attrLeft={ 'paddingLeftMobile' }
 														attrUnit={ 'paddingUnit' }
 														attrSyncUnits={ 'paddingSyncUnitsMobile' }
+					<PanelBody
+						title={ __( 'Icon', 'flexblocks' ) }
+						initialOpen={ false }
+						>
+
+						<IconPicker { ...this.props }
+							valueIcon={ icon }
+							attrIcon={ 'icon' }
+							valueCustomIcon={ customIcon }
+							attrCustomIcon={ 'customIcon' }
+						/>
+
+						<ColorPicker
+							label={ __( 'Icon Color', 'flexblocks' ) }
+							value={ iconColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									iconColor: value
+								} )
+							}
+							onClear={ () =>
+								setAttributes( {
+									iconColor: flexBlocksDefaults.headline.iconColor
+								} )
+							}
+							alpha={ true }
+						/>
+
+						<TabPanel className="headline-tab-panel flexblocks-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'default',
+									title: __( 'Default', 'flexblocks' ),
+									className: 'default',
+								},
+								{
+									name: 'tablet',
+									title: __( 'Tablet', 'flexblocks' ),
+									className: 'tablet',
+								},
+								{
+									name: 'mobile',
+									title: __( 'Mobile', 'flexblocks' ),
+									className: 'mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									return (
+										<div>
+											{ 'default' === tab.name ? (
+												<Fragment>
+													<SelectControl
+														label={ __( 'Icon Location', 'flexblocks' ) }
+														value={ iconLocation }
+														options={ [
+															{ label: __( 'Inline', 'flexblocks' ), value: 'inline' },
+															{ label: __( 'Above', 'flexblocks' ), value: 'above' },
+														] }
+														onChange={ ( value ) => {
+															setAttributes( {
+																iconLocation: value,
+																iconPaddingRight: 'inline' === value ? '0.5' : '',
+																iconPaddingBottom: 'above' === value ? '0.5' : '',
+															} );
+														} }
+													/>
+
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ iconPaddingTop }
+														valueRight={ iconPaddingRight }
+														valueBottom={ iconPaddingBottom }
+														valueLeft={ iconPaddingLeft }
+														valueUnit={ iconPaddingUnit }
+														syncUnits={ iconPaddingSyncUnits }
+														attrTop={ 'iconPaddingTop' }
+														attrRight={ 'iconPaddingRight' }
+														attrBottom={ 'iconPaddingBottom' }
+														attrLeft={ 'iconPaddingLeft' }
+														attrUnit={ 'iconPaddingUnit' }
+														attrSyncUnits={ 'iconPaddingSyncUnits' }
+													/>
+
+													<RangeControl
+														label={ __( 'Icon Size', 'flexblocks' ) }
+														value={ iconSize }
+														onChange={ ( value ) => setAttributes( { iconSize: parseFloat( value ) } ) }
+														min={ 1 }
+														max={ 15 }
+														step={ .5 }
+														initialPosition={ flexBlocksDefaults.headline.iconSize }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'tablet' === tab.name ? (
+												<Fragment>
+													<SelectControl
+														label={ __( 'Icon Location', 'flexblocks' ) }
+														value={ iconLocationTablet }
+														options={ [
+															{ label: __( 'Inherit', 'flexblocks' ), value: '' },
+															{ label: __( 'Inline', 'flexblocks' ), value: 'inline' },
+															{ label: __( 'Above', 'flexblocks' ), value: 'above' },
+														] }
+														onChange={ ( value ) => {
+															setAttributes( {
+																iconLocationTablet: value,
+																iconPaddingRightTablet: 'inline' === value ? '0.5' : '',
+																iconPaddingBottomTablet: 'above' === value ? '0.5' : '',
+															} );
+														} }
+													/>
+
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ iconPaddingTopTablet }
+														valueRight={ iconPaddingRightTablet }
+														valueBottom={ iconPaddingBottomTablet }
+														valueLeft={ iconPaddingLeftTablet }
+														valueUnit={ iconPaddingUnit }
+														syncUnits={ iconPaddingSyncUnits }
+														attrTop={ 'iconPaddingTopTablet' }
+														attrRight={ 'iconPaddingRightTablet' }
+														attrBottom={ 'iconPaddingBottomTablet' }
+														attrLeft={ 'iconPaddingLeftTablet' }
+														attrUnit={ 'iconPaddingUnit' }
+														attrSyncUnits={ 'iconPaddingSyncUnits' }
+													/>
+
+													<RangeControl
+														label={ __( 'Icon Size', 'flexblocks' ) }
+														value={ iconSizeTablet }
+														onChange={ ( value ) => setAttributes( { iconSizeTablet: parseFloat( value ) } ) }
+														min={ 1 }
+														max={ 15 }
+														step={ .5 }
+														initialPosition={ flexBlocksDefaults.headline.iconSizeTablet }
+													/>
+												</Fragment>
+											) : '' }
+
+											{ 'mobile' === tab.name ? (
+												<Fragment>
+													<SelectControl
+														label={ __( 'Icon Location', 'flexblocks' ) }
+														value={ iconLocationMobile }
+														options={ [
+															{ label: __( 'Inherit', 'flexblocks' ), value: '' },
+															{ label: __( 'Inline', 'flexblocks' ), value: 'inline' },
+															{ label: __( 'Above', 'flexblocks' ), value: 'above' },
+														] }
+														onChange={ ( value ) => {
+															setAttributes( {
+																iconLocationMobile: value,
+																iconPaddingRightMobile: 'inline' === value ? '0.5' : '',
+																iconPaddingBottomMobile: 'above' === value ? '0.5' : '',
+															} );
+														} }
+													/>
+
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Padding', 'flexblocks' ) }
+														valueTop={ iconPaddingTopMobile }
+														valueRight={ iconPaddingRightMobile }
+														valueBottom={ iconPaddingBottomMobile }
+														valueLeft={ iconPaddingLeftMobile }
+														valueUnit={ iconPaddingUnit }
+														syncUnits={ iconPaddingSyncUnits }
+														attrTop={ 'iconPaddingTopMobile' }
+														attrRight={ 'iconPaddingRightMobile' }
+														attrBottom={ 'iconPaddingBottomMobile' }
+														attrLeft={ 'iconPaddingLeftMobile' }
+														attrUnit={ 'iconPaddingUnit' }
+														attrSyncUnits={ 'iconPaddingSyncUnits' }
+													/>
+
+													<RangeControl
+														label={ __( 'Icon Size', 'flexblocks' ) }
+														value={ iconSize }
+														onChange={ ( value ) => setAttributes( { iconSizeMobile: parseFloat( value ) } ) }
+														min={ 1 }
+														max={ 15 }
+														step={ .5 }
+														initialPosition={ flexBlocksDefaults.headline.iconSizeMobile }
 													/>
 												</Fragment>
 											) : '' }
@@ -571,19 +815,49 @@ class FlexBlockHeadline extends Component {
 
 				<style>{ css }</style>
 
-				<RichText
-					allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'core/mark' ] }
-					tagName={ element }
-					value={ content }
-					onChange={ ( value ) => setAttributes( { content: value } ) }
-					id={ !! elementId ? elementId : undefined }
-					className={ classnames( {
-						'fx-headline': true,
-						[`fx-headline-${ uniqueId }`]: true,
-						[`${ cssClasses }`]: '' !== cssClasses
-					} ) }
-					placeholder={ __( 'Write headline…' ) }
-				/>
+				{ icon ? (
+					<div
+						className={ classnames( {
+						'fx-headline-wrapper': true,
+						[`fx-headline-wrapper-${ uniqueId }`]: true,
+						} ) }
+					>
+						{ icon &&
+							<span
+								className="fx-icon"
+								dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+							/>
+						}
+
+						<RichText
+							allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'core/mark' ] }
+							tagName={ element }
+							value={ content }
+							onChange={ ( value ) => setAttributes( { content: value } ) }
+							id={ !! elementId ? elementId : undefined }
+							className={ classnames( {
+								'fx-headline': true,
+								[`fx-headline-${ uniqueId }`]: true,
+								[`${ cssClasses }`]: '' !== cssClasses
+							} ) }
+							placeholder={ __( 'Write headline…' ) }
+						/>
+					</div>
+				) : (
+					<RichText
+						allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'core/mark' ] }
+						tagName={ element }
+						value={ content }
+						onChange={ ( value ) => setAttributes( { content: value } ) }
+						id={ !! elementId ? elementId : undefined }
+						className={ classnames( {
+							'fx-headline': true,
+							[`fx-headline-${ uniqueId }`]: true,
+							[`${ cssClasses }`]: '' !== cssClasses
+						} ) }
+						placeholder={ __( 'Write headline…' ) }
+					/>
+				) }
 			</Fragment>
 		);
 	}

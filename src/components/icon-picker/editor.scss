@@ -54,3 +54,13 @@
     display: flex;
     justify-content: space-between;
 }
+
+.fx-icon {
+	display: inline-flex;
+}
+
+.fx-icon svg {
+	height: 1em;
+	width: 1em;
+	fill: currentColor;
+}

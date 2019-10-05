@@ -74,15 +74,8 @@
     }
 }
 
-.fx-icon {
-	display: inline-flex;
+.fx-button .fx-icon {
 	align-self: center;
-}
-
-.fx-icon svg {
-	height: 1em;
-	width: 1em;
-	fill: currentColor;
 }
 
 // Reduce the paddings, margins, and UI of inner-blocks.
