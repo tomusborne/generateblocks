@@ -41,21 +41,21 @@ export default ( { attributes } ) => {
 			rel={ !! rel ? rel : undefined }
 			aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 		>
-			{ icon && 'left' === iconLocation ? (
+			{ icon && 'left' === iconLocation &&
 				<span
 					className="fx-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
-			) : '' }
-			{ ! removeText ? (
+			}
+			{ ! removeText &&
 				<RichText.Content tagName="span" className="button-text" value={ text } key="button-text" />
-			) : '' }
-			{ icon && 'right' === iconLocation ? (
+			}
+			{ icon && 'right' === iconLocation &&
 				<span
 					className="fx-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
-			) : '' }
+			}
 		</a>
 	);
 }

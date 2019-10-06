@@ -553,7 +553,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon svg' );
 				$css->add_property( 'width', $settings['iconSize'], 'em' );
 				$css->add_property( 'height', $settings['iconSize'], 'em' );
-			}
 
 				$css->set_selector( '.fx-headline-wrapper-' . $id );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
@@ -563,7 +562,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'background-color', $settings['backgroundColor'] );
 				$css->add_property( 'color', $settings['textColor'] );
 
-			if ( $settings['icon'] ) {
 				if ( 'above' === $settings['iconLocation'] ) {
 					$css->add_property( 'flex-direction', 'column' );
 				}

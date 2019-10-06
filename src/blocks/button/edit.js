@@ -783,13 +783,13 @@ class FlexBlockButton extends Component {
 					rel={ !! rel ? rel : undefined }
 					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 				>
-					{ icon && 'left' === iconLocation ? (
+					{ icon && 'left' === iconLocation &&
 						<span
 							className="fx-icon"
 							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 						/>
-					) : '' }
-					{ ! removeText ? (
+					}
+					{ ! removeText &&
 						<span className={ 'button-text' }>
 							<RichText
 								placeholder={ __( 'Add text…' ) }
@@ -800,15 +800,15 @@ class FlexBlockButton extends Component {
 								keepPlaceholderOnFocus
 							/>
 						</span>
-					) : '' }
-					{ icon && 'right' === iconLocation ? (
+					}
+					{ icon && 'right' === iconLocation &&
 						<span
 							className="fx-icon"
 							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 						/>
-					) : '' }
+					}
 				</a>
-				{ isSelected ? (
+				{ isSelected &&
                     <URLInput
                         url={ url }
                         target={ target }
@@ -819,7 +819,7 @@ class FlexBlockButton extends Component {
                         autoFocus={ false }
                         className="fx-component-url-input-float"
                     />
-                ) : '' }
+                }
 			</Fragment>
 		);
 	}
