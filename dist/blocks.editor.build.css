@@ -713,6 +713,12 @@ body .fx-container .wp-block {
 .editor-styles-wrapper .fx-headline {
   margin-top: 0;
   margin-bottom: 0; }
+
+.editor-styles-wrapper .fx-headline-wrapper .fx-headline {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: unset;
+  color: unset; }
 /**
  * #.# Common SCSS
  *
