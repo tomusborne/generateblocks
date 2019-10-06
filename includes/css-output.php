@@ -636,6 +636,6 @@ function flexblocks_do_frontend_block_css() {
 	$grid_container_css = flexblocks_get_dynamic_css( 'grid' );
 
 	echo '<style>';
-		echo $container_css . $button_container_css . $button_css . $headline_css . $grid_container_css;
+		echo $general_css . $container_css . $button_container_css . $button_css . $headline_css . $grid_container_css;
 	echo '</style>';
 }
