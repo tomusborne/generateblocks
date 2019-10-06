@@ -244,6 +244,18 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.iconLocationMobile,
 	},
+	iconVerticalAlignment: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconVerticalAlignment,
+	},
+	iconVerticalAlignmentTablet: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconVerticalAlignmentTablet,
+	},
+	iconVerticalAlignmentMobile: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.iconVerticalAlignmentMobile,
+	},
 	iconPaddingTop: {
 		type: 'string',
 		default: flexBlocksDefaults.headline.iconPaddingTop,

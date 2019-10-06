@@ -132,6 +132,9 @@ class FlexBlockHeadline extends Component {
 			iconLocation,
 			iconLocationTablet,
 			iconLocationMobile,
+			iconVerticalAlignment,
+			iconVerticalAlignmentTablet,
+			iconVerticalAlignmentMobile,
 			iconPaddingTop,
 			iconPaddingRight,
 			iconPaddingBottom,
@@ -152,11 +155,16 @@ class FlexBlockHeadline extends Component {
 		} = attributes;
 
 		let iconFlexDirection = '',
-			iconAlignment = '';
+			iconAlignment = '',
+			headlineWrapperAlignment = '';
 
-		if ( 'above' === iconLocation ) {
+		if ( icon && 'above' === iconLocation ) {
 			iconFlexDirection = 'column';
 			iconAlignment = 'right' === alignment ? 'flex-end' : alignment;
+		}
+
+		if ( icon && 'inline' === iconLocation ) {
+			headlineWrapperAlignment = 'right' === alignment ? 'flex-end' : alignment;
 		}
 
 		const css = `
@@ -200,6 +208,18 @@ class FlexBlockHeadline extends Component {
 
 			.fx-headline-wrapper-` + uniqueId + ` {
 				flex-direction: ` + iconFlexDirection + `;
+				justify-content: ` + headlineWrapperAlignment + `;
+				align-items: ` + iconVerticalAlignment + `;
+				margin-top: ` + marginTop + marginUnit + ` !important;
+				margin-right: ` + marginRight + marginUnit + `;
+				margin-bottom: ` + marginBottom + marginUnit + ` !important;
+				margin-left: ` + marginLeft + marginUnit + `;
+				padding-top: ` + paddingTop + paddingUnit + `;
+				padding-right: ` + paddingRight + paddingUnit + `;
+				padding-bottom: ` + paddingBottom + paddingUnit + `;
+				padding-left: ` + paddingLeft + paddingUnit + `;
+				background-color: ` + backgroundColor + `;
+				color: ` + textColor + `;
 			}
 		`
 
@@ -669,6 +689,23 @@ class FlexBlockHeadline extends Component {
 														} }
 													/>
 
+													{ 'inline' === iconLocation &&
+														<SelectControl
+															label={ __( 'Icon Alignment', 'flexblocks' ) }
+															value={ iconVerticalAlignment }
+															options={ [
+																{ label: __( 'Top', 'flexblocks' ), value: 'top' },
+																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flexblocks' ), value: 'bottom' },
+															] }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	iconVerticalAlignment: value
+																} );
+															} }
+														/>
+													}
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'flexblocks' ) }
@@ -717,6 +754,23 @@ class FlexBlockHeadline extends Component {
 														} }
 													/>
 
+													{ 'inline' === iconLocationTablet &&
+														<SelectControl
+															label={ __( 'Icon Alignment', 'flexblocks' ) }
+															value={ iconVerticalAlignmentTablet }
+															options={ [
+																{ label: __( 'Top', 'flexblocks' ), value: 'top' },
+																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flexblocks' ), value: 'bottom' },
+															] }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	iconVerticalAlignmentTablet: value
+																} );
+															} }
+														/>
+													}
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'flexblocks' ) }
@@ -764,6 +818,23 @@ class FlexBlockHeadline extends Component {
 															} );
 														} }
 													/>
+
+													{ 'inline' === iconLocationMobile &&
+														<SelectControl
+															label={ __( 'Icon Alignment', 'flexblocks' ) }
+															value={ iconVerticalAlignmentMobile }
+															options={ [
+																{ label: __( 'Top', 'flexblocks' ), value: 'top' },
+																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'flexblocks' ), value: 'bottom' },
+															] }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	iconVerticalAlignmentMobile: value
+																} );
+															} }
+														/>
+													}
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }

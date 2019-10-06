@@ -35,6 +35,10 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 		$css->add_property( 'display', '-ms-flexbox' );
 		$css->add_property( 'display', 'flex' );
 
+		$css->set_selector( '.fx-headline-wrapper > .fx-headline' );
+		$css->add_property( 'margin', '0' );
+		$css->add_property( 'padding', '0' );
+
 		return $css->css_output();
 	}
 
@@ -514,15 +518,22 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->set_selector( '.fx-headline-' . $id );
 			$css->add_property( 'font-family', $settings['fontFamily'] );
 			$css->add_property( 'text-align', $settings['alignment'] );
-			$css->add_property( 'background-color', $settings['backgroundColor'] );
-			$css->add_property( 'color', $settings['textColor'] );
+
+			if ( ! $settings['icon'] ) {
+				$css->add_property( 'background-color', $settings['backgroundColor'] );
+				$css->add_property( 'color', $settings['textColor'] );
+			}
+
 			$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 			$css->add_property( 'font-weight', $settings['fontWeight'] );
 			$css->add_property( 'text-transform', $settings['textTransform'] );
 			$css->add_property( 'line-height', $settings['lineHeight'], $settings['lineHeightUnit'] );
 			$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
-			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
-			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+
+			if ( ! $settings['icon'] ) {
+				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+			}
 
 			$css->set_selector( '.fx-headline-' . $id . ' a, .fx-headline-' . $id . ' a:visited' );
 			$css->add_property( 'color', $settings['linkColor'] );
@@ -544,7 +555,13 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'height', $settings['iconSize'], 'em' );
 			}
 
-			$css->set_selector( '.fx-headline-wrapper-' . $id );
+				$css->set_selector( '.fx-headline-wrapper-' . $id );
+				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+				$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
+				$css->add_property( 'align-items', $settings['iconVerticalAlignment'] );
+				$css->add_property( 'background-color', $settings['backgroundColor'] );
+				$css->add_property( 'color', $settings['textColor'] );
 
 			if ( $settings['icon'] ) {
 				if ( 'above' === $settings['iconLocation'] ) {
@@ -558,8 +575,11 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 				$css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
 				$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
-				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
-				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
+
+				if ( ! $settings['icon'] ) {
+					$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
+					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
+				}
 
 				if ( $settings['icon'] ) {
 					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon' );
@@ -572,11 +592,13 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon svg' );
 					$css->add_property( 'width', $settings['iconSizeTablet'], 'em' );
 					$css->add_property( 'height', $settings['iconSizeTablet'], 'em' );
-				}
 
-				$css->set_selector( '.fx-headline-wrapper-' . $id );
+					$css->set_selector( '.fx-headline-wrapper-' . $id );
+					$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
+					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
+					$css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+					$css->add_property( 'align-items', $settings['iconVerticalAlignmentTablet'] );
 
-				if ( $settings['icon'] ) {
 					if ( 'above' === $settings['iconLocationTablet'] ) {
 						$css->add_property( 'flex-direction', 'column' );
 					}
@@ -590,8 +612,11 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 				$css->add_property( 'line-height', $settings['lineHeightMobile'], $settings['lineHeightUnit'] );
 				$css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
-				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
-				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
+
+				if ( ! $settings['icon'] ) {
+					$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
+					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
+				}
 
 				if ( $settings['icon'] ) {
 					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon' );
@@ -604,11 +629,13 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 					$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon svg' );
 					$css->add_property( 'width', $settings['iconSizeMobile'], 'em' );
 					$css->add_property( 'height', $settings['iconSizeMobile'], 'em' );
-				}
 
-				$css->set_selector( '.fx-headline-wrapper-' . $id );
+					$css->set_selector( '.fx-headline-wrapper-' . $id );
+					$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
+					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
+					$css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+					$css->add_property( 'align-items', $settings['iconVerticalAlignmentMobile'] );
 
-				if ( $settings['icon'] ) {
 					if ( 'above' === $settings['iconLocationMobile'] ) {
 						$css->add_property( 'flex-direction', 'column' );
 					}
