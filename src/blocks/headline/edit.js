@@ -919,6 +919,7 @@ class FlexBlockHeadline extends Component {
 								[`${ cssClasses }`]: '' !== cssClasses
 							} ) }
 							placeholder={ __( 'Write headline…' ) }
+							keepPlaceholderOnFocus={ true }
 						/>
 					</div>
 				) : (
@@ -934,6 +935,7 @@ class FlexBlockHeadline extends Component {
 							[`${ cssClasses }`]: '' !== cssClasses
 						} ) }
 						placeholder={ __( 'Write headline…' ) }
+						keepPlaceholderOnFocus={ true }
 					/>
 				) }
 			</Fragment>
