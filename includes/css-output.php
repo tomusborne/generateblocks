@@ -558,7 +558,11 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 				$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
-				$css->add_property( 'align-items', $settings['iconVerticalAlignment'] );
+
+				if ( 'inline' === $settings['iconLocation'] ) {
+					$css->add_property( 'align-items', $settings['iconVerticalAlignment'] );
+				}
+
 				$css->add_property( 'background-color', $settings['backgroundColor'] );
 				$css->add_property( 'color', $settings['textColor'] );
 
@@ -595,7 +599,10 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 					$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
 					$css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
-					$css->add_property( 'align-items', $settings['iconVerticalAlignmentTablet'] );
+
+					if ( 'inline' === $settings['iconLocationTablet'] ) {
+						$css->add_property( 'align-items', $settings['iconVerticalAlignmentTablet'] );
+					}
 
 					if ( 'above' === $settings['iconLocationTablet'] ) {
 						$css->add_property( 'flex-direction', 'column' );
@@ -632,7 +639,10 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 					$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 					$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
 					$css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
-					$css->add_property( 'align-items', $settings['iconVerticalAlignmentMobile'] );
+
+					if ( 'inline' === $settings['iconLocationMobile'] ) {
+						$css->add_property( 'align-items', $settings['iconVerticalAlignmentMobile'] );
+					}
 
 					if ( 'above' === $settings['iconLocationMobile'] ) {
 						$css->add_property( 'flex-direction', 'column' );

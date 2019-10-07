@@ -156,7 +156,8 @@ class FlexBlockHeadline extends Component {
 
 		let iconFlexDirection = '',
 			iconAlignment = '',
-			headlineWrapperAlignment = '';
+			headlineWrapperAlignment = '',
+			inlineVerticalAlignment = '';
 
 		if ( icon && 'above' === iconLocation ) {
 			iconFlexDirection = 'column';
@@ -165,6 +166,7 @@ class FlexBlockHeadline extends Component {
 
 		if ( icon && 'inline' === iconLocation ) {
 			headlineWrapperAlignment = 'right' === alignment ? 'flex-end' : alignment;
+			inlineVerticalAlignment = iconVerticalAlignment;
 		}
 
 		const css = `
@@ -209,7 +211,7 @@ class FlexBlockHeadline extends Component {
 			.fx-headline-wrapper-` + uniqueId + ` {
 				flex-direction: ` + iconFlexDirection + `;
 				justify-content: ` + headlineWrapperAlignment + `;
-				align-items: ` + iconVerticalAlignment + `;
+				align-items: ` + inlineVerticalAlignment + `;
 				margin-top: ` + marginTop + marginUnit + ` !important;
 				margin-right: ` + marginRight + marginUnit + `;
 				margin-bottom: ` + marginBottom + marginUnit + ` !important;
