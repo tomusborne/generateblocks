@@ -727,7 +727,7 @@ class FlexBlockHeadline extends Component {
 
 													<RangeControl
 														label={ __( 'Icon Size', 'flexblocks' ) }
-														value={ iconSize }
+														value={ parseFloat( iconSize ) }
 														onChange={ ( value ) => setAttributes( { iconSize: parseFloat( value ) } ) }
 														min={ 1 }
 														max={ 15 }
@@ -792,7 +792,7 @@ class FlexBlockHeadline extends Component {
 
 													<RangeControl
 														label={ __( 'Icon Size', 'flexblocks' ) }
-														value={ iconSizeTablet }
+														value={ parseFloat( iconSizeTablet ) }
 														onChange={ ( value ) => setAttributes( { iconSizeTablet: parseFloat( value ) } ) }
 														min={ 1 }
 														max={ 15 }
@@ -857,7 +857,7 @@ class FlexBlockHeadline extends Component {
 
 													<RangeControl
 														label={ __( 'Icon Size', 'flexblocks' ) }
-														value={ iconSize }
+														value={ parseFloat( iconSize ) }
 														onChange={ ( value ) => setAttributes( { iconSizeMobile: parseFloat( value ) } ) }
 														min={ 1 }
 														max={ 15 }
