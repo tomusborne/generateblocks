@@ -175,6 +175,10 @@ class FlexBlockContainer extends Component {
 			borderColor,
 			borderColorHover,
 			backgroundColor,
+			gradient,
+			gradientDirection,
+			gradientColorOne,
+			gradientColorTwo,
 			textColor,
 			linkColor,
 			linkColorHover,
@@ -195,8 +199,14 @@ class FlexBlockContainer extends Component {
 			backgroundImageValue = 'url(' + bgImage.image.url + ')';
 
 			if ( bgOptions.overlay ) {
-				backgroundImageValue = 'linear-gradient(0deg, ' + backgroundColor + ', ' + backgroundColor + '), url(' + bgImage.image.url + ')';
+				if ( gradient ) {
+					backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + ', ' + gradientColorTwo + '), url(' + bgImage.image.url + ')';
+				} else {
+					backgroundImageValue = 'linear-gradient(0deg, ' + backgroundColor + ', ' + backgroundColor + '), url(' + bgImage.image.url + ')';
+				}
 			}
+		} else if ( gradient ) {
+			backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + ', ' + gradientColorTwo + ');';
 		}
 
 		var outerContainerWidth = '';
@@ -931,9 +941,64 @@ class FlexBlockContainer extends Component {
 								}
 								alpha={ true }
 							/>
-						</Fragment>
 
-						<Fragment>
+							<ToggleControl
+								label={ __( 'Use Gradient', 'flexblocks' ) }
+								checked={ !! gradient }
+								onChange={ ( value ) => {
+									setAttributes( {
+										gradient: value
+									} );
+								} }
+							/>
+
+							{ !! gradient && (
+								<Fragment>
+									<TextControl
+										type={ 'text' }
+										label={ __( 'Direction', 'flexblocks' ) }
+										value={ gradientDirection }
+										onChange={ ( value ) => {
+											setAttributes( {
+												gradientDirection: value
+											} );
+										} }
+									/>
+
+									<ColorPicker
+										label={ __( 'Background Color One', 'flexblocks' ) }
+										value={ gradientColorOne }
+										onChange={ ( value ) =>
+											setAttributes( {
+												gradientColorOne: value
+											} )
+										}
+										onClear={ () =>
+											setAttributes( {
+												gradientColorOne: flexBlocksDefaults.container.gradientColorOne
+											} )
+										}
+										alpha={ true }
+									/>
+
+									<ColorPicker
+										label={ __( 'Background Color Two', 'flexblocks' ) }
+										value={ gradientColorTwo }
+										onChange={ ( value ) =>
+											setAttributes( {
+												gradientColorTwo: value
+											} )
+										}
+										onClear={ () =>
+											setAttributes( {
+												gradientColorTwo: flexBlocksDefaults.container.gradientColorTwo
+											} )
+										}
+										alpha={ true }
+									/>
+								</Fragment>
+							) }
+
 							<ColorPicker
 								label={ __( 'Text Color', 'flexblocks' ) }
 								value={ textColor }
@@ -949,9 +1014,7 @@ class FlexBlockContainer extends Component {
 								}
 								alpha={ false }
 							/>
-						</Fragment>
 
-						<Fragment>
 							<ColorPicker
 								label={ __( 'Link Color', 'flexblocks' ) }
 								value={ linkColor }
@@ -967,9 +1030,7 @@ class FlexBlockContainer extends Component {
 								}
 								alpha={ false }
 							/>
-						</Fragment>
 
-						<Fragment>
 							<ColorPicker
 								label={ __( 'Link Color Hover', 'flexblocks' ) }
 								value={ linkColorHover }
@@ -985,9 +1046,7 @@ class FlexBlockContainer extends Component {
 								}
 								alpha={ false }
 							/>
-						</Fragment>
 
-						<Fragment>
 							<ColorPicker
 								label={ __( 'Border Color', 'flexblocks' ) }
 								value={ borderColor }
@@ -1066,6 +1125,12 @@ class FlexBlockContainer extends Component {
 									} );
 								} }
 							/>
+
+							{ !! bgOptions.overlay && (
+								<div className="fx-notice">
+									{ __( 'Your background color must have transparency for the image to show.', 'flexblocks' ) }
+								</div>
+							) }
 
 							<TextControl
 								label={ __( 'Size', 'flexblocks' ) }

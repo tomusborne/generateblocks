@@ -287,6 +287,22 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.container.backgroundColor,
 	},
+	gradient: {
+		type: 'boolean',
+		default: flexBlocksDefaults.container.gradient,
+	},
+	gradientDirection: {
+		type: 'string',
+		default: flexBlocksDefaults.container.gradientDirection,
+	},
+	gradientColorOne: {
+		type: 'string',
+		default: flexBlocksDefaults.container.gradientColorOne,
+	},
+	gradientColorTwo: {
+		type: 'string',
+		default: flexBlocksDefaults.container.gradientColorTwo,
+	},
 	textColor: {
 		type: 'string',
 		default: flexBlocksDefaults.container.textColor,

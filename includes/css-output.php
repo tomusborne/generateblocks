@@ -192,8 +192,12 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			if ( $settings['bgImage'] ) {
 				$url = $settings['bgImage']['image']['url'];
 
-				if ( $settings['backgroundColor'] && isset( $settings['bgOptions']['overlay'] ) && $settings['bgOptions']['overlay'] ) {
-					$css->add_property( 'background-image', 'linear-gradient(0deg, ' . $settings['backgroundColor'] . ', ' . $settings['backgroundColor'] . '), url(' . esc_url( $url ) . ')' );
+				if ( ( $settings['backgroundColor'] || $settings['gradient'] ) && isset( $settings['bgOptions']['overlay'] ) && $settings['bgOptions']['overlay'] ) {
+					if ( $settings['gradient'] ) {
+						$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . $settings['gradientColorOne'] . ', ' . $settings['gradientColorTwo'] . '), url(' . esc_url( $url ) . ')' );
+					} elseif ( $settings['backgroundColor'] ) {
+						$css->add_property( 'background-image', 'linear-gradient(0deg, ' . $settings['backgroundColor'] . ', ' . $settings['backgroundColor'] . '), url(' . esc_url( $url ) . ')' );
+					}
 				} else {
 					$css->add_property( 'background-image', 'url(' . esc_url( $url ) . ')' );
 				}
@@ -202,6 +206,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 				$css->add_property( 'background-size', $settings['bgOptions']['size'] );
 				$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
+			} elseif ( $settings['gradient'] ) {
+				$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . $settings['gradientColorOne'] . ', ' . $settings['gradientColorTwo'] . ')' );
 			}
 
 			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
