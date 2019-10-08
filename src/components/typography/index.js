@@ -318,8 +318,9 @@ class TypographyControls extends Component {
 									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units' ) }>
 										{ unitSizes.map( ( unit, i ) =>
 											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
 												<Button
+													key={ unit.unitValue }
 													className={ 'components-fx-typography-control__units--' + unit.name }
 													isSmall
 													isPrimary={ valueFontSizeUnit === unit.unitValue }
@@ -375,8 +376,9 @@ class TypographyControls extends Component {
 									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units' ) }>
 										{ unitSizes.map( ( unit, i ) =>
 											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
 												<Button
+													key={ unit.unitValue }
 													className={ 'components-fx-typography-control__units--' + unit.name }
 													isSmall
 													isPrimary={ valueLineHeightUnit === unit.unitValue }

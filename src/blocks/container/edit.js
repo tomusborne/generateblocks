@@ -588,7 +588,7 @@ class FlexBlockContainer extends Component {
 															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
 																		<Button
 																			key={ unit.unitValue }
 																			className={ 'components-fx-dimensions-control__units--' + unit.name }
@@ -700,7 +700,7 @@ class FlexBlockContainer extends Component {
 															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
 																		<Button
 																			key={ unit.unitValue }
 																			className={ 'components-fx-dimensions-control__units--' + unit.name }
@@ -812,7 +812,7 @@ class FlexBlockContainer extends Component {
 															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) }>
+																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
 																		<Button
 																			key={ unit.unitValue }
 																			className={ 'components-fx-dimensions-control__units--' + unit.name }
