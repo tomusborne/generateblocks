@@ -5,6 +5,9 @@
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 /**
  * #.# Styles
  *
@@ -17,6 +20,9 @@
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 /**
  * Frontend Styles
  */
@@ -27,6 +33,9 @@
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .fx-button {
   display: inline-block;
   padding: .75em 1em;
