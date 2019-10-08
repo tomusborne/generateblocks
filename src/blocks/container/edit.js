@@ -609,7 +609,7 @@ class FlexBlockContainer extends Component {
 
 													<TextControl
 														type={ 'number' }
-														value={ parseFloat( minHeight ) }
+														value={ minHeight ? parseFloat( minHeight ) : '' }
 														onChange={ ( value ) => {
 															setAttributes( {
 																minHeight: parseFloat( value )
@@ -721,7 +721,7 @@ class FlexBlockContainer extends Component {
 
 													<TextControl
 														type={ 'number' }
-														value={ parseFloat( minHeightTablet ) }
+														value={ minHeightTablet ? parseFloat( minHeightTablet ) : '' }
 														onChange={ ( value ) => {
 															setAttributes( {
 																minHeightTablet: parseFloat( value )
@@ -833,7 +833,7 @@ class FlexBlockContainer extends Component {
 
 													<TextControl
 														type={ 'number' }
-														value={ parseFloat( minHeightMobile ) }
+														value={ minHeightMobile ? parseFloat( minHeightMobile ) : '' }
 														onChange={ ( value ) => {
 															setAttributes( {
 																minHeightMobile: parseFloat( value )

@@ -297,8 +297,8 @@ function flexblocks_get_block_defaults() {
 		'iconPaddingLeftMobile' => '',
 		'iconPaddingUnit' => 'em',
 		'iconSize' => 1,
-		'iconSizeTablet' => false,
-		'iconSizeMobile' => false,
+		'iconSizeTablet' => '',
+		'iconSizeMobile' => '',
 	);
 
 	return apply_filters( 'flexblocks_defaults', $defaults );

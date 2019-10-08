@@ -306,7 +306,7 @@ class TypographyControls extends Component {
 					}
 				</div>
 
-				{ ( typeof valueFontSize !== 'undefined' ) &&
+				{ typeof valueFontSize !== 'undefined' &&
 					<Fragment>
 						<div className="components-fx-typography-control__header">
 							<div className="components-fx-typography-control__label components-base-control__label">
@@ -340,7 +340,7 @@ class TypographyControls extends Component {
 						<div className="components-fx-typography-control__inputs">
 							<TextControl
 								type={ 'number' }
-								value={ parseFloat( valueFontSize ) }
+								value={ valueFontSize ? parseFloat( valueFontSize ) : '' }
 								onChange={ ( value ) => {
 									setAttributes( {
 										[ this.props[ 'attrFontSize' ] ]: parseFloat( value )
@@ -363,7 +363,7 @@ class TypographyControls extends Component {
 					</Fragment>
 				}
 
-				{ ( null !== valueLineHeight ) &&
+				{ typeof valueLineHeight !== 'undefined' &&
 					<Fragment>
 						<div className="components-fx-typography-control__header">
 							<div className="components-fx-typography-control__label components-base-control__label">
@@ -397,7 +397,7 @@ class TypographyControls extends Component {
 						<div className="components-fx-typography-control__inputs">
 							<TextControl
 								type={ 'number' }
-								value={ parseFloat( valueLineHeight ) }
+								value={ valueLineHeight ? parseFloat( valueLineHeight ) : '' }
 								onChange={ ( value ) => {
 									setAttributes( {
 										[ this.props[ 'attrLineHeight' ] ]: parseFloat( value )
@@ -420,7 +420,7 @@ class TypographyControls extends Component {
 					</Fragment>
 				}
 
-				{ ( null !== valueLetterSpacing ) &&
+				{ typeof valueLetterSpacing !== 'undefined' &&
 					<Fragment>
 						<div className="components-fx-typography-control__header">
 							<div className="components-fx-typography-control__label components-base-control__label">
@@ -431,7 +431,7 @@ class TypographyControls extends Component {
 						<div className="components-fx-typography-control__inputs">
 							<TextControl
 								type={ 'number' }
-								value={ parseFloat( valueLetterSpacing ) }
+								value={ valueLetterSpacing ? parseFloat( valueLetterSpacing ) : '' }
 								onChange={ ( value ) => {
 									setAttributes( {
 										[ this.props[ 'attrLetterSpacing' ] ]: parseFloat( value )
