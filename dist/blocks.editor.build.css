@@ -5,6 +5,9 @@
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .fx-grid-wrapper {
   position: relative;
   display: block;
@@ -211,6 +214,9 @@
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 /**
  * #.# Editor Styles
  *
@@ -312,6 +318,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .fx-component-color-picker-wrapper .fx-component-color-picker-wrapper + .fx-component-color-picker-wrapper {
   margin-top: -5px; }
 
@@ -348,6 +357,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .components-fx-dimensions-control__inputs,
 .components-fx-dimensions-control__input-labels {
   display: -ms-flexbox;
@@ -436,6 +448,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .fx-button-wrapper {
   display: -ms-flexbox;
   display: flex;
@@ -456,6 +471,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 /**
  * Editor Styles
  */
@@ -466,6 +484,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .fx-button-wrapper {
   position: relative;
   margin-top: 0; }
@@ -570,6 +591,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .fx-icon-chooser {
   display: -ms-flexbox;
   display: flex;
@@ -633,6 +657,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 /**
  * #.# Common SCSS
  *
@@ -640,6 +667,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .fx-component-url-input {
   width: 100%;
   margin-top: 10px;
@@ -706,6 +736,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .fx-headline-wrapper {
   display: -ms-flexbox;
   display: flex; }
@@ -726,6 +759,9 @@ body .fx-container .wp-block {
  * that are used across the project.
 */
 /* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
 .edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.fx-font-family-shortcuts {
   margin-bottom: 2px; }
 
