@@ -79,6 +79,18 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.button.borderColorHover,
 	},
+	fontFamily: {
+		type: 'string',
+		default: flexBlocksDefaults.button.fontFamily,
+	},
+	googleFont: {
+		type: 'boolean',
+		default: flexBlocksDefaults.button.googleFont,
+	},
+	fontWeight: {
+		type: 'string',
+		default: flexBlocksDefaults.button.fontWeight,
+	},
 	fontSize: {
 		type: 'number',
 		default: flexBlocksDefaults.button.fontSize,
@@ -91,9 +103,25 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.button.fontSizeMobile,
 	},
+	fontSizeUnit: {
+		type: 'string',
+		default: flexBlocksDefaults.button.fontSizeUnit,
+	},
 	textTransform: {
 		type: 'string',
 		default: flexBlocksDefaults.button.textTransform,
+	},
+	letterSpacing: {
+		type: 'number',
+		default: flexBlocksDefaults.button.letterSpacing,
+	},
+	letterSpacingTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.button.letterSpacingTablet,
+	},
+	letterSpacingMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.button.letterSpacingMobile,
 	},
 	marginTop: {
 		type: 'string',

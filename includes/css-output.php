@@ -444,7 +444,10 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->set_selector( 'a.fx-button-' . $id );
 			$css->add_property( 'background-color', $settings['backgroundColor'] );
 			$css->add_property( 'color', $settings['textColor'] );
-			$css->add_property( 'font-size', $settings['fontSize'], 'em' );
+			$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
+			$css->add_property( 'font-weight', $settings['fontWeight'] );
+			$css->add_property( 'text-transform', $settings['textTransform'] );
+			$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 			$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 			$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], $settings['borderRadiusUnit'] ) );
 			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
@@ -481,7 +484,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 
 			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
 				$css->set_selector( 'a.fx-button-' . $id );
-				$css->add_property( 'font-size', $settings['fontSizeTablet'], 'em' );
+				$css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
+				$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
 				$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'], $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusUnit'] ) );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
@@ -490,7 +494,8 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 
 			$css->start_media_query( flexblocks_get_media_query( 'mobile' ) );
 				$css->set_selector( 'a.fx-button-' . $id );
-				$css->add_property( 'font-size', $settings['fontSizeMobile'], 'em' );
+				$css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
+				$css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
 				$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'], $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusUnit'] ) );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );

@@ -7,6 +7,7 @@ import ColorPicker from '../../components/color-picker';
 import IconPicker from '../../components/icon-picker';
 import URLInput from '../../components/url-input';
 import DimensionsControl from '../../components/dimensions/';
+import TypographyControls from '../../components/typography';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -83,10 +84,17 @@ class FlexBlockButton extends Component {
 			textColor,
 			backgroundColorHover,
 			textColorHover,
+			fontFamily,
+			fontWeight,
+			googleFont,
+			textTransform,
+			letterSpacing,
+			letterSpacingTablet,
+			letterSpacingMobile,
 			fontSize,
 			fontSizeTablet,
 			fontSizeMobile,
-			textTransform,
+			fontSizeUnit,
 			marginTop,
 			marginRight,
 			marginBottom,
@@ -146,13 +154,9 @@ class FlexBlockButton extends Component {
 			borderColorHover,
 		} = attributes;
 
-		let fontSizeValue = '',
-			borderStyleValue = '',
-			iconMargin = 'margin-right: 0.5em;';
-
-		if ( fontSize ) {
-			fontSizeValue = fontSize + 'em';
-		}
+		let borderStyleValue = '',
+			iconMargin = 'margin-right: 0.5em;',
+			fontFamilyFallbackValue = '';
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			borderStyleValue = 'solid';
@@ -178,7 +182,9 @@ class FlexBlockButton extends Component {
 				border-top-right-radius: ` + borderRadiusTopRight + borderRadiusUnit + `;
 				border-bottom-right-radius: ` + borderRadiusBottomRight + borderRadiusUnit + `;
 				border-bottom-left-radius: ` + borderRadiusBottomLeft + borderRadiusUnit + `;
-				font-size: ` + fontSizeValue + `;
+				font-weight: ` + fontWeight + `;
+				text-transform: ` + textTransform + `;
+				font-size: ` + fontSize + fontSizeUnit + `;
 				border-width: 0;
 				border-top-width: ` + borderSizeTop + `px;
 				border-right-width: ` + borderSizeRight + `px;
@@ -247,69 +253,52 @@ class FlexBlockButton extends Component {
 										<div>
 											{ 'default' === tab.name ? (
 												<Fragment>
-													<RangeControl
-														label={ __( 'Font Size', 'flexblocks' ) }
-														value={ fontSize }
-														onChange={ ( value ) => {
-															setAttributes( {
-																fontSize: value
-															} );
-														} }
-														min={ 0.3 }
-														max={ 3 }
-														step={ 0.1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.button.fontSize }
-													/>
-
-													<SelectControl
-														label={ __( 'Text Transform', 'flexblocks' ) }
-														value={ textTransform }
-														options={ [
-															{ label: 'none', value: '' },
-															{ label: 'uppercase', value: 'uppercase' },
-															{ label: 'lowercase', value: 'lowercase' },
-															{ label: 'capitalize', value: 'capitalize' },
-														] }
-														onChange={ ( textTransform ) => { setAttributes( { textTransform } ) } }
+													<TypographyControls { ...this.props }
+														valueFontFamily={ fontFamily }
+														valueFontFamilyFallback={ fontFamilyFallback }
+														valueFontWeight={ fontWeight }
+														valueGoogleFont={ googleFont }
+														valueTextTransform={ textTransform }
+														valueFontSize={ fontSize }
+														valueFontSizeUnit={ fontSizeUnit }
+														valueLetterSpacing={ letterSpacing }
+														attrFontFamily={ 'fontFamily' }
+														attrFontFamilyFallback={ 'fontFamilyFallback' }
+														attrGoogleFont={ 'googleFont' }
+														attrFontWeight={ 'fontWeight' }
+														attrTextTransform={ 'textTransform' }
+														attrFontSize={ 'fontSize' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLetterSpacing={ 'letterSpacing' }
+														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) : '' }
 
 											{ 'tablet' === tab.name ? (
 												<Fragment>
-													<RangeControl
-														label={ __( 'Font Size', 'flexblocks' ) }
-														value={ fontSizeTablet }
-														onChange={ ( value ) => {
-															setAttributes( {
-																fontSizeTablet: value
-															} );
-														} }
-														min={ 0.3 }
-														max={ 3 }
-														step={ 0.1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.button.fontSizeTablet }
+													<TypographyControls { ...this.props }
+														valueFontSize={ fontSizeTablet }
+														valueFontSizeUnit={ fontSizeUnit }
+														valueLetterSpacing={ letterSpacingTablet }
+														attrFontSize={ 'fontSizeTablet' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLetterSpacing={ 'letterSpacingTablet' }
+														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) : '' }
 
 											{ 'mobile' === tab.name ? (
 												<Fragment>
-													<RangeControl
-														label={ __( 'Font Size', 'flexblocks' ) }
-														value={ fontSizeMobile }
-														onChange={ ( value ) => {
-															setAttributes( {
-																fontSizeMobile: value
-															} );
-														} }
-														min={ 0.3 }
-														max={ 3 }
-														step={ 0.1 }
-														allowReset={ true }
-														initialPosition={ flexBlocksDefaults.button.fontSizeMobile }
+													<TypographyControls { ...this.props }
+														valueFontSize={ fontSizeMobile }
+														valueFontSizeUnit={ fontSizeUnit }
+														valueLetterSpacing={ letterSpacingMobile }
+														attrFontSize={ 'fontSizeMobile' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLetterSpacing={ 'letterSpacingMobile' }
+														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) : '' }
