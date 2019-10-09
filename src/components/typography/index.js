@@ -44,6 +44,8 @@ class TypographyControls extends Component {
 			attrFontFamily,
 			valueGoogleFont,
 			attrGoogleFont,
+			valueFontFamilyFallback,
+			attrFontFamilyFallback,
 			valueFontWeight,
 			attrFontWeight,
 			valueTextTransform,
@@ -201,10 +203,16 @@ class TypographyControls extends Component {
 			}
 
 			if ( typeof googleFonts[ value ] !== 'undefined' ) {
-				setAttributes( { [ this.props['attrGoogleFont'] ]: true } );
+				setAttributes( {
+					[ this.props['attrGoogleFont'] ]: true,
+					[ this.props['attrFontFamilyFallback'] ]: googleFonts[ value ].fallback,
+				} );
 				isGoogle = true;
 			} else {
-				setAttributes( { [ this.props['attrGoogleFont'] ]: false } );
+				setAttributes( {
+					[ this.props['attrGoogleFont'] ]: false,
+					[ this.props['attrFontFamilyFallback'] ]: '',
+				} );
 				isGoogle = false;
 			}
 
@@ -272,6 +280,19 @@ class TypographyControls extends Component {
 						} }
 					/>
 				}
+
+				{ typeof valueFontFamilyFallback !== 'undefined' && (
+					<TextControl
+						label={ __( 'Font Family Fallback', 'flexblocks' ) }
+						value={ valueFontFamilyFallback }
+						placeholder={ __( 'sans-serif', 'flexblocks' ) }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ this.props[ 'attrFontFamilyFallback' ] ]: value,
+							} );
+						} }
+					/>
+				) }
 
 				<div className={ 'components-fx-typography-weight-transform' }>
 

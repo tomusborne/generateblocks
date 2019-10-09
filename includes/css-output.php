@@ -441,9 +441,16 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 
 			$id = $atts['uniqueId'];
 
+			$fontFamily = $settings['fontFamily'];
+
+			if ( $fontFamily && $settings['fontFamilyFallback'] ) {
+				$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
+			}
+
 			$css->set_selector( 'a.fx-button-' . $id );
 			$css->add_property( 'background-color', $settings['backgroundColor'] );
 			$css->add_property( 'color', $settings['textColor'] );
+			$css->add_property( 'font-family', $fontFamily );
 			$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 			$css->add_property( 'font-weight', $settings['fontWeight'] );
 			$css->add_property( 'text-transform', $settings['textTransform'] );
@@ -534,8 +541,14 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 
 			$id = $atts['uniqueId'];
 
+			$fontFamily = $settings['fontFamily'];
+
+			if ( $fontFamily && $settings['fontFamilyFallback'] ) {
+				$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
+			}
+
 			$css->set_selector( '.fx-headline-' . $id );
-			$css->add_property( 'font-family', $settings['fontFamily'] );
+			$css->add_property( 'font-family', $fontFamily );
 			$css->add_property( 'text-align', $settings['alignment'] );
 
 			if ( ! $settings['icon'] ) {

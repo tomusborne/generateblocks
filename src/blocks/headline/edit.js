@@ -84,6 +84,7 @@ class FlexBlockHeadline extends Component {
 			linkColor,
 			linkColorHover,
 			fontFamily,
+			fontFamilyFallback,
 			googleFont,
 			fontWeight,
 			fontSize,
@@ -157,7 +158,8 @@ class FlexBlockHeadline extends Component {
 		let iconFlexDirection = '',
 			iconAlignment = '',
 			headlineWrapperAlignment = '',
-			inlineVerticalAlignment = '';
+			inlineVerticalAlignment = '',
+			fontFamilyFallbackValue = '';
 
 		if ( icon && 'above' === iconLocation ) {
 			iconFlexDirection = 'column';
@@ -169,9 +171,13 @@ class FlexBlockHeadline extends Component {
 			inlineVerticalAlignment = iconVerticalAlignment;
 		}
 
+		if ( fontFamily && fontFamilyFallback ) {
+			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
+		}
+
 		const css = `
 			.editor-styles-wrapper .fx-headline-` + uniqueId + ` {
-				font-family: ` + fontFamily + `;
+				font-family: ` + fontFamily + fontFamilyFallbackValue + `;
 				font-weight: ` + fontWeight + `;
 				text-transform: ` + textTransform + `;
 				text-align: ` + alignment + `;
@@ -326,6 +332,7 @@ class FlexBlockHeadline extends Component {
 
 													<TypographyControls { ...this.props }
 														valueFontFamily={ fontFamily }
+														valueFontFamilyFallback={ fontFamilyFallback }
 														valueFontWeight={ fontWeight }
 														valueGoogleFont={ googleFont }
 														valueTextTransform={ textTransform }
@@ -335,6 +342,7 @@ class FlexBlockHeadline extends Component {
 														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacing }
 														attrFontFamily={ 'fontFamily' }
+														attrFontFamilyFallback={ 'fontFamilyFallback' }
 														attrGoogleFont={ 'googleFont' }
 														attrFontWeight={ 'fontWeight' }
 														attrTextTransform={ 'textTransform' }

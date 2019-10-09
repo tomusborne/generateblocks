@@ -52,6 +52,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.fontFamily,
 	},
+	fontFamilyFallback: {
+		type: 'string',
+		default: flexBlocksDefaults.headline.fontFamilyFallback,
+	},
 	googleFont: {
 		type: 'boolean',
 		default: flexBlocksDefaults.headline.googleFont,

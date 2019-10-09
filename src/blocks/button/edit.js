@@ -85,6 +85,7 @@ class FlexBlockButton extends Component {
 			backgroundColorHover,
 			textColorHover,
 			fontFamily,
+			fontFamilyFallback,
 			fontWeight,
 			googleFont,
 			textTransform,
@@ -170,6 +171,10 @@ class FlexBlockButton extends Component {
 			iconMargin = 'margin: 0;';
 		}
 
+		if ( fontFamily && fontFamilyFallback ) {
+			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
+		}
+
 		const css = `
 			.editor-block-list__block a.fx-button-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
@@ -182,6 +187,7 @@ class FlexBlockButton extends Component {
 				border-top-right-radius: ` + borderRadiusTopRight + borderRadiusUnit + `;
 				border-bottom-right-radius: ` + borderRadiusBottomRight + borderRadiusUnit + `;
 				border-bottom-left-radius: ` + borderRadiusBottomLeft + borderRadiusUnit + `;
+				font-family: ` + fontFamily + fontFamilyFallbackValue + `;
 				font-weight: ` + fontWeight + `;
 				text-transform: ` + textTransform + `;
 				font-size: ` + fontSize + fontSizeUnit + `;

@@ -83,6 +83,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.button.fontFamily,
 	},
+	fontFamilyFallback: {
+		type: 'string',
+		default: flexBlocksDefaults.button.fontFamilyFallback,
+	},
 	googleFont: {
 		type: 'boolean',
 		default: flexBlocksDefaults.button.googleFont,
