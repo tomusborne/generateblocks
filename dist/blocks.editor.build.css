@@ -739,29 +739,6 @@ body .fx-container .wp-block {
 .fx-notice {
   margin-bottom: 20px; }
 
-.fx-headline-wrapper {
-  display: -ms-flexbox;
-  display: flex; }
-
-.editor-styles-wrapper .fx-headline {
-  margin-top: 0;
-  margin-bottom: 0; }
-
-.editor-styles-wrapper .fx-headline-wrapper .fx-headline {
-  margin: 0 !important;
-  padding: 0 !important;
-  background: unset;
-  color: unset; }
-/**
- * #.# Common SCSS
- *
- * Can include things like variables and mixins
- * that are used across the project.
-*/
-/* Colors */
-.fx-notice {
-  margin-bottom: 20px; }
-
 .edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.fx-font-family-shortcuts {
   margin-bottom: 2px; }
 
@@ -818,3 +795,26 @@ body .fx-container .wp-block {
 
 .components-fx-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
   border-radius: 3px; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
+.fx-headline-wrapper {
+  display: -ms-flexbox;
+  display: flex; }
+
+.editor-styles-wrapper .fx-headline {
+  margin-top: 0;
+  margin-bottom: 0; }
+
+.editor-styles-wrapper .fx-headline-wrapper .fx-headline {
+  margin: 0 !important;
+  padding: 0 !important;
+  background: unset;
+  color: unset; }
