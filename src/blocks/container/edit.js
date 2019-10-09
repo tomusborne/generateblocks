@@ -55,6 +55,8 @@ class FlexBlockContainer extends Component {
 
 			fbContainerIds.push( id );
 		} else if ( fbContainerIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.attributes.uniqueId = id; // Need this to update ID on duplicate.
+
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
