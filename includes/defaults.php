@@ -115,6 +115,8 @@ function flexblocks_get_block_defaults() {
 		'removeVerticalGap' => false,
 		'removeVerticalGapTablet' => false,
 		'removeVerticalGapMobile' => false,
+		'orderTablet' => false,
+		'orderMobile' => false,
 	);
 
 	$defaults['buttonContainer'] = array(

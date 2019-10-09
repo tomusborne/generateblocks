@@ -191,6 +191,8 @@ class FlexBlockContainer extends Component {
 			removeVerticalGap,
 			removeVerticalGapTablet,
 			removeVerticalGapMobile,
+			orderTablet,
+			orderMobile,
 		} = attributes;
 
 		var backgroundImageValue;
@@ -488,6 +490,17 @@ class FlexBlockContainer extends Component {
 																} );
 															} }
 														/>
+
+														<TextControl
+															type={ 'number' }
+															label={ __( 'Order', 'flexblocks' ) }
+															value={ orderTablet ? parseFloat( orderTablet ) : '' }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	orderTablet: parseFloat( value )
+																} );
+															} }
+														/>
 													</Fragment>
 												) : '' }
 
@@ -536,6 +549,17 @@ class FlexBlockContainer extends Component {
 															onChange={ ( value ) => {
 																setAttributes( {
 																	removeVerticalGapMobile: value
+																} );
+															} }
+														/>
+
+														<TextControl
+															type={ 'number' }
+															label={ __( 'Order', 'flexblocks' ) }
+															value={ orderMobile ? parseFloat( orderMobile ) : '' }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	orderMobile: parseFloat( value )
 																} );
 															} }
 														/>

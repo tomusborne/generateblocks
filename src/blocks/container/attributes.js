@@ -31,6 +31,14 @@ export default {
 		type: 'number',
 		default: flexBlocksDefaults.container.widthMobile,
 	},
+	orderTablet: {
+		type: 'number',
+		default: flexBlocksDefaults.container.orderTablet,
+	},
+	orderMobile: {
+		type: 'number',
+		default: flexBlocksDefaults.container.orderMobile,
+	},
 	outerContainer: {
 		type: 'string',
 		default: flexBlocksDefaults.container.outerContainer,

@@ -276,6 +276,10 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 				$css->add_property( 'width', $settings['widthTablet'], '%' );
 
+				if ( $settings['isGrid'] ) {
+					$css->add_property( 'order', $settings['orderTablet'] );
+				}
+
 				if ( $settings['removeVerticalGapTablet'] ) {
 					$css->set_selector( '.fx-grid-wrapper > div.fx-grid-column-' . $id );
 					$css->add_property( 'padding-bottom', '0px' );
@@ -305,6 +309,10 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 
 				$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
 				$css->add_property( 'width', $settings['widthMobile'], '%' );
+
+				if ( $settings['isGrid'] ) {
+					$css->add_property( 'order', $settings['orderMobile'] );
+				}
 
 				if ( $settings['removeVerticalGapMobile'] ) {
 					$css->set_selector( '.fx-grid-wrapper > div.fx-grid-column-' . $id );
