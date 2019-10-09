@@ -328,7 +328,7 @@ class FlexBlockContainer extends Component {
 						} }
 					/>
 
-					{ ! isGrid ? (
+					{ ! isGrid && (
 						<PanelBody>
 							<Fragment>
 								<SelectControl
@@ -363,36 +363,34 @@ class FlexBlockContainer extends Component {
 								/>
 							</Fragment>
 						</PanelBody>
-					) : '' }
+					) }
 
-					{ isGrid ? (
+					{ isGrid && (
 						<PanelBody className="section-grid-panel">
 							<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 								activeClass="active-tab"
 								tabs={ [
 									{
-										name: 'grid-default',
+										name: 'default',
 										title: __( 'Default', 'flexblocks' ),
 										className: 'grid-default',
 									},
 									{
-										name: 'grid-tablet',
+										name: 'tablet',
 										title: __( 'Tablet', 'flexblocks' ),
 										className: 'grid-tablet',
 									},
 									{
-										name: 'grid-mobile',
+										name: 'mobile',
 										title: __( 'Mobile', 'flexblocks' ),
 										className: 'grid-mobile',
 									},
 								] }>
 								{
 									( tab ) => {
-										const isDesktop = tab.name === 'grid-desktop';
-
 										return (
 											<div>
-												{ 'grid-default' === tab.name ? (
+												{ 'default' === tab.name && (
 													<Fragment>
 														<ButtonGroup className={ 'widthButtons' }>
 															<Button isLarge isPrimary={ width === 25 } onClick={ () => { setAttributes( { width: 25 } ); } }>25%</Button>
@@ -440,9 +438,9 @@ class FlexBlockContainer extends Component {
 															} }
 														/>
 													</Fragment>
-												) : '' }
+												) }
 
-												{ 'grid-tablet' === tab.name ? (
+												{ 'tablet' === tab.name && (
 													<Fragment>
 														<ButtonGroup className={ 'widthButtons' }>
 															<Button isLarge isPrimary={ widthTablet === 25 } onClick={ () => { setAttributes( { widthTablet: 25 } ); } }>25%</Button>
@@ -502,9 +500,9 @@ class FlexBlockContainer extends Component {
 															} }
 														/>
 													</Fragment>
-												) : '' }
+												) }
 
-												{ 'grid-mobile' === tab.name ? (
+												{ 'mobile' === tab.name && (
 													<Fragment>
 														<ButtonGroup className={ 'widthButtons' }>
 															<Button isLarge isPrimary={ widthMobile === 25 } onClick={ () => { setAttributes( { widthMobile: 25 } ); } }>25%</Button>
@@ -564,14 +562,14 @@ class FlexBlockContainer extends Component {
 															} }
 														/>
 													</Fragment>
-												) : '' }
+												) }
 											</div>
 										);
 									}
 								}
 							</TabPanel>
 						</PanelBody>
-					) : '' }
+					) }
 
 					<PanelBody
 						title={ __( 'Spacing', 'flexblocks' ) }
@@ -582,17 +580,17 @@ class FlexBlockContainer extends Component {
 							activeClass="active-tab"
 							tabs={ [
 								{
-									name: 'grid-default',
+									name: 'default',
 									title: __( 'Default', 'flexblocks' ),
 									className: 'grid-default',
 								},
 								{
-									name: 'grid-tablet',
+									name: 'tablet',
 									title: __( 'Tablet', 'flexblocks' ),
 									className: 'grid-tablet',
 								},
 								{
-									name: 'grid-mobile',
+									name: 'mobile',
 									title: __( 'Mobile', 'flexblocks' ),
 									className: 'grid-mobile',
 								},
@@ -601,7 +599,7 @@ class FlexBlockContainer extends Component {
 								( tab ) => {
 									return (
 										<div>
-											{ 'grid-default' === tab.name ? (
+											{ 'default' === tab.name && (
 												<Fragment>
 													<div className="components-fx-dimensions-control__header">
 														<div className="components-fx-dimensions-control__label">
@@ -711,9 +709,9 @@ class FlexBlockContainer extends Component {
 														labelLeft={ __( 'B-Left', 'flexblocks' ) }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'grid-tablet' === tab.name ? (
+											{ 'tablet' === tab.name && (
 												<Fragment>
 													<div className="components-fx-dimensions-control__header">
 														<div className="components-fx-dimensions-control__label">
@@ -823,9 +821,9 @@ class FlexBlockContainer extends Component {
 														labelLeft={ __( 'B-Left', 'flexblocks' ) }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'grid-mobile' === tab.name ? (
+											{ 'mobile' === tab.name && (
 												<Fragment>
 													<div className="components-fx-dimensions-control__header">
 														<div className="components-fx-dimensions-control__label">
@@ -935,7 +933,7 @@ class FlexBlockContainer extends Component {
 														labelLeft={ __( 'B-Left', 'flexblocks' ) }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 										</div>
 									);
 								}
@@ -1093,7 +1091,7 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Background image' ) }
 						initialOpen={ false }
 					>
-						{ ! bgImage &&
+						{ ! bgImage && (
 							<div>
 								<MediaUpload
 									title={ __('Set background image') }
@@ -1107,120 +1105,126 @@ class FlexBlockContainer extends Component {
 									) }
 								/>
 							</div>
-						}
-						{ !! bgImage && <MediaUpload
-							title={ __( 'Set background image' ) }
-							onSelect={ onSelectBgImage }
-							allowedTypes={["image"]}
-							value={ bgImage.id }
-							modalClass="editor-post-featured-image__media-modal"
-							render={ ( { open } ) => (
-								<div className="editor-bg-image">
-									<Button className="editor-post-featured-image__preview" onClick={ open }>
-										<ResponsiveWrapper
-											naturalWidth={ bgImage.image.width }
-											naturalHeight={ bgImage.image.height }
-										>
-											<img src={ bgImage.image.url } alt={ __( 'BG Image' ) } />
-										</ResponsiveWrapper>
-									</Button>
-									<div className={ 'edit-bg-buttons' }>
-										<Button onClick={ open } isDefault isLarge>
-											{ __( 'Replace image' ) }
+						) }
+
+						{ !! bgImage && (
+							<MediaUpload
+								title={ __( 'Set background image' ) }
+								onSelect={ onSelectBgImage }
+								allowedTypes={["image"]}
+								value={ bgImage.id }
+								modalClass="editor-post-featured-image__media-modal"
+								render={ ( { open } ) => (
+									<div className="editor-bg-image">
+										<Button className="editor-post-featured-image__preview" onClick={ open }>
+											<ResponsiveWrapper
+												naturalWidth={ bgImage.image.width }
+												naturalHeight={ bgImage.image.height }
+											>
+												<img src={ bgImage.image.url } alt={ __( 'BG Image' ) } />
+											</ResponsiveWrapper>
 										</Button>
-										<Button onClick={ onRemoveBgImage } isLink isDestructive>
-											{ __('Remove background image') }
-										</Button>
+										<div className={ 'edit-bg-buttons' }>
+											<Button onClick={ open } isDefault isLarge>
+												{ __( 'Replace image' ) }
+											</Button>
+											<Button onClick={ onRemoveBgImage } isLink isDestructive>
+												{ __('Remove background image') }
+											</Button>
+										</div>
 									</div>
-								</div>
-							) }
-						/>
-						}
-						{ !! bgImage && <div className="section-bg-settings">
-							<ToggleControl
-								label={ __( 'Background Color Overlay', 'flexblocks' ) }
-								checked={ !! bgOptions.overlay }
-								onChange={ ( nextOverlay ) => {
-									setAttributes( {
-										bgOptions: {
-											...bgOptions,
-											overlay: nextOverlay,
-										},
-									} );
-								} }
+								) }
 							/>
+						) }
 
-							{ !! bgOptions.overlay && (
-								<div className="fx-notice">
-									{ __( 'Your background color must have transparency for the image to show.', 'flexblocks' ) }
-								</div>
-							) }
+						{ !! bgImage && (
+							<div className="section-bg-settings">
+								<ToggleControl
+									label={ __( 'Background Color Overlay', 'flexblocks' ) }
+									checked={ !! bgOptions.overlay }
+									onChange={ ( nextOverlay ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												overlay: nextOverlay,
+											},
+										} );
+									} }
+								/>
 
-							<TextControl
-								label={ __( 'Size', 'flexblocks' ) }
-								value={ bgOptions.size }
-								onChange={ ( nextSize ) => {
-									setAttributes( {
-										bgOptions: {
-											...bgOptions,
-											size: nextSize,
-										},
-									} );
-								} }
-							/>
+								{ !! bgOptions.overlay && (
+									<div className="fx-notice">
+										{ __( 'Your background color must have transparency for the image to show.', 'flexblocks' ) }
+									</div>
+								) }
 
-							<TextControl
-								label={ __( 'Position', 'flexblocks' ) }
-								value={ bgOptions.position }
-								onChange={ ( nextPosition ) => {
-									setAttributes( {
-										bgOptions: {
-											...bgOptions,
-											position: nextPosition,
-										},
-									} );
-								} }
-							/>
+								<TextControl
+									label={ __( 'Size', 'flexblocks' ) }
+									value={ bgOptions.size }
+									onChange={ ( nextSize ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												size: nextSize,
+											},
+										} );
+									} }
+								/>
 
-							<SelectControl
-								label={ __( 'Repeat', 'flexblocks' ) }
-								value={ bgOptions.repeat }
-								options={ [
-									{ label: 'no-repeat', value: 'no-repeat' },
-									{ label: 'repeat', value: 'repeat' },
-									{ label: 'repeat-x', value: 'repeat-x' },
-									{ label: 'repeat-y', value: 'repeat-y' },
-								] }
-								onChange={ ( nextRepeat ) => {
-									setAttributes( {
-										bgOptions: {
-											...bgOptions,
-											repeat: nextRepeat,
-										},
-									} );
-								} }
-							/>
+								<TextControl
+									label={ __( 'Position', 'flexblocks' ) }
+									value={ bgOptions.position }
+									onChange={ ( nextPosition ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												position: nextPosition,
+											},
+										} );
+									} }
+								/>
 
-							<SelectControl
-								label={ __( 'Attachment', 'flexblocks' ) }
-								value={ bgOptions.attachment }
-								options={ [
-									{ label: 'scroll', value: '' },
-									{ label: 'fixed', value: 'fixed' },
-									{ label: 'local', value: 'local' },
-								] }
-								onChange={ ( nextAttachment ) => {
-									setAttributes( {
-										bgOptions: {
-											...bgOptions,
-											attachment: nextAttachment,
-										},
-									} );
-								} }
-							/>
-						</div>}
+								<SelectControl
+									label={ __( 'Repeat', 'flexblocks' ) }
+									value={ bgOptions.repeat }
+									options={ [
+										{ label: 'no-repeat', value: 'no-repeat' },
+										{ label: 'repeat', value: 'repeat' },
+										{ label: 'repeat-x', value: 'repeat-x' },
+										{ label: 'repeat-y', value: 'repeat-y' },
+									] }
+									onChange={ ( nextRepeat ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												repeat: nextRepeat,
+											},
+										} );
+									} }
+								/>
+
+								<SelectControl
+									label={ __( 'Attachment', 'flexblocks' ) }
+									value={ bgOptions.attachment }
+									options={ [
+										{ label: 'scroll', value: '' },
+										{ label: 'fixed', value: 'fixed' },
+										{ label: 'local', value: 'local' },
+									] }
+									onChange={ ( nextAttachment ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												attachment: nextAttachment,
+											},
+										} );
+									} }
+								/>
+							</div>
+						) }
 					</PanelBody>
 				</InspectorControls>
+
 				<InspectorAdvancedControls>
 					<SelectControl
 						label={ __( 'Element Tag', 'flexblocks' ) }

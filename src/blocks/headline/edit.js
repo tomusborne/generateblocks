@@ -305,7 +305,7 @@ class FlexBlockHeadline extends Component {
 								( tab ) => {
 									return (
 										<div>
-											{ 'default' === tab.name ? (
+											{ 'default' === tab.name && (
 												<Fragment>
 													<SelectControl
 														label={ __( 'Element', 'flexblocks' ) }
@@ -354,9 +354,9 @@ class FlexBlockHeadline extends Component {
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'tablet' === tab.name ? (
+											{ 'tablet' === tab.name && (
 												<Fragment>
 													<AlignmentToolbar
 														isCollapsed={ false }
@@ -380,9 +380,9 @@ class FlexBlockHeadline extends Component {
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'mobile' === tab.name ? (
+											{ 'mobile' === tab.name && (
 												<Fragment>
 													<AlignmentToolbar
 														isCollapsed={ false }
@@ -406,7 +406,7 @@ class FlexBlockHeadline extends Component {
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 										</div>
 									);
 								}
@@ -510,7 +510,7 @@ class FlexBlockHeadline extends Component {
 								( tab ) => {
 									return (
 										<div>
-											{ 'default' === tab.name ? (
+											{ 'default' === tab.name && (
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
@@ -546,9 +546,9 @@ class FlexBlockHeadline extends Component {
 														attrSyncUnits={ 'paddingSyncUnits' }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'tablet' === tab.name ? (
+											{ 'tablet' === tab.name && (
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
@@ -584,9 +584,9 @@ class FlexBlockHeadline extends Component {
 														attrSyncUnits={ 'paddingSyncUnits' }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'mobile' === tab.name ? (
+											{ 'mobile' === tab.name && (
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
@@ -622,7 +622,7 @@ class FlexBlockHeadline extends Component {
 														attrSyncUnits={ 'paddingSyncUnits' }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 										</div>
 									);
 								}
@@ -681,7 +681,7 @@ class FlexBlockHeadline extends Component {
 								( tab ) => {
 									return (
 										<div>
-											{ 'default' === tab.name ? (
+											{ 'default' === tab.name && (
 												<Fragment>
 													<SelectControl
 														label={ __( 'Icon Location', 'flexblocks' ) }
@@ -743,9 +743,9 @@ class FlexBlockHeadline extends Component {
 														initialPosition={ flexBlocksDefaults.headline.iconSize }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'tablet' === tab.name ? (
+											{ 'tablet' === tab.name && (
 												<Fragment>
 													<SelectControl
 														label={ __( 'Icon Location', 'flexblocks' ) }
@@ -808,9 +808,9 @@ class FlexBlockHeadline extends Component {
 														initialPosition={ flexBlocksDefaults.headline.iconSizeTablet }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'mobile' === tab.name ? (
+											{ 'mobile' === tab.name && (
 												<Fragment>
 													<SelectControl
 														label={ __( 'Icon Location', 'flexblocks' ) }
@@ -873,7 +873,7 @@ class FlexBlockHeadline extends Component {
 														initialPosition={ flexBlocksDefaults.headline.iconSizeMobile }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 										</div>
 									);
 								}

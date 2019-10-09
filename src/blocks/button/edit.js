@@ -257,7 +257,7 @@ class FlexBlockButton extends Component {
 								( tab ) => {
 									return (
 										<div>
-											{ 'default' === tab.name ? (
+											{ 'default' === tab.name && (
 												<Fragment>
 													<TypographyControls { ...this.props }
 														valueFontFamily={ fontFamily }
@@ -279,9 +279,9 @@ class FlexBlockButton extends Component {
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'tablet' === tab.name ? (
+											{ 'tablet' === tab.name && (
 												<Fragment>
 													<TypographyControls { ...this.props }
 														valueFontSize={ fontSizeTablet }
@@ -293,9 +293,9 @@ class FlexBlockButton extends Component {
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'mobile' === tab.name ? (
+											{ 'mobile' === tab.name && (
 												<Fragment>
 													<TypographyControls { ...this.props }
 														valueFontSize={ fontSizeMobile }
@@ -307,7 +307,7 @@ class FlexBlockButton extends Component {
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 										</div>
 									);
 								}

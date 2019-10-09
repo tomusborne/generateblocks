@@ -298,26 +298,26 @@ class FlexBlockGridContainer extends Component {
 							activeClass="active-tab"
 							tabs={ [
 								{
-									name: 'grid-default',
+									name: 'default',
 									title: __( 'Default', 'flexblocks' ),
-									className: 'grid-default',
+									className: 'default',
 								},
 								{
-									name: 'grid-tablet',
+									name: 'tablet',
 									title: __( 'Tablet', 'flexblocks' ),
-									className: 'grid-tablet',
+									className: 'tablet',
 								},
 								{
-									name: 'grid-mobile',
+									name: 'mobile',
 									title: __( 'Mobile', 'flexblocks' ),
-									className: 'grid-mobile',
+									className: 'mobile',
 								},
 							] }>
 							{
 								( tab ) => {
 									return (
 										<div>
-											{ 'grid-default' === tab.name ? (
+											{ 'default' === tab.name && (
 												<Fragment>
 													<RangeControl
 														label={ __( 'Horizontal Gap', 'flexblocks' ) }
@@ -362,9 +362,9 @@ class FlexBlockGridContainer extends Component {
 														onChange={ ( horizontalAlignment ) => { setAttributes( { horizontalAlignment } ) } }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'grid-tablet' === tab.name ? (
+											{ 'tablet' === tab.name && (
 												<Fragment>
 													<RangeControl
 														label={ __( 'Horizontal Gap', 'flexblocks' ) }
@@ -411,9 +411,9 @@ class FlexBlockGridContainer extends Component {
 														onChange={ ( horizontalAlignmentTablet ) => { setAttributes( { horizontalAlignmentTablet } ) } }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'grid-mobile' === tab.name ? (
+											{ 'mobile' === tab.name && (
 												<Fragment>
 													<RangeControl
 														label={ __( 'Horizontal Gap', 'flexblocks' ) }
@@ -460,7 +460,7 @@ class FlexBlockGridContainer extends Component {
 														onChange={ ( horizontalAlignmentMobile ) => { setAttributes( { horizontalAlignmentMobile } ) } }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 										</div>
 									);
 								}

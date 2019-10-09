@@ -35,7 +35,7 @@ export default class ColorPicker extends Component {
 					className={ classnames( 'components-color-palette__item-wrapper', value ? '' : 'components-color-palette__custom-color' ) }
 					contentClassName="components-color-palette__picker"
 					renderToggle={ ( { isOpen, onToggle } ) => (
-						<Tooltip text={ __( 'Custom color picker' ) }>
+						<Tooltip text={ __( 'Choose Color', 'flexblocks' ) }>
 							<button
 								type="button"
 								aria-expanded={ isOpen }
