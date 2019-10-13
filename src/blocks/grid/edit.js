@@ -289,8 +289,10 @@ class FlexBlockGridContainer extends Component {
 						<TextControl
 							type="number"
 							label={ __( 'Grid Items', 'flexblocks' ) }
-							value={ columns }
-							onChange={ ( value ) => setAttributes( { columns: value } ) }
+							value={ columns ? columns : '' }
+							onChange={ ( value ) => setAttributes( {
+								columns: parseInt( value )
+							} ) }
 							min={ 1 }
 						/>
 
