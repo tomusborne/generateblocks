@@ -180,7 +180,9 @@ class FlexBlockContainer extends Component {
 			gradient,
 			gradientDirection,
 			gradientColorOne,
+			gradientColorStopOne,
 			gradientColorTwo,
+			gradientColorStopTwo,
 			textColor,
 			linkColor,
 			linkColorHover,
@@ -197,20 +199,32 @@ class FlexBlockContainer extends Component {
 			orderMobile,
 		} = attributes;
 
-		var backgroundImageValue;
+		let backgroundImageValue,
+			gradientColorStopOneValue = '',
+			gradientColorStopTwoValue = '';
+
+		if ( gradient ) {
+			if ( gradientColorOne && '' !== gradientColorStopOne ) {
+				gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
+			}
+
+			if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
+				gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
+			}
+		}
 
 		if ( bgImage ) {
 			backgroundImageValue = 'url(' + bgImage.image.url + ')';
 
 			if ( bgOptions.overlay ) {
 				if ( gradient ) {
-					backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + ', ' + gradientColorTwo + '), url(' + bgImage.image.url + ')';
+					backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + '), url(' + bgImage.image.url + ')';
 				} else {
 					backgroundImageValue = 'linear-gradient(0deg, ' + backgroundColor + ', ' + backgroundColor + '), url(' + bgImage.image.url + ')';
 				}
 			}
 		} else if ( gradient ) {
-			backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + ', ' + gradientColorTwo + ');';
+			backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + ');';
 		}
 
 		var outerContainerWidth = '';

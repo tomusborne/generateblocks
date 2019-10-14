@@ -307,9 +307,17 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.container.gradientColorOne,
 	},
+	gradientColorStopOne: {
+		type: 'number',
+		default: flexBlocksDefaults.container.gradientColorStopOne,
+	},
 	gradientColorTwo: {
 		type: 'string',
 		default: flexBlocksDefaults.container.gradientColorTwo,
+	},
+	gradientColorStopTwo: {
+		type: 'number',
+		default: flexBlocksDefaults.container.gradientColorStopTwo,
 	},
 	textColor: {
 		type: 'string',
