@@ -241,11 +241,11 @@ function flexblocks_get_google_fonts_uri( $post_id = '' ) {
 		}
 	}
 
-	$font_args = array(
+	$font_args = apply_filters( 'flexblocks_google_font_args', array(
 		'family' => implode( '|', $data ),
-		'subset' => apply_filters( 'flexblocks_google_font_subset', null ),
-		'display' => apply_filters( 'flexblocks_google_font_display', 'swap' ),
-	);
+		'subset' => null,
+		'display' => 'swap',
+	) );
 
 	return add_query_arg( $font_args, '//fonts.googleapis.com/css' );
 }
