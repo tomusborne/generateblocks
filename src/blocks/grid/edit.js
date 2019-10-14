@@ -123,7 +123,10 @@ class FlexBlockGridContainer extends Component {
 
 		const colAttrs = {
 			isGrid: true,
-			tagName: 'div',
+			paddingTop: '',
+			paddingRight: '',
+			paddingBottom: '',
+			paddingLeft: '',
 		};
 
 		// create columns from selected layout.
@@ -166,7 +169,10 @@ class FlexBlockGridContainer extends Component {
         columnsData.forEach( ( col ) => {
             const colAttrs = {
                 isGrid: true,
-				tagName: 'div',
+				paddingTop: '',
+				paddingRight: '',
+				paddingBottom: '',
+				paddingLeft: '',
             };
 
 			colAttrs.width = Number( columnsData[i] );
