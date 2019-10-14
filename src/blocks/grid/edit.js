@@ -353,7 +353,9 @@ class FlexBlockGridContainer extends Component {
 															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
 															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 														] }
-														onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
+														onChange={ ( verticalAlignment ) => {
+															setAttributes( { verticalAlignment } )
+														} }
 													/>
 
 													<SelectControl
@@ -365,7 +367,9 @@ class FlexBlockGridContainer extends Component {
 															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
 															{ label: __( 'Right', 'flexblocks' ), value: 'flex-end' },
 														] }
-														onChange={ ( horizontalAlignment ) => { setAttributes( { horizontalAlignment } ) } }
+														onChange={ ( horizontalAlignment ) => {
+															setAttributes( { horizontalAlignment } )
+														} }
 													/>
 												</Fragment>
 											) }
@@ -458,7 +462,9 @@ class FlexBlockGridContainer extends Component {
 															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
 															{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 														] }
-														onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
+														onChange={ ( verticalAlignmentMobile ) => {
+															setAttributes( { verticalAlignmentMobile } )
+														} }
 													/>
 
 													<SelectControl
@@ -471,7 +477,9 @@ class FlexBlockGridContainer extends Component {
 															{ label: __( 'Center', 'flexblocks' ), value: 'center' },
 															{ label: __( 'Right', 'flexblocks' ), value: 'flex-end' },
 														] }
-														onChange={ ( horizontalAlignmentMobile ) => { setAttributes( { horizontalAlignmentMobile } ) } }
+														onChange={ ( horizontalAlignmentMobile ) => {
+															setAttributes( { horizontalAlignmentMobile } )
+														} }
 													/>
 												</Fragment>
 											) }

@@ -429,7 +429,9 @@ class FlexBlockContainer extends Component {
 																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
 																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 															] }
-															onChange={ ( verticalAlignment ) => { setAttributes( { verticalAlignment } ) } }
+															onChange={ ( verticalAlignment ) => {
+																setAttributes( { verticalAlignment } )
+															} }
 														/>
 
 														<ToggleControl
@@ -480,7 +482,9 @@ class FlexBlockContainer extends Component {
 																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
 																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 															] }
-															onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
+															onChange={ ( verticalAlignmentTablet ) => {
+																setAttributes( { verticalAlignmentTablet } )
+															} }
 														/>
 
 														<ToggleControl
@@ -542,7 +546,9 @@ class FlexBlockContainer extends Component {
 																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
 																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
 															] }
-															onChange={ ( verticalAlignmentMobile ) => { setAttributes( { verticalAlignmentMobile } ) } }
+															onChange={ ( verticalAlignmentMobile ) => {
+																setAttributes( { verticalAlignmentMobile } )
+															} }
 														/>
 
 														<ToggleControl
