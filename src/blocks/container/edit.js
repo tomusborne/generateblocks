@@ -954,63 +954,6 @@ class FlexBlockContainer extends Component {
 								alpha={ true }
 							/>
 
-							<ToggleControl
-								label={ __( 'Use Gradient', 'flexblocks' ) }
-								checked={ !! gradient }
-								onChange={ ( value ) => {
-									setAttributes( {
-										gradient: value
-									} );
-								} }
-							/>
-
-							{ !! gradient && (
-								<Fragment>
-									<TextControl
-										type={ 'text' }
-										label={ __( 'Direction', 'flexblocks' ) }
-										value={ gradientDirection }
-										onChange={ ( value ) => {
-											setAttributes( {
-												gradientDirection: value
-											} );
-										} }
-									/>
-
-									<ColorPicker
-										label={ __( 'Background Color One', 'flexblocks' ) }
-										value={ gradientColorOne }
-										onChange={ ( value ) =>
-											setAttributes( {
-												gradientColorOne: value
-											} )
-										}
-										onClear={ () =>
-											setAttributes( {
-												gradientColorOne: flexBlocksDefaults.container.gradientColorOne
-											} )
-										}
-										alpha={ true }
-									/>
-
-									<ColorPicker
-										label={ __( 'Background Color Two', 'flexblocks' ) }
-										value={ gradientColorTwo }
-										onChange={ ( value ) =>
-											setAttributes( {
-												gradientColorTwo: value
-											} )
-										}
-										onClear={ () =>
-											setAttributes( {
-												gradientColorTwo: flexBlocksDefaults.container.gradientColorTwo
-											} )
-										}
-										alpha={ true }
-									/>
-								</Fragment>
-							) }
-
 							<ColorPicker
 								label={ __( 'Text Color', 'flexblocks' ) }
 								value={ textColor }
@@ -1078,7 +1021,97 @@ class FlexBlockContainer extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Background image' ) }
+						title={ __( 'Background Gradient' ) }
+						initialOpen={ false }
+					>
+						<ToggleControl
+							label={ __( 'Use Gradient', 'flexblocks' ) }
+							checked={ !! gradient }
+							onChange={ ( value ) => {
+								setAttributes( {
+									gradient: value
+								} );
+							} }
+						/>
+
+						{ !! gradient && (
+							<Fragment>
+								<TextControl
+									type={ 'text' }
+									label={ __( 'Direction', 'flexblocks' ) }
+									value={ gradientDirection }
+									onChange={ ( value ) => {
+										setAttributes( {
+											gradientDirection: value
+										} );
+									} }
+								/>
+
+								<ColorPicker
+									label={ __( 'Color One', 'flexblocks' ) }
+									value={ gradientColorOne }
+									onChange={ ( value ) =>
+										setAttributes( {
+											gradientColorOne: value
+										} )
+									}
+									onClear={ () =>
+										setAttributes( {
+											gradientColorOne: flexBlocksDefaults.container.gradientColorOne
+										} )
+									}
+									alpha={ true }
+								/>
+
+								<RangeControl
+									value={ gradientColorStopOne ? gradientColorStopOne : '' }
+									onChange={ ( value ) => {
+										setAttributes( {
+											gradientColorStopOne: parseFloat( value )
+										} );
+									} }
+									min={ 0 }
+									max={ 100 }
+									step={ 1 }
+									allowReset={ true }
+									initialPosition={ flexBlocksDefaults.container.gradientColorStopOne }
+								/>
+
+								<ColorPicker
+									label={ __( 'Color Two', 'flexblocks' ) }
+									value={ gradientColorTwo }
+									onChange={ ( value ) =>
+										setAttributes( {
+											gradientColorTwo: value
+										} )
+									}
+									onClear={ () =>
+										setAttributes( {
+											gradientColorTwo: flexBlocksDefaults.container.gradientColorTwo
+										} )
+									}
+									alpha={ true }
+								/>
+
+								<RangeControl
+									value={ gradientColorStopTwo ? gradientColorStopTwo : '' }
+									onChange={ ( value ) => {
+										setAttributes( {
+											gradientColorStopTwo: parseFloat( value )
+										} );
+									} }
+									min={ 0 }
+									max={ 100 }
+									step={ 1 }
+									allowReset={ true }
+									initialPosition={ flexBlocksDefaults.container.gradientColorStopTwo }
+								/>
+							</Fragment>
+						) }
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Background Image' ) }
 						initialOpen={ false }
 					>
 						{ ! bgImage && (
