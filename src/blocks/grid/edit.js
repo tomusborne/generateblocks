@@ -323,8 +323,10 @@ class FlexBlockGridContainer extends Component {
 												<Fragment>
 													<RangeControl
 														label={ __( 'Horizontal Gap', 'flexblocks' ) }
-														value={ horizontalGap }
-														onChange={ ( value ) => setAttributes( { horizontalGap: value } ) }
+														value={ horizontalGap ? horizontalGap : '' }
+														onChange={ ( value ) => setAttributes( {
+															horizontalGap: parseFloat( value )
+														} ) }
 														min={ 0 }
 														max={ 100 }
 														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGap }
@@ -332,8 +334,10 @@ class FlexBlockGridContainer extends Component {
 
 													<RangeControl
 														label={ __( 'Vertical Gap', 'flexblocks' ) }
-														value={ verticalGap }
-														onChange={ ( value ) => setAttributes( { verticalGap: value } ) }
+														value={ verticalGap ? verticalGap : '' }
+														onChange={ ( value ) => setAttributes( {
+															verticalGap: parseFloat( value )
+														} ) }
 														min={ 0 }
 														max={ 100 }
 														initialPosition={ flexBlocksDefaults.gridContainer.verticalGap }
@@ -370,8 +374,10 @@ class FlexBlockGridContainer extends Component {
 												<Fragment>
 													<RangeControl
 														label={ __( 'Horizontal Gap', 'flexblocks' ) }
-														value={ horizontalGapTablet }
-														onChange={ ( value ) => setAttributes( { horizontalGapTablet: value } ) }
+														value={ horizontalGapTablet ? horizontalGapTablet : '' }
+														onChange={ ( value ) => setAttributes( {
+															horizontalGapTablet: parseFloat( value )
+														} ) }
 														min={ 0 }
 														max={ 100 }
 														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGapTablet }
@@ -379,8 +385,10 @@ class FlexBlockGridContainer extends Component {
 
 													<RangeControl
 														label={ __( 'Vertical Gap', 'flexblocks' ) }
-														value={ verticalGapTablet }
-														onChange={ ( value ) => setAttributes( { verticalGapTablet: value } ) }
+														value={ verticalGapTablet ? verticalGapTablet : '' }
+														onChange={ ( value ) => setAttributes( {
+															verticalGapTablet: parseFloat( value )
+														} ) }
 														min={ 0 }
 														max={ 100 }
 														initialPosition={ flexBlocksDefaults.gridContainer.verticalGapTablet }
@@ -419,8 +427,10 @@ class FlexBlockGridContainer extends Component {
 												<Fragment>
 													<RangeControl
 														label={ __( 'Horizontal Gap', 'flexblocks' ) }
-														value={ horizontalGapMobile }
-														onChange={ ( value ) => setAttributes( { horizontalGapMobile: value } ) }
+														value={ horizontalGapMobile ? horizontalGapMobile : '' }
+														onChange={ ( value ) => setAttributes( {
+															horizontalGapMobile: parseFloat( value )
+														} ) }
 														min={ 0 }
 														max={ 100 }
 														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGapMobile }
@@ -428,8 +438,10 @@ class FlexBlockGridContainer extends Component {
 
 													<RangeControl
 														label={ __( 'Vertical Gap', 'flexblocks' ) }
-														value={ verticalGapMobile }
-														onChange={ ( value ) => setAttributes( { verticalGapMobile: value } ) }
+														value={ verticalGapMobile ? verticalGapMobile : '' }
+														onChange={ ( value ) => setAttributes( {
+															verticalGapMobile: parseFloat( value )
+														} ) }
 														min={ 0 }
 														max={ 100 }
 														initialPosition={ flexBlocksDefaults.gridContainer.verticalGapMobile }

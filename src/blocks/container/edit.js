@@ -406,10 +406,10 @@ class FlexBlockContainer extends Component {
 
 														<RangeControl
 															className={ 'fx-column-width-control' }
-															value={ parseFloat( width ) }
+															value={ width ? width : '' }
 															onChange={ ( value ) => {
 																setAttributes( {
-																	width: value
+																	width: parseFloat( value )
 																} );
 															} }
 															min={ 10.00 }
@@ -456,10 +456,10 @@ class FlexBlockContainer extends Component {
 
 														<RangeControl
 															className={ 'fx-column-width-control' }
-															value={ parseFloat( widthTablet ) }
+															value={ widthTablet }
 															onChange={ ( value ) => {
 																setAttributes( {
-																	widthTablet: value
+																	widthTablet: parseFloat( value )
 																} );
 															} }
 															min={ 10.00 }
@@ -496,7 +496,7 @@ class FlexBlockContainer extends Component {
 														<TextControl
 															type={ 'number' }
 															label={ __( 'Order', 'flexblocks' ) }
-															value={ orderTablet ? parseFloat( orderTablet ) : '' }
+															value={ orderTablet ? orderTablet : '' }
 															onChange={ ( value ) => {
 																setAttributes( {
 																	orderTablet: parseFloat( value )
@@ -518,10 +518,10 @@ class FlexBlockContainer extends Component {
 
 														<RangeControl
 															className={ 'fx-column-width-control' }
-															value={ parseFloat( widthMobile ) }
+															value={ widthMobile }
 															onChange={ ( value ) => {
 																setAttributes( {
-																	widthMobile: value
+																	widthMobile: parseFloat( value )
 																} );
 															} }
 															min={ 10.00 }
@@ -558,7 +558,7 @@ class FlexBlockContainer extends Component {
 														<TextControl
 															type={ 'number' }
 															label={ __( 'Order', 'flexblocks' ) }
-															value={ orderMobile ? parseFloat( orderMobile ) : '' }
+															value={ orderMobile ? orderMobile : '' }
 															onChange={ ( value ) => {
 																setAttributes( {
 																	orderMobile: parseFloat( value )
@@ -635,7 +635,7 @@ class FlexBlockContainer extends Component {
 
 													<TextControl
 														type={ 'number' }
-														value={ minHeight ? parseFloat( minHeight ) : '' }
+														value={ minHeight ? minHeight : '' }
 														onChange={ ( value ) => {
 															setAttributes( {
 																minHeight: parseFloat( value )
@@ -747,7 +747,7 @@ class FlexBlockContainer extends Component {
 
 													<TextControl
 														type={ 'number' }
-														value={ minHeightTablet ? parseFloat( minHeightTablet ) : '' }
+														value={ minHeightTablet ? minHeightTablet : '' }
 														onChange={ ( value ) => {
 															setAttributes( {
 																minHeightTablet: parseFloat( value )
@@ -859,7 +859,7 @@ class FlexBlockContainer extends Component {
 
 													<TextControl
 														type={ 'number' }
-														value={ minHeightMobile ? parseFloat( minHeightMobile ) : '' }
+														value={ minHeightMobile ? minHeightMobile : '' }
 														onChange={ ( value ) => {
 															setAttributes( {
 																minHeightMobile: parseFloat( value )
@@ -1293,9 +1293,9 @@ class FlexBlockContainer extends Component {
 					<RangeControl
 						label={ __( 'z-index', 'flexblocks' ) }
 						value={ zindex }
-						onChange={ ( nextSpacing ) => {
+						onChange={ ( value ) => {
 							setAttributes( {
-								zindex: nextSpacing
+								zindex: parseFloat( value )
 							} );
 						} }
 						min={ -200 }
