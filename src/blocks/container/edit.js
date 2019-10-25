@@ -7,6 +7,7 @@ import ColorPicker from '../../components/color-picker';
 import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
+import GradientControl from '../../components/gradient/';
 
 const { __, _x } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -1044,90 +1045,22 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Background Gradient' ) }
 						initialOpen={ false }
 					>
-						<ToggleControl
-							label={ __( 'Use Gradient', 'flexblocks' ) }
-							checked={ !! gradient }
-							onChange={ ( value ) => {
-								setAttributes( {
-									gradient: value
-								} );
-							} }
+						<GradientControl { ...this.props }
+							valueGradient={ gradient }
+							valueGradientDirection={ gradientDirection }
+							valueGradientColorOne={ gradientColorOne }
+							valueGradientColorStopOne={ gradientColorStopOne }
+							valueGradientColorTwo={ gradientColorTwo }
+							valueGradientColorStopTwo={ gradientColorStopTwo }
+							attrGradient={ 'gradient' }
+							attrGradientDirection={ 'gradientDirection' }
+							attrGradientColorOne={ 'gradientColorOne' }
+							attrGradientColorStopOne={ 'gradientColorStopOne' }
+							attrGradientColorTwo={ 'gradientColorTwo' }
+							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+							defaultColorOne={ flexBlocksDefaults.container.gradientColorOne }
+							defaultColorTwo={ flexBlocksDefaults.container.gradientColorTwo }
 						/>
-
-						{ !! gradient && (
-							<Fragment>
-								<TextControl
-									type={ 'text' }
-									label={ __( 'Direction', 'flexblocks' ) }
-									value={ gradientDirection }
-									onChange={ ( value ) => {
-										setAttributes( {
-											gradientDirection: value
-										} );
-									} }
-								/>
-
-								<ColorPicker
-									label={ __( 'Color One', 'flexblocks' ) }
-									value={ gradientColorOne }
-									onChange={ ( value ) =>
-										setAttributes( {
-											gradientColorOne: value
-										} )
-									}
-									onClear={ () =>
-										setAttributes( {
-											gradientColorOne: flexBlocksDefaults.container.gradientColorOne
-										} )
-									}
-									alpha={ true }
-								/>
-
-								<RangeControl
-									value={ gradientColorStopOne ? gradientColorStopOne : '' }
-									onChange={ ( value ) => {
-										setAttributes( {
-											gradientColorStopOne: parseFloat( value )
-										} );
-									} }
-									min={ 0 }
-									max={ 100 }
-									step={ 1 }
-									allowReset={ true }
-									initialPosition={ flexBlocksDefaults.container.gradientColorStopOne }
-								/>
-
-								<ColorPicker
-									label={ __( 'Color Two', 'flexblocks' ) }
-									value={ gradientColorTwo }
-									onChange={ ( value ) =>
-										setAttributes( {
-											gradientColorTwo: value
-										} )
-									}
-									onClear={ () =>
-										setAttributes( {
-											gradientColorTwo: flexBlocksDefaults.container.gradientColorTwo
-										} )
-									}
-									alpha={ true }
-								/>
-
-								<RangeControl
-									value={ gradientColorStopTwo ? gradientColorStopTwo : '' }
-									onChange={ ( value ) => {
-										setAttributes( {
-											gradientColorStopTwo: parseFloat( value )
-										} );
-									} }
-									min={ 0 }
-									max={ 100 }
-									step={ 1 }
-									allowReset={ true }
-									initialPosition={ flexBlocksDefaults.container.gradientColorStopTwo }
-								/>
-							</Fragment>
-						) }
 					</PanelBody>
 
 					<PanelBody
