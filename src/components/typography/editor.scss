@@ -38,6 +38,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+	.components-base-control {
+		margin-bottom: 0;
+	}
 }
 
 .edit-post-settings-sidebar__panel-block .components-panel__body .components-fx-typography-control__inputs .components-base-control,
