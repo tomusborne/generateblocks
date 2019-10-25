@@ -331,4 +331,28 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.button.borderRadiusTopLeftMobile,
 	},
+	gradient: {
+		type: 'boolean',
+		default: flexBlocksDefaults.button.gradient,
+	},
+	gradientDirection: {
+		type: 'string',
+		default: flexBlocksDefaults.button.gradientDirection,
+	},
+	gradientColorOne: {
+		type: 'string',
+		default: flexBlocksDefaults.button.gradientColorOne,
+	},
+	gradientColorStopOne: {
+		type: 'number',
+		default: flexBlocksDefaults.button.gradientColorStopOne,
+	},
+	gradientColorTwo: {
+		type: 'string',
+		default: flexBlocksDefaults.button.gradientColorTwo,
+	},
+	gradientColorStopTwo: {
+		type: 'number',
+		default: flexBlocksDefaults.button.gradientColorStopTwo,
+	},
 }

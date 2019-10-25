@@ -8,6 +8,7 @@ import IconPicker from '../../components/icon-picker';
 import URLInput from '../../components/url-input';
 import DimensionsControl from '../../components/dimensions/';
 import TypographyControls from '../../components/typography';
+import GradientControl from '../../components/gradient/';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -153,11 +154,34 @@ class FlexBlockButton extends Component {
 			borderRadiusTopLeftMobile,
 			borderColor,
 			borderColorHover,
+			gradient,
+			gradientDirection,
+			gradientColorOne,
+			gradientColorStopOne,
+			gradientColorTwo,
+			gradientColorStopTwo,
 		} = attributes;
 
 		let borderStyleValue = '',
 			iconMargin = 'margin-right: 0.5em;',
-			fontFamilyFallbackValue = '';
+			fontFamilyFallbackValue = '',
+			backgroundImageValue,
+			gradientColorStopOneValue = '',
+			gradientColorStopTwoValue = '';
+
+		if ( gradient ) {
+			if ( gradientColorOne && '' !== gradientColorStopOne ) {
+				gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
+			}
+
+			if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
+				gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
+			}
+		}
+
+		if ( gradient ) {
+			backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + ');';
+		}
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			borderStyleValue = 'solid';
@@ -178,6 +202,7 @@ class FlexBlockButton extends Component {
 		const css = `
 			.editor-block-list__block a.fx-button-` + uniqueId + ` {
 				background-color: ` + backgroundColor + `;
+				background-image: ` + backgroundImageValue + `;
 				color: ` + textColor + `;
 				padding-top: ` + paddingTop + paddingUnit + `;
 				padding-right: ` + paddingRight + paddingUnit + `;
@@ -730,6 +755,28 @@ class FlexBlockButton extends Component {
 								}
 							}
 						</TabPanel>
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Background Gradient' ) }
+						initialOpen={ false }
+					>
+						<GradientControl { ...this.props }
+							valueGradient={ gradient }
+							valueGradientDirection={ gradientDirection }
+							valueGradientColorOne={ gradientColorOne }
+							valueGradientColorStopOne={ gradientColorStopOne }
+							valueGradientColorTwo={ gradientColorTwo }
+							valueGradientColorStopTwo={ gradientColorStopTwo }
+							attrGradient={ 'gradient' }
+							attrGradientDirection={ 'gradientDirection' }
+							attrGradientColorOne={ 'gradientColorOne' }
+							attrGradientColorStopOne={ 'gradientColorStopOne' }
+							attrGradientColorTwo={ 'gradientColorTwo' }
+							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+							defaultColorOne={ flexBlocksDefaults.button.gradientColorOne }
+							defaultColorTwo={ flexBlocksDefaults.button.gradientColorTwo }
+						/>
 					</PanelBody>
 
 					<PanelBody
