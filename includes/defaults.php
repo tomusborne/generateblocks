@@ -217,6 +217,12 @@ function flexblocks_get_block_defaults() {
 		'iconLocation' => 'left',
 		'removeText' => false,
 		'ariaLabel' => '',
+		'gradient' => false,
+		'gradientDirection' => '90deg',
+		'gradientColorOne' => '',
+		'gradientColorStopOne' => '',
+		'gradientColorTwo' => '',
+		'gradientColorStopTwo' => '',
 	);
 
 	$defaults['gridContainer'] = array(

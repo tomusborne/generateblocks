@@ -460,8 +460,26 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
 			}
 
+			$gradientColorStopOneValue = '';
+			$gradientColorStopTwoValue = '';
+
+			if ( $settings['gradient'] ) {
+				if ( $settings['gradientColorOne'] && '' !== $settings['gradientColorStopOne'] ) {
+					$gradientColorStopOneValue = ' ' . $settings['gradientColorStopOne'] . '%';
+				}
+
+				if ( $settings['gradientColorTwo'] && '' !== $settings['gradientColorStopTwo'] ) {
+					$gradientColorStopTwoValue = ' ' . $settings['gradientColorStopTwo'] . '%';
+				}
+			}
+
 			$css->set_selector( 'a.fx-button-' . $id );
 			$css->add_property( 'background-color', $settings['backgroundColor'] );
+
+			if ( $settings['gradient'] ) {
+				$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . ')' );
+			}
+
 			$css->add_property( 'color', $settings['textColor'] );
 			$css->add_property( 'font-family', $fontFamily );
 			$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
