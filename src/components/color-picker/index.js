@@ -42,7 +42,7 @@ export default class ColorPicker extends Component {
 								className="components-color-palette__item"
 								onClick={ onToggle }
 								aria-label={ __( 'Custom color picker' ) }
-								style={ { color: value ? value : '' } }
+								style={ { background: value ? value : '' } }
 							>
 								<span className="components-color-palette__custom-color-gradient" />
 							</button>
