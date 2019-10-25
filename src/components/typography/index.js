@@ -62,6 +62,11 @@ class TypographyControls extends Component {
 			attrLetterSpacing,
 			valueLetterSpacingUnit,
 			attrLetterSpacingUnit,
+			defaultFontSize,
+			defaultFontSizeUnit,
+			defaultLineHeight,
+			defaultLineHeightUnit,
+			defaultLetterSpacing,
 			uniqueId,
 		} = this.props;
 
@@ -374,8 +379,8 @@ class TypographyControls extends Component {
 								isSmall
 								onClick={ () => {
 									setAttributes( {
-										[ this.props[ 'attrFontSize' ] ]: flexBlocksDefaults.headline.fontSize,
-										[ this.props[ 'attrFontSizeUnit' ] ]: flexBlocksDefaults.headline.fontSizeUnit
+										[ this.props[ 'attrFontSize' ] ]: this.props.defaultFontSize,
+										[ this.props[ 'attrFontSizeUnit' ] ]: this.props.defaultFontSizeUnit,
 									} )
 								} }
 							>
@@ -432,8 +437,8 @@ class TypographyControls extends Component {
 								isSmall
 								onClick={ () => {
 									setAttributes( {
-										[ this.props[ 'attrLineHeight' ] ]: flexBlocksDefaults.headline.lineHeight,
-										[ this.props[ 'attrLineHeightUnit' ] ]: flexBlocksDefaults.headline.lineHeightUnit
+										[ this.props[ 'attrLineHeight' ] ]: this.props.defaultLineHeight,
+										[ this.props[ 'attrLineHeightUnit' ] ]: this.props.defaultLineHeightUnit,
 									} )
 								} }
 							>
@@ -466,7 +471,7 @@ class TypographyControls extends Component {
 								isSmall
 								onClick={ () => {
 									setAttributes( {
-										[ this.props[ 'attrLetterSpacing' ] ]: flexBlocksDefaults.headline.letterSpacing
+										[ this.props[ 'attrLetterSpacing' ] ]: this.props.defaultLetterSpacing
 									} )
 								} }
 							>

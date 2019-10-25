@@ -351,6 +351,11 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeight' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
+														defaultFontSize={ flexBlocksDefaults.headline.fontSize }
+														defaultFontSizeUnit={ flexBlocksDefaults.headline.fontSizeUnit }
+														defaultLineHeight={ flexBlocksDefaults.headline.lineHeight }
+														defaultLineHeightUnit={ flexBlocksDefaults.headline.lineHeightUnit }
+														defaultLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -377,6 +382,11 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeightTablet' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
+														defaultFontSize={ flexBlocksDefaults.headline.fontSizeTablet }
+														defaultFontSizeUnit={ flexBlocksDefaults.headline.fontSizeUnit }
+														defaultLineHeight={ flexBlocksDefaults.headline.lineHeightTablet }
+														defaultLineHeightUnit={ flexBlocksDefaults.headline.lineHeightUnit }
+														defaultLetterSpacing={ flexBlocksDefaults.headline.letterSpacingTablet }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -403,6 +413,11 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeightMobile' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
+														defaultFontSize={ flexBlocksDefaults.headline.fontSizeMobile }
+														defaultFontSizeUnit={ flexBlocksDefaults.headline.fontSizeUnit }
+														defaultLineHeight={ flexBlocksDefaults.headline.lineHeightMobile }
+														defaultLineHeightUnit={ flexBlocksDefaults.headline.lineHeightUnit }
+														defaultLetterSpacing={ flexBlocksDefaults.headline.letterSpacingMobile }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>

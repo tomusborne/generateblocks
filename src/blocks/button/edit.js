@@ -276,6 +276,9 @@ class FlexBlockButton extends Component {
 														attrFontSize={ 'fontSize' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
+														defaultFontSize={ flexBlocksDefaults.button.fontSize }
+														defaultFontSizeUnit={ flexBlocksDefaults.button.fontSizeUnit }
+														defaultLetterSpacing={ flexBlocksDefaults.button.letterSpacing }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -290,6 +293,9 @@ class FlexBlockButton extends Component {
 														attrFontSize={ 'fontSizeTablet' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
+														defaultFontSize={ flexBlocksDefaults.button.fontSizeTablet }
+														defaultFontSizeUnit={ flexBlocksDefaults.button.fontSizeUnit }
+														defaultLetterSpacing={ flexBlocksDefaults.button.letterSpacingTablet }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -304,6 +310,9 @@ class FlexBlockButton extends Component {
 														attrFontSize={ 'fontSizeMobile' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
+														defaultFontSize={ flexBlocksDefaults.button.fontSizeMobile }
+														defaultFontSizeUnit={ flexBlocksDefaults.button.fontSizeUnit }
+														defaultLetterSpacing={ flexBlocksDefaults.button.letterSpacingMobile }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
