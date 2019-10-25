@@ -339,7 +339,9 @@ body .fx-container .wp-block {
       background-image: -o-linear-gradient(45deg, #ddd 25%, transparent 0), -o-linear-gradient(135deg, #ddd 25%, transparent 0), -o-linear-gradient(45deg, transparent 75%, #ddd 0), -o-linear-gradient(135deg, transparent 75%, #ddd 0);
       background-image: linear-gradient(45deg, #ddd 25%, transparent 0), linear-gradient(-45deg, #ddd 25%, transparent 0), linear-gradient(45deg, transparent 75%, #ddd 0), linear-gradient(-45deg, transparent 75%, #ddd 0);
       background-position: 0 0, 0 5px, 5px -5px, -5px 0;
-      background-size: 10px 10px; }
+      background-size: 10px 10px;
+      width: 25px;
+      height: 25px; }
 
 .fx-component-color-picker .fx-component-color-picker-palette {
   margin: 0 17px; }
@@ -441,6 +443,32 @@ body .fx-container .wp-block {
 
 .components-fx-dimensions-control__inputs + .components-fx-dimensions-control__header {
   margin-top: 25px; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+.fx-notice {
+  margin-bottom: 20px; }
+
+.fx-component-gradient-control {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: justify;
+      justify-content: space-between; }
+  .fx-component-gradient-control .components-base-control {
+    margin-bottom: 0 !important; }
+    .fx-component-gradient-control .components-base-control .components-base-control__field {
+      margin-bottom: 0; }
+  .fx-component-gradient-control .fx-component-color-picker-wrapper .components-base-control__field {
+    margin-top: 0; }
+
+.fx-component-gradient-stop-value {
+  width: calc(100% - 30px); }
 /**
  * #.# Common SCSS
  *
@@ -779,6 +807,8 @@ body .fx-container .wp-block {
       align-items: center;
   -ms-flex-pack: justify;
       justify-content: space-between; }
+  .components-fx-typography-control__inputs .components-base-control {
+    margin-bottom: 0; }
 
 .edit-post-settings-sidebar__panel-block .components-panel__body .components-fx-typography-control__inputs .components-base-control,
 .components-fx-typography-control__inputs .components-base-control .components-base-control__field {
