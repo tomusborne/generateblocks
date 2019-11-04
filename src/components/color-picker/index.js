@@ -32,17 +32,17 @@ export default class ColorPicker extends Component {
 				className="fx-component-color-picker-wrapper"
 			>
 				<Dropdown
-					className={ classnames( 'components-color-palette__item-wrapper', value ? '' : 'components-color-palette__custom-color' ) }
+					className={ classnames( 'components-color-palette__item-wrapper components-circular-option-picker__option-wrapper', value ? '' : 'components-color-palette__custom-color' ) }
 					contentClassName="components-color-palette__picker"
 					renderToggle={ ( { isOpen, onToggle } ) => (
 						<Tooltip text={ __( 'Choose Color', 'flexblocks' ) }>
 							<button
 								type="button"
 								aria-expanded={ isOpen }
-								className="components-color-palette__item"
+								className="components-color-palette__item components-circular-option-picker__option"
 								onClick={ onToggle }
 								aria-label={ __( 'Custom color picker' ) }
-								style={ { background: value ? value : '' } }
+								style={ { color: value ? value : '' } }
 							>
 								<span className="components-color-palette__custom-color-gradient" />
 							</button>

@@ -334,14 +334,6 @@ body .fx-container .wp-block {
   margin-top: 16px; }
   .fx-component-color-picker-wrapper > .components-base-control__field .components-color-palette__item-wrapper {
     margin: 0; }
-    .fx-component-color-picker-wrapper > .components-base-control__field .components-color-palette__item-wrapper > .components-color-palette__item {
-      background-image: -webkit-linear-gradient(45deg, #ddd 25%, transparent 0), -webkit-linear-gradient(135deg, #ddd 25%, transparent 0), -webkit-linear-gradient(45deg, transparent 75%, #ddd 0), -webkit-linear-gradient(135deg, transparent 75%, #ddd 0);
-      background-image: -o-linear-gradient(45deg, #ddd 25%, transparent 0), -o-linear-gradient(135deg, #ddd 25%, transparent 0), -o-linear-gradient(45deg, transparent 75%, #ddd 0), -o-linear-gradient(135deg, transparent 75%, #ddd 0);
-      background-image: linear-gradient(45deg, #ddd 25%, transparent 0), linear-gradient(-45deg, #ddd 25%, transparent 0), linear-gradient(45deg, transparent 75%, #ddd 0), linear-gradient(-45deg, transparent 75%, #ddd 0);
-      background-position: 0 0, 0 5px, 5px -5px, -5px 0;
-      background-size: 10px 10px;
-      width: 25px;
-      height: 25px; }
 
 .fx-component-color-picker .fx-component-color-picker-palette {
   margin: 0 17px; }
