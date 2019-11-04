@@ -595,17 +595,17 @@ class FlexBlockButton extends Component {
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
 															label={ __( 'Border Radius', 'flexblocks' ) }
-															valueTop={ borderRadiusTopRightMobile }
-															valueRight={ borderRadiusBottomRightMobile }
-															valueBottom={ borderRadiusBottomLeftMobile }
-															valueLeft={ borderRadiusTopLeftMobile }
+															valueTop={ borderRadiusTopLeftMobile }
+															valueRight={ borderRadiusTopRightMobile }
+															valueBottom={ borderRadiusBottomRightMobile }
+															valueLeft={ borderRadiusBottomLeftMobile }
 															valueUnit={ borderRadiusUnit }
 															syncUnits={ borderRadiusSyncUnits }
-															attrTop={ 'borderRadiusTopRightMobile' }
-															attrRight={ 'borderRadiusBottomRightMobile' }
-															attrBottom={ 'borderRadiusBottomLeftMobile' }
-															attrLeft={ 'borderRadiusTopLeftMobile' }
-															attrUnit={ 'borderRadiusUnit' }
+															attrTop={ 'borderRadiusTopLeftMobile' }
+															attrRight={ 'borderRadiusTopRightMobile' }
+															attrBottom={ 'borderRadiusBottomRightMobile' }
+															attrLeft={ 'borderRadiusBottomLeftMobile' }
+															valueUnit={ 'borderRadiusUnit' }
 															attrSyncUnits={ 'borderRadiusSyncUnits' }
 															labelTop={ __( 'T-Left', 'flexblocks' ) }
 															labelRight={ __( 'T-Right', 'flexblocks' ) }

@@ -540,7 +540,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 				$css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
-				$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'], $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusUnit'] ) );
+				$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'], $settings['borderRadiusUnit'] ) );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 				$css->add_property( 'border-width', flexblocks_get_shorthand_css( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'], 'px' ) );
 			$css->stop_media_query();
@@ -550,7 +550,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 				$css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
-				$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'], $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusUnit'] ) );
+				$css->add_property( 'border-radius', flexblocks_get_shorthand_css( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'], $settings['borderRadiusUnit'] ) );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$css->add_property( 'border-width', flexblocks_get_shorthand_css( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'], 'px' ) );
 			$css->stop_media_query();
