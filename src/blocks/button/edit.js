@@ -243,7 +243,7 @@ class FlexBlockButton extends Component {
 			}
 		`
 
-		$( '.fx-button' ).on( 'click', function( e ) {
+		jQuery( '.fx-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 		} );
 
