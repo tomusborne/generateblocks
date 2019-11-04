@@ -101,6 +101,9 @@ class FlexButtonContainer extends Component {
 			stack,
 			stackTablet,
 			stackMobile,
+			fillHorizontalSpace,
+			fillHorizontalSpaceTablet,
+			fillHorizontalSpaceMobile,
 		} = attributes;
 
 		let flexAlignment = '',
@@ -215,6 +218,16 @@ class FlexButtonContainer extends Component {
 															} );
 														} }
 													/>
+
+													<ToggleControl
+														label={ __( 'Fill Horizontal Space', 'flexblocks' ) }
+														checked={ !! fillHorizontalSpace }
+														onChange={ ( value ) => {
+															setAttributes( {
+																fillHorizontalSpace: value
+															} );
+														} }
+													/>
 												</Fragment>
 
 											) : '' }
@@ -255,6 +268,16 @@ class FlexButtonContainer extends Component {
 															} );
 														} }
 													/>
+
+													<ToggleControl
+														label={ __( 'Fill Horizontal Space', 'flexblocks' ) }
+														checked={ !! fillHorizontalSpaceTablet }
+														onChange={ ( value ) => {
+															setAttributes( {
+																fillHorizontalSpaceTablet: value
+															} );
+														} }
+													/>
 												</Fragment>
 											) : '' }
 
@@ -291,6 +314,16 @@ class FlexButtonContainer extends Component {
 														onChange={ ( value ) => {
 															setAttributes( {
 																stackMobile: value
+															} );
+														} }
+													/>
+
+													<ToggleControl
+														label={ __( 'Fill Horizontal Space', 'flexblocks' ) }
+														checked={ !! fillHorizontalSpaceMobile }
+														onChange={ ( value ) => {
+															setAttributes( {
+																fillHorizontalSpaceMobile: value
 															} );
 														} }
 													/>

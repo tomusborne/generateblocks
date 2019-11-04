@@ -141,6 +141,9 @@ function flexblocks_get_block_defaults() {
 		'stack' => false,
 		'stackTablet' => false,
 		'stackMobile' => false,
+		'fillHorizontalSpace' => false,
+		'fillHorizontalSpaceTablet' => false,
+		'fillHorizontalSpaceMobile' => false,
 	);
 
 	$defaults['button'] = array(

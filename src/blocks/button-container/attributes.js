@@ -77,14 +77,26 @@ export default {
 	},
 	stack: {
 		type: 'boolean',
-		default: flexBlocksDefaults.button.stack,
+		default: flexBlocksDefaults.buttonContainer.stack,
 	},
 	stackTablet: {
 		type: 'boolean',
-		default: flexBlocksDefaults.button.stackTablet,
+		default: flexBlocksDefaults.buttonContainer.stackTablet,
 	},
 	stackMobile: {
 		type: 'boolean',
-		default: flexBlocksDefaults.button.stackMobile,
+		default: flexBlocksDefaults.buttonContainer.stackMobile,
+	},
+	fillHorizontalSpace: {
+		type: 'boolean',
+		default: flexBlocksDefaults.buttonContainer.fillHorizontalSpace,
+	},
+	fillHorizontalSpaceTablet: {
+		type: 'boolean',
+		default: flexBlocksDefaults.buttonContainer.fillHorizontalSpaceTablet,
+	},
+	fillHorizontalSpaceMobile: {
+		type: 'boolean',
+		default: flexBlocksDefaults.buttonContainer.fillHorizontalSpaceMobile,
 	},
 }

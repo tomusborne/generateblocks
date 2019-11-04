@@ -387,6 +387,11 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'align-items', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
 			}
 
+			if ( $settings['fillHorizontalSpace'] ) {
+				$css->set_selector( '.fx-button-wrapper-' . $id . ' > a' );
+				$css->add_property( 'flex', '1' );
+			}
+
 			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
 				$css->set_selector( '.fx-button-wrapper-' . $id );
 				$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
@@ -395,6 +400,11 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				if ( $settings['stackTablet'] ) {
 					$css->add_property( 'flex-direction', 'column' );
 					$css->add_property( 'align-items', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+				}
+
+				if ( $settings['fillHorizontalSpaceTablet'] ) {
+					$css->set_selector( '.fx-button-wrapper-' . $id . ' > a' );
+					$css->add_property( 'flex', '1' );
 				}
 			$css->stop_media_query();
 
@@ -407,6 +417,11 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				if ( $settings['stackMobile'] ) {
 					$css->add_property( 'flex-direction', 'column' );
 					$css->add_property( 'align-items', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+				}
+
+				if ( $settings['fillHorizontalSpaceMobile'] ) {
+					$css->set_selector( '.fx-button-wrapper-' . $id . ' > a' );
+					$css->add_property( 'flex', '1' );
 				}
 			$css->stop_media_query();
 		}
