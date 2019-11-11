@@ -3,6 +3,7 @@
  */
 
 import classnames from 'classnames';
+import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -495,24 +496,28 @@ class FlexBlockGridContainer extends Component {
 							}
 						</TabPanel>
 					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Advanced', 'flexblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'advanced' ) }
+					>
+						<TextControl
+							label={ __( 'Element ID', 'flexblocks' ) }
+							value={ elementId }
+							onChange={ ( elementId ) => {
+								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+								setAttributes( { elementId } );
+							} }
+						/>
+
+						<TextControl
+							label={ __( 'CSS Classes', 'flexblocks' ) }
+							value={ cssClasses }
+							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+						/>
+					</PanelBody>
 				</InspectorControls>
-
-				<InspectorAdvancedControls>
-					<TextControl
-						label={ __( 'Element ID', 'flexblocks' ) }
-						value={ elementId }
-						onChange={ ( elementId ) => {
-							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-							setAttributes( { elementId } );
-						} }
-					/>
-
-					<TextControl
-						label={ __( 'CSS Classes', 'flexblocks' ) }
-						value={ cssClasses }
-						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-					/>
-				</InspectorAdvancedControls>
 
 				<style>{ css }</style>
 

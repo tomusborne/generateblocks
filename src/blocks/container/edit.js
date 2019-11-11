@@ -956,6 +956,7 @@ class FlexBlockContainer extends Component {
 					<PanelBody
 						title={ __( 'Colors', 'flexblocks' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'colors' ) }
 					>
 
 						<Fragment>
@@ -1044,6 +1045,7 @@ class FlexBlockContainer extends Component {
 					<PanelBody
 						title={ __( 'Background Gradient' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'gradients' ) }
 					>
 						<GradientControl { ...this.props }
 							valueGradient={ gradient }
@@ -1066,6 +1068,7 @@ class FlexBlockContainer extends Component {
 					<PanelBody
 						title={ __( 'Background Image' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'backgrounds' ) }
 					>
 						{ ! bgImage && (
 							<div>
@@ -1199,49 +1202,53 @@ class FlexBlockContainer extends Component {
 							</div>
 						) }
 					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Advanced', 'flexblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'advanced' ) }
+					>
+						<SelectControl
+							label={ __( 'Element Tag', 'flexblocks' ) }
+							value={ tagName }
+							options={ [
+								{ label: 'div', value: 'div' },
+								{ label: 'section', value: 'section' },
+								{ label: 'header', value: 'header' },
+								{ label: 'footer', value: 'footer' },
+							] }
+							onChange={ ( tagName ) => { setAttributes( { tagName } ) } }
+						/>
+
+						<TextControl
+							label={ __( 'Element ID', 'flexblocks' ) }
+							value={ elementId }
+							onChange={ ( elementId ) => {
+								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+								setAttributes( { elementId } );
+							} }
+						/>
+
+						<TextControl
+							label={ __( 'CSS Classes', 'flexblocks' ) }
+							value={ cssClasses }
+							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+						/>
+
+						<RangeControl
+							label={ __( 'z-index', 'flexblocks' ) }
+							value={ zindex }
+							onChange={ ( value ) => {
+								setAttributes( {
+									zindex: parseFloat( value )
+								} );
+							} }
+							min={ -200 }
+							max={ 200 }
+							step={ 10 }
+						/>
+					</PanelBody>
 				</InspectorControls>
-
-				<InspectorAdvancedControls>
-					<SelectControl
-						label={ __( 'Element Tag', 'flexblocks' ) }
-						value={ tagName }
-						options={ [
-							{ label: 'div', value: 'div' },
-							{ label: 'section', value: 'section' },
-							{ label: 'header', value: 'header' },
-							{ label: 'footer', value: 'footer' },
-						] }
-						onChange={ ( tagName ) => { setAttributes( { tagName } ) } }
-					/>
-
-					<TextControl
-						label={ __( 'Element ID', 'flexblocks' ) }
-						value={ elementId }
-						onChange={ ( elementId ) => {
-							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-							setAttributes( { elementId } );
-						} }
-					/>
-
-					<TextControl
-						label={ __( 'CSS Classes', 'flexblocks' ) }
-						value={ cssClasses }
-						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-					/>
-
-					<RangeControl
-						label={ __( 'z-index', 'flexblocks' ) }
-						value={ zindex }
-						onChange={ ( value ) => {
-							setAttributes( {
-								zindex: parseFloat( value )
-							} );
-						} }
-						min={ -200 }
-						max={ 200 }
-						step={ 10 }
-					/>
-				</InspectorAdvancedControls>
 
 				<style>{ css }</style>
 

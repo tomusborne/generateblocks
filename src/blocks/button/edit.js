@@ -9,6 +9,7 @@ import URLInput from '../../components/url-input';
 import DimensionsControl from '../../components/dimensions/';
 import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
+import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -258,6 +259,7 @@ class FlexBlockButton extends Component {
 					<PanelBody
 						title={ __( 'Typography', 'flexblocks' ) }
 						initialOpen={ true }
+						icon={ getIcon( 'typography' ) }
 						>
 						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
@@ -352,6 +354,7 @@ class FlexBlockButton extends Component {
 					<PanelBody
 						title={ __( 'Spacing', 'flexblocks' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'spacing' ) }
 						>
 						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
@@ -625,6 +628,7 @@ class FlexBlockButton extends Component {
 					<PanelBody
 						title={ __( 'Colors', 'flexblocks' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'colors' ) }
 						>
 
 						<TabPanel className="layout-tab-panel flexblocks-control-tabs"
@@ -760,6 +764,7 @@ class FlexBlockButton extends Component {
 					<PanelBody
 						title={ __( 'Background Gradient' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'gradients' ) }
 					>
 						<GradientControl { ...this.props }
 							valueGradient={ gradient }
@@ -782,6 +787,7 @@ class FlexBlockButton extends Component {
 					<PanelBody
 						title={ __( 'Icon', 'flexblocks' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'icons' ) }
 						>
 
 						<IconPicker { ...this.props }
@@ -801,24 +807,28 @@ class FlexBlockButton extends Component {
 							attrAriaLabel={ 'ariaLabel' }
 						/>
 					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Advanced', 'flexblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'advanced' ) }
+					>
+						<TextControl
+							label={ __( 'Element ID', 'flexblocks' ) }
+							value={ elementId }
+							onChange={ ( elementId ) => {
+								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+								setAttributes( { elementId } );
+							} }
+						/>
+
+						<TextControl
+							label={ __( 'CSS Classes', 'flexblocks' ) }
+							value={ cssClasses }
+							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+						/>
+					</PanelBody>
 				</InspectorControls>
-
-				<InspectorAdvancedControls>
-					<TextControl
-						label={ __( 'Element ID', 'flexblocks' ) }
-						value={ elementId }
-						onChange={ ( elementId ) => {
-							elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-							setAttributes( { elementId } );
-						} }
-					/>
-
-					<TextControl
-						label={ __( 'CSS Classes', 'flexblocks' ) }
-						value={ cssClasses }
-						onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-					/>
-				</InspectorAdvancedControls>
 
 				<style>{ css }</style>
 
