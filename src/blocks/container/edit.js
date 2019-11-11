@@ -968,11 +968,6 @@ class FlexBlockContainer extends Component {
 										backgroundColor: nextBackgroundColor
 									} )
 								}
-								onClear={ () =>
-									setAttributes( {
-										backgroundColor: flexBlocksDefaults.container.backgroundColor
-									} )
-								}
 								alpha={ true }
 							/>
 
@@ -982,11 +977,6 @@ class FlexBlockContainer extends Component {
 								onChange={ ( nextTextColor ) =>
 									setAttributes( {
 										textColor: nextTextColor
-									} )
-								}
-								onClear={ () =>
-									setAttributes( {
-										textColor: flexBlocksDefaults.container.textColor
 									} )
 								}
 								alpha={ false }
@@ -1000,11 +990,6 @@ class FlexBlockContainer extends Component {
 										linkColor: nextLinkColor
 									} )
 								}
-								onClear={ () =>
-									setAttributes( {
-										linkColor: flexBlocksDefaults.container.linkColor
-									} )
-								}
 								alpha={ false }
 							/>
 
@@ -1016,11 +1001,6 @@ class FlexBlockContainer extends Component {
 										linkColorHover: nextLinkColorHover
 									} )
 								}
-								onClear={ () =>
-									setAttributes( {
-										linkColorHover: flexBlocksDefaults.container.linkColorHover
-									} )
-								}
 								alpha={ false }
 							/>
 
@@ -1030,11 +1010,6 @@ class FlexBlockContainer extends Component {
 								onChange={ ( value ) =>
 									setAttributes( {
 										borderColor: value
-									} )
-								}
-								onClear={ () =>
-									setAttributes( {
-										borderColor: flexBlocksDefaults.container.borderColor
 									} )
 								}
 								alpha={ true }

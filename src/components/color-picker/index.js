@@ -16,12 +16,15 @@ const {
 	Button,
 } = wp.components;
 
+const {
+    ColorPalette,
+} = wp.blockEditor;
+
 export default class ColorPicker extends Component {
 	render() {
 		const {
 			value,
 			onChange,
-			onClear,
 			label,
 			alpha = false,
 		} = this.props;
@@ -67,14 +70,16 @@ export default class ColorPicker extends Component {
 								disableAlpha={ ! alpha }
 							/>
 
-							<BaseControl className="color-picker-clear">
-								<Button
-									isLarge
-									onClick={ onClear }
-								>
-									{ __( 'Clear', 'flexblocks' ) }
-								</Button>
-							</BaseControl>
+							<BaseControl
+                                label={ __( 'Color Palette', 'flexblocks' ) }
+                                className="fx-component-color-picker-palette"
+                            >
+                                <ColorPalette
+                                    value={ value }
+                                    onChange={ ( color ) => onChange( color ) }
+                                    disableCustomColors={ true }
+                                />
+                            </BaseControl>
 						</div>
 					) }
 				/>
