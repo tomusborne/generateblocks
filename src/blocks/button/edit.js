@@ -376,7 +376,7 @@ class FlexBlockButton extends Component {
 								( tab ) => {
 									return (
 										<div>
-											{ 'grid-default' === tab.name ? (
+											{ 'grid-default' === tab.name && (
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
@@ -449,9 +449,9 @@ class FlexBlockButton extends Component {
 														labelLeft={ __( 'B-Left', 'flexblocks' ) }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'grid-tablet' === tab.name ? (
+											{ 'grid-tablet' === tab.name && (
 												<Fragment>
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
@@ -532,9 +532,9 @@ class FlexBlockButton extends Component {
 														/>
 													</BaseControl>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'grid-mobile' === tab.name ? (
+											{ 'grid-mobile' === tab.name && (
 												<Fragment>
 													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
@@ -614,7 +614,7 @@ class FlexBlockButton extends Component {
 														/>
 													</BaseControl>
 												</Fragment>
-											) : '' }
+											) }
 										</div>
 									);
 								}

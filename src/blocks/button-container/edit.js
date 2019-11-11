@@ -178,11 +178,9 @@ class FlexButtonContainer extends Component {
 							] }>
 							{
 								( tab ) => {
-									const isDesktop = tab.name === 'desktop';
-
 									return (
 										<div>
-											{ 'default' === tab.name ? (
+											{ 'default' === tab.name && (
 												<Fragment>
 													<AlignmentToolbar
 														isCollapsed={ false }
@@ -230,9 +228,9 @@ class FlexButtonContainer extends Component {
 													/>
 												</Fragment>
 
-											) : '' }
+											) }
 
-											{ 'tablet' === tab.name ? (
+											{ 'tablet' === tab.name && (
 												<Fragment>
 													<AlignmentToolbar
 														isCollapsed={ false }
@@ -279,9 +277,9 @@ class FlexButtonContainer extends Component {
 														} }
 													/>
 												</Fragment>
-											) : '' }
+											) }
 
-											{ 'mobile' === tab.name ? (
+											{ 'mobile' === tab.name && (
 												<Fragment>
 													<AlignmentToolbar
 														isCollapsed={ false }
