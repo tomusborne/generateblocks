@@ -585,6 +585,7 @@ class FlexBlockContainer extends Component {
 					<PanelBody
 						title={ __( 'Spacing', 'flexblocks' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'spacing' ) }
 					>
 
 						<TabPanel className="layout-tab-panel flexblocks-control-tabs"
