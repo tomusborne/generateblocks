@@ -8,7 +8,8 @@
     margin-top: 0;
 
     .fx-button {
-		display: inline-flex;
+		display: flex;
+		justify-content: center;
 		align-items: center;
 	    padding: .75em 1em;
 	    line-height: 1em;
@@ -23,7 +24,7 @@
 
     > .editor-inner-blocks > .editor-block-list__layout {
         // we need to use inline-flex because of bug with selecting wrapper block in editor.
-        display: inline-flex;
+        display: flex;
         flex-wrap: wrap;
         align-items: flex-start;
         justify-content: flex-start;
@@ -71,6 +72,10 @@
         &:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
             box-shadow: none;
         }
+
+		svg {
+			margin-right: 0;
+		}
     }
 }
 

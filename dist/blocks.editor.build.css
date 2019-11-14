@@ -511,8 +511,10 @@ body .fx-container .wp-block {
   position: relative;
   margin-top: 0; }
   .fx-button-wrapper .fx-button {
-    display: -ms-inline-flexbox;
-    display: inline-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: center;
+        justify-content: center;
     -ms-flex-align: center;
         align-items: center;
     padding: .75em 1em;
@@ -525,8 +527,8 @@ body .fx-container .wp-block {
     .fx-button-wrapper .fx-button .editor-rich-text__tinymce {
       line-height: 1em; }
   .fx-button-wrapper > .editor-inner-blocks > .editor-block-list__layout {
-    display: -ms-inline-flexbox;
-    display: inline-flex;
+    display: -ms-flexbox;
+    display: flex;
     -ms-flex-wrap: wrap;
         flex-wrap: wrap;
     -ms-flex-align: start;
@@ -562,6 +564,8 @@ body .fx-container .wp-block {
     .fx-button-wrapper .components-icon-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
       -webkit-box-shadow: none;
               box-shadow: none; }
+    .fx-button-wrapper .components-icon-button svg {
+      margin-right: 0; }
 
 .fx-button .fx-icon {
   -ms-flex-item-align: center;

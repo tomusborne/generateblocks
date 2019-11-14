@@ -108,7 +108,8 @@ class FlexButtonContainer extends Component {
 		} = attributes;
 
 		let flexAlignment = '',
-			stacked = '';
+			stacked = '',
+			fillHorizontal = '';
 
 		if ( 'right' === alignment ) {
 			flexAlignment = 'flex-end';
@@ -129,6 +130,24 @@ class FlexButtonContainer extends Component {
 			`
 		}
 
+		if ( fillHorizontalSpace ) {
+			fillHorizontal = `
+				.fx-button-wrapper-` + uniqueId + ` {
+					display: block;
+				}
+
+				.fx-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
+					flex: 1;
+				}
+
+				.fx-button-wrapper-` + uniqueId + ` > .components-button {
+					background: #fff;
+					border: 1px solid #ddd;
+					margin-top: 10px;
+				}
+			`
+		}
+
 		const css = `
 			.fx-button-wrapper-` + uniqueId + ` {
 			  margin-top: ` + marginTop + marginUnit + `;
@@ -138,7 +157,7 @@ class FlexButtonContainer extends Component {
 			  justify-content: ` + flexAlignment + `;
 			}
 
-			` + stacked + `
+			` + stacked + fillHorizontal + `
 		`
 
 		return (
