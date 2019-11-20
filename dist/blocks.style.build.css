@@ -8,6 +8,17 @@
 .fx-notice {
   margin-bottom: 20px; }
 
+.fx-panel-label .components-panel__body-toggle.components-button {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+  -ms-flex-pack: end;
+      justify-content: flex-end; }
+
+.fx-panel-label svg.components-panel__icon {
+  margin: 0 10px 0 0; }
+
 /**
  * #.# Styles
  *
@@ -23,6 +34,17 @@
 .fx-notice {
   margin-bottom: 20px; }
 
+.fx-panel-label .components-panel__body-toggle.components-button {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+  -ms-flex-pack: end;
+      justify-content: flex-end; }
+
+.fx-panel-label svg.components-panel__icon {
+  margin: 0 10px 0 0; }
+
 /**
  * Frontend Styles
  */
@@ -35,6 +57,17 @@
 /* Colors */
 .fx-notice {
   margin-bottom: 20px; }
+
+.fx-panel-label .components-panel__body-toggle.components-button {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+  -ms-flex-pack: end;
+      justify-content: flex-end; }
+
+.fx-panel-label svg.components-panel__icon {
+  margin: 0 10px 0 0; }
 
 .fx-button {
   display: inline-block;
