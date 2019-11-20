@@ -384,23 +384,6 @@ class FlexBlockButton extends Component {
 											{ 'grid-default' === tab.name && (
 												<Fragment>
 													<DimensionsControl { ...this.props }
-														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
-														valueTop={ marginTop }
-														valueRight={ marginRight }
-														valueBottom={ marginBottom }
-														valueLeft={ marginLeft }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
-														attrTop={ 'marginTop' }
-														attrRight={ 'marginRight' }
-														attrBottom={ 'marginBottom' }
-														attrLeft={ 'marginLeft' }
-														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnits' }
-													/>
-
-													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'flexblocks' ) }
 														valueTop={ paddingTop }
@@ -415,6 +398,23 @@ class FlexBlockButton extends Component {
 														attrLeft={ 'paddingLeft' }
 														attrUnit={ 'paddingUnit' }
 														attrSyncUnits={ 'paddingSyncUnits' }
+													/>
+
+													<DimensionsControl { ...this.props }
+														type={ 'margin' }
+														label={ __( 'Margin', 'flexblocks' ) }
+														valueTop={ marginTop }
+														valueRight={ marginRight }
+														valueBottom={ marginBottom }
+														valueLeft={ marginLeft }
+														valueUnit={ marginUnit }
+														syncUnits={ marginSyncUnits }
+														attrTop={ 'marginTop' }
+														attrRight={ 'marginRight' }
+														attrBottom={ 'marginBottom' }
+														attrLeft={ 'marginLeft' }
+														attrUnit={ 'marginUnit' }
+														attrSyncUnits={ 'marginSyncUnits' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -458,25 +458,6 @@ class FlexBlockButton extends Component {
 
 											{ 'grid-tablet' === tab.name && (
 												<Fragment>
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'margin' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopTablet }
-															valueRight={ marginRightTablet }
-															valueBottom={ marginBottomTablet }
-															valueLeft={ marginLeftTablet }
-															valueUnit={ marginUnit }
-															syncUnits={ marginSyncUnits }
-															attrTop={ 'marginTopTablet' }
-															attrRight={ 'marginRightTablet' }
-															attrBottom={ 'marginBottomTablet' }
-															attrLeft={ 'marginLeftTablet' }
-															attrUnit={ 'marginUnit' }
-															attrSyncUnits={ 'marginSyncUnits' }
-														/>
-													</BaseControl>
-
 													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
@@ -493,6 +474,25 @@ class FlexBlockButton extends Component {
 															attrLeft={ 'paddingLeftTablet' }
 															attrUnit={ 'paddingUnit' }
 															attrSyncUnits={ 'paddingSyncUnits' }
+														/>
+													</BaseControl>
+
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'margin' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTopTablet }
+															valueRight={ marginRightTablet }
+															valueBottom={ marginBottomTablet }
+															valueLeft={ marginLeftTablet }
+															valueUnit={ marginUnit }
+															syncUnits={ marginSyncUnits }
+															attrTop={ 'marginTopTablet' }
+															attrRight={ 'marginRightTablet' }
+															attrBottom={ 'marginBottomTablet' }
+															attrLeft={ 'marginLeftTablet' }
+															attrUnit={ 'marginUnit' }
+															attrSyncUnits={ 'marginSyncUnits' }
 														/>
 													</BaseControl>
 
@@ -541,25 +541,6 @@ class FlexBlockButton extends Component {
 
 											{ 'grid-mobile' === tab.name && (
 												<Fragment>
-													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Margin', 'flexblocks' ) }
-															valueTop={ marginTopMobile }
-															valueRight={ marginRightMobile }
-															valueBottom={ marginBottomMobile }
-															valueLeft={ marginLeftMobile }
-															valueUnit={ marginUnit }
-															syncUnits={ marginSyncUnits }
-															attrTop={ 'marginTopMobile' }
-															attrRight={ 'marginRightMobile' }
-															attrBottom={ 'marginBottomMobile' }
-															attrLeft={ 'marginLeftMobile' }
-															attrUnit={ 'marginUnit' }
-															attrSyncUnits={ 'marginSyncUnits' }
-														/>
-													</BaseControl>
-
 													<BaseControl label={ __( 'Padding', 'flexblocks' ) }>
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
@@ -576,6 +557,25 @@ class FlexBlockButton extends Component {
 															attrLeft={ 'paddingLeftMobile' }
 															attrUnit={ 'paddingUnit' }
 															attrSyncUnits={ 'paddingSyncUnits' }
+														/>
+													</BaseControl>
+
+													<BaseControl label={ __( 'Margin', 'flexblocks' ) }>
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Margin', 'flexblocks' ) }
+															valueTop={ marginTopMobile }
+															valueRight={ marginRightMobile }
+															valueBottom={ marginBottomMobile }
+															valueLeft={ marginLeftMobile }
+															valueUnit={ marginUnit }
+															syncUnits={ marginSyncUnits }
+															attrTop={ 'marginTopMobile' }
+															attrRight={ 'marginRightMobile' }
+															attrBottom={ 'marginBottomMobile' }
+															attrLeft={ 'marginLeftMobile' }
+															attrUnit={ 'marginUnit' }
+															attrSyncUnits={ 'marginSyncUnits' }
 														/>
 													</BaseControl>
 
