@@ -103,3 +103,7 @@ body.gutenberg-editor-page [data-type="flexblocks/container"] .editor-block-list
 body .fx-container .wp-block {
     max-width: none;
 }
+
+[data-type="flexblocks/container"] > .editor-block-list__block-edit > [data-block] {
+    margin: 0;
+}

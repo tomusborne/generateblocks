@@ -285,6 +285,14 @@ class FlexBlockGridContainer extends Component {
 			.fx-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
 				align-items: ` + verticalAlignment + `;
 				justify-content: ` + horizontalAlignment + `;
+				margin-left: -` + ( horizontalGap / 2 ) + `px;
+				margin-right: -` + ( horizontalGap / 2 ) + `px;
+			}
+
+			.fx-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout > .wp-block {
+				padding-left: ` + ( horizontalGap / 2 ) + `px;
+				padding-right: ` + ( horizontalGap / 2 ) + `px;
+				margin-bottom: ` + verticalGap + `px;
 			}
 		`
 
