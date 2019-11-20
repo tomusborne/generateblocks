@@ -177,6 +177,7 @@ class FlexButtonContainer extends Component {
 						title={ __( 'Spacing', 'flexblocks' ) }
 						initialOpen={ true }
 						icon={ getIcon( 'spacing' ) }
+						className={ 'fx-panel-label' }
 					>
 						<TabPanel className="flexblocks-control-tabs"
 							activeClass="active-tab"
@@ -359,6 +360,7 @@ class FlexButtonContainer extends Component {
 						title={ __( 'Advanced', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
+						className={ 'fx-panel-label' }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'flexblocks' ) }

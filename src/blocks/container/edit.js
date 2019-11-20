@@ -586,6 +586,7 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Spacing', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'spacing' ) }
+						className={ 'fx-panel-label' }
 					>
 
 						<TabPanel className="layout-tab-panel flexblocks-control-tabs"
@@ -958,6 +959,7 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Colors', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'colors' ) }
+						className={ 'fx-panel-label' }
 					>
 
 						<Fragment>
@@ -1022,6 +1024,7 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Background Gradient' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'gradients' ) }
+						className={ 'fx-panel-label' }
 					>
 						<GradientControl { ...this.props }
 							valueGradient={ gradient }
@@ -1045,6 +1048,7 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Background Image' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'backgrounds' ) }
+						className={ 'fx-panel-label' }
 					>
 						{ ! bgImage && (
 							<div>
@@ -1183,6 +1187,7 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Advanced', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
+						className={ 'fx-panel-label' }
 					>
 						<SelectControl
 							label={ __( 'Element Tag', 'flexblocks' ) }

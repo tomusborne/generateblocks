@@ -260,6 +260,7 @@ class FlexBlockButton extends Component {
 						title={ __( 'Typography', 'flexblocks' ) }
 						initialOpen={ true }
 						icon={ getIcon( 'typography' ) }
+						className={ 'fx-panel-label' }
 						>
 						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
@@ -355,6 +356,7 @@ class FlexBlockButton extends Component {
 						title={ __( 'Spacing', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'spacing' ) }
+						className={ 'fx-panel-label' }
 						>
 						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
@@ -629,6 +631,7 @@ class FlexBlockButton extends Component {
 						title={ __( 'Colors', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'colors' ) }
+						className={ 'fx-panel-label' }
 						>
 
 						<TabPanel className="layout-tab-panel flexblocks-control-tabs"
@@ -735,6 +738,7 @@ class FlexBlockButton extends Component {
 						title={ __( 'Background Gradient' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'gradients' ) }
+						className={ 'fx-panel-label' }
 					>
 						<GradientControl { ...this.props }
 							valueGradient={ gradient }
@@ -758,6 +762,7 @@ class FlexBlockButton extends Component {
 						title={ __( 'Icon', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'icons' ) }
+						className={ 'fx-panel-label' }
 						>
 
 						<IconPicker { ...this.props }
@@ -782,6 +787,7 @@ class FlexBlockButton extends Component {
 						title={ __( 'Advanced', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
+						className={ 'fx-panel-label' }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'flexblocks' ) }

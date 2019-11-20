@@ -501,6 +501,7 @@ class FlexBlockGridContainer extends Component {
 						title={ __( 'Advanced', 'flexblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
+						className={ 'fx-panel-label' }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'flexblocks' ) }

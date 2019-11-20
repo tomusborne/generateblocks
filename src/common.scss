@@ -25,3 +25,13 @@ $item-spacing: 10px !default;
 .fx-notice {
 	margin-bottom: 20px;
 }
+
+.fx-panel-label .components-panel__body-toggle.components-button {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.fx-panel-label svg.components-panel__icon {
+    margin: 0 10px 0 0;
+}
