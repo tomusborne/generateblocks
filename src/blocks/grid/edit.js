@@ -82,6 +82,7 @@ class FlexBlockGridContainer extends Component {
         const {
             attributes,
             setAttributes,
+			clientId,
         } = this.props;
 
         let {
@@ -100,7 +101,15 @@ class FlexBlockGridContainer extends Component {
             this.setState( {
                 selectedLayout: false,
             } );
-        }
+        } else {
+			const parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+			const childBlocks = parentBlock.innerBlocks;
+			columns = childBlocks.length;
+
+			setAttributes( {
+                columns,
+            } );
+		}
     }
 
 	/**
@@ -542,7 +551,6 @@ class FlexBlockGridContainer extends Component {
 						<Fragment>
 							<InnerBlocks
 								template={ this.getColumnsTemplate() }
-								templateLock="all"
 								allowedBlocks={ [ 'flexblocks/container' ] }
 							/>
 						</Fragment>
