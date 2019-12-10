@@ -103,12 +103,15 @@ class FlexBlockGridContainer extends Component {
             } );
         } else {
 			const parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
-			const childBlocks = parentBlock.innerBlocks;
-			columns = childBlocks.length;
 
-			setAttributes( {
-                columns,
-            } );
+			if ( parentBlock ) {
+				const childBlocks = parentBlock.innerBlocks;
+				columns = childBlocks.length;
+
+				setAttributes( {
+	                columns,
+	            } );
+			}
 		}
     }
 
