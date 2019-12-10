@@ -768,8 +768,6 @@ class FlexBlockButton extends Component {
 						<IconPicker { ...this.props }
 							valueIcon={ icon }
 							attrIcon={ 'icon' }
-							valueCustomIcon={ customIcon }
-							attrCustomIcon={ 'customIcon' }
 							valueIconLocation={ iconLocation }
 							attrIconLocation={ 'iconLocation' }
 							locationOptions={ [

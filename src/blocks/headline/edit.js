@@ -641,8 +641,6 @@ class FlexBlockHeadline extends Component {
 						<IconPicker { ...this.props }
 							valueIcon={ icon }
 							attrIcon={ 'icon' }
-							valueCustomIcon={ customIcon }
-							attrCustomIcon={ 'customIcon' }
 						/>
 
 						<ColorPicker

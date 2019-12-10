@@ -53,8 +53,6 @@ class IconPicker extends Component {
 			setAttributes,
 			valueIcon,
 			attrIcon,
-			valueCustomIcon,
-			attrCustomIcon,
 			valueIconLocation,
 			attrIconLocation,
 			locationOptions,
@@ -72,7 +70,7 @@ class IconPicker extends Component {
 			<Fragment>
 				<Dropdown
 					contentClassName="components-icon-picker-dropdown"
-					focusOnMount={ false }
+					focusOnMount={ 'container' }
 					renderToggle={ ( { isOpen, onToggle } ) => (
 						<Tooltip text={ __( 'Choose Icon', 'flexblocks' ) }>
 							<button
@@ -88,6 +86,18 @@ class IconPicker extends Component {
 					) }
 					renderContent={ () => (
 						<div className="icon-chooser-container">
+							<BaseControl className="fx-svg-html">
+								<TextControl
+									label={ __( 'Icon SVG HTML', 'flexblocks' ) }
+									value={ valueIcon }
+									onChange={ ( value ) => {
+										setAttributes( {
+											[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value )
+										} );
+									} }
+								/>
+							</BaseControl>
+
 							<BaseControl label={ __( 'General', 'flexblocks' ) }>
 								<ul className="fx-icon-chooser">
 								{
@@ -100,8 +110,7 @@ class IconPicker extends Component {
 														className="editor-block-list-item-button"
 														onClick={ () => {
 															setAttributes( {
-																[ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ]['icon'] ),
-																[ this.props[ 'attrCustomIcon' ] ]: false
+																[ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ]['icon'] )
 															} );
 														} }
 													>
@@ -129,8 +138,7 @@ class IconPicker extends Component {
 														className="editor-block-list-item-button"
 														onClick={ () => {
 															setAttributes( {
-																[ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ]['icon'] ),
-																[ this.props[ 'attrCustomIcon' ] ]: false
+																[ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ]['icon'] )
 															} );
 														} }
 													>
@@ -152,22 +160,9 @@ class IconPicker extends Component {
 				<BaseControl className="advanced-icon-controls">
 					<Button
 						isLarge
-						className="choose-custom-icon"
-						onClick={ () => {
-							setAttributes( { [ this.props[ 'attrCustomIcon' ] ]: true } );
-						} }
-					>
-						<span className="editor-block-types-list__item-icon">
-							{ __( 'Custom SVG', 'flexblocks' ) }
-						</span>
-					</Button>
-
-					<Button
-						isLarge
 						className="reset-icon"
 						onClick={ () => {
 							setAttributes( {
-								[ this.props[ 'attrCustomIcon' ] ]: false,
 								[ this.props[ 'attrIcon' ] ]: ''
 							} );
 						} }
@@ -177,20 +172,6 @@ class IconPicker extends Component {
 						</span>
 					</Button>
 				</BaseControl>
-
-				{ !! valueCustomIcon &&
-					<BaseControl className="fx-svg-html">
-						<TextControl
-							label={ __( 'Icon SVG HTML', 'flexblocks' ) }
-							value={ valueIcon }
-							onChange={ ( value ) => {
-								setAttributes( {
-									[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value )
-								} );
-							} }
-						/>
-					</BaseControl>
-				}
 
 				{ ( typeof valueIconLocation !== 'undefined' ) &&
 					<SelectControl
