@@ -175,7 +175,6 @@ function flexblocks_get_media_query( $type ) {
  * Build our list of Google fonts on this page.
  *
  * @since 0.1
- * @param int $post_id The post ID we're checking.
  *
  * @return array
  */
