@@ -313,16 +313,6 @@ class FlexBlockGridContainer extends Component {
 
 				<InspectorControls>
 					<PanelBody>
-						<TextControl
-							type="number"
-							label={ __( 'Grid Items', 'flexblocks' ) }
-							value={ columns ? columns : '' }
-							onChange={ ( value ) => setAttributes( {
-								columns: parseInt( value )
-							} ) }
-							min={ 1 }
-						/>
-
 						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
