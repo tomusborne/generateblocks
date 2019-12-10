@@ -99,7 +99,7 @@ add_action( 'enqueue_block_editor_assets', 'flexblocks_do_google_fonts' );
  * @since 0.1
  */
 function flexblocks_do_google_fonts() {
-	$fonts_url = flexblocks_get_google_fonts_uri( get_the_ID() );
+	$fonts_url = flexblocks_get_google_fonts_uri();
 
 	if ( $fonts_url ) {
 		wp_enqueue_style( 'flexblocks-google-fonts', $fonts_url, array(), null, 'all' );

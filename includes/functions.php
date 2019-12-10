@@ -22,7 +22,7 @@ function flexblocks_get_block_data( $blockName = 'flexblocks/container', $conten
 		return;
 	}
 
-	if ( ! $content && is_singular() && has_blocks( get_the_ID() ) ) {
+	if ( ! $content && has_blocks( get_the_ID() ) ) {
 		global $post;
 
 		if ( ! is_object( $post ) ) {
@@ -179,16 +179,49 @@ function flexblocks_get_media_query( $type ) {
  *
  * @return array
  */
-function flexblocks_get_google_fonts( $post_id = '' ) {
-	if ( ! $post_id ) {
-		$post_id = get_the_ID();
+function flexblocks_get_google_fonts() {
+	$button_data = flexblocks_get_block_data( 'flexblocks/button' );
+	$headline_data = flexblocks_get_block_data( 'flexblocks/headline' );
+	$defaults = flexblocks_get_block_defaults();
+	$font_data = array();
+
+	if ( ! empty( $button_data ) ) {
+		foreach ( $button_data as $atts ) {
+			$button_settings = wp_parse_args(
+				$atts,
+				$defaults['button']
+			);
+
+			if ( $button_settings['googleFont'] ) {
+				$id = $atts['uniqueId'];
+				$font_data[ $id ] = array(
+					'name' => $button_settings['fontFamily'],
+					'variants' => $button_settings['fontWeight'],
+				);
+			}
+		}
 	}
 
-	$meta = json_decode( get_post_meta( $post_id, '_flexblocks_google_fonts', true ), true );
+	if ( ! empty( $headline_data ) ) {
+		foreach ( $headline_data as $atts ) {
+			$headline_settings = wp_parse_args(
+				$atts,
+				$defaults['headline']
+			);
+
+			if ( $headline_settings['googleFont'] ) {
+				$id = $atts['uniqueId'];
+				$font_data[ $id ] = array(
+					'name' => $headline_settings['fontFamily'],
+					'variants' => $headline_settings['fontWeight'],
+				);
+			}
+		}
+	}
 
 	$fonts = array();
 
-	foreach ( (array) $meta as $font ) {
+	foreach ( (array) $font_data as $font ) {
 		$id = str_replace( ' ', '', strtolower( $font['name'] ) );
 
 		$fonts[ $id ]['name'] = $font['name'];
@@ -209,12 +242,8 @@ function flexblocks_get_google_fonts( $post_id = '' ) {
  *
  * @return string The request URI to Google Fonts.
  */
-function flexblocks_get_google_fonts_uri( $post_id = '' ) {
-	if ( ! $post_id ) {
-		$post_id = get_the_ID();
-	}
-
-	$google_fonts = flexblocks_get_google_fonts( $post_id );
+function flexblocks_get_google_fonts_uri() {
+	$google_fonts = flexblocks_get_google_fonts();
 
 	if ( ! $google_fonts ) {
 		return;

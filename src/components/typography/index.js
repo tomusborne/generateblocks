@@ -154,42 +154,6 @@ class TypographyControls extends Component {
 		};
 
 		const saveGoogleMeta = ( value, weight, isGoogle ) => {
-			const meta = wp.data.select( 'core/editor' ).getEditedPostAttribute( 'meta' );
-			const id = 'block_id_' + uniqueId;
-
-			let googleFontMeta = {};
-
-			const fontMeta = {
-				name: value,
-				variants: weight,
-			};
-
-			if ( 'bold' === weight || 'normal' === weight || '' === weight ) {
-				delete fontMeta['variants'];
-			}
-
-			if ( typeof meta._flexblocks_google_fonts === 'undefined' || ( typeof meta._flexblocks_google_fonts !== 'undefined' && meta._flexblocks_google_fonts === '' ) ) {
-				googleFontMeta = {};
-			} else {
-				googleFontMeta = JSON.parse( meta._flexblocks_google_fonts );
-			}
-
-			if ( typeof googleFontMeta[ id ] === 'undefined' ) {
-				googleFontMeta[ id ] = {};
-			}
-
-			googleFontMeta[ id ] = fontMeta;
-
-			if ( ! isGoogle ) {
-				delete googleFontMeta[ id ];
-			}
-
-			wp.data.dispatch( 'core/editor' ).editPost( {
-				meta: {
-					_flexblocks_google_fonts: JSON.stringify( googleFontMeta ),
-				},
-			} );
-
 			addGoogleStyle( value, isGoogle );
 		};
 
