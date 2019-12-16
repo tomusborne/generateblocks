@@ -33,6 +33,7 @@ registerBlockType( 'flexblocks/container', {
 	],
 	attributes: blockAttributes,
 	supports: {
+		align: [ 'wide', 'full' ],
 		anchor: false,
 		className: false,
 		customClassName: false
