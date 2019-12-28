@@ -29,6 +29,10 @@
             width: 20px;
             color: #222;
         }
+
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
     }
 
     .fx-component-url-input-more-options {
@@ -38,9 +42,11 @@
         .components-base-control .components-base-control__field {
             margin-bottom: 0;
         }
-        .components-base-control + .components-base-control {
-            margin-top: 12px;
-        }
+
+		.components-base-control:last-child {
+			margin-top: 12px;
+    		margin-bottom: 0;
+		}
     }
 }
 
