@@ -318,6 +318,10 @@ class FlexBlockContainer extends Component {
 			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .editor-block-list__block-edit > [data-block="` + clientId + `"] > .fx-grid-column {
 				height: 100%;
 			}
+
+			#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child) {
+				display: none;
+			}
 		`
 
 		const minHeightUnits = [
