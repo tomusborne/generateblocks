@@ -124,6 +124,22 @@
           flex: 100%; }
     .fx-col > .editor-block-list__block-edit > .editor-block-contextual-toolbar + [data-block] {
       margin-left: 30px; }
+
+.fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > .block-list-appender button svg {
+  display: none; }
+
+.fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > .block-list-appender button:before {
+  content: url("assets/images/AddGridItem.svg");
+  width: 50px;
+  height: 50px; }
+
+.fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > .block-list-appender button {
+  -webkit-transition: background-color 500ms ease;
+  -o-transition: background-color 500ms ease;
+  transition: background-color 500ms ease; }
+
+.fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > .block-list-appender button:hover {
+  background: #fff; }
 /**
  * #.# Common SCSS
  *
@@ -773,13 +789,16 @@ button.components-icon-picker-item {
     .fx-component-url-input .fx-component-url-input-flex > .dashicon {
       width: 20px;
       color: #222; }
+    .fx-component-url-input .fx-component-url-input-flex .components-base-control__field {
+      margin-bottom: 0; }
   .fx-component-url-input .fx-component-url-input-more-options {
     padding: 10px;
     border-top: 1px solid #e2e4e7; }
     .fx-component-url-input .fx-component-url-input-more-options .components-base-control .components-base-control__field {
       margin-bottom: 0; }
-    .fx-component-url-input .fx-component-url-input-more-options .components-base-control + .components-base-control {
-      margin-top: 12px; }
+    .fx-component-url-input .fx-component-url-input-more-options .components-base-control:last-child {
+      margin-top: 12px;
+      margin-bottom: 0; }
 
 .fx-component-url-input-float {
   position: absolute;
