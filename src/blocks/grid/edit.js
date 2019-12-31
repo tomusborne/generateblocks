@@ -545,7 +545,29 @@ class FlexBlockGridContainer extends Component {
 							<InnerBlocks
 								template={ this.getColumnsTemplate() }
 								allowedBlocks={ [ 'flexblocks/container' ] }
+								renderAppender={ false }
 							/>
+
+							<div className="block-list-appender fx-grid-appender">
+								<Tooltip text={ __( 'Add Container', 'flexblocks' ) }>
+			                        <IconButton
+			                            icon={ getIcon( 'addContainer' ) }
+			                            onClick={ () => {
+											wp.data.dispatch( 'core/block-editor' ).insertBlocks(
+												wp.blocks.createBlock( 'flexblocks/container', {
+												    isGrid: true,
+													paddingTop: '',
+													paddingRight: '',
+													paddingBottom: '',
+													paddingLeft: '',
+												} ),
+												undefined,
+												clientId
+											);
+			                            } }
+			                        />
+			                    </Tooltip>
+							</div>
 						</Fragment>
 						) : this.getLayoutsSelector() }
 				</div>
