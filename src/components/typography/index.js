@@ -90,9 +90,9 @@ class TypographyControls extends Component {
 		);
 
 		var weight = [
-			{ value: '', 		label: __( 'Default' ) },
-			{ value: 'normal', 	label: __( 'Normal' ) },
-			{ value: 'bold', 	label: __( 'Bold' ) },
+			{ value: '', 		label: __( 'Default', 'flexblocks' ) },
+			{ value: 'normal', 	label: __( 'Normal', 'flexblocks' ) },
+			{ value: 'bold', 	label: __( 'Bold', 'flexblocks' ) },
 			{ value: '100', 	label: '100' },
 			{ value: '200', 	label: '200' },
 			{ value: '300', 	label: '300' },
@@ -105,18 +105,18 @@ class TypographyControls extends Component {
 		];
 
 		const transform = [
-			{ value: '', 			label: __( 'Default' ) },
-			{ value: 'uppercase', 	label: __( 'Uppercase' ) },
-			{ value: 'lowercase', 	label: __( 'Lowercase' ) },
-			{ value: 'capitalize', 	label: __( 'Capitalize' ) },
-			{ value: 'initial', 	label: __( 'Normal' ) },
+			{ value: '', 			label: __( 'Default', 'flexblocks' ) },
+			{ value: 'uppercase', 	label: __( 'Uppercase', 'flexblocks' ) },
+			{ value: 'lowercase', 	label: __( 'Lowercase', 'flexblocks' ) },
+			{ value: 'capitalize', 	label: __( 'Capitalize', 'flexblocks' ) },
+			{ value: 'initial', 	label: __( 'Normal', 'flexblocks' ) },
 		];
 
 		if ( typeof googleFonts[ this.props['valueFontFamily'] ] !== 'undefined' && typeof googleFonts[ this.props['valueFontFamily'] ].weight !== 'undefined' ) {
 			weight = [
-				{ value: '', label: __( 'Default' ) },
-				{ value: 'normal', label: __( 'Normal' ) },
-				{ value: 'bold', label: __( 'Bold' ) },
+				{ value: '', label: __( 'Default', 'flexblocks' ) },
+				{ value: 'normal', label: __( 'Normal', 'flexblocks' ) },
+				{ value: 'bold', label: __( 'Bold', 'flexblocks' ) },
 			];
 
 			googleFonts[ this.props['valueFontFamily'] ].weight.map( ( k ) => {
@@ -191,15 +191,15 @@ class TypographyControls extends Component {
 
 		let unitSizes = [
 			{
-				name: _x( 'Pixel', 'A size unit for CSS markup' ),
+				name: _x( 'Pixel', 'A size unit for CSS markup', 'flexblocks' ),
 				unitValue: 'px',
 			},
 			{
-				name: _x( 'Em', 'A size unit for CSS markup' ),
+				name: _x( 'Em', 'A size unit for CSS markup', 'flexblocks' ),
 				unitValue: 'em',
 			},
 			{
-				name: _x( 'Percentage', 'A size unit for CSS markup' ),
+				name: _x( 'Percentage', 'A size unit for CSS markup', 'flexblocks' ),
 				unitValue: '%',
 			},
 		];
@@ -263,7 +263,7 @@ class TypographyControls extends Component {
 
 					{ ( typeof valueFontWeight !== 'undefined' ) &&
 						<SelectControl
-							label={ __( 'Weight' ) }
+							label={ __( 'Weight', 'flexblocks' ) }
 							value={ valueFontWeight }
 							options={ weight }
 							onChange={ ( value ) => {
@@ -279,7 +279,7 @@ class TypographyControls extends Component {
 
 					{ ( typeof valueTextTransform !== 'undefined' ) &&
 						<SelectControl
-							label={ __( 'Transform' ) }
+							label={ __( 'Transform', 'flexblocks' ) }
 							value={ valueTextTransform }
 							options={ transform }
 							onChange={ ( nextTextTransform ) => {
@@ -301,10 +301,10 @@ class TypographyControls extends Component {
 
 							{ ( typeof valueFontSizeUnit !== 'undefined' ) &&
 								<div className="components-fx-typography-control__units">
-									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units' ) }>
+									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
 										{ unitSizes.map( ( unit, i ) =>
 											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+											<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
 												<Button
 													key={ unit.unitValue }
 													className={ 'components-fx-typography-control__units--' + unit.name }
@@ -312,7 +312,7 @@ class TypographyControls extends Component {
 													isPrimary={ valueFontSizeUnit === unit.unitValue }
 													aria-pressed={ valueFontSizeUnit === unit.unitValue }
 													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+													aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
 													onClick={ () => setAttributes( { [ this.props[ 'attrFontSizeUnit' ] ]: unit.unitValue } ) }
 												>
 													{ unit.unitValue }
@@ -359,10 +359,10 @@ class TypographyControls extends Component {
 
 							{ ( typeof valueLineHeight !== 'undefined' ) &&
 								<div className="components-fx-typography-control__units">
-									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units' ) }>
+									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
 										{ unitSizes.map( ( unit, i ) =>
 											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-											<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+											<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
 												<Button
 													key={ unit.unitValue }
 													className={ 'components-fx-typography-control__units--' + unit.name }
@@ -370,7 +370,7 @@ class TypographyControls extends Component {
 													isPrimary={ valueLineHeightUnit === unit.unitValue }
 													aria-pressed={ valueLineHeightUnit === unit.unitValue }
 													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+													aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
 													onClick={ () => setAttributes( { [ this.props[ 'attrLineHeightUnit' ] ]: unit.unitValue } ) }
 												>
 													{ unit.unitValue }

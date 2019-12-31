@@ -78,7 +78,7 @@ class IconPicker extends Component {
 								aria-expanded={ isOpen }
 								className="components-icon-picker-item"
 								onClick={ onToggle }
-								aria-label={ __( 'Custom color picker' ) }
+								aria-label={ __( 'Custom color picker', 'flexblocks' ) }
 							>
 								<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( valueIcon ) } } />
 							</button>

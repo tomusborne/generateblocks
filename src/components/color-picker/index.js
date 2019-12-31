@@ -44,7 +44,7 @@ export default class ColorPicker extends Component {
 								aria-expanded={ isOpen }
 								className="components-color-palette__item components-circular-option-picker__option"
 								onClick={ onToggle }
-								aria-label={ __( 'Custom color picker' ) }
+								aria-label={ __( 'Custom color picker', 'flexblocks' ) }
 								style={ { color: value ? value : '' } }
 							>
 								<span className="components-color-palette__custom-color-gradient" />

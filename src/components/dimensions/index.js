@@ -68,7 +68,7 @@ class DimensionsControl extends Component {
 
 		const {
 			className,
-			label = __( 'Margin' ),
+			label = __( 'Margin', 'flexblocks' ),
 			left = true,
 			onChange,
 			reset = false,
@@ -164,7 +164,7 @@ class DimensionsControl extends Component {
 
 		let unitSizes = [
 			{
-				name: _x( 'Pixel', 'A size unit for CSS markup' ),
+				name: _x( 'Pixel', 'A size unit for CSS markup', 'flexblocks' ),
 				unitValue: 'px',
 			},
 			{
@@ -172,7 +172,7 @@ class DimensionsControl extends Component {
 				unitValue: 'em',
 			},
 			{
-				name: _x( 'Percentage', 'A size unit for CSS markup' ),
+				name: _x( 'Percentage', 'A size unit for CSS markup', 'flexblocks' ),
 				unitValue: '%',
 			},
 		];
@@ -187,10 +187,10 @@ class DimensionsControl extends Component {
 
 						{ ( typeof valueUnit !== 'undefined' ) ?
 							<div className="components-fx-dimensions-control__units">
-								<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+								<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
 									{ unitSizes.map( ( unit ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+										<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
 											<Button
 												key={ unit.unitValue }
 												className={ 'components-fx-dimensions-control__units--' + unit.name }
@@ -198,7 +198,7 @@ class DimensionsControl extends Component {
 												isPrimary={ valueUnit === unit.unitValue }
 												aria-pressed={ valueUnit === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+												aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
 												onClick={ () => this.onChangeUnits( unit.unitValue ) }
 											>
 												{ unit.unitValue }
@@ -215,7 +215,7 @@ class DimensionsControl extends Component {
 							className="components-fx-dimensions-control__number"
 							type="number"
 							onChange={ onChangeTopValue }
-							aria-label={ sprintf( __( '%s Top' ), label ) }
+							aria-label={ sprintf( __( '%s Top', 'flexblocks' ), label ) }
 							value={ valueTop ? valueTop : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
@@ -224,7 +224,7 @@ class DimensionsControl extends Component {
 							className="components-fx-dimensions-control__number"
 							type="number"
 							onChange={ onChangeRightValue }
-							aria-label={ sprintf( __( '%s Right' ), label ) }
+							aria-label={ sprintf( __( '%s Right', 'flexblocks' ), label ) }
 							value={ valueRight ? valueRight : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
@@ -233,7 +233,7 @@ class DimensionsControl extends Component {
 							className="components-fx-dimensions-control__number"
 							type="number"
 							onChange={ onChangeBottomValue }
-							aria-label={ sprintf( __( '%s Bottom' ), label ) }
+							aria-label={ sprintf( __( '%s Bottom', 'flexblocks' ), label ) }
 							value={ valueBottom ? valueBottom : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
@@ -242,15 +242,15 @@ class DimensionsControl extends Component {
 							className="components-fx-dimensions-control__number"
 							type="number"
 							onChange={ onChangeLeftValue }
-							aria-label={ sprintf( __( '%s Left' ), label ) }
+							aria-label={ sprintf( __( '%s Left', 'flexblocks' ), label ) }
 							value={ valueLeft ? valueLeft : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
-						<Tooltip text={ !! syncUnits ? __( 'Unsync' ) : __( 'Sync' ) } >
+						<Tooltip text={ !! syncUnits ? __( 'Unsync', 'flexblocks' ) : __( 'Sync', 'flexblocks' ) } >
 							<Button
 								className="components-fx-dimensions-control_sync"
-								aria-label={ __( 'Sync Units' ) }
+								aria-label={ __( 'Sync Units', 'flexblocks' ) }
 								isPrimary={ syncUnits ? syncUnits : false }
 								aria-pressed={ syncUnits ? syncUnits : false }
 								onClick={ ( value ) => this.syncUnits( value, '' ) }
