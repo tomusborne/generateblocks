@@ -168,7 +168,7 @@ class DimensionsControl extends Component {
 				unitValue: 'px',
 			},
 			{
-				name: _x( 'Em', 'A size unit for CSS markup' ),
+				name: _x( 'Em', 'A size unit for CSS markup', 'flexblocks' ),
 				unitValue: 'em',
 			},
 			{
