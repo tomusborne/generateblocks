@@ -153,10 +153,6 @@ class TypographyControls extends Component {
 			}
 		};
 
-		const saveGoogleMeta = ( value, weight, isGoogle ) => {
-			addGoogleStyle( value, isGoogle );
-		};
-
 		const onFontChange = ( value ) => {
 			if ( 'other' === value ) {
 				value = '';
@@ -185,7 +181,7 @@ class TypographyControls extends Component {
 				isGoogle = false;
 			}
 
-			saveGoogleMeta( value, fontWeight, isGoogle );
+			addGoogleStyle( value, isGoogle );
 		};
 
 		const onFontShortcut = ( event ) => {
@@ -245,7 +241,7 @@ class TypographyControls extends Component {
 								[ this.props[ 'attrGoogleFont' ] ]: value,
 							} );
 
-							saveGoogleMeta( valueFontFamily, valueFontWeight, value );
+							addGoogleStyle( valueFontFamily, value );
 						} }
 					/>
 				}
@@ -275,7 +271,7 @@ class TypographyControls extends Component {
 									[ this.props[ 'attrFontWeight' ] ]: value
 								} );
 
-								saveGoogleMeta( valueFontFamily, value, valueGoogleFont );
+								addGoogleStyle( valueFontFamily, valueGoogleFont );
 							} }
 							className="components-base-control"
 						/>

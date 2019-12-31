@@ -73,24 +73,6 @@ function flexblocks_do_category( $categories ) {
     );
 }
 
-add_action( 'init', 'flexblocks_register_meta' );
-/**
- * Register post meta.
- *
- * @since 0.1
- */
-function flexblocks_register_meta() {
-	register_meta(
-		'post',
-		'_flexblocks_google_fonts',
-		array(
-			'show_in_rest'  => true,
-			'single'		=> true,
-			'auth_callback' => 'flexblocks_auth_callback',
-		)
-	);
-}
-
 add_action( 'wp_enqueue_scripts', 'flexblocks_do_google_fonts' );
 add_action( 'enqueue_block_editor_assets', 'flexblocks_do_google_fonts' );
 /**
