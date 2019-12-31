@@ -18,37 +18,13 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array
  */
 function flexblocks_get_block_data( $blockName = 'flexblocks/container', $content = '' ) {
-	if ( ! function_exists( 'has_blocks' ) ) {
-		return;
-	}
-
-	if ( ! $content && has_blocks( get_the_ID() ) ) {
-		global $post;
-
-		if ( ! is_object( $post ) ) {
-			return;
-		}
-
-		$content = $post->post_content;
-	}
-
-	if ( ! $content ) {
-		return;
-	}
-
-	if ( ! function_exists( 'parse_blocks' ) ) {
-		return;
-	}
-
-	$blocks = parse_blocks( $content );
-
-	if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+	if ( ! is_array( $content ) || empty( $content ) ) {
 		return;
 	}
 
 	$data = array();
 
-	foreach ( $blocks as $index => $block ) {
+	foreach ( $content as $index => $block ) {
 		if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
 			if ( $blockName === $block['blockName'] ) {
 				$data[] = $block['attrs'];
@@ -178,9 +154,33 @@ function flexblocks_get_media_query( $type ) {
  *
  * @return array
  */
-function flexblocks_get_google_fonts() {
-	$button_data = flexblocks_get_block_data( 'flexblocks/button' );
-	$headline_data = flexblocks_get_block_data( 'flexblocks/headline' );
+function flexblocks_get_google_fonts( $content = '' ) {
+	if ( ! function_exists( 'has_blocks' ) ) {
+		return;
+	}
+
+	if ( ! $content && has_blocks( get_the_ID() ) ) {
+		global $post;
+
+		if ( ! is_object( $post ) ) {
+			return;
+		}
+
+		$content = $post->post_content;
+
+		if ( ! function_exists( 'parse_blocks' ) ) {
+			return;
+		}
+
+		$content = parse_blocks( $content );
+	}
+
+	if ( ! $content ) {
+		return;
+	}
+
+	$button_data = flexblocks_get_block_data( 'flexblocks/button', $content );
+	$headline_data = flexblocks_get_block_data( 'flexblocks/headline', $content );
 	$defaults = flexblocks_get_block_defaults();
 	$font_data = array();
 

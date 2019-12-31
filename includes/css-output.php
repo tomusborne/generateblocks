@@ -19,6 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return string The dynamic CSS.
  */
 function flexblocks_get_dynamic_css( $block, $content = '' ) {
+	if ( ! $content ) {
+		return;
+	}
+
 	if ( 'general' === $block ) {
 		$css = new FlexBlocks_Dynamic_CSS;
 
@@ -740,13 +744,38 @@ add_action( 'wp_head', 'flexblocks_do_frontend_block_css', 200 );
  * @since 0.1
  */
 function flexblocks_do_frontend_block_css() {
+	if ( ! function_exists( 'has_blocks' ) ) {
+		return;
+	}
 
-	$general_css = flexblocks_get_dynamic_css( 'general' );
-	$container_css = flexblocks_get_dynamic_css( 'container' );
-	$button_container_css = flexblocks_get_dynamic_css( 'button-container' );
-	$button_css = flexblocks_get_dynamic_css( 'button' );
-	$headline_css = flexblocks_get_dynamic_css( 'headline' );
-	$grid_container_css = flexblocks_get_dynamic_css( 'grid' );
+	$content = '';
+
+	if ( has_blocks( get_the_ID() ) ) {
+		global $post;
+
+		if ( ! is_object( $post ) ) {
+			return;
+		}
+
+		$content = $post->post_content;
+
+		if ( ! function_exists( 'parse_blocks' ) ) {
+			return;
+		}
+
+		$content = parse_blocks( $content );
+	}
+
+	if ( ! $content ) {
+		return;
+	}
+
+	$general_css = flexblocks_get_dynamic_css( 'general', $content );
+	$container_css = flexblocks_get_dynamic_css( 'container', $content );
+	$button_container_css = flexblocks_get_dynamic_css( 'button-container', $content );
+	$button_css = flexblocks_get_dynamic_css( 'button', $content );
+	$headline_css = flexblocks_get_dynamic_css( 'headline', $content );
+	$grid_container_css = flexblocks_get_dynamic_css( 'grid', $content );
 
 	echo '<style>';
 		echo $general_css . $container_css . $button_container_css . $button_css . $headline_css . $grid_container_css;
