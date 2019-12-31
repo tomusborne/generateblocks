@@ -125,21 +125,14 @@
     .fx-col > .editor-block-list__block-edit > .editor-block-contextual-toolbar + [data-block] {
       margin-left: 30px; }
 
-.fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > .block-list-appender button svg {
-  display: none; }
+.fx-grid-appender button {
+  background: #fff;
+  -webkit-box-shadow: inset 0 0 0 1px #555d66, inset 0 0 0 2px #fff;
+          box-shadow: inset 0 0 0 1px #555d66, inset 0 0 0 2px #fff;
+  padding: 20px; }
 
-.fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > .block-list-appender button:before {
-  content: url("assets/images/AddGridItem.svg");
-  width: 50px;
-  height: 50px; }
-
-.fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > .block-list-appender button {
-  -webkit-transition: background-color 500ms ease;
-  -o-transition: background-color 500ms ease;
-  transition: background-color 500ms ease; }
-
-.fx-grid-wrapper > .editor-inner-blocks > .editor-block-list__layout > .block-list-appender button:hover {
-  background: #fff; }
+.fx-grid-appender button.components-button svg {
+  margin-right: 0; }
 /**
  * #.# Common SCSS
  *
