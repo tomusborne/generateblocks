@@ -119,8 +119,10 @@ function flexblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit ) {
 
 	if ( $right === $left ) {
 		$left = '';
+
 		if ( $top === $bottom ) {
 			$bottom = '';
+
 			if ( $top === $right ) {
 				$right = '';
 			}
