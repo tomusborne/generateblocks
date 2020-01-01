@@ -12,9 +12,8 @@
  * @package FlexBlocks
  */
 
-// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
-	exit;
+	exit; // Exit if accessed directly.
 }
 
 define( 'FLEXBLOCKS_MODULE_DIR', plugin_dir_path( __FILE__ ) );
