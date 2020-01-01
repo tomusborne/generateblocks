@@ -27,3 +27,17 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/defaults.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/css-output.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-do-css.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/dashboard.php';
+/**
+ * Adds a redirect option during plugin activation on non-multisite installs.
+ *
+ * @since 0.1
+ *
+ * @param bool $network_wide Whether or not the plugin is being network activated.
+ */
+function flexblocks_do_activate( $network_wide = false ) {
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only used to do a redirect. False positive.
+	if ( ! $network_wide && ! isset( $_GET['activate-multi'] ) ) {
+		update_option( 'flexblocks_do_activation_redirect', true );
+	}
+}
+register_activation_hook( __FILE__, 'flexblocks_do_activate' );

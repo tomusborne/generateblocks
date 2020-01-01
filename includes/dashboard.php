@@ -135,3 +135,18 @@ function flexblocks_do_dashboard() {
 	<?php
 }
 
+add_action( 'admin_init', 'flexblocks_dashboard_redirect' );
+/**
+ * Redirect to the Atomic Blocks Getting Started page on single plugin activation.
+ *
+ * @since 0.1
+ */
+function flexblocks_dashboard_redirect() {
+	$do_redirect = apply_filters( 'flexblocks_do_activation_redirect', get_option( 'flexblocks_do_activation_redirect', false ) );
+
+	if ( $do_redirect ) {
+		delete_option( 'flexblocks_do_activation_redirect' );
+		wp_safe_redirect( esc_url( admin_url( 'options-general.php?page=flexblocks' ) ) );
+		exit;
+	}
+}
