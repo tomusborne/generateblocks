@@ -26,3 +26,4 @@ require_once plugin_dir_path( __FILE__ ) . 'includes/general.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/defaults.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/css-output.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-do-css.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/dashboard.php';

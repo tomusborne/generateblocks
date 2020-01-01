@@ -1,0 +1,157 @@
+.fx-dashboard-wrap {
+    margin: 0;
+    overflow: hidden;
+}
+
+.fx-dashboard-header {
+    background: #04b4ea;
+    color: #fff;
+    padding: 60px;
+	display: flex;
+	align-items: center;
+}
+
+.fx-dashboard-header h1 {
+    color: #fff;
+    font-size: 40px;
+	font-weight: 300;
+}
+
+.settings_page_flexblocks #wpcontent {
+    padding-left: 0;
+    background: #fff;
+}
+
+.fx-dashboard-header .fx-logo {
+	margin-left: auto;
+}
+
+.fx-dashboard-intro-content {
+    padding: 60px;
+    font-size: 25px;
+    line-height: 1.8;
+    text-align: center;
+    max-width: 850px;
+    margin: 0 auto;
+    background: #fff;
+}
+
+.fx-dashboard-intro-image {
+    width: 50%;
+    text-align: center;
+}
+
+.fx-dashboard-blocks {
+    display: flex;
+    justify-content: center;
+    background: #f0f4f5;
+	padding: 60px;
+	margin-left: -60px;
+}
+
+.fx-block {
+    padding: 40px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+	width: 25%;
+	margin-left: 60px;
+	box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    border: 1px solid #bcdcdc;
+	transition: transform 500ms ease;
+}
+
+.fx-block:hover {
+	transform: translateY(-5px);
+}
+
+.fx-block svg {
+    width: 75px;
+    height: 75px;
+	color: #04b4ea;
+}
+
+.fx-block > *:last-child {
+    margin-bottom: 0;
+}
+
+.fx-block h3 {
+    margin-top: 30px;
+	font-size: 20px;
+}
+
+.fx-block p {
+    font-size: 15px;
+	margin: 0 0 2em;
+}
+
+.fx-button {
+    margin-top: auto;
+    background: #fff;
+    border: 1px solid;
+    flex-grow: 0;
+    padding: 15px 20px;
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+    align-self: flex-start;
+	transition: color 500ms ease;
+}
+
+.fx-generatepress {
+    display: flex;
+    padding: 60px;
+}
+
+.fx-generatepress-content {
+    width: 50%;
+}
+
+.fx-generatepress-content h2 {
+    font-size: 40px;
+    line-height: 1.2;
+	font-weight: 300;
+	margin-top: 0;
+}
+
+.fx-generatepress-content p {
+    max-width: 450px;
+    font-size: 20px;
+    line-height: 1.8;
+}
+
+.fx-generatepress-content .stats {
+    display: flex;
+    font-size: 16px;
+    line-height: 1.6;
+    margin-top: 40px;
+}
+
+.fx-generatepress-content .stats > * {
+    padding-right: 30px;
+}
+
+.fx-generatepress-content .stats strong {
+    font-size: 18px;
+}
+
+.fx-generatepress-image {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fx-generatepress-image img {
+    width: 450px;
+}
+
+.fx-generatepress-content .fx-button {
+    color: #5ea337;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+.fx-generatepress-content .fx-button:hover {
+	color: #000;
+}
