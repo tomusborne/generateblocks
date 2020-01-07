@@ -588,7 +588,9 @@ body .fx-container .wp-block {
     margin-top: 0; }
 
 .fx-component-gradient-stop-value {
-  width: calc(100% - 30px); }
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+  padding-left: 10px; }
 /**
  * #.# Common SCSS
  *
