@@ -35,3 +35,31 @@ $item-spacing: 10px !default;
 .fx-panel-label svg.components-panel__icon {
     margin: 0 10px 0 0;
 }
+
+.components-fx-control__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.components-panel__body .components-fx-control__units .components-button {
+    background: #fff;
+    border-color: #e2e4e7;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    color: #6c7781;
+    font-size: 10px;
+    padding: 0 5px;
+    position: relative;
+    text-align: center;
+    text-shadow: none;
+
+	&.is-primary {
+	    background: #666;
+	    border-color: #666;
+	    color: #fff;
+	    cursor: default;
+	    z-index: 1;
+	}
+}

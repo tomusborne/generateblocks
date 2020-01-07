@@ -411,8 +411,22 @@ class TypographyControls extends Component {
 				{ typeof valueLetterSpacing !== 'undefined' &&
 					<Fragment>
 						<div className="components-fx-typography-control__header">
-							<div className="components-fx-typography-control__label components-base-control__label">
+							<div className="components-fx-control__label">
 								{ __( 'Letter Spacing', 'flexblocks' ) }
+							</div>
+
+							<div className="components-fx-control__units">
+								<Tooltip text={ __( 'Em Units' ) } key={ 'letter-spacing-unit' }>
+									<Button
+										key={ 'letter-spacing-unit' }
+										isSmall
+										isPrimary={ true }
+										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+										aria-label={ __( 'Em Units' ) }
+									>
+										em
+									</Button>
+								</Tooltip>
 							</div>
 						</div>
 

@@ -365,9 +365,28 @@ class FlexBlockContainer extends Component {
 									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
 								/>
 
+								<div className="components-fx-control__header">
+									<div className="components-fx-control__label">
+										{ __( 'Container Width', 'flexblocks' ) }
+									</div>
+
+									<div className="components-fx-control__units">
+										<Tooltip text={ __( 'Pixel Units' ) } key={ 'container-width-unit' }>
+											<Button
+												key={ 'container-width-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
+
 								<TextControl
 									type={ 'number' }
-									label={ __( 'Container Width', 'flexblocks' ) }
 									value={ parseFloat( containerWidth ) }
 									onChange={ ( value ) => {
 										setAttributes( {
@@ -708,6 +727,7 @@ class FlexBlockContainer extends Component {
 														attrBottom={ 'borderSizeBottom' }
 														attrLeft={ 'borderSizeLeft' }
 														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
 													/>
 
 													<DimensionsControl { ...this.props }

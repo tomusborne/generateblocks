@@ -95,6 +95,7 @@ class DimensionsControl extends Component {
 			valueUnit,
 			attrUnit,
 			unitChoices,
+			displayUnit,
 		} = this.props;
 
 		const classes = classnames(
@@ -207,6 +208,22 @@ class DimensionsControl extends Component {
 									) }
 								</ButtonGroup>
 							</div> : null
+						}
+
+						{ ( typeof displayUnit !== 'undefined' ) &&
+							<div className="components-fx-control__units">
+								<Tooltip text={ __( 'Pixel Units' ) } key={ 'px-unit' }>
+									<Button
+										key={ 'px-unit' }
+										isSmall
+										isPrimary={ true }
+										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+										aria-label={ __( 'Pixel Units' ) }
+									>
+										{ displayUnit }
+									</Button>
+								</Tooltip>
+							</div>
 						}
 					</div>
 

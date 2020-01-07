@@ -338,8 +338,27 @@ class FlexBlockGridContainer extends Component {
 										<div>
 											{ 'default' === tab.name && (
 												<Fragment>
+													<div className="components-fx-control__header">
+														<div className="components-fx-control__label">
+															{ __( 'Horizontal Gap', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-control__units">
+															<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-unit' }>
+																<Button
+																	key={ 'h-gap-unit' }
+																	isSmall
+																	isPrimary={ true }
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	aria-label={ __( 'Pixel Units' ) }
+																>
+																	px
+																</Button>
+															</Tooltip>
+														</div>
+													</div>
+
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'flexblocks' ) }
 														value={ horizontalGap ? horizontalGap : '' }
 														onChange={ ( value ) => setAttributes( {
 															horizontalGap: parseFloat( value )
@@ -349,8 +368,27 @@ class FlexBlockGridContainer extends Component {
 														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGap }
 													/>
 
+													<div className="components-fx-control__header">
+														<div className="components-fx-control__label">
+															{ __( 'Vertical Gap', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-control__units">
+															<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-unit' }>
+																<Button
+																	key={ 'v-gap-unit' }
+																	isSmall
+																	isPrimary={ true }
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	aria-label={ __( 'Pixel Units' ) }
+																>
+																	px
+																</Button>
+															</Tooltip>
+														</div>
+													</div>
+
 													<RangeControl
-														label={ __( 'Vertical Gap', 'flexblocks' ) }
 														value={ verticalGap ? verticalGap : '' }
 														onChange={ ( value ) => setAttributes( {
 															verticalGap: parseFloat( value )
@@ -393,8 +431,27 @@ class FlexBlockGridContainer extends Component {
 
 											{ 'tablet' === tab.name && (
 												<Fragment>
+													<div className="components-fx-control__header">
+														<div className="components-fx-control__label">
+															{ __( 'Horizontal Gap', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-control__units">
+															<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-tablet-unit' }>
+																<Button
+																	key={ 'h-gap-tablet-unit' }
+																	isSmall
+																	isPrimary={ true }
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	aria-label={ __( 'Pixel Units' ) }
+																>
+																	px
+																</Button>
+															</Tooltip>
+														</div>
+													</div>
+
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'flexblocks' ) }
 														value={ horizontalGapTablet ? horizontalGapTablet : '' }
 														onChange={ ( value ) => setAttributes( {
 															horizontalGapTablet: parseFloat( value )
@@ -404,8 +461,27 @@ class FlexBlockGridContainer extends Component {
 														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGapTablet }
 													/>
 
+													<div className="components-fx-control__header">
+														<div className="components-fx-control__label">
+															{ __( 'Vertical Gap', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-control__units">
+															<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-tablet-unit' }>
+																<Button
+																	key={ 'v-gap-tablet-unit' }
+																	isSmall
+																	isPrimary={ true }
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	aria-label={ __( 'Pixel Units' ) }
+																>
+																	px
+																</Button>
+															</Tooltip>
+														</div>
+													</div>
+
 													<RangeControl
-														label={ __( 'Vertical Gap', 'flexblocks' ) }
 														value={ verticalGapTablet ? verticalGapTablet : '' }
 														onChange={ ( value ) => setAttributes( {
 															verticalGapTablet: parseFloat( value )
@@ -446,8 +522,27 @@ class FlexBlockGridContainer extends Component {
 
 											{ 'mobile' === tab.name && (
 												<Fragment>
+													<div className="components-fx-control__header">
+														<div className="components-fx-control__label">
+															{ __( 'Horizontal Gap', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-control__units">
+															<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-mobile-unit' }>
+																<Button
+																	key={ 'h-gap-mobile-unit' }
+																	isSmall
+																	isPrimary={ true }
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	aria-label={ __( 'Pixel Units' ) }
+																>
+																	px
+																</Button>
+															</Tooltip>
+														</div>
+													</div>
+
 													<RangeControl
-														label={ __( 'Horizontal Gap', 'flexblocks' ) }
 														value={ horizontalGapMobile ? horizontalGapMobile : '' }
 														onChange={ ( value ) => setAttributes( {
 															horizontalGapMobile: parseFloat( value )
@@ -457,8 +552,27 @@ class FlexBlockGridContainer extends Component {
 														initialPosition={ flexBlocksDefaults.gridContainer.horizontalGapMobile }
 													/>
 
+													<div className="components-fx-control__header">
+														<div className="components-fx-control__label">
+															{ __( 'Vertical Gap', 'flexblocks' ) }
+														</div>
+
+														<div className="components-fx-control__units">
+															<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-mobile-unit' }>
+																<Button
+																	key={ 'v-gap-mobile-unit' }
+																	isSmall
+																	isPrimary={ true }
+																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																	aria-label={ __( 'Pixel Units' ) }
+																>
+																	px
+																</Button>
+															</Tooltip>
+														</div>
+													</div>
+
 													<RangeControl
-														label={ __( 'Vertical Gap', 'flexblocks' ) }
 														value={ verticalGapMobile ? verticalGapMobile : '' }
 														onChange={ ( value ) => setAttributes( {
 															verticalGapMobile: parseFloat( value )
