@@ -90,8 +90,8 @@ class GradientControl extends Component {
 
 								<TextControl
 									className={ 'fx-component-gradient-stop-value' }
-									type={ 'number' }
-									value={ parseFloat( valueGradientColorStopOne ) }
+									type={ 'text' }
+									value={ valueGradientColorStopOne ? parseFloat( valueGradientColorStopOne ) : '' }
 									placeholder={ __( 'Stop position (%)', 'flexblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
@@ -121,8 +121,8 @@ class GradientControl extends Component {
 
 								<TextControl
 									className={ 'fx-component-gradient-stop-value' }
-									type={ 'number' }
-									value={ parseFloat( valueGradientColorStopTwo ) }
+									type={ 'text' }
+									value={ valueGradientColorStopTwo ? parseFloat( valueGradientColorStopTwo ) : '' }
 									placeholder={ __( 'Stop position (%)', 'flexblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {

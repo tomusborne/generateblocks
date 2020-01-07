@@ -326,8 +326,8 @@ class TypographyControls extends Component {
 
 						<div className="components-fx-typography-control__inputs">
 							<TextControl
-								type={ 'number' }
-								value={ parseFloat( valueFontSize ) }
+								type={ 'text' }
+								value={ valueFontSize ? parseFloat( valueFontSize ) : '' }
 								onChange={ ( value ) => {
 									setAttributes( {
 										[ this.props[ 'attrFontSize' ] ]: parseFloat( value )
@@ -384,8 +384,8 @@ class TypographyControls extends Component {
 
 						<div className="components-fx-typography-control__inputs">
 							<TextControl
-								type={ 'number' }
-								value={ parseFloat( valueLineHeight ) }
+								type={ 'text' }
+								value={ valueLineHeight ? parseFloat( valueLineHeight ) : '' }
 								onChange={ ( value ) => {
 									setAttributes( {
 										[ this.props[ 'attrLineHeight' ] ]: parseFloat( value )
@@ -432,8 +432,8 @@ class TypographyControls extends Component {
 
 						<div className="components-fx-typography-control__inputs">
 							<TextControl
-								type={ 'number' }
-								value={ parseFloat( valueLetterSpacing ) }
+								type={ 'text' }
+								value={ valueLetterSpacing ? parseFloat( valueLetterSpacing ) : '' }
 								onChange={ ( value ) => {
 									setAttributes( {
 										[ this.props[ 'attrLetterSpacing' ] ]: parseFloat( value )
