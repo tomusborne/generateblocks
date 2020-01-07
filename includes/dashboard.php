@@ -46,7 +46,7 @@ function flexblocks_do_dashboard() {
 			<div class="fx-dashboard-intro-content">
 				<?php _e( "FlexBlocks isn't your average block plugin with 30+ half-baked blocks. Instead, we've created 4 powerful blocks that can be used to create nearly anything.", "flexblocks" ); ?>
 			</div>
-			
+
 			<div class="fx-dashboard-blocks">
 				<div class="fx-block">
 					<svg style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 38 38" height="100%" width="100%">
@@ -96,39 +96,41 @@ function flexblocks_do_dashboard() {
 			</div>
 
 			<div class="fx-generatepress">
-				<div class="fx-generatepress-content">
-					<h2>
-						<?php
-							printf(
-								__( 'The perfect %s theme for your next project.', 'flexblocks' ),
-								'<strong>' . __( 'lightweight', 'flexblocks' ) . '</strong>'
-							);
-						?>
-					</h2>
-					<p><?php _e( "Looking for a theme to pair with FlexBlocks? We've put years of love into GeneratePress, and we've integrated FlexBlocks with it seamlessly.", "flexblocks" ); ?></p>
-					<a class="fx-button" href="https://generatepress.com" target="_blank" rel="noopener"><?php _e( 'Learn more', 'flexblocks' ); ?></a>
-					<div class="stats">
-						<div class="downloads">
-							<strong>2,000,000+</strong><br> <?php _e( 'Downloads', 'flexblocks' ); ?>
-						</div>
+				<div class="fx-inside-generatepress">
+					<div class="fx-generatepress-content">
+						<h2>
+							<?php
+								printf(
+									__( 'The perfect %s theme for your next project.', 'flexblocks' ),
+									'<strong>' . __( 'lightweight', 'flexblocks' ) . '</strong>'
+								);
+							?>
+						</h2>
+						<p><?php _e( "Looking for a theme to pair with FlexBlocks? We've put years of love into GeneratePress, and we've integrated FlexBlocks with it seamlessly.", "flexblocks" ); ?></p>
+						<a class="fx-button" href="https://generatepress.com" target="_blank" rel="noopener"><?php _e( 'Learn more', 'flexblocks' ); ?></a>
+						<div class="stats">
+							<div class="downloads">
+								<strong>2,000,000+</strong><br> <?php _e( 'Downloads', 'flexblocks' ); ?>
+							</div>
 
-						<div class="stars">
-							<strong>900+</strong><br>
-							<img src="<?php echo FLEXBLOCKS_MODULE_DIR_URL . 'assets/images/stars.svg'; ?>" alt="" width="98" height="17" class="alignnone size-full wp-image-44">
-						</div>
+							<div class="stars">
+								<strong>900+</strong><br>
+								<img src="<?php echo FLEXBLOCKS_MODULE_DIR_URL . 'assets/images/stars.svg'; ?>" alt="" width="98" height="17" class="alignnone size-full wp-image-44">
+							</div>
 
-						<div class="active-websites">
-							<strong>200,000+</strong><br> <?php _e( 'Active websites', 'flexblocks' ); ?>
-						</div>
+							<div class="active-websites">
+								<strong>200,000+</strong><br> <?php _e( 'Active websites', 'flexblocks' ); ?>
+							</div>
 
-						<div class="active-websites">
-							<strong>50,000+</strong><br> <?php _e( 'Happy customers', 'flexblocks' ); ?>
+							<div class="active-websites">
+								<strong>50,000+</strong><br> <?php _e( 'Happy customers', 'flexblocks' ); ?>
+							</div>
 						</div>
 					</div>
-				</div>
 
-				<div class="fx-generatepress-image">
-					<img width="200" src="<?php echo FLEXBLOCKS_MODULE_DIR_URL . 'assets/images/generatepress.svg'; ?>" alt="" />
+					<div class="fx-generatepress-image">
+						<img width="200" src="<?php echo FLEXBLOCKS_MODULE_DIR_URL . 'assets/images/generatepress.svg'; ?>" alt="" />
+					</div>
 				</div>
 			</div>
 		</div>

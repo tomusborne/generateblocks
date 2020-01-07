@@ -99,8 +99,14 @@
 }
 
 .fx-generatepress {
+	padding: 60px;
+	background: #fff;
+}
+
+.fx-inside-generatepress {
     display: flex;
-    padding: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .fx-generatepress-content {
