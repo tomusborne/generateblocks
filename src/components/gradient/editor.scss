@@ -17,5 +17,6 @@
 }
 
 .fx-component-gradient-stop-value {
-    width: calc(100% - 30px);
+	flex-grow: 1;
+	padding-left: 10px;
 }
