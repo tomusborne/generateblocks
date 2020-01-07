@@ -61,3 +61,11 @@
 .components-fx-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
     border-radius: 3px;
 }
+
+.components-fx-typography-control__inputs button {
+    margin-left: 10px;
+}
+
+.components-fx-typography-control__inputs .components-base-control {
+    flex-grow: 1;
+}
