@@ -107,3 +107,33 @@ body .fx-container .wp-block {
 [data-type="flexblocks/container"] > .editor-block-list__block-edit > [data-block] {
     margin: 0;
 }
+
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="flexblocks/container"] > .block-editor-block-list__block-edit:before {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="flexblocks/container"] > .block-editor-block-list__block-edit > .editor-block-mover {
+    left: -38px;
+    top: 0;
+}
+
+/* Not needed in GB 7 */
+.edit-post-visual-editor .block-editor-block-list__block[data-type="flexblocks/container"] > .block-editor-block-list__block-edit {
+    margin: 0;
+}
+
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="flexblocks/container"] {
+    padding: 0;
+	box-sizing: border-box;
+}
+
+.fx-container .fx-inside-container {
+	box-sizing: content-box;
+}
+
+.fx-container *:not(.fx-inside-container) {
+	box-sizing: border-box;
+}
