@@ -30,9 +30,9 @@ function flexblocks_do_block_editor_assets() {
 
 	wp_enqueue_script(
 		'flexblocks-dompurify',
-		FLEXBLOCKS_MODULE_DIR_URL . 'dist/js/purify.min.js',
+		FLEXBLOCKS_MODULE_DIR_URL . 'assets/js/purify.min.js',
 		array( 'flexblocks' ),
-		filemtime( FLEXBLOCKS_MODULE_DIR . 'dist/js/purify.min.js' ),
+		filemtime( FLEXBLOCKS_MODULE_DIR . 'assets/js/purify.min.js' ),
 		true
 	);
 
