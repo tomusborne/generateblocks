@@ -449,7 +449,7 @@ class FlexBlockHeadline extends Component {
 						/>
 
 						<ColorPicker
-							label={ __( 'Color', 'flexblocks' ) }
+							label={ __( 'Text Color', 'flexblocks' ) }
 							value={ textColor }
 							onChange={ ( value ) =>
 								setAttributes( {
