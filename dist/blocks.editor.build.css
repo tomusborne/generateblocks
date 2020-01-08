@@ -389,6 +389,13 @@ body .fx-container .wp-block {
 
 .fx-component-color-picker .fx-component-color-picker-palette {
   margin: 0 17px; }
+  .fx-component-color-picker .fx-component-color-picker-palette .components-circular-option-picker {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap; }
+    .fx-component-color-picker .fx-component-color-picker-palette .components-circular-option-picker .components-circular-option-picker__option-wrapper {
+      margin: 0 8px 8px 0; }
 
 .fx-component-color-picker .components-color-palette {
   margin: 0; }
@@ -396,6 +403,17 @@ body .fx-container .wp-block {
 .components-base-control.color-picker-clear {
   text-align: center;
   padding-bottom: 5px; }
+
+.fx-component-color-picker-has-alpha .components-color-picker__inputs-wrapper {
+  display: none; }
+
+.fx-component-alpha-value {
+  padding: 12px 16px; }
+  .fx-component-alpha-value input {
+    width: 100%; }
+
+.fx-component-color-picker {
+  padding: 5px; }
 /**
  * #.# Common SCSS
  *
