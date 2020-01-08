@@ -29,6 +29,12 @@ export default class ColorPicker extends Component {
 			alpha = false,
 		} = this.props;
 
+		let alphaActive = false;
+
+		if ( typeof value !== 'undefined' && value.substring( 0, 4 ) == "rgba") {
+			alphaActive = true;
+		}
+
 		return (
 			<BaseControl
 				label={ label }
@@ -52,7 +58,13 @@ export default class ColorPicker extends Component {
 						</Tooltip>
 					) }
 					renderContent={ () => (
-						<div className="fx-component-color-picker">
+						<div
+							className="fx-component-color-picker"
+							className={ classnames( {
+								'fx-component-color-picker': true,
+								'fx-component-color-picker-has-alpha': alphaActive
+							} ) }
+						>
 							<WPColorPicker
 								color={ value }
 								onChangeComplete={ ( color ) => {
@@ -69,6 +81,15 @@ export default class ColorPicker extends Component {
 								} }
 								disableAlpha={ ! alpha }
 							/>
+
+							{ ( !! alphaActive ) &&
+								<div className="fx-component-alpha-value">
+									<input
+										type="text"
+										value={ value ? value : '' }
+									/>
+								</div>
+							}
 
 							<BaseControl
                                 label={ __( 'Color Palette', 'flexblocks' ) }
