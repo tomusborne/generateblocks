@@ -820,6 +820,7 @@ body .fx-container .wp-block {
     cursor: text; }
   .fx-button-wrapper .components-button,
   .fx-button-wrapper .components-button.has-icon.has-text {
+    background: #fff;
     -ms-flex-item-align: center;
         align-self: center; }
     .fx-button-wrapper .components-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover,
