@@ -36,6 +36,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.headline.backgroundColor,
 	},
+	backgroundColorOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.backgroundColorOpacity,
+	},
 	textColor: {
 		type: 'string',
 		default: flexBlocksDefaults.headline.textColor,
@@ -231,6 +235,10 @@ export default {
 	iconColor: {
 		type: 'string',
 		default: flexBlocksDefaults.headline.iconColor,
+	},
+	iconColorOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.headline.iconColorOpacity,
 	},
 	customIcon: {
 		type: 'boolean',

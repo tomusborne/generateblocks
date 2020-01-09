@@ -291,9 +291,17 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.container.borderColor,
 	},
+	borderColorOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.container.borderColorOpacity,
+	},
 	backgroundColor: {
 		type: 'string',
 		default: flexBlocksDefaults.container.backgroundColor,
+	},
+	backgroundColorOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.container.backgroundColorOpacity,
 	},
 	gradient: {
 		type: 'boolean',
@@ -307,6 +315,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.container.gradientColorOne,
 	},
+	gradientColorOneOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.container.gradientColorOneOpacity,
+	},
 	gradientColorStopOne: {
 		type: 'number',
 		default: flexBlocksDefaults.container.gradientColorStopOne,
@@ -314,6 +326,10 @@ export default {
 	gradientColorTwo: {
 		type: 'string',
 		default: flexBlocksDefaults.container.gradientColorTwo,
+	},
+	gradientColorTwoOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.container.gradientColorTwoOpacity,
 	},
 	gradientColorStopTwo: {
 		type: 'number',

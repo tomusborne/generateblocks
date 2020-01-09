@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
+import hexToRGBA from '../../components/color-picker/hex-to-rgba';
 import IconPicker from '../../components/icon-picker';
 import URLInput from '../../components/url-input';
 import DimensionsControl from '../../components/dimensions/';
@@ -83,8 +84,10 @@ class FlexBlockButton extends Component {
 			removeText,
 			ariaLabel,
 			backgroundColor,
+			backgroundColorOpacity,
 			textColor,
 			backgroundColorHover,
+			backgroundColorHoverOpacity,
 			textColorHover,
 			fontFamily,
 			fontFamilyFallback,
@@ -154,12 +157,16 @@ class FlexBlockButton extends Component {
 			borderRadiusBottomLeftMobile,
 			borderRadiusTopLeftMobile,
 			borderColor,
+			borderColorOpacity,
 			borderColorHover,
+			borderColorHoverOpacity,
 			gradient,
 			gradientDirection,
 			gradientColorOne,
+			gradientColorOneOpacity,
 			gradientColorStopOne,
 			gradientColorTwo,
+			gradientColorTwoOpacity,
 			gradientColorStopTwo,
 		} = attributes;
 
@@ -181,7 +188,7 @@ class FlexBlockButton extends Component {
 		}
 
 		if ( gradient ) {
-			backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + ');';
+			backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + ');';
 		}
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
@@ -202,7 +209,7 @@ class FlexBlockButton extends Component {
 
 		const css = `
 			.editor-block-list__block a.fx-button-` + uniqueId + ` {
-				background-color: ` + backgroundColor + `;
+				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				background-image: ` + backgroundImageValue + `;
 				color: ` + textColor + `;
 				padding-top: ` + paddingTop + paddingUnit + `;
@@ -223,7 +230,7 @@ class FlexBlockButton extends Component {
 				border-bottom-width: ` + borderSizeBottom + `px;
 				border-left-width: ` + borderSizeLeft + `px;
 				border-style: ` + borderStyleValue + `;
-				border-color: ` + borderColor + `;
+				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
 				text-transform: ` + textTransform + `;
 				margin-top: ` + marginTop + marginUnit + `;
 				margin-right: ` + marginRight + marginUnit + `;
@@ -234,9 +241,9 @@ class FlexBlockButton extends Component {
 			.editor-block-list__block a.fx-button-` + uniqueId + `:hover,
 			.editor-block-list__block a.fx-button-` + uniqueId + `:focus,
 			.editor-block-list__block a.fx-button-` + uniqueId + `:active {
-				background-color: ` + backgroundColorHover + `;
+				background-color: ` + hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ) + `;
 				color: ` + textColorHover + `;
-				border-color: ` + borderColorHover + `;
+				border-color: ` + hexToRGBA( borderColorHover, borderColorHoverOpacity ) + `;
 			}
 
 			.editor-block-list__block a.fx-button-` + uniqueId + ` .fx-icon {
@@ -665,6 +672,13 @@ class FlexBlockButton extends Component {
 															} )
 														}
 														alpha={ true }
+														valueOpacity={ backgroundColorOpacity }
+														attrOpacity={ 'backgroundColorOpacity' }
+														onOpacityChange={ ( value ) =>
+															setAttributes( {
+																backgroundColorOpacity: value
+															} )
+														}
 													/>
 
 													<ColorPicker
@@ -686,7 +700,14 @@ class FlexBlockButton extends Component {
 																borderColor: value
 															} )
 														}
-														alpha={ false }
+														alpha={ true }
+														valueOpacity={ borderColorOpacity }
+														attrOpacity={ 'borderColorOpacity' }
+														onOpacityChange={ ( value ) =>
+															setAttributes( {
+																borderColorOpacity: value
+															} )
+														}
 													/>
 												</Fragment>
 
@@ -702,6 +723,13 @@ class FlexBlockButton extends Component {
 															} )
 														}
 														alpha={ true }
+														valueOpacity={ backgroundColorHoverOpacity }
+														attrOpacity={ 'backgroundColorHoverOpacity' }
+														onOpacityChange={ ( value ) =>
+															setAttributes( {
+																backgroundColorHoverOpacity: value
+															} )
+														}
 													/>
 
 													<ColorPicker
@@ -723,7 +751,14 @@ class FlexBlockButton extends Component {
 																borderColorHover: value
 															} )
 														}
-														alpha={ false }
+														alpha={ true }
+														valueOpacity={ borderColorHoverOpacity }
+														attrOpacity={ 'borderColorHoverOpacity' }
+														onOpacityChange={ ( value ) =>
+															setAttributes( {
+																borderColorHoverOpacity: value
+															} )
+														}
 													/>
 												</Fragment>
 											) }
@@ -744,14 +779,18 @@ class FlexBlockButton extends Component {
 							valueGradient={ gradient }
 							valueGradientDirection={ gradientDirection }
 							valueGradientColorOne={ gradientColorOne }
+							valueGradientColorOneOpacity={ gradientColorOneOpacity }
 							valueGradientColorStopOne={ gradientColorStopOne }
 							valueGradientColorTwo={ gradientColorTwo }
+							valueGradientColorTwoOpacity={ gradientColorTwoOpacity }
 							valueGradientColorStopTwo={ gradientColorStopTwo }
 							attrGradient={ 'gradient' }
 							attrGradientDirection={ 'gradientDirection' }
 							attrGradientColorOne={ 'gradientColorOne' }
+							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
 							attrGradientColorStopOne={ 'gradientColorStopOne' }
 							attrGradientColorTwo={ 'gradientColorTwo' }
+							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
 							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
 							defaultColorOne={ flexBlocksDefaults.button.gradientColorOne }
 							defaultColorTwo={ flexBlocksDefaults.button.gradientColorTwo }

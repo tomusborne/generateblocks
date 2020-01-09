@@ -1,9 +1,9 @@
 import classnames from 'classnames';
+import hexToRGBA from './hex-to-rgba';
+import getIcon from '../../utils/get-icon';
 
 // Import CSS
 import './editor.scss';
-
-const WPColorPicker = wp.components.ColorPicker;
 
 const { Component } = wp.element;
 
@@ -14,25 +14,36 @@ const {
 	Tooltip,
 	BaseControl,
 	Button,
+	TextControl,
+	ColorPicker,
+	RangeControl,
 } = wp.components;
 
 const {
     ColorPalette,
 } = wp.blockEditor;
 
-export default class ColorPicker extends Component {
+export default class FlexBlocksColorPicker extends Component {
+	constructor( props ) {
+		super( ...arguments );
+	}
+
 	render() {
 		const {
 			value,
 			onChange,
+			onOpacityChange,
+			setAttributes,
 			label,
 			alpha = false,
+			valueOpacity,
+			attrOpacity,
 		} = this.props;
 
-		let alphaActive = false;
+		let alphaColor = value;
 
-		if ( typeof value !== 'undefined' && value.substring( 0, 4 ) == "rgba") {
-			alphaActive = true;
+		if ( valueOpacity && 1 !== valueOpacity ) {
+			alphaColor = hexToRGBA( alphaColor, valueOpacity );
 		}
 
 		return (
@@ -51,7 +62,7 @@ export default class ColorPicker extends Component {
 								className="components-color-palette__item components-circular-option-picker__option"
 								onClick={ onToggle }
 								aria-label={ __( 'Custom color picker', 'flexblocks' ) }
-								style={ { color: value ? value : '' } }
+								style={ { color: alphaColor ? alphaColor : '' } }
 							>
 								<span className="components-color-palette__custom-color-gradient" />
 							</button>
@@ -61,32 +72,30 @@ export default class ColorPicker extends Component {
 						<div
 							className="fx-component-color-picker"
 							className={ classnames( {
-								'fx-component-color-picker': true,
-								'fx-component-color-picker-has-alpha': alphaActive
+								'fx-component-color-picker': true
 							} ) }
 						>
-							<WPColorPicker
-								color={ value }
+							<ColorPicker
+								color={ value ? value : '' }
 								onChangeComplete={ ( color ) => {
-									let colorString;
-
-									if ( typeof color.rgb === 'undefined' || color.rgb.a === 1 ) {
-										colorString = color.hex;
-									} else {
-										const { r, g, b, a } = color.rgb;
-										colorString = `rgba(${ r }, ${ g }, ${ b }, ${ a })`;
-									}
-
-									onChange( colorString );
+									onChange( color.hex );
 								} }
-								disableAlpha={ ! alpha }
+								disableAlpha
 							/>
 
-							{ ( !! alphaActive ) &&
-								<div className="fx-component-alpha-value">
-									<input
-										type="text"
-										value={ value ? value : '' }
+							{ ( typeof valueOpacity !== 'undefined' ) &&
+								<div className="fx-component-color-opacity">
+									<Tooltip text={ __( 'Opacity', 'flexblocks' ) }>
+										{ getIcon( 'gradient' ) }
+									</Tooltip>
+
+									<RangeControl
+										value={ valueOpacity ? valueOpacity : '' }
+										onChange={ ( value ) => onOpacityChange( value ) }
+										min={ 0.00 }
+										max={ 1.00 }
+										step={ 0.01 }
+										initialPosition={ 1 }
 									/>
 								</div>
 							}

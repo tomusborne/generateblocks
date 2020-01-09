@@ -59,6 +59,10 @@ export default {
         type: 'string',
         default: flexBlocksDefaults.button.backgroundColor,
     },
+	backgroundColorOpacity: {
+        type: 'string',
+        default: flexBlocksDefaults.button.backgroundColorOpacity,
+    },
 	textColor: {
         type: 'string',
         default: flexBlocksDefaults.button.textColor,
@@ -66,6 +70,10 @@ export default {
 	backgroundColorHover: {
         type: 'string',
         default: flexBlocksDefaults.button.backgroundColorHover,
+    },
+	backgroundColorHoverOpacity: {
+        type: 'number',
+        default: flexBlocksDefaults.button.backgroundColorHoverOpacity,
     },
 	textColorHover: {
         type: 'string',
@@ -75,9 +83,17 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.button.borderColor,
 	},
+	borderColorOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.button.borderColorOpacity,
+	},
 	borderColorHover: {
 		type: 'string',
 		default: flexBlocksDefaults.button.borderColorHover,
+	},
+	borderColorHoverOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.button.borderColorHoverOpacity,
 	},
 	fontFamily: {
 		type: 'string',
@@ -343,6 +359,10 @@ export default {
 		type: 'string',
 		default: flexBlocksDefaults.button.gradientColorOne,
 	},
+	gradientColorOneOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.button.gradientColorOneOpacity,
+	},
 	gradientColorStopOne: {
 		type: 'number',
 		default: flexBlocksDefaults.button.gradientColorStopOne,
@@ -350,6 +370,10 @@ export default {
 	gradientColorTwo: {
 		type: 'string',
 		default: flexBlocksDefaults.button.gradientColorTwo,
+	},
+	gradientColorTwoOpacity: {
+		type: 'number',
+		default: flexBlocksDefaults.button.gradientColorTwoOpacity,
 	},
 	gradientColorStopTwo: {
 		type: 'number',

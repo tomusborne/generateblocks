@@ -32,14 +32,18 @@ class GradientControl extends Component {
 			valueGradient,
 			valueGradientDirection,
 			valueGradientColorOne,
+			valueGradientColorOneOpacity,
 			valueGradientColorStopOne,
 			valueGradientColorTwo,
+			valueGradientColorTwoOpacity,
 			valueGradientColorStopTwo,
 			attrGradient,
 			attrGradientDirection,
 			attrGradientColorOne,
+			attrGradientColorOneOpacity,
 			attrGradientColorStopOne,
 			attrGradientColorTwo,
+			attrGradientColorTwoOpacity,
 			attrGradientColorStopTwo,
 			defaultColorOne,
 			defaultColorTwo,
@@ -86,6 +90,13 @@ class GradientControl extends Component {
 										} )
 									}
 									alpha={ true }
+									valueOpacity={ valueGradientColorOneOpacity }
+									attrOpacity={ 'valueGradientColorOneOpacity' }
+									onOpacityChange={ ( value ) =>
+										setAttributes( {
+											[ this.props[ 'attrGradientColorOneOpacity' ] ]: value,
+										} )
+									}
 								/>
 
 								<TextControl
@@ -117,6 +128,13 @@ class GradientControl extends Component {
 										} )
 									}
 									alpha={ true }
+									valueOpacity={ valueGradientColorTwoOpacity }
+									attrOpacity={ 'valueGradientColorTwoOpacity' }
+									onOpacityChange={ ( value ) =>
+										setAttributes( {
+											[ this.props[ 'attrGradientColorTwoOpacity' ] ]: value,
+										} )
+									}
 								/>
 
 								<TextControl

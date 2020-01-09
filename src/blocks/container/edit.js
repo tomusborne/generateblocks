@@ -4,6 +4,7 @@
 
 import Section from './section-tag';
 import ColorPicker from '../../components/color-picker';
+import hexToRGBA from '../../components/color-picker/hex-to-rgba';
 import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
@@ -177,13 +178,16 @@ class FlexBlockContainer extends Component {
 			borderRadiusBottomLeftMobile,
 			borderRadiusTopLeftMobile,
 			borderColor,
-			borderColorHover,
+			borderColorOpacity,
 			backgroundColor,
+			backgroundColorOpacity,
 			gradient,
 			gradientDirection,
 			gradientColorOne,
+			gradientColorOneOpacity,
 			gradientColorStopOne,
 			gradientColorTwo,
+			gradientColorTwoOpacity,
 			gradientColorStopTwo,
 			textColor,
 			linkColor,
@@ -220,13 +224,13 @@ class FlexBlockContainer extends Component {
 
 			if ( bgOptions.overlay ) {
 				if ( gradient ) {
-					backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + '), url(' + bgImage.image.url + ')';
+					backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + '), url(' + bgImage.image.url + ')';
 				} else {
-					backgroundImageValue = 'linear-gradient(0deg, ' + backgroundColor + ', ' + backgroundColor + '), url(' + bgImage.image.url + ')';
+					backgroundImageValue = 'linear-gradient(0deg, ' + hexToRGBA( backgroundColor, backgroundColorOpacity ) + ', ' + hexToRGBA( backgroundColor, backgroundColorOpacity ) + '), url(' + bgImage.image.url + ')';
 				}
 			}
 		} else if ( gradient ) {
-			backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + ');';
+			backgroundImageValue = 'linear-gradient(' + gradientDirection + ', ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + ');';
 		}
 
 		var outerContainerWidth = '';
@@ -258,7 +262,7 @@ class FlexBlockContainer extends Component {
 
 		const css = `
 			.fx-container-` + uniqueId + ` {
-				background-color: ` + backgroundColor + `;
+				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				color: ` + textColor + `;
 		  		background-image: ` + backgroundImageValue + `;
 		  		background-size: ` + bgOptions.size + `;
@@ -275,7 +279,7 @@ class FlexBlockContainer extends Component {
 				border-bottom-width: ` + borderSizeBottom + `px;
 				border-left-width: ` + borderSizeLeft + `px;
 				border-style: ` + borderStyleValue + `;
-				border-color: ` + borderColor + `;
+				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
 				min-height: ` + minHeight + minHeightUnit + `;
 			}
 
@@ -1001,6 +1005,13 @@ class FlexBlockContainer extends Component {
 									} )
 								}
 								alpha={ true }
+								valueOpacity={ backgroundColorOpacity }
+								attrOpacity={ 'backgroundColorOpacity' }
+								onOpacityChange={ ( value ) =>
+									setAttributes( {
+										backgroundColorOpacity: value
+									} )
+								}
 							/>
 
 							<ColorPicker
@@ -1045,6 +1056,13 @@ class FlexBlockContainer extends Component {
 									} )
 								}
 								alpha={ true }
+								valueOpacity={ borderColorOpacity }
+								attrOpacity={ 'borderColorOpacity' }
+								onOpacityChange={ ( value ) =>
+									setAttributes( {
+										borderColorOpacity: value
+									} )
+								}
 							/>
 						</Fragment>
 					</PanelBody>
@@ -1062,12 +1080,16 @@ class FlexBlockContainer extends Component {
 							valueGradientColorStopOne={ gradientColorStopOne }
 							valueGradientColorTwo={ gradientColorTwo }
 							valueGradientColorStopTwo={ gradientColorStopTwo }
+							valueGradientColorOneOpacity={ gradientColorOneOpacity }
+							valueGradientColorTwoOpacity={ gradientColorTwoOpacity }
 							attrGradient={ 'gradient' }
 							attrGradientDirection={ 'gradientDirection' }
 							attrGradientColorOne={ 'gradientColorOne' }
 							attrGradientColorStopOne={ 'gradientColorStopOne' }
 							attrGradientColorTwo={ 'gradientColorTwo' }
 							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
+							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
 							defaultColorOne={ flexBlocksDefaults.container.gradientColorOne }
 							defaultColorTwo={ flexBlocksDefaults.container.gradientColorTwo }
 						/>

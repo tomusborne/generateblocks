@@ -192,11 +192,16 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'margin-right', 'auto' );
 			}
 
+			$settings['backgroundColor'] = flexblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] );
+
 			$css->add_property( 'background-color', $settings['backgroundColor'] );
 			$css->add_property( 'color', $settings['textColor'] );
 
 			$gradientColorStopOneValue = '';
 			$gradientColorStopTwoValue = '';
+
+			$settings['gradientColorOne'] = flexblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] );
+			$settings['gradientColorTwo'] = flexblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] );
 
 			if ( $settings['gradient'] ) {
 				if ( $settings['gradientColorOne'] && '' !== $settings['gradientColorStopOne'] ) {
@@ -241,7 +246,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'border-style', 'solid' );
 			}
 
-			$css->add_property( 'border-color', $settings['borderColor'] );
+			$css->add_property( 'border-color', flexblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 			$css->add_property( 'box-sizing', 'border-box' );
 
 			$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
@@ -493,10 +498,10 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			}
 
 			$css->set_selector( 'a.fx-button-' . $id );
-			$css->add_property( 'background-color', $settings['backgroundColor'] );
+			$css->add_property( 'background-color', flexblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 
 			if ( $settings['gradient'] ) {
-				$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . ')' );
+				$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . flexblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . flexblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
 			}
 
 			$css->add_property( 'color', $settings['textColor'] );
@@ -514,7 +519,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'border-style', 'solid' );
 			}
 
-			$css->add_property( 'border-color', $settings['borderColor'] );
+			$css->add_property( 'border-color', flexblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 			$css->add_property( 'text-transform', $settings['textTransform'] );
 
 			if ( $settings['icon'] ) {
@@ -523,9 +528,9 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			}
 
 			$css->set_selector( 'a.fx-button-' . $id . ':hover,a.fx-button-' . $id . ':active, a.fx-button-' . $id . ':focus' );
-			$css->add_property( 'background-color', $settings['backgroundColorHover'] );
+			$css->add_property( 'background-color', flexblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
 			$css->add_property( 'color', $settings['textColorHover'] );
-			$css->add_property( 'border-color', $settings['borderColorHover'] );
+			$css->add_property( 'border-color', flexblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
 			if ( $settings['icon'] ) {
 				$css->set_selector( 'a.fx-button-' . $id . ' .fx-icon' );
@@ -602,7 +607,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			$css->add_property( 'text-align', $settings['alignment'] );
 
 			if ( ! $settings['icon'] ) {
-				$css->add_property( 'background-color', $settings['backgroundColor'] );
+				$css->add_property( 'background-color', flexblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 				$css->add_property( 'color', $settings['textColor'] );
 			}
 
@@ -626,7 +631,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			if ( $settings['icon'] ) {
 				$css->set_selector( '.fx-headline-wrapper-' . $id . ' .fx-icon' );
 				$css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
-				$css->add_property( 'color', $settings['iconColor'] );
+				$css->add_property( 'color', flexblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
 
 				if ( 'above' === $settings['iconLocation'] ) {
 					$css->add_property( 'align-self', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
@@ -645,7 +650,7 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 					$css->add_property( 'align-items', $settings['iconVerticalAlignment'] );
 				}
 
-				$css->add_property( 'background-color', $settings['backgroundColor'] );
+				$css->add_property( 'background-color', flexblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 				$css->add_property( 'color', $settings['textColor'] );
 
 				if ( 'above' === $settings['iconLocation'] ) {

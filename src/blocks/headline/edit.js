@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
+import hexToRGBA from '../../components/color-picker/hex-to-rgba';
 import IconPicker from '../../components/icon-picker';
 import TypographyControls from '../../components/typography';
 import DimensionsControl from '../../components/dimensions/';
@@ -80,6 +81,7 @@ class FlexBlockHeadline extends Component {
 			alignmentTablet,
 			alignmentMobile,
 			backgroundColor,
+			backgroundColorOpacity,
 			textColor,
 			linkColor,
 			linkColorHover,
@@ -129,6 +131,7 @@ class FlexBlockHeadline extends Component {
 			letterSpacingMobile,
 			icon,
 			iconColor,
+			iconColorOpacity,
 			customIcon,
 			iconLocation,
 			iconLocationTablet,
@@ -182,7 +185,7 @@ class FlexBlockHeadline extends Component {
 				text-transform: ` + textTransform + `;
 				text-align: ` + alignment + `;
 				font-size: ` + fontSize + fontSizeUnit + `;
-				background-color: ` + backgroundColor + `;
+				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				color: ` + textColor + `;
 				line-height: ` + lineHeight + lineHeightUnit + `;
 				letter-spacing: ` + letterSpacing + `em;
@@ -206,7 +209,7 @@ class FlexBlockHeadline extends Component {
 				padding-bottom: ` + iconPaddingBottom + iconPaddingUnit + `;
 				padding-left: ` + iconPaddingLeft + iconPaddingUnit + `;
 				align-self: ` + iconAlignment + `;
-				color: ` + iconColor + `;
+				color: ` + hexToRGBA( iconColor, iconColorOpacity ) + `;
 			}
 
 			.fx-headline-wrapper-` + uniqueId + ` .fx-icon svg {
@@ -226,7 +229,7 @@ class FlexBlockHeadline extends Component {
 				padding-right: ` + paddingRight + paddingUnit + `;
 				padding-bottom: ` + paddingBottom + paddingUnit + `;
 				padding-left: ` + paddingLeft + paddingUnit + `;
-				background-color: ` + backgroundColor + `;
+				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				color: ` + textColor + `;
 			}
 		`
@@ -446,6 +449,13 @@ class FlexBlockHeadline extends Component {
 								} )
 							}
 							alpha={ true }
+							valueOpacity={ backgroundColorOpacity }
+							attrOpacity={ 'backgroundColorOpacity' }
+							onOpacityChange={ ( value ) =>
+								setAttributes( {
+									backgroundColorOpacity: value
+								} )
+							}
 						/>
 
 						<ColorPicker
@@ -652,6 +662,13 @@ class FlexBlockHeadline extends Component {
 								} )
 							}
 							alpha={ true }
+							valueOpacity={ iconColorOpacity }
+							attrOpacity={ 'iconColorOpacity' }
+							onOpacityChange={ ( value ) =>
+								setAttributes( {
+									iconColorOpacity: value
+								} )
+							}
 						/>
 
 						<TabPanel className="headline-tab-panel flexblocks-control-tabs"
