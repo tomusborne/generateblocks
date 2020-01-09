@@ -184,7 +184,9 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			// Open main container element.
 			$css->set_selector( '.fx-container.fx-container-' . $id );
 
-			if ( 'contained' === $settings['outerContainer'] ) {
+			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+
+			if ( 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
 				$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
 				$css->add_property( 'margin-left', 'auto' );
 				$css->add_property( 'margin-right', 'auto' );
@@ -226,8 +228,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			} elseif ( $settings['gradient'] ) {
 				$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . ')' );
 			}
-
-			$css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 
 			if ( $settings['zindex'] ) {
 				$css->add_property( 'position', 'relative' );
