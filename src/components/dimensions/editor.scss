@@ -55,7 +55,7 @@
 
 .components-fx-dimensions-control_sync.components-button:hover,
 .components-fx-dimensions-control_sync.components-button:focus {
-	box-shadow: none;
+	box-shadow: none !important;
 }
 
 .components-fx-dimensions-control__header {
@@ -76,10 +76,12 @@
     position: relative;
     text-align: center;
     text-shadow: none;
+	border: 1px solid;
 
-	&.is-primary {
-	    background: #666;
-	    border-color: #666;
+	&.is-primary,
+	&:hover {
+	    background: #0070a7;
+	    border-color: #0070a7;
 	    color: #fff;
 	    cursor: default;
 	    z-index: 1;
