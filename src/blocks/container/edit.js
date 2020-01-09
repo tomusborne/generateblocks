@@ -303,6 +303,8 @@ class FlexBlockContainer extends Component {
 				width: ` + width + `%;
 				display: flex;
 				flex-direction: column;
+				margin-left: 0;
+				margin-right: 0;
 			}
 
 			.block-editor-block-list__layout > #block-` + clientId + ` {
