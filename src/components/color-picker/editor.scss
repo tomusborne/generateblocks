@@ -37,27 +37,11 @@
     padding-bottom: 5px;
 }
 
-.fx-component-color-picker-has-alpha .components-color-picker__inputs-wrapper {
-    display: none;
-}
-
-.fx-component-alpha-value {
-    padding: 12px 16px;
-
-	input {
-		width: 100%;
-	}
-}
-
-.fx-component-color-picker {
-    padding: 5px;
-}
-
 .fx-component-color-opacity {
     display: flex;
-}
 
-.fx-component-color-opacity .components-range-control {
-    flex-grow: 1;
-    padding-left: 5px;
+	.components-range-control {
+	    flex-grow: 1;
+	    padding-left: 5px;
+	}
 }
