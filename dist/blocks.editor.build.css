@@ -40,8 +40,8 @@
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -206,8 +206,8 @@
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -368,8 +368,8 @@ body .fx-container .wp-block {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -454,8 +454,8 @@ body .fx-container .wp-block {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -509,8 +509,8 @@ body .fx-container .wp-block {
 
 .components-fx-dimensions-control_sync.components-button:hover,
 .components-fx-dimensions-control_sync.components-button:focus {
-  -webkit-box-shadow: none;
-          box-shadow: none; }
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important; }
 
 .components-fx-dimensions-control__header {
   display: -ms-flexbox;
@@ -531,10 +531,11 @@ body .fx-container .wp-block {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
-  .components-panel__body .components-fx-dimensions-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+  text-shadow: none;
+  border: 1px solid; }
+  .components-panel__body .components-fx-dimensions-control__units .components-button.is-primary, .components-panel__body .components-fx-dimensions-control__units .components-button:hover {
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -583,8 +584,8 @@ body .fx-container .wp-block {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -649,8 +650,8 @@ body .fx-container .wp-block {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -668,6 +669,14 @@ body .fx-container .wp-block {
 
 .fx-button-wrapper .block-editor-block-list__layout > .block-list-appender {
   display: none !important; }
+
+.fx-button-wrapper > .components-button {
+  display: none; }
+
+[data-type="flexblocks/button-container"].has-child-selected .fx-button-wrapper > .components-button,
+[data-type="flexblocks/button-container"].is-selected .fx-button-wrapper > .components-button {
+  display: -ms-inline-flexbox;
+  display: inline-flex; }
 /**
  * #.# Common SCSS
  *
@@ -710,8 +719,8 @@ body .fx-container .wp-block {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -761,8 +770,8 @@ body .fx-container .wp-block {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -914,8 +923,8 @@ body .fx-container .wp-block {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -1041,8 +1050,8 @@ button.components-icon-picker-item {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -1089,8 +1098,8 @@ button.components-icon-picker-item {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -1157,6 +1166,10 @@ button.components-icon-picker-item {
     border-bottom-color: #e2e4e7; }
   .fx-component-url-input-float .editor-url-input__suggestions {
     max-width: 188px; }
+
+.block-editor-block-list__block .fx-component-url-input-flex input[type="text"] {
+  max-width: 100%;
+  width: 100%; }
 /**
  * #.# Common SCSS
  *
@@ -1199,8 +1212,8 @@ button.components-icon-picker-item {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
@@ -1312,8 +1325,8 @@ button.components-icon-picker-item {
   text-align: center;
   text-shadow: none; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
+    background: #0070a7;
+    border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
