@@ -208,7 +208,7 @@ class FlexBlockButton extends Component {
 		}
 
 		const css = `
-			.editor-block-list__block a.fx-button-` + uniqueId + ` {
+			.block-editor-block-list__block a.fx-button-` + uniqueId + ` {
 				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				background-image: ` + backgroundImageValue + `;
 				color: ` + textColor + `;
@@ -238,15 +238,15 @@ class FlexBlockButton extends Component {
 				margin-left: ` + marginLeft + marginUnit + `;
 			}
 
-			.editor-block-list__block a.fx-button-` + uniqueId + `:hover,
-			.editor-block-list__block a.fx-button-` + uniqueId + `:focus,
-			.editor-block-list__block a.fx-button-` + uniqueId + `:active {
+			.block-editor-block-list__block a.fx-button-` + uniqueId + `:hover,
+			.block-editor-block-list__block a.fx-button-` + uniqueId + `:focus,
+			.block-editor-block-list__block a.fx-button-` + uniqueId + `:active {
 				background-color: ` + hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ) + `;
 				color: ` + textColorHover + `;
 				border-color: ` + hexToRGBA( borderColorHover, borderColorHoverOpacity ) + `;
 			}
 
-			.editor-block-list__block a.fx-button-` + uniqueId + ` .fx-icon {
+			.block-editor-block-list__block a.fx-button-` + uniqueId + ` .fx-icon {
 				` + iconMargin + `
 			}
 		`

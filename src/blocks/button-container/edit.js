@@ -124,7 +124,7 @@ class FlexButtonContainer extends Component {
 					align-items: ` + flexAlignment + `;
 				}
 
-				.fx-button-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
+				.fx-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout {
 					flex-direction: column;
 				}
 			`

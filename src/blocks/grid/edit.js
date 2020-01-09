@@ -294,14 +294,14 @@ class FlexBlockGridContainer extends Component {
 		} = attributes;
 
 		const css = `
-			.fx-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout {
+			.fx-grid-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout {
 				align-items: ` + verticalAlignment + `;
 				justify-content: ` + horizontalAlignment + `;
 				margin-left: -` + ( horizontalGap / 2 ) + `px;
 				margin-right: -` + ( horizontalGap / 2 ) + `px;
 			}
 
-			.fx-grid-wrapper-` + uniqueId + ` > .editor-inner-blocks > .editor-block-list__layout > .wp-block {
+			.fx-grid-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
 				padding-left: ` + ( horizontalGap / 2 ) + `px;
 				padding-right: ` + ( horizontalGap / 2 ) + `px;
 				margin-bottom: ` + verticalGap + `px;

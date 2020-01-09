@@ -9,7 +9,7 @@
     margin-right: 0;
     margin-left: 0;
 
-    > .editor-inner-blocks > .editor-block-list__layout {
+    > .block-editor-inner-blocks > .block-editor-block-list__layout {
         position: relative;
         display: flex;
         flex-wrap: wrap;
@@ -29,11 +29,11 @@
     // This is not a 1:1 preview with the front-end where these margins would presumably be zero
     // @todo this could be revisited, by for example showing this margin only when the parent block was selected first
     // Then at least an unselected columns block would be an accurate preview
-    .editor-block-list__block[data-align="full"][data-type="flexblocks/grid"] > .editor-block-list__block-edit > div > & {
+    .block-editor-block-list__block[data-align="full"][data-type="flexblocks/grid"] > .block-editor-block-list__block-edit > div > & {
         > .fx-grid-wrapper-button-select {
             right: 1px;
         }
-        > .editor-inner-blocks > .editor-block-list__layout {
+        > .block-editor-inner-blocks > .block-editor-block-list__layout {
             margin-right: 1px;
             margin-left: 1px;
         }
@@ -149,6 +149,7 @@
     padding: 20px;
 	width: 100%;
     justify-content: center;
+	height: auto;
 }
 
 .fx-grid-appender button.components-button svg {
