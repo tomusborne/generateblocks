@@ -85,3 +85,8 @@
         max-width: $blocks-button__link-input-width - $icon-button-size - $icon-button-size;
     }
 }
+
+.block-editor-block-list__block .fx-component-url-input-flex input[type="text"] {
+    max-width: 100%;
+    width: 100%;
+}
