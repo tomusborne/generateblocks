@@ -414,6 +414,15 @@ body .fx-container .wp-block {
 
 .fx-component-color-picker {
   padding: 5px; }
+
+.fx-component-color-opacity {
+  display: -ms-flexbox;
+  display: flex; }
+
+.fx-component-color-opacity .components-range-control {
+  -ms-flex-positive: 1;
+      flex-grow: 1;
+  padding-left: 5px; }
 /**
  * #.# Common SCSS
  *
