@@ -294,7 +294,8 @@ body.gutenberg-editor-page [data-type="flexblocks/container"] .editor-block-list
 .widthButtons button {
   font-size: 12px;
   -ms-flex: 1;
-      flex: 1; }
+      flex: 1;
+  border: 1px solid; }
 
 .widthButtons {
   margin-bottom: 10px;
