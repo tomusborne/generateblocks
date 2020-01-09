@@ -60,7 +60,7 @@ export default {
         default: flexBlocksDefaults.button.backgroundColor,
     },
 	backgroundColorOpacity: {
-        type: 'string',
+        type: 'number',
         default: flexBlocksDefaults.button.backgroundColorOpacity,
     },
 	textColor: {
