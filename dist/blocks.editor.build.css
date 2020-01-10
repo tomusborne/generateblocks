@@ -139,18 +139,42 @@
   -ms-flex-direction: column;
       flex-direction: column;
   width: 0; }
-  .fx-col > .editor-block-list__block-edit {
+  .fx-col > .block-editor-block-list__block-edit {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-preferred-size: 100%;
         flex-basis: 100%;
     margin-top: 0 !important;
     margin-bottom: 0 !important; }
-    .fx-col > .editor-block-list__block-edit > [data-block] {
+    .fx-col > .block-editor-block-list__block-edit > [data-block] {
       -ms-flex: 100%;
           flex: 100%; }
-    .fx-col > .editor-block-list__block-edit > .editor-block-contextual-toolbar + [data-block] {
+    .fx-col > .block-editor-block-list__block-edit > .editor-block-contextual-toolbar + [data-block] {
       margin-left: 30px; }
+
+.fx-col.fx-col-25 {
+  -ms-flex-preferred-size: 25%;
+      flex-basis: 25%; }
+
+.fx-col.fx-col-75 {
+  -ms-flex-preferred-size: 75%;
+      flex-basis: 75%; }
+
+.fx-col.fx-col-50 {
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%; }
+
+.fx-col.fx-col-60 {
+  -ms-flex-preferred-size: 60%;
+      flex-basis: 60%; }
+
+.fx-col.fx-col-20 {
+  -ms-flex-preferred-size: 20%;
+      flex-basis: 20%; }
+
+.fx-col.fx-col-16.66 {
+  -ms-flex-preferred-size: 16.6%;
+      flex-basis: 16.6%; }
 
 .fx-grid-appender button {
   background: #fff;
@@ -164,6 +188,28 @@
 
 .fx-grid-appender button.components-button svg {
   margin-right: 0; }
+
+.fx-select-layout .components-placeholder__label,
+.fx-select-layout .components-placeholder__instructions {
+  margin-left: auto;
+  margin-right: auto; }
+
+.fx-select-layout iframe {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center;
+  -ms-flex-align: center;
+      align-items: center; }
+
+.fx-select-layout .fx-grid-wrapper-layout-preview {
+  max-width: 500px; }
+
+.fx-select-layout .components-placeholder__fieldset {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+      justify-content: center; }
 /**
  * #.# Common SCSS
  *
