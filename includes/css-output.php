@@ -67,6 +67,14 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 		$css->add_property( '-ms-flex-wrap', 'wrap' );
 		$css->add_property( 'flex-wrap', 'wrap' );
 
+		$css->set_selector( '.fx-grid-wrapper > .fx-grid-column > .fx-container' );
+		$css->add_property( 'display', 'flex' );
+		$css->add_property( 'flex-direction', 'column' );
+		$css->add_property( 'height', '100%' );
+
+		$css->set_selector( '.fx-grid-column' );
+		$css->add_property( 'box-sizing', 'border-box' );
+
 		foreach ( $data as $atts ) {
 			if ( ! isset( $atts['uniqueId'] ) ) {
 				continue;
@@ -89,11 +97,9 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->add_property( 'margin-left', '-' . $settings['horizontalGap'] . 'px' );
 			}
 
-
 			$css->set_selector( '.fx-grid-wrapper-' . $id . ' > .fx-grid-column' );
 
 			if ( $settings['horizontalGap'] ) {
-				$css->add_property( 'box-sizing', 'border-box' );
 				$css->add_property( 'padding-left', $settings['horizontalGap'], 'px' );
 			}
 
@@ -117,7 +123,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->set_selector( '.fx-grid-wrapper-' . $id . ' > .fx-grid-column' );
 
 				if ( $settings['horizontalGapTablet'] ) {
-					$css->add_property( 'box-sizing', 'border-box' );
 					$css->add_property( 'padding-left', $settings['horizontalGapTablet'], 'px' );
 				}
 
@@ -142,7 +147,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 				$css->set_selector( '.fx-grid-wrapper-' . $id . ' > .fx-grid-column' );
 
 				if ( $settings['horizontalGapMobile'] ) {
-					$css->add_property( 'box-sizing', 'border-box' );
 					$css->add_property( 'padding-left', $settings['horizontalGapMobile'], 'px' );
 				}
 
@@ -247,7 +251,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			}
 
 			$css->add_property( 'border-color', flexblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
-			$css->add_property( 'box-sizing', 'border-box' );
 
 			$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
 
@@ -275,9 +278,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 			}
 
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-container' );
-			$css->add_property( 'display', 'flex' );
-			$css->add_property( 'flex-direction', 'column' );
-			$css->add_property( 'height', '100%' );
 			$css->add_property( 'justify-content', $settings['verticalAlignment'] );
 
 			$css->start_media_query( flexblocks_get_media_query( 'tablet' ) );
@@ -696,7 +696,6 @@ function flexblocks_get_dynamic_css( $block, $content = '' ) {
 					}
 				}
 			$css->stop_media_query();
-
 
 			$css->start_media_query( flexblocks_get_media_query( 'mobile' ) );
 				$css->set_selector( '.fx-headline-' . $id );
