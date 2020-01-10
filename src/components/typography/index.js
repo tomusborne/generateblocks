@@ -292,168 +292,140 @@ class TypographyControls extends Component {
 					}
 				</div>
 
-				{ typeof valueFontSize !== 'undefined' &&
-					<Fragment>
-						<div className="components-fx-typography-control__header">
-							<div className="components-fx-typography-control__label components-base-control__label">
-								{ __( 'Font Size', 'flexblocks' ) }
-							</div>
 
-							{ ( typeof valueFontSizeUnit !== 'undefined' ) &&
-								<div className="components-fx-typography-control__units">
-									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
-										{ unitSizes.map( ( unit, i ) =>
-											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-											<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
-												<Button
-													key={ unit.unitValue }
-													className={ 'components-fx-typography-control__units--' + unit.name }
-													isSmall
-													isPrimary={ valueFontSizeUnit === unit.unitValue }
-													aria-pressed={ valueFontSizeUnit === unit.unitValue }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
-													onClick={ () => setAttributes( { [ this.props[ 'attrFontSizeUnit' ] ]: unit.unitValue } ) }
-												>
-													{ unit.unitValue }
-												</Button>
-											</Tooltip>
-										) }
-									</ButtonGroup>
-								</div>
-							}
+				<Fragment>
+					<div className="components-fx-typography-control__header">
+						<div className="components-fx-typography-control__label components-base-control__label">
+							{ __( 'Font Size', 'flexblocks' ) }
 						</div>
 
-						<div className="components-fx-typography-control__inputs">
-							<TextControl
-								type={ 'text' }
-								value={ valueFontSize ? parseFloat( valueFontSize ) : '' }
-								onChange={ ( value ) => {
-									setAttributes( {
-										[ this.props[ 'attrFontSize' ] ]: parseFloat( value )
-									} );
-								} }
-							/>
-							<Button
-								key={ uniqueId + '-reset-font-size' }
-								isSmall
-								onClick={ () => {
-									setAttributes( {
-										[ this.props[ 'attrFontSize' ] ]: this.props.defaultFontSize,
-										[ this.props[ 'attrFontSizeUnit' ] ]: this.props.defaultFontSizeUnit,
-									} )
-								} }
-							>
-								{ __( 'Reset', 'flexblocks' ) }
-							</Button>
-						</div>
-					</Fragment>
-				}
-
-				{ typeof valueLineHeight !== 'undefined' &&
-					<Fragment>
-						<div className="components-fx-typography-control__header">
-							<div className="components-fx-typography-control__label components-base-control__label">
-								{ __( 'Line Height', 'flexblocks' ) }
-							</div>
-
-							{ ( typeof valueLineHeight !== 'undefined' ) &&
-								<div className="components-fx-typography-control__units">
-									<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
-										{ unitSizes.map( ( unit, i ) =>
-											/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-											<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
-												<Button
-													key={ unit.unitValue }
-													className={ 'components-fx-typography-control__units--' + unit.name }
-													isSmall
-													isPrimary={ valueLineHeightUnit === unit.unitValue }
-													aria-pressed={ valueLineHeightUnit === unit.unitValue }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
-													onClick={ () => setAttributes( { [ this.props[ 'attrLineHeightUnit' ] ]: unit.unitValue } ) }
-												>
-													{ unit.unitValue }
-												</Button>
-											</Tooltip>
-										) }
-									</ButtonGroup>
-								</div>
-							}
-						</div>
-
-						<div className="components-fx-typography-control__inputs">
-							<TextControl
-								type={ 'text' }
-								value={ valueLineHeight ? parseFloat( valueLineHeight ) : '' }
-								onChange={ ( value ) => {
-									setAttributes( {
-										[ this.props[ 'attrLineHeight' ] ]: parseFloat( value )
-									} );
-								} }
-							/>
-							<Button
-								key={ uniqueId + '-reset-line-height' }
-								isSmall
-								onClick={ () => {
-									setAttributes( {
-										[ this.props[ 'attrLineHeight' ] ]: this.props.defaultLineHeight,
-										[ this.props[ 'attrLineHeightUnit' ] ]: this.props.defaultLineHeightUnit,
-									} )
-								} }
-							>
-								{ __( 'Reset', 'flexblocks' ) }
-							</Button>
-						</div>
-					</Fragment>
-				}
-
-				{ typeof valueLetterSpacing !== 'undefined' &&
-					<Fragment>
-						<div className="components-fx-typography-control__header">
-							<div className="components-fx-control__label">
-								{ __( 'Letter Spacing', 'flexblocks' ) }
-							</div>
-
-							<div className="components-fx-control__units">
-								<Tooltip text={ __( 'Em Units' ) } key={ 'letter-spacing-unit' }>
-									<Button
-										key={ 'letter-spacing-unit' }
-										isSmall
-										isPrimary={ true }
+						{ ( typeof valueFontSizeUnit !== 'undefined' ) &&
+							<div className="components-fx-typography-control__units">
+								<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
+									{ unitSizes.map( ( unit, i ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										aria-label={ __( 'Em Units' ) }
-									>
-										em
-									</Button>
-								</Tooltip>
+										<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
+											<Button
+												key={ unit.unitValue }
+												className={ 'components-fx-typography-control__units--' + unit.name }
+												isSmall
+												isPrimary={ valueFontSizeUnit === unit.unitValue }
+												aria-pressed={ valueFontSizeUnit === unit.unitValue }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
+												onClick={ () => setAttributes( { [ this.props[ 'attrFontSizeUnit' ] ]: unit.unitValue } ) }
+											>
+												{ unit.unitValue }
+											</Button>
+										</Tooltip>
+									) }
+								</ButtonGroup>
 							</div>
+						}
+					</div>
+
+					<div className="components-fx-typography-control__inputs">
+						<RangeControl
+							value={ parseFloat( valueFontSize ) || null }
+							onChange={ ( value ) => {
+								setAttributes( {
+									[ this.props[ 'attrFontSize' ] ]: value
+								} );
+							} }
+							min={ 1 }
+							max={ 200 }
+							step={ 1 }
+							initialPosition={ this.props.defaultFontSize }
+							allowReset={ true }
+						/>
+					</div>
+				</Fragment>
+
+				<Fragment>
+					<div className="components-fx-typography-control__header">
+						<div className="components-fx-typography-control__label components-base-control__label">
+							{ __( 'Line Height', 'flexblocks' ) }
 						</div>
 
-						<div className="components-fx-typography-control__inputs">
-							<TextControl
-								type={ 'text' }
-								value={ valueLetterSpacing ? parseFloat( valueLetterSpacing ) : '' }
-								onChange={ ( value ) => {
-									setAttributes( {
-										[ this.props[ 'attrLetterSpacing' ] ]: parseFloat( value )
-									} );
-								} }
-							/>
-							<Button
-								key={ uniqueId + '-reset-letter-spacing' }
-								isSmall
-								onClick={ () => {
-									setAttributes( {
-										[ this.props[ 'attrLetterSpacing' ] ]: this.props.defaultLetterSpacing
-									} )
-								} }
-							>
-								{ __( 'Reset', 'flexblocks' ) }
-							</Button>
+						{ ( typeof valueLineHeight !== 'undefined' ) &&
+							<div className="components-fx-typography-control__units">
+								<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
+									{ unitSizes.map( ( unit, i ) =>
+										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+										<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
+											<Button
+												key={ unit.unitValue }
+												className={ 'components-fx-typography-control__units--' + unit.name }
+												isSmall
+												isPrimary={ valueLineHeightUnit === unit.unitValue }
+												aria-pressed={ valueLineHeightUnit === unit.unitValue }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
+												onClick={ () => setAttributes( { [ this.props[ 'attrLineHeightUnit' ] ]: unit.unitValue } ) }
+											>
+												{ unit.unitValue }
+											</Button>
+										</Tooltip>
+									) }
+								</ButtonGroup>
+							</div>
+						}
+					</div>
+
+					<div className="components-fx-typography-control__inputs">
+						<RangeControl
+							value={ parseFloat( valueLineHeight ) || null }
+							onChange={ ( value ) => {
+								setAttributes( {
+									[ this.props[ 'attrLineHeight' ] ]: value
+								} );
+							} }
+							min={ 1 }
+							max={ 3 }
+							step={ 0.01 }
+							initialPosition={ this.props.defaultLineHeight }
+							allowReset={ true }
+						/>
+					</div>
+				</Fragment>
+
+				<Fragment>
+					<div className="components-fx-typography-control__header">
+						<div className="components-fx-control__label">
+							{ __( 'Letter Spacing', 'flexblocks' ) }
 						</div>
-					</Fragment>
-				}
+
+						<div className="components-fx-control__units">
+							<Tooltip text={ __( 'Em Units' ) } key={ 'letter-spacing-unit' }>
+								<Button
+									key={ 'letter-spacing-unit' }
+									isSmall
+									isPrimary={ true }
+									/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+									aria-label={ __( 'Em Units' ) }
+								>
+									em
+								</Button>
+							</Tooltip>
+						</div>
+					</div>
+
+					<div className="components-fx-typography-control__inputs">
+						<RangeControl
+							value={ parseFloat( valueLetterSpacing ) || null }
+							onChange={ ( value ) => {
+								setAttributes( {
+									[ this.props[ 'attrLetterSpacing' ] ]: value
+								} );
+							} }
+							min={ -1 }
+							max={ 3 }
+							step={ .01 }
+							initialPosition={ this.props.defaultLetterSpacing }
+							allowReset={ true }
+						/>
+					</div>
+				</Fragment>
 			</Fragment>
 		);
 	}
