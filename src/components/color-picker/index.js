@@ -40,12 +40,6 @@ export default class FlexBlocksColorPicker extends Component {
 			attrOpacity,
 		} = this.props;
 
-		let alphaColor = value;
-
-		if ( valueOpacity && 1 !== valueOpacity ) {
-			alphaColor = hexToRGBA( alphaColor, valueOpacity );
-		}
-
 		return (
 			<BaseControl
 				label={ label }
@@ -62,7 +56,7 @@ export default class FlexBlocksColorPicker extends Component {
 								className="components-color-palette__item components-circular-option-picker__option"
 								onClick={ onToggle }
 								aria-label={ __( 'Custom color picker', 'flexblocks' ) }
-								style={ { color: alphaColor ? alphaColor : '' } }
+								style={ { color: value ? hexToRGBA( value, valueOpacity ) : '' } }
 							>
 								<span className="components-color-palette__custom-color-gradient" />
 							</button>
@@ -83,17 +77,17 @@ export default class FlexBlocksColorPicker extends Component {
 								disableAlpha
 							/>
 
-							{ ( typeof valueOpacity !== 'undefined' ) &&
+							{ alpha &&
 								<div className="fx-component-color-opacity">
 									<Tooltip text={ __( 'Opacity', 'flexblocks' ) }>
 										{ getIcon( 'gradient' ) }
 									</Tooltip>
 
 									<RangeControl
-										value={ valueOpacity ? valueOpacity : '' }
+										value={ valueOpacity ? valueOpacity : 0 }
 										onChange={ ( value ) => onOpacityChange( value ) }
-										min={ 0.00 }
-										max={ 1.00 }
+										min={ 0 }
+										max={ 1 }
 										step={ 0.01 }
 										initialPosition={ 1 }
 									/>
