@@ -326,7 +326,7 @@ class TypographyControls extends Component {
 
 					<div className="components-fx-typography-control__inputs">
 						<RangeControl
-							value={ parseFloat( valueFontSize ) || null }
+							value={ parseFloat( valueFontSize ) || '' }
 							onChange={ ( value ) => {
 								setAttributes( {
 									[ this.props[ 'attrFontSize' ] ]: value
@@ -347,7 +347,7 @@ class TypographyControls extends Component {
 							{ __( 'Line Height', 'flexblocks' ) }
 						</div>
 
-						{ ( typeof valueLineHeight !== 'undefined' ) &&
+						{ ( typeof valueLineHeightUnit !== 'undefined' ) &&
 							<div className="components-fx-typography-control__units">
 								<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
 									{ unitSizes.map( ( unit, i ) =>
@@ -374,7 +374,7 @@ class TypographyControls extends Component {
 
 					<div className="components-fx-typography-control__inputs">
 						<RangeControl
-							value={ parseFloat( valueLineHeight ) || null }
+							value={ parseFloat( valueLineHeight ) || '' }
 							onChange={ ( value ) => {
 								setAttributes( {
 									[ this.props[ 'attrLineHeight' ] ]: value
@@ -412,7 +412,7 @@ class TypographyControls extends Component {
 
 					<div className="components-fx-typography-control__inputs">
 						<RangeControl
-							value={ parseFloat( valueLetterSpacing ) || null }
+							value={ parseFloat( valueLetterSpacing ) || '' }
 							onChange={ ( value ) => {
 								setAttributes( {
 									[ this.props[ 'attrLetterSpacing' ] ]: value
