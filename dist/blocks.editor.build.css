@@ -375,7 +375,12 @@ body .fx-container .wp-block {
           box-sizing: border-box; }
 
 /* Bad idea?? */
-.editor-styles-wrapper .fx-container [data-block] {
+[data-type="flexblocks/container"] .block-editor-block-list__insertion-point,
+[data-type="flexblocks/grid"] .block-editor-block-list__insertion-point {
+  display: none; }
+
+.editor-styles-wrapper .fx-container [data-block],
+.editor-styles-wrapper .fx-grid-wrapper [data-block] {
   margin-top: 0;
   margin-bottom: 0; }
 /**
