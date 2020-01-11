@@ -454,7 +454,8 @@ body .fx-container .wp-block {
 
 .fx-component-color-opacity {
   display: -ms-flexbox;
-  display: flex; }
+  display: flex;
+  padding: 0 12px; }
   .fx-component-color-opacity .components-range-control {
     -ms-flex-positive: 1;
         flex-grow: 1;
