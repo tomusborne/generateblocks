@@ -373,6 +373,11 @@ body .fx-container .wp-block {
 .fx-container *:not(.fx-inside-container) {
   -webkit-box-sizing: border-box;
           box-sizing: border-box; }
+
+/* Bad idea?? */
+.editor-styles-wrapper .fx-container [data-block] {
+  margin-top: 0;
+  margin-bottom: 0; }
 /**
  * #.# Common SCSS
  *
