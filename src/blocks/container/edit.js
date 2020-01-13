@@ -281,6 +281,10 @@ class FlexBlockContainer extends Component {
 				border-style: ` + borderStyleValue + `;
 				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
 				min-height: ` + minHeight + minHeightUnit + `;
+				margin-top: ` + marginTop + marginUnit + `;
+				margin-right: ` + marginRight + marginUnit + `;
+				margin-bottom: ` + marginBottom + marginUnit + `;
+				margin-left: ` + marginLeft + marginUnit + `;
 			}
 
 			.fx-container-` + uniqueId + ` a, .fx-container-` + uniqueId + ` a:visited {
