@@ -160,7 +160,7 @@ class IconPicker extends Component {
 				<BaseControl className="advanced-icon-controls">
 					<Button
 						isLarge
-						className="reset-icon"
+						className="reset-icon is-secondary"
 						onClick={ () => {
 							setAttributes( {
 								[ this.props[ 'attrIcon' ] ]: ''
