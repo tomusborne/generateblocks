@@ -1298,7 +1298,8 @@ button.components-icon-picker-item {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-typography-control__units .components-button.is-primary {
     background: #666;
     border-color: #666;
