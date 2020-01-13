@@ -39,7 +39,9 @@ function flexblocks_do_dashboard() {
 				</h1>
 
 				<div class="fx-logo">
-					<img width="200" src="<?php echo FLEXBLOCKS_MODULE_DIR_URL . 'assets/images/flex-blocks-logo-wht.svg'; ?>" alt="" />
+					<a href="https://flexblocks.com" target="_blank" rel="noopener noreferrer">
+						<img width="200" src="<?php echo FLEXBLOCKS_MODULE_DIR_URL . 'assets/images/flex-blocks-logo-wht.svg'; ?>" alt="" />
+					</a>
 				</div>
 			</div>
 
@@ -55,7 +57,7 @@ function flexblocks_do_dashboard() {
 
 					<h3><?php _e( 'Container', 'flexblocks' ); ?></h3>
 					<p><?php _e( 'The foundation of your content. Build beautiful containers anywhere.', 'flexblocks' ); ?></p>
-					<a class="fx-button" href="#"><?php _e( 'Watch', 'flexblocks' ); ?></a>
+					<a class="fx-button" href="https://flexblocks.com/#container" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn more', 'flexblocks' ); ?></a>
 				</div>
 
 				<div class="fx-block">
@@ -71,7 +73,7 @@ function flexblocks_do_dashboard() {
 
 					<h3><?php _e( 'Grid', 'flexblocks' ); ?></h3>
 					<p><?php _e( 'Use our powerful grid system to build simple & complex layouts.', 'flexblocks' ); ?></p>
-					<a class="fx-button" href="#"><?php _e( 'Watch', 'flexblocks' ); ?></a>
+					<a class="fx-button" href="https://flexblocks.com/#grid" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn more', 'flexblocks' ); ?></a>
 				</div>
 
 				<div class="fx-block">
@@ -81,7 +83,7 @@ function flexblocks_do_dashboard() {
 
 					<h3><?php _e( 'Headline', 'flexblocks' ); ?></h3>
 					<p><?php _e( 'More than just titles - take full control of any kind of text.', 'flexblocks' ); ?></p>
-					<a class="fx-button" href="#"><?php _e( 'Watch', 'flexblocks' ); ?></a>
+					<a class="fx-button" href="https://flexblocks.com/#headline" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn more', 'flexblocks' ); ?></a>
 				</div>
 
 				<div class="fx-block">
@@ -91,7 +93,7 @@ function flexblocks_do_dashboard() {
 
 					<h3><?php _e( 'Buttons', 'flexblocks' ); ?></h3>
 					<p><?php _e( 'No limit on the number or styles of buttons you can create.', 'flexblocks' ); ?></p>
-					<a class="fx-button" href="#"><?php _e( 'Watch', 'flexblocks' ); ?></a>
+					<a class="fx-button" href="https://flexblocks.com/#buttons" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn more', 'flexblocks' ); ?></a>
 				</div>
 			</div>
 
