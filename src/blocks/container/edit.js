@@ -285,6 +285,7 @@ class FlexBlockContainer extends Component {
 				margin-right: ` + marginRight + marginUnit + `;
 				margin-bottom: ` + marginBottom + marginUnit + `;
 				margin-left: ` + marginLeft + marginUnit + `;
+				z-index: ` + zindex + `;
 			}
 
 			.fx-container-` + uniqueId + ` a, .fx-container-` + uniqueId + ` a:visited {
