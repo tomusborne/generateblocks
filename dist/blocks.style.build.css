@@ -38,7 +38,8 @@
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -91,7 +92,8 @@
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -142,7 +144,8 @@
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
