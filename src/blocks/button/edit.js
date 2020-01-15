@@ -438,6 +438,7 @@ class FlexBlockButton extends Component {
 														attrBottom={ 'borderSizeBottom' }
 														attrLeft={ 'borderSizeLeft' }
 														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -513,6 +514,7 @@ class FlexBlockButton extends Component {
 														attrBottom={ 'borderSizeBottomTablet' }
 														attrLeft={ 'borderSizeLeftTablet' }
 														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -528,7 +530,7 @@ class FlexBlockButton extends Component {
 														attrRight={ 'borderRadiusTopRightTablet' }
 														attrBottom={ 'borderRadiusBottomRightTablet' }
 														attrLeft={ 'borderRadiusBottomLeftTablet' }
-														valueUnit={ 'borderRadiusUnit' }
+														attrUnit={ 'borderRadiusUnit' }
 														attrSyncUnits={ 'borderRadiusSyncUnits' }
 														labelTop={ __( 'T-Left', 'flexblocks' ) }
 														labelRight={ __( 'T-Right', 'flexblocks' ) }
@@ -587,6 +589,7 @@ class FlexBlockButton extends Component {
 														attrBottom={ 'borderSizeBottomMobile' }
 														attrLeft={ 'borderSizeLeftMobile' }
 														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -602,7 +605,7 @@ class FlexBlockButton extends Component {
 														attrRight={ 'borderRadiusTopRightMobile' }
 														attrBottom={ 'borderRadiusBottomRightMobile' }
 														attrLeft={ 'borderRadiusBottomLeftMobile' }
-														valueUnit={ 'borderRadiusUnit' }
+														attrUnit={ 'borderRadiusUnit' }
 														attrSyncUnits={ 'borderRadiusSyncUnits' }
 														labelTop={ __( 'T-Left', 'flexblocks' ) }
 														labelRight={ __( 'T-Right', 'flexblocks' ) }

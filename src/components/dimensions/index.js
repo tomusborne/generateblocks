@@ -187,7 +187,7 @@ class DimensionsControl extends Component {
 						</div>
 
 						{ ( typeof valueUnit !== 'undefined' ) ?
-							<div className="components-fx-dimensions-control__units">
+							<div className="components-fx-control__units">
 								<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
 									{ unitSizes.map( ( unit ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */

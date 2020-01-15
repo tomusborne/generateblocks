@@ -9,28 +9,6 @@
     align-items: center;
 }
 
-.components-panel__body .components-fx-typography-control__units .components-button {
-    background: #fff;
-    border-color: #e2e4e7;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    color: #6c7781;
-    font-size: 10px;
-    padding: 0 5px;
-    position: relative;
-    text-align: center;
-    text-shadow: none;
-	border: 1px solid;
-
-	&.is-primary {
-	    background: #666;
-	    border-color: #666;
-	    color: #fff;
-	    cursor: default;
-	    z-index: 1;
-	}
-}
-
 .components-fx-typography-control__inputs + .components-fx-typography-control__header {
     margin-top: 25px;
 }

@@ -658,7 +658,7 @@ class FlexBlockContainer extends Component {
 															{ __( 'Minimum Height', 'flexblocks' ) }
 														</div>
 
-														<div className="components-fx-dimensions-control__units">
+														<div className="components-fx-control__units">
 															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
@@ -771,7 +771,7 @@ class FlexBlockContainer extends Component {
 															{ __( 'Minimum Height', 'flexblocks' ) }
 														</div>
 
-														<div className="components-fx-dimensions-control__units">
+														<div className="components-fx-control__units">
 															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
@@ -851,6 +851,7 @@ class FlexBlockContainer extends Component {
 														attrBottom={ 'borderSizeBottomTablet' }
 														attrLeft={ 'borderSizeLeftTablet' }
 														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
 													/>
 
 													<DimensionsControl { ...this.props }
@@ -883,7 +884,7 @@ class FlexBlockContainer extends Component {
 															{ __( 'Minimum Height', 'flexblocks' ) }
 														</div>
 
-														<div className="components-fx-dimensions-control__units">
+														<div className="components-fx-control__units">
 															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
@@ -963,6 +964,7 @@ class FlexBlockContainer extends Component {
 														attrBottom={ 'borderSizeBottomMobile' }
 														attrLeft={ 'borderSizeLeftMobile' }
 														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
 													/>
 
 													<DimensionsControl { ...this.props }

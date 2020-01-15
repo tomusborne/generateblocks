@@ -54,6 +54,7 @@ $item-spacing: 10px !default;
     position: relative;
     text-align: center;
     text-shadow: none;
+	border: 1px solid;
 
 	&.is-primary {
 	    background: #0070a7;

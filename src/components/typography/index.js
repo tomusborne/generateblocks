@@ -300,7 +300,7 @@ class TypographyControls extends Component {
 						</div>
 
 						{ ( typeof valueFontSizeUnit !== 'undefined' ) &&
-							<div className="components-fx-typography-control__units">
+							<div className="components-fx-control__units">
 								<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
 									{ unitSizes.map( ( unit, i ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
@@ -348,7 +348,7 @@ class TypographyControls extends Component {
 						</div>
 
 						{ ( typeof valueLineHeightUnit !== 'undefined' ) &&
-							<div className="components-fx-typography-control__units">
+							<div className="components-fx-control__units">
 								<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
 									{ unitSizes.map( ( unit, i ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
