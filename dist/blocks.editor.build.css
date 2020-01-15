@@ -38,7 +38,8 @@
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -250,7 +251,8 @@
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -423,7 +425,8 @@ body .fx-container .wp-block {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -510,7 +513,8 @@ body .fx-container .wp-block {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -579,25 +583,6 @@ body .fx-container .wp-block {
   -ms-flex-align: center;
       align-items: center; }
 
-.components-panel__body .components-fx-dimensions-control__units .components-button {
-  background: #fff;
-  border-color: #e2e4e7;
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-  color: #6c7781;
-  font-size: 10px;
-  padding: 0 5px;
-  position: relative;
-  text-align: center;
-  text-shadow: none;
-  border: 1px solid; }
-  .components-panel__body .components-fx-dimensions-control__units .components-button.is-primary, .components-panel__body .components-fx-dimensions-control__units .components-button:hover {
-    background: #0070a7;
-    border-color: #0070a7;
-    color: #fff;
-    cursor: default;
-    z-index: 1; }
-
 .components-fx-dimensions-control__inputs + .components-fx-dimensions-control__header {
   margin-top: 25px; }
 /**
@@ -640,7 +625,8 @@ body .fx-container .wp-block {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -706,7 +692,8 @@ body .fx-container .wp-block {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -775,7 +762,8 @@ body .fx-container .wp-block {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -826,7 +814,8 @@ body .fx-container .wp-block {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -979,7 +968,8 @@ body .fx-container .wp-block {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -1106,7 +1096,8 @@ button.components-icon-picker-item {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -1154,7 +1145,8 @@ button.components-icon-picker-item {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -1268,7 +1260,8 @@ button.components-icon-picker-item {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
@@ -1287,25 +1280,6 @@ button.components-icon-picker-item {
   margin-bottom: 5px;
   -ms-flex-align: center;
       align-items: center; }
-
-.components-panel__body .components-fx-typography-control__units .components-button {
-  background: #fff;
-  border-color: #e2e4e7;
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-  color: #6c7781;
-  font-size: 10px;
-  padding: 0 5px;
-  position: relative;
-  text-align: center;
-  text-shadow: none;
-  border: 1px solid; }
-  .components-panel__body .components-fx-typography-control__units .components-button.is-primary {
-    background: #666;
-    border-color: #666;
-    color: #fff;
-    cursor: default;
-    z-index: 1; }
 
 .components-fx-typography-control__inputs + .components-fx-typography-control__header {
   margin-top: 25px; }
@@ -1382,7 +1356,8 @@ button.components-icon-picker-item {
   padding: 0 5px;
   position: relative;
   text-align: center;
-  text-shadow: none; }
+  text-shadow: none;
+  border: 1px solid; }
   .components-panel__body .components-fx-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
