@@ -535,7 +535,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$css->set_selector( 'a.fx-button-' . $id );
+				$css->set_selector( '.fx-button-wrapper a.fx-button-' . $id );
 				$css->add_property( 'background-color', flexblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 
 				if ( $settings['gradient'] ) {
@@ -565,7 +565,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'align-items', 'center' );
 				}
 
-				$css->set_selector( 'a.fx-button-' . $id . ':hover,a.fx-button-' . $id . ':active, a.fx-button-' . $id . ':focus' );
+				$css->set_selector( '.fx-button-wrapper a.fx-button-' . $id . ':hover,.fx-button-wrapper a.fx-button-' . $id . ':active,.fx-button-wrapper a.fx-button-' . $id . ':focus' );
 				$css->add_property( 'background-color', flexblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
 				$css->add_property( 'color', $settings['textColorHover'] );
 				$css->add_property( 'border-color', flexblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
@@ -582,7 +582,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$tablet_css->set_selector( 'a.fx-button-' . $id );
+				$tablet_css->set_selector( '.fx-button-wrapper a.fx-button-' . $id );
 				$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 				$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 				$tablet_css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
@@ -590,7 +590,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'margin', flexblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 				$tablet_css->add_property( 'border-width', flexblocks_get_shorthand_css( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'], 'px' ) );
 
-				$mobile_css->set_selector( 'a.fx-button-' . $id );
+				$mobile_css->set_selector( '.fx-button-wrapper a.fx-button-' . $id );
 				$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 				$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 				$mobile_css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
