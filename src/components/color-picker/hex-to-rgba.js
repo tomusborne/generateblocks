@@ -9,7 +9,7 @@ export default function hexToRGBA( hex, alpha ) {
 		return '';
 	}
 
-	if ( ! alpha ) {
+	if ( ! alpha && 0 !== alpha ) {
 		return hex;
 	}
 
