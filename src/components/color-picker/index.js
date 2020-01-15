@@ -56,7 +56,7 @@ export default class FlexBlocksColorPicker extends Component {
 								className="components-color-palette__item components-circular-option-picker__option"
 								onClick={ onToggle }
 								aria-label={ __( 'Custom color picker', 'flexblocks' ) }
-								style={ { color: value ? hexToRGBA( value, valueOpacity ) : '' } }
+								style={ { color: value ? hexToRGBA( value, valueOpacity ) : 'transparent' } }
 							>
 								<span className="components-color-palette__custom-color-gradient" />
 							</button>
