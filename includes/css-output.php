@@ -83,7 +83,10 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'flex-wrap', 'wrap' );
 
 			$css->set_selector( '.fx-grid-wrapper > .fx-grid-column > .fx-container' );
+			$css->add_property( 'display', '-webkit-box' );
+			$css->add_property( 'display', '-ms-flexbox' );
 			$css->add_property( 'display', 'flex' );
+			$css->add_property( '-ms-flex-direction', 'column' );
 			$css->add_property( 'flex-direction', 'column' );
 			$css->add_property( 'height', '100%' );
 
@@ -105,7 +108,9 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				$id = $atts['uniqueId'];
 
 				$css->set_selector( '.fx-grid-wrapper-' . $id );
+				$css->add_property( '-ms-flex-align', flexblocks_get_vendor_prefix( $settings['verticalAlignment'] ) );
 				$css->add_property( 'align-items', $settings['verticalAlignment'] );
+				$css->add_property( '-ms-flex-pack', flexblocks_get_vendor_prefix( $settings['horizontalAlignment'] ) );
 				$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
 				if ( $settings['horizontalGap'] ) {
@@ -123,10 +128,12 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->set_selector( '.fx-grid-wrapper-' . $id );
 
 				if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+					$tablet_css->add_property( '-ms-flex-align', flexblocks_get_vendor_prefix( $settings['verticalAlignmentTablet'] ) );
 					$tablet_css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
 				}
 
 				if ( 'inherit' !== $settings['horizontalAlignmentTablet'] ) {
+					$tablet_css->add_property( '-ms-flex-pack', flexblocks_get_vendor_prefix( $settings['horizontalAlignmentTablet'] ) );
 					$tablet_css->add_property( 'justify-content', $settings['horizontalAlignmentTablet'] );
 				}
 
@@ -145,10 +152,12 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->set_selector( '.fx-grid-wrapper-' . $id );
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+					$mobile_css->add_property( '-ms-flex-align', flexblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
 					$mobile_css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
 				}
 
 				if ( 'inherit' !== $settings['horizontalAlignmentMobile'] ) {
+					$mobile_css->add_property( '-ms-flex-pack', flexblocks_get_vendor_prefix( $settings['horizontalAlignmentMobile'] ) );
 					$mobile_css->add_property( 'justify-content', $settings['horizontalAlignmentMobile'] );
 				}
 
@@ -301,6 +310,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-container' );
+				$css->add_property( '-ms-flex-pack', flexblocks_get_vendor_prefix( $settings['verticalAlignment'] ) );
 				$css->add_property( 'justify-content', $settings['verticalAlignment'] );
 
 				$tablet_css->set_selector( '.fx-container.fx-container-' . $id );
@@ -321,6 +331,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
 
 				if ( $settings['isGrid'] ) {
+					$tablet_css->add_property( '-ms-flex-order', $settings['orderTablet'] );
 					$tablet_css->add_property( 'order', $settings['orderTablet'] );
 				}
 
@@ -332,6 +343,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-container' );
 
 				if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+					$tablet_css->add_property( '-ms-flex-pack', flexblocks_get_vendor_prefix( $settings['verticalAlignmentTablet'] ) );
 					$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
 				}
 
@@ -356,6 +368,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['isGrid'] ) {
+					$mobile_css->add_property( '-ms-flex-order', $settings['orderMobile'] );
 					$mobile_css->add_property( 'order', $settings['orderMobile'] );
 				}
 
@@ -367,6 +380,7 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id . ' > .fx-container' );
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+					$mobile_css->add_property( '-ms-flex-pack', flexblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
 					$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
 				}
 			}
@@ -432,6 +446,8 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['fillHorizontalSpace'] ) {
 					$css->set_selector( '.fx-button-wrapper-' . $id . ' > a' );
+					$css->add_property( '-webkit-box-flex', '1' );
+					$css->add_property( '-ms-flex', '1' );
 					$css->add_property( 'flex', '1' );
 				}
 
@@ -446,6 +462,8 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['fillHorizontalSpaceTablet'] ) {
 					$tablet_css->set_selector( '.fx-button-wrapper-' . $id . ' > a' );
+					$tablet_css->add_property( '-webkit-box-flex', '1' );
+					$tablet_css->add_property( '-ms-flex', '1' );
 					$tablet_css->add_property( 'flex', '1' );
 				}
 
@@ -460,6 +478,8 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['fillHorizontalSpaceMobile'] ) {
 					$mobile_css->set_selector( '.fx-button-wrapper-' . $id . ' > a' );
+					$mobile_css->add_property( '-webkit-box-flex', '1' );
+					$mobile_css->add_property( '-ms-flex', '1' );
 					$mobile_css->add_property( 'flex', '1' );
 				}
 			}

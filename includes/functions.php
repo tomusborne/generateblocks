@@ -301,3 +301,15 @@ function flexblocks_hex2rgba( $hex, $alpha ) {
 
 	return $rgba;
 }
+
+function flexblocks_get_vendor_prefix( $value ) {
+	if ( 'flex-start' === $value ) {
+		return 'start';
+	}
+
+	if ( 'flex-end' === $value ) {
+		return 'end';
+	}
+
+	return $value;
+}
