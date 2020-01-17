@@ -350,7 +350,10 @@ function flexblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'padding', flexblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
 
 				$mobile_css->set_selector( '.fx-grid-wrapper > .fx-grid-column-' . $id );
-				$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
+
+				if ( 100 !== $settings['widthMobile'] ) {
+					$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
+				}
 
 				if ( $settings['isGrid'] ) {
 					$mobile_css->add_property( 'order', $settings['orderMobile'] );
@@ -845,6 +848,8 @@ function flexblocks_do_frontend_block_css() {
 				implode( '', $data['tablet'] )
 			);
 		}
+
+		array_unshift( $data['mobile'], '.fx-grid-wrapper > .fx-grid-column {width: 100%;}' );
 
 		if ( ! empty( $data['mobile'] ) ) {
 			printf(
