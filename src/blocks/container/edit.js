@@ -40,9 +40,9 @@ const {
 } = wp.blockEditor;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
-const fbContainerIds = [];
+const gbContainerIds = [];
 
-class FlexBlockContainer extends Component {
+class GenerateBlockContainer extends Component {
 	constructor() {
 		super( ...arguments );
 	}
@@ -55,17 +55,17 @@ class FlexBlockContainer extends Component {
 				uniqueId: id,
 			} );
 
-			fbContainerIds.push( id );
-		} else if ( fbContainerIds.includes( this.props.attributes.uniqueId ) ) {
+			gbContainerIds.push( id );
+		} else if ( gbContainerIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.attributes.uniqueId = id; // Need this to update ID on duplicate.
 
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
 
-			fbContainerIds.push( id );
+			gbContainerIds.push( id );
 		} else {
-			fbContainerIds.push( this.props.attributes.uniqueId );
+			gbContainerIds.push( this.props.attributes.uniqueId );
 		}
 	}
 
@@ -261,7 +261,7 @@ class FlexBlockContainer extends Component {
 		}
 
 		const css = `
-			.fx-container-` + uniqueId + ` {
+			.gb-container-` + uniqueId + ` {
 				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				color: ` + textColor + `;
 		  		background-image: ` + backgroundImageValue + `;
@@ -288,15 +288,15 @@ class FlexBlockContainer extends Component {
 				z-index: ` + zindex + `;
 			}
 
-			.fx-container-` + uniqueId + ` a, .fx-container-` + uniqueId + ` a:visited {
+			.gb-container-` + uniqueId + ` a, .gb-container-` + uniqueId + ` a:visited {
 			  color: ` + linkColor + `;
 			}
 
-			.fx-container-` + uniqueId + ` a:hover {
+			.gb-container-` + uniqueId + ` a:hover {
 			  color: ` + linkColorHover + `;
 			}
 
-			.fx-container-` + uniqueId + ` > .fx-inside-container {
+			.gb-container-` + uniqueId + ` > .gb-inside-container {
 			  padding-top: ` + paddingTop + paddingUnit + `;
 			  padding-right: ` + paddingRight + paddingUnit + `;
 			  padding-bottom: ` + paddingBottom + paddingUnit + `;
@@ -304,7 +304,7 @@ class FlexBlockContainer extends Component {
 			  ` + innerContainerWidth + `;
 			}
 
-			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {
+			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {
 				width: ` + width + `%;
 				display: flex;
 				flex-direction: column;
@@ -317,16 +317,16 @@ class FlexBlockContainer extends Component {
 				` + removeVerticalGapStyle + `
 			}
 
-			.fx-grid-column > .fx-container-` + uniqueId + ` {
+			.gb-grid-column > .gb-container-` + uniqueId + ` {
 				display: flex;
 				flex-direction: column;
 				height: 100%;
 				justify-content: ` + verticalAlignment + `;
 			}
 
-			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
-			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"],
-			.fx-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"] > .fx-grid-column {
+			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
+			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"],
+			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"] > .gb-grid-column {
 				height: 100%;
 			}
 
@@ -358,31 +358,31 @@ class FlexBlockContainer extends Component {
 						<PanelBody>
 							<Fragment>
 								<SelectControl
-									label={ __( 'Container', 'flexblocks' ) }
+									label={ __( 'Container', 'generateblocks' ) }
 									value={ outerContainer }
 									options={ [
-										{ label: __( 'Full width', 'flexblocks' ), value: 'full' },
-										{ label: __( 'Contained', 'flexblocks' ), value: 'contained' },
+										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
 									] }
 									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
 								/>
 
 								<SelectControl
-									label={ __( 'Inner Container', 'flexblocks' ) }
+									label={ __( 'Inner Container', 'generateblocks' ) }
 									value={ innerContainer }
 									options={ [
-										{ label: __( 'Full width', 'flexblocks' ), value: 'full' },
-										{ label: __( 'Contained', 'flexblocks' ), value: 'contained' },
+										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
 									] }
 									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
 								/>
 
-								<div className="components-fx-control__header">
-									<div className="components-fx-control__label">
-										{ __( 'Container Width', 'flexblocks' ) }
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Container Width', 'generateblocks' ) }
 									</div>
 
-									<div className="components-fx-control__units">
+									<div className="components-gblocks-control__units">
 										<Tooltip text={ __( 'Pixel Units' ) } key={ 'container-width-unit' }>
 											<Button
 												key={ 'container-width-unit' }
@@ -412,22 +412,22 @@ class FlexBlockContainer extends Component {
 
 					{ isGrid && (
 						<PanelBody className="section-grid-panel">
-							<TabPanel className="grid-tab-panel flexblocks-control-tabs"
+							<TabPanel className="grid-tab-panel gblocks-control-tabs"
 								activeClass="active-tab"
 								tabs={ [
 									{
 										name: 'default',
-										title: __( 'Default', 'flexblocks' ),
+										title: __( 'Default', 'generateblocks' ),
 										className: 'grid-default',
 									},
 									{
 										name: 'tablet',
-										title: __( 'Tablet', 'flexblocks' ),
+										title: __( 'Tablet', 'generateblocks' ),
 										className: 'grid-tablet',
 									},
 									{
 										name: 'mobile',
-										title: __( 'Mobile', 'flexblocks' ),
+										title: __( 'Mobile', 'generateblocks' ),
 										className: 'grid-mobile',
 									},
 								] }>
@@ -446,7 +446,7 @@ class FlexBlockContainer extends Component {
 														</ButtonGroup>
 
 														<RangeControl
-															className={ 'fx-column-width-control' }
+															className={ 'gblocks-column-width-control' }
 															value={ width ? width : '' }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -457,18 +457,18 @@ class FlexBlockContainer extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ flexBlocksDefaults.container.width }
+															initialPosition={ generateBlocksDefaults.container.width }
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'flexblocks' ) }
-															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'flexblocks' ) }
+															label={ __( 'Vertical Alignment', 'generateblocks' ) }
+															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
 															value={ verticalAlignment }
 															options={ [
-																{ label: __( 'Default', 'flexblocks' ), value: '' },
-																{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
-																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+																{ label: __( 'Default', 'generateblocks' ), value: '' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignment ) => {
 																setAttributes( { verticalAlignment } )
@@ -476,7 +476,7 @@ class FlexBlockContainer extends Component {
 														/>
 
 														<ToggleControl
-															label={ __( 'Remove Vertical Gap', 'flexblocks' ) }
+															label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
 															checked={ !! removeVerticalGap }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -498,7 +498,7 @@ class FlexBlockContainer extends Component {
 														</ButtonGroup>
 
 														<RangeControl
-															className={ 'fx-column-width-control' }
+															className={ 'gblocks-column-width-control' }
 															value={ widthTablet }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -509,19 +509,19 @@ class FlexBlockContainer extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ flexBlocksDefaults.container.widthTablet }
+															initialPosition={ generateBlocksDefaults.container.widthTablet }
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'flexblocks' ) }
-															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'flexblocks' ) }
+															label={ __( 'Vertical Alignment', 'generateblocks' ) }
+															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
 															value={ verticalAlignmentTablet }
 															options={ [
-																{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit'},
-																{ label: __( 'Default', 'flexblocks' ), value: '' },
-																{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
-																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+																{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit'},
+																{ label: __( 'Default', 'generateblocks' ), value: '' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignmentTablet ) => {
 																setAttributes( { verticalAlignmentTablet } )
@@ -529,7 +529,7 @@ class FlexBlockContainer extends Component {
 														/>
 
 														<ToggleControl
-															label={ __( 'Remove Vertical Gap', 'flexblocks' ) }
+															label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
 															checked={ !! removeVerticalGapTablet }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -540,7 +540,7 @@ class FlexBlockContainer extends Component {
 
 														<TextControl
 															type={ 'number' }
-															label={ __( 'Order', 'flexblocks' ) }
+															label={ __( 'Order', 'generateblocks' ) }
 															value={ orderTablet ? orderTablet : '' }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -562,7 +562,7 @@ class FlexBlockContainer extends Component {
 														</ButtonGroup>
 
 														<RangeControl
-															className={ 'fx-column-width-control' }
+															className={ 'gblocks-column-width-control' }
 															value={ widthMobile }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -573,19 +573,19 @@ class FlexBlockContainer extends Component {
 															max={ 100.00 }
 															step={ 0.01 }
 															allowReset={ true }
-															initialPosition={ flexBlocksDefaults.container.widthMobile }
+															initialPosition={ generateBlocksDefaults.container.widthMobile }
 														/>
 
 														<SelectControl
-															label={ __( 'Vertical Alignment', 'flexblocks' ) }
-															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'flexblocks' ) }
+															label={ __( 'Vertical Alignment', 'generateblocks' ) }
+															help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
 															value={ verticalAlignmentMobile }
 															options={ [
-																{ label: __( 'Inherit', 'flexblocks' ), value: 'inherit'},
-																{ label: __( 'Default', 'flexblocks' ), value: '' },
-																{ label: __( 'Top', 'flexblocks' ), value: 'flex-start' },
-																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flexblocks' ), value: 'flex-end' },
+																{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit'},
+																{ label: __( 'Default', 'generateblocks' ), value: '' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 															] }
 															onChange={ ( verticalAlignmentMobile ) => {
 																setAttributes( { verticalAlignmentMobile } )
@@ -593,7 +593,7 @@ class FlexBlockContainer extends Component {
 														/>
 
 														<ToggleControl
-															label={ __( 'Remove Vertical Gap', 'flexblocks' ) }
+															label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
 															checked={ !! removeVerticalGapMobile }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -604,7 +604,7 @@ class FlexBlockContainer extends Component {
 
 														<TextControl
 															type={ 'number' }
-															label={ __( 'Order', 'flexblocks' ) }
+															label={ __( 'Order', 'generateblocks' ) }
 															value={ orderMobile ? orderMobile : '' }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -623,28 +623,28 @@ class FlexBlockContainer extends Component {
 					) }
 
 					<PanelBody
-						title={ __( 'Spacing', 'flexblocks' ) }
+						title={ __( 'Spacing', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'spacing' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 
-						<TabPanel className="layout-tab-panel flexblocks-control-tabs"
+						<TabPanel className="layout-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'default',
-									title: __( 'Default', 'flexblocks' ),
+									title: __( 'Default', 'generateblocks' ),
 									className: 'grid-default',
 								},
 								{
 									name: 'tablet',
-									title: __( 'Tablet', 'flexblocks' ),
+									title: __( 'Tablet', 'generateblocks' ),
 									className: 'grid-tablet',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'flexblocks' ),
+									title: __( 'Mobile', 'generateblocks' ),
 									className: 'grid-mobile',
 								},
 							] }>
@@ -654,19 +654,19 @@ class FlexBlockContainer extends Component {
 										<div>
 											{ 'default' === tab.name && (
 												<Fragment>
-													<div className="components-fx-dimensions-control__header">
-														<div className="components-fx-dimensions-control__label">
-															{ __( 'Minimum Height', 'flexblocks' ) }
+													<div className="components-gblocks-dimensions-control__header">
+														<div className="components-gblocks-dimensions-control__label">
+															{ __( 'Minimum Height', 'generateblocks' ) }
 														</div>
 
-														<div className="components-fx-control__units">
-															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+														<div className="components-gblocks-control__units">
+															<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
 																		<Button
 																			key={ unit.unitValue }
-																			className={ 'components-fx-dimensions-control__units--' + unit.name }
+																			className={ 'components-gblocks-dimensions-control__units--' + unit.name }
 																			isSmall
 																			isPrimary={ minHeightUnit === unit.unitValue }
 																			aria-pressed={ minHeightUnit === unit.unitValue }
@@ -694,7 +694,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTop }
 														valueRight={ paddingRight }
 														valueBottom={ paddingBottom }
@@ -711,7 +711,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTop }
 														valueRight={ marginRight }
 														valueBottom={ marginBottom }
@@ -728,7 +728,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Size', 'flexblocks' ) }
+														label={ __( 'Border Size', 'generateblocks' ) }
 														valueTop={ borderSizeTop }
 														valueRight={ borderSizeRight }
 														valueBottom={ borderSizeBottom }
@@ -744,7 +744,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Radius', 'flexblocks' ) }
+														label={ __( 'Border Radius', 'generateblocks' ) }
 														valueTop={ borderRadiusTopLeft }
 														valueRight={ borderRadiusTopRight }
 														valueBottom={ borderRadiusBottomRight }
@@ -757,29 +757,29 @@ class FlexBlockContainer extends Component {
 														attrLeft={ 'borderRadiusBottomLeft' }
 														attrUnit={ 'borderRadiusUnit' }
 														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'flexblocks' ) }
-														labelRight={ __( 'T-Right', 'flexblocks' ) }
-														labelBottom={ __( 'B-Right', 'flexblocks' ) }
-														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+														labelTop={ __( 'T-Left', 'generateblocks' ) }
+														labelRight={ __( 'T-Right', 'generateblocks' ) }
+														labelBottom={ __( 'B-Right', 'generateblocks' ) }
+														labelLeft={ __( 'B-Left', 'generateblocks' ) }
 													/>
 												</Fragment>
 											) }
 
 											{ 'tablet' === tab.name && (
 												<Fragment>
-													<div className="components-fx-dimensions-control__header">
-														<div className="components-fx-dimensions-control__label">
-															{ __( 'Minimum Height', 'flexblocks' ) }
+													<div className="components-gblocks-dimensions-control__header">
+														<div className="components-gblocks-dimensions-control__label">
+															{ __( 'Minimum Height', 'generateblocks' ) }
 														</div>
 
-														<div className="components-fx-control__units">
-															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+														<div className="components-gblocks-control__units">
+															<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
 																		<Button
 																			key={ unit.unitValue }
-																			className={ 'components-fx-dimensions-control__units--' + unit.name }
+																			className={ 'components-gblocks-dimensions-control__units--' + unit.name }
 																			isSmall
 																			isPrimary={ minHeightUnitTablet === unit.unitValue }
 																			aria-pressed={ minHeightUnitTablet === unit.unitValue }
@@ -807,7 +807,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTopTablet }
 														valueRight={ paddingRightTablet }
 														valueBottom={ paddingBottomTablet }
@@ -824,7 +824,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTopTablet }
 														valueRight={ marginRightTablet }
 														valueBottom={ marginBottomTablet }
@@ -841,7 +841,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Size', 'flexblocks' ) }
+														label={ __( 'Border Size', 'generateblocks' ) }
 														valueTop={ borderSizeTopTablet }
 														valueRight={ borderSizeRightTablet }
 														valueBottom={ borderSizeBottomTablet }
@@ -857,7 +857,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Radius', 'flexblocks' ) }
+														label={ __( 'Border Radius', 'generateblocks' ) }
 														valueTop={ borderRadiusTopLeftTablet }
 														valueRight={ borderRadiusTopRightTablet }
 														valueBottom={ borderRadiusBottomRightTablet }
@@ -870,29 +870,29 @@ class FlexBlockContainer extends Component {
 														attrLeft={ 'borderRadiusBottomLeftTablet' }
 														attrUnit={ 'borderRadiusUnit' }
 														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'flexblocks' ) }
-														labelRight={ __( 'T-Right', 'flexblocks' ) }
-														labelBottom={ __( 'B-Right', 'flexblocks' ) }
-														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+														labelTop={ __( 'T-Left', 'generateblocks' ) }
+														labelRight={ __( 'T-Right', 'generateblocks' ) }
+														labelBottom={ __( 'B-Right', 'generateblocks' ) }
+														labelLeft={ __( 'B-Left', 'generateblocks' ) }
 													/>
 												</Fragment>
 											) }
 
 											{ 'mobile' === tab.name && (
 												<Fragment>
-													<div className="components-fx-dimensions-control__header">
-														<div className="components-fx-dimensions-control__label">
-															{ __( 'Minimum Height', 'flexblocks' ) }
+													<div className="components-gblocks-dimensions-control__header">
+														<div className="components-gblocks-dimensions-control__label">
+															{ __( 'Minimum Height', 'generateblocks' ) }
 														</div>
 
-														<div className="components-fx-control__units">
-															<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+														<div className="components-gblocks-control__units">
+															<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
 																{ minHeightUnits.map( ( unit ) =>
 																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 																	<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
 																		<Button
 																			key={ unit.unitValue }
-																			className={ 'components-fx-dimensions-control__units--' + unit.name }
+																			className={ 'components-gblocks-dimensions-control__units--' + unit.name }
 																			isSmall
 																			isPrimary={ minHeightUnitMobile === unit.unitValue }
 																			aria-pressed={ minHeightUnitMobile === unit.unitValue }
@@ -920,7 +920,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTopMobile }
 														valueRight={ paddingRightMobile }
 														valueBottom={ paddingBottomMobile }
@@ -937,7 +937,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTopMobile }
 														valueRight={ marginRightMobile }
 														valueBottom={ marginBottomMobile }
@@ -954,7 +954,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Size', 'flexblocks' ) }
+														label={ __( 'Border Size', 'generateblocks' ) }
 														valueTop={ borderSizeTopMobile }
 														valueRight={ borderSizeRightMobile }
 														valueBottom={ borderSizeBottomMobile }
@@ -970,7 +970,7 @@ class FlexBlockContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Radius', 'flexblocks' ) }
+														label={ __( 'Border Radius', 'generateblocks' ) }
 														valueTop={ borderRadiusTopLeftMobile }
 														valueRight={ borderRadiusTopRightMobile }
 														valueBottom={ borderRadiusBottomRightMobile }
@@ -983,10 +983,10 @@ class FlexBlockContainer extends Component {
 														attrLeft={ 'borderRadiusBottomLeftMobile' }
 														attrUnit={ 'borderRadiusUnit' }
 														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'flexblocks' ) }
-														labelRight={ __( 'T-Right', 'flexblocks' ) }
-														labelBottom={ __( 'B-Right', 'flexblocks' ) }
-														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+														labelTop={ __( 'T-Left', 'generateblocks' ) }
+														labelRight={ __( 'T-Right', 'generateblocks' ) }
+														labelBottom={ __( 'B-Right', 'generateblocks' ) }
+														labelLeft={ __( 'B-Left', 'generateblocks' ) }
 													/>
 												</Fragment>
 											) }
@@ -999,15 +999,15 @@ class FlexBlockContainer extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Colors', 'flexblocks' ) }
+						title={ __( 'Colors', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'colors' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 
 						<Fragment>
 							<ColorPicker
-								label={ __( 'Background Color', 'flexblocks' ) }
+								label={ __( 'Background Color', 'generateblocks' ) }
 								value={ backgroundColor }
 								onChange={ ( nextBackgroundColor ) =>
 									setAttributes( {
@@ -1025,7 +1025,7 @@ class FlexBlockContainer extends Component {
 							/>
 
 							<ColorPicker
-								label={ __( 'Text Color', 'flexblocks' ) }
+								label={ __( 'Text Color', 'generateblocks' ) }
 								value={ textColor }
 								onChange={ ( nextTextColor ) =>
 									setAttributes( {
@@ -1036,7 +1036,7 @@ class FlexBlockContainer extends Component {
 							/>
 
 							<ColorPicker
-								label={ __( 'Link Color', 'flexblocks' ) }
+								label={ __( 'Link Color', 'generateblocks' ) }
 								value={ linkColor }
 								onChange={ ( nextLinkColor ) =>
 									setAttributes( {
@@ -1047,7 +1047,7 @@ class FlexBlockContainer extends Component {
 							/>
 
 							<ColorPicker
-								label={ __( 'Link Color Hover', 'flexblocks' ) }
+								label={ __( 'Link Color Hover', 'generateblocks' ) }
 								value={ linkColorHover }
 								onChange={ ( nextLinkColorHover ) =>
 									setAttributes( {
@@ -1058,7 +1058,7 @@ class FlexBlockContainer extends Component {
 							/>
 
 							<ColorPicker
-								label={ __( 'Border Color', 'flexblocks' ) }
+								label={ __( 'Border Color', 'generateblocks' ) }
 								value={ borderColor }
 								onChange={ ( value ) =>
 									setAttributes( {
@@ -1081,7 +1081,7 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Background Gradient' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'gradients' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 						<GradientControl { ...this.props }
 							valueGradient={ gradient }
@@ -1100,8 +1100,8 @@ class FlexBlockContainer extends Component {
 							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
 							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
 							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-							defaultColorOne={ flexBlocksDefaults.container.gradientColorOne }
-							defaultColorTwo={ flexBlocksDefaults.container.gradientColorTwo }
+							defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
+							defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
 						/>
 					</PanelBody>
 
@@ -1109,18 +1109,18 @@ class FlexBlockContainer extends Component {
 						title={ __( 'Background Image' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'backgrounds' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 						{ ! bgImage && (
 							<div>
 								<MediaUpload
-									title={ __('Set background image') }
+									title={ __( 'Set background image', 'generateblocks' ) }
 									onSelect={ onSelectBgImage }
 									allowedTypes={["image"]}
 									modalClass="editor-post-featured-image__media-modal"
 									render={ ( { open } ) => (
 										<Button className="editor-post-featured-image__toggle" onClick={ open }>
-											{ __( 'Set background image' ) }
+											{ __( 'Set background image', 'generateblocks' ) }
 										</Button>
 									) }
 								/>
@@ -1129,7 +1129,7 @@ class FlexBlockContainer extends Component {
 
 						{ !! bgImage && (
 							<MediaUpload
-								title={ __( 'Set background image' ) }
+								title={ __( 'Set background image', 'generateblocks' ) }
 								onSelect={ onSelectBgImage }
 								allowedTypes={["image"]}
 								value={ bgImage.id }
@@ -1160,7 +1160,7 @@ class FlexBlockContainer extends Component {
 						{ !! bgImage && (
 							<div className="section-bg-settings">
 								<ToggleControl
-									label={ __( 'Background Color Overlay', 'flexblocks' ) }
+									label={ __( 'Background Color Overlay', 'generateblocks' ) }
 									checked={ !! bgOptions.overlay }
 									onChange={ ( nextOverlay ) => {
 										setAttributes( {
@@ -1173,13 +1173,13 @@ class FlexBlockContainer extends Component {
 								/>
 
 								{ !! bgOptions.overlay && (
-									<div className="fx-notice">
-										{ __( 'Your background color must have transparency for the image to show.', 'flexblocks' ) }
+									<div className="gblocks-notice">
+										{ __( 'Your background color must have transparency for the image to show.', 'generateblocks' ) }
 									</div>
 								) }
 
 								<TextControl
-									label={ __( 'Size', 'flexblocks' ) }
+									label={ __( 'Size', 'generateblocks' ) }
 									value={ bgOptions.size }
 									onChange={ ( nextSize ) => {
 										setAttributes( {
@@ -1192,7 +1192,7 @@ class FlexBlockContainer extends Component {
 								/>
 
 								<TextControl
-									label={ __( 'Position', 'flexblocks' ) }
+									label={ __( 'Position', 'generateblocks' ) }
 									value={ bgOptions.position }
 									onChange={ ( nextPosition ) => {
 										setAttributes( {
@@ -1205,7 +1205,7 @@ class FlexBlockContainer extends Component {
 								/>
 
 								<SelectControl
-									label={ __( 'Repeat', 'flexblocks' ) }
+									label={ __( 'Repeat', 'generateblocks' ) }
 									value={ bgOptions.repeat }
 									options={ [
 										{ label: 'no-repeat', value: 'no-repeat' },
@@ -1224,7 +1224,7 @@ class FlexBlockContainer extends Component {
 								/>
 
 								<SelectControl
-									label={ __( 'Attachment', 'flexblocks' ) }
+									label={ __( 'Attachment', 'generateblocks' ) }
 									value={ bgOptions.attachment }
 									options={ [
 										{ label: 'scroll', value: '' },
@@ -1245,13 +1245,13 @@ class FlexBlockContainer extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Advanced', 'flexblocks' ) }
+						title={ __( 'Advanced', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 						<SelectControl
-							label={ __( 'Element Tag', 'flexblocks' ) }
+							label={ __( 'Element Tag', 'generateblocks' ) }
 							value={ tagName }
 							options={ [
 								{ label: 'div', value: 'div' },
@@ -1263,7 +1263,7 @@ class FlexBlockContainer extends Component {
 						/>
 
 						<TextControl
-							label={ __( 'Element ID', 'flexblocks' ) }
+							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
 							onChange={ ( elementId ) => {
 								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -1272,13 +1272,13 @@ class FlexBlockContainer extends Component {
 						/>
 
 						<TextControl
-							label={ __( 'CSS Classes', 'flexblocks' ) }
+							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
 							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 						/>
 
 						<RangeControl
-							label={ __( 'z-index', 'flexblocks' ) }
+							label={ __( 'z-index', 'generateblocks' ) }
 							value={ zindex }
 							onChange={ ( value ) => {
 								setAttributes( {
@@ -1296,21 +1296,21 @@ class FlexBlockContainer extends Component {
 
 				{ !! isGrid && (
 					<div className={ classnames( {
-						'fx-grid-column': true,
-						[`fx-grid-column-${ uniqueId }`]: true
+						'gb-grid-column': true,
+						[`gb-grid-column-${ uniqueId }`]: true
 					} ) }>
 						<Section
 							tagName={ tagName }
 							id={ elementId }
 							className={ classnames( {
-								'fx-container': true,
-								[`fx-container-${ uniqueId }`]: true,
+								'gb-container': true,
+								[`gb-container-${ uniqueId }`]: true,
 								[`${ cssClasses }`]: '' !== cssClasses
 							} ) }
 						>
 							<div
 								className={ classnames( {
-								'fx-inside-container': true
+								'gb-inside-container': true
 								} ) }
 							>
 								<InnerBlocks
@@ -1331,14 +1331,14 @@ class FlexBlockContainer extends Component {
 						tagName={ tagName }
 						id={ elementId }
 						className={ classnames( {
-							'fx-container': true,
-							[`fx-container-${ uniqueId }`]: true,
+							'gb-container': true,
+							[`gb-container-${ uniqueId }`]: true,
 							[`${ cssClasses }`]: '' !== cssClasses
 						} ) }
 					>
 						<div
 							className={ classnames( {
-							'fx-inside-container': true
+							'gb-inside-container': true
 							} ) }
 						>
 							<InnerBlocks
@@ -1358,4 +1358,4 @@ class FlexBlockContainer extends Component {
 	}
 }
 
-export default ( FlexBlockContainer );
+export default ( GenerateBlockContainer );

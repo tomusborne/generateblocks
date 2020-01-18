@@ -18,71 +18,71 @@ export default {
 	},
 	element: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.element,
+		default: generateBlocksDefaults.headline.element,
 	},
 	alignment: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.alignment,
+		default: generateBlocksDefaults.headline.alignment,
 	},
 	alignmentTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.alignmentTablet,
+		default: generateBlocksDefaults.headline.alignmentTablet,
 	},
 	alignmentMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.alignmentMobile,
+		default: generateBlocksDefaults.headline.alignmentMobile,
 	},
 	backgroundColor: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.backgroundColor,
+		default: generateBlocksDefaults.headline.backgroundColor,
 	},
 	backgroundColorOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.backgroundColorOpacity,
+		default: generateBlocksDefaults.headline.backgroundColorOpacity,
 	},
 	textColor: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.textColor,
+		default: generateBlocksDefaults.headline.textColor,
 	},
 	linkColor: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.linkColor,
+		default: generateBlocksDefaults.headline.linkColor,
 	},
 	linkColorHover: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.linkColorHover,
+		default: generateBlocksDefaults.headline.linkColorHover,
 	},
 	fontFamily: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.fontFamily,
+		default: generateBlocksDefaults.headline.fontFamily,
 	},
 	fontFamilyFallback: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.fontFamilyFallback,
+		default: generateBlocksDefaults.headline.fontFamilyFallback,
 	},
 	googleFont: {
 		type: 'boolean',
-		default: flexBlocksDefaults.headline.googleFont,
+		default: generateBlocksDefaults.headline.googleFont,
 	},
 	fontWeight: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.fontWeight,
+		default: generateBlocksDefaults.headline.fontWeight,
 	},
 	fontSize: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.fontSize,
+		default: generateBlocksDefaults.headline.fontSize,
 	},
 	fontSizeTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.fontSizeTablet,
+		default: generateBlocksDefaults.headline.fontSizeTablet,
 	},
 	fontSizeMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.fontSizeMobile,
+		default: generateBlocksDefaults.headline.fontSizeMobile,
 	},
 	fontSizeUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.fontSizeUnit,
+		default: generateBlocksDefaults.headline.fontSizeUnit,
 	},
 	textTransform: {
 		type: 'string',
@@ -90,51 +90,51 @@ export default {
 	},
 	lineHeight: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.lineHeight,
+		default: generateBlocksDefaults.headline.lineHeight,
 	},
 	lineHeightTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.lineHeightTablet,
+		default: generateBlocksDefaults.headline.lineHeightTablet,
 	},
 	lineHeightMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.lineHeightMobile,
+		default: generateBlocksDefaults.headline.lineHeightMobile,
 	},
 	lineHeightUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.lineHeightUnit,
+		default: generateBlocksDefaults.headline.lineHeightUnit,
 	},
 	letterSpacing: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.letterSpacing,
+		default: generateBlocksDefaults.headline.letterSpacing,
 	},
 	letterSpacingTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.letterSpacingTablet,
+		default: generateBlocksDefaults.headline.letterSpacingTablet,
 	},
 	letterSpacingMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.letterSpacingMobile,
+		default: generateBlocksDefaults.headline.letterSpacingMobile,
 	},
 	marginTop: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginTop,
+		default: generateBlocksDefaults.headline.marginTop,
 	},
 	marginRight: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginRight,
+		default: generateBlocksDefaults.headline.marginRight,
 	},
 	marginBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginBottom,
+		default: generateBlocksDefaults.headline.marginBottom,
 	},
 	marginLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginLeft,
+		default: generateBlocksDefaults.headline.marginLeft,
 	},
 	marginUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginUnit,
+		default: generateBlocksDefaults.headline.marginUnit,
 	},
 	marginSyncUnits: {
 		type: 'boolean',
@@ -142,87 +142,87 @@ export default {
 	},
 	marginTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginTopTablet,
+		default: generateBlocksDefaults.headline.marginTopTablet,
 	},
 	marginRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginRightTablet,
+		default: generateBlocksDefaults.headline.marginRightTablet,
 	},
 	marginBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginBottomTablet,
+		default: generateBlocksDefaults.headline.marginBottomTablet,
 	},
 	marginLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginLeftTablet,
+		default: generateBlocksDefaults.headline.marginLeftTablet,
 	},
 	marginTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginTopMobile,
+		default: generateBlocksDefaults.headline.marginTopMobile,
 	},
 	marginRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginRightMobile,
+		default: generateBlocksDefaults.headline.marginRightMobile,
 	},
 	marginBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginBottomMobile,
+		default: generateBlocksDefaults.headline.marginBottomMobile,
 	},
 	marginLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.marginLeftMobile,
+		default: generateBlocksDefaults.headline.marginLeftMobile,
 	},
 	paddingTop: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingTop,
+		default: generateBlocksDefaults.headline.paddingTop,
 	},
 	paddingRight: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingRight,
+		default: generateBlocksDefaults.headline.paddingRight,
 	},
 	paddingBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingBottom,
+		default: generateBlocksDefaults.headline.paddingBottom,
 	},
 	paddingLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingLeft,
+		default: generateBlocksDefaults.headline.paddingLeft,
 	},
 	paddingTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingTopTablet,
+		default: generateBlocksDefaults.headline.paddingTopTablet,
 	},
 	paddingRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingRightTablet,
+		default: generateBlocksDefaults.headline.paddingRightTablet,
 	},
 	paddingBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingBottomTablet,
+		default: generateBlocksDefaults.headline.paddingBottomTablet,
 	},
 	paddingLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingLeftTablet,
+		default: generateBlocksDefaults.headline.paddingLeftTablet,
 	},
 	paddingTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingTopMobile,
+		default: generateBlocksDefaults.headline.paddingTopMobile,
 	},
 	paddingRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingRightMobile,
+		default: generateBlocksDefaults.headline.paddingRightMobile,
 	},
 	paddingBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingBottomMobile,
+		default: generateBlocksDefaults.headline.paddingBottomMobile,
 	},
 	paddingLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingLeftMobile,
+		default: generateBlocksDefaults.headline.paddingLeftMobile,
 	},
 	paddingUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.paddingUnit,
+		default: generateBlocksDefaults.headline.paddingUnit,
 	},
 	paddingSyncUnits: {
 		type: 'boolean',
@@ -230,15 +230,15 @@ export default {
 	},
 	icon: {
         type: 'string',
-        default: flexBlocksDefaults.headline.icon,
+        default: generateBlocksDefaults.headline.icon,
     },
 	iconColor: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconColor,
+		default: generateBlocksDefaults.headline.iconColor,
 	},
 	iconColorOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.iconColorOpacity,
+		default: generateBlocksDefaults.headline.iconColorOpacity,
 	},
 	customIcon: {
 		type: 'boolean',
@@ -246,79 +246,79 @@ export default {
 	},
 	iconLocation: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconLocation,
+		default: generateBlocksDefaults.headline.iconLocation,
 	},
 	iconLocationTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconLocationTablet,
+		default: generateBlocksDefaults.headline.iconLocationTablet,
 	},
 	iconLocationMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconLocationMobile,
+		default: generateBlocksDefaults.headline.iconLocationMobile,
 	},
 	iconVerticalAlignment: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconVerticalAlignment,
+		default: generateBlocksDefaults.headline.iconVerticalAlignment,
 	},
 	iconVerticalAlignmentTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconVerticalAlignmentTablet,
+		default: generateBlocksDefaults.headline.iconVerticalAlignmentTablet,
 	},
 	iconVerticalAlignmentMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconVerticalAlignmentMobile,
+		default: generateBlocksDefaults.headline.iconVerticalAlignmentMobile,
 	},
 	iconPaddingTop: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingTop,
+		default: generateBlocksDefaults.headline.iconPaddingTop,
 	},
 	iconPaddingRight: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingRight,
+		default: generateBlocksDefaults.headline.iconPaddingRight,
 	},
 	iconPaddingBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingBottom,
+		default: generateBlocksDefaults.headline.iconPaddingBottom,
 	},
 	iconPaddingLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingLeft,
+		default: generateBlocksDefaults.headline.iconPaddingLeft,
 	},
 	iconPaddingTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingTopTablet,
+		default: generateBlocksDefaults.headline.iconPaddingTopTablet,
 	},
 	iconPaddingRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingRightTablet,
+		default: generateBlocksDefaults.headline.iconPaddingRightTablet,
 	},
 	iconPaddingBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingBottomTablet,
+		default: generateBlocksDefaults.headline.iconPaddingBottomTablet,
 	},
 	iconPaddingLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingLeftTablet,
+		default: generateBlocksDefaults.headline.iconPaddingLeftTablet,
 	},
 	iconPaddingTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingTopMobile,
+		default: generateBlocksDefaults.headline.iconPaddingTopMobile,
 	},
 	iconPaddingRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingRightMobile,
+		default: generateBlocksDefaults.headline.iconPaddingRightMobile,
 	},
 	iconPaddingBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingBottomMobile,
+		default: generateBlocksDefaults.headline.iconPaddingBottomMobile,
 	},
 	iconPaddingLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingLeftMobile,
+		default: generateBlocksDefaults.headline.iconPaddingLeftMobile,
 	},
 	iconPaddingUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.headline.iconPaddingUnit,
+		default: generateBlocksDefaults.headline.iconPaddingUnit,
 	},
 	iconPaddingSyncUnits: {
 		type: 'boolean',
@@ -326,14 +326,14 @@ export default {
 	},
 	iconSize: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.iconSize,
+		default: generateBlocksDefaults.headline.iconSize,
 	},
 	iconSizeTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.iconSizeTablet,
+		default: generateBlocksDefaults.headline.iconSizeTablet,
 	},
 	iconSizeMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.headline.iconSizeMobile,
+		default: generateBlocksDefaults.headline.iconSizeMobile,
 	},
 }

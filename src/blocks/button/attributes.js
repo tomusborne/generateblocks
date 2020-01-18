@@ -14,34 +14,34 @@ export default {
 	url: {
         type: 'string',
         source: 'attribute',
-        selector: 'a.fx-button',
+        selector: 'a.gb-button',
         attribute: 'href',
     },
     target: {
         type: 'string',
         source: 'attribute',
-        selector: 'a.fx-button',
+        selector: 'a.gb-button',
         attribute: 'target',
     },
     rel: {
         type: 'string',
         source: 'attribute',
-        selector: 'a.fx-button',
+        selector: 'a.gb-button',
         attribute: 'rel',
     },
 	text: {
 		type: 'array',
 		source: 'children',
-		selector: '.fx-button .button-text',
+		selector: '.gb-button .button-text',
 		default: 'Button',
 	},
 	icon: {
         type: 'string',
-        default: flexBlocksDefaults.button.icon,
+        default: generateBlocksDefaults.button.icon,
     },
 	iconLocation: {
         type: 'string',
-        default: flexBlocksDefaults.button.iconLocation,
+        default: generateBlocksDefaults.button.iconLocation,
     },
 	customIcon: {
 		type: 'boolean',
@@ -49,334 +49,334 @@ export default {
 	},
 	removeText: {
 		type: 'boolean',
-		default: flexBlocksDefaults.button.removeText,
+		default: generateBlocksDefaults.button.removeText,
 	},
 	ariaLabel: {
 		type: 'string',
-		default: flexBlocksDefaults.button.ariaLabel,
+		default: generateBlocksDefaults.button.ariaLabel,
 	},
 	backgroundColor: {
         type: 'string',
-        default: flexBlocksDefaults.button.backgroundColor,
+        default: generateBlocksDefaults.button.backgroundColor,
     },
 	backgroundColorOpacity: {
         type: 'number',
-        default: flexBlocksDefaults.button.backgroundColorOpacity,
+        default: generateBlocksDefaults.button.backgroundColorOpacity,
     },
 	textColor: {
         type: 'string',
-        default: flexBlocksDefaults.button.textColor,
+        default: generateBlocksDefaults.button.textColor,
     },
 	backgroundColorHover: {
         type: 'string',
-        default: flexBlocksDefaults.button.backgroundColorHover,
+        default: generateBlocksDefaults.button.backgroundColorHover,
     },
 	backgroundColorHoverOpacity: {
         type: 'number',
-        default: flexBlocksDefaults.button.backgroundColorHoverOpacity,
+        default: generateBlocksDefaults.button.backgroundColorHoverOpacity,
     },
 	textColorHover: {
         type: 'string',
-        default: flexBlocksDefaults.button.textColorHover,
+        default: generateBlocksDefaults.button.textColorHover,
     },
 	borderColor: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderColor,
+		default: generateBlocksDefaults.button.borderColor,
 	},
 	borderColorOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.button.borderColorOpacity,
+		default: generateBlocksDefaults.button.borderColorOpacity,
 	},
 	borderColorHover: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderColorHover,
+		default: generateBlocksDefaults.button.borderColorHover,
 	},
 	borderColorHoverOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.button.borderColorHoverOpacity,
+		default: generateBlocksDefaults.button.borderColorHoverOpacity,
 	},
 	fontFamily: {
 		type: 'string',
-		default: flexBlocksDefaults.button.fontFamily,
+		default: generateBlocksDefaults.button.fontFamily,
 	},
 	fontFamilyFallback: {
 		type: 'string',
-		default: flexBlocksDefaults.button.fontFamilyFallback,
+		default: generateBlocksDefaults.button.fontFamilyFallback,
 	},
 	googleFont: {
 		type: 'boolean',
-		default: flexBlocksDefaults.button.googleFont,
+		default: generateBlocksDefaults.button.googleFont,
 	},
 	fontWeight: {
 		type: 'string',
-		default: flexBlocksDefaults.button.fontWeight,
+		default: generateBlocksDefaults.button.fontWeight,
 	},
 	fontSize: {
 		type: 'number',
-		default: flexBlocksDefaults.button.fontSize,
+		default: generateBlocksDefaults.button.fontSize,
 	},
 	fontSizeTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.button.fontSizeTablet,
+		default: generateBlocksDefaults.button.fontSizeTablet,
 	},
 	fontSizeMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.button.fontSizeMobile,
+		default: generateBlocksDefaults.button.fontSizeMobile,
 	},
 	fontSizeUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.button.fontSizeUnit,
+		default: generateBlocksDefaults.button.fontSizeUnit,
 	},
 	textTransform: {
 		type: 'string',
-		default: flexBlocksDefaults.button.textTransform,
+		default: generateBlocksDefaults.button.textTransform,
 	},
 	letterSpacing: {
 		type: 'number',
-		default: flexBlocksDefaults.button.letterSpacing,
+		default: generateBlocksDefaults.button.letterSpacing,
 	},
 	letterSpacingTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.button.letterSpacingTablet,
+		default: generateBlocksDefaults.button.letterSpacingTablet,
 	},
 	letterSpacingMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.button.letterSpacingMobile,
+		default: generateBlocksDefaults.button.letterSpacingMobile,
 	},
 	marginTop: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginTop,
+		default: generateBlocksDefaults.button.marginTop,
 	},
 	marginRight: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginRight,
+		default: generateBlocksDefaults.button.marginRight,
 	},
 	marginBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginBottom,
+		default: generateBlocksDefaults.button.marginBottom,
 	},
 	marginLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginLeft,
+		default: generateBlocksDefaults.button.marginLeft,
 	},
 	marginUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginUnit,
+		default: generateBlocksDefaults.button.marginUnit,
 	},
 	marginTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginTopTablet,
+		default: generateBlocksDefaults.button.marginTopTablet,
 	},
 	marginRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginRightTablet,
+		default: generateBlocksDefaults.button.marginRightTablet,
 	},
 	marginBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginBottomTablet,
+		default: generateBlocksDefaults.button.marginBottomTablet,
 	},
 	marginLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginLeftTablet,
+		default: generateBlocksDefaults.button.marginLeftTablet,
 	},
 	marginTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginTopMobile,
+		default: generateBlocksDefaults.button.marginTopMobile,
 	},
 	marginRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginRightMobile,
+		default: generateBlocksDefaults.button.marginRightMobile,
 	},
 	marginBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginBottomMobile,
+		default: generateBlocksDefaults.button.marginBottomMobile,
 	},
 	marginLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.marginLeftMobile,
+		default: generateBlocksDefaults.button.marginLeftMobile,
 	},
 	paddingTop: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingTop,
+		default: generateBlocksDefaults.button.paddingTop,
 	},
 	paddingRight: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingRight,
+		default: generateBlocksDefaults.button.paddingRight,
 	},
 	paddingBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingBottom,
+		default: generateBlocksDefaults.button.paddingBottom,
 	},
 	paddingLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingLeft,
+		default: generateBlocksDefaults.button.paddingLeft,
 	},
 	paddingUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingUnit,
+		default: generateBlocksDefaults.button.paddingUnit,
 	},
 	paddingTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingTopTablet,
+		default: generateBlocksDefaults.button.paddingTopTablet,
 	},
 	paddingRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingRightTablet,
+		default: generateBlocksDefaults.button.paddingRightTablet,
 	},
 	paddingBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingBottomTablet,
+		default: generateBlocksDefaults.button.paddingBottomTablet,
 	},
 	paddingLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingLeftTablet,
+		default: generateBlocksDefaults.button.paddingLeftTablet,
 	},
 	paddingTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingTopMobile,
+		default: generateBlocksDefaults.button.paddingTopMobile,
 	},
 	paddingRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingRightMobile,
+		default: generateBlocksDefaults.button.paddingRightMobile,
 	},
 	paddingBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingBottomMobile,
+		default: generateBlocksDefaults.button.paddingBottomMobile,
 	},
 	paddingLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.paddingLeftMobile,
+		default: generateBlocksDefaults.button.paddingLeftMobile,
 	},
 	borderSizeTop: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeTop,
+		default: generateBlocksDefaults.button.borderSizeTop,
 	},
 	borderSizeRight: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeRight,
+		default: generateBlocksDefaults.button.borderSizeRight,
 	},
 	borderSizeBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeBottom,
+		default: generateBlocksDefaults.button.borderSizeBottom,
 	},
 	borderSizeLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeLeft,
+		default: generateBlocksDefaults.button.borderSizeLeft,
 	},
 	borderSizeTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeTopTablet,
+		default: generateBlocksDefaults.button.borderSizeTopTablet,
 	},
 	borderSizeRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeRightTablet,
+		default: generateBlocksDefaults.button.borderSizeRightTablet,
 	},
 	borderSizeBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeBottomTablet,
+		default: generateBlocksDefaults.button.borderSizeBottomTablet,
 	},
 	borderSizeLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeLeftTablet,
+		default: generateBlocksDefaults.button.borderSizeLeftTablet,
 	},
 	borderSizeTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeTopMobile,
+		default: generateBlocksDefaults.button.borderSizeTopMobile,
 	},
 	borderSizeRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeRightMobile,
+		default: generateBlocksDefaults.button.borderSizeRightMobile,
 	},
 	borderSizeBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeBottomMobile,
+		default: generateBlocksDefaults.button.borderSizeBottomMobile,
 	},
 	borderSizeLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderSizeLeftMobile,
+		default: generateBlocksDefaults.button.borderSizeLeftMobile,
 	},
 	borderRadiusTopRight: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusTopRight,
+		default: generateBlocksDefaults.button.borderRadiusTopRight,
 	},
 	borderRadiusBottomRight: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusBottomRight,
+		default: generateBlocksDefaults.button.borderRadiusBottomRight,
 	},
 	borderRadiusBottomLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusBottomLeft,
+		default: generateBlocksDefaults.button.borderRadiusBottomLeft,
 	},
 	borderRadiusTopLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusTopLeft,
+		default: generateBlocksDefaults.button.borderRadiusTopLeft,
 	},
 	borderRadiusUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusUnit,
+		default: generateBlocksDefaults.button.borderRadiusUnit,
 	},
 	borderRadiusTopRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusTopRightTablet,
+		default: generateBlocksDefaults.button.borderRadiusTopRightTablet,
 	},
 	borderRadiusBottomRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusBottomRightTablet,
+		default: generateBlocksDefaults.button.borderRadiusBottomRightTablet,
 	},
 	borderRadiusBottomLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusBottomLeftTablet,
+		default: generateBlocksDefaults.button.borderRadiusBottomLeftTablet,
 	},
 	borderRadiusTopLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusTopLeftTablet,
+		default: generateBlocksDefaults.button.borderRadiusTopLeftTablet,
 	},
 	borderRadiusTopRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusTopRightMobile,
+		default: generateBlocksDefaults.button.borderRadiusTopRightMobile,
 	},
 	borderRadiusBottomRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusBottomRightMobile,
+		default: generateBlocksDefaults.button.borderRadiusBottomRightMobile,
 	},
 	borderRadiusBottomLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusBottomLeftMobile,
+		default: generateBlocksDefaults.button.borderRadiusBottomLeftMobile,
 	},
 	borderRadiusTopLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.button.borderRadiusTopLeftMobile,
+		default: generateBlocksDefaults.button.borderRadiusTopLeftMobile,
 	},
 	gradient: {
 		type: 'boolean',
-		default: flexBlocksDefaults.button.gradient,
+		default: generateBlocksDefaults.button.gradient,
 	},
 	gradientDirection: {
 		type: 'string',
-		default: flexBlocksDefaults.button.gradientDirection,
+		default: generateBlocksDefaults.button.gradientDirection,
 	},
 	gradientColorOne: {
 		type: 'string',
-		default: flexBlocksDefaults.button.gradientColorOne,
+		default: generateBlocksDefaults.button.gradientColorOne,
 	},
 	gradientColorOneOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.button.gradientColorOneOpacity,
+		default: generateBlocksDefaults.button.gradientColorOneOpacity,
 	},
 	gradientColorStopOne: {
 		type: 'number',
-		default: flexBlocksDefaults.button.gradientColorStopOne,
+		default: generateBlocksDefaults.button.gradientColorStopOne,
 	},
 	gradientColorTwo: {
 		type: 'string',
-		default: flexBlocksDefaults.button.gradientColorTwo,
+		default: generateBlocksDefaults.button.gradientColorTwo,
 	},
 	gradientColorTwoOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.button.gradientColorTwoOpacity,
+		default: generateBlocksDefaults.button.gradientColorTwoOpacity,
 	},
 	gradientColorStopTwo: {
 		type: 'number',
-		default: flexBlocksDefaults.button.gradientColorStopTwo,
+		default: generateBlocksDefaults.button.gradientColorStopTwo,
 	},
 }

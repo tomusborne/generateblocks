@@ -2,7 +2,7 @@
 /**
  * Set our block attribute defaults.
  *
- * @package FlexBlocks
+ * @package GenerateBlocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return array
  */
-function flexblocks_get_block_defaults() {
+function generateblocks_get_block_defaults() {
 	$defaults = array();
 
 	$container_width = 1100;
@@ -335,5 +335,5 @@ function flexblocks_get_block_defaults() {
 		'iconSizeMobile' => '',
 	);
 
-	return apply_filters( 'flexblocks_defaults', $defaults );
+	return apply_filters( 'generateblocks_defaults', $defaults );
 }

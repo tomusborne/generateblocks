@@ -32,8 +32,8 @@ export default ( { attributes } ) => {
 		<a
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
-				'fx-button': true,
-				[`fx-button-${ uniqueId }`]: true,
+				'gb-button': true,
+				[`gb-button-${ uniqueId }`]: true,
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 			href={ !! url ? url : undefined }
@@ -43,7 +43,7 @@ export default ( { attributes } ) => {
 		>
 			{ icon && 'left' === iconLocation &&
 				<span
-					className="fx-icon"
+					className="gb-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			}
@@ -52,7 +52,7 @@ export default ( { attributes } ) => {
 			}
 			{ icon && 'right' === iconLocation &&
 				<span
-					className="fx-icon"
+					className="gb-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			}

@@ -3,11 +3,11 @@
  */
 @import "../../common";
 
-.fx-button-wrapper {
+.gb-button-wrapper {
     position: relative;
     margin-top: 0;
 
-    .fx-button {
+    .gb-button {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -35,11 +35,11 @@
         }
     }
 
-    &.fx-button-wrapper-align-right > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    &.gb-button-wrapper-align-right > .block-editor-inner-blocks > .block-editor-block-list__layout {
         justify-content: flex-end;
     }
 
-    &.fx-button-wrapper-align-center > .block-editor-inner-blocks > .block-editor-block-list__layout {
+    &.gb-button-wrapper-align-center > .block-editor-inner-blocks > .block-editor-block-list__layout {
         justify-content: center;
     }
 
@@ -81,53 +81,53 @@
     }
 }
 
-.fx-button .fx-icon {
+.gb-button .gb-icon {
 	align-self: center;
 }
 
 // Reduce the paddings, margins, and UI of inner-blocks.
 // @todo: eventually we may add a feature that lets a parent container absorb the block UI of a child block.
 // When that happens, leverage that instead of the following overrides.
-[data-type="flexblocks/button-container"] {
+[data-type="generateblocks/button-container"] {
 	// 1. Reset margins on immediate innerblocks container.
-	.fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout {
+	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout {
 		margin-left: 0;
 		margin-right: 0;
 	}
 
 	// 2. Remove paddings on subsequent immediate children.
-	.fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
+	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
 		width: auto;
 		padding-left: 0;
 		padding-right: 0;
 	}
 
 	// 3. Remove margins on subsequent Edit container.
-	.fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit {
+	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit {
 		margin-left: 0;
 		margin-right: 0;
 	}
 
 	// 4. Minimize the block outlines.
-	.fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit::before {
+	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit::before {
 		border-right: none;
 		border-top: none;
 		border-bottom: none;
 	}
 
-	.fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block.is-hovered:not(.is-navigate-mode) > .block-editor-block-list__block-edit::before {
+	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block.is-hovered:not(.is-navigate-mode) > .block-editor-block-list__block-edit::before {
 		box-shadow: none;
 	}
 
 	// 5. Remove the dashed outlines for child blocks.
-	&.is-hovered .fx-button-wrapper .block-editor-block-list__block-edit::before,
-	&.is-selected .fx-button-wrapper .block-editor-block-list__block-edit::before,
-	&.has-child-selected .fx-button-wrapper .block-editor-block-list__block-edit::before {
+	&.is-hovered .gb-button-wrapper .block-editor-block-list__block-edit::before,
+	&.is-selected .gb-button-wrapper .block-editor-block-list__block-edit::before,
+	&.has-child-selected .gb-button-wrapper .block-editor-block-list__block-edit::before {
 		border-color: transparent !important; // !important used to keep the selector from growing any more complex.
 	}
 
 	// 6. Remove vertical margins on subsequent block container.
-	.fx-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit > [data-block] {
+	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit > [data-block] {
 		margin-top: 0;
 		margin-bottom: 0;
 	}
@@ -135,14 +135,14 @@
 	// Hide the breadcrumb.
 	// Hide the mover.
 	// Hide the sibling inserter.
-	.fx-button-wrapper .block-editor-block-list__insertion-point,
-	.fx-button-wrapper .block-editor-block-list__breadcrumb { // Needs specificity.
+	.gb-button-wrapper .block-editor-block-list__insertion-point,
+	.gb-button-wrapper .block-editor-block-list__breadcrumb { // Needs specificity.
 		display: none;
 	}
 }
 
 // Selected/unselected states.
 // Unselected block is preview, selected has additional options.
-[data-type="flexblocks/button-container"]:not(.is-selected):not(.has-child-selected) .fx-button-wrapper {
+[data-type="generateblocks/button-container"]:not(.is-selected):not(.has-child-selected) .gb-button-wrapper {
 	min-height: 36px; // This height matches the height of the buttons and ensures an empty block doesn't collapse.
 }

@@ -41,21 +41,21 @@ export default ( { attributes } ) => {
 		<ConditionalWrap
 			condition={ isGrid }
 			wrap={ children => <div className={ classnames( {
-				'fx-grid-column': true,
-				[`fx-grid-column-${ uniqueId }`]: true
+				'gb-grid-column': true,
+				[`gb-grid-column-${ uniqueId }`]: true
 			} ) }>{ children }</div>}
 		>
 			<Section
 				tagName={ tagName }
 				id={ elementId }
 				className={ classnames( {
-					'fx-container': true,
-					[`fx-container-${ uniqueId }`]: true,
+					'gb-container': true,
+					[`gb-container-${ uniqueId }`]: true,
 					[`${ cssClasses }`]: '' !== cssClasses
 				} ) }
 			>
 				<div className={ classnames( {
-					'fx-inside-container': true
+					'gb-inside-container': true
 				} ) }>
 					<InnerBlocks.Content />
 				</div>

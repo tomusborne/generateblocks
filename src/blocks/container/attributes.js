@@ -21,79 +21,79 @@ export default {
 	},
 	width: {
 		type: 'number',
-		default: flexBlocksDefaults.container.width,
+		default: generateBlocksDefaults.container.width,
 	},
 	widthTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.container.widthTablet,
+		default: generateBlocksDefaults.container.widthTablet,
 	},
 	widthMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.container.widthMobile,
+		default: generateBlocksDefaults.container.widthMobile,
 	},
 	orderTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.container.orderTablet,
+		default: generateBlocksDefaults.container.orderTablet,
 	},
 	orderMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.container.orderMobile,
+		default: generateBlocksDefaults.container.orderMobile,
 	},
 	outerContainer: {
 		type: 'string',
-		default: flexBlocksDefaults.container.outerContainer,
+		default: generateBlocksDefaults.container.outerContainer,
 	},
 	innerContainer: {
 		type: 'string',
-		default: flexBlocksDefaults.container.innerContainer,
+		default: generateBlocksDefaults.container.innerContainer,
 	},
 	containerWidth: {
 		type: 'number',
-		default: flexBlocksDefaults.container.containerWidth,
+		default: generateBlocksDefaults.container.containerWidth,
 	},
 	minHeight: {
 		type: 'number',
-		default: flexBlocksDefaults.container.minHeight,
+		default: generateBlocksDefaults.container.minHeight,
 	},
 	minHeightUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.container.minHeightUnit,
+		default: generateBlocksDefaults.container.minHeightUnit,
 	},
 	minHeightTablet: {
 		type: 'number',
-		default: flexBlocksDefaults.container.minHeightTablet,
+		default: generateBlocksDefaults.container.minHeightTablet,
 	},
 	minHeightUnitTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.minHeightUnitTablet,
+		default: generateBlocksDefaults.container.minHeightUnitTablet,
 	},
 	minHeightMobile: {
 		type: 'number',
-		default: flexBlocksDefaults.container.minHeightMobile,
+		default: generateBlocksDefaults.container.minHeightMobile,
 	},
 	minHeightUnitMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.minHeightUnitMobile,
+		default: generateBlocksDefaults.container.minHeightUnitMobile,
 	},
 	paddingTop: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingTop,
+		default: generateBlocksDefaults.container.paddingTop,
 	},
 	paddingRight: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingRight,
+		default: generateBlocksDefaults.container.paddingRight,
 	},
 	paddingBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingBottom,
+		default: generateBlocksDefaults.container.paddingBottom,
 	},
 	paddingLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingLeft,
+		default: generateBlocksDefaults.container.paddingLeft,
 	},
 	paddingUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingUnit,
+		default: generateBlocksDefaults.container.paddingUnit,
 	},
 	paddingSyncUnits: {
 		type: 'boolean',
@@ -101,55 +101,55 @@ export default {
 	},
 	paddingTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingTopTablet,
+		default: generateBlocksDefaults.container.paddingTopTablet,
 	},
 	paddingRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingRightTablet,
+		default: generateBlocksDefaults.container.paddingRightTablet,
 	},
 	paddingBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingBottomTablet,
+		default: generateBlocksDefaults.container.paddingBottomTablet,
 	},
 	paddingLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingLeftTablet,
+		default: generateBlocksDefaults.container.paddingLeftTablet,
 	},
 	paddingTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingTopMobile,
+		default: generateBlocksDefaults.container.paddingTopMobile,
 	},
 	paddingRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingRightMobile,
+		default: generateBlocksDefaults.container.paddingRightMobile,
 	},
 	paddingBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingBottomMobile,
+		default: generateBlocksDefaults.container.paddingBottomMobile,
 	},
 	paddingLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.paddingLeftMobile,
+		default: generateBlocksDefaults.container.paddingLeftMobile,
 	},
 	marginTop: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginTop,
+		default: generateBlocksDefaults.container.marginTop,
 	},
 	marginRight: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginRight,
+		default: generateBlocksDefaults.container.marginRight,
 	},
 	marginBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginBottom,
+		default: generateBlocksDefaults.container.marginBottom,
 	},
 	marginLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginLeft,
+		default: generateBlocksDefaults.container.marginLeft,
 	},
 	marginUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginUnit,
+		default: generateBlocksDefaults.container.marginUnit,
 	},
 	marginSyncUnits: {
 		type: 'boolean',
@@ -157,236 +157,236 @@ export default {
 	},
 	marginTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginTopTablet,
+		default: generateBlocksDefaults.container.marginTopTablet,
 	},
 	marginRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginRightTablet,
+		default: generateBlocksDefaults.container.marginRightTablet,
 	},
 	marginBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginBottomTablet,
+		default: generateBlocksDefaults.container.marginBottomTablet,
 	},
 	marginLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginLeftTablet,
+		default: generateBlocksDefaults.container.marginLeftTablet,
 	},
 	marginTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginTopMobile,
+		default: generateBlocksDefaults.container.marginTopMobile,
 	},
 	marginRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginRightMobile,
+		default: generateBlocksDefaults.container.marginRightMobile,
 	},
 	marginBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginBottomMobile,
+		default: generateBlocksDefaults.container.marginBottomMobile,
 	},
 	marginLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.marginLeftMobile,
+		default: generateBlocksDefaults.container.marginLeftMobile,
 	},
 	borderSizeTop: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeTop,
+		default: generateBlocksDefaults.container.borderSizeTop,
 	},
 	borderSizeRight: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeRight,
+		default: generateBlocksDefaults.container.borderSizeRight,
 	},
 	borderSizeBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeBottom,
+		default: generateBlocksDefaults.container.borderSizeBottom,
 	},
 	borderSizeLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeLeft,
+		default: generateBlocksDefaults.container.borderSizeLeft,
 	},
 	borderSizeTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeTopTablet,
+		default: generateBlocksDefaults.container.borderSizeTopTablet,
 	},
 	borderSizeRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeRightTablet,
+		default: generateBlocksDefaults.container.borderSizeRightTablet,
 	},
 	borderSizeBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeBottomTablet,
+		default: generateBlocksDefaults.container.borderSizeBottomTablet,
 	},
 	borderSizeLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeLeftTablet,
+		default: generateBlocksDefaults.container.borderSizeLeftTablet,
 	},
 	borderSizeTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeTopMobile,
+		default: generateBlocksDefaults.container.borderSizeTopMobile,
 	},
 	borderSizeRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeRightMobile,
+		default: generateBlocksDefaults.container.borderSizeRightMobile,
 	},
 	borderSizeBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeBottomMobile,
+		default: generateBlocksDefaults.container.borderSizeBottomMobile,
 	},
 	borderSizeLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderSizeLeftMobile,
+		default: generateBlocksDefaults.container.borderSizeLeftMobile,
 	},
 	borderRadiusTopRight: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusTopRight,
+		default: generateBlocksDefaults.container.borderRadiusTopRight,
 	},
 	borderRadiusBottomRight: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusBottomRight,
+		default: generateBlocksDefaults.container.borderRadiusBottomRight,
 	},
 	borderRadiusBottomLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusBottomLeft,
+		default: generateBlocksDefaults.container.borderRadiusBottomLeft,
 	},
 	borderRadiusTopLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusTopLeft,
+		default: generateBlocksDefaults.container.borderRadiusTopLeft,
 	},
 	borderRadiusUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusUnit,
+		default: generateBlocksDefaults.container.borderRadiusUnit,
 	},
 	borderRadiusTopRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusTopRightTablet,
+		default: generateBlocksDefaults.container.borderRadiusTopRightTablet,
 	},
 	borderRadiusBottomRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusBottomRightTablet,
+		default: generateBlocksDefaults.container.borderRadiusBottomRightTablet,
 	},
 	borderRadiusBottomLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusBottomLeftTablet,
+		default: generateBlocksDefaults.container.borderRadiusBottomLeftTablet,
 	},
 	borderRadiusTopLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusTopLeftTablet,
+		default: generateBlocksDefaults.container.borderRadiusTopLeftTablet,
 	},
 	borderRadiusTopRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusTopRightMobile,
+		default: generateBlocksDefaults.container.borderRadiusTopRightMobile,
 	},
 	borderRadiusBottomRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusBottomRightMobile,
+		default: generateBlocksDefaults.container.borderRadiusBottomRightMobile,
 	},
 	borderRadiusBottomLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusBottomLeftMobile,
+		default: generateBlocksDefaults.container.borderRadiusBottomLeftMobile,
 	},
 	borderRadiusTopLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderRadiusTopLeftMobile,
+		default: generateBlocksDefaults.container.borderRadiusTopLeftMobile,
 	},
 	borderColor: {
 		type: 'string',
-		default: flexBlocksDefaults.container.borderColor,
+		default: generateBlocksDefaults.container.borderColor,
 	},
 	borderColorOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.container.borderColorOpacity,
+		default: generateBlocksDefaults.container.borderColorOpacity,
 	},
 	backgroundColor: {
 		type: 'string',
-		default: flexBlocksDefaults.container.backgroundColor,
+		default: generateBlocksDefaults.container.backgroundColor,
 	},
 	backgroundColorOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.container.backgroundColorOpacity,
+		default: generateBlocksDefaults.container.backgroundColorOpacity,
 	},
 	gradient: {
 		type: 'boolean',
-		default: flexBlocksDefaults.container.gradient,
+		default: generateBlocksDefaults.container.gradient,
 	},
 	gradientDirection: {
 		type: 'string',
-		default: flexBlocksDefaults.container.gradientDirection,
+		default: generateBlocksDefaults.container.gradientDirection,
 	},
 	gradientColorOne: {
 		type: 'string',
-		default: flexBlocksDefaults.container.gradientColorOne,
+		default: generateBlocksDefaults.container.gradientColorOne,
 	},
 	gradientColorOneOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.container.gradientColorOneOpacity,
+		default: generateBlocksDefaults.container.gradientColorOneOpacity,
 	},
 	gradientColorStopOne: {
 		type: 'number',
-		default: flexBlocksDefaults.container.gradientColorStopOne,
+		default: generateBlocksDefaults.container.gradientColorStopOne,
 	},
 	gradientColorTwo: {
 		type: 'string',
-		default: flexBlocksDefaults.container.gradientColorTwo,
+		default: generateBlocksDefaults.container.gradientColorTwo,
 	},
 	gradientColorTwoOpacity: {
 		type: 'number',
-		default: flexBlocksDefaults.container.gradientColorTwoOpacity,
+		default: generateBlocksDefaults.container.gradientColorTwoOpacity,
 	},
 	gradientColorStopTwo: {
 		type: 'number',
-		default: flexBlocksDefaults.container.gradientColorStopTwo,
+		default: generateBlocksDefaults.container.gradientColorStopTwo,
 	},
 	textColor: {
 		type: 'string',
-		default: flexBlocksDefaults.container.textColor,
+		default: generateBlocksDefaults.container.textColor,
 	},
 	linkColor: {
 		type: 'string',
-		default: flexBlocksDefaults.container.linkColor,
+		default: generateBlocksDefaults.container.linkColor,
 	},
 	linkColorHover: {
 		type: 'string',
-		default: flexBlocksDefaults.container.linkColorHover,
+		default: generateBlocksDefaults.container.linkColorHover,
 	},
 	bgImage: {
 		type: 'object',
-		default: flexBlocksDefaults.container.bgImage,
+		default: generateBlocksDefaults.container.bgImage,
 	},
 	bgOptions: {
 		type: 'object',
 		default: {
-			overlay: flexBlocksDefaults.container.bgOptions.overlay,
-			position: flexBlocksDefaults.container.bgOptions.position,
-			size: flexBlocksDefaults.container.bgOptions.size,
-			repeat: flexBlocksDefaults.container.bgOptions.repeat,
-			attachment: flexBlocksDefaults.container.bgOptions.attachment,
+			overlay: generateBlocksDefaults.container.bgOptions.overlay,
+			position: generateBlocksDefaults.container.bgOptions.position,
+			size: generateBlocksDefaults.container.bgOptions.size,
+			repeat: generateBlocksDefaults.container.bgOptions.repeat,
+			attachment: generateBlocksDefaults.container.bgOptions.attachment,
 		}
 	},
 	verticalAlignment: {
 		type: 'string',
-		default: flexBlocksDefaults.container.verticalAlignment,
+		default: generateBlocksDefaults.container.verticalAlignment,
 	},
 	verticalAlignmentTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.container.verticalAlignmentTablet,
+		default: generateBlocksDefaults.container.verticalAlignmentTablet,
 	},
 	verticalAlignmentMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.container.verticalAlignmentMobile,
+		default: generateBlocksDefaults.container.verticalAlignmentMobile,
 	},
 	zindex: {
 		type: 'number',
-		default: flexBlocksDefaults.container.zindex,
+		default: generateBlocksDefaults.container.zindex,
 	},
 	removeVerticalGap: {
 		type: 'boolean',
-		default: flexBlocksDefaults.container.removeVerticalGap,
+		default: generateBlocksDefaults.container.removeVerticalGap,
 	},
 	removeVerticalGapTablet: {
 		type: 'boolean',
-		default: flexBlocksDefaults.container.removeVerticalGapTablet,
+		default: generateBlocksDefaults.container.removeVerticalGapTablet,
 	},
 	removeVerticalGapMobile: {
 		type: 'boolean',
-		default: flexBlocksDefaults.container.removeVerticalGapMobile,
+		default: generateBlocksDefaults.container.removeVerticalGapMobile,
 	},
 }

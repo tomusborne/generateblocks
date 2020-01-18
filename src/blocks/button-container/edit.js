@@ -42,9 +42,9 @@ const {
 } = wp.data;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
-const fbButtonContainerIds = [];
+const gbButtonContainerIds = [];
 
-class FlexButtonContainer extends Component {
+class GenerateButtonContainer extends Component {
 	constructor() {
 		super( ...arguments );
 	}
@@ -57,15 +57,15 @@ class FlexButtonContainer extends Component {
 				uniqueId: id,
 			} );
 
-			fbButtonContainerIds.push( id );
-		} else if ( fbButtonContainerIds.includes( this.props.attributes.uniqueId ) ) {
+			gbButtonContainerIds.push( id );
+		} else if ( gbButtonContainerIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
 
-			fbButtonContainerIds.push( id );
+			gbButtonContainerIds.push( id );
 		} else {
-			fbButtonContainerIds.push( this.props.attributes.uniqueId );
+			gbButtonContainerIds.push( this.props.attributes.uniqueId );
 		}
 	}
 
@@ -119,12 +119,12 @@ class FlexButtonContainer extends Component {
 
 		if ( stack ) {
 			stacked = `
-				.fx-button-wrapper-` + uniqueId + ` {
+				.gb-button-wrapper-` + uniqueId + ` {
 					flex-direction: column;
 					align-items: ` + flexAlignment + `;
 				}
 
-				.fx-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout {
+				.gb-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout {
 					flex-direction: column;
 				}
 			`
@@ -132,15 +132,15 @@ class FlexButtonContainer extends Component {
 
 		if ( fillHorizontalSpace ) {
 			fillHorizontal = `
-				.fx-button-wrapper-` + uniqueId + ` {
+				.gb-button-wrapper-` + uniqueId + ` {
 					display: block;
 				}
 
-				.fx-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
+				.gb-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
 					flex: 1;
 				}
 
-				.fx-button-wrapper-` + uniqueId + ` > .components-button {
+				.gb-button-wrapper-` + uniqueId + ` > .components-button {
 					background: #fff;
 					border: 1px solid #ddd;
 					margin-top: 10px;
@@ -149,7 +149,7 @@ class FlexButtonContainer extends Component {
 		}
 
 		const css = `
-			.fx-button-wrapper-` + uniqueId + ` {
+			.gb-button-wrapper-` + uniqueId + ` {
 			  margin-top: ` + marginTop + marginUnit + `;
 			  margin-right: ` + marginRight + marginUnit + `;
 			  margin-bottom: ` + marginBottom + marginUnit + `;
@@ -174,27 +174,27 @@ class FlexButtonContainer extends Component {
 
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Spacing', 'flexblocks' ) }
+						title={ __( 'Spacing', 'generateblocks' ) }
 						initialOpen={ true }
 						icon={ getIcon( 'spacing' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
-						<TabPanel className="flexblocks-control-tabs"
+						<TabPanel className="gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'default',
-									title: __( 'Default', 'flexblocks' ),
+									title: __( 'Default', 'generateblocks' ),
 									className: 'default',
 								},
 								{
 									name: 'tablet',
-									title: __( 'Tablet', 'flexblocks' ),
+									title: __( 'Tablet', 'generateblocks' ),
 									className: 'tablet',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'flexblocks' ),
+									title: __( 'Mobile', 'generateblocks' ),
 									className: 'mobile',
 								},
 							] }>
@@ -214,7 +214,7 @@ class FlexButtonContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTop }
 														valueRight={ marginRight }
 														valueBottom={ marginBottom }
@@ -230,7 +230,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<ToggleControl
-														label={ __( 'Stack Vertically', 'flexblocks' ) }
+														label={ __( 'Stack Vertically', 'generateblocks' ) }
 														checked={ !! stack }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -240,7 +240,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<ToggleControl
-														label={ __( 'Fill Horizontal Space', 'flexblocks' ) }
+														label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
 														checked={ !! fillHorizontalSpace }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -264,7 +264,7 @@ class FlexButtonContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTopTablet }
 														valueRight={ marginRightTablet }
 														valueBottom={ marginBottomTablet }
@@ -280,7 +280,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<ToggleControl
-														label={ __( 'Stack Vertically', 'flexblocks' ) }
+														label={ __( 'Stack Vertically', 'generateblocks' ) }
 														checked={ !! stackTablet }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -290,7 +290,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<ToggleControl
-														label={ __( 'Fill Horizontal Space', 'flexblocks' ) }
+														label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
 														checked={ !! fillHorizontalSpaceTablet }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -313,7 +313,7 @@ class FlexButtonContainer extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTopMobile }
 														valueRight={ marginRightMobile }
 														valueBottom={ marginBottomMobile }
@@ -329,7 +329,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<ToggleControl
-														label={ __( 'Stack Vertically', 'flexblocks' ) }
+														label={ __( 'Stack Vertically', 'generateblocks' ) }
 														checked={ !! stackMobile }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -339,7 +339,7 @@ class FlexButtonContainer extends Component {
 													/>
 
 													<ToggleControl
-														label={ __( 'Fill Horizontal Space', 'flexblocks' ) }
+														label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
 														checked={ !! fillHorizontalSpaceMobile }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -357,13 +357,13 @@ class FlexButtonContainer extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Advanced', 'flexblocks' ) }
+						title={ __( 'Advanced', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 						<TextControl
-							label={ __( 'Element ID', 'flexblocks' ) }
+							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
 							onChange={ ( elementId ) => {
 								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -372,7 +372,7 @@ class FlexButtonContainer extends Component {
 						/>
 
 						<TextControl
-							label={ __( 'CSS Classes', 'flexblocks' ) }
+							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
 							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 						/>
@@ -384,21 +384,21 @@ class FlexButtonContainer extends Component {
 				<div
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
-						'fx-button-wrapper': true,
-						[`fx-button-wrapper-${ uniqueId }`]: true,
+						'gb-button-wrapper': true,
+						[`gb-button-wrapper-${ uniqueId }`]: true,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 				>
 					<InnerBlocks
-						template={ [ [ 'flexblocks/button' ] ] }
-						allowedBlocks={ [ 'flexblocks/button' ] }
+						template={ [ [ 'generateblocks/button' ] ] }
+						allowedBlocks={ [ 'generateblocks/button' ] }
 					/>
 
-					<Tooltip text={ __( 'Add Button', 'flexblocks' ) }>
+					<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
                         <IconButton
                             icon={ 'insert' }
                             onClick={ () => {
-								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'flexblocks/button' ), undefined, clientId );
+								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button' ), undefined, clientId );
                             } }
                         />
                     </Tooltip>
@@ -408,4 +408,4 @@ class FlexButtonContainer extends Component {
 	}
 }
 
-export default ( FlexButtonContainer );
+export default ( GenerateButtonContainer );

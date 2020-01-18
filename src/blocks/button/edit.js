@@ -34,9 +34,9 @@ const {
 } = wp.blockEditor;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
-const fbButtonIds = [];
+const gbButtonIds = [];
 
-class FlexBlockButton extends Component {
+class GenerateBlockButton extends Component {
 	constructor() {
 		super( ...arguments );
 	}
@@ -49,15 +49,15 @@ class FlexBlockButton extends Component {
 				uniqueId: id,
 			} );
 
-			fbButtonIds.push( id );
-		} else if ( fbButtonIds.includes( this.props.attributes.uniqueId ) ) {
+			gbButtonIds.push( id );
+		} else if ( gbButtonIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
 
-			fbButtonIds.push( id );
+			gbButtonIds.push( id );
 		} else {
-			fbButtonIds.push( this.props.attributes.uniqueId );
+			gbButtonIds.push( this.props.attributes.uniqueId );
 		}
 	}
 
@@ -208,7 +208,7 @@ class FlexBlockButton extends Component {
 		}
 
 		const css = `
-			.block-editor-block-list__block a.fx-button-` + uniqueId + ` {
+			.block-editor-block-list__block a.gb-button-` + uniqueId + ` {
 				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				background-image: ` + backgroundImageValue + `;
 				color: ` + textColor + `;
@@ -238,20 +238,20 @@ class FlexBlockButton extends Component {
 				margin-left: ` + marginLeft + marginUnit + `;
 			}
 
-			.block-editor-block-list__block a.fx-button-` + uniqueId + `:hover,
-			.block-editor-block-list__block a.fx-button-` + uniqueId + `:focus,
-			.block-editor-block-list__block a.fx-button-` + uniqueId + `:active {
+			.block-editor-block-list__block a.gb-button-` + uniqueId + `:hover,
+			.block-editor-block-list__block a.gb-button-` + uniqueId + `:focus,
+			.block-editor-block-list__block a.gb-button-` + uniqueId + `:active {
 				background-color: ` + hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ) + `;
 				color: ` + textColorHover + `;
 				border-color: ` + hexToRGBA( borderColorHover, borderColorHoverOpacity ) + `;
 			}
 
-			.block-editor-block-list__block a.fx-button-` + uniqueId + ` .fx-icon {
+			.block-editor-block-list__block a.gb-button-` + uniqueId + ` .gb-icon {
 				` + iconMargin + `
 			}
 		`
 
-		jQuery( '.fx-button' ).on( 'click', function( e ) {
+		jQuery( '.gb-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 		} );
 
@@ -264,27 +264,27 @@ class FlexBlockButton extends Component {
 
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Typography', 'flexblocks' ) }
+						title={ __( 'Typography', 'generateblocks' ) }
 						initialOpen={ true }
 						icon={ getIcon( 'typography' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 						>
-						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
+						<TabPanel className="grid-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'default',
-									title: __( 'Default', 'flexblocks' ),
+									title: __( 'Default', 'generateblocks' ),
 									className: 'default',
 								},
 								{
 									name: 'tablet',
-									title: __( 'Tablet', 'flexblocks' ),
+									title: __( 'Tablet', 'generateblocks' ),
 									className: 'tablet',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'flexblocks' ),
+									title: __( 'Mobile', 'generateblocks' ),
 									className: 'mobile',
 								},
 							] }>
@@ -311,9 +311,9 @@ class FlexBlockButton extends Component {
 														attrFontSize={ 'fontSize' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
-														defaultFontSize={ flexBlocksDefaults.button.fontSize }
-														defaultFontSizeUnit={ flexBlocksDefaults.button.fontSizeUnit }
-														defaultLetterSpacing={ flexBlocksDefaults.button.letterSpacing }
+														defaultFontSize={ generateBlocksDefaults.button.fontSize }
+														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -328,9 +328,9 @@ class FlexBlockButton extends Component {
 														attrFontSize={ 'fontSizeTablet' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
-														defaultFontSize={ flexBlocksDefaults.button.fontSizeTablet }
-														defaultFontSizeUnit={ flexBlocksDefaults.button.fontSizeUnit }
-														defaultLetterSpacing={ flexBlocksDefaults.button.letterSpacingTablet }
+														defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
+														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -345,9 +345,9 @@ class FlexBlockButton extends Component {
 														attrFontSize={ 'fontSizeMobile' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
-														defaultFontSize={ flexBlocksDefaults.button.fontSizeMobile }
-														defaultFontSizeUnit={ flexBlocksDefaults.button.fontSizeUnit }
-														defaultLetterSpacing={ flexBlocksDefaults.button.letterSpacingMobile }
+														defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
+														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -360,27 +360,27 @@ class FlexBlockButton extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Spacing', 'flexblocks' ) }
+						title={ __( 'Spacing', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'spacing' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 						>
-						<TabPanel className="grid-tab-panel flexblocks-control-tabs"
+						<TabPanel className="grid-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'grid-default',
-									title: __( 'Default', 'flexblocks' ),
+									title: __( 'Default', 'generateblocks' ),
 									className: 'grid-default',
 								},
 								{
 									name: 'grid-tablet',
-									title: __( 'Tablet', 'flexblocks' ),
+									title: __( 'Tablet', 'generateblocks' ),
 									className: 'grid-tablet',
 								},
 								{
 									name: 'grid-mobile',
-									title: __( 'Mobile', 'flexblocks' ),
+									title: __( 'Mobile', 'generateblocks' ),
 									className: 'grid-mobile',
 								},
 							] }>
@@ -392,7 +392,7 @@ class FlexBlockButton extends Component {
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTop }
 														valueRight={ paddingRight }
 														valueBottom={ paddingBottom }
@@ -409,7 +409,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTop }
 														valueRight={ marginRight }
 														valueBottom={ marginBottom }
@@ -426,7 +426,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Size', 'flexblocks' ) }
+														label={ __( 'Border Size', 'generateblocks' ) }
 														valueTop={ borderSizeTop }
 														valueRight={ borderSizeRight }
 														valueBottom={ borderSizeBottom }
@@ -443,7 +443,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Radius', 'flexblocks' ) }
+														label={ __( 'Border Radius', 'generateblocks' ) }
 														valueTop={ borderRadiusTopLeft }
 														valueRight={ borderRadiusTopRight }
 														valueBottom={ borderRadiusBottomRight }
@@ -456,10 +456,10 @@ class FlexBlockButton extends Component {
 														attrLeft={ 'borderRadiusBottomLeft' }
 														attrUnit={ 'borderRadiusUnit' }
 														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'flexblocks' ) }
-														labelRight={ __( 'T-Right', 'flexblocks' ) }
-														labelBottom={ __( 'B-Right', 'flexblocks' ) }
-														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+														labelTop={ __( 'T-Left', 'generateblocks' ) }
+														labelRight={ __( 'T-Right', 'generateblocks' ) }
+														labelBottom={ __( 'B-Right', 'generateblocks' ) }
+														labelLeft={ __( 'B-Left', 'generateblocks' ) }
 													/>
 												</Fragment>
 											) }
@@ -468,7 +468,7 @@ class FlexBlockButton extends Component {
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTopTablet }
 														valueRight={ paddingRightTablet }
 														valueBottom={ paddingBottomTablet }
@@ -485,7 +485,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTopTablet }
 														valueRight={ marginRightTablet }
 														valueBottom={ marginBottomTablet }
@@ -502,7 +502,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Size', 'flexblocks' ) }
+														label={ __( 'Border Size', 'generateblocks' ) }
 														valueTop={ borderSizeTopTablet }
 														valueRight={ borderSizeRightTablet }
 														valueBottom={ borderSizeBottomTablet }
@@ -519,7 +519,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Radius', 'flexblocks' ) }
+														label={ __( 'Border Radius', 'generateblocks' ) }
 														valueTop={ borderRadiusTopLeftTablet }
 														valueRight={ borderRadiusTopRightTablet }
 														valueBottom={ borderRadiusBottomRightTablet }
@@ -532,10 +532,10 @@ class FlexBlockButton extends Component {
 														attrLeft={ 'borderRadiusBottomLeftTablet' }
 														attrUnit={ 'borderRadiusUnit' }
 														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'flexblocks' ) }
-														labelRight={ __( 'T-Right', 'flexblocks' ) }
-														labelBottom={ __( 'B-Right', 'flexblocks' ) }
-														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+														labelTop={ __( 'T-Left', 'generateblocks' ) }
+														labelRight={ __( 'T-Right', 'generateblocks' ) }
+														labelBottom={ __( 'B-Right', 'generateblocks' ) }
+														labelLeft={ __( 'B-Left', 'generateblocks' ) }
 													/>
 												</Fragment>
 											) }
@@ -544,7 +544,7 @@ class FlexBlockButton extends Component {
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTopMobile }
 														valueRight={ paddingRightMobile }
 														valueBottom={ paddingBottomMobile }
@@ -561,7 +561,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTopMobile }
 														valueRight={ marginRightMobile }
 														valueBottom={ marginBottomMobile }
@@ -578,7 +578,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Size', 'flexblocks' ) }
+														label={ __( 'Border Size', 'generateblocks' ) }
 														valueTop={ borderSizeTopMobile }
 														valueRight={ borderSizeRightMobile }
 														valueBottom={ borderSizeBottomMobile }
@@ -594,7 +594,7 @@ class FlexBlockButton extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Border Radius', 'flexblocks' ) }
+														label={ __( 'Border Radius', 'generateblocks' ) }
 														valueTop={ borderRadiusTopLeftMobile }
 														valueRight={ borderRadiusTopRightMobile }
 														valueBottom={ borderRadiusBottomRightMobile }
@@ -607,10 +607,10 @@ class FlexBlockButton extends Component {
 														attrLeft={ 'borderRadiusBottomLeftMobile' }
 														attrUnit={ 'borderRadiusUnit' }
 														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'flexblocks' ) }
-														labelRight={ __( 'T-Right', 'flexblocks' ) }
-														labelBottom={ __( 'B-Right', 'flexblocks' ) }
-														labelLeft={ __( 'B-Left', 'flexblocks' ) }
+														labelTop={ __( 'T-Left', 'generateblocks' ) }
+														labelRight={ __( 'T-Right', 'generateblocks' ) }
+														labelBottom={ __( 'B-Right', 'generateblocks' ) }
+														labelLeft={ __( 'B-Left', 'generateblocks' ) }
 													/>
 												</Fragment>
 											) }
@@ -622,23 +622,23 @@ class FlexBlockButton extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Colors', 'flexblocks' ) }
+						title={ __( 'Colors', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'colors' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 						>
 
-						<TabPanel className="layout-tab-panel flexblocks-control-tabs"
+						<TabPanel className="layout-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'button-colors',
-									title: __( 'Normal', 'flexblocks' ),
+									title: __( 'Normal', 'generateblocks' ),
 									className: 'button-colors',
 								},
 								{
 									name: 'button-colors-hover',
-									title: __( 'Hover', 'flexblocks' ),
+									title: __( 'Hover', 'generateblocks' ),
 									className: 'button-colors-hover',
 								},
 							] }>
@@ -651,7 +651,7 @@ class FlexBlockButton extends Component {
 											{ isNormal ? (
 												<Fragment>
 													<ColorPicker
-														label={ __( 'Background Color', 'flexblocks' ) }
+														label={ __( 'Background Color', 'generateblocks' ) }
 														value={ backgroundColor }
 														onChange={ ( nextBackgroundColor ) =>
 															setAttributes( {
@@ -669,7 +669,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Text Color', 'flexblocks' ) }
+														label={ __( 'Text Color', 'generateblocks' ) }
 														value={ textColor }
 														onChange={ ( nextTextColor ) =>
 															setAttributes( {
@@ -680,7 +680,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Border Color', 'flexblocks' ) }
+														label={ __( 'Border Color', 'generateblocks' ) }
 														value={ borderColor }
 														onChange={ ( value ) =>
 															setAttributes( {
@@ -702,7 +702,7 @@ class FlexBlockButton extends Component {
 
 												<Fragment>
 													<ColorPicker
-														label={ __( 'Background Color', 'flexblocks' ) }
+														label={ __( 'Background Color', 'generateblocks' ) }
 														value={ backgroundColorHover }
 														onChange={ ( nextBackgroundColorHover ) =>
 															setAttributes( {
@@ -720,7 +720,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Text Color', 'flexblocks' ) }
+														label={ __( 'Text Color', 'generateblocks' ) }
 														value={ textColorHover }
 														onChange={ ( nextTextColorHover ) =>
 															setAttributes( {
@@ -731,7 +731,7 @@ class FlexBlockButton extends Component {
 													/>
 
 													<ColorPicker
-														label={ __( 'Border Color', 'flexblocks' ) }
+														label={ __( 'Border Color', 'generateblocks' ) }
 														value={ borderColorHover }
 														onChange={ ( value ) =>
 															setAttributes( {
@@ -760,7 +760,7 @@ class FlexBlockButton extends Component {
 						title={ __( 'Background Gradient' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'gradients' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 						<GradientControl { ...this.props }
 							valueGradient={ gradient }
@@ -779,16 +779,16 @@ class FlexBlockButton extends Component {
 							attrGradientColorTwo={ 'gradientColorTwo' }
 							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
 							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-							defaultColorOne={ flexBlocksDefaults.button.gradientColorOne }
-							defaultColorTwo={ flexBlocksDefaults.button.gradientColorTwo }
+							defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
+							defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
 						/>
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Icon', 'flexblocks' ) }
+						title={ __( 'Icon', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'icons' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 						>
 
 						<IconPicker { ...this.props }
@@ -797,8 +797,8 @@ class FlexBlockButton extends Component {
 							valueIconLocation={ iconLocation }
 							attrIconLocation={ 'iconLocation' }
 							locationOptions={ [
-								{ label: __( 'Left', 'flexblocks' ), value: 'left' },
-								{ label: __( 'Right', 'flexblocks' ), value: 'right' },
+								{ label: __( 'Left', 'generateblocks' ), value: 'left' },
+								{ label: __( 'Right', 'generateblocks' ), value: 'right' },
 							] }
 							valueRemoveText={ removeText }
 							attrRemoveText={ 'removeText' }
@@ -808,13 +808,13 @@ class FlexBlockButton extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Advanced', 'flexblocks' ) }
+						title={ __( 'Advanced', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 						<TextControl
-							label={ __( 'Element ID', 'flexblocks' ) }
+							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
 							onChange={ ( elementId ) => {
 								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -823,7 +823,7 @@ class FlexBlockButton extends Component {
 						/>
 
 						<TextControl
-							label={ __( 'CSS Classes', 'flexblocks' ) }
+							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
 							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 						/>
@@ -835,8 +835,8 @@ class FlexBlockButton extends Component {
 				<a
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
-						'fx-button': true,
-						[`fx-button-${ uniqueId }`]: true,
+						'gb-button': true,
+						[`gb-button-${ uniqueId }`]: true,
 						[`${ cssClasses }`]: '' !== cssClasses
 					} ) }
 					href={ !! url ? url : undefined }
@@ -846,14 +846,14 @@ class FlexBlockButton extends Component {
 				>
 					{ icon && 'left' === iconLocation &&
 						<span
-							className="fx-icon"
+							className="gb-icon"
 							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 						/>
 					}
 					{ ! removeText &&
 						<span className={ 'button-text' }>
 							<RichText
-								placeholder={ __( 'Add text…' ) }
+								placeholder={ __( 'Add text…', 'generateblocks' ) }
 								value={ text }
 								onChange={ ( value ) => setAttributes( { text: value } ) }
 								allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
@@ -864,7 +864,7 @@ class FlexBlockButton extends Component {
 					}
 					{ icon && 'right' === iconLocation &&
 						<span
-							className="fx-icon"
+							className="gb-icon"
 							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 						/>
 					}
@@ -878,7 +878,7 @@ class FlexBlockButton extends Component {
                             setAttributes( data );
                         } }
                         autoFocus={ false }
-                        className="fx-component-url-input-float"
+                        className="gblocks-component-url-input-float"
                     />
                 }
 			</Fragment>
@@ -886,4 +886,4 @@ class FlexBlockButton extends Component {
 	}
 }
 
-export default ( FlexBlockButton );
+export default ( GenerateBlockButton );

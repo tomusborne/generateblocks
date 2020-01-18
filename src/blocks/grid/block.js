@@ -22,14 +22,14 @@ const el = wp.element.createElement;
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'flexblocks/grid', {
-	title: __( 'Grid', 'flexblocks' ),
+registerBlockType( 'generateblocks/grid', {
+	title: __( 'Grid', 'generateblocks' ),
 	icon: getIcon( 'grid' ),
-	category: 'flexblocks',
+	category: 'generateblocks',
 	keywords: [
 		__( 'grid' ),
 		__( 'column' ),
-		__( 'flex' ),
+		__( 'generate' ),
 	],
 	attributes: blockAttributes,
 	supports: {

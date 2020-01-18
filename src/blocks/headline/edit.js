@@ -36,9 +36,9 @@ const {
 } = wp.blockEditor;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
-const fbHeadlineIds = [];
+const gbHeadlineIds = [];
 
-class FlexBlockHeadline extends Component {
+class GenerateBlockHeadline extends Component {
 	constructor() {
 		super( ...arguments );
 	}
@@ -51,15 +51,15 @@ class FlexBlockHeadline extends Component {
 				uniqueId: id,
 			} );
 
-			fbHeadlineIds.push( id );
-		} else if ( fbHeadlineIds.includes( this.props.attributes.uniqueId ) ) {
+			gbHeadlineIds.push( id );
+		} else if ( gbHeadlineIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
 
-			fbHeadlineIds.push( id );
+			gbHeadlineIds.push( id );
 		} else {
-			fbHeadlineIds.push( this.props.attributes.uniqueId );
+			gbHeadlineIds.push( this.props.attributes.uniqueId );
 		}
 	}
 
@@ -179,7 +179,7 @@ class FlexBlockHeadline extends Component {
 		}
 
 		const css = `
-			.editor-styles-wrapper .fx-headline-` + uniqueId + ` {
+			.editor-styles-wrapper .gb-headline-` + uniqueId + ` {
 				font-family: ` + fontFamily + fontFamilyFallbackValue + `;
 				font-weight: ` + fontWeight + `;
 				text-transform: ` + textTransform + `;
@@ -199,11 +199,11 @@ class FlexBlockHeadline extends Component {
 				padding-left: ` + paddingLeft + paddingUnit + `;
 			}
 
-			.editor-styles-wrapper .fx-headline-` + uniqueId + ` a {
+			.editor-styles-wrapper .gb-headline-` + uniqueId + ` a {
 				color: ` + linkColor + `;
 			}
 
-			.fx-headline-wrapper-` + uniqueId + ` .fx-icon {
+			.gb-headline-wrapper-` + uniqueId + ` .gb-icon {
 				padding-top: ` + iconPaddingTop + iconPaddingUnit + `;
 				padding-right: ` + iconPaddingRight + iconPaddingUnit + `;
 				padding-bottom: ` + iconPaddingBottom + iconPaddingUnit + `;
@@ -212,12 +212,12 @@ class FlexBlockHeadline extends Component {
 				color: ` + hexToRGBA( iconColor, iconColorOpacity ) + `;
 			}
 
-			.fx-headline-wrapper-` + uniqueId + ` .fx-icon svg {
+			.gb-headline-wrapper-` + uniqueId + ` .gb-icon svg {
 				width: ` + iconSize + `em;
 				height: ` + iconSize + `em;
 			}
 
-			.fx-headline-wrapper-` + uniqueId + ` {
+			.gb-headline-wrapper-` + uniqueId + ` {
 				flex-direction: ` + iconFlexDirection + `;
 				justify-content: ` + headlineWrapperAlignment + `;
 				align-items: ` + inlineVerticalAlignment + `;
@@ -282,27 +282,27 @@ class FlexBlockHeadline extends Component {
 
 				<InspectorControls>
 					<PanelBody
-						title={ __( 'Typography', 'flexblocks' ) }
+						title={ __( 'Typography', 'generateblocks' ) }
 						initialOpen={ true }
 						icon={ getIcon( 'typography' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 						>
-						<TabPanel className="headline-tab-panel flexblocks-control-tabs"
+						<TabPanel className="headline-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'default',
-									title: __( 'Default', 'flexblocks' ),
+									title: __( 'Default', 'generateblocks' ),
 									className: 'default',
 								},
 								{
 									name: 'tablet',
-									title: __( 'Tablet', 'flexblocks' ),
+									title: __( 'Tablet', 'generateblocks' ),
 									className: 'tablet',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'flexblocks' ),
+									title: __( 'Mobile', 'generateblocks' ),
 									className: 'mobile',
 								},
 							] }>
@@ -313,7 +313,7 @@ class FlexBlockHeadline extends Component {
 											{ 'default' === tab.name && (
 												<Fragment>
 													<SelectControl
-														label={ __( 'Element', 'flexblocks' ) }
+														label={ __( 'Element', 'generateblocks' ) }
 														value={ element }
 														options={ [
 															{ label: 'paragraph', value: 'p' },
@@ -356,11 +356,11 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeight' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
-														defaultFontSize={ flexBlocksDefaults.headline.fontSize }
-														defaultFontSizeUnit={ flexBlocksDefaults.headline.fontSizeUnit }
-														defaultLineHeight={ flexBlocksDefaults.headline.lineHeight }
-														defaultLineHeightUnit={ flexBlocksDefaults.headline.lineHeightUnit }
-														defaultLetterSpacing={ flexBlocksDefaults.headline.letterSpacing }
+														defaultFontSize={ generateBlocksDefaults.headline.fontSize }
+														defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+														defaultLineHeight={ generateBlocksDefaults.headline.lineHeight }
+														defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacing }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -387,11 +387,11 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeightTablet' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
-														defaultFontSize={ flexBlocksDefaults.headline.fontSizeTablet }
-														defaultFontSizeUnit={ flexBlocksDefaults.headline.fontSizeUnit }
-														defaultLineHeight={ flexBlocksDefaults.headline.lineHeightTablet }
-														defaultLineHeightUnit={ flexBlocksDefaults.headline.lineHeightUnit }
-														defaultLetterSpacing={ flexBlocksDefaults.headline.letterSpacingTablet }
+														defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet }
+														defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+														defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet }
+														defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingTablet }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -418,11 +418,11 @@ class FlexBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeightMobile' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
-														defaultFontSize={ flexBlocksDefaults.headline.fontSizeMobile }
-														defaultFontSizeUnit={ flexBlocksDefaults.headline.fontSizeUnit }
-														defaultLineHeight={ flexBlocksDefaults.headline.lineHeightMobile }
-														defaultLineHeightUnit={ flexBlocksDefaults.headline.lineHeightUnit }
-														defaultLetterSpacing={ flexBlocksDefaults.headline.letterSpacingMobile }
+														defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile }
+														defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+														defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile }
+														defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingMobile }
 														uniqueId={ uniqueId }
 													/>
 												</Fragment>
@@ -435,13 +435,13 @@ class FlexBlockHeadline extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Colors', 'flexblocks' ) }
+						title={ __( 'Colors', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'colors' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 						>
 						<ColorPicker
-							label={ __( 'Background Color', 'flexblocks' ) }
+							label={ __( 'Background Color', 'generateblocks' ) }
 							value={ backgroundColor }
 							onChange={ ( value ) =>
 								setAttributes( {
@@ -459,7 +459,7 @@ class FlexBlockHeadline extends Component {
 						/>
 
 						<ColorPicker
-							label={ __( 'Text Color', 'flexblocks' ) }
+							label={ __( 'Text Color', 'generateblocks' ) }
 							value={ textColor }
 							onChange={ ( value ) =>
 								setAttributes( {
@@ -470,7 +470,7 @@ class FlexBlockHeadline extends Component {
 						/>
 
 						<ColorPicker
-							label={ __( 'Link Color', 'flexblocks' ) }
+							label={ __( 'Link Color', 'generateblocks' ) }
 							value={ linkColor }
 							onChange={ ( value ) =>
 								setAttributes( {
@@ -481,7 +481,7 @@ class FlexBlockHeadline extends Component {
 						/>
 
 						<ColorPicker
-							label={ __( 'Link Color Hover', 'flexblocks' ) }
+							label={ __( 'Link Color Hover', 'generateblocks' ) }
 							value={ linkColorHover }
 							onChange={ ( value ) =>
 								setAttributes( {
@@ -493,27 +493,27 @@ class FlexBlockHeadline extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Spacing', 'flexblocks' ) }
+						title={ __( 'Spacing', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'spacing' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 						>
-						<TabPanel className="headline-tab-panel flexblocks-control-tabs"
+						<TabPanel className="headline-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'default',
-									title: __( 'Default', 'flexblocks' ),
+									title: __( 'Default', 'generateblocks' ),
 									className: 'default',
 								},
 								{
 									name: 'tablet',
-									title: __( 'Tablet', 'flexblocks' ),
+									title: __( 'Tablet', 'generateblocks' ),
 									className: 'tablet',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'flexblocks' ),
+									title: __( 'Mobile', 'generateblocks' ),
 									className: 'mobile',
 								},
 							] }>
@@ -525,7 +525,7 @@ class FlexBlockHeadline extends Component {
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTop }
 														valueRight={ paddingRight }
 														valueBottom={ paddingBottom }
@@ -542,7 +542,7 @@ class FlexBlockHeadline extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTop }
 														valueRight={ marginRight }
 														valueBottom={ marginBottom }
@@ -563,7 +563,7 @@ class FlexBlockHeadline extends Component {
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTopTablet }
 														valueRight={ paddingRightTablet }
 														valueBottom={ paddingBottomTablet }
@@ -580,7 +580,7 @@ class FlexBlockHeadline extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTopTablet }
 														valueRight={ marginRightTablet }
 														valueBottom={ marginBottomTablet }
@@ -601,7 +601,7 @@ class FlexBlockHeadline extends Component {
 												<Fragment>
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ paddingTopMobile }
 														valueRight={ paddingRightMobile }
 														valueBottom={ paddingBottomMobile }
@@ -618,7 +618,7 @@ class FlexBlockHeadline extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
-														label={ __( 'Margin', 'flexblocks' ) }
+														label={ __( 'Margin', 'generateblocks' ) }
 														valueTop={ marginTopMobile }
 														valueRight={ marginRightMobile }
 														valueBottom={ marginBottomMobile }
@@ -642,10 +642,10 @@ class FlexBlockHeadline extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Icon', 'flexblocks' ) }
+						title={ __( 'Icon', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'icons' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 						>
 
 						<IconPicker { ...this.props }
@@ -654,7 +654,7 @@ class FlexBlockHeadline extends Component {
 						/>
 
 						<ColorPicker
-							label={ __( 'Icon Color', 'flexblocks' ) }
+							label={ __( 'Icon Color', 'generateblocks' ) }
 							value={ iconColor }
 							onChange={ ( value ) =>
 								setAttributes( {
@@ -671,22 +671,22 @@ class FlexBlockHeadline extends Component {
 							}
 						/>
 
-						<TabPanel className="headline-tab-panel flexblocks-control-tabs"
+						<TabPanel className="headline-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
 								{
 									name: 'default',
-									title: __( 'Default', 'flexblocks' ),
+									title: __( 'Default', 'generateblocks' ),
 									className: 'default',
 								},
 								{
 									name: 'tablet',
-									title: __( 'Tablet', 'flexblocks' ),
+									title: __( 'Tablet', 'generateblocks' ),
 									className: 'tablet',
 								},
 								{
 									name: 'mobile',
-									title: __( 'Mobile', 'flexblocks' ),
+									title: __( 'Mobile', 'generateblocks' ),
 									className: 'mobile',
 								},
 							] }>
@@ -697,11 +697,11 @@ class FlexBlockHeadline extends Component {
 											{ 'default' === tab.name && (
 												<Fragment>
 													<SelectControl
-														label={ __( 'Icon Location', 'flexblocks' ) }
+														label={ __( 'Icon Location', 'generateblocks' ) }
 														value={ iconLocation }
 														options={ [
-															{ label: __( 'Inline', 'flexblocks' ), value: 'inline' },
-															{ label: __( 'Above', 'flexblocks' ), value: 'above' },
+															{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+															{ label: __( 'Above', 'generateblocks' ), value: 'above' },
 														] }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -714,12 +714,12 @@ class FlexBlockHeadline extends Component {
 
 													{ 'inline' === iconLocation &&
 														<SelectControl
-															label={ __( 'Icon Alignment', 'flexblocks' ) }
+															label={ __( 'Icon Alignment', 'generateblocks' ) }
 															value={ iconVerticalAlignment }
 															options={ [
-																{ label: __( 'Top', 'flexblocks' ), value: 'top' },
-																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flexblocks' ), value: 'bottom' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
 															] }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -731,7 +731,7 @@ class FlexBlockHeadline extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ iconPaddingTop }
 														valueRight={ iconPaddingRight }
 														valueBottom={ iconPaddingBottom }
@@ -747,7 +747,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Icon Size', 'flexblocks' ) }
+														label={ __( 'Icon Size', 'generateblocks' ) }
 														value={ iconSize ? iconSize : '' }
 														onChange={ ( value ) => setAttributes( {
 															iconSize: parseFloat( value )
@@ -755,7 +755,7 @@ class FlexBlockHeadline extends Component {
 														min={ 1 }
 														max={ 15 }
 														step={ .5 }
-														initialPosition={ flexBlocksDefaults.headline.iconSize }
+														initialPosition={ generateBlocksDefaults.headline.iconSize }
 													/>
 												</Fragment>
 											) }
@@ -763,12 +763,12 @@ class FlexBlockHeadline extends Component {
 											{ 'tablet' === tab.name && (
 												<Fragment>
 													<SelectControl
-														label={ __( 'Icon Location', 'flexblocks' ) }
+														label={ __( 'Icon Location', 'generateblocks' ) }
 														value={ iconLocationTablet }
 														options={ [
-															{ label: __( 'Inherit', 'flexblocks' ), value: '' },
-															{ label: __( 'Inline', 'flexblocks' ), value: 'inline' },
-															{ label: __( 'Above', 'flexblocks' ), value: 'above' },
+															{ label: __( 'Inherit', 'generateblocks' ), value: '' },
+															{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+															{ label: __( 'Above', 'generateblocks' ), value: 'above' },
 														] }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -781,12 +781,12 @@ class FlexBlockHeadline extends Component {
 
 													{ 'inline' === iconLocationTablet &&
 														<SelectControl
-															label={ __( 'Icon Alignment', 'flexblocks' ) }
+															label={ __( 'Icon Alignment', 'generateblocks' ) }
 															value={ iconVerticalAlignmentTablet }
 															options={ [
-																{ label: __( 'Top', 'flexblocks' ), value: 'top' },
-																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flexblocks' ), value: 'bottom' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
 															] }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -798,7 +798,7 @@ class FlexBlockHeadline extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ iconPaddingTopTablet }
 														valueRight={ iconPaddingRightTablet }
 														valueBottom={ iconPaddingBottomTablet }
@@ -814,13 +814,13 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Icon Size', 'flexblocks' ) }
+														label={ __( 'Icon Size', 'generateblocks' ) }
 														value={ parseFloat( iconSizeTablet ) }
 														onChange={ ( value ) => setAttributes( { iconSizeTablet: parseFloat( value ) } ) }
 														min={ 1 }
 														max={ 15 }
 														step={ .5 }
-														initialPosition={ flexBlocksDefaults.headline.iconSizeTablet }
+														initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
 													/>
 												</Fragment>
 											) }
@@ -828,12 +828,12 @@ class FlexBlockHeadline extends Component {
 											{ 'mobile' === tab.name && (
 												<Fragment>
 													<SelectControl
-														label={ __( 'Icon Location', 'flexblocks' ) }
+														label={ __( 'Icon Location', 'generateblocks' ) }
 														value={ iconLocationMobile }
 														options={ [
-															{ label: __( 'Inherit', 'flexblocks' ), value: '' },
-															{ label: __( 'Inline', 'flexblocks' ), value: 'inline' },
-															{ label: __( 'Above', 'flexblocks' ), value: 'above' },
+															{ label: __( 'Inherit', 'generateblocks' ), value: '' },
+															{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+															{ label: __( 'Above', 'generateblocks' ), value: 'above' },
 														] }
 														onChange={ ( value ) => {
 															setAttributes( {
@@ -846,12 +846,12 @@ class FlexBlockHeadline extends Component {
 
 													{ 'inline' === iconLocationMobile &&
 														<SelectControl
-															label={ __( 'Icon Alignment', 'flexblocks' ) }
+															label={ __( 'Icon Alignment', 'generateblocks' ) }
 															value={ iconVerticalAlignmentMobile }
 															options={ [
-																{ label: __( 'Top', 'flexblocks' ), value: 'top' },
-																{ label: __( 'Center', 'flexblocks' ), value: 'center' },
-																{ label: __( 'Bottom', 'flexblocks' ), value: 'bottom' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
 															] }
 															onChange={ ( value ) => {
 																setAttributes( {
@@ -863,7 +863,7 @@ class FlexBlockHeadline extends Component {
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
-														label={ __( 'Padding', 'flexblocks' ) }
+														label={ __( 'Padding', 'generateblocks' ) }
 														valueTop={ iconPaddingTopMobile }
 														valueRight={ iconPaddingRightMobile }
 														valueBottom={ iconPaddingBottomMobile }
@@ -879,7 +879,7 @@ class FlexBlockHeadline extends Component {
 													/>
 
 													<RangeControl
-														label={ __( 'Icon Size', 'flexblocks' ) }
+														label={ __( 'Icon Size', 'generateblocks' ) }
 														value={ iconSize ? iconSize : '' }
 														onChange={ ( value ) => setAttributes( {
 															iconSizeMobile: parseFloat( value )
@@ -887,7 +887,7 @@ class FlexBlockHeadline extends Component {
 														min={ 1 }
 														max={ 15 }
 														step={ .5 }
-														initialPosition={ flexBlocksDefaults.headline.iconSizeMobile }
+														initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
 													/>
 												</Fragment>
 											) }
@@ -899,13 +899,13 @@ class FlexBlockHeadline extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Advanced', 'flexblocks' ) }
+						title={ __( 'Advanced', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
-						className={ 'fx-panel-label' }
+						className={ 'gblocks-panel-label' }
 					>
 						<TextControl
-							label={ __( 'Element ID', 'flexblocks' ) }
+							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
 							onChange={ ( elementId ) => {
 								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
@@ -914,7 +914,7 @@ class FlexBlockHeadline extends Component {
 						/>
 
 						<TextControl
-							label={ __( 'CSS Classes', 'flexblocks' ) }
+							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
 							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 						/>
@@ -926,13 +926,13 @@ class FlexBlockHeadline extends Component {
 				{ icon ? (
 					<div
 						className={ classnames( {
-						'fx-headline-wrapper': true,
-						[`fx-headline-wrapper-${ uniqueId }`]: true,
+						'gb-headline-wrapper': true,
+						[`gb-headline-wrapper-${ uniqueId }`]: true,
 						} ) }
 					>
 						{ icon &&
 							<span
-								className="fx-icon"
+								className="gb-icon"
 								dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 							/>
 						}
@@ -944,11 +944,11 @@ class FlexBlockHeadline extends Component {
 							onChange={ ( value ) => setAttributes( { content: value } ) }
 							id={ !! elementId ? elementId : undefined }
 							className={ classnames( {
-								'fx-headline': true,
-								[`fx-headline-${ uniqueId }`]: true,
+								'gb-headline': true,
+								[`gb-headline-${ uniqueId }`]: true,
 								[`${ cssClasses }`]: '' !== cssClasses
 							} ) }
-							placeholder={ __( 'Write headline…' ) }
+							placeholder={ __( 'Write headline…', 'generateblocks' ) }
 							keepPlaceholderOnFocus={ true }
 						/>
 					</div>
@@ -960,11 +960,11 @@ class FlexBlockHeadline extends Component {
 						onChange={ ( value ) => setAttributes( { content: value } ) }
 						id={ !! elementId ? elementId : undefined }
 						className={ classnames( {
-							'fx-headline': true,
-							[`fx-headline-${ uniqueId }`]: true,
+							'gb-headline': true,
+							[`gb-headline-${ uniqueId }`]: true,
 							[`${ cssClasses }`]: '' !== cssClasses
 						} ) }
-						placeholder={ __( 'Write headline…' ) }
+						placeholder={ __( 'Write headline…', 'generateblocks' ) }
 						keepPlaceholderOnFocus={ true }
 					/>
 				) }
@@ -973,4 +973,4 @@ class FlexBlockHeadline extends Component {
 	}
 }
 
-export default ( FlexBlockHeadline );
+export default ( GenerateBlockHeadline );

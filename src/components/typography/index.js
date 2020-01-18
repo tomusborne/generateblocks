@@ -86,13 +86,13 @@ class TypographyControls extends Component {
 		} );
 
 		fonts.push(
-			{ value: 'other', label: __( 'Other', 'flexblocks' ) }
+			{ value: 'other', label: __( 'Other', 'generateblocks' ) }
 		);
 
 		var weight = [
-			{ value: '', 		label: __( 'Default', 'flexblocks' ) },
-			{ value: 'normal', 	label: __( 'Normal', 'flexblocks' ) },
-			{ value: 'bold', 	label: __( 'Bold', 'flexblocks' ) },
+			{ value: '', 		label: __( 'Default', 'generateblocks' ) },
+			{ value: 'normal', 	label: __( 'Normal', 'generateblocks' ) },
+			{ value: 'bold', 	label: __( 'Bold', 'generateblocks' ) },
 			{ value: '100', 	label: '100' },
 			{ value: '200', 	label: '200' },
 			{ value: '300', 	label: '300' },
@@ -105,18 +105,18 @@ class TypographyControls extends Component {
 		];
 
 		const transform = [
-			{ value: '', 			label: __( 'Default', 'flexblocks' ) },
-			{ value: 'uppercase', 	label: __( 'Uppercase', 'flexblocks' ) },
-			{ value: 'lowercase', 	label: __( 'Lowercase', 'flexblocks' ) },
-			{ value: 'capitalize', 	label: __( 'Capitalize', 'flexblocks' ) },
-			{ value: 'initial', 	label: __( 'Normal', 'flexblocks' ) },
+			{ value: '', 			label: __( 'Default', 'generateblocks' ) },
+			{ value: 'uppercase', 	label: __( 'Uppercase', 'generateblocks' ) },
+			{ value: 'lowercase', 	label: __( 'Lowercase', 'generateblocks' ) },
+			{ value: 'capitalize', 	label: __( 'Capitalize', 'generateblocks' ) },
+			{ value: 'initial', 	label: __( 'Normal', 'generateblocks' ) },
 		];
 
 		if ( typeof googleFonts[ this.props['valueFontFamily'] ] !== 'undefined' && typeof googleFonts[ this.props['valueFontFamily'] ].weight !== 'undefined' ) {
 			weight = [
-				{ value: '', label: __( 'Default', 'flexblocks' ) },
-				{ value: 'normal', label: __( 'Normal', 'flexblocks' ) },
-				{ value: 'bold', label: __( 'Bold', 'flexblocks' ) },
+				{ value: '', label: __( 'Default', 'generateblocks' ) },
+				{ value: 'normal', label: __( 'Normal', 'generateblocks' ) },
+				{ value: 'bold', label: __( 'Bold', 'generateblocks' ) },
 			];
 
 			googleFonts[ this.props['valueFontFamily'] ].weight.map( ( k ) => {
@@ -191,15 +191,15 @@ class TypographyControls extends Component {
 
 		let unitSizes = [
 			{
-				name: _x( 'Pixel', 'A size unit for CSS markup', 'flexblocks' ),
+				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: 'px',
 			},
 			{
-				name: _x( 'Em', 'A size unit for CSS markup', 'flexblocks' ),
+				name: _x( 'Em', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: 'em',
 			},
 			{
-				name: _x( 'Percentage', 'A size unit for CSS markup', 'flexblocks' ),
+				name: _x( 'Percentage', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: '%',
 			},
 		];
@@ -207,9 +207,9 @@ class TypographyControls extends Component {
 		return (
 			<Fragment>
 				{ ( typeof valueFontFamily !== 'undefined' ) &&
-					<BaseControl className={ 'fx-font-family-shortcuts' } label={ __( 'Font Family', 'flexblocks' ) }>
+					<BaseControl className={ 'gblocks-font-family-shortcuts' } label={ __( 'Font Family', 'generateblocks' ) }>
 						<select
-							className="components-select-control__input components-select-control__input--flexblocks-fontfamily"
+							className="components-select-control__input components-select-control__input--gblocks-fontfamily"
 							onChange={ onFontShortcut }
 						>
 							{ fonts.map( ( option, index ) =>
@@ -227,14 +227,14 @@ class TypographyControls extends Component {
 				{ ( typeof valueFontFamily !== 'undefined' ) &&
 					<TextControl
 						value={ valueFontFamily }
-						placeholder={ __( 'Enter font name...', 'flexblocks' ) }
+						placeholder={ __( 'Enter font name...', 'generateblocks' ) }
 						onChange={ ( nextFontFamily ) => onFontChange( nextFontFamily ) }
 					/>
 				}
 
 				{ ( typeof valueFontFamily !== 'undefined' && '' !== valueFontFamily ) &&
 					<ToggleControl
-						label={ __( 'Google Font', 'flexblocks' ) }
+						label={ __( 'Google Font', 'generateblocks' ) }
 						checked={ !! valueGoogleFont }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -248,9 +248,9 @@ class TypographyControls extends Component {
 
 				{ typeof valueFontFamilyFallback !== 'undefined' && (
 					<TextControl
-						label={ __( 'Font Family Fallback', 'flexblocks' ) }
+						label={ __( 'Font Family Fallback', 'generateblocks' ) }
 						value={ valueFontFamilyFallback }
-						placeholder={ __( 'sans-serif', 'flexblocks' ) }
+						placeholder={ __( 'sans-serif', 'generateblocks' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								[ this.props[ 'attrFontFamilyFallback' ] ]: value,
@@ -259,11 +259,11 @@ class TypographyControls extends Component {
 					/>
 				) }
 
-				<div className={ 'components-fx-typography-weight-transform' }>
+				<div className={ 'components-gblocks-typography-weight-transform' }>
 
 					{ ( typeof valueFontWeight !== 'undefined' ) &&
 						<SelectControl
-							label={ __( 'Weight', 'flexblocks' ) }
+							label={ __( 'Weight', 'generateblocks' ) }
 							value={ valueFontWeight }
 							options={ weight }
 							onChange={ ( value ) => {
@@ -279,7 +279,7 @@ class TypographyControls extends Component {
 
 					{ ( typeof valueTextTransform !== 'undefined' ) &&
 						<SelectControl
-							label={ __( 'Transform', 'flexblocks' ) }
+							label={ __( 'Transform', 'generateblocks' ) }
 							value={ valueTextTransform }
 							options={ transform }
 							onChange={ ( nextTextTransform ) => {
@@ -294,25 +294,25 @@ class TypographyControls extends Component {
 
 
 				<Fragment>
-					<div className="components-fx-typography-control__header">
-						<div className="components-fx-typography-control__label components-base-control__label">
-							{ __( 'Font Size', 'flexblocks' ) }
+					<div className="components-gblocks-typography-control__header">
+						<div className="components-gblocks-typography-control__label components-base-control__label">
+							{ __( 'Font Size', 'generateblocks' ) }
 						</div>
 
 						{ ( typeof valueFontSizeUnit !== 'undefined' ) &&
-							<div className="components-fx-control__units">
-								<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
+							<div className="components-gblocks-control__units">
+								<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 									{ unitSizes.map( ( unit, i ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
+										<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 											<Button
 												key={ unit.unitValue }
-												className={ 'components-fx-typography-control__units--' + unit.name }
+												className={ 'components-gblocks-typography-control__units--' + unit.name }
 												isSmall
 												isPrimary={ valueFontSizeUnit === unit.unitValue }
 												aria-pressed={ valueFontSizeUnit === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
+												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 												onClick={ () => setAttributes( { [ this.props[ 'attrFontSizeUnit' ] ]: unit.unitValue } ) }
 											>
 												{ unit.unitValue }
@@ -324,7 +324,7 @@ class TypographyControls extends Component {
 						}
 					</div>
 
-					<div className="components-fx-typography-control__inputs">
+					<div className="components-gblocks-typography-control__inputs">
 						<RangeControl
 							value={ parseFloat( valueFontSize ) || '' }
 							onChange={ ( value ) => {
@@ -342,25 +342,25 @@ class TypographyControls extends Component {
 				</Fragment>
 
 				<Fragment>
-					<div className="components-fx-typography-control__header">
-						<div className="components-fx-typography-control__label components-base-control__label">
-							{ __( 'Line Height', 'flexblocks' ) }
+					<div className="components-gblocks-typography-control__header">
+						<div className="components-gblocks-typography-control__label components-base-control__label">
+							{ __( 'Line Height', 'generateblocks' ) }
 						</div>
 
 						{ ( typeof valueLineHeightUnit !== 'undefined' ) &&
-							<div className="components-fx-control__units">
-								<ButtonGroup className="components-fx-typography-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
+							<div className="components-gblocks-control__units">
+								<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 									{ unitSizes.map( ( unit, i ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
+										<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 											<Button
 												key={ unit.unitValue }
-												className={ 'components-fx-typography-control__units--' + unit.name }
+												className={ 'components-gblocks-typography-control__units--' + unit.name }
 												isSmall
 												isPrimary={ valueLineHeightUnit === unit.unitValue }
 												aria-pressed={ valueLineHeightUnit === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
+												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 												onClick={ () => setAttributes( { [ this.props[ 'attrLineHeightUnit' ] ]: unit.unitValue } ) }
 											>
 												{ unit.unitValue }
@@ -372,7 +372,7 @@ class TypographyControls extends Component {
 						}
 					</div>
 
-					<div className="components-fx-typography-control__inputs">
+					<div className="components-gblocks-typography-control__inputs">
 						<RangeControl
 							value={ parseFloat( valueLineHeight ) || '' }
 							onChange={ ( value ) => {
@@ -390,12 +390,12 @@ class TypographyControls extends Component {
 				</Fragment>
 
 				<Fragment>
-					<div className="components-fx-typography-control__header">
-						<div className="components-fx-control__label">
-							{ __( 'Letter Spacing', 'flexblocks' ) }
+					<div className="components-gblocks-typography-control__header">
+						<div className="components-gblocks-control__label">
+							{ __( 'Letter Spacing', 'generateblocks' ) }
 						</div>
 
-						<div className="components-fx-control__units">
+						<div className="components-gblocks-control__units">
 							<Tooltip text={ __( 'Em Units' ) } key={ 'letter-spacing-unit' }>
 								<Button
 									key={ 'letter-spacing-unit' }
@@ -410,7 +410,7 @@ class TypographyControls extends Component {
 						</div>
 					</div>
 
-					<div className="components-fx-typography-control__inputs">
+					<div className="components-gblocks-typography-control__inputs">
 						<RangeControl
 							value={ parseFloat( valueLetterSpacing ) || '' }
 							onChange={ ( value ) => {

@@ -2,14 +2,14 @@
 /**
  * General actions and filters.
  *
- * @package FlexBlocks
+ * @package GenerateBlocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-add_action( 'enqueue_block_editor_assets', 'flexblocks_do_block_editor_assets' );
+add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_assets' );
 /**
  * Enqueue Gutenberg block assets for backend editor.
  *
@@ -19,71 +19,71 @@ add_action( 'enqueue_block_editor_assets', 'flexblocks_do_block_editor_assets' )
  * @uses {wp-editor} for WP editor styles.
  * @since 0.1
  */
-function flexblocks_do_block_editor_assets() {
+function generateblocks_do_block_editor_assets() {
 	wp_enqueue_script(
-		'flexblocks',
-		FLEXBLOCKS_MODULE_DIR_URL . 'dist/blocks.build.js',
+		'generateblocks',
+		GENERATEBLOCKS_MODULE_DIR_URL . 'dist/blocks.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
-		filemtime( FLEXBLOCKS_MODULE_DIR . 'dist/blocks.build.js' ),
+		filemtime( GENERATEBLOCKS_MODULE_DIR . 'dist/blocks.build.js' ),
 		true
 	);
 
 	wp_enqueue_script(
-		'flexblocks-dompurify',
-		FLEXBLOCKS_MODULE_DIR_URL . 'assets/js/purify.min.js',
-		array( 'flexblocks' ),
-		filemtime( FLEXBLOCKS_MODULE_DIR . 'assets/js/purify.min.js' ),
+		'generateblocks-dompurify',
+		GENERATEBLOCKS_MODULE_DIR_URL . 'assets/js/purify.min.js',
+		array( 'generateblocks' ),
+		filemtime( GENERATEBLOCKS_MODULE_DIR . 'assets/js/purify.min.js' ),
 		true
 	);
 
 	wp_enqueue_style(
-		'flexblocks',
-		FLEXBLOCKS_MODULE_DIR_URL . 'dist/blocks.editor.build.css',
+		'generateblocks',
+		GENERATEBLOCKS_MODULE_DIR_URL . 'dist/blocks.editor.build.css',
 		array( 'wp-edit-blocks' ),
-		filemtime( FLEXBLOCKS_MODULE_DIR . 'dist/blocks.editor.build.css' )
+		filemtime( GENERATEBLOCKS_MODULE_DIR . 'dist/blocks.editor.build.css' )
 	);
 
 	if ( function_exists( 'generate_get_option' ) ) {
 		$css = 'body.wp-admin .editor-styles-wrapper .grid-container {max-width: ' . generate_get_option( 'container_width' ) . 'px;margin-left: auto;margin-right:auto;';
-		wp_add_inline_style( 'flexblocks', $css );
+		wp_add_inline_style( 'generateblocks', $css );
 	}
 
 	wp_localize_script(
-		'flexblocks',
-		'flexBlocksDefaults',
-		flexblocks_get_block_defaults()
+		'generateblocks',
+		'generateBlocksDefaults',
+		generateblocks_get_block_defaults()
 	);
 }
 
-add_filter( 'block_categories', 'flexblocks_do_category' );
+add_filter( 'block_categories', 'generateblocks_do_category' );
 /**
  * Add GeneratePress category to Gutenberg.
  *
  * @since 0.1
  */
-function flexblocks_do_category( $categories ) {
+function generateblocks_do_category( $categories ) {
 	return array_merge(
 		array(
 			array(
-				'slug'  => 'flexblocks',
-				'title' => __( 'FlexBlocks', 'flexblocks' ),
+				'slug'  => 'generateblocks',
+				'title' => __( 'GenerateBlocks', 'generateblocks' ),
 			),
 		),
 		$categories
     );
 }
 
-add_action( 'wp_enqueue_scripts', 'flexblocks_do_google_fonts' );
-add_action( 'enqueue_block_editor_assets', 'flexblocks_do_google_fonts' );
+add_action( 'wp_enqueue_scripts', 'generateblocks_do_google_fonts' );
+add_action( 'enqueue_block_editor_assets', 'generateblocks_do_google_fonts' );
 /**
  * Do Google Fonts.
  *
  * @since 0.1
  */
-function flexblocks_do_google_fonts() {
-	$fonts_url = flexblocks_get_google_fonts_uri();
+function generateblocks_do_google_fonts() {
+	$fonts_url = generateblocks_get_google_fonts_uri();
 
 	if ( $fonts_url ) {
-		wp_enqueue_style( 'flexblocks-google-fonts', $fonts_url, array(), null, 'all' );
+		wp_enqueue_style( 'generateblocks-google-fonts', $fonts_url, array(), null, 'all' );
 	}
 }

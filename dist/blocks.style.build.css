@@ -5,10 +5,10 @@
  * that are used across the project.
 */
 /* Colors */
-.fx-notice {
+.gblocks-notice {
   margin-bottom: 20px; }
 
-.fx-panel-label .components-panel__body-toggle.components-button {
+.gblocks-panel-label .components-panel__body-toggle.components-button {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row-reverse;
@@ -16,10 +16,10 @@
   -ms-flex-pack: end;
       justify-content: flex-end; }
 
-.fx-panel-label svg.components-panel__icon {
+.gblocks-panel-label svg.components-panel__icon {
   margin: 0 10px 0 0; }
 
-.components-fx-control__header {
+.components-gblocks-control__header {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;
@@ -28,7 +28,7 @@
   -ms-flex-align: center;
       align-items: center; }
 
-.components-panel__body .components-fx-control__units .components-button {
+.components-panel__body .components-gblocks-control__units .components-button {
   background: #fff;
   border-color: #e2e4e7;
   -webkit-box-shadow: none !important;
@@ -40,7 +40,7 @@
   text-align: center;
   text-shadow: none;
   border: 1px solid; }
-  .components-panel__body .components-fx-control__units .components-button.is-primary {
+  .components-panel__body .components-gblocks-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
     color: #fff;
@@ -59,10 +59,10 @@
  * that are used across the project.
 */
 /* Colors */
-.fx-notice {
+.gblocks-notice {
   margin-bottom: 20px; }
 
-.fx-panel-label .components-panel__body-toggle.components-button {
+.gblocks-panel-label .components-panel__body-toggle.components-button {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row-reverse;
@@ -70,10 +70,10 @@
   -ms-flex-pack: end;
       justify-content: flex-end; }
 
-.fx-panel-label svg.components-panel__icon {
+.gblocks-panel-label svg.components-panel__icon {
   margin: 0 10px 0 0; }
 
-.components-fx-control__header {
+.components-gblocks-control__header {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;
@@ -82,7 +82,7 @@
   -ms-flex-align: center;
       align-items: center; }
 
-.components-panel__body .components-fx-control__units .components-button {
+.components-panel__body .components-gblocks-control__units .components-button {
   background: #fff;
   border-color: #e2e4e7;
   -webkit-box-shadow: none !important;
@@ -94,7 +94,7 @@
   text-align: center;
   text-shadow: none;
   border: 1px solid; }
-  .components-panel__body .components-fx-control__units .components-button.is-primary {
+  .components-panel__body .components-gblocks-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
     color: #fff;
@@ -111,10 +111,10 @@
  * that are used across the project.
 */
 /* Colors */
-.fx-notice {
+.gblocks-notice {
   margin-bottom: 20px; }
 
-.fx-panel-label .components-panel__body-toggle.components-button {
+.gblocks-panel-label .components-panel__body-toggle.components-button {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: row-reverse;
@@ -122,10 +122,10 @@
   -ms-flex-pack: end;
       justify-content: flex-end; }
 
-.fx-panel-label svg.components-panel__icon {
+.gblocks-panel-label svg.components-panel__icon {
   margin: 0 10px 0 0; }
 
-.components-fx-control__header {
+.components-gblocks-control__header {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: justify;
@@ -134,7 +134,7 @@
   -ms-flex-align: center;
       align-items: center; }
 
-.components-panel__body .components-fx-control__units .components-button {
+.components-panel__body .components-gblocks-control__units .components-button {
   background: #fff;
   border-color: #e2e4e7;
   -webkit-box-shadow: none !important;
@@ -146,14 +146,14 @@
   text-align: center;
   text-shadow: none;
   border: 1px solid; }
-  .components-panel__body .components-fx-control__units .components-button.is-primary {
+  .components-panel__body .components-gblocks-control__units .components-button.is-primary {
     background: #0070a7;
     border-color: #0070a7;
     color: #fff;
     cursor: default;
     z-index: 1; }
 
-.fx-button {
+.gb-button {
   display: inline-block;
   padding: .75em 1em;
   line-height: 1em;
@@ -164,6 +164,6 @@
   -webkit-transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
   -o-transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
   transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out; }
-  .fx-button:hover, .fx-button:focus, .fx-button:active {
+  .gb-button:hover, .gb-button:focus, .gb-button:active {
     color: #fff;
     background-color: #32373c; }

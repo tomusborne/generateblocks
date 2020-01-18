@@ -1,6 +1,6 @@
 @import "../../common";
 
-.fx-component-url-input {
+.gblocks-component-url-input {
     width: 100%;
     margin-top: 10px;
     font-family: $default-font;
@@ -9,7 +9,7 @@
     background: #fff;
     border: 1px solid #e2e4e7;
 
-    .fx-component-url-input-flex {
+    .gblocks-component-url-input-flex {
         display: flex;
         align-items: center;
 
@@ -35,7 +35,7 @@
 		}
     }
 
-    .fx-component-url-input-more-options {
+    .gblocks-component-url-input-more-options {
         padding: 10px;
         border-top: 1px solid #e2e4e7;
 
@@ -50,7 +50,7 @@
     }
 }
 
-.fx-component-url-input-float {
+.gblocks-component-url-input-float {
     $blocks-button__link-input-width: 260px;
 
     position: absolute;
@@ -86,7 +86,7 @@
     }
 }
 
-.block-editor-block-list__block .fx-component-url-input-flex input[type="text"] {
+.block-editor-block-list__block .gblocks-component-url-input-flex input[type="text"] {
     max-width: 100%;
     width: 100%;
 }

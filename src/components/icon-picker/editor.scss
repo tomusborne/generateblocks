@@ -1,4 +1,4 @@
-.fx-icon-chooser {
+.gblocks-icon-chooser {
 	display: -ms-flexbox;
 	display: flex;
 	-ms-flex-wrap: wrap;
@@ -57,11 +57,11 @@
     justify-content: space-between;
 }
 
-.fx-icon {
+.gb-icon {
 	display: inline-flex;
 }
 
-.fx-icon svg {
+.gb-icon svg {
 	height: 1em;
 	width: 1em;
 	fill: currentColor;

@@ -1,5 +1,5 @@
-.fx-component-color-picker-wrapper {
-    .fx-component-color-picker-wrapper + .fx-component-color-picker-wrapper {
+.gblocks-component-color-picker-wrapper {
+    .gblocks-component-color-picker-wrapper + .gblocks-component-color-picker-wrapper {
         margin-top: -5px;
     }
 
@@ -14,8 +14,9 @@
         }
     }
 }
-.fx-component-color-picker {
-    .fx-component-color-picker-palette {
+
+.gblocks-component-color-picker {
+    .gblocks-component-color-picker-palette {
         margin: 0 17px;
 
 		.components-circular-option-picker {
@@ -37,7 +38,7 @@
     padding-bottom: 5px;
 }
 
-.fx-component-color-opacity {
+.gblocks-component-color-opacity {
     display: flex;
 	padding: 0 12px;
 

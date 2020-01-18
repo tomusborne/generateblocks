@@ -1,4 +1,4 @@
-.fx-button-wrapper {
+.gb-button-wrapper {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
@@ -6,15 +6,15 @@
     clear: both;
 }
 
-.fx-button-wrapper .block-editor-block-list__layout > .block-list-appender {
+.gb-button-wrapper .block-editor-block-list__layout > .block-list-appender {
     display: none !important;
 }
 
-.fx-button-wrapper > .components-button {
+.gb-button-wrapper > .components-button {
 	display: none;
 }
 
-[data-type="flexblocks/button-container"].has-child-selected .fx-button-wrapper > .components-button,
-[data-type="flexblocks/button-container"].is-selected .fx-button-wrapper > .components-button {
+[data-type="generateblocks/button-container"].has-child-selected .gb-button-wrapper > .components-button,
+[data-type="generateblocks/button-container"].is-selected .gb-button-wrapper > .components-button {
 	display: inline-flex;
 }

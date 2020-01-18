@@ -23,7 +23,7 @@ const {
     ColorPalette,
 } = wp.blockEditor;
 
-export default class FlexBlocksColorPicker extends Component {
+export default class GenerateBlocksColorPicker extends Component {
 	constructor( props ) {
 		super( ...arguments );
 	}
@@ -43,19 +43,19 @@ export default class FlexBlocksColorPicker extends Component {
 		return (
 			<BaseControl
 				label={ label }
-				className="fx-component-color-picker-wrapper"
+				className="gblocks-component-color-picker-wrapper"
 			>
 				<Dropdown
 					className={ classnames( 'components-color-palette__item-wrapper components-circular-option-picker__option-wrapper', value ? '' : 'components-color-palette__custom-color' ) }
 					contentClassName="components-color-palette__picker"
 					renderToggle={ ( { isOpen, onToggle } ) => (
-						<Tooltip text={ __( 'Choose Color', 'flexblocks' ) }>
+						<Tooltip text={ __( 'Choose Color', 'generateblocks' ) }>
 							<button
 								type="button"
 								aria-expanded={ isOpen }
 								className="components-color-palette__item components-circular-option-picker__option"
 								onClick={ onToggle }
-								aria-label={ __( 'Custom color picker', 'flexblocks' ) }
+								aria-label={ __( 'Custom color picker', 'generateblocks' ) }
 								style={ { color: value ? hexToRGBA( value, valueOpacity ) : 'transparent' } }
 							>
 								<span className="components-color-palette__custom-color-gradient" />
@@ -64,9 +64,8 @@ export default class FlexBlocksColorPicker extends Component {
 					) }
 					renderContent={ () => (
 						<div
-							className="fx-component-color-picker"
 							className={ classnames( {
-								'fx-component-color-picker': true
+								'gblocks-component-color-picker': true
 							} ) }
 						>
 							<ColorPicker
@@ -78,8 +77,8 @@ export default class FlexBlocksColorPicker extends Component {
 							/>
 
 							{ alpha &&
-								<div className="fx-component-color-opacity">
-									<Tooltip text={ __( 'Opacity', 'flexblocks' ) }>
+								<div className="gblocks-component-color-opacity">
+									<Tooltip text={ __( 'Opacity', 'generateblocks' ) }>
 										{ getIcon( 'gradient' ) }
 									</Tooltip>
 
@@ -95,8 +94,8 @@ export default class FlexBlocksColorPicker extends Component {
 							}
 
 							<BaseControl
-                                label={ __( 'Color Palette', 'flexblocks' ) }
-                                className="fx-component-color-picker-palette"
+                                label={ __( 'Color Palette', 'generateblocks' ) }
+                                className="gblocks-component-color-picker-palette"
                             >
                                 <ColorPalette
                                     value={ value }

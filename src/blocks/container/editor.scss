@@ -5,19 +5,19 @@
  * which makes it higher in priority.
  */
 
-body.gutenberg-editor-page [data-type="flexblocks/container"] .editor-block-list__block,
-[data-type="flexblocks/container"] .wp-block-heading h1,
-[data-type="flexblocks/container"] .wp-block-heading h1.editor-rich-text__tinymce,
-[data-type="flexblocks/container"] .wp-block-heading h2,
-[data-type="flexblocks/container"] .wp-block-heading h2.editor-rich-text__tinymce,
-[data-type="flexblocks/container"] .wp-block-heading h3,
-[data-type="flexblocks/container"] .wp-block-heading h3.editor-rich-text__tinymce,
-[data-type="flexblocks/container"] .wp-block-heading h4,
-[data-type="flexblocks/container"] .wp-block-heading h4.editor-rich-text__tinymce,
-[data-type="flexblocks/container"] .wp-block-heading h5,
-[data-type="flexblocks/container"] .wp-block-heading h5.editor-rich-text__tinymce,
-[data-type="flexblocks/container"] .wp-block-heading h6,
-[data-type="flexblocks/container"] .wp-block-heading h6.editor-rich-text__tinymce {
+body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-list__block,
+[data-type="generateblocks/container"] .wp-block-heading h1,
+[data-type="generateblocks/container"] .wp-block-heading h1.editor-rich-text__tinymce,
+[data-type="generateblocks/container"] .wp-block-heading h2,
+[data-type="generateblocks/container"] .wp-block-heading h2.editor-rich-text__tinymce,
+[data-type="generateblocks/container"] .wp-block-heading h3,
+[data-type="generateblocks/container"] .wp-block-heading h3.editor-rich-text__tinymce,
+[data-type="generateblocks/container"] .wp-block-heading h4,
+[data-type="generateblocks/container"] .wp-block-heading h4.editor-rich-text__tinymce,
+[data-type="generateblocks/container"] .wp-block-heading h5,
+[data-type="generateblocks/container"] .wp-block-heading h5.editor-rich-text__tinymce,
+[data-type="generateblocks/container"] .wp-block-heading h6,
+[data-type="generateblocks/container"] .wp-block-heading h6.editor-rich-text__tinymce {
 	color: inherit;
 }
 
@@ -30,41 +30,18 @@ body.gutenberg-editor-page [data-type="flexblocks/container"] .editor-block-list
     margin-bottom: 10px;
 }
 
-.fx-container-colors-panel .components-base-control__label {
-	display: inline-block;
-	margin-bottom: 10px;
-}
-
 .additional-class-notice .components-notice {
 	margin: 0 0 10px;
 }
 
-.color-control .components-base-control__label,
-.color-control .component-color-indicator {
-    display: inline-block;
-}
-
-.color-control .component-color-indicator {
-    position: relative;
-    top: 2px;
-}
-
-.components-base-control.fx-container-unit {
-    float: right;
-}
-
-.fx-container-unit .components-base-control__label {
-    opacity: 0;
-}
-
-.flexblocks-control-tabs .components-tab-panel__tabs {
+.gblocks-control-tabs .components-tab-panel__tabs {
     display: flex;
     flex-wrap: wrap;
     margin-bottom: 15px;
     border-bottom: 1px solid #e8eaeb;
 }
 
-.flexblocks-control-tabs .components-tab-panel__tabs button {
+.gblocks-control-tabs .components-tab-panel__tabs button {
     padding: 9px 11px;
     padding-bottom: 11px;
     margin: 0;
@@ -80,7 +57,7 @@ body.gutenberg-editor-page [data-type="flexblocks/container"] .editor-block-list
 	justify-content: center;
 }
 
-.flexblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
     position: relative;
     border-bottom: 2px solid #00a0d2;
     z-index: 1;
@@ -97,44 +74,44 @@ body.gutenberg-editor-page [data-type="flexblocks/container"] .editor-block-list
     display: flex;
 }
 
-.fx-column-width-control input[type="number"] {
+.gblocks-column-width-control input[type="number"] {
 	width: 65px;
 }
 
-body .fx-container .wp-block {
+body .gb-container .wp-block {
     max-width: none;
 }
 
-[data-type="flexblocks/container"] > .block-editor-block-list__block-edit > [data-block] {
+[data-type="generateblocks/container"] > .block-editor-block-list__block-edit > [data-block] {
     margin: 0;
 }
 
 /* Not needed in GB 7 */
-.edit-post-visual-editor .block-editor-block-list__block[data-type="flexblocks/container"] > .block-editor-block-list__block-edit {
+.edit-post-visual-editor .block-editor-block-list__block[data-type="generateblocks/container"] > .block-editor-block-list__block-edit {
     margin: 0;
 }
 
-.block-editor-block-list__layout .block-editor-block-list__block[data-type="flexblocks/container"] {
+.block-editor-block-list__layout .block-editor-block-list__block[data-type="generateblocks/container"] {
     padding: 0;
 	box-sizing: border-box;
 }
 
-.fx-container .fx-inside-container {
+.gb-container .gb-inside-container {
 	box-sizing: content-box;
 }
 
-.fx-container *:not(.fx-inside-container) {
+.gb-container *:not(.gb-inside-container) {
 	box-sizing: border-box;
 }
 
 /* Bad idea?? */
-[data-type="flexblocks/container"] .block-editor-block-list__insertion-point,
-[data-type="flexblocks/grid"] .block-editor-block-list__insertion-point {
+[data-type="generateblocks/container"] .block-editor-block-list__insertion-point,
+[data-type="generateblocks/grid"] .block-editor-block-list__insertion-point {
     display: none;
 }
 
-.editor-styles-wrapper .fx-container [data-block],
-.editor-styles-wrapper .fx-grid-wrapper [data-block] {
+.editor-styles-wrapper .gb-container [data-block],
+.editor-styles-wrapper .gb-grid-wrapper [data-block] {
     margin-top: 0;
     margin-bottom: 0;
 }

@@ -63,10 +63,10 @@ export default class URLInput extends Component {
 
         return (
             <form
-                className={ classnames( 'fx-component-url-input', className ) }
+                className={ classnames( 'gblocks-component-url-input', className ) }
                 onSubmit={ ( e ) => e.preventDefault() }
             >
-                <div className="fx-component-url-input-flex">
+                <div className="gblocks-component-url-input-flex">
                     <Dashicon icon="admin-links" />
                     <WPURLInput
                         value={ url }
@@ -79,7 +79,7 @@ export default class URLInput extends Component {
                     />
                     <IconButton
                         icon={ 'ellipsis' }
-                        label={ moreOptions ? __( 'Hide More Options' ) : __( 'Show More Options' ) }
+                        label={ moreOptions ? __( 'Hide More Options', 'generateblocks' ) : __( 'Show More Options', 'generateblocks' ) }
                         onClick={ () => {
                             this.setState( {
                                 moreOptions: ! moreOptions,
@@ -88,9 +88,9 @@ export default class URLInput extends Component {
                     />
                 </div>
                 { moreOptions ? (
-                    <div className="fx-component-url-input-more-options">
+                    <div className="gblocks-component-url-input-more-options">
                         <ToggleControl
-                            label={ __( 'Open link in a new tab' ) }
+                            label={ __( 'Open link in a new tab', 'generateblocks' ) }
                             checked={ '_blank' === target }
                             onChange={ () => {
                                 if ( '_blank' === target ) {
@@ -105,7 +105,7 @@ export default class URLInput extends Component {
                             } }
                         />
                         <ToggleControl
-                            label={ __( 'Add rel="nofollow"' ) }
+                            label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
                             checked={ 'nofollow' === rel }
                             onChange={ () => {
                                 if ( 'nofollow' === rel ) {

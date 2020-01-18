@@ -20,8 +20,8 @@ export default ( { attributes } ) => {
 		<div
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
-				'fx-grid-wrapper': true,
-				[`fx-grid-wrapper-${ uniqueId }`]: true,
+				'gb-grid-wrapper': true,
+				[`gb-grid-wrapper-${ uniqueId }`]: true,
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 		>

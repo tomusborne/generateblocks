@@ -28,8 +28,8 @@ export default ( { attributes } ) => {
 		<div
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
-				'fx-button-wrapper': true,
-				[`fx-button-wrapper-${ uniqueId }`]: true,
+				'gb-button-wrapper': true,
+				[`gb-button-wrapper-${ uniqueId }`]: true,
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 		>

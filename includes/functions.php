@@ -2,7 +2,7 @@
 /**
  * Functions used throughout the plugin.
  *
- * @package FlexBlocks
+ * @package GenerateBlocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return array
  */
-function flexblocks_get_block_data( $blockName = 'flexblocks/container', $content = '' ) {
+function generateblocks_get_block_data( $blockName = 'generateblocks/container', $content = '' ) {
 	if ( ! is_array( $content ) || empty( $content ) ) {
 		return;
 	}
@@ -29,7 +29,7 @@ function flexblocks_get_block_data( $blockName = 'flexblocks/container', $conten
 			if ( $blockName === $block['blockName'] ) {
 				$data[] = $block['attrs'];
 
-				$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
+				$data = generateblocks_get_nested_block_data( $block, $data, $blockName );
 			}
 
 			if ( 'core/block' === $block['blockName'] ) {
@@ -45,7 +45,7 @@ function flexblocks_get_block_data( $blockName = 'flexblocks/container', $conten
 							if ( $blockName === $block['blockName'] ) {
 								$data[] = $block['attrs'];
 
-								$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
+								$data = generateblocks_get_nested_block_data( $block, $data, $blockName );
 							}
 						}
 					}
@@ -54,7 +54,7 @@ function flexblocks_get_block_data( $blockName = 'flexblocks/container', $conten
 
 			// Need to check for nested blocks.
 			if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
-				$data = flexblocks_get_nested_block_data( $block, $data, $blockName );
+				$data = generateblocks_get_nested_block_data( $block, $data, $blockName );
 			}
 		}
 	}
@@ -72,14 +72,14 @@ function flexblocks_get_block_data( $blockName = 'flexblocks/container', $conten
  *
  * @return array
  */
-function flexblocks_get_nested_block_data( $block, $data, $blockName ) {
+function generateblocks_get_nested_block_data( $block, $data, $blockName ) {
 	if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
 		foreach ( $block['innerBlocks'] as $inner_block ) {
 			if ( $blockName === $inner_block['blockName'] ) {
 				$data[] = $inner_block['attrs'];
 			}
 
-			$data = flexblocks_get_nested_block_data( $inner_block, $data, $blockName );
+			$data = generateblocks_get_nested_block_data( $inner_block, $data, $blockName );
 		}
 	}
 
@@ -91,7 +91,7 @@ function flexblocks_get_nested_block_data( $block, $data, $blockName ) {
  *
  * @since 0.1
  */
-function flexblocks_auth_callback() {
+function generateblocks_auth_callback() {
 	return current_user_can( 'edit_posts' );
 }
 
@@ -107,7 +107,7 @@ function flexblocks_auth_callback() {
  *
  * @return string The shorthand value.
  */
-function flexblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit ) {
+function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit ) {
 	if ( '' === $top && '' === $right && '' === $bottom && '' === $left ) {
 		return;
 	}
@@ -140,8 +140,8 @@ function flexblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit ) {
  *
  * @return string
  */
-function flexblocks_get_media_query( $type ) {
-	$queries = apply_filters( 'flexblocks_media_query', array(
+function generateblocks_get_media_query( $type ) {
+	$queries = apply_filters( 'generateblocks_media_query', array(
 		'mobile' => '(max-width: 767px)',
 		'tablet' => '(max-width: 1024px)',
 	) );
@@ -156,7 +156,7 @@ function flexblocks_get_media_query( $type ) {
  *
  * @return array
  */
-function flexblocks_get_google_fonts( $content = '' ) {
+function generateblocks_get_google_fonts( $content = '' ) {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}
@@ -181,9 +181,9 @@ function flexblocks_get_google_fonts( $content = '' ) {
 		return;
 	}
 
-	$button_data = flexblocks_get_block_data( 'flexblocks/button', $content );
-	$headline_data = flexblocks_get_block_data( 'flexblocks/headline', $content );
-	$defaults = flexblocks_get_block_defaults();
+	$button_data = generateblocks_get_block_data( 'generateblocks/button', $content );
+	$headline_data = generateblocks_get_block_data( 'generateblocks/headline', $content );
+	$defaults = generateblocks_get_block_defaults();
 	$font_data = array();
 
 	if ( ! empty( $button_data ) ) {
@@ -232,19 +232,18 @@ function flexblocks_get_google_fonts( $content = '' ) {
 		}
 	}
 
-	return apply_filters( 'flexblocks_google_fonts', $fonts );
+	return apply_filters( 'generateblocks_google_fonts', $fonts );
 }
 
 /**
  * Build the Google Font request URI.
  *
  * @since 0.1
- * @param int $post_id The post ID we're checking.
  *
  * @return string The request URI to Google Fonts.
  */
-function flexblocks_get_google_fonts_uri() {
-	$google_fonts = flexblocks_get_google_fonts();
+function generateblocks_get_google_fonts_uri() {
+	$google_fonts = generateblocks_get_google_fonts();
 
 	if ( ! $google_fonts ) {
 		return;
@@ -271,7 +270,7 @@ function flexblocks_get_google_fonts_uri() {
 		}
 	}
 
-	$font_args = apply_filters( 'flexblocks_google_font_args', array(
+	$font_args = apply_filters( 'generateblocks_google_font_args', array(
 		'family' => implode( '|', $data ),
 		'subset' => null,
 		'display' => 'swap',
@@ -280,7 +279,16 @@ function flexblocks_get_google_fonts_uri() {
 	return add_query_arg( $font_args, '//fonts.googleapis.com/css' );
 }
 
-function flexblocks_hex2rgba( $hex, $alpha ) {
+/**
+ * Convert hex to RGBA
+ *
+ * @since 0.1
+ * @param string $hex The hex value.
+ * @param int $alpha The opacity value.
+ *
+ * @return string The RGBA value.
+ */
+function generateblocks_hex2rgba( $hex, $alpha ) {
 	if ( 1 === $alpha ) {
 		return $hex;
 	}
@@ -302,7 +310,15 @@ function flexblocks_hex2rgba( $hex, $alpha ) {
 	return $rgba;
 }
 
-function flexblocks_get_vendor_prefix( $value ) {
+/**
+ * Return old flexblocks values for old browsers.
+ *
+ * @since 0.1
+ * @param string The value to convert.
+ *
+ * @return string The old browser value.
+ */
+function generateblocks_get_vendor_prefix( $value ) {
 	if ( 'flex-start' === $value ) {
 		return 'start';
 	}

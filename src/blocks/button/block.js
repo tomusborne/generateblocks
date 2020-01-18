@@ -22,15 +22,15 @@ const el = wp.element.createElement;
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'flexblocks/button', {
-	title: __( 'Button', 'flexblocks' ),
-	parent: [ 'flexblocks/button-container' ],
+registerBlockType( 'generateblocks/button', {
+	title: __( 'Button', 'generateblocks' ),
+	parent: [ 'generateblocks/button-container' ],
 	icon: getIcon( 'button' ),
-	category: 'flexblocks',
+	category: 'generateblocks',
 	keywords: [
 		__( 'button' ),
 		__( 'buttons' ),
-		__( 'flex' ),
+		__( 'generate' ),
 	],
 	attributes: blockAttributes,
 	supports: {

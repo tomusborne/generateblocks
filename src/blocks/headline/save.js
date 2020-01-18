@@ -29,13 +29,13 @@ export default ( { attributes } ) => {
 		<ConditionalWrap
 			condition={ icon }
 			wrap={ children => <div className={ classnames( {
-				'fx-headline-wrapper': true,
-				[`fx-headline-wrapper-${ uniqueId }`]: true,
+				'gb-headline-wrapper': true,
+				[`gb-headline-wrapper-${ uniqueId }`]: true,
 			} ) }>{ children }</div>}
 		>
 			{ icon &&
 				<span
-					className="fx-icon"
+					className="gb-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			}
@@ -44,8 +44,8 @@ export default ( { attributes } ) => {
 				tagName={ element }
 				id={ !! elementId ? elementId : undefined }
 				className={ classnames( {
-					'fx-headline': true,
-					[`fx-headline-${ uniqueId }`]: true,
+					'gb-headline': true,
+					[`gb-headline-${ uniqueId }`]: true,
 					[`${ cssClasses }`]: '' !== cssClasses
 				} ) }
 				value={ content }

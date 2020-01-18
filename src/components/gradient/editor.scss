@@ -1,4 +1,4 @@
-.fx-component-gradient-control {
+.gblocks-component-gradient-control {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -11,12 +11,12 @@
 		}
 	}
 
-	.fx-component-color-picker-wrapper .components-base-control__field {
+	.gblocks-component-color-picker-wrapper .components-base-control__field {
     	margin-top: 0;
 	}
 }
 
-.fx-component-gradient-stop-value {
+.gblocks-component-gradient-stop-value {
 	flex-grow: 1;
 	padding-left: 10px;
 }

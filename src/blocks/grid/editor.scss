@@ -1,6 +1,6 @@
 // Styles from core Columns block
 // https://github.com/WordPress/gutenberg/blob/master/blocks/library/columns/editor.scss
-.fx-grid-wrapper {
+.gb-grid-wrapper {
     position: relative;
     display: block;
     // These margins make sure that nested blocks stack/overlay with the parent block chrome
@@ -29,8 +29,8 @@
     // This is not a 1:1 preview with the front-end where these margins would presumably be zero
     // @todo this could be revisited, by for example showing this margin only when the parent block was selected first
     // Then at least an unselected columns block would be an accurate preview
-    .block-editor-block-list__block[data-align="full"][data-type="flexblocks/grid"] > .block-editor-block-list__block-edit > div > & {
-        > .fx-grid-wrapper-button-select {
+    .block-editor-block-list__block[data-align="full"][data-type="generateblocks/grid"] > .block-editor-block-list__block-edit > div > & {
+        > .gb-grid-wrapper-button-select {
             right: 1px;
         }
         > .block-editor-inner-blocks > .block-editor-block-list__layout {
@@ -52,27 +52,28 @@
     }
 }
 
-.wp-block.fx-col {
+.wp-block.gb-col {
     margin-top: 29px;
 }
 
 // Layouts selector.
-.fx-select-layout {
+.components-placeholder.components-placeholder.gb-select-layout {
     padding: 25px;
 	background: #fff;
+	color: #000;
 
     .components-placeholder__fieldset > em {
         margin-bottom: 25px;
     }
 
-    .fx-grid-wrapper-layout-preview {
+    .gb-grid-wrapper-layout-preview {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
         margin-right: -7px;
         margin-left: -7px;
 
-        .fx-grid-wrapper-layout-preview-btn {
+        .gb-grid-wrapper-layout-preview-btn {
             display: flex;
             flex-wrap: wrap;
             width: 85px;
@@ -87,7 +88,7 @@
             border-radius: 4px;
             transition: .15s border-color, .15s background-color;
 
-            .fx-col {
+            .gb-col {
                 height: 40px;
                 border-right: 2px solid rgba($color-brand-3, .75);
                 transition: .15s border-color;
@@ -102,7 +103,7 @@
                 background-color: #fff;
                 border-color: $color-brand-3;
 
-                .fx-col {
+                .gb-col {
                     border-color: $color-brand-3;
                 }
             }
@@ -118,7 +119,7 @@
     }
 }
 
-.fx-col {
+.gb-col {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -143,31 +144,31 @@
     }
 }
 
-.fx-col.fx-col-25 {
+.gb-col.gb-col-25 {
     flex-basis: 25%;
 }
 
-.fx-col.fx-col-75 {
+.gb-col.gb-col-75 {
     flex-basis: 75%;
 }
 
-.fx-col.fx-col-50 {
+.gb-col.gb-col-50 {
     flex-basis: 50%;
 }
 
-.fx-col.fx-col-60 {
+.gb-col.gb-col-60 {
     flex-basis: 60%;
 }
 
-.fx-col.fx-col-20 {
+.gb-col.gb-col-20 {
     flex-basis: 20%;
 }
 
-.fx-col.fx-col-16.66 {
+.gb-col.gb-col-16.66 {
     flex-basis: 16.6%;
 }
 
-.fx-grid-appender button {
+.gb-grid-appender button {
     background: #fff;
 	box-shadow: inset 0 0 0 1px #555d66, inset 0 0 0 2px #fff;
     padding: 20px;
@@ -176,27 +177,27 @@
 	height: auto;
 }
 
-.fx-grid-appender button.components-button svg {
+.gb-grid-appender button.components-button svg {
     margin-right: 0;
 }
 
-.fx-select-layout .components-placeholder__label,
-.fx-select-layout .components-placeholder__instructions {
+.gb-select-layout .components-placeholder__label,
+.gb-select-layout .components-placeholder__instructions {
     margin-left: auto;
     margin-right: auto;
 }
 
-.fx-select-layout iframe {
+.gb-select-layout iframe {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.fx-select-layout .fx-grid-wrapper-layout-preview {
+.gb-select-layout .gb-grid-wrapper-layout-preview {
     max-width: 500px;
 }
 
-.fx-select-layout .components-placeholder__fieldset {
+.gb-select-layout .components-placeholder__fieldset {
     display: flex;
     justify-content: center;
 }

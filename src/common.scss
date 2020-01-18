@@ -22,28 +22,28 @@ $color-brand-3: #4f5969 !default;
 // Widths, heights & dimensions
 $item-spacing: 10px !default;
 
-.fx-notice {
+.gblocks-notice {
 	margin-bottom: 20px;
 }
 
-.fx-panel-label .components-panel__body-toggle.components-button {
+.gblocks-panel-label .components-panel__body-toggle.components-button {
     display: flex;
     flex-direction: row-reverse;
     justify-content: flex-end;
 }
 
-.fx-panel-label svg.components-panel__icon {
+.gblocks-panel-label svg.components-panel__icon {
     margin: 0 10px 0 0;
 }
 
-.components-fx-control__header {
+.components-gblocks-control__header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
     align-items: center;
 }
 
-.components-panel__body .components-fx-control__units .components-button {
+.components-panel__body .components-gblocks-control__units .components-button {
     background: #fff;
     border-color: #e2e4e7;
     -webkit-box-shadow: none !important;

@@ -1,9 +1,9 @@
-.components-fx-dimensions-control__inputs,
-.components-fx-dimensions-control__input-labels {
+.components-gblocks-dimensions-control__inputs,
+.components-gblocks-dimensions-control__input-labels {
     display: flex;
 }
 
-.components-fx-dimensions-control input[type="number"] {
+.components-gblocks-dimensions-control input[type="number"] {
 	border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     height: 30px;
@@ -12,21 +12,21 @@
     width: 25%;
 }
 
-.components-fx-dimensions-control input[type="number"]:not(:first-child) {
+.components-gblocks-dimensions-control input[type="number"]:not(:first-child) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.components-fx-dimensions-control__input-labels > span {
+.components-gblocks-dimensions-control__input-labels > span {
     width: 25%;
 	font-size: 11px;
 }
 
-.components-fx-dimensions-control__input-labels > span:last-child {
+.components-gblocks-dimensions-control__input-labels > span:last-child {
     width: 30px;
 }
 
-.components-fx-dimensions-control_sync.components-button {
+.components-gblocks-dimensions-control_sync.components-button {
 	border-top-left-radius: 0;
 	border-bottom-left-radius: 0;
     -webkit-box-shadow: none;
@@ -41,30 +41,30 @@
     width: 30px;
 }
 
-.components-fx-dimensions-control_sync.components-button:not(.is-primary) {
+.components-gblocks-dimensions-control_sync.components-button:not(.is-primary) {
 	background: #fff;
 	border: 1px solid #8d96a0;
 	color: #555d66;
 }
 
-.components-fx-dimensions-control_sync.components-button svg {
+.components-gblocks-dimensions-control_sync.components-button svg {
 	width: 18px;
 	height: 18px;
 	fill: currentColor;
 }
 
-.components-fx-dimensions-control_sync.components-button:hover,
-.components-fx-dimensions-control_sync.components-button:focus {
+.components-gblocks-dimensions-control_sync.components-button:hover,
+.components-gblocks-dimensions-control_sync.components-button:focus {
 	box-shadow: none !important;
 }
 
-.components-fx-dimensions-control__header {
+.components-gblocks-dimensions-control__header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
     align-items: center;
 }
 
-.components-fx-dimensions-control__inputs + .components-fx-dimensions-control__header {
+.components-gblocks-dimensions-control__inputs + .components-gblocks-dimensions-control__header {
     margin-top: 25px;
 }

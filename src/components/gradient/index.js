@@ -53,7 +53,7 @@ class GradientControl extends Component {
 		return (
 			<Fragment>
 				<ToggleControl
-					label={ __( 'Use Gradient', 'flexblocks' ) }
+					label={ __( 'Use Gradient', 'generateblocks' ) }
 					checked={ !! valueGradient }
 					onChange={ ( value ) => {
 						setAttributes( {
@@ -66,7 +66,7 @@ class GradientControl extends Component {
 					<Fragment>
 						<TextControl
 							type={ 'text' }
-							label={ __( 'Direction', 'flexblocks' ) }
+							label={ __( 'Direction', 'generateblocks' ) }
 							value={ valueGradientDirection }
 							onChange={ ( value ) => {
 								setAttributes( {
@@ -75,8 +75,8 @@ class GradientControl extends Component {
 							} }
 						/>
 
-						<BaseControl label={ __( 'Color One', 'flexblocks' ) }>
-							<div className="fx-component-gradient-control">
+						<BaseControl label={ __( 'Color One', 'generateblocks' ) }>
+							<div className="gblocks-component-gradient-control">
 								<ColorPicker
 									value={ valueGradientColorOne }
 									onChange={ ( value ) =>
@@ -100,10 +100,10 @@ class GradientControl extends Component {
 								/>
 
 								<TextControl
-									className={ 'fx-component-gradient-stop-value' }
+									className={ 'gblocks-component-gradient-stop-value' }
 									type={ 'text' }
 									value={ valueGradientColorStopOne ? parseFloat( valueGradientColorStopOne ) : '' }
-									placeholder={ __( 'Stop position (%)', 'flexblocks' ) }
+									placeholder={ __( 'Stop position (%)', 'generateblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
 											[ this.props[ 'attrGradientColorStopOne' ] ]: parseFloat( value )
@@ -113,8 +113,8 @@ class GradientControl extends Component {
 							</div>
 						</BaseControl>
 
-						<BaseControl label={ __( 'Color Two', 'flexblocks' ) }>
-							<div className="fx-component-gradient-control">
+						<BaseControl label={ __( 'Color Two', 'generateblocks' ) }>
+							<div className="gblocks-component-gradient-control">
 								<ColorPicker
 									value={ valueGradientColorTwo }
 									onChange={ ( value ) =>
@@ -138,10 +138,10 @@ class GradientControl extends Component {
 								/>
 
 								<TextControl
-									className={ 'fx-component-gradient-stop-value' }
+									className={ 'gblocks-component-gradient-stop-value' }
 									type={ 'text' }
 									value={ valueGradientColorStopTwo ? parseFloat( valueGradientColorStopTwo ) : '' }
-									placeholder={ __( 'Stop position (%)', 'flexblocks' ) }
+									placeholder={ __( 'Stop position (%)', 'generateblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
 											[ this.props[ 'attrGradientColorStopTwo' ] ]: parseFloat( value )

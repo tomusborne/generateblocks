@@ -72,13 +72,13 @@ class IconPicker extends Component {
 					contentClassName="components-icon-picker-dropdown"
 					focusOnMount={ 'container' }
 					renderToggle={ ( { isOpen, onToggle } ) => (
-						<Tooltip text={ __( 'Choose Icon', 'flexblocks' ) }>
+						<Tooltip text={ __( 'Choose Icon', 'generateblocks' ) }>
 							<button
 								type="button"
 								aria-expanded={ isOpen }
 								className="components-icon-picker-item"
 								onClick={ onToggle }
-								aria-label={ __( 'Custom color picker', 'flexblocks' ) }
+								aria-label={ __( 'Custom color picker', 'generateblocks' ) }
 							>
 								<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( valueIcon ) } } />
 							</button>
@@ -86,9 +86,9 @@ class IconPicker extends Component {
 					) }
 					renderContent={ () => (
 						<div className="icon-chooser-container">
-							<BaseControl className="fx-svg-html">
+							<BaseControl className="gb-svg-html">
 								<TextControl
-									label={ __( 'Icon SVG HTML', 'flexblocks' ) }
+									label={ __( 'Icon SVG HTML', 'generateblocks' ) }
 									value={ valueIcon }
 									onChange={ ( value ) => {
 										setAttributes( {
@@ -98,8 +98,8 @@ class IconPicker extends Component {
 								/>
 							</BaseControl>
 
-							<BaseControl label={ __( 'General', 'flexblocks' ) }>
-								<ul className="fx-icon-chooser">
+							<BaseControl label={ __( 'General', 'generateblocks' ) }>
+								<ul className="gblocks-icon-chooser">
 								{
 									Object.keys( generalSvgs ).map( ( svg, i ) => {
 										return (
@@ -126,8 +126,8 @@ class IconPicker extends Component {
 								</ul>
 							</BaseControl>
 
-							<BaseControl label={ __( 'Social', 'flexblocks' ) }>
-								<ul className="fx-icon-chooser">
+							<BaseControl label={ __( 'Social', 'generateblocks' ) }>
+								<ul className="gblocks-icon-chooser">
 								{
 									Object.keys( socialSvgs ).map( ( svg, i ) => {
 										return (
@@ -168,14 +168,14 @@ class IconPicker extends Component {
 						} }
 					>
 						<span className="editor-block-types-list__item-icon">
-							{ __( 'Reset', 'flexblocks' ) }
+							{ __( 'Reset', 'generateblocks' ) }
 						</span>
 					</Button>
 				</BaseControl>
 
 				{ ( typeof valueIconLocation !== 'undefined' ) &&
 					<SelectControl
-						label={ __( 'Icon Location', 'flexblocks' ) }
+						label={ __( 'Icon Location', 'generateblocks' ) }
 						value={ valueIconLocation }
 						options={ locationOptions }
 						onChange={ ( value ) => {
@@ -188,7 +188,7 @@ class IconPicker extends Component {
 
 				{ ( typeof valueRemoveText !== 'undefined' ) &&
 					<ToggleControl
-						label={ __( 'Remove Text', 'flexblocks' ) }
+						label={ __( 'Remove Text', 'generateblocks' ) }
 						checked={ !! valueRemoveText }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -200,8 +200,8 @@ class IconPicker extends Component {
 
 				{ typeof valueAriaLabel !== 'undefined' && !! valueRemoveText &&
 					<TextControl
-						label={ __( 'ARIA Label', 'flexblocks' ) }
-						help={ __( 'Helpful to people using screen readers.', 'flexblocks' ) }
+						label={ __( 'ARIA Label', 'generateblocks' ) }
+						help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
 						value={ valueAriaLabel }
 						onChange={ ( value ) => {
 							setAttributes( {

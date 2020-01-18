@@ -68,7 +68,7 @@ class DimensionsControl extends Component {
 
 		const {
 			className,
-			label = __( 'Margin', 'flexblocks' ),
+			label = __( 'Margin', 'generateblocks' ),
 			left = true,
 			onChange,
 			reset = false,
@@ -88,10 +88,10 @@ class DimensionsControl extends Component {
 			attrBottom,
 			attrLeft,
 			attrSyncUnits,
-			labelTop = __( 'Top', 'flexblocks' ),
-			labelRight = __( 'Right', 'flexblocks' ),
-			labelBottom = __( 'Bottom', 'flexblocks' ),
-			labelLeft = __( 'Left', 'flexblocks' ),
+			labelTop = __( 'Top', 'generateblocks' ),
+			labelRight = __( 'Right', 'generateblocks' ),
+			labelBottom = __( 'Bottom', 'generateblocks' ),
+			labelLeft = __( 'Left', 'generateblocks' ),
 			valueUnit,
 			attrUnit,
 			unitChoices,
@@ -100,7 +100,7 @@ class DimensionsControl extends Component {
 
 		const classes = classnames(
 			'components-base-control',
-			'components-fx-dimensions-control',
+			'components-gblocks-dimensions-control',
 		);
 
 		const onChangeTopValue = ( event ) => {
@@ -165,15 +165,15 @@ class DimensionsControl extends Component {
 
 		let unitSizes = [
 			{
-				name: _x( 'Pixel', 'A size unit for CSS markup', 'flexblocks' ),
+				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: 'px',
 			},
 			{
-				name: _x( 'Em', 'A size unit for CSS markup', 'flexblocks' ),
+				name: _x( 'Em', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: 'em',
 			},
 			{
-				name: _x( 'Percentage', 'A size unit for CSS markup', 'flexblocks' ),
+				name: _x( 'Percentage', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: '%',
 			},
 		];
@@ -181,25 +181,25 @@ class DimensionsControl extends Component {
 		return (
 			<Fragment>
 				<div className={ classes }>
-					<div className="components-fx-dimensions-control__header">
-						<div className="components-fx-dimensions-control__label">
+					<div className="components-gblocks-dimensions-control__header">
+						<div className="components-gblocks-dimensions-control__label">
 							{ label }
 						</div>
 
 						{ ( typeof valueUnit !== 'undefined' ) ?
-							<div className="components-fx-control__units">
-								<ButtonGroup className="components-fx-dimensions-control__units" aria-label={ __( 'Select Units', 'flexblocks' ) }>
+							<div className="components-gblocks-control__units">
+								<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 									{ unitSizes.map( ( unit ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										<Tooltip text={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) } key={ unit.unitValue }>
+										<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 											<Button
 												key={ unit.unitValue }
-												className={ 'components-fx-dimensions-control__units--' + unit.name }
+												className={ 'components-gblocks-dimensions-control__units--' + unit.name }
 												isSmall
 												isPrimary={ valueUnit === unit.unitValue }
 												aria-pressed={ valueUnit === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ sprintf( __( '%s Units', 'flexblocks' ), unit.name ) }
+												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 												onClick={ () => this.onChangeUnits( unit.unitValue ) }
 											>
 												{ unit.unitValue }
@@ -211,7 +211,7 @@ class DimensionsControl extends Component {
 						}
 
 						{ ( typeof displayUnit !== 'undefined' ) &&
-							<div className="components-fx-control__units">
+							<div className="components-gblocks-control__units">
 								<Tooltip text={ __( 'Pixel Units' ) } key={ 'px-unit' }>
 									<Button
 										key={ 'px-unit' }
@@ -227,47 +227,47 @@ class DimensionsControl extends Component {
 						}
 					</div>
 
-					<div className="components-fx-dimensions-control__inputs">
+					<div className="components-gblocks-dimensions-control__inputs">
 						<input
-							className="components-fx-dimensions-control__number"
+							className="components-gblocks-dimensions-control__number"
 							type="number"
 							onChange={ onChangeTopValue }
-							aria-label={ sprintf( __( '%s Top', 'flexblocks' ), label ) }
+							aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
 							value={ valueTop ? valueTop : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
 						<input
-							className="components-fx-dimensions-control__number"
+							className="components-gblocks-dimensions-control__number"
 							type="number"
 							onChange={ onChangeRightValue }
-							aria-label={ sprintf( __( '%s Right', 'flexblocks' ), label ) }
+							aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
 							value={ valueRight ? valueRight : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
 						<input
-							className="components-fx-dimensions-control__number"
+							className="components-gblocks-dimensions-control__number"
 							type="number"
 							onChange={ onChangeBottomValue }
-							aria-label={ sprintf( __( '%s Bottom', 'flexblocks' ), label ) }
+							aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
 							value={ valueBottom ? valueBottom : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
 						<input
-							className="components-fx-dimensions-control__number"
+							className="components-gblocks-dimensions-control__number"
 							type="number"
 							onChange={ onChangeLeftValue }
-							aria-label={ sprintf( __( '%s Left', 'flexblocks' ), label ) }
+							aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }
 							value={ valueLeft ? valueLeft : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
-						<Tooltip text={ !! syncUnits ? __( 'Unsync', 'flexblocks' ) : __( 'Sync', 'flexblocks' ) } >
+						<Tooltip text={ !! syncUnits ? __( 'Unsync', 'generateblocks' ) : __( 'Sync', 'generateblocks' ) } >
 							<Button
-								className="components-fx-dimensions-control_sync"
-								aria-label={ __( 'Sync Units', 'flexblocks' ) }
+								className="components-gblocks-dimensions-control_sync"
+								aria-label={ __( 'Sync Units', 'generateblocks' ) }
 								isPrimary={ syncUnits ? syncUnits : false }
 								aria-pressed={ syncUnits ? syncUnits : false }
 								onClick={ ( value ) => this.syncUnits( value, '' ) }
@@ -278,12 +278,12 @@ class DimensionsControl extends Component {
 						</Tooltip>
 					</div>
 
-					<div className='components-fx-dimensions-control__input-labels'>
-						<span className='components-fx-dimensions-control__number-label'>{  labelTop }</span>
-						<span className='components-fx-dimensions-control__number-label'>{  labelRight }</span>
-						<span className='components-fx-dimensions-control__number-label'>{  labelBottom }</span>
-						<span className='components-fx-dimensions-control__number-label'>{  labelLeft }</span>
-						<span className='components-fx-dimensions-control__number-label'></span>
+					<div className='components-gblocks-dimensions-control__input-labels'>
+						<span className='components-gblocks-dimensions-control__number-label'>{  labelTop }</span>
+						<span className='components-gblocks-dimensions-control__number-label'>{  labelRight }</span>
+						<span className='components-gblocks-dimensions-control__number-label'>{  labelBottom }</span>
+						<span className='components-gblocks-dimensions-control__number-label'>{  labelLeft }</span>
+						<span className='components-gblocks-dimensions-control__number-label'></span>
 					</div>
 				</div>
 			</Fragment>

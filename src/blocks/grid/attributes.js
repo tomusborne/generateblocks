@@ -13,54 +13,54 @@ export default {
 	},
 	columns: {
         type: 'number',
-        default: flexBlocksDefaults.gridContainer.columns,
+        default: generateBlocksDefaults.gridContainer.columns,
     },
 	horizontalGap: {
         type: 'number',
-        default: flexBlocksDefaults.gridContainer.horizontalGap,
+        default: generateBlocksDefaults.gridContainer.horizontalGap,
     },
 	verticalGap: {
         type: 'number',
-        default: flexBlocksDefaults.gridContainer.verticalGap,
+        default: generateBlocksDefaults.gridContainer.verticalGap,
     },
 	verticalAlignment: {
         type: 'string',
-        default: flexBlocksDefaults.gridContainer.verticalAlignment,
+        default: generateBlocksDefaults.gridContainer.verticalAlignment,
     },
 	horizontalGapTablet: {
         type: 'number',
-        default: flexBlocksDefaults.gridContainer.horizontalGapTablet,
+        default: generateBlocksDefaults.gridContainer.horizontalGapTablet,
     },
 	verticalGapTablet: {
         type: 'number',
-        default: flexBlocksDefaults.gridContainer.verticalGapTablet,
+        default: generateBlocksDefaults.gridContainer.verticalGapTablet,
     },
 	verticalAlignmentTablet: {
         type: 'string',
-        default: flexBlocksDefaults.gridContainer.verticalAlignmentTablet,
+        default: generateBlocksDefaults.gridContainer.verticalAlignmentTablet,
     },
 	horizontalGapMobile: {
         type: 'number',
-        default: flexBlocksDefaults.gridContainer.horizontalGapMobile,
+        default: generateBlocksDefaults.gridContainer.horizontalGapMobile,
     },
 	verticalGapMobile: {
         type: 'number',
-        default: flexBlocksDefaults.gridContainer.verticalGapMobile,
+        default: generateBlocksDefaults.gridContainer.verticalGapMobile,
     },
 	verticalAlignmentMobile: {
         type: 'string',
-        default: flexBlocksDefaults.gridContainer.verticalAlignmentMobile,
+        default: generateBlocksDefaults.gridContainer.verticalAlignmentMobile,
     },
 	horizontalAlignment: {
         type: 'string',
-        default: flexBlocksDefaults.gridContainer.horizontalAlignment,
+        default: generateBlocksDefaults.gridContainer.horizontalAlignment,
     },
 	horizontalAlignmentTablet: {
         type: 'string',
-        default: flexBlocksDefaults.gridContainer.horizontalAlignmentTablet,
+        default: generateBlocksDefaults.gridContainer.horizontalAlignmentTablet,
     },
 	horizontalAlignmentMobile: {
         type: 'string',
-        default: flexBlocksDefaults.gridContainer.horizontalAlignmentMobile,
+        default: generateBlocksDefaults.gridContainer.horizontalAlignmentMobile,
     },
 }

@@ -1,19 +1,19 @@
-.edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.fx-font-family-shortcuts {
+.edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.gblocks-font-family-shortcuts {
     margin-bottom: 2px;
 }
 
-.components-fx-typography-control__header {
+.components-gblocks-typography-control__header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
     align-items: center;
 }
 
-.components-fx-typography-control__inputs + .components-fx-typography-control__header {
+.components-gblocks-typography-control__inputs + .components-gblocks-typography-control__header {
     margin-top: 25px;
 }
 
-.components-fx-typography-control__inputs {
+.components-gblocks-typography-control__inputs {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -23,28 +23,28 @@
 	}
 }
 
-.edit-post-settings-sidebar__panel-block .components-panel__body .components-fx-typography-control__inputs .components-base-control,
-.components-fx-typography-control__inputs .components-base-control .components-base-control__field {
+.edit-post-settings-sidebar__panel-block .components-panel__body .components-gblocks-typography-control__inputs .components-base-control,
+.components-gblocks-typography-control__inputs .components-base-control .components-base-control__field {
     margin-bottom: 0;
 }
 
-.components-fx-typography-weight-transform {
+.components-gblocks-typography-weight-transform {
     display: flex;
     justify-content: space-between;
 }
 
-.components-fx-typography-weight-transform > div {
+.components-gblocks-typography-weight-transform > div {
     width: 48%;
 }
 
-.components-fx-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
+.components-gblocks-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
     border-radius: 3px;
 }
 
-.components-fx-typography-control__inputs button {
+.components-gblocks-typography-control__inputs button {
     margin-left: 10px;
 }
 
-.components-fx-typography-control__inputs .components-base-control {
+.components-gblocks-typography-control__inputs .components-base-control {
     flex-grow: 1;
 }

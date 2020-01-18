@@ -1,5 +1,5 @@
 /**
- * FlexBlocks
+ * GenerateBlocks
  */
 
 import './blocks/grid/block.js';

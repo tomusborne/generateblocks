@@ -13,90 +13,90 @@ export default {
 	},
 	alignment: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.alignment
+		default: generateBlocksDefaults.buttonContainer.alignment
 	},
 	alignmentTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.alignment
+		default: generateBlocksDefaults.buttonContainer.alignment
 	},
 	alignmentMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.alignment
+		default: generateBlocksDefaults.buttonContainer.alignment
 	},
 	marginTop: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginTop
+		default: generateBlocksDefaults.buttonContainer.marginTop
 	},
 	marginRight: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginRight
+		default: generateBlocksDefaults.buttonContainer.marginRight
 	},
 	marginBottom: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginBottom
+		default: generateBlocksDefaults.buttonContainer.marginBottom
 	},
 	marginLeft: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginLeft
+		default: generateBlocksDefaults.buttonContainer.marginLeft
 	},
 	marginUnit: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginUnit
+		default: generateBlocksDefaults.buttonContainer.marginUnit
 	},
 	marginTopTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginTopTablet
+		default: generateBlocksDefaults.buttonContainer.marginTopTablet
 	},
 	marginRightTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginRightTablet
+		default: generateBlocksDefaults.buttonContainer.marginRightTablet
 	},
 	marginBottomTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginBottomTablet
+		default: generateBlocksDefaults.buttonContainer.marginBottomTablet
 	},
 	marginLeftTablet: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginLeftTablet
+		default: generateBlocksDefaults.buttonContainer.marginLeftTablet
 	},
 	marginTopMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginTopMobile
+		default: generateBlocksDefaults.buttonContainer.marginTopMobile
 	},
 	marginRightMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginRightMobile
+		default: generateBlocksDefaults.buttonContainer.marginRightMobile
 	},
 	marginBottomMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginBottomMobile
+		default: generateBlocksDefaults.buttonContainer.marginBottomMobile
 	},
 	marginLeftMobile: {
 		type: 'string',
-		default: flexBlocksDefaults.buttonContainer.marginLeftMobile
+		default: generateBlocksDefaults.buttonContainer.marginLeftMobile
 	},
 	stack: {
 		type: 'boolean',
-		default: flexBlocksDefaults.buttonContainer.stack,
+		default: generateBlocksDefaults.buttonContainer.stack,
 	},
 	stackTablet: {
 		type: 'boolean',
-		default: flexBlocksDefaults.buttonContainer.stackTablet,
+		default: generateBlocksDefaults.buttonContainer.stackTablet,
 	},
 	stackMobile: {
 		type: 'boolean',
-		default: flexBlocksDefaults.buttonContainer.stackMobile,
+		default: generateBlocksDefaults.buttonContainer.stackMobile,
 	},
 	fillHorizontalSpace: {
 		type: 'boolean',
-		default: flexBlocksDefaults.buttonContainer.fillHorizontalSpace,
+		default: generateBlocksDefaults.buttonContainer.fillHorizontalSpace,
 	},
 	fillHorizontalSpaceTablet: {
 		type: 'boolean',
-		default: flexBlocksDefaults.buttonContainer.fillHorizontalSpaceTablet,
+		default: generateBlocksDefaults.buttonContainer.fillHorizontalSpaceTablet,
 	},
 	fillHorizontalSpaceMobile: {
 		type: 'boolean',
-		default: flexBlocksDefaults.buttonContainer.fillHorizontalSpaceMobile,
+		default: generateBlocksDefaults.buttonContainer.fillHorizontalSpaceMobile,
 	},
 }
