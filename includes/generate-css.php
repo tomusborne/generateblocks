@@ -22,6 +22,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		return;
 	}
 
+	$blocks_exist = false;
 	$main_css_data = array();
 	$tablet_css_data = array();
 	$mobile_css_data = array();
@@ -70,6 +71,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			if ( empty( $data ) ) {
 				continue;
 			}
+
+			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS;
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
@@ -198,6 +201,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			if ( empty( $data ) ) {
 				continue;
 			}
+
+			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS;
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
@@ -410,6 +415,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				continue;
 			}
 
+			$blocks_exist = true;
+
 			$css = new GenerateBlocks_Dynamic_CSS;
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
@@ -508,6 +515,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			if ( empty( $data ) ) {
 				continue;
 			}
+
+			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS;
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
@@ -646,6 +655,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			if ( empty( $data ) ) {
 				continue;
 			}
+
+			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS;
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
@@ -816,6 +827,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		}
 	}
 
+	if ( ! $blocks_exist ) {
+		return false;
+	}
+
 	return array(
 		'main' => $main_css_data,
 		'tablet' => $tablet_css_data,
@@ -823,7 +838,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 	);
 }
 
-add_action( 'wp_head', 'generateblocks_do_frontend_block_css', 200 );
+add_action( 'wp', 'generateblocks_do_frontend_block_css' );
 /**
  * Print our CSS for each block.
  *
@@ -858,25 +873,31 @@ function generateblocks_do_frontend_block_css() {
 
 	$data = generateblocks_get_dynamic_css( $content );
 
-	echo '<style>';
-		echo implode( '', $data['main'] );
+	if ( ! $data ) {
+		return;
+	}
 
-		if ( ! empty( $data['tablet'] ) ) {
-			printf(
-				'@media %1$s {%2$s}',
-				generateblocks_get_media_query( 'tablet' ),
-				implode( '', $data['tablet'] )
-			);
-		}
+	$css = '';
 
-		array_unshift( $data['mobile'], '.gb-grid-wrapper > .gb-grid-column {width: 100%;}' );
+	$css .= implode( '', $data['main'] );
 
-		if ( ! empty( $data['mobile'] ) ) {
-			printf(
-				'@media %1$s {%2$s}',
-				generateblocks_get_media_query( 'mobile' ),
-				implode( '', $data['mobile'] )
-			);
-		}
-	echo '</style>';
+	if ( ! empty( $data['tablet'] ) ) {
+		$css .= sprintf(
+			'@media %1$s {%2$s}',
+			generateblocks_get_media_query( 'tablet' ),
+			implode( '', $data['tablet'] )
+		);
+	}
+
+	array_unshift( $data['mobile'], '.gb-grid-wrapper > .gb-grid-column {width: 100%;}' );
+
+	if ( ! empty( $data['mobile'] ) ) {
+		$css .= sprintf(
+			'@media %1$s {%2$s}',
+			generateblocks_get_media_query( 'mobile' ),
+			implode( '', $data['mobile'] )
+		);
+	}
+
+	new GenerateBlocks_Enqueue_CSS( $css );
 }
