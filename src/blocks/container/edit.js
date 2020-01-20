@@ -399,10 +399,10 @@ class GenerateBlockContainer extends Component {
 
 								<TextControl
 									type={ 'number' }
-									value={ parseFloat( containerWidth ) }
+									value={ parseFloat( containerWidth ) || '' }
 									onChange={ ( value ) => {
 										setAttributes( {
-											containerWidth: parseFloat( value )
+											containerWidth: '' !== value ? value : undefined
 										} );
 									} }
 								/>
