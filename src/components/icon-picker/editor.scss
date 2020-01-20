@@ -76,6 +76,11 @@ button.components-icon-picker-item {
     cursor: pointer;
     border: 1px solid #ddd;
 	margin-bottom: 10px;
+
+	svg {
+		height: 1em;
+		width: 1em;
+	}
 }
 
 .components-icon-picker-item > span {
