@@ -85,6 +85,7 @@ class GenerateBlockHeadline extends Component {
 			textColor,
 			linkColor,
 			linkColorHover,
+			showAdvancedTypography,
 			fontFamily,
 			fontFamilyFallback,
 			googleFont,
@@ -346,6 +347,7 @@ class GenerateBlockHeadline extends Component {
 														valueLineHeight={ lineHeight }
 														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacing }
+														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontFamily={ 'fontFamily' }
 														attrFontFamilyFallback={ 'fontFamilyFallback' }
 														attrGoogleFont={ 'googleFont' }
@@ -356,6 +358,7 @@ class GenerateBlockHeadline extends Component {
 														attrLineHeight={ 'lineHeight' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.headline.fontSize }
 														defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
 														defaultLineHeight={ generateBlocksDefaults.headline.lineHeight }
@@ -382,11 +385,13 @@ class GenerateBlockHeadline extends Component {
 														valueLineHeight={ lineHeightTablet }
 														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacingTablet }
+														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontSize={ 'fontSizeTablet' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLineHeight={ 'lineHeightTablet' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet }
 														defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
 														defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet }
@@ -413,11 +418,13 @@ class GenerateBlockHeadline extends Component {
 														valueLineHeight={ lineHeightMobile }
 														valueLineHeightUnit={ lineHeightUnit }
 														valueLetterSpacing={ letterSpacingMobile }
+														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontSize={ 'fontSizeMobile' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLineHeight={ 'lineHeightMobile' }
 														attrLineHeightUnit={ 'lineHeightUnit' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile }
 														defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
 														defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile }

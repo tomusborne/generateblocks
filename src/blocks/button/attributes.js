@@ -95,6 +95,10 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.button.borderColorHoverOpacity,
 	},
+	showAdvancedTypography: {
+		type: 'boolean',
+		default: generateBlocksDefaults.button.showAdvancedTypography,
+	},
 	fontFamily: {
 		type: 'string',
 		default: generateBlocksDefaults.button.fontFamily,

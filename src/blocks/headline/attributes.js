@@ -52,6 +52,10 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.headline.linkColorHover,
 	},
+	showAdvancedTypography: {
+		type: 'boolean',
+		default: generateBlocksDefaults.headline.showAdvancedTypography,
+	},
 	fontFamily: {
 		type: 'string',
 		default: generateBlocksDefaults.headline.fontFamily,

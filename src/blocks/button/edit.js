@@ -89,6 +89,7 @@ class GenerateBlockButton extends Component {
 			backgroundColorHover,
 			backgroundColorHoverOpacity,
 			textColorHover,
+			showAdvancedTypography,
 			fontFamily,
 			fontFamilyFallback,
 			fontWeight,
@@ -303,6 +304,7 @@ class GenerateBlockButton extends Component {
 														valueFontSize={ fontSize }
 														valueFontSizeUnit={ fontSizeUnit }
 														valueLetterSpacing={ letterSpacing }
+														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontFamily={ 'fontFamily' }
 														attrFontFamilyFallback={ 'fontFamilyFallback' }
 														attrGoogleFont={ 'googleFont' }
@@ -311,6 +313,7 @@ class GenerateBlockButton extends Component {
 														attrFontSize={ 'fontSize' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacing' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.button.fontSize }
 														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
@@ -325,9 +328,11 @@ class GenerateBlockButton extends Component {
 														valueFontSize={ fontSizeTablet }
 														valueFontSizeUnit={ fontSizeUnit }
 														valueLetterSpacing={ letterSpacingTablet }
+														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontSize={ 'fontSizeTablet' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
 														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
@@ -342,9 +347,11 @@ class GenerateBlockButton extends Component {
 														valueFontSize={ fontSizeMobile }
 														valueFontSizeUnit={ fontSizeUnit }
 														valueLetterSpacing={ letterSpacingMobile }
+														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontSize={ 'fontSizeMobile' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
 														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
