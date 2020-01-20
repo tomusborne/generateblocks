@@ -23,8 +23,9 @@ define( 'GENERATEBLOCKS_MODULE_DIR_URL', plugin_dir_url( __FILE__ ) );
 require_once plugin_dir_path( __FILE__ ) . 'includes/functions.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/general.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/defaults.php';
-require_once plugin_dir_path( __FILE__ ) . 'includes/css-output.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/generate-css.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/class-do-css.php';
+require_once plugin_dir_path( __FILE__ ) . 'includes/class-enqueue-css.php';
 require_once plugin_dir_path( __FILE__ ) . 'includes/dashboard.php';
 /**
  * Adds a redirect option during plugin activation on non-multisite installs.
