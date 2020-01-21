@@ -47,6 +47,38 @@
     cursor: default;
     z-index: 1; }
 
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 .gb-grid-wrapper {
   position: relative;
   display: block;
@@ -261,6 +293,38 @@
     cursor: default;
     z-index: 1; }
 
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 /**
  * #.# Editor Styles
  *
@@ -291,36 +355,6 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 
 .additional-class-notice .components-notice {
   margin: 0 0 10px; }
-
-.gblocks-control-tabs .components-tab-panel__tabs {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #e8eaeb; }
-
-.gblocks-control-tabs .components-tab-panel__tabs button {
-  padding: 9px 11px;
-  padding-bottom: 11px;
-  margin: 0;
-  margin-bottom: -1px;
-  color: #555d66;
-  cursor: pointer;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  outline-offset: -1px;
-  -ms-flex: 1;
-      flex: 1;
-  -ms-flex-pack: center;
-      justify-content: center; }
-
-.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
-  position: relative;
-  border-bottom: 2px solid #00a0d2;
-  z-index: 1; }
 
 .widthButtons button {
   font-size: 12px;
@@ -417,6 +451,38 @@ body .gb-container .wp-block {
     cursor: default;
     z-index: 1; }
 
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 .gblocks-component-color-picker-wrapper .gblocks-component-color-picker-wrapper + .gblocks-component-color-picker-wrapper {
   margin-top: -5px; }
 
@@ -504,6 +570,38 @@ body .gb-container .wp-block {
     color: #fff;
     cursor: default;
     z-index: 1; }
+
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
 
 .components-gblocks-dimensions-control__inputs,
 .components-gblocks-dimensions-control__input-labels {
@@ -617,6 +715,38 @@ body .gb-container .wp-block {
     cursor: default;
     z-index: 1; }
 
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 .gblocks-component-gradient-control {
   display: -ms-flexbox;
   display: flex;
@@ -683,6 +813,38 @@ body .gb-container .wp-block {
     color: #fff;
     cursor: default;
     z-index: 1; }
+
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
 
 .gb-button-wrapper {
   display: -ms-flexbox;
@@ -754,6 +916,38 @@ body .gb-container .wp-block {
     cursor: default;
     z-index: 1; }
 
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 /**
  * Editor Styles
  */
@@ -805,6 +999,38 @@ body .gb-container .wp-block {
     color: #fff;
     cursor: default;
     z-index: 1; }
+
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
 
 .gb-button-wrapper {
   position: relative;
@@ -960,6 +1186,38 @@ body .gb-container .wp-block {
     cursor: default;
     z-index: 1; }
 
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 .gblocks-icon-chooser {
   display: -ms-flexbox;
   display: flex;
@@ -1091,6 +1349,38 @@ button.components-icon-picker-item {
     cursor: default;
     z-index: 1; }
 
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 /**
  * #.# Common SCSS
  *
@@ -1139,6 +1429,38 @@ button.components-icon-picker-item {
     color: #fff;
     cursor: default;
     z-index: 1; }
+
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
 
 .gblocks-component-url-input {
   width: 100%;
@@ -1255,6 +1577,38 @@ button.components-icon-picker-item {
     cursor: default;
     z-index: 1; }
 
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 .edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.gblocks-font-family-shortcuts {
   margin-bottom: 2px; }
 
@@ -1350,6 +1704,38 @@ button.components-icon-picker-item {
     color: #fff;
     cursor: default;
     z-index: 1; }
+
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
 
 .gb-headline-wrapper {
   display: -ms-flexbox;
