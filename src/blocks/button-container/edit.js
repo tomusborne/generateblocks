@@ -44,6 +44,24 @@ const {
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbButtonContainerIds = [];
 
+const ALIGNMENT_CONTROLS = [
+	{
+		icon: 'editor-alignleft',
+		title: __( 'Align Buttons Left', 'generateblocks' ),
+		align: 'left',
+	},
+	{
+		icon: 'editor-aligncenter',
+		title: __( 'Align Buttons Center', 'generateblocks' ),
+		align: 'center',
+	},
+	{
+		icon: 'editor-alignright',
+		title: __( 'Align Buttons Right', 'generateblocks' ),
+		align: 'right',
+	},
+];
+
 class GenerateButtonContainer extends Component {
 	constructor() {
 		super( ...arguments );
@@ -176,6 +194,7 @@ class GenerateButtonContainer extends Component {
 					<AlignmentToolbar
 						isCollapsed={ false }
 						value={ alignment }
+						alignmentControls={ ALIGNMENT_CONTROLS }
 						onChange={ ( nextAlign ) => {
 							setAttributes( { alignment: nextAlign } );
 						} }
