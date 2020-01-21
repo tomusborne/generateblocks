@@ -65,12 +65,15 @@ class GenerateBlocks_Enqueue_CSS {
 			'action' => apply_filters( 'generateblocks_styles_action_handle', 'generateblocks-css' ),
 		);
 
+		// Set updated time.
+		$time = strtotime( get_the_modified_date( 'F j, Y g:i a' ) );
+
 		// Enqueue the dynamic stylesheet.
 		wp_enqueue_style(
 			'generateblocks',
 			add_query_arg( $args, esc_url( get_permalink() ) ),
 			array(),
-			null
+			$time
 		);
 	}
 
