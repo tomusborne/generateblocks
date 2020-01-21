@@ -109,7 +109,8 @@ class GenerateButtonContainer extends Component {
 
 		let flexAlignment = '',
 			stacked = '',
-			fillHorizontal = '';
+			fillHorizontal = '',
+			stackAndFill = '';
 
 		if ( 'right' === alignment ) {
 			flexAlignment = 'flex-end';
@@ -148,6 +149,15 @@ class GenerateButtonContainer extends Component {
 			`
 		}
 
+		if ( stack && fillHorizontalSpace ) {
+			stackAndFill = `
+				.gb-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
+					width: 100% !important;
+					box-sizing: border-box;
+				}
+			`
+		}
+
 		const css = `
 			.gb-button-wrapper-` + uniqueId + ` {
 			  margin-top: ` + marginTop + marginUnit + `;
@@ -157,7 +167,7 @@ class GenerateButtonContainer extends Component {
 			  justify-content: ` + flexAlignment + `;
 			}
 
-			` + stacked + fillHorizontal + `
+			` + stacked + fillHorizontal + stackAndFill + `
 		`
 
 		return (

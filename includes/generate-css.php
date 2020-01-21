@@ -458,6 +458,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'flex', '1' );
 				}
 
+				if ( $settings['stack'] && $settings['fillHorizontalSpace'] ) {
+					$css->add_property( 'width', '100%' );
+					$css->add_property( 'box-sizing', 'border-box' );
+				}
+
 				$tablet_css->set_selector( '.gb-button-wrapper-' . $id );
 				$tablet_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 				$tablet_css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
@@ -474,6 +479,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$tablet_css->add_property( 'flex', '1' );
 				}
 
+				if ( $settings['stackTablet'] && $settings['fillHorizontalSpaceTablet'] ) {
+					$tablet_css->add_property( 'width', '100%' );
+					$tablet_css->add_property( 'box-sizing', 'border-box' );
+				}
+
 				$mobile_css->set_selector( '.gb-button-wrapper-' . $id );
 				$mobile_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$mobile_css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
@@ -488,6 +498,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$mobile_css->add_property( '-webkit-box-flex', '1' );
 					$mobile_css->add_property( '-ms-flex', '1' );
 					$mobile_css->add_property( 'flex', '1' );
+				}
+
+				if ( $settings['stackMobile'] && $settings['fillHorizontalSpaceMobile'] ) {
+					$mobile_css->add_property( 'width', '100%' );
+					$mobile_css->add_property( 'box-sizing', 'border-box' );
 				}
 			}
 
