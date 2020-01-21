@@ -34,35 +34,6 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	margin: 0 0 10px;
 }
 
-.gblocks-control-tabs .components-tab-panel__tabs {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #e8eaeb;
-}
-
-.gblocks-control-tabs .components-tab-panel__tabs button {
-    padding: 9px 11px;
-    padding-bottom: 11px;
-    margin: 0;
-    margin-bottom: -1px;
-    color: #555d66;
-    cursor: pointer;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    border-radius: 0;
-    outline-offset: -1px;
-	flex: 1;
-	justify-content: center;
-}
-
-.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
-    position: relative;
-    border-bottom: 2px solid #00a0d2;
-    z-index: 1;
-}
-
 .widthButtons button {
     font-size: 12px;
     flex: 1;
