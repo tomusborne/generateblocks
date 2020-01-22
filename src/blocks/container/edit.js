@@ -260,6 +260,12 @@ class GenerateBlockContainer extends Component {
 			removeVerticalGapStyle = 'margin-bottom: 0 !important';
 		}
 
+		var zIndexStyle = '';
+
+		if ( zindex ) {
+			zIndexStyle = 'z-index:' + zindex + ';position:relative;';
+		}
+
 		const css = `
 			.gb-container-` + uniqueId + ` {
 				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
@@ -285,7 +291,7 @@ class GenerateBlockContainer extends Component {
 				margin-right: ` + marginRight + marginUnit + `;
 				margin-bottom: ` + marginBottom + marginUnit + `;
 				margin-left: ` + marginLeft + marginUnit + `;
-				z-index: ` + zindex + `;
+				` + zIndexStyle + `;
 			}
 
 			.gb-container-` + uniqueId + ` a, .gb-container-` + uniqueId + ` a:visited {

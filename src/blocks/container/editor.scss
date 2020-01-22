@@ -86,3 +86,8 @@ body .gb-container .wp-block {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+.is-selected .gb-container,
+.has-child-selected .gb-container {
+	z-index: unset !important;
+}
