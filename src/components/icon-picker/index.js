@@ -78,7 +78,7 @@ class IconPicker extends Component {
 								aria-expanded={ isOpen }
 								className="components-icon-picker-item"
 								onClick={ onToggle }
-								aria-label={ __( 'Custom color picker', 'generateblocks' ) }
+								aria-label={ __( 'Icon picker', 'generateblocks' ) }
 							>
 								<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( valueIcon ) } } />
 							</button>
@@ -168,7 +168,7 @@ class IconPicker extends Component {
 						} }
 					>
 						<span className="editor-block-types-list__item-icon">
-							{ __( 'Reset', 'generateblocks' ) }
+							{ __( 'Clear', 'generateblocks' ) }
 						</span>
 					</Button>
 				</BaseControl>
