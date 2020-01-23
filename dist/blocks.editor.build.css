@@ -360,7 +360,9 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
   font-size: 12px;
   -ms-flex: 1;
       flex: 1;
-  border: 1px solid; }
+  border: 1px solid;
+  -ms-flex-pack: center;
+      justify-content: center; }
 
 .widthButtons {
   margin-bottom: 10px;
@@ -1469,7 +1471,8 @@ button.components-icon-picker-item {
   font-size: 13px;
   line-height: 1.4;
   background: #fff;
-  border: 1px solid #e2e4e7; }
+  border: 1px solid #e2e4e7;
+  color: #000; }
   .gblocks-component-url-input .gblocks-component-url-input-flex {
     display: -ms-flexbox;
     display: flex;
