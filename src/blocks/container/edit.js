@@ -443,12 +443,33 @@ class GenerateBlockContainer extends Component {
 											<div>
 												{ 'default' === tab.name && (
 													<Fragment>
+														<div className="components-gblocks-control__header">
+															<div className="components-gblocks-control__label">
+																{ __( 'Container Width', 'generateblocks' ) }
+															</div>
+
+															<div className="components-gblocks-control__units">
+																<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+																	<Button
+																		key={ 'percentage-unit' }
+																		isSmall
+																		isPrimary={ true }
+																		/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																		aria-label={ __( 'Percentage Units' ) }
+																	>
+																		%
+																	</Button>
+																</Tooltip>
+															</div>
+														</div>
+
 														<ButtonGroup className={ 'widthButtons' }>
-															<Button isLarge isPrimary={ width === 25 } onClick={ () => { setAttributes( { width: 25 } ); } }>25%</Button>
-															<Button isLarge isPrimary={ width === 33.33 } onClick={ () => { setAttributes( { width: 33.33 } ); } }>33%</Button>
-															<Button isLarge isPrimary={ width === 50 } onClick={ () => { setAttributes( { width: 50 } ); } }>50%</Button>
-															<Button isLarge isPrimary={ width === 66.66 } onClick={ () => { setAttributes( { width: 66.66 } ); } }>66%</Button>
-															<Button isLarge isPrimary={ width === 75 } onClick={ () => { setAttributes( { width: 75 } ); } }>75%</Button>
+															<Button isLarge isPrimary={ width === 25 } onClick={ () => { setAttributes( { width: 25 } ); } }>25</Button>
+															<Button isLarge isPrimary={ width === 33.33 } onClick={ () => { setAttributes( { width: 33.33 } ); } }>33</Button>
+															<Button isLarge isPrimary={ width === 50 } onClick={ () => { setAttributes( { width: 50 } ); } }>50</Button>
+															<Button isLarge isPrimary={ width === 66.66 } onClick={ () => { setAttributes( { width: 66.66 } ); } }>66</Button>
+															<Button isLarge isPrimary={ width === 75 } onClick={ () => { setAttributes( { width: 75 } ); } }>75</Button>
+															<Button isLarge isPrimary={ width === 100 } onClick={ () => { setAttributes( { width: 100 } ); } }>100</Button>
 														</ButtonGroup>
 
 														<RangeControl
@@ -495,12 +516,33 @@ class GenerateBlockContainer extends Component {
 
 												{ 'tablet' === tab.name && (
 													<Fragment>
+														<div className="components-gblocks-control__header">
+															<div className="components-gblocks-control__label">
+																{ __( 'Container Width', 'generateblocks' ) }
+															</div>
+
+															<div className="components-gblocks-control__units">
+																<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+																	<Button
+																		key={ 'percentage-unit' }
+																		isSmall
+																		isPrimary={ true }
+																		/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																		aria-label={ __( 'Percentage Units' ) }
+																	>
+																		%
+																	</Button>
+																</Tooltip>
+															</div>
+														</div>
+
 														<ButtonGroup className={ 'widthButtons' }>
-															<Button isLarge isPrimary={ widthTablet === 25 } onClick={ () => { setAttributes( { widthTablet: 25 } ); } }>25%</Button>
-															<Button isLarge isPrimary={ widthTablet === 33.33 } onClick={ () => { setAttributes( { widthTablet: 33.33 } ); } }>33%</Button>
-															<Button isLarge isPrimary={ widthTablet === 50 } onClick={ () => { setAttributes( { widthTablet: 50 } ); } }>50%</Button>
-															<Button isLarge isPrimary={ widthTablet === 66.66 } onClick={ () => { setAttributes( { widthTablet: 66.66 } ); } }>66%</Button>
-															<Button isLarge isPrimary={ widthTablet === 100 } onClick={ () => { setAttributes( { widthTablet: 100 } ); } }>100%</Button>
+															<Button isLarge isPrimary={ widthTablet === 25 } onClick={ () => { setAttributes( { widthTablet: 25 } ); } }>25</Button>
+															<Button isLarge isPrimary={ widthTablet === 33.33 } onClick={ () => { setAttributes( { widthTablet: 33.33 } ); } }>33</Button>
+															<Button isLarge isPrimary={ widthTablet === 50 } onClick={ () => { setAttributes( { widthTablet: 50 } ); } }>50</Button>
+															<Button isLarge isPrimary={ widthTablet === 66.66 } onClick={ () => { setAttributes( { widthTablet: 66.66 } ); } }>66</Button>
+															<Button isLarge isPrimary={ widthTablet === 75 } onClick={ () => { setAttributes( { widthTablet: 75 } ); } }>75</Button>
+															<Button isLarge isPrimary={ widthTablet === 100 } onClick={ () => { setAttributes( { widthTablet: 100 } ); } }>100</Button>
 														</ButtonGroup>
 
 														<RangeControl
@@ -559,12 +601,33 @@ class GenerateBlockContainer extends Component {
 
 												{ 'mobile' === tab.name && (
 													<Fragment>
+														<div className="components-gblocks-control__header">
+															<div className="components-gblocks-control__label">
+																{ __( 'Container Width', 'generateblocks' ) }
+															</div>
+
+															<div className="components-gblocks-control__units">
+																<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+																	<Button
+																		key={ 'percentage-unit' }
+																		isSmall
+																		isPrimary={ true }
+																		/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																		aria-label={ __( 'Percentage Units' ) }
+																	>
+																		%
+																	</Button>
+																</Tooltip>
+															</div>
+														</div>
+
 														<ButtonGroup className={ 'widthButtons' }>
-															<Button isLarge isPrimary={ widthMobile === 25 } onClick={ () => { setAttributes( { widthMobile: 25 } ); } }>25%</Button>
-															<Button isLarge isPrimary={ widthMobile === 33.33 } onClick={ () => { setAttributes( { widthMobile: 33.33 } ); } }>33%</Button>
-															<Button isLarge isPrimary={ widthMobile === 50 } onClick={ () => { setAttributes( { widthMobile: 50 } ); } }>50%</Button>
-															<Button isLarge isPrimary={ widthMobile === 66.66 } onClick={ () => { setAttributes( { widthMobile: 66.66 } ); } }>66%</Button>
-															<Button isLarge isPrimary={ widthMobile === 100 } onClick={ () => { setAttributes( { widthMobile: 100 } ); } }>100%</Button>
+															<Button isLarge isPrimary={ widthMobile === 25 } onClick={ () => { setAttributes( { widthMobile: 25 } ); } }>25</Button>
+															<Button isLarge isPrimary={ widthMobile === 33.33 } onClick={ () => { setAttributes( { widthMobile: 33.33 } ); } }>33</Button>
+															<Button isLarge isPrimary={ widthMobile === 50 } onClick={ () => { setAttributes( { widthMobile: 50 } ); } }>50</Button>
+															<Button isLarge isPrimary={ widthMobile === 66.66 } onClick={ () => { setAttributes( { widthMobile: 66.66 } ); } }>66</Button>
+															<Button isLarge isPrimary={ widthMobile === 75 } onClick={ () => { setAttributes( { widthMobile: 75 } ); } }>75</Button>
+															<Button isLarge isPrimary={ widthMobile === 100 } onClick={ () => { setAttributes( { widthMobile: 100 } ); } }>100</Button>
 														</ButtonGroup>
 
 														<RangeControl
