@@ -235,17 +235,22 @@ class GenerateBlockContainer extends Component {
 
 		var outerContainerWidth = '';
 		var innerContainerWidth = '';
+		var containerWidthPreview = containerWidth;
+
+		if ( ! containerWidthPreview ) {
+			containerWidthPreview = generateBlocksDefaults.container.containerWidth;
+		}
 
 		if ( 'full' === outerContainer || isGrid ) {
 			outerContainerWidth = 'none';
 		} else {
-			outerContainerWidth = containerWidth + 'px';
+			outerContainerWidth = containerWidthPreview + 'px';
 		}
 
 		if ( 'full' === innerContainer || isGrid ) {
 			innerContainerWidth = 'none';
 		} else {
-			innerContainerWidth = 'max-width:' + containerWidth + 'px;margin-left: auto;margin-right:auto;';
+			innerContainerWidth = 'max-width:' + containerWidthPreview + 'px;margin-left: auto;margin-right:auto;';
 		}
 
 		var borderStyleValue = '';
@@ -408,7 +413,7 @@ class GenerateBlockContainer extends Component {
 									value={ parseFloat( containerWidth ) || '' }
 									onChange={ ( value ) => {
 										setAttributes( {
-											containerWidth: '' !== value ? value : undefined
+											containerWidth: '' !== value ? parseFloat( value ) : undefined
 										} );
 									} }
 								/>
