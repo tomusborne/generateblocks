@@ -95,6 +95,9 @@ class GenerateBlocks_Enqueue_CSS {
 
 		// This is a stylesheet.
 		header( 'Content-type: text/css' );
+		header( 'Cache-control: public' );
+		header( 'Expires: ' . gmdate('D, d M Y H:i:s', time() + 60 * 60 * 24) . ' GMT' );
+
 		echo $this->css;
 		exit;
 	}
