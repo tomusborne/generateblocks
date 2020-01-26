@@ -40,6 +40,7 @@ class GenerateBlocks_Enqueue_CSS {
 		$this->add_options();
 
 		add_action( 'save_post', array( $this, 'post_update_option' ) );
+		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dynamic_css' ) );
 		add_action( 'wp_head', array( $this, 'print_inline_css' ) );
 
@@ -358,12 +359,44 @@ class GenerateBlocks_Enqueue_CSS {
 			} else {
 				delete_post_meta( $post_id, '_generateblocks_dynamic_css_version' );
 			}
+
+			// Store any re-usable block IDs on the page. We need this to regenerate CSS files later if the re-usable block is changed.
+			$reusable_blocks = preg_match_all( '/wp:block {"ref":([^}]*)}/', $post->post_content , $matches );
+			$stored_reusable_blocks = array();
+
+			foreach ( $matches[1] as $match ) {
+				$stored_reusable_blocks[] = absint( $match );
+			}
+
+			if ( ! empty( $stored_reusable_blocks ) ) {
+				update_post_meta( $post_id, '_generateblocks_reusable_blocks', $stored_reusable_blocks );
+			} else {
+				delete_post_meta( $post_id, '_generateblocks_reusable_blocks' );
+			}
 		}
 
 		$option = get_option( 'generateblocks_dynamic_css_posts', array() );
 		unset( $option[ $post_id ] );
 
 		update_option( 'generateblocks_dynamic_css_posts', $option );
+	}
+
+	/**
+	 * Force regeneration of CSS files attached to pages with this re-usable block.
+	 */
+	public function wp_block_update( $post_id ) {
+		global $wpdb;
+
+		$option = get_option( 'generateblocks_dynamic_css_posts', array() );
+
+		$posts = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_generateblocks_reusable_blocks'" );
+
+		foreach( $posts as $id ) {
+			unset( $option[ $id ] );
+		}
+
+		update_option( 'generateblocks_dynamic_css_posts', $option );
+
 	}
 
 	/**
