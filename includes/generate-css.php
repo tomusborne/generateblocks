@@ -853,13 +853,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 	);
 }
 
-add_action( 'wp', 'generateblocks_do_frontend_block_css' );
 /**
  * Print our CSS for each block.
  *
  * @since 0.1
  */
-function generateblocks_do_frontend_block_css() {
+function generateblocks_get_frontend_block_css() {
 	if ( ! function_exists( 'has_blocks' ) ) {
 		return;
 	}
@@ -867,6 +866,7 @@ function generateblocks_do_frontend_block_css() {
 	$content = '';
 
 	if ( has_blocks( get_the_ID() ) ) {
+
 		global $post;
 
 		if ( ! is_object( $post ) ) {
@@ -914,5 +914,5 @@ function generateblocks_do_frontend_block_css() {
 		);
 	}
 
-	new GenerateBlocks_Enqueue_CSS( $css );
+	return apply_filters( 'generateblocks_css_output', $css );
 }
