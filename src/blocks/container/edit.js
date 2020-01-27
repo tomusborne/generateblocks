@@ -323,6 +323,10 @@ class GenerateBlockContainer extends Component {
 				margin-right: 0;
 			}
 
+			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .gb-grid-column {
+				height: 100%;
+			}
+
 			.block-editor-block-list__layout > #block-` + clientId + ` {
 				max-width: ` + outerContainerWidth + `;
 				` + removeVerticalGapStyle + `
