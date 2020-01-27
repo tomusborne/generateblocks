@@ -120,7 +120,7 @@ class GenerateBlocks_Enqueue_CSS {
 
 	public function print_inline_css() {
 
-		if ( 'inline' === $this->mode() ) {
+		if ( 'inline' === $this->mode() || ! wp_style_is( 'generateblocks', 'enqueued' ) ) {
 			$css = generateblocks_get_frontend_block_css();
 
 			if ( empty( $css ) ) {
