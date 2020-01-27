@@ -16,6 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+define( 'GENERATEBLOCKS_VERSION', '0.1' );
+define( 'GENERATEBLOCKS_CSS_VERSION', '0.1' );
 define( 'GENERATEBLOCKS_MODULE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENERATEBLOCKS_MODULE_DIR_URL', plugin_dir_url( __FILE__ ) );
 
