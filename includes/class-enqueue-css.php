@@ -39,10 +39,10 @@ class GenerateBlocks_Enqueue_CSS {
 
 		$this->add_options();
 
-		add_action( 'save_post', array( $this, 'post_update_option' ) );
-		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dynamic_css' ) );
-		add_action( 'wp_head', array( $this, 'print_inline_css' ) );
+		add_action( 'save_post', 			array( $this, 'post_update_option' ), 10, 2 );
+		add_action( 'save_post_wp_block', 	array( $this, 'wp_block_update' ), 10, 2 );
+		add_action( 'wp_enqueue_scripts', 	array( $this, 'enqueue_dynamic_css' ) );
+		add_action( 'wp_head', 				array( $this, 'print_inline_css' ) );
 
 	}
 
@@ -202,7 +202,7 @@ class GenerateBlocks_Enqueue_CSS {
 
 			} else {
 
-				$option  = get_option( 'generateblocks_dynamic_css_posts', array() );
+				$option  			= get_option( 'generateblocks_dynamic_css_posts', array() );
 				$option[ $page_id ] = true;
 				update_option( 'generateblocks_dynamic_css_posts', $option );
 
@@ -314,7 +314,7 @@ class GenerateBlocks_Enqueue_CSS {
 			if ( function_exists( 'domain_mapping_siteurl' ) && function_exists( 'get_original_url' ) ) {
 				$mapped_domain   = domain_mapping_siteurl( false );
 				$original_domain = get_original_url( 'siteurl' );
-				$css_uri = str_replace( $original_domain, $mapped_domain, $css_uri );
+				$css_uri 		 = str_replace( $original_domain, $mapped_domain, $css_uri );
 			}
 		}
 
@@ -350,8 +350,14 @@ class GenerateBlocks_Enqueue_CSS {
 	/**
 	 * Update the generateblocks_dynamic_css_posts option when a post is saved.
 	 */
-	public function post_update_option( $post_id ) {
-		global $post;
+	public function post_update_option( $post_id, $post) {
+
+		$is_autosave = wp_is_post_autosave( $post_id );
+		$is_revision = wp_is_post_revision( $post_id );
+
+		if ( $is_autosave || $is_revision || ! current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
+		}
 
 		if ( isset( $post->post_content ) ) {
 			if ( strpos( $post->post_content, 'wp:generateblocks' ) !== false ) {
@@ -365,10 +371,11 @@ class GenerateBlocks_Enqueue_CSS {
 			$stored_reusable_blocks = array();
 
 			foreach ( $matches[1] as $match ) {
-				$stored_reusable_blocks[] = absint( $match );
+				$stored_reusable_blocks[] = $match;
 			}
 
 			if ( ! empty( $stored_reusable_blocks ) ) {
+				$stored_reusable_blocks = array_map( 'intval', $stored_reusable_blocks );
 				update_post_meta( $post_id, '_generateblocks_reusable_blocks', $stored_reusable_blocks );
 			} else {
 				delete_post_meta( $post_id, '_generateblocks_reusable_blocks' );
@@ -379,23 +386,36 @@ class GenerateBlocks_Enqueue_CSS {
 		unset( $option[ $post_id ] );
 
 		update_option( 'generateblocks_dynamic_css_posts', $option );
+
 	}
 
 	/**
 	 * Force regeneration of CSS files attached to pages with this re-usable block.
 	 */
-	public function wp_block_update( $post_id ) {
-		global $wpdb;
+	public function wp_block_update( $post_id, $post ) {
 
-		$option = get_option( 'generateblocks_dynamic_css_posts', array() );
+		$is_autosave = wp_is_post_autosave( $post_id );
+		$is_revision = wp_is_post_revision( $post_id );
 
-		$posts = $wpdb->get_col("SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_generateblocks_reusable_blocks'" );
-
-		foreach( $posts as $id ) {
-			unset( $option[ $id ] );
+		if ( $is_autosave || $is_revision || ! current_user_can( 'edit_post', $post_id ) ) {
+			return $post_id;
 		}
 
-		update_option( 'generateblocks_dynamic_css_posts', $option );
+		if ( isset( $post->post_content ) ) {
+			if ( strpos( $post->post_content, 'wp:generateblocks' ) !== false ) {
+				global $wpdb;
+
+				$option = get_option( 'generateblocks_dynamic_css_posts', array() );
+
+				$posts = $wpdb->get_col( "SELECT post_id FROM $wpdb->postmeta WHERE meta_key = '_generateblocks_reusable_blocks'" );
+
+				foreach( (array) $posts as $id ) {
+					unset( $option[ $id ] );
+				}
+
+				update_option( 'generateblocks_dynamic_css_posts', $option );
+			}
+		}
 
 	}
 
@@ -404,8 +424,8 @@ class GenerateBlocks_Enqueue_CSS {
 	 */
 	public function needs_update() {
 
-		$option = get_option( 'generateblocks_dynamic_css_posts', array() );
-		$page_id = $this->page_id();
+		$option 	 = get_option( 'generateblocks_dynamic_css_posts', array() );
+		$page_id 	 = $this->page_id();
 		$css_version = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
 
 		// Force a CSS update if we've specified a new CSS version.
