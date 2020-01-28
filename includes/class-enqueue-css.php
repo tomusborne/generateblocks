@@ -75,6 +75,10 @@ class GenerateBlocks_Enqueue_CSS {
 			return 'inline';
 		}
 
+		if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
+			return 'inline';
+		}
+
 		// Additional checks for file mode.
 		if ( 'file' == $mode && $this->needs_update() ) {
 			// Only allow processing 1 file every 5 seconds.
