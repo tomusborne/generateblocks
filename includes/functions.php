@@ -13,73 +13,57 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Retrive attributes from our blocks.
  *
  * @since 0.1
- * @param string $blockName The name of the block to get attributes from.
+ * @param array $content The content of our page.
+ * @param array $data Data used to loop through the function as needed.
+ * @param string $blockName Target a specific block if needed.
  *
  * @return array
  */
-function generateblocks_get_block_data( $blockName = 'generateblocks/container', $content = '' ) {
+function generateblocks_get_block_data( $content, $data = array() ) {
 	if ( ! is_array( $content ) || empty( $content ) ) {
 		return;
 	}
 
-	$data = array();
-
 	foreach ( $content as $index => $block ) {
 		if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
-			if ( $blockName === $block['blockName'] ) {
-				$data[] = $block['attrs'];
+			if ( 'generateblocks/grid' === $block['blockName'] ) {
+				$data['grid'][] = $block['attrs'];
+			}
 
-				$data = generateblocks_get_nested_block_data( $block, $data, $blockName );
+			if ( 'generateblocks/container' === $block['blockName'] ) {
+				$data['container'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/headline' === $block['blockName'] ) {
+				$data['headline'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/button-container' === $block['blockName'] ) {
+				$data['button-container'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/button' === $block['blockName'] ) {
+				$data['button'][] = $block['attrs'];
 			}
 
 			if ( 'core/block' === $block['blockName'] ) {
-				$atts = $block['attrs'];
+				if ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) {
+					$atts = $block['attrs'];
 
-				if ( isset( $atts['ref'] ) ) {
-					$reusable_block = get_post( $atts['ref'] );
+					if ( isset( $atts['ref'] ) ) {
+						$reusable_block = get_post( $atts['ref'] );
 
-					if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
-						$blocks = parse_blocks( $reusable_block->post_content );
-
-						foreach ( $blocks as $index => $block ) {
-							if ( $blockName === $block['blockName'] ) {
-								$data[] = $block['attrs'];
-
-								$data = generateblocks_get_nested_block_data( $block, $data, $blockName );
-							}
+						if ( $reusable_block && 'wp_block' == $reusable_block->post_type ) {
+							$reuse_data_block = parse_blocks( $reusable_block->post_content );
+							$data = generateblocks_get_block_data( $reuse_data_block, $data );
 						}
 					}
 				}
 			}
 
-			// Need to check for nested blocks.
-			if ( $blockName !== $block['blockName'] && 'core/block' !== $block['blockName'] ) {
-				$data = generateblocks_get_nested_block_data( $block, $data, $blockName );
+			if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
+				$data = generateblocks_get_block_data( $block['innerBlocks'], $data );
 			}
-		}
-	}
-
-	return $data;
-}
-
-/**
- * Retrive attributes from our blocks when they're nested within eachother.
- *
- * @since 0.1
- * @param array $block The current block.
- * @param array $data The current data.
- * @param string $blockName The name of the block we're targeting.
- *
- * @return array
- */
-function generateblocks_get_nested_block_data( $block, $data, $blockName ) {
-	if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
-		foreach ( $block['innerBlocks'] as $inner_block ) {
-			if ( $blockName === $inner_block['blockName'] ) {
-				$data[] = $inner_block['attrs'];
-			}
-
-			$data = generateblocks_get_nested_block_data( $inner_block, $data, $blockName );
 		}
 	}
 
@@ -181,41 +165,45 @@ function generateblocks_get_google_fonts( $content = '' ) {
 		return;
 	}
 
-	$button_data = generateblocks_get_block_data( 'generateblocks/button', $content );
-	$headline_data = generateblocks_get_block_data( 'generateblocks/headline', $content );
+	$data = generateblocks_get_block_data( $content );
+
 	$defaults = generateblocks_get_block_defaults();
 	$font_data = array();
 
-	if ( ! empty( $button_data ) ) {
-		foreach ( $button_data as $atts ) {
-			$button_settings = wp_parse_args(
-				$atts,
-				$defaults['button']
-			);
+	if ( ! empty( $data ) ) {
+		foreach ( $data as $name => $blockData ) {
+			if ( 'button' === $name ) {
+				foreach( $blockData as $atts ) {
+					$button_settings = wp_parse_args(
+						$atts,
+						$defaults['button']
+					);
 
-			if ( $button_settings['googleFont'] ) {
-				$id = $atts['uniqueId'];
-				$font_data[ $id ] = array(
-					'name' => $button_settings['fontFamily'],
-					'variants' => $button_settings['fontWeight'],
-				);
+					if ( $button_settings['googleFont'] ) {
+						$id = $atts['uniqueId'];
+						$font_data[ $id ] = array(
+							'name' => $button_settings['fontFamily'],
+							'variants' => $button_settings['fontWeight'],
+						);
+					}
+				}
 			}
-		}
-	}
 
-	if ( ! empty( $headline_data ) ) {
-		foreach ( $headline_data as $atts ) {
-			$headline_settings = wp_parse_args(
-				$atts,
-				$defaults['headline']
-			);
+			if ( 'headline' === $name ) {
+				foreach( $blockData as $atts ) {
+					$headline_settings = wp_parse_args(
+						$atts,
+						$defaults['headline']
+					);
 
-			if ( $headline_settings['googleFont'] ) {
-				$id = $atts['uniqueId'];
-				$font_data[ $id ] = array(
-					'name' => $headline_settings['fontFamily'],
-					'variants' => $headline_settings['fontWeight'],
-				);
+					if ( $headline_settings['googleFont'] ) {
+						$id = $atts['uniqueId'];
+						$font_data[ $id ] = array(
+							'name' => $headline_settings['fontFamily'],
+							'variants' => $headline_settings['fontWeight'],
+						);
+					}
+				}
 			}
 		}
 	}

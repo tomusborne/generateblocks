@@ -22,53 +22,46 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		return;
 	}
 
+	$data = generateblocks_get_block_data( $content );
+
+	if ( empty( $data ) ) {
+		return;
+	}
+
 	$blocks_exist = false;
 	$main_css_data = array();
 	$tablet_css_data = array();
 	$mobile_css_data = array();
 
-	$blocks = array(
-		'general',
-		'container',
-		'button-container',
-		'button',
-		'headline',
-		'grid',
-	);
+	$css = new GenerateBlocks_Dynamic_CSS;
 
-	foreach ( $blocks as $block ) {
-		if ( 'general' === $block ) {
-			$css = new GenerateBlocks_Dynamic_CSS;
+	$css->set_selector( '.gb-icon' );
+	$css->add_property( 'display', 'inline-block' );
+	$css->add_property( 'display', 'inline-flex' );
 
-			$css->set_selector( '.gb-icon' );
-			$css->add_property( 'display', 'inline-block' );
-			$css->add_property( 'display', 'inline-flex' );
+	$css->set_selector( '.gb-icon svg' );
+	$css->add_property( 'height', '1em' );
+	$css->add_property( 'width', '1em' );
+	$css->add_property( 'fill', 'currentColor' );
 
-			$css->set_selector( '.gb-icon svg' );
-			$css->add_property( 'height', '1em' );
-			$css->add_property( 'width', '1em' );
-			$css->add_property( 'fill', 'currentColor' );
+	$css->set_selector( '.gb-headline-wrapper' );
+	$css->add_property( 'display', '-ms-flexbox' );
+	$css->add_property( 'display', 'flex' );
 
-			$css->set_selector( '.gb-headline-wrapper' );
-			$css->add_property( 'display', '-ms-flexbox' );
-			$css->add_property( 'display', 'flex' );
+	$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
+	$css->add_property( 'margin', '0' );
+	$css->add_property( 'padding', '0' );
 
-			$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
-			$css->add_property( 'margin', '0' );
-			$css->add_property( 'padding', '0' );
+	$main_css_data[] = $css->css_output();
 
-			$main_css_data[] = $css->css_output();
-		}
-
+	foreach ( $data as $name => $blockData ) {
 		/**
 		 * Get our Grid block CSS.
 		 *
 		 * @since 0.1
 		 */
-		if ( 'grid' === $block ) {
-			$data = generateblocks_get_block_data( 'generateblocks/grid', $content );
-
-			if ( empty( $data ) ) {
+		if ( 'grid' === $name ) {
+			if ( empty( $blockData ) ) {
 				continue;
 			}
 
@@ -96,7 +89,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->set_selector( '.gb-grid-column' );
 			$css->add_property( 'box-sizing', 'border-box' );
 
-			foreach ( $data as $atts ) {
+			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
 				}
@@ -195,10 +188,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		 *
 		 * @since 0.1
 		 */
-		if ( 'container' === $block ) {
-			$data = generateblocks_get_block_data( 'generateblocks/container', $content );
-
-			if ( empty( $data ) ) {
+		if ( 'container' === $name ) {
+			if ( empty( $blockData ) ) {
 				continue;
 			}
 
@@ -208,7 +199,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
-			foreach ( $data as $atts ) {
+			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
 				}
@@ -408,10 +399,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		 *
 		 * @since 0.1
 		 */
-		if ( 'button-container' === $block ) {
-			$data = generateblocks_get_block_data( 'generateblocks/button-container', $content );
-
-			if ( empty( $data ) ) {
+		if ( 'button-container' === $name ) {
+			if ( empty( $blockData ) ) {
 				continue;
 			}
 
@@ -428,7 +417,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'justify-content', 'flex-start' );
 			$css->add_property( 'clear', 'both' );
 
-			foreach ( $data as $atts ) {
+			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
 				}
@@ -524,10 +513,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		 *
 		 * @since 0.1
 		 */
-		if ( 'button' === $block ) {
-			$data = generateblocks_get_block_data( 'generateblocks/button', $content );
-
-			if ( empty( $data ) ) {
+		if ( 'button' === $name ) {
+			if ( empty( $blockData ) ) {
 				continue;
 			}
 
@@ -549,7 +536,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->set_selector( '.gb-button .gb-icon' );
 			$css->add_property( 'align-items', 'center' );
 
-			foreach ( $data as $atts ) {
+			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
 				}
@@ -664,10 +651,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		 *
 		 * @since 0.1
 		 */
-		if ( 'headline' === $block ) {
-			$data = generateblocks_get_block_data( 'generateblocks/headline', $content );
-
-			if ( empty( $data ) ) {
+		if ( 'headline' === $name ) {
+			if ( empty( $blockData ) ) {
 				continue;
 			}
 
@@ -677,7 +662,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
-			foreach ( $data as $atts ) {
+			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
 				}
