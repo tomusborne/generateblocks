@@ -44,7 +44,23 @@ function generateblocks_do_block_editor_assets() {
 	);
 
 	if ( function_exists( 'generate_get_option' ) ) {
-		$css = 'body.wp-admin .editor-styles-wrapper .grid-container {max-width: ' . generate_get_option( 'container_width' ) . 'px;margin-left: auto;margin-right:auto;';
+		$css = 'body.wp-admin .editor-styles-wrapper .grid-container {max-width: ' . generate_get_option( 'container_width' ) . 'px;margin-left: auto;margin-right:auto;}';
+
+		if ( function_exists( 'generate_get_color_defaults' ) ) {
+			$color_settings = wp_parse_args(
+				get_option( 'generate_settings', array() ),
+				generate_get_color_defaults()
+			);
+
+			$buttonBackground = $color_settings['form_button_background_color'];
+			$buttonBackgroundHover = $color_settings['form_button_background_color_hover'];
+			$buttonText = $color_settings['form_button_text_color'];
+			$buttonTextHover = $color_settings['form_button_text_color_hover'];
+
+			$css .= '.gb-button.button {background-color:' . $buttonBackground . ';color:' . $buttonText . ';}';
+			$css .= '.gb-button.button:active, .gb-button.button:hover, .gb-button.button:focus{background-color:' . $buttonBackgroundHover . ';color:' . $buttonTextHover . ';}';
+		}
+
 		wp_add_inline_style( 'generateblocks', $css );
 	}
 

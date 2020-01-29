@@ -85,6 +85,22 @@
 	align-self: center;
 }
 
+.using-theme-colors {
+	background-color: #e9f5f9;
+	border-left: 4px solid #409ecd;
+	padding: 10px;
+}
+
+.using-theme-colors p:last-child {
+	margin-bottom: 0;
+}
+
+.button.gb-button {
+	font-size: inherit;
+    min-height: auto;
+    border-radius: unset;
+}
+
 // Reduce the paddings, margins, and UI of inner-blocks.
 // @todo: eventually we may add a feature that lets a parent container absorb the block UI of a child block.
 // When that happens, leverage that instead of the following overrides.

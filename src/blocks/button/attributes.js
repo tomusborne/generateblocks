@@ -383,4 +383,8 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.button.gradientColorStopTwo,
 	},
+	useThemeColors: {
+		type: 'boolean',
+		default: generateBlocksDefaults.button.useThemeColors,
+	},
 }

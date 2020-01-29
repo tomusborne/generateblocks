@@ -524,7 +524,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
-			$css->set_selector( '.gb-button' );
+			$css->set_selector( '.gb-button-wrapper .gb-button' );
 			$css->add_property( 'display', 'inline-block' );
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'align-items', 'center' );
@@ -533,7 +533,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'text-decoration', 'none !important' );
 			$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
 
-			$css->set_selector( '.gb-button .gb-icon' );
+			$css->set_selector( '.gb-button-wrapper .gb-button .gb-icon' );
 			$css->add_property( 'align-items', 'center' );
 
 			foreach ( $blockData as $atts ) {
@@ -570,13 +570,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$css->set_selector( '.gb-button-wrapper a.gb-button-' . $id );
-				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
+
+				if ( ! $settings['useThemeColors'] ) {
+					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
+				}
 
 				if ( $settings['gradient'] ) {
 					$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
 				}
 
-				$css->add_property( 'color', $settings['textColor'] );
+				if ( ! $settings['useThemeColors'] ) {
+					$css->add_property( 'color', $settings['textColor'] );
+				}
+
 				$css->add_property( 'font-family', $fontFamily );
 				$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 				$css->add_property( 'font-weight', $settings['fontWeight'] );
@@ -600,8 +606,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$css->set_selector( '.gb-button-wrapper a.gb-button-' . $id . ':hover,.gb-button-wrapper a.gb-button-' . $id . ':active,.gb-button-wrapper a.gb-button-' . $id . ':focus' );
-				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
-				$css->add_property( 'color', $settings['textColorHover'] );
+
+				if ( ! $settings['useThemeColors'] ) {
+					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
+					$css->add_property( 'color', $settings['textColorHover'] );
+				}
+
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
 				if ( $settings['icon'] ) {

@@ -237,6 +237,7 @@ function generateblocks_get_block_defaults() {
 		'gradientColorTwo' => '#000000',
 		'gradientColorTwoOpacity' => 0.3,
 		'gradientColorStopTwo' => '',
+		'useThemeColors' => false,
 	);
 
 	$defaults['gridContainer'] = array(
