@@ -234,14 +234,14 @@ class GenerateBlocks_Enqueue_CSS {
 		$upload_dir = wp_upload_dir();
 
 		// If this is a multisite installation, append the blogid to the filename
-		$blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
+		$css_blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
 		$page_id = $this->page_id();
 
 		if ( ! $page_id ) {
 			return false;
 		}
 
-		$file_name   = '/style' . $blog_id . '-' . $page_id . '.css';
+		$file_name   = '/style' . $css_blog_id . '-' . $page_id . '.css';
 		$folder_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'generateblocks';
 
 		// Does the folder exist?
@@ -299,10 +299,10 @@ class GenerateBlocks_Enqueue_CSS {
 		$upload_dir = wp_upload_dir();
 
 		// If this is a multisite installation, append the blogid to the filename
-		$blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
+		$css_blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
 		$page_id = $this->page_id();
 
-		$file_name   = 'style' . $blog_id . '-' . $page_id . '.css';
+		$file_name   = 'style' . $css_blog_id . '-' . $page_id . '.css';
 		$folder_path = $upload_dir['basedir'] . DIRECTORY_SEPARATOR . 'generateblocks';
 
 		// The complete path to the file.
