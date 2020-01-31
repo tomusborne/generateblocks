@@ -34,8 +34,6 @@ const {
 	TextControl,
 	Tooltip,
 	Button,
-	Popover,
-	Dropdown,
 } = wp.components;
 
 /**
@@ -45,6 +43,10 @@ class IconPicker extends Component {
 
 	constructor( props ) {
 		super( ...arguments );
+
+		this.state = {
+            showIcons: false,
+        };
 	}
 
 	render() {
@@ -62,100 +64,103 @@ class IconPicker extends Component {
 			attrAriaLabel,
 		} = this.props;
 
+		const {
+            showIcons,
+        } = this.state;
+
 		const sanitizeSVG = ( svg ) => {
 			return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
 		}
 
 		return (
 			<Fragment>
-				<Dropdown
-					contentClassName="components-icon-picker-dropdown"
-					focusOnMount={ 'container' }
-					renderToggle={ ( { isOpen, onToggle } ) => (
-						<Tooltip text={ __( 'Choose Icon', 'generateblocks' ) }>
-							<button
-								type="button"
-								aria-expanded={ isOpen }
-								className="components-icon-picker-item"
-								onClick={ onToggle }
-								aria-label={ __( 'Icon picker', 'generateblocks' ) }
-							>
-								<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( valueIcon ) } } />
-							</button>
-						</Tooltip>
-					) }
-					renderContent={ () => (
-						<div className="icon-chooser-container">
-							<BaseControl className="gb-svg-html">
-								<TextControl
-									label={ __( 'Icon SVG HTML', 'generateblocks' ) }
-									value={ valueIcon }
-									onChange={ ( value ) => {
-										setAttributes( {
-											[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value )
-										} );
-									} }
-								/>
-							</BaseControl>
+				<Tooltip text={ __( 'Choose Icon', 'generateblocks' ) }>
+					<button
+						type="button"
+						aria-expanded={ showIcons }
+						className="components-icon-picker-item"
+						onClick={ () => {
+							this.setState( {
+								showIcons: ! showIcons,
+							} );
+						} }
+						aria-label={ __( 'Icon picker', 'generateblocks' ) }
+					>
+						<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( valueIcon ) } } />
+					</button>
+				</Tooltip>
 
-							<BaseControl label={ __( 'General', 'generateblocks' ) }>
-								<ul className="gblocks-icon-chooser">
-								{
-									Object.keys( generalSvgs ).map( ( svg, i ) => {
-										return (
-											<li key={ `editor-pblock-types-list-item-${ i }` }>
-												<Tooltip text={ ( generalSvgs[ svg ]['label'] ) }>
-													<Button
-														isLarge
-														className="editor-block-list-item-button"
-														onClick={ () => {
-															setAttributes( {
-																[ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ]['icon'] )
-															} );
-														} }
-													>
-														<span className="editor-block-types-list__item-icon">
-															{ generalSvgs[ svg ]['icon'] }
-														</span>
-													</Button>
-												</Tooltip>
-											</li>
-										);
-									} )
-								}
-								</ul>
-							</BaseControl>
+				{ showIcons &&
+					<div className="icon-chooser-container">
+						<BaseControl className="gb-svg-html">
+							<TextControl
+								label={ __( 'Icon SVG HTML', 'generateblocks' ) }
+								value={ valueIcon }
+								onChange={ ( value ) => {
+									setAttributes( {
+										[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value )
+									} );
+								} }
+							/>
+						</BaseControl>
 
-							<BaseControl label={ __( 'Social', 'generateblocks' ) }>
-								<ul className="gblocks-icon-chooser">
-								{
-									Object.keys( socialSvgs ).map( ( svg, i ) => {
-										return (
-											<li key={ `editor-pblock-types-list-item-${ i }` }>
-												<Tooltip text={ ( socialSvgs[ svg ]['label'] ) }>
-													<Button
-														isLarge
-														className="editor-block-list-item-button"
-														onClick={ () => {
-															setAttributes( {
-																[ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ]['icon'] )
-															} );
-														} }
-													>
-														<span className="editor-block-types-list__item-icon">
-															{ socialSvgs[ svg ]['icon'] }
-														</span>
-													</Button>
-												</Tooltip>
-											</li>
-										);
-									} )
-								}
-								</ul>
-							</BaseControl>
-						</div>
-					) }
-				/>
+						<BaseControl label={ __( 'General', 'generateblocks' ) }>
+							<ul className="gblocks-icon-chooser">
+							{
+								Object.keys( generalSvgs ).map( ( svg, i ) => {
+									return (
+										<li key={ `editor-pblock-types-list-item-${ i }` }>
+											<Tooltip text={ ( generalSvgs[ svg ]['label'] ) }>
+												<Button
+													isLarge
+													className="editor-block-list-item-button"
+													onClick={ () => {
+														setAttributes( {
+															[ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ]['icon'] )
+														} );
+													} }
+												>
+													<span className="editor-block-types-list__item-icon">
+														{ generalSvgs[ svg ]['icon'] }
+													</span>
+												</Button>
+											</Tooltip>
+										</li>
+									);
+								} )
+							}
+							</ul>
+						</BaseControl>
+
+						<BaseControl label={ __( 'Social', 'generateblocks' ) }>
+							<ul className="gblocks-icon-chooser">
+							{
+								Object.keys( socialSvgs ).map( ( svg, i ) => {
+									return (
+										<li key={ `editor-pblock-types-list-item-${ i }` }>
+											<Tooltip text={ ( socialSvgs[ svg ]['label'] ) }>
+												<Button
+													isLarge
+													className="editor-block-list-item-button"
+													onClick={ () => {
+														setAttributes( {
+															[ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ]['icon'] )
+														} );
+													} }
+												>
+													<span className="editor-block-types-list__item-icon">
+														{ socialSvgs[ svg ]['icon'] }
+													</span>
+												</Button>
+											</Tooltip>
+										</li>
+									);
+								} )
+							}
+							</ul>
+						</BaseControl>
+					</div>
+				}
 
 				<BaseControl className="advanced-icon-controls">
 					<Button
