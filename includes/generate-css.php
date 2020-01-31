@@ -722,6 +722,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
 					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
 					$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
+					$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 
 					if ( 'above' === $settings['iconLocation'] ) {
 						$css->add_property( 'align-self', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
@@ -761,6 +762,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['icon'] ) {
 					$tablet_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
+					$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 					$tablet_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'], $settings['iconPaddingUnit'] ) );
 
 					if ( 'above' === $settings['iconLocationTablet'] ) {
@@ -798,6 +800,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['icon'] ) {
 					$mobile_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
+					$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 					$mobile_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'], $settings['iconPaddingUnit'] ) );
 
 					if ( 'above' === $settings['iconLocationMobile'] ) {

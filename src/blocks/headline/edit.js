@@ -211,6 +211,7 @@ class GenerateBlockHeadline extends Component {
 				padding-left: ` + iconPaddingLeft + iconPaddingUnit + `;
 				align-self: ` + iconAlignment + `;
 				color: ` + hexToRGBA( iconColor, iconColorOpacity ) + `;
+				font-size: ` + fontSize + fontSizeUnit + `;
 			}
 
 			.gb-headline-wrapper-` + uniqueId + ` .gb-icon svg {
@@ -759,9 +760,9 @@ class GenerateBlockHeadline extends Component {
 														onChange={ ( value ) => setAttributes( {
 															iconSize: parseFloat( value )
 														} ) }
-														min={ 1 }
+														min={ .1 }
 														max={ 15 }
-														step={ .5 }
+														step={ .1 }
 														initialPosition={ generateBlocksDefaults.headline.iconSize }
 													/>
 												</Fragment>
@@ -824,9 +825,9 @@ class GenerateBlockHeadline extends Component {
 														label={ __( 'Icon Size', 'generateblocks' ) }
 														value={ parseFloat( iconSizeTablet ) }
 														onChange={ ( value ) => setAttributes( { iconSizeTablet: parseFloat( value ) } ) }
-														min={ 1 }
+														min={ .1 }
 														max={ 15 }
-														step={ .5 }
+														step={ .1 }
 														initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
 													/>
 												</Fragment>
@@ -891,9 +892,9 @@ class GenerateBlockHeadline extends Component {
 														onChange={ ( value ) => setAttributes( {
 															iconSizeMobile: parseFloat( value )
 														} ) }
-														min={ 1 }
+														min={ .1 }
 														max={ 15 }
-														step={ .5 }
+														step={ .1 }
 														initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
 													/>
 												</Fragment>
