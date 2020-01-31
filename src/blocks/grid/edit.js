@@ -359,7 +359,7 @@ class GenerateBlockGridContainer extends Component {
 													</div>
 
 													<RangeControl
-														value={ parseFloat( horizontalGap ) || '' }
+														value={ horizontalGap ? horizontalGap : 0 }
 														onChange={ ( value ) => setAttributes( {
 															horizontalGap: value
 														} ) }
@@ -389,7 +389,7 @@ class GenerateBlockGridContainer extends Component {
 													</div>
 
 													<RangeControl
-														value={ parseFloat( verticalGap ) || '' }
+														value={ verticalGap ? verticalGap : 0 }
 														onChange={ ( value ) => setAttributes( {
 															verticalGap: value
 														} ) }
