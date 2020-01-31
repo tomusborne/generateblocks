@@ -7,12 +7,15 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-top: 16px;
 
         .components-color-palette__item-wrapper {
             margin: 0;
         }
     }
+
+	.components-base-control__label {
+	    cursor: pointer;
+	}
 }
 
 .gblocks-component-color-picker {
@@ -28,9 +31,18 @@
 			}
 		}
     }
+
     .components-color-palette {
         margin: 0;
     }
+
+	.components-color-picker {
+		padding: 5px;
+	}
+
+	.components-color-picker__inputs-toggle {
+	    display: none;
+	}
 }
 
 .components-base-control.color-picker-clear {
@@ -46,4 +58,21 @@
 	    flex-grow: 1;
 	    padding-left: 5px;
 	}
+}
+
+.gblocks-color-picker-container {
+	padding: 5px;
+	border: 1px solid transparent;
+	margin-bottom: 0 !important;
+}
+
+.components-base-control.gblocks-color-picker-is-open {
+    background: #fafafa;
+    border: 1px solid #efefef;
+    padding: 5px;
+	margin-bottom: 24px !important;
+}
+
+.components-base-control.gblocks-component-color-picker-wrapper {
+    margin-bottom: 0 !important;
 }
