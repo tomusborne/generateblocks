@@ -28,6 +28,7 @@ export default class GenerateBlocksColorPicker extends Component {
 
 		this.state = {
             showPicker: false,
+			altPicker: false,
         };
 	}
 
@@ -45,6 +46,7 @@ export default class GenerateBlocksColorPicker extends Component {
 
 		const {
             showPicker,
+			altPicker,
         } = this.state;
 
 		return (
@@ -91,13 +93,27 @@ export default class GenerateBlocksColorPicker extends Component {
 							'gblocks-component-color-picker': true
 						} ) }
 					>
-						<ColorPicker
-							color={ value ? value : '' }
-							onChangeComplete={ ( color ) => {
-								onChange( color.hex );
-							} }
-							disableAlpha
-						/>
+						{ ! altPicker ? (
+							<BaseControl key="gblocks-primary-picker">
+								<ColorPicker
+									color={ value ? value : '' }
+									onChangeComplete={ ( color ) => {
+										onChange( color.hex );
+									} }
+									disableAlpha
+								/>
+							</BaseControl>
+						) : (
+							<BaseControl key="gblocks-alt-picker">
+								<ColorPicker
+									color={ value ? value : '' }
+									onChangeComplete={ ( color ) => {
+										onChange( color.hex );
+									} }
+									disableAlpha
+								/>
+							</BaseControl>
+						) }
 
 						{ alpha &&
 							<div className="gblocks-component-color-opacity">
@@ -122,7 +138,19 @@ export default class GenerateBlocksColorPicker extends Component {
 						>
 							<ColorPalette
 								value={ value }
-								onChange={ ( color ) => onChange( color ) }
+								onChange={ ( color ) => {
+									if ( altPicker ) {
+										this.setState( {
+			                                altPicker: false,
+			                            } );
+									} else {
+										this.setState( {
+			                                altPicker: true,
+			                            } );
+									}
+
+									onChange( color );
+								} }
 								disableCustomColors={ true }
 							/>
 						</BaseControl>
