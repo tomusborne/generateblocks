@@ -90,6 +90,22 @@ class IconPicker extends Component {
 					</button>
 				</Tooltip>
 
+				<BaseControl className="advanced-icon-controls">
+					<Button
+						isLarge
+						className="reset-icon is-secondary"
+						onClick={ () => {
+							setAttributes( {
+								[ this.props[ 'attrIcon' ] ]: ''
+							} );
+						} }
+					>
+						<span className="editor-block-types-list__item-icon">
+							{ __( 'Clear', 'generateblocks' ) }
+						</span>
+					</Button>
+				</BaseControl>
+
 				{ showIcons &&
 					<div className="icon-chooser-container">
 						<BaseControl className="gb-svg-html">
@@ -161,22 +177,6 @@ class IconPicker extends Component {
 						</BaseControl>
 					</div>
 				}
-
-				<BaseControl className="advanced-icon-controls">
-					<Button
-						isLarge
-						className="reset-icon is-secondary"
-						onClick={ () => {
-							setAttributes( {
-								[ this.props[ 'attrIcon' ] ]: ''
-							} );
-						} }
-					>
-						<span className="editor-block-types-list__item-icon">
-							{ __( 'Clear', 'generateblocks' ) }
-						</span>
-					</Button>
-				</BaseControl>
 
 				{ ( typeof valueIconLocation !== 'undefined' ) &&
 					<SelectControl
