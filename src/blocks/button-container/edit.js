@@ -77,6 +77,8 @@ class GenerateButtonContainer extends Component {
 
 			gbButtonContainerIds.push( id );
 		} else if ( gbButtonContainerIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.attributes.uniqueId = id; // Need this to update ID on duplicate.
+
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );

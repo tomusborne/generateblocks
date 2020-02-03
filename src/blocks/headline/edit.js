@@ -53,6 +53,8 @@ class GenerateBlockHeadline extends Component {
 
 			gbHeadlineIds.push( id );
 		} else if ( gbHeadlineIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.attributes.uniqueId = id; // Need this to update ID on duplicate.
+
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );

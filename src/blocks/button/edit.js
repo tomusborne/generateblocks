@@ -52,6 +52,8 @@ class GenerateBlockButton extends Component {
 
 			gbButtonIds.push( id );
 		} else if ( gbButtonIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.attributes.uniqueId = id; // Need this to update ID on duplicate.
+
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );

@@ -68,6 +68,8 @@ class GenerateBlockGridContainer extends Component {
 
 			gbGridIds.push( id );
 		} else if ( gbGridIds.includes( this.props.attributes.uniqueId ) ) {
+			this.props.attributes.uniqueId = id; // Need this to update ID on duplicate.
+
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
