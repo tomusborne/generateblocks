@@ -777,7 +777,9 @@ body .gb-container .wp-block {
   -ms-flex-align: center;
       align-items: center;
   -ms-flex-pack: justify;
-      justify-content: space-between; }
+      justify-content: space-between;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap; }
   .gblocks-component-gradient-control .components-base-control {
     margin-bottom: 0 !important; }
     .gblocks-component-gradient-control .components-base-control .components-base-control__field {
