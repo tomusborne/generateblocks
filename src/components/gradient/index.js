@@ -14,6 +14,7 @@ const {
 	BaseControl,
 	ToggleControl,
 	TextControl,
+	RangeControl,
 } = wp.components;
 
 /**
@@ -64,16 +65,22 @@ class GradientControl extends Component {
 
 				{ !! valueGradient && (
 					<Fragment>
-						<TextControl
-							type={ 'text' }
+						<BaseControl
 							label={ __( 'Direction', 'generateblocks' ) }
-							value={ valueGradientDirection }
-							onChange={ ( value ) => {
-								setAttributes( {
-									[ this.props[ 'attrGradientDirection' ] ]: value,
-								} );
-							} }
-						/>
+						>
+							<RangeControl
+								value={ valueGradientDirection ? valueGradientDirection : 1 }
+								onChange={ ( value ) => {
+									setAttributes( {
+										[ this.props[ 'attrGradientDirection' ] ]: value,
+									} );
+								} }
+								min={0 }
+								max={ 360 }
+								step={ 1 }
+								initialPosition={ 90 }
+							/>
+						</BaseControl>
 
 						<BaseControl label={ __( 'Color One', 'generateblocks' ) }>
 							<div className="gblocks-component-gradient-control">

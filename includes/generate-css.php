@@ -250,7 +250,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 					if ( ( $settings['backgroundColor'] || $settings['gradient'] ) && isset( $settings['bgOptions']['overlay'] ) && $settings['bgOptions']['overlay'] ) {
 						if ( $settings['gradient'] ) {
-							$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . '), url(' . esc_url( $url ) . ')' );
+							$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . '), url(' . esc_url( $url ) . ')' );
 						} elseif ( $settings['backgroundColor'] ) {
 							$css->add_property( 'background-image', 'linear-gradient(0deg, ' . $settings['backgroundColor'] . ', ' . $settings['backgroundColor'] . '), url(' . esc_url( $url ) . ')' );
 						}
@@ -263,7 +263,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
 					$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
 				} elseif ( $settings['gradient'] ) {
-					$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . ')' );
+					$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . ')' );
 				}
 
 				if ( $settings['zindex'] ) {
@@ -576,7 +576,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['gradient'] ) {
-					$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . ', ' . generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
+					$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
 				}
 
 				if ( ! $settings['useThemeColors'] ) {

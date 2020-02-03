@@ -308,7 +308,7 @@ export default {
 		default: generateBlocksDefaults.container.gradient,
 	},
 	gradientDirection: {
-		type: 'string',
+		type: 'number',
 		default: generateBlocksDefaults.container.gradientDirection,
 	},
 	gradientColorOne: {

@@ -356,7 +356,7 @@ export default {
 		default: generateBlocksDefaults.button.gradient,
 	},
 	gradientDirection: {
-		type: 'string',
+		type: 'number',
 		default: generateBlocksDefaults.button.gradientDirection,
 	},
 	gradientColorOne: {
