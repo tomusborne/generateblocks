@@ -39,6 +39,10 @@ const {
 	MediaUpload,
 } = wp.blockEditor;
 
+const {
+	applyFilters
+} = wp.hooks;
+
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbContainerIds = [];
 
@@ -1367,6 +1371,8 @@ class GenerateBlockContainer extends Component {
 							max={ 200 }
 							step={ 10 }
 						/>
+
+						{ applyFilters( 'generateblocks.controls.advanced', '', 'container', this.props ) }
 					</PanelBody>
 				</InspectorControls>
 
