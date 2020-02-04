@@ -117,7 +117,7 @@ class GenerateBlocks_Enqueue_CSS {
 		}
 
 		if ( 'file' == $this->mode() ) {
-			wp_enqueue_style( 'generateblocks', $this->file( 'uri' ), array(), null );
+			wp_enqueue_style( 'generateblocks', esc_url( $this->file( 'uri' ) ), array(), null );
 		}
 
 	}
@@ -133,7 +133,7 @@ class GenerateBlocks_Enqueue_CSS {
 
 			printf(
 				'<style id="generateblocks-css">%s</style>',
-				$css
+				wp_strip_all_tags( $css )
 			);
 		}
 	}
@@ -199,7 +199,7 @@ class GenerateBlocks_Enqueue_CSS {
 
 		if ( is_writable( $this->file( 'path' ) ) || ( ! file_exists( $this->file( 'path' ) ) && is_writable( dirname( $this->file( 'path' ) ) ) ) ) {
 
-			if ( ! $wp_filesystem->put_contents( $this->file( 'path' ), $content, FS_CHMOD_FILE ) ) {
+			if ( ! $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $content ), FS_CHMOD_FILE ) ) {
 
 				// Fail!
 				return false;
