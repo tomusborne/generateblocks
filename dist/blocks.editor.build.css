@@ -1109,17 +1109,11 @@ body .gb-container .wp-block {
     right: -35px; }
   .gb-button-wrapper .blocks-rich-text__tinymce {
     cursor: text; }
-  .gb-button-wrapper .components-button,
-  .gb-button-wrapper .components-button.has-icon.has-text {
+  .gb-button-wrapper .components-button.gblocks-add-button {
     background: #fff;
     -ms-flex-item-align: center;
         align-self: center; }
-    .gb-button-wrapper .components-button:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover,
-    .gb-button-wrapper .components-button.has-icon.has-text:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
-      -webkit-box-shadow: none;
-              box-shadow: none; }
-    .gb-button-wrapper .components-button svg,
-    .gb-button-wrapper .components-button.has-icon.has-text svg {
+    .gb-button-wrapper .components-button.gblocks-add-button svg {
       margin-right: 0; }
 
 .gb-button .gb-icon {
@@ -1531,10 +1525,11 @@ button.components-icon-picker-item {
   .gblocks-component-url-input .gblocks-component-url-input-more-options {
     padding: 10px;
     border-top: 1px solid #e2e4e7; }
+    .gblocks-component-url-input .gblocks-component-url-input-more-options .components-base-control {
+      margin-bottom: 5px; }
     .gblocks-component-url-input .gblocks-component-url-input-more-options .components-base-control .components-base-control__field {
       margin-bottom: 0; }
     .gblocks-component-url-input .gblocks-component-url-input-more-options .components-base-control:last-child {
-      margin-top: 12px;
       margin-bottom: 0; }
 
 .gblocks-component-url-input-float {
