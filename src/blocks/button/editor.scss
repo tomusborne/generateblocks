@@ -66,14 +66,9 @@
     }
 
     // add new button
-    .components-button,
-	.components-button.has-icon.has-text {
+    .components-button.gblocks-add-button {
 		background: #fff;
         align-self: center;
-
-        &:not(:disabled):not([aria-disabled="true"]):not(.is-default):hover {
-            box-shadow: none;
-        }
 
 		svg {
 			margin-right: 0;

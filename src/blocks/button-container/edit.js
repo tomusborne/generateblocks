@@ -427,6 +427,7 @@ class GenerateButtonContainer extends Component {
 
 					<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
                         <IconButton
+							className="gblocks-add-button"
                             icon={ 'insert' }
                             onClick={ () => {
 								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button' ), undefined, clientId );
