@@ -31,14 +31,16 @@ export default class URLInput extends Component {
         const {
             url,
             target,
-            rel,
+            relNoFollow,
+			relSponsored,
         } = this.props;
 
         this.props.onChange( {
             ...{
                 url,
                 target,
-                rel,
+                relNoFollow,
+				relSponsored,
             },
             ...data,
         } );
@@ -48,7 +50,8 @@ export default class URLInput extends Component {
         const {
             url,
             target,
-            rel,
+            relNoFollow,
+			relSponsored,
             className,
             autoFocus,
         } = this.props;
@@ -67,7 +70,6 @@ export default class URLInput extends Component {
                 onSubmit={ ( e ) => e.preventDefault() }
             >
                 <div className="gblocks-component-url-input-flex">
-                    <Dashicon icon="admin-links" />
                     <WPURLInput
                         value={ url }
                         onChange={ ( value ) => {
@@ -87,40 +89,39 @@ export default class URLInput extends Component {
                         } }
                     />
                 </div>
-                { moreOptions ? (
+                { moreOptions &&
                     <div className="gblocks-component-url-input-more-options">
                         <ToggleControl
                             label={ __( 'Open link in a new tab', 'generateblocks' ) }
-                            checked={ '_blank' === target }
-                            onChange={ () => {
-                                if ( '_blank' === target ) {
-                                    onChange( {
-                                        target: '',
-                                    } );
-                                } else {
-                                    onChange( {
-                                        target: '_blank',
-                                    } );
-                                }
+                            checked={ target || '' }
+                            onChange={ ( value ) => {
+                                onChange( {
+                                    target: value,
+                                } );
                             } }
                         />
+
                         <ToggleControl
                             label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
-                            checked={ 'nofollow' === rel }
-                            onChange={ () => {
-                                if ( 'nofollow' === rel ) {
-                                    onChange( {
-                                        rel: '',
-                                    } );
-                                } else {
-                                    onChange( {
-                                        rel: 'nofollow',
-                                    } );
-                                }
+                            checked={ relNoFollow || '' }
+                            onChange={ ( value ) => {
+								onChange( {
+	                                relNoFollow: value,
+	                            } );
+                            } }
+                        />
+
+						<ToggleControl
+                            label={ __( 'Add rel="sponsored"', 'generateblocks' ) }
+                            checked={ relSponsored || '' }
+                            onChange={ ( value ) => {
+								onChange( {
+	                                relSponsored: value,
+	                            } );
                             } }
                         />
                     </div>
-                ) : '' }
+                }
             </form>
         );
     }

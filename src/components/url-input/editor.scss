@@ -40,12 +40,15 @@
         padding: 10px;
         border-top: 1px solid #e2e4e7;
 
+		.components-base-control {
+			margin-bottom: 5px;
+		}
+
         .components-base-control .components-base-control__field {
             margin-bottom: 0;
         }
 
 		.components-base-control:last-child {
-			margin-top: 12px;
     		margin-bottom: 0;
 		}
     }

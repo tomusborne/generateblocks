@@ -17,7 +17,8 @@ export default ( { attributes } ) => {
 		text,
 		url,
 		target,
-		rel,
+		relNoFollow,
+		relSponsored,
 		icon,
 		iconLocation,
 		removeText,
@@ -26,6 +27,20 @@ export default ( { attributes } ) => {
 
 	const sanitizeSVG = ( svg ) => {
 		return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
+	}
+
+	const relAttributes = [];
+
+	if ( relNoFollow ) {
+		relAttributes.push( 'nofollow' );
+	}
+
+	if ( target ) {
+		relAttributes.push( 'noopener', 'noreferrer' );
+	}
+
+	if ( relSponsored ) {
+		relAttributes.push( 'sponsored' );
 	}
 
 	return (
@@ -37,8 +52,8 @@ export default ( { attributes } ) => {
 				[`${ cssClasses }`]: '' !== cssClasses
 			} ) }
 			href={ !! url ? url : undefined }
-			target={ !! target ? target : undefined }
-			rel={ !! rel ? rel : undefined }
+			target={ !! target ? '_blank' : undefined }
+			rel={ relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined }
 			aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 		>
 			{ icon && 'left' === iconLocation &&

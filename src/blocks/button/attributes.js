@@ -18,17 +18,14 @@ export default {
         attribute: 'href',
     },
     target: {
-        type: 'string',
-        source: 'attribute',
-        selector: 'a.gb-button',
-        attribute: 'target',
+        type: 'boolean',
     },
-    rel: {
-        type: 'string',
-        source: 'attribute',
-        selector: 'a.gb-button',
-        attribute: 'rel',
+    relNoFollow: {
+        type: 'boolean',
     },
+	relSponsored: {
+		type: 'boolean',
+	},
 	text: {
 		type: 'array',
 		source: 'children',
