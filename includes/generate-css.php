@@ -844,11 +844,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		return false;
 	}
 
-	return array(
+	return apply_filters( 'generateblocks_css_output', array(
 		'main' => $main_css_data,
 		'tablet' => $tablet_css_data,
 		'mobile' => $mobile_css_data,
-	);
+	), $settings );
 }
 
 /**
