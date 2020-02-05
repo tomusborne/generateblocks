@@ -37,6 +37,7 @@ const {
 	InspectorAdvancedControls,
 	InnerBlocks,
 	MediaUpload,
+	AlignmentToolbar,
 } = wp.blockEditor;
 
 const {
@@ -207,6 +208,9 @@ class GenerateBlockContainer extends Component {
 			removeVerticalGapMobile,
 			orderTablet,
 			orderMobile,
+			alignment,
+			alignmentTablet,
+			alignmentMobile,
 		} = attributes;
 
 		let backgroundImageValue,
@@ -301,6 +305,7 @@ class GenerateBlockContainer extends Component {
 				margin-bottom: ` + marginBottom + marginUnit + `;
 				margin-left: ` + marginLeft + marginUnit + `;
 				` + zIndexStyle + `;
+				text-align: ` + alignment + `;
 			}
 
 			.gb-container-` + uniqueId + ` a, .gb-container-` + uniqueId + ` a:visited {
@@ -375,57 +380,119 @@ class GenerateBlockContainer extends Component {
 				<InspectorControls>
 					{ ! isGrid && (
 						<PanelBody>
-							<Fragment>
-								<SelectControl
-									label={ __( 'Container', 'generateblocks' ) }
-									value={ outerContainer }
-									options={ [
-										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
-									] }
-									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
-								/>
+							<TabPanel className="grid-tab-panel gblocks-control-tabs"
+								activeClass="active-tab"
+								tabs={ [
+									{
+										name: 'default',
+										title: __( 'Default', 'generateblocks' ),
+										className: 'grid-default',
+									},
+									{
+										name: 'tablet',
+										title: __( 'Tablet', 'generateblocks' ),
+										className: 'grid-tablet',
+									},
+									{
+										name: 'mobile',
+										title: __( 'Mobile', 'generateblocks' ),
+										className: 'grid-mobile',
+									},
+								] }>
+								{
+									( tab ) => {
+										return (
+											<div>
+												{ 'default' === tab.name && (
+													<Fragment>
+														<SelectControl
+															label={ __( 'Container', 'generateblocks' ) }
+															value={ outerContainer }
+															options={ [
+																{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+																{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
+															] }
+															onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
+														/>
 
-								<SelectControl
-									label={ __( 'Inner Container', 'generateblocks' ) }
-									value={ innerContainer }
-									options={ [
-										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
-									] }
-									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
-								/>
+														<SelectControl
+															label={ __( 'Inner Container', 'generateblocks' ) }
+															value={ innerContainer }
+															options={ [
+																{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+																{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
+															] }
+															onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
+														/>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Container Width', 'generateblocks' ) }
-									</div>
+														<div className="components-gblocks-control__header">
+															<div className="components-gblocks-control__label">
+																{ __( 'Container Width', 'generateblocks' ) }
+															</div>
 
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'container-width-unit' }>
-											<Button
-												key={ 'container-width-unit' }
-												isSmall
-												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+															<div className="components-gblocks-control__units">
+																<Tooltip text={ __( 'Pixel Units' ) } key={ 'container-width-unit' }>
+																	<Button
+																		key={ 'container-width-unit' }
+																		isSmall
+																		isPrimary={ true }
+																		/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+																		aria-label={ __( 'Pixel Units' ) }
+																	>
+																		px
+																	</Button>
+																</Tooltip>
+															</div>
+														</div>
 
-								<TextControl
-									type={ 'number' }
-									value={ parseFloat( containerWidth ) || '' }
-									onChange={ ( value ) => {
-										setAttributes( {
-											containerWidth: '' !== value ? parseFloat( value ) : undefined
-										} );
-									} }
-								/>
-							</Fragment>
+														<TextControl
+															type={ 'number' }
+															value={ parseFloat( containerWidth ) || '' }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	containerWidth: '' !== value ? parseFloat( value ) : undefined
+																} );
+															} }
+														/>
+
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignment }
+															onChange={ ( value ) => {
+																setAttributes( { alignment: value } );
+															} }
+														/>
+													</Fragment>
+												) }
+
+												{ 'tablet' === tab.name && (
+													<Fragment>
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignmentTablet }
+															onChange={ ( value ) => {
+																setAttributes( { alignmentTablet: value } );
+															} }
+														/>
+													</Fragment>
+												) }
+
+												{ 'mobile' === tab.name && (
+													<Fragment>
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignmentMobile }
+															onChange={ ( value ) => {
+																setAttributes( { alignmentMobile: value } );
+															} }
+														/>
+													</Fragment>
+												) }
+											</div>
+										);
+									}
+								}
+							</TabPanel>
 						</PanelBody>
 					) }
 
@@ -524,6 +591,14 @@ class GenerateBlockContainer extends Component {
 																} );
 															} }
 														/>
+
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignment }
+															onChange={ ( value ) => {
+																setAttributes( { alignment: value } );
+															} }
+														/>
 													</Fragment>
 												) }
 
@@ -609,6 +684,14 @@ class GenerateBlockContainer extends Component {
 																} );
 															} }
 														/>
+
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignmentTablet }
+															onChange={ ( value ) => {
+																setAttributes( { alignmentTablet: value } );
+															} }
+														/>
 													</Fragment>
 												) }
 
@@ -692,6 +775,14 @@ class GenerateBlockContainer extends Component {
 																setAttributes( {
 																	orderMobile: parseFloat( value )
 																} );
+															} }
+														/>
+
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignmentMobile }
+															onChange={ ( value ) => {
+																setAttributes( { alignmentMobile: value } );
 															} }
 														/>
 													</Fragment>

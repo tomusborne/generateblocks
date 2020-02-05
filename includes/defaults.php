@@ -123,6 +123,9 @@ function generateblocks_get_block_defaults() {
 		'removeVerticalGapMobile' => false,
 		'orderTablet' => false,
 		'orderMobile' => false,
+		'alignment' => '',
+		'alignmentTablet' => '',
+		'alignmentMobile' => '',
 	);
 
 	$defaults['buttonContainer'] = array(

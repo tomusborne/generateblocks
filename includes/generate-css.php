@@ -279,8 +279,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
-
 				$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
+				$css->add_property( 'text-align', $settings['alignment'] );
 
 				$css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
 				$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
@@ -319,6 +319,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
+				$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
 
 				$tablet_css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
 				$tablet_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
@@ -353,6 +354,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
+				$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
 
 				$mobile_css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
 				$mobile_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );

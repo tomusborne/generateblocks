@@ -389,4 +389,16 @@ export default {
 		type: 'boolean',
 		default: generateBlocksDefaults.container.removeVerticalGapMobile,
 	},
+	alignment: {
+		type: 'string',
+		default: generateBlocksDefaults.container.alignment,
+	},
+	alignmentTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.container.alignmentTablet,
+	},
+	alignmentMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.container.alignmentMobile,
+	},
 }
