@@ -1785,3 +1785,7 @@ button.components-icon-picker-item {
   color: unset;
   display: unset;
   border: 0 !important; }
+
+mark.gb-highlight {
+  background: unset;
+  color: unset; }
