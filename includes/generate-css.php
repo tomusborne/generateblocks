@@ -573,7 +573,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$css->set_selector( '.gb-button-wrapper a.gb-button-' . $id );
+				$css->set_selector( '.gb-button-wrapper a.gb-button-' . $id . ',.gb-button-wrapper a.gb-button-' . $id . ':visited' );
 
 				if ( ! $settings['useThemeColors'] ) {
 					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
