@@ -277,6 +277,10 @@ function generateblocks_get_google_fonts_uri() {
  * @return string The RGBA value.
  */
 function generateblocks_hex2rgba( $hex, $alpha ) {
+	if ( ! $hex ) {
+		return;
+	}
+
 	if ( 1 === $alpha ) {
 		return $hex;
 	}
