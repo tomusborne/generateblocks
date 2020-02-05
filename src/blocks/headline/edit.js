@@ -9,6 +9,7 @@ import IconPicker from '../../components/icon-picker';
 import TypographyControls from '../../components/typography';
 import DimensionsControl from '../../components/dimensions/';
 import getIcon from '../../utils/get-icon';
+import './markformat';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -90,6 +91,7 @@ class GenerateBlockHeadline extends Component {
 			linkColorHover,
 			borderColor,
 			borderColorOpacity,
+			highlightTextColor,
 			showAdvancedTypography,
 			fontFamily,
 			fontFamilyFallback,
@@ -280,6 +282,10 @@ class GenerateBlockHeadline extends Component {
 				border-left-width: ` + borderSizeLeft + `px;
 				border-style: ` + borderStyleValue + `;
 				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
+			}
+
+			.gb-headline-` + uniqueId + ` .gb-highlight {
+				color: ` + highlightTextColor + `;
 			}
 		`
 
@@ -570,6 +576,17 @@ class GenerateBlockHeadline extends Component {
 									borderColorOpacity: value
 								} )
 							}
+						/>
+
+						<ColorPicker
+							label={ __( 'Highlight Text', 'generateblocks' ) }
+							value={ highlightTextColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									highlightTextColor: value
+								} )
+							}
+							alpha={ false }
 						/>
 					</PanelBody>
 
@@ -1097,7 +1114,7 @@ class GenerateBlockHeadline extends Component {
 						}
 
 						<RichText
-							allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'core/mark' ] }
+							allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'generateblocks/mark' ] }
 							tagName={ element }
 							value={ content }
 							onChange={ ( value ) => setAttributes( { content: value } ) }
@@ -1113,7 +1130,7 @@ class GenerateBlockHeadline extends Component {
 					</div>
 				) : (
 					<RichText
-						allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'core/mark' ] }
+						allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'generateblocks/mark' ] }
 						tagName={ element }
 						value={ content }
 						onChange={ ( value ) => setAttributes( { content: value } ) }

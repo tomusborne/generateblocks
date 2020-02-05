@@ -678,6 +678,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
+			$css->set_selector( '.gb-highlight' );
+			$css->add_property( 'background', 'unset' );
+			$css->add_property( 'color', 'unset' );
+
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
@@ -781,6 +785,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					if ( 'above' === $settings['iconLocation'] ) {
 						$css->add_property( 'flex-direction', 'column' );
 					}
+				}
+
+				if ( $settings['highlightTextColor'] ) {
+					$css->set_selector( '.gb-headline-' . $id . ' .gb-highlight' );
+					$css->add_property( 'color', $settings['highlightTextColor'] );
 				}
 
 				$tablet_css->set_selector( '.gb-headline-' . $id );

@@ -273,6 +273,7 @@ function generateblocks_get_block_defaults() {
 		'linkColorHover' => false,
 		'borderColor' => false,
 		'borderColorOpacity' => 1,
+		'highlightTextColor' => false,
 		'showAdvancedTypography' => false,
 		'fontFamily' => '',
 		'fontFamilyFallback' => '',

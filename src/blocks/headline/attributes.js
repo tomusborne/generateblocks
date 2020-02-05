@@ -60,6 +60,10 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.headline.borderColorOpacity,
 	},
+	highlightTextColor: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.highlightTextColor,
+	},
 	showAdvancedTypography: {
 		type: 'boolean',
 		default: generateBlocksDefaults.headline.showAdvancedTypography,
