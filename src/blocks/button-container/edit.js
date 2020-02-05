@@ -238,6 +238,7 @@ class GenerateButtonContainer extends Component {
 													<AlignmentToolbar
 														isCollapsed={ false }
 														value={ alignment }
+														alignmentControls={ ALIGNMENT_CONTROLS }
 														onChange={ ( value ) => {
 															setAttributes( { alignment: value } );
 														} }
