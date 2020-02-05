@@ -36,7 +36,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 	$css = new GenerateBlocks_Dynamic_CSS;
 
 	$css->set_selector( '.gb-icon' );
-	$css->add_property( 'display', 'inline-block' );
+	$css->add_property( 'display', '-webkit-inline-box' );
+	$css->add_property( 'display', '-ms-inline-flexbox' );
 	$css->add_property( 'display', 'inline-flex' );
 
 	$css->set_selector( '.gb-icon svg' );
@@ -527,7 +528,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
 			$css->set_selector( '.gb-button-wrapper .gb-button' );
-			$css->add_property( 'display', 'inline-block' );
+			$css->add_property( 'display', '-webkit-inline-box' );
+			$css->add_property( 'display', '-ms-inline-flexbox' );
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'align-items', 'center' );
 			$css->add_property( 'justify-content', 'center' );
@@ -603,6 +605,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'text-transform', $settings['textTransform'] );
 
 				if ( $settings['icon'] ) {
+					$css->add_property( 'display', '-webkit-inline-box' );
+					$css->add_property( 'display', '-ms-inline-flexbox' );
 					$css->add_property( 'display', 'inline-flex' );
 					$css->add_property( 'align-items', 'center' );
 				}
