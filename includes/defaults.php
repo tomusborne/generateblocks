@@ -350,6 +350,9 @@ function generateblocks_get_block_defaults() {
 		'iconSize' => 1,
 		'iconSizeTablet' => '',
 		'iconSizeMobile' => '',
+		'inlineWidth' => false,
+		'inlineWidthTablet' => false,
+		'inlineWidthMobile' => false,
 	);
 
 	return apply_filters( 'generateblocks_defaults', $defaults );

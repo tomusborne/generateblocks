@@ -20,6 +20,7 @@ const {
 	BaseControl,
 	TabPanel,
 	DropdownMenu,
+	ToggleControl,
 } = wp.components;
 
 const {
@@ -174,13 +175,17 @@ class GenerateBlockHeadline extends Component {
 			iconSize,
 			iconSizeTablet,
 			iconSizeMobile,
+			inlineWidth,
+			inlineWidthTablet,
+			inlineWidthMobile,
 		} = attributes;
 
 		let iconFlexDirection = '',
 			iconAlignment = '',
 			headlineWrapperAlignment = '',
 			inlineVerticalAlignment = '',
-			fontFamilyFallbackValue = '';
+			fontFamilyFallbackValue = '',
+			inlineHeadline = '',
 			borderStyleValue = '';
 
 		if ( icon && 'above' === iconLocation ) {
@@ -195,6 +200,10 @@ class GenerateBlockHeadline extends Component {
 
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
+		}
+
+		if ( inlineWidth ) {
+			inlineHeadline = 'display: inline-flex;';
 		}
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
@@ -220,6 +229,7 @@ class GenerateBlockHeadline extends Component {
 				padding-right: ` + paddingRight + paddingUnit + `;
 				padding-bottom: ` + paddingBottom + paddingUnit + `;
 				padding-left: ` + paddingLeft + paddingUnit + `;
+				` + inlineHeadline + `
 				border-width: 0;
 				border-top-width: ` + borderSizeTop + `px;
 				border-right-width: ` + borderSizeRight + `px;
@@ -262,6 +272,7 @@ class GenerateBlockHeadline extends Component {
 				padding-left: ` + paddingLeft + paddingUnit + `;
 				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				color: ` + textColor + `;
+				` + inlineHeadline + `
 				border-width: 0;
 				border-top-width: ` + borderSizeTop + `px;
 				border-right-width: ` + borderSizeRight + `px;
@@ -309,13 +320,15 @@ class GenerateBlockHeadline extends Component {
 						/>
 					</Toolbar>
 
-					<AlignmentToolbar
-						isCollapsed={ false }
-						value={ alignment }
-						onChange={ ( nextAlign ) => {
-							setAttributes( { alignment: nextAlign } );
-						} }
-					/>
+					{ ! inlineWidth &&
+						<AlignmentToolbar
+							isCollapsed={ false }
+							value={ alignment }
+							onChange={ ( nextAlign ) => {
+								setAttributes( { alignment: nextAlign } );
+							} }
+						/>
+					}
 				</BlockControls>
 
 				<InspectorControls>
@@ -365,13 +378,15 @@ class GenerateBlockHeadline extends Component {
 														onChange={ ( element ) => { setAttributes( { element } ) } }
 													/>
 
-													<AlignmentToolbar
-														isCollapsed={ false }
-														value={ alignment }
-														onChange={ ( value ) => {
-															setAttributes( { alignment: value } );
-														} }
-													/>
+													{ ! inlineWidth &&
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignment }
+															onChange={ ( value ) => {
+																setAttributes( { alignment: value } );
+															} }
+														/>
+													}
 
 													<TypographyControls { ...this.props }
 														valueFontFamily={ fontFamily }
@@ -408,13 +423,15 @@ class GenerateBlockHeadline extends Component {
 
 											{ 'tablet' === tab.name && (
 												<Fragment>
-													<AlignmentToolbar
-														isCollapsed={ false }
-														value={ alignmentTablet }
-														onChange={ ( value ) => {
-															setAttributes( { alignmentTablet: value } );
-														} }
-													/>
+													{ ! inlineWidthTablet &&
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignmentTablet }
+															onChange={ ( value ) => {
+																setAttributes( { alignmentTablet: value } );
+															} }
+														/>
+													}
 
 													<TypographyControls { ...this.props }
 														valueFontSize={ fontSizeTablet }
@@ -441,13 +458,15 @@ class GenerateBlockHeadline extends Component {
 
 											{ 'mobile' === tab.name && (
 												<Fragment>
-													<AlignmentToolbar
-														isCollapsed={ false }
-														value={ alignmentMobile }
-														onChange={ ( value ) => {
-															setAttributes( { alignmentMobile: value } );
-														} }
-													/>
+													{ ! inlineWidthMobile &&
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignmentMobile }
+															onChange={ ( value ) => {
+																setAttributes( { alignmentMobile: value } );
+															} }
+														/>
+													}
 
 													<TypographyControls { ...this.props }
 														valueFontSize={ fontSizeMobile }
@@ -585,6 +604,16 @@ class GenerateBlockHeadline extends Component {
 										<div>
 											{ 'default' === tab.name && (
 												<Fragment>
+													<ToggleControl
+														label={ __( 'Inline Width', 'generateblocks' ) }
+														checked={ !! inlineWidth }
+														onChange={ ( value ) => {
+															setAttributes( {
+																inlineWidth: value
+															} );
+														} }
+													/>
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
@@ -639,6 +668,16 @@ class GenerateBlockHeadline extends Component {
 
 											{ 'tablet' === tab.name && (
 												<Fragment>
+													<ToggleControl
+														label={ __( 'Inline Width', 'generateblocks' ) }
+														checked={ !! inlineWidthTablet }
+														onChange={ ( value ) => {
+															setAttributes( {
+																inlineWidthTablet: value
+															} );
+														} }
+													/>
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
@@ -693,6 +732,16 @@ class GenerateBlockHeadline extends Component {
 
 											{ 'mobile' === tab.name && (
 												<Fragment>
+													<ToggleControl
+														label={ __( 'Inline Width', 'generateblocks' ) }
+														checked={ !! inlineWidthMobile }
+														onChange={ ( value ) => {
+															setAttributes( {
+																inlineWidthMobile: value
+															} );
+														} }
+													/>
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }

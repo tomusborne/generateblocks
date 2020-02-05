@@ -396,4 +396,16 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.headline.iconSizeMobile,
 	},
+	inlineWidth: {
+		type: 'boolean',
+		default: generateBlocksDefaults.headline.inlineWidth,
+	},
+	inlineWidthTablet: {
+		type: 'boolean',
+		default: generateBlocksDefaults.headline.inlineWidthTablet,
+	},
+	inlineWidthMobile: {
+		type: 'boolean',
+		default: generateBlocksDefaults.headline.inlineWidthMobile,
+	},
 }
