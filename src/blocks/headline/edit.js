@@ -1095,6 +1095,15 @@ class GenerateBlockHeadline extends Component {
 							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 						/>
 					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Documentation', 'generateblocks' ) }
+						initialOpen={ false }
+						className={ 'gblocks-panel-label' }
+					>
+						<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
+						<a href="https://docs.generateblocks.com/collection/headline/" target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
+					</PanelBody>
 				</InspectorControls>
 
 				<style>{ css }</style>
