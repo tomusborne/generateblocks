@@ -171,7 +171,7 @@ function generateblocks_get_block_defaults() {
 		'letterSpacingTablet' => '',
 		'letterSpacingMobile' => '',
 		'marginTop' => '',
-		'marginRight' => '20',
+		'marginRight' => '',
 		'marginBottom' => '',
 		'marginLeft' => '',
 		'marginTopTablet' => '',
