@@ -1782,4 +1782,6 @@ button.components-icon-picker-item {
   margin: 0 !important;
   padding: 0 !important;
   background: unset;
-  color: unset; }
+  color: unset;
+  display: unset;
+  border: 0 !important; }
