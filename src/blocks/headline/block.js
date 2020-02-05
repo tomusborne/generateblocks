@@ -8,6 +8,7 @@ import './editor.scss';
 import editHeadline from './edit'
 import saveHeadline from './save'
 import blockAttributes from './attributes'
+import transforms from './transforms'
 import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n;
@@ -40,4 +41,5 @@ registerBlockType( 'generateblocks/headline', {
 	},
 	edit: editHeadline,
 	save: saveHeadline,
+	transforms
 } );
