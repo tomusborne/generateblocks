@@ -52,6 +52,14 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.headline.linkColorHover,
 	},
+	borderColor: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderColor,
+	},
+	borderColorOpacity: {
+		type: 'number',
+		default: generateBlocksDefaults.headline.borderColorOpacity,
+	},
 	showAdvancedTypography: {
 		type: 'boolean',
 		default: generateBlocksDefaults.headline.showAdvancedTypography,
@@ -231,6 +239,54 @@ export default {
 	paddingSyncUnits: {
 		type: 'boolean',
 		default: false,
+	},
+	borderSizeTop: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeTop,
+	},
+	borderSizeRight: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeRight,
+	},
+	borderSizeBottom: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeBottom,
+	},
+	borderSizeLeft: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeLeft,
+	},
+	borderSizeTopTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeTopTablet,
+	},
+	borderSizeRightTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeRightTablet,
+	},
+	borderSizeBottomTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeBottomTablet,
+	},
+	borderSizeLeftTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeLeftTablet,
+	},
+	borderSizeTopMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeTopMobile,
+	},
+	borderSizeRightMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeRightMobile,
+	},
+	borderSizeBottomMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeBottomMobile,
+	},
+	borderSizeLeftMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderSizeLeftMobile,
 	},
 	icon: {
         type: 'string',

@@ -87,6 +87,8 @@ class GenerateBlockHeadline extends Component {
 			textColor,
 			linkColor,
 			linkColorHover,
+			borderColor,
+			borderColorOpacity,
 			showAdvancedTypography,
 			fontFamily,
 			fontFamilyFallback,
@@ -129,6 +131,19 @@ class GenerateBlockHeadline extends Component {
 			paddingLeftMobile,
 			paddingUnit,
 			paddingSyncUnits,
+			borderSizeTop,
+			borderSizeRight,
+			borderSizeBottom,
+			borderSizeLeft,
+			borderSizeSyncUnits,
+			borderSizeTopTablet,
+			borderSizeRightTablet,
+			borderSizeBottomTablet,
+			borderSizeLeftTablet,
+			borderSizeTopMobile,
+			borderSizeRightMobile,
+			borderSizeBottomMobile,
+			borderSizeLeftMobile,
 			letterSpacing,
 			letterSpacingTablet,
 			letterSpacingMobile,
@@ -166,6 +181,7 @@ class GenerateBlockHeadline extends Component {
 			headlineWrapperAlignment = '',
 			inlineVerticalAlignment = '',
 			fontFamilyFallbackValue = '';
+			borderStyleValue = '';
 
 		if ( icon && 'above' === iconLocation ) {
 			iconFlexDirection = 'column';
@@ -179,6 +195,10 @@ class GenerateBlockHeadline extends Component {
 
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
+		}
+
+		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
+			borderStyleValue = 'solid';
 		}
 
 		const css = `
@@ -200,6 +220,13 @@ class GenerateBlockHeadline extends Component {
 				padding-right: ` + paddingRight + paddingUnit + `;
 				padding-bottom: ` + paddingBottom + paddingUnit + `;
 				padding-left: ` + paddingLeft + paddingUnit + `;
+				border-width: 0;
+				border-top-width: ` + borderSizeTop + `px;
+				border-right-width: ` + borderSizeRight + `px;
+				border-bottom-width: ` + borderSizeBottom + `px;
+				border-left-width: ` + borderSizeLeft + `px;
+				border-style: ` + borderStyleValue + `;
+				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
 			}
 
 			.editor-styles-wrapper .gb-headline-` + uniqueId + ` a {
@@ -235,6 +262,13 @@ class GenerateBlockHeadline extends Component {
 				padding-left: ` + paddingLeft + paddingUnit + `;
 				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				color: ` + textColor + `;
+				border-width: 0;
+				border-top-width: ` + borderSizeTop + `px;
+				border-right-width: ` + borderSizeRight + `px;
+				border-bottom-width: ` + borderSizeBottom + `px;
+				border-left-width: ` + borderSizeLeft + `px;
+				border-style: ` + borderStyleValue + `;
+				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
 			}
 		`
 
@@ -500,6 +534,24 @@ class GenerateBlockHeadline extends Component {
 							}
 							alpha={ false }
 						/>
+
+						<ColorPicker
+							label={ __( 'Border Color', 'generateblocks' ) }
+							value={ borderColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									borderColor: value
+								} )
+							}
+							alpha={ true }
+							valueOpacity={ borderColorOpacity }
+							attrOpacity={ 'borderColorOpacity' }
+							onOpacityChange={ ( value ) =>
+								setAttributes( {
+									borderColorOpacity: value
+								} )
+							}
+						/>
 					</PanelBody>
 
 					<PanelBody
@@ -566,6 +618,22 @@ class GenerateBlockHeadline extends Component {
 														attrUnit={ 'marginUnit' }
 														attrSyncUnits={ 'marginSyncUnits' }
 													/>
+
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Size', 'generateblocks' ) }
+														valueTop={ borderSizeTop }
+														valueRight={ borderSizeRight }
+														valueBottom={ borderSizeBottom }
+														valueLeft={ borderSizeLeft }
+														syncUnits={ borderSizeSyncUnits }
+														attrTop={ 'borderSizeTop' }
+														attrRight={ 'borderSizeRight' }
+														attrBottom={ 'borderSizeBottom' }
+														attrLeft={ 'borderSizeLeft' }
+														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
+													/>
 												</Fragment>
 											) }
 
@@ -604,6 +672,22 @@ class GenerateBlockHeadline extends Component {
 														attrUnit={ 'marginUnit' }
 														attrSyncUnits={ 'marginSyncUnits' }
 													/>
+
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Size', 'generateblocks' ) }
+														valueTop={ borderSizeTopTablet }
+														valueRight={ borderSizeRightTablet }
+														valueBottom={ borderSizeBottomTablet }
+														valueLeft={ borderSizeLeftTablet }
+														syncUnits={ borderSizeSyncUnits }
+														attrTop={ 'borderSizeTopTablet' }
+														attrRight={ 'borderSizeRightTablet' }
+														attrBottom={ 'borderSizeBottomTablet' }
+														attrLeft={ 'borderSizeLeftTablet' }
+														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
+													/>
 												</Fragment>
 											) }
 
@@ -641,6 +725,22 @@ class GenerateBlockHeadline extends Component {
 														attrLeft={ 'marginLeftMobile' }
 														attrUnit={ 'marginUnit' }
 														attrSyncUnits={ 'marginSyncUnits' }
+													/>
+
+													<DimensionsControl { ...this.props }
+														type={ 'padding' }
+														label={ __( 'Border Size', 'generateblocks' ) }
+														valueTop={ borderSizeTopMobile }
+														valueRight={ borderSizeRightMobile }
+														valueBottom={ borderSizeBottomMobile }
+														valueLeft={ borderSizeLeftMobile }
+														syncUnits={ borderSizeSyncUnits }
+														attrTop={ 'borderSizeTopMobile' }
+														attrRight={ 'borderSizeRightMobile' }
+														attrBottom={ 'borderSizeBottomMobile' }
+														attrLeft={ 'borderSizeLeftMobile' }
+														attrSyncUnits={ 'borderSizeSyncUnits' }
+														displayUnit={ 'px' }
 													/>
 												</Fragment>
 											) }
