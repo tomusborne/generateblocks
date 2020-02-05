@@ -29,7 +29,6 @@ require_once GENERATEBLOCKS_MODULE_DIR . 'includes/generate-css.php';
 require_once GENERATEBLOCKS_MODULE_DIR . 'includes/class-do-css.php';
 require_once GENERATEBLOCKS_MODULE_DIR . 'includes/class-enqueue-css.php';
 require_once GENERATEBLOCKS_MODULE_DIR . 'includes/dashboard.php';
-require_once GENERATEBLOCKS_MODULE_DIR . 'src/blocks.php';
 
 /**
  * Adds a redirect option during plugin activation on non-multisite installs.
