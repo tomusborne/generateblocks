@@ -455,37 +455,43 @@ class GenerateBlockContainer extends Component {
 															} }
 														/>
 
-														<AlignmentToolbar
-															isCollapsed={ false }
-															value={ alignment }
-															onChange={ ( value ) => {
-																setAttributes( { alignment: value } );
-															} }
-														/>
+														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+															<AlignmentToolbar
+																isCollapsed={ false }
+																value={ alignment }
+																onChange={ ( value ) => {
+																	setAttributes( { alignment: value } );
+																} }
+															/>
+														</BaseControl>
 													</Fragment>
 												) }
 
 												{ 'tablet' === tab.name && (
 													<Fragment>
-														<AlignmentToolbar
-															isCollapsed={ false }
-															value={ alignmentTablet }
-															onChange={ ( value ) => {
-																setAttributes( { alignmentTablet: value } );
-															} }
-														/>
+														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+															<AlignmentToolbar
+																isCollapsed={ false }
+																value={ alignmentTablet }
+																onChange={ ( value ) => {
+																	setAttributes( { alignmentTablet: value } );
+																} }
+															/>
+														</BaseControl>
 													</Fragment>
 												) }
 
 												{ 'mobile' === tab.name && (
 													<Fragment>
-														<AlignmentToolbar
-															isCollapsed={ false }
-															value={ alignmentMobile }
-															onChange={ ( value ) => {
-																setAttributes( { alignmentMobile: value } );
-															} }
-														/>
+														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+															<AlignmentToolbar
+																isCollapsed={ false }
+																value={ alignmentMobile }
+																onChange={ ( value ) => {
+																	setAttributes( { alignmentMobile: value } );
+																} }
+															/>
+														</BaseControl>
 													</Fragment>
 												) }
 											</div>
@@ -592,13 +598,15 @@ class GenerateBlockContainer extends Component {
 															} }
 														/>
 
-														<AlignmentToolbar
-															isCollapsed={ false }
-															value={ alignment }
-															onChange={ ( value ) => {
-																setAttributes( { alignment: value } );
-															} }
-														/>
+														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+															<AlignmentToolbar
+																isCollapsed={ false }
+																value={ alignment }
+																onChange={ ( value ) => {
+																	setAttributes( { alignment: value } );
+																} }
+															/>
+														</BaseControl>
 													</Fragment>
 												) }
 
@@ -685,13 +693,15 @@ class GenerateBlockContainer extends Component {
 															} }
 														/>
 
-														<AlignmentToolbar
-															isCollapsed={ false }
-															value={ alignmentTablet }
-															onChange={ ( value ) => {
-																setAttributes( { alignmentTablet: value } );
-															} }
-														/>
+														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+															<AlignmentToolbar
+																isCollapsed={ false }
+																value={ alignmentTablet }
+																onChange={ ( value ) => {
+																	setAttributes( { alignmentTablet: value } );
+																} }
+															/>
+														</BaseControl>
 													</Fragment>
 												) }
 
@@ -778,13 +788,15 @@ class GenerateBlockContainer extends Component {
 															} }
 														/>
 
-														<AlignmentToolbar
-															isCollapsed={ false }
-															value={ alignmentMobile }
-															onChange={ ( value ) => {
-																setAttributes( { alignmentMobile: value } );
-															} }
-														/>
+														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+															<AlignmentToolbar
+																isCollapsed={ false }
+																value={ alignmentMobile }
+																onChange={ ( value ) => {
+																	setAttributes( { alignmentMobile: value } );
+																} }
+															/>
+														</BaseControl>
 													</Fragment>
 												) }
 											</div>
