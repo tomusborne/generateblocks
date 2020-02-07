@@ -90,6 +90,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->set_selector( '.gb-grid-column' );
 			$css->add_property( 'box-sizing', 'border-box' );
 
+			$css->set_selector( '.gb-grid-wrapper .wp-block-image' );
+			$css->add_property( 'margin-bottom', '0px' );
+
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
