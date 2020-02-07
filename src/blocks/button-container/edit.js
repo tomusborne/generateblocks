@@ -77,11 +77,14 @@ class GenerateButtonContainer extends Component {
 
 			gbButtonContainerIds.push( id );
 		} else if ( gbButtonContainerIds.includes( this.props.attributes.uniqueId ) ) {
-			this.props.attributes.uniqueId = id; // Need this to update ID on duplicate.
 
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
+
+			if ( id !== this.props.attributes.uniqueId ) {
+				this.props.attributes.uniqueId = id; // Need this to update ID on duplicate. Should be removed after WP 5.4.
+			}
 
 			gbButtonContainerIds.push( id );
 		} else {

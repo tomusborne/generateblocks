@@ -55,11 +55,13 @@ class GenerateBlockHeadline extends Component {
 
 			gbHeadlineIds.push( id );
 		} else if ( gbHeadlineIds.includes( this.props.attributes.uniqueId ) ) {
-			this.props.attributes.uniqueId = id; // Need this to update ID on duplicate.
-
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
+
+			if ( id !== this.props.attributes.uniqueId ) {
+				this.props.attributes.uniqueId = id; // Need this to update ID on duplicate. Should be removed after WP 5.4.
+			}
 
 			gbHeadlineIds.push( id );
 		} else {
