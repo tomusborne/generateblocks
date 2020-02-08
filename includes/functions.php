@@ -249,6 +249,8 @@ function generateblocks_get_google_fonts_uri() {
 			}
 		}
 
+		$variants = apply_filters( 'generateblocks_google_font_variants', $variants, $font['name'] );
+
 		$name = str_replace( ' ', '+', $font['name'] );
 
 		if ( $variants ) {

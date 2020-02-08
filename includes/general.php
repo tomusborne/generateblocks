@@ -103,3 +103,18 @@ function generateblocks_do_google_fonts() {
 		wp_enqueue_style( 'generateblocks-google-fonts', $fonts_url, array(), null, 'all' );
 	}
 }
+
+add_filter( 'generateblocks_google_font_variants', 'generateblocks_do_bold_google_fonts' );
+/**
+ * Add bold variants to Google fonts to account for bolded words.
+ *
+ * @since 0.1
+ */
+function generateblocks_do_bold_google_fonts( $variants ) {
+	if ( ! in_array( '700', $variants ) ) {
+		$variants[] = '700';
+		$variants[] = '700i';
+	}
+
+	return $variants;
+}
