@@ -716,6 +716,7 @@ class GenerateBlockButton extends Component {
 																backgroundColorOpacity: value
 															} )
 														}
+														key="buttonBackgroundColor"
 													/>
 
 													<ColorPicker
@@ -727,6 +728,7 @@ class GenerateBlockButton extends Component {
 															} )
 														}
 														alpha={ false }
+														key="buttonTextColor"
 													/>
 
 													<ColorPicker
@@ -745,6 +747,7 @@ class GenerateBlockButton extends Component {
 																borderColorOpacity: value
 															} )
 														}
+														key="buttonBorderColor"
 													/>
 												</Fragment>
 
@@ -767,6 +770,7 @@ class GenerateBlockButton extends Component {
 																backgroundColorHoverOpacity: value
 															} )
 														}
+														key="buttonBackgroundColorHover"
 													/>
 
 													<ColorPicker
@@ -778,6 +782,7 @@ class GenerateBlockButton extends Component {
 															} )
 														}
 														alpha={ false }
+														key="buttonTextColorHover"
 													/>
 
 													<ColorPicker
@@ -796,6 +801,7 @@ class GenerateBlockButton extends Component {
 																borderColorHoverOpacity: value
 															} )
 														}
+														key="buttonBorderColorHover"
 													/>
 												</Fragment>
 											) }
