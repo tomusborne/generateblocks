@@ -43,7 +43,7 @@ export default function getIcon( icon ) {
 	}
 
 	if ( 'headline' === icon ) {
-		return el( 'svg', { width: 24, height: 24, viewBox: "0 0 20 20" },
+		return el( 'svg', { width: 24, height: 24, viewBox: "0 0 20 20", style: { padding: '1px' } },
 			el( 'path', {
 				d: "M12.5 4v5.2h-5V4H5v13h2.5v-5.2h5V17H15V4",
 				fill: '#1e72bd'
@@ -52,7 +52,7 @@ export default function getIcon( icon ) {
 	}
 
 	if ( 'grid' === icon ) {
-		return el( 'svg', {  width: 20, height: 20, viewBox: "0 0 20 20" },
+		return el( 'svg', {  width: 20, height: 20, viewBox: "0 0 20 20", style: { padding: '1px' } },
 			el( 'path', {
 				d: "M20 .6c0-.3-.2-.6-.5-.6H.5C.2 0 0 .3 0 .6v4.6c0 .3.2.6.5.6h19c.3 0 .5-.3.5-.6V.6zM6.7 7.7c0-.3-.2-.6-.5-.6H.5c-.3 0-.5.3-.5.6v4.6c0 .3.2.6.5.6h5.6c.3 0 .5-.3.5-.6l.1-4.6zM19.9 7.7c0-.3-.2-.6-.6-.6H8.6c-.4 0-.6.3-.6.6v4.5c0 .3.2.6.6.6h10.8c.3 0 .6-.3.6-.6l-.1-4.5z",
 				fill: '#1d72ba'
@@ -65,7 +65,7 @@ export default function getIcon( icon ) {
 	}
 
 	if ( 'container' === icon ) {
-		return el( 'svg', { width: 20, height: 20, viewBox: "0 0 20 20" },
+		return el( 'svg', { width: 20, height: 20, viewBox: "0 0 20 20", style: { padding: '1px' } },
 			el( 'path', {
 				d: "M2.8 3.4c0-.4.3-.7.7-.7h1.2V0H3.4C1.5 0 0 1.5 0 3.4v1.2h2.8V3.4zM0 7.4h2.8v5.3H0zM17.2 7.4H20v5.3h-2.8zM17.2 16.6c0 .4-.3.7-.7.7h-1.2V20h1.2c1.9 0 3.4-1.5 3.4-3.4v-1.2h-2.8v1.2h.1zM7.4 0h5.3v2.8H7.4zM3.4 17.2c-.4 0-.7-.3-.7-.7v-1.2H0v1.2c0 2 1.5 3.5 3.4 3.5h1.2v-2.8H3.4zM7.4 17.2h5.3V20H7.4zM16.6 2.8c.4 0 .7.3.7.7v1.2H20V3.4C20 1.5 18.5 0 16.6 0h-1.2v2.8h1.2z",
 				fill: '#1e72bd'
@@ -74,7 +74,7 @@ export default function getIcon( icon ) {
 	}
 
 	if ( 'button' === icon ) {
-		return el( 'svg', { width: 20, height: 20, viewBox: "0 0 20 20" },
+		return el( 'svg', { width: 20, height: 20, viewBox: "0 0 20 20" , style: { padding: '1px' }},
 			el( 'path', {
 				d: "M19.2 0H.8C.4 0 0 .4 0 .8v6.4c0 .4.4.8.8.8h18.4c.4 0 .8-.4.8-.8V.8c0-.4-.4-.8-.8-.8zM18.4 12H1.6c-.9 0-1.6.7-1.6 1.6v4.8c0 .9.7 1.6 1.6 1.6h16.8c.9 0 1.6-.7 1.6-1.6v-4.8c0-.9-.7-1.6-1.6-1.6zm.4 6.4c0 .2-.2.4-.4.4H1.6c-.2 0-.4-.2-.4-.4v-4.8c0-.2.2-.4.4-.4h16.8c.2 0 .4.2.4.4v4.8z",
 				fill: '#1e72bd'
