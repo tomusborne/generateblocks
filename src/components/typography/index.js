@@ -128,33 +128,6 @@ class TypographyControls extends Component {
 			} );
 		}
 
-		const addGoogleStyle = ( value, isGoogle ) => {
-			if ( ! isGoogle ) {
-				return;
-			}
-
-			let ba = '';
-			const googleFontsAttr = ':100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic';
-			const link = document.createElement( 'link' );
-			link.rel = 'stylesheet';
-
-			if ( ba.length > 0 ) {
-				//Load fonts on the header
-				if ( ! ba.includes( value ) ) {
-					link.href = 'https://fonts.googleapis.com/css?family=' + value.replace( / /g, '+' ) + googleFontsAttr;
-					document.head.appendChild( link );
-				}
-
-				ba = ba.replace( ',' + value, '' );
-				ba = ba + ',' + value;
-			} else {
-				link.href = 'https://fonts.googleapis.com/css?family=' + value.replace( / /g, '+' ) + googleFontsAttr;
-				document.head.appendChild( link );
-
-				ba = value;
-			}
-		};
-
 		const onFontChange = ( value ) => {
 			if ( 'other' === value ) {
 				value = '';
@@ -182,8 +155,6 @@ class TypographyControls extends Component {
 				} );
 				isGoogle = false;
 			}
-
-			addGoogleStyle( value, isGoogle );
 		};
 
 		const onFontShortcut = ( event ) => {
@@ -218,8 +189,6 @@ class TypographyControls extends Component {
 								setAttributes( {
 									[ this.props[ 'attrFontWeight' ] ]: value
 								} );
-
-								addGoogleStyle( valueFontFamily, valueGoogleFont );
 							} }
 							className="components-base-control"
 						/>
@@ -284,8 +253,6 @@ class TypographyControls extends Component {
 							setAttributes( {
 								[ this.props[ 'attrGoogleFont' ] ]: value,
 							} );
-
-							addGoogleStyle( valueFontFamily, value );
 						} }
 					/>
 				}

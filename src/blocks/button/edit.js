@@ -293,6 +293,8 @@ class GenerateBlockButton extends Component {
 			relAttributes.push( 'sponsored' );
 		}
 
+		const googleFontsAttr = ':100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic';
+
 		return (
 			<Fragment>
 
@@ -910,6 +912,13 @@ class GenerateBlockButton extends Component {
 				</InspectorControls>
 
 				<style>{ css }</style>
+
+				{ fontFamily && googleFont &&
+					<link
+						rel="stylesheet"
+						href={ `https://fonts.googleapis.com/css?family=` + fontFamily.replace( / /g, '+' ) + googleFontsAttr }
+					/>
+				}
 
 				<a
 					id={ !! elementId ? elementId : undefined }
