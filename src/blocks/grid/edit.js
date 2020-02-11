@@ -52,7 +52,6 @@ class GenerateBlockGridContainer extends Component {
             isTemplatesModalOpen: false,
         };
 
-        this.getColumnsTemplate = this.getColumnsTemplate.bind( this );
         this.onLayoutSelect = this.onLayoutSelect.bind( this );
         this.getColumnsFromLayout = this.getColumnsFromLayout.bind( this );
         this.getLayoutsSelector = this.getLayoutsSelector.bind( this );
@@ -72,10 +71,6 @@ class GenerateBlockGridContainer extends Component {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
-
-			if ( id !== this.props.attributes.uniqueId ) {
-				this.props.attributes.uniqueId = id; // Need this to update ID on duplicate. Should be removed after WP 5.4.
-			}
 
 			gbGridIds.push( id );
 		} else {
@@ -97,7 +92,12 @@ class GenerateBlockGridContainer extends Component {
         // update columns number
         if ( this.state.selectedLayout ) {
             const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
-            columns = columnsData.length;
+
+			columnsData.forEach( ( colAttrs ) => {
+				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/container', colAttrs ), undefined, clientId );
+			} );
+
+			columns = columnsData.length;
 
             setAttributes( {
                 columns,
@@ -119,58 +119,6 @@ class GenerateBlockGridContainer extends Component {
 			}
 		}
     }
-
-	/**
-	 * Returns the layouts configuration for a given number of columns.
-	 *
-	 * @return {Object[]} Columns layout configuration.
-	 */
-	getColumnsTemplate() {
-		const {
-			attributes,
-		} = this.props;
-
-		let {
-			columns,
-		} = attributes;
-
-		const result = [];
-
-		// Appender added in Gutenberg 5.7.0, so we need to add fallback to columns.
-		const appenderExist = typeof InnerBlocks.ButtonBlockAppender !== 'undefined';
-
-		const colAttrs = {
-			isGrid: true,
-			paddingTop: '',
-			paddingRight: '',
-			paddingBottom: '',
-			paddingLeft: '',
-		};
-
-		// create columns from selected layout.
-		if ( columns < 1 && this.state.selectedLayout ) {
-			const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
-			columns = columnsData.length;
-
-			columnsData.forEach( ( colAttrs ) => {
-				result.push( [
-					'generateblocks/container',
-					colAttrs,
-				] );
-			} );
-
-		// create columns template from columns count.
-		} else {
-			for ( let k = 1; k <= columns; k++ ) {
-				result.push( [
-					'generateblocks/container',
-					colAttrs
-				] );
-			}
-		}
-
-		return result;
-	}
 
 	/**
      * Get columns sizes array from layout string
@@ -662,7 +610,6 @@ class GenerateBlockGridContainer extends Component {
 					{ columns > 0 || this.state.selectedLayout ? (
 						<Fragment>
 							<InnerBlocks
-								template={ this.getColumnsTemplate() }
 								allowedBlocks={ [ 'generateblocks/container' ] }
 								renderAppender={ false }
 							/>

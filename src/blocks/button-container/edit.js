@@ -82,13 +82,19 @@ class GenerateButtonContainer extends Component {
 				uniqueId: id,
 			} );
 
-			if ( id !== this.props.attributes.uniqueId ) {
-				this.props.attributes.uniqueId = id; // Need this to update ID on duplicate. Should be removed after WP 5.4.
-			}
-
 			gbButtonContainerIds.push( id );
 		} else {
 			gbButtonContainerIds.push( this.props.attributes.uniqueId );
+		}
+
+		const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( this.props.clientId )[ 0 ];
+
+		if ( thisBlock ) {
+			const childBlocks = thisBlock.innerBlocks;
+
+			if ( 0 === childBlocks.length ) {
+				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button' ), undefined, this.props.clientId );
+			}
 		}
 	}
 
@@ -425,7 +431,6 @@ class GenerateButtonContainer extends Component {
 					} ) }
 				>
 					<InnerBlocks
-						template={ [ [ 'generateblocks/button' ] ] }
 						allowedBlocks={ [ 'generateblocks/button' ] }
 					/>
 

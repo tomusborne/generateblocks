@@ -56,10 +56,6 @@ class GenerateBlockButton extends Component {
 				uniqueId: id,
 			} );
 
-			if ( id !== this.props.attributes.uniqueId ) {
-				this.props.attributes.uniqueId = id; // Need this to update ID on duplicate. Should be removed after WP 5.4.
-			}
-
 			gbButtonIds.push( id );
 		} else {
 			gbButtonIds.push( this.props.attributes.uniqueId );
