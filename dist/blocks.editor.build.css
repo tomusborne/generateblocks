@@ -771,6 +771,134 @@ body .gb-container .wp-block {
   font-weight: bold;
   background: #fafafa; }
 
+.edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.gblocks-font-family-shortcuts {
+  margin-bottom: 2px; }
+
+.components-gblocks-typography-control__header {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  margin-bottom: 5px;
+  -ms-flex-align: center;
+      align-items: center; }
+
+.components-gblocks-typography-control__inputs + .components-gblocks-typography-control__header {
+  margin-top: 25px; }
+
+.components-gblocks-typography-control__inputs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: justify;
+      justify-content: space-between; }
+  .components-gblocks-typography-control__inputs .components-base-control {
+    margin-bottom: 0; }
+
+.edit-post-settings-sidebar__panel-block .components-panel__body .components-gblocks-typography-control__inputs .components-base-control,
+.components-gblocks-typography-control__inputs .components-base-control .components-base-control__field {
+  margin-bottom: 0; }
+
+.components-gblocks-typography-weight-transform {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between; }
+
+.components-gblocks-typography-weight-transform > div {
+  width: 48%; }
+
+.components-gblocks-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
+  border-radius: 3px; }
+
+.components-gblocks-typography-control__inputs button {
+  margin-left: 10px; }
+
+.components-gblocks-typography-control__inputs .components-base-control {
+  -ms-flex-positive: 1;
+      flex-grow: 1; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/* Colors */
+.gblocks-notice {
+  margin-bottom: 20px; }
+
+.gblocks-panel-label .components-panel__body-toggle.components-button {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+  -ms-flex-pack: end;
+      justify-content: flex-end; }
+
+.gblocks-panel-label svg.components-panel__icon {
+  margin: 0 10px 0 0; }
+
+.components-gblocks-control__header {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  margin-bottom: 5px;
+  -ms-flex-align: center;
+      align-items: center; }
+
+.components-panel__body .components-gblocks-control__units .components-button {
+  background: #fff;
+  border-color: #e2e4e7;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  color: #6c7781;
+  font-size: 10px;
+  padding: 0 5px;
+  position: relative;
+  text-align: center;
+  text-shadow: none;
+  border: 1px solid; }
+  .components-panel__body .components-gblocks-control__units .components-button.is-primary {
+    background: #0070a7;
+    border-color: #0070a7;
+    color: #fff;
+    cursor: default;
+    z-index: 1; }
+
+.gblocks-control-tabs .components-tab-panel__tabs {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e8eaeb; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+  padding: 9px 11px;
+  padding-bottom: 11px;
+  margin: 0;
+  margin-bottom: -1px;
+  color: #555d66;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  outline-offset: -1px;
+  -ms-flex: 1;
+      flex: 1;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
+  position: relative;
+  border-bottom: 2px solid #00a0d2;
+  z-index: 1;
+  font-weight: bold;
+  background: #fafafa; }
+
 .gblocks-component-gradient-control {
   display: -ms-flexbox;
   display: flex;
@@ -1642,141 +1770,14 @@ button.components-icon-picker-item {
   font-weight: bold;
   background: #fafafa; }
 
-.edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.gblocks-font-family-shortcuts {
-  margin-bottom: 2px; }
-
-.components-gblocks-typography-control__header {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: justify;
-      justify-content: space-between;
-  margin-bottom: 5px;
-  -ms-flex-align: center;
-      align-items: center; }
-
-.components-gblocks-typography-control__inputs + .components-gblocks-typography-control__header {
-  margin-top: 25px; }
-
-.components-gblocks-typography-control__inputs {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-      align-items: center;
-  -ms-flex-pack: justify;
-      justify-content: space-between; }
-  .components-gblocks-typography-control__inputs .components-base-control {
-    margin-bottom: 0; }
-
-.edit-post-settings-sidebar__panel-block .components-panel__body .components-gblocks-typography-control__inputs .components-base-control,
-.components-gblocks-typography-control__inputs .components-base-control .components-base-control__field {
-  margin-bottom: 0; }
-
-.components-gblocks-typography-weight-transform {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: justify;
-      justify-content: space-between; }
-
-.components-gblocks-typography-weight-transform > div {
-  width: 48%; }
-
-.components-gblocks-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
-  border-radius: 3px; }
-
-.components-gblocks-typography-control__inputs button {
-  margin-left: 10px; }
-
-.components-gblocks-typography-control__inputs .components-base-control {
-  -ms-flex-positive: 1;
-      flex-grow: 1; }
-/**
- * #.# Common SCSS
- *
- * Can include things like variables and mixins
- * that are used across the project.
-*/
-/* Colors */
-.gblocks-notice {
-  margin-bottom: 20px; }
-
-.gblocks-panel-label .components-panel__body-toggle.components-button {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row-reverse;
-      flex-direction: row-reverse;
-  -ms-flex-pack: end;
-      justify-content: flex-end; }
-
-.gblocks-panel-label svg.components-panel__icon {
-  margin: 0 10px 0 0; }
-
-.components-gblocks-control__header {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: justify;
-      justify-content: space-between;
-  margin-bottom: 5px;
-  -ms-flex-align: center;
-      align-items: center; }
-
-.components-panel__body .components-gblocks-control__units .components-button {
-  background: #fff;
-  border-color: #e2e4e7;
-  -webkit-box-shadow: none !important;
-  box-shadow: none !important;
-  color: #6c7781;
-  font-size: 10px;
-  padding: 0 5px;
-  position: relative;
-  text-align: center;
-  text-shadow: none;
-  border: 1px solid; }
-  .components-panel__body .components-gblocks-control__units .components-button.is-primary {
-    background: #0070a7;
-    border-color: #0070a7;
-    color: #fff;
-    cursor: default;
-    z-index: 1; }
-
-.gblocks-control-tabs .components-tab-panel__tabs {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
-  margin-bottom: 15px;
-  border-bottom: 1px solid #e8eaeb; }
-
-.gblocks-control-tabs .components-tab-panel__tabs button {
-  padding: 9px 11px;
-  padding-bottom: 11px;
-  margin: 0;
-  margin-bottom: -1px;
-  color: #555d66;
-  cursor: pointer;
-  background: none;
-  border: none;
-  border-bottom: 2px solid transparent;
-  border-radius: 0;
-  outline-offset: -1px;
-  -ms-flex: 1;
-      flex: 1;
-  -ms-flex-pack: center;
-      justify-content: center; }
-
-.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
-  position: relative;
-  border-bottom: 2px solid #00a0d2;
-  z-index: 1;
-  font-weight: bold;
-  background: #fafafa; }
-
 .gb-headline-wrapper {
   display: -ms-flexbox;
   display: flex; }
 
 .editor-styles-wrapper .gb-headline {
   margin-top: 0;
-  margin-bottom: 0; }
+  margin-bottom: 0;
+  font-family: inherit; }
 
 .editor-styles-wrapper .gb-headline-wrapper .gb-headline {
   margin: 0 !important;
