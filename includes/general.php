@@ -69,6 +69,23 @@ function generateblocks_do_block_editor_assets() {
 		'generateBlocksDefaults',
 		generateblocks_get_block_defaults()
 	);
+
+	wp_localize_script(
+		'generateblocks',
+		'generateBlocksStyling',
+		array(
+			'button' => array(
+				'backgroundColor' => '#0366d6',
+				'textColor' => '#ffffff',
+				'backgroundColorHover' => '#222222',
+				'textColorHover' => '#ffffff',
+				'paddingTop' => '15',
+				'paddingRight' => '20',
+				'paddingBottom' => '15',
+				'paddingLeft' => '20',
+			)
+		)
+	);
 }
 
 add_filter( 'block_categories', 'generateblocks_do_category' );
