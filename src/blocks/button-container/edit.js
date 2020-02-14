@@ -34,6 +34,7 @@ const {
 
 const {
 	createBlock,
+	cloneBlock,
 } = wp.blocks;
 
 const {
@@ -439,7 +440,26 @@ class GenerateButtonContainer extends Component {
 							className="gblocks-add-button"
                             icon={ 'insert' }
                             onClick={ () => {
-								wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button' ), undefined, clientId );
+								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+
+								if ( thisBlock ) {
+									const childBlocks = thisBlock.innerBlocks;
+									const keys = Object.keys( childBlocks );
+									const lastKey = keys[ keys.length - 1 ];
+
+									if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
+										const blockToCopyId = childBlocks[ lastKey ].clientId;
+
+										if ( blockToCopyId ) {
+											const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
+											const clonedBlock = cloneBlock( blockToCopy );
+
+											wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
+										}
+									} else if ( 0 === childBlocks.length ) {
+										wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+									}
+								}
                             } }
                         />
                     </Tooltip>
