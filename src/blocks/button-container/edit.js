@@ -93,7 +93,7 @@ class GenerateButtonContainer extends Component {
 			const childBlocks = thisBlock.innerBlocks;
 
 			if ( 0 === childBlocks.length ) {
-				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button' ), undefined, this.props.clientId );
+				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, this.props.clientId );
 			}
 		}
 	}
