@@ -8,6 +8,7 @@ import hexToRGBA from '../../components/color-picker/hex-to-rgba';
 import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
+import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 
 const { __, _x } = wp.i18n; // Import __() from wp.i18n
@@ -209,6 +210,23 @@ class GenerateBlockContainer extends Component {
 			alignment,
 			alignmentTablet,
 			alignmentMobile,
+			showAdvancedTypography,
+			fontFamily,
+			fontFamilyFallback,
+			googleFont,
+			fontWeight,
+			fontSize,
+			fontSizeTablet,
+			fontSizeMobile,
+			fontSizeUnit,
+			textTransform,
+			lineHeight,
+			lineHeightTablet,
+			lineHeightMobile,
+			lineHeightUnit,
+			letterSpacing,
+			letterSpacingTablet,
+			letterSpacingMobile,
 		} = attributes;
 
 		let backgroundImageValue,
@@ -277,6 +295,12 @@ class GenerateBlockContainer extends Component {
 			zIndexStyle = 'z-index:' + zindex + ';position:relative;';
 		}
 
+		let fontFamilyFallbackValue = '';
+
+		if ( fontFamily && fontFamilyFallback ) {
+			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
+		}
+
 		const css = `
 			.gb-container-` + uniqueId + ` {
 				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
@@ -304,6 +328,13 @@ class GenerateBlockContainer extends Component {
 				margin-left: ` + marginLeft + marginUnit + `;
 				` + zIndexStyle + `;
 				text-align: ` + alignment + `;
+				font-family: ` + fontFamily + fontFamilyFallbackValue + `;
+				font-weight: ` + fontWeight + `;
+				text-transform: ` + textTransform + `;
+				text-align: ` + alignment + `;
+				font-size: ` + fontSize + fontSizeUnit + `;
+				line-height: ` + lineHeight + lineHeightUnit + `;
+				letter-spacing: ` + letterSpacing + `em;
 			}
 
 			.gb-container-` + uniqueId + ` a, .gb-container-` + uniqueId + ` a:visited {
@@ -452,16 +483,6 @@ class GenerateBlockContainer extends Component {
 																} );
 															} }
 														/>
-
-														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-															<AlignmentToolbar
-																isCollapsed={ false }
-																value={ alignment }
-																onChange={ ( value ) => {
-																	setAttributes( { alignment: value } );
-																} }
-															/>
-														</BaseControl>
 													</Fragment>
 												) }
 
@@ -595,16 +616,6 @@ class GenerateBlockContainer extends Component {
 																} );
 															} }
 														/>
-
-														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-															<AlignmentToolbar
-																isCollapsed={ false }
-																value={ alignment }
-																onChange={ ( value ) => {
-																	setAttributes( { alignment: value } );
-																} }
-															/>
-														</BaseControl>
 													</Fragment>
 												) }
 
@@ -690,16 +701,6 @@ class GenerateBlockContainer extends Component {
 																} );
 															} }
 														/>
-
-														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-															<AlignmentToolbar
-																isCollapsed={ false }
-																value={ alignmentTablet }
-																onChange={ ( value ) => {
-																	setAttributes( { alignmentTablet: value } );
-																} }
-															/>
-														</BaseControl>
 													</Fragment>
 												) }
 
@@ -785,16 +786,6 @@ class GenerateBlockContainer extends Component {
 																} );
 															} }
 														/>
-
-														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-															<AlignmentToolbar
-																isCollapsed={ false }
-																value={ alignmentMobile }
-																onChange={ ( value ) => {
-																	setAttributes( { alignmentMobile: value } );
-																} }
-															/>
-														</BaseControl>
 													</Fragment>
 												) }
 											</div>
@@ -804,6 +795,156 @@ class GenerateBlockContainer extends Component {
 							</TabPanel>
 						</PanelBody>
 					) }
+
+					<PanelBody
+						title={ __( 'Typography', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'typography' ) }
+						className={ 'gblocks-panel-label' }
+						>
+						<TabPanel className="grid-tab-panel gblocks-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'default',
+									title: __( 'Default', 'generateblocks' ),
+									className: 'default',
+								},
+								{
+									name: 'tablet',
+									title: __( 'Tablet', 'generateblocks' ),
+									className: 'tablet',
+								},
+								{
+									name: 'mobile',
+									title: __( 'Mobile', 'generateblocks' ),
+									className: 'mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									return (
+										<div>
+											{ 'default' === tab.name && (
+												<Fragment>
+													<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignment }
+															onChange={ ( value ) => {
+																setAttributes( { alignment: value } );
+															} }
+														/>
+													</BaseControl>
+
+													<TypographyControls { ...this.props }
+														valueFontFamily={ fontFamily }
+														valueFontFamilyFallback={ fontFamilyFallback }
+														valueFontWeight={ fontWeight }
+														valueGoogleFont={ googleFont }
+														valueTextTransform={ textTransform }
+														valueFontSize={ fontSize }
+														valueFontSizeUnit={ fontSizeUnit }
+														valueLineHeight={ lineHeight }
+														valueLineHeightUnit={ lineHeightUnit }
+														valueLetterSpacing={ letterSpacing }
+														valueShowAdvancedTypography={ showAdvancedTypography }
+														attrFontFamily={ 'fontFamily' }
+														attrFontFamilyFallback={ 'fontFamilyFallback' }
+														attrGoogleFont={ 'googleFont' }
+														attrFontWeight={ 'fontWeight' }
+														attrTextTransform={ 'textTransform' }
+														attrFontSize={ 'fontSize' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLineHeight={ 'lineHeight' }
+														attrLineHeightUnit={ 'lineHeightUnit' }
+														attrLetterSpacing={ 'letterSpacing' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														defaultFontSize={ generateBlocksDefaults.container.fontSize }
+														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+														defaultLineHeight={ generateBlocksDefaults.container.lineHeight }
+														defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacing }
+														uniqueId={ uniqueId }
+													/>
+												</Fragment>
+											) }
+
+											{ 'tablet' === tab.name && (
+												<Fragment>
+													<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignmentTablet }
+															onChange={ ( value ) => {
+																setAttributes( { alignmentTablet: value } );
+															} }
+														/>
+													</BaseControl>
+
+													<TypographyControls { ...this.props }
+														valueFontSize={ fontSizeTablet }
+														valueFontSizeUnit={ fontSizeUnit }
+														valueLineHeight={ lineHeightTablet }
+														valueLineHeightUnit={ lineHeightUnit }
+														valueLetterSpacing={ letterSpacingTablet }
+														valueShowAdvancedTypography={ showAdvancedTypography }
+														attrFontSize={ 'fontSizeTablet' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLineHeight={ 'lineHeightTablet' }
+														attrLineHeightUnit={ 'lineHeightUnit' }
+														attrLetterSpacing={ 'letterSpacingTablet' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
+														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+														defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
+														defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingTablet }
+														uniqueId={ uniqueId }
+													/>
+												</Fragment>
+											) }
+
+											{ 'mobile' === tab.name && (
+												<Fragment>
+													<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+														<AlignmentToolbar
+															isCollapsed={ false }
+															value={ alignmentMobile }
+															onChange={ ( value ) => {
+																setAttributes( { alignmentMobile: value } );
+															} }
+														/>
+													</BaseControl>
+
+													<TypographyControls { ...this.props }
+														valueFontSize={ fontSizeMobile }
+														valueFontSizeUnit={ fontSizeUnit }
+														valueLineHeight={ lineHeightMobile }
+														valueLineHeightUnit={ lineHeightUnit }
+														valueLetterSpacing={ letterSpacingMobile }
+														valueShowAdvancedTypography={ showAdvancedTypography }
+														attrFontSize={ 'fontSizeMobile' }
+														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLineHeight={ 'lineHeightMobile' }
+														attrLineHeightUnit={ 'lineHeightUnit' }
+														attrLetterSpacing={ 'letterSpacingMobile' }
+														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
+														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+														defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
+														defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+														defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingMobile }
+														uniqueId={ uniqueId }
+													/>
+												</Fragment>
+											) }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
+					</PanelBody>
 
 					<PanelBody
 						title={ __( 'Spacing', 'generateblocks' ) }

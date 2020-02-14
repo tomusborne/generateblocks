@@ -205,6 +205,23 @@ function generateblocks_get_google_fonts( $content = '' ) {
 					}
 				}
 			}
+
+			if ( 'container' === $name ) {
+				foreach( $blockData as $atts ) {
+					$headline_settings = wp_parse_args(
+						$atts,
+						$defaults['container']
+					);
+
+					if ( $headline_settings['googleFont'] ) {
+						$id = $atts['uniqueId'];
+						$font_data[ $id ] = array(
+							'name' => $headline_settings['fontFamily'],
+							'variants' => $headline_settings['fontWeight'],
+						);
+					}
+				}
+			}
 		}
 	}
 

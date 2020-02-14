@@ -126,6 +126,23 @@ function generateblocks_get_block_defaults() {
 		'alignment' => '',
 		'alignmentTablet' => '',
 		'alignmentMobile' => '',
+		'showAdvancedTypography' => false,
+		'fontFamily' => '',
+		'fontFamilyFallback' => '',
+		'googleFont' => false,
+		'fontWeight' => '',
+		'fontSize' => '',
+		'fontSizeTablet' => '',
+		'fontSizeMobile' => '',
+		'fontSizeUnit' => 'px',
+		'textTransform' => '',
+		'lineHeight' => '',
+		'lineHeightTablet' => '',
+		'lineHeightMobile' => '',
+		'lineHeightUnit' => 'em',
+		'letterSpacing' => '',
+		'letterSpacingTablet' => '',
+		'letterSpacingMobile' => '',
 	);
 
 	$defaults['buttonContainer'] = array(

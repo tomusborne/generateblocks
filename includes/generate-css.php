@@ -217,9 +217,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 
-				// Open main container element.
-				$css->set_selector( '.gb-container.gb-container-' . $id );
+				$fontFamily = $settings['fontFamily'];
 
+				if ( $fontFamily && $settings['fontFamilyFallback'] ) {
+					$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
+				}
+
+				$css->set_selector( '.gb-container.gb-container-' . $id );
+				$css->add_property( 'font-family', $fontFamily );
+				$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
+				$css->add_property( 'font-weight', $settings['fontWeight'] );
+				$css->add_property( 'text-transform', $settings['textTransform'] );
+				$css->add_property( 'line-height', $settings['lineHeight'], $settings['lineHeightUnit'] );
+				$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 				$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 
 				if ( 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
@@ -314,6 +324,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'justify-content', $settings['verticalAlignment'] );
 
 				$tablet_css->set_selector( '.gb-container.gb-container-' . $id );
+				$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
+				$tablet_css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
+				$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 				$tablet_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 				$tablet_css->add_property( 'border-radius', generateblocks_get_shorthand_css( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'], $settings['borderRadiusUnit'] ) );
 				$tablet_css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'], 'px' ) );
@@ -349,6 +362,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$mobile_css->set_selector( '.gb-container.gb-container-' . $id );
+				$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
+				$mobile_css->add_property( 'line-height', $settings['lineHeightMobile'], $settings['lineHeightUnit'] );
+				$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 				$mobile_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$mobile_css->add_property( 'border-radius', generateblocks_get_shorthand_css( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'], $settings['borderRadiusUnit'] ) );
 				$mobile_css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'], 'px' ) );

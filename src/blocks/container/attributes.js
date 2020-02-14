@@ -401,4 +401,72 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.container.alignmentMobile,
 	},
+	showAdvancedTypography: {
+		type: 'boolean',
+		default: generateBlocksDefaults.headline.showAdvancedTypography,
+	},
+	fontFamily: {
+		type: 'string',
+		default: generateBlocksDefaults.container.fontFamily,
+	},
+	fontFamilyFallback: {
+		type: 'string',
+		default: generateBlocksDefaults.container.fontFamilyFallback,
+	},
+	googleFont: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.googleFont,
+	},
+	fontWeight: {
+		type: 'string',
+		default: generateBlocksDefaults.container.fontWeight,
+	},
+	fontSize: {
+		type: 'number',
+		default: generateBlocksDefaults.container.fontSize,
+	},
+	fontSizeTablet: {
+		type: 'number',
+		default: generateBlocksDefaults.container.fontSizeTablet,
+	},
+	fontSizeMobile: {
+		type: 'number',
+		default: generateBlocksDefaults.container.fontSizeMobile,
+	},
+	fontSizeUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.container.fontSizeUnit,
+	},
+	textTransform: {
+		type: 'string',
+		default: '',
+	},
+	lineHeight: {
+		type: 'number',
+		default: generateBlocksDefaults.container.lineHeight,
+	},
+	lineHeightTablet: {
+		type: 'number',
+		default: generateBlocksDefaults.container.lineHeightTablet,
+	},
+	lineHeightMobile: {
+		type: 'number',
+		default: generateBlocksDefaults.container.lineHeightMobile,
+	},
+	lineHeightUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.container.lineHeightUnit,
+	},
+	letterSpacing: {
+		type: 'number',
+		default: generateBlocksDefaults.container.letterSpacing,
+	},
+	letterSpacingTablet: {
+		type: 'number',
+		default: generateBlocksDefaults.container.letterSpacingTablet,
+	},
+	letterSpacingMobile: {
+		type: 'number',
+		default: generateBlocksDefaults.container.letterSpacingMobile,
+	},
 }
