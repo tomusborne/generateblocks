@@ -49,7 +49,6 @@ class GenerateBlockGridContainer extends Component {
 
         this.state = {
             selectedLayout: false,
-            isTemplatesModalOpen: false,
         };
 
         this.onLayoutSelect = this.onLayoutSelect.bind( this );
