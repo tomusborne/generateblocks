@@ -104,6 +104,9 @@ class GenerateBlockHeadline extends Component {
 			lineHeightTablet,
 			lineHeightMobile,
 			lineHeightUnit,
+			letterSpacing,
+			letterSpacingTablet,
+			letterSpacingMobile,
 			marginTop,
 			marginRight,
 			marginBottom,
@@ -145,9 +148,6 @@ class GenerateBlockHeadline extends Component {
 			borderSizeRightMobile,
 			borderSizeBottomMobile,
 			borderSizeLeftMobile,
-			letterSpacing,
-			letterSpacingTablet,
-			letterSpacingMobile,
 			icon,
 			iconColor,
 			iconColorOpacity,
@@ -504,93 +504,6 @@ class GenerateBlockHeadline extends Component {
 					</PanelBody>
 
 					<PanelBody
-						title={ __( 'Colors', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'colors' ) }
-						className={ 'gblocks-panel-label' }
-						>
-						<ColorPicker
-							label={ __( 'Background Color', 'generateblocks' ) }
-							value={ backgroundColor }
-							onChange={ ( value ) =>
-								setAttributes( {
-									backgroundColor: value
-								} )
-							}
-							alpha={ true }
-							valueOpacity={ backgroundColorOpacity }
-							attrOpacity={ 'backgroundColorOpacity' }
-							onOpacityChange={ ( value ) =>
-								setAttributes( {
-									backgroundColorOpacity: value
-								} )
-							}
-						/>
-
-						<ColorPicker
-							label={ __( 'Text Color', 'generateblocks' ) }
-							value={ textColor }
-							onChange={ ( value ) =>
-								setAttributes( {
-									textColor: value
-								} )
-							}
-							alpha={ false }
-						/>
-
-						<ColorPicker
-							label={ __( 'Link Color', 'generateblocks' ) }
-							value={ linkColor }
-							onChange={ ( value ) =>
-								setAttributes( {
-									linkColor: value
-								} )
-							}
-							alpha={ false }
-						/>
-
-						<ColorPicker
-							label={ __( 'Link Color Hover', 'generateblocks' ) }
-							value={ linkColorHover }
-							onChange={ ( value ) =>
-								setAttributes( {
-									linkColorHover: value
-								} )
-							}
-							alpha={ false }
-						/>
-
-						<ColorPicker
-							label={ __( 'Border Color', 'generateblocks' ) }
-							value={ borderColor }
-							onChange={ ( value ) =>
-								setAttributes( {
-									borderColor: value
-								} )
-							}
-							alpha={ true }
-							valueOpacity={ borderColorOpacity }
-							attrOpacity={ 'borderColorOpacity' }
-							onOpacityChange={ ( value ) =>
-								setAttributes( {
-									borderColorOpacity: value
-								} )
-							}
-						/>
-
-						<ColorPicker
-							label={ __( 'Highlight Text', 'generateblocks' ) }
-							value={ highlightTextColor }
-							onChange={ ( value ) =>
-								setAttributes( {
-									highlightTextColor: value
-								} )
-							}
-							alpha={ false }
-						/>
-					</PanelBody>
-
-					<PanelBody
 						title={ __( 'Spacing', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'spacing' ) }
@@ -815,6 +728,93 @@ class GenerateBlockHeadline extends Component {
 								}
 							}
 						</TabPanel>
+					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Colors', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'colors' ) }
+						className={ 'gblocks-panel-label' }
+						>
+						<ColorPicker
+							label={ __( 'Background Color', 'generateblocks' ) }
+							value={ backgroundColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									backgroundColor: value
+								} )
+							}
+							alpha={ true }
+							valueOpacity={ backgroundColorOpacity }
+							attrOpacity={ 'backgroundColorOpacity' }
+							onOpacityChange={ ( value ) =>
+								setAttributes( {
+									backgroundColorOpacity: value
+								} )
+							}
+						/>
+
+						<ColorPicker
+							label={ __( 'Text Color', 'generateblocks' ) }
+							value={ textColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									textColor: value
+								} )
+							}
+							alpha={ false }
+						/>
+
+						<ColorPicker
+							label={ __( 'Link Color', 'generateblocks' ) }
+							value={ linkColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									linkColor: value
+								} )
+							}
+							alpha={ false }
+						/>
+
+						<ColorPicker
+							label={ __( 'Link Color Hover', 'generateblocks' ) }
+							value={ linkColorHover }
+							onChange={ ( value ) =>
+								setAttributes( {
+									linkColorHover: value
+								} )
+							}
+							alpha={ false }
+						/>
+
+						<ColorPicker
+							label={ __( 'Border Color', 'generateblocks' ) }
+							value={ borderColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									borderColor: value
+								} )
+							}
+							alpha={ true }
+							valueOpacity={ borderColorOpacity }
+							attrOpacity={ 'borderColorOpacity' }
+							onOpacityChange={ ( value ) =>
+								setAttributes( {
+									borderColorOpacity: value
+								} )
+							}
+						/>
+
+						<ColorPicker
+							label={ __( 'Highlight Text', 'generateblocks' ) }
+							value={ highlightTextColor }
+							onChange={ ( value ) =>
+								setAttributes( {
+									highlightTextColor: value
+								} )
+							}
+							alpha={ false }
+						/>
 					</PanelBody>
 
 					<PanelBody
