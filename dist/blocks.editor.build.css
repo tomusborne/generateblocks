@@ -79,6 +79,16 @@
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 .gb-grid-wrapper {
   position: relative;
   display: block;
@@ -325,6 +335,16 @@
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 /**
  * #.# Editor Styles
  *
@@ -485,6 +505,16 @@ body .gb-container .wp-block {
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 .gblocks-component-color-picker-wrapper .gblocks-component-color-picker-wrapper + .gblocks-component-color-picker-wrapper {
   margin-top: -5px; }
 
@@ -626,6 +656,16 @@ body .gb-container .wp-block {
   z-index: 1;
   font-weight: bold;
   background: #fafafa; }
+
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
 
 .components-gblocks-dimensions-control__inputs,
 .components-gblocks-dimensions-control__input-labels {
@@ -771,6 +811,16 @@ body .gb-container .wp-block {
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 .edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.gblocks-font-family-shortcuts {
   margin-bottom: 2px; }
 
@@ -899,6 +949,16 @@ body .gb-container .wp-block {
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 .gblocks-component-gradient-control {
   display: -ms-flexbox;
   display: flex;
@@ -1000,6 +1060,16 @@ body .gb-container .wp-block {
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 .gb-button-wrapper {
   display: -ms-flexbox;
   display: flex;
@@ -1021,6 +1091,9 @@ body .gb-container .wp-block {
 [data-type="generateblocks/button-container"].is-selected .gb-button-wrapper > .components-button {
   display: -ms-inline-flexbox;
   display: inline-flex; }
+
+.gblocks-add-new-button svg {
+  margin-right: 0 !important; }
 /**
  * #.# Common SCSS
  *
@@ -1101,6 +1174,16 @@ body .gb-container .wp-block {
   z-index: 1;
   font-weight: bold;
   background: #fafafa; }
+
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
 
 /**
  * Editor Styles
@@ -1185,6 +1268,16 @@ body .gb-container .wp-block {
   z-index: 1;
   font-weight: bold;
   background: #fafafa; }
+
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
 
 .gb-button-wrapper {
   position: relative;
@@ -1379,6 +1472,16 @@ body .gb-container .wp-block {
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 .gblocks-icon-chooser {
   display: -ms-flexbox;
   display: flex;
@@ -1540,6 +1643,16 @@ button.components-icon-picker-item {
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 /**
  * #.# Common SCSS
  *
@@ -1620,6 +1733,16 @@ button.components-icon-picker-item {
   z-index: 1;
   font-weight: bold;
   background: #fafafa; }
+
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
 
 .gblocks-component-url-input {
   width: 100%;
@@ -1769,6 +1892,16 @@ button.components-icon-picker-item {
   z-index: 1;
   font-weight: bold;
   background: #fafafa; }
+
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
 
 .gb-headline-wrapper {
   display: -ms-flexbox;
