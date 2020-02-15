@@ -79,6 +79,16 @@
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 /**
  * #.# Styles
  *
@@ -165,6 +175,16 @@
   font-weight: bold;
   background: #fafafa; }
 
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
+
 /**
  * Frontend Styles
  */
@@ -248,6 +268,16 @@
   z-index: 1;
   font-weight: bold;
   background: #fafafa; }
+
+.gblocks-block-control-icon svg {
+  margin-right: 0 !important;
+  padding: 2px; }
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+  padding: 0; }
+
+.gblocks-block-control-icon svg path {
+  fill: inherit !important; }
 
 .gb-button {
   display: inline-block;
