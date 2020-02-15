@@ -95,3 +95,16 @@ $item-spacing: 10px !default;
 	font-weight: bold;
 	background: #fafafa;
 }
+
+.gblocks-block-control-icon svg {
+    margin-right: 0 !important;
+    padding: 2px;
+}
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+	padding: 0;
+}
+
+.gblocks-block-control-icon svg path {
+    fill: inherit !important;
+}

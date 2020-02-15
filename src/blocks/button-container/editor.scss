@@ -18,3 +18,7 @@
 [data-type="generateblocks/button-container"].is-selected .gb-button-wrapper > .components-button {
 	display: inline-flex;
 }
+
+.gblocks-add-new-button svg {
+	margin-right: 0 !important;
+}

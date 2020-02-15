@@ -21,6 +21,9 @@ const {
 	RangeControl,
 	SelectControl,
 	ToggleControl,
+	Toolbar,
+	Tooltip,
+	Button,
 } = wp.components;
 
 const {
@@ -32,7 +35,12 @@ const {
 	InspectorControls,
 	InspectorAdvancedControls,
 	RichText,
+	BlockControls,
 } = wp.blockEditor;
+
+const {
+	cloneBlock,
+} = wp.blocks;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbButtonIds = [];
@@ -69,6 +77,7 @@ class GenerateBlockButton extends Component {
 			toggleSelection,
 			instanceId,
 			isSelected,
+			clientId,
 		} = this.props;
 
 		const {
@@ -293,6 +302,23 @@ class GenerateBlockButton extends Component {
 
 		return (
 			<Fragment>
+				<BlockControls>
+					<Toolbar>
+						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
+							<Button
+								className="gblocks-add-new-button"
+								icon={ 'insert' }
+								onClick={ () => {
+									const parentBlock = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+									const clonedBlock = cloneBlock( thisBlock );
+
+									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlock );
+								} }
+							/>
+						</Tooltip>
+					</Toolbar>
+				</BlockControls>
 
 				<InspectorControls>
 					<PanelBody

@@ -4,6 +4,7 @@
 
 import './style.scss';
 import './editor.scss';
+import './block-controls.js';
 
 import editContainer from './edit'
 import saveContainer from './save'

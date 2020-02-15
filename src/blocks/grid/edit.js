@@ -18,6 +18,7 @@ const {
 	Icon,
 	Placeholder,
 	Button,
+	Toolbar,
 } = wp.components;
 
 const {
@@ -29,6 +30,7 @@ const {
 	InspectorControls,
 	InspectorAdvancedControls,
 	InnerBlocks,
+	BlockControls,
 } = wp.blockEditor;
 
 const {
@@ -262,7 +264,29 @@ class GenerateBlockGridContainer extends Component {
 
 		return (
 			<Fragment>
-
+				<BlockControls>
+					<Toolbar>
+						<Tooltip text={ __( 'Add Grid Item', 'generateblocks' ) }>
+							<Button
+								className="gblocks-block-control-icon gblocks-add-grid-item"
+								icon={ getIcon( 'addContainer' ) }
+								onClick={ () => {
+									wp.data.dispatch( 'core/block-editor' ).insertBlocks(
+										wp.blocks.createBlock( 'generateblocks/container', {
+											isGrid: true,
+											paddingTop: '',
+											paddingRight: '',
+											paddingBottom: '',
+											paddingLeft: '',
+										} ),
+										undefined,
+										clientId
+									);
+								} }
+							/>
+						</Tooltip>
+					</Toolbar>
+				</BlockControls>
 				<InspectorControls>
 					<PanelBody>
 						<TabPanel className="grid-tab-panel gblocks-control-tabs"
@@ -612,27 +636,6 @@ class GenerateBlockGridContainer extends Component {
 								allowedBlocks={ [ 'generateblocks/container' ] }
 								renderAppender={ false }
 							/>
-
-							<div className="block-list-appender gb-grid-appender">
-								<Tooltip text={ __( 'Add Container', 'generateblocks' ) }>
-			                        <IconButton
-			                            icon={ getIcon( 'addContainer' ) }
-			                            onClick={ () => {
-											wp.data.dispatch( 'core/block-editor' ).insertBlocks(
-												wp.blocks.createBlock( 'generateblocks/container', {
-												    isGrid: true,
-													paddingTop: '',
-													paddingRight: '',
-													paddingBottom: '',
-													paddingLeft: '',
-												} ),
-												undefined,
-												clientId
-											);
-			                            } }
-			                        />
-			                    </Tooltip>
-							</div>
 						</Fragment>
 						) : this.getLayoutsSelector() }
 				</div>

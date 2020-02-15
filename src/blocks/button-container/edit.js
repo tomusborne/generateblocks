@@ -14,9 +14,11 @@ const {
 	RangeControl,
 	Notice,
 	Tooltip,
+	Button,
 	IconButton,
 	BaseControl,
 	ToggleControl,
+	Toolbar,
 } = wp.components;
 
 const {
@@ -203,6 +205,36 @@ class GenerateButtonContainer extends Component {
 		return (
 			<Fragment>
 				<BlockControls>
+					<Toolbar>
+						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
+							<Button
+								className="gblocks-add-new-button"
+								icon={ 'insert' }
+								onClick={ () => {
+									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+
+									if ( thisBlock ) {
+										const childBlocks = thisBlock.innerBlocks;
+										const keys = Object.keys( childBlocks );
+										const lastKey = keys[ keys.length - 1 ];
+
+										if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
+											const blockToCopyId = childBlocks[ lastKey ].clientId;
+
+											if ( blockToCopyId ) {
+												const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
+												const clonedBlock = cloneBlock( blockToCopy );
+
+												wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
+											}
+										} else if ( 0 === childBlocks.length ) {
+											wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+										}
+									}
+								} }
+							/>
+						</Tooltip>
+					</Toolbar>
 					<AlignmentToolbar
 						isCollapsed={ false }
 						value={ alignment }
@@ -434,35 +466,6 @@ class GenerateButtonContainer extends Component {
 					<InnerBlocks
 						allowedBlocks={ [ 'generateblocks/button' ] }
 					/>
-
-					<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
-                        <IconButton
-							className="gblocks-add-button"
-                            icon={ 'insert' }
-                            onClick={ () => {
-								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
-
-								if ( thisBlock ) {
-									const childBlocks = thisBlock.innerBlocks;
-									const keys = Object.keys( childBlocks );
-									const lastKey = keys[ keys.length - 1 ];
-
-									if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
-										const blockToCopyId = childBlocks[ lastKey ].clientId;
-
-										if ( blockToCopyId ) {
-											const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
-											const clonedBlock = cloneBlock( blockToCopy );
-
-											wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
-										}
-									} else if ( 0 === childBlocks.length ) {
-										wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
-									}
-								}
-                            } }
-                        />
-                    </Tooltip>
 				</div>
 			</Fragment>
 		);
