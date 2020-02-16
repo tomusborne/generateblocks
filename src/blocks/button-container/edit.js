@@ -465,6 +465,17 @@ class GenerateButtonContainer extends Component {
 				>
 					<InnerBlocks
 						allowedBlocks={ [ 'generateblocks/button' ] }
+						renderAppender={ () => (
+							<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
+								<Button
+									className="gblocks-add-new-button gblocks-button-container-appender"
+									icon={ 'insert' }
+									onClick={ () => {
+										wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+									} }
+								/>
+							</Tooltip>
+						) }
 					/>
 				</div>
 			</Fragment>

@@ -10,8 +10,8 @@
     display: none !important;
 }
 
-.gb-button-wrapper > .components-button {
-	display: none;
+.gb-button-wrapper .block-editor-block-list__layout > .block-list-appender:first-child {
+    display: block !important;
 }
 
 [data-type="generateblocks/button-container"].has-child-selected .gb-button-wrapper > .components-button,
@@ -21,4 +21,8 @@
 
 .gblocks-add-new-button svg {
 	margin-right: 0 !important;
+}
+
+.gblocks-button-container-appender {
+	align-self: center;
 }
