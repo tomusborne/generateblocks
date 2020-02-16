@@ -1084,8 +1084,8 @@ body .gb-container .wp-block {
 .gb-button-wrapper .block-editor-block-list__layout > .block-list-appender {
   display: none !important; }
 
-.gb-button-wrapper > .components-button {
-  display: none; }
+.gb-button-wrapper .block-editor-block-list__layout > .block-list-appender:first-child {
+  display: block !important; }
 
 [data-type="generateblocks/button-container"].has-child-selected .gb-button-wrapper > .components-button,
 [data-type="generateblocks/button-container"].is-selected .gb-button-wrapper > .components-button {
@@ -1094,6 +1094,10 @@ body .gb-container .wp-block {
 
 .gblocks-add-new-button svg {
   margin-right: 0 !important; }
+
+.gblocks-button-container-appender {
+  -ms-flex-item-align: center;
+      align-self: center; }
 /**
  * #.# Common SCSS
  *
