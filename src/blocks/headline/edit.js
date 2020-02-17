@@ -186,7 +186,8 @@ class GenerateBlockHeadline extends Component {
 			inlineVerticalAlignment = '',
 			fontFamilyFallbackValue = '',
 			inlineHeadline = '',
-			borderStyleValue = '';
+			borderStyleValue = '',
+			marginBottomValue = '';
 
 		if ( icon && 'above' === iconLocation ) {
 			iconFlexDirection = 'column';
@@ -210,6 +211,26 @@ class GenerateBlockHeadline extends Component {
 			borderStyleValue = 'solid';
 		}
 
+		if ( marginBottom ) {
+			marginBottomValue = marginBottom + marginUnit;
+		} else {
+			if ( 'p' === element ) {
+				marginBottomValue = generateBlocksStyling.headline.paragraphMargin + 'em';
+			} else if ( 'h1' === element ) {
+				marginBottomValue = generateBlocksStyling.headline.h1Margin + 'px';
+			} else if ( 'h2' === element ) {
+				marginBottomValue = generateBlocksStyling.headline.h2Margin + 'px';
+			} else if ( 'h3' === element ) {
+				marginBottomValue = generateBlocksStyling.headline.h3Margin + 'px';
+			} else if ( 'h4' === element ) {
+				marginBottomValue = generateBlocksStyling.headline.h4Margin + 'px';
+			} else if ( 'h5' === element ) {
+				marginBottomValue = generateBlocksStyling.headline.h5Margin + 'px';
+			} else if ( 'h6' === element ) {
+				marginBottomValue = generateBlocksStyling.headline.h6Margin + 'px';
+			}
+		}
+
 		const css = `
 			.editor-styles-wrapper .gb-headline-` + uniqueId + ` {
 				font-family: ` + fontFamily + fontFamilyFallbackValue + `;
@@ -223,7 +244,7 @@ class GenerateBlockHeadline extends Component {
 				letter-spacing: ` + letterSpacing + `em;
 				margin-top: ` + marginTop + marginUnit + ` !important;
 				margin-right: ` + marginRight + marginUnit + `;
-				margin-bottom: ` + marginBottom + marginUnit + ` !important;
+				margin-bottom: ` + marginBottomValue + ` !important;
 				margin-left: ` + marginLeft + marginUnit + `;
 				padding-top: ` + paddingTop + paddingUnit + `;
 				padding-right: ` + paddingRight + paddingUnit + `;

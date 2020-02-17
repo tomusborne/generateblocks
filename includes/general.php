@@ -70,21 +70,40 @@ function generateblocks_do_block_editor_assets() {
 		generateblocks_get_block_defaults()
 	);
 
+	$defaultBlockStyles = array(
+		'button' => array(
+			'backgroundColor' => '#0366d6',
+			'textColor' => '#ffffff',
+			'backgroundColorHover' => '#222222',
+			'textColorHover' => '#ffffff',
+			'paddingTop' => '15',
+			'paddingRight' => '20',
+			'paddingBottom' => '15',
+			'paddingLeft' => '20',
+		),
+	);
+
+	if ( function_exists( 'generate_get_default_fonts' ) ) {
+		$font_settings = wp_parse_args(
+			get_option( 'generate_settings', array() ),
+			generate_get_default_fonts()
+		);
+
+		$defaultBlockStyles['headline'] = array(
+			'paragraphMargin' => $font_settings['paragraph_margin'],
+			'h1Margin' => $font_settings['heading_1_margin_bottom'],
+			'h2Margin' => $font_settings['heading_2_margin_bottom'],
+			'h3Margin' => $font_settings['heading_3_margin_bottom'],
+			'h4Margin' => '20',
+			'h5Margin' => '20',
+			'h6Margin' => '20',
+		);
+	}
+
 	wp_localize_script(
 		'generateblocks',
 		'generateBlocksStyling',
-		array(
-			'button' => array(
-				'backgroundColor' => '#0366d6',
-				'textColor' => '#ffffff',
-				'backgroundColorHover' => '#222222',
-				'textColorHover' => '#ffffff',
-				'paddingTop' => '15',
-				'paddingRight' => '20',
-				'paddingBottom' => '15',
-				'paddingLeft' => '20',
-			)
-		)
+		apply_filters( 'generateblocks_default_block_styles', $defaultBlockStyles )
 	);
 }
 
