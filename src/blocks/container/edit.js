@@ -1571,6 +1571,8 @@ class GenerateBlockContainer extends Component {
 						) }
 					</PanelBody>
 
+					<ApplyFilters name="generateblocks.editor.panels" attribute="afterContainerBackgrounds" props={ this.props }></ApplyFilters>
+
 					<PanelBody
 						title={ __( 'Advanced', 'generateblocks' ) }
 						initialOpen={ false }
