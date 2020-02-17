@@ -215,19 +215,19 @@ class GenerateBlockHeadline extends Component {
 			marginBottomValue = marginBottom + marginUnit;
 		} else {
 			if ( 'p' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.paragraphMargin + 'em';
+				marginBottomValue = generateBlocksStyling.headline.paragraphMargin;
 			} else if ( 'h1' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h1Margin + 'px';
+				marginBottomValue = generateBlocksStyling.headline.h1Margin;
 			} else if ( 'h2' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h2Margin + 'px';
+				marginBottomValue = generateBlocksStyling.headline.h2Margin;
 			} else if ( 'h3' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h3Margin + 'px';
+				marginBottomValue = generateBlocksStyling.headline.h3Margin;
 			} else if ( 'h4' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h4Margin + 'px';
+				marginBottomValue = generateBlocksStyling.headline.h4Margin;
 			} else if ( 'h5' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h5Margin + 'px';
+				marginBottomValue = generateBlocksStyling.headline.h5Margin;
 			} else if ( 'h6' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h6Margin + 'px';
+				marginBottomValue = generateBlocksStyling.headline.h6Margin;
 			}
 		}
 

@@ -90,13 +90,13 @@ function generateblocks_do_block_editor_assets() {
 		);
 
 		$defaultBlockStyles['headline'] = array(
-			'paragraphMargin' => $font_settings['paragraph_margin'],
-			'h1Margin' => $font_settings['heading_1_margin_bottom'],
-			'h2Margin' => $font_settings['heading_2_margin_bottom'],
-			'h3Margin' => $font_settings['heading_3_margin_bottom'],
-			'h4Margin' => '20',
-			'h5Margin' => '20',
-			'h6Margin' => '20',
+			'paragraphMargin' => $font_settings['paragraph_margin'] . 'em',
+			'h1Margin' => $font_settings['heading_1_margin_bottom'] . 'px',
+			'h2Margin' => $font_settings['heading_2_margin_bottom'] . 'px',
+			'h3Margin' => $font_settings['heading_3_margin_bottom'] . 'px',
+			'h4Margin' => '20px',
+			'h5Margin' => '20px',
+			'h6Margin' => '20px',
 		);
 	}
 
