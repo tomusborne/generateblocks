@@ -60,7 +60,7 @@ function generateblocks_do_dashboard() {
 			</div>
 
 			<div class="gblocks-dashboard-intro-content">
-				<?php _e( "GenerateBlocks isn't your average block plugin with 30+ half-baked blocks. Instead, we've created 4 powerful blocks that can be used to create nearly anything.", "generateblocks" ); ?>
+				<?php _e( 'A small collection of lightweight WordPress blocks that can accomplish nearly anything.', 'generateblocks' ); ?>
 			</div>
 
 			<div class="gblocks-dashboard-content-container">
