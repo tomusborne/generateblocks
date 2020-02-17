@@ -1619,7 +1619,7 @@ class GenerateBlockContainer extends Component {
 							step={ 10 }
 						/>
 
-						{ applyFilters( 'generateblocks.controls.advanced', '', 'container', this.props ) }
+						<ApplyFilters name="generateblocks.editor.controls" attribute="containerAdvanced" props={ this.props }></ApplyFilters>
 					</PanelBody>
 
 					<PanelBody
