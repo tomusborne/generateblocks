@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
+import ApplyFilters from '../../components/apply-filters/';
 
 const { __, _x } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -1329,76 +1330,78 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 					>
 
-						<Fragment>
-							<ColorPicker
-								label={ __( 'Background Color', 'generateblocks' ) }
-								value={ backgroundColor }
-								onChange={ ( nextBackgroundColor ) =>
-									setAttributes( {
-										backgroundColor: nextBackgroundColor
-									} )
-								}
-								alpha={ true }
-								valueOpacity={ backgroundColorOpacity }
-								attrOpacity={ 'backgroundColorOpacity' }
-								onOpacityChange={ ( value ) =>
-									setAttributes( {
-										backgroundColorOpacity: value
-									} )
-								}
-							/>
+						<ApplyFilters name="generateblocks.editor.controls" attribute="containerColors" props={ this.props }>
+							<Fragment>
+								<ColorPicker
+									label={ __( 'Background Color', 'generateblocks' ) }
+									value={ backgroundColor }
+									onChange={ ( nextBackgroundColor ) =>
+										setAttributes( {
+											backgroundColor: nextBackgroundColor
+										} )
+									}
+									alpha={ true }
+									valueOpacity={ backgroundColorOpacity }
+									attrOpacity={ 'backgroundColorOpacity' }
+									onOpacityChange={ ( value ) =>
+										setAttributes( {
+											backgroundColorOpacity: value
+										} )
+									}
+								/>
 
-							<ColorPicker
-								label={ __( 'Text Color', 'generateblocks' ) }
-								value={ textColor }
-								onChange={ ( nextTextColor ) =>
-									setAttributes( {
-										textColor: nextTextColor
-									} )
-								}
-								alpha={ false }
-							/>
+								<ColorPicker
+									label={ __( 'Text Color', 'generateblocks' ) }
+									value={ textColor }
+									onChange={ ( nextTextColor ) =>
+										setAttributes( {
+											textColor: nextTextColor
+										} )
+									}
+									alpha={ false }
+								/>
 
-							<ColorPicker
-								label={ __( 'Link Color', 'generateblocks' ) }
-								value={ linkColor }
-								onChange={ ( nextLinkColor ) =>
-									setAttributes( {
-										linkColor: nextLinkColor
-									} )
-								}
-								alpha={ false }
-							/>
+								<ColorPicker
+									label={ __( 'Link Color', 'generateblocks' ) }
+									value={ linkColor }
+									onChange={ ( nextLinkColor ) =>
+										setAttributes( {
+											linkColor: nextLinkColor
+										} )
+									}
+									alpha={ false }
+								/>
 
-							<ColorPicker
-								label={ __( 'Link Color Hover', 'generateblocks' ) }
-								value={ linkColorHover }
-								onChange={ ( nextLinkColorHover ) =>
-									setAttributes( {
-										linkColorHover: nextLinkColorHover
-									} )
-								}
-								alpha={ false }
-							/>
+								<ColorPicker
+									label={ __( 'Link Color Hover', 'generateblocks' ) }
+									value={ linkColorHover }
+									onChange={ ( nextLinkColorHover ) =>
+										setAttributes( {
+											linkColorHover: nextLinkColorHover
+										} )
+									}
+									alpha={ false }
+								/>
 
-							<ColorPicker
-								label={ __( 'Border Color', 'generateblocks' ) }
-								value={ borderColor }
-								onChange={ ( value ) =>
-									setAttributes( {
-										borderColor: value
-									} )
-								}
-								alpha={ true }
-								valueOpacity={ borderColorOpacity }
-								attrOpacity={ 'borderColorOpacity' }
-								onOpacityChange={ ( value ) =>
-									setAttributes( {
-										borderColorOpacity: value
-									} )
-								}
-							/>
-						</Fragment>
+								<ColorPicker
+									label={ __( 'Border Color', 'generateblocks' ) }
+									value={ borderColor }
+									onChange={ ( value ) =>
+										setAttributes( {
+											borderColor: value
+										} )
+									}
+									alpha={ true }
+									valueOpacity={ borderColorOpacity }
+									attrOpacity={ 'borderColorOpacity' }
+									onOpacityChange={ ( value ) =>
+										setAttributes( {
+											borderColorOpacity: value
+										} )
+									}
+								/>
+							</Fragment>
+						</ApplyFilters>
 					</PanelBody>
 
 					<PanelBody
