@@ -9,6 +9,10 @@ const {
 	InnerBlocks
 } = wp.blockEditor;
 
+const {
+	applyFilters
+} = wp.hooks;
+
 export default ( { attributes } ) => {
 
 	const {
@@ -54,6 +58,7 @@ export default ( { attributes } ) => {
 					[`${ cssClasses }`]: '' !== cssClasses
 				} ) }
 			>
+				{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
 				<div className={ classnames( {
 					'gb-inside-container': true
 				} ) }>

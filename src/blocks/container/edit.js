@@ -1649,6 +1649,7 @@ class GenerateBlockContainer extends Component {
 								[`${ cssClasses }`]: '' !== cssClasses
 							} ) }
 						>
+							{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
 							<div
 								className={ classnames( {
 								'gb-inside-container': true
@@ -1677,6 +1678,7 @@ class GenerateBlockContainer extends Component {
 							[`${ cssClasses }`]: '' !== cssClasses
 						} ) }
 					>
+						{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
 						<div
 							className={ classnames( {
 							'gb-inside-container': true
