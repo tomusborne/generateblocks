@@ -95,7 +95,7 @@ class GenerateBlockGridContainer extends Component {
             const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
 
 			columnsData.forEach( ( colAttrs ) => {
-				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/container', colAttrs ), undefined, clientId );
+				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/container', colAttrs ), undefined, clientId, false );
 			} );
 
 			columns = columnsData.length;
