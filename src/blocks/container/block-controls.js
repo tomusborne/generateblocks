@@ -59,7 +59,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 				{ isGrid && isSelected && 'generateblocks/container' === name &&
 					<BlockControls>
 						<Toolbar>
-							<Tooltip text={ __( 'Add Grid Item', 'generateblocks' ) }>
+							<Tooltip text={ __( 'Duplicate Grid Item', 'generateblocks' ) }>
 								<Button
 									className="gblocks-block-control-icon gblocks-add-grid-item"
 									icon={ getIcon( 'addContainer' ) }
