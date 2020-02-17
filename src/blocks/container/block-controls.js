@@ -23,6 +23,7 @@ const {
 	Toolbar,
 	Tooltip,
 	Button,
+	IconButton,
 } = wp.components;
 
 const {
@@ -54,17 +55,24 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 			isGrid,
 		} = attributes;
 
+		let parentGridId = false;
+
+		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === "function" ) {
+			parentGridId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/grid', true )[ 0 ];
+		} else {
+			parentGridId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
+		}
+
 		return (
 			<Fragment>
-				{ isGrid && isSelected && 'generateblocks/container' === name &&
+				{ isSelected && isGrid && parentGridId && 'generateblocks/container' === name &&
 					<BlockControls>
 						<Toolbar>
 							<Tooltip text={ __( 'Duplicate Grid Item', 'generateblocks' ) }>
-								<Button
+								<IconButton
 									className="gblocks-block-control-icon gblocks-add-grid-item"
 									icon={ getIcon( 'addContainer' ) }
 									onClick={ () => {
-										const parentGridId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/grid', true )[ 0 ];
 										const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
 										const clonedBlock = cloneBlock( thisBlock );
 
@@ -76,12 +84,10 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 						<Toolbar>
 							<Tooltip text={ __( 'Select Parent Grid', 'generateblocks' ) }>
-								<Button
+								<IconButton
 									className="gblocks-block-control-icon"
 									icon={ getIcon( 'grid' ) }
 									onClick={ () => {
-										const parentGridId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/grid', true )[ 0 ];
-
 										wp.data.dispatch( 'core/block-editor' ).selectBlock( parentGridId );
 									} }
 								/>

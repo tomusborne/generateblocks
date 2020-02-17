@@ -24,6 +24,7 @@ const {
 	Toolbar,
 	Tooltip,
 	Button,
+	IconButton,
 } = wp.components;
 
 const {
@@ -305,15 +306,22 @@ class GenerateBlockButton extends Component {
 				<BlockControls>
 					<Toolbar>
 						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
-							<Button
+							<IconButton
 								className="gblocks-add-new-button"
 								icon={ 'insert' }
 								onClick={ () => {
-									const parentBlock = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+									let parentBlockId = false;
+
+									if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === "function" ) {
+										parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+									} else {
+										parentBlockId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
+									}
+
 									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
 									const clonedBlock = cloneBlock( thisBlock );
 
-									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlock );
+									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlockId );
 								} }
 							/>
 						</Tooltip>

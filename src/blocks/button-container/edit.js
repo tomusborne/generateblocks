@@ -207,7 +207,7 @@ class GenerateButtonContainer extends Component {
 				<BlockControls>
 					<Toolbar>
 						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
-							<Button
+							<IconButton
 								className="gblocks-add-new-button"
 								icon={ 'insert' }
 								onClick={ () => {

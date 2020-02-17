@@ -14,10 +14,10 @@ const {
 	SelectControl,
 	Notice,
 	Tooltip,
-	IconButton,
 	Icon,
 	Placeholder,
 	Button,
+	IconButton,
 	Toolbar,
 } = wp.components;
 
@@ -267,7 +267,7 @@ class GenerateBlockGridContainer extends Component {
 				<BlockControls>
 					<Toolbar>
 						<Tooltip text={ __( 'Add Grid Item', 'generateblocks' ) }>
-							<Button
+							<IconButton
 								className="gblocks-block-control-icon gblocks-add-grid-item"
 								icon={ getIcon( 'addContainer' ) }
 								onClick={ () => {
