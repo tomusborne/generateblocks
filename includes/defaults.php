@@ -310,7 +310,7 @@ function generateblocks_get_block_defaults() {
 		'letterSpacingMobile' => '',
 		'marginTop' => '',
 		'marginRight' => '',
-		'marginBottom' => '25',
+		'marginBottom' => '',
 		'marginLeft' => '',
 		'marginTopTablet' => '',
 		'marginRightTablet' => '',
