@@ -1616,6 +1616,16 @@ class GenerateBlockContainer extends Component {
 
 						{ applyFilters( 'generateblocks.controls.advanced', '', 'container', this.props ) }
 					</PanelBody>
+
+					<PanelBody
+						title={ __( 'Documentation', 'generateblocks' ) }
+						icon={ getIcon( 'documentation' ) }
+						initialOpen={ false }
+						className={ 'gblocks-panel-label' }
+					>
+						<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
+						<a href="https://docs.generateblocks.com/collection/container/" target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
+					</PanelBody>
 				</InspectorControls>
 
 				<style>{ css }</style>

@@ -1098,6 +1098,7 @@ class GenerateBlockHeadline extends Component {
 
 					<PanelBody
 						title={ __( 'Documentation', 'generateblocks' ) }
+						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
 						className={ 'gblocks-panel-label' }
 					>
