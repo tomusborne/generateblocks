@@ -366,7 +366,7 @@ class TypographyControls extends Component {
 					</Fragment>
 				}
 
-				{ valueShowAdvancedTypography &&
+				{ 'disable' !== this.props[ 'attrLineHeight'] && valueShowAdvancedTypography &&
 					<Fragment>
 						<div className="components-gblocks-typography-control__header">
 							<div className="components-gblocks-control__label">

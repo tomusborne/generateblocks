@@ -221,13 +221,6 @@ class GenerateBlockContainer extends Component {
 			fontSizeMobile,
 			fontSizeUnit,
 			textTransform,
-			lineHeight,
-			lineHeightTablet,
-			lineHeightMobile,
-			lineHeightUnit,
-			letterSpacing,
-			letterSpacingTablet,
-			letterSpacingMobile,
 		} = attributes;
 
 		let backgroundImageValue,
@@ -334,8 +327,6 @@ class GenerateBlockContainer extends Component {
 				text-transform: ` + textTransform + `;
 				text-align: ` + alignment + `;
 				font-size: ` + fontSize + fontSizeUnit + `;
-				line-height: ` + lineHeight + lineHeightUnit + `;
-				letter-spacing: ` + letterSpacing + `em;
 			}
 
 			.gb-container-` + uniqueId + ` a, .gb-container-` + uniqueId + ` a:visited {
@@ -846,9 +837,6 @@ class GenerateBlockContainer extends Component {
 														valueTextTransform={ textTransform }
 														valueFontSize={ fontSize }
 														valueFontSizeUnit={ fontSizeUnit }
-														valueLineHeight={ lineHeight }
-														valueLineHeightUnit={ lineHeightUnit }
-														valueLetterSpacing={ letterSpacing }
 														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontFamily={ 'fontFamily' }
 														attrFontFamilyFallback={ 'fontFamilyFallback' }
@@ -857,9 +845,8 @@ class GenerateBlockContainer extends Component {
 														attrTextTransform={ 'textTransform' }
 														attrFontSize={ 'fontSize' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'lineHeight' }
-														attrLineHeightUnit={ 'lineHeightUnit' }
-														attrLetterSpacing={ 'letterSpacing' }
+														attrLineHeight={ 'disable' }
+														attrLetterSpacing={ 'disable' }
 														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.container.fontSize }
 														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
@@ -886,15 +873,11 @@ class GenerateBlockContainer extends Component {
 													<TypographyControls { ...this.props }
 														valueFontSize={ fontSizeTablet }
 														valueFontSizeUnit={ fontSizeUnit }
-														valueLineHeight={ lineHeightTablet }
-														valueLineHeightUnit={ lineHeightUnit }
-														valueLetterSpacing={ letterSpacingTablet }
 														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontSize={ 'fontSizeTablet' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'lineHeightTablet' }
-														attrLineHeightUnit={ 'lineHeightUnit' }
-														attrLetterSpacing={ 'letterSpacingTablet' }
+														attrLineHeight={ 'disable' }
+														attrLetterSpacing={ 'disable' }
 														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
 														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
@@ -921,15 +904,11 @@ class GenerateBlockContainer extends Component {
 													<TypographyControls { ...this.props }
 														valueFontSize={ fontSizeMobile }
 														valueFontSizeUnit={ fontSizeUnit }
-														valueLineHeight={ lineHeightMobile }
-														valueLineHeightUnit={ lineHeightUnit }
-														valueLetterSpacing={ letterSpacingMobile }
 														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontSize={ 'fontSizeMobile' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'lineHeightMobile' }
-														attrLineHeightUnit={ 'lineHeightUnit' }
-														attrLetterSpacing={ 'letterSpacingMobile' }
+														attrLineHeight={ 'disable' }
+														attrLetterSpacing={ 'disable' }
 														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
 														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }

@@ -136,13 +136,6 @@ function generateblocks_get_block_defaults() {
 		'fontSizeMobile' => '',
 		'fontSizeUnit' => 'px',
 		'textTransform' => '',
-		'lineHeight' => '',
-		'lineHeightTablet' => '',
-		'lineHeightMobile' => '',
-		'lineHeightUnit' => 'em',
-		'letterSpacing' => '',
-		'letterSpacingTablet' => '',
-		'letterSpacingMobile' => '',
 	);
 
 	$defaults['buttonContainer'] = array(

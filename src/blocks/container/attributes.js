@@ -441,32 +441,4 @@ export default {
 		type: 'string',
 		default: '',
 	},
-	lineHeight: {
-		type: 'number',
-		default: generateBlocksDefaults.container.lineHeight,
-	},
-	lineHeightTablet: {
-		type: 'number',
-		default: generateBlocksDefaults.container.lineHeightTablet,
-	},
-	lineHeightMobile: {
-		type: 'number',
-		default: generateBlocksDefaults.container.lineHeightMobile,
-	},
-	lineHeightUnit: {
-		type: 'string',
-		default: generateBlocksDefaults.container.lineHeightUnit,
-	},
-	letterSpacing: {
-		type: 'number',
-		default: generateBlocksDefaults.container.letterSpacing,
-	},
-	letterSpacingTablet: {
-		type: 'number',
-		default: generateBlocksDefaults.container.letterSpacingTablet,
-	},
-	letterSpacingMobile: {
-		type: 'number',
-		default: generateBlocksDefaults.container.letterSpacingMobile,
-	},
 }
