@@ -52,13 +52,19 @@ function generateblocks_do_block_editor_assets() {
 				generate_get_color_defaults()
 			);
 
-			$buttonBackground = $color_settings['form_button_background_color'];
-			$buttonBackgroundHover = $color_settings['form_button_background_color_hover'];
-			$buttonText = $color_settings['form_button_text_color'];
-			$buttonTextHover = $color_settings['form_button_text_color_hover'];
+			$generatepressDefaultStyling = apply_filters( 'generateblocks_gp_default_styling', array(
+				'buttonBackground' => $color_settings['form_button_background_color'],
+				'buttonBackgroundHover' => $color_settings['form_button_background_color_hover'],
+				'buttonText' => $color_settings['form_button_text_color'],
+				'buttonTextHover' => $color_settings['form_button_text_color_hover'],
+				'buttonPaddingTop' => '10px',
+				'buttonPaddingRight' => '20px',
+				'buttonPaddingBottom' => '10px',
+				'buttonPaddingLeft' => '20px',
+			) );
 
-			$css .= '.gb-button.button {background-color:' . $buttonBackground . ';color:' . $buttonText . ';}';
-			$css .= '.gb-button.button:active, .gb-button.button:hover, .gb-button.button:focus{background-color:' . $buttonBackgroundHover . ';color:' . $buttonTextHover . ';}';
+			$css .= '.gb-button.button {background-color:' . $generatepressDefaultStyling['buttonBackground'] . ';color:' . $generatepressDefaultStyling['buttonText'] . ';padding-top:' . $generatepressDefaultStyling['buttonPaddingTop'] . ';padding-right:' . $generatepressDefaultStyling['buttonPaddingRight'] . ';padding-bottom:' . $generatepressDefaultStyling['buttonPaddingBottom'] . ';padding-left:' . $generatepressDefaultStyling['buttonPaddingLeft'] . ';}';
+			$css .= '.gb-button.button:active, .gb-button.button:hover, .gb-button.button:focus{background-color:' . $generatepressDefaultStyling['buttonBackgroundHover'] . ';color:' . $generatepressDefaultStyling['buttonTextHover'] . ';}';
 		}
 
 		wp_add_inline_style( 'generateblocks', $css );
