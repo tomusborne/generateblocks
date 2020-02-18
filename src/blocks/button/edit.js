@@ -237,6 +237,7 @@ class GenerateBlockButton extends Component {
 				font-weight: ` + fontWeight + `;
 				text-transform: ` + textTransform + `;
 				font-size: ` + fontSize + fontSizeUnit + `;
+				letter-spacing: ` + letterSpacing + `em;
 				border-width: 0;
 				border-top-width: ` + borderSizeTop + `px;
 				border-right-width: ` + borderSizeRight + `px;
