@@ -181,7 +181,6 @@ class GenerateBlockButton extends Component {
 			gradientColorTwo,
 			gradientColorTwoOpacity,
 			gradientColorStopTwo,
-			useThemeColors,
 		} = attributes;
 
 		let borderStyleValue = '',
@@ -221,23 +220,11 @@ class GenerateBlockButton extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		let backgroundColorValue = hexToRGBA( backgroundColor, backgroundColorOpacity ),
-			textColorValue = textColor,
-			backgroundColorHoverValue = hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),
-			textColorHoverValue = textColorHover;
-
-		if ( useThemeColors ) {
-			backgroundColorValue = '';
-			textColorValue = '';
-			backgroundColorHoverValue = '';
-			textColorHoverValue = '';
-		}
-
 		const css = `
 			.block-editor-block-list__block a.gb-button-` + uniqueId + ` {
-				background-color: ` + backgroundColorValue + `;
+				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
 				background-image: ` + backgroundImageValue + `;
-				color: ` + textColorValue + `;
+				color: ` + textColor + `;
 				padding-top: ` + paddingTop + paddingUnit + `;
 				padding-right: ` + paddingRight + paddingUnit + `;
 				padding-bottom: ` + paddingBottom + paddingUnit + `;
@@ -267,8 +254,8 @@ class GenerateBlockButton extends Component {
 			.block-editor-block-list__block a.gb-button-` + uniqueId + `:hover,
 			.block-editor-block-list__block a.gb-button-` + uniqueId + `:focus,
 			.block-editor-block-list__block a.gb-button-` + uniqueId + `:active {
-				background-color: ` + backgroundColorHoverValue + `;
-				color: ` + textColorHoverValue + `;
+				background-color: ` + hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ) + `;
+				color: ` + textColorHover + `;
 				border-color: ` + hexToRGBA( borderColorHover, borderColorHoverOpacity ) + `;
 			}
 
@@ -699,17 +686,6 @@ class GenerateBlockButton extends Component {
 						icon={ getIcon( 'colors' ) }
 						className={ 'gblocks-panel-label' }
 						>
-
-						{ useThemeColors &&
-							<div
-								className="using-theme-colors"
-							>
-								<p>
-									{ __( 'Currently using theme colors. The background and text color values below will be ignored.', 'generateblocks' ) }
-								</p>
-							</div>
-						}
-
 						<TabPanel className="layout-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
 							tabs={ [
@@ -915,29 +891,6 @@ class GenerateBlockButton extends Component {
 							value={ cssClasses }
 							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 						/>
-
-						<ToggleControl
-							label={ __( 'Use Theme Colors', 'generateblocks' ) }
-							checked={ !! useThemeColors }
-							onChange={ ( value ) => {
-								setAttributes( {
-									useThemeColors: value,
-								} );
-							} }
-						/>
-
-						{ useThemeColors &&
-							<div
-								className="using-theme-colors"
-							>
-								<p>
-									{ __( 'The background and text color options for this button will be ignored. You need to specify the class your theme uses for buttons in the field above.', 'generateblocks' ) }
-								</p>
-								<p>
-									{ __( 'If you are using GeneratePress, use this class:', 'generateblocks' ) } <code>button</code>
-								</p>
-							</div>
-						}
 					</PanelBody>
 
 					<PanelBody

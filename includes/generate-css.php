@@ -593,17 +593,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$css->set_selector( '.gb-button-wrapper a.gb-button-' . $id . ',.gb-button-wrapper a.gb-button-' . $id . ':visited' );
-
-				if ( ! $settings['useThemeColors'] ) {
-					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
-				}
+				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
+				$css->add_property( 'color', $settings['textColor'] );
 
 				if ( $settings['gradient'] ) {
 					$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
-				}
-
-				if ( ! $settings['useThemeColors'] ) {
-					$css->add_property( 'color', $settings['textColor'] );
 				}
 
 				$css->add_property( 'font-family', $fontFamily );
@@ -631,12 +625,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$css->set_selector( '.gb-button-wrapper a.gb-button-' . $id . ':hover,.gb-button-wrapper a.gb-button-' . $id . ':active,.gb-button-wrapper a.gb-button-' . $id . ':focus' );
-
-				if ( ! $settings['useThemeColors'] ) {
-					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
-					$css->add_property( 'color', $settings['textColorHover'] );
-				}
-
+				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
+				$css->add_property( 'color', $settings['textColorHover'] );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
 				if ( $settings['icon'] ) {
