@@ -364,6 +364,7 @@ class GenerateBlockButton extends Component {
 														attrTextTransform={ 'textTransform' }
 														attrFontSize={ 'fontSize' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLineHeight={ 'disable' }
 														attrLetterSpacing={ 'letterSpacing' }
 														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.button.fontSize }
@@ -383,6 +384,7 @@ class GenerateBlockButton extends Component {
 														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontSize={ 'fontSizeTablet' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLineHeight={ 'disable' }
 														attrLetterSpacing={ 'letterSpacingTablet' }
 														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
@@ -402,6 +404,7 @@ class GenerateBlockButton extends Component {
 														valueShowAdvancedTypography={ showAdvancedTypography }
 														attrFontSize={ 'fontSizeMobile' }
 														attrFontSizeUnit={ 'fontSizeUnit' }
+														attrLineHeight={ 'disable' }
 														attrLetterSpacing={ 'letterSpacingMobile' }
 														attrShowAdvancedTypography={ 'showAdvancedTypography' }
 														defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
