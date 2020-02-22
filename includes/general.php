@@ -43,29 +43,56 @@ function generateblocks_do_block_editor_assets() {
 		filemtime( GENERATEBLOCKS_MODULE_DIR . 'dist/blocks.editor.build.css' )
 	);
 
-	if ( function_exists( 'generate_get_option' ) ) {
-		$css = 'body.wp-admin .editor-styles-wrapper .grid-container {max-width: ' . generate_get_option( 'container_width' ) . 'px;margin-left: auto;margin-right:auto;}';
+	wp_localize_script(
+		'generateblocks',
+		'generateBlocksInfo',
+		array(
+			'isGeneratePress' => defined( 'GENERATE_VERSION' ),
+		)
+	);
 
-		if ( function_exists( 'generate_get_color_defaults' ) ) {
-			$color_settings = wp_parse_args(
-				get_option( 'generate_settings', array() ),
-				generate_get_color_defaults()
-			);
+	if ( function_exists( 'generate_get_color_defaults' ) ) {
+		$color_settings = wp_parse_args(
+			get_option( 'generate_settings', array() ),
+			generate_get_color_defaults()
+		);
 
-			$generatepressDefaultStyling = apply_filters( 'generateblocks_gp_default_styling', array(
-				'buttonBackground' => $color_settings['form_button_background_color'],
-				'buttonBackgroundHover' => $color_settings['form_button_background_color_hover'],
-				'buttonText' => $color_settings['form_button_text_color'],
-				'buttonTextHover' => $color_settings['form_button_text_color_hover'],
-				'buttonPaddingTop' => '10px',
-				'buttonPaddingRight' => '20px',
-				'buttonPaddingBottom' => '10px',
-				'buttonPaddingLeft' => '20px',
-			) );
+		$generatepressDefaultStyling = apply_filters( 'generateblocks_gp_default_styling', array(
+			'buttonBackground' => $color_settings['form_button_background_color'],
+			'buttonBackgroundHover' => $color_settings['form_button_background_color_hover'],
+			'buttonText' => $color_settings['form_button_text_color'],
+			'buttonTextHover' => $color_settings['form_button_text_color_hover'],
+			'buttonPaddingTop' => '10px',
+			'buttonPaddingRight' => '20px',
+			'buttonPaddingBottom' => '10px',
+			'buttonPaddingLeft' => '20px',
+		) );
 
-			$css .= '.gb-button.button {background-color:' . $generatepressDefaultStyling['buttonBackground'] . ';color:' . $generatepressDefaultStyling['buttonText'] . ';padding-top:' . $generatepressDefaultStyling['buttonPaddingTop'] . ';padding-right:' . $generatepressDefaultStyling['buttonPaddingRight'] . ';padding-bottom:' . $generatepressDefaultStyling['buttonPaddingBottom'] . ';padding-left:' . $generatepressDefaultStyling['buttonPaddingLeft'] . ';}';
-			$css .= '.gb-button.button:active, .gb-button.button:hover, .gb-button.button:focus{background-color:' . $generatepressDefaultStyling['buttonBackgroundHover'] . ';color:' . $generatepressDefaultStyling['buttonTextHover'] . ';}';
-		}
+		$css = sprintf(
+			'.gb-button.button {
+				background-color: %1$s;
+				color: %2$s;
+				padding-top: %3$s;
+				padding-right: %4$s;
+				padding-bottom: %5$s;
+				padding-left: %6$s;
+			}',
+			$generatepressDefaultStyling['buttonBackground'],
+			$generatepressDefaultStyling['buttonText'],
+			$generatepressDefaultStyling['buttonPaddingTop'],
+			$generatepressDefaultStyling['buttonPaddingRight'],
+			$generatepressDefaultStyling['buttonPaddingBottom'],
+			$generatepressDefaultStyling['buttonPaddingLeft']
+		);
+
+		$css .= sprintf(
+			'.gb-button.button:active, .gb-button.button:hover, .gb-button.button:focus {
+				background-color: %1$s;
+				color: %2$s;
+			}',
+			$generatepressDefaultStyling['buttonBackgroundHover'],
+			$generatepressDefaultStyling['buttonTextHover']
+		);
 
 		wp_add_inline_style( 'generateblocks', $css );
 	}
@@ -159,4 +186,18 @@ function generateblocks_do_bold_google_fonts( $variants ) {
 	}
 
 	return $variants;
+}
+
+add_action( 'init', 'generateblocks_register_meta' );
+/**
+ * Register our post meta.
+ *
+ * @since 0.1
+ */
+function generateblocks_register_meta() {
+    register_meta( 'post', '_generate-full-width-content', array(
+        'show_in_rest' => true,
+		'auth_callback' => '__return_true',
+		'single' => true,
+    ) );
 }

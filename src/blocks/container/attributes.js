@@ -441,4 +441,9 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	fullWidthContent: {
+        type: 'string',
+        source: 'meta',
+        meta: '_generate-full-width-content',
+    },
 }

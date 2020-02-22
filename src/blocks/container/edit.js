@@ -221,6 +221,7 @@ class GenerateBlockContainer extends Component {
 			fontSizeMobile,
 			fontSizeUnit,
 			textTransform,
+			fullWidthContent,
 		} = attributes;
 
 		let backgroundImageValue,
@@ -396,6 +397,42 @@ class GenerateBlockContainer extends Component {
 			},
 		];
 
+		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
+		const changeEvent = new Event( 'change' );
+
+		const fullWidthContentOptions = () => {
+			return (
+				<div>
+					{ generateBlocksInfo.isGeneratePress &&
+						<ToggleControl
+							label={ __( 'Set Full Width Content', 'generateblocks' ) }
+							checked={ fullWidthContent ? true : false }
+							onChange={ ( value ) => {
+								if ( value ) {
+									pageBuilderContainerOption.checked = true;
+									pageBuilderContainerOption.setAttribute( 'value', 'true' );
+									pageBuilderContainerOption.dispatchEvent( changeEvent );
+
+									setAttributes( {
+										fullWidthContent: 'true',
+									} );
+								} else {
+									pageBuilderContainerOption.checked = false;
+									pageBuilderContainerOption.setAttribute( 'value', '' );
+									document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
+									pageBuilderContainerOption.dispatchEvent( changeEvent );
+
+									setAttributes( {
+										fullWidthContent: '',
+									} );
+								}
+							} }
+						/>
+					}
+				</div>
+			);
+		}
+
 		return (
 			<Fragment>
 				<InspectorControls>
@@ -426,6 +463,8 @@ class GenerateBlockContainer extends Component {
 											<div>
 												{ 'default' === tab.name && (
 													<Fragment>
+														{ fullWidthContentOptions() }
+
 														<SelectControl
 															label={ __( 'Container', 'generateblocks' ) }
 															value={ outerContainer }
@@ -435,6 +474,12 @@ class GenerateBlockContainer extends Component {
 															] }
 															onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
 														/>
+
+														{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer &&
+															<BaseControl
+																label={ __( 'Full width containers will only work if your theme allows you to set your content to be full width.', 'generateblocks' ) }
+															/>
+														}
 
 														<SelectControl
 															label={ __( 'Inner Container', 'generateblocks' ) }
