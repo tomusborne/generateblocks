@@ -213,7 +213,7 @@ class GenerateBlockHeadline extends Component {
 
 		if ( marginBottom ) {
 			marginBottomValue = marginBottom + marginUnit;
-		} else {
+		} else if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
 			if ( 'p' === element ) {
 				marginBottomValue = generateBlocksStyling.headline.paragraphMargin;
 			} else if ( 'h1' === element ) {
