@@ -203,6 +203,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
+			$css->set_selector( '.gb-container .wp-block-image img' );
+			$css->add_property( 'vertical-align', 'middle' );
+
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
