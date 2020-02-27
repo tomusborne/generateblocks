@@ -561,7 +561,7 @@ body .gb-container .wp-block {
 .gblocks-component-color-opacity {
   display: -ms-flexbox;
   display: flex;
-  padding: 0 12px; }
+  padding: 0 16px; }
   .gblocks-component-color-opacity .components-range-control {
     -ms-flex-positive: 1;
         flex-grow: 1;
@@ -587,9 +587,12 @@ body .gb-container .wp-block {
 .components-button.components-color-show-palette {
   margin-left: 12px; }
 
-.components-button.components-color-clear-color {
-  margin-left: 16px;
-  margin-bottom: 16px; }
+.gblocks-color-controls {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: justify;
+      justify-content: space-between;
+  margin: 0 16px 16px; }
 /**
  * #.# Common SCSS
  *
