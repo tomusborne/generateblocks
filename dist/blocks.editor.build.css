@@ -532,7 +532,7 @@ body .gb-container .wp-block {
   cursor: pointer; }
 
 .gblocks-component-color-picker .gblocks-component-color-picker-palette {
-  margin: 0 17px; }
+  margin: 17px; }
   .gblocks-component-color-picker .gblocks-component-color-picker-palette .components-circular-option-picker {
     display: -ms-flexbox;
     display: flex;
@@ -541,6 +541,7 @@ body .gb-container .wp-block {
     .gblocks-component-color-picker .gblocks-component-color-picker-palette .components-circular-option-picker .components-circular-option-picker__option-wrapper {
       margin: 0 8px 8px 0; }
 
+.gblocks-component-color-picker .components-base-control__field,
 .gblocks-component-color-picker .components-color-palette {
   margin: 0; }
 
@@ -549,6 +550,9 @@ body .gb-container .wp-block {
 
 .gblocks-component-color-picker .components-color-picker__inputs-toggle {
   display: none; }
+
+.gblocks-component-color-picker .components-color-picker__body {
+  padding-bottom: 0; }
 
 .components-base-control.color-picker-clear {
   text-align: center;
@@ -579,6 +583,13 @@ body .gb-container .wp-block {
 
 .gblocks-component-color-picker > .components-base-control:first-child {
   margin-bottom: 0; }
+
+.components-button.components-color-show-palette {
+  margin-left: 12px; }
+
+.components-button.components-color-clear-color {
+  margin-left: 16px;
+  margin-bottom: 16px; }
 /**
  * #.# Common SCSS
  *
