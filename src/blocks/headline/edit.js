@@ -199,6 +199,11 @@ class GenerateBlockHeadline extends Component {
 			inlineVerticalAlignment = iconVerticalAlignment;
 		}
 
+		if ( icon && 'above' === iconLocation ) {
+			headlineWrapperAlignment = 'right' === alignment ? 'flex-end' : alignment;
+			inlineVerticalAlignment = 'right' === alignment ? 'flex-end' : alignment;
+		}
+
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
