@@ -399,11 +399,13 @@ class GenerateBlockContainer extends Component {
 
 		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
 		const changeEvent = new Event( 'change' );
+		const getRootId = wp.data.select( 'core/block-editor' ).getBlockHierarchyRootClientId( clientId );
+		const isRootContainer = getRootId === clientId;
 
 		const fullWidthContentOptions = () => {
 			return (
 				<div>
-					{ generateBlocksInfo.isGeneratePress &&
+					{ generateBlocksInfo.isGeneratePress && isRootContainer &&
 						<ToggleControl
 							label={ __( 'Set Full Width Content', 'generateblocks' ) }
 							checked={ fullWidthContent ? true : false }
