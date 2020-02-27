@@ -710,10 +710,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->set_selector( '.gb-headline-' . $id );
 				$css->add_property( 'font-family', $fontFamily );
 				$css->add_property( 'text-align', $settings['alignment'] );
+				$css->add_property( 'color', $settings['textColor'] );
 
 				if ( ! $settings['icon'] ) {
 					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
-					$css->add_property( 'color', $settings['textColor'] );
 
 					if ( $settings['inlineWidth'] ) {
 						$css->add_property( 'display', '-webkit-inline-box' );
@@ -778,7 +778,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 					$css->add_property( 'color', $settings['textColor'] );
-
 					$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
 
 					if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
