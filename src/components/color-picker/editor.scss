@@ -20,7 +20,7 @@
 
 .gblocks-component-color-picker {
     .gblocks-component-color-picker-palette {
-        margin: 0 17px;
+        margin: 17px;
 
 		.components-circular-option-picker {
 		    display: flex;
@@ -32,7 +32,8 @@
 		}
     }
 
-    .components-color-palette {
+	.components-base-control__field,
+	.components-color-palette {
         margin: 0;
     }
 
@@ -42,6 +43,10 @@
 
 	.components-color-picker__inputs-toggle {
 	    display: none;
+	}
+
+	.components-color-picker__body {
+	    padding-bottom: 0;
 	}
 }
 
@@ -79,4 +84,13 @@
 
 .gblocks-component-color-picker > .components-base-control:first-child {
     margin-bottom: 0;
+}
+
+.components-button.components-color-show-palette {
+    margin-left: 12px;
+}
+
+.components-button.components-color-clear-color {
+    margin-left: 16px;
+	margin-bottom: 16px;
 }

@@ -28,7 +28,8 @@ export default class GenerateBlocksColorPicker extends Component {
 
 		this.state = {
             showPicker: false,
-			altPicker: false,
+			showPalette: false,
+			colorKey: false,
         };
 	}
 
@@ -46,7 +47,8 @@ export default class GenerateBlocksColorPicker extends Component {
 
 		const {
             showPicker,
-			altPicker,
+			showPalette,
+			colorKey,
         } = this.state;
 
 		return (
@@ -93,29 +95,30 @@ export default class GenerateBlocksColorPicker extends Component {
 							'gblocks-component-color-picker': true
 						} ) }
 					>
-						{ ! altPicker ? (
-							<BaseControl key="gblocks-primary-picker">
+						{ ! showPalette &&
+							<BaseControl key={ colorKey }>
 								<ColorPicker
+									key={ colorKey }
 									color={ value ? value : '' }
 									onChangeComplete={ ( color ) => {
 										onChange( color.hex );
 									} }
 									disableAlpha
 								/>
-							</BaseControl>
-						) : (
-							<BaseControl key="gblocks-alt-picker">
-								<ColorPicker
-									color={ value ? value : '' }
-									onChangeComplete={ ( color ) => {
-										onChange( color.hex );
-									} }
-									disableAlpha
-								/>
-							</BaseControl>
-						) }
 
-						{ alpha &&
+								<Button
+									isSmall
+									className="components-color-clear-color"
+									onClick={ () => {
+										onChange( '' );
+									} }
+								>
+									{ __( 'Clear Color', 'generateblocks' ) }
+								</Button>
+							</BaseControl>
+						}
+
+						{ ! showPalette &&  alpha &&
 							<div className="gblocks-component-color-opacity">
 								<Tooltip text={ __( 'Opacity', 'generateblocks' ) }>
 									{ getIcon( 'gradient' ) }
@@ -132,28 +135,37 @@ export default class GenerateBlocksColorPicker extends Component {
 							</div>
 						}
 
-						<BaseControl
-							label={ __( 'Color Palette', 'generateblocks' ) }
-							className="gblocks-component-color-picker-palette"
+						<Button
+							isLarge
+							aria-expanded={ showPalette }
+							className="components-color-show-palette"
+							onClick={ () => {
+								this.setState( {
+									showPalette: ! showPalette,
+								} );
+							} }
 						>
-							<ColorPalette
-								value={ value }
-								onChange={ ( color ) => {
-									if ( altPicker ) {
-										this.setState( {
-			                                altPicker: false,
-			                            } );
-									} else {
-										this.setState( {
-			                                altPicker: true,
-			                            } );
-									}
+							{ ! showPalette ? __( 'Show Color Palette', 'generateblocks' ) : __( 'Hide Color Palette', 'generateblocks' ) }
+						</Button>
 
-									onChange( color );
-								} }
-								disableCustomColors={ true }
-							/>
-						</BaseControl>
+						{ showPalette &&
+							<BaseControl
+								label={ false }
+								className="gblocks-component-color-picker-palette"
+							>
+								<ColorPalette
+									value={ value }
+									onChange={ ( color ) => {
+										onChange( color );
+
+										this.setState( {
+			                                colorKey: color,
+			                            } );
+									} }
+									disableCustomColors={ true }
+								/>
+							</BaseControl>
+						}
 					</div>
 				}
 			</BaseControl>
