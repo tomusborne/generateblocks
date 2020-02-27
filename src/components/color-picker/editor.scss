@@ -57,7 +57,7 @@
 
 .gblocks-component-color-opacity {
     display: flex;
-	padding: 0 12px;
+	padding: 0 16px;
 
 	.components-range-control {
 	    flex-grow: 1;
@@ -90,7 +90,8 @@
     margin-left: 12px;
 }
 
-.components-button.components-color-clear-color {
-    margin-left: 16px;
-	margin-bottom: 16px;
+.gblocks-color-controls {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 16px 16px;
 }

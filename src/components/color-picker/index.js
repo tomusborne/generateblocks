@@ -106,15 +106,30 @@ export default class GenerateBlocksColorPicker extends Component {
 									disableAlpha
 								/>
 
-								<Button
-									isSmall
-									className="components-color-clear-color"
-									onClick={ () => {
-										onChange( '' );
-									} }
-								>
-									{ __( 'Clear Color', 'generateblocks' ) }
-								</Button>
+								<div className="gblocks-color-controls">
+									<Button
+										isSmall
+										className="components-color-clear-color"
+										onClick={ () => {
+											onChange( '' );
+										} }
+									>
+										{ __( 'Clear Color', 'generateblocks' ) }
+									</Button>
+
+									<Button
+										isSmall
+										aria-expanded={ showPalette }
+										className="components-color-show-palette"
+										onClick={ () => {
+											this.setState( {
+												showPalette: ! showPalette,
+											} );
+										} }
+									>
+										{ __( 'Show Color Palette', 'generateblocks' ) }
+									</Button>
+								</div>
 							</BaseControl>
 						}
 
@@ -135,36 +150,38 @@ export default class GenerateBlocksColorPicker extends Component {
 							</div>
 						}
 
-						<Button
-							isLarge
-							aria-expanded={ showPalette }
-							className="components-color-show-palette"
-							onClick={ () => {
-								this.setState( {
-									showPalette: ! showPalette,
-								} );
-							} }
-						>
-							{ ! showPalette ? __( 'Show Color Palette', 'generateblocks' ) : __( 'Hide Color Palette', 'generateblocks' ) }
-						</Button>
-
 						{ showPalette &&
-							<BaseControl
-								label={ false }
-								className="gblocks-component-color-picker-palette"
-							>
-								<ColorPalette
-									value={ value }
-									onChange={ ( color ) => {
-										onChange( color );
-
+							<div>
+								<Button
+									isLarge
+									aria-expanded={ showPalette }
+									className="components-color-show-palette"
+									onClick={ () => {
 										this.setState( {
-			                                colorKey: color,
-			                            } );
+											showPalette: ! showPalette,
+										} );
 									} }
-									disableCustomColors={ true }
-								/>
-							</BaseControl>
+								>
+									{ __( 'Hide Color Palette', 'generateblocks' ) }
+								</Button>
+
+								<BaseControl
+									label={ false }
+									className="gblocks-component-color-picker-palette"
+								>
+									<ColorPalette
+										value={ value }
+										onChange={ ( color ) => {
+											onChange( color );
+
+											this.setState( {
+				                                colorKey: color,
+				                            } );
+										} }
+										disableCustomColors={ true }
+									/>
+								</BaseControl>
+							</div>
 						}
 					</div>
 				}
