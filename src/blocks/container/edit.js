@@ -88,7 +88,7 @@ class GenerateBlockContainer extends Component {
 			setAttributes( {
 				bgImage: {
 					id: media.id,
-					image: media.sizes.large || media.sizes.full,
+					image: media.sizes.full,
 				}
 			} )
 		}
