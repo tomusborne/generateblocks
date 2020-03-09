@@ -109,6 +109,7 @@ export default class GenerateBlocksColorPicker extends Component {
 								<div className="gblocks-color-controls">
 									<Button
 										isSmall
+										isSecondary
 										className="components-color-clear-color"
 										onClick={ () => {
 											onChange( '' );
@@ -119,6 +120,7 @@ export default class GenerateBlocksColorPicker extends Component {
 
 									<Button
 										isSmall
+										isSecondary
 										aria-expanded={ showPalette }
 										className="components-color-show-palette"
 										onClick={ () => {
@@ -153,7 +155,8 @@ export default class GenerateBlocksColorPicker extends Component {
 						{ showPalette &&
 							<div>
 								<Button
-									isLarge
+									isSmall
+									isSecondary
 									aria-expanded={ showPalette }
 									className="components-color-show-palette"
 									onClick={ () => {
