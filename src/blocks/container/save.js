@@ -21,22 +21,6 @@ export default ( { attributes } ) => {
 		elementId,
 		cssClasses,
 		isGrid,
-		outerContainer,
-		innerContainer,
-		paddingTop,
-		paddingRight,
-		paddingBottom,
-		paddingLeft,
-		paddingTopMobile,
-		paddingRightMobile,
-		paddingBottomMobile,
-		paddingLeftMobile,
-		backgroundColor,
-		textColor,
-		linkColor,
-		linkColorHover,
-		bgImage,
-		bgOptions
 	} = attributes;
 
 	const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;

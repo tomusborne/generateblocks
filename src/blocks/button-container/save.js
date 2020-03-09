@@ -14,14 +14,6 @@ export default ( { attributes } ) => {
 		uniqueId,
 		elementId,
 		cssClasses,
-		paddingTop,
-		paddingRight,
-		paddingBottom,
-		paddingLeft,
-		paddingTopMobile,
-		paddingRightMobile,
-		paddingBottomMobile,
-		paddingLeftMobile,
 	} = attributes;
 
 	return (
