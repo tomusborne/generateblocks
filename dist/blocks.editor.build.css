@@ -695,14 +695,14 @@ body .gb-container .wp-block {
   height: 30px;
   margin: 0 -1px 0 0;
   padding: 5px;
-  width: 25%; }
+  width: calc(25% - 5px); }
 
 .components-gblocks-dimensions-control input[type="number"]:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0; }
 
 .components-gblocks-dimensions-control__input-labels > span {
-  width: 25%;
+  width: calc(25% - 5px);
   font-size: 11px; }
 
 .components-gblocks-dimensions-control__input-labels > span:last-child {
