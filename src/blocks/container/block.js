@@ -34,7 +34,7 @@ registerBlockType( 'generateblocks/container', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		align: [ 'wide', 'full' ],
+		align: false,
 		anchor: false,
 		className: false,
 		customClassName: false
