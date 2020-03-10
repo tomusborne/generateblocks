@@ -286,7 +286,6 @@ function generateblocks_get_block_defaults() {
 
 	$defaults['headline'] = array(
 		'element' => 'p',
-		'dynamicText' => 'post-title',
 		'cssClasses' => '',
 		'alignment' => false,
 		'alignmentTablet' => false,
