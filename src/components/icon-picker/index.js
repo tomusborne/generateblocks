@@ -51,6 +51,7 @@ class IconPicker extends Component {
 
 	render() {
 		const {
+			attributes,
 			className,
 			setAttributes,
 			valueIcon,
@@ -184,6 +185,59 @@ class IconPicker extends Component {
 						value={ valueIconLocation }
 						options={ locationOptions }
 						onChange={ ( value ) => {
+							let leftPadding 		= attributes.iconPaddingLeft,
+								rightPadding 		= attributes.iconPaddingRight,
+								rightPaddingTablet 	= attributes.iconPaddingRightTablet,
+								leftPaddingTablet 	= attributes.iconPaddingLeftTablet,
+								rightPaddingMobile 	= attributes.iconPaddingRightMobile,
+								leftPaddingMobile 	= attributes.iconPaddingLeftMobile;
+
+							if ( 'right' === value ) {
+								if ( ! leftPadding && rightPadding ) {
+									setAttributes( {
+										'iconPaddingLeft': rightPadding,
+										'iconPaddingRight': '',
+									} );
+								}
+
+								if ( ! leftPaddingTablet && rightPaddingTablet ) {
+									setAttributes( {
+										'iconPaddingLeftTablet': rightPaddingTablet,
+										'iconPaddingRightTablet': '',
+									} );
+								}
+
+								if ( ! leftPaddingMobile && rightPaddingMobile ) {
+									setAttributes( {
+										'iconPaddingLeftMobile': rightPaddingMobile,
+										'iconPaddingRightMobile': '',
+									} );
+								}
+							}
+
+							if ( 'left' === value ) {
+								if ( ! rightPadding && leftPadding ) {
+									setAttributes( {
+										'iconPaddingRight': leftPadding,
+										'iconPaddingLeft': '',
+									} );
+								}
+
+								if ( ! rightPaddingTablet && leftPaddingTablet ) {
+									setAttributes( {
+										'iconPaddingRightTablet': leftPaddingTablet,
+										'iconPaddingLeftTablet': '',
+									} );
+								}
+
+								if ( ! rightPaddingMobile && leftPaddingMobile ) {
+									setAttributes( {
+										'iconPaddingRightMobile': leftPaddingMobile,
+										'iconPaddingLeftMobile': '',
+									} );
+								}
+							}
+
 							setAttributes( {
 								[ this.props[ 'attrIconLocation' ] ]: value
 							} );

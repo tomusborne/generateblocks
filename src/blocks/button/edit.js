@@ -181,10 +181,27 @@ class GenerateBlockButton extends Component {
 			gradientColorTwo,
 			gradientColorTwoOpacity,
 			gradientColorStopTwo,
+			iconPaddingTop,
+			iconPaddingRight,
+			iconPaddingBottom,
+			iconPaddingLeft,
+			iconPaddingTopTablet,
+			iconPaddingRightTablet,
+			iconPaddingBottomTablet,
+			iconPaddingLeftTablet,
+			iconPaddingTopMobile,
+			iconPaddingRightMobile,
+			iconPaddingBottomMobile,
+			iconPaddingLeftMobile,
+			iconPaddingUnit,
+			iconPaddingSyncUnits,
+			iconSize,
+			iconSizeTablet,
+			iconSizeMobile,
 		} = attributes;
 
 		let borderStyleValue = '',
-			iconMargin = 'margin-right: 0.5em;',
+			removeIconPadding = '',
 			fontFamilyFallbackValue = '',
 			backgroundImageValue,
 			gradientColorStopOneValue = '',
@@ -208,16 +225,12 @@ class GenerateBlockButton extends Component {
 			borderStyleValue = 'solid';
 		}
 
-		if ( 'right' === iconLocation ) {
-			iconMargin = 'margin-left: 0.5em;';
+		if ( fontFamily && fontFamilyFallback ) {
+			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
 		if ( removeText ) {
-			iconMargin = 'margin: 0;';
-		}
-
-		if ( fontFamily && fontFamilyFallback ) {
-			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
+			removeIconPadding = 'padding: 0;';
 		}
 
 		const css = `
@@ -261,7 +274,12 @@ class GenerateBlockButton extends Component {
 			}
 
 			.block-editor-block-list__block a.gb-button-` + uniqueId + ` .gb-icon {
-				` + iconMargin + `
+				padding-top: ` + iconPaddingTop + iconPaddingUnit + `;
+				padding-right: ` + iconPaddingRight + iconPaddingUnit + `;
+				padding-bottom: ` + iconPaddingBottom + iconPaddingUnit + `;
+				padding-left: ` + iconPaddingLeft + iconPaddingUnit + `;
+				` + removeIconPadding + `
+				font-size: ` + iconSize + `em;
 			}
 		`
 
@@ -873,6 +891,137 @@ class GenerateBlockButton extends Component {
 							valueAriaLabel={ ariaLabel }
 							attrAriaLabel={ 'ariaLabel' }
 						/>
+
+						<TabPanel className="headline-tab-panel gblocks-control-tabs"
+							activeClass="active-tab"
+							tabs={ [
+								{
+									name: 'default',
+									title: __( 'Default', 'generateblocks' ),
+									className: 'default',
+								},
+								{
+									name: 'tablet',
+									title: __( 'Tablet', 'generateblocks' ),
+									className: 'tablet',
+								},
+								{
+									name: 'mobile',
+									title: __( 'Mobile', 'generateblocks' ),
+									className: 'mobile',
+								},
+							] }>
+							{
+								( tab ) => {
+									return (
+										<div>
+											{ 'default' === tab.name && (
+												<Fragment>
+													{ ! removeText &&
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'generateblocks' ) }
+															valueTop={ iconPaddingTop }
+															valueRight={ iconPaddingRight }
+															valueBottom={ iconPaddingBottom }
+															valueLeft={ iconPaddingLeft }
+															valueUnit={ iconPaddingUnit }
+															syncUnits={ iconPaddingSyncUnits }
+															attrTop={ 'iconPaddingTop' }
+															attrRight={ 'iconPaddingRight' }
+															attrBottom={ 'iconPaddingBottom' }
+															attrLeft={ 'iconPaddingLeft' }
+															attrUnit={ 'iconPaddingUnit' }
+															attrSyncUnits={ 'iconPaddingSyncUnits' }
+														/>
+													}
+
+													<RangeControl
+														label={ __( 'Icon Size', 'generateblocks' ) }
+														value={ iconSize ? iconSize : '' }
+														onChange={ ( value ) => setAttributes( {
+															iconSize: parseFloat( value )
+														} ) }
+														min={ .1 }
+														max={ 15 }
+														step={ .1 }
+														initialPosition={ generateBlocksDefaults.headline.iconSize }
+													/>
+												</Fragment>
+											) }
+
+											{ 'tablet' === tab.name && (
+												<Fragment>
+													{ ! removeText &&
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'generateblocks' ) }
+															valueTop={ iconPaddingTopTablet }
+															valueRight={ iconPaddingRightTablet }
+															valueBottom={ iconPaddingBottomTablet }
+															valueLeft={ iconPaddingLeftTablet }
+															valueUnit={ iconPaddingUnit }
+															syncUnits={ iconPaddingSyncUnits }
+															attrTop={ 'iconPaddingTopTablet' }
+															attrRight={ 'iconPaddingRightTablet' }
+															attrBottom={ 'iconPaddingBottomTablet' }
+															attrLeft={ 'iconPaddingLeftTablet' }
+															attrUnit={ 'iconPaddingUnit' }
+															attrSyncUnits={ 'iconPaddingSyncUnits' }
+														/>
+													}
+
+													<RangeControl
+														label={ __( 'Icon Size', 'generateblocks' ) }
+														value={ parseFloat( iconSizeTablet ) }
+														onChange={ ( value ) => setAttributes( { iconSizeTablet: parseFloat( value ) } ) }
+														min={ .1 }
+														max={ 15 }
+														step={ .1 }
+														initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
+													/>
+												</Fragment>
+											) }
+
+											{ 'mobile' === tab.name && (
+												<Fragment>
+													{ ! removeText &&
+														<DimensionsControl { ...this.props }
+															type={ 'padding' }
+															label={ __( 'Padding', 'generateblocks' ) }
+															valueTop={ iconPaddingTopMobile }
+															valueRight={ iconPaddingRightMobile }
+															valueBottom={ iconPaddingBottomMobile }
+															valueLeft={ iconPaddingLeftMobile }
+															valueUnit={ iconPaddingUnit }
+															syncUnits={ iconPaddingSyncUnits }
+															attrTop={ 'iconPaddingTopMobile' }
+															attrRight={ 'iconPaddingRightMobile' }
+															attrBottom={ 'iconPaddingBottomMobile' }
+															attrLeft={ 'iconPaddingLeftMobile' }
+															attrUnit={ 'iconPaddingUnit' }
+															attrSyncUnits={ 'iconPaddingSyncUnits' }
+														/>
+													}
+
+													<RangeControl
+														label={ __( 'Icon Size', 'generateblocks' ) }
+														value={ iconSize ? iconSize : '' }
+														onChange={ ( value ) => setAttributes( {
+															iconSizeMobile: parseFloat( value )
+														} ) }
+														min={ .1 }
+														max={ 15 }
+														step={ .1 }
+														initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
+													/>
+												</Fragment>
+											) }
+										</div>
+									);
+								}
+							}
+						</TabPanel>
 					</PanelBody>
 
 					<PanelBody

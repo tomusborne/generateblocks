@@ -627,13 +627,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['icon'] ) {
 					$css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
+					$css->add_property( 'font-size', $settings['iconSize'], 'em' );
 
 					if ( ! $settings['removeText'] ) {
-						if ( 'left' === $settings['iconLocation'] ) {
-							$css->add_property( 'margin-right', '0.5em' );
-						} else {
-							$css->add_property( 'margin-left', '0.5em' );
-						}
+						$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
 					}
 				}
 
@@ -645,6 +642,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 				$tablet_css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'], 'px' ) );
 
+				if ( $settings['icon'] ) {
+					$tablet_css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
+					$tablet_css->add_property( 'font-size', $settings['iconSizeTablet'], 'em' );
+
+					if ( ! $settings['removeText'] ) {
+						$tablet_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'], $settings['iconPaddingUnit'] ) );
+					}
+				}
+
 				$mobile_css->set_selector( '.gb-button-wrapper a.gb-button-' . $id );
 				$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 				$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
@@ -652,6 +658,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'border-radius', generateblocks_get_shorthand_css( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'], $settings['borderRadiusUnit'] ) );
 				$mobile_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$mobile_css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'], 'px' ) );
+
+				if ( $settings['icon'] ) {
+					$mobile_css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
+					$mobile_css->add_property( 'font-size', $settings['iconSizeMobile'], 'em' );
+
+					if ( ! $settings['removeText'] ) {
+						$mobile_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'], $settings['iconPaddingUnit'] ) );
+					}
+				}
 			}
 
 			if ( $css->css_output() ) {

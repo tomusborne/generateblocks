@@ -250,6 +250,22 @@ function generateblocks_get_block_defaults() {
 		'gradientColorTwo' => '#000000',
 		'gradientColorTwoOpacity' => 0.3,
 		'gradientColorStopTwo' => '',
+		'iconPaddingTop' => '',
+		'iconPaddingRight' => '0.5',
+		'iconPaddingBottom' => '',
+		'iconPaddingLeft' => '',
+		'iconPaddingTopTablet' => '',
+		'iconPaddingRightTablet' => '',
+		'iconPaddingBottomTablet' => '',
+		'iconPaddingLeftTablet' => '',
+		'iconPaddingTopMobile' => '',
+		'iconPaddingRightMobile' => '',
+		'iconPaddingBottomMobile' => '',
+		'iconPaddingLeftMobile' => '',
+		'iconPaddingUnit' => 'em',
+		'iconSize' => 1,
+		'iconSizeTablet' => '',
+		'iconSizeMobile' => '',
 	);
 
 	$defaults['gridContainer'] = array(

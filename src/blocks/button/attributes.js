@@ -380,4 +380,72 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.button.gradientColorStopTwo,
 	},
+	iconPaddingTop: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingTop,
+	},
+	iconPaddingRight: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingRight,
+	},
+	iconPaddingBottom: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingBottom,
+	},
+	iconPaddingLeft: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingLeft,
+	},
+	iconPaddingTopTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingTopTablet,
+	},
+	iconPaddingRightTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingRightTablet,
+	},
+	iconPaddingBottomTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingBottomTablet,
+	},
+	iconPaddingLeftTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingLeftTablet,
+	},
+	iconPaddingTopMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingTopMobile,
+	},
+	iconPaddingRightMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingRightMobile,
+	},
+	iconPaddingBottomMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingBottomMobile,
+	},
+	iconPaddingLeftMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingLeftMobile,
+	},
+	iconPaddingUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconPaddingUnit,
+	},
+	iconPaddingSyncUnits: {
+		type: 'boolean',
+		default: false,
+	},
+	iconSize: {
+		type: 'number',
+		default: generateBlocksDefaults.button.iconSize,
+	},
+	iconSizeTablet: {
+		type: 'number',
+		default: generateBlocksDefaults.button.iconSizeTablet,
+	},
+	iconSizeMobile: {
+		type: 'number',
+		default: generateBlocksDefaults.button.iconSizeMobile,
+	},
 }
