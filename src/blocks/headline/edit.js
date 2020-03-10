@@ -831,6 +831,26 @@ class GenerateBlockHeadline extends Component {
 							}
 						/>
 
+						{ icon &&
+							<ColorPicker
+								label={ __( 'Icon Color', 'generateblocks' ) }
+								value={ iconColor }
+								onChange={ ( value ) =>
+									setAttributes( {
+										iconColor: value
+									} )
+								}
+								alpha={ true }
+								valueOpacity={ iconColorOpacity }
+								attrOpacity={ 'iconColorOpacity' }
+								onOpacityChange={ ( value ) =>
+									setAttributes( {
+										iconColorOpacity: value
+									} )
+								}
+							/>
+						}
+
 						<ColorPicker
 							label={ __( 'Highlight Text', 'generateblocks' ) }
 							value={ highlightTextColor }
@@ -853,24 +873,6 @@ class GenerateBlockHeadline extends Component {
 						<IconPicker { ...this.props }
 							valueIcon={ icon }
 							attrIcon={ 'icon' }
-						/>
-
-						<ColorPicker
-							label={ __( 'Icon Color', 'generateblocks' ) }
-							value={ iconColor }
-							onChange={ ( value ) =>
-								setAttributes( {
-									iconColor: value
-								} )
-							}
-							alpha={ true }
-							valueOpacity={ iconColorOpacity }
-							attrOpacity={ 'iconColorOpacity' }
-							onOpacityChange={ ( value ) =>
-								setAttributes( {
-									iconColorOpacity: value
-								} )
-							}
 						/>
 
 						<TabPanel className="headline-tab-panel gblocks-control-tabs"
