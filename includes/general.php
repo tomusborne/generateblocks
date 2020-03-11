@@ -48,6 +48,7 @@ function generateblocks_do_block_editor_assets() {
 		'generateBlocksInfo',
 		array(
 			'isGeneratePress' => defined( 'GENERATE_VERSION' ),
+			'hasCustomFields' => post_type_supports( get_post_type(), 'custom-fields' ),
 		)
 	);
 

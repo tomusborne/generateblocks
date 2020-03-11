@@ -1,4 +1,4 @@
-export default {
+const attributes = {
 	uniqueId: {
 		type: 'string',
 		default: '',
@@ -441,9 +441,16 @@ export default {
 		type: 'string',
 		default: '',
 	},
-	fullWidthContent: {
-        type: 'string',
-        source: 'meta',
-        meta: '_generate-full-width-content',
-    },
 }
+
+if ( generateBlocksInfo.hasCustomFields ) {
+	Object.assign( attributes, {
+		fullWidthContent: {
+	        type: 'string',
+	        source: 'meta',
+	        meta: '_generate-full-width-content',
+	    }
+	} );
+}
+
+export default attributes;
