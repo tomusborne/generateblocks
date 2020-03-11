@@ -452,11 +452,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->set_selector( '.gb-button-wrapper-' . $id );
 				$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
-				$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
+				$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 
 				if ( $settings['stack'] ) {
 					$css->add_property( 'flex-direction', 'column' );
-					$css->add_property( 'align-items', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
+					$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpace'] ) {
@@ -473,11 +473,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$tablet_css->set_selector( '.gb-button-wrapper-' . $id );
 				$tablet_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
-				$tablet_css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+				$tablet_css->add_property( 'justify-content', 'right' === generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 
 				if ( $settings['stackTablet'] ) {
 					$tablet_css->add_property( 'flex-direction', 'column' );
-					$tablet_css->add_property( 'align-items', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+					$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpaceTablet'] ) {
@@ -494,11 +494,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->set_selector( '.gb-button-wrapper-' . $id );
 				$mobile_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
-				$mobile_css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+				$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 
 				if ( $settings['stackMobile'] ) {
 					$mobile_css->add_property( 'flex-direction', 'column' );
-					$mobile_css->add_property( 'align-items', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+					$mobile_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpaceMobile'] ) {
@@ -769,7 +769,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 
 					if ( 'above' === $settings['iconLocation'] ) {
-						$css->add_property( 'align-self', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
+						$css->add_property( '-ms-flex-item-align', generateblocks_get_vendor_prefix( $settings['alignment'] ) );
+						$css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 					}
 
 					$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
@@ -779,7 +780,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->set_selector( '.gb-headline-wrapper-' . $id );
 					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
-					$css->add_property( 'justify-content', 'right' === $settings['alignment'] ? 'flex-end' : $settings['alignment'] );
+					$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 
 					if ( $settings['inlineWidth'] ) {
 						$css->add_property( 'display', '-webkit-inline-box' );
@@ -834,8 +835,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 					$tablet_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'], $settings['iconPaddingUnit'] ) );
 
-					if ( 'above' === $settings['iconLocationTablet'] ) {
-						$tablet_css->add_property( 'align-self', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+					if ( 'above' === $settings['iconLocationTablet'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationTablet'] ) ) {
+						$tablet_css->add_property( '-ms-flex-item-align', generateblocks_get_vendor_prefix( $settings['alignmentTablet'] ) );
+						$tablet_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 					}
 
 					$tablet_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
@@ -846,7 +848,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$tablet_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 					$tablet_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
 					$tablet_css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'], 'px' ) );
-					$tablet_css->add_property( 'justify-content', 'right' === $settings['alignmentTablet'] ? 'flex-end' : $settings['alignmentTablet'] );
+					$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 
 					if ( $settings['inlineWidthTablet'] ) {
 						$tablet_css->add_property( 'display', '-webkit-inline-box' );
@@ -886,8 +888,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 					$mobile_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'], $settings['iconPaddingUnit'] ) );
 
-					if ( 'above' === $settings['iconLocationMobile'] ) {
-						$mobile_css->add_property( 'align-self', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+					if ( 'above' === $settings['iconLocationMobile'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationMobile'] ) || ( 'above' === $settings['iconLocationTablet'] && '' == $settings['iconLocationMobile'] ) ) {
+						$mobile_css->add_property( '-ms-flex-item-align', generateblocks_get_vendor_prefix( $settings['alignmentMobile'] ) );
+						$mobile_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 					}
 
 					$mobile_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
@@ -897,7 +900,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$mobile_css->set_selector( '.gb-headline-wrapper-' . $id );
 					$mobile_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 					$mobile_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
-					$mobile_css->add_property( 'justify-content', 'right' === $settings['alignmentMobile'] ? 'flex-end' : $settings['alignmentMobile'] );
+					$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 
 					if ( $settings['inlineWidthMobile'] ) {
 						$mobile_css->add_property( 'display', '-webkit-inline-box' );

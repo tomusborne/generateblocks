@@ -330,12 +330,32 @@ function generateblocks_hex2rgba( $hex, $alpha ) {
  * @return string The old browser value.
  */
 function generateblocks_get_vendor_prefix( $value ) {
-	if ( 'flex-start' === $value ) {
+	if ( 'flex-start' === $value || 'left' === $value ) {
 		return 'start';
 	}
 
-	if ( 'flex-end' === $value ) {
+	if ( 'flex-end' === $value || 'right' === $value ) {
 		return 'end';
+	}
+
+	return $value;
+}
+
+/**
+ * Return flexbox alignment values from left/right.
+ *
+ * @since 0.1
+ * @param string The value to convert.
+ *
+ * @return string The flexbox alignment value.
+ */
+function generateblocks_get_flexbox_alignment( $value ) {
+	if ( 'left' === $value ) {
+		return 'flex-start';
+	}
+
+	if ( 'right' === $value ) {
+		return 'flex-end';
 	}
 
 	return $value;
