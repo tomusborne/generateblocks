@@ -724,7 +724,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->set_selector( '.gb-headline-' . $id );
 				$css->add_property( 'font-family', $fontFamily );
-				$css->add_property( 'text-align', $settings['alignment'] );
+
+				if ( ! $settings['icon'] ) {
+					$css->add_property( 'text-align', $settings['alignment'] );
+				}
+
 				$css->add_property( 'color', $settings['textColor'] );
 
 				if ( ! $settings['icon'] ) {
@@ -769,8 +773,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 
 					if ( 'above' === $settings['iconLocation'] ) {
-						$css->add_property( '-ms-flex-item-align', generateblocks_get_vendor_prefix( $settings['alignment'] ) );
-						$css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
+						$css->add_property( 'display', 'unset' );
 					}
 
 					$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
@@ -780,7 +783,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->set_selector( '.gb-headline-wrapper-' . $id );
 					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
-					$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
+
+					if ( 'above' === $settings['iconLocation'] ) {
+						$css->add_property( 'text-align', $settings['alignment'] );
+					} else {
+						$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
+					}
 
 					if ( $settings['inlineWidth'] ) {
 						$css->add_property( 'display', '-webkit-inline-box' );

@@ -187,7 +187,8 @@ class GenerateBlockHeadline extends Component {
 			fontFamilyFallbackValue = '',
 			inlineHeadline = '',
 			borderStyleValue = '',
-			marginBottomValue = '';
+			marginBottomValue = '',
+			displayUnset = '';
 
 		if ( icon && 'above' === iconLocation ) {
 			iconFlexDirection = 'column';
@@ -202,6 +203,7 @@ class GenerateBlockHeadline extends Component {
 		if ( icon && 'above' === iconLocation ) {
 			headlineWrapperAlignment = 'right' === alignment ? 'flex-end' : alignment;
 			inlineVerticalAlignment = 'right' === alignment ? 'flex-end' : alignment;
+			displayUnset = 'display: unset;';
 		}
 
 		if ( fontFamily && fontFamilyFallback ) {
@@ -275,6 +277,7 @@ class GenerateBlockHeadline extends Component {
 				padding-bottom: ` + iconPaddingBottom + iconPaddingUnit + `;
 				padding-left: ` + iconPaddingLeft + iconPaddingUnit + `;
 				align-self: ` + iconAlignment + `;
+				` + displayUnset + `
 				color: ` + hexToRGBA( iconColor, iconColorOpacity ) + `;
 				font-size: ` + fontSize + fontSizeUnit + `;
 			}
@@ -287,6 +290,7 @@ class GenerateBlockHeadline extends Component {
 			.gb-headline-wrapper-` + uniqueId + ` {
 				flex-direction: ` + iconFlexDirection + `;
 				justify-content: ` + headlineWrapperAlignment + `;
+				text-align: ` + alignment + `;
 				align-items: ` + inlineVerticalAlignment + `;
 				margin-top: ` + marginTop + marginUnit + ` !important;
 				margin-right: ` + marginRight + marginUnit + `;
