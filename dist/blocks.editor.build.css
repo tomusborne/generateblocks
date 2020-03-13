@@ -1117,7 +1117,8 @@ body .gb-container .wp-block {
   display: inline-flex; }
 
 .gblocks-add-new-button svg {
-  margin-right: 0 !important; }
+  margin-right: 0 !important;
+  margin-left: 0 !important; }
 
 .gblocks-button-container-appender {
   -ms-flex-item-align: center;
