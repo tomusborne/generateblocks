@@ -81,6 +81,7 @@
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -337,6 +338,7 @@
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -420,8 +422,8 @@ body .gb-container .wp-block {
 [data-type="generateblocks/grid"] .block-editor-block-list__insertion-point {
   display: none; }
 
-.editor-styles-wrapper .gb-container [data-block],
-.editor-styles-wrapper .gb-grid-wrapper [data-block] {
+.editor-styles-wrapper .gb-container [data-block]:not([data-type="core/paragraph"]),
+.editor-styles-wrapper .gb-grid-wrapper [data-block]:not([data-type="core/paragraph"]) {
   margin-top: 0;
   margin-bottom: 0; }
 /**
@@ -507,6 +509,7 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -676,6 +679,7 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -830,6 +834,7 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -968,6 +973,7 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -1079,6 +1085,7 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -1198,6 +1205,7 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -1292,6 +1300,7 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -1495,6 +1504,7 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -1666,6 +1676,7 @@ button.components-icon-picker-item {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -1757,6 +1768,7 @@ button.components-icon-picker-item {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -1916,6 +1928,7 @@ button.components-icon-picker-item {
 
 .gblocks-block-control-icon svg {
   margin-right: 0 !important;
+  margin-left: 0 !important;
   padding: 2px; }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
