@@ -296,6 +296,14 @@ class GenerateBlockContainer extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
+		let minHeightCSS = '';
+
+		if ( minHeight && ! isGrid ) {
+			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';display: flex;flex-direction: column;justify-content:' + verticalAlignment + ';';
+		} else if ( minHeight ) {
+			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';';
+		}
+
 		const css = `
 			.gb-container-` + uniqueId + ` {
 				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
@@ -316,7 +324,7 @@ class GenerateBlockContainer extends Component {
 				border-left-width: ` + borderSizeLeft + `px;
 				border-style: ` + borderStyleValue + `;
 				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
-				min-height: ` + minHeight + minHeightUnit + `;
+				` + minHeightCSS + `
 				margin-top: ` + marginTop + marginUnit + `;
 				margin-right: ` + marginRight + marginUnit + `;
 				margin-bottom: ` + marginBottom + marginUnit + `;
@@ -954,6 +962,22 @@ class GenerateBlockContainer extends Component {
 														} }
 													/>
 
+													{ !! minHeight && ! isGrid &&
+														<SelectControl
+															label={ __( 'Vertical Alignment', 'generateblocks' ) }
+															value={ verticalAlignment }
+															options={ [
+																{ label: __( 'Default', 'generateblocks' ), value: '' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+															] }
+															onChange={ ( verticalAlignment ) => {
+																setAttributes( { verticalAlignment } )
+															} }
+														/>
+													}
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
@@ -1044,6 +1068,23 @@ class GenerateBlockContainer extends Component {
 														} }
 													/>
 
+													{ ( !! minHeight || !! minHeightTablet ) && ! isGrid &&
+														<SelectControl
+															label={ __( 'Vertical Alignment', 'generateblocks' ) }
+															value={ verticalAlignmentTablet }
+															options={ [
+																{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit'},
+																{ label: __( 'Default', 'generateblocks' ), value: '' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+															] }
+															onChange={ ( verticalAlignmentTablet ) => {
+																setAttributes( { verticalAlignmentTablet } )
+															} }
+														/>
+													}
+
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
@@ -1133,6 +1174,23 @@ class GenerateBlockContainer extends Component {
 															} );
 														} }
 													/>
+
+													{ ( !! minHeight || !! minHeightTablet || !! minHeightMobile ) && ! isGrid &&
+														<SelectControl
+															label={ __( 'Vertical Alignment', 'generateblocks' ) }
+															value={ verticalAlignmentMobile }
+															options={ [
+																{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit'},
+																{ label: __( 'Default', 'generateblocks' ), value: '' },
+																{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+																{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+																{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+															] }
+															onChange={ ( verticalAlignmentMobile ) => {
+																setAttributes( { verticalAlignmentMobile } )
+															} }
+														/>
+													}
 
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
