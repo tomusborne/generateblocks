@@ -877,30 +877,15 @@ class GenerateBlockContainer extends Component {
 													</BaseControl>
 
 													<TypographyControls { ...this.props }
-														valueFontFamily={ fontFamily }
-														valueFontFamilyFallback={ fontFamilyFallback }
-														valueFontWeight={ fontWeight }
-														valueGoogleFont={ googleFont }
-														valueTextTransform={ textTransform }
-														valueFontSize={ fontSize }
-														valueFontSizeUnit={ fontSizeUnit }
-														valueShowAdvancedTypography={ showAdvancedTypography }
-														attrFontFamily={ 'fontFamily' }
-														attrFontFamilyFallback={ 'fontFamilyFallback' }
-														attrGoogleFont={ 'googleFont' }
-														attrFontWeight={ 'fontWeight' }
-														attrTextTransform={ 'textTransform' }
-														attrFontSize={ 'fontSize' }
-														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'disable' }
-														attrLetterSpacing={ 'disable' }
-														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														showFontFamily={ true }
+														showFontWeight={ true }
+														showTextTransform={ true }
+														showFontSize={ true }
 														defaultFontSize={ generateBlocksDefaults.container.fontSize }
 														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 														defaultLineHeight={ generateBlocksDefaults.container.lineHeight }
 														defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacing }
-														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) }
@@ -918,20 +903,12 @@ class GenerateBlockContainer extends Component {
 													</BaseControl>
 
 													<TypographyControls { ...this.props }
-														valueFontSize={ fontSizeTablet }
-														valueFontSizeUnit={ fontSizeUnit }
-														valueShowAdvancedTypography={ showAdvancedTypography }
-														attrFontSize={ 'fontSizeTablet' }
-														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'disable' }
-														attrLetterSpacing={ 'disable' }
-														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														showFontSize={ true }
 														defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
 														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 														defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
 														defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingTablet }
-														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) }
@@ -949,20 +926,12 @@ class GenerateBlockContainer extends Component {
 													</BaseControl>
 
 													<TypographyControls { ...this.props }
-														valueFontSize={ fontSizeMobile }
-														valueFontSizeUnit={ fontSizeUnit }
-														valueShowAdvancedTypography={ showAdvancedTypography }
-														attrFontSize={ 'fontSizeMobile' }
-														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'disable' }
-														attrLetterSpacing={ 'disable' }
-														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														showFontSize={ true }
 														defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
 														defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 														defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
 														defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingMobile }
-														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) }
@@ -1046,12 +1015,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
-														valueTop={ paddingTop }
-														valueRight={ paddingRight }
-														valueBottom={ paddingBottom }
-														valueLeft={ paddingLeft }
-														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTop' }
 														attrRight={ 'paddingRight' }
 														attrBottom={ 'paddingBottom' }
@@ -1063,12 +1026,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTop }
-														valueRight={ marginRight }
-														valueBottom={ marginBottom }
-														valueLeft={ marginLeft }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTop' }
 														attrRight={ 'marginRight' }
 														attrBottom={ 'marginBottom' }
@@ -1080,11 +1037,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Size', 'generateblocks' ) }
-														valueTop={ borderSizeTop }
-														valueRight={ borderSizeRight }
-														valueBottom={ borderSizeBottom }
-														valueLeft={ borderSizeLeft }
-														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTop' }
 														attrRight={ 'borderSizeRight' }
 														attrBottom={ 'borderSizeBottom' }
@@ -1096,12 +1048,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Radius', 'generateblocks' ) }
-														valueTop={ borderRadiusTopLeft }
-														valueRight={ borderRadiusTopRight }
-														valueBottom={ borderRadiusBottomRight }
-														valueLeft={ borderRadiusBottomLeft }
-														valueUnit={ borderRadiusUnit }
-														syncUnits={ borderRadiusSyncUnits }
 														attrTop={ 'borderRadiusTopLeft' }
 														attrRight={ 'borderRadiusTopRight' }
 														attrBottom={ 'borderRadiusBottomRight' }
@@ -1159,12 +1105,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
-														valueTop={ paddingTopTablet }
-														valueRight={ paddingRightTablet }
-														valueBottom={ paddingBottomTablet }
-														valueLeft={ paddingLeftTablet }
-														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTopTablet' }
 														attrRight={ 'paddingRightTablet' }
 														attrBottom={ 'paddingBottomTablet' }
@@ -1176,12 +1116,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTopTablet }
-														valueRight={ marginRightTablet }
-														valueBottom={ marginBottomTablet }
-														valueLeft={ marginLeftTablet }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopTablet' }
 														attrRight={ 'marginRightTablet' }
 														attrBottom={ 'marginBottomTablet' }
@@ -1193,11 +1127,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Size', 'generateblocks' ) }
-														valueTop={ borderSizeTopTablet }
-														valueRight={ borderSizeRightTablet }
-														valueBottom={ borderSizeBottomTablet }
-														valueLeft={ borderSizeLeftTablet }
-														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTopTablet' }
 														attrRight={ 'borderSizeRightTablet' }
 														attrBottom={ 'borderSizeBottomTablet' }
@@ -1209,12 +1138,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Radius', 'generateblocks' ) }
-														valueTop={ borderRadiusTopLeftTablet }
-														valueRight={ borderRadiusTopRightTablet }
-														valueBottom={ borderRadiusBottomRightTablet }
-														valueLeft={ borderRadiusBottomLeftTablet }
-														valueUnit={ borderRadiusUnit }
-														syncUnits={ borderRadiusSyncUnits }
 														attrTop={ 'borderRadiusTopLeftTablet' }
 														attrRight={ 'borderRadiusTopRightTablet' }
 														attrBottom={ 'borderRadiusBottomRightTablet' }
@@ -1272,12 +1195,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
-														valueTop={ paddingTopMobile }
-														valueRight={ paddingRightMobile }
-														valueBottom={ paddingBottomMobile }
-														valueLeft={ paddingLeftMobile }
-														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTopMobile' }
 														attrRight={ 'paddingRightMobile' }
 														attrBottom={ 'paddingBottomMobile' }
@@ -1289,12 +1206,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTopMobile }
-														valueRight={ marginRightMobile }
-														valueBottom={ marginBottomMobile }
-														valueLeft={ marginLeftMobile }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopMobile' }
 														attrRight={ 'marginRightMobile' }
 														attrBottom={ 'marginBottomMobile' }
@@ -1306,11 +1217,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Size', 'generateblocks' ) }
-														valueTop={ borderSizeTopMobile }
-														valueRight={ borderSizeRightMobile }
-														valueBottom={ borderSizeBottomMobile }
-														valueLeft={ borderSizeLeftMobile }
-														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTopMobile' }
 														attrRight={ 'borderSizeRightMobile' }
 														attrBottom={ 'borderSizeBottomMobile' }
@@ -1322,12 +1228,6 @@ class GenerateBlockContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Radius', 'generateblocks' ) }
-														valueTop={ borderRadiusTopLeftMobile }
-														valueRight={ borderRadiusTopRightMobile }
-														valueBottom={ borderRadiusBottomRightMobile }
-														valueLeft={ borderRadiusBottomLeftMobile }
-														valueUnit={ borderRadiusUnit }
-														syncUnits={ borderRadiusSyncUnits }
 														attrTop={ 'borderRadiusTopLeftMobile' }
 														attrRight={ 'borderRadiusTopRightMobile' }
 														attrBottom={ 'borderRadiusBottomRightMobile' }
@@ -1361,14 +1261,14 @@ class GenerateBlockContainer extends Component {
 								<ColorPicker
 									label={ __( 'Background Color', 'generateblocks' ) }
 									value={ backgroundColor }
+									alpha={ true }
+									valueOpacity={ backgroundColorOpacity }
+									attrOpacity={ 'backgroundColorOpacity' }
 									onChange={ ( nextBackgroundColor ) =>
 										setAttributes( {
 											backgroundColor: nextBackgroundColor
 										} )
 									}
-									alpha={ true }
-									valueOpacity={ backgroundColorOpacity }
-									attrOpacity={ 'backgroundColorOpacity' }
 									onOpacityChange={ ( value ) =>
 										setAttributes( {
 											backgroundColorOpacity: value
@@ -1379,47 +1279,47 @@ class GenerateBlockContainer extends Component {
 								<ColorPicker
 									label={ __( 'Text Color', 'generateblocks' ) }
 									value={ textColor }
+									alpha={ false }
 									onChange={ ( nextTextColor ) =>
 										setAttributes( {
 											textColor: nextTextColor
 										} )
 									}
-									alpha={ false }
 								/>
 
 								<ColorPicker
 									label={ __( 'Link Color', 'generateblocks' ) }
 									value={ linkColor }
+									alpha={ false }
 									onChange={ ( nextLinkColor ) =>
 										setAttributes( {
 											linkColor: nextLinkColor
 										} )
 									}
-									alpha={ false }
 								/>
 
 								<ColorPicker
 									label={ __( 'Link Color Hover', 'generateblocks' ) }
 									value={ linkColorHover }
+									alpha={ false }
 									onChange={ ( nextLinkColorHover ) =>
 										setAttributes( {
 											linkColorHover: nextLinkColorHover
 										} )
 									}
-									alpha={ false }
 								/>
 
 								<ColorPicker
 									label={ __( 'Border Color', 'generateblocks' ) }
 									value={ borderColor }
+									alpha={ true }
+									valueOpacity={ borderColorOpacity }
+									attrOpacity={ 'borderColorOpacity' }
 									onChange={ ( value ) =>
 										setAttributes( {
 											borderColor: value
 										} )
 									}
-									alpha={ true }
-									valueOpacity={ borderColorOpacity }
-									attrOpacity={ 'borderColorOpacity' }
 									onOpacityChange={ ( value ) =>
 										setAttributes( {
 											borderColorOpacity: value
@@ -1437,14 +1337,6 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 					>
 						<GradientControl { ...this.props }
-							valueGradient={ gradient }
-							valueGradientDirection={ gradientDirection }
-							valueGradientColorOne={ gradientColorOne }
-							valueGradientColorStopOne={ gradientColorStopOne }
-							valueGradientColorTwo={ gradientColorTwo }
-							valueGradientColorStopTwo={ gradientColorStopTwo }
-							valueGradientColorOneOpacity={ gradientColorOneOpacity }
-							valueGradientColorTwoOpacity={ gradientColorTwoOpacity }
 							attrGradient={ 'gradient' }
 							attrGradientDirection={ 'gradientDirection' }
 							attrGradientColorOne={ 'gradientColorOne' }

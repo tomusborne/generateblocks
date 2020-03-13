@@ -289,12 +289,6 @@ class GenerateButtonContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTop }
-														valueRight={ marginRight }
-														valueBottom={ marginBottom }
-														valueLeft={ marginLeft }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTop' }
 														attrRight={ 'marginRight' }
 														attrBottom={ 'marginBottom' }
@@ -339,12 +333,6 @@ class GenerateButtonContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTopTablet }
-														valueRight={ marginRightTablet }
-														valueBottom={ marginBottomTablet }
-														valueLeft={ marginLeftTablet }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopTablet' }
 														attrRight={ 'marginRightTablet' }
 														attrBottom={ 'marginBottomTablet' }
@@ -388,12 +376,6 @@ class GenerateButtonContainer extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTopMobile }
-														valueRight={ marginRightMobile }
-														valueBottom={ marginBottomMobile }
-														valueLeft={ marginLeftMobile }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopMobile' }
 														attrRight={ 'marginRightMobile' }
 														attrBottom={ 'marginBottomMobile' }

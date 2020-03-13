@@ -28,16 +28,8 @@ class GradientControl extends Component {
 
 	render() {
 		const {
-			className,
+			attributes,
 			setAttributes,
-			valueGradient,
-			valueGradientDirection,
-			valueGradientColorOne,
-			valueGradientColorOneOpacity,
-			valueGradientColorStopOne,
-			valueGradientColorTwo,
-			valueGradientColorTwoOpacity,
-			valueGradientColorStopTwo,
 			attrGradient,
 			attrGradientDirection,
 			attrGradientColorOne,
@@ -48,14 +40,13 @@ class GradientControl extends Component {
 			attrGradientColorStopTwo,
 			defaultColorOne,
 			defaultColorTwo,
-			uniqueId,
 		} = this.props;
 
 		return (
 			<Fragment>
 				<ToggleControl
 					label={ __( 'Use Gradient', 'generateblocks' ) }
-					checked={ !! valueGradient }
+					checked={ !! attributes[ attrGradient ] }
 					onChange={ ( value ) => {
 						setAttributes( {
 							[ this.props[ 'attrGradient' ] ]: value,
@@ -63,16 +54,16 @@ class GradientControl extends Component {
 					} }
 				/>
 
-				{ !! valueGradient && (
+				{ !! attributes[ attrGradient ] && (
 					<Fragment>
 						<BaseControl
 							label={ __( 'Direction', 'generateblocks' ) }
 						>
 							<RangeControl
-								value={ valueGradientDirection ? valueGradientDirection : 1 }
+								value={ attributes[ attrGradientDirection ] ? attributes[ attrGradientDirection ] : 1 }
 								onChange={ ( value ) => {
 									setAttributes( {
-										[ this.props[ 'attrGradientDirection' ] ]: value,
+										[ attrGradientDirection ]: value,
 									} );
 								} }
 								min={0 }
@@ -85,23 +76,23 @@ class GradientControl extends Component {
 						<BaseControl label={ __( 'Color One', 'generateblocks' ) }>
 							<div className="gblocks-component-gradient-control">
 								<ColorPicker
-									value={ valueGradientColorOne }
+									value={ attributes[ attrGradientColorOne ] }
+									alpha={ true }
+									valueOpacity={ attributes[ attrGradientColorOneOpacity ] }
+									attrOpacity={ 'gradientColorOneOpacity' }
 									onChange={ ( value ) =>
 										setAttributes( {
-											[ this.props[ 'attrGradientColorOne' ] ]: value,
+											[ attrGradientColorOne ]: value,
+										} )
+									}
+									onOpacityChange={ ( value ) =>
+										setAttributes( {
+											[ attrGradientColorOneOpacity ]: value,
 										} )
 									}
 									onClear={ () =>
 										setAttributes( {
-											[ this.props[ 'attrGradientColorOne' ] ]: this.props.defaultColorOne,
-										} )
-									}
-									alpha={ true }
-									valueOpacity={ valueGradientColorOneOpacity }
-									attrOpacity={ 'valueGradientColorOneOpacity' }
-									onOpacityChange={ ( value ) =>
-										setAttributes( {
-											[ this.props[ 'attrGradientColorOneOpacity' ] ]: value,
+											[ attrGradientColorOne ]: defaultColorOne,
 										} )
 									}
 								/>
@@ -109,11 +100,11 @@ class GradientControl extends Component {
 								<TextControl
 									className={ 'gblocks-component-gradient-stop-value' }
 									type={ 'text' }
-									value={ valueGradientColorStopOne ? parseFloat( valueGradientColorStopOne ) : '' }
+									value={ attributes[ attrGradientColorStopOne ] ? parseFloat( attributes[ attrGradientColorStopOne ] ) : '' }
 									placeholder={ __( 'Stop position (%)', 'generateblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
-											[ this.props[ 'attrGradientColorStopOne' ] ]: parseFloat( value )
+											[ attrGradientColorStopOne ]: parseFloat( value )
 										} );
 									} }
 								/>
@@ -123,23 +114,23 @@ class GradientControl extends Component {
 						<BaseControl label={ __( 'Color Two', 'generateblocks' ) }>
 							<div className="gblocks-component-gradient-control">
 								<ColorPicker
-									value={ valueGradientColorTwo }
+									value={ attributes[ attrGradientColorTwo ] }
+									alpha={ true }
+									valueOpacity={ attributes[ attrGradientColorTwoOpacity ] }
+									attrOpacity={ 'gradientColorTwoOpacity' }
 									onChange={ ( value ) =>
 										setAttributes( {
-											[ this.props[ 'attrGradientColorTwo' ] ]: value,
+											[ attrGradientColorTwo ]: value,
+										} )
+									}
+									onOpacityChange={ ( value ) =>
+										setAttributes( {
+											[ attrGradientColorTwoOpacity ]: value,
 										} )
 									}
 									onClear={ () =>
 										setAttributes( {
-											[ this.props[ 'attrGradientColorTwo' ] ]: this.props.defaultColorTwo,
-										} )
-									}
-									alpha={ true }
-									valueOpacity={ valueGradientColorTwoOpacity }
-									attrOpacity={ 'valueGradientColorTwoOpacity' }
-									onOpacityChange={ ( value ) =>
-										setAttributes( {
-											[ this.props[ 'attrGradientColorTwoOpacity' ] ]: value,
+											[ attrGradientColorTwo ]: defaultColorTwo,
 										} )
 									}
 								/>
@@ -147,11 +138,11 @@ class GradientControl extends Component {
 								<TextControl
 									className={ 'gblocks-component-gradient-stop-value' }
 									type={ 'text' }
-									value={ valueGradientColorStopTwo ? parseFloat( valueGradientColorStopTwo ) : '' }
+									value={ attributes[ attrGradientColorStopTwo ] ? parseFloat( attributes[ attrGradientColorStopTwo ] ) : '' }
 									placeholder={ __( 'Stop position (%)', 'generateblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
-											[ this.props[ 'attrGradientColorStopTwo' ] ]: parseFloat( value )
+											[ attrGradientColorStopTwo ]: parseFloat( value )
 										} );
 									} }
 								/>

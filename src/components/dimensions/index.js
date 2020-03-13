@@ -50,12 +50,12 @@ class DimensionsControl extends Component {
 	}
 
 	syncUnits( value ) {
-		var numbers = [ this.props[ 'valueTop' ], this.props[ 'valueRight' ], this.props[ 'valueBottom' ], this.props[ 'valueLeft' ]];
+		var numbers = [ this.props.attributes[ this.props.attrTop ], this.props.attributes[ this.props.attrRight ], this.props.attributes[ this.props.attrBottom ], this.props.attributes[ this.props.attrLeft ]];
 
 		const syncValue = Math.max.apply( null, numbers );
 
 		this.props.setAttributes( {
-			[ this.props[ 'attrSyncUnits' ] ]: ! this.props[ 'syncUnits' ],
+			[ this.props[ 'attrSyncUnits' ] ]: ! this.props.attributes[ this.props.attrSyncUnits ],
 			[ this.props[ 'attrTop' ] ]: syncValue.toString(), [ this.props[ 'attrRight' ] ]: syncValue.toString(), [ this.props[ 'attrBottom' ] ]: syncValue.toString(), [ this.props[ 'attrLeft' ] ]: syncValue.toString()
 		} );
 	}
@@ -67,34 +67,23 @@ class DimensionsControl extends Component {
 	render() {
 
 		const {
-			className,
+			attributes,
 			label = __( 'Margin', 'generateblocks' ),
-			left = true,
 			onChange,
-			reset = false,
-			right = true,
 			setAttributes,
-			top = true,
 			type = 'margin',
 			unit,
 			units = true,
-			valueBottom,
-			valueLeft,
-			valueRight,
-			valueTop,
-			syncUnits,
 			attrTop,
 			attrRight,
 			attrBottom,
 			attrLeft,
 			attrSyncUnits,
+			attrUnit,
 			labelTop = __( 'Top', 'generateblocks' ),
 			labelRight = __( 'Right', 'generateblocks' ),
 			labelBottom = __( 'Bottom', 'generateblocks' ),
 			labelLeft = __( 'Left', 'generateblocks' ),
-			valueUnit,
-			attrUnit,
-			unitChoices,
 			displayUnit,
 		} = this.props;
 
@@ -111,7 +100,7 @@ class DimensionsControl extends Component {
 				return;
 			}
 
-			if ( this.props[ 'syncUnits' ] ) {
+			if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 				this.onChangeAll( newValue );
 			} else {
 				this.onChangeTop( newValue );
@@ -126,7 +115,7 @@ class DimensionsControl extends Component {
 				return;
 			}
 
-			if ( this.props[ 'syncUnits' ] ) {
+			if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 				this.onChangeAll( newValue );
 			} else {
 				this.onChangeRight( newValue );
@@ -141,7 +130,7 @@ class DimensionsControl extends Component {
 				return;
 			}
 
-			if ( this.props[ 'syncUnits' ] ) {
+			if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 				this.onChangeAll( newValue );
 			} else {
 				this.onChangeBottom( newValue );
@@ -156,7 +145,7 @@ class DimensionsControl extends Component {
 				return;
 			}
 
-			if ( this.props[ 'syncUnits' ] ) {
+			if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 				this.onChangeAll( newValue );
 			} else {
 				this.onChangeLeft( newValue );
@@ -186,7 +175,7 @@ class DimensionsControl extends Component {
 							{ label }
 						</div>
 
-						{ ( typeof valueUnit !== 'undefined' ) ?
+						{ ( typeof attributes[ attrUnit ] !== 'undefined' ) ?
 							<div className="components-gblocks-control__units">
 								<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 									{ unitSizes.map( ( unit ) =>
@@ -196,8 +185,8 @@ class DimensionsControl extends Component {
 												key={ unit.unitValue }
 												className={ 'components-gblocks-dimensions-control__units--' + unit.name }
 												isSmall
-												isPrimary={ valueUnit === unit.unitValue }
-												aria-pressed={ valueUnit === unit.unitValue }
+												isPrimary={ attributes[ attrUnit ] === unit.unitValue }
+												aria-pressed={ attributes[ attrUnit ] === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 												onClick={ () => this.onChangeUnits( unit.unitValue ) }
@@ -233,7 +222,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeTopValue }
 							aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
-							value={ valueTop ? valueTop : '' }
+							value={ attributes[ attrTop ] ? attributes[ attrTop ] : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
@@ -242,7 +231,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeRightValue }
 							aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
-							value={ valueRight ? valueRight : '' }
+							value={ attributes[ attrRight ] ? attributes[ attrRight ] : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
@@ -251,7 +240,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeBottomValue }
 							aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
-							value={ valueBottom ? valueBottom : '' }
+							value={ attributes[ attrBottom ] ? attributes[ attrBottom ] : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
@@ -260,20 +249,20 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeLeftValue }
 							aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }
-							value={ valueLeft ? valueLeft : '' }
+							value={ attributes[ attrLeft ] ? attributes[ attrLeft ] : '' }
 							min={ type == 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
-						<Tooltip text={ !! syncUnits ? __( 'Unsync', 'generateblocks' ) : __( 'Sync', 'generateblocks' ) } >
+						<Tooltip text={ !! attributes[ attrSyncUnits ] ? __( 'Unsync', 'generateblocks' ) : __( 'Sync', 'generateblocks' ) } >
 							<Button
 								className="components-gblocks-dimensions-control_sync"
 								aria-label={ __( 'Sync Units', 'generateblocks' ) }
-								isPrimary={ syncUnits ? syncUnits : false }
-								aria-pressed={ syncUnits ? syncUnits : false }
+								isPrimary={ attributes[ attrSyncUnits ] ? attributes[ attrSyncUnits ] : false }
+								aria-pressed={ attributes[ attrSyncUnits ] ? attributes[ attrSyncUnits ] : false }
 								onClick={ ( value ) => this.syncUnits( value, '' ) }
 								isSmall
 							>
-								{ !! syncUnits ? getIcon( 'sync' ) : getIcon( 'sync' ) }
+								{ !! attributes[ attrSyncUnits ] ? getIcon( 'sync' ) : getIcon( 'sync' ) }
 							</Button>
 						</Tooltip>
 					</div>

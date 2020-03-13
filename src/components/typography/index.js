@@ -38,38 +38,20 @@ class TypographyControls extends Component {
 
 	render() {
 		const {
-			className,
 			setAttributes,
-			valueFontFamily,
-			attrFontFamily,
-			valueGoogleFont,
-			attrGoogleFont,
-			valueShowAdvancedTypography,
-			attrShowAdvancedTypography,
-			valueFontFamilyFallback,
-			attrFontFamilyFallback,
-			valueFontWeight,
-			attrFontWeight,
-			valueTextTransform,
-			attrTextTransform,
-			valueFontSize,
-			attrFontSize,
-			valueFontSizeUnit,
-			attrFontSizeUnit,
-			valueLineHeight,
-			attrLineHeight,
-			valueLineHeightUnit,
-			attrLineHeightUnit,
-			valueLetterSpacing,
-			attrLetterSpacing,
-			valueLetterSpacingUnit,
-			attrLetterSpacingUnit,
+			attributes,
+			device = '',
+			showFontSize = false,
+			showFontFamily = false,
+			showFontWeight = false,
+			showTextTransform = false,
+			showLineHeight = false,
+			showLetterSpacing = false,
 			defaultFontSize,
 			defaultFontSizeUnit,
 			defaultLineHeight,
 			defaultLineHeightUnit,
 			defaultLetterSpacing,
-			uniqueId,
 		} = this.props;
 
 		const fonts = [
@@ -80,7 +62,6 @@ class TypographyControls extends Component {
 			{ value: 'Georgia', label: 'Georgia' },
 		];
 
-		//Add Google Fonts
 		Object.keys( googleFonts ).map( ( k ) => {
 			fonts.push(
 				{ value: k, label: k }
@@ -114,14 +95,14 @@ class TypographyControls extends Component {
 			{ value: 'initial', 	label: __( 'Normal', 'generateblocks' ) },
 		];
 
-		if ( typeof googleFonts[ this.props['valueFontFamily'] ] !== 'undefined' && typeof googleFonts[ this.props['valueFontFamily'] ].weight !== 'undefined' ) {
+		if ( typeof googleFonts[ attributes.fontFamily ] !== 'undefined' && typeof googleFonts[ attributes.fontFamily ].weight !== 'undefined' ) {
 			weight = [
 				{ value: '', label: __( 'Default', 'generateblocks' ) },
 				{ value: 'normal', label: __( 'Normal', 'generateblocks' ) },
 				{ value: 'bold', label: __( 'Bold', 'generateblocks' ) },
 			];
 
-			googleFonts[ this.props['valueFontFamily'] ].weight.map( ( k ) => {
+			googleFonts[ attributes.fontFamily ].weight.map( ( k ) => {
 				weight.push(
 					{ value: k, label: k }
 				);
@@ -133,32 +114,29 @@ class TypographyControls extends Component {
 				value = '';
 			}
 
-			let isGoogle,
-				fontWeight = this.props['valueFontWeight'];
+			let fontWeight = attributes.fontWeight;
 
-			setAttributes( { [ this.props['attrFontFamily'] ]: value } );
+			setAttributes( { 'fontFamily': value } );
 
-			if ( this.props['valueFontWeight'] && Object.values( weight ).indexOf( this.props['valueFontWeight'] ) < 0 ) {
+			if ( attributes.fontWeight && Object.values( weight ).indexOf( attributes.fontWeight ) < 0 ) {
 				fontWeight = '';
 			}
 
 			if ( typeof googleFonts[ value ] !== 'undefined' ) {
 				setAttributes( {
-					[ this.props['attrGoogleFont'] ]: true,
-					[ this.props['attrFontFamilyFallback'] ]: googleFonts[ value ].fallback,
+					'googleFont': true,
+					'fontFamilyFallback': googleFonts[ value ].fallback,
 				} );
-				isGoogle = true;
 			} else {
 				setAttributes( {
-					[ this.props['attrGoogleFont'] ]: false,
-					[ this.props['attrFontFamilyFallback'] ]: '',
+					'googleFont': false,
+					'fontFamilyFallback': '',
 				} );
-				isGoogle = false;
 			}
 		};
 
 		const onFontShortcut = ( event ) => {
-			setAttributes( { [ this.props['attrFontFamily'] ]: event.target.value } );
+			setAttributes( { 'fontFamily': event.target.value } );
 			onFontChange( event.target.value );
 		};
 
@@ -177,32 +155,44 @@ class TypographyControls extends Component {
 			},
 		];
 
+		const getValue = ( value, device ) => {
+			const valueName = value + device;
+
+			return attributes[ valueName ];
+		};
+
+		const getAttributeName = ( name, device ) => {
+			const attributeName = name + device;
+
+			return attributeName;
+		};
+
 		return (
 			<Fragment>
 				<div className={ 'components-gblocks-typography-weight-transform' }>
-					{ ( typeof valueFontWeight !== 'undefined' ) &&
+					{ showFontWeight &&
 						<SelectControl
 							label={ __( 'Weight', 'generateblocks' ) }
-							value={ valueFontWeight }
+							value={ attributes.fontWeight }
 							options={ weight }
 							onChange={ ( value ) => {
 								setAttributes( {
-									[ this.props[ 'attrFontWeight' ] ]: value
+									'fontWeight': value
 								} );
 							} }
 							className="components-base-control"
 						/>
 					}
 
-					{ ( typeof valueTextTransform !== 'undefined' ) &&
+					{ showTextTransform &&
 						<SelectControl
 							label={ __( 'Transform', 'generateblocks' ) }
-							value={ valueTextTransform }
+							value={ attributes.textTransform }
 							options={ transform }
-							onChange={ ( nextTextTransform ) => {
+							onChange={ ( value ) => {
 								setAttributes( {
-									[ this.props[ 'attrTextTransform' ] ]: nextTextTransform
-								} )
+									'textTransform': value
+								} );
 							} }
 							className="components-base-control"
 						/>
@@ -211,15 +201,15 @@ class TypographyControls extends Component {
 
 				<ToggleControl
 					label={ __( 'Show Advanced Typography', 'generateblocks' ) }
-					checked={ !! valueShowAdvancedTypography }
+					checked={ !! attributes.showAdvancedTypography }
 					onChange={ ( value ) => {
 						setAttributes( {
-							[ this.props[ 'attrShowAdvancedTypography' ] ]: value,
+							'showAdvancedTypography': value,
 						} );
 					} }
 				/>
 
-				{ ( typeof valueFontFamily !== 'undefined' && valueShowAdvancedTypography ) &&
+				{ showFontFamily && attributes.showAdvancedTypography &&
 					<BaseControl className={ 'gblocks-font-family-shortcuts' } label={ __( 'Font Family', 'generateblocks' ) }>
 						<select
 							className="components-select-control__input components-select-control__input--gblocks-fontfamily"
@@ -237,40 +227,40 @@ class TypographyControls extends Component {
 					</BaseControl>
 				}
 
-				{ ( typeof valueFontFamily !== 'undefined' && valueShowAdvancedTypography ) &&
+				{ showFontFamily && attributes.showAdvancedTypography &&
 					<TextControl
-						value={ valueFontFamily }
+						value={ attributes.fontFamily }
 						placeholder={ __( 'Enter font name...', 'generateblocks' ) }
 						onChange={ ( nextFontFamily ) => onFontChange( nextFontFamily ) }
 					/>
 				}
 
-				{ ( typeof valueFontFamily !== 'undefined' && '' !== valueFontFamily && valueShowAdvancedTypography ) &&
+				{ showFontFamily && '' !== attributes.fontFamily && attributes.showAdvancedTypography &&
 					<ToggleControl
 						label={ __( 'Google Font', 'generateblocks' ) }
-						checked={ !! valueGoogleFont }
+						checked={ !! attributes.googleFont }
 						onChange={ ( value ) => {
 							setAttributes( {
-								[ this.props[ 'attrGoogleFont' ] ]: value,
+								'googleFont': value,
 							} );
 						} }
 					/>
 				}
 
-				{ ( typeof valueFontFamilyFallback !== 'undefined' && valueShowAdvancedTypography ) && (
+				{ showFontFamily && attributes.showAdvancedTypography &&
 					<TextControl
 						label={ __( 'Font Family Fallback', 'generateblocks' ) }
-						value={ valueFontFamilyFallback }
+						value={ attributes.fontFamilyFallback }
 						placeholder={ __( 'sans-serif', 'generateblocks' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
-								[ this.props[ 'attrFontFamilyFallback' ] ]: value,
+								'fontFamilyFallback': value,
 							} );
 						} }
 					/>
-				) }
+				}
 
-				{ valueShowAdvancedTypography &&
+				{ showFontSize && attributes.showAdvancedTypography &&
 					<Fragment>
 						<div className="components-gblocks-typography-control__header">
 							<div className="components-gblocks-typography-control__label components-base-control__label">
@@ -286,11 +276,11 @@ class TypographyControls extends Component {
 												key={ unit.unitValue }
 												className={ 'components-gblocks-typography-control__units--' + unit.name }
 												isSmall
-												isPrimary={ valueFontSizeUnit === unit.unitValue }
-												aria-pressed={ valueFontSizeUnit === unit.unitValue }
+												isPrimary={ attributes.fontSizeUnit === unit.unitValue }
+												aria-pressed={ attributes.fontSizeUnit === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-												onClick={ () => setAttributes( { [ this.props[ 'attrFontSizeUnit' ] ]: unit.unitValue } ) }
+												onClick={ () => setAttributes( { 'fontSizeUnit': unit.unitValue } ) }
 											>
 												{ unit.unitValue }
 											</Button>
@@ -302,10 +292,12 @@ class TypographyControls extends Component {
 
 						<div className="components-gblocks-typography-control__inputs">
 							<RangeControl
-								value={ parseFloat( valueFontSize ) || '' }
+								value={ parseFloat( getValue( 'fontSize', device ) ) || '' }
 								onChange={ ( value ) => {
+									const name = getAttributeName( 'fontSize', device );
+
 									setAttributes( {
-										[ this.props[ 'attrFontSize' ] ]: value
+										[ name ]: value
 									} );
 								} }
 								min={ 1 }
@@ -318,7 +310,7 @@ class TypographyControls extends Component {
 					</Fragment>
 				}
 
-				{ 'disable' !== this.props[ 'attrLineHeight'] && valueShowAdvancedTypography &&
+				{ showLineHeight && attributes.showAdvancedTypography &&
 					<Fragment>
 						<div className="components-gblocks-typography-control__header">
 							<div className="components-gblocks-typography-control__label components-base-control__label">
@@ -334,11 +326,11 @@ class TypographyControls extends Component {
 												key={ unit.unitValue }
 												className={ 'components-gblocks-typography-control__units--' + unit.name }
 												isSmall
-												isPrimary={ valueLineHeightUnit === unit.unitValue }
-												aria-pressed={ valueLineHeightUnit === unit.unitValue }
+												isPrimary={ attributes.lineHeightUnit === unit.unitValue }
+												aria-pressed={ attributes.lineHeightUnit === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-												onClick={ () => setAttributes( { [ this.props[ 'attrLineHeightUnit' ] ]: unit.unitValue } ) }
+												onClick={ () => setAttributes( { 'lineHeightUnit': unit.unitValue } ) }
 											>
 												{ unit.unitValue }
 											</Button>
@@ -350,10 +342,12 @@ class TypographyControls extends Component {
 
 						<div className="components-gblocks-typography-control__inputs">
 							<RangeControl
-								value={ parseFloat( valueLineHeight ) || '' }
+								value={ parseFloat( getValue( 'lineHeight', device ) ) || '' }
 								onChange={ ( value ) => {
+									const name = getAttributeName( 'lineHeight', device );
+
 									setAttributes( {
-										[ this.props[ 'attrLineHeight' ] ]: value
+										[ name ]: value
 									} );
 								} }
 								min={ 0 }
@@ -366,7 +360,7 @@ class TypographyControls extends Component {
 					</Fragment>
 				}
 
-				{ 'disable' !== this.props[ 'attrLineHeight'] && valueShowAdvancedTypography &&
+				{ showLetterSpacing && attributes.showAdvancedTypography &&
 					<Fragment>
 						<div className="components-gblocks-typography-control__header">
 							<div className="components-gblocks-control__label">
@@ -390,10 +384,12 @@ class TypographyControls extends Component {
 
 						<div className="components-gblocks-typography-control__inputs">
 							<RangeControl
-								value={ parseFloat( valueLetterSpacing ) || '' }
+								value={ parseFloat( getValue( 'letterSpacing', device ) ) || '' }
 								onChange={ ( value ) => {
+									const name = getAttributeName( 'letterSpacing', device );
+
 									setAttributes( {
-										[ this.props[ 'attrLetterSpacing' ] ]: value
+										[ name ]: value
 									} );
 								} }
 								min={ -1 }

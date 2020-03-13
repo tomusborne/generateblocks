@@ -367,29 +367,14 @@ class GenerateBlockButton extends Component {
 											{ 'default' === tab.name && (
 												<Fragment>
 													<TypographyControls { ...this.props }
-														valueFontFamily={ fontFamily }
-														valueFontFamilyFallback={ fontFamilyFallback }
-														valueFontWeight={ fontWeight }
-														valueGoogleFont={ googleFont }
-														valueTextTransform={ textTransform }
-														valueFontSize={ fontSize }
-														valueFontSizeUnit={ fontSizeUnit }
-														valueLetterSpacing={ letterSpacing }
-														valueShowAdvancedTypography={ showAdvancedTypography }
-														attrFontFamily={ 'fontFamily' }
-														attrFontFamilyFallback={ 'fontFamilyFallback' }
-														attrGoogleFont={ 'googleFont' }
-														attrFontWeight={ 'fontWeight' }
-														attrTextTransform={ 'textTransform' }
-														attrFontSize={ 'fontSize' }
-														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'disable' }
-														attrLetterSpacing={ 'letterSpacing' }
-														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														showFontFamily={ true }
+														showFontWeight={ true }
+														showTextTransform={ true }
+														showFontSize={ true }
+														showLetterSpacing={ true }
 														defaultFontSize={ generateBlocksDefaults.button.fontSize }
 														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
-														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) }
@@ -397,19 +382,12 @@ class GenerateBlockButton extends Component {
 											{ 'tablet' === tab.name && (
 												<Fragment>
 													<TypographyControls { ...this.props }
-														valueFontSize={ fontSizeTablet }
-														valueFontSizeUnit={ fontSizeUnit }
-														valueLetterSpacing={ letterSpacingTablet }
-														valueShowAdvancedTypography={ showAdvancedTypography }
-														attrFontSize={ 'fontSizeTablet' }
-														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'disable' }
-														attrLetterSpacing={ 'letterSpacingTablet' }
-														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														device={ 'Tablet' }
+														showFontSize={ true }
+														showLetterSpacing={ true }
 														defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
 														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
-														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) }
@@ -417,19 +395,12 @@ class GenerateBlockButton extends Component {
 											{ 'mobile' === tab.name && (
 												<Fragment>
 													<TypographyControls { ...this.props }
-														valueFontSize={ fontSizeMobile }
-														valueFontSizeUnit={ fontSizeUnit }
-														valueLetterSpacing={ letterSpacingMobile }
-														valueShowAdvancedTypography={ showAdvancedTypography }
-														attrFontSize={ 'fontSizeMobile' }
-														attrFontSizeUnit={ 'fontSizeUnit' }
-														attrLineHeight={ 'disable' }
-														attrLetterSpacing={ 'letterSpacingMobile' }
-														attrShowAdvancedTypography={ 'showAdvancedTypography' }
+														device={ 'Mobile' }
+														showFontSize={ true }
+														showLetterSpacing={ true }
 														defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
 														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
 														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
-														uniqueId={ uniqueId }
 													/>
 												</Fragment>
 											) }
@@ -474,12 +445,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
-														valueTop={ paddingTop }
-														valueRight={ paddingRight }
-														valueBottom={ paddingBottom }
-														valueLeft={ paddingLeft }
-														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTop' }
 														attrRight={ 'paddingRight' }
 														attrBottom={ 'paddingBottom' }
@@ -491,12 +456,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTop }
-														valueRight={ marginRight }
-														valueBottom={ marginBottom }
-														valueLeft={ marginLeft }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTop' }
 														attrRight={ 'marginRight' }
 														attrBottom={ 'marginBottom' }
@@ -508,12 +467,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Size', 'generateblocks' ) }
-														valueTop={ borderSizeTop }
-														valueRight={ borderSizeRight }
-														valueBottom={ borderSizeBottom }
-														valueLeft={ borderSizeLeft }
-														//unit={ paddingUnit }
-														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTop' }
 														attrRight={ 'borderSizeRight' }
 														attrBottom={ 'borderSizeBottom' }
@@ -525,12 +478,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Radius', 'generateblocks' ) }
-														valueTop={ borderRadiusTopLeft }
-														valueRight={ borderRadiusTopRight }
-														valueBottom={ borderRadiusBottomRight }
-														valueLeft={ borderRadiusBottomLeft }
-														valueUnit={ borderRadiusUnit }
-														syncUnits={ borderRadiusSyncUnits }
 														attrTop={ 'borderRadiusTopLeft' }
 														attrRight={ 'borderRadiusTopRight' }
 														attrBottom={ 'borderRadiusBottomRight' }
@@ -550,12 +497,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
-														valueTop={ paddingTopTablet }
-														valueRight={ paddingRightTablet }
-														valueBottom={ paddingBottomTablet }
-														valueLeft={ paddingLeftTablet }
-														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTopTablet' }
 														attrRight={ 'paddingRightTablet' }
 														attrBottom={ 'paddingBottomTablet' }
@@ -567,12 +508,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'margin' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTopTablet }
-														valueRight={ marginRightTablet }
-														valueBottom={ marginBottomTablet }
-														valueLeft={ marginLeftTablet }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopTablet' }
 														attrRight={ 'marginRightTablet' }
 														attrBottom={ 'marginBottomTablet' }
@@ -584,12 +519,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Size', 'generateblocks' ) }
-														valueTop={ borderSizeTopTablet }
-														valueRight={ borderSizeRightTablet }
-														valueBottom={ borderSizeBottomTablet }
-														valueLeft={ borderSizeLeftTablet }
-														//unit={ paddingUnit }
-														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTopTablet' }
 														attrRight={ 'borderSizeRightTablet' }
 														attrBottom={ 'borderSizeBottomTablet' }
@@ -601,12 +530,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Radius', 'generateblocks' ) }
-														valueTop={ borderRadiusTopLeftTablet }
-														valueRight={ borderRadiusTopRightTablet }
-														valueBottom={ borderRadiusBottomRightTablet }
-														valueLeft={ borderRadiusBottomLeftTablet }
-														valueUnit={ borderRadiusUnit }
-														syncUnits={ borderRadiusSyncUnits }
 														attrTop={ 'borderRadiusTopLeftTablet' }
 														attrRight={ 'borderRadiusTopRightTablet' }
 														attrBottom={ 'borderRadiusBottomRightTablet' }
@@ -626,12 +549,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Padding', 'generateblocks' ) }
-														valueTop={ paddingTopMobile }
-														valueRight={ paddingRightMobile }
-														valueBottom={ paddingBottomMobile }
-														valueLeft={ paddingLeftMobile }
-														valueUnit={ paddingUnit }
-														syncUnits={ paddingSyncUnits }
 														attrTop={ 'paddingTopMobile' }
 														attrRight={ 'paddingRightMobile' }
 														attrBottom={ 'paddingBottomMobile' }
@@ -643,12 +560,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Margin', 'generateblocks' ) }
-														valueTop={ marginTopMobile }
-														valueRight={ marginRightMobile }
-														valueBottom={ marginBottomMobile }
-														valueLeft={ marginLeftMobile }
-														valueUnit={ marginUnit }
-														syncUnits={ marginSyncUnits }
 														attrTop={ 'marginTopMobile' }
 														attrRight={ 'marginRightMobile' }
 														attrBottom={ 'marginBottomMobile' }
@@ -660,11 +571,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Size', 'generateblocks' ) }
-														valueTop={ borderSizeTopMobile }
-														valueRight={ borderSizeRightMobile }
-														valueBottom={ borderSizeBottomMobile }
-														valueLeft={ borderSizeLeftMobile }
-														syncUnits={ borderSizeSyncUnits }
 														attrTop={ 'borderSizeTopMobile' }
 														attrRight={ 'borderSizeRightMobile' }
 														attrBottom={ 'borderSizeBottomMobile' }
@@ -676,12 +582,6 @@ class GenerateBlockButton extends Component {
 													<DimensionsControl { ...this.props }
 														type={ 'padding' }
 														label={ __( 'Border Radius', 'generateblocks' ) }
-														valueTop={ borderRadiusTopLeftMobile }
-														valueRight={ borderRadiusTopRightMobile }
-														valueBottom={ borderRadiusBottomRightMobile }
-														valueLeft={ borderRadiusBottomLeftMobile }
-														valueUnit={ borderRadiusUnit }
-														syncUnits={ borderRadiusSyncUnits }
 														attrTop={ 'borderRadiusTopLeftMobile' }
 														attrRight={ 'borderRadiusTopRightMobile' }
 														attrBottom={ 'borderRadiusBottomRightMobile' }
@@ -733,51 +633,51 @@ class GenerateBlockButton extends Component {
 													<ColorPicker
 														label={ __( 'Background Color', 'generateblocks' ) }
 														value={ backgroundColor }
+														alpha={ true }
+														valueOpacity={ backgroundColorOpacity }
+														attrOpacity={ 'backgroundColorOpacity' }
+														key={ 'buttonBackgroundColor' }
 														onChange={ ( nextBackgroundColor ) =>
 															setAttributes( {
 																backgroundColor: nextBackgroundColor
 															} )
 														}
-														alpha={ true }
-														valueOpacity={ backgroundColorOpacity }
-														attrOpacity={ 'backgroundColorOpacity' }
 														onOpacityChange={ ( value ) =>
 															setAttributes( {
 																backgroundColorOpacity: value
 															} )
 														}
-														key="buttonBackgroundColor"
 													/>
 
 													<ColorPicker
 														label={ __( 'Text Color', 'generateblocks' ) }
 														value={ textColor }
+														alpha={ false }
+														key={ 'buttonTextColor' }
 														onChange={ ( nextTextColor ) =>
 															setAttributes( {
 																textColor: nextTextColor
 															} )
 														}
-														alpha={ false }
-														key="buttonTextColor"
 													/>
 
 													<ColorPicker
 														label={ __( 'Border Color', 'generateblocks' ) }
 														value={ borderColor }
+														alpha={ true }
+														valueOpacity={ borderColorOpacity }
+														attrOpacity={ 'borderColorOpacity' }
+														key={ 'buttonBorderColor' }
 														onChange={ ( value ) =>
 															setAttributes( {
 																borderColor: value
 															} )
 														}
-														alpha={ true }
-														valueOpacity={ borderColorOpacity }
-														attrOpacity={ 'borderColorOpacity' }
 														onOpacityChange={ ( value ) =>
 															setAttributes( {
 																borderColorOpacity: value
 															} )
 														}
-														key="buttonBorderColor"
 													/>
 												</Fragment>
 
@@ -787,51 +687,51 @@ class GenerateBlockButton extends Component {
 													<ColorPicker
 														label={ __( 'Background Color', 'generateblocks' ) }
 														value={ backgroundColorHover }
+														alpha={ true }
+														valueOpacity={ backgroundColorHoverOpacity }
+														attrOpacity={ 'backgroundColorHoverOpacity' }
+														key={ 'buttonBackgroundColorHover' }
 														onChange={ ( nextBackgroundColorHover ) =>
 															setAttributes( {
 																backgroundColorHover: nextBackgroundColorHover
 															} )
 														}
-														alpha={ true }
-														valueOpacity={ backgroundColorHoverOpacity }
-														attrOpacity={ 'backgroundColorHoverOpacity' }
 														onOpacityChange={ ( value ) =>
 															setAttributes( {
 																backgroundColorHoverOpacity: value
 															} )
 														}
-														key="buttonBackgroundColorHover"
 													/>
 
 													<ColorPicker
 														label={ __( 'Text Color', 'generateblocks' ) }
 														value={ textColorHover }
+														alpha={ false }
+														key={ 'buttonTextColorHover' }
 														onChange={ ( nextTextColorHover ) =>
 															setAttributes( {
 																textColorHover: nextTextColorHover
 															} )
 														}
-														alpha={ false }
-														key="buttonTextColorHover"
 													/>
 
 													<ColorPicker
 														label={ __( 'Border Color', 'generateblocks' ) }
 														value={ borderColorHover }
+														alpha={ true }
+														valueOpacity={ borderColorHoverOpacity }
+														attrOpacity={ 'borderColorHoverOpacity' }
+														key={ 'buttonBorderColorHover' }
 														onChange={ ( value ) =>
 															setAttributes( {
 																borderColorHover: value
 															} )
 														}
-														alpha={ true }
-														valueOpacity={ borderColorHoverOpacity }
-														attrOpacity={ 'borderColorHoverOpacity' }
 														onOpacityChange={ ( value ) =>
 															setAttributes( {
 																borderColorHoverOpacity: value
 															} )
 														}
-														key="buttonBorderColorHover"
 													/>
 												</Fragment>
 											) }
@@ -849,14 +749,6 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 					>
 						<GradientControl { ...this.props }
-							valueGradient={ gradient }
-							valueGradientDirection={ gradientDirection }
-							valueGradientColorOne={ gradientColorOne }
-							valueGradientColorOneOpacity={ gradientColorOneOpacity }
-							valueGradientColorStopOne={ gradientColorStopOne }
-							valueGradientColorTwo={ gradientColorTwo }
-							valueGradientColorTwoOpacity={ gradientColorTwoOpacity }
-							valueGradientColorStopTwo={ gradientColorStopTwo }
 							attrGradient={ 'gradient' }
 							attrGradientDirection={ 'gradientDirection' }
 							attrGradientColorOne={ 'gradientColorOne' }
@@ -878,18 +770,14 @@ class GenerateBlockButton extends Component {
 						>
 
 						<IconPicker { ...this.props }
-							valueIcon={ icon }
 							attrIcon={ 'icon' }
-							valueIconLocation={ iconLocation }
 							attrIconLocation={ 'iconLocation' }
+							attrRemoveText={ 'removeText' }
+							attrAriaLabel={ 'ariaLabel' }
 							locationOptions={ [
 								{ label: __( 'Left', 'generateblocks' ), value: 'left' },
 								{ label: __( 'Right', 'generateblocks' ), value: 'right' },
 							] }
-							valueRemoveText={ removeText }
-							attrRemoveText={ 'removeText' }
-							valueAriaLabel={ ariaLabel }
-							attrAriaLabel={ 'ariaLabel' }
 						/>
 
 						<TabPanel className="headline-tab-panel gblocks-control-tabs"
@@ -921,12 +809,6 @@ class GenerateBlockButton extends Component {
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
 															label={ __( 'Padding', 'generateblocks' ) }
-															valueTop={ iconPaddingTop }
-															valueRight={ iconPaddingRight }
-															valueBottom={ iconPaddingBottom }
-															valueLeft={ iconPaddingLeft }
-															valueUnit={ iconPaddingUnit }
-															syncUnits={ iconPaddingSyncUnits }
 															attrTop={ 'iconPaddingTop' }
 															attrRight={ 'iconPaddingRight' }
 															attrBottom={ 'iconPaddingBottom' }
@@ -956,12 +838,6 @@ class GenerateBlockButton extends Component {
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
 															label={ __( 'Padding', 'generateblocks' ) }
-															valueTop={ iconPaddingTopTablet }
-															valueRight={ iconPaddingRightTablet }
-															valueBottom={ iconPaddingBottomTablet }
-															valueLeft={ iconPaddingLeftTablet }
-															valueUnit={ iconPaddingUnit }
-															syncUnits={ iconPaddingSyncUnits }
 															attrTop={ 'iconPaddingTopTablet' }
 															attrRight={ 'iconPaddingRightTablet' }
 															attrBottom={ 'iconPaddingBottomTablet' }
@@ -989,12 +865,6 @@ class GenerateBlockButton extends Component {
 														<DimensionsControl { ...this.props }
 															type={ 'padding' }
 															label={ __( 'Padding', 'generateblocks' ) }
-															valueTop={ iconPaddingTopMobile }
-															valueRight={ iconPaddingRightMobile }
-															valueBottom={ iconPaddingBottomMobile }
-															valueLeft={ iconPaddingLeftMobile }
-															valueUnit={ iconPaddingUnit }
-															syncUnits={ iconPaddingSyncUnits }
 															attrTop={ 'iconPaddingTopMobile' }
 															attrRight={ 'iconPaddingRightMobile' }
 															attrBottom={ 'iconPaddingBottomMobile' }

@@ -54,14 +54,10 @@ class IconPicker extends Component {
 			attributes,
 			className,
 			setAttributes,
-			valueIcon,
 			attrIcon,
-			valueIconLocation,
 			attrIconLocation,
 			locationOptions,
-			valueRemoveText,
 			attrRemoveText,
-			valueAriaLabel,
 			attrAriaLabel,
 		} = this.props;
 
@@ -87,7 +83,7 @@ class IconPicker extends Component {
 						} }
 						aria-label={ __( 'Icon picker', 'generateblocks' ) }
 					>
-						<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( valueIcon ) } } />
+						<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( attributes[ attrIcon ] ) } } />
 					</button>
 				</Tooltip>
 
@@ -112,7 +108,7 @@ class IconPicker extends Component {
 						<BaseControl className="gb-svg-html">
 							<TextControl
 								label={ __( 'Icon SVG HTML', 'generateblocks' ) }
-								value={ valueIcon }
+								value={ attributes[ attrIcon ] }
 								onChange={ ( value ) => {
 									setAttributes( {
 										[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value )
@@ -179,10 +175,10 @@ class IconPicker extends Component {
 					</div>
 				}
 
-				{ ( typeof valueIconLocation !== 'undefined' ) &&
+				{ ( typeof attributes[ attrIconLocation ] !== 'undefined' ) &&
 					<SelectControl
 						label={ __( 'Icon Location', 'generateblocks' ) }
-						value={ valueIconLocation }
+						value={ attributes[ attrIconLocation ] }
 						options={ locationOptions }
 						onChange={ ( value ) => {
 							let leftPadding 		= attributes.iconPaddingLeft,
@@ -245,10 +241,10 @@ class IconPicker extends Component {
 					/>
 				}
 
-				{ ( typeof valueRemoveText !== 'undefined' ) &&
+				{ ( typeof attributes[ attrRemoveText ] !== 'undefined' ) &&
 					<ToggleControl
 						label={ __( 'Remove Text', 'generateblocks' ) }
-						checked={ !! valueRemoveText }
+						checked={ !! attributes[ attrRemoveText ] }
 						onChange={ ( value ) => {
 							setAttributes( {
 								[ this.props[ 'attrRemoveText' ] ]: value
@@ -257,11 +253,11 @@ class IconPicker extends Component {
 					/>
 				}
 
-				{ typeof valueAriaLabel !== 'undefined' && !! valueRemoveText &&
+				{ typeof attributes[ attrAriaLabel ] !== 'undefined' && !! attributes[ attrRemoveText ] &&
 					<TextControl
 						label={ __( 'ARIA Label', 'generateblocks' ) }
 						help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
-						value={ valueAriaLabel }
+						value={ attributes[ attrAriaLabel ] }
 						onChange={ ( value ) => {
 							setAttributes( {
 								[ this.props[ 'attrAriaLabel' ] ]: value
