@@ -82,8 +82,8 @@ body .gb-container .wp-block {
     display: none;
 }
 
-.editor-styles-wrapper .gb-container [data-block],
-.editor-styles-wrapper .gb-grid-wrapper [data-block] {
+.editor-styles-wrapper .gb-container [data-block]:not([data-type="core/paragraph"]),
+.editor-styles-wrapper .gb-grid-wrapper [data-block]:not([data-type="core/paragraph"]) {
     margin-top: 0;
     margin-bottom: 0;
 }
