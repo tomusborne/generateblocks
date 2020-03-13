@@ -440,123 +440,65 @@ class GenerateBlockContainer extends Component {
 				<InspectorControls>
 					{ ! isGrid && (
 						<PanelBody>
-							<TabPanel className="grid-tab-panel gblocks-control-tabs"
-								activeClass="active-tab"
-								tabs={ [
-									{
-										name: 'default',
-										title: __( 'Default', 'generateblocks' ),
-										className: 'grid-default',
-									},
-									{
-										name: 'tablet',
-										title: __( 'Tablet', 'generateblocks' ),
-										className: 'grid-tablet',
-									},
-									{
-										name: 'mobile',
-										title: __( 'Mobile', 'generateblocks' ),
-										className: 'grid-mobile',
-									},
-								] }>
-								{
-									( tab ) => {
-										return (
-											<div>
-												{ 'default' === tab.name && (
-													<Fragment>
-														{ fullWidthContentOptions() }
+							<Fragment>
+								{ fullWidthContentOptions() }
 
-														<SelectControl
-															label={ __( 'Container', 'generateblocks' ) }
-															value={ outerContainer }
-															options={ [
-																{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-																{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
-															] }
-															onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
-														/>
+								<SelectControl
+									label={ __( 'Container', 'generateblocks' ) }
+									value={ outerContainer }
+									options={ [
+										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
+									] }
+									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
+								/>
 
-														{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer &&
-															<BaseControl
-																label={ __( 'Full width containers will only work if your theme allows you to set your content to be full width.', 'generateblocks' ) }
-															/>
-														}
-
-														<SelectControl
-															label={ __( 'Inner Container', 'generateblocks' ) }
-															value={ innerContainer }
-															options={ [
-																{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-																{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
-															] }
-															onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
-														/>
-
-														<div className="components-gblocks-control__header">
-															<div className="components-gblocks-control__label">
-																{ __( 'Container Width', 'generateblocks' ) }
-															</div>
-
-															<div className="components-gblocks-control__units">
-																<Tooltip text={ __( 'Pixel Units' ) } key={ 'container-width-unit' }>
-																	<Button
-																		key={ 'container-width-unit' }
-																		isSmall
-																		isPrimary={ true }
-																		/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																		aria-label={ __( 'Pixel Units' ) }
-																	>
-																		px
-																	</Button>
-																</Tooltip>
-															</div>
-														</div>
-
-														<TextControl
-															type={ 'number' }
-															value={ parseFloat( containerWidth ) || '' }
-															onChange={ ( value ) => {
-																setAttributes( {
-																	containerWidth: '' !== value ? parseFloat( value ) : undefined
-																} );
-															} }
-														/>
-													</Fragment>
-												) }
-
-												{ 'tablet' === tab.name && (
-													<Fragment>
-														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-															<AlignmentToolbar
-																isCollapsed={ false }
-																value={ alignmentTablet }
-																onChange={ ( value ) => {
-																	setAttributes( { alignmentTablet: value } );
-																} }
-															/>
-														</BaseControl>
-													</Fragment>
-												) }
-
-												{ 'mobile' === tab.name && (
-													<Fragment>
-														<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-															<AlignmentToolbar
-																isCollapsed={ false }
-																value={ alignmentMobile }
-																onChange={ ( value ) => {
-																	setAttributes( { alignmentMobile: value } );
-																} }
-															/>
-														</BaseControl>
-													</Fragment>
-												) }
-											</div>
-										);
-									}
+								{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer &&
+									<BaseControl
+										label={ __( 'Full width containers will only work if your theme allows you to set your content to be full width.', 'generateblocks' ) }
+									/>
 								}
-							</TabPanel>
+
+								<SelectControl
+									label={ __( 'Inner Container', 'generateblocks' ) }
+									value={ innerContainer }
+									options={ [
+										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
+									] }
+									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
+								/>
+
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Container Width', 'generateblocks' ) }
+									</div>
+
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Pixel Units' ) } key={ 'container-width-unit' }>
+											<Button
+												key={ 'container-width-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
+
+								<TextControl
+									type={ 'number' }
+									value={ parseFloat( containerWidth ) || '' }
+									onChange={ ( value ) => {
+										setAttributes( {
+											containerWidth: '' !== value ? parseFloat( value ) : undefined
+										} );
+									} }
+								/>
+							</Fragment>
 						</PanelBody>
 					) }
 
