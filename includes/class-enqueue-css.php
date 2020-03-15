@@ -75,7 +75,7 @@ class GenerateBlocks_Enqueue_CSS {
 			return 'inline';
 		}
 
-		if ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) {
+		if ( ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) || is_preview() ) {
 			return 'inline';
 		}
 
