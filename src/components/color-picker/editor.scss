@@ -72,8 +72,8 @@
 }
 
 .components-base-control.gblocks-color-picker-is-open {
-    background: #fafafa;
-    border: 1px solid #efefef;
+    background: #ffffff;
+    border: 1px solid #dddddd;
     padding: 5px;
 	margin-bottom: 24px !important;
 }
@@ -94,4 +94,10 @@
     display: flex;
     justify-content: space-between;
     margin: 0 16px 16px;
+}
+
+.gblocks-color-picker-container .components-circular-option-picker__option,
+.gblocks-color-picker-container .components-circular-option-picker__option-wrapper:before,
+.gblocks-color-picker-container .components-circular-option-picker__option:after {
+    border-radius: 0;
 }
