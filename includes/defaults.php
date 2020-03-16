@@ -285,7 +285,7 @@ function generateblocks_get_block_defaults() {
 	);
 
 	$defaults['headline'] = array(
-		'element' => 'p',
+		'element' => 'h2',
 		'cssClasses' => '',
 		'alignment' => false,
 		'alignmentTablet' => false,

@@ -9,6 +9,7 @@ import editHeadline from './edit'
 import saveHeadline from './save'
 import blockAttributes from './attributes'
 import transforms from './transforms'
+import deprecated from './deprecated'
 import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n;
@@ -41,5 +42,6 @@ registerBlockType( 'generateblocks/headline', {
 	},
 	edit: editHeadline,
 	save: saveHeadline,
-	transforms
+	transforms: transforms,
+	deprecated: deprecated,
 } );
