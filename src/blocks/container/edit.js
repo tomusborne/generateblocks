@@ -300,7 +300,7 @@ class GenerateBlockContainer extends Component {
 			minHeightInnerWidth = '';
 
 		if ( minHeight && ! isGrid ) {
-			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';display: flex;flex-direction: row;justify-content:' + verticalAlignment + ';';
+			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';display: flex;flex-direction: row;align-items:' + verticalAlignment + ';';
 			minHeightInnerWidth = 'width: 100%';
 		} else if ( minHeight ) {
 			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';';

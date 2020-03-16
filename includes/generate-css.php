@@ -306,8 +306,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'display', 'flex' );
 					$css->add_property( '-ms-flex-direction', 'row' );
 					$css->add_property( 'flex-direction', 'row' );
-					$css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignment'] ) );
-					$css->add_property( 'justify-content', $settings['verticalAlignment'] );
+					$css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignment'] ) );
+					$css->add_property( 'align-items', $settings['verticalAlignment'] );
 
 					$usingMinHeightFlex = true;
 				}
@@ -371,8 +371,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-						$tablet_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignmentTablet'] ) );
-						$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
+						$tablet_css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignmentTablet'] ) );
+						$tablet_css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
 					}
 				}
 
@@ -434,8 +434,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-						$mobile_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
-						$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
+						$mobile_css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
+						$mobile_css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
 					}
 				}
 
