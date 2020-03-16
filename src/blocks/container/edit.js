@@ -296,10 +296,12 @@ class GenerateBlockContainer extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		let minHeightCSS = '';
+		let minHeightCSS = '',
+			minHeightInnerWidth = '';
 
 		if ( minHeight && ! isGrid ) {
-			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';display: flex;flex-direction: column;justify-content:' + verticalAlignment + ';';
+			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';display: flex;flex-direction: row;justify-content:' + verticalAlignment + ';';
+			minHeightInnerWidth = 'width: 100%';
 		} else if ( minHeight ) {
 			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';';
 		}
@@ -352,6 +354,7 @@ class GenerateBlockContainer extends Component {
 			  padding-bottom: ` + paddingBottom + paddingUnit + `;
 			  padding-left: ` + paddingLeft + paddingUnit + `;
 			  ` + innerContainerWidth + `;
+			  ` + minHeightInnerWidth + `;
 			}
 
 			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {

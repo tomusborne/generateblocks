@@ -296,11 +296,20 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 				$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
 
+				// Set flags so we don't duplicate this CSS in media queries.
+				$usingMinHeightFlex = false;
+				$usingMinHeightInnerWidth = false;
+
 				if ( $settings['minHeight'] && $settings['verticalAlignment'] && ! $settings['isGrid'] ) {
+					$css->add_property( 'display', '-webkit-box' );
+					$css->add_property( 'display', '-ms-flexbox' );
 					$css->add_property( 'display', 'flex' );
-					$css->add_property( 'flex-direction', 'column' );
+					$css->add_property( '-ms-flex-direction', 'row' );
+					$css->add_property( 'flex-direction', 'row' );
 					$css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignment'] ) );
 					$css->add_property( 'justify-content', $settings['verticalAlignment'] );
+
+					$usingMinHeightFlex = true;
 				}
 
 				$css->add_property( 'text-align', $settings['alignment'] );
@@ -312,6 +321,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
 					$css->add_property( 'margin-left', 'auto' );
 					$css->add_property( 'margin-right', 'auto' );
+				}
+
+				if ( $usingMinHeightFlex ) {
+					$css->add_property( 'width', '100%' );
+
+					$usingMinHeightInnerWidth = true;
 				}
 
 				$css->set_selector( '.gb-container.gb-container-' . $id . ' a, .gb-container.gb-container-' . $id . ' a:visited' );
@@ -344,15 +359,18 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
 
-				if ( ! $settings['isGrid'] ) {
-					// Add flex if it hasn't been added previously.
-					if ( ! $settings['minHeight'] && $settings['minHeightTablet'] ) {
+				if ( ! $settings['isGrid']  ) {
+					if ( ! $usingMinHeightFlex && $settings['minHeightTablet'] && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+						$tablet_css->add_property( 'display', '-webkit-box' );
+						$tablet_css->add_property( 'display', '-ms-flexbox' );
 						$tablet_css->add_property( 'display', 'flex' );
-						$tablet_css->add_property( 'flex-direction', 'column' );
+						$tablet_css->add_property( '-ms-flex-direction', 'row' );
+						$tablet_css->add_property( 'flex-direction', 'row' );
+
+						$usingMinHeightFlex = true;
 					}
 
-					// Add vertical alignment if we're using minHeight at some point.
-					if ( ( $settings['minHeight'] || $settings['minHeightTablet'] ) && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+					if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 						$tablet_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignmentTablet'] ) );
 						$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
 					}
@@ -362,6 +380,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$tablet_css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
 				$tablet_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'], $settings['paddingUnit'] ) );
+
+				if ( ! $settings['isGrid'] ) {
+					// Needs 100% width if it's a flex item.
+					if ( ! $usingMinHeightInnerWidth && $settings['minHeightTablet'] && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+						$tablet_css->add_property( 'width', '100%' );
+
+						$usingMinHeightInnerWidth = true;
+					}
+				}
 
 				$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 				$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
@@ -395,15 +422,18 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
 
-				if ( ! $settings['isGrid'] ) {
-					// Add flex if it hasn't been added previously.
-					if ( ! $settings['minHeight'] && ! $settings['minHeightTablet'] && $settings['minHeightMobile'] ) {
+				if ( ! $settings['isGrid']  ) {
+					if ( ! $usingMinHeightFlex && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+						$mobile_css->add_property( 'display', '-webkit-box' );
+						$mobile_css->add_property( 'display', '-ms-flexbox' );
 						$mobile_css->add_property( 'display', 'flex' );
-						$mobile_css->add_property( 'flex-direction', 'column' );
+						$mobile_css->add_property( '-ms-flex-direction', 'row' );
+						$mobile_css->add_property( 'flex-direction', 'row' );
+
+						$usingMinHeightFlex = true;
 					}
 
-					// Add vertical alignment if we're using minHeight at some point.
-					if ( ( $settings['minHeight'] || $settings['minHeightTablet'] || $settings['minHeightMobile'] ) && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+					if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 						$mobile_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
 						$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
 					}
@@ -413,6 +443,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
 				$mobile_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'], $settings['paddingUnit'] ) );
+
+				if ( ! $settings['isGrid'] ) {
+					// Needs 100% width if it's a flex item.
+					if ( ! $usingMinHeightInnerWidth && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+						$tablet_css->add_property( 'width', '100%' );
+					}
+				}
 
 				$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
