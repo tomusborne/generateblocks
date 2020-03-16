@@ -530,6 +530,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 
 				if ( $settings['stack'] ) {
+					$css->add_property( '-ms-flex-direction', 'column' );
 					$css->add_property( 'flex-direction', 'column' );
 					$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 				}
@@ -551,6 +552,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'justify-content', 'right' === generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 
 				if ( $settings['stackTablet'] ) {
+					$tablet_css->add_property( '-ms-flex-direction', 'column' );
 					$tablet_css->add_property( 'flex-direction', 'column' );
 					$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 				}
@@ -572,6 +574,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 
 				if ( $settings['stackMobile'] ) {
+					$mobile_css->add_property( '-ms-flex-direction', 'column' );
 					$mobile_css->add_property( 'flex-direction', 'column' );
 					$mobile_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 				}
@@ -886,6 +889,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 
 					if ( 'above' === $settings['iconLocation'] ) {
+						$css->add_property( '-ms-flex-direction', 'column' );
 						$css->add_property( 'flex-direction', 'column' );
 					}
 				}
@@ -944,6 +948,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'above' === $settings['iconLocationTablet'] ) {
+						$tablet_css->add_property( '-ms-flex-direction', 'column' );
 						$tablet_css->add_property( 'flex-direction', 'column' );
 					}
 				}
@@ -996,6 +1001,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'above' === $settings['iconLocationMobile'] ) {
+						$mobile_css->add_property( '-ms-flex-direction', 'column' );
 						$mobile_css->add_property( 'flex-direction', 'column' );
 					}
 				}
