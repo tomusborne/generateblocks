@@ -871,12 +871,13 @@ class GenerateBlockHeadline extends Component {
 														label={ __( 'Icon Size', 'generateblocks' ) }
 														value={ iconSize ? iconSize : '' }
 														onChange={ ( value ) => setAttributes( {
-															iconSize: parseFloat( value )
+															iconSize: value
 														} ) }
 														min={ .1 }
 														max={ 15 }
 														step={ .1 }
 														initialPosition={ generateBlocksDefaults.headline.iconSize }
+														allowReset={ true }
 													/>
 												</Fragment>
 											) }
@@ -932,12 +933,15 @@ class GenerateBlockHeadline extends Component {
 
 													<RangeControl
 														label={ __( 'Icon Size', 'generateblocks' ) }
-														value={ parseFloat( iconSizeTablet ) }
-														onChange={ ( value ) => setAttributes( { iconSizeTablet: parseFloat( value ) } ) }
+														value={ iconSizeTablet || '' }
+														onChange={ ( value ) => setAttributes( {
+															iconSizeTablet: value
+														} ) }
 														min={ .1 }
 														max={ 15 }
 														step={ .1 }
 														initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
+														allowReset={ true }
 													/>
 												</Fragment>
 											) }
@@ -1001,6 +1005,7 @@ class GenerateBlockHeadline extends Component {
 														max={ 15 }
 														step={ .1 }
 														initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
+														allowReset={ true }
 													/>
 												</Fragment>
 											) }
