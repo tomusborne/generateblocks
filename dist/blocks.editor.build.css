@@ -382,7 +382,8 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
   font-size: 12px;
   -ms-flex: 1;
       flex: 1;
-  border: 1px solid;
+  -webkit-box-shadow: inset 0 0 0 1px #007cba;
+          box-shadow: inset 0 0 0 1px #007cba;
   -ms-flex-pack: center;
       justify-content: center; }
 
