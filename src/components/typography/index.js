@@ -303,7 +303,7 @@ class TypographyControls extends Component {
 								min={ 1 }
 								max={ 200 }
 								step={ 1 }
-								initialPosition={ this.props.defaultFontSize ? this.props.defaultFontSize : 17 }
+								initialPosition={ this.props.defaultFontSize }
 								allowReset={ true }
 							/>
 						</div>
@@ -353,7 +353,7 @@ class TypographyControls extends Component {
 								min={ 0 }
 								max={ 3 }
 								step={ 0.01 }
-								initialPosition={ this.props.defaultLineHeight ? this.props.defaultLineHeight : 1 }
+								initialPosition={ this.props.defaultLineHeight }
 								allowReset={ true }
 							/>
 						</div>
@@ -395,7 +395,7 @@ class TypographyControls extends Component {
 								min={ -1 }
 								max={ 3 }
 								step={ .01 }
-								initialPosition={ this.props.defaultLetterSpacing ? this.props.defaultLetterSpacing : 0.02 }
+								initialPosition={ this.props.defaultLetterSpacing }
 								allowReset={ true }
 							/>
 						</div>
