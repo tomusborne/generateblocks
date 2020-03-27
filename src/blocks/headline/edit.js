@@ -178,6 +178,8 @@ class GenerateBlockHeadline extends Component {
 			inlineWidth,
 			inlineWidthTablet,
 			inlineWidthMobile,
+			removeText,
+			ariaLabel,
 		} = attributes;
 
 		let iconFlexDirection = '',
@@ -790,6 +792,8 @@ class GenerateBlockHeadline extends Component {
 
 						<IconPicker { ...this.props }
 							attrIcon={ 'icon' }
+							attrRemoveText={ 'removeText' }
+							attrAriaLabel={ 'ariaLabel' }
 						/>
 
 						<TabPanel className="headline-tab-panel gblocks-control-tabs"
@@ -817,23 +821,25 @@ class GenerateBlockHeadline extends Component {
 										<div>
 											{ 'default' === tab.name && (
 												<Fragment>
-													<SelectControl
-														label={ __( 'Icon Location', 'generateblocks' ) }
-														value={ iconLocation }
-														options={ [
-															{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
-															{ label: __( 'Above', 'generateblocks' ), value: 'above' },
-														] }
-														onChange={ ( value ) => {
-															setAttributes( {
-																iconLocation: value,
-																iconPaddingRight: 'inline' === value ? '0.5' : '',
-																iconPaddingBottom: 'above' === value ? '0.5' : '',
-															} );
-														} }
-													/>
+													{ ! removeText &&
+														<SelectControl
+															label={ __( 'Icon Location', 'generateblocks' ) }
+															value={ iconLocation }
+															options={ [
+																{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+																{ label: __( 'Above', 'generateblocks' ), value: 'above' },
+															] }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	iconLocation: value,
+																	iconPaddingRight: 'inline' === value ? '0.5' : '',
+																	iconPaddingBottom: 'above' === value ? '0.5' : '',
+																} );
+															} }
+														/>
+													}
 
-													{ 'inline' === iconLocation &&
+													{ 'inline' === iconLocation && ! removeText &&
 														<SelectControl
 															label={ __( 'Icon Alignment', 'generateblocks' ) }
 															value={ iconVerticalAlignment }
@@ -877,24 +883,26 @@ class GenerateBlockHeadline extends Component {
 
 											{ 'tablet' === tab.name && (
 												<Fragment>
-													<SelectControl
-														label={ __( 'Icon Location', 'generateblocks' ) }
-														value={ iconLocationTablet }
-														options={ [
-															{ label: __( 'Inherit', 'generateblocks' ), value: '' },
-															{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
-															{ label: __( 'Above', 'generateblocks' ), value: 'above' },
-														] }
-														onChange={ ( value ) => {
-															setAttributes( {
-																iconLocationTablet: value,
-																iconPaddingRightTablet: 'inline' === value ? '0.5' : '',
-																iconPaddingBottomTablet: 'above' === value ? '0.5' : '',
-															} );
-														} }
-													/>
+													{ ! removeText &&
+														<SelectControl
+															label={ __( 'Icon Location', 'generateblocks' ) }
+															value={ iconLocationTablet }
+															options={ [
+																{ label: __( 'Inherit', 'generateblocks' ), value: '' },
+																{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+																{ label: __( 'Above', 'generateblocks' ), value: 'above' },
+															] }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	iconLocationTablet: value,
+																	iconPaddingRightTablet: 'inline' === value ? '0.5' : '',
+																	iconPaddingBottomTablet: 'above' === value ? '0.5' : '',
+																} );
+															} }
+														/>
+													}
 
-													{ 'inline' === iconLocationTablet &&
+													{ 'inline' === iconLocationTablet && ! removeText &&
 														<SelectControl
 															label={ __( 'Icon Alignment', 'generateblocks' ) }
 															value={ iconVerticalAlignmentTablet }
@@ -936,24 +944,26 @@ class GenerateBlockHeadline extends Component {
 
 											{ 'mobile' === tab.name && (
 												<Fragment>
-													<SelectControl
-														label={ __( 'Icon Location', 'generateblocks' ) }
-														value={ iconLocationMobile }
-														options={ [
-															{ label: __( 'Inherit', 'generateblocks' ), value: '' },
-															{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
-															{ label: __( 'Above', 'generateblocks' ), value: 'above' },
-														] }
-														onChange={ ( value ) => {
-															setAttributes( {
-																iconLocationMobile: value,
-																iconPaddingRightMobile: 'inline' === value ? '0.5' : '',
-																iconPaddingBottomMobile: 'above' === value ? '0.5' : '',
-															} );
-														} }
-													/>
+													{ ! removeText &&
+														<SelectControl
+															label={ __( 'Icon Location', 'generateblocks' ) }
+															value={ iconLocationMobile }
+															options={ [
+																{ label: __( 'Inherit', 'generateblocks' ), value: '' },
+																{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+																{ label: __( 'Above', 'generateblocks' ), value: 'above' },
+															] }
+															onChange={ ( value ) => {
+																setAttributes( {
+																	iconLocationMobile: value,
+																	iconPaddingRightMobile: 'inline' === value ? '0.5' : '',
+																	iconPaddingBottomMobile: 'above' === value ? '0.5' : '',
+																} );
+															} }
+														/>
+													}
 
-													{ 'inline' === iconLocationMobile &&
+													{ 'inline' === iconLocationMobile && ! removeText &&
 														<SelectControl
 															label={ __( 'Icon Alignment', 'generateblocks' ) }
 															value={ iconVerticalAlignmentMobile }
@@ -1053,24 +1063,27 @@ class GenerateBlockHeadline extends Component {
 						{ icon &&
 							<span
 								className="gb-icon"
+								aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 								dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 							/>
 						}
 
-						<RichText
-							allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'generateblocks/mark' ] }
-							tagName={ element }
-							value={ content }
-							onChange={ ( value ) => setAttributes( { content: value } ) }
-							id={ !! elementId ? elementId : undefined }
-							className={ classnames( {
-								'gb-headline': true,
-								[`gb-headline-${ uniqueId }`]: true,
-								[`${ cssClasses }`]: '' !== cssClasses
-							} ) }
-							placeholder={ __( 'Write headline…', 'generateblocks' ) }
-							keepPlaceholderOnFocus={ true }
-						/>
+						{ ! removeText &&
+							<RichText
+								allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'generateblocks/mark' ] }
+								tagName={ element }
+								value={ content }
+								onChange={ ( value ) => setAttributes( { content: value } ) }
+								id={ !! elementId ? elementId : undefined }
+								className={ classnames( {
+									'gb-headline': true,
+									[`gb-headline-${ uniqueId }`]: true,
+									[`${ cssClasses }`]: '' !== cssClasses
+								} ) }
+								placeholder={ __( 'Write headline…', 'generateblocks' ) }
+								keepPlaceholderOnFocus={ true }
+							/>
+						}
 					</div>
 				) : (
 					<RichText

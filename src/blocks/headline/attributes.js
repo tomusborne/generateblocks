@@ -412,4 +412,12 @@ export default {
 		type: 'boolean',
 		default: generateBlocksDefaults.headline.inlineWidthMobile,
 	},
+	removeText: {
+		type: 'boolean',
+		default: generateBlocksDefaults.headline.removeText,
+	},
+	ariaLabel: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.ariaLabel,
+	},
 }

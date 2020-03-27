@@ -17,6 +17,8 @@ export default ( { attributes } ) => {
 		element,
 		content,
 		icon,
+		removeText,
+		ariaLabel,
 	} = attributes;
 
 	const sanitizeSVG = ( svg ) => {
@@ -36,20 +38,23 @@ export default ( { attributes } ) => {
 			{ icon &&
 				<span
 					className="gb-icon"
+					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			}
 
-			<RichText.Content
-				tagName={ element }
-				id={ !! elementId ? elementId : undefined }
-				className={ classnames( {
-					'gb-headline': true,
-					[`gb-headline-${ uniqueId }`]: true,
-					[`${ cssClasses }`]: '' !== cssClasses
-				} ) }
-				value={ content }
-			/>
+			{ ! removeText &&
+				<RichText.Content
+					tagName={ element }
+					id={ !! elementId ? elementId : undefined }
+					className={ classnames( {
+						'gb-headline': true,
+						[`gb-headline-${ uniqueId }`]: true,
+						[`${ cssClasses }`]: '' !== cssClasses
+					} ) }
+					value={ content }
+				/>
+			}
 		</ConditionalWrap>
 	);
 }

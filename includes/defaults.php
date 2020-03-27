@@ -381,6 +381,8 @@ function generateblocks_get_block_defaults() {
 		'inlineWidth' => false,
 		'inlineWidthTablet' => false,
 		'inlineWidthMobile' => false,
+		'removeText' => false,
+		'ariaLabel' => '',
 	);
 
 	return apply_filters( 'generateblocks_defaults', $defaults );
