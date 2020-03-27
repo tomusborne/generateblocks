@@ -175,7 +175,7 @@ class IconPicker extends Component {
 					</div>
 				}
 
-				{ ( typeof attributes[ attrIconLocation ] !== 'undefined' ) &&
+				{ ( typeof attributes[ attrIconLocation ] !== 'undefined' && ! attributes[ attrRemoveText ] ) &&
 					<SelectControl
 						label={ __( 'Icon Location', 'generateblocks' ) }
 						value={ attributes[ attrIconLocation ] }
