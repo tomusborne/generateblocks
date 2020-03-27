@@ -876,9 +876,9 @@ class GenerateBlockButton extends Component {
 
 													<RangeControl
 														label={ __( 'Icon Size', 'generateblocks' ) }
-														value={ iconSize ? iconSize : '' }
+														value={ iconSizeMobile ? iconSizeMobile : '' }
 														onChange={ ( value ) => setAttributes( {
-															iconSizeMobile: parseFloat( value )
+															iconSizeMobile: value
 														} ) }
 														min={ .1 }
 														max={ 15 }
