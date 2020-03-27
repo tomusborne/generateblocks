@@ -577,8 +577,8 @@ class GenerateBlockContainer extends Component {
 																	width: parseFloat( value )
 																} );
 															} }
-															min={ 10.00 }
-															max={ 100.00 }
+															min={ 0 }
+															max={ 100 }
 															step={ 0.01 }
 															allowReset={ true }
 															initialPosition={ generateBlocksDefaults.container.width }
@@ -650,8 +650,8 @@ class GenerateBlockContainer extends Component {
 																	widthTablet: parseFloat( value )
 																} );
 															} }
-															min={ 10.00 }
-															max={ 100.00 }
+															min={ 0 }
+															max={ 100 }
 															step={ 0.01 }
 															allowReset={ true }
 															initialPosition={ generateBlocksDefaults.container.widthTablet }
@@ -735,8 +735,8 @@ class GenerateBlockContainer extends Component {
 																	widthMobile: parseFloat( value )
 																} );
 															} }
-															min={ 10.00 }
-															max={ 100.00 }
+															min={ 0 }
+															max={ 100 }
 															step={ 0.01 }
 															allowReset={ true }
 															initialPosition={ generateBlocksDefaults.container.widthMobile }
