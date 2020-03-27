@@ -571,10 +571,10 @@ class GenerateBlockContainer extends Component {
 
 														<RangeControl
 															className={ 'gblocks-column-width-control' }
-															value={ width ? width : '' }
+															value={ width || '' }
 															onChange={ ( value ) => {
 																setAttributes( {
-																	width: parseFloat( value )
+																	width: value
 																} );
 															} }
 															min={ 0 }
@@ -644,10 +644,10 @@ class GenerateBlockContainer extends Component {
 
 														<RangeControl
 															className={ 'gblocks-column-width-control' }
-															value={ widthTablet }
+															value={ widthTablet || '' }
 															onChange={ ( value ) => {
 																setAttributes( {
-																	widthTablet: parseFloat( value )
+																	widthTablet: value
 																} );
 															} }
 															min={ 0 }
@@ -729,10 +729,10 @@ class GenerateBlockContainer extends Component {
 
 														<RangeControl
 															className={ 'gblocks-column-width-control' }
-															value={ widthMobile }
+															value={ widthMobile || '' }
 															onChange={ ( value ) => {
 																setAttributes( {
-																	widthMobile: parseFloat( value )
+																	widthMobile: value
 																} );
 															} }
 															min={ 0 }
@@ -1529,10 +1529,10 @@ class GenerateBlockContainer extends Component {
 
 						<RangeControl
 							label={ __( 'z-index', 'generateblocks' ) }
-							value={ zindex }
+							value={ zindex || '' }
 							onChange={ ( value ) => {
 								setAttributes( {
-									zindex: parseFloat( value )
+									zindex: value
 								} );
 							} }
 							min={ -200 }
