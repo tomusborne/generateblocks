@@ -53,10 +53,10 @@ class GenerateBlocks_Enqueue_CSS {
 
 		global $post;
 
-		$id = $post->ID;
-		$id = ( ! is_singular() )                           ? false                                    : $id;
-		$id = ( function_exists( 'is_shop' ) && is_shop() ) ? get_option( 'woocommerce_shop_page_id' ) : $id;
-		$id = ( is_home() )                                 ? get_option( 'page_for_posts' )           : $id;
+		$id = isset( $post )								? $post->ID									: false;
+		$id = ( ! is_singular() )                           ? false                                     : $id;
+		$id = ( function_exists( 'is_shop' ) && is_shop() ) ? get_option( 'woocommerce_shop_page_id' )  : $id;
+		$id = ( is_home() )                                 ? get_option( 'page_for_posts' )            : $id;
 
 		return $id;
 
