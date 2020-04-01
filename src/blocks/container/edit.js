@@ -419,6 +419,7 @@ class GenerateBlockContainer extends Component {
 					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
 						<ToggleControl
 							label={ __( 'Set Full Width Content', 'generateblocks' ) }
+							help={ __( 'This option tells the content container that contains all of the blocks on this page to be full width.', 'generateblocks' ) }
 							checked={ fullWidthContent ? true : false }
 							onChange={ ( value ) => {
 								if ( value ) {
