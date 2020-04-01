@@ -82,7 +82,7 @@ class IconPicker extends Component {
 						} }
 					/>
 
-					<div class="gb-icon-preview">
+					<div className="gb-icon-preview">
 						<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( attributes[ attrIcon ] ) } } />
 
 						<Button
