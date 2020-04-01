@@ -24,7 +24,6 @@ const {
 	Toolbar,
 	Tooltip,
 	Button,
-	IconButton,
 } = wp.components;
 
 const {
@@ -312,7 +311,7 @@ class GenerateBlockButton extends Component {
 				<BlockControls>
 					<Toolbar>
 						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
-							<IconButton
+							<Button
 								className="gblocks-add-new-button"
 								icon={ 'insert' }
 								onClick={ () => {
