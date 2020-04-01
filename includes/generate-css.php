@@ -507,8 +507,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->set_selector( '.gb-button-wrapper' );
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );
-			$css->add_property( 'align-items', 'flex-start' );
-			$css->add_property( 'justify-content', 'flex-start' );
 			$css->add_property( 'clear', 'both' );
 
 			foreach ( $blockData as $atts ) {
