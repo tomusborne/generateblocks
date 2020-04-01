@@ -335,8 +335,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->set_selector( '.gb-container.gb-container-' . $id . ' a:hover' );
 				$css->add_property( 'color', $settings['linkColorHover'] );
 
-				$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
-				$css->add_property( 'width', $settings['width'], '%' );
+				if ( $settings['isGrid'] ) {
+					$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
+					$css->add_property( 'width', $settings['width'], '%' );
+				}
 
 				if ( $settings['removeVerticalGap'] ) {
 					$css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
