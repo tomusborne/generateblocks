@@ -1523,24 +1523,23 @@ body .gb-container .wp-block {
   flex-wrap: wrap;
   list-style: none;
   margin-top: 0;
-  margin-left: -1px; }
+  margin-left: -3px; }
   .gblocks-icon-chooser li {
     display: block;
-    margin: 0 0 1px;
-    padding: 0 1px;
-    width: calc(100% / 3); }
+    margin: 0 0 3px 3px;
+    padding: 0; }
     .gblocks-icon-chooser li button.components-button {
-      background: #fff;
+      background: #fafafa;
       color: #000;
-      height: 50px;
+      height: 30px;
+      width: 30px;
       border: 0;
       border-radius: 0;
       -webkit-box-shadow: none;
       box-shadow: none;
       padding: 8px;
       line-height: normal;
-      font-size: 17px;
-      width: 100%;
+      font-size: 15px;
       -ms-flex-pack: center;
           justify-content: center; }
       .gblocks-icon-chooser li button.components-button span {
@@ -1549,20 +1548,6 @@ body .gb-container .wp-block {
         background: #fff;
         -webkit-box-shadow: none;
                 box-shadow: none; }
-
-.icon-chooser-container {
-  background: #fafafa;
-  padding: 10px;
-  margin-bottom: 20px; }
-  .icon-chooser-container .components-base-control__label {
-    font-weight: 500;
-    padding-bottom: 10px; }
-
-.advanced-icon-controls .components-base-control__field {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-pack: justify;
-      justify-content: space-between; }
 
 .gb-icon {
   display: -ms-inline-flexbox;
@@ -1596,6 +1581,18 @@ button.components-icon-picker-item {
 
 .components-icon-picker-item:hover, .components-icon-picker-item:focus {
   background: #fafafa; }
+
+.gb-svg-html .components-base-control {
+  margin-bottom: 0; }
+
+.gb-icon-preview {
+  font-size: 25px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center; }
+  .gb-icon-preview svg {
+    margin-right: 10px; }
 /**
  * #.# Common SCSS
  *
