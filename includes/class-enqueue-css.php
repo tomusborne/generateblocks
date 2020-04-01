@@ -118,6 +118,9 @@ class GenerateBlocks_Enqueue_CSS {
 
 		if ( 'file' == $this->mode() ) {
 			wp_enqueue_style( 'generateblocks', esc_url( $this->file( 'uri' ) ), array(), null );
+
+			global $generateblocks_css_has_run;
+			$generateblocks_css_has_run = true;
 		}
 
 	}
@@ -135,6 +138,10 @@ class GenerateBlocks_Enqueue_CSS {
 				'<style id="generateblocks-css">%s</style>',
 				wp_strip_all_tags( $css )
 			);
+
+
+			global $generateblocks_css_has_run;
+			$generateblocks_css_has_run = true;
 		}
 	}
 
