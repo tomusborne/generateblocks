@@ -146,6 +146,8 @@ class GenerateButtonContainer extends Component {
 
 		if ( 'right' === alignment ) {
 			flexAlignment = 'flex-end';
+		} else if ( 'left' === alignment ) {
+			flexAlignment = 'flex-start';
 		} else {
 			flexAlignment = alignment;
 		}
