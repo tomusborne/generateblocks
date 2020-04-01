@@ -1592,7 +1592,9 @@ button.components-icon-picker-item {
   -ms-flex-align: center;
       align-items: center; }
   .gb-icon-preview svg {
-    margin-right: 10px; }
+    margin-right: 10px;
+    width: 1em;
+    height: 1em; }
 /**
  * #.# Common SCSS
  *
