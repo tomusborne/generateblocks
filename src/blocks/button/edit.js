@@ -48,6 +48,10 @@ const gbButtonIds = [];
 class GenerateBlockButton extends Component {
 	constructor() {
 		super( ...arguments );
+
+		this.state = {
+            selectedDevice: 'desktop',
+        };
 	}
 
 	componentDidMount() {
@@ -79,6 +83,10 @@ class GenerateBlockButton extends Component {
 			isSelected,
 			clientId,
 		} = this.props;
+
+		const {
+            selectedDevice,
+        } = this.state;
 
 		const {
 			uniqueId,
@@ -334,80 +342,99 @@ class GenerateBlockButton extends Component {
 				</BlockControls>
 
 				<InspectorControls>
+					<div className="gb-responsive-tabs">
+						<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) } key={ 'desktop-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'desktop' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'desktop',
+									} );
+								} }
+							>
+								{ __( 'Desktop', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+
+						<Tooltip text={ __( 'Show options for tablet devices' ) } key={ 'tablet-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'tablet' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'tablet',
+									} );
+								} }
+							>
+								{ __( 'Tablet', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+
+						<Tooltip text={ __( 'Show options for mobile devices' ) } key={ 'desktop-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'mobile' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'mobile',
+									} );
+								} }
+							>
+								{ __( 'Mobile', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+					</div>
+
 					<PanelBody
 						title={ __( 'Typography', 'generateblocks' ) }
 						initialOpen={ true }
 						icon={ getIcon( 'typography' ) }
 						className={ 'gblocks-panel-label' }
 						>
-						<TabPanel className="grid-tab-panel gblocks-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
-								{
-									name: 'default',
-									title: __( 'Default', 'generateblocks' ),
-									className: 'default',
-								},
-								{
-									name: 'tablet',
-									title: __( 'Tablet', 'generateblocks' ),
-									className: 'tablet',
-								},
-								{
-									name: 'mobile',
-									title: __( 'Mobile', 'generateblocks' ),
-									className: 'mobile',
-								},
-							] }>
-							{
-								( tab ) => {
-									return (
-										<div>
-											{ 'default' === tab.name && (
-												<Fragment>
-													<TypographyControls { ...this.props }
-														showFontFamily={ true }
-														showFontWeight={ true }
-														showTextTransform={ true }
-														showFontSize={ true }
-														showLetterSpacing={ true }
-														defaultFontSize={ generateBlocksDefaults.button.fontSize }
-														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
-													/>
-												</Fragment>
-											) }
 
-											{ 'tablet' === tab.name && (
-												<Fragment>
-													<TypographyControls { ...this.props }
-														device={ 'Tablet' }
-														showFontSize={ true }
-														showLetterSpacing={ true }
-														defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
-														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
-													/>
-												</Fragment>
-											) }
+							{ 'desktop' === selectedDevice && (
+								<Fragment>
+									<TypographyControls { ...this.props }
+										showFontFamily={ true }
+										showFontWeight={ true }
+										showTextTransform={ true }
+										showFontSize={ true }
+										showLetterSpacing={ true }
+										defaultFontSize={ generateBlocksDefaults.button.fontSize }
+										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
+									/>
+								</Fragment>
+							) }
 
-											{ 'mobile' === tab.name && (
-												<Fragment>
-													<TypographyControls { ...this.props }
-														device={ 'Mobile' }
-														showFontSize={ true }
-														showLetterSpacing={ true }
-														defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
-														defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-														defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
-													/>
-												</Fragment>
-											) }
-										</div>
-									);
-								}
-							}
-						</TabPanel>
+							{ 'tablet' === selectedDevice && (
+								<Fragment>
+									<TypographyControls { ...this.props }
+										device={ 'Tablet' }
+										showFontSize={ true }
+										showLetterSpacing={ true }
+										disableAdvancedToggle={ true }
+										defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
+										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
+									/>
+								</Fragment>
+							) }
+
+							{ 'mobile' === selectedDevice && (
+								<Fragment>
+									<TypographyControls { ...this.props }
+										device={ 'Mobile' }
+										showFontSize={ true }
+										showLetterSpacing={ true }
+										disableAdvancedToggle={ true }
+										defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
+										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
+									/>
+								</Fragment>
+							) }
 					</PanelBody>
 
 					<PanelBody
@@ -416,350 +443,327 @@ class GenerateBlockButton extends Component {
 						icon={ getIcon( 'spacing' ) }
 						className={ 'gblocks-panel-label' }
 						>
-						<TabPanel className="grid-tab-panel gblocks-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
-								{
-									name: 'grid-default',
-									title: __( 'Default', 'generateblocks' ),
-									className: 'grid-default',
-								},
-								{
-									name: 'grid-tablet',
-									title: __( 'Tablet', 'generateblocks' ),
-									className: 'grid-tablet',
-								},
-								{
-									name: 'grid-mobile',
-									title: __( 'Mobile', 'generateblocks' ),
-									className: 'grid-mobile',
-								},
-							] }>
-							{
-								( tab ) => {
-									return (
-										<div>
-											{ 'grid-default' === tab.name && (
-												<Fragment>
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Padding', 'generateblocks' ) }
-														attrTop={ 'paddingTop' }
-														attrRight={ 'paddingRight' }
-														attrBottom={ 'paddingBottom' }
-														attrLeft={ 'paddingLeft' }
-														attrUnit={ 'paddingUnit' }
-														attrSyncUnits={ 'paddingSyncUnits' }
-													/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'margin' }
-														label={ __( 'Margin', 'generateblocks' ) }
-														attrTop={ 'marginTop' }
-														attrRight={ 'marginRight' }
-														attrBottom={ 'marginBottom' }
-														attrLeft={ 'marginLeft' }
-														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnits' }
-													/>
+							{ 'desktop' === selectedDevice && (
+								<Fragment>
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Padding', 'generateblocks' ) }
+										attrTop={ 'paddingTop' }
+										attrRight={ 'paddingRight' }
+										attrBottom={ 'paddingBottom' }
+										attrLeft={ 'paddingLeft' }
+										attrUnit={ 'paddingUnit' }
+										attrSyncUnits={ 'paddingSyncUnits' }
+									/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Border Size', 'generateblocks' ) }
-														attrTop={ 'borderSizeTop' }
-														attrRight={ 'borderSizeRight' }
-														attrBottom={ 'borderSizeBottom' }
-														attrLeft={ 'borderSizeLeft' }
-														attrSyncUnits={ 'borderSizeSyncUnits' }
-														displayUnit={ 'px' }
-													/>
+									<DimensionsControl { ...this.props }
+										type={ 'margin' }
+										label={ __( 'Margin', 'generateblocks' ) }
+										attrTop={ 'marginTop' }
+										attrRight={ 'marginRight' }
+										attrBottom={ 'marginBottom' }
+										attrLeft={ 'marginLeft' }
+										attrUnit={ 'marginUnit' }
+										attrSyncUnits={ 'marginSyncUnits' }
+									/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Border Radius', 'generateblocks' ) }
-														attrTop={ 'borderRadiusTopLeft' }
-														attrRight={ 'borderRadiusTopRight' }
-														attrBottom={ 'borderRadiusBottomRight' }
-														attrLeft={ 'borderRadiusBottomLeft' }
-														attrUnit={ 'borderRadiusUnit' }
-														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'generateblocks' ) }
-														labelRight={ __( 'T-Right', 'generateblocks' ) }
-														labelBottom={ __( 'B-Right', 'generateblocks' ) }
-														labelLeft={ __( 'B-Left', 'generateblocks' ) }
-													/>
-												</Fragment>
-											) }
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Border Size', 'generateblocks' ) }
+										attrTop={ 'borderSizeTop' }
+										attrRight={ 'borderSizeRight' }
+										attrBottom={ 'borderSizeBottom' }
+										attrLeft={ 'borderSizeLeft' }
+										attrSyncUnits={ 'borderSizeSyncUnits' }
+										displayUnit={ 'px' }
+									/>
 
-											{ 'grid-tablet' === tab.name && (
-												<Fragment>
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Padding', 'generateblocks' ) }
-														attrTop={ 'paddingTopTablet' }
-														attrRight={ 'paddingRightTablet' }
-														attrBottom={ 'paddingBottomTablet' }
-														attrLeft={ 'paddingLeftTablet' }
-														attrUnit={ 'paddingUnit' }
-														attrSyncUnits={ 'paddingSyncUnits' }
-													/>
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Border Radius', 'generateblocks' ) }
+										attrTop={ 'borderRadiusTopLeft' }
+										attrRight={ 'borderRadiusTopRight' }
+										attrBottom={ 'borderRadiusBottomRight' }
+										attrLeft={ 'borderRadiusBottomLeft' }
+										attrUnit={ 'borderRadiusUnit' }
+										attrSyncUnits={ 'borderRadiusSyncUnits' }
+										labelTop={ __( 'T-Left', 'generateblocks' ) }
+										labelRight={ __( 'T-Right', 'generateblocks' ) }
+										labelBottom={ __( 'B-Right', 'generateblocks' ) }
+										labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									/>
+								</Fragment>
+							) }
 
-													<DimensionsControl { ...this.props }
-														type={ 'margin' }
-														label={ __( 'Margin', 'generateblocks' ) }
-														attrTop={ 'marginTopTablet' }
-														attrRight={ 'marginRightTablet' }
-														attrBottom={ 'marginBottomTablet' }
-														attrLeft={ 'marginLeftTablet' }
-														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnits' }
-													/>
+							{ 'tablet' === selectedDevice && (
+								<Fragment>
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Padding', 'generateblocks' ) }
+										attrTop={ 'paddingTopTablet' }
+										attrRight={ 'paddingRightTablet' }
+										attrBottom={ 'paddingBottomTablet' }
+										attrLeft={ 'paddingLeftTablet' }
+										attrUnit={ 'paddingUnit' }
+										attrSyncUnits={ 'paddingSyncUnits' }
+									/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Border Size', 'generateblocks' ) }
-														attrTop={ 'borderSizeTopTablet' }
-														attrRight={ 'borderSizeRightTablet' }
-														attrBottom={ 'borderSizeBottomTablet' }
-														attrLeft={ 'borderSizeLeftTablet' }
-														attrSyncUnits={ 'borderSizeSyncUnits' }
-														displayUnit={ 'px' }
-													/>
+									<DimensionsControl { ...this.props }
+										type={ 'margin' }
+										label={ __( 'Margin', 'generateblocks' ) }
+										attrTop={ 'marginTopTablet' }
+										attrRight={ 'marginRightTablet' }
+										attrBottom={ 'marginBottomTablet' }
+										attrLeft={ 'marginLeftTablet' }
+										attrUnit={ 'marginUnit' }
+										attrSyncUnits={ 'marginSyncUnits' }
+									/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Border Radius', 'generateblocks' ) }
-														attrTop={ 'borderRadiusTopLeftTablet' }
-														attrRight={ 'borderRadiusTopRightTablet' }
-														attrBottom={ 'borderRadiusBottomRightTablet' }
-														attrLeft={ 'borderRadiusBottomLeftTablet' }
-														attrUnit={ 'borderRadiusUnit' }
-														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'generateblocks' ) }
-														labelRight={ __( 'T-Right', 'generateblocks' ) }
-														labelBottom={ __( 'B-Right', 'generateblocks' ) }
-														labelLeft={ __( 'B-Left', 'generateblocks' ) }
-													/>
-												</Fragment>
-											) }
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Border Size', 'generateblocks' ) }
+										attrTop={ 'borderSizeTopTablet' }
+										attrRight={ 'borderSizeRightTablet' }
+										attrBottom={ 'borderSizeBottomTablet' }
+										attrLeft={ 'borderSizeLeftTablet' }
+										attrSyncUnits={ 'borderSizeSyncUnits' }
+										displayUnit={ 'px' }
+									/>
 
-											{ 'grid-mobile' === tab.name && (
-												<Fragment>
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Padding', 'generateblocks' ) }
-														attrTop={ 'paddingTopMobile' }
-														attrRight={ 'paddingRightMobile' }
-														attrBottom={ 'paddingBottomMobile' }
-														attrLeft={ 'paddingLeftMobile' }
-														attrUnit={ 'paddingUnit' }
-														attrSyncUnits={ 'paddingSyncUnits' }
-													/>
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Border Radius', 'generateblocks' ) }
+										attrTop={ 'borderRadiusTopLeftTablet' }
+										attrRight={ 'borderRadiusTopRightTablet' }
+										attrBottom={ 'borderRadiusBottomRightTablet' }
+										attrLeft={ 'borderRadiusBottomLeftTablet' }
+										attrUnit={ 'borderRadiusUnit' }
+										attrSyncUnits={ 'borderRadiusSyncUnits' }
+										labelTop={ __( 'T-Left', 'generateblocks' ) }
+										labelRight={ __( 'T-Right', 'generateblocks' ) }
+										labelBottom={ __( 'B-Right', 'generateblocks' ) }
+										labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									/>
+								</Fragment>
+							) }
 
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Margin', 'generateblocks' ) }
-														attrTop={ 'marginTopMobile' }
-														attrRight={ 'marginRightMobile' }
-														attrBottom={ 'marginBottomMobile' }
-														attrLeft={ 'marginLeftMobile' }
-														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnits' }
-													/>
+							{ 'mobile' === selectedDevice && (
+								<Fragment>
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Padding', 'generateblocks' ) }
+										attrTop={ 'paddingTopMobile' }
+										attrRight={ 'paddingRightMobile' }
+										attrBottom={ 'paddingBottomMobile' }
+										attrLeft={ 'paddingLeftMobile' }
+										attrUnit={ 'paddingUnit' }
+										attrSyncUnits={ 'paddingSyncUnits' }
+									/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Border Size', 'generateblocks' ) }
-														attrTop={ 'borderSizeTopMobile' }
-														attrRight={ 'borderSizeRightMobile' }
-														attrBottom={ 'borderSizeBottomMobile' }
-														attrLeft={ 'borderSizeLeftMobile' }
-														attrSyncUnits={ 'borderSizeSyncUnits' }
-														displayUnit={ 'px' }
-													/>
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Margin', 'generateblocks' ) }
+										attrTop={ 'marginTopMobile' }
+										attrRight={ 'marginRightMobile' }
+										attrBottom={ 'marginBottomMobile' }
+										attrLeft={ 'marginLeftMobile' }
+										attrUnit={ 'marginUnit' }
+										attrSyncUnits={ 'marginSyncUnits' }
+									/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'padding' }
-														label={ __( 'Border Radius', 'generateblocks' ) }
-														attrTop={ 'borderRadiusTopLeftMobile' }
-														attrRight={ 'borderRadiusTopRightMobile' }
-														attrBottom={ 'borderRadiusBottomRightMobile' }
-														attrLeft={ 'borderRadiusBottomLeftMobile' }
-														attrUnit={ 'borderRadiusUnit' }
-														attrSyncUnits={ 'borderRadiusSyncUnits' }
-														labelTop={ __( 'T-Left', 'generateblocks' ) }
-														labelRight={ __( 'T-Right', 'generateblocks' ) }
-														labelBottom={ __( 'B-Right', 'generateblocks' ) }
-														labelLeft={ __( 'B-Left', 'generateblocks' ) }
-													/>
-												</Fragment>
-											) }
-										</div>
-									);
-								}
-							}
-						</TabPanel>
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Border Size', 'generateblocks' ) }
+										attrTop={ 'borderSizeTopMobile' }
+										attrRight={ 'borderSizeRightMobile' }
+										attrBottom={ 'borderSizeBottomMobile' }
+										attrLeft={ 'borderSizeLeftMobile' }
+										attrSyncUnits={ 'borderSizeSyncUnits' }
+										displayUnit={ 'px' }
+									/>
+
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Border Radius', 'generateblocks' ) }
+										attrTop={ 'borderRadiusTopLeftMobile' }
+										attrRight={ 'borderRadiusTopRightMobile' }
+										attrBottom={ 'borderRadiusBottomRightMobile' }
+										attrLeft={ 'borderRadiusBottomLeftMobile' }
+										attrUnit={ 'borderRadiusUnit' }
+										attrSyncUnits={ 'borderRadiusSyncUnits' }
+										labelTop={ __( 'T-Left', 'generateblocks' ) }
+										labelRight={ __( 'T-Right', 'generateblocks' ) }
+										labelBottom={ __( 'B-Right', 'generateblocks' ) }
+										labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									/>
+								</Fragment>
+							) }
 					</PanelBody>
 
-					<PanelBody
-						title={ __( 'Colors', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'colors' ) }
-						className={ 'gblocks-panel-label' }
+					{ 'desktop' === selectedDevice &&
+						<PanelBody
+							title={ __( 'Colors', 'generateblocks' ) }
+							initialOpen={ false }
+							icon={ getIcon( 'colors' ) }
+							className={ 'gblocks-panel-label' }
+							>
+							<TabPanel className="layout-tab-panel gblocks-control-tabs"
+								activeClass="active-tab"
+								tabs={ [
+									{
+										name: 'button-colors',
+										title: __( 'Normal', 'generateblocks' ),
+										className: 'button-colors',
+									},
+									{
+										name: 'button-colors-hover',
+										title: __( 'Hover', 'generateblocks' ),
+										className: 'button-colors-hover',
+									},
+								] }>
+								{
+									( tab ) => {
+										const isNormal = tab.name === 'button-colors';
+
+										return (
+											<div>
+												{ isNormal ? (
+													<Fragment>
+														<ColorPicker
+															label={ __( 'Background Color', 'generateblocks' ) }
+															value={ backgroundColor }
+															alpha={ true }
+															valueOpacity={ backgroundColorOpacity }
+															attrOpacity={ 'backgroundColorOpacity' }
+															key={ 'buttonBackgroundColor' }
+															onChange={ ( nextBackgroundColor ) =>
+																setAttributes( {
+																	backgroundColor: nextBackgroundColor
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	backgroundColorOpacity: value
+																} )
+															}
+														/>
+
+														<ColorPicker
+															label={ __( 'Text Color', 'generateblocks' ) }
+															value={ textColor }
+															alpha={ false }
+															key={ 'buttonTextColor' }
+															onChange={ ( nextTextColor ) =>
+																setAttributes( {
+																	textColor: nextTextColor
+																} )
+															}
+														/>
+
+														<ColorPicker
+															label={ __( 'Border Color', 'generateblocks' ) }
+															value={ borderColor }
+															alpha={ true }
+															valueOpacity={ borderColorOpacity }
+															attrOpacity={ 'borderColorOpacity' }
+															key={ 'buttonBorderColor' }
+															onChange={ ( value ) =>
+																setAttributes( {
+																	borderColor: value
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	borderColorOpacity: value
+																} )
+															}
+														/>
+													</Fragment>
+
+												) : (
+
+													<Fragment>
+														<ColorPicker
+															label={ __( 'Background Color', 'generateblocks' ) }
+															value={ backgroundColorHover }
+															alpha={ true }
+															valueOpacity={ backgroundColorHoverOpacity }
+															attrOpacity={ 'backgroundColorHoverOpacity' }
+															key={ 'buttonBackgroundColorHover' }
+															onChange={ ( nextBackgroundColorHover ) =>
+																setAttributes( {
+																	backgroundColorHover: nextBackgroundColorHover
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	backgroundColorHoverOpacity: value
+																} )
+															}
+														/>
+
+														<ColorPicker
+															label={ __( 'Text Color', 'generateblocks' ) }
+															value={ textColorHover }
+															alpha={ false }
+															key={ 'buttonTextColorHover' }
+															onChange={ ( nextTextColorHover ) =>
+																setAttributes( {
+																	textColorHover: nextTextColorHover
+																} )
+															}
+														/>
+
+														<ColorPicker
+															label={ __( 'Border Color', 'generateblocks' ) }
+															value={ borderColorHover }
+															alpha={ true }
+															valueOpacity={ borderColorHoverOpacity }
+															attrOpacity={ 'borderColorHoverOpacity' }
+															key={ 'buttonBorderColorHover' }
+															onChange={ ( value ) =>
+																setAttributes( {
+																	borderColorHover: value
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	borderColorHoverOpacity: value
+																} )
+															}
+														/>
+													</Fragment>
+												) }
+											</div>
+										);
+									}
+								}
+							</TabPanel>
+						</PanelBody>
+					}
+
+					{ 'desktop' === selectedDevice &&
+						<PanelBody
+							title={ __( 'Background Gradient' ) }
+							initialOpen={ false }
+							icon={ getIcon( 'gradients' ) }
+							className={ 'gblocks-panel-label' }
 						>
-						<TabPanel className="layout-tab-panel gblocks-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
-								{
-									name: 'button-colors',
-									title: __( 'Normal', 'generateblocks' ),
-									className: 'button-colors',
-								},
-								{
-									name: 'button-colors-hover',
-									title: __( 'Hover', 'generateblocks' ),
-									className: 'button-colors-hover',
-								},
-							] }>
-							{
-								( tab ) => {
-									const isNormal = tab.name === 'button-colors';
-
-									return (
-										<div>
-											{ isNormal ? (
-												<Fragment>
-													<ColorPicker
-														label={ __( 'Background Color', 'generateblocks' ) }
-														value={ backgroundColor }
-														alpha={ true }
-														valueOpacity={ backgroundColorOpacity }
-														attrOpacity={ 'backgroundColorOpacity' }
-														key={ 'buttonBackgroundColor' }
-														onChange={ ( nextBackgroundColor ) =>
-															setAttributes( {
-																backgroundColor: nextBackgroundColor
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																backgroundColorOpacity: value
-															} )
-														}
-													/>
-
-													<ColorPicker
-														label={ __( 'Text Color', 'generateblocks' ) }
-														value={ textColor }
-														alpha={ false }
-														key={ 'buttonTextColor' }
-														onChange={ ( nextTextColor ) =>
-															setAttributes( {
-																textColor: nextTextColor
-															} )
-														}
-													/>
-
-													<ColorPicker
-														label={ __( 'Border Color', 'generateblocks' ) }
-														value={ borderColor }
-														alpha={ true }
-														valueOpacity={ borderColorOpacity }
-														attrOpacity={ 'borderColorOpacity' }
-														key={ 'buttonBorderColor' }
-														onChange={ ( value ) =>
-															setAttributes( {
-																borderColor: value
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																borderColorOpacity: value
-															} )
-														}
-													/>
-												</Fragment>
-
-											) : (
-
-												<Fragment>
-													<ColorPicker
-														label={ __( 'Background Color', 'generateblocks' ) }
-														value={ backgroundColorHover }
-														alpha={ true }
-														valueOpacity={ backgroundColorHoverOpacity }
-														attrOpacity={ 'backgroundColorHoverOpacity' }
-														key={ 'buttonBackgroundColorHover' }
-														onChange={ ( nextBackgroundColorHover ) =>
-															setAttributes( {
-																backgroundColorHover: nextBackgroundColorHover
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																backgroundColorHoverOpacity: value
-															} )
-														}
-													/>
-
-													<ColorPicker
-														label={ __( 'Text Color', 'generateblocks' ) }
-														value={ textColorHover }
-														alpha={ false }
-														key={ 'buttonTextColorHover' }
-														onChange={ ( nextTextColorHover ) =>
-															setAttributes( {
-																textColorHover: nextTextColorHover
-															} )
-														}
-													/>
-
-													<ColorPicker
-														label={ __( 'Border Color', 'generateblocks' ) }
-														value={ borderColorHover }
-														alpha={ true }
-														valueOpacity={ borderColorHoverOpacity }
-														attrOpacity={ 'borderColorHoverOpacity' }
-														key={ 'buttonBorderColorHover' }
-														onChange={ ( value ) =>
-															setAttributes( {
-																borderColorHover: value
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																borderColorHoverOpacity: value
-															} )
-														}
-													/>
-												</Fragment>
-											) }
-										</div>
-									);
-								}
-							}
-						</TabPanel>
-					</PanelBody>
-
-					<PanelBody
-						title={ __( 'Background Gradient' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'gradients' ) }
-						className={ 'gblocks-panel-label' }
-					>
-						<GradientControl { ...this.props }
-							attrGradient={ 'gradient' }
-							attrGradientDirection={ 'gradientDirection' }
-							attrGradientColorOne={ 'gradientColorOne' }
-							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
-							attrGradientColorStopOne={ 'gradientColorStopOne' }
-							attrGradientColorTwo={ 'gradientColorTwo' }
-							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-							defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
-							defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
-						/>
-					</PanelBody>
+							<GradientControl { ...this.props }
+								attrGradient={ 'gradient' }
+								attrGradientDirection={ 'gradientDirection' }
+								attrGradientColorOne={ 'gradientColorOne' }
+								attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
+								attrGradientColorStopOne={ 'gradientColorStopOne' }
+								attrGradientColorTwo={ 'gradientColorTwo' }
+								attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
+								attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+								defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
+								defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
+							/>
+						</PanelBody>
+					}
 
 					<PanelBody
 						title={ __( 'Icon', 'generateblocks' ) }
@@ -768,157 +772,133 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						>
 
-						<IconPicker { ...this.props }
-							attrIcon={ 'icon' }
-							attrIconLocation={ 'iconLocation' }
-							attrRemoveText={ 'removeText' }
-							attrAriaLabel={ 'ariaLabel' }
-							locationOptions={ [
-								{ label: __( 'Left', 'generateblocks' ), value: 'left' },
-								{ label: __( 'Right', 'generateblocks' ), value: 'right' },
-							] }
-						/>
+						{ 'desktop' === selectedDevice &&
+							<IconPicker { ...this.props }
+								attrIcon={ 'icon' }
+								attrIconLocation={ 'iconLocation' }
+								attrRemoveText={ 'removeText' }
+								attrAriaLabel={ 'ariaLabel' }
+								locationOptions={ [
+									{ label: __( 'Left', 'generateblocks' ), value: 'left' },
+									{ label: __( 'Right', 'generateblocks' ), value: 'right' },
+								] }
+							/>
+						}
 
-						<TabPanel className="headline-tab-panel gblocks-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
-								{
-									name: 'default',
-									title: __( 'Default', 'generateblocks' ),
-									className: 'default',
-								},
-								{
-									name: 'tablet',
-									title: __( 'Tablet', 'generateblocks' ),
-									className: 'tablet',
-								},
-								{
-									name: 'mobile',
-									title: __( 'Mobile', 'generateblocks' ),
-									className: 'mobile',
-								},
-							] }>
-							{
-								( tab ) => {
-									return (
-										<div>
-											{ 'default' === tab.name && (
-												<Fragment>
-													{ ! removeText &&
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'generateblocks' ) }
-															attrTop={ 'iconPaddingTop' }
-															attrRight={ 'iconPaddingRight' }
-															attrBottom={ 'iconPaddingBottom' }
-															attrLeft={ 'iconPaddingLeft' }
-															attrUnit={ 'iconPaddingUnit' }
-															attrSyncUnits={ 'iconPaddingSyncUnits' }
-														/>
-													}
-
-													<RangeControl
-														label={ __( 'Icon Size', 'generateblocks' ) }
-														value={ iconSize ? iconSize : '' }
-														onChange={ ( value ) => setAttributes( {
-															iconSize: value
-														} ) }
-														min={ .1 }
-														max={ 15 }
-														step={ .1 }
-														initialPosition={ generateBlocksDefaults.headline.iconSize }
-														allowReset={ true }
-													/>
-												</Fragment>
-											) }
-
-											{ 'tablet' === tab.name && (
-												<Fragment>
-													{ ! removeText &&
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'generateblocks' ) }
-															attrTop={ 'iconPaddingTopTablet' }
-															attrRight={ 'iconPaddingRightTablet' }
-															attrBottom={ 'iconPaddingBottomTablet' }
-															attrLeft={ 'iconPaddingLeftTablet' }
-															attrUnit={ 'iconPaddingUnit' }
-															attrSyncUnits={ 'iconPaddingSyncUnits' }
-														/>
-													}
-
-													<RangeControl
-														label={ __( 'Icon Size', 'generateblocks' ) }
-														value={ iconSizeTablet || '' }
-														onChange={ ( value ) => setAttributes( {
-															iconSizeTablet: value
-														} ) }
-														min={ .1 }
-														max={ 15 }
-														step={ .1 }
-														initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
-														allowReset={ true }
-													/>
-												</Fragment>
-											) }
-
-											{ 'mobile' === tab.name && (
-												<Fragment>
-													{ ! removeText &&
-														<DimensionsControl { ...this.props }
-															type={ 'padding' }
-															label={ __( 'Padding', 'generateblocks' ) }
-															attrTop={ 'iconPaddingTopMobile' }
-															attrRight={ 'iconPaddingRightMobile' }
-															attrBottom={ 'iconPaddingBottomMobile' }
-															attrLeft={ 'iconPaddingLeftMobile' }
-															attrUnit={ 'iconPaddingUnit' }
-															attrSyncUnits={ 'iconPaddingSyncUnits' }
-														/>
-													}
-
-													<RangeControl
-														label={ __( 'Icon Size', 'generateblocks' ) }
-														value={ iconSizeMobile ? iconSizeMobile : '' }
-														onChange={ ( value ) => setAttributes( {
-															iconSizeMobile: value
-														} ) }
-														min={ .1 }
-														max={ 15 }
-														step={ .1 }
-														initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
-														allowReset={ true }
-													/>
-												</Fragment>
-											) }
-										</div>
-									);
+						{ 'desktop' === selectedDevice && (
+							<Fragment>
+								{ ! removeText &&
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Padding', 'generateblocks' ) }
+										attrTop={ 'iconPaddingTop' }
+										attrRight={ 'iconPaddingRight' }
+										attrBottom={ 'iconPaddingBottom' }
+										attrLeft={ 'iconPaddingLeft' }
+										attrUnit={ 'iconPaddingUnit' }
+										attrSyncUnits={ 'iconPaddingSyncUnits' }
+									/>
 								}
-							}
-						</TabPanel>
+
+								<RangeControl
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSize ? iconSize : '' }
+									onChange={ ( value ) => setAttributes( {
+										iconSize: value
+									} ) }
+									min={ .1 }
+									max={ 15 }
+									step={ .1 }
+									initialPosition={ generateBlocksDefaults.headline.iconSize }
+									allowReset={ true }
+								/>
+							</Fragment>
+						) }
+
+						{ 'tablet' === selectedDevice && (
+							<Fragment>
+								{ ! removeText &&
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Padding', 'generateblocks' ) }
+										attrTop={ 'iconPaddingTopTablet' }
+										attrRight={ 'iconPaddingRightTablet' }
+										attrBottom={ 'iconPaddingBottomTablet' }
+										attrLeft={ 'iconPaddingLeftTablet' }
+										attrUnit={ 'iconPaddingUnit' }
+										attrSyncUnits={ 'iconPaddingSyncUnits' }
+									/>
+								}
+
+								<RangeControl
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeTablet || '' }
+									onChange={ ( value ) => setAttributes( {
+										iconSizeTablet: value
+									} ) }
+									min={ .1 }
+									max={ 15 }
+									step={ .1 }
+									initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
+									allowReset={ true }
+								/>
+							</Fragment>
+						) }
+
+						{ 'mobile' === selectedDevice && (
+							<Fragment>
+								{ ! removeText &&
+									<DimensionsControl { ...this.props }
+										type={ 'padding' }
+										label={ __( 'Padding', 'generateblocks' ) }
+										attrTop={ 'iconPaddingTopMobile' }
+										attrRight={ 'iconPaddingRightMobile' }
+										attrBottom={ 'iconPaddingBottomMobile' }
+										attrLeft={ 'iconPaddingLeftMobile' }
+										attrUnit={ 'iconPaddingUnit' }
+										attrSyncUnits={ 'iconPaddingSyncUnits' }
+									/>
+								}
+
+								<RangeControl
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeMobile ? iconSizeMobile : '' }
+									onChange={ ( value ) => setAttributes( {
+										iconSizeMobile: value
+									} ) }
+									min={ .1 }
+									max={ 15 }
+									step={ .1 }
+									initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
+									allowReset={ true }
+								/>
+							</Fragment>
+						) }
 					</PanelBody>
 
-					<PanelBody
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( elementId ) => {
-								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-								setAttributes( { elementId } );
-							} }
-						/>
+					{ 'desktop' === selectedDevice &&
+						<PanelBody
+							title={ __( 'Advanced', 'generateblocks' ) }
+							initialOpen={ false }
+							icon={ getIcon( 'advanced' ) }
+							className={ 'gblocks-panel-label' }
+						>
+							<TextControl
+								label={ __( 'Element ID', 'generateblocks' ) }
+								value={ elementId }
+								onChange={ ( elementId ) => {
+									elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+									setAttributes( { elementId } );
+								} }
+							/>
 
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-						/>
-					</PanelBody>
+							<TextControl
+								label={ __( 'CSS Classes', 'generateblocks' ) }
+								value={ cssClasses }
+								onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+							/>
+						</PanelBody>
+					}
 
 					<PanelBody
 						title={ __( 'Documentation', 'generateblocks' ) }

@@ -47,6 +47,7 @@ class TypographyControls extends Component {
 			showTextTransform = false,
 			showLineHeight = false,
 			showLetterSpacing = false,
+			disableAdvancedToggle = false,
 			defaultFontSize,
 			defaultFontSizeUnit,
 			defaultLineHeight,
@@ -167,6 +168,12 @@ class TypographyControls extends Component {
 			return attributeName;
 		};
 
+		let showAdvancedToggle = attributes.showAdvancedTypography;
+
+		if ( disableAdvancedToggle ) {
+			showAdvancedToggle = true;
+		}
+
 		return (
 			<Fragment>
 				<div className={ 'components-gblocks-typography-weight-transform' }>
@@ -199,17 +206,19 @@ class TypographyControls extends Component {
 					}
 				</div>
 
-				<ToggleControl
-					label={ __( 'Show Advanced Typography', 'generateblocks' ) }
-					checked={ !! attributes.showAdvancedTypography }
-					onChange={ ( value ) => {
-						setAttributes( {
-							'showAdvancedTypography': value,
-						} );
-					} }
-				/>
+				{ ! disableAdvancedToggle &&
+					<ToggleControl
+						label={ __( 'Show Advanced Typography', 'generateblocks' ) }
+						checked={ !! attributes.showAdvancedTypography }
+						onChange={ ( value ) => {
+							setAttributes( {
+								'showAdvancedTypography': value,
+							} );
+						} }
+					/>
+				}
 
-				{ showFontFamily && attributes.showAdvancedTypography &&
+				{ showFontFamily && showAdvancedToggle &&
 					<BaseControl className={ 'gblocks-font-family-shortcuts' } label={ __( 'Font Family', 'generateblocks' ) }>
 						<select
 							className="components-select-control__input components-select-control__input--gblocks-fontfamily"
@@ -227,7 +236,7 @@ class TypographyControls extends Component {
 					</BaseControl>
 				}
 
-				{ showFontFamily && attributes.showAdvancedTypography &&
+				{ showFontFamily && showAdvancedToggle &&
 					<TextControl
 						value={ attributes.fontFamily }
 						placeholder={ __( 'Enter font name...', 'generateblocks' ) }
@@ -235,7 +244,7 @@ class TypographyControls extends Component {
 					/>
 				}
 
-				{ showFontFamily && '' !== attributes.fontFamily && attributes.showAdvancedTypography &&
+				{ showFontFamily && '' !== attributes.fontFamily && showAdvancedToggle &&
 					<ToggleControl
 						label={ __( 'Google Font', 'generateblocks' ) }
 						checked={ !! attributes.googleFont }
@@ -247,7 +256,7 @@ class TypographyControls extends Component {
 					/>
 				}
 
-				{ showFontFamily && attributes.showAdvancedTypography &&
+				{ showFontFamily && showAdvancedToggle &&
 					<TextControl
 						label={ __( 'Font Family Fallback', 'generateblocks' ) }
 						value={ attributes.fontFamilyFallback }
@@ -260,7 +269,7 @@ class TypographyControls extends Component {
 					/>
 				}
 
-				{ showFontSize && attributes.showAdvancedTypography &&
+				{ showFontSize && showAdvancedToggle &&
 					<Fragment>
 						<div className="components-gblocks-typography-control__header">
 							<div className="components-gblocks-typography-control__label components-base-control__label">
@@ -310,7 +319,7 @@ class TypographyControls extends Component {
 					</Fragment>
 				}
 
-				{ showLineHeight && attributes.showAdvancedTypography &&
+				{ showLineHeight && showAdvancedToggle &&
 					<Fragment>
 						<div className="components-gblocks-typography-control__header">
 							<div className="components-gblocks-typography-control__label components-base-control__label">
@@ -360,7 +369,7 @@ class TypographyControls extends Component {
 					</Fragment>
 				}
 
-				{ showLetterSpacing && attributes.showAdvancedTypography &&
+				{ showLetterSpacing && showAdvancedToggle &&
 					<Fragment>
 						<div className="components-gblocks-typography-control__header">
 							<div className="components-gblocks-control__label">

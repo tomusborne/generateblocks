@@ -10,7 +10,6 @@ const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
 	TextControl,
 	PanelBody,
-	TabPanel,
 	RangeControl,
 	Notice,
 	Tooltip,
@@ -68,6 +67,10 @@ const ALIGNMENT_CONTROLS = [
 class GenerateButtonContainer extends Component {
 	constructor() {
 		super( ...arguments );
+
+		this.state = {
+            selectedDevice: 'desktop',
+        };
 	}
 
 	componentDidMount() {
@@ -109,6 +112,10 @@ class GenerateButtonContainer extends Component {
 			instanceId,
 			clientId,
 		} = this.props;
+
+		const {
+            selectedDevice,
+        } = this.state;
 
 		const {
 			uniqueId,
@@ -248,193 +255,211 @@ class GenerateButtonContainer extends Component {
 				</BlockControls>
 
 				<InspectorControls>
+					<div className="gb-responsive-tabs">
+						<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) } key={ 'desktop-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'desktop' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'desktop',
+									} );
+								} }
+							>
+								{ __( 'Desktop', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+
+						<Tooltip text={ __( 'Show options for tablet devices' ) } key={ 'tablet-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'tablet' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'tablet',
+									} );
+								} }
+							>
+								{ __( 'Tablet', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+
+						<Tooltip text={ __( 'Show options for mobile devices' ) } key={ 'desktop-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'mobile' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'mobile',
+									} );
+								} }
+							>
+								{ __( 'Mobile', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+					</div>
+
 					<PanelBody
 						title={ __( 'Spacing', 'generateblocks' ) }
 						initialOpen={ true }
 						icon={ getIcon( 'spacing' ) }
 						className={ 'gblocks-panel-label' }
 					>
-						<TabPanel className="gblocks-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
-								{
-									name: 'default',
-									title: __( 'Default', 'generateblocks' ),
-									className: 'default',
-								},
-								{
-									name: 'tablet',
-									title: __( 'Tablet', 'generateblocks' ),
-									className: 'tablet',
-								},
-								{
-									name: 'mobile',
-									title: __( 'Mobile', 'generateblocks' ),
-									className: 'mobile',
-								},
-							] }>
-							{
-								( tab ) => {
-									return (
-										<div>
-											{ 'default' === tab.name && (
-												<Fragment>
-													<AlignmentToolbar
-														isCollapsed={ false }
-														value={ alignment }
-														alignmentControls={ ALIGNMENT_CONTROLS }
-														onChange={ ( value ) => {
-															setAttributes( { alignment: value } );
-														} }
-													/>
+						{ 'desktop' === selectedDevice && (
+							<Fragment>
+								<AlignmentToolbar
+									isCollapsed={ false }
+									value={ alignment }
+									alignmentControls={ ALIGNMENT_CONTROLS }
+									onChange={ ( value ) => {
+										setAttributes( { alignment: value } );
+									} }
+								/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'margin' }
-														label={ __( 'Margin', 'generateblocks' ) }
-														attrTop={ 'marginTop' }
-														attrRight={ 'marginRight' }
-														attrBottom={ 'marginBottom' }
-														attrLeft={ 'marginLeft' }
-														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnits' }
-													/>
+								<DimensionsControl { ...this.props }
+									type={ 'margin' }
+									label={ __( 'Margin', 'generateblocks' ) }
+									attrTop={ 'marginTop' }
+									attrRight={ 'marginRight' }
+									attrBottom={ 'marginBottom' }
+									attrLeft={ 'marginLeft' }
+									attrUnit={ 'marginUnit' }
+									attrSyncUnits={ 'marginSyncUnits' }
+								/>
 
-													<ToggleControl
-														label={ __( 'Stack Vertically', 'generateblocks' ) }
-														checked={ !! stack }
-														onChange={ ( value ) => {
-															setAttributes( {
-																stack: value
-															} );
-														} }
-													/>
+								<ToggleControl
+									label={ __( 'Stack Vertically', 'generateblocks' ) }
+									checked={ !! stack }
+									onChange={ ( value ) => {
+										setAttributes( {
+											stack: value
+										} );
+									} }
+								/>
 
-													<ToggleControl
-														label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
-														checked={ !! fillHorizontalSpace }
-														onChange={ ( value ) => {
-															setAttributes( {
-																fillHorizontalSpace: value
-															} );
-														} }
-													/>
-												</Fragment>
+								<ToggleControl
+									label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
+									checked={ !! fillHorizontalSpace }
+									onChange={ ( value ) => {
+										setAttributes( {
+											fillHorizontalSpace: value
+										} );
+									} }
+								/>
+							</Fragment>
 
-											) }
+						) }
 
-											{ 'tablet' === tab.name && (
-												<Fragment>
-													<AlignmentToolbar
-														isCollapsed={ false }
-														value={ alignmentTablet }
-														onChange={ ( value ) => {
-															setAttributes( { alignmentTablet: value } );
-														} }
-													/>
+						{ 'tablet' === selectedDevice && (
+							<Fragment>
+								<AlignmentToolbar
+									isCollapsed={ false }
+									value={ alignmentTablet }
+									onChange={ ( value ) => {
+										setAttributes( { alignmentTablet: value } );
+									} }
+								/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'margin' }
-														label={ __( 'Margin', 'generateblocks' ) }
-														attrTop={ 'marginTopTablet' }
-														attrRight={ 'marginRightTablet' }
-														attrBottom={ 'marginBottomTablet' }
-														attrLeft={ 'marginLeftTablet' }
-														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnits' }
-													/>
+								<DimensionsControl { ...this.props }
+									type={ 'margin' }
+									label={ __( 'Margin', 'generateblocks' ) }
+									attrTop={ 'marginTopTablet' }
+									attrRight={ 'marginRightTablet' }
+									attrBottom={ 'marginBottomTablet' }
+									attrLeft={ 'marginLeftTablet' }
+									attrUnit={ 'marginUnit' }
+									attrSyncUnits={ 'marginSyncUnits' }
+								/>
 
-													<ToggleControl
-														label={ __( 'Stack Vertically', 'generateblocks' ) }
-														checked={ !! stackTablet }
-														onChange={ ( value ) => {
-															setAttributes( {
-																stackTablet: value
-															} );
-														} }
-													/>
+								<ToggleControl
+									label={ __( 'Stack Vertically', 'generateblocks' ) }
+									checked={ !! stackTablet }
+									onChange={ ( value ) => {
+										setAttributes( {
+											stackTablet: value
+										} );
+									} }
+								/>
 
-													<ToggleControl
-														label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
-														checked={ !! fillHorizontalSpaceTablet }
-														onChange={ ( value ) => {
-															setAttributes( {
-																fillHorizontalSpaceTablet: value
-															} );
-														} }
-													/>
-												</Fragment>
-											) }
+								<ToggleControl
+									label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
+									checked={ !! fillHorizontalSpaceTablet }
+									onChange={ ( value ) => {
+										setAttributes( {
+											fillHorizontalSpaceTablet: value
+										} );
+									} }
+								/>
+							</Fragment>
+						) }
 
-											{ 'mobile' === tab.name && (
-												<Fragment>
-													<AlignmentToolbar
-														isCollapsed={ false }
-														value={ alignmentMobile }
-														onChange={ ( value ) => {
-															setAttributes( { alignmentMobile: value } );
-														} }
-													/>
+						{ 'mobile' === selectedDevice && (
+							<Fragment>
+								<AlignmentToolbar
+									isCollapsed={ false }
+									value={ alignmentMobile }
+									onChange={ ( value ) => {
+										setAttributes( { alignmentMobile: value } );
+									} }
+								/>
 
-													<DimensionsControl { ...this.props }
-														type={ 'margin' }
-														label={ __( 'Margin', 'generateblocks' ) }
-														attrTop={ 'marginTopMobile' }
-														attrRight={ 'marginRightMobile' }
-														attrBottom={ 'marginBottomMobile' }
-														attrLeft={ 'marginLeftMobile' }
-														attrUnit={ 'marginUnit' }
-														attrSyncUnits={ 'marginSyncUnits' }
-													/>
+								<DimensionsControl { ...this.props }
+									type={ 'margin' }
+									label={ __( 'Margin', 'generateblocks' ) }
+									attrTop={ 'marginTopMobile' }
+									attrRight={ 'marginRightMobile' }
+									attrBottom={ 'marginBottomMobile' }
+									attrLeft={ 'marginLeftMobile' }
+									attrUnit={ 'marginUnit' }
+									attrSyncUnits={ 'marginSyncUnits' }
+								/>
 
-													<ToggleControl
-														label={ __( 'Stack Vertically', 'generateblocks' ) }
-														checked={ !! stackMobile }
-														onChange={ ( value ) => {
-															setAttributes( {
-																stackMobile: value
-															} );
-														} }
-													/>
+								<ToggleControl
+									label={ __( 'Stack Vertically', 'generateblocks' ) }
+									checked={ !! stackMobile }
+									onChange={ ( value ) => {
+										setAttributes( {
+											stackMobile: value
+										} );
+									} }
+								/>
 
-													<ToggleControl
-														label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
-														checked={ !! fillHorizontalSpaceMobile }
-														onChange={ ( value ) => {
-															setAttributes( {
-																fillHorizontalSpaceMobile: value
-															} );
-														} }
-													/>
-												</Fragment>
-											) }
-										</div>
-									);
-								}
-							}
-						</TabPanel>
+								<ToggleControl
+									label={ __( 'Fill Horizontal Space', 'generateblocks' ) }
+									checked={ !! fillHorizontalSpaceMobile }
+									onChange={ ( value ) => {
+										setAttributes( {
+											fillHorizontalSpaceMobile: value
+										} );
+									} }
+								/>
+							</Fragment>
+						) }
 					</PanelBody>
 
-					<PanelBody
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( elementId ) => {
-								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-								setAttributes( { elementId } );
-							} }
-						/>
+					{ 'desktop' === selectedDevice &&
+						<PanelBody
+							title={ __( 'Advanced', 'generateblocks' ) }
+							initialOpen={ false }
+							icon={ getIcon( 'advanced' ) }
+							className={ 'gblocks-panel-label' }
+						>
+							<TextControl
+								label={ __( 'Element ID', 'generateblocks' ) }
+								value={ elementId }
+								onChange={ ( elementId ) => {
+									elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+									setAttributes( { elementId } );
+								} }
+							/>
 
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-						/>
-					</PanelBody>
+							<TextControl
+								label={ __( 'CSS Classes', 'generateblocks' ) }
+								value={ cssClasses }
+								onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+							/>
+						</PanelBody>
+					}
 
 					<PanelBody
 						title={ __( 'Documentation', 'generateblocks' ) }

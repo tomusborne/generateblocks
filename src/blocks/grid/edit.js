@@ -9,7 +9,6 @@ const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
 	TextControl,
 	PanelBody,
-	TabPanel,
 	RangeControl,
 	SelectControl,
 	Notice,
@@ -51,6 +50,7 @@ class GenerateBlockGridContainer extends Component {
 
         this.state = {
             selectedLayout: false,
+			selectedDevice: 'desktop',
         };
 
         this.onLayoutSelect = this.onLayoutSelect.bind( this );
@@ -228,6 +228,10 @@ class GenerateBlockGridContainer extends Component {
 		} = this.props;
 
 		const {
+            selectedDevice,
+        } = this.state;
+
+		const {
 			count,
 			uniqueId,
 			elementId,
@@ -288,336 +292,354 @@ class GenerateBlockGridContainer extends Component {
 					</Toolbar>
 				</BlockControls>
 				<InspectorControls>
+					<div className="gb-responsive-tabs">
+						<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) } key={ 'desktop-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'desktop' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'desktop',
+									} );
+								} }
+							>
+								{ __( 'Desktop', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+
+						<Tooltip text={ __( 'Show options for tablet devices' ) } key={ 'tablet-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'tablet' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'tablet',
+									} );
+								} }
+							>
+								{ __( 'Tablet', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+
+						<Tooltip text={ __( 'Show options for mobile devices' ) } key={ 'desktop-tab' }>
+							<Button
+								isLarge
+								isPressed={ 'mobile' === selectedDevice ? true : false }
+								onClick={ () => {
+									this.setState( {
+										selectedDevice: 'mobile',
+									} );
+								} }
+							>
+								{ __( 'Mobile', 'generateblocks' ) }
+							</Button>
+						</Tooltip>
+					</div>
+
 					<PanelBody>
-						<TabPanel className="grid-tab-panel gblocks-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
-								{
-									name: 'default',
-									title: __( 'Default', 'generateblocks' ),
-									className: 'default',
-								},
-								{
-									name: 'tablet',
-									title: __( 'Tablet', 'generateblocks' ),
-									className: 'tablet',
-								},
-								{
-									name: 'mobile',
-									title: __( 'Mobile', 'generateblocks' ),
-									className: 'mobile',
-								},
-							] }>
-							{
-								( tab ) => {
-									return (
-										<div>
-											{ 'default' === tab.name && (
-												<Fragment>
-													<div className="components-gblocks-control__header">
-														<div className="components-gblocks-control__label">
-															{ __( 'Horizontal Gap', 'generateblocks' ) }
-														</div>
+						{ 'desktop' === selectedDevice && (
+							<Fragment>
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Horizontal Gap', 'generateblocks' ) }
+									</div>
 
-														<div className="components-gblocks-control__units">
-															<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-unit' }>
-																<Button
-																	key={ 'h-gap-unit' }
-																	isSmall
-																	isPrimary={ true }
-																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	aria-label={ __( 'Pixel Units' ) }
-																>
-																	px
-																</Button>
-															</Tooltip>
-														</div>
-													</div>
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-unit' }>
+											<Button
+												key={ 'h-gap-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
 
-													<RangeControl
-														value={ horizontalGap ? horizontalGap : 0 }
-														onChange={ ( value ) => setAttributes( {
-															horizontalGap: value
-														} ) }
-														min={ 0 }
-														max={ 100 }
-														initialPosition={ generateBlocksDefaults.gridContainer.horizontalGap }
-													/>
+								<RangeControl
+									value={ horizontalGap ? horizontalGap : 0 }
+									onChange={ ( value ) => setAttributes( {
+										horizontalGap: value
+									} ) }
+									min={ 0 }
+									max={ 100 }
+									initialPosition={ generateBlocksDefaults.gridContainer.horizontalGap }
+								/>
 
-													<div className="components-gblocks-control__header">
-														<div className="components-gblocks-control__label">
-															{ __( 'Vertical Gap', 'generateblocks' ) }
-														</div>
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Vertical Gap', 'generateblocks' ) }
+									</div>
 
-														<div className="components-gblocks-control__units">
-															<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-unit' }>
-																<Button
-																	key={ 'v-gap-unit' }
-																	isSmall
-																	isPrimary={ true }
-																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	aria-label={ __( 'Pixel Units' ) }
-																>
-																	px
-																</Button>
-															</Tooltip>
-														</div>
-													</div>
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-unit' }>
+											<Button
+												key={ 'v-gap-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
 
-													<RangeControl
-														value={ verticalGap ? verticalGap : 0 }
-														onChange={ ( value ) => setAttributes( {
-															verticalGap: value
-														} ) }
-														min={ 0 }
-														max={ 100 }
-														initialPosition={ generateBlocksDefaults.gridContainer.verticalGap }
-													/>
+								<RangeControl
+									value={ verticalGap ? verticalGap : 0 }
+									onChange={ ( value ) => setAttributes( {
+										verticalGap: value
+									} ) }
+									min={ 0 }
+									max={ 100 }
+									initialPosition={ generateBlocksDefaults.gridContainer.verticalGap }
+								/>
 
-													<SelectControl
-														label={ __( 'Vertical Alignment', 'generateblocks' ) }
-														value={ verticalAlignment }
-														help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }
-														options={ [
-															{ label: __( 'Default', 'generateblocks' ), value: '' },
-															{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
-														] }
-														onChange={ ( verticalAlignment ) => {
-															setAttributes( { verticalAlignment } )
-														} }
-													/>
+								<SelectControl
+									label={ __( 'Vertical Alignment', 'generateblocks' ) }
+									value={ verticalAlignment }
+									help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }
+									options={ [
+										{ label: __( 'Default', 'generateblocks' ), value: '' },
+										{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+										{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+									] }
+									onChange={ ( verticalAlignment ) => {
+										setAttributes( { verticalAlignment } )
+									} }
+								/>
 
-													<SelectControl
-														label={ __( 'Horizontal Alignment', 'generateblocks' ) }
-														value={ horizontalAlignment }
-														options={ [
-															{ label: __( 'Default', 'generateblocks' ), value: '' },
-															{ label: __( 'Left', 'generateblocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-															{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
-														] }
-														onChange={ ( horizontalAlignment ) => {
-															setAttributes( { horizontalAlignment } )
-														} }
-													/>
-												</Fragment>
-											) }
+								<SelectControl
+									label={ __( 'Horizontal Alignment', 'generateblocks' ) }
+									value={ horizontalAlignment }
+									options={ [
+										{ label: __( 'Default', 'generateblocks' ), value: '' },
+										{ label: __( 'Left', 'generateblocks' ), value: 'flex-start' },
+										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+										{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
+									] }
+									onChange={ ( horizontalAlignment ) => {
+										setAttributes( { horizontalAlignment } )
+									} }
+								/>
+							</Fragment>
+						) }
 
-											{ 'tablet' === tab.name && (
-												<Fragment>
-													<div className="components-gblocks-control__header">
-														<div className="components-gblocks-control__label">
-															{ __( 'Horizontal Gap', 'generateblocks' ) }
-														</div>
+						{ 'tablet' === selectedDevice && (
+							<Fragment>
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Horizontal Gap', 'generateblocks' ) }
+									</div>
 
-														<div className="components-gblocks-control__units">
-															<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-tablet-unit' }>
-																<Button
-																	key={ 'h-gap-tablet-unit' }
-																	isSmall
-																	isPrimary={ true }
-																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	aria-label={ __( 'Pixel Units' ) }
-																>
-																	px
-																</Button>
-															</Tooltip>
-														</div>
-													</div>
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-tablet-unit' }>
+											<Button
+												key={ 'h-gap-tablet-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
 
-													<RangeControl
-														value={ parseFloat( horizontalGapTablet ) || '' }
-														onChange={ ( value ) => setAttributes( {
-															horizontalGapTablet: value
-														} ) }
-														min={ 0 }
-														max={ 100 }
-														initialPosition={ generateBlocksDefaults.gridContainer.horizontalGapTablet }
-													/>
+								<RangeControl
+									value={ parseFloat( horizontalGapTablet ) || '' }
+									onChange={ ( value ) => setAttributes( {
+										horizontalGapTablet: value
+									} ) }
+									min={ 0 }
+									max={ 100 }
+									initialPosition={ generateBlocksDefaults.gridContainer.horizontalGapTablet }
+								/>
 
-													<div className="components-gblocks-control__header">
-														<div className="components-gblocks-control__label">
-															{ __( 'Vertical Gap', 'generateblocks' ) }
-														</div>
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Vertical Gap', 'generateblocks' ) }
+									</div>
 
-														<div className="components-gblocks-control__units">
-															<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-tablet-unit' }>
-																<Button
-																	key={ 'v-gap-tablet-unit' }
-																	isSmall
-																	isPrimary={ true }
-																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	aria-label={ __( 'Pixel Units' ) }
-																>
-																	px
-																</Button>
-															</Tooltip>
-														</div>
-													</div>
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-tablet-unit' }>
+											<Button
+												key={ 'v-gap-tablet-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
 
-													<RangeControl
-														value={ parseFloat( verticalGapTablet ) || '' }
-														onChange={ ( value ) => setAttributes( {
-															verticalGapTablet: value
-														} ) }
-														min={ 0 }
-														max={ 100 }
-														initialPosition={ generateBlocksDefaults.gridContainer.verticalGapTablet }
-													/>
+								<RangeControl
+									value={ parseFloat( verticalGapTablet ) || '' }
+									onChange={ ( value ) => setAttributes( {
+										verticalGapTablet: value
+									} ) }
+									min={ 0 }
+									max={ 100 }
+									initialPosition={ generateBlocksDefaults.gridContainer.verticalGapTablet }
+								/>
 
-													<SelectControl
-														label={ __( 'Vertical Alignment', 'generateblocks' ) }
-														help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }
-														value={ verticalAlignmentTablet }
-														options={ [
-															{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
-															{ label: __( 'Default', 'generateblocks' ), value: '' },
-															{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
-														] }
-														onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
-													/>
+								<SelectControl
+									label={ __( 'Vertical Alignment', 'generateblocks' ) }
+									help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }
+									value={ verticalAlignmentTablet }
+									options={ [
+										{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+										{ label: __( 'Default', 'generateblocks' ), value: '' },
+										{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+										{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+									] }
+									onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
+								/>
 
-													<SelectControl
-														label={ __( 'Horizontal Alignment', 'generateblocks' ) }
-														value={ horizontalAlignmentTablet }
-														options={ [
-															{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
-															{ label: __( 'Default', 'generateblocks' ), value: '' },
-															{ label: __( 'Left', 'generateblocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-															{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
-														] }
-														onChange={ ( horizontalAlignmentTablet ) => { setAttributes( { horizontalAlignmentTablet } ) } }
-													/>
-												</Fragment>
-											) }
+								<SelectControl
+									label={ __( 'Horizontal Alignment', 'generateblocks' ) }
+									value={ horizontalAlignmentTablet }
+									options={ [
+										{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+										{ label: __( 'Default', 'generateblocks' ), value: '' },
+										{ label: __( 'Left', 'generateblocks' ), value: 'flex-start' },
+										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+										{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
+									] }
+									onChange={ ( horizontalAlignmentTablet ) => { setAttributes( { horizontalAlignmentTablet } ) } }
+								/>
+							</Fragment>
+						) }
 
-											{ 'mobile' === tab.name && (
-												<Fragment>
-													<div className="components-gblocks-control__header">
-														<div className="components-gblocks-control__label">
-															{ __( 'Horizontal Gap', 'generateblocks' ) }
-														</div>
+						{ 'mobile' === selectedDevice && (
+							<Fragment>
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Horizontal Gap', 'generateblocks' ) }
+									</div>
 
-														<div className="components-gblocks-control__units">
-															<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-mobile-unit' }>
-																<Button
-																	key={ 'h-gap-mobile-unit' }
-																	isSmall
-																	isPrimary={ true }
-																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	aria-label={ __( 'Pixel Units' ) }
-																>
-																	px
-																</Button>
-															</Tooltip>
-														</div>
-													</div>
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-mobile-unit' }>
+											<Button
+												key={ 'h-gap-mobile-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
 
-													<RangeControl
-														value={ parseFloat( horizontalGapMobile ) || '' }
-														onChange={ ( value ) => setAttributes( {
-															horizontalGapMobile: value
-														} ) }
-														min={ 0 }
-														max={ 100 }
-														initialPosition={ generateBlocksDefaults.gridContainer.horizontalGapMobile }
-													/>
+								<RangeControl
+									value={ parseFloat( horizontalGapMobile ) || '' }
+									onChange={ ( value ) => setAttributes( {
+										horizontalGapMobile: value
+									} ) }
+									min={ 0 }
+									max={ 100 }
+									initialPosition={ generateBlocksDefaults.gridContainer.horizontalGapMobile }
+								/>
 
-													<div className="components-gblocks-control__header">
-														<div className="components-gblocks-control__label">
-															{ __( 'Vertical Gap', 'generateblocks' ) }
-														</div>
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Vertical Gap', 'generateblocks' ) }
+									</div>
 
-														<div className="components-gblocks-control__units">
-															<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-mobile-unit' }>
-																<Button
-																	key={ 'v-gap-mobile-unit' }
-																	isSmall
-																	isPrimary={ true }
-																	/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-																	aria-label={ __( 'Pixel Units' ) }
-																>
-																	px
-																</Button>
-															</Tooltip>
-														</div>
-													</div>
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-mobile-unit' }>
+											<Button
+												key={ 'v-gap-mobile-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
 
-													<RangeControl
-														value={ parseFloat( verticalGapMobile ) || '' }
-														onChange={ ( value ) => setAttributes( {
-															verticalGapMobile: value
-														} ) }
-														min={ 0 }
-														max={ 100 }
-														initialPosition={ generateBlocksDefaults.gridContainer.verticalGapMobile }
-													/>
+								<RangeControl
+									value={ parseFloat( verticalGapMobile ) || '' }
+									onChange={ ( value ) => setAttributes( {
+										verticalGapMobile: value
+									} ) }
+									min={ 0 }
+									max={ 100 }
+									initialPosition={ generateBlocksDefaults.gridContainer.verticalGapMobile }
+								/>
 
-													<SelectControl
-														label={ __( 'Vertical Alignment', 'generateblocks' ) }
-														help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }
-														value={ verticalAlignmentMobile }
-														options={ [
-															{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
-															{ label: __( 'Default', 'generateblocks' ), value: '' },
-															{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-															{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
-														] }
-														onChange={ ( verticalAlignmentMobile ) => {
-															setAttributes( { verticalAlignmentMobile } )
-														} }
-													/>
+								<SelectControl
+									label={ __( 'Vertical Alignment', 'generateblocks' ) }
+									help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }
+									value={ verticalAlignmentMobile }
+									options={ [
+										{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+										{ label: __( 'Default', 'generateblocks' ), value: '' },
+										{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+										{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+									] }
+									onChange={ ( verticalAlignmentMobile ) => {
+										setAttributes( { verticalAlignmentMobile } )
+									} }
+								/>
 
-													<SelectControl
-														label={ __( 'Horizontal Alignment', 'generateblocks' ) }
-														value={ horizontalAlignmentMobile }
-														options={ [
-															{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
-															{ label: __( 'Default', 'generateblocks' ), value: '' },
-															{ label: __( 'Left', 'generateblocks' ), value: 'flex-start' },
-															{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-															{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
-														] }
-														onChange={ ( horizontalAlignmentMobile ) => {
-															setAttributes( { horizontalAlignmentMobile } )
-														} }
-													/>
-												</Fragment>
-											) }
-										</div>
-									);
-								}
-							}
-						</TabPanel>
+								<SelectControl
+									label={ __( 'Horizontal Alignment', 'generateblocks' ) }
+									value={ horizontalAlignmentMobile }
+									options={ [
+										{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+										{ label: __( 'Default', 'generateblocks' ), value: '' },
+										{ label: __( 'Left', 'generateblocks' ), value: 'flex-start' },
+										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+										{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
+									] }
+									onChange={ ( horizontalAlignmentMobile ) => {
+										setAttributes( { horizontalAlignmentMobile } )
+									} }
+								/>
+							</Fragment>
+						) }
 					</PanelBody>
 
-					<PanelBody
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( elementId ) => {
-								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-								setAttributes( { elementId } );
-							} }
-						/>
+					{ 'desktop' === selectedDevice &&
+						<PanelBody
+							title={ __( 'Advanced', 'generateblocks' ) }
+							initialOpen={ false }
+							icon={ getIcon( 'advanced' ) }
+							className={ 'gblocks-panel-label' }
+						>
+							<TextControl
+								label={ __( 'Element ID', 'generateblocks' ) }
+								value={ elementId }
+								onChange={ ( elementId ) => {
+									elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+									setAttributes( { elementId } );
+								} }
+							/>
 
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-						/>
-					</PanelBody>
+							<TextControl
+								label={ __( 'CSS Classes', 'generateblocks' ) }
+								value={ cssClasses }
+								onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+							/>
+						</PanelBody>
+					}
 
 					<PanelBody
 						title={ __( 'Documentation', 'generateblocks' ) }
