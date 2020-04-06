@@ -75,7 +75,8 @@ class GenerateBlockHeadline extends Component {
 			attributes,
 			setAttributes,
 			toggleSelection,
-			instanceId
+			instanceId,
+			clientId,
 		} = this.props;
 
 		const {
@@ -325,6 +326,10 @@ class GenerateBlockHeadline extends Component {
 
 			.gb-headline-` + uniqueId + ` .gb-highlight {
 				color: ` + highlightTextColor + `;
+			}
+
+			#block-` + clientId + ` {
+				` + inlineHeadline + `
 			}
 		`
 
