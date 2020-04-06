@@ -11,7 +11,6 @@ const {
 	PanelBody,
 	RangeControl,
 	SelectControl,
-	Notice,
 	Tooltip,
 	Icon,
 	Placeholder,

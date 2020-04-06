@@ -74,8 +74,6 @@ class GenerateBlockHeadline extends Component {
 		const {
 			attributes,
 			setAttributes,
-			toggleSelection,
-			instanceId,
 			clientId,
 		} = this.props;
 

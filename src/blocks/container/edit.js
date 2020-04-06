@@ -81,10 +81,8 @@ class GenerateBlockContainer extends Component {
 		const {
 			attributes,
 			setAttributes,
-			toggleSelection,
 			hasChildBlocks,
 			clientId,
-			isSelected,
 		} = this.props;
 
 		const {

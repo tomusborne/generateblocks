@@ -78,8 +78,6 @@ class GenerateBlockButton extends Component {
 		const {
 			attributes,
 			setAttributes,
-			toggleSelection,
-			instanceId,
 			isSelected,
 			clientId,
 		} = this.props;

@@ -38,11 +38,6 @@ const {
 	cloneBlock,
 } = wp.blocks;
 
-const {
-    withSelect,
-    withDispatch,
-} = wp.data;
-
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbButtonContainerIds = [];
 
@@ -108,8 +103,6 @@ class GenerateButtonContainer extends Component {
 		const {
 			attributes,
 			setAttributes,
-			toggleSelection,
-			instanceId,
 			clientId,
 		} = this.props;
 
