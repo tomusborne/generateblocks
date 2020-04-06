@@ -10,7 +10,7 @@ const { __ } = wp.i18n;
 const { Component } = wp.element;
 const {
     Dashicon,
-    IconButton,
+    Button,
     ToggleControl,
 } = wp.components;
 
@@ -79,7 +79,7 @@ export default class URLInput extends Component {
                         } }
                         autoFocus={ autoFocus }
                     />
-                    <IconButton
+                    <Button
                         icon={ 'ellipsis' }
                         label={ moreOptions ? __( 'Hide More Options', 'generateblocks' ) : __( 'Show More Options', 'generateblocks' ) }
                         onClick={ () => {

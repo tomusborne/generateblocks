@@ -23,7 +23,6 @@ const {
 	Toolbar,
 	Tooltip,
 	Button,
-	IconButton,
 } = wp.components;
 
 const {
@@ -69,7 +68,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 					<BlockControls>
 						<Toolbar>
 							<Tooltip text={ __( 'Duplicate Grid Item', 'generateblocks' ) }>
-								<IconButton
+								<Button
 									className="gblocks-block-control-icon gblocks-add-grid-item"
 									icon={ getIcon( 'addContainer' ) }
 									onClick={ () => {
@@ -84,7 +83,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 						<Toolbar>
 							<Tooltip text={ __( 'Select Parent Grid', 'generateblocks' ) }>
-								<IconButton
+								<Button
 									className="gblocks-block-control-icon"
 									icon={ getIcon( 'grid' ) }
 									onClick={ () => {
