@@ -456,7 +456,7 @@ class GenerateBlockContainer extends Component {
 			<Fragment>
 				<InspectorControls>
 					<div className="gb-responsive-tabs">
-						<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) } key={ 'desktop-tab' }>
+						<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) }>
 							<Button
 								isLarge
 								isPressed={ 'desktop' === selectedDevice ? true : false }
@@ -470,7 +470,7 @@ class GenerateBlockContainer extends Component {
 							</Button>
 						</Tooltip>
 
-						<Tooltip text={ __( 'Show options for tablet devices' ) } key={ 'tablet-tab' }>
+						<Tooltip text={ __( 'Show options for tablet devices' ) }>
 							<Button
 								isLarge
 								isPressed={ 'tablet' === selectedDevice ? true : false }
@@ -484,7 +484,7 @@ class GenerateBlockContainer extends Component {
 							</Button>
 						</Tooltip>
 
-						<Tooltip text={ __( 'Show options for mobile devices' ) } key={ 'desktop-tab' }>
+						<Tooltip text={ __( 'Show options for mobile devices' ) }>
 							<Button
 								isLarge
 								isPressed={ 'mobile' === selectedDevice ? true : false }
