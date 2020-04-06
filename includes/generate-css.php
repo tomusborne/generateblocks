@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @return string The dynamic CSS.
  */
-function generateblocks_get_dynamic_css( $content = '', $one_time_css = true ) {
+function generateblocks_get_dynamic_css( $content = '' ) {
 	if ( ! $content ) {
 		return;
 	}
@@ -35,27 +35,25 @@ function generateblocks_get_dynamic_css( $content = '', $one_time_css = true ) {
 
 	$css = new GenerateBlocks_Dynamic_CSS;
 
-	if ( $one_time_css ) {
-		$css->set_selector( '.gb-icon' );
-		$css->add_property( 'display', '-webkit-inline-box' );
-		$css->add_property( 'display', '-ms-inline-flexbox' );
-		$css->add_property( 'display', 'inline-flex' );
+	$css->set_selector( '.gb-icon' );
+	$css->add_property( 'display', '-webkit-inline-box' );
+	$css->add_property( 'display', '-ms-inline-flexbox' );
+	$css->add_property( 'display', 'inline-flex' );
 
-		$css->set_selector( '.gb-icon svg' );
-		$css->add_property( 'height', '1em' );
-		$css->add_property( 'width', '1em' );
-		$css->add_property( 'fill', 'currentColor' );
+	$css->set_selector( '.gb-icon svg' );
+	$css->add_property( 'height', '1em' );
+	$css->add_property( 'width', '1em' );
+	$css->add_property( 'fill', 'currentColor' );
 
-		$css->set_selector( '.gb-headline-wrapper' );
-		$css->add_property( 'display', '-ms-flexbox' );
-		$css->add_property( 'display', 'flex' );
+	$css->set_selector( '.gb-headline-wrapper' );
+	$css->add_property( 'display', '-ms-flexbox' );
+	$css->add_property( 'display', 'flex' );
 
-		$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
-		$css->add_property( 'margin', '0' );
-		$css->add_property( 'padding', '0' );
+	$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
+	$css->add_property( 'margin', '0' );
+	$css->add_property( 'padding', '0' );
 
-		$main_css_data[] = $css->css_output();
-	}
+	$main_css_data[] = $css->css_output();
 
 	foreach ( $data as $name => $blockData ) {
 		/**
@@ -205,10 +203,8 @@ function generateblocks_get_dynamic_css( $content = '', $one_time_css = true ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
-			if ( $one_time_css ) {
-				$css->set_selector( '.gb-container .wp-block-image img' );
-				$css->add_property( 'vertical-align', 'middle' );
-			}
+			$css->set_selector( '.gb-container .wp-block-image img' );
+			$css->add_property( 'vertical-align', 'middle' );
 
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
@@ -510,12 +506,10 @@ function generateblocks_get_dynamic_css( $content = '', $one_time_css = true ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
-			if ( $one_time_css ) {
-				$css->set_selector( '.gb-button-wrapper' );
-				$css->add_property( 'display', 'flex' );
-				$css->add_property( 'flex-wrap', 'wrap' );
-				$css->add_property( 'clear', 'both' );
-			}
+			$css->set_selector( '.gb-button-wrapper' );
+			$css->add_property( 'display', 'flex' );
+			$css->add_property( 'flex-wrap', 'wrap' );
+			$css->add_property( 'clear', 'both' );
 
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
@@ -627,19 +621,17 @@ function generateblocks_get_dynamic_css( $content = '', $one_time_css = true ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
-			if ( $one_time_css ) {
-				$css->set_selector( '.gb-button-wrapper a.gb-button' );
-				$css->add_property( 'display', '-webkit-inline-box' );
-				$css->add_property( 'display', '-ms-inline-flexbox' );
-				$css->add_property( 'display', 'inline-flex' );
-				$css->add_property( 'align-items', 'center' );
-				$css->add_property( 'justify-content', 'center' );
-				$css->add_property( 'text-decoration', 'none' );
-				$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
+			$css->set_selector( '.gb-button-wrapper a.gb-button' );
+			$css->add_property( 'display', '-webkit-inline-box' );
+			$css->add_property( 'display', '-ms-inline-flexbox' );
+			$css->add_property( 'display', 'inline-flex' );
+			$css->add_property( 'align-items', 'center' );
+			$css->add_property( 'justify-content', 'center' );
+			$css->add_property( 'text-decoration', 'none' );
+			$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
 
-				$css->set_selector( '.gb-button-wrapper .gb-button .gb-icon' );
-				$css->add_property( 'align-items', 'center' );
-			}
+			$css->set_selector( '.gb-button-wrapper .gb-button .gb-icon' );
+			$css->add_property( 'align-items', 'center' );
 
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
@@ -784,11 +776,9 @@ function generateblocks_get_dynamic_css( $content = '', $one_time_css = true ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
-			if ( $one_time_css ) {
-				$css->set_selector( '.gb-highlight' );
-				$css->add_property( 'background', 'unset' );
-				$css->add_property( 'color', 'unset' );
-			}
+			$css->set_selector( '.gb-highlight' );
+			$css->add_property( 'background', 'unset' );
+			$css->add_property( 'color', 'unset' );
 
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
