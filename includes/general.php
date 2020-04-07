@@ -98,22 +98,24 @@ function generateblocks_do_block_editor_assets() {
 		wp_add_inline_style( 'generateblocks', $css );
 	}
 
+	$defaults = generateblocks_get_block_defaults();
+
 	wp_localize_script(
 		'generateblocks',
 		'generateBlocksDefaults',
-		generateblocks_get_block_defaults()
+		$defaults
 	);
 
 	$defaultBlockStyles = array(
 		'button' => array(
-			'backgroundColor' => '#0366d6',
-			'textColor' => '#ffffff',
-			'backgroundColorHover' => '#222222',
-			'textColorHover' => '#ffffff',
-			'paddingTop' => '15',
-			'paddingRight' => '20',
-			'paddingBottom' => '15',
-			'paddingLeft' => '20',
+			'backgroundColor' => $defaults['button']['backgroundColor'] ? $defaults['button']['backgroundColor'] : '#0366d6',
+			'textColor' => $defaults['button']['textColor'] ? $defaults['button']['textColor'] : '#ffffff',
+			'backgroundColorHover' => $defaults['button']['backgroundColorHover'] ? $defaults['button']['backgroundColorHover'] : '#222222',
+			'textColorHover' => $defaults['button']['textColorHover'] ? $defaults['button']['textColorHover'] : '#ffffff',
+			'paddingTop' => $defaults['button']['paddingTop'] ? $defaults['button']['paddingTop'] : '15',
+			'paddingRight' => $defaults['button']['paddingRight'] ? $defaults['button']['paddingRight'] : '20',
+			'paddingBottom' => $defaults['button']['paddingBottom'] ? $defaults['button']['paddingBottom'] : '15',
+			'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20',
 		),
 	);
 
