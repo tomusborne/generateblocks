@@ -202,3 +202,12 @@ function generateblocks_register_meta() {
 		'single' => true,
     ) );
 }
+
+add_filter( 'generateblocks_css_print_method', 'generateblocks_set_css_print_method' );
+/**
+ * Set our CSS print method.
+ *
+ */
+function generateblocks_set_css_print_method( $method ) {
+	return generateblocks_get_option( 'css_print_method' );
+}

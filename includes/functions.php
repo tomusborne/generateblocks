@@ -360,3 +360,23 @@ function generateblocks_get_flexbox_alignment( $value ) {
 
 	return $value;
 }
+
+/**
+ * Get an option from the database.
+ *
+ * @since 0.1
+ */
+function generateblocks_get_option( $option ) {
+	$defaults = generateblocks_get_option_defaults();
+
+	if ( ! isset( $defaults[ $option ] ) ) {
+		return;
+	}
+
+	$options = wp_parse_args(
+		get_option( 'generateblocks', array() ),
+		$defaults
+	);
+
+	return $options[ $option ];
+}

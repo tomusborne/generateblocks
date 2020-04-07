@@ -387,3 +387,14 @@ function generateblocks_get_block_defaults() {
 
 	return apply_filters( 'generateblocks_defaults', $defaults );
 }
+
+/**
+ * Get defaults for our general options.
+ *
+ * @since 0.1
+ */
+function generateblocks_get_option_defaults() {
+	return apply_filters( 'generateblocks_option_defaults', array(
+		'css_print_method' => 'file',
+	) );
+}

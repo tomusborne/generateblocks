@@ -6,7 +6,7 @@
 .gblocks-dashboard-header {
     background: #006eb7;
     color: #fff;
-    padding: 60px;
+    padding: 60px 60px 30px;
 	display: flex;
 	align-items: center;
 }
@@ -17,9 +17,44 @@
 	font-weight: 300;
 }
 
-.settings_page_generateblocks #wpcontent {
+.gblocks-navigation {
+    background: #006eb7;
+    padding: 0 60px;
+}
+
+.gblocks-navigation {
+    background: #006eb7;
+    padding: 0 60px;
+	display: flex;
+}
+
+.gblocks-navigation a {
+    padding: 10px 15px;
+    display: inline-flex;
+    color: #fff;
+    text-decoration: none;
+}
+
+.gblocks-navigation a:first-child {
+	margin-left: -15px;
+}
+
+.gblocks-navigation a.active {
+    background: #fff;
+    color: #006eb7;
+}
+
+.generateblocks_page_generateblocks-settings .gblocks-navigation a.active {
+	background: #f1f1f1;
+}
+
+.toplevel_page_generateblocks #wpcontent {
     padding-left: 0;
     background: #fff;
+}
+
+.generateblocks_page_generateblocks-settings #wpcontent {
+    padding-left: 0;
 }
 
 .gblocks-dashboard-header .gblocks-logo {
@@ -158,4 +193,30 @@
 
 .gblocks-generatepress-content .gblocks-button:hover {
 	color: #000;
+}
+
+.gblocks-settings-content {
+	padding: 60px;
+}
+
+#generateblocks-regenerate-css-files-button {
+    display: flex;
+    align-items: center;
+}
+
+.generateblocks-button-spinner:before {
+    font: normal 20px/.5 dashicons;
+    speak: none;
+    content: "\f463";
+	padding-right: 3px;
+}
+
+.generateblocks-button-spinner.loading:before {
+    -webkit-animation: rotation 1s infinite linear;
+    animation: rotation 1s infinite linear;
+}
+
+.generateblocks-button-spinner.success:before {
+    content: "\f147";
+    color: #46b450;
 }
