@@ -69,11 +69,7 @@ class GenerateBlocks_Enqueue_CSS {
 
 		// Check if we're using file mode or inline mode.
 		// Default to file mode and falback to inline if file mode is not possible.
-		$mode = 'file';
-
-		if ( apply_filters( 'generateblocks_force_inline_css', false ) ) {
-			return 'inline';
-		}
+		$mode = apply_filters( 'generateblocks_css_print_method', 'file' );
 
 		if ( ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) || is_preview() ) {
 			return 'inline';
