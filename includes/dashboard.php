@@ -21,7 +21,7 @@ function generateblocks_register_dashboard() {
 		__( 'GenerateBlocks', 'generateblocks' ),
 		'manage_options',
 		'generateblocks',
-		'generateblocks_do_dashboard',
+		'generateblocks_do_dashboard'
 	);
 
 	add_submenu_page(
@@ -29,7 +29,7 @@ function generateblocks_register_dashboard() {
 		__( 'Dashboard', 'generateblocks' ),
 		__( 'Dashboard', 'generateblocks' ),
 		'manage_options',
-		'generateblocks',
+		'generateblocks'
 	);
 
 	add_action( "admin_print_styles-$dashboard", 'generateblocks_enqueue_dashboard_scripts' );
