@@ -35,7 +35,7 @@ class GenerateBlocks_Settings {
 
 	public function enqueue_scripts() {
 		wp_enqueue_script(
-			'generateblocks',
+			'generateblocks-settings',
 			GENERATEBLOCKS_MODULE_DIR_URL . 'assets/js/scripts.js',
 			array( 'jquery' ),
 			filemtime( GENERATEBLOCKS_MODULE_DIR . 'assets/js/scripts.js' )
