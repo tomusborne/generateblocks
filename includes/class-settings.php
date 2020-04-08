@@ -68,7 +68,13 @@ class GenerateBlocks_Settings {
 
 	public function regenerate_css_files() {
 		check_ajax_referer( 'generateblocks_regenerate_css_files', '_nonce' );
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			wp_send_json_error( __( 'Security check failed.', 'generateblocks' ) );
+		}
+
 		update_option( 'generateblocks_dynamic_css_posts', array() );
+
 		wp_send_json_success();
 	}
 
