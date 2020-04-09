@@ -834,8 +834,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 
 				if ( ! $settings['icon'] ) {
-					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+
+					if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] ) {
+						$defaultBlockStyles = generateblocks_get_default_styles();
+						$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] . 'Margin' ] );
+					}
 				}
 
 				$css->set_selector( '.gb-headline-' . $id . ' a, .gb-headline-' . $id . ' a:visited' );

@@ -398,3 +398,44 @@ function generateblocks_get_option_defaults() {
 		'css_print_method' => 'file',
 	) );
 }
+
+/**
+ * Styles to use in the editor/font-end when needed.
+ *
+ * @since 1.0
+ */
+function generateblocks_get_default_styles() {
+	$defaults = generateblocks_get_block_defaults();
+
+	$defaultBlockStyles = array(
+		'button' => array(
+			'backgroundColor' => $defaults['button']['backgroundColor'] ? $defaults['button']['backgroundColor'] : '#0366d6',
+			'textColor' => $defaults['button']['textColor'] ? $defaults['button']['textColor'] : '#ffffff',
+			'backgroundColorHover' => $defaults['button']['backgroundColorHover'] ? $defaults['button']['backgroundColorHover'] : '#222222',
+			'textColorHover' => $defaults['button']['textColorHover'] ? $defaults['button']['textColorHover'] : '#ffffff',
+			'paddingTop' => $defaults['button']['paddingTop'] ? $defaults['button']['paddingTop'] : '15',
+			'paddingRight' => $defaults['button']['paddingRight'] ? $defaults['button']['paddingRight'] : '20',
+			'paddingBottom' => $defaults['button']['paddingBottom'] ? $defaults['button']['paddingBottom'] : '15',
+			'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20',
+		),
+	);
+
+	if ( function_exists( 'generate_get_default_fonts' ) ) {
+		$font_settings = wp_parse_args(
+			get_option( 'generate_settings', array() ),
+			generate_get_default_fonts()
+		);
+
+		$defaultBlockStyles['headline'] = array(
+			'pMargin' => $font_settings['paragraph_margin'] . 'em',
+			'h1Margin' => $font_settings['heading_1_margin_bottom'] . 'px',
+			'h2Margin' => $font_settings['heading_2_margin_bottom'] . 'px',
+			'h3Margin' => $font_settings['heading_3_margin_bottom'] . 'px',
+			'h4Margin' => '20px',
+			'h5Margin' => '20px',
+			'h6Margin' => '20px',
+		);
+	}
+
+	return apply_filters( 'generateblocks_default_block_styles', $defaultBlockStyles );
+}
