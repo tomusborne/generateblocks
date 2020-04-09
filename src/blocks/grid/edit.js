@@ -277,6 +277,14 @@ class GenerateBlockGridContainer extends Component {
 					</Toolbar>
 				</BlockControls>
 				<InspectorControls>
+					<ResponsiveTabs { ...this.props }
+						selectedDevice={ selectedDevice }
+						onClick={ ( device ) => {
+							this.setState( {
+								selectedDevice: device,
+							} );
+						} }
+					/>
 
 					<PanelBody>
 						{ 'desktop' === selectedDevice && (
@@ -558,14 +566,6 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 					</PanelBody>
-					<ResponsiveTabs { ...this.props }
-						selectedDevice={ selectedDevice }
-						onClick={ ( device ) => {
-							this.setState( {
-								selectedDevice: device,
-							} );
-						} }
-					/>
 
 					{ 'desktop' === selectedDevice &&
 						<PanelBody
