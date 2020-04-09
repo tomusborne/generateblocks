@@ -10,6 +10,10 @@ import TypographyControls from '../../components/typography';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
+import buildCSS from '../../utils/build-css';
+import shorthandCSS from '../../utils/shorthand-css';
+import valueWithUnit from '../../utils/value-with-unit';
+import flexboxAlignment from '../../utils/flexbox-alignment';
 import './markformat';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
@@ -191,42 +195,11 @@ class GenerateBlockHeadline extends Component {
 			ariaLabel,
 		} = attributes;
 
-		let iconFlexDirection = '',
-			iconAlignment = '',
-			headlineWrapperAlignment = '',
-			inlineVerticalAlignment = '',
-			fontFamilyFallbackValue = '',
-			inlineHeadline = '',
-			borderStyleValue = '',
-			marginBottomValue = '',
-			displayUnset = '';
-
-		if ( icon && 'above' === iconLocation ) {
-			iconFlexDirection = 'column';
-			iconAlignment = 'right' === alignment ? 'flex-end' : alignment;
-		}
-
-		if ( icon && 'inline' === iconLocation ) {
-			headlineWrapperAlignment = 'right' === alignment ? 'flex-end' : alignment;
-			inlineVerticalAlignment = iconVerticalAlignment;
-		}
-
-		if ( icon && 'above' === iconLocation ) {
-			headlineWrapperAlignment = 'right' === alignment ? 'flex-end' : alignment;
-			inlineVerticalAlignment = 'right' === alignment ? 'flex-end' : alignment;
-			displayUnset = 'display: unset;';
-		}
+		let fontFamilyFallbackValue = '',
+			marginBottomValue = '';
 
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
-		}
-
-		if ( inlineWidth ) {
-			inlineHeadline = 'display: inline-flex;';
-		}
-
-		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			borderStyleValue = 'solid';
 		}
 
 		if ( marginBottom ) {
@@ -249,93 +222,77 @@ class GenerateBlockHeadline extends Component {
 			}
 		}
 
-		const css = `
-			.editor-styles-wrapper .gb-headline-` + uniqueId + ` {
-				font-family: ` + fontFamily + fontFamilyFallbackValue + `;
-				font-weight: ` + fontWeight + `;
-				text-transform: ` + textTransform + `;
-				text-align: ` + alignment + `;
-				font-size: ` + fontSize + fontSizeUnit + `;
-				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
-				color: ` + textColor + `;
-				line-height: ` + lineHeight + lineHeightUnit + `;
-				letter-spacing: ` + letterSpacing + `em;
-				margin-top: ` + marginTop + marginUnit + ` !important;
-				margin-right: ` + marginRight + marginUnit + `;
-				margin-bottom: ` + marginBottomValue + ` !important;
-				margin-left: ` + marginLeft + marginUnit + `;
-				padding-top: ` + paddingTop + paddingUnit + `;
-				padding-right: ` + paddingRight + paddingUnit + `;
-				padding-bottom: ` + paddingBottom + paddingUnit + `;
-				padding-left: ` + paddingLeft + paddingUnit + `;
-				` + inlineHeadline + `
-				border-width: 0;
-				border-top-width: ` + borderSizeTop + `px;
-				border-right-width: ` + borderSizeRight + `px;
-				border-bottom-width: ` + borderSizeBottom + `px;
-				border-left-width: ` + borderSizeLeft + `px;
-				border-style: ` + borderStyleValue + `;
-				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
-			}
+		let cssObj = [];
 
-			.editor-styles-wrapper .gb-headline-` + uniqueId + ` a {
-				color: ` + linkColor + `;
-			}
+		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
+			'font-family' : fontFamily + fontFamilyFallbackValue,
+			'font-weight' : fontWeight,
+			'text-transform' : textTransform,
+			'text-align' : alignment,
+			'font-size' : valueWithUnit( fontSize, fontSizeUnit ),
+			'line-height': valueWithUnit( lineHeight, lineHeightUnit ),
+			'letter-spacing' : valueWithUnit( letterSpacing, 'em' ),
+		} ];
 
-			.gb-headline-wrapper-` + uniqueId + ` .gb-icon {
-				padding-top: ` + iconPaddingTop + iconPaddingUnit + `;
-				padding-right: ` + iconPaddingRight + iconPaddingUnit + `;
-				padding-bottom: ` + iconPaddingBottom + iconPaddingUnit + `;
-				padding-left: ` + iconPaddingLeft + iconPaddingUnit + `;
-				align-self: ` + iconAlignment + `;
-				` + displayUnset + `
-				color: ` + hexToRGBA( iconColor, iconColorOpacity ) + `;
-				font-size: ` + fontSize + fontSizeUnit + `;
-			}
+		cssObj[ '.gb-headline-wrapper-' + uniqueId ] = [ {
+			'flex-direction': icon && 'above' === iconLocation ? 'column' : false,
+			'justify-content': flexboxAlignment( alignment ),
+			'text-align': alignment,
+			'align-items': 'inline' === iconLocation ? iconVerticalAlignment : flexboxAlignment( alignment ),
+		} ];
 
-			.gb-headline-wrapper-` + uniqueId + ` .gb-icon svg {
-				width: ` + iconSize + `em;
-				height: ` + iconSize + `em;
-			}
+		let headlineStyleSelector = '.editor-styles-wrapper .gb-headline-' + uniqueId;
 
-			.gb-headline-wrapper-` + uniqueId + ` {
-				flex-direction: ` + iconFlexDirection + `;
-				justify-content: ` + headlineWrapperAlignment + `;
-				text-align: ` + alignment + `;
-				align-items: ` + inlineVerticalAlignment + `;
-				margin-top: ` + marginTop + marginUnit + ` !important;
-				margin-right: ` + marginRight + marginUnit + `;
-				margin-bottom: ` + marginBottom + marginUnit + ` !important;
-				margin-left: ` + marginLeft + marginUnit + `;
-				padding-top: ` + paddingTop + paddingUnit + `;
-				padding-right: ` + paddingRight + paddingUnit + `;
-				padding-bottom: ` + paddingBottom + paddingUnit + `;
-				padding-left: ` + paddingLeft + paddingUnit + `;
-				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
-				color: ` + textColor + `;
-				` + inlineHeadline + `
-				border-width: 0;
-				border-top-width: ` + borderSizeTop + `px;
-				border-right-width: ` + borderSizeRight + `px;
-				border-bottom-width: ` + borderSizeBottom + `px;
-				border-left-width: ` + borderSizeLeft + `px;
-				border-style: ` + borderStyleValue + `;
-				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
-			}
+		if ( icon ) {
+			headlineStyleSelector = '.gb-headline-wrapper-' + uniqueId;
+		}
 
-			.gb-headline-` + uniqueId + ` .gb-highlight {
-				color: ` + highlightTextColor + `;
-			}
+		cssObj[ headlineStyleSelector ].push( {
+			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
+			'color': textColor,
+			'display': inlineWidth ? 'inline-flex' : false,
+			'margin': shorthandCSS( marginTop, marginRight, marginBottomValue, marginLeft, marginUnit ) + ' !important',
+			'margin-bottom': marginBottomValue + ' !important', // The unit changes depending on the element if no value exists.
+			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
+		} );
 
-			#block-` + clientId + ` {
-				` + inlineHeadline + `
-			}
-		`
+		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
+			cssObj[ headlineStyleSelector ].push( {
+				'border-width' : shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
+				'border-style' : 'solid',
+				'border-color' : hexToRGBA( borderColor, borderColorOpacity )
+			} );
+		}
+
+		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId + ' a' ] = [ {
+			'color' : linkColor,
+		} ];
+
+		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon' ] = [ {
+			'padding': shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ),
+			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
+			'color': hexToRGBA( iconColor, iconColorOpacity ),
+			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
+			'display': icon && 'above' === iconLocation ? 'unset' : false
+		} ];
+
+		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
+			'width': valueWithUnit( iconSize, 'em' ),
+			'height': valueWithUnit( iconSize, 'em' )
+		} ];
+
+		cssObj[ '.gb-headline-` + uniqueId + ` .gb-highlight' ] = [ {
+			'color': highlightTextColor
+		} ];
 
 		const sanitizeSVG = ( svg ) => {
 			return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
 		}
+		cssObj[ '#block-' + clientId ] = [ {
+			'display': inlineWidth ? 'inline-flex' : false
+		} ];
 
+		const css = buildCSS( cssObj );
 		const googleFontsAttr = ':100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic';
 
 		return (
