@@ -95,7 +95,7 @@ class GenerateButtonContainer extends Component {
 			const childBlocks = thisBlock.innerBlocks;
 
 			if ( 0 === childBlocks.length ) {
-				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, this.props.clientId );
+				wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, this.props.clientId );
 			}
 		}
 	}
@@ -166,7 +166,7 @@ class GenerateButtonContainer extends Component {
 												wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
 											}
 										} else if ( 0 === childBlocks.length ) {
-											wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+											wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
 										}
 									}
 								} }
@@ -384,7 +384,7 @@ class GenerateButtonContainer extends Component {
 									className="gblocks-add-new-button gblocks-button-container-appender"
 									icon={ 'insert' }
 									onClick={ () => {
-										wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+										wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
 									} }
 								/>
 							</Tooltip>

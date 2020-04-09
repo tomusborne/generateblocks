@@ -7,7 +7,8 @@ import getIcon from '../../utils/get-icon';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+const { __ } = wp.i18n;
+
 const {
 	TextControl,
 	PanelBody,
@@ -35,11 +36,6 @@ const {
 const {
 	createBlock,
 } = wp.blocks;
-
-const {
-    withSelect,
-    withDispatch,
-} = wp.data;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbGridIds = [];
@@ -90,12 +86,11 @@ class GenerateBlockGridContainer extends Component {
             columns,
         } = attributes;
 
-        // update columns number
         if ( this.state.selectedLayout ) {
             const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
 
 			columnsData.forEach( ( colAttrs ) => {
-				wp.data.dispatch( 'core/block-editor' ).insertBlocks( wp.blocks.createBlock( 'generateblocks/container', colAttrs ), undefined, clientId, false );
+				wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/container', colAttrs ), undefined, clientId, false );
 			} );
 
 			columns = columnsData.length;
@@ -221,10 +216,7 @@ class GenerateBlockGridContainer extends Component {
 		const {
 			attributes,
 			setAttributes,
-			toggleSelection,
-			instanceId,
 			clientId,
-			isSelected,
 		} = this.props;
 
 		const {
@@ -232,7 +224,6 @@ class GenerateBlockGridContainer extends Component {
         } = this.state;
 
 		const {
-			count,
 			uniqueId,
 			elementId,
 			cssClasses,
@@ -261,7 +252,7 @@ class GenerateBlockGridContainer extends Component {
 								icon={ getIcon( 'addContainer' ) }
 								onClick={ () => {
 									wp.data.dispatch( 'core/block-editor' ).insertBlocks(
-										wp.blocks.createBlock( 'generateblocks/container', {
+										createBlock( 'generateblocks/container', {
 											isGrid: true,
 											paddingTop: '',
 											paddingRight: '',
