@@ -13,6 +13,7 @@ import GradientControl from '../../components/gradient/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
 import DesktopCSS from './css/desktop.js';
+import sanitizeSVG from '../../utils/sanitize-svg';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -210,10 +211,6 @@ class GenerateBlockButton extends Component {
 		jQuery( '.gb-button' ).on( 'click', function( e ) {
 			e.preventDefault();
 		} );
-
-		const sanitizeSVG = ( svg ) => {
-			return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
-		}
 
 		const relAttributes = [];
 

@@ -3,6 +3,7 @@
  */
 
 import classnames from 'classnames';
+import sanitizeSVG from '../../utils/sanitize-svg';
 
 const {
 	RichText
@@ -20,10 +21,6 @@ export default ( { attributes } ) => {
 		removeText,
 		ariaLabel,
 	} = attributes;
-
-	const sanitizeSVG = ( svg ) => {
-		return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
-	}
 
 	const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
 

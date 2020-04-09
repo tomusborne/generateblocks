@@ -9,6 +9,7 @@ import classnames from 'classnames';
 import './editor.scss';
 import socialSvgs from './svgs-social';
 import generalSvgs from './svgs-general';
+import sanitizeSVG from '../../utils/sanitize-svg';
 
 /**
  * WordPress dependencies
@@ -64,10 +65,6 @@ class IconPicker extends Component {
 			attrRemoveText,
 			attrAriaLabel,
 		} = this.props;
-
-		const sanitizeSVG = ( svg ) => {
-			return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
-		}
 
 		return (
 			<Fragment>
