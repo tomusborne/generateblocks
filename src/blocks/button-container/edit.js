@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
+import DesktopCSS from './css/desktop.js';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -138,71 +139,6 @@ class GenerateButtonContainer extends Component {
 			fillHorizontalSpaceTablet,
 			fillHorizontalSpaceMobile,
 		} = attributes;
-
-		let flexAlignment = '',
-			stacked = '',
-			fillHorizontal = '',
-			stackAndFill = '';
-
-		if ( 'right' === alignment ) {
-			flexAlignment = 'flex-end';
-		} else if ( 'left' === alignment ) {
-			flexAlignment = 'flex-start';
-		} else {
-			flexAlignment = alignment;
-		}
-
-		if ( stack ) {
-			stacked = `
-				.gb-button-wrapper-` + uniqueId + ` {
-					flex-direction: column;
-					align-items: ` + flexAlignment + `;
-				}
-
-				.gb-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout {
-					flex-direction: column;
-				}
-			`
-		}
-
-		if ( fillHorizontalSpace ) {
-			fillHorizontal = `
-				.gb-button-wrapper-` + uniqueId + ` {
-					display: block;
-				}
-
-				.gb-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
-					flex: 1;
-				}
-
-				.gb-button-wrapper-` + uniqueId + ` > .components-button {
-					background: #fff;
-					border: 1px solid #ddd;
-					margin-top: 10px;
-				}
-			`
-		}
-
-		if ( stack && fillHorizontalSpace ) {
-			stackAndFill = `
-				.gb-button-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
-					width: 100% !important;
-					box-sizing: border-box;
-				}
-			`
-		}
-
-		const css = `
-			.gb-button-wrapper-` + uniqueId + ` {
-			  margin-top: ` + marginTop + marginUnit + `;
-			  margin-right: ` + marginRight + marginUnit + `;
-			  margin-bottom: ` + marginBottom + marginUnit + `;
-			  margin-left: ` + marginLeft + marginUnit + `;
-			  justify-content: ` + flexAlignment + `;
-			}
-
-			` + stacked + fillHorizontal + stackAndFill + `
-		`
 
 		return (
 			<Fragment>
@@ -430,7 +366,7 @@ class GenerateButtonContainer extends Component {
 					</PanelBody>
 				</InspectorControls>
 
-				<style>{ css }</style>
+				<DesktopCSS { ...this.props } />
 
 				<div
 					id={ !! elementId ? elementId : undefined }

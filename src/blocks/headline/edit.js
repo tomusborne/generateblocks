@@ -4,17 +4,13 @@
 
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
-import hexToRGBA from '../../components/color-picker/hex-to-rgba';
 import IconPicker from '../../components/icon-picker';
 import TypographyControls from '../../components/typography';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
-import buildCSS from '../../utils/build-css';
-import shorthandCSS from '../../utils/shorthand-css';
-import valueWithUnit from '../../utils/value-with-unit';
 import sanitizeSVG from '../../utils/sanitize-svg';
-import flexboxAlignment from '../../utils/flexbox-alignment';
+import DesktopCSS from './css/desktop.js';
 import './markformat';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
@@ -196,101 +192,6 @@ class GenerateBlockHeadline extends Component {
 			ariaLabel,
 		} = attributes;
 
-		let fontFamilyFallbackValue = '',
-			marginBottomValue = '';
-
-		if ( fontFamily && fontFamilyFallback ) {
-			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
-		}
-
-		if ( marginBottom ) {
-			marginBottomValue = marginBottom + marginUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
-			if ( 'p' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.paragraphMargin;
-			} else if ( 'h1' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h1Margin;
-			} else if ( 'h2' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h2Margin;
-			} else if ( 'h3' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h3Margin;
-			} else if ( 'h4' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h4Margin;
-			} else if ( 'h5' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h5Margin;
-			} else if ( 'h6' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h6Margin;
-			}
-		}
-
-		let cssObj = [];
-
-		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
-			'font-family' : fontFamily + fontFamilyFallbackValue,
-			'font-weight' : fontWeight,
-			'text-transform' : textTransform,
-			'text-align' : alignment,
-			'font-size' : valueWithUnit( fontSize, fontSizeUnit ),
-			'line-height': valueWithUnit( lineHeight, lineHeightUnit ),
-			'letter-spacing' : valueWithUnit( letterSpacing, 'em' ),
-		} ];
-
-		cssObj[ '.gb-headline-wrapper-' + uniqueId ] = [ {
-			'flex-direction': icon && 'above' === iconLocation ? 'column' : false,
-			'justify-content': flexboxAlignment( alignment ),
-			'text-align': alignment,
-			'align-items': 'inline' === iconLocation ? iconVerticalAlignment : flexboxAlignment( alignment ),
-		} ];
-
-		let headlineStyleSelector = '.editor-styles-wrapper .gb-headline-' + uniqueId;
-
-		if ( icon ) {
-			headlineStyleSelector = '.gb-headline-wrapper-' + uniqueId;
-		}
-
-		cssObj[ headlineStyleSelector ].push( {
-			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
-			'color': textColor,
-			'display': inlineWidth ? 'inline-flex' : false,
-			'margin': shorthandCSS( marginTop, marginRight, marginBottomValue, marginLeft, marginUnit ) + ' !important',
-			'margin-bottom': marginBottomValue + ' !important', // The unit changes depending on the element if no value exists.
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
-		} );
-
-		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			cssObj[ headlineStyleSelector ].push( {
-				'border-width' : shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
-				'border-style' : 'solid',
-				'border-color' : hexToRGBA( borderColor, borderColorOpacity )
-			} );
-		}
-
-		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId + ' a' ] = [ {
-			'color' : linkColor,
-		} ];
-
-		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon' ] = [ {
-			'padding': shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ),
-			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
-			'color': hexToRGBA( iconColor, iconColorOpacity ),
-			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
-			'display': icon && 'above' === iconLocation ? 'unset' : false
-		} ];
-
-		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
-			'width': valueWithUnit( iconSize, 'em' ),
-			'height': valueWithUnit( iconSize, 'em' )
-		} ];
-
-		cssObj[ '.gb-headline-` + uniqueId + ` .gb-highlight' ] = [ {
-			'color': highlightTextColor
-		} ];
-
-		cssObj[ '#block-' + clientId ] = [ {
-			'display': inlineWidth ? 'inline-flex' : false
-		} ];
-
-		const css = buildCSS( cssObj );
 		const googleFontsAttr = ':100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic';
 
 		return (
@@ -948,7 +849,7 @@ class GenerateBlockHeadline extends Component {
 					</PanelBody>
 				</InspectorControls>
 
-				<style>{ css }</style>
+				<DesktopCSS { ...this.props } />
 
 				{ fontFamily && googleFont &&
 					<link

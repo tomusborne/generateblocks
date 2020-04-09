@@ -5,6 +5,7 @@
 import classnames from 'classnames';
 import getIcon from '../../utils/get-icon';
 import ResponsiveTabs from '../../components/responsive-tabs';
+import DesktopCSS from './css/desktop.js';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -249,21 +250,6 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentTablet,
 			horizontalAlignmentMobile,
 		} = attributes;
-
-		const css = `
-			.gb-grid-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout {
-				align-items: ` + verticalAlignment + `;
-				justify-content: ` + horizontalAlignment + `;
-				margin-left: -` + ( horizontalGap / 2 ) + `px;
-				margin-right: -` + ( horizontalGap / 2 ) + `px;
-			}
-
-			.gb-grid-wrapper-` + uniqueId + ` > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
-				padding-left: ` + ( horizontalGap / 2 ) + `px;
-				padding-right: ` + ( horizontalGap / 2 ) + `px;
-				margin-bottom: ` + verticalGap + `px;
-			}
-		`
 
 		return (
 			<Fragment>
@@ -616,7 +602,7 @@ class GenerateBlockGridContainer extends Component {
 					</PanelBody>
 				</InspectorControls>
 
-				<style>{ css }</style>
+				<DesktopCSS { ...this.props } />
 
 				<div
 					id={ !! elementId ? elementId : undefined }

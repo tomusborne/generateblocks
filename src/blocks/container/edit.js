@@ -4,7 +4,6 @@
 
 import Section from './section-tag';
 import ColorPicker from '../../components/color-picker';
-import hexToRGBA from '../../components/color-picker/hex-to-rgba';
 import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
@@ -12,6 +11,7 @@ import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 import ApplyFilters from '../../components/apply-filters/';
 import ResponsiveTabs from '../../components/responsive-tabs';
+import DesktopCSS from './css/desktop.js';
 
 const { __, _x } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -229,175 +229,6 @@ class GenerateBlockContainer extends Component {
 			textTransform,
 			fullWidthContent,
 		} = attributes;
-
-		let backgroundImageValue,
-			gradientColorStopOneValue = '',
-			gradientColorStopTwoValue = '';
-
-		if ( gradient ) {
-			if ( gradientColorOne && '' !== gradientColorStopOne ) {
-				gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
-			}
-
-			if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
-				gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
-			}
-		}
-
-		if ( bgImage ) {
-			backgroundImageValue = 'url(' + bgImage.image.url + ')';
-
-			if ( bgOptions.overlay ) {
-				if ( gradient ) {
-					backgroundImageValue = 'linear-gradient(' + gradientDirection + 'deg, ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + '), url(' + bgImage.image.url + ')';
-				} else {
-					backgroundImageValue = 'linear-gradient(0deg, ' + hexToRGBA( backgroundColor, backgroundColorOpacity ) + ', ' + hexToRGBA( backgroundColor, backgroundColorOpacity ) + '), url(' + bgImage.image.url + ')';
-				}
-			}
-		} else if ( gradient ) {
-			backgroundImageValue = 'linear-gradient(' + gradientDirection + 'deg, ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + ');';
-		}
-
-		var outerContainerWidth = '';
-		var innerContainerWidth = '';
-		var containerWidthPreview = containerWidth;
-
-		if ( ! containerWidthPreview ) {
-			containerWidthPreview = generateBlocksDefaults.container.containerWidth;
-		}
-
-		if ( 'full' === outerContainer || isGrid ) {
-			outerContainerWidth = 'none';
-		} else {
-			outerContainerWidth = containerWidthPreview + 'px';
-		}
-
-		if ( 'full' === innerContainer || isGrid ) {
-			innerContainerWidth = 'none';
-		} else {
-			innerContainerWidth = 'max-width:' + containerWidthPreview + 'px;margin-left: auto;margin-right:auto;';
-		}
-
-		var borderStyleValue = '';
-
-		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			borderStyleValue = 'solid';
-		}
-
-		var removeVerticalGapStyle = '';
-
-		if ( removeVerticalGap ) {
-			removeVerticalGapStyle = 'margin-bottom: 0 !important';
-		}
-
-		var zIndexStyle = '';
-
-		if ( zindex ) {
-			zIndexStyle = 'z-index:' + zindex + ';position:relative;';
-		}
-
-		let fontFamilyFallbackValue = '';
-
-		if ( fontFamily && fontFamilyFallback ) {
-			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
-		}
-
-		let minHeightCSS = '',
-			minHeightInnerWidth = '';
-
-		if ( minHeight && ! isGrid ) {
-			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';display: flex;flex-direction: row;align-items:' + verticalAlignment + ';';
-			minHeightInnerWidth = 'width: 100%';
-		} else if ( minHeight ) {
-			minHeightCSS = 'min-height: ' + minHeight + minHeightUnit + ';';
-		}
-
-		const css = `
-			.gb-container-` + uniqueId + ` {
-				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
-				color: ` + textColor + `;
-		  		background-image: ` + backgroundImageValue + `;
-		  		background-size: ` + bgOptions.size + `;
-		  		background-position: ` + bgOptions.position + `;
-				background-repeat: ` + bgOptions.repeat + `;
-				background-attachment: ` + bgOptions.attachment + `;
-				border-top-left-radius: ` + borderRadiusTopLeft + borderRadiusUnit + `;
-				border-top-right-radius: ` + borderRadiusTopRight + borderRadiusUnit + `;
-				border-bottom-right-radius: ` + borderRadiusBottomRight + borderRadiusUnit + `;
-				border-bottom-left-radius: ` + borderRadiusBottomLeft + borderRadiusUnit + `;
-				border-width: 0;
-				border-top-width: ` + borderSizeTop + `px;
-				border-right-width: ` + borderSizeRight + `px;
-				border-bottom-width: ` + borderSizeBottom + `px;
-				border-left-width: ` + borderSizeLeft + `px;
-				border-style: ` + borderStyleValue + `;
-				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
-				` + minHeightCSS + `
-				margin-top: ` + marginTop + marginUnit + `;
-				margin-right: ` + marginRight + marginUnit + `;
-				margin-bottom: ` + marginBottom + marginUnit + `;
-				margin-left: ` + marginLeft + marginUnit + `;
-				` + zIndexStyle + `;
-				text-align: ` + alignment + `;
-				font-family: ` + fontFamily + fontFamilyFallbackValue + `;
-				font-weight: ` + fontWeight + `;
-				text-transform: ` + textTransform + `;
-				text-align: ` + alignment + `;
-				font-size: ` + fontSize + fontSizeUnit + `;
-			}
-
-			.gb-container-` + uniqueId + ` a, .gb-container-` + uniqueId + ` a:visited {
-			  color: ` + linkColor + `;
-			}
-
-			.gb-container-` + uniqueId + ` a:hover {
-			  color: ` + linkColorHover + `;
-			}
-
-			.gb-container-` + uniqueId + ` > .gb-inside-container {
-			  padding-top: ` + paddingTop + paddingUnit + `;
-			  padding-right: ` + paddingRight + paddingUnit + `;
-			  padding-bottom: ` + paddingBottom + paddingUnit + `;
-			  padding-left: ` + paddingLeft + paddingUnit + `;
-			  ` + innerContainerWidth + `;
-			  ` + minHeightInnerWidth + `;
-			}
-
-			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` {
-				width: ` + width + `%;
-				display: flex;
-				flex-direction: column;
-				margin-left: 0;
-				margin-right: 0;
-			}
-
-			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .gb-grid-column {
-				height: 100%;
-			}
-
-			.block-editor-block-list__layout > #block-` + clientId + ` {
-				max-width: ` + outerContainerWidth + `;
-				` + removeVerticalGapStyle + `
-			}
-
-			.gb-grid-column > .gb-container-` + uniqueId + ` {
-				display: flex;
-				flex-direction: column;
-				height: 100%;
-				justify-content: ` + verticalAlignment + `;
-			}
-
-			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
-			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"],
-			.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"] > .gb-grid-column {
-				height: 100%;
-			}
-
-			#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),
-			#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-editor-block-list__layout > div:not(:first-child) > .block-list-appender {
-				display: none;
-			}
-		`
 
 		const minHeightUnits = [
 			{
@@ -1495,7 +1326,7 @@ class GenerateBlockContainer extends Component {
 					</PanelBody>
 				</InspectorControls>
 
-				<style>{ css }</style>
+				<DesktopCSS { ...this.props } />
 
 				{ !! isGrid && (
 					<div className={ classnames( {

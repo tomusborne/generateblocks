@@ -12,6 +12,7 @@ import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
+import DesktopCSS from './css/desktop.js';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -205,89 +206,6 @@ class GenerateBlockButton extends Component {
 			iconSizeTablet,
 			iconSizeMobile,
 		} = attributes;
-
-		let borderStyleValue = '',
-			removeIconPadding = '',
-			fontFamilyFallbackValue = '',
-			backgroundImageValue,
-			gradientColorStopOneValue = '',
-			gradientColorStopTwoValue = '';
-
-		if ( gradient ) {
-			if ( gradientColorOne && '' !== gradientColorStopOne ) {
-				gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
-			}
-
-			if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
-				gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
-			}
-		}
-
-		if ( gradient ) {
-			backgroundImageValue = 'linear-gradient(' + gradientDirection + 'deg, ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + ');';
-		}
-
-		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			borderStyleValue = 'solid';
-		}
-
-		if ( fontFamily && fontFamilyFallback ) {
-			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
-		}
-
-		if ( removeText ) {
-			removeIconPadding = 'padding: 0;';
-		}
-
-		const css = `
-			.block-editor-block-list__block a.gb-button-` + uniqueId + ` {
-				background-color: ` + hexToRGBA( backgroundColor, backgroundColorOpacity ) + `;
-				background-image: ` + backgroundImageValue + `;
-				color: ` + textColor + `;
-				padding-top: ` + paddingTop + paddingUnit + `;
-				padding-right: ` + paddingRight + paddingUnit + `;
-				padding-bottom: ` + paddingBottom + paddingUnit + `;
-				padding-left: ` + paddingLeft + paddingUnit + `;
-				border-top-left-radius: ` + borderRadiusTopLeft + borderRadiusUnit + `;
-				border-top-right-radius: ` + borderRadiusTopRight + borderRadiusUnit + `;
-				border-bottom-right-radius: ` + borderRadiusBottomRight + borderRadiusUnit + `;
-				border-bottom-left-radius: ` + borderRadiusBottomLeft + borderRadiusUnit + `;
-				font-family: ` + fontFamily + fontFamilyFallbackValue + `;
-				font-weight: ` + fontWeight + `;
-				text-transform: ` + textTransform + `;
-				font-size: ` + fontSize + fontSizeUnit + `;
-				letter-spacing: ` + letterSpacing + `em;
-				border-width: 0;
-				border-top-width: ` + borderSizeTop + `px;
-				border-right-width: ` + borderSizeRight + `px;
-				border-bottom-width: ` + borderSizeBottom + `px;
-				border-left-width: ` + borderSizeLeft + `px;
-				border-style: ` + borderStyleValue + `;
-				border-color: ` + hexToRGBA( borderColor, borderColorOpacity ) + `;
-				text-transform: ` + textTransform + `;
-				margin-top: ` + marginTop + marginUnit + `;
-				margin-right: ` + marginRight + marginUnit + `;
-				margin-bottom: ` + marginBottom + marginUnit + `;
-				margin-left: ` + marginLeft + marginUnit + `;
-			}
-
-			.block-editor-block-list__block a.gb-button-` + uniqueId + `:hover,
-			.block-editor-block-list__block a.gb-button-` + uniqueId + `:focus,
-			.block-editor-block-list__block a.gb-button-` + uniqueId + `:active {
-				background-color: ` + hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ) + `;
-				color: ` + textColorHover + `;
-				border-color: ` + hexToRGBA( borderColorHover, borderColorHoverOpacity ) + `;
-			}
-
-			.block-editor-block-list__block a.gb-button-` + uniqueId + ` .gb-icon {
-				padding-top: ` + iconPaddingTop + iconPaddingUnit + `;
-				padding-right: ` + iconPaddingRight + iconPaddingUnit + `;
-				padding-bottom: ` + iconPaddingBottom + iconPaddingUnit + `;
-				padding-left: ` + iconPaddingLeft + iconPaddingUnit + `;
-				` + removeIconPadding + `
-				font-size: ` + iconSize + `em;
-			}
-		`
 
 		jQuery( '.gb-button' ).on( 'click', function( e ) {
 			e.preventDefault();
@@ -875,7 +793,7 @@ class GenerateBlockButton extends Component {
 					</PanelBody>
 				</InspectorControls>
 
-				<style>{ css }</style>
+				<DesktopCSS { ...this.props } />
 
 				{ fontFamily && googleFont &&
 					<link
