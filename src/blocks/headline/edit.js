@@ -13,6 +13,7 @@ import getIcon from '../../utils/get-icon';
 import buildCSS from '../../utils/build-css';
 import shorthandCSS from '../../utils/shorthand-css';
 import valueWithUnit from '../../utils/value-with-unit';
+import sanitizeSVG from '../../utils/sanitize-svg';
 import flexboxAlignment from '../../utils/flexbox-alignment';
 import './markformat';
 
@@ -285,9 +286,6 @@ class GenerateBlockHeadline extends Component {
 			'color': highlightTextColor
 		} ];
 
-		const sanitizeSVG = ( svg ) => {
-			return DOMPurify.sanitize( svg, { USE_PROFILES: { svg: true, svgFilters: true } } );
-		}
 		cssObj[ '#block-' + clientId ] = [ {
 			'display': inlineWidth ? 'inline-flex' : false
 		} ];
