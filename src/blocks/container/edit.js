@@ -11,6 +11,7 @@ import DimensionsControl from '../../components/dimensions/';
 import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 import ApplyFilters from '../../components/apply-filters/';
+import ResponsiveTabs from '../../components/responsive-tabs';
 
 const { __, _x } = wp.i18n; // Import __() from wp.i18n
 const {
@@ -455,49 +456,14 @@ class GenerateBlockContainer extends Component {
 		return (
 			<Fragment>
 				<InspectorControls>
-					<div className="gb-responsive-tabs">
-						<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) }>
-							<Button
-								isLarge
-								isPressed={ 'desktop' === selectedDevice ? true : false }
-								onClick={ () => {
-									this.setState( {
-										selectedDevice: 'desktop',
-									} );
-								} }
-							>
-								{ __( 'Desktop', 'generateblocks' ) }
-							</Button>
-						</Tooltip>
-
-						<Tooltip text={ __( 'Show options for tablet devices' ) }>
-							<Button
-								isLarge
-								isPressed={ 'tablet' === selectedDevice ? true : false }
-								onClick={ () => {
-									this.setState( {
-										selectedDevice: 'tablet',
-									} );
-								} }
-							>
-								{ __( 'Tablet', 'generateblocks' ) }
-							</Button>
-						</Tooltip>
-
-						<Tooltip text={ __( 'Show options for mobile devices' ) }>
-							<Button
-								isLarge
-								isPressed={ 'mobile' === selectedDevice ? true : false }
-								onClick={ () => {
-									this.setState( {
-										selectedDevice: 'mobile',
-									} );
-								} }
-							>
-								{ __( 'Mobile', 'generateblocks' ) }
-							</Button>
-						</Tooltip>
-					</div>
+					<ResponsiveTabs { ...this.props }
+						selectedDevice={ selectedDevice }
+						onClick={ ( device ) => {
+							this.setState( {
+								selectedDevice: device,
+							} );
+						} }
+					/>
 
 					{ ! isGrid && 'desktop' === selectedDevice && (
 						<PanelBody>

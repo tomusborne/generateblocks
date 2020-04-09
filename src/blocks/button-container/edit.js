@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
+import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
@@ -247,49 +248,14 @@ class GenerateButtonContainer extends Component {
 				</BlockControls>
 
 				<InspectorControls>
-					<div className="gb-responsive-tabs">
-						<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) }>
-							<Button
-								isLarge
-								isPressed={ 'desktop' === selectedDevice ? true : false }
-								onClick={ () => {
-									this.setState( {
-										selectedDevice: 'desktop',
-									} );
-								} }
-							>
-								{ __( 'Desktop', 'generateblocks' ) }
-							</Button>
-						</Tooltip>
-
-						<Tooltip text={ __( 'Show options for tablet devices' ) }>
-							<Button
-								isLarge
-								isPressed={ 'tablet' === selectedDevice ? true : false }
-								onClick={ () => {
-									this.setState( {
-										selectedDevice: 'tablet',
-									} );
-								} }
-							>
-								{ __( 'Tablet', 'generateblocks' ) }
-							</Button>
-						</Tooltip>
-
-						<Tooltip text={ __( 'Show options for mobile devices' ) }>
-							<Button
-								isLarge
-								isPressed={ 'mobile' === selectedDevice ? true : false }
-								onClick={ () => {
-									this.setState( {
-										selectedDevice: 'mobile',
-									} );
-								} }
-							>
-								{ __( 'Mobile', 'generateblocks' ) }
-							</Button>
-						</Tooltip>
-					</div>
+					<ResponsiveTabs { ...this.props }
+						selectedDevice={ selectedDevice }
+						onClick={ ( device ) => {
+							this.setState( {
+								selectedDevice: device,
+							} );
+						} }
+					/>
 
 					<PanelBody
 						title={ __( 'Spacing', 'generateblocks' ) }

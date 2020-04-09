@@ -109,33 +109,3 @@ $item-spacing: 10px !default;
 .gblocks-block-control-icon svg path {
     fill: inherit !important;
 }
-
-.gb-responsive-tabs {
-    position: sticky;
-    top: 0;
-    background: #fff;
-    border-top: 1px solid #e2e4e7;
-    border-bottom: 1px solid #e2e4e7;
-    z-index: 10;
-    display: flex;
-
-	button {
-	    flex-grow: 1;
-	    justify-content: center;
-	    padding: 10px;
-	    height: unset;
-	    border-radius: unset;
-	    outline: 0 !important;
-
-		&.is-pressed:not(:disabled),
-		&:focus:not(:disabled) {
-			box-shadow: unset;
-		    background: #007cba;
-		    color: #fff;
-		}
-	}
-}
-
-.block-editor-block-inspector .gb-responsive-tabs + .components-panel__body {
-    border-top: 0;
-}
