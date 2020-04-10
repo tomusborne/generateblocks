@@ -705,10 +705,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'color', $settings['textColorHover'] );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
-				if ( $settings['icon'] && ! $settings['removeText'] ) {
+				if ( $settings['icon'] ) {
 					$css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
 					$css->add_property( 'font-size', $settings['iconSize'], 'em' );
-					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+
+					if ( ! $settings['removeText'] ) {
+						$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+					}
 				}
 
 				$tablet_css->set_selector( '.gb-button-wrapper a.gb-button-' . $id );
@@ -719,10 +722,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'], $settings['marginUnit'] ) );
 				$tablet_css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'], 'px' ) );
 
-				if ( $settings['icon'] && ! $settings['removeText'] ) {
+				if ( $settings['icon'] ) {
 					$tablet_css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
 					$tablet_css->add_property( 'font-size', $settings['iconSizeTablet'], 'em' );
-					$tablet_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'], $settings['iconPaddingUnit'] ) );
+
+					if ( ! $settings['removeText'] ) {
+						$tablet_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'], $settings['iconPaddingUnit'] ) );
+					}
 				}
 
 				$mobile_css->set_selector( '.gb-button-wrapper a.gb-button-' . $id );
@@ -733,10 +739,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'], $settings['marginUnit'] ) );
 				$mobile_css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'], 'px' ) );
 
-				if ( $settings['icon'] && ! $settings['removeText'] ) {
+				if ( $settings['icon'] ) {
 					$mobile_css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
 					$mobile_css->add_property( 'font-size', $settings['iconSizeMobile'], 'em' );
-					$mobile_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'], $settings['iconPaddingUnit'] ) );
+
+					if ( ! $settings['removeText'] ) {
+						$mobile_css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'], $settings['iconPaddingUnit'] ) );
+					}
 				}
 			}
 
