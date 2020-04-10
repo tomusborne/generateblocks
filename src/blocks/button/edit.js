@@ -265,56 +265,58 @@ class GenerateBlockButton extends Component {
 						} }
 					/>
 
-					<PanelBody
-						title={ __( 'Typography', 'generateblocks' ) }
-						initialOpen={ true }
-						icon={ getIcon( 'typography' ) }
-						className={ 'gblocks-panel-label' }
-						>
+					{ ! removeText &&
+						<PanelBody
+							title={ __( 'Typography', 'generateblocks' ) }
+							initialOpen={ true }
+							icon={ getIcon( 'typography' ) }
+							className={ 'gblocks-panel-label' }
+							>
 
-							{ 'desktop' === selectedDevice && (
-								<Fragment>
-									<TypographyControls { ...this.props }
-										showFontFamily={ true }
-										showFontWeight={ true }
-										showTextTransform={ true }
-										showFontSize={ true }
-										showLetterSpacing={ true }
-										defaultFontSize={ generateBlocksDefaults.button.fontSize }
-										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
-									/>
-								</Fragment>
-							) }
+								{ 'desktop' === selectedDevice && (
+									<Fragment>
+										<TypographyControls { ...this.props }
+											showFontFamily={ true }
+											showFontWeight={ true }
+											showTextTransform={ true }
+											showFontSize={ true }
+											showLetterSpacing={ true }
+											defaultFontSize={ generateBlocksDefaults.button.fontSize }
+											defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+											defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
+										/>
+									</Fragment>
+								) }
 
-							{ 'tablet' === selectedDevice && (
-								<Fragment>
-									<TypographyControls { ...this.props }
-										device={ 'Tablet' }
-										showFontSize={ true }
-										showLetterSpacing={ true }
-										disableAdvancedToggle={ true }
-										defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
-										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
-									/>
-								</Fragment>
-							) }
+								{ 'tablet' === selectedDevice && (
+									<Fragment>
+										<TypographyControls { ...this.props }
+											device={ 'Tablet' }
+											showFontSize={ true }
+											showLetterSpacing={ true }
+											disableAdvancedToggle={ true }
+											defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
+											defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+											defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
+										/>
+									</Fragment>
+								) }
 
-							{ 'mobile' === selectedDevice && (
-								<Fragment>
-									<TypographyControls { ...this.props }
-										device={ 'Mobile' }
-										showFontSize={ true }
-										showLetterSpacing={ true }
-										disableAdvancedToggle={ true }
-										defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
-										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
-									/>
-								</Fragment>
-							) }
-					</PanelBody>
+								{ 'mobile' === selectedDevice && (
+									<Fragment>
+										<TypographyControls { ...this.props }
+											device={ 'Mobile' }
+											showFontSize={ true }
+											showLetterSpacing={ true }
+											disableAdvancedToggle={ true }
+											defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
+											defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+											defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
+										/>
+									</Fragment>
+								) }
+						</PanelBody>
+					}
 
 					<PanelBody
 						title={ __( 'Spacing', 'generateblocks' ) }

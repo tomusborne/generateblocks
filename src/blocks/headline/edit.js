@@ -248,107 +248,109 @@ class GenerateBlockHeadline extends Component {
 						} }
 					/>
 
-					<PanelBody
-						title={ __( 'Typography', 'generateblocks' ) }
-						initialOpen={ true }
-						icon={ getIcon( 'typography' ) }
-						className={ 'gblocks-panel-label' }
-						>
-							{ 'desktop' === selectedDevice && (
-								<Fragment>
-									<SelectControl
-										label={ __( 'Element', 'generateblocks' ) }
-										value={ element }
-										options={ [
-											{ label: 'paragraph', value: 'p' },
-											{ label: 'h1', value: 'h1' },
-											{ label: 'h2', value: 'h2' },
-											{ label: 'h3', value: 'h3' },
-											{ label: 'h4', value: 'h4' },
-											{ label: 'h5', value: 'h5' },
-											{ label: 'h6', value: 'h6' },
-										] }
-										onChange={ ( element ) => { setAttributes( { element } ) } }
-									/>
-
-									{ ! inlineWidth &&
-										<AlignmentToolbar
-											isCollapsed={ false }
-											value={ alignment }
-											onChange={ ( value ) => {
-												setAttributes( { alignment: value } );
-											} }
+					{ ! removeText &&
+						<PanelBody
+							title={ __( 'Typography', 'generateblocks' ) }
+							initialOpen={ true }
+							icon={ getIcon( 'typography' ) }
+							className={ 'gblocks-panel-label' }
+							>
+								{ 'desktop' === selectedDevice && (
+									<Fragment>
+										<SelectControl
+											label={ __( 'Element', 'generateblocks' ) }
+											value={ element }
+											options={ [
+												{ label: 'paragraph', value: 'p' },
+												{ label: 'h1', value: 'h1' },
+												{ label: 'h2', value: 'h2' },
+												{ label: 'h3', value: 'h3' },
+												{ label: 'h4', value: 'h4' },
+												{ label: 'h5', value: 'h5' },
+												{ label: 'h6', value: 'h6' },
+											] }
+											onChange={ ( element ) => { setAttributes( { element } ) } }
 										/>
-									}
 
-									<TypographyControls { ...this.props }
-										showFontFamily={ true }
-										showFontWeight={ true }
-										showTextTransform={ true }
-										showFontSize={ true }
-										showLineHeight={ true }
-										showLetterSpacing={ true }
-										defaultFontSize={ generateBlocksDefaults.headline.fontSize }
-										defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-										defaultLineHeight={ generateBlocksDefaults.headline.lineHeight }
-										defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacing }
-									/>
-								</Fragment>
-							) }
+										{ ! inlineWidth &&
+											<AlignmentToolbar
+												isCollapsed={ false }
+												value={ alignment }
+												onChange={ ( value ) => {
+													setAttributes( { alignment: value } );
+												} }
+											/>
+										}
 
-							{ 'tablet' === selectedDevice && (
-								<Fragment>
-									{ ! inlineWidthTablet &&
-										<AlignmentToolbar
-											isCollapsed={ false }
-											value={ alignmentTablet }
-											onChange={ ( value ) => {
-												setAttributes( { alignmentTablet: value } );
-											} }
+										<TypographyControls { ...this.props }
+											showFontFamily={ true }
+											showFontWeight={ true }
+											showTextTransform={ true }
+											showFontSize={ true }
+											showLineHeight={ true }
+											showLetterSpacing={ true }
+											defaultFontSize={ generateBlocksDefaults.headline.fontSize }
+											defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+											defaultLineHeight={ generateBlocksDefaults.headline.lineHeight }
+											defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+											defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacing }
 										/>
-									}
+									</Fragment>
+								) }
 
-									<TypographyControls { ...this.props }
-										device={ 'Tablet' }
-										showFontSize={ true }
-										showLineHeight={ true }
-										showLetterSpacing={ true }
-										defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet }
-										defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-										defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet }
-										defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingTablet }
-									/>
-								</Fragment>
-							) }
+								{ 'tablet' === selectedDevice && (
+									<Fragment>
+										{ ! inlineWidthTablet &&
+											<AlignmentToolbar
+												isCollapsed={ false }
+												value={ alignmentTablet }
+												onChange={ ( value ) => {
+													setAttributes( { alignmentTablet: value } );
+												} }
+											/>
+										}
 
-							{ 'mobile' === selectedDevice && (
-								<Fragment>
-									{ ! inlineWidthMobile &&
-										<AlignmentToolbar
-											isCollapsed={ false }
-											value={ alignmentMobile }
-											onChange={ ( value ) => {
-												setAttributes( { alignmentMobile: value } );
-											} }
+										<TypographyControls { ...this.props }
+											device={ 'Tablet' }
+											showFontSize={ true }
+											showLineHeight={ true }
+											showLetterSpacing={ true }
+											defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet }
+											defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+											defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet }
+											defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+											defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingTablet }
 										/>
-									}
+									</Fragment>
+								) }
 
-									<TypographyControls { ...this.props }
-										device={ 'Mobile' }
-										showFontSize={ true }
-										showLineHeight={ true }
-										showLetterSpacing={ true }
-										defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile }
-										defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-										defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile }
-										defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingMobile }
-									/>
-								</Fragment>
-							) }
-					</PanelBody>
+								{ 'mobile' === selectedDevice && (
+									<Fragment>
+										{ ! inlineWidthMobile &&
+											<AlignmentToolbar
+												isCollapsed={ false }
+												value={ alignmentMobile }
+												onChange={ ( value ) => {
+													setAttributes( { alignmentMobile: value } );
+												} }
+											/>
+										}
+
+										<TypographyControls { ...this.props }
+											device={ 'Mobile' }
+											showFontSize={ true }
+											showLineHeight={ true }
+											showLetterSpacing={ true }
+											defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile }
+											defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+											defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile }
+											defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+											defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingMobile }
+										/>
+									</Fragment>
+								) }
+						</PanelBody>
+					}
 
 					<PanelBody
 						title={ __( 'Spacing', 'generateblocks' ) }
@@ -622,196 +624,264 @@ class GenerateBlockHeadline extends Component {
 							/>
 						}
 
-						{ 'desktop' === selectedDevice && (
+						{ 'desktop' === selectedDevice &&
 							<Fragment>
-								{ ! removeText &&
-									<SelectControl
-										label={ __( 'Icon Location', 'generateblocks' ) }
-										value={ iconLocation }
-										options={ [
-											{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
-											{ label: __( 'Above', 'generateblocks' ), value: 'above' },
-										] }
-										onChange={ ( value ) => {
-											setAttributes( {
-												iconLocation: value,
-												iconPaddingRight: 'inline' === value ? '0.5' : '',
-												iconPaddingBottom: 'above' === value ? '0.5' : '',
-											} );
-										} }
-									/>
-								}
+								{ ! removeText ? (
+									<Fragment>
+										<SelectControl
+											label={ __( 'Icon Location', 'generateblocks' ) }
+											value={ iconLocation }
+											options={ [
+												{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+												{ label: __( 'Above', 'generateblocks' ), value: 'above' },
+											] }
+											onChange={ ( value ) => {
+												setAttributes( {
+													iconLocation: value,
+													iconPaddingRight: 'inline' === value ? '0.5' : '',
+													iconPaddingBottom: 'above' === value ? '0.5' : '',
+												} );
+											} }
+										/>
 
-								{ 'inline' === iconLocation && ! removeText &&
-									<SelectControl
-										label={ __( 'Icon Alignment', 'generateblocks' ) }
-										value={ iconVerticalAlignment }
-										options={ [
-											{ label: __( 'Top', 'generateblocks' ), value: 'top' },
-											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-											{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
-										] }
-										onChange={ ( value ) => {
-											setAttributes( {
-												iconVerticalAlignment: value
-											} );
-										} }
-									/>
-								}
+										{ 'inline' === iconLocation &&
+											<SelectControl
+												label={ __( 'Icon Alignment', 'generateblocks' ) }
+												value={ iconVerticalAlignment }
+												options={ [
+													{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+													{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+													{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
+												] }
+												onChange={ ( value ) => {
+													setAttributes( {
+														iconVerticalAlignment: value
+													} );
+												} }
+											/>
+										}
 
-								<DimensionsControl { ...this.props }
-									type={ 'padding' }
-									label={ __( 'Padding', 'generateblocks' ) }
-									attrTop={ 'iconPaddingTop' }
-									attrRight={ 'iconPaddingRight' }
-									attrBottom={ 'iconPaddingBottom' }
-									attrLeft={ 'iconPaddingLeft' }
-									attrUnit={ 'iconPaddingUnit' }
-									attrSyncUnits={ 'iconPaddingSyncUnits' }
-								/>
+										<DimensionsControl { ...this.props }
+											type={ 'padding' }
+											label={ __( 'Padding', 'generateblocks' ) }
+											attrTop={ 'iconPaddingTop' }
+											attrRight={ 'iconPaddingRight' }
+											attrBottom={ 'iconPaddingBottom' }
+											attrLeft={ 'iconPaddingLeft' }
+											attrUnit={ 'iconPaddingUnit' }
+											attrSyncUnits={ 'iconPaddingSyncUnits' }
+										/>
 
-								<RangeControl
-									label={ __( 'Icon Size', 'generateblocks' ) }
-									value={ iconSize ? iconSize : '' }
-									onChange={ ( value ) => setAttributes( {
-										iconSize: value
-									} ) }
-									min={ .1 }
-									max={ 15 }
-									step={ .1 }
-									initialPosition={ generateBlocksDefaults.headline.iconSize }
-									allowReset={ true }
-								/>
+										<RangeControl
+											label={ __( 'Icon Size', 'generateblocks' ) }
+											value={ iconSize ? iconSize : '' }
+											onChange={ ( value ) => setAttributes( {
+												iconSize: value
+											} ) }
+											min={ .1 }
+											max={ 15 }
+											step={ .1 }
+											initialPosition={ generateBlocksDefaults.headline.iconSize }
+											allowReset={ true }
+										/>
+									</Fragment>
+								) : (
+									<Fragment>
+										<DimensionsControl { ...this.props }
+											type={ 'padding' }
+											label={ __( 'Padding', 'generateblocks' ) }
+											attrTop={ 'paddingTop' }
+											attrRight={ 'paddingRight' }
+											attrBottom={ 'paddingBottom' }
+											attrLeft={ 'paddingLeft' }
+											attrUnit={ 'paddingUnit' }
+											attrSyncUnits={ 'paddingSyncUnits' }
+										/>
+
+										<TypographyControls { ...this.props }
+											showFontSize={ true }
+											disableAdvancedToggle={ true }
+											defaultFontSize={ generateBlocksDefaults.headline.fontSize }
+											defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+										/>
+									</Fragment>
+								) }
 							</Fragment>
-						) }
+						}
 
-						{ 'tablet' === selectedDevice && (
+						{ 'tablet' === selectedDevice &&
 							<Fragment>
-								{ ! removeText &&
-									<SelectControl
-										label={ __( 'Icon Location', 'generateblocks' ) }
-										value={ iconLocationTablet }
-										options={ [
-											{ label: __( 'Inherit', 'generateblocks' ), value: '' },
-											{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
-											{ label: __( 'Above', 'generateblocks' ), value: 'above' },
-										] }
-										onChange={ ( value ) => {
-											setAttributes( {
-												iconLocationTablet: value,
-												iconPaddingRightTablet: 'inline' === value ? '0.5' : '',
-												iconPaddingBottomTablet: 'above' === value ? '0.5' : '',
-											} );
-										} }
-									/>
-								}
+								{ ! removeText ? (
+									<Fragment>
+										<SelectControl
+											label={ __( 'Icon Location', 'generateblocks' ) }
+											value={ iconLocationTablet }
+											options={ [
+												{ label: __( 'Inherit', 'generateblocks' ), value: '' },
+												{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+												{ label: __( 'Above', 'generateblocks' ), value: 'above' },
+											] }
+											onChange={ ( value ) => {
+												setAttributes( {
+													iconLocationTablet: value,
+													iconPaddingRightTablet: 'inline' === value ? '0.5' : '',
+													iconPaddingBottomTablet: 'above' === value ? '0.5' : '',
+												} );
+											} }
+										/>
 
-								{ 'inline' === iconLocationTablet && ! removeText &&
-									<SelectControl
-										label={ __( 'Icon Alignment', 'generateblocks' ) }
-										value={ iconVerticalAlignmentTablet }
-										options={ [
-											{ label: __( 'Top', 'generateblocks' ), value: 'top' },
-											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-											{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
-										] }
-										onChange={ ( value ) => {
-											setAttributes( {
-												iconVerticalAlignmentTablet: value
-											} );
-										} }
-									/>
-								}
+										{ 'inline' === iconLocationTablet &&
+											<SelectControl
+												label={ __( 'Icon Alignment', 'generateblocks' ) }
+												value={ iconVerticalAlignmentTablet }
+												options={ [
+													{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+													{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+													{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
+												] }
+												onChange={ ( value ) => {
+													setAttributes( {
+														iconVerticalAlignmentTablet: value
+													} );
+												} }
+											/>
+										}
 
-								<DimensionsControl { ...this.props }
-									type={ 'padding' }
-									label={ __( 'Padding', 'generateblocks' ) }
-									attrTop={ 'iconPaddingTopTablet' }
-									attrRight={ 'iconPaddingRightTablet' }
-									attrBottom={ 'iconPaddingBottomTablet' }
-									attrLeft={ 'iconPaddingLeftTablet' }
-									attrUnit={ 'iconPaddingUnit' }
-									attrSyncUnits={ 'iconPaddingSyncUnits' }
-								/>
+										<DimensionsControl { ...this.props }
+											type={ 'padding' }
+											label={ __( 'Padding', 'generateblocks' ) }
+											attrTop={ 'iconPaddingTopTablet' }
+											attrRight={ 'iconPaddingRightTablet' }
+											attrBottom={ 'iconPaddingBottomTablet' }
+											attrLeft={ 'iconPaddingLeftTablet' }
+											attrUnit={ 'iconPaddingUnit' }
+											attrSyncUnits={ 'iconPaddingSyncUnits' }
+										/>
 
-								<RangeControl
-									label={ __( 'Icon Size', 'generateblocks' ) }
-									value={ iconSizeTablet || '' }
-									onChange={ ( value ) => setAttributes( {
-										iconSizeTablet: value
-									} ) }
-									min={ .1 }
-									max={ 15 }
-									step={ .1 }
-									initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
-									allowReset={ true }
-								/>
+										<RangeControl
+											label={ __( 'Icon Size', 'generateblocks' ) }
+											value={ iconSizeTablet || '' }
+											onChange={ ( value ) => setAttributes( {
+												iconSizeTablet: value
+											} ) }
+											min={ .1 }
+											max={ 15 }
+											step={ .1 }
+											initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
+											allowReset={ true }
+										/>
+									</Fragment>
+								) : (
+									<Fragment>
+										<DimensionsControl { ...this.props }
+											type={ 'padding' }
+											label={ __( 'Padding', 'generateblocks' ) }
+											attrTop={ 'paddingTopTablet' }
+											attrRight={ 'paddingRightTablet' }
+											attrBottom={ 'paddingBottomTablet' }
+											attrLeft={ 'paddingLeftTablet' }
+											attrUnit={ 'paddingUnit' }
+											attrSyncUnits={ 'paddingSyncUnits' }
+										/>
+
+										<TypographyControls { ...this.props }
+											device={ 'Tablet' }
+											showFontSize={ true }
+											disableAdvancedToggle={ true }
+											defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet }
+											defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+										/>
+									</Fragment>
+								) }
 							</Fragment>
-						) }
+						}
 
-						{ 'mobile' === selectedDevice && (
+						{ 'mobile' === selectedDevice &&
 							<Fragment>
-								{ ! removeText &&
-									<SelectControl
-										label={ __( 'Icon Location', 'generateblocks' ) }
-										value={ iconLocationMobile }
-										options={ [
-											{ label: __( 'Inherit', 'generateblocks' ), value: '' },
-											{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
-											{ label: __( 'Above', 'generateblocks' ), value: 'above' },
-										] }
-										onChange={ ( value ) => {
-											setAttributes( {
-												iconLocationMobile: value,
-												iconPaddingRightMobile: 'inline' === value ? '0.5' : '',
-												iconPaddingBottomMobile: 'above' === value ? '0.5' : '',
-											} );
-										} }
-									/>
-								}
+								{ ! removeText ? (
+									<Fragment>
+										<SelectControl
+											label={ __( 'Icon Location', 'generateblocks' ) }
+											value={ iconLocationMobile }
+											options={ [
+												{ label: __( 'Inherit', 'generateblocks' ), value: '' },
+												{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
+												{ label: __( 'Above', 'generateblocks' ), value: 'above' },
+											] }
+											onChange={ ( value ) => {
+												setAttributes( {
+													iconLocationMobile: value,
+													iconPaddingRightMobile: 'inline' === value ? '0.5' : '',
+													iconPaddingBottomMobile: 'above' === value ? '0.5' : '',
+												} );
+											} }
+										/>
 
-								{ 'inline' === iconLocationMobile && ! removeText &&
-									<SelectControl
-										label={ __( 'Icon Alignment', 'generateblocks' ) }
-										value={ iconVerticalAlignmentMobile }
-										options={ [
-											{ label: __( 'Top', 'generateblocks' ), value: 'top' },
-											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-											{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
-										] }
-										onChange={ ( value ) => {
-											setAttributes( {
-												iconVerticalAlignmentMobile: value
-											} );
-										} }
-									/>
-								}
+										{ 'inline' === iconLocationMobile &&
+											<SelectControl
+												label={ __( 'Icon Alignment', 'generateblocks' ) }
+												value={ iconVerticalAlignmentMobile }
+												options={ [
+													{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+													{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+													{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
+												] }
+												onChange={ ( value ) => {
+													setAttributes( {
+														iconVerticalAlignmentMobile: value
+													} );
+												} }
+											/>
+										}
 
-								<DimensionsControl { ...this.props }
-									type={ 'padding' }
-									label={ __( 'Padding', 'generateblocks' ) }
-									attrTop={ 'iconPaddingTopMobile' }
-									attrRight={ 'iconPaddingRightMobile' }
-									attrBottom={ 'iconPaddingBottomMobile' }
-									attrLeft={ 'iconPaddingLeftMobile' }
-									attrUnit={ 'iconPaddingUnit' }
-									attrSyncUnits={ 'iconPaddingSyncUnits' }
-								/>
+										<DimensionsControl { ...this.props }
+											type={ 'padding' }
+											label={ __( 'Padding', 'generateblocks' ) }
+											attrTop={ 'iconPaddingTopMobile' }
+											attrRight={ 'iconPaddingRightMobile' }
+											attrBottom={ 'iconPaddingBottomMobile' }
+											attrLeft={ 'iconPaddingLeftMobile' }
+											attrUnit={ 'iconPaddingUnit' }
+											attrSyncUnits={ 'iconPaddingSyncUnits' }
+										/>
 
-								<RangeControl
-									label={ __( 'Icon Size', 'generateblocks' ) }
-									value={ iconSizeMobile ? iconSizeMobile : '' }
-									onChange={ ( value ) => setAttributes( {
-										iconSizeMobile: value
-									} ) }
-									min={ .1 }
-									max={ 15 }
-									step={ .1 }
-									initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
-									allowReset={ true }
-								/>
+										<RangeControl
+											label={ __( 'Icon Size', 'generateblocks' ) }
+											value={ iconSizeMobile ? iconSizeMobile : '' }
+											onChange={ ( value ) => setAttributes( {
+												iconSizeMobile: value
+											} ) }
+											min={ .1 }
+											max={ 15 }
+											step={ .1 }
+											initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
+											allowReset={ true }
+										/>
+									</Fragment>
+								) : (
+									<Fragment>
+										<DimensionsControl { ...this.props }
+											type={ 'padding' }
+											label={ __( 'Padding', 'generateblocks' ) }
+											attrTop={ 'paddingTopMobile' }
+											attrRight={ 'paddingRightMobile' }
+											attrBottom={ 'paddingBottomMobile' }
+											attrLeft={ 'paddingLeftMobile' }
+											attrUnit={ 'paddingUnit' }
+											attrSyncUnits={ 'paddingSyncUnits' }
+										/>
+
+										<TypographyControls { ...this.props }
+											device={ 'Mobile' }
+											showFontSize={ true }
+											disableAdvancedToggle={ true }
+											defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile }
+											defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+										/>
+									</Fragment>
+								) }
 							</Fragment>
-						) }
+						}
 					</PanelBody>
 
 					{ 'desktop' === selectedDevice &&

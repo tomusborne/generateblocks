@@ -64,6 +64,7 @@ export default class DesktopCSS extends Component {
 			iconPaddingUnit,
 			iconSize,
 			inlineWidth,
+			removeText,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -140,7 +141,7 @@ export default class DesktopCSS extends Component {
 		} ];
 
 		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon' ] = [ {
-			'padding': shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ),
+			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false,
 			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
 			'color': hexToRGBA( iconColor, iconColorOpacity ),
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
@@ -148,8 +149,8 @@ export default class DesktopCSS extends Component {
 		} ];
 
 		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
-			'width': valueWithUnit( iconSize, 'em' ),
-			'height': valueWithUnit( iconSize, 'em' )
+			'width': ! removeText ? valueWithUnit( iconSize, 'em' ) : '1em',
+			'height': ! removeText ? valueWithUnit( iconSize, 'em' ) : '1em'
 		} ];
 
 		cssObj[ '.gb-headline-` + uniqueId + ` .gb-highlight' ] = [ {
