@@ -123,10 +123,12 @@ export default class DesktopCSS extends Component {
 			'border-color': hexToRGBA( borderColorHover, borderColorHoverOpacity ),
 		} ];
 
-		cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId + ' .gb-icon' ] = [ {
-			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false,
-			'font-size': valueWithUnit( iconSize, 'em' ),
-		} ];
+		if ( ! removeText ) {
+			cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId + ' .gb-icon' ] = [ {
+				'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false,
+				'font-size': valueWithUnit( iconSize, 'em' ),
+			} ];
+		}
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>
