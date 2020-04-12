@@ -832,7 +832,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 					if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] ) {
 						$defaultBlockStyles = generateblocks_get_default_styles();
-						$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] . 'Margin' ] );
+
+						if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ][ 'marginBottom' ] ) ) {
+							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ][ 'marginBottom' ], $defaultBlockStyles['headline'][ $settings['element'] ]['unit'] );
+						}
 					}
 				}
 
@@ -863,8 +866,20 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					$css->set_selector( '.gb-headline-wrapper-' . $id );
-					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+
+					if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] ) {
+						$defaultBlockStyles = generateblocks_get_default_styles();
+
+						if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {
+							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['unit'] );
+
+							if ( 'em' ===  $defaultBlockStyles['headline'][ $settings['element'] ]['unit'] ) {
+								$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
+							}
+						}
+					}
 
 					if ( 'above' === $settings['iconLocation'] ) {
 						$css->add_property( 'text-align', $settings['alignment'] );

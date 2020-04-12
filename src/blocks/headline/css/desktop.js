@@ -78,19 +78,19 @@ export default class DesktopCSS extends Component {
 			marginBottomValue = marginBottom + marginUnit;
 		} else if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
 			if ( 'p' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.pMargin;
+				marginBottomValue = generateBlocksStyling.headline.p.marginBottom + generateBlocksStyling.headline.p.unit;
 			} else if ( 'h1' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h1Margin;
+				marginBottomValue = generateBlocksStyling.headline.h1.marginBottom + generateBlocksStyling.headline.h1.unit;
 			} else if ( 'h2' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h2Margin;
+				marginBottomValue = generateBlocksStyling.headline.h2.marginBottom + generateBlocksStyling.headline.h2.unit;
 			} else if ( 'h3' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h3Margin;
+				marginBottomValue = generateBlocksStyling.headline.h3.marginBottom + generateBlocksStyling.headline.h3.unit;
 			} else if ( 'h4' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h4Margin;
+				marginBottomValue = generateBlocksStyling.headline.h4.marginBottom + generateBlocksStyling.headline.h4.unit;
 			} else if ( 'h5' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h5Margin;
+				marginBottomValue = generateBlocksStyling.headline.h5.marginBottom + generateBlocksStyling.headline.h5.unit;
 			} else if ( 'h6' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h6Margin;
+				marginBottomValue = generateBlocksStyling.headline.h6.marginBottom + generateBlocksStyling.headline.h6.unit;
 			}
 		}
 

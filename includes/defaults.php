@@ -427,13 +427,34 @@ function generateblocks_get_default_styles() {
 		);
 
 		$defaultBlockStyles['headline'] = array(
-			'pMargin' => $font_settings['paragraph_margin'] . 'em',
-			'h1Margin' => $font_settings['heading_1_margin_bottom'] . 'px',
-			'h2Margin' => $font_settings['heading_2_margin_bottom'] . 'px',
-			'h3Margin' => $font_settings['heading_3_margin_bottom'] . 'px',
-			'h4Margin' => '20px',
-			'h5Margin' => '20px',
-			'h6Margin' => '20px',
+			'p' => array(
+				'marginBottom' => $font_settings['paragraph_margin'],
+				'unit' => 'em',
+			),
+			'h1' => array(
+				'marginBottom' => $font_settings['heading_1_margin_bottom'],
+				'unit' => 'px',
+			),
+			'h2' => array(
+				'marginBottom' => $font_settings['heading_2_margin_bottom'],
+				'unit' => 'px',
+			),
+			'h3' => array(
+				'marginBottom' => $font_settings['heading_3_margin_bottom'],
+				'unit' => 'px',
+			),
+			'h4' => array(
+				'marginBottom' => '20',
+				'unit' => 'px',
+			),
+			'h5' => array(
+				'marginBottom' => '20',
+				'unit' => 'px',
+			),
+			'h6' => array(
+				'marginBottom' => '20',
+				'unit' => 'px',
+			),
 		);
 	}
 
