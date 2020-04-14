@@ -88,14 +88,16 @@ function generateblocks_do_dashboard() {
 	?>
 		<div class="wrap gblocks-dashboard-wrap">
 			<div class="gblocks-dashboard-header">
-				<h1>
-					<?php
-						printf(
-							__( 'Welcome to %s', 'generateblocks' ),
-							'<strong>' . __( 'GenerateBlocks', 'generateblocks' ) . '</strong>'
-						);
-					?>
-				</h1>
+				<div class="gblocks-dashboard-title">
+					<h1>
+						<?php
+							printf(
+								__( 'Welcome to %s', 'generateblocks' ),
+								'<strong>' . __( 'GenerateBlocks', 'generateblocks' ) . '</strong>'
+							);
+						?>
+					</h1>
+				</div>
 
 				<div class="gblocks-logo">
 					<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
