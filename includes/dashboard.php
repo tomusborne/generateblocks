@@ -207,7 +207,7 @@ function generateblocks_dashboard_redirect() {
 
 	if ( $do_redirect ) {
 		delete_option( 'generateblocks_do_activation_redirect' );
-		wp_safe_redirect( esc_url( admin_url( 'admin.php?page=generateblocks' ) ) );
+		wp_safe_redirect( esc_url( admin_url( 'options-general.php?page=generateblocks' ) ) );
 		exit;
 	}
 }
