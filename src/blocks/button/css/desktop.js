@@ -108,12 +108,17 @@ export default class DesktopCSS extends Component {
 			'text-transform': textTransform,
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
-			'border-width' : shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
-			'border-style': 'solid',
-			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 			'text-transform': textTransform,
 			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ),
 		} ];
+
+		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
+			cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId ].push( {
+				'border-width' : shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
+				'border-style': 'solid',
+				'border-color': hexToRGBA( borderColor, borderColorOpacity ),
+			} );
+		}
 
 		cssObj[ `.block-editor-block-list__block a.gb-button-` + uniqueId + `:hover,
 		.block-editor-block-list__block a.gb-button-` + uniqueId + `:focus,
