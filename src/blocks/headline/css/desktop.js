@@ -121,7 +121,7 @@ export default class DesktopCSS extends Component {
 
 		cssObj[ headlineStyleSelector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
-			'color': textColor,
+			'color': textColor ? textColor : 'inherit',
 			'display': inlineWidth ? 'inline-flex' : false,
 			'margin': shorthandCSS( marginTop, marginRight, marginBottomValue, marginLeft, marginUnit ) + ' !important',
 			'margin-bottom': marginBottomValue + ' !important', // The unit changes depending on the element if no value exists.
