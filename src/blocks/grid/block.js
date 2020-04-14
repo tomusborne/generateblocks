@@ -24,6 +24,7 @@ const el = wp.element.createElement;
  */
 registerBlockType( 'generateblocks/grid', {
 	title: __( 'Grid', 'generateblocks' ),
+	description: __( 'Create advanced layouts with flexible grids.', 'generateblocks' ),
 	icon: getIcon( 'grid' ),
 	category: 'generateblocks',
 	keywords: [

@@ -24,6 +24,7 @@ const el = wp.element.createElement;
  */
 registerBlockType( 'generateblocks/button', {
 	title: __( 'Button', 'generateblocks' ),
+	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	parent: [ 'generateblocks/button-container' ],
 	icon: getIcon( 'button' ),
 	category: 'generateblocks',

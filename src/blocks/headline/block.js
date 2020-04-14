@@ -26,6 +26,7 @@ const el = wp.element.createElement;
  */
 registerBlockType( 'generateblocks/headline', {
 	title: __( 'Headline', 'generateblocks' ),
+	description: __( 'Craft text-rich content with advanced typography.', 'generateblocks' ),
 	icon: getIcon( 'headline' ),
 	category: 'generateblocks',
 	keywords: [

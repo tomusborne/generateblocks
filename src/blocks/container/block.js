@@ -25,6 +25,7 @@ const el = wp.element.createElement;
  */
 registerBlockType( 'generateblocks/container', {
 	title: __( 'Container', 'generateblocks' ),
+	description: __( 'Organize your content into rows and sections.', 'generateblocks' ),
 	icon: getIcon( 'container' ),
 	category: 'generateblocks',
 	keywords: [
