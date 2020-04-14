@@ -44,16 +44,16 @@
     color: #006eb7;
 }
 
-.generateblocks_page_generateblocks-settings .gblocks-navigation a.active {
+.settings_page_generateblocks-settings .gblocks-navigation a.active {
 	background: #f1f1f1;
 }
 
-.toplevel_page_generateblocks #wpcontent {
+.settings_page_generateblocks #wpcontent {
     padding-left: 0;
     background: #fff;
 }
 
-.generateblocks_page_generateblocks-settings #wpcontent {
+.settings_page_generateblocks-settings #wpcontent {
     padding-left: 0;
 }
 

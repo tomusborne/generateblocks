@@ -16,52 +16,32 @@ add_action( 'admin_menu', 'generateblocks_register_dashboard' );
  * @since 0.1
  */
 function generateblocks_register_dashboard() {
-	$dashboard = add_menu_page(
+	add_options_page(
 		__( 'GenerateBlocks', 'generateblocks' ),
 		__( 'GenerateBlocks', 'generateblocks' ),
 		'manage_options',
 		'generateblocks',
 		'generateblocks_do_dashboard'
 	);
-
-	add_submenu_page(
-		'generateblocks',
-		__( 'Dashboard', 'generateblocks' ),
-		__( 'Dashboard', 'generateblocks' ),
-		'manage_options',
-		'generateblocks'
-	);
-
-	add_action( "admin_print_styles-$dashboard", 'generateblocks_enqueue_dashboard_scripts' );
 }
 
+add_action( 'admin_enqueue_scripts', 'generateblocks_enqueue_dashboard_scripts' );
 /**
  * Add our scripts to the page.
  *
  * @since 0.1
  */
 function generateblocks_enqueue_dashboard_scripts() {
-	wp_enqueue_style(
-		'generateblocks-dashboard',
-		GENERATEBLOCKS_MODULE_DIR_URL . 'assets/css/dashboard.css',
-		array(),
-		filemtime( GENERATEBLOCKS_MODULE_DIR . 'assets/css/dashboard.css' )
-	);
-}
+	$screen = get_current_screen();
 
-add_action( 'admin_enqueue_scripts', 'generateblocks_enqueue_global_dashboard_scripts' );
-/**
- * Add our scripts to the page.
- *
- * @since 0.1
- */
-function generateblocks_enqueue_global_dashboard_scripts() {
-	wp_enqueue_style(
-		'generateblocks-global',
-		GENERATEBLOCKS_MODULE_DIR_URL . 'assets/css/global.css',
-		array(),
-		filemtime( GENERATEBLOCKS_MODULE_DIR . 'assets/css/global.css' )
-	);
+	if ( 'settings_page_generateblocks' === $screen->id || 'settings_page_generateblocks-settings' === $screen->id ) {
+		wp_enqueue_style(
+			'generateblocks-dashboard',
+			GENERATEBLOCKS_MODULE_DIR_URL . 'assets/css/dashboard.css',
+			array(),
+			filemtime( GENERATEBLOCKS_MODULE_DIR . 'assets/css/dashboard.css' )
+		);
+	}
 }
 
 function generateblocks_dashboard_navigation() {
@@ -70,13 +50,13 @@ function generateblocks_dashboard_navigation() {
 	$tabs = apply_filters( 'generateblocks_dashboard_tabs', array(
 		'dashboard' => array(
 			'name' => __( 'Dashboard', 'generateblocks' ),
-			'url' => admin_url( 'admin.php?page=generateblocks' ),
-			'class' => 'toplevel_page_generateblocks' === $screen->id ? 'active' : '',
+			'url' => admin_url( 'options-general.php?page=generateblocks' ),
+			'class' => 'settings_page_generateblocks' === $screen->id ? 'active' : '',
 		),
 		'settings' => array(
 			'name' => __( 'Settings', 'generateblocks' ),
-			'url' => admin_url( 'admin.php?page=generateblocks-settings' ),
-			'class' => 'generateblocks_page_generateblocks-settings' === $screen->id ? 'active' : '',
+			'url' => admin_url( 'options-general.php?page=generateblocks-settings' ),
+			'class' => 'settings_page_generateblocks-settings' === $screen->id ? 'active' : '',
 		),
 	) );
 
