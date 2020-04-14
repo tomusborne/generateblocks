@@ -97,6 +97,7 @@ export default class DesktopCSS extends Component {
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
+			'color': textColor ? textColor : 'inherit',
 			'font-family' : fontFamily + fontFamilyFallbackValue,
 			'font-weight' : fontWeight,
 			'text-transform' : textTransform,
