@@ -22,7 +22,7 @@ class GenerateBlocks_Settings {
 
 	public function add_menu() {
 		$settings = add_options_page(
-			__( 'GenerateBlocks Settings', 'generateblocks' ),
+			__( 'Settings', 'generateblocks' ),
 			__( 'GenerateBlocks Settings', 'generateblocks' ),
 			'manage_options',
 			'generateblocks-settings',
