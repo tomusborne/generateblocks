@@ -869,7 +869,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 
-					if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] ) {
+					if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] && ! $settings['removeText'] ) {
 						$defaultBlockStyles = generateblocks_get_default_styles();
 
 						if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {

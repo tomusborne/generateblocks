@@ -76,7 +76,7 @@ export default class DesktopCSS extends Component {
 
 		if ( marginBottom ) {
 			marginBottomValue = marginBottom + marginUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
+		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
 			if ( 'p' === element ) {
 				marginBottomValue = generateBlocksStyling.headline.p.marginBottom + generateBlocksStyling.headline.p.unit;
 			} else if ( 'h1' === element ) {
