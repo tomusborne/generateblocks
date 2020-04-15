@@ -39,6 +39,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 	$css->add_property( 'display', '-webkit-inline-box' );
 	$css->add_property( 'display', '-ms-inline-flexbox' );
 	$css->add_property( 'display', 'inline-flex' );
+	$css->add_property( 'line-height', '0' );
 
 	$css->set_selector( '.gb-icon svg' );
 	$css->add_property( 'height', '1em' );
