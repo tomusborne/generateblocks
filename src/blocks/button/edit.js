@@ -646,184 +646,186 @@ class GenerateBlockButton extends Component {
 						</PanelBody>
 					}
 
-					<PanelBody
-						title={ __( 'Icon', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'icons' ) }
-						className={ 'gblocks-panel-label' }
-						>
+					{ ( 'desktop' === selectedDevice || !! icon ) &&
+						<PanelBody
+							title={ __( 'Icon', 'generateblocks' ) }
+							initialOpen={ false }
+							icon={ getIcon( 'icons' ) }
+							className={ 'gblocks-panel-label' }
+							>
 
-						{ 'desktop' === selectedDevice &&
-							<IconPicker { ...this.props }
-								attrIcon={ 'icon' }
-								attrIconLocation={ 'iconLocation' }
-								attrRemoveText={ 'removeText' }
-								attrAriaLabel={ 'ariaLabel' }
-								locationOptions={ [
-									{ label: __( 'Left', 'generateblocks' ), value: 'left' },
-									{ label: __( 'Right', 'generateblocks' ), value: 'right' },
-								] }
-							/>
-						}
+							{ 'desktop' === selectedDevice &&
+								<IconPicker { ...this.props }
+									attrIcon={ 'icon' }
+									attrIconLocation={ 'iconLocation' }
+									attrRemoveText={ 'removeText' }
+									attrAriaLabel={ 'ariaLabel' }
+									locationOptions={ [
+										{ label: __( 'Left', 'generateblocks' ), value: 'left' },
+										{ label: __( 'Right', 'generateblocks' ), value: 'right' },
+									] }
+								/>
+							}
 
-						{ 'desktop' === selectedDevice && (
-							<Fragment>
-								{ ! removeText ? (
-									<Fragment>
-										<DimensionsControl { ...this.props }
-											type={ 'padding' }
-											label={ __( 'Padding', 'generateblocks' ) }
-											attrTop={ 'iconPaddingTop' }
-											attrRight={ 'iconPaddingRight' }
-											attrBottom={ 'iconPaddingBottom' }
-											attrLeft={ 'iconPaddingLeft' }
-											attrUnit={ 'iconPaddingUnit' }
-											attrSyncUnits={ 'iconPaddingSyncUnits' }
-										/>
+							{ 'desktop' === selectedDevice && !! icon && (
+								<Fragment>
+									{ ! removeText ? (
+										<Fragment>
+											<DimensionsControl { ...this.props }
+												type={ 'padding' }
+												label={ __( 'Padding', 'generateblocks' ) }
+												attrTop={ 'iconPaddingTop' }
+												attrRight={ 'iconPaddingRight' }
+												attrBottom={ 'iconPaddingBottom' }
+												attrLeft={ 'iconPaddingLeft' }
+												attrUnit={ 'iconPaddingUnit' }
+												attrSyncUnits={ 'iconPaddingSyncUnits' }
+											/>
 
-										<RangeControl
-											label={ __( 'Icon Size', 'generateblocks' ) }
-											value={ iconSize ? iconSize : '' }
-											onChange={ ( value ) => setAttributes( {
-												iconSize: value
-											} ) }
-											min={ .1 }
-											max={ 15 }
-											step={ .1 }
-											initialPosition={ generateBlocksDefaults.headline.iconSize }
-											allowReset={ true }
-										/>
-									</Fragment>
-								) : (
-									<Fragment>
-										<DimensionsControl { ...this.props }
-											type={ 'padding' }
-											label={ __( 'Padding', 'generateblocks' ) }
-											attrTop={ 'paddingTop' }
-											attrRight={ 'paddingRight' }
-											attrBottom={ 'paddingBottom' }
-											attrLeft={ 'paddingLeft' }
-											attrUnit={ 'paddingUnit' }
-											attrSyncUnits={ 'paddingSyncUnits' }
-										/>
+											<RangeControl
+												label={ __( 'Icon Size', 'generateblocks' ) }
+												value={ iconSize ? iconSize : '' }
+												onChange={ ( value ) => setAttributes( {
+													iconSize: value
+												} ) }
+												min={ .1 }
+												max={ 15 }
+												step={ .1 }
+												initialPosition={ generateBlocksDefaults.headline.iconSize }
+												allowReset={ true }
+											/>
+										</Fragment>
+									) : (
+										<Fragment>
+											<DimensionsControl { ...this.props }
+												type={ 'padding' }
+												label={ __( 'Padding', 'generateblocks' ) }
+												attrTop={ 'paddingTop' }
+												attrRight={ 'paddingRight' }
+												attrBottom={ 'paddingBottom' }
+												attrLeft={ 'paddingLeft' }
+												attrUnit={ 'paddingUnit' }
+												attrSyncUnits={ 'paddingSyncUnits' }
+											/>
 
-										<TypographyControls { ...this.props }
-											showFontSize={ true }
-											disableAdvancedToggle={ true }
-											defaultFontSize={ generateBlocksDefaults.button.fontSize }
-											defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										/>
-									</Fragment>
-								) }
-							</Fragment>
-						) }
+											<TypographyControls { ...this.props }
+												showFontSize={ true }
+												disableAdvancedToggle={ true }
+												defaultFontSize={ generateBlocksDefaults.button.fontSize }
+												defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+											/>
+										</Fragment>
+									) }
+								</Fragment>
+							) }
 
-						{ 'tablet' === selectedDevice &&
-							<Fragment>
-								{ ! removeText ? (
-									<Fragment>
-										<DimensionsControl { ...this.props }
-											type={ 'padding' }
-											label={ __( 'Padding', 'generateblocks' ) }
-											attrTop={ 'iconPaddingTopTablet' }
-											attrRight={ 'iconPaddingRightTablet' }
-											attrBottom={ 'iconPaddingBottomTablet' }
-											attrLeft={ 'iconPaddingLeftTablet' }
-											attrUnit={ 'iconPaddingUnit' }
-											attrSyncUnits={ 'iconPaddingSyncUnits' }
-										/>
+							{ 'tablet' === selectedDevice && !! icon &&
+								<Fragment>
+									{ ! removeText ? (
+										<Fragment>
+											<DimensionsControl { ...this.props }
+												type={ 'padding' }
+												label={ __( 'Padding', 'generateblocks' ) }
+												attrTop={ 'iconPaddingTopTablet' }
+												attrRight={ 'iconPaddingRightTablet' }
+												attrBottom={ 'iconPaddingBottomTablet' }
+												attrLeft={ 'iconPaddingLeftTablet' }
+												attrUnit={ 'iconPaddingUnit' }
+												attrSyncUnits={ 'iconPaddingSyncUnits' }
+											/>
 
-										<RangeControl
-											label={ __( 'Icon Size', 'generateblocks' ) }
-											value={ iconSizeTablet || '' }
-											onChange={ ( value ) => setAttributes( {
-												iconSizeTablet: value
-											} ) }
-											min={ .1 }
-											max={ 15 }
-											step={ .1 }
-											initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
-											allowReset={ true }
-										/>
-									</Fragment>
-								) : (
-									<Fragment>
-										<DimensionsControl { ...this.props }
-											type={ 'padding' }
-											label={ __( 'Padding', 'generateblocks' ) }
-											attrTop={ 'paddingTopTablet' }
-											attrRight={ 'paddingRightTablet' }
-											attrBottom={ 'paddingBottomTablet' }
-											attrLeft={ 'paddingLeftTablet' }
-											attrUnit={ 'paddingUnit' }
-											attrSyncUnits={ 'paddingSyncUnits' }
-										/>
+											<RangeControl
+												label={ __( 'Icon Size', 'generateblocks' ) }
+												value={ iconSizeTablet || '' }
+												onChange={ ( value ) => setAttributes( {
+													iconSizeTablet: value
+												} ) }
+												min={ .1 }
+												max={ 15 }
+												step={ .1 }
+												initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
+												allowReset={ true }
+											/>
+										</Fragment>
+									) : (
+										<Fragment>
+											<DimensionsControl { ...this.props }
+												type={ 'padding' }
+												label={ __( 'Padding', 'generateblocks' ) }
+												attrTop={ 'paddingTopTablet' }
+												attrRight={ 'paddingRightTablet' }
+												attrBottom={ 'paddingBottomTablet' }
+												attrLeft={ 'paddingLeftTablet' }
+												attrUnit={ 'paddingUnit' }
+												attrSyncUnits={ 'paddingSyncUnits' }
+											/>
 
-										<TypographyControls { ...this.props }
-											device={ 'Tablet' }
-											showFontSize={ true }
-											disableAdvancedToggle={ true }
-											defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
-											defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										/>
-									</Fragment>
-								) }
-							</Fragment>
-						}
+											<TypographyControls { ...this.props }
+												device={ 'Tablet' }
+												showFontSize={ true }
+												disableAdvancedToggle={ true }
+												defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
+												defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+											/>
+										</Fragment>
+									) }
+								</Fragment>
+							}
 
-						{ 'mobile' === selectedDevice && (
-							<Fragment>
-								{ ! removeText ? (
-									<Fragment>
-										<DimensionsControl { ...this.props }
-											type={ 'padding' }
-											label={ __( 'Padding', 'generateblocks' ) }
-											attrTop={ 'iconPaddingTopMobile' }
-											attrRight={ 'iconPaddingRightMobile' }
-											attrBottom={ 'iconPaddingBottomMobile' }
-											attrLeft={ 'iconPaddingLeftMobile' }
-											attrUnit={ 'iconPaddingUnit' }
-											attrSyncUnits={ 'iconPaddingSyncUnits' }
-										/>
+							{ 'mobile' === selectedDevice && !! icon && (
+								<Fragment>
+									{ ! removeText ? (
+										<Fragment>
+											<DimensionsControl { ...this.props }
+												type={ 'padding' }
+												label={ __( 'Padding', 'generateblocks' ) }
+												attrTop={ 'iconPaddingTopMobile' }
+												attrRight={ 'iconPaddingRightMobile' }
+												attrBottom={ 'iconPaddingBottomMobile' }
+												attrLeft={ 'iconPaddingLeftMobile' }
+												attrUnit={ 'iconPaddingUnit' }
+												attrSyncUnits={ 'iconPaddingSyncUnits' }
+											/>
 
-										<RangeControl
-											label={ __( 'Icon Size', 'generateblocks' ) }
-											value={ iconSizeMobile ? iconSizeMobile : '' }
-											onChange={ ( value ) => setAttributes( {
-												iconSizeMobile: value
-											} ) }
-											min={ .1 }
-											max={ 15 }
-											step={ .1 }
-											initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
-											allowReset={ true }
-										/>
-									</Fragment>
-								) : (
-									<Fragment>
-										<DimensionsControl { ...this.props }
-											type={ 'padding' }
-											label={ __( 'Padding', 'generateblocks' ) }
-											attrTop={ 'paddingTopMobile' }
-											attrRight={ 'paddingRightMobile' }
-											attrBottom={ 'paddingBottomMobile' }
-											attrLeft={ 'paddingLeftMobile' }
-											attrUnit={ 'paddingUnit' }
-											attrSyncUnits={ 'paddingSyncUnits' }
-										/>
+											<RangeControl
+												label={ __( 'Icon Size', 'generateblocks' ) }
+												value={ iconSizeMobile ? iconSizeMobile : '' }
+												onChange={ ( value ) => setAttributes( {
+													iconSizeMobile: value
+												} ) }
+												min={ .1 }
+												max={ 15 }
+												step={ .1 }
+												initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
+												allowReset={ true }
+											/>
+										</Fragment>
+									) : (
+										<Fragment>
+											<DimensionsControl { ...this.props }
+												type={ 'padding' }
+												label={ __( 'Padding', 'generateblocks' ) }
+												attrTop={ 'paddingTopMobile' }
+												attrRight={ 'paddingRightMobile' }
+												attrBottom={ 'paddingBottomMobile' }
+												attrLeft={ 'paddingLeftMobile' }
+												attrUnit={ 'paddingUnit' }
+												attrSyncUnits={ 'paddingSyncUnits' }
+											/>
 
-										<TypographyControls { ...this.props }
-											device={ 'Mobile' }
-											showFontSize={ true }
-											disableAdvancedToggle={ true }
-											defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
-											defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										/>
-									</Fragment>
-								) }
-							</Fragment>
-						) }
-					</PanelBody>
+											<TypographyControls { ...this.props }
+												device={ 'Mobile' }
+												showFontSize={ true }
+												disableAdvancedToggle={ true }
+												defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
+												defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+											/>
+										</Fragment>
+									) }
+								</Fragment>
+							) }
+						</PanelBody>
+					}
 
 					{ 'desktop' === selectedDevice &&
 						<PanelBody

@@ -89,3 +89,20 @@ button.components-icon-picker-item {
 		height: 1em;
 	}
 }
+
+.block-editor-block-inspector .gb-icon-chooser .components-panel__body {
+    border-color: #ddd;
+    margin-top: 0;
+
+	button {
+		background: #fafafa;
+	}
+
+	&.is-opened {
+		background: #fafafa;
+	}
+
+	&:last-child {
+		border-bottom: 1px solid #ddd;
+	}
+}

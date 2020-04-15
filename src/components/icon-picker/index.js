@@ -98,7 +98,7 @@ class IconPicker extends Component {
 					</div>
 				</BaseControl>
 
-				<BaseControl>
+				<BaseControl className="gb-icon-chooser">
 			        <PanelBody title={ __( 'General Icons', 'generateblocks' ) } initialOpen={ false }>
 			            <PanelRow>
 							<BaseControl>
@@ -164,7 +164,7 @@ class IconPicker extends Component {
 			        </PanelBody>
 				</BaseControl>
 
-				{ ( typeof attributes[ attrIconLocation ] !== 'undefined' && ! attributes[ attrRemoveText ] ) &&
+				{ ( typeof attributes[ attrIconLocation ] !== 'undefined' && ! attributes[ attrRemoveText ] && !! attributes[ attrIcon ] ) &&
 					<SelectControl
 						label={ __( 'Icon Location', 'generateblocks' ) }
 						value={ attributes[ attrIconLocation ] }
@@ -230,7 +230,7 @@ class IconPicker extends Component {
 					/>
 				}
 
-				{ ( typeof attributes[ attrRemoveText ] !== 'undefined' ) &&
+				{ ( typeof attributes[ attrRemoveText ] !== 'undefined' && !! attributes[ attrIcon ] ) &&
 					<ToggleControl
 						label={ __( 'Remove Text', 'generateblocks' ) }
 						checked={ !! attributes[ attrRemoveText ] }
@@ -242,7 +242,7 @@ class IconPicker extends Component {
 					/>
 				}
 
-				{ typeof attributes[ attrAriaLabel ] !== 'undefined' && !! attributes[ attrRemoveText ] &&
+				{ typeof attributes[ attrAriaLabel ] !== 'undefined' && !! attributes[ attrRemoveText ] && !! attributes[ attrIcon ] &&
 					<TextControl
 						label={ __( 'ARIA Label', 'generateblocks' ) }
 						help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
