@@ -1718,6 +1718,16 @@ button.components-icon-picker-item {
     margin-right: 10px;
     width: 1em;
     height: 1em; }
+
+.block-editor-block-inspector .gb-icon-chooser .components-panel__body {
+  border-color: #ddd;
+  margin-top: 0; }
+  .block-editor-block-inspector .gb-icon-chooser .components-panel__body button {
+    background: #fafafa; }
+  .block-editor-block-inspector .gb-icon-chooser .components-panel__body.is-opened {
+    background: #fafafa; }
+  .block-editor-block-inspector .gb-icon-chooser .components-panel__body:last-child {
+    border-bottom: 1px solid #ddd; }
 /**
  * #.# Common SCSS
  *
