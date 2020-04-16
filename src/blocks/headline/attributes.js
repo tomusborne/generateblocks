@@ -400,6 +400,10 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.headline.iconSizeMobile,
 	},
+	iconSizeUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.iconSizeUnit,
+	},
 	inlineWidth: {
 		type: 'boolean',
 		default: generateBlocksDefaults.headline.inlineWidth,

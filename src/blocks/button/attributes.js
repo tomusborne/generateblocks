@@ -448,4 +448,8 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.button.iconSizeMobile,
 	},
+	iconSizeUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.button.iconSizeUnit,
+	},
 }

@@ -63,6 +63,7 @@ export default class DesktopCSS extends Component {
 			iconPaddingLeft,
 			iconPaddingUnit,
 			iconSize,
+			iconSizeUnit,
 			inlineWidth,
 			removeText,
 		} = attributes;
@@ -150,8 +151,8 @@ export default class DesktopCSS extends Component {
 		} ];
 
 		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
-			'width': ! removeText ? valueWithUnit( iconSize, 'em' ) : '1em',
-			'height': ! removeText ? valueWithUnit( iconSize, 'em' ) : '1em'
+			'width': valueWithUnit( iconSize, iconSizeUnit ),
+			'height': valueWithUnit( iconSize, iconSizeUnit )
 		} ];
 
 		cssObj[ '.gb-headline-` + uniqueId + ` .gb-highlight' ] = [ {

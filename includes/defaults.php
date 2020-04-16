@@ -266,6 +266,7 @@ function generateblocks_get_block_defaults() {
 		'iconSize' => 1,
 		'iconSizeTablet' => '',
 		'iconSizeMobile' => '',
+		'iconSizeUnit' => 'em',
 	);
 
 	$defaults['gridContainer'] = array(
@@ -378,6 +379,7 @@ function generateblocks_get_block_defaults() {
 		'iconSize' => 1,
 		'iconSizeTablet' => '',
 		'iconSizeMobile' => '',
+		'iconSizeUnit' => 'em',
 		'inlineWidth' => false,
 		'inlineWidthTablet' => false,
 		'inlineWidthMobile' => false,

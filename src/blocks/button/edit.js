@@ -15,7 +15,7 @@ import getIcon from '../../utils/get-icon';
 import DesktopCSS from './css/desktop.js';
 import sanitizeSVG from '../../utils/sanitize-svg';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+const { __, _x } = wp.i18n; // Import __() from wp.i18n
 const {
 	PanelBody,
 	TabPanel,
@@ -27,6 +27,7 @@ const {
 	Toolbar,
 	Tooltip,
 	Button,
+	ButtonGroup,
 } = wp.components;
 
 const {
@@ -206,6 +207,7 @@ class GenerateBlockButton extends Component {
 			iconSize,
 			iconSizeTablet,
 			iconSizeMobile,
+			iconSizeUnit,
 		} = attributes;
 
 		jQuery( '.gb-button' ).on( 'click', function( e ) {
@@ -227,6 +229,17 @@ class GenerateBlockButton extends Component {
 		}
 
 		const googleFontsAttr = ':100,100italic,200,200italic,300,300italic,400,400italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic';
+
+		let unitSizes = [
+			{
+				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
+				unitValue: 'px',
+			},
+			{
+				name: _x( 'Em', 'A size unit for CSS markup', 'generateblocks' ),
+				unitValue: 'em',
+			},
+		];
 
 		return (
 			<Fragment>
@@ -669,7 +682,7 @@ class GenerateBlockButton extends Component {
 
 							{ 'desktop' === selectedDevice && !! icon && (
 								<Fragment>
-									{ ! removeText ? (
+									{ ! removeText &&
 										<Fragment>
 											<DimensionsControl { ...this.props }
 												type={ 'padding' }
@@ -681,47 +694,54 @@ class GenerateBlockButton extends Component {
 												attrUnit={ 'iconPaddingUnit' }
 												attrSyncUnits={ 'iconPaddingSyncUnits' }
 											/>
-
-											<RangeControl
-												label={ __( 'Icon Size', 'generateblocks' ) }
-												value={ iconSize ? iconSize : '' }
-												onChange={ ( value ) => setAttributes( {
-													iconSize: value
-												} ) }
-												min={ .1 }
-												max={ 15 }
-												step={ .1 }
-												initialPosition={ generateBlocksDefaults.headline.iconSize }
-												allowReset={ true }
-											/>
 										</Fragment>
-									) : (
-										<Fragment>
-											<DimensionsControl { ...this.props }
-												type={ 'padding' }
-												label={ __( 'Padding', 'generateblocks' ) }
-												attrTop={ 'paddingTop' }
-												attrRight={ 'paddingRight' }
-												attrBottom={ 'paddingBottom' }
-												attrLeft={ 'paddingLeft' }
-												attrUnit={ 'paddingUnit' }
-												attrSyncUnits={ 'paddingSyncUnits' }
-											/>
+									}
 
-											<TypographyControls { ...this.props }
-												showFontSize={ true }
-												disableAdvancedToggle={ true }
-												defaultFontSize={ generateBlocksDefaults.button.fontSize }
-												defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-											/>
-										</Fragment>
-									) }
+									<div className="components-gblocks-typography-control__header">
+										<div className="components-gblocks-typography-control__label components-base-control__label">
+											{ __( 'Icon Size', 'generateblocks' ) }
+										</div>
+
+										<div className="components-gblocks-control__units">
+											<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
+												{ unitSizes.map( ( unit, i ) =>
+													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+													<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
+														<Button
+															key={ unit.unitValue }
+															className={ 'components-gblocks-typography-control__units--' + unit.name }
+															isSmall
+															isPrimary={ iconSizeUnit === unit.unitValue }
+															aria-pressed={ iconSizeUnit === unit.unitValue }
+															/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+															aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
+															onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														>
+															{ unit.unitValue }
+														</Button>
+													</Tooltip>
+												) }
+											</ButtonGroup>
+										</div>
+									</div>
+
+									<RangeControl
+										value={ iconSize ? iconSize : '' }
+										onChange={ ( value ) => setAttributes( {
+											iconSize: value
+										} ) }
+										min={ 'em' === iconSizeUnit ? .1 : 1 }
+										max={ 'em' === iconSizeUnit ? 15 : 200 }
+										step={ 'em' === iconSizeUnit ? .1 : 1 }
+										initialPosition={ generateBlocksDefaults.headline.iconSize }
+										allowReset={ true }
+									/>
 								</Fragment>
 							) }
 
 							{ 'tablet' === selectedDevice && !! icon &&
 								<Fragment>
-									{ ! removeText ? (
+									{ ! removeText &&
 										<Fragment>
 											<DimensionsControl { ...this.props }
 												type={ 'padding' }
@@ -733,48 +753,54 @@ class GenerateBlockButton extends Component {
 												attrUnit={ 'iconPaddingUnit' }
 												attrSyncUnits={ 'iconPaddingSyncUnits' }
 											/>
-
-											<RangeControl
-												label={ __( 'Icon Size', 'generateblocks' ) }
-												value={ iconSizeTablet || '' }
-												onChange={ ( value ) => setAttributes( {
-													iconSizeTablet: value
-												} ) }
-												min={ .1 }
-												max={ 15 }
-												step={ .1 }
-												initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
-												allowReset={ true }
-											/>
 										</Fragment>
-									) : (
-										<Fragment>
-											<DimensionsControl { ...this.props }
-												type={ 'padding' }
-												label={ __( 'Padding', 'generateblocks' ) }
-												attrTop={ 'paddingTopTablet' }
-												attrRight={ 'paddingRightTablet' }
-												attrBottom={ 'paddingBottomTablet' }
-												attrLeft={ 'paddingLeftTablet' }
-												attrUnit={ 'paddingUnit' }
-												attrSyncUnits={ 'paddingSyncUnits' }
-											/>
+									}
 
-											<TypographyControls { ...this.props }
-												device={ 'Tablet' }
-												showFontSize={ true }
-												disableAdvancedToggle={ true }
-												defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
-												defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-											/>
-										</Fragment>
-									) }
+									<div className="components-gblocks-typography-control__header">
+										<div className="components-gblocks-typography-control__label components-base-control__label">
+											{ __( 'Icon Size', 'generateblocks' ) }
+										</div>
+
+										<div className="components-gblocks-control__units">
+											<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
+												{ unitSizes.map( ( unit, i ) =>
+													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+													<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
+														<Button
+															key={ unit.unitValue }
+															className={ 'components-gblocks-typography-control__units--' + unit.name }
+															isSmall
+															isPrimary={ iconSizeUnit === unit.unitValue }
+															aria-pressed={ iconSizeUnit === unit.unitValue }
+															/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+															aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
+															onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														>
+															{ unit.unitValue }
+														</Button>
+													</Tooltip>
+												) }
+											</ButtonGroup>
+										</div>
+									</div>
+
+									<RangeControl
+										value={ iconSizeTablet || '' }
+										onChange={ ( value ) => setAttributes( {
+											iconSizeTablet: value
+										} ) }
+										min={ 'em' === iconSizeUnit ? .1 : 1 }
+										max={ 'em' === iconSizeUnit ? 15 : 200 }
+										step={ 'em' === iconSizeUnit ? .1 : 1 }
+										initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
+										allowReset={ true }
+									/>
 								</Fragment>
 							}
 
 							{ 'mobile' === selectedDevice && !! icon && (
 								<Fragment>
-									{ ! removeText ? (
+									{ ! removeText &&
 										<Fragment>
 											<DimensionsControl { ...this.props }
 												type={ 'padding' }
@@ -786,42 +812,49 @@ class GenerateBlockButton extends Component {
 												attrUnit={ 'iconPaddingUnit' }
 												attrSyncUnits={ 'iconPaddingSyncUnits' }
 											/>
-
-											<RangeControl
-												label={ __( 'Icon Size', 'generateblocks' ) }
-												value={ iconSizeMobile ? iconSizeMobile : '' }
-												onChange={ ( value ) => setAttributes( {
-													iconSizeMobile: value
-												} ) }
-												min={ .1 }
-												max={ 15 }
-												step={ .1 }
-												initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
-												allowReset={ true }
-											/>
 										</Fragment>
-									) : (
-										<Fragment>
-											<DimensionsControl { ...this.props }
-												type={ 'padding' }
-												label={ __( 'Padding', 'generateblocks' ) }
-												attrTop={ 'paddingTopMobile' }
-												attrRight={ 'paddingRightMobile' }
-												attrBottom={ 'paddingBottomMobile' }
-												attrLeft={ 'paddingLeftMobile' }
-												attrUnit={ 'paddingUnit' }
-												attrSyncUnits={ 'paddingSyncUnits' }
-											/>
+									}
 
-											<TypographyControls { ...this.props }
-												device={ 'Mobile' }
-												showFontSize={ true }
-												disableAdvancedToggle={ true }
-												defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
-												defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-											/>
-										</Fragment>
-									) }
+									<div className="components-gblocks-typography-control__header">
+										<div className="components-gblocks-typography-control__label components-base-control__label">
+											{ __( 'Icon Size', 'generateblocks' ) }
+										</div>
+
+										<div className="components-gblocks-control__units">
+											<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
+												{ unitSizes.map( ( unit, i ) =>
+													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+													<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
+														<Button
+															key={ unit.unitValue }
+															className={ 'components-gblocks-typography-control__units--' + unit.name }
+															isSmall
+															isPrimary={ iconSizeUnit === unit.unitValue }
+															aria-pressed={ iconSizeUnit === unit.unitValue }
+															/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+															aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
+															onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														>
+															{ unit.unitValue }
+														</Button>
+													</Tooltip>
+												) }
+											</ButtonGroup>
+										</div>
+									</div>
+
+									<RangeControl
+										label={ __( 'Icon Size', 'generateblocks' ) }
+										value={ iconSizeMobile ? iconSizeMobile : '' }
+										onChange={ ( value ) => setAttributes( {
+											iconSizeMobile: value
+										} ) }
+										min={ 'em' === iconSizeUnit ? .1 : 1 }
+										max={ 'em' === iconSizeUnit ? 15 : 200 }
+										step={ 'em' === iconSizeUnit ? .1 : 1 }
+										initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
+										allowReset={ true }
+									/>
 								</Fragment>
 							) }
 						</PanelBody>
