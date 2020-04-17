@@ -242,6 +242,19 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentMobile,
 		} = attributes;
 
+		let horizontalGapPlaceholderTablet = horizontalGap || 0,
+			horizontalGapPlaceholderMobile = horizontalGap || 0,
+			verticalGapPlaceholderTablet   = verticalGap || 0,
+			verticalGapPlaceholderMobile   = verticalGap || 0;
+
+		if ( horizontalGapTablet ) {
+			horizontalGapPlaceholderMobile = horizontalGapTablet;
+		}
+
+		if ( verticalGapTablet ) {
+			verticalGapPlaceholderMobile = verticalGapTablet;
+		}
+
 		return (
 			<Fragment>
 				<BlockControls>
@@ -304,6 +317,7 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ horizontalGap || '' }
+										placeholder="0"
 										onChange={ ( value ) => {
 											setAttributes( {
 												horizontalGap: value
@@ -354,6 +368,7 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ verticalGap || '' }
+										placeholder="0"
 										onChange={ ( value ) => {
 											setAttributes( {
 												verticalGap: value
@@ -437,6 +452,7 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ horizontalGapTablet || '' }
+										placeholder={ horizontalGapPlaceholderTablet }
 										onChange={ ( value ) => {
 											setAttributes( {
 												horizontalGapTablet: value
@@ -487,6 +503,7 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ verticalGapTablet || '' }
+										placeholder={ verticalGapPlaceholderTablet }
 										onChange={ ( value ) => {
 											setAttributes( {
 												verticalGapTablet: value
@@ -568,6 +585,7 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ horizontalGapMobile || '' }
+										placeholder={ horizontalGapPlaceholderMobile }
 										onChange={ ( value ) => {
 											setAttributes( {
 												horizontalGapMobile: value
@@ -618,6 +636,7 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ verticalGapMobile || '' }
+										placeholder={ verticalGapPlaceholderMobile }
 										onChange={ ( value ) => {
 											setAttributes( {
 												verticalGapMobile: value
