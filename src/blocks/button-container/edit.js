@@ -249,6 +249,7 @@ class GenerateButtonContainer extends Component {
 								<AlignmentToolbar
 									isCollapsed={ false }
 									value={ alignmentTablet }
+									alignmentControls={ ALIGNMENT_CONTROLS }
 									onChange={ ( value ) => {
 										setAttributes( { alignmentTablet: value } );
 									} }
@@ -292,6 +293,7 @@ class GenerateButtonContainer extends Component {
 								<AlignmentToolbar
 									isCollapsed={ false }
 									value={ alignmentMobile }
+									alignmentControls={ ALIGNMENT_CONTROLS }
 									onChange={ ( value ) => {
 										setAttributes( { alignmentMobile: value } );
 									} }
