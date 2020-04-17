@@ -53,8 +53,11 @@ class GenerateBlockButton extends Component {
 	constructor() {
 		super( ...arguments );
 
+		this.getFontSizePlaceholder = this.getFontSizePlaceholder.bind( this );
+
 		this.state = {
             selectedDevice: 'desktop',
+			fontSizePlaceholder: '17',
         };
 	}
 
@@ -76,7 +79,36 @@ class GenerateBlockButton extends Component {
 		} else {
 			gbButtonIds.push( this.props.attributes.uniqueId );
 		}
+
+		const tempFontSizePlaceholder = this.getFontSizePlaceholder();
+
+		if ( tempFontSizePlaceholder !== this.state.fontSizePlaceholder ) {
+			this.setState( {
+				fontSizePlaceholder: tempFontSizePlaceholder,
+			} );
+		}
 	}
+
+	componentDidUpdate() {
+		const tempFontSizePlaceholder = this.getFontSizePlaceholder();
+
+		if ( tempFontSizePlaceholder !== this.state.fontSizePlaceholder ) {
+			this.setState( {
+				fontSizePlaceholder: tempFontSizePlaceholder,
+			} );
+		}
+	}
+
+	getFontSizePlaceholder() {
+		let placeholder = '17';
+		const buttonId = document.querySelector( '.gb-button-' + this.props.attributes.uniqueId );
+
+		if ( buttonId ) {
+			placeholder = parseFloat( window.getComputedStyle( buttonId ).fontSize );
+		}
+
+        return placeholder;
+    }
 
 	render() {
 		const {
@@ -88,6 +120,7 @@ class GenerateBlockButton extends Component {
 
 		const {
             selectedDevice,
+			fontSizePlaceholder,
         } = this.state;
 
 		const {
@@ -294,6 +327,7 @@ class GenerateBlockButton extends Component {
 											showTextTransform={ true }
 											showFontSize={ true }
 											showLetterSpacing={ true }
+											fontSizePlaceholder={ fontSizePlaceholder }
 											defaultFontSize={ generateBlocksDefaults.button.fontSize }
 											defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
 											defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
@@ -725,17 +759,36 @@ class GenerateBlockButton extends Component {
 										</div>
 									</div>
 
-									<RangeControl
-										value={ iconSize ? iconSize : '' }
-										onChange={ ( value ) => setAttributes( {
-											iconSize: value
-										} ) }
-										min={ 'em' === iconSizeUnit ? .1 : 1 }
-										max={ 'em' === iconSizeUnit ? 15 : 200 }
-										step={ 'em' === iconSizeUnit ? .1 : 1 }
-										initialPosition={ generateBlocksDefaults.headline.iconSize }
-										allowReset={ true }
-									/>
+									<div className="components-base-control components-gblocks-typography-control__inputs">
+										<TextControl
+											type={ 'number' }
+											value={ iconSize || '' }
+											step={ 'em' === iconSizeUnit ? .1 : 1 }
+											onChange={ ( value ) => {
+												setAttributes( {
+													iconSize: value
+												} );
+											} }
+											onBlur={ () => {
+												setAttributes( {
+													iconSize: parseFloat( iconSize )
+												} );
+											} }
+										/>
+
+										<Button
+											isSmall
+											isSecondary
+											className="components-gblocks-default-number"
+											onClick={ () => {
+												setAttributes( {
+													iconSize: generateBlocksDefaults.button.iconSize
+												} );
+											} }
+										>
+											{ __( 'Reset', 'generateblocks' ) }
+										</Button>
+									</div>
 								</Fragment>
 							) }
 
@@ -784,17 +837,37 @@ class GenerateBlockButton extends Component {
 										</div>
 									</div>
 
-									<RangeControl
-										value={ iconSizeTablet || '' }
-										onChange={ ( value ) => setAttributes( {
-											iconSizeTablet: value
-										} ) }
-										min={ 'em' === iconSizeUnit ? .1 : 1 }
-										max={ 'em' === iconSizeUnit ? 15 : 200 }
-										step={ 'em' === iconSizeUnit ? .1 : 1 }
-										initialPosition={ generateBlocksDefaults.headline.iconSizeTablet }
-										allowReset={ true }
-									/>
+									<div className="components-base-control components-gblocks-typography-control__inputs">
+										<TextControl
+											type={ 'number' }
+											value={ iconSizeTablet || '' }
+											step={ 'em' === iconSizeUnit ? .1 : 1 }
+											placeholder="1"
+											onChange={ ( value ) => {
+												setAttributes( {
+													iconSizeTablet: value
+												} );
+											} }
+											onBlur={ () => {
+												setAttributes( {
+													iconSizeTablet: parseFloat( iconSizeTablet )
+												} );
+											} }
+										/>
+
+										<Button
+											isSmall
+											isSecondary
+											className="components-gblocks-default-number"
+											onClick={ () => {
+												setAttributes( {
+													iconSizeTablet: generateBlocksDefaults.button.iconSizeTablet
+												} );
+											} }
+										>
+											{ __( 'Reset', 'generateblocks' ) }
+										</Button>
+									</div>
 								</Fragment>
 							}
 
@@ -843,18 +916,37 @@ class GenerateBlockButton extends Component {
 										</div>
 									</div>
 
-									<RangeControl
-										label={ __( 'Icon Size', 'generateblocks' ) }
-										value={ iconSizeMobile ? iconSizeMobile : '' }
-										onChange={ ( value ) => setAttributes( {
-											iconSizeMobile: value
-										} ) }
-										min={ 'em' === iconSizeUnit ? .1 : 1 }
-										max={ 'em' === iconSizeUnit ? 15 : 200 }
-										step={ 'em' === iconSizeUnit ? .1 : 1 }
-										initialPosition={ generateBlocksDefaults.headline.iconSizeMobile }
-										allowReset={ true }
-									/>
+									<div className="components-base-control components-gblocks-typography-control__inputs">
+										<TextControl
+											type={ 'number' }
+											value={ iconSizeMobile || '' }
+											step={ 'em' === iconSizeUnit ? .1 : 1 }
+											placeholder="1"
+											onChange={ ( value ) => {
+												setAttributes( {
+													iconSizeMobile: value
+												} );
+											} }
+											onBlur={ () => {
+												setAttributes( {
+													iconSizeMobile: parseFloat( iconSizeMobile )
+												} );
+											} }
+										/>
+
+										<Button
+											isSmall
+											isSecondary
+											className="components-gblocks-default-number"
+											onClick={ () => {
+												setAttributes( {
+													iconSizeMobile: generateBlocksDefaults.button.iconSizeMobile
+												} );
+											} }
+										>
+											{ __( 'Reset', 'generateblocks' ) }
+										</Button>
+									</div>
 								</Fragment>
 							) }
 						</PanelBody>

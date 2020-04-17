@@ -53,6 +53,7 @@ class TypographyControls extends Component {
 			defaultLineHeight,
 			defaultLineHeightUnit,
 			defaultLetterSpacing,
+			fontSizePlaceholder = '17',
 		} = this.props;
 
 		const fonts = [
@@ -300,21 +301,34 @@ class TypographyControls extends Component {
 						</div>
 
 						<div className="components-gblocks-typography-control__inputs">
-							<RangeControl
-								value={ parseFloat( getValue( 'fontSize', device ) ) || '' }
+							<TextControl
+								type={ 'number' }
+								value={ getValue( 'fontSize', device ) || '' }
+								placeholder={ fontSizePlaceholder }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'fontSize', device );
 
 									setAttributes( {
-										[ name ]: value
+										[ name ]: parseFloat( value )
 									} );
 								} }
 								min={ 1 }
-								max={ 200 }
-								step={ 1 }
-								initialPosition={ this.props.defaultFontSize }
-								allowReset={ true }
 							/>
+
+							<Button
+								isSmall
+								isSecondary
+								className="components-gblocks-default-number"
+								onClick={ () => {
+									const name = getAttributeName( 'fontSize', device );
+
+									setAttributes( {
+										[ name ]: this.props.defaultFontSize
+									} );
+								} }
+							>
+								{ __( 'Reset', 'generateblocks' ) }
+							</Button>
 						</div>
 					</Fragment>
 				}
@@ -350,8 +364,10 @@ class TypographyControls extends Component {
 						</div>
 
 						<div className="components-gblocks-typography-control__inputs">
-							<RangeControl
-								value={ parseFloat( getValue( 'lineHeight', device ) ) || '' }
+							<TextControl
+								type={ 'number' }
+								value={ getValue( 'lineHeight', device ) || '' }
+								placeholder="1.5"
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'lineHeight', device );
 
@@ -359,12 +375,30 @@ class TypographyControls extends Component {
 										[ name ]: value
 									} );
 								} }
+								onBlur={ () => {
+									const name = getAttributeName( 'lineHeight', device );
+
+									setAttributes( {
+										[ name ]: parseFloat( getValue( 'lineHeight', device ) )
+									} );
+								} }
 								min={ 0 }
-								max={ 3 }
-								step={ 0.01 }
-								initialPosition={ this.props.defaultLineHeight }
-								allowReset={ true }
 							/>
+
+							<Button
+								isSmall
+								isSecondary
+								className="components-gblocks-default-number"
+								onClick={ () => {
+									const name = getAttributeName( 'lineHeight', device );
+
+									setAttributes( {
+										[ name ]: this.props.defaultLineHeight
+									} );
+								} }
+							>
+								{ __( 'Reset', 'generateblocks' ) }
+							</Button>
 						</div>
 					</Fragment>
 				}
@@ -392,8 +426,10 @@ class TypographyControls extends Component {
 						</div>
 
 						<div className="components-gblocks-typography-control__inputs">
-							<RangeControl
-								value={ parseFloat( getValue( 'letterSpacing', device ) ) || '' }
+							<TextControl
+								type={ 'number' }
+								value={ getValue( 'letterSpacing', device ) || '' }
+								placeholder="0.01"
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'letterSpacing', device );
 
@@ -401,12 +437,31 @@ class TypographyControls extends Component {
 										[ name ]: value
 									} );
 								} }
+								onBlur={ () => {
+									const name = getAttributeName( 'letterSpacing', device );
+
+									setAttributes( {
+										[ name ]: parseFloat( getValue( 'letterSpacing', device ) )
+									} );
+								} }
 								min={ -1 }
-								max={ 3 }
 								step={ .01 }
-								initialPosition={ this.props.defaultLetterSpacing }
-								allowReset={ true }
 							/>
+
+							<Button
+								isSmall
+								isSecondary
+								className="components-gblocks-default-number"
+								onClick={ () => {
+									const name = getAttributeName( 'letterSpacing', device );
+
+									setAttributes( {
+										[ name ]: this.props.defaultLetterSpacing
+									} );
+								} }
+							>
+								{ __( 'Reset', 'generateblocks' ) }
+							</Button>
 						</div>
 					</Fragment>
 				}

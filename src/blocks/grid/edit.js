@@ -300,15 +300,35 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 								</div>
 
-								<RangeControl
-									value={ horizontalGap ? horizontalGap : 0 }
-									onChange={ ( value ) => setAttributes( {
-										horizontalGap: value
-									} ) }
-									min={ 0 }
-									max={ 100 }
-									initialPosition={ generateBlocksDefaults.gridContainer.horizontalGap }
-								/>
+								<div className="components-base-control components-gblocks-typography-control__inputs">
+									<TextControl
+										type={ 'number' }
+										value={ horizontalGap || '' }
+										onChange={ ( value ) => {
+											setAttributes( {
+												horizontalGap: value
+											} );
+										} }
+										onBlur={ () => {
+											setAttributes( {
+												horizontalGap: parseFloat( horizontalGap )
+											} );
+										} }
+									/>
+
+									<Button
+										isSmall
+										isSecondary
+										className="components-gblocks-default-number"
+										onClick={ () => {
+											setAttributes( {
+												horizontalGap: generateBlocksDefaults.gridContainer.horizontalGap
+											} );
+										} }
+									>
+										{ __( 'Reset', 'generateblocks' ) }
+									</Button>
+								</div>
 
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -330,15 +350,35 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 								</div>
 
-								<RangeControl
-									value={ verticalGap ? verticalGap : 0 }
-									onChange={ ( value ) => setAttributes( {
-										verticalGap: value
-									} ) }
-									min={ 0 }
-									max={ 100 }
-									initialPosition={ generateBlocksDefaults.gridContainer.verticalGap }
-								/>
+								<div className="components-base-control components-gblocks-typography-control__inputs">
+									<TextControl
+										type={ 'number' }
+										value={ verticalGap || '' }
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalGap: value
+											} );
+										} }
+										onBlur={ () => {
+											setAttributes( {
+												verticalGap: parseFloat( verticalGap )
+											} );
+										} }
+									/>
+
+									<Button
+										isSmall
+										isSecondary
+										className="components-gblocks-default-number"
+										onClick={ () => {
+											setAttributes( {
+												verticalGap: generateBlocksDefaults.gridContainer.verticalGap
+											} );
+										} }
+									>
+										{ __( 'Reset', 'generateblocks' ) }
+									</Button>
+								</div>
 
 								<SelectControl
 									label={ __( 'Vertical Alignment', 'generateblocks' ) }
@@ -393,15 +433,35 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 								</div>
 
-								<RangeControl
-									value={ parseFloat( horizontalGapTablet ) || '' }
-									onChange={ ( value ) => setAttributes( {
-										horizontalGapTablet: value
-									} ) }
-									min={ 0 }
-									max={ 100 }
-									initialPosition={ generateBlocksDefaults.gridContainer.horizontalGapTablet }
-								/>
+								<div className="components-base-control components-gblocks-typography-control__inputs">
+									<TextControl
+										type={ 'number' }
+										value={ horizontalGapTablet || '' }
+										onChange={ ( value ) => {
+											setAttributes( {
+												horizontalGapTablet: value
+											} );
+										} }
+										onBlur={ () => {
+											setAttributes( {
+												horizontalGapTablet: parseFloat( horizontalGapTablet )
+											} );
+										} }
+									/>
+
+									<Button
+										isSmall
+										isSecondary
+										className="components-gblocks-default-number"
+										onClick={ () => {
+											setAttributes( {
+												horizontalGapTablet: generateBlocksDefaults.gridContainer.horizontalGapTablet
+											} );
+										} }
+									>
+										{ __( 'Reset', 'generateblocks' ) }
+									</Button>
+								</div>
 
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -423,15 +483,35 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 								</div>
 
-								<RangeControl
-									value={ parseFloat( verticalGapTablet ) || '' }
-									onChange={ ( value ) => setAttributes( {
-										verticalGapTablet: value
-									} ) }
-									min={ 0 }
-									max={ 100 }
-									initialPosition={ generateBlocksDefaults.gridContainer.verticalGapTablet }
-								/>
+								<div className="components-base-control components-gblocks-typography-control__inputs">
+									<TextControl
+										type={ 'number' }
+										value={ verticalGapTablet || '' }
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalGapTablet: value
+											} );
+										} }
+										onBlur={ () => {
+											setAttributes( {
+												verticalGapTablet: parseFloat( verticalGapTablet )
+											} );
+										} }
+									/>
+
+									<Button
+										isSmall
+										isSecondary
+										className="components-gblocks-default-number"
+										onClick={ () => {
+											setAttributes( {
+												verticalGapTablet: generateBlocksDefaults.gridContainer.verticalGapTablet
+											} );
+										} }
+									>
+										{ __( 'Reset', 'generateblocks' ) }
+									</Button>
+								</div>
 
 								<SelectControl
 									label={ __( 'Vertical Alignment', 'generateblocks' ) }
@@ -484,15 +564,35 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 								</div>
 
-								<RangeControl
-									value={ parseFloat( horizontalGapMobile ) || '' }
-									onChange={ ( value ) => setAttributes( {
-										horizontalGapMobile: value
-									} ) }
-									min={ 0 }
-									max={ 100 }
-									initialPosition={ generateBlocksDefaults.gridContainer.horizontalGapMobile }
-								/>
+								<div className="components-base-control components-gblocks-typography-control__inputs">
+									<TextControl
+										type={ 'number' }
+										value={ horizontalGapMobile || '' }
+										onChange={ ( value ) => {
+											setAttributes( {
+												horizontalGapMobile: value
+											} );
+										} }
+										onBlur={ () => {
+											setAttributes( {
+												horizontalGapMobile: parseFloat( horizontalGapMobile )
+											} );
+										} }
+									/>
+
+									<Button
+										isSmall
+										isSecondary
+										className="components-gblocks-default-number"
+										onClick={ () => {
+											setAttributes( {
+												horizontalGapMobile: generateBlocksDefaults.gridContainer.horizontalGapMobile
+											} );
+										} }
+									>
+										{ __( 'Reset', 'generateblocks' ) }
+									</Button>
+								</div>
 
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -514,15 +614,35 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 								</div>
 
-								<RangeControl
-									value={ parseFloat( verticalGapMobile ) || '' }
-									onChange={ ( value ) => setAttributes( {
-										verticalGapMobile: value
-									} ) }
-									min={ 0 }
-									max={ 100 }
-									initialPosition={ generateBlocksDefaults.gridContainer.verticalGapMobile }
-								/>
+								<div className="components-base-control components-gblocks-typography-control__inputs">
+									<TextControl
+										type={ 'number' }
+										value={ verticalGapMobile || '' }
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalGapMobile: value
+											} );
+										} }
+										onBlur={ () => {
+											setAttributes( {
+												verticalGapMobile: parseFloat( verticalGapMobile )
+											} );
+										} }
+									/>
+
+									<Button
+										isSmall
+										isSecondary
+										className="components-gblocks-default-number"
+										onClick={ () => {
+											setAttributes( {
+												verticalGapMobile: generateBlocksDefaults.gridContainer.verticalGapMobile
+											} );
+										} }
+									>
+										{ __( 'Reset', 'generateblocks' ) }
+									</Button>
+								</div>
 
 								<SelectControl
 									label={ __( 'Vertical Alignment', 'generateblocks' ) }

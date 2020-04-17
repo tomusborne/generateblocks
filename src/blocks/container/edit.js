@@ -1298,17 +1298,20 @@ class GenerateBlockContainer extends Component {
 								onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
 							/>
 
-							<RangeControl
+							<TextControl
 								label={ __( 'z-index', 'generateblocks' ) }
+								type={ 'number' }
 								value={ zindex || '' }
 								onChange={ ( value ) => {
 									setAttributes( {
 										zindex: value
 									} );
 								} }
-								min={ -200 }
-								max={ 200 }
-								step={ 10 }
+								onBlur={ () => {
+									setAttributes( {
+										zindex: parseFloat( zindex )
+									} );
+								} }
 							/>
 
 							<ApplyFilters name="generateblocks.editor.controls" attribute="containerAdvanced" props={ this.props }></ApplyFilters>

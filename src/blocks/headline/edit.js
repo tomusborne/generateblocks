@@ -48,8 +48,11 @@ class GenerateBlockHeadline extends Component {
 	constructor() {
 		super( ...arguments );
 
+		this.getFontSizePlaceholder = this.getFontSizePlaceholder.bind( this );
+
 		this.state = {
 			selectedDevice: 'desktop',
+			fontSizePlaceholder: '17',
         };
 	}
 
@@ -71,7 +74,43 @@ class GenerateBlockHeadline extends Component {
 		} else {
 			gbHeadlineIds.push( this.props.attributes.uniqueId );
 		}
+
+		const tempFontSizePlaceholder = this.getFontSizePlaceholder();
+
+		if ( tempFontSizePlaceholder !== this.state.fontSizePlaceholder ) {
+			this.setState( {
+				fontSizePlaceholder: tempFontSizePlaceholder,
+			} );
+		}
 	}
+
+	componentDidUpdate() {
+		const tempFontSizePlaceholder = this.getFontSizePlaceholder();
+
+		if ( tempFontSizePlaceholder !== this.state.fontSizePlaceholder ) {
+			this.setState( {
+				fontSizePlaceholder: tempFontSizePlaceholder,
+			} );
+		}
+	}
+
+	getFontSizePlaceholder() {
+		let placeholder = '25';
+
+		if ( 'em' === this.props.attributes.fontSizeUnit ) {
+			placeholder = '1';
+		} else if ( '%' === this.props.attributes.fontSizeUnit ) {
+			placeholder = '100';
+		} else {
+			const headlineId = document.querySelector( '.gb-headline-' + this.props.attributes.uniqueId );
+
+			if ( headlineId ) {
+				placeholder = parseFloat( window.getComputedStyle( headlineId ).fontSize );
+			}
+		}
+
+        return placeholder;
+    }
 
 	render() {
 		const {
@@ -82,6 +121,7 @@ class GenerateBlockHeadline extends Component {
 
 		const {
             selectedDevice,
+			fontSizePlaceholder,
         } = this.state;
 
 		const {
@@ -302,6 +342,7 @@ class GenerateBlockHeadline extends Component {
 											showFontSize={ true }
 											showLineHeight={ true }
 											showLetterSpacing={ true }
+											fontSizePlaceholder={ fontSizePlaceholder }
 											defaultFontSize={ generateBlocksDefaults.headline.fontSize }
 											defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
 											defaultLineHeight={ generateBlocksDefaults.headline.lineHeight }

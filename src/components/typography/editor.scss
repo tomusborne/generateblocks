@@ -15,8 +15,12 @@
 
 .components-gblocks-typography-control__inputs {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+
+	button.components-button {
+	    line-height: unset;
+	    height: unset;
+	}
 
 	.components-base-control {
 		margin-bottom: 0;
