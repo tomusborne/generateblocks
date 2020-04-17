@@ -986,10 +986,11 @@ body .gb-container .wp-block {
 .components-gblocks-typography-control__inputs {
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: center;
-      align-items: center;
   -ms-flex-pack: justify;
       justify-content: space-between; }
+  .components-gblocks-typography-control__inputs button.components-button {
+    line-height: unset;
+    height: unset; }
   .components-gblocks-typography-control__inputs .components-base-control {
     margin-bottom: 0; }
 
