@@ -108,6 +108,10 @@ export default {
 		type: 'boolean',
 		default: generateBlocksDefaults.button.googleFont,
 	},
+	googleFontVariants: {
+		type: 'string',
+		default: generateBlocksDefaults.button.googleFontVariants,
+	},
 	fontWeight: {
 		type: 'string',
 		default: generateBlocksDefaults.button.fontWeight,

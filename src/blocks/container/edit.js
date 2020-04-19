@@ -221,6 +221,7 @@ class GenerateBlockContainer extends Component {
 			fontFamily,
 			fontFamilyFallback,
 			googleFont,
+			googleFontVariants,
 			fontWeight,
 			fontSize,
 			fontSizeTablet,
@@ -282,6 +283,12 @@ class GenerateBlockContainer extends Component {
 					}
 				</div>
 			);
+		}
+
+		let googleFontsAttr = '';
+
+		if ( googleFontVariants ) {
+			googleFontsAttr = ':' + googleFontVariants;
 		}
 
 		return (
@@ -1331,6 +1338,13 @@ class GenerateBlockContainer extends Component {
 				</InspectorControls>
 
 				<DesktopCSS { ...this.props } />
+
+				{ fontFamily && googleFont &&
+					<link
+						rel="stylesheet"
+						href={ `https://fonts.googleapis.com/css?family=` + fontFamily.replace( / /g, '+' ) + googleFontsAttr }
+					/>
+				}
 
 				{ !! isGrid && (
 					<div className={ classnames( {

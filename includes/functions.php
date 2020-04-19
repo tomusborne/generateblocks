@@ -181,9 +181,17 @@ function generateblocks_get_google_fonts( $content = '' ) {
 
 					if ( $button_settings['googleFont'] ) {
 						$id = $atts['uniqueId'];
+
+						$variants = $button_settings['googleFontVariants'];
+
+						if ( $variants ) {
+							$variants = str_replace( ' ', '', $variants );
+							$variants = explode( ',', $variants );
+						}
+
 						$font_data[ $id ] = array(
 							'name' => $button_settings['fontFamily'],
-							'variants' => $button_settings['fontWeight'],
+							'variants' => $variants,
 						);
 					}
 				}
@@ -198,9 +206,16 @@ function generateblocks_get_google_fonts( $content = '' ) {
 
 					if ( $headline_settings['googleFont'] ) {
 						$id = $atts['uniqueId'];
+						$variants = $headline_settings['googleFontVariants'];
+
+						if ( $variants ) {
+							$variants = str_replace( ' ', '', $variants );
+							$variants = explode( ',', $variants );
+						}
+
 						$font_data[ $id ] = array(
 							'name' => $headline_settings['fontFamily'],
-							'variants' => $headline_settings['fontWeight'],
+							'variants' => $variants,
 						);
 					}
 				}
@@ -208,16 +223,23 @@ function generateblocks_get_google_fonts( $content = '' ) {
 
 			if ( 'container' === $name ) {
 				foreach( $blockData as $atts ) {
-					$headline_settings = wp_parse_args(
+					$container_settings = wp_parse_args(
 						$atts,
 						$defaults['container']
 					);
 
-					if ( $headline_settings['googleFont'] ) {
+					if ( $container_settings['googleFont'] ) {
 						$id = $atts['uniqueId'];
+						$variants = $container_settings['googleFontVariants'];
+
+						if ( $variants ) {
+							$variants = str_replace( ' ', '', $variants );
+							$variants = explode( ',', $variants );
+						}
+
 						$font_data[ $id ] = array(
-							'name' => $headline_settings['fontFamily'],
-							'variants' => $headline_settings['fontWeight'],
+							'name' => $container_settings['fontFamily'],
+							'variants' => $variants,
 						);
 					}
 				}
@@ -233,7 +255,15 @@ function generateblocks_get_google_fonts( $content = '' ) {
 		$fonts[ $id ]['name'] = $font['name'];
 
 		if ( ! empty( $font['variants'] ) ) {
-			$fonts[ $id ]['variants'][] = $font['variants'];
+			foreach( $font['variants'] as $variant ) {
+				if ( isset( $fonts[ $id ]['variants'] ) ) {
+					if ( in_array( $variant, (array) $fonts[ $id ]['variants'] ) ) {
+						continue;
+					}
+				}
+
+				$fonts[ $id ]['variants'][] = $variant;
+			}
 		}
 	}
 
@@ -262,7 +292,6 @@ function generateblocks_get_google_fonts_uri() {
 		if ( ! empty( $font['variants'] ) ) {
 			foreach( $font['variants'] as $variant ) {
 				$variants[] = $variant;
-				$variants[] = $variant . 'i';
 			}
 		}
 

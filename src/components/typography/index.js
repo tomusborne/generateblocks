@@ -7,7 +7,7 @@ import classnames from 'classnames';
  * Internal dependencies
  */
 import './editor.scss';
-import googleFonts from './fonts';
+import googleFonts from './google-fonts';
 
 /**
  * WordPress dependencies
@@ -64,7 +64,7 @@ class TypographyControls extends Component {
 			{ value: 'Georgia', label: 'Georgia' },
 		];
 
-		Object.keys( googleFonts ).map( ( k ) => {
+		Object.keys( googleFonts ).slice( 0, 20 ).map( ( k ) => {
 			fonts.push(
 				{ value: k, label: k }
 			);
@@ -104,7 +104,16 @@ class TypographyControls extends Component {
 				{ value: 'bold', label: __( 'Bold', 'generateblocks' ) },
 			];
 
-			googleFonts[ attributes.fontFamily ].weight.map( ( k ) => {
+			googleFonts[ attributes.fontFamily ].weight.filter( function( k ) {
+				const hasLetters = k.match( /[a-z]/g );
+    			const hasNumbers = k.match( /[0-9]/g );
+
+				if ( ( hasLetters && hasNumbers ) || 'italic' === k ) {
+					return false;
+				}
+
+				return true;
+			} ).map( ( k ) => {
 				weight.push(
 					{ value: k, label: k }
 				);
@@ -128,11 +137,13 @@ class TypographyControls extends Component {
 				setAttributes( {
 					'googleFont': true,
 					'fontFamilyFallback': googleFonts[ value ].fallback,
+					'googleFontVariants': googleFonts[ value ].weight.join( ', ' ),
 				} );
 			} else {
 				setAttributes( {
 					'googleFont': false,
 					'fontFamilyFallback': '',
+					'googleFontVariants': '',
 				} );
 			}
 		};
@@ -187,6 +198,8 @@ class TypographyControls extends Component {
 								setAttributes( {
 									'fontWeight': value
 								} );
+
+								isValidGoogleURL( attributes.fontFamily, value );
 							} }
 							className="components-base-control"
 						/>
@@ -246,15 +259,39 @@ class TypographyControls extends Component {
 				}
 
 				{ showFontFamily && '' !== attributes.fontFamily && showAdvancedToggle &&
-					<ToggleControl
-						label={ __( 'Google Font', 'generateblocks' ) }
-						checked={ !! attributes.googleFont }
-						onChange={ ( value ) => {
-							setAttributes( {
-								'googleFont': value,
-							} );
-						} }
-					/>
+					<Fragment>
+						<ToggleControl
+							label={ __( 'Google Font', 'generateblocks' ) }
+							checked={ !! attributes.googleFont }
+							onChange={ ( value ) => {
+								setAttributes( {
+									'googleFont': value,
+								} );
+
+								if ( value ) {
+									if ( typeof googleFonts[ attributes.fontFamily ] !== 'undefined' ) {
+										setAttributes( {
+											'fontFamilyFallback': googleFonts[ attributes.fontFamily ].fallback,
+											'googleFontVariants': googleFonts[ attributes.fontFamily ].weight.join( ', ' ),
+										} );
+									}
+								}
+							} }
+						/>
+
+						{ !! attributes.googleFont &&
+							<TextControl
+								label={ __( 'Variants', 'generateblocks' ) }
+								value={ attributes.googleFontVariants }
+								placeholder={ __( '300, 400, 400i', 'generateblocks' ) }
+								onChange={ ( value ) => {
+									setAttributes( {
+										'googleFontVariants': value,
+									} );
+								} }
+							/>
+						}
+					</Fragment>
 				}
 
 				{ showFontFamily && showAdvancedToggle &&

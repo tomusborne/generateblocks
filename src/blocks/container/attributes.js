@@ -417,6 +417,10 @@ const attributes = {
 		type: 'boolean',
 		default: generateBlocksDefaults.container.googleFont,
 	},
+	googleFontVariants: {
+		type: 'string',
+		default: generateBlocksDefaults.container.googleFontVariants,
+	},
 	fontWeight: {
 		type: 'string',
 		default: generateBlocksDefaults.container.fontWeight,

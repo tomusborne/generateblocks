@@ -80,6 +80,10 @@ export default {
 		type: 'boolean',
 		default: generateBlocksDefaults.headline.googleFont,
 	},
+	googleFontVariants: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.googleFontVariants,
+	},
 	fontWeight: {
 		type: 'string',
 		default: generateBlocksDefaults.headline.fontWeight,
