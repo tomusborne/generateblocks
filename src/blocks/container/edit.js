@@ -307,7 +307,7 @@ class GenerateBlockContainer extends Component {
 						<PanelBody
 							title={ __( 'Layout', 'generateblocks' ) }
 							initialOpen={ false }
-							icon={ getIcon( 'typography' ) }
+							icon={ getIcon( 'layout' ) }
 							className={ 'gblocks-panel-label' }
 						>
 							<Fragment>
@@ -377,7 +377,7 @@ class GenerateBlockContainer extends Component {
 						<PanelBody
 							title={ __( 'Layout', 'generateblocks' ) }
 							initialOpen={ false }
-							icon={ getIcon( 'typography' ) }
+							icon={ getIcon( 'layout' ) }
 							className={ 'gblocks-panel-label' }
 						>
 							{ 'desktop' === selectedDevice && (
