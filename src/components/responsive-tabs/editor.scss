@@ -16,10 +16,12 @@
 	    outline: 0 !important;
 
 		&.is-pressed:not(:disabled),
-		&:focus:not(:disabled) {
-			box-shadow: unset;
-		    background: #007cba;
-		    color: #fff;
+		&:focus:not(:disabled),
+		&:active:not(:disabled),
+		&:hover:not(:disabled) {
+			box-shadow: unset !important;
+		    background: #007cba !important;
+		    color: #fff !important;
 		}
 	}
 }
