@@ -211,6 +211,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -256,6 +257,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -300,6 +302,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }

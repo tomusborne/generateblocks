@@ -759,6 +759,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTop' }
@@ -770,6 +771,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -781,6 +783,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTop' }
@@ -792,6 +795,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeft' }
@@ -866,6 +870,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopTablet' }
@@ -877,6 +882,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -888,6 +894,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopTablet' }
@@ -899,6 +906,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftTablet' }
@@ -973,6 +981,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopMobile' }
@@ -984,6 +993,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -995,6 +1005,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopMobile' }
@@ -1006,6 +1017,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftMobile' }

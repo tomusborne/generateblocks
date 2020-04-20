@@ -85,6 +85,7 @@ class DimensionsControl extends Component {
 			labelBottom = __( 'Bottom', 'generateblocks' ),
 			labelLeft = __( 'Left', 'generateblocks' ),
 			displayUnit,
+			device,
 		} = this.props;
 
 		const classes = classnames(
@@ -167,6 +168,54 @@ class DimensionsControl extends Component {
 			},
 		];
 
+		let topPlaceholder = '0',
+			rightPlaceholder = '0',
+			bottomPlaceholder = '0',
+			leftPlaceholder= '0';
+
+		if ( 'tablet' === device ) {
+			const topAttrName = attrTop.replace( 'Tablet', '' ),
+				  rightAttrName = attrRight.replace( 'Tablet', '' ),
+				  bottomAttrName = attrBottom.replace( 'Tablet', '' ),
+				  leftAttrName = attrLeft.replace( 'Tablet', '' );
+
+			topPlaceholder = attributes[ topAttrName ] ? attributes[ topAttrName ] : topPlaceholder;
+			rightPlaceholder = attributes[ rightAttrName ] ? attributes[ rightAttrName ] : rightPlaceholder;
+			bottomPlaceholder = attributes[ bottomAttrName ] ? attributes[ bottomAttrName ] : bottomPlaceholder;
+			leftPlaceholder = attributes[ leftAttrName ] ? attributes[ leftAttrName ] : leftPlaceholder;
+		}
+
+		if ( 'mobile' === device ) {
+			const topAttrName = attrTop.replace( 'Mobile', '' ),
+				  rightAttrName = attrRight.replace( 'Mobile', '' ),
+				  bottomAttrName = attrBottom.replace( 'Mobile', '' ),
+				  leftAttrName = attrLeft.replace( 'Mobile', '' );
+
+			if ( attributes[ topAttrName + 'Tablet' ] ) {
+				topPlaceholder = attributes[ topAttrName + 'Tablet' ];
+			} else if ( attributes[ topAttrName ] ) {
+				topPlaceholder = attributes[ topAttrName ];
+			}
+
+			if ( attributes[ rightAttrName + 'Tablet' ] ) {
+				rightPlaceholder = attributes[ rightAttrName + 'Tablet' ];
+			} else if ( attributes[ rightAttrName ] ) {
+				rightPlaceholder = attributes[ rightAttrName ];
+			}
+
+			if ( attributes[ bottomAttrName + 'Tablet' ] ) {
+				bottomPlaceholder = attributes[ bottomAttrName + 'Tablet' ];
+			} else if ( attributes[ bottomAttrName ] ) {
+				bottomPlaceholder = attributes[ bottomAttrName ];
+			}
+
+			if ( attributes[ leftAttrName + 'Tablet' ] ) {
+				leftPlaceholder = attributes[ leftAttrName + 'Tablet' ];
+			} else if ( attributes[ leftAttrName ] ) {
+				leftPlaceholder = attributes[ leftAttrName ];
+			}
+		}
+
 		return (
 			<Fragment>
 				<div className={ classes }>
@@ -219,6 +268,7 @@ class DimensionsControl extends Component {
 					<div className="components-gblocks-dimensions-control__inputs">
 						<input
 							className="components-gblocks-dimensions-control__number"
+							placeholder={ topPlaceholder }
 							type="number"
 							onChange={ onChangeTopValue }
 							aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
@@ -228,6 +278,7 @@ class DimensionsControl extends Component {
 						/>
 						<input
 							className="components-gblocks-dimensions-control__number"
+							placeholder={ rightPlaceholder }
 							type="number"
 							onChange={ onChangeRightValue }
 							aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
@@ -237,6 +288,7 @@ class DimensionsControl extends Component {
 						/>
 						<input
 							className="components-gblocks-dimensions-control__number"
+							placeholder={ bottomPlaceholder }
 							type="number"
 							onChange={ onChangeBottomValue }
 							aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
@@ -246,6 +298,7 @@ class DimensionsControl extends Component {
 						/>
 						<input
 							className="components-gblocks-dimensions-control__number"
+							placeholder={ leftPlaceholder }
 							type="number"
 							onChange={ onChangeLeftValue }
 							aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }

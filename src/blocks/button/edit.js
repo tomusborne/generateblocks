@@ -380,6 +380,7 @@ class GenerateBlockButton extends Component {
 							{ 'desktop' === selectedDevice && (
 								<Fragment>
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Padding', 'generateblocks' ) }
 										attrTop={ 'paddingTop' }
@@ -391,6 +392,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'margin' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTop' }
@@ -402,6 +404,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Size', 'generateblocks' ) }
 										attrTop={ 'borderSizeTop' }
@@ -413,6 +416,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Radius', 'generateblocks' ) }
 										attrTop={ 'borderRadiusTopLeft' }
@@ -432,6 +436,7 @@ class GenerateBlockButton extends Component {
 							{ 'tablet' === selectedDevice && (
 								<Fragment>
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Padding', 'generateblocks' ) }
 										attrTop={ 'paddingTopTablet' }
@@ -443,6 +448,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'margin' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTopTablet' }
@@ -454,6 +460,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Size', 'generateblocks' ) }
 										attrTop={ 'borderSizeTopTablet' }
@@ -465,6 +472,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Radius', 'generateblocks' ) }
 										attrTop={ 'borderRadiusTopLeftTablet' }
@@ -484,6 +492,7 @@ class GenerateBlockButton extends Component {
 							{ 'mobile' === selectedDevice && (
 								<Fragment>
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Padding', 'generateblocks' ) }
 										attrTop={ 'paddingTopMobile' }
@@ -495,6 +504,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTopMobile' }
@@ -506,6 +516,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Size', 'generateblocks' ) }
 										attrTop={ 'borderSizeTopMobile' }
@@ -517,6 +528,7 @@ class GenerateBlockButton extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Radius', 'generateblocks' ) }
 										attrTop={ 'borderRadiusTopLeftMobile' }
@@ -724,6 +736,7 @@ class GenerateBlockButton extends Component {
 									{ ! removeText &&
 										<Fragment>
 											<DimensionsControl { ...this.props }
+												device={ selectedDevice }
 												type={ 'padding' }
 												label={ __( 'Padding', 'generateblocks' ) }
 												attrTop={ 'iconPaddingTop' }
@@ -802,6 +815,7 @@ class GenerateBlockButton extends Component {
 									{ ! removeText &&
 										<Fragment>
 											<DimensionsControl { ...this.props }
+												device={ selectedDevice }
 												type={ 'padding' }
 												label={ __( 'Padding', 'generateblocks' ) }
 												attrTop={ 'iconPaddingTopTablet' }
@@ -881,6 +895,7 @@ class GenerateBlockButton extends Component {
 									{ ! removeText &&
 										<Fragment>
 											<DimensionsControl { ...this.props }
+												device={ selectedDevice }
 												type={ 'padding' }
 												label={ __( 'Padding', 'generateblocks' ) }
 												attrTop={ 'iconPaddingTopMobile' }

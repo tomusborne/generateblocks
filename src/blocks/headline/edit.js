@@ -430,6 +430,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Padding', 'generateblocks' ) }
 										attrTop={ 'paddingTop' }
@@ -441,6 +442,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'margin' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTop' }
@@ -452,6 +454,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Size', 'generateblocks' ) }
 										attrTop={ 'borderSizeTop' }
@@ -477,6 +480,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Padding', 'generateblocks' ) }
 										attrTop={ 'paddingTopTablet' }
@@ -488,6 +492,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'margin' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTopTablet' }
@@ -499,6 +504,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Size', 'generateblocks' ) }
 										attrTop={ 'borderSizeTopTablet' }
@@ -524,6 +530,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Padding', 'generateblocks' ) }
 										attrTop={ 'paddingTopMobile' }
@@ -535,6 +542,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'margin' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTopMobile' }
@@ -546,6 +554,7 @@ class GenerateBlockHeadline extends Component {
 									/>
 
 									<DimensionsControl { ...this.props }
+										device={ selectedDevice }
 										type={ 'padding' }
 										label={ __( 'Border Size', 'generateblocks' ) }
 										attrTop={ 'borderSizeTopMobile' }
@@ -722,6 +731,7 @@ class GenerateBlockHeadline extends Component {
 											}
 
 											<DimensionsControl { ...this.props }
+												device={ selectedDevice }
 												type={ 'padding' }
 												label={ __( 'Padding', 'generateblocks' ) }
 												attrTop={ 'iconPaddingTop' }
@@ -834,6 +844,7 @@ class GenerateBlockHeadline extends Component {
 											}
 
 											<DimensionsControl { ...this.props }
+												device={ selectedDevice }
 												type={ 'padding' }
 												label={ __( 'Padding', 'generateblocks' ) }
 												attrTop={ 'iconPaddingTopTablet' }
@@ -947,6 +958,7 @@ class GenerateBlockHeadline extends Component {
 											}
 
 											<DimensionsControl { ...this.props }
+												device={ selectedDevice }
 												type={ 'padding' }
 												label={ __( 'Padding', 'generateblocks' ) }
 												attrTop={ 'iconPaddingTopMobile' }
