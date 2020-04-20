@@ -366,11 +366,11 @@
     height: unset;
     border-radius: unset;
     outline: 0 !important; }
-    .gb-responsive-tabs button.is-pressed:not(:disabled), .gb-responsive-tabs button:focus:not(:disabled) {
-      -webkit-box-shadow: unset;
-              box-shadow: unset;
-      background: #007cba;
-      color: #fff; }
+    .gb-responsive-tabs button.is-pressed:not(:disabled), .gb-responsive-tabs button:focus:not(:disabled), .gb-responsive-tabs button:active:not(:disabled), .gb-responsive-tabs button:hover:not(:disabled) {
+      -webkit-box-shadow: unset !important;
+              box-shadow: unset !important;
+      background: #007cba !important;
+      color: #fff !important; }
 
 .block-editor-block-inspector .gb-responsive-tabs + .components-panel__body {
   border-top: 0; }
