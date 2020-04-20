@@ -99,6 +99,85 @@ class GenerateBlocks_Dynamic_CSS {
 			return false;
 		}
 
+		if ( is_array( $value ) && ! array_filter( $value ) ) {
+			return false;
+		}
+
+		if ( is_array( $value ) ) {
+			if ( $value[0] && $value[1] && $value[2] && $value[3] ) {
+				$value = generateblocks_get_shorthand_css( $value[0], $value[1], $value[2], $value[3], $unit );
+
+				$this->_css .= $property . ':' . $value . ';';
+				return $this;
+			} else {
+				if ( $value[0] || 0 === $value[0] || '0' === $value[0] ) {
+					$property_top = $property . '-top';
+
+					if ( 'border-radius' === $property ) {
+						$property_top = 'border-top-left-radius';
+					} else if ( 'border-width' === $property ) {
+						$property_top = 'border-top-width';
+					}
+
+					if ( 0 === $value[0] || '0' === $value[0] ) {
+						$unit = '';
+					}
+
+					$this->_css .= $property_top . ':' . $value[0] . $unit . ';';
+				}
+
+				if ( $value[1] || 0 === $value[1] || '0' === $value[1] ) {
+					$property_right = $property . '-right';
+
+					if ( 'border-radius' === $property ) {
+						$property_right = 'border-top-right-radius';
+					} else if ( 'border-width' === $property ) {
+						$property_right = 'border-right-width';
+					}
+
+					if ( 0 === $value[1] || '0' === $value[1] ) {
+						$unit = '';
+					}
+
+					$this->_css .= $property_right . ':' . $value[1] . $unit . ';';
+				}
+
+				if ( $value[2] || 0 === $value[2] || '0' === $value[2] ) {
+					$property_bottom = $property . '-bottom';
+
+					if ( 'border-radius' === $property ) {
+						$property_bottom = 'border-bottom-right-radius';
+					} else if ( 'border-width' === $property ) {
+						$property_bottom = 'border-bottom-width';
+					}
+
+					if ( 0 === $value[2] || '0' === $value[2] ) {
+						$unit = '';
+					}
+
+					$this->_css .= $property_bottom . ':' . $value[2] . $unit . ';';
+				}
+
+				if ( $value[3] || 0 === $value[3] || '0' === $value[3] ) {
+					$property_left = $property . '-left';
+
+					if ( 'border-radius' === $property ) {
+						$property_left = 'border-bottom-left-radius';
+					} else if ( 'border-width' === $property ) {
+						$property_left = 'border-left-width';
+					}
+
+					if ( 0 === $value[3] || '0' === $value[3] ) {
+						$unit = '';
+					}
+
+					$this->_css .= $property_left . ':' . $value[3] . $unit . ';';
+				}
+
+				return $this;
+			}
+		}
+
 		// Add our unit to our value if it exists.
 		if ( $unit ) {
 			$value = $value . $unit;
