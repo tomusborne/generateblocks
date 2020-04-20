@@ -304,7 +304,12 @@ class GenerateBlockContainer extends Component {
 					/>
 
 					{ ! isGrid && 'desktop' === selectedDevice && (
-						<PanelBody>
+						<PanelBody
+							title={ __( 'Layout', 'generateblocks' ) }
+							initialOpen={ false }
+							icon={ getIcon( 'typography' ) }
+							className={ 'gblocks-panel-label' }
+						>
 							<Fragment>
 								{ fullWidthContentOptions() }
 
@@ -369,7 +374,12 @@ class GenerateBlockContainer extends Component {
 					) }
 
 					{ isGrid && (
-						<PanelBody className="section-grid-panel">
+						<PanelBody
+							title={ __( 'Layout', 'generateblocks' ) }
+							initialOpen={ false }
+							icon={ getIcon( 'typography' ) }
+							className={ 'gblocks-panel-label' }
+						>
 							{ 'desktop' === selectedDevice && (
 								<Fragment>
 									<div className="components-gblocks-control__header">
