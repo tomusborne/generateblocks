@@ -309,7 +309,7 @@ class GenerateBlockHeadline extends Component {
 					{ ! removeText &&
 						<PanelBody
 							title={ __( 'Typography', 'generateblocks' ) }
-							initialOpen={ true }
+							initialOpen={ false }
 							icon={ getIcon( 'typography' ) }
 							className={ 'gblocks-panel-label' }
 							>
