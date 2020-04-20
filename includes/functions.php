@@ -71,15 +71,6 @@ function generateblocks_get_block_data( $content, $data = array() ) {
 }
 
 /**
- * Return our necessary permission to register a meta entry.
- *
- * @since 0.1
- */
-function generateblocks_auth_callback() {
-	return current_user_can( 'edit_posts' );
-}
-
-/**
  * Shorthand CSS values (padding, margin, border etc..).
  *
  * @since 0.1
