@@ -263,23 +263,53 @@ class GenerateBlockHeadline extends Component {
 							controls={ [
 								{
 									title: 'paragraph',
-									onClick: () => setAttributes( { element: 'p' } ),
+									onClick: () => {
+										setAttributes( { element: 'p' } );
+
+										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
+											setAttributes( { marginUnit: 'em' } );
+										}
+									},
 								},
 								{
 									title: 'h1',
-									onClick: () => setAttributes( { element: 'h1' } ),
+									onClick: () => {
+										setAttributes( { element: 'h1' } );
+
+										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+										}
+									}
 								},
 								{
 									title: 'h2',
-									onClick: () => setAttributes( { element: 'h2' } ),
+									onClick: () => {
+										setAttributes( { element: 'h2' } );
+
+										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+										}
+									}
 								},
 								{
 									title: 'h3',
-									onClick: () => setAttributes( { element: 'h3' } ),
+									onClick: () => {
+										setAttributes( { element: 'h3' } );
+
+										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+										}
+									}
 								},
 								{
 									title: 'h4',
-									onClick: () => setAttributes( { element: 'h4' } ),
+									onClick: () => {
+										setAttributes( { element: 'h4' } );
+
+										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+										}
+									}
 								},
 							] }
 						/>
@@ -327,7 +357,17 @@ class GenerateBlockHeadline extends Component {
 												{ label: 'h5', value: 'h5' },
 												{ label: 'h6', value: 'h6' },
 											] }
-											onChange={ ( element ) => { setAttributes( { element } ) } }
+											onChange={ ( element ) => {
+												setAttributes( { element } );
+
+												if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
+													if ( 'p' === element ) {
+														setAttributes( { marginUnit: 'em' } );
+													} else {
+														setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+													}
+												}
+											} }
 										/>
 
 										{ ! inlineWidth &&
