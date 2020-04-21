@@ -306,7 +306,7 @@ class GenerateBlockContainer extends Component {
 					{ ! isGrid && 'desktop' === selectedDevice && (
 						<PanelBody
 							title={ __( 'Layout', 'generateblocks' ) }
-							initialOpen={ false }
+							initialOpen={ true }
 							icon={ getIcon( 'layout' ) }
 							className={ 'gblocks-panel-label' }
 						>
@@ -376,7 +376,7 @@ class GenerateBlockContainer extends Component {
 					{ isGrid && (
 						<PanelBody
 							title={ __( 'Layout', 'generateblocks' ) }
-							initialOpen={ false }
+							initialOpen={ true }
 							icon={ getIcon( 'layout' ) }
 							className={ 'gblocks-panel-label' }
 						>
