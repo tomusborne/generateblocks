@@ -78,20 +78,8 @@ export default class DesktopCSS extends Component {
 		if ( marginBottom ) {
 			marginBottomValue = marginBottom + marginUnit;
 		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
-			if ( 'p' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.p.marginBottom + generateBlocksStyling.headline.p.unit;
-			} else if ( 'h1' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h1.marginBottom + generateBlocksStyling.headline.h1.unit;
-			} else if ( 'h2' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h2.marginBottom + generateBlocksStyling.headline.h2.unit;
-			} else if ( 'h3' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h3.marginBottom + generateBlocksStyling.headline.h3.unit;
-			} else if ( 'h4' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h4.marginBottom + generateBlocksStyling.headline.h4.unit;
-			} else if ( 'h5' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h5.marginBottom + generateBlocksStyling.headline.h5.unit;
-			} else if ( 'h6' === element ) {
-				marginBottomValue = generateBlocksStyling.headline.h6.marginBottom + generateBlocksStyling.headline.h6.unit;
+			if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) {
+				marginBottomValue = generateBlocksStyling.headline[ element ].marginBottom + generateBlocksStyling.headline[ element ].unit;
 			}
 		}
 
