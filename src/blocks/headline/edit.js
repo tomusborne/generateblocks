@@ -444,6 +444,7 @@ class GenerateBlockHeadline extends Component {
 									<DimensionsControl { ...this.props }
 										device={ selectedDevice }
 										type={ 'margin' }
+										block={ 'headline' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTop' }
 										attrRight={ 'marginRight' }
@@ -494,6 +495,7 @@ class GenerateBlockHeadline extends Component {
 									<DimensionsControl { ...this.props }
 										device={ selectedDevice }
 										type={ 'margin' }
+										block={ 'headline' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTopTablet' }
 										attrRight={ 'marginRightTablet' }
@@ -544,6 +546,7 @@ class GenerateBlockHeadline extends Component {
 									<DimensionsControl { ...this.props }
 										device={ selectedDevice }
 										type={ 'margin' }
+										block={ 'headline' }
 										label={ __( 'Margin', 'generateblocks' ) }
 										attrTop={ 'marginTopMobile' }
 										attrRight={ 'marginRightMobile' }

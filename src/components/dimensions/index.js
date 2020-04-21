@@ -86,6 +86,7 @@ class DimensionsControl extends Component {
 			labelLeft = __( 'Left', 'generateblocks' ),
 			displayUnit,
 			device,
+			block,
 		} = this.props;
 
 		const classes = classnames(
@@ -172,6 +173,16 @@ class DimensionsControl extends Component {
 			rightPlaceholder = '0',
 			bottomPlaceholder = '0',
 			leftPlaceholder= '0';
+
+		if ( 'headline' === block && attrBottom.includes( 'marginBottom' ) ) {
+			if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
+				if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) {
+					if ( generateBlocksStyling.headline[ attributes.element ].unit === attributes.marginUnit ) {
+						bottomPlaceholder = generateBlocksStyling.headline[ attributes.element ].marginBottom;
+					}
+				}
+			}
+		}
 
 		if ( 'tablet' === device ) {
 			const topAttrName = attrTop.replace( 'Tablet', '' ),
