@@ -168,3 +168,16 @@ add_filter( 'generateblocks_css_print_method', 'generateblocks_set_css_print_met
 function generateblocks_set_css_print_method( $method ) {
 	return generateblocks_get_option( 'css_print_method' );
 }
+
+add_filter( 'excerpt_allowed_blocks', 'generateblocks_set_excerpt_allowed_blocks' );
+/**
+ * Add blocks that can be displayed in post excerpts.
+ *
+ * @since 1.0
+ */
+function generateblocks_set_excerpt_allowed_blocks( $allowed ) {
+	$allowed[] = 'generateblocks/headline';
+	$allowed[] = 'generateblocks/container';
+
+	return $allowed;
+};
