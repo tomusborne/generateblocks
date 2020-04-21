@@ -336,6 +336,35 @@ class GenerateBlockHeadline extends Component {
 						} }
 					/>
 
+					{ 'desktop' === selectedDevice && ! removeText &&
+						<PanelBody>
+							<SelectControl
+								label={ __( 'Element', 'generateblocks' ) }
+								value={ element }
+								options={ [
+									{ label: 'paragraph', value: 'p' },
+									{ label: 'h1', value: 'h1' },
+									{ label: 'h2', value: 'h2' },
+									{ label: 'h3', value: 'h3' },
+									{ label: 'h4', value: 'h4' },
+									{ label: 'h5', value: 'h5' },
+									{ label: 'h6', value: 'h6' },
+								] }
+								onChange={ ( element ) => {
+									setAttributes( { element } );
+
+									if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
+										if ( 'p' === element ) {
+											setAttributes( { marginUnit: 'em' } );
+										} else {
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+										}
+									}
+								} }
+							/>
+						</PanelBody>
+					}
+
 					{ ! removeText &&
 						<PanelBody
 							title={ __( 'Typography', 'generateblocks' ) }
@@ -345,31 +374,6 @@ class GenerateBlockHeadline extends Component {
 							>
 								{ 'desktop' === selectedDevice && (
 									<Fragment>
-										<SelectControl
-											label={ __( 'Element', 'generateblocks' ) }
-											value={ element }
-											options={ [
-												{ label: 'paragraph', value: 'p' },
-												{ label: 'h1', value: 'h1' },
-												{ label: 'h2', value: 'h2' },
-												{ label: 'h3', value: 'h3' },
-												{ label: 'h4', value: 'h4' },
-												{ label: 'h5', value: 'h5' },
-												{ label: 'h6', value: 'h6' },
-											] }
-											onChange={ ( element ) => {
-												setAttributes( { element } );
-
-												if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-													if ( 'p' === element ) {
-														setAttributes( { marginUnit: 'em' } );
-													} else {
-														setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-													}
-												}
-											} }
-										/>
-
 										{ ! inlineWidth &&
 											<AlignmentToolbar
 												isCollapsed={ false }
