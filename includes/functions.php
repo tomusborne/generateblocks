@@ -144,13 +144,15 @@ function generateblocks_get_google_fonts( $content = '' ) {
 		}
 
 		$content = $post->post_content;
-
-		if ( ! function_exists( 'parse_blocks' ) ) {
-			return;
-		}
-
-		$content = parse_blocks( $content );
 	}
+
+	$content = apply_filters( 'generateblocks_do_content', $content );
+
+	if ( ! function_exists( 'parse_blocks' ) ) {
+		return;
+	}
+
+	$content = parse_blocks( $content );
 
 	if ( ! $content ) {
 		return;
