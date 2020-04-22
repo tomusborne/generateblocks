@@ -402,3 +402,16 @@ function generateblocks_get_option( $option ) {
 
 	return $options[ $option ];
 }
+
+/**
+ * Checks whether a value exists, even if it's a 0.
+ *
+ * @since 1.0
+ */
+function generateblocks_has_number_value( $value ) {
+	if ( $value || 0 === $value || '0' === $value ) {
+		return true;
+	}
+
+	return false;
+}

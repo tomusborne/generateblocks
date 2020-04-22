@@ -104,13 +104,18 @@ class GenerateBlocks_Dynamic_CSS {
 		}
 
 		if ( is_array( $value ) ) {
-			if ( $value[0] && $value[1] && $value[2] && $value[3] ) {
+			$valueTop = generateblocks_has_number_value( $value[0] );
+			$valueRight = generateblocks_has_number_value( $value[1] );
+			$valueBottom = generateblocks_has_number_value( $value[2] );
+			$valueLeft = generateblocks_has_number_value( $value[3] );
+
+			if ( $valueTop && $valueRight && $valueBottom && $valueLeft ) {
 				$value = generateblocks_get_shorthand_css( $value[0], $value[1], $value[2], $value[3], $unit );
 
 				$this->_css .= $property . ':' . $value . ';';
 				return $this;
 			} else {
-				if ( $value[0] || 0 === $value[0] || '0' === $value[0] ) {
+				if ( $valueTop ) {
 					$property_top = $property . '-top';
 
 					if ( 'border-radius' === $property ) {
@@ -126,7 +131,7 @@ class GenerateBlocks_Dynamic_CSS {
 					$this->_css .= $property_top . ':' . $value[0] . $unit . ';';
 				}
 
-				if ( $value[1] || 0 === $value[1] || '0' === $value[1] ) {
+				if ( $valueRight ) {
 					$property_right = $property . '-right';
 
 					if ( 'border-radius' === $property ) {
@@ -142,7 +147,7 @@ class GenerateBlocks_Dynamic_CSS {
 					$this->_css .= $property_right . ':' . $value[1] . $unit . ';';
 				}
 
-				if ( $value[2] || 0 === $value[2] || '0' === $value[2] ) {
+				if ( $valueBottom ) {
 					$property_bottom = $property . '-bottom';
 
 					if ( 'border-radius' === $property ) {
@@ -158,7 +163,7 @@ class GenerateBlocks_Dynamic_CSS {
 					$this->_css .= $property_bottom . ':' . $value[2] . $unit . ';';
 				}
 
-				if ( $value[3] || 0 === $value[3] || '0' === $value[3] ) {
+				if ( $valueLeft ) {
 					$property_left = $property . '-left';
 
 					if ( 'border-radius' === $property ) {
