@@ -117,6 +117,7 @@ class GenerateBlocks_Dynamic_CSS {
 			} else {
 				if ( $valueTop ) {
 					$property_top = $property . '-top';
+					$unit_top = $unit;
 
 					if ( 'border-radius' === $property ) {
 						$property_top = 'border-top-left-radius';
@@ -125,14 +126,15 @@ class GenerateBlocks_Dynamic_CSS {
 					}
 
 					if ( 0 === $value[0] || '0' === $value[0] ) {
-						$unit = '';
+						$unit_top = '';
 					}
 
-					$this->_css .= $property_top . ':' . $value[0] . $unit . ';';
+					$this->_css .= $property_top . ':' . $value[0] . $unit_top . ';';
 				}
 
 				if ( $valueRight ) {
 					$property_right = $property . '-right';
+					$unit_right = $unit;
 
 					if ( 'border-radius' === $property ) {
 						$property_right = 'border-top-right-radius';
@@ -141,14 +143,15 @@ class GenerateBlocks_Dynamic_CSS {
 					}
 
 					if ( 0 === $value[1] || '0' === $value[1] ) {
-						$unit = '';
+						$unit_right = '';
 					}
 
-					$this->_css .= $property_right . ':' . $value[1] . $unit . ';';
+					$this->_css .= $property_right . ':' . $value[1] . $unit_right . ';';
 				}
 
 				if ( $valueBottom ) {
 					$property_bottom = $property . '-bottom';
+					$unit_bottom = $unit;
 
 					if ( 'border-radius' === $property ) {
 						$property_bottom = 'border-bottom-right-radius';
@@ -157,14 +160,15 @@ class GenerateBlocks_Dynamic_CSS {
 					}
 
 					if ( 0 === $value[2] || '0' === $value[2] ) {
-						$unit = '';
+						$unit_bottom = '';
 					}
 
-					$this->_css .= $property_bottom . ':' . $value[2] . $unit . ';';
+					$this->_css .= $property_bottom . ':' . $value[2] . $unit_bottom . ';';
 				}
 
 				if ( $valueLeft ) {
 					$property_left = $property . '-left';
+					$unit_left = $unit;
 
 					if ( 'border-radius' === $property ) {
 						$property_left = 'border-bottom-left-radius';
@@ -173,10 +177,10 @@ class GenerateBlocks_Dynamic_CSS {
 					}
 
 					if ( 0 === $value[3] || '0' === $value[3] ) {
-						$unit = '';
+						$unit_left = '';
 					}
 
-					$this->_css .= $property_left . ':' . $value[3] . $unit . ';';
+					$this->_css .= $property_left . ':' . $value[3] . $unit_left . ';';
 				}
 
 				return $this;
