@@ -1,9 +1,9 @@
 export default function flexboxAlignment( value ) {
-	if ( 'left' === value ) {
+	if ( 'left' === value || 'top' === value ) {
 		return 'flex-start';
 	}
 
-	if ( 'right' === value ) {
+	if ( 'right' === value || 'bottom' === value ) {
 		return 'flex-end';
 	}
 

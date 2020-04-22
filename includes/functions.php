@@ -372,11 +372,11 @@ function generateblocks_get_vendor_prefix( $value ) {
  * @return string The flexbox alignment value.
  */
 function generateblocks_get_flexbox_alignment( $value ) {
-	if ( 'left' === $value ) {
+	if ( 'left' === $value || 'top' === $value ) {
 		return 'flex-start';
 	}
 
-	if ( 'right' === $value ) {
+	if ( 'right' === $value || 'bottom' === $value ) {
 		return 'flex-end';
 	}
 

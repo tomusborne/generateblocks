@@ -100,7 +100,7 @@ export default class DesktopCSS extends Component {
 			'flex-direction': icon && 'above' === iconLocation ? 'column' : false,
 			'justify-content': flexboxAlignment( alignment ),
 			'text-align': alignment,
-			'align-items': 'inline' === iconLocation ? iconVerticalAlignment : flexboxAlignment( alignment ),
+			'align-items': 'inline' === iconLocation ? flexboxAlignment( iconVerticalAlignment ) : flexboxAlignment( alignment ),
 		} ];
 
 		let headlineStyleSelector = '.editor-styles-wrapper .gb-headline-' + uniqueId;

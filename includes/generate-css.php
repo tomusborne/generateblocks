@@ -903,7 +903,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'inline' === $settings['iconLocation'] ) {
-						$css->add_property( 'align-items', $settings['iconVerticalAlignment'] );
+						$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignment'] ) );
 					}
 
 					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
@@ -975,7 +975,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'inline' === $settings['iconLocationTablet'] ) {
-						$tablet_css->add_property( 'align-items', $settings['iconVerticalAlignmentTablet'] );
+						$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignmentTablet'] ) );
 					}
 
 					if ( 'above' === $settings['iconLocationTablet'] ) {
@@ -1031,7 +1031,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'inline' === $settings['iconLocationMobile'] ) {
-						$mobile_css->add_property( 'align-items', $settings['iconVerticalAlignmentMobile'] );
+						$mobile_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignmentMobile'] ) );
 					}
 
 					if ( 'above' === $settings['iconLocationMobile'] ) {
