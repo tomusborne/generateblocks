@@ -99,7 +99,7 @@ class GenerateBlocks_Dynamic_CSS {
 			return false;
 		}
 
-		if ( is_array( $value ) && ! array_filter( $value ) ) {
+		if ( is_array( $value ) && ! array_filter( $value, 'is_numeric' ) ) {
 			return false;
 		}
 
