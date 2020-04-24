@@ -5,6 +5,7 @@ import hexToRGBA from '../../../components/color-picker/hex-to-rgba';
 import valueWithUnit from '../../../utils/value-with-unit';
 
 const { Component } = wp.element;
+const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
 	constructor( props ) {
@@ -208,6 +209,8 @@ export default class DesktopCSS extends Component {
 		#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-editor-block-list__layout > div:not(:first-child) > .block-list-appender` ] = [ {
 			'display': 'none',
 		} ];
+
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'container', this.props );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

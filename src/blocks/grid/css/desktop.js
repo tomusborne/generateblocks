@@ -2,6 +2,7 @@ import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 
 const { Component } = wp.element;
+const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
 	constructor( props ) {
@@ -36,6 +37,8 @@ export default class DesktopCSS extends Component {
 			'padding-right': ( horizontalGap / 2 ) + 'px',
 			'margin-bottom': valueWithUnit( verticalGap, 'px' ),
 		} ];
+
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'grid', this.props );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

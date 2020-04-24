@@ -4,6 +4,7 @@ import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../components/color-picker/hex-to-rgba';
 
 const { Component } = wp.element;
+const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
 	constructor( props ) {
@@ -133,6 +134,8 @@ export default class DesktopCSS extends Component {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false,
 			'font-size': valueWithUnit( iconSize, iconSizeUnit ),
 		} ];
+
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'button', this.props );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

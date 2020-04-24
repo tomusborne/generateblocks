@@ -3,6 +3,7 @@ import shorthandCSS from '../../../utils/shorthand-css';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 
 const { Component } = wp.element;
+const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
 	constructor( props ) {
@@ -59,6 +60,8 @@ export default class DesktopCSS extends Component {
 				'box-sizing': 'border-box',
 			} ];
 		}
+
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'button-container', this.props );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

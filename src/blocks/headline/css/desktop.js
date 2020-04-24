@@ -5,6 +5,7 @@ import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../components/color-picker/hex-to-rgba';
 
 const { Component } = wp.element;
+const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
 	constructor( props ) {
@@ -150,6 +151,8 @@ export default class DesktopCSS extends Component {
 		cssObj[ '#block-' + clientId ] = [ {
 			'display': inlineWidth ? 'inline-flex' : false
 		} ];
+
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'headline', this.props );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>
