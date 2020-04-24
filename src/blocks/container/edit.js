@@ -7,6 +7,7 @@ import ColorPicker from '../../components/color-picker';
 import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
+import PanelArea from '../../components/panel-area/';
 import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 import ApplyFilters from '../../components/apply-filters/';
@@ -15,7 +16,6 @@ import DesktopCSS from './css/desktop.js';
 
 const { __, _x } = wp.i18n; // Import __() from wp.i18n
 const {
-	PanelBody,
 	RangeControl,
 	Button,
 	ButtonGroup,
@@ -303,12 +303,15 @@ class GenerateBlockContainer extends Component {
 						} }
 					/>
 
-					{ ! isGrid && 'desktop' === selectedDevice && (
-						<PanelBody
+					{ ! isGrid && (
+						<PanelArea { ...this.props }
 							title={ __( 'Layout', 'generateblocks' ) }
 							initialOpen={ true }
 							icon={ getIcon( 'layout' ) }
 							className={ 'gblocks-panel-label' }
+							id={ 'containerLayout' }
+							state={ this.state }
+							showPanel={ 'desktop' === selectedDevice || false }
 						>
 							<Fragment>
 								{ fullWidthContentOptions() }
@@ -370,15 +373,19 @@ class GenerateBlockContainer extends Component {
 									} }
 								/>
 							</Fragment>
-						</PanelBody>
+
+							{ applyFilters( 'generateblocks.editor.controls', '', 'containerLayout', this.props, this.state ) }
+						</PanelArea>
 					) }
 
 					{ isGrid && (
-						<PanelBody
+						<PanelArea { ...this.props }
 							title={ __( 'Layout', 'generateblocks' ) }
 							initialOpen={ true }
 							icon={ getIcon( 'layout' ) }
 							className={ 'gblocks-panel-label' }
+							id={ 'containerGridLayout' }
+							state={ this.state }
 						>
 							{ 'desktop' === selectedDevice && (
 								<Fragment>
@@ -622,94 +629,102 @@ class GenerateBlockContainer extends Component {
 									/>
 								</Fragment>
 							) }
-						</PanelBody>
+
+							{ applyFilters( 'generateblocks.editor.controls', '', 'containerGridLayout', this.props, this.state ) }
+						</PanelArea>
 					) }
 
-					<PanelBody
+					<PanelArea { ...this.props }
 						title={ __( 'Typography', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'typography' ) }
 						className={ 'gblocks-panel-label' }
-						>
+						id={ 'containerTypography' }
+						state={ this.state }
+					>
 
-							{ 'desktop' === selectedDevice && (
-								<Fragment>
-									<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-										<AlignmentToolbar
-											isCollapsed={ false }
-											value={ alignment }
-											onChange={ ( value ) => {
-												setAttributes( { alignment: value } );
-											} }
-										/>
-									</BaseControl>
-
-									<TypographyControls { ...this.props }
-										showFontFamily={ true }
-										showFontWeight={ true }
-										showTextTransform={ true }
-										showFontSize={ true }
-										defaultFontSize={ generateBlocksDefaults.container.fontSize }
-										defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
-										defaultLineHeight={ generateBlocksDefaults.container.lineHeight }
-										defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacing }
+						{ 'desktop' === selectedDevice && (
+							<Fragment>
+								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+									<AlignmentToolbar
+										isCollapsed={ false }
+										value={ alignment }
+										onChange={ ( value ) => {
+											setAttributes( { alignment: value } );
+										} }
 									/>
-								</Fragment>
-							) }
+								</BaseControl>
 
-							{ 'tablet' === selectedDevice && (
-								<Fragment>
-									<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-										<AlignmentToolbar
-											isCollapsed={ false }
-											value={ alignmentTablet }
-											onChange={ ( value ) => {
-												setAttributes( { alignmentTablet: value } );
-											} }
-										/>
-									</BaseControl>
+								<TypographyControls { ...this.props }
+									showFontFamily={ true }
+									showFontWeight={ true }
+									showTextTransform={ true }
+									showFontSize={ true }
+									defaultFontSize={ generateBlocksDefaults.container.fontSize }
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeight }
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacing }
+								/>
+							</Fragment>
+						) }
 
-									<TypographyControls { ...this.props }
-										showFontSize={ true }
-										defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
-										defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
-										defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
-										defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingTablet }
+						{ 'tablet' === selectedDevice && (
+							<Fragment>
+								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+									<AlignmentToolbar
+										isCollapsed={ false }
+										value={ alignmentTablet }
+										onChange={ ( value ) => {
+											setAttributes( { alignmentTablet: value } );
+										} }
 									/>
-								</Fragment>
-							) }
+								</BaseControl>
 
-							{ 'mobile' === selectedDevice && (
-								<Fragment>
-									<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-										<AlignmentToolbar
-											isCollapsed={ false }
-											value={ alignmentMobile }
-											onChange={ ( value ) => {
-												setAttributes( { alignmentMobile: value } );
-											} }
-										/>
-									</BaseControl>
+								<TypographyControls { ...this.props }
+									showFontSize={ true }
+									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingTablet }
+								/>
+							</Fragment>
+						) }
 
-									<TypographyControls { ...this.props }
-										showFontSize={ true }
-										defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
-										defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
-										defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
-										defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingMobile }
+						{ 'mobile' === selectedDevice && (
+							<Fragment>
+								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+									<AlignmentToolbar
+										isCollapsed={ false }
+										value={ alignmentMobile }
+										onChange={ ( value ) => {
+											setAttributes( { alignmentMobile: value } );
+										} }
 									/>
-								</Fragment>
-							) }
-					</PanelBody>
+								</BaseControl>
 
-					<PanelBody
+								<TypographyControls { ...this.props }
+									showFontSize={ true }
+									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingMobile }
+								/>
+							</Fragment>
+						) }
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerTypography', this.props, this.state ) }
+					</PanelArea>
+
+					<PanelArea { ...this.props }
 						title={ __( 'Spacing', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'spacing' ) }
 						className={ 'gblocks-panel-label' }
+						id={ 'containerSpacing' }
+						state={ this.state }
 					>
 
 						{ 'desktop' === selectedDevice && (
@@ -1044,319 +1059,329 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-					</PanelBody>
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerSpacing', this.props, this.state ) }
+					</PanelArea>
 
-					{ 'desktop' === selectedDevice &&
-						<PanelBody
-							title={ __( 'Colors', 'generateblocks' ) }
-							initialOpen={ false }
-							icon={ getIcon( 'colors' ) }
-							className={ 'gblocks-panel-label' }
-						>
-
-							<ApplyFilters name="generateblocks.editor.controls" attribute="containerColors" props={ this.props }>
-								<Fragment>
-									<ColorPicker
-										label={ __( 'Background Color', 'generateblocks' ) }
-										value={ backgroundColor }
-										alpha={ true }
-										valueOpacity={ backgroundColorOpacity }
-										attrOpacity={ 'backgroundColorOpacity' }
-										onChange={ ( nextBackgroundColor ) =>
-											setAttributes( {
-												backgroundColor: nextBackgroundColor
-											} )
-										}
-										onOpacityChange={ ( value ) =>
-											setAttributes( {
-												backgroundColorOpacity: value
-											} )
-										}
-									/>
-
-									<ColorPicker
-										label={ __( 'Text Color', 'generateblocks' ) }
-										value={ textColor }
-										alpha={ false }
-										onChange={ ( nextTextColor ) =>
-											setAttributes( {
-												textColor: nextTextColor
-											} )
-										}
-									/>
-
-									<ColorPicker
-										label={ __( 'Link Color', 'generateblocks' ) }
-										value={ linkColor }
-										alpha={ false }
-										onChange={ ( nextLinkColor ) =>
-											setAttributes( {
-												linkColor: nextLinkColor
-											} )
-										}
-									/>
-
-									<ColorPicker
-										label={ __( 'Link Color Hover', 'generateblocks' ) }
-										value={ linkColorHover }
-										alpha={ false }
-										onChange={ ( nextLinkColorHover ) =>
-											setAttributes( {
-												linkColorHover: nextLinkColorHover
-											} )
-										}
-									/>
-
-									<ColorPicker
-										label={ __( 'Border Color', 'generateblocks' ) }
-										value={ borderColor }
-										alpha={ true }
-										valueOpacity={ borderColorOpacity }
-										attrOpacity={ 'borderColorOpacity' }
-										onChange={ ( value ) =>
-											setAttributes( {
-												borderColor: value
-											} )
-										}
-										onOpacityChange={ ( value ) =>
-											setAttributes( {
-												borderColorOpacity: value
-											} )
-										}
-									/>
-								</Fragment>
-							</ApplyFilters>
-						</PanelBody>
-					}
-
-					{ 'desktop' === selectedDevice &&
-						<PanelBody
-							title={ __( 'Background Gradient' ) }
-							initialOpen={ false }
-							icon={ getIcon( 'gradients' ) }
-							className={ 'gblocks-panel-label' }
-						>
-							<GradientControl { ...this.props }
-								attrGradient={ 'gradient' }
-								attrGradientDirection={ 'gradientDirection' }
-								attrGradientColorOne={ 'gradientColorOne' }
-								attrGradientColorStopOne={ 'gradientColorStopOne' }
-								attrGradientColorTwo={ 'gradientColorTwo' }
-								attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-								attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
-								attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-								defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
-								defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
+					<PanelArea { ...this.props }
+						title={ __( 'Colors', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'colors' ) }
+						className={ 'gblocks-panel-label' }
+						id={ 'containerColors' }
+						state={ this.state }
+						showPanel={ 'desktop' === selectedDevice || false }
+					>
+						<Fragment>
+							<ColorPicker
+								label={ __( 'Background Color', 'generateblocks' ) }
+								value={ backgroundColor }
+								alpha={ true }
+								valueOpacity={ backgroundColorOpacity }
+								attrOpacity={ 'backgroundColorOpacity' }
+								onChange={ ( nextBackgroundColor ) =>
+									setAttributes( {
+										backgroundColor: nextBackgroundColor
+									} )
+								}
+								onOpacityChange={ ( value ) =>
+									setAttributes( {
+										backgroundColorOpacity: value
+									} )
+								}
 							/>
-						</PanelBody>
-					}
 
-					{ 'desktop' === selectedDevice &&
-						<PanelBody
-							title={ __( 'Background Image' ) }
-							initialOpen={ false }
-							icon={ getIcon( 'backgrounds' ) }
-							className={ 'gblocks-panel-label' }
-						>
-							{ ! bgImage && (
-								<div>
-									<MediaUpload
-										title={ __( 'Set background image', 'generateblocks' ) }
-										onSelect={ onSelectBgImage }
-										allowedTypes={["image"]}
-										modalClass="editor-post-featured-image__media-modal"
-										render={ ( { open } ) => (
-											<Button className="editor-post-featured-image__toggle" onClick={ open }>
-												{ __( 'Set background image', 'generateblocks' ) }
-											</Button>
-										) }
-									/>
-								</div>
-							) }
+							<ColorPicker
+								label={ __( 'Text Color', 'generateblocks' ) }
+								value={ textColor }
+								alpha={ false }
+								onChange={ ( nextTextColor ) =>
+									setAttributes( {
+										textColor: nextTextColor
+									} )
+								}
+							/>
 
-							{ !! bgImage && (
+							<ColorPicker
+								label={ __( 'Link Color', 'generateblocks' ) }
+								value={ linkColor }
+								alpha={ false }
+								onChange={ ( nextLinkColor ) =>
+									setAttributes( {
+										linkColor: nextLinkColor
+									} )
+								}
+							/>
+
+							<ColorPicker
+								label={ __( 'Link Color Hover', 'generateblocks' ) }
+								value={ linkColorHover }
+								alpha={ false }
+								onChange={ ( nextLinkColorHover ) =>
+									setAttributes( {
+										linkColorHover: nextLinkColorHover
+									} )
+								}
+							/>
+
+							<ColorPicker
+								label={ __( 'Border Color', 'generateblocks' ) }
+								value={ borderColor }
+								alpha={ true }
+								valueOpacity={ borderColorOpacity }
+								attrOpacity={ 'borderColorOpacity' }
+								onChange={ ( value ) =>
+									setAttributes( {
+										borderColor: value
+									} )
+								}
+								onOpacityChange={ ( value ) =>
+									setAttributes( {
+										borderColorOpacity: value
+									} )
+								}
+							/>
+						</Fragment>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerColors', this.props, this.state ) }
+					</PanelArea>
+
+					<PanelArea { ...this.props }
+						title={ __( 'Background Gradient', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'gradients' ) }
+						className={ 'gblocks-panel-label' }
+						id={ 'containerBackgroundGradient' }
+						state={ this.state }
+						showPanel={ 'desktop' === selectedDevice || false }
+					>
+						<GradientControl { ...this.props }
+							attrGradient={ 'gradient' }
+							attrGradientDirection={ 'gradientDirection' }
+							attrGradientColorOne={ 'gradientColorOne' }
+							attrGradientColorStopOne={ 'gradientColorStopOne' }
+							attrGradientColorTwo={ 'gradientColorTwo' }
+							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
+							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
+							defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
+							defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
+						/>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerBackgroundGradient', this.props, this.state ) }
+					</PanelArea>
+
+					<PanelArea { ...this.props }
+						title={ __( 'Background Image', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'backgrounds' ) }
+						className={ 'gblocks-panel-label' }
+						id={ 'containerBackgroundImage' }
+						state={ this.state }
+						showPanel={ 'desktop' === selectedDevice || false }
+					>
+						{ ! bgImage && (
+							<div>
 								<MediaUpload
 									title={ __( 'Set background image', 'generateblocks' ) }
 									onSelect={ onSelectBgImage }
 									allowedTypes={["image"]}
-									value={ bgImage.id }
 									modalClass="editor-post-featured-image__media-modal"
 									render={ ( { open } ) => (
-										<div className="editor-bg-image">
-											<Button className="editor-post-featured-image__preview" onClick={ open }>
-												<ResponsiveWrapper
-													naturalWidth={ bgImage.image.width }
-													naturalHeight={ bgImage.image.height }
-												>
-													<img src={ bgImage.image.url } alt={ __( 'BG Image' ) } />
-												</ResponsiveWrapper>
-											</Button>
-											<div className={ 'edit-bg-buttons' }>
-												<Button onClick={ open } isDefault isLarge>
-													{ __( 'Replace image' ) }
-												</Button>
-												<Button onClick={ onRemoveBgImage } isLink isDestructive>
-													{ __('Remove background image') }
-												</Button>
-											</div>
-										</div>
+										<Button className="editor-post-featured-image__toggle" onClick={ open }>
+											{ __( 'Set background image', 'generateblocks' ) }
+										</Button>
 									) }
 								/>
-							) }
+							</div>
+						) }
 
-							{ !! bgImage && (
-								<div className="section-bg-settings">
-									<ToggleControl
-										label={ __( 'Background Color Overlay', 'generateblocks' ) }
-										checked={ !! bgOptions.overlay }
-										onChange={ ( nextOverlay ) => {
-											setAttributes( {
-												bgOptions: {
-													...bgOptions,
-													overlay: nextOverlay,
-												},
-											} );
-										} }
-									/>
-
-									{ !! bgOptions.overlay && (
-										<div className="gblocks-notice">
-											{ __( 'Your background color must have transparency for the image to show.', 'generateblocks' ) }
+						{ !! bgImage && (
+							<MediaUpload
+								title={ __( 'Set background image', 'generateblocks' ) }
+								onSelect={ onSelectBgImage }
+								allowedTypes={["image"]}
+								value={ bgImage.id }
+								modalClass="editor-post-featured-image__media-modal"
+								render={ ( { open } ) => (
+									<div className="editor-bg-image">
+										<Button className="editor-post-featured-image__preview" onClick={ open }>
+											<ResponsiveWrapper
+												naturalWidth={ bgImage.image.width }
+												naturalHeight={ bgImage.image.height }
+											>
+												<img src={ bgImage.image.url } alt={ __( 'BG Image' ) } />
+											</ResponsiveWrapper>
+										</Button>
+										<div className={ 'edit-bg-buttons' }>
+											<Button onClick={ open } isDefault isLarge>
+												{ __( 'Replace image' ) }
+											</Button>
+											<Button onClick={ onRemoveBgImage } isLink isDestructive>
+												{ __('Remove background image') }
+											</Button>
 										</div>
-									) }
-
-									<TextControl
-										label={ __( 'Size', 'generateblocks' ) }
-										value={ bgOptions.size }
-										onChange={ ( nextSize ) => {
-											setAttributes( {
-												bgOptions: {
-													...bgOptions,
-													size: nextSize,
-												},
-											} );
-										} }
-									/>
-
-									<TextControl
-										label={ __( 'Position', 'generateblocks' ) }
-										value={ bgOptions.position }
-										onChange={ ( nextPosition ) => {
-											setAttributes( {
-												bgOptions: {
-													...bgOptions,
-													position: nextPosition,
-												},
-											} );
-										} }
-									/>
-
-									<SelectControl
-										label={ __( 'Repeat', 'generateblocks' ) }
-										value={ bgOptions.repeat }
-										options={ [
-											{ label: 'no-repeat', value: 'no-repeat' },
-											{ label: 'repeat', value: 'repeat' },
-											{ label: 'repeat-x', value: 'repeat-x' },
-											{ label: 'repeat-y', value: 'repeat-y' },
-										] }
-										onChange={ ( nextRepeat ) => {
-											setAttributes( {
-												bgOptions: {
-													...bgOptions,
-													repeat: nextRepeat,
-												},
-											} );
-										} }
-									/>
-
-									<SelectControl
-										label={ __( 'Attachment', 'generateblocks' ) }
-										value={ bgOptions.attachment }
-										options={ [
-											{ label: 'scroll', value: '' },
-											{ label: 'fixed', value: 'fixed' },
-											{ label: 'local', value: 'local' },
-										] }
-										onChange={ ( nextAttachment ) => {
-											setAttributes( {
-												bgOptions: {
-													...bgOptions,
-													attachment: nextAttachment,
-												},
-											} );
-										} }
-									/>
-								</div>
-							) }
-						</PanelBody>
-					}
-
-					<ApplyFilters name="generateblocks.editor.panels" attribute="afterContainerBackgrounds" props={ this.props }></ApplyFilters>
-
-					{ 'desktop' === selectedDevice &&
-						<PanelBody
-							title={ __( 'Advanced', 'generateblocks' ) }
-							initialOpen={ false }
-							icon={ getIcon( 'advanced' ) }
-							className={ 'gblocks-panel-label' }
-						>
-							<SelectControl
-								label={ __( 'Element Tag', 'generateblocks' ) }
-								value={ tagName }
-								options={ [
-									{ label: 'div', value: 'div' },
-									{ label: 'section', value: 'section' },
-									{ label: 'header', value: 'header' },
-									{ label: 'footer', value: 'footer' },
-								] }
-								onChange={ ( tagName ) => { setAttributes( { tagName } ) } }
+									</div>
+								) }
 							/>
+						) }
 
-							<TextControl
-								label={ __( 'Element ID', 'generateblocks' ) }
-								value={ elementId }
-								onChange={ ( elementId ) => {
-									elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-									setAttributes( { elementId } );
-								} }
-							/>
+						{ !! bgImage && (
+							<div className="section-bg-settings">
+								<ToggleControl
+									label={ __( 'Background Color Overlay', 'generateblocks' ) }
+									checked={ !! bgOptions.overlay }
+									onChange={ ( nextOverlay ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												overlay: nextOverlay,
+											},
+										} );
+									} }
+								/>
 
-							<TextControl
-								label={ __( 'CSS Classes', 'generateblocks' ) }
-								value={ cssClasses }
-								onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-							/>
+								{ !! bgOptions.overlay && (
+									<div className="gblocks-notice">
+										{ __( 'Your background color must have transparency for the image to show.', 'generateblocks' ) }
+									</div>
+								) }
 
-							<TextControl
-								label={ __( 'z-index', 'generateblocks' ) }
-								type={ 'number' }
-								value={ zindex || '' }
-								onChange={ ( value ) => {
-									setAttributes( {
-										zindex: value
-									} );
-								} }
-								onBlur={ () => {
-									setAttributes( {
-										zindex: parseFloat( zindex )
-									} );
-								} }
-							/>
+								<TextControl
+									label={ __( 'Size', 'generateblocks' ) }
+									value={ bgOptions.size }
+									onChange={ ( nextSize ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												size: nextSize,
+											},
+										} );
+									} }
+								/>
 
-							<ApplyFilters name="generateblocks.editor.controls" attribute="containerAdvanced" props={ this.props }></ApplyFilters>
-						</PanelBody>
-					}
+								<TextControl
+									label={ __( 'Position', 'generateblocks' ) }
+									value={ bgOptions.position }
+									onChange={ ( nextPosition ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												position: nextPosition,
+											},
+										} );
+									} }
+								/>
 
-					<PanelBody
-						title={ __( 'Documentation', 'generateblocks' ) }
-						icon={ getIcon( 'documentation' ) }
+								<SelectControl
+									label={ __( 'Repeat', 'generateblocks' ) }
+									value={ bgOptions.repeat }
+									options={ [
+										{ label: 'no-repeat', value: 'no-repeat' },
+										{ label: 'repeat', value: 'repeat' },
+										{ label: 'repeat-x', value: 'repeat-x' },
+										{ label: 'repeat-y', value: 'repeat-y' },
+									] }
+									onChange={ ( nextRepeat ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												repeat: nextRepeat,
+											},
+										} );
+									} }
+								/>
+
+								<SelectControl
+									label={ __( 'Attachment', 'generateblocks' ) }
+									value={ bgOptions.attachment }
+									options={ [
+										{ label: 'scroll', value: '' },
+										{ label: 'fixed', value: 'fixed' },
+										{ label: 'local', value: 'local' },
+									] }
+									onChange={ ( nextAttachment ) => {
+										setAttributes( {
+											bgOptions: {
+												...bgOptions,
+												attachment: nextAttachment,
+											},
+										} );
+									} }
+								/>
+							</div>
+						) }
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerBackgroundImage', this.props, this.state ) }
+					</PanelArea>
+
+					<PanelArea { ...this.props }
+						title={ __( 'Advanced', 'generateblocks' ) }
 						initialOpen={ false }
+						icon={ getIcon( 'advanced' ) }
 						className={ 'gblocks-panel-label' }
+						id={ 'containerAdvanced' }
+						state={ this.state }
+						showPanel={ 'desktop' === selectedDevice || false }
+					>
+						<SelectControl
+							label={ __( 'Element Tag', 'generateblocks' ) }
+							value={ tagName }
+							options={ [
+								{ label: 'div', value: 'div' },
+								{ label: 'section', value: 'section' },
+								{ label: 'header', value: 'header' },
+								{ label: 'footer', value: 'footer' },
+							] }
+							onChange={ ( tagName ) => { setAttributes( { tagName } ) } }
+						/>
+
+						<TextControl
+							label={ __( 'Element ID', 'generateblocks' ) }
+							value={ elementId }
+							onChange={ ( elementId ) => {
+								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+								setAttributes( { elementId } );
+							} }
+						/>
+
+						<TextControl
+							label={ __( 'CSS Classes', 'generateblocks' ) }
+							value={ cssClasses }
+							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+						/>
+
+						<TextControl
+							label={ __( 'z-index', 'generateblocks' ) }
+							type={ 'number' }
+							value={ zindex || '' }
+							onChange={ ( value ) => {
+								setAttributes( {
+									zindex: value
+								} );
+							} }
+							onBlur={ () => {
+								setAttributes( {
+									zindex: parseFloat( zindex )
+								} );
+							} }
+						/>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAdvanced', this.props, this.state ) }
+					</PanelArea>
+
+					<PanelArea { ...this.props }
+						title={ __( 'Documentation', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'documentation' ) }
+						className={ 'gblocks-panel-label' }
+						id={ 'containerDocumentation' }
+						state={ this.state }
 					>
 						<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
 						<a href="https://docs.generateblocks.com/collection/container/" target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
-					</PanelBody>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerDocumentation', this.props, this.state ) }
+					</PanelArea>
 				</InspectorControls>
 
 				<DesktopCSS { ...this.props } />

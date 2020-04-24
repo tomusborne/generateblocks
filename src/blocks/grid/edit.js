@@ -6,12 +6,12 @@ import classnames from 'classnames';
 import getIcon from '../../utils/get-icon';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
+import PanelArea from '../../components/panel-area/';
 
 const { __ } = wp.i18n;
 
 const {
 	TextControl,
-	PanelBody,
 	RangeControl,
 	SelectControl,
 	Tooltip,
@@ -36,6 +36,10 @@ const {
 const {
 	createBlock,
 } = wp.blocks;
+
+const {
+	applyFilters
+} = wp.hooks;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbGridIds = [];
@@ -290,7 +294,10 @@ class GenerateBlockGridContainer extends Component {
 						} }
 					/>
 
-					<PanelBody>
+					<PanelArea { ...this.props }
+						id={ 'gridLayout' }
+						state={ this.state }
+					>
 						{ 'desktop' === selectedDevice && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
@@ -695,41 +702,50 @@ class GenerateBlockGridContainer extends Component {
 								/>
 							</Fragment>
 						) }
-					</PanelBody>
 
-					{ 'desktop' === selectedDevice &&
-						<PanelBody
-							title={ __( 'Advanced', 'generateblocks' ) }
-							initialOpen={ false }
-							icon={ getIcon( 'advanced' ) }
-							className={ 'gblocks-panel-label' }
-						>
-							<TextControl
-								label={ __( 'Element ID', 'generateblocks' ) }
-								value={ elementId }
-								onChange={ ( elementId ) => {
-									elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-									setAttributes( { elementId } );
-								} }
-							/>
+						{ applyFilters( 'generateblocks.editor.controls', '', 'gridLayout', this.props, this.state ) }
+					</PanelArea>
 
-							<TextControl
-								label={ __( 'CSS Classes', 'generateblocks' ) }
-								value={ cssClasses }
-								onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-							/>
-						</PanelBody>
-					}
+					<PanelArea { ...this.props }
+						title={ __( 'Advanced', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'advanced' ) }
+						className={ 'gblocks-panel-label' }
+						id={ 'gridAdvanced' }
+						state={ this.state }
+						showPanel={ 'desktop' === selectedDevice || false }
+					>
+						<TextControl
+							label={ __( 'Element ID', 'generateblocks' ) }
+							value={ elementId }
+							onChange={ ( elementId ) => {
+								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+								setAttributes( { elementId } );
+							} }
+						/>
 
-					<PanelBody
+						<TextControl
+							label={ __( 'CSS Classes', 'generateblocks' ) }
+							value={ cssClasses }
+							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+						/>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'gridAdvanced', this.props, this.state ) }
+					</PanelArea>
+
+					<PanelArea { ...this.props }
 						title={ __( 'Documentation', 'generateblocks' ) }
 						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
 						className={ 'gblocks-panel-label' }
+						id={ 'gridDocumentation' }
+						state={ this.state }
 					>
 						<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
 						<a href="https://docs.generateblocks.com/collection/grid/" target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
-					</PanelBody>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'gridDocumentation', this.props, this.state ) }
+					</PanelArea>
 				</InspectorControls>
 
 				<DesktopCSS { ...this.props } />

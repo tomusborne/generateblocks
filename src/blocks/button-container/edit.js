@@ -7,11 +7,11 @@ import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
 import DesktopCSS from './css/desktop.js';
+import PanelArea from '../../components/panel-area/';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
 	TextControl,
-	PanelBody,
 	RangeControl,
 	Notice,
 	Tooltip,
@@ -38,6 +38,10 @@ const {
 	createBlock,
 	cloneBlock,
 } = wp.blocks;
+
+const {
+	applyFilters
+} = wp.hooks;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbButtonContainerIds = [];
@@ -193,11 +197,13 @@ class GenerateButtonContainer extends Component {
 						} }
 					/>
 
-					<PanelBody
+					<PanelArea { ...this.props }
 						title={ __( 'Spacing', 'generateblocks' ) }
 						initialOpen={ true }
 						icon={ getIcon( 'spacing' ) }
 						className={ 'gblocks-panel-label' }
+						id={ 'buttonContainerSpacing' }
+						state={ this.state }
 					>
 						{ 'desktop' === selectedDevice && (
 							<Fragment>
@@ -242,7 +248,6 @@ class GenerateButtonContainer extends Component {
 									} }
 								/>
 							</Fragment>
-
 						) }
 
 						{ 'tablet' === selectedDevice && (
@@ -334,41 +339,50 @@ class GenerateButtonContainer extends Component {
 								/>
 							</Fragment>
 						) }
-					</PanelBody>
 
-					{ 'desktop' === selectedDevice &&
-						<PanelBody
-							title={ __( 'Advanced', 'generateblocks' ) }
-							initialOpen={ false }
-							icon={ getIcon( 'advanced' ) }
-							className={ 'gblocks-panel-label' }
-						>
-							<TextControl
-								label={ __( 'Element ID', 'generateblocks' ) }
-								value={ elementId }
-								onChange={ ( elementId ) => {
-									elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-									setAttributes( { elementId } );
-								} }
-							/>
+						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonContainerSpacing', this.props, this.state ) }
+					</PanelArea>
 
-							<TextControl
-								label={ __( 'CSS Classes', 'generateblocks' ) }
-								value={ cssClasses }
-								onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
-							/>
-						</PanelBody>
-					}
+					<PanelArea { ...this.props }
+						title={ __( 'Advanced', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'advanced' ) }
+						className={ 'gblocks-panel-label' }
+						id={ 'buttonContainerAdvanced' }
+						state={ this.state }
+						showPanel={ 'desktop' === selectedDevice || false }
+					>
+						<TextControl
+							label={ __( 'Element ID', 'generateblocks' ) }
+							value={ elementId }
+							onChange={ ( elementId ) => {
+								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
+								setAttributes( { elementId } );
+							} }
+						/>
 
-					<PanelBody
+						<TextControl
+							label={ __( 'CSS Classes', 'generateblocks' ) }
+							value={ cssClasses }
+							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+						/>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonContainerAdvanced', this.props, this.state ) }
+					</PanelArea>
+
+					<PanelArea { ...this.props }
 						title={ __( 'Documentation', 'generateblocks' ) }
 						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
 						className={ 'gblocks-panel-label' }
+						id={ 'buttonContainerDocumentation' }
+						state={ this.state }
 					>
 						<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
 						<a href="https://docs.generateblocks.com/collection/buttons/" target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
-					</PanelBody>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonContainerDocumentation', this.props, this.state ) }
+					</PanelArea>
 				</InspectorControls>
 
 				<DesktopCSS { ...this.props } />
