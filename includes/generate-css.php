@@ -46,14 +46,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 	$css->add_property( 'width', '1em' );
 	$css->add_property( 'fill', 'currentColor' );
 
-	$css->set_selector( '.gb-headline-wrapper' );
-	$css->add_property( 'display', '-ms-flexbox' );
-	$css->add_property( 'display', 'flex' );
-
-	$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
-	$css->add_property( 'margin', '0' );
-	$css->add_property( 'padding', '0' );
-
 	$main_css_data[] = $css->css_output();
 
 	foreach ( $data as $name => $blockData ) {
@@ -835,6 +827,14 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->set_selector( '.gb-highlight' );
 			$css->add_property( 'background', 'unset' );
 			$css->add_property( 'color', 'unset' );
+
+			$css->set_selector( '.gb-headline-wrapper' );
+			$css->add_property( 'display', '-ms-flexbox' );
+			$css->add_property( 'display', 'flex' );
+
+			$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
+			$css->add_property( 'margin', '0' );
+			$css->add_property( 'padding', '0' );
 
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
