@@ -19,7 +19,7 @@ const {
 export default class PanelArea extends Component {
     render() {
         const {
-            title,
+            title = false,
 			initialOpen = false,
 			icon,
 			className,
@@ -31,9 +31,13 @@ export default class PanelArea extends Component {
 
 		const show = applyFilters( 'generateblocks.editor.showPanel', showPanel, id, this.props );
 
+		if ( ! show ) {
+			return null;
+		}
+
         return (
 			<ApplyFilters name={ 'generateblocks.panel.' + id } props={ this.props } state={ state }>
-				{ show &&
+				{ title ? (
 					<PanelBody
 						title={ title }
 						initialOpen={ initialOpen }
@@ -42,7 +46,11 @@ export default class PanelArea extends Component {
 					>
 						{ children }
 					</PanelBody>
-				}
+				) : (
+					<PanelBody>
+						{ children }
+					</PanelBody>
+				) }
 			</ApplyFilters>
         );
     }
