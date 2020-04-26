@@ -173,6 +173,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
+
+				/**
+				 * generateblocks_block_css_data hook
+				 *
+				 * @since 1.0
+				 *
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
+				 * @param string $name The name of our block.
+				 * @param array $settings The settings for the current block.
+				 */
+				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
 			}
 
 			if ( $css->css_output() ) {
@@ -476,6 +489,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$mobile_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
 					$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
 				}
+
+				/**
+				 * generateblocks_block_css_data hook
+				 *
+				 * @since 1.0
+				 *
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
+				 * @param string $name The name of our block.
+				 * @param array $settings The settings for the current block.
+				 */
+				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
 			}
 
 			if ( $css->css_output() ) {
@@ -593,6 +619,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$mobile_css->add_property( 'width', '100%' );
 					$mobile_css->add_property( 'box-sizing', 'border-box' );
 				}
+
+				/**
+				 * generateblocks_block_css_data hook
+				 *
+				 * @since 1.0
+				 *
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
+				 * @param string $name The name of our block.
+				 * @param array $settings The settings for the current block.
+				 */
+				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
 			}
 
 			if ( $css->css_output() ) {
@@ -749,6 +788,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
 					}
 				}
+
+				/**
+				 * generateblocks_block_css_data hook
+				 *
+				 * @since 1.0
+				 *
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
+				 * @param string $name The name of our block.
+				 * @param array $settings The settings for the current block.
+				 */
+				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
 			}
 
 			if ( $css->css_output() ) {
@@ -1039,6 +1091,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$mobile_css->add_property( 'flex-direction', 'column' );
 					}
 				}
+
+				/**
+				 * generateblocks_block_css_data hook
+				 *
+				 * @since 1.0
+				 *
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
+				 * @param string $name The name of our block.
+				 * @param array $settings The settings for the current block.
+				 */
+				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
 			}
 
 			if ( $css->css_output() ) {
@@ -1059,11 +1124,50 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		return false;
 	}
 
-	return apply_filters( 'generateblocks_css_output', array(
+	return apply_filters( 'generateblocks_css_device_data', array(
 		'main' => $main_css_data,
 		'tablet' => $tablet_css_data,
 		'mobile' => $mobile_css_data,
 	), $settings );
+}
+
+/**
+ * Turn our CSS array into plain CSS.
+ *
+ * @since 1.0
+ *
+ * @param array $data
+ */
+function generateblocks_get_parsed_css( $data ) {
+	$output = '';
+
+	foreach( $data as $device => $selectors ) {
+		foreach( $selectors as $selector => $properties ) {
+			if ( ! count( $properties ) ) {
+				continue;
+			}
+
+			$temporary_output = $selector . '{';
+			$elements_added = 0;
+
+			foreach( $properties as $key => $value ) {
+				if ( empty( $value ) ) {
+					continue;
+				}
+
+				$elements_added++;
+				$temporary_output .= $value;
+			}
+
+			$temporary_output .= "}";
+
+			if ( $elements_added > 0 ) {
+				$output .= $temporary_output;
+			}
+		}
+	}
+
+	return $output;
 }
 
 /**
@@ -1109,23 +1213,27 @@ function generateblocks_get_frontend_block_css() {
 
 	$css = '';
 
-	$css .= implode( '', $data['main'] );
+	$css .= generateblocks_get_parsed_css( $data['main'] );
 
 	if ( ! empty( $data['tablet'] ) ) {
 		$css .= sprintf(
 			'@media %1$s {%2$s}',
 			generateblocks_get_media_query( 'tablet' ),
-			implode( '', $data['tablet'] )
+			generateblocks_get_parsed_css( $data['tablet'] )
 		);
 	}
 
-	array_unshift( $data['mobile'], '.gb-grid-wrapper > .gb-grid-column {width: 100%;}' );
+	array_unshift( $data['mobile'], array(
+		'.gb-grid-wrapper > .gb-grid-column' => array(
+			'width: 100%;'
+		)
+	) );
 
 	if ( ! empty( $data['mobile'] ) ) {
 		$css .= sprintf(
 			'@media %1$s {%2$s}',
 			generateblocks_get_media_query( 'mobile' ),
-			implode( '', $data['mobile'] )
+			generateblocks_get_parsed_css( $data['mobile'] )
 		);
 	}
 
