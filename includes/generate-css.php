@@ -29,24 +29,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 	}
 
 	$blocks_exist = false;
+	$icon_css_added = false;
 	$main_css_data = array();
 	$tablet_css_data = array();
 	$mobile_css_data = array();
-
-	$css = new GenerateBlocks_Dynamic_CSS;
-
-	$css->set_selector( '.gb-icon' );
-	$css->add_property( 'display', '-webkit-inline-box' );
-	$css->add_property( 'display', '-ms-inline-flexbox' );
-	$css->add_property( 'display', 'inline-flex' );
-	$css->add_property( 'line-height', '0' );
-
-	$css->set_selector( '.gb-icon svg' );
-	$css->add_property( 'height', '1em' );
-	$css->add_property( 'width', '1em' );
-	$css->add_property( 'fill', 'currentColor' );
-
-	$main_css_data[] = $css->css_output();
 
 	foreach ( $data as $name => $blockData ) {
 		/**
@@ -655,6 +641,21 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
 
+			if ( ! $icon_css_added ) {
+				$css->set_selector( '.gb-icon' );
+				$css->add_property( 'display', '-webkit-inline-box' );
+				$css->add_property( 'display', '-ms-inline-flexbox' );
+				$css->add_property( 'display', 'inline-flex' );
+				$css->add_property( 'line-height', '0' );
+
+				$css->set_selector( '.gb-icon svg' );
+				$css->add_property( 'height', '1em' );
+				$css->add_property( 'width', '1em' );
+				$css->add_property( 'fill', 'currentColor' );
+
+				$icon_css_added = true;
+			}
+
 			$css->set_selector( '.gb-button-wrapper a.gb-button' );
 			$css->add_property( 'display', '-webkit-inline-box' );
 			$css->add_property( 'display', '-ms-inline-flexbox' );
@@ -823,6 +824,21 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css = new GenerateBlocks_Dynamic_CSS;
 			$tablet_css = new GenerateBlocks_Dynamic_CSS;
 			$mobile_css = new GenerateBlocks_Dynamic_CSS;
+
+			if ( ! $icon_css_added ) {
+				$css->set_selector( '.gb-icon' );
+				$css->add_property( 'display', '-webkit-inline-box' );
+				$css->add_property( 'display', '-ms-inline-flexbox' );
+				$css->add_property( 'display', 'inline-flex' );
+				$css->add_property( 'line-height', '0' );
+
+				$css->set_selector( '.gb-icon svg' );
+				$css->add_property( 'height', '1em' );
+				$css->add_property( 'width', '1em' );
+				$css->add_property( 'fill', 'currentColor' );
+
+				$icon_css_added = true;
+			}
 
 			$css->set_selector( '.gb-highlight' );
 			$css->add_property( 'background', 'unset' );
