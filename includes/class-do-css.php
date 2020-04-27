@@ -79,8 +79,7 @@ class GenerateBlocks_Dynamic_CSS {
 	 * @return $this
 	 */
 	public function add_property( $property, $value, $unit = false ) {
-		// If we don't have a value or our value is the same as our og default, bail.
-		if ( empty( $value ) && 0 !== $value && '0' !== $value ) {
+		if ( empty( $value ) && ! is_numeric( $value ) ) {
 			return false;
 		}
 
