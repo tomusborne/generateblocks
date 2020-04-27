@@ -177,7 +177,7 @@ class DimensionsControl extends Component {
 		if ( 'headline' === block && attrBottom.includes( 'marginBottom' ) ) {
 			if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
 				if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) {
-					if ( generateBlocksStyling.headline[ attributes.element ].unit === attributes.marginUnit ) {
+					if ( generateBlocksStyling.headline[ attributes.element ].marginUnit === attributes.marginUnit ) {
 						bottomPlaceholder = generateBlocksStyling.headline[ attributes.element ].marginBottom;
 					}
 				}

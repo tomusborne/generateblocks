@@ -70,7 +70,8 @@ export default class DesktopCSS extends Component {
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
-			marginBottomValue = '';
+			marginBottomValue = '',
+			fontSizeValue = '';
 
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
@@ -79,8 +80,16 @@ export default class DesktopCSS extends Component {
 		if ( marginBottom ) {
 			marginBottomValue = marginBottom + marginUnit;
 		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) {
-				marginBottomValue = generateBlocksStyling.headline[ element ].marginBottom + generateBlocksStyling.headline[ element ].unit;
+			if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' && ! isNaN( generateBlocksStyling.headline[ attributes.element ].marginBottom ) ) {
+				marginBottomValue = generateBlocksStyling.headline[ element ].marginBottom + generateBlocksStyling.headline[ element ].marginUnit;
+			}
+		}
+
+		if ( fontSize ) {
+			fontSizeValue = fontSize + fontSizeUnit;
+		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
+			if ( typeof generateBlocksStyling.headline[ attributes.element ].fontSize !== 'undefined' && generateBlocksStyling.headline[ attributes.element ].fontSize ) {
+				fontSizeValue = generateBlocksStyling.headline[ element ].fontSize + generateBlocksStyling.headline[ element ].fontSizeUnit;
 			}
 		}
 
@@ -92,7 +101,7 @@ export default class DesktopCSS extends Component {
 			'font-weight' : fontWeight,
 			'text-transform' : textTransform,
 			'text-align' : alignment,
-			'font-size' : valueWithUnit( fontSize, fontSizeUnit ),
+			'font-size' : fontSizeValue,
 			'line-height': valueWithUnit( lineHeight, lineHeightUnit ),
 			'letter-spacing' : valueWithUnit( letterSpacing, 'em' ),
 		} ];
@@ -102,6 +111,7 @@ export default class DesktopCSS extends Component {
 			'justify-content': flexboxAlignment( alignment ),
 			'text-align': alignment,
 			'align-items': 'inline' === iconLocation ? flexboxAlignment( iconVerticalAlignment ) : flexboxAlignment( alignment ),
+			'font-size' : fontSizeValue,
 		} ];
 
 		let headlineStyleSelector = '.editor-styles-wrapper .gb-headline-' + uniqueId;
@@ -135,7 +145,6 @@ export default class DesktopCSS extends Component {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false,
 			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
 			'color': hexToRGBA( iconColor, iconColorOpacity ),
-			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'display': icon && 'above' === iconLocation ? 'unset' : false
 		} ];
 

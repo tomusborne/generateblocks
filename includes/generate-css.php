@@ -913,7 +913,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$defaultBlockStyles = generateblocks_get_default_styles();
 
 						if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ][ 'marginBottom' ] ) ) {
-							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ][ 'marginBottom' ], $defaultBlockStyles['headline'][ $settings['element'] ]['unit'] );
+							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ][ 'marginBottom' ], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
 						}
 					}
 				}
@@ -932,7 +932,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
-					$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 
 					if ( 'above' === $settings['iconLocation'] ) {
 						$css->add_property( 'display', 'unset' );
@@ -946,16 +945,16 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 
-					if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] && ! $settings['removeText'] ) {
-						$defaultBlockStyles = generateblocks_get_default_styles();
+					$defaultBlockStyles = generateblocks_get_default_styles();
 
-						if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {
-							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['unit'] );
+					if ( '' === $settings['marginBottom'] && ! $settings['removeText'] && ( ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) || is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) ) {
+						$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+					}
 
-							if ( 'em' ===  $defaultBlockStyles['headline'][ $settings['element'] ]['unit'] ) {
-								$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
-							}
-						}
+					if ( '' === $settings['fontSize'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSize'] ) ) {
+						$css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSize'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
+					} else {
+						$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 					}
 
 					if ( 'above' === $settings['iconLocation'] ) {
@@ -1015,7 +1014,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['icon'] ) {
 					$tablet_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
-					$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 
 					if ( ! $settings['removeText'] ) {
 						$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
@@ -1035,6 +1033,18 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 					$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
 					$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+
+					$defaultBlockStyles = generateblocks_get_default_styles();
+
+					if ( '' === $settings['marginBottomTablet'] && ! $settings['removeText'] && ( ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) || is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) ) ) {
+						$tablet_css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+					}
+
+					if ( '' === $settings['fontSizeTablet'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeTablet'] ) ) {
+						$tablet_css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeTablet'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
+					} else {
+						$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
+					}
 
 					if ( $settings['inlineWidthTablet'] ) {
 						$tablet_css->add_property( 'display', '-webkit-inline-box' );
@@ -1072,7 +1082,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['icon'] ) {
 					$mobile_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
-					$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 
 					if ( ! $settings['removeText'] ) {
 						$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
@@ -1091,6 +1100,18 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 					$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 					$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
+
+					$defaultBlockStyles = generateblocks_get_default_styles();
+
+					if ( '' === $settings['marginBottomMobile'] && ! $settings['removeText'] && ( ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) || is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) ) ) {
+						$mobile_css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+					}
+
+					if ( '' === $settings['fontSizeMobile'] && ! $settings['removeText'] && ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeMobile'] ) ) {
+						$mobile_css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeMobile'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
+					} else {
+						$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
+					}
 
 					if ( $settings['inlineWidthMobile'] ) {
 						$mobile_css->add_property( 'display', '-webkit-inline-box' );
