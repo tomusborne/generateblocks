@@ -947,7 +947,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 					$defaultBlockStyles = generateblocks_get_default_styles();
 
-					if ( '' === $settings['marginBottom'] && ! $settings['removeText'] && ( ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) || is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) ) {
+					if ( '' === $settings['marginBottom'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {
 						$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
 					}
 
@@ -1036,7 +1036,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 					$defaultBlockStyles = generateblocks_get_default_styles();
 
-					if ( '' === $settings['marginBottomTablet'] && ! $settings['removeText'] && ( ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) || is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) ) ) {
+					if ( '' === $settings['marginBottomTablet'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) ) {
 						$tablet_css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
 					}
 
@@ -1103,7 +1103,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 					$defaultBlockStyles = generateblocks_get_default_styles();
 
-					if ( '' === $settings['marginBottomMobile'] && ! $settings['removeText'] && ( ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) || is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) ) ) {
+					if ( '' === $settings['marginBottomMobile'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) ) {
 						$mobile_css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
 					}
 
