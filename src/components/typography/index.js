@@ -186,6 +186,20 @@ class TypographyControls extends Component {
 			showAdvancedToggle = true;
 		}
 
+		let responsiveFontSizePlaceholder = fontSizePlaceholder;
+
+		if ( 'Tablet' === device && attributes.fontSize ) {
+			responsiveFontSizePlaceholder = attributes.fontSize;
+		}
+
+		if ( 'Mobile' === device ) {
+			if ( attributes.fontSizeTablet ) {
+				responsiveFontSizePlaceholder = attributes.fontSizeTablet;
+			} else if ( attributes.fontSize ) {
+				responsiveFontSizePlaceholder = attributes.fontSize;
+			}
+		}
+
 		return (
 			<Fragment>
 				<div className={ 'components-gblocks-typography-weight-transform' }>
@@ -341,7 +355,7 @@ class TypographyControls extends Component {
 							<TextControl
 								type={ 'number' }
 								value={ getValue( 'fontSize', device ) || '' }
-								placeholder={ fontSizePlaceholder }
+								placeholder={ responsiveFontSizePlaceholder }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'fontSize', device );
 
