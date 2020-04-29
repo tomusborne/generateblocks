@@ -350,6 +350,7 @@ class TypographyControls extends Component {
 									} );
 								} }
 								min={ 1 }
+								autoComplete="off"
 							/>
 
 							<Button
@@ -420,6 +421,7 @@ class TypographyControls extends Component {
 									} );
 								} }
 								min={ 0 }
+								autoComplete="off"
 							/>
 
 							<Button
@@ -483,6 +485,7 @@ class TypographyControls extends Component {
 								} }
 								min={ -1 }
 								step={ .01 }
+								autoComplete="off"
 							/>
 
 							<Button
