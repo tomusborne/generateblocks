@@ -434,6 +434,10 @@ class TypographyControls extends Component {
 										[ name ]: parseFloat( getValue( 'lineHeight', device ) )
 									} );
 								} }
+								onClick={ ( e ) => {
+									// Make sure onBlur fires in Firefox.
+									e.currentTarget.focus()
+								} }
 								min={ 0 }
 								autoComplete="off"
 							/>
@@ -496,6 +500,10 @@ class TypographyControls extends Component {
 									setAttributes( {
 										[ name ]: parseFloat( getValue( 'letterSpacing', device ) )
 									} );
+								} }
+								onClick={ ( e ) => {
+									// Make sure onBlur fires in Firefox.
+									e.currentTarget.focus()
 								} }
 								min={ -1 }
 								step={ .01 }

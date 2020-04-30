@@ -815,6 +815,10 @@ class GenerateBlockButton extends Component {
 												iconSize: parseFloat( iconSize )
 											} );
 										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
+										} }
 									/>
 
 									<Button
@@ -895,6 +899,10 @@ class GenerateBlockButton extends Component {
 												iconSizeTablet: parseFloat( iconSizeTablet )
 											} );
 										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
+										} }
 									/>
 
 									<Button
@@ -974,6 +982,10 @@ class GenerateBlockButton extends Component {
 											setAttributes( {
 												iconSizeMobile: parseFloat( iconSizeMobile )
 											} );
+										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
 										} }
 									/>
 

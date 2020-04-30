@@ -1364,6 +1364,10 @@ class GenerateBlockContainer extends Component {
 									zindex: parseFloat( zindex )
 								} );
 							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus()
+							} }
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAdvanced', this.props, this.state ) }

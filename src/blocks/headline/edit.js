@@ -852,6 +852,10 @@ class GenerateBlockHeadline extends Component {
 												iconSize: parseFloat( iconSize )
 											} );
 										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
+										} }
 									/>
 
 									<Button
@@ -966,6 +970,10 @@ class GenerateBlockHeadline extends Component {
 												iconSizeTablet: parseFloat( iconSizeTablet )
 											} );
 										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
+										} }
 									/>
 
 									<Button
@@ -1079,6 +1087,10 @@ class GenerateBlockHeadline extends Component {
 											setAttributes( {
 												iconSizeMobile: parseFloat( iconSizeMobile )
 											} );
+										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
 										} }
 									/>
 

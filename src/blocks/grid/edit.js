@@ -335,6 +335,10 @@ class GenerateBlockGridContainer extends Component {
 												horizontalGap: parseFloat( horizontalGap )
 											} );
 										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
+										} }
 									/>
 
 									<Button
@@ -385,6 +389,10 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												verticalGap: parseFloat( verticalGap )
 											} );
+										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
 										} }
 									/>
 
@@ -470,6 +478,10 @@ class GenerateBlockGridContainer extends Component {
 												horizontalGapTablet: parseFloat( horizontalGapTablet )
 											} );
 										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
+										} }
 									/>
 
 									<Button
@@ -520,6 +532,10 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												verticalGapTablet: parseFloat( verticalGapTablet )
 											} );
+										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
 										} }
 									/>
 
@@ -603,6 +619,10 @@ class GenerateBlockGridContainer extends Component {
 												horizontalGapMobile: parseFloat( horizontalGapMobile )
 											} );
 										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
+										} }
 									/>
 
 									<Button
@@ -653,6 +673,10 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												verticalGapMobile: parseFloat( verticalGapMobile )
 											} );
+										} }
+										onClick={ ( e ) => {
+											// Make sure onBlur fires in Firefox.
+											e.currentTarget.focus()
 										} }
 									/>
 
