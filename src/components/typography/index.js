@@ -439,6 +439,7 @@ class TypographyControls extends Component {
 									e.currentTarget.focus()
 								} }
 								min={ 0 }
+								step={ .1 }
 								autoComplete="off"
 							/>
 
