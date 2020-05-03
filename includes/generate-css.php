@@ -97,11 +97,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
-
-				if ( $settings['horizontalGap'] ) {
-					$css->add_property( 'padding-left', $settings['horizontalGap'], 'px' );
-				}
-
+				$css->add_property( 'padding-left', $settings['horizontalGap'], 'px' );
 				$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
 
 				$tablet_css->set_selector( '.gb-grid-wrapper-' . $id );
@@ -121,11 +117,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$tablet_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
-
-				if ( $settings['horizontalGapTablet'] ) {
-					$tablet_css->add_property( 'padding-left', $settings['horizontalGapTablet'], 'px' );
-				}
-
+				$tablet_css->add_property( 'padding-left', $settings['horizontalGapTablet'], 'px' );
 				$tablet_css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
 
 				$mobile_css->set_selector( '.gb-grid-wrapper-' . $id );
@@ -145,11 +137,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$mobile_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
-
-				if ( $settings['horizontalGapMobile'] ) {
-					$mobile_css->add_property( 'padding-left', $settings['horizontalGapMobile'], 'px' );
-				}
-
+				$mobile_css->add_property( 'padding-left', $settings['horizontalGapMobile'], 'px' );
 				$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
 
 				/**
@@ -211,6 +199,17 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+
+				$grid_atts = array();
+
+				if ( isset( $atts['gridId'] ) && $atts['gridId'] ) {
+					foreach( $data['grid'] as $grid ) {
+						if ( $atts['gridId'] === $grid['uniqueId'] ) {
+							$grid_atts = $grid;
+							break;
+						}
+					}
+				}
 
 				$fontFamily = $settings['fontFamily'];
 
@@ -334,7 +333,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['removeVerticalGap'] ) {
 					$css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
-					$css->add_property( 'padding-bottom', '0px' );
+					$css->add_property( 'padding-bottom', '0' );
 				}
 
 				$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
@@ -393,8 +392,27 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['removeVerticalGapTablet'] ) {
-					$tablet_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
-					$tablet_css->add_property( 'padding-bottom', '0px' );
+					if ( ! $settings['removeVerticalGap'] ) {
+						$tablet_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
+						$tablet_css->add_property( 'padding-bottom', '0' );
+					}
+				} elseif ( $settings['removeVerticalGap'] ) {
+					// Removed vertical gap on desktop, so we need to add it back here.
+					$vertical_gap_added = false;
+
+					if ( ! empty( $grid_atts ) ) {
+						$tablet_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
+
+						if ( isset( $grid_atts['verticalGapTablet'] ) || isset( $grid_atts['verticalGap'] ) ) {
+							if ( ! empty( $grid_atts['verticalGapTablet'] ) ) {
+								$tablet_css->add_property( 'padding-bottom', $grid_atts['verticalGapTablet'], 'px' );
+								$vertical_gap_added = true;
+							} elseif ( ! empty( $grid_atts['verticalGap'] ) ) {
+								$tablet_css->add_property( 'padding-bottom', $grid_atts['verticalGap'], 'px' );
+								$vertical_gap_added = true;
+							}
+						}
+					}
 				}
 
 				$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
@@ -457,8 +475,25 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['removeVerticalGapMobile'] ) {
-					$mobile_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
-					$mobile_css->add_property( 'padding-bottom', '0px' );
+					if ( ! $settings['removeVerticalGapTablet'] ) {
+						$mobile_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
+						$mobile_css->add_property( 'padding-bottom', '0' );
+					}
+				} elseif ( $settings['removeVerticalGapTablet'] || $settings['removeVerticalGap'] ) {
+					// Removed vertical gap on tablet or desktop, so we need to add it back here.
+					if ( ! empty( $grid_atts ) ) {
+						$mobile_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
+
+						if ( empty( $vertical_gap_added ) && ( isset( $grid_atts['verticalGapMobile'] ) || isset( $grid_atts['verticalGapTablet'] ) || isset( $grid_atts['verticalGap'] ) ) ) {
+							if ( ! empty( $grid_atts['verticalGapMobile'] ) ) {
+								$mobile_css->add_property( 'padding-bottom', $grid_atts['verticalGapMobile'], 'px' );
+							} elseif ( ! empty( $grid_atts['verticalGapTablet'] ) ) {
+								$mobile_css->add_property( 'padding-bottom', $grid_atts['verticalGapTablet'], 'px' );
+							} elseif ( ! empty( $grid_atts['verticalGap'] ) ) {
+								$mobile_css->add_property( 'padding-bottom', $grid_atts['verticalGap'], 'px' );
+							}
+						}
+					}
 				}
 
 				$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );

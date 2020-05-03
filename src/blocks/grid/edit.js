@@ -134,7 +134,8 @@ class GenerateBlockGridContainer extends Component {
 		var i = 0;
         columnsData.forEach( ( col ) => {
             const colAttrs = {
-                isGrid: true,
+				isGrid: true,
+				gridId: this.props.attributes.uniqueId,
 				paddingTop: '',
 				paddingRight: '',
 				paddingBottom: '',
@@ -271,6 +272,7 @@ class GenerateBlockGridContainer extends Component {
 									wp.data.dispatch( 'core/block-editor' ).insertBlocks(
 										createBlock( 'generateblocks/container', {
 											isGrid: true,
+											gridId: uniqueId,
 											paddingTop: '',
 											paddingRight: '',
 											paddingBottom: '',

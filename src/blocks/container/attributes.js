@@ -19,6 +19,10 @@ const attributes = {
 		type: 'boolean',
 		default: false,
 	},
+	gridId: {
+		type: 'string',
+		default: '',
+	},
 	width: {
 		type: 'number',
 		default: generateBlocksDefaults.container.width,
