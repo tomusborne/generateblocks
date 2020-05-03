@@ -82,11 +82,33 @@ class GenerateBlockContainer extends Component {
 		if ( parentBlockId ) {
 			const parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
 
+			// gridId was added late, so we add it here if it doesn't exist already.
 			if ( this.props.attributes.isGrid && ! this.props.attributes.gridId && parentBlock && 'generateblocks/grid' === parentBlock[0].name ) {
 				this.props.setAttributes( {
 					gridId: parentBlock[0].attributes.uniqueId,
 				} );
 			}
+
+			// Blocks get moved, so check if the container is/isn't a grid item and adjust accordingly.
+			if ( this.props.attributes.isGrid && parentBlock && 'generateblocks/grid' !== parentBlock[0].name ) {
+				this.props.setAttributes( {
+					isGrid: false,
+					gridId: '',
+				} );
+			} else if ( ! this.props.attributes.isGrid && parentBlock && 'generateblocks/grid' === parentBlock[0].name ) {
+				this.props.setAttributes( {
+					isGrid: true,
+					gridId: parentBlock[0].attributes.uniqueId,
+				} );
+			}
+		}
+
+		// If there's no parent, it's no longer a grid item.
+		if ( this.props.attributes.isGrid && ! parentBlockId ) {
+			this.props.setAttributes( {
+				isGrid: false,
+				gridId: '',
+			} );
 		}
 	}
 
