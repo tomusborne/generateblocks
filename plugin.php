@@ -5,7 +5,7 @@
  * Description: A small but powerful collection of flexible blocks to help you design your content.
  * Author: Tom Usborne
  * Author URI: https://tomusborne.com
- * Version: 1.0-beta.4
+ * Version: 1.0-rc.1
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  *
@@ -16,8 +16,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'GENERATEBLOCKS_VERSION', '1.0-beta.4' );
-define( 'GENERATEBLOCKS_CSS_VERSION', '0.7' );
+define( 'GENERATEBLOCKS_VERSION', '1.0-rc.1' );
+define( 'GENERATEBLOCKS_CSS_VERSION', '0.8' );
 define( 'GENERATEBLOCKS_MODULE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENERATEBLOCKS_MODULE_DIR_URL', plugin_dir_url( __FILE__ ) );
 
