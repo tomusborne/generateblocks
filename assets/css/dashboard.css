@@ -13,7 +13,20 @@
 .gblocks-dashboard-header h1 {
     color: #fff;
     font-size: 40px;
-	font-weight: 300;
+    font-weight: 300;
+    display: flex;
+    align-items: flex-end;
+    line-height: 1;
+    padding-bottom: 0;
+}
+
+.gblocks-version {
+    font-size: 11px;
+    padding: 5px;
+    background: rgba(0,0,0,0.1);
+    display: block;
+    margin-left: 5px;
+    margin-bottom: 2px;
 }
 
 .gblocks-navigation {

@@ -116,6 +116,7 @@ function generateblocks_do_dashboard() {
 								'<strong>' . __( 'GenerateBlocks', 'generateblocks' ) . '</strong>'
 							);
 						?>
+						<span class="gblocks-version"><?php echo GENERATEBLOCKS_VERSION; ?></span>
 					</h1>
 				</div>
 
