@@ -34,6 +34,10 @@
     text-decoration: none;
 }
 
+.gblocks-navigation .right-side {
+	margin-left: auto;
+}
+
 .gblocks-navigation a:first-child {
 	margin-left: -15px;
 }
@@ -85,17 +89,12 @@
 .gblocks-block {
     padding: 40px;
     background: #fff;
+    background-image: linear-gradient(180deg, #fff 90%, rgba(0,0,0,0.04));
     display: flex;
     flex-direction: column;
-	width: 25%;
-	margin-left: 60px;
-	box-shadow: 0 0 30px rgba(0,0,0,0.1);
-    border: 1px solid #bcdcdc;
-	transition: transform 500ms ease;
-}
-
-.gblocks-block:hover {
-	transform: translateY(-5px);
+    width: 25%;
+    margin-left: 60px;
+    border: 2px solid #e3e4e7;
 }
 
 .gblocks-block svg {
@@ -114,7 +113,7 @@
 }
 
 .gblocks-block p {
-    font-size: 15px;
+    font-size: 18px;
 	margin: 0 0 2em;
 }
 
@@ -132,18 +131,19 @@
 }
 
 .gblocks-generatepress {
-	padding: 60px;
 	background: #fff;
+	padding: 60px;
 }
 
 .gblocks-inside-generatepress {
-    display: flex;
+	display: flex;
     max-width: 1200px;
     margin: 0 auto;
+	align-items: center;
 }
 
 .gblocks-generatepress-content {
-    width: 50%;
+	width: 50%;
 }
 
 .gblocks-generatepress-content h2 {
@@ -154,15 +154,16 @@
 }
 
 .gblocks-generatepress-content p {
-    font-size: 20px;
+    font-size: 17px;
     line-height: 1.8;
 }
 
 .gblocks-generatepress-content .stats {
     display: flex;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.6;
-    margin-top: 40px;
+    margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .gblocks-generatepress-content .stats > * {
@@ -178,10 +179,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.gblocks-generatepress-image img {
-    width: 450px;
 }
 
 .gblocks-generatepress-content .gblocks-button {
@@ -218,4 +215,30 @@
 .generateblocks-button-spinner.success:before {
     content: "\f147";
     color: #46b450;
+}
+
+.gblocks-getting-started {
+    background: #f0f4f5;
+    padding: 0 60px 60px;
+    text-align: center;
+}
+
+.gblocks-getting-started img {
+	display: block;
+	margin: 0 auto;
+}
+
+.gblocks-getting-started p {
+    font-size: 20px;
+    max-width: 450px;
+    margin: 0 auto;
+}
+
+.gblocks-getting-started p:first-child:before {
+    content: "";
+    display: block;
+	height: 1px;
+    width: 150px;
+    background: #d8e2e4;
+	margin: 0 auto 40px;
 }

@@ -92,6 +92,9 @@ function generateblocks_dashboard_navigation() {
 			);
 		}
 		?>
+		<a class="right-side" href="https://docs.generateblocks.com" target="_blank" rel="noreferrer noopener"><?php _e( 'Documentation', 'generateblocks' ); ?></a>
+		<a href="https://generateblocks.com/contact" target="_blank" rel="noreferrer noopener"><?php _e( 'Contact', 'generateblocks' ); ?></a>
+		<a href="https://generatepress.com" target="_blank" rel="noreferrer noopener"><?php _e( 'GeneratePress', 'generateblocks' ); ?></a>
 	</div>
 	<?php
 }
@@ -137,8 +140,7 @@ function generateblocks_do_dashboard() {
 						</svg>
 
 						<h3><?php _e( 'Container', 'generateblocks' ); ?></h3>
-						<p><?php _e( 'The foundation of your content. Build beautiful containers anywhere.', 'generateblocks' ); ?></p>
-						<a class="gblocks-button" href="https://generateblocks.com/#container" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn more', 'generateblocks' ); ?></a>
+						<p><?php _e( 'Organize your content into rows and sections.', 'generateblocks' ); ?></p>
 					</div>
 
 					<div class="gblocks-block">
@@ -147,8 +149,7 @@ function generateblocks_do_dashboard() {
 						</svg>
 
 						<h3><?php _e( 'Grid', 'generateblocks' ); ?></h3>
-						<p><?php _e( 'Use our powerful grid system to build simple & complex layouts.', 'generateblocks' ); ?></p>
-						<a class="gblocks-button" href="https://generateblocks.com/#grid" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn more', 'generateblocks' ); ?></a>
+						<p><?php _e( 'Create advanced layouts with flexible grids.', 'generateblocks' ); ?></p>
 					</div>
 
 					<div class="gblocks-block">
@@ -157,8 +158,7 @@ function generateblocks_do_dashboard() {
 						</svg>
 
 						<h3><?php _e( 'Headline', 'generateblocks' ); ?></h3>
-						<p><?php _e( 'More than just titles - take full control of any kind of text.', 'generateblocks' ); ?></p>
-						<a class="gblocks-button" href="https://generateblocks.com/#headline" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn more', 'generateblocks' ); ?></a>
+						<p><?php _e( 'Craft text-rich content with advanced typography.', 'generateblocks' ); ?></p>
 					</div>
 
 					<div class="gblocks-block">
@@ -167,24 +167,20 @@ function generateblocks_do_dashboard() {
 						</svg>
 
 						<h3><?php _e( 'Buttons', 'generateblocks' ); ?></h3>
-						<p><?php _e( 'No limit on the number or styles of buttons you can create.', 'generateblocks' ); ?></p>
-						<a class="gblocks-button" href="https://generateblocks.com/#buttons" target="_blank" rel="noopener noreferrer"><?php _e( 'Learn more', 'generateblocks' ); ?></a>
+						<p><?php _e( 'Drive conversions with beautiful buttons.', 'generateblocks' ); ?></p>
 					</div>
+				</div>
+
+				<div class="gblocks-getting-started">
+					<p><?php _e( 'To get started, head over to the block editor and open the GenerateBlocks category.', 'generatepress' ); ?></p>
+					<img width="400" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/add-blocks.png'; ?>" alt="" />
 				</div>
 
 				<div class="gblocks-generatepress">
 					<div class="gblocks-inside-generatepress">
 						<div class="gblocks-generatepress-content">
-							<h2>
-								<?php
-									printf(
-										__( 'The perfect %s theme for your next project.', 'generateblocks' ),
-										'<strong>' . __( 'lightweight', 'generateblocks' ) . '</strong>'
-									);
-								?>
-							</h2>
-							<p><?php _e( "Looking for a theme to pair with GenerateBlocks? We've put years of love into GeneratePress, and we've integrated GenerateBlocks with it seamlessly.", "generateblocks" ); ?></p>
-							<a class="gblocks-button" href="https://generatepress.com" target="_blank" rel="noopener"><?php _e( 'Learn more', 'generateblocks' ); ?></a>
+							<img width="300" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/generatepress.svg'; ?>" alt="" />
+							<p><?php _e( 'Looking for a WordPress theme? GenerateBlocks and GeneratePress are built with the same principles in mind and complement each other perfectly.', 'generateblocks' ); ?></p>
 							<div class="stats">
 								<div class="downloads">
 									<strong>2,000,000+</strong><br> <?php _e( 'Downloads', 'generateblocks' ); ?>
@@ -203,10 +199,11 @@ function generateblocks_do_dashboard() {
 									<strong>50,000+</strong><br> <?php _e( 'Happy customers', 'generateblocks' ); ?>
 								</div>
 							</div>
+							<a class="gblocks-button" href="https://generatepress.com" target="_blank" rel="noreferrer noopener"><?php _e( 'Learn more', 'generateblocks' ); ?></a>
 						</div>
 
 						<div class="gblocks-generatepress-image">
-							<img width="200" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/generatepress.svg'; ?>" alt="" />
+							<img width="450" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/generatepress-sites.png'; ?>" alt="" />
 						</div>
 					</div>
 				</div>
