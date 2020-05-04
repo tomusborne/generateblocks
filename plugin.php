@@ -31,6 +31,20 @@ require_once GENERATEBLOCKS_MODULE_DIR . 'includes/class-enqueue-css.php';
 require_once GENERATEBLOCKS_MODULE_DIR . 'includes/dashboard.php';
 require_once GENERATEBLOCKS_MODULE_DIR . 'includes/class-settings.php';
 
+add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
+/**
+ * Load GenerateBlocks textdomain.
+ *
+ * Load gettext translate for Elementor text domain.
+ *
+ * @since 1.0
+ *
+ * @return void
+ */
+function generateblocks_load_plugin_textdomain() {
+	load_plugin_textdomain( 'generateblocks' );
+}
+
 /**
  * Adds a redirect option during plugin activation on non-multisite installs.
  *
