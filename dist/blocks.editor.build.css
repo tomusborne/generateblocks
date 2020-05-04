@@ -1673,6 +1673,9 @@ body .gb-container .wp-block {
         background: #fff;
         -webkit-box-shadow: none;
                 box-shadow: none; }
+      .gblocks-icon-chooser li button.components-button svg {
+        width: 1em;
+        height: 1em; }
 
 .gb-icon {
   display: -ms-inline-flexbox;
