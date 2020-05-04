@@ -25,6 +25,23 @@ function generateblocks_register_dashboard() {
 	);
 }
 
+add_action( 'admin_head', 'generateblocks_fix_dashboard_menu_item' );
+/**
+ * Highlight the Settings menu item when on the Dashboard.
+ *
+ * @since 1.0
+ */
+function generateblocks_fix_dashboard_menu_item() {
+	global $parent_file, $submenu_file;
+	$screen = get_current_screen();
+
+	if ( 'settings_page_generateblocks' === $screen->id ) {
+		$submenu_file = 'generateblocks-settings';
+	}
+
+	remove_submenu_page( 'options-general.php', 'generateblocks' );
+}
+
 add_action( 'admin_enqueue_scripts', 'generateblocks_enqueue_dashboard_scripts' );
 /**
  * Add our scripts to the page.

@@ -13,7 +13,6 @@ class GenerateBlocks_Settings {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_init', array( $this, 'save' ) );
-		add_action( 'admin_head', array( $this, 'highlight_menu_item' ) );
 
 		if ( ! empty( $_POST ) ) {
 			add_action( 'wp_ajax_generateblocks_regenerate_css_files', array( $this, 'regenerate_css_files' ) );
@@ -23,24 +22,13 @@ class GenerateBlocks_Settings {
 	public function add_menu() {
 		$settings = add_options_page(
 			__( 'Settings', 'generateblocks' ),
-			__( 'GenerateBlocks Settings', 'generateblocks' ),
+			__( 'GenerateBlocks', 'generateblocks' ),
 			'manage_options',
 			'generateblocks-settings',
 			array( $this, 'settings_page' )
 		);
 
 		add_action( "admin_print_scripts-$settings", array( $this, 'enqueue_scripts' ) );
-	}
-
-	public function highlight_menu_item() {
-		global $parent_file, $submenu_file;
-		$screen = get_current_screen();
-
-		if ( 'settings_page_generateblocks-settings' === $screen->id ) {
-			$submenu_file = 'generateblocks';
-		}
-
-		remove_submenu_page( 'options-general.php', 'generateblocks-settings' );
 	}
 
 	public function enqueue_scripts() {
