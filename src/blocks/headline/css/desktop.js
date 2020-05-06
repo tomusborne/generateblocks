@@ -96,7 +96,7 @@ export default class DesktopCSS extends Component {
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
-			'color': textColor ? textColor : 'inherit',
+			'color': textColor,
 			'font-family' : fontFamily + fontFamilyFallbackValue,
 			'font-weight' : fontWeight,
 			'text-transform' : textTransform,
@@ -104,6 +104,10 @@ export default class DesktopCSS extends Component {
 			'font-size' : fontSizeValue,
 			'line-height': valueWithUnit( lineHeight, lineHeightUnit ),
 			'letter-spacing' : valueWithUnit( letterSpacing, 'em' ),
+		} ];
+
+		cssObj[ '.editor-styles-wrapper .gb-container .gb-headline-' + uniqueId ] = [ {
+			'color': textColor,
 		} ];
 
 		cssObj[ '.gb-headline-wrapper-' + uniqueId ] = [ {
@@ -122,7 +126,7 @@ export default class DesktopCSS extends Component {
 
 		cssObj[ headlineStyleSelector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
-			'color': textColor ? textColor : 'inherit',
+			'color': textColor,
 			'display': inlineWidth ? 'inline-flex' : false,
 			'margin': shorthandCSS( marginTop, marginRight, marginBottomValue, marginLeft, marginUnit ) + ' !important',
 			'margin-bottom': marginBottomValue + ' !important', // The unit changes depending on the element if no value exists.

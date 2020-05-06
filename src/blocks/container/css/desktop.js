@@ -138,6 +138,15 @@ export default class DesktopCSS extends Component {
 			'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		} ];
 
+		cssObj[ `.editor-styles-wrapper .gb-container-` + uniqueId + ` h1,
+			.editor-styles-wrapper .gb-container-` + uniqueId + ` h2,
+			.editor-styles-wrapper .gb-container-` + uniqueId + ` h3,
+			.editor-styles-wrapper .gb-container-` + uniqueId + ` h4,
+			.editor-styles-wrapper .gb-container-` + uniqueId + ` h5,
+			.editor-styles-wrapper .gb-container-` + uniqueId + ` h6` ] = [ {
+			'color': textColor,
+		} ];
+
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
