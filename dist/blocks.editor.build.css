@@ -2084,8 +2084,7 @@ button.components-icon-picker-item {
 
 .editor-styles-wrapper .gb-headline {
   margin-top: 0;
-  margin-bottom: 0;
-  font-family: inherit; }
+  margin-bottom: 0; }
 
 mark.gb-highlight {
   background: unset;
