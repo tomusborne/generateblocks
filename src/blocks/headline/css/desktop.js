@@ -157,7 +157,7 @@ export default class DesktopCSS extends Component {
 			'height': valueWithUnit( iconSize, iconSizeUnit )
 		} ];
 
-		cssObj[ '.gb-headline-` + uniqueId + ` .gb-highlight' ] = [ {
+		cssObj[ '.gb-headline-' + uniqueId + ' .gb-highlight' ] = [ {
 			'color': highlightTextColor
 		} ];
 
