@@ -77,7 +77,11 @@ class GenerateBlockContainer extends Component {
 			gbContainerIds.push( this.props.attributes.uniqueId );
 		}
 
-		const parentBlockId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( this.props.clientId );
+		let parentBlockId = false;
+
+		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === "function" ) {
+			parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParents( this.props.clientId, true )[ 0 ];
+		}
 
 		if ( parentBlockId ) {
 			const parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
@@ -88,27 +92,6 @@ class GenerateBlockContainer extends Component {
 					gridId: parentBlock[0].attributes.uniqueId,
 				} );
 			}
-
-			// Blocks get moved, so check if the container is/isn't a grid item and adjust accordingly.
-			if ( this.props.attributes.isGrid && parentBlock && 'generateblocks/grid' !== parentBlock[0].name ) {
-				this.props.setAttributes( {
-					isGrid: false,
-					gridId: '',
-				} );
-			} else if ( ! this.props.attributes.isGrid && parentBlock && 'generateblocks/grid' === parentBlock[0].name ) {
-				this.props.setAttributes( {
-					isGrid: true,
-					gridId: parentBlock[0].attributes.uniqueId,
-				} );
-			}
-		}
-
-		// If there's no parent, it's no longer a grid item.
-		if ( this.props.attributes.isGrid && ! parentBlockId ) {
-			this.props.setAttributes( {
-				isGrid: false,
-				gridId: '',
-			} );
 		}
 	}
 
@@ -326,6 +309,24 @@ class GenerateBlockContainer extends Component {
 			googleFontsAttr = ':' + googleFontVariants;
 		}
 
+		let parentBlockId = false,
+			parentBlock = false,
+			hasGridContainer = false,
+			gridContainerId = '';
+
+		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === "function" ) {
+			parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParents( clientId, true )[ 0 ];
+
+			if ( parentBlockId ) {
+				parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
+
+				if ( parentBlock && 'generateblocks/grid' === parentBlock[0].name ) {
+					hasGridContainer = true;
+					gridContainerId = parentBlock[0].attributes.uniqueId;
+				}
+			}
+		}
+
 		return (
 			<Fragment>
 				<InspectorControls>
@@ -348,7 +349,22 @@ class GenerateBlockContainer extends Component {
 							state={ this.state }
 							showPanel={ 'desktop' === selectedDevice || false }
 						>
+
 							<Fragment>
+								{ hasGridContainer &&
+									<ToggleControl
+										label={ __( 'Grid Item', 'generateblocks' ) }
+										help={ __( 'This Container is inside a Grid Block but is not set as a grid item. Enable this option for optimal results.', 'generateblocks' ) }
+										checked={ !! isGrid }
+										onChange={ ( value ) => {
+											setAttributes( {
+												isGrid: value,
+												gridId: gridContainerId,
+											} );
+										} }
+									/>
+								}
+
 								{ fullWidthContentOptions() }
 
 								<SelectControl
@@ -422,6 +438,20 @@ class GenerateBlockContainer extends Component {
 							id={ 'containerGridLayout' }
 							state={ this.state }
 						>
+							{ ! hasGridContainer &&
+								<ToggleControl
+									label={ __( 'Grid Item', 'generateblocks' ) }
+									help={ __( 'This container is set as a grid item but is not inside a grid block. Deactivate this option for optimal results.', 'generateblocks' ) }
+									checked={ !! isGrid }
+									onChange={ ( value ) => {
+										setAttributes( {
+											isGrid: value,
+											gridId: '',
+										} );
+									} }
+								/>
+							}
+
 							{ 'desktop' === selectedDevice && (
 								<Fragment>
 									<div className="components-gblocks-control__header">
