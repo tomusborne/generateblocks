@@ -18,18 +18,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 define( 'GENERATEBLOCKS_VERSION', '1.0-rc.2' );
 define( 'GENERATEBLOCKS_CSS_VERSION', '0.9' );
-define( 'GENERATEBLOCKS_MODULE_DIR', plugin_dir_path( __FILE__ ) );
-define( 'GENERATEBLOCKS_MODULE_DIR_URL', plugin_dir_url( __FILE__ ) );
+define( 'GENERATEBLOCKS_DIR', plugin_dir_path( __FILE__ ) );
+define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 
 // Load necessary files.
-require_once GENERATEBLOCKS_MODULE_DIR . 'includes/functions.php';
-require_once GENERATEBLOCKS_MODULE_DIR . 'includes/general.php';
-require_once GENERATEBLOCKS_MODULE_DIR . 'includes/defaults.php';
-require_once GENERATEBLOCKS_MODULE_DIR . 'includes/generate-css.php';
-require_once GENERATEBLOCKS_MODULE_DIR . 'includes/class-do-css.php';
-require_once GENERATEBLOCKS_MODULE_DIR . 'includes/class-enqueue-css.php';
-require_once GENERATEBLOCKS_MODULE_DIR . 'includes/dashboard.php';
-require_once GENERATEBLOCKS_MODULE_DIR . 'includes/class-settings.php';
+require_once GENERATEBLOCKS_DIR . 'includes/functions.php';
+require_once GENERATEBLOCKS_DIR . 'includes/general.php';
+require_once GENERATEBLOCKS_DIR . 'includes/defaults.php';
+require_once GENERATEBLOCKS_DIR . 'includes/generate-css.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-do-css.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-enqueue-css.php';
+require_once GENERATEBLOCKS_DIR . 'includes/dashboard.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-settings.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**

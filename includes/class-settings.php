@@ -34,9 +34,9 @@ class GenerateBlocks_Settings {
 	public function enqueue_scripts() {
 		wp_enqueue_script(
 			'generateblocks-settings',
-			GENERATEBLOCKS_MODULE_DIR_URL . 'assets/js/scripts.js',
+			GENERATEBLOCKS_DIR_URL . 'assets/js/scripts.js',
 			array( 'jquery' ),
-			filemtime( GENERATEBLOCKS_MODULE_DIR . 'assets/js/scripts.js' )
+			filemtime( GENERATEBLOCKS_DIR . 'assets/js/scripts.js' )
 		);
 	}
 
@@ -89,7 +89,7 @@ class GenerateBlocks_Settings {
 
 					<div class="gblocks-logo">
 						<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-							<img width="200" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/gb-logo-white.svg'; ?>" alt="" />
+							<img width="200" src="<?php echo GENERATEBLOCKS_DIR_URL . 'assets/images/gb-logo-white.svg'; ?>" alt="" />
 						</a>
 					</div>
 				</div>

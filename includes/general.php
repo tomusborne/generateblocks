@@ -22,25 +22,25 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
 function generateblocks_do_block_editor_assets() {
 	wp_enqueue_script(
 		'generateblocks',
-		GENERATEBLOCKS_MODULE_DIR_URL . 'dist/blocks.build.js',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks.build.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
-		filemtime( GENERATEBLOCKS_MODULE_DIR . 'dist/blocks.build.js' ),
+		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.build.js' ),
 		true
 	);
 
 	wp_enqueue_script(
 		'generateblocks-dompurify',
-		GENERATEBLOCKS_MODULE_DIR_URL . 'assets/js/purify.min.js',
+		GENERATEBLOCKS_DIR_URL . 'assets/js/purify.min.js',
 		array( 'generateblocks' ),
-		filemtime( GENERATEBLOCKS_MODULE_DIR . 'assets/js/purify.min.js' ),
+		filemtime( GENERATEBLOCKS_DIR . 'assets/js/purify.min.js' ),
 		true
 	);
 
 	wp_enqueue_style(
 		'generateblocks',
-		GENERATEBLOCKS_MODULE_DIR_URL . 'dist/blocks.editor.build.css',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks.editor.build.css',
 		array( 'wp-edit-blocks' ),
-		filemtime( GENERATEBLOCKS_MODULE_DIR . 'dist/blocks.editor.build.css' )
+		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.editor.build.css' )
 	);
 
 	wp_localize_script(

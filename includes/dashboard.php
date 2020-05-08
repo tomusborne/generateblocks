@@ -54,9 +54,9 @@ function generateblocks_enqueue_dashboard_scripts() {
 	if ( 'settings_page_generateblocks' === $screen->id || 'settings_page_generateblocks-settings' === $screen->id ) {
 		wp_enqueue_style(
 			'generateblocks-dashboard',
-			GENERATEBLOCKS_MODULE_DIR_URL . 'assets/css/dashboard.css',
+			GENERATEBLOCKS_DIR_URL . 'assets/css/dashboard.css',
 			array(),
-			filemtime( GENERATEBLOCKS_MODULE_DIR . 'assets/css/dashboard.css' )
+			filemtime( GENERATEBLOCKS_DIR . 'assets/css/dashboard.css' )
 		);
 	}
 }
@@ -122,7 +122,7 @@ function generateblocks_do_dashboard() {
 
 				<div class="gblocks-logo">
 					<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-						<img width="200" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/gb-logo-white.svg'; ?>" alt="" />
+						<img width="200" src="<?php echo GENERATEBLOCKS_DIR_URL . 'assets/images/gb-logo-white.svg'; ?>" alt="" />
 					</a>
 				</div>
 			</div>
@@ -174,13 +174,13 @@ function generateblocks_do_dashboard() {
 
 				<div class="gblocks-getting-started">
 					<p><?php _e( 'To get started, head over to the block editor and open the GenerateBlocks category.', 'generatepress' ); ?></p>
-					<img width="400" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/add-blocks.png'; ?>" alt="" />
+					<img width="400" src="<?php echo GENERATEBLOCKS_DIR_URL . 'assets/images/add-blocks.png'; ?>" alt="" />
 				</div>
 
 				<div class="gblocks-generatepress">
 					<div class="gblocks-inside-generatepress">
 						<div class="gblocks-generatepress-content">
-							<img width="300" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/generatepress.svg'; ?>" alt="" />
+							<img width="300" src="<?php echo GENERATEBLOCKS_DIR_URL . 'assets/images/generatepress.svg'; ?>" alt="" />
 							<p><?php _e( 'Looking for a WordPress theme? GenerateBlocks and GeneratePress are built with the same principles in mind and complement each other perfectly.', 'generateblocks' ); ?></p>
 							<div class="stats">
 								<div class="downloads">
@@ -189,7 +189,7 @@ function generateblocks_do_dashboard() {
 
 								<div class="stars">
 									<strong>900+</strong><br>
-									<img src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/stars.svg'; ?>" alt="" width="98" height="17" class="alignnone size-full wp-image-44">
+									<img src="<?php echo GENERATEBLOCKS_DIR_URL . 'assets/images/stars.svg'; ?>" alt="" width="98" height="17" class="alignnone size-full wp-image-44">
 								</div>
 
 								<div class="active-websites">
@@ -204,7 +204,7 @@ function generateblocks_do_dashboard() {
 						</div>
 
 						<div class="gblocks-generatepress-image">
-							<img width="450" src="<?php echo GENERATEBLOCKS_MODULE_DIR_URL . 'assets/images/generatepress-sites.png'; ?>" alt="" />
+							<img width="450" src="<?php echo GENERATEBLOCKS_DIR_URL . 'assets/images/generatepress-sites.png'; ?>" alt="" />
 						</div>
 					</div>
 				</div>
