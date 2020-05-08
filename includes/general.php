@@ -180,4 +180,4 @@ function generateblocks_set_excerpt_allowed_blocks( $allowed ) {
 	$allowed[] = 'generateblocks/container';
 
 	return $allowed;
-};
+}
