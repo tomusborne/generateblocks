@@ -6,14 +6,13 @@ import './style.scss';
 import './editor.scss';
 import './block-controls.js';
 
-import editContainer from './edit'
-import saveContainer from './save'
-import blockAttributes from './attributes'
-import getIcon from '../../utils/get-icon'
+import editContainer from './edit';
+import saveContainer from './save';
+import blockAttributes from './attributes';
+import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const el = wp.element.createElement;
 
 /**
  * Register our Container block.
@@ -38,7 +37,7 @@ registerBlockType( 'generateblocks/container', {
 		align: false,
 		anchor: false,
 		className: false,
-		customClassName: false
+		customClassName: false,
 	},
 	edit: editContainer,
 	save: saveContainer,

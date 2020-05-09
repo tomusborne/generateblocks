@@ -5,20 +5,14 @@ const { __ } = wp.i18n;
 
 const {
 	Tooltip,
-	BaseControl,
 	Button,
 } = wp.components;
 
 export default class ResponsiveTabs extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
-			attributes,
 			onClick,
-			selectedDevice
+			selectedDevice,
 		} = this.props;
 
 		return (

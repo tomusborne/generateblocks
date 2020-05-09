@@ -5,16 +5,15 @@
 //import './style.scss';
 import './editor.scss';
 
-import editHeadline from './edit'
-import saveHeadline from './save'
-import blockAttributes from './attributes'
-import transforms from './transforms'
-import deprecated from './deprecated'
+import editHeadline from './edit';
+import saveHeadline from './save';
+import blockAttributes from './attributes';
+import transforms from './transforms';
+import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const el = wp.element.createElement;
 
 /**
  * Register our Headline block.
@@ -39,7 +38,7 @@ registerBlockType( 'generateblocks/headline', {
 	supports: {
 		anchor: false,
 		className: false,
-		customClassName: false
+		customClassName: false,
 	},
 	edit: editHeadline,
 	save: saveHeadline,

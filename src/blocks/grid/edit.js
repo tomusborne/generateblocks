@@ -12,10 +12,8 @@ const { __ } = wp.i18n;
 
 const {
 	TextControl,
-	RangeControl,
 	SelectControl,
 	Tooltip,
-	Icon,
 	Placeholder,
 	Button,
 	Toolbar,
@@ -23,12 +21,11 @@ const {
 
 const {
 	Fragment,
-	Component
+	Component,
 } = wp.element;
 
 const {
 	InspectorControls,
-	InspectorAdvancedControls,
 	InnerBlocks,
 	BlockControls,
 } = wp.blockEditor;
@@ -38,7 +35,7 @@ const {
 } = wp.blocks;
 
 const {
-	applyFilters
+	applyFilters,
 } = wp.hooks;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
@@ -46,20 +43,20 @@ const gbGridIds = [];
 
 class GenerateBlockGridContainer extends Component {
 	constructor() {
-        super( ...arguments );
+		super( ...arguments );
 
-        this.state = {
-            selectedLayout: false,
+		this.state = {
+			selectedLayout: false,
 			selectedDevice: 'desktop',
-        };
+		};
 
-        this.onLayoutSelect = this.onLayoutSelect.bind( this );
-        this.getColumnsFromLayout = this.getColumnsFromLayout.bind( this );
-        this.getLayoutsSelector = this.getLayoutsSelector.bind( this );
-    }
+		this.onLayoutSelect = this.onLayoutSelect.bind( this );
+		this.getColumnsFromLayout = this.getColumnsFromLayout.bind( this );
+		this.getLayoutsSelector = this.getLayoutsSelector.bind( this );
+	}
 
 	componentDidMount() {
-		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
 		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
@@ -68,7 +65,6 @@ class GenerateBlockGridContainer extends Component {
 
 			gbGridIds.push( id );
 		} else if ( gbGridIds.includes( this.props.attributes.uniqueId ) ) {
-
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
@@ -79,19 +75,19 @@ class GenerateBlockGridContainer extends Component {
 		}
 	}
 
-    componentDidUpdate() {
-        const {
-            attributes,
-            setAttributes,
+	componentDidUpdate() {
+		const {
+			attributes,
+			setAttributes,
 			clientId,
-        } = this.props;
+		} = this.props;
 
-        let {
-            columns,
-        } = attributes;
+		let {
+			columns,
+		} = attributes;
 
-        if ( this.state.selectedLayout ) {
-            const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
+		if ( this.state.selectedLayout ) {
+			const columnsData = this.getColumnsFromLayout( this.state.selectedLayout );
 
 			columnsData.forEach( ( colAttrs ) => {
 				wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/container', colAttrs ), undefined, clientId, false );
@@ -99,14 +95,14 @@ class GenerateBlockGridContainer extends Component {
 
 			columns = columnsData.length;
 
-            setAttributes( {
-                columns,
-            } );
+			setAttributes( {
+				columns,
+			} );
 
-            this.setState( {
-                selectedLayout: false,
-            } );
-        } else {
+			this.setState( {
+				selectedLayout: false,
+			} );
+		} else {
 			const parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
 
 			if ( parentBlock ) {
@@ -114,11 +110,11 @@ class GenerateBlockGridContainer extends Component {
 				columns = childBlocks.length;
 
 				setAttributes( {
-	                columns,
-	            } );
+					columns,
+				} );
 			}
 		}
-    }
+	}
 
 	/**
      * Get columns sizes array from layout string
@@ -127,95 +123,95 @@ class GenerateBlockGridContainer extends Component {
      *
      * @return {array}.
      */
-    getColumnsFromLayout( layout ) {
-        const result = [];
-        const columnsData = layout.split( '-' );
+	getColumnsFromLayout( layout ) {
+		const result = [];
+		const columnsData = layout.split( '-' );
 
-		var i = 0;
-        columnsData.forEach( ( col ) => {
-            const colAttrs = {
+		let i = 0;
+		columnsData.forEach( () => {
+			const colAttrs = {
 				isGrid: true,
 				gridId: this.props.attributes.uniqueId,
 				paddingTop: '',
 				paddingRight: '',
 				paddingBottom: '',
 				paddingLeft: '',
-            };
+			};
 
-			colAttrs.width = Number( columnsData[i] );
+			colAttrs.width = Number( columnsData[ i ] );
 			i++;
 
-            result.push( colAttrs );
-        } );
+			result.push( colAttrs );
+		} );
 
-        return result;
-    }
+		return result;
+	}
 
 	/**
      * Layouts selector when no columns selected.
      *
      * @return {jsx}.
      */
-    getLayoutsSelector() {
-        let layouts = [
-            '100',
-            '50-50',
-            '33.33-33.33-33.33',
-            '25-25-25-25',
+	getLayoutsSelector() {
+		const layouts = [
+			'100',
+			'50-50',
+			'33.33-33.33-33.33',
+			'25-25-25-25',
 
-            '25-75',
-            '75-25',
-            '25-25-50',
-            '25-50-25',
+			'25-75',
+			'75-25',
+			'25-25-50',
+			'25-50-25',
 
-            '50-25-25',
-            '20-60-20',
-            '20-20-20-20-20',
-            '16.66-16.66-16.66-16.66-16.66-16.66',
-        ];
+			'50-25-25',
+			'20-60-20',
+			'20-20-20-20-20',
+			'16.66-16.66-16.66-16.66-16.66-16.66',
+		];
 
-        return (
-            <Placeholder
-                label={ __( 'Grid', 'generateblocks' ) }
-                instructions={ __( 'Select one layout to get started.', 'generateblocks' ) }
-                className="gb-select-layout"
-            >
-                <div className="gb-grid-wrapper-layout-preview">
-                    { layouts.map( ( layout ) => {
-                        const columnsData = this.getColumnsFromLayout( layout );
+		return (
+			<Placeholder
+				label={ __( 'Grid', 'generateblocks' ) }
+				instructions={ __( 'Select one layout to get started.', 'generateblocks' ) }
+				className="gb-select-layout"
+			>
+				<div className="gb-grid-wrapper-layout-preview">
+					{ layouts.map( ( layout ) => {
+						const columnsData = this.getColumnsFromLayout( layout );
 
-                        return (
-                            <button
-                                key={ `layout-${ layout }` }
-                                className="gb-grid-wrapper-layout-preview-btn"
-                                onClick={ () => this.onLayoutSelect( layout ) }
-                            >
-                                { columnsData.map( ( colAttrs, i ) => {
-                                    return (
-                                        <div
-                                            key={ `layout-${ layout }-col-${ i }` }
-                                            className={ classnames( 'gb-col', `gb-col-${ colAttrs.width }` ) }
-                                        />
-                                    );
-                                } ) }
-                            </button>
-                        );
-                    } ) }
-                </div>
-            </Placeholder>
-        );
-    }
+						return (
+							<button
+								key={ `layout-${ layout }` }
+								className="gb-grid-wrapper-layout-preview-btn"
+								onClick={ () => this.onLayoutSelect( layout ) }
+							>
+								{ columnsData.map( ( colAttrs, i ) => {
+									return (
+										<div
+											key={ `layout-${ layout }-col-${ i }` }
+											className={ classnames( 'gb-col', `gb-col-${ colAttrs.width }` ) }
+										/>
+									);
+								} ) }
+							</button>
+						);
+					} ) }
+				</div>
+			</Placeholder>
+		);
+	}
 
 	/**
      * Select predefined layout.
      *
      * @param {String} layout layout string.
      */
-    onLayoutSelect( layout ) {
-        this.setState( {
-            selectedLayout: layout,
-        } );
-    }
+	onLayoutSelect( layout ) {
+		this.setState( {
+			selectedLayout: layout,
+		} );
+	}
 
 	render() {
 		const {
@@ -225,8 +221,8 @@ class GenerateBlockGridContainer extends Component {
 		} = this.props;
 
 		const {
-            selectedDevice,
-        } = this.state;
+			selectedDevice,
+		} = this.state;
 
 		const {
 			uniqueId,
@@ -247,10 +243,11 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentMobile,
 		} = attributes;
 
-		let horizontalGapPlaceholderTablet = horizontalGap || 0,
-			horizontalGapPlaceholderMobile = horizontalGap || 0,
-			verticalGapPlaceholderTablet   = verticalGap || 0,
-			verticalGapPlaceholderMobile   = verticalGap || 0;
+		const horizontalGapPlaceholderTablet = horizontalGap || 0,
+			verticalGapPlaceholderTablet = verticalGap || 0;
+
+		let horizontalGapPlaceholderMobile = horizontalGap || 0,
+			verticalGapPlaceholderMobile = verticalGap || 0;
 
 		if ( horizontalGapTablet ) {
 			horizontalGapPlaceholderMobile = horizontalGapTablet;
@@ -329,17 +326,17 @@ class GenerateBlockGridContainer extends Component {
 										placeholder="0"
 										onChange={ ( value ) => {
 											setAttributes( {
-												horizontalGap: value
+												horizontalGap: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												horizontalGap: parseFloat( horizontalGap )
+												horizontalGap: parseFloat( horizontalGap ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -349,7 +346,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												horizontalGap: generateBlocksDefaults.gridContainer.horizontalGap
+												horizontalGap: generateBlocksDefaults.gridContainer.horizontalGap, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -384,17 +381,17 @@ class GenerateBlockGridContainer extends Component {
 										placeholder="0"
 										onChange={ ( value ) => {
 											setAttributes( {
-												verticalGap: value
+												verticalGap: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												verticalGap: parseFloat( verticalGap )
+												verticalGap: parseFloat( verticalGap ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -404,7 +401,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												verticalGap: generateBlocksDefaults.gridContainer.verticalGap
+												verticalGap: generateBlocksDefaults.gridContainer.verticalGap, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -422,8 +419,10 @@ class GenerateBlockGridContainer extends Component {
 										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 										{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 									] }
-									onChange={ ( verticalAlignment ) => {
-										setAttributes( { verticalAlignment } )
+									onChange={ ( value ) => {
+										setAttributes( {
+											verticalAlignment: value,
+										} );
 									} }
 								/>
 
@@ -436,8 +435,10 @@ class GenerateBlockGridContainer extends Component {
 										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 										{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
 									] }
-									onChange={ ( horizontalAlignment ) => {
-										setAttributes( { horizontalAlignment } )
+									onChange={ ( value ) => {
+										setAttributes( {
+											horizontalAlignment: value,
+										} );
 									} }
 								/>
 							</Fragment>
@@ -472,17 +473,17 @@ class GenerateBlockGridContainer extends Component {
 										placeholder={ horizontalGapPlaceholderTablet }
 										onChange={ ( value ) => {
 											setAttributes( {
-												horizontalGapTablet: value
+												horizontalGapTablet: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												horizontalGapTablet: parseFloat( horizontalGapTablet )
+												horizontalGapTablet: parseFloat( horizontalGapTablet ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -492,7 +493,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												horizontalGapTablet: generateBlocksDefaults.gridContainer.horizontalGapTablet
+												horizontalGapTablet: generateBlocksDefaults.gridContainer.horizontalGapTablet, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -527,17 +528,17 @@ class GenerateBlockGridContainer extends Component {
 										placeholder={ verticalGapPlaceholderTablet }
 										onChange={ ( value ) => {
 											setAttributes( {
-												verticalGapTablet: value
+												verticalGapTablet: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												verticalGapTablet: parseFloat( verticalGapTablet )
+												verticalGapTablet: parseFloat( verticalGapTablet ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -547,7 +548,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												verticalGapTablet: generateBlocksDefaults.gridContainer.verticalGapTablet
+												verticalGapTablet: generateBlocksDefaults.gridContainer.verticalGapTablet, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -566,7 +567,11 @@ class GenerateBlockGridContainer extends Component {
 										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 										{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 									] }
-									onChange={ ( verticalAlignmentTablet ) => { setAttributes( { verticalAlignmentTablet } ) } }
+									onChange={ ( value ) => {
+										setAttributes( {
+											verticalAlignmentTablet: value,
+										} );
+									} }
 								/>
 
 								<SelectControl
@@ -579,7 +584,11 @@ class GenerateBlockGridContainer extends Component {
 										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 										{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
 									] }
-									onChange={ ( horizontalAlignmentTablet ) => { setAttributes( { horizontalAlignmentTablet } ) } }
+									onChange={ ( value ) => {
+										setAttributes( {
+											horizontalAlignmentTablet: value,
+										} );
+									} }
 								/>
 							</Fragment>
 						) }
@@ -613,17 +622,17 @@ class GenerateBlockGridContainer extends Component {
 										placeholder={ horizontalGapPlaceholderMobile }
 										onChange={ ( value ) => {
 											setAttributes( {
-												horizontalGapMobile: value
+												horizontalGapMobile: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												horizontalGapMobile: parseFloat( horizontalGapMobile )
+												horizontalGapMobile: parseFloat( horizontalGapMobile ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -633,7 +642,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												horizontalGapMobile: generateBlocksDefaults.gridContainer.horizontalGapMobile
+												horizontalGapMobile: generateBlocksDefaults.gridContainer.horizontalGapMobile, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -668,17 +677,17 @@ class GenerateBlockGridContainer extends Component {
 										placeholder={ verticalGapPlaceholderMobile }
 										onChange={ ( value ) => {
 											setAttributes( {
-												verticalGapMobile: value
+												verticalGapMobile: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												verticalGapMobile: parseFloat( verticalGapMobile )
+												verticalGapMobile: parseFloat( verticalGapMobile ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -688,7 +697,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												verticalGapMobile: generateBlocksDefaults.gridContainer.verticalGapMobile
+												verticalGapMobile: generateBlocksDefaults.gridContainer.verticalGapMobile, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -707,8 +716,10 @@ class GenerateBlockGridContainer extends Component {
 										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 										{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 									] }
-									onChange={ ( verticalAlignmentMobile ) => {
-										setAttributes( { verticalAlignmentMobile } )
+									onChange={ ( value ) => {
+										setAttributes( {
+											verticalAlignmentMobile: value,
+										} );
 									} }
 								/>
 
@@ -722,8 +733,10 @@ class GenerateBlockGridContainer extends Component {
 										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 										{ label: __( 'Right', 'generateblocks' ), value: 'flex-end' },
 									] }
-									onChange={ ( horizontalAlignmentMobile ) => {
-										setAttributes( { horizontalAlignmentMobile } )
+									onChange={ ( value ) => {
+										setAttributes( {
+											horizontalAlignmentMobile: value,
+										} );
 									} }
 								/>
 							</Fragment>
@@ -744,16 +757,23 @@ class GenerateBlockGridContainer extends Component {
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
-							onChange={ ( elementId ) => {
-								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-								setAttributes( { elementId } );
+							onChange={ ( value ) => {
+								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
+
+								setAttributes( {
+									elementId: newElementId,
+								} );
 							} }
 						/>
 
 						<TextControl
 							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
-							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+							onChange={ ( value ) => {
+								setAttributes( {
+									cssClasses: value,
+								} );
+							} }
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'gridAdvanced', this.props, this.state ) }
@@ -780,8 +800,8 @@ class GenerateBlockGridContainer extends Component {
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
 						'gb-grid-wrapper': true,
-						[`gb-grid-wrapper-${ uniqueId }`]: true,
-						[`${ cssClasses }`]: '' !== cssClasses
+						[ `gb-grid-wrapper-${ uniqueId }` ]: true,
+						[ `${ cssClasses }` ]: '' !== cssClasses,
 					} ) }
 				>
 					{ columns > 0 || this.state.selectedLayout ? (
@@ -791,7 +811,7 @@ class GenerateBlockGridContainer extends Component {
 								renderAppender={ false }
 							/>
 						</Fragment>
-						) : this.getLayoutsSelector() }
+					) : this.getLayoutsSelector() }
 				</div>
 			</Fragment>
 		);

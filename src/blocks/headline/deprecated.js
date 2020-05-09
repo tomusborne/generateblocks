@@ -1,5 +1,5 @@
-import saveHeadline from './save'
-import blockAttributes from './attributes'
+import saveHeadline from './save';
+import blockAttributes from './attributes';
 
 const deprecated = [
 	{
@@ -8,10 +8,10 @@ const deprecated = [
 			element: {
 				type: 'string',
 				default: 'p',
-			}
+			},
 		},
 		save: saveHeadline,
-	}
-]
+	},
+];
 
 export default deprecated;

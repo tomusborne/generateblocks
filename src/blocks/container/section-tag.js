@@ -1,4 +1,5 @@
 const { createElement } = wp.element;
+
 export default function Section( { tagName, id, className, style, children } ) {
 	if ( ! id ) {
 		id = null;
@@ -9,8 +10,8 @@ export default function Section( { tagName, id, className, style, children } ) {
 		{
 			id: id,
 			className: className,
-			style: style
+			style: style,
 		},
 		children
-	)
+	);
 }

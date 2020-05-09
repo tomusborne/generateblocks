@@ -13,24 +13,23 @@ const {
 	Tooltip,
 	BaseControl,
 	Button,
-	TextControl,
 	ColorPicker,
 	RangeControl,
 } = wp.components;
 
 const {
-    ColorPalette,
+	ColorPalette,
 } = wp.blockEditor;
 
 export default class GenerateBlocksColorPicker extends Component {
-	constructor( props ) {
+	constructor() {
 		super( ...arguments );
 
 		this.state = {
-            showPicker: false,
+			showPicker: false,
 			showPalette: false,
 			colorKey: false,
-        };
+		};
 	}
 
 	render() {
@@ -38,24 +37,22 @@ export default class GenerateBlocksColorPicker extends Component {
 			value,
 			onChange,
 			onOpacityChange,
-			setAttributes,
 			label,
 			alpha = false,
 			valueOpacity,
-			attrOpacity,
 		} = this.props;
 
 		const {
-            showPicker,
+			showPicker,
 			showPalette,
 			colorKey,
-        } = this.state;
+		} = this.state;
 
 		return (
 			<BaseControl className={
 				classnames( {
-					'gblocks-color-picker-container' : true,
-					'gblocks-color-picker-is-open': showPicker
+					'gblocks-color-picker-container': true,
+					'gblocks-color-picker-is-open': showPicker,
 				} )
 			}>
 				<BaseControl
@@ -63,7 +60,14 @@ export default class GenerateBlocksColorPicker extends Component {
 				>
 					<span
 						className="components-base-control__label"
+						role="button"
+						tabIndex="0"
 						onClick={ () => {
+							this.setState( {
+								showPicker: ! showPicker,
+							} );
+						} }
+						onKeyDown={ () => {
 							this.setState( {
 								showPicker: ! showPicker,
 							} );
@@ -76,10 +80,10 @@ export default class GenerateBlocksColorPicker extends Component {
 								aria-expanded={ showPicker }
 								className="components-color-palette__item components-circular-option-picker__option"
 								onClick={ () => {
-		                            this.setState( {
-		                                showPicker: ! showPicker,
-		                            } );
-		                        } }
+									this.setState( {
+										showPicker: ! showPicker,
+									} );
+								} }
 								aria-label={ __( 'Custom color picker', 'generateblocks' ) }
 								style={ { color: value ? hexToRGBA( value, valueOpacity ) : 'transparent' } }
 							>
@@ -92,7 +96,7 @@ export default class GenerateBlocksColorPicker extends Component {
 				{ showPicker &&
 					<div
 						className={ classnames( {
-							'gblocks-component-color-picker': true
+							'gblocks-component-color-picker': true,
 						} ) }
 					>
 						{ ! showPalette &&
@@ -135,7 +139,7 @@ export default class GenerateBlocksColorPicker extends Component {
 							</BaseControl>
 						}
 
-						{ ! showPalette &&  alpha &&
+						{ ! showPalette && alpha &&
 							<div className="gblocks-component-color-opacity">
 								<Tooltip text={ __( 'Opacity', 'generateblocks' ) }>
 									{ getIcon( 'gradient' ) }
@@ -143,7 +147,7 @@ export default class GenerateBlocksColorPicker extends Component {
 
 								<RangeControl
 									value={ valueOpacity ? valueOpacity : 0 }
-									onChange={ ( value ) => onOpacityChange( value ) }
+									onChange={ ( opacityValue ) => onOpacityChange( opacityValue ) }
 									min={ 0 }
 									max={ 1 }
 									step={ 0.01 }
@@ -178,8 +182,8 @@ export default class GenerateBlocksColorPicker extends Component {
 											onChange( color );
 
 											this.setState( {
-				                                colorKey: color,
-				                            } );
+												colorKey: color,
+											} );
 										} }
 										disableCustomColors={ true }
 									/>

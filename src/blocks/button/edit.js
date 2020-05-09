@@ -4,7 +4,6 @@
 
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
-import hexToRGBA from '../../components/color-picker/hex-to-rgba';
 import IconPicker from '../../components/icon-picker';
 import URLInput from '../../components/url-input';
 import DimensionsControl from '../../components/dimensions/';
@@ -16,14 +15,15 @@ import getIcon from '../../utils/get-icon';
 import DesktopCSS from './css/desktop.js';
 import sanitizeSVG from '../../utils/sanitize-svg';
 
-const { __, _x } = wp.i18n; // Import __() from wp.i18n
+const {
+	__,
+	_x,
+	sprintf,
+} = wp.i18n;
+
 const {
 	TabPanel,
-	BaseControl,
 	TextControl,
-	RangeControl,
-	SelectControl,
-	ToggleControl,
 	Toolbar,
 	Tooltip,
 	Button,
@@ -32,12 +32,11 @@ const {
 
 const {
 	Fragment,
-	Component
+	Component,
 } = wp.element;
 
 const {
 	InspectorControls,
-	InspectorAdvancedControls,
 	RichText,
 	BlockControls,
 } = wp.blockEditor;
@@ -47,7 +46,7 @@ const {
 } = wp.blocks;
 
 const {
-	applyFilters
+	applyFilters,
 } = wp.hooks;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
@@ -60,13 +59,13 @@ class GenerateBlockButton extends Component {
 		this.getFontSizePlaceholder = this.getFontSizePlaceholder.bind( this );
 
 		this.state = {
-            selectedDevice: 'desktop',
+			selectedDevice: 'desktop',
 			fontSizePlaceholder: '17',
-        };
+		};
 	}
 
 	componentDidMount() {
-		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
 		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
@@ -111,8 +110,8 @@ class GenerateBlockButton extends Component {
 			placeholder = parseFloat( window.getComputedStyle( buttonId ).fontSize );
 		}
 
-        return placeholder;
-    }
+		return placeholder;
+	}
 
 	render() {
 		const {
@@ -123,9 +122,9 @@ class GenerateBlockButton extends Component {
 		} = this.props;
 
 		const {
-            selectedDevice,
+			selectedDevice,
 			fontSizePlaceholder,
-        } = this.state;
+		} = this.state;
 
 		const {
 			uniqueId,
@@ -138,7 +137,6 @@ class GenerateBlockButton extends Component {
 			relSponsored,
 			icon,
 			iconLocation,
-			customIcon,
 			removeText,
 			ariaLabel,
 			backgroundColor,
@@ -147,101 +145,13 @@ class GenerateBlockButton extends Component {
 			backgroundColorHover,
 			backgroundColorHoverOpacity,
 			textColorHover,
-			showAdvancedTypography,
 			fontFamily,
-			fontFamilyFallback,
-			fontWeight,
 			googleFont,
 			googleFontVariants,
-			textTransform,
-			letterSpacing,
-			letterSpacingTablet,
-			letterSpacingMobile,
-			fontSize,
-			fontSizeTablet,
-			fontSizeMobile,
-			fontSizeUnit,
-			marginTop,
-			marginRight,
-			marginBottom,
-			marginLeft,
-			marginUnit,
-			marginSyncUnits,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			paddingTop,
-			paddingRight,
-			paddingBottom,
-			paddingLeft,
-			paddingUnit,
-			paddingSyncUnits,
-			paddingTopTablet,
-			paddingRightTablet,
-			paddingBottomTablet,
-			paddingLeftTablet,
-			paddingTopMobile,
-			paddingRightMobile,
-			paddingBottomMobile,
-			paddingLeftMobile,
-			borderSizeTop,
-			borderSizeRight,
-			borderSizeBottom,
-			borderSizeLeft,
-			borderSizeSyncUnits,
-			borderSizeTopTablet,
-			borderSizeRightTablet,
-			borderSizeBottomTablet,
-			borderSizeLeftTablet,
-			borderSizeTopMobile,
-			borderSizeRightMobile,
-			borderSizeBottomMobile,
-			borderSizeLeftMobile,
-			borderRadiusTopRight,
-			borderRadiusBottomRight,
-			borderRadiusBottomLeft,
-			borderRadiusTopLeft,
-			borderRadiusUnit,
-			borderRadiusSyncUnits,
-			borderRadiusTopRightTablet,
-			borderRadiusBottomRightTablet,
-			borderRadiusBottomLeftTablet,
-			borderRadiusTopLeftTablet,
-			borderRadiusTopRightMobile,
-			borderRadiusBottomRightMobile,
-			borderRadiusBottomLeftMobile,
-			borderRadiusTopLeftMobile,
 			borderColor,
 			borderColorOpacity,
 			borderColorHover,
 			borderColorHoverOpacity,
-			gradient,
-			gradientDirection,
-			gradientColorOne,
-			gradientColorOneOpacity,
-			gradientColorStopOne,
-			gradientColorTwo,
-			gradientColorTwoOpacity,
-			gradientColorStopTwo,
-			iconPaddingTop,
-			iconPaddingRight,
-			iconPaddingBottom,
-			iconPaddingLeft,
-			iconPaddingTopTablet,
-			iconPaddingRightTablet,
-			iconPaddingBottomTablet,
-			iconPaddingLeftTablet,
-			iconPaddingTopMobile,
-			iconPaddingRightMobile,
-			iconPaddingBottomMobile,
-			iconPaddingLeftMobile,
-			iconPaddingUnit,
-			iconPaddingSyncUnits,
 			iconSize,
 			iconSizeTablet,
 			iconSizeMobile,
@@ -272,7 +182,7 @@ class GenerateBlockButton extends Component {
 			googleFontsAttr = ':' + googleFontVariants;
 		}
 
-		let unitSizes = [
+		const unitSizes = [
 			{
 				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: 'px',
@@ -294,7 +204,7 @@ class GenerateBlockButton extends Component {
 								onClick={ () => {
 									let parentBlockId = false;
 
-									if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === "function" ) {
+									if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === 'function' ) {
 										parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
 									} else {
 										parentBlockId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
@@ -328,53 +238,53 @@ class GenerateBlockButton extends Component {
 						id={ 'buttonTypography' }
 						state={ this.state }
 						showPanel={ ! removeText || false }
-						>
+					>
 
-							{ 'desktop' === selectedDevice && (
-								<Fragment>
-									<TypographyControls { ...this.props }
-										showFontFamily={ true }
-										showFontWeight={ true }
-										showTextTransform={ true }
-										showFontSize={ true }
-										showLetterSpacing={ true }
-										fontSizePlaceholder={ fontSizePlaceholder }
-										defaultFontSize={ generateBlocksDefaults.button.fontSize }
-										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
-									/>
-								</Fragment>
-							) }
+						{ 'desktop' === selectedDevice && (
+							<Fragment>
+								<TypographyControls { ...this.props }
+									showFontFamily={ true }
+									showFontWeight={ true }
+									showTextTransform={ true }
+									showFontSize={ true }
+									showLetterSpacing={ true }
+									fontSizePlaceholder={ fontSizePlaceholder }
+									defaultFontSize={ generateBlocksDefaults.button.fontSize } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing } // eslint-disable-line no-undef
+								/>
+							</Fragment>
+						) }
 
-							{ 'tablet' === selectedDevice && (
-								<Fragment>
-									<TypographyControls { ...this.props }
-										device={ 'Tablet' }
-										showFontSize={ true }
-										showLetterSpacing={ true }
-										disableAdvancedToggle={ true }
-										defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
-										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
-									/>
-								</Fragment>
-							) }
+						{ 'tablet' === selectedDevice && (
+							<Fragment>
+								<TypographyControls { ...this.props }
+									device={ 'Tablet' }
+									showFontSize={ true }
+									showLetterSpacing={ true }
+									disableAdvancedToggle={ true }
+									defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet } // eslint-disable-line no-undef
+								/>
+							</Fragment>
+						) }
 
-							{ 'mobile' === selectedDevice && (
-								<Fragment>
-									<TypographyControls { ...this.props }
-										device={ 'Mobile' }
-										showFontSize={ true }
-										showLetterSpacing={ true }
-										disableAdvancedToggle={ true }
-										defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
-										defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
-										defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
-									/>
-								</Fragment>
-							) }
+						{ 'mobile' === selectedDevice && (
+							<Fragment>
+								<TypographyControls { ...this.props }
+									device={ 'Mobile' }
+									showFontSize={ true }
+									showLetterSpacing={ true }
+									disableAdvancedToggle={ true }
+									defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile } // eslint-disable-line no-undef
+								/>
+							</Fragment>
+						) }
 
-							{ applyFilters( 'generateblocks.editor.controls', '', 'buttonTypography', this.props, this.state ) }
+						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonTypography', this.props, this.state ) }
 					</PanelArea>
 
 					<PanelArea { ...this.props }
@@ -384,177 +294,177 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonSpacing' }
 						state={ this.state }
-						>
+					>
 
-							{ 'desktop' === selectedDevice && (
-								<Fragment>
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Padding', 'generateblocks' ) }
-										attrTop={ 'paddingTop' }
-										attrRight={ 'paddingRight' }
-										attrBottom={ 'paddingBottom' }
-										attrLeft={ 'paddingLeft' }
-										attrUnit={ 'paddingUnit' }
-										attrSyncUnits={ 'paddingSyncUnits' }
-									/>
+						{ 'desktop' === selectedDevice && (
+							<Fragment>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Padding', 'generateblocks' ) }
+									attrTop={ 'paddingTop' }
+									attrRight={ 'paddingRight' }
+									attrBottom={ 'paddingBottom' }
+									attrLeft={ 'paddingLeft' }
+									attrUnit={ 'paddingUnit' }
+									attrSyncUnits={ 'paddingSyncUnits' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'margin' }
-										label={ __( 'Margin', 'generateblocks' ) }
-										attrTop={ 'marginTop' }
-										attrRight={ 'marginRight' }
-										attrBottom={ 'marginBottom' }
-										attrLeft={ 'marginLeft' }
-										attrUnit={ 'marginUnit' }
-										attrSyncUnits={ 'marginSyncUnits' }
-									/>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'margin' }
+									label={ __( 'Margin', 'generateblocks' ) }
+									attrTop={ 'marginTop' }
+									attrRight={ 'marginRight' }
+									attrBottom={ 'marginBottom' }
+									attrLeft={ 'marginLeft' }
+									attrUnit={ 'marginUnit' }
+									attrSyncUnits={ 'marginSyncUnits' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Border Size', 'generateblocks' ) }
-										attrTop={ 'borderSizeTop' }
-										attrRight={ 'borderSizeRight' }
-										attrBottom={ 'borderSizeBottom' }
-										attrLeft={ 'borderSizeLeft' }
-										attrSyncUnits={ 'borderSizeSyncUnits' }
-										displayUnit={ 'px' }
-									/>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Border Size', 'generateblocks' ) }
+									attrTop={ 'borderSizeTop' }
+									attrRight={ 'borderSizeRight' }
+									attrBottom={ 'borderSizeBottom' }
+									attrLeft={ 'borderSizeLeft' }
+									attrSyncUnits={ 'borderSizeSyncUnits' }
+									displayUnit={ 'px' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Border Radius', 'generateblocks' ) }
-										attrTop={ 'borderRadiusTopLeft' }
-										attrRight={ 'borderRadiusTopRight' }
-										attrBottom={ 'borderRadiusBottomRight' }
-										attrLeft={ 'borderRadiusBottomLeft' }
-										attrUnit={ 'borderRadiusUnit' }
-										attrSyncUnits={ 'borderRadiusSyncUnits' }
-										labelTop={ __( 'T-Left', 'generateblocks' ) }
-										labelRight={ __( 'T-Right', 'generateblocks' ) }
-										labelBottom={ __( 'B-Right', 'generateblocks' ) }
-										labelLeft={ __( 'B-Left', 'generateblocks' ) }
-									/>
-								</Fragment>
-							) }
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeft' }
+									attrRight={ 'borderRadiusTopRight' }
+									attrBottom={ 'borderRadiusBottomRight' }
+									attrLeft={ 'borderRadiusBottomLeft' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+								/>
+							</Fragment>
+						) }
 
-							{ 'tablet' === selectedDevice && (
-								<Fragment>
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Padding', 'generateblocks' ) }
-										attrTop={ 'paddingTopTablet' }
-										attrRight={ 'paddingRightTablet' }
-										attrBottom={ 'paddingBottomTablet' }
-										attrLeft={ 'paddingLeftTablet' }
-										attrUnit={ 'paddingUnit' }
-										attrSyncUnits={ 'paddingSyncUnits' }
-									/>
+						{ 'tablet' === selectedDevice && (
+							<Fragment>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Padding', 'generateblocks' ) }
+									attrTop={ 'paddingTopTablet' }
+									attrRight={ 'paddingRightTablet' }
+									attrBottom={ 'paddingBottomTablet' }
+									attrLeft={ 'paddingLeftTablet' }
+									attrUnit={ 'paddingUnit' }
+									attrSyncUnits={ 'paddingSyncUnits' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'margin' }
-										label={ __( 'Margin', 'generateblocks' ) }
-										attrTop={ 'marginTopTablet' }
-										attrRight={ 'marginRightTablet' }
-										attrBottom={ 'marginBottomTablet' }
-										attrLeft={ 'marginLeftTablet' }
-										attrUnit={ 'marginUnit' }
-										attrSyncUnits={ 'marginSyncUnits' }
-									/>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'margin' }
+									label={ __( 'Margin', 'generateblocks' ) }
+									attrTop={ 'marginTopTablet' }
+									attrRight={ 'marginRightTablet' }
+									attrBottom={ 'marginBottomTablet' }
+									attrLeft={ 'marginLeftTablet' }
+									attrUnit={ 'marginUnit' }
+									attrSyncUnits={ 'marginSyncUnits' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Border Size', 'generateblocks' ) }
-										attrTop={ 'borderSizeTopTablet' }
-										attrRight={ 'borderSizeRightTablet' }
-										attrBottom={ 'borderSizeBottomTablet' }
-										attrLeft={ 'borderSizeLeftTablet' }
-										attrSyncUnits={ 'borderSizeSyncUnits' }
-										displayUnit={ 'px' }
-									/>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Border Size', 'generateblocks' ) }
+									attrTop={ 'borderSizeTopTablet' }
+									attrRight={ 'borderSizeRightTablet' }
+									attrBottom={ 'borderSizeBottomTablet' }
+									attrLeft={ 'borderSizeLeftTablet' }
+									attrSyncUnits={ 'borderSizeSyncUnits' }
+									displayUnit={ 'px' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Border Radius', 'generateblocks' ) }
-										attrTop={ 'borderRadiusTopLeftTablet' }
-										attrRight={ 'borderRadiusTopRightTablet' }
-										attrBottom={ 'borderRadiusBottomRightTablet' }
-										attrLeft={ 'borderRadiusBottomLeftTablet' }
-										attrUnit={ 'borderRadiusUnit' }
-										attrSyncUnits={ 'borderRadiusSyncUnits' }
-										labelTop={ __( 'T-Left', 'generateblocks' ) }
-										labelRight={ __( 'T-Right', 'generateblocks' ) }
-										labelBottom={ __( 'B-Right', 'generateblocks' ) }
-										labelLeft={ __( 'B-Left', 'generateblocks' ) }
-									/>
-								</Fragment>
-							) }
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeftTablet' }
+									attrRight={ 'borderRadiusTopRightTablet' }
+									attrBottom={ 'borderRadiusBottomRightTablet' }
+									attrLeft={ 'borderRadiusBottomLeftTablet' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+								/>
+							</Fragment>
+						) }
 
-							{ 'mobile' === selectedDevice && (
-								<Fragment>
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Padding', 'generateblocks' ) }
-										attrTop={ 'paddingTopMobile' }
-										attrRight={ 'paddingRightMobile' }
-										attrBottom={ 'paddingBottomMobile' }
-										attrLeft={ 'paddingLeftMobile' }
-										attrUnit={ 'paddingUnit' }
-										attrSyncUnits={ 'paddingSyncUnits' }
-									/>
+						{ 'mobile' === selectedDevice && (
+							<Fragment>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Padding', 'generateblocks' ) }
+									attrTop={ 'paddingTopMobile' }
+									attrRight={ 'paddingRightMobile' }
+									attrBottom={ 'paddingBottomMobile' }
+									attrLeft={ 'paddingLeftMobile' }
+									attrUnit={ 'paddingUnit' }
+									attrSyncUnits={ 'paddingSyncUnits' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Margin', 'generateblocks' ) }
-										attrTop={ 'marginTopMobile' }
-										attrRight={ 'marginRightMobile' }
-										attrBottom={ 'marginBottomMobile' }
-										attrLeft={ 'marginLeftMobile' }
-										attrUnit={ 'marginUnit' }
-										attrSyncUnits={ 'marginSyncUnits' }
-									/>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Margin', 'generateblocks' ) }
+									attrTop={ 'marginTopMobile' }
+									attrRight={ 'marginRightMobile' }
+									attrBottom={ 'marginBottomMobile' }
+									attrLeft={ 'marginLeftMobile' }
+									attrUnit={ 'marginUnit' }
+									attrSyncUnits={ 'marginSyncUnits' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Border Size', 'generateblocks' ) }
-										attrTop={ 'borderSizeTopMobile' }
-										attrRight={ 'borderSizeRightMobile' }
-										attrBottom={ 'borderSizeBottomMobile' }
-										attrLeft={ 'borderSizeLeftMobile' }
-										attrSyncUnits={ 'borderSizeSyncUnits' }
-										displayUnit={ 'px' }
-									/>
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Border Size', 'generateblocks' ) }
+									attrTop={ 'borderSizeTopMobile' }
+									attrRight={ 'borderSizeRightMobile' }
+									attrBottom={ 'borderSizeBottomMobile' }
+									attrLeft={ 'borderSizeLeftMobile' }
+									attrSyncUnits={ 'borderSizeSyncUnits' }
+									displayUnit={ 'px' }
+								/>
 
-									<DimensionsControl { ...this.props }
-										device={ selectedDevice }
-										type={ 'padding' }
-										label={ __( 'Border Radius', 'generateblocks' ) }
-										attrTop={ 'borderRadiusTopLeftMobile' }
-										attrRight={ 'borderRadiusTopRightMobile' }
-										attrBottom={ 'borderRadiusBottomRightMobile' }
-										attrLeft={ 'borderRadiusBottomLeftMobile' }
-										attrUnit={ 'borderRadiusUnit' }
-										attrSyncUnits={ 'borderRadiusSyncUnits' }
-										labelTop={ __( 'T-Left', 'generateblocks' ) }
-										labelRight={ __( 'T-Right', 'generateblocks' ) }
-										labelBottom={ __( 'B-Right', 'generateblocks' ) }
-										labelLeft={ __( 'B-Left', 'generateblocks' ) }
-									/>
-								</Fragment>
-							) }
+								<DimensionsControl { ...this.props }
+									device={ selectedDevice }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeftMobile' }
+									attrRight={ 'borderRadiusTopRightMobile' }
+									attrBottom={ 'borderRadiusBottomRightMobile' }
+									attrLeft={ 'borderRadiusBottomLeftMobile' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+								/>
+							</Fragment>
+						) }
 
-							{ applyFilters( 'generateblocks.editor.controls', '', 'buttonSpacing', this.props, this.state ) }
+						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonSpacing', this.props, this.state ) }
 					</PanelArea>
 
 					<PanelArea { ...this.props }
@@ -597,12 +507,12 @@ class GenerateBlockButton extends Component {
 														key={ 'buttonBackgroundColor' }
 														onChange={ ( nextBackgroundColor ) =>
 															setAttributes( {
-																backgroundColor: nextBackgroundColor
+																backgroundColor: nextBackgroundColor,
 															} )
 														}
 														onOpacityChange={ ( value ) =>
 															setAttributes( {
-																backgroundColorOpacity: value
+																backgroundColorOpacity: value,
 															} )
 														}
 													/>
@@ -614,7 +524,7 @@ class GenerateBlockButton extends Component {
 														key={ 'buttonTextColor' }
 														onChange={ ( nextTextColor ) =>
 															setAttributes( {
-																textColor: nextTextColor
+																textColor: nextTextColor,
 															} )
 														}
 													/>
@@ -628,12 +538,12 @@ class GenerateBlockButton extends Component {
 														key={ 'buttonBorderColor' }
 														onChange={ ( value ) =>
 															setAttributes( {
-																borderColor: value
+																borderColor: value,
 															} )
 														}
 														onOpacityChange={ ( value ) =>
 															setAttributes( {
-																borderColorOpacity: value
+																borderColorOpacity: value,
 															} )
 														}
 													/>
@@ -653,12 +563,12 @@ class GenerateBlockButton extends Component {
 														key={ 'buttonBackgroundColorHover' }
 														onChange={ ( nextBackgroundColorHover ) =>
 															setAttributes( {
-																backgroundColorHover: nextBackgroundColorHover
+																backgroundColorHover: nextBackgroundColorHover,
 															} )
 														}
 														onOpacityChange={ ( value ) =>
 															setAttributes( {
-																backgroundColorHoverOpacity: value
+																backgroundColorHoverOpacity: value,
 															} )
 														}
 													/>
@@ -670,7 +580,7 @@ class GenerateBlockButton extends Component {
 														key={ 'buttonTextColorHover' }
 														onChange={ ( nextTextColorHover ) =>
 															setAttributes( {
-																textColorHover: nextTextColorHover
+																textColorHover: nextTextColorHover,
 															} )
 														}
 													/>
@@ -684,12 +594,12 @@ class GenerateBlockButton extends Component {
 														key={ 'buttonBorderColorHover' }
 														onChange={ ( value ) =>
 															setAttributes( {
-																borderColorHover: value
+																borderColorHover: value,
 															} )
 														}
 														onOpacityChange={ ( value ) =>
 															setAttributes( {
-																borderColorHoverOpacity: value
+																borderColorHoverOpacity: value,
 															} )
 														}
 													/>
@@ -724,8 +634,8 @@ class GenerateBlockButton extends Component {
 							attrGradientColorTwo={ 'gradientColorTwo' }
 							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
 							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-							defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
-							defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
+							defaultColorOne={ generateBlocksDefaults.button.gradientColorOne } // eslint-disable-line no-undef
+							defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo } // eslint-disable-line no-undef
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonBackgroundGradient', this.props, this.state ) }
@@ -779,7 +689,7 @@ class GenerateBlockButton extends Component {
 
 									<div className="components-gblocks-control__units">
 										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit, i ) =>
+											{ unitSizes.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
@@ -790,7 +700,7 @@ class GenerateBlockButton extends Component {
 														aria-pressed={ iconSizeUnit === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
 													</Button>
@@ -807,17 +717,17 @@ class GenerateBlockButton extends Component {
 										step={ 'em' === iconSizeUnit ? .1 : 1 }
 										onChange={ ( value ) => {
 											setAttributes( {
-												iconSize: value
+												iconSize: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												iconSize: parseFloat( iconSize )
+												iconSize: parseFloat( iconSize ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -827,7 +737,7 @@ class GenerateBlockButton extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSize: generateBlocksDefaults.button.iconSize
+												iconSize: generateBlocksDefaults.button.iconSize, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -862,7 +772,7 @@ class GenerateBlockButton extends Component {
 
 									<div className="components-gblocks-control__units">
 										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit, i ) =>
+											{ unitSizes.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
@@ -873,7 +783,7 @@ class GenerateBlockButton extends Component {
 														aria-pressed={ iconSizeUnit === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
 													</Button>
@@ -891,17 +801,17 @@ class GenerateBlockButton extends Component {
 										placeholder="1"
 										onChange={ ( value ) => {
 											setAttributes( {
-												iconSizeTablet: value
+												iconSizeTablet: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												iconSizeTablet: parseFloat( iconSizeTablet )
+												iconSizeTablet: parseFloat( iconSizeTablet ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -911,7 +821,7 @@ class GenerateBlockButton extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSizeTablet: generateBlocksDefaults.button.iconSizeTablet
+												iconSizeTablet: generateBlocksDefaults.button.iconSizeTablet, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -946,7 +856,7 @@ class GenerateBlockButton extends Component {
 
 									<div className="components-gblocks-control__units">
 										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit, i ) =>
+											{ unitSizes.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
@@ -957,7 +867,7 @@ class GenerateBlockButton extends Component {
 														aria-pressed={ iconSizeUnit === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
 													</Button>
@@ -975,17 +885,17 @@ class GenerateBlockButton extends Component {
 										placeholder="1"
 										onChange={ ( value ) => {
 											setAttributes( {
-												iconSizeMobile: value
+												iconSizeMobile: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												iconSizeMobile: parseFloat( iconSizeMobile )
+												iconSizeMobile: parseFloat( iconSizeMobile ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -995,7 +905,7 @@ class GenerateBlockButton extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSizeMobile: generateBlocksDefaults.button.iconSizeMobile
+												iconSizeMobile: generateBlocksDefaults.button.iconSizeMobile, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -1020,16 +930,23 @@ class GenerateBlockButton extends Component {
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
-							onChange={ ( elementId ) => {
-								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-								setAttributes( { elementId } );
+							onChange={ ( value ) => {
+								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
+
+								setAttributes( {
+									elementId: newElementId,
+								} );
 							} }
 						/>
 
 						<TextControl
 							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
-							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+							onChange={ ( value ) => {
+								setAttributes( {
+									cssClasses: value,
+								} );
+							} }
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonAdvanced', this.props, this.state ) }
@@ -1055,7 +972,7 @@ class GenerateBlockButton extends Component {
 				{ fontFamily && googleFont &&
 					<link
 						rel="stylesheet"
-						href={ `https://fonts.googleapis.com/css?family=` + fontFamily.replace( / /g, '+' ) + googleFontsAttr }
+						href={ 'https://fonts.googleapis.com/css?family=' + fontFamily.replace( / /g, '+' ) + googleFontsAttr }
 					/>
 				}
 
@@ -1063,8 +980,8 @@ class GenerateBlockButton extends Component {
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
 						'gb-button': true,
-						[`gb-button-${ uniqueId }`]: true,
-						[`${ cssClasses }`]: '' !== cssClasses
+						[ `gb-button-${ uniqueId }` ]: true,
+						[ `${ cssClasses }` ]: '' !== cssClasses,
 					} ) }
 					href={ !! url ? url : undefined }
 					target={ !! target ? '_blank' : undefined }
@@ -1097,18 +1014,18 @@ class GenerateBlockButton extends Component {
 					}
 				</a>
 				{ isSelected &&
-                    <URLInput
-                        url={ url }
-                        target={ target }
-                        relNoFollow={ relNoFollow }
+					<URLInput
+						url={ url }
+						target={ target }
+						relNoFollow={ relNoFollow }
 						relSponsored={ relSponsored }
-                        onChange={ ( data ) => {
-                            setAttributes( data );
-                        } }
-                        autoFocus={ false }
-                        className="gblocks-component-url-input-float"
-                    />
-                }
+						onChange={ ( data ) => {
+							setAttributes( data );
+						} }
+						autoFocus={ false } // eslint-disable-line jsx-a11y/no-autofocus
+						className="gblocks-component-url-input-float"
+					/>
+				}
 			</Fragment>
 		);
 	}

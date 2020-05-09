@@ -14,13 +14,15 @@ import DesktopCSS from './css/desktop.js';
 import PanelArea from '../../components/panel-area/';
 import './markformat';
 
-const { __, _x } = wp.i18n; // Import __() from wp.i18n
+const {
+	__,
+	_x,
+	sprintf,
+} = wp.i18n; // Import __() from wp.i18n
 const {
 	TextControl,
 	Toolbar,
-	RangeControl,
 	SelectControl,
-	BaseControl,
 	DropdownMenu,
 	ToggleControl,
 	Tooltip,
@@ -30,19 +32,18 @@ const {
 
 const {
 	Fragment,
-	Component
+	Component,
 } = wp.element;
 
 const {
 	InspectorControls,
-	InspectorAdvancedControls,
 	RichText,
 	BlockControls,
 	AlignmentToolbar,
 } = wp.blockEditor;
 
 const {
-	applyFilters
+	applyFilters,
 } = wp.hooks;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
@@ -57,11 +58,11 @@ class GenerateBlockHeadline extends Component {
 		this.state = {
 			selectedDevice: 'desktop',
 			fontSizePlaceholder: '17',
-        };
+		};
 	}
 
 	componentDidMount() {
-		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
 		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
@@ -113,20 +114,19 @@ class GenerateBlockHeadline extends Component {
 			}
 		}
 
-        return placeholder;
-    }
+		return placeholder;
+	}
 
 	render() {
 		const {
 			attributes,
 			setAttributes,
-			clientId,
 		} = this.props;
 
 		const {
-            selectedDevice,
+			selectedDevice,
 			fontSizePlaceholder,
-        } = this.state;
+		} = this.state;
 
 		const {
 			uniqueId,
@@ -145,89 +145,22 @@ class GenerateBlockHeadline extends Component {
 			borderColor,
 			borderColorOpacity,
 			highlightTextColor,
-			showAdvancedTypography,
 			fontFamily,
-			fontFamilyFallback,
 			googleFont,
 			googleFontVariants,
-			fontWeight,
-			fontSize,
-			fontSizeTablet,
-			fontSizeMobile,
-			fontSizeUnit,
-			textTransform,
-			lineHeight,
-			lineHeightTablet,
-			lineHeightMobile,
-			lineHeightUnit,
-			letterSpacing,
-			letterSpacingTablet,
-			letterSpacingMobile,
 			marginTop,
 			marginRight,
 			marginBottom,
 			marginLeft,
-			marginSyncUnits,
-			marginTopTablet,
-			marginRightTablet,
-			marginLeftTablet,
-			marginBottomTablet,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			marginUnit,
-			paddingTop,
-			paddingRight,
-			paddingBottom,
-			paddingLeft,
-			paddingTopTablet,
-			paddingRightTablet,
-			paddingBottomTablet,
-			paddingLeftTablet,
-			paddingTopMobile,
-			paddingRightMobile,
-			paddingBottomMobile,
-			paddingLeftMobile,
-			paddingUnit,
-			paddingSyncUnits,
-			borderSizeTop,
-			borderSizeRight,
-			borderSizeBottom,
-			borderSizeLeft,
-			borderSizeSyncUnits,
-			borderSizeTopTablet,
-			borderSizeRightTablet,
-			borderSizeBottomTablet,
-			borderSizeLeftTablet,
-			borderSizeTopMobile,
-			borderSizeRightMobile,
-			borderSizeBottomMobile,
-			borderSizeLeftMobile,
 			icon,
 			iconColor,
 			iconColorOpacity,
-			customIcon,
 			iconLocation,
 			iconLocationTablet,
 			iconLocationMobile,
 			iconVerticalAlignment,
 			iconVerticalAlignmentTablet,
 			iconVerticalAlignmentMobile,
-			iconPaddingTop,
-			iconPaddingRight,
-			iconPaddingBottom,
-			iconPaddingLeft,
-			iconPaddingTopTablet,
-			iconPaddingRightTablet,
-			iconPaddingBottomTablet,
-			iconPaddingLeftTablet,
-			iconPaddingTopMobile,
-			iconPaddingRightMobile,
-			iconPaddingBottomMobile,
-			iconPaddingLeftMobile,
-			iconPaddingUnit,
-			iconPaddingSyncUnits,
 			iconSize,
 			iconSizeTablet,
 			iconSizeMobile,
@@ -245,7 +178,7 @@ class GenerateBlockHeadline extends Component {
 			googleFontsAttr = ':' + googleFontVariants;
 		}
 
-		let unitSizes = [
+		const unitSizes = [
 			{
 				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: 'px',
@@ -281,9 +214,9 @@ class GenerateBlockHeadline extends Component {
 										setAttributes( { element: 'h1' } );
 
 										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
 										}
-									}
+									},
 								},
 								{
 									title: 'h2',
@@ -291,9 +224,9 @@ class GenerateBlockHeadline extends Component {
 										setAttributes( { element: 'h2' } );
 
 										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
 										}
-									}
+									},
 								},
 								{
 									title: 'h3',
@@ -301,9 +234,9 @@ class GenerateBlockHeadline extends Component {
 										setAttributes( { element: 'h3' } );
 
 										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
 										}
-									}
+									},
 								},
 								{
 									title: 'h4',
@@ -311,9 +244,9 @@ class GenerateBlockHeadline extends Component {
 										setAttributes( { element: 'h4' } );
 
 										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
 										}
-									}
+									},
 								},
 							] }
 						/>
@@ -357,14 +290,16 @@ class GenerateBlockHeadline extends Component {
 								{ label: 'h5', value: 'h5' },
 								{ label: 'h6', value: 'h6' },
 							] }
-							onChange={ ( element ) => {
-								setAttributes( { element } );
+							onChange={ ( value ) => {
+								setAttributes( {
+									element: value,
+								} );
 
 								if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
 									if ( 'p' === element ) {
 										setAttributes( { marginUnit: 'em' } );
 									} else {
-										setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
+										setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
 									}
 								}
 							} }
@@ -402,11 +337,11 @@ class GenerateBlockHeadline extends Component {
 									showLineHeight={ true }
 									showLetterSpacing={ true }
 									fontSizePlaceholder={ fontSizePlaceholder }
-									defaultFontSize={ generateBlocksDefaults.headline.fontSize }
-									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-									defaultLineHeight={ generateBlocksDefaults.headline.lineHeight }
-									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacing }
+									defaultFontSize={ generateBlocksDefaults.headline.fontSize } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLineHeight={ generateBlocksDefaults.headline.lineHeight } // eslint-disable-line no-undef
+									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacing } // eslint-disable-line no-undef
 								/>
 							</Fragment>
 						) }
@@ -428,11 +363,11 @@ class GenerateBlockHeadline extends Component {
 									showFontSize={ true }
 									showLineHeight={ true }
 									showLetterSpacing={ true }
-									defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet }
-									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-									defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet }
-									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingTablet }
+									defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet } // eslint-disable-line no-undef
+									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingTablet } // eslint-disable-line no-undef
 								/>
 							</Fragment>
 						) }
@@ -454,11 +389,11 @@ class GenerateBlockHeadline extends Component {
 									showFontSize={ true }
 									showLineHeight={ true }
 									showLetterSpacing={ true }
-									defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile }
-									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-									defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile }
-									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingMobile }
+									defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile } // eslint-disable-line no-undef
+									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingMobile } // eslint-disable-line no-undef
 								/>
 							</Fragment>
 						) }
@@ -481,7 +416,7 @@ class GenerateBlockHeadline extends Component {
 									checked={ !! inlineWidth }
 									onChange={ ( value ) => {
 										setAttributes( {
-											inlineWidth: value
+											inlineWidth: value,
 										} );
 									} }
 								/>
@@ -532,7 +467,7 @@ class GenerateBlockHeadline extends Component {
 									checked={ !! inlineWidthTablet }
 									onChange={ ( value ) => {
 										setAttributes( {
-											inlineWidthTablet: value
+											inlineWidthTablet: value,
 										} );
 									} }
 								/>
@@ -583,7 +518,7 @@ class GenerateBlockHeadline extends Component {
 									checked={ !! inlineWidthMobile }
 									onChange={ ( value ) => {
 										setAttributes( {
-											inlineWidthMobile: value
+											inlineWidthMobile: value,
 										} );
 									} }
 								/>
@@ -647,12 +582,12 @@ class GenerateBlockHeadline extends Component {
 							attrOpacity={ 'backgroundColorOpacity' }
 							onChange={ ( value ) =>
 								setAttributes( {
-									backgroundColor: value
+									backgroundColor: value,
 								} )
 							}
 							onOpacityChange={ ( value ) =>
 								setAttributes( {
-									backgroundColorOpacity: value
+									backgroundColorOpacity: value,
 								} )
 							}
 						/>
@@ -663,7 +598,7 @@ class GenerateBlockHeadline extends Component {
 							alpha={ false }
 							onChange={ ( value ) =>
 								setAttributes( {
-									textColor: value
+									textColor: value,
 								} )
 							}
 						/>
@@ -674,7 +609,7 @@ class GenerateBlockHeadline extends Component {
 							alpha={ false }
 							onChange={ ( value ) =>
 								setAttributes( {
-									linkColor: value
+									linkColor: value,
 								} )
 							}
 						/>
@@ -685,7 +620,7 @@ class GenerateBlockHeadline extends Component {
 							alpha={ false }
 							onChange={ ( value ) =>
 								setAttributes( {
-									linkColorHover: value
+									linkColorHover: value,
 								} )
 							}
 						/>
@@ -698,12 +633,12 @@ class GenerateBlockHeadline extends Component {
 							attrOpacity={ 'borderColorOpacity' }
 							onChange={ ( value ) =>
 								setAttributes( {
-									borderColor: value
+									borderColor: value,
 								} )
 							}
 							onOpacityChange={ ( value ) =>
 								setAttributes( {
-									borderColorOpacity: value
+									borderColorOpacity: value,
 								} )
 							}
 						/>
@@ -717,12 +652,12 @@ class GenerateBlockHeadline extends Component {
 								attrOpacity={ 'iconColorOpacity' }
 								onChange={ ( value ) =>
 									setAttributes( {
-										iconColor: value
+										iconColor: value,
 									} )
 								}
 								onOpacityChange={ ( value ) =>
 									setAttributes( {
-										iconColorOpacity: value
+										iconColorOpacity: value,
 									} )
 								}
 							/>
@@ -734,7 +669,7 @@ class GenerateBlockHeadline extends Component {
 							alpha={ false }
 							onChange={ ( value ) =>
 								setAttributes( {
-									highlightTextColor: value
+									highlightTextColor: value,
 								} )
 							}
 						/>
@@ -789,7 +724,7 @@ class GenerateBlockHeadline extends Component {
 												] }
 												onChange={ ( value ) => {
 													setAttributes( {
-														iconVerticalAlignment: value
+														iconVerticalAlignment: value,
 													} );
 												} }
 											/>
@@ -816,7 +751,7 @@ class GenerateBlockHeadline extends Component {
 
 									<div className="components-gblocks-control__units">
 										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit, i ) =>
+											{ unitSizes.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
@@ -827,7 +762,7 @@ class GenerateBlockHeadline extends Component {
 														aria-pressed={ iconSizeUnit === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
 													</Button>
@@ -844,17 +779,17 @@ class GenerateBlockHeadline extends Component {
 										step={ 'em' === iconSizeUnit ? .1 : 1 }
 										onChange={ ( value ) => {
 											setAttributes( {
-												iconSize: value
+												iconSize: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												iconSize: parseFloat( iconSize )
+												iconSize: parseFloat( iconSize ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -864,7 +799,7 @@ class GenerateBlockHeadline extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSize: generateBlocksDefaults.headline.iconSize
+												iconSize: generateBlocksDefaults.headline.iconSize, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -906,7 +841,7 @@ class GenerateBlockHeadline extends Component {
 												] }
 												onChange={ ( value ) => {
 													setAttributes( {
-														iconVerticalAlignmentTablet: value
+														iconVerticalAlignmentTablet: value,
 													} );
 												} }
 											/>
@@ -933,7 +868,7 @@ class GenerateBlockHeadline extends Component {
 
 									<div className="components-gblocks-control__units">
 										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit, i ) =>
+											{ unitSizes.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
@@ -944,7 +879,7 @@ class GenerateBlockHeadline extends Component {
 														aria-pressed={ iconSizeUnit === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
 													</Button>
@@ -962,17 +897,17 @@ class GenerateBlockHeadline extends Component {
 										placeholder="1"
 										onChange={ ( value ) => {
 											setAttributes( {
-												iconSizeTablet: value
+												iconSizeTablet: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												iconSizeTablet: parseFloat( iconSizeTablet )
+												iconSizeTablet: parseFloat( iconSizeTablet ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -982,7 +917,7 @@ class GenerateBlockHeadline extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSizeTablet: generateBlocksDefaults.headline.iconSizeTablet
+												iconSizeTablet: generateBlocksDefaults.headline.iconSizeTablet, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -1024,7 +959,7 @@ class GenerateBlockHeadline extends Component {
 												] }
 												onChange={ ( value ) => {
 													setAttributes( {
-														iconVerticalAlignmentMobile: value
+														iconVerticalAlignmentMobile: value,
 													} );
 												} }
 											/>
@@ -1051,7 +986,7 @@ class GenerateBlockHeadline extends Component {
 
 									<div className="components-gblocks-control__units">
 										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit, i ) =>
+											{ unitSizes.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
@@ -1062,7 +997,7 @@ class GenerateBlockHeadline extends Component {
 														aria-pressed={ iconSizeUnit === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { 'iconSizeUnit': unit.unitValue } ) }
+														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
 													</Button>
@@ -1080,17 +1015,17 @@ class GenerateBlockHeadline extends Component {
 										placeholder="1"
 										onChange={ ( value ) => {
 											setAttributes( {
-												iconSizeMobile: value
+												iconSizeMobile: value,
 											} );
 										} }
 										onBlur={ () => {
 											setAttributes( {
-												iconSizeMobile: parseFloat( iconSizeMobile )
+												iconSizeMobile: parseFloat( iconSizeMobile ),
 											} );
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus()
+											e.currentTarget.focus();
 										} }
 									/>
 
@@ -1100,7 +1035,7 @@ class GenerateBlockHeadline extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSizeMobile: generateBlocksDefaults.headline.iconSizeMobile
+												iconSizeMobile: generateBlocksDefaults.headline.iconSizeMobile, // eslint-disable-line no-undef
 											} );
 										} }
 									>
@@ -1125,16 +1060,23 @@ class GenerateBlockHeadline extends Component {
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
-							onChange={ ( elementId ) => {
-								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-								setAttributes( { elementId } );
+							onChange={ ( value ) => {
+								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
+
+								setAttributes( {
+									elementId: newElementId,
+								} );
 							} }
 						/>
 
 						<TextControl
 							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
-							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+							onChange={ ( value ) => {
+								setAttributes( {
+									cssClasses: value,
+								} );
+							} }
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'headlineAdvanced', this.props, this.state ) }
@@ -1160,15 +1102,15 @@ class GenerateBlockHeadline extends Component {
 				{ fontFamily && googleFont &&
 					<link
 						rel="stylesheet"
-						href={ `https://fonts.googleapis.com/css?family=` + fontFamily.replace( / /g, '+' ) + googleFontsAttr }
+						href={ 'https://fonts.googleapis.com/css?family=' + fontFamily.replace( / /g, '+' ) + googleFontsAttr }
 					/>
 				}
 
 				{ icon ? (
 					<div
 						className={ classnames( {
-						'gb-headline-wrapper': true,
-						[`gb-headline-wrapper-${ uniqueId }`]: true,
+							'gb-headline-wrapper': true,
+							[ `gb-headline-wrapper-${ uniqueId }` ]: true,
 						} ) }
 					>
 						{ icon &&
@@ -1188,8 +1130,8 @@ class GenerateBlockHeadline extends Component {
 								id={ !! elementId ? elementId : undefined }
 								className={ classnames( {
 									'gb-headline': true,
-									[`gb-headline-${ uniqueId }`]: true,
-									[`${ cssClasses }`]: '' !== cssClasses
+									[ `gb-headline-${ uniqueId }` ]: true,
+									[ `${ cssClasses }` ]: '' !== cssClasses,
 								} ) }
 								placeholder={ __( 'Write headline…', 'generateblocks' ) }
 								keepPlaceholderOnFocus={ true }
@@ -1205,8 +1147,8 @@ class GenerateBlockHeadline extends Component {
 						id={ !! elementId ? elementId : undefined }
 						className={ classnames( {
 							'gb-headline': true,
-							[`gb-headline-${ uniqueId }`]: true,
-							[`${ cssClasses }`]: '' !== cssClasses
+							[ `gb-headline-${ uniqueId }` ]: true,
+							[ `${ cssClasses }` ]: '' !== cssClasses,
 						} ) }
 						placeholder={ __( 'Write headline…', 'generateblocks' ) }
 						keepPlaceholderOnFocus={ true }

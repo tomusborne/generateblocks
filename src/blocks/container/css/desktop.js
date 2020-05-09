@@ -1,6 +1,6 @@
+/* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import shorthandCSS from '../../../utils/shorthand-css';
-import flexboxAlignment from '../../../utils/flexbox-alignment';
 import hexToRGBA from '../../../components/color-picker/hex-to-rgba';
 import valueWithUnit from '../../../utils/value-with-unit';
 
@@ -8,10 +8,6 @@ const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			attributes,
@@ -106,7 +102,7 @@ export default class DesktopCSS extends Component {
 		let containerWidthPreview = containerWidth;
 
 		if ( ! containerWidthPreview ) {
-			containerWidthPreview = generateBlocksDefaults.container.containerWidth;
+			containerWidthPreview = generateBlocksDefaults.container.containerWidth; // eslint-disable-line no-undef
 		}
 
 		let fontFamilyFallbackValue = '';
@@ -119,21 +115,20 @@ export default class DesktopCSS extends Component {
 
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
-			'color': textColor,
+			'color': textColor, // eslint-disable-line quote-props
 			'background-image': backgroundImageValue,
 			'background-size': bgOptions.size,
 			'background-position': bgOptions.position,
 			'background-repeat': bgOptions.repeat,
 			'background-attachment': bgOptions.attachment,
 			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
-			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ),
+			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'z-index': zindex,
-			'position': zindex ? 'relative' : false,
+			'position': zindex ? 'relative' : false, // eslint-disable-line quote-props
 			'text-align': alignment,
 			'font-family': fontFamily + fontFamilyFallbackValue,
 			'font-weight': fontWeight,
 			'text-transform': textTransform,
-			'text-align': alignment,
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		} ];
@@ -144,7 +139,7 @@ export default class DesktopCSS extends Component {
 			.editor-styles-wrapper .gb-container-` + uniqueId + ` h4,
 			.editor-styles-wrapper .gb-container-` + uniqueId + ` h5,
 			.editor-styles-wrapper .gb-container-` + uniqueId + ` h6` ] = [ {
-			'color': textColor,
+			'color': textColor, // eslint-disable-line quote-props
 		} ];
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
@@ -157,23 +152,23 @@ export default class DesktopCSS extends Component {
 
 		if ( minHeight && ! isGrid ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
-				'display': 'flex',
+				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
 				'align-items': verticalAlignment,
 			} );
 		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' a, .gb-container-' + uniqueId + ' a:visited' ] = [ {
-			'color': linkColor,
+			'color': linkColor, // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ '.gb-container-' + uniqueId + ' a:hover' ] = [ {
-			'color': linkColorHover,
+			'color': linkColorHover, // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
-			'width': minHeight && ! isGrid ? '100%' : false,
+			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
+			'width': minHeight && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 
 		if ( 'contained' === innerContainer && ! isGrid ) {
@@ -185,15 +180,15 @@ export default class DesktopCSS extends Component {
 		}
 
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
-			'width': valueWithUnit( width, '%' ),
-			'display': 'flex',
+			'width': valueWithUnit( width, '%' ), // eslint-disable-line quote-props
+			'display': 'flex', // eslint-disable-line quote-props
 			'flex-direction': 'column',
 			'margin-left': '0px',
 			'margin-right': '0px',
 		} ];
 
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId + ' > .gb-grid-column' ] = [ {
-			'height': '100%',
+			'height': '100%', // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
@@ -202,21 +197,21 @@ export default class DesktopCSS extends Component {
 		} ];
 
 		cssObj[ '.gb-grid-column > .gb-container-' + uniqueId ] = [ {
-			'display': 'flex',
+			'display': 'flex', // eslint-disable-line quote-props
 			'flex-direction': 'column',
-			'height': '100%',
+			'height': '100%', // eslint-disable-line quote-props
 			'justify-content': verticalAlignment,
 		} ];
 
 		cssObj[ `.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
 		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"],
 		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"] > .gb-grid-column` ] = [ {
-			'height': '100%',
+			'height': '100%', // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),
 		#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-editor-block-list__layout > div:not(:first-child) > .block-list-appender` ] = [ {
-			'display': 'none',
+			'display': 'none', // eslint-disable-line quote-props
 		} ];
 
 		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'container', this.props );
@@ -226,3 +221,4 @@ export default class DesktopCSS extends Component {
 		);
 	}
 }
+/* eslint-enable quotes */

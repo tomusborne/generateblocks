@@ -6,11 +6,10 @@ import classnames from 'classnames';
 import sanitizeSVG from '../../utils/sanitize-svg';
 
 const {
-	RichText
+	RichText,
 } = wp.blockEditor;
 
 export default ( { attributes } ) => {
-
 	const {
 		uniqueId,
 		elementId,
@@ -29,8 +28,8 @@ export default ( { attributes } ) => {
 			condition={ icon }
 			wrap={ children => <div className={ classnames( {
 				'gb-headline-wrapper': true,
-				[`gb-headline-wrapper-${ uniqueId }`]: true,
-			} ) }>{ children }</div>}
+				[ `gb-headline-wrapper-${ uniqueId }` ]: true,
+			} ) }>{ children }</div> }
 		>
 			{ icon &&
 				<span
@@ -46,12 +45,12 @@ export default ( { attributes } ) => {
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
 						'gb-headline': true,
-						[`gb-headline-${ uniqueId }`]: true,
-						[`${ cssClasses }`]: '' !== cssClasses
+						[ `gb-headline-${ uniqueId }` ]: true,
+						[ `${ cssClasses }` ]: '' !== cssClasses,
 					} ) }
 					value={ content }
 				/>
 			}
 		</ConditionalWrap>
 	);
-}
+};

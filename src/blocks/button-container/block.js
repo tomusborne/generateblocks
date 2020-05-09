@@ -5,14 +5,13 @@
 //import './style.scss';
 import './editor.scss';
 
-import editButtonContainer from './edit'
-import saveButtonContainer from './save'
-import blockAttributes from './attributes'
-import getIcon from '../../utils/get-icon'
+import editButtonContainer from './edit';
+import saveButtonContainer from './save';
+import blockAttributes from './attributes';
+import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const el = wp.element.createElement;
 
 /**
  * Register our Button Container block.
@@ -36,7 +35,7 @@ registerBlockType( 'generateblocks/button-container', {
 	supports: {
 		anchor: false,
 		className: false,
-		customClassName: false
+		customClassName: false,
 	},
 	edit: editButtonContainer,
 	save: saveButtonContainer,

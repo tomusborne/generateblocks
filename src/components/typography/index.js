@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import classnames from 'classnames';
-
-/**
  * Internal dependencies
  */
 import './editor.scss';
@@ -12,13 +7,15 @@ import googleFonts from './google-fonts';
 /**
  * WordPress dependencies
  */
-const { __, _x } = wp.i18n;
+const {
+	__,
+	_x,
+	sprintf,
+} = wp.i18n;
 const { Component, Fragment } = wp.element;
-const { compose } = wp.compose;
 
 const {
 	BaseControl,
-	RangeControl,
 	SelectControl,
 	ToggleControl,
 	TextControl,
@@ -31,11 +28,6 @@ const {
  * Typography Component
  */
 class TypographyControls extends Component {
-
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			setAttributes,
@@ -48,11 +40,6 @@ class TypographyControls extends Component {
 			showLineHeight = false,
 			showLetterSpacing = false,
 			disableAdvancedToggle = false,
-			defaultFontSize,
-			defaultFontSizeUnit,
-			defaultLineHeight,
-			defaultLineHeightUnit,
-			defaultLetterSpacing,
 			fontSizePlaceholder = '17',
 		} = this.props;
 
@@ -74,7 +61,7 @@ class TypographyControls extends Component {
 			{ value: 'other', label: __( 'Other', 'generateblocks' ) }
 		);
 
-		var weight = [
+		let weight = [
 			{ value: '', 		label: __( 'Default', 'generateblocks' ) },
 			{ value: 'normal', 	label: __( 'Normal', 'generateblocks' ) },
 			{ value: 'bold', 	label: __( 'Bold', 'generateblocks' ) },
@@ -106,7 +93,7 @@ class TypographyControls extends Component {
 
 			googleFonts[ attributes.fontFamily ].weight.filter( function( k ) {
 				const hasLetters = k.match( /[a-z]/g );
-    			const hasNumbers = k.match( /[0-9]/g );
+				const hasNumbers = k.match( /[0-9]/g );
 
 				if ( ( hasLetters && hasNumbers ) || 'italic' === k ) {
 					return false;
@@ -125,9 +112,9 @@ class TypographyControls extends Component {
 				value = '';
 			}
 
-			let fontWeight = attributes.fontWeight;
+			let fontWeight = attributes.fontWeight; // eslint-disable-line no-unused-vars
 
-			setAttributes( { 'fontFamily': value } );
+			setAttributes( { fontFamily: value } );
 
 			if ( attributes.fontWeight && Object.values( weight ).indexOf( attributes.fontWeight ) < 0 ) {
 				fontWeight = '';
@@ -135,25 +122,25 @@ class TypographyControls extends Component {
 
 			if ( typeof googleFonts[ value ] !== 'undefined' ) {
 				setAttributes( {
-					'googleFont': true,
-					'fontFamilyFallback': googleFonts[ value ].fallback,
-					'googleFontVariants': googleFonts[ value ].weight.join( ', ' ),
+					'googleFont': true, // eslint-disable-line quote-props
+					'fontFamilyFallback': googleFonts[ value ].fallback, // eslint-disable-line quote-props
+					'googleFontVariants': googleFonts[ value ].weight.join( ', ' ), // eslint-disable-line quote-props
 				} );
 			} else {
 				setAttributes( {
-					'googleFont': false,
-					'fontFamilyFallback': '',
-					'googleFontVariants': '',
+					'googleFont': false, // eslint-disable-line quote-props
+					'fontFamilyFallback': '', // eslint-disable-line quote-props
+					'googleFontVariants': '', // eslint-disable-line quote-props
 				} );
 			}
 		};
 
 		const onFontShortcut = ( event ) => {
-			setAttributes( { 'fontFamily': event.target.value } );
+			setAttributes( { 'fontFamily': event.target.value } ); // eslint-disable-line quote-props
 			onFontChange( event.target.value );
 		};
 
-		let unitSizes = [
+		const unitSizes = [
 			{
 				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: 'px',
@@ -168,14 +155,14 @@ class TypographyControls extends Component {
 			},
 		];
 
-		const getValue = ( value, device ) => {
-			const valueName = value + device;
+		const getValue = ( value, setDevice ) => {
+			const valueName = value + setDevice;
 
 			return attributes[ valueName ];
 		};
 
-		const getAttributeName = ( name, device ) => {
-			const attributeName = name + device;
+		const getAttributeName = ( name, setDevice ) => {
+			const attributeName = name + setDevice;
 
 			return attributeName;
 		};
@@ -210,10 +197,8 @@ class TypographyControls extends Component {
 							options={ weight }
 							onChange={ ( value ) => {
 								setAttributes( {
-									'fontWeight': value
+									'fontWeight': value, // eslint-disable-line quote-props
 								} );
-
-								isValidGoogleURL( attributes.fontFamily, value );
 							} }
 							className="components-base-control"
 						/>
@@ -226,7 +211,7 @@ class TypographyControls extends Component {
 							options={ transform }
 							onChange={ ( value ) => {
 								setAttributes( {
-									'textTransform': value
+									'textTransform': value, // eslint-disable-line quote-props
 								} );
 							} }
 							className="components-base-control"
@@ -240,7 +225,7 @@ class TypographyControls extends Component {
 						checked={ !! attributes.showAdvancedTypography }
 						onChange={ ( value ) => {
 							setAttributes( {
-								'showAdvancedTypography': value,
+								'showAdvancedTypography': value, // eslint-disable-line quote-props
 							} );
 						} }
 					/>
@@ -251,6 +236,7 @@ class TypographyControls extends Component {
 						<select
 							className="components-select-control__input components-select-control__input--gblocks-fontfamily"
 							onChange={ onFontShortcut }
+							onBlur={ onFontShortcut }
 						>
 							{ fonts.map( ( option, index ) =>
 								<option
@@ -279,14 +265,14 @@ class TypographyControls extends Component {
 							checked={ !! attributes.googleFont }
 							onChange={ ( value ) => {
 								setAttributes( {
-									'googleFont': value,
+									'googleFont': value, // eslint-disable-line quote-props
 								} );
 
 								if ( value ) {
 									if ( typeof googleFonts[ attributes.fontFamily ] !== 'undefined' ) {
 										setAttributes( {
-											'fontFamilyFallback': googleFonts[ attributes.fontFamily ].fallback,
-											'googleFontVariants': googleFonts[ attributes.fontFamily ].weight.join( ', ' ),
+											'fontFamilyFallback': googleFonts[ attributes.fontFamily ].fallback, // eslint-disable-line quote-props
+											'googleFontVariants': googleFonts[ attributes.fontFamily ].weight.join( ', ' ), // eslint-disable-line quote-props
 										} );
 									}
 								}
@@ -300,7 +286,7 @@ class TypographyControls extends Component {
 								placeholder={ __( '300, 400, 400i', 'generateblocks' ) }
 								onChange={ ( value ) => {
 									setAttributes( {
-										'googleFontVariants': value,
+										'googleFontVariants': value, // eslint-disable-line quote-props
 									} );
 								} }
 							/>
@@ -315,7 +301,7 @@ class TypographyControls extends Component {
 						placeholder={ __( 'sans-serif', 'generateblocks' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
-								'fontFamilyFallback': value,
+								'fontFamilyFallback': value, // eslint-disable-line quote-props
 							} );
 						} }
 					/>
@@ -330,7 +316,7 @@ class TypographyControls extends Component {
 
 							<div className="components-gblocks-control__units">
 								<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-									{ unitSizes.map( ( unit, i ) =>
+									{ unitSizes.map( ( unit ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 										<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 											<Button
@@ -341,7 +327,7 @@ class TypographyControls extends Component {
 												aria-pressed={ attributes.fontSizeUnit === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-												onClick={ () => setAttributes( { 'fontSizeUnit': unit.unitValue } ) }
+												onClick={ () => setAttributes( { fontSizeUnit: unit.unitValue } ) }
 											>
 												{ unit.unitValue }
 											</Button>
@@ -360,7 +346,7 @@ class TypographyControls extends Component {
 									const name = getAttributeName( 'fontSize', device );
 
 									setAttributes( {
-										[ name ]: parseFloat( value )
+										[ name ]: parseFloat( value ),
 									} );
 								} }
 								min={ 1 }
@@ -375,7 +361,7 @@ class TypographyControls extends Component {
 									const name = getAttributeName( 'fontSize', device );
 
 									setAttributes( {
-										[ name ]: this.props.defaultFontSize
+										[ name ]: this.props.defaultFontSize,
 									} );
 								} }
 							>
@@ -394,7 +380,7 @@ class TypographyControls extends Component {
 
 							<div className="components-gblocks-control__units">
 								<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-									{ unitSizes.map( ( unit, i ) =>
+									{ unitSizes.map( ( unit ) =>
 										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 										<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 											<Button
@@ -405,7 +391,7 @@ class TypographyControls extends Component {
 												aria-pressed={ attributes.lineHeightUnit === unit.unitValue }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
 												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-												onClick={ () => setAttributes( { 'lineHeightUnit': unit.unitValue } ) }
+												onClick={ () => setAttributes( { lineHeightUnit: unit.unitValue } ) }
 											>
 												{ unit.unitValue }
 											</Button>
@@ -424,19 +410,19 @@ class TypographyControls extends Component {
 									const name = getAttributeName( 'lineHeight', device );
 
 									setAttributes( {
-										[ name ]: value
+										[ name ]: value,
 									} );
 								} }
 								onBlur={ () => {
 									const name = getAttributeName( 'lineHeight', device );
 
 									setAttributes( {
-										[ name ]: parseFloat( getValue( 'lineHeight', device ) )
+										[ name ]: parseFloat( getValue( 'lineHeight', device ) ),
 									} );
 								} }
 								onClick={ ( e ) => {
 									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus()
+									e.currentTarget.focus();
 								} }
 								min={ 0 }
 								step={ .1 }
@@ -451,7 +437,7 @@ class TypographyControls extends Component {
 									const name = getAttributeName( 'lineHeight', device );
 
 									setAttributes( {
-										[ name ]: this.props.defaultLineHeight
+										[ name ]: this.props.defaultLineHeight,
 									} );
 								} }
 							>
@@ -492,19 +478,19 @@ class TypographyControls extends Component {
 									const name = getAttributeName( 'letterSpacing', device );
 
 									setAttributes( {
-										[ name ]: value
+										[ name ]: value,
 									} );
 								} }
 								onBlur={ () => {
 									const name = getAttributeName( 'letterSpacing', device );
 
 									setAttributes( {
-										[ name ]: parseFloat( getValue( 'letterSpacing', device ) )
+										[ name ]: parseFloat( getValue( 'letterSpacing', device ) ),
 									} );
 								} }
 								onClick={ ( e ) => {
 									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus()
+									e.currentTarget.focus();
 								} }
 								min={ -1 }
 								step={ .01 }
@@ -519,7 +505,7 @@ class TypographyControls extends Component {
 									const name = getAttributeName( 'letterSpacing', device );
 
 									setAttributes( {
-										[ name ]: this.props.defaultLetterSpacing
+										[ name ]: this.props.defaultLetterSpacing,
 									} );
 								} }
 							>

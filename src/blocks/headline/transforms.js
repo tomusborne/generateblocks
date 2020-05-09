@@ -1,9 +1,9 @@
 /**
  * WordPress dependencies
  */
- const {
-     createBlock,
- } = wp.blocks;
+const {
+	createBlock,
+} = wp.blocks;
 
 const transforms = {
 	from: [

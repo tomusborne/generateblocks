@@ -1,18 +1,18 @@
-import getIcon from '../../utils/get-icon'
+import getIcon from '../../utils/get-icon';
 
 /**
  * WordPress Dependencies
  */
 const {
-	__
+	__,
 } = wp.i18n;
 
 const {
-	addFilter
+	addFilter,
 } = wp.hooks;
 
 const {
-	Fragment
+	Fragment,
 } = wp.element;
 
 const {
@@ -26,7 +26,7 @@ const {
 } = wp.components;
 
 const {
-	createHigherOrderComponent
+	createHigherOrderComponent,
 } = wp.compose;
 
 const {
@@ -42,7 +42,6 @@ const {
  */
 const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
-
 		const {
 			name,
 			attributes,
@@ -56,7 +55,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		let parentGridId = false;
 
-		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === "function" ) {
+		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === 'function' ) {
 			parentGridId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/grid', true )[ 0 ];
 		} else {
 			parentGridId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
@@ -95,11 +94,11 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 					</BlockControls>
 				}
 
-				<BlockEdit {...props} />
+				<BlockEdit { ...props } />
 			</Fragment>
 		);
 	};
-}, 'withAdvancedControls');
+}, 'withAdvancedControls' );
 
 addFilter(
 	'editor.BlockEdit',

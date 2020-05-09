@@ -5,14 +5,9 @@ const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			attributes,
-			clientId,
 		} = this.props;
 
 		const {

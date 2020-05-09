@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
 	uniqueId: {
 		type: 'string',
@@ -297,9 +298,9 @@ export default {
 		default: generateBlocksDefaults.headline.borderSizeLeftMobile,
 	},
 	icon: {
-        type: 'string',
-        default: generateBlocksDefaults.headline.icon,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.headline.icon,
+	},
 	iconColor: {
 		type: 'string',
 		default: generateBlocksDefaults.headline.iconColor,
@@ -428,4 +429,5 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.headline.ariaLabel,
 	},
-}
+};
+/* eslint-enable no-undef */

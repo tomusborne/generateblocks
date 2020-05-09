@@ -8,13 +8,25 @@ import getIcon from '../../utils/get-icon';
 /**
  * WordPress dependencies
  */
-const { __, _x, sprintf } = wp.i18n;
-const { Component, Fragment } = wp.element;
-const { BaseControl, Button, Tooltip, ButtonGroup } = wp.components;
+const {
+	__,
+	_x,
+	sprintf,
+} = wp.i18n;
+
+const {
+	Component,
+	Fragment,
+} = wp.element;
+
+const {
+	Button,
+	Tooltip,
+	ButtonGroup,
+} = wp.components;
 
 class DimensionsControl extends Component {
-
-	constructor( props ) {
+	constructor() {
 		super( ...arguments );
 		this.onChangeTop = this.onChangeTop.bind( this );
 		this.onChangeRight = this.onChangeRight.bind( this );
@@ -30,50 +42,45 @@ class DimensionsControl extends Component {
 	}
 
 	onChangeTop( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: value } ); // eslint-disable-line dot-notation
 	}
 
 	onChangeRight( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrRight' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrRight' ] ]: value } ); // eslint-disable-line dot-notation
 	}
 
 	onChangeBottom( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrBottom' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrBottom' ] ]: value } ); // eslint-disable-line dot-notation
 	}
 
 	onChangeLeft( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrLeft' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrLeft' ] ]: value } ); // eslint-disable-line dot-notation
 	}
 
 	onChangeAll( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: value, [ this.props[ 'attrRight' ] ]: value, [ this.props[ 'attrBottom' ] ]: value, [ this.props[ 'attrLeft' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrTop' ] ]: value, [ this.props[ 'attrRight' ] ]: value, [ this.props[ 'attrBottom' ] ]: value, [ this.props[ 'attrLeft' ] ]: value } ); // eslint-disable-line dot-notation
 	}
 
-	syncUnits( value ) {
-		var numbers = [ this.props.attributes[ this.props.attrTop ], this.props.attributes[ this.props.attrRight ], this.props.attributes[ this.props.attrBottom ], this.props.attributes[ this.props.attrLeft ]];
+	syncUnits() {
+		const numbers = [ this.props.attributes[ this.props.attrTop ], this.props.attributes[ this.props.attrRight ], this.props.attributes[ this.props.attrBottom ], this.props.attributes[ this.props.attrLeft ] ];
 
 		const syncValue = Math.max.apply( null, numbers );
 
 		this.props.setAttributes( {
-			[ this.props[ 'attrSyncUnits' ] ]: ! this.props.attributes[ this.props.attrSyncUnits ],
-			[ this.props[ 'attrTop' ] ]: syncValue.toString(), [ this.props[ 'attrRight' ] ]: syncValue.toString(), [ this.props[ 'attrBottom' ] ]: syncValue.toString(), [ this.props[ 'attrLeft' ] ]: syncValue.toString()
+			[ this.props[ 'attrSyncUnits' ] ]: ! this.props.attributes[ this.props.attrSyncUnits ], // eslint-disable-line dot-notation
+			[ this.props[ 'attrTop' ] ]: syncValue.toString(), [ this.props[ 'attrRight' ] ]: syncValue.toString(), [ this.props[ 'attrBottom' ] ]: syncValue.toString(), [ this.props[ 'attrLeft' ] ]: syncValue.toString(), // eslint-disable-line dot-notation
 		} );
 	}
 
 	onChangeUnits( value ) {
-		this.props.setAttributes( { [ this.props[ 'attrUnit' ] ]: value } );
+		this.props.setAttributes( { [ this.props[ 'attrUnit' ] ]: value } ); // eslint-disable-line dot-notation
 	}
 
 	render() {
-
 		const {
 			attributes,
 			label = __( 'Margin', 'generateblocks' ),
-			onChange,
-			setAttributes,
 			type = 'margin',
-			unit,
-			units = true,
 			attrTop,
 			attrRight,
 			attrBottom,
@@ -95,7 +102,7 @@ class DimensionsControl extends Component {
 		);
 
 		const onChangeTopValue = ( event ) => {
-			var newValue = event.target.value;
+			const newValue = event.target.value;
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrTop' );
@@ -110,7 +117,7 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeRightValue = ( event ) => {
-			var newValue = event.target.value;
+			const newValue = event.target.value;
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrRight' );
@@ -125,7 +132,7 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeBottomValue = ( event ) => {
-			var newValue = event.target.value;
+			const newValue = event.target.value;
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrBottom' );
@@ -140,7 +147,7 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeLeftValue = ( event ) => {
-			var newValue = event.target.value;
+			const newValue = event.target.value;
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrLeft' );
@@ -154,7 +161,7 @@ class DimensionsControl extends Component {
 			}
 		};
 
-		let unitSizes = [
+		const unitSizes = [
 			{
 				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
 				unitValue: 'px',
@@ -172,13 +179,13 @@ class DimensionsControl extends Component {
 		let topPlaceholder = '0',
 			rightPlaceholder = '0',
 			bottomPlaceholder = '0',
-			leftPlaceholder= '0';
+			leftPlaceholder = '0';
 
 		if ( 'headline' === block && attrBottom.includes( 'marginBottom' ) ) {
-			if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
-				if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) {
-					if ( generateBlocksStyling.headline[ attributes.element ].marginUnit === attributes.marginUnit ) {
-						bottomPlaceholder = generateBlocksStyling.headline[ attributes.element ].marginBottom;
+			if ( typeof generateBlocksStyling.headline !== 'undefined' ) { // eslint-disable-line no-undef
+				if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) { // eslint-disable-line no-undef
+					if ( generateBlocksStyling.headline[ attributes.element ].marginUnit === attributes.marginUnit ) { // eslint-disable-line no-undef
+						bottomPlaceholder = generateBlocksStyling.headline[ attributes.element ].marginBottom; // eslint-disable-line no-undef
 					}
 				}
 			}
@@ -186,9 +193,9 @@ class DimensionsControl extends Component {
 
 		if ( 'tablet' === device ) {
 			const topAttrName = attrTop.replace( 'Tablet', '' ),
-				  rightAttrName = attrRight.replace( 'Tablet', '' ),
-				  bottomAttrName = attrBottom.replace( 'Tablet', '' ),
-				  leftAttrName = attrLeft.replace( 'Tablet', '' );
+				rightAttrName = attrRight.replace( 'Tablet', '' ),
+				bottomAttrName = attrBottom.replace( 'Tablet', '' ),
+				leftAttrName = attrLeft.replace( 'Tablet', '' );
 
 			topPlaceholder = attributes[ topAttrName ] ? attributes[ topAttrName ] : topPlaceholder;
 			rightPlaceholder = attributes[ rightAttrName ] ? attributes[ rightAttrName ] : rightPlaceholder;
@@ -198,9 +205,9 @@ class DimensionsControl extends Component {
 
 		if ( 'mobile' === device ) {
 			const topAttrName = attrTop.replace( 'Mobile', '' ),
-				  rightAttrName = attrRight.replace( 'Mobile', '' ),
-				  bottomAttrName = attrBottom.replace( 'Mobile', '' ),
-				  leftAttrName = attrLeft.replace( 'Mobile', '' );
+				rightAttrName = attrRight.replace( 'Mobile', '' ),
+				bottomAttrName = attrBottom.replace( 'Mobile', '' ),
+				leftAttrName = attrLeft.replace( 'Mobile', '' );
 
 			if ( attributes[ topAttrName + 'Tablet' ] ) {
 				topPlaceholder = attributes[ topAttrName + 'Tablet' ];
@@ -284,7 +291,7 @@ class DimensionsControl extends Component {
 							onChange={ onChangeTopValue }
 							aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
 							value={ attributes[ attrTop ] ? attributes[ attrTop ] : '' }
-							min={ type == 'padding' ? 0 : undefined }
+							min={ type === 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
 						<input
@@ -294,7 +301,7 @@ class DimensionsControl extends Component {
 							onChange={ onChangeRightValue }
 							aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
 							value={ attributes[ attrRight ] ? attributes[ attrRight ] : '' }
-							min={ type == 'padding' ? 0 : undefined }
+							min={ type === 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
 						<input
@@ -304,7 +311,7 @@ class DimensionsControl extends Component {
 							onChange={ onChangeBottomValue }
 							aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
 							value={ attributes[ attrBottom ] ? attributes[ attrBottom ] : '' }
-							min={ type == 'padding' ? 0 : undefined }
+							min={ type === 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
 						<input
@@ -314,7 +321,7 @@ class DimensionsControl extends Component {
 							onChange={ onChangeLeftValue }
 							aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }
 							value={ attributes[ attrLeft ] ? attributes[ attrLeft ] : '' }
-							min={ type == 'padding' ? 0 : undefined }
+							min={ type === 'padding' ? 0 : undefined }
 							data-attribute={ type }
 						/>
 						<Tooltip text={ !! attributes[ attrSyncUnits ] ? __( 'Unsync', 'generateblocks' ) : __( 'Sync', 'generateblocks' ) } >
@@ -331,12 +338,12 @@ class DimensionsControl extends Component {
 						</Tooltip>
 					</div>
 
-					<div className='components-gblocks-dimensions-control__input-labels'>
-						<span className='components-gblocks-dimensions-control__number-label'>{  labelTop }</span>
-						<span className='components-gblocks-dimensions-control__number-label'>{  labelRight }</span>
-						<span className='components-gblocks-dimensions-control__number-label'>{  labelBottom }</span>
-						<span className='components-gblocks-dimensions-control__number-label'>{  labelLeft }</span>
-						<span className='components-gblocks-dimensions-control__number-label'></span>
+					<div className="components-gblocks-dimensions-control__input-labels">
+						<span className="components-gblocks-dimensions-control__number-label">{ labelTop }</span>
+						<span className="components-gblocks-dimensions-control__number-label">{ labelRight }</span>
+						<span className="components-gblocks-dimensions-control__number-label">{ labelBottom }</span>
+						<span className="components-gblocks-dimensions-control__number-label">{ labelLeft }</span>
+						<span className="components-gblocks-dimensions-control__number-label"></span>
 					</div>
 				</div>
 			</Fragment>

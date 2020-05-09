@@ -6,14 +6,9 @@ const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			attributes,
-			clientId,
 		} = this.props;
 
 		const {
@@ -31,8 +26,8 @@ export default class DesktopCSS extends Component {
 		let cssObj = [];
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId ] = [ {
-			'display': fillHorizontalSpace ? 'block' : false,
-			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ),
+			'display': fillHorizontalSpace ? 'block' : false, // eslint-disable-line quote-props
+			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'justify-content': flexboxAlignment( alignment ),
 			'flex-direction': stack ? 'column' : false,
 			'align-items': stack ? flexboxAlignment( alignment ) : false,
@@ -44,19 +39,19 @@ export default class DesktopCSS extends Component {
 
 		if ( fillHorizontalSpace ) {
 			cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block' ] = [ {
-				'flex': '1',
+				'flex': '1', // eslint-disable-line quote-props
 			} ];
 
 			cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .components-button' ] = [ {
-				'background': '#fff',
-				'border': '1px solid #ddd',
+				'background': '#fff', // eslint-disable-line quote-props
+				'border': '1px solid #ddd', // eslint-disable-line quote-props
 				'margin-top': '10px',
 			} ];
 		}
 
 		if ( stack && fillHorizontalSpace ) {
 			cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block' ] = [ {
-				'width': '100% !important',
+				'width': '100% !important', // eslint-disable-line quote-props
 				'box-sizing': 'border-box',
 			} ];
 		}

@@ -21,11 +21,6 @@ const {
  * Typography Component
  */
 class GradientControl extends Component {
-
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			attributes,
@@ -49,7 +44,7 @@ class GradientControl extends Component {
 					checked={ !! attributes[ attrGradient ] }
 					onChange={ ( value ) => {
 						setAttributes( {
-							[ this.props[ 'attrGradient' ] ]: value,
+							[ this.props[ 'attrGradient' ] ]: value, // eslint-disable-line dot-notation
 						} );
 					} }
 				/>
@@ -66,7 +61,7 @@ class GradientControl extends Component {
 										[ attrGradientDirection ]: value,
 									} );
 								} }
-								min={0 }
+								min={ 0 }
 								max={ 360 }
 								step={ 1 }
 								initialPosition={ 90 }
@@ -104,7 +99,7 @@ class GradientControl extends Component {
 									placeholder={ __( 'Stop position (%)', 'generateblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
-											[ attrGradientColorStopOne ]: parseFloat( value )
+											[ attrGradientColorStopOne ]: parseFloat( value ),
 										} );
 									} }
 								/>
@@ -142,7 +137,7 @@ class GradientControl extends Component {
 									placeholder={ __( 'Stop position (%)', 'generateblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
-											[ attrGradientColorStopTwo ]: parseFloat( value )
+											[ attrGradientColorStopTwo ]: parseFloat( value ),
 										} );
 									} }
 								/>

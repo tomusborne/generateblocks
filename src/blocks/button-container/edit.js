@@ -12,23 +12,19 @@ import PanelArea from '../../components/panel-area/';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
 	TextControl,
-	RangeControl,
-	Notice,
 	Tooltip,
 	Button,
-	BaseControl,
 	ToggleControl,
 	Toolbar,
 } = wp.components;
 
 const {
 	Fragment,
-	Component
+	Component,
 } = wp.element;
 
 const {
 	InspectorControls,
-	InspectorAdvancedControls,
 	InnerBlocks,
 	AlignmentToolbar,
 	BlockControls,
@@ -40,7 +36,7 @@ const {
 } = wp.blocks;
 
 const {
-	applyFilters
+	applyFilters,
 } = wp.hooks;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
@@ -69,12 +65,12 @@ class GenerateButtonContainer extends Component {
 		super( ...arguments );
 
 		this.state = {
-            selectedDevice: 'desktop',
-        };
+			selectedDevice: 'desktop',
+		};
 	}
 
 	componentDidMount() {
-		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
 		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
@@ -83,7 +79,6 @@ class GenerateButtonContainer extends Component {
 
 			gbButtonContainerIds.push( id );
 		} else if ( gbButtonContainerIds.includes( this.props.attributes.uniqueId ) ) {
-
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
@@ -99,7 +94,7 @@ class GenerateButtonContainer extends Component {
 			const childBlocks = thisBlock.innerBlocks;
 
 			if ( 0 === childBlocks.length ) {
-				wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, this.props.clientId );
+				wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, this.props.clientId ); // eslint-disable-line no-undef
 			}
 		}
 	}
@@ -112,8 +107,8 @@ class GenerateButtonContainer extends Component {
 		} = this.props;
 
 		const {
-            selectedDevice,
-        } = this.state;
+			selectedDevice,
+		} = this.state;
 
 		const {
 			uniqueId,
@@ -122,20 +117,6 @@ class GenerateButtonContainer extends Component {
 			alignment,
 			alignmentTablet,
 			alignmentMobile,
-			marginTop,
-			marginRight,
-			marginBottom,
-			marginLeft,
-			marginUnit,
-			marginSyncUnits,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
 			stack,
 			stackTablet,
 			stackMobile,
@@ -170,7 +151,7 @@ class GenerateButtonContainer extends Component {
 												wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
 											}
 										} else if ( 0 === childBlocks.length ) {
-											wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+											wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId ); // eslint-disable-line no-undef
 										}
 									}
 								} }
@@ -233,7 +214,7 @@ class GenerateButtonContainer extends Component {
 									checked={ !! stack }
 									onChange={ ( value ) => {
 										setAttributes( {
-											stack: value
+											stack: value,
 										} );
 									} }
 								/>
@@ -243,7 +224,7 @@ class GenerateButtonContainer extends Component {
 									checked={ !! fillHorizontalSpace }
 									onChange={ ( value ) => {
 										setAttributes( {
-											fillHorizontalSpace: value
+											fillHorizontalSpace: value,
 										} );
 									} }
 								/>
@@ -278,7 +259,7 @@ class GenerateButtonContainer extends Component {
 									checked={ !! stackTablet }
 									onChange={ ( value ) => {
 										setAttributes( {
-											stackTablet: value
+											stackTablet: value,
 										} );
 									} }
 								/>
@@ -288,7 +269,7 @@ class GenerateButtonContainer extends Component {
 									checked={ !! fillHorizontalSpaceTablet }
 									onChange={ ( value ) => {
 										setAttributes( {
-											fillHorizontalSpaceTablet: value
+											fillHorizontalSpaceTablet: value,
 										} );
 									} }
 								/>
@@ -323,7 +304,7 @@ class GenerateButtonContainer extends Component {
 									checked={ !! stackMobile }
 									onChange={ ( value ) => {
 										setAttributes( {
-											stackMobile: value
+											stackMobile: value,
 										} );
 									} }
 								/>
@@ -333,7 +314,7 @@ class GenerateButtonContainer extends Component {
 									checked={ !! fillHorizontalSpaceMobile }
 									onChange={ ( value ) => {
 										setAttributes( {
-											fillHorizontalSpaceMobile: value
+											fillHorizontalSpaceMobile: value,
 										} );
 									} }
 								/>
@@ -355,16 +336,23 @@ class GenerateButtonContainer extends Component {
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
-							onChange={ ( elementId ) => {
-								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-								setAttributes( { elementId } );
+							onChange={ ( value ) => {
+								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
+
+								setAttributes( {
+									elementId: newElementId,
+								} );
 							} }
 						/>
 
 						<TextControl
 							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
-							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+							onChange={ ( value ) => {
+								setAttributes( {
+									cssClasses: value,
+								} );
+							} }
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonContainerAdvanced', this.props, this.state ) }
@@ -391,8 +379,8 @@ class GenerateButtonContainer extends Component {
 					id={ !! elementId ? elementId : undefined }
 					className={ classnames( {
 						'gb-button-wrapper': true,
-						[`gb-button-wrapper-${ uniqueId }`]: true,
-						[`${ cssClasses }`]: '' !== cssClasses
+						[ `gb-button-wrapper-${ uniqueId }` ]: true,
+						[ `${ cssClasses }` ]: '' !== cssClasses,
 					} ) }
 				>
 					<InnerBlocks
@@ -403,7 +391,7 @@ class GenerateButtonContainer extends Component {
 									className="gblocks-add-new-button gblocks-button-container-appender"
 									icon={ 'insert' }
 									onClick={ () => {
-										wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+										wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId ); // eslint-disable-line no-undef
 									} }
 								/>
 							</Tooltip>

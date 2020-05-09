@@ -1,9 +1,4 @@
 /**
- * External dependencies
- */
-import classnames from 'classnames';
-
-/**
  * Internal dependencies
  */
 import './editor.scss';
@@ -15,18 +10,14 @@ import sanitizeSVG from '../../utils/sanitize-svg';
  * WordPress dependencies
  */
 const {
-	__
+	__,
 } = wp.i18n;
 
 const {
 	Component,
 	Fragment,
-	renderToString
+	renderToString,
 } = wp.element;
-
-const {
-	compose
-} = wp.compose;
 
 const {
 	BaseControl,
@@ -43,21 +34,19 @@ const {
  * Typography Component
  */
 class IconPicker extends Component {
-
-	constructor( props ) {
+	constructor() {
 		super( ...arguments );
 
 		this.state = {
-            showIcons: false,
+			showIcons: false,
 			showGeneralIcons: false,
 			showSocialIcons: false,
-        };
+		};
 	}
 
 	render() {
 		const {
 			attributes,
-			className,
 			setAttributes,
 			attrIcon,
 			attrIconLocation,
@@ -74,7 +63,7 @@ class IconPicker extends Component {
 						value={ attributes[ attrIcon ] }
 						onChange={ ( value ) => {
 							setAttributes( {
-								[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value )
+								[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value ), // eslint-disable-line dot-notation
 							} );
 						} }
 					/>
@@ -87,7 +76,7 @@ class IconPicker extends Component {
 							className="reset-icon is-secondary"
 							onClick={ () => {
 								setAttributes( {
-									[ this.props[ 'attrIcon' ] ]: ''
+									[ this.props[ 'attrIcon' ] ]: '', // eslint-disable-line dot-notation
 								} );
 							} }
 						>
@@ -99,69 +88,69 @@ class IconPicker extends Component {
 				</BaseControl>
 
 				<BaseControl className="gb-icon-chooser">
-			        <PanelBody title={ __( 'General Icons', 'generateblocks' ) } initialOpen={ false }>
-			            <PanelRow>
+					<PanelBody title={ __( 'General Icons', 'generateblocks' ) } initialOpen={ false }>
+						<PanelRow>
 							<BaseControl>
 								<ul className="gblocks-icon-chooser">
-								{
-									Object.keys( generalSvgs ).map( ( svg, i ) => {
-										return (
-											<li key={ `editor-pblock-types-list-item-${ i }` }>
-												<Tooltip text={ ( generalSvgs[ svg ]['label'] ) }>
-													<Button
-														isLarge
-														className="editor-block-list-item-button"
-														onClick={ () => {
-															setAttributes( {
-																[ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ]['icon'] )
-															} );
-														} }
-													>
-														<span className="editor-block-types-list__item-icon">
-															{ generalSvgs[ svg ]['icon'] }
-														</span>
-													</Button>
-												</Tooltip>
-											</li>
-										);
-									} )
-								}
+									{
+										Object.keys( generalSvgs ).map( ( svg, i ) => {
+											return (
+												<li key={ `editor-pblock-types-list-item-${ i }` }>
+													<Tooltip text={ ( generalSvgs[ svg ].label ) }>
+														<Button
+															isLarge
+															className="editor-block-list-item-button"
+															onClick={ () => {
+																setAttributes( {
+																	[ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ][ 'icon' ] ), // eslint-disable-line dot-notation
+																} );
+															} }
+														>
+															<span className="editor-block-types-list__item-icon">
+																{ generalSvgs[ svg ].icon }
+															</span>
+														</Button>
+													</Tooltip>
+												</li>
+											);
+										} )
+									}
 								</ul>
 							</BaseControl>
 						</PanelRow>
-			        </PanelBody>
+					</PanelBody>
 
 					<PanelBody title={ __( 'Social Icons', 'generateblocks' ) } initialOpen={ false }>
-			            <PanelRow>
+						<PanelRow>
 							<BaseControl>
 								<ul className="gblocks-icon-chooser">
-								{
-									Object.keys( socialSvgs ).map( ( svg, i ) => {
-										return (
-											<li key={ `editor-pblock-types-list-item-${ i }` }>
-												<Tooltip text={ ( socialSvgs[ svg ]['label'] ) }>
-													<Button
-														isLarge
-														className="editor-block-list-item-button"
-														onClick={ () => {
-															setAttributes( {
-																[ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ]['icon'] )
-															} );
-														} }
-													>
-														<span className="editor-block-types-list__item-icon">
-															{ socialSvgs[ svg ]['icon'] }
-														</span>
-													</Button>
-												</Tooltip>
-											</li>
-										);
-									} )
-								}
+									{
+										Object.keys( socialSvgs ).map( ( svg, i ) => {
+											return (
+												<li key={ `editor-pblock-types-list-item-${ i }` }>
+													<Tooltip text={ ( socialSvgs[ svg ].label ) }>
+														<Button
+															isLarge
+															className="editor-block-list-item-button"
+															onClick={ () => {
+																setAttributes( {
+																	[ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ][ 'icon' ] ), // eslint-disable-line dot-notation
+																} );
+															} }
+														>
+															<span className="editor-block-types-list__item-icon">
+																{ socialSvgs[ svg ].icon }
+															</span>
+														</Button>
+													</Tooltip>
+												</li>
+											);
+										} )
+									}
 								</ul>
 							</BaseControl>
 						</PanelRow>
-			        </PanelBody>
+					</PanelBody>
 				</BaseControl>
 
 				{ ( typeof attributes[ attrIconLocation ] !== 'undefined' && ! attributes[ attrRemoveText ] && !! attributes[ attrIcon ] ) &&
@@ -170,7 +159,7 @@ class IconPicker extends Component {
 						value={ attributes[ attrIconLocation ] }
 						options={ locationOptions }
 						onChange={ ( value ) => {
-							let leftPadding 		= attributes.iconPaddingLeft,
+							const leftPadding 		= attributes.iconPaddingLeft,
 								rightPadding 		= attributes.iconPaddingRight,
 								rightPaddingTablet 	= attributes.iconPaddingRightTablet,
 								leftPaddingTablet 	= attributes.iconPaddingLeftTablet,
@@ -180,22 +169,22 @@ class IconPicker extends Component {
 							if ( 'right' === value ) {
 								if ( ! leftPadding && rightPadding ) {
 									setAttributes( {
-										'iconPaddingLeft': rightPadding,
-										'iconPaddingRight': '',
+										iconPaddingLeft: rightPadding,
+										iconPaddingRight: '',
 									} );
 								}
 
 								if ( ! leftPaddingTablet && rightPaddingTablet ) {
 									setAttributes( {
-										'iconPaddingLeftTablet': rightPaddingTablet,
-										'iconPaddingRightTablet': '',
+										iconPaddingLeftTablet: rightPaddingTablet,
+										iconPaddingRightTablet: '',
 									} );
 								}
 
 								if ( ! leftPaddingMobile && rightPaddingMobile ) {
 									setAttributes( {
-										'iconPaddingLeftMobile': rightPaddingMobile,
-										'iconPaddingRightMobile': '',
+										iconPaddingLeftMobile: rightPaddingMobile,
+										iconPaddingRightMobile: '',
 									} );
 								}
 							}
@@ -203,28 +192,28 @@ class IconPicker extends Component {
 							if ( 'left' === value ) {
 								if ( ! rightPadding && leftPadding ) {
 									setAttributes( {
-										'iconPaddingRight': leftPadding,
-										'iconPaddingLeft': '',
+										iconPaddingRight: leftPadding,
+										iconPaddingLeft: '',
 									} );
 								}
 
 								if ( ! rightPaddingTablet && leftPaddingTablet ) {
 									setAttributes( {
-										'iconPaddingRightTablet': leftPaddingTablet,
-										'iconPaddingLeftTablet': '',
+										iconPaddingRightTablet: leftPaddingTablet,
+										iconPaddingLeftTablet: '',
 									} );
 								}
 
 								if ( ! rightPaddingMobile && leftPaddingMobile ) {
 									setAttributes( {
-										'iconPaddingRightMobile': leftPaddingMobile,
-										'iconPaddingLeftMobile': '',
+										iconPaddingRightMobile: leftPaddingMobile,
+										iconPaddingLeftMobile: '',
 									} );
 								}
 							}
 
 							setAttributes( {
-								[ this.props[ 'attrIconLocation' ] ]: value
+								[ this.props[ 'attrIconLocation' ] ]: value, // eslint-disable-line dot-notation
 							} );
 						} }
 					/>
@@ -236,7 +225,7 @@ class IconPicker extends Component {
 						checked={ !! attributes[ attrRemoveText ] }
 						onChange={ ( value ) => {
 							setAttributes( {
-								[ this.props[ 'attrRemoveText' ] ]: value
+								[ this.props[ 'attrRemoveText' ] ]: value, // eslint-disable-line dot-notation
 							} );
 						} }
 					/>
@@ -249,7 +238,7 @@ class IconPicker extends Component {
 						value={ attributes[ attrAriaLabel ] }
 						onChange={ ( value ) => {
 							setAttributes( {
-								[ this.props[ 'attrAriaLabel' ] ]: value
+								[ this.props[ 'attrAriaLabel' ] ]: value, // eslint-disable-line dot-notation
 							} );
 						} }
 					/>

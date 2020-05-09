@@ -6,11 +6,10 @@ import classnames from 'classnames';
 import sanitizeSVG from '../../utils/sanitize-svg';
 
 const {
-	RichText
+	RichText,
 } = wp.blockEditor;
 
 export default ( { attributes } ) => {
-
 	const {
 		uniqueId,
 		elementId,
@@ -45,8 +44,8 @@ export default ( { attributes } ) => {
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
 				'gb-button': true,
-				[`gb-button-${ uniqueId }`]: true,
-				[`${ cssClasses }`]: '' !== cssClasses
+				[ `gb-button-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
 			} ) }
 			href={ !! url ? url : undefined }
 			target={ !! target ? '_blank' : undefined }
@@ -70,4 +69,4 @@ export default ( { attributes } ) => {
 			}
 		</a>
 	);
-}
+};

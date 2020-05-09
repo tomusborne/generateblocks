@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
 	uniqueId: {
 		type: 'string',
@@ -12,17 +13,17 @@ export default {
 		default: '',
 	},
 	url: {
-        type: 'string',
-        source: 'attribute',
-        selector: 'a.gb-button',
-        attribute: 'href',
-    },
-    target: {
-        type: 'boolean',
-    },
-    relNoFollow: {
-        type: 'boolean',
-    },
+		type: 'string',
+		source: 'attribute',
+		selector: 'a.gb-button',
+		attribute: 'href',
+	},
+	target: {
+		type: 'boolean',
+	},
+	relNoFollow: {
+		type: 'boolean',
+	},
 	relSponsored: {
 		type: 'boolean',
 	},
@@ -33,13 +34,13 @@ export default {
 		default: 'Button',
 	},
 	icon: {
-        type: 'string',
-        default: generateBlocksDefaults.button.icon,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.button.icon,
+	},
 	iconLocation: {
-        type: 'string',
-        default: generateBlocksDefaults.button.iconLocation,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.button.iconLocation,
+	},
 	customIcon: {
 		type: 'boolean',
 		default: false,
@@ -53,29 +54,29 @@ export default {
 		default: generateBlocksDefaults.button.ariaLabel,
 	},
 	backgroundColor: {
-        type: 'string',
-        default: generateBlocksDefaults.button.backgroundColor,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.button.backgroundColor,
+	},
 	backgroundColorOpacity: {
-        type: 'number',
-        default: generateBlocksDefaults.button.backgroundColorOpacity,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.button.backgroundColorOpacity,
+	},
 	textColor: {
-        type: 'string',
-        default: generateBlocksDefaults.button.textColor,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.button.textColor,
+	},
 	backgroundColorHover: {
-        type: 'string',
-        default: generateBlocksDefaults.button.backgroundColorHover,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.button.backgroundColorHover,
+	},
 	backgroundColorHoverOpacity: {
-        type: 'number',
-        default: generateBlocksDefaults.button.backgroundColorHoverOpacity,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.button.backgroundColorHoverOpacity,
+	},
 	textColorHover: {
-        type: 'string',
-        default: generateBlocksDefaults.button.textColorHover,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.button.textColorHover,
+	},
 	borderColor: {
 		type: 'string',
 		default: generateBlocksDefaults.button.borderColor,
@@ -456,4 +457,5 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.button.iconSizeUnit,
 	},
-}
+};
+/* eslint-enable no-undef */

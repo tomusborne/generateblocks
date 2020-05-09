@@ -6,24 +6,24 @@ export default function buildCSS( cssObj ) {
 			continue;
 		}
 
-		var temp_output = key + '{';
-		var elements_added = 0;
+		let tempOutput = key + '{';
+		let elementsAdded = 0;
 
-		for ( const [ index, properties ] of Object.entries( value ) ) {
+		for ( const [ index, properties ] of Object.entries( value ) ) { // eslint-disable-line no-unused-vars
 			for ( const [ attribute, val ] of Object.entries( properties ) ) {
 				if ( ! val && 0 !== val ) {
 					continue;
 				}
 
-				elements_added++;
-				temp_output += attribute + ': ' + val + ';';
+				elementsAdded++;
+				tempOutput += attribute + ': ' + val + ';';
 			}
 		}
 
-		temp_output += '}';
+		tempOutput += '}';
 
-		if ( elements_added > 0 ) {
-			css += temp_output;
+		if ( elementsAdded > 0 ) {
+			css += tempOutput;
 		}
 	}
 

@@ -5,11 +5,10 @@
 import classnames from 'classnames';
 
 const {
-	InnerBlocks
+	InnerBlocks,
 } = wp.blockEditor;
 
 export default ( { attributes } ) => {
-
 	const {
 		uniqueId,
 		elementId,
@@ -21,11 +20,11 @@ export default ( { attributes } ) => {
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
 				'gb-grid-wrapper': true,
-				[`gb-grid-wrapper-${ uniqueId }`]: true,
-				[`${ cssClasses }`]: '' !== cssClasses
+				[ `gb-grid-wrapper-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
 			} ) }
 		>
 			<InnerBlocks.Content />
 		</div>
 	);
-}
+};

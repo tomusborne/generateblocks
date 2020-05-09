@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 export default {
 	uniqueId: {
 		type: 'string',
@@ -12,55 +13,56 @@ export default {
 		default: '',
 	},
 	columns: {
-        type: 'number',
-        default: generateBlocksDefaults.gridContainer.columns,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.gridContainer.columns,
+	},
 	horizontalGap: {
-        type: 'number',
-        default: generateBlocksDefaults.gridContainer.horizontalGap,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.gridContainer.horizontalGap,
+	},
 	verticalGap: {
-        type: 'number',
-        default: generateBlocksDefaults.gridContainer.verticalGap,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.gridContainer.verticalGap,
+	},
 	verticalAlignment: {
-        type: 'string',
-        default: generateBlocksDefaults.gridContainer.verticalAlignment,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.gridContainer.verticalAlignment,
+	},
 	horizontalGapTablet: {
-        type: 'number',
-        default: generateBlocksDefaults.gridContainer.horizontalGapTablet,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.gridContainer.horizontalGapTablet,
+	},
 	verticalGapTablet: {
-        type: 'number',
-        default: generateBlocksDefaults.gridContainer.verticalGapTablet,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.gridContainer.verticalGapTablet,
+	},
 	verticalAlignmentTablet: {
-        type: 'string',
-        default: generateBlocksDefaults.gridContainer.verticalAlignmentTablet,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.gridContainer.verticalAlignmentTablet,
+	},
 	horizontalGapMobile: {
-        type: 'number',
-        default: generateBlocksDefaults.gridContainer.horizontalGapMobile,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.gridContainer.horizontalGapMobile,
+	},
 	verticalGapMobile: {
-        type: 'number',
-        default: generateBlocksDefaults.gridContainer.verticalGapMobile,
-    },
+		type: 'number',
+		default: generateBlocksDefaults.gridContainer.verticalGapMobile,
+	},
 	verticalAlignmentMobile: {
-        type: 'string',
-        default: generateBlocksDefaults.gridContainer.verticalAlignmentMobile,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.gridContainer.verticalAlignmentMobile,
+	},
 	horizontalAlignment: {
-        type: 'string',
-        default: generateBlocksDefaults.gridContainer.horizontalAlignment,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.gridContainer.horizontalAlignment,
+	},
 	horizontalAlignmentTablet: {
-        type: 'string',
-        default: generateBlocksDefaults.gridContainer.horizontalAlignmentTablet,
-    },
+		type: 'string',
+		default: generateBlocksDefaults.gridContainer.horizontalAlignmentTablet,
+	},
 	horizontalAlignmentMobile: {
-        type: 'string',
-        default: generateBlocksDefaults.gridContainer.horizontalAlignmentMobile,
-    },
-}
+		type: 'string',
+		default: generateBlocksDefaults.gridContainer.horizontalAlignmentMobile,
+	},
+};
+/* eslint-enable no-undef */

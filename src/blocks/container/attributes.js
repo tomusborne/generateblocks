@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const attributes = {
 	uniqueId: {
 		type: 'string',
@@ -363,7 +364,7 @@ const attributes = {
 			size: generateBlocksDefaults.container.bgOptions.size,
 			repeat: generateBlocksDefaults.container.bgOptions.repeat,
 			attachment: generateBlocksDefaults.container.bgOptions.attachment,
-		}
+		},
 	},
 	verticalAlignment: {
 		type: 'string',
@@ -449,16 +450,17 @@ const attributes = {
 		type: 'string',
 		default: '',
 	},
-}
+};
 
 if ( generateBlocksInfo.hasCustomFields ) {
 	Object.assign( attributes, {
 		fullWidthContent: {
-	        type: 'string',
-	        source: 'meta',
-	        meta: '_generate-full-width-content',
-	    }
+			type: 'string',
+			source: 'meta',
+			meta: '_generate-full-width-content',
+		},
 	} );
 }
 
 export default attributes;
+/* eslint-enable no-undef */

@@ -10,11 +10,15 @@ import DimensionsControl from '../../components/dimensions/';
 import PanelArea from '../../components/panel-area/';
 import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
-import ApplyFilters from '../../components/apply-filters/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
 
-const { __, _x } = wp.i18n; // Import __() from wp.i18n
+const {
+	__,
+	_x,
+	sprintf,
+} = wp.i18n;
+
 const {
 	RangeControl,
 	Button,
@@ -23,27 +27,24 @@ const {
 	ToggleControl,
 	SelectControl,
 	TextControl,
-	Notice,
 	Tooltip,
-	Icon,
 	BaseControl,
 } = wp.components;
 
 const {
 	Fragment,
-	Component
+	Component,
 } = wp.element;
 
 const {
 	InspectorControls,
-	InspectorAdvancedControls,
 	InnerBlocks,
 	MediaUpload,
 	AlignmentToolbar,
 } = wp.blockEditor;
 
 const {
-	applyFilters
+	applyFilters,
 } = wp.hooks;
 
 const ELEMENT_ID_REGEX = /[\s#]/g;
@@ -54,12 +55,12 @@ class GenerateBlockContainer extends Component {
 		super( ...arguments );
 
 		this.state = {
-            selectedDevice: 'desktop',
-        };
+			selectedDevice: 'desktop',
+		};
 	}
 
 	componentDidMount() {
-		let id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
 		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
@@ -79,7 +80,7 @@ class GenerateBlockContainer extends Component {
 
 		let parentBlockId = false;
 
-		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === "function" ) {
+		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === 'function' ) {
 			parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParents( this.props.clientId, true )[ 0 ];
 		}
 
@@ -87,9 +88,9 @@ class GenerateBlockContainer extends Component {
 			const parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
 
 			// gridId was added late, so we add it here if it doesn't exist already.
-			if ( this.props.attributes.isGrid && ! this.props.attributes.gridId && parentBlock && 'generateblocks/grid' === parentBlock[0].name ) {
+			if ( this.props.attributes.isGrid && ! this.props.attributes.gridId && parentBlock && 'generateblocks/grid' === parentBlock[ 0 ].name ) {
 				this.props.setAttributes( {
-					gridId: parentBlock[0].attributes.uniqueId,
+					gridId: parentBlock[ 0 ].attributes.uniqueId,
 				} );
 			}
 		}
@@ -104,29 +105,23 @@ class GenerateBlockContainer extends Component {
 		} = this.props;
 
 		const {
-            selectedDevice,
-        } = this.state;
+			selectedDevice,
+		} = this.state;
 
 		const onSelectBgImage = ( media ) => {
 			setAttributes( {
 				bgImage: {
 					id: media.id,
 					image: media.sizes.full,
-				}
-			} )
-		}
+				},
+			} );
+		};
 
 		const onRemoveBgImage = () => {
 			setAttributes( {
-				bgImage: null
-			} )
-		}
-
-		const onClearBackgroundColor = () => {
-			setAttributes( {
-				backgroundColor: null
-			} )
-		}
+				bgImage: null,
+			} );
+		};
 
 		const {
 			uniqueId,
@@ -134,7 +129,6 @@ class GenerateBlockContainer extends Component {
 			elementId,
 			cssClasses,
 			isGrid,
-			gridId,
 			width,
 			widthTablet,
 			widthMobile,
@@ -147,77 +141,10 @@ class GenerateBlockContainer extends Component {
 			minHeightUnitTablet,
 			minHeightMobile,
 			minHeightUnitMobile,
-			paddingTop,
-			paddingRight,
-			paddingBottom,
-			paddingLeft,
-			paddingUnit,
-			paddingSyncUnits,
-			paddingTopTablet,
-			paddingRightTablet,
-			paddingBottomTablet,
-			paddingLeftTablet,
-			paddingUnitTablet,
-			paddingTopMobile,
-			paddingRightMobile,
-			paddingBottomMobile,
-			paddingLeftMobile,
-			paddingUnitMobile,
-			marginTop,
-			marginRight,
-			marginBottom,
-			marginLeft,
-			marginUnit,
-			marginSyncUnits,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginUnitTablet,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			marginUnitMobile,
-			borderSizeTop,
-			borderSizeRight,
-			borderSizeBottom,
-			borderSizeLeft,
-			borderSizeSyncUnits,
-			borderSizeTopTablet,
-			borderSizeRightTablet,
-			borderSizeBottomTablet,
-			borderSizeLeftTablet,
-			borderSizeTopMobile,
-			borderSizeRightMobile,
-			borderSizeBottomMobile,
-			borderSizeLeftMobile,
-			borderRadiusTopRight,
-			borderRadiusBottomRight,
-			borderRadiusBottomLeft,
-			borderRadiusTopLeft,
-			borderRadiusUnit,
-			borderRadiusSyncUnits,
-			borderRadiusTopRightTablet,
-			borderRadiusBottomRightTablet,
-			borderRadiusBottomLeftTablet,
-			borderRadiusTopLeftTablet,
-			borderRadiusTopRightMobile,
-			borderRadiusBottomRightMobile,
-			borderRadiusBottomLeftMobile,
-			borderRadiusTopLeftMobile,
 			borderColor,
 			borderColorOpacity,
 			backgroundColor,
 			backgroundColorOpacity,
-			gradient,
-			gradientDirection,
-			gradientColorOne,
-			gradientColorOneOpacity,
-			gradientColorStopOne,
-			gradientColorTwo,
-			gradientColorTwoOpacity,
-			gradientColorStopTwo,
 			textColor,
 			linkColor,
 			linkColorHover,
@@ -235,17 +162,9 @@ class GenerateBlockContainer extends Component {
 			alignment,
 			alignmentTablet,
 			alignmentMobile,
-			showAdvancedTypography,
 			fontFamily,
-			fontFamilyFallback,
 			googleFont,
 			googleFontVariants,
-			fontWeight,
-			fontSize,
-			fontSizeTablet,
-			fontSizeMobile,
-			fontSizeUnit,
-			textTransform,
 			fullWidthContent,
 		} = attributes;
 
@@ -265,14 +184,14 @@ class GenerateBlockContainer extends Component {
 		];
 
 		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
-		const changeEvent = new Event( 'change' );
+		const changeEvent = new Event( 'change' ); // eslint-disable-line no-undef
 		const getRootId = wp.data.select( 'core/block-editor' ).getBlockHierarchyRootClientId( clientId );
 		const isRootContainer = getRootId === clientId;
 
 		const fullWidthContentOptions = () => {
 			return (
 				<div>
-					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
+					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption && // eslint-disable-line no-undef
 						<ToggleControl
 							label={ __( 'Set Full Width Content', 'generateblocks' ) }
 							help={ __( 'This option tells the content container that contains all of the blocks on this page to be full width.', 'generateblocks' ) }
@@ -301,7 +220,7 @@ class GenerateBlockContainer extends Component {
 					}
 				</div>
 			);
-		}
+		};
 
 		let googleFontsAttr = '';
 
@@ -314,15 +233,15 @@ class GenerateBlockContainer extends Component {
 			hasGridContainer = false,
 			gridContainerId = '';
 
-		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === "function" ) {
+		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === 'function' ) {
 			parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParents( clientId, true )[ 0 ];
 
 			if ( parentBlockId ) {
 				parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
 
-				if ( parentBlock && 'generateblocks/grid' === parentBlock[0].name ) {
+				if ( parentBlock && 'generateblocks/grid' === parentBlock[ 0 ].name ) {
 					hasGridContainer = true;
-					gridContainerId = parentBlock[0].attributes.uniqueId;
+					gridContainerId = parentBlock[ 0 ].attributes.uniqueId;
 				}
 			}
 		}
@@ -374,10 +293,14 @@ class GenerateBlockContainer extends Component {
 										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
 										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
 									] }
-									onChange={ ( outerContainer ) => { setAttributes( { outerContainer } ) } }
+									onChange={ ( value ) => {
+										setAttributes( {
+											outerContainer: value,
+										} );
+									} }
 								/>
 
-								{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer &&
+								{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer && // eslint-disable-line no-undef
 									<BaseControl
 										label={ __( 'Full width containers will only work if your theme allows you to set your content to be full width.', 'generateblocks' ) }
 									/>
@@ -390,7 +313,11 @@ class GenerateBlockContainer extends Component {
 										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
 										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
 									] }
-									onChange={ ( innerContainer ) => { setAttributes( { innerContainer } ) } }
+									onChange={ ( value ) => {
+										setAttributes( {
+											innerContainer: value,
+										} );
+									} }
 								/>
 
 								<div className="components-gblocks-control__header">
@@ -416,10 +343,10 @@ class GenerateBlockContainer extends Component {
 								<TextControl
 									type={ 'number' }
 									value={ parseFloat( containerWidth ) || '' }
-									placeholder={ generateBlocksDefaults.container.containerWidth }
+									placeholder={ generateBlocksDefaults.container.containerWidth } // eslint-disable-line no-undef
 									onChange={ ( value ) => {
 										setAttributes( {
-											containerWidth: '' !== value ? parseFloat( value ) : undefined
+											containerWidth: '' !== value ? parseFloat( value ) : undefined,
 										} );
 									} }
 								/>
@@ -475,12 +402,12 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ width === 25 } onClick={ () => { setAttributes( { width: 25 } ); } }>25</Button>
-										<Button isLarge isPrimary={ width === 33.33 } onClick={ () => { setAttributes( { width: 33.33 } ); } }>33</Button>
-										<Button isLarge isPrimary={ width === 50 } onClick={ () => { setAttributes( { width: 50 } ); } }>50</Button>
-										<Button isLarge isPrimary={ width === 66.66 } onClick={ () => { setAttributes( { width: 66.66 } ); } }>66</Button>
-										<Button isLarge isPrimary={ width === 75 } onClick={ () => { setAttributes( { width: 75 } ); } }>75</Button>
-										<Button isLarge isPrimary={ width === 100 } onClick={ () => { setAttributes( { width: 100 } ); } }>100</Button>
+										<Button isLarge isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
+										<Button isLarge isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
+										<Button isLarge isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
+										<Button isLarge isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
+										<Button isLarge isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
+										<Button isLarge isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -488,14 +415,14 @@ class GenerateBlockContainer extends Component {
 										value={ width || '' }
 										onChange={ ( value ) => {
 											setAttributes( {
-												width: value
+												width: value,
 											} );
 										} }
 										min={ 0 }
 										max={ 100 }
 										step={ 0.01 }
 										allowReset={ true }
-										initialPosition={ generateBlocksDefaults.container.width }
+										initialPosition={ generateBlocksDefaults.container.width } // eslint-disable-line no-undef
 									/>
 
 									<SelectControl
@@ -508,8 +435,10 @@ class GenerateBlockContainer extends Component {
 											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 											{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 										] }
-										onChange={ ( verticalAlignment ) => {
-											setAttributes( { verticalAlignment } )
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalAlignment: value,
+											} );
 										} }
 									/>
 
@@ -518,7 +447,7 @@ class GenerateBlockContainer extends Component {
 										checked={ !! removeVerticalGap }
 										onChange={ ( value ) => {
 											setAttributes( {
-												removeVerticalGap: value
+												removeVerticalGap: value,
 											} );
 										} }
 									/>
@@ -548,12 +477,12 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ widthTablet === 25 } onClick={ () => { setAttributes( { widthTablet: 25 } ); } }>25</Button>
-										<Button isLarge isPrimary={ widthTablet === 33.33 } onClick={ () => { setAttributes( { widthTablet: 33.33 } ); } }>33</Button>
-										<Button isLarge isPrimary={ widthTablet === 50 } onClick={ () => { setAttributes( { widthTablet: 50 } ); } }>50</Button>
-										<Button isLarge isPrimary={ widthTablet === 66.66 } onClick={ () => { setAttributes( { widthTablet: 66.66 } ); } }>66</Button>
-										<Button isLarge isPrimary={ widthTablet === 75 } onClick={ () => { setAttributes( { widthTablet: 75 } ); } }>75</Button>
-										<Button isLarge isPrimary={ widthTablet === 100 } onClick={ () => { setAttributes( { widthTablet: 100 } ); } }>100</Button>
+										<Button isLarge isPrimary={ widthTablet === 25 } onClick={ () => setAttributes( { widthTablet: 25 } ) }>25</Button>
+										<Button isLarge isPrimary={ widthTablet === 33.33 } onClick={ () => setAttributes( { widthTablet: 33.33 } ) }>33</Button>
+										<Button isLarge isPrimary={ widthTablet === 50 } onClick={ () => setAttributes( { widthTablet: 50 } ) }>50</Button>
+										<Button isLarge isPrimary={ widthTablet === 66.66 } onClick={ () => setAttributes( { widthTablet: 66.66 } ) }>66</Button>
+										<Button isLarge isPrimary={ widthTablet === 75 } onClick={ () => setAttributes( { widthTablet: 75 } ) }>75</Button>
+										<Button isLarge isPrimary={ widthTablet === 100 } onClick={ () => setAttributes( { widthTablet: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -561,14 +490,14 @@ class GenerateBlockContainer extends Component {
 										value={ widthTablet || '' }
 										onChange={ ( value ) => {
 											setAttributes( {
-												widthTablet: value
+												widthTablet: value,
 											} );
 										} }
 										min={ 0 }
 										max={ 100 }
 										step={ 0.01 }
 										allowReset={ true }
-										initialPosition={ generateBlocksDefaults.container.widthTablet }
+										initialPosition={ generateBlocksDefaults.container.widthTablet } // eslint-disable-line no-undef
 									/>
 
 									<SelectControl
@@ -576,14 +505,16 @@ class GenerateBlockContainer extends Component {
 										help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
 										value={ verticalAlignmentTablet }
 										options={ [
-											{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit'},
+											{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
 											{ label: __( 'Default', 'generateblocks' ), value: '' },
 											{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
 											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 											{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 										] }
-										onChange={ ( verticalAlignmentTablet ) => {
-											setAttributes( { verticalAlignmentTablet } )
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalAlignmentTablet: value,
+											} );
 										} }
 									/>
 
@@ -592,7 +523,7 @@ class GenerateBlockContainer extends Component {
 										checked={ !! removeVerticalGapTablet }
 										onChange={ ( value ) => {
 											setAttributes( {
-												removeVerticalGapTablet: value
+												removeVerticalGapTablet: value,
 											} );
 										} }
 									/>
@@ -603,7 +534,7 @@ class GenerateBlockContainer extends Component {
 										value={ orderTablet ? orderTablet : '' }
 										onChange={ ( value ) => {
 											setAttributes( {
-												orderTablet: parseFloat( value )
+												orderTablet: parseFloat( value ),
 											} );
 										} }
 									/>
@@ -633,12 +564,12 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ widthMobile === 25 } onClick={ () => { setAttributes( { widthMobile: 25 } ); } }>25</Button>
-										<Button isLarge isPrimary={ widthMobile === 33.33 } onClick={ () => { setAttributes( { widthMobile: 33.33 } ); } }>33</Button>
-										<Button isLarge isPrimary={ widthMobile === 50 } onClick={ () => { setAttributes( { widthMobile: 50 } ); } }>50</Button>
-										<Button isLarge isPrimary={ widthMobile === 66.66 } onClick={ () => { setAttributes( { widthMobile: 66.66 } ); } }>66</Button>
-										<Button isLarge isPrimary={ widthMobile === 75 } onClick={ () => { setAttributes( { widthMobile: 75 } ); } }>75</Button>
-										<Button isLarge isPrimary={ widthMobile === 100 } onClick={ () => { setAttributes( { widthMobile: 100 } ); } }>100</Button>
+										<Button isLarge isPrimary={ widthMobile === 25 } onClick={ () => setAttributes( { widthMobile: 25 } ) }>25</Button>
+										<Button isLarge isPrimary={ widthMobile === 33.33 } onClick={ () => setAttributes( { widthMobile: 33.33 } ) }>33</Button>
+										<Button isLarge isPrimary={ widthMobile === 50 } onClick={ () => setAttributes( { widthMobile: 50 } ) }>50</Button>
+										<Button isLarge isPrimary={ widthMobile === 66.66 } onClick={ () => setAttributes( { widthMobile: 66.66 } ) }>66</Button>
+										<Button isLarge isPrimary={ widthMobile === 75 } onClick={ () => setAttributes( { widthMobile: 75 } ) }>75</Button>
+										<Button isLarge isPrimary={ widthMobile === 100 } onClick={ () => setAttributes( { widthMobile: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -646,14 +577,14 @@ class GenerateBlockContainer extends Component {
 										value={ widthMobile || '' }
 										onChange={ ( value ) => {
 											setAttributes( {
-												widthMobile: value
+												widthMobile: value,
 											} );
 										} }
 										min={ 0 }
 										max={ 100 }
 										step={ 0.01 }
 										allowReset={ true }
-										initialPosition={ generateBlocksDefaults.container.widthMobile }
+										initialPosition={ generateBlocksDefaults.container.widthMobile } // eslint-disable-line no-undef
 									/>
 
 									<SelectControl
@@ -661,14 +592,16 @@ class GenerateBlockContainer extends Component {
 										help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
 										value={ verticalAlignmentMobile }
 										options={ [
-											{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit'},
+											{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
 											{ label: __( 'Default', 'generateblocks' ), value: '' },
 											{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
 											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 											{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 										] }
-										onChange={ ( verticalAlignmentMobile ) => {
-											setAttributes( { verticalAlignmentMobile } )
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalAlignmentMobile: value,
+											} );
 										} }
 									/>
 
@@ -677,7 +610,7 @@ class GenerateBlockContainer extends Component {
 										checked={ !! removeVerticalGapMobile }
 										onChange={ ( value ) => {
 											setAttributes( {
-												removeVerticalGapMobile: value
+												removeVerticalGapMobile: value,
 											} );
 										} }
 									/>
@@ -688,7 +621,7 @@ class GenerateBlockContainer extends Component {
 										value={ orderMobile ? orderMobile : '' }
 										onChange={ ( value ) => {
 											setAttributes( {
-												orderMobile: parseFloat( value )
+												orderMobile: parseFloat( value ),
 											} );
 										} }
 									/>
@@ -725,11 +658,11 @@ class GenerateBlockContainer extends Component {
 									showFontWeight={ true }
 									showTextTransform={ true }
 									showFontSize={ true }
-									defaultFontSize={ generateBlocksDefaults.container.fontSize }
-									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
-									defaultLineHeight={ generateBlocksDefaults.container.lineHeight }
-									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
-									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacing }
+									defaultFontSize={ generateBlocksDefaults.container.fontSize } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeight } // eslint-disable-line no-undef
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacing } // eslint-disable-line no-undef
 								/>
 							</Fragment>
 						) }
@@ -748,11 +681,11 @@ class GenerateBlockContainer extends Component {
 
 								<TypographyControls { ...this.props }
 									showFontSize={ true }
-									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
-									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
-									defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
-									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
-									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingTablet }
+									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet } // eslint-disable-line no-undef
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingTablet } // eslint-disable-line no-undef
 								/>
 							</Fragment>
 						) }
@@ -771,11 +704,11 @@ class GenerateBlockContainer extends Component {
 
 								<TypographyControls { ...this.props }
 									showFontSize={ true }
-									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
-									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
-									defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
-									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
-									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingMobile }
+									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile } // eslint-disable-line no-undef
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit } // eslint-disable-line no-undef
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile } // eslint-disable-line no-undef
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit } // eslint-disable-line no-undef
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingMobile } // eslint-disable-line no-undef
 								/>
 							</Fragment>
 						) }
@@ -827,7 +760,7 @@ class GenerateBlockContainer extends Component {
 									value={ minHeight ? minHeight : '' }
 									onChange={ ( value ) => {
 										setAttributes( {
-											minHeight: parseFloat( value )
+											minHeight: parseFloat( value ),
 										} );
 									} }
 								/>
@@ -842,8 +775,10 @@ class GenerateBlockContainer extends Component {
 											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 											{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 										] }
-										onChange={ ( verticalAlignment ) => {
-											setAttributes( { verticalAlignment } )
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalAlignment: value,
+											} );
 										} }
 									/>
 								}
@@ -937,7 +872,7 @@ class GenerateBlockContainer extends Component {
 									value={ minHeightTablet ? minHeightTablet : '' }
 									onChange={ ( value ) => {
 										setAttributes( {
-											minHeightTablet: parseFloat( value )
+											minHeightTablet: parseFloat( value ),
 										} );
 									} }
 								/>
@@ -947,14 +882,16 @@ class GenerateBlockContainer extends Component {
 										label={ __( 'Vertical Alignment', 'generateblocks' ) }
 										value={ verticalAlignmentTablet }
 										options={ [
-											{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit'},
+											{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
 											{ label: __( 'Default', 'generateblocks' ), value: '' },
 											{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
 											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 											{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 										] }
-										onChange={ ( verticalAlignmentTablet ) => {
-											setAttributes( { verticalAlignmentTablet } )
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalAlignmentTablet: value,
+											} );
 										} }
 									/>
 								}
@@ -1048,7 +985,7 @@ class GenerateBlockContainer extends Component {
 									value={ minHeightMobile ? minHeightMobile : '' }
 									onChange={ ( value ) => {
 										setAttributes( {
-											minHeightMobile: parseFloat( value )
+											minHeightMobile: parseFloat( value ),
 										} );
 									} }
 								/>
@@ -1058,14 +995,16 @@ class GenerateBlockContainer extends Component {
 										label={ __( 'Vertical Alignment', 'generateblocks' ) }
 										value={ verticalAlignmentMobile }
 										options={ [
-											{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit'},
+											{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
 											{ label: __( 'Default', 'generateblocks' ), value: '' },
 											{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
 											{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 											{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
 										] }
-										onChange={ ( verticalAlignmentMobile ) => {
-											setAttributes( { verticalAlignmentMobile } )
+										onChange={ ( value ) => {
+											setAttributes( {
+												verticalAlignmentMobile: value,
+											} );
 										} }
 									/>
 								}
@@ -1145,12 +1084,12 @@ class GenerateBlockContainer extends Component {
 								attrOpacity={ 'backgroundColorOpacity' }
 								onChange={ ( nextBackgroundColor ) =>
 									setAttributes( {
-										backgroundColor: nextBackgroundColor
+										backgroundColor: nextBackgroundColor,
 									} )
 								}
 								onOpacityChange={ ( value ) =>
 									setAttributes( {
-										backgroundColorOpacity: value
+										backgroundColorOpacity: value,
 									} )
 								}
 							/>
@@ -1161,7 +1100,7 @@ class GenerateBlockContainer extends Component {
 								alpha={ false }
 								onChange={ ( nextTextColor ) =>
 									setAttributes( {
-										textColor: nextTextColor
+										textColor: nextTextColor,
 									} )
 								}
 							/>
@@ -1172,7 +1111,7 @@ class GenerateBlockContainer extends Component {
 								alpha={ false }
 								onChange={ ( nextLinkColor ) =>
 									setAttributes( {
-										linkColor: nextLinkColor
+										linkColor: nextLinkColor,
 									} )
 								}
 							/>
@@ -1183,7 +1122,7 @@ class GenerateBlockContainer extends Component {
 								alpha={ false }
 								onChange={ ( nextLinkColorHover ) =>
 									setAttributes( {
-										linkColorHover: nextLinkColorHover
+										linkColorHover: nextLinkColorHover,
 									} )
 								}
 							/>
@@ -1196,12 +1135,12 @@ class GenerateBlockContainer extends Component {
 								attrOpacity={ 'borderColorOpacity' }
 								onChange={ ( value ) =>
 									setAttributes( {
-										borderColor: value
+										borderColor: value,
 									} )
 								}
 								onOpacityChange={ ( value ) =>
 									setAttributes( {
-										borderColorOpacity: value
+										borderColorOpacity: value,
 									} )
 								}
 							/>
@@ -1228,8 +1167,8 @@ class GenerateBlockContainer extends Component {
 							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
 							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
 							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-							defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
-							defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
+							defaultColorOne={ generateBlocksDefaults.container.gradientColorOne } // eslint-disable-line no-undef
+							defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo } // eslint-disable-line no-undef
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerBackgroundGradient', this.props, this.state ) }
@@ -1249,7 +1188,7 @@ class GenerateBlockContainer extends Component {
 								<MediaUpload
 									title={ __( 'Set background image', 'generateblocks' ) }
 									onSelect={ onSelectBgImage }
-									allowedTypes={["image"]}
+									allowedTypes={ [ 'image' ] }
 									modalClass="editor-post-featured-image__media-modal"
 									render={ ( { open } ) => (
 										<Button className="editor-post-featured-image__toggle" onClick={ open }>
@@ -1264,7 +1203,7 @@ class GenerateBlockContainer extends Component {
 							<MediaUpload
 								title={ __( 'Set background image', 'generateblocks' ) }
 								onSelect={ onSelectBgImage }
-								allowedTypes={["image"]}
+								allowedTypes={ [ 'image' ] }
 								value={ bgImage.id }
 								modalClass="editor-post-featured-image__media-modal"
 								render={ ( { open } ) => (
@@ -1282,7 +1221,7 @@ class GenerateBlockContainer extends Component {
 												{ __( 'Replace image' ) }
 											</Button>
 											<Button onClick={ onRemoveBgImage } isLink isDestructive>
-												{ __('Remove background image') }
+												{ __( 'Remove background image', 'generateblocks' ) }
 											</Button>
 										</div>
 									</div>
@@ -1397,22 +1336,33 @@ class GenerateBlockContainer extends Component {
 								{ label: 'header', value: 'header' },
 								{ label: 'footer', value: 'footer' },
 							] }
-							onChange={ ( tagName ) => { setAttributes( { tagName } ) } }
+							onChange={ ( value ) => {
+								setAttributes( {
+									tagName: value,
+								} );
+							} }
 						/>
 
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
-							onChange={ ( elementId ) => {
-								elementId = elementId.replace( ELEMENT_ID_REGEX, '-' );
-								setAttributes( { elementId } );
+							onChange={ ( value ) => {
+								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
+
+								setAttributes( {
+									elementId: newElementId,
+								} );
 							} }
 						/>
 
 						<TextControl
 							label={ __( 'CSS Classes', 'generateblocks' ) }
 							value={ cssClasses }
-							onChange={ ( cssClasses ) => { setAttributes( { cssClasses } ) } }
+							onChange={ ( value ) => {
+								setAttributes( {
+									cssClasses: value,
+								} );
+							} }
 						/>
 
 						<TextControl
@@ -1421,17 +1371,17 @@ class GenerateBlockContainer extends Component {
 							value={ zindex || '' }
 							onChange={ ( value ) => {
 								setAttributes( {
-									zindex: value
+									zindex: value,
 								} );
 							} }
 							onBlur={ () => {
 								setAttributes( {
-									zindex: parseFloat( zindex )
+									zindex: parseFloat( zindex ),
 								} );
 							} }
 							onClick={ ( e ) => {
 								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus()
+								e.currentTarget.focus();
 							} }
 						/>
 
@@ -1458,28 +1408,28 @@ class GenerateBlockContainer extends Component {
 				{ fontFamily && googleFont &&
 					<link
 						rel="stylesheet"
-						href={ `https://fonts.googleapis.com/css?family=` + fontFamily.replace( / /g, '+' ) + googleFontsAttr }
+						href={ 'https://fonts.googleapis.com/css?family=' + fontFamily.replace( / /g, '+' ) + googleFontsAttr }
 					/>
 				}
 
 				{ !! isGrid && (
 					<div className={ classnames( {
 						'gb-grid-column': true,
-						[`gb-grid-column-${ uniqueId }`]: true
+						[ `gb-grid-column-${ uniqueId }` ]: true,
 					} ) }>
 						<Section
 							tagName={ tagName }
 							id={ elementId }
 							className={ classnames( {
 								'gb-container': true,
-								[`gb-container-${ uniqueId }`]: true,
-								[`${ cssClasses }`]: '' !== cssClasses
+								[ `gb-container-${ uniqueId }` ]: true,
+								[ `${ cssClasses }` ]: '' !== cssClasses,
 							} ) }
 						>
 							{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
 							<div
 								className={ classnames( {
-								'gb-inside-container': true
+									'gb-inside-container': true,
 								} ) }
 							>
 								<InnerBlocks
@@ -1501,14 +1451,14 @@ class GenerateBlockContainer extends Component {
 						id={ elementId }
 						className={ classnames( {
 							'gb-container': true,
-							[`gb-container-${ uniqueId }`]: true,
-							[`${ cssClasses }`]: '' !== cssClasses
+							[ `gb-container-${ uniqueId }` ]: true,
+							[ `${ cssClasses }` ]: '' !== cssClasses,
 						} ) }
 					>
 						{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
 						<div
 							className={ classnames( {
-							'gb-inside-container': true
+								'gb-inside-container': true,
 							} ) }
 						>
 							<InnerBlocks

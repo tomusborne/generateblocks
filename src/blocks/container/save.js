@@ -6,15 +6,14 @@ import Section from './section-tag';
 import classnames from 'classnames';
 
 const {
-	InnerBlocks
+	InnerBlocks,
 } = wp.blockEditor;
 
 const {
-	applyFilters
+	applyFilters,
 } = wp.hooks;
 
 export default ( { attributes } ) => {
-
 	const {
 		uniqueId,
 		tagName,
@@ -30,25 +29,25 @@ export default ( { attributes } ) => {
 			condition={ isGrid }
 			wrap={ children => <div className={ classnames( {
 				'gb-grid-column': true,
-				[`gb-grid-column-${ uniqueId }`]: true
-			} ) }>{ children }</div>}
+				[ `gb-grid-column-${ uniqueId }` ]: true,
+			} ) }>{ children }</div> }
 		>
 			<Section
 				tagName={ tagName }
 				id={ elementId }
 				className={ classnames( {
 					'gb-container': true,
-					[`gb-container-${ uniqueId }`]: true,
-					[`${ cssClasses }`]: '' !== cssClasses
+					[ `gb-container-${ uniqueId }` ]: true,
+					[ `${ cssClasses }` ]: '' !== cssClasses,
 				} ) }
 			>
 				{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
 				<div className={ classnames( {
-					'gb-inside-container': true
+					'gb-inside-container': true,
 				} ) }>
 					<InnerBlocks.Content />
 				</div>
 			</Section>
 		</ConditionalWrap>
 	);
-}
+};

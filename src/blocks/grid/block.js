@@ -2,17 +2,15 @@
  * Block: Grid
  */
 
-//import './style.scss';
 import './editor.scss';
 
-import editGridContainer from './edit'
-import saveGridContainer from './save'
-import blockAttributes from './attributes'
-import getIcon from '../../utils/get-icon'
+import editGridContainer from './edit';
+import saveGridContainer from './save';
+import blockAttributes from './attributes';
+import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
-const el = wp.element.createElement;
 
 /**
  * Register our Grid block.
@@ -36,7 +34,7 @@ registerBlockType( 'generateblocks/grid', {
 	supports: {
 		anchor: false,
 		className: false,
-		customClassName: false
+		customClassName: false,
 	},
 	edit: editGridContainer,
 	save: saveGridContainer,

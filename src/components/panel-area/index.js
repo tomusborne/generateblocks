@@ -6,28 +6,27 @@ const {
 
 const {
 	Component,
- 	Fragment,
 } = wp.element;
 
 const {
-	applyFilters
+	applyFilters,
 } = wp.hooks;
 
 /**
  * Component Class
  */
 export default class PanelArea extends Component {
-    render() {
-        const {
-            title = false,
+	render() {
+		const {
+			title = false,
 			initialOpen = false,
 			icon,
 			className,
 			id,
 			state,
 			showPanel = true,
-            children,
-        } = this.props;
+			children,
+		} = this.props;
 
 		const show = applyFilters( 'generateblocks.editor.showPanel', showPanel, id, this.props );
 
@@ -35,7 +34,7 @@ export default class PanelArea extends Component {
 			return null;
 		}
 
-        return (
+		return (
 			<ApplyFilters name={ 'generateblocks.panel.' + id } props={ this.props } state={ state }>
 				{ title ? (
 					<PanelBody
@@ -52,6 +51,6 @@ export default class PanelArea extends Component {
 					</PanelBody>
 				) }
 			</ApplyFilters>
-        );
-    }
+		);
+	}
 }

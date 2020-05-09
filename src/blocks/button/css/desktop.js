@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
@@ -7,19 +8,13 @@ const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
-	constructor( props ) {
-		super( ...arguments );
-	}
-
 	render() {
 		const {
 			attributes,
-			clientId,
 		} = this.props;
 
 		const {
 			uniqueId,
-			icon,
 			removeText,
 			backgroundColor,
 			backgroundColorOpacity,
@@ -102,21 +97,20 @@ export default class DesktopCSS extends Component {
 		cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'background-image': backgroundImageValue,
-			'color': textColor,
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
+			'color': textColor, // eslint-disable-line quote-props
+			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
 			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 			'font-family': fontFamily + fontFamilyFallbackValue,
 			'font-weight': fontWeight,
 			'text-transform': textTransform,
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
-			'text-transform': textTransform,
-			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ),
+			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 		} ];
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId ].push( {
-				'border-width' : shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
+				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
 				'border-style': 'solid',
 				'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 			} );
@@ -126,12 +120,12 @@ export default class DesktopCSS extends Component {
 		.block-editor-block-list__block a.gb-button-` + uniqueId + `:focus,
 		.block-editor-block-list__block a.gb-button-` + uniqueId + `:active` ] = [ {
 			'background-color': hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),
-			'color': textColorHover,
+			'color': textColorHover, // eslint-disable-line quote-props
 			'border-color': hexToRGBA( borderColorHover, borderColorHoverOpacity ),
 		} ];
 
 		cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId + ' .gb-icon' ] = [ {
-			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false,
+			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
 			'font-size': valueWithUnit( iconSize, iconSizeUnit ),
 		} ];
 
@@ -142,3 +136,4 @@ export default class DesktopCSS extends Component {
 		);
 	}
 }
+/* eslint-enable quotes */

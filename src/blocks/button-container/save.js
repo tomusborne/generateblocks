@@ -5,11 +5,10 @@
 import classnames from 'classnames';
 
 const {
-	InnerBlocks
+	InnerBlocks,
 } = wp.blockEditor;
 
 export default ( { attributes } ) => {
-
 	const {
 		uniqueId,
 		elementId,
@@ -21,11 +20,11 @@ export default ( { attributes } ) => {
 			id={ !! elementId ? elementId : undefined }
 			className={ classnames( {
 				'gb-button-wrapper': true,
-				[`gb-button-wrapper-${ uniqueId }`]: true,
-				[`${ cssClasses }`]: '' !== cssClasses
+				[ `gb-button-wrapper-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
 			} ) }
 		>
 			<InnerBlocks.Content />
 		</div>
 	);
-}
+};

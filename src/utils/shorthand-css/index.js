@@ -3,10 +3,10 @@ export default function shorthandCSS( top, right, bottom, left, unit ) {
 		return;
 	}
 
-	top = ( parseFloat( top ) != 0 && '' !== top ) ? parseFloat( top ) + unit + ' ' : '0 ';
-	right = ( parseFloat( right ) != 0 && '' !== right ) ? parseFloat( right ) + unit + ' ' : '0 ';
-	bottom = ( parseFloat( bottom ) != 0 && '' !== bottom ) ? parseFloat( bottom ) + unit + ' ' : '0 ';
-	left = ( parseFloat( left ) != 0 && '' !== left ) ? parseFloat( left ) + unit + ' ' : '0 ';
+	top = ( parseFloat( top ) != 0 && '' !== top ) ? parseFloat( top ) + unit + ' ' : '0 '; // eslint-disable-line eqeqeq
+	right = ( parseFloat( right ) != 0 && '' !== right ) ? parseFloat( right ) + unit + ' ' : '0 '; // eslint-disable-line eqeqeq
+	bottom = ( parseFloat( bottom ) != 0 && '' !== bottom ) ? parseFloat( bottom ) + unit + ' ' : '0 '; // eslint-disable-line eqeqeq
+	left = ( parseFloat( left ) != 0 && '' !== left ) ? parseFloat( left ) + unit + ' ' : '0 '; // eslint-disable-line eqeqeq
 
 	if ( right === left ) {
 		left = '';
@@ -20,7 +20,7 @@ export default function shorthandCSS( top, right, bottom, left, unit ) {
 		}
 	}
 
-	var output = top + right + bottom + left;
+	const output = top + right + bottom + left;
 
 	return output.trim();
 }
