@@ -15,7 +15,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 0.1
  * @param array $content The content of our page.
  * @param array $data Data used to loop through the function as needed.
- * @param string $blockName Target a specific block if needed.
  *
  * @return array
  */
@@ -53,7 +52,7 @@ function generateblocks_get_block_data( $content, $data = array() ) {
 					if ( isset( $atts['ref'] ) ) {
 						$reusable_block = get_post( $atts['ref'] );
 
-						if ( $reusable_block && 'wp_block' == $reusable_block->post_type ) {
+						if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
 							$reuse_data_block = parse_blocks( $reusable_block->post_content );
 							$data = generateblocks_get_block_data( $reuse_data_block, $data );
 						}
@@ -75,10 +74,11 @@ function generateblocks_get_block_data( $content, $data = array() ) {
  *
  * @since 0.1
  *
- * @param int $top The first value.
- * @param int $right The second value.
- * @param int $bottom The third value.
- * @param int $left The fourth value.
+ * @param int    $top The first value.
+ * @param int    $right The second value.
+ * @param int    $bottom The third value.
+ * @param int    $left The fourth value.
+ * @param string $unit The unit we're adding.
  *
  * @return string The shorthand value.
  */
@@ -87,10 +87,10 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
 		return;
 	}
 
-	$top = ( floatval( $top ) <> 0 ) ? floatval( $top ) . $unit . ' ' : '0 ';
-	$right = ( floatval( $right ) <> 0 ) ? floatval( $right ) . $unit . ' ' : '0 ';
-	$bottom = ( floatval( $bottom ) <> 0 ) ? floatval( $bottom ) . $unit . ' ' : '0 ';
-	$left = ( floatval( $left ) <> 0 ) ? floatval( $left ) . $unit . ' ' : '0 ';
+	$top = ( floatval( $top ) <> 0 ) ? floatval( $top ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$right = ( floatval( $right ) <> 0 ) ? floatval( $right ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$bottom = ( floatval( $bottom ) <> 0 ) ? floatval( $bottom ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$left = ( floatval( $left ) <> 0 ) ? floatval( $left ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 
 	if ( $right === $left ) {
 		$left = '';
@@ -116,10 +116,13 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
  * @return string
  */
 function generateblocks_get_media_query( $type ) {
-	$queries = apply_filters( 'generateblocks_media_query', array(
-		'mobile' => '(max-width: 767px)',
-		'tablet' => '(max-width: 1024px)',
-	) );
+	$queries = apply_filters(
+		'generateblocks_media_query',
+		array(
+			'mobile' => '(max-width: 767px)',
+			'tablet' => '(max-width: 1024px)',
+		)
+	);
 
 	return $queries[ $type ];
 }
@@ -128,6 +131,8 @@ function generateblocks_get_media_query( $type ) {
  * Build our list of Google fonts on this page.
  *
  * @since 0.1
+ *
+ * @param string $content The content to parse.
  *
  * @return array
  */
@@ -166,7 +171,7 @@ function generateblocks_get_google_fonts( $content = '' ) {
 	if ( ! empty( $data ) ) {
 		foreach ( $data as $name => $blockData ) {
 			if ( 'button' === $name ) {
-				foreach( $blockData as $atts ) {
+				foreach ( $blockData as $atts ) {
 					$button_settings = wp_parse_args(
 						$atts,
 						$defaults['button']
@@ -191,7 +196,7 @@ function generateblocks_get_google_fonts( $content = '' ) {
 			}
 
 			if ( 'headline' === $name ) {
-				foreach( $blockData as $atts ) {
+				foreach ( $blockData as $atts ) {
 					$headline_settings = wp_parse_args(
 						$atts,
 						$defaults['headline']
@@ -215,7 +220,7 @@ function generateblocks_get_google_fonts( $content = '' ) {
 			}
 
 			if ( 'container' === $name ) {
-				foreach( $blockData as $atts ) {
+				foreach ( $blockData as $atts ) {
 					$container_settings = wp_parse_args(
 						$atts,
 						$defaults['container']
@@ -248,7 +253,7 @@ function generateblocks_get_google_fonts( $content = '' ) {
 		$fonts[ $id ]['name'] = $font['name'];
 
 		if ( ! empty( $font['variants'] ) ) {
-			foreach( $font['variants'] as $variant ) {
+			foreach ( $font['variants'] as $variant ) {
 				if ( isset( $fonts[ $id ]['variants'] ) ) {
 					if ( in_array( $variant, (array) $fonts[ $id ]['variants'] ) ) {
 						continue;
@@ -279,11 +284,11 @@ function generateblocks_get_google_fonts_uri() {
 
 	$data = array();
 
-	foreach( $google_fonts as $font ) {
+	foreach ( $google_fonts as $font ) {
 		$variants = array();
 
 		if ( ! empty( $font['variants'] ) ) {
-			foreach( $font['variants'] as $variant ) {
+			foreach ( $font['variants'] as $variant ) {
 				$variants[] = $variant;
 			}
 		}
@@ -299,11 +304,14 @@ function generateblocks_get_google_fonts_uri() {
 		}
 	}
 
-	$font_args = apply_filters( 'generateblocks_google_font_args', array(
-		'family' => implode( '|', $data ),
-		'subset' => null,
-		'display' => 'swap',
-	) );
+	$font_args = apply_filters(
+		'generateblocks_google_font_args',
+		array(
+			'family' => implode( '|', $data ),
+			'subset' => null,
+			'display' => 'swap',
+		)
+	);
 
 	return add_query_arg( $font_args, '//fonts.googleapis.com/css' );
 }
@@ -313,7 +321,7 @@ function generateblocks_get_google_fonts_uri() {
  *
  * @since 0.1
  * @param string $hex The hex value.
- * @param int $alpha The opacity value.
+ * @param int    $alpha The opacity value.
  *
  * @return string The RGBA value.
  */
@@ -328,7 +336,7 @@ function generateblocks_hex2rgba( $hex, $alpha ) {
 
 	$hex = str_replace( '#', '', $hex );
 
-	if ( strlen( $hex ) == 3 ) {
+	if ( strlen( $hex ) == 3 ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 		$r = hexdec( substr( $hex, 0, 1 ) . substr( $hex, 0, 1 ) );
 		$g = hexdec( substr( $hex, 1, 1 ) . substr( $hex, 1, 1 ) );
 		$b = hexdec( substr( $hex, 2, 1 ) . substr( $hex, 2, 1 ) );
@@ -347,7 +355,7 @@ function generateblocks_hex2rgba( $hex, $alpha ) {
  * Return old flexblocks values for old browsers.
  *
  * @since 0.1
- * @param string The value to convert.
+ * @param string $value The value to convert.
  *
  * @return string The old browser value.
  */
@@ -367,7 +375,7 @@ function generateblocks_get_vendor_prefix( $value ) {
  * Return flexbox alignment values from left/right.
  *
  * @since 0.1
- * @param string The value to convert.
+ * @param string $value The value to convert.
  *
  * @return string The flexbox alignment value.
  */
@@ -386,6 +394,7 @@ function generateblocks_get_flexbox_alignment( $value ) {
 /**
  * Get an option from the database.
  *
+ * @param string $option The option to get.
  * @since 0.1
  */
 function generateblocks_get_option( $option ) {
@@ -406,6 +415,7 @@ function generateblocks_get_option( $option ) {
 /**
  * Checks whether a value exists, even if it's a 0.
  *
+ * @param int|string $value The value to check.
  * @since 1.0
  */
 function generateblocks_has_number_value( $value ) {

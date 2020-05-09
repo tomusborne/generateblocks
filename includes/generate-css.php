@@ -47,9 +47,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			$blocks_exist = true;
 
-			$css = new GenerateBlocks_Dynamic_CSS;
-			$tablet_css = new GenerateBlocks_Dynamic_CSS;
-			$mobile_css = new GenerateBlocks_Dynamic_CSS;
+			$css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			$css->set_selector( '.gb-grid-wrapper' );
 			$css->add_property( 'display', '-webkit-box' );
@@ -141,7 +141,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
 
 				/**
-				 * generateblocks_block_css_data hook
+				 * Do generateblocks_block_css_data hook
 				 *
 				 * @since 1.0
 				 *
@@ -179,9 +179,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			$blocks_exist = true;
 
-			$css = new GenerateBlocks_Dynamic_CSS;
-			$tablet_css = new GenerateBlocks_Dynamic_CSS;
-			$mobile_css = new GenerateBlocks_Dynamic_CSS;
+			$css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			$css->set_selector( '.gb-container .wp-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
@@ -203,7 +203,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$grid_atts = array();
 
 				if ( isset( $atts['gridId'] ) && $atts['gridId'] ) {
-					foreach( $data['grid'] as $grid ) {
+					foreach ( $data['grid'] as $grid ) {
 						if ( $atts['gridId'] === $grid['uniqueId'] ) {
 							$grid_atts = $grid;
 							break;
@@ -352,7 +352,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
 
-				if ( ! $settings['isGrid']  ) {
+				if ( ! $settings['isGrid'] ) {
 					if ( ! $usingMinHeightFlex && $settings['minHeightTablet'] && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 						$tablet_css->add_property( 'display', '-webkit-box' );
 						$tablet_css->add_property( 'display', '-ms-flexbox' );
@@ -434,7 +434,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
 
-				if ( ! $settings['isGrid']  ) {
+				if ( ! $settings['isGrid'] ) {
 					if ( ! $usingMinHeightFlex && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 						$mobile_css->add_property( 'display', '-webkit-box' );
 						$mobile_css->add_property( 'display', '-ms-flexbox' );
@@ -504,7 +504,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				/**
-				 * generateblocks_block_css_data hook
+				 * Do generateblocks_block_css_data hook
 				 *
 				 * @since 1.0
 				 *
@@ -542,9 +542,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			$blocks_exist = true;
 
-			$css = new GenerateBlocks_Dynamic_CSS;
-			$tablet_css = new GenerateBlocks_Dynamic_CSS;
-			$mobile_css = new GenerateBlocks_Dynamic_CSS;
+			$css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			$css->set_selector( '.gb-button-wrapper' );
 			$css->add_property( 'display', 'flex' );
@@ -634,7 +634,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				/**
-				 * generateblocks_block_css_data hook
+				 * Do generateblocks_block_css_data hook
 				 *
 				 * @since 1.0
 				 *
@@ -672,9 +672,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			$blocks_exist = true;
 
-			$css = new GenerateBlocks_Dynamic_CSS;
-			$tablet_css = new GenerateBlocks_Dynamic_CSS;
-			$mobile_css = new GenerateBlocks_Dynamic_CSS;
+			$css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			if ( ! $icon_css_added ) {
 				$css->set_selector( '.gb-icon' );
@@ -818,7 +818,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				/**
-				 * generateblocks_block_css_data hook
+				 * Do generateblocks_block_css_data hook
 				 *
 				 * @since 1.0
 				 *
@@ -856,9 +856,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			$blocks_exist = true;
 
-			$css = new GenerateBlocks_Dynamic_CSS;
-			$tablet_css = new GenerateBlocks_Dynamic_CSS;
-			$mobile_css = new GenerateBlocks_Dynamic_CSS;
+			$css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			if ( ! $icon_css_added ) {
 				$css->set_selector( '.gb-icon' );
@@ -947,8 +947,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] ) {
 						$defaultBlockStyles = generateblocks_get_default_styles();
 
-						if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ][ 'marginBottom' ] ) ) {
-							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ][ 'marginBottom' ], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+						if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {
+							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
 						}
 					}
 				}
@@ -1054,7 +1054,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
 					}
 
-					if ( 'above' === $settings['iconLocationTablet'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationTablet'] ) ) {
+					if ( 'above' === $settings['iconLocationTablet'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationTablet'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 						$tablet_css->add_property( '-ms-flex-item-align', generateblocks_get_vendor_prefix( $settings['alignmentTablet'] ) );
 						$tablet_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 					}
@@ -1122,7 +1122,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
 					}
 
-					if ( 'above' === $settings['iconLocationMobile'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationMobile'] ) || ( 'above' === $settings['iconLocationTablet'] && '' == $settings['iconLocationMobile'] ) ) {
+					if ( 'above' === $settings['iconLocationMobile'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationMobile'] ) || ( 'above' === $settings['iconLocationTablet'] && '' == $settings['iconLocationMobile'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 						$mobile_css->add_property( '-ms-flex-item-align', generateblocks_get_vendor_prefix( $settings['alignmentMobile'] ) );
 						$mobile_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 					}
@@ -1165,7 +1165,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				/**
-				 * generateblocks_block_css_data hook
+				 * Do generateblocks_block_css_data hook
 				 *
 				 * @since 1.0
 				 *
@@ -1196,11 +1196,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		return false;
 	}
 
-	return apply_filters( 'generateblocks_css_device_data', array(
-		'main' => $main_css_data,
-		'tablet' => $tablet_css_data,
-		'mobile' => $mobile_css_data,
-	), $settings );
+	return apply_filters(
+		'generateblocks_css_device_data',
+		array(
+			'main' => $main_css_data,
+			'tablet' => $tablet_css_data,
+			'mobile' => $mobile_css_data,
+		),
+		$settings
+	);
 }
 
 /**
@@ -1208,13 +1212,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
  *
  * @since 1.0
  *
- * @param array $data
+ * @param array $data Our CSS data.
  */
 function generateblocks_get_parsed_css( $data ) {
 	$output = '';
 
-	foreach( $data as $device => $selectors ) {
-		foreach( $selectors as $selector => $properties ) {
+	foreach ( $data as $device => $selectors ) {
+		foreach ( $selectors as $selector => $properties ) {
 			if ( ! count( $properties ) ) {
 				continue;
 			}
@@ -1222,7 +1226,7 @@ function generateblocks_get_parsed_css( $data ) {
 			$temporary_output = $selector . '{';
 			$elements_added = 0;
 
-			foreach( $properties as $key => $value ) {
+			foreach ( $properties as $key => $value ) {
 				if ( empty( $value ) ) {
 					continue;
 				}
@@ -1231,7 +1235,7 @@ function generateblocks_get_parsed_css( $data ) {
 				$temporary_output .= $value;
 			}
 
-			$temporary_output .= "}";
+			$temporary_output .= '}';
 
 			if ( $elements_added > 0 ) {
 				$output .= $temporary_output;
@@ -1295,11 +1299,14 @@ function generateblocks_get_frontend_block_css() {
 		);
 	}
 
-	array_unshift( $data['mobile'], array(
-		'.gb-grid-wrapper > .gb-grid-column' => array(
-			'width: 100%;'
+	array_unshift(
+		$data['mobile'],
+		array(
+			'.gb-grid-wrapper > .gb-grid-column' => array(
+				'width: 100%;',
+			),
 		)
-	) );
+	);
 
 	if ( ! empty( $data['mobile'] ) ) {
 		$css .= sprintf(

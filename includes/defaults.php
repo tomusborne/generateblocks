@@ -13,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Set our block defaults.
  *
  * @since 0.1
- * @param string $block The name of our block.
  *
  * @return array
  */
@@ -140,7 +139,7 @@ function generateblocks_get_block_defaults() {
 	);
 
 	$defaults['buttonContainer'] = array(
-		'alignment'	=> '',
+		'alignment' => '',
 		'alignmentTablet' => '',
 		'alignmentMobile' => '',
 		'marginTop' => '',
@@ -399,9 +398,12 @@ function generateblocks_get_block_defaults() {
  * @since 0.1
  */
 function generateblocks_get_option_defaults() {
-	return apply_filters( 'generateblocks_option_defaults', array(
-		'css_print_method' => 'file',
-	) );
+	return apply_filters(
+		'generateblocks_option_defaults',
+		array(
+			'css_print_method' => 'file',
+		)
+	);
 }
 
 /**

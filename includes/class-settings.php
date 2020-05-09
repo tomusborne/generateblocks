@@ -9,16 +9,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
+/**
+ * Build our settings page.
+ */
 class GenerateBlocks_Settings {
+	/**
+	 * Constructor.
+	 */
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_init', array( $this, 'save' ) );
 
-		if ( ! empty( $_POST ) ) {
+		if ( ! empty( $_POST ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 			add_action( 'wp_ajax_generateblocks_regenerate_css_files', array( $this, 'regenerate_css_files' ) );
 		}
 	}
 
+	/**
+	 * Add our Dashboard menu item.
+	 */
 	public function add_menu() {
 		$settings = add_options_page(
 			__( 'Settings', 'generateblocks' ),
@@ -31,23 +40,30 @@ class GenerateBlocks_Settings {
 		add_action( "admin_print_scripts-$settings", array( $this, 'enqueue_scripts' ) );
 	}
 
+	/**
+	 * Enqueue our scripts.
+	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script(
 			'generateblocks-settings',
 			GENERATEBLOCKS_DIR_URL . 'assets/js/scripts.js',
 			array( 'jquery' ),
-			filemtime( GENERATEBLOCKS_DIR . 'assets/js/scripts.js' )
+			filemtime( GENERATEBLOCKS_DIR . 'assets/js/scripts.js' ),
+			true
 		);
 	}
 
+	/**
+	 * Save our settings.
+	 */
 	public function save() {
 		if ( isset( $_POST['generateblocks_settings'] ) ) {
 			if ( ! check_admin_referer( 'generateblocks_settings', 'generateblocks_settings' ) ) {
-				wp_die( __( 'Security check failed.', 'generateblocks' ) );
+				wp_die( esc_html( __( 'Security check failed.', 'generateblocks' ) ) );
 			}
 
 			if ( ! current_user_can( 'manage_options' ) ) {
-				wp_die( __( 'Security check failed.', 'generateblocks' ) );
+				wp_die( esc_html( __( 'Security check failed.', 'generateblocks' ) ) );
 			}
 
 			$settings = get_option( 'generateblocks', array() );
@@ -64,6 +80,9 @@ class GenerateBlocks_Settings {
 		}
 	}
 
+	/**
+	 * Regenerate our CSS files.
+	 */
 	public function regenerate_css_files() {
 		check_ajax_referer( 'generateblocks_regenerate_css_files', '_nonce' );
 
@@ -85,11 +104,11 @@ class GenerateBlocks_Settings {
 		?>
 			<div class="wrap gblocks-dashboard-wrap">
 				<div class="gblocks-dashboard-header">
-					<h1><?php _e( 'Settings', 'generateblocks-pro' ); ?></h1>
+					<h1><?php esc_html_e( 'Settings', 'generateblocks' ); ?></h1>
 
 					<div class="gblocks-logo">
 						<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-							<img width="200" src="<?php echo GENERATEBLOCKS_DIR_URL . 'assets/images/gb-logo-white.svg'; ?>" alt="" />
+							<img width="200" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-white.svg'; ?>" alt="" />
 						</a>
 					</div>
 				</div>
@@ -105,32 +124,34 @@ class GenerateBlocks_Settings {
 							<tbody>
 								<tr>
 									<th scope="row">
-										<?php _e( 'CSS Print Method', 'generateblocks' ); ?>
+										<?php esc_html_e( 'CSS Print Method', 'generateblocks' ); ?>
 									</th>
 									<td>
 										<select name="generateblocks[css_print_method]">
-											<option value="file"<?php selected( 'file', generateblocks_get_option( 'css_print_method' ) ); ?>><?php _e( 'External File', 'generateblocks' ); ?></option>
-											<option value="inline"<?php selected( 'inline', generateblocks_get_option( 'css_print_method' ) ); ?>><?php _e( 'Inline Embedding', 'generateblocks' ); ?></option>
+											<option value="file"<?php selected( 'file', generateblocks_get_option( 'css_print_method' ) ); ?>><?php esc_html_e( 'External File', 'generateblocks' ); ?></option>
+											<option value="inline"<?php selected( 'inline', generateblocks_get_option( 'css_print_method' ) ); ?>><?php esc_html_e( 'Inline Embedding', 'generateblocks' ); ?></option>
 										</select>
-										<p><?php _e( 'Generating your CSS in external files is better for overall performance.', 'generateblocks' ); ?></p>
+										<p><?php esc_html_e( 'Generating your CSS in external files is better for overall performance.', 'generateblocks' ); ?></p>
 									</td>
 								</tr>
 								<tr>
 									<th scope="row">
-										<?php _e( 'Regenerate CSS', 'generateblocks' ); ?>
+										<?php esc_html_e( 'Regenerate CSS', 'generateblocks' ); ?>
 									</th>
 									<td>
-										<?php printf(
-											'<button data-nonce="%s" class="button generateblocks-button-spinner" id="generateblocks-regenerate-css-files-button">%s</button>',
-											wp_create_nonce( 'generateblocks_regenerate_css_files' ),
-											__( 'Regenerate Files', 'generateblocks' )
-										); ?>
-										<p><?php _e( 'Force your external CSS files to regenerate next time their page is loaded.', 'generateblocks' ); ?></p>
+										<?php
+											printf(
+												'<button data-nonce="%s" class="button generateblocks-button-spinner" id="generateblocks-regenerate-css-files-button">%s</button>',
+												wp_create_nonce( 'generateblocks_regenerate_css_files' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+												esc_html__( 'Regenerate Files', 'generateblocks' )
+											);
+										?>
+										<p><?php esc_html_e( 'Force your external CSS files to regenerate next time their page is loaded.', 'generateblocks' ); ?></p>
 									</td>
 								</tr>
 								<?php
 								/**
-								 * generateblocks_settings_fields hook.
+								 * Do generateblocks_settings_fields hook.
 								 *
 								 * @since 1.0
 								 */
@@ -138,14 +159,14 @@ class GenerateBlocks_Settings {
 								?>
 							</tbody>
 						</table>
-				        <?php
+						<?php
 						submit_button();
-				        ?>
-				    </form>
+						?>
+					</form>
 				</div>
 			</div>
 		<?php
 	}
 }
 
-new GenerateBlocks_Settings;
+new GenerateBlocks_Settings();

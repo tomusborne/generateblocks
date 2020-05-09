@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Creates minified css via PHP.
- *
  */
 class GenerateBlocks_Dynamic_CSS {
 
@@ -21,7 +20,7 @@ class GenerateBlocks_Dynamic_CSS {
 	 * @access protected
 	 * @var string
 	 */
-	protected $_selector = '';
+	protected $_selector = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
 	/**
 	 * Stores the final css output with all of its rules for the current selector.
@@ -29,7 +28,7 @@ class GenerateBlocks_Dynamic_CSS {
 	 * @access protected
 	 * @var string
 	 */
-	protected $_selector_output = '';
+	protected $_selector_output = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
 	/**
 	 * Stores all of the rules that will be added to the selector
@@ -37,7 +36,7 @@ class GenerateBlocks_Dynamic_CSS {
 	 * @access protected
 	 * @var string
 	 */
-	protected $_css = '';
+	protected $_css = ''; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
 	/**
 	 * The string that holds all of the css to output
@@ -45,7 +44,7 @@ class GenerateBlocks_Dynamic_CSS {
 	 * @access protected
 	 * @var array
 	 */
-	protected $_output = array();
+	protected $_output = array(); // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
 	/**
 	 * Sets a selector to the object and changes the current selector to a new one
@@ -53,7 +52,7 @@ class GenerateBlocks_Dynamic_CSS {
 	 * @access public
 	 * @since  1.0
 	 *
-	 * @param  string $selector - the css identifier of the html that you wish to target
+	 * @param  string $selector - the css identifier of the html that you wish to target.
 	 * @return $this
 	 */
 	public function set_selector( $selector = '' ) {
@@ -72,10 +71,9 @@ class GenerateBlocks_Dynamic_CSS {
 	 * @access public
 	 * @since  1.0
 	 *
-	 * @param  string $property - the css property
-	 * @param  string $value - the value to be placed with the property
-	 * @param  string $og_default - check to see if the value matches the default
-	 * @param  string $unit - the unit for the value (px)
+	 * @param  string $property - the css property.
+	 * @param  string $value - the value to be placed with the property.
+	 * @param  string $unit - the unit for the value (px).
 	 * @return $this
 	 */
 	public function add_property( $property, $value, $unit = false ) {
@@ -105,7 +103,7 @@ class GenerateBlocks_Dynamic_CSS {
 
 					if ( 'border-radius' === $property ) {
 						$property_top = 'border-top-left-radius';
-					} else if ( 'border-width' === $property ) {
+					} elseif ( 'border-width' === $property ) {
 						$property_top = 'border-top-width';
 					}
 
@@ -122,7 +120,7 @@ class GenerateBlocks_Dynamic_CSS {
 
 					if ( 'border-radius' === $property ) {
 						$property_right = 'border-top-right-radius';
-					} else if ( 'border-width' === $property ) {
+					} elseif ( 'border-width' === $property ) {
 						$property_right = 'border-right-width';
 					}
 
@@ -139,7 +137,7 @@ class GenerateBlocks_Dynamic_CSS {
 
 					if ( 'border-radius' === $property ) {
 						$property_bottom = 'border-bottom-right-radius';
-					} else if ( 'border-width' === $property ) {
+					} elseif ( 'border-width' === $property ) {
 						$property_bottom = 'border-bottom-width';
 					}
 
@@ -156,7 +154,7 @@ class GenerateBlocks_Dynamic_CSS {
 
 					if ( 'border-radius' === $property ) {
 						$property_left = 'border-bottom-left-radius';
-					} else if ( 'border-width' === $property ) {
+					} elseif ( 'border-width' === $property ) {
 						$property_left = 'border-left-width';
 					}
 

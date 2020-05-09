@@ -58,16 +58,19 @@ function generateblocks_do_block_editor_assets() {
 			generate_get_color_defaults()
 		);
 
-		$generatepressDefaultStyling = apply_filters( 'generateblocks_gp_default_styling', array(
-			'buttonBackground' => $color_settings['form_button_background_color'],
-			'buttonBackgroundHover' => $color_settings['form_button_background_color_hover'],
-			'buttonText' => $color_settings['form_button_text_color'],
-			'buttonTextHover' => $color_settings['form_button_text_color_hover'],
-			'buttonPaddingTop' => '10px',
-			'buttonPaddingRight' => '20px',
-			'buttonPaddingBottom' => '10px',
-			'buttonPaddingLeft' => '20px',
-		) );
+		$generatepressDefaultStyling = apply_filters(
+			'generateblocks_gp_default_styling',
+			array(
+				'buttonBackground' => $color_settings['form_button_background_color'],
+				'buttonBackgroundHover' => $color_settings['form_button_background_color_hover'],
+				'buttonText' => $color_settings['form_button_text_color'],
+				'buttonTextHover' => $color_settings['form_button_text_color_hover'],
+				'buttonPaddingTop' => '10px',
+				'buttonPaddingRight' => '20px',
+				'buttonPaddingBottom' => '10px',
+				'buttonPaddingLeft' => '20px',
+			)
+		);
 
 		$css = sprintf(
 			'.gb-button.button {
@@ -117,6 +120,7 @@ add_filter( 'block_categories', 'generateblocks_do_category' );
 /**
  * Add GeneratePress category to Gutenberg.
  *
+ * @param array $categories Existing categories.
  * @since 0.1
  */
 function generateblocks_do_category( $categories ) {
@@ -128,7 +132,7 @@ function generateblocks_do_category( $categories ) {
 			),
 		),
 		$categories
-    );
+	);
 }
 
 add_action( 'wp_enqueue_scripts', 'generateblocks_do_google_fonts' );
@@ -142,7 +146,7 @@ function generateblocks_do_google_fonts() {
 	$fonts_url = generateblocks_get_google_fonts_uri();
 
 	if ( $fonts_url ) {
-		wp_enqueue_style( 'generateblocks-google-fonts', $fonts_url, array(), null, 'all' );
+		wp_enqueue_style( 'generateblocks-google-fonts', $fonts_url, array(), null, 'all' ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 	}
 }
 
@@ -153,17 +157,22 @@ add_action( 'init', 'generateblocks_register_meta' );
  * @since 0.1
  */
 function generateblocks_register_meta() {
-    register_meta( 'post', '_generate-full-width-content', array(
-        'show_in_rest' => true,
-		'auth_callback' => '__return_true',
-		'single' => true,
-    ) );
+	register_meta(
+		'post',
+		'_generate-full-width-content',
+		array(
+			'show_in_rest' => true,
+			'auth_callback' => '__return_true',
+			'single' => true,
+		)
+	);
 }
 
 add_filter( 'generateblocks_css_print_method', 'generateblocks_set_css_print_method' );
 /**
  * Set our CSS print method.
  *
+ * @param string $method Existing method.
  */
 function generateblocks_set_css_print_method( $method ) {
 	return generateblocks_get_option( 'css_print_method' );
@@ -173,6 +182,7 @@ add_filter( 'excerpt_allowed_blocks', 'generateblocks_set_excerpt_allowed_blocks
 /**
  * Add blocks that can be displayed in post excerpts.
  *
+ * @param array $allowed Existing allowed blocks.
  * @since 1.0
  */
 function generateblocks_set_excerpt_allowed_blocks( $allowed ) {
