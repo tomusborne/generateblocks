@@ -1368,7 +1368,7 @@ class GenerateBlockContainer extends Component {
 						<TextControl
 							label={ __( 'z-index', 'generateblocks' ) }
 							type={ 'number' }
-							value={ zindex || '' }
+							value={ zindex || 0 === zindex ? zindex : '' }
 							onChange={ ( value ) => {
 								setAttributes( {
 									zindex: value,

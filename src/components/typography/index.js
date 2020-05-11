@@ -404,7 +404,7 @@ class TypographyControls extends Component {
 						<div className="components-gblocks-typography-control__inputs">
 							<TextControl
 								type={ 'number' }
-								value={ getValue( 'lineHeight', device ) || '' }
+								value={ getValue( 'lineHeight', device ) || 0 === getValue( 'lineHeight', device ) ? getValue( 'lineHeight', device ) : '' }
 								placeholder="1.5"
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'lineHeight', device );
