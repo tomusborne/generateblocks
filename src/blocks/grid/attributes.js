@@ -14,7 +14,7 @@ export default {
 	},
 	columns: {
 		type: 'number',
-		default: generateBlocksDefaults.gridContainer.columns,
+		default: '',
 	},
 	horizontalGap: {
 		type: 'number',
