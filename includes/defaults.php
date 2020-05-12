@@ -424,6 +424,12 @@ function generateblocks_get_default_styles() {
 			'paddingBottom' => $defaults['button']['paddingBottom'] ? $defaults['button']['paddingBottom'] : '15',
 			'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20',
 		),
+		'container' => array(
+			'gridItemPaddingTop' => '0',
+			'gridItemPaddingRight' => '0',
+			'gridItemPaddingBottom' => '0',
+			'gridItemPaddingLeft' => '0',
+		),
 	);
 
 	if ( function_exists( 'generate_get_default_fonts' ) ) {
