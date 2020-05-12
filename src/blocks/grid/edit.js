@@ -329,9 +329,16 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											setAttributes( {
-												horizontalGap: parseFloat( horizontalGap ),
-											} );
+											if ( ! horizontalGap && generateBlocksDefaults.gridContainer.horizontalGap ) {
+												// If we have no value and a default exists, set to 0 to prevent default from coming back.
+												setAttributes( {
+													horizontalGap: 0,
+												} );
+											} else {
+												setAttributes( {
+													horizontalGap: parseFloat( horizontalGap ),
+												} );
+											}
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
@@ -383,9 +390,16 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											setAttributes( {
-												verticalGap: parseFloat( verticalGap ),
-											} );
+											if ( ! verticalGap && generateBlocksDefaults.gridContainer.verticalGap ) {
+												// If we have no value and a default exists, set to 0 to prevent default from coming back.
+												setAttributes( {
+													verticalGap: 0,
+												} );
+											} else {
+												setAttributes( {
+													verticalGap: parseFloat( verticalGap ),
+												} );
+											}
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
@@ -475,9 +489,16 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											setAttributes( {
-												horizontalGapTablet: parseFloat( horizontalGapTablet ),
-											} );
+											if ( ! horizontalGapTablet && generateBlocksDefaults.gridContainer.horizontalGapTablet ) {
+												// If we have no value and a default exists, set to 0 to prevent default from coming back.
+												setAttributes( {
+													horizontalGapTablet: 0,
+												} );
+											} else {
+												setAttributes( {
+													horizontalGapTablet: parseFloat( horizontalGapTablet ),
+												} );
+											}
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
@@ -530,9 +551,16 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											setAttributes( {
-												verticalGapTablet: parseFloat( verticalGapTablet ),
-											} );
+											if ( ! verticalGapTablet && generateBlocksDefaults.gridContainer.verticalGapTablet ) {
+												// If we have no value and a default exists, set to 0 to prevent default from coming back.
+												setAttributes( {
+													verticalGapTablet: 0,
+												} );
+											} else {
+												setAttributes( {
+													verticalGapTablet: parseFloat( verticalGapTablet ),
+												} );
+											}
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
@@ -624,9 +652,16 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											setAttributes( {
-												horizontalGapMobile: parseFloat( horizontalGapMobile ),
-											} );
+											if ( ! horizontalGapMobile && generateBlocksDefaults.gridContainer.horizontalGapMobile ) {
+												// If we have no value and a default exists, set to 0 to prevent default from coming back.
+												setAttributes( {
+													horizontalGapMobile: 0,
+												} );
+											} else {
+												setAttributes( {
+													horizontalGapMobile: parseFloat( horizontalGapMobile ),
+												} );
+											}
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
@@ -679,9 +714,16 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											setAttributes( {
-												verticalGapMobile: parseFloat( verticalGapMobile ),
-											} );
+											if ( ! verticalGapMobile && generateBlocksDefaults.gridContainer.verticalGapMobile ) {
+												// If we have no value and a default exists, set to 0 to prevent default from coming back.
+												setAttributes( {
+													verticalGapMobile: 0,
+												} );
+											} else {
+												setAttributes( {
+													verticalGapMobile: parseFloat( verticalGapMobile ),
+												} );
+											}
 										} }
 										onClick={ ( e ) => {
 											// Make sure onBlur fires in Firefox.
