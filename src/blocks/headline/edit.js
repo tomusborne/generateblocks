@@ -431,6 +431,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'paddingLeft' }
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -444,6 +445,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'marginLeft' }
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -456,6 +458,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'borderSizeLeft' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
 									displayUnit={ 'px' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 							</Fragment>
 						) }
@@ -482,6 +485,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'paddingLeftTablet' }
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -495,6 +499,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'marginLeftTablet' }
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -507,6 +512,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'borderSizeLeftTablet' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
 									displayUnit={ 'px' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 							</Fragment>
 						) }
@@ -533,6 +539,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'paddingLeftMobile' }
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -546,6 +553,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'marginLeftMobile' }
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -558,6 +566,7 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'borderSizeLeftMobile' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
 									displayUnit={ 'px' }
+									defaults={ generateBlocksDefaults.headline }
 								/>
 							</Fragment>
 						) }
@@ -740,6 +749,7 @@ class GenerateBlockHeadline extends Component {
 											attrLeft={ 'iconPaddingLeft' }
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
+											defaults={ generateBlocksDefaults.headline }
 										/>
 									</Fragment>
 								}
@@ -857,6 +867,7 @@ class GenerateBlockHeadline extends Component {
 											attrLeft={ 'iconPaddingLeftTablet' }
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
+											defaults={ generateBlocksDefaults.headline }
 										/>
 									</Fragment>
 								}
@@ -975,6 +986,7 @@ class GenerateBlockHeadline extends Component {
 											attrLeft={ 'iconPaddingLeftMobile' }
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
+											defaults={ generateBlocksDefaults.headline }
 										/>
 									</Fragment>
 								}

@@ -793,6 +793,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'paddingLeft' }
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -805,6 +806,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'marginLeft' }
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -817,6 +819,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'borderSizeLeft' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
 									displayUnit={ 'px' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -833,6 +836,7 @@ class GenerateBlockContainer extends Component {
 									labelRight={ __( 'T-Right', 'generateblocks' ) }
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									defaults={ generateBlocksDefaults.container }
 								/>
 							</Fragment>
 						) }
@@ -906,6 +910,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'paddingLeftTablet' }
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -918,6 +923,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'marginLeftTablet' }
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -930,6 +936,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'borderSizeLeftTablet' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
 									displayUnit={ 'px' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -946,6 +953,7 @@ class GenerateBlockContainer extends Component {
 									labelRight={ __( 'T-Right', 'generateblocks' ) }
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									defaults={ generateBlocksDefaults.container }
 								/>
 							</Fragment>
 						) }
@@ -1019,6 +1027,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'paddingLeftMobile' }
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1031,6 +1040,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'marginLeftMobile' }
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1043,6 +1053,7 @@ class GenerateBlockContainer extends Component {
 									attrLeft={ 'borderSizeLeftMobile' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
 									displayUnit={ 'px' }
+									defaults={ generateBlocksDefaults.container }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1059,6 +1070,7 @@ class GenerateBlockContainer extends Component {
 									labelRight={ __( 'T-Right', 'generateblocks' ) }
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									defaults={ generateBlocksDefaults.container }
 								/>
 							</Fragment>
 						) }

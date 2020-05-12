@@ -94,6 +94,7 @@ class DimensionsControl extends Component {
 			displayUnit,
 			device,
 			block,
+			defaults,
 		} = this.props;
 
 		const classes = classnames(
