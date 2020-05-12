@@ -290,6 +290,20 @@ class DimensionsControl extends Component {
 							placeholder={ topPlaceholder }
 							type="number"
 							onChange={ onChangeTopValue }
+							onBlur={ () => {
+								if ( '' === attributes[ attrTop ] && '' !== defaults[ attrTop ] ) {
+									// If we have no value and a default exists, set to 0 to prevent default from coming back.
+									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
+										this.onChangeAll( '0' );
+									} else {
+										this.onChangeTop( '0' );
+									}
+								}
+							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
 							aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
 							value={ attributes[ attrTop ] ? attributes[ attrTop ] : '' }
 							min={ type === 'padding' ? 0 : undefined }
@@ -300,6 +314,20 @@ class DimensionsControl extends Component {
 							placeholder={ rightPlaceholder }
 							type="number"
 							onChange={ onChangeRightValue }
+							onBlur={ () => {
+								if ( '' === attributes[ attrRight ] && '' !== defaults[ attrRight ] ) {
+									// If we have no value and a default exists, set to 0 to prevent default from coming back.
+									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
+										this.onChangeAll( '0' );
+									} else {
+										this.onChangeRight( '0' );
+									}
+								}
+							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
 							aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
 							value={ attributes[ attrRight ] ? attributes[ attrRight ] : '' }
 							min={ type === 'padding' ? 0 : undefined }
@@ -310,6 +338,20 @@ class DimensionsControl extends Component {
 							placeholder={ bottomPlaceholder }
 							type="number"
 							onChange={ onChangeBottomValue }
+							onBlur={ () => {
+								if ( '' === attributes[ attrBottom ] && '' !== defaults[ attrBottom ] ) {
+									// If we have no value and a default exists, set to 0 to prevent default from coming back.
+									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
+										this.onChangeAll( '0' );
+									} else {
+										this.onChangeBottom( '0' );
+									}
+								}
+							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
 							aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
 							value={ attributes[ attrBottom ] ? attributes[ attrBottom ] : '' }
 							min={ type === 'padding' ? 0 : undefined }
@@ -320,6 +362,20 @@ class DimensionsControl extends Component {
 							placeholder={ leftPlaceholder }
 							type="number"
 							onChange={ onChangeLeftValue }
+							onBlur={ () => {
+								if ( '' === attributes[ attrLeft ] && '' !== defaults[ attrLeft ] ) {
+									// If we have no value and a default exists, set to 0 to prevent default from coming back.
+									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
+										this.onChangeAll( '0' );
+									} else {
+										this.onChangeLeft( '0' );
+									}
+								}
+							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
 							aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }
 							value={ attributes[ attrLeft ] ? attributes[ attrLeft ] : '' }
 							min={ type === 'padding' ? 0 : undefined }
