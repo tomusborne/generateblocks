@@ -74,17 +74,17 @@ export default class DesktopCSS extends Component {
 
 		if ( marginBottom ) {
 			marginBottomValue = marginBottom + marginUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) { // eslint-disable-line no-undef
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' && ! isNaN( generateBlocksStyling.headline[ attributes.element ].marginBottom ) ) { // eslint-disable-line no-undef
-				marginBottomValue = generateBlocksStyling.headline[ element ].marginBottom + generateBlocksStyling.headline[ element ].marginUnit; // eslint-disable-line no-undef
+		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
+			if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' && ! isNaN( generateBlocksStyling.headline[ attributes.element ].marginBottom ) ) {
+				marginBottomValue = generateBlocksStyling.headline[ element ].marginBottom + generateBlocksStyling.headline[ element ].marginUnit;
 			}
 		}
 
 		if ( fontSize ) {
 			fontSizeValue = fontSize + fontSizeUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) { // eslint-disable-line no-undef
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].fontSize !== 'undefined' && generateBlocksStyling.headline[ attributes.element ].fontSize ) { // eslint-disable-line no-undef
-				fontSizeValue = generateBlocksStyling.headline[ element ].fontSize + generateBlocksStyling.headline[ element ].fontSizeUnit; // eslint-disable-line no-undef
+		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
+			if ( typeof generateBlocksStyling.headline[ attributes.element ].fontSize !== 'undefined' && generateBlocksStyling.headline[ attributes.element ].fontSize ) {
+				fontSizeValue = generateBlocksStyling.headline[ element ].fontSize + generateBlocksStyling.headline[ element ].fontSizeUnit;
 			}
 		}
 

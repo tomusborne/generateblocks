@@ -249,9 +249,9 @@ class GenerateBlockButton extends Component {
 									showFontSize={ true }
 									showLetterSpacing={ true }
 									fontSizePlaceholder={ fontSizePlaceholder }
-									defaultFontSize={ generateBlocksDefaults.button.fontSize } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.button.fontSize }
+									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacing }
 								/>
 							</Fragment>
 						) }
@@ -263,9 +263,9 @@ class GenerateBlockButton extends Component {
 									showFontSize={ true }
 									showLetterSpacing={ true }
 									disableAdvancedToggle={ true }
-									defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.button.fontSizeTablet }
+									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingTablet }
 								/>
 							</Fragment>
 						) }
@@ -277,9 +277,9 @@ class GenerateBlockButton extends Component {
 									showFontSize={ true }
 									showLetterSpacing={ true }
 									disableAdvancedToggle={ true }
-									defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.button.fontSizeMobile }
+									defaultFontSizeUnit={ generateBlocksDefaults.button.fontSizeUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.button.letterSpacingMobile }
 								/>
 							</Fragment>
 						) }
@@ -646,8 +646,8 @@ class GenerateBlockButton extends Component {
 							attrGradientColorTwo={ 'gradientColorTwo' }
 							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
 							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-							defaultColorOne={ generateBlocksDefaults.button.gradientColorOne } // eslint-disable-line no-undef
-							defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo } // eslint-disable-line no-undef
+							defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
+							defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonBackgroundGradient', this.props, this.state ) }
@@ -750,7 +750,7 @@ class GenerateBlockButton extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSize: generateBlocksDefaults.button.iconSize, // eslint-disable-line no-undef
+												iconSize: generateBlocksDefaults.button.iconSize,
 											} );
 										} }
 									>
@@ -835,7 +835,7 @@ class GenerateBlockButton extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSizeTablet: generateBlocksDefaults.button.iconSizeTablet, // eslint-disable-line no-undef
+												iconSizeTablet: generateBlocksDefaults.button.iconSizeTablet,
 											} );
 										} }
 									>
@@ -920,7 +920,7 @@ class GenerateBlockButton extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSizeMobile: generateBlocksDefaults.button.iconSizeMobile, // eslint-disable-line no-undef
+												iconSizeMobile: generateBlocksDefaults.button.iconSizeMobile,
 											} );
 										} }
 									>

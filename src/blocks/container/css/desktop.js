@@ -102,7 +102,7 @@ export default class DesktopCSS extends Component {
 		let containerWidthPreview = containerWidth;
 
 		if ( ! containerWidthPreview ) {
-			containerWidthPreview = generateBlocksDefaults.container.containerWidth; // eslint-disable-line no-undef
+			containerWidthPreview = generateBlocksDefaults.container.containerWidth;
 		}
 
 		let fontFamilyFallbackValue = '';

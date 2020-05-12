@@ -352,7 +352,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												horizontalGap: generateBlocksDefaults.gridContainer.horizontalGap, // eslint-disable-line no-undef
+												horizontalGap: generateBlocksDefaults.gridContainer.horizontalGap,
 											} );
 										} }
 									>
@@ -413,7 +413,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												verticalGap: generateBlocksDefaults.gridContainer.verticalGap, // eslint-disable-line no-undef
+												verticalGap: generateBlocksDefaults.gridContainer.verticalGap,
 											} );
 										} }
 									>
@@ -512,7 +512,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												horizontalGapTablet: generateBlocksDefaults.gridContainer.horizontalGapTablet, // eslint-disable-line no-undef
+												horizontalGapTablet: generateBlocksDefaults.gridContainer.horizontalGapTablet,
 											} );
 										} }
 									>
@@ -574,7 +574,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												verticalGapTablet: generateBlocksDefaults.gridContainer.verticalGapTablet, // eslint-disable-line no-undef
+												verticalGapTablet: generateBlocksDefaults.gridContainer.verticalGapTablet,
 											} );
 										} }
 									>
@@ -675,7 +675,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												horizontalGapMobile: generateBlocksDefaults.gridContainer.horizontalGapMobile, // eslint-disable-line no-undef
+												horizontalGapMobile: generateBlocksDefaults.gridContainer.horizontalGapMobile,
 											} );
 										} }
 									>
@@ -737,7 +737,7 @@ class GenerateBlockGridContainer extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												verticalGapMobile: generateBlocksDefaults.gridContainer.verticalGapMobile, // eslint-disable-line no-undef
+												verticalGapMobile: generateBlocksDefaults.gridContainer.verticalGapMobile,
 											} );
 										} }
 									>

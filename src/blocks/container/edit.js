@@ -191,7 +191,7 @@ class GenerateBlockContainer extends Component {
 		const fullWidthContentOptions = () => {
 			return (
 				<div>
-					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption && // eslint-disable-line no-undef
+					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
 						<ToggleControl
 							label={ __( 'Set Full Width Content', 'generateblocks' ) }
 							help={ __( 'This option tells the content container that contains all of the blocks on this page to be full width.', 'generateblocks' ) }
@@ -300,7 +300,7 @@ class GenerateBlockContainer extends Component {
 									} }
 								/>
 
-								{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer && // eslint-disable-line no-undef
+								{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer &&
 									<BaseControl
 										label={ __( 'Full width containers will only work if your theme allows you to set your content to be full width.', 'generateblocks' ) }
 									/>
@@ -343,7 +343,7 @@ class GenerateBlockContainer extends Component {
 								<TextControl
 									type={ 'number' }
 									value={ parseFloat( containerWidth ) || '' }
-									placeholder={ generateBlocksDefaults.container.containerWidth } // eslint-disable-line no-undef
+									placeholder={ generateBlocksDefaults.container.containerWidth }
 									onChange={ ( value ) => {
 										setAttributes( {
 											containerWidth: '' !== value ? parseFloat( value ) : undefined,
@@ -422,7 +422,7 @@ class GenerateBlockContainer extends Component {
 										max={ 100 }
 										step={ 0.01 }
 										allowReset={ true }
-										initialPosition={ generateBlocksDefaults.container.width } // eslint-disable-line no-undef
+										initialPosition={ generateBlocksDefaults.container.width }
 									/>
 
 									<SelectControl
@@ -497,7 +497,7 @@ class GenerateBlockContainer extends Component {
 										max={ 100 }
 										step={ 0.01 }
 										allowReset={ true }
-										initialPosition={ generateBlocksDefaults.container.widthTablet } // eslint-disable-line no-undef
+										initialPosition={ generateBlocksDefaults.container.widthTablet }
 									/>
 
 									<SelectControl
@@ -584,7 +584,7 @@ class GenerateBlockContainer extends Component {
 										max={ 100 }
 										step={ 0.01 }
 										allowReset={ true }
-										initialPosition={ generateBlocksDefaults.container.widthMobile } // eslint-disable-line no-undef
+										initialPosition={ generateBlocksDefaults.container.widthMobile }
 									/>
 
 									<SelectControl
@@ -658,11 +658,11 @@ class GenerateBlockContainer extends Component {
 									showFontWeight={ true }
 									showTextTransform={ true }
 									showFontSize={ true }
-									defaultFontSize={ generateBlocksDefaults.container.fontSize } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLineHeight={ generateBlocksDefaults.container.lineHeight } // eslint-disable-line no-undef
-									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacing } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.container.fontSize }
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeight }
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacing }
 								/>
 							</Fragment>
 						) }
@@ -681,11 +681,11 @@ class GenerateBlockContainer extends Component {
 
 								<TypographyControls { ...this.props }
 									showFontSize={ true }
-									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet } // eslint-disable-line no-undef
-									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingTablet } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingTablet }
 								/>
 							</Fragment>
 						) }
@@ -704,11 +704,11 @@ class GenerateBlockContainer extends Component {
 
 								<TypographyControls { ...this.props }
 									showFontSize={ true }
-									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile } // eslint-disable-line no-undef
-									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingMobile } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
+									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
+									defaultLineHeightUnit={ generateBlocksDefaults.container.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.container.letterSpacingMobile }
 								/>
 							</Fragment>
 						) }
@@ -1179,8 +1179,8 @@ class GenerateBlockContainer extends Component {
 							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
 							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
 							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-							defaultColorOne={ generateBlocksDefaults.container.gradientColorOne } // eslint-disable-line no-undef
-							defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo } // eslint-disable-line no-undef
+							defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
+							defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
 						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerBackgroundGradient', this.props, this.state ) }

@@ -5,7 +5,7 @@ jQuery( document ).ready( function( $ ) {
 
 		$thisButton.removeClass( 'success' ).addClass( 'loading' );
 
-		$.post( ajaxurl, { // eslint-disable-line no-undef
+		$.post( ajaxurl, {
 			action: 'generateblocks_regenerate_css_files',
 			_nonce: $thisButton.data( 'nonce' ),
 		} ).done( function() {

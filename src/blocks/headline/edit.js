@@ -214,7 +214,7 @@ class GenerateBlockHeadline extends Component {
 										setAttributes( { element: 'h1' } );
 
 										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
 										}
 									},
 								},
@@ -224,7 +224,7 @@ class GenerateBlockHeadline extends Component {
 										setAttributes( { element: 'h2' } );
 
 										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
 										}
 									},
 								},
@@ -234,7 +234,7 @@ class GenerateBlockHeadline extends Component {
 										setAttributes( { element: 'h3' } );
 
 										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
 										}
 									},
 								},
@@ -244,7 +244,7 @@ class GenerateBlockHeadline extends Component {
 										setAttributes( { element: 'h4' } );
 
 										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
+											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
 										}
 									},
 								},
@@ -299,7 +299,7 @@ class GenerateBlockHeadline extends Component {
 									if ( 'p' === element ) {
 										setAttributes( { marginUnit: 'em' } );
 									} else {
-										setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } ); // eslint-disable-line no-undef
+										setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
 									}
 								}
 							} }
@@ -337,11 +337,11 @@ class GenerateBlockHeadline extends Component {
 									showLineHeight={ true }
 									showLetterSpacing={ true }
 									fontSizePlaceholder={ fontSizePlaceholder }
-									defaultFontSize={ generateBlocksDefaults.headline.fontSize } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLineHeight={ generateBlocksDefaults.headline.lineHeight } // eslint-disable-line no-undef
-									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacing } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.headline.fontSize }
+									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.headline.lineHeight }
+									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacing }
 								/>
 							</Fragment>
 						) }
@@ -363,11 +363,11 @@ class GenerateBlockHeadline extends Component {
 									showFontSize={ true }
 									showLineHeight={ true }
 									showLetterSpacing={ true }
-									defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet } // eslint-disable-line no-undef
-									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingTablet } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet }
+									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet }
+									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingTablet }
 								/>
 							</Fragment>
 						) }
@@ -389,11 +389,11 @@ class GenerateBlockHeadline extends Component {
 									showFontSize={ true }
 									showLineHeight={ true }
 									showLetterSpacing={ true }
-									defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile } // eslint-disable-line no-undef
-									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit } // eslint-disable-line no-undef
-									defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile } // eslint-disable-line no-undef
-									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit } // eslint-disable-line no-undef
-									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingMobile } // eslint-disable-line no-undef
+									defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile }
+									defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
+									defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile }
+									defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
+									defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingMobile }
 								/>
 							</Fragment>
 						) }
@@ -809,7 +809,7 @@ class GenerateBlockHeadline extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSize: generateBlocksDefaults.headline.iconSize, // eslint-disable-line no-undef
+												iconSize: generateBlocksDefaults.headline.iconSize,
 											} );
 										} }
 									>
@@ -928,7 +928,7 @@ class GenerateBlockHeadline extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSizeTablet: generateBlocksDefaults.headline.iconSizeTablet, // eslint-disable-line no-undef
+												iconSizeTablet: generateBlocksDefaults.headline.iconSizeTablet,
 											} );
 										} }
 									>
@@ -1047,7 +1047,7 @@ class GenerateBlockHeadline extends Component {
 										className="components-gblocks-default-number"
 										onClick={ () => {
 											setAttributes( {
-												iconSizeMobile: generateBlocksDefaults.headline.iconSizeMobile, // eslint-disable-line no-undef
+												iconSizeMobile: generateBlocksDefaults.headline.iconSizeMobile,
 											} );
 										} }
 									>

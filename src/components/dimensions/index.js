@@ -183,10 +183,10 @@ class DimensionsControl extends Component {
 			leftPlaceholder = '';
 
 		if ( 'headline' === block && attrBottom.includes( 'marginBottom' ) ) {
-			if ( typeof generateBlocksStyling.headline !== 'undefined' ) { // eslint-disable-line no-undef
-				if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) { // eslint-disable-line no-undef
-					if ( generateBlocksStyling.headline[ attributes.element ].marginUnit === attributes.marginUnit ) { // eslint-disable-line no-undef
-						bottomPlaceholder = generateBlocksStyling.headline[ attributes.element ].marginBottom; // eslint-disable-line no-undef
+			if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
+				if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) {
+					if ( generateBlocksStyling.headline[ attributes.element ].marginUnit === attributes.marginUnit ) {
+						bottomPlaceholder = generateBlocksStyling.headline[ attributes.element ].marginBottom;
 					}
 				}
 			}
