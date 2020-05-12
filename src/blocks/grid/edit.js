@@ -132,10 +132,10 @@ class GenerateBlockGridContainer extends Component {
 			const colAttrs = {
 				isGrid: true,
 				gridId: this.props.attributes.uniqueId,
-				paddingTop: '',
-				paddingRight: '',
-				paddingBottom: '',
-				paddingLeft: '',
+				paddingTop: '0',
+				paddingRight: '0',
+				paddingBottom: '0',
+				paddingLeft: '0',
 			};
 
 			colAttrs.width = Number( columnsData[ i ] );
@@ -270,10 +270,10 @@ class GenerateBlockGridContainer extends Component {
 										createBlock( 'generateblocks/container', {
 											isGrid: true,
 											gridId: uniqueId,
-											paddingTop: '',
-											paddingRight: '',
-											paddingBottom: '',
-											paddingLeft: '',
+											paddingTop: '0',
+											paddingRight: '0',
+											paddingBottom: '0',
+											paddingLeft: '0',
 										} ),
 										undefined,
 										clientId
