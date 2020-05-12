@@ -114,6 +114,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['horizontalGapTablet'] ) {
 					$tablet_css->add_property( 'margin-left', '-' . $settings['horizontalGapTablet'] . 'px' );
+				} elseif ( 0 === $settings['horizontalGapTablet'] ) {
+					$tablet_css->add_property( 'margin-left', $settings['horizontalGapTablet'] );
 				}
 
 				$tablet_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
@@ -134,6 +136,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['horizontalGapMobile'] ) {
 					$mobile_css->add_property( 'margin-left', '-' . $settings['horizontalGapMobile'] . 'px' );
+				} elseif ( 0 === $settings['horizontalGapMobile'] ) {
+					$mobile_css->add_property( 'margin-left', $settings['horizontalGapMobile'] );
 				}
 
 				$mobile_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
