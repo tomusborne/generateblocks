@@ -243,11 +243,11 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentMobile,
 		} = attributes;
 
-		const horizontalGapPlaceholderTablet = horizontalGap || 0,
-			verticalGapPlaceholderTablet = verticalGap || 0;
+		const horizontalGapPlaceholderTablet = horizontalGap || 0 === horizontalGap ? horizontalGap : '',
+			verticalGapPlaceholderTablet = verticalGap || 0 === verticalGap ? verticalGap : '';
 
-		let horizontalGapPlaceholderMobile = horizontalGap || 0,
-			verticalGapPlaceholderMobile = verticalGap || 0;
+		let horizontalGapPlaceholderMobile = horizontalGap || 0 === horizontalGap ? horizontalGap : '',
+			verticalGapPlaceholderMobile = verticalGap || 0 === verticalGap ? verticalGap : '';
 
 		if ( horizontalGapTablet ) {
 			horizontalGapPlaceholderMobile = horizontalGapTablet;
@@ -323,7 +323,6 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ horizontalGap || 0 === horizontalGap ? horizontalGap : '' }
-										placeholder="0"
 										onChange={ ( value ) => {
 											setAttributes( {
 												horizontalGap: value,
@@ -378,7 +377,6 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ verticalGap || 0 === verticalGap ? verticalGap : '' }
-										placeholder="0"
 										onChange={ ( value ) => {
 											setAttributes( {
 												verticalGap: value,

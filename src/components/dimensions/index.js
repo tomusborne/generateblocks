@@ -177,10 +177,10 @@ class DimensionsControl extends Component {
 			},
 		];
 
-		let topPlaceholder = '0',
-			rightPlaceholder = '0',
-			bottomPlaceholder = '0',
-			leftPlaceholder = '0';
+		let topPlaceholder = '',
+			rightPlaceholder = '',
+			bottomPlaceholder = '',
+			leftPlaceholder = '';
 
 		if ( 'headline' === block && attrBottom.includes( 'marginBottom' ) ) {
 			if ( typeof generateBlocksStyling.headline !== 'undefined' ) { // eslint-disable-line no-undef
