@@ -35,7 +35,8 @@ export default {
 	},
 	icon: {
 		type: 'string',
-		default: generateBlocksDefaults.button.icon,
+		source: 'html',
+		selector: '.gb-icon',
 	},
 	iconLocation: {
 		type: 'string',

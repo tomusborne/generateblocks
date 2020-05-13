@@ -299,7 +299,8 @@ export default {
 	},
 	icon: {
 		type: 'string',
-		default: generateBlocksDefaults.headline.icon,
+		source: 'html',
+		selector: '.gb-icon',
 	},
 	iconColor: {
 		type: 'string',
