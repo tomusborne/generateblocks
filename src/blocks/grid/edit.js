@@ -323,7 +323,11 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ horizontalGap || 0 === horizontalGap ? horizontalGap : '' }
+										min="0"
 										onChange={ ( value ) => {
+											// No hyphens allowed here.
+											value = value.toString().replace( /-/g, '' );
+
 											setAttributes( {
 												horizontalGap: value,
 											} );
@@ -384,7 +388,11 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ verticalGap || 0 === verticalGap ? verticalGap : '' }
+										min="0"
 										onChange={ ( value ) => {
+											// No negative values allowed here.
+											value = value.toString().replace( /-/g, '' );
+
 											setAttributes( {
 												verticalGap: value,
 											} );
@@ -482,8 +490,12 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ horizontalGapTablet || 0 === horizontalGapTablet ? horizontalGapTablet : '' }
+										min="0"
 										placeholder={ horizontalGapPlaceholderTablet }
 										onChange={ ( value ) => {
+											// No negative values allowed here.
+											value = value.toString().replace( /-/g, '' );
+
 											setAttributes( {
 												horizontalGapTablet: value,
 											} );
@@ -544,8 +556,12 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ verticalGapTablet || 0 === verticalGapTablet ? verticalGapTablet : '' }
+										min="0"
 										placeholder={ verticalGapPlaceholderTablet }
 										onChange={ ( value ) => {
+											// No negative values allowed here.
+											value = value.toString().replace( /-/g, '' );
+
 											setAttributes( {
 												verticalGapTablet: value,
 											} );
@@ -645,8 +661,12 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ horizontalGapMobile || 0 === horizontalGapMobile ? horizontalGapMobile : '' }
+										min="0"
 										placeholder={ horizontalGapPlaceholderMobile }
 										onChange={ ( value ) => {
+											// No negative values allowed here.
+											value = value.toString().replace( /-/g, '' );
+
 											setAttributes( {
 												horizontalGapMobile: value,
 											} );
@@ -707,8 +727,12 @@ class GenerateBlockGridContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										value={ verticalGapMobile || 0 === verticalGapMobile ? verticalGapMobile : '' }
+										min="0"
 										placeholder={ verticalGapPlaceholderMobile }
 										onChange={ ( value ) => {
+											// No negative values allowed here.
+											value = value.toString().replace( /-/g, '' );
+
 											setAttributes( {
 												verticalGapMobile: value,
 											} );
