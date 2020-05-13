@@ -65,6 +65,16 @@ class IconPicker extends Component {
 							setAttributes( {
 								[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value ), // eslint-disable-line dot-notation
 							} );
+
+							if ( '' !== value ) {
+								setAttributes( {
+									'hasIcon': true, // eslint-disable-line quote-props
+								} );
+							} else {
+								setAttributes( {
+									'hasIcon': false, // eslint-disable-line quote-props
+								} );
+							}
 						} }
 					/>
 
@@ -77,6 +87,7 @@ class IconPicker extends Component {
 							onClick={ () => {
 								setAttributes( {
 									[ this.props[ 'attrIcon' ] ]: '', // eslint-disable-line dot-notation
+									'hasIcon': false, // eslint-disable-line quote-props
 								} );
 							} }
 						>
@@ -103,6 +114,7 @@ class IconPicker extends Component {
 															onClick={ () => {
 																setAttributes( {
 																	[ this.props[ 'attrIcon' ] ]: renderToString( generalSvgs[ svg ][ 'icon' ] ), // eslint-disable-line dot-notation
+																	'hasIcon': true, // eslint-disable-line quote-props
 																} );
 															} }
 														>
@@ -135,6 +147,7 @@ class IconPicker extends Component {
 															onClick={ () => {
 																setAttributes( {
 																	[ this.props[ 'attrIcon' ] ]: renderToString( socialSvgs[ svg ][ 'icon' ] ), // eslint-disable-line dot-notation
+																	'hasIcon': true, // eslint-disable-line quote-props
 																} );
 															} }
 														>

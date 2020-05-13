@@ -87,6 +87,13 @@ class GenerateBlockHeadline extends Component {
 				fontSizePlaceholder: tempFontSizePlaceholder,
 			} );
 		}
+
+		// hasIcon came late, so let's set it on mount if we have an icon.
+		if ( ! this.props.attributes.hasIcon && this.props.attributes.icon ) {
+			this.props.setAttributes( {
+				hasIcon: true,
+			} );
+		}
 	}
 
 	componentDidUpdate() {

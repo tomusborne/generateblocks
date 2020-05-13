@@ -38,6 +38,10 @@ export default {
 		source: 'html',
 		selector: '.gb-icon',
 	},
+	hasIcon: {
+		type: 'boolean',
+		default: false,
+	},
 	iconLocation: {
 		type: 'string',
 		default: generateBlocksDefaults.button.iconLocation,

@@ -302,6 +302,10 @@ export default {
 		source: 'html',
 		selector: '.gb-icon',
 	},
+	hasIcon: {
+		type: 'boolean',
+		default: false,
+	},
 	iconColor: {
 		type: 'string',
 		default: generateBlocksDefaults.headline.iconColor,
