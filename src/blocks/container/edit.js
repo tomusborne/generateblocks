@@ -529,7 +529,7 @@ class GenerateBlockContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										label={ __( 'Order', 'generateblocks' ) }
-										value={ orderTablet ? orderTablet : '' }
+										value={ orderTablet || 0 === orderTablet ? orderTablet : '' }
 										onChange={ ( value ) => {
 											setAttributes( {
 												orderTablet: parseFloat( value ),
@@ -615,7 +615,7 @@ class GenerateBlockContainer extends Component {
 									<TextControl
 										type={ 'number' }
 										label={ __( 'Order', 'generateblocks' ) }
-										value={ orderMobile ? orderMobile : '' }
+										value={ orderMobile || 0 === orderMobile ? orderMobile : '' }
 										onChange={ ( value ) => {
 											setAttributes( {
 												orderMobile: parseFloat( value ),
