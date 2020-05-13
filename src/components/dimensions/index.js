@@ -103,7 +103,12 @@ class DimensionsControl extends Component {
 		);
 
 		const onChangeTopValue = ( event ) => {
-			const newValue = event.target.value;
+			let newValue = event.target.value;
+
+			if ( 'padding' === type ) {
+				// No negative values allowed here.
+				newValue = newValue.toString().replace( /-/g, '' );
+			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrTop' );
@@ -118,7 +123,12 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeRightValue = ( event ) => {
-			const newValue = event.target.value;
+			let newValue = event.target.value;
+
+			if ( 'padding' === type ) {
+				// No negative values allowed here.
+				newValue = newValue.toString().replace( /-/g, '' );
+			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrRight' );
@@ -133,7 +143,12 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeBottomValue = ( event ) => {
-			const newValue = event.target.value;
+			let newValue = event.target.value;
+
+			if ( 'padding' === type ) {
+				// No negative values allowed here.
+				newValue = newValue.toString().replace( /-/g, '' );
+			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrBottom' );
@@ -148,7 +163,12 @@ class DimensionsControl extends Component {
 		};
 
 		const onChangeLeftValue = ( event ) => {
-			const newValue = event.target.value;
+			let newValue = event.target.value;
+
+			if ( 'padding' === type ) {
+				// No negative values allowed here.
+				newValue = newValue.toString().replace( /-/g, '' );
+			}
 
 			if ( '' === newValue ) {
 				this.onReset( 'attrLeft' );
