@@ -106,14 +106,8 @@ class GenerateBlocks_Settings {
 				<div class="gblocks-dashboard-header">
 					<h1><?php esc_html_e( 'Settings', 'generateblocks' ); ?></h1>
 
-					<div class="gblocks-logo">
-						<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-							<img width="200" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-white.svg'; ?>" alt="" />
-						</a>
-					</div>
+					<?php generateblocks_dashboard_navigation(); ?>
 				</div>
-
-				<?php generateblocks_dashboard_navigation(); ?>
 
 				<div class="gblocks-settings-content">
 					<form action="options.php" method="post">

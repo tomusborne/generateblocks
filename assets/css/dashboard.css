@@ -4,87 +4,71 @@
 }
 
 .gblocks-dashboard-header {
-    background: #006eb7;
-    padding: 60px 60px 30px;
-	display: flex;
-	align-items: center;
+    background: #fff;
+	border-bottom: 1px solid #e2e4e7;
+    padding: 40px 0 0;
+	text-align: center;
 }
 
 .gblocks-dashboard-header h1 {
-    color: #fff;
-    font-size: 40px;
+    font-size: 25px;
     font-weight: 600;
-    display: flex;
-    align-items: flex-end;
-    line-height: 1;
     padding-bottom: 0;
+	margin-bottom: 20px;
+}
+
+.gblocks-logo {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .gblocks-version {
-    font-size: 11px;
-    padding: 5px;
+    font-size: 10px;
+    padding: 2px 5px;
     background: rgba(0,0,0,0.1);
     display: block;
     margin-left: 5px;
     margin-bottom: 2px;
-	font-weight: normal;
+    font-weight: normal;
+    border-radius: 2px;
 }
 
 .gblocks-navigation {
-    background: #006eb7;
-    padding: 0 60px;
-}
-
-.gblocks-navigation {
-    background: #006eb7;
-    padding: 0 60px;
+    background: #fff;
 	display: flex;
+	justify-content: center;
 }
 
 .gblocks-navigation a {
-    padding: 10px 15px;
+    padding: 0.5rem 1rem 1rem;
     display: inline-flex;
-    color: #fff;
+    color: inherit;
     text-decoration: none;
 }
 
-.gblocks-navigation .right-side {
-	margin-left: auto;
-}
-
-.gblocks-navigation a:first-child {
-	margin-left: -15px;
-}
-
 .gblocks-navigation a.active {
-    background: #fff;
-    color: #006eb7;
+    font-weight: 600;
+	box-shadow: inset 0 -3px #007cba;
 }
 
-.settings_page_generateblocks-settings .gblocks-navigation a.active {
-	background: #f1f1f1;
+.gblocks-sub-navigation {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
 }
 
-.settings_page_generateblocks #wpcontent {
-    padding-left: 0;
-    background: #fff;
-}
-
-.settings_page_generateblocks-settings #wpcontent {
-    padding-left: 0;
-}
-
-.gblocks-dashboard-header .gblocks-logo {
-	margin-left: auto;
+.gblocks-sub-navigation a.button {
+    margin: 4px;
 }
 
 .gblocks-dashboard-intro-content {
     padding: 60px;
-    font-size: 25px;
+    font-size: 22px;
     line-height: 1.8;
     text-align: center;
     margin: 0 auto;
-    background: #fff;
 }
 
 .gblocks-dashboard-intro-image {
@@ -94,21 +78,24 @@
 
 .gblocks-dashboard-blocks {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    background: #f0f4f5;
-	padding: 60px;
-	margin-left: -60px;
+    max-width: 1300px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .gblocks-block {
     padding: 40px;
     background: #fff;
-    background-image: linear-gradient(180deg, #fff 90%, rgba(0,0,0,0.04));
+    background-image: linear-gradient(180deg, #fff 50%, rgba(0,0,0,0.02));
     display: flex;
     flex-direction: column;
-    width: 25%;
-    margin-left: 60px;
-    border: 2px solid #e3e4e7;
+    width: 21%;
+    box-sizing: border-box;
+    margin: 0 2% 4%;
+    border-bottom: 2px solid #ddd;
+    border-right: 2px solid #ddd;
 }
 
 .gblocks-block svg {
@@ -127,7 +114,7 @@
 }
 
 .gblocks-block p {
-    font-size: 18px;
+    font-size: 15px;
 	margin: 0 0 2em;
 }
 
@@ -206,7 +193,10 @@
 }
 
 .gblocks-settings-content {
-	padding: 60px;
+    padding: 60px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #generateblocks-regenerate-css-files-button {
@@ -232,7 +222,6 @@
 }
 
 .gblocks-getting-started {
-    background: #f0f4f5;
     padding: 0 60px 60px;
     text-align: center;
 }
@@ -255,4 +244,46 @@
     width: 150px;
     background: #d8e2e4;
 	margin: 0 auto 40px;
+}
+
+.settings_page_generateblocks #wpcontent,
+.settings_page_generateblocks-settings #wpcontent {
+    padding-left: 0;
+}
+
+@media (max-width: 1180px){
+	.gblocks-inside-generatepress {
+		flex-wrap: wrap;
+	}
+
+	.gblocks-generatepress-content {
+		width: 100%;
+	}
+
+	.gblocks-generatepress-image {
+	    width: 100%;
+		order: -1;
+	}
+}
+
+@media (max-width: 1000px) {
+	.gblocks-block {
+	    width: 46%;
+	    margin: 0 2% 4%;
+	}
+}
+
+@media (max-width: 520px) {
+	.gblocks-block {
+	    width: 96%;
+	    margin: 1% 2%;
+	}
+
+	.gblocks-getting-started img {
+		max-width: 100%;
+	}
+
+	.gblocks-generatepress-content .stats {
+		flex-wrap: wrap;
+	}
 }

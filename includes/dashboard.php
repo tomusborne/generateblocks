@@ -99,9 +99,6 @@ function generateblocks_dashboard_navigation() {
 			);
 		}
 		?>
-		<a class="right-side" href="https://docs.generateblocks.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Documentation', 'generateblocks' ); ?></a>
-		<a href="https://generateblocks.com/contact" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Contact', 'generateblocks' ); ?></a>
-		<a href="https://generatepress.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'GeneratePress', 'generateblocks' ); ?></a>
 	</div>
 	<?php
 }
@@ -115,21 +112,23 @@ function generateblocks_do_dashboard() {
 	?>
 		<div class="wrap gblocks-dashboard-wrap">
 			<div class="gblocks-dashboard-header">
-				<div class="gblocks-dashboard-title">
-					<h1><?php esc_html_e( 'GenerateBlocks', 'generateblocks' ); ?><span class="gblocks-version"><?php echo esc_html( GENERATEBLOCKS_VERSION ); ?></span></h1>
-				</div>
-
 				<div class="gblocks-logo">
 					<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-						<img width="200" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-white.svg'; ?>" alt="" />
+						<img width="200" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-black.svg'; ?>" alt="" />
 					</a>
+					<span class="gblocks-version"><?php echo esc_html( GENERATEBLOCKS_VERSION ); ?></span>
 				</div>
-			</div>
 
-			<?php generateblocks_dashboard_navigation(); ?>
+				<?php generateblocks_dashboard_navigation(); ?>
+			</div>
 
 			<div class="gblocks-dashboard-intro-content">
 				<?php esc_html_e( 'A small collection of lightweight WordPress blocks that can accomplish nearly anything.', 'generateblocks' ); ?>
+
+				<div class="gblocks-sub-navigation">
+					<a class="button" href="https://generateblocks.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Learn More', 'generateblocks' ); ?></a>
+					<a class="button" href="https://docs.generateblocks.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Documentation', 'generateblocks' ); ?></a>
+				</div>
 			</div>
 
 			<div class="gblocks-dashboard-content-container">
