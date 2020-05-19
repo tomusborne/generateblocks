@@ -27,9 +27,14 @@ function generateblocks_get_block_data( $content, $data = array() ) {
 		if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
 			if ( 'generateblocks/grid' === $block['blockName'] ) {
 				$data['grid'][] = $block['attrs'];
+				$data['tempGridId'] = $block['attrs']['uniqueId'];
 			}
 
 			if ( 'generateblocks/container' === $block['blockName'] ) {
+				if ( isset( $block['attrs']['isGrid'] ) && $block['attrs']['isGrid'] && isset( $data['tempGridId'] ) ) {
+					$block['attrs']['gridId'] = $data['tempGridId'];
+				}
+
 				$data['container'][] = $block['attrs'];
 			}
 

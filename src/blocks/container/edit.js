@@ -77,23 +77,6 @@ class GenerateBlockContainer extends Component {
 		} else {
 			gbContainerIds.push( this.props.attributes.uniqueId );
 		}
-
-		let parentBlockId = false;
-
-		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === 'function' ) {
-			parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParents( this.props.clientId, true )[ 0 ];
-		}
-
-		if ( parentBlockId ) {
-			const parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
-
-			// gridId was added late, so we add it here if it doesn't exist already.
-			if ( this.props.attributes.isGrid && ! this.props.attributes.gridId && parentBlock && 'generateblocks/grid' === parentBlock[ 0 ].name ) {
-				this.props.setAttributes( {
-					gridId: parentBlock[ 0 ].attributes.uniqueId,
-				} );
-			}
-		}
 	}
 
 	render() {
