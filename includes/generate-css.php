@@ -502,6 +502,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 								$mobile_css->add_property( 'padding-bottom', $grid_settings['verticalGap'], 'px' );
 							}
 						}
+
+						$vertical_gap_added = false;
 					}
 				}
 
