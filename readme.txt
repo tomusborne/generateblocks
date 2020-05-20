@@ -9,7 +9,7 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Meet GenerateBlocks, a small collection of lightweight Gutenberg blocks built upon one cohesive user interface, delivering an endless number of design possibilities.
+A small collection of lightweight WordPress blocks that can accomplish nearly anything.
 
 == Description ==
 
