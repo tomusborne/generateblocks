@@ -1,0 +1,11 @@
+/.wordpress-org
+/.git
+/.github
+
+.distignore
+.DS_Store
+.editorconfig
+.eslintignore
+.eslintrc.json
+package-lock.json
+package.json
