@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import getIcon from '../../utils/get-icon';
+import getSelectedDevice from '../../utils/get-selected-device';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
 import PanelArea from '../../components/panel-area/';
@@ -285,8 +286,10 @@ class GenerateBlockGridContainer extends Component {
 				</BlockControls>
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ selectedDevice }
+						selectedDevice={ getSelectedDevice( selectedDevice ) }
 						onClick={ ( device ) => {
+							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
+
 							this.setState( {
 								selectedDevice: device,
 							} );
@@ -297,7 +300,7 @@ class GenerateBlockGridContainer extends Component {
 						id={ 'gridLayout' }
 						state={ this.state }
 					>
-						{ 'desktop' === selectedDevice && (
+						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -464,7 +467,7 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === selectedDevice && (
+						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -635,7 +638,7 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === selectedDevice && (
+						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -816,7 +819,7 @@ class GenerateBlockGridContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'gridAdvanced' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }

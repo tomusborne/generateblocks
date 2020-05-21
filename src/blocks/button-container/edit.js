@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
+import getSelectedDevice from '../../utils/get-selected-device';
 import DesktopCSS from './css/desktop.js';
 import PanelArea from '../../components/panel-area/';
 
@@ -170,8 +171,10 @@ class GenerateButtonContainer extends Component {
 
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ selectedDevice }
+						selectedDevice={ getSelectedDevice( selectedDevice ) }
 						onClick={ ( device ) => {
+							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
+
 							this.setState( {
 								selectedDevice: device,
 							} );
@@ -186,7 +189,7 @@ class GenerateButtonContainer extends Component {
 						id={ 'buttonContainerSpacing' }
 						state={ this.state }
 					>
-						{ 'desktop' === selectedDevice && (
+						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<AlignmentToolbar
 									isCollapsed={ false }
@@ -198,7 +201,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -232,7 +235,7 @@ class GenerateButtonContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === selectedDevice && (
+						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<AlignmentToolbar
 									isCollapsed={ false }
@@ -244,7 +247,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -278,7 +281,7 @@ class GenerateButtonContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === selectedDevice && (
+						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<AlignmentToolbar
 									isCollapsed={ false }
@@ -290,7 +293,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -334,7 +337,7 @@ class GenerateButtonContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonContainerAdvanced' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
