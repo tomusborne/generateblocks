@@ -8,6 +8,7 @@
  * Version: 1.0
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
+ * Text Domain: generateblocks
  *
  * @package GenerateBlocks
  */
@@ -35,11 +36,7 @@ add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**
  * Load GenerateBlocks textdomain.
  *
- * Load gettext translate for Elementor text domain.
- *
  * @since 1.0
- *
- * @return void
  */
 function generateblocks_load_plugin_textdomain() {
 	load_plugin_textdomain( 'generateblocks' );

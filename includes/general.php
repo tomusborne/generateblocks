@@ -28,6 +28,10 @@ function generateblocks_do_block_editor_assets() {
 		true
 	);
 
+	if ( function_exists( 'wp_set_script_translations' ) ) {
+		wp_set_script_translations( 'generateblocks', 'generateblocks' );
+	}
+
 	wp_enqueue_script(
 		'generateblocks-dompurify',
 		GENERATEBLOCKS_DIR_URL . 'assets/js/purify.min.js',
