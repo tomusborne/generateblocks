@@ -33,6 +33,7 @@ export default ( { attributes } ) => {
 			} ) }>{ children }</div> }
 		>
 			<Section
+				attributes={ attributes }
 				tagName={ tagName }
 				id={ elementId }
 				className={ classnames( {

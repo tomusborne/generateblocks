@@ -201,6 +201,21 @@ class GenerateBlockButton extends Component {
 			},
 		];
 
+		let htmlAttributes = {
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				'gb-button': true,
+				[ `gb-button-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+			href: !! url ? url : undefined,
+			target: !! target ? '_blank' : undefined,
+			rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
+			'aria-label': !! removeText && !! ariaLabel ? ariaLabel : undefined,
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
+
 		return (
 			<Fragment>
 				<BlockControls>
@@ -1002,16 +1017,7 @@ class GenerateBlockButton extends Component {
 				}
 
 				<a
-					id={ !! elementId ? elementId : undefined }
-					className={ classnames( {
-						'gb-button': true,
-						[ `gb-button-${ uniqueId }` ]: true,
-						[ `${ cssClasses }` ]: '' !== cssClasses,
-					} ) }
-					href={ !! url ? url : undefined }
-					target={ !! target ? '_blank' : undefined }
-					rel={ relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined }
-					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
+					{ ...htmlAttributes }
 				>
 					{ icon && 'left' === iconLocation &&
 						<span

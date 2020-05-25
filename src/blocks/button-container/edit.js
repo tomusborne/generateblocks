@@ -126,6 +126,17 @@ class GenerateButtonContainer extends Component {
 			fillHorizontalSpaceMobile,
 		} = attributes;
 
+		let htmlAttributes = {
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				'gb-button-wrapper': true,
+				[ `gb-button-wrapper-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/button-container', attributes );
+
 		return (
 			<Fragment>
 				<BlockControls>
@@ -382,12 +393,7 @@ class GenerateButtonContainer extends Component {
 				<DesktopCSS { ...this.props } />
 
 				<div
-					id={ !! elementId ? elementId : undefined }
-					className={ classnames( {
-						'gb-button-wrapper': true,
-						[ `gb-button-wrapper-${ uniqueId }` ]: true,
-						[ `${ cssClasses }` ]: '' !== cssClasses,
-					} ) }
+					{ ...htmlAttributes }
 				>
 					<InnerBlocks
 						allowedBlocks={ [ 'generateblocks/button' ] }

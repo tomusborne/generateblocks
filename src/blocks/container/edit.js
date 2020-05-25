@@ -1413,6 +1413,7 @@ class GenerateBlockContainer extends Component {
 						[ `gb-grid-column-${ uniqueId }` ]: true,
 					} ) }>
 						<Section
+							attributes={ attributes }
 							tagName={ tagName }
 							id={ elementId }
 							className={ classnames( {
@@ -1442,6 +1443,7 @@ class GenerateBlockContainer extends Component {
 
 				{ ! isGrid && (
 					<Section
+						attributes={ attributes }
 						tagName={ tagName }
 						id={ elementId }
 						className={ classnames( {

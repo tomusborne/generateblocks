@@ -9,6 +9,10 @@ const {
 	RichText,
 } = wp.blockEditor;
 
+const {
+	applyFilters,
+} = wp.hooks;
+
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
@@ -39,18 +43,24 @@ export default ( { attributes } ) => {
 		relAttributes.push( 'sponsored' );
 	}
 
+	let htmlAttributes = {
+		id: !! elementId ? elementId : undefined,
+		className: classnames( {
+			'gb-button': true,
+			[ `gb-button-${ uniqueId }` ]: true,
+			[ `${ cssClasses }` ]: '' !== cssClasses,
+		} ),
+		href: !! url ? url : undefined,
+		target: !! target ? '_blank' : undefined,
+		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
+		'aria-label': !! removeText && !! ariaLabel ? ariaLabel : undefined,
+	};
+
+	htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
+
 	return (
 		<a
-			id={ !! elementId ? elementId : undefined }
-			className={ classnames( {
-				'gb-button': true,
-				[ `gb-button-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
-			} ) }
-			href={ !! url ? url : undefined }
-			target={ !! target ? '_blank' : undefined }
-			rel={ relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined }
-			aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
+			{ ...htmlAttributes }
 		>
 			{ icon && 'left' === iconLocation &&
 				<span

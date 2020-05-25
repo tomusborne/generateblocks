@@ -197,6 +197,17 @@ class GenerateBlockHeadline extends Component {
 			},
 		];
 
+		let htmlAttributes = {
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				'gb-headline': true,
+				[ `gb-headline-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
+
 		return (
 			<Fragment>
 
@@ -1149,14 +1160,9 @@ class GenerateBlockHeadline extends Component {
 								tagName={ element }
 								value={ content }
 								onChange={ ( value ) => setAttributes( { content: value } ) }
-								id={ !! elementId ? elementId : undefined }
-								className={ classnames( {
-									'gb-headline': true,
-									[ `gb-headline-${ uniqueId }` ]: true,
-									[ `${ cssClasses }` ]: '' !== cssClasses,
-								} ) }
 								placeholder={ __( 'Write headline…', 'generateblocks' ) }
 								keepPlaceholderOnFocus={ true }
+								{ ...htmlAttributes }
 							/>
 						}
 					</div>
@@ -1166,14 +1172,9 @@ class GenerateBlockHeadline extends Component {
 						tagName={ element }
 						value={ content }
 						onChange={ ( value ) => setAttributes( { content: value } ) }
-						id={ !! elementId ? elementId : undefined }
-						className={ classnames( {
-							'gb-headline': true,
-							[ `gb-headline-${ uniqueId }` ]: true,
-							[ `${ cssClasses }` ]: '' !== cssClasses,
-						} ) }
 						placeholder={ __( 'Write headline…', 'generateblocks' ) }
 						keepPlaceholderOnFocus={ true }
+						{ ...htmlAttributes }
 					/>
 				) }
 			</Fragment>

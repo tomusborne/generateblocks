@@ -258,6 +258,17 @@ class GenerateBlockGridContainer extends Component {
 			verticalGapPlaceholderMobile = verticalGapTablet;
 		}
 
+		let htmlAttributes = {
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				'gb-grid-wrapper': true,
+				[ `gb-grid-wrapper-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/grid', attributes );
+
 		return (
 			<Fragment>
 				<BlockControls>
@@ -864,12 +875,7 @@ class GenerateBlockGridContainer extends Component {
 				<DesktopCSS { ...this.props } />
 
 				<div
-					id={ !! elementId ? elementId : undefined }
-					className={ classnames( {
-						'gb-grid-wrapper': true,
-						[ `gb-grid-wrapper-${ uniqueId }` ]: true,
-						[ `${ cssClasses }` ]: '' !== cssClasses,
-					} ) }
+					{ ...htmlAttributes }
 				>
 					{ columns > 0 || this.state.selectedLayout ? (
 						<Fragment>
