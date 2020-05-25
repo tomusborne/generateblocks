@@ -1340,6 +1340,8 @@ class GenerateBlockContainer extends Component {
 							} }
 						/>
 
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
+
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
 							value={ elementId }
