@@ -251,6 +251,12 @@
     padding-left: 0;
 }
 
+.settings_page_generateblocks .update-nag,
+.settings_page_generateblocks-settings .update-nag {
+    margin-bottom: 20px;
+    margin-left: 22px;
+}
+
 @media (max-width: 1180px){
 	.gblocks-inside-generatepress {
 		flex-wrap: wrap;
