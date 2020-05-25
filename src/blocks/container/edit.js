@@ -167,6 +167,13 @@ class GenerateBlockContainer extends Component {
 			},
 		];
 
+		const tagNames = [
+			{ label: 'div', value: 'div' },
+			{ label: 'section', value: 'section' },
+			{ label: 'header', value: 'header' },
+			{ label: 'footer', value: 'footer' },
+		];
+
 		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
 		const changeEvent = new Event( 'change' ); // eslint-disable-line no-undef
 		const getRootId = wp.data.select( 'core/block-editor' ).getBlockHierarchyRootClientId( clientId );
@@ -1325,12 +1332,7 @@ class GenerateBlockContainer extends Component {
 						<SelectControl
 							label={ __( 'Element Tag', 'generateblocks' ) }
 							value={ tagName }
-							options={ [
-								{ label: 'div', value: 'div' },
-								{ label: 'section', value: 'section' },
-								{ label: 'header', value: 'header' },
-								{ label: 'footer', value: 'footer' },
-							] }
+							options={ applyFilters( 'generateblocks.container.tagNames', tagNames, this.props, this.state ) }
 							onChange={ ( value ) => {
 								setAttributes( {
 									tagName: value,
