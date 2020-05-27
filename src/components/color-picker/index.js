@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import hexToRGBA from './hex-to-rgba';
+import hexToRGBA from '../../utils/hex-to-rgba';
 import getIcon from '../../utils/get-icon';
 
 // Import CSS

@@ -1,7 +1,7 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import shorthandCSS from '../../../utils/shorthand-css';
-import hexToRGBA from '../../../components/color-picker/hex-to-rgba';
+import hexToRGBA from '../../../utils/hex-to-rgba';
 import valueWithUnit from '../../../utils/value-with-unit';
 
 const { Component } = wp.element;

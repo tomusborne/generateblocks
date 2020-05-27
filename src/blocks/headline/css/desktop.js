@@ -2,7 +2,7 @@ import buildCSS from '../../../utils/build-css';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
-import hexToRGBA from '../../../components/color-picker/hex-to-rgba';
+import hexToRGBA from '../../../utils/hex-to-rgba';
 
 const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
