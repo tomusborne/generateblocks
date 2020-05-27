@@ -90,6 +90,11 @@
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
 
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
+
 .gb-grid-wrapper {
   position: relative;
   display: block;
@@ -347,6 +352,11 @@
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
 
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
+
 .gb-responsive-tabs {
   position: -webkit-sticky;
   position: sticky;
@@ -465,6 +475,11 @@
 
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
+
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
 
 /**
  * #.# Editor Styles
@@ -637,6 +652,11 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
+
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
 
 .gblocks-component-color-picker-wrapper .gblocks-component-color-picker-wrapper + .gblocks-component-color-picker-wrapper {
   margin-top: -5px; }
@@ -813,6 +833,11 @@ body .gb-container .wp-block {
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
 
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
+
 .components-gblocks-dimensions-control__inputs,
 .components-gblocks-dimensions-control__input-labels {
   display: -ms-flexbox;
@@ -968,6 +993,11 @@ body .gb-container .wp-block {
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
 
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
+
 .edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.gblocks-font-family-shortcuts {
   margin-bottom: 2px; }
 
@@ -1108,6 +1138,11 @@ body .gb-container .wp-block {
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
 
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
+
 .gblocks-component-gradient-control {
   display: -ms-flexbox;
   display: flex;
@@ -1219,6 +1254,11 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
+
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
 
 .gb-button-wrapper {
   display: -ms-flexbox;
@@ -1341,6 +1381,11 @@ body .gb-container .wp-block {
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
 
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
+
 /**
  * Editor Styles
  */
@@ -1435,6 +1480,11 @@ body .gb-container .wp-block {
 
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
+
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
 
 .gb-button-wrapper {
   position: relative;
@@ -1641,6 +1691,11 @@ body .gb-container .wp-block {
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
 
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
+
 .gblocks-icon-chooser {
   display: -ms-flexbox;
   display: flex;
@@ -1826,6 +1881,11 @@ button.components-icon-picker-item {
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
 
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
+
 /**
  * #.# Common SCSS
  *
@@ -1917,6 +1977,11 @@ button.components-icon-picker-item {
 
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
+
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
 
 .gblocks-component-url-input {
   width: 100%;
@@ -2077,6 +2142,11 @@ button.components-icon-picker-item {
 
 .gblocks-block-control-icon svg path {
   fill: inherit !important; }
+
+.gblocks-option-notice.components-notice {
+  margin: 0 0 24px; }
+  .gblocks-option-notice.components-notice .components-notice__content {
+    margin: 5px; }
 
 .gb-headline-wrapper {
   display: -ms-flexbox;
