@@ -109,3 +109,11 @@ $item-spacing: 10px !default;
 .gblocks-block-control-icon svg path {
     fill: inherit !important;
 }
+
+.gblocks-option-notice.components-notice {
+    margin: 0 0 24px;
+
+    .components-notice__content {
+        margin: 5px;
+    }
+}

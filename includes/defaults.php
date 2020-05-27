@@ -104,6 +104,8 @@ function generateblocks_get_block_defaults() {
 		'linkColorHover' => '',
 		'bgImage' => '',
 		'bgOptions' => array(
+			'selector' => 'element',
+			'opacity' => 1,
 			'overlay' => false,
 			'position' => 'center center',
 			'size' => 'cover',

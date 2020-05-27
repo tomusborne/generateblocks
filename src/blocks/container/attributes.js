@@ -359,6 +359,7 @@ const attributes = {
 	bgOptions: {
 		type: 'object',
 		default: {
+			opacity: generateBlocksDefaults.container.bgOptions.opacity,
 			overlay: generateBlocksDefaults.container.bgOptions.overlay,
 			position: generateBlocksDefaults.container.bgOptions.position,
 			size: generateBlocksDefaults.container.bgOptions.size,

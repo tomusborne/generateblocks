@@ -30,6 +30,7 @@ const {
 	TextControl,
 	Tooltip,
 	BaseControl,
+	Notice,
 } = wp.components;
 
 const {
@@ -1233,23 +1234,84 @@ class GenerateBlockContainer extends Component {
 
 						{ !! bgImage && (
 							<div className="section-bg-settings">
-								<ToggleControl
-									label={ __( 'Background Color Overlay', 'generateblocks' ) }
-									checked={ !! bgOptions.overlay }
-									onChange={ ( nextOverlay ) => {
-										setAttributes( {
-											bgOptions: {
-												...bgOptions,
-												overlay: nextOverlay,
-											},
-										} );
-									} }
-								/>
+								{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
+									<Fragment>
+										<ToggleControl
+											label={ __( 'Background Color Overlay', 'generateblocks' ) }
+											checked={ !! bgOptions.overlay }
+											onChange={ ( nextOverlay ) => {
+												setAttributes( {
+													bgOptions: {
+														...bgOptions,
+														overlay: nextOverlay,
+													},
+												} );
+											} }
+										/>
 
-								{ !! bgOptions.overlay && (
-									<div className="gblocks-notice">
-										{ __( 'Your background color must have transparency for the image to show.', 'generateblocks' ) }
-									</div>
+										<Notice
+											className="gblocks-option-notice"
+											status="info"
+											isDismissible={ false }
+										>
+											{ __( 'The background color overlay option is deprecated. Toggle this option to use the new method.', 'generateblocks' ) }
+										</Notice>
+									</Fragment>
+								) : ( // These options is only for people not using the deprecated overlay option.
+									<Fragment>
+										<SelectControl
+											label={ __( 'Selector', 'generateblocks' ) }
+											value={ bgOptions.selector }
+											options={ [
+												{ label: __( 'Element', 'generateblocks' ), value: 'element' },
+												{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
+											] }
+											onChange={ ( value ) => {
+												setAttributes( {
+													bgOptions: {
+														...bgOptions,
+														selector: value,
+													},
+												} );
+											} }
+										/>
+
+										<RangeControl
+											label={ __( 'Image Opacity', 'generateblocks' ) }
+											value={ bgOptions.opacity }
+											onChange={ ( value ) => {
+												setAttributes( {
+													bgOptions: {
+														...bgOptions,
+														opacity: value,
+													},
+												} );
+
+												if ( 'pseudo-element' !== bgOptions.selector ) {
+													setAttributes( {
+														bgOptions: {
+															...bgOptions,
+															selector: 'pseudo-element',
+														},
+													} );
+												}
+											} }
+											min={ 0 }
+											max={ 1 }
+											step={ 0.1 }
+											initialPosition={ generateBlocksDefaults.container.bgOptions.opacity }
+										/>
+
+										{ 'pseudo-element' !== bgOptions.selector &&
+											<Notice
+												className="gblocks-option-notice"
+												status="info"
+												isDismissible={ false }
+											>
+												{ __( 'Your selector must be set to Pseudo Element to use opacity.', 'generateblocks' ) }
+											</Notice>
+										}
+									</Fragment>
 								) }
 
 								<TextControl

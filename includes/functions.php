@@ -430,3 +430,67 @@ function generateblocks_has_number_value( $value ) {
 
 	return false;
 }
+
+/**
+ * Get the background-image value.
+ *
+ * @param array $settings Our background image settings.
+ * @param array $custom_args Custom args that will overwrite the settings.
+ */
+function generateblocks_get_background_image_css( $settings, $custom_args = array() ) {
+	$args = array(
+		'backgroundColor' => $settings['backgroundColor'],
+		'backgroundColorOpacity' => $settings['backgroundColorOpacity'],
+		'gradient' => $settings['gradient'],
+		'gradientDirection' => $settings['gradientDirection'],
+		'gradientColorOne' => $settings['gradientColorOne'],
+		'gradientColorOneOpacity' => $settings['gradientColorOneOpacity'],
+		'gradientColorStopOne' => $settings['gradientColorStopOne'],
+		'gradientColorTwo' => $settings['gradientColorTwo'],
+		'gradientColorTwoOpacity' => $settings['gradientColorTwoOpacity'],
+		'gradientColorStopTwo' => $settings['gradientColorStopTwo'],
+		'bgImage' => $settings['bgImage'],
+		'bgOptions' => $settings['bgOptions'],
+	);
+
+	$args = wp_parse_args(
+		$args,
+		$custom_args
+	);
+
+	$background_image = false;
+	$gradientColorStopOneValue = '';
+	$gradientColorStopTwoValue = '';
+
+	$args['backgroundColor'] = generateblocks_hex2rgba( $args['backgroundColor'], $args['backgroundColorOpacity'] );
+	$args['gradientColorOne'] = generateblocks_hex2rgba( $args['gradientColorOne'], $args['gradientColorOneOpacity'] );
+	$args['gradientColorTwo'] = generateblocks_hex2rgba( $args['gradientColorTwo'], $args['gradientColorTwoOpacity'] );
+
+	if ( $args['gradient'] ) {
+		if ( $args['gradientColorOne'] && '' !== $args['gradientColorStopOne'] ) {
+			$gradientColorStopOneValue = ' ' . $args['gradientColorStopOne'] . '%';
+		}
+
+		if ( $args['gradientColorTwo'] && '' !== $args['gradientColorStopTwo'] ) {
+			$gradientColorStopTwoValue = ' ' . $args['gradientColorStopTwo'] . '%';
+		}
+	}
+
+	if ( $args['bgImage'] && 'element' === $args['bgOptions']['selector'] ) {
+		$url = $args['bgImage']['image']['url'];
+
+		if ( ( $args['backgroundColor'] || $args['gradient'] ) && isset( $args['bgOptions']['overlay'] ) && $args['bgOptions']['overlay'] ) {
+			if ( $args['gradient'] ) {
+				$background_image = 'linear-gradient(' . $args['gradientDirection'] . 'deg, ' . $args['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $args['gradientColorTwo'] . $gradientColorStopTwoValue . '), url(' . esc_url( $url ) . ')';
+			} elseif ( $args['backgroundColor'] ) {
+				$background_image = 'linear-gradient(0deg, ' . $args['backgroundColor'] . ', ' . $args['backgroundColor'] . '), url(' . esc_url( $url ) . ')';
+			}
+		} else {
+			$background_image = 'url(' . esc_url( $url ) . ')';
+		}
+	} elseif ( $args['gradient'] ) {
+		$background_image = 'linear-gradient(' . $args['gradientDirection'] . 'deg, ' . $args['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $args['gradientColorTwo'] . $gradientColorStopTwoValue . ')';
+	}
+
+	return $background_image;
+}

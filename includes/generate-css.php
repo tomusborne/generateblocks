@@ -239,50 +239,26 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'margin-right', 'auto' );
 				}
 
-				$settings['backgroundColor'] = generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] );
-
-				$css->add_property( 'background-color', $settings['backgroundColor'] );
+				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 				$css->add_property( 'color', $settings['textColor'] );
 
-				$gradientColorStopOneValue = '';
-				$gradientColorStopTwoValue = '';
+				$background_image = generateblocks_get_background_image_css( $settings );
 
-				$settings['gradientColorOne'] = generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] );
-				$settings['gradientColorTwo'] = generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] );
-
-				if ( $settings['gradient'] ) {
-					if ( $settings['gradientColorOne'] && '' !== $settings['gradientColorStopOne'] ) {
-						$gradientColorStopOneValue = ' ' . $settings['gradientColorStopOne'] . '%';
-					}
-
-					if ( $settings['gradientColorTwo'] && '' !== $settings['gradientColorStopTwo'] ) {
-						$gradientColorStopTwoValue = ' ' . $settings['gradientColorStopTwo'] . '%';
-					}
-				}
-
-				if ( $settings['bgImage'] ) {
-					$url = $settings['bgImage']['image']['url'];
-
-					if ( ( $settings['backgroundColor'] || $settings['gradient'] ) && isset( $settings['bgOptions']['overlay'] ) && $settings['bgOptions']['overlay'] ) {
-						if ( $settings['gradient'] ) {
-							$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . '), url(' . esc_url( $url ) . ')' );
-						} elseif ( $settings['backgroundColor'] ) {
-							$css->add_property( 'background-image', 'linear-gradient(0deg, ' . $settings['backgroundColor'] . ', ' . $settings['backgroundColor'] . '), url(' . esc_url( $url ) . ')' );
-						}
-					} else {
-						$css->add_property( 'background-image', 'url(' . esc_url( $url ) . ')' );
-					}
-
+				if ( $settings['bgImage'] && 'element' === $settings['bgOptions']['selector'] && $background_image ) {
+					$css->add_property( 'background-image', $background_image );
 					$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
 					$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
-				} elseif ( $settings['gradient'] ) {
-					$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . $settings['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $settings['gradientColorTwo'] . $gradientColorStopTwoValue . ')' );
+				} elseif ( $settings['gradient'] && $background_image ) {
+					$css->add_property( 'background-image', $background_image );
+				}
+
+				if ( ( $settings['bgImage'] && 'pseudo-element' === $settings['bgOptions']['selector'] ) || $settings['zindex'] ) {
+					$css->add_property( 'position', 'relative' );
 				}
 
 				if ( $settings['zindex'] ) {
-					$css->add_property( 'position', 'relative' );
 					$css->add_property( 'z-index', $settings['zindex'] );
 				}
 
@@ -314,6 +290,28 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->add_property( 'text-align', $settings['alignment'] );
 
+				$css->set_selector( '.gb-container.gb-container-' . $id . ':before' );
+
+				if ( $settings['bgImage'] && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+					$css->add_property( 'content', '""' );
+					$css->add_property( 'background-image', 'url(' . $settings['bgImage']['image']['url'] . ')' );
+					$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
+					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
+					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
+					$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
+					$css->add_property( 'z-index', '0' );
+					$css->add_property( 'position', 'absolute' );
+					$css->add_property( 'top', '0' );
+					$css->add_property( 'right', '0' );
+					$css->add_property( 'bottom', '0' );
+					$css->add_property( 'left', '0' );
+					$css->add_property( 'transition', 'inherit' );
+
+					if ( isset( $settings['bgOptions']['opacity'] ) && 1 !== $settings['bgOptions']['opacity'] ) {
+						$css->add_property( 'opacity', $settings['bgOptions']['opacity'] );
+					}
+				}
+
 				$css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
 				$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 
@@ -327,6 +325,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'width', '100%' );
 
 					$usingMinHeightInnerWidth = true;
+				}
+
+				if ( $settings['bgImage'] && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+					$css->add_property( 'z-index', '1' );
+					$css->add_property( 'position', 'relative' );
 				}
 
 				$css->set_selector( '.gb-container.gb-container-' . $id . ' a, .gb-container.gb-container-' . $id . ' a:visited' );
