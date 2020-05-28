@@ -53,27 +53,27 @@
 }
 
 .gblocks-control-tabs .components-tab-panel__tabs button {
-    padding: 9px 11px;
-    padding-bottom: 11px;
+    padding: 8px;
+    height: auto;
     margin: 0;
     margin-bottom: -1px;
-    color: #555d66;
     cursor: pointer;
-    background: none;
     border: none;
-    border-bottom: 2px solid transparent;
+    border: 0;
     border-radius: 0;
     outline-offset: -1px;
-	flex: 1;
-	justify-content: center;
-}
+    flex: 1;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 400;
 
-.gblocks-control-tabs .components-tab-panel__tabs button.active-tab {
-    position: relative;
-    border-bottom: 2px solid #00a0d2;
-    z-index: 1;
-	font-weight: bold;
-	background: #fafafa;
+    &.active-tab {
+        position: relative;
+        z-index: 1;
+        background: #222;
+        color: #fff;
+        box-shadow: 0 0 0;
+    }
 }
 
 .gblocks-block-control-icon svg {
