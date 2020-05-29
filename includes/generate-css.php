@@ -944,9 +944,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 
 					if ( $settings['inlineWidth'] ) {
-						$css->add_property( 'display', '-webkit-inline-box' );
-						$css->add_property( 'display', '-ms-inline-flexbox' );
-						$css->add_property( 'display', 'inline-flex' );
+						$css->add_property( 'display', 'inline-block' );
 					}
 
 					$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );

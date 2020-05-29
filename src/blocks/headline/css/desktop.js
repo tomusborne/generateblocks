@@ -66,7 +66,8 @@ export default class DesktopCSS extends Component {
 
 		let fontFamilyFallbackValue = '',
 			marginBottomValue = '',
-			fontSizeValue = '';
+			fontSizeValue = '',
+			inlineWidthValue = 'inline-block';
 
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
@@ -117,12 +118,13 @@ export default class DesktopCSS extends Component {
 
 		if ( icon ) {
 			headlineStyleSelector = '.gb-headline-wrapper-' + uniqueId;
+			inlineWidthValue = 'inline-flex';
 		}
 
 		cssObj[ headlineStyleSelector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
-			'display': inlineWidth ? 'inline-flex' : false, // eslint-disable-line quote-props
+			'display': inlineWidth ? inlineWidthValue : false, // eslint-disable-line quote-props
 			'margin': shorthandCSS( marginTop, marginRight, marginBottomValue, marginLeft, marginUnit ) + ' !important', // eslint-disable-line quote-props
 			'margin-bottom': marginBottomValue + ' !important', // The unit changes depending on the element if no value exists.
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
