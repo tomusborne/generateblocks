@@ -289,13 +289,12 @@ class DimensionsControl extends Component {
 
 						{ ( typeof displayUnit !== 'undefined' ) &&
 							<div className="components-gblocks-control__units">
-								<Tooltip text={ __( 'Pixel Units' ) } key={ 'px-unit' }>
+								<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'px-unit' }>
 									<Button
 										key={ 'px-unit' }
 										isSmall
 										isPrimary={ true }
-										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										aria-label={ __( 'Pixel Units' ) }
+										aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 									>
 										{ displayUnit }
 									</Button>

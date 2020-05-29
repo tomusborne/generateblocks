@@ -35,7 +35,7 @@ const GenerateBlocksMarkHighlight = {
 				/>
 				<RichTextToolbarButton
 					icon={ icon }
-					title={ __( 'Highlight' ) }
+					title={ __( 'Highlight', 'generateblocks' ) }
 					onClick={ onToggle }
 					isActive={ isActive }
 					shortcutType="access"

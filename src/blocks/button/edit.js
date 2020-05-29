@@ -654,7 +654,7 @@ class GenerateBlockButton extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Background Gradient' ) }
+						title={ __( 'Background Gradient', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'gradients' ) }
 						className={ 'gblocks-panel-label' }

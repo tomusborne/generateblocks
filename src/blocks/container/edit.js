@@ -320,13 +320,13 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'container-width-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'container-width-unit' }>
 											<Button
 												key={ 'container-width-unit' }
 												isSmall
 												isPrimary={ true }
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -381,13 +381,13 @@ class GenerateBlockContainer extends Component {
 										</div>
 
 										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
 												<Button
 													key={ 'percentage-unit' }
 													isSmall
 													isPrimary={ true }
 													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units' ) }
+													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
 												>
 													%
 												</Button>
@@ -455,13 +455,13 @@ class GenerateBlockContainer extends Component {
 										</div>
 
 										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
 												<Button
 													key={ 'percentage-unit' }
 													isSmall
 													isPrimary={ true }
 													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units' ) }
+													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
 												>
 													%
 												</Button>
@@ -541,13 +541,13 @@ class GenerateBlockContainer extends Component {
 										</div>
 
 										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
 												<Button
 													key={ 'percentage-unit' }
 													isSmall
 													isPrimary={ true }
 													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units' ) }
+													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
 												>
 													%
 												</Button>
@@ -724,10 +724,10 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 											{ minHeightUnits.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
 														key={ unit.unitValue }
 														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
@@ -735,7 +735,7 @@ class GenerateBlockContainer extends Component {
 														isPrimary={ minHeightUnit === unit.unitValue }
 														aria-pressed={ minHeightUnit === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 														onClick={ () => setAttributes( { minHeightUnit: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
@@ -840,10 +840,10 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 											{ minHeightUnits.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
 														key={ unit.unitValue }
 														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
@@ -851,7 +851,7 @@ class GenerateBlockContainer extends Component {
 														isPrimary={ minHeightUnitTablet === unit.unitValue }
 														aria-pressed={ minHeightUnitTablet === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 														onClick={ () => setAttributes( { minHeightUnitTablet: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
@@ -957,10 +957,10 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 											{ minHeightUnits.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
 														key={ unit.unitValue }
 														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
@@ -968,7 +968,7 @@ class GenerateBlockContainer extends Component {
 														isPrimary={ minHeightUnitMobile === unit.unitValue }
 														aria-pressed={ minHeightUnitMobile === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 														onClick={ () => setAttributes( { minHeightUnitMobile: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
@@ -1216,12 +1216,12 @@ class GenerateBlockContainer extends Component {
 												naturalWidth={ bgImage.image.width }
 												naturalHeight={ bgImage.image.height }
 											>
-												<img src={ bgImage.image.url } alt={ __( 'BG Image' ) } />
+												<img src={ bgImage.image.url } alt={ __( 'Background Image', 'generateblocks' ) } />
 											</ResponsiveWrapper>
 										</Button>
 										<div className={ 'edit-bg-buttons' }>
 											<Button onClick={ open } isDefault isLarge>
-												{ __( 'Replace image' ) }
+												{ __( 'Replace image', 'generateblocks' ) }
 											</Button>
 											<Button onClick={ onRemoveBgImage } isLink isDestructive>
 												{ __( 'Remove background image', 'generateblocks' ) }

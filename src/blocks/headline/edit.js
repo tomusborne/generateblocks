@@ -215,7 +215,7 @@ class GenerateBlockHeadline extends Component {
 					<Toolbar>
 						<DropdownMenu
 							icon={ getIcon( 'paragraph' ) }
-							label={ __( 'Element' ) }
+							label={ __( 'Element', 'generateblocks' ) }
 							controls={ [
 								{
 									title: 'paragraph',

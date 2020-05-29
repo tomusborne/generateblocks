@@ -319,13 +319,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-unit' }>
 											<Button
 												key={ 'h-gap-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -384,13 +383,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-unit' }>
 											<Button
 												key={ 'v-gap-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -486,13 +484,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-tablet-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-tablet-unit' }>
 											<Button
 												key={ 'h-gap-tablet-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -552,13 +549,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-tablet-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-tablet-unit' }>
 											<Button
 												key={ 'v-gap-tablet-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -657,13 +653,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-mobile-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-mobile-unit' }>
 											<Button
 												key={ 'h-gap-mobile-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -723,13 +718,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-mobile-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-mobile-unit' }>
 											<Button
 												key={ 'v-gap-mobile-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
