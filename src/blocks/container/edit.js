@@ -94,10 +94,16 @@ class GenerateBlockContainer extends Component {
 		} = this.state;
 
 		const onSelectBgImage = ( media ) => {
+			let size = generateBlocksStyling.container.bgImageSize;
+
+			if ( 'undefined' === typeof media.size[ size ] ) {
+				size = 'full';
+			}
+
 			setAttributes( {
 				bgImage: {
 					id: media.id,
-					image: media.sizes.full,
+					image: media.sizes[ size ],
 				},
 			} );
 		};

@@ -433,6 +433,7 @@ function generateblocks_get_default_styles() {
 			'gridItemPaddingRight' => '0',
 			'gridItemPaddingBottom' => '0',
 			'gridItemPaddingLeft' => '0',
+			'bgImageSize' => 'full',
 		),
 	);
 
