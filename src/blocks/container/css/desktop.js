@@ -114,6 +114,12 @@ export default class DesktopCSS extends Component {
 			} );
 		}
 
+		if ( bgImage && 'pseudo-element' === bgOptions.selector ) {
+			cssObj[ '.gb-container-' + uniqueId ].push( {
+				'overflow': 'hidden', // eslint-disable-line quote-props
+			} );
+		}
+
 		cssObj[ `.editor-styles-wrapper .gb-container-` + uniqueId + ` h1,
 			.editor-styles-wrapper .gb-container-` + uniqueId + ` h2,
 			.editor-styles-wrapper .gb-container-` + uniqueId + ` h3,

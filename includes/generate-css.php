@@ -258,6 +258,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'position', 'relative' );
 				}
 
+				if ( $settings['bgImage'] && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+					$css->add_property( 'overflow', 'hidden' );
+				}
+
 				if ( $settings['zindex'] ) {
 					$css->add_property( 'z-index', $settings['zindex'] );
 				}
