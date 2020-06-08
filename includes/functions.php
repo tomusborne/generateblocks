@@ -15,10 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 0.1
  * @param array $content The content of our page.
  * @param array $data Data used to loop through the function as needed.
+ * @param int   $depth Keep track of how deep we are in nested blocks.
  *
  * @return array
  */
-function generateblocks_get_block_data( $content, $data = array() ) {
+function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) {
 	if ( ! is_array( $content ) || empty( $content ) ) {
 		return;
 	}
@@ -27,12 +28,13 @@ function generateblocks_get_block_data( $content, $data = array() ) {
 		if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
 			if ( 'generateblocks/grid' === $block['blockName'] ) {
 				$data['grid'][] = $block['attrs'];
-				$data['tempGridId'] = $block['attrs']['uniqueId'];
+				$depth++;
+				$data[ 'tempGridId-' . $depth ] = $block['attrs']['uniqueId'];
 			}
 
 			if ( 'generateblocks/container' === $block['blockName'] ) {
-				if ( isset( $block['attrs']['isGrid'] ) && $block['attrs']['isGrid'] && isset( $data['tempGridId'] ) ) {
-					$block['attrs']['gridId'] = $data['tempGridId'];
+				if ( isset( $block['attrs']['isGrid'] ) && $block['attrs']['isGrid'] && isset( $data[ 'tempGridId-' . $depth ] ) ) {
+					$block['attrs']['gridId'] = $data[ 'tempGridId-' . $depth ];
 				}
 
 				$data['container'][] = $block['attrs'];
@@ -66,7 +68,7 @@ function generateblocks_get_block_data( $content, $data = array() ) {
 			}
 
 			if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
-				$data = generateblocks_get_block_data( $block['innerBlocks'], $data );
+				$data = generateblocks_get_block_data( $block['innerBlocks'], $data, $depth );
 			}
 		}
 	}
