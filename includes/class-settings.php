@@ -136,7 +136,7 @@ class GenerateBlocks_Settings {
 										<?php
 											printf(
 												'<button data-nonce="%s" class="button generateblocks-button-spinner" id="generateblocks-regenerate-css-files-button">%s</button>',
-												wp_create_nonce( 'generateblocks_regenerate_css_files' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+												esc_html( wp_create_nonce( 'generateblocks_regenerate_css_files' ) ),
 												esc_html__( 'Regenerate Files', 'generateblocks' )
 											);
 										?>
