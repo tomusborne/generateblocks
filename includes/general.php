@@ -23,7 +23,7 @@ function generateblocks_do_block_editor_assets() {
 	wp_enqueue_script(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.build.js',
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor' ),
+		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-compose', 'wp-data' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.build.js' ),
 		true
 	);
