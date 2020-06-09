@@ -287,40 +287,6 @@ class GenerateBlockContainer extends Component {
 
 								{ fullWidthContentOptions() }
 
-								<SelectControl
-									label={ __( 'Container', 'generateblocks' ) }
-									value={ outerContainer }
-									options={ [
-										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
-									] }
-									onChange={ ( value ) => {
-										setAttributes( {
-											outerContainer: value,
-										} );
-									} }
-								/>
-
-								{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer &&
-									<BaseControl
-										label={ __( 'Full width containers will only work if your theme allows you to set your content to be full width.', 'generateblocks' ) }
-									/>
-								}
-
-								<SelectControl
-									label={ __( 'Inner Container', 'generateblocks' ) }
-									value={ innerContainer }
-									options={ [
-										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
-									] }
-									onChange={ ( value ) => {
-										setAttributes( {
-											innerContainer: value,
-										} );
-									} }
-								/>
-
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
 										{ __( 'Container Width', 'generateblocks' ) }
@@ -343,6 +309,7 @@ class GenerateBlockContainer extends Component {
 
 								<TextControl
 									type={ 'number' }
+									className="gblocks-container-width"
 									value={ parseFloat( containerWidth ) || '' }
 									placeholder={ generateBlocksDefaults.container.containerWidth }
 									onChange={ ( value ) => {
@@ -351,6 +318,40 @@ class GenerateBlockContainer extends Component {
 										} );
 									} }
 								/>
+
+								<ToggleControl
+									label={ __( 'Apply to outer wrapper', 'generateblocks' ) }
+									className="gblocks-apply-to-outer-wrapper"
+									checked={ 'contained' === outerContainer ? true : false }
+									onChange={ ( value ) => {
+										if ( value ) {
+											setAttributes( {
+												outerContainer: 'contained',
+											} );
+										} else {
+											setAttributes( {
+												outerContainer: 'full',
+											} );
+										}
+									} }
+								/>
+
+								<ToggleControl
+									label={ __( 'Apply to inner wrapper', 'generateblocks' ) }
+									checked={ 'contained' === innerContainer ? true : false }
+									onChange={ ( value ) => {
+										if ( value ) {
+											setAttributes( {
+												innerContainer: 'contained',
+											} );
+										} else {
+											setAttributes( {
+												innerContainer: 'full',
+											} );
+										}
+									} }
+								/>
+
 							</Fragment>
 
 							{ applyFilters( 'generateblocks.editor.controls', '', 'containerLayout', this.props, this.state ) }

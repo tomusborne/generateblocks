@@ -58,6 +58,14 @@ body .gb-container .wp-block {
     margin: 0;
 }
 
+.block-editor-block-inspector .components-base-control {
+	&.gblocks-container-width,
+	&.gblocks-apply-to-outer-wrapper {
+		margin-bottom: 10px;
+	}
+
+}
+
 /* Not needed in GB 7 */
 .edit-post-visual-editor .block-editor-block-list__block[data-type="generateblocks/container"] > .block-editor-block-list__block-edit {
     margin: 0;
