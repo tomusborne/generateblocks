@@ -38,7 +38,7 @@ const hasWideAlignSupport = generateBlocksInfo.hasWideAlignSupport;
 const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
 
 /**
- * Add mobile visibility controls on Advanced Block Panel.
+ * Add controls to the Container block toolbar.
  *
  * @param {function} BlockEdit Block edit component.
  *
@@ -100,7 +100,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 					</BlockControls>
 				}
 
-				{ isSelected && ! isGrid && hasWideAlignSupport && 'generateblocks/container' === name &&
+				{ isSelected && hasWideAlignSupport && ! isGrid && 'generateblocks/container' === name &&
 					<BlockControls>
 						<BlockAlignmentToolbar
 							value={ align }
@@ -108,6 +108,12 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 								setAttributes( {
 									align: value,
 								} );
+
+								const thisBlock = document.getElementById( 'block-' + clientId );
+
+								if ( thisBlock && '' !== value ) {
+									thisBlock.setAttribute( 'data-align', value );
+								}
 							} }
 							controls={ WIDE_ALIGNMENTS }
 						/>
@@ -124,4 +130,37 @@ addFilter(
 	'editor.BlockEdit',
 	'generateblocks/container-block-controls',
 	withAdvancedControls
+);
+
+/**
+ * Add the data-align=* attribute to our Container block.
+ *
+ * @param {function} BlockListBlock Block list component.
+ */
+export const withDataAlign = createHigherOrderComponent(
+	( BlockListBlock ) => ( props ) => {
+		const { name, attributes } = props;
+		const { align } = attributes;
+
+		if ( 'generateblocks/container' !== name ) {
+			return <BlockListBlock { ...props } />;
+		}
+
+		// If an alignment is not assigned, there's no need to go through the
+		// effort to validate or assign its value.
+		if ( '' === align ) {
+			return <BlockListBlock { ...props } />;
+		}
+
+		let wrapperProps = props.wrapperProps;
+		wrapperProps = { ...wrapperProps, 'data-align': align };
+
+		return <BlockListBlock { ...props } wrapperProps={ wrapperProps } />;
+	}
+);
+
+addFilter(
+	'editor.BlockListBlock',
+	'generateblocks/editor/container-data-align',
+	withDataAlign
 );

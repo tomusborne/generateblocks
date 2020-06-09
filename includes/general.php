@@ -47,19 +47,13 @@ function generateblocks_do_block_editor_assets() {
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.editor.build.css' )
 	);
 
-	$hasWideAlignSupport = current_theme_supports( 'align-wide' );
-
-	if ( defined( 'GENERATE_VERSION' ) && ! apply_filters( 'generateblocks_block_align_for_generatepress', false ) ) {
-		$hasWideAlignSupport = false;
-	}
-
 	wp_localize_script(
 		'generateblocks',
 		'generateBlocksInfo',
 		array(
 			'isGeneratePress' => defined( 'GENERATE_VERSION' ),
 			'hasCustomFields' => post_type_supports( get_post_type(), 'custom-fields' ),
-			'hasWideAlignSupport' => $hasWideAlignSupport,
+			'hasWideAlignSupport' => current_theme_supports( 'align-wide' ),
 			'colorComponentDiplay' => generateblocks_get_option( 'color_component_display' ),
 		)
 	);
