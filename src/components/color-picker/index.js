@@ -27,7 +27,7 @@ export default class GenerateBlocksColorPicker extends Component {
 
 		this.state = {
 			showPicker: false,
-			showPalette: false,
+			showPalette: ! generateBlocksInfo.showCustomColorsByDefault,
 			colorKey: false,
 		};
 	}
@@ -169,7 +169,7 @@ export default class GenerateBlocksColorPicker extends Component {
 										} );
 									} }
 								>
-									{ __( 'Hide Color Palette', 'generateblocks' ) }
+									{ __( 'Choose Custom Color', 'generateblocks' ) }
 								</Button>
 
 								<BaseControl
@@ -188,6 +188,23 @@ export default class GenerateBlocksColorPicker extends Component {
 										disableCustomColors={ true }
 									/>
 								</BaseControl>
+
+								{ alpha &&
+									<div className="gblocks-component-color-opacity">
+										<Tooltip text={ __( 'Opacity', 'generateblocks' ) }>
+											{ getIcon( 'gradient' ) }
+										</Tooltip>
+
+										<RangeControl
+											value={ valueOpacity ? valueOpacity : 0 }
+											onChange={ ( opacityValue ) => onOpacityChange( opacityValue ) }
+											min={ 0 }
+											max={ 1 }
+											step={ 0.01 }
+											initialPosition={ 1 }
+										/>
+									</div>
+								}
 							</div>
 						}
 					</div>

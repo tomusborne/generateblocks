@@ -60,6 +60,7 @@ function generateblocks_do_block_editor_assets() {
 			'isGeneratePress' => defined( 'GENERATE_VERSION' ),
 			'hasCustomFields' => post_type_supports( get_post_type(), 'custom-fields' ),
 			'hasWideAlignSupport' => $hasWideAlignSupport,
+			'showCustomColorsByDefault' => apply_filters( 'generateblocks_custom_colors_by_default', false ),
 		)
 	);
 
