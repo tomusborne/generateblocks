@@ -64,6 +64,10 @@ body .gb-container .wp-block {
 		margin-bottom: 10px;
 	}
 
+	&.gblocks-gpress-full-width {
+		border-top: 1px solid #ddd;
+		padding-top: 15px;
+	}
 }
 
 /* Not needed in GB 7 */

@@ -189,35 +189,40 @@ class GenerateBlockContainer extends Component {
 
 		const fullWidthContentOptions = () => {
 			return (
-				<div>
+				<Fragment>
 					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
-						<ToggleControl
-							label={ __( 'Set Full Width Content', 'generateblocks' ) }
-							help={ __( 'This option tells the content container that contains all of the blocks on this page to be full width.', 'generateblocks' ) }
-							checked={ fullWidthContent ? true : false }
-							onChange={ ( value ) => {
-								if ( value ) {
-									pageBuilderContainerOption.checked = true;
-									pageBuilderContainerOption.setAttribute( 'value', 'true' );
-									pageBuilderContainerOption.dispatchEvent( changeEvent );
+						<BaseControl className="gblocks-gpress-full-width">
+							<p>
+								{ __( 'If you want to build full-width containers, we suggest using the option below to remove the width, padding and margin from the page content wrapper.', 'generatblocks' ) }
+							</p>
+							<ToggleControl
+								label={ __( 'Make page full-width', 'generateblocks' ) }
+								checked={ fullWidthContent ? true : false }
+								onChange={ ( value ) => {
+									if ( value ) {
+										pageBuilderContainerOption.checked = true;
+										pageBuilderContainerOption.setAttribute( 'value', 'true' );
+										pageBuilderContainerOption.dispatchEvent( changeEvent );
 
-									setAttributes( {
-										fullWidthContent: 'true',
-									} );
-								} else {
-									pageBuilderContainerOption.checked = false;
-									pageBuilderContainerOption.setAttribute( 'value', '' );
-									document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
-									pageBuilderContainerOption.dispatchEvent( changeEvent );
+										setAttributes( {
+											fullWidthContent: 'true',
+											align: '',
+										} );
+									} else {
+										pageBuilderContainerOption.checked = false;
+										pageBuilderContainerOption.setAttribute( 'value', '' );
+										document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
+										pageBuilderContainerOption.dispatchEvent( changeEvent );
 
-									setAttributes( {
-										fullWidthContent: '',
-									} );
-								}
-							} }
-						/>
+										setAttributes( {
+											fullWidthContent: '',
+										} );
+									}
+								} }
+							/>
+						</BaseControl>
 					}
-				</div>
+				</Fragment>
 			);
 		};
 
@@ -285,8 +290,6 @@ class GenerateBlockContainer extends Component {
 									/>
 								}
 
-								{ fullWidthContentOptions() }
-
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
 										{ __( 'Container Width', 'generateblocks' ) }
@@ -352,6 +355,7 @@ class GenerateBlockContainer extends Component {
 									} }
 								/>
 
+								{ fullWidthContentOptions() }
 							</Fragment>
 
 							{ applyFilters( 'generateblocks.editor.controls', '', 'containerLayout', this.props, this.state ) }
