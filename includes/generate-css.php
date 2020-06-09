@@ -1282,26 +1282,7 @@ function generateblocks_get_frontend_block_css() {
 		return;
 	}
 
-	$content = '';
-
-	if ( has_blocks( get_the_ID() ) ) {
-
-		global $post;
-
-		if ( ! is_object( $post ) ) {
-			return;
-		}
-
-		$content = $post->post_content;
-	}
-
-	$content = apply_filters( 'generateblocks_do_content', $content );
-
-	if ( ! function_exists( 'parse_blocks' ) ) {
-		return;
-	}
-
-	$content = parse_blocks( $content );
+	$content = generateblocks_get_parsed_content();
 
 	if ( ! $content ) {
 		return;
