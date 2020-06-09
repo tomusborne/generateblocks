@@ -49,7 +49,7 @@ function generateblocks_do_block_editor_assets() {
 
 	$hasWideAlignSupport = current_theme_supports( 'align-wide' );
 
-	if ( defined( 'GENERATE_VERSION' ) && ! apply_filters( 'generateblocks_block_align_for_generatepress', true ) ) {
+	if ( defined( 'GENERATE_VERSION' ) && ! apply_filters( 'generateblocks_block_align_for_generatepress', false ) ) {
 		$hasWideAlignSupport = false;
 	}
 
