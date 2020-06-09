@@ -451,6 +451,10 @@ const attributes = {
 		type: 'string',
 		default: '',
 	},
+	align: {
+		type: 'string',
+		default: '',
+	},
 };
 
 if ( generateBlocksInfo.hasCustomFields ) {

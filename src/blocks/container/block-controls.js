@@ -17,6 +17,7 @@ const {
 
 const {
 	BlockControls,
+	BlockAlignmentToolbar,
 } = wp.blockEditor;
 
 const {
@@ -33,6 +34,9 @@ const {
 	cloneBlock,
 } = wp.blocks;
 
+const hasWideAlignSupport = generateBlocksInfo.hasWideAlignSupport;
+const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
+
 /**
  * Add mobile visibility controls on Advanced Block Panel.
  *
@@ -47,10 +51,12 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 			attributes,
 			isSelected,
 			clientId,
+			setAttributes,
 		} = props;
 
 		const {
 			isGrid,
+			align,
 		} = attributes;
 
 		let parentGridId = false;
@@ -91,6 +97,20 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 								/>
 							</Tooltip>
 						</Toolbar>
+					</BlockControls>
+				}
+
+				{ isSelected && ! isGrid && hasWideAlignSupport && 'generateblocks/container' === name &&
+					<BlockControls>
+						<BlockAlignmentToolbar
+							value={ align }
+							onChange={ ( value ) => {
+								setAttributes( {
+									align: value,
+								} );
+							} }
+							controls={ WIDE_ALIGNMENTS }
+						/>
 					</BlockControls>
 				}
 

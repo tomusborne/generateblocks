@@ -157,6 +157,7 @@ class GenerateBlockContainer extends Component {
 			googleFont,
 			googleFontVariants,
 			fullWidthContent,
+			align,
 		} = attributes;
 
 		const minHeightUnits = [
@@ -1522,6 +1523,7 @@ class GenerateBlockContainer extends Component {
 							'gb-container': true,
 							[ `gb-container-${ uniqueId }` ]: true,
 							[ `${ cssClasses }` ]: '' !== cssClasses,
+							[ `align${ align }` ]: !! align,
 						} ) }
 					>
 						{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }

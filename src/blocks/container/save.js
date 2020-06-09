@@ -20,6 +20,7 @@ export default ( { attributes } ) => {
 		elementId,
 		cssClasses,
 		isGrid,
+		align,
 	} = attributes;
 
 	const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
@@ -40,6 +41,7 @@ export default ( { attributes } ) => {
 					'gb-container': true,
 					[ `gb-container-${ uniqueId }` ]: true,
 					[ `${ cssClasses }` ]: '' !== cssClasses,
+					[ `align${ align }` ]: !! align && ! isGrid,
 				} ) }
 			>
 				{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
