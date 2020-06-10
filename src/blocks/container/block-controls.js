@@ -132,35 +132,3 @@ addFilter(
 	withAdvancedControls
 );
 
-/**
- * Add the data-align=* attribute to our Container block.
- *
- * @param {function} BlockListBlock Block list component.
- */
-export const withDataAlign = createHigherOrderComponent(
-	( BlockListBlock ) => ( props ) => {
-		const { name, attributes } = props;
-		const { align } = attributes;
-
-		if ( 'generateblocks/container' !== name ) {
-			return <BlockListBlock { ...props } />;
-		}
-
-		// If an alignment is not assigned, there's no need to go through the
-		// effort to validate or assign its value.
-		if ( '' === align ) {
-			return <BlockListBlock { ...props } />;
-		}
-
-		let wrapperProps = props.wrapperProps;
-		wrapperProps = { ...wrapperProps, 'data-align': align };
-
-		return <BlockListBlock { ...props } wrapperProps={ wrapperProps } />;
-	}
-);
-
-addFilter(
-	'editor.BlockListBlock',
-	'generateblocks/editor/container-data-align',
-	withDataAlign
-);

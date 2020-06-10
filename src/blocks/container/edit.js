@@ -79,6 +79,33 @@ class GenerateBlockContainer extends Component {
 		} else {
 			gbContainerIds.push( this.props.attributes.uniqueId );
 		}
+
+		const thisBlock = document.getElementById( 'block-' + this.props.clientId );
+
+		if ( thisBlock && 'full' === this.props.attributes.align ) {
+			thisBlock.setAttribute( 'data-align', 'full' );
+		}
+	}
+
+	componentDidUpdate() {
+		const thisBlock = document.getElementById( 'block-' + this.props.clientId );
+
+		if ( thisBlock ) {
+			const alignValue = this.props.attributes.align;
+			let currentDataAlign = '';
+
+			if ( thisBlock.getAttribute( 'data-align' ) ) {
+				currentDataAlign = thisBlock.getAttribute( 'data-align' );
+			}
+
+			if ( alignValue !== currentDataAlign ) {
+				if ( ( '' === alignValue || undefined === alignValue ) && '' !== currentDataAlign ) {
+					thisBlock.removeAttribute( 'data-align' );
+				} else {
+					thisBlock.setAttribute( 'data-align', alignValue );
+				}
+			}
+		}
 	}
 
 	render() {
