@@ -109,10 +109,10 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 									align: value,
 								} );
 
-								const thisBlock = document.getElementById( 'block-' + clientId );
-
-								if ( thisBlock && '' !== value ) {
-									thisBlock.setAttribute( 'data-align', value );
+								if ( 'full' === value ) {
+									setAttributes( {
+										outerContainer: 'full',
+									} );
 								}
 							} }
 							controls={ WIDE_ALIGNMENTS }
