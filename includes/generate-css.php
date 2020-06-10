@@ -995,7 +995,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
 
 					if ( 'above' === $settings['iconLocation'] ) {
-						$css->add_property( 'display', 'unset' );
+						$css->add_property( 'display', 'inline' );
 					}
 
 					$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );

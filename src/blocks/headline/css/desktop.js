@@ -146,7 +146,7 @@ export default class DesktopCSS extends Component {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
 			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
 			'color': hexToRGBA( iconColor, iconColorOpacity ), // eslint-disable-line quote-props
-			'display': icon && 'above' === iconLocation ? 'unset' : false, // eslint-disable-line quote-props
+			'display': icon && 'above' === iconLocation ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
