@@ -317,70 +317,77 @@ class GenerateBlockContainer extends Component {
 									/>
 								}
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Container Width', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'container-width-unit' }>
-											<Button
-												key={ 'container-width-unit' }
-												isSmall
-												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
-
-								<TextControl
-									type={ 'number' }
-									className="gblocks-container-width"
-									value={ parseFloat( containerWidth ) || '' }
-									placeholder={ generateBlocksDefaults.container.containerWidth }
+								<SelectControl
+									label={ __( 'Container', 'generateblocks' ) }
+									value={ outerContainer }
+									options={ [
+										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+										{ label: __( 'Contained width', 'generateblocks' ), value: 'contained' },
+									] }
 									onChange={ ( value ) => {
 										setAttributes( {
-											containerWidth: '' !== value ? parseFloat( value ) : undefined,
+											outerContainer: value,
 										} );
-									} }
-								/>
 
-								<ToggleControl
-									label={ __( 'Apply to outer wrapper', 'generateblocks' ) }
-									className="gblocks-apply-to-outer-wrapper"
-									checked={ 'contained' === outerContainer ? true : false }
-									onChange={ ( value ) => {
-										if ( value ) {
+										if ( 'contained' === value && 'full' === align ) {
 											setAttributes( {
-												outerContainer: 'contained',
-											} );
-										} else {
-											setAttributes( {
-												outerContainer: 'full',
+												align: '',
 											} );
 										}
 									} }
 								/>
 
-								<ToggleControl
-									label={ __( 'Apply to inner wrapper', 'generateblocks' ) }
-									checked={ 'contained' === innerContainer ? true : false }
-									onChange={ ( value ) => {
-										if ( value ) {
+								{ 'full' === outerContainer &&
+									<SelectControl
+										label={ __( 'Inner Container', 'generateblocks' ) }
+										value={ innerContainer }
+										options={ [
+											{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+											{ label: __( 'Contained width', 'generateblocks' ), value: 'contained' },
+										] }
+										onChange={ ( value ) => {
 											setAttributes( {
-												innerContainer: 'contained',
+												innerContainer: value,
 											} );
-										} else {
-											setAttributes( {
-												innerContainer: 'full',
-											} );
-										}
-									} }
-								/>
+										} }
+									/>
+								}
+
+								{ ( 'contained' === outerContainer || 'contained' === innerContainer ) &&
+									<Fragment>
+										<div className="components-gblocks-control__header">
+											<div className="components-gblocks-control__label">
+												{ __( 'Container Width', 'generateblocks' ) }
+											</div>
+
+											<div className="components-gblocks-control__units">
+												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'container-width-unit' }>
+													<Button
+														key={ 'container-width-unit' }
+														isSmall
+														isPrimary={ true }
+														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
+													>
+														px
+													</Button>
+												</Tooltip>
+											</div>
+										</div>
+
+										<TextControl
+											type={ 'number' }
+											className="gblocks-container-width"
+											value={ parseFloat( containerWidth ) || '' }
+											placeholder={ generateBlocksDefaults.container.containerWidth }
+											onChange={ ( value ) => {
+												setAttributes( {
+													containerWidth: '' !== value ? parseFloat( value ) : undefined,
+												} );
+											} }
+										/>
+									</Fragment>
+								}
 
 								{ fullWidthContentOptions() }
 							</Fragment>

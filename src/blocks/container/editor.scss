@@ -59,14 +59,13 @@ body .gb-container .wp-block {
 }
 
 .block-editor-block-inspector .components-base-control {
-	&.gblocks-container-width,
-	&.gblocks-apply-to-outer-wrapper {
-		margin-bottom: 10px;
-	}
-
 	&.gblocks-gpress-full-width {
 		border-top: 1px solid #ddd;
 		padding-top: 15px;
+
+		.components-base-control__label {
+			margin-bottom: 15px;
+		}
 	}
 }
 
