@@ -109,8 +109,9 @@ class GenerateBlocks_Settings {
 		?>
 			<div class="wrap gblocks-dashboard-wrap">
 				<div class="gblocks-dashboard-header">
-					<h1><?php esc_html_e( 'Settings', 'generateblocks' ); ?></h1>
-
+					<div class="gblocks-dashboard-header-content">
+						<h1><?php esc_html_e( 'Settings', 'generateblocks' ); ?></h1>
+					</div>
 					<?php generateblocks_dashboard_navigation(); ?>
 				</div>
 

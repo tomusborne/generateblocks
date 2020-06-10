@@ -17,11 +17,10 @@
 	margin-bottom: 20px;
 }
 
-.gblocks-logo {
-    margin-bottom: 20px;
+h1.gblocks-logo {
     display: flex;
     align-items: center;
-    justify-content: center;
+	justify-content: center;
 }
 
 .gblocks-version {
@@ -33,6 +32,11 @@
     margin-bottom: 2px;
     font-weight: normal;
     border-radius: 2px;
+}
+
+.gblocks-dashboard-header-content {
+    max-width: 700px;
+    margin: 0 auto;
 }
 
 .gblocks-navigation {
