@@ -218,10 +218,10 @@ class GenerateBlockContainer extends Component {
 			return (
 				<Fragment>
 					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
-						<BaseControl className="gblocks-gpress-full-width">
-							<p>
-								{ __( 'If you want to build full-width containers, we suggest using the option below to remove the width, padding and margin from the page content wrapper.', 'generatblocks' ) }
-							</p>
+						<BaseControl
+							label={ __( 'If you want to build a full width page, use the option below to remove the page width, margin and padding.', 'generateblocks' ) }
+							className="gblocks-gpress-full-width"
+						>
 							<ToggleControl
 								label={ __( 'Make page full-width', 'generateblocks' ) }
 								checked={ fullWidthContent ? true : false }
