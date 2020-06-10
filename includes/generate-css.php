@@ -899,7 +899,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			}
 
 			$css->set_selector( '.gb-highlight' );
-			$css->add_property( 'background', 'unset' );
+			$css->add_property( 'background', 'none' );
 			$css->add_property( 'color', 'unset' );
 
 			$css->set_selector( '.gb-headline-wrapper' );
