@@ -188,7 +188,7 @@ function generateblocks_do_dashboard() {
 								</div>
 
 								<div class="stars">
-									<strong>900+</strong><br>
+									<strong>1000+</strong><br>
 									<img src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/stars.svg'; ?>" alt="" width="98" height="17" class="alignnone size-full wp-image-44">
 								</div>
 
@@ -197,7 +197,7 @@ function generateblocks_do_dashboard() {
 								</div>
 
 								<div class="active-websites">
-									<strong>50,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
+									<strong>60,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
 								</div>
 							</div>
 							<a class="gblocks-button" href="https://generatepress.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Learn more', 'generateblocks' ); ?></a>
