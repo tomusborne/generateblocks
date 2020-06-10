@@ -19,8 +19,9 @@ class GenerateBlocks_Settings {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_init', array( $this, 'save' ) );
+		add_action( 'generateblocks_before_settings_form', array( $this, 'admin_notices' ) );
 
-		if ( ! empty( $_POST ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! empty( $_POST ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Just checking, false positive.
 			add_action( 'wp_ajax_generateblocks_regenerate_css_files', array( $this, 'regenerate_css_files' ) );
 		}
 	}
@@ -79,7 +80,7 @@ class GenerateBlocks_Settings {
 
 			update_option( 'generateblocks', $settings );
 
-			wp_safe_redirect( admin_url( 'admin.php?page=generateblocks-settings' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=generateblocks-settings&settings-updated=true' ) );
 			exit;
 		}
 	}
@@ -114,6 +115,7 @@ class GenerateBlocks_Settings {
 				</div>
 
 				<div class="gblocks-settings-content">
+					<?php do_action( 'generateblocks_before_settings_form' ); ?>
 					<form action="options.php" method="post">
 						<?php
 						wp_nonce_field( 'generateblocks_settings', 'generateblocks_settings' );
@@ -176,6 +178,26 @@ class GenerateBlocks_Settings {
 				</div>
 			</div>
 		<?php
+	}
+
+	/**
+	 * Add a message when settings are saved.
+	 *
+	 * @since 1.1
+	 */
+	public function admin_notices() {
+		$screen = get_current_screen();
+
+		if ( 'settings_page_generateblocks-settings' !== $screen->base ) {
+			return;
+		}
+
+		if ( isset( $_GET['settings-updated'] ) && 'true' == $_GET['settings-updated'] ) { // phpcs:ignore -- Just checking, false positive.
+			printf(
+				'<div class="notice notice-success inline"><p><strong>Settings saved.</strong></p></div>',
+				esc_html__( 'Settings saved.', 'generateblocks' )
+			);
+		}
 	}
 }
 
