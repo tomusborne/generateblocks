@@ -227,19 +227,29 @@ class GenerateBlockContainer extends Component {
 								checked={ fullWidthContent ? true : false }
 								onChange={ ( value ) => {
 									if ( value ) {
-										pageBuilderContainerOption.checked = true;
-										pageBuilderContainerOption.setAttribute( 'value', 'true' );
-										pageBuilderContainerOption.dispatchEvent( changeEvent );
+										if ( 'select' === pageBuilderContainerOption.tagName.toLowerCase() ) {
+											pageBuilderContainerOption.value = 'true';
+											pageBuilderContainerOption.dispatchEvent( changeEvent );
+										} else {
+											pageBuilderContainerOption.checked = true;
+											pageBuilderContainerOption.setAttribute( 'value', 'true' );
+											pageBuilderContainerOption.dispatchEvent( changeEvent );
+										}
 
 										setAttributes( {
 											fullWidthContent: 'true',
 											align: '',
 										} );
 									} else {
-										pageBuilderContainerOption.checked = false;
-										pageBuilderContainerOption.setAttribute( 'value', '' );
-										document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
-										pageBuilderContainerOption.dispatchEvent( changeEvent );
+										if ( 'select' === pageBuilderContainerOption.tagName.toLowerCase() ) {
+											pageBuilderContainerOption.value = '';
+											pageBuilderContainerOption.dispatchEvent( changeEvent );
+										} else {
+											pageBuilderContainerOption.checked = false;
+											pageBuilderContainerOption.setAttribute( 'value', '' );
+											document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
+											pageBuilderContainerOption.dispatchEvent( changeEvent );
+										}
 
 										setAttributes( {
 											fullWidthContent: '',
