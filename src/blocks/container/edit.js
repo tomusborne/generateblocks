@@ -367,7 +367,7 @@ class GenerateBlockContainer extends Component {
 									<Fragment>
 										<div className="components-gblocks-control__header">
 											<div className="components-gblocks-control__label">
-												{ __( 'Container Width', 'generateblocks' ) }
+												{ __( 'Contained Width', 'generateblocks' ) }
 											</div>
 
 											<div className="components-gblocks-control__units">
