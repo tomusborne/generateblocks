@@ -115,10 +115,10 @@ function generateblocks_do_dashboard() {
 				<div class="gblocks-dashboard-header-content">
 					<h1 class="gblocks-logo">
 						<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-							<img width="200" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-black.svg'; ?>" alt="<?php esc_attr_e( 'GenerateBlocks', 'generateblocks' ); ?>" />
+							<img width="200" height="55" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-black.svg'; ?>" alt="<?php esc_attr_e( 'GenerateBlocks', 'generateblocks' ); ?>" />
 						</a>
 						<span class="gblocks-version"><?php echo esc_html( GENERATEBLOCKS_VERSION ); ?></span>
-</h1>
+					</h1>
 				</div>
 
 				<?php generateblocks_dashboard_navigation(); ?>
