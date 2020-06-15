@@ -70,9 +70,9 @@
     &.active-tab {
         position: relative;
         z-index: 1;
-        background: #222;
-        color: #fff;
-        box-shadow: 0 0 0;
+        background: #222 !important;
+        color: #fff !important;
+        box-shadow: 0 0 0 !important;
     }
 }
 
