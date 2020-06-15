@@ -690,7 +690,10 @@ class GenerateBlockContainer extends Component {
 
 						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
-								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+								<BaseControl
+									className="gblocks-container-text-alignment"
+									label={ __( 'Text Alignment', 'generateblocks' ) }
+								>
 									<AlignmentToolbar
 										isCollapsed={ false }
 										value={ alignment }

@@ -69,6 +69,10 @@ body .gb-container .wp-block {
 	}
 }
 
+.gblocks-container-text-alignment .components-base-control__label {
+    display: block;
+}
+
 /* Not needed in GB 7 */
 .edit-post-visual-editor .block-editor-block-list__block[data-type="generateblocks/container"] > .block-editor-block-list__block-edit {
     margin: 0;
