@@ -58,7 +58,7 @@ class GenerateBlocks_Plugin_Update {
 		if ( false === $saved_version ) {
 			if ( 'admin_init' === current_action() ) {
 				// If we're in the admin, add our version to the database.
-				update_option( 'generateblocks_version', GENERATEBLOCKS_VERSION );
+				update_option( 'generateblocks_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
 			}
 
 			// Not an existing install, so no need to proceed further.
@@ -72,7 +72,7 @@ class GenerateBlocks_Plugin_Update {
 		// Nothing to update yet.
 
 		// Last thing to do is update our version.
-		update_option( 'generateblocks_version', GENERATEBLOCKS_VERSION );
+		update_option( 'generateblocks_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
 	}
 }
 
