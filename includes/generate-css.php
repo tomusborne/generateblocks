@@ -390,12 +390,20 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
 				$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 
+				$usingMinHeightInnerWidthBoxSizing = false;
+
 				if ( ! $settings['isGrid'] ) {
 					// Needs 100% width if it's a flex item.
 					if ( ! $usingMinHeightInnerWidth && $settings['minHeightTablet'] && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 						$tablet_css->add_property( 'width', '100%' );
 
 						$usingMinHeightInnerWidth = true;
+					} elseif ( $usingMinHeightInnerWidth ) {
+						if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
+							$tablet_css->add_property( 'box-sizing', 'border-box' );
+
+							$usingMinHeightInnerWidthBoxSizing = true;
+						}
 					}
 				}
 
@@ -476,6 +484,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					// Needs 100% width if it's a flex item.
 					if ( ! $usingMinHeightInnerWidth && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 						$mobile_css->add_property( 'width', '100%' );
+					} elseif ( $usingMinHeightInnerWidth && ! $usingMinHeightInnerWidthBoxSizing ) {
+						if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
+							$mobile_css->add_property( 'box-sizing', 'border-box' );
+						}
 					}
 				}
 
