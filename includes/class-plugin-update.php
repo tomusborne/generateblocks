@@ -49,6 +49,10 @@ class GenerateBlocks_Plugin_Update {
 	 * @since 1.1.0
 	 */
 	public static function init() {
+		if ( is_customize_preview() ) {
+			return;
+		}
+
 		$saved_version = get_option( 'generateblocks_version', false );
 
 		if ( false === $saved_version ) {
