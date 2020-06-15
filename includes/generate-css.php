@@ -475,7 +475,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				if ( ! $settings['isGrid'] ) {
 					// Needs 100% width if it's a flex item.
 					if ( ! $usingMinHeightInnerWidth && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-						$tablet_css->add_property( 'width', '100%' );
+						$mobile_css->add_property( 'width', '100%' );
 					}
 				}
 
