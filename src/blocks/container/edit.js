@@ -123,7 +123,7 @@ class GenerateBlockContainer extends Component {
 		const onSelectBgImage = ( media ) => {
 			let size = generateBlocksStyling.container.bgImageSize;
 
-			if ( 'undefined' === typeof media.size[ size ] ) {
+			if ( 'undefined' === typeof media.sizes[ size ] ) {
 				size = 'full';
 			}
 
