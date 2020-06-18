@@ -1279,7 +1279,7 @@ class GenerateBlockContainer extends Component {
 											</ResponsiveWrapper>
 										</Button>
 										<div className={ 'edit-bg-buttons' }>
-											<Button onClick={ open } isDefault isLarge>
+											<Button onClick={ open } isSecondary isLarge>
 												{ __( 'Replace image', 'generateblocks' ) }
 											</Button>
 											<Button onClick={ onRemoveBgImage } isLink isDestructive>
