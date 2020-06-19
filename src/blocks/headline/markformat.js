@@ -57,7 +57,7 @@ const GenerateBlocksMarkHightlightButton = function( props ) {
 const ConditionalButton = compose(
 	withSelect( function( select ) {
 		return {
-			selectedBlock: select( 'core/editor' ).getSelectedBlock(),
+			selectedBlock: select( 'core/block-editor' ).getSelectedBlock(),
 		};
 	} ),
 	ifCondition( function( props ) {
