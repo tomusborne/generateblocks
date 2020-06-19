@@ -197,6 +197,16 @@ class GenerateBlockHeadline extends Component {
 			},
 		];
 
+		let iconSizePlaceholderMobile = '';
+
+		if ( iconSizeTablet || 0 === iconSizeTablet ) {
+			iconSizePlaceholderMobile = iconSizeTablet;
+		} else if ( iconSize || 0 === iconSize ) {
+			iconSizePlaceholderMobile = iconSize;
+		} else {
+			iconSizePlaceholderMobile = '';
+		}
+
 		let htmlAttributes = {
 			id: !! elementId ? elementId : undefined,
 			className: classnames( {
@@ -926,7 +936,7 @@ class GenerateBlockHeadline extends Component {
 										type={ 'number' }
 										value={ iconSizeTablet || '' }
 										step={ 'em' === iconSizeUnit ? .1 : 1 }
-										placeholder="1"
+										placeholder={ iconSize || 0 === iconSize ? iconSize : '' }
 										onChange={ ( value ) => {
 											setAttributes( {
 												iconSizeTablet: value,
@@ -1045,7 +1055,7 @@ class GenerateBlockHeadline extends Component {
 										type={ 'number' }
 										value={ iconSizeMobile || '' }
 										step={ 'em' === iconSizeUnit ? .1 : 1 }
-										placeholder="1"
+										placeholder={ iconSizePlaceholderMobile }
 										onChange={ ( value ) => {
 											setAttributes( {
 												iconSizeMobile: value,
