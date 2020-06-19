@@ -816,7 +816,7 @@ class GenerateBlockHeadline extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ iconSize || '' }
+										value={ iconSize || 0 === iconSize ? iconSize : '' }
 										step={ 'em' === iconSizeUnit ? .1 : 1 }
 										onChange={ ( value ) => {
 											setAttributes( {
@@ -934,7 +934,7 @@ class GenerateBlockHeadline extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ iconSizeTablet || '' }
+										value={ iconSizeTablet || 0 === iconSizeTablet ? iconSizeTablet : '' }
 										step={ 'em' === iconSizeUnit ? .1 : 1 }
 										placeholder={ iconSize || 0 === iconSize ? iconSize : '' }
 										onChange={ ( value ) => {
@@ -1053,7 +1053,7 @@ class GenerateBlockHeadline extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ iconSizeMobile || '' }
+										value={ iconSizeMobile || 0 === iconSizeMobile ? iconSizeMobile : '' }
 										step={ 'em' === iconSizeUnit ? .1 : 1 }
 										placeholder={ iconSizePlaceholderMobile }
 										onChange={ ( value ) => {
