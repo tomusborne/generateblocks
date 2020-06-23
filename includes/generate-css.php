@@ -949,10 +949,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->set_selector( '.gb-headline-' . $id );
 				$css->add_property( 'font-family', $fontFamily );
-
-				if ( ! $settings['hasIcon'] ) {
-					$css->add_property( 'text-align', $settings['alignment'] );
-				}
+				$css->add_property( 'text-align', $settings['alignment'] );
 
 				$css->add_property( 'color', $settings['textColor'] );
 
