@@ -1166,7 +1166,6 @@ class GenerateBlockHeadline extends Component {
 
 						{ ! removeText &&
 							<RichText
-								allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'generateblocks/mark' ] }
 								tagName={ element }
 								value={ content }
 								onChange={ ( value ) => setAttributes( { content: value } ) }
@@ -1178,7 +1177,6 @@ class GenerateBlockHeadline extends Component {
 					</div>
 				) : (
 					<RichText
-						allowedFormats={ [ 'core/bold', 'core/italic', 'core/link', 'core/underline', 'generateblocks/mark' ] }
 						tagName={ element }
 						value={ content }
 						onChange={ ( value ) => setAttributes( { content: value } ) }
