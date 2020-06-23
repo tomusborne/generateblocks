@@ -93,8 +93,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Better display of admin notices in Dashboard
 * Tweak: Change Container Width label to Contained Width
 * Tweak: Add future framework for migrating/updating old options
-* Tweak: Don’t allow single button to be saved as reusable
-* Tweak: Don’t allow element tagName to be filtered
+* Tweak: Don't allow single button to be saved as reusable
+* Tweak: Don't allow element tagName to be filtered
 * Tweak: Allow all standard richText formats in Headline block
 * Tweak: Better iconSize responsive placeholders
 * Fix: gridId value in nested grids
