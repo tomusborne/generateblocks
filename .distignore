@@ -7,5 +7,7 @@
 .editorconfig
 .eslintignore
 .eslintrc.json
+.gitattributes
+.gitignore
 package-lock.json
 package.json
