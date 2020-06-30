@@ -53,7 +53,7 @@ export default ( { attributes } ) => {
 		href: !! url ? url : undefined,
 		target: !! target ? '_blank' : undefined,
 		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
-		'aria-label': !! removeText && !! ariaLabel ? ariaLabel : undefined,
+		'aria-label': !! ariaLabel ? ariaLabel : undefined,
 	};
 
 	htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );

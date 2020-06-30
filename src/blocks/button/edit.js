@@ -211,7 +211,7 @@ class GenerateBlockButton extends Component {
 			href: !! url ? url : undefined,
 			target: !! target ? '_blank' : undefined,
 			rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
-			'aria-label': !! removeText && !! ariaLabel ? ariaLabel : undefined,
+			'aria-label': !! ariaLabel ? ariaLabel : undefined,
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
@@ -693,7 +693,6 @@ class GenerateBlockButton extends Component {
 								attrIcon={ 'icon' }
 								attrIconLocation={ 'iconLocation' }
 								attrRemoveText={ 'removeText' }
-								attrAriaLabel={ 'ariaLabel' }
 								locationOptions={ [
 									{ label: __( 'Left', 'generateblocks' ), value: 'left' },
 									{ label: __( 'Right', 'generateblocks' ), value: 'right' },
@@ -985,6 +984,17 @@ class GenerateBlockButton extends Component {
 							onChange={ ( value ) => {
 								setAttributes( {
 									cssClasses: value,
+								} );
+							} }
+						/>
+
+						<TextControl
+							label={ __( 'ARIA Label', 'generateblocks' ) }
+							help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
+							value={ ariaLabel }
+							onChange={ ( value ) => {
+								setAttributes( {
+									ariaLabel: value,
 								} );
 							} }
 						/>

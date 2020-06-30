@@ -52,7 +52,6 @@ class IconPicker extends Component {
 			attrIconLocation,
 			locationOptions,
 			attrRemoveText,
-			attrAriaLabel,
 		} = this.props;
 
 		return (
@@ -239,19 +238,6 @@ class IconPicker extends Component {
 						onChange={ ( value ) => {
 							setAttributes( {
 								[ this.props[ 'attrRemoveText' ] ]: value, // eslint-disable-line dot-notation
-							} );
-						} }
-					/>
-				}
-
-				{ typeof attributes[ attrAriaLabel ] !== 'undefined' && !! attributes[ attrRemoveText ] && !! attributes[ attrIcon ] &&
-					<TextControl
-						label={ __( 'ARIA Label', 'generateblocks' ) }
-						help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
-						value={ attributes[ attrAriaLabel ] }
-						onChange={ ( value ) => {
-							setAttributes( {
-								[ this.props[ 'attrAriaLabel' ] ]: value, // eslint-disable-line dot-notation
 							} );
 						} }
 					/>
