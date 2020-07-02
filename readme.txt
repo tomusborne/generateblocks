@@ -84,6 +84,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Add support for alignwide/alignfull in Container block
 * New: Display color palette by default in Color component
 * New: Add option to choose default view in Color component
+* New: Add aria-label option for Buttons into advanced panel
 * Tweak: Deprecate background image overlay option
 * Tweak: Move hexToRGBA to utils
 * Tweak: Fix repeated common CSS
@@ -97,6 +98,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Don't allow element tagName to be filtered
 * Tweak: Allow all standard richText formats in Headline block
 * Tweak: Better iconSize responsive placeholders
+* Tweak: Allow decimal values in gradient start/stop
 * Fix: gridId value in nested grids
 * Fix: Use inline-block for inline headlines with no icon
 * Fix: Missing text domains
