@@ -231,7 +231,7 @@ export default class DesktopCSS extends Component {
 			'display': 'none', // eslint-disable-line quote-props
 		} ];
 
-		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'container', this.props );
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'generateblocks/container', this.props );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>
