@@ -1547,7 +1547,7 @@ class GenerateBlockContainer extends Component {
 								[ `${ cssClasses }` ]: '' !== cssClasses,
 							} ) }
 						>
-							{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', attributes ) }
+							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 							<div
 								className={ classnames( {
 									'gb-inside-container': true,
@@ -1578,7 +1578,7 @@ class GenerateBlockContainer extends Component {
 							[ `align${ align }` ]: !! align,
 						} ) }
 					>
-						{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', attributes ) }
+						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 						<div
 							className={ classnames( {
 								'gb-inside-container': true,
