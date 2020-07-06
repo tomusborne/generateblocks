@@ -214,7 +214,7 @@ class GenerateBlockButton extends Component {
 			'aria-label': !! ariaLabel ? ariaLabel : undefined,
 		};
 
-		htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
+		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
 
 		return (
 			<Fragment>

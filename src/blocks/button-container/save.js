@@ -28,7 +28,7 @@ export default ( { attributes } ) => {
 		} ),
 	};
 
-	htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/button-container', attributes );
+	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button-container', attributes );
 
 	return (
 		<div
