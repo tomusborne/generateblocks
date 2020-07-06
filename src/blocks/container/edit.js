@@ -1453,7 +1453,7 @@ class GenerateBlockContainer extends Component {
 						<SelectControl
 							label={ __( 'Element Tag', 'generateblocks' ) }
 							value={ tagName }
-							options={ applyFilters( 'generateblocks.container.tagNames', tagNames, this.props, this.state ) }
+							options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
 							onChange={ ( value ) => {
 								setAttributes( {
 									tagName: value,
