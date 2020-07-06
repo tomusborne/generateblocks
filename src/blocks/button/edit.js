@@ -641,7 +641,7 @@ class GenerateBlockButton extends Component {
 														}
 													/>
 
-													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsNormal', this.props, this.state ) }
+													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsHover', this.props, this.state ) }
 												</Fragment>
 											) }
 										</div>
