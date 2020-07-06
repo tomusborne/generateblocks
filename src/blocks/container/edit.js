@@ -452,12 +452,12 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
-										<Button isLarge isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
-										<Button isLarge isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
-										<Button isLarge isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
-										<Button isLarge isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
-										<Button isLarge isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
+										<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
+										<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
+										<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
+										<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
+										<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
+										<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -526,12 +526,12 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ widthTablet === 25 } onClick={ () => setAttributes( { widthTablet: 25 } ) }>25</Button>
-										<Button isLarge isPrimary={ widthTablet === 33.33 } onClick={ () => setAttributes( { widthTablet: 33.33 } ) }>33</Button>
-										<Button isLarge isPrimary={ widthTablet === 50 } onClick={ () => setAttributes( { widthTablet: 50 } ) }>50</Button>
-										<Button isLarge isPrimary={ widthTablet === 66.66 } onClick={ () => setAttributes( { widthTablet: 66.66 } ) }>66</Button>
-										<Button isLarge isPrimary={ widthTablet === 75 } onClick={ () => setAttributes( { widthTablet: 75 } ) }>75</Button>
-										<Button isLarge isPrimary={ widthTablet === 100 } onClick={ () => setAttributes( { widthTablet: 100 } ) }>100</Button>
+										<Button isPrimary={ widthTablet === 25 } onClick={ () => setAttributes( { widthTablet: 25 } ) }>25</Button>
+										<Button isPrimary={ widthTablet === 33.33 } onClick={ () => setAttributes( { widthTablet: 33.33 } ) }>33</Button>
+										<Button isPrimary={ widthTablet === 50 } onClick={ () => setAttributes( { widthTablet: 50 } ) }>50</Button>
+										<Button isPrimary={ widthTablet === 66.66 } onClick={ () => setAttributes( { widthTablet: 66.66 } ) }>66</Button>
+										<Button isPrimary={ widthTablet === 75 } onClick={ () => setAttributes( { widthTablet: 75 } ) }>75</Button>
+										<Button isPrimary={ widthTablet === 100 } onClick={ () => setAttributes( { widthTablet: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -612,12 +612,12 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ widthMobile === 25 } onClick={ () => setAttributes( { widthMobile: 25 } ) }>25</Button>
-										<Button isLarge isPrimary={ widthMobile === 33.33 } onClick={ () => setAttributes( { widthMobile: 33.33 } ) }>33</Button>
-										<Button isLarge isPrimary={ widthMobile === 50 } onClick={ () => setAttributes( { widthMobile: 50 } ) }>50</Button>
-										<Button isLarge isPrimary={ widthMobile === 66.66 } onClick={ () => setAttributes( { widthMobile: 66.66 } ) }>66</Button>
-										<Button isLarge isPrimary={ widthMobile === 75 } onClick={ () => setAttributes( { widthMobile: 75 } ) }>75</Button>
-										<Button isLarge isPrimary={ widthMobile === 100 } onClick={ () => setAttributes( { widthMobile: 100 } ) }>100</Button>
+										<Button isPrimary={ widthMobile === 25 } onClick={ () => setAttributes( { widthMobile: 25 } ) }>25</Button>
+										<Button isPrimary={ widthMobile === 33.33 } onClick={ () => setAttributes( { widthMobile: 33.33 } ) }>33</Button>
+										<Button isPrimary={ widthMobile === 50 } onClick={ () => setAttributes( { widthMobile: 50 } ) }>50</Button>
+										<Button isPrimary={ widthMobile === 66.66 } onClick={ () => setAttributes( { widthMobile: 66.66 } ) }>66</Button>
+										<Button isPrimary={ widthMobile === 75 } onClick={ () => setAttributes( { widthMobile: 75 } ) }>75</Button>
+										<Button isPrimary={ widthMobile === 100 } onClick={ () => setAttributes( { widthMobile: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -1279,7 +1279,7 @@ class GenerateBlockContainer extends Component {
 											</ResponsiveWrapper>
 										</Button>
 										<div className={ 'edit-bg-buttons' }>
-											<Button onClick={ open } isSecondary isLarge>
+											<Button onClick={ open } isSecondary>
 												{ __( 'Replace image', 'generateblocks' ) }
 											</Button>
 											<Button onClick={ onRemoveBgImage } isLink isDestructive>

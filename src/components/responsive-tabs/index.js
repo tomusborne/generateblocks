@@ -19,7 +19,6 @@ export default class ResponsiveTabs extends Component {
 			<div className="gb-responsive-tabs">
 				<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) }>
 					<Button
-						isLarge
 						isPressed={ 'desktop' === selectedDevice ? true : false }
 						onClick={ () => {
 							onClick( 'desktop' );
@@ -31,7 +30,6 @@ export default class ResponsiveTabs extends Component {
 
 				<Tooltip text={ __( 'Show options for tablet devices', 'generateblocks' ) }>
 					<Button
-						isLarge
 						isPressed={ 'tablet' === selectedDevice ? true : false }
 						onClick={ () => {
 							onClick( 'tablet' );
@@ -43,7 +41,6 @@ export default class ResponsiveTabs extends Component {
 
 				<Tooltip text={ __( 'Show options for mobile devices', 'generateblocks' ) }>
 					<Button
-						isLarge
 						isPressed={ 'mobile' === selectedDevice ? true : false }
 						onClick={ () => {
 							onClick( 'mobile' );

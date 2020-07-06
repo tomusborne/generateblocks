@@ -108,7 +108,6 @@ class IconPicker extends Component {
 												<li key={ `editor-pblock-types-list-item-${ i }` }>
 													<Tooltip text={ ( generalSvgs[ svg ].label ) }>
 														<Button
-															isLarge
 															className="editor-block-list-item-button"
 															onClick={ () => {
 																setAttributes( {
@@ -141,7 +140,6 @@ class IconPicker extends Component {
 												<li key={ `editor-pblock-types-list-item-${ i }` }>
 													<Tooltip text={ ( socialSvgs[ svg ].label ) }>
 														<Button
-															isLarge
 															className="editor-block-list-item-button"
 															onClick={ () => {
 																setAttributes( {
