@@ -99,6 +99,10 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Allow all standard richText formats in Headline block
 * Tweak: Better iconSize responsive placeholders
 * Tweak: Allow decimal values in gradient start/stop
+* Tweak: Move block name to the end of editor.desktopCSS filter args
+* Tweak: Add buttonColorsHover to editor.controls filter
+* Tweak: Change editor.insideContainerWrapper filter to frontend.insideContainer
+* Tweak: Pass attributes to frontend.insideContainer instead of props
 * Fix: gridId value in nested grids
 * Fix: Use inline-block for inline headlines with no icon
 * Fix: Missing text domains
