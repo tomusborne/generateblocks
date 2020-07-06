@@ -129,7 +129,7 @@ export default class DesktopCSS extends Component {
 			'font-size': valueWithUnit( iconSize, iconSizeUnit ),
 		} ];
 
-		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'generateblocks/button', this.props );
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'button', this.props );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>
