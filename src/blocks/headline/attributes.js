@@ -19,7 +19,7 @@ export default {
 	},
 	element: {
 		type: 'string',
-		default: generateBlocksDefaults.headline.element,
+		default: 'h2',
 	},
 	alignment: {
 		type: 'string',

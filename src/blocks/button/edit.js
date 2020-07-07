@@ -12,6 +12,7 @@ import GradientControl from '../../components/gradient/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import PanelArea from '../../components/panel-area/';
 import getIcon from '../../utils/get-icon';
+import getSelectedDevice from '../../utils/get-selected-device';
 import DesktopCSS from './css/desktop.js';
 import sanitizeSVG from '../../utils/sanitize-svg';
 
@@ -200,6 +201,21 @@ class GenerateBlockButton extends Component {
 			},
 		];
 
+		let htmlAttributes = {
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				'gb-button': true,
+				[ `gb-button-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+			href: !! url ? url : undefined,
+			target: !! target ? '_blank' : undefined,
+			rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
+			'aria-label': !! ariaLabel ? ariaLabel : undefined,
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
+
 		return (
 			<Fragment>
 				<BlockControls>
@@ -229,8 +245,10 @@ class GenerateBlockButton extends Component {
 
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ selectedDevice }
+						selectedDevice={ getSelectedDevice( selectedDevice ) }
 						onClick={ ( device ) => {
+							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
+
 							this.setState( {
 								selectedDevice: device,
 							} );
@@ -247,7 +265,7 @@ class GenerateBlockButton extends Component {
 						showPanel={ ! removeText || false }
 					>
 
-						{ 'desktop' === selectedDevice && (
+						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<TypographyControls { ...this.props }
 									showFontFamily={ true }
@@ -263,7 +281,7 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === selectedDevice && (
+						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<TypographyControls { ...this.props }
 									device={ 'Tablet' }
@@ -277,7 +295,7 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === selectedDevice && (
+						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<TypographyControls { ...this.props }
 									device={ 'Mobile' }
@@ -303,10 +321,10 @@ class GenerateBlockButton extends Component {
 						state={ this.state }
 					>
 
-						{ 'desktop' === selectedDevice && (
+						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTop' }
@@ -319,7 +337,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -332,7 +350,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTop' }
@@ -345,7 +363,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeft' }
@@ -363,10 +381,10 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === selectedDevice && (
+						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopTablet' }
@@ -379,7 +397,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -392,7 +410,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopTablet' }
@@ -405,7 +423,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftTablet' }
@@ -423,10 +441,10 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === selectedDevice && (
+						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopMobile' }
@@ -439,7 +457,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -452,7 +470,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopMobile' }
@@ -465,7 +483,7 @@ class GenerateBlockButton extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftMobile' }
@@ -493,7 +511,7 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonColors' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<TabPanel className="layout-tab-panel gblocks-control-tabs"
 							activeClass="active-tab"
@@ -623,7 +641,7 @@ class GenerateBlockButton extends Component {
 														}
 													/>
 
-													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsNormal', this.props, this.state ) }
+													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsHover', this.props, this.state ) }
 												</Fragment>
 											) }
 										</div>
@@ -636,13 +654,13 @@ class GenerateBlockButton extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Background Gradient' ) }
+						title={ __( 'Background Gradient', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'gradients' ) }
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonBackgroundGradient' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<GradientControl { ...this.props }
 							attrGradient={ 'gradient' }
@@ -667,15 +685,14 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonIcon' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || !! icon ? true : false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || !! icon ? true : false }
 					>
 
-						{ 'desktop' === selectedDevice &&
+						{ 'desktop' === getSelectedDevice( selectedDevice ) &&
 							<IconPicker { ...this.props }
 								attrIcon={ 'icon' }
 								attrIconLocation={ 'iconLocation' }
 								attrRemoveText={ 'removeText' }
-								attrAriaLabel={ 'ariaLabel' }
 								locationOptions={ [
 									{ label: __( 'Left', 'generateblocks' ), value: 'left' },
 									{ label: __( 'Right', 'generateblocks' ), value: 'right' },
@@ -683,12 +700,12 @@ class GenerateBlockButton extends Component {
 							/>
 						}
 
-						{ 'desktop' === selectedDevice && !! icon && (
+						{ 'desktop' === getSelectedDevice( selectedDevice ) && !! icon && (
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
 										<DimensionsControl { ...this.props }
-											device={ selectedDevice }
+											device={ getSelectedDevice( selectedDevice ) }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTop' }
@@ -767,12 +784,12 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === selectedDevice && !! icon &&
+						{ 'tablet' === getSelectedDevice( selectedDevice ) && !! icon &&
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
 										<DimensionsControl { ...this.props }
-											device={ selectedDevice }
+											device={ getSelectedDevice( selectedDevice ) }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTopTablet' }
@@ -852,12 +869,12 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						}
 
-						{ 'mobile' === selectedDevice && !! icon && (
+						{ 'mobile' === getSelectedDevice( selectedDevice ) && !! icon && (
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
 										<DimensionsControl { ...this.props }
-											device={ selectedDevice }
+											device={ getSelectedDevice( selectedDevice ) }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTopMobile' }
@@ -947,7 +964,7 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonAdvanced' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
@@ -967,6 +984,17 @@ class GenerateBlockButton extends Component {
 							onChange={ ( value ) => {
 								setAttributes( {
 									cssClasses: value,
+								} );
+							} }
+						/>
+
+						<TextControl
+							label={ __( 'ARIA Label', 'generateblocks' ) }
+							help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
+							value={ ariaLabel }
+							onChange={ ( value ) => {
+								setAttributes( {
+									ariaLabel: value,
 								} );
 							} }
 						/>
@@ -999,16 +1027,7 @@ class GenerateBlockButton extends Component {
 				}
 
 				<a
-					id={ !! elementId ? elementId : undefined }
-					className={ classnames( {
-						'gb-button': true,
-						[ `gb-button-${ uniqueId }` ]: true,
-						[ `${ cssClasses }` ]: '' !== cssClasses,
-					} ) }
-					href={ !! url ? url : undefined }
-					target={ !! target ? '_blank' : undefined }
-					rel={ relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined }
-					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
+					{ ...htmlAttributes }
 				>
 					{ icon && 'left' === iconLocation &&
 						<span

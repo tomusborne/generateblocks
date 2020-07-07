@@ -9,6 +9,10 @@ const {
 	RichText,
 } = wp.blockEditor;
 
+const {
+	applyFilters,
+} = wp.hooks;
+
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
@@ -22,6 +26,17 @@ export default ( { attributes } ) => {
 	} = attributes;
 
 	const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
+
+	let htmlAttributes = {
+		id: !! elementId ? elementId : undefined,
+		className: classnames( {
+			'gb-headline': true,
+			[ `gb-headline-${ uniqueId }` ]: true,
+			[ `${ cssClasses }` ]: '' !== cssClasses,
+		} ),
+	};
+
+	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
 
 	return (
 		<ConditionalWrap
@@ -42,13 +57,8 @@ export default ( { attributes } ) => {
 			{ ! removeText &&
 				<RichText.Content
 					tagName={ element }
-					id={ !! elementId ? elementId : undefined }
-					className={ classnames( {
-						'gb-headline': true,
-						[ `gb-headline-${ uniqueId }` ]: true,
-						[ `${ cssClasses }` ]: '' !== cssClasses,
-					} ) }
 					value={ content }
+					{ ...htmlAttributes }
 				/>
 			}
 		</ConditionalWrap>

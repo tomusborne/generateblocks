@@ -1,8 +1,9 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import shorthandCSS from '../../../utils/shorthand-css';
-import hexToRGBA from '../../../components/color-picker/hex-to-rgba';
+import hexToRGBA from '../../../utils/hex-to-rgba';
 import valueWithUnit from '../../../utils/value-with-unit';
+import getBackgroundImageCSS from '../../../utils/get-background-image';
 
 const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
@@ -47,13 +48,6 @@ export default class DesktopCSS extends Component {
 			backgroundColor,
 			backgroundColorOpacity,
 			gradient,
-			gradientDirection,
-			gradientColorOne,
-			gradientColorOneOpacity,
-			gradientColorStopOne,
-			gradientColorTwo,
-			gradientColorTwoOpacity,
-			gradientColorStopTwo,
 			textColor,
 			linkColor,
 			linkColorHover,
@@ -71,33 +65,7 @@ export default class DesktopCSS extends Component {
 			textTransform,
 		} = attributes;
 
-		let backgroundImageValue,
-			gradientColorStopOneValue = '',
-			gradientColorStopTwoValue = '';
-
-		if ( gradient ) {
-			if ( gradientColorOne && '' !== gradientColorStopOne ) {
-				gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
-			}
-
-			if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
-				gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
-			}
-		}
-
-		if ( bgImage ) {
-			backgroundImageValue = 'url(' + bgImage.image.url + ')';
-
-			if ( bgOptions.overlay ) {
-				if ( gradient ) {
-					backgroundImageValue = 'linear-gradient(' + gradientDirection + 'deg, ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + '), url(' + bgImage.image.url + ')';
-				} else {
-					backgroundImageValue = 'linear-gradient(0deg, ' + hexToRGBA( backgroundColor, backgroundColorOpacity ) + ', ' + hexToRGBA( backgroundColor, backgroundColorOpacity ) + '), url(' + bgImage.image.url + ')';
-				}
-			}
-		} else if ( gradient ) {
-			backgroundImageValue = 'linear-gradient(' + gradientDirection + 'deg, ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + ');';
-		}
+		const backgroundImageValue = getBackgroundImageCSS( attributes );
 
 		let containerWidthPreview = containerWidth;
 
@@ -112,19 +80,12 @@ export default class DesktopCSS extends Component {
 		}
 
 		let cssObj = [];
-
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
-			'background-image': backgroundImageValue,
-			'background-size': bgOptions.size,
-			'background-position': bgOptions.position,
-			'background-repeat': bgOptions.repeat,
-			'background-attachment': bgOptions.attachment,
 			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'z-index': zindex,
-			'position': zindex ? 'relative' : false, // eslint-disable-line quote-props
 			'text-align': alignment,
 			'font-family': fontFamily + fontFamilyFallbackValue,
 			'font-weight': fontWeight,
@@ -132,6 +93,32 @@ export default class DesktopCSS extends Component {
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		} ];
+
+		if ( bgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
+			cssObj[ '.gb-container-' + uniqueId ].push( {
+				'background-image': backgroundImageValue,
+				'background-size': bgOptions.size,
+				'background-position': bgOptions.position,
+				'background-repeat': bgOptions.repeat,
+				'background-attachment': bgOptions.attachment,
+			} );
+		} else if ( gradient && backgroundImageValue ) {
+			cssObj[ '.gb-container-' + uniqueId ].push( {
+				'background-image': backgroundImageValue,
+			} );
+		}
+
+		if ( ( bgImage && 'pseudo-element' === bgOptions.selector ) || zindex ) {
+			cssObj[ '.gb-container-' + uniqueId ].push( {
+				'position': 'relative', // eslint-disable-line quote-props
+			} );
+		}
+
+		if ( bgImage && 'pseudo-element' === bgOptions.selector ) {
+			cssObj[ '.gb-container-' + uniqueId ].push( {
+				'overflow': 'hidden', // eslint-disable-line quote-props
+			} );
+		}
 
 		cssObj[ `.editor-styles-wrapper .gb-container-` + uniqueId + ` h1,
 			.editor-styles-wrapper .gb-container-` + uniqueId + ` h2,
@@ -158,6 +145,29 @@ export default class DesktopCSS extends Component {
 			} );
 		}
 
+		if ( bgImage && 'pseudo-element' === bgOptions.selector ) {
+			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
+				'content': '""', // eslint-disable-line quote-props
+				'background-image': 'url(' + bgImage.image.url + ')',
+				'background-repeat': bgOptions.repeat,
+				'background-position': bgOptions.position,
+				'background-size': bgOptions.size,
+				'background-attachment': bgOptions.attachment,
+				'z-index': '0',
+				'position': 'absolute', // eslint-disable-line quote-props
+				'top': '0', // eslint-disable-line quote-props
+				'right': '0', // eslint-disable-line quote-props
+				'bottom': '0', // eslint-disable-line quote-props
+				'left': '0', // eslint-disable-line quote-props
+			} ];
+
+			if ( typeof bgOptions.opacity !== 'undefined' && 1 !== bgOptions.opacity ) {
+				cssObj[ '.gb-container-' + uniqueId + ':before' ].push( {
+					'opacity': bgOptions.opacity, // eslint-disable-line quote-props
+				} );
+			}
+		}
+
 		cssObj[ '.gb-container-' + uniqueId + ' a, .gb-container-' + uniqueId + ' a:visited' ] = [ {
 			'color': linkColor, // eslint-disable-line quote-props
 		} ];
@@ -176,6 +186,13 @@ export default class DesktopCSS extends Component {
 				'max-width': valueWithUnit( containerWidthPreview, 'px' ),
 				'margin-left': 'auto',
 				'margin-right': 'auto',
+			} );
+		}
+
+		if ( bgImage && 'pseudo-element' === bgOptions.selector ) {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
+				'z-index': '1',
+				'position': 'relative', // eslint-disable-line quote-props
 			} );
 		}
 
@@ -214,7 +231,7 @@ export default class DesktopCSS extends Component {
 			'display': 'none', // eslint-disable-line quote-props
 		} ];
 
-		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'container', this.props );
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, this.props, 'container' );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

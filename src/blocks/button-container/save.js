@@ -8,6 +8,10 @@ const {
 	InnerBlocks,
 } = wp.blockEditor;
 
+const {
+	applyFilters,
+} = wp.hooks;
+
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
@@ -15,14 +19,20 @@ export default ( { attributes } ) => {
 		cssClasses,
 	} = attributes;
 
+	let htmlAttributes = {
+		id: !! elementId ? elementId : undefined,
+		className: classnames( {
+			'gb-button-wrapper': true,
+			[ `gb-button-wrapper-${ uniqueId }` ]: true,
+			[ `${ cssClasses }` ]: '' !== cssClasses,
+		} ),
+	};
+
+	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button-container', attributes );
+
 	return (
 		<div
-			id={ !! elementId ? elementId : undefined }
-			className={ classnames( {
-				'gb-button-wrapper': true,
-				[ `gb-button-wrapper-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
-			} ) }
+			{ ...htmlAttributes }
 		>
 			<InnerBlocks.Content />
 		</div>

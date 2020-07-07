@@ -44,7 +44,7 @@ class TypographyControls extends Component {
 		} = this.props;
 
 		const fonts = [
-			{ value: '', label: __( 'Select font...' ) },
+			{ value: '', label: __( 'Select font...', 'generateblocks' ) },
 			{ value: 'Arial', label: 'Arial' },
 			{ value: 'Helvetica', label: 'Helvetica' },
 			{ value: 'Times New Roman', label: 'Times New Roman' },
@@ -455,13 +455,12 @@ class TypographyControls extends Component {
 							</div>
 
 							<div className="components-gblocks-control__units">
-								<Tooltip text={ __( 'Em Units' ) } key={ 'letter-spacing-unit' }>
+								<Tooltip text={ __( 'Em Units', 'generateblocks' ) } key={ 'letter-spacing-unit' }>
 									<Button
 										key={ 'letter-spacing-unit' }
 										isSmall
 										isPrimary={ true }
-										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										aria-label={ __( 'Em Units' ) }
+										aria-label={ __( 'Em Units', 'generateblocks' ) }
 									>
 										em
 									</Button>

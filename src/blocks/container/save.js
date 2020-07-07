@@ -20,6 +20,7 @@ export default ( { attributes } ) => {
 		elementId,
 		cssClasses,
 		isGrid,
+		align,
 	} = attributes;
 
 	const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
@@ -33,15 +34,17 @@ export default ( { attributes } ) => {
 			} ) }>{ children }</div> }
 		>
 			<Section
+				attributes={ attributes }
 				tagName={ tagName }
 				id={ elementId }
 				className={ classnames( {
 					'gb-container': true,
 					[ `gb-container-${ uniqueId }` ]: true,
 					[ `${ cssClasses }` ]: '' !== cssClasses,
+					[ `align${ align }` ]: !! align && ! isGrid,
 				} ) }
 			>
-				{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
+				{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 				<div className={ classnames( {
 					'gb-inside-container': true,
 				} ) }>

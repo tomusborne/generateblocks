@@ -1,0 +1,99 @@
+/**
+ * Shared editor styles among all the blocks.
+*/
+
+.gblocks-notice {
+	margin-bottom: 20px;
+}
+
+.gblocks-panel-label .components-panel__body-toggle.components-button {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.gblocks-panel-label svg.components-panel__icon {
+    margin: 0 10px 0 0;
+}
+
+.components-gblocks-control__header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    align-items: center;
+}
+
+.components-panel__body .components-gblocks-control__units .components-button {
+    background: #fff;
+    border-color: #e2e4e7;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+    color: #6c7781;
+    font-size: 10px;
+    padding: 0 5px;
+    position: relative;
+    text-align: center;
+    text-shadow: none;
+	border: 1px solid;
+
+	&.is-primary {
+	    background: #0070a7;
+	    border-color: #0070a7;
+	    color: #fff;
+	    cursor: default;
+	    z-index: 1;
+	}
+}
+
+.gblocks-control-tabs .components-tab-panel__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #e8eaeb;
+}
+
+.gblocks-control-tabs .components-tab-panel__tabs button {
+    padding: 8px;
+    height: auto;
+    margin: 0;
+    margin-bottom: -1px;
+    cursor: pointer;
+    border: none;
+    border: 0;
+    border-radius: 0;
+    outline-offset: -1px;
+    flex: 1;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 400;
+
+    &.active-tab {
+        position: relative;
+        z-index: 1;
+        background: #222 !important;
+        color: #fff !important;
+        box-shadow: 0 0 0 !important;
+    }
+}
+
+.gblocks-block-control-icon svg {
+    margin-right: 0 !important;
+	margin-left: 0 !important;
+    padding: 2px;
+}
+
+.gblocks-block-control-icon.gblocks-add-grid-item svg {
+	padding: 0;
+}
+
+.gblocks-block-control-icon svg path {
+    fill: inherit !important;
+}
+
+.gblocks-option-notice.components-notice {
+    margin: 0 0 24px;
+
+    .components-notice__content {
+        margin: 5px;
+    }
+}

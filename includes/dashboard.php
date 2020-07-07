@@ -112,11 +112,13 @@ function generateblocks_do_dashboard() {
 	?>
 		<div class="wrap gblocks-dashboard-wrap">
 			<div class="gblocks-dashboard-header">
-				<div class="gblocks-logo">
-					<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-						<img width="200" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-black.svg'; ?>" alt="" />
-					</a>
-					<span class="gblocks-version"><?php echo esc_html( GENERATEBLOCKS_VERSION ); ?></span>
+				<div class="gblocks-dashboard-header-content">
+					<h1 class="gblocks-logo">
+						<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
+							<img width="200" height="55" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-black.svg'; ?>" alt="<?php esc_attr_e( 'GenerateBlocks', 'generateblocks' ); ?>" />
+						</a>
+						<span class="gblocks-version"><?php echo esc_html( GENERATEBLOCKS_VERSION ); ?></span>
+					</h1>
 				</div>
 
 				<?php generateblocks_dashboard_navigation(); ?>
@@ -186,16 +188,16 @@ function generateblocks_do_dashboard() {
 								</div>
 
 								<div class="stars">
-									<strong>900+</strong><br>
+									<strong>1000+</strong><br>
 									<img src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/stars.svg'; ?>" alt="" width="98" height="17" class="alignnone size-full wp-image-44">
 								</div>
 
 								<div class="active-websites">
-									<strong>200,000+</strong><br> <?php esc_html_e( 'Active websites', 'generateblocks' ); ?>
+									<strong>300,000+</strong><br> <?php esc_html_e( 'Active websites', 'generateblocks' ); ?>
 								</div>
 
 								<div class="active-websites">
-									<strong>50,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
+									<strong>60,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
 								</div>
 							</div>
 							<a class="gblocks-button" href="https://generatepress.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Learn more', 'generateblocks' ); ?></a>

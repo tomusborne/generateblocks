@@ -5,7 +5,7 @@
  * Description: A small collection of lightweight WordPress blocks that can accomplish nearly anything.
  * Author: Tom Usborne
  * Author URI: https://tomusborne.com
- * Version: 1.0.2
+ * Version: 1.1.0
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: generateblocks
@@ -17,8 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'GENERATEBLOCKS_VERSION', '1.0.2' );
-define( 'GENERATEBLOCKS_CSS_VERSION', '1.0' );
+define( 'GENERATEBLOCKS_VERSION', '1.1.0' );
+define( 'GENERATEBLOCKS_CSS_VERSION', '1.0.2' );
 define( 'GENERATEBLOCKS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 
@@ -31,6 +31,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-do-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-enqueue-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/dashboard.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-settings.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-plugin-update.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**

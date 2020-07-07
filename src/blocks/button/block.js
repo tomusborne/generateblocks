@@ -38,6 +38,7 @@ registerBlockType( 'generateblocks/button', {
 		className: false,
 		customClassName: false,
 		inserter: false,
+		reusable: false,
 	},
 	edit: editButtonContainer,
 	save: saveButtonContainer,

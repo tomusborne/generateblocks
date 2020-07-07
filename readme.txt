@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiw
 Requires at least: 5.0
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 1.0.2
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,45 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.1.0 =
+* New: Persistent responsive controls across blocks
+* New: Filter all HTML attributes
+* New: Filter Container tagNames
+* New: Add containerAfterElementTag filter
+* New: Add option to apply background image as pseudo element
+* New: Add support for alignwide/alignfull in Container block
+* New: Display color palette by default in Color component
+* New: Add option to choose default view in Color component
+* New: Add aria-label option for Buttons into advanced panel
+* Tweak: Deprecate background image overlay option
+* Tweak: Move hexToRGBA to utils
+* Tweak: Fix repeated common CSS
+* Tweak: Re-design normal/hover state buttons
+* Tweak: Filter default background image size
+* Tweak: Cache parsed blocks on front-end
+* Tweak: Better display of admin notices in Dashboard
+* Tweak: Change Container Width label to Contained Width
+* Tweak: Add future framework for migrating/updating old options
+* Tweak: Don't allow single button to be saved as reusable
+* Tweak: Don't allow element tagName to be filtered
+* Tweak: Allow all standard richText formats in Headline block
+* Tweak: Better iconSize responsive placeholders
+* Tweak: Allow decimal values in gradient start/stop
+* Tweak: Move block name to the end of editor.desktopCSS filter args
+* Tweak: Add buttonColorsHover to editor.controls filter
+* Tweak: Change editor.insideContainerWrapper filter to frontend.insideContainer
+* Tweak: Pass attributes to frontend.insideContainer instead of props
+* Fix: gridId value in nested grids
+* Fix: Use inline-block for inline headlines with no icon
+* Fix: Missing text domains
+* Fix: Display Headline highlight option in Headline block only
+* Fix: Headline icon center alignment in IE
+* Fix: Headline highlight background color in IE
+* Fix: Mobile selector for width in min-height container
+* Fix: Add box-sizing to min-height container on tablet/mobile
+* Fix: Headline text alignment when using an icon
+* Fix: Allow 0 as iconSize value
 
 = 1.0.2 =
 * Tweak: Minify/compress all dist files

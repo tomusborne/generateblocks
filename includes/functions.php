@@ -15,10 +15,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 0.1
  * @param array $content The content of our page.
  * @param array $data Data used to loop through the function as needed.
+ * @param int   $depth Keep track of how deep we are in nested blocks.
  *
  * @return array
  */
-function generateblocks_get_block_data( $content, $data = array() ) {
+function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) {
 	if ( ! is_array( $content ) || empty( $content ) ) {
 		return;
 	}
@@ -27,12 +28,13 @@ function generateblocks_get_block_data( $content, $data = array() ) {
 		if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
 			if ( 'generateblocks/grid' === $block['blockName'] ) {
 				$data['grid'][] = $block['attrs'];
-				$data['tempGridId'] = $block['attrs']['uniqueId'];
+				$depth++;
+				$data[ 'tempGridId-' . $depth ] = $block['attrs']['uniqueId'];
 			}
 
 			if ( 'generateblocks/container' === $block['blockName'] ) {
-				if ( isset( $block['attrs']['isGrid'] ) && $block['attrs']['isGrid'] && isset( $data['tempGridId'] ) ) {
-					$block['attrs']['gridId'] = $data['tempGridId'];
+				if ( isset( $block['attrs']['isGrid'] ) && $block['attrs']['isGrid'] && isset( $data[ 'tempGridId-' . $depth ] ) ) {
+					$block['attrs']['gridId'] = $data[ 'tempGridId-' . $depth ];
 				}
 
 				$data['container'][] = $block['attrs'];
@@ -66,12 +68,50 @@ function generateblocks_get_block_data( $content, $data = array() ) {
 			}
 
 			if ( isset( $block['innerBlocks'] ) && ! empty( $block['innerBlocks'] ) && is_array( $block['innerBlocks'] ) ) {
-				$data = generateblocks_get_block_data( $block['innerBlocks'], $data );
+				$data = generateblocks_get_block_data( $block['innerBlocks'], $data, $depth );
 			}
 		}
 	}
 
 	return $data;
+}
+
+/**
+ * Parse our content for blocks.
+ *
+ * @param string $content Optional content to parse.
+ * @since 1.1
+ */
+function generateblocks_get_parsed_content( $content = '' ) {
+	$parsed_content = wp_cache_get( 'generateblocks_parsed_content' );
+
+	if ( ! $parsed_content ) {
+		if ( ! function_exists( 'has_blocks' ) ) {
+			return;
+		}
+
+		if ( ! $content && has_blocks( get_the_ID() ) ) {
+			global $post;
+
+			if ( ! is_object( $post ) ) {
+				return;
+			}
+
+			$content = $post->post_content;
+		}
+
+		$content = apply_filters( 'generateblocks_do_content', $content );
+
+		if ( ! function_exists( 'parse_blocks' ) ) {
+			return;
+		}
+
+		$parsed_content = parse_blocks( $content );
+
+		wp_cache_set( 'generateblocks_parsed_content', $parsed_content );
+	}
+
+	return $parsed_content;
 }
 
 /**
@@ -136,33 +176,11 @@ function generateblocks_get_media_query( $type ) {
  * Build our list of Google fonts on this page.
  *
  * @since 0.1
- *
- * @param string $content The content to parse.
- *
+ * @param string $content Optional content to parse.
  * @return array
  */
 function generateblocks_get_google_fonts( $content = '' ) {
-	if ( ! function_exists( 'has_blocks' ) ) {
-		return;
-	}
-
-	if ( ! $content && has_blocks( get_the_ID() ) ) {
-		global $post;
-
-		if ( ! is_object( $post ) ) {
-			return;
-		}
-
-		$content = $post->post_content;
-	}
-
-	$content = apply_filters( 'generateblocks_do_content', $content );
-
-	if ( ! function_exists( 'parse_blocks' ) ) {
-		return;
-	}
-
-	$content = parse_blocks( $content );
+	$content = generateblocks_get_parsed_content( $content );
 
 	if ( ! $content ) {
 		return;
@@ -429,4 +447,68 @@ function generateblocks_has_number_value( $value ) {
 	}
 
 	return false;
+}
+
+/**
+ * Get the background-image value.
+ *
+ * @param array $settings Our background image settings.
+ * @param array $custom_args Custom args that will overwrite the settings.
+ */
+function generateblocks_get_background_image_css( $settings, $custom_args = array() ) {
+	$args = array(
+		'backgroundColor' => $settings['backgroundColor'],
+		'backgroundColorOpacity' => $settings['backgroundColorOpacity'],
+		'gradient' => $settings['gradient'],
+		'gradientDirection' => $settings['gradientDirection'],
+		'gradientColorOne' => $settings['gradientColorOne'],
+		'gradientColorOneOpacity' => $settings['gradientColorOneOpacity'],
+		'gradientColorStopOne' => $settings['gradientColorStopOne'],
+		'gradientColorTwo' => $settings['gradientColorTwo'],
+		'gradientColorTwoOpacity' => $settings['gradientColorTwoOpacity'],
+		'gradientColorStopTwo' => $settings['gradientColorStopTwo'],
+		'bgImage' => $settings['bgImage'],
+		'bgOptions' => $settings['bgOptions'],
+	);
+
+	$args = wp_parse_args(
+		$args,
+		$custom_args
+	);
+
+	$background_image = false;
+	$gradientColorStopOneValue = '';
+	$gradientColorStopTwoValue = '';
+
+	$args['backgroundColor'] = generateblocks_hex2rgba( $args['backgroundColor'], $args['backgroundColorOpacity'] );
+	$args['gradientColorOne'] = generateblocks_hex2rgba( $args['gradientColorOne'], $args['gradientColorOneOpacity'] );
+	$args['gradientColorTwo'] = generateblocks_hex2rgba( $args['gradientColorTwo'], $args['gradientColorTwoOpacity'] );
+
+	if ( $args['gradient'] ) {
+		if ( $args['gradientColorOne'] && '' !== $args['gradientColorStopOne'] ) {
+			$gradientColorStopOneValue = ' ' . $args['gradientColorStopOne'] . '%';
+		}
+
+		if ( $args['gradientColorTwo'] && '' !== $args['gradientColorStopTwo'] ) {
+			$gradientColorStopTwoValue = ' ' . $args['gradientColorStopTwo'] . '%';
+		}
+	}
+
+	if ( $args['bgImage'] && 'element' === $args['bgOptions']['selector'] ) {
+		$url = $args['bgImage']['image']['url'];
+
+		if ( ( $args['backgroundColor'] || $args['gradient'] ) && isset( $args['bgOptions']['overlay'] ) && $args['bgOptions']['overlay'] ) {
+			if ( $args['gradient'] ) {
+				$background_image = 'linear-gradient(' . $args['gradientDirection'] . 'deg, ' . $args['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $args['gradientColorTwo'] . $gradientColorStopTwoValue . '), url(' . esc_url( $url ) . ')';
+			} elseif ( $args['backgroundColor'] ) {
+				$background_image = 'linear-gradient(0deg, ' . $args['backgroundColor'] . ', ' . $args['backgroundColor'] . '), url(' . esc_url( $url ) . ')';
+			}
+		} else {
+			$background_image = 'url(' . esc_url( $url ) . ')';
+		}
+	} elseif ( $args['gradient'] ) {
+		$background_image = 'linear-gradient(' . $args['gradientDirection'] . 'deg, ' . $args['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $args['gradientColorTwo'] . $gradientColorStopTwoValue . ')';
+	}
+
+	return $background_image;
 }

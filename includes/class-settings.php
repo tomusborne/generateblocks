@@ -19,8 +19,9 @@ class GenerateBlocks_Settings {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_init', array( $this, 'save' ) );
+		add_action( 'generateblocks_before_settings_form', array( $this, 'admin_notices' ) );
 
-		if ( ! empty( $_POST ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+		if ( ! empty( $_POST ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Just checking, false positive.
 			add_action( 'wp_ajax_generateblocks_regenerate_css_files', array( $this, 'regenerate_css_files' ) );
 		}
 	}
@@ -73,9 +74,13 @@ class GenerateBlocks_Settings {
 				$settings['css_print_method'] = sanitize_key( $values['css_print_method'] );
 			}
 
+			if ( isset( $values['color_component_display'] ) ) {
+				$settings['color_component_display'] = sanitize_key( $values['color_component_display'] );
+			}
+
 			update_option( 'generateblocks', $settings );
 
-			wp_safe_redirect( admin_url( 'admin.php?page=generateblocks-settings' ) );
+			wp_safe_redirect( admin_url( 'admin.php?page=generateblocks-settings&settings-updated=true' ) );
 			exit;
 		}
 	}
@@ -104,12 +109,14 @@ class GenerateBlocks_Settings {
 		?>
 			<div class="wrap gblocks-dashboard-wrap">
 				<div class="gblocks-dashboard-header">
-					<h1><?php esc_html_e( 'Settings', 'generateblocks' ); ?></h1>
-
+					<div class="gblocks-dashboard-header-content">
+						<h1><?php esc_html_e( 'Settings', 'generateblocks' ); ?></h1>
+					</div>
 					<?php generateblocks_dashboard_navigation(); ?>
 				</div>
 
 				<div class="gblocks-settings-content">
+					<?php do_action( 'generateblocks_before_settings_form' ); ?>
 					<form action="options.php" method="post">
 						<?php
 						wp_nonce_field( 'generateblocks_settings', 'generateblocks_settings' );
@@ -136,11 +143,23 @@ class GenerateBlocks_Settings {
 										<?php
 											printf(
 												'<button data-nonce="%s" class="button generateblocks-button-spinner" id="generateblocks-regenerate-css-files-button">%s</button>',
-												wp_create_nonce( 'generateblocks_regenerate_css_files' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+												esc_html( wp_create_nonce( 'generateblocks_regenerate_css_files' ) ),
 												esc_html__( 'Regenerate Files', 'generateblocks' )
 											);
 										?>
 										<p><?php esc_html_e( 'Force your external CSS files to regenerate next time their page is loaded.', 'generateblocks' ); ?></p>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">
+										<?php esc_html_e( 'Color Component Display', 'generateblocks' ); ?>
+									</th>
+									<td>
+										<select name="generateblocks[color_component_display]">
+											<option value="palette"<?php selected( 'palette', generateblocks_get_option( 'color_component_display' ) ); ?>><?php esc_html_e( 'Color Palette', 'generateblocks' ); ?></option>
+											<option value="custom-colors"<?php selected( 'custom-colors', generateblocks_get_option( 'color_component_display' ) ); ?>><?php esc_html_e( 'Custom Colors', 'generateblocks' ); ?></option>
+										</select>
+										<p><?php esc_html_e( 'Choose what the Color Component displays by default.', 'generateblocks' ); ?></p>
 									</td>
 								</tr>
 								<?php
@@ -160,6 +179,26 @@ class GenerateBlocks_Settings {
 				</div>
 			</div>
 		<?php
+	}
+
+	/**
+	 * Add a message when settings are saved.
+	 *
+	 * @since 1.1
+	 */
+	public function admin_notices() {
+		$screen = get_current_screen();
+
+		if ( 'settings_page_generateblocks-settings' !== $screen->base ) {
+			return;
+		}
+
+		if ( isset( $_GET['settings-updated'] ) && 'true' == $_GET['settings-updated'] ) { // phpcs:ignore -- Just checking, false positive.
+			printf(
+				'<div class="notice notice-success inline"><p><strong>Settings saved.</strong></p></div>',
+				esc_html__( 'Settings saved.', 'generateblocks' )
+			);
+		}
 	}
 }
 

@@ -104,6 +104,8 @@ function generateblocks_get_block_defaults() {
 		'linkColorHover' => '',
 		'bgImage' => '',
 		'bgOptions' => array(
+			'selector' => 'element',
+			'opacity' => 1,
 			'overlay' => false,
 			'position' => 'center center',
 			'size' => 'cover',
@@ -403,6 +405,7 @@ function generateblocks_get_option_defaults() {
 		'generateblocks_option_defaults',
 		array(
 			'css_print_method' => 'file',
+			'color_component_display' => 'palette',
 		)
 	);
 }
@@ -431,6 +434,7 @@ function generateblocks_get_default_styles() {
 			'gridItemPaddingRight' => '0',
 			'gridItemPaddingBottom' => '0',
 			'gridItemPaddingLeft' => '0',
+			'bgImageSize' => 'full',
 		),
 	);
 

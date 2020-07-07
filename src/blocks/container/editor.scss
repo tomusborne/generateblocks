@@ -58,6 +58,21 @@ body .gb-container .wp-block {
     margin: 0;
 }
 
+.block-editor-block-inspector .components-base-control {
+	&.gblocks-gpress-full-width {
+		border-top: 1px solid #ddd;
+		padding-top: 15px;
+
+		.components-base-control__label {
+			margin-bottom: 15px;
+		}
+	}
+}
+
+.gblocks-container-text-alignment .components-base-control__label {
+    display: block;
+}
+
 /* Not needed in GB 7 */
 .edit-post-visual-editor .block-editor-block-list__block[data-type="generateblocks/container"] > .block-editor-block-list__block-edit {
     margin: 0;

@@ -359,6 +359,8 @@ const attributes = {
 	bgOptions: {
 		type: 'object',
 		default: {
+			selector: generateBlocksDefaults.container.bgOptions.selector,
+			opacity: generateBlocksDefaults.container.bgOptions.opacity,
 			overlay: generateBlocksDefaults.container.bgOptions.overlay,
 			position: generateBlocksDefaults.container.bgOptions.position,
 			size: generateBlocksDefaults.container.bgOptions.size,
@@ -447,6 +449,10 @@ const attributes = {
 		default: generateBlocksDefaults.container.fontSizeUnit,
 	},
 	textTransform: {
+		type: 'string',
+		default: '',
+	},
+	align: {
 		type: 'string',
 		default: '',
 	},

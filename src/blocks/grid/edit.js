@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import getIcon from '../../utils/get-icon';
+import getSelectedDevice from '../../utils/get-selected-device';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
 import PanelArea from '../../components/panel-area/';
@@ -257,6 +258,17 @@ class GenerateBlockGridContainer extends Component {
 			verticalGapPlaceholderMobile = verticalGapTablet;
 		}
 
+		let htmlAttributes = {
+			id: !! elementId ? elementId : undefined,
+			className: classnames( {
+				'gb-grid-wrapper': true,
+				[ `gb-grid-wrapper-${ uniqueId }` ]: true,
+				[ `${ cssClasses }` ]: '' !== cssClasses,
+			} ),
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/grid', attributes );
+
 		return (
 			<Fragment>
 				<BlockControls>
@@ -285,8 +297,10 @@ class GenerateBlockGridContainer extends Component {
 				</BlockControls>
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ selectedDevice }
+						selectedDevice={ getSelectedDevice( selectedDevice ) }
 						onClick={ ( device ) => {
+							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
+
 							this.setState( {
 								selectedDevice: device,
 							} );
@@ -297,7 +311,7 @@ class GenerateBlockGridContainer extends Component {
 						id={ 'gridLayout' }
 						state={ this.state }
 					>
-						{ 'desktop' === selectedDevice && (
+						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -305,13 +319,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-unit' }>
 											<Button
 												key={ 'h-gap-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -370,13 +383,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-unit' }>
 											<Button
 												key={ 'v-gap-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -464,7 +476,7 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === selectedDevice && (
+						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -472,13 +484,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-tablet-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-tablet-unit' }>
 											<Button
 												key={ 'h-gap-tablet-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -538,13 +549,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-tablet-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-tablet-unit' }>
 											<Button
 												key={ 'v-gap-tablet-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -635,7 +645,7 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === selectedDevice && (
+						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -643,13 +653,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'h-gap-mobile-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-mobile-unit' }>
 											<Button
 												key={ 'h-gap-mobile-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -709,13 +718,12 @@ class GenerateBlockGridContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'v-gap-mobile-unit' }>
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-mobile-unit' }>
 											<Button
 												key={ 'v-gap-mobile-unit' }
 												isSmall
 												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
 											>
 												px
 											</Button>
@@ -816,7 +824,7 @@ class GenerateBlockGridContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'gridAdvanced' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
@@ -861,12 +869,7 @@ class GenerateBlockGridContainer extends Component {
 				<DesktopCSS { ...this.props } />
 
 				<div
-					id={ !! elementId ? elementId : undefined }
-					className={ classnames( {
-						'gb-grid-wrapper': true,
-						[ `gb-grid-wrapper-${ uniqueId }` ]: true,
-						[ `${ cssClasses }` ]: '' !== cssClasses,
-					} ) }
+					{ ...htmlAttributes }
 				>
 					{ columns > 0 || this.state.selectedLayout ? (
 						<Fragment>

@@ -2,7 +2,7 @@ import buildCSS from '../../../utils/build-css';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
-import hexToRGBA from '../../../components/color-picker/hex-to-rgba';
+import hexToRGBA from '../../../utils/hex-to-rgba';
 
 const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
@@ -66,7 +66,8 @@ export default class DesktopCSS extends Component {
 
 		let fontFamilyFallbackValue = '',
 			marginBottomValue = '',
-			fontSizeValue = '';
+			fontSizeValue = '',
+			inlineWidthValue = 'inline-block';
 
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
@@ -117,12 +118,13 @@ export default class DesktopCSS extends Component {
 
 		if ( icon ) {
 			headlineStyleSelector = '.gb-headline-wrapper-' + uniqueId;
+			inlineWidthValue = 'inline-flex';
 		}
 
 		cssObj[ headlineStyleSelector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
-			'display': inlineWidth ? 'inline-flex' : false, // eslint-disable-line quote-props
+			'display': inlineWidth ? inlineWidthValue : false, // eslint-disable-line quote-props
 			'margin': shorthandCSS( marginTop, marginRight, marginBottomValue, marginLeft, marginUnit ) + ' !important', // eslint-disable-line quote-props
 			'margin-bottom': marginBottomValue + ' !important', // The unit changes depending on the element if no value exists.
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
@@ -144,7 +146,7 @@ export default class DesktopCSS extends Component {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
 			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
 			'color': hexToRGBA( iconColor, iconColorOpacity ), // eslint-disable-line quote-props
-			'display': icon && 'above' === iconLocation ? 'unset' : false, // eslint-disable-line quote-props
+			'display': icon && 'above' === iconLocation ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
@@ -160,7 +162,7 @@ export default class DesktopCSS extends Component {
 			'display': inlineWidth ? 'inline-flex' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'headline', this.props );
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, this.props, 'headline' );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

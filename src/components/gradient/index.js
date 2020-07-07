@@ -95,12 +95,21 @@ class GradientControl extends Component {
 								<TextControl
 									className={ 'gblocks-component-gradient-stop-value' }
 									type={ 'text' }
-									value={ attributes[ attrGradientColorStopOne ] ? parseFloat( attributes[ attrGradientColorStopOne ] ) : '' }
+									value={ attributes[ attrGradientColorStopOne ] || 0 === attributes[ attrGradientColorStopOne ] ? attributes[ attrGradientColorStopOne ] : '' }
 									placeholder={ __( 'Stop position (%)', 'generateblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
-											[ attrGradientColorStopOne ]: parseFloat( value ),
+											[ attrGradientColorStopOne ]: value,
 										} );
+									} }
+									onBlur={ () => {
+										setAttributes( {
+											[ attrGradientColorStopOne ]: parseFloat( attributes[ attrGradientColorStopOne ] ),
+										} );
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
 									} }
 								/>
 							</div>
@@ -133,12 +142,21 @@ class GradientControl extends Component {
 								<TextControl
 									className={ 'gblocks-component-gradient-stop-value' }
 									type={ 'text' }
-									value={ attributes[ attrGradientColorStopTwo ] ? parseFloat( attributes[ attrGradientColorStopTwo ] ) : '' }
+									value={ attributes[ attrGradientColorStopTwo ] || 0 === attributes[ attrGradientColorStopTwo ] ? attributes[ attrGradientColorStopTwo ] : '' }
 									placeholder={ __( 'Stop position (%)', 'generateblocks' ) }
 									onChange={ ( value ) => {
 										setAttributes( {
-											[ attrGradientColorStopTwo ]: parseFloat( value ),
+											[ attrGradientColorStopTwo ]: value,
 										} );
+									} }
+									onBlur={ () => {
+										setAttributes( {
+											[ attrGradientColorStopTwo ]: parseFloat( attributes[ attrGradientColorStopTwo ] ),
+										} );
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
 									} }
 								/>
 							</div>

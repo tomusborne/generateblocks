@@ -5,6 +5,7 @@
 import Section from './section-tag';
 import ColorPicker from '../../components/color-picker';
 import getIcon from '../../utils/get-icon';
+import getSelectedDevice from '../../utils/get-selected-device';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 import PanelArea from '../../components/panel-area/';
@@ -29,6 +30,7 @@ const {
 	TextControl,
 	Tooltip,
 	BaseControl,
+	Notice,
 } = wp.components;
 
 const {
@@ -77,6 +79,33 @@ class GenerateBlockContainer extends Component {
 		} else {
 			gbContainerIds.push( this.props.attributes.uniqueId );
 		}
+
+		const thisBlock = document.getElementById( 'block-' + this.props.clientId );
+
+		if ( thisBlock && 'full' === this.props.attributes.align ) {
+			thisBlock.setAttribute( 'data-align', 'full' );
+		}
+	}
+
+	componentDidUpdate() {
+		const thisBlock = document.getElementById( 'block-' + this.props.clientId );
+
+		if ( thisBlock ) {
+			const alignValue = this.props.attributes.align;
+			let currentDataAlign = '';
+
+			if ( thisBlock.getAttribute( 'data-align' ) ) {
+				currentDataAlign = thisBlock.getAttribute( 'data-align' );
+			}
+
+			if ( alignValue !== currentDataAlign ) {
+				if ( ( '' === alignValue || undefined === alignValue ) && '' !== currentDataAlign ) {
+					thisBlock.removeAttribute( 'data-align' );
+				} else {
+					thisBlock.setAttribute( 'data-align', alignValue );
+				}
+			}
+		}
 	}
 
 	render() {
@@ -92,10 +121,16 @@ class GenerateBlockContainer extends Component {
 		} = this.state;
 
 		const onSelectBgImage = ( media ) => {
+			let size = generateBlocksStyling.container.bgImageSize;
+
+			if ( 'undefined' === typeof media.sizes[ size ] ) {
+				size = 'full';
+			}
+
 			setAttributes( {
 				bgImage: {
 					id: media.id,
-					image: media.sizes.full,
+					image: media.sizes[ size ],
 				},
 			} );
 		};
@@ -149,6 +184,7 @@ class GenerateBlockContainer extends Component {
 			googleFont,
 			googleFontVariants,
 			fullWidthContent,
+			align,
 		} = attributes;
 
 		const minHeightUnits = [
@@ -166,6 +202,13 @@ class GenerateBlockContainer extends Component {
 			},
 		];
 
+		const tagNames = [
+			{ label: 'div', value: 'div' },
+			{ label: 'section', value: 'section' },
+			{ label: 'header', value: 'header' },
+			{ label: 'footer', value: 'footer' },
+		];
+
 		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
 		const changeEvent = new Event( 'change' ); // eslint-disable-line no-undef
 		const getRootId = wp.data.select( 'core/block-editor' ).getBlockHierarchyRootClientId( clientId );
@@ -173,35 +216,50 @@ class GenerateBlockContainer extends Component {
 
 		const fullWidthContentOptions = () => {
 			return (
-				<div>
+				<Fragment>
 					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
-						<ToggleControl
-							label={ __( 'Set Full Width Content', 'generateblocks' ) }
-							help={ __( 'This option tells the content container that contains all of the blocks on this page to be full width.', 'generateblocks' ) }
-							checked={ fullWidthContent ? true : false }
-							onChange={ ( value ) => {
-								if ( value ) {
-									pageBuilderContainerOption.checked = true;
-									pageBuilderContainerOption.setAttribute( 'value', 'true' );
-									pageBuilderContainerOption.dispatchEvent( changeEvent );
+						<BaseControl
+							label={ __( 'If you want to build a full width page, use the option below to remove the page width, margin and padding.', 'generateblocks' ) }
+							className="gblocks-gpress-full-width"
+						>
+							<ToggleControl
+								label={ __( 'Make page full-width', 'generateblocks' ) }
+								checked={ fullWidthContent ? true : false }
+								onChange={ ( value ) => {
+									if ( value ) {
+										if ( 'select' === pageBuilderContainerOption.tagName.toLowerCase() ) {
+											pageBuilderContainerOption.value = 'true';
+											pageBuilderContainerOption.dispatchEvent( changeEvent );
+										} else {
+											pageBuilderContainerOption.checked = true;
+											pageBuilderContainerOption.setAttribute( 'value', 'true' );
+											pageBuilderContainerOption.dispatchEvent( changeEvent );
+										}
 
-									setAttributes( {
-										fullWidthContent: 'true',
-									} );
-								} else {
-									pageBuilderContainerOption.checked = false;
-									pageBuilderContainerOption.setAttribute( 'value', '' );
-									document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
-									pageBuilderContainerOption.dispatchEvent( changeEvent );
+										setAttributes( {
+											fullWidthContent: 'true',
+											align: '',
+										} );
+									} else {
+										if ( 'select' === pageBuilderContainerOption.tagName.toLowerCase() ) {
+											pageBuilderContainerOption.value = '';
+											pageBuilderContainerOption.dispatchEvent( changeEvent );
+										} else {
+											pageBuilderContainerOption.checked = false;
+											pageBuilderContainerOption.setAttribute( 'value', '' );
+											document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
+											pageBuilderContainerOption.dispatchEvent( changeEvent );
+										}
 
-									setAttributes( {
-										fullWidthContent: '',
-									} );
-								}
-							} }
-						/>
+										setAttributes( {
+											fullWidthContent: '',
+										} );
+									}
+								} }
+							/>
+						</BaseControl>
 					}
-				</div>
+				</Fragment>
 			);
 		};
 
@@ -233,8 +291,10 @@ class GenerateBlockContainer extends Component {
 			<Fragment>
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ selectedDevice }
+						selectedDevice={ getSelectedDevice( selectedDevice ) }
 						onClick={ ( device ) => {
+							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
+
 							this.setState( {
 								selectedDevice: device,
 							} );
@@ -249,7 +309,7 @@ class GenerateBlockContainer extends Component {
 							className={ 'gblocks-panel-label' }
 							id={ 'containerLayout' }
 							state={ this.state }
-							showPanel={ 'desktop' === selectedDevice || false }
+							showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 						>
 
 							<Fragment>
@@ -267,72 +327,79 @@ class GenerateBlockContainer extends Component {
 									/>
 								}
 
-								{ fullWidthContentOptions() }
-
 								<SelectControl
 									label={ __( 'Container', 'generateblocks' ) }
 									value={ outerContainer }
 									options={ [
 										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
+										{ label: __( 'Contained width', 'generateblocks' ), value: 'contained' },
 									] }
 									onChange={ ( value ) => {
 										setAttributes( {
 											outerContainer: value,
 										} );
+
+										if ( 'contained' === value && 'full' === align ) {
+											setAttributes( {
+												align: '',
+											} );
+										}
 									} }
 								/>
 
-								{ ! generateBlocksInfo.isGeneratePress && 'full' === outerContainer &&
-									<BaseControl
-										label={ __( 'Full width containers will only work if your theme allows you to set your content to be full width.', 'generateblocks' ) }
+								{ 'full' === outerContainer &&
+									<SelectControl
+										label={ __( 'Inner Container', 'generateblocks' ) }
+										value={ innerContainer }
+										options={ [
+											{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+											{ label: __( 'Contained width', 'generateblocks' ), value: 'contained' },
+										] }
+										onChange={ ( value ) => {
+											setAttributes( {
+												innerContainer: value,
+											} );
+										} }
 									/>
 								}
 
-								<SelectControl
-									label={ __( 'Inner Container', 'generateblocks' ) }
-									value={ innerContainer }
-									options={ [
-										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-										{ label: __( 'Contained', 'generateblocks' ), value: 'contained' },
-									] }
-									onChange={ ( value ) => {
-										setAttributes( {
-											innerContainer: value,
-										} );
-									} }
-								/>
+								{ ( 'contained' === outerContainer || 'contained' === innerContainer ) &&
+									<Fragment>
+										<div className="components-gblocks-control__header">
+											<div className="components-gblocks-control__label">
+												{ __( 'Contained Width', 'generateblocks' ) }
+											</div>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Container Width', 'generateblocks' ) }
-									</div>
+											<div className="components-gblocks-control__units">
+												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'container-width-unit' }>
+													<Button
+														key={ 'container-width-unit' }
+														isSmall
+														isPrimary={ true }
+														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
+													>
+														px
+													</Button>
+												</Tooltip>
+											</div>
+										</div>
 
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units' ) } key={ 'container-width-unit' }>
-											<Button
-												key={ 'container-width-unit' }
-												isSmall
-												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+										<TextControl
+											type={ 'number' }
+											className="gblocks-container-width"
+											value={ parseFloat( containerWidth ) || '' }
+											placeholder={ generateBlocksDefaults.container.containerWidth }
+											onChange={ ( value ) => {
+												setAttributes( {
+													containerWidth: '' !== value ? parseFloat( value ) : undefined,
+												} );
+											} }
+										/>
+									</Fragment>
+								}
 
-								<TextControl
-									type={ 'number' }
-									value={ parseFloat( containerWidth ) || '' }
-									placeholder={ generateBlocksDefaults.container.containerWidth }
-									onChange={ ( value ) => {
-										setAttributes( {
-											containerWidth: '' !== value ? parseFloat( value ) : undefined,
-										} );
-									} }
-								/>
+								{ fullWidthContentOptions() }
 							</Fragment>
 
 							{ applyFilters( 'generateblocks.editor.controls', '', 'containerLayout', this.props, this.state ) }
@@ -362,7 +429,7 @@ class GenerateBlockContainer extends Component {
 								/>
 							}
 
-							{ 'desktop' === selectedDevice && (
+							{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 								<Fragment>
 									<div className="components-gblocks-control__header">
 										<div className="components-gblocks-control__label">
@@ -370,13 +437,13 @@ class GenerateBlockContainer extends Component {
 										</div>
 
 										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
 												<Button
 													key={ 'percentage-unit' }
 													isSmall
 													isPrimary={ true }
 													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units' ) }
+													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
 												>
 													%
 												</Button>
@@ -436,7 +503,7 @@ class GenerateBlockContainer extends Component {
 								</Fragment>
 							) }
 
-							{ 'tablet' === selectedDevice && (
+							{ 'tablet' === getSelectedDevice( selectedDevice ) && (
 								<Fragment>
 									<div className="components-gblocks-control__header">
 										<div className="components-gblocks-control__label">
@@ -444,13 +511,13 @@ class GenerateBlockContainer extends Component {
 										</div>
 
 										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
 												<Button
 													key={ 'percentage-unit' }
 													isSmall
 													isPrimary={ true }
 													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units' ) }
+													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
 												>
 													%
 												</Button>
@@ -522,7 +589,7 @@ class GenerateBlockContainer extends Component {
 								</Fragment>
 							) }
 
-							{ 'mobile' === selectedDevice && (
+							{ 'mobile' === getSelectedDevice( selectedDevice ) && (
 								<Fragment>
 									<div className="components-gblocks-control__header">
 										<div className="components-gblocks-control__label">
@@ -530,13 +597,13 @@ class GenerateBlockContainer extends Component {
 										</div>
 
 										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units' ) } key={ 'percentage-unit' }>
+											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
 												<Button
 													key={ 'percentage-unit' }
 													isSmall
 													isPrimary={ true }
 													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units' ) }
+													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
 												>
 													%
 												</Button>
@@ -621,9 +688,12 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 					>
 
-						{ 'desktop' === selectedDevice && (
+						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
-								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
+								<BaseControl
+									className="gblocks-container-text-alignment"
+									label={ __( 'Text Alignment', 'generateblocks' ) }
+								>
 									<AlignmentToolbar
 										isCollapsed={ false }
 										value={ alignment }
@@ -647,7 +717,7 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === selectedDevice && (
+						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
 									<AlignmentToolbar
@@ -670,7 +740,7 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === selectedDevice && (
+						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
 									<AlignmentToolbar
@@ -705,7 +775,7 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 					>
 
-						{ 'desktop' === selectedDevice && (
+						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-dimensions-control__header">
 									<div className="components-gblocks-dimensions-control__label">
@@ -713,10 +783,10 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 											{ minHeightUnits.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
 														key={ unit.unitValue }
 														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
@@ -724,7 +794,7 @@ class GenerateBlockContainer extends Component {
 														isPrimary={ minHeightUnit === unit.unitValue }
 														aria-pressed={ minHeightUnit === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 														onClick={ () => setAttributes( { minHeightUnit: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
@@ -764,7 +834,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTop' }
@@ -777,7 +847,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -790,7 +860,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTop' }
@@ -803,7 +873,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeft' }
@@ -821,7 +891,7 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === selectedDevice && (
+						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-dimensions-control__header">
 									<div className="components-gblocks-dimensions-control__label">
@@ -829,10 +899,10 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 											{ minHeightUnits.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
 														key={ unit.unitValue }
 														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
@@ -840,7 +910,7 @@ class GenerateBlockContainer extends Component {
 														isPrimary={ minHeightUnitTablet === unit.unitValue }
 														aria-pressed={ minHeightUnitTablet === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 														onClick={ () => setAttributes( { minHeightUnitTablet: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
@@ -881,7 +951,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopTablet' }
@@ -894,7 +964,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -907,7 +977,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopTablet' }
@@ -920,7 +990,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftTablet' }
@@ -938,7 +1008,7 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === selectedDevice && (
+						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
 							<Fragment>
 								<div className="components-gblocks-dimensions-control__header">
 									<div className="components-gblocks-dimensions-control__label">
@@ -946,10 +1016,10 @@ class GenerateBlockContainer extends Component {
 									</div>
 
 									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units' ) }>
+										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 											{ minHeightUnits.map( ( unit ) =>
 												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units' ), unit.name ) } key={ unit.unitValue }>
+												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
 													<Button
 														key={ unit.unitValue }
 														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
@@ -957,7 +1027,7 @@ class GenerateBlockContainer extends Component {
 														isPrimary={ minHeightUnitMobile === unit.unitValue }
 														aria-pressed={ minHeightUnitMobile === unit.unitValue }
 														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units' ), unit.name ) }
+														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
 														onClick={ () => setAttributes( { minHeightUnitMobile: unit.unitValue } ) }
 													>
 														{ unit.unitValue }
@@ -998,7 +1068,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopMobile' }
@@ -1011,7 +1081,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -1024,7 +1094,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopMobile' }
@@ -1037,7 +1107,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ selectedDevice }
+									device={ getSelectedDevice( selectedDevice ) }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftMobile' }
@@ -1065,7 +1135,7 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerColors' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<Fragment>
 							<ColorPicker
@@ -1148,7 +1218,7 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerBackgroundGradient' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<GradientControl { ...this.props }
 							attrGradient={ 'gradient' }
@@ -1173,7 +1243,7 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerBackgroundImage' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						{ ! bgImage && (
 							<div>
@@ -1205,12 +1275,12 @@ class GenerateBlockContainer extends Component {
 												naturalWidth={ bgImage.image.width }
 												naturalHeight={ bgImage.image.height }
 											>
-												<img src={ bgImage.image.url } alt={ __( 'BG Image' ) } />
+												<img src={ bgImage.image.url } alt={ __( 'Background Image', 'generateblocks' ) } />
 											</ResponsiveWrapper>
 										</Button>
 										<div className={ 'edit-bg-buttons' }>
-											<Button onClick={ open } isDefault isLarge>
-												{ __( 'Replace image' ) }
+											<Button onClick={ open } isSecondary isLarge>
+												{ __( 'Replace image', 'generateblocks' ) }
 											</Button>
 											<Button onClick={ onRemoveBgImage } isLink isDestructive>
 												{ __( 'Remove background image', 'generateblocks' ) }
@@ -1223,23 +1293,84 @@ class GenerateBlockContainer extends Component {
 
 						{ !! bgImage && (
 							<div className="section-bg-settings">
-								<ToggleControl
-									label={ __( 'Background Color Overlay', 'generateblocks' ) }
-									checked={ !! bgOptions.overlay }
-									onChange={ ( nextOverlay ) => {
-										setAttributes( {
-											bgOptions: {
-												...bgOptions,
-												overlay: nextOverlay,
-											},
-										} );
-									} }
-								/>
+								{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
+									<Fragment>
+										<ToggleControl
+											label={ __( 'Background Color Overlay', 'generateblocks' ) }
+											checked={ !! bgOptions.overlay }
+											onChange={ ( nextOverlay ) => {
+												setAttributes( {
+													bgOptions: {
+														...bgOptions,
+														overlay: nextOverlay,
+													},
+												} );
+											} }
+										/>
 
-								{ !! bgOptions.overlay && (
-									<div className="gblocks-notice">
-										{ __( 'Your background color must have transparency for the image to show.', 'generateblocks' ) }
-									</div>
+										<Notice
+											className="gblocks-option-notice"
+											status="info"
+											isDismissible={ false }
+										>
+											{ __( 'The background color overlay option is deprecated. Toggle this option to use the new method.', 'generateblocks' ) }
+										</Notice>
+									</Fragment>
+								) : ( // These options is only for people not using the deprecated overlay option.
+									<Fragment>
+										<SelectControl
+											label={ __( 'Selector', 'generateblocks' ) }
+											value={ bgOptions.selector }
+											options={ [
+												{ label: __( 'Element', 'generateblocks' ), value: 'element' },
+												{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
+											] }
+											onChange={ ( value ) => {
+												setAttributes( {
+													bgOptions: {
+														...bgOptions,
+														selector: value,
+													},
+												} );
+											} }
+										/>
+
+										<RangeControl
+											label={ __( 'Image Opacity', 'generateblocks' ) }
+											value={ bgOptions.opacity }
+											onChange={ ( value ) => {
+												setAttributes( {
+													bgOptions: {
+														...bgOptions,
+														opacity: value,
+													},
+												} );
+
+												if ( 'pseudo-element' !== bgOptions.selector ) {
+													setAttributes( {
+														bgOptions: {
+															...bgOptions,
+															selector: 'pseudo-element',
+														},
+													} );
+												}
+											} }
+											min={ 0 }
+											max={ 1 }
+											step={ 0.1 }
+											initialPosition={ generateBlocksDefaults.container.bgOptions.opacity }
+										/>
+
+										{ 'pseudo-element' !== bgOptions.selector &&
+											<Notice
+												className="gblocks-option-notice"
+												status="info"
+												isDismissible={ false }
+											>
+												{ __( 'Your selector must be set to Pseudo Element to use opacity.', 'generateblocks' ) }
+											</Notice>
+										}
+									</Fragment>
 								) }
 
 								<TextControl
@@ -1317,23 +1448,20 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerAdvanced' }
 						state={ this.state }
-						showPanel={ 'desktop' === selectedDevice || false }
+						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
 						<SelectControl
 							label={ __( 'Element Tag', 'generateblocks' ) }
 							value={ tagName }
-							options={ [
-								{ label: 'div', value: 'div' },
-								{ label: 'section', value: 'section' },
-								{ label: 'header', value: 'header' },
-								{ label: 'footer', value: 'footer' },
-							] }
+							options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
 							onChange={ ( value ) => {
 								setAttributes( {
 									tagName: value,
 								} );
 							} }
 						/>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
 
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
@@ -1410,6 +1538,7 @@ class GenerateBlockContainer extends Component {
 						[ `gb-grid-column-${ uniqueId }` ]: true,
 					} ) }>
 						<Section
+							attributes={ attributes }
 							tagName={ tagName }
 							id={ elementId }
 							className={ classnames( {
@@ -1418,7 +1547,7 @@ class GenerateBlockContainer extends Component {
 								[ `${ cssClasses }` ]: '' !== cssClasses,
 							} ) }
 						>
-							{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
+							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 							<div
 								className={ classnames( {
 									'gb-inside-container': true,
@@ -1439,15 +1568,17 @@ class GenerateBlockContainer extends Component {
 
 				{ ! isGrid && (
 					<Section
+						attributes={ attributes }
 						tagName={ tagName }
 						id={ elementId }
 						className={ classnames( {
 							'gb-container': true,
 							[ `gb-container-${ uniqueId }` ]: true,
 							[ `${ cssClasses }` ]: '' !== cssClasses,
+							[ `align${ align }` ]: !! align,
 						} ) }
 					>
-						{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', this.props ) }
+						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 						<div
 							className={ classnames( {
 								'gb-inside-container': true,

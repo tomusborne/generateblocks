@@ -29,7 +29,7 @@ export default class ResponsiveTabs extends Component {
 					</Button>
 				</Tooltip>
 
-				<Tooltip text={ __( 'Show options for tablet devices' ) }>
+				<Tooltip text={ __( 'Show options for tablet devices', 'generateblocks' ) }>
 					<Button
 						isLarge
 						isPressed={ 'tablet' === selectedDevice ? true : false }
@@ -41,7 +41,7 @@ export default class ResponsiveTabs extends Component {
 					</Button>
 				</Tooltip>
 
-				<Tooltip text={ __( 'Show options for mobile devices' ) }>
+				<Tooltip text={ __( 'Show options for mobile devices', 'generateblocks' ) }>
 					<Button
 						isLarge
 						isPressed={ 'mobile' === selectedDevice ? true : false }
