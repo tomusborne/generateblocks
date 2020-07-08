@@ -19,6 +19,10 @@ export default function getBackgroundImageCSS( attributes ) {
 		}
 	}
 
+	if ( 'undefined' === typeof attributes.bgOptions.selector ) {
+		attributes.bgOptions.selector = 'element';
+	}
+
 	if ( attributes.bgImage && 'element' === attributes.bgOptions.selector ) {
 		const url = attributes.bgImage.image.url;
 
