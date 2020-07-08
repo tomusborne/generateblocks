@@ -187,6 +187,15 @@ class GenerateBlockContainer extends Component {
 			align,
 		} = attributes;
 
+		// Attribute defaults added to an object late don't get defaults.
+		if ( 'undefined' === typeof attributes.bgOptions.selector ) {
+			attributes.bgOptions.selector = 'element';
+		}
+
+		if ( 'undefined' === typeof attributes.bgOptions.opacity ) {
+			attributes.bgOptions.opacity = 1;
+		}
+
 		const minHeightUnits = [
 			{
 				name: _x( 'Pixel', 'A size unit for CSS markup' ),
