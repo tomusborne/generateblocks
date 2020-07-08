@@ -1343,17 +1343,9 @@ class GenerateBlockContainer extends Component {
 													bgOptions: {
 														...bgOptions,
 														opacity: value,
+														selector: 'pseudo-element',
 													},
 												} );
-
-												if ( 'pseudo-element' !== bgOptions.selector ) {
-													setAttributes( {
-														bgOptions: {
-															...bgOptions,
-															selector: 'pseudo-element',
-														},
-													} );
-												}
 											} }
 											min={ 0 }
 											max={ 1 }
