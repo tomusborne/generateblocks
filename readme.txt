@@ -75,6 +75,11 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.1.2 =
+* Fix: Set background image selector default if undefined
+* Fix: Set background image opacity default if undefined
+* Tweak: Remove parsed content caching
+
 = 1.1.1 =
 * Fix: Undefined index notice when using background images
 
