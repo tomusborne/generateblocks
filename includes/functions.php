@@ -83,35 +83,29 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
  * @since 1.1
  */
 function generateblocks_get_parsed_content( $content = '' ) {
-	$parsed_content = wp_cache_get( 'generateblocks_parsed_content' );
-
-	if ( ! $parsed_content ) {
-		if ( ! function_exists( 'has_blocks' ) ) {
-			return;
-		}
-
-		if ( ! $content && has_blocks( get_the_ID() ) ) {
-			global $post;
-
-			if ( ! is_object( $post ) ) {
-				return;
-			}
-
-			$content = $post->post_content;
-		}
-
-		$content = apply_filters( 'generateblocks_do_content', $content );
-
-		if ( ! function_exists( 'parse_blocks' ) ) {
-			return;
-		}
-
-		$parsed_content = parse_blocks( $content );
-
-		wp_cache_set( 'generateblocks_parsed_content', $parsed_content );
+	if ( ! function_exists( 'has_blocks' ) ) {
+		return;
 	}
 
-	return $parsed_content;
+	if ( ! $content && has_blocks( get_the_ID() ) ) {
+		global $post;
+
+		if ( ! is_object( $post ) ) {
+			return;
+		}
+
+		$content = $post->post_content;
+	}
+
+	$content = apply_filters( 'generateblocks_do_content', $content );
+
+	if ( ! function_exists( 'parse_blocks' ) ) {
+		return;
+	}
+
+	$content = parse_blocks( $content );
+
+	return $content;
 }
 
 /**
