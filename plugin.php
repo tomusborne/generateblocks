@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 define( 'GENERATEBLOCKS_VERSION', '1.1.2-rc.1' );
-define( 'GENERATEBLOCKS_CSS_VERSION', '1.0.3' );
+define( 'GENERATEBLOCKS_CSS_VERSION', '1.0.4' );
 define( 'GENERATEBLOCKS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 
