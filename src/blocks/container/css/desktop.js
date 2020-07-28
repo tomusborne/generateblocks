@@ -80,6 +80,12 @@ export default class DesktopCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
+		let doGradientOverlay = false;
+
+		if ( bgImage && gradientOverlay ) {
+			doGradientOverlay = true;
+		}
+
 		let cssObj = [];
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
@@ -103,7 +109,7 @@ export default class DesktopCSS extends Component {
 				'background-repeat': bgOptions.repeat,
 				'background-attachment': bgOptions.attachment,
 			} );
-		} else if ( gradient && backgroundImageValue && ! gradientOverlay ) {
+		} else if ( gradient && backgroundImageValue && ! doGradientOverlay ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'background-image': backgroundImageValue,
 			} );
@@ -168,7 +174,7 @@ export default class DesktopCSS extends Component {
 				} );
 			}
 
-			if ( gradient && backgroundImageValue && gradientOverlay ) {
+			if ( gradient && backgroundImageValue && doGradientOverlay ) {
 				cssObj[ '.gb-container-' + uniqueId + ':after' ] = [ {
 					'content': '""', // eslint-disable-line quote-props
 					'background-image': backgroundImageValue,

@@ -247,6 +247,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$background_image = generateblocks_get_background_image_css( $settings );
+				$doGradientOverlay = false;
+
+				if ( $settings['bgImage'] && $settings['gradientOverlay'] ) {
+					$doGradientOverlay = true;
+				}
 
 				if ( $settings['bgImage'] && 'element' === $settings['bgOptions']['selector'] && $background_image ) {
 					$css->add_property( 'background-image', $background_image );
@@ -254,7 +259,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
 					$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
-				} elseif ( $settings['gradient'] && $background_image && ! $settings['gradientOverlay'] ) {
+				} elseif ( $settings['gradient'] && $background_image && ! $doGradientOverlay ) {
 					$css->add_property( 'background-image', $background_image );
 				}
 
@@ -319,7 +324,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$css->add_property( 'opacity', $settings['bgOptions']['opacity'] );
 					}
 
-					if ( $settings['gradient'] && $background_image && $settings['gradientOverlay'] ) {
+					if ( $settings['gradient'] && $background_image && $doGradientOverlay ) {
 						$css->set_selector( '.gb-container.gb-container-' . $id . ':after' );
 						$css->add_property( 'content', '""' );
 						$css->add_property( 'background-image', $background_image );
