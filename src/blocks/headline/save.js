@@ -36,7 +36,7 @@ export default ( { attributes } ) => {
 		} ),
 	};
 
-	htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
+	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
 
 	return (
 		<ConditionalWrap

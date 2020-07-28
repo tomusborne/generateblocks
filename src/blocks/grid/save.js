@@ -28,7 +28,7 @@ export default ( { attributes } ) => {
 		} ),
 	};
 
-	htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/grid', attributes );
+	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/grid', attributes );
 
 	return (
 		<div

@@ -216,7 +216,7 @@ class GenerateBlockHeadline extends Component {
 			} ),
 		};
 
-		htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
+		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
 
 		return (
 			<Fragment>

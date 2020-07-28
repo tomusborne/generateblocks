@@ -162,7 +162,7 @@ export default class DesktopCSS extends Component {
 			'display': inlineWidth ? 'inline-flex' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'headline', this.props );
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, this.props, 'headline' );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

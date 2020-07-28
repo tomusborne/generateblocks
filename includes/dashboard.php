@@ -193,7 +193,7 @@ function generateblocks_do_dashboard() {
 								</div>
 
 								<div class="active-websites">
-									<strong>200,000+</strong><br> <?php esc_html_e( 'Active websites', 'generateblocks' ); ?>
+									<strong>300,000+</strong><br> <?php esc_html_e( 'Active websites', 'generateblocks' ); ?>
 								</div>
 
 								<div class="active-websites">

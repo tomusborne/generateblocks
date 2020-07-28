@@ -2,10 +2,10 @@
 Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
-Requires at least: 5.0
+Requires at least: 5.2
 Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 1.0.2
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -75,6 +75,14 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.1.2 =
+* Fix: Set background image selector default if undefined
+* Fix: Set background image opacity default if undefined
+* Tweak: Remove parsed content caching
+
+= 1.1.1 =
+* Fix: Undefined index notice when using background images
+
 = 1.1.0 =
 * New: Persistent responsive controls across blocks
 * New: Filter all HTML attributes
@@ -99,6 +107,10 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Allow all standard richText formats in Headline block
 * Tweak: Better iconSize responsive placeholders
 * Tweak: Allow decimal values in gradient start/stop
+* Tweak: Move block name to the end of editor.desktopCSS filter args
+* Tweak: Add buttonColorsHover to editor.controls filter
+* Tweak: Change editor.insideContainerWrapper filter to frontend.insideContainer
+* Tweak: Pass attributes to frontend.insideContainer instead of props
 * Fix: gridId value in nested grids
 * Fix: Use inline-block for inline headlines with no icon
 * Fix: Missing text domains

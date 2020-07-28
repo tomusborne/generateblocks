@@ -14,7 +14,7 @@ export default function Section( { attributes, tagName, id, className, style, ch
 
 	return createElement(
 		tagName,
-		applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/container', attributes ),
+		applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/container', attributes ),
 		children
 	);
 }

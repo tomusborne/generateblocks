@@ -214,7 +214,7 @@ class GenerateBlockButton extends Component {
 			'aria-label': !! ariaLabel ? ariaLabel : undefined,
 		};
 
-		htmlAttributes = applyFilters( 'generateblocks.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
+		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
 
 		return (
 			<Fragment>
@@ -641,7 +641,7 @@ class GenerateBlockButton extends Component {
 														}
 													/>
 
-													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsNormal', this.props, this.state ) }
+													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsHover', this.props, this.state ) }
 												</Fragment>
 											) }
 										</div>

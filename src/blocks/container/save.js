@@ -44,7 +44,7 @@ export default ( { attributes } ) => {
 					[ `align${ align }` ]: !! align && ! isGrid,
 				} ) }
 			>
-				{ applyFilters( 'generateblocks.editor.insideContainerWrapper', '', attributes ) }
+				{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 				<div className={ classnames( {
 					'gb-inside-container': true,
 				} ) }>

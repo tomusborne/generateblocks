@@ -242,6 +242,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 				$css->add_property( 'color', $settings['textColor'] );
 
+				if ( ! isset( $settings['bgOptions']['selector'] ) ) {
+					$settings['bgOptions']['selector'] = 'element';
+				}
+
 				$background_image = generateblocks_get_background_image_css( $settings );
 
 				if ( $settings['bgImage'] && 'element' === $settings['bgOptions']['selector'] && $background_image ) {

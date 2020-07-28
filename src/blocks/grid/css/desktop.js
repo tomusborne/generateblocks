@@ -33,7 +33,7 @@ export default class DesktopCSS extends Component {
 			'margin-bottom': valueWithUnit( verticalGap, 'px' ),
 		} ];
 
-		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, 'grid', this.props );
+		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, this.props, 'grid' );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>
