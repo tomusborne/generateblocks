@@ -48,6 +48,7 @@ export default class DesktopCSS extends Component {
 			backgroundColor,
 			backgroundColorOpacity,
 			gradient,
+			gradientOverlay,
 			textColor,
 			linkColor,
 			linkColorHover,
@@ -102,7 +103,7 @@ export default class DesktopCSS extends Component {
 				'background-repeat': bgOptions.repeat,
 				'background-attachment': bgOptions.attachment,
 			} );
-		} else if ( gradient && backgroundImageValue ) {
+		} else if ( gradient && backgroundImageValue && ! gradientOverlay ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'background-image': backgroundImageValue,
 			} );
@@ -165,6 +166,19 @@ export default class DesktopCSS extends Component {
 				cssObj[ '.gb-container-' + uniqueId + ':before' ].push( {
 					'opacity': bgOptions.opacity, // eslint-disable-line quote-props
 				} );
+			}
+
+			if ( gradient && backgroundImageValue && gradientOverlay ) {
+				cssObj[ '.gb-container-' + uniqueId + ':after' ] = [ {
+					'content': '""', // eslint-disable-line quote-props
+					'background-image': backgroundImageValue,
+					'z-index': '0',
+					'position': 'absolute', // eslint-disable-line quote-props
+					'top': '0', // eslint-disable-line quote-props
+					'right': '0', // eslint-disable-line quote-props
+					'bottom': '0', // eslint-disable-line quote-props
+					'left': '0', // eslint-disable-line quote-props
+				} ];
 			}
 		}
 
