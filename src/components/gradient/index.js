@@ -37,12 +37,10 @@ class GradientControl extends Component {
 			defaultColorTwo,
 		} = this.props;
 
-		let hasPseudoBackgroundImage = false;
+		let hasBackgroundImage = false;
 
 		if ( 'undefined' !== typeof attributes.bgImage && !! attributes.bgImage ) {
-			if ( 'undefined' !== typeof attributes.bgOptions.selector && 'pseudo-element' === attributes.bgOptions.selector ) {
-				hasPseudoBackgroundImage = true;
-			}
+			hasBackgroundImage = true;
 		}
 
 		return (
@@ -59,7 +57,7 @@ class GradientControl extends Component {
 
 				{ !! attributes[ attrGradient ] && (
 					<Fragment>
-						{ 'undefined' !== typeof attributes.gradientOverlay && hasPseudoBackgroundImage &&
+						{ 'undefined' !== typeof attributes.gradientOverlay && hasBackgroundImage &&
 							<ToggleControl
 								label={ __( 'Overlay on background image', 'generateblocks' ) }
 								checked={ !! attributes.gradientOverlay }
