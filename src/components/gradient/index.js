@@ -64,6 +64,10 @@ class GradientControl extends Component {
 								onChange={ ( value ) => {
 									setAttributes( {
 										gradientOverlay: value,
+										bgOptions: {
+											...attributes.bgOptions,
+											selector: 'pseudo-element',
+										},
 									} );
 								} }
 							/>
