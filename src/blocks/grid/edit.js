@@ -4,7 +4,6 @@
 
 import classnames from 'classnames';
 import getIcon from '../../utils/get-icon';
-import getSelectedDevice from '../../utils/get-selected-device';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
 import PanelArea from '../../components/panel-area/';
@@ -39,6 +38,15 @@ const {
 	applyFilters,
 } = wp.hooks;
 
+const {
+	withSelect,
+	withDispatch,
+} = wp.data;
+
+const {
+	compose,
+} = wp.compose;
+
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbGridIds = [];
 
@@ -48,7 +56,7 @@ class GenerateBlockGridContainer extends Component {
 
 		this.state = {
 			selectedLayout: false,
-			selectedDevice: 'desktop',
+			selectedDevice: 'Desktop',
 		};
 
 		this.onLayoutSelect = this.onLayoutSelect.bind( this );
@@ -214,16 +222,24 @@ class GenerateBlockGridContainer extends Component {
 		} );
 	}
 
+	getDeviceType() {
+		return this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+	}
+
+	setDeviceType = ( deviceType ) => {
+		if ( this.props.deviceType ) {
+			this.props.setDeviceType( deviceType );
+		} else {
+			this.setState( { selectedDevice: deviceType } );
+		}
+	};
+
 	render() {
 		const {
 			attributes,
 			setAttributes,
 			clientId,
 		} = this.props;
-
-		const {
-			selectedDevice,
-		} = this.state;
 
 		const {
 			uniqueId,
@@ -297,13 +313,9 @@ class GenerateBlockGridContainer extends Component {
 				</BlockControls>
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ getSelectedDevice( selectedDevice ) }
+						selectedDevice={ this.getDeviceType() }
 						onClick={ ( device ) => {
-							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
-
-							this.setState( {
-								selectedDevice: device,
-							} );
+							this.setDeviceType( device );
 						} }
 					/>
 
@@ -311,7 +323,7 @@ class GenerateBlockGridContainer extends Component {
 						id={ 'gridLayout' }
 						state={ this.state }
 					>
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -476,7 +488,7 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -645,7 +657,7 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
 								<div className="components-gblocks-control__header">
 									<div className="components-gblocks-control__label">
@@ -824,7 +836,7 @@ class GenerateBlockGridContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'gridAdvanced' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
@@ -885,4 +897,33 @@ class GenerateBlockGridContainer extends Component {
 	}
 }
 
-export default ( GenerateBlockGridContainer );
+export default compose( [
+	withDispatch( ( dispatch ) => ( {
+		setDeviceType( type ) {
+			const {
+				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+			} = dispatch( 'core/edit-post' );
+
+			if ( ! setPreviewDeviceType ) {
+				return;
+			}
+
+			setPreviewDeviceType( type );
+		},
+	} ) ),
+	withSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		if ( ! getPreviewDeviceType ) {
+			return {
+				deviceType: null,
+			};
+		}
+
+		return {
+			deviceType: getPreviewDeviceType(),
+		};
+	} ),
+] )( GenerateBlockGridContainer );

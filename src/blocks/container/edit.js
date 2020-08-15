@@ -5,7 +5,6 @@
 import Section from './section-tag';
 import ColorPicker from '../../components/color-picker';
 import getIcon from '../../utils/get-icon';
-import getSelectedDevice from '../../utils/get-selected-device';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 import PanelArea from '../../components/panel-area/';
@@ -49,6 +48,15 @@ const {
 	applyFilters,
 } = wp.hooks;
 
+const {
+	withSelect,
+	withDispatch,
+} = wp.data;
+
+const {
+	compose,
+} = wp.compose;
+
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbContainerIds = [];
 
@@ -57,7 +65,7 @@ class GenerateBlockContainer extends Component {
 		super( ...arguments );
 
 		this.state = {
-			selectedDevice: 'desktop',
+			selectedDevice: 'Desktop',
 		};
 	}
 
@@ -108,6 +116,18 @@ class GenerateBlockContainer extends Component {
 		}
 	}
 
+	getDeviceType() {
+		return this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+	}
+
+	setDeviceType = ( deviceType ) => {
+		if ( this.props.deviceType ) {
+			this.props.setDeviceType( deviceType );
+		} else {
+			this.setState( { selectedDevice: deviceType } );
+		}
+	};
+
 	render() {
 		const {
 			attributes,
@@ -115,10 +135,6 @@ class GenerateBlockContainer extends Component {
 			hasChildBlocks,
 			clientId,
 		} = this.props;
-
-		const {
-			selectedDevice,
-		} = this.state;
 
 		const onSelectBgImage = ( media ) => {
 			let size = generateBlocksStyling.container.bgImageSize;
@@ -300,13 +316,9 @@ class GenerateBlockContainer extends Component {
 			<Fragment>
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ getSelectedDevice( selectedDevice ) }
+						selectedDevice={ this.getDeviceType() }
 						onClick={ ( device ) => {
-							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
-
-							this.setState( {
-								selectedDevice: device,
-							} );
+							this.setDeviceType( device );
 						} }
 					/>
 
@@ -318,7 +330,7 @@ class GenerateBlockContainer extends Component {
 							className={ 'gblocks-panel-label' }
 							id={ 'containerLayout' }
 							state={ this.state }
-							showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+							showPanel={ 'Desktop' === this.getDeviceType() || false }
 						>
 
 							<Fragment>
@@ -438,7 +450,7 @@ class GenerateBlockContainer extends Component {
 								/>
 							}
 
-							{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+							{ 'Desktop' === this.getDeviceType() && (
 								<Fragment>
 									<div className="components-gblocks-control__header">
 										<div className="components-gblocks-control__label">
@@ -512,7 +524,7 @@ class GenerateBlockContainer extends Component {
 								</Fragment>
 							) }
 
-							{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+							{ 'Tablet' === this.getDeviceType() && (
 								<Fragment>
 									<div className="components-gblocks-control__header">
 										<div className="components-gblocks-control__label">
@@ -598,7 +610,7 @@ class GenerateBlockContainer extends Component {
 								</Fragment>
 							) }
 
-							{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+							{ 'Mobile' === this.getDeviceType() && (
 								<Fragment>
 									<div className="components-gblocks-control__header">
 										<div className="components-gblocks-control__label">
@@ -697,7 +709,7 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 					>
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
 								<BaseControl
 									className="gblocks-container-text-alignment"
@@ -726,7 +738,7 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
 								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
 									<AlignmentToolbar
@@ -749,7 +761,7 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
 								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
 									<AlignmentToolbar
@@ -784,7 +796,7 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 					>
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
 								<div className="components-gblocks-dimensions-control__header">
 									<div className="components-gblocks-dimensions-control__label">
@@ -843,7 +855,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTop' }
@@ -856,7 +868,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -869,7 +881,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTop' }
@@ -882,7 +894,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeft' }
@@ -900,7 +912,7 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
 								<div className="components-gblocks-dimensions-control__header">
 									<div className="components-gblocks-dimensions-control__label">
@@ -960,7 +972,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopTablet' }
@@ -973,7 +985,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -986,7 +998,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopTablet' }
@@ -999,7 +1011,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftTablet' }
@@ -1017,7 +1029,7 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
 								<div className="components-gblocks-dimensions-control__header">
 									<div className="components-gblocks-dimensions-control__label">
@@ -1077,7 +1089,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopMobile' }
@@ -1090,7 +1102,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -1103,7 +1115,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopMobile' }
@@ -1116,7 +1128,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftMobile' }
@@ -1144,7 +1156,7 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerColors' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
 						<Fragment>
 							<ColorPicker
@@ -1227,7 +1239,7 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerBackgroundGradient' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
 						<GradientControl { ...this.props }
 							attrGradient={ 'gradient' }
@@ -1252,7 +1264,7 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerBackgroundImage' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
 						{ ! bgImage && (
 							<div>
@@ -1449,7 +1461,7 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerAdvanced' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
 						<SelectControl
 							label={ __( 'Element Tag', 'generateblocks' ) }
@@ -1602,4 +1614,33 @@ class GenerateBlockContainer extends Component {
 	}
 }
 
-export default ( GenerateBlockContainer );
+export default compose( [
+	withDispatch( ( dispatch ) => ( {
+		setDeviceType( type ) {
+			const {
+				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+			} = dispatch( 'core/edit-post' );
+
+			if ( ! setPreviewDeviceType ) {
+				return;
+			}
+
+			setPreviewDeviceType( type );
+		},
+	} ) ),
+	withSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		if ( ! getPreviewDeviceType ) {
+			return {
+				deviceType: null,
+			};
+		}
+
+		return {
+			deviceType: getPreviewDeviceType(),
+		};
+	} ),
+] )( GenerateBlockContainer );

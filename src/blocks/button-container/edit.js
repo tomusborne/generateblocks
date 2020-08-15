@@ -6,8 +6,9 @@ import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
-import getSelectedDevice from '../../utils/get-selected-device';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
@@ -40,6 +41,15 @@ const {
 	applyFilters,
 } = wp.hooks;
 
+const {
+	withSelect,
+	withDispatch,
+} = wp.data;
+
+const {
+	compose,
+} = wp.compose;
+
 const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbButtonContainerIds = [];
 
@@ -66,7 +76,7 @@ class GenerateButtonContainer extends Component {
 		super( ...arguments );
 
 		this.state = {
-			selectedDevice: 'desktop',
+			selectedDevice: 'Desktop',
 		};
 	}
 
@@ -100,16 +110,24 @@ class GenerateButtonContainer extends Component {
 		}
 	}
 
+	getDeviceType() {
+		return this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+	}
+
+	setDeviceType = ( deviceType ) => {
+		if ( this.props.deviceType ) {
+			this.props.setDeviceType( deviceType );
+		} else {
+			this.setState( { selectedDevice: deviceType } );
+		}
+	};
+
 	render() {
 		const {
 			attributes,
 			setAttributes,
 			clientId,
 		} = this.props;
-
-		const {
-			selectedDevice,
-		} = this.state;
 
 		const {
 			uniqueId,
@@ -182,13 +200,9 @@ class GenerateButtonContainer extends Component {
 
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ getSelectedDevice( selectedDevice ) }
+						selectedDevice={ this.getDeviceType() }
 						onClick={ ( device ) => {
-							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
-
-							this.setState( {
-								selectedDevice: device,
-							} );
+							this.setDeviceType( device );
 						} }
 					/>
 
@@ -200,7 +214,7 @@ class GenerateButtonContainer extends Component {
 						id={ 'buttonContainerSpacing' }
 						state={ this.state }
 					>
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
 								<AlignmentToolbar
 									isCollapsed={ false }
@@ -212,7 +226,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -246,7 +260,7 @@ class GenerateButtonContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
 								<AlignmentToolbar
 									isCollapsed={ false }
@@ -258,7 +272,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -292,7 +306,7 @@ class GenerateButtonContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
 								<AlignmentToolbar
 									isCollapsed={ false }
@@ -304,7 +318,7 @@ class GenerateButtonContainer extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -348,7 +362,7 @@ class GenerateButtonContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonContainerAdvanced' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
 						<TextControl
 							label={ __( 'Element ID', 'generateblocks' ) }
@@ -392,6 +406,14 @@ class GenerateButtonContainer extends Component {
 
 				<DesktopCSS { ...this.props } />
 
+				{ ( this.props.deviceType && ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) ) &&
+					<TabletCSS { ...this.props } />
+				}
+
+				{ this.props.deviceType && 'Mobile' === this.props.deviceType &&
+					<MobileCSS { ...this.props } />
+				}
+
 				<div
 					{ ...htmlAttributes }
 				>
@@ -415,4 +437,33 @@ class GenerateButtonContainer extends Component {
 	}
 }
 
-export default ( GenerateButtonContainer );
+export default compose( [
+	withDispatch( ( dispatch ) => ( {
+		setDeviceType( type ) {
+			const {
+				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+			} = dispatch( 'core/edit-post' );
+
+			if ( ! setPreviewDeviceType ) {
+				return;
+			}
+
+			setPreviewDeviceType( type );
+		},
+	} ) ),
+	withSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		if ( ! getPreviewDeviceType ) {
+			return {
+				deviceType: null,
+			};
+		}
+
+		return {
+			deviceType: getPreviewDeviceType(),
+		};
+	} ),
+] )( GenerateButtonContainer );

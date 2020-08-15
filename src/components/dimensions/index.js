@@ -212,7 +212,7 @@ class DimensionsControl extends Component {
 			}
 		}
 
-		if ( 'tablet' === device ) {
+		if ( 'Tablet' === device ) {
 			const topAttrName = attrTop.replace( 'Tablet', '' ),
 				rightAttrName = attrRight.replace( 'Tablet', '' ),
 				bottomAttrName = attrBottom.replace( 'Tablet', '' ),
@@ -224,7 +224,7 @@ class DimensionsControl extends Component {
 			leftPlaceholder = attributes[ leftAttrName ] ? attributes[ leftAttrName ] : leftPlaceholder;
 		}
 
-		if ( 'mobile' === device ) {
+		if ( 'Mobile' === device ) {
 			const topAttrName = attrTop.replace( 'Mobile', '' ),
 				rightAttrName = attrRight.replace( 'Mobile', '' ),
 				bottomAttrName = attrBottom.replace( 'Mobile', '' ),
