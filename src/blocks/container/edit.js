@@ -1274,9 +1274,9 @@ class GenerateBlockContainer extends Component {
 									title={ __( 'Set background image', 'generateblocks' ) }
 									onSelect={ onSelectBgImage }
 									allowedTypes={ [ 'image' ] }
-									modalClass="editor-post-featured-image__media-modal"
+									modalClass="editor-gb-container-background__media-modal"
 									render={ ( { open } ) => (
-										<Button className="editor-post-featured-image__toggle" onClick={ open }>
+										<Button className="editor-gb-container-background__toggle" onClick={ open }>
 											{ __( 'Set background image', 'generateblocks' ) }
 										</Button>
 									) }
@@ -1290,10 +1290,10 @@ class GenerateBlockContainer extends Component {
 								onSelect={ onSelectBgImage }
 								allowedTypes={ [ 'image' ] }
 								value={ bgImage.id }
-								modalClass="editor-post-featured-image__media-modal"
+								modalClass="editor-gb-container-background__media-modal"
 								render={ ( { open } ) => (
 									<div className="editor-bg-image">
-										<Button className="editor-post-featured-image__preview" onClick={ open }>
+										<Button className="editor-gb-container-background__preview" onClick={ open }>
 											<ResponsiveWrapper
 												naturalWidth={ bgImage.image.width }
 												naturalHeight={ bgImage.image.height }

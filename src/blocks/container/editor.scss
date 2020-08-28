@@ -91,6 +91,26 @@ body .gb-container .wp-block {
 	box-sizing: border-box;
 }
 
+.editor-gb-container-background__toggle {
+    border-radius: 2px;
+    background-color: #f0f0f0;
+    min-height: 90px;
+    line-height: 20px;
+    padding: 8px 0;
+    text-align: center;
+}
+
+.editor-gb-container-background__toggle, .editor-gb-container-background__preview {
+    display: block;
+    width: 100%;
+    padding: 0;
+    transition: all 0.1s ease-out;
+}
+
+.editor-gb-container-background__preview {
+    height: auto;
+}
+
 /* Bad idea?? */
 [data-type="generateblocks/container"] .block-editor-block-list__insertion-point,
 [data-type="generateblocks/grid"] .block-editor-block-list__insertion-point {
