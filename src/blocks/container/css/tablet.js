@@ -1,13 +1,12 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import shorthandCSS from '../../../utils/shorthand-css';
-import hexToRGBA from '../../../utils/hex-to-rgba';
 import valueWithUnit from '../../../utils/value-with-unit';
 
 const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
 
-export default class DesktopCSS extends Component {
+export default class TabletCSS extends Component {
 	render() {
 		const {
 			attributes,
@@ -17,35 +16,33 @@ export default class DesktopCSS extends Component {
 		const {
 			uniqueId,
 			isGrid,
-			width,
-			outerContainer,
-			innerContainer,
-			minHeight,
-			minHeightUnit,
-			paddingTop,
-			paddingRight,
-			paddingBottom,
-			paddingLeft,
+			widthTablet,
+			minHeightTablet,
+			minHeightUnitTablet,
+			paddingTopTablet,
+			paddingRightTablet,
+			paddingBottomTablet,
+			paddingLeftTablet,
 			paddingUnit,
 			marginTopTablet,
 			marginRightTablet,
 			marginBottomTablet,
 			marginLeftTablet,
 			marginUnit,
-			borderSizeTop,
-			borderSizeRight,
-			borderSizeBottom,
-			borderSizeLeft,
+			borderSizeTopTablet,
+			borderSizeRightTablet,
+			borderSizeBottomTablet,
+			borderSizeLeftTablet,
 			borderRadiusTopRightTablet,
 			borderRadiusBottomRightTablet,
 			borderRadiusBottomLeftTablet,
 			borderRadiusTopLeftTablet,
 			borderRadiusUnit,
-			verticalAlignment,
-			zindex,
+			verticalAlignmentTablet,
 			removeVerticalGap,
-			alignment,
-			fontSize,
+			removeVerticalGapTablet,
+			alignmentTablet,
+			fontSizeTablet,
 			fontSizeUnit,
 		} = attributes;
 
@@ -53,76 +50,81 @@ export default class DesktopCSS extends Component {
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
 			'border-radius': shorthandCSS( borderRadiusTopLeftTablet, borderRadiusTopRightTablet, borderRadiusBottomRightTablet, borderRadiusBottomLeftTablet, borderRadiusUnit ),
 			'margin': shorthandCSS( marginTopTablet, marginRightTablet, marginBottomTablet, marginLeftTablet, marginUnit ), // eslint-disable-line quote-props
-			'z-index': zindex,
-			'text-align': alignment,
-			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
-			'min-height': valueWithUnit( minHeight, minHeightUnit ),
+			'text-align': alignmentTablet,
+			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
+			'min-height': valueWithUnit( minHeightTablet, minHeightUnitTablet ),
 		} ];
 
-		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
+		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
-				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
+				'border-width': shorthandCSS( borderSizeTopTablet, borderSizeRightTablet, borderSizeBottomTablet, borderSizeLeftTablet, 'px' ),
 				'border-style': 'solid',
 			} );
 		}
 
-		if ( minHeight && ! isGrid ) {
+		if ( minHeightTablet && ! isGrid ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
-				'align-items': verticalAlignment,
+				'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
 			} );
 		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
-			'width': minHeight && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
+			'padding': shorthandCSS( paddingTopTablet, paddingRightTablet, paddingBottomTablet, paddingLeftTablet, paddingUnit ), // eslint-disable-line quote-props
+			'width': minHeightTablet && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
-
-		if ( 'contained' === innerContainer && ! isGrid ) {
-			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
-				'max-width': valueWithUnit( containerWidthPreview, 'px' ),
-				'margin-left': 'auto',
-				'margin-right': 'auto',
-			} );
-		}
 
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
-			'width': valueWithUnit( width, '%' ), // eslint-disable-line quote-props
-			'display': 'flex', // eslint-disable-line quote-props
-			'flex-direction': 'column',
-			'margin-left': '0px',
-			'margin-right': '0px',
+			'width': valueWithUnit( widthTablet, '%' ), // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId + ' > .gb-grid-column' ] = [ {
-			'height': '100%', // eslint-disable-line quote-props
-		} ];
+		let gridAttributes = false;
+		let parentBlock = false;
+		let parentBlockId = false;
 
-		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
-			'margin-bottom': removeVerticalGap ? '0px !important' : false,
-		} ];
+		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === 'function' ) {
+			parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParents( clientId, true )[ 0 ];
 
-		cssObj[ '.gb-grid-column > .gb-container-' + uniqueId ] = [ {
-			'display': 'flex', // eslint-disable-line quote-props
-			'flex-direction': 'column',
-			'height': '100%', // eslint-disable-line quote-props
-			'justify-content': verticalAlignment,
-		} ];
+			if ( parentBlockId ) {
+				parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
 
-		cssObj[ `.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
-		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"],
-		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"] > .gb-grid-column` ] = [ {
-			'height': '100%', // eslint-disable-line quote-props
-		} ];
+				if ( parentBlock && 'generateblocks/grid' === parentBlock[ 0 ].name ) {
+					gridAttributes = parentBlock[ 0 ].attributes;
+				}
+			}
+		}
 
-		cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),
-		#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-editor-block-list__layout > div:not(:first-child) > .block-list-appender` ] = [ {
-			'display': 'none', // eslint-disable-line quote-props
-		} ];
+		if ( removeVerticalGapTablet ) {
+			if ( ! removeVerticalGap ) {
+				cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
+					'margin-bottom': '0px !important',
+				} ];
+			}
+		} else if ( removeVerticalGap ) {
+			if ( gridAttributes ) {
+				if ( 'undefined' !== typeof gridAttributes.verticalGapTablet && gridAttributes.verticalGapTablet ) {
+					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
+						'margin-bottom': valueWithUnit( gridAttributes.verticalGapTablet, 'px' ),
+					} ];
+				} else if ( 'undefined' !== typeof gridAttributes.verticalGap && gridAttributes.verticalGap ) {
+					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
+						'margin-bottom': valueWithUnit( gridAttributes.verticalGap, 'px' ),
+					} ];
+				}
+			}
+		}
 
-		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, this.props, 'container' );
+		if ( 'inherit' !== verticalAlignmentTablet ) {
+			cssObj[ '.gb-grid-column > .gb-container-' + uniqueId ] = [ {
+				'display': 'flex', // eslint-disable-line quote-props
+				'flex-direction': 'column',
+				'height': '100%', // eslint-disable-line quote-props
+				'justify-content': verticalAlignmentTablet,
+			} ];
+		}
+
+		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'container' );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

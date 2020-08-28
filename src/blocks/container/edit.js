@@ -12,6 +12,8 @@ import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import MobileCSS from './css/mobile.js';
 
 const {
 	__,
@@ -1537,6 +1539,14 @@ class GenerateBlockContainer extends Component {
 				</InspectorControls>
 
 				<DesktopCSS { ...this.props } />
+
+				{ ( this.props.deviceType && ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) ) &&
+					<TabletCSS { ...this.props } />
+				}
+
+				{ this.props.deviceType && 'Mobile' === this.props.deviceType &&
+					<MobileCSS { ...this.props } />
+				}
 
 				{ fontFamily && googleFont &&
 					<link

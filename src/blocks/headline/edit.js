@@ -11,6 +11,8 @@ import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
 import sanitizeSVG from '../../utils/sanitize-svg';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 import './markformat';
 
@@ -1156,6 +1158,14 @@ class GenerateBlockHeadline extends Component {
 				</InspectorControls>
 
 				<DesktopCSS { ...this.props } />
+
+				{ ( this.props.deviceType && ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) ) &&
+					<TabletCSS { ...this.props } />
+				}
+
+				{ this.props.deviceType && 'Mobile' === this.props.deviceType &&
+					<MobileCSS { ...this.props } />
+				}
 
 				{ fontFamily && googleFont &&
 					<link

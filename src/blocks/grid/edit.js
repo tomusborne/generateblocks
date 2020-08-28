@@ -6,6 +6,8 @@ import classnames from 'classnames';
 import getIcon from '../../utils/get-icon';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 
 const { __ } = wp.i18n;
@@ -879,6 +881,14 @@ class GenerateBlockGridContainer extends Component {
 				</InspectorControls>
 
 				<DesktopCSS { ...this.props } />
+
+				{ ( this.props.deviceType && ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) ) &&
+					<TabletCSS { ...this.props } />
+				}
+
+				{ this.props.deviceType && 'Mobile' === this.props.deviceType &&
+					<MobileCSS { ...this.props } />
+				}
 
 				<div
 					{ ...htmlAttributes }
