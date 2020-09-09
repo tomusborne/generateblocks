@@ -1369,16 +1369,16 @@ class GenerateBlockContainer extends Component {
 											label={ __( 'Available sizes:', 'generateblocks' ) }
 											className="components-gblocks-control__image-sizes"
 										>
-											{ generateBlocksInfo.imageSizes.map( ( size ) =>
+											{ Object.keys( generateBlocksInfo.imageSizes ).map( ( size ) =>
 												<Button
-													key={ size }
-													className={ 'components-gblocks-control__image-size--' + size }
+													key={ generateBlocksInfo.imageSizes[ size ] }
+													className={ 'components-gblocks-control__image-size--' + generateBlocksInfo.imageSizes[ size ] }
 													isSmall
-													isPrimary={ attributes.bgImageSize === size }
-													aria-pressed={ attributes.bgImageSize === size }
-													onClick={ () => setAttributes( { bgImageSize: size } ) }
+													isPrimary={ attributes.bgImageSize === generateBlocksInfo.imageSizes[ size ] }
+													aria-pressed={ attributes.bgImageSize === generateBlocksInfo.imageSizes[ size ] }
+													onClick={ () => setAttributes( { bgImageSize: generateBlocksInfo.imageSizes[ size ] } ) }
 												>
-													{ size }
+													{ generateBlocksInfo.imageSizes[ size ] }
 												</Button>
 											) }
 										</ButtonGroup>
