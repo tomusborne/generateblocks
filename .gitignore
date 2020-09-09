@@ -1,11 +1,10 @@
 node_modules
+vendor
 .DS_Store
-.editorconfig
 .eslintignore
 .eslintrc.json
 package-lock.json
-package.json
-phpcs.xml
+composer.lock
 ## Uncomment line below if you prefer to
 ## keep compiled files out of version control
 # dist/
