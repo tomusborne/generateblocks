@@ -13,6 +13,7 @@ export default class DesktopCSS extends Component {
 		const {
 			attributes,
 			clientId,
+			media,
 		} = this.props;
 
 		const {
@@ -54,6 +55,7 @@ export default class DesktopCSS extends Component {
 			linkColorHover,
 			bgImage,
 			bgOptions,
+			featuredImageBg,
 			verticalAlignment,
 			zindex,
 			removeVerticalGap,
@@ -66,7 +68,7 @@ export default class DesktopCSS extends Component {
 			textTransform,
 		} = attributes;
 
-		const backgroundImageValue = getBackgroundImageCSS( attributes );
+		const backgroundImageValue = getBackgroundImageCSS( attributes, media );
 
 		let containerWidthPreview = containerWidth;
 
@@ -80,9 +82,22 @@ export default class DesktopCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
+		let hasBgImage = false,
+			bgImageUrl = '';
+
+		if ( bgImage || ( featuredImageBg && media ) ) {
+			hasBgImage = true;
+
+			if ( featuredImageBg && media ) {
+				bgImageUrl = media.source_url;
+			} else if ( bgImage ) {
+				bgImageUrl = bgImage.image.url;
+			}
+		}
+
 		let doGradientOverlay = false;
 
-		if ( bgImage && gradientOverlay ) {
+		if ( hasBgImage && gradientOverlay ) {
 			doGradientOverlay = true;
 		}
 
@@ -101,7 +116,7 @@ export default class DesktopCSS extends Component {
 			'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		} ];
 
-		if ( bgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
+		if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'background-image': backgroundImageValue,
 				'background-size': bgOptions.size,
@@ -115,13 +130,13 @@ export default class DesktopCSS extends Component {
 			} );
 		}
 
-		if ( ( bgImage && 'pseudo-element' === bgOptions.selector ) || zindex ) {
+		if ( ( hasBgImage && 'pseudo-element' === bgOptions.selector ) || zindex ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'position': 'relative', // eslint-disable-line quote-props
 			} );
 		}
 
-		if ( bgImage && 'pseudo-element' === bgOptions.selector ) {
+		if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'overflow': 'hidden', // eslint-disable-line quote-props
 			} );
@@ -152,10 +167,10 @@ export default class DesktopCSS extends Component {
 			} );
 		}
 
-		if ( bgImage && 'pseudo-element' === bgOptions.selector ) {
+		if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 				'content': '""', // eslint-disable-line quote-props
-				'background-image': 'url(' + bgImage.image.url + ')',
+				'background-image': 'url(' + bgImageUrl + ')',
 				'background-repeat': bgOptions.repeat,
 				'background-position': bgOptions.position,
 				'background-size': bgOptions.size,
@@ -209,7 +224,7 @@ export default class DesktopCSS extends Component {
 			} );
 		}
 
-		if ( bgImage && 'pseudo-element' === bgOptions.selector ) {
+		if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
 				'z-index': '1',
 				'position': 'relative', // eslint-disable-line quote-props

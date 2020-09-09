@@ -1,6 +1,6 @@
 import hexToRGBA from '../hex-to-rgba';
 
-export default function getBackgroundImageCSS( attributes ) {
+export default function getBackgroundImageCSS( attributes, media ) {
 	let backgroundImage = false,
 		gradientColorStopOneValue = '',
 		gradientColorStopTwoValue = '';
@@ -19,8 +19,20 @@ export default function getBackgroundImageCSS( attributes ) {
 		}
 	}
 
-	if ( attributes.bgImage && 'element' === attributes.bgOptions.selector ) {
-		const url = attributes.bgImage.image.url;
+	let useFeaturedImage = false;
+
+	if ( attributes.featuredImageBg && media ) {
+		useFeaturedImage = true;
+	}
+
+	if ( ( useFeaturedImage || attributes.bgImage ) && 'element' === attributes.bgOptions.selector ) {
+		let url = '';
+
+		if ( useFeaturedImage ) {
+			url = media.source_url;
+		} else {
+			url = attributes.bgImage.image.url;
+		}
 
 		if ( ( backgroundColor || attributes.gradient ) && typeof attributes.bgOptions.overlay !== 'undefined' && attributes.bgOptions.overlay ) {
 			if ( attributes.gradient ) {

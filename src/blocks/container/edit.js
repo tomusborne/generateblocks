@@ -186,6 +186,7 @@ class GenerateBlockContainer extends Component {
 			linkColorHover,
 			bgImage,
 			bgOptions,
+			featuredImageBg,
 			verticalAlignment,
 			verticalAlignmentTablet,
 			verticalAlignmentMobile,
@@ -1314,7 +1315,18 @@ class GenerateBlockContainer extends Component {
 							/>
 						) }
 
-						{ !! bgImage && (
+						<ToggleControl
+							label={ __( 'Use featured image', 'generateblocks' ) }
+							help={ __( 'Use featured image as the background image if available.', 'generateblocks' ) }
+							checked={ !! featuredImageBg }
+							onChange={ ( value ) => {
+								setAttributes( {
+									featuredImageBg: value,
+								} );
+							} }
+						/>
+
+						{ ( !! bgImage || !! featuredImageBg ) && (
 							<div className="section-bg-settings">
 								{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
 									<Fragment>
@@ -1643,13 +1655,25 @@ export default compose( [
 			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
 		} = select( 'core/edit-post' );
 
+		const {
+			getMedia,
+		} = select( 'core' );
+
+		const {
+			getEditedPostAttribute,
+		} = select( 'core/editor' );
+
+		const featuredImageId = getEditedPostAttribute( 'featured_media' );
+
 		if ( ! getPreviewDeviceType ) {
 			return {
+				media: featuredImageId ? getMedia( featuredImageId ) : null,
 				deviceType: null,
 			};
 		}
 
 		return {
+			media: featuredImageId ? getMedia( featuredImageId ) : null,
 			deviceType: getPreviewDeviceType(),
 		};
 	} ),

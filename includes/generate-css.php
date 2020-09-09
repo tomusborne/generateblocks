@@ -226,6 +226,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
 				}
 
+				$hasBgImage = false;
+				$bgImageUrl = '';
+
+				if ( $settings['bgImage'] || ( $settings['featuredImageBg'] && has_post_thumbnail() ) ) {
+					$hasBgImage = true;
+
+					if ( $settings['featuredImageBg'] && has_post_thumbnail() ) {
+						$bgImageUrl = get_the_post_thumbnail_url( get_the_ID(), $settings['bgImageSize'] );
+					} elseif ( $settings['bgImage'] ) {
+							$bgImageUrl = $settings['bgImage']['image']['url'];
+					}
+				}
+
 				$css->set_selector( '.gb-container.gb-container-' . $id );
 				$css->add_property( 'font-family', $fontFamily );
 				$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
@@ -249,11 +262,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$background_image = generateblocks_get_background_image_css( $settings );
 				$doGradientOverlay = false;
 
-				if ( $settings['bgImage'] && $settings['gradientOverlay'] ) {
+				if ( $hasBgImage && $settings['gradientOverlay'] ) {
 					$doGradientOverlay = true;
 				}
 
-				if ( $settings['bgImage'] && 'element' === $settings['bgOptions']['selector'] && $background_image ) {
+				if ( $hasBgImage && 'element' === $settings['bgOptions']['selector'] && $background_image ) {
 					$css->add_property( 'background-image', $background_image );
 					$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
@@ -263,11 +276,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'background-image', $background_image );
 				}
 
-				if ( ( $settings['bgImage'] && 'pseudo-element' === $settings['bgOptions']['selector'] ) || $settings['zindex'] ) {
+				if ( ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) || $settings['zindex'] ) {
 					$css->add_property( 'position', 'relative' );
 				}
 
-				if ( $settings['bgImage'] && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 					$css->add_property( 'overflow', 'hidden' );
 				}
 
@@ -305,9 +318,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->set_selector( '.gb-container.gb-container-' . $id . ':before' );
 
-				if ( $settings['bgImage'] && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 					$css->add_property( 'content', '""' );
-					$css->add_property( 'background-image', 'url(' . $settings['bgImage']['image']['url'] . ')' );
+					$css->add_property( 'background-image', 'url(' . $bgImageUrl . ')' );
 					$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
@@ -352,7 +365,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$usingMinHeightInnerWidth = true;
 				}
 
-				if ( $settings['bgImage'] && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 					$css->add_property( 'z-index', '1' );
 					$css->add_property( 'position', 'relative' );
 				}

@@ -372,6 +372,10 @@ const attributes = {
 			attachment: generateBlocksDefaults.container.bgOptions.attachment,
 		},
 	},
+	featuredImageBg: {
+		type: 'boolean',
+		default: false,
+	},
 	verticalAlignment: {
 		type: 'string',
 		default: generateBlocksDefaults.container.verticalAlignment,

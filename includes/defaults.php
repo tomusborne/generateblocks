@@ -113,6 +113,7 @@ function generateblocks_get_block_defaults() {
 			'repeat' => 'no-repeat',
 			'attachment' => '',
 		),
+		'featuredImageBg' => false,
 		'width' => 50,
 		'widthTablet' => '',
 		'widthMobile' => 100,

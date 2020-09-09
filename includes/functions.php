@@ -463,6 +463,7 @@ function generateblocks_get_background_image_css( $settings, $custom_args = arra
 		'gradientColorStopTwo' => $settings['gradientColorStopTwo'],
 		'bgImage' => $settings['bgImage'],
 		'bgOptions' => $settings['bgOptions'],
+		'featuredImageBg' => $settings['featuredImageBg'],
 	);
 
 	$args = wp_parse_args(
@@ -488,8 +489,20 @@ function generateblocks_get_background_image_css( $settings, $custom_args = arra
 		}
 	}
 
-	if ( $args['bgImage'] && 'element' === $args['bgOptions']['selector'] ) {
-		$url = $args['bgImage']['image']['url'];
+	$useFeaturedImage = false;
+
+	if ( $args['featuredImageBg'] && has_post_thumbnail() ) {
+		$useFeaturedImage = true;
+	}
+
+	if ( ( $useFeaturedImage || $args['bgImage'] ) && 'element' === $args['bgOptions']['selector'] ) {
+		$url = '';
+
+		if ( $useFeaturedImage ) {
+			$url = get_the_post_thumbnail_url( get_the_ID(), $args['bgImageSize'] );
+		} else {
+				$url = $args['bgImage']['image']['url'];
+		}
 
 		if ( ( $args['backgroundColor'] || $args['gradient'] ) && isset( $args['bgOptions']['overlay'] ) && $args['bgOptions']['overlay'] ) {
 			if ( $args['gradient'] ) {
