@@ -139,7 +139,7 @@ class GenerateBlockContainer extends Component {
 		} = this.props;
 
 		const onSelectBgImage = ( media ) => {
-			let size = generateBlocksStyling.container.bgImageSize;
+			let size = generateBlocksDefaults.container.bgImageSize;
 
 			if ( 'undefined' === typeof media.sizes[ size ] ) {
 				size = 'full';
@@ -187,6 +187,7 @@ class GenerateBlockContainer extends Component {
 			bgImage,
 			bgOptions,
 			featuredImageBg,
+			bgImageSize,
 			verticalAlignment,
 			verticalAlignmentTablet,
 			verticalAlignmentMobile,
@@ -1353,6 +1354,35 @@ class GenerateBlockContainer extends Component {
 									</Fragment>
 								) : ( // These options is only for people not using the deprecated overlay option.
 									<Fragment>
+										<TextControl
+											className="editor-gb-container-background__image-size"
+											label={ __( 'Image Size', 'generateblocks' ) }
+											value={ bgImageSize }
+											onChange={ ( nextSize ) => {
+												setAttributes( {
+													bgImageSize: nextSize,
+												} );
+											} }
+										/>
+
+										<ButtonGroup
+											label={ __( 'Available sizes:', 'generateblocks' ) }
+											className="components-gblocks-control__image-sizes"
+										>
+											{ generateBlocksInfo.imageSizes.map( ( size ) =>
+												<Button
+													key={ size }
+													className={ 'components-gblocks-control__image-size--' + size }
+													isSmall
+													isPrimary={ attributes.bgImageSize === size }
+													aria-pressed={ attributes.bgImageSize === size }
+													onClick={ () => setAttributes( { bgImageSize: size } ) }
+												>
+													{ size }
+												</Button>
+											) }
+										</ButtonGroup>
+
 										<SelectControl
 											label={ __( 'Selector', 'generateblocks' ) }
 											value={ bgOptions.selector }
@@ -1388,7 +1418,7 @@ class GenerateBlockContainer extends Component {
 											initialPosition={ generateBlocksDefaults.container.bgOptions.opacity }
 										/>
 
-										{ 'pseudo-element' !== bgOptions.selector &&
+										{ 1 !== bgOptions.opacity && 'pseudo-element' !== bgOptions.selector &&
 											<Notice
 												className="gblocks-option-notice"
 												status="info"

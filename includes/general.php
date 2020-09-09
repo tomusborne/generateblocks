@@ -47,6 +47,10 @@ function generateblocks_do_block_editor_assets() {
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.editor.build.css' )
 	);
 
+	$image_sizes = get_intermediate_image_sizes();
+	$image_sizes = array_diff( $image_sizes, array( '1536x1536', '2048x2048' ) );
+	$image_sizes[] = 'full';
+
 	wp_localize_script(
 		'generateblocks',
 		'generateBlocksInfo',
@@ -55,6 +59,7 @@ function generateblocks_do_block_editor_assets() {
 			'hasCustomFields' => post_type_supports( get_post_type(), 'custom-fields' ),
 			'hasWideAlignSupport' => current_theme_supports( 'align-wide' ),
 			'colorComponentDiplay' => generateblocks_get_option( 'color_component_display' ),
+			'imageSizes' => $image_sizes,
 		)
 	);
 

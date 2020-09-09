@@ -376,6 +376,10 @@ const attributes = {
 		type: 'boolean',
 		default: false,
 	},
+	bgImageSize: {
+		type: 'string',
+		default: generateBlocksDefaults.container.bgImageSize,
+	},
 	verticalAlignment: {
 		type: 'string',
 		default: generateBlocksDefaults.container.verticalAlignment,

@@ -464,6 +464,7 @@ function generateblocks_get_background_image_css( $settings, $custom_args = arra
 		'bgImage' => $settings['bgImage'],
 		'bgOptions' => $settings['bgOptions'],
 		'featuredImageBg' => $settings['featuredImageBg'],
+		'bgImageSize' => $settings['bgImageSize'],
 	);
 
 	$args = wp_parse_args(
@@ -501,7 +502,12 @@ function generateblocks_get_background_image_css( $settings, $custom_args = arra
 		if ( $useFeaturedImage ) {
 			$url = get_the_post_thumbnail_url( get_the_ID(), $args['bgImageSize'] );
 		} else {
+			if ( isset( $settings['bgImage']['id'] ) ) {
+				$image_src = wp_get_attachment_image_src( $args['bgImage']['id'], $args['bgImageSize'] );
+				$url = $image_src[0];
+			} else {
 				$url = $args['bgImage']['image']['url'];
+			}
 		}
 
 		if ( ( $args['backgroundColor'] || $args['gradient'] ) && isset( $args['bgOptions']['overlay'] ) && $args['bgOptions']['overlay'] ) {

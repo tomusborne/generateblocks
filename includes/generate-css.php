@@ -235,7 +235,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					if ( $settings['featuredImageBg'] && has_post_thumbnail() ) {
 						$bgImageUrl = get_the_post_thumbnail_url( get_the_ID(), $settings['bgImageSize'] );
 					} elseif ( $settings['bgImage'] ) {
+						if ( isset( $settings['bgImage']['id'] ) ) {
+							$image_src = wp_get_attachment_image_src( $settings['bgImage']['id'], $settings['bgImageSize'] );
+							$bgImageUrl = $image_src[0];
+						} else {
 							$bgImageUrl = $settings['bgImage']['image']['url'];
+						}
 					}
 				}
 

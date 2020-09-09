@@ -114,6 +114,7 @@ function generateblocks_get_block_defaults() {
 			'attachment' => '',
 		),
 		'featuredImageBg' => false,
+		'bgImageSize' => 'full',
 		'width' => 50,
 		'widthTablet' => '',
 		'widthMobile' => 100,

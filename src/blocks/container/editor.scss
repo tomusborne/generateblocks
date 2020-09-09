@@ -115,6 +115,18 @@ button.editor-gb-container-background__toggle {
     margin-bottom: 8px;
 }
 
+.components-base-control.editor-gb-container-background__image-size {
+	margin-bottom: 0;
+}
+
+.components-gblocks-control__image-sizes {
+	margin-bottom: 24px;
+
+	button {
+		margin: 0 5px 5px 0;
+	}
+}
+
 /* Bad idea?? */
 [data-type="generateblocks/container"] .block-editor-block-list__insertion-point,
 [data-type="generateblocks/grid"] .block-editor-block-list__insertion-point {
