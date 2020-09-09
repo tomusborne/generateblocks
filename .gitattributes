@@ -8,3 +8,6 @@
 *.xml          text eol=lf
 .distignore    text eol=lf
 .gitattributes text eol=lf
+.gitignore     text eol=lf
+composer.json  text eol=lf
+package.json   text eol=lf
