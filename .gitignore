@@ -3,6 +3,7 @@ vendor
 .DS_Store
 .eslintignore
 .eslintrc.json
+*.zip
 package-lock.json
 composer.lock
 ## Uncomment line below if you prefer to
