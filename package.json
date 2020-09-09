@@ -1,0 +1,15 @@
+{
+  "name": "generate-blocks-cgb-guten-block",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "cgb-scripts start",
+    "build": "cgb-scripts build"
+  },
+  "dependencies": {
+    "cgb-scripts": "1.23.1",
+    "classnames": "^2.2.6",
+    "lodash": "4.17.19",
+    "throttle-debounce": "2.2.1"
+  }
+}
