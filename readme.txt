@@ -75,6 +75,16 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.2.0 =
+* New: Make all blocks fully responsive when using editor responsive previews
+* New: Add option to overlay gradient over background image
+* New: Add option to use featured image as Container background image
+* New: Add option to choose background image size
+* Fix: Stacked button alignment in the editor
+* Fix: Broken background image upload when using official AMP plugin
+* Tweak: Remove deprecated isLarge prop in editor
+* Tweak: Better stacked button alignment on frontend
+
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
 * Fix: Set background image opacity default if undefined
