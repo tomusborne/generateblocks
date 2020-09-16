@@ -35,6 +35,7 @@ export default class TabletCSS extends Component {
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'flex-direction': stackTablet ? 'column' : false,
+			'align-items': stackTablet ? flexboxAlignment( alignmentTablet ) : false,
 		} ];
 
 		if ( fillHorizontalSpaceTablet ) {

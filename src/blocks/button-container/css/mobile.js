@@ -35,6 +35,7 @@ export default class MobileCSS extends Component {
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'flex-direction': stackMobile ? 'column' : false,
+			'align-items': stackMobile ? flexboxAlignment( alignmentMobile ) : false,
 		} ];
 
 		if ( fillHorizontalSpaceMobile ) {

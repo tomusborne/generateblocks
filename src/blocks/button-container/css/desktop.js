@@ -35,6 +35,7 @@ export default class DesktopCSS extends Component {
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'flex-direction': stack ? 'column' : false,
+			'align-items': stack ? flexboxAlignment( alignment ) : false,
 		} ];
 
 		if ( fillHorizontalSpace ) {
