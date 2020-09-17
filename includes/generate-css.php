@@ -52,17 +52,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			$css->set_selector( '.gb-grid-wrapper' );
-			$css->add_property( 'display', '-webkit-box' );
-			$css->add_property( 'display', '-ms-flexbox' );
 			$css->add_property( 'display', 'flex' );
-			$css->add_property( '-ms-flex-wrap', 'wrap' );
 			$css->add_property( 'flex-wrap', 'wrap' );
 
 			$css->set_selector( '.gb-grid-wrapper > .gb-grid-column > .gb-container' );
-			$css->add_property( 'display', '-webkit-box' );
-			$css->add_property( 'display', '-ms-flexbox' );
 			$css->add_property( 'display', 'flex' );
-			$css->add_property( '-ms-flex-direction', 'column' );
 			$css->add_property( 'flex-direction', 'column' );
 			$css->add_property( 'height', '100%' );
 
@@ -70,7 +64,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'box-sizing', 'border-box' );
 
 			$css->set_selector( '.gb-grid-wrapper .wp-block-image' );
-			$css->add_property( 'margin-bottom', '0px' );
+			$css->add_property( 'margin-bottom', '0' );
 
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
@@ -87,9 +81,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$id = $atts['uniqueId'];
 
 				$css->set_selector( '.gb-grid-wrapper-' . $id );
-				$css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignment'] ) );
 				$css->add_property( 'align-items', $settings['verticalAlignment'] );
-				$css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['horizontalAlignment'] ) );
 				$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
 				if ( $settings['horizontalGap'] ) {
@@ -103,12 +95,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->set_selector( '.gb-grid-wrapper-' . $id );
 
 				if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-					$tablet_css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignmentTablet'] ) );
 					$tablet_css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
 				}
 
 				if ( 'inherit' !== $settings['horizontalAlignmentTablet'] ) {
-					$tablet_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['horizontalAlignmentTablet'] ) );
 					$tablet_css->add_property( 'justify-content', $settings['horizontalAlignmentTablet'] );
 				}
 
@@ -125,12 +115,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->set_selector( '.gb-grid-wrapper-' . $id );
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-					$mobile_css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
 					$mobile_css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
 				}
 
 				if ( 'inherit' !== $settings['horizontalAlignmentMobile'] ) {
-					$mobile_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['horizontalAlignmentMobile'] ) );
 					$mobile_css->add_property( 'justify-content', $settings['horizontalAlignmentMobile'] );
 				}
 
@@ -308,12 +296,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$usingMinHeightInnerWidth = false;
 
 				if ( $settings['minHeight'] && $settings['verticalAlignment'] && ! $settings['isGrid'] ) {
-					$css->add_property( 'display', '-webkit-box' );
-					$css->add_property( 'display', '-ms-flexbox' );
 					$css->add_property( 'display', 'flex' );
-					$css->add_property( '-ms-flex-direction', 'row' );
 					$css->add_property( 'flex-direction', 'row' );
-					$css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignment'] ) );
 					$css->add_property( 'align-items', $settings['verticalAlignment'] );
 
 					$usingMinHeightFlex = true;
@@ -392,7 +376,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
-				$css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignment'] ) );
 				$css->add_property( 'justify-content', $settings['verticalAlignment'] );
 
 				$tablet_css->set_selector( '.gb-container.gb-container-' . $id );
@@ -409,17 +392,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( ! $settings['isGrid'] ) {
 					if ( ! $usingMinHeightFlex && $settings['minHeightTablet'] && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-						$tablet_css->add_property( 'display', '-webkit-box' );
-						$tablet_css->add_property( 'display', '-ms-flexbox' );
 						$tablet_css->add_property( 'display', 'flex' );
-						$tablet_css->add_property( '-ms-flex-direction', 'row' );
 						$tablet_css->add_property( 'flex-direction', 'row' );
 
 						$usingMinHeightFlex = true;
 					}
 
 					if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-						$tablet_css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignmentTablet'] ) );
 						$tablet_css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
 					}
 				}
@@ -450,7 +429,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
 
 				if ( $settings['isGrid'] ) {
-					$tablet_css->add_property( '-ms-flex-order', $settings['orderTablet'] );
 					$tablet_css->add_property( 'order', $settings['orderTablet'] );
 				}
 
@@ -481,7 +459,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
 
 				if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-					$tablet_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignmentTablet'] ) );
 					$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
 				}
 
@@ -499,17 +476,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( ! $settings['isGrid'] ) {
 					if ( ! $usingMinHeightFlex && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-						$mobile_css->add_property( 'display', '-webkit-box' );
-						$mobile_css->add_property( 'display', '-ms-flexbox' );
 						$mobile_css->add_property( 'display', 'flex' );
-						$mobile_css->add_property( '-ms-flex-direction', 'row' );
 						$mobile_css->add_property( 'flex-direction', 'row' );
 
 						$usingMinHeightFlex = true;
 					}
 
 					if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-						$mobile_css->add_property( '-ms-flex-align', generateblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
 						$mobile_css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
 					}
 				}
@@ -537,7 +510,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['isGrid'] ) {
-					$mobile_css->add_property( '-ms-flex-order', $settings['orderMobile'] );
 					$mobile_css->add_property( 'order', $settings['orderMobile'] );
 				}
 
@@ -568,7 +540,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-					$mobile_css->add_property( '-ms-flex-pack', generateblocks_get_vendor_prefix( $settings['verticalAlignmentMobile'] ) );
 					$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
 				}
 
@@ -641,15 +612,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 
 				if ( $settings['stack'] ) {
-					$css->add_property( '-ms-flex-direction', 'column' );
 					$css->add_property( 'flex-direction', 'column' );
 					$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpace'] ) {
 					$css->set_selector( '.gb-button-wrapper-' . $id . ' > a' );
-					$css->add_property( '-webkit-box-flex', '1' );
-					$css->add_property( '-ms-flex', '1' );
 					$css->add_property( 'flex', '1' );
 				}
 
@@ -663,15 +631,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 
 				if ( $settings['stackTablet'] ) {
-					$tablet_css->add_property( '-ms-flex-direction', 'column' );
 					$tablet_css->add_property( 'flex-direction', 'column' );
 					$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpaceTablet'] ) {
 					$tablet_css->set_selector( '.gb-button-wrapper-' . $id . ' > a' );
-					$tablet_css->add_property( '-webkit-box-flex', '1' );
-					$tablet_css->add_property( '-ms-flex', '1' );
 					$tablet_css->add_property( 'flex', '1' );
 				}
 
@@ -685,15 +650,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 
 				if ( $settings['stackMobile'] ) {
-					$mobile_css->add_property( '-ms-flex-direction', 'column' );
 					$mobile_css->add_property( 'flex-direction', 'column' );
 					$mobile_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpaceMobile'] ) {
 					$mobile_css->set_selector( '.gb-button-wrapper-' . $id . ' > a' );
-					$mobile_css->add_property( '-webkit-box-flex', '1' );
-					$mobile_css->add_property( '-ms-flex', '1' );
 					$mobile_css->add_property( 'flex', '1' );
 				}
 
@@ -747,8 +709,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			if ( ! $icon_css_added ) {
 				$css->set_selector( '.gb-icon' );
-				$css->add_property( 'display', '-webkit-inline-box' );
-				$css->add_property( 'display', '-ms-inline-flexbox' );
 				$css->add_property( 'display', 'inline-flex' );
 				$css->add_property( 'line-height', '0' );
 
@@ -761,8 +721,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			}
 
 			$css->set_selector( '.gb-button-wrapper a.gb-button' );
-			$css->add_property( 'display', '-webkit-inline-box' );
-			$css->add_property( 'display', '-ms-inline-flexbox' );
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'align-items', 'center' );
 			$css->add_property( 'justify-content', 'center' );
@@ -837,8 +795,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'text-transform', $settings['textTransform'] );
 
 				if ( $settings['hasIcon'] ) {
-					$css->add_property( 'display', '-webkit-inline-box' );
-					$css->add_property( 'display', '-ms-inline-flexbox' );
 					$css->add_property( 'display', 'inline-flex' );
 					$css->add_property( 'align-items', 'center' );
 				}
@@ -936,8 +892,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			if ( ! $icon_css_added ) {
 				$css->set_selector( '.gb-icon' );
-				$css->add_property( 'display', '-webkit-inline-box' );
-				$css->add_property( 'display', '-ms-inline-flexbox' );
 				$css->add_property( 'display', 'inline-flex' );
 				$css->add_property( 'line-height', '0' );
 
@@ -954,7 +908,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'color', 'unset' );
 
 			$css->set_selector( '.gb-headline-wrapper' );
-			$css->add_property( 'display', '-ms-flexbox' );
 			$css->add_property( 'display', 'flex' );
 
 			$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
@@ -1073,8 +1026,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( $settings['inlineWidth'] ) {
-						$css->add_property( 'display', '-webkit-inline-box' );
-						$css->add_property( 'display', '-ms-inline-flexbox' );
 						$css->add_property( 'display', 'inline-flex' );
 					}
 
@@ -1093,7 +1044,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 
 					if ( 'above' === $settings['iconLocation'] ) {
-						$css->add_property( '-ms-flex-direction', 'column' );
 						$css->add_property( 'flex-direction', 'column' );
 					}
 				}
@@ -1115,8 +1065,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
 
 					if ( $settings['inlineWidthTablet'] ) {
-						$tablet_css->add_property( 'display', '-webkit-inline-box' );
-						$tablet_css->add_property( 'display', '-ms-inline-flexbox' );
 						$tablet_css->add_property( 'display', 'inline-flex' );
 					}
 				}
@@ -1129,7 +1077,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'above' === $settings['iconLocationTablet'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationTablet'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-						$tablet_css->add_property( '-ms-flex-item-align', generateblocks_get_vendor_prefix( $settings['alignmentTablet'] ) );
 						$tablet_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 					}
 
@@ -1156,8 +1103,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( $settings['inlineWidthTablet'] ) {
-						$tablet_css->add_property( 'display', '-webkit-inline-box' );
-						$tablet_css->add_property( 'display', '-ms-inline-flexbox' );
 						$tablet_css->add_property( 'display', 'inline-flex' );
 					}
 
@@ -1166,7 +1111,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'above' === $settings['iconLocationTablet'] ) {
-						$tablet_css->add_property( '-ms-flex-direction', 'column' );
 						$tablet_css->add_property( 'flex-direction', 'column' );
 					}
 				}
@@ -1183,8 +1127,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
 
 					if ( $settings['inlineWidthMobile'] ) {
-						$mobile_css->add_property( 'display', '-webkit-inline-box' );
-						$mobile_css->add_property( 'display', '-ms-inline-flexbox' );
 						$mobile_css->add_property( 'display', 'inline-flex' );
 					}
 				}
@@ -1197,7 +1139,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'above' === $settings['iconLocationMobile'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationMobile'] ) || ( 'above' === $settings['iconLocationTablet'] && '' == $settings['iconLocationMobile'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-						$mobile_css->add_property( '-ms-flex-item-align', generateblocks_get_vendor_prefix( $settings['alignmentMobile'] ) );
 						$mobile_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
 					}
 
@@ -1223,8 +1164,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( $settings['inlineWidthMobile'] ) {
-						$mobile_css->add_property( 'display', '-webkit-inline-box' );
-						$mobile_css->add_property( 'display', '-ms-inline-flexbox' );
 						$mobile_css->add_property( 'display', 'inline-flex' );
 					}
 
@@ -1233,7 +1172,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 
 					if ( 'above' === $settings['iconLocationMobile'] ) {
-						$mobile_css->add_property( '-ms-flex-direction', 'column' );
 						$mobile_css->add_property( 'flex-direction', 'column' );
 					}
 				}
