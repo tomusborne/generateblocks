@@ -1,7 +1,6 @@
 import buildCSS from '../../../utils/build-css';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 import valueWithUnit from '../../../utils/value-with-unit';
-import shorthandCSS from '../../../utils/shorthand-css';
 
 const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
@@ -96,20 +95,31 @@ export default class MobileCSS extends Component {
 
 		cssObj[ headlineStyleSelector ].push( {
 			'display': inlineWidthMobile ? inlineWidthValue : false, // eslint-disable-line quote-props
-			'margin': shorthandCSS( marginTopMobile, marginRightMobile, marginBottomValue, marginLeftMobile, marginUnit ) + ' !important', // eslint-disable-line quote-props
-			'margin-bottom': marginBottomValue + ' !important', // The unit changes depending on the element if no value exists.
-			'padding': shorthandCSS( paddingTopMobile, paddingRightMobile, paddingBottomMobile, paddingLeftMobile, paddingUnit ), // eslint-disable-line quote-props
+			'margin-top': valueWithUnit( marginTopMobile, marginUnit ) + ' !important',
+			'margin-right': valueWithUnit( marginRightMobile, marginUnit ) + ' !important',
+			'margin-bottom': marginBottomValue + ' !important',
+			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ) + ' !important',
+			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
+			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
+			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
+			'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
 		} );
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ headlineStyleSelector ].push( {
-				'border-width': shorthandCSS( borderSizeTopMobile, borderSizeRightMobile, borderSizeBottomMobile, borderSizeLeftMobile, 'px' ),
+				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
+				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
+				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
+				'border-left-width': valueWithUnit( borderSizeLeftMobile, 'px' ),
 				'border-style': 'solid',
 			} );
 		}
 
 		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon' ] = [ {
-			'padding': ! removeText ? shorthandCSS( iconPaddingTopMobile, iconPaddingRightMobile, iconPaddingBottomMobile, iconPaddingLeftMobile, iconPaddingUnit ) : false, // eslint-disable-line quote-props
+			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopMobile, iconPaddingUnit ) : false,
+			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightMobile, iconPaddingUnit ) : false,
+			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomMobile, iconPaddingUnit ) : false,
+			'padding-left': ! removeText ? valueWithUnit( iconPaddingLeftMobile, iconPaddingUnit ) : false,
 			'align-self': icon && 'above' === iconLocationMobile ? flexboxAlignment( alignmentMobile ) : false,
 			'display': icon && 'above' === iconLocationMobile ? 'inline' : false, // eslint-disable-line quote-props
 		} ];

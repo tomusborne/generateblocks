@@ -1,5 +1,5 @@
 import buildCSS from '../../../utils/build-css';
-import shorthandCSS from '../../../utils/shorthand-css';
+import valueWithUnit from '../../../utils/value-with-unit';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 
 const { Component } = wp.element;
@@ -27,7 +27,10 @@ export default class TabletCSS extends Component {
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId ] = [ {
 			'display': fillHorizontalSpaceTablet ? 'block' : false, // eslint-disable-line quote-props
-			'margin': shorthandCSS( marginTopTablet, marginRightTablet, marginBottomTablet, marginLeftTablet, marginUnit ), // eslint-disable-line quote-props
+			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
+			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
+			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
+			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 			'justify-content': flexboxAlignment( alignmentTablet ),
 			'flex-direction': stackTablet ? 'column' : false,
 			'align-items': stackTablet ? flexboxAlignment( alignmentTablet ) : false,

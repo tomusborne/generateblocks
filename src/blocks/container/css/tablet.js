@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
-import shorthandCSS from '../../../utils/shorthand-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 
 const { Component } = wp.element;
@@ -48,8 +47,14 @@ export default class TabletCSS extends Component {
 
 		let cssObj = [];
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
-			'border-radius': shorthandCSS( borderRadiusTopLeftTablet, borderRadiusTopRightTablet, borderRadiusBottomRightTablet, borderRadiusBottomLeftTablet, borderRadiusUnit ),
-			'margin': shorthandCSS( marginTopTablet, marginRightTablet, marginBottomTablet, marginLeftTablet, marginUnit ), // eslint-disable-line quote-props
+			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
+			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
+			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
+			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
+			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
+			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
+			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
+			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 			'text-align': alignmentTablet,
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'min-height': valueWithUnit( minHeightTablet, minHeightUnitTablet ),
@@ -57,7 +62,10 @@ export default class TabletCSS extends Component {
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
-				'border-width': shorthandCSS( borderSizeTopTablet, borderSizeRightTablet, borderSizeBottomTablet, borderSizeLeftTablet, 'px' ),
+				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
+				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
+				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
+				'border-left-width': valueWithUnit( borderSizeLeftTablet, 'px' ),
 				'border-style': 'solid',
 			} );
 		}
@@ -71,7 +79,10 @@ export default class TabletCSS extends Component {
 		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding': shorthandCSS( paddingTopTablet, paddingRightTablet, paddingBottomTablet, paddingLeftTablet, paddingUnit ), // eslint-disable-line quote-props
+			'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
+			'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
+			'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
+			'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
 			'width': minHeightTablet && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 

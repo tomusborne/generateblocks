@@ -1,7 +1,6 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
-import shorthandCSS from '../../../utils/shorthand-css';
 
 const { Component } = wp.element;
 const { applyFilters } = wp.hooks;
@@ -49,22 +48,37 @@ export default class MobileCSS extends Component {
 		let cssObj = [];
 
 		cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId ] = [ {
-			'padding': shorthandCSS( paddingTopMobile, paddingRightMobile, paddingBottomMobile, paddingLeftMobile, paddingUnit ), // eslint-disable-line quote-props
-			'border-radius': shorthandCSS( borderRadiusTopLeftMobile, borderRadiusTopRightMobile, borderRadiusBottomRightMobile, borderRadiusBottomLeftMobile, borderRadiusUnit ),
+			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
+			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
+			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
+			'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
+			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
+			'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
+			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
+			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
-			'margin': shorthandCSS( marginTopMobile, marginRightMobile, marginBottomMobile, marginLeftMobile, marginUnit ), // eslint-disable-line quote-props
+			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
+			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
+			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
+			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 		} ];
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId ].push( {
-				'border-width': shorthandCSS( borderSizeTopMobile, borderSizeRightMobile, borderSizeBottomMobile, borderSizeLeftMobile, 'px' ),
+				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
+				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
+				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
+				'border-left-width': valueWithUnit( borderSizeLeftMobile, 'px' ),
 				'border-style': 'solid',
 			} );
 		}
 
 		cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId + ' .gb-icon' ] = [ {
-			'padding': ! removeText ? shorthandCSS( iconPaddingTopMobile, iconPaddingRightMobile, iconPaddingBottomMobile, iconPaddingLeftMobile, iconPaddingUnit ) : false, // eslint-disable-line quote-props
+			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopMobile, iconPaddingUnit ) : false,
+			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightMobile, iconPaddingUnit ) : false,
+			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomMobile, iconPaddingUnit ) : false,
+			'padding-left': ! removeText ? valueWithUnit( iconPaddingLeftMobile, iconPaddingUnit ) : false,
 			'font-size': valueWithUnit( iconSizeMobile, iconSizeUnit ),
 		} ];
 

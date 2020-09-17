@@ -1,5 +1,5 @@
 import buildCSS from '../../../utils/build-css';
-import shorthandCSS from '../../../utils/shorthand-css';
+import valueWithUnit from '../../../utils/value-with-unit';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 
 const { Component } = wp.element;
@@ -27,7 +27,10 @@ export default class MobileCSS extends Component {
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId ] = [ {
 			'display': fillHorizontalSpaceMobile ? 'block' : false, // eslint-disable-line quote-props
-			'margin': shorthandCSS( marginTopMobile, marginRightMobile, marginBottomMobile, marginLeftMobile, marginUnit ), // eslint-disable-line quote-props
+			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
+			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
+			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
+			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 			'justify-content': flexboxAlignment( alignmentMobile ),
 			'flex-direction': stackMobile ? 'column' : false,
 			'align-items': stackMobile ? flexboxAlignment( alignmentMobile ) : false,

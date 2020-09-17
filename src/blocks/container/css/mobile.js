@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
-import shorthandCSS from '../../../utils/shorthand-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 
 const { Component } = wp.element;
@@ -50,8 +49,14 @@ export default class MobileCSS extends Component {
 
 		let cssObj = [];
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
-			'border-radius': shorthandCSS( borderRadiusTopLeftMobile, borderRadiusTopRightMobile, borderRadiusBottomRightMobile, borderRadiusBottomLeftMobile, borderRadiusUnit ),
-			'margin': shorthandCSS( marginTopMobile, marginRightMobile, marginBottomMobile, marginLeftMobile, marginUnit ), // eslint-disable-line quote-props
+			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
+			'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
+			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
+			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
+			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
+			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
+			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
+			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 			'text-align': alignmentMobile,
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'min-height': valueWithUnit( minHeightMobile, minHeightUnitMobile ),
@@ -59,7 +64,10 @@ export default class MobileCSS extends Component {
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
-				'border-width': shorthandCSS( borderSizeTopMobile, borderSizeRightMobile, borderSizeBottomMobile, borderSizeLeftMobile, 'px' ),
+				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
+				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
+				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
+				'border-left-width': valueWithUnit( borderSizeLeftMobile, 'px' ),
 				'border-style': 'solid',
 			} );
 		}
@@ -73,7 +81,10 @@ export default class MobileCSS extends Component {
 		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding': shorthandCSS( paddingTopMobile, paddingRightMobile, paddingBottomMobile, paddingLeftMobile, paddingUnit ), // eslint-disable-line quote-props
+			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
+			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
+			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
+			'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
 			'width': minHeightMobile && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 
