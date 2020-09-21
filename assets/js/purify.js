@@ -214,7 +214,7 @@
      * Version label, exposed for easier checks
      * if DOMPurify is up to date or not
      */
-    DOMPurify.version = '2.0.16';
+    DOMPurify.version = '2.0.17';
 
     /**
      * Array of elements that DOMPurify removed during sanitation.
@@ -706,7 +706,7 @@
       });
 
       /* Take care of an mXSS pattern using p, br inside svg, math */
-      if ((tagName === 'svg' || tagName === 'math') && currentNode.querySelectorAll('p, br, form').length !== 0) {
+      if ((tagName === 'svg' || tagName === 'math') && currentNode.querySelectorAll('p, br, form, table').length !== 0) {
         _forceRemove(currentNode);
         return true;
       }
