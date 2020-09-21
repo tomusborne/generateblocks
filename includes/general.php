@@ -32,14 +32,6 @@ function generateblocks_do_block_editor_assets() {
 		wp_set_script_translations( 'generateblocks', 'generateblocks' );
 	}
 
-	wp_enqueue_script(
-		'generateblocks-dompurify',
-		GENERATEBLOCKS_DIR_URL . 'assets/js/purify.min.js',
-		array( 'generateblocks' ),
-		filemtime( GENERATEBLOCKS_DIR . 'assets/js/purify.min.js' ),
-		true
-	);
-
 	wp_enqueue_style(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.editor.build.css',
