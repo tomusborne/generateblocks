@@ -84,6 +84,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Broken background image upload when using official AMP plugin
 * Tweak: Remove deprecated isLarge prop in editor
 * Tweak: Better stacked button alignment on frontend
+* Tweak: Remove ancient browser prefixes
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
