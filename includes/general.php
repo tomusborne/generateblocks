@@ -206,7 +206,7 @@ add_filter( 'render_block', 'generateblocks_add_block_wrappers', 10, 2 );
 function generateblocks_add_block_wrappers( $block_content, $block ) {
 	if ( 'generateblocks/container' === $block['blockName'] && isset( $block['attrs']['isGrid'] ) && $block['attrs']['isGrid'] ) {
 		// Bail if our content already starts with a grid column container.
-		if ( strpos( $block_content, '<div class="gb-grid-column' ) === 0 ) {
+		if ( strpos( $block_content, '<div class="gb-grid-column' ) !== false ) {
 			return $block_content;
 		}
 
