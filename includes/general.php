@@ -194,3 +194,28 @@ function generateblocks_set_excerpt_allowed_blocks( $allowed ) {
 
 	return $allowed;
 }
+
+add_filter( 'render_block', 'generateblocks_add_block_wrappers', 10, 2 );
+/**
+ * Add wrappers to some of our blocks if needed.
+ *
+ * @since x.x.x
+ * @param string $block_content The block content that's being rendered.
+ * @param array  $block The block data.
+ */
+function generateblocks_add_block_wrappers( $block_content, $block ) {
+	if ( 'generateblocks/container' === $block['blockName'] && isset( $block['attrs']['isGrid'] ) && $block['attrs']['isGrid'] ) {
+		// Bail if our content already starts with a grid column container.
+		if ( strpos( $block_content, '<div class="gb-grid-column' ) === 0 ) {
+			return $block_content;
+		}
+
+		return sprintf(
+			'<div class="gb-grid-column gb-grid-column-%1$s">%2$s</div>',
+			$block['attrs']['uniqueId'],
+			$block_content
+		);
+	}
+
+	return $block_content;
+}

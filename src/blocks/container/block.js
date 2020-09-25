@@ -9,6 +9,7 @@ import './block-controls.js';
 import editContainer from './edit';
 import saveContainer from './save';
 import blockAttributes from './attributes';
+import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n;
@@ -41,4 +42,5 @@ registerBlockType( 'generateblocks/container', {
 	},
 	edit: editContainer,
 	save: saveContainer,
+	deprecated,
 } );
