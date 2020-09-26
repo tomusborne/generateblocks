@@ -18,7 +18,20 @@ const deprecated = [
 	{
 		attributes: blockAttributes,
 		supports: {
+			align: false,
+			anchor: false,
+			className: false,
 			customClassName: false,
+		},
+		migrate( attributes ) {
+			const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
+			const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
+
+			return {
+				...attributes,
+				className: oldClasses ? oldClasses : undefined,
+				anchor: oldAnchor ? oldAnchor : undefined,
+			};
 		},
 		save( { attributes } ) {
 			const {

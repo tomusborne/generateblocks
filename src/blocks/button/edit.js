@@ -60,7 +60,6 @@ const {
 	compose,
 } = wp.compose;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbButtonIds = [];
 
 class GenerateBlockButton extends Component {
@@ -157,8 +156,7 @@ class GenerateBlockButton extends Component {
 
 		const {
 			uniqueId,
-			elementId,
-			cssClasses,
+			className,
 			text,
 			url,
 			target,
@@ -223,11 +221,10 @@ class GenerateBlockButton extends Component {
 		];
 
 		let htmlAttributes = {
-			id: !! elementId ? elementId : undefined,
 			className: classnames( {
 				'gb-button': true,
 				[ `gb-button-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ className }` ]: undefined !== className,
 			} ),
 			href: !! url ? url : undefined,
 			target: !! target ? '_blank' : undefined,
@@ -983,28 +980,6 @@ class GenerateBlockButton extends Component {
 						state={ this.state }
 						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
 						<TextControl
 							label={ __( 'ARIA Label', 'generateblocks' ) }
 							help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }

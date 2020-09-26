@@ -34,12 +34,34 @@ registerBlockType( 'generateblocks/button', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: false,
+		anchor: true,
 		className: false,
-		customClassName: false,
 		inserter: false,
 		reusable: false,
 	},
 	edit: editButtonContainer,
 	save: saveButtonContainer,
+	deprecated: [
+		{
+			attributes: blockAttributes,
+			supports: {
+				anchor: false,
+				className: false,
+				customClassName: false,
+				inserter: false,
+				reusable: false,
+			},
+			migrate( attributes ) {
+				const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
+				const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
+
+				return {
+					...attributes,
+					className: oldClasses ? oldClasses : undefined,
+					anchor: oldAnchor ? oldAnchor : undefined,
+				};
+			},
+			save: saveButtonContainer,
+		},
+	],
 } );

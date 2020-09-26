@@ -13,7 +13,6 @@ import PanelArea from '../../components/panel-area/';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
-	TextControl,
 	Tooltip,
 	Button,
 	ToggleControl,
@@ -50,7 +49,6 @@ const {
 	compose,
 } = wp.compose;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbButtonContainerIds = [];
 
 const ALIGNMENT_CONTROLS = [
@@ -131,8 +129,7 @@ class GenerateButtonContainer extends Component {
 
 		const {
 			uniqueId,
-			elementId,
-			cssClasses,
+			className,
 			alignment,
 			alignmentTablet,
 			alignmentMobile,
@@ -145,11 +142,10 @@ class GenerateButtonContainer extends Component {
 		} = attributes;
 
 		let htmlAttributes = {
-			id: !! elementId ? elementId : undefined,
 			className: classnames( {
 				'gb-button-wrapper': true,
 				[ `gb-button-wrapper-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ className }` ]: undefined !== className,
 			} ),
 		};
 
@@ -353,40 +349,6 @@ class GenerateButtonContainer extends Component {
 						) }
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonContainerSpacing', this.props, this.state ) }
-					</PanelArea>
-
-					<PanelArea { ...this.props }
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-						id={ 'buttonContainerAdvanced' }
-						state={ this.state }
-						showPanel={ 'Desktop' === this.getDeviceType() || false }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
-						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonContainerAdvanced', this.props, this.state ) }
 					</PanelArea>
 
 					<PanelArea { ...this.props }

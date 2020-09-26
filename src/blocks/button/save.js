@@ -16,8 +16,6 @@ const {
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		elementId,
-		cssClasses,
 		text,
 		url,
 		target,
@@ -44,11 +42,9 @@ export default ( { attributes } ) => {
 	}
 
 	let htmlAttributes = {
-		id: !! elementId ? elementId : undefined,
 		className: classnames( {
 			'gb-button': true,
 			[ `gb-button-${ uniqueId }` ]: true,
-			[ `${ cssClasses }` ]: '' !== cssClasses,
 		} ),
 		href: !! url ? url : undefined,
 		target: !! target ? '_blank' : undefined,

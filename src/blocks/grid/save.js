@@ -15,16 +15,12 @@ const {
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		elementId,
-		cssClasses,
 	} = attributes;
 
 	let htmlAttributes = {
-		id: !! elementId ? elementId : undefined,
 		className: classnames( {
 			'gb-grid-wrapper': true,
 			[ `gb-grid-wrapper-${ uniqueId }` ]: true,
-			[ `${ cssClasses }` ]: '' !== cssClasses,
 		} ),
 	};
 

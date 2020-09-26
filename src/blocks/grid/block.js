@@ -32,10 +32,30 @@ registerBlockType( 'generateblocks/grid', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: false,
+		anchor: true,
 		className: false,
-		customClassName: false,
 	},
 	edit: editGridContainer,
 	save: saveGridContainer,
+	deprecated: [
+		{
+			attributes: blockAttributes,
+			supports: {
+				anchor: false,
+				className: false,
+				customClassName: false,
+			},
+			migrate( attributes ) {
+				const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
+				const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
+
+				return {
+					...attributes,
+					className: oldClasses ? oldClasses : undefined,
+					anchor: oldAnchor ? oldAnchor : undefined,
+				};
+			},
+			save: saveGridContainer,
+		},
+	],
 } );

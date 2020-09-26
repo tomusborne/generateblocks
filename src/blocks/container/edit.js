@@ -59,7 +59,6 @@ const {
 	compose,
 } = wp.compose;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbContainerIds = [];
 
 class GenerateBlockContainer extends Component {
@@ -161,9 +160,8 @@ class GenerateBlockContainer extends Component {
 
 		const {
 			uniqueId,
+			className,
 			tagName,
-			elementId,
-			cssClasses,
 			isGrid,
 			width,
 			widthTablet,
@@ -1521,28 +1519,6 @@ class GenerateBlockContainer extends Component {
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
 
 						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
-						<TextControl
 							label={ __( 'z-index', 'generateblocks' ) }
 							type={ 'number' }
 							value={ zindex || 0 === zindex ? zindex : '' }
@@ -1605,11 +1581,10 @@ class GenerateBlockContainer extends Component {
 						<Section
 							attributes={ attributes }
 							tagName={ tagName }
-							id={ elementId }
 							className={ classnames( {
 								'gb-container': true,
 								[ `gb-container-${ uniqueId }` ]: true,
-								[ `${ cssClasses }` ]: '' !== cssClasses,
+								[ `${ className }` ]: undefined !== className,
 							} ) }
 						>
 							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
@@ -1635,12 +1610,11 @@ class GenerateBlockContainer extends Component {
 					<Section
 						attributes={ attributes }
 						tagName={ tagName }
-						id={ elementId }
 						className={ classnames( {
 							'gb-container': true,
 							[ `gb-container-${ uniqueId }` ]: true,
-							[ `${ cssClasses }` ]: '' !== cssClasses,
 							[ `align${ align }` ]: !! align,
+							[ `${ className }` ]: undefined !== className,
 						} ) }
 					>
 						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }

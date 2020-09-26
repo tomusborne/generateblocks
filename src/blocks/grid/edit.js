@@ -49,7 +49,6 @@ const {
 	compose,
 } = wp.compose;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
 const gbGridIds = [];
 
 class GenerateBlockGridContainer extends Component {
@@ -245,8 +244,7 @@ class GenerateBlockGridContainer extends Component {
 
 		const {
 			uniqueId,
-			elementId,
-			cssClasses,
+			className,
 			columns,
 			horizontalGap,
 			verticalGap,
@@ -277,11 +275,10 @@ class GenerateBlockGridContainer extends Component {
 		}
 
 		let htmlAttributes = {
-			id: !! elementId ? elementId : undefined,
 			className: classnames( {
 				'gb-grid-wrapper': true,
 				[ `gb-grid-wrapper-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ className }` ]: undefined !== className,
 			} ),
 		};
 
@@ -829,40 +826,6 @@ class GenerateBlockGridContainer extends Component {
 						) }
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'gridLayout', this.props, this.state ) }
-					</PanelArea>
-
-					<PanelArea { ...this.props }
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-						id={ 'gridAdvanced' }
-						state={ this.state }
-						showPanel={ 'Desktop' === this.getDeviceType() || false }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
-						{ applyFilters( 'generateblocks.editor.controls', '', 'gridAdvanced', this.props, this.state ) }
 					</PanelArea>
 
 					<PanelArea { ...this.props }
