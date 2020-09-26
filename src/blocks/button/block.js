@@ -51,6 +51,9 @@ registerBlockType( 'generateblocks/button', {
 				inserter: false,
 				reusable: false,
 			},
+			isEligible( attributes ) {
+				return ( attributes.cssClasses && ! attributes.className ) || ( attributes.elementId && ! attributes.anchor );
+			},
 			migrate( attributes ) {
 				const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
 				const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
