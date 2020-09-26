@@ -34,6 +34,10 @@ export default class PanelArea extends Component {
 			return null;
 		}
 
+		if ( '' === children ) {
+			return null;
+		}
+
 		return (
 			<ApplyFilters name={ 'generateblocks.panel.' + id } props={ this.props } state={ state }>
 				{ title ? (
