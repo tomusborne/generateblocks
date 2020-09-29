@@ -205,7 +205,7 @@ add_filter( 'render_block', 'generateblocks_add_block_wrappers', 10, 2 );
  */
 function generateblocks_add_block_wrappers( $block_content, $block ) {
 	if ( 'generateblocks/container' === $block['blockName'] ) {
-		// Bail if our content already starts with a grid column container.
+		// Bail if our container has HTML markup.
 		if (
 			strpos( trim( $block_content ), '<div class="gb-grid-column' ) === 0 ||
 			strpos( trim( $block_content ), '<div class="gb-container' ) === 0
@@ -219,6 +219,15 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 			$block['attrs'],
 			$defaults['container']
 		);
+
+		// Bail if our container has HTML markup.
+		if ( ! empty( $settings['elementId'] ) ) {
+			$oldAnchor = $settings['elementId'];
+
+			if ( strpos( trim( $block_content ), '<div id="' . $oldAnchor ) === 0 ) {
+				return $block_content;
+			}
+		}
 
 		$output = '';
 
@@ -285,10 +294,23 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 			$defaults['buttonContainer']
 		);
 
+		// Bail if our container has HTML markup.
+		if ( ! empty( $settings['elementId'] ) ) {
+			$oldAnchor = $settings['elementId'];
+
+			if ( strpos( trim( $block_content ), '<div id="' . $oldAnchor ) === 0 ) {
+				return $block_content;
+			}
+		}
+
 		$classNames = array(
 			'gb-button-wrapper',
 			'gb-button-wrapper-' . $settings['uniqueId'],
 		);
+
+		if ( ! empty( $settings['className'] ) ) {
+			$classNames[] = $settings['className'];
+		}
 
 		$output = sprintf(
 			'<div %s>',
