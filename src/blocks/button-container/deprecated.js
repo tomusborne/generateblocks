@@ -21,15 +21,14 @@ const deprecated = [
 			className: false,
 			customClassName: false,
 		},
-		isEligible( attributes ) {
-			return attributes.cssClasses && ! attributes.className;
-		},
 		migrate( attributes ) {
 			const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
+			const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
 
 			return {
 				...attributes,
 				className: oldClasses ? oldClasses : undefined,
+				anchor: oldAnchor ? oldAnchor : undefined,
 			};
 		},
 		save: ( props ) => {

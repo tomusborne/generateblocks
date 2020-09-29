@@ -37,7 +37,6 @@ registerBlockType( 'generateblocks/button-container', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: true,
 		className: false,
 	},
 	edit,

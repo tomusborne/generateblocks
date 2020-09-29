@@ -4,6 +4,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	anchor: {
+		type: 'string',
+		default: '',
+	},
 	elementId: {
 		type: 'string',
 		default: '',
