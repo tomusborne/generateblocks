@@ -317,6 +317,7 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 			generateblocks_attr(
 				'grid-wrapper',
 				array(
+					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
 				$settings
@@ -365,6 +366,7 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 			generateblocks_attr(
 				'button-container',
 				array(
+					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
 				$settings
