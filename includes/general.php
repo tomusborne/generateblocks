@@ -273,7 +273,39 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 		return $output;
 	}
 
+	if ( 'generateblocks/button-container' === $block['blockName'] ) {
+		if ( strpos( trim( $block_content ), '<div class="gb-button-wrapper' ) === 0 ) {
+			return $block_content;
+		}
+
+		$defaults = generateblocks_get_block_defaults();
+
+		$settings = wp_parse_args(
+			$block['attrs'],
+			$defaults['buttonContainer']
 		);
+
+		$classNames = array(
+			'gb-button-wrapper',
+			'gb-button-wrapper-' . $settings['uniqueId'],
+		);
+
+		$output = sprintf(
+			'<div %s>',
+			generateblocks_attr(
+				'button-container',
+				array(
+					'class' => implode( ' ', $classNames ),
+				),
+				$settings
+			),
+		);
+
+		$output .= $block_content;
+
+		$output .= '</div>';
+
+		return $output;
 	}
 
 	return $block_content;
