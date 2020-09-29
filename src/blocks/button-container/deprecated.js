@@ -35,12 +35,16 @@ const deprecated = [
 		save: ( props ) => {
 			const {
 				uniqueId,
+				elementId,
+				cssClasses,
 			} = props.attributes;
 
 			let htmlAttributes = {
+				id: !! elementId ? elementId : undefined,
 				className: classnames( {
 					'gb-button-wrapper': true,
 					[ `gb-button-wrapper-${ uniqueId }` ]: true,
+					[ `${ cssClasses }` ]: '' !== cssClasses,
 				} ),
 			};
 
