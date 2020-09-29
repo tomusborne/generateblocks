@@ -282,6 +282,54 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 		return $output;
 	}
 
+	if ( 'generateblocks/grid' === $block['blockName'] ) {
+		if ( strpos( trim( $block_content ), '<div class="gb-grid-wrapper' ) === 0 ) {
+			return $block_content;
+		}
+
+		$defaults = generateblocks_get_block_defaults();
+
+		$settings = wp_parse_args(
+			$block['attrs'],
+			$defaults['gridContainer']
+		);
+
+		// Bail if our container has HTML markup.
+		if ( ! empty( $settings['elementId'] ) ) {
+			$oldAnchor = $settings['elementId'];
+
+			if ( strpos( trim( $block_content ), '<div id="' . $oldAnchor ) === 0 ) {
+				return $block_content;
+			}
+		}
+
+		$classNames = array(
+			'gb-grid-wrapper',
+			'gb-grid-wrapper-' . $settings['uniqueId'],
+		);
+
+		if ( ! empty( $settings['className'] ) ) {
+			$classNames[] = $settings['className'];
+		}
+
+		$output = sprintf(
+			'<div %s>',
+			generateblocks_attr(
+				'grid-wrapper',
+				array(
+					'class' => implode( ' ', $classNames ),
+				),
+				$settings
+			),
+		);
+
+		$output .= $block_content;
+
+		$output .= '</div>';
+
+		return $output;
+	}
+
 	if ( 'generateblocks/button-container' === $block['blockName'] ) {
 		if ( strpos( trim( $block_content ), '<div class="gb-button-wrapper' ) === 0 ) {
 			return $block_content;
