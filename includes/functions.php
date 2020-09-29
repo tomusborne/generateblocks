@@ -525,3 +525,64 @@ function generateblocks_get_background_image_css( $settings, $custom_args = arra
 
 	return $background_image;
 }
+
+/**
+ * Build list of attributes into a string and apply contextual filter on string.
+ *
+ * The contextual filter is of the form `generateblocks_attr_{context}_output`.
+ *
+ * @since 1.6.2
+ *
+ * @param string $context    The context, to build filter name.
+ * @param array  $attributes Optional. Extra attributes to merge with defaults.
+ * @param array  $settings   Optional. Custom data to pass to filter.
+ * @return string String of HTML attributes and values.
+ */
+function generateblocks_attr( $context, $attributes = array(), $settings = array() ) {
+
+	$attributes = generateblocks_parse_attr( $context, $attributes, $settings );
+
+	$output = '';
+
+	// Cycle through attributes, build tag attribute string.
+	foreach ( $attributes as $key => $value ) {
+
+		if ( ! $value ) {
+			continue;
+		}
+
+		if ( true === $value ) {
+			$output .= esc_html( $key ) . ' ';
+		} else {
+			$output .= sprintf( '%s="%s" ', esc_html( $key ), esc_attr( $value ) );
+		}
+	}
+
+	$output = apply_filters( "generateblocks_attr_{$context}_output", $output, $attributes, $context, $settings );
+
+	return trim( $output );
+}
+
+/**
+ * Merge array of attributes with defaults, and apply contextual filter on array.
+ *
+ * The contextual filter is of the form `generateblocks_attr_{context}`.
+ *
+ * @since 1.6.2
+ *
+ * @param string $context    The context, to build filter name.
+ * @param array  $attributes Optional. Extra attributes to merge with defaults.
+ * @param array  $settings   Optional. Custom data to pass to filter.
+ * @return array Merged and filtered attributes.
+ */
+function generateblocks_parse_attr( $context, $attributes = array(), $settings = array() ) {
+
+	$defaults = array(
+		'class' => sanitize_html_class( $context ),
+	);
+
+	$attributes = wp_parse_args( $attributes, $defaults );
+
+	// Contextual filter.
+	return apply_filters( "generateblocks_attr_{$context}", $attributes, $context, $settings );
+}
