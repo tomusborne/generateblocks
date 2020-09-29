@@ -204,16 +204,75 @@ add_filter( 'render_block', 'generateblocks_add_block_wrappers', 10, 2 );
  * @param array  $block The block data.
  */
 function generateblocks_add_block_wrappers( $block_content, $block ) {
-	if ( 'generateblocks/container' === $block['blockName'] && isset( $block['attrs']['isGrid'] ) && $block['attrs']['isGrid'] ) {
+	if ( 'generateblocks/container' === $block['blockName'] ) {
 		// Bail if our content already starts with a grid column container.
-		if ( strpos( $block_content, '<div class="gb-grid-column' ) !== false ) {
+		if (
+			strpos( trim( $block_content ), '<div class="gb-grid-column' ) === 0 ||
+			strpos( trim( $block_content ), '<div class="gb-container' ) === 0
+		) {
 			return $block_content;
 		}
 
-		return sprintf(
-			'<div class="gb-grid-column gb-grid-column-%1$s">%2$s</div>',
-			$block['attrs']['uniqueId'],
-			$block_content
+		$defaults = generateblocks_get_block_defaults();
+
+		$settings = wp_parse_args(
+			$block['attrs'],
+			$defaults['container']
+		);
+
+		$output = '';
+
+		if ( $settings['isGrid'] ) {
+			$output .= sprintf(
+				'<div class="gb-grid-column gb-grid-column-%s">',
+				esc_html( $settings['uniqueId'] )
+			);
+		}
+
+		$classNames = array(
+			'gb-container',
+			'gb-container-' . $settings['uniqueId'],
+		);
+
+		if ( ! empty( $settings['className'] ) ) {
+			$classNames[] = $settings['className'];
+		}
+
+		if ( ! $settings['isGrid'] && ! empty( $settings['align'] ) ) {
+			$classNames[] = 'align' . $settings['align'];
+		}
+
+		$tagName = isset( $settings['tagName'] ) ? $settings['tagName'] : 'div';
+
+		$output .= sprintf(
+			'<%1$s %2$s>',
+			$tagName,
+			generateblocks_attr(
+				'container',
+				array(
+					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
+					'class' => implode( ' ', $classNames ),
+				),
+				$settings
+			),
+		);
+
+		$output .= '<div class="gb-inside-container">';
+		$output .= $block_content;
+		$output .= '</div>';
+
+		$output .= sprintf(
+			'</%s>',
+			$tagName
+		);
+
+		if ( $settings['isGrid'] ) {
+			$output .= '</div>';
+		}
+
+		return $output;
+	}
+
 		);
 	}
 

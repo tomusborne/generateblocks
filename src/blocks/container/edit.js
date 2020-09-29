@@ -1573,68 +1573,32 @@ class GenerateBlockContainer extends Component {
 					/>
 				}
 
-				{ !! isGrid && (
-					<div className={ classnames( {
-						'gb-grid-column': true,
-						[ `gb-grid-column-${ uniqueId }` ]: true,
-					} ) }>
-						<Section
-							attributes={ attributes }
-							tagName={ tagName }
-							className={ classnames( {
-								'gb-container': true,
-								[ `gb-container-${ uniqueId }` ]: true,
-								[ `${ className }` ]: undefined !== className,
-							} ) }
-						>
-							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
-							<div
-								className={ classnames( {
-									'gb-inside-container': true,
-								} ) }
-							>
-								<InnerBlocks
-									templateLock={ false }
-									renderAppender={ (
-										hasChildBlocks ?
-											undefined :
-											() => <InnerBlocks.ButtonBlockAppender />
-									) }
-								/>
-							</div>
-						</Section>
-					</div>
-				) }
-
-				{ ! isGrid && (
-					<Section
-						attributes={ attributes }
-						tagName={ tagName }
+				<Section
+					attributes={ attributes }
+					tagName={ tagName }
+					id={ anchor }
+					className={ classnames( {
+						'gb-container': true,
+						[ `gb-container-${ uniqueId }` ]: true,
+						[ `${ className }` ]: undefined !== className,
+					} ) }
+				>
+					{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
+					<div
 						className={ classnames( {
-							'gb-container': true,
-							[ `gb-container-${ uniqueId }` ]: true,
-							[ `align${ align }` ]: !! align,
-							[ `${ className }` ]: undefined !== className,
+							'gb-inside-container': true,
 						} ) }
 					>
-						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
-						<div
-							className={ classnames( {
-								'gb-inside-container': true,
-							} ) }
-						>
-							<InnerBlocks
-								templateLock={ false }
-								renderAppender={ (
-									hasChildBlocks ?
-										undefined :
-										() => <InnerBlocks.ButtonBlockAppender />
-								) }
-							/>
-						</div>
-					</Section>
-				) }
-
+						<InnerBlocks
+							templateLock={ false }
+							renderAppender={ (
+								hasChildBlocks ?
+									undefined :
+									() => <InnerBlocks.ButtonBlockAppender />
+							) }
+						/>
+					</div>
+				</Section>
 			</Fragment>
 		);
 	}

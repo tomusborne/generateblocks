@@ -7,7 +7,6 @@ import './editor.scss';
 import './block-controls.js';
 
 import edit from './edit';
-import save from './save';
 import blockAttributes from './attributes';
 import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
@@ -19,6 +18,10 @@ const {
 const {
 	registerBlockType,
 } = wp.blocks;
+
+const {
+	InnerBlocks,
+} = wp.blockEditor;
 
 /**
  * Register our Container block.
@@ -45,6 +48,10 @@ registerBlockType( 'generateblocks/container', {
 		className: false,
 	},
 	edit,
-	save,
+	save: () => {
+		return (
+			<InnerBlocks.Content />
+		);
+	},
 	deprecated,
 } );
