@@ -44,6 +44,7 @@ const {
 	InnerBlocks,
 	MediaUpload,
 	AlignmentToolbar,
+	InspectorAdvancedControls,
 } = wp.blockEditor;
 
 const {
@@ -58,6 +59,13 @@ const {
 const {
 	compose,
 } = wp.compose;
+
+/**
+ * Regular expression matching invalid anchor characters for replacement.
+ *
+ * @type {RegExp}
+ */
+const ANCHOR_REGEX = /[\s#]/g;
 
 const gbContainerIds = [];
 
@@ -161,6 +169,7 @@ class GenerateBlockContainer extends Component {
 		const {
 			uniqueId,
 			className,
+			anchor,
 			tagName,
 			isGrid,
 			width,
@@ -1555,6 +1564,19 @@ class GenerateBlockContainer extends Component {
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerDocumentation', this.props, this.state ) }
 					</PanelArea>
 				</InspectorControls>
+
+				<InspectorAdvancedControls>
+					<TextControl
+						label={ __( 'HTML Anchor' ) }
+						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
+						value={ anchor || '' }
+						onChange={ ( nextValue ) => {
+							nextValue = nextValue.replace( ANCHOR_REGEX, '-' );
+							setAttributes( {
+								anchor: nextValue,
+							} );
+						} } />
+				</InspectorAdvancedControls>
 
 				<DesktopCSS { ...this.props } />
 

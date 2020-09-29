@@ -44,7 +44,6 @@ registerBlockType( 'generateblocks/container', {
 	attributes: blockAttributes,
 	supports: {
 		align: false,
-		anchor: true,
 		className: false,
 	},
 	edit,
