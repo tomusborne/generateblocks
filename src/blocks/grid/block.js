@@ -36,7 +36,6 @@ registerBlockType( 'generateblocks/grid', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: true,
 		className: false,
 	},
 	edit: editGridContainer,

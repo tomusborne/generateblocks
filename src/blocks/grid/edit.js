@@ -30,6 +30,7 @@ const {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
+	InspectorAdvancedControls,
 } = wp.blockEditor;
 
 const {
@@ -48,6 +49,13 @@ const {
 const {
 	compose,
 } = wp.compose;
+
+/**
+ * Regular expression matching invalid anchor characters for replacement.
+ *
+ * @type {RegExp}
+ */
+const ANCHOR_REGEX = /[\s#]/g;
 
 const gbGridIds = [];
 
@@ -245,6 +253,7 @@ class GenerateBlockGridContainer extends Component {
 		const {
 			uniqueId,
 			className,
+			anchor,
 			columns,
 			horizontalGap,
 			verticalGap,
@@ -280,6 +289,7 @@ class GenerateBlockGridContainer extends Component {
 				[ `gb-grid-wrapper-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
 			} ),
+			id: anchor ? anchor : null,
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/grid', attributes );
@@ -842,6 +852,19 @@ class GenerateBlockGridContainer extends Component {
 						{ applyFilters( 'generateblocks.editor.controls', '', 'gridDocumentation', this.props, this.state ) }
 					</PanelArea>
 				</InspectorControls>
+
+				<InspectorAdvancedControls>
+					<TextControl
+						label={ __( 'HTML Anchor' ) }
+						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
+						value={ anchor || '' }
+						onChange={ ( nextValue ) => {
+							nextValue = nextValue.replace( ANCHOR_REGEX, '-' );
+							setAttributes( {
+								anchor: nextValue,
+							} );
+						} } />
+				</InspectorAdvancedControls>
 
 				<DesktopCSS { ...this.props } />
 

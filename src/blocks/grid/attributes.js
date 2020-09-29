@@ -8,6 +8,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	anchor: {
+		type: 'string',
+		default: '',
+	},
 	cssClasses: {
 		type: 'string',
 		default: '',
