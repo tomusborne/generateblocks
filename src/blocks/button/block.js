@@ -5,8 +5,8 @@
 import './style.scss';
 import './editor.scss';
 
-import editButtonContainer from './edit';
-import saveButtonContainer from './save';
+import editButton from './edit';
+import saveButton from './save';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
 
@@ -39,8 +39,8 @@ registerBlockType( 'generateblocks/button', {
 		inserter: false,
 		reusable: false,
 	},
-	edit: editButtonContainer,
-	save: saveButtonContainer,
+	edit: editButton,
+	save: saveButton,
 	deprecated: [
 		{
 			attributes: blockAttributes,
@@ -52,19 +52,17 @@ registerBlockType( 'generateblocks/button', {
 				reusable: false,
 			},
 			isEligible( attributes ) {
-				return ( attributes.cssClasses && ! attributes.className ) || ( attributes.elementId && ! attributes.anchor );
+				return attributes.cssClasses && ! attributes.className;
 			},
 			migrate( attributes ) {
 				const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
-				const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
 
 				return {
 					...attributes,
 					className: oldClasses ? oldClasses : undefined,
-					anchor: oldAnchor ? oldAnchor : undefined,
 				};
 			},
-			save: saveButtonContainer,
+			save: saveButton,
 		},
 	],
 } );
