@@ -14,7 +14,6 @@ export default ( { attributes } ) => {
 	const {
 		uniqueId,
 		anchor,
-		className,
 		element,
 		content,
 		icon,
@@ -31,7 +30,6 @@ export default ( { attributes } ) => {
 				'gb-headline': true,
 				'gb-headline-wrapper': ! icon,
 				[ `gb-headline-${ uniqueId }` ]: true,
-				[  className ]: undefined !== className,
 			} ) }
 		>
 			{ !! icon &&
