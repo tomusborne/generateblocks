@@ -7,8 +7,8 @@ export default function Text( { attributes, tagName, id, className, style, child
 	}
 
 	const htmlAttributes = {
-		id: id,
 		className: className,
+		id: id,
 		style: style,
 	};
 
