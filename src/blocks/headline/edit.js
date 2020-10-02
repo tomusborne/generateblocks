@@ -335,6 +335,8 @@ class GenerateBlockHeadline extends Component {
 								{ label: 'h4', value: 'h4' },
 								{ label: 'h5', value: 'h5' },
 								{ label: 'h6', value: 'h6' },
+								{ label: 'div', value: 'div' },
+								{ label: 'span', value: 'span' },
 							] }
 							onChange={ ( value ) => {
 								setAttributes( {
