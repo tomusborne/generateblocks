@@ -1170,8 +1170,8 @@ class GenerateBlockHeadline extends Component {
 					className={ classnames( {
 						'gb-headline': true,
 						[ `gb-headline-${ uniqueId }` ]: true,
-						[  className ]: undefined !== className,
 						'gb-headline-wrapper': ! icon,
+						[ className ]: undefined !== className,
 					} ) }
 				>
 					{ hasIcon &&
