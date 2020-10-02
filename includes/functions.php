@@ -42,6 +42,10 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 
 			if ( 'generateblocks/headline' === $block['blockName'] ) {
 				$data['headline'][] = $block['attrs'];
+
+				if ( isset( $block['innerHTML'] ) ) {
+					$data['headline'][ 'headline-' . $block['attrs']['uniqueId'] ] = $block['innerHTML'];
+				}
 			}
 
 			if ( 'generateblocks/button-container' === $block['blockName'] ) {
