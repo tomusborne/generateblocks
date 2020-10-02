@@ -4,6 +4,12 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	anchor: {
+		type: 'string',
+		source: 'attribute',
+		attribute: 'id',
+		selector: '*',
+	},
 	elementId: {
 		type: 'string',
 		default: '',

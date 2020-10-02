@@ -43,6 +43,7 @@ const {
 	RichText,
 	BlockControls,
 	AlignmentToolbar,
+	InspectorAdvancedControls,
 } = wp.blockEditor;
 
 const {
@@ -58,7 +59,13 @@ const {
 	compose,
 } = wp.compose;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
+/**
+ * Regular expression matching invalid anchor characters for replacement.
+ *
+ * @type {RegExp}
+ */
+const ANCHOR_REGEX = /[\s#]/g;
+
 const gbHeadlineIds = [];
 
 class GenerateBlockHeadline extends Component {
@@ -160,8 +167,8 @@ class GenerateBlockHeadline extends Component {
 
 		const {
 			uniqueId,
-			elementId,
-			cssClasses,
+			anchor,
+			className,
 			content,
 			element,
 			alignment,
@@ -229,17 +236,6 @@ class GenerateBlockHeadline extends Component {
 		} else {
 			iconSizePlaceholderMobile = '';
 		}
-
-		let htmlAttributes = {
-			id: !! elementId ? elementId : undefined,
-			className: classnames( {
-				'gb-headline': true,
-				[ `gb-headline-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
-			} ),
-		};
-
-		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
 
 		return (
 			<Fragment>
@@ -1119,28 +1115,6 @@ class GenerateBlockHeadline extends Component {
 						state={ this.state }
 						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
 						{ applyFilters( 'generateblocks.editor.controls', '', 'headlineAdvanced', this.props, this.state ) }
 					</PanelArea>
 
@@ -1158,6 +1132,19 @@ class GenerateBlockHeadline extends Component {
 						{ applyFilters( 'generateblocks.editor.controls', '', 'headlineDocumentation', this.props, this.state ) }
 					</PanelArea>
 				</InspectorControls>
+
+				<InspectorAdvancedControls>
+					<TextControl
+						label={ __( 'HTML Anchor' ) }
+						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
+						value={ anchor || '' }
+						onChange={ ( nextValue ) => {
+							nextValue = nextValue.replace( ANCHOR_REGEX, '-' );
+							setAttributes( {
+								anchor: nextValue,
+							} );
+						} } />
+				</InspectorAdvancedControls>
 
 				<DesktopCSS { ...this.props } />
 
