@@ -28,8 +28,8 @@ export default ( { attributes } ) => {
 			id={ anchor }
 			className={ classnames( {
 				'gb-headline': true,
-				'gb-headline-wrapper': ! icon,
 				[ `gb-headline-${ uniqueId }` ]: true,
+				'gb-headline-wrapper': ! icon,
 			} ) }
 		>
 			{ !! icon &&

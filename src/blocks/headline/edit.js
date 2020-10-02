@@ -1169,9 +1169,9 @@ class GenerateBlockHeadline extends Component {
 					id={ anchor }
 					className={ classnames( {
 						'gb-headline': true,
-						'gb-headline-wrapper': ! icon,
 						[ `gb-headline-${ uniqueId }` ]: true,
 						[  className ]: undefined !== className,
+						'gb-headline-wrapper': ! icon,
 					} ) }
 				>
 					{ hasIcon &&
