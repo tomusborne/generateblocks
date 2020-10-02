@@ -2,3 +2,9 @@ mark.gb-highlight {
 	background: none;
 	color: unset;
 }
+
+.gb-headline {
+	span.rich-text {
+		display: block;
+	}
+}

@@ -1187,6 +1187,7 @@ class GenerateBlockHeadline extends Component {
 							{ ! removeText &&
 								<span className="gb-headline-wrapper">
 									<RichText
+										tagName="span"
 										value={ content }
 										onChange={ ( value ) => setAttributes( { content: value } ) }
 										placeholder={ __( 'Write text...', 'generateblocks' ) }
@@ -1199,6 +1200,7 @@ class GenerateBlockHeadline extends Component {
 
 					{ ! hasIcon && ! removeText &&
 						<RichText
+							tagName="span"
 							value={ content }
 							onChange={ ( value ) => setAttributes( { content: value } ) }
 							placeholder={ __( 'Write text...', 'generateblocks' ) }
