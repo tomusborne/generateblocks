@@ -31,12 +31,12 @@ const deprecated = [
 				anchor: oldAnchor ? oldAnchor : undefined,
 			};
 		},
-		save: ( props ) => {
+		save( { attributes } ) {
 			const {
 				uniqueId,
 				elementId,
 				cssClasses,
-			} = props.attributes;
+			} = attributes;
 
 			let htmlAttributes = {
 				id: !! elementId ? elementId : undefined,
@@ -47,7 +47,7 @@ const deprecated = [
 				} ),
 			};
 
-			htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/grid', props.attributes );
+			htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/grid', attributes );
 
 			return (
 				<div
