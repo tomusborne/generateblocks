@@ -29,11 +29,17 @@ const deprecated = [
 		migrate( attributes ) {
 			const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
 			const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
+			let currentElement = ( attributes.element ? attributes.element : generateBlocksDefaults.headline.element );
+
+			if ( attributes.icon && attributes.removeText && 'div' !== currentElement ) {
+				currentElement = 'div';
+			}
 
 			return {
 				...attributes,
 				className: oldClasses ? oldClasses : undefined,
 				anchor: oldAnchor ? oldAnchor : undefined,
+				element: currentElement,
 			};
 		},
 		save( { attributes } ) {
