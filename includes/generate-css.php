@@ -912,17 +912,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					continue;
 				}
 
-				$has_wrapper = false;
-				$headline_content = '';
-
-				if ( isset( $blockData[ 'headline-' . $atts['uniqueId'] ] ) ) {
-					$headline_content = $blockData[ 'headline-' . $atts['uniqueId'] ];
-				}
-
-				if ( $headline_content && strpos( trim( $headline_content ), '<div class="gb-headline-wrapper' ) === 0 ) {
-					$has_wrapper = true;
-				}
-
 				$defaults = generateblocks_get_block_defaults();
 
 				$settings = wp_parse_args(
@@ -943,7 +932,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
 				}
 
-				if ( ! $has_wrapper ) {
+				if ( ! isset( $atts['hasWrapper'] ) ) {
 					$css->set_selector( '.gb-headline-' . $id );
 					$css->add_property( 'font-family', $fontFamily );
 					$css->add_property( 'text-align', $settings['alignment'] );
