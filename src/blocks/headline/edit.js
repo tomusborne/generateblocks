@@ -344,7 +344,7 @@ class GenerateBlockHeadline extends Component {
 								} );
 
 								if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-									if ( 'p' === element ) {
+									if ( 'p' === value ) {
 										setAttributes( { marginUnit: 'em' } );
 									} else {
 										setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
