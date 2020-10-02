@@ -6,9 +6,7 @@ export default {
 	},
 	anchor: {
 		type: 'string',
-		source: 'attribute',
-		attribute: 'id',
-		selector: '*',
+		default: '',
 	},
 	elementId: {
 		type: 'string',
