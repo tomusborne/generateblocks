@@ -19,9 +19,9 @@ export default {
 		default: '',
 	},
 	content: {
-		type: 'array',
-		source: 'children',
-		selector: 'p,h1,h2,h3,h4,h5,h6',
+		type: 'string',
+		source: 'html',
+		selector: '.gb-headline-wrapper',
 	},
 	element: {
 		type: 'string',
