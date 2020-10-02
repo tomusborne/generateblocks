@@ -988,6 +988,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 					if ( $settings['hasIcon'] ) {
 						$css->set_selector( '.gb-headline-' . $id . ' .gb-icon' );
+						$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
 
 						if ( ! $settings['removeText'] ) {
 							$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
