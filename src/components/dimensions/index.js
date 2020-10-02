@@ -203,12 +203,22 @@ class DimensionsControl extends Component {
 			leftPlaceholder = '';
 
 		if ( 'headline' === block && attrBottom.includes( 'marginBottom' ) ) {
-			if ( typeof generateBlocksStyling.headline !== 'undefined' ) {
+			if ( 'px' === this.props.attributes.marginUnit ) {
+				const headlineId = document.querySelector( '.gb-headline-' + this.props.attributes.uniqueId );
+
+				if ( headlineId ) {
+					bottomPlaceholder = parseFloat( window.getComputedStyle( headlineId ).marginBottom );
+				}
+			} else if ( 'em' === this.props.attributes.marginUnit && typeof generateBlocksStyling.headline !== 'undefined' ) {
 				if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' ) {
 					if ( generateBlocksStyling.headline[ attributes.element ].marginUnit === attributes.marginUnit ) {
 						bottomPlaceholder = generateBlocksStyling.headline[ attributes.element ].marginBottom;
 					}
 				}
+			}
+
+			if ( 'div' === this.props.attributes.element || 'span' === this.props.attributes.element ) {
+				bottomPlaceholder = '';
 			}
 		}
 
