@@ -11,14 +11,30 @@ const {
 } = wp.hooks;
 
 const deprecated = [
-	// v1 - change default h2 to p.
+	// v2 - remove wrapper.
 	{
 		attributes: {
 			...blockAttributes,
-			element: {
-				type: 'string',
-				default: 'p',
+			content: {
+				type: 'array',
+				source: 'children',
+				selector: 'p,h1,h2,h3,h4,h5,h6',
 			},
+		},
+		supports: {
+			anchor: false,
+			className: false,
+			customClassName: false,
+		},
+		migrate( attributes ) {
+			const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
+			const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
+
+			return {
+				...attributes,
+				className: oldClasses ? oldClasses : undefined,
+				anchor: oldAnchor ? oldAnchor : undefined,
+			};
 		},
 		save( { attributes } ) {
 			const {
@@ -72,30 +88,14 @@ const deprecated = [
 			);
 		},
 	},
-	// v2 - remove wrapper.
+	// v1 - change default h2 to p.
 	{
 		attributes: {
 			...blockAttributes,
-			content: {
-				type: 'array',
-				source: 'children',
-				selector: 'p,h1,h2,h3,h4,h5,h6',
+			element: {
+				type: 'string',
+				default: 'p',
 			},
-		},
-		supports: {
-			anchor: false,
-			className: false,
-			customClassName: false,
-		},
-		migrate( attributes ) {
-			const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
-			const oldAnchor = ( attributes.elementId ? attributes.elementId : undefined );
-
-			return {
-				...attributes,
-				className: oldClasses ? oldClasses : undefined,
-				anchor: oldAnchor ? oldAnchor : undefined,
-			};
 		},
 		save( { attributes } ) {
 			const {
