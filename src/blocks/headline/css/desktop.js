@@ -16,7 +16,6 @@ export default class DesktopCSS extends Component {
 
 		const {
 			uniqueId,
-			element,
 			alignment,
 			backgroundColor,
 			backgroundColorOpacity,
@@ -65,91 +64,68 @@ export default class DesktopCSS extends Component {
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
-			marginBottomValue = '',
-			fontSizeValue = '',
 			inlineWidthValue = 'inline-block';
 
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		if ( marginBottom ) {
-			marginBottomValue = marginBottom + marginUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottom !== 'undefined' && ! isNaN( generateBlocksStyling.headline[ attributes.element ].marginBottom ) ) {
-				marginBottomValue = generateBlocksStyling.headline[ element ].marginBottom + generateBlocksStyling.headline[ element ].marginUnit;
-			}
-		}
-
-		if ( fontSize ) {
-			fontSizeValue = fontSize + fontSizeUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].fontSize !== 'undefined' && generateBlocksStyling.headline[ attributes.element ].fontSize ) {
-				fontSizeValue = generateBlocksStyling.headline[ element ].fontSize + generateBlocksStyling.headline[ element ].fontSizeUnit;
-			}
-		}
-
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
-			'color': textColor, // eslint-disable-line quote-props
+			color: textColor,
 			'font-family': fontFamily + fontFamilyFallbackValue,
 			'font-weight': fontWeight,
 			'text-transform': textTransform,
 			'text-align': alignment,
-			'font-size': fontSizeValue,
+			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeight, lineHeightUnit ),
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
+			display: !! icon ? 'flex' : false,
+			'align-items': 'inline' === iconLocation ? flexboxAlignment( iconVerticalAlignment ) : flexboxAlignment( alignment ),
+			'justify-content': flexboxAlignment( alignment ),
+			'flex-direction': icon && 'above' === iconLocation ? 'column' : false,
 		} ];
 
 		cssObj[ '.editor-styles-wrapper .gb-container .gb-headline-' + uniqueId ] = [ {
-			'color': textColor, // eslint-disable-line quote-props
+			color: textColor,
 		} ];
-
-		cssObj[ '.gb-headline-wrapper-' + uniqueId ] = [ {
-			'flex-direction': icon && 'above' === iconLocation ? 'column' : false,
-			'justify-content': flexboxAlignment( alignment ),
-			'text-align': alignment,
-			'align-items': 'inline' === iconLocation ? flexboxAlignment( iconVerticalAlignment ) : flexboxAlignment( alignment ),
-			'font-size': fontSizeValue,
-		} ];
-
-		let headlineStyleSelector = '.editor-styles-wrapper .gb-headline-' + uniqueId;
 
 		if ( icon ) {
-			headlineStyleSelector = '.gb-headline-wrapper-' + uniqueId;
 			inlineWidthValue = 'inline-flex';
 		}
 
-		cssObj[ headlineStyleSelector ].push( {
+		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
 			'display': inlineWidth ? inlineWidthValue : false, // eslint-disable-line quote-props
-			'margin': shorthandCSS( marginTop, marginRight, marginBottomValue, marginLeft, marginUnit ) + ' !important', // eslint-disable-line quote-props
-			'margin-bottom': marginBottomValue + ' !important', // The unit changes depending on the element if no value exists.
+			'margin-top': valueWithUnit( marginTop, marginUnit ),
+			'margin-right': valueWithUnit( marginRight, marginUnit ),
+			'margin-bottom': valueWithUnit( marginBottom, marginUnit ),
+			'margin-left': valueWithUnit( marginLeft, marginUnit ),
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
 		} );
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			cssObj[ headlineStyleSelector ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
 				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
 				'border-style': 'solid',
 				'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 			} );
 		}
 
-		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId + ' a' ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-text-' + uniqueId + ' a' ] = [ {
 			'color': linkColor, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon' ] = [ {
+		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon' ] = [ {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
 			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
 			'color': hexToRGBA( iconColor, iconColorOpacity ), // eslint-disable-line quote-props
 			'display': icon && 'above' === iconLocation ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
+		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon svg' ] = [ {
 			'width': valueWithUnit( iconSize, iconSizeUnit ), // eslint-disable-line quote-props
 			'height': valueWithUnit( iconSize, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];

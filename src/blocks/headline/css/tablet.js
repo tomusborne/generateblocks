@@ -14,7 +14,6 @@ export default class TabletCSS extends Component {
 
 		const {
 			uniqueId,
-			element,
 			alignmentTablet,
 			fontSizeTablet,
 			fontSizeUnit,
@@ -49,64 +48,38 @@ export default class TabletCSS extends Component {
 			removeText,
 		} = attributes;
 
-		let marginBottomValue = '',
-			fontSizeValue = '',
-			inlineWidthValue = 'inline-block';
-
-		if ( marginBottomTablet ) {
-			marginBottomValue = marginBottomTablet + marginUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottomTablet !== 'undefined' && ! isNaN( generateBlocksStyling.headline[ attributes.element ].marginBottomTablet ) ) {
-				marginBottomValue = generateBlocksStyling.headline[ element ].marginBottomTablet + generateBlocksStyling.headline[ element ].marginUnit;
-			}
-		}
-
-		if ( fontSizeTablet ) {
-			fontSizeValue = fontSizeTablet + fontSizeUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].fontSizeTablet !== 'undefined' && generateBlocksStyling.headline[ attributes.element ].fontSizeTablet ) {
-				fontSizeValue = generateBlocksStyling.headline[ element ].fontSizeTablet + generateBlocksStyling.headline[ element ].fontSizeUnit;
-			}
-		}
-
+		let inlineWidthValue = 'inline-block';
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
 			'text-align': alignmentTablet,
-			'font-size': fontSizeValue,
+			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeightTablet, lineHeightUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
-		} ];
-
-		cssObj[ '.gb-headline-wrapper-' + uniqueId ] = [ {
-			'flex-direction': icon && 'above' === iconLocationTablet ? 'column' : false,
-			'justify-content': flexboxAlignment( alignmentTablet ),
-			'text-align': alignmentTablet,
+			display: !! icon ? 'flex' : false,
 			'align-items': 'inline' === iconLocationTablet ? flexboxAlignment( iconVerticalAlignmentTablet ) : flexboxAlignment( alignmentTablet ),
-			'font-size': fontSizeValue,
-		} ];
-
-		let headlineStyleSelector = '.editor-styles-wrapper .gb-headline-' + uniqueId;
-
-		if ( icon ) {
-			headlineStyleSelector = '.gb-headline-wrapper-' + uniqueId;
-			inlineWidthValue = 'inline-flex';
-		}
-
-		cssObj[ headlineStyleSelector ].push( {
-			'display': inlineWidthTablet ? inlineWidthValue : false, // eslint-disable-line quote-props
+			'justify-content': flexboxAlignment( alignmentTablet ),
+			'flex-direction': icon && 'above' === iconLocationTablet ? 'column' : false,
 			'margin-top': valueWithUnit( marginTopTablet, marginUnit ) + ' !important',
 			'margin-right': valueWithUnit( marginRightTablet, marginUnit ) + ' !important',
-			'margin-bottom': marginBottomValue + ' !important',
+			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ) + ' !important',
 			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ) + ' !important',
 			'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
 			'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
-		} );
+		} ];
+
+		if ( icon ) {
+			inlineWidthValue = 'inline-flex';
+
+			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
+				'display': inlineWidthTablet ? inlineWidthValue : false, // eslint-disable-line quote-props
+			} );
+		}
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ headlineStyleSelector ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
@@ -115,7 +88,7 @@ export default class TabletCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon' ] = [ {
+		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopTablet, iconPaddingUnit ) : false,
 			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightTablet, iconPaddingUnit ) : false,
 			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomTablet, iconPaddingUnit ) : false,
@@ -124,7 +97,7 @@ export default class TabletCSS extends Component {
 			'display': icon && 'above' === iconLocationTablet ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
+		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon svg' ] = [ {
 			'width': valueWithUnit( iconSizeTablet, iconSizeUnit ), // eslint-disable-line quote-props
 			'height': valueWithUnit( iconSizeTablet, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];
@@ -133,7 +106,7 @@ export default class TabletCSS extends Component {
 			'display': inlineWidthTablet ? 'inline-flex' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'headline' );
+		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'text' );
 
 		return (
 			<style>{ buildCSS( cssObj ) }</style>

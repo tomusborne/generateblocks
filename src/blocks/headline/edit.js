@@ -14,6 +14,7 @@ import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
+import Text from './text-tag';
 import './markformat';
 
 const {
@@ -182,6 +183,7 @@ class GenerateBlockHeadline extends Component {
 			marginBottom,
 			marginLeft,
 			icon,
+			hasIcon,
 			iconColor,
 			iconColorOpacity,
 			iconLocation,
@@ -1174,42 +1176,47 @@ class GenerateBlockHeadline extends Component {
 					/>
 				}
 
-				{ icon ? (
-					<div
-						className={ classnames( {
-							'gb-headline-wrapper': true,
-							[ `gb-headline-wrapper-${ uniqueId }` ]: true,
-						} ) }
-					>
-						{ icon &&
+				<Text
+					attributes={ attributes }
+					tagName={ element }
+					id={ anchor }
+					className={ classnames( {
+						'gb-headline': true,
+						'gb-headline-wrapper': ! icon,
+						[ `gb-headline-${ uniqueId }` ]: true,
+						[  className ]: undefined !== className,
+					} ) }
+				>
+					{ hasIcon &&
+						<Fragment>
 							<span
 								className="gb-icon"
 								aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 								dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 							/>
-						}
 
-						{ ! removeText &&
-							<RichText
-								tagName={ element }
-								value={ content }
-								onChange={ ( value ) => setAttributes( { content: value } ) }
-								placeholder={ __( 'Write headline…', 'generateblocks' ) }
-								keepPlaceholderOnFocus={ true }
-								{ ...htmlAttributes }
-							/>
-						}
-					</div>
-				) : (
-					<RichText
-						tagName={ element }
-						value={ content }
-						onChange={ ( value ) => setAttributes( { content: value } ) }
-						placeholder={ __( 'Write headline…', 'generateblocks' ) }
-						keepPlaceholderOnFocus={ true }
-						{ ...htmlAttributes }
-					/>
-				) }
+							{ ! removeText &&
+								<span className="gb-headline-wrapper">
+									<RichText
+										value={ content }
+										onChange={ ( value ) => setAttributes( { content: value } ) }
+										placeholder={ __( 'Write text...', 'generateblocks' ) }
+										keepPlaceholderOnFocus={ true }
+									/>
+								</span>
+							}
+						</Fragment>
+					}
+
+					{ ! hasIcon && ! removeText &&
+						<RichText
+							value={ content }
+							onChange={ ( value ) => setAttributes( { content: value } ) }
+							placeholder={ __( 'Write text...', 'generateblocks' ) }
+							keepPlaceholderOnFocus={ true }
+						/>
+					}
+				</Text>
 			</Fragment>
 		);
 	}

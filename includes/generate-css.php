@@ -907,16 +907,20 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'background', 'none' );
 			$css->add_property( 'color', 'unset' );
 
-			$css->set_selector( '.gb-headline-wrapper' );
-			$css->add_property( 'display', 'flex' );
-
-			$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
-			$css->add_property( 'margin', '0' );
-			$css->add_property( 'padding', '0' );
-
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
+				}
+
+				$has_wrapper = false;
+				$headline_content = '';
+
+				if ( isset( $blockData[ 'headline-' . $atts['uniqueId'] ] ) ) {
+					$headline_content = $blockData[ 'headline-' . $atts['uniqueId'] ];
+				}
+
+				if ( $headline_content && strpos( trim( $headline_content ), '<div class="gb-headline-wrapper' ) === 0 ) {
+					$has_wrapper = true;
 				}
 
 				$defaults = generateblocks_get_block_defaults();
@@ -939,240 +943,417 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
 				}
 
-				$css->set_selector( '.gb-headline-' . $id );
-				$css->add_property( 'font-family', $fontFamily );
-				$css->add_property( 'text-align', $settings['alignment'] );
-
-				$css->add_property( 'color', $settings['textColor'] );
-
-				if ( ! $settings['hasIcon'] ) {
+				if ( ! $has_wrapper ) {
+					$css->set_selector( '.gb-headline-' . $id );
+					$css->add_property( 'font-family', $fontFamily );
+					$css->add_property( 'text-align', $settings['alignment'] );
+					$css->add_property( 'color', $settings['textColor'] );
 					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
-
-					if ( $settings['inlineWidth'] ) {
-						$css->add_property( 'display', 'inline-block' );
-					}
-
+					$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
+					$css->add_property( 'font-weight', $settings['fontWeight'] );
+					$css->add_property( 'text-transform', $settings['textTransform'] );
+					$css->add_property( 'line-height', $settings['lineHeight'], $settings['lineHeightUnit'] );
+					$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
+					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+					$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 					$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
+					$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 
 					if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
 						$css->add_property( 'border-style', 'solid' );
 					}
 
-					$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
-				}
-
-				$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
-				$css->add_property( 'font-weight', $settings['fontWeight'] );
-				$css->add_property( 'text-transform', $settings['textTransform'] );
-				$css->add_property( 'line-height', $settings['lineHeight'], $settings['lineHeightUnit'] );
-				$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
-
-				if ( ! $settings['hasIcon'] ) {
-					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
-					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
-
-					if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] ) {
-						$defaultBlockStyles = generateblocks_get_default_styles();
-
-						if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {
-							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+					if ( $settings['inlineWidth'] ) {
+						if ( $settings['hasIcon'] ) {
+							$css->add_property( 'display', 'inline-flex' );
+						} else {
+							$css->add_property( 'display', 'inline-block' );
 						}
 					}
-				}
 
-				$css->set_selector( '.gb-headline-' . $id . ' a, .gb-headline-' . $id . ' a:visited' );
-				$css->add_property( 'color', $settings['linkColor'] );
+					if ( $settings['hasIcon'] ) {
+						if ( ! $settings['inlineWidth'] ) {
+							$css->add_property( 'display', 'flex' );
+						}
 
-				$css->set_selector( '.gb-headline-' . $id . ' a:hover' );
-				$css->add_property( 'color', $settings['linkColorHover'] );
+						if ( 'above' === $settings['iconLocation'] ) {
+							$css->add_property( 'text-align', $settings['alignment'] );
+						} else {
+							$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
+						}
 
-				if ( $settings['hasIcon'] ) {
-					$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
+						if ( 'inline' === $settings['iconLocation'] ) {
+							$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignment'] ) );
+						}
 
-					if ( ! $settings['removeText'] ) {
-						$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+						if ( 'above' === $settings['iconLocation'] ) {
+							$css->add_property( 'flex-direction', 'column' );
+						}
 					}
 
-					$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
+					$css->set_selector( '.gb-headline-' . $id . ' a' );
+					$css->add_property( 'color', $settings['linkColor'] );
 
-					if ( 'above' === $settings['iconLocation'] ) {
-						$css->add_property( 'display', 'inline' );
+					$css->set_selector( '.gb-headline-' . $id . ' a:hover' );
+					$css->add_property( 'color', $settings['linkColorHover'] );
+
+					if ( $settings['hasIcon'] ) {
+						$css->set_selector( '.gb-headline-' . $id . ' .gb-icon' );
+
+						if ( ! $settings['removeText'] ) {
+							$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+						}
+
+						if ( 'above' === $settings['iconLocation'] ) {
+							$css->add_property( 'display', 'inline' );
+						}
+
+						$css->set_selector( '.gb-headline-' . $id . ' .gb-icon svg' );
+						$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
+						$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
 					}
 
-					$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
-					$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
-					$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
-
-					$css->set_selector( '.gb-headline-wrapper-' . $id );
-					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
-					$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
-
-					$defaultBlockStyles = generateblocks_get_default_styles();
-
-					if ( '' === $settings['marginBottom'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {
-						$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+					if ( $settings['highlightTextColor'] ) {
+						$css->set_selector( '.gb-headline-' . $id . ' .gb-highlight' );
+						$css->add_property( 'color', $settings['highlightTextColor'] );
 					}
 
-					if ( '' === $settings['fontSize'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSize'] ) ) {
-						$css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSize'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
-					} else {
-						$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
-					}
-
-					if ( 'above' === $settings['iconLocation'] ) {
-						$css->add_property( 'text-align', $settings['alignment'] );
-					} else {
-						$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
-					}
-
-					if ( $settings['inlineWidth'] ) {
-						$css->add_property( 'display', 'inline-flex' );
-					}
-
-					if ( 'inline' === $settings['iconLocation'] ) {
-						$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignment'] ) );
-					}
-
-					$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
-					$css->add_property( 'color', $settings['textColor'] );
-					$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
-
-					if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
-						$css->add_property( 'border-style', 'solid' );
-					}
-
-					$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
-
-					if ( 'above' === $settings['iconLocation'] ) {
-						$css->add_property( 'flex-direction', 'column' );
-					}
-				}
-
-				if ( $settings['highlightTextColor'] ) {
-					$css->set_selector( '.gb-headline-' . $id . ' .gb-highlight' );
-					$css->add_property( 'color', $settings['highlightTextColor'] );
-				}
-
-				$tablet_css->set_selector( '.gb-headline-' . $id );
-				$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
-				$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
-				$tablet_css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
-				$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
-
-				if ( ! $settings['hasIcon'] ) {
+					$tablet_css->set_selector( '.gb-headline-' . $id );
+					$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
+					$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
+					$tablet_css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
+					$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 					$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 					$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 					$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
 
 					if ( $settings['inlineWidthTablet'] ) {
-						$tablet_css->add_property( 'display', 'inline-flex' );
-					}
-				}
-
-				if ( $settings['hasIcon'] ) {
-					$tablet_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
-
-					if ( ! $settings['removeText'] ) {
-						$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
+						if ( $settings['hasIcon'] ) {
+							$tablet_css->add_property( 'display', 'inline-flex' );
+						} else {
+							$tablet_css->add_property( 'display', 'inline-block' );
+						}
 					}
 
-					if ( 'above' === $settings['iconLocationTablet'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationTablet'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-						$tablet_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+					if ( $settings['hasIcon'] ) {
+						$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+
+						if ( 'inline' === $settings['iconLocationTablet'] ) {
+							$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignmentTablet'] ) );
+						}
+
+						if ( 'above' === $settings['iconLocationTablet'] ) {
+							$tablet_css->add_property( 'flex-direction', 'column' );
+						}
+
+						$tablet_css->set_selector( '.gb-headline-' . $id . ' .gb-icon' );
+
+						if ( ! $settings['removeText'] ) {
+							$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
+						}
+
+						if ( 'above' === $settings['iconLocationTablet'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationTablet'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+							$tablet_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+						}
+
+						if ( 'above' === $settings['iconLocationTablet'] ) {
+							$tablet_css->add_property( 'display', 'inline' );
+						}
+
+						$tablet_css->set_selector( '.gb-headline-' . $id . ' .gb-icon svg' );
+						$tablet_css->add_property( 'width', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+						$tablet_css->add_property( 'height', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
 					}
 
-					$tablet_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
-					$tablet_css->add_property( 'width', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
-					$tablet_css->add_property( 'height', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
-
-					$tablet_css->set_selector( '.gb-headline-wrapper-' . $id );
-					$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
-					$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
-					$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
-					$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
-
-					$defaultBlockStyles = generateblocks_get_default_styles();
-
-					if ( '' === $settings['marginBottomTablet'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) ) {
-						$tablet_css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
-					}
-
-					if ( '' === $settings['fontSizeTablet'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeTablet'] ) ) {
-						$tablet_css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeTablet'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
-					} else {
-						$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
-					}
-
-					if ( $settings['inlineWidthTablet'] ) {
-						$tablet_css->add_property( 'display', 'inline-flex' );
-					}
-
-					if ( 'inline' === $settings['iconLocationTablet'] ) {
-						$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignmentTablet'] ) );
-					}
-
-					if ( 'above' === $settings['iconLocationTablet'] ) {
-						$tablet_css->add_property( 'flex-direction', 'column' );
-					}
-				}
-
-				$mobile_css->set_selector( '.gb-headline-' . $id );
-				$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
-				$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
-				$mobile_css->add_property( 'line-height', $settings['lineHeightMobile'], $settings['lineHeightUnit'] );
-				$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
-
-				if ( ! $settings['hasIcon'] ) {
+					$mobile_css->set_selector( '.gb-headline-' . $id );
+					$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
+					$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
+					$mobile_css->add_property( 'line-height', $settings['lineHeightMobile'], $settings['lineHeightUnit'] );
+					$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 					$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 					$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 					$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
 
 					if ( $settings['inlineWidthMobile'] ) {
-						$mobile_css->add_property( 'display', 'inline-flex' );
-					}
-				}
-
-				if ( $settings['hasIcon'] ) {
-					$mobile_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
-
-					if ( ! $settings['removeText'] ) {
-						$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
+						if ( $settings['hasIcon'] ) {
+							$mobile_css->add_property( 'display', 'inline-flex' );
+						} else {
+							$mobile_css->add_property( 'display', 'inline-block' );
+						}
 					}
 
-					if ( 'above' === $settings['iconLocationMobile'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationMobile'] ) || ( 'above' === $settings['iconLocationTablet'] && '' == $settings['iconLocationMobile'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-						$mobile_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
+					if ( $settings['hasIcon'] ) {
+						$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
+
+						if ( 'inline' === $settings['iconLocationMobile'] ) {
+							$mobile_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignmentMobile'] ) );
+						}
+
+						if ( 'above' === $settings['iconLocationMobile'] ) {
+							$mobile_css->add_property( 'flex-direction', 'column' );
+						}
+
+						$mobile_css->set_selector( '.gb-headline-' . $id . ' .gb-icon' );
+
+						if ( ! $settings['removeText'] ) {
+							$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
+						}
+
+						if ( 'above' === $settings['iconLocationMobile'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationMobile'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+							$mobile_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
+						}
+
+						if ( 'above' === $settings['iconLocationMobile'] ) {
+							$mobile_css->add_property( 'display', 'inline' );
+						}
+
+						$mobile_css->set_selector( '.gb-headline-' . $id . ' .gb-icon svg' );
+						$mobile_css->add_property( 'width', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+						$mobile_css->add_property( 'height', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+					}
+				} else {
+					// The below CSS is for users using the old headline wrapper.
+					$css->set_selector( '.gb-headline-wrapper' );
+					$css->add_property( 'display', 'flex' );
+
+					$css->set_selector( '.gb-headline-wrapper > .gb-headline' );
+					$css->add_property( 'margin', '0' );
+					$css->add_property( 'padding', '0' );
+
+					$css->set_selector( '.gb-headline-' . $id );
+					$css->add_property( 'font-family', $fontFamily );
+					$css->add_property( 'text-align', $settings['alignment'] );
+					$css->add_property( 'color', $settings['textColor'] );
+
+					if ( ! $settings['hasIcon'] ) {
+						$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
+
+						if ( $settings['inlineWidth'] ) {
+							$css->add_property( 'display', 'inline-block' );
+						}
+
+						$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
+
+						if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
+							$css->add_property( 'border-style', 'solid' );
+						}
+
+						$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 					}
 
-					$mobile_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
-					$mobile_css->add_property( 'width', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
-					$mobile_css->add_property( 'height', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+					$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
+					$css->add_property( 'font-weight', $settings['fontWeight'] );
+					$css->add_property( 'text-transform', $settings['textTransform'] );
+					$css->add_property( 'line-height', $settings['lineHeight'], $settings['lineHeightUnit'] );
+					$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 
-					$mobile_css->set_selector( '.gb-headline-wrapper-' . $id );
-					$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
-					$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
-					$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
+					if ( ! $settings['hasIcon'] ) {
+						$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+						$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 
-					$defaultBlockStyles = generateblocks_get_default_styles();
+						if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] ) {
+							$defaultBlockStyles = generateblocks_get_default_styles();
 
-					if ( '' === $settings['marginBottomMobile'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) ) {
-						$mobile_css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+							if ( isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {
+								$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+							}
+						}
 					}
 
-					if ( '' === $settings['fontSizeMobile'] && ! $settings['removeText'] && ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeMobile'] ) ) {
-						$mobile_css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeMobile'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
-					} else {
-						$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
+					$css->set_selector( '.gb-headline-' . $id . ' a, .gb-headline-' . $id . ' a:visited' );
+					$css->add_property( 'color', $settings['linkColor'] );
+
+					$css->set_selector( '.gb-headline-' . $id . ' a:hover' );
+					$css->add_property( 'color', $settings['linkColorHover'] );
+
+					if ( $settings['hasIcon'] ) {
+						$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
+
+						if ( ! $settings['removeText'] ) {
+							$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+						}
+
+						$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
+
+						if ( 'above' === $settings['iconLocation'] ) {
+							$css->add_property( 'display', 'inline' );
+						}
+
+						$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
+						$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
+						$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
+
+						$css->set_selector( '.gb-headline-wrapper-' . $id );
+						$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+						$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+
+						$defaultBlockStyles = generateblocks_get_default_styles();
+
+						if ( '' === $settings['marginBottom'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'] ) ) {
+							$css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottom'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+						}
+
+						if ( '' === $settings['fontSize'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSize'] ) ) {
+							$css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSize'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
+						} else {
+							$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
+						}
+
+						if ( 'above' === $settings['iconLocation'] ) {
+							$css->add_property( 'text-align', $settings['alignment'] );
+						} else {
+							$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
+						}
+
+						if ( $settings['inlineWidth'] ) {
+							$css->add_property( 'display', 'inline-flex' );
+						}
+
+						if ( 'inline' === $settings['iconLocation'] ) {
+							$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignment'] ) );
+						}
+
+						$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
+						$css->add_property( 'color', $settings['textColor'] );
+						$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
+
+						if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
+							$css->add_property( 'border-style', 'solid' );
+						}
+
+						$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
+
+						if ( 'above' === $settings['iconLocation'] ) {
+							$css->add_property( 'flex-direction', 'column' );
+						}
 					}
 
-					if ( $settings['inlineWidthMobile'] ) {
-						$mobile_css->add_property( 'display', 'inline-flex' );
+					if ( $settings['highlightTextColor'] ) {
+						$css->set_selector( '.gb-headline-' . $id . ' .gb-highlight' );
+						$css->add_property( 'color', $settings['highlightTextColor'] );
 					}
 
-					if ( 'inline' === $settings['iconLocationMobile'] ) {
-						$mobile_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignmentMobile'] ) );
+					$tablet_css->set_selector( '.gb-headline-' . $id );
+					$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
+					$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
+					$tablet_css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
+					$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
+
+					if ( ! $settings['hasIcon'] ) {
+						$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
+						$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
+						$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
+
+						if ( $settings['inlineWidthTablet'] ) {
+							$tablet_css->add_property( 'display', 'inline-flex' );
+						}
 					}
 
-					if ( 'above' === $settings['iconLocationMobile'] ) {
-						$mobile_css->add_property( 'flex-direction', 'column' );
+					if ( $settings['hasIcon'] ) {
+						$tablet_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
+
+						if ( ! $settings['removeText'] ) {
+							$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
+						}
+
+						if ( 'above' === $settings['iconLocationTablet'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationTablet'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+							$tablet_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+						}
+
+						$tablet_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
+						$tablet_css->add_property( 'width', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+						$tablet_css->add_property( 'height', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+
+						$tablet_css->set_selector( '.gb-headline-wrapper-' . $id );
+						$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
+						$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
+						$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
+						$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+
+						$defaultBlockStyles = generateblocks_get_default_styles();
+
+						if ( '' === $settings['marginBottomTablet'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'] ) ) {
+							$tablet_css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomTablet'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+						}
+
+						if ( '' === $settings['fontSizeTablet'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeTablet'] ) ) {
+							$tablet_css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeTablet'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
+						} else {
+							$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
+						}
+
+						if ( $settings['inlineWidthTablet'] ) {
+							$tablet_css->add_property( 'display', 'inline-flex' );
+						}
+
+						if ( 'inline' === $settings['iconLocationTablet'] ) {
+							$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignmentTablet'] ) );
+						}
+
+						if ( 'above' === $settings['iconLocationTablet'] ) {
+							$tablet_css->add_property( 'flex-direction', 'column' );
+						}
+					}
+
+					$mobile_css->set_selector( '.gb-headline-' . $id );
+					$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
+					$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
+					$mobile_css->add_property( 'line-height', $settings['lineHeightMobile'], $settings['lineHeightUnit'] );
+					$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
+
+					if ( ! $settings['hasIcon'] ) {
+						$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
+						$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+						$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
+
+						if ( $settings['inlineWidthMobile'] ) {
+							$mobile_css->add_property( 'display', 'inline-flex' );
+						}
+					}
+
+					if ( $settings['hasIcon'] ) {
+						$mobile_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
+
+						if ( ! $settings['removeText'] ) {
+							$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
+						}
+
+						if ( 'above' === $settings['iconLocationMobile'] || ( 'above' === $settings['iconLocation'] && '' == $settings['iconLocationMobile'] ) || ( 'above' === $settings['iconLocationTablet'] && '' == $settings['iconLocationMobile'] ) ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+							$mobile_css->add_property( 'align-self', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
+						}
+
+						$mobile_css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
+						$mobile_css->add_property( 'width', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+						$mobile_css->add_property( 'height', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+
+						$mobile_css->set_selector( '.gb-headline-wrapper-' . $id );
+						$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
+						$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+						$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
+
+						$defaultBlockStyles = generateblocks_get_default_styles();
+
+						if ( '' === $settings['marginBottomMobile'] && ! $settings['removeText'] && isset( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) && is_numeric( $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'] ) ) {
+							$mobile_css->add_property( 'margin-bottom', $defaultBlockStyles['headline'][ $settings['element'] ]['marginBottomMobile'], $defaultBlockStyles['headline'][ $settings['element'] ]['marginUnit'] );
+						}
+
+						if ( '' === $settings['fontSizeMobile'] && ! $settings['removeText'] && ! empty( $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeMobile'] ) ) {
+							$mobile_css->add_property( 'font-size', $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeMobile'], $defaultBlockStyles['headline'][ $settings['element'] ]['fontSizeUnit'] );
+						} else {
+							$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
+						}
+
+						if ( $settings['inlineWidthMobile'] ) {
+							$mobile_css->add_property( 'display', 'inline-flex' );
+						}
+
+						if ( 'inline' === $settings['iconLocationMobile'] ) {
+							$mobile_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['iconVerticalAlignmentMobile'] ) );
+						}
+
+						if ( 'above' === $settings['iconLocationMobile'] ) {
+							$mobile_css->add_property( 'flex-direction', 'column' );
+						}
 					}
 				}
 

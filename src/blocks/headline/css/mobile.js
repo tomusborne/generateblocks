@@ -14,7 +14,6 @@ export default class MobileCSS extends Component {
 
 		const {
 			uniqueId,
-			element,
 			alignmentMobile,
 			fontSizeMobile,
 			fontSizeUnit,
@@ -49,64 +48,38 @@ export default class MobileCSS extends Component {
 			removeText,
 		} = attributes;
 
-		let marginBottomValue = '',
-			fontSizeValue = '',
-			inlineWidthValue = 'inline-block';
-
-		if ( marginBottomMobile ) {
-			marginBottomValue = marginBottomMobile + marginUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].marginBottomMobile !== 'undefined' && ! isNaN( generateBlocksStyling.headline[ attributes.element ].marginBottomMobile ) ) {
-				marginBottomValue = generateBlocksStyling.headline[ element ].marginBottomMobile + generateBlocksStyling.headline[ element ].marginUnit;
-			}
-		}
-
-		if ( fontSizeMobile ) {
-			fontSizeValue = fontSizeMobile + fontSizeUnit;
-		} else if ( typeof generateBlocksStyling.headline !== 'undefined' && ! removeText ) {
-			if ( typeof generateBlocksStyling.headline[ attributes.element ].fontSizeMobile !== 'undefined' && generateBlocksStyling.headline[ attributes.element ].fontSizeMobile ) {
-				fontSizeValue = generateBlocksStyling.headline[ element ].fontSizeMobile + generateBlocksStyling.headline[ element ].fontSizeUnit;
-			}
-		}
-
+		let inlineWidthValue = 'inline-block';
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
 			'text-align': alignmentMobile,
-			'font-size': fontSizeValue,
+			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeightMobile, lineHeightUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
-		} ];
-
-		cssObj[ '.gb-headline-wrapper-' + uniqueId ] = [ {
-			'flex-direction': icon && 'above' === iconLocationMobile ? 'column' : false,
-			'justify-content': flexboxAlignment( alignmentMobile ),
-			'text-align': alignmentMobile,
+			display: !! icon ? 'flex' : false,
 			'align-items': 'inline' === iconLocationMobile ? flexboxAlignment( iconVerticalAlignmentMobile ) : flexboxAlignment( alignmentMobile ),
-			'font-size': fontSizeValue,
-		} ];
-
-		let headlineStyleSelector = '.editor-styles-wrapper .gb-headline-' + uniqueId;
-
-		if ( icon ) {
-			headlineStyleSelector = '.gb-headline-wrapper-' + uniqueId;
-			inlineWidthValue = 'inline-flex';
-		}
-
-		cssObj[ headlineStyleSelector ].push( {
-			'display': inlineWidthMobile ? inlineWidthValue : false, // eslint-disable-line quote-props
+			'justify-content': flexboxAlignment( alignmentMobile ),
+			'flex-direction': icon && 'above' === iconLocationMobile ? 'column' : false,
 			'margin-top': valueWithUnit( marginTopMobile, marginUnit ) + ' !important',
 			'margin-right': valueWithUnit( marginRightMobile, marginUnit ) + ' !important',
-			'margin-bottom': marginBottomValue + ' !important',
+			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ) + ' !important',
 			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ) + ' !important',
 			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
 			'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
-		} );
+		} ];
+
+		if ( icon ) {
+			inlineWidthValue = 'inline-flex';
+
+			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
+				'display': inlineWidthMobile ? inlineWidthValue : false, // eslint-disable-line quote-props
+			} );
+		}
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
-			cssObj[ headlineStyleSelector ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
@@ -115,7 +88,7 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon' ] = [ {
+		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopMobile, iconPaddingUnit ) : false,
 			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightMobile, iconPaddingUnit ) : false,
 			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomMobile, iconPaddingUnit ) : false,
@@ -124,7 +97,7 @@ export default class MobileCSS extends Component {
 			'display': icon && 'above' === iconLocationMobile ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-wrapper-' + uniqueId + ' .gb-icon svg' ] = [ {
+		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon svg' ] = [ {
 			'width': valueWithUnit( iconSizeMobile, iconSizeUnit ), // eslint-disable-line quote-props
 			'height': valueWithUnit( iconSizeMobile, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];
