@@ -19,6 +19,10 @@
 }
 
 .gblocks-component-color-picker {
+	.components-color-picker__inputs-wrapper {
+		min-width: auto;
+	}
+
     .gblocks-component-color-picker-palette {
         margin: 17px;
 
