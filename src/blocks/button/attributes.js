@@ -28,8 +28,8 @@ export default {
 		type: 'boolean',
 	},
 	text: {
-		type: 'array',
-		source: 'children',
+		type: 'string',
+		source: 'html',
 		selector: '.gb-button .button-text',
 		default: 'Button',
 	},
