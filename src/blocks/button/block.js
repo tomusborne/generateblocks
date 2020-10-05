@@ -55,11 +55,12 @@ registerBlockType( 'generateblocks/button', {
 				return attributes.cssClasses && ! attributes.className;
 			},
 			migrate( attributes ) {
-				const oldClasses = ( attributes.cssClasses ? attributes.cssClasses : undefined );
+				const oldClasses = attributes.cssClasses ? attributes.cssClasses : attributes.className;
 
 				return {
 					...attributes,
-					className: oldClasses ? oldClasses : undefined,
+					className: oldClasses,
+					cssClasses: '',
 				};
 			},
 			save: saveButton,
