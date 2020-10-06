@@ -972,11 +972,11 @@ class GenerateBlockButton extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Advanced', 'generateblocks' ) }
+						title={ __( 'General', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'advanced' ) }
 						className={ 'gblocks-panel-label' }
-						id={ 'buttonAdvanced' }
+						id={ 'buttonGeneral' }
 						state={ this.state }
 						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
@@ -991,7 +991,7 @@ class GenerateBlockButton extends Component {
 							} }
 						/>
 
-						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonAdvanced', this.props, this.state ) }
+						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonGeneral', this.props, this.state ) }
 					</PanelArea>
 
 					<PanelArea { ...this.props }
