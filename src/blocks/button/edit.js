@@ -1059,7 +1059,7 @@ class GenerateBlockButton extends Component {
 						/>
 					}
 					{ ! removeText &&
-						<span className={ 'button-text' }>
+						<span className={ 'gb-button-text' }>
 							<RichText
 								placeholder={ __( 'Add text…', 'generateblocks' ) }
 								value={ text }

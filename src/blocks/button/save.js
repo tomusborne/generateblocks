@@ -67,7 +67,12 @@ export default ( { attributes } ) => {
 				/>
 			}
 			{ ! removeText &&
-				<RichText.Content tagName="span" className="button-text" value={ text } key="button-text" />
+				<RichText.Content
+					tagName="span"
+					className="gb-button-text"
+					value={ text }
+					key="button-text"
+				/>
 			}
 			{ icon && 'right' === iconLocation &&
 				<span
