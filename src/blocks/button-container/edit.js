@@ -363,6 +363,18 @@ class GenerateButtonContainer extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
+						title={ __( 'General', 'generateblocks' ) }
+						initialOpen={ false }
+						icon={ getIcon( 'advanced' ) }
+						className={ 'gblocks-panel-label' }
+						id={ 'buttonContainerGeneral' }
+						state={ this.state }
+						showPanel={ 'Desktop' === this.getDeviceType() || false }
+					>
+						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonContainerGeneral', this.props, this.state ) }
+					</PanelArea>
+
+					<PanelArea { ...this.props }
 						title={ __( 'Documentation', 'generateblocks' ) }
 						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
