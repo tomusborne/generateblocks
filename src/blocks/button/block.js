@@ -34,7 +34,6 @@ registerBlockType( 'generateblocks/button', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: true,
 		className: false,
 		inserter: false,
 		reusable: false,

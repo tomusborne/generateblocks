@@ -25,6 +25,7 @@ export default ( { attributes } ) => {
 		iconLocation,
 		removeText,
 		ariaLabel,
+		anchor,
 	} = attributes;
 
 	const relAttributes = [];
@@ -50,6 +51,7 @@ export default ( { attributes } ) => {
 		target: !! target ? '_blank' : undefined,
 		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
 		'aria-label': !! ariaLabel ? ariaLabel : undefined,
+		id: anchor ? anchor : null,
 	};
 
 	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
