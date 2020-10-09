@@ -1190,7 +1190,7 @@ class GenerateBlockHeadline extends Component {
 							/>
 
 							{ ! removeText &&
-								<span className="gb-headline-wrapper">
+								<span className="gb-headline-text">
 									<RichText
 										tagName="span"
 										value={ content }

@@ -55,7 +55,7 @@ export default ( { attributes } ) => {
 				<RichText.Content
 					value={ content }
 					tagName={ !! icon ? 'span' : null }
-					className={ !! icon ? 'gb-headline-wrapper' : null }
+					className={ !! icon ? 'gb-headline-text' : null }
 				/>
 			}
 		</Element>
