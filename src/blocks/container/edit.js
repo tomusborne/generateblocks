@@ -2,7 +2,7 @@
  * Block: Container
  */
 
-import Section from './section-tag';
+import Element from '../../components/element';
 import ColorPicker from '../../components/color-picker';
 import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
@@ -322,6 +322,17 @@ class GenerateBlockContainer extends Component {
 				}
 			}
 		}
+
+		let htmlAttributes = {
+			className: classnames( {
+				'gb-container': true,
+				[ `gb-container-${ uniqueId }` ]: true,
+				[ `${ className }` ]: undefined !== className,
+			} ),
+			id: anchor ? anchor : null,
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/container', attributes );
 
 		return (
 			<Fragment>
@@ -1595,15 +1606,9 @@ class GenerateBlockContainer extends Component {
 					/>
 				}
 
-				<Section
-					attributes={ attributes }
+				<Element
 					tagName={ tagName }
-					id={ anchor }
-					className={ classnames( {
-						'gb-container': true,
-						[ `gb-container-${ uniqueId }` ]: true,
-						[ `${ className }` ]: undefined !== className,
-					} ) }
+					htmlAttrs={ htmlAttributes }
 				>
 					{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 					<div
@@ -1620,7 +1625,7 @@ class GenerateBlockContainer extends Component {
 							) }
 						/>
 					</div>
-				</Section>
+				</Element>
 			</Fragment>
 		);
 	}

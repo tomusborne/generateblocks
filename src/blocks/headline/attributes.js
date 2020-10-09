@@ -19,7 +19,7 @@ export default {
 	content: {
 		type: 'string',
 		source: 'html',
-		selector: '.gb-headline-wrapper',
+		selector: '.gb-headline-text',
 	},
 	element: {
 		type: 'string',

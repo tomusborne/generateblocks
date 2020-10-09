@@ -2,7 +2,7 @@
  * External dependencies
  */
 import classnames from 'classnames';
-import Section from './section-tag';
+import Element from '../../components/element';
 import blockAttributes from './attributes';
 
 const {
@@ -47,6 +47,18 @@ const deprecated = [
 
 			const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
 
+			let htmlAttributes = {
+				className: classnames( {
+					'gb-container': true,
+					[ `gb-container-${ uniqueId }` ]: true,
+					[ `${ cssClasses }` ]: '' !== cssClasses,
+					[ `align${ align }` ]: !! align && ! isGrid,
+				} ),
+				id: elementId ? elementId : null,
+			};
+
+			htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/container', attributes );
+
 			return (
 				<ConditionalWrap
 					condition={ isGrid }
@@ -55,16 +67,9 @@ const deprecated = [
 						[ `gb-grid-column-${ uniqueId }` ]: true,
 					} ) }>{ children }</div> }
 				>
-					<Section
-						attributes={ attributes }
+					<Element
 						tagName={ tagName }
-						id={ elementId }
-						className={ classnames( {
-							'gb-container': true,
-							[ `gb-container-${ uniqueId }` ]: true,
-							[ `${ cssClasses }` ]: '' !== cssClasses,
-							[ `align${ align }` ]: !! align && ! isGrid,
-						} ) }
+						htmlAttrs={ htmlAttributes }
 					>
 						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 						<div className={ classnames( {
@@ -72,7 +77,7 @@ const deprecated = [
 						} ) }>
 							<InnerBlocks.Content />
 						</div>
-					</Section>
+					</Element>
 				</ConditionalWrap>
 			);
 		},

@@ -14,7 +14,7 @@ import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
-import Text from './text-tag';
+import Element from '../../components/element';
 import './markformat';
 
 const {
@@ -236,6 +236,18 @@ class GenerateBlockHeadline extends Component {
 		} else {
 			iconSizePlaceholderMobile = '';
 		}
+
+		let htmlAttributes = {
+			className: classnames( {
+				'gb-headline': true,
+				[ `gb-headline-${ uniqueId }` ]: true,
+				'gb-headline-text': ! hasIcon,
+				[ className ]: undefined !== className,
+			} ),
+			id: anchor ? anchor : null,
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
 
 		return (
 			<Fragment>
@@ -1165,16 +1177,9 @@ class GenerateBlockHeadline extends Component {
 					/>
 				}
 
-				<Text
-					attributes={ attributes }
+				<Element
 					tagName={ element }
-					id={ anchor }
-					className={ classnames( {
-						'gb-headline': true,
-						[ `gb-headline-${ uniqueId }` ]: true,
-						'gb-headline-wrapper': ! icon,
-						[ className ]: undefined !== className,
-					} ) }
+					htmlAttrs={ htmlAttributes }
 				>
 					{ hasIcon &&
 						<Fragment>
@@ -1207,7 +1212,7 @@ class GenerateBlockHeadline extends Component {
 							keepPlaceholderOnFocus={ true }
 						/>
 					}
-				</Text>
+				</Element>
 			</Fragment>
 		);
 	}

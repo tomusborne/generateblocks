@@ -4,15 +4,20 @@
 
 import classnames from 'classnames';
 import sanitizeSVG from '../../utils/sanitize-svg';
-import Text from './text-tag';
+import Element from '../../components/element';
 
 const {
 	RichText,
 } = wp.blockEditor;
 
+const {
+	applyFilters,
+} = wp.hooks;
+
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
+		className,
 		anchor,
 		element,
 		content,
@@ -21,16 +26,22 @@ export default ( { attributes } ) => {
 		ariaLabel,
 	} = attributes;
 
+	let htmlAttributes = {
+		className: classnames( {
+			'gb-headline': true,
+			[ `gb-headline-${ uniqueId }` ]: true,
+			'gb-headline-text': ! icon,
+			[ className ]: undefined !== className,
+		} ),
+		id: anchor ? anchor : null,
+	};
+
+	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
+
 	return (
-		<Text
-			attributes={ attributes }
+		<Element
 			tagName={ element }
-			id={ anchor }
-			className={ classnames( {
-				'gb-headline': true,
-				[ `gb-headline-${ uniqueId }` ]: true,
-				'gb-headline-wrapper': ! icon,
-			} ) }
+			htmlAttrs={ htmlAttributes }
 		>
 			{ !! icon &&
 				<span
@@ -47,6 +58,6 @@ export default ( { attributes } ) => {
 					className={ !! icon ? 'gb-headline-wrapper' : null }
 				/>
 			}
-		</Text>
+		</Element>
 	);
 };
