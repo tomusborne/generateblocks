@@ -55,6 +55,12 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 			}
 
 			if ( 'generateblocks/button' === $block['blockName'] ) {
+				if ( isset( $block['innerHTML'] ) ) {
+					if ( strpos( trim( $block['innerHTML'] ), '<a' ) === 0 ) {
+						$block['attrs']['hasUrl'] = true;
+					}
+				}
+
 				$data['button'][] = $block['attrs'];
 			}
 

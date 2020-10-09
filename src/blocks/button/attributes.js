@@ -19,7 +19,7 @@ export default {
 	url: {
 		type: 'string',
 		source: 'attribute',
-		selector: 'a.gb-button',
+		selector: '.gb-button',
 		attribute: 'href',
 	},
 	target: {

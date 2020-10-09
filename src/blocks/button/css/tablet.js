@@ -12,6 +12,7 @@ export default class TabletCSS extends Component {
 		} = this.props;
 
 		const {
+			url,
 			uniqueId,
 			removeText,
 			letterSpacingTablet,
@@ -45,9 +46,15 @@ export default class TabletCSS extends Component {
 			iconSizeUnit,
 		} = attributes;
 
+		let selector = 'a.gb-button-' + uniqueId;
+
+		if ( ! url ) {
+			selector = '.gb-button-' + uniqueId;
+		}
+
 		let cssObj = [];
 
-		cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId ] = [ {
+		cssObj[ '.block-editor-block-list__block ' + selector ] = [ {
 			'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
@@ -65,7 +72,7 @@ export default class TabletCSS extends Component {
 		} ];
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId ].push( {
+			cssObj[ '.block-editor-block-list__block ' + selector ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
@@ -74,7 +81,7 @@ export default class TabletCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.block-editor-block-list__block a.gb-button-' + uniqueId + ' .gb-icon' ] = [ {
+		cssObj[ '.block-editor-block-list__block ' + selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopTablet, iconPaddingUnit ) : false,
 			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightTablet, iconPaddingUnit ) : false,
 			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomTablet, iconPaddingUnit ) : false,

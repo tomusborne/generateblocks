@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import sanitizeSVG from '../../utils/sanitize-svg';
+import Element from '../../components/element';
 
 const {
 	RichText,
@@ -16,6 +17,7 @@ const {
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
+		className,
 		text,
 		url,
 		target,
@@ -46,19 +48,21 @@ export default ( { attributes } ) => {
 		className: classnames( {
 			'gb-button': true,
 			[ `gb-button-${ uniqueId }` ]: true,
+			[ `${ className }` ]: undefined !== className,
 		} ),
-		href: !! url ? url : undefined,
-		target: !! target ? '_blank' : undefined,
-		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
-		'aria-label': !! ariaLabel ? ariaLabel : undefined,
+		href: !! url ? url : null,
+		target: !! target ? '_blank' : null,
+		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
+		'aria-label': !! ariaLabel ? ariaLabel : null,
 		id: anchor ? anchor : null,
 	};
 
 	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
 
 	return (
-		<a
-			{ ...htmlAttributes }
+		<Element
+			tagName={ url ? 'a' : 'span' }
+			htmlAttrs={ htmlAttributes }
 		>
 			{ icon && 'left' === iconLocation &&
 				<span
@@ -80,6 +84,6 @@ export default ( { attributes } ) => {
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			}
-		</a>
+		</Element>
 	);
 };

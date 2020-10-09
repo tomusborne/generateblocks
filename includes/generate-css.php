@@ -720,7 +720,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$icon_css_added = true;
 			}
 
-			$css->set_selector( '.gb-button-wrapper a.gb-button' );
+			$css->set_selector( '.gb-button-wrapper .gb-button' );
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'align-items', 'center' );
 			$css->add_property( 'justify-content', 'center' );
@@ -744,6 +744,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+
+				$selector = '.gb-button-' . $id;
+
+				if ( isset( $atts['hasUrl'] ) ) {
+					$selector = 'a.gb-button-' . $id;
+				}
 
 				// Back-compatibility for when icon held a value.
 				if ( $settings['icon'] ) {
@@ -769,7 +775,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$css->set_selector( '.gb-button-wrapper a.gb-button-' . $id . ',.gb-button-wrapper a.gb-button-' . $id . ':visited' );
+				$css->set_selector( '.gb-button-wrapper ' . $selector . ',.gb-button-wrapper ' . $selector . ':visited' );
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 				$css->add_property( 'color', $settings['textColor'] );
 
@@ -799,13 +805,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'align-items', 'center' );
 				}
 
-				$css->set_selector( '.gb-button-wrapper a.gb-button-' . $id . ':hover,.gb-button-wrapper a.gb-button-' . $id . ':active,.gb-button-wrapper a.gb-button-' . $id . ':focus' );
+				$css->set_selector( '.gb-button-wrapper ' . $selector . ':hover,.gb-button-wrapper ' . $selector . ':active,.gb-button-wrapper ' . $selector . ':focus' );
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
 				$css->add_property( 'color', $settings['textColorHover'] );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
 				if ( $settings['hasIcon'] ) {
-					$css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
+					$css->set_selector( $selector . ' .gb-icon' );
 					$css->add_property( 'font-size', $settings['iconSize'], $settings['iconSizeUnit'] );
 
 					if ( ! $settings['removeText'] ) {
@@ -813,7 +819,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$tablet_css->set_selector( '.gb-button-wrapper a.gb-button-' . $id );
+				$tablet_css->set_selector( '.gb-button-wrapper ' . $selector );
 				$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 				$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 				$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
@@ -822,7 +828,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
 
 				if ( $settings['hasIcon'] ) {
-					$tablet_css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
+					$tablet_css->set_selector( $selector . ' .gb-icon' );
 					$tablet_css->add_property( 'font-size', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
 
 					if ( ! $settings['removeText'] ) {
@@ -830,7 +836,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$mobile_css->set_selector( '.gb-button-wrapper a.gb-button-' . $id );
+				$mobile_css->set_selector( '.gb-button-wrapper ' . $selector );
 				$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 				$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 				$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
@@ -839,7 +845,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
 
 				if ( $settings['hasIcon'] ) {
-					$mobile_css->set_selector( 'a.gb-button-' . $id . ' .gb-icon' );
+					$mobile_css->set_selector( $selector . ' .gb-icon' );
 					$mobile_css->add_property( 'font-size', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
 
 					if ( ! $settings['removeText'] ) {

@@ -16,6 +16,7 @@ import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
 import MobileCSS from './css/mobile.js';
 import sanitizeSVG from '../../utils/sanitize-svg';
+import Element from '../../components/element';
 
 const {
 	__,
@@ -235,10 +236,10 @@ class GenerateBlockButton extends Component {
 				[ `gb-button-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
 			} ),
-			href: !! url ? url : undefined,
-			target: !! target ? '_blank' : undefined,
-			rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
-			'aria-label': !! ariaLabel ? ariaLabel : undefined,
+			href: !! url ? url : null,
+			target: !! target ? '_blank' : null,
+			rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
+			'aria-label': !! ariaLabel ? ariaLabel : null,
 			id: anchor ? anchor : null,
 		};
 
@@ -1049,8 +1050,9 @@ class GenerateBlockButton extends Component {
 					/>
 				}
 
-				<a
-					{ ...htmlAttributes }
+				<Element
+					tagName={ url ? 'a' : 'span' }
+					htmlAttrs={ htmlAttributes }
 				>
 					{ icon && 'left' === iconLocation &&
 						<span
@@ -1076,7 +1078,7 @@ class GenerateBlockButton extends Component {
 							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 						/>
 					}
-				</a>
+				</Element>
 				{ isSelected &&
 					<URLInput
 						url={ url }
