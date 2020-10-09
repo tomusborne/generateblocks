@@ -34,7 +34,7 @@ export default {
 	text: {
 		type: 'string',
 		source: 'html',
-		selector: '.gb-button .gb-button-text',
+		selector: '.gb-button-text',
 		default: 'Button',
 	},
 	icon: {

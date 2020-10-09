@@ -234,6 +234,7 @@ class GenerateBlockButton extends Component {
 			className: classnames( {
 				'gb-button': true,
 				[ `gb-button-${ uniqueId }` ]: true,
+				'gb-button-text': ! icon,
 				[ `${ className }` ]: undefined !== className,
 			} ),
 			href: !! url ? url : null,
@@ -1054,28 +1055,45 @@ class GenerateBlockButton extends Component {
 					tagName={ url ? 'a' : 'span' }
 					htmlAttrs={ htmlAttributes }
 				>
-					{ icon && 'left' === iconLocation &&
-						<span
-							className="gb-icon"
-							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
-						/>
+					{ !! icon &&
+						<Fragment>
+							{ 'left' === iconLocation &&
+								<span
+									className="gb-icon"
+									dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+								/>
+							}
+
+							{ ! removeText &&
+								<span className={ 'gb-button-text' }>
+									<RichText
+										placeholder={ __( 'Add text…', 'generateblocks' ) }
+										value={ text }
+										onChange={ ( value ) => setAttributes( { text: value } ) }
+										allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
+										isSelected={ isSelected }
+										keepPlaceholderOnFocus
+									/>
+								</span>
+							}
+
+							{ 'right' === iconLocation &&
+								<span
+									className="gb-icon"
+									dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+								/>
+							}
+						</Fragment>
 					}
-					{ ! removeText &&
-						<span className={ 'gb-button-text' }>
-							<RichText
-								placeholder={ __( 'Add text…', 'generateblocks' ) }
-								value={ text }
-								onChange={ ( value ) => setAttributes( { text: value } ) }
-								allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
-								isSelected={ isSelected }
-								keepPlaceholderOnFocus
-							/>
-						</span>
-					}
-					{ icon && 'right' === iconLocation &&
-						<span
-							className="gb-icon"
-							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+
+					{ ! icon && ! removeText &&
+						<RichText
+							placeholder={ __( 'Add text…', 'generateblocks' ) }
+							value={ text }
+							onChange={ ( value ) => setAttributes( { text: value } ) }
+							allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
+							isSelected={ isSelected }
+							keepPlaceholderOnFocus
 						/>
 					}
 				</Element>

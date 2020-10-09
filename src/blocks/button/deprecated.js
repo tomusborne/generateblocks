@@ -16,7 +16,15 @@ const {
 const deprecated = [
 	// v1 of button block.
 	{
-		attributes: blockAttributes,
+		attributes: {
+			...blockAttributes,
+			text: {
+				type: 'array',
+				source: 'children',
+				selector: '.gb-button .button-text',
+				default: 'Button',
+			},
+		},
 		supports: {
 			anchor: false,
 			className: false,

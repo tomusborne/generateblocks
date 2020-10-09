@@ -48,6 +48,7 @@ export default ( { attributes } ) => {
 		className: classnames( {
 			'gb-button': true,
 			[ `gb-button-${ uniqueId }` ]: true,
+			'gb-button-text': ! icon,
 			[ `${ className }` ]: undefined !== className,
 		} ),
 		href: !! url ? url : null,
@@ -64,21 +65,21 @@ export default ( { attributes } ) => {
 			tagName={ url ? 'a' : 'span' }
 			htmlAttrs={ htmlAttributes }
 		>
-			{ icon && 'left' === iconLocation &&
 				<span
 					className="gb-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			}
+
 			{ ! removeText &&
 				<RichText.Content
-					tagName="span"
-					className="gb-button-text"
 					value={ text }
-					key="button-text"
+					tagName={ !! icon ? 'span' : null }
+					className={ !! icon ? 'gb-button-text' : null }
 				/>
 			}
-			{ icon && 'right' === iconLocation &&
+
+			{ !! icon && 'right' === iconLocation &&
 				<span
 					className="gb-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
