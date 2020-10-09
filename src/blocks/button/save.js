@@ -65,6 +65,7 @@ export default ( { attributes } ) => {
 			tagName={ url ? 'a' : 'span' }
 			htmlAttrs={ htmlAttributes }
 		>
+			{ !! icon && 'left' === iconLocation &&
 				<span
 					className="gb-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
