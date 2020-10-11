@@ -327,9 +327,7 @@ class GenerateBlocks_Enqueue_CSS {
 			}
 		}
 
-		// Strip protocols.
-		$css_uri = str_replace( 'https://', '//', $css_uri );
-		$css_uri = str_replace( 'http://', '//', $css_uri );
+		$css_uri = set_url_scheme( $css_uri );
 
 		if ( 'path' === $target ) {
 			return $file_path;
