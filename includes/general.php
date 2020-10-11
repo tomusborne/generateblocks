@@ -277,11 +277,11 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 			),
 		);
 
-		$output .= apply_filters( 'generateblocks_inside_container', $output, $block );
+		$output = apply_filters( 'generateblocks_inside_container', $output, $block );
 		$output .= '<div class="gb-inside-container">';
-		$output .= apply_filters( 'generateblocks_before_container_content', $output, $block );
+		$output = apply_filters( 'generateblocks_before_container_content', $output, $block );
 		$output .= $block_content;
-		$output .= apply_filters( 'generateblocks_after_container_content', $output, $block );
+		$output = apply_filters( 'generateblocks_after_container_content', $output, $block );
 		$output .= '</div>';
 
 		$output .= sprintf(
