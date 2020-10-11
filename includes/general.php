@@ -277,6 +277,7 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 			),
 		);
 
+		$output .= apply_filters( 'generateblocks_inside_container', $output, $block );
 		$output .= '<div class="gb-inside-container">';
 		$output .= $block_content;
 		$output .= '</div>';
