@@ -551,7 +551,6 @@ function generateblocks_get_background_image_css( $settings, $custom_args = arra
  * @return string String of HTML attributes and values.
  */
 function generateblocks_attr( $context, $attributes = array(), $settings = array() ) {
-
 	$attributes = generateblocks_parse_attr( $context, $attributes, $settings );
 
 	$output = '';
@@ -588,7 +587,6 @@ function generateblocks_attr( $context, $attributes = array(), $settings = array
  * @return array Merged and filtered attributes.
  */
 function generateblocks_parse_attr( $context, $attributes = array(), $settings = array() ) {
-
 	$defaults = array(
 		'class' => sanitize_html_class( $context ),
 	);
