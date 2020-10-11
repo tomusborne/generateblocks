@@ -184,25 +184,13 @@ class GenerateBlocks_Enqueue_CSS {
 
 		// Take care of domain mapping.
 		if ( defined( 'DOMAIN_MAPPING' ) && DOMAIN_MAPPING ) {
-
 			if ( function_exists( 'domain_mapping_siteurl' ) && function_exists( 'get_original_url' ) ) {
-
 				$mapped_domain = domain_mapping_siteurl( false );
-				$mapped_domain = str_replace( 'https://', '//', $domain_mapping );
-				$mapped_domain = str_replace( 'http://', '//', $mapped_domain );
-
 				$original_domain = get_original_url( 'siteurl' );
-				$original_domain = str_replace( 'https://', '//', $original_domain );
-				$original_domain = str_replace( 'http://', '//', $original_domain );
 
 				$content = str_replace( $original_domain, $mapped_domain, $content );
-
 			}
 		}
-
-		// Strip protocols.
-		$content = str_replace( 'https://', '//', $content );
-		$content = str_replace( 'http://', '//', $content );
 
 		if ( is_writable( $this->file( 'path' ) ) || ( ! file_exists( $this->file( 'path' ) ) && is_writable( dirname( $this->file( 'path' ) ) ) ) ) {
 
