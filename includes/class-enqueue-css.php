@@ -237,7 +237,7 @@ class GenerateBlocks_Enqueue_CSS {
 		global $blog_id;
 
 		// Get the upload directory for this site.
-		$upload_dir = wp_upload_dir();
+		$upload_dir = wp_get_upload_dir();
 
 		// If this is a multisite installation, append the blogid to the filename.
 		$css_blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
@@ -301,7 +301,7 @@ class GenerateBlocks_Enqueue_CSS {
 		global $blog_id;
 
 		// Get the upload directory for this site.
-		$upload_dir = wp_upload_dir();
+		$upload_dir = wp_get_upload_dir();
 
 		// If this is a multisite installation, append the blogid to the filename.
 		$css_blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
