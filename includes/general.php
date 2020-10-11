@@ -232,9 +232,20 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 		$output = '';
 
 		if ( $settings['isGrid'] ) {
+			$gridItemClassNames = array(
+				'gb-grid-column',
+				'gb-grid-column-' . $settings['uniqueId'],
+			);
+
 			$output .= sprintf(
-				'<div class="gb-grid-column gb-grid-column-%s">',
-				esc_html( $settings['uniqueId'] )
+				'<div %s>',
+				generateblocks_attr(
+					'grid-item',
+					array(
+						'class' => implode( ' ', $gridItemClassNames ),
+					),
+					$settings
+				),
 			);
 		}
 
