@@ -745,10 +745,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 
-				$selector = '.gb-button-' . $id;
+				$selector = 'a.gb-button-' . $id;
 
-				if ( isset( $atts['hasUrl'] ) ) {
-					$selector = 'a.gb-button-' . $id;
+				if ( isset( $atts['hasUrl'] ) && ! $atts['hasUrl'] ) {
+					$selector = '.gb-button-' . $id;
 				}
 
 				// Back-compatibility for when icon held a value.

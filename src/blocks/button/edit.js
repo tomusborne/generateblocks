@@ -116,6 +116,19 @@ class GenerateBlockButton extends Component {
 				hasIcon: true,
 			} );
 		}
+
+		// hasUrl came late, so let's set it if it doesn't exist.
+		if ( 'undefined' === typeof this.props.attributes.hasUrl ) {
+			if ( ! this.props.attributes.url ) {
+				this.props.setAttributes( {
+					hasUrl: false,
+				} );
+			} else {
+				this.props.setAttributes( {
+					hasUrl: true,
+				} );
+			}
+		}
 	}
 
 	componentDidUpdate() {
@@ -1105,6 +1118,16 @@ class GenerateBlockButton extends Component {
 						relSponsored={ relSponsored }
 						onChange={ ( data ) => {
 							setAttributes( data );
+
+							if ( '' !== data.url ) {
+								setAttributes( {
+									hasUrl: true,
+								} );
+							} else {
+								setAttributes( {
+									hasUrl: false,
+								} );
+							}
 						} }
 						autoFocus={ false } // eslint-disable-line jsx-a11y/no-autofocus
 						className="gblocks-component-url-input-float"

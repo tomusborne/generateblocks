@@ -22,6 +22,9 @@ export default {
 		selector: '.gb-button',
 		attribute: 'href',
 	},
+	hasUrl: {
+		type: 'boolean',
+	},
 	target: {
 		type: 'boolean',
 	},
