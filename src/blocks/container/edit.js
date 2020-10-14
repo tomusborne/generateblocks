@@ -1607,12 +1607,13 @@ class GenerateBlockContainer extends Component {
 					tagName={ tagName }
 					htmlAttrs={ htmlAttributes }
 				>
-					{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
+					{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
 					<div
 						className={ classnames( {
 							'gb-inside-container': true,
 						} ) }
 					>
+						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 						<InnerBlocks
 							templateLock={ false }
 							renderAppender={ (
@@ -1622,6 +1623,7 @@ class GenerateBlockContainer extends Component {
 							) }
 						/>
 					</div>
+					{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
 				</Element>
 			</Fragment>
 		);
