@@ -201,3 +201,8 @@
     display: flex;
     justify-content: center;
 }
+
+.wp-block[data-type="generateblocks/grid"] {
+	margin-top: 0;
+	margin-bottom: 0;
+}

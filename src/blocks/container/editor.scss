@@ -127,6 +127,11 @@ button.editor-gb-container-background__toggle {
 	}
 }
 
+.wp-block[data-type="generateblocks/container"] {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 /* Bad idea?? */
 [data-type="generateblocks/container"] .block-editor-block-list__insertion-point,
 [data-type="generateblocks/grid"] .block-editor-block-list__insertion-point {

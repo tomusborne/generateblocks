@@ -8,3 +8,8 @@ mark.gb-highlight {
 		display: block;
 	}
 }
+
+.wp-block[data-type="generateblocks/headline"] {
+	margin-top: 0;
+	margin-bottom: 0;
+}

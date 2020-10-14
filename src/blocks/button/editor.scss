@@ -160,3 +160,8 @@
 [data-type="generateblocks/button-container"]:not(.is-selected):not(.has-child-selected) .gb-button-wrapper {
 	min-height: 36px; // This height matches the height of the buttons and ensures an empty block doesn't collapse.
 }
+
+.wp-block[data-type="generateblocks/button"] {
+	margin-top: 0;
+	margin-bottom: 0;
+}
