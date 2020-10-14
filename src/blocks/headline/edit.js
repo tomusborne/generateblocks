@@ -312,12 +312,29 @@ class GenerateBlockHeadline extends Component {
 						/>
 					</Toolbar>
 
-					{ ! inlineWidth &&
+					{ 'Desktop' === this.getDeviceType() && ! inlineWidth &&
 						<AlignmentToolbar
-							isCollapsed={ false }
 							value={ alignment }
-							onChange={ ( nextAlign ) => {
-								setAttributes( { alignment: nextAlign } );
+							onChange={ ( value ) => {
+								setAttributes( { alignment: value } );
+							} }
+						/>
+					}
+
+					{ 'Tablet' === this.getDeviceType() && ! inlineWidthTablet &&
+						<AlignmentToolbar
+							value={ alignmentTablet }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentTablet: value } );
+							} }
+						/>
+					}
+
+					{ 'Tablet' === this.getDeviceType() && ! inlineWidthMobile &&
+						<AlignmentToolbar
+							value={ alignmentMobile }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentMobile: value } );
 							} }
 						/>
 					}
@@ -379,16 +396,6 @@ class GenerateBlockHeadline extends Component {
 					>
 						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								{ ! inlineWidth &&
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignment }
-										onChange={ ( value ) => {
-											setAttributes( { alignment: value } );
-										} }
-									/>
-								}
-
 								<TypographyControls { ...this.props }
 									showFontFamily={ true }
 									showFontWeight={ true }
@@ -408,16 +415,6 @@ class GenerateBlockHeadline extends Component {
 
 						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								{ ! inlineWidthTablet &&
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignmentTablet }
-										onChange={ ( value ) => {
-											setAttributes( { alignmentTablet: value } );
-										} }
-									/>
-								}
-
 								<TypographyControls { ...this.props }
 									device={ 'Tablet' }
 									showFontSize={ true }
@@ -434,16 +431,6 @@ class GenerateBlockHeadline extends Component {
 
 						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								{ ! inlineWidthMobile &&
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignmentMobile }
-										onChange={ ( value ) => {
-											setAttributes( { alignmentMobile: value } );
-										} }
-									/>
-								}
-
 								<TypographyControls { ...this.props }
 									device={ 'Mobile' }
 									showFontSize={ true }

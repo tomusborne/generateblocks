@@ -195,14 +195,36 @@ class GenerateButtonContainer extends Component {
 							/>
 						</Tooltip>
 					</Toolbar>
-					<AlignmentToolbar
-						isCollapsed={ false }
-						value={ alignment }
-						alignmentControls={ ALIGNMENT_CONTROLS }
-						onChange={ ( nextAlign ) => {
-							setAttributes( { alignment: nextAlign } );
-						} }
-					/>
+
+					{ 'Desktop' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignment }
+							alignmentControls={ ALIGNMENT_CONTROLS }
+							onChange={ ( nextAlign ) => {
+								setAttributes( { alignment: nextAlign } );
+							} }
+						/>
+					) }
+
+					{ 'Tablet' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignmentTablet }
+							alignmentControls={ ALIGNMENT_CONTROLS }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentTablet: value } );
+							} }
+						/>
+					) }
+
+					{ 'Mobile' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignmentMobile }
+							alignmentControls={ ALIGNMENT_CONTROLS }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentMobile: value } );
+							} }
+						/>
+					) }
 				</BlockControls>
 
 				<InspectorControls>
@@ -223,15 +245,6 @@ class GenerateButtonContainer extends Component {
 					>
 						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<AlignmentToolbar
-									isCollapsed={ false }
-									value={ alignment }
-									alignmentControls={ ALIGNMENT_CONTROLS }
-									onChange={ ( value ) => {
-										setAttributes( { alignment: value } );
-									} }
-								/>
-
 								<DimensionsControl { ...this.props }
 									device={ this.getDeviceType() }
 									type={ 'margin' }
@@ -269,15 +282,6 @@ class GenerateButtonContainer extends Component {
 
 						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								<AlignmentToolbar
-									isCollapsed={ false }
-									value={ alignmentTablet }
-									alignmentControls={ ALIGNMENT_CONTROLS }
-									onChange={ ( value ) => {
-										setAttributes( { alignmentTablet: value } );
-									} }
-								/>
-
 								<DimensionsControl { ...this.props }
 									device={ this.getDeviceType() }
 									type={ 'margin' }
@@ -315,15 +319,6 @@ class GenerateButtonContainer extends Component {
 
 						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								<AlignmentToolbar
-									isCollapsed={ false }
-									value={ alignmentMobile }
-									alignmentControls={ ALIGNMENT_CONTROLS }
-									onChange={ ( value ) => {
-										setAttributes( { alignmentMobile: value } );
-									} }
-								/>
-
 								<DimensionsControl { ...this.props }
 									device={ this.getDeviceType() }
 									type={ 'margin' }

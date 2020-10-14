@@ -45,6 +45,7 @@ const {
 	MediaUpload,
 	AlignmentToolbar,
 	InspectorAdvancedControls,
+	BlockControls,
 } = wp.blockEditor;
 
 const {
@@ -336,6 +337,35 @@ class GenerateBlockContainer extends Component {
 
 		return (
 			<Fragment>
+				<BlockControls>
+					{ 'Desktop' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignment }
+							onChange={ ( value ) => {
+								setAttributes( { alignment: value } );
+							} }
+						/>
+					) }
+
+					{ 'Tablet' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignmentTablet }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentTablet: value } );
+							} }
+						/>
+					) }
+
+					{ 'Mobile' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignmentMobile }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentMobile: value } );
+							} }
+						/>
+					) }
+				</BlockControls>
+
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
 						selectedDevice={ this.getDeviceType() }
@@ -733,19 +763,6 @@ class GenerateBlockContainer extends Component {
 
 						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<BaseControl
-									className="gblocks-container-text-alignment"
-									label={ __( 'Text Alignment', 'generateblocks' ) }
-								>
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignment }
-										onChange={ ( value ) => {
-											setAttributes( { alignment: value } );
-										} }
-									/>
-								</BaseControl>
-
 								<TypographyControls { ...this.props }
 									showFontFamily={ true }
 									showFontWeight={ true }
@@ -762,16 +779,6 @@ class GenerateBlockContainer extends Component {
 
 						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignmentTablet }
-										onChange={ ( value ) => {
-											setAttributes( { alignmentTablet: value } );
-										} }
-									/>
-								</BaseControl>
-
 								<TypographyControls { ...this.props }
 									showFontSize={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
@@ -785,16 +792,6 @@ class GenerateBlockContainer extends Component {
 
 						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignmentMobile }
-										onChange={ ( value ) => {
-											setAttributes( { alignmentMobile: value } );
-										} }
-									/>
-								</BaseControl>
-
 								<TypographyControls { ...this.props }
 									showFontSize={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
