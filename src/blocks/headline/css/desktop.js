@@ -47,6 +47,11 @@ export default class DesktopCSS extends Component {
 			borderSizeRight,
 			borderSizeBottom,
 			borderSizeLeft,
+			borderRadiusTopRight,
+			borderRadiusBottomRight,
+			borderRadiusBottomLeft,
+			borderRadiusTopLeft,
+			borderRadiusUnit,
 			icon,
 			iconColor,
 			iconColorOpacity,
@@ -104,6 +109,7 @@ export default class DesktopCSS extends Component {
 			'margin-bottom': valueWithUnit( marginBottom, marginUnit ),
 			'margin-left': valueWithUnit( marginLeft, marginUnit ),
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
+			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 		} );
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {

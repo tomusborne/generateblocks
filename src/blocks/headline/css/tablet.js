@@ -34,6 +34,11 @@ export default class TabletCSS extends Component {
 			borderSizeRightTablet,
 			borderSizeBottomTablet,
 			borderSizeLeftTablet,
+			borderRadiusTopRightTablet,
+			borderRadiusBottomRightTablet,
+			borderRadiusBottomLeftTablet,
+			borderRadiusTopLeftTablet,
+			borderRadiusUnit,
 			icon,
 			iconLocationTablet,
 			iconVerticalAlignmentTablet,
@@ -68,6 +73,10 @@ export default class TabletCSS extends Component {
 			'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
 			'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
+			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
+			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
+			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
+			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
 		} ];
 
 		if ( icon ) {

@@ -301,6 +301,58 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.headline.borderSizeLeftMobile,
 	},
+	borderRadiusTopRight: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopRight,
+	},
+	borderRadiusBottomRight: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomRight,
+	},
+	borderRadiusBottomLeft: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomLeft,
+	},
+	borderRadiusTopLeft: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopLeft,
+	},
+	borderRadiusUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusUnit,
+	},
+	borderRadiusTopRightTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopRightTablet,
+	},
+	borderRadiusBottomRightTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomRightTablet,
+	},
+	borderRadiusBottomLeftTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomLeftTablet,
+	},
+	borderRadiusTopLeftTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopLeftTablet,
+	},
+	borderRadiusTopRightMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopRightMobile,
+	},
+	borderRadiusBottomRightMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomRightMobile,
+	},
+	borderRadiusBottomLeftMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomLeftMobile,
+	},
+	borderRadiusTopLeftMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopLeftMobile,
+	},
 	icon: {
 		type: 'string',
 		source: 'html',

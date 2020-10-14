@@ -34,6 +34,11 @@ export default class MobileCSS extends Component {
 			borderSizeRightMobile,
 			borderSizeBottomMobile,
 			borderSizeLeftMobile,
+			borderRadiusTopRightMobile,
+			borderRadiusBottomRightMobile,
+			borderRadiusBottomLeftMobile,
+			borderRadiusTopLeftMobile,
+			borderRadiusUnit,
 			icon,
 			iconLocationMobile,
 			iconVerticalAlignmentMobile,
@@ -68,6 +73,10 @@ export default class MobileCSS extends Component {
 			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
 			'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
+			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
+			'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
+			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
+			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
 		} ];
 
 		if ( icon ) {

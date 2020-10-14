@@ -507,6 +507,23 @@ class GenerateBlockHeadline extends Component {
 									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.headline }
 								/>
+
+								<DimensionsControl { ...this.props }
+									device={ this.getDeviceType() }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeft' }
+									attrRight={ 'borderRadiusTopRight' }
+									attrBottom={ 'borderRadiusBottomRight' }
+									attrLeft={ 'borderRadiusBottomLeft' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									defaults={ generateBlocksDefaults.headline }
+								/>
 							</Fragment>
 						) }
 
@@ -561,6 +578,23 @@ class GenerateBlockHeadline extends Component {
 									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.headline }
 								/>
+
+								<DimensionsControl { ...this.props }
+									device={ this.getDeviceType() }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeftTablet' }
+									attrRight={ 'borderRadiusTopRightTablet' }
+									attrBottom={ 'borderRadiusBottomRightTablet' }
+									attrLeft={ 'borderRadiusBottomLeftTablet' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									defaults={ generateBlocksDefaults.headline }
+								/>
 							</Fragment>
 						) }
 
@@ -613,6 +647,23 @@ class GenerateBlockHeadline extends Component {
 									attrLeft={ 'borderSizeLeftMobile' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
 									displayUnit={ 'px' }
+									defaults={ generateBlocksDefaults.headline }
+								/>
+
+								<DimensionsControl { ...this.props }
+									device={ this.getDeviceType() }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeftMobile' }
+									attrRight={ 'borderRadiusTopRightMobile' }
+									attrBottom={ 'borderRadiusBottomRightMobile' }
+									attrLeft={ 'borderRadiusBottomLeftMobile' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.headline }
 								/>
 							</Fragment>
