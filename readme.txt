@@ -79,7 +79,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Markup change: Remove headline-wrapper element from Headlines with icons
 * Markup change: Change button-text class to gb-button-text in Button block
 * Markup change: Only output inner gb-button-text span if using an icon
-* Markup change: Output Button block as span if no URL exists
+* Markup change: Output Button block as span element if no URL exists
 * Markup change: Add gb-headline-text span if using an icon in Headline block
 * New: Make all blocks fully responsive when using editor responsive previews
 * New: Add option to overlay gradient over background image
@@ -91,6 +91,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: generateblocks_after_container_open filter in frontend for Container block
 * New: generateblocks_inside_container filter in frontend for Container block
 * New: generateblocks_before_container_close filter in frontend for Container block
+* New: Add div as Headline block element choice
+* New: Add span as Headline block element choice
 * Fix: Stacked button alignment in the editor
 * Fix: Broken background image upload when using official AMP plugin
 * Fix: Color picker input width
