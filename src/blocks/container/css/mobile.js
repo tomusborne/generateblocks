@@ -80,6 +80,15 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
+		if ( isGrid && 'inherit' !== verticalAlignmentMobile ) {
+			cssObj[ '.gb-container-' + uniqueId ].push( {
+				'display': 'flex', // eslint-disable-line quote-props
+				'flex-direction': 'column',
+				'height': '100%', // eslint-disable-line quote-props
+				'justify-content': verticalAlignmentMobile,
+			} );
+		}
+
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
@@ -131,15 +140,6 @@ export default class MobileCSS extends Component {
 					} ];
 				}
 			}
-		}
-
-		if ( 'inherit' !== verticalAlignmentMobile ) {
-			cssObj[ '.gb-grid-column > .gb-container-' + uniqueId ] = [ {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'column',
-				'height': '100%', // eslint-disable-line quote-props
-				'justify-content': verticalAlignmentMobile,
-			} ];
 		}
 
 		cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, this.props, 'container' );

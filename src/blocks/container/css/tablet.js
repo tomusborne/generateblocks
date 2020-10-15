@@ -78,6 +78,15 @@ export default class TabletCSS extends Component {
 			} );
 		}
 
+		if ( isGrid && 'inherit' !== verticalAlignmentTablet ) {
+			cssObj[ '.gb-container-' + uniqueId ].push( {
+				'display': 'flex', // eslint-disable-line quote-props
+				'flex-direction': 'column',
+				'height': '100%', // eslint-disable-line quote-props
+				'justify-content': verticalAlignmentTablet,
+			} );
+		}
+
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 			'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
@@ -124,15 +133,6 @@ export default class TabletCSS extends Component {
 					} ];
 				}
 			}
-		}
-
-		if ( 'inherit' !== verticalAlignmentTablet ) {
-			cssObj[ '.gb-grid-column > .gb-container-' + uniqueId ] = [ {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'column',
-				'height': '100%', // eslint-disable-line quote-props
-				'justify-content': verticalAlignmentTablet,
-			} ];
 		}
 
 		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'container' );

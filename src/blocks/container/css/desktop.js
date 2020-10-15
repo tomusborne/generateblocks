@@ -167,6 +167,19 @@ export default class DesktopCSS extends Component {
 			} );
 		}
 
+		if ( isGrid ) {
+			cssObj[ '.gb-container-' + uniqueId ].push( {
+				'display': 'flex', // eslint-disable-line quote-props
+				'flex-direction': 'column',
+				'height': '100%', // eslint-disable-line quote-props
+				'justify-content': verticalAlignment,
+			} );
+
+			cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
+				'height': '100%', // eslint-disable-line quote-props
+			} ];
+		}
+
 		if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 				'content': '""', // eslint-disable-line quote-props
@@ -239,25 +252,13 @@ export default class DesktopCSS extends Component {
 			'margin-right': '0px',
 		} ];
 
-		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId + ' > .gb-grid-column' ] = [ {
-			'height': '100%', // eslint-disable-line quote-props
-		} ];
-
 		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
 			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
 			'margin-bottom': removeVerticalGap ? '0px !important' : false,
 		} ];
 
-		cssObj[ '.gb-grid-column > .gb-container-' + uniqueId ] = [ {
-			'display': 'flex', // eslint-disable-line quote-props
-			'flex-direction': 'column',
-			'height': '100%', // eslint-disable-line quote-props
-			'justify-content': verticalAlignment,
-		} ];
-
 		cssObj[ `.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
-		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"],
-		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"] > .gb-grid-column` ] = [ {
+		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"]` ] = [ {
 			'height': '100%', // eslint-disable-line quote-props
 		} ];
 
