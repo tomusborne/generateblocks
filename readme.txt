@@ -76,15 +76,41 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.2.0 =
+* Markup change: Remove headline-wrapper element from Headlines with icons
+* Markup change: Change button-text class to gb-button-text in Button block
+* Markup change: Only output inner gb-button-text span if using an icon
+* Markup change: Output Button block as span if no URL exists
+* Markup change: Add gb-headline-text span if using an icon in Headline block
 * New: Make all blocks fully responsive when using editor responsive previews
 * New: Add option to overlay gradient over background image
 * New: Add option to use featured image as Container background image
 * New: Add option to choose background image size
+* New: Add border radius options to Headline block
+* New: frontend.insideContainer filter in editor for Container block
+* New: frontend.beforeContainerClose filter in editor for Container block
+* New: generateblocks_after_container_open filter in frontend for Container block
+* New: generateblocks_inside_container filter in frontend for Container block
+* New: generateblocks_before_container_close filter in frontend for Container block
 * Fix: Stacked button alignment in the editor
 * Fix: Broken background image upload when using official AMP plugin
+* Fix: Color picker input width
+* Fix: Button mobile border-radius
+* Tweak: Make Container block wrapper HTML dynamic
+* Tweak: Make Grid block wrapper HTML dynamic
+* Tweak: Make Button Container block wrapper HTML dynamic
+* Tweak: Move custom classes to core CSS classes field
+* Tweak: Move custom ID to core anchor field
 * Tweak: Remove deprecated isLarge prop in editor
 * Tweak: Better stacked button alignment on frontend
-* Tweak: Remove ancient browser prefixes
+* Tweak: Remove old browser prefixes
+* Tweak: Update DOMPurify
+* Tweak: Don't strip protocol from dynamic stylesheet URI
+* Tweak: Rename Advanced panel to General
+* Tweak: Move text alignment options in all blocks to the Block Toolbar
+* Tweak: Remove block margin in the editor
+* Tweak: Reverse grid gap when using RTL
+* Tweak: Add default inherit option to tablet/mobile Headline icon alignment
+* Tweak: Change frontend.insideContainer filter to frontend.afterContainerOpen
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
