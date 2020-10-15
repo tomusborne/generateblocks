@@ -943,6 +943,7 @@ class GenerateBlockHeadline extends Component {
 												label={ __( 'Icon Alignment', 'generateblocks' ) }
 												value={ iconVerticalAlignmentTablet }
 												options={ [
+													{ label: __( 'Inherit', 'generateblocks' ), value: '' },
 													{ label: __( 'Top', 'generateblocks' ), value: 'top' },
 													{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 													{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
@@ -1062,6 +1063,7 @@ class GenerateBlockHeadline extends Component {
 												label={ __( 'Icon Alignment', 'generateblocks' ) }
 												value={ iconVerticalAlignmentMobile }
 												options={ [
+													{ label: __( 'Inherit', 'generateblocks' ), value: '' },
 													{ label: __( 'Top', 'generateblocks' ), value: 'top' },
 													{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 													{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
