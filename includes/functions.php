@@ -543,7 +543,7 @@ function generateblocks_get_background_image_css( $settings, $custom_args = arra
  *
  * The contextual filter is of the form `generateblocks_attr_{context}_output`.
  *
- * @since 1.6.2
+ * @since 1.2.0
  *
  * @param string $context    The context, to build filter name.
  * @param array  $attributes Optional. Extra attributes to merge with defaults.
@@ -579,7 +579,7 @@ function generateblocks_attr( $context, $attributes = array(), $settings = array
  *
  * The contextual filter is of the form `generateblocks_attr_{context}`.
  *
- * @since 1.6.2
+ * @since 1.2.0
  *
  * @param string $context    The context, to build filter name.
  * @param array  $attributes Optional. Extra attributes to merge with defaults.

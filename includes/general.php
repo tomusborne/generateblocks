@@ -199,7 +199,7 @@ add_filter( 'render_block', 'generateblocks_add_block_wrappers', 10, 2 );
 /**
  * Add wrappers to some of our blocks if needed.
  *
- * @since x.x.x
+ * @since 1.2.0
  * @param string $block_content The block content that's being rendered.
  * @param array  $block The block data.
  */
