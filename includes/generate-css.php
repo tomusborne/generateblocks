@@ -80,16 +80,22 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 
+				$gap_direction = 'left';
+
+				if ( is_rtl() ) {
+					$gap_direction = 'right';
+				}
+
 				$css->set_selector( '.gb-grid-wrapper-' . $id );
 				$css->add_property( 'align-items', $settings['verticalAlignment'] );
 				$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
 				if ( $settings['horizontalGap'] ) {
-					$css->add_property( 'margin-left', '-' . $settings['horizontalGap'] . 'px' );
+					$css->add_property( 'margin-' . $gap_direction, '-' . $settings['horizontalGap'] . 'px' );
 				}
 
 				$css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
-				$css->add_property( 'padding-left', $settings['horizontalGap'], 'px' );
+				$css->add_property( 'padding-' . $gap_direction, $settings['horizontalGap'], 'px' );
 				$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
 
 				$tablet_css->set_selector( '.gb-grid-wrapper-' . $id );
@@ -103,13 +109,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['horizontalGapTablet'] ) {
-					$tablet_css->add_property( 'margin-left', '-' . $settings['horizontalGapTablet'] . 'px' );
+					$tablet_css->add_property( 'margin-' . $gap_direction, '-' . $settings['horizontalGapTablet'] . 'px' );
 				} elseif ( 0 === $settings['horizontalGapTablet'] ) {
-					$tablet_css->add_property( 'margin-left', $settings['horizontalGapTablet'] );
+					$tablet_css->add_property( 'margin-' . $gap_direction, $settings['horizontalGapTablet'] );
 				}
 
 				$tablet_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
-				$tablet_css->add_property( 'padding-left', $settings['horizontalGapTablet'], 'px' );
+				$tablet_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapTablet'], 'px' );
 				$tablet_css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
 
 				$mobile_css->set_selector( '.gb-grid-wrapper-' . $id );
@@ -123,13 +129,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['horizontalGapMobile'] ) {
-					$mobile_css->add_property( 'margin-left', '-' . $settings['horizontalGapMobile'] . 'px' );
+					$mobile_css->add_property( 'margin-' . $gap_direction, '-' . $settings['horizontalGapMobile'] . 'px' );
 				} elseif ( 0 === $settings['horizontalGapMobile'] ) {
-					$mobile_css->add_property( 'margin-left', $settings['horizontalGapMobile'] );
+					$mobile_css->add_property( 'margin-' . $gap_direction, $settings['horizontalGapMobile'] );
 				}
 
 				$mobile_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
-				$mobile_css->add_property( 'padding-left', $settings['horizontalGapMobile'], 'px' );
+				$mobile_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapMobile'], 'px' );
 				$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
 
 				/**
