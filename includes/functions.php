@@ -569,7 +569,7 @@ function generateblocks_attr( $context, $attributes = array(), $settings = array
 		}
 	}
 
-	$output = apply_filters( "generateblocks_attr_{$context}_output", $output, $attributes, $context, $settings );
+	$output = apply_filters( "generateblocks_attr_{$context}_output", $output, $attributes, $settings, $context );
 
 	return trim( $output );
 }
@@ -594,5 +594,5 @@ function generateblocks_parse_attr( $context, $attributes = array(), $settings =
 	$attributes = wp_parse_args( $attributes, $defaults );
 
 	// Contextual filter.
-	return apply_filters( "generateblocks_attr_{$context}", $attributes, $context, $settings );
+	return apply_filters( "generateblocks_attr_{$context}", $attributes, $settings, $context );
 }
