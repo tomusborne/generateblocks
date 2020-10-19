@@ -141,6 +141,14 @@ function generateblocks_get_block_defaults() {
 		'fontSizeMobile' => '',
 		'fontSizeUnit' => 'px',
 		'textTransform' => '',
+		'shapeDivider' => '',
+		'shapeDividerLocation' => 'after',
+		'shapeDividerHeight' => 300,
+		'shapeDividerWidth' => 100,
+		'shapeDividerFlipHorizontally' => false,
+		'shapeDividerZIndex' => 1,
+		'shapeColor' => '#000000',
+		'shapeColorOpacity' => 1,
 	);
 
 	$defaults['buttonContainer'] = array(

@@ -396,3 +396,29 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 
 	return $block_content;
 }
+
+add_filter( 'generateblocks_before_container_close', 'generateblocks_do_shape_divider', 10, 2 );
+/**
+ * Add shape divider to Container.
+ *
+ * @since 1.2.0
+ * @param string $output The current block output.
+ * @param array  $block The current block data.
+ */
+function generateblocks_do_shape_divider( $output, $block ) {
+	$defaults = generateblocks_get_block_defaults();
+
+	$settings = wp_parse_args(
+		$block['attrs'],
+		$defaults['container']
+	);
+
+	if ( ! empty( $settings['shapeDivider'] ) ) {
+		$output .= sprintf(
+			'<div class="gb-shape-divider">%s</div>',
+			$settings['shapeDivider']
+		);
+	}
+
+	return $output;
+}

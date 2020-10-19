@@ -184,6 +184,16 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->set_selector( '.gb-container .wp-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
 
+			$css->set_selector( '.gb-container .gb-shape-divider' );
+			$css->add_property( 'position', 'absolute' );
+			$css->add_property( 'left', '0' );
+			$css->add_property( 'right', '0' );
+			$css->add_property( 'overflow', 'hidden' );
+			$css->add_property( 'pointer-events', 'none' );
+
+			$css->set_selector( '.gb-container .gb-shape-divider svg' );
+			$css->add_property( 'min-width', '100%' );
+
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
@@ -383,6 +393,44 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
 				$css->add_property( 'justify-content', $settings['verticalAlignment'] );
+
+				if ( $settings['shapeDivider'] ) {
+					$shapeTransforms = array();
+
+					if ( 'before' === $settings['shapeDividerLocation'] ) {
+						$shapeTransforms[] = 'scaleY(-1)';
+					}
+
+					if ( $settings['shapeDividerFlipHorizontally'] ) {
+						$shapeTransforms[] = 'scaleX(-1)';
+					}
+
+					$css->set_selector( '.gb-container-' . $id );
+					$css->add_property( 'position', 'relative' );
+
+					$css->set_selector( '.gb-container-' . $id . ' .gb-shape-divider' );
+					$css->add_property( 'position', 'absolute' );
+					$css->add_property( 'left', '0' );
+					$css->add_property( 'right', '0' );
+					$css->add_property( 'height', $settings['shapeDividerHeight'], 'px' );
+					$css->add_property( 'color', generateblocks_hex2rgba( $settings['shapeDividerColor'], $settings['shapeDividerColorOpacity'] ) );
+					$css->add_property( 'z-index', $settings['shapeDividerZIndex'] );
+
+					if ( 'after' === $settings['shapeDividerLocation'] ) {
+						$css->add_property( 'bottom', '0' );
+					}
+
+					if ( 'before' === $settings['shapeDividerLocation'] ) {
+						$css->add_property( 'top', '0' );
+					}
+
+					if ( ! empty( $shapeTransforms ) ) {
+						$css->add_property( 'transform', implode( ' ', $shapeTransforms ) );
+					}
+
+					$css->set_selector( '.gb-container-' . $id . ' .gb-shape-divider svg' );
+					$css->add_property( 'width', $settings['shapeDividerWidth'], '%' );
+				}
 
 				$tablet_css->set_selector( '.gb-container.gb-container-' . $id );
 				$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );

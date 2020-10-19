@@ -143,3 +143,11 @@ button.editor-gb-container-background__toggle {
     margin-top: 0;
     margin-bottom: 0;
 }
+
+/* Shape divider */
+.gb-container .gb-shape-divider {
+	position: absolute;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+}
