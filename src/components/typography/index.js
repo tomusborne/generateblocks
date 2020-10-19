@@ -187,6 +187,20 @@ class TypographyControls extends Component {
 			}
 		}
 
+		let responsiveLineHeightPlaceholder = '';
+
+		if ( 'Tablet' === device && attributes.lineHeight ) {
+			responsiveLineHeightPlaceholder = attributes.lineHeight;
+		}
+
+		if ( 'Mobile' === device ) {
+			if ( attributes.lineHeightTablet ) {
+				responsiveLineHeightPlaceholder = attributes.lineHeightTablet;
+			} else if ( attributes.lineHeight ) {
+				responsiveLineHeightPlaceholder = attributes.lineHeight;
+			}
+		}
+
 		return (
 			<Fragment>
 				<div className={ 'components-gblocks-typography-weight-transform' }>
@@ -405,7 +419,7 @@ class TypographyControls extends Component {
 							<TextControl
 								type={ 'number' }
 								value={ getValue( 'lineHeight', device ) || 0 === getValue( 'lineHeight', device ) ? getValue( 'lineHeight', device ) : '' }
-								placeholder="1.5"
+								placeholder={ responsiveLineHeightPlaceholder }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'lineHeight', device );
 
