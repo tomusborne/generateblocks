@@ -295,10 +295,10 @@ export default class DesktopCSS extends Component {
 				'z-index': shapeDividerZIndex,
 			} ];
 
-			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
+			cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 				position: 'relative',
 				'z-index': shapeDividerZIndex + 1,
-			} );
+			} ];
 
 			if ( 'after' === shapeDividerLocation ) {
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ].push( {
