@@ -153,3 +153,9 @@ button.editor-gb-container-background__toggle {
 	line-height: 0;
 	pointer-events: none;
 }
+
+.gb-container .gb-shape-divider svg {
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+}

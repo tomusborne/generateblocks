@@ -194,6 +194,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			$css->set_selector( '.gb-container .gb-shape-divider svg' );
 			$css->add_property( 'min-width', '100%' );
+			$css->add_property( 'position', 'relative' );
+			$css->add_property( 'left', '50%' );
+			$css->add_property( 'transform', 'translateX(-50%)' );
 
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
