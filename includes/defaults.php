@@ -147,8 +147,8 @@ function generateblocks_get_block_defaults() {
 		'shapeDividerWidth' => 100,
 		'shapeDividerFlipHorizontally' => false,
 		'shapeDividerZIndex' => 1,
-		'shapeColor' => '#000000',
-		'shapeColorOpacity' => 1,
+		'shapeDividerColor' => '#000000',
+		'shapeDividerColorOpacity' => 1,
 	);
 
 	$defaults['buttonContainer'] = array(
