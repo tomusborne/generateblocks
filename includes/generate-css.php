@@ -190,6 +190,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'right', '0' );
 			$css->add_property( 'overflow', 'hidden' );
 			$css->add_property( 'pointer-events', 'none' );
+			$css->add_property( 'line-height', '0' );
 
 			$css->set_selector( '.gb-container .gb-shape-divider svg' );
 			$css->add_property( 'min-width', '100%' );
@@ -408,11 +409,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->set_selector( '.gb-container-' . $id );
 					$css->add_property( 'position', 'relative' );
 
-					$css->set_selector( '.gb-container-' . $id . ' .gb-shape-divider' );
-					$css->add_property( 'position', 'absolute' );
-					$css->add_property( 'left', '0' );
-					$css->add_property( 'right', '0' );
-					$css->add_property( 'height', $settings['shapeDividerHeight'], 'px' );
+					$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider' );
 					$css->add_property( 'color', generateblocks_hex2rgba( $settings['shapeDividerColor'], $settings['shapeDividerColorOpacity'] ) );
 					$css->add_property( 'z-index', $settings['shapeDividerZIndex'] );
 
@@ -428,7 +425,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$css->add_property( 'transform', implode( ' ', $shapeTransforms ) );
 					}
 
-					$css->set_selector( '.gb-container-' . $id . ' .gb-shape-divider svg' );
+					$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider svg' );
+					$css->add_property( 'height', $settings['shapeDividerHeight'], 'px' );
 					$css->add_property( 'width', $settings['shapeDividerWidth'], '%' );
 				}
 

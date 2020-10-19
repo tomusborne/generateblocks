@@ -150,4 +150,6 @@ button.editor-gb-container-background__toggle {
 	left: 0;
 	right: 0;
 	overflow: hidden;
+	line-height: 0;
+	pointer-events: none;
 }

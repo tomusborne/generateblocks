@@ -290,31 +290,36 @@ export default class DesktopCSS extends Component {
 				position: 'relative',
 			} );
 
-			cssObj[ '.gb-container-' + uniqueId + ' .gb-shape-divider' ] = [ {
-				height: valueWithUnit( shapeDividerHeight, 'px' ),
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ] = [ {
 				color: hexToRGBA( shapeDividerColor, shapeDividerColorOpacity ),
 				'z-index': shapeDividerZIndex,
 			} ];
 
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
+				position: 'relative',
+				'z-index': shapeDividerZIndex + 1,
+			} );
+
 			if ( 'after' === shapeDividerLocation ) {
-				cssObj[ '.gb-container-' + uniqueId + ' .gb-shape-divider' ].push( {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ].push( {
 					bottom: '-1px',
 				} );
 			}
 
 			if ( 'before' === shapeDividerLocation ) {
-				cssObj[ '.gb-container-' + uniqueId + ' .gb-shape-divider' ].push( {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ].push( {
 					top: '-1px',
 				} );
 			}
 
 			if ( shapeTransforms.length ) {
-				cssObj[ '.gb-container-' + uniqueId + ' .gb-shape-divider' ].push( {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ].push( {
 					transform: shapeTransforms.join( ' ' ),
 				} );
 			}
 
-			cssObj[ '.gb-container-' + uniqueId + ' .gb-shape-divider svg' ] = [ {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider svg' ] = [ {
+				height: valueWithUnit( shapeDividerHeight, 'px' ),
 				width: valueWithUnit( shapeDividerWidth, '%' ),
 			} ];
 		}
