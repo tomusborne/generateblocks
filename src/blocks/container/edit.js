@@ -336,7 +336,7 @@ class GenerateBlockContainer extends Component {
 				shape: '',
 				color: '',
 				colorOpacity: 1,
-				location: 'after',
+				location: 'bottom',
 				height: 200,
 				width: 100,
 				flipHorizontally: false,
@@ -436,8 +436,8 @@ class GenerateBlockContainer extends Component {
 									label={ __( 'Location', 'generateblocks' ) }
 									value={ attributes.shapeDividers[ index ].location }
 									options={ [
-										{ label: __( 'Before', 'generateblocks' ), value: 'before' },
-										{ label: __( 'After', 'generateblocks' ), value: 'after' },
+										{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+										{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
 									] }
 									onChange={ ( value ) => {
 										const shapeDividers = [ ...attributes.shapeDividers ];

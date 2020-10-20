@@ -405,7 +405,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					foreach ( (array) $settings['shapeDividers'] as $index => $option ) {
 						$shapeTransforms = array();
 
-						if ( 'before' === $option['location'] ) {
+						if ( 'top' === $option['location'] ) {
 							$shapeTransforms[] = 'scaleY(-1)';
 						}
 
@@ -417,11 +417,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$css->add_property( 'color', generateblocks_hex2rgba( $option['color'], $option['colorOpacity'] ) );
 						$css->add_property( 'z-index', $option['zindex'] );
 
-						if ( 'after' === $option['location'] ) {
+						if ( 'bottom' === $option['location'] ) {
 							$css->add_property( 'bottom', '0' );
 						}
 
-						if ( 'before' === $option['location'] ) {
+						if ( 'top' === $option['location'] ) {
 							$css->add_property( 'top', '0' );
 						}
 

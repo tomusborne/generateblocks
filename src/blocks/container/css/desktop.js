@@ -281,7 +281,7 @@ export default class DesktopCSS extends Component {
 			shapeDividers.map( ( location, index ) => {
 				const shapeTransforms = [];
 
-				if ( 'before' === shapeDividers[ index ].location ) {
+				if ( 'top' === shapeDividers[ index ].location ) {
 					shapeTransforms.push( 'scaleY(-1)' );
 				}
 
@@ -294,13 +294,13 @@ export default class DesktopCSS extends Component {
 					'z-index': shapeDividers[ index ].zindex,
 				} ];
 
-				if ( 'after' === shapeDividers[ index ].location ) {
+				if ( 'bottom' === shapeDividers[ index ].location ) {
 					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
 						bottom: '-1px',
 					} );
 				}
 
-				if ( 'before' === shapeDividers[ index ].location ) {
+				if ( 'top' === shapeDividers[ index ].location ) {
 					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
 						top: '-1px',
 					} );
