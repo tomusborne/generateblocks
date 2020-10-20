@@ -1,9 +1,6 @@
 .gblocks-component-color-picker-wrapper {
-    .gblocks-component-color-picker-wrapper + .gblocks-component-color-picker-wrapper {
-        margin-top: -5px;
-    }
-
     > .components-base-control__field {
+		position: relative;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -11,20 +8,20 @@
         .components-color-palette__item-wrapper {
             margin: 0;
         }
-    }
-
-	.components-base-control__label {
-	    cursor: pointer;
 	}
 }
 
 .gblocks-component-color-picker {
+	& > .components-base-control:first-child {
+		margin-bottom: 0;
+	}
+
 	.components-color-picker__inputs-wrapper {
 		min-width: auto;
 	}
 
     .gblocks-component-color-picker-palette {
-        margin: 17px;
+        padding: 16px;
 
 		.components-circular-option-picker {
 		    display: flex;
@@ -52,11 +49,11 @@
 	.components-color-picker__body {
 	    padding-bottom: 0;
 	}
-}
 
-.components-base-control.color-picker-clear {
-    text-align: center;
-    padding-bottom: 5px;
+	.components-popover__content {
+		padding: 20px;
+		width: 300px;
+	}
 }
 
 .gblocks-component-color-opacity {
@@ -69,39 +66,7 @@
 	}
 }
 
-.gblocks-color-picker-container {
-	padding: 5px;
-	border: 1px solid transparent;
-	margin-bottom: 0 !important;
-}
-
-.components-base-control.gblocks-color-picker-is-open {
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    padding: 5px;
-	margin-bottom: 24px !important;
-}
-
-.components-base-control.gblocks-component-color-picker-wrapper {
-    margin-bottom: 0 !important;
-}
-
-.gblocks-component-color-picker > .components-base-control:first-child {
-    margin-bottom: 0;
-}
-
-.components-button.components-color-show-palette {
-    margin-left: 12px;
-}
-
-.gblocks-color-controls {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 16px 16px;
-}
-
-.gblocks-color-picker-container .components-circular-option-picker__option,
-.gblocks-color-picker-container .components-circular-option-picker__option-wrapper:before,
-.gblocks-color-picker-container .components-circular-option-picker__option:after {
-    border-radius: 0;
+.gblocks-color-picker-area {
+	width: 28px;
+	height: 28px;
 }
