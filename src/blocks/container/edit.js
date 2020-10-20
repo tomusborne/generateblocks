@@ -353,6 +353,15 @@ class GenerateBlockContainer extends Component {
 			setAttributes( { shapeDividers } );
 		};
 
+		const shapeOptions = [];
+
+		Object.keys( shapeSVGs ).map( ( svg ) => {
+			shapeOptions.push( {
+				label: shapeSVGs[ svg ].label,
+				value: renderToString( shapeSVGs[ svg ].icon ),
+			} );
+		} );
+
 		let shapeFields;
 
 		if ( attributes.shapeDividers.length ) {
@@ -396,34 +405,15 @@ class GenerateBlockContainer extends Component {
 									</div>
 								</BaseControl>
 
-								<BaseControl className="gb-icon-chooser gb-shape-divider-chooser">
-									<BaseControl>
-										<ul className="gblocks-icon-chooser">
-											{
-												Object.keys( shapeSVGs ).map( ( svg, i ) => {
-													return (
-														<li key={ `editor-pblock-types-list-item-${ i }` }>
-															<Tooltip text={ ( shapeSVGs[ svg ].label ) }>
-																<Button
-																	className="editor-block-list-item-button"
-																	onClick={ () => {
-																		const shapeDividers = [ ...attributes.shapeDividers ];
-																		attributes.shapeDividers[ index ].shape = renderToString( shapeSVGs[ svg ].icon );
-																		setAttributes( { shapeDividers } );
-																	} }
-																>
-																	<span className="editor-block-types-list__item-icon">
-																		{ shapeSVGs[ svg ].icon }
-																	</span>
-																</Button>
-															</Tooltip>
-														</li>
-													);
-												} )
-											}
-										</ul>
-									</BaseControl>
-								</BaseControl>
+								<SelectControl
+									label={ __( 'Shapes', 'generateblocks' ) }
+									options={ shapeOptions }
+									onChange={ ( value ) => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].shape = value;
+										setAttributes( { shapeDividers } );
+									} }
+								/>
 
 								<ColorPicker
 									label={ __( 'Color', 'generateblocks' ) }
