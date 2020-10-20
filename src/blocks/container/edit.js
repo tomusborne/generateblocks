@@ -10,7 +10,7 @@ import DimensionsControl from '../../components/dimensions/';
 import PanelArea from '../../components/panel-area/';
 import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
-import ShapePicker from '../../components/shape-picker';
+import shapeSVGs from './shapes';
 import sanitizeSVG from '../../utils/sanitize-svg';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
@@ -34,11 +34,14 @@ const {
 	Tooltip,
 	BaseControl,
 	Notice,
+	PanelBody,
+	PanelRow,
 } = wp.components;
 
 const {
 	Fragment,
 	Component,
+	renderToString,
 } = wp.element;
 
 const {
@@ -215,14 +218,6 @@ class GenerateBlockContainer extends Component {
 			googleFontVariants,
 			fullWidthContent,
 			align,
-			shapeDivider,
-			shapeDividerLocation,
-			shapeDividerHeight,
-			shapeDividerWidth,
-			shapeDividerFlipHorizontally,
-			shapeDividerZIndex,
-			shapeDividerColor,
-			shapeDividerColorOpacity,
 		} = attributes;
 
 		// Attribute defaults added to an object late don't get defaults.
@@ -332,6 +327,217 @@ class GenerateBlockContainer extends Component {
 					gridContainerId = parentBlock[ 0 ].attributes.uniqueId;
 				}
 			}
+		}
+
+		const handleAddShape = () => {
+			const shapeDividers = [ ...attributes.shapeDividers ];
+
+			shapeDividers.push( {
+				shape: '',
+				color: '',
+				colorOpacity: 1,
+				location: 'after',
+				height: 200,
+				width: 100,
+				flipHorizontally: false,
+				zindex: 1,
+			} );
+
+			setAttributes( { shapeDividers } );
+		};
+
+		const handleRemoveShape = ( index ) => {
+			const shapeDividers = [ ...attributes.shapeDividers ];
+
+			shapeDividers.splice( index, 1 );
+			setAttributes( { shapeDividers } );
+		};
+
+		let shapeFields;
+
+		if ( attributes.shapeDividers.length ) {
+			shapeFields = attributes.shapeDividers.map( ( location, index ) => {
+				const shapeNumber = index + 1;
+
+				return <Fragment key={ index }>
+					<PanelBody
+						title={ __( 'Shape', 'generateblocks' ) + ' ' + shapeNumber }
+						initialOpen={ false }
+					>
+						<PanelRow>
+							<div className="gblocks-shape-controls">
+								<BaseControl className="gb-svg-html">
+									<TextControl
+										label={ __( 'Shape SVG HTML', 'generateblocks' ) }
+										value={ attributes.shapeDividers[ index ].shape }
+										onChange={ ( value ) => {
+											const shapeDividers = [ ...attributes.shapeDividers ];
+											attributes.shapeDividers[ index ].shape = sanitizeSVG( value );
+											setAttributes( { shapeDividers } );
+										} }
+									/>
+
+									<div className="gb-icon-preview">
+										<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( attributes.shapeDividers[ index ].shape ) } } />
+
+										<Button
+											isSmall
+											className="reset-icon is-secondary"
+											onClick={ () => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].shape = '';
+												setAttributes( { shapeDividers } );
+											} }
+										>
+											<span className="editor-block-types-list__item-icon">
+												{ __( 'Clear', 'generateblocks' ) }
+											</span>
+										</Button>
+									</div>
+								</BaseControl>
+
+								<BaseControl className="gb-icon-chooser gb-shape-divider-chooser">
+									<BaseControl>
+										<ul className="gblocks-icon-chooser">
+											{
+												Object.keys( shapeSVGs ).map( ( svg, i ) => {
+													return (
+														<li key={ `editor-pblock-types-list-item-${ i }` }>
+															<Tooltip text={ ( shapeSVGs[ svg ].label ) }>
+																<Button
+																	className="editor-block-list-item-button"
+																	onClick={ () => {
+																		const shapeDividers = [ ...attributes.shapeDividers ];
+																		attributes.shapeDividers[ index ].shape = renderToString( shapeSVGs[ svg ].icon );
+																		setAttributes( { shapeDividers } );
+																	} }
+																>
+																	<span className="editor-block-types-list__item-icon">
+																		{ shapeSVGs[ svg ].icon }
+																	</span>
+																</Button>
+															</Tooltip>
+														</li>
+													);
+												} )
+											}
+										</ul>
+									</BaseControl>
+								</BaseControl>
+
+								<ColorPicker
+									label={ __( 'Color', 'generateblocks' ) }
+									value={ attributes.shapeDividers[ index ].color }
+									alpha={ true }
+									valueOpacity={ attributes.shapeDividers[ index ].colorOpacity }
+									onChange={ ( value ) => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].color = value;
+										setAttributes( { shapeDividers } );
+									} }
+									onOpacityChange={ ( value ) => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].colorOpacity = value;
+										setAttributes( { shapeDividers } );
+									} }
+								/>
+
+								<SelectControl
+									label={ __( 'Location', 'generateblocks' ) }
+									value={ attributes.shapeDividers[ index ].location }
+									options={ [
+										{ label: __( 'Before', 'generateblocks' ), value: 'before' },
+										{ label: __( 'After', 'generateblocks' ), value: 'after' },
+									] }
+									onChange={ ( value ) => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].location = value;
+										setAttributes( { shapeDividers } );
+									} }
+								/>
+
+								<TextControl
+									label={ __( 'Height', 'generateblocks' ) }
+									type={ 'number' }
+									value={ attributes.shapeDividers[ index ].height ? attributes.shapeDividers[ index ].height : '' }
+									onChange={ ( value ) => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].height = parseFloat( value );
+										setAttributes( { shapeDividers } );
+									} }
+								/>
+
+								<TextControl
+									label={ __( 'Width', 'generateblocks' ) }
+									type={ 'number' }
+									value={ attributes.shapeDividers[ index ].width ? attributes.shapeDividers[ index ].width : '' }
+									min="100"
+									onChange={ ( value ) => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].width = parseFloat( value );
+										setAttributes( { shapeDividers } );
+									} }
+								/>
+
+								<ToggleControl
+									label={ __( 'Flip Horizontally', 'generateblocks' ) }
+									checked={ !! attributes.shapeDividers[ index ].flipHorizontally }
+									onChange={ ( value ) => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].flipHorizontally = value;
+										setAttributes( { shapeDividers } );
+									} }
+								/>
+
+								<TextControl
+									label={ __( 'z-index', 'generateblocks' ) }
+									type={ 'number' }
+									value={ attributes.shapeDividers[ index ].zindex || 0 === attributes.shapeDividers[ index ].zindex ? attributes.shapeDividers[ index ].zindex : '' }
+									onChange={ ( value ) => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].zindex = value;
+										setAttributes( { shapeDividers } );
+									} }
+									onBlur={ () => {
+										const shapeDividers = [ ...attributes.shapeDividers ];
+										attributes.shapeDividers[ index ].zindex = parseFloat( attributes.shapeDividers[ index ].zindex );
+										setAttributes( { shapeDividers } );
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
+									} }
+								/>
+
+								<Button
+									isPrimary
+									isSmall
+									className="gblocks-remove-shape"
+									onClick={ () => handleRemoveShape( index ) }
+								>
+									{ __( 'Remove Shape', 'generateblocks' ) }
+								</Button>
+							</div>
+						</PanelRow>
+					</PanelBody>
+				</Fragment>;
+			} );
+		}
+
+		let allShapeDividers;
+
+		if ( attributes.shapeDividers.length ) {
+			allShapeDividers = attributes.shapeDividers.map( ( location, index ) => {
+				return <Fragment key={ index }>
+					<div
+						className={ classnames( {
+							'gb-shape-divider': true,
+							[ `gb-shape-divider-${ index }` ]: true,
+						} ) }
+						dangerouslySetInnerHTML={ { __html: sanitizeSVG( attributes.shapeDividers[ index ].shape ) } }
+					/>
+				</Fragment>;
+			} );
 		}
 
 		let htmlAttributes = {
@@ -1530,96 +1736,20 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerShapeDivider' }
 						state={ this.state }
-						showPanel={ 'Desktop' === this.getDeviceType() || !! shapeDivider ? true : false }
+						showPanel={ 'Desktop' === this.getDeviceType() || !! attributes.shapeDividers.shape ? true : false }
 					>
-						<ShapePicker { ...this.props }
-							attrShape={ 'shapeDivider' }
-						/>
+						<BaseControl className="gb-icon-chooser gb-shape-divider-chooser">
+							{ shapeFields }
 
-						<ColorPicker
-							label={ __( 'Color', 'generateblocks' ) }
-							value={ shapeDividerColor }
-							alpha={ true }
-							valueOpacity={ shapeDividerColorOpacity }
-							attrOpacity={ 'shapeDividerColorOpacity' }
-							onChange={ ( value ) =>
-								setAttributes( {
-									shapeDividerColor: value,
-								} )
-							}
-							onOpacityChange={ ( value ) =>
-								setAttributes( {
-									shapeDividerColorOpacity: value,
-								} )
-							}
-						/>
-
-						<SelectControl
-							label={ __( 'Location', 'generateblocks' ) }
-							value={ shapeDividerLocation }
-							options={ [
-								{ label: __( 'Before', 'generateblocks' ), value: 'before' },
-								{ label: __( 'After', 'generateblocks' ), value: 'after' },
-							] }
-							onChange={ ( value ) => {
-								setAttributes( {
-									shapeDividerLocation: value,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'Height', 'generateblocks' ) }
-							type={ 'number' }
-							value={ shapeDividerHeight ? shapeDividerHeight : '' }
-							onChange={ ( value ) => {
-								setAttributes( {
-									shapeDividerHeight: parseFloat( value ),
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'Width', 'generateblocks' ) }
-							type={ 'number' }
-							value={ shapeDividerWidth ? shapeDividerWidth : '' }
-							min="100"
-							onChange={ ( value ) => {
-								setAttributes( {
-									shapeDividerWidth: parseFloat( value ),
-								} );
-							} }
-						/>
-
-						<ToggleControl
-							label={ __( 'Flip Horizontally', 'generateblocks' ) }
-							checked={ !! shapeDividerFlipHorizontally }
-							onChange={ ( value ) => {
-								setAttributes( {
-									shapeDividerFlipHorizontally: value,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'z-index', 'generateblocks' ) }
-							type={ 'number' }
-							value={ shapeDividerZIndex || 0 === shapeDividerZIndex ? shapeDividerZIndex : '' }
-							onChange={ ( value ) => {
-								setAttributes( {
-									shapeDividerZIndex: value,
-								} );
-							} }
-							onBlur={ () => {
-								setAttributes( {
-									shapeDividerZIndex: parseFloat( shapeDividerZIndex ),
-								} );
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
+							<div className="gblocks-add-attribute-button-container">
+								<Button
+									isSecondary
+									onClick={ handleAddShape.bind( this ) }
+								>
+									{ __( 'Add Shape', 'generateblocks' ) }
+								</Button>
+							</div>
+						</BaseControl>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerShapeDivider', this.props, this.state ) }
 					</PanelArea>
@@ -1735,12 +1865,7 @@ class GenerateBlockContainer extends Component {
 						/>
 					</div>
 
-					{ !! shapeDivider &&
-						<div
-							className="gb-shape-divider"
-							dangerouslySetInnerHTML={ { __html: sanitizeSVG( shapeDivider ) } }
-						/>
-					}
+					{ allShapeDividers }
 
 					{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
 				</Element>

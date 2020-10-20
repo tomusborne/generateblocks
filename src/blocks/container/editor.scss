@@ -159,3 +159,21 @@ button.editor-gb-container-background__toggle {
 	left: 50%;
 	transform: translateX(-50%);
 }
+
+.gb-shape-divider-chooser .gb-icon-preview {
+	margin-top: 8px;
+}
+
+.gb-shape-divider-chooser .gblocks-icon-chooser li button.components-button {
+	width: 100%;
+
+	svg {
+		width: 100%;
+		height: auto;
+	}
+}
+
+.gblocks-add-attribute-button-container {
+	margin-top: 10px;
+}
+

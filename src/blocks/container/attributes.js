@@ -472,37 +472,9 @@ const attributes = {
 		type: 'string',
 		default: '',
 	},
-	shapeDivider: {
-		type: 'string',
-		default: '',
-	},
-	shapeDividerLocation: {
-		type: 'string',
-		default: generateBlocksDefaults.container.shapeDividerLocation,
-	},
-	shapeDividerHeight: {
-		type: 'number',
-		default: generateBlocksDefaults.container.shapeDividerHeight,
-	},
-	shapeDividerWidth: {
-		type: 'number',
-		default: generateBlocksDefaults.container.shapeDividerWidth,
-	},
-	shapeDividerFlipHorizontally: {
-		type: 'boolean',
-		default: generateBlocksDefaults.container.shapeDividerFlipHorizontally,
-	},
-	shapeDividerZIndex: {
-		type: 'number',
-		default: generateBlocksDefaults.container.shapeDividerZIndex,
-	},
-	shapeDividerColor: {
-		type: 'string',
-		default: generateBlocksDefaults.container.shapeDividerColor,
-	},
-	shapeDividerColorOpacity: {
-		type: 'number',
-		default: generateBlocksDefaults.container.shapeDividerColorOpacity,
+	shapeDividers: {
+		type: 'array',
+		default: [],
 	},
 };
 

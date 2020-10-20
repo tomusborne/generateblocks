@@ -66,14 +66,7 @@ export default class DesktopCSS extends Component {
 			fontSize,
 			fontSizeUnit,
 			textTransform,
-			shapeDivider,
-			shapeDividerLocation,
-			shapeDividerHeight,
-			shapeDividerWidth,
-			shapeDividerFlipHorizontally,
-			shapeDividerZIndex,
-			shapeDividerColor,
-			shapeDividerColorOpacity,
+			shapeDividers,
 		} = attributes;
 
 		const backgroundImageValue = getBackgroundImageCSS( attributes, media );
@@ -275,53 +268,55 @@ export default class DesktopCSS extends Component {
 			'display': 'none', // eslint-disable-line quote-props
 		} ];
 
-		if ( !! shapeDivider ) {
-			const shapeTransforms = [];
-
-			if ( 'before' === shapeDividerLocation ) {
-				shapeTransforms.push( 'scaleY(-1)' );
-			}
-
-			if ( shapeDividerFlipHorizontally ) {
-				shapeTransforms.push( 'scaleX(-1)' );
-			}
-
+		if ( shapeDividers.length ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				position: 'relative',
 			} );
 
-			cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ] = [ {
-				color: hexToRGBA( shapeDividerColor, shapeDividerColorOpacity ),
-				'z-index': shapeDividerZIndex,
-			} ];
-
 			cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 				position: 'relative',
-				'z-index': shapeDividerZIndex + 1,
+				'z-index': 100,
 			} ];
 
-			if ( 'after' === shapeDividerLocation ) {
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ].push( {
-					bottom: '-1px',
-				} );
-			}
+			shapeDividers.map( ( location, index ) => {
+				const shapeTransforms = [];
 
-			if ( 'before' === shapeDividerLocation ) {
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ].push( {
-					top: '-1px',
-				} );
-			}
+				if ( 'before' === shapeDividers[ index ].location ) {
+					shapeTransforms.push( 'scaleY(-1)' );
+				}
 
-			if ( shapeTransforms.length ) {
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider' ].push( {
-					transform: shapeTransforms.join( ' ' ),
-				} );
-			}
+				if ( shapeDividers[ index ].flipHorizontally ) {
+					shapeTransforms.push( 'scaleX(-1)' );
+				}
 
-			cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider svg' ] = [ {
-				height: valueWithUnit( shapeDividerHeight, 'px' ),
-				width: valueWithUnit( shapeDividerWidth, '%' ),
-			} ];
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ] = [ {
+					color: hexToRGBA( shapeDividers[ index ].color, shapeDividers[ index ].colorOpacity ),
+					'z-index': shapeDividers[ index ].zindex,
+				} ];
+
+				if ( 'after' === shapeDividers[ index ].location ) {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
+						bottom: '-1px',
+					} );
+				}
+
+				if ( 'before' === shapeDividers[ index ].location ) {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
+						top: '-1px',
+					} );
+				}
+
+				if ( shapeTransforms.length ) {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
+						transform: shapeTransforms.join( ' ' ),
+					} );
+				}
+
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ] = [ {
+					height: valueWithUnit( shapeDividers[ index ].height, 'px' ),
+					width: valueWithUnit( shapeDividers[ index ].width, '%' ),
+				} ];
+			} );
 		}
 
 		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, this.props, 'container' );

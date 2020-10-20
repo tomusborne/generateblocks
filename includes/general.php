@@ -413,11 +413,13 @@ function generateblocks_do_shape_divider( $output, $block ) {
 		$defaults['container']
 	);
 
-	if ( ! empty( $settings['shapeDivider'] ) ) {
-		$output .= sprintf(
-			'<div class="gb-shape-divider">%s</div>',
-			$settings['shapeDivider']
-		);
+	if ( ! empty( $settings['shapeDividers'] ) ) {
+		foreach ( (array) $settings['shapeDividers'] as $index => $option ) {
+			$output .= sprintf(
+				'<div class="gb-shape-divider gb-shape-divider-' . $index . '">%s</div>',
+				$option['shape']
+			);
+		}
 	}
 
 	return $output;
