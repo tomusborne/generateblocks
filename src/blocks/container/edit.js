@@ -10,7 +10,6 @@ import DimensionsControl from '../../components/dimensions/';
 import PanelArea from '../../components/panel-area/';
 import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
-import shapeSVGs from './shapes';
 import sanitizeSVG from '../../utils/sanitize-svg';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import DesktopCSS from './css/desktop.js';
@@ -41,7 +40,6 @@ const {
 const {
 	Fragment,
 	Component,
-	renderToString,
 } = wp.element;
 
 const {
@@ -353,15 +351,12 @@ class GenerateBlockContainer extends Component {
 			setAttributes( { shapeDividers } );
 		};
 
-		const shapeOptions = [ {
-			label: __( 'Browse...', 'generateblocks' ),
-			value: '',
-		} ];
+		const shapeOptions = [];
 
-		Object.keys( shapeSVGs ).map( ( svg ) => {
+		Object.keys( generateBlocksInfo.shapeDividers ).map( ( name ) => {
 			shapeOptions.push( {
-				label: shapeSVGs[ svg ].label,
-				value: renderToString( shapeSVGs[ svg ].icon ),
+				label: generateBlocksInfo.shapeDividers[ name ].label,
+				value: name,
 			} );
 		} );
 
@@ -378,39 +373,10 @@ class GenerateBlockContainer extends Component {
 					>
 						<PanelRow>
 							<div className="gblocks-shape-controls">
-								<BaseControl className="gb-svg-html">
-									<TextControl
-										label={ __( 'Shape SVG HTML', 'generateblocks' ) }
-										value={ attributes.shapeDividers[ index ].shape }
-										onChange={ ( value ) => {
-											const shapeDividers = [ ...attributes.shapeDividers ];
-											attributes.shapeDividers[ index ].shape = sanitizeSVG( value );
-											setAttributes( { shapeDividers } );
-										} }
-									/>
-
-									<div className="gb-icon-preview">
-										<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( attributes.shapeDividers[ index ].shape ) } } />
-
-										<Button
-											isSmall
-											className="reset-icon is-secondary"
-											onClick={ () => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].shape = '';
-												setAttributes( { shapeDividers } );
-											} }
-										>
-											<span className="editor-block-types-list__item-icon">
-												{ __( 'Clear', 'generateblocks' ) }
-											</span>
-										</Button>
-									</div>
-								</BaseControl>
-
 								<SelectControl
 									label={ __( 'Shapes', 'generateblocks' ) }
 									options={ shapeOptions }
+									value={ attributes.shapeDividers[ index ].shape }
 									onChange={ ( value ) => {
 										const shapeDividers = [ ...attributes.shapeDividers ];
 										attributes.shapeDividers[ index ].shape = value;
@@ -527,7 +493,7 @@ class GenerateBlockContainer extends Component {
 							'gb-shape-divider': true,
 							[ `gb-shape-divider-${ index }` ]: true,
 						} ) }
-						dangerouslySetInnerHTML={ { __html: sanitizeSVG( attributes.shapeDividers[ index ].shape ) } }
+						dangerouslySetInnerHTML={ { __html: sanitizeSVG( generateBlocksInfo.shapeDividers[ attributes.shapeDividers[ index ].shape ].icon ) } }
 					/>
 				</Fragment>;
 			} );

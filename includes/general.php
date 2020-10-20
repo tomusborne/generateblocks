@@ -52,6 +52,7 @@ function generateblocks_do_block_editor_assets() {
 			'hasWideAlignSupport' => current_theme_supports( 'align-wide' ),
 			'colorComponentDiplay' => generateblocks_get_option( 'color_component_display' ),
 			'imageSizes' => $image_sizes,
+			'shapeDividers' => generateblocks_get_svg_shape_dividers(),
 		)
 	);
 
@@ -415,10 +416,16 @@ function generateblocks_do_shape_divider( $output, $block ) {
 
 	if ( ! empty( $settings['shapeDividers'] ) ) {
 		foreach ( (array) $settings['shapeDividers'] as $index => $option ) {
-			$output .= sprintf(
-				'<div class="gb-shape-divider gb-shape-divider-' . $index . '">%s</div>',
-				$option['shape']
-			);
+			if ( ! empty( $option['shape'] ) ) {
+				$shapes = generateblocks_get_svg_shape_dividers();
+
+				if ( isset( $shapes[ $option['shape'] ]['icon'] ) ) {
+					$output .= sprintf(
+						'<div class="gb-shape-divider gb-shape-divider-' . $index . '">%s</div>',
+						$shapes[ $option['shape'] ]['icon']
+					);
+				}
+			}
 		}
 	}
 

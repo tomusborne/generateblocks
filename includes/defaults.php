@@ -452,7 +452,7 @@ function generateblocks_get_default_styles() {
 			'gridItemPaddingLeft' => '0',
 			'bgImageSize' => 'full',
 			'shapeDividers' => array(
-				'shape' => '',
+				'shape' => 'waves',
 				'location' => 'bottom',
 				'height' => 200,
 				'width' => 100,
