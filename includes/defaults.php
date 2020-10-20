@@ -141,14 +141,6 @@ function generateblocks_get_block_defaults() {
 		'fontSizeMobile' => '',
 		'fontSizeUnit' => 'px',
 		'textTransform' => '',
-		'shapeDivider' => '',
-		'shapeDividerLocation' => 'after',
-		'shapeDividerHeight' => 300,
-		'shapeDividerWidth' => 100,
-		'shapeDividerFlipHorizontally' => false,
-		'shapeDividerZIndex' => 1,
-		'shapeDividerColor' => '#000000',
-		'shapeDividerColorOpacity' => 1,
 	);
 
 	$defaults['buttonContainer'] = array(
@@ -459,6 +451,16 @@ function generateblocks_get_default_styles() {
 			'gridItemPaddingBottom' => '0',
 			'gridItemPaddingLeft' => '0',
 			'bgImageSize' => 'full',
+			'shapeDividers' => array(
+				'shape' => '',
+				'location' => 'bottom',
+				'height' => 200,
+				'width' => 100,
+				'flipHorizontally' => false,
+				'zindex' => 1,
+				'color' => '#000000',
+				'colorOpacity' => 1,
+			),
 		),
 	);
 

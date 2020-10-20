@@ -402,26 +402,33 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->set_selector( '.gb-container-' . $id );
 					$css->add_property( 'position', 'relative' );
 
-					foreach ( (array) $settings['shapeDividers'] as $index => $option ) {
+					$default_styles = generateblocks_get_default_styles();
+
+					foreach ( (array) $settings['shapeDividers'] as $index => $options ) {
+						$shapeOptions = wp_parse_args(
+							$options,
+							$default_styles['container']['shapeDividers']
+						);
+
 						$shapeTransforms = array();
 
-						if ( 'top' === $option['location'] ) {
+						if ( 'top' === $shapeOptions['location'] ) {
 							$shapeTransforms[] = 'scaleY(-1)';
 						}
 
-						if ( $option['flipHorizontally'] ) {
+						if ( $shapeOptions['flipHorizontally'] ) {
 							$shapeTransforms[] = 'scaleX(-1)';
 						}
 
 						$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index );
-						$css->add_property( 'color', generateblocks_hex2rgba( $option['color'], $option['colorOpacity'] ) );
-						$css->add_property( 'z-index', $option['zindex'] );
+						$css->add_property( 'color', generateblocks_hex2rgba( $shapeOptions['color'], $shapeOptions['colorOpacity'] ) );
+						$css->add_property( 'z-index', $shapeOptions['zindex'] );
 
-						if ( 'bottom' === $option['location'] ) {
+						if ( 'bottom' === $shapeOptions['location'] ) {
 							$css->add_property( 'bottom', '0' );
 						}
 
-						if ( 'top' === $option['location'] ) {
+						if ( 'top' === $shapeOptions['location'] ) {
 							$css->add_property( 'top', '0' );
 						}
 
@@ -430,8 +437,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						}
 
 						$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
-						$css->add_property( 'height', $option['height'], 'px' );
-						$css->add_property( 'width', $option['width'], '%' );
+						$css->add_property( 'height', $shapeOptions['height'], 'px' );
+						$css->add_property( 'width', $shapeOptions['width'], '%' );
 					}
 				}
 

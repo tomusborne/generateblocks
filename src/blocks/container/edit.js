@@ -333,14 +333,14 @@ class GenerateBlockContainer extends Component {
 			const shapeDividers = [ ...attributes.shapeDividers ];
 
 			shapeDividers.push( {
-				shape: '',
-				color: '',
-				colorOpacity: 1,
-				location: 'bottom',
-				height: 200,
-				width: 100,
-				flipHorizontally: false,
-				zindex: 1,
+				shape: generateBlocksStyling.container.shapeDividers.shape,
+				color: generateBlocksStyling.container.shapeDividers.color,
+				colorOpacity: generateBlocksStyling.container.shapeDividers.colorOpacity,
+				location: generateBlocksStyling.container.shapeDividers.location,
+				height: generateBlocksStyling.container.shapeDividers.height,
+				width: generateBlocksStyling.container.shapeDividers.width,
+				flipHorizontally: generateBlocksStyling.container.shapeDividers.flipHorizontally,
+				zindex: generateBlocksStyling.container.shapeDividers.zindex,
 			} );
 
 			setAttributes( { shapeDividers } );
