@@ -353,7 +353,10 @@ class GenerateBlockContainer extends Component {
 			setAttributes( { shapeDividers } );
 		};
 
-		const shapeOptions = [];
+		const shapeOptions = [ {
+			label: __( 'Browse...', 'generateblocks' ),
+			value: '',
+		} ];
 
 		Object.keys( shapeSVGs ).map( ( svg ) => {
 			shapeOptions.push( {
