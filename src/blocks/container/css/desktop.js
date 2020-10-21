@@ -321,7 +321,7 @@ export default class DesktopCSS extends Component {
 
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].height, 'px' ),
-					width: valueWithUnit( shapeDividers[ index ].width, '%' ),
+					'min-width': valueWithUnit( shapeDividers[ index ].minWidth, '%' ),
 				} ];
 			} );
 		}

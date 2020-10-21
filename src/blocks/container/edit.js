@@ -428,13 +428,13 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<TextControl
-									label={ __( 'Width', 'generateblocks' ) }
+									label={ __( 'Min-Width', 'generateblocks' ) }
 									type={ 'number' }
-									value={ attributes.shapeDividers[ index ].width ? attributes.shapeDividers[ index ].width : '' }
+									value={ attributes.shapeDividers[ index ].minWidth ? attributes.shapeDividers[ index ].minWidth : '' }
 									min="100"
 									onChange={ ( value ) => {
 										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].width = parseFloat( value );
+										attributes.shapeDividers[ index ].minWidth = parseFloat( value );
 										setAttributes( { shapeDividers } );
 									} }
 								/>

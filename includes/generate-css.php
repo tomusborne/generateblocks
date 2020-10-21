@@ -193,7 +193,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'line-height', '0' );
 
 			$css->set_selector( '.gb-container .gb-shape-divider svg' );
-			$css->add_property( 'min-width', '100%' );
 			$css->add_property( 'position', 'relative' );
 			$css->add_property( 'left', '50%' );
 			$css->add_property( 'transform', 'translateX(-50%)' );
@@ -446,7 +445,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 						$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
 						$css->add_property( 'height', $shapeOptions['height'], 'px' );
-						$css->add_property( 'width', $shapeOptions['width'], '%' );
+						$css->add_property( 'min-width', $shapeOptions['minWidth'], '%' );
 					}
 				}
 

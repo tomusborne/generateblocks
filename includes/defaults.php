@@ -456,7 +456,7 @@ function generateblocks_get_default_styles() {
 				'shape' => 'waves',
 				'location' => 'bottom',
 				'height' => 200,
-				'width' => 100,
+				'minWidth' => 100,
 				'flipHorizontally' => false,
 				'zindex' => 1,
 				'color' => '#000000',
