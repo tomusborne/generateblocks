@@ -26,8 +26,6 @@ export default class GenerateBlocksColorPicker extends Component {
 		super( ...arguments );
 
 		this.state = {
-			showPicker: false,
-			showPalette: 'palette' === generateBlocksInfo.colorComponentDiplay,
 			colorKey: false,
 		};
 	}

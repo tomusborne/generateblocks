@@ -74,10 +74,6 @@ class GenerateBlocks_Settings {
 				$settings['css_print_method'] = sanitize_key( $values['css_print_method'] );
 			}
 
-			if ( isset( $values['color_component_display'] ) ) {
-				$settings['color_component_display'] = sanitize_key( $values['color_component_display'] );
-			}
-
 			update_option( 'generateblocks', $settings );
 
 			wp_safe_redirect( admin_url( 'admin.php?page=generateblocks-settings&settings-updated=true' ) );
@@ -148,18 +144,6 @@ class GenerateBlocks_Settings {
 											);
 										?>
 										<p><?php esc_html_e( 'Force your external CSS files to regenerate next time their page is loaded.', 'generateblocks' ); ?></p>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row">
-										<?php esc_html_e( 'Color Component Display', 'generateblocks' ); ?>
-									</th>
-									<td>
-										<select name="generateblocks[color_component_display]">
-											<option value="palette"<?php selected( 'palette', generateblocks_get_option( 'color_component_display' ) ); ?>><?php esc_html_e( 'Color Palette', 'generateblocks' ); ?></option>
-											<option value="custom-colors"<?php selected( 'custom-colors', generateblocks_get_option( 'color_component_display' ) ); ?>><?php esc_html_e( 'Custom Colors', 'generateblocks' ); ?></option>
-										</select>
-										<p><?php esc_html_e( 'Choose what the Color Component displays by default.', 'generateblocks' ); ?></p>
 									</td>
 								</tr>
 								<?php

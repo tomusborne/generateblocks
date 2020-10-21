@@ -50,7 +50,6 @@ function generateblocks_do_block_editor_assets() {
 			'isGeneratePress' => defined( 'GENERATE_VERSION' ),
 			'hasCustomFields' => post_type_supports( get_post_type(), 'custom-fields' ),
 			'hasWideAlignSupport' => current_theme_supports( 'align-wide' ),
-			'colorComponentDiplay' => generateblocks_get_option( 'color_component_display' ),
 			'imageSizes' => $image_sizes,
 			'shapeDividers' => generateblocks_get_svg_shape_dividers(),
 		)
