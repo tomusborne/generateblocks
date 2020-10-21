@@ -1813,7 +1813,7 @@ class GenerateBlockContainer extends Component {
 						<BaseControl className="gb-icon-chooser gb-shape-divider-chooser">
 							{ shapeFields }
 
-							<div className="gblocks-add-attribute-button-container">
+							<div className="gblocks-add-new-shape">
 								<Button
 									isSecondary
 									onClick={ handleAddShape.bind( this ) }
