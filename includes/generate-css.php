@@ -190,11 +190,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'pointer-events', 'none' );
 			$css->add_property( 'line-height', '0' );
 
-			$css->set_selector( '.gb-container .gb-shape-divider svg' );
-			$css->add_property( 'position', 'relative' );
-			$css->add_property( 'left', '50%' );
-			$css->add_property( 'transform', 'translateX(-50%)' );
-
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
@@ -449,6 +444,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
 						$css->add_property( 'height', $shapeOptions['height'], 'px' );
 						$css->add_property( 'min-width', $shapeOptions['minWidth'], '%' );
+
+						if ( 'top' === $shapeOptions['location'] || 'bottom' === $shapeOptions['location'] ) {
+							$css->add_property( 'position', 'relative' );
+							$css->add_property( 'left', '50%' );
+							$css->add_property( 'transform', 'translateX(-50%)' );
+						}
 					}
 				}
 

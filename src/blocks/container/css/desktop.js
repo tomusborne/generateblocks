@@ -330,6 +330,14 @@ export default class DesktopCSS extends Component {
 					height: valueWithUnit( shapeDividers[ index ].height, 'px' ),
 					'min-width': valueWithUnit( shapeDividers[ index ].minWidth, '%' ),
 				} ];
+
+				if ( 'top' === shapeDividers[ index ].location || 'bottom' === shapeDividers[ index ].location ) {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ].push( {
+						position: 'relative',
+						left: '50%',
+						transform: 'translateX(-50%)',
+					} );
+				}
 			} );
 		}
 
