@@ -301,6 +301,13 @@ export default class DesktopCSS extends Component {
 					'z-index': shapeDividers[ index ].zindex,
 				} ];
 
+				if ( 'top' === shapeDividers[ index ].location || 'bottom' === shapeDividers[ index ].location ) {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
+						left: '0',
+						right: '0',
+					} );
+				}
+
 				if ( 'bottom' === shapeDividers[ index ].location ) {
 					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
 						bottom: '-1px',

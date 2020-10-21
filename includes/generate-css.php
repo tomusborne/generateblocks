@@ -186,8 +186,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 			$css->set_selector( '.gb-container .gb-shape-divider' );
 			$css->add_property( 'position', 'absolute' );
-			$css->add_property( 'left', '0' );
-			$css->add_property( 'right', '0' );
 			$css->add_property( 'overflow', 'hidden' );
 			$css->add_property( 'pointer-events', 'none' );
 			$css->add_property( 'line-height', '0' );
@@ -430,6 +428,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index );
 						$css->add_property( 'color', generateblocks_hex2rgba( $shapeOptions['color'], $shapeOptions['colorOpacity'] ) );
 						$css->add_property( 'z-index', $shapeOptions['zindex'] );
+
+						if ( 'top' === $shapeOptions['location'] || 'bottom' === $shapeOptions['location'] ) {
+							$css->add_property( 'left', '0' );
+							$css->add_property( 'right', '0' );
+						}
 
 						if ( 'bottom' === $shapeOptions['location'] ) {
 							$css->add_property( 'bottom', '0' );
