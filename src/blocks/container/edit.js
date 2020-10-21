@@ -416,8 +416,27 @@ class GenerateBlockContainer extends Component {
 									} }
 								/>
 
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Height', 'generateblocks' ) }
+									</div>
+
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'pixel-unit' }>
+											<Button
+												key={ 'pixel-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
+											>
+												px
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
+
 								<TextControl
-									label={ __( 'Height', 'generateblocks' ) }
 									type={ 'number' }
 									value={ attributes.shapeDividers[ index ].height ? attributes.shapeDividers[ index ].height : '' }
 									onChange={ ( value ) => {
@@ -427,8 +446,27 @@ class GenerateBlockContainer extends Component {
 									} }
 								/>
 
+								<div className="components-gblocks-control__header">
+									<div className="components-gblocks-control__label">
+										{ __( 'Minimum Width', 'generateblocks' ) }
+									</div>
+
+									<div className="components-gblocks-control__units">
+										<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
+											<Button
+												key={ 'percentage-unit' }
+												isSmall
+												isPrimary={ true }
+												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+												aria-label={ __( 'Percentage Units', 'generateblocks' ) }
+											>
+												%
+											</Button>
+										</Tooltip>
+									</div>
+								</div>
+
 								<TextControl
-									label={ __( 'Min-Width', 'generateblocks' ) }
 									type={ 'number' }
 									value={ attributes.shapeDividers[ index ].minWidth ? attributes.shapeDividers[ index ].minWidth : '' }
 									min="100"
