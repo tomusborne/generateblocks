@@ -323,6 +323,8 @@ class GenerateBlockContainer extends Component {
 				heightTablet: generateBlocksStyling.container.shapeDividers.heightTablet,
 				heightMobile: generateBlocksStyling.container.shapeDividers.heightMobile,
 				minWidth: generateBlocksStyling.container.shapeDividers.minWidth,
+				minWidthTablet: generateBlocksStyling.container.shapeDividers.minWidthTablet,
+				minWidthMobile: generateBlocksStyling.container.shapeDividers.minWidthMobile,
 				flipHorizontally: generateBlocksStyling.container.shapeDividers.flipHorizontally,
 				zindex: generateBlocksStyling.container.shapeDividers.zindex,
 			} );
@@ -509,6 +511,26 @@ class GenerateBlockContainer extends Component {
 												setAttributes( { shapeDividers } );
 											} }
 										/>
+
+										<UnitPicker
+											label={ __( 'Minimum Width', 'generateblocks' ) }
+											value={ '%' }
+											units={ [ '%' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
+
+										<TextControl
+											type={ 'number' }
+											value={ attributes.shapeDividers[ index ].minWidthTablet ? attributes.shapeDividers[ index ].minWidthTablet : '' }
+											min="100"
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].minWidthTablet = parseFloat( value );
+												setAttributes( { shapeDividers } );
+											} }
+										/>
 									</Fragment>
 								}
 
@@ -529,6 +551,26 @@ class GenerateBlockContainer extends Component {
 											onChange={ ( value ) => {
 												const shapeDividers = [ ...attributes.shapeDividers ];
 												attributes.shapeDividers[ index ].heightMobile = parseFloat( value );
+												setAttributes( { shapeDividers } );
+											} }
+										/>
+
+										<UnitPicker
+											label={ __( 'Minimum Width', 'generateblocks' ) }
+											value={ '%' }
+											units={ [ '%' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
+
+										<TextControl
+											type={ 'number' }
+											value={ attributes.shapeDividers[ index ].minWidthMobile ? attributes.shapeDividers[ index ].minWidthMobile : '' }
+											min="100"
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].minWidthMobile = parseFloat( value );
 												setAttributes( { shapeDividers } );
 											} }
 										/>

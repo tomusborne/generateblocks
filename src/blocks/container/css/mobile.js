@@ -147,6 +147,7 @@ export default class MobileCSS extends Component {
 			shapeDividers.map( ( location, index ) => {
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].heightMobile, 'px' ),
+					'min-width': valueWithUnit( shapeDividers[ index ].minWidthMobile, '%' ),
 				} ];
 			} );
 		}

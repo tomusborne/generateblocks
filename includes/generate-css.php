@@ -548,6 +548,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 						$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
 						$tablet_css->add_property( 'height', $shapeOptions['heightTablet'], 'px' );
+						$tablet_css->add_property( 'min-width', $shapeOptions['minWidthTablet'], '%' );
 					}
 				}
 
@@ -643,6 +644,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 						$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
 						$mobile_css->add_property( 'height', $shapeOptions['heightMobile'], 'px' );
+						$mobile_css->add_property( 'min-width', $shapeOptions['minWidthMobile'], '%' );
 					}
 				}
 

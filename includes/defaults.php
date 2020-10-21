@@ -459,6 +459,8 @@ function generateblocks_get_default_styles() {
 				'heightTablet' => '',
 				'heightMobile' => '',
 				'minWidth' => 100,
+				'minWidthTablet' => '',
+				'minWidthMobile' => '',
 				'flipHorizontally' => false,
 				'zindex' => 1,
 				'color' => '#000000',
