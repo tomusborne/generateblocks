@@ -26,6 +26,7 @@ function generateblocks_get_block_defaults() {
 	}
 
 	$defaults['container'] = array(
+		'tagName' => 'div',
 		'isGrid' => false,
 		'containerWidth' => $container_width,
 		'outerContainer' => 'full',

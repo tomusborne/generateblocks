@@ -4,10 +4,6 @@ const attributes = {
 		type: 'string',
 		default: '',
 	},
-	tagName: {
-		type: 'string',
-		default: 'div',
-	},
 	anchor: {
 		type: 'string',
 		default: '',
@@ -19,6 +15,10 @@ const attributes = {
 	gridId: {
 		type: 'string',
 		default: '',
+	},
+	tagName: {
+		type: 'string',
+		default: generateBlocksDefaults.container.tagName,
 	},
 	width: {
 		type: 'number',
