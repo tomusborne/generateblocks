@@ -43,6 +43,7 @@ export default class TabletCSS extends Component {
 			alignmentTablet,
 			fontSizeTablet,
 			fontSizeUnit,
+			shapeDividers,
 		} = attributes;
 
 		let cssObj = [];
@@ -133,6 +134,14 @@ export default class TabletCSS extends Component {
 					} ];
 				}
 			}
+		}
+
+		if ( shapeDividers.length ) {
+			shapeDividers.map( ( location, index ) => {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ] = [ {
+					height: valueWithUnit( shapeDividers[ index ].heightTablet, 'px' ),
+				} ];
+			} );
 		}
 
 		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'container' );

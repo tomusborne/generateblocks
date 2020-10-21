@@ -456,6 +456,8 @@ function generateblocks_get_default_styles() {
 				'shape' => 'waves',
 				'location' => 'bottom',
 				'height' => 200,
+				'heightTablet' => '',
+				'heightMobile' => '',
 				'minWidth' => 100,
 				'flipHorizontally' => false,
 				'zindex' => 1,

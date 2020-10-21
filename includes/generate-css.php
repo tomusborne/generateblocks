@@ -537,6 +537,20 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
 				}
 
+				if ( ! empty( $settings['shapeDividers'] ) ) {
+					$default_styles = generateblocks_get_default_styles();
+
+					foreach ( (array) $settings['shapeDividers'] as $index => $options ) {
+						$shapeOptions = wp_parse_args(
+							$options,
+							$default_styles['container']['shapeDividers']
+						);
+
+						$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
+						$tablet_css->add_property( 'height', $shapeOptions['heightTablet'], 'px' );
+					}
+				}
+
 				$mobile_css->set_selector( '.gb-container.gb-container-' . $id );
 				$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 				$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
@@ -616,6 +630,20 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 					$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
+				}
+
+				if ( ! empty( $settings['shapeDividers'] ) ) {
+					$default_styles = generateblocks_get_default_styles();
+
+					foreach ( (array) $settings['shapeDividers'] as $index => $options ) {
+						$shapeOptions = wp_parse_args(
+							$options,
+							$default_styles['container']['shapeDividers']
+						);
+
+						$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
+						$mobile_css->add_property( 'height', $shapeOptions['heightMobile'], 'px' );
+					}
 				}
 
 				/**

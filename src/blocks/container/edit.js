@@ -337,7 +337,9 @@ class GenerateBlockContainer extends Component {
 				colorOpacity: generateBlocksStyling.container.shapeDividers.colorOpacity,
 				location: generateBlocksStyling.container.shapeDividers.location,
 				height: generateBlocksStyling.container.shapeDividers.height,
-				width: generateBlocksStyling.container.shapeDividers.width,
+				heightTablet: generateBlocksStyling.container.shapeDividers.heightTablet,
+				heightMobile: generateBlocksStyling.container.shapeDividers.heightMobile,
+				minWidth: generateBlocksStyling.container.shapeDividers.minWidth,
 				flipHorizontally: generateBlocksStyling.container.shapeDividers.flipHorizontally,
 				zindex: generateBlocksStyling.container.shapeDividers.zindex,
 			} );
@@ -374,147 +376,219 @@ class GenerateBlockContainer extends Component {
 					>
 						<PanelRow>
 							<div className="gblocks-shape-controls">
-								<SelectControl
-									label={ __( 'Shapes', 'generateblocks' ) }
-									options={ shapeOptions }
-									value={ attributes.shapeDividers[ index ].shape }
-									onChange={ ( value ) => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].shape = value;
-										setAttributes( { shapeDividers } );
-									} }
-								/>
+								{ 'Desktop' === this.getDeviceType() &&
+									<Fragment>
+										<SelectControl
+											label={ __( 'Shapes', 'generateblocks' ) }
+											options={ shapeOptions }
+											value={ attributes.shapeDividers[ index ].shape }
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].shape = value;
+												setAttributes( { shapeDividers } );
+											} }
+										/>
 
-								<ColorPicker
-									label={ __( 'Color', 'generateblocks' ) }
-									value={ attributes.shapeDividers[ index ].color }
-									alpha={ true }
-									valueOpacity={ attributes.shapeDividers[ index ].colorOpacity }
-									onChange={ ( value ) => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].color = value;
-										setAttributes( { shapeDividers } );
-									} }
-									onOpacityChange={ ( value ) => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].colorOpacity = value;
-										setAttributes( { shapeDividers } );
-									} }
-								/>
+										<ColorPicker
+											label={ __( 'Color', 'generateblocks' ) }
+											value={ attributes.shapeDividers[ index ].color }
+											alpha={ true }
+											valueOpacity={ attributes.shapeDividers[ index ].colorOpacity }
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].color = value;
+												setAttributes( { shapeDividers } );
+											} }
+											onOpacityChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].colorOpacity = value;
+												setAttributes( { shapeDividers } );
+											} }
+										/>
 
-								<SelectControl
-									label={ __( 'Location', 'generateblocks' ) }
-									value={ attributes.shapeDividers[ index ].location }
-									options={ [
-										{ label: __( 'Top', 'generateblocks' ), value: 'top' },
-										{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
-									] }
-									onChange={ ( value ) => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].location = value;
-										setAttributes( { shapeDividers } );
-									} }
-								/>
+										<SelectControl
+											label={ __( 'Location', 'generateblocks' ) }
+											value={ attributes.shapeDividers[ index ].location }
+											options={ [
+												{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+												{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
+											] }
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].location = value;
+												setAttributes( { shapeDividers } );
+											} }
+										/>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Height', 'generateblocks' ) }
-									</div>
+										<div className="components-gblocks-control__header">
+											<div className="components-gblocks-control__label">
+												{ __( 'Height', 'generateblocks' ) }
+											</div>
 
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'pixel-unit' }>
-											<Button
-												key={ 'pixel-unit' }
-												isSmall
-												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+											<div className="components-gblocks-control__units">
+												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'pixel-unit' }>
+													<Button
+														key={ 'pixel-unit' }
+														isSmall
+														isPrimary={ true }
+														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
+													>
+														px
+													</Button>
+												</Tooltip>
+											</div>
+										</div>
 
-								<TextControl
-									type={ 'number' }
-									value={ attributes.shapeDividers[ index ].height ? attributes.shapeDividers[ index ].height : '' }
-									onChange={ ( value ) => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].height = parseFloat( value );
-										setAttributes( { shapeDividers } );
-									} }
-								/>
+										<TextControl
+											type={ 'number' }
+											value={ attributes.shapeDividers[ index ].height ? attributes.shapeDividers[ index ].height : '' }
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].height = parseFloat( value );
+												setAttributes( { shapeDividers } );
+											} }
+										/>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Minimum Width', 'generateblocks' ) }
-									</div>
+										<div className="components-gblocks-control__header">
+											<div className="components-gblocks-control__label">
+												{ __( 'Minimum Width', 'generateblocks' ) }
+											</div>
 
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
-											<Button
-												key={ 'percentage-unit' }
-												isSmall
-												isPrimary={ true }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ __( 'Percentage Units', 'generateblocks' ) }
-											>
-												%
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+											<div className="components-gblocks-control__units">
+												<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
+													<Button
+														key={ 'percentage-unit' }
+														isSmall
+														isPrimary={ true }
+														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+														aria-label={ __( 'Percentage Units', 'generateblocks' ) }
+													>
+														%
+													</Button>
+												</Tooltip>
+											</div>
+										</div>
 
-								<TextControl
-									type={ 'number' }
-									value={ attributes.shapeDividers[ index ].minWidth ? attributes.shapeDividers[ index ].minWidth : '' }
-									min="100"
-									onChange={ ( value ) => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].minWidth = parseFloat( value );
-										setAttributes( { shapeDividers } );
-									} }
-								/>
+										<TextControl
+											type={ 'number' }
+											value={ attributes.shapeDividers[ index ].minWidth ? attributes.shapeDividers[ index ].minWidth : '' }
+											min="100"
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].minWidth = parseFloat( value );
+												setAttributes( { shapeDividers } );
+											} }
+										/>
 
-								<ToggleControl
-									label={ __( 'Flip Horizontally', 'generateblocks' ) }
-									checked={ !! attributes.shapeDividers[ index ].flipHorizontally }
-									onChange={ ( value ) => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].flipHorizontally = value;
-										setAttributes( { shapeDividers } );
-									} }
-								/>
+										<ToggleControl
+											label={ __( 'Flip Horizontally', 'generateblocks' ) }
+											checked={ !! attributes.shapeDividers[ index ].flipHorizontally }
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].flipHorizontally = value;
+												setAttributes( { shapeDividers } );
+											} }
+										/>
 
-								<TextControl
-									label={ __( 'z-index', 'generateblocks' ) }
-									type={ 'number' }
-									value={ attributes.shapeDividers[ index ].zindex || 0 === attributes.shapeDividers[ index ].zindex ? attributes.shapeDividers[ index ].zindex : '' }
-									onChange={ ( value ) => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].zindex = value;
-										setAttributes( { shapeDividers } );
-									} }
-									onBlur={ () => {
-										const shapeDividers = [ ...attributes.shapeDividers ];
-										attributes.shapeDividers[ index ].zindex = parseFloat( attributes.shapeDividers[ index ].zindex );
-										setAttributes( { shapeDividers } );
-									} }
-									onClick={ ( e ) => {
-										// Make sure onBlur fires in Firefox.
-										e.currentTarget.focus();
-									} }
-								/>
+										<TextControl
+											label={ __( 'z-index', 'generateblocks' ) }
+											type={ 'number' }
+											value={ attributes.shapeDividers[ index ].zindex || 0 === attributes.shapeDividers[ index ].zindex ? attributes.shapeDividers[ index ].zindex : '' }
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].zindex = value;
+												setAttributes( { shapeDividers } );
+											} }
+											onBlur={ () => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].zindex = parseFloat( attributes.shapeDividers[ index ].zindex );
+												setAttributes( { shapeDividers } );
+											} }
+											onClick={ ( e ) => {
+												// Make sure onBlur fires in Firefox.
+												e.currentTarget.focus();
+											} }
+										/>
 
-								<Button
-									isPrimary
-									isSmall
-									className="gblocks-remove-shape"
-									onClick={ () => handleRemoveShape( index ) }
-								>
-									{ __( 'Remove Shape', 'generateblocks' ) }
-								</Button>
+										<Button
+											isPrimary
+											isSmall
+											className="gblocks-remove-shape"
+											onClick={ () => handleRemoveShape( index ) }
+										>
+											{ __( 'Remove Shape', 'generateblocks' ) }
+										</Button>
+									</Fragment>
+								}
+
+								{ 'Tablet' === this.getDeviceType() &&
+									<Fragment>
+										<div className="components-gblocks-control__header">
+											<div className="components-gblocks-control__label">
+												{ __( 'Height', 'generateblocks' ) }
+											</div>
+
+											<div className="components-gblocks-control__units">
+												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'pixel-unit' }>
+													<Button
+														key={ 'pixel-unit' }
+														isSmall
+														isPrimary={ true }
+														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
+													>
+														px
+													</Button>
+												</Tooltip>
+											</div>
+										</div>
+
+										<TextControl
+											type={ 'number' }
+											value={ attributes.shapeDividers[ index ].heightTablet ? attributes.shapeDividers[ index ].heightTablet : '' }
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].heightTablet = parseFloat( value );
+												setAttributes( { shapeDividers } );
+											} }
+										/>
+									</Fragment>
+								}
+
+								{ 'Mobile' === this.getDeviceType() &&
+									<Fragment>
+										<div className="components-gblocks-control__header">
+											<div className="components-gblocks-control__label">
+												{ __( 'Height', 'generateblocks' ) }
+											</div>
+
+											<div className="components-gblocks-control__units">
+												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'pixel-unit' }>
+													<Button
+														key={ 'pixel-unit' }
+														isSmall
+														isPrimary={ true }
+														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
+													>
+														px
+													</Button>
+												</Tooltip>
+											</div>
+										</div>
+
+										<TextControl
+											type={ 'number' }
+											value={ attributes.shapeDividers[ index ].heightMobile ? attributes.shapeDividers[ index ].heightMobile : '' }
+											onChange={ ( value ) => {
+												const shapeDividers = [ ...attributes.shapeDividers ];
+												attributes.shapeDividers[ index ].heightMobile = parseFloat( value );
+												setAttributes( { shapeDividers } );
+											} }
+										/>
+									</Fragment>
+								}
 							</div>
 						</PanelRow>
 					</PanelBody>
@@ -1734,7 +1808,7 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerShapeDivider' }
 						state={ this.state }
-						showPanel={ 'Desktop' === this.getDeviceType() || !! attributes.shapeDividers.shape ? true : false }
+						showPanel={ 'Desktop' === this.getDeviceType() || attributes.shapeDividers.length ? true : false }
 					>
 						<BaseControl className="gb-icon-chooser gb-shape-divider-chooser">
 							{ shapeFields }

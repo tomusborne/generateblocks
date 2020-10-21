@@ -45,6 +45,7 @@ export default class MobileCSS extends Component {
 			fontSizeMobile,
 			fontSizeUnit,
 			orderMobile,
+			shapeDividers,
 		} = attributes;
 
 		let cssObj = [];
@@ -140,6 +141,14 @@ export default class MobileCSS extends Component {
 					} ];
 				}
 			}
+		}
+
+		if ( shapeDividers.length ) {
+			shapeDividers.map( ( location, index ) => {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ] = [ {
+					height: valueWithUnit( shapeDividers[ index ].heightMobile, 'px' ),
+				} ];
+			} );
 		}
 
 		cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, this.props, 'container' );
