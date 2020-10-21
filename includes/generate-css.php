@@ -215,10 +215,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$grid_atts = array();
 
 				if ( isset( $atts['gridId'] ) && $atts['gridId'] ) {
-					foreach ( $data['grid'] as $grid ) {
-						if ( $atts['gridId'] === $grid['uniqueId'] ) {
-							$grid_atts = $grid;
-							break;
+					if ( is_array( $data['grid'] ) ) {
+						foreach ( $data['grid'] as $grid ) {
+							if ( $atts['gridId'] === $grid['uniqueId'] ) {
+								$grid_atts = $grid;
+								break;
+							}
 						}
 					}
 				}
