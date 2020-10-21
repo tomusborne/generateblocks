@@ -8,14 +8,6 @@ export default {
 		type: 'string',
 		default: '',
 	},
-	elementId: {
-		type: 'string',
-		default: '',
-	},
-	cssClasses: {
-		type: 'string',
-		default: '',
-	},
 	url: {
 		type: 'string',
 		source: 'attribute',
@@ -468,6 +460,15 @@ export default {
 	iconSizeUnit: {
 		type: 'string',
 		default: generateBlocksDefaults.button.iconSizeUnit,
+	},
+	// deprecated since 1.2.0
+	elementId: {
+		type: 'string',
+		default: '',
+	},
+	cssClasses: {
+		type: 'string',
+		default: '',
 	},
 };
 /* eslint-enable no-undef */

@@ -8,14 +8,6 @@ export default {
 		type: 'string',
 		default: '',
 	},
-	elementId: {
-		type: 'string',
-		default: '',
-	},
-	cssClasses: {
-		type: 'string',
-		default: '',
-	},
 	content: {
 		type: 'string',
 		source: 'html',
@@ -489,6 +481,15 @@ export default {
 	ariaLabel: {
 		type: 'string',
 		default: generateBlocksDefaults.headline.ariaLabel,
+	},
+	// deprecated since 1.2.0.
+	elementId: {
+		type: 'string',
+		default: '',
+	},
+	cssClasses: {
+		type: 'string',
+		default: '',
 	},
 };
 /* eslint-enable no-undef */

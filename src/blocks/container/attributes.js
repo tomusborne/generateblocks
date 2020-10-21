@@ -8,15 +8,7 @@ const attributes = {
 		type: 'string',
 		default: 'div',
 	},
-	elementId: {
-		type: 'string',
-		default: '',
-	},
 	anchor: {
-		type: 'string',
-		default: '',
-	},
-	cssClasses: {
 		type: 'string',
 		default: '',
 	},
@@ -475,6 +467,15 @@ const attributes = {
 	shapeDividers: {
 		type: 'array',
 		default: [],
+	},
+	// deprecated since 1.2.0.
+	elementId: {
+		type: 'string',
+		default: '',
+	},
+	cssClasses: {
+		type: 'string',
+		default: '',
 	},
 };
 
