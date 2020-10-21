@@ -361,6 +361,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
+				$innerZIndex = $settings['innerZindex'];
+
+				if ( ! $innerZIndex && $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+					$innerZIndex = 1;
+				}
+
 				$css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
 				$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 
@@ -376,8 +382,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$usingMinHeightInnerWidth = true;
 				}
 
-				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
-					$css->add_property( 'z-index', '1' );
+				if ( $innerZIndex ) {
+					$css->add_property( 'z-index', $innerZIndex );
 					$css->add_property( 'position', 'relative' );
 				}
 

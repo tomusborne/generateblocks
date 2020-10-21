@@ -203,6 +203,7 @@ class GenerateBlockContainer extends Component {
 			verticalAlignmentTablet,
 			verticalAlignmentMobile,
 			zindex,
+			innerZindex,
 			removeVerticalGap,
 			removeVerticalGapTablet,
 			removeVerticalGapMobile,
@@ -1736,7 +1737,7 @@ class GenerateBlockContainer extends Component {
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
 
 						<TextControl
-							label={ __( 'z-index', 'generateblocks' ) }
+							label={ __( 'Outer z-index', 'generateblocks' ) }
 							type={ 'number' }
 							value={ zindex || 0 === zindex ? zindex : '' }
 							onChange={ ( value ) => {
@@ -1747,6 +1748,26 @@ class GenerateBlockContainer extends Component {
 							onBlur={ () => {
 								setAttributes( {
 									zindex: parseFloat( zindex ),
+								} );
+							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
+						/>
+
+						<TextControl
+							label={ __( 'Inner z-index', 'generateblocks' ) }
+							type={ 'number' }
+							value={ innerZindex || 0 === innerZindex ? innerZindex : '' }
+							onChange={ ( value ) => {
+								setAttributes( {
+									innerZindex: value,
+								} );
+							} }
+							onBlur={ () => {
+								setAttributes( {
+									innerZindex: parseFloat( innerZindex ),
 								} );
 							} }
 							onClick={ ( e ) => {

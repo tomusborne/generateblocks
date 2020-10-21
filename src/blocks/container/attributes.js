@@ -392,6 +392,10 @@ const attributes = {
 		type: 'number',
 		default: generateBlocksDefaults.container.zindex,
 	},
+	innerZindex: {
+		type: 'number',
+		default: generateBlocksDefaults.container.innerZindex,
+	},
 	removeVerticalGap: {
 		type: 'boolean',
 		default: generateBlocksDefaults.container.removeVerticalGap,

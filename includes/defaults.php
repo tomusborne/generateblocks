@@ -123,6 +123,7 @@ function generateblocks_get_block_defaults() {
 		'verticalAlignmentTablet' => 'inherit',
 		'verticalAlignmentMobile' => 'inherit',
 		'zindex' => '',
+		'innerZindex' => '',
 		'removeVerticalGap' => false,
 		'removeVerticalGapTablet' => false,
 		'removeVerticalGapMobile' => false,

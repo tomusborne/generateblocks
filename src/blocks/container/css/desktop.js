@@ -58,6 +58,7 @@ export default class DesktopCSS extends Component {
 			featuredImageBg,
 			verticalAlignment,
 			zindex,
+			innerZindex,
 			removeVerticalGap,
 			alignment,
 			fontFamily,
@@ -100,6 +101,12 @@ export default class DesktopCSS extends Component {
 
 		if ( hasBgImage && gradientOverlay ) {
 			doGradientOverlay = true;
+		}
+
+		let innerZIndexValue = innerZindex;
+
+		if ( ! innerZIndexValue && hasBgImage && 'pseudo-element' === bgOptions.selector ) {
+			innerZIndexValue = 1;
 		}
 
 		let cssObj = [];
@@ -230,18 +237,18 @@ export default class DesktopCSS extends Component {
 			'width': minHeight && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 
+		if ( innerZIndexValue || 0 === innerZIndexValue ) {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
+				'z-index': innerZIndexValue,
+				position: 'relative',
+			} );
+		}
+
 		if ( 'contained' === innerContainer && ! isGrid ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
 				'max-width': valueWithUnit( containerWidthPreview, 'px' ),
 				'margin-left': 'auto',
 				'margin-right': 'auto',
-			} );
-		}
-
-		if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
-			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
-				'z-index': '1',
-				'position': 'relative', // eslint-disable-line quote-props
 			} );
 		}
 
