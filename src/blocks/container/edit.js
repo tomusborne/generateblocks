@@ -1802,11 +1802,11 @@ class GenerateBlockContainer extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Shape Divider', 'generateblocks' ) }
+						title={ __( 'Shapes', 'generateblocks' ) }
 						initialOpen={ false }
 						icon={ getIcon( 'icons' ) }
 						className={ 'gblocks-panel-label' }
-						id={ 'containerShapeDivider' }
+						id={ 'containerShapes' }
 						state={ this.state }
 						showPanel={ 'Desktop' === this.getDeviceType() || attributes.shapeDividers.length ? true : false }
 					>
