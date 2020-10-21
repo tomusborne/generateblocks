@@ -159,3 +159,7 @@ button.editor-gb-container-background__toggle {
 .gblocks-shape-controls {
     width: 100%;
 }
+/* GPress content width */
+.gblocks-gpress-full-width .components-base-control__label {
+	display: block;
+}
