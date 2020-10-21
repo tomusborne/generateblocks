@@ -5,12 +5,15 @@
 import classnames from 'classnames';
 import getIcon from '../../utils/get-icon';
 import ResponsiveTabs from '../../components/responsive-tabs';
+import UnitPicker from '../../components/unit-picker';
 import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 
-const { __ } = wp.i18n;
+const {
+	__,
+} = wp.i18n;
 
 const {
 	TextControl,
@@ -334,24 +337,14 @@ class GenerateBlockGridContainer extends Component {
 					>
 						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Horizontal Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-unit' }>
-											<Button
-												key={ 'h-gap-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Horizontal Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -398,24 +391,14 @@ class GenerateBlockGridContainer extends Component {
 									</Button>
 								</div>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Vertical Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-unit' }>
-											<Button
-												key={ 'v-gap-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Vertical Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -499,24 +482,14 @@ class GenerateBlockGridContainer extends Component {
 
 						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Horizontal Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-tablet-unit' }>
-											<Button
-												key={ 'h-gap-tablet-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Horizontal Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -564,24 +537,14 @@ class GenerateBlockGridContainer extends Component {
 									</Button>
 								</div>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Vertical Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-tablet-unit' }>
-											<Button
-												key={ 'v-gap-tablet-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Vertical Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -668,24 +631,14 @@ class GenerateBlockGridContainer extends Component {
 
 						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Horizontal Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-mobile-unit' }>
-											<Button
-												key={ 'h-gap-mobile-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Horizontal Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -733,24 +686,14 @@ class GenerateBlockGridContainer extends Component {
 									</Button>
 								</div>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Vertical Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-mobile-unit' }>
-											<Button
-												key={ 'v-gap-mobile-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Vertical Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl

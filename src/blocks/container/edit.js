@@ -4,6 +4,7 @@
 
 import Element from '../../components/element';
 import ColorPicker from '../../components/color-picker';
+import UnitPicker from '../../components/unit-picker';
 import getIcon from '../../utils/get-icon';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
@@ -18,8 +19,6 @@ import MobileCSS from './css/mobile.js';
 
 const {
 	__,
-	_x,
-	sprintf,
 } = wp.i18n;
 
 const {
@@ -30,7 +29,6 @@ const {
 	ToggleControl,
 	SelectControl,
 	TextControl,
-	Tooltip,
 	BaseControl,
 	Notice,
 	PanelBody,
@@ -228,21 +226,6 @@ class GenerateBlockContainer extends Component {
 			attributes.bgOptions.opacity = 1;
 		}
 
-		const minHeightUnits = [
-			{
-				name: _x( 'Pixel', 'A size unit for CSS markup' ),
-				unitValue: 'px',
-			},
-			{
-				name: _x( 'VH', 'A size unit for CSS markup' ),
-				unitValue: 'vh',
-			},
-			{
-				name: _x( 'VW', 'A size unit for CSS markup' ),
-				unitValue: 'vw',
-			},
-		];
-
 		const tagNames = [
 			{ label: 'div', value: 'div' },
 			{ label: 'section', value: 'section' },
@@ -420,25 +403,14 @@ class GenerateBlockContainer extends Component {
 											} }
 										/>
 
-										<div className="components-gblocks-control__header">
-											<div className="components-gblocks-control__label">
-												{ __( 'Height', 'generateblocks' ) }
-											</div>
-
-											<div className="components-gblocks-control__units">
-												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'pixel-unit' }>
-													<Button
-														key={ 'pixel-unit' }
-														isSmall
-														isPrimary={ true }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-													>
-														px
-													</Button>
-												</Tooltip>
-											</div>
-										</div>
+										<UnitPicker
+											label={ __( 'Height', 'generateblocks' ) }
+											value={ 'px' }
+											units={ [ 'px' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
 
 										<TextControl
 											type={ 'number' }
@@ -450,25 +422,14 @@ class GenerateBlockContainer extends Component {
 											} }
 										/>
 
-										<div className="components-gblocks-control__header">
-											<div className="components-gblocks-control__label">
-												{ __( 'Minimum Width', 'generateblocks' ) }
-											</div>
-
-											<div className="components-gblocks-control__units">
-												<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
-													<Button
-														key={ 'percentage-unit' }
-														isSmall
-														isPrimary={ true }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ __( 'Percentage Units', 'generateblocks' ) }
-													>
-														%
-													</Button>
-												</Tooltip>
-											</div>
-										</div>
+										<UnitPicker
+											label={ __( 'Minimum Width', 'generateblocks' ) }
+											value={ '%' }
+											units={ [ '%' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
 
 										<TextControl
 											type={ 'number' }
@@ -524,25 +485,14 @@ class GenerateBlockContainer extends Component {
 
 								{ 'Tablet' === this.getDeviceType() &&
 									<Fragment>
-										<div className="components-gblocks-control__header">
-											<div className="components-gblocks-control__label">
-												{ __( 'Height', 'generateblocks' ) }
-											</div>
-
-											<div className="components-gblocks-control__units">
-												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'pixel-unit' }>
-													<Button
-														key={ 'pixel-unit' }
-														isSmall
-														isPrimary={ true }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-													>
-														px
-													</Button>
-												</Tooltip>
-											</div>
-										</div>
+										<UnitPicker
+											label={ __( 'Height', 'generateblocks' ) }
+											value={ 'px' }
+											units={ [ 'px' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
 
 										<TextControl
 											type={ 'number' }
@@ -558,25 +508,14 @@ class GenerateBlockContainer extends Component {
 
 								{ 'Mobile' === this.getDeviceType() &&
 									<Fragment>
-										<div className="components-gblocks-control__header">
-											<div className="components-gblocks-control__label">
-												{ __( 'Height', 'generateblocks' ) }
-											</div>
-
-											<div className="components-gblocks-control__units">
-												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'pixel-unit' }>
-													<Button
-														key={ 'pixel-unit' }
-														isSmall
-														isPrimary={ true }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-													>
-														px
-													</Button>
-												</Tooltip>
-											</div>
-										</div>
+										<UnitPicker
+											label={ __( 'Height', 'generateblocks' ) }
+											value={ 'px' }
+											units={ [ 'px' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
 
 										<TextControl
 											type={ 'number' }
@@ -726,25 +665,14 @@ class GenerateBlockContainer extends Component {
 
 								{ ( 'contained' === outerContainer || 'contained' === innerContainer ) &&
 									<Fragment>
-										<div className="components-gblocks-control__header">
-											<div className="components-gblocks-control__label">
-												{ __( 'Contained Width', 'generateblocks' ) }
-											</div>
-
-											<div className="components-gblocks-control__units">
-												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'container-width-unit' }>
-													<Button
-														key={ 'container-width-unit' }
-														isSmall
-														isPrimary={ true }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-													>
-														px
-													</Button>
-												</Tooltip>
-											</div>
-										</div>
+										<UnitPicker
+											label={ __( 'Container Width', 'generateblocks' ) }
+											value={ 'px' }
+											units={ [ 'px' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
 
 										<TextControl
 											type={ 'number' }
@@ -792,25 +720,14 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Desktop' === this.getDeviceType() && (
 								<Fragment>
-									<div className="components-gblocks-control__header">
-										<div className="components-gblocks-control__label">
-											{ __( 'Container Width', 'generateblocks' ) }
-										</div>
-
-										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
-												<Button
-													key={ 'percentage-unit' }
-													isSmall
-													isPrimary={ true }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
-												>
-													%
-												</Button>
-											</Tooltip>
-										</div>
-									</div>
+									<UnitPicker
+										label={ __( 'Container Width', 'generateblocks' ) }
+										value={ '%' }
+										units={ [ '%' ] }
+										onClick={ () => {
+											return false;
+										} }
+									/>
 
 									<ButtonGroup className={ 'widthButtons' }>
 										<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
@@ -866,25 +783,14 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Tablet' === this.getDeviceType() && (
 								<Fragment>
-									<div className="components-gblocks-control__header">
-										<div className="components-gblocks-control__label">
-											{ __( 'Container Width', 'generateblocks' ) }
-										</div>
-
-										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
-												<Button
-													key={ 'percentage-unit' }
-													isSmall
-													isPrimary={ true }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
-												>
-													%
-												</Button>
-											</Tooltip>
-										</div>
-									</div>
+									<UnitPicker
+										label={ __( 'Container Width', 'generateblocks' ) }
+										value={ '%' }
+										units={ [ '%' ] }
+										onClick={ () => {
+											return false;
+										} }
+									/>
 
 									<ButtonGroup className={ 'widthButtons' }>
 										<Button isPrimary={ widthTablet === 25 } onClick={ () => setAttributes( { widthTablet: 25 } ) }>25</Button>
@@ -952,25 +858,14 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Mobile' === this.getDeviceType() && (
 								<Fragment>
-									<div className="components-gblocks-control__header">
-										<div className="components-gblocks-control__label">
-											{ __( 'Container Width', 'generateblocks' ) }
-										</div>
-
-										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
-												<Button
-													key={ 'percentage-unit' }
-													isSmall
-													isPrimary={ true }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
-												>
-													%
-												</Button>
-											</Tooltip>
-										</div>
-									</div>
+									<UnitPicker
+										label={ __( 'Container Width', 'generateblocks' ) }
+										value={ '%' }
+										units={ [ '%' ] }
+										onClick={ () => {
+											return false;
+										} }
+									/>
 
 									<ButtonGroup className={ 'widthButtons' }>
 										<Button isPrimary={ widthMobile === 25 } onClick={ () => setAttributes( { widthMobile: 25 } ) }>25</Button>
@@ -1105,33 +1000,16 @@ class GenerateBlockContainer extends Component {
 
 						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-dimensions-control__header">
-									<div className="components-gblocks-dimensions-control__label">
-										{ __( 'Minimum Height', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ minHeightUnits.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
-														isSmall
-														isPrimary={ minHeightUnit === unit.unitValue }
-														aria-pressed={ minHeightUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { minHeightUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Minimum Height', 'generateblocks' ) }
+									value={ minHeightUnit }
+									units={ [ 'px', 'vh', 'vw' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											minHeightUnit: value,
+										} );
+									} }
+								/>
 
 								<TextControl
 									type={ 'number' }
@@ -1172,6 +1050,7 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1185,6 +1064,7 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1196,8 +1076,8 @@ class GenerateBlockContainer extends Component {
 									attrBottom={ 'borderSizeBottom' }
 									attrLeft={ 'borderSizeLeft' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1215,39 +1095,23 @@ class GenerateBlockContainer extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
 
 						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-dimensions-control__header">
-									<div className="components-gblocks-dimensions-control__label">
-										{ __( 'Minimum Height', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ minHeightUnits.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
-														isSmall
-														isPrimary={ minHeightUnitTablet === unit.unitValue }
-														aria-pressed={ minHeightUnitTablet === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { minHeightUnitTablet: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Minimum Height', 'generateblocks' ) }
+									value={ minHeightUnitTablet }
+									units={ [ 'px', 'vh', 'vw' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											minHeightUnitTablet: value,
+										} );
+									} }
+								/>
 
 								<TextControl
 									type={ 'number' }
@@ -1289,6 +1153,7 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1302,6 +1167,7 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1313,8 +1179,8 @@ class GenerateBlockContainer extends Component {
 									attrBottom={ 'borderSizeBottomTablet' }
 									attrLeft={ 'borderSizeLeftTablet' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1332,39 +1198,23 @@ class GenerateBlockContainer extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
 
 						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-dimensions-control__header">
-									<div className="components-gblocks-dimensions-control__label">
-										{ __( 'Minimum Height', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ minHeightUnits.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
-														isSmall
-														isPrimary={ minHeightUnitMobile === unit.unitValue }
-														aria-pressed={ minHeightUnitMobile === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { minHeightUnitMobile: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Minimum Height', 'generateblocks' ) }
+									value={ minHeightUnitMobile }
+									units={ [ 'px', 'vh', 'vw' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											minHeightUnitMobile: value,
+										} );
+									} }
+								/>
 
 								<TextControl
 									type={ 'number' }
@@ -1406,6 +1256,7 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1419,6 +1270,7 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1430,8 +1282,8 @@ class GenerateBlockContainer extends Component {
 									attrBottom={ 'borderSizeBottomMobile' }
 									attrLeft={ 'borderSizeLeftMobile' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -1449,6 +1301,7 @@ class GenerateBlockContainer extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }

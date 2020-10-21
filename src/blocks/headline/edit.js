@@ -5,6 +5,7 @@
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
 import IconPicker from '../../components/icon-picker';
+import UnitPicker from '../../components/unit-picker';
 import TypographyControls from '../../components/typography';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
@@ -19,8 +20,6 @@ import './markformat';
 
 const {
 	__,
-	_x,
-	sprintf,
 } = wp.i18n; // Import __() from wp.i18n
 const {
 	TextControl,
@@ -28,9 +27,7 @@ const {
 	SelectControl,
 	DropdownMenu,
 	ToggleControl,
-	Tooltip,
 	Button,
-	ButtonGroup,
 } = wp.components;
 
 const {
@@ -215,17 +212,6 @@ class GenerateBlockHeadline extends Component {
 		if ( googleFontVariants ) {
 			googleFontsAttr = ':' + googleFontVariants;
 		}
-
-		const unitSizes = [
-			{
-				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'px',
-			},
-			{
-				name: _x( 'Em', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'em',
-			},
-		];
 
 		let iconSizePlaceholderMobile = '';
 
@@ -479,6 +465,7 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -493,6 +480,7 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -504,8 +492,8 @@ class GenerateBlockHeadline extends Component {
 									attrBottom={ 'borderSizeBottom' }
 									attrLeft={ 'borderSizeLeft' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -523,6 +511,7 @@ class GenerateBlockHeadline extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
@@ -550,6 +539,7 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -564,6 +554,7 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -575,8 +566,8 @@ class GenerateBlockHeadline extends Component {
 									attrBottom={ 'borderSizeBottomTablet' }
 									attrLeft={ 'borderSizeLeftTablet' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -594,6 +585,7 @@ class GenerateBlockHeadline extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
@@ -621,6 +613,7 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -635,6 +628,7 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -646,8 +640,8 @@ class GenerateBlockHeadline extends Component {
 									attrBottom={ 'borderSizeBottomMobile' }
 									attrLeft={ 'borderSizeLeftMobile' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
@@ -665,6 +659,7 @@ class GenerateBlockHeadline extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
@@ -848,37 +843,21 @@ class GenerateBlockHeadline extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.headline }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -967,37 +946,21 @@ class GenerateBlockHeadline extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.headline }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -1087,37 +1050,21 @@ class GenerateBlockHeadline extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.headline }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl

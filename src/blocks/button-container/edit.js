@@ -256,6 +256,7 @@ class GenerateButtonContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.buttonContainer }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<ToggleControl
@@ -293,6 +294,7 @@ class GenerateButtonContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.buttonContainer }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<ToggleControl
@@ -330,6 +332,7 @@ class GenerateButtonContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.buttonContainer }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<ToggleControl

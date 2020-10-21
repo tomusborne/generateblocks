@@ -4,13 +4,13 @@
 import classnames from 'classnames';
 import './editor.scss';
 import getIcon from '../../utils/get-icon';
+import UnitPicker from '../unit-picker';
 
 /**
  * WordPress dependencies
  */
 const {
 	__,
-	_x,
 	sprintf,
 } = wp.i18n;
 
@@ -22,7 +22,6 @@ const {
 const {
 	Button,
 	Tooltip,
-	ButtonGroup,
 } = wp.components;
 
 class DimensionsControl extends Component {
@@ -91,10 +90,10 @@ class DimensionsControl extends Component {
 			labelRight = __( 'Right', 'generateblocks' ),
 			labelBottom = __( 'Bottom', 'generateblocks' ),
 			labelLeft = __( 'Left', 'generateblocks' ),
-			displayUnit,
 			device,
 			block,
 			defaults,
+			units,
 		} = this.props;
 
 		const classes = classnames(
@@ -182,21 +181,6 @@ class DimensionsControl extends Component {
 			}
 		};
 
-		const unitSizes = [
-			{
-				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'px',
-			},
-			{
-				name: _x( 'Em', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'em',
-			},
-			{
-				name: _x( 'Percentage', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: '%',
-			},
-		];
-
 		let topPlaceholder = '',
 			rightPlaceholder = '',
 			bottomPlaceholder = '',
@@ -268,50 +252,18 @@ class DimensionsControl extends Component {
 		return (
 			<Fragment>
 				<div className={ classes }>
-					<div className="components-gblocks-dimensions-control__header">
-						<div className="components-gblocks-dimensions-control__label">
-							{ label }
-						</div>
-
-						{ ( typeof attributes[ attrUnit ] !== 'undefined' ) ?
-							<div className="components-gblocks-control__units">
-								<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-									{ unitSizes.map( ( unit ) =>
-										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-											<Button
-												key={ unit.unitValue }
-												className={ 'components-gblocks-dimensions-control__units--' + unit.name }
-												isSmall
-												isPrimary={ attributes[ attrUnit ] === unit.unitValue }
-												aria-pressed={ attributes[ attrUnit ] === unit.unitValue }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-												onClick={ () => this.onChangeUnits( unit.unitValue ) }
-											>
-												{ unit.unitValue }
-											</Button>
-										</Tooltip>
-									) }
-								</ButtonGroup>
-							</div> : null
-						}
-
-						{ ( typeof displayUnit !== 'undefined' ) &&
-							<div className="components-gblocks-control__units">
-								<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'px-unit' }>
-									<Button
-										key={ 'px-unit' }
-										isSmall
-										isPrimary={ true }
-										aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-									>
-										{ displayUnit }
-									</Button>
-								</Tooltip>
-							</div>
-						}
-					</div>
+					<UnitPicker
+						label={ label }
+						value={ 'undefined' !== typeof attributes[ attrUnit ] ? attributes[ attrUnit ] : 'px' }
+						units={ units }
+						onClick={ ( value ) => {
+							if ( 'undefined' !== typeof attributes[ attrUnit ] ) {
+								this.onChangeUnits( value );
+							} else {
+								return false;
+							}
+						} }
+					/>
 
 					<div className="components-gblocks-dimensions-control__inputs">
 						<input

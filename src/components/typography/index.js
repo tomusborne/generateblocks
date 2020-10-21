@@ -3,24 +3,25 @@
  */
 import './editor.scss';
 import googleFonts from './google-fonts';
+import UnitPicker from '../unit-picker';
 
 /**
  * WordPress dependencies
  */
 const {
 	__,
-	_x,
-	sprintf,
 } = wp.i18n;
-const { Component, Fragment } = wp.element;
+
+const {
+	Component,
+	Fragment,
+} = wp.element;
 
 const {
 	BaseControl,
 	SelectControl,
 	ToggleControl,
 	TextControl,
-	ButtonGroup,
-	Tooltip,
 	Button,
 } = wp.components;
 
@@ -139,21 +140,6 @@ class TypographyControls extends Component {
 			setAttributes( { 'fontFamily': event.target.value } ); // eslint-disable-line quote-props
 			onFontChange( event.target.value );
 		};
-
-		const unitSizes = [
-			{
-				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'px',
-			},
-			{
-				name: _x( 'Em', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'em',
-			},
-			{
-				name: _x( 'Percentage', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: '%',
-			},
-		];
 
 		const getValue = ( value, setDevice ) => {
 			const valueName = value + setDevice;
@@ -322,34 +308,17 @@ class TypographyControls extends Component {
 				}
 
 				{ showFontSize && showAdvancedToggle &&
-					<Fragment>
-						<div className="components-gblocks-typography-control__header">
-							<div className="components-gblocks-typography-control__label components-base-control__label">
-								{ __( 'Font Size', 'generateblocks' ) }
-							</div>
-
-							<div className="components-gblocks-control__units">
-								<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-									{ unitSizes.map( ( unit ) =>
-										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-											<Button
-												key={ unit.unitValue }
-												className={ 'components-gblocks-typography-control__units--' + unit.name }
-												isSmall
-												isPrimary={ attributes.fontSizeUnit === unit.unitValue }
-												aria-pressed={ attributes.fontSizeUnit === unit.unitValue }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-												onClick={ () => setAttributes( { fontSizeUnit: unit.unitValue } ) }
-											>
-												{ unit.unitValue }
-											</Button>
-										</Tooltip>
-									) }
-								</ButtonGroup>
-							</div>
-						</div>
+					<BaseControl>
+						<UnitPicker
+							label={ __( 'Font Size', 'generateblocks' ) }
+							value={ attributes.fontSizeUnit }
+							units={ [ 'px', 'em', '%' ] }
+							onClick={ ( value ) => {
+								setAttributes( {
+									fontSizeUnit: value,
+								} );
+							} }
+						/>
 
 						<div className="components-gblocks-typography-control__inputs">
 							<TextControl
@@ -382,38 +351,21 @@ class TypographyControls extends Component {
 								{ __( 'Reset', 'generateblocks' ) }
 							</Button>
 						</div>
-					</Fragment>
+					</BaseControl>
 				}
 
 				{ showLineHeight && showAdvancedToggle &&
-					<Fragment>
-						<div className="components-gblocks-typography-control__header">
-							<div className="components-gblocks-typography-control__label components-base-control__label">
-								{ __( 'Line Height', 'generateblocks' ) }
-							</div>
-
-							<div className="components-gblocks-control__units">
-								<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-									{ unitSizes.map( ( unit ) =>
-										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-										<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-											<Button
-												key={ unit.unitValue }
-												className={ 'components-gblocks-typography-control__units--' + unit.name }
-												isSmall
-												isPrimary={ attributes.lineHeightUnit === unit.unitValue }
-												aria-pressed={ attributes.lineHeightUnit === unit.unitValue }
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-												onClick={ () => setAttributes( { lineHeightUnit: unit.unitValue } ) }
-											>
-												{ unit.unitValue }
-											</Button>
-										</Tooltip>
-									) }
-								</ButtonGroup>
-							</div>
-						</div>
+					<BaseControl>
+						<UnitPicker
+							label={ __( 'Line Height', 'generateblocks' ) }
+							value={ attributes.lineHeightUnit }
+							units={ [ 'px', 'em', '%' ] }
+							onClick={ ( value ) => {
+								setAttributes( {
+									lineHeightUnit: value,
+								} );
+							} }
+						/>
 
 						<div className="components-gblocks-typography-control__inputs">
 							<TextControl
@@ -458,29 +410,19 @@ class TypographyControls extends Component {
 								{ __( 'Reset', 'generateblocks' ) }
 							</Button>
 						</div>
-					</Fragment>
+					</BaseControl>
 				}
 
 				{ showLetterSpacing && showAdvancedToggle &&
-					<Fragment>
-						<div className="components-gblocks-typography-control__header">
-							<div className="components-gblocks-control__label">
-								{ __( 'Letter Spacing', 'generateblocks' ) }
-							</div>
-
-							<div className="components-gblocks-control__units">
-								<Tooltip text={ __( 'Em Units', 'generateblocks' ) } key={ 'letter-spacing-unit' }>
-									<Button
-										key={ 'letter-spacing-unit' }
-										isSmall
-										isPrimary={ true }
-										aria-label={ __( 'Em Units', 'generateblocks' ) }
-									>
-										em
-									</Button>
-								</Tooltip>
-							</div>
-						</div>
+					<BaseControl>
+						<UnitPicker
+							label={ __( 'Letter Spacing', 'generateblocks' ) }
+							value={ 'em' }
+							units={ [ 'em' ] }
+							onClick={ () => {
+								return false;
+							} }
+						/>
 
 						<div className="components-gblocks-typography-control__inputs">
 							<TextControl
@@ -525,7 +467,7 @@ class TypographyControls extends Component {
 								{ __( 'Reset', 'generateblocks' ) }
 							</Button>
 						</div>
-					</Fragment>
+					</BaseControl>
 				}
 			</Fragment>
 		);
