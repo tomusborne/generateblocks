@@ -262,7 +262,7 @@ function generateblocks_add_block_wrappers( $block_content, $block ) {
 			$classNames[] = 'align' . $settings['align'];
 		}
 
-		$tagName = isset( $settings['tagName'] ) ? $settings['tagName'] : 'div';
+		$tagName = apply_filters( 'generateblocks_container_tagname', $settings['tagName'], $block );
 
 		$output .= sprintf(
 			'<%1$s %2$s>',
