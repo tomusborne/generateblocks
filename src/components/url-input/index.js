@@ -3,16 +3,24 @@ import classnames from 'classnames';
 // Import CSS
 import './editor.scss';
 
-const { __ } = wp.i18n;
-const { Component } = wp.element;
+const {
+	__,
+} = wp.i18n;
+
+const {
+	Component,
+} = wp.element;
+
 const {
 	Button,
 	ToggleControl,
 } = wp.components;
 
-const WPURLInput = wp.blockEditor.URLInput;
+const {
+	URLInput,
+} = wp.blockEditor;
 
-export default class URLInput extends Component {
+export default class ButtonURLInput extends Component {
 	constructor() {
 		super( ...arguments );
 
@@ -61,12 +69,9 @@ export default class URLInput extends Component {
 		} = this.state;
 
 		return (
-			<form
-				className={ classnames( 'gblocks-component-url-input', className ) }
-				onSubmit={ ( e ) => e.preventDefault() }
-			>
+			<div className={ classnames( 'gblocks-component-url-input', className ) }>
 				<div className="gblocks-component-url-input-flex">
-					<WPURLInput
+					<URLInput
 						value={ url }
 						onChange={ ( value ) => {
 							onChange( {
@@ -118,7 +123,7 @@ export default class URLInput extends Component {
 						/>
 					</div>
 				}
-			</form>
+			</div>
 		);
 	}
 }
