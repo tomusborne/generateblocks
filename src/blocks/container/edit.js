@@ -359,6 +359,12 @@ class GenerateBlockContainer extends Component {
 					>
 						<PanelRow>
 							<div className="gblocks-shape-controls">
+								<div
+									className="gblocks-shape-divider-preview"
+									style={ { color: attributes.shapeDividers[ index ].color } }
+									dangerouslySetInnerHTML={ { __html: sanitizeSVG( generateBlocksInfo.shapeDividers[ attributes.shapeDividers[ index ].shape ].icon ) } }
+								/>
+
 								{ 'Desktop' === this.getDeviceType() &&
 									<Fragment>
 										<SelectControl
