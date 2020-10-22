@@ -215,6 +215,7 @@ class GenerateBlockContainer extends Component {
 			googleFontVariants,
 			fullWidthContent,
 			align,
+			shapeDividers,
 		} = attributes;
 
 		// Attribute defaults added to an object late don't get defaults.
@@ -312,9 +313,9 @@ class GenerateBlockContainer extends Component {
 		}
 
 		const handleAddShape = () => {
-			const shapeDividers = [ ...attributes.shapeDividers ];
+			const shapeDividersValues = [ ...shapeDividers ];
 
-			shapeDividers.push( {
+			shapeDividersValues.push( {
 				shape: generateBlocksStyling.container.shapeDividers.shape,
 				color: generateBlocksStyling.container.shapeDividers.color,
 				colorOpacity: generateBlocksStyling.container.shapeDividers.colorOpacity,
@@ -329,14 +330,14 @@ class GenerateBlockContainer extends Component {
 				zindex: generateBlocksStyling.container.shapeDividers.zindex,
 			} );
 
-			setAttributes( { shapeDividers } );
+			setAttributes( { shapeDividers: shapeDividersValues } );
 		};
 
 		const handleRemoveShape = ( index ) => {
-			const shapeDividers = [ ...attributes.shapeDividers ];
+			const shapeDividersValues = [ ...shapeDividers ];
 
-			shapeDividers.splice( index, 1 );
-			setAttributes( { shapeDividers } );
+			shapeDividersValues.splice( index, 1 );
+			setAttributes( { shapeDividers: shapeDividersValues } );
 		};
 
 		const shapeOptions = [];
@@ -350,21 +351,22 @@ class GenerateBlockContainer extends Component {
 
 		let shapeFields;
 
-		if ( attributes.shapeDividers.length ) {
-			shapeFields = attributes.shapeDividers.map( ( location, index ) => {
-				const shapeNumber = index + 1;
+		if ( shapeDividers.length ) {
+			shapeFields = shapeDividers.map( ( location, index ) => {
+				const shapeNumber = index + 1 + '-' + uniqueId;
 
-				return <Fragment key={ index }>
+				return <Fragment key={ uniqueId + '-' + index }>
 					<PanelBody
 						title={ __( 'Shape', 'generateblocks' ) + ' ' + shapeNumber }
 						initialOpen={ false }
 					>
 						<PanelRow>
+
 							<div className="gblocks-shape-controls">
 								<div
 									className="gblocks-shape-divider-preview"
-									style={ { color: attributes.shapeDividers[ index ].color } }
-									dangerouslySetInnerHTML={ { __html: sanitizeSVG( generateBlocksInfo.shapeDividers[ attributes.shapeDividers[ index ].shape ].icon ) } }
+									style={ { color: shapeDividers[ index ].color } }
+									dangerouslySetInnerHTML={ { __html: sanitizeSVG( generateBlocksInfo.shapeDividers[ shapeDividers[ index ].shape ].icon ) } }
 								/>
 
 								{ 'Desktop' === this.getDeviceType() &&
@@ -372,42 +374,70 @@ class GenerateBlockContainer extends Component {
 										<SelectControl
 											label={ __( 'Shapes', 'generateblocks' ) }
 											options={ shapeOptions }
-											value={ attributes.shapeDividers[ index ].shape }
+											value={ shapeDividers[ index ].shape }
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].shape = value;
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													shape: value,
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 
 										<ColorPicker
 											label={ __( 'Color', 'generateblocks' ) }
-											value={ attributes.shapeDividers[ index ].color }
+											value={ shapeDividers[ index ].color }
 											alpha={ true }
-											valueOpacity={ attributes.shapeDividers[ index ].colorOpacity }
+											valueOpacity={ shapeDividers[ index ].colorOpacity }
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].color = value;
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													color: value,
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 											onOpacityChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].colorOpacity = value;
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													colorOpacity: value,
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 
 										<SelectControl
 											label={ __( 'Location', 'generateblocks' ) }
-											value={ attributes.shapeDividers[ index ].location }
+											value={ shapeDividers[ index ].location }
 											options={ [
 												{ label: __( 'Top', 'generateblocks' ), value: 'top' },
 												{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
 											] }
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].location = value;
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													location: value,
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 
@@ -422,11 +452,18 @@ class GenerateBlockContainer extends Component {
 
 										<TextControl
 											type={ 'number' }
-											value={ attributes.shapeDividers[ index ].height ? attributes.shapeDividers[ index ].height : '' }
+											value={ shapeDividers[ index ].height ? shapeDividers[ index ].height : '' }
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].height = parseFloat( value );
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													height: parseFloat( value ),
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 
@@ -441,38 +478,66 @@ class GenerateBlockContainer extends Component {
 
 										<TextControl
 											type={ 'number' }
-											value={ attributes.shapeDividers[ index ].minWidth ? attributes.shapeDividers[ index ].minWidth : '' }
+											value={ shapeDividers[ index ].minWidth ? shapeDividers[ index ].minWidth : '' }
 											min="100"
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].minWidth = parseFloat( value );
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													minWidth: parseFloat( value ),
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 
 										<ToggleControl
 											label={ __( 'Flip Horizontally', 'generateblocks' ) }
-											checked={ !! attributes.shapeDividers[ index ].flipHorizontally }
+											checked={ !! shapeDividers[ index ].flipHorizontally }
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].flipHorizontally = value;
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													flipHorizontally: value,
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 
 										<TextControl
 											label={ __( 'z-index', 'generateblocks' ) }
 											type={ 'number' }
-											value={ attributes.shapeDividers[ index ].zindex || 0 === attributes.shapeDividers[ index ].zindex ? attributes.shapeDividers[ index ].zindex : '' }
+											value={ shapeDividers[ index ].zindex || 0 === shapeDividers[ index ].zindex ? shapeDividers[ index ].zindex : '' }
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].zindex = value;
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													zindex: value,
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 											onBlur={ () => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].zindex = parseFloat( attributes.shapeDividers[ index ].zindex );
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													zindex: parseFloat( shapeDividers[ index ].zindex ),
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 											onClick={ ( e ) => {
 												// Make sure onBlur fires in Firefox.
@@ -504,11 +569,18 @@ class GenerateBlockContainer extends Component {
 
 										<TextControl
 											type={ 'number' }
-											value={ attributes.shapeDividers[ index ].heightTablet ? attributes.shapeDividers[ index ].heightTablet : '' }
+											value={ shapeDividers[ index ].heightTablet ? shapeDividers[ index ].heightTablet : '' }
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].heightTablet = parseFloat( value );
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													heightTablet: parseFloat( value ),
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 
@@ -523,12 +595,19 @@ class GenerateBlockContainer extends Component {
 
 										<TextControl
 											type={ 'number' }
-											value={ attributes.shapeDividers[ index ].minWidthTablet ? attributes.shapeDividers[ index ].minWidthTablet : '' }
+											value={ shapeDividers[ index ].minWidthTablet ? shapeDividers[ index ].minWidthTablet : '' }
 											min="100"
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].minWidthTablet = parseFloat( value );
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													minWidthTablet: parseFloat( value ),
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 									</Fragment>
@@ -547,11 +626,18 @@ class GenerateBlockContainer extends Component {
 
 										<TextControl
 											type={ 'number' }
-											value={ attributes.shapeDividers[ index ].heightMobile ? attributes.shapeDividers[ index ].heightMobile : '' }
+											value={ shapeDividers[ index ].heightMobile ? shapeDividers[ index ].heightMobile : '' }
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].heightMobile = parseFloat( value );
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													heightMobile: parseFloat( value ),
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 
@@ -566,12 +652,19 @@ class GenerateBlockContainer extends Component {
 
 										<TextControl
 											type={ 'number' }
-											value={ attributes.shapeDividers[ index ].minWidthMobile ? attributes.shapeDividers[ index ].minWidthMobile : '' }
+											value={ shapeDividers[ index ].minWidthMobile ? shapeDividers[ index ].minWidthMobile : '' }
 											min="100"
 											onChange={ ( value ) => {
-												const shapeDividers = [ ...attributes.shapeDividers ];
-												attributes.shapeDividers[ index ].minWidthMobile = parseFloat( value );
-												setAttributes( { shapeDividers } );
+												const shapes = [ ...shapeDividers ];
+
+												shapes[ index ] = {
+													...shapes[ index ],
+													minWidthMobile: parseFloat( value ),
+												};
+
+												setAttributes( {
+													shapeDividers: shapes,
+												} );
 											} }
 										/>
 									</Fragment>
