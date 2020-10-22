@@ -604,7 +604,7 @@ function generateblocks_parse_attr( $context, $attributes = array(), $settings =
  */
 function generateblocks_get_svg_shape_dividers() {
 	return apply_filters(
-		'generateblocks_shape_dividers',
+		'generateblocks_svg_shapes',
 		array(
 			'gb-waves' => array(
 				'label' => 'Waves',
