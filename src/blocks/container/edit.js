@@ -340,12 +340,22 @@ class GenerateBlockContainer extends Component {
 			setAttributes( { shapeDividers: shapeDividersValues } );
 		};
 
+		const allShapes = [];
 		const shapeOptions = [];
 
-		Object.keys( generateBlocksInfo.shapeDividers ).map( ( name ) => {
-			shapeOptions.push( {
-				label: generateBlocksInfo.shapeDividers[ name ].label,
-				value: name,
+		Object.keys( generateBlocksInfo.svgShapes ).map( ( key ) => {
+			const shapes = generateBlocksInfo.svgShapes[ key ].svgs;
+
+			Object.keys( shapes ).map( ( name ) => {
+				allShapes[ name ] = {
+					label: shapes[ name ].label,
+					icon: shapes[ name ].icon,
+				};
+
+				shapeOptions.push( {
+					label: shapes[ name ].label,
+					value: name,
+				} );
 			} );
 		} );
 
@@ -353,21 +363,22 @@ class GenerateBlockContainer extends Component {
 
 		if ( shapeDividers.length ) {
 			shapeFields = shapeDividers.map( ( location, index ) => {
-				const shapeNumber = index + 1 + '-' + uniqueId;
+				const shapeNumber = index + 1;
 
-				return <Fragment key={ uniqueId + '-' + index }>
+				return <Fragment key={ index }>
 					<PanelBody
 						title={ __( 'Shape', 'generateblocks' ) + ' ' + shapeNumber }
 						initialOpen={ false }
 					>
 						<PanelRow>
-
 							<div className="gblocks-shape-controls">
-								<div
-									className="gblocks-shape-divider-preview"
-									style={ { color: shapeDividers[ index ].color } }
-									dangerouslySetInnerHTML={ { __html: sanitizeSVG( generateBlocksInfo.shapeDividers[ shapeDividers[ index ].shape ].icon ) } }
-								/>
+								{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
+									<div
+										className="gblocks-shape-divider-preview"
+										style={ { color: shapeDividers[ index ].color } }
+										dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
+									/>
+								}
 
 								{ 'Desktop' === this.getDeviceType() &&
 									<Fragment>
@@ -681,13 +692,15 @@ class GenerateBlockContainer extends Component {
 		if ( attributes.shapeDividers.length ) {
 			allShapeDividers = attributes.shapeDividers.map( ( location, index ) => {
 				return <Fragment key={ index }>
-					<div
-						className={ classnames( {
-							'gb-shape-divider': true,
-							[ `gb-shape-divider-${ index }` ]: true,
-						} ) }
-						dangerouslySetInnerHTML={ { __html: sanitizeSVG( generateBlocksInfo.shapeDividers[ attributes.shapeDividers[ index ].shape ].icon ) } }
-					/>
+					{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
+						<div
+							className={ classnames( {
+								'gb-shape-divider': true,
+								[ `gb-shape-divider-${ index }` ]: true,
+							} ) }
+							dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
+						/>
+					}
 				</Fragment>;
 			} );
 		}

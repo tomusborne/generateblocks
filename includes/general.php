@@ -51,7 +51,7 @@ function generateblocks_do_block_editor_assets() {
 			'hasCustomFields' => post_type_supports( get_post_type(), 'custom-fields' ),
 			'hasWideAlignSupport' => current_theme_supports( 'align-wide' ),
 			'imageSizes' => $image_sizes,
-			'shapeDividers' => generateblocks_get_svg_shape_dividers(),
+			'svgShapes' => generateblocks_get_svg_shapes(),
 		)
 	);
 
@@ -414,14 +414,23 @@ function generateblocks_do_shape_divider( $output, $block ) {
 	);
 
 	if ( ! empty( $settings['shapeDividers'] ) ) {
+		$shapes = generateblocks_get_svg_shapes();
+		$shape_values = array();
+
+		foreach ( $shapes as $group => $data ) {
+			if ( ! empty( $data['svgs'] ) && is_array( $data['svgs'] ) ) {
+				foreach ( $data['svgs'] as $key => $shape ) {
+					$shape_values[ $key ] = $shape['icon'];
+				}
+			}
+		}
+
 		foreach ( (array) $settings['shapeDividers'] as $index => $option ) {
 			if ( ! empty( $option['shape'] ) ) {
-				$shapes = generateblocks_get_svg_shape_dividers();
-
-				if ( isset( $shapes[ $option['shape'] ]['icon'] ) ) {
+				if ( isset( $shape_values[ $option['shape'] ] ) ) {
 					$output .= sprintf(
 						'<div class="gb-shape-divider gb-shape-divider-' . $index . '">%s</div>',
-						$shapes[ $option['shape'] ]['icon']
+						$shape_values[ $option['shape'] ]
 					);
 				}
 			}
