@@ -842,6 +842,19 @@ class GenerateBlockContainer extends Component {
 									</Fragment>
 								}
 
+								<SelectControl
+									label={ __( 'Element Tag', 'generateblocks' ) }
+									value={ tagName }
+									options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
+									onChange={ ( value ) => {
+										setAttributes( {
+											tagName: value,
+										} );
+									} }
+								/>
+
+								{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
+
 								{ fullWidthContentOptions() }
 							</Fragment>
 
@@ -932,6 +945,19 @@ class GenerateBlockContainer extends Component {
 											} );
 										} }
 									/>
+
+									<SelectControl
+										label={ __( 'Element Tag', 'generateblocks' ) }
+										value={ tagName }
+										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
+										onChange={ ( value ) => {
+											setAttributes( {
+												tagName: value,
+											} );
+										} }
+									/>
+
+									{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
 								</Fragment>
 							) }
 
@@ -1842,19 +1868,6 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
-						<SelectControl
-							label={ __( 'Element Tag', 'generateblocks' ) }
-							value={ tagName }
-							options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
-							onChange={ ( value ) => {
-								setAttributes( {
-									tagName: value,
-								} );
-							} }
-						/>
-
-						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
-
 						<TextControl
 							label={ __( 'Outer z-index', 'generateblocks' ) }
 							type={ 'number' }
