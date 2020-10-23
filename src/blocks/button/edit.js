@@ -945,29 +945,6 @@ class GenerateBlockButton extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'General', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-						id={ 'buttonGeneral' }
-						state={ this.state }
-						showPanel={ 'Desktop' === this.getDeviceType() || false }
-					>
-						<TextControl
-							label={ __( 'ARIA Label', 'generateblocks' ) }
-							help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
-							value={ ariaLabel }
-							onChange={ ( value ) => {
-								setAttributes( {
-									ariaLabel: value,
-								} );
-							} }
-						/>
-
-						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonGeneral', this.props, this.state ) }
-					</PanelArea>
-
-					<PanelArea { ...this.props }
 						title={ __( 'Documentation', 'generateblocks' ) }
 						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
@@ -993,6 +970,17 @@ class GenerateBlockButton extends Component {
 								anchor: nextValue,
 							} );
 						} } />
+
+					<TextControl
+						label={ __( 'ARIA Label', 'generateblocks' ) }
+						help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
+						value={ ariaLabel }
+						onChange={ ( value ) => {
+							setAttributes( {
+								ariaLabel: value,
+							} );
+						} }
+					/>
 				</InspectorAdvancedControls>
 
 				<DesktopCSS { ...this.props } />
