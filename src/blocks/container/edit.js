@@ -1277,6 +1277,46 @@ class GenerateBlockContainer extends Component {
 									defaults={ generateBlocksDefaults.container }
 									units={ [ 'px', 'em', '%' ] }
 								/>
+
+								<TextControl
+									label={ __( 'Outer z-index', 'generateblocks' ) }
+									type={ 'number' }
+									value={ zindex || 0 === zindex ? zindex : '' }
+									onChange={ ( value ) => {
+										setAttributes( {
+											zindex: value,
+										} );
+									} }
+									onBlur={ () => {
+										setAttributes( {
+											zindex: parseFloat( zindex ),
+										} );
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
+									} }
+								/>
+
+								<TextControl
+									label={ __( 'Inner z-index', 'generateblocks' ) }
+									type={ 'number' }
+									value={ innerZindex || 0 === innerZindex ? innerZindex : '' }
+									onChange={ ( value ) => {
+										setAttributes( {
+											innerZindex: value,
+										} );
+									} }
+									onBlur={ () => {
+										setAttributes( {
+											innerZindex: parseFloat( innerZindex ),
+										} );
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
+									} }
+								/>
 							</Fragment>
 						) }
 
@@ -1868,45 +1908,6 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
-						<TextControl
-							label={ __( 'Outer z-index', 'generateblocks' ) }
-							type={ 'number' }
-							value={ zindex || 0 === zindex ? zindex : '' }
-							onChange={ ( value ) => {
-								setAttributes( {
-									zindex: value,
-								} );
-							} }
-							onBlur={ () => {
-								setAttributes( {
-									zindex: parseFloat( zindex ),
-								} );
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'Inner z-index', 'generateblocks' ) }
-							type={ 'number' }
-							value={ innerZindex || 0 === innerZindex ? innerZindex : '' }
-							onChange={ ( value ) => {
-								setAttributes( {
-									innerZindex: value,
-								} );
-							} }
-							onBlur={ () => {
-								setAttributes( {
-									innerZindex: parseFloat( innerZindex ),
-								} );
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerGeneral', this.props, this.state ) }
 					</PanelArea>
