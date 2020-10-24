@@ -287,6 +287,7 @@ export default class DesktopCSS extends Component {
 
 			shapeDividers.map( ( location, index ) => {
 				const shapeTransforms = [];
+				const shapeNumber = index + 1;
 
 				if ( 'top' === shapeDividers[ index ].location ) {
 					shapeTransforms.push( 'scaleY(-1)' );
@@ -296,43 +297,43 @@ export default class DesktopCSS extends Component {
 					shapeTransforms.push( 'scaleX(-1)' );
 				}
 
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ] = [ {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber ] = [ {
 					color: hexToRGBA( shapeDividers[ index ].color, shapeDividers[ index ].colorOpacity ),
 					'z-index': shapeDividers[ index ].zindex,
 				} ];
 
 				if ( 'top' === shapeDividers[ index ].location || 'bottom' === shapeDividers[ index ].location ) {
-					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber ].push( {
 						left: '0',
 						right: '0',
 					} );
 				}
 
 				if ( 'bottom' === shapeDividers[ index ].location ) {
-					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber ].push( {
 						bottom: '-1px',
 					} );
 				}
 
 				if ( 'top' === shapeDividers[ index ].location ) {
-					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber ].push( {
 						top: '-1px',
 					} );
 				}
 
 				if ( shapeTransforms.length ) {
-					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index ].push( {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber ].push( {
 						transform: shapeTransforms.join( ' ' ),
 					} );
 				}
 
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ] = [ {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].height, 'px' ),
 					'min-width': valueWithUnit( shapeDividers[ index ].minWidth, '%' ),
 				} ];
 
 				if ( 'top' === shapeDividers[ index ].location || 'bottom' === shapeDividers[ index ].location ) {
-					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ].push( {
+					cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ].push( {
 						position: 'relative',
 						left: '50%',
 						transform: 'translateX(-50%)',

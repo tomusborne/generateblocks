@@ -138,7 +138,9 @@ export default class TabletCSS extends Component {
 
 		if ( shapeDividers.length ) {
 			shapeDividers.map( ( location, index ) => {
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shape-divider-' + index + ' svg' ] = [ {
+				const shapeNumber = index + 1;
+
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].heightTablet, 'px' ),
 					'min-width': valueWithUnit( shapeDividers[ index ].minWidthTablet, '%' ),
 				} ];

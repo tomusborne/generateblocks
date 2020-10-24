@@ -184,13 +184,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->set_selector( '.gb-container .wp-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
 
-			$css->set_selector( '.gb-container .gb-shape-divider' );
+			$css->set_selector( '.gb-container .gb-shape' );
 			$css->add_property( 'position', 'absolute' );
 			$css->add_property( 'overflow', 'hidden' );
 			$css->add_property( 'pointer-events', 'none' );
 			$css->add_property( 'line-height', '0' );
 
-			$css->set_selector( '.gb-container .gb-shape-divider svg' );
+			$css->set_selector( '.gb-container .gb-shape svg' );
 			$css->add_property( 'fill', 'currentColor' );
 
 			foreach ( $blockData as $atts ) {
@@ -408,6 +408,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$default_styles = generateblocks_get_default_styles();
 
 					foreach ( (array) $settings['shapeDividers'] as $index => $options ) {
+						$shapeNumber = $index + 1;
+
 						$shapeOptions = wp_parse_args(
 							$options,
 							$default_styles['container']['shapeDividers']
@@ -423,7 +425,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$shapeTransforms[] = 'scaleX(-1)';
 						}
 
-						$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index );
+						$css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber );
 						$css->add_property( 'color', generateblocks_hex2rgba( $shapeOptions['color'], $shapeOptions['colorOpacity'] ) );
 						$css->add_property( 'z-index', $shapeOptions['zindex'] );
 
@@ -444,7 +446,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$css->add_property( 'transform', implode( ' ', $shapeTransforms ) );
 						}
 
-						$css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
+						$css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 						$css->add_property( 'height', $shapeOptions['height'], 'px' );
 						$css->add_property( 'min-width', $shapeOptions['minWidth'], '%' );
 
@@ -544,12 +546,14 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$default_styles = generateblocks_get_default_styles();
 
 					foreach ( (array) $settings['shapeDividers'] as $index => $options ) {
+						$shapeNumber = $index + 1;
+
 						$shapeOptions = wp_parse_args(
 							$options,
 							$default_styles['container']['shapeDividers']
 						);
 
-						$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
+						$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 						$tablet_css->add_property( 'height', $shapeOptions['heightTablet'], 'px' );
 						$tablet_css->add_property( 'min-width', $shapeOptions['minWidthTablet'], '%' );
 					}
@@ -640,12 +644,14 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$default_styles = generateblocks_get_default_styles();
 
 					foreach ( (array) $settings['shapeDividers'] as $index => $options ) {
+						$shapeNumber = $index + 1;
+
 						$shapeOptions = wp_parse_args(
 							$options,
 							$default_styles['container']['shapeDividers']
 						);
 
-						$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-shape-divider-' . $index . ' svg' );
+						$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 						$mobile_css->add_property( 'height', $shapeOptions['heightMobile'], 'px' );
 						$mobile_css->add_property( 'min-width', $shapeOptions['minWidthMobile'], '%' );
 					}

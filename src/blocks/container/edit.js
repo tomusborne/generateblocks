@@ -363,16 +363,20 @@ class GenerateBlockContainer extends Component {
 
 		if ( attributes.shapeDividers.length ) {
 			allShapeDividers = attributes.shapeDividers.map( ( location, index ) => {
+				const shapeNumber = index + 1;
+
 				return <Fragment key={ index }>
-					{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
-						<div
-							className={ classnames( {
-								'gb-shape-divider': true,
-								[ `gb-shape-divider-${ index }` ]: true,
-							} ) }
-							dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
-						/>
-					}
+					<div className="gb-shapes">
+						{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
+							<div
+								className={ classnames( {
+									'gb-shape': true,
+									[ `gb-shape-${ shapeNumber }` ]: true,
+								} ) }
+								dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
+							/>
+						}
+					</div>
 				</Fragment>;
 			} );
 		}

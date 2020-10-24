@@ -425,16 +425,22 @@ function generateblocks_do_shape_divider( $output, $block ) {
 			}
 		}
 
+		$output .= '<div class="gb-shapes">';
+
 		foreach ( (array) $settings['shapeDividers'] as $index => $option ) {
 			if ( ! empty( $option['shape'] ) ) {
 				if ( isset( $shape_values[ $option['shape'] ] ) ) {
+					$shapeNumber = $index + 1;
+
 					$output .= sprintf(
-						'<div class="gb-shape-divider gb-shape-divider-' . $index . '">%s</div>',
+						'<div class="gb-shape gb-shape-' . $shapeNumber . '">%s</div>',
 						$shape_values[ $option['shape'] ]
 					);
 				}
 			}
 		}
+
+		$output .= '</div>';
 	}
 
 	return $output;
