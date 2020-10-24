@@ -8,11 +8,13 @@ const {
 const {
 	__,
 	sprintf,
+	_x,
 } = wp.i18n;
 
 const {
 	ButtonGroup,
 	Button,
+	Tooltip,
 } = wp.components;
 
 export default class UnitChooser extends Component {
@@ -32,20 +34,43 @@ export default class UnitChooser extends Component {
 
 				<div className="components-gblocks-control__units">
 					<ButtonGroup className="components-gblocks-control-buttons__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-						{ units.map( ( unit ) =>
-							<Button
+						{ units.map( ( unit ) => {
+							let unitName = unit;
+
+							if ( 'px' === unit ) {
+								unitName = _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' );
+							}
+
+							if ( 'em' === unit ) {
+								unitName = _x( 'Em', 'A size unit for CSS markup', 'generateblocks' );
+							}
+
+							if ( '%' === unit ) {
+								unitName = _x( 'Percentage', 'A size unit for CSS markup', 'generateblocks' );
+							}
+
+							if ( 'deg' === unit ) {
+								unitName = _x( 'Degree', 'A size unit for CSS markup', 'generateblocks' );
+							}
+
+							return <Tooltip
+								text={ sprintf( __( '%s Units', 'generateblocks' ), unitName ) }
 								key={ unit }
-								className={ 'components-gblocks-control-button__units--' + unit }
-								isSmall
-								isPrimary={ value === unit }
-								aria-pressed={ value === unit }
-								/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-								aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit ) }
-								onClick={ () => onClick( unit ) }
 							>
-								{ unit }
-							</Button>
-						) }
+								<Button
+									key={ unit }
+									className={ 'components-gblocks-control-button__units--' + unit }
+									isSmall
+									isPrimary={ value === unit }
+									aria-pressed={ value === unit }
+									/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+									aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unitName ) }
+									onClick={ () => onClick( unit ) }
+								>
+									{ unit }
+								</Button>
+							</Tooltip>;
+						} ) }
 					</ButtonGroup>
 				</div>
 			</div>
