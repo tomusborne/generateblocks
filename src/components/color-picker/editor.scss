@@ -22,6 +22,7 @@
 
     .gblocks-component-color-picker-palette {
         padding: 16px;
+		margin-top: 10px;
 
 		.components-circular-option-picker {
 		    display: flex;
@@ -51,14 +52,23 @@
 	}
 
 	.components-popover__content {
-		padding: 20px;
+		padding: 10px;
 		width: 300px;
+	}
+
+	.components-color-picker__inputs-fields {
+		margin-right: 0;
+	}
+
+	.components-color-clear-color {
+		margin: 0 16px;
 	}
 }
 
 .gblocks-component-color-opacity {
     display: flex;
 	padding: 0 16px;
+	margin: 10px 0;
 
 	.components-range-control {
 	    flex-grow: 1;
@@ -70,3 +80,4 @@
 	width: 28px;
 	height: 28px;
 }
+

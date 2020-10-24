@@ -15,6 +15,7 @@ const {
 	ColorPicker,
 	RangeControl,
 	Popover,
+	Button,
 } = wp.components;
 
 const {
@@ -127,6 +128,22 @@ export default class GenerateBlocksColorPicker extends Component {
 								</div>
 							}
 
+							<Button
+								isSmall
+								isSecondary
+								className="components-color-clear-color"
+								onClick={ () => {
+									onChange( '' );
+									onOpacityChange( 1 );
+
+									this.setState( {
+										colorKey: false,
+									} );
+								} }
+							>
+								{ __( 'Clear Color', 'generateblocks' ) }
+							</Button>
+
 							<BaseControl
 								label={ false }
 								className="gblocks-component-color-picker-palette"
@@ -141,6 +158,7 @@ export default class GenerateBlocksColorPicker extends Component {
 										} );
 									} }
 									disableCustomColors={ true }
+									clearable={ false }
 								/>
 							</BaseControl>
 						</Popover>
