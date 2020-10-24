@@ -1553,7 +1553,7 @@ class GenerateBlockContainer extends Component {
 					<PanelArea { ...this.props }
 						title={ __( 'Shapes', 'generateblocks' ) }
 						initialOpen={ false }
-						icon={ getIcon( 'icons' ) }
+						icon={ getIcon( 'shapes' ) }
 						className={ 'gblocks-panel-label' }
 						id={ 'containerShapes' }
 						state={ this.state }
