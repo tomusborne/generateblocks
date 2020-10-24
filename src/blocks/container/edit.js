@@ -359,334 +359,6 @@ class GenerateBlockContainer extends Component {
 			} );
 		} );
 
-		let shapeFields;
-
-		if ( shapeDividers.length ) {
-			shapeFields = shapeDividers.map( ( location, index ) => {
-				const shapeNumber = index + 1;
-
-				return <Fragment key={ index }>
-					<PanelBody
-						title={ __( 'Shape', 'generateblocks' ) + ' ' + shapeNumber }
-						initialOpen={ false }
-					>
-						<PanelRow>
-							<div className="gblocks-shape-controls">
-								{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
-									<div
-										className="gblocks-shape-divider-preview"
-										style={ { color: shapeDividers[ index ].color } }
-										dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
-									/>
-								}
-
-								{ 'Desktop' === this.getDeviceType() &&
-									<Fragment>
-										<SelectControl
-											label={ __( 'Shapes', 'generateblocks' ) }
-											options={ shapeOptions }
-											value={ shapeDividers[ index ].shape }
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													shape: value,
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-
-										<ColorPicker
-											label={ __( 'Color', 'generateblocks' ) }
-											value={ shapeDividers[ index ].color }
-											alpha={ true }
-											valueOpacity={ shapeDividers[ index ].colorOpacity }
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													color: value,
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-											onOpacityChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													colorOpacity: value,
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-
-										<SelectControl
-											label={ __( 'Location', 'generateblocks' ) }
-											value={ shapeDividers[ index ].location }
-											options={ [
-												{ label: __( 'Top', 'generateblocks' ), value: 'top' },
-												{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
-											] }
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													location: value,
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-
-										<UnitPicker
-											label={ __( 'Height', 'generateblocks' ) }
-											value={ 'px' }
-											units={ [ 'px' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
-
-										<TextControl
-											type={ 'number' }
-											value={ shapeDividers[ index ].height ? shapeDividers[ index ].height : '' }
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													height: parseFloat( value ),
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-
-										<UnitPicker
-											label={ __( 'Minimum Width', 'generateblocks' ) }
-											value={ '%' }
-											units={ [ '%' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
-
-										<TextControl
-											type={ 'number' }
-											value={ shapeDividers[ index ].minWidth ? shapeDividers[ index ].minWidth : '' }
-											min="100"
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													minWidth: parseFloat( value ),
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-
-										<ToggleControl
-											label={ __( 'Flip Horizontally', 'generateblocks' ) }
-											checked={ !! shapeDividers[ index ].flipHorizontally }
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													flipHorizontally: value,
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-
-										<TextControl
-											label={ __( 'z-index', 'generateblocks' ) }
-											type={ 'number' }
-											value={ shapeDividers[ index ].zindex || 0 === shapeDividers[ index ].zindex ? shapeDividers[ index ].zindex : '' }
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													zindex: value,
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-											onBlur={ () => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													zindex: parseFloat( shapeDividers[ index ].zindex ),
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-											onClick={ ( e ) => {
-												// Make sure onBlur fires in Firefox.
-												e.currentTarget.focus();
-											} }
-										/>
-
-										<Button
-											isPrimary
-											isSmall
-											className="gblocks-remove-shape"
-											onClick={ () => handleRemoveShape( index ) }
-										>
-											{ __( 'Remove Shape', 'generateblocks' ) }
-										</Button>
-									</Fragment>
-								}
-
-								{ 'Tablet' === this.getDeviceType() &&
-									<Fragment>
-										<UnitPicker
-											label={ __( 'Height', 'generateblocks' ) }
-											value={ 'px' }
-											units={ [ 'px' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
-
-										<TextControl
-											type={ 'number' }
-											value={ shapeDividers[ index ].heightTablet ? shapeDividers[ index ].heightTablet : '' }
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													heightTablet: parseFloat( value ),
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-
-										<UnitPicker
-											label={ __( 'Minimum Width', 'generateblocks' ) }
-											value={ '%' }
-											units={ [ '%' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
-
-										<TextControl
-											type={ 'number' }
-											value={ shapeDividers[ index ].minWidthTablet ? shapeDividers[ index ].minWidthTablet : '' }
-											min="100"
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													minWidthTablet: parseFloat( value ),
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-									</Fragment>
-								}
-
-								{ 'Mobile' === this.getDeviceType() &&
-									<Fragment>
-										<UnitPicker
-											label={ __( 'Height', 'generateblocks' ) }
-											value={ 'px' }
-											units={ [ 'px' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
-
-										<TextControl
-											type={ 'number' }
-											value={ shapeDividers[ index ].heightMobile ? shapeDividers[ index ].heightMobile : '' }
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													heightMobile: parseFloat( value ),
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-
-										<UnitPicker
-											label={ __( 'Minimum Width', 'generateblocks' ) }
-											value={ '%' }
-											units={ [ '%' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
-
-										<TextControl
-											type={ 'number' }
-											value={ shapeDividers[ index ].minWidthMobile ? shapeDividers[ index ].minWidthMobile : '' }
-											min="100"
-											onChange={ ( value ) => {
-												const shapes = [ ...shapeDividers ];
-
-												shapes[ index ] = {
-													...shapes[ index ],
-													minWidthMobile: parseFloat( value ),
-												};
-
-												setAttributes( {
-													shapeDividers: shapes,
-												} );
-											} }
-										/>
-									</Fragment>
-								}
-							</div>
-						</PanelRow>
-					</PanelBody>
-				</Fragment>;
-			} );
-		}
-
 		let allShapeDividers;
 
 		if ( attributes.shapeDividers.length ) {
@@ -1884,7 +1556,331 @@ class GenerateBlockContainer extends Component {
 						showPanel={ 'Desktop' === this.getDeviceType() || attributes.shapeDividers.length ? true : false }
 					>
 						<BaseControl className="gb-icon-chooser gb-shape-divider-chooser">
-							{ shapeFields }
+							{
+								shapeDividers.map( ( location, index ) => {
+									const shapeNumber = index + 1;
+
+									return <Fragment key={ index }>
+										<PanelBody
+											title={ __( 'Shape', 'generateblocks' ) + ' ' + shapeNumber }
+											initialOpen={ false }
+										>
+											<PanelRow>
+												<div className="gblocks-shape-controls">
+													{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
+														<div
+															className="gblocks-shape-divider-preview"
+															style={ { color: shapeDividers[ index ].color } }
+															dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
+														/>
+													}
+
+													{ 'Desktop' === this.getDeviceType() &&
+														<Fragment>
+															<SelectControl
+																label={ __( 'Shapes', 'generateblocks' ) }
+																options={ shapeOptions }
+																value={ shapeDividers[ index ].shape }
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		shape: value,
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+
+															<ColorPicker
+																label={ __( 'Color', 'generateblocks' ) }
+																value={ shapeDividers[ index ].color }
+																alpha={ true }
+																valueOpacity={ shapeDividers[ index ].colorOpacity }
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		color: value,
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+																onOpacityChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		colorOpacity: value,
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+
+															<SelectControl
+																label={ __( 'Location', 'generateblocks' ) }
+																value={ shapeDividers[ index ].location }
+																options={ [
+																	{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+																	{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
+																] }
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		location: value,
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+
+															<UnitPicker
+																label={ __( 'Height', 'generateblocks' ) }
+																value={ 'px' }
+																units={ [ 'px' ] }
+																onClick={ () => {
+																	return false;
+																} }
+															/>
+
+															<TextControl
+																type={ 'number' }
+																value={ shapeDividers[ index ].height ? shapeDividers[ index ].height : '' }
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		height: parseFloat( value ),
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+
+															<UnitPicker
+																label={ __( 'Minimum Width', 'generateblocks' ) }
+																value={ '%' }
+																units={ [ '%' ] }
+																onClick={ () => {
+																	return false;
+																} }
+															/>
+
+															<TextControl
+																type={ 'number' }
+																value={ shapeDividers[ index ].minWidth ? shapeDividers[ index ].minWidth : '' }
+																min="100"
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		minWidth: parseFloat( value ),
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+
+															<ToggleControl
+																label={ __( 'Flip Horizontally', 'generateblocks' ) }
+																checked={ !! shapeDividers[ index ].flipHorizontally }
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		flipHorizontally: value,
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+
+															<TextControl
+																label={ __( 'z-index', 'generateblocks' ) }
+																type={ 'number' }
+																value={ shapeDividers[ index ].zindex || 0 === shapeDividers[ index ].zindex ? shapeDividers[ index ].zindex : '' }
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		zindex: value,
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+																onBlur={ () => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		zindex: parseFloat( shapeDividers[ index ].zindex ),
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+																onClick={ ( e ) => {
+																	// Make sure onBlur fires in Firefox.
+																	e.currentTarget.focus();
+																} }
+															/>
+
+															<Button
+																isPrimary
+																isSmall
+																className="gblocks-remove-shape"
+																onClick={ () => handleRemoveShape( index ) }
+															>
+																{ __( 'Remove Shape', 'generateblocks' ) }
+															</Button>
+														</Fragment>
+													}
+
+													{ 'Tablet' === this.getDeviceType() &&
+														<Fragment>
+															<UnitPicker
+																label={ __( 'Height', 'generateblocks' ) }
+																value={ 'px' }
+																units={ [ 'px' ] }
+																onClick={ () => {
+																	return false;
+																} }
+															/>
+
+															<TextControl
+																type={ 'number' }
+																value={ shapeDividers[ index ].heightTablet ? shapeDividers[ index ].heightTablet : '' }
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		heightTablet: parseFloat( value ),
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+
+															<UnitPicker
+																label={ __( 'Minimum Width', 'generateblocks' ) }
+																value={ '%' }
+																units={ [ '%' ] }
+																onClick={ () => {
+																	return false;
+																} }
+															/>
+
+															<TextControl
+																type={ 'number' }
+																value={ shapeDividers[ index ].minWidthTablet ? shapeDividers[ index ].minWidthTablet : '' }
+																min="100"
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		minWidthTablet: parseFloat( value ),
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+														</Fragment>
+													}
+
+													{ 'Mobile' === this.getDeviceType() &&
+														<Fragment>
+															<UnitPicker
+																label={ __( 'Height', 'generateblocks' ) }
+																value={ 'px' }
+																units={ [ 'px' ] }
+																onClick={ () => {
+																	return false;
+																} }
+															/>
+
+															<TextControl
+																type={ 'number' }
+																value={ shapeDividers[ index ].heightMobile ? shapeDividers[ index ].heightMobile : '' }
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		heightMobile: parseFloat( value ),
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+
+															<UnitPicker
+																label={ __( 'Minimum Width', 'generateblocks' ) }
+																value={ '%' }
+																units={ [ '%' ] }
+																onClick={ () => {
+																	return false;
+																} }
+															/>
+
+															<TextControl
+																type={ 'number' }
+																value={ shapeDividers[ index ].minWidthMobile ? shapeDividers[ index ].minWidthMobile : '' }
+																min="100"
+																onChange={ ( value ) => {
+																	const shapes = [ ...shapeDividers ];
+
+																	shapes[ index ] = {
+																		...shapes[ index ],
+																		minWidthMobile: parseFloat( value ),
+																	};
+
+																	setAttributes( {
+																		shapeDividers: shapes,
+																	} );
+																} }
+															/>
+														</Fragment>
+													}
+												</div>
+											</PanelRow>
+										</PanelBody>
+									</Fragment>;
+								} )
+							}
 
 							<div className="gblocks-add-new-shape">
 								<Button
