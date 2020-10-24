@@ -643,27 +643,43 @@ function generateblocks_get_svg_shapes() {
 					),
 					'gb-angle' => array(
 						'label' => 'Angle',
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="currentColor" fill-opacity="1" d="M0,64L1440,192L1440,320L0,320Z"></path></svg>',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none"><path d="M1200 100H0V0l1200 88z"/></svg>',
 					),
 					'gb-angle2' => array(
 						'label' => 'Angle 2',
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="currentColor" fill-opacity="1" d="M0,224L1440,128L1440,320L0,320Z"></path></svg>',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none"><path d="M1200 180H0V0l1200 168z"/></svg>',
+					),
+					'gb-angle3' => array(
+						'label' => 'Angle 3',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" preserveAspectRatio="none"><path d="M1200 260H0V0l1200 248z"/></svg>',
+					),
+					'gb-angle4' => array(
+						'label' => 'Angle 4',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" preserveAspectRatio="none"><path d="M1200 360H0V0l1200 348z"/></svg>',
 					),
 					'gb-curve' => array(
 						'label' => 'Curve',
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="currentColor" fill-opacity="1" d="M0,64L120,80C240,96,480,128,720,122.7C960,117,1200,75,1320,53.3L1440,32L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 350" preserveAspectRatio="none"><path d="M1200 336.7V350H0V0s22.4 276.4 1200 336.7z"/></svg>',
 					),
 					'gb-curve2' => array(
 						'label' => 'Curve 2',
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="currentColor" fill-opacity="1" d="M0,160L120,144C240,128,480,96,720,90.7C960,85,1200,107,1320,117.3L1440,128L1440,320L1320,320C1200,320,960,320,720,320C480,320,240,320,120,320L0,320Z"></path></svg>',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 534.5" preserveAspectRatio="none"><path d="M0 534.5h1200v-28.6S166.7 536.5 0 .1v534.4z"/></svg>',
 					),
-					'gb-mountains' => array(
-						'label' => 'Mountains',
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="currentColor" fillOpacity="1" d="M0,128L480,224L960,64L1440,160L1440,320L960,320L480,320L0,320Z"></path></svg>',
+					'gb-curve3' => array(
+						'label' => 'Curve 3',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 264" preserveAspectRatio="none"><path d="M1200 196.7V264H0V0s179.3 373.8 1200 196.7z"/></svg>',
 					),
-					'gb-mountains2' => array(
-						'label' => 'Mountains 2',
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none"><path fill="currentColor" fillOpacity="1" d="M0,64L480,128L960,192L1440,64L1440,320L960,320L480,320L0,320Z"></path></svg>',
+					'gb-curve4' => array(
+						'label' => 'Curve 4',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 99" preserveAspectRatio="none"><path d="M0 0v99h1200V0c-169.7 45.4-376.7 72.1-600 72.1S169.7 45.4 0 0z"/></svg>',
+					),
+					'gb-curve5' => array(
+						'label' => 'Curve 5',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 211.2" preserveAspectRatio="none"><path d="M600 188.4C321.1 188.4 84.3 109.5 0 0v211.2h1200V0c-84.3 109.5-321.1 188.4-600 188.4z"/></svg>',
+					),
+					'gb-curve6' => array(
+						'label' => 'Curve 6',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 323.5" preserveAspectRatio="none"><path d="M600 293.5C321.1 293.5 84.3 170.6 0 0v323.5h1200V0c-84.3 170.6-321.1 293.5-600 293.5z"/></svg>',
 					),
 				),
 			),
