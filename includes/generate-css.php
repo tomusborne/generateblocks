@@ -190,6 +190,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->add_property( 'pointer-events', 'none' );
 			$css->add_property( 'line-height', '0' );
 
+			$css->set_selector( '.gb-container .gb-shape-divider svg' );
+			$css->add_property( 'fill', 'currentColor' );
+
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;

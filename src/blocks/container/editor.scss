@@ -150,6 +150,10 @@ button.editor-gb-container-background__toggle {
 	overflow: hidden;
 	line-height: 0;
 	pointer-events: none;
+
+	svg {
+		fill: currentColor;
+	}
 }
 
 .gblocks-add-new-shape {
@@ -162,6 +166,10 @@ button.editor-gb-container-background__toggle {
 
 .gblocks-shape-divider-preview {
 	margin-bottom: 15px;
+
+	svg {
+		fill: currentColor;
+	}
 }
 
 /* GPress content width */
