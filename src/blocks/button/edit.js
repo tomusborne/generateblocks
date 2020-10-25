@@ -546,144 +546,145 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonColors' }
 						state={ this.state }
-						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
-						<TabPanel className="layout-tab-panel gblocks-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
+						{ 'Desktop' === this.getDeviceType() &&
+							<TabPanel className="layout-tab-panel gblocks-control-tabs"
+								activeClass="active-tab"
+								tabs={ [
+									{
+										name: 'button-colors',
+										title: __( 'Normal', 'generateblocks' ),
+										className: 'button-colors',
+									},
+									{
+										name: 'button-colors-hover',
+										title: __( 'Hover', 'generateblocks' ),
+										className: 'button-colors-hover',
+									},
+								] }>
 								{
-									name: 'button-colors',
-									title: __( 'Normal', 'generateblocks' ),
-									className: 'button-colors',
-								},
-								{
-									name: 'button-colors-hover',
-									title: __( 'Hover', 'generateblocks' ),
-									className: 'button-colors-hover',
-								},
-							] }>
-							{
-								( tab ) => {
-									const isNormal = tab.name === 'button-colors';
+									( tab ) => {
+										const isNormal = tab.name === 'button-colors';
 
-									return (
-										<div>
-											{ isNormal ? (
-												<Fragment>
-													<ColorPicker
-														label={ __( 'Background Color', 'generateblocks' ) }
-														value={ backgroundColor }
-														alpha={ true }
-														valueOpacity={ backgroundColorOpacity }
-														attrOpacity={ 'backgroundColorOpacity' }
-														key={ 'buttonBackgroundColor' }
-														onChange={ ( nextBackgroundColor ) =>
-															setAttributes( {
-																backgroundColor: nextBackgroundColor,
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																backgroundColorOpacity: value,
-															} )
-														}
-													/>
+										return (
+											<div>
+												{ isNormal ? (
+													<Fragment>
+														<ColorPicker
+															label={ __( 'Background Color', 'generateblocks' ) }
+															value={ backgroundColor }
+															alpha={ true }
+															valueOpacity={ backgroundColorOpacity }
+															attrOpacity={ 'backgroundColorOpacity' }
+															key={ 'buttonBackgroundColor' }
+															onChange={ ( nextBackgroundColor ) =>
+																setAttributes( {
+																	backgroundColor: nextBackgroundColor,
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	backgroundColorOpacity: value,
+																} )
+															}
+														/>
 
-													<ColorPicker
-														label={ __( 'Text Color', 'generateblocks' ) }
-														value={ textColor }
-														alpha={ false }
-														key={ 'buttonTextColor' }
-														onChange={ ( nextTextColor ) =>
-															setAttributes( {
-																textColor: nextTextColor,
-															} )
-														}
-													/>
+														<ColorPicker
+															label={ __( 'Text Color', 'generateblocks' ) }
+															value={ textColor }
+															alpha={ false }
+															key={ 'buttonTextColor' }
+															onChange={ ( nextTextColor ) =>
+																setAttributes( {
+																	textColor: nextTextColor,
+																} )
+															}
+														/>
 
-													<ColorPicker
-														label={ __( 'Border Color', 'generateblocks' ) }
-														value={ borderColor }
-														alpha={ true }
-														valueOpacity={ borderColorOpacity }
-														attrOpacity={ 'borderColorOpacity' }
-														key={ 'buttonBorderColor' }
-														onChange={ ( value ) =>
-															setAttributes( {
-																borderColor: value,
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																borderColorOpacity: value,
-															} )
-														}
-													/>
+														<ColorPicker
+															label={ __( 'Border Color', 'generateblocks' ) }
+															value={ borderColor }
+															alpha={ true }
+															valueOpacity={ borderColorOpacity }
+															attrOpacity={ 'borderColorOpacity' }
+															key={ 'buttonBorderColor' }
+															onChange={ ( value ) =>
+																setAttributes( {
+																	borderColor: value,
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	borderColorOpacity: value,
+																} )
+															}
+														/>
 
-													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsNormal', this.props, this.state ) }
-												</Fragment>
+														{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsNormal', this.props, this.state ) }
+													</Fragment>
 
-											) : (
+												) : (
 
-												<Fragment>
-													<ColorPicker
-														label={ __( 'Background Color', 'generateblocks' ) }
-														value={ backgroundColorHover }
-														alpha={ true }
-														valueOpacity={ backgroundColorHoverOpacity }
-														attrOpacity={ 'backgroundColorHoverOpacity' }
-														key={ 'buttonBackgroundColorHover' }
-														onChange={ ( nextBackgroundColorHover ) =>
-															setAttributes( {
-																backgroundColorHover: nextBackgroundColorHover,
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																backgroundColorHoverOpacity: value,
-															} )
-														}
-													/>
+													<Fragment>
+														<ColorPicker
+															label={ __( 'Background Color', 'generateblocks' ) }
+															value={ backgroundColorHover }
+															alpha={ true }
+															valueOpacity={ backgroundColorHoverOpacity }
+															attrOpacity={ 'backgroundColorHoverOpacity' }
+															key={ 'buttonBackgroundColorHover' }
+															onChange={ ( nextBackgroundColorHover ) =>
+																setAttributes( {
+																	backgroundColorHover: nextBackgroundColorHover,
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	backgroundColorHoverOpacity: value,
+																} )
+															}
+														/>
 
-													<ColorPicker
-														label={ __( 'Text Color', 'generateblocks' ) }
-														value={ textColorHover }
-														alpha={ false }
-														key={ 'buttonTextColorHover' }
-														onChange={ ( nextTextColorHover ) =>
-															setAttributes( {
-																textColorHover: nextTextColorHover,
-															} )
-														}
-													/>
+														<ColorPicker
+															label={ __( 'Text Color', 'generateblocks' ) }
+															value={ textColorHover }
+															alpha={ false }
+															key={ 'buttonTextColorHover' }
+															onChange={ ( nextTextColorHover ) =>
+																setAttributes( {
+																	textColorHover: nextTextColorHover,
+																} )
+															}
+														/>
 
-													<ColorPicker
-														label={ __( 'Border Color', 'generateblocks' ) }
-														value={ borderColorHover }
-														alpha={ true }
-														valueOpacity={ borderColorHoverOpacity }
-														attrOpacity={ 'borderColorHoverOpacity' }
-														key={ 'buttonBorderColorHover' }
-														onChange={ ( value ) =>
-															setAttributes( {
-																borderColorHover: value,
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																borderColorHoverOpacity: value,
-															} )
-														}
-													/>
+														<ColorPicker
+															label={ __( 'Border Color', 'generateblocks' ) }
+															value={ borderColorHover }
+															alpha={ true }
+															valueOpacity={ borderColorHoverOpacity }
+															attrOpacity={ 'borderColorHoverOpacity' }
+															key={ 'buttonBorderColorHover' }
+															onChange={ ( value ) =>
+																setAttributes( {
+																	borderColorHover: value,
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	borderColorHoverOpacity: value,
+																} )
+															}
+														/>
 
-													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsHover', this.props, this.state ) }
-												</Fragment>
-											) }
-										</div>
-									);
+														{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsHover', this.props, this.state ) }
+													</Fragment>
+												) }
+											</div>
+										);
+									}
 								}
-							}
-						</TabPanel>
+							</TabPanel>
+						}
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColors', this.props, this.state ) }
 					</PanelArea>
@@ -695,20 +696,21 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonBackgroundGradient' }
 						state={ this.state }
-						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
-						<GradientControl { ...this.props }
-							attrGradient={ 'gradient' }
-							attrGradientDirection={ 'gradientDirection' }
-							attrGradientColorOne={ 'gradientColorOne' }
-							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
-							attrGradientColorStopOne={ 'gradientColorStopOne' }
-							attrGradientColorTwo={ 'gradientColorTwo' }
-							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-							defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
-							defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
-						/>
+						{ 'Desktop' === this.getDeviceType() &&
+							<GradientControl { ...this.props }
+								attrGradient={ 'gradient' }
+								attrGradientDirection={ 'gradientDirection' }
+								attrGradientColorOne={ 'gradientColorOne' }
+								attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
+								attrGradientColorStopOne={ 'gradientColorStopOne' }
+								attrGradientColorTwo={ 'gradientColorTwo' }
+								attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
+								attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+								defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
+								defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
+							/>
+						}
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonBackgroundGradient', this.props, this.state ) }
 					</PanelArea>

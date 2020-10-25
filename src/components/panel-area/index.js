@@ -34,7 +34,18 @@ export default class PanelArea extends Component {
 			return null;
 		}
 
+		let hasChildren = true;
+
 		if ( '' === children ) {
+			hasChildren = false;
+		}
+
+		// If we have items in the panel, make sure they're not empty.
+		if ( 'object' === typeof children ) {
+			hasChildren = Object.values( children ).some( x => ( x !== null && x !== false && x !== '' ) );
+		}
+
+		if ( ! hasChildren ) {
 			return null;
 		}
 
