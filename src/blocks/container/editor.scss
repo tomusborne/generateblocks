@@ -172,6 +172,22 @@ button.editor-gb-container-background__toggle {
 	}
 }
 
+.gb-shape-chooser .gblocks-shape-chooser li button.components-button {
+    width: 100%;
+	height: auto;
+
+	svg {
+		width: 100%;
+	}
+}
+
+.block-editor-block-inspector .gb-shape-chooser .gblocks-shape-controls {
+	.components-panel__body button.components-panel__body-toggle,
+	.components-panel__body.is-opened {
+		background: #fff;
+	}
+}
+
 /* GPress content width */
 .gblocks-gpress-full-width .components-base-control__label {
 	display: block;

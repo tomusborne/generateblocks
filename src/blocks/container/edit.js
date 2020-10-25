@@ -33,6 +33,7 @@ const {
 	Notice,
 	PanelBody,
 	PanelRow,
+	Tooltip,
 } = wp.components;
 
 const {
@@ -1564,7 +1565,7 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 						showPanel={ 'Desktop' === this.getDeviceType() || attributes.shapeDividers.length ? true : false }
 					>
-						<BaseControl className="gb-icon-chooser gb-shape-divider-chooser">
+						<BaseControl className="gb-icon-chooser gb-shape-chooser">
 							{
 								shapeDividers.map( ( location, index ) => {
 									const shapeNumber = index + 1;
@@ -1586,23 +1587,64 @@ class GenerateBlockContainer extends Component {
 
 													{ 'Desktop' === this.getDeviceType() &&
 														<Fragment>
-															<SelectControl
-																label={ __( 'Shapes', 'generateblocks' ) }
-																options={ shapeOptions }
-																value={ shapeDividers[ index ].shape }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+															<BaseControl className="gb-icon-chooser">
+																{
+																	Object.keys( generateBlocksInfo.svgShapes ).map( ( svg, i ) => {
+																		const svgItems = generateBlocksInfo.svgShapes[ svg ].svgs;
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		shape: value,
-																	};
+																		return (
+																			<PanelBody title={ generateBlocksInfo.svgShapes[ svg ].group } initialOpen={ false } key={ i }>
+																				<PanelRow>
+																					<BaseControl>
+																						<ul className="gblocks-icon-chooser gblocks-shape-chooser">
+																							{
+																								Object.keys( svgItems ).map( ( svgItem, iconIndex ) => {
+																									return (
+																										<li key={ `editor-pblock-types-list-item-${ iconIndex }` }>
+																											<Tooltip text={ ( svgItems[ svgItem ].label ) }>
+																												<Button
+																													className="editor-block-list-item-button"
+																													onClick={ () => {
+																														const shapes = [ ...shapeDividers ];
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
+																														shapes[ index ] = {
+																															...shapes[ index ],
+																															shape: svgItem,
+																														};
+
+																														setAttributes( {
+																															shapeDividers: shapes,
+																														} );
+																													} }
+																												>
+																													{ 'string' === typeof svgItems[ svgItem ].icon ? (
+																														<Fragment>
+																															<span
+																																className="editor-block-types-list__item-icon"
+																																dangerouslySetInnerHTML={ { __html: sanitizeSVG( svgItems[ svgItem ].icon ) } }
+																															/>
+																														</Fragment>
+																													) : (
+																														<Fragment>
+																															<span className="editor-block-types-list__item-icon">
+																																{ svgItems[ svgItem ].icon }
+																															</span>
+																														</Fragment>
+																													) }
+																												</Button>
+																											</Tooltip>
+																										</li>
+																									);
+																								} )
+																							}
+																						</ul>
+																					</BaseControl>
+																				</PanelRow>
+																			</PanelBody>
+																		);
+																	} )
+																}
+															</BaseControl>
 
 															<ColorPicker
 																label={ __( 'Color', 'generateblocks' ) }
