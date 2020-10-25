@@ -606,78 +606,88 @@ function generateblocks_get_svg_shapes() {
 	return apply_filters(
 		'generateblocks_svg_shapes',
 		array(
-			'core' => array(
-				'group' => esc_attr__( 'Core', 'generateblocks' ),
+			'gb-waves' => array(
+				'group' => esc_attr__( 'Waves', 'generateblocks' ),
 				'svgs' => array(
-					'gb-waves' => array(
-						'label' => 'Waves',
+					'gb-waves-1' => array(
+						'label' => 'Waves 1',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 194.3" preserveAspectRatio="none"><path d="M1200 133.3l-50 8.9c-50 8.6-150 26.9-250 31.1-100 4.2-200-4.2-300-26.7S400 89.2 300 62.2C200 35.8 100 17.5 50 8.9L0 0v194.3h1200v-61z"/></svg>',
 					),
-					'gb-waves2' => array(
+					'gb-waves-2' => array(
 						'label' => 'Waves 2',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 137.6" preserveAspectRatio="none"><path d="M0 137.6h1200V21.9l-66.7 26.7c-66.7 26.7-200 80-333.3 66.7S533.3 21.9 400 4.2C266.7-13.9 133.3 31.1 66.7 53L0 75.3v62.3z"/></svg>',
 					),
-					'gb-waves3' => array(
+					'gb-waves-3' => array(
 						'label' => 'Waves 3',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 96.2" preserveAspectRatio="none"><path d="M0 96.2h1200V72.9l-50-8.9c-50-8.6-150-26.9-250-22.2C800 46.2 700 72.9 600 64 500 55.4 400 10.4 300 1.8 200-7.1 100 19.5 50 32.9L0 46.2v50z"/></svg>',
 					),
-					'gb-waves4' => array(
+					'gb-waves-4' => array(
 						'label' => 'Waves 4',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 130.3" preserveAspectRatio="none"><path d="M0 107.9l40-22.2c40-21.9 120-66.9 200-62.2 80 4.4 160 57.8 240 53.3C560 72 640 10.4 720 1.2S880 37 960 59c80 22.3 160 22.3 200 22.3h40v49H0v-22.4z"/></svg>',
 					),
-					'gb-waves5' => array(
+					'gb-waves-5' => array(
 						'label' => 'Waves 5',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 218" preserveAspectRatio="none"><path d="M0 218h1200v-31.3l-40 4.4c-40 4.8-120 13.1-200 0-80-13.6-160-48.6-240-66.7-80-17.8-160-17.8-240-8.8-80 8.6-160 26.9-240 8.8-80-17.7-160-71.1-200-97.7L0 0v218z"/></svg>',
 					),
-					'gb-waves6' => array(
+					'gb-waves-6' => array(
 						'label' => 'Waves 6',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 234" preserveAspectRatio="none"><path d="M0 0l40 40c40 40 120 120 200 115.6 80-4.8 160-93.1 240-111.2C560 26.7 640 80 720 88.9c80 8.6 160-26.4 240-13.3 80 13.6 160 75.2 200 106.7l40 31.1V234H0V0z"/></svg>',
 					),
-					'gb-waves7' => array(
+					'gb-waves-7' => array(
 						'label' => 'Waves 7',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 217.3" preserveAspectRatio="none"><path d="M1200 195.6l-25-22.2c-25-21.9-75-66.9-125-75.5-50-8.9-100 17.8-150 26.7-50 8.6-100 .2-150-13.3-50-13.1-100-31.4-150-26.7-50 4.4-100 31.1-150 26.7-50-4.8-100-39.8-150-66.7C250 18.1 200-.2 150 0 100-.2 50 18.1 25 26.7L0 35.6v181.7h1200v-21.7z"/></svg>',
 					),
-					'gb-waves8' => array(
+					'gb-waves-8' => array(
 						'label' => 'Waves 8',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 230.8" preserveAspectRatio="none"><path d="M1200 179.5l-22.2-26.7c-22.2-26.7-66.9-80-111.1-75.6-44.4 4.8-89.2 66.4-133.3 102.2-44.4 35.8-89.2 44.2-133.3 8.9-44.4-35.6-89.2-115.6-133.3-155.6-44.4-40-89.2-40-133.3-17.8C488.9 37 444.2 82 400 81.7c-44.4.2-89.2-44.8-133.3-57.8-44.4-13.6-89.2 4.8-133.3 26.7-44.5 22.2-89.2 48.9-110.9 62.2L0 126.1v104.7H1199.7l.3-51.3z"/></svg>',
 					),
-					'gb-angle' => array(
-						'label' => 'Angle',
+				),
+			),
+			'gb-angles' => array(
+				'group' => esc_attr__( 'Angles', 'generateblocks' ),
+				'svgs' => array(
+					'gb-angle-1' => array(
+						'label' => 'Angle 1',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none"><path d="M1200 100H0V0l1200 88z"/></svg>',
 					),
-					'gb-angle2' => array(
+					'gb-angle-2' => array(
 						'label' => 'Angle 2',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none"><path d="M1200 180H0V0l1200 168z"/></svg>',
 					),
-					'gb-angle3' => array(
+					'gb-angle-3' => array(
 						'label' => 'Angle 3',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" preserveAspectRatio="none"><path d="M1200 260H0V0l1200 248z"/></svg>',
 					),
-					'gb-angle4' => array(
+					'gb-angle-4' => array(
 						'label' => 'Angle 4',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" preserveAspectRatio="none"><path d="M1200 360H0V0l1200 348z"/></svg>',
 					),
-					'gb-curve' => array(
-						'label' => 'Curve',
+				),
+			),
+			'gb-curves' => array(
+				'group' => esc_attr__( 'Curves', 'generateblocks' ),
+				'svgs' => array(
+					'gb-curve-1' => array(
+						'label' => 'Curve 1',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 350" preserveAspectRatio="none"><path d="M1200 336.7V350H0V0s22.4 276.4 1200 336.7z"/></svg>',
 					),
-					'gb-curve2' => array(
+					'gb-curve-2' => array(
 						'label' => 'Curve 2',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 534.5" preserveAspectRatio="none"><path d="M0 534.5h1200v-28.6S166.7 536.5 0 .1v534.4z"/></svg>',
 					),
-					'gb-curve3' => array(
+					'gb-curve-3' => array(
 						'label' => 'Curve 3',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 264" preserveAspectRatio="none"><path d="M1200 196.7V264H0V0s179.3 373.8 1200 196.7z"/></svg>',
 					),
-					'gb-curve4' => array(
+					'gb-curve-4' => array(
 						'label' => 'Curve 4',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 99" preserveAspectRatio="none"><path d="M0 0v99h1200V0c-169.7 45.4-376.7 72.1-600 72.1S169.7 45.4 0 0z"/></svg>',
 					),
-					'gb-curve5' => array(
+					'gb-curve-5' => array(
 						'label' => 'Curve 5',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 211.2" preserveAspectRatio="none"><path d="M600 188.4C321.1 188.4 84.3 109.5 0 0v211.2h1200V0c-84.3 109.5-321.1 188.4-600 188.4z"/></svg>',
 					),
-					'gb-curve6' => array(
+					'gb-curve-6' => array(
 						'label' => 'Curve 6',
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 323.5" preserveAspectRatio="none"><path d="M600 293.5C321.1 293.5 84.3 170.6 0 0v323.5h1200V0c-84.3 170.6-321.1 293.5-600 293.5z"/></svg>',
 					),
