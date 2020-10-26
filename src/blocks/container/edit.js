@@ -382,6 +382,15 @@ class GenerateBlockContainer extends Component {
 			} );
 		}
 
+		const bgImageSizes = [];
+
+		Object.keys( generateBlocksInfo.imageSizes ).map( ( size ) => {
+			bgImageSizes.push( {
+				label: generateBlocksInfo.imageSizes[ size ],
+				value: generateBlocksInfo.imageSizes[ size ],
+			} );
+		} );
+
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-container': true,
@@ -1412,34 +1421,16 @@ class GenerateBlockContainer extends Component {
 											</Fragment>
 										) : ( // These options is only for people not using the deprecated overlay option.
 											<Fragment>
-												<TextControl
-													className="editor-gb-container-background__image-size"
+												<SelectControl
 													label={ __( 'Image Size', 'generateblocks' ) }
 													value={ bgImageSize }
-													onChange={ ( nextSize ) => {
+													options={ bgImageSizes }
+													onChange={ ( value ) => {
 														setAttributes( {
-															bgImageSize: nextSize,
+															bgImageSize: value,
 														} );
 													} }
 												/>
-
-												<ButtonGroup
-													label={ __( 'Available sizes:', 'generateblocks' ) }
-													className="components-gblocks-control__image-sizes"
-												>
-													{ Object.keys( generateBlocksInfo.imageSizes ).map( ( size ) =>
-														<Button
-															key={ generateBlocksInfo.imageSizes[ size ] }
-															className={ 'components-gblocks-control__image-size--' + generateBlocksInfo.imageSizes[ size ] }
-															isSmall
-															isPrimary={ attributes.bgImageSize === generateBlocksInfo.imageSizes[ size ] }
-															aria-pressed={ attributes.bgImageSize === generateBlocksInfo.imageSizes[ size ] }
-															onClick={ () => setAttributes( { bgImageSize: generateBlocksInfo.imageSizes[ size ] } ) }
-														>
-															{ generateBlocksInfo.imageSizes[ size ] }
-														</Button>
-													) }
-												</ButtonGroup>
 
 												<SelectControl
 													label={ __( 'Selector', 'generateblocks' ) }
