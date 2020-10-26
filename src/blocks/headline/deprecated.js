@@ -104,6 +104,11 @@ const deprecated = [
 				type: 'string',
 				default: 'p',
 			},
+			content: {
+				type: 'array',
+				source: 'children',
+				selector: 'p,h1,h2,h3,h4,h5,h6',
+			},
 		},
 		save( { attributes } ) {
 			const {
