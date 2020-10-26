@@ -657,21 +657,6 @@ function generateblocks_get_svg_shapes() {
 					'gb-angle-1' => array(
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Angle %s', 'generateblocks' ), '1' ),
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none"><path d="M1200 100H0V0l1200 88z"/></svg>',
-					),
-					'gb-angle-2' => array(
-						/* translators: Shape number */
-						'label' => sprintf( __( 'Angle %s', 'generateblocks' ), '2' ),
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 180" preserveAspectRatio="none"><path d="M1200 180H0V0l1200 168z"/></svg>',
-					),
-					'gb-angle-3' => array(
-						/* translators: Shape number */
-						'label' => sprintf( __( 'Angle %s', 'generateblocks' ), '3' ),
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 260" preserveAspectRatio="none"><path d="M1200 260H0V0l1200 248z"/></svg>',
-					),
-					'gb-angle-4' => array(
-						/* translators: Shape number */
-						'label' => sprintf( __( 'Angle %s', 'generateblocks' ), '4' ),
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" preserveAspectRatio="none"><path d="M1200 360H0V0l1200 348z"/></svg>',
 					),
 				),
