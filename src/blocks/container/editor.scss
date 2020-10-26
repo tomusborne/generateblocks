@@ -173,11 +173,17 @@ button.editor-gb-container-background__toggle {
 }
 
 .gb-shape-chooser .gblocks-shape-chooser li button.components-button {
-    width: 100%;
-	height: auto;
+	width: 100%;
+    height: auto;
+    padding: 10px 0 0;
+    background: #efefef;
 
 	svg {
 		width: 100%;
+	}
+
+	&:hover {
+		background: #efefef;
 	}
 }
 
@@ -185,6 +191,18 @@ button.editor-gb-container-background__toggle {
 	.components-panel__body button.components-panel__body-toggle,
 	.components-panel__body.is-opened {
 		background: #fff;
+	}
+
+	.components-base-control:last-child {
+		margin-bottom: 0;
+	}
+}
+
+.gblocks-icon-chooser.gblocks-shape-chooser {
+	margin-bottom: 0;
+
+	li:not(:last-child) {
+		margin: 0 0 5px;
 	}
 }
 
