@@ -81,6 +81,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Markup change: Only output inner gb-button-text span if using an icon
 * Markup change: Output Button block as span element if no URL exists
 * Markup change: Add gb-headline-text span if using an icon in Headline block
+* New: Shape dividers in the Container block
 * New: Make all blocks fully responsive when using editor responsive previews
 * New: Add option to overlay gradient over background image
 * New: Add option to use featured image as Container background image
@@ -91,12 +92,16 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: generateblocks_after_container_open filter in frontend for Container block
 * New: generateblocks_inside_container filter in frontend for Container block
 * New: generateblocks_before_container_close filter in frontend for Container block
+* New: generateblocks_container_tagname filter in frontend for Container block
 * New: Add div as Headline block element choice
 * New: Add span as Headline block element choice
+* New: Add inner z-index option to Container
 * Fix: Stacked button alignment in the editor
 * Fix: Broken background image upload when using official AMP plugin
 * Fix: Color picker input width
 * Fix: Button mobile border-radius
+* Fix: Check if grid data is an array before looping
+* Fix: Container tablet/mobile font size values
 * Tweak: Make Container block wrapper HTML dynamic
 * Tweak: Make Grid block wrapper HTML dynamic
 * Tweak: Make Button Container block wrapper HTML dynamic
@@ -113,6 +118,10 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Reverse grid gap when using RTL
 * Tweak: Add default inherit option to tablet/mobile Headline icon alignment
 * Tweak: Change frontend.insideContainer filter to frontend.afterContainerOpen
+* Tweak: Update color picker component UI
+* Tweak: Make icon sets filterable
+* Tweak: Move Container element tag option to Layout panel
+* Tweak: Move Container z-index options to Spacing panel
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
