@@ -685,9 +685,9 @@ function generateblocks_get_svg_shapes() {
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 350" preserveAspectRatio="none"><path d="M1200 336.7V350H0V0s22.4 276.4 1200 336.7z"/></svg>',
 					),
 					'gb-curve-2' => array(
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 350" preserveAspectRatio="none"><path d="M0 0v13.3S22.4 289.7 1200 350V0H0z"/></svg>',
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Curve %s', 'generateblocks' ), '2' ),
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 350" preserveAspectRatio="none"><path d="M1200 350V0C22.4 60.3 0 336.7 0 336.7V350h1200z"/></svg>',
 					),
 					'gb-curve-3' => array(
 						/* translators: Shape number */
@@ -695,9 +695,9 @@ function generateblocks_get_svg_shapes() {
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 211.2" preserveAspectRatio="none"><path d="M600 188.4C321.1 188.4 84.3 109.5 0 0v211.2h1200V0c-84.3 109.5-321.1 188.4-600 188.4z"/></svg>',
 					),
 					'gb-curve-4' => array(
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 211.2" preserveAspectRatio="none"><path d="M600 211.2c-278.9 0-515.7-78.9-600-188.4V0h1200v22.8c-84.3 109.5-321.1 188.4-600 188.4z"/></svg>',
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Curve %s', 'generateblocks' ), '4' ),
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 211.2" preserveAspectRatio="none"><path d="M1200 188.4v22.8H0v-22.8C84.3 78.9 321.1 0 600 0s515.7 78.9 600 188.4z"/></svg>',
 					),
 				),
 			),
@@ -710,9 +710,9 @@ function generateblocks_get_svg_shapes() {
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none"><path d="M1200 100H0V0l400 77.2L1200 0z"/></svg>',
 					),
 					'gb-triangle-2' => array(
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none"><path d="M1200 0H0v22.8L400 100l800-77.2z"/></svg>',
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Triangle %s', 'generateblocks' ), '2' ),
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 100" preserveAspectRatio="none"><path d="M1200 77.2L400 0 0 77.2V100h1200z"/></svg>',
 					),
 					'gb-triangle-3' => array(
 						/* translators: Shape number */
@@ -720,9 +720,9 @@ function generateblocks_get_svg_shapes() {
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 250" preserveAspectRatio="none"><path d="M1200 0v70H0V0h530l70 50 70-50z"/></svg>',
 					),
 					'gb-triangle-4' => array(
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 70" preserveAspectRatio="none"><path d="M1200 20V0H0v20h530l70 50 70-50z"/></svg>',
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Triangle %s', 'generateblocks' ), '4' ),
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 70" preserveAspectRatio="none"><path d="M670 50L600 0l-70 50H0v20h1200V50z"/></svg>',
 					),
 					'gb-triangle-5' => array(
 						/* translators: Shape number */
@@ -730,9 +730,9 @@ function generateblocks_get_svg_shapes() {
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 50" preserveAspectRatio="none"><path d="M1200 0v50H0V0h560l40 30 40-30z"/></svg>',
 					),
 					'gb-triangle-6' => array(
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 50" preserveAspectRatio="none"><path d="M1200 20V0H0v20h560l40 30 40-30z"/></svg>',
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Triangle %s', 'generateblocks' ), '6' ),
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 50" preserveAspectRatio="none"><path d="M640 30L600 0l-40 30H0v20h1200V30z"/></svg>',
 					),
 					'gb-triangle-7' => array(
 						/* translators: Shape number */
@@ -740,9 +740,9 @@ function generateblocks_get_svg_shapes() {
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 230" preserveAspectRatio="none"><path d="M1200 230H0V0l600 207.2L1200 0z"/></svg>',
 					),
 					'gb-triangle-8' => array(
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 230" preserveAspectRatio="none"><path d="M1200 0H0v22.8L600 230l600-207.2z"/></svg>',
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Triangle %s', 'generateblocks' ), '8' ),
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 230" preserveAspectRatio="none"><path d="M1200 207.2L600 0 0 207.2V230h1200z"/></svg>',
 					),
 					'gb-triangle-9' => array(
 						/* translators: Shape number */
@@ -750,9 +750,9 @@ function generateblocks_get_svg_shapes() {
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 131" preserveAspectRatio="none"><path d="M1200 131H0V40l154.8 50L410 35l277 69L899 0l301 110z"/></svg>',
 					),
 					'gb-triangle-10' => array(
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 131" preserveAspectRatio="none"><path d="M1200 0H0v61l154.8 50L410 56l277 69L899 21l301 110z"/></svg>',
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Triangle %s', 'generateblocks' ), '10' ),
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 131" preserveAspectRatio="none"><path d="M1200 0L899 110 687 6 410 75 154.8 20 0 70v61h1200z"/></svg>',
 					),
 					'gb-triangle-11' => array(
 						/* translators: Shape number */
@@ -760,9 +760,9 @@ function generateblocks_get_svg_shapes() {
 						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 176" preserveAspectRatio="none"><path d="M0 0l400 156 400-88 400 74v34H0z"/></svg>',
 					),
 					'gb-triangle-12' => array(
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 176" preserveAspectRatio="none"><path d="M0 20l400 156 400-88 400 74V0H0z"/></svg>',
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Triangle %s', 'generateblocks' ), '12' ),
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 176" preserveAspectRatio="none"><path d="M0 176h1200V14L800 88 400 0 0 156z"/></svg>',
 					),
 				),
 			),
