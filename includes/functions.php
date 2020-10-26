@@ -702,7 +702,7 @@ function generateblocks_get_svg_shapes() {
 					'gb-triangle-3' => array(
 						/* translators: Shape number */
 						'label' => sprintf( __( 'Triangle %s', 'generateblocks' ), '3' ),
-						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 250" preserveAspectRatio="none"><path d="M1200 0v70H0V0h530l70 50 70-50z"/></svg>',
+						'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 70" preserveAspectRatio="none"><path d="M1200 0v70H0V0h530l70 50 70-50z"/></svg>',
 					),
 					'gb-triangle-4' => array(
 						/* translators: Shape number */
