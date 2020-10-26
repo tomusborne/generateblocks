@@ -98,7 +98,6 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Add inner z-index option to Container
 * Fix: Stacked button alignment in the editor
 * Fix: Broken background image upload when using official AMP plugin
-* Fix: Color picker input width
 * Fix: Button mobile border-radius
 * Fix: Check if grid data is an array before looping
 * Fix: Container tablet/mobile font size values
@@ -112,7 +111,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Remove old browser prefixes
 * Tweak: Update DOMPurify
 * Tweak: Don't strip protocol from dynamic stylesheet URI
-* Tweak: Rename Advanced panel to General
+* Tweak: Move controls from our Advanced panel into core Advanced panel
 * Tweak: Move text alignment options in all blocks to the Block Toolbar
 * Tweak: Remove block margin in the editor
 * Tweak: Reverse grid gap when using RTL
