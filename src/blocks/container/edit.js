@@ -357,7 +357,7 @@ class GenerateBlockContainer extends Component {
 		const allShapeDividers = () => {
 			return (
 				<Fragment>
-					{ attributes.shapeDividers.length &&
+					{ !! attributes.shapeDividers.length &&
 						<div className="gb-shapes">
 							{
 								attributes.shapeDividers.map( ( location, index ) => {
