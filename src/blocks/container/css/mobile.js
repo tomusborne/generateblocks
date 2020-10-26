@@ -149,7 +149,7 @@ export default class MobileCSS extends Component {
 
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].heightMobile, 'px' ),
-					'min-width': valueWithUnit( shapeDividers[ index ].minWidthMobile, '%' ),
+					width: valueWithUnit( shapeDividers[ index ].widthMobile, '%' ),
 				} ];
 			} );
 		}

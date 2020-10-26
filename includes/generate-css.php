@@ -448,12 +448,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 						$css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 						$css->add_property( 'height', $shapeOptions['height'], 'px' );
-						$css->add_property( 'min-width', $shapeOptions['minWidth'], '%' );
+						$css->add_property( 'width', $shapeOptions['width'], '%' );
 
 						if ( 'top' === $shapeOptions['location'] || 'bottom' === $shapeOptions['location'] ) {
 							$css->add_property( 'position', 'relative' );
 							$css->add_property( 'left', '50%' );
 							$css->add_property( 'transform', 'translateX(-50%)' );
+							$css->add_property( 'min-width', '100%' );
 						}
 					}
 				}
@@ -555,7 +556,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 						$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 						$tablet_css->add_property( 'height', $shapeOptions['heightTablet'], 'px' );
-						$tablet_css->add_property( 'min-width', $shapeOptions['minWidthTablet'], '%' );
+						$tablet_css->add_property( 'width', $shapeOptions['widthTablet'], '%' );
 					}
 				}
 
@@ -653,7 +654,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 						$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 						$mobile_css->add_property( 'height', $shapeOptions['heightMobile'], 'px' );
-						$mobile_css->add_property( 'min-width', $shapeOptions['minWidthMobile'], '%' );
+						$mobile_css->add_property( 'width', $shapeOptions['widthMobile'], '%' );
 					}
 				}
 

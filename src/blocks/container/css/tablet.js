@@ -142,7 +142,7 @@ export default class TabletCSS extends Component {
 
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].heightTablet, 'px' ),
-					'min-width': valueWithUnit( shapeDividers[ index ].minWidthTablet, '%' ),
+					width: valueWithUnit( shapeDividers[ index ].widthTablet, '%' ),
 				} ];
 			} );
 		}

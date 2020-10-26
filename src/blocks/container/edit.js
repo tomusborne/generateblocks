@@ -324,9 +324,9 @@ class GenerateBlockContainer extends Component {
 				height: generateBlocksStyling.container.shapeDividers.height,
 				heightTablet: generateBlocksStyling.container.shapeDividers.heightTablet,
 				heightMobile: generateBlocksStyling.container.shapeDividers.heightMobile,
-				minWidth: generateBlocksStyling.container.shapeDividers.minWidth,
-				minWidthTablet: generateBlocksStyling.container.shapeDividers.minWidthTablet,
-				minWidthMobile: generateBlocksStyling.container.shapeDividers.minWidthMobile,
+				width: generateBlocksStyling.container.shapeDividers.width,
+				widthTablet: generateBlocksStyling.container.shapeDividers.widthTablet,
+				widthMobile: generateBlocksStyling.container.shapeDividers.widthMobile,
 				flipHorizontally: generateBlocksStyling.container.shapeDividers.flipHorizontally,
 				zindex: generateBlocksStyling.container.shapeDividers.zindex,
 			} );
@@ -1712,7 +1712,7 @@ class GenerateBlockContainer extends Component {
 															/>
 
 															<UnitPicker
-																label={ __( 'Minimum Width', 'generateblocks' ) }
+																label={ __( 'Width', 'generateblocks' ) }
 																value={ '%' }
 																units={ [ '%' ] }
 																onClick={ () => {
@@ -1722,14 +1722,14 @@ class GenerateBlockContainer extends Component {
 
 															<TextControl
 																type={ 'number' }
-																value={ shapeDividers[ index ].minWidth ? shapeDividers[ index ].minWidth : '' }
+																value={ shapeDividers[ index ].width ? shapeDividers[ index ].width : '' }
 																min="100"
 																onChange={ ( value ) => {
 																	const shapes = [ ...shapeDividers ];
 
 																	shapes[ index ] = {
 																		...shapes[ index ],
-																		minWidth: parseFloat( value ),
+																		width: parseFloat( value ),
 																	};
 
 																	setAttributes( {
@@ -1829,7 +1829,7 @@ class GenerateBlockContainer extends Component {
 															/>
 
 															<UnitPicker
-																label={ __( 'Minimum Width', 'generateblocks' ) }
+																label={ __( 'Width', 'generateblocks' ) }
 																value={ '%' }
 																units={ [ '%' ] }
 																onClick={ () => {
@@ -1839,14 +1839,14 @@ class GenerateBlockContainer extends Component {
 
 															<TextControl
 																type={ 'number' }
-																value={ shapeDividers[ index ].minWidthTablet ? shapeDividers[ index ].minWidthTablet : '' }
+																value={ shapeDividers[ index ].widthTablet ? shapeDividers[ index ].widthTablet : '' }
 																min="100"
 																onChange={ ( value ) => {
 																	const shapes = [ ...shapeDividers ];
 
 																	shapes[ index ] = {
 																		...shapes[ index ],
-																		minWidthTablet: parseFloat( value ),
+																		widthTablet: parseFloat( value ),
 																	};
 
 																	setAttributes( {
@@ -1886,7 +1886,7 @@ class GenerateBlockContainer extends Component {
 															/>
 
 															<UnitPicker
-																label={ __( 'Minimum Width', 'generateblocks' ) }
+																label={ __( 'Width', 'generateblocks' ) }
 																value={ '%' }
 																units={ [ '%' ] }
 																onClick={ () => {
@@ -1896,14 +1896,14 @@ class GenerateBlockContainer extends Component {
 
 															<TextControl
 																type={ 'number' }
-																value={ shapeDividers[ index ].minWidthMobile ? shapeDividers[ index ].minWidthMobile : '' }
+																value={ shapeDividers[ index ].widthMobile ? shapeDividers[ index ].widthMobile : '' }
 																min="100"
 																onChange={ ( value ) => {
 																	const shapes = [ ...shapeDividers ];
 
 																	shapes[ index ] = {
 																		...shapes[ index ],
-																		minWidthMobile: parseFloat( value ),
+																		widthMobile: parseFloat( value ),
 																	};
 
 																	setAttributes( {

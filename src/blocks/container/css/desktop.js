@@ -329,7 +329,7 @@ export default class DesktopCSS extends Component {
 
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].height, 'px' ),
-					'min-width': valueWithUnit( shapeDividers[ index ].minWidth, '%' ),
+					width: valueWithUnit( shapeDividers[ index ].width, '%' ),
 				} ];
 
 				if ( 'top' === shapeDividers[ index ].location || 'bottom' === shapeDividers[ index ].location ) {
@@ -337,6 +337,7 @@ export default class DesktopCSS extends Component {
 						position: 'relative',
 						left: '50%',
 						transform: 'translateX(-50%)',
+						'min-width': '100%',
 					} );
 				}
 			} );
