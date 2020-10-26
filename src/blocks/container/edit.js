@@ -820,6 +820,7 @@ class GenerateBlockContainer extends Component {
 						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
 								<TypographyControls { ...this.props }
+									device={ 'Tablet' }
 									showFontSize={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
@@ -833,6 +834,7 @@ class GenerateBlockContainer extends Component {
 						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
 								<TypographyControls { ...this.props }
+									device={ 'Mobile' }
 									showFontSize={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
