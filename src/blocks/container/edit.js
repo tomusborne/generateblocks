@@ -342,7 +342,6 @@ class GenerateBlockContainer extends Component {
 		};
 
 		const allShapes = [];
-		const shapeOptions = [];
 
 		Object.keys( generateBlocksInfo.svgShapes ).map( ( key ) => {
 			const shapes = generateBlocksInfo.svgShapes[ key ].svgs;
@@ -352,11 +351,6 @@ class GenerateBlockContainer extends Component {
 					label: shapes[ name ].label,
 					icon: shapes[ name ].icon,
 				};
-
-				shapeOptions.push( {
-					label: shapes[ name ].label,
-					value: name,
-				} );
 			} );
 		} );
 
