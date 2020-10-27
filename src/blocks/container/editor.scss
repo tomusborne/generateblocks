@@ -161,18 +161,28 @@ button.editor-gb-container-background__toggle {
 }
 
 .gblocks-shape-controls {
-    width: 100%;
+	width: 100%;
+
+	.components-base-control {
+		margin-bottom: 20px;
+	}
 }
 
 .gblocks-shape-divider-preview {
-	margin-bottom: 15px;
+	padding: 10px;
 
 	svg {
 		fill: currentColor;
 	}
 }
 
-.gb-shape-chooser .gblocks-shape-chooser li button.components-button {
+.gblocks-shape-controls .gblocks-edit-shape {
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+.gblocks-shape-controls .gblocks-shape-chooser li button.components-button {
 	width: 100%;
     height: auto;
     padding: 10px 0 0;
@@ -187,22 +197,32 @@ button.editor-gb-container-background__toggle {
 	}
 }
 
-.block-editor-block-inspector .gb-shape-chooser .gblocks-shape-controls {
-	.components-panel__body button.components-panel__body-toggle,
-	.components-panel__body.is-opened {
-		background: #fff;
-	}
-
-	.components-base-control:last-child {
-		margin-bottom: 0;
-	}
-}
-
 .gblocks-icon-chooser.gblocks-shape-chooser {
 	margin-bottom: 0;
 
 	li {
 		margin: 0 0 5px;
+	}
+}
+
+.gblocks-shape-toggle-preview svg {
+    width: 30px;
+}
+
+.gblocks-shape-container {
+    display: flex;
+    align-items: center;
+	margin-bottom: 10px;
+	border: 1px solid #efefef;
+	border-radius: 3px;
+
+	.components-dropdown {
+		margin-left: auto;
+	}
+
+	.components-button.gblocks-shape-dropdown,
+	.components-button.gblocks-remove-shape {
+		justify-content: center;
 	}
 }
 

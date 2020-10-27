@@ -19,6 +19,7 @@ import MobileCSS from './css/mobile.js';
 
 const {
 	__,
+	sprintf,
 } = wp.i18n;
 
 const {
@@ -34,6 +35,7 @@ const {
 	PanelBody,
 	PanelRow,
 	Tooltip,
+	Dropdown,
 } = wp.components;
 
 const {
@@ -1564,364 +1566,387 @@ class GenerateBlockContainer extends Component {
 									const shapeNumber = index + 1;
 
 									return <Fragment key={ index }>
-										<PanelBody
-											title={ __( 'Shape', 'generateblocks' ) + ' ' + shapeNumber }
-											initialOpen={ false }
-										>
-											<PanelRow>
-												<div className="gblocks-shape-controls">
-													{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
-														<div
-															className="gblocks-shape-divider-preview"
-															style={ { color: shapeDividers[ index ].color } }
-															dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
-														/>
-													}
+										<div className="gblocks-shape-container">
+											<div className="gblocks-shape-toggle-preview">
+												{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
+													<div
+														className="gblocks-shape-divider-preview"
+														style={ { color: shapeDividers[ index ].color } }
+														dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
+													/>
+												}
+											</div>
 
-													{ 'Desktop' === this.getDeviceType() &&
-														<Fragment>
-															<BaseControl className="gb-icon-chooser">
-																{
-																	Object.keys( generateBlocksInfo.svgShapes ).map( ( svg, i ) => {
-																		const svgItems = generateBlocksInfo.svgShapes[ svg ].svgs;
+											{ sprintf( __( 'Shape %s', 'generateblocks' ), shapeNumber ) }
 
-																		return (
-																			<PanelBody title={ generateBlocksInfo.svgShapes[ svg ].group } initialOpen={ false } key={ i }>
-																				<PanelRow>
-																					<BaseControl>
-																						<ul className="gblocks-icon-chooser gblocks-shape-chooser">
-																							{
-																								Object.keys( svgItems ).map( ( svgItem, iconIndex ) => {
-																									return (
-																										<li key={ `editor-pblock-types-list-item-${ iconIndex }` }>
-																											<Tooltip text={ ( svgItems[ svgItem ].label ) }>
-																												<Button
-																													className="editor-block-list-item-button"
-																													onClick={ () => {
-																														const shapes = [ ...shapeDividers ];
-
-																														shapes[ index ] = {
-																															...shapes[ index ],
-																															shape: svgItem,
-																														};
-
-																														setAttributes( {
-																															shapeDividers: shapes,
-																														} );
-																													} }
-																												>
-																													{ 'string' === typeof svgItems[ svgItem ].icon ? (
-																														<Fragment>
-																															<span
-																																className="editor-block-types-list__item-icon"
-																																dangerouslySetInnerHTML={ { __html: sanitizeSVG( svgItems[ svgItem ].icon ) } }
-																															/>
-																														</Fragment>
-																													) : (
-																														<Fragment>
-																															<span className="editor-block-types-list__item-icon">
-																																{ svgItems[ svgItem ].icon }
-																															</span>
-																														</Fragment>
-																													) }
-																												</Button>
-																											</Tooltip>
-																										</li>
-																									);
-																								} )
-																							}
-																						</ul>
-																					</BaseControl>
-																				</PanelRow>
-																			</PanelBody>
-																		);
-																	} )
-																}
-															</BaseControl>
-
-															<ColorPicker
-																label={ __( 'Color', 'generateblocks' ) }
-																value={ shapeDividers[ index ].color }
-																alpha={ true }
-																valueOpacity={ shapeDividers[ index ].colorOpacity }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
-
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		color: value,
-																	};
-
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-																onOpacityChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
-
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		colorOpacity: value,
-																	};
-
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
-
-															<SelectControl
-																label={ __( 'Location', 'generateblocks' ) }
-																value={ shapeDividers[ index ].location }
-																options={ [
-																	{ label: __( 'Top', 'generateblocks' ), value: 'top' },
-																	{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
-																] }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
-
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		location: value,
-																	};
-
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
-
-															<UnitPicker
-																label={ __( 'Height', 'generateblocks' ) }
-																value={ 'px' }
-																units={ [ 'px' ] }
-																onClick={ () => {
-																	return false;
-																} }
-															/>
-
-															<TextControl
-																type={ 'number' }
-																value={ shapeDividers[ index ].height ? shapeDividers[ index ].height : '' }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
-
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		height: parseFloat( value ),
-																	};
-
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
-
-															<UnitPicker
-																label={ __( 'Width', 'generateblocks' ) }
-																value={ '%' }
-																units={ [ '%' ] }
-																onClick={ () => {
-																	return false;
-																} }
-															/>
-
-															<TextControl
-																type={ 'number' }
-																value={ shapeDividers[ index ].width ? shapeDividers[ index ].width : '' }
-																min="100"
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
-
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		width: parseFloat( value ),
-																	};
-
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
-
-															<ToggleControl
-																label={ __( 'Flip Horizontally', 'generateblocks' ) }
-																checked={ !! shapeDividers[ index ].flipHorizontally }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
-
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		flipHorizontally: value,
-																	};
-
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
-
-															<TextControl
-																label={ __( 'z-index', 'generateblocks' ) }
-																type={ 'number' }
-																value={ shapeDividers[ index ].zindex || 0 === shapeDividers[ index ].zindex ? shapeDividers[ index ].zindex : '' }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
-
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		zindex: value,
-																	};
-
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-																onBlur={ () => {
-																	const shapes = [ ...shapeDividers ];
-
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		zindex: parseFloat( shapeDividers[ index ].zindex ),
-																	};
-
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-																onClick={ ( e ) => {
-																	// Make sure onBlur fires in Firefox.
-																	e.currentTarget.focus();
-																} }
-															/>
-
+											<Fragment>
+												<Dropdown
+													renderToggle={ ( { isOpen, onToggle } ) => (
+														<Tooltip text={ __( 'Edit Shape', 'generateblocks' ) }>
 															<Button
-																isPrimary
-																isSmall
-																className="gblocks-remove-shape"
-																onClick={ () => handleRemoveShape( index ) }
-															>
-																{ __( 'Remove Shape', 'generateblocks' ) }
-															</Button>
-														</Fragment>
-													}
-
-													{ 'Tablet' === this.getDeviceType() &&
-														<Fragment>
-															<UnitPicker
-																label={ __( 'Height', 'generateblocks' ) }
-																value={ 'px' }
-																units={ [ 'px' ] }
-																onClick={ () => {
-																	return false;
-																} }
+																className="gblocks-shape-dropdown"
+																isSecondary={ isOpen ? undefined : true }
+																isPrimary={ isOpen ? true : undefined }
+																icon={ 'admin-tools' }
+																onClick={ onToggle }
+																aria-expanded={ isOpen }
 															/>
+														</Tooltip>
+													) }
+													renderContent={ () => (
+														<div className="gblocks-shape-controls">
+															{ 'Desktop' === this.getDeviceType() &&
+																<Fragment>
+																	<BaseControl className="gb-icon-chooser">
+																		{
+																			Object.keys( generateBlocksInfo.svgShapes ).map( ( svg, i ) => {
+																				const svgItems = generateBlocksInfo.svgShapes[ svg ].svgs;
 
-															<TextControl
-																type={ 'number' }
-																value={ shapeDividers[ index ].heightTablet ? shapeDividers[ index ].heightTablet : '' }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+																				return (
+																					<PanelBody title={ generateBlocksInfo.svgShapes[ svg ].group } initialOpen={ false } key={ i }>
+																						<PanelRow>
+																							<BaseControl>
+																								<ul className="gblocks-icon-chooser gblocks-shape-chooser">
+																									{
+																										Object.keys( svgItems ).map( ( svgItem, iconIndex ) => {
+																											return (
+																												<li key={ `editor-pblock-types-list-item-${ iconIndex }` }>
+																													<Tooltip text={ ( svgItems[ svgItem ].label ) }>
+																														<Button
+																															className="editor-block-list-item-button"
+																															onClick={ () => {
+																																const shapes = [ ...shapeDividers ];
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		heightTablet: parseFloat( value ),
-																	};
+																																shapes[ index ] = {
+																																	...shapes[ index ],
+																																	shape: svgItem,
+																																};
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
+																																setAttributes( {
+																																	shapeDividers: shapes,
+																																} );
+																															} }
+																														>
+																															{ 'string' === typeof svgItems[ svgItem ].icon ? (
+																																<Fragment>
+																																	<span
+																																		className="editor-block-types-list__item-icon"
+																																		dangerouslySetInnerHTML={ { __html: sanitizeSVG( svgItems[ svgItem ].icon ) } }
+																																	/>
+																																</Fragment>
+																															) : (
+																																<Fragment>
+																																	<span className="editor-block-types-list__item-icon">
+																																		{ svgItems[ svgItem ].icon }
+																																	</span>
+																																</Fragment>
+																															) }
+																														</Button>
+																													</Tooltip>
+																												</li>
+																											);
+																										} )
+																									}
+																								</ul>
+																							</BaseControl>
+																						</PanelRow>
+																					</PanelBody>
+																				);
+																			} )
+																		}
+																	</BaseControl>
 
-															<UnitPicker
-																label={ __( 'Width', 'generateblocks' ) }
-																value={ '%' }
-																units={ [ '%' ] }
-																onClick={ () => {
-																	return false;
-																} }
-															/>
+																	<ColorPicker
+																		label={ __( 'Color', 'generateblocks' ) }
+																		value={ shapeDividers[ index ].color }
+																		alpha={ true }
+																		valueOpacity={ shapeDividers[ index ].colorOpacity }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
 
-															<TextControl
-																type={ 'number' }
-																value={ shapeDividers[ index ].widthTablet ? shapeDividers[ index ].widthTablet : '' }
-																min="100"
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				color: value,
+																			};
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		widthTablet: parseFloat( value ),
-																	};
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																		onOpacityChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
-														</Fragment>
-													}
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				colorOpacity: value,
+																			};
 
-													{ 'Mobile' === this.getDeviceType() &&
-														<Fragment>
-															<UnitPicker
-																label={ __( 'Height', 'generateblocks' ) }
-																value={ 'px' }
-																units={ [ 'px' ] }
-																onClick={ () => {
-																	return false;
-																} }
-															/>
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
 
-															<TextControl
-																type={ 'number' }
-																value={ shapeDividers[ index ].heightMobile ? shapeDividers[ index ].heightMobile : '' }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+																	<SelectControl
+																		label={ __( 'Location', 'generateblocks' ) }
+																		value={ shapeDividers[ index ].location }
+																		options={ [
+																			{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+																			{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
+																		] }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		heightMobile: parseFloat( value ),
-																	};
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				location: value,
+																			};
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
 
-															<UnitPicker
-																label={ __( 'Width', 'generateblocks' ) }
-																value={ '%' }
-																units={ [ '%' ] }
-																onClick={ () => {
-																	return false;
-																} }
-															/>
+																	<UnitPicker
+																		label={ __( 'Height', 'generateblocks' ) }
+																		value={ 'px' }
+																		units={ [ 'px' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
 
-															<TextControl
-																type={ 'number' }
-																value={ shapeDividers[ index ].widthMobile ? shapeDividers[ index ].widthMobile : '' }
-																min="100"
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].height ? shapeDividers[ index ].height : '' }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		widthMobile: parseFloat( value ),
-																	};
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				height: parseFloat( value ),
+																			};
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
-														</Fragment>
-													}
-												</div>
-											</PanelRow>
-										</PanelBody>
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<UnitPicker
+																		label={ __( 'Width', 'generateblocks' ) }
+																		value={ '%' }
+																		units={ [ '%' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].width ? shapeDividers[ index ].width : '' }
+																		min="100"
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				width: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<ToggleControl
+																		label={ __( 'Flip Horizontally', 'generateblocks' ) }
+																		checked={ !! shapeDividers[ index ].flipHorizontally }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				flipHorizontally: value,
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<TextControl
+																		label={ __( 'z-index', 'generateblocks' ) }
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].zindex || 0 === shapeDividers[ index ].zindex ? shapeDividers[ index ].zindex : '' }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				zindex: value,
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																		onBlur={ () => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				zindex: parseFloat( shapeDividers[ index ].zindex ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																		onClick={ ( e ) => {
+																			// Make sure onBlur fires in Firefox.
+																			e.currentTarget.focus();
+																		} }
+																	/>
+																</Fragment>
+															}
+
+															{ 'Tablet' === this.getDeviceType() &&
+																<Fragment>
+																	<UnitPicker
+																		label={ __( 'Height', 'generateblocks' ) }
+																		value={ 'px' }
+																		units={ [ 'px' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].heightTablet ? shapeDividers[ index ].heightTablet : '' }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				heightTablet: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<UnitPicker
+																		label={ __( 'Width', 'generateblocks' ) }
+																		value={ '%' }
+																		units={ [ '%' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].widthTablet ? shapeDividers[ index ].widthTablet : '' }
+																		min="100"
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				widthTablet: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+																</Fragment>
+															}
+
+															{ 'Mobile' === this.getDeviceType() &&
+																<Fragment>
+																	<UnitPicker
+																		label={ __( 'Height', 'generateblocks' ) }
+																		value={ 'px' }
+																		units={ [ 'px' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].heightMobile ? shapeDividers[ index ].heightMobile : '' }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				heightMobile: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<UnitPicker
+																		label={ __( 'Width', 'generateblocks' ) }
+																		value={ '%' }
+																		units={ [ '%' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].widthMobile ? shapeDividers[ index ].widthMobile : '' }
+																		min="100"
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				widthMobile: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+																</Fragment>
+															}
+														</div>
+													) }
+												/>
+											</Fragment>
+
+											{ 'Desktop' === this.getDeviceType() &&
+												<Tooltip text={ __( 'Delete Shape', 'generateblocks' ) }>
+													<Button
+														className="gblocks-remove-shape"
+														onClick={ () => {
+															// eslint-disable-next-line
+															if ( window.confirm( __( 'This will permanently delete this shape.', 'generateblocks' ) ) ) {
+																handleRemoveShape( index );
+															}
+														} }
+														icon={ 'no-alt' }
+													/>
+												</Tooltip>
+											}
+										</div>
 									</Fragment>;
 								} )
 							}
