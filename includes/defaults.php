@@ -462,7 +462,7 @@ function generateblocks_get_default_styles() {
 				'widthTablet' => '',
 				'widthMobile' => '',
 				'flipHorizontally' => false,
-				'zindex' => 1,
+				'zindex' => '',
 				'color' => '#000000',
 				'colorOpacity' => 1,
 			),
