@@ -205,8 +205,12 @@ button.editor-gb-container-background__toggle {
 	}
 }
 
-.gblocks-shape-toggle-preview svg {
-    width: 30px;
+.gblocks-shape-toggle-preview {
+	margin-right: 10px;
+
+	svg {
+		   width: 30px;
+	}
 }
 
 .gblocks-shape-container {
