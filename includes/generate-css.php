@@ -658,6 +658,18 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
+				if ( $hasBgImage && 'fixed' === $settings['bgOptions']['attachment'] ) {
+					if ( 'element' === $settings['bgOptions']['selector'] ) {
+						$mobile_css->set_selector( '.gb-container.gb-container-' . $id );
+					}
+
+					if ( 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+						$mobile_css->set_selector( '.gb-container.gb-container-' . $id . ':before' );
+					}
+
+					$mobile_css->add_property( 'background-attachment', 'initial' );
+				}
+
 				/**
 				 * Do generateblocks_block_css_data hook
 				 *

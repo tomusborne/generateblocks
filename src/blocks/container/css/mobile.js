@@ -10,6 +10,7 @@ export default class MobileCSS extends Component {
 		const {
 			attributes,
 			clientId,
+			media,
 		} = this.props;
 
 		const {
@@ -46,7 +47,16 @@ export default class MobileCSS extends Component {
 			fontSizeUnit,
 			orderMobile,
 			shapeDividers,
+			bgImage,
+			bgOptions,
+			featuredImageBg,
 		} = attributes;
+
+		let hasBgImage = false;
+
+		if ( bgImage || ( featuredImageBg && media ) ) {
+			hasBgImage = true;
+		}
 
 		let cssObj = [];
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
@@ -152,6 +162,20 @@ export default class MobileCSS extends Component {
 					width: valueWithUnit( shapeDividers[ index ].widthMobile, '%' ),
 				} ];
 			} );
+		}
+
+		if ( hasBgImage && 'fixed' === bgOptions.attachment ) {
+			if ( 'element' === bgOptions.selector ) {
+				cssObj[ '.gb-container-' + uniqueId ].push( {
+					'background-attachment': 'initial',
+				} );
+			}
+
+			if ( 'pseudo-element' === bgOptions.selector ) {
+				cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
+					'background-attachment': 'initial',
+				} ];
+			}
 		}
 
 		cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, this.props, 'container' );
