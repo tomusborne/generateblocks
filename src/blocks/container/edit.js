@@ -1781,6 +1781,7 @@ class GenerateBlockContainer extends Component {
 																	<TextControl
 																		label={ __( 'z-index', 'generateblocks' ) }
 																		type={ 'number' }
+																		min="0"
 																		value={ shapeDividers[ index ].zindex || 0 === shapeDividers[ index ].zindex ? shapeDividers[ index ].zindex : '' }
 																		onChange={ ( value ) => {
 																			const shapes = [ ...shapeDividers ];
