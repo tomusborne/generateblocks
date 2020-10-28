@@ -82,7 +82,7 @@ class GenerateBlocks_Settings {
 
 			update_option( 'generateblocks', $settings );
 
-			wp_safe_redirect( admin_url( 'admin.php?page=generateblocks-settings&settings-updated=true' ) );
+			wp_safe_redirect( admin_url( 'options-general.php?page=generateblocks-settings&settings-updated=true' ) );
 			exit;
 		}
 	}
