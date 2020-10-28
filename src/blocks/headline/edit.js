@@ -248,7 +248,6 @@ class GenerateBlockHeadline extends Component {
 
 		return (
 			<Fragment>
-
 				<BlockControls>
 					<ToolbarGroup>
 						<Dropdown
@@ -398,34 +397,38 @@ class GenerateBlockHeadline extends Component {
 						/>
 					</ToolbarGroup>
 
-					<ToolbarGroup>
-						{ 'Desktop' === this.getDeviceType() && ! inlineWidth &&
+					{ 'Desktop' === this.getDeviceType() && ! inlineWidth &&
+						<ToolbarGroup>
 							<AlignmentToolbar
 								value={ alignment }
 								onChange={ ( value ) => {
 									setAttributes( { alignment: value } );
 								} }
 							/>
-						}
+						</ToolbarGroup>
+					}
 
-						{ 'Tablet' === this.getDeviceType() && ! inlineWidthTablet &&
+					{ 'Tablet' === this.getDeviceType() && ! inlineWidthTablet &&
+						<ToolbarGroup>
 							<AlignmentToolbar
 								value={ alignmentTablet }
 								onChange={ ( value ) => {
 									setAttributes( { alignmentTablet: value } );
 								} }
 							/>
-						}
+						</ToolbarGroup>
+					}
 
-						{ 'Mobile' === this.getDeviceType() && ! inlineWidthMobile &&
+					{ 'Mobile' === this.getDeviceType() && ! inlineWidthMobile &&
+						<ToolbarGroup>
 							<AlignmentToolbar
 								value={ alignmentMobile }
 								onChange={ ( value ) => {
 									setAttributes( { alignmentMobile: value } );
 								} }
 							/>
-						}
-					</ToolbarGroup>
+						</ToolbarGroup>
+					}
 				</BlockControls>
 
 				<InspectorControls>
