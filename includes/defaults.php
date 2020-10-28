@@ -423,6 +423,7 @@ function generateblocks_get_option_defaults() {
 		'generateblocks_option_defaults',
 		array(
 			'css_print_method' => 'file',
+			'sync_responsive_previews' => true,
 		)
 	);
 }

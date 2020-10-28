@@ -235,16 +235,23 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	getDeviceType() {
-		return this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+		let deviceType = this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+
+		if ( ! generateBlocksInfo.syncResponsivePreviews ) {
+			deviceType = this.state.selectedDevice;
+		}
+
+		return deviceType;
 	}
 
 	setDeviceType = ( deviceType ) => {
-		if ( this.props.deviceType ) {
+		if ( generateBlocksInfo.syncResponsivePreviews && this.props.deviceType ) {
 			this.props.setDeviceType( deviceType );
+			this.setState( { selectedDevice: deviceType } );
 		} else {
 			this.setState( { selectedDevice: deviceType } );
 		}
-	};
+	}
 
 	render() {
 		const {

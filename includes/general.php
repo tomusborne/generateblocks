@@ -52,6 +52,7 @@ function generateblocks_do_block_editor_assets() {
 			'hasWideAlignSupport' => current_theme_supports( 'align-wide' ),
 			'imageSizes' => $image_sizes,
 			'svgShapes' => generateblocks_get_svg_shapes(),
+			'syncResponsivePreviews' => generateblocks_get_option( 'sync_responsive_previews' ),
 		)
 	);
 

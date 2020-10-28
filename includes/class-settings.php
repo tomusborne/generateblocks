@@ -74,6 +74,12 @@ class GenerateBlocks_Settings {
 				$settings['css_print_method'] = sanitize_key( $values['css_print_method'] );
 			}
 
+			if ( isset( $values['sync_responsive_previews'] ) ) {
+				$settings['sync_responsive_previews'] = true;
+			} else {
+				$settings['sync_responsive_previews'] = false;
+			}
+
 			update_option( 'generateblocks', $settings );
 
 			wp_safe_redirect( admin_url( 'admin.php?page=generateblocks-settings&settings-updated=true' ) );
@@ -144,6 +150,15 @@ class GenerateBlocks_Settings {
 											);
 										?>
 										<p><?php esc_html_e( 'Force your external CSS files to regenerate next time their page is loaded.', 'generateblocks' ); ?></p>
+									</td>
+								</tr>
+								<tr>
+									<th scope="row">
+										<?php esc_html_e( 'Sync Responsive Previews', 'generateblocks' ); ?>
+									</th>
+									<td>
+										<input type="checkbox" name="generateblocks[sync_responsive_previews]" value="true"<?php checked( true, generateblocks_get_option( 'sync_responsive_previews' ) ); ?> />
+										<p><?php esc_html_e( 'Sync our responsive preview controls with the editor responsive previews.', 'generateblocks' ); ?></p>
 									</td>
 								</tr>
 								<?php
