@@ -261,7 +261,7 @@ class GenerateBlockHeadline extends Component {
 										aria-expanded={ isOpen }
 										aria-haspopup="true"
 										icon={ <HeadingLevelIcon level={ element } /> }
-										label={ __( 'Change heading level' ) }
+										label={ __( 'Change Headline Element', 'generateblocks' ) }
 										onClick={ onToggle }
 										showTooltip
 									/>
