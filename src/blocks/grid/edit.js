@@ -18,10 +18,10 @@ const {
 const {
 	TextControl,
 	SelectControl,
-	Tooltip,
 	Placeholder,
 	Button,
-	Toolbar,
+	ToolbarGroup,
+	ToolbarButton,
 } = wp.components;
 
 const {
@@ -307,29 +307,30 @@ class GenerateBlockGridContainer extends Component {
 		return (
 			<Fragment>
 				<BlockControls>
-					<Toolbar>
-						<Tooltip text={ __( 'Add Grid Item', 'generateblocks' ) }>
-							<Button
-								className="gblocks-block-control-icon gblocks-add-grid-item"
-								icon={ getIcon( 'addContainer' ) }
-								onClick={ () => {
-									wp.data.dispatch( 'core/block-editor' ).insertBlocks(
-										createBlock( 'generateblocks/container', {
-											isGrid: true,
-											gridId: uniqueId,
-											paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
-											paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
-											paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
-											paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
-										} ),
-										undefined,
-										clientId
-									);
-								} }
-							/>
-						</Tooltip>
-					</Toolbar>
+					<ToolbarGroup>
+						<ToolbarButton
+							className="gblocks-block-control-icon gblocks-add-grid-item"
+							icon={ getIcon( 'addContainer' ) }
+							label={ __( 'Add Grid Item', 'generateblocks' ) }
+							onClick={ () => {
+								wp.data.dispatch( 'core/block-editor' ).insertBlocks(
+									createBlock( 'generateblocks/container', {
+										isGrid: true,
+										gridId: uniqueId,
+										paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
+										paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
+										paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
+										paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
+									} ),
+									undefined,
+									clientId
+								);
+							} }
+							showTooltip
+						/>
+					</ToolbarGroup>
 				</BlockControls>
+
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
 						selectedDevice={ this.getDeviceType() }

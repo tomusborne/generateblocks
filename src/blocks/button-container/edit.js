@@ -16,7 +16,8 @@ const {
 	Tooltip,
 	Button,
 	ToggleControl,
-	Toolbar,
+	ToolbarGroup,
+	ToolbarButton,
 	TextControl,
 } = wp.components;
 
@@ -172,36 +173,36 @@ class GenerateButtonContainer extends Component {
 		return (
 			<Fragment>
 				<BlockControls>
-					<Toolbar>
-						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
-							<Button
-								className="gblocks-add-new-button"
-								icon={ 'insert' }
-								onClick={ () => {
-									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+					<ToolbarGroup>
+						<ToolbarButton
+							className="gblocks-add-new-button"
+							icon={ 'insert' }
+							label={ __( 'Add Button', 'generateblocks' ) }
+							onClick={ () => {
+								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
 
-									if ( thisBlock ) {
-										const childBlocks = thisBlock.innerBlocks;
-										const keys = Object.keys( childBlocks );
-										const lastKey = keys[ keys.length - 1 ];
+								if ( thisBlock ) {
+									const childBlocks = thisBlock.innerBlocks;
+									const keys = Object.keys( childBlocks );
+									const lastKey = keys[ keys.length - 1 ];
 
-										if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
-											const blockToCopyId = childBlocks[ lastKey ].clientId;
+									if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
+										const blockToCopyId = childBlocks[ lastKey ].clientId;
 
-											if ( blockToCopyId ) {
-												const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
-												const clonedBlock = cloneBlock( blockToCopy );
+										if ( blockToCopyId ) {
+											const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
+											const clonedBlock = cloneBlock( blockToCopy );
 
-												wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
-											}
-										} else if ( 0 === childBlocks.length ) {
-											wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+											wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
 										}
+									} else if ( 0 === childBlocks.length ) {
+										wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
 									}
-								} }
-							/>
-						</Tooltip>
-					</Toolbar>
+								}
+							} }
+							showTooltip
+						/>
+					</ToolbarGroup>
 
 					{ 'Desktop' === this.getDeviceType() && (
 						<AlignmentToolbar

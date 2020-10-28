@@ -26,8 +26,8 @@ const {
 const {
 	TabPanel,
 	TextControl,
-	Toolbar,
-	Tooltip,
+	ToolbarGroup,
+	ToolbarButton,
 	Button,
 } = wp.components;
 
@@ -256,28 +256,28 @@ class GenerateBlockButton extends Component {
 		return (
 			<Fragment>
 				<BlockControls>
-					<Toolbar>
-						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
-							<Button
-								className="gblocks-add-new-button"
-								icon={ 'insert' }
-								onClick={ () => {
-									let parentBlockId = false;
+					<ToolbarGroup>
+						<ToolbarButton
+							className="gblocks-add-new-button"
+							icon={ 'insert' }
+							label={ __( 'Add Button', 'generateblocks' ) }
+							onClick={ () => {
+								let parentBlockId = false;
 
-									if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === 'function' ) {
-										parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
-									} else {
-										parentBlockId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
-									}
+								if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === 'function' ) {
+									parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+								} else {
+									parentBlockId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
+								}
 
-									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
-									const clonedBlock = cloneBlock( thisBlock );
+								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+								const clonedBlock = cloneBlock( thisBlock );
 
-									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlockId );
-								} }
-							/>
-						</Tooltip>
-					</Toolbar>
+								wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlockId );
+							} }
+							showTooltip
+						/>
+					</ToolbarGroup>
 				</BlockControls>
 
 				<InspectorControls>
