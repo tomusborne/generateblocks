@@ -17,17 +17,21 @@ import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 import Element from '../../components/element';
 import './markformat';
+import HeadingLevelIcon from './element-icons';
 
 const {
 	__,
-} = wp.i18n; // Import __() from wp.i18n
+	sprintf,
+} = wp.i18n;
+
 const {
 	TextControl,
-	Toolbar,
+	ToolbarGroup,
+	ToolbarButton,
 	SelectControl,
-	DropdownMenu,
 	ToggleControl,
 	Button,
+	Dropdown,
 } = wp.components;
 
 const {
@@ -246,91 +250,182 @@ class GenerateBlockHeadline extends Component {
 			<Fragment>
 
 				<BlockControls>
-					<Toolbar>
-						<DropdownMenu
-							icon={ getIcon( 'paragraph' ) }
-							label={ __( 'Element', 'generateblocks' ) }
-							controls={ [
-								{
-									title: 'paragraph',
-									onClick: () => {
-										setAttributes( { element: 'p' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: 'em' } );
-										}
-									},
-								},
-								{
-									title: 'h1',
-									onClick: () => {
-										setAttributes( { element: 'h1' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-										}
-									},
-								},
-								{
-									title: 'h2',
-									onClick: () => {
-										setAttributes( { element: 'h2' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-										}
-									},
-								},
-								{
-									title: 'h3',
-									onClick: () => {
-										setAttributes( { element: 'h3' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-										}
-									},
-								},
-								{
-									title: 'h4',
-									onClick: () => {
-										setAttributes( { element: 'h4' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-										}
-									},
-								},
-							] }
-						/>
-					</Toolbar>
-
-					{ 'Desktop' === this.getDeviceType() && ! inlineWidth &&
-						<AlignmentToolbar
-							value={ alignment }
-							onChange={ ( value ) => {
-								setAttributes( { alignment: value } );
+					<ToolbarGroup>
+						<Dropdown
+							popoverProps={ {
+								className: 'blocks-library-heading-level-dropdown gblocks-library-heading-level-dropdown',
+								isAlternate: true,
 							} }
-						/>
-					}
-
-					{ 'Tablet' === this.getDeviceType() && ! inlineWidthTablet &&
-						<AlignmentToolbar
-							value={ alignmentTablet }
-							onChange={ ( value ) => {
-								setAttributes( { alignmentTablet: value } );
+							renderToggle={ ( { onToggle, isOpen } ) => {
+								return (
+									<ToolbarButton
+										aria-expanded={ isOpen }
+										aria-haspopup="true"
+										icon={ <HeadingLevelIcon level={ element } /> }
+										label={ __( 'Change heading level' ) }
+										onClick={ onToggle }
+										showTooltip
+									/>
+								);
 							} }
+							renderContent={ () => (
+								<ToolbarGroup
+									isCollapsed={ false }
+									controls={ [
+										{
+											isPressed: 'h1' === element,
+											icon: (
+												<HeadingLevelIcon
+													level={ 'h1' }
+												/>
+											),
+											title: sprintf(
+												// translators: %s: heading level e.g: "1", "2", "3"
+												__( 'Heading %s', 'generateblocks' ),
+												'1'
+											),
+											onClick: () => {
+												setAttributes( { element: 'h1' } );
+											},
+										},
+										{
+											isPressed: 'h2' === element,
+											icon: (
+												<HeadingLevelIcon
+													level={ 'h2' }
+												/>
+											),
+											title: sprintf(
+												// translators: %s: heading level e.g: "1", "2", "3"
+												__( 'Heading %s', 'generateblocks' ),
+												'2'
+											),
+											onClick: () => {
+												setAttributes( { element: 'h2' } );
+											},
+										},
+										{
+											isPressed: 'h3' === element,
+											icon: (
+												<HeadingLevelIcon
+													level={ 'h3' }
+												/>
+											),
+											title: sprintf(
+												// translators: %s: heading level e.g: "1", "2", "3"
+												__( 'Heading %s', 'generateblocks' ),
+												'3'
+											),
+											onClick: () => {
+												setAttributes( { element: 'h3' } );
+											},
+										},
+										{
+											isPressed: 'h4' === element,
+											icon: (
+												<HeadingLevelIcon
+													level={ 'h4' }
+												/>
+											),
+											title: sprintf(
+												// translators: %s: heading level e.g: "1", "2", "3"
+												__( 'Heading %s', 'generateblocks' ),
+												'4'
+											),
+											onClick: () => {
+												setAttributes( { element: 'h4' } );
+											},
+										},
+										{
+											isPressed: 'h5' === element,
+											icon: (
+												<HeadingLevelIcon
+													level={ 'h5' }
+												/>
+											),
+											title: sprintf(
+												// translators: %s: heading level e.g: "1", "2", "3"
+												__( 'Heading %s', 'generateblocks' ),
+												'5'
+											),
+											onClick: () => {
+												setAttributes( { element: 'h5' } );
+											},
+										},
+										{
+											isPressed: 'h6' === element,
+											icon: (
+												<HeadingLevelIcon
+													level={ 'h6' }
+												/>
+											),
+											title: sprintf(
+												// translators: %s: heading level e.g: "1", "2", "3"
+												__( 'Heading %s', 'generateblocks' ),
+												'6'
+											),
+											onClick: () => {
+												setAttributes( { element: 'h6' } );
+											},
+										},
+										{
+											isPressed: 'p' === element,
+											icon: (
+												<HeadingLevelIcon
+													level={ 'p' }
+												/>
+											),
+											title: __( 'Paragraph', 'generateblocks' ),
+											onClick: () => {
+												setAttributes( { element: 'p' } );
+											},
+										},
+										{
+											isPressed: 'div' === element,
+											icon: (
+												<HeadingLevelIcon
+													level={ 'div' }
+												/>
+											),
+											title: __( 'Div', 'generateblocks' ),
+											onClick: () => {
+												setAttributes( { element: 'div' } );
+											},
+										},
+									] }
+								/>
+							) }
 						/>
-					}
+					</ToolbarGroup>
 
-					{ 'Tablet' === this.getDeviceType() && ! inlineWidthMobile &&
-						<AlignmentToolbar
-							value={ alignmentMobile }
-							onChange={ ( value ) => {
-								setAttributes( { alignmentMobile: value } );
-							} }
-						/>
-					}
+					<ToolbarGroup>
+						{ 'Desktop' === this.getDeviceType() && ! inlineWidth &&
+							<AlignmentToolbar
+								value={ alignment }
+								onChange={ ( value ) => {
+									setAttributes( { alignment: value } );
+								} }
+							/>
+						}
+
+						{ 'Tablet' === this.getDeviceType() && ! inlineWidthTablet &&
+							<AlignmentToolbar
+								value={ alignmentTablet }
+								onChange={ ( value ) => {
+									setAttributes( { alignmentTablet: value } );
+								} }
+							/>
+						}
+
+						{ 'Mobile' === this.getDeviceType() && ! inlineWidthMobile &&
+							<AlignmentToolbar
+								value={ alignmentMobile }
+								onChange={ ( value ) => {
+									setAttributes( { alignmentMobile: value } );
+								} }
+							/>
+						}
+					</ToolbarGroup>
 				</BlockControls>
 
 				<InspectorControls>
