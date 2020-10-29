@@ -32,6 +32,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-enqueue-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/dashboard.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-settings.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-plugin-update.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**
