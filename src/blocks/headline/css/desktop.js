@@ -120,7 +120,7 @@ export default class DesktopCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.editor-styles-wrapper .gb-text-' + uniqueId + ' a' ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId + ' a' ] = [ {
 			'color': linkColor, // eslint-disable-line quote-props
 		} ];
 
