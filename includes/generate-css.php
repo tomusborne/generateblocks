@@ -1054,6 +1054,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 
+				$selector = $settings['element'] . '.gb-headline-' . $id;
+
 				// Back-compatibility for when icon held a value.
 				if ( $settings['icon'] ) {
 					$settings['hasIcon'] = true;
@@ -1066,7 +1068,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( ! isset( $atts['hasWrapper'] ) ) {
-					$css->set_selector( '.gb-headline-' . $id );
+					$css->set_selector( $selector );
 					$css->add_property( 'font-family', $fontFamily );
 					$css->add_property( 'text-align', $settings['alignment'] );
 					$css->add_property( 'color', $settings['textColor'] );
@@ -1114,14 +1116,14 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						}
 					}
 
-					$css->set_selector( '.gb-headline-' . $id . ' a' );
+					$css->set_selector( $selector . ' a' );
 					$css->add_property( 'color', $settings['linkColor'] );
 
-					$css->set_selector( '.gb-headline-' . $id . ' a:hover' );
+					$css->set_selector( $selector . ' a:hover' );
 					$css->add_property( 'color', $settings['linkColorHover'] );
 
 					if ( $settings['hasIcon'] ) {
-						$css->set_selector( '.gb-headline-' . $id . ' .gb-icon' );
+						$css->set_selector( $selector . ' .gb-icon' );
 						$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
 
 						if ( ! $settings['removeText'] ) {
@@ -1132,17 +1134,17 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$css->add_property( 'display', 'inline' );
 						}
 
-						$css->set_selector( '.gb-headline-' . $id . ' .gb-icon svg' );
+						$css->set_selector( $selector . ' .gb-icon svg' );
 						$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
 						$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
 					}
 
 					if ( $settings['highlightTextColor'] ) {
-						$css->set_selector( '.gb-headline-' . $id . ' .gb-highlight' );
+						$css->set_selector( $selector . ' .gb-highlight' );
 						$css->add_property( 'color', $settings['highlightTextColor'] );
 					}
 
-					$tablet_css->set_selector( '.gb-headline-' . $id );
+					$tablet_css->set_selector( $selector );
 					$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
 					$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 					$tablet_css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
@@ -1171,7 +1173,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$tablet_css->add_property( 'flex-direction', 'column' );
 						}
 
-						$tablet_css->set_selector( '.gb-headline-' . $id . ' .gb-icon' );
+						$tablet_css->set_selector( $selector . ' .gb-icon' );
 
 						if ( ! $settings['removeText'] ) {
 							$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
@@ -1185,12 +1187,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$tablet_css->add_property( 'display', 'inline' );
 						}
 
-						$tablet_css->set_selector( '.gb-headline-' . $id . ' .gb-icon svg' );
+						$tablet_css->set_selector( $selector . ' .gb-icon svg' );
 						$tablet_css->add_property( 'width', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
 						$tablet_css->add_property( 'height', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
 					}
 
-					$mobile_css->set_selector( '.gb-headline-' . $id );
+					$mobile_css->set_selector( $selector );
 					$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
 					$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 					$mobile_css->add_property( 'line-height', $settings['lineHeightMobile'], $settings['lineHeightUnit'] );
@@ -1219,7 +1221,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$mobile_css->add_property( 'flex-direction', 'column' );
 						}
 
-						$mobile_css->set_selector( '.gb-headline-' . $id . ' .gb-icon' );
+						$mobile_css->set_selector( $selector . ' .gb-icon' );
 
 						if ( ! $settings['removeText'] ) {
 							$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
@@ -1233,7 +1235,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$mobile_css->add_property( 'display', 'inline' );
 						}
 
-						$mobile_css->set_selector( '.gb-headline-' . $id . ' .gb-icon svg' );
+						$mobile_css->set_selector( $selector . ' .gb-icon svg' );
 						$mobile_css->add_property( 'width', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
 						$mobile_css->add_property( 'height', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
 					}
