@@ -1,6 +1,6 @@
 <?php
 /**
- * General actions and filters.
+ * This file handles the dynamic parts of our blocks.
  *
  * @package GenerateBlocks
  */
@@ -174,7 +174,7 @@ class GenerateBlocks_Render_Block {
 	}
 
 	/**
-	 * Output the dynamic aspects of our Container block.
+	 * Output the dynamic aspects of our Grid block.
 	 *
 	 * @since 1.2.0
 	 * @param array  $attributes The block attributes.
@@ -230,7 +230,7 @@ class GenerateBlocks_Render_Block {
 	}
 
 	/**
-	 * Output the dynamic aspects of our Container block.
+	 * Output the dynamic aspects of our Button Container block.
 	 *
 	 * @since 1.2.0
 	 * @param array  $attributes The block attributes.
