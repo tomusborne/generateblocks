@@ -295,6 +295,10 @@ export default class DesktopCSS extends Component {
 
 				if ( shapeDividers[ index ].flipHorizontally ) {
 					shapeTransforms.push( 'scaleX(-1)' );
+
+					cssObj[ '.gblocks-shape-container > .gblocks-shape-toggle-preview-' + shapeNumber + ' .gblocks-shape-divider-preview' ] = [ {
+						transform: 'scaleX(-1)',
+					} ];
 				}
 
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber ] = [ {

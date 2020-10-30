@@ -1574,7 +1574,13 @@ class GenerateBlockContainer extends Component {
 
 									return <Fragment key={ index }>
 										<div className="gblocks-shape-container">
-											<div className="gblocks-shape-toggle-preview" style={ { backgroundColor: backgroundColor } }>
+											<div
+												className={ classnames( {
+													'gblocks-shape-toggle-preview': true,
+													[ `gblocks-shape-toggle-preview-${ shapeNumber }` ]: true,
+												} ) }
+												style={ { backgroundColor: backgroundColor } }
+											>
 												{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
 													<div
 														className="gblocks-shape-divider-preview"
