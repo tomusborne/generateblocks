@@ -121,6 +121,9 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Make icon sets filterable
 * Tweak: Move Container element tag option to Layout panel
 * Tweak: Move Container z-index options to Spacing panel
+* Tweak: Disable fixed background images on mobile
+* Tweak: Rebuild Headline Element toolbar component
+* Tweak: Add tag name to Headline CSS selector to improve CSS conflicts
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
