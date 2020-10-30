@@ -79,9 +79,8 @@ class GenerateBlocks_Render_Block {
 	 * @since 1.2.0
 	 * @param array  $attributes The block attributes.
 	 * @param string $content The inner blocks.
-	 * @param array  $block The block data.
 	 */
-	public function do_container_block( $attributes, $content, $block ) {
+	public function do_container_block( $attributes, $content ) {
 		// Bail if our container has HTML markup.
 		if (
 			strpos( trim( $content ), '<div class="gb-grid-column' ) === 0 ||
@@ -139,7 +138,7 @@ class GenerateBlocks_Render_Block {
 			$classNames[] = 'align' . $settings['align'];
 		}
 
-		$tagName = apply_filters( 'generateblocks_container_tagname', $settings['tagName'], $attributes, $block );
+		$tagName = apply_filters( 'generateblocks_container_tagname', $settings['tagName'], $attributes );
 
 		$output .= sprintf(
 			'<%1$s %2$s>',
@@ -154,12 +153,12 @@ class GenerateBlocks_Render_Block {
 			),
 		);
 
-		$output = apply_filters( 'generateblocks_after_container_open', $output, $attributes, $block );
+		$output = apply_filters( 'generateblocks_after_container_open', $output, $attributes );
 		$output .= '<div class="gb-inside-container">';
-		$output = apply_filters( 'generateblocks_inside_container', $output, $attributes, $block );
+		$output = apply_filters( 'generateblocks_inside_container', $output, $attributes );
 		$output .= $content;
 		$output .= '</div>';
-		$output = apply_filters( 'generateblocks_before_container_close', $output, $attributes, $block );
+		$output = apply_filters( 'generateblocks_before_container_close', $output, $attributes );
 
 		$output .= sprintf(
 			'</%s>',
