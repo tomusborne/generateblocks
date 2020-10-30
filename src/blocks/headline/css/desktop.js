@@ -16,6 +16,7 @@ export default class DesktopCSS extends Component {
 
 		const {
 			uniqueId,
+			element,
 			alignment,
 			backgroundColor,
 			backgroundColorOpacity,
@@ -75,9 +76,11 @@ export default class DesktopCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
+		const selector = element + '.gb-headline-' + uniqueId;
+
 		let cssObj = [];
 
-		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
 			color: textColor,
 			'font-family': fontFamily + fontFamilyFallbackValue,
 			'font-weight': fontWeight,
@@ -92,7 +95,7 @@ export default class DesktopCSS extends Component {
 			'flex-direction': icon && 'above' === iconLocation ? 'column' : false,
 		} ];
 
-		cssObj[ '.editor-styles-wrapper .gb-container .gb-headline-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-container ' + selector ] = [ {
 			color: textColor,
 		} ];
 
@@ -100,7 +103,7 @@ export default class DesktopCSS extends Component {
 			inlineWidthValue = 'inline-flex';
 		}
 
-		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
+		cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
 			'display': inlineWidth ? inlineWidthValue : false, // eslint-disable-line quote-props
@@ -113,30 +116,30 @@ export default class DesktopCSS extends Component {
 		} );
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
 				'border-style': 'solid',
 				'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 			} );
 		}
 
-		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId + ' a' ] = [ {
+		cssObj[ '.editor-styles-wrapper ' + selector + ' a' ] = [ {
 			'color': linkColor, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon' ] = [ {
+		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
 			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
 			'color': hexToRGBA( iconColor, iconColorOpacity ), // eslint-disable-line quote-props
 			'display': icon && 'above' === iconLocation ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon svg' ] = [ {
+		cssObj[ selector + ' .gb-icon svg' ] = [ {
 			'width': valueWithUnit( iconSize, iconSizeUnit ), // eslint-disable-line quote-props
 			'height': valueWithUnit( iconSize, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-' + uniqueId + ' .gb-highlight' ] = [ {
+		cssObj[ selector + ' .gb-highlight' ] = [ {
 			'color': highlightTextColor, // eslint-disable-line quote-props
 		} ];
 

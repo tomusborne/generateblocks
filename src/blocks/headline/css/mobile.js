@@ -14,6 +14,7 @@ export default class MobileCSS extends Component {
 
 		const {
 			uniqueId,
+			element,
 			alignmentMobile,
 			fontSizeMobile,
 			fontSizeUnit,
@@ -53,10 +54,11 @@ export default class MobileCSS extends Component {
 			removeText,
 		} = attributes;
 
+		const selector = element + '.gb-headline-' + uniqueId;
 		let inlineWidthValue = 'inline-block';
 		let cssObj = [];
 
-		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
 			'text-align': alignmentMobile,
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeightMobile, lineHeightUnit ),
@@ -82,13 +84,13 @@ export default class MobileCSS extends Component {
 		if ( icon ) {
 			inlineWidthValue = 'inline-flex';
 
-			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 				'display': inlineWidthMobile ? inlineWidthValue : false, // eslint-disable-line quote-props
 			} );
 		}
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
-			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
@@ -97,7 +99,7 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon' ] = [ {
+		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopMobile, iconPaddingUnit ) : false,
 			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightMobile, iconPaddingUnit ) : false,
 			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomMobile, iconPaddingUnit ) : false,
@@ -106,7 +108,7 @@ export default class MobileCSS extends Component {
 			'display': icon && 'above' === iconLocationMobile ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon svg' ] = [ {
+		cssObj[ selector + ' .gb-icon svg' ] = [ {
 			'width': valueWithUnit( iconSizeMobile, iconSizeUnit ), // eslint-disable-line quote-props
 			'height': valueWithUnit( iconSizeMobile, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];

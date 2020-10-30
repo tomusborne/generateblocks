@@ -14,6 +14,7 @@ export default class TabletCSS extends Component {
 
 		const {
 			uniqueId,
+			element,
 			alignmentTablet,
 			fontSizeTablet,
 			fontSizeUnit,
@@ -53,10 +54,11 @@ export default class TabletCSS extends Component {
 			removeText,
 		} = attributes;
 
+		const selector = element + '.gb-headline-' + uniqueId;
 		let inlineWidthValue = 'inline-block';
 		let cssObj = [];
 
-		cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
 			'text-align': alignmentTablet,
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeightTablet, lineHeightUnit ),
@@ -82,13 +84,13 @@ export default class TabletCSS extends Component {
 		if ( icon ) {
 			inlineWidthValue = 'inline-flex';
 
-			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 				'display': inlineWidthTablet ? inlineWidthValue : false, // eslint-disable-line quote-props
 			} );
 		}
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ '.editor-styles-wrapper .gb-headline-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
@@ -97,7 +99,7 @@ export default class TabletCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon' ] = [ {
+		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopTablet, iconPaddingUnit ) : false,
 			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightTablet, iconPaddingUnit ) : false,
 			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomTablet, iconPaddingUnit ) : false,
@@ -106,7 +108,7 @@ export default class TabletCSS extends Component {
 			'display': icon && 'above' === iconLocationTablet ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-headline-' + uniqueId + ' .gb-icon svg' ] = [ {
+		cssObj[ selector + ' .gb-icon svg' ] = [ {
 			'width': valueWithUnit( iconSizeTablet, iconSizeUnit ), // eslint-disable-line quote-props
 			'height': valueWithUnit( iconSizeTablet, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];
