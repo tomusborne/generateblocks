@@ -398,36 +398,30 @@ class GenerateBlockHeadline extends Component {
 					</ToolbarGroup>
 
 					{ 'Desktop' === this.getDeviceType() && ! inlineWidth &&
-						<ToolbarGroup>
-							<AlignmentToolbar
-								value={ alignment }
-								onChange={ ( value ) => {
-									setAttributes( { alignment: value } );
-								} }
-							/>
-						</ToolbarGroup>
+						<AlignmentToolbar
+							value={ alignment }
+							onChange={ ( value ) => {
+								setAttributes( { alignment: value } );
+							} }
+						/>
 					}
 
 					{ 'Tablet' === this.getDeviceType() && ! inlineWidthTablet &&
-						<ToolbarGroup>
-							<AlignmentToolbar
-								value={ alignmentTablet }
-								onChange={ ( value ) => {
-									setAttributes( { alignmentTablet: value } );
-								} }
-							/>
-						</ToolbarGroup>
+						<AlignmentToolbar
+							value={ alignmentTablet }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentTablet: value } );
+							} }
+						/>
 					}
 
 					{ 'Mobile' === this.getDeviceType() && ! inlineWidthMobile &&
-						<ToolbarGroup>
-							<AlignmentToolbar
-								value={ alignmentMobile }
-								onChange={ ( value ) => {
-									setAttributes( { alignmentMobile: value } );
-								} }
-							/>
-						</ToolbarGroup>
+						<AlignmentToolbar
+							value={ alignmentMobile }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentMobile: value } );
+							} }
+						/>
 					}
 				</BlockControls>
 
