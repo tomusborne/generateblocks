@@ -27,11 +27,9 @@ const {
 const {
 	TextControl,
 	ToolbarGroup,
-	ToolbarButton,
 	SelectControl,
 	ToggleControl,
 	Button,
-	Dropdown,
 } = wp.components;
 
 const {
@@ -249,153 +247,133 @@ class GenerateBlockHeadline extends Component {
 		return (
 			<Fragment>
 				<BlockControls>
-					<ToolbarGroup>
-						<Dropdown
-							popoverProps={ {
-								className: 'blocks-library-heading-level-dropdown gblocks-library-heading-level-dropdown',
-								isAlternate: true,
-							} }
-							renderToggle={ ( { onToggle, isOpen } ) => {
-								return (
-									<ToolbarButton
-										aria-expanded={ isOpen }
-										aria-haspopup="true"
-										icon={ <HeadingLevelIcon level={ element } /> }
-										label={ __( 'Change Headline Element', 'generateblocks' ) }
-										onClick={ onToggle }
-										showTooltip
+					<ToolbarGroup
+						isCollapsed={ true }
+						icon={ <HeadingLevelIcon level={ element } /> }
+						label={ __( 'Change Headline Element', 'generateblocks' ) }
+						controls={ [
+							{
+								isActive: 'h1' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h1' }
 									/>
-								);
-							} }
-							renderContent={ () => (
-								<ToolbarGroup
-									isCollapsed={ false }
-									controls={ [
-										{
-											isPressed: 'h1' === element,
-											icon: (
-												<HeadingLevelIcon
-													level={ 'h1' }
-												/>
-											),
-											title: sprintf(
-												// translators: %s: heading level e.g: "1", "2", "3"
-												__( 'Heading %s', 'generateblocks' ),
-												'1'
-											),
-											onClick: () => {
-												setAttributes( { element: 'h1' } );
-											},
-										},
-										{
-											isPressed: 'h2' === element,
-											icon: (
-												<HeadingLevelIcon
-													level={ 'h2' }
-												/>
-											),
-											title: sprintf(
-												// translators: %s: heading level e.g: "1", "2", "3"
-												__( 'Heading %s', 'generateblocks' ),
-												'2'
-											),
-											onClick: () => {
-												setAttributes( { element: 'h2' } );
-											},
-										},
-										{
-											isPressed: 'h3' === element,
-											icon: (
-												<HeadingLevelIcon
-													level={ 'h3' }
-												/>
-											),
-											title: sprintf(
-												// translators: %s: heading level e.g: "1", "2", "3"
-												__( 'Heading %s', 'generateblocks' ),
-												'3'
-											),
-											onClick: () => {
-												setAttributes( { element: 'h3' } );
-											},
-										},
-										{
-											isPressed: 'h4' === element,
-											icon: (
-												<HeadingLevelIcon
-													level={ 'h4' }
-												/>
-											),
-											title: sprintf(
-												// translators: %s: heading level e.g: "1", "2", "3"
-												__( 'Heading %s', 'generateblocks' ),
-												'4'
-											),
-											onClick: () => {
-												setAttributes( { element: 'h4' } );
-											},
-										},
-										{
-											isPressed: 'h5' === element,
-											icon: (
-												<HeadingLevelIcon
-													level={ 'h5' }
-												/>
-											),
-											title: sprintf(
-												// translators: %s: heading level e.g: "1", "2", "3"
-												__( 'Heading %s', 'generateblocks' ),
-												'5'
-											),
-											onClick: () => {
-												setAttributes( { element: 'h5' } );
-											},
-										},
-										{
-											isPressed: 'h6' === element,
-											icon: (
-												<HeadingLevelIcon
-													level={ 'h6' }
-												/>
-											),
-											title: sprintf(
-												// translators: %s: heading level e.g: "1", "2", "3"
-												__( 'Heading %s', 'generateblocks' ),
-												'6'
-											),
-											onClick: () => {
-												setAttributes( { element: 'h6' } );
-											},
-										},
-										{
-											isPressed: 'p' === element,
-											icon: (
-												<HeadingLevelIcon
-													level={ 'p' }
-												/>
-											),
-											title: __( 'Paragraph', 'generateblocks' ),
-											onClick: () => {
-												setAttributes( { element: 'p' } );
-											},
-										},
-										{
-											isPressed: 'div' === element,
-											icon: (
-												<HeadingLevelIcon
-													level={ 'div' }
-												/>
-											),
-											title: __( 'Div', 'generateblocks' ),
-											onClick: () => {
-												setAttributes( { element: 'div' } );
-											},
-										},
-									] }
-								/>
-							) }
-						/>
-					</ToolbarGroup>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'1'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h1' } );
+								},
+							},
+							{
+								isActive: 'h2' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h2' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'2'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h2' } );
+								},
+							},
+							{
+								isActive: 'h3' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h3' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'3'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h3' } );
+								},
+							},
+							{
+								isActive: 'h4' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h4' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'4'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h4' } );
+								},
+							},
+							{
+								isActive: 'h5' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h5' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'5'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h5' } );
+								},
+							},
+							{
+								isActive: 'h6' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h6' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'6'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h6' } );
+								},
+							},
+							{
+								isActive: 'p' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'p' }
+									/>
+								),
+								title: __( 'Paragraph', 'generateblocks' ),
+								onClick: () => {
+									setAttributes( { element: 'p' } );
+								},
+							},
+							{
+								isActive: 'div' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'div' }
+									/>
+								),
+								title: __( 'Div', 'generateblocks' ),
+								onClick: () => {
+									setAttributes( { element: 'div' } );
+								},
+							},
+						] }
+					/>
 
 					{ 'Desktop' === this.getDeviceType() && ! inlineWidth &&
 						<AlignmentToolbar
@@ -442,13 +420,13 @@ class GenerateBlockHeadline extends Component {
 							label={ __( 'Element', 'generateblocks' ) }
 							value={ element }
 							options={ [
-								{ label: 'paragraph', value: 'p' },
 								{ label: 'h1', value: 'h1' },
 								{ label: 'h2', value: 'h2' },
 								{ label: 'h3', value: 'h3' },
 								{ label: 'h4', value: 'h4' },
 								{ label: 'h5', value: 'h5' },
 								{ label: 'h6', value: 'h6' },
+								{ label: 'paragraph', value: 'p' },
 								{ label: 'div', value: 'div' },
 							] }
 							onChange={ ( value ) => {
