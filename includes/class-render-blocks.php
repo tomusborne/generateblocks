@@ -81,11 +81,7 @@ class GenerateBlocks_Render_Block {
 	 * @param string $content The inner blocks.
 	 */
 	public function do_container_block( $attributes, $content ) {
-		// Bail if our container has HTML markup.
-		if (
-			strpos( trim( $content ), '<div class="gb-grid-column' ) === 0 ||
-			strpos( trim( $content ), '<div class="gb-container' ) === 0
-		) {
+		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
 			return $content;
 		}
 
@@ -95,15 +91,6 @@ class GenerateBlocks_Render_Block {
 			$attributes,
 			$defaults['container']
 		);
-
-		// Bail if our container has HTML markup.
-		if ( ! empty( $settings['elementId'] ) ) {
-			$oldAnchor = $settings['elementId'];
-
-			if ( strpos( trim( $content ), '<div id="' . $oldAnchor ) === 0 ) {
-				return $content;
-			}
-		}
 
 		$output = '';
 
@@ -180,7 +167,7 @@ class GenerateBlocks_Render_Block {
 	 * @param string $content The inner blocks.
 	 */
 	public function do_grid_block( $attributes, $content ) {
-		if ( strpos( trim( $content ), '<div class="gb-grid-wrapper' ) === 0 ) {
+		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
 			return $content;
 		}
 
@@ -190,15 +177,6 @@ class GenerateBlocks_Render_Block {
 			$attributes,
 			$defaults['gridContainer']
 		);
-
-		// Bail if our container has HTML markup.
-		if ( ! empty( $settings['elementId'] ) ) {
-			$oldAnchor = $settings['elementId'];
-
-			if ( strpos( trim( $content ), '<div id="' . $oldAnchor ) === 0 ) {
-				return $content;
-			}
-		}
 
 		$classNames = array(
 			'gb-grid-wrapper',
@@ -236,7 +214,7 @@ class GenerateBlocks_Render_Block {
 	 * @param string $content The inner blocks.
 	 */
 	public function do_button_container( $attributes, $content ) {
-		if ( strpos( trim( $content ), '<div class="gb-button-wrapper' ) === 0 ) {
+		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
 			return $content;
 		}
 
@@ -246,15 +224,6 @@ class GenerateBlocks_Render_Block {
 			$attributes,
 			$defaults['buttonContainer']
 		);
-
-		// Bail if our container has HTML markup.
-		if ( ! empty( $settings['elementId'] ) ) {
-			$oldAnchor = $settings['elementId'];
-
-			if ( strpos( trim( $content ), '<div id="' . $oldAnchor ) === 0 ) {
-				return $content;
-			}
-		}
 
 		$classNames = array(
 			'gb-button-wrapper',

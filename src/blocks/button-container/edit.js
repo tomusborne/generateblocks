@@ -116,6 +116,13 @@ class GenerateButtonContainer extends Component {
 				wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, this.props.clientId );
 			}
 		}
+
+		// This block used to be static. Set it to dynamic by default from now on.
+		if ( 'undefined' === typeof this.props.attributes.isDynamic || ! this.props.attributes.isDynamic ) {
+			this.props.setAttributes( {
+				isDynamic: true,
+			} );
+		}
 	}
 
 	getDeviceType() {

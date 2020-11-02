@@ -107,6 +107,13 @@ class GenerateBlockContainer extends Component {
 		if ( thisBlock && 'full' === this.props.attributes.align ) {
 			thisBlock.setAttribute( 'data-align', 'full' );
 		}
+
+		// This block used to be static. Set it to dynamic by default from now on.
+		if ( 'undefined' === typeof this.props.attributes.isDynamic || ! this.props.attributes.isDynamic ) {
+			this.props.setAttributes( {
+				isDynamic: true,
+			} );
+		}
 	}
 
 	componentDidUpdate() {

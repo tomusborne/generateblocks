@@ -94,6 +94,13 @@ class GenerateBlockGridContainer extends Component {
 		} else {
 			gbGridIds.push( this.props.attributes.uniqueId );
 		}
+
+		// This block used to be static. Set it to dynamic by default from now on.
+		if ( 'undefined' === typeof this.props.attributes.isDynamic || ! this.props.attributes.isDynamic ) {
+			this.props.setAttributes( {
+				isDynamic: true,
+			} );
+		}
 	}
 
 	componentDidUpdate() {

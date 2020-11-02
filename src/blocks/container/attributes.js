@@ -472,6 +472,9 @@ const attributes = {
 		type: 'array',
 		default: [],
 	},
+	isDynamic: {
+		type: 'boolean',
+	},
 	// deprecated since 1.2.0.
 	elementId: {
 		type: 'string',
