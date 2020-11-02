@@ -242,7 +242,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					} elseif ( $settings['bgImage'] ) {
 						if ( isset( $settings['bgImage']['id'] ) ) {
 							$image_src = wp_get_attachment_image_src( $settings['bgImage']['id'], $settings['bgImageSize'] );
-							$bgImageUrl = $image_src[0];
+
+							if ( is_array( $image_src ) ) {
+								$bgImageUrl = $image_src[0];
+							} else {
+								$bgImageUrl = $settings['bgImage']['image']['url'];
+							}
 						} else {
 							$bgImageUrl = $settings['bgImage']['image']['url'];
 						}
