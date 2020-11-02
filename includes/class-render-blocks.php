@@ -55,21 +55,21 @@ class GenerateBlocks_Render_Block {
 			'generateblocks/container',
 			array(
 				'render_callback' => array( $this, 'do_container_block' ),
-			),
+			)
 		);
 
 		register_block_type(
 			'generateblocks/grid',
 			array(
 				'render_callback' => array( $this, 'do_grid_block' ),
-			),
+			)
 		);
 
 		register_block_type(
 			'generateblocks/button-container',
 			array(
 				'render_callback' => array( $this, 'do_button_container' ),
-			),
+			)
 		);
 	}
 
@@ -108,7 +108,7 @@ class GenerateBlocks_Render_Block {
 						'class' => implode( ' ', $gridItemClassNames ),
 					),
 					$settings
-				),
+				)
 			);
 		}
 
@@ -137,7 +137,7 @@ class GenerateBlocks_Render_Block {
 					'class' => implode( ' ', $classNames ),
 				),
 				$settings
-			),
+			)
 		);
 
 		$output = apply_filters( 'generateblocks_after_container_open', $output, $attributes );
@@ -196,7 +196,7 @@ class GenerateBlocks_Render_Block {
 					'class' => implode( ' ', $classNames ),
 				),
 				$settings
-			),
+			)
 		);
 
 		$output .= $content;
@@ -243,7 +243,7 @@ class GenerateBlocks_Render_Block {
 					'class' => implode( ' ', $classNames ),
 				),
 				$settings
-			),
+			)
 		);
 
 		$output .= $content;
