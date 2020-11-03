@@ -96,11 +96,13 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Add div as Headline block element choice
 * New: Add span as Headline block element choice
 * New: Add inner z-index option to Container
+* New: Aside option as Container tag name
 * Fix: Stacked button alignment in the editor
 * Fix: Broken background image upload when using official AMP plugin
 * Fix: Button mobile border-radius
 * Fix: Check if grid data is an array before looping
 * Fix: Container tablet/mobile font size values
+* Tweak: Bump required WP version to 5.4
 * Tweak: Make Container block wrapper HTML dynamic
 * Tweak: Make Grid block wrapper HTML dynamic
 * Tweak: Make Button Container block wrapper HTML dynamic
