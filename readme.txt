@@ -102,6 +102,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Button mobile border-radius
 * Fix: Check if grid data is an array before looping
 * Fix: Container tablet/mobile font size values
+* Fix: Button text not selectable in editor using Firefox
 * Tweak: Bump required WP version to 5.4
 * Tweak: Make Container block wrapper HTML dynamic
 * Tweak: Make Grid block wrapper HTML dynamic
