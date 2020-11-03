@@ -249,6 +249,7 @@ class GenerateBlockContainer extends Component {
 			{ label: 'section', value: 'section' },
 			{ label: 'header', value: 'header' },
 			{ label: 'footer', value: 'footer' },
+			{ label: 'aside', value: 'aside' },
 		];
 
 		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
