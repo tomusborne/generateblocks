@@ -6,6 +6,8 @@
  * Author: Tom Usborne
  * Author URI: https://tomusborne.com
  * Version: 1.2.0-alpha.1
+ * Requires at least: 5.4
+ * Requires PHP: 5.6
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: generateblocks
