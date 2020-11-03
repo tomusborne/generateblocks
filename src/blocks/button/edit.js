@@ -213,9 +213,17 @@ class GenerateBlockButton extends Component {
 			iconSizeUnit,
 		} = attributes;
 
-		jQuery( '.gb-button' ).on( 'click', function( e ) {
-			e.preventDefault();
-		} );
+		// Stop the buttons from doing anything in the editor.
+		const links = document.querySelectorAll( 'a.gb-button' );
+
+		for ( let i = 0; i < links.length; i++ ) {
+			links[ i ].addEventListener( 'click', function( e ) {
+				if ( links[ i ].getAttribute( 'href' ) ) {
+					links[ i ].removeAttribute( 'href' );
+					e.preventDefault();
+				}
+			}, false );
+		}
 
 		const relAttributes = [];
 
