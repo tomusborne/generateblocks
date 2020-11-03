@@ -516,7 +516,12 @@ function generateblocks_get_background_image_css( $settings, $custom_args = arra
 		} else {
 			if ( isset( $settings['bgImage']['id'] ) ) {
 				$image_src = wp_get_attachment_image_src( $args['bgImage']['id'], $args['bgImageSize'] );
-				$url = $image_src[0];
+
+				if ( is_array( $image_src ) ) {
+					$url = $image_src[0];
+				} else {
+					$url = $args['bgImage']['image']['url'];
+				}
 			} else {
 				$url = $args['bgImage']['image']['url'];
 			}
