@@ -227,6 +227,10 @@ button.editor-gb-container-background__toggle {
 	.components-button.gblocks-shape-dropdown,
 	.components-button.gblocks-remove-shape {
 		justify-content: center;
+
+		& > svg {
+			margin-right: 0;
+		}
 	}
 }
 
