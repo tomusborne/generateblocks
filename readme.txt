@@ -97,6 +97,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Add span as Headline block element choice
 * New: Add inner z-index option to Container
 * New: Aside option as Container tag name
+* New: generateblocks_dynamic_css_priority filter
 * Fix: Stacked button alignment in the editor
 * Fix: Broken background image upload when using official AMP plugin
 * Fix: Button mobile border-radius
