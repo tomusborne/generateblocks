@@ -132,18 +132,6 @@ button.editor-gb-container-background__toggle {
 	margin-bottom: 0;
 }
 
-/* Bad idea?? */
-[data-type="generateblocks/container"] .block-editor-block-list__insertion-point,
-[data-type="generateblocks/grid"] .block-editor-block-list__insertion-point {
-    display: none;
-}
-
-.editor-styles-wrapper .gb-container [data-block]:not([data-type="core/paragraph"]),
-.editor-styles-wrapper .gb-grid-wrapper [data-block]:not([data-type="core/paragraph"]) {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
 /* Shape divider */
 .gb-container .gb-shape {
 	position: absolute;
