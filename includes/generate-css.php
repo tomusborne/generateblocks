@@ -440,11 +440,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						}
 
 						if ( 'bottom' === $shapeOptions['location'] ) {
-							$css->add_property( 'bottom', '0' );
+							$css->add_property( 'bottom', '-1px' );
 						}
 
 						if ( 'top' === $shapeOptions['location'] ) {
-							$css->add_property( 'top', '0' );
+							$css->add_property( 'top', '-1px' );
 						}
 
 						if ( ! empty( $shapeTransforms ) ) {
