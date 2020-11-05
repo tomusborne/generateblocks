@@ -331,9 +331,15 @@ export default class DesktopCSS extends Component {
 					} );
 				}
 
+				let shapeWidth = shapeDividers[ index ].width + '%';
+
+				if ( 100 === shapeDividers[ index ].width ) {
+					shapeWidth = 'calc(' + shapeWidth + ' + 1.3px)';
+				}
+
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].height, 'px' ),
-					width: valueWithUnit( shapeDividers[ index ].width, '%' ),
+					width: shapeWidth,
 				} ];
 
 				if ( 'top' === shapeDividers[ index ].location || 'bottom' === shapeDividers[ index ].location ) {

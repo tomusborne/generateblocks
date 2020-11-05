@@ -451,9 +451,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$css->add_property( 'transform', implode( ' ', $shapeTransforms ) );
 						}
 
+						$shapeWidth = $shapeOptions['width'] . '%';
+
+						if ( 100 === (int) $shapeOptions['width'] ) {
+							$shapeWidth = 'calc(' . $shapeWidth . ' + 1.3px)';
+						}
+
 						$css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 						$css->add_property( 'height', $shapeOptions['height'], 'px' );
-						$css->add_property( 'width', $shapeOptions['width'], '%' );
+						$css->add_property( 'width', $shapeWidth );
 
 						if ( 'top' === $shapeOptions['location'] || 'bottom' === $shapeOptions['location'] ) {
 							$css->add_property( 'position', 'relative' );
