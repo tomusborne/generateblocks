@@ -1,50 +1,39 @@
 import hexToRGBA from '../hex-to-rgba';
 
-export default function getBackgroundImageCSS( attributes, media ) {
-	let backgroundImage = false,
-		gradientColorStopOneValue = '',
-		gradientColorStopTwoValue = '';
+export default function getBackgroundImageCSS( attributes, media, gradientValue ) {
+	const {
+		backgroundColor,
+		backgroundColorOpacity,
+		featuredImageBg,
+		bgImage,
+		gradient,
+		bgOptions,
+	} = attributes;
 
-	const backgroundColor = hexToRGBA( attributes.backgroundColor, attributes.backgroundColorOpacity );
-	const gradientColorOne = hexToRGBA( attributes.gradientColorOne, attributes.gradientColorOneOpacity );
-	const gradientColorTwo = hexToRGBA( attributes.gradientColorTwo, attributes.gradientColorTwoOpacity );
+	let backgroundImage = false;
 
-	if ( attributes.gradient ) {
-		if ( gradientColorOne && '' !== attributes.gradientColorStopOne ) {
-			gradientColorStopOneValue = ' ' + attributes.gradientColorStopOne + '%';
-		}
+	const backgroundColorValue = hexToRGBA( backgroundColor, backgroundColorOpacity );
+	const useFeaturedImage = featuredImageBg && media;
 
-		if ( gradientColorTwo && '' !== attributes.gradientColorStopTwo ) {
-			gradientColorStopTwoValue = ' ' + attributes.gradientColorStopTwo + '%';
-		}
-	}
-
-	let useFeaturedImage = false;
-
-	if ( attributes.featuredImageBg && media ) {
-		useFeaturedImage = true;
-	}
-
-	if ( ( useFeaturedImage || attributes.bgImage ) && 'element' === attributes.bgOptions.selector ) {
+	if ( useFeaturedImage || bgImage ) {
 		let url = '';
 
 		if ( useFeaturedImage ) {
 			url = media.source_url;
 		} else {
-			url = attributes.bgImage.image.url;
+			url = bgImage.image.url;
 		}
 
-		if ( ( backgroundColor || attributes.gradient ) && typeof attributes.bgOptions.overlay !== 'undefined' && attributes.bgOptions.overlay ) {
+		if ( 'element' === attributes.bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
+			// Old background image overlays mixed with our gradients.
 			if ( attributes.gradient ) {
-				backgroundImage = 'linear-gradient(' + attributes.gradientDirection + 'deg, ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + '), url(' + url + ')';
-			} else if ( backgroundColor ) {
-				backgroundImage = 'linear-gradient(0deg, ' + backgroundColor + ', ' + backgroundColor + '), url(' + url + ')';
+				backgroundImage = gradientValue + ', url(' + url + ')';
+			} else if ( backgroundColorValue ) {
+				backgroundImage = 'linear-gradient(0deg, ' + backgroundColorValue + ', ' + backgroundColorValue + '), url(' + url + ')';
 			}
 		} else {
 			backgroundImage = 'url(' + url + ')';
 		}
-	} else if ( attributes.gradient ) {
-		backgroundImage = 'linear-gradient(' + attributes.gradientDirection + 'deg, ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + ')';
 	}
 
 	return backgroundImage;

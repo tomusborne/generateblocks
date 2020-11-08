@@ -50,6 +50,13 @@ export default class DesktopCSS extends Component {
 			backgroundColorOpacity,
 			gradient,
 			gradientOverlay,
+			gradientDirection,
+			gradientColorOne,
+			gradientColorOneOpacity,
+			gradientColorTwo,
+			gradientColorTwoOpacity,
+			gradientColorStopOne,
+			gradientColorStopTwo,
 			textColor,
 			linkColor,
 			linkColorHover,
@@ -70,8 +77,6 @@ export default class DesktopCSS extends Component {
 			shapeDividers,
 		} = attributes;
 
-		const backgroundImageValue = getBackgroundImageCSS( attributes, media );
-
 		let containerWidthPreview = containerWidth;
 
 		if ( ! containerWidthPreview ) {
@@ -84,24 +89,28 @@ export default class DesktopCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		let hasBgImage = false,
-			bgImageUrl = '';
+		let gradientValue = '';
 
-		if ( bgImage || ( featuredImageBg && media ) ) {
-			hasBgImage = true;
+		if ( gradient ) {
+			let gradientColorStopOneValue = '',
+				gradientColorStopTwoValue = '';
 
-			if ( featuredImageBg && media ) {
-				bgImageUrl = media.source_url;
-			} else if ( bgImage ) {
-				bgImageUrl = bgImage.image.url;
+			const gradientColorOneValue = hexToRGBA( gradientColorOne, gradientColorOneOpacity );
+			const gradientColorTwoValue = hexToRGBA( gradientColorTwo, gradientColorTwoOpacity );
+
+			if ( gradientColorOne && '' !== gradientColorStopOne ) {
+				gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
 			}
+
+			if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
+				gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
+			}
+
+			gradientValue = 'linear-gradient(' + gradientDirection + 'deg, ' + gradientColorOneValue + gradientColorStopOneValue + ', ' + gradientColorTwoValue + gradientColorStopTwoValue + ')';
 		}
 
-		let doGradientOverlay = false;
-
-		if ( hasBgImage && gradientOverlay ) {
-			doGradientOverlay = true;
-		}
+		const hasBgImage = !! bgImage || ( featuredImageBg && media );
+		const backgroundImageValue = getBackgroundImageCSS( attributes, media, gradientValue );
 
 		let innerZIndexValue = innerZindex;
 
@@ -132,9 +141,9 @@ export default class DesktopCSS extends Component {
 				'background-repeat': bgOptions.repeat,
 				'background-attachment': bgOptions.attachment,
 			} );
-		} else if ( gradient && backgroundImageValue && ! doGradientOverlay ) {
+		} else if ( gradient && ! gradientOverlay ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
-				'background-image': backgroundImageValue,
+				'background-image': gradientValue,
 			} );
 		}
 
@@ -191,7 +200,7 @@ export default class DesktopCSS extends Component {
 		if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 				'content': '""', // eslint-disable-line quote-props
-				'background-image': 'url(' + bgImageUrl + ')',
+				'background-image': backgroundImageValue,
 				'background-repeat': bgOptions.repeat,
 				'background-position': bgOptions.position,
 				'background-size': bgOptions.size,
@@ -209,19 +218,19 @@ export default class DesktopCSS extends Component {
 					'opacity': bgOptions.opacity, // eslint-disable-line quote-props
 				} );
 			}
+		}
 
-			if ( gradient && backgroundImageValue && doGradientOverlay ) {
-				cssObj[ '.gb-container-' + uniqueId + ':after' ] = [ {
-					'content': '""', // eslint-disable-line quote-props
-					'background-image': backgroundImageValue,
-					'z-index': '0',
-					'position': 'absolute', // eslint-disable-line quote-props
-					'top': '0', // eslint-disable-line quote-props
-					'right': '0', // eslint-disable-line quote-props
-					'bottom': '0', // eslint-disable-line quote-props
-					'left': '0', // eslint-disable-line quote-props
-				} ];
-			}
+		if ( gradient && gradientOverlay ) {
+			cssObj[ '.gb-container-' + uniqueId + ':after' ] = [ {
+				'content': '""', // eslint-disable-line quote-props
+				'background-image': gradientValue,
+				'z-index': '0',
+				'position': 'absolute', // eslint-disable-line quote-props
+				'top': '0', // eslint-disable-line quote-props
+				'right': '0', // eslint-disable-line quote-props
+				'bottom': '0', // eslint-disable-line quote-props
+				'left': '0', // eslint-disable-line quote-props
+			} ];
 		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' a, .gb-container-' + uniqueId + ' a:visited' ] = [ {

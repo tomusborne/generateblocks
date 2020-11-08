@@ -25,6 +25,7 @@ class GradientControl extends Component {
 		const {
 			attributes,
 			setAttributes,
+			media,
 			attrGradient,
 			attrGradientDirection,
 			attrGradientColorOne,
@@ -37,11 +38,12 @@ class GradientControl extends Component {
 			defaultColorTwo,
 		} = this.props;
 
-		let hasBackgroundImage = false;
+		const {
+			bgImage,
+			featuredImageBg,
+		} = attributes;
 
-		if ( 'undefined' !== typeof attributes.bgImage && !! attributes.bgImage ) {
-			hasBackgroundImage = true;
-		}
+		const hasBackgroundImage = !! bgImage || ( featuredImageBg && media );
 
 		return (
 			<Fragment>
@@ -66,7 +68,6 @@ class GradientControl extends Component {
 										gradientOverlay: value,
 										bgOptions: {
 											...attributes.bgOptions,
-											selector: 'pseudo-element',
 										},
 									} );
 								} }
