@@ -89,28 +89,10 @@ export default class DesktopCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		let gradientValue = '';
-
-		if ( gradient ) {
-			let gradientColorStopOneValue = '',
-				gradientColorStopTwoValue = '';
-
-			const gradientColorOneValue = hexToRGBA( gradientColorOne, gradientColorOneOpacity );
-			const gradientColorTwoValue = hexToRGBA( gradientColorTwo, gradientColorTwoOpacity );
-
-			if ( gradientColorOne && '' !== gradientColorStopOne ) {
-				gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
-			}
-
-			if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
-				gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
-			}
-
-			gradientValue = 'linear-gradient(' + gradientDirection + 'deg, ' + gradientColorOneValue + gradientColorStopOneValue + ', ' + gradientColorTwoValue + gradientColorStopTwoValue + ')';
-		}
-
 		const hasBgImage = !! bgImage || ( featuredImageBg && media );
-		const backgroundImageValue = getBackgroundImageCSS( attributes, media, gradientValue );
+		const backgroundImageValue = getBackgroundImageCSS( 'image', attributes, media );
+		const gradientValue = getBackgroundImageCSS( 'gradient', attributes, media );
+		const doGradientOverlay = hasBgImage && gradientOverlay;
 
 		let innerZIndexValue = innerZindex;
 
@@ -141,19 +123,26 @@ export default class DesktopCSS extends Component {
 				'background-repeat': bgOptions.repeat,
 				'background-attachment': bgOptions.attachment,
 			} );
-		} else if ( gradient && ! gradientOverlay ) {
+		} else if ( gradient && ! doGradientOverlay ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'background-image': gradientValue,
 			} );
 		}
 
-		if ( ( hasBgImage && 'pseudo-element' === bgOptions.selector ) || zindex ) {
+		if (
+			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
+			zindex ||
+			doGradientOverlay
+		) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'position': 'relative', // eslint-disable-line quote-props
 			} );
 		}
 
-		if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
+		if (
+			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
+			doGradientOverlay
+		 ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'overflow': 'hidden', // eslint-disable-line quote-props
 			} );
@@ -220,7 +209,7 @@ export default class DesktopCSS extends Component {
 			}
 		}
 
-		if ( gradient && gradientOverlay ) {
+		if ( gradient && doGradientOverlay ) {
 			cssObj[ '.gb-container-' + uniqueId + ':after' ] = [ {
 				'content': '""', // eslint-disable-line quote-props
 				'background-image': gradientValue,

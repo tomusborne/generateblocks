@@ -1,6 +1,6 @@
 import hexToRGBA from '../hex-to-rgba';
 
-export default function getBackgroundImageCSS( attributes, media, gradientValue ) {
+export default function getBackgroundImageCSS( type, attributes, media ) {
 	const {
 		backgroundColor,
 		backgroundColorOpacity,
@@ -8,7 +8,38 @@ export default function getBackgroundImageCSS( attributes, media, gradientValue 
 		bgImage,
 		gradient,
 		bgOptions,
+		gradientColorOne,
+		gradientColorOneOpacity,
+		gradientColorTwo,
+		gradientColorTwoOpacity,
+		gradientColorStopOne,
+		gradientColorStopTwo,
+		gradientDirection,
 	} = attributes;
+
+	let gradientValue = '';
+
+	if ( gradient ) {
+		let gradientColorStopOneValue = '',
+			gradientColorStopTwoValue = '';
+
+		const gradientColorOneValue = hexToRGBA( gradientColorOne, gradientColorOneOpacity );
+		const gradientColorTwoValue = hexToRGBA( gradientColorTwo, gradientColorTwoOpacity );
+
+		if ( gradientColorOne && '' !== gradientColorStopOne ) {
+			gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
+		}
+
+		if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
+			gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
+		}
+
+		gradientValue = 'linear-gradient(' + gradientDirection + 'deg, ' + gradientColorOneValue + gradientColorStopOneValue + ', ' + gradientColorTwoValue + gradientColorStopTwoValue + ')';
+	}
+
+	if ( 'gradient' === type ) {
+		return gradientValue;
+	}
 
 	let backgroundImage = false;
 
@@ -24,7 +55,7 @@ export default function getBackgroundImageCSS( attributes, media, gradientValue 
 			url = bgImage.image.url;
 		}
 
-		if ( 'element' === attributes.bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
+		if ( 'element' === bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
 			// Old background image overlays mixed with our gradients.
 			if ( attributes.gradient ) {
 				backgroundImage = gradientValue + ', url(' + url + ')';

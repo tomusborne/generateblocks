@@ -456,91 +456,76 @@ function generateblocks_has_number_value( $value ) {
 }
 
 /**
- * Get the background-image value.
+ * Get the background-image value for our Container block.
  *
- * @param array $settings Our background image settings.
- * @param array $custom_args Custom args that will overwrite the settings.
+ * @param string $type Gradient or background image.
+ * @param array  $settings Our background image settings.
  */
-function generateblocks_get_background_image_css( $settings, $custom_args = array() ) {
-	$args = array(
-		'backgroundColor' => $settings['backgroundColor'],
-		'backgroundColorOpacity' => $settings['backgroundColorOpacity'],
-		'gradient' => $settings['gradient'],
-		'gradientDirection' => $settings['gradientDirection'],
-		'gradientColorOne' => $settings['gradientColorOne'],
-		'gradientColorOneOpacity' => $settings['gradientColorOneOpacity'],
-		'gradientColorStopOne' => $settings['gradientColorStopOne'],
-		'gradientColorTwo' => $settings['gradientColorTwo'],
-		'gradientColorTwoOpacity' => $settings['gradientColorTwoOpacity'],
-		'gradientColorStopTwo' => $settings['gradientColorStopTwo'],
-		'bgImage' => $settings['bgImage'],
-		'bgOptions' => $settings['bgOptions'],
-		'featuredImageBg' => $settings['featuredImageBg'],
-		'bgImageSize' => $settings['bgImageSize'],
-	);
+function generateblocks_get_background_image_css( $type, $settings ) {
+	$gradient = '';
 
-	$args = wp_parse_args(
-		$args,
-		$custom_args
-	);
+	if ( $settings['gradient'] ) {
+		$gradientColorStopOneValue = '';
+		$gradientColorStopTwoValue = '';
+		$gradientColorOneValue = generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] );
+		$gradientColorTwoValue = generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] );
 
-	$background_image = false;
-	$gradientColorStopOneValue = '';
-	$gradientColorStopTwoValue = '';
-
-	$args['backgroundColor'] = generateblocks_hex2rgba( $args['backgroundColor'], $args['backgroundColorOpacity'] );
-	$args['gradientColorOne'] = generateblocks_hex2rgba( $args['gradientColorOne'], $args['gradientColorOneOpacity'] );
-	$args['gradientColorTwo'] = generateblocks_hex2rgba( $args['gradientColorTwo'], $args['gradientColorTwoOpacity'] );
-
-	if ( $args['gradient'] ) {
-		if ( $args['gradientColorOne'] && '' !== $args['gradientColorStopOne'] ) {
-			$gradientColorStopOneValue = ' ' . $args['gradientColorStopOne'] . '%';
+		if ( $settings['gradientColorOne'] && '' !== $settings['gradientColorStopOne'] ) {
+			$gradientColorStopOneValue = ' ' . $settings['gradientColorStopOne'] . '%';
 		}
 
-		if ( $args['gradientColorTwo'] && '' !== $args['gradientColorStopTwo'] ) {
-			$gradientColorStopTwoValue = ' ' . $args['gradientColorStopTwo'] . '%';
+		if ( $settings['gradientColorTwo'] && '' !== $settings['gradientColorStopTwo'] ) {
+			$gradientColorStopTwoValue = ' ' . $settings['gradientColorStopTwo'] . '%';
 		}
+
+		$gradient = 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . $gradientColorOneValue . $gradientColorStopOneValue . ', ' . $gradientColorTwoValue . $gradientColorStopTwoValue . ')';
 	}
 
-	$useFeaturedImage = false;
-
-	if ( $args['featuredImageBg'] && has_post_thumbnail() ) {
-		$useFeaturedImage = true;
+	if ( 'gradient' === $type ) {
+		return $gradient;
 	}
 
-	if ( ( $useFeaturedImage || $args['bgImage'] ) && 'element' === $args['bgOptions']['selector'] ) {
+	$backgroundImage = '';
+	$useFeaturedImage = $settings['featuredImageBg'] && has_post_thumbnail();
+
+	if ( $useFeaturedImage || $settings['bgImage'] ) {
 		$url = '';
 
 		if ( $useFeaturedImage ) {
-			$url = get_the_post_thumbnail_url( get_the_ID(), $args['bgImageSize'] );
+			$url = get_the_post_thumbnail_url( get_the_ID(), $settings['bgImageSize'] );
 		} else {
 			if ( isset( $settings['bgImage']['id'] ) ) {
-				$image_src = wp_get_attachment_image_src( $args['bgImage']['id'], $args['bgImageSize'] );
+				$image_src = wp_get_attachment_image_src( $settings['bgImage']['id'], $settings['bgImageSize'] );
 
 				if ( is_array( $image_src ) ) {
 					$url = $image_src[0];
 				} else {
-					$url = $args['bgImage']['image']['url'];
+					$url = $settings['bgImage']['image']['url'];
 				}
 			} else {
-				$url = $args['bgImage']['image']['url'];
+				$url = $settings['bgImage']['image']['url'];
 			}
 		}
 
-		if ( ( $args['backgroundColor'] || $args['gradient'] ) && isset( $args['bgOptions']['overlay'] ) && $args['bgOptions']['overlay'] ) {
-			if ( $args['gradient'] ) {
-				$background_image = 'linear-gradient(' . $args['gradientDirection'] . 'deg, ' . $args['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $args['gradientColorTwo'] . $gradientColorStopTwoValue . '), url(' . esc_url( $url ) . ')';
-			} elseif ( $args['backgroundColor'] ) {
-				$background_image = 'linear-gradient(0deg, ' . $args['backgroundColor'] . ', ' . $args['backgroundColor'] . '), url(' . esc_url( $url ) . ')';
+		// Old background image overlays mixed with our gradients.
+		if (
+			'element' === $settings['bgOptions']['selector'] &&
+			( $settings['backgroundColor'] || $settings['gradient'] ) &&
+			isset( $settings['bgOptions']['overlay'] ) &&
+			$settings['bgOptions']['overlay']
+		) {
+			if ( $settings['gradient'] ) {
+				$backgroundImage = $gradient . ', url(' . esc_url( $url ) . ')';
+			} elseif ( $settings['backgroundColor'] ) {
+				$settings['backgroundColor'] = generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] );
+				$backgroundImage = 'linear-gradient(0deg, ' . $settings['backgroundColor'] . ', ' . $settings['backgroundColor'] . '), url(' . esc_url( $url ) . ')';
 			}
 		} else {
-			$background_image = 'url(' . esc_url( $url ) . ')';
+			$backgroundImage = 'url(' . esc_url( $url ) . ')';
 		}
-	} elseif ( $args['gradient'] ) {
-		$background_image = 'linear-gradient(' . $args['gradientDirection'] . 'deg, ' . $args['gradientColorOne'] . $gradientColorStopOneValue . ', ' . $args['gradientColorTwo'] . $gradientColorStopTwoValue . ')';
 	}
 
-	return $background_image;
+	return $backgroundImage;
 }
 
 /**

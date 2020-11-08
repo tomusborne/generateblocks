@@ -231,28 +231,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
 				}
 
-				$hasBgImage = false;
-				$bgImageUrl = '';
-
-				if ( $settings['bgImage'] || ( $settings['featuredImageBg'] && has_post_thumbnail() ) ) {
-					$hasBgImage = true;
-
-					if ( $settings['featuredImageBg'] && has_post_thumbnail() ) {
-						$bgImageUrl = get_the_post_thumbnail_url( get_the_ID(), $settings['bgImageSize'] );
-					} elseif ( $settings['bgImage'] ) {
-						if ( isset( $settings['bgImage']['id'] ) ) {
-							$image_src = wp_get_attachment_image_src( $settings['bgImage']['id'], $settings['bgImageSize'] );
-
-							if ( is_array( $image_src ) ) {
-								$bgImageUrl = $image_src[0];
-							} else {
-								$bgImageUrl = $settings['bgImage']['image']['url'];
-							}
-						} else {
-							$bgImageUrl = $settings['bgImage']['image']['url'];
-						}
-					}
-				}
+				$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
+				$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
+				$hasBgImage = $settings['bgImage'] || ( $settings['featuredImageBg'] && has_post_thumbnail() );
+				$doGradientOverlay = $hasBgImage && $settings['gradientOverlay'];
 
 				$css->set_selector( '.gb-container.gb-container-' . $id );
 				$css->add_property( 'font-family', $fontFamily );
@@ -274,28 +256,28 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$settings['bgOptions']['selector'] = 'element';
 				}
 
-				$background_image = generateblocks_get_background_image_css( $settings );
-				$doGradientOverlay = false;
-
-				if ( $hasBgImage && $settings['gradientOverlay'] ) {
-					$doGradientOverlay = true;
-				}
-
-				if ( $hasBgImage && 'element' === $settings['bgOptions']['selector'] && $background_image ) {
-					$css->add_property( 'background-image', $background_image );
+				if ( $hasBgImage && 'element' === $settings['bgOptions']['selector'] && $backgroundImageValue ) {
+					$css->add_property( 'background-image', $backgroundImageValue );
 					$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
 					$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
-				} elseif ( $settings['gradient'] && $background_image && ! $doGradientOverlay ) {
-					$css->add_property( 'background-image', $background_image );
+				} elseif ( $settings['gradient'] && ! $doGradientOverlay ) {
+					$css->add_property( 'background-image', $gradientValue );
 				}
 
-				if ( ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) || $settings['zindex'] ) {
+				if (
+					( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
+					$settings['zindex'] ||
+					$doGradientOverlay
+				) {
 					$css->add_property( 'position', 'relative' );
 				}
 
-				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+				if (
+					( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
+					$doGradientOverlay
+				) {
 					$css->add_property( 'overflow', 'hidden' );
 				}
 
@@ -331,7 +313,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 					$css->add_property( 'content', '""' );
-					$css->add_property( 'background-image', 'url(' . $bgImageUrl . ')' );
+					$css->add_property( 'background-image', $backgroundImageValue );
 					$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
@@ -347,18 +329,18 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					if ( isset( $settings['bgOptions']['opacity'] ) && 1 !== $settings['bgOptions']['opacity'] ) {
 						$css->add_property( 'opacity', $settings['bgOptions']['opacity'] );
 					}
+				}
 
-					if ( $settings['gradient'] && $background_image && $doGradientOverlay ) {
-						$css->set_selector( '.gb-container.gb-container-' . $id . ':after' );
-						$css->add_property( 'content', '""' );
-						$css->add_property( 'background-image', $background_image );
-						$css->add_property( 'z-index', '0' );
-						$css->add_property( 'position', 'absolute' );
-						$css->add_property( 'top', '0' );
-						$css->add_property( 'right', '0' );
-						$css->add_property( 'bottom', '0' );
-						$css->add_property( 'left', '0' );
-					}
+				if ( $settings['gradient'] && $doGradientOverlay ) {
+					$css->set_selector( '.gb-container.gb-container-' . $id . ':after' );
+					$css->add_property( 'content', '""' );
+					$css->add_property( 'background-image', $gradientValue );
+					$css->add_property( 'z-index', '0' );
+					$css->add_property( 'position', 'absolute' );
+					$css->add_property( 'top', '0' );
+					$css->add_property( 'right', '0' );
+					$css->add_property( 'bottom', '0' );
+					$css->add_property( 'left', '0' );
 				}
 
 				$innerZIndex = $settings['innerZindex'];
