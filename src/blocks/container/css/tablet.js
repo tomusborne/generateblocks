@@ -124,13 +124,14 @@ export default class TabletCSS extends Component {
 			}
 		} else if ( removeVerticalGap ) {
 			if ( gridAttributes ) {
+				console.log(gridAttributes);
 				if ( 'undefined' !== typeof gridAttributes.verticalGapTablet && gridAttributes.verticalGapTablet ) {
 					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGapTablet, 'px' ),
+						'margin-bottom': valueWithUnit( gridAttributes.verticalGapTablet, 'px' ) + ' !important',
 					} ];
 				} else if ( 'undefined' !== typeof gridAttributes.verticalGap && gridAttributes.verticalGap ) {
 					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGap, 'px' ),
+						'margin-bottom': valueWithUnit( gridAttributes.verticalGap, 'px' ) + ' !important',
 					} ];
 				}
 			}

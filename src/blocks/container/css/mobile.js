@@ -139,15 +139,15 @@ export default class MobileCSS extends Component {
 			if ( gridAttributes ) {
 				if ( 'undefined' !== typeof gridAttributes.verticalGapMobile && gridAttributes.verticalGapMobile ) {
 					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGapMobile, 'px' ),
+						'margin-bottom': valueWithUnit( gridAttributes.verticalGapMobile, 'px' ) + ' !important',
 					} ];
 				} else if ( 'undefined' !== typeof gridAttributes.verticalGapTablet && gridAttributes.verticalGapTablet ) {
 					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGapTablet, 'px' ),
+						'margin-bottom': valueWithUnit( gridAttributes.verticalGapTablet, 'px' ) + ' !important',
 					} ];
 				} else if ( 'undefined' !== typeof gridAttributes.verticalGap && gridAttributes.verticalGap ) {
 					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGap, 'px' ),
+						'margin-bottom': valueWithUnit( gridAttributes.verticalGap, 'px' ) + ' !important',
 					} ];
 				}
 			}
