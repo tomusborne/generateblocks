@@ -83,7 +83,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Markup change: Add gb-headline-text span if using an icon in Headline block
 * New: Shape dividers in the Container block
 * New: Make all blocks fully responsive when using editor responsive previews
-* New: Add option to overlay gradient over background image
+* New: Add option to apply gradient as a pseudo element
 * New: Add option to use featured image as Container background image
 * New: Add option to choose background image size
 * New: Add border radius options to Headline block
