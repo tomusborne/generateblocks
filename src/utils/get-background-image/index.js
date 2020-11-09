@@ -57,7 +57,7 @@ export default function getBackgroundImageCSS( type, attributes, media ) {
 
 		if ( 'element' === bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
 			// Old background image overlays mixed with our gradients.
-			if ( attributes.gradient ) {
+			if ( gradient ) {
 				backgroundImage = gradientValue + ', url(' + url + ')';
 			} else if ( backgroundColorValue ) {
 				backgroundImage = 'linear-gradient(0deg, ' + backgroundColorValue + ', ' + backgroundColorValue + '), url(' + url + ')';
