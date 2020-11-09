@@ -49,7 +49,6 @@ export default class DesktopCSS extends Component {
 			backgroundColor,
 			backgroundColorOpacity,
 			gradient,
-			gradientOverlay,
 			gradientDirection,
 			gradientColorOne,
 			gradientColorOneOpacity,
@@ -57,6 +56,7 @@ export default class DesktopCSS extends Component {
 			gradientColorTwoOpacity,
 			gradientColorStopOne,
 			gradientColorStopTwo,
+			gradientSelector,
 			textColor,
 			linkColor,
 			linkColorHover,
@@ -92,7 +92,6 @@ export default class DesktopCSS extends Component {
 		const hasBgImage = !! bgImage || ( featuredImageBg && media );
 		const backgroundImageValue = getBackgroundImageCSS( 'image', attributes, media );
 		const gradientValue = getBackgroundImageCSS( 'gradient', attributes, media );
-		const doGradientOverlay = hasBgImage && gradientOverlay;
 
 		let innerZIndexValue = innerZindex;
 
@@ -123,7 +122,7 @@ export default class DesktopCSS extends Component {
 				'background-repeat': bgOptions.repeat,
 				'background-attachment': bgOptions.attachment,
 			} );
-		} else if ( gradient && ! doGradientOverlay ) {
+		} else if ( gradient && 'element' === gradientSelector ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'background-image': gradientValue,
 			} );
@@ -132,7 +131,7 @@ export default class DesktopCSS extends Component {
 		if (
 			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
 			zindex ||
-			doGradientOverlay
+			( gradient && 'pseudo-element' === gradientSelector )
 		) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'position': 'relative', // eslint-disable-line quote-props
@@ -141,7 +140,7 @@ export default class DesktopCSS extends Component {
 
 		if (
 			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
-			doGradientOverlay
+			( gradient && 'pseudo-element' === gradientSelector )
 		 ) {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'overflow': 'hidden', // eslint-disable-line quote-props
@@ -209,7 +208,7 @@ export default class DesktopCSS extends Component {
 			}
 		}
 
-		if ( gradient && doGradientOverlay ) {
+		if ( gradient && 'pseudo-element' === gradientSelector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':after' ] = [ {
 				'content': '""', // eslint-disable-line quote-props
 				'background-image': gradientValue,

@@ -100,7 +100,7 @@ function generateblocks_get_block_defaults() {
 		'gradientColorTwo' => '#000000',
 		'gradientColorTwoOpacity' => 0.3,
 		'gradientColorStopTwo' => '',
-		'gradientOverlay' => false,
+		'gradientSelector' => 'element',
 		'textColor' => '',
 		'linkColor' => '',
 		'linkColorHover' => '',

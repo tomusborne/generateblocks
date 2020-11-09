@@ -336,9 +336,9 @@ const attributes = {
 		type: 'number',
 		default: generateBlocksDefaults.container.gradientColorStopTwo,
 	},
-	gradientOverlay: {
-		type: 'boolean',
-		default: false,
+	gradientSelector: {
+		type: 'string',
+		default: 'element',
 	},
 	textColor: {
 		type: 'string',

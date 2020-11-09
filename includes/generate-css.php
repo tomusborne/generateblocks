@@ -234,7 +234,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
 				$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
 				$hasBgImage = $settings['bgImage'] || ( $settings['featuredImageBg'] && has_post_thumbnail() );
-				$doGradientOverlay = $hasBgImage && $settings['gradientOverlay'];
 
 				$css->set_selector( '.gb-container.gb-container-' . $id );
 				$css->add_property( 'font-family', $fontFamily );
@@ -262,21 +261,21 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
 					$css->add_property( 'background-attachment', $settings['bgOptions']['attachment'] );
-				} elseif ( $settings['gradient'] && ! $doGradientOverlay ) {
+				} elseif ( $settings['gradient'] && 'element' === $settings['gradientSelector'] ) {
 					$css->add_property( 'background-image', $gradientValue );
 				}
 
 				if (
 					( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
 					$settings['zindex'] ||
-					$doGradientOverlay
+					( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
 				) {
 					$css->add_property( 'position', 'relative' );
 				}
 
 				if (
 					( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
-					$doGradientOverlay
+					( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
 				) {
 					$css->add_property( 'overflow', 'hidden' );
 				}
@@ -331,7 +330,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				if ( $settings['gradient'] && $doGradientOverlay ) {
+				if ( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] ) {
 					$css->set_selector( '.gb-container.gb-container-' . $id . ':after' );
 					$css->add_property( 'content', '""' );
 					$css->add_property( 'background-image', $gradientValue );

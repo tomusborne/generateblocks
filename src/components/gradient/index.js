@@ -15,6 +15,7 @@ const {
 	ToggleControl,
 	TextControl,
 	RangeControl,
+	SelectControl,
 } = wp.components;
 
 /**
@@ -41,6 +42,7 @@ class GradientControl extends Component {
 		const {
 			bgImage,
 			featuredImageBg,
+			gradientSelector,
 		} = attributes;
 
 		const hasBackgroundImage = !! bgImage || ( featuredImageBg && media );
@@ -59,16 +61,17 @@ class GradientControl extends Component {
 
 				{ !! attributes[ attrGradient ] && (
 					<Fragment>
-						{ 'undefined' !== typeof attributes.gradientOverlay && hasBackgroundImage &&
-							<ToggleControl
-								label={ __( 'Overlay on background image', 'generateblocks' ) }
-								checked={ !! attributes.gradientOverlay }
+						{ 'undefined' !== typeof gradientSelector &&
+							<SelectControl
+								label={ __( 'Selector', 'generateblocks' ) }
+								value={ gradientSelector }
+								options={ [
+									{ label: __( 'Element', 'generateblocks' ), value: 'element' },
+									{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
+								] }
 								onChange={ ( value ) => {
 									setAttributes( {
-										gradientOverlay: value,
-										bgOptions: {
-											...attributes.bgOptions,
-										},
+										gradientSelector: value,
 									} );
 								} }
 							/>
