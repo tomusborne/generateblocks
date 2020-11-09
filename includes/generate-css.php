@@ -736,7 +736,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['fillHorizontalSpace'] ) {
-					$css->set_selector( '.gb-button-wrapper-' . $id . ' > a' );
+					$css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
 					$css->add_property( 'flex', '1' );
 				}
 
@@ -755,7 +755,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['fillHorizontalSpaceTablet'] ) {
-					$tablet_css->set_selector( '.gb-button-wrapper-' . $id . ' > a' );
+					$tablet_css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
 					$tablet_css->add_property( 'flex', '1' );
 				}
 
@@ -774,7 +774,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['fillHorizontalSpaceMobile'] ) {
-					$mobile_css->set_selector( '.gb-button-wrapper-' . $id . ' > a' );
+					$mobile_css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
 					$mobile_css->add_property( 'flex', '1' );
 				}
 
