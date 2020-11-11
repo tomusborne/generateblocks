@@ -170,8 +170,10 @@ function generateblocks_get_media_query( $type ) {
 	$queries = apply_filters(
 		'generateblocks_media_query',
 		array(
-			'mobile' => '(max-width: 767px)',
-			'tablet' => '(max-width: 1024px)',
+			'desktop'     => '(min-width: 1025px)',
+			'tablet'      => '(max-width: 1024px)',
+			'tablet_only' => '(max-width: 1024px) and (min-width: 768px)',
+			'mobile'      => '(max-width: 767px)',
 		)
 	);
 

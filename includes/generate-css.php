@@ -31,7 +31,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 	$blocks_exist = false;
 	$icon_css_added = false;
 	$main_css_data = array();
+	$desktop_css_data = array();
 	$tablet_css_data = array();
+	$tablet_only_css_data = array();
 	$mobile_css_data = array();
 
 	foreach ( $data as $name => $blockData ) {
@@ -48,7 +50,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS();
+			$desktop_css = new GenerateBlocks_Dynamic_CSS();
 			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_only_css = new GenerateBlocks_Dynamic_CSS();
 			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			$css->set_selector( '.gb-grid-wrapper' );
@@ -143,21 +147,40 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				 *
 				 * @since 1.0
 				 *
-				 * @param object $css Our desktop/main CSS data.
-				 * @param object $tablet_css Our tablet CSS data.
-				 * @param object $mobile_css Our mobile CSS data.
 				 * @param string $name The name of our block.
-				 * @param array $settings The settings for the current block.
+				 * @param array  $settings The settings for the current block.
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $desktop_css Our desktop only CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $tablet_only_css Our tablet only CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
 				 */
-				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
+				do_action(
+					'generateblocks_block_css_data',
+					$name,
+					$settings,
+					$css,
+					$desktop_css,
+					$tablet_css,
+					$tablet_only_css,
+					$mobile_css
+				);
 			}
 
 			if ( $css->css_output() ) {
 				$main_css_data[] = $css->css_output();
 			}
 
+			if ( $desktop_css->css_output() ) {
+				$desktop_css_data[] = $desktop_css->css_output();
+			}
+
 			if ( $tablet_css->css_output() ) {
 				$tablet_css_data[] = $tablet_css->css_output();
+			}
+
+			if ( $tablet_only_css->css_output() ) {
+				$tablet_only_css_data[] = $tablet_only_css->css_output();
 			}
 
 			if ( $mobile_css->css_output() ) {
@@ -178,7 +201,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS();
+			$desktop_css = new GenerateBlocks_Dynamic_CSS();
 			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_only_css = new GenerateBlocks_Dynamic_CSS();
 			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			$css->set_selector( '.gb-container .wp-block-image img' );
@@ -667,21 +692,40 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				 *
 				 * @since 1.0
 				 *
-				 * @param object $css Our desktop/main CSS data.
-				 * @param object $tablet_css Our tablet CSS data.
-				 * @param object $mobile_css Our mobile CSS data.
 				 * @param string $name The name of our block.
-				 * @param array $settings The settings for the current block.
+				 * @param array  $settings The settings for the current block.
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $desktop_css Our desktop only CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $tablet_only_css Our tablet only CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
 				 */
-				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
+				do_action(
+					'generateblocks_block_css_data',
+					$name,
+					$settings,
+					$css,
+					$desktop_css,
+					$tablet_css,
+					$tablet_only_css,
+					$mobile_css
+				);
 			}
 
 			if ( $css->css_output() ) {
 				$main_css_data[] = $css->css_output();
 			}
 
+			if ( $desktop_css->css_output() ) {
+				$desktop_css_data[] = $desktop_css->css_output();
+			}
+
 			if ( $tablet_css->css_output() ) {
 				$tablet_css_data[] = $tablet_css->css_output();
+			}
+
+			if ( $tablet_only_css->css_output() ) {
+				$tablet_only_css_data[] = $tablet_only_css->css_output();
 			}
 
 			if ( $mobile_css->css_output() ) {
@@ -702,7 +746,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS();
+			$desktop_css = new GenerateBlocks_Dynamic_CSS();
 			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_only_css = new GenerateBlocks_Dynamic_CSS();
 			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			$css->set_selector( '.gb-button-wrapper' );
@@ -788,21 +834,40 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				 *
 				 * @since 1.0
 				 *
-				 * @param object $css Our desktop/main CSS data.
-				 * @param object $tablet_css Our tablet CSS data.
-				 * @param object $mobile_css Our mobile CSS data.
 				 * @param string $name The name of our block.
-				 * @param array $settings The settings for the current block.
+				 * @param array  $settings The settings for the current block.
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $desktop_css Our desktop only CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $tablet_only_css Our tablet only CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
 				 */
-				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
+				do_action(
+					'generateblocks_block_css_data',
+					$name,
+					$settings,
+					$css,
+					$desktop_css,
+					$tablet_css,
+					$tablet_only_css,
+					$mobile_css
+				);
 			}
 
 			if ( $css->css_output() ) {
 				$main_css_data[] = $css->css_output();
 			}
 
+			if ( $desktop_css->css_output() ) {
+				$desktop_css_data[] = $desktop_css->css_output();
+			}
+
 			if ( $tablet_css->css_output() ) {
 				$tablet_css_data[] = $tablet_css->css_output();
+			}
+
+			if ( $tablet_only_css->css_output() ) {
+				$tablet_only_css_data[] = $tablet_only_css->css_output();
 			}
 
 			if ( $mobile_css->css_output() ) {
@@ -823,7 +888,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS();
+			$desktop_css = new GenerateBlocks_Dynamic_CSS();
 			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_only_css = new GenerateBlocks_Dynamic_CSS();
 			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			if ( ! $icon_css_added ) {
@@ -977,21 +1044,40 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				 *
 				 * @since 1.0
 				 *
-				 * @param object $css Our desktop/main CSS data.
-				 * @param object $tablet_css Our tablet CSS data.
-				 * @param object $mobile_css Our mobile CSS data.
 				 * @param string $name The name of our block.
-				 * @param array $settings The settings for the current block.
+				 * @param array  $settings The settings for the current block.
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $desktop_css Our desktop only CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $tablet_only_css Our tablet only CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
 				 */
-				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
+				do_action(
+					'generateblocks_block_css_data',
+					$name,
+					$settings,
+					$css,
+					$desktop_css,
+					$tablet_css,
+					$tablet_only_css,
+					$mobile_css
+				);
 			}
 
 			if ( $css->css_output() ) {
 				$main_css_data[] = $css->css_output();
 			}
 
+			if ( $desktop_css->css_output() ) {
+				$desktop_css_data[] = $desktop_css->css_output();
+			}
+
 			if ( $tablet_css->css_output() ) {
 				$tablet_css_data[] = $tablet_css->css_output();
+			}
+
+			if ( $tablet_only_css->css_output() ) {
+				$tablet_only_css_data[] = $tablet_only_css->css_output();
 			}
 
 			if ( $mobile_css->css_output() ) {
@@ -1012,7 +1098,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$blocks_exist = true;
 
 			$css = new GenerateBlocks_Dynamic_CSS();
+			$desktop_css = new GenerateBlocks_Dynamic_CSS();
 			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_only_css = new GenerateBlocks_Dynamic_CSS();
 			$mobile_css = new GenerateBlocks_Dynamic_CSS();
 
 			if ( ! $icon_css_added ) {
@@ -1482,21 +1570,40 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				 *
 				 * @since 1.0
 				 *
-				 * @param object $css Our desktop/main CSS data.
-				 * @param object $tablet_css Our tablet CSS data.
-				 * @param object $mobile_css Our mobile CSS data.
 				 * @param string $name The name of our block.
-				 * @param array $settings The settings for the current block.
+				 * @param array  $settings The settings for the current block.
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $desktop_css Our desktop only CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $tablet_only_css Our tablet only CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
 				 */
-				do_action( 'generateblocks_block_css_data', $css, $tablet_css, $mobile_css, $name, $settings );
+				do_action(
+					'generateblocks_block_css_data',
+					$name,
+					$settings,
+					$css,
+					$desktop_css,
+					$tablet_css,
+					$tablet_only_css,
+					$mobile_css
+				);
 			}
 
 			if ( $css->css_output() ) {
 				$main_css_data[] = $css->css_output();
 			}
 
+			if ( $desktop_css->css_output() ) {
+				$desktop_css_data[] = $desktop_css->css_output();
+			}
+
 			if ( $tablet_css->css_output() ) {
 				$tablet_css_data[] = $tablet_css->css_output();
+			}
+
+			if ( $tablet_only_css->css_output() ) {
+				$tablet_only_css_data[] = $tablet_only_css->css_output();
 			}
 
 			if ( $mobile_css->css_output() ) {
@@ -1513,7 +1620,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		'generateblocks_css_device_data',
 		array(
 			'main' => $main_css_data,
+			'desktop' => $desktop_css_data,
 			'tablet' => $tablet_css_data,
+			'tablet_only' => $tablet_only_css_data,
 			'mobile' => $mobile_css_data,
 		),
 		$settings
@@ -1585,11 +1694,27 @@ function generateblocks_get_frontend_block_css() {
 
 	$css .= generateblocks_get_parsed_css( $data['main'] );
 
+	if ( ! empty( $data['desktop'] ) ) {
+		$css .= sprintf(
+			'@media %1$s {%2$s}',
+			generateblocks_get_media_query( 'desktop' ),
+			generateblocks_get_parsed_css( $data['desktop'] )
+		);
+	}
+
 	if ( ! empty( $data['tablet'] ) ) {
 		$css .= sprintf(
 			'@media %1$s {%2$s}',
 			generateblocks_get_media_query( 'tablet' ),
 			generateblocks_get_parsed_css( $data['tablet'] )
+		);
+	}
+
+	if ( ! empty( $data['tablet_only'] ) ) {
+		$css .= sprintf(
+			'@media %1$s {%2$s}',
+			generateblocks_get_media_query( 'tablet_only' ),
+			generateblocks_get_parsed_css( $data['tablet_only'] )
 		);
 	}
 
