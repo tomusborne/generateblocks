@@ -38,8 +38,6 @@ export default class TabletCSS extends Component {
 			borderRadiusTopLeftTablet,
 			borderRadiusUnit,
 			verticalAlignmentTablet,
-			removeVerticalGap,
-			removeVerticalGapTablet,
 			alignmentTablet,
 			fontSizeTablet,
 			fontSizeUnit,
@@ -99,42 +97,6 @@ export default class TabletCSS extends Component {
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
 			'width': valueWithUnit( widthTablet, '%' ), // eslint-disable-line quote-props
 		} ];
-
-		let gridAttributes = false;
-		let parentBlock = false;
-		let parentBlockId = false;
-
-		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === 'function' ) {
-			parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParents( clientId, true )[ 0 ];
-
-			if ( parentBlockId ) {
-				parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
-
-				if ( parentBlock && 'generateblocks/grid' === parentBlock[ 0 ].name ) {
-					gridAttributes = parentBlock[ 0 ].attributes;
-				}
-			}
-		}
-
-		if ( removeVerticalGapTablet ) {
-			if ( ! removeVerticalGap ) {
-				cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-					'margin-bottom': '0px !important',
-				} ];
-			}
-		} else if ( removeVerticalGap ) {
-			if ( gridAttributes ) {
-				if ( 'undefined' !== typeof gridAttributes.verticalGapTablet && gridAttributes.verticalGapTablet ) {
-					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGapTablet, 'px' ) + ' !important',
-					} ];
-				} else if ( 'undefined' !== typeof gridAttributes.verticalGap && gridAttributes.verticalGap ) {
-					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGap, 'px' ) + ' !important',
-					} ];
-				}
-			}
-		}
 
 		if ( shapeDividers.length ) {
 			shapeDividers.map( ( location, index ) => {

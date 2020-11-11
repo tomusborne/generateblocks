@@ -232,24 +232,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 
-				$grid_atts = array();
-
-				if ( isset( $atts['gridId'] ) && $atts['gridId'] ) {
-					if ( is_array( $data['grid'] ) ) {
-						foreach ( $data['grid'] as $grid ) {
-							if ( $atts['gridId'] === $grid['uniqueId'] ) {
-								$grid_atts = $grid;
-								break;
-							}
-						}
-					}
-				}
-
-				$grid_settings = wp_parse_args(
-					$grid_atts,
-					$defaults['gridContainer']
-				);
-
 				$fontFamily = $settings['fontFamily'];
 
 				if ( $fontFamily && $settings['fontFamilyFallback'] ) {
@@ -405,8 +387,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['removeVerticalGap'] ) {
-					$css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
-					$css->add_property( 'padding-bottom', '0' );
+					$desktop_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
+					$desktop_css->add_property( 'padding-bottom', '0' );
 				}
 
 				$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
@@ -531,27 +513,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['removeVerticalGapTablet'] ) {
-					if ( ! $settings['removeVerticalGap'] ) {
-						$tablet_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
-						$tablet_css->add_property( 'padding-bottom', '0' );
-					}
-				} elseif ( $settings['removeVerticalGap'] ) {
-					// Removed vertical gap on desktop, so we need to add it back here.
-					$vertical_gap_added = false;
-
-					if ( ! empty( $grid_settings ) ) {
-						$tablet_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
-
-						if ( isset( $grid_settings['verticalGapTablet'] ) || isset( $grid_settings['verticalGap'] ) ) {
-							if ( ! empty( $grid_settings['verticalGapTablet'] ) ) {
-								$tablet_css->add_property( 'padding-bottom', $grid_settings['verticalGapTablet'], 'px' );
-								$vertical_gap_added = true;
-							} elseif ( ! empty( $grid_settings['verticalGap'] ) ) {
-								$tablet_css->add_property( 'padding-bottom', $grid_settings['verticalGap'], 'px' );
-								$vertical_gap_added = true;
-							}
-						}
-					}
+					$tablet_only_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
+					$tablet_only_css->add_property( 'padding-bottom', '0' );
 				}
 
 				$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
@@ -629,27 +592,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				if ( $settings['removeVerticalGapMobile'] ) {
-					if ( ! $settings['removeVerticalGapTablet'] ) {
-						$mobile_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
-						$mobile_css->add_property( 'padding-bottom', '0' );
-					}
-				} elseif ( $settings['removeVerticalGapTablet'] || $settings['removeVerticalGap'] ) {
-					// Removed vertical gap on tablet or desktop, so we need to add it back here.
-					if ( ! empty( $grid_settings ) ) {
-						$mobile_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
-
-						if ( empty( $vertical_gap_added ) && ( isset( $grid_settings['verticalGapMobile'] ) || isset( $grid_settings['verticalGapTablet'] ) || isset( $grid_settings['verticalGap'] ) ) ) {
-							if ( ! empty( $grid_settings['verticalGapMobile'] ) ) {
-								$mobile_css->add_property( 'padding-bottom', $grid_settings['verticalGapMobile'], 'px' );
-							} elseif ( ! empty( $grid_settings['verticalGapTablet'] ) ) {
-								$mobile_css->add_property( 'padding-bottom', $grid_settings['verticalGapTablet'], 'px' );
-							} elseif ( ! empty( $grid_settings['verticalGap'] ) ) {
-								$mobile_css->add_property( 'padding-bottom', $grid_settings['verticalGap'], 'px' );
-							}
-						}
-
-						$vertical_gap_added = false;
-					}
+					$mobile_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
+					$mobile_css->add_property( 'padding-bottom', '0' );
 				}
 
 				$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );

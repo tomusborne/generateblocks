@@ -39,8 +39,6 @@ export default class MobileCSS extends Component {
 			borderRadiusTopLeftMobile,
 			borderRadiusUnit,
 			verticalAlignmentMobile,
-			removeVerticalGap,
-			removeVerticalGapTablet,
 			removeVerticalGapMobile,
 			alignmentMobile,
 			fontSizeMobile,
@@ -113,44 +111,10 @@ export default class MobileCSS extends Component {
 			'order': orderMobile, // eslint-disable-line quote-props
 		} ];
 
-		let gridAttributes = false;
-		let parentBlock = false;
-		let parentBlockId = false;
-
-		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParents === 'function' ) {
-			parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParents( clientId, true )[ 0 ];
-
-			if ( parentBlockId ) {
-				parentBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( parentBlockId );
-
-				if ( parentBlock && 'generateblocks/grid' === parentBlock[ 0 ].name ) {
-					gridAttributes = parentBlock[ 0 ].attributes;
-				}
-			}
-		}
-
 		if ( removeVerticalGapMobile ) {
-			if ( ! removeVerticalGapTablet ) {
-				cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-					'margin-bottom': '0px !important',
-				} ];
-			}
-		} else if ( removeVerticalGapTablet || removeVerticalGap ) {
-			if ( gridAttributes ) {
-				if ( 'undefined' !== typeof gridAttributes.verticalGapMobile && gridAttributes.verticalGapMobile ) {
-					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGapMobile, 'px' ) + ' !important',
-					} ];
-				} else if ( 'undefined' !== typeof gridAttributes.verticalGapTablet && gridAttributes.verticalGapTablet ) {
-					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGapTablet, 'px' ) + ' !important',
-					} ];
-				} else if ( 'undefined' !== typeof gridAttributes.verticalGap && gridAttributes.verticalGap ) {
-					cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-						'margin-bottom': valueWithUnit( gridAttributes.verticalGap, 'px' ) + ' !important',
-					} ];
-				}
-			}
+			cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
+				'margin-bottom': '0px !important',
+			} ];
 		}
 
 		if ( shapeDividers.length ) {

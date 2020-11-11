@@ -59,7 +59,6 @@ export default class MainCSS extends Component {
 			verticalAlignment,
 			zindex,
 			innerZindex,
-			removeVerticalGap,
 			alignment,
 			fontFamily,
 			fontFamilyFallback,
@@ -252,7 +251,6 @@ export default class MainCSS extends Component {
 
 		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
 			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
-			'margin-bottom': removeVerticalGap ? '0px !important' : false,
 		} ];
 
 		cssObj[ `.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
