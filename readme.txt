@@ -98,6 +98,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Add inner z-index option to Container
 * New: Aside option as Container tag name
 * New: generateblocks_dynamic_css_priority filter
+* New: Add support for desktop/tablet-only CSS
 * Fix: Stacked button alignment in the editor
 * Fix: Broken background image upload when using official AMP plugin
 * Fix: Button mobile border-radius
@@ -128,6 +129,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Disable fixed background images on mobile
 * Tweak: Rebuild Headline Element toolbar component
 * Tweak: Add tag name to Headline CSS selector to improve CSS conflicts
+* Tweak: Changed order of generateblocks_block_css_data params
+* Tweak: Use device-specific media queries for remove vertical gap option
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
