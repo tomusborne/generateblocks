@@ -131,6 +131,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Add tag name to Headline CSS selector to improve CSS conflicts
 * Tweak: Changed order of generateblocks_block_css_data params
 * Tweak: Use device-specific media queries for remove vertical gap option
+* Tweak: Change generateblocks.editor.desktopCSS filter to generateblocks.editor.mainCSS
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
