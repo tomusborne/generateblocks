@@ -11,8 +11,10 @@ import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
 import sanitizeSVG from '../../utils/sanitize-svg';
+import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
+import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 import Element from '../../components/element';
@@ -1211,14 +1213,26 @@ class GenerateBlockHeadline extends Component {
 						} } />
 				</InspectorAdvancedControls>
 
-				<DesktopCSS { ...this.props } />
+				<MainCSS { ...this.props } />
 
-				{ ( this.props.deviceType && ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) ) &&
-					<TabletCSS { ...this.props } />
-				}
+				{ this.props.deviceType &&
+					<Fragment>
+						{ 'Desktop' === this.props.deviceType &&
+							<DesktopCSS { ...this.props } />
+						}
 
-				{ this.props.deviceType && 'Mobile' === this.props.deviceType &&
-					<MobileCSS { ...this.props } />
+						{ ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) &&
+							<TabletCSS { ...this.props } />
+						}
+
+						{ 'Tablet' === this.props.deviceType &&
+							<TabletOnlyCSS { ...this.props } />
+						}
+
+						{ 'Mobile' === this.props.deviceType &&
+							<MobileCSS { ...this.props } />
+						}
+					</Fragment>
 				}
 
 				{ fontFamily && googleFont &&
