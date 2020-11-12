@@ -1,0 +1,18 @@
+@font-face {
+  font-family: 'generateblocks';
+  src:  url('../fonts/generateblocks.eot');
+  src:  url('../fonts/generateblocks.eot#iefix') format('embedded-opentype'),
+    url('../fonts/generateblocks.ttf') format('truetype'),
+    url('../fonts/generateblocks.woff') format('woff'),
+    url('../fonts/generateblocks.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+#adminmenu #toplevel_page_generateblocks div.wp-menu-image:before {
+	content: "\e900";
+	font-family: generateblocks;
+	font-size: 18px;
+	margin-top: 1px;
+}

@@ -9,56 +9,59 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-add_action( 'admin_menu', 'generateblocks_register_dashboard' );
+add_action( 'admin_menu', 'generateblocks_register_dashboard', 9 );
 /**
  * Register our Dashboard page.
  *
  * @since 0.1
  */
 function generateblocks_register_dashboard() {
-	add_options_page(
+	$dashboard = add_menu_page(
 		__( 'GenerateBlocks', 'generateblocks' ),
 		__( 'GenerateBlocks', 'generateblocks' ),
 		'manage_options',
 		'generateblocks',
 		'generateblocks_do_dashboard'
 	);
+
+	add_submenu_page(
+		'generateblocks',
+		__( 'Dashboard', 'generateblocks' ),
+		__( 'Dashboard', 'generateblocks' ),
+		'manage_options',
+		'generateblocks'
+	);
+
+	add_action( "admin_print_styles-$dashboard", 'generateblocks_enqueue_dashboard_scripts' );
 }
 
-add_action( 'admin_head', 'generateblocks_fix_dashboard_menu_item' );
-/**
- * Highlight the Settings menu item when on the Dashboard.
- *
- * @since 1.0
- */
-function generateblocks_fix_dashboard_menu_item() {
-	global $parent_file, $submenu_file;
-	$screen = get_current_screen();
-
-	if ( 'settings_page_generateblocks' === $screen->id ) {
-		$submenu_file = 'generateblocks-settings'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
-	}
-
-	remove_submenu_page( 'options-general.php', 'generateblocks' );
-}
-
-add_action( 'admin_enqueue_scripts', 'generateblocks_enqueue_dashboard_scripts' );
 /**
  * Add our scripts to the page.
  *
  * @since 0.1
  */
 function generateblocks_enqueue_dashboard_scripts() {
-	$screen = get_current_screen();
+	wp_enqueue_style(
+		'generateblocks-dashboard',
+		GENERATEBLOCKS_DIR_URL . 'assets/css/dashboard.css',
+		array(),
+		GENERATEBLOCKS_VERSION
+	);
+}
 
-	if ( 'settings_page_generateblocks' === $screen->id || 'settings_page_generateblocks-settings' === $screen->id ) {
-		wp_enqueue_style(
-			'generateblocks-dashboard',
-			GENERATEBLOCKS_DIR_URL . 'assets/css/dashboard.css',
-			array(),
-			filemtime( GENERATEBLOCKS_DIR . 'assets/css/dashboard.css' )
-		);
-	}
+add_action( 'admin_enqueue_scripts', 'generateblocks_enqueue_global_dashboard_scripts' );
+/**
+ * Add our scripts to the page.
+ *
+ * @since 0.1
+ */
+function generateblocks_enqueue_global_dashboard_scripts() {
+	wp_enqueue_style(
+		'generateblocks-dashboard-global',
+		GENERATEBLOCKS_DIR_URL . 'assets/css/dashboard-global.css',
+		array(),
+		GENERATEBLOCKS_VERSION
+	);
 }
 
 /**
@@ -72,13 +75,13 @@ function generateblocks_dashboard_navigation() {
 		array(
 			'dashboard' => array(
 				'name'  => __( 'Dashboard', 'generateblocks' ),
-				'url'   => admin_url( 'options-general.php?page=generateblocks' ),
-				'class' => 'settings_page_generateblocks' === $screen->id ? 'active' : '',
+				'url'   => admin_url( 'admin.php?page=generateblocks' ),
+				'class' => 'toplevel_page_generateblocks' === $screen->id ? 'active' : '',
 			),
 			'settings'  => array(
 				'name'  => __( 'Settings', 'generateblocks' ),
-				'url'   => admin_url( 'options-general.php?page=generateblocks-settings' ),
-				'class' => 'settings_page_generateblocks-settings' === $screen->id ? 'active' : '',
+				'url'   => admin_url( 'admin.php?page=generateblocks-settings' ),
+				'class' => 'generateblocks_page_generateblocks-settings' === $screen->id ? 'active' : '',
 			),
 		)
 	);

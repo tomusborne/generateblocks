@@ -30,14 +30,16 @@ class GenerateBlocks_Settings {
 	 * Add our Dashboard menu item.
 	 */
 	public function add_menu() {
-		$settings = add_options_page(
+		$settings = add_submenu_page(
+			'generateblocks',
 			__( 'Settings', 'generateblocks' ),
-			__( 'GenerateBlocks', 'generateblocks' ),
+			__( 'Settings', 'generateblocks' ),
 			'manage_options',
 			'generateblocks-settings',
 			array( $this, 'settings_page' )
 		);
 
+		add_action( "admin_print_styles-$settings", 'generateblocks_enqueue_dashboard_scripts' );
 		add_action( "admin_print_scripts-$settings", array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -49,7 +51,7 @@ class GenerateBlocks_Settings {
 			'generateblocks-settings',
 			GENERATEBLOCKS_DIR_URL . 'assets/js/scripts.js',
 			array( 'jquery' ),
-			filemtime( GENERATEBLOCKS_DIR . 'assets/js/scripts.js' ),
+			GENERATEBLOCKS_VERSION,
 			true
 		);
 	}

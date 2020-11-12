@@ -250,13 +250,13 @@ h1.gblocks-logo {
 	margin: 0 auto 40px;
 }
 
-.settings_page_generateblocks #wpcontent,
-.settings_page_generateblocks-settings #wpcontent {
+.toplevel_page_generateblocks #wpcontent,
+.generateblocks_page_generateblocks-settings #wpcontent {
     padding-left: 0;
 }
 
-.settings_page_generateblocks .update-nag,
-.settings_page_generateblocks-settings .update-nag {
+.toplevel_page_generateblocks .update-nag,
+.generateblocks_page_generateblocks-settings .update-nag {
     margin-bottom: 20px;
     margin-left: 22px;
 }
