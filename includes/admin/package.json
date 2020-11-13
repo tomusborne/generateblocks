@@ -1,0 +1,35 @@
+{
+	"name": "generateblocks-dashboard",
+	"version": "1.0.0",
+	"description": "The dashboard for GenerateBlocks.",
+	"scripts": {
+		"build": "cross-env BABEL_ENV=default NODE_ENV=production webpack",
+		"dev": "cross-env BABEL_ENV=default NODE_ENV=development webpack --watch",
+		"lint": "eslint src/*.js"
+	},
+	"engines": {
+		"node": ">=8.0.0",
+		"npm": ">=6.0.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.1.6",
+		"@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+		"@babel/plugin-transform-async-to-generator": "^7.1.0",
+		"@babel/plugin-transform-react-jsx": "^7.1.6",
+		"@babel/preset-env": "^7.1.6",
+		"autoprefixer": "^9.7.4",
+		"babel-loader": "^8.0.4",
+		"cross-env": "6.0.3",
+		"css-loader": "^3.4.2",
+		"eslint": "^5.7.0",
+		"eslint-config-wordpress": "^2.0.0",
+		"eslint-loader": "^2.1.1",
+		"eslint-plugin-react": "^7.11.1",
+		"mini-css-extract-plugin": "^0.9.0",
+		"node-sass": "^4.13.1",
+		"postcss-loader": "^3.0.0",
+		"sass-loader": "^8.0.2",
+		"webpack": "^4.25.1",
+		"webpack-cli": "^3.1.2"
+	}
+}
