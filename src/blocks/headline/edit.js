@@ -74,6 +74,8 @@ class GenerateBlockHeadline extends Component {
 		super( ...arguments );
 
 		this.getFontSizePlaceholder = this.getFontSizePlaceholder.bind( this );
+		this.getDeviceType = this.getDeviceType.bind( this );
+		this.setDeviceType = this.setDeviceType.bind( this );
 
 		this.state = {
 			selectedDevice: 'Desktop',
@@ -154,7 +156,7 @@ class GenerateBlockHeadline extends Component {
 		return deviceType;
 	}
 
-	setDeviceType = ( deviceType ) => {
+	setDeviceType( deviceType ) {
 		if ( generateBlocksInfo.syncResponsivePreviews && this.props.deviceType ) {
 			this.props.setDeviceType( deviceType );
 			this.setState( { selectedDevice: deviceType } );

@@ -76,6 +76,8 @@ class GenerateBlockGridContainer extends Component {
 		this.onLayoutSelect = this.onLayoutSelect.bind( this );
 		this.getColumnsFromLayout = this.getColumnsFromLayout.bind( this );
 		this.getLayoutsSelector = this.getLayoutsSelector.bind( this );
+		this.getDeviceType = this.getDeviceType.bind( this );
+		this.setDeviceType = this.setDeviceType.bind( this );
 	}
 
 	componentDidMount() {
@@ -253,7 +255,7 @@ class GenerateBlockGridContainer extends Component {
 		return deviceType;
 	}
 
-	setDeviceType = ( deviceType ) => {
+	setDeviceType( deviceType ) {
 		if ( generateBlocksInfo.syncResponsivePreviews && this.props.deviceType ) {
 			this.props.setDeviceType( deviceType );
 			this.setState( { selectedDevice: deviceType } );
