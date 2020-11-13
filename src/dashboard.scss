@@ -11,15 +11,20 @@
 		margin-right: auto;
 		max-width: 750px;
 
-		.gblocks-settings-saved {
+		.gblocks-action-message {
 			padding-left: 10px;
 			opacity: 0;
 			transition: opacity 200ms ease-in-out;
 			color: green;
+			pointer-events: none;
 
-			&.show-settings-saved {
+			&.gblocks-action-message--show {
 				opacity: 1;
 				transition: opacity 200ms ease-in-out;
+			}
+
+			&.gblocks-action-message--error {
+				color: red;
 			}
 		}
 
@@ -43,6 +48,10 @@
 			.components-panel__row {
 				padding: 10px 0;
 				margin: 0;
+
+				&.gblocks-css-print-method {
+					flex-wrap: wrap;
+				}
 
 				.components-base-control {
 					&.gblocks-regenerate-css {

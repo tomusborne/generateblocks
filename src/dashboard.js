@@ -66,8 +66,9 @@ class App extends Component {
 		return result;
 	}
 
-	updateSettings() {
+	updateSettings( e ) {
 		this.setState( { isAPISaving: true } );
+		const message = e.target.nextElementSibling;
 
 		apiFetch( {
 			path: '/generateblocks/v1/update_settings',
@@ -77,15 +78,17 @@ class App extends Component {
 			},
 		} ).then( ( result ) => {
 			this.setState( { isAPISaving: false } );
-			document.querySelector( '.gblocks-settings-saved' ).classList.add( 'show-settings-saved' );
-
-			setTimeout( function() {
-				document.querySelector( '.gblocks-settings-saved' ).classList.remove( 'show-settings-saved' );
-			}, 3000 );
+			message.classList.add( 'gblocks-action-message--show' );
 
 			if ( ! result.success || ! result.response ) {
-				// eslint-disable-next-line no-console
-				console.log( result );
+				message.classList.add( 'gblocks-action-message--error' );
+				message.textContent = result;
+			} else {
+				message.textContent = __( 'Settings saved.', 'generateblocks' );
+
+				setTimeout( function() {
+					message.classList.remove( 'gblocks-action-message--show' );
+				}, 3000 );
 			}
 		} );
 	}
@@ -105,9 +108,9 @@ class App extends Component {
 					{ applyFilters( 'generateblocks.dashboard.beforeSettings', '', this ) }
 
 					<PanelBody
-						title={ __( 'Settings' ) }
+						title={ __( 'Settings', 'generateblocks' ) }
 					>
-						<PanelRow>
+						<PanelRow className="gblocks-css-print-method">
 							<SelectControl
 								label={ __( 'CSS Print Method', 'generateblocks' ) }
 								help={ __( 'Generating your CSS in external files is better for overall performance.', 'generateblocks' ) }
@@ -125,40 +128,47 @@ class App extends Component {
 									} );
 								} }
 							/>
-						</PanelRow>
 
-						{ 'file' === this.getSetting( 'css_print_method' ) &&
-							<PanelRow>
+							{ 'file' === this.getSetting( 'css_print_method' ) &&
 								<BaseControl
 									id="gblocks-regenerate-css"
 									className="gblocks-regenerate-css"
-									label={ __( 'Regenerate CSS', 'generateblocks' ) }
 									help={ __( 'Force your external CSS files to regenerate next time their page is loaded.', 'generateblocks' ) }
 								>
 									<Button
 										isSecondary
-										onClick={ () => {
+										onClick={ ( e ) => {
 											this.setState( { isRegeneratingCSS: true } );
+											const message = e.target.nextElementSibling;
 
 											apiFetch( {
 												path: '/generateblocks/v1/regenerate_css_files',
 												method: 'POST',
 											} ).then( ( result ) => {
 												this.setState( { isRegeneratingCSS: false } );
+												message.classList.add( 'gblocks-action-message--show' );
 
 												if ( ! result.success || ! result.response ) {
-													// eslint-disable-next-line no-console
-													console.log( result );
+													message.classList.add( 'gblocks-action-message--error' );
+													message.textContent = result;
+												} else {
+													message.textContent = __( 'CSS files regenerated.', 'generateblocks' );
+
+													setTimeout( function() {
+														message.classList.remove( 'gblocks-action-message--show' );
+													}, 3000 );
 												}
 											} );
 										} }
 									>
 										{ this.state.isRegeneratingCSS && <Spinner /> }
-										{ ! this.state.isRegeneratingCSS && __( 'Regenerate Files', 'generateblocks' ) }
+										{ ! this.state.isRegeneratingCSS && __( 'Regenerate CSS Files', 'generateblocks' ) }
 									</Button>
+
+									<span className="gblocks-action-message"></span>
 								</BaseControl>
-							</PanelRow>
-						}
+							}
+						</PanelRow>
 
 						<PanelRow>
 							<ToggleControl
@@ -181,15 +191,13 @@ class App extends Component {
 						<Button
 							isPrimary
 							disabled={ this.state.isAPISaving }
-							onClick={ () => this.updateSettings() }
+							onClick={ ( e ) => this.updateSettings( e ) }
 						>
 							{ this.state.isAPISaving && <Spinner /> }
 							{ ! this.state.isAPISaving && __( 'Save' ) }
 						</Button>
 
-						<span className="gblocks-settings-saved">
-							{ __( 'Settings saved.', 'generateblocks' ) }
-						</span>
+						<span className="gblocks-action-message"></span>
 					</PanelBody>
 
 					{ applyFilters( 'generateblocks.dashboard.afterSettings', '', this ) }
