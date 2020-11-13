@@ -72,7 +72,7 @@ const deprecated = [
 			return (
 				<ConditionalWrap
 					condition={ icon }
-					wrap={ children => <div className={ classnames( {
+					wrap={ ( children ) => <div className={ classnames( {
 						'gb-headline-wrapper': true,
 						[ `gb-headline-wrapper-${ uniqueId }` ]: true,
 					} ) }>{ children }</div> }
@@ -138,7 +138,7 @@ const deprecated = [
 			return (
 				<ConditionalWrap
 					condition={ icon }
-					wrap={ children => <div className={ classnames( {
+					wrap={ ( children ) => <div className={ classnames( {
 						'gb-headline-wrapper': true,
 						[ `gb-headline-wrapper-${ uniqueId }` ]: true,
 					} ) }>{ children }</div> }

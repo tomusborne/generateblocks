@@ -54,6 +54,7 @@ export default class UnitChooser extends Component {
 							}
 
 							return <Tooltip
+								/* translators: Unit type (px, em, %) */
 								text={ sprintf( __( '%s Units', 'generateblocks' ), unitName ) }
 								key={ unit }
 							>

@@ -1,8 +1,9 @@
 /**
- * function to return string with capital letter.
+ * Turn hex values to RGBA.
+ *
  * @param {string} hex the color hex.
  * @param {number} alpha the alpha number.
- * @returns {string} rgba color.
+ * @return {string} rgba color.
  */
 export default function hexToRGBA( hex, alpha ) {
 	if ( ! hex ) {

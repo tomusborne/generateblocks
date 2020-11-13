@@ -45,7 +45,7 @@ class TypographyControls extends Component {
 		} = this.props;
 
 		const fonts = [
-			{ value: '', label: __( 'Select font...', 'generateblocks' ) },
+			{ value: '', label: __( 'Select font', 'generateblocks' ) },
 			{ value: 'Arial', label: 'Arial' },
 			{ value: 'Helvetica', label: 'Helvetica' },
 			{ value: 'Times New Roman', label: 'Times New Roman' },
@@ -118,7 +118,7 @@ class TypographyControls extends Component {
 			setAttributes( { fontFamily: value } );
 
 			if ( attributes.fontWeight && Object.values( weight ).indexOf( attributes.fontWeight ) < 0 ) {
-				fontWeight = '';
+				fontWeight = ''; // eslint-disable-line no-unused-vars
 			}
 
 			if ( typeof googleFonts[ value ] !== 'undefined' ) {
@@ -232,7 +232,9 @@ class TypographyControls extends Component {
 				}
 
 				{ showFontFamily && showAdvancedToggle &&
-					<BaseControl className={ 'gblocks-font-family-shortcuts' } label={ __( 'Font Family', 'generateblocks' ) }>
+					<BaseControl className={ 'gblocks-font-family-shortcuts' }>
+						<span className="components-base-control__label">{ __( 'Font Family', 'generateblocks' ) }</span>
+
 						<select
 							className="components-select-control__input components-select-control__input--gblocks-fontfamily"
 							onChange={ onFontShortcut }
@@ -253,7 +255,7 @@ class TypographyControls extends Component {
 				{ showFontFamily && showAdvancedToggle &&
 					<TextControl
 						value={ attributes.fontFamily }
-						placeholder={ __( 'Enter font name...', 'generateblocks' ) }
+						placeholder={ __( 'Enter font name', 'generateblocks' ) }
 						onChange={ ( nextFontFamily ) => onFontChange( nextFontFamily ) }
 					/>
 				}

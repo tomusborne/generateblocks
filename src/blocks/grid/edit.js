@@ -149,12 +149,12 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	/**
-     * Get columns sizes array from layout string
-     *
-     * @param {string} layout - layout data. Example: `3-6-3`
-     *
-     * @return {array}.
-     */
+	 * Get columns sizes array from layout string
+	 *
+	 * @param {string} layout - layout data. Example: `3-6-3`
+	 *
+	 * @return {Array}.
+	 */
 	getColumnsFromLayout( layout ) {
 		const result = [];
 		const columnsData = layout.split( '-' );
@@ -180,10 +180,10 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	/**
-     * Layouts selector when no columns selected.
-     *
-     * @return {jsx}.
-     */
+	 * Layouts selector when no columns selected.
+	 *
+	 * @return {JSX}.
+	 */
 	getLayoutsSelector() {
 		const layouts = [
 			'100',
@@ -235,10 +235,10 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	/**
-     * Select predefined layout.
-     *
-     * @param {String} layout layout string.
-     */
+	 * Select predefined layout.
+	 *
+	 * @param {string} layout layout string.
+	 */
 	onLayoutSelect( layout ) {
 		this.setState( {
 			selectedLayout: layout,

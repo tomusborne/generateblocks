@@ -145,7 +145,6 @@ export default class GenerateBlocksColorPicker extends Component {
 							</Button>
 
 							<BaseControl
-								label={ false }
 								className="gblocks-component-color-picker-palette"
 							>
 								<ColorPalette

@@ -267,6 +267,7 @@ class GenerateBlockContainer extends Component {
 				<Fragment>
 					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
 						<BaseControl
+							id="gblocks-gp-full-width-page"
 							label={ __( 'If you want to build a full width page, use the option below to remove the page width, margin and padding.', 'generateblocks' ) }
 							className="gblocks-gpress-full-width"
 						>
@@ -1592,7 +1593,7 @@ class GenerateBlockContainer extends Component {
 													'gblocks-shape-toggle-preview': true,
 													[ `gblocks-shape-toggle-preview-${ shapeNumber }` ]: true,
 												} ) }
-												style={ { backgroundColor: backgroundColor } }
+												style={ { backgroundColor } }
 											>
 												{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
 													<div
@@ -1603,7 +1604,10 @@ class GenerateBlockContainer extends Component {
 												}
 											</div>
 
-											{ sprintf( __( 'Shape %s', 'generateblocks' ), shapeNumber ) }
+											{
+												/* translators: Shape number */
+												sprintf( __( 'Shape %s', 'generateblocks' ), shapeNumber )
+											}
 
 											<Fragment>
 												<Dropdown
@@ -2061,11 +2065,7 @@ class GenerateBlockContainer extends Component {
 						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 						<InnerBlocks
 							templateLock={ false }
-							renderAppender={ (
-								hasChildBlocks ?
-									undefined :
-									() => <InnerBlocks.ButtonBlockAppender />
-							) }
+							renderAppender={ ( hasChildBlocks ? undefined : () => <InnerBlocks.ButtonBlockAppender /> ) }
 						/>
 					</div>
 

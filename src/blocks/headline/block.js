@@ -40,6 +40,6 @@ registerBlockType( 'generateblocks/headline', {
 	},
 	edit: editHeadline,
 	save: saveHeadline,
-	transforms: transforms,
-	deprecated: deprecated,
+	transforms,
+	deprecated,
 } );

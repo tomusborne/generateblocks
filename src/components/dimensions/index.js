@@ -285,6 +285,7 @@ class DimensionsControl extends Component {
 								// Make sure onBlur fires in Firefox.
 								e.currentTarget.focus();
 							} }
+							/* translators: Dimension label (padding, margin, border) */
 							aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
 							value={ attributes[ attrTop ] ? attributes[ attrTop ] : '' }
 							min={ type === 'padding' ? 0 : undefined }
@@ -309,6 +310,7 @@ class DimensionsControl extends Component {
 								// Make sure onBlur fires in Firefox.
 								e.currentTarget.focus();
 							} }
+							/* translators: Dimension label (padding, margin, border) */
 							aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
 							value={ attributes[ attrRight ] ? attributes[ attrRight ] : '' }
 							min={ type === 'padding' ? 0 : undefined }
@@ -333,6 +335,7 @@ class DimensionsControl extends Component {
 								// Make sure onBlur fires in Firefox.
 								e.currentTarget.focus();
 							} }
+							/* translators: Dimension label (padding, margin, border) */
 							aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
 							value={ attributes[ attrBottom ] ? attributes[ attrBottom ] : '' }
 							min={ type === 'padding' ? 0 : undefined }
@@ -357,6 +360,7 @@ class DimensionsControl extends Component {
 								// Make sure onBlur fires in Firefox.
 								e.currentTarget.focus();
 							} }
+							/* translators: Dimension label (padding, margin, border) */
 							aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }
 							value={ attributes[ attrLeft ] ? attributes[ attrLeft ] : '' }
 							min={ type === 'padding' ? 0 : undefined }

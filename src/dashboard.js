@@ -130,6 +130,7 @@ class App extends Component {
 						{ 'file' === this.getSetting( 'css_print_method' ) &&
 							<PanelRow>
 								<BaseControl
+									id="gblocks-regenerate-css"
 									className="gblocks-regenerate-css"
 									label={ __( 'Regenerate CSS', 'generateblocks' ) }
 									help={ __( 'Force your external CSS files to regenerate next time their page is loaded.', 'generateblocks' ) }

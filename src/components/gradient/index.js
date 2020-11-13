@@ -26,7 +26,6 @@ class GradientControl extends Component {
 		const {
 			attributes,
 			setAttributes,
-			media,
 			attrGradient,
 			attrGradientDirection,
 			attrGradientColorOne,
@@ -40,12 +39,8 @@ class GradientControl extends Component {
 		} = this.props;
 
 		const {
-			bgImage,
-			featuredImageBg,
 			gradientSelector,
 		} = attributes;
-
-		const hasBackgroundImage = !! bgImage || ( featuredImageBg && media );
 
 		return (
 			<Fragment>
@@ -77,9 +72,9 @@ class GradientControl extends Component {
 							/>
 						}
 
-						<BaseControl
-							label={ __( 'Direction', 'generateblocks' ) }
-						>
+						<BaseControl>
+							<span className="components-base-control__label">{ __( 'Direction', 'generateblocks' ) }</span>
+
 							<RangeControl
 								value={ attributes[ attrGradientDirection ] ? attributes[ attrGradientDirection ] : 1 }
 								onChange={ ( value ) => {
@@ -94,7 +89,9 @@ class GradientControl extends Component {
 							/>
 						</BaseControl>
 
-						<BaseControl label={ __( 'Color One', 'generateblocks' ) }>
+						<BaseControl>
+							<span className="components-base-control__label">{ __( 'Color One', 'generateblocks' ) }</span>
+
 							<div className="gblocks-component-gradient-control">
 								<ColorPicker
 									value={ attributes[ attrGradientColorOne ] }
@@ -141,7 +138,8 @@ class GradientControl extends Component {
 							</div>
 						</BaseControl>
 
-						<BaseControl label={ __( 'Color Two', 'generateblocks' ) }>
+						<BaseControl>
+							<span className="components-base-control__label">{ __( 'Color Two', 'generateblocks' ) }</span>
 							<div className="gblocks-component-gradient-control">
 								<ColorPicker
 									value={ attributes[ attrGradientColorTwo ] }
