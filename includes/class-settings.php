@@ -44,7 +44,7 @@ class GenerateBlocks_Settings {
 	public function enqueue_scripts() {
 		wp_enqueue_script(
 			'generateblocks-settings',
-			GENERATEBLOCKS_DIR_URL . 'includes/admin/build/build.js',
+			GENERATEBLOCKS_DIR_URL . 'dist/dashboard.js',
 			array( 'wp-api', 'wp-i18n', 'wp-components', 'wp-element', 'wp-api-fetch' ),
 			GENERATEBLOCKS_VERSION,
 			true
@@ -63,7 +63,7 @@ class GenerateBlocks_Settings {
 
 		wp_enqueue_style(
 			'generateblocks-settings-build',
-			GENERATEBLOCKS_DIR_URL . 'includes/admin/build/build.css',
+			GENERATEBLOCKS_DIR_URL . 'dist/dashboard.css',
 			array( 'wp-components' ),
 			GENERATEBLOCKS_VERSION
 		);

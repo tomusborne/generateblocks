@@ -33,7 +33,7 @@ const {
 /**
  * Internal dependencies
  */
-import './style.scss';
+import './dashboard.scss';
 
 class App extends Component {
 	constructor() {
