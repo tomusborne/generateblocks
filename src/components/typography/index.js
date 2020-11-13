@@ -52,7 +52,7 @@ class TypographyControls extends Component {
 			{ value: 'Georgia', label: 'Georgia' },
 		];
 
-		Object.keys( googleFonts ).slice( 0, 20 ).map( ( k ) => {
+		Object.keys( googleFonts ).slice( 0, 20 ).forEach( ( k ) => {
 			fonts.push(
 				{ value: k, label: k }
 			);
@@ -101,7 +101,7 @@ class TypographyControls extends Component {
 				}
 
 				return true;
-			} ).map( ( k ) => {
+			} ).forEach( ( k ) => {
 				weight.push(
 					{ value: k, label: k }
 				);

@@ -118,7 +118,7 @@ export default class MobileCSS extends Component {
 		}
 
 		if ( shapeDividers.length ) {
-			shapeDividers.map( ( location, index ) => {
+			shapeDividers.forEach( ( location, index ) => {
 				const shapeNumber = index + 1;
 
 				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {

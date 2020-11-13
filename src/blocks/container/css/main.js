@@ -273,7 +273,7 @@ export default class MainCSS extends Component {
 				'z-index': 100,
 			} ];
 
-			shapeDividers.map( ( location, index ) => {
+			shapeDividers.forEach( ( location, index ) => {
 				const shapeTransforms = [];
 				const shapeNumber = index + 1;
 

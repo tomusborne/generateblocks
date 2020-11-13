@@ -365,10 +365,10 @@ class GenerateBlockContainer extends Component {
 
 		const allShapes = [];
 
-		Object.keys( generateBlocksInfo.svgShapes ).map( ( key ) => {
+		Object.keys( generateBlocksInfo.svgShapes ).forEach( ( key ) => {
 			const shapes = generateBlocksInfo.svgShapes[ key ].svgs;
 
-			Object.keys( shapes ).map( ( name ) => {
+			Object.keys( shapes ).forEach( ( name ) => {
 				allShapes[ name ] = {
 					label: shapes[ name ].label,
 					icon: shapes[ name ].icon,
@@ -406,7 +406,7 @@ class GenerateBlockContainer extends Component {
 
 		const bgImageSizes = [];
 
-		Object.keys( generateBlocksInfo.imageSizes ).map( ( size ) => {
+		Object.keys( generateBlocksInfo.imageSizes ).forEach( ( size ) => {
 			bgImageSizes.push( {
 				label: generateBlocksInfo.imageSizes[ size ],
 				value: generateBlocksInfo.imageSizes[ size ],
