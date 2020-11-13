@@ -1262,7 +1262,6 @@ class GenerateBlockHeadline extends Component {
 										tagName="span"
 										value={ content }
 										onChange={ ( value ) => setAttributes( { content: value } ) }
-										placeholder={ __( 'Write text...', 'generateblocks' ) }
 										keepPlaceholderOnFocus={ true }
 									/>
 								</span>
@@ -1275,7 +1274,6 @@ class GenerateBlockHeadline extends Component {
 							tagName="span"
 							value={ content }
 							onChange={ ( value ) => setAttributes( { content: value } ) }
-							placeholder={ __( 'Write text...', 'generateblocks' ) }
 							keepPlaceholderOnFocus={ true }
 						/>
 					}
