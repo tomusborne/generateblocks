@@ -47,7 +47,7 @@
     }
     .editor-block-list__empty-block-inserter,
     .editor-default-block-appender .editor-inserter {
-        right: $item-spacing;
+        right: 10px;
         left: auto;
     }
 }
@@ -84,13 +84,13 @@
             overflow: hidden;
             cursor: pointer;
             background: none;
-            border: 2px solid rgba($color-brand-3, .75);
+            border: 2px solid rgba(#4f5969, .75);
             border-radius: 4px;
             transition: .15s border-color, .15s background-color;
 
             .gb-col {
                 height: 40px;
-                border-right: 2px solid rgba($color-brand-3, .75);
+                border-right: 2px solid rgba(#4f5969, .75);
                 transition: .15s border-color;
 
                 &:last-of-type {
@@ -101,10 +101,10 @@
             &:hover,
             &:focus {
                 background-color: #fff;
-                border-color: $color-brand-3;
+                border-color: #4f5969;
 
                 .gb-col {
-                    border-color: $color-brand-3;
+                    border-color: #4f5969;
                 }
             }
         }

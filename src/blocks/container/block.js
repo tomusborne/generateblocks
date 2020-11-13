@@ -2,7 +2,6 @@
  * Block: Container
  */
 
-import './style.scss';
 import './editor.scss';
 import './block-controls.js';
 

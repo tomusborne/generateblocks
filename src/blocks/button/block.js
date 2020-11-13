@@ -2,7 +2,6 @@
  * Block: Buttons
  */
 
-import './style.scss';
 import './editor.scss';
 
 import editButton from './edit';
