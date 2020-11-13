@@ -22,9 +22,9 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
 function generateblocks_do_block_editor_assets() {
 	wp_enqueue_script(
 		'generateblocks',
-		GENERATEBLOCKS_DIR_URL . 'dist/blocks.build.js',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-compose', 'wp-data' ),
-		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.build.js' ),
+		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.js' ),
 		true
 	);
 
@@ -34,9 +34,9 @@ function generateblocks_do_block_editor_assets() {
 
 	wp_enqueue_style(
 		'generateblocks',
-		GENERATEBLOCKS_DIR_URL . 'dist/blocks.editor.build.css',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks.css',
 		array( 'wp-edit-blocks' ),
-		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.editor.build.css' )
+		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.css' )
 	);
 
 	$image_sizes = get_intermediate_image_sizes();
