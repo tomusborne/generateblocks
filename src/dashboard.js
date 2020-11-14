@@ -96,7 +96,7 @@ class App extends Component {
 	render() {
 		if ( ! this.state.isAPILoaded ) {
 			return (
-				<Placeholder>
+				<Placeholder className="gblocks-settings-placeholder">
 					<Spinner />
 				</Placeholder>
 			);
@@ -104,7 +104,7 @@ class App extends Component {
 
 		return (
 			<Fragment>
-				<div className="generateblocks-main">
+				<div className="generateblocks-settings-main">
 					{ applyFilters( 'generateblocks.dashboard.beforeSettings', '', this ) }
 
 					<PanelBody
@@ -129,47 +129,51 @@ class App extends Component {
 										} );
 									} }
 								/>
+							</PanelRow>
 
-								{ 'file' === this.getSetting( 'css_print_method' ) &&
+							{ 'file' === this.getSetting( 'css_print_method' ) &&
+								<PanelRow>
 									<BaseControl
 										id="gblocks-regenerate-css"
 										className="gblocks-regenerate-css"
 										help={ __( 'Force your external CSS files to regenerate next time their page is loaded.', 'generateblocks' ) }
 									>
-										<Button
-											isSecondary
-											onClick={ ( e ) => {
-												this.setState( { isRegeneratingCSS: true } );
-												const message = e.target.nextElementSibling;
+										<div className="gblocks-action-button">
+											<Button
+												isSecondary
+												onClick={ ( e ) => {
+													this.setState( { isRegeneratingCSS: true } );
+													const message = e.target.nextElementSibling;
 
-												apiFetch( {
-													path: '/generateblocks/v1/regenerate_css_files',
-													method: 'POST',
-												} ).then( ( result ) => {
-													this.setState( { isRegeneratingCSS: false } );
-													message.classList.add( 'gblocks-action-message--show' );
+													apiFetch( {
+														path: '/generateblocks/v1/regenerate_css_files',
+														method: 'POST',
+													} ).then( ( result ) => {
+														this.setState( { isRegeneratingCSS: false } );
+														message.classList.add( 'gblocks-action-message--show' );
 
-													if ( ! result.success || ! result.response ) {
-														message.classList.add( 'gblocks-action-message--error' );
-														message.textContent = result;
-													} else {
-														message.textContent = __( 'CSS files regenerated.', 'generateblocks' );
+														if ( ! result.success || ! result.response ) {
+															message.classList.add( 'gblocks-action-message--error' );
+															message.textContent = result;
+														} else {
+															message.textContent = __( 'CSS files regenerated.', 'generateblocks' );
 
-														setTimeout( function() {
-															message.classList.remove( 'gblocks-action-message--show' );
-														}, 3000 );
-													}
-												} );
-											} }
-										>
-											{ this.state.isRegeneratingCSS && <Spinner /> }
-											{ ! this.state.isRegeneratingCSS && __( 'Regenerate CSS Files', 'generateblocks' ) }
-										</Button>
+															setTimeout( function() {
+																message.classList.remove( 'gblocks-action-message--show' );
+															}, 3000 );
+														}
+													} );
+												} }
+											>
+												{ this.state.isRegeneratingCSS && <Spinner /> }
+												{ ! this.state.isRegeneratingCSS && __( 'Regenerate CSS Files', 'generateblocks' ) }
+											</Button>
 
-										<span className="gblocks-action-message"></span>
+											<span className="gblocks-action-message"></span>
+										</div>
 									</BaseControl>
-								}
-							</PanelRow>
+								</PanelRow>
+							}
 
 							<PanelRow>
 								<ToggleControl
@@ -189,16 +193,18 @@ class App extends Component {
 
 							{ applyFilters( 'generateblocks.dashboard.settings', '', this ) }
 
-							<Button
-								isPrimary
-								disabled={ this.state.isAPISaving }
-								onClick={ ( e ) => this.updateSettings( e ) }
-							>
-								{ this.state.isAPISaving && <Spinner /> }
-								{ ! this.state.isAPISaving && __( 'Save' ) }
-							</Button>
+							<div className="gblocks-action-button">
+								<Button
+									isPrimary
+									disabled={ this.state.isAPISaving }
+									onClick={ ( e ) => this.updateSettings( e ) }
+								>
+									{ this.state.isAPISaving && <Spinner /> }
+									{ ! this.state.isAPISaving && __( 'Save' ) }
+								</Button>
 
-							<span className="gblocks-action-message"></span>
+								<span className="gblocks-action-message"></span>
+							</div>
 						</div>
 					</PanelBody>
 

@@ -1,15 +1,25 @@
+$settings-container-width: 750px;
 
 .generateblocks-settings-area {
-	.components-placeholder {
-		background: #f6f6f6;
-		margin-top: 25vh;
-		margin-bottom: 25vh;
-	}
-
-	.generateblocks-main {
+	.components-placeholder.gblocks-settings-placeholder {
+		margin-top: 20px;
 		margin-left: auto;
 		margin-right: auto;
-		max-width: 750px;
+		max-width: $settings-container-width;
+		background: #fff;
+		border: 1px solid #e2e4e7;
+		box-shadow: none;
+	}
+
+	.generateblocks-settings-main {
+		margin-left: auto;
+		margin-right: auto;
+		max-width: $settings-container-width;
+
+		.gblocks-action-button {
+			display: flex;
+			align-items: center;
+		}
 
 		.gblocks-action-message {
 			padding-left: 10px;
@@ -25,6 +35,13 @@
 
 			&.gblocks-action-message--error {
 				color: red;
+			}
+		}
+
+		/* Only needed until WP 5.6 */
+		.gblocks-css-print-method {
+			.components-base-control__label {
+				display: block;
 			}
 		}
 
@@ -56,23 +73,11 @@
 			.components-panel__row {
 				padding: 0;
 				margin: 0 0 25px;
-
-				&.gblocks-css-print-method {
-					flex-wrap: wrap;
-				}
+				display: block;
 
 				.components-base-control {
 					.components-base-control__help {
 						margin-bottom: 0;
-					}
-
-					&.gblocks-regenerate-css {
-						margin-top: 10px;
-
-						.components-base-control__label {
-							display: block;
-							margin-bottom: 4px;
-						}
 					}
 
 					.components-base-control__field {
