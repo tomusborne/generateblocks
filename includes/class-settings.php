@@ -31,7 +31,8 @@ class GenerateBlocks_Settings {
 			__( 'Settings', 'generateblocks' ),
 			'manage_options',
 			'generateblocks-settings',
-			array( $this, 'settings_page' )
+			array( $this, 'settings_page' ),
+			1
 		);
 
 		add_action( "admin_print_styles-$settings", 'generateblocks_enqueue_dashboard_scripts' );
