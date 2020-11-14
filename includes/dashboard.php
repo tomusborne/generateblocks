@@ -187,7 +187,7 @@ function generateblocks_do_dashboard() {
 							<p><?php esc_html_e( 'Looking for a WordPress theme? GenerateBlocks and GeneratePress are built with the same principles in mind and complement each other perfectly.', 'generateblocks' ); ?></p>
 							<div class="stats">
 								<div class="downloads">
-									<strong>2,000,000+</strong><br> <?php esc_html_e( 'Downloads', 'generateblocks' ); ?>
+									<strong>3,000,000+</strong><br> <?php esc_html_e( 'Downloads', 'generateblocks' ); ?>
 								</div>
 
 								<div class="stars">
