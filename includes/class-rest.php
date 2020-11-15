@@ -69,8 +69,9 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	 * @return bool
 	 */
 	public function update_settings_permission() {
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return $this->error( 'user_dont_have_permission', __( 'You do not have permission to change options.', 'generateblocks' ) );
+		return current_user_can( 'manage_options' );
+	}
+
 		}
 
 		return true;
