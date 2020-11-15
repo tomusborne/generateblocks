@@ -91,7 +91,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 			update_option( 'generateblocks', array_merge( $current_settings, $new_settings ) );
 		}
 
-		return $this->success( true );
+		return $this->success( __( 'Settings saved.', 'generateblocks' ) );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	public function regenerate_css_files( WP_REST_Request $request ) {
 		update_option( 'generateblocks_dynamic_css_posts', array() );
 
-		return $this->success( true );
+		return $this->success( __( 'CSS files regenerated.', 'generateblocks' ) );
 	}
 
 	/**

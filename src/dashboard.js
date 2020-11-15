@@ -79,13 +79,11 @@ class App extends Component {
 		} ).then( ( result ) => {
 			this.setState( { isAPISaving: false } );
 			message.classList.add( 'gblocks-action-message--show' );
+			message.textContent = result.response;
 
 			if ( ! result.success || ! result.response ) {
 				message.classList.add( 'gblocks-action-message--error' );
-				message.textContent = result;
 			} else {
-				message.textContent = __( 'Settings saved.', 'generateblocks' );
-
 				setTimeout( function() {
 					message.classList.remove( 'gblocks-action-message--show' );
 				}, 3000 );
@@ -151,13 +149,11 @@ class App extends Component {
 													} ).then( ( result ) => {
 														this.setState( { isRegeneratingCSS: false } );
 														message.classList.add( 'gblocks-action-message--show' );
+														message.textContent = result.response;
 
 														if ( ! result.success || ! result.response ) {
 															message.classList.add( 'gblocks-action-message--error' );
-															message.textContent = result;
 														} else {
-															message.textContent = __( 'CSS files regenerated.', 'generateblocks' );
-
 															setTimeout( function() {
 																message.classList.remove( 'gblocks-action-message--show' );
 															}, 3000 );
