@@ -71,7 +71,7 @@ class App extends Component {
 		const message = e.target.nextElementSibling;
 
 		apiFetch( {
-			path: '/generateblocks/v1/update_settings',
+			path: '/generateblocks/v1/settings',
 			method: 'POST',
 			data: {
 				settings: this.state.settings,

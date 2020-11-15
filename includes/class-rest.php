@@ -43,7 +43,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 		// Update Settings.
 		register_rest_route(
 			$namespace,
-			'/update_settings/',
+			'/settings/',
 			array(
 				'methods'             => WP_REST_Server::EDITABLE,
 				'callback'            => array( $this, 'update_settings' ),
