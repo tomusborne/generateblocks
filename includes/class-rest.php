@@ -72,9 +72,29 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 		return current_user_can( 'manage_options' );
 	}
 
+	/**
+	 * Sanitize our options.
+	 *
+	 * @since 1.2.0
+	 * @param string $name The setting name.
+	 * @param mixed  $value The value to save.
+	 */
+	public function sanitize_value( $name, $value ) {
+		$callbacks = apply_filters(
+			'generateblocks_option_sanitize_callbacks',
+			array(
+				'css_print_method' => 'sanitize_text_field',
+				'sync_responsive_previews' => 'rest_sanitize_boolean',
+			)
+		);
+
+		$callback = $callbacks[ $name ];
+
+		if ( ! is_callable( $callback ) ) {
+			return sanitize_text_field( $value );
 		}
 
-		return true;
+		return $callback( $value );
 	}
 
 	/**
@@ -85,10 +105,31 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	 * @return mixed
 	 */
 	public function update_settings( WP_REST_Request $request ) {
+		$current_settings = get_option( 'generateblocks', array() );
 		$new_settings = $request->get_param( 'settings' );
 
+		foreach ( $new_settings as $name => $value ) {
+			// Skip if the option hasn't changed.
+			if ( $current_settings[ $name ] === $new_settings[ $name ] ) {
+				unset( $new_settings[ $name ] );
+				continue;
+			}
+
+			// Only save options that we know about.
+			if ( ! array_key_exists( $name, generateblocks_get_option_defaults() ) ) {
+				unset( $new_settings[ $name ] );
+				continue;
+			}
+
+			// Sanitize our value.
+			$new_settings[ $name ] = $this->sanitize_value( $name, $value );
+		}
+
+		if ( empty( $new_settings ) ) {
+			return $this->success( __( 'No changes found.', 'generateblocks' ) );
+		}
+
 		if ( is_array( $new_settings ) ) {
-			$current_settings = get_option( 'generateblocks', array() );
 			update_option( 'generateblocks', array_merge( $current_settings, $new_settings ) );
 		}
 
