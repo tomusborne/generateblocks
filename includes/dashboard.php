@@ -200,7 +200,7 @@ function generateblocks_do_dashboard() {
 								</div>
 
 								<div class="active-websites">
-									<strong>60,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
+									<strong>70,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
 								</div>
 							</div>
 							<a class="gblocks-button" href="https://generatepress.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Learn more', 'generateblocks' ); ?></a>
