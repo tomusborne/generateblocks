@@ -14,6 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GenerateBlocks_Rest extends WP_REST_Controller {
 	/**
+	 * Instance.
+	 *
+	 * @access private
+	 * @var object Instance
+	 */
+	private static $instance;
+
+	/**
 	 * Namespace.
 	 *
 	 * @var string
@@ -26,6 +34,19 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	 * @var string
 	 */
 	protected $version = '1';
+
+	/**
+	 * Initiator.
+	 *
+	 * @return object initialized object of class.
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
 
 	/**
 	 * GenerateBlocks_Rest constructor.
@@ -185,4 +206,4 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	}
 }
 
-new GenerateBlocks_Rest();
+GenerateBlocks_Rest::get_instance();

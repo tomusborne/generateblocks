@@ -14,6 +14,27 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GenerateBlocks_Settings {
 	/**
+	 * Instance.
+	 *
+	 * @access private
+	 * @var object Instance
+	 */
+	private static $instance;
+
+	/**
+	 * Initiator.
+	 *
+	 * @return object initialized object of class.
+	 */
+	public static function get_instance() {
+		if ( ! isset( self::$instance ) ) {
+			self::$instance = new self();
+		}
+
+		return self::$instance;
+	}
+
+	/**
 	 * Constructor.
 	 */
 	public function __construct() {
@@ -102,4 +123,4 @@ class GenerateBlocks_Settings {
 	}
 }
 
-new GenerateBlocks_Settings();
+GenerateBlocks_Settings::get_instance();
