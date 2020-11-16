@@ -347,12 +347,8 @@ class GenerateBlocks_Enqueue_CSS {
 		}
 
 		if ( isset( $post->post_content ) ) {
-			$generateblocks_css_version = get_post_meta( $post_id, '_generateblocks_dynamic_css_version', true );
-
 			if ( strpos( $post->post_content, 'wp:generateblocks' ) !== false ) {
-				if ( (string) GENERATEBLOCKS_VERSION !== (string) $generateblocks_css_version ) {
-					update_post_meta( $post_id, '_generateblocks_dynamic_css_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
-				}
+				update_post_meta( $post_id, '_generateblocks_dynamic_css_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
 			} else {
 				delete_post_meta( $post_id, '_generateblocks_dynamic_css_version' );
 			}
