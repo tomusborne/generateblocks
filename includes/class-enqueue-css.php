@@ -114,9 +114,9 @@ class GenerateBlocks_Enqueue_CSS {
 			return;
 		}
 
-		$css_version = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
+		$has_generateblocks = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
 
-		if ( empty( $css_version ) ) {
+		if ( empty( $has_generateblocks ) ) {
 			return;
 		}
 
@@ -153,10 +153,9 @@ class GenerateBlocks_Enqueue_CSS {
 			return false;
 		}
 
-		// If we don't have a CSS version, we don't have GBlocks.
-		$css_version = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
+		$has_generateblocks = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
 
-		if ( empty( $css_version ) ) {
+		if ( empty( $has_generateblocks ) ) {
 			return false;
 		}
 
@@ -349,8 +348,12 @@ class GenerateBlocks_Enqueue_CSS {
 		}
 
 		if ( isset( $post->post_content ) ) {
+			$generateblocks_css_version = get_post_meta( $post_id, '_generateblocks_dynamic_css_version', true );
+
 			if ( strpos( $post->post_content, 'wp:generateblocks' ) !== false ) {
-				update_post_meta( $post_id, '_generateblocks_dynamic_css_version', sanitize_text_field( GENERATEBLOCKS_CSS_VERSION ) );
+				if ( (string) GENERATEBLOCKS_VERSION !== (string) $generateblocks_css_version ) {
+					update_post_meta( $post_id, '_generateblocks_dynamic_css_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
+				}
 			} else {
 				delete_post_meta( $post_id, '_generateblocks_dynamic_css_version' );
 			}
@@ -371,6 +374,7 @@ class GenerateBlocks_Enqueue_CSS {
 			}
 		}
 
+		// Make a new CSS file for this post on next load.
 		$option = get_option( 'generateblocks_dynamic_css_posts', array() );
 		unset( $option[ $post_id ] );
 
@@ -412,15 +416,8 @@ class GenerateBlocks_Enqueue_CSS {
 	 * Do we need to update the CSS file?
 	 */
 	public function needs_update() {
-		$option      = get_option( 'generateblocks_dynamic_css_posts', array() );
-		$page_id     = $this->page_id();
-		$css_version = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
-
-		// Force a CSS update if we've specified a new CSS version.
-		if ( (string) GENERATEBLOCKS_CSS_VERSION !== (string) $css_version ) {
-			update_post_meta( $page_id, '_generateblocks_dynamic_css_version', sanitize_text_field( GENERATEBLOCKS_CSS_VERSION ) );
-			return true;
-		}
+		$option = get_option( 'generateblocks_dynamic_css_posts', array() );
+		$page_id = $this->page_id();
 
 		// If the CSS file does not exist then we definitely need to regenerate the CSS.
 		if ( ! file_exists( $this->file( 'path' ) ) ) {

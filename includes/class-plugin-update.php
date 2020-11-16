@@ -69,7 +69,8 @@ class GenerateBlocks_Plugin_Update {
 			return;
 		}
 
-		// Nothing to update yet.
+		// Force regenerate our static CSS files.
+		update_option( 'generateblocks_dynamic_css_posts', array() );
 
 		// Last thing to do is update our version.
 		update_option( 'generateblocks_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
