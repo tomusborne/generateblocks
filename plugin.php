@@ -5,7 +5,7 @@
  * Description: A small collection of lightweight WordPress blocks that can accomplish nearly anything.
  * Author: Tom Usborne
  * Author URI: https://tomusborne.com
- * Version: 1.2.0-alpha.4
+ * Version: 1.2.0-alpha.5
  * Requires at least: 5.4
  * Requires PHP: 5.6
  * License: GPL2+
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'GENERATEBLOCKS_VERSION', '1.2.0-alpha.4' );
+define( 'GENERATEBLOCKS_VERSION', '1.2.0-alpha.5' );
 define( 'GENERATEBLOCKS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 
