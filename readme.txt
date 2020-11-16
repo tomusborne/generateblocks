@@ -132,6 +132,10 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Changed order of generateblocks_block_css_data params
 * Tweak: Use device-specific media queries for remove vertical gap option
 * Tweak: Change generateblocks.editor.desktopCSS filter to generateblocks.editor.mainCSS
+* Tweak: Rebuild settings area using React
+* Tweak: Remove placeholder text from Headline block
+* Tweak: Move GenerateBlocks admin menu item to top level
+* Tweak: Regenerate static CSS files after plugin update
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
