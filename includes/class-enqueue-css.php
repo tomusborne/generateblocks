@@ -2,8 +2,7 @@
 /**
  * Handles the CSS Output.
  *
- * @package     GenerateBlocks
- * @since       0.1
+ * @package GenerateBlocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

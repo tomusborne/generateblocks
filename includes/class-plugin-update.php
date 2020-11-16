@@ -2,8 +2,7 @@
 /**
  * Handles option changes on plugin updates.
  *
- * @package     GenerateBlocks
- * @since       1.1
+ * @package GenerateBlocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

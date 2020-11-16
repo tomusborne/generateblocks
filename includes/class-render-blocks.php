@@ -20,14 +20,14 @@ class GenerateBlocks_Render_Block {
 	 *
 	 * @access private
 	 * @var object Instance
-	 * @since 0.1
+	 * @since 1.2.0
 	 */
 	private static $instance;
 
 	/**
 	 * Initiator.
 	 *
-	 * @since 0.1
+	 * @since 1.2.0
 	 * @return object initialized object of class.
 	 */
 	public static function get_instance() {
