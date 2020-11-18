@@ -137,6 +137,10 @@ export default class MainCSS extends Component {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'overflow': 'hidden', // eslint-disable-line quote-props
 			} );
+
+			cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
+				'z-index': 10,
+			} ];
 		}
 
 		cssObj[ `.editor-styles-wrapper .gb-container-` + uniqueId + ` h1,
