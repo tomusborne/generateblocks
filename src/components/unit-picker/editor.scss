@@ -5,24 +5,30 @@
     align-items: center;
 }
 
-.components-panel__body .components-gblocks-control__units .components-button {
-    background: #fff;
-    border-color: #e2e4e7;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    color: #6c7781;
-    font-size: 10px;
-    padding: 0 5px;
-    position: relative;
-    text-align: center;
-    text-shadow: none;
-	border: 1px solid;
+.components-gblocks-control__units{
+	.components-gblocks-control-buttons__units {
+		button.components-button {
+			background: #fff;
+			box-shadow: none !important;
+			color: #929da7;
+			font-size: 10px;
+			padding: 0 5px;
+			position: relative;
+			text-align: center;
+			text-shadow: none;
+			border: 0;
+			border-radius: 0 !important;
+			line-height: 20px;
+    		padding: 0 5px;
+    		height: auto;
 
-	&.is-primary {
-	    background: #0070a7;
-	    border-color: #0070a7;
-	    color: #fff;
-	    cursor: default;
-	    z-index: 1;
+			&.is-primary {
+				background: #fff !important;
+				color: #000 !important;
+				cursor: default;
+				z-index: 1;
+				font-weight: bold;
+			}
+		}
 	}
 }
