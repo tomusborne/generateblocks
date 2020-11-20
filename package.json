@@ -1,6 +1,6 @@
 {
 	"name": "generateblocks",
-	"version": "1.2.0-beta.1",
+	"version": "1.2.0-beta.2",
 	"private": true,
 	"scripts": {
 		"build": "wp-scripts build src/blocks.js src/dashboard.js --output-path=dist",

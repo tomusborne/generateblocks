@@ -136,6 +136,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Remove placeholder text from Headline block
 * Tweak: Move GenerateBlocks admin menu item to top level
 * Tweak: Regenerate static CSS files after plugin update
+* Tweak: Adjust unit picker default styling
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
