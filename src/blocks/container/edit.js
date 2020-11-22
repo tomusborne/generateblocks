@@ -1368,7 +1368,7 @@ class GenerateBlockContainer extends Component {
 													onClick={ open }
 													className="is-secondary is-small"
 												>
-													{ __( 'Upload', 'generateblocks' ) }
+													{ __( 'Select', 'generateblocks' ) }
 												</Button>
 											) }
 										/>
