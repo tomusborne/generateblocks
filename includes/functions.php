@@ -504,6 +504,8 @@ function generateblocks_get_background_image_css( $type, $settings ) {
 			$url = $settings['bgImage']['image']['url'];
 		}
 
+		$url = apply_filters( 'generateblocks_background_image_url', $url, $settings );
+
 		// Old background image overlays mixed with our gradients.
 		if (
 			'element' === $settings['bgOptions']['selector'] &&

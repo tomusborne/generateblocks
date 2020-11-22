@@ -1,5 +1,9 @@
 import hexToRGBA from '../hex-to-rgba';
 
+const {
+	applyFilters,
+} = wp.hooks;
+
 export default function getBackgroundImageCSS( type, attributes, media ) {
 	const {
 		backgroundColor,
@@ -47,6 +51,7 @@ export default function getBackgroundImageCSS( type, attributes, media ) {
 	if ( !! bgImage ) {
 		let url = bgImage.image.url;
 
+		url = applyFilters( 'generateblocks.editor.bgImageURL', url, media );
 
 		if ( 'element' === bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
 			// Old background image overlays mixed with our gradients.
