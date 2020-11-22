@@ -55,7 +55,6 @@ export default class MainCSS extends Component {
 			linkColorHover,
 			bgImage,
 			bgOptions,
-			featuredImageBg,
 			verticalAlignment,
 			zindex,
 			innerZindex,
@@ -81,7 +80,7 @@ export default class MainCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		const hasBgImage = !! bgImage || ( featuredImageBg && media );
+		const hasBgImage = !! bgImage;
 		const backgroundImageValue = getBackgroundImageCSS( 'image', attributes, media );
 		const gradientValue = getBackgroundImageCSS( 'gradient', attributes, media );
 

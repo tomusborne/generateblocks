@@ -10,7 +10,6 @@ export default class MobileCSS extends Component {
 		const {
 			attributes,
 			clientId,
-			media,
 		} = this.props;
 
 		const {
@@ -47,14 +46,7 @@ export default class MobileCSS extends Component {
 			shapeDividers,
 			bgImage,
 			bgOptions,
-			featuredImageBg,
 		} = attributes;
-
-		let hasBgImage = false;
-
-		if ( bgImage || ( featuredImageBg && media ) ) {
-			hasBgImage = true;
-		}
 
 		let cssObj = [];
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
@@ -128,7 +120,7 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
-		if ( hasBgImage && 'fixed' === bgOptions.attachment ) {
+		if ( !! bgImage && 'fixed' === bgOptions.attachment ) {
 			if ( 'element' === bgOptions.selector ) {
 				cssObj[ '.gb-container-' + uniqueId ].push( {
 					'background-attachment': 'initial',

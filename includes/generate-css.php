@@ -240,7 +240,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
 				$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
-				$hasBgImage = $settings['bgImage'] || ( $settings['featuredImageBg'] && has_post_thumbnail() );
+				$hasBgImage = $settings['bgImage'];
 
 				$css->set_selector( '.gb-container.gb-container-' . $id );
 				$css->add_property( 'font-family', $fontFamily );

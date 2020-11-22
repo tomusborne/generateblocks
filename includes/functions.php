@@ -488,25 +488,20 @@ function generateblocks_get_background_image_css( $type, $settings ) {
 	}
 
 	$backgroundImage = '';
-	$useFeaturedImage = $settings['featuredImageBg'] && has_post_thumbnail();
 
-	if ( $useFeaturedImage || $settings['bgImage'] ) {
+	if ( $settings['bgImage'] ) {
 		$url = '';
 
-		if ( $useFeaturedImage ) {
-			$url = get_the_post_thumbnail_url( get_the_ID(), $settings['bgImageSize'] );
-		} else {
-			if ( isset( $settings['bgImage']['id'] ) ) {
-				$image_src = wp_get_attachment_image_src( $settings['bgImage']['id'], $settings['bgImageSize'] );
+		if ( isset( $settings['bgImage']['id'] ) ) {
+			$image_src = wp_get_attachment_image_src( $settings['bgImage']['id'], $settings['bgImageSize'] );
 
-				if ( is_array( $image_src ) ) {
-					$url = $image_src[0];
-				} else {
-					$url = $settings['bgImage']['image']['url'];
-				}
+			if ( is_array( $image_src ) ) {
+				$url = $image_src[0];
 			} else {
 				$url = $settings['bgImage']['image']['url'];
 			}
+		} else {
+			$url = $settings['bgImage']['image']['url'];
 		}
 
 		// Old background image overlays mixed with our gradients.

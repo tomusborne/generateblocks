@@ -368,10 +368,6 @@ const attributes = {
 			attachment: generateBlocksDefaults.container.bgOptions.attachment,
 		},
 	},
-	featuredImageBg: {
-		type: 'boolean',
-		default: false,
-	},
 	bgImageSize: {
 		type: 'string',
 		default: generateBlocksDefaults.container.bgImageSize,

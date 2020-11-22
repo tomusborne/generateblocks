@@ -217,7 +217,6 @@ class GenerateBlockContainer extends Component {
 			linkColorHover,
 			bgImage,
 			bgOptions,
-			featuredImageBg,
 			bgImageSize,
 			verticalAlignment,
 			verticalAlignmentTablet,
@@ -1406,18 +1405,8 @@ class GenerateBlockContainer extends Component {
 									/>
 								) }
 
-								<ToggleControl
-									label={ __( 'Use featured image', 'generateblocks' ) }
-									help={ __( 'Use featured image as the background image if available.', 'generateblocks' ) }
-									checked={ !! featuredImageBg }
-									onChange={ ( value ) => {
-										setAttributes( {
-											featuredImageBg: value,
-										} );
-									} }
-								/>
 
-								{ ( !! bgImage || !! featuredImageBg ) && (
+								{ !! bgImage && (
 									<div className="section-bg-settings">
 										{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
 											<Fragment>

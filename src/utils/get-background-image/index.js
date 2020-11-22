@@ -4,7 +4,6 @@ export default function getBackgroundImageCSS( type, attributes, media ) {
 	const {
 		backgroundColor,
 		backgroundColorOpacity,
-		featuredImageBg,
 		bgImage,
 		gradient,
 		bgOptions,
@@ -44,16 +43,10 @@ export default function getBackgroundImageCSS( type, attributes, media ) {
 	let backgroundImage = false;
 
 	const backgroundColorValue = hexToRGBA( backgroundColor, backgroundColorOpacity );
-	const useFeaturedImage = featuredImageBg && media;
 
-	if ( useFeaturedImage || bgImage ) {
-		let url = '';
+	if ( !! bgImage ) {
+		let url = bgImage.image.url;
 
-		if ( useFeaturedImage ) {
-			url = media.source_url;
-		} else {
-			url = bgImage.image.url;
-		}
 
 		if ( 'element' === bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
 			// Old background image overlays mixed with our gradients.
