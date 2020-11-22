@@ -21,15 +21,6 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	color: inherit;
 }
 
-.edit-bg-buttons {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.edit-bg-buttons button.components-button {
-    margin-bottom: 10px;
-}
-
 .additional-class-notice .components-notice {
 	margin: 0 0 10px;
 }
@@ -83,14 +74,6 @@ body .gb-container .wp-block {
 	box-sizing: border-box;
 }
 
-.gb-container .gb-inside-container {
-	box-sizing: content-box;
-}
-
-.gb-container *:not(.gb-inside-container) {
-	box-sizing: border-box;
-}
-
 .editor-gb-container-background__toggle {
     border-radius: 2px;
     background-color: #f0f0f0;
@@ -100,23 +83,19 @@ body .gb-container .wp-block {
     text-align: center;
 }
 
-.editor-gb-container-background__toggle, .editor-gb-container-background__preview {
-    display: block;
-    width: 100%;
-    padding: 0;
-    transition: all 0.1s ease-out;
-}
+.gblocks-background-image-wrapper {
+	position: relative;
 
-.editor-gb-container-background__preview {
-    height: auto;
-}
+	.gblocks-background-image-action-buttons {
+		position: absolute;
+		bottom: 4px;
+		right: 2px;
+		z-index: 999;
+	}
 
-button.editor-gb-container-background__toggle {
-    margin-bottom: 8px;
-}
-
-.components-base-control.editor-gb-container-background__image-size {
-	margin-bottom: 0;
+	button {
+		background: #fff !important;
+	}
 }
 
 .components-gblocks-control__image-sizes {

@@ -28,7 +28,6 @@ const {
 	RangeControl,
 	Button,
 	ButtonGroup,
-	ResponsiveWrapper,
 	ToggleControl,
 	SelectControl,
 	TextControl,
@@ -181,12 +180,6 @@ class GenerateBlockContainer extends Component {
 					id: media.id,
 					image: media.sizes[ size ],
 				},
-			} );
-		};
-
-		const onRemoveBgImage = () => {
-			setAttributes( {
-				bgImage: null,
 			} );
 		};
 
@@ -1359,52 +1352,52 @@ class GenerateBlockContainer extends Component {
 					>
 						{ 'Desktop' === this.getDeviceType() &&
 							<Fragment>
-								{ ! bgImage && (
-									<div>
+								<BaseControl
+									id="gblocks-bg-image-wrapper"
+									className="gblocks-background-image-wrapper"
+								>
+									<div className="gblocks-background-image-action-buttons">
 										<MediaUpload
 											title={ __( 'Set background image', 'generateblocks' ) }
 											onSelect={ onSelectBgImage }
 											allowedTypes={ [ 'image' ] }
+											value={ !! bgImage ? bgImage.id : '' }
 											modalClass="editor-gb-container-background__media-modal"
 											render={ ( { open } ) => (
-												<Button className="editor-gb-container-background__toggle" onClick={ open }>
-													{ __( 'Set background image', 'generateblocks' ) }
+												<Button
+													onClick={ open }
+													className="is-secondary is-small"
+												>
+													{ __( 'Upload', 'generateblocks' ) }
 												</Button>
 											) }
 										/>
+
+										{ applyFilters( 'generateblocks.editor.backgroundImageActions', '', this.props, this.state ) }
 									</div>
-								) }
 
-								{ !! bgImage && (
-									<MediaUpload
-										title={ __( 'Set background image', 'generateblocks' ) }
-										onSelect={ onSelectBgImage }
-										allowedTypes={ [ 'image' ] }
-										value={ bgImage.id }
-										modalClass="editor-gb-container-background__media-modal"
-										render={ ( { open } ) => (
-											<div className="editor-bg-image">
-												<Button className="editor-gb-container-background__preview" onClick={ open }>
-													<ResponsiveWrapper
-														naturalWidth={ bgImage.image.width }
-														naturalHeight={ bgImage.image.height }
-													>
-														<img src={ bgImage.image.url } alt={ __( 'Background Image', 'generateblocks' ) } />
-													</ResponsiveWrapper>
-												</Button>
-												<div className={ 'edit-bg-buttons' }>
-													<Button onClick={ open } isSecondary>
-														{ __( 'Replace image', 'generateblocks' ) }
-													</Button>
-													<Button onClick={ onRemoveBgImage } isLink isDestructive>
-														{ __( 'Remove background image', 'generateblocks' ) }
-													</Button>
-												</div>
-											</div>
-										) }
+									<TextControl
+										label={ __( 'Image URL', 'generateblocks' ) }
+										type={ 'text' }
+										value={ !! bgImage ? bgImage.image.url : '' }
+										onChange={ ( value ) => {
+											if ( ! value ) {
+												setAttributes( {
+													bgImage: null,
+												} );
+											} else {
+												setAttributes( {
+													bgImage: {
+														id: '',
+														image: {
+															url: value,
+														},
+													},
+												} );
+											}
+										} }
 									/>
-								) }
-
+								</BaseControl>
 
 								{ !! bgImage && (
 									<div className="section-bg-settings">
@@ -1433,16 +1426,18 @@ class GenerateBlockContainer extends Component {
 											</Fragment>
 										) : ( // These options is only for people not using the deprecated overlay option.
 											<Fragment>
-												<SelectControl
-													label={ __( 'Image Size', 'generateblocks' ) }
-													value={ bgImageSize }
-													options={ bgImageSizes }
-													onChange={ ( value ) => {
-														setAttributes( {
-															bgImageSize: value,
-														} );
-													} }
-												/>
+												{ 'undefined' !== typeof bgImage.id && bgImage.id &&
+													<SelectControl
+														label={ __( 'Image Size', 'generateblocks' ) }
+														value={ bgImageSize }
+														options={ bgImageSizes }
+														onChange={ ( value ) => {
+															setAttributes( {
+																bgImageSize: value,
+															} );
+														} }
+													/>
+												}
 
 												<SelectControl
 													label={ __( 'Selector', 'generateblocks' ) }
