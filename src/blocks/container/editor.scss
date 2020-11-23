@@ -74,27 +74,21 @@ body .gb-container .wp-block {
 	box-sizing: border-box;
 }
 
-.editor-gb-container-background__toggle {
-    border-radius: 2px;
-    background-color: #f0f0f0;
-    min-height: 90px;
-    line-height: 20px;
-    padding: 8px 0;
-    text-align: center;
-}
+.gblocks-bg-image-wrapper {
+	display: flex;
 
-.gblocks-background-image-wrapper {
-	position: relative;
-
-	.gblocks-background-image-action-buttons {
-		position: absolute;
-		bottom: 4px;
-		right: 2px;
-		z-index: 999;
+	.components-base-control,
+	.components-base-control__field {
+			margin: 0;
 	}
 
-	button {
-		background: #fff !important;
+	& > .components-base-control {
+		flex-grow: 1;
+	}
+
+	.components-button {
+		line-height: inherit;
+		height: 100%;
 	}
 }
 

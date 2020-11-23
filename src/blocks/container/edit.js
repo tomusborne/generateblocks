@@ -1353,50 +1353,53 @@ class GenerateBlockContainer extends Component {
 						{ 'Desktop' === this.getDeviceType() &&
 							<Fragment>
 								<BaseControl
-									id="gblocks-bg-image-wrapper"
-									className="gblocks-background-image-wrapper"
+									id="gblocks-background-image-upload"
+									label={ __( 'Image URL', 'generateblocks' ) }
 								>
-									<div className="gblocks-background-image-action-buttons">
-										<MediaUpload
-											title={ __( 'Set background image', 'generateblocks' ) }
-											onSelect={ onSelectBgImage }
-											allowedTypes={ [ 'image' ] }
-											value={ !! bgImage ? bgImage.id : '' }
-											modalClass="editor-gb-container-background__media-modal"
-											render={ ( { open } ) => (
-												<Button
-													onClick={ open }
-													className="is-secondary is-small"
-												>
-													{ __( 'Select', 'generateblocks' ) }
-												</Button>
-											) }
+									<div className="gblocks-bg-image-wrapper">
+										<TextControl
+											type={ 'text' }
+											value={ !! bgImage ? bgImage.image.url : '' }
+											onChange={ ( value ) => {
+												if ( ! value ) {
+													setAttributes( {
+														bgImage: null,
+													} );
+												} else {
+													setAttributes( {
+														bgImage: {
+															id: '',
+															image: {
+																url: value,
+															},
+														},
+													} );
+												}
+											} }
 										/>
 
-										{ applyFilters( 'generateblocks.editor.backgroundImageActions', '', this.props, this.state ) }
-									</div>
+										<div className="gblocks-background-image-action-buttons">
+											<MediaUpload
+												title={ __( 'Set background image', 'generateblocks' ) }
+												onSelect={ onSelectBgImage }
+												allowedTypes={ [ 'image' ] }
+												value={ !! bgImage ? bgImage.id : '' }
+												modalClass="editor-gb-container-background__media-modal"
+												render={ ( { open } ) => (
+													<Tooltip text={ __( 'Open the Media Library', 'generateblocks' ) }>
+														<Button
+															onClick={ open }
+															className="is-secondary is-small"
+														>
+															{ __( 'Select', 'generateblocks' ) }
+														</Button>
+													</Tooltip>
+												) }
+											/>
 
-									<TextControl
-										label={ __( 'Image URL', 'generateblocks' ) }
-										type={ 'text' }
-										value={ !! bgImage ? bgImage.image.url : '' }
-										onChange={ ( value ) => {
-											if ( ! value ) {
-												setAttributes( {
-													bgImage: null,
-												} );
-											} else {
-												setAttributes( {
-													bgImage: {
-														id: '',
-														image: {
-															url: value,
-														},
-													},
-												} );
-											}
-										} }
-									/>
+											{ applyFilters( 'generateblocks.editor.backgroundImageActions', '', this.props, this.state ) }
+										</div>
+									</div>
 								</BaseControl>
 
 								{ !! bgImage && (
