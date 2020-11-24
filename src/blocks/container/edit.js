@@ -181,6 +181,9 @@ class GenerateBlockContainer extends Component {
 					image: media.sizes[ size ],
 				},
 			} );
+
+			// eslint-disable-next-line
+			document.activeElement.blur();
 		};
 
 		const {
