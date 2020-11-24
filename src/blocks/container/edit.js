@@ -1394,7 +1394,7 @@ class GenerateBlockContainer extends Component {
 															onClick={ open }
 															className="is-secondary is-small"
 														>
-															{ __( 'Select', 'generateblocks' ) }
+															{ __( 'Browse', 'generateblocks' ) }
 														</Button>
 													</Tooltip>
 												) }
