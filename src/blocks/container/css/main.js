@@ -13,7 +13,6 @@ export default class MainCSS extends Component {
 		const {
 			attributes,
 			clientId,
-			media,
 		} = this.props;
 
 		const {
@@ -81,8 +80,8 @@ export default class MainCSS extends Component {
 		}
 
 		const hasBgImage = !! bgImage;
-		const backgroundImageValue = getBackgroundImageCSS( 'image', attributes, media );
-		const gradientValue = getBackgroundImageCSS( 'gradient', attributes, media );
+		const backgroundImageValue = getBackgroundImageCSS( 'image', this );
+		const gradientValue = getBackgroundImageCSS( 'gradient', this );
 
 		let innerZIndexValue = innerZindex;
 

@@ -4,7 +4,11 @@ const {
 	applyFilters,
 } = wp.hooks;
 
-export default function getBackgroundImageCSS( type, attributes, media ) {
+export default function getBackgroundImageCSS( type, component ) {
+	const {
+		attributes,
+	} = component.props;
+
 	const {
 		backgroundColor,
 		backgroundColorOpacity,
@@ -51,7 +55,7 @@ export default function getBackgroundImageCSS( type, attributes, media ) {
 	if ( !! bgImage ) {
 		let url = bgImage.image.url;
 
-		url = applyFilters( 'generateblocks.editor.bgImageURL', url, media );
+		url = applyFilters( 'generateblocks.editor.bgImageURL', url, component );
 
 		if ( 'element' === bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
 			// Old background image overlays mixed with our gradients.
