@@ -39,9 +39,9 @@ const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
 /**
  * Add controls to the Container block toolbar.
  *
- * @param {function} BlockEdit Block edit component.
+ * @param {Function} BlockEdit Block edit component.
  *
- * @return {function} BlockEdit Modified block edit component.
+ * @return {Function} BlockEdit Modified block edit component.
  */
 const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
