@@ -1621,7 +1621,11 @@ class GenerateBlockContainer extends Component {
 																				const svgItems = generateBlocksInfo.svgShapes[ svg ].svgs;
 
 																				return (
-																					<PanelBody title={ generateBlocksInfo.svgShapes[ svg ].group } initialOpen={ false } key={ i }>
+																					<PanelBody
+																						title={ generateBlocksInfo.svgShapes[ svg ].group }
+																						initialOpen={ svgItems.hasOwnProperty( shapeDividers[ index ].shape ) }
+																						key={ i }
+																					>
 																						<PanelRow>
 																							<BaseControl>
 																								<ul className="gblocks-icon-chooser gblocks-shape-chooser">
