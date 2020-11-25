@@ -124,8 +124,40 @@ body .gb-container .wp-block {
 .gblocks-shape-controls {
 	width: 100%;
 
-	.components-base-control {
+	& > .components-base-control {
 		margin-bottom: 20px;
+	}
+
+	.gblocks-edit-shape {
+		display: block;
+		width: 100%;
+		text-align: left;
+	}
+
+	.gblocks-shape-chooser {
+		margin: 0;
+
+		li {
+			margin: 5px 0;
+
+			button.components-button {
+				width: 100%;
+				height: auto;
+				background: #efefef;
+
+				svg {
+					width: 100%;
+				}
+
+				&:hover {
+					background: #efefef;
+				}
+
+				&.gblocks-shape-is-active {
+					box-shadow: 0 0 0 3px #007cba;
+				}
+			}
+		}
 	}
 }
 
@@ -134,35 +166,6 @@ body .gb-container .wp-block {
 
 	svg {
 		fill: currentColor;
-	}
-}
-
-.gblocks-shape-controls .gblocks-edit-shape {
-    display: block;
-    width: 100%;
-    text-align: left;
-}
-
-.gblocks-shape-controls .gblocks-shape-chooser li button.components-button {
-	width: 100%;
-    height: auto;
-    padding: 10px 0 0;
-    background: #efefef;
-
-	svg {
-		width: 100%;
-	}
-
-	&:hover {
-		background: #efefef;
-	}
-}
-
-.gblocks-icon-chooser.gblocks-shape-chooser {
-	margin-bottom: 0;
-
-	li {
-		margin: 0 0 5px;
 	}
 }
 

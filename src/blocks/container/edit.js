@@ -1631,7 +1631,10 @@ class GenerateBlockContainer extends Component {
 																												<li key={ `editor-pblock-types-list-item-${ iconIndex }` }>
 																													<Tooltip text={ ( svgItems[ svgItem ].label ) }>
 																														<Button
-																															className="editor-block-list-item-button"
+																															className={ classnames( {
+																																'editor-block-list-item-button': true,
+																																'gblocks-shape-is-active': shapeDividers[ index ].shape === svgItem,
+																															} ) }
 																															onClick={ () => {
 																																const shapes = [ ...shapeDividers ];
 
