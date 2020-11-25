@@ -168,24 +168,6 @@ class GenerateBlockContainer extends Component {
 			clientId,
 		} = this.props;
 
-		const onSelectBgImage = ( media ) => {
-			let size = generateBlocksDefaults.container.bgImageSize;
-
-			if ( 'undefined' === typeof media.sizes[ size ] ) {
-				size = 'full';
-			}
-
-			setAttributes( {
-				bgImage: {
-					id: media.id,
-					image: media.sizes[ size ],
-				},
-			} );
-
-			// eslint-disable-next-line
-			document.activeElement.blur();
-		};
-
 		const {
 			uniqueId,
 			className,
@@ -1384,7 +1366,23 @@ class GenerateBlockContainer extends Component {
 										<div className="gblocks-background-image-action-buttons">
 											<MediaUpload
 												title={ __( 'Set background image', 'generateblocks' ) }
-												onSelect={ onSelectBgImage }
+												onSelect={ ( media ) => {
+													let size = generateBlocksDefaults.container.bgImageSize;
+
+													if ( 'undefined' === typeof media.sizes[ size ] ) {
+														size = 'full';
+													}
+
+													setAttributes( {
+														bgImage: {
+															id: media.id,
+															image: media.sizes[ size ],
+														},
+													} );
+												} }
+												onClose={ () => {
+													document.querySelector( '.gblocks-bg-image-wrapper input' ).focus();
+												} }
 												allowedTypes={ [ 'image' ] }
 												value={ !! bgImage ? bgImage.id : '' }
 												modalClass="editor-gb-container-background__media-modal"
