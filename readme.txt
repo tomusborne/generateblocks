@@ -84,7 +84,6 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Shape dividers in the Container block
 * New: Make all blocks fully responsive when using editor responsive previews
 * New: Add option to apply gradient as a pseudo element
-* New: Add option to use featured image as Container background image
 * New: Add option to choose background image size
 * New: Add border radius options to Headline block
 * New: frontend.insideContainer filter in editor for Container block
@@ -137,6 +136,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Move GenerateBlocks admin menu item to top level
 * Tweak: Regenerate static CSS files after plugin update
 * Tweak: Adjust unit picker default styling
+* Tweak: Rebuild background image upload UI
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined
