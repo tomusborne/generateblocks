@@ -40,7 +40,18 @@ class GradientControl extends Component {
 
 		const {
 			gradientSelector,
+			bgImage,
 		} = attributes;
+
+		let selectorHelp = '';
+
+		if ( !! bgImage ) {
+			if ( 'element' === gradientSelector ) {
+				selectorHelp = __( 'Displays behind the background image.', 'generateblocks' );
+			} else {
+				selectorHelp = __( 'Displays in front of the background image.', 'generateblocks' );
+			}
+		}
 
 		return (
 			<Fragment>
@@ -59,6 +70,7 @@ class GradientControl extends Component {
 						{ 'undefined' !== typeof gradientSelector &&
 							<SelectControl
 								label={ __( 'Selector', 'generateblocks' ) }
+								help={ selectorHelp }
 								value={ gradientSelector }
 								options={ [
 									{ label: __( 'Element', 'generateblocks' ), value: 'element' },
