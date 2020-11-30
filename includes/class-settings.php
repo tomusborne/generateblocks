@@ -56,7 +56,6 @@ class GenerateBlocks_Settings {
 			1
 		);
 
-		add_action( "admin_print_styles-$settings", 'generateblocks_enqueue_dashboard_scripts' );
 		add_action( "admin_print_scripts-$settings", array( $this, 'enqueue_scripts' ) );
 	}
 
@@ -82,13 +81,6 @@ class GenerateBlocks_Settings {
 				),
 			)
 		);
-
-		wp_enqueue_style(
-			'generateblocks-settings-build',
-			GENERATEBLOCKS_DIR_URL . 'dist/dashboard.css',
-			array( 'wp-components' ),
-			GENERATEBLOCKS_VERSION
-		);
 	}
 
 	/**
@@ -108,12 +100,7 @@ class GenerateBlocks_Settings {
 	public function settings_page() {
 		?>
 			<div class="wrap gblocks-dashboard-wrap">
-				<div class="gblocks-dashboard-header">
-					<div class="gblocks-dashboard-header-content">
-						<h1><?php esc_html_e( 'Settings', 'generateblocks' ); ?></h1>
-					</div>
-					<?php generateblocks_dashboard_navigation(); ?>
-				</div>
+				<?php generateblocks_do_dashboard_header( __( 'Settings', 'generateblocks' ) ); ?>
 
 				<div class="generateblocks-settings-area">
 					<?php do_action( 'generateblocks_settings_area' ); ?>
