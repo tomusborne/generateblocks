@@ -2,11 +2,11 @@
  * Block: Buttons
  */
 
-import './style.scss';
 import './editor.scss';
 
-import editButtonContainer from './edit';
-import saveButtonContainer from './save';
+import editButton from './edit';
+import saveButton from './save';
+import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
 
@@ -34,12 +34,11 @@ registerBlockType( 'generateblocks/button', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: false,
 		className: false,
-		customClassName: false,
 		inserter: false,
 		reusable: false,
 	},
-	edit: editButtonContainer,
-	save: saveButtonContainer,
+	edit: editButton,
+	save: saveButton,
+	deprecated,
 } );

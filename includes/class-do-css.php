@@ -190,6 +190,7 @@ class GenerateBlocks_Dynamic_CSS {
 		if ( ! empty( $this->_css ) ) {
 			$this->_selector_output = $this->_selector;
 			$this->_output[ $this->_selector_output ][] = $this->_css;
+			$this->_output[ $this->_selector_output ] = array_unique( $this->_output[ $this->_selector_output ] );
 
 			// Reset the css.
 			$this->_css = '';

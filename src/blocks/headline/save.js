@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import sanitizeSVG from '../../utils/sanitize-svg';
+import Element from '../../components/element';
 
 const {
 	RichText,
@@ -16,8 +17,8 @@ const {
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		elementId,
-		cssClasses,
+		className,
+		anchor,
 		element,
 		content,
 		icon,
@@ -25,28 +26,24 @@ export default ( { attributes } ) => {
 		ariaLabel,
 	} = attributes;
 
-	const ConditionalWrap = ( { condition, wrap, children } ) => condition ? wrap( children ) : children;
-
 	let htmlAttributes = {
-		id: !! elementId ? elementId : undefined,
 		className: classnames( {
 			'gb-headline': true,
 			[ `gb-headline-${ uniqueId }` ]: true,
-			[ `${ cssClasses }` ]: '' !== cssClasses,
+			'gb-headline-text': ! icon,
+			[ className ]: undefined !== className,
 		} ),
+		id: anchor ? anchor : null,
 	};
 
 	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
 
 	return (
-		<ConditionalWrap
-			condition={ icon }
-			wrap={ children => <div className={ classnames( {
-				'gb-headline-wrapper': true,
-				[ `gb-headline-wrapper-${ uniqueId }` ]: true,
-			} ) }>{ children }</div> }
+		<Element
+			tagName={ element }
+			htmlAttrs={ htmlAttributes }
 		>
-			{ icon &&
+			{ !! icon &&
 				<span
 					className="gb-icon"
 					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
@@ -56,11 +53,11 @@ export default ( { attributes } ) => {
 
 			{ ! removeText &&
 				<RichText.Content
-					tagName={ element }
 					value={ content }
-					{ ...htmlAttributes }
+					tagName={ !! icon ? 'span' : null }
+					className={ !! icon ? 'gb-headline-text' : null }
 				/>
 			}
-		</ConditionalWrap>
+		</Element>
 	);
 };

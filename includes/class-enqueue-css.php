@@ -2,8 +2,7 @@
 /**
  * Handles the CSS Output.
  *
- * @package     GenerateBlocks
- * @since       0.1
+ * @package GenerateBlocks
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -14,7 +13,6 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Enqueue our block CSS to the current page.
  */
 class GenerateBlocks_Enqueue_CSS {
-
 	/**
 	 * Instance.
 	 *
@@ -42,21 +40,27 @@ class GenerateBlocks_Enqueue_CSS {
 	 * Constructor.
 	 */
 	public function __construct() {
-
 		$this->add_options();
 
 		add_action( 'save_post', array( $this, 'post_update_option' ), 10, 2 );
 		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ), 10, 2 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dynamic_css' ) );
-		add_action( 'wp_head', array( $this, 'print_inline_css' ) );
+		add_action( 'init', array( $this, 'enqueue_assets' ) );
+	}
 
+	/**
+	 * Enqueue our front-end assets.
+	 */
+	public function enqueue_assets() {
+		$dynamic_css_priority = apply_filters( 'generateblocks_dynamic_css_priority', 10 );
+
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dynamic_css' ), $dynamic_css_priority );
+		add_action( 'wp_head', array( $this, 'print_inline_css' ), $dynamic_css_priority );
 	}
 
 	/**
 	 * Get the current page ID.
 	 */
 	public function page_id() {
-
 		global $post;
 
 		$id = isset( $post ) ? $post->ID : false;
@@ -65,14 +69,12 @@ class GenerateBlocks_Enqueue_CSS {
 		$id = ( is_home() ) ? get_option( 'page_for_posts' ) : $id;
 
 		return $id;
-
 	}
 
 	/**
 	 * Determine if we're using file mode or inline mode.
 	 */
 	public function mode() {
-
 		// Check if we're using file mode or inline mode.
 		// Default to file mode and falback to inline if file mode is not possible.
 		$mode = apply_filters( 'generateblocks_css_print_method', 'file' );
@@ -99,7 +101,6 @@ class GenerateBlocks_Enqueue_CSS {
 		}
 
 		return $mode;
-
 	}
 
 	/**
@@ -112,23 +113,21 @@ class GenerateBlocks_Enqueue_CSS {
 			return;
 		}
 
-		$css_version = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
+		$has_generateblocks = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
 
-		if ( empty( $css_version ) ) {
+		if ( empty( $has_generateblocks ) ) {
 			return;
 		}
 
 		if ( 'file' === $this->mode() ) {
 			wp_enqueue_style( 'generateblocks', esc_url( $this->file( 'uri' ) ), array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		}
-
 	}
 
 	/**
 	 * Print our inline CSS.
 	 */
 	public function print_inline_css() {
-
 		if ( 'inline' === $this->mode() || ! wp_style_is( 'generateblocks', 'enqueued' ) ) {
 			$css = generateblocks_get_frontend_block_css();
 
@@ -147,17 +146,15 @@ class GenerateBlocks_Enqueue_CSS {
 	 * Make our CSS.
 	 */
 	public function make_css() {
-
 		$page_id = $this->page_id();
 
 		if ( ! $page_id ) {
 			return false;
 		}
 
-		// If we don't have a CSS version, we don't have GBlocks.
-		$css_version = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
+		$has_generateblocks = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
 
-		if ( empty( $css_version ) ) {
+		if ( empty( $has_generateblocks ) ) {
 			return false;
 		}
 
@@ -184,25 +181,13 @@ class GenerateBlocks_Enqueue_CSS {
 
 		// Take care of domain mapping.
 		if ( defined( 'DOMAIN_MAPPING' ) && DOMAIN_MAPPING ) {
-
 			if ( function_exists( 'domain_mapping_siteurl' ) && function_exists( 'get_original_url' ) ) {
-
 				$mapped_domain = domain_mapping_siteurl( false );
-				$mapped_domain = str_replace( 'https://', '//', $domain_mapping );
-				$mapped_domain = str_replace( 'http://', '//', $mapped_domain );
-
 				$original_domain = get_original_url( 'siteurl' );
-				$original_domain = str_replace( 'https://', '//', $original_domain );
-				$original_domain = str_replace( 'http://', '//', $original_domain );
 
 				$content = str_replace( $original_domain, $mapped_domain, $content );
-
 			}
 		}
-
-		// Strip protocols.
-		$content = str_replace( 'https://', '//', $content );
-		$content = str_replace( 'http://', '//', $content );
 
 		if ( is_writable( $this->file( 'path' ) ) || ( ! file_exists( $this->file( 'path' ) ) && is_writable( dirname( $this->file( 'path' ) ) ) ) ) {
 
@@ -225,19 +210,16 @@ class GenerateBlocks_Enqueue_CSS {
 
 			}
 		}
-
 	}
-
 
 	/**
 	 * Determines if the CSS file is writable.
 	 */
 	public function can_write() {
-
 		global $blog_id;
 
 		// Get the upload directory for this site.
-		$upload_dir = wp_upload_dir();
+		$upload_dir = wp_get_upload_dir();
 
 		// If this is a multisite installation, append the blogid to the filename.
 		$css_blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
@@ -287,9 +269,7 @@ class GenerateBlocks_Enqueue_CSS {
 
 		// all is well!
 		return true;
-
 	}
-
 
 	/**
 	 * Gets the css path or url to the stylesheet
@@ -297,11 +277,10 @@ class GenerateBlocks_Enqueue_CSS {
 	 * @param string $target path/url.
 	 */
 	public function file( $target = 'path' ) {
-
 		global $blog_id;
 
 		// Get the upload directory for this site.
-		$upload_dir = wp_upload_dir();
+		$upload_dir = wp_get_upload_dir();
 
 		// If this is a multisite installation, append the blogid to the filename.
 		$css_blog_id = ( is_multisite() && $blog_id > 1 ) ? '_blog-' . $blog_id : null;
@@ -327,9 +306,7 @@ class GenerateBlocks_Enqueue_CSS {
 			}
 		}
 
-		// Strip protocols.
-		$css_uri = str_replace( 'https://', '//', $css_uri );
-		$css_uri = str_replace( 'http://', '//', $css_uri );
+		$css_uri = set_url_scheme( $css_uri );
 
 		if ( 'path' === $target ) {
 			return $file_path;
@@ -337,7 +314,6 @@ class GenerateBlocks_Enqueue_CSS {
 			$timestamp = ( file_exists( $file_path ) ) ? '?ver=' . filemtime( $file_path ) : '';
 			return $css_uri . $timestamp;
 		}
-
 	}
 
 	/**
@@ -363,7 +339,6 @@ class GenerateBlocks_Enqueue_CSS {
 	 * @param object $post The current post.
 	 */
 	public function post_update_option( $post_id, $post ) {
-
 		$is_autosave = wp_is_post_autosave( $post_id );
 		$is_revision = wp_is_post_revision( $post_id );
 
@@ -373,7 +348,7 @@ class GenerateBlocks_Enqueue_CSS {
 
 		if ( isset( $post->post_content ) ) {
 			if ( strpos( $post->post_content, 'wp:generateblocks' ) !== false ) {
-				update_post_meta( $post_id, '_generateblocks_dynamic_css_version', sanitize_text_field( GENERATEBLOCKS_CSS_VERSION ) );
+				update_post_meta( $post_id, '_generateblocks_dynamic_css_version', sanitize_text_field( GENERATEBLOCKS_VERSION ) );
 			} else {
 				delete_post_meta( $post_id, '_generateblocks_dynamic_css_version' );
 			}
@@ -394,11 +369,11 @@ class GenerateBlocks_Enqueue_CSS {
 			}
 		}
 
+		// Make a new CSS file for this post on next load.
 		$option = get_option( 'generateblocks_dynamic_css_posts', array() );
 		unset( $option[ $post_id ] );
 
 		update_option( 'generateblocks_dynamic_css_posts', $option );
-
 	}
 
 	/**
@@ -408,7 +383,6 @@ class GenerateBlocks_Enqueue_CSS {
 	 * @param object $post The current post.
 	 */
 	public function wp_block_update( $post_id, $post ) {
-
 		$is_autosave = wp_is_post_autosave( $post_id );
 		$is_revision = wp_is_post_revision( $post_id );
 
@@ -431,23 +405,14 @@ class GenerateBlocks_Enqueue_CSS {
 				update_option( 'generateblocks_dynamic_css_posts', $option );
 			}
 		}
-
 	}
 
 	/**
 	 * Do we need to update the CSS file?
 	 */
 	public function needs_update() {
-
-		$option      = get_option( 'generateblocks_dynamic_css_posts', array() );
-		$page_id     = $this->page_id();
-		$css_version = get_post_meta( $page_id, '_generateblocks_dynamic_css_version', true );
-
-		// Force a CSS update if we've specified a new CSS version.
-		if ( (string) GENERATEBLOCKS_CSS_VERSION !== (string) $css_version ) {
-			update_post_meta( $page_id, '_generateblocks_dynamic_css_version', sanitize_text_field( GENERATEBLOCKS_CSS_VERSION ) );
-			return true;
-		}
+		$option = get_option( 'generateblocks_dynamic_css_posts', array() );
+		$page_id = $this->page_id();
 
 		// If the CSS file does not exist then we definitely need to regenerate the CSS.
 		if ( ! file_exists( $this->file( 'path' ) ) ) {
@@ -455,7 +420,6 @@ class GenerateBlocks_Enqueue_CSS {
 		}
 
 		return ( ! isset( $option[ $page_id ] ) || ! $option[ $page_id ] ) ? true : false;
-
 	}
 
 	/**
@@ -464,7 +428,6 @@ class GenerateBlocks_Enqueue_CSS {
 	public function update_saved_time() {
 		update_option( 'generateblocks_dynamic_css_time', time() );
 	}
-
 }
 
 GenerateBlocks_Enqueue_CSS::get_instance();

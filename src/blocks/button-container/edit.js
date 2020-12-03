@@ -6,17 +6,21 @@ import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
-import getSelectedDevice from '../../utils/get-selected-device';
+import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import TabletOnlyCSS from './css/tablet-only.js';
+import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const {
-	TextControl,
 	Tooltip,
 	Button,
 	ToggleControl,
-	Toolbar,
+	ToolbarGroup,
+	ToolbarButton,
+	TextControl,
 } = wp.components;
 
 const {
@@ -29,6 +33,7 @@ const {
 	InnerBlocks,
 	AlignmentToolbar,
 	BlockControls,
+	InspectorAdvancedControls,
 } = wp.blockEditor;
 
 const {
@@ -40,7 +45,22 @@ const {
 	applyFilters,
 } = wp.hooks;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
+const {
+	withSelect,
+	withDispatch,
+} = wp.data;
+
+const {
+	compose,
+} = wp.compose;
+
+/**
+ * Regular expression matching invalid anchor characters for replacement.
+ *
+ * @type {RegExp}
+ */
+const ANCHOR_REGEX = /[\s#]/g;
+
 const gbButtonContainerIds = [];
 
 const ALIGNMENT_CONTROLS = [
@@ -66,8 +86,11 @@ class GenerateButtonContainer extends Component {
 		super( ...arguments );
 
 		this.state = {
-			selectedDevice: 'desktop',
+			selectedDevice: 'Desktop',
 		};
+
+		this.getDeviceType = this.getDeviceType.bind( this );
+		this.setDeviceType = this.setDeviceType.bind( this );
 	}
 
 	componentDidMount() {
@@ -98,6 +121,32 @@ class GenerateButtonContainer extends Component {
 				wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, this.props.clientId );
 			}
 		}
+
+		// This block used to be static. Set it to dynamic by default from now on.
+		if ( 'undefined' === typeof this.props.attributes.isDynamic || ! this.props.attributes.isDynamic ) {
+			this.props.setAttributes( {
+				isDynamic: true,
+			} );
+		}
+	}
+
+	getDeviceType() {
+		let deviceType = this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+
+		if ( ! generateBlocksInfo.syncResponsivePreviews ) {
+			deviceType = this.state.selectedDevice;
+		}
+
+		return deviceType;
+	}
+
+	setDeviceType( deviceType ) {
+		if ( generateBlocksInfo.syncResponsivePreviews && this.props.deviceType ) {
+			this.props.setDeviceType( deviceType );
+			this.setState( { selectedDevice: deviceType } );
+		} else {
+			this.setState( { selectedDevice: deviceType } );
+		}
 	}
 
 	render() {
@@ -108,13 +157,9 @@ class GenerateButtonContainer extends Component {
 		} = this.props;
 
 		const {
-			selectedDevice,
-		} = this.state;
-
-		const {
 			uniqueId,
-			elementId,
-			cssClasses,
+			className,
+			anchor,
 			alignment,
 			alignmentTablet,
 			alignmentMobile,
@@ -127,12 +172,12 @@ class GenerateButtonContainer extends Component {
 		} = attributes;
 
 		let htmlAttributes = {
-			id: !! elementId ? elementId : undefined,
 			className: classnames( {
 				'gb-button-wrapper': true,
 				[ `gb-button-wrapper-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ className }` ]: undefined !== className,
 			} ),
+			id: anchor ? anchor : null,
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button-container', attributes );
@@ -140,55 +185,73 @@ class GenerateButtonContainer extends Component {
 		return (
 			<Fragment>
 				<BlockControls>
-					<Toolbar>
-						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
-							<Button
-								className="gblocks-add-new-button"
-								icon={ 'insert' }
-								onClick={ () => {
-									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+					<ToolbarGroup>
+						<ToolbarButton
+							className="gblocks-add-new-button"
+							icon={ 'insert' }
+							label={ __( 'Add Button', 'generateblocks' ) }
+							onClick={ () => {
+								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
 
-									if ( thisBlock ) {
-										const childBlocks = thisBlock.innerBlocks;
-										const keys = Object.keys( childBlocks );
-										const lastKey = keys[ keys.length - 1 ];
+								if ( thisBlock ) {
+									const childBlocks = thisBlock.innerBlocks;
+									const keys = Object.keys( childBlocks );
+									const lastKey = keys[ keys.length - 1 ];
 
-										if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
-											const blockToCopyId = childBlocks[ lastKey ].clientId;
+									if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
+										const blockToCopyId = childBlocks[ lastKey ].clientId;
 
-											if ( blockToCopyId ) {
-												const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
-												const clonedBlock = cloneBlock( blockToCopy );
+										if ( blockToCopyId ) {
+											const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
+											const clonedBlock = cloneBlock( blockToCopy );
 
-												wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
-											}
-										} else if ( 0 === childBlocks.length ) {
-											wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
+											wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
 										}
+									} else if ( 0 === childBlocks.length ) {
+										wp.data.dispatch( 'core/block-editor' ).insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
 									}
-								} }
-							/>
-						</Tooltip>
-					</Toolbar>
-					<AlignmentToolbar
-						isCollapsed={ false }
-						value={ alignment }
-						alignmentControls={ ALIGNMENT_CONTROLS }
-						onChange={ ( nextAlign ) => {
-							setAttributes( { alignment: nextAlign } );
-						} }
-					/>
+								}
+							} }
+							showTooltip
+						/>
+					</ToolbarGroup>
+
+					{ 'Desktop' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignment }
+							alignmentControls={ ALIGNMENT_CONTROLS }
+							onChange={ ( nextAlign ) => {
+								setAttributes( { alignment: nextAlign } );
+							} }
+						/>
+					) }
+
+					{ 'Tablet' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignmentTablet }
+							alignmentControls={ ALIGNMENT_CONTROLS }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentTablet: value } );
+							} }
+						/>
+					) }
+
+					{ 'Mobile' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignmentMobile }
+							alignmentControls={ ALIGNMENT_CONTROLS }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentMobile: value } );
+							} }
+						/>
+					) }
 				</BlockControls>
 
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ getSelectedDevice( selectedDevice ) }
+						selectedDevice={ this.getDeviceType() }
 						onClick={ ( device ) => {
-							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
-
-							this.setState( {
-								selectedDevice: device,
-							} );
+							this.setDeviceType( device );
 						} }
 					/>
 
@@ -200,19 +263,10 @@ class GenerateButtonContainer extends Component {
 						id={ 'buttonContainerSpacing' }
 						state={ this.state }
 					>
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<AlignmentToolbar
-									isCollapsed={ false }
-									value={ alignment }
-									alignmentControls={ ALIGNMENT_CONTROLS }
-									onChange={ ( value ) => {
-										setAttributes( { alignment: value } );
-									} }
-								/>
-
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -222,6 +276,7 @@ class GenerateButtonContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.buttonContainer }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<ToggleControl
@@ -246,19 +301,10 @@ class GenerateButtonContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								<AlignmentToolbar
-									isCollapsed={ false }
-									value={ alignmentTablet }
-									alignmentControls={ ALIGNMENT_CONTROLS }
-									onChange={ ( value ) => {
-										setAttributes( { alignmentTablet: value } );
-									} }
-								/>
-
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -268,6 +314,7 @@ class GenerateButtonContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.buttonContainer }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<ToggleControl
@@ -292,19 +339,10 @@ class GenerateButtonContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								<AlignmentToolbar
-									isCollapsed={ false }
-									value={ alignmentMobile }
-									alignmentControls={ ALIGNMENT_CONTROLS }
-									onChange={ ( value ) => {
-										setAttributes( { alignmentMobile: value } );
-									} }
-								/>
-
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -314,6 +352,7 @@ class GenerateButtonContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.buttonContainer }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<ToggleControl
@@ -342,40 +381,6 @@ class GenerateButtonContainer extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-						id={ 'buttonContainerAdvanced' }
-						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
-						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonContainerAdvanced', this.props, this.state ) }
-					</PanelArea>
-
-					<PanelArea { ...this.props }
 						title={ __( 'Documentation', 'generateblocks' ) }
 						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
@@ -390,7 +395,40 @@ class GenerateButtonContainer extends Component {
 					</PanelArea>
 				</InspectorControls>
 
-				<DesktopCSS { ...this.props } />
+				<InspectorAdvancedControls>
+					<TextControl
+						label={ __( 'HTML Anchor' ) }
+						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
+						value={ anchor || '' }
+						onChange={ ( nextValue ) => {
+							nextValue = nextValue.replace( ANCHOR_REGEX, '-' );
+							setAttributes( {
+								anchor: nextValue,
+							} );
+						} } />
+				</InspectorAdvancedControls>
+
+				<MainCSS { ...this.props } />
+
+				{ this.props.deviceType &&
+					<Fragment>
+						{ 'Desktop' === this.props.deviceType &&
+							<DesktopCSS { ...this.props } />
+						}
+
+						{ ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) &&
+							<TabletCSS { ...this.props } />
+						}
+
+						{ 'Tablet' === this.props.deviceType &&
+							<TabletOnlyCSS { ...this.props } />
+						}
+
+						{ 'Mobile' === this.props.deviceType &&
+							<MobileCSS { ...this.props } />
+						}
+					</Fragment>
+				}
 
 				<div
 					{ ...htmlAttributes }
@@ -415,4 +453,33 @@ class GenerateButtonContainer extends Component {
 	}
 }
 
-export default ( GenerateButtonContainer );
+export default compose( [
+	withDispatch( ( dispatch ) => ( {
+		setDeviceType( type ) {
+			const {
+				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+			} = dispatch( 'core/edit-post' );
+
+			if ( ! setPreviewDeviceType ) {
+				return;
+			}
+
+			setPreviewDeviceType( type );
+		},
+	} ) ),
+	withSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		if ( ! getPreviewDeviceType ) {
+			return {
+				deviceType: null,
+			};
+		}
+
+		return {
+			deviceType: getPreviewDeviceType(),
+		};
+	} ),
+] )( GenerateButtonContainer );

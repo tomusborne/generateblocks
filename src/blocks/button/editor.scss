@@ -1,8 +1,6 @@
 /**
  * Editor Styles
  */
-@import "../../common";
-
 .gb-button-wrapper {
     position: relative;
     margin-top: 0;
@@ -112,6 +110,8 @@
 		width: auto;
 		padding-left: 0;
 		padding-right: 0;
+		margin-left: 0;
+		margin-right: 0;
 	}
 
 	// 3. Remove margins on subsequent Edit container.
@@ -157,4 +157,9 @@
 // Unselected block is preview, selected has additional options.
 [data-type="generateblocks/button-container"]:not(.is-selected):not(.has-child-selected) .gb-button-wrapper {
 	min-height: 36px; // This height matches the height of the buttons and ensures an empty block doesn't collapse.
+}
+
+.wp-block[data-type="generateblocks/button"] {
+	margin-top: 0;
+	margin-bottom: 0;
 }

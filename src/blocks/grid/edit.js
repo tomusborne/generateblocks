@@ -4,20 +4,26 @@
 
 import classnames from 'classnames';
 import getIcon from '../../utils/get-icon';
-import getSelectedDevice from '../../utils/get-selected-device';
 import ResponsiveTabs from '../../components/responsive-tabs';
+import UnitPicker from '../../components/unit-picker';
+import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import TabletOnlyCSS from './css/tablet-only.js';
+import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 
-const { __ } = wp.i18n;
+const {
+	__,
+} = wp.i18n;
 
 const {
 	TextControl,
 	SelectControl,
-	Tooltip,
 	Placeholder,
 	Button,
-	Toolbar,
+	ToolbarGroup,
+	ToolbarButton,
 } = wp.components;
 
 const {
@@ -29,6 +35,7 @@ const {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
+	InspectorAdvancedControls,
 } = wp.blockEditor;
 
 const {
@@ -39,7 +46,22 @@ const {
 	applyFilters,
 } = wp.hooks;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
+const {
+	withSelect,
+	withDispatch,
+} = wp.data;
+
+const {
+	compose,
+} = wp.compose;
+
+/**
+ * Regular expression matching invalid anchor characters for replacement.
+ *
+ * @type {RegExp}
+ */
+const ANCHOR_REGEX = /[\s#]/g;
+
 const gbGridIds = [];
 
 class GenerateBlockGridContainer extends Component {
@@ -48,12 +70,14 @@ class GenerateBlockGridContainer extends Component {
 
 		this.state = {
 			selectedLayout: false,
-			selectedDevice: 'desktop',
+			selectedDevice: 'Desktop',
 		};
 
 		this.onLayoutSelect = this.onLayoutSelect.bind( this );
 		this.getColumnsFromLayout = this.getColumnsFromLayout.bind( this );
 		this.getLayoutsSelector = this.getLayoutsSelector.bind( this );
+		this.getDeviceType = this.getDeviceType.bind( this );
+		this.setDeviceType = this.setDeviceType.bind( this );
 	}
 
 	componentDidMount() {
@@ -73,6 +97,13 @@ class GenerateBlockGridContainer extends Component {
 			gbGridIds.push( id );
 		} else {
 			gbGridIds.push( this.props.attributes.uniqueId );
+		}
+
+		// This block used to be static. Set it to dynamic by default from now on.
+		if ( 'undefined' === typeof this.props.attributes.isDynamic || ! this.props.attributes.isDynamic ) {
+			this.props.setAttributes( {
+				isDynamic: true,
+			} );
 		}
 	}
 
@@ -118,12 +149,12 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	/**
-     * Get columns sizes array from layout string
-     *
-     * @param {string} layout - layout data. Example: `3-6-3`
-     *
-     * @return {array}.
-     */
+	 * Get columns sizes array from layout string
+	 *
+	 * @param {string} layout - layout data. Example: `3-6-3`
+	 *
+	 * @return {Array}.
+	 */
 	getColumnsFromLayout( layout ) {
 		const result = [];
 		const columnsData = layout.split( '-' );
@@ -149,10 +180,10 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	/**
-     * Layouts selector when no columns selected.
-     *
-     * @return {jsx}.
-     */
+	 * Layouts selector when no columns selected.
+	 *
+	 * @return {JSX}.
+	 */
 	getLayoutsSelector() {
 		const layouts = [
 			'100',
@@ -204,14 +235,33 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	/**
-     * Select predefined layout.
-     *
-     * @param {String} layout layout string.
-     */
+	 * Select predefined layout.
+	 *
+	 * @param {string} layout layout string.
+	 */
 	onLayoutSelect( layout ) {
 		this.setState( {
 			selectedLayout: layout,
 		} );
+	}
+
+	getDeviceType() {
+		let deviceType = this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+
+		if ( ! generateBlocksInfo.syncResponsivePreviews ) {
+			deviceType = this.state.selectedDevice;
+		}
+
+		return deviceType;
+	}
+
+	setDeviceType( deviceType ) {
+		if ( generateBlocksInfo.syncResponsivePreviews && this.props.deviceType ) {
+			this.props.setDeviceType( deviceType );
+			this.setState( { selectedDevice: deviceType } );
+		} else {
+			this.setState( { selectedDevice: deviceType } );
+		}
 	}
 
 	render() {
@@ -222,13 +272,9 @@ class GenerateBlockGridContainer extends Component {
 		} = this.props;
 
 		const {
-			selectedDevice,
-		} = this.state;
-
-		const {
 			uniqueId,
-			elementId,
-			cssClasses,
+			className,
+			anchor,
 			columns,
 			horizontalGap,
 			verticalGap,
@@ -259,12 +305,12 @@ class GenerateBlockGridContainer extends Component {
 		}
 
 		let htmlAttributes = {
-			id: !! elementId ? elementId : undefined,
 			className: classnames( {
 				'gb-grid-wrapper': true,
 				[ `gb-grid-wrapper-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				[ `${ className }` ]: undefined !== className,
 			} ),
+			id: anchor ? anchor : null,
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/grid', attributes );
@@ -272,38 +318,35 @@ class GenerateBlockGridContainer extends Component {
 		return (
 			<Fragment>
 				<BlockControls>
-					<Toolbar>
-						<Tooltip text={ __( 'Add Grid Item', 'generateblocks' ) }>
-							<Button
-								className="gblocks-block-control-icon gblocks-add-grid-item"
-								icon={ getIcon( 'addContainer' ) }
-								onClick={ () => {
-									wp.data.dispatch( 'core/block-editor' ).insertBlocks(
-										createBlock( 'generateblocks/container', {
-											isGrid: true,
-											gridId: uniqueId,
-											paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
-											paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
-											paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
-											paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
-										} ),
-										undefined,
-										clientId
-									);
-								} }
-							/>
-						</Tooltip>
-					</Toolbar>
+					<ToolbarGroup>
+						<ToolbarButton
+							className="gblocks-block-control-icon gblocks-add-grid-item"
+							icon={ getIcon( 'addContainer' ) }
+							label={ __( 'Add Grid Item', 'generateblocks' ) }
+							onClick={ () => {
+								wp.data.dispatch( 'core/block-editor' ).insertBlocks(
+									createBlock( 'generateblocks/container', {
+										isGrid: true,
+										gridId: uniqueId,
+										paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
+										paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
+										paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
+										paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
+									} ),
+									undefined,
+									clientId
+								);
+							} }
+							showTooltip
+						/>
+					</ToolbarGroup>
 				</BlockControls>
+
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ getSelectedDevice( selectedDevice ) }
+						selectedDevice={ this.getDeviceType() }
 						onClick={ ( device ) => {
-							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
-
-							this.setState( {
-								selectedDevice: device,
-							} );
+							this.setDeviceType( device );
 						} }
 					/>
 
@@ -311,26 +354,16 @@ class GenerateBlockGridContainer extends Component {
 						id={ 'gridLayout' }
 						state={ this.state }
 					>
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Horizontal Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-unit' }>
-											<Button
-												key={ 'h-gap-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Horizontal Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -377,24 +410,14 @@ class GenerateBlockGridContainer extends Component {
 									</Button>
 								</div>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Vertical Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-unit' }>
-											<Button
-												key={ 'v-gap-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Vertical Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -476,26 +499,16 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Horizontal Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-tablet-unit' }>
-											<Button
-												key={ 'h-gap-tablet-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Horizontal Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -543,24 +556,14 @@ class GenerateBlockGridContainer extends Component {
 									</Button>
 								</div>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Vertical Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-tablet-unit' }>
-											<Button
-												key={ 'v-gap-tablet-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Vertical Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -645,26 +648,16 @@ class GenerateBlockGridContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Horizontal Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'h-gap-mobile-unit' }>
-											<Button
-												key={ 'h-gap-mobile-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Horizontal Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -712,24 +705,14 @@ class GenerateBlockGridContainer extends Component {
 									</Button>
 								</div>
 
-								<div className="components-gblocks-control__header">
-									<div className="components-gblocks-control__label">
-										{ __( 'Vertical Gap', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'v-gap-mobile-unit' }>
-											<Button
-												key={ 'v-gap-mobile-unit' }
-												isSmall
-												isPrimary={ true }
-												aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-											>
-												px
-											</Button>
-										</Tooltip>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Vertical Gap', 'generateblocks' ) }
+									value={ 'px' }
+									units={ [ 'px' ] }
+									onClick={ () => {
+										return false;
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -818,40 +801,6 @@ class GenerateBlockGridContainer extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-						id={ 'gridAdvanced' }
-						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
-						{ applyFilters( 'generateblocks.editor.controls', '', 'gridAdvanced', this.props, this.state ) }
-					</PanelArea>
-
-					<PanelArea { ...this.props }
 						title={ __( 'Documentation', 'generateblocks' ) }
 						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
@@ -866,7 +815,40 @@ class GenerateBlockGridContainer extends Component {
 					</PanelArea>
 				</InspectorControls>
 
-				<DesktopCSS { ...this.props } />
+				<InspectorAdvancedControls>
+					<TextControl
+						label={ __( 'HTML Anchor' ) }
+						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
+						value={ anchor || '' }
+						onChange={ ( nextValue ) => {
+							nextValue = nextValue.replace( ANCHOR_REGEX, '-' );
+							setAttributes( {
+								anchor: nextValue,
+							} );
+						} } />
+				</InspectorAdvancedControls>
+
+				<MainCSS { ...this.props } />
+
+				{ this.props.deviceType &&
+					<Fragment>
+						{ 'Desktop' === this.props.deviceType &&
+							<DesktopCSS { ...this.props } />
+						}
+
+						{ ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) &&
+							<TabletCSS { ...this.props } />
+						}
+
+						{ 'Tablet' === this.props.deviceType &&
+							<TabletOnlyCSS { ...this.props } />
+						}
+
+						{ 'Mobile' === this.props.deviceType &&
+							<MobileCSS { ...this.props } />
+						}
+					</Fragment>
+				}
 
 				<div
 					{ ...htmlAttributes }
@@ -885,4 +867,33 @@ class GenerateBlockGridContainer extends Component {
 	}
 }
 
-export default ( GenerateBlockGridContainer );
+export default compose( [
+	withDispatch( ( dispatch ) => ( {
+		setDeviceType( type ) {
+			const {
+				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+			} = dispatch( 'core/edit-post' );
+
+			if ( ! setPreviewDeviceType ) {
+				return;
+			}
+
+			setPreviewDeviceType( type );
+		},
+	} ) ),
+	withSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		if ( ! getPreviewDeviceType ) {
+			return {
+				deviceType: null,
+			};
+		}
+
+		return {
+			deviceType: getPreviewDeviceType(),
+		};
+	} ),
+] )( GenerateBlockGridContainer );

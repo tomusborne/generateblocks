@@ -1,14 +1,15 @@
-.gb-headline-wrapper {
-    display: -ms-flexbox;
-    display: flex;
-}
-
-.editor-styles-wrapper .gb-headline {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
 mark.gb-highlight {
 	background: none;
 	color: unset;
+}
+
+.gb-headline {
+	span.rich-text {
+		display: block;
+	}
+}
+
+.wp-block[data-type="generateblocks/headline"] {
+	margin-top: 0;
+	margin-bottom: 0;
 }

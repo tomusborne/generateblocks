@@ -5,13 +5,17 @@
 //import './style.scss';
 import './editor.scss';
 
-import editButtonContainer from './edit';
-import saveButtonContainer from './save';
+import edit from './edit';
+import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
+
+const {
+	InnerBlocks,
+} = wp.blockEditor;
 
 /**
  * Register our Button Container block.
@@ -33,10 +37,13 @@ registerBlockType( 'generateblocks/button-container', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: false,
 		className: false,
-		customClassName: false,
 	},
-	edit: editButtonContainer,
-	save: saveButtonContainer,
+	edit,
+	save: () => {
+		return (
+			<InnerBlocks.Content />
+		);
+	},
+	deprecated,
 } );

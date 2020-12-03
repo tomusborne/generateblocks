@@ -2,17 +2,25 @@
  * Block: Container
  */
 
-import './style.scss';
 import './editor.scss';
 import './block-controls.js';
 
-import editContainer from './edit';
-import saveContainer from './save';
+import edit from './edit';
 import blockAttributes from './attributes';
+import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
 
-const { __ } = wp.i18n;
-const { registerBlockType } = wp.blocks;
+const {
+	__,
+} = wp.i18n;
+
+const {
+	registerBlockType,
+} = wp.blocks;
+
+const {
+	InnerBlocks,
+} = wp.blockEditor;
 
 /**
  * Register our Container block.
@@ -35,10 +43,13 @@ registerBlockType( 'generateblocks/container', {
 	attributes: blockAttributes,
 	supports: {
 		align: false,
-		anchor: false,
 		className: false,
-		customClassName: false,
 	},
-	edit: editContainer,
-	save: saveContainer,
+	edit,
+	save: () => {
+		return (
+			<InnerBlocks.Content />
+		);
+	},
+	deprecated,
 } );

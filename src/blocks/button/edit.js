@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
+import UnitPicker from '../../components/unit-picker';
 import IconPicker from '../../components/icon-picker';
 import URLInput from '../../components/url-input';
 import DimensionsControl from '../../components/dimensions/';
@@ -12,23 +13,24 @@ import GradientControl from '../../components/gradient/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import PanelArea from '../../components/panel-area/';
 import getIcon from '../../utils/get-icon';
-import getSelectedDevice from '../../utils/get-selected-device';
+import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import TabletOnlyCSS from './css/tablet-only.js';
+import MobileCSS from './css/mobile.js';
 import sanitizeSVG from '../../utils/sanitize-svg';
+import Element from '../../components/element';
 
 const {
 	__,
-	_x,
-	sprintf,
 } = wp.i18n;
 
 const {
 	TabPanel,
 	TextControl,
-	Toolbar,
-	Tooltip,
+	ToolbarGroup,
+	ToolbarButton,
 	Button,
-	ButtonGroup,
 } = wp.components;
 
 const {
@@ -38,6 +40,7 @@ const {
 
 const {
 	InspectorControls,
+	InspectorAdvancedControls,
 	RichText,
 	BlockControls,
 } = wp.blockEditor;
@@ -50,19 +53,36 @@ const {
 	applyFilters,
 } = wp.hooks;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
+const {
+	withSelect,
+	withDispatch,
+} = wp.data;
+
+const {
+	compose,
+} = wp.compose;
+
+/**
+ * Regular expression matching invalid anchor characters for replacement.
+ *
+ * @type {RegExp}
+ */
+const ANCHOR_REGEX = /[\s#]/g;
+
 const gbButtonIds = [];
 
 class GenerateBlockButton extends Component {
 	constructor() {
 		super( ...arguments );
 
-		this.getFontSizePlaceholder = this.getFontSizePlaceholder.bind( this );
-
 		this.state = {
-			selectedDevice: 'desktop',
+			selectedDevice: 'Desktop',
 			fontSizePlaceholder: '17',
 		};
+
+		this.getFontSizePlaceholder = this.getFontSizePlaceholder.bind( this );
+		this.getDeviceType = this.getDeviceType.bind( this );
+		this.setDeviceType = this.setDeviceType.bind( this );
 	}
 
 	componentDidMount() {
@@ -98,6 +118,19 @@ class GenerateBlockButton extends Component {
 				hasIcon: true,
 			} );
 		}
+
+		// hasUrl came late, so let's set it if it doesn't exist.
+		if ( 'undefined' === typeof this.props.attributes.hasUrl ) {
+			if ( ! this.props.attributes.url ) {
+				this.props.setAttributes( {
+					hasUrl: false,
+				} );
+			} else {
+				this.props.setAttributes( {
+					hasUrl: true,
+				} );
+			}
+		}
 	}
 
 	componentDidUpdate() {
@@ -121,6 +154,25 @@ class GenerateBlockButton extends Component {
 		return placeholder;
 	}
 
+	getDeviceType() {
+		let deviceType = this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+
+		if ( ! generateBlocksInfo.syncResponsivePreviews ) {
+			deviceType = this.state.selectedDevice;
+		}
+
+		return deviceType;
+	}
+
+	setDeviceType( deviceType ) {
+		if ( generateBlocksInfo.syncResponsivePreviews && this.props.deviceType ) {
+			this.props.setDeviceType( deviceType );
+			this.setState( { selectedDevice: deviceType } );
+		} else {
+			this.setState( { selectedDevice: deviceType } );
+		}
+	}
+
 	render() {
 		const {
 			attributes,
@@ -130,14 +182,13 @@ class GenerateBlockButton extends Component {
 		} = this.props;
 
 		const {
-			selectedDevice,
 			fontSizePlaceholder,
 		} = this.state;
 
 		const {
 			uniqueId,
-			elementId,
-			cssClasses,
+			className,
+			anchor,
 			text,
 			url,
 			target,
@@ -166,9 +217,17 @@ class GenerateBlockButton extends Component {
 			iconSizeUnit,
 		} = attributes;
 
-		jQuery( '.gb-button' ).on( 'click', function( e ) {
-			e.preventDefault();
-		} );
+		// Stop the buttons from doing anything in the editor.
+		const links = document.querySelectorAll( 'a.gb-button' );
+
+		for ( let i = 0; i < links.length; i++ ) {
+			links[ i ].addEventListener( 'click', function( e ) {
+				if ( links[ i ].getAttribute( 'href' ) ) {
+					links[ i ].removeAttribute( 'href' );
+					e.preventDefault();
+				}
+			}, false );
+		}
 
 		const relAttributes = [];
 
@@ -190,28 +249,18 @@ class GenerateBlockButton extends Component {
 			googleFontsAttr = ':' + googleFontVariants;
 		}
 
-		const unitSizes = [
-			{
-				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'px',
-			},
-			{
-				name: _x( 'Em', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'em',
-			},
-		];
-
 		let htmlAttributes = {
-			id: !! elementId ? elementId : undefined,
 			className: classnames( {
 				'gb-button': true,
 				[ `gb-button-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				'gb-button-text': ! icon,
+				[ `${ className }` ]: undefined !== className,
 			} ),
-			href: !! url ? url : undefined,
-			target: !! target ? '_blank' : undefined,
-			rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
-			'aria-label': !! ariaLabel ? ariaLabel : undefined,
+			href: !! url ? url : null,
+			target: !! target ? '_blank' : null,
+			rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
+			'aria-label': !! ariaLabel ? ariaLabel : null,
+			id: anchor ? anchor : null,
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
@@ -219,39 +268,35 @@ class GenerateBlockButton extends Component {
 		return (
 			<Fragment>
 				<BlockControls>
-					<Toolbar>
-						<Tooltip text={ __( 'Add Button', 'generateblocks' ) }>
-							<Button
-								className="gblocks-add-new-button"
-								icon={ 'insert' }
-								onClick={ () => {
-									let parentBlockId = false;
+					<ToolbarGroup>
+						<ToolbarButton
+							className="gblocks-add-new-button"
+							icon={ 'insert' }
+							label={ __( 'Add Button', 'generateblocks' ) }
+							onClick={ () => {
+								let parentBlockId = false;
 
-									if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === 'function' ) {
-										parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
-									} else {
-										parentBlockId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
-									}
+								if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === 'function' ) {
+									parentBlockId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+								} else {
+									parentBlockId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
+								}
 
-									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
-									const clonedBlock = cloneBlock( thisBlock );
+								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+								const clonedBlock = cloneBlock( thisBlock );
 
-									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlockId );
-								} }
-							/>
-						</Tooltip>
-					</Toolbar>
+								wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlockId );
+							} }
+							showTooltip
+						/>
+					</ToolbarGroup>
 				</BlockControls>
 
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ getSelectedDevice( selectedDevice ) }
+						selectedDevice={ this.getDeviceType() }
 						onClick={ ( device ) => {
-							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
-
-							this.setState( {
-								selectedDevice: device,
-							} );
+							this.setDeviceType( device );
 						} }
 					/>
 
@@ -265,7 +310,7 @@ class GenerateBlockButton extends Component {
 						showPanel={ ! removeText || false }
 					>
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
 								<TypographyControls { ...this.props }
 									showFontFamily={ true }
@@ -281,7 +326,7 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
 								<TypographyControls { ...this.props }
 									device={ 'Tablet' }
@@ -295,7 +340,7 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
 								<TypographyControls { ...this.props }
 									device={ 'Mobile' }
@@ -321,10 +366,10 @@ class GenerateBlockButton extends Component {
 						state={ this.state }
 					>
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTop' }
@@ -334,10 +379,11 @@ class GenerateBlockButton extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -347,10 +393,11 @@ class GenerateBlockButton extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTop' }
@@ -358,12 +405,12 @@ class GenerateBlockButton extends Component {
 									attrBottom={ 'borderSizeBottom' }
 									attrLeft={ 'borderSizeLeft' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeft' }
@@ -377,14 +424,15 @@ class GenerateBlockButton extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopTablet' }
@@ -394,10 +442,11 @@ class GenerateBlockButton extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -407,10 +456,11 @@ class GenerateBlockButton extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopTablet' }
@@ -418,12 +468,12 @@ class GenerateBlockButton extends Component {
 									attrBottom={ 'borderSizeBottomTablet' }
 									attrLeft={ 'borderSizeLeftTablet' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftTablet' }
@@ -437,14 +487,15 @@ class GenerateBlockButton extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopMobile' }
@@ -454,10 +505,11 @@ class GenerateBlockButton extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -467,10 +519,11 @@ class GenerateBlockButton extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopMobile' }
@@ -478,12 +531,12 @@ class GenerateBlockButton extends Component {
 									attrBottom={ 'borderSizeBottomMobile' }
 									attrLeft={ 'borderSizeLeftMobile' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftMobile' }
@@ -497,6 +550,7 @@ class GenerateBlockButton extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.button }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
@@ -511,144 +565,145 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonColors' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
-						<TabPanel className="layout-tab-panel gblocks-control-tabs"
-							activeClass="active-tab"
-							tabs={ [
+						{ 'Desktop' === this.getDeviceType() &&
+							<TabPanel className="layout-tab-panel gblocks-control-tabs"
+								activeClass="active-tab"
+								tabs={ [
+									{
+										name: 'button-colors',
+										title: __( 'Normal', 'generateblocks' ),
+										className: 'button-colors',
+									},
+									{
+										name: 'button-colors-hover',
+										title: __( 'Hover', 'generateblocks' ),
+										className: 'button-colors-hover',
+									},
+								] }>
 								{
-									name: 'button-colors',
-									title: __( 'Normal', 'generateblocks' ),
-									className: 'button-colors',
-								},
-								{
-									name: 'button-colors-hover',
-									title: __( 'Hover', 'generateblocks' ),
-									className: 'button-colors-hover',
-								},
-							] }>
-							{
-								( tab ) => {
-									const isNormal = tab.name === 'button-colors';
+									( tab ) => {
+										const isNormal = tab.name === 'button-colors';
 
-									return (
-										<div>
-											{ isNormal ? (
-												<Fragment>
-													<ColorPicker
-														label={ __( 'Background Color', 'generateblocks' ) }
-														value={ backgroundColor }
-														alpha={ true }
-														valueOpacity={ backgroundColorOpacity }
-														attrOpacity={ 'backgroundColorOpacity' }
-														key={ 'buttonBackgroundColor' }
-														onChange={ ( nextBackgroundColor ) =>
-															setAttributes( {
-																backgroundColor: nextBackgroundColor,
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																backgroundColorOpacity: value,
-															} )
-														}
-													/>
+										return (
+											<div>
+												{ isNormal ? (
+													<Fragment>
+														<ColorPicker
+															label={ __( 'Background Color', 'generateblocks' ) }
+															value={ backgroundColor }
+															alpha={ true }
+															valueOpacity={ backgroundColorOpacity }
+															attrOpacity={ 'backgroundColorOpacity' }
+															key={ 'buttonBackgroundColor' }
+															onChange={ ( nextBackgroundColor ) =>
+																setAttributes( {
+																	backgroundColor: nextBackgroundColor,
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	backgroundColorOpacity: value,
+																} )
+															}
+														/>
 
-													<ColorPicker
-														label={ __( 'Text Color', 'generateblocks' ) }
-														value={ textColor }
-														alpha={ false }
-														key={ 'buttonTextColor' }
-														onChange={ ( nextTextColor ) =>
-															setAttributes( {
-																textColor: nextTextColor,
-															} )
-														}
-													/>
+														<ColorPicker
+															label={ __( 'Text Color', 'generateblocks' ) }
+															value={ textColor }
+															alpha={ false }
+															key={ 'buttonTextColor' }
+															onChange={ ( nextTextColor ) =>
+																setAttributes( {
+																	textColor: nextTextColor,
+																} )
+															}
+														/>
 
-													<ColorPicker
-														label={ __( 'Border Color', 'generateblocks' ) }
-														value={ borderColor }
-														alpha={ true }
-														valueOpacity={ borderColorOpacity }
-														attrOpacity={ 'borderColorOpacity' }
-														key={ 'buttonBorderColor' }
-														onChange={ ( value ) =>
-															setAttributes( {
-																borderColor: value,
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																borderColorOpacity: value,
-															} )
-														}
-													/>
+														<ColorPicker
+															label={ __( 'Border Color', 'generateblocks' ) }
+															value={ borderColor }
+															alpha={ true }
+															valueOpacity={ borderColorOpacity }
+															attrOpacity={ 'borderColorOpacity' }
+															key={ 'buttonBorderColor' }
+															onChange={ ( value ) =>
+																setAttributes( {
+																	borderColor: value,
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	borderColorOpacity: value,
+																} )
+															}
+														/>
 
-													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsNormal', this.props, this.state ) }
-												</Fragment>
+														{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsNormal', this.props, this.state ) }
+													</Fragment>
 
-											) : (
+												) : (
 
-												<Fragment>
-													<ColorPicker
-														label={ __( 'Background Color', 'generateblocks' ) }
-														value={ backgroundColorHover }
-														alpha={ true }
-														valueOpacity={ backgroundColorHoverOpacity }
-														attrOpacity={ 'backgroundColorHoverOpacity' }
-														key={ 'buttonBackgroundColorHover' }
-														onChange={ ( nextBackgroundColorHover ) =>
-															setAttributes( {
-																backgroundColorHover: nextBackgroundColorHover,
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																backgroundColorHoverOpacity: value,
-															} )
-														}
-													/>
+													<Fragment>
+														<ColorPicker
+															label={ __( 'Background Color', 'generateblocks' ) }
+															value={ backgroundColorHover }
+															alpha={ true }
+															valueOpacity={ backgroundColorHoverOpacity }
+															attrOpacity={ 'backgroundColorHoverOpacity' }
+															key={ 'buttonBackgroundColorHover' }
+															onChange={ ( nextBackgroundColorHover ) =>
+																setAttributes( {
+																	backgroundColorHover: nextBackgroundColorHover,
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	backgroundColorHoverOpacity: value,
+																} )
+															}
+														/>
 
-													<ColorPicker
-														label={ __( 'Text Color', 'generateblocks' ) }
-														value={ textColorHover }
-														alpha={ false }
-														key={ 'buttonTextColorHover' }
-														onChange={ ( nextTextColorHover ) =>
-															setAttributes( {
-																textColorHover: nextTextColorHover,
-															} )
-														}
-													/>
+														<ColorPicker
+															label={ __( 'Text Color', 'generateblocks' ) }
+															value={ textColorHover }
+															alpha={ false }
+															key={ 'buttonTextColorHover' }
+															onChange={ ( nextTextColorHover ) =>
+																setAttributes( {
+																	textColorHover: nextTextColorHover,
+																} )
+															}
+														/>
 
-													<ColorPicker
-														label={ __( 'Border Color', 'generateblocks' ) }
-														value={ borderColorHover }
-														alpha={ true }
-														valueOpacity={ borderColorHoverOpacity }
-														attrOpacity={ 'borderColorHoverOpacity' }
-														key={ 'buttonBorderColorHover' }
-														onChange={ ( value ) =>
-															setAttributes( {
-																borderColorHover: value,
-															} )
-														}
-														onOpacityChange={ ( value ) =>
-															setAttributes( {
-																borderColorHoverOpacity: value,
-															} )
-														}
-													/>
+														<ColorPicker
+															label={ __( 'Border Color', 'generateblocks' ) }
+															value={ borderColorHover }
+															alpha={ true }
+															valueOpacity={ borderColorHoverOpacity }
+															attrOpacity={ 'borderColorHoverOpacity' }
+															key={ 'buttonBorderColorHover' }
+															onChange={ ( value ) =>
+																setAttributes( {
+																	borderColorHover: value,
+																} )
+															}
+															onOpacityChange={ ( value ) =>
+																setAttributes( {
+																	borderColorHoverOpacity: value,
+																} )
+															}
+														/>
 
-													{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsHover', this.props, this.state ) }
-												</Fragment>
-											) }
-										</div>
-									);
+														{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsHover', this.props, this.state ) }
+													</Fragment>
+												) }
+											</div>
+										);
+									}
 								}
-							}
-						</TabPanel>
+							</TabPanel>
+						}
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColors', this.props, this.state ) }
 					</PanelArea>
@@ -660,20 +715,21 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonBackgroundGradient' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
-						<GradientControl { ...this.props }
-							attrGradient={ 'gradient' }
-							attrGradientDirection={ 'gradientDirection' }
-							attrGradientColorOne={ 'gradientColorOne' }
-							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
-							attrGradientColorStopOne={ 'gradientColorStopOne' }
-							attrGradientColorTwo={ 'gradientColorTwo' }
-							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-							defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
-							defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
-						/>
+						{ 'Desktop' === this.getDeviceType() &&
+							<GradientControl { ...this.props }
+								attrGradient={ 'gradient' }
+								attrGradientDirection={ 'gradientDirection' }
+								attrGradientColorOne={ 'gradientColorOne' }
+								attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
+								attrGradientColorStopOne={ 'gradientColorStopOne' }
+								attrGradientColorTwo={ 'gradientColorTwo' }
+								attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
+								attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+								defaultColorOne={ generateBlocksDefaults.button.gradientColorOne }
+								defaultColorTwo={ generateBlocksDefaults.button.gradientColorTwo }
+							/>
+						}
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonBackgroundGradient', this.props, this.state ) }
 					</PanelArea>
@@ -685,10 +741,10 @@ class GenerateBlockButton extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'buttonIcon' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || !! icon ? true : false }
+						showPanel={ 'Desktop' === this.getDeviceType() || !! icon ? true : false }
 					>
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) &&
+						{ 'Desktop' === this.getDeviceType() &&
 							<IconPicker { ...this.props }
 								attrIcon={ 'icon' }
 								attrIconLocation={ 'iconLocation' }
@@ -700,12 +756,12 @@ class GenerateBlockButton extends Component {
 							/>
 						}
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && !! icon && (
+						{ 'Desktop' === this.getDeviceType() && !! icon && (
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
 										<DimensionsControl { ...this.props }
-											device={ getSelectedDevice( selectedDevice ) }
+											device={ this.getDeviceType() }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTop' }
@@ -715,37 +771,21 @@ class GenerateBlockButton extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.button }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -784,12 +824,12 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && !! icon &&
+						{ 'Tablet' === this.getDeviceType() && !! icon &&
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
 										<DimensionsControl { ...this.props }
-											device={ getSelectedDevice( selectedDevice ) }
+											device={ this.getDeviceType() }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTopTablet' }
@@ -799,37 +839,21 @@ class GenerateBlockButton extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.button }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -869,12 +893,12 @@ class GenerateBlockButton extends Component {
 							</Fragment>
 						}
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && !! icon && (
+						{ 'Mobile' === this.getDeviceType() && !! icon && (
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
 										<DimensionsControl { ...this.props }
-											device={ getSelectedDevice( selectedDevice ) }
+											device={ this.getDeviceType() }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTopMobile' }
@@ -884,37 +908,21 @@ class GenerateBlockButton extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.button }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -958,51 +966,6 @@ class GenerateBlockButton extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-						id={ 'buttonAdvanced' }
-						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'ARIA Label', 'generateblocks' ) }
-							help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
-							value={ ariaLabel }
-							onChange={ ( value ) => {
-								setAttributes( {
-									ariaLabel: value,
-								} );
-							} }
-						/>
-
-						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonAdvanced', this.props, this.state ) }
-					</PanelArea>
-
-					<PanelArea { ...this.props }
 						title={ __( 'Documentation', 'generateblocks' ) }
 						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
@@ -1017,7 +980,51 @@ class GenerateBlockButton extends Component {
 					</PanelArea>
 				</InspectorControls>
 
-				<DesktopCSS { ...this.props } />
+				<InspectorAdvancedControls>
+					<TextControl
+						label={ __( 'HTML Anchor' ) }
+						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
+						value={ anchor || '' }
+						onChange={ ( nextValue ) => {
+							nextValue = nextValue.replace( ANCHOR_REGEX, '-' );
+							setAttributes( {
+								anchor: nextValue,
+							} );
+						} } />
+
+					<TextControl
+						label={ __( 'ARIA Label', 'generateblocks' ) }
+						help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }
+						value={ ariaLabel }
+						onChange={ ( value ) => {
+							setAttributes( {
+								ariaLabel: value,
+							} );
+						} }
+					/>
+				</InspectorAdvancedControls>
+
+				<MainCSS { ...this.props } />
+
+				{ this.props.deviceType &&
+					<Fragment>
+						{ 'Desktop' === this.props.deviceType &&
+							<DesktopCSS { ...this.props } />
+						}
+
+						{ ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) &&
+							<TabletCSS { ...this.props } />
+						}
+
+						{ 'Tablet' === this.props.deviceType &&
+							<TabletOnlyCSS { ...this.props } />
+						}
+
+						{ 'Mobile' === this.props.deviceType &&
+							<MobileCSS { ...this.props } />
+						}
+					</Fragment>
+				}
 
 				{ fontFamily && googleFont &&
 					<link
@@ -1026,34 +1033,52 @@ class GenerateBlockButton extends Component {
 					/>
 				}
 
-				<a
-					{ ...htmlAttributes }
+				<Element
+					tagName={ url ? 'a' : 'span' }
+					htmlAttrs={ htmlAttributes }
 				>
-					{ icon && 'left' === iconLocation &&
-						<span
-							className="gb-icon"
-							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+					{ !! icon &&
+						<Fragment>
+							{ 'left' === iconLocation &&
+								<span
+									className="gb-icon"
+									dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+								/>
+							}
+
+							{ ! removeText &&
+								<span className={ 'gb-button-text' }>
+									<RichText
+										placeholder={ __( 'Add text…', 'generateblocks' ) }
+										value={ text }
+										onChange={ ( value ) => setAttributes( { text: value } ) }
+										allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
+										isSelected={ isSelected }
+										keepPlaceholderOnFocus
+									/>
+								</span>
+							}
+
+							{ 'right' === iconLocation &&
+								<span
+									className="gb-icon"
+									dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+								/>
+							}
+						</Fragment>
+					}
+
+					{ ! icon && ! removeText &&
+						<RichText
+							placeholder={ __( 'Add text…', 'generateblocks' ) }
+							value={ text }
+							onChange={ ( value ) => setAttributes( { text: value } ) }
+							allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
+							isSelected={ isSelected }
+							keepPlaceholderOnFocus
 						/>
 					}
-					{ ! removeText &&
-						<span className={ 'button-text' }>
-							<RichText
-								placeholder={ __( 'Add text…', 'generateblocks' ) }
-								value={ text }
-								onChange={ ( value ) => setAttributes( { text: value } ) }
-								allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
-								isSelected={ isSelected }
-								keepPlaceholderOnFocus
-							/>
-						</span>
-					}
-					{ icon && 'right' === iconLocation &&
-						<span
-							className="gb-icon"
-							dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
-						/>
-					}
-				</a>
+				</Element>
 				{ isSelected &&
 					<URLInput
 						url={ url }
@@ -1062,6 +1087,16 @@ class GenerateBlockButton extends Component {
 						relSponsored={ relSponsored }
 						onChange={ ( data ) => {
 							setAttributes( data );
+
+							if ( '' !== data.url ) {
+								setAttributes( {
+									hasUrl: true,
+								} );
+							} else {
+								setAttributes( {
+									hasUrl: false,
+								} );
+							}
 						} }
 						autoFocus={ false } // eslint-disable-line jsx-a11y/no-autofocus
 						className="gblocks-component-url-input-float"
@@ -1072,4 +1107,33 @@ class GenerateBlockButton extends Component {
 	}
 }
 
-export default ( GenerateBlockButton );
+export default compose( [
+	withDispatch( ( dispatch ) => ( {
+		setDeviceType( type ) {
+			const {
+				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+			} = dispatch( 'core/edit-post' );
+
+			if ( ! setPreviewDeviceType ) {
+				return;
+			}
+
+			setPreviewDeviceType( type );
+		},
+	} ) ),
+	withSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		if ( ! getPreviewDeviceType ) {
+			return {
+				deviceType: null,
+			};
+		}
+
+		return {
+			deviceType: getPreviewDeviceType(),
+		};
+	} ),
+] )( GenerateBlockButton );

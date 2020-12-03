@@ -5,30 +5,33 @@
 import classnames from 'classnames';
 import ColorPicker from '../../components/color-picker';
 import IconPicker from '../../components/icon-picker';
+import UnitPicker from '../../components/unit-picker';
 import TypographyControls from '../../components/typography';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
-import getSelectedDevice from '../../utils/get-selected-device';
 import sanitizeSVG from '../../utils/sanitize-svg';
+import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import TabletOnlyCSS from './css/tablet-only.js';
+import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
+import Element from '../../components/element';
 import './markformat';
+import HeadingLevelIcon from './element-icons';
 
 const {
 	__,
-	_x,
 	sprintf,
-} = wp.i18n; // Import __() from wp.i18n
+} = wp.i18n;
+
 const {
 	TextControl,
-	Toolbar,
+	ToolbarGroup,
 	SelectControl,
-	DropdownMenu,
 	ToggleControl,
-	Tooltip,
 	Button,
-	ButtonGroup,
 } = wp.components;
 
 const {
@@ -41,13 +44,29 @@ const {
 	RichText,
 	BlockControls,
 	AlignmentToolbar,
+	InspectorAdvancedControls,
 } = wp.blockEditor;
 
 const {
 	applyFilters,
 } = wp.hooks;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
+const {
+	withSelect,
+	withDispatch,
+} = wp.data;
+
+const {
+	compose,
+} = wp.compose;
+
+/**
+ * Regular expression matching invalid anchor characters for replacement.
+ *
+ * @type {RegExp}
+ */
+const ANCHOR_REGEX = /[\s#]/g;
+
 const gbHeadlineIds = [];
 
 class GenerateBlockHeadline extends Component {
@@ -55,9 +74,11 @@ class GenerateBlockHeadline extends Component {
 		super( ...arguments );
 
 		this.getFontSizePlaceholder = this.getFontSizePlaceholder.bind( this );
+		this.getDeviceType = this.getDeviceType.bind( this );
+		this.setDeviceType = this.setDeviceType.bind( this );
 
 		this.state = {
-			selectedDevice: 'desktop',
+			selectedDevice: 'Desktop',
 			fontSizePlaceholder: '17',
 		};
 	}
@@ -125,6 +146,25 @@ class GenerateBlockHeadline extends Component {
 		return placeholder;
 	}
 
+	getDeviceType() {
+		let deviceType = this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+
+		if ( ! generateBlocksInfo.syncResponsivePreviews ) {
+			deviceType = this.state.selectedDevice;
+		}
+
+		return deviceType;
+	}
+
+	setDeviceType( deviceType ) {
+		if ( generateBlocksInfo.syncResponsivePreviews && this.props.deviceType ) {
+			this.props.setDeviceType( deviceType );
+			this.setState( { selectedDevice: deviceType } );
+		} else {
+			this.setState( { selectedDevice: deviceType } );
+		}
+	}
+
 	render() {
 		const {
 			attributes,
@@ -132,14 +172,13 @@ class GenerateBlockHeadline extends Component {
 		} = this.props;
 
 		const {
-			selectedDevice,
 			fontSizePlaceholder,
 		} = this.state;
 
 		const {
 			uniqueId,
-			elementId,
-			cssClasses,
+			anchor,
+			className,
 			content,
 			element,
 			alignment,
@@ -161,6 +200,7 @@ class GenerateBlockHeadline extends Component {
 			marginBottom,
 			marginLeft,
 			icon,
+			hasIcon,
 			iconColor,
 			iconColorOpacity,
 			iconLocation,
@@ -186,17 +226,6 @@ class GenerateBlockHeadline extends Component {
 			googleFontsAttr = ':' + googleFontVariants;
 		}
 
-		const unitSizes = [
-			{
-				name: _x( 'Pixel', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'px',
-			},
-			{
-				name: _x( 'Em', 'A size unit for CSS markup', 'generateblocks' ),
-				unitValue: 'em',
-			},
-		];
-
 		let iconSizePlaceholderMobile = '';
 
 		if ( iconSizeTablet || 0 === iconSizeTablet ) {
@@ -208,85 +237,171 @@ class GenerateBlockHeadline extends Component {
 		}
 
 		let htmlAttributes = {
-			id: !! elementId ? elementId : undefined,
 			className: classnames( {
 				'gb-headline': true,
 				[ `gb-headline-${ uniqueId }` ]: true,
-				[ `${ cssClasses }` ]: '' !== cssClasses,
+				'gb-headline-text': ! hasIcon,
+				[ className ]: undefined !== className,
 			} ),
+			id: anchor ? anchor : null,
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
 
 		return (
 			<Fragment>
-
 				<BlockControls>
-					<Toolbar>
-						<DropdownMenu
-							icon={ getIcon( 'paragraph' ) }
-							label={ __( 'Element', 'generateblocks' ) }
-							controls={ [
-								{
-									title: 'paragraph',
-									onClick: () => {
-										setAttributes( { element: 'p' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: 'em' } );
-										}
-									},
+					<ToolbarGroup
+						isCollapsed={ true }
+						icon={ <HeadingLevelIcon level={ element } /> }
+						label={ __( 'Change Headline Element', 'generateblocks' ) }
+						controls={ [
+							{
+								isActive: 'h1' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h1' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'1'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h1' } );
 								},
-								{
-									title: 'h1',
-									onClick: () => {
-										setAttributes( { element: 'h1' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-										}
-									},
+							},
+							{
+								isActive: 'h2' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h2' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'2'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h2' } );
 								},
-								{
-									title: 'h2',
-									onClick: () => {
-										setAttributes( { element: 'h2' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-										}
-									},
+							},
+							{
+								isActive: 'h3' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h3' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'3'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h3' } );
 								},
-								{
-									title: 'h3',
-									onClick: () => {
-										setAttributes( { element: 'h3' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-										}
-									},
+							},
+							{
+								isActive: 'h4' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h4' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'4'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h4' } );
 								},
-								{
-									title: 'h4',
-									onClick: () => {
-										setAttributes( { element: 'h4' } );
-
-										if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-											setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
-										}
-									},
+							},
+							{
+								isActive: 'h5' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h5' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'5'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h5' } );
 								},
-							] }
-						/>
-					</Toolbar>
+							},
+							{
+								isActive: 'h6' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'h6' }
+									/>
+								),
+								title: sprintf(
+									// translators: %s: heading level e.g: "1", "2", "3"
+									__( 'Heading %s', 'generateblocks' ),
+									'6'
+								),
+								onClick: () => {
+									setAttributes( { element: 'h6' } );
+								},
+							},
+							{
+								isActive: 'p' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'p' }
+									/>
+								),
+								title: __( 'Paragraph', 'generateblocks' ),
+								onClick: () => {
+									setAttributes( { element: 'p' } );
+								},
+							},
+							{
+								isActive: 'div' === element,
+								icon: (
+									<HeadingLevelIcon
+										level={ 'div' }
+									/>
+								),
+								title: __( 'Div', 'generateblocks' ),
+								onClick: () => {
+									setAttributes( { element: 'div' } );
+								},
+							},
+						] }
+					/>
 
-					{ ! inlineWidth &&
+					{ 'Desktop' === this.getDeviceType() && ! inlineWidth &&
 						<AlignmentToolbar
-							isCollapsed={ false }
 							value={ alignment }
-							onChange={ ( nextAlign ) => {
-								setAttributes( { alignment: nextAlign } );
+							onChange={ ( value ) => {
+								setAttributes( { alignment: value } );
+							} }
+						/>
+					}
+
+					{ 'Tablet' === this.getDeviceType() && ! inlineWidthTablet &&
+						<AlignmentToolbar
+							value={ alignmentTablet }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentTablet: value } );
+							} }
+						/>
+					}
+
+					{ 'Mobile' === this.getDeviceType() && ! inlineWidthMobile &&
+						<AlignmentToolbar
+							value={ alignmentMobile }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentMobile: value } );
 							} }
 						/>
 					}
@@ -294,32 +409,29 @@ class GenerateBlockHeadline extends Component {
 
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ getSelectedDevice( selectedDevice ) }
+						selectedDevice={ this.getDeviceType() }
 						onClick={ ( device ) => {
-							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
-
-							this.setState( {
-								selectedDevice: device,
-							} );
+							this.setDeviceType( device );
 						} }
 					/>
 
 					<PanelArea { ...this.props }
 						id={ 'headlineElement' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) && ! removeText ? true : false }
+						showPanel={ 'Desktop' === this.getDeviceType() ? true : false }
 					>
 						<SelectControl
 							label={ __( 'Element', 'generateblocks' ) }
 							value={ element }
 							options={ [
-								{ label: 'paragraph', value: 'p' },
 								{ label: 'h1', value: 'h1' },
 								{ label: 'h2', value: 'h2' },
 								{ label: 'h3', value: 'h3' },
 								{ label: 'h4', value: 'h4' },
 								{ label: 'h5', value: 'h5' },
 								{ label: 'h6', value: 'h6' },
+								{ label: 'paragraph', value: 'p' },
+								{ label: 'div', value: 'div' },
 							] }
 							onChange={ ( value ) => {
 								setAttributes( {
@@ -327,7 +439,7 @@ class GenerateBlockHeadline extends Component {
 								} );
 
 								if ( ! marginTop && ! marginRight && ! marginBottom && ! marginLeft ) {
-									if ( 'p' === element ) {
+									if ( 'p' === value ) {
 										setAttributes( { marginUnit: 'em' } );
 									} else {
 										setAttributes( { marginUnit: generateBlocksDefaults.headline.marginUnit } );
@@ -348,18 +460,8 @@ class GenerateBlockHeadline extends Component {
 						state={ this.state }
 						showPanel={ ! removeText || false }
 					>
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								{ ! inlineWidth &&
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignment }
-										onChange={ ( value ) => {
-											setAttributes( { alignment: value } );
-										} }
-									/>
-								}
-
 								<TypographyControls { ...this.props }
 									showFontFamily={ true }
 									showFontWeight={ true }
@@ -377,18 +479,8 @@ class GenerateBlockHeadline extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								{ ! inlineWidthTablet &&
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignmentTablet }
-										onChange={ ( value ) => {
-											setAttributes( { alignmentTablet: value } );
-										} }
-									/>
-								}
-
 								<TypographyControls { ...this.props }
 									device={ 'Tablet' }
 									showFontSize={ true }
@@ -403,18 +495,8 @@ class GenerateBlockHeadline extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								{ ! inlineWidthMobile &&
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignmentMobile }
-										onChange={ ( value ) => {
-											setAttributes( { alignmentMobile: value } );
-										} }
-									/>
-								}
-
 								<TypographyControls { ...this.props }
 									device={ 'Mobile' }
 									showFontSize={ true }
@@ -440,7 +522,7 @@ class GenerateBlockHeadline extends Component {
 						id={ 'headlineSpacing' }
 						state={ this.state }
 					>
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
 								<ToggleControl
 									label={ __( 'Inline Width', 'generateblocks' ) }
@@ -453,7 +535,7 @@ class GenerateBlockHeadline extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTop' }
@@ -463,10 +545,11 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									block={ 'headline' }
 									label={ __( 'Margin', 'generateblocks' ) }
@@ -477,10 +560,11 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTop' }
@@ -488,13 +572,31 @@ class GenerateBlockHeadline extends Component {
 									attrBottom={ 'borderSizeBottom' }
 									attrLeft={ 'borderSizeLeft' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px' ] }
+								/>
+
+								<DimensionsControl { ...this.props }
+									device={ this.getDeviceType() }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeft' }
+									attrRight={ 'borderRadiusTopRight' }
+									attrBottom={ 'borderRadiusBottomRight' }
+									attrLeft={ 'borderRadiusBottomLeft' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
 								<ToggleControl
 									label={ __( 'Inline Width', 'generateblocks' ) }
@@ -507,7 +609,7 @@ class GenerateBlockHeadline extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopTablet' }
@@ -517,10 +619,11 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									block={ 'headline' }
 									label={ __( 'Margin', 'generateblocks' ) }
@@ -531,10 +634,11 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopTablet' }
@@ -542,13 +646,31 @@ class GenerateBlockHeadline extends Component {
 									attrBottom={ 'borderSizeBottomTablet' }
 									attrLeft={ 'borderSizeLeftTablet' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px' ] }
+								/>
+
+								<DimensionsControl { ...this.props }
+									device={ this.getDeviceType() }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeftTablet' }
+									attrRight={ 'borderRadiusTopRightTablet' }
+									attrBottom={ 'borderRadiusBottomRightTablet' }
+									attrLeft={ 'borderRadiusBottomLeftTablet' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
 								<ToggleControl
 									label={ __( 'Inline Width', 'generateblocks' ) }
@@ -561,7 +683,7 @@ class GenerateBlockHeadline extends Component {
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopMobile' }
@@ -571,10 +693,11 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									block={ 'headline' }
 									label={ __( 'Margin', 'generateblocks' ) }
@@ -585,10 +708,11 @@ class GenerateBlockHeadline extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopMobile' }
@@ -596,8 +720,26 @@ class GenerateBlockHeadline extends Component {
 									attrBottom={ 'borderSizeBottomMobile' }
 									attrLeft={ 'borderSizeLeftMobile' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px' ] }
+								/>
+
+								<DimensionsControl { ...this.props }
+									device={ this.getDeviceType() }
+									type={ 'padding' }
+									label={ __( 'Border Radius', 'generateblocks' ) }
+									attrTop={ 'borderRadiusTopLeftMobile' }
+									attrRight={ 'borderRadiusTopRightMobile' }
+									attrBottom={ 'borderRadiusBottomRightMobile' }
+									attrLeft={ 'borderRadiusBottomLeftMobile' }
+									attrUnit={ 'borderRadiusUnit' }
+									attrSyncUnits={ 'borderRadiusSyncUnits' }
+									labelTop={ __( 'T-Left', 'generateblocks' ) }
+									labelRight={ __( 'T-Right', 'generateblocks' ) }
+									labelBottom={ __( 'B-Right', 'generateblocks' ) }
+									labelLeft={ __( 'B-Left', 'generateblocks' ) }
+									defaults={ generateBlocksDefaults.headline }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
@@ -612,7 +754,7 @@ class GenerateBlockHeadline extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'headlineColors' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+						showPanel={ 'Desktop' === this.getDeviceType() || false }
 					>
 						<ColorPicker
 							label={ __( 'Background Color', 'generateblocks' ) }
@@ -722,10 +864,10 @@ class GenerateBlockHeadline extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'headlineIcon' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || !! icon ? true : false }
+						showPanel={ 'Desktop' === this.getDeviceType() || !! icon ? true : false }
 					>
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) &&
+						{ 'Desktop' === this.getDeviceType() &&
 							<IconPicker { ...this.props }
 								attrIcon={ 'icon' }
 								attrRemoveText={ 'removeText' }
@@ -733,7 +875,7 @@ class GenerateBlockHeadline extends Component {
 							/>
 						}
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && !! icon &&
+						{ 'Desktop' === this.getDeviceType() && !! icon &&
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
@@ -771,7 +913,7 @@ class GenerateBlockHeadline extends Component {
 										}
 
 										<DimensionsControl { ...this.props }
-											device={ getSelectedDevice( selectedDevice ) }
+											device={ this.getDeviceType() }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTop' }
@@ -781,37 +923,21 @@ class GenerateBlockHeadline extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.headline }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -850,7 +976,7 @@ class GenerateBlockHeadline extends Component {
 							</Fragment>
 						}
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && !! icon &&
+						{ 'Tablet' === this.getDeviceType() && !! icon &&
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
@@ -876,6 +1002,7 @@ class GenerateBlockHeadline extends Component {
 												label={ __( 'Icon Alignment', 'generateblocks' ) }
 												value={ iconVerticalAlignmentTablet }
 												options={ [
+													{ label: __( 'Inherit', 'generateblocks' ), value: '' },
 													{ label: __( 'Top', 'generateblocks' ), value: 'top' },
 													{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 													{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
@@ -889,7 +1016,7 @@ class GenerateBlockHeadline extends Component {
 										}
 
 										<DimensionsControl { ...this.props }
-											device={ getSelectedDevice( selectedDevice ) }
+											device={ this.getDeviceType() }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTopTablet' }
@@ -899,37 +1026,21 @@ class GenerateBlockHeadline extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.headline }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -969,7 +1080,7 @@ class GenerateBlockHeadline extends Component {
 							</Fragment>
 						}
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && !! icon &&
+						{ 'Mobile' === this.getDeviceType() && !! icon &&
 							<Fragment>
 								{ ! removeText &&
 									<Fragment>
@@ -995,6 +1106,7 @@ class GenerateBlockHeadline extends Component {
 												label={ __( 'Icon Alignment', 'generateblocks' ) }
 												value={ iconVerticalAlignmentMobile }
 												options={ [
+													{ label: __( 'Inherit', 'generateblocks' ), value: '' },
 													{ label: __( 'Top', 'generateblocks' ), value: 'top' },
 													{ label: __( 'Center', 'generateblocks' ), value: 'center' },
 													{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
@@ -1008,7 +1120,7 @@ class GenerateBlockHeadline extends Component {
 										}
 
 										<DimensionsControl { ...this.props }
-											device={ getSelectedDevice( selectedDevice ) }
+											device={ this.getDeviceType() }
 											type={ 'padding' }
 											label={ __( 'Padding', 'generateblocks' ) }
 											attrTop={ 'iconPaddingTopMobile' }
@@ -1018,37 +1130,21 @@ class GenerateBlockHeadline extends Component {
 											attrUnit={ 'iconPaddingUnit' }
 											attrSyncUnits={ 'iconPaddingSyncUnits' }
 											defaults={ generateBlocksDefaults.headline }
+											units={ [ 'px', 'em', '%' ] }
 										/>
 									</Fragment>
 								}
 
-								<div className="components-gblocks-typography-control__header">
-									<div className="components-gblocks-typography-control__label components-base-control__label">
-										{ __( 'Icon Size', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-typography-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ unitSizes.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-typography-control__units--' + unit.name }
-														isSmall
-														isPrimary={ iconSizeUnit === unit.unitValue }
-														aria-pressed={ iconSizeUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { iconSizeUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Icon Size', 'generateblocks' ) }
+									value={ iconSizeUnit }
+									units={ [ 'px', 'em' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											iconSizeUnit: value,
+										} );
+									} }
+								/>
 
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
@@ -1092,40 +1188,6 @@ class GenerateBlockHeadline extends Component {
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Advanced', 'generateblocks' ) }
-						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
-						className={ 'gblocks-panel-label' }
-						id={ 'headlineAdvanced' }
-						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
-					>
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
-
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
-
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
-
-						{ applyFilters( 'generateblocks.editor.controls', '', 'headlineAdvanced', this.props, this.state ) }
-					</PanelArea>
-
-					<PanelArea { ...this.props }
 						title={ __( 'Documentation', 'generateblocks' ) }
 						icon={ getIcon( 'documentation' ) }
 						initialOpen={ false }
@@ -1140,7 +1202,40 @@ class GenerateBlockHeadline extends Component {
 					</PanelArea>
 				</InspectorControls>
 
-				<DesktopCSS { ...this.props } />
+				<InspectorAdvancedControls>
+					<TextControl
+						label={ __( 'HTML Anchor' ) }
+						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
+						value={ anchor || '' }
+						onChange={ ( nextValue ) => {
+							nextValue = nextValue.replace( ANCHOR_REGEX, '-' );
+							setAttributes( {
+								anchor: nextValue,
+							} );
+						} } />
+				</InspectorAdvancedControls>
+
+				<MainCSS { ...this.props } />
+
+				{ this.props.deviceType &&
+					<Fragment>
+						{ 'Desktop' === this.props.deviceType &&
+							<DesktopCSS { ...this.props } />
+						}
+
+						{ ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) &&
+							<TabletCSS { ...this.props } />
+						}
+
+						{ 'Tablet' === this.props.deviceType &&
+							<TabletOnlyCSS { ...this.props } />
+						}
+
+						{ 'Mobile' === this.props.deviceType &&
+							<MobileCSS { ...this.props } />
+						}
+					</Fragment>
+				}
 
 				{ fontFamily && googleFont &&
 					<link
@@ -1149,45 +1244,72 @@ class GenerateBlockHeadline extends Component {
 					/>
 				}
 
-				{ icon ? (
-					<div
-						className={ classnames( {
-							'gb-headline-wrapper': true,
-							[ `gb-headline-wrapper-${ uniqueId }` ]: true,
-						} ) }
-					>
-						{ icon &&
+				<Element
+					tagName={ element }
+					htmlAttrs={ htmlAttributes }
+				>
+					{ hasIcon &&
+						<Fragment>
 							<span
 								className="gb-icon"
 								aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
 								dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 							/>
-						}
 
-						{ ! removeText &&
-							<RichText
-								tagName={ element }
-								value={ content }
-								onChange={ ( value ) => setAttributes( { content: value } ) }
-								placeholder={ __( 'Write headline…', 'generateblocks' ) }
-								keepPlaceholderOnFocus={ true }
-								{ ...htmlAttributes }
-							/>
-						}
-					</div>
-				) : (
-					<RichText
-						tagName={ element }
-						value={ content }
-						onChange={ ( value ) => setAttributes( { content: value } ) }
-						placeholder={ __( 'Write headline…', 'generateblocks' ) }
-						keepPlaceholderOnFocus={ true }
-						{ ...htmlAttributes }
-					/>
-				) }
+							{ ! removeText &&
+								<span className="gb-headline-text">
+									<RichText
+										tagName="span"
+										value={ content }
+										onChange={ ( value ) => setAttributes( { content: value } ) }
+										keepPlaceholderOnFocus={ true }
+									/>
+								</span>
+							}
+						</Fragment>
+					}
+
+					{ ! hasIcon && ! removeText &&
+						<RichText
+							tagName="span"
+							value={ content }
+							onChange={ ( value ) => setAttributes( { content: value } ) }
+							keepPlaceholderOnFocus={ true }
+						/>
+					}
+				</Element>
 			</Fragment>
 		);
 	}
 }
 
-export default ( GenerateBlockHeadline );
+export default compose( [
+	withDispatch( ( dispatch ) => ( {
+		setDeviceType( type ) {
+			const {
+				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+			} = dispatch( 'core/edit-post' );
+
+			if ( ! setPreviewDeviceType ) {
+				return;
+			}
+
+			setPreviewDeviceType( type );
+		},
+	} ) ),
+	withSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		if ( ! getPreviewDeviceType ) {
+			return {
+				deviceType: null,
+			};
+		}
+
+		return {
+			deviceType: getPreviewDeviceType(),
+		};
+	} ),
+] )( GenerateBlockHeadline );

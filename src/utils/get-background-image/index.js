@@ -1,38 +1,72 @@
 import hexToRGBA from '../hex-to-rgba';
 
-export default function getBackgroundImageCSS( attributes ) {
-	let backgroundImage = false,
-		gradientColorStopOneValue = '',
-		gradientColorStopTwoValue = '';
+const {
+	applyFilters,
+} = wp.hooks;
 
-	const backgroundColor = hexToRGBA( attributes.backgroundColor, attributes.backgroundColorOpacity );
-	const gradientColorOne = hexToRGBA( attributes.gradientColorOne, attributes.gradientColorOneOpacity );
-	const gradientColorTwo = hexToRGBA( attributes.gradientColorTwo, attributes.gradientColorTwoOpacity );
+export default function getBackgroundImageCSS( type, props ) {
+	const {
+		attributes,
+	} = props;
 
-	if ( attributes.gradient ) {
-		if ( gradientColorOne && '' !== attributes.gradientColorStopOne ) {
-			gradientColorStopOneValue = ' ' + attributes.gradientColorStopOne + '%';
+	const {
+		backgroundColor,
+		backgroundColorOpacity,
+		bgImage,
+		gradient,
+		bgOptions,
+		gradientColorOne,
+		gradientColorOneOpacity,
+		gradientColorTwo,
+		gradientColorTwoOpacity,
+		gradientColorStopOne,
+		gradientColorStopTwo,
+		gradientDirection,
+	} = attributes;
+
+	let gradientValue = '';
+
+	if ( gradient ) {
+		let gradientColorStopOneValue = '',
+			gradientColorStopTwoValue = '';
+
+		const gradientColorOneValue = hexToRGBA( gradientColorOne, gradientColorOneOpacity );
+		const gradientColorTwoValue = hexToRGBA( gradientColorTwo, gradientColorTwoOpacity );
+
+		if ( gradientColorOne && '' !== gradientColorStopOne ) {
+			gradientColorStopOneValue = ' ' + gradientColorStopOne + '%';
 		}
 
-		if ( gradientColorTwo && '' !== attributes.gradientColorStopTwo ) {
-			gradientColorStopTwoValue = ' ' + attributes.gradientColorStopTwo + '%';
+		if ( gradientColorTwo && '' !== gradientColorStopTwo ) {
+			gradientColorStopTwoValue = ' ' + gradientColorStopTwo + '%';
 		}
+
+		gradientValue = 'linear-gradient(' + gradientDirection + 'deg, ' + gradientColorOneValue + gradientColorStopOneValue + ', ' + gradientColorTwoValue + gradientColorStopTwoValue + ')';
 	}
 
-	if ( attributes.bgImage && 'element' === attributes.bgOptions.selector ) {
-		const url = attributes.bgImage.image.url;
+	if ( 'gradient' === type ) {
+		return gradientValue;
+	}
 
-		if ( ( backgroundColor || attributes.gradient ) && typeof attributes.bgOptions.overlay !== 'undefined' && attributes.bgOptions.overlay ) {
-			if ( attributes.gradient ) {
-				backgroundImage = 'linear-gradient(' + attributes.gradientDirection + 'deg, ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + '), url(' + url + ')';
-			} else if ( backgroundColor ) {
-				backgroundImage = 'linear-gradient(0deg, ' + backgroundColor + ', ' + backgroundColor + '), url(' + url + ')';
+	let backgroundImage = false;
+
+	const backgroundColorValue = hexToRGBA( backgroundColor, backgroundColorOpacity );
+
+	if ( !! bgImage ) {
+		let url = bgImage.image.url;
+
+		url = applyFilters( 'generateblocks.editor.bgImageURL', url, props );
+
+		if ( 'element' === bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
+			// Old background image overlays mixed with our gradients.
+			if ( gradient ) {
+				backgroundImage = gradientValue + ', url(' + url + ')';
+			} else if ( backgroundColorValue ) {
+				backgroundImage = 'linear-gradient(0deg, ' + backgroundColorValue + ', ' + backgroundColorValue + '), url(' + url + ')';
 			}
 		} else {
 			backgroundImage = 'url(' + url + ')';
 		}
-	} else if ( attributes.gradient ) {
-		backgroundImage = 'linear-gradient(' + attributes.gradientDirection + 'deg, ' + gradientColorOne + gradientColorStopOneValue + ', ' + gradientColorTwo + gradientColorStopTwoValue + ')';
 	}
 
 	return backgroundImage;

@@ -4,15 +4,7 @@ const attributes = {
 		type: 'string',
 		default: '',
 	},
-	tagName: {
-		type: 'string',
-		default: 'div',
-	},
-	elementId: {
-		type: 'string',
-		default: '',
-	},
-	cssClasses: {
+	anchor: {
 		type: 'string',
 		default: '',
 	},
@@ -23,6 +15,10 @@ const attributes = {
 	gridId: {
 		type: 'string',
 		default: '',
+	},
+	tagName: {
+		type: 'string',
+		default: generateBlocksDefaults.container.tagName,
 	},
 	width: {
 		type: 'number',
@@ -340,6 +336,10 @@ const attributes = {
 		type: 'number',
 		default: generateBlocksDefaults.container.gradientColorStopTwo,
 	},
+	gradientSelector: {
+		type: 'string',
+		default: 'element',
+	},
 	textColor: {
 		type: 'string',
 		default: generateBlocksDefaults.container.textColor,
@@ -368,6 +368,10 @@ const attributes = {
 			attachment: generateBlocksDefaults.container.bgOptions.attachment,
 		},
 	},
+	bgImageSize: {
+		type: 'string',
+		default: generateBlocksDefaults.container.bgImageSize,
+	},
 	verticalAlignment: {
 		type: 'string',
 		default: generateBlocksDefaults.container.verticalAlignment,
@@ -383,6 +387,10 @@ const attributes = {
 	zindex: {
 		type: 'number',
 		default: generateBlocksDefaults.container.zindex,
+	},
+	innerZindex: {
+		type: 'number',
+		default: generateBlocksDefaults.container.innerZindex,
 	},
 	removeVerticalGap: {
 		type: 'boolean',
@@ -453,6 +461,22 @@ const attributes = {
 		default: '',
 	},
 	align: {
+		type: 'string',
+		default: '',
+	},
+	shapeDividers: {
+		type: 'array',
+		default: [],
+	},
+	isDynamic: {
+		type: 'boolean',
+	},
+	// deprecated since 1.2.0.
+	elementId: {
+		type: 'string',
+		default: '',
+	},
+	cssClasses: {
 		type: 'string',
 		default: '',
 	},

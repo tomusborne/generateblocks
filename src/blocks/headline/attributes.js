@@ -4,18 +4,14 @@ export default {
 		type: 'string',
 		default: '',
 	},
-	elementId: {
-		type: 'string',
-		default: '',
-	},
-	cssClasses: {
+	anchor: {
 		type: 'string',
 		default: '',
 	},
 	content: {
-		type: 'array',
-		source: 'children',
-		selector: 'p,h1,h2,h3,h4,h5,h6',
+		type: 'string',
+		source: 'html',
+		selector: '.gb-headline-text',
 	},
 	element: {
 		type: 'string',
@@ -297,6 +293,58 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.headline.borderSizeLeftMobile,
 	},
+	borderRadiusTopRight: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopRight,
+	},
+	borderRadiusBottomRight: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomRight,
+	},
+	borderRadiusBottomLeft: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomLeft,
+	},
+	borderRadiusTopLeft: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopLeft,
+	},
+	borderRadiusUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusUnit,
+	},
+	borderRadiusTopRightTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopRightTablet,
+	},
+	borderRadiusBottomRightTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomRightTablet,
+	},
+	borderRadiusBottomLeftTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomLeftTablet,
+	},
+	borderRadiusTopLeftTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopLeftTablet,
+	},
+	borderRadiusTopRightMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopRightMobile,
+	},
+	borderRadiusBottomRightMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomRightMobile,
+	},
+	borderRadiusBottomLeftMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusBottomLeftMobile,
+	},
+	borderRadiusTopLeftMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.headline.borderRadiusTopLeftMobile,
+	},
 	icon: {
 		type: 'string',
 		source: 'html',
@@ -433,6 +481,15 @@ export default {
 	ariaLabel: {
 		type: 'string',
 		default: generateBlocksDefaults.headline.ariaLabel,
+	},
+	// deprecated since 1.2.0.
+	elementId: {
+		type: 'string',
+		default: '',
+	},
+	cssClasses: {
+		type: 'string',
+		default: '',
 	},
 };
 /* eslint-enable no-undef */

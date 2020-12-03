@@ -9,54 +9,102 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-add_action( 'admin_menu', 'generateblocks_register_dashboard' );
+add_action( 'admin_menu', 'generateblocks_register_dashboard', 9 );
 /**
  * Register our Dashboard page.
  *
  * @since 0.1
  */
 function generateblocks_register_dashboard() {
-	add_options_page(
+	$dashboard = add_menu_page(
 		__( 'GenerateBlocks', 'generateblocks' ),
 		__( 'GenerateBlocks', 'generateblocks' ),
 		'manage_options',
 		'generateblocks',
 		'generateblocks_do_dashboard'
 	);
+
+	add_submenu_page(
+		'generateblocks',
+		__( 'Dashboard', 'generateblocks' ),
+		__( 'Dashboard', 'generateblocks' ),
+		'manage_options',
+		'generateblocks'
+	);
+
+	add_action( "admin_print_styles-$dashboard", 'generateblocks_enqueue_dashboard_scripts' );
 }
 
-add_action( 'admin_head', 'generateblocks_fix_dashboard_menu_item' );
 /**
- * Highlight the Settings menu item when on the Dashboard.
+ * Add our Dashboard-specific scripts.
  *
- * @since 1.0
+ * @since 1.0.0
  */
-function generateblocks_fix_dashboard_menu_item() {
-	global $parent_file, $submenu_file;
-	$screen = get_current_screen();
+function generateblocks_enqueue_dashboard_scripts() {
+	wp_enqueue_style(
+		'generateblocks-dashboard',
+		GENERATEBLOCKS_DIR_URL . 'assets/css/dashboard.css',
+		array(),
+		GENERATEBLOCKS_VERSION
+	);
+}
 
-	if ( 'settings_page_generateblocks' === $screen->id ) {
-		$submenu_file = 'generateblocks-settings'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+/**
+ * Get a list of our Dashboard pages.
+ *
+ * @since 1.2.0
+ */
+function generateblocks_get_dashboard_pages() {
+	return apply_filters(
+		'generateblocks_dashboard_screens',
+		array(
+			'toplevel_page_generateblocks',
+			'generateblocks_page_generateblocks-settings',
+		)
+	);
+}
+
+add_filter( 'admin_body_class', 'generateblocks_set_admin_body_classes' );
+/**
+ * Add admin body classes when needed.
+ *
+ * @since 1.2.0
+ * @param string $classes The existing classes.
+ */
+function generateblocks_set_admin_body_classes( $classes ) {
+	$dashboard_pages = generateblocks_get_dashboard_pages();
+	$current_screen = get_current_screen();
+
+	if ( in_array( $current_screen->id, $dashboard_pages ) ) {
+		$classes .= ' generateblocks-dashboard-page';
 	}
 
-	remove_submenu_page( 'options-general.php', 'generateblocks' );
+	return $classes;
 }
 
-add_action( 'admin_enqueue_scripts', 'generateblocks_enqueue_dashboard_scripts' );
+add_action( 'admin_enqueue_scripts', 'generateblocks_enqueue_global_dashboard_scripts' );
 /**
  * Add our scripts to the page.
  *
  * @since 0.1
  */
-function generateblocks_enqueue_dashboard_scripts() {
-	$screen = get_current_screen();
+function generateblocks_enqueue_global_dashboard_scripts() {
+	wp_enqueue_style(
+		'generateblocks-dashboard-global',
+		GENERATEBLOCKS_DIR_URL . 'assets/css/dashboard-global.css',
+		array(),
+		GENERATEBLOCKS_VERSION
+	);
 
-	if ( 'settings_page_generateblocks' === $screen->id || 'settings_page_generateblocks-settings' === $screen->id ) {
+	$dashboard_pages = generateblocks_get_dashboard_pages();
+	$current_screen = get_current_screen();
+
+	if ( in_array( $current_screen->id, $dashboard_pages ) ) {
 		wp_enqueue_style(
-			'generateblocks-dashboard',
-			GENERATEBLOCKS_DIR_URL . 'assets/css/dashboard.css',
-			array(),
-			filemtime( GENERATEBLOCKS_DIR . 'assets/css/dashboard.css' )
+			'generateblocks-settings-build',
+			GENERATEBLOCKS_DIR_URL . 'dist/dashboard.css',
+			array( 'wp-components' ),
+			GENERATEBLOCKS_VERSION
 		);
 	}
 }
@@ -72,13 +120,13 @@ function generateblocks_dashboard_navigation() {
 		array(
 			'dashboard' => array(
 				'name'  => __( 'Dashboard', 'generateblocks' ),
-				'url'   => admin_url( 'options-general.php?page=generateblocks' ),
-				'class' => 'settings_page_generateblocks' === $screen->id ? 'active' : '',
+				'url'   => admin_url( 'admin.php?page=generateblocks' ),
+				'class' => 'toplevel_page_generateblocks' === $screen->id ? 'active' : '',
 			),
 			'settings'  => array(
 				'name'  => __( 'Settings', 'generateblocks' ),
-				'url'   => admin_url( 'options-general.php?page=generateblocks-settings' ),
-				'class' => 'settings_page_generateblocks-settings' === $screen->id ? 'active' : '',
+				'url'   => admin_url( 'admin.php?page=generateblocks-settings' ),
+				'class' => 'generateblocks_page_generateblocks-settings' === $screen->id ? 'active' : '',
 			),
 		)
 	);
@@ -104,6 +152,39 @@ function generateblocks_dashboard_navigation() {
 }
 
 /**
+ * Build our Dashboard header.
+ *
+ * @since 1.2.0
+ * @param string $title The title of the page.
+ */
+function generateblocks_do_dashboard_header( $title ) {
+	?>
+	<div class="gblocks-dashboard-header">
+		<div class="gblocks-dashboard-header-content">
+			<?php
+			if ( 'dashboard' === $title ) :
+				?>
+				<h1 class="gblocks-logo">
+					<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
+						<img width="200" height="55" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-black.svg'; ?>" alt="<?php esc_attr_e( 'GenerateBlocks', 'generateblocks' ); ?>" />
+					</a>
+					<span class="gblocks-version"><?php echo esc_html( GENERATEBLOCKS_VERSION ); ?></span>
+				</h1>
+				<?php
+			else :
+				?>
+				<h1><?php echo esc_html( $title ); ?></h1>
+				<?php
+			endif;
+			?>
+		</div>
+
+		<?php generateblocks_dashboard_navigation(); ?>
+	</div>
+	<?php
+}
+
+/**
  * Output our Dashboard HTML.
  *
  * @since 0.1
@@ -111,18 +192,7 @@ function generateblocks_dashboard_navigation() {
 function generateblocks_do_dashboard() {
 	?>
 		<div class="wrap gblocks-dashboard-wrap">
-			<div class="gblocks-dashboard-header">
-				<div class="gblocks-dashboard-header-content">
-					<h1 class="gblocks-logo">
-						<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-							<img width="200" height="55" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-black.svg'; ?>" alt="<?php esc_attr_e( 'GenerateBlocks', 'generateblocks' ); ?>" />
-						</a>
-						<span class="gblocks-version"><?php echo esc_html( GENERATEBLOCKS_VERSION ); ?></span>
-					</h1>
-				</div>
-
-				<?php generateblocks_dashboard_navigation(); ?>
-			</div>
+			<?php generateblocks_do_dashboard_header( 'dashboard' ); ?>
 
 			<div class="gblocks-dashboard-intro-content">
 				<?php esc_html_e( 'A small collection of lightweight WordPress blocks that can accomplish nearly anything.', 'generateblocks' ); ?>
@@ -184,7 +254,7 @@ function generateblocks_do_dashboard() {
 							<p><?php esc_html_e( 'Looking for a WordPress theme? GenerateBlocks and GeneratePress are built with the same principles in mind and complement each other perfectly.', 'generateblocks' ); ?></p>
 							<div class="stats">
 								<div class="downloads">
-									<strong>2,000,000+</strong><br> <?php esc_html_e( 'Downloads', 'generateblocks' ); ?>
+									<strong>3,000,000+</strong><br> <?php esc_html_e( 'Downloads', 'generateblocks' ); ?>
 								</div>
 
 								<div class="stars">
@@ -197,7 +267,7 @@ function generateblocks_do_dashboard() {
 								</div>
 
 								<div class="active-websites">
-									<strong>60,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
+									<strong>70,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
 								</div>
 							</div>
 							<a class="gblocks-button" href="https://generatepress.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Learn more', 'generateblocks' ); ?></a>
@@ -224,7 +294,7 @@ function generateblocks_dashboard_redirect() {
 
 	if ( $do_redirect ) {
 		delete_option( 'generateblocks_do_activation_redirect' );
-		wp_safe_redirect( esc_url( admin_url( 'options-general.php?page=generateblocks' ) ) );
+		wp_safe_redirect( esc_url( admin_url( 'admin.php?page=generateblocks' ) ) );
 		exit;
 	}
 }

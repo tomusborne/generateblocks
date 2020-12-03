@@ -36,12 +36,10 @@ registerBlockType( 'generateblocks/headline', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: false,
 		className: false,
-		customClassName: false,
 	},
 	edit: editHeadline,
 	save: saveHeadline,
-	transforms: transforms,
-	deprecated: deprecated,
+	transforms,
+	deprecated,
 } );

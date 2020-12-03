@@ -57,14 +57,3 @@
 .components-gblocks-dimensions-control_sync.components-button:focus {
 	box-shadow: none !important;
 }
-
-.components-gblocks-dimensions-control__header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    align-items: center;
-}
-
-.components-gblocks-dimensions-control__inputs + .components-gblocks-dimensions-control__header {
-    margin-top: 25px;
-}

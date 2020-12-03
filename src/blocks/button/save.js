@@ -4,6 +4,7 @@
 
 import classnames from 'classnames';
 import sanitizeSVG from '../../utils/sanitize-svg';
+import Element from '../../components/element';
 
 const {
 	RichText,
@@ -16,8 +17,7 @@ const {
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		elementId,
-		cssClasses,
+		className,
 		text,
 		url,
 		target,
@@ -27,6 +27,7 @@ export default ( { attributes } ) => {
 		iconLocation,
 		removeText,
 		ariaLabel,
+		anchor,
 	} = attributes;
 
 	const relAttributes = [];
@@ -44,39 +45,47 @@ export default ( { attributes } ) => {
 	}
 
 	let htmlAttributes = {
-		id: !! elementId ? elementId : undefined,
 		className: classnames( {
 			'gb-button': true,
 			[ `gb-button-${ uniqueId }` ]: true,
-			[ `${ cssClasses }` ]: '' !== cssClasses,
+			'gb-button-text': ! icon,
+			[ `${ className }` ]: undefined !== className,
 		} ),
-		href: !! url ? url : undefined,
-		target: !! target ? '_blank' : undefined,
-		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : undefined,
-		'aria-label': !! ariaLabel ? ariaLabel : undefined,
+		href: !! url ? url : null,
+		target: !! target ? '_blank' : null,
+		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
+		'aria-label': !! ariaLabel ? ariaLabel : null,
+		id: anchor ? anchor : null,
 	};
 
 	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
 
 	return (
-		<a
-			{ ...htmlAttributes }
+		<Element
+			tagName={ url ? 'a' : 'span' }
+			htmlAttrs={ htmlAttributes }
 		>
-			{ icon && 'left' === iconLocation &&
+			{ !! icon && 'left' === iconLocation &&
 				<span
 					className="gb-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			}
+
 			{ ! removeText &&
-				<RichText.Content tagName="span" className="button-text" value={ text } key="button-text" />
+				<RichText.Content
+					value={ text }
+					tagName={ !! icon ? 'span' : null }
+					className={ !! icon ? 'gb-button-text' : null }
+				/>
 			}
-			{ icon && 'right' === iconLocation &&
+
+			{ !! icon && 'right' === iconLocation &&
 				<span
 					className="gb-icon"
 					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
 				/>
 			}
-		</a>
+		</Element>
 	);
 };

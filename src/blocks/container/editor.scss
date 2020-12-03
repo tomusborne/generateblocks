@@ -21,15 +21,6 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	color: inherit;
 }
 
-.edit-bg-buttons {
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
-.edit-bg-buttons button.components-button {
-    margin-bottom: 10px;
-}
-
 .additional-class-notice .components-notice {
 	margin: 0 0 10px;
 }
@@ -83,22 +74,131 @@ body .gb-container .wp-block {
 	box-sizing: border-box;
 }
 
-.gb-container .gb-inside-container {
-	box-sizing: content-box;
+.gblocks-bg-image-wrapper {
+	display: flex;
+
+	.components-base-control,
+	.components-base-control__field {
+			margin: 0;
+	}
+
+	& > .components-base-control {
+		flex-grow: 1;
+	}
+
+	.components-button {
+		line-height: inherit;
+		height: 100%;
+	}
 }
 
-.gb-container *:not(.gb-inside-container) {
-	box-sizing: border-box;
+.components-gblocks-control__image-sizes {
+	margin-bottom: 24px;
+
+	button {
+		margin: 0 5px 5px 0;
+	}
 }
 
-/* Bad idea?? */
-[data-type="generateblocks/container"] .block-editor-block-list__insertion-point,
-[data-type="generateblocks/grid"] .block-editor-block-list__insertion-point {
-    display: none;
+.wp-block[data-type="generateblocks/container"] {
+	margin-top: 0;
+	margin-bottom: 0;
 }
 
-.editor-styles-wrapper .gb-container [data-block]:not([data-type="core/paragraph"]),
-.editor-styles-wrapper .gb-grid-wrapper [data-block]:not([data-type="core/paragraph"]) {
-    margin-top: 0;
-    margin-bottom: 0;
+/* Shape divider */
+.gb-container .gb-shape {
+	position: absolute;
+	overflow: hidden;
+	line-height: 0;
+	pointer-events: none;
+
+	svg {
+		fill: currentColor;
+	}
+}
+
+.gblocks-add-new-shape {
+	margin-top: 10px;
+}
+
+.gblocks-shape-controls {
+	width: 100%;
+
+	& > .components-base-control {
+		margin-bottom: 20px;
+	}
+
+	.gblocks-edit-shape {
+		display: block;
+		width: 100%;
+		text-align: left;
+	}
+
+	.gblocks-shape-chooser {
+		margin: 0;
+
+		li {
+			margin: 5px 0;
+
+			button.components-button {
+				width: 100%;
+				height: auto;
+				background: #efefef;
+
+				svg {
+					width: 100%;
+				}
+
+				&:hover {
+					background: #efefef;
+				}
+
+				&.gblocks-shape-is-active {
+					box-shadow: 0 0 0 3px #007cba;
+				}
+			}
+		}
+	}
+}
+
+.gblocks-shape-divider-preview {
+	padding: 10px;
+
+	svg {
+		fill: currentColor;
+	}
+}
+
+.gblocks-shape-toggle-preview {
+	margin-right: 10px;
+
+	svg {
+		   width: 30px;
+	}
+}
+
+.gblocks-shape-container {
+    display: flex;
+    align-items: center;
+	margin-bottom: 10px;
+	border: 1px solid #efefef;
+	border-radius: 3px;
+
+	.components-dropdown {
+		margin-left: auto;
+	}
+
+	.components-button.gblocks-shape-dropdown,
+	.components-button.gblocks-remove-shape {
+		justify-content: center;
+
+		& > svg {
+			margin-right: 0;
+		}
+	}
+}
+
+/* GPress content width */
+.gblocks-gpress-full-width .components-base-control__label {
+	display: block;
 }

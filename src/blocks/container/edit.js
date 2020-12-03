@@ -2,21 +2,25 @@
  * Block: Container
  */
 
-import Section from './section-tag';
+import Element from '../../components/element';
 import ColorPicker from '../../components/color-picker';
+import UnitPicker from '../../components/unit-picker';
 import getIcon from '../../utils/get-icon';
-import getSelectedDevice from '../../utils/get-selected-device';
 import classnames from 'classnames';
 import DimensionsControl from '../../components/dimensions/';
 import PanelArea from '../../components/panel-area/';
 import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
+import sanitizeSVG from '../../utils/sanitize-svg';
 import ResponsiveTabs from '../../components/responsive-tabs';
+import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
+import TabletCSS from './css/tablet.js';
+import TabletOnlyCSS from './css/tablet-only.js';
+import MobileCSS from './css/mobile.js';
 
 const {
 	__,
-	_x,
 	sprintf,
 } = wp.i18n;
 
@@ -24,13 +28,15 @@ const {
 	RangeControl,
 	Button,
 	ButtonGroup,
-	ResponsiveWrapper,
 	ToggleControl,
 	SelectControl,
 	TextControl,
-	Tooltip,
 	BaseControl,
 	Notice,
+	PanelBody,
+	PanelRow,
+	Tooltip,
+	Dropdown,
 } = wp.components;
 
 const {
@@ -43,13 +49,30 @@ const {
 	InnerBlocks,
 	MediaUpload,
 	AlignmentToolbar,
+	InspectorAdvancedControls,
+	BlockControls,
 } = wp.blockEditor;
 
 const {
 	applyFilters,
 } = wp.hooks;
 
-const ELEMENT_ID_REGEX = /[\s#]/g;
+const {
+	withSelect,
+	withDispatch,
+} = wp.data;
+
+const {
+	compose,
+} = wp.compose;
+
+/**
+ * Regular expression matching invalid anchor characters for replacement.
+ *
+ * @type {RegExp}
+ */
+const ANCHOR_REGEX = /[\s#]/g;
+
 const gbContainerIds = [];
 
 class GenerateBlockContainer extends Component {
@@ -57,8 +80,11 @@ class GenerateBlockContainer extends Component {
 		super( ...arguments );
 
 		this.state = {
-			selectedDevice: 'desktop',
+			selectedDevice: 'Desktop',
 		};
+
+		this.getDeviceType = this.getDeviceType.bind( this );
+		this.setDeviceType = this.setDeviceType.bind( this );
 	}
 
 	componentDidMount() {
@@ -85,6 +111,13 @@ class GenerateBlockContainer extends Component {
 		if ( thisBlock && 'full' === this.props.attributes.align ) {
 			thisBlock.setAttribute( 'data-align', 'full' );
 		}
+
+		// This block used to be static. Set it to dynamic by default from now on.
+		if ( 'undefined' === typeof this.props.attributes.isDynamic || ! this.props.attributes.isDynamic ) {
+			this.props.setAttributes( {
+				isDynamic: true,
+			} );
+		}
 	}
 
 	componentDidUpdate() {
@@ -108,6 +141,25 @@ class GenerateBlockContainer extends Component {
 		}
 	}
 
+	getDeviceType() {
+		let deviceType = this.props.deviceType ? this.props.deviceType : this.state.selectedDevice;
+
+		if ( ! generateBlocksInfo.syncResponsivePreviews ) {
+			deviceType = this.state.selectedDevice;
+		}
+
+		return deviceType;
+	}
+
+	setDeviceType( deviceType ) {
+		if ( generateBlocksInfo.syncResponsivePreviews && this.props.deviceType ) {
+			this.props.setDeviceType( deviceType );
+			this.setState( { selectedDevice: deviceType } );
+		} else {
+			this.setState( { selectedDevice: deviceType } );
+		}
+	}
+
 	render() {
 		const {
 			attributes,
@@ -117,35 +169,10 @@ class GenerateBlockContainer extends Component {
 		} = this.props;
 
 		const {
-			selectedDevice,
-		} = this.state;
-
-		const onSelectBgImage = ( media ) => {
-			let size = generateBlocksStyling.container.bgImageSize;
-
-			if ( 'undefined' === typeof media.sizes[ size ] ) {
-				size = 'full';
-			}
-
-			setAttributes( {
-				bgImage: {
-					id: media.id,
-					image: media.sizes[ size ],
-				},
-			} );
-		};
-
-		const onRemoveBgImage = () => {
-			setAttributes( {
-				bgImage: null,
-			} );
-		};
-
-		const {
 			uniqueId,
+			className,
+			anchor,
 			tagName,
-			elementId,
-			cssClasses,
 			isGrid,
 			width,
 			widthTablet,
@@ -168,10 +195,12 @@ class GenerateBlockContainer extends Component {
 			linkColorHover,
 			bgImage,
 			bgOptions,
+			bgImageSize,
 			verticalAlignment,
 			verticalAlignmentTablet,
 			verticalAlignmentMobile,
 			zindex,
+			innerZindex,
 			removeVerticalGap,
 			removeVerticalGapTablet,
 			removeVerticalGapMobile,
@@ -185,6 +214,7 @@ class GenerateBlockContainer extends Component {
 			googleFontVariants,
 			fullWidthContent,
 			align,
+			shapeDividers,
 		} = attributes;
 
 		// Attribute defaults added to an object late don't get defaults.
@@ -196,26 +226,12 @@ class GenerateBlockContainer extends Component {
 			attributes.bgOptions.opacity = 1;
 		}
 
-		const minHeightUnits = [
-			{
-				name: _x( 'Pixel', 'A size unit for CSS markup' ),
-				unitValue: 'px',
-			},
-			{
-				name: _x( 'VH', 'A size unit for CSS markup' ),
-				unitValue: 'vh',
-			},
-			{
-				name: _x( 'VW', 'A size unit for CSS markup' ),
-				unitValue: 'vw',
-			},
-		];
-
 		const tagNames = [
 			{ label: 'div', value: 'div' },
 			{ label: 'section', value: 'section' },
 			{ label: 'header', value: 'header' },
 			{ label: 'footer', value: 'footer' },
+			{ label: 'aside', value: 'aside' },
 		];
 
 		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
@@ -228,6 +244,7 @@ class GenerateBlockContainer extends Component {
 				<Fragment>
 					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
 						<BaseControl
+							id="gblocks-gp-full-width-page"
 							label={ __( 'If you want to build a full width page, use the option below to remove the page width, margin and padding.', 'generateblocks' ) }
 							className="gblocks-gpress-full-width"
 						>
@@ -296,17 +313,131 @@ class GenerateBlockContainer extends Component {
 			}
 		}
 
+		const handleAddShape = () => {
+			const shapeDividersValues = [ ...shapeDividers ];
+
+			shapeDividersValues.push( {
+				shape: generateBlocksStyling.container.shapeDividers.shape,
+				color: generateBlocksStyling.container.shapeDividers.color,
+				colorOpacity: generateBlocksStyling.container.shapeDividers.colorOpacity,
+				location: generateBlocksStyling.container.shapeDividers.location,
+				height: generateBlocksStyling.container.shapeDividers.height,
+				heightTablet: generateBlocksStyling.container.shapeDividers.heightTablet,
+				heightMobile: generateBlocksStyling.container.shapeDividers.heightMobile,
+				width: generateBlocksStyling.container.shapeDividers.width,
+				widthTablet: generateBlocksStyling.container.shapeDividers.widthTablet,
+				widthMobile: generateBlocksStyling.container.shapeDividers.widthMobile,
+				flipHorizontally: generateBlocksStyling.container.shapeDividers.flipHorizontally,
+				zindex: generateBlocksStyling.container.shapeDividers.zindex,
+			} );
+
+			setAttributes( { shapeDividers: shapeDividersValues } );
+		};
+
+		const handleRemoveShape = ( index ) => {
+			const shapeDividersValues = [ ...shapeDividers ];
+
+			shapeDividersValues.splice( index, 1 );
+			setAttributes( { shapeDividers: shapeDividersValues } );
+		};
+
+		const allShapes = [];
+
+		Object.keys( generateBlocksInfo.svgShapes ).forEach( ( key ) => {
+			const shapes = generateBlocksInfo.svgShapes[ key ].svgs;
+
+			Object.keys( shapes ).forEach( ( name ) => {
+				allShapes[ name ] = {
+					label: shapes[ name ].label,
+					icon: shapes[ name ].icon,
+				};
+			} );
+		} );
+
+		const allShapeDividers = () => {
+			return (
+				<Fragment>
+					{ !! attributes.shapeDividers.length &&
+						<div className="gb-shapes">
+							{
+								attributes.shapeDividers.map( ( location, index ) => {
+									const shapeNumber = index + 1;
+
+									return <Fragment key={ index }>
+										{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
+											<div
+												className={ classnames( {
+													'gb-shape': true,
+													[ `gb-shape-${ shapeNumber }` ]: true,
+												} ) }
+												dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
+											/>
+										}
+									</Fragment>;
+								} )
+							}
+						</div>
+					}
+				</Fragment>
+			);
+		};
+
+		const bgImageSizes = [];
+
+		Object.keys( generateBlocksInfo.imageSizes ).forEach( ( size ) => {
+			bgImageSizes.push( {
+				label: generateBlocksInfo.imageSizes[ size ],
+				value: generateBlocksInfo.imageSizes[ size ],
+			} );
+		} );
+
+		let htmlAttributes = {
+			className: classnames( {
+				'gb-container': true,
+				[ `gb-container-${ uniqueId }` ]: true,
+				[ `${ className }` ]: undefined !== className,
+			} ),
+			id: anchor ? anchor : null,
+		};
+
+		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/container', attributes );
+
 		return (
 			<Fragment>
+				<BlockControls>
+					{ 'Desktop' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignment }
+							onChange={ ( value ) => {
+								setAttributes( { alignment: value } );
+							} }
+						/>
+					) }
+
+					{ 'Tablet' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignmentTablet }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentTablet: value } );
+							} }
+						/>
+					) }
+
+					{ 'Mobile' === this.getDeviceType() && (
+						<AlignmentToolbar
+							value={ alignmentMobile }
+							onChange={ ( value ) => {
+								setAttributes( { alignmentMobile: value } );
+							} }
+						/>
+					) }
+				</BlockControls>
+
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
-						selectedDevice={ getSelectedDevice( selectedDevice ) }
+						selectedDevice={ this.getDeviceType() }
 						onClick={ ( device ) => {
-							window.localStorage.setItem( 'generateblocksSelectedDevice', device );
-
-							this.setState( {
-								selectedDevice: device,
-							} );
+							this.setDeviceType( device );
 						} }
 					/>
 
@@ -318,98 +449,100 @@ class GenerateBlockContainer extends Component {
 							className={ 'gblocks-panel-label' }
 							id={ 'containerLayout' }
 							state={ this.state }
-							showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 						>
+							{ 'Desktop' === this.getDeviceType() &&
+								<Fragment>
+									{ hasGridContainer &&
+										<ToggleControl
+											label={ __( 'Grid Item', 'generateblocks' ) }
+											help={ __( 'This Container is inside a Grid Block but is not set as a grid item. Enable this option for optimal results.', 'generateblocks' ) }
+											checked={ !! isGrid }
+											onChange={ ( value ) => {
+												setAttributes( {
+													isGrid: value,
+													gridId: gridContainerId,
+												} );
+											} }
+										/>
+									}
 
-							<Fragment>
-								{ hasGridContainer &&
-									<ToggleControl
-										label={ __( 'Grid Item', 'generateblocks' ) }
-										help={ __( 'This Container is inside a Grid Block but is not set as a grid item. Enable this option for optimal results.', 'generateblocks' ) }
-										checked={ !! isGrid }
-										onChange={ ( value ) => {
-											setAttributes( {
-												isGrid: value,
-												gridId: gridContainerId,
-											} );
-										} }
-									/>
-								}
-
-								<SelectControl
-									label={ __( 'Container', 'generateblocks' ) }
-									value={ outerContainer }
-									options={ [
-										{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
-										{ label: __( 'Contained width', 'generateblocks' ), value: 'contained' },
-									] }
-									onChange={ ( value ) => {
-										setAttributes( {
-											outerContainer: value,
-										} );
-
-										if ( 'contained' === value && 'full' === align ) {
-											setAttributes( {
-												align: '',
-											} );
-										}
-									} }
-								/>
-
-								{ 'full' === outerContainer &&
 									<SelectControl
-										label={ __( 'Inner Container', 'generateblocks' ) }
-										value={ innerContainer }
+										label={ __( 'Container', 'generateblocks' ) }
+										value={ outerContainer }
 										options={ [
 											{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
 											{ label: __( 'Contained width', 'generateblocks' ), value: 'contained' },
 										] }
 										onChange={ ( value ) => {
 											setAttributes( {
-												innerContainer: value,
+												outerContainer: value,
 											} );
+
+											if ( 'contained' === value && 'full' === align ) {
+												setAttributes( {
+													align: '',
+												} );
+											}
 										} }
 									/>
-								}
 
-								{ ( 'contained' === outerContainer || 'contained' === innerContainer ) &&
-									<Fragment>
-										<div className="components-gblocks-control__header">
-											<div className="components-gblocks-control__label">
-												{ __( 'Contained Width', 'generateblocks' ) }
-											</div>
-
-											<div className="components-gblocks-control__units">
-												<Tooltip text={ __( 'Pixel Units', 'generateblocks' ) } key={ 'container-width-unit' }>
-													<Button
-														key={ 'container-width-unit' }
-														isSmall
-														isPrimary={ true }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ __( 'Pixel Units', 'generateblocks' ) }
-													>
-														px
-													</Button>
-												</Tooltip>
-											</div>
-										</div>
-
-										<TextControl
-											type={ 'number' }
-											className="gblocks-container-width"
-											value={ parseFloat( containerWidth ) || '' }
-											placeholder={ generateBlocksDefaults.container.containerWidth }
+									{ 'full' === outerContainer &&
+										<SelectControl
+											label={ __( 'Inner Container', 'generateblocks' ) }
+											value={ innerContainer }
+											options={ [
+												{ label: __( 'Full width', 'generateblocks' ), value: 'full' },
+												{ label: __( 'Contained width', 'generateblocks' ), value: 'contained' },
+											] }
 											onChange={ ( value ) => {
 												setAttributes( {
-													containerWidth: '' !== value ? parseFloat( value ) : undefined,
+													innerContainer: value,
 												} );
 											} }
 										/>
-									</Fragment>
-								}
+									}
 
-								{ fullWidthContentOptions() }
-							</Fragment>
+									{ ( 'contained' === outerContainer || 'contained' === innerContainer ) &&
+										<Fragment>
+											<UnitPicker
+												label={ __( 'Container Width', 'generateblocks' ) }
+												value={ 'px' }
+												units={ [ 'px' ] }
+												onClick={ () => {
+													return false;
+												} }
+											/>
+
+											<TextControl
+												type={ 'number' }
+												className="gblocks-container-width"
+												value={ parseFloat( containerWidth ) || '' }
+												placeholder={ generateBlocksDefaults.container.containerWidth }
+												onChange={ ( value ) => {
+													setAttributes( {
+														containerWidth: '' !== value ? parseFloat( value ) : undefined,
+													} );
+												} }
+											/>
+										</Fragment>
+									}
+
+									<SelectControl
+										label={ __( 'Element Tag', 'generateblocks' ) }
+										value={ tagName }
+										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
+										onChange={ ( value ) => {
+											setAttributes( {
+												tagName: value,
+											} );
+										} }
+									/>
+
+									{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
+
+									{ fullWidthContentOptions() }
+								</Fragment>
+							}
 
 							{ applyFilters( 'generateblocks.editor.controls', '', 'containerLayout', this.props, this.state ) }
 						</PanelArea>
@@ -438,35 +571,24 @@ class GenerateBlockContainer extends Component {
 								/>
 							}
 
-							{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+							{ 'Desktop' === this.getDeviceType() && (
 								<Fragment>
-									<div className="components-gblocks-control__header">
-										<div className="components-gblocks-control__label">
-											{ __( 'Container Width', 'generateblocks' ) }
-										</div>
-
-										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
-												<Button
-													key={ 'percentage-unit' }
-													isSmall
-													isPrimary={ true }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
-												>
-													%
-												</Button>
-											</Tooltip>
-										</div>
-									</div>
+									<UnitPicker
+										label={ __( 'Container Width', 'generateblocks' ) }
+										value={ '%' }
+										units={ [ '%' ] }
+										onClick={ () => {
+											return false;
+										} }
+									/>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
-										<Button isLarge isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
-										<Button isLarge isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
-										<Button isLarge isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
-										<Button isLarge isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
-										<Button isLarge isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
+										<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
+										<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
+										<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
+										<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
+										<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
+										<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -509,38 +631,40 @@ class GenerateBlockContainer extends Component {
 											} );
 										} }
 									/>
+
+									<SelectControl
+										label={ __( 'Element Tag', 'generateblocks' ) }
+										value={ tagName }
+										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
+										onChange={ ( value ) => {
+											setAttributes( {
+												tagName: value,
+											} );
+										} }
+									/>
+
+									{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
 								</Fragment>
 							) }
 
-							{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+							{ 'Tablet' === this.getDeviceType() && (
 								<Fragment>
-									<div className="components-gblocks-control__header">
-										<div className="components-gblocks-control__label">
-											{ __( 'Container Width', 'generateblocks' ) }
-										</div>
-
-										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
-												<Button
-													key={ 'percentage-unit' }
-													isSmall
-													isPrimary={ true }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
-												>
-													%
-												</Button>
-											</Tooltip>
-										</div>
-									</div>
+									<UnitPicker
+										label={ __( 'Container Width', 'generateblocks' ) }
+										value={ '%' }
+										units={ [ '%' ] }
+										onClick={ () => {
+											return false;
+										} }
+									/>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ widthTablet === 25 } onClick={ () => setAttributes( { widthTablet: 25 } ) }>25</Button>
-										<Button isLarge isPrimary={ widthTablet === 33.33 } onClick={ () => setAttributes( { widthTablet: 33.33 } ) }>33</Button>
-										<Button isLarge isPrimary={ widthTablet === 50 } onClick={ () => setAttributes( { widthTablet: 50 } ) }>50</Button>
-										<Button isLarge isPrimary={ widthTablet === 66.66 } onClick={ () => setAttributes( { widthTablet: 66.66 } ) }>66</Button>
-										<Button isLarge isPrimary={ widthTablet === 75 } onClick={ () => setAttributes( { widthTablet: 75 } ) }>75</Button>
-										<Button isLarge isPrimary={ widthTablet === 100 } onClick={ () => setAttributes( { widthTablet: 100 } ) }>100</Button>
+										<Button isPrimary={ widthTablet === 25 } onClick={ () => setAttributes( { widthTablet: 25 } ) }>25</Button>
+										<Button isPrimary={ widthTablet === 33.33 } onClick={ () => setAttributes( { widthTablet: 33.33 } ) }>33</Button>
+										<Button isPrimary={ widthTablet === 50 } onClick={ () => setAttributes( { widthTablet: 50 } ) }>50</Button>
+										<Button isPrimary={ widthTablet === 66.66 } onClick={ () => setAttributes( { widthTablet: 66.66 } ) }>66</Button>
+										<Button isPrimary={ widthTablet === 75 } onClick={ () => setAttributes( { widthTablet: 75 } ) }>75</Button>
+										<Button isPrimary={ widthTablet === 100 } onClick={ () => setAttributes( { widthTablet: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -598,35 +722,24 @@ class GenerateBlockContainer extends Component {
 								</Fragment>
 							) }
 
-							{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+							{ 'Mobile' === this.getDeviceType() && (
 								<Fragment>
-									<div className="components-gblocks-control__header">
-										<div className="components-gblocks-control__label">
-											{ __( 'Container Width', 'generateblocks' ) }
-										</div>
-
-										<div className="components-gblocks-control__units">
-											<Tooltip text={ __( 'Percentage Units', 'generateblocks' ) } key={ 'percentage-unit' }>
-												<Button
-													key={ 'percentage-unit' }
-													isSmall
-													isPrimary={ true }
-													/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-													aria-label={ __( 'Percentage Units', 'generateblocks' ) }
-												>
-													%
-												</Button>
-											</Tooltip>
-										</div>
-									</div>
+									<UnitPicker
+										label={ __( 'Container Width', 'generateblocks' ) }
+										value={ '%' }
+										units={ [ '%' ] }
+										onClick={ () => {
+											return false;
+										} }
+									/>
 
 									<ButtonGroup className={ 'widthButtons' }>
-										<Button isLarge isPrimary={ widthMobile === 25 } onClick={ () => setAttributes( { widthMobile: 25 } ) }>25</Button>
-										<Button isLarge isPrimary={ widthMobile === 33.33 } onClick={ () => setAttributes( { widthMobile: 33.33 } ) }>33</Button>
-										<Button isLarge isPrimary={ widthMobile === 50 } onClick={ () => setAttributes( { widthMobile: 50 } ) }>50</Button>
-										<Button isLarge isPrimary={ widthMobile === 66.66 } onClick={ () => setAttributes( { widthMobile: 66.66 } ) }>66</Button>
-										<Button isLarge isPrimary={ widthMobile === 75 } onClick={ () => setAttributes( { widthMobile: 75 } ) }>75</Button>
-										<Button isLarge isPrimary={ widthMobile === 100 } onClick={ () => setAttributes( { widthMobile: 100 } ) }>100</Button>
+										<Button isPrimary={ widthMobile === 25 } onClick={ () => setAttributes( { widthMobile: 25 } ) }>25</Button>
+										<Button isPrimary={ widthMobile === 33.33 } onClick={ () => setAttributes( { widthMobile: 33.33 } ) }>33</Button>
+										<Button isPrimary={ widthMobile === 50 } onClick={ () => setAttributes( { widthMobile: 50 } ) }>50</Button>
+										<Button isPrimary={ widthMobile === 66.66 } onClick={ () => setAttributes( { widthMobile: 66.66 } ) }>66</Button>
+										<Button isPrimary={ widthMobile === 75 } onClick={ () => setAttributes( { widthMobile: 75 } ) }>75</Button>
+										<Button isPrimary={ widthMobile === 100 } onClick={ () => setAttributes( { widthMobile: 100 } ) }>100</Button>
 									</ButtonGroup>
 
 									<RangeControl
@@ -697,21 +810,8 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 					>
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<BaseControl
-									className="gblocks-container-text-alignment"
-									label={ __( 'Text Alignment', 'generateblocks' ) }
-								>
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignment }
-										onChange={ ( value ) => {
-											setAttributes( { alignment: value } );
-										} }
-									/>
-								</BaseControl>
-
 								<TypographyControls { ...this.props }
 									showFontFamily={ true }
 									showFontWeight={ true }
@@ -726,19 +826,10 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignmentTablet }
-										onChange={ ( value ) => {
-											setAttributes( { alignmentTablet: value } );
-										} }
-									/>
-								</BaseControl>
-
 								<TypographyControls { ...this.props }
+									device={ 'Tablet' }
 									showFontSize={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
@@ -749,19 +840,10 @@ class GenerateBlockContainer extends Component {
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								<BaseControl label={ __( 'Text Alignment', 'generateblocks' ) }>
-									<AlignmentToolbar
-										isCollapsed={ false }
-										value={ alignmentMobile }
-										onChange={ ( value ) => {
-											setAttributes( { alignmentMobile: value } );
-										} }
-									/>
-								</BaseControl>
-
 								<TypographyControls { ...this.props }
+									device={ 'Mobile' }
 									showFontSize={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
@@ -784,35 +866,18 @@ class GenerateBlockContainer extends Component {
 						state={ this.state }
 					>
 
-						{ 'desktop' === getSelectedDevice( selectedDevice ) && (
+						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-dimensions-control__header">
-									<div className="components-gblocks-dimensions-control__label">
-										{ __( 'Minimum Height', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ minHeightUnits.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
-														isSmall
-														isPrimary={ minHeightUnit === unit.unitValue }
-														aria-pressed={ minHeightUnit === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { minHeightUnit: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Minimum Height', 'generateblocks' ) }
+									value={ minHeightUnit }
+									units={ [ 'px', 'vh', 'vw' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											minHeightUnit: value,
+										} );
+									} }
+								/>
 
 								<TextControl
 									type={ 'number' }
@@ -843,7 +908,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTop' }
@@ -853,10 +918,11 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTop' }
@@ -866,10 +932,11 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTop' }
@@ -877,12 +944,12 @@ class GenerateBlockContainer extends Component {
 									attrBottom={ 'borderSizeBottom' }
 									attrLeft={ 'borderSizeLeft' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeft' }
@@ -896,39 +963,63 @@ class GenerateBlockContainer extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
+								/>
+
+								<TextControl
+									label={ __( 'Outer z-index', 'generateblocks' ) }
+									type={ 'number' }
+									value={ zindex || 0 === zindex ? zindex : '' }
+									onChange={ ( value ) => {
+										setAttributes( {
+											zindex: value,
+										} );
+									} }
+									onBlur={ () => {
+										setAttributes( {
+											zindex: parseFloat( zindex ),
+										} );
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
+									} }
+								/>
+
+								<TextControl
+									label={ __( 'Inner z-index', 'generateblocks' ) }
+									type={ 'number' }
+									value={ innerZindex || 0 === innerZindex ? innerZindex : '' }
+									onChange={ ( value ) => {
+										setAttributes( {
+											innerZindex: value,
+										} );
+									} }
+									onBlur={ () => {
+										setAttributes( {
+											innerZindex: parseFloat( innerZindex ),
+										} );
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
+									} }
 								/>
 							</Fragment>
 						) }
 
-						{ 'tablet' === getSelectedDevice( selectedDevice ) && (
+						{ 'Tablet' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-dimensions-control__header">
-									<div className="components-gblocks-dimensions-control__label">
-										{ __( 'Minimum Height', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ minHeightUnits.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
-														isSmall
-														isPrimary={ minHeightUnitTablet === unit.unitValue }
-														aria-pressed={ minHeightUnitTablet === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { minHeightUnitTablet: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Minimum Height', 'generateblocks' ) }
+									value={ minHeightUnitTablet }
+									units={ [ 'px', 'vh', 'vw' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											minHeightUnitTablet: value,
+										} );
+									} }
+								/>
 
 								<TextControl
 									type={ 'number' }
@@ -960,7 +1051,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopTablet' }
@@ -970,10 +1061,11 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopTablet' }
@@ -983,10 +1075,11 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopTablet' }
@@ -994,12 +1087,12 @@ class GenerateBlockContainer extends Component {
 									attrBottom={ 'borderSizeBottomTablet' }
 									attrLeft={ 'borderSizeLeftTablet' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftTablet' }
@@ -1013,39 +1106,23 @@ class GenerateBlockContainer extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
 
-						{ 'mobile' === getSelectedDevice( selectedDevice ) && (
+						{ 'Mobile' === this.getDeviceType() && (
 							<Fragment>
-								<div className="components-gblocks-dimensions-control__header">
-									<div className="components-gblocks-dimensions-control__label">
-										{ __( 'Minimum Height', 'generateblocks' ) }
-									</div>
-
-									<div className="components-gblocks-control__units">
-										<ButtonGroup className="components-gblocks-dimensions-control__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-											{ minHeightUnits.map( ( unit ) =>
-												/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-												<Tooltip text={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) } key={ unit.unitValue }>
-													<Button
-														key={ unit.unitValue }
-														className={ 'components-gblocks-dimensions-control__units--' + unit.name }
-														isSmall
-														isPrimary={ minHeightUnitMobile === unit.unitValue }
-														aria-pressed={ minHeightUnitMobile === unit.unitValue }
-														/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-														aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unit.name ) }
-														onClick={ () => setAttributes( { minHeightUnitMobile: unit.unitValue } ) }
-													>
-														{ unit.unitValue }
-													</Button>
-												</Tooltip>
-											) }
-										</ButtonGroup>
-									</div>
-								</div>
+								<UnitPicker
+									label={ __( 'Minimum Height', 'generateblocks' ) }
+									value={ minHeightUnitMobile }
+									units={ [ 'px', 'vh', 'vw' ] }
+									onClick={ ( value ) => {
+										setAttributes( {
+											minHeightUnitMobile: value,
+										} );
+									} }
+								/>
 
 								<TextControl
 									type={ 'number' }
@@ -1077,7 +1154,7 @@ class GenerateBlockContainer extends Component {
 								}
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
 									attrTop={ 'paddingTopMobile' }
@@ -1087,10 +1164,11 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'paddingUnit' }
 									attrSyncUnits={ 'paddingSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
 									attrTop={ 'marginTopMobile' }
@@ -1100,10 +1178,11 @@ class GenerateBlockContainer extends Component {
 									attrUnit={ 'marginUnit' }
 									attrSyncUnits={ 'marginSyncUnits' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
 									attrTop={ 'borderSizeTopMobile' }
@@ -1111,12 +1190,12 @@ class GenerateBlockContainer extends Component {
 									attrBottom={ 'borderSizeBottomMobile' }
 									attrLeft={ 'borderSizeLeftMobile' }
 									attrSyncUnits={ 'borderSizeSyncUnits' }
-									displayUnit={ 'px' }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px' ] }
 								/>
 
 								<DimensionsControl { ...this.props }
-									device={ getSelectedDevice( selectedDevice ) }
+									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
 									attrTop={ 'borderRadiusTopLeftMobile' }
@@ -1130,6 +1209,7 @@ class GenerateBlockContainer extends Component {
 									labelBottom={ __( 'B-Right', 'generateblocks' ) }
 									labelLeft={ __( 'B-Left', 'generateblocks' ) }
 									defaults={ generateBlocksDefaults.container }
+									units={ [ 'px', 'em', '%' ] }
 								/>
 							</Fragment>
 						) }
@@ -1144,78 +1224,79 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerColors' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
-						<Fragment>
-							<ColorPicker
-								label={ __( 'Background Color', 'generateblocks' ) }
-								value={ backgroundColor }
-								alpha={ true }
-								valueOpacity={ backgroundColorOpacity }
-								attrOpacity={ 'backgroundColorOpacity' }
-								onChange={ ( nextBackgroundColor ) =>
-									setAttributes( {
-										backgroundColor: nextBackgroundColor,
-									} )
-								}
-								onOpacityChange={ ( value ) =>
-									setAttributes( {
-										backgroundColorOpacity: value,
-									} )
-								}
-							/>
+						{ 'Desktop' === this.getDeviceType() &&
+							<Fragment>
+								<ColorPicker
+									label={ __( 'Background Color', 'generateblocks' ) }
+									value={ backgroundColor }
+									alpha={ true }
+									valueOpacity={ backgroundColorOpacity }
+									attrOpacity={ 'backgroundColorOpacity' }
+									onChange={ ( nextBackgroundColor ) =>
+										setAttributes( {
+											backgroundColor: nextBackgroundColor,
+										} )
+									}
+									onOpacityChange={ ( value ) =>
+										setAttributes( {
+											backgroundColorOpacity: value,
+										} )
+									}
+								/>
 
-							<ColorPicker
-								label={ __( 'Text Color', 'generateblocks' ) }
-								value={ textColor }
-								alpha={ false }
-								onChange={ ( nextTextColor ) =>
-									setAttributes( {
-										textColor: nextTextColor,
-									} )
-								}
-							/>
+								<ColorPicker
+									label={ __( 'Text Color', 'generateblocks' ) }
+									value={ textColor }
+									alpha={ false }
+									onChange={ ( nextTextColor ) =>
+										setAttributes( {
+											textColor: nextTextColor,
+										} )
+									}
+								/>
 
-							<ColorPicker
-								label={ __( 'Link Color', 'generateblocks' ) }
-								value={ linkColor }
-								alpha={ false }
-								onChange={ ( nextLinkColor ) =>
-									setAttributes( {
-										linkColor: nextLinkColor,
-									} )
-								}
-							/>
+								<ColorPicker
+									label={ __( 'Link Color', 'generateblocks' ) }
+									value={ linkColor }
+									alpha={ false }
+									onChange={ ( nextLinkColor ) =>
+										setAttributes( {
+											linkColor: nextLinkColor,
+										} )
+									}
+								/>
 
-							<ColorPicker
-								label={ __( 'Link Color Hover', 'generateblocks' ) }
-								value={ linkColorHover }
-								alpha={ false }
-								onChange={ ( nextLinkColorHover ) =>
-									setAttributes( {
-										linkColorHover: nextLinkColorHover,
-									} )
-								}
-							/>
+								<ColorPicker
+									label={ __( 'Link Color Hover', 'generateblocks' ) }
+									value={ linkColorHover }
+									alpha={ false }
+									onChange={ ( nextLinkColorHover ) =>
+										setAttributes( {
+											linkColorHover: nextLinkColorHover,
+										} )
+									}
+								/>
 
-							<ColorPicker
-								label={ __( 'Border Color', 'generateblocks' ) }
-								value={ borderColor }
-								alpha={ true }
-								valueOpacity={ borderColorOpacity }
-								attrOpacity={ 'borderColorOpacity' }
-								onChange={ ( value ) =>
-									setAttributes( {
-										borderColor: value,
-									} )
-								}
-								onOpacityChange={ ( value ) =>
-									setAttributes( {
-										borderColorOpacity: value,
-									} )
-								}
-							/>
-						</Fragment>
+								<ColorPicker
+									label={ __( 'Border Color', 'generateblocks' ) }
+									value={ borderColor }
+									alpha={ true }
+									valueOpacity={ borderColorOpacity }
+									attrOpacity={ 'borderColorOpacity' }
+									onChange={ ( value ) =>
+										setAttributes( {
+											borderColor: value,
+										} )
+									}
+									onOpacityChange={ ( value ) =>
+										setAttributes( {
+											borderColorOpacity: value,
+										} )
+									}
+								/>
+							</Fragment>
+						}
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerColors', this.props, this.state ) }
 					</PanelArea>
@@ -1227,20 +1308,21 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerBackgroundGradient' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
-						<GradientControl { ...this.props }
-							attrGradient={ 'gradient' }
-							attrGradientDirection={ 'gradientDirection' }
-							attrGradientColorOne={ 'gradientColorOne' }
-							attrGradientColorStopOne={ 'gradientColorStopOne' }
-							attrGradientColorTwo={ 'gradientColorTwo' }
-							attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-							attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
-							attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-							defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
-							defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
-						/>
+						{ 'Desktop' === this.getDeviceType() &&
+							<GradientControl { ...this.props }
+								attrGradient={ 'gradient' }
+								attrGradientDirection={ 'gradientDirection' }
+								attrGradientColorOne={ 'gradientColorOne' }
+								attrGradientColorStopOne={ 'gradientColorStopOne' }
+								attrGradientColorTwo={ 'gradientColorTwo' }
+								attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+								attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
+								attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
+								defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
+								defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
+							/>
+						}
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerBackgroundGradient', this.props, this.state ) }
 					</PanelArea>
@@ -1252,261 +1334,660 @@ class GenerateBlockContainer extends Component {
 						className={ 'gblocks-panel-label' }
 						id={ 'containerBackgroundImage' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
 					>
-						{ ! bgImage && (
-							<div>
-								<MediaUpload
-									title={ __( 'Set background image', 'generateblocks' ) }
-									onSelect={ onSelectBgImage }
-									allowedTypes={ [ 'image' ] }
-									modalClass="editor-post-featured-image__media-modal"
-									render={ ( { open } ) => (
-										<Button className="editor-post-featured-image__toggle" onClick={ open }>
-											{ __( 'Set background image', 'generateblocks' ) }
-										</Button>
-									) }
-								/>
-							</div>
-						) }
+						{ 'Desktop' === this.getDeviceType() &&
+							<Fragment>
+								<BaseControl
+									id="gblocks-background-image-upload"
+									label={ __( 'Image URL', 'generateblocks' ) }
+								>
+									<div className="gblocks-bg-image-wrapper">
+										<TextControl
+											type={ 'text' }
+											value={ !! bgImage ? bgImage.image.url : '' }
+											onChange={ ( value ) => {
+												if ( ! value ) {
+													setAttributes( {
+														bgImage: null,
+													} );
+												} else {
+													setAttributes( {
+														bgImage: {
+															id: '',
+															image: {
+																url: value,
+															},
+														},
+													} );
+												}
+											} }
+										/>
 
-						{ !! bgImage && (
-							<MediaUpload
-								title={ __( 'Set background image', 'generateblocks' ) }
-								onSelect={ onSelectBgImage }
-								allowedTypes={ [ 'image' ] }
-								value={ bgImage.id }
-								modalClass="editor-post-featured-image__media-modal"
-								render={ ( { open } ) => (
-									<div className="editor-bg-image">
-										<Button className="editor-post-featured-image__preview" onClick={ open }>
-											<ResponsiveWrapper
-												naturalWidth={ bgImage.image.width }
-												naturalHeight={ bgImage.image.height }
-											>
-												<img src={ bgImage.image.url } alt={ __( 'Background Image', 'generateblocks' ) } />
-											</ResponsiveWrapper>
-										</Button>
-										<div className={ 'edit-bg-buttons' }>
-											<Button onClick={ open } isSecondary isLarge>
-												{ __( 'Replace image', 'generateblocks' ) }
-											</Button>
-											<Button onClick={ onRemoveBgImage } isLink isDestructive>
-												{ __( 'Remove background image', 'generateblocks' ) }
-											</Button>
+										<div className="gblocks-background-image-action-buttons">
+											<MediaUpload
+												title={ __( 'Set background image', 'generateblocks' ) }
+												onSelect={ ( media ) => {
+													let size = generateBlocksDefaults.container.bgImageSize;
+
+													if ( 'undefined' === typeof media.sizes[ size ] ) {
+														size = 'full';
+													}
+
+													setAttributes( {
+														bgImage: {
+															id: media.id,
+															image: media.sizes[ size ],
+														},
+													} );
+												} }
+												onClose={ () => {
+													document.querySelector( '.gblocks-bg-image-wrapper input' ).focus();
+												} }
+												allowedTypes={ [ 'image' ] }
+												value={ !! bgImage ? bgImage.id : '' }
+												modalClass="editor-gb-container-background__media-modal"
+												render={ ( { open } ) => (
+													<Tooltip text={ __( 'Open the Media Library', 'generateblocks' ) }>
+														<Button
+															onClick={ open }
+															className="is-secondary is-small"
+														>
+															{ __( 'Browse', 'generateblocks' ) }
+														</Button>
+													</Tooltip>
+												) }
+											/>
+
+											{ applyFilters( 'generateblocks.editor.backgroundImageActions', '', this.props, this.state ) }
 										</div>
 									</div>
-								) }
-							/>
-						) }
+								</BaseControl>
 
-						{ !! bgImage && (
-							<div className="section-bg-settings">
-								{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
-									<Fragment>
-										<ToggleControl
-											label={ __( 'Background Color Overlay', 'generateblocks' ) }
-											checked={ !! bgOptions.overlay }
-											onChange={ ( nextOverlay ) => {
+								{ !! bgImage && (
+									<div className="section-bg-settings">
+										{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
+											<Fragment>
+												<ToggleControl
+													label={ __( 'Background Color Overlay', 'generateblocks' ) }
+													checked={ !! bgOptions.overlay }
+													onChange={ ( nextOverlay ) => {
+														setAttributes( {
+															bgOptions: {
+																...bgOptions,
+																overlay: nextOverlay,
+															},
+														} );
+													} }
+												/>
+
+												<Notice
+													className="gblocks-option-notice"
+													status="info"
+													isDismissible={ false }
+												>
+													{ __( 'The background color overlay option is deprecated. Toggle this option to use the new method.', 'generateblocks' ) }
+												</Notice>
+											</Fragment>
+										) : ( // These options is only for people not using the deprecated overlay option.
+											<Fragment>
+												{ 'undefined' !== typeof bgImage.id && bgImage.id &&
+													<SelectControl
+														label={ __( 'Image Size', 'generateblocks' ) }
+														value={ bgImageSize }
+														options={ bgImageSizes }
+														onChange={ ( value ) => {
+															setAttributes( {
+																bgImageSize: value,
+															} );
+														} }
+													/>
+												}
+
+												<SelectControl
+													label={ __( 'Selector', 'generateblocks' ) }
+													value={ bgOptions.selector }
+													options={ [
+														{ label: __( 'Element', 'generateblocks' ), value: 'element' },
+														{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
+													] }
+													onChange={ ( value ) => {
+														setAttributes( {
+															bgOptions: {
+																...bgOptions,
+																selector: value,
+															},
+														} );
+													} }
+												/>
+
+												<RangeControl
+													label={ __( 'Image Opacity', 'generateblocks' ) }
+													value={ bgOptions.opacity }
+													onChange={ ( value ) => {
+														setAttributes( {
+															bgOptions: {
+																...bgOptions,
+																opacity: value,
+																selector: 'pseudo-element',
+															},
+														} );
+													} }
+													min={ 0 }
+													max={ 1 }
+													step={ 0.1 }
+													initialPosition={ generateBlocksDefaults.container.bgOptions.opacity }
+												/>
+
+												{ 1 !== bgOptions.opacity && 'pseudo-element' !== bgOptions.selector &&
+													<Notice
+														className="gblocks-option-notice"
+														status="info"
+														isDismissible={ false }
+													>
+														{ __( 'Your selector must be set to Pseudo Element to use opacity.', 'generateblocks' ) }
+													</Notice>
+												}
+											</Fragment>
+										) }
+
+										<TextControl
+											label={ __( 'Size', 'generateblocks' ) }
+											value={ bgOptions.size }
+											onChange={ ( nextSize ) => {
 												setAttributes( {
 													bgOptions: {
 														...bgOptions,
-														overlay: nextOverlay,
+														size: nextSize,
 													},
 												} );
 											} }
 										/>
 
-										<Notice
-											className="gblocks-option-notice"
-											status="info"
-											isDismissible={ false }
-										>
-											{ __( 'The background color overlay option is deprecated. Toggle this option to use the new method.', 'generateblocks' ) }
-										</Notice>
-									</Fragment>
-								) : ( // These options is only for people not using the deprecated overlay option.
-									<Fragment>
+										<TextControl
+											label={ __( 'Position', 'generateblocks' ) }
+											value={ bgOptions.position }
+											onChange={ ( nextPosition ) => {
+												setAttributes( {
+													bgOptions: {
+														...bgOptions,
+														position: nextPosition,
+													},
+												} );
+											} }
+										/>
+
 										<SelectControl
-											label={ __( 'Selector', 'generateblocks' ) }
-											value={ bgOptions.selector }
+											label={ __( 'Repeat', 'generateblocks' ) }
+											value={ bgOptions.repeat }
 											options={ [
-												{ label: __( 'Element', 'generateblocks' ), value: 'element' },
-												{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
+												{ label: 'no-repeat', value: 'no-repeat' },
+												{ label: 'repeat', value: 'repeat' },
+												{ label: 'repeat-x', value: 'repeat-x' },
+												{ label: 'repeat-y', value: 'repeat-y' },
 											] }
-											onChange={ ( value ) => {
+											onChange={ ( nextRepeat ) => {
 												setAttributes( {
 													bgOptions: {
 														...bgOptions,
-														selector: value,
+														repeat: nextRepeat,
 													},
 												} );
 											} }
 										/>
 
-										<RangeControl
-											label={ __( 'Image Opacity', 'generateblocks' ) }
-											value={ bgOptions.opacity }
-											onChange={ ( value ) => {
+										<SelectControl
+											label={ __( 'Attachment', 'generateblocks' ) }
+											value={ bgOptions.attachment }
+											options={ [
+												{ label: 'scroll', value: '' },
+												{ label: 'fixed', value: 'fixed' },
+												{ label: 'local', value: 'local' },
+											] }
+											onChange={ ( nextAttachment ) => {
 												setAttributes( {
 													bgOptions: {
 														...bgOptions,
-														opacity: value,
-														selector: 'pseudo-element',
+														attachment: nextAttachment,
 													},
 												} );
 											} }
-											min={ 0 }
-											max={ 1 }
-											step={ 0.1 }
-											initialPosition={ generateBlocksDefaults.container.bgOptions.opacity }
 										/>
-
-										{ 'pseudo-element' !== bgOptions.selector &&
-											<Notice
-												className="gblocks-option-notice"
-												status="info"
-												isDismissible={ false }
-											>
-												{ __( 'Your selector must be set to Pseudo Element to use opacity.', 'generateblocks' ) }
-											</Notice>
-										}
-									</Fragment>
+									</div>
 								) }
-
-								<TextControl
-									label={ __( 'Size', 'generateblocks' ) }
-									value={ bgOptions.size }
-									onChange={ ( nextSize ) => {
-										setAttributes( {
-											bgOptions: {
-												...bgOptions,
-												size: nextSize,
-											},
-										} );
-									} }
-								/>
-
-								<TextControl
-									label={ __( 'Position', 'generateblocks' ) }
-									value={ bgOptions.position }
-									onChange={ ( nextPosition ) => {
-										setAttributes( {
-											bgOptions: {
-												...bgOptions,
-												position: nextPosition,
-											},
-										} );
-									} }
-								/>
-
-								<SelectControl
-									label={ __( 'Repeat', 'generateblocks' ) }
-									value={ bgOptions.repeat }
-									options={ [
-										{ label: 'no-repeat', value: 'no-repeat' },
-										{ label: 'repeat', value: 'repeat' },
-										{ label: 'repeat-x', value: 'repeat-x' },
-										{ label: 'repeat-y', value: 'repeat-y' },
-									] }
-									onChange={ ( nextRepeat ) => {
-										setAttributes( {
-											bgOptions: {
-												...bgOptions,
-												repeat: nextRepeat,
-											},
-										} );
-									} }
-								/>
-
-								<SelectControl
-									label={ __( 'Attachment', 'generateblocks' ) }
-									value={ bgOptions.attachment }
-									options={ [
-										{ label: 'scroll', value: '' },
-										{ label: 'fixed', value: 'fixed' },
-										{ label: 'local', value: 'local' },
-									] }
-									onChange={ ( nextAttachment ) => {
-										setAttributes( {
-											bgOptions: {
-												...bgOptions,
-												attachment: nextAttachment,
-											},
-										} );
-									} }
-								/>
-							</div>
-						) }
+							</Fragment>
+						}
 
 						{ applyFilters( 'generateblocks.editor.controls', '', 'containerBackgroundImage', this.props, this.state ) }
 					</PanelArea>
 
 					<PanelArea { ...this.props }
-						title={ __( 'Advanced', 'generateblocks' ) }
+						title={ __( 'Shapes', 'generateblocks' ) }
 						initialOpen={ false }
-						icon={ getIcon( 'advanced' ) }
+						icon={ getIcon( 'shapes' ) }
 						className={ 'gblocks-panel-label' }
-						id={ 'containerAdvanced' }
+						id={ 'containerShapes' }
 						state={ this.state }
-						showPanel={ 'desktop' === getSelectedDevice( selectedDevice ) || false }
+						showPanel={ 'Desktop' === this.getDeviceType() || attributes.shapeDividers.length ? true : false }
 					>
-						<SelectControl
-							label={ __( 'Element Tag', 'generateblocks' ) }
-							value={ tagName }
-							options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
-							onChange={ ( value ) => {
-								setAttributes( {
-									tagName: value,
-								} );
-							} }
-						/>
+						<BaseControl className="gb-icon-chooser gb-shape-chooser">
+							{
+								shapeDividers.map( ( location, index ) => {
+									const shapeNumber = index + 1;
 
-						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
+									return <Fragment key={ index }>
+										<div className="gblocks-shape-container">
+											<div
+												className={ classnames( {
+													'gblocks-shape-toggle-preview': true,
+													[ `gblocks-shape-toggle-preview-${ shapeNumber }` ]: true,
+												} ) }
+												style={ { backgroundColor } }
+											>
+												{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
+													<div
+														className="gblocks-shape-divider-preview"
+														style={ { color: shapeDividers[ index ].color } }
+														dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
+													/>
+												}
+											</div>
 
-						<TextControl
-							label={ __( 'Element ID', 'generateblocks' ) }
-							value={ elementId }
-							onChange={ ( value ) => {
-								const newElementId = value.replace( ELEMENT_ID_REGEX, '-' );
+											{
+												/* translators: Shape number */
+												sprintf( __( 'Shape %s', 'generateblocks' ), shapeNumber )
+											}
 
-								setAttributes( {
-									elementId: newElementId,
-								} );
-							} }
-						/>
+											<Fragment>
+												<Dropdown
+													renderToggle={ ( { isOpen, onToggle } ) => (
+														<Tooltip text={ __( 'Edit Shape', 'generateblocks' ) }>
+															<Button
+																className="gblocks-shape-dropdown"
+																isSecondary={ isOpen ? undefined : true }
+																isPrimary={ isOpen ? true : undefined }
+																icon={ 'admin-tools' }
+																onClick={ onToggle }
+																aria-expanded={ isOpen }
+															/>
+														</Tooltip>
+													) }
+													renderContent={ () => (
+														<div className="gblocks-shape-controls">
+															{ 'Desktop' === this.getDeviceType() &&
+																<Fragment>
+																	<BaseControl className="gb-icon-chooser">
+																		{
+																			Object.keys( generateBlocksInfo.svgShapes ).map( ( svg, i ) => {
+																				const svgItems = generateBlocksInfo.svgShapes[ svg ].svgs;
 
-						<TextControl
-							label={ __( 'CSS Classes', 'generateblocks' ) }
-							value={ cssClasses }
-							onChange={ ( value ) => {
-								setAttributes( {
-									cssClasses: value,
-								} );
-							} }
-						/>
+																				return (
+																					<PanelBody
+																						title={ generateBlocksInfo.svgShapes[ svg ].group }
+																						initialOpen={ svgItems.hasOwnProperty( shapeDividers[ index ].shape ) }
+																						key={ i }
+																					>
+																						<PanelRow>
+																							<BaseControl>
+																								<ul className="gblocks-icon-chooser gblocks-shape-chooser">
+																									{
+																										Object.keys( svgItems ).map( ( svgItem, iconIndex ) => {
+																											return (
+																												<li key={ `editor-pblock-types-list-item-${ iconIndex }` }>
+																													<Tooltip text={ ( svgItems[ svgItem ].label ) }>
+																														<Button
+																															className={ classnames( {
+																																'editor-block-list-item-button': true,
+																																'gblocks-shape-is-active': shapeDividers[ index ].shape === svgItem,
+																															} ) }
+																															onClick={ () => {
+																																const shapes = [ ...shapeDividers ];
 
-						<TextControl
-							label={ __( 'z-index', 'generateblocks' ) }
-							type={ 'number' }
-							value={ zindex || 0 === zindex ? zindex : '' }
-							onChange={ ( value ) => {
-								setAttributes( {
-									zindex: value,
-								} );
-							} }
-							onBlur={ () => {
-								setAttributes( {
-									zindex: parseFloat( zindex ),
-								} );
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
+																																shapes[ index ] = {
+																																	...shapes[ index ],
+																																	shape: svgItem,
+																																};
 
-						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAdvanced', this.props, this.state ) }
+																																setAttributes( {
+																																	shapeDividers: shapes,
+																																} );
+																															} }
+																														>
+																															{ 'string' === typeof svgItems[ svgItem ].icon ? (
+																																<Fragment>
+																																	<span
+																																		className="editor-block-types-list__item-icon"
+																																		dangerouslySetInnerHTML={ { __html: sanitizeSVG( svgItems[ svgItem ].icon ) } }
+																																	/>
+																																</Fragment>
+																															) : (
+																																<Fragment>
+																																	<span className="editor-block-types-list__item-icon">
+																																		{ svgItems[ svgItem ].icon }
+																																	</span>
+																																</Fragment>
+																															) }
+																														</Button>
+																													</Tooltip>
+																												</li>
+																											);
+																										} )
+																									}
+																								</ul>
+																							</BaseControl>
+																						</PanelRow>
+																					</PanelBody>
+																				);
+																			} )
+																		}
+																	</BaseControl>
+
+																	<ColorPicker
+																		label={ __( 'Color', 'generateblocks' ) }
+																		value={ shapeDividers[ index ].color }
+																		alpha={ true }
+																		valueOpacity={ shapeDividers[ index ].colorOpacity }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				color: value,
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																		onOpacityChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				colorOpacity: value,
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<SelectControl
+																		label={ __( 'Location', 'generateblocks' ) }
+																		value={ shapeDividers[ index ].location }
+																		options={ [
+																			{ label: __( 'Top', 'generateblocks' ), value: 'top' },
+																			{ label: __( 'Bottom', 'generateblocks' ), value: 'bottom' },
+																		] }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				location: value,
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<UnitPicker
+																		label={ __( 'Height', 'generateblocks' ) }
+																		value={ 'px' }
+																		units={ [ 'px' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].height ? shapeDividers[ index ].height : '' }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				height: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<UnitPicker
+																		label={ __( 'Width', 'generateblocks' ) }
+																		value={ '%' }
+																		units={ [ '%' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].width ? shapeDividers[ index ].width : '' }
+																		min="100"
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				width: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<ToggleControl
+																		label={ __( 'Flip Horizontally', 'generateblocks' ) }
+																		checked={ !! shapeDividers[ index ].flipHorizontally }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				flipHorizontally: value,
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<TextControl
+																		label={ __( 'z-index', 'generateblocks' ) }
+																		type={ 'number' }
+																		min="0"
+																		value={ shapeDividers[ index ].zindex || 0 === shapeDividers[ index ].zindex ? shapeDividers[ index ].zindex : '' }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				zindex: value,
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																		onBlur={ () => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				zindex: parseFloat( shapeDividers[ index ].zindex ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																		onClick={ ( e ) => {
+																			// Make sure onBlur fires in Firefox.
+																			e.currentTarget.focus();
+																		} }
+																	/>
+																</Fragment>
+															}
+
+															{ 'Tablet' === this.getDeviceType() &&
+																<Fragment>
+																	<UnitPicker
+																		label={ __( 'Height', 'generateblocks' ) }
+																		value={ 'px' }
+																		units={ [ 'px' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].heightTablet ? shapeDividers[ index ].heightTablet : '' }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				heightTablet: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<UnitPicker
+																		label={ __( 'Width', 'generateblocks' ) }
+																		value={ '%' }
+																		units={ [ '%' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].widthTablet ? shapeDividers[ index ].widthTablet : '' }
+																		min="100"
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				widthTablet: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+																</Fragment>
+															}
+
+															{ 'Mobile' === this.getDeviceType() &&
+																<Fragment>
+																	<UnitPicker
+																		label={ __( 'Height', 'generateblocks' ) }
+																		value={ 'px' }
+																		units={ [ 'px' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].heightMobile ? shapeDividers[ index ].heightMobile : '' }
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				heightMobile: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+
+																	<UnitPicker
+																		label={ __( 'Width', 'generateblocks' ) }
+																		value={ '%' }
+																		units={ [ '%' ] }
+																		onClick={ () => {
+																			return false;
+																		} }
+																	/>
+
+																	<TextControl
+																		type={ 'number' }
+																		value={ shapeDividers[ index ].widthMobile ? shapeDividers[ index ].widthMobile : '' }
+																		min="100"
+																		onChange={ ( value ) => {
+																			const shapes = [ ...shapeDividers ];
+
+																			shapes[ index ] = {
+																				...shapes[ index ],
+																				widthMobile: parseFloat( value ),
+																			};
+
+																			setAttributes( {
+																				shapeDividers: shapes,
+																			} );
+																		} }
+																	/>
+																</Fragment>
+															}
+														</div>
+													) }
+												/>
+											</Fragment>
+
+											{ 'Desktop' === this.getDeviceType() &&
+												<Tooltip text={ __( 'Delete Shape', 'generateblocks' ) }>
+													<Button
+														className="gblocks-remove-shape"
+														onClick={ () => {
+															// eslint-disable-next-line
+															if ( window.confirm( __( 'This will permanently delete this shape.', 'generateblocks' ) ) ) {
+																handleRemoveShape( index );
+															}
+														} }
+														icon={ 'no-alt' }
+													/>
+												</Tooltip>
+											}
+										</div>
+									</Fragment>;
+								} )
+							}
+
+							<div className="gblocks-add-new-shape">
+								<Button
+									isSecondary
+									onClick={ handleAddShape.bind( this ) }
+								>
+									{ __( 'Add Shape', 'generateblocks' ) }
+								</Button>
+							</div>
+						</BaseControl>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerShapeDivider', this.props, this.state ) }
 					</PanelArea>
 
 					<PanelArea { ...this.props }
@@ -1524,7 +2005,40 @@ class GenerateBlockContainer extends Component {
 					</PanelArea>
 				</InspectorControls>
 
-				<DesktopCSS { ...this.props } />
+				<InspectorAdvancedControls>
+					<TextControl
+						label={ __( 'HTML Anchor' ) }
+						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
+						value={ anchor || '' }
+						onChange={ ( nextValue ) => {
+							nextValue = nextValue.replace( ANCHOR_REGEX, '-' );
+							setAttributes( {
+								anchor: nextValue,
+							} );
+						} } />
+				</InspectorAdvancedControls>
+
+				<MainCSS { ...this.props } />
+
+				{ this.props.deviceType &&
+					<Fragment>
+						{ 'Desktop' === this.props.deviceType &&
+							<DesktopCSS { ...this.props } />
+						}
+
+						{ ( 'Tablet' === this.props.deviceType || 'Mobile' === this.props.deviceType ) &&
+							<TabletCSS { ...this.props } />
+						}
+
+						{ 'Tablet' === this.props.deviceType &&
+							<TabletOnlyCSS { ...this.props } />
+						}
+
+						{ 'Mobile' === this.props.deviceType &&
+							<MobileCSS { ...this.props } />
+						}
+					</Fragment>
+				}
 
 				{ fontFamily && googleFont &&
 					<link
@@ -1533,73 +2047,71 @@ class GenerateBlockContainer extends Component {
 					/>
 				}
 
-				{ !! isGrid && (
-					<div className={ classnames( {
-						'gb-grid-column': true,
-						[ `gb-grid-column-${ uniqueId }` ]: true,
-					} ) }>
-						<Section
-							attributes={ attributes }
-							tagName={ tagName }
-							id={ elementId }
-							className={ classnames( {
-								'gb-container': true,
-								[ `gb-container-${ uniqueId }` ]: true,
-								[ `${ cssClasses }` ]: '' !== cssClasses,
-							} ) }
-						>
-							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
-							<div
-								className={ classnames( {
-									'gb-inside-container': true,
-								} ) }
-							>
-								<InnerBlocks
-									templateLock={ false }
-									renderAppender={ (
-										hasChildBlocks ?
-											undefined :
-											() => <InnerBlocks.ButtonBlockAppender />
-									) }
-								/>
-							</div>
-						</Section>
-					</div>
-				) }
-
-				{ ! isGrid && (
-					<Section
-						attributes={ attributes }
-						tagName={ tagName }
-						id={ elementId }
+				<Element
+					tagName={ tagName }
+					htmlAttrs={ htmlAttributes }
+				>
+					{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
+					<div
 						className={ classnames( {
-							'gb-container': true,
-							[ `gb-container-${ uniqueId }` ]: true,
-							[ `${ cssClasses }` ]: '' !== cssClasses,
-							[ `align${ align }` ]: !! align,
+							'gb-inside-container': true,
 						} ) }
 					>
 						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
-						<div
-							className={ classnames( {
-								'gb-inside-container': true,
-							} ) }
-						>
-							<InnerBlocks
-								templateLock={ false }
-								renderAppender={ (
-									hasChildBlocks ?
-										undefined :
-										() => <InnerBlocks.ButtonBlockAppender />
-								) }
-							/>
-						</div>
-					</Section>
-				) }
+						<InnerBlocks
+							templateLock={ false }
+							renderAppender={ ( hasChildBlocks ? undefined : () => <InnerBlocks.ButtonBlockAppender /> ) }
+						/>
+					</div>
 
+					{ allShapeDividers() }
+
+					{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
+				</Element>
 			</Fragment>
 		);
 	}
 }
 
-export default ( GenerateBlockContainer );
+export default compose( [
+	withDispatch( ( dispatch ) => ( {
+		setDeviceType( type ) {
+			const {
+				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
+			} = dispatch( 'core/edit-post' );
+
+			if ( ! setPreviewDeviceType ) {
+				return;
+			}
+
+			setPreviewDeviceType( type );
+		},
+	} ) ),
+	withSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
+		} = select( 'core/edit-post' );
+
+		const {
+			getMedia,
+		} = select( 'core' );
+
+		const {
+			getEditedPostAttribute,
+		} = select( 'core/editor' );
+
+		const featuredImageId = getEditedPostAttribute( 'featured_media' );
+
+		if ( ! getPreviewDeviceType ) {
+			return {
+				media: featuredImageId ? getMedia( featuredImageId ) : null,
+				deviceType: null,
+			};
+		}
+
+		return {
+			media: featuredImageId ? getMedia( featuredImageId ) : null,
+			deviceType: getPreviewDeviceType(),
+		};
+	} ),
+] )( GenerateBlockContainer );

@@ -15,6 +15,7 @@ const {
 	ToggleControl,
 	TextControl,
 	RangeControl,
+	SelectControl,
 } = wp.components;
 
 /**
@@ -37,6 +38,12 @@ class GradientControl extends Component {
 			defaultColorTwo,
 		} = this.props;
 
+		const {
+			gradientSelector,
+		} = attributes;
+
+		const selectorHelp = 'element' === gradientSelector ? __( 'Displays behind the background image.', 'generateblocks' ) : __( 'Displays in front of the background image.', 'generateblocks' );
+
 		return (
 			<Fragment>
 				<ToggleControl
@@ -51,9 +58,26 @@ class GradientControl extends Component {
 
 				{ !! attributes[ attrGradient ] && (
 					<Fragment>
-						<BaseControl
-							label={ __( 'Direction', 'generateblocks' ) }
-						>
+						{ 'undefined' !== typeof gradientSelector &&
+							<SelectControl
+								label={ __( 'Selector', 'generateblocks' ) }
+								help={ selectorHelp }
+								value={ gradientSelector }
+								options={ [
+									{ label: __( 'Element', 'generateblocks' ), value: 'element' },
+									{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
+								] }
+								onChange={ ( value ) => {
+									setAttributes( {
+										gradientSelector: value,
+									} );
+								} }
+							/>
+						}
+
+						<BaseControl>
+							<span className="components-base-control__label">{ __( 'Direction', 'generateblocks' ) }</span>
+
 							<RangeControl
 								value={ attributes[ attrGradientDirection ] ? attributes[ attrGradientDirection ] : 1 }
 								onChange={ ( value ) => {
@@ -68,7 +92,9 @@ class GradientControl extends Component {
 							/>
 						</BaseControl>
 
-						<BaseControl label={ __( 'Color One', 'generateblocks' ) }>
+						<BaseControl>
+							<span className="components-base-control__label">{ __( 'Color One', 'generateblocks' ) }</span>
+
 							<div className="gblocks-component-gradient-control">
 								<ColorPicker
 									value={ attributes[ attrGradientColorOne ] }
@@ -115,7 +141,8 @@ class GradientControl extends Component {
 							</div>
 						</BaseControl>
 
-						<BaseControl label={ __( 'Color Two', 'generateblocks' ) }>
+						<BaseControl>
+							<span className="components-base-control__label">{ __( 'Color Two', 'generateblocks' ) }</span>
 							<div className="gblocks-component-gradient-control">
 								<ColorPicker
 									value={ attributes[ attrGradientColorTwo ] }

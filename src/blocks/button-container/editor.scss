@@ -27,3 +27,8 @@
 .gblocks-button-container-appender {
 	align-self: center;
 }
+
+.wp-block[data-type="generateblocks/button-container"] {
+	margin-top: 0;
+	margin-bottom: 0;
+}

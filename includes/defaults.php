@@ -26,6 +26,7 @@ function generateblocks_get_block_defaults() {
 	}
 
 	$defaults['container'] = array(
+		'tagName' => 'div',
 		'isGrid' => false,
 		'containerWidth' => $container_width,
 		'outerContainer' => 'full',
@@ -99,6 +100,7 @@ function generateblocks_get_block_defaults() {
 		'gradientColorTwo' => '#000000',
 		'gradientColorTwoOpacity' => 0.3,
 		'gradientColorStopTwo' => '',
+		'gradientSelector' => 'element',
 		'textColor' => '',
 		'linkColor' => '',
 		'linkColorHover' => '',
@@ -112,6 +114,7 @@ function generateblocks_get_block_defaults() {
 			'repeat' => 'no-repeat',
 			'attachment' => '',
 		),
+		'bgImageSize' => 'full',
 		'width' => 50,
 		'widthTablet' => '',
 		'widthMobile' => 100,
@@ -119,6 +122,7 @@ function generateblocks_get_block_defaults() {
 		'verticalAlignmentTablet' => 'inherit',
 		'verticalAlignmentMobile' => 'inherit',
 		'zindex' => '',
+		'innerZindex' => '',
 		'removeVerticalGap' => false,
 		'removeVerticalGapTablet' => false,
 		'removeVerticalGapMobile' => false,
@@ -358,6 +362,19 @@ function generateblocks_get_block_defaults() {
 		'borderSizeRightMobile' => '',
 		'borderSizeBottomMobile' => '',
 		'borderSizeLeftMobile' => '',
+		'borderRadiusTopRight' => '',
+		'borderRadiusBottomRight' => '',
+		'borderRadiusBottomLeft' => '',
+		'borderRadiusTopLeft' => '',
+		'borderRadiusTopRightTablet' => '',
+		'borderRadiusBottomRightTablet' => '',
+		'borderRadiusBottomLeftTablet' => '',
+		'borderRadiusTopLeftTablet' => '',
+		'borderRadiusTopRightMobile' => '',
+		'borderRadiusBottomRightMobile' => '',
+		'borderRadiusBottomLeftMobile' => '',
+		'borderRadiusTopLeftMobile' => '',
+		'borderRadiusUnit' => 'px',
 		'icon' => '',
 		'hasIcon' => false,
 		'iconColor' => false,
@@ -405,7 +422,7 @@ function generateblocks_get_option_defaults() {
 		'generateblocks_option_defaults',
 		array(
 			'css_print_method' => 'file',
-			'color_component_display' => 'palette',
+			'sync_responsive_previews' => true,
 		)
 	);
 }
@@ -435,6 +452,20 @@ function generateblocks_get_default_styles() {
 			'gridItemPaddingBottom' => '0',
 			'gridItemPaddingLeft' => '0',
 			'bgImageSize' => 'full',
+			'shapeDividers' => array(
+				'shape' => 'gb-waves-1',
+				'location' => 'bottom',
+				'height' => 200,
+				'heightTablet' => '',
+				'heightMobile' => '',
+				'width' => 100,
+				'widthTablet' => '',
+				'widthMobile' => '',
+				'flipHorizontally' => false,
+				'zindex' => '',
+				'color' => '#000000',
+				'colorOpacity' => 1,
+			),
 		),
 	);
 

@@ -21,9 +21,8 @@ const {
 } = wp.blockEditor;
 
 const {
-	Toolbar,
-	Tooltip,
-	Button,
+	ToolbarGroup,
+	ToolbarButton,
 } = wp.components;
 
 const {
@@ -40,9 +39,9 @@ const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
 /**
  * Add controls to the Container block toolbar.
  *
- * @param {function} BlockEdit Block edit component.
+ * @param {Function} BlockEdit Block edit component.
  *
- * @return {function} BlockEdit Modified block edit component.
+ * @return {Function} BlockEdit Modified block edit component.
  */
 const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
@@ -71,32 +70,32 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 			<Fragment>
 				{ isSelected && isGrid && parentGridId && 'generateblocks/container' === name &&
 					<BlockControls>
-						<Toolbar>
-							<Tooltip text={ __( 'Duplicate Grid Item', 'generateblocks' ) }>
-								<Button
-									className="gblocks-block-control-icon gblocks-add-grid-item"
-									icon={ getIcon( 'addContainer' ) }
-									onClick={ () => {
-										const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
-										const clonedBlock = cloneBlock( thisBlock );
+						<ToolbarGroup>
+							<ToolbarButton
+								className="gblocks-block-control-icon gblocks-add-grid-item"
+								icon={ getIcon( 'addContainer' ) }
+								label={ __( 'Duplicate Grid Item', 'generateblocks' ) }
+								onClick={ () => {
+									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+									const clonedBlock = cloneBlock( thisBlock );
 
-										wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentGridId );
-									} }
-								/>
-							</Tooltip>
-						</Toolbar>
+									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentGridId );
+								} }
+								showTooltip
+							/>
+						</ToolbarGroup>
 
-						<Toolbar>
-							<Tooltip text={ __( 'Select Parent Grid', 'generateblocks' ) }>
-								<Button
-									className="gblocks-block-control-icon"
-									icon={ getIcon( 'grid' ) }
-									onClick={ () => {
-										wp.data.dispatch( 'core/block-editor' ).selectBlock( parentGridId );
-									} }
-								/>
-							</Tooltip>
-						</Toolbar>
+						<ToolbarGroup>
+							<ToolbarButton
+								className="gblocks-block-control-icon"
+								icon={ getIcon( 'grid' ) }
+								label={ __( 'Select Parent Grid', 'generateblocks' ) }
+								onClick={ () => {
+									wp.data.dispatch( 'core/block-editor' ).selectBlock( parentGridId );
+								} }
+								showTooltip
+							/>
+						</ToolbarGroup>
 					</BlockControls>
 				}
 

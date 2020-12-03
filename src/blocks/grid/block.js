@@ -5,12 +5,16 @@
 import './editor.scss';
 
 import editGridContainer from './edit';
-import saveGridContainer from './save';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
+import deprecated from './deprecated';
 
 const { __ } = wp.i18n;
 const { registerBlockType } = wp.blocks;
+
+const {
+	InnerBlocks,
+} = wp.blockEditor;
 
 /**
  * Register our Grid block.
@@ -32,10 +36,13 @@ registerBlockType( 'generateblocks/grid', {
 	],
 	attributes: blockAttributes,
 	supports: {
-		anchor: false,
 		className: false,
-		customClassName: false,
 	},
 	edit: editGridContainer,
-	save: saveGridContainer,
+	save: () => {
+		return (
+			<InnerBlocks.Content />
+		);
+	},
+	deprecated,
 } );

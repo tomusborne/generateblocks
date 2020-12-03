@@ -22,9 +22,9 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
 function generateblocks_do_block_editor_assets() {
 	wp_enqueue_script(
 		'generateblocks',
-		GENERATEBLOCKS_DIR_URL . 'dist/blocks.build.js',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks.js',
 		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-compose', 'wp-data' ),
-		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.build.js' ),
+		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.js' ),
 		true
 	);
 
@@ -32,20 +32,16 @@ function generateblocks_do_block_editor_assets() {
 		wp_set_script_translations( 'generateblocks', 'generateblocks' );
 	}
 
-	wp_enqueue_script(
-		'generateblocks-dompurify',
-		GENERATEBLOCKS_DIR_URL . 'assets/js/purify.min.js',
-		array( 'generateblocks' ),
-		filemtime( GENERATEBLOCKS_DIR . 'assets/js/purify.min.js' ),
-		true
-	);
-
 	wp_enqueue_style(
 		'generateblocks',
-		GENERATEBLOCKS_DIR_URL . 'dist/blocks.editor.build.css',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks.css',
 		array( 'wp-edit-blocks' ),
-		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.editor.build.css' )
+		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.css' )
 	);
+
+	$image_sizes = get_intermediate_image_sizes();
+	$image_sizes = array_diff( $image_sizes, array( '1536x1536', '2048x2048' ) );
+	$image_sizes[] = 'full';
 
 	wp_localize_script(
 		'generateblocks',
@@ -54,7 +50,9 @@ function generateblocks_do_block_editor_assets() {
 			'isGeneratePress' => defined( 'GENERATE_VERSION' ),
 			'hasCustomFields' => post_type_supports( get_post_type(), 'custom-fields' ),
 			'hasWideAlignSupport' => current_theme_supports( 'align-wide' ),
-			'colorComponentDiplay' => generateblocks_get_option( 'color_component_display' ),
+			'imageSizes' => $image_sizes,
+			'svgShapes' => generateblocks_get_svg_shapes(),
+			'syncResponsivePreviews' => generateblocks_get_option( 'sync_responsive_previews' ),
 		)
 	);
 
@@ -196,4 +194,53 @@ function generateblocks_set_excerpt_allowed_blocks( $allowed ) {
 	$allowed[] = 'generateblocks/container';
 
 	return $allowed;
+}
+
+add_filter( 'generateblocks_before_container_close', 'generateblocks_do_shape_divider', 10, 2 );
+/**
+ * Add shape divider to Container.
+ *
+ * @since 1.2.0
+ * @param string $output The current block output.
+ * @param array  $attributes The current block attributes.
+ */
+function generateblocks_do_shape_divider( $output, $attributes ) {
+	$defaults = generateblocks_get_block_defaults();
+
+	$settings = wp_parse_args(
+		$attributes,
+		$defaults['container']
+	);
+
+	if ( ! empty( $settings['shapeDividers'] ) ) {
+		$shapes = generateblocks_get_svg_shapes();
+		$shape_values = array();
+
+		foreach ( $shapes as $group => $data ) {
+			if ( ! empty( $data['svgs'] ) && is_array( $data['svgs'] ) ) {
+				foreach ( $data['svgs'] as $key => $shape ) {
+					$shape_values[ $key ] = $shape['icon'];
+				}
+			}
+		}
+
+		$output .= '<div class="gb-shapes">';
+
+		foreach ( (array) $settings['shapeDividers'] as $index => $option ) {
+			if ( ! empty( $option['shape'] ) ) {
+				if ( isset( $shape_values[ $option['shape'] ] ) ) {
+					$shapeNumber = $index + 1;
+
+					$output .= sprintf(
+						'<div class="gb-shape gb-shape-' . $shapeNumber . '">%s</div>',
+						$shape_values[ $option['shape'] ]
+					);
+				}
+			}
+		}
+
+		$output .= '</div>';
+	}
+
+	return $output;
 }

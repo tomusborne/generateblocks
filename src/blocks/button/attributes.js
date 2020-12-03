@@ -4,19 +4,18 @@ export default {
 		type: 'string',
 		default: '',
 	},
-	elementId: {
-		type: 'string',
-		default: '',
-	},
-	cssClasses: {
+	anchor: {
 		type: 'string',
 		default: '',
 	},
 	url: {
 		type: 'string',
 		source: 'attribute',
-		selector: 'a.gb-button',
+		selector: '.gb-button',
 		attribute: 'href',
+	},
+	hasUrl: {
+		type: 'boolean',
 	},
 	target: {
 		type: 'boolean',
@@ -28,9 +27,9 @@ export default {
 		type: 'boolean',
 	},
 	text: {
-		type: 'array',
-		source: 'children',
-		selector: '.gb-button .button-text',
+		type: 'string',
+		source: 'html',
+		selector: '.gb-button-text',
 		default: 'Button',
 	},
 	icon: {
@@ -461,6 +460,15 @@ export default {
 	iconSizeUnit: {
 		type: 'string',
 		default: generateBlocksDefaults.button.iconSizeUnit,
+	},
+	// deprecated since 1.2.0
+	elementId: {
+		type: 'string',
+		default: '',
+	},
+	cssClasses: {
+		type: 'string',
+		default: '',
 	},
 };
 /* eslint-enable no-undef */

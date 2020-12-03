@@ -2,10 +2,10 @@
 Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
-Requires at least: 5.2
+Requires at least: 5.4
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 1.1.2
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -74,6 +74,69 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.2.0 =
+* Markup change: Remove headline-wrapper element from Headlines with icons
+* Markup change: Change button-text class to gb-button-text in Button block
+* Markup change: Only output inner gb-button-text span if using an icon
+* Markup change: Output Button block as span element if no URL exists
+* Markup change: Add gb-headline-text span if using an icon in Headline block
+* New: Shape dividers in the Container block
+* New: Make all blocks fully responsive when using editor responsive previews
+* New: Add option to apply gradient as a pseudo element
+* New: Add option to choose background image size
+* New: Add border radius options to Headline block
+* New: frontend.insideContainer filter in editor for Container block
+* New: frontend.beforeContainerClose filter in editor for Container block
+* New: generateblocks_after_container_open filter in frontend for Container block
+* New: generateblocks_inside_container filter in frontend for Container block
+* New: generateblocks_before_container_close filter in frontend for Container block
+* New: generateblocks_container_tagname filter in frontend for Container block
+* New: Add div as Headline block element choice
+* New: Add span as Headline block element choice
+* New: Add inner z-index option to Container
+* New: Aside option as Container tag name
+* New: generateblocks_dynamic_css_priority filter
+* New: Add support for desktop/tablet-only CSS
+* Fix: Stacked button alignment in the editor
+* Fix: Broken background image upload when using official AMP plugin
+* Fix: Button mobile border-radius
+* Fix: Check if grid data is an array before looping
+* Fix: Container tablet/mobile font size values
+* Fix: Button text not selectable in editor using Firefox
+* Tweak: Bump required WP version to 5.4
+* Tweak: Make Container block wrapper HTML dynamic
+* Tweak: Make Grid block wrapper HTML dynamic
+* Tweak: Make Button Container block wrapper HTML dynamic
+* Tweak: Move custom classes to core CSS classes field
+* Tweak: Move custom ID to core anchor field
+* Tweak: Remove deprecated isLarge prop in editor
+* Tweak: Better stacked button alignment on frontend
+* Tweak: Remove old browser prefixes
+* Tweak: Update DOMPurify
+* Tweak: Don't strip protocol from dynamic stylesheet URI
+* Tweak: Move controls from our Advanced panel into core Advanced panel
+* Tweak: Move text alignment options in all blocks to the Block Toolbar
+* Tweak: Remove block margin in the editor
+* Tweak: Reverse grid gap when using RTL
+* Tweak: Add default inherit option to tablet/mobile Headline icon alignment
+* Tweak: Change frontend.insideContainer filter to frontend.afterContainerOpen
+* Tweak: Update color picker component UI
+* Tweak: Make icon sets filterable
+* Tweak: Move Container element tag option to Layout panel
+* Tweak: Move Container z-index options to Spacing panel
+* Tweak: Disable fixed background images on mobile
+* Tweak: Rebuild Headline Element toolbar component
+* Tweak: Add tag name to Headline CSS selector to improve CSS conflicts
+* Tweak: Changed order of generateblocks_block_css_data params
+* Tweak: Use device-specific media queries for remove vertical gap option
+* Tweak: Change generateblocks.editor.desktopCSS filter to generateblocks.editor.mainCSS
+* Tweak: Rebuild settings area using React
+* Tweak: Remove placeholder text from Headline block
+* Tweak: Move GenerateBlocks admin menu item to top level
+* Tweak: Regenerate static CSS files after plugin update
+* Tweak: Adjust unit picker default styling
+* Tweak: Rebuild background image upload UI
 
 = 1.1.2 =
 * Fix: Set background image selector default if undefined

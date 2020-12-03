@@ -4,11 +4,7 @@ export default {
 		type: 'string',
 		default: '',
 	},
-	elementId: {
-		type: 'string',
-		default: '',
-	},
-	cssClasses: {
+	anchor: {
 		type: 'string',
 		default: '',
 	},
@@ -99,6 +95,18 @@ export default {
 	fillHorizontalSpaceMobile: {
 		type: 'boolean',
 		default: generateBlocksDefaults.buttonContainer.fillHorizontalSpaceMobile,
+	},
+	isDynamic: {
+		type: 'boolean',
+	},
+	// deprecated since 1.2.0.
+	elementId: {
+		type: 'string',
+		default: '',
+	},
+	cssClasses: {
+		type: 'string',
+		default: '',
 	},
 };
 /* eslint-enable no-undef */
