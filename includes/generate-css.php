@@ -238,6 +238,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
 				}
 
+				if ( ! isset( $settings['bgOptions']['selector'] ) ) {
+					$settings['bgOptions']['selector'] = 'element';
+				}
+
 				$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
 				$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
 				$hasBgImage = $settings['bgImage'];
@@ -257,10 +261,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 				$css->add_property( 'color', $settings['textColor'] );
-
-				if ( ! isset( $settings['bgOptions']['selector'] ) ) {
-					$settings['bgOptions']['selector'] = 'element';
-				}
 
 				if ( $hasBgImage && 'element' === $settings['bgOptions']['selector'] && $backgroundImageValue ) {
 					$css->add_property( 'background-image', $backgroundImageValue );
