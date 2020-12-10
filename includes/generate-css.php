@@ -242,6 +242,14 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$settings['bgOptions']['selector'] = 'element';
 				}
 
+				$containerWidth = $settings['containerWidth'];
+
+				if ( isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] ) {
+					if ( (string) $containerWidth === (string) $defaults['container']['containerWidth'] ) {
+						$containerWidth = '';
+					}
+				}
+
 				$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
 				$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
 				$hasBgImage = $settings['bgImage'];
@@ -254,9 +262,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 
 				if ( 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
-					$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
-					$css->add_property( 'margin-left', 'auto' );
-					$css->add_property( 'margin-right', 'auto' );
+					if ( ! empty( $containerWidth ) ) {
+						$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
+						$css->add_property( 'margin-left', 'auto' );
+						$css->add_property( 'margin-right', 'auto' );
+					}
 				}
 
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
@@ -359,9 +369,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 
 				if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
-					$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
-					$css->add_property( 'margin-left', 'auto' );
-					$css->add_property( 'margin-right', 'auto' );
+					if ( ! empty( $containerWidth ) ) {
+						$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
+						$css->add_property( 'margin-left', 'auto' );
+						$css->add_property( 'margin-right', 'auto' );
+					}
 				}
 
 				if ( $usingMinHeightFlex ) {
