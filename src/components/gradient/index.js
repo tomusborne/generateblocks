@@ -129,9 +129,11 @@ class GradientControl extends Component {
 										} );
 									} }
 									onBlur={ () => {
-										setAttributes( {
-											[ attrGradientColorStopOne ]: parseFloat( attributes[ attrGradientColorStopOne ] ),
-										} );
+										if ( attributes[ attrGradientColorStopOne ] || 0 === attributes[ attrGradientColorStopOne ] ) {
+											setAttributes( {
+												[ attrGradientColorStopOne ]: parseFloat( attributes[ attrGradientColorStopOne ] ),
+											} );
+										}
 									} }
 									onClick={ ( e ) => {
 										// Make sure onBlur fires in Firefox.
@@ -177,9 +179,11 @@ class GradientControl extends Component {
 										} );
 									} }
 									onBlur={ () => {
-										setAttributes( {
-											[ attrGradientColorStopTwo ]: parseFloat( attributes[ attrGradientColorStopTwo ] ),
-										} );
+										if ( attributes[ attrGradientColorStopTwo ] || 0 === attributes[ attrGradientColorStopTwo ] ) {
+											setAttributes( {
+												[ attrGradientColorStopTwo ]: parseFloat( attributes[ attrGradientColorStopTwo ] ),
+											} );
+										}
 									} }
 									onClick={ ( e ) => {
 										// Make sure onBlur fires in Firefox.
