@@ -6,9 +6,7 @@ const { applyFilters } = wp.hooks;
 
 export default class MobileCSS extends Component {
 	render() {
-		const {
-			attributes,
-		} = this.props;
+		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
 			uniqueId,

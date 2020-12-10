@@ -6,8 +6,9 @@ const { applyFilters } = wp.hooks;
 
 export default class DesktopCSS extends Component {
 	render() {
+		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
+
 		const {
-			attributes,
 			clientId,
 		} = this.props;
 
