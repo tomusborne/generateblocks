@@ -1090,7 +1090,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 
-				$selector = $settings['element'] . '.gb-headline-' . $id;
+				$selector = '.gb-headline-' . $id;
+
+				if ( apply_filters( 'generateblocks_headline_selector_tagname', true, $atts ) ) {
+					$selector = $settings['element'] . $selector;
+				}
 
 				// Back-compatibility for when icon held a value.
 				if ( $settings['icon'] ) {
