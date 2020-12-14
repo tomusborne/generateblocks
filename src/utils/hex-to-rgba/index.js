@@ -34,7 +34,6 @@ export default function hexToRGBA( hex, alpha ) {
 		}
 	}
 
-
 	if ( ! alpha && 0 !== alpha ) {
 		return hex;
 	}
