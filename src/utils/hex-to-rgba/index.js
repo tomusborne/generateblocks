@@ -10,6 +10,31 @@ export default function hexToRGBA( hex, alpha ) {
 		return '';
 	}
 
+	/**
+	 * Detect CSS variables in form of var(--color) and get their current
+	 * values from the :root selector.
+	 */
+	if ( hex.indexOf( 'var(' ) > -1 ) {
+		let variableName = hex.match('--[a-zA-Z0-9]*')[0]
+
+		hex = window.getComputedStyle( document.documentElement )
+			.getPropertyValue( variableName ) || '#fff'
+
+		if ( hex.indexOf( 'rgb' ) > -1) {
+			const rgba = hex.replace( /^rgba?\(|\s+|\)$/g, '' ).split( ',' );
+
+			hex = `#${(
+				( 1 << 24 ) +
+				( parseInt( rgba[ 0 ] ) << 16 ) +
+				( parseInt( rgba[ 1 ] ) << 8 ) +
+				parseInt( rgba[ 2 ] )
+			)
+				.toString( 16 )
+				.slice( 1 )}`;
+		}
+	}
+
+
 	if ( ! alpha && 0 !== alpha ) {
 		return hex;
 	}
