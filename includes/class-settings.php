@@ -71,6 +71,10 @@ class GenerateBlocks_Settings {
 			true
 		);
 
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'generateblocks-settings', 'generateblocks' );
+		}
+
 		wp_localize_script(
 			'generateblocks-settings',
 			'generateBlocksSettings',
