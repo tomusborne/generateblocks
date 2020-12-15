@@ -58,11 +58,15 @@ export default class PanelArea extends Component {
 						icon={ icon }
 						className={ className }
 					>
-						{ children }
+						{
+							applyFilters( 'generateblocks.editor.panelContents', children, id, this.props )
+						}
 					</PanelBody>
 				) : (
 					<PanelBody>
-						{ children }
+						{
+							applyFilters( 'generateblocks.editor.panelContents', children, id, this.props )
+						}
 					</PanelBody>
 				) }
 			</ApplyFilters>
