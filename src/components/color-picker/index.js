@@ -59,9 +59,11 @@ export default class GenerateBlocksColorPicker extends Component {
 			<BaseControl
 				className="gblocks-component-color-picker-wrapper"
 			>
-				<div className="gblocks-color-component-label">
-					<span>{ label }</span>
-				</div>
+				{ !! label &&
+					<div className="gblocks-color-component-label">
+						<span>{ label }</span>
+					</div>
+				}
 
 				<div className="gblocks-color-picker-area">
 					{ ! this.state.isVisible &&
