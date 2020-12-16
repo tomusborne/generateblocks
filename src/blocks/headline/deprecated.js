@@ -2,13 +2,13 @@ import blockAttributes from './attributes';
 import classnames from 'classnames';
 import sanitizeSVG from '../../utils/sanitize-svg';
 
-const {
+import {
 	RichText,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
 const deprecated = [
 	// v2 - remove wrapper.

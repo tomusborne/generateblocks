@@ -1,16 +1,16 @@
 import ApplyFilters from '../apply-filters/';
 
-const {
+import {
 	PanelBody,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
 /**
  * Component Class

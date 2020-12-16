@@ -19,12 +19,12 @@ import TabletCSS from './css/tablet.js';
 import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 
-const {
+import {
 	__,
 	sprintf,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	RangeControl,
 	Button,
 	ButtonGroup,
@@ -38,34 +38,34 @@ const {
 	Tooltip,
 	Dropdown,
 	TabPanel,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	Fragment,
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	InspectorControls,
 	InnerBlocks,
 	MediaUpload,
 	AlignmentToolbar,
 	InspectorAdvancedControls,
 	BlockControls,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	withSelect,
 	withDispatch,
-} = wp.data;
+} from '@wordpress/data';
 
-const {
+import {
 	compose,
-} = wp.compose;
+} from '@wordpress/compose';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.

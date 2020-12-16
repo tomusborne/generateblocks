@@ -1,8 +1,8 @@
 import hexToRGBA from '../hex-to-rgba';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
 export default function getBackgroundImageCSS( type, props ) {
 	const {

@@ -10,8 +10,13 @@ import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
 
-const { __ } = wp.i18n;
-const { registerBlockType } = wp.blocks;
+import {
+	__,
+} from '@wordpress/i18n';
+
+import {
+	registerBlockType,
+} from '@wordpress/blocks';
 
 /**
  * Register our Button block.

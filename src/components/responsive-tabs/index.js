@@ -1,22 +1,22 @@
 import './editor.scss';
 
-const {
+import {
 	Component,
 	Fragment,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	Tooltip,
 	Button,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
 export default class ResponsiveTabs extends Component {
 	render() {

@@ -1,11 +1,11 @@
 /**
  * WordPress dependencies
  */
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	BaseControl,
 	Button,
 	PanelBody,
@@ -14,21 +14,19 @@ const {
 	Spinner,
 	ToggleControl,
 	SelectControl,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	render,
 	Component,
 	Fragment,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
-	apiFetch,
-} = wp;
+import apiFetch from '@wordpress/api-fetch';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
 /**
  * Internal dependencies

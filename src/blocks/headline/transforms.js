@@ -1,9 +1,9 @@
 /**
  * WordPress dependencies
  */
-const {
+import {
 	createBlock,
-} = wp.blocks;
+} from '@wordpress/blocks';
 
 const transforms = {
 	from: [

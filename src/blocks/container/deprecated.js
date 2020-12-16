@@ -5,13 +5,13 @@ import classnames from 'classnames';
 import Element from '../../components/element';
 import blockAttributes from './attributes';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	InnerBlocks,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
 const deprecated = [
 	// v1 of container block. Deprecated the gb-grid-column wrapper in save component.
@@ -62,7 +62,7 @@ const deprecated = [
 			return (
 				<ConditionalWrap
 					condition={ isGrid }
-					wrap={ children => <div className={ classnames( {
+					wrap={ ( children ) => <div className={ classnames( {
 						'gb-grid-column': true,
 						[ `gb-grid-column-${ uniqueId }` ]: true,
 					} ) }>{ children }</div> }

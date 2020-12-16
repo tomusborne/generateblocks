@@ -8,22 +8,22 @@ import UnitPicker from '../unit-picker';
 /**
  * WordPress dependencies
  */
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	Component,
 	Fragment,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	BaseControl,
 	SelectControl,
 	ToggleControl,
 	TextControl,
 	Button,
-} = wp.components;
+} from '@wordpress/components';
 
 /**
  * Typography Component

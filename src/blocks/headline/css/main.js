@@ -4,8 +4,13 @@ import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 
-const { Component } = wp.element;
-const { applyFilters } = wp.hooks;
+import {
+	Component,
+} from '@wordpress/element';
+
+import {
+	applyFilters,
+} from '@wordpress/hooks';
 
 export default class MainCSS extends Component {
 	render() {

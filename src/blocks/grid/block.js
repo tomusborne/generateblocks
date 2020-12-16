@@ -9,12 +9,17 @@ import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
 import deprecated from './deprecated';
 
-const { __ } = wp.i18n;
-const { registerBlockType } = wp.blocks;
+import {
+	__,
+} from '@wordpress/i18n';
 
-const {
+import {
+	registerBlockType,
+} from '@wordpress/blocks';
+
+import {
 	InnerBlocks,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
 /**
  * Register our Grid block.

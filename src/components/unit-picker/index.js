@@ -1,21 +1,21 @@
 // Import CSS
 import './editor.scss';
 
-const {
+import {
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	__,
 	sprintf,
 	_x,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	ButtonGroup,
 	Button,
 	Tooltip,
-} = wp.components;
+} from '@wordpress/components';
 
 export default class UnitChooser extends Component {
 	render() {

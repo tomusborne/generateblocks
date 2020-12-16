@@ -7,16 +7,22 @@ import ColorPicker from '../color-picker';
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
-const { Component, Fragment } = wp.element;
+import {
+	__,
+} from '@wordpress/i18n';
 
-const {
+import {
+	Component,
+	Fragment,
+} from '@wordpress/element';
+
+import {
 	BaseControl,
 	ToggleControl,
 	TextControl,
 	RangeControl,
 	SelectControl,
-} = wp.components;
+} from '@wordpress/components';
 
 /**
  * Typography Component

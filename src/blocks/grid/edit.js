@@ -13,47 +13,47 @@ import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	TextControl,
 	SelectControl,
 	Placeholder,
 	Button,
 	ToolbarGroup,
 	ToolbarButton,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	Fragment,
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
 	InspectorAdvancedControls,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	createBlock,
-} = wp.blocks;
+} from '@wordpress/blocks';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	withSelect,
 	withDispatch,
-} = wp.data;
+} from '@wordpress/data';
 
-const {
+import {
 	compose,
-} = wp.compose;
+} from '@wordpress/compose';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.

@@ -1,8 +1,13 @@
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 
-const { Component } = wp.element;
-const { applyFilters } = wp.hooks;
+import {
+	Component,
+} from '@wordpress/element';
+
+import {
+	applyFilters,
+} from '@wordpress/hooks';
 
 export default class MainCSS extends Component {
 	render() {

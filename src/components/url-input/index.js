@@ -3,22 +3,22 @@ import classnames from 'classnames';
 // Import CSS
 import './editor.scss';
 
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	Button,
 	ToggleControl,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	URLInput,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
 export default class ButtonURLInput extends Component {
 	constructor() {

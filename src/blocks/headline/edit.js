@@ -21,44 +21,44 @@ import Element from '../../components/element';
 import './markformat';
 import HeadingLevelIcon from './element-icons';
 
-const {
+import {
 	__,
 	sprintf,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	TextControl,
 	ToolbarGroup,
 	SelectControl,
 	ToggleControl,
 	Button,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	Fragment,
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	InspectorControls,
 	RichText,
 	BlockControls,
 	AlignmentToolbar,
 	InspectorAdvancedControls,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	withSelect,
 	withDispatch,
-} = wp.data;
+} from '@wordpress/data';
 
-const {
+import {
 	compose,
-} = wp.compose;
+} from '@wordpress/compose';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.

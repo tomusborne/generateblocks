@@ -3,35 +3,35 @@ import getIcon from '../../utils/get-icon';
 /**
  * WordPress Dependencies
  */
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	addFilter,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	Fragment,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	BlockControls,
 	BlockAlignmentToolbar,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	ToolbarGroup,
 	ToolbarButton,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	createHigherOrderComponent,
-} = wp.compose;
+} from '@wordpress/compose';
 
-const {
+import {
 	cloneBlock,
-} = wp.blocks;
+} from '@wordpress/blocks';
 
 const hasWideAlignSupport = generateBlocksInfo.hasWideAlignSupport;
 const WIDE_ALIGNMENTS = [ 'wide', 'full' ];

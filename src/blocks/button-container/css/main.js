@@ -2,8 +2,13 @@ import buildCSS from '../../../utils/build-css';
 import shorthandCSS from '../../../utils/shorthand-css';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 
-const { Component } = wp.element;
-const { applyFilters } = wp.hooks;
+import {
+	Component,
+} from '@wordpress/element';
+
+import {
+	applyFilters,
+} from '@wordpress/hooks';
 
 export default class MainCSS extends Component {
 	render() {

@@ -5,22 +5,26 @@ import getIcon from '../../utils/get-icon';
 // Import CSS
 import './editor.scss';
 
-const { Component } = wp.element;
+import {
+	Component,
+} from '@wordpress/element';
 
-const { __ } = wp.i18n;
+import {
+	__,
+} from '@wordpress/i18n';
 
-const {
+import {
 	Tooltip,
 	BaseControl,
 	ColorPicker,
 	RangeControl,
 	Popover,
 	Button,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	ColorPalette,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
 export default class GenerateBlocksColorPicker extends Component {
 	constructor() {

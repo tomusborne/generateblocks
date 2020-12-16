@@ -9,20 +9,20 @@ import UnitPicker from '../unit-picker';
 /**
  * WordPress dependencies
  */
-const {
+import {
 	__,
 	sprintf,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	Component,
 	Fragment,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	Button,
 	Tooltip,
-} = wp.components;
+} from '@wordpress/components';
 
 class DimensionsControl extends Component {
 	constructor() {

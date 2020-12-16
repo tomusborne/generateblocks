@@ -2,8 +2,13 @@ import buildCSS from '../../../utils/build-css';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 import valueWithUnit from '../../../utils/value-with-unit';
 
-const { Component } = wp.element;
-const { applyFilters } = wp.hooks;
+import {
+	Component,
+} from '@wordpress/element';
+
+import {
+	applyFilters,
+} from '@wordpress/hooks';
 
 export default class MobileCSS extends Component {
 	render() {

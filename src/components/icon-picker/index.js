@@ -9,17 +9,17 @@ import sanitizeSVG from '../../utils/sanitize-svg';
 /**
  * WordPress dependencies
  */
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	Component,
 	Fragment,
 	renderToString,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	BaseControl,
 	SelectControl,
 	ToggleControl,
@@ -28,11 +28,11 @@ const {
 	Button,
 	PanelBody,
 	PanelRow,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
 /**
  * Typography Component
