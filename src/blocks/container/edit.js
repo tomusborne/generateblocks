@@ -37,7 +37,6 @@ import {
 	PanelRow,
 	Tooltip,
 	Dropdown,
-	TabPanel,
 } from '@wordpress/components';
 
 import {
@@ -402,23 +401,6 @@ class GenerateBlockContainer extends Component {
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/container', attributes );
-
-		let containerTabs = [];
-
-		if ( 'Desktop' === this.getDeviceType() ) {
-			containerTabs = [
-				{
-					name: 'image',
-					title: __( 'Image', 'generateblocks' ),
-				},
-				{
-					name: 'gradient',
-					title: __( 'Gradient', 'generateblocks' ),
-				},
-			];
-		}
-
-		const containerTabsOutput = applyFilters( 'generateblocks.editor.containerTabOptions', containerTabs );
 
 		return (
 			<Fragment>
@@ -1324,266 +1306,243 @@ class GenerateBlockContainer extends Component {
 						initialOpen={ false }
 						icon={ getIcon( 'gradients' ) }
 						className={ 'gblocks-panel-label' }
-						id={ 'containerBackgroundGradient' }
+						id={ 'containerBackground' }
 						state={ this.state }
 					>
-						{ containerTabsOutput.length > 0 &&
-							<TabPanel
-								className="layout-tab-panel gblocks-control-tabs"
-								activeClass="active-tab"
-								tabs={ containerTabsOutput }
-								initialTabName={ applyFilters( 'generateblocks.editor.containerBackgroundInitialTab', '', this.props, this.state ) }
+						<Fragment>
+							<BaseControl
+								id="gblocks-background-image-upload"
+								label={ __( 'Image URL', 'generateblocks' ) }
 							>
-								{
-									( tab ) => {
-										return (
-											<div>
-												{ 'image' === tab.name &&
-													<Fragment>
-														<BaseControl
-															id="gblocks-background-image-upload"
-															label={ __( 'Image URL', 'generateblocks' ) }
-														>
-															<div className="gblocks-bg-image-wrapper">
-																<TextControl
-																	type={ 'text' }
-																	value={ !! bgImage ? bgImage.image.url : '' }
-																	onChange={ ( value ) => {
-																		if ( ! value ) {
-																			setAttributes( {
-																				bgImage: null,
-																			} );
-																		} else {
-																			setAttributes( {
-																				bgImage: {
-																					id: '',
-																					image: {
-																						url: value,
-																					},
-																				},
-																			} );
-																		}
-																	} }
-																/>
+								<div className="gblocks-bg-image-wrapper">
+									<TextControl
+										type={ 'text' }
+										value={ !! bgImage ? bgImage.image.url : '' }
+										onChange={ ( value ) => {
+											if ( ! value ) {
+												setAttributes( {
+													bgImage: null,
+												} );
+											} else {
+												setAttributes( {
+													bgImage: {
+														id: '',
+														image: {
+															url: value,
+														},
+													},
+												} );
+											}
+										} }
+									/>
 
-																<div className="gblocks-background-image-action-buttons">
-																	<MediaUpload
-																		title={ __( 'Set background image', 'generateblocks' ) }
-																		onSelect={ ( media ) => {
-																			let size = generateBlocksDefaults.container.bgImageSize;
+									<div className="gblocks-background-image-action-buttons">
+										<MediaUpload
+											title={ __( 'Set background image', 'generateblocks' ) }
+											onSelect={ ( media ) => {
+												let size = generateBlocksDefaults.container.bgImageSize;
 
-																			if ( 'undefined' === typeof media.sizes[ size ] ) {
-																				size = 'full';
-																			}
-
-																			setAttributes( {
-																				bgImage: {
-																					id: media.id,
-																					image: media.sizes[ size ],
-																				},
-																			} );
-																		} }
-																		onClose={ () => {
-																			document.querySelector( '.gblocks-bg-image-wrapper input' ).focus();
-																		} }
-																		allowedTypes={ [ 'image' ] }
-																		value={ !! bgImage ? bgImage.id : '' }
-																		modalClass="editor-gb-container-background__media-modal"
-																		render={ ( { open } ) => (
-																			<Tooltip text={ __( 'Open the Media Library', 'generateblocks' ) }>
-																				<Button
-																					onClick={ open }
-																					className="is-secondary is-small"
-																				>
-																					{ __( 'Browse', 'generateblocks' ) }
-																				</Button>
-																			</Tooltip>
-																		) }
-																	/>
-
-																	{ applyFilters( 'generateblocks.editor.backgroundImageActions', '', this.props, this.state ) }
-																</div>
-															</div>
-														</BaseControl>
-
-														{ !! bgImage && (
-															<div className="section-bg-settings">
-																{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
-																	<Fragment>
-																		<ToggleControl
-																			label={ __( 'Background Color Overlay', 'generateblocks' ) }
-																			checked={ !! bgOptions.overlay }
-																			onChange={ ( nextOverlay ) => {
-																				setAttributes( {
-																					bgOptions: {
-																						...bgOptions,
-																						overlay: nextOverlay,
-																					},
-																				} );
-																			} }
-																		/>
-
-																		<Notice
-																			className="gblocks-option-notice"
-																			status="info"
-																			isDismissible={ false }
-																		>
-																			{ __( 'The background color overlay option is deprecated. Toggle this option to use the new method.', 'generateblocks' ) }
-																		</Notice>
-																	</Fragment>
-																) : ( // These options is only for people not using the deprecated overlay option.
-																	<Fragment>
-																		{ 'undefined' !== typeof bgImage.id && bgImage.id &&
-																			<SelectControl
-																				label={ __( 'Image Size', 'generateblocks' ) }
-																				value={ bgImageSize }
-																				options={ bgImageSizes }
-																				onChange={ ( value ) => {
-																					setAttributes( {
-																						bgImageSize: value,
-																					} );
-																				} }
-																			/>
-																		}
-
-																		<SelectControl
-																			label={ __( 'Selector', 'generateblocks' ) }
-																			value={ bgOptions.selector }
-																			options={ [
-																				{ label: __( 'Element', 'generateblocks' ), value: 'element' },
-																				{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
-																			] }
-																			onChange={ ( value ) => {
-																				setAttributes( {
-																					bgOptions: {
-																						...bgOptions,
-																						selector: value,
-																					},
-																				} );
-																			} }
-																		/>
-
-																		<RangeControl
-																			label={ __( 'Image Opacity', 'generateblocks' ) }
-																			value={ bgOptions.opacity }
-																			onChange={ ( value ) => {
-																				setAttributes( {
-																					bgOptions: {
-																						...bgOptions,
-																						opacity: value,
-																						selector: 'pseudo-element',
-																					},
-																				} );
-																			} }
-																			min={ 0 }
-																			max={ 1 }
-																			step={ 0.1 }
-																			initialPosition={ generateBlocksDefaults.container.bgOptions.opacity }
-																		/>
-
-																		{ 1 !== bgOptions.opacity && 'pseudo-element' !== bgOptions.selector &&
-																			<Notice
-																				className="gblocks-option-notice"
-																				status="info"
-																				isDismissible={ false }
-																			>
-																				{ __( 'Your selector must be set to Pseudo Element to use opacity.', 'generateblocks' ) }
-																			</Notice>
-																		}
-																	</Fragment>
-																) }
-
-																<TextControl
-																	label={ __( 'Size', 'generateblocks' ) }
-																	value={ bgOptions.size }
-																	onChange={ ( nextSize ) => {
-																		setAttributes( {
-																			bgOptions: {
-																				...bgOptions,
-																				size: nextSize,
-																			},
-																		} );
-																	} }
-																/>
-
-																<TextControl
-																	label={ __( 'Position', 'generateblocks' ) }
-																	value={ bgOptions.position }
-																	onChange={ ( nextPosition ) => {
-																		setAttributes( {
-																			bgOptions: {
-																				...bgOptions,
-																				position: nextPosition,
-																			},
-																		} );
-																	} }
-																/>
-
-																<SelectControl
-																	label={ __( 'Repeat', 'generateblocks' ) }
-																	value={ bgOptions.repeat }
-																	options={ [
-																		{ label: 'no-repeat', value: 'no-repeat' },
-																		{ label: 'repeat', value: 'repeat' },
-																		{ label: 'repeat-x', value: 'repeat-x' },
-																		{ label: 'repeat-y', value: 'repeat-y' },
-																	] }
-																	onChange={ ( nextRepeat ) => {
-																		setAttributes( {
-																			bgOptions: {
-																				...bgOptions,
-																				repeat: nextRepeat,
-																			},
-																		} );
-																	} }
-																/>
-
-																<SelectControl
-																	label={ __( 'Attachment', 'generateblocks' ) }
-																	value={ bgOptions.attachment }
-																	options={ [
-																		{ label: 'scroll', value: '' },
-																		{ label: 'fixed', value: 'fixed' },
-																		{ label: 'local', value: 'local' },
-																	] }
-																	onChange={ ( nextAttachment ) => {
-																		setAttributes( {
-																			bgOptions: {
-																				...bgOptions,
-																				attachment: nextAttachment,
-																			},
-																		} );
-																	} }
-																/>
-															</div>
-														) }
-													</Fragment>
+												if ( 'undefined' === typeof media.sizes[ size ] ) {
+													size = 'full';
 												}
 
-												{ 'gradient' === tab.name &&
-													<GradientControl { ...this.props }
-														attrGradient={ 'gradient' }
-														attrGradientDirection={ 'gradientDirection' }
-														attrGradientColorOne={ 'gradientColorOne' }
-														attrGradientColorStopOne={ 'gradientColorStopOne' }
-														attrGradientColorTwo={ 'gradientColorTwo' }
-														attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-														attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
-														attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-														defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
-														defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
-													/>
-												}
+												setAttributes( {
+													bgImage: {
+														id: media.id,
+														image: media.sizes[ size ],
+													},
+												} );
+											} }
+											onClose={ () => {
+												document.querySelector( '.gblocks-bg-image-wrapper input' ).focus();
+											} }
+											allowedTypes={ [ 'image' ] }
+											value={ !! bgImage ? bgImage.id : '' }
+											modalClass="editor-gb-container-background__media-modal"
+											render={ ( { open } ) => (
+												<Tooltip text={ __( 'Open the Media Library', 'generateblocks' ) }>
+													<Button
+														onClick={ open }
+														className="is-secondary is-small"
+													>
+														{ __( 'Browse', 'generateblocks' ) }
+													</Button>
+												</Tooltip>
+											) }
+										/>
 
-												{ applyFilters( 'generateblocks.editor.containerBackgroundTabBody', '', tab, this.props, this.state ) }
-											</div>
-										);
-									}
-								}
-							</TabPanel>
-						}
+										{ applyFilters( 'generateblocks.editor.backgroundImageActions', '', this.props, this.state ) }
+									</div>
+								</div>
+							</BaseControl>
 
-						{ applyFilters( 'generateblocks.editor.controls', '', 'containerBackground', this.props, this.state ) }
+							{ !! bgImage && (
+								<Fragment>
+									{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
+										<Fragment>
+											<ToggleControl
+												label={ __( 'Background Color Overlay', 'generateblocks' ) }
+												checked={ !! bgOptions.overlay }
+												onChange={ ( nextOverlay ) => {
+													setAttributes( {
+														bgOptions: {
+															...bgOptions,
+															overlay: nextOverlay,
+														},
+													} );
+												} }
+											/>
+
+											<Notice
+												className="gblocks-option-notice"
+												status="info"
+												isDismissible={ false }
+											>
+												{ __( 'The background color overlay option is deprecated. Toggle this option to use the new method.', 'generateblocks' ) }
+											</Notice>
+										</Fragment>
+									) : ( // These options is only for people not using the deprecated overlay option.
+										<Fragment>
+											{ 'undefined' !== typeof bgImage.id && bgImage.id &&
+												<SelectControl
+													label={ __( 'Image Size', 'generateblocks' ) }
+													value={ bgImageSize }
+													options={ bgImageSizes }
+													onChange={ ( value ) => {
+														setAttributes( {
+															bgImageSize: value,
+														} );
+													} }
+												/>
+											}
+
+											<SelectControl
+												label={ __( 'Selector', 'generateblocks' ) }
+												value={ bgOptions.selector }
+												options={ [
+													{ label: __( 'Element', 'generateblocks' ), value: 'element' },
+													{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
+												] }
+												onChange={ ( value ) => {
+													setAttributes( {
+														bgOptions: {
+															...bgOptions,
+															selector: value,
+														},
+													} );
+												} }
+											/>
+
+											<RangeControl
+												label={ __( 'Image Opacity', 'generateblocks' ) }
+												value={ bgOptions.opacity }
+												onChange={ ( value ) => {
+													setAttributes( {
+														bgOptions: {
+															...bgOptions,
+															opacity: value,
+															selector: 'pseudo-element',
+														},
+													} );
+												} }
+												min={ 0 }
+												max={ 1 }
+												step={ 0.1 }
+												initialPosition={ generateBlocksDefaults.container.bgOptions.opacity }
+											/>
+
+											{ 1 !== bgOptions.opacity && 'pseudo-element' !== bgOptions.selector &&
+												<Notice
+													className="gblocks-option-notice"
+													status="info"
+													isDismissible={ false }
+												>
+													{ __( 'Your selector must be set to Pseudo Element to use opacity.', 'generateblocks' ) }
+												</Notice>
+											}
+										</Fragment>
+									) }
+
+									<TextControl
+										label={ __( 'Size', 'generateblocks' ) }
+										value={ bgOptions.size }
+										onChange={ ( nextSize ) => {
+											setAttributes( {
+												bgOptions: {
+													...bgOptions,
+													size: nextSize,
+												},
+											} );
+										} }
+									/>
+
+									<TextControl
+										label={ __( 'Position', 'generateblocks' ) }
+										value={ bgOptions.position }
+										onChange={ ( nextPosition ) => {
+											setAttributes( {
+												bgOptions: {
+													...bgOptions,
+													position: nextPosition,
+												},
+											} );
+										} }
+									/>
+
+									<SelectControl
+										label={ __( 'Repeat', 'generateblocks' ) }
+										value={ bgOptions.repeat }
+										options={ [
+											{ label: 'no-repeat', value: 'no-repeat' },
+											{ label: 'repeat', value: 'repeat' },
+											{ label: 'repeat-x', value: 'repeat-x' },
+											{ label: 'repeat-y', value: 'repeat-y' },
+										] }
+										onChange={ ( nextRepeat ) => {
+											setAttributes( {
+												bgOptions: {
+													...bgOptions,
+													repeat: nextRepeat,
+												},
+											} );
+										} }
+									/>
+
+									<SelectControl
+										label={ __( 'Attachment', 'generateblocks' ) }
+										value={ bgOptions.attachment }
+										options={ [
+											{ label: 'scroll', value: '' },
+											{ label: 'fixed', value: 'fixed' },
+											{ label: 'local', value: 'local' },
+										] }
+										onChange={ ( nextAttachment ) => {
+											setAttributes( {
+												bgOptions: {
+													...bgOptions,
+													attachment: nextAttachment,
+												},
+											} );
+										} }
+									/>
+								</Fragment>
+							) }
+
+							<GradientControl { ...this.props }
+								attrGradient={ 'gradient' }
+								attrGradientDirection={ 'gradientDirection' }
+								attrGradientColorOne={ 'gradientColorOne' }
+								attrGradientColorStopOne={ 'gradientColorStopOne' }
+								attrGradientColorTwo={ 'gradientColorTwo' }
+								attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+								attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
+								attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
+								defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
+								defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
+							/>
+
+							{ applyFilters( 'generateblocks.editor.controls', '', 'containerBackground', this.props, this.state ) }
+						</Fragment>
 					</PanelArea>
 
 					<PanelArea { ...this.props }
