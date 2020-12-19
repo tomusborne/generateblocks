@@ -199,6 +199,7 @@ export default class MainCSS extends Component {
 				'right': '0', // eslint-disable-line quote-props
 				'bottom': '0', // eslint-disable-line quote-props
 				'left': '0', // eslint-disable-line quote-props
+				'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 			} ];
 
 			if ( typeof bgOptions.opacity !== 'undefined' && 1 !== bgOptions.opacity ) {
