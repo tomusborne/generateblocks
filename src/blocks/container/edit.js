@@ -2033,7 +2033,7 @@ class GenerateBlockContainer extends Component {
 				}
 
 				<Element
-					tagName={ tagName }
+					tagName={ applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) }
 					htmlAttrs={ htmlAttributes }
 				>
 					{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
