@@ -325,6 +325,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->add_property( 'text-align', $settings['alignment'] );
 
+				$innerZIndex = $settings['innerZindex'];
+
 				$css->set_selector( '.gb-container-' . $id . ':before' );
 
 				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
@@ -346,6 +348,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					if ( isset( $settings['bgOptions']['opacity'] ) && 1 !== $settings['bgOptions']['opacity'] ) {
 						$css->add_property( 'opacity', $settings['bgOptions']['opacity'] );
 					}
+
+					if ( ! $innerZIndex ) {
+						$innerZIndex = 1;
+					}
 				}
 
 				if ( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] ) {
@@ -358,12 +364,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'right', '0' );
 					$css->add_property( 'bottom', '0' );
 					$css->add_property( 'left', '0' );
-				}
 
-				$innerZIndex = $settings['innerZindex'];
-
-				if ( ! $innerZIndex && $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
-					$innerZIndex = 1;
+					if ( ! $innerZIndex ) {
+						$innerZIndex = 1;
+					}
 				}
 
 				$css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );

@@ -91,10 +91,6 @@ export default class MainCSS extends Component {
 
 		let innerZIndexValue = innerZindex;
 
-		if ( ! innerZIndexValue && hasBgImage && 'pseudo-element' === bgOptions.selector ) {
-			innerZIndexValue = 1;
-		}
-
 		let cssObj = [];
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
@@ -145,6 +141,10 @@ export default class MainCSS extends Component {
 			cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 				'z-index': 10,
 			} ];
+
+			if ( ! innerZIndexValue ) {
+				innerZIndexValue = 1;
+			}
 		}
 
 		cssObj[ `.editor-styles-wrapper .gb-container-` + uniqueId + ` h1,

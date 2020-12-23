@@ -46,7 +46,6 @@ class GradientControl extends Component {
 
 		const {
 			gradientSelector,
-			innerZindex,
 		} = attributes;
 
 		const selectorHelp = 'element' === gradientSelector ? __( 'Displays behind the background image.', 'generateblocks' ) : __( 'Displays in front of the background image.', 'generateblocks' );
@@ -75,16 +74,9 @@ class GradientControl extends Component {
 									{ label: __( 'Pseudo Element', 'generateblocks' ), value: 'pseudo-element' },
 								] }
 								onChange={ ( value ) => {
-									if ( 'pseudo-element' === value && ! innerZindex ) {
-										setAttributes( {
-											gradientSelector: value,
-											innerZindex: 1,
-										} );
-									} else {
-										setAttributes( {
-											gradientSelector: value,
-										} );
-									}
+									setAttributes( {
+										gradientSelector: value,
+									} );
 								} }
 							/>
 						}
