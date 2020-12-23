@@ -421,7 +421,7 @@ class GenerateBlockHeadline extends Component {
 						showPanel={ 'Desktop' === this.getDeviceType() ? true : false }
 					>
 						<SelectControl
-							label={ __( 'Element', 'generateblocks' ) }
+							label={ __( 'Tag Name', 'generateblocks' ) }
 							value={ element }
 							options={ [
 								{ label: 'h1', value: 'h1' },
