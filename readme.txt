@@ -75,6 +75,24 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.3.0 =
+* New: Add generateblocks.editor.cssAttrs filter
+* New: Add generateblocks_headline_selector_tagname filter
+* New: Add generateblocks.editor.panelContents filter
+* New: Add Add generateblocks.frontend.containerTagName filter
+* Fix: Fix gradient when no stop value is found
+* Fix: Translations in the editor
+* Fix: Force inner container z-index when pseudo in use
+* Tweak: Merge bg image and gradient controls into one tab
+* Tweak: Prepare for Global Styles in Pro
+* Tweak: Remove duplicate .gb-container class from CSS
+* Tweak: Add script translations file for settings JS
+* Tweak: Hide color picker label element if no label
+* Tweak: Update domPurify
+* Tweak: Import WP packages instead of defining them
+* Tweak: Add border-radius to pseudo background image elements
+* Tweak: Change Element Tag label to HTML Tag Name
+
 = 1.2.0 =
 * Markup change: Remove headline-wrapper element from Headlines with icons
 * Markup change: Change button-text class to gb-button-text in Button block
