@@ -1264,6 +1264,7 @@ class GenerateBlockHeadline extends Component {
 										onChange={ ( value ) => setAttributes( { content: value } ) }
 										placeholder={ __( 'Headline', 'generateblocks' ) }
 										keepPlaceholderOnFocus={ true }
+										allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 									/>
 								</span>
 							}
@@ -1277,6 +1278,7 @@ class GenerateBlockHeadline extends Component {
 							onChange={ ( value ) => setAttributes( { content: value } ) }
 							placeholder={ __( 'Headline', 'generateblocks' ) }
 							keepPlaceholderOnFocus={ true }
+							allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 						/>
 					}
 				</Element>
