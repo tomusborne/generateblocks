@@ -73,6 +73,7 @@ export default class MainCSS extends Component {
 			iconSizeUnit,
 			inlineWidth,
 			removeText,
+			content,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -152,6 +153,13 @@ export default class MainCSS extends Component {
 		cssObj[ '#block-' + clientId ] = [ {
 			'display': inlineWidth ? 'inline-flex' : false, // eslint-disable-line quote-props
 		} ];
+
+		if ( !! icon && ! content ) {
+			cssObj[ '.gb-headline-text' ] = [ {
+				display: 'block',
+				width: '100%',
+			} ];
+		}
 
 		cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, this.props, 'headline' );
 
