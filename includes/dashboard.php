@@ -82,6 +82,21 @@ function generateblocks_set_admin_body_classes( $classes ) {
 	return $classes;
 }
 
+add_action( 'in_admin_header', 'generateblocks_do_dashboard_headers' );
+/**
+ * Add our Dashboard headers.
+ *
+ * @since 1.3.0
+ */
+function generateblocks_do_dashboard_headers() {
+	$dashboard_pages = generateblocks_get_dashboard_pages();
+	$current_screen = get_current_screen();
+
+	if ( in_array( $current_screen->id, $dashboard_pages ) ) {
+		generateblocks_do_dashboard_header();
+	}
+}
+
 add_action( 'admin_enqueue_scripts', 'generateblocks_enqueue_global_dashboard_scripts' );
 /**
  * Add our scripts to the page.
@@ -155,28 +170,15 @@ function generateblocks_dashboard_navigation() {
  * Build our Dashboard header.
  *
  * @since 1.2.0
- * @param string $title The title of the page.
  */
-function generateblocks_do_dashboard_header( $title ) {
+function generateblocks_do_dashboard_header() {
 	?>
 	<div class="gblocks-dashboard-header">
-		<div class="gblocks-dashboard-header-content">
-			<?php
-			if ( 'dashboard' === $title ) :
-				?>
-				<h1 class="gblocks-logo">
-					<a href="https://generateblocks.com" target="_blank" rel="noopener noreferrer">
-						<img width="200" height="55" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/gb-logo-black.svg'; ?>" alt="<?php esc_attr_e( 'GenerateBlocks', 'generateblocks' ); ?>" />
-					</a>
-					<span class="gblocks-version"><?php echo esc_html( GENERATEBLOCKS_VERSION ); ?></span>
-				</h1>
-				<?php
-			else :
-				?>
-				<h1><?php echo esc_html( $title ); ?></h1>
-				<?php
-			endif;
-			?>
+		<div class="gblocks-dashboard-header-title">
+			<h1>
+				<svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 50 60.12" xml:space="preserve"><path class="st0" d="M6.686 31.622V18.918a.077.077 0 01.05-.072l6.5-2.313 6.5-2.313 9.682-3.445L39.1 7.33a.067.067 0 00.036-.028.074.074 0 00.014-.044V.076a.077.077 0 00-.032-.062.076.076 0 00-.069-.009l-13 4.625-13 4.625-6.5 2.313-6.5 2.313a.067.067 0 00-.036.028.097.097 0 00-.013.046V52.067c0 .026.013.048.032.062s.044.018.069.009l3.267-1.163 3.267-1.163c.015-.005.028-.015.036-.028s.014-.028.014-.044V37.999l.001-6.377c-.001 0 0 0 0 0z"/><path class="st0" d="M23.949 29.976l13-4.625 13-4.625c.015-.005.028-.015.036-.028s.015-.028.015-.044V8.056a.077.077 0 00-.032-.062.076.076 0 00-.069-.009l-13 4.625-13 4.625-6.5 2.313-6.5 2.313a.067.067 0 00-.036.028.074.074 0 00-.014.044V60.045c0 .026.013.048.032.062a.076.076 0 00.069.009l6.475-2.304 6.475-2.304 6.525-2.322 6.525-2.322 6.5-2.313 6.5-2.313c.015-.005.028-.015.036-.028s.014-.025.014-.041V27.193a.077.077 0 00-.032-.062.076.076 0 00-.069-.009l-6.45 2.295L37 31.711a.067.067 0 00-.036.028.074.074 0 00-.014.044v6.272a.077.077 0 01-.05.072l-6.45 2.295L24 42.715a.075.075 0 01-.101-.071V30.046c0-.016.005-.031.014-.044a.08.08 0 01.036-.026z"/></svg>
+				<?php echo esc_html( get_admin_page_title() ); ?>
+			</h1>
 		</div>
 
 		<?php generateblocks_dashboard_navigation(); ?>
@@ -192,8 +194,6 @@ function generateblocks_do_dashboard_header( $title ) {
 function generateblocks_do_dashboard() {
 	?>
 		<div class="wrap gblocks-dashboard-wrap">
-			<?php generateblocks_do_dashboard_header( 'dashboard' ); ?>
-
 			<div class="gblocks-dashboard-intro-content">
 				<?php esc_html_e( 'A small collection of lightweight WordPress blocks that can accomplish nearly anything.', 'generateblocks' ); ?>
 
