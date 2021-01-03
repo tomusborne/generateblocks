@@ -20,6 +20,10 @@ import {
 	URLInput,
 } from '@wordpress/block-editor';
 
+import {
+	applyFilters,
+} from '@wordpress/hooks';
+
 export default class ButtonURLInput extends Component {
 	constructor() {
 		super( ...arguments );
@@ -92,6 +96,8 @@ export default class ButtonURLInput extends Component {
 				</div>
 				{ moreOptions &&
 					<div className="gblocks-component-url-input-more-options">
+						{ applyFilters( 'generateblocks.editor.urlInputMoreOptions', '', this.props, this.state ) }
+
 						<ToggleControl
 							label={ __( 'Open link in a new tab', 'generateblocks' ) }
 							checked={ target || '' }
