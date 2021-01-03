@@ -1244,6 +1244,8 @@ class GenerateBlockHeadline extends Component {
 					/>
 				}
 
+				{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', this.props ) }
+
 				<Element
 					tagName={ element }
 					htmlAttrs={ htmlAttributes }
