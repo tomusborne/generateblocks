@@ -80,9 +80,14 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Add generateblocks_headline_selector_tagname filter
 * New: Add generateblocks.editor.panelContents filter
 * New: Add Add generateblocks.frontend.containerTagName filter
+* New: Add generateblocks.editor.headlineDisableFormatting filter
+* New: Add generateblocks.editor.beforeHeadlineElement filter
+* New: Add generateblocks.editor.urlInputMoreOptions filter
+* New: Admin header
 * Fix: Fix gradient when no stop value is found
 * Fix: Translations in the editor
 * Fix: Force inner container z-index when pseudo in use
+* Fix: Headline text input when has icon but no text
 * Tweak: Merge bg image and gradient controls into one tab
 * Tweak: Prepare for Global Styles in Pro
 * Tweak: Remove duplicate .gb-container class from CSS
@@ -91,7 +96,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Update domPurify
 * Tweak: Import WP packages instead of defining them
 * Tweak: Add border-radius to pseudo background image elements
-* Tweak: Change Element Tag label to HTML Tag Name
+* Tweak: Change Element Tag label to Tag Name
+* Tweak: Add placeholder to Headline block
 
 = 1.2.0 =
 * Markup change: Remove headline-wrapper element from Headlines with icons
