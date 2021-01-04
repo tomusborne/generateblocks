@@ -528,7 +528,7 @@ class GenerateBlockContainer extends Component {
 									}
 
 									<SelectControl
-										label={ __( 'HTML Tag Name', 'generateblocks' ) }
+										label={ __( 'Tag Name', 'generateblocks' ) }
 										value={ tagName }
 										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
 										onChange={ ( value ) => {
@@ -633,7 +633,7 @@ class GenerateBlockContainer extends Component {
 									/>
 
 									<SelectControl
-										label={ __( 'HTML Tag Name', 'generateblocks' ) }
+										label={ __( 'Tag Name', 'generateblocks' ) }
 										value={ tagName }
 										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
 										onChange={ ( value ) => {
