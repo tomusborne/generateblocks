@@ -212,6 +212,10 @@ function generateblocks_do_dashboard() {
 
 						<h3><?php esc_html_e( 'Container', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Organize your content into rows and sections.', 'generateblocks' ); ?></p>
+
+						<div class="gblocks-block-learn-more">
+							<a class="button" href="https://docs.generateblocks.com/collection/container/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Container Documentation', 'generateblocks' ); ?></a>
+						</div>
 					</div>
 
 					<div class="gblocks-block">
@@ -221,6 +225,10 @@ function generateblocks_do_dashboard() {
 
 						<h3><?php esc_html_e( 'Grid', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Create advanced layouts with flexible grids.', 'generateblocks' ); ?></p>
+
+						<div class="gblocks-block-learn-more">
+							<a class="button" href="https://docs.generateblocks.com/collection/grid/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Grid Documentation', 'generateblocks' ); ?></a>
+						</div>
 					</div>
 
 					<div class="gblocks-block">
@@ -230,6 +238,10 @@ function generateblocks_do_dashboard() {
 
 						<h3><?php esc_html_e( 'Headline', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Craft text-rich content with advanced typography.', 'generateblocks' ); ?></p>
+
+						<div class="gblocks-block-learn-more">
+							<a class="button" href="https://docs.generateblocks.com/collection/headline/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Headline Documentation', 'generateblocks' ); ?></a>
+						</div>
 					</div>
 
 					<div class="gblocks-block">
@@ -239,12 +251,11 @@ function generateblocks_do_dashboard() {
 
 						<h3><?php esc_html_e( 'Buttons', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Drive conversions with beautiful buttons.', 'generateblocks' ); ?></p>
-					</div>
-				</div>
 
-				<div class="gblocks-getting-started">
-					<p><?php esc_html_e( 'To get started, head over to the block editor and open the GenerateBlocks category.', 'generatepress' ); ?></p>
-					<img width="400" src="<?php echo esc_url( GENERATEBLOCKS_DIR_URL ) . 'assets/images/add-blocks.png'; ?>" alt="" />
+						<div class="gblocks-block-learn-more">
+							<a class="button" href="https://docs.generateblocks.com/collection/buttons/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Buttons Documentation', 'generateblocks' ); ?></a>
+						</div>
+					</div>
 				</div>
 
 				<div class="gblocks-generatepress">
