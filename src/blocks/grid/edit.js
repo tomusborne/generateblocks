@@ -317,30 +317,32 @@ class GenerateBlockGridContainer extends Component {
 
 		return (
 			<Fragment>
-				<BlockControls>
-					<ToolbarGroup>
-						<ToolbarButton
-							className="gblocks-block-control-icon gblocks-add-grid-item"
-							icon={ getIcon( 'addContainer' ) }
-							label={ __( 'Add Grid Item', 'generateblocks' ) }
-							onClick={ () => {
-								wp.data.dispatch( 'core/block-editor' ).insertBlocks(
-									createBlock( 'generateblocks/container', {
-										isGrid: true,
-										gridId: uniqueId,
-										paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
-										paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
-										paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
-										paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
-									} ),
-									undefined,
-									clientId
-								);
-							} }
-							showTooltip
-						/>
-					</ToolbarGroup>
-				</BlockControls>
+				{ ( columns > 0 || this.state.selectedLayout ) &&
+					<BlockControls>
+						<ToolbarGroup>
+							<ToolbarButton
+								className="gblocks-block-control-icon gblocks-add-grid-item"
+								icon={ getIcon( 'addContainer' ) }
+								label={ __( 'Add Grid Item', 'generateblocks' ) }
+								onClick={ () => {
+									wp.data.dispatch( 'core/block-editor' ).insertBlocks(
+										createBlock( 'generateblocks/container', {
+											isGrid: true,
+											gridId: uniqueId,
+											paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
+											paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
+											paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
+											paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
+										} ),
+										undefined,
+										clientId
+									);
+								} }
+								showTooltip
+							/>
+						</ToolbarGroup>
+					</BlockControls>
+				}
 
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }
