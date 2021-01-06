@@ -98,6 +98,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Add border-radius to pseudo background image elements
 * Tweak: Change Element Tag label to Tag Name
 * Tweak: Add placeholder to Headline block
+* Tweak: Remove add grid item button from toolbar when selecting layout
 
 = 1.2.0 =
 * Markup change: Remove headline-wrapper element from Headlines with icons
