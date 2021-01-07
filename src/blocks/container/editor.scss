@@ -203,6 +203,10 @@ body .gb-container .wp-block {
 	}
 }
 
+.components-popover.gblocks-shapes-dropdown .components-popover__content {
+    min-width: 260px;
+}
+
 /* GPress content width */
 .gblocks-gpress-full-width .components-base-control__label {
 	display: block;

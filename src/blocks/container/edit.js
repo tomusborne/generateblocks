@@ -1584,6 +1584,7 @@ class GenerateBlockContainer extends Component {
 
 											<Fragment>
 												<Dropdown
+													contentClassName="gblocks-shapes-dropdown"
 													renderToggle={ ( { isOpen, onToggle } ) => (
 														<Tooltip text={ __( 'Edit Shape', 'generateblocks' ) }>
 															<Button
