@@ -1,13 +1,19 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 
-const { Component } = wp.element;
-const { applyFilters } = wp.hooks;
+import {
+	Component,
+} from '@wordpress/element';
+
+import {
+	applyFilters,
+} from '@wordpress/hooks';
 
 export default class TabletOnlyCSS extends Component {
 	render() {
+		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
+
 		const {
-			attributes,
 			clientId,
 		} = this.props;
 

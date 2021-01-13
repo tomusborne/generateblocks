@@ -7,16 +7,22 @@ import ColorPicker from '../color-picker';
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n;
-const { Component, Fragment } = wp.element;
+import {
+	__,
+} from '@wordpress/i18n';
 
-const {
+import {
+	Component,
+	Fragment,
+} from '@wordpress/element';
+
+import {
 	BaseControl,
 	ToggleControl,
 	TextControl,
 	RangeControl,
 	SelectControl,
-} = wp.components;
+} from '@wordpress/components';
 
 /**
  * Typography Component
@@ -129,9 +135,11 @@ class GradientControl extends Component {
 										} );
 									} }
 									onBlur={ () => {
-										setAttributes( {
-											[ attrGradientColorStopOne ]: parseFloat( attributes[ attrGradientColorStopOne ] ),
-										} );
+										if ( attributes[ attrGradientColorStopOne ] || 0 === attributes[ attrGradientColorStopOne ] ) {
+											setAttributes( {
+												[ attrGradientColorStopOne ]: parseFloat( attributes[ attrGradientColorStopOne ] ),
+											} );
+										}
 									} }
 									onClick={ ( e ) => {
 										// Make sure onBlur fires in Firefox.
@@ -177,9 +185,11 @@ class GradientControl extends Component {
 										} );
 									} }
 									onBlur={ () => {
-										setAttributes( {
-											[ attrGradientColorStopTwo ]: parseFloat( attributes[ attrGradientColorStopTwo ] ),
-										} );
+										if ( attributes[ attrGradientColorStopTwo ] || 0 === attributes[ attrGradientColorStopTwo ] ) {
+											setAttributes( {
+												[ attrGradientColorStopTwo ]: parseFloat( attributes[ attrGradientColorStopTwo ] ),
+											} );
+										}
 									} }
 									onClick={ ( e ) => {
 										// Make sure onBlur fires in Firefox.

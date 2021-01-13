@@ -1,11 +1,13 @@
 /**
  * WordPress dependencies
  */
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const { Component } = wp.element;
+import {
+	Component,
+} from '@wordpress/element';
 
 /**
  * Component Class

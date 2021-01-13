@@ -21,44 +21,44 @@ import Element from '../../components/element';
 import './markformat';
 import HeadingLevelIcon from './element-icons';
 
-const {
+import {
 	__,
 	sprintf,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	TextControl,
 	ToolbarGroup,
 	SelectControl,
 	ToggleControl,
 	Button,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	Fragment,
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	InspectorControls,
 	RichText,
 	BlockControls,
 	AlignmentToolbar,
 	InspectorAdvancedControls,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	withSelect,
 	withDispatch,
-} = wp.data;
+} from '@wordpress/data';
 
-const {
+import {
 	compose,
-} = wp.compose;
+} from '@wordpress/compose';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.
@@ -421,7 +421,7 @@ class GenerateBlockHeadline extends Component {
 						showPanel={ 'Desktop' === this.getDeviceType() ? true : false }
 					>
 						<SelectControl
-							label={ __( 'Element', 'generateblocks' ) }
+							label={ __( 'Tag Name', 'generateblocks' ) }
 							value={ element }
 							options={ [
 								{ label: 'h1', value: 'h1' },
@@ -1244,6 +1244,8 @@ class GenerateBlockHeadline extends Component {
 					/>
 				}
 
+				{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', this.props ) }
+
 				<Element
 					tagName={ element }
 					htmlAttrs={ htmlAttributes }
@@ -1262,7 +1264,9 @@ class GenerateBlockHeadline extends Component {
 										tagName="span"
 										value={ content }
 										onChange={ ( value ) => setAttributes( { content: value } ) }
+										placeholder={ __( 'Headline', 'generateblocks' ) }
 										keepPlaceholderOnFocus={ true }
+										allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 									/>
 								</span>
 							}
@@ -1274,7 +1278,9 @@ class GenerateBlockHeadline extends Component {
 							tagName="span"
 							value={ content }
 							onChange={ ( value ) => setAttributes( { content: value } ) }
+							placeholder={ __( 'Headline', 'generateblocks' ) }
 							keepPlaceholderOnFocus={ true }
+							allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 						/>
 					}
 				</Element>

@@ -1,6 +1,6 @@
 {
 	"name": "generateblocks",
-	"version": "1.2.0",
+	"version": "1.3.0",
 	"private": true,
 	"scripts": {
 		"build": "wp-scripts build src/blocks.js src/dashboard.js --output-path=dist",
@@ -18,6 +18,6 @@
 		"classnames": "^2.2.6",
 		"lodash": "4.17.19",
 		"throttle-debounce": "2.2.1",
-		"dompurify": "^2.2.2"
+		"dompurify": "^2.2.4"
 	}
 }

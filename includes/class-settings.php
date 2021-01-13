@@ -71,6 +71,10 @@ class GenerateBlocks_Settings {
 			true
 		);
 
+		if ( function_exists( 'wp_set_script_translations' ) ) {
+			wp_set_script_translations( 'generateblocks-settings', 'generateblocks' );
+		}
+
 		wp_localize_script(
 			'generateblocks-settings',
 			'generateBlocksSettings',
@@ -100,8 +104,6 @@ class GenerateBlocks_Settings {
 	public function settings_page() {
 		?>
 			<div class="wrap gblocks-dashboard-wrap">
-				<?php generateblocks_do_dashboard_header( __( 'Settings', 'generateblocks' ) ); ?>
-
 				<div class="generateblocks-settings-area">
 					<?php do_action( 'generateblocks_settings_area' ); ?>
 				</div>

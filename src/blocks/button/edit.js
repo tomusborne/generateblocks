@@ -21,46 +21,46 @@ import MobileCSS from './css/mobile.js';
 import sanitizeSVG from '../../utils/sanitize-svg';
 import Element from '../../components/element';
 
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	TabPanel,
 	TextControl,
 	ToolbarGroup,
 	ToolbarButton,
 	Button,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	Fragment,
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	InspectorControls,
 	InspectorAdvancedControls,
 	RichText,
 	BlockControls,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	cloneBlock,
-} = wp.blocks;
+} from '@wordpress/blocks';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	withSelect,
 	withDispatch,
-} = wp.data;
+} from '@wordpress/data';
 
-const {
+import {
 	compose,
-} = wp.compose;
+} from '@wordpress/compose';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.

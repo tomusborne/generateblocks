@@ -5,13 +5,13 @@ import classnames from 'classnames';
 import blockAttributes from './attributes';
 import sanitizeSVG from '../../utils/sanitize-svg';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	RichText,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
 const deprecated = [
 	// v1 of button block.

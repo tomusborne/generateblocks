@@ -1,16 +1,16 @@
 import ApplyFilters from '../apply-filters/';
 
-const {
+import {
 	PanelBody,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
 /**
  * Component Class
@@ -58,11 +58,15 @@ export default class PanelArea extends Component {
 						icon={ icon }
 						className={ className }
 					>
-						{ children }
+						{
+							applyFilters( 'generateblocks.editor.panelContents', children, id, this.props )
+						}
 					</PanelBody>
 				) : (
 					<PanelBody>
-						{ children }
+						{
+							applyFilters( 'generateblocks.editor.panelContents', children, id, this.props )
+						}
 					</PanelBody>
 				) }
 			</ApplyFilters>

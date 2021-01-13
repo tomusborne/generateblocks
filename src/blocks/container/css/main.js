@@ -5,13 +5,19 @@ import hexToRGBA from '../../../utils/hex-to-rgba';
 import valueWithUnit from '../../../utils/value-with-unit';
 import getBackgroundImageCSS from '../../../utils/get-background-image';
 
-const { Component } = wp.element;
-const { applyFilters } = wp.hooks;
+import {
+	Component,
+} from '@wordpress/element';
+
+import {
+	applyFilters,
+} from '@wordpress/hooks';
 
 export default class MainCSS extends Component {
 	render() {
+		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
+
 		const {
-			attributes,
 			clientId,
 		} = this.props;
 
@@ -85,10 +91,6 @@ export default class MainCSS extends Component {
 
 		let innerZIndexValue = innerZindex;
 
-		if ( ! innerZIndexValue && hasBgImage && 'pseudo-element' === bgOptions.selector ) {
-			innerZIndexValue = 1;
-		}
-
 		let cssObj = [];
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
@@ -139,6 +141,10 @@ export default class MainCSS extends Component {
 			cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 				'z-index': 10,
 			} ];
+
+			if ( ! innerZIndexValue ) {
+				innerZIndexValue = 1;
+			}
 		}
 
 		cssObj[ `.editor-styles-wrapper .gb-container-` + uniqueId + ` h1,
@@ -193,6 +199,7 @@ export default class MainCSS extends Component {
 				'right': '0', // eslint-disable-line quote-props
 				'bottom': '0', // eslint-disable-line quote-props
 				'left': '0', // eslint-disable-line quote-props
+				'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 			} ];
 
 			if ( typeof bgOptions.opacity !== 'undefined' && 1 !== bgOptions.opacity ) {

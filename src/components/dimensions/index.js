@@ -9,20 +9,20 @@ import UnitPicker from '../unit-picker';
 /**
  * WordPress dependencies
  */
-const {
+import {
 	__,
 	sprintf,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	Component,
 	Fragment,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	Button,
 	Tooltip,
-} = wp.components;
+} from '@wordpress/components';
 
 class DimensionsControl extends Component {
 	constructor() {
@@ -249,6 +249,8 @@ class DimensionsControl extends Component {
 			}
 		}
 
+		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle;
+
 		return (
 			<Fragment>
 				<div className={ classes }>
@@ -272,7 +274,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeTopValue }
 							onBlur={ () => {
-								if ( '' === attributes[ attrTop ] && '' !== defaults[ attrTop ] ) {
+								if ( ! usingGlobalStyle && '' === attributes[ attrTop ] && '' !== defaults[ attrTop ] ) {
 									// If we have no value and a default exists, set to 0 to prevent default from coming back.
 									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 										this.onChangeAll( '0' );
@@ -297,7 +299,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeRightValue }
 							onBlur={ () => {
-								if ( '' === attributes[ attrRight ] && '' !== defaults[ attrRight ] ) {
+								if ( ! usingGlobalStyle && '' === attributes[ attrRight ] && '' !== defaults[ attrRight ] ) {
 									// If we have no value and a default exists, set to 0 to prevent default from coming back.
 									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 										this.onChangeAll( '0' );
@@ -322,7 +324,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeBottomValue }
 							onBlur={ () => {
-								if ( '' === attributes[ attrBottom ] && '' !== defaults[ attrBottom ] ) {
+								if ( ! usingGlobalStyle && '' === attributes[ attrBottom ] && '' !== defaults[ attrBottom ] ) {
 									// If we have no value and a default exists, set to 0 to prevent default from coming back.
 									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 										this.onChangeAll( '0' );
@@ -347,7 +349,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeLeftValue }
 							onBlur={ () => {
-								if ( '' === attributes[ attrLeft ] && '' !== defaults[ attrLeft ] ) {
+								if ( ! usingGlobalStyle && '' === attributes[ attrLeft ] && '' !== defaults[ attrLeft ] ) {
 									// If we have no value and a default exists, set to 0 to prevent default from coming back.
 									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 										this.onChangeAll( '0' );

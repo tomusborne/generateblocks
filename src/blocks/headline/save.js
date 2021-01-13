@@ -6,13 +6,13 @@ import classnames from 'classnames';
 import sanitizeSVG from '../../utils/sanitize-svg';
 import Element from '../../components/element';
 
-const {
+import {
 	RichText,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
 export default ( { attributes } ) => {
 	const {

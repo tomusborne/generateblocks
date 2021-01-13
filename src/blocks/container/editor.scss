@@ -105,6 +105,11 @@ body .gb-container .wp-block {
 	margin-bottom: 0;
 }
 
+.gb-container .wp-block-image {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 /* Shape divider */
 .gb-container .gb-shape {
 	position: absolute;
@@ -196,6 +201,10 @@ body .gb-container .wp-block {
 			margin-right: 0;
 		}
 	}
+}
+
+.components-popover.gblocks-shapes-dropdown .components-popover__content {
+    min-width: 260px;
 }
 
 /* GPress content width */

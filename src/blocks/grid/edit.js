@@ -13,47 +13,47 @@ import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 
-const {
+import {
 	__,
-} = wp.i18n;
+} from '@wordpress/i18n';
 
-const {
+import {
 	TextControl,
 	SelectControl,
 	Placeholder,
 	Button,
 	ToolbarGroup,
 	ToolbarButton,
-} = wp.components;
+} from '@wordpress/components';
 
-const {
+import {
 	Fragment,
 	Component,
-} = wp.element;
+} from '@wordpress/element';
 
-const {
+import {
 	InspectorControls,
 	InnerBlocks,
 	BlockControls,
 	InspectorAdvancedControls,
-} = wp.blockEditor;
+} from '@wordpress/block-editor';
 
-const {
+import {
 	createBlock,
-} = wp.blocks;
+} from '@wordpress/blocks';
 
-const {
+import {
 	applyFilters,
-} = wp.hooks;
+} from '@wordpress/hooks';
 
-const {
+import {
 	withSelect,
 	withDispatch,
-} = wp.data;
+} from '@wordpress/data';
 
-const {
+import {
 	compose,
-} = wp.compose;
+} from '@wordpress/compose';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.
@@ -317,30 +317,32 @@ class GenerateBlockGridContainer extends Component {
 
 		return (
 			<Fragment>
-				<BlockControls>
-					<ToolbarGroup>
-						<ToolbarButton
-							className="gblocks-block-control-icon gblocks-add-grid-item"
-							icon={ getIcon( 'addContainer' ) }
-							label={ __( 'Add Grid Item', 'generateblocks' ) }
-							onClick={ () => {
-								wp.data.dispatch( 'core/block-editor' ).insertBlocks(
-									createBlock( 'generateblocks/container', {
-										isGrid: true,
-										gridId: uniqueId,
-										paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
-										paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
-										paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
-										paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
-									} ),
-									undefined,
-									clientId
-								);
-							} }
-							showTooltip
-						/>
-					</ToolbarGroup>
-				</BlockControls>
+				{ ( columns > 0 || this.state.selectedLayout ) &&
+					<BlockControls>
+						<ToolbarGroup>
+							<ToolbarButton
+								className="gblocks-block-control-icon gblocks-add-grid-item"
+								icon={ getIcon( 'addContainer' ) }
+								label={ __( 'Add Grid Item', 'generateblocks' ) }
+								onClick={ () => {
+									wp.data.dispatch( 'core/block-editor' ).insertBlocks(
+										createBlock( 'generateblocks/container', {
+											isGrid: true,
+											gridId: uniqueId,
+											paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
+											paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
+											paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
+											paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
+										} ),
+										undefined,
+										clientId
+									);
+								} }
+								showTooltip
+							/>
+						</ToolbarGroup>
+					</BlockControls>
+				}
 
 				<InspectorControls>
 					<ResponsiveTabs { ...this.props }

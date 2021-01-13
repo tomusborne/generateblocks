@@ -242,11 +242,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$settings['bgOptions']['selector'] = 'element';
 				}
 
+				$containerWidth = $settings['containerWidth'];
+
+				if ( isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] ) {
+					if ( (string) $containerWidth === (string) $defaults['container']['containerWidth'] ) {
+						$containerWidth = '';
+					}
+				}
+
 				$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
 				$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
 				$hasBgImage = $settings['bgImage'];
 
-				$css->set_selector( '.gb-container.gb-container-' . $id );
+				$css->set_selector( '.gb-container-' . $id );
 				$css->add_property( 'font-family', $fontFamily );
 				$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 				$css->add_property( 'font-weight', $settings['fontWeight'] );
@@ -254,9 +262,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
 
 				if ( 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
-					$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
-					$css->add_property( 'margin-left', 'auto' );
-					$css->add_property( 'margin-right', 'auto' );
+					if ( ! empty( $containerWidth ) ) {
+						$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
+						$css->add_property( 'margin-left', 'auto' );
+						$css->add_property( 'margin-right', 'auto' );
+					}
 				}
 
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
@@ -315,7 +325,9 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$css->add_property( 'text-align', $settings['alignment'] );
 
-				$css->set_selector( '.gb-container.gb-container-' . $id . ':before' );
+				$innerZIndex = $settings['innerZindex'];
+
+				$css->set_selector( '.gb-container-' . $id . ':before' );
 
 				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 					$css->add_property( 'content', '""' );
@@ -331,14 +343,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'bottom', '0' );
 					$css->add_property( 'left', '0' );
 					$css->add_property( 'transition', 'inherit' );
+					$css->add_property( 'border-radius', generateblocks_get_shorthand_css( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], $settings['borderRadiusUnit'] ) );
 
 					if ( isset( $settings['bgOptions']['opacity'] ) && 1 !== $settings['bgOptions']['opacity'] ) {
 						$css->add_property( 'opacity', $settings['bgOptions']['opacity'] );
 					}
+
+					if ( ! $innerZIndex ) {
+						$innerZIndex = 1;
+					}
 				}
 
 				if ( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] ) {
-					$css->set_selector( '.gb-container.gb-container-' . $id . ':after' );
+					$css->set_selector( '.gb-container-' . $id . ':after' );
 					$css->add_property( 'content', '""' );
 					$css->add_property( 'background-image', $gradientValue );
 					$css->add_property( 'z-index', '0' );
@@ -347,21 +364,21 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'right', '0' );
 					$css->add_property( 'bottom', '0' );
 					$css->add_property( 'left', '0' );
+
+					if ( ! $innerZIndex ) {
+						$innerZIndex = 1;
+					}
 				}
 
-				$innerZIndex = $settings['innerZindex'];
-
-				if ( ! $innerZIndex && $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
-					$innerZIndex = 1;
-				}
-
-				$css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
+				$css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 				$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
 
 				if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
-					$css->add_property( 'max-width', absint( $settings['containerWidth'] ), 'px' );
-					$css->add_property( 'margin-left', 'auto' );
-					$css->add_property( 'margin-right', 'auto' );
+					if ( ! empty( $containerWidth ) ) {
+						$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
+						$css->add_property( 'margin-left', 'auto' );
+						$css->add_property( 'margin-right', 'auto' );
+					}
 				}
 
 				if ( $usingMinHeightFlex ) {
@@ -375,10 +392,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'position', 'relative' );
 				}
 
-				$css->set_selector( '.gb-container.gb-container-' . $id . ' a, .gb-container.gb-container-' . $id . ' a:visited' );
+				$css->set_selector( '.gb-container-' . $id . ' a, .gb-container-' . $id . ' a:visited' );
 				$css->add_property( 'color', $settings['linkColor'] );
 
-				$css->set_selector( '.gb-container.gb-container-' . $id . ' a:hover' );
+				$css->set_selector( '.gb-container-' . $id . ' a:hover' );
 				$css->add_property( 'color', $settings['linkColorHover'] );
 
 				if ( $settings['isGrid'] ) {
@@ -458,7 +475,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$tablet_css->set_selector( '.gb-container.gb-container-' . $id );
+				$tablet_css->set_selector( '.gb-container-' . $id );
 				$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 				$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 				$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
@@ -485,7 +502,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
 
-				$tablet_css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
+				$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 				$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 
 				$usingMinHeightInnerWidthBoxSizing = false;
@@ -540,7 +557,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$mobile_css->set_selector( '.gb-container.gb-container-' . $id );
+				$mobile_css->set_selector( '.gb-container-' . $id );
 				$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 				$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 				$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
@@ -567,7 +584,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
 
-				$mobile_css->set_selector( '.gb-container.gb-container-' . $id . ' > .gb-inside-container' );
+				$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 				$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 
 				if ( ! $settings['isGrid'] ) {
@@ -621,11 +638,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $hasBgImage && 'fixed' === $settings['bgOptions']['attachment'] ) {
 					if ( 'element' === $settings['bgOptions']['selector'] ) {
-						$mobile_css->set_selector( '.gb-container.gb-container-' . $id );
+						$mobile_css->set_selector( '.gb-container-' . $id );
 					}
 
 					if ( 'pseudo-element' === $settings['bgOptions']['selector'] ) {
-						$mobile_css->set_selector( '.gb-container.gb-container-' . $id . ':before' );
+						$mobile_css->set_selector( '.gb-container-' . $id . ':before' );
 					}
 
 					$mobile_css->add_property( 'background-attachment', 'initial' );
@@ -1078,7 +1095,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 
-				$selector = $settings['element'] . '.gb-headline-' . $id;
+				$selector = '.gb-headline-' . $id;
+
+				if ( apply_filters( 'generateblocks_headline_selector_tagname', true, $atts ) ) {
+					$selector = $settings['element'] . $selector;
+				}
 
 				// Back-compatibility for when icon held a value.
 				if ( $settings['icon'] ) {
