@@ -5,9 +5,7 @@ import {
 } from '@wordpress/hooks';
 
 export default function getBackgroundImageCSS( type, props ) {
-	const {
-		attributes,
-	} = props;
+	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
 
 	const {
 		backgroundColor,
