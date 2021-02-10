@@ -1086,6 +1086,7 @@ class GenerateBlockButton extends Component {
 				</Element>
 				{ isSelected &&
 					<URLInput
+						{ ...this.props }
 						url={ url }
 						target={ target }
 						relNoFollow={ relNoFollow }
