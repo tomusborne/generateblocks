@@ -1055,7 +1055,7 @@ class GenerateBlockButton extends Component {
 										placeholder={ __( 'Add text…', 'generateblocks' ) }
 										value={ text }
 										onChange={ ( value ) => setAttributes( { text: value } ) }
-										allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
+										allowedFormats={ applyFilters( 'generateblocks.editor.buttonDisableFormatting', false, this.props ) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 										isSelected={ isSelected }
 										keepPlaceholderOnFocus
 									/>
@@ -1076,7 +1076,7 @@ class GenerateBlockButton extends Component {
 							placeholder={ __( 'Add text…', 'generateblocks' ) }
 							value={ text }
 							onChange={ ( value ) => setAttributes( { text: value } ) }
-							allowedFormats={ [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
+							allowedFormats={ applyFilters( 'generateblocks.editor.buttonDisableFormatting', false, this.props ) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 							isSelected={ isSelected }
 							keepPlaceholderOnFocus
 						/>
