@@ -307,6 +307,8 @@ class GenerateBlockGridContainer extends Component {
 			verticalGapPlaceholderMobile = verticalGapTablet;
 		}
 
+		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle;
+
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-grid-wrapper': true,
@@ -384,12 +386,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! horizontalGap && generateBlocksDefaults.gridContainer.horizontalGap ) {
+											if ( ! usingGlobalStyle && ! horizontalGap && generateBlocksDefaults.gridContainer.horizontalGap ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													horizontalGap: 0,
 												} );
-											} else {
+											} else if ( '' !== horizontalGap ) {
 												setAttributes( {
 													horizontalGap: parseFloat( horizontalGap ),
 												} );
@@ -438,12 +440,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! verticalGap && generateBlocksDefaults.gridContainer.verticalGap ) {
+											if ( ! usingGlobalStyle && ! verticalGap && generateBlocksDefaults.gridContainer.verticalGap ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													verticalGap: 0,
 												} );
-											} else {
+											} else if ( '' !== verticalGap ) {
 												setAttributes( {
 													verticalGap: parseFloat( verticalGap ),
 												} );
@@ -530,12 +532,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! horizontalGapTablet && generateBlocksDefaults.gridContainer.horizontalGapTablet ) {
+											if ( ! usingGlobalStyle && ! horizontalGapTablet && generateBlocksDefaults.gridContainer.horizontalGapTablet ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													horizontalGapTablet: 0,
 												} );
-											} else {
+											} else if ( '' !== horizontalGapTablet ) {
 												setAttributes( {
 													horizontalGapTablet: parseFloat( horizontalGapTablet ),
 												} );
@@ -585,12 +587,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! verticalGapTablet && generateBlocksDefaults.gridContainer.verticalGapTablet ) {
+											if ( ! usingGlobalStyle && ! verticalGapTablet && generateBlocksDefaults.gridContainer.verticalGapTablet ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													verticalGapTablet: 0,
 												} );
-											} else {
+											} else if ( '' !== verticalGapTablet ) {
 												setAttributes( {
 													verticalGapTablet: parseFloat( verticalGapTablet ),
 												} );
@@ -679,12 +681,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! horizontalGapMobile && generateBlocksDefaults.gridContainer.horizontalGapMobile ) {
+											if ( ! usingGlobalStyle && ! horizontalGapMobile && generateBlocksDefaults.gridContainer.horizontalGapMobile ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													horizontalGapMobile: 0,
 												} );
-											} else {
+											} else if ( '' !== horizontalGapMobile ) {
 												setAttributes( {
 													horizontalGapMobile: parseFloat( horizontalGapMobile ),
 												} );
@@ -734,12 +736,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! verticalGapMobile && generateBlocksDefaults.gridContainer.verticalGapMobile ) {
+											if ( ! usingGlobalStyle && ! verticalGapMobile && generateBlocksDefaults.gridContainer.verticalGapMobile ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													verticalGapMobile: 0,
 												} );
-											} else {
+											} else if ( '' !== verticalGapMobile ) {
 												setAttributes( {
 													verticalGapMobile: parseFloat( verticalGapMobile ),
 												} );
