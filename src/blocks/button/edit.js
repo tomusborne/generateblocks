@@ -88,13 +88,16 @@ class GenerateBlockButton extends Component {
 	componentDidMount() {
 		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
+		// We don't want to ever regenerate unique IDs if they're a global style.
+		const isGlobalStyle = 'undefined' !== typeof this.props.attributes.isGlobalStyle && this.props.attributes.isGlobalStyle;
+
 		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
 
 			gbButtonIds.push( id );
-		} else if ( gbButtonIds.includes( this.props.attributes.uniqueId ) ) {
+		} else if ( gbButtonIds.includes( this.props.attributes.uniqueId ) && ! isGlobalStyle ) {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
