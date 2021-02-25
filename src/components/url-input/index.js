@@ -1,4 +1,5 @@
 import classnames from 'classnames';
+import getIcon from '../../utils/get-icon';
 
 // Import CSS
 import './editor.scss';
@@ -85,7 +86,7 @@ export default class ButtonURLInput extends Component {
 						autoFocus={ autoFocus } // eslint-disable-line jsx-a11y/no-autofocus
 					/>
 					<Button
-						icon={ 'ellipsis' }
+						icon={ getIcon( 'ellipsis' ) }
 						label={ moreOptions ? __( 'Hide More Options', 'generateblocks' ) : __( 'Show More Options', 'generateblocks' ) }
 						onClick={ () => {
 							this.setState( {

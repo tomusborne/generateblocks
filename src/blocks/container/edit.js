@@ -1596,7 +1596,7 @@ class GenerateBlockContainer extends Component {
 																className="gblocks-shape-dropdown"
 																isSecondary={ isOpen ? undefined : true }
 																isPrimary={ isOpen ? true : undefined }
-																icon={ 'admin-tools' }
+																icon={ getIcon( 'wrench' ) }
 																onClick={ onToggle }
 																aria-expanded={ isOpen }
 															/>
@@ -1959,7 +1959,7 @@ class GenerateBlockContainer extends Component {
 																handleRemoveShape( index );
 															}
 														} }
-														icon={ 'no-alt' }
+														icon={ getIcon( 'x' ) }
 													/>
 												</Tooltip>
 											}
