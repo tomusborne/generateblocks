@@ -202,7 +202,7 @@ class GenerateBlockGridContainer extends Component {
 			'50-25-25',
 			'20-60-20',
 			'20-20-20-20-20',
-			'16.66-16.66-16.66-16.66-16.66-16.66',
+			'16-16-16-16-16-16',
 		];
 
 		return (
