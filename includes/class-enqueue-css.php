@@ -76,10 +76,17 @@ class GenerateBlocks_Enqueue_CSS {
 	 */
 	public function mode() {
 		// Check if we're using file mode or inline mode.
-		// Default to file mode and falback to inline if file mode is not possible.
+		// Default to file mode and fallback to inline if file mode is not possible.
 		$mode = apply_filters( 'generateblocks_css_print_method', 'file' );
 
-		if ( ( function_exists( 'is_customize_preview' ) && is_customize_preview() ) || is_preview() ) {
+		if (
+			( function_exists( 'is_customize_preview' ) && is_customize_preview() )
+			||
+			is_preview()
+			||
+			// AMP inlines all CSS, so inlining from the start improves CSS processing performance.
+			( function_exists( 'is_amp_endpoint' ) && is_amp_endpoint() )
+		) {
 			return 'inline';
 		}
 
