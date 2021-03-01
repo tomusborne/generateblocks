@@ -104,6 +104,7 @@ export default class MainCSS extends Component {
 			'text-transform': textTransform,
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'min-height': valueWithUnit( minHeight, minHeightUnit ),
+			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
 
 		if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
@@ -160,7 +161,6 @@ export default class MainCSS extends Component {
 			cssObj[ '.gb-container-' + uniqueId ].push( {
 				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
 				'border-style': 'solid',
-				'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 			} );
 		}
 
