@@ -19,6 +19,8 @@ Add incredible versatility to your editor without bloating it with tons of one-d
 
 [GenerateBlocks](https://generateblocks.com?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) works hand-in-hand with [GeneratePress](https://generatepress.com?utm_source=wp-repo&utm_medium=link&utm_campaign=generateblocks-readme), but is built to work with any theme.
 
+Looking for more features? Check out [GenerateBlocks Pro](https://generateblocks.com/pro?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
+
 = Container =
 
 Organize your content into rows and sections. The Container block is the foundation of your content, allowing you to design unique sections for your content.
