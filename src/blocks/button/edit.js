@@ -1036,8 +1036,6 @@ class GenerateBlockButton extends Component {
 					/>
 				}
 
-				{ applyFilters( 'generateblocks.editor.beforeButtonElement', '', this.props ) }
-
 				<Element
 					tagName={ url ? 'a' : 'span' }
 					htmlAttrs={ htmlAttributes }
