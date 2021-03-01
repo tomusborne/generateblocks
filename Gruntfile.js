@@ -35,6 +35,8 @@ module.exports = function( grunt ) {
 					'!composer.lock',
 					'!package-lock.json',
 					'!phpcs.xml.dist',
+					'!.eslintignore',
+					'!.eslintrc.json',
 				],
 				dest: 'generateblocks/',
 			},
