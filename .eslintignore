@@ -1,0 +1,10 @@
+**/*.min.js
+**/*.build.js
+**/node_modules/**
+**/vendor/**
+build
+dist
+coverage
+cypress
+node_modules
+vendor
