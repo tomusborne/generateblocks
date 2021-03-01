@@ -1379,8 +1379,6 @@ class GenerateBlockContainer extends Component {
 								</div>
 							</BaseControl>
 
-							{ applyFilters( 'generateblocks.editor.afterBackgroundImageField', '', this.props, this.state ) }
-
 							{ !! bgImage && (
 								<Fragment>
 									{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
