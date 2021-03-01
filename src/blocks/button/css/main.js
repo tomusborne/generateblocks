@@ -116,13 +116,13 @@ export default class MainCSS extends Component {
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
 			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
+			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			cssObj[ '.block-editor-block-list__block ' + selector ].push( {
 				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
 				'border-style': 'solid',
-				'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 			} );
 		}
 
