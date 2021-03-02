@@ -1,4 +1,3 @@
-/* eslint-disable */
 const fonts = {
   "Roboto": {
     "weight": [
@@ -7923,4 +7922,3 @@ const fonts = {
 };
 
 export default fonts;
-/* eslint-enable */
