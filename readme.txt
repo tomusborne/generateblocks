@@ -3,9 +3,9 @@ Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
 Requires at least: 5.4
-Tested up to: 5.6
+Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 1.3.1
+Stable tag: 1.3.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,6 +18,8 @@ https://vimeo.com/412896611
 Add incredible versatility to your editor without bloating it with tons of one-dimensional Gutenberg blocks. With GenerateBlocks, you can learn a handful of blocks deeply and use them to build anything.
 
 [GenerateBlocks](https://generateblocks.com?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) works hand-in-hand with [GeneratePress](https://generatepress.com?utm_source=wp-repo&utm_medium=link&utm_campaign=generateblocks-readme), but is built to work with any theme.
+
+Looking for more features? Check out [GenerateBlocks Pro](https://generateblocks.com/pro?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
 = Container =
 
@@ -74,6 +76,16 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.3.2 =
+* New: Add generateblocks.editor.buttonDisableFormatting filter
+* Fix: Error when using em unit on a div headline
+* Fix: Icon button spacing in WP 5.7
+* Fix: Responsive block borders when no desktop border is set
+* Tweak: Prevent Global Styles (Pro) from regenerating unique ID
+* Tweak: Integrate Grid block with Global Styles (Pro)
+* Tweak: Always inline CSS on AMP pages to avoid needing to fetch
+* Tweak: Adjust editor grid class name to prevent Sass build error
 
 = 1.3.1 =
 * Tweak: Apply generateblocks.editor.cssAttrs filter to backgrounds

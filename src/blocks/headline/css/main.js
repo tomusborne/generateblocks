@@ -119,13 +119,13 @@ export default class MainCSS extends Component {
 			'margin-left': valueWithUnit( marginLeft, marginUnit ),
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
 			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
+			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} );
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
 				'border-style': 'solid',
-				'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 			} );
 		}
 

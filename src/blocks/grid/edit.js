@@ -83,13 +83,16 @@ class GenerateBlockGridContainer extends Component {
 	componentDidMount() {
 		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
 
+		// We don't want to ever regenerate unique IDs if they're a global style.
+		const isGlobalStyle = 'undefined' !== typeof this.props.attributes.isGlobalStyle && this.props.attributes.isGlobalStyle;
+
 		if ( ! this.props.attributes.uniqueId ) {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
 
 			gbGridIds.push( id );
-		} else if ( gbGridIds.includes( this.props.attributes.uniqueId ) ) {
+		} else if ( gbGridIds.includes( this.props.attributes.uniqueId ) && ! isGlobalStyle ) {
 			this.props.setAttributes( {
 				uniqueId: id,
 			} );
@@ -199,7 +202,7 @@ class GenerateBlockGridContainer extends Component {
 			'50-25-25',
 			'20-60-20',
 			'20-20-20-20-20',
-			'16.66-16.66-16.66-16.66-16.66-16.66',
+			'16-16-16-16-16-16',
 		];
 
 		return (
@@ -290,10 +293,19 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentMobile,
 		} = attributes;
 
-		const horizontalGapPlaceholderTablet = horizontalGap || 0 === horizontalGap ? horizontalGap : '',
+		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle && 'undefined' !== typeof attributes.globalStyleId && attributes.globalStyleId;
+		let horizontalGapValue = horizontalGap || 0 === horizontalGap ? horizontalGap : '';
+
+		if ( usingGlobalStyle ) {
+			if ( generateBlocksDefaults.gridContainer.horizontalGap === horizontalGapValue ) {
+				horizontalGapValue = '';
+			}
+		}
+
+		const horizontalGapPlaceholderTablet = horizontalGapValue,
 			verticalGapPlaceholderTablet = verticalGap || 0 === verticalGap ? verticalGap : '';
 
-		let horizontalGapPlaceholderMobile = horizontalGap || 0 === horizontalGap ? horizontalGap : '',
+		let horizontalGapPlaceholderMobile = horizontalGapValue,
 			verticalGapPlaceholderMobile = verticalGap || 0 === verticalGap ? verticalGap : '';
 
 		if ( horizontalGapTablet ) {
@@ -370,7 +382,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGap || 0 === horizontalGap ? horizontalGap : '' }
+										value={ horizontalGapValue }
 										min="0"
 										onChange={ ( value ) => {
 											// No hyphens allowed here.
@@ -381,12 +393,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! horizontalGap && generateBlocksDefaults.gridContainer.horizontalGap ) {
+											if ( ! usingGlobalStyle && ! horizontalGap && generateBlocksDefaults.gridContainer.horizontalGap ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													horizontalGap: 0,
 												} );
-											} else {
+											} else if ( '' !== horizontalGap ) {
 												setAttributes( {
 													horizontalGap: parseFloat( horizontalGap ),
 												} );
@@ -435,12 +447,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! verticalGap && generateBlocksDefaults.gridContainer.verticalGap ) {
+											if ( ! usingGlobalStyle && ! verticalGap && generateBlocksDefaults.gridContainer.verticalGap ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													verticalGap: 0,
 												} );
-											} else {
+											} else if ( '' !== verticalGap ) {
 												setAttributes( {
 													verticalGap: parseFloat( verticalGap ),
 												} );
@@ -527,12 +539,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! horizontalGapTablet && generateBlocksDefaults.gridContainer.horizontalGapTablet ) {
+											if ( ! usingGlobalStyle && ! horizontalGapTablet && generateBlocksDefaults.gridContainer.horizontalGapTablet ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													horizontalGapTablet: 0,
 												} );
-											} else {
+											} else if ( '' !== horizontalGapTablet ) {
 												setAttributes( {
 													horizontalGapTablet: parseFloat( horizontalGapTablet ),
 												} );
@@ -582,12 +594,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! verticalGapTablet && generateBlocksDefaults.gridContainer.verticalGapTablet ) {
+											if ( ! usingGlobalStyle && ! verticalGapTablet && generateBlocksDefaults.gridContainer.verticalGapTablet ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													verticalGapTablet: 0,
 												} );
-											} else {
+											} else if ( '' !== verticalGapTablet ) {
 												setAttributes( {
 													verticalGapTablet: parseFloat( verticalGapTablet ),
 												} );
@@ -676,12 +688,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! horizontalGapMobile && generateBlocksDefaults.gridContainer.horizontalGapMobile ) {
+											if ( ! usingGlobalStyle && ! horizontalGapMobile && generateBlocksDefaults.gridContainer.horizontalGapMobile ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													horizontalGapMobile: 0,
 												} );
-											} else {
+											} else if ( '' !== horizontalGapMobile ) {
 												setAttributes( {
 													horizontalGapMobile: parseFloat( horizontalGapMobile ),
 												} );
@@ -731,12 +743,12 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! verticalGapMobile && generateBlocksDefaults.gridContainer.verticalGapMobile ) {
+											if ( ! usingGlobalStyle && ! verticalGapMobile && generateBlocksDefaults.gridContainer.verticalGapMobile ) {
 												// If we have no value and a default exists, set to 0 to prevent default from coming back.
 												setAttributes( {
 													verticalGapMobile: 0,
 												} );
-											} else {
+											} else if ( '' !== verticalGapMobile ) {
 												setAttributes( {
 													verticalGapMobile: parseFloat( verticalGapMobile ),
 												} );

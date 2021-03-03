@@ -1,8 +1,6 @@
 node_modules
 vendor
 .DS_Store
-.eslintignore
-.eslintrc.json
 *.zip
 package-lock.json
 composer.lock
