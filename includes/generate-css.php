@@ -90,6 +90,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$gap_direction = 'right';
 				}
 
+				// Don't output horizontal gap defaults if we're using global styles.
+				if ( isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] && isset( $settings['globalStyleId'] ) && $settings['globalStyleId'] ) {
+					if ( (string) $settings['horizontalGap'] === (string) $defaults['gridContainer']['horizontalGap'] ) {
+						$settings['horizontalGap'] = '';
+					}
+				}
+
 				$css->set_selector( '.gb-grid-wrapper-' . $id );
 				$css->add_property( 'align-items', $settings['verticalAlignment'] );
 				$css->add_property( 'justify-content', $settings['horizontalAlignment'] );

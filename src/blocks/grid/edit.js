@@ -293,10 +293,19 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentMobile,
 		} = attributes;
 
-		const horizontalGapPlaceholderTablet = horizontalGap || 0 === horizontalGap ? horizontalGap : '',
+		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle && 'undefined' !== typeof attributes.globalStyleId && attributes.globalStyleId;
+		let horizontalGapValue = horizontalGap || 0 === horizontalGap ? horizontalGap : '';
+
+		if ( usingGlobalStyle ) {
+			if ( generateBlocksDefaults.gridContainer.horizontalGap === horizontalGapValue ) {
+				horizontalGapValue = '';
+			}
+		}
+
+		const horizontalGapPlaceholderTablet = horizontalGapValue,
 			verticalGapPlaceholderTablet = verticalGap || 0 === verticalGap ? verticalGap : '';
 
-		let horizontalGapPlaceholderMobile = horizontalGap || 0 === horizontalGap ? horizontalGap : '',
+		let horizontalGapPlaceholderMobile = horizontalGapValue,
 			verticalGapPlaceholderMobile = verticalGap || 0 === verticalGap ? verticalGap : '';
 
 		if ( horizontalGapTablet ) {
@@ -306,8 +315,6 @@ class GenerateBlockGridContainer extends Component {
 		if ( verticalGapTablet ) {
 			verticalGapPlaceholderMobile = verticalGapTablet;
 		}
-
-		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle;
 
 		let htmlAttributes = {
 			className: classnames( {
@@ -375,7 +382,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGap || 0 === horizontalGap ? horizontalGap : '' }
+										value={ horizontalGapValue }
 										min="0"
 										onChange={ ( value ) => {
 											// No hyphens allowed here.
