@@ -81,6 +81,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Add generateblocks.editor.buttonDisableFormatting filter
 * Fix: Error when using em unit on a div headline
 * Fix: Icon button spacing in WP 5.7
+* Fix: Responsive block borders when no desktop border is set
 * Tweak: Prevent Global Styles (Pro) from regenerating unique ID
 * Tweak: Integrate Grid block with Global Styles (Pro)
 * Tweak: Always inline CSS on AMP pages to avoid needing to fetch
