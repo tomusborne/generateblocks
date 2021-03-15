@@ -3,7 +3,6 @@
  */
 
 import classnames from 'classnames';
-import sanitizeSVG from '../../utils/sanitize-svg';
 import Element from '../../components/element';
 
 import {
@@ -47,7 +46,7 @@ export default ( { attributes } ) => {
 				<span
 					className="gb-icon"
 					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
-					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+					dangerouslySetInnerHTML={ { __html: icon } }
 				/>
 			}
 

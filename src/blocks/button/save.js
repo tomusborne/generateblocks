@@ -3,7 +3,6 @@
  */
 
 import classnames from 'classnames';
-import sanitizeSVG from '../../utils/sanitize-svg';
 import Element from '../../components/element';
 
 import {
@@ -68,7 +67,7 @@ export default ( { attributes } ) => {
 			{ !! icon && 'left' === iconLocation &&
 				<span
 					className="gb-icon"
-					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+					dangerouslySetInnerHTML={ { __html: icon } }
 				/>
 			}
 
@@ -83,7 +82,7 @@ export default ( { attributes } ) => {
 			{ !! icon && 'right' === iconLocation &&
 				<span
 					className="gb-icon"
-					dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+					dangerouslySetInnerHTML={ { __html: icon } }
 				/>
 			}
 		</Element>

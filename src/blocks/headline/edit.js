@@ -10,7 +10,6 @@ import TypographyControls from '../../components/typography';
 import DimensionsControl from '../../components/dimensions/';
 import ResponsiveTabs from '../../components/responsive-tabs';
 import getIcon from '../../utils/get-icon';
-import sanitizeSVG from '../../utils/sanitize-svg';
 import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
@@ -1258,7 +1257,7 @@ class GenerateBlockHeadline extends Component {
 							<span
 								className="gb-icon"
 								aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
-								dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+								dangerouslySetInnerHTML={ { __html: icon } }
 							/>
 
 							{ ! removeText &&
