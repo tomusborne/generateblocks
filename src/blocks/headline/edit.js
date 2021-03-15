@@ -1207,7 +1207,7 @@ class GenerateBlockHeadline extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'HTML Anchor' ) }
+						label={ __( 'HTML Anchor', 'generateblocks' ) }
 						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
 						value={ anchor || '' }
 						onChange={ ( nextValue ) => {
