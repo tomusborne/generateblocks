@@ -77,6 +77,11 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.3.3 =
+* Fix: Constant re-rendering of SVG icons in code editor
+* Fix: Broken CSS when empty/non-published re-usable blocks are on the page
+* Tweak: Add missing text domains
+
 = 1.3.2 =
 * New: Add generateblocks.editor.buttonDisableFormatting filter
 * Fix: Error when using em unit on a div headline
