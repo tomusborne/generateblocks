@@ -171,7 +171,7 @@ class App extends Component {
 
 							<PanelRow>
 								<ToggleControl
-									label={ __( 'Sync Responsive Previews' ) }
+									label={ __( 'Sync Responsive Previews', 'generateblocks' ) }
 									help={ __( 'Sync our responsive preview controls with the editor responsive previews.', 'generateblocks' ) }
 									checked={ this.getSetting( 'sync_responsive_previews' ) }
 									onChange={ ( value ) => {

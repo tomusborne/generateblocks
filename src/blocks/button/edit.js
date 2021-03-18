@@ -18,7 +18,6 @@ import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
 import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
-import sanitizeSVG from '../../utils/sanitize-svg';
 import Element from '../../components/element';
 
 import {
@@ -985,7 +984,7 @@ class GenerateBlockButton extends Component {
 
 				<InspectorAdvancedControls>
 					<TextControl
-						label={ __( 'HTML Anchor' ) }
+						label={ __( 'HTML Anchor', 'generateblocks' ) }
 						help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
 						value={ anchor || '' }
 						onChange={ ( nextValue ) => {
@@ -1045,7 +1044,7 @@ class GenerateBlockButton extends Component {
 							{ 'left' === iconLocation &&
 								<span
 									className="gb-icon"
-									dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+									dangerouslySetInnerHTML={ { __html: icon } }
 								/>
 							}
 
@@ -1065,7 +1064,7 @@ class GenerateBlockButton extends Component {
 							{ 'right' === iconLocation &&
 								<span
 									className="gb-icon"
-									dangerouslySetInnerHTML={ { __html: sanitizeSVG( icon ) } }
+									dangerouslySetInnerHTML={ { __html: icon } }
 								/>
 							}
 						</Fragment>

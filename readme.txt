@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiw
 Requires at least: 5.4
 Tested up to: 5.7
 Requires PHP: 5.6
-Stable tag: 1.3.2
+Stable tag: 1.3.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,11 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.3.3 =
+* Fix: Constant re-rendering of SVG icons in code editor
+* Fix: Broken CSS when empty/non-published re-usable blocks are on the page
+* Tweak: Add missing text domains
 
 = 1.3.2 =
 * New: Add generateblocks.editor.buttonDisableFormatting filter

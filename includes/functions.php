@@ -71,9 +71,12 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 					if ( isset( $atts['ref'] ) ) {
 						$reusable_block = get_post( $atts['ref'] );
 
-						if ( $reusable_block && 'wp_block' === $reusable_block->post_type ) {
+						if ( $reusable_block && 'wp_block' === $reusable_block->post_type && 'publish' === $reusable_block->post_status ) {
 							$reuse_data_block = parse_blocks( $reusable_block->post_content );
-							$data = generateblocks_get_block_data( $reuse_data_block, $data );
+
+							if ( ! empty( $reuse_data_block ) ) {
+								$data = generateblocks_get_block_data( $reuse_data_block, $data );
+							}
 						}
 					}
 				}
