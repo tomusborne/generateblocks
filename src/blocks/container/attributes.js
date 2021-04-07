@@ -32,6 +32,18 @@ const attributes = {
 		type: 'number',
 		default: generateBlocksDefaults.container.widthMobile,
 	},
+	autoWidth: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.autoWidth,
+	},
+	autoWidthTablet: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.autoWidthTablet,
+	},
+	autoWidthMobile: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.autoWidthMobile,
+	},
 	flexGrow: {
 		type: 'number',
 		default: generateBlocksDefaults.container.flexGrow,

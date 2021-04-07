@@ -25,16 +25,21 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	margin: 0 0 10px;
 }
 
-.widthButtons button {
-    font-size: 12px;
-    flex: 1;
-	box-shadow: inset 0 0 0 1px #007cba;
-	justify-content: center;
-}
-
 .widthButtons {
     margin-bottom: 10px;
     display: flex;
+
+	button {
+		font-size: 12px;
+		flex: 1;
+		box-shadow: inset 0 0 0 1px #007cba;
+		justify-content: center;
+		padding: 5px 0;
+
+		&:first-child {
+			padding: 5px;
+		}
+	}
 }
 
 .gblocks-column-width-control input[type="number"] {

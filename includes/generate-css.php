@@ -407,7 +407,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['isGrid'] ) {
 					$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
-					$css->add_property( 'width', $settings['width'], '%' );
+
+					if ( ! $settings['autoWidth'] ) {
+						$css->add_property( 'width', $settings['width'], '%' );
+					}
+
 					$css->add_property( 'flex-grow', $settings['flexGrow'] );
 					$css->add_property( 'flex-shrink', $settings['flexShrink'] );
 
@@ -538,7 +542,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
-				$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
+
+				if ( ! $settings['autoWidthTablet'] ) {
+					$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
+				} else {
+					$tablet_css->add_property( 'width', 'auto' );
+				}
+
 				$tablet_css->add_property( 'flex-grow', $settings['flexGrowTablet'] );
 				$tablet_css->add_property( 'flex-shrink', $settings['flexShrinkTablet'] );
 
@@ -623,8 +633,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
-				if ( 100 !== $settings['widthMobile'] ) {
+				if ( 100 !== $settings['widthMobile'] && ! $settings['autoWidthMobile'] ) {
 					$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
+				}
+
+				if ( $settings['autoWidthMobile'] ) {
+					$mobile_css->add_property( 'width', 'auto' );
 				}
 
 				$mobile_css->add_property( 'flex-grow', $settings['flexGrowMobile'] );
