@@ -261,7 +261,7 @@ class GenerateBlockButton extends Component {
 					<ToolbarGroup>
 						<ToolbarButton
 							className="gblocks-add-new-button"
-							icon={ 'insert' }
+							icon={ getIcon( 'insert' ) }
 							label={ __( 'Add Button', 'generateblocks' ) }
 							onClick={ () => {
 								let parentBlockId = false;

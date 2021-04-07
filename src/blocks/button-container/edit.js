@@ -182,7 +182,7 @@ class GenerateButtonContainer extends Component {
 					<ToolbarGroup>
 						<ToolbarButton
 							className="gblocks-add-new-button"
-							icon={ 'insert' }
+							icon={ getIcon( 'insert' ) }
 							label={ __( 'Add Button', 'generateblocks' ) }
 							onClick={ () => {
 								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
