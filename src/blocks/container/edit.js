@@ -941,7 +941,7 @@ class GenerateBlockContainer extends Component {
 
 										<ButtonGroup className={ 'widthButtons' }>
 											<Button isPrimary={ !! autoWidthMobile } onClick={ () => {
-												if ( autoWidth ) {
+												if ( autoWidthMobile ) {
 													setAttributes( { autoWidthMobile: false } );
 												} else {
 													setAttributes( { autoWidthMobile: true } );
