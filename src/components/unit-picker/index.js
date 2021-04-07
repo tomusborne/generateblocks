@@ -24,12 +24,17 @@ export default class UnitChooser extends Component {
 			value,
 			onClick,
 			units,
+			id,
 		} = this.props;
 
 		return (
 			<div className="components-gblocks-units-control-header__units">
 				<div className="components-gblocks-units-control-label__units">
-					{ label }
+					{ !! id ? (
+						<label htmlFor={ id }>{ label }</label>
+					) : (
+						label
+					) }
 				</div>
 
 				<div className="components-gblocks-control__units">
