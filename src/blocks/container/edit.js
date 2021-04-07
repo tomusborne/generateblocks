@@ -775,12 +775,12 @@ class GenerateBlockContainer extends Component {
 												{ __( 'Auto', 'generateblocks' ) }
 											</Button>
 
-											<Button isPrimary={ widthTablet === 25 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 25 } ) }>25</Button>
-											<Button isPrimary={ widthTablet === 33.33 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 33.33 } ) }>33</Button>
-											<Button isPrimary={ widthTablet === 50 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 50 } ) }>50</Button>
-											<Button isPrimary={ widthTablet === 66.66 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 66.66 } ) }>66</Button>
-											<Button isPrimary={ widthTablet === 75 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 75 } ) }>75</Button>
-											<Button isPrimary={ widthTablet === 100 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 100 } ) }>100</Button>
+											<Button isPrimary={ widthTablet === 25 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 25, autoWidthTablet: false } ) }>25</Button>
+											<Button isPrimary={ widthTablet === 33.33 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 33.33, autoWidthTablet: false } ) }>33</Button>
+											<Button isPrimary={ widthTablet === 50 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 50, autoWidthTablet: false } ) }>50</Button>
+											<Button isPrimary={ widthTablet === 66.66 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 66.66, autoWidthTablet: false } ) }>66</Button>
+											<Button isPrimary={ widthTablet === 75 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 75, autoWidthTablet: false } ) }>75</Button>
+											<Button isPrimary={ widthTablet === 100 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 100, autoWidthTablet: false } ) }>100</Button>
 										</ButtonGroup>
 									</BaseControl>
 
@@ -791,6 +791,7 @@ class GenerateBlockContainer extends Component {
 											onChange={ ( value ) => {
 												setAttributes( {
 													widthTablet: value,
+													autoWidthTablet: false,
 												} );
 											} }
 											min={ 0 }
@@ -949,12 +950,12 @@ class GenerateBlockContainer extends Component {
 												{ __( 'Auto', 'generateblocks' ) }
 											</Button>
 
-											<Button isPrimary={ widthMobile === 25 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 25 } ) }>25</Button>
-											<Button isPrimary={ widthMobile === 33.33 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 33.33 } ) }>33</Button>
-											<Button isPrimary={ widthMobile === 50 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 50 } ) }>50</Button>
-											<Button isPrimary={ widthMobile === 66.66 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 66.66 } ) }>66</Button>
-											<Button isPrimary={ widthMobile === 75 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 75 } ) }>75</Button>
-											<Button isPrimary={ widthMobile === 100 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 100 } ) }>100</Button>
+											<Button isPrimary={ widthMobile === 25 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 25, autoWidthMobile: false } ) }>25</Button>
+											<Button isPrimary={ widthMobile === 33.33 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 33.33, autoWidthMobile: false } ) }>33</Button>
+											<Button isPrimary={ widthMobile === 50 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 50, autoWidthMobile: false } ) }>50</Button>
+											<Button isPrimary={ widthMobile === 66.66 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 66.66, autoWidthMobile: false } ) }>66</Button>
+											<Button isPrimary={ widthMobile === 75 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 75, autoWidthMobile: false } ) }>75</Button>
+											<Button isPrimary={ widthMobile === 100 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 100, autoWidthMobile: false } ) }>100</Button>
 										</ButtonGroup>
 									</BaseControl>
 
@@ -965,6 +966,7 @@ class GenerateBlockContainer extends Component {
 											onChange={ ( value ) => {
 												setAttributes( {
 													widthMobile: value,
+													autoWidthMobile: false,
 												} );
 											} }
 											min={ 0 }
