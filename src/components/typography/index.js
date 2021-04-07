@@ -441,9 +441,11 @@ class TypographyControls extends Component {
 								onBlur={ () => {
 									const name = getAttributeName( 'letterSpacing', device );
 
-									setAttributes( {
-										[ name ]: parseFloat( getValue( 'letterSpacing', device ) ),
-									} );
+									if ( '' !== getValue( 'letterSpacing', device ) ) {
+										setAttributes( {
+											[ name ]: parseFloat( getValue( 'letterSpacing', device ) ),
+										} );
+									}
 								} }
 								onClick={ ( e ) => {
 									// Make sure onBlur fires in Firefox.
