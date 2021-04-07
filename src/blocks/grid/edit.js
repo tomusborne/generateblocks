@@ -12,6 +12,7 @@ import TabletCSS from './css/tablet.js';
 import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
+import getAllUniqueIds from '../../utils/get-all-unique-ids';
 
 import {
 	__,
@@ -62,8 +63,6 @@ import {
  */
 const ANCHOR_REGEX = /[\s#]/g;
 
-const gbGridIds = [];
-
 class GenerateBlockGridContainer extends Component {
 	constructor() {
 		super( ...arguments );
@@ -81,25 +80,14 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	componentDidMount() {
-		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		// Generate a unique ID if none exists or if the same ID exists on this page.
+		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
+		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
 
-		// We don't want to ever regenerate unique IDs if they're a global style.
-		const isGlobalStyle = 'undefined' !== typeof this.props.attributes.isGlobalStyle && this.props.attributes.isGlobalStyle;
-
-		if ( ! this.props.attributes.uniqueId ) {
+		if ( ! this.props.attributes.uniqueId || uniqueIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.setAttributes( {
-				uniqueId: id,
+				uniqueId: this.props.clientId.substr( 2, 9 ).replace( '-', '' ),
 			} );
-
-			gbGridIds.push( id );
-		} else if ( gbGridIds.includes( this.props.attributes.uniqueId ) && ! isGlobalStyle ) {
-			this.props.setAttributes( {
-				uniqueId: id,
-			} );
-
-			gbGridIds.push( id );
-		} else {
-			gbGridIds.push( this.props.attributes.uniqueId );
 		}
 
 		// This block used to be static. Set it to dynamic by default from now on.
