@@ -97,7 +97,7 @@ class TypographyControls extends Component {
 				const hasLetters = k.match( /[a-z]/g );
 				const hasNumbers = k.match( /[0-9]/g );
 
-				if ( ( hasLetters && hasNumbers ) || 'italic' === k ) {
+				if ( ( hasLetters && hasNumbers ) || 'italic' === k || 'regular' === k ) {
 					return false;
 				}
 
