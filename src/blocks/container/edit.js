@@ -19,6 +19,7 @@ import TabletCSS from './css/tablet.js';
 import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
+import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 
 import {
 	__,
@@ -168,6 +169,16 @@ class GenerateBlockContainer extends Component {
 			width,
 			widthTablet,
 			widthMobile,
+			flexGrow,
+			flexGrowTablet,
+			flexGrowMobile,
+			flexShrink,
+			flexShrinkTablet,
+			flexShrinkMobile,
+			flexBasis,
+			flexBasisTablet,
+			flexBasisMobile,
+			flexBasisUnit,
 			outerContainer,
 			innerContainer,
 			containerWidth,
@@ -596,6 +607,91 @@ class GenerateBlockContainer extends Component {
 										initialPosition={ generateBlocksDefaults.container.width }
 									/>
 
+									<BaseControl
+										className="gblocks-flex-controls"
+										label={ __( 'Flex', 'generateblocks' ) }
+										id="gblocks-flex-grow-desktop"
+									>
+										<div className="gblocks-flex-controls-inner">
+											<TextControl
+												help={ __( 'Grow', 'generateblocks' ) }
+												id="gblocks-flex-grow-desktop"
+												type={ 'number' }
+												value={ flexGrow }
+												min="0"
+												step="1"
+												placeholder="0"
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexGrow: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexGrow ) {
+														setAttributes( {
+															flexGrow: parseFloat( flexGrow ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<TextControl
+												help={ __( 'Shrink', 'generateblocks' ) }
+												type={ 'number' }
+												value={ flexShrink }
+												min="0"
+												step="1"
+												placeholder="1"
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexShrink: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexShrink ) {
+														setAttributes( {
+															flexShrink: parseFloat( flexShrink ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<div className="gblocks-flex-basis-wrapper">
+												{ ! isNaN( flexBasis ) &&
+													<UnitPicker
+														value={ flexBasisUnit }
+														units={ [ 'px', '%' ] }
+														onClick={ ( value ) => {
+															setAttributes( {
+																flexBasisUnit: value,
+															} );
+														} }
+													/>
+												}
+
+												<TextControl
+													help={ __( 'Basis', 'generateblocks' ) }
+													type={ 'text' }
+													placeholder="auto"
+													value={ flexBasis }
+													onChange={ ( value ) => {
+														setAttributes( {
+															flexBasis: value,
+														} );
+													} }
+												/>
+											</div>
+										</div>
+									</BaseControl>
+
 									<SelectControl
 										label={ __( 'Vertical Alignment', 'generateblocks' ) }
 										help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
@@ -672,6 +768,91 @@ class GenerateBlockContainer extends Component {
 										initialPosition={ generateBlocksDefaults.container.widthTablet }
 									/>
 
+									<BaseControl
+										className="gblocks-flex-controls"
+										label={ __( 'Flex', 'generateblocks' ) }
+										id="gblocks-flex-grow-tablet"
+									>
+										<div className="gblocks-flex-controls-inner">
+											<TextControl
+												help={ __( 'Grow', 'generateblocks' ) }
+												id="gblocks-flex-grow-tablet"
+												type={ 'number' }
+												value={ flexGrowTablet }
+												min="0"
+												step="1"
+												placeholder={ getResponsivePlaceholder( 'flexGrow', attributes, 'Tablet', '0' ) }
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexGrowTablet: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexGrowTablet ) {
+														setAttributes( {
+															flexGrowTablet: parseFloat( flexGrowTablet ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<TextControl
+												help={ __( 'Shrink', 'generateblocks' ) }
+												type={ 'number' }
+												value={ flexShrinkTablet }
+												min="0"
+												step="1"
+												placeholder={ getResponsivePlaceholder( 'flexShrink', attributes, 'Tablet', '1' ) }
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexShrinkTablet: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexShrinkTablet ) {
+														setAttributes( {
+															flexShrinkTablet: parseFloat( flexShrinkTablet ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<div className="gblocks-flex-basis-wrapper">
+												{ ! isNaN( flexBasisTablet ) &&
+													<UnitPicker
+														value={ flexBasisUnit }
+														units={ [ 'px', '%' ] }
+														onClick={ ( value ) => {
+															setAttributes( {
+																flexBasisUnit: value,
+															} );
+														} }
+													/>
+												}
+
+												<TextControl
+													help={ __( 'Basis', 'generateblocks' ) }
+													type={ 'text' }
+													value={ flexBasisTablet }
+													placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, 'Tablet', 'auto' ) }
+													onChange={ ( value ) => {
+														setAttributes( {
+															flexBasisTablet: value,
+														} );
+													} }
+												/>
+											</div>
+										</div>
+									</BaseControl>
+
 									<SelectControl
 										label={ __( 'Vertical Alignment', 'generateblocks' ) }
 										help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
@@ -746,6 +927,91 @@ class GenerateBlockContainer extends Component {
 										step={ 0.01 }
 										initialPosition={ generateBlocksDefaults.container.widthMobile }
 									/>
+
+									<BaseControl
+										className="gblocks-flex-controls"
+										label={ __( 'Flex', 'generateblocks' ) }
+										id="gblocks-flex-grow-mobile"
+									>
+										<div className="gblocks-flex-controls-inner">
+											<TextControl
+												help={ __( 'Grow', 'generateblocks' ) }
+												id="gblocks-flex-grow-mobile"
+												type={ 'number' }
+												value={ flexGrowMobile }
+												min="0"
+												step="1"
+												placeholder={ getResponsivePlaceholder( 'flexGrow', attributes, 'Mobile', '0' ) }
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexGrowMobile: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexGrowMobile ) {
+														setAttributes( {
+															flexGrowMobile: parseFloat( flexGrowMobile ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<TextControl
+												help={ __( 'Shrink', 'generateblocks' ) }
+												type={ 'number' }
+												value={ flexShrinkMobile }
+												min="0"
+												step="1"
+												placeholder={ getResponsivePlaceholder( 'flexShrink', attributes, 'Mobile', '1' ) }
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexShrinkMobile: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexShrinkMobile ) {
+														setAttributes( {
+															flexShrinkMobile: parseFloat( flexShrinkMobile ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<div className="gblocks-flex-basis-wrapper">
+												{ ! isNaN( flexBasisMobile ) &&
+													<UnitPicker
+														value={ flexBasisUnit }
+														units={ [ 'px', '%' ] }
+														onClick={ ( value ) => {
+															setAttributes( {
+																flexBasisUnit: value,
+															} );
+														} }
+													/>
+												}
+
+												<TextControl
+													help={ __( 'Basis', 'generateblocks' ) }
+													type={ 'text' }
+													value={ flexBasisMobile }
+													placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, 'Mobile', 'auto' ) }
+													onChange={ ( value ) => {
+														setAttributes( {
+															flexBasisMobile: value,
+														} );
+													} }
+												/>
+											</div>
+										</div>
+									</BaseControl>
 
 									<SelectControl
 										label={ __( 'Vertical Alignment', 'generateblocks' ) }

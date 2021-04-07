@@ -408,6 +408,14 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				if ( $settings['isGrid'] ) {
 					$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 					$css->add_property( 'width', $settings['width'], '%' );
+					$css->add_property( 'flex-grow', $settings['flexGrow'] );
+					$css->add_property( 'flex-shrink', $settings['flexShrink'] );
+
+					if ( is_numeric( $settings['flexBasis'] ) ) {
+						$css->add_property( 'flex-basis', $settings['flexBasis'], $settings['flexBasisUnit'] );
+					} else {
+						$css->add_property( 'flex-basis', $settings['flexBasis'] );
+					}
 				}
 
 				if ( $settings['removeVerticalGap'] ) {
@@ -531,6 +539,14 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 				$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
+				$tablet_css->add_property( 'flex-grow', $settings['flexGrowTablet'] );
+				$tablet_css->add_property( 'flex-shrink', $settings['flexShrinkTablet'] );
+
+				if ( is_numeric( $settings['flexBasisTablet'] ) ) {
+					$tablet_css->add_property( 'flex-basis', $settings['flexBasisTablet'], $settings['flexBasisUnit'] );
+				} else {
+					$tablet_css->add_property( 'flex-basis', $settings['flexBasisTablet'] );
+				}
 
 				if ( $settings['isGrid'] ) {
 					$tablet_css->add_property( 'order', $settings['orderTablet'] );
@@ -609,6 +625,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( 100 !== $settings['widthMobile'] ) {
 					$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
+				}
+
+				$mobile_css->add_property( 'flex-grow', $settings['flexGrowMobile'] );
+				$mobile_css->add_property( 'flex-shrink', $settings['flexShrinkMobile'] );
+
+				if ( is_numeric( $settings['flexBasisMobile'] ) ) {
+					$mobile_css->add_property( 'flex-basis', $settings['flexBasisMobile'], $settings['flexBasisUnit'] );
+				} else {
+					$mobile_css->add_property( 'flex-basis', $settings['flexBasisMobile'] );
 				}
 
 				if ( $settings['isGrid'] ) {

@@ -22,6 +22,10 @@ export default class TabletCSS extends Component {
 			uniqueId,
 			isGrid,
 			widthTablet,
+			flexGrowTablet,
+			flexShrinkTablet,
+			flexBasisTablet,
+			flexBasisUnit,
 			minHeightTablet,
 			minHeightUnitTablet,
 			paddingTopTablet,
@@ -102,6 +106,9 @@ export default class TabletCSS extends Component {
 
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
 			'width': valueWithUnit( widthTablet, '%' ), // eslint-disable-line quote-props
+			'flex-grow': flexGrowTablet,
+			'flex-shrink': flexShrinkTablet,
+			'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
 		} ];
 
 		if ( shapeDividers.length ) {

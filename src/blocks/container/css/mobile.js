@@ -22,6 +22,10 @@ export default class MobileCSS extends Component {
 			uniqueId,
 			isGrid,
 			widthMobile,
+			flexGrowMobile,
+			flexShrinkMobile,
+			flexBasisMobile,
+			flexBasisUnit,
 			minHeightMobile,
 			minHeightUnitMobile,
 			paddingTopMobile,
@@ -106,6 +110,9 @@ export default class MobileCSS extends Component {
 
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
 			'width': valueWithUnit( widthMobile, '%' ), // eslint-disable-line quote-props
+			'flex-grow': flexGrowMobile,
+			'flex-shrink': flexShrinkMobile,
+			'flex-basis': isNaN( flexBasisMobile ) ? flexBasisMobile : valueWithUnit( flexBasisMobile, flexBasisUnit ),
 			'order': orderMobile, // eslint-disable-line quote-props
 		} ];
 

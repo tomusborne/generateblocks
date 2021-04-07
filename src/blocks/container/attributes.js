@@ -32,6 +32,46 @@ const attributes = {
 		type: 'number',
 		default: generateBlocksDefaults.container.widthMobile,
 	},
+	flexGrow: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexGrow,
+	},
+	flexGrowTablet: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexGrowTablet,
+	},
+	flexGrowMobile: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexGrowMobile,
+	},
+	flexShrink: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexShrink,
+	},
+	flexShrinkTablet: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexShrinkTablet,
+	},
+	flexShrinkMobile: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexShrinkMobile,
+	},
+	flexBasis: {
+		type: 'string',
+		default: generateBlocksDefaults.container.flexBasis,
+	},
+	flexBasisTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.container.flexBasisTablet,
+	},
+	flexBasisMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.container.flexBasisMobile,
+	},
+	flexBasisUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.container.flexBasisUnit,
+	},
 	orderTablet: {
 		type: 'number',
 		default: generateBlocksDefaults.container.orderTablet,

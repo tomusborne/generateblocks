@@ -25,6 +25,10 @@ export default class MainCSS extends Component {
 			uniqueId,
 			isGrid,
 			width,
+			flexGrow,
+			flexShrink,
+			flexBasis,
+			flexBasisUnit,
 			outerContainer,
 			innerContainer,
 			containerWidth,
@@ -252,6 +256,9 @@ export default class MainCSS extends Component {
 
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
 			'width': valueWithUnit( width, '%' ), // eslint-disable-line quote-props
+			'flex-grow': flexGrow,
+			'flex-shrink': flexShrink,
+			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
 			'display': 'flex', // eslint-disable-line quote-props
 			'flex-direction': 'column',
 			'margin-left': '0px',

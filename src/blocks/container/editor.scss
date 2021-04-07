@@ -211,3 +211,40 @@ body .gb-container .wp-block {
 .gblocks-gpress-full-width .components-base-control__label {
 	display: block;
 }
+
+/* Flex Controls */
+.gblocks-flex-controls-inner {
+    display: flex;
+
+	& > .components-base-control {
+		margin-bottom: 0;
+
+		&:nth-child(1) {
+			margin-right: 1px;
+			flex-basis: 25%;
+		}
+
+		&:nth-child(2) {
+			margin-right: 1px;
+			flex-basis: 25%;
+		}
+
+		&:nth-child(3) {
+			flex-basis: 50%;
+		}
+	}
+
+	p {
+		margin-bottom: 0;
+	}
+
+	.gblocks-flex-basis-wrapper {
+		position: relative;
+
+		.components-gblocks-units-control-header__units {
+			position: absolute;
+			right: 0;
+			top: 5px;
+		}
+	}
+}
