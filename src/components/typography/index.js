@@ -430,7 +430,7 @@ class TypographyControls extends Component {
 							<TextControl
 								type={ 'number' }
 								value={ getValue( 'letterSpacing', device ) || '' }
-								placeholder="0.01"
+								placeholder={ getResponsivePlaceholder( 'letterSpacing', attributes, device, '0.01' ) }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'letterSpacing', device );
 
