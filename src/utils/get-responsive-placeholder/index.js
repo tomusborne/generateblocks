@@ -5,7 +5,7 @@ export default function getResponsivePlaceholder( name, attributes, device, fall
 		responsivePlaceholder = attributes[ name + 'Tablet' ];
 	}
 
-	if ( '' === responsivePlaceholder ) {
+	if ( '' === responsivePlaceholder || false === responsivePlaceholder ) {
 		responsivePlaceholder = fallback;
 	}
 

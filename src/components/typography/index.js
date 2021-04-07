@@ -4,6 +4,7 @@
 import './editor.scss';
 import googleFonts from './google-fonts';
 import UnitPicker from '../unit-picker';
+import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 
 /**
  * WordPress dependencies
@@ -159,34 +160,6 @@ class TypographyControls extends Component {
 			showAdvancedToggle = true;
 		}
 
-		let responsiveFontSizePlaceholder = fontSizePlaceholder;
-
-		if ( 'Tablet' === device && attributes.fontSize ) {
-			responsiveFontSizePlaceholder = attributes.fontSize;
-		}
-
-		if ( 'Mobile' === device ) {
-			if ( attributes.fontSizeTablet ) {
-				responsiveFontSizePlaceholder = attributes.fontSizeTablet;
-			} else if ( attributes.fontSize ) {
-				responsiveFontSizePlaceholder = attributes.fontSize;
-			}
-		}
-
-		let responsiveLineHeightPlaceholder = '';
-
-		if ( 'Tablet' === device && attributes.lineHeight ) {
-			responsiveLineHeightPlaceholder = attributes.lineHeight;
-		}
-
-		if ( 'Mobile' === device ) {
-			if ( attributes.lineHeightTablet ) {
-				responsiveLineHeightPlaceholder = attributes.lineHeightTablet;
-			} else if ( attributes.lineHeight ) {
-				responsiveLineHeightPlaceholder = attributes.lineHeight;
-			}
-		}
-
 		return (
 			<Fragment>
 				<div className={ 'components-gblocks-typography-weight-transform' }>
@@ -326,7 +299,7 @@ class TypographyControls extends Component {
 							<TextControl
 								type={ 'number' }
 								value={ getValue( 'fontSize', device ) || '' }
-								placeholder={ responsiveFontSizePlaceholder }
+								placeholder={ getResponsivePlaceholder( 'fontSize', attributes, device, fontSizePlaceholder ) }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'fontSize', device );
 
@@ -373,7 +346,7 @@ class TypographyControls extends Component {
 							<TextControl
 								type={ 'number' }
 								value={ getValue( 'lineHeight', device ) || 0 === getValue( 'lineHeight', device ) ? getValue( 'lineHeight', device ) : '' }
-								placeholder={ responsiveLineHeightPlaceholder }
+								placeholder={ getResponsivePlaceholder( 'lineHeight', attributes, device, '' ) }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'lineHeight', device );
 
