@@ -770,18 +770,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 
 				if ( $settings['stack'] ) {
-					$css->add_property( 'flex-direction', 'column' );
-					$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
+					$desktop_css->set_selector( '.gb-button-wrapper-' . $id );
+					$desktop_css->add_property( 'flex-direction', 'column' );
+					$desktop_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpace'] ) {
-					$css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
-					$css->add_property( 'flex', '1' );
+					$desktop_css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
+					$desktop_css->add_property( 'flex', '1' );
 				}
 
 				if ( $settings['stack'] && $settings['fillHorizontalSpace'] ) {
-					$css->add_property( 'width', '100%' );
-					$css->add_property( 'box-sizing', 'border-box' );
+					$desktop_css->add_property( 'width', '100%' );
+					$desktop_css->add_property( 'box-sizing', 'border-box' );
 				}
 
 				$tablet_css->set_selector( '.gb-button-wrapper-' . $id );
@@ -789,18 +790,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 
 				if ( $settings['stackTablet'] ) {
-					$tablet_css->add_property( 'flex-direction', 'column' );
-					$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+					$tablet_only_css->set_selector( '.gb-button-wrapper-' . $id );
+					$tablet_only_css->add_property( 'flex-direction', 'column' );
+					$tablet_only_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpaceTablet'] ) {
-					$tablet_css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
-					$tablet_css->add_property( 'flex', '1' );
+					$tablet_only_css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
+					$tablet_only_css->add_property( 'flex', '1' );
 				}
 
 				if ( $settings['stackTablet'] && $settings['fillHorizontalSpaceTablet'] ) {
-					$tablet_css->add_property( 'width', '100%' );
-					$tablet_css->add_property( 'box-sizing', 'border-box' );
+					$tablet_only_css->add_property( 'width', '100%' );
+					$tablet_only_css->add_property( 'box-sizing', 'border-box' );
 				}
 
 				$mobile_css->set_selector( '.gb-button-wrapper-' . $id );

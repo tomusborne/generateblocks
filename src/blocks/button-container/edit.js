@@ -279,6 +279,8 @@ class GenerateButtonContainer extends Component {
 									onChange={ ( value ) => {
 										setAttributes( {
 											stack: value,
+											stackTablet: !! value && ! stackTablet ? value : stackTablet,
+											stackMobile: !! value && ! stackMobile ? value : stackMobile,
 										} );
 									} }
 								/>
@@ -289,6 +291,8 @@ class GenerateButtonContainer extends Component {
 									onChange={ ( value ) => {
 										setAttributes( {
 											fillHorizontalSpace: value,
+											fillHorizontalSpaceTablet: !! value && ! fillHorizontalSpaceTablet ? value : fillHorizontalSpaceTablet,
+											fillHorizontalSpaceMobile: !! value && ! fillHorizontalSpaceMobile ? value : fillHorizontalSpaceMobile,
 										} );
 									} }
 								/>
@@ -317,6 +321,7 @@ class GenerateButtonContainer extends Component {
 									onChange={ ( value ) => {
 										setAttributes( {
 											stackTablet: value,
+											stackMobile: !! value && ! stackMobile ? value : stackMobile,
 										} );
 									} }
 								/>
@@ -327,6 +332,7 @@ class GenerateButtonContainer extends Component {
 									onChange={ ( value ) => {
 										setAttributes( {
 											fillHorizontalSpaceTablet: value,
+											fillHorizontalSpaceMobile: !! value && ! fillHorizontalSpaceMobile ? value : fillHorizontalSpaceMobile,
 										} );
 									} }
 								/>
