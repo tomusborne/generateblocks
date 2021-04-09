@@ -94,8 +94,6 @@ export default class MainCSS extends Component {
 		const backgroundImageValue = getBackgroundImageCSS( 'image', this.props );
 		const gradientValue = getBackgroundImageCSS( 'gradient', this.props );
 
-		let innerZIndexValue = innerZindex;
-
 		let cssObj = [];
 		cssObj[ '.gb-container-' + uniqueId ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
@@ -147,10 +145,6 @@ export default class MainCSS extends Component {
 			cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 				'z-index': 10,
 			} ];
-
-			if ( ! innerZIndexValue ) {
-				innerZIndexValue = 1;
-			}
 		}
 
 		cssObj[ `.editor-styles-wrapper .gb-container-` + uniqueId + ` h1,
@@ -240,9 +234,9 @@ export default class MainCSS extends Component {
 			'width': minHeight && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 
-		if ( innerZIndexValue || 0 === innerZIndexValue ) {
+		if ( innerZindex || 0 === innerZindex ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
-				'z-index': innerZIndexValue,
+				'z-index': innerZindex,
 				position: 'relative',
 			} );
 		}

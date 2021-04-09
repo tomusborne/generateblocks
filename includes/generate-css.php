@@ -238,6 +238,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
 				$fontFamily = $settings['fontFamily'];
 
@@ -355,10 +356,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					if ( isset( $settings['bgOptions']['opacity'] ) && 1 !== $settings['bgOptions']['opacity'] ) {
 						$css->add_property( 'opacity', $settings['bgOptions']['opacity'] );
 					}
-
-					if ( ! $innerZIndex ) {
-						$innerZIndex = 1;
-					}
 				}
 
 				if ( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] ) {
@@ -372,7 +369,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'bottom', '0' );
 					$css->add_property( 'left', '0' );
 
-					if ( ! $innerZIndex ) {
+					if ( $blockVersion < 2 && ! $innerZIndex ) {
 						$innerZIndex = 1;
 					}
 				}

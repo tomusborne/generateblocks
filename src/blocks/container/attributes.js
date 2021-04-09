@@ -523,6 +523,9 @@ const attributes = {
 	isDynamic: {
 		type: 'boolean',
 	},
+	blockVersion: {
+		type: 'number',
+	},
 	// deprecated since 1.2.0.
 	elementId: {
 		type: 'string',

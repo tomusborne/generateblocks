@@ -20,6 +20,7 @@ import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
+import hasNumericValue from '../../utils/has-numeric-value';
 
 import {
 	__,
@@ -108,6 +109,25 @@ class GenerateBlockContainer extends Component {
 		if ( 'undefined' === typeof this.props.attributes.isDynamic || ! this.props.attributes.isDynamic ) {
 			this.props.setAttributes( {
 				isDynamic: true,
+			} );
+		}
+
+		// Set our inner z-index if we're using a gradient overlay.
+		// @since 1.4.0.
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < 2 ) {
+			if ( this.props.attributes.gradient && 'pseudo-element' === this.props.attributes.gradientSelector && ! hasNumericValue( this.props.attributes.innerZindex ) ) {
+				this.props.setAttributes( {
+					innerZindex: 1,
+				} );
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		const blockVersion = 2;
+
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < blockVersion ) {
+			this.props.setAttributes( {
+				blockVersion,
 			} );
 		}
 	}

@@ -3,6 +3,7 @@
  */
 import './editor.scss';
 import ColorPicker from '../color-picker';
+import hasNumericValue from '../../utils/has-numeric-value';
 
 /**
  * WordPress dependencies
@@ -46,6 +47,7 @@ class GradientControl extends Component {
 
 		const {
 			gradientSelector,
+			innerZindex,
 		} = attributes;
 
 		const selectorHelp = 'element' === gradientSelector ? __( 'Displays behind the background image.', 'generateblocks' ) : __( 'Displays in front of the background image.', 'generateblocks' );
@@ -77,6 +79,12 @@ class GradientControl extends Component {
 									setAttributes( {
 										gradientSelector: value,
 									} );
+
+									if ( ! hasNumericValue( innerZindex ) && 'pseudo-element' === value ) {
+										setAttributes( {
+											innerZindex: 1,
+										} );
+									}
 								} }
 							/>
 						}
