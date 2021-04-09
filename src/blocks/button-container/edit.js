@@ -122,6 +122,35 @@ class GenerateButtonContainer extends Component {
 				isDynamic: true,
 			} );
 		}
+
+		// Set our responsive stack and fill options if set on desktop.
+		// @since 1.4.0.
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < 2 ) {
+			if ( this.props.attributes.stack || this.props.attributes.fillHorizontalSpace ) {
+				if ( this.props.attributes.stack ) {
+					this.props.setAttributes( {
+						stackTablet: true,
+						stackMobile: true,
+					} );
+				}
+
+				if ( this.props.attributes.fillHorizontalSpace ) {
+					this.props.setAttributes( {
+						fillHorizontalSpaceTablet: true,
+						fillHorizontalSpaceMobile: true,
+					} );
+				}
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		const blockVersion = 2;
+
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < blockVersion ) {
+			this.props.setAttributes( {
+				blockVersion,
+			} );
+		}
 	}
 
 	getDeviceType() {
