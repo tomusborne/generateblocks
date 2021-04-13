@@ -53,6 +53,8 @@ export default class TabletCSS extends Component {
 			fontSizeTablet,
 			fontSizeUnit,
 			shapeDividers,
+			bgImage,
+			bgOptions,
 		} = attributes;
 
 		let cssObj = [];
@@ -111,6 +113,15 @@ export default class TabletCSS extends Component {
 			'flex-shrink': flexShrinkTablet,
 			'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
 		} ];
+
+		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
+			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
+				'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
+				'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
+				'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
+				'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
+			} ];
+		}
 
 		if ( shapeDividers.length ) {
 			shapeDividers.forEach( ( location, index ) => {

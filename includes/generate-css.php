@@ -570,6 +570,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
 				}
 
+				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+					$tablet_css->set_selector( '.gb-container-' . $id . ':before' );
+					$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
+				}
+
 				if ( ! empty( $settings['shapeDividers'] ) ) {
 					$default_styles = generateblocks_get_default_styles();
 
@@ -660,6 +665,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 					$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
+				}
+
+				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+					$mobile_css->set_selector( '.gb-container-' . $id . ':before' );
+					$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 				}
 
 				if ( ! empty( $settings['shapeDividers'] ) ) {

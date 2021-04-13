@@ -123,6 +123,15 @@ export default class MobileCSS extends Component {
 			} ];
 		}
 
+		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
+			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
+				'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
+				'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
+				'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
+				'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
+			} ];
+		}
+
 		if ( shapeDividers.length ) {
 			shapeDividers.forEach( ( location, index ) => {
 				const shapeNumber = index + 1;
