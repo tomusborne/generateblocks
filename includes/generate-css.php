@@ -391,7 +391,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$usingMinHeightInnerWidth = true;
 				}
 
-				if ( $innerZIndex ) {
+				if ( $innerZIndex || 0 === $innerZIndex ) {
 					$css->add_property( 'z-index', $innerZIndex );
 					$css->add_property( 'position', 'relative' );
 				}
