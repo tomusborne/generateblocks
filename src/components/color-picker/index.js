@@ -126,19 +126,37 @@ export default class GenerateBlocksColorPicker extends Component {
 									disableAlpha={ ! alpha || 1 !== valueOpacity }
 								/>
 
-								<TextControl
-									className="gblocks-color-input"
-									type={ 'text' }
-									value={ value || '' }
-									onChange={ ( color ) => {
-										onChange( color );
-									} }
-									onBlur={ () => {
-										this.setState( {
-											colorKey: value,
-										} );
-									} }
-								/>
+								<div className="gblocks-color-input-wrapper">
+									<TextControl
+										className="gblocks-color-input"
+										type={ 'text' }
+										value={ value || '' }
+										onChange={ ( color ) => {
+											onChange( color );
+										} }
+										onBlur={ () => {
+											this.setState( {
+												colorKey: value,
+											} );
+										} }
+									/>
+
+									<Button
+										isSmall
+										isSecondary
+										className="components-color-clear-color"
+										onClick={ () => {
+											onChange( '' );
+											onOpacityChange( 1 );
+
+											this.setState( {
+												colorKey: false,
+											} );
+										} }
+									>
+										{ __( 'Clear Color', 'generateblocks' ) }
+									</Button>
+								</div>
 							</BaseControl>
 
 							{ alpha && 1 !== valueOpacity &&
@@ -157,22 +175,6 @@ export default class GenerateBlocksColorPicker extends Component {
 									/>
 								</div>
 							}
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-color-clear-color"
-								onClick={ () => {
-									onChange( '' );
-									onOpacityChange( 1 );
-
-									this.setState( {
-										colorKey: false,
-									} );
-								} }
-							>
-								{ __( 'Clear Color', 'generateblocks' ) }
-							</Button>
 
 							<BaseControl
 								className="gblocks-component-color-picker-palette"

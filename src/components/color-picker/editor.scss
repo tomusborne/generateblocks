@@ -16,8 +16,17 @@
 		display: none;
 	}
 
-	.gblocks-color-input {
-		padding: 16px;
+	.gblocks-color-input-wrapper {
+		display: flex;
+		padding: 16px 16px 0;
+
+		input {
+			margin-right: 5px;
+		}
+
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
 	}
 
 	& > .components-base-control:first-child {
@@ -29,8 +38,7 @@
 	}
 
     .gblocks-component-color-picker-palette {
-        padding: 16px;
-		margin-top: 10px;
+        padding: 16px 16px 0;
 
 		.components-circular-option-picker {
 		    display: flex;
@@ -60,7 +68,7 @@
 	}
 
 	.components-color-clear-color {
-		margin: 0 16px;
+		height: auto;
 	}
 }
 
