@@ -112,10 +112,16 @@ class GenerateBlockContainer extends Component {
 			} );
 		}
 
-		// Set our inner z-index if we're using a gradient overlay.
+		// Set our inner z-index if we're using a gradient overlay or pseudo background.
 		// @since 1.4.0.
 		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < 2 ) {
-			if ( this.props.attributes.gradient && 'pseudo-element' === this.props.attributes.gradientSelector && ! hasNumericValue( this.props.attributes.innerZindex ) ) {
+			let updateOldZindex = this.props.attributes.gradient && 'pseudo-element' === this.props.attributes.gradientSelector && ! hasNumericValue( this.props.attributes.innerZindex );
+
+			if ( ! updateOldZindex ) {
+				updateOldZindex = !! this.props.attributes.bgImage && 'undefined' !== typeof this.props.attributes.bgOptions.selector && 'pseudo-element' === this.props.attributes.bgOptions.selector;
+			}
+
+			if ( updateOldZindex ) {
 				this.props.setAttributes( {
 					innerZindex: 1,
 				} );
@@ -1755,6 +1761,12 @@ class GenerateBlockContainer extends Component {
 															selector: value,
 														},
 													} );
+
+													if ( 'pseudo-element' === value && ! innerZindex && 0 !== innerZindex ) {
+														setAttributes( {
+															innerZindex: 1,
+														} );
+													}
 												} }
 											/>
 
@@ -1769,6 +1781,12 @@ class GenerateBlockContainer extends Component {
 															selector: 'pseudo-element',
 														},
 													} );
+
+													if ( ! innerZindex && 0 !== innerZindex ) {
+														setAttributes( {
+															innerZindex: 1,
+														} );
+													}
 												} }
 												min={ 0 }
 												max={ 1 }
