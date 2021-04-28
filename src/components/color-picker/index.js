@@ -111,13 +111,25 @@ export default class GenerateBlocksColorPicker extends Component {
 									key={ colorKey }
 									color={ value ? value : '' }
 									onChangeComplete={ ( color ) => {
-										onChange( color.hex );
+										let colorString;
+
+										if ( 'undefined' === typeof color.rgb || color.rgb.a === 1 ) {
+											colorString = color.hex;
+										} else {
+											const { r, g, b, a } = color.rgb;
+											colorString = `rgba(${ r }, ${ g }, ${ b }, ${ a })`;
+										}
+
+										onChange( colorString );
 									} }
-									disableAlpha
+									disableAlpha={ ! alpha || 1 !== valueOpacity }
+								/>
+
+									} }
 								/>
 							</BaseControl>
 
-							{ alpha &&
+							{ alpha && 1 !== valueOpacity &&
 								<div className="gblocks-component-color-opacity">
 									<Tooltip text={ __( 'Opacity', 'generateblocks' ) }>
 										{ getIcon( 'gradient' ) }
