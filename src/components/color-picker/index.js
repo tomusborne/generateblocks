@@ -20,6 +20,7 @@ import {
 	RangeControl,
 	Popover,
 	Button,
+	TextControl,
 } from '@wordpress/components';
 
 import {
@@ -125,6 +126,17 @@ export default class GenerateBlocksColorPicker extends Component {
 									disableAlpha={ ! alpha || 1 !== valueOpacity }
 								/>
 
+								<TextControl
+									className="gblocks-color-input"
+									type={ 'text' }
+									value={ value || '' }
+									onChange={ ( color ) => {
+										onChange( color );
+									} }
+									onBlur={ () => {
+										this.setState( {
+											colorKey: value,
+										} );
 									} }
 								/>
 							</BaseControl>

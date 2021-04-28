@@ -12,6 +12,14 @@
 }
 
 .gblocks-component-color-picker {
+	.components-color-picker__inputs-wrapper {
+		display: none;
+	}
+
+	.gblocks-color-input {
+		padding: 16px;
+	}
+
 	& > .components-base-control:first-child {
 		margin-bottom: 0;
 	}
@@ -34,17 +42,12 @@
 		}
     }
 
-	.components-base-control__field,
 	.components-color-palette {
         margin: 0;
     }
 
 	.components-color-picker {
 		padding: 5px;
-	}
-
-	.components-color-picker__inputs-toggle {
-	    display: none;
 	}
 
 	.components-color-picker__body {
@@ -54,10 +57,6 @@
 	.components-popover__content {
 		padding: 10px;
 		width: 300px;
-	}
-
-	.components-color-picker__inputs-fields {
-		margin-right: 0;
 	}
 
 	.components-color-clear-color {
