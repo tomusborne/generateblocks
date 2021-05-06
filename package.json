@@ -35,6 +35,7 @@
         "start": "wp-scripts start src/blocks.js src/dashboard.js --output-path=dist",
         "lint:js": "wp-scripts lint-js",
         "lint:pkg-json": "wp-scripts lint-pkg-json",
-        "package": "grunt package"
+        "package": "grunt package",
+        "googleFonts": "grunt download-google-fonts"
 	}
 }

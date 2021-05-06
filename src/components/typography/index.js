@@ -2,7 +2,7 @@
  * Internal dependencies
  */
 import './editor.scss';
-import googleFonts from './google-fonts';
+import googleFonts from './google-fonts.json';
 import UnitPicker from '../unit-picker';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 
