@@ -197,8 +197,13 @@ class GenerateBlocks_Enqueue_CSS {
 		}
 
 		if ( is_writable( $this->file( 'path' ) ) || ( ! file_exists( $this->file( 'path' ) ) && is_writable( dirname( $this->file( 'path' ) ) ) ) ) {
+			$chmod_file = 0644;
 
-			if ( ! $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $content ), FS_CHMOD_FILE ) ) {
+			if ( defined( 'FS_CHMOD_FILE' ) ) {
+				$chmod_file = FS_CHMOD_FILE;
+			}
+
+			if ( ! $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $content ), $chmod_file ) ) {
 
 				// Fail!
 				return false;
