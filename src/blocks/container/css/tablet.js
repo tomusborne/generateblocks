@@ -52,6 +52,7 @@ export default class TabletCSS extends Component {
 			alignmentTablet,
 			fontSizeTablet,
 			fontSizeUnit,
+			orderTablet,
 			shapeDividers,
 			bgImage,
 			bgOptions,
@@ -112,6 +113,7 @@ export default class TabletCSS extends Component {
 			'flex-grow': flexGrowTablet,
 			'flex-shrink': flexShrinkTablet,
 			'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
+			order: orderTablet,
 		} ];
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
