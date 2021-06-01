@@ -514,8 +514,6 @@ class GenerateBlockContainer extends Component {
 									/>
 
 									{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
-
-									{ fullWidthContentOptions() }
 								</Fragment>
 							}
 
