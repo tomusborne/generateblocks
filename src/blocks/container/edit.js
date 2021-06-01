@@ -243,7 +243,6 @@ class GenerateBlockContainer extends Component {
 			fontFamily,
 			googleFont,
 			googleFontVariants,
-			fullWidthContent,
 			align,
 			shapeDividers,
 		} = attributes;
@@ -264,61 +263,6 @@ class GenerateBlockContainer extends Component {
 			{ label: 'footer', value: 'footer' },
 			{ label: 'aside', value: 'aside' },
 		];
-
-		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
-		const changeEvent = new Event( 'change' ); // eslint-disable-line no-undef
-		const getRootId = wp.data.select( 'core/block-editor' ).getBlockHierarchyRootClientId( clientId );
-		const isRootContainer = getRootId === clientId;
-
-		const fullWidthContentOptions = () => {
-			return (
-				<Fragment>
-					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
-						<BaseControl
-							id="gblocks-gp-full-width-page"
-							label={ __( 'If you want to build a full width page, use the option below to remove the page width, margin and padding.', 'generateblocks' ) }
-							className="gblocks-gpress-full-width"
-						>
-							<ToggleControl
-								label={ __( 'Make page full-width', 'generateblocks' ) }
-								checked={ fullWidthContent ? true : false }
-								onChange={ ( value ) => {
-									if ( value ) {
-										if ( 'select' === pageBuilderContainerOption.tagName.toLowerCase() ) {
-											pageBuilderContainerOption.value = 'true';
-											pageBuilderContainerOption.dispatchEvent( changeEvent );
-										} else {
-											pageBuilderContainerOption.checked = true;
-											pageBuilderContainerOption.setAttribute( 'value', 'true' );
-											pageBuilderContainerOption.dispatchEvent( changeEvent );
-										}
-
-										setAttributes( {
-											fullWidthContent: 'true',
-											align: '',
-										} );
-									} else {
-										if ( 'select' === pageBuilderContainerOption.tagName.toLowerCase() ) {
-											pageBuilderContainerOption.value = '';
-											pageBuilderContainerOption.dispatchEvent( changeEvent );
-										} else {
-											pageBuilderContainerOption.checked = false;
-											pageBuilderContainerOption.setAttribute( 'value', '' );
-											document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
-											pageBuilderContainerOption.dispatchEvent( changeEvent );
-										}
-
-										setAttributes( {
-											fullWidthContent: '',
-										} );
-									}
-								} }
-							/>
-						</BaseControl>
-					}
-				</Fragment>
-			);
-		};
 
 		let googleFontsAttr = '';
 
