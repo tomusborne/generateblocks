@@ -1104,6 +1104,7 @@ class GenerateBlockContainer extends Component {
 								<TypographyControls { ...this.props }
 									device={ 'Tablet' }
 									showFontSize={ true }
+									disableAdvancedToggle={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 									defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
@@ -1118,6 +1119,7 @@ class GenerateBlockContainer extends Component {
 								<TypographyControls { ...this.props }
 									device={ 'Mobile' }
 									showFontSize={ true }
+									disableAdvancedToggle={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 									defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
