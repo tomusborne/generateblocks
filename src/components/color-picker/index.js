@@ -152,6 +152,10 @@ export default class GenerateBlocksColorPicker extends Component {
 											this.setState( {
 												colorKey: false,
 											} );
+
+											setTimeout( function() {
+												document.querySelector( '.gblocks-color-input-wrapper input' ).focus();
+											}, 10 );
 										} }
 									>
 										{ __( 'Clear Color', 'generateblocks' ) }
@@ -187,6 +191,10 @@ export default class GenerateBlocksColorPicker extends Component {
 										this.setState( {
 											colorKey: color,
 										} );
+
+										setTimeout( function() {
+											document.querySelector( '.gblocks-color-input-wrapper input' ).focus();
+										}, 10 );
 									} }
 									disableCustomColors={ true }
 									clearable={ false }
