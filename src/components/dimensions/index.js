@@ -4,6 +4,7 @@
 import classnames from 'classnames';
 import './editor.scss';
 import getIcon from '../../utils/get-icon';
+import shouldResetToZero from '../../utils/should-reset-to-zero';
 import UnitPicker from '../unit-picker';
 
 /**
@@ -249,8 +250,6 @@ class DimensionsControl extends Component {
 			}
 		}
 
-		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle;
-
 		return (
 			<Fragment>
 				<div className={ classes }>
@@ -274,7 +273,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeTopValue }
 							onBlur={ () => {
-								if ( ! usingGlobalStyle && '' === attributes[ attrTop ] && '' !== defaults[ attrTop ] ) {
+								if ( shouldResetToZero( attrTop, attributes, defaults ) ) {
 									// If we have no value and a default exists, set to 0 to prevent default from coming back.
 									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 										this.onChangeAll( '0' );
@@ -299,7 +298,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeRightValue }
 							onBlur={ () => {
-								if ( ! usingGlobalStyle && '' === attributes[ attrRight ] && '' !== defaults[ attrRight ] ) {
+								if ( shouldResetToZero( attrRight, attributes, defaults ) ) {
 									// If we have no value and a default exists, set to 0 to prevent default from coming back.
 									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 										this.onChangeAll( '0' );
@@ -324,7 +323,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeBottomValue }
 							onBlur={ () => {
-								if ( ! usingGlobalStyle && '' === attributes[ attrBottom ] && '' !== defaults[ attrBottom ] ) {
+								if ( shouldResetToZero( attrBottom, attributes, defaults ) ) {
 									// If we have no value and a default exists, set to 0 to prevent default from coming back.
 									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 										this.onChangeAll( '0' );
@@ -349,7 +348,7 @@ class DimensionsControl extends Component {
 							type="number"
 							onChange={ onChangeLeftValue }
 							onBlur={ () => {
-								if ( ! usingGlobalStyle && '' === attributes[ attrLeft ] && '' !== defaults[ attrLeft ] ) {
+								if ( shouldResetToZero( attrLeft, attributes, defaults ) ) {
 									// If we have no value and a default exists, set to 0 to prevent default from coming back.
 									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
 										this.onChangeAll( '0' );

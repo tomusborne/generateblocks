@@ -155,10 +155,10 @@ class GenerateBlockGridContainer extends Component {
 			const colAttrs = {
 				isGrid: true,
 				gridId: this.props.attributes.uniqueId,
-				paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
-				paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
-				paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
-				paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
+				paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '',
+				paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '',
+				paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '',
+				paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '',
 			};
 
 			colAttrs.width = Number( columnsData[ i ] );
@@ -329,10 +329,10 @@ class GenerateBlockGridContainer extends Component {
 										createBlock( 'generateblocks/container', {
 											isGrid: true,
 											gridId: uniqueId,
-											paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '0',
-											paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
-											paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
-											paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
+											paddingTop: generateBlocksStyling.container.gridItemPaddingTop || '',
+											paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '',
+											paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '',
+											paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '',
 										} ),
 										undefined,
 										clientId
