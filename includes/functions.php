@@ -747,3 +747,72 @@ function generateblocks_get_svg_shapes() {
 		)
 	);
 }
+
+/**
+ * Loops through all registered widget areas and collects their data.
+ *
+ * @since 1.4.0
+ */
+function generateblocks_get_all_widget_data() {
+	global $wp_registered_sidebars;
+
+	$output = array();
+
+	foreach ( $wp_registered_sidebars as $sidebar ) {
+		if ( empty( $sidebar['name'] ) ) {
+			continue;
+		}
+
+		$sidebar_name = $sidebar['name'];
+		$output[ $sidebar_name ] = generateblocks_get_widget_data( $sidebar_name );
+	}
+
+	return $output;
+}
+
+/**
+ * Get the widget data for a specified widget area.
+ *
+ * @since 1.4.0
+ * @param string $sidebar_name The name of the widget area.
+ */
+function generateblocks_get_widget_data( $sidebar_name ) {
+	global $wp_registered_sidebars, $wp_registered_widgets;
+
+	$output = array();
+	$sidebar_id = false;
+
+	foreach ( $wp_registered_sidebars as $sidebar ) {
+		if ( $sidebar['name'] === $sidebar_name ) {
+			// We now have the Sidebar ID, we can stop our loop and continue.
+			$sidebar_id = $sidebar['id'];
+			break;
+		}
+	}
+
+	if ( ! $sidebar_id ) {
+		// There is no sidebar registered with the name provided.
+		return $output;
+	}
+
+	$sidebars_widgets = wp_get_sidebars_widgets();
+	$widget_ids = $sidebars_widgets[ $sidebar_id ];
+
+	if ( ! $widget_ids ) {
+		// Without proper widget_ids we can't continue.
+		return array();
+	}
+
+	foreach ( $widget_ids as $id ) {
+		// The name of the option in the database is the name of the widget class.
+		$option_name = $wp_registered_widgets[ $id ]['callback'][0]->option_name;
+
+		// Widget data is stored as an associative array. To get the right data we need to get the right key which is stored in $wp_registered_widgets.
+		$key = $wp_registered_widgets[ $id ]['params'][0]['number'];
+
+		$widget_data = get_option( $option_name );
+		$output[] = (object) $widget_data[ $key ];
+	}
+
+	return $output;
+}

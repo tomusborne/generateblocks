@@ -254,3 +254,26 @@ function generateblocks_do_shape_divider( $output, $attributes ) {
 
 	return $output;
 }
+
+add_filter( 'generateblocks_do_content', 'generateblocks_do_widget_styling' );
+/**
+ * Process all widget content for potential styling.
+ *
+ * @since 1.4.0
+ * @param string $content The existing content to process.
+ */
+function generateblocks_do_widget_styling( $content ) {
+	$widget_data = generateblocks_get_all_widget_data();
+
+	foreach ( (array) $widget_data as $widget_area => $widget_data ) {
+		if ( ! empty( $widget_data ) ) {
+			foreach ( (array) $widget_data as $key => $data ) {
+				if ( ! empty( $data->content ) ) {
+					$content .= $data->content;
+				}
+			}
+		}
+	}
+
+	return $content;
+}
