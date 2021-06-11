@@ -30,6 +30,14 @@ import {
  * Typography Component
  */
 class TypographyControls extends Component {
+	constructor() {
+		super( ...arguments );
+
+		this.state = {
+			showAdvancedTypography: 'true' === localStorage.getItem( 'generateblocksShowAdvancedTypography' ) || false,
+		};
+	}
+
 	render() {
 		const {
 			setAttributes,
@@ -154,7 +162,7 @@ class TypographyControls extends Component {
 			return attributeName;
 		};
 
-		let showAdvancedToggle = attributes.showAdvancedTypography;
+		let showAdvancedToggle = this.state.showAdvancedTypography;
 
 		if ( disableAdvancedToggle ) {
 			showAdvancedToggle = true;
@@ -195,10 +203,12 @@ class TypographyControls extends Component {
 				{ ! disableAdvancedToggle &&
 					<ToggleControl
 						label={ __( 'Show Advanced Typography', 'generateblocks' ) }
-						checked={ !! attributes.showAdvancedTypography }
+						checked={ !! this.state.showAdvancedTypography }
 						onChange={ ( value ) => {
-							setAttributes( {
-								'showAdvancedTypography': value, // eslint-disable-line quote-props
+							localStorage.setItem( 'generateblocksShowAdvancedTypography', value );
+
+							this.setState( {
+								showAdvancedTypography: value,
 							} );
 						} }
 					/>
