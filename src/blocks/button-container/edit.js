@@ -226,7 +226,13 @@ class GenerateButtonContainer extends Component {
 
 										if ( blockToCopyId ) {
 											const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
-											const clonedBlock = cloneBlock( blockToCopy );
+
+											const clonedBlock = cloneBlock(
+												blockToCopy,
+												{
+													uniqueId: '',
+												}
+											);
 
 											wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
 										}
