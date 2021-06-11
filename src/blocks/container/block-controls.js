@@ -77,7 +77,13 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 								label={ __( 'Duplicate Grid Item', 'generateblocks' ) }
 								onClick={ () => {
 									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
-									const clonedBlock = cloneBlock( thisBlock );
+
+									const clonedBlock = cloneBlock(
+										thisBlock,
+										{
+											uniqueId: '',
+										}
+									);
 
 									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentGridId );
 								} }
