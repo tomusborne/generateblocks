@@ -444,6 +444,8 @@ class GenerateBlocks_Enqueue_CSS {
 
 	/**
 	 * Force CSS files to regenerate after a widget has been saved.
+	 *
+	 * @param array $instance The current widget instance's settings.
 	 */
 	public function force_file_regen_on_widget_save( $instance ) {
 		update_option( 'generateblocks_dynamic_css_posts', array() );
