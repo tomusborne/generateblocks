@@ -266,7 +266,7 @@ function generateblocks_do_widget_styling( $content ) {
 	$widget_data = generateblocks_get_widget_data();
 
 	foreach ( (array) $widget_data as $widget_area => $widget ) {
-		if ( ! empty( $widget->content ) ) {
+		if ( is_object( $widget ) && ! empty( $widget->content ) ) {
 			$content .= $widget->content;
 		}
 	}
