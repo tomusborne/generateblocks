@@ -746,3 +746,35 @@ function generateblocks_get_svg_shapes() {
 		)
 	);
 }
+
+/**
+ * Get the widget data for a specified widget area.
+ *
+ * @since 1.3.4
+ */
+function generateblocks_get_widget_data() {
+	global $wp_registered_sidebars, $wp_registered_widgets;
+
+	$output = array();
+	$sidebar_widgets = wp_get_sidebars_widgets();
+
+	foreach ( $wp_registered_sidebars as $sidebar ) {
+		if ( empty( $sidebar['id'] ) || ! isset( $sidebar_widgets[ $sidebar['id'] ] ) ) {
+			continue;
+		}
+
+		$widget_ids = $sidebar_widgets[ $sidebar['id'] ];
+
+		foreach ( (array) $widget_ids as $id ) {
+			// The name of the option in the database is the name of the widget class.
+			$option_name = $wp_registered_widgets[ $id ]['callback'][0]->option_name;
+
+			// Widget data is stored as an associative array. To get the right data we need to get the right key which is stored in $wp_registered_widgets.
+			$key = $wp_registered_widgets[ $id ]['params'][0]['number'];
+			$widget_data = get_option( $option_name );
+			$output[] = (object) $widget_data[ $key ];
+		}
+	}
+
+	return $output;
+}
