@@ -68,13 +68,14 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				if ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) {
 					$atts = $block['attrs'];
 
-					if ( isset( $atts['ref'] ) ) {
+					if ( isset( $atts['ref'] ) && ( empty( $data['reusableBlockIds'] ) || ! in_array( $atts['ref'], (array) $data['reusableBlockIds'] ) ) ) {
 						$reusable_block = get_post( $atts['ref'] );
 
 						if ( $reusable_block && 'wp_block' === $reusable_block->post_type && 'publish' === $reusable_block->post_status ) {
 							$reuse_data_block = parse_blocks( $reusable_block->post_content );
 
 							if ( ! empty( $reuse_data_block ) ) {
+								$data['reusableBlockIds'][] = $atts['ref'];
 								$data = generateblocks_get_block_data( $reuse_data_block, $data );
 							}
 						}
