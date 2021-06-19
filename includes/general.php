@@ -253,13 +253,20 @@ add_filter( 'generateblocks_do_content', 'generateblocks_do_widget_styling' );
  * @param string $content The existing content to process.
  */
 function generateblocks_do_widget_styling( $content ) {
-	$widget_data = generateblocks_get_widget_data();
+	$widget_blocks = get_option( 'widget_block' );
 
-	foreach ( (array) $widget_data as $widget_area => $widget ) {
-		if ( is_object( $widget ) && ! empty( $widget->content ) ) {
-			$content .= $widget->content;
-		}
-	}
+	return array_reduce(
+		(array) $widget_blocks,
+		function( $content, $block ) {
+			if (
+				isset( $block['content'] )
+				&& preg_match( '/(wp:generateblocks\/)/', $block['content'] )
+			) {
+				$content .= $block['content'];
+			}
 
-	return $content;
+			return $content;
+		},
+		$content
+	);
 }
