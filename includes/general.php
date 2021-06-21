@@ -120,7 +120,11 @@ function generateblocks_do_block_editor_assets() {
 	);
 }
 
-add_filter( 'block_categories', 'generateblocks_do_category' );
+if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
+	add_filter( 'block_categories', 'generateblocks_do_category' );
+} else {
+	add_filter( 'block_categories_all', 'generateblocks_do_category' );
+}
 /**
  * Add GeneratePress category to Gutenberg.
  *
