@@ -4,6 +4,7 @@
 
 import './editor.scss';
 import './block-controls.js';
+import './migrate.js';
 
 import edit from './edit';
 import blockAttributes from './attributes';
