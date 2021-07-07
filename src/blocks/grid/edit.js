@@ -98,6 +98,26 @@ class GenerateBlockGridContainer extends Component {
 				isDynamic: true,
 			} );
 		}
+
+		// Empty our horizontal gap field if it's using the default and we're using a global style.
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < 2 ) {
+			if ( 'undefined' !== typeof this.props.attributes.useGlobalStyle && this.props.attributes.useGlobalStyle && 'undefined' !== typeof this.props.attributes.globalStyleId && this.props.attributes.globalStyleId ) {
+				if ( this.props.attributes.horizontalGap === generateBlocksDefaults.gridContainer.horizontalGap ) {
+					this.props.setAttributes( {
+						horizontalGap: '',
+					} );
+				}
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		const blockVersion = 2;
+
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < blockVersion ) {
+			this.props.setAttributes( {
+				blockVersion,
+			} );
+		}
 	}
 
 	componentDidUpdate() {
