@@ -13,11 +13,11 @@ export default {
 		default: '',
 	},
 	horizontalGap: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.gridContainer.horizontalGap,
 	},
 	verticalGap: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.gridContainer.verticalGap,
 	},
 	verticalAlignment: {
@@ -25,11 +25,11 @@ export default {
 		default: generateBlocksDefaults.gridContainer.verticalAlignment,
 	},
 	horizontalGapTablet: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.gridContainer.horizontalGapTablet,
 	},
 	verticalGapTablet: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.gridContainer.verticalGapTablet,
 	},
 	verticalAlignmentTablet: {
@@ -37,11 +37,11 @@ export default {
 		default: generateBlocksDefaults.gridContainer.verticalAlignmentTablet,
 	},
 	horizontalGapMobile: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.gridContainer.horizontalGapMobile,
 	},
 	verticalGapMobile: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.gridContainer.verticalGapMobile,
 	},
 	verticalAlignmentMobile: {

@@ -13,6 +13,8 @@ import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
+import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
+import hasNumericValue from '../../utils/has-numeric-value';
 
 import {
 	__,
@@ -281,29 +283,6 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentMobile,
 		} = attributes;
 
-		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle && 'undefined' !== typeof attributes.globalStyleId && attributes.globalStyleId;
-		let horizontalGapValue = horizontalGap || 0 === horizontalGap ? horizontalGap : '';
-
-		if ( usingGlobalStyle ) {
-			if ( generateBlocksDefaults.gridContainer.horizontalGap === horizontalGapValue ) {
-				horizontalGapValue = '';
-			}
-		}
-
-		const horizontalGapPlaceholderTablet = horizontalGapValue,
-			verticalGapPlaceholderTablet = verticalGap || 0 === verticalGap ? verticalGap : '';
-
-		let horizontalGapPlaceholderMobile = horizontalGapValue,
-			verticalGapPlaceholderMobile = verticalGap || 0 === verticalGap ? verticalGap : '';
-
-		if ( horizontalGapTablet ) {
-			horizontalGapPlaceholderMobile = horizontalGapTablet;
-		}
-
-		if ( verticalGapTablet ) {
-			verticalGapPlaceholderMobile = verticalGapTablet;
-		}
-
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-grid-wrapper': true,
@@ -370,7 +349,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapValue }
+										value={ hasNumericValue( horizontalGap ) ? horizontalGap : '' }
 										min="0"
 										onChange={ ( value ) => {
 											// No hyphens allowed here.
@@ -379,22 +358,6 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												horizontalGap: value,
 											} );
-										} }
-										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! horizontalGap && generateBlocksDefaults.gridContainer.horizontalGap ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													horizontalGap: 0,
-												} );
-											} else if ( '' !== horizontalGap ) {
-												setAttributes( {
-													horizontalGap: parseFloat( horizontalGap ),
-												} );
-											}
-										} }
-										onClick={ ( e ) => {
-											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus();
 										} }
 									/>
 
@@ -424,7 +387,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGap || 0 === verticalGap ? verticalGap : '' }
+										value={ hasNumericValue( verticalGap ) ? verticalGap : '' }
 										min="0"
 										onChange={ ( value ) => {
 											// No negative values allowed here.
@@ -433,22 +396,6 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												verticalGap: value,
 											} );
-										} }
-										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! verticalGap && generateBlocksDefaults.gridContainer.verticalGap ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													verticalGap: 0,
-												} );
-											} else if ( '' !== verticalGap ) {
-												setAttributes( {
-													verticalGap: parseFloat( verticalGap ),
-												} );
-											}
-										} }
-										onClick={ ( e ) => {
-											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus();
 										} }
 									/>
 
@@ -515,9 +462,9 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapTablet || 0 === horizontalGapTablet ? horizontalGapTablet : '' }
+										value={ hasNumericValue( horizontalGapTablet ) ? horizontalGapTablet : '' }
 										min="0"
-										placeholder={ horizontalGapPlaceholderTablet }
+										placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Tablet', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -525,22 +472,6 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												horizontalGapTablet: value,
 											} );
-										} }
-										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! horizontalGapTablet && generateBlocksDefaults.gridContainer.horizontalGapTablet ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													horizontalGapTablet: 0,
-												} );
-											} else if ( '' !== horizontalGapTablet ) {
-												setAttributes( {
-													horizontalGapTablet: parseFloat( horizontalGapTablet ),
-												} );
-											}
-										} }
-										onClick={ ( e ) => {
-											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus();
 										} }
 									/>
 
@@ -570,9 +501,9 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGapTablet || 0 === verticalGapTablet ? verticalGapTablet : '' }
+										value={ hasNumericValue( verticalGapTablet ) ? verticalGapTablet : '' }
 										min="0"
-										placeholder={ verticalGapPlaceholderTablet }
+										placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Tablet', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -580,22 +511,6 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												verticalGapTablet: value,
 											} );
-										} }
-										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! verticalGapTablet && generateBlocksDefaults.gridContainer.verticalGapTablet ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													verticalGapTablet: 0,
-												} );
-											} else if ( '' !== verticalGapTablet ) {
-												setAttributes( {
-													verticalGapTablet: parseFloat( verticalGapTablet ),
-												} );
-											}
-										} }
-										onClick={ ( e ) => {
-											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus();
 										} }
 									/>
 
@@ -664,9 +579,9 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapMobile || 0 === horizontalGapMobile ? horizontalGapMobile : '' }
+										value={ hasNumericValue( horizontalGapMobile ) ? horizontalGapMobile : '' }
 										min="0"
-										placeholder={ horizontalGapPlaceholderMobile }
+										placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Mobile', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -674,22 +589,6 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												horizontalGapMobile: value,
 											} );
-										} }
-										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! horizontalGapMobile && generateBlocksDefaults.gridContainer.horizontalGapMobile ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													horizontalGapMobile: 0,
-												} );
-											} else if ( '' !== horizontalGapMobile ) {
-												setAttributes( {
-													horizontalGapMobile: parseFloat( horizontalGapMobile ),
-												} );
-											}
-										} }
-										onClick={ ( e ) => {
-											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus();
 										} }
 									/>
 
@@ -719,9 +618,9 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGapMobile || 0 === verticalGapMobile ? verticalGapMobile : '' }
+										value={ hasNumericValue( verticalGapMobile ) ? verticalGapMobile : '' }
 										min="0"
-										placeholder={ verticalGapPlaceholderMobile }
+										placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Mobile', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -729,22 +628,6 @@ class GenerateBlockGridContainer extends Component {
 											setAttributes( {
 												verticalGapMobile: value,
 											} );
-										} }
-										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! verticalGapMobile && generateBlocksDefaults.gridContainer.verticalGapMobile ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													verticalGapMobile: 0,
-												} );
-											} else if ( '' !== verticalGapMobile ) {
-												setAttributes( {
-													verticalGapMobile: parseFloat( verticalGapMobile ),
-												} );
-											}
-										} }
-										onClick={ ( e ) => {
-											// Make sure onBlur fires in Firefox.
-											e.currentTarget.focus();
 										} }
 									/>
 
