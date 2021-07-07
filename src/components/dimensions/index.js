@@ -4,7 +4,6 @@
 import classnames from 'classnames';
 import './editor.scss';
 import getIcon from '../../utils/get-icon';
-import shouldResetToZero from '../../utils/should-reset-to-zero';
 import UnitPicker from '../unit-picker';
 
 /**
@@ -93,7 +92,6 @@ class DimensionsControl extends Component {
 			labelLeft = __( 'Left', 'generateblocks' ),
 			device,
 			block,
-			defaults,
 			units,
 		} = this.props;
 
@@ -272,20 +270,6 @@ class DimensionsControl extends Component {
 							placeholder={ topPlaceholder }
 							type="number"
 							onChange={ onChangeTopValue }
-							onBlur={ () => {
-								if ( shouldResetToZero( attrTop, attributes, defaults ) ) {
-									// If we have no value and a default exists, set to 0 to prevent default from coming back.
-									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
-										this.onChangeAll( '0' );
-									} else {
-										this.onChangeTop( '0' );
-									}
-								}
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
 							/* translators: Dimension label (padding, margin, border) */
 							aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
 							value={ attributes[ attrTop ] ? attributes[ attrTop ] : '' }
@@ -297,20 +281,6 @@ class DimensionsControl extends Component {
 							placeholder={ rightPlaceholder }
 							type="number"
 							onChange={ onChangeRightValue }
-							onBlur={ () => {
-								if ( shouldResetToZero( attrRight, attributes, defaults ) ) {
-									// If we have no value and a default exists, set to 0 to prevent default from coming back.
-									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
-										this.onChangeAll( '0' );
-									} else {
-										this.onChangeRight( '0' );
-									}
-								}
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
 							/* translators: Dimension label (padding, margin, border) */
 							aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
 							value={ attributes[ attrRight ] ? attributes[ attrRight ] : '' }
@@ -322,20 +292,6 @@ class DimensionsControl extends Component {
 							placeholder={ bottomPlaceholder }
 							type="number"
 							onChange={ onChangeBottomValue }
-							onBlur={ () => {
-								if ( shouldResetToZero( attrBottom, attributes, defaults ) ) {
-									// If we have no value and a default exists, set to 0 to prevent default from coming back.
-									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
-										this.onChangeAll( '0' );
-									} else {
-										this.onChangeBottom( '0' );
-									}
-								}
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
 							/* translators: Dimension label (padding, margin, border) */
 							aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
 							value={ attributes[ attrBottom ] ? attributes[ attrBottom ] : '' }
@@ -347,20 +303,6 @@ class DimensionsControl extends Component {
 							placeholder={ leftPlaceholder }
 							type="number"
 							onChange={ onChangeLeftValue }
-							onBlur={ () => {
-								if ( shouldResetToZero( attrLeft, attributes, defaults ) ) {
-									// If we have no value and a default exists, set to 0 to prevent default from coming back.
-									if ( this.props.attributes[ this.props.attrSyncUnits ] ) {
-										this.onChangeAll( '0' );
-									} else {
-										this.onChangeLeft( '0' );
-									}
-								}
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
 							/* translators: Dimension label (padding, margin, border) */
 							aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }
 							value={ attributes[ attrLeft ] ? attributes[ attrLeft ] : '' }
