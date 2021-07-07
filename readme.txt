@@ -77,6 +77,11 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.3.4 =
+* New: Integrate with the new widget block editor
+* Fix: Memory leak when reusable blocks try to render inside themselves
+* Tweak: Use new block_categories_all filter in WP 5.8
+
 = 1.3.3 =
 * Fix: Constant re-rendering of SVG icons in code editor
 * Fix: Broken CSS when empty/non-published re-usable blocks are on the page
