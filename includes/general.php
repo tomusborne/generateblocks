@@ -120,7 +120,11 @@ function generateblocks_do_block_editor_assets() {
 	);
 }
 
-add_filter( 'block_categories', 'generateblocks_do_category' );
+if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
+	add_filter( 'block_categories', 'generateblocks_do_category' );
+} else {
+	add_filter( 'block_categories_all', 'generateblocks_do_category' );
+}
 /**
  * Add GeneratePress category to Gutenberg.
  *
@@ -243,4 +247,23 @@ function generateblocks_do_shape_divider( $output, $attributes ) {
 	}
 
 	return $output;
+}
+
+add_filter( 'generateblocks_do_content', 'generateblocks_do_widget_styling' );
+/**
+ * Process all widget content for potential styling.
+ *
+ * @since 1.3.4
+ * @param string $content The existing content to process.
+ */
+function generateblocks_do_widget_styling( $content ) {
+	$widget_blocks = get_option( 'widget_block' );
+
+	foreach ( (array) $widget_blocks as $block ) {
+		if ( isset( $block['content'] ) ) {
+			$content .= $block['content'];
+		}
+	}
+
+	return $content;
 }
