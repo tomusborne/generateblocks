@@ -21,15 +21,15 @@ const attributes = {
 		default: generateBlocksDefaults.container.tagName,
 	},
 	width: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.container.width,
 	},
 	widthTablet: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.container.widthTablet,
 	},
 	widthMobile: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.container.widthMobile,
 	},
 	autoWidth: {
