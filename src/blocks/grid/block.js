@@ -8,6 +8,7 @@ import editGridContainer from './edit';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
 import deprecated from './deprecated';
+import './migrate';
 
 import {
 	__,
