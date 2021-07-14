@@ -15,6 +15,7 @@ import PanelArea from '../../components/panel-area/';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import hasNumericValue from '../../utils/has-numeric-value';
 import setBlockVersion from '../../utils/set-block-version';
+import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 
 import {
 	__,
