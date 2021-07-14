@@ -123,7 +123,7 @@ function generateblocks_do_block_editor_assets() {
 		'generateblocks',
 		'generateBlocksLegacyDefaults',
 		array(
-			'v_1_4_0' => GenerateBlocks_Legacy_Defaults::v_1_4_0(),
+			'v_1_4_0' => GenerateBlocks_Legacy_Attributes::get_defaults( '1.4.0' ),
 		)
 	);
 }

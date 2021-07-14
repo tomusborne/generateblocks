@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles legacy defaults that have been changed.
+ * Handles legacy attributes that have changed.
  *
  * @package GenerateBlocks
  */
@@ -10,38 +10,53 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Get old defaults that have been changed.
+ * Provides a method to define old attributes and serve old settings based on them.
  */
-class GenerateBlocks_Legacy_Defaults {
+class GenerateBlocks_Legacy_Attributes {
 	/**
-	 * Class instance.
+	 * Get our old defaults that have changed.
 	 *
-	 * @access private
-	 * @var $instance Class instance.
+	 * @param string $version The version to get defaults from.
 	 */
-	private static $instance;
-
-	/**
-	 * Initiator
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
+	public static function get_defaults( $version ) {
+		if ( '1.4.0' === $version ) {
+			return apply_filters(
+				'generateblocks_defaults',
+				array(
+					'gridContainer' => array(
+						'horizontalGap' => 30,
+					),
+				)
+			);
 		}
-		return self::$instance;
 	}
 
 	/**
-	 * Defaults that have changed in 1.4.0.
+	 * Update our settings based on old defaults.
+	 *
+	 * @param string $version The version to target.
+	 * @param string $block The name of the block we're targeting.
+	 * @param array  $settings The current settings.
+	 * @param array  $atts The block attributes.
 	 */
-	public static function v_1_4_0() {
-		return apply_filters(
-			'generateblocks_defaults',
-			array(
-				'gridContainer' => array(
-					'horizontalGap' => 30,
-				),
-			)
-		);
+	public static function get_settings( $version, $block, $settings, $atts ) {
+		$legacy_defaults = self::get_defaults( $version );
+
+		if ( empty( $legacy_defaults ) ) {
+			return $settings;
+		}
+
+		if ( '1.4.0' === $version ) {
+			if ( 'grid' === $block ) {
+				$legacy_settings = wp_parse_args(
+					$atts,
+					$legacy_defaults['gridContainer']
+				);
+
+				$settings['horizontalGap'] = $legacy_settings['horizontalGap'];
+			}
+		}
+
+		return $settings;
 	}
 }

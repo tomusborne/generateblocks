@@ -85,21 +85,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$id = $atts['uniqueId'];
 				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'grid', $settings, $atts );
+				}
+
 				$gap_direction = 'left';
 
 				if ( is_rtl() ) {
 					$gap_direction = 'right';
-				}
-
-				if ( $blockVersion < 2 ) {
-					$legacy_defaults = GenerateBlocks_Legacy_Defaults::v_1_4_0();
-
-					$legacy_settings = wp_parse_args(
-						$atts,
-						$legacy_defaults['gridContainer']
-					);
-
-					$settings['horizontalGap'] = $legacy_settings['horizontalGap'];
 				}
 
 				// Don't output horizontal gap defaults if we're using global styles.
