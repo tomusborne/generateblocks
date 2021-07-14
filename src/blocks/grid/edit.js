@@ -116,6 +116,8 @@ class GenerateBlockGridContainer extends Component {
 				blockVersion,
 			} );
 		}
+		// Update block version flag if it's out of date.
+		setBlockVersion( this.props, 2 );
 	}
 
 	componentDidUpdate() {
