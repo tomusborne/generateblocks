@@ -13,6 +13,9 @@ import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
+import hasNumericValue from '../../utils/has-numeric-value';
+import setBlockVersion from '../../utils/set-block-version';
+import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 
 import {
 	__,
@@ -96,6 +99,27 @@ class GenerateBlockGridContainer extends Component {
 				isDynamic: true,
 			} );
 		}
+
+		// Set our old defaults as static values.
+		// @since 1.4.0.
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < 2 ) {
+			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.gridContainer;
+
+			const newAttrs = {};
+
+			const hasGlobalStyle = 'undefined' !== typeof this.props.attributes.useGlobalStyle && this.props.attributes.useGlobalStyle && 'undefined' !== typeof this.props.attributes.globalStyleId && this.props.attributes.globalStyleId;
+
+			if ( ! hasGlobalStyle && ! hasNumericValue( this.props.attributes.horizontalGap ) ) {
+				newAttrs.horizontalGap = legacyDefaults.horizontalGap;
+			}
+
+			if ( Object.keys( newAttrs ).length > 0 ) {
+				this.props.setAttributes( newAttrs );
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		setBlockVersion( this.props, 2 );
 	}
 
 	componentDidUpdate() {
@@ -281,29 +305,6 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentMobile,
 		} = attributes;
 
-		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle && 'undefined' !== typeof attributes.globalStyleId && attributes.globalStyleId;
-		let horizontalGapValue = horizontalGap || 0 === horizontalGap ? horizontalGap : '';
-
-		if ( usingGlobalStyle ) {
-			if ( generateBlocksDefaults.gridContainer.horizontalGap === horizontalGapValue ) {
-				horizontalGapValue = '';
-			}
-		}
-
-		const horizontalGapPlaceholderTablet = horizontalGapValue,
-			verticalGapPlaceholderTablet = verticalGap || 0 === verticalGap ? verticalGap : '';
-
-		let horizontalGapPlaceholderMobile = horizontalGapValue,
-			verticalGapPlaceholderMobile = verticalGap || 0 === verticalGap ? verticalGap : '';
-
-		if ( horizontalGapTablet ) {
-			horizontalGapPlaceholderMobile = horizontalGapTablet;
-		}
-
-		if ( verticalGapTablet ) {
-			verticalGapPlaceholderMobile = verticalGapTablet;
-		}
-
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-grid-wrapper': true,
@@ -370,7 +371,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapValue }
+										value={ hasNumericValue( horizontalGap ) ? horizontalGap : '' }
 										min="0"
 										onChange={ ( value ) => {
 											// No hyphens allowed here.
@@ -381,12 +382,7 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! horizontalGap && generateBlocksDefaults.gridContainer.horizontalGap ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													horizontalGap: 0,
-												} );
-											} else if ( '' !== horizontalGap ) {
+											if ( '' !== horizontalGap ) {
 												setAttributes( {
 													horizontalGap: parseFloat( horizontalGap ),
 												} );
@@ -424,7 +420,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGap || 0 === verticalGap ? verticalGap : '' }
+										value={ hasNumericValue( verticalGap ) ? verticalGap : '' }
 										min="0"
 										onChange={ ( value ) => {
 											// No negative values allowed here.
@@ -435,12 +431,7 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! verticalGap && generateBlocksDefaults.gridContainer.verticalGap ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													verticalGap: 0,
-												} );
-											} else if ( '' !== verticalGap ) {
+											if ( '' !== verticalGap ) {
 												setAttributes( {
 													verticalGap: parseFloat( verticalGap ),
 												} );
@@ -515,9 +506,9 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapTablet || 0 === horizontalGapTablet ? horizontalGapTablet : '' }
+										value={ hasNumericValue( horizontalGapTablet ) ? horizontalGapTablet : '' }
 										min="0"
-										placeholder={ horizontalGapPlaceholderTablet }
+										placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Tablet', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -527,12 +518,7 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! horizontalGapTablet && generateBlocksDefaults.gridContainer.horizontalGapTablet ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													horizontalGapTablet: 0,
-												} );
-											} else if ( '' !== horizontalGapTablet ) {
+											if ( '' !== horizontalGapTablet ) {
 												setAttributes( {
 													horizontalGapTablet: parseFloat( horizontalGapTablet ),
 												} );
@@ -570,9 +556,9 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGapTablet || 0 === verticalGapTablet ? verticalGapTablet : '' }
+										value={ hasNumericValue( verticalGapTablet ) ? verticalGapTablet : '' }
 										min="0"
-										placeholder={ verticalGapPlaceholderTablet }
+										placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Tablet', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -582,12 +568,7 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! verticalGapTablet && generateBlocksDefaults.gridContainer.verticalGapTablet ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													verticalGapTablet: 0,
-												} );
-											} else if ( '' !== verticalGapTablet ) {
+											if ( '' !== verticalGapTablet ) {
 												setAttributes( {
 													verticalGapTablet: parseFloat( verticalGapTablet ),
 												} );
@@ -664,9 +645,9 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapMobile || 0 === horizontalGapMobile ? horizontalGapMobile : '' }
+										value={ hasNumericValue( horizontalGapMobile ) ? horizontalGapMobile : '' }
 										min="0"
-										placeholder={ horizontalGapPlaceholderMobile }
+										placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Mobile', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -676,12 +657,7 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! horizontalGapMobile && generateBlocksDefaults.gridContainer.horizontalGapMobile ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													horizontalGapMobile: 0,
-												} );
-											} else if ( '' !== horizontalGapMobile ) {
+											if ( '' !== horizontalGapMobile ) {
 												setAttributes( {
 													horizontalGapMobile: parseFloat( horizontalGapMobile ),
 												} );
@@ -719,9 +695,9 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGapMobile || 0 === verticalGapMobile ? verticalGapMobile : '' }
+										value={ hasNumericValue( verticalGapMobile ) ? verticalGapMobile : '' }
 										min="0"
-										placeholder={ verticalGapPlaceholderMobile }
+										placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Mobile', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -731,12 +707,7 @@ class GenerateBlockGridContainer extends Component {
 											} );
 										} }
 										onBlur={ () => {
-											if ( ! usingGlobalStyle && ! verticalGapMobile && generateBlocksDefaults.gridContainer.verticalGapMobile ) {
-												// If we have no value and a default exists, set to 0 to prevent default from coming back.
-												setAttributes( {
-													verticalGapMobile: 0,
-												} );
-											} else if ( '' !== verticalGapMobile ) {
+											if ( '' !== verticalGapMobile ) {
 												setAttributes( {
 													verticalGapMobile: parseFloat( verticalGapMobile ),
 												} );
