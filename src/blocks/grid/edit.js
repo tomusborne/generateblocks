@@ -302,15 +302,6 @@ class GenerateBlockGridContainer extends Component {
 			horizontalAlignmentMobile,
 		} = attributes;
 
-		const usingGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle && 'undefined' !== typeof attributes.globalStyleId && attributes.globalStyleId;
-		let horizontalGapValue = horizontalGap || 0 === horizontalGap ? horizontalGap : '';
-
-		if ( usingGlobalStyle ) {
-			if ( generateBlocksDefaults.gridContainer.horizontalGap === horizontalGapValue ) {
-				horizontalGapValue = '';
-			}
-		}
-
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-grid-wrapper': true,
@@ -377,7 +368,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapValue }
+										value={ hasNumericValue( horizontalGap ) ? horizontalGap : '' }
 										min="0"
 										onChange={ ( value ) => {
 											// No hyphens allowed here.
@@ -431,7 +422,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGap || 0 === verticalGap ? verticalGap : '' }
+										value={ hasNumericValue( verticalGap ) ? verticalGap : '' }
 										min="0"
 										onChange={ ( value ) => {
 											// No negative values allowed here.
@@ -522,7 +513,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapTablet || 0 === horizontalGapTablet ? horizontalGapTablet : '' }
+										value={ hasNumericValue( horizontalGapTablet ) ? horizontalGapTablet : '' }
 										min="0"
 										placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Tablet', '' ) }
 										onChange={ ( value ) => {
@@ -577,7 +568,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGapTablet || 0 === verticalGapTablet ? verticalGapTablet : '' }
+										value={ hasNumericValue( verticalGapTablet ) ? verticalGapTablet : '' }
 										min="0"
 										placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Tablet', '' ) }
 										onChange={ ( value ) => {
@@ -671,7 +662,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ horizontalGapMobile || 0 === horizontalGapMobile ? horizontalGapMobile : '' }
+										value={ hasNumericValue( horizontalGapMobile ) ? horizontalGapMobile : '' }
 										min="0"
 										placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Mobile', '' ) }
 										onChange={ ( value ) => {
@@ -726,7 +717,7 @@ class GenerateBlockGridContainer extends Component {
 								<div className="components-base-control components-gblocks-typography-control__inputs">
 									<TextControl
 										type={ 'number' }
-										value={ verticalGapMobile || 0 === verticalGapMobile ? verticalGapMobile : '' }
+										value={ hasNumericValue( verticalGapMobile ) ? verticalGapMobile : '' }
 										min="0"
 										placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Mobile', '' ) }
 										onChange={ ( value ) => {
