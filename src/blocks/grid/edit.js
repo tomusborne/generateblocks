@@ -311,20 +311,6 @@ class GenerateBlockGridContainer extends Component {
 			}
 		}
 
-		const horizontalGapPlaceholderTablet = horizontalGapValue,
-			verticalGapPlaceholderTablet = verticalGap || 0 === verticalGap ? verticalGap : '';
-
-		let horizontalGapPlaceholderMobile = horizontalGapValue,
-			verticalGapPlaceholderMobile = verticalGap || 0 === verticalGap ? verticalGap : '';
-
-		if ( horizontalGapTablet ) {
-			horizontalGapPlaceholderMobile = horizontalGapTablet;
-		}
-
-		if ( verticalGapTablet ) {
-			verticalGapPlaceholderMobile = verticalGapTablet;
-		}
-
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-grid-wrapper': true,
@@ -538,7 +524,7 @@ class GenerateBlockGridContainer extends Component {
 										type={ 'number' }
 										value={ horizontalGapTablet || 0 === horizontalGapTablet ? horizontalGapTablet : '' }
 										min="0"
-										placeholder={ horizontalGapPlaceholderTablet }
+										placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Tablet', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -593,7 +579,7 @@ class GenerateBlockGridContainer extends Component {
 										type={ 'number' }
 										value={ verticalGapTablet || 0 === verticalGapTablet ? verticalGapTablet : '' }
 										min="0"
-										placeholder={ verticalGapPlaceholderTablet }
+										placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Tablet', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -687,7 +673,7 @@ class GenerateBlockGridContainer extends Component {
 										type={ 'number' }
 										value={ horizontalGapMobile || 0 === horizontalGapMobile ? horizontalGapMobile : '' }
 										min="0"
-										placeholder={ horizontalGapPlaceholderMobile }
+										placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Mobile', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
@@ -742,7 +728,7 @@ class GenerateBlockGridContainer extends Component {
 										type={ 'number' }
 										value={ verticalGapMobile || 0 === verticalGapMobile ? verticalGapMobile : '' }
 										min="0"
-										placeholder={ verticalGapPlaceholderMobile }
+										placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Mobile', '' ) }
 										onChange={ ( value ) => {
 											// No negative values allowed here.
 											value = value.toString().replace( /-/g, '' );
