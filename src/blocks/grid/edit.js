@@ -107,7 +107,9 @@ class GenerateBlockGridContainer extends Component {
 
 			const newAttrs = {};
 
-			if ( ! hasNumericValue( this.props.attributes.horizontalGap ) ) {
+			const hasGlobalStyle = 'undefined' !== typeof this.props.attributes.useGlobalStyle && this.props.attributes.useGlobalStyle && 'undefined' !== typeof this.props.attributes.globalStyleId && this.props.attributes.globalStyleId;
+
+			if ( ! hasGlobalStyle && ! hasNumericValue( this.props.attributes.horizontalGap ) ) {
 				newAttrs.horizontalGap = legacyDefaults.horizontalGap;
 			}
 
