@@ -13,6 +13,7 @@ import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
+import hasNumericValue from '../../utils/has-numeric-value';
 
 import {
 	__,
@@ -94,6 +95,25 @@ class GenerateBlockGridContainer extends Component {
 		if ( 'undefined' === typeof this.props.attributes.isDynamic || ! this.props.attributes.isDynamic ) {
 			this.props.setAttributes( {
 				isDynamic: true,
+			} );
+		}
+
+		// Set our old defaults as static values.
+		// @since 1.4.0.
+		if ( ! hasNumericValue( this.props.attributes.horizontalGap ) && ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < 2 ) ) {
+			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.gridContainer;
+
+			this.props.setAttributes( {
+				horizontalGap: legacyDefaults.horizontalGap,
+			} );
+		}
+
+		// Update block version flag if it's out of date.
+		const blockVersion = 2;
+
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < blockVersion ) {
+			this.props.setAttributes( {
+				blockVersion,
 			} );
 		}
 	}

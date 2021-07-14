@@ -289,7 +289,7 @@ function generateblocks_get_block_defaults() {
 	);
 
 	$defaults['gridContainer'] = array(
-		'horizontalGap' => 30,
+		'horizontalGap' => '',
 		'verticalGap' => '',
 		'verticalAlignment' => '',
 		'horizontalGapTablet' => '',
