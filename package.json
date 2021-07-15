@@ -33,10 +33,13 @@
 		"@wordpress/i18n": "^4.0.0",
 		"@wordpress/rich-text": "^4.0.0",
 		"@wordpress/scripts": "^16.0.0",
+		"enzyme": "^3.11.0",
 		"grunt": "^1.4.0",
 		"grunt-contrib-clean": "^2.0.0",
 		"grunt-contrib-compress": "^2.0.0",
-		"grunt-contrib-copy": "^1.0.0"
+		"grunt-contrib-copy": "^1.0.0",
+		"jest": "^27.0.6",
+		"request": "^2.88.2"
 	},
 	"scripts": {
 		"build": "wp-scripts build src/blocks.js src/dashboard.js --output-path=dist",
@@ -44,6 +47,7 @@
 		"lint:js": "wp-scripts lint-js",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"package": "grunt package",
-		"googleFonts": "grunt download-google-fonts"
+		"googleFonts": "grunt download-google-fonts",
+		"test:unit": "wp-scripts test-unit-js"
 	}
 }
