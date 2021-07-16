@@ -443,7 +443,9 @@ class GenerateBlocks_Enqueue_CSS {
 	 * @param array $instance The current widget instance's settings.
 	 */
 	public function force_file_regen_on_widget_save( $instance ) {
-		update_option( 'generateblocks_dynamic_css_posts', array() );
+		if ( function_exists( 'wp_use_widgets_block_editor' ) && wp_use_widgets_block_editor() ) {
+			update_option( 'generateblocks_dynamic_css_posts', array() );
+		}
 
 		return $instance;
 	}
