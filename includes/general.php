@@ -20,10 +20,18 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
  * @since 0.1
  */
 function generateblocks_do_block_editor_assets() {
+	global $pagenow;
+
+	$generateblocks_deps = array( 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', 'wp-compose', 'wp-data' );
+
+	if ( 'widgets.php' === $pagenow ) {
+		unset( $generateblocks_deps[2] );
+	}
+
 	wp_enqueue_script(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.js',
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-compose', 'wp-data' ),
+		$generateblocks_deps,
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.js' ),
 		true
 	);
