@@ -1296,7 +1296,7 @@ export default compose( [
 		setDeviceType( type ) {
 			const {
 				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
-			} = dispatch( 'core/edit-post' );
+			} = dispatch( 'core/edit-post' ) || false;
 
 			if ( ! setPreviewDeviceType ) {
 				return;
@@ -1308,7 +1308,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		const {
 			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
-		} = select( 'core/edit-post' );
+		} = select( 'core/edit-post' ) || false;
 
 		if ( ! getPreviewDeviceType ) {
 			return {
