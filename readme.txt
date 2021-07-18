@@ -77,6 +77,11 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.3.5 =
+* Fix: Error saving classic widgets in Customizer
+* Fix: Console error in widget editor due to core/edit-post
+* Tweak: Remove wp-editor dependency from widget editor
+
 = 1.3.4 =
 * New: Integrate with the new widget block editor
 * Fix: Memory leak when reusable blocks try to render inside themselves
