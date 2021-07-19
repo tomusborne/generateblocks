@@ -46,6 +46,7 @@ class GenerateBlocks_Enqueue_CSS {
 		add_action( 'save_post_wp_block', array( $this, 'wp_block_update' ), 10, 2 );
 		add_action( 'init', array( $this, 'enqueue_assets' ) );
 		add_filter( 'widget_update_callback', array( $this, 'force_file_regen_on_widget_save' ) );
+		add_action( 'customize_save_after', array( $this, 'force_file_regen_on_customizer_save' ) );
 	}
 
 	/**
@@ -443,9 +444,23 @@ class GenerateBlocks_Enqueue_CSS {
 	 * @param array $instance The current widget instance's settings.
 	 */
 	public function force_file_regen_on_widget_save( $instance ) {
-		update_option( 'generateblocks_dynamic_css_posts', array() );
+		if ( function_exists( 'wp_use_widgets_block_editor' ) && wp_use_widgets_block_editor() ) {
+			update_option( 'generateblocks_dynamic_css_posts', array() );
+		}
 
 		return $instance;
+	}
+
+	/**
+	 * Force CSS files to regenerate after the Customizer has been saved.
+	 * This is necessary because force_file_regen_on_widget_save() doesn't fire in the Customizer for some reason.
+	 *
+	 * @todo Make this only happen when the widgets have been changed.
+	 */
+	public function force_file_regen_on_customizer_save() {
+		if ( function_exists( 'wp_use_widgets_block_editor' ) && wp_use_widgets_block_editor() ) {
+			update_option( 'generateblocks_dynamic_css_posts', array() );
+		}
 	}
 }
 

@@ -9,7 +9,7 @@ import {
 import {
 	toggleFormat,
 	registerFormatType,
-} from '@wordpress/richText';
+} from '@wordpress/rich-text';
 
 import {
 	RichTextToolbarButton,
