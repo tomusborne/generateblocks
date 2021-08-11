@@ -1,0 +1,37 @@
+name: GenerateBlocks JS CI
+
+on:
+  push:
+    branches:
+      - master
+      - 'release/**'
+  pull_request:
+    branches:
+      - master
+      - 'release/**'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Check node_modules cache
+        id: npm-cache
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-modules-
+      - name: NPM install
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm install
+
+      - name: NPM lint
+        run: npm run lint:js
+
+      - name: NPM test
+        run: npm run test:unit

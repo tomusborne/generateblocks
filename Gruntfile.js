@@ -79,7 +79,7 @@ module.exports = function( grunt ) {
 		const fs = require( 'fs' );
 
 		request( 'https://www.googleapis.com/webfonts/v1/webfonts?sort=popularity&key=AIzaSyCMsgO9oLyggmUXxBP85zQiEHJ5m3OAl0U', function( error, response, body ) {
-			if ( response && response.statusCode == 200 ) {
+			if ( response && response.statusCode === 200 ) {
 				const fonts = {};
 
 				JSON.parse( body ).items.forEach( function( font ) {
@@ -91,6 +91,7 @@ module.exports = function( grunt ) {
 
 				fs.writeFile( 'src/components/typography/google-fonts.json', JSON.stringify( fonts, undefined, 4 ), function( err ) {
 					if ( ! err ) {
+						// eslint-disable-next-line no-console
 						console.log( 'Google Fonts Updated!' );
 						done();
 					}
