@@ -14,7 +14,6 @@ import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import hasNumericValue from '../../utils/has-numeric-value';
-import setBlockVersion from '../../utils/set-block-version';
 import isBlockVersionLessThan from '../../utils/check-block-version';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 
@@ -120,7 +119,9 @@ class GenerateBlockGridContainer extends Component {
 		}
 
 		// Update block version flag if it's out of date.
-		setBlockVersion( this.props, 2 );
+		if ( isBlockVersionLessThan( props.attributes.blockVersion, 2 ) ) {
+			setAttributes( { blockVersion: 2 } );
+		}
 	}
 
 	componentDidUpdate() {
