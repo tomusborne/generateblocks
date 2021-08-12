@@ -15,6 +15,7 @@ import PanelArea from '../../components/panel-area/';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import hasNumericValue from '../../utils/has-numeric-value';
 import setBlockVersion from '../../utils/set-block-version';
+import isBlockVersionLessThan from '../../utils/check-block-version';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 
 import {
@@ -102,7 +103,7 @@ class GenerateBlockGridContainer extends Component {
 
 		// Set our old defaults as static values.
 		// @since 1.4.0.
-		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < 2 ) {
+		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.gridContainer;
 
 			const newAttrs = {};
