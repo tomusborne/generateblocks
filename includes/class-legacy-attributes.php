@@ -26,6 +26,12 @@ class GenerateBlocks_Legacy_Attributes {
 					'gridContainer' => array(
 						'horizontalGap' => 30,
 					),
+					'container' => array(
+						'paddingTop' => '40',
+						'paddingRight' => '40',
+						'paddingBottom' => '40',
+						'paddingLeft' => '40',
+					),
 				)
 			);
 		}
@@ -54,6 +60,18 @@ class GenerateBlocks_Legacy_Attributes {
 				);
 
 				$settings['horizontalGap'] = $legacy_settings['horizontalGap'];
+			}
+
+			if ( 'container' === $block ) {
+				$legacy_settings = wp_parse_args(
+					$atts,
+					$legacy_defaults['container']
+				);
+
+				$settings['paddingTop'] = $legacy_settings['paddingTop'];
+				$settings['paddingRight'] = $legacy_settings['paddingRight'];
+				$settings['paddingBottom'] = $legacy_settings['paddingBottom'];
+				$settings['paddingLeft'] = $legacy_settings['paddingLeft'];
 			}
 		}
 

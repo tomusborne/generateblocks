@@ -246,6 +246,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$id = $atts['uniqueId'];
 				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'container', $settings, $atts );
+				}
+
 				$fontFamily = $settings['fontFamily'];
 
 				if ( $fontFamily && $settings['fontFamilyFallback'] ) {
