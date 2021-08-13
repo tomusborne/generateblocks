@@ -83,6 +83,8 @@ class GenerateBlockGridContainer extends Component {
 	}
 
 	componentDidMount() {
+		const wasJustInserted = this.props.wasBlockJustInserted;
+
 		// Generate a unique ID if none exists or if the same ID exists on this page.
 		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
 		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
@@ -102,7 +104,7 @@ class GenerateBlockGridContainer extends Component {
 
 		// Set our old defaults as static values.
 		// @since 1.4.0.
-		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+		if ( ! wasJustInserted && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.gridContainer;
 
 			const newAttrs = {};
@@ -856,7 +858,7 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select ) => {
+	withSelect( ( select, props ) => {
 		const {
 			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
 		} = select( 'core/edit-post' ) || false;
@@ -864,11 +866,13 @@ export default compose( [
 		if ( ! getPreviewDeviceType ) {
 			return {
 				deviceType: null,
+				wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 			};
 		}
 
 		return {
 			deviceType: getPreviewDeviceType(),
+			wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 		};
 	} ),
 ] )( GenerateBlockGridContainer );
