@@ -20,10 +20,18 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
  * @since 0.1
  */
 function generateblocks_do_block_editor_assets() {
+	global $pagenow;
+
+	$generateblocks_deps = array( 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', 'wp-compose', 'wp-data' );
+
+	if ( 'widgets.php' === $pagenow ) {
+		unset( $generateblocks_deps[2] );
+	}
+
 	wp_enqueue_script(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.js',
-		array( 'wp-blocks', 'wp-i18n', 'wp-element', 'wp-editor', 'wp-compose', 'wp-data' ),
+		$generateblocks_deps,
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.js' ),
 		true
 	);
@@ -117,6 +125,14 @@ function generateblocks_do_block_editor_assets() {
 		'generateblocks',
 		'generateBlocksStyling',
 		generateblocks_get_default_styles()
+	);
+
+	wp_localize_script(
+		'generateblocks',
+		'generateBlocksLegacyDefaults',
+		array(
+			'v_1_4_0' => GenerateBlocks_Legacy_Attributes::get_defaults( '1.4.0' ),
+		)
 	);
 }
 
@@ -253,4 +269,23 @@ function generateblocks_do_shape_divider( $output, $attributes ) {
 	}
 
 	return $output;
+}
+
+add_filter( 'generateblocks_do_content', 'generateblocks_do_widget_styling' );
+/**
+ * Process all widget content for potential styling.
+ *
+ * @since 1.3.4
+ * @param string $content The existing content to process.
+ */
+function generateblocks_do_widget_styling( $content ) {
+	$widget_blocks = get_option( 'widget_block' );
+
+	foreach ( (array) $widget_blocks as $block ) {
+		if ( isset( $block['content'] ) ) {
+			$content .= $block['content'];
+		}
+	}
+
+	return $content;
 }

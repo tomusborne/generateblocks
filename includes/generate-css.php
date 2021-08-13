@@ -83,6 +83,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'grid', $settings, $atts );
+				}
 
 				$gap_direction = 'left';
 
@@ -91,7 +97,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				// Don't output horizontal gap defaults if we're using global styles.
-				if ( isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] && isset( $settings['globalStyleId'] ) && $settings['globalStyleId'] ) {
+				if ( $blockVersion < 2 && isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] && isset( $settings['globalStyleId'] ) && $settings['globalStyleId'] ) {
 					if ( (string) $settings['horizontalGap'] === (string) $defaults['gridContainer']['horizontalGap'] ) {
 						$settings['horizontalGap'] = '';
 					}
@@ -239,6 +245,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'container', $settings, $atts );
+				}
 
 				$fontFamily = $settings['fontFamily'];
 

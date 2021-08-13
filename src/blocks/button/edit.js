@@ -273,7 +273,13 @@ class GenerateBlockButton extends Component {
 								}
 
 								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
-								const clonedBlock = cloneBlock( thisBlock );
+
+								const clonedBlock = cloneBlock(
+									thisBlock,
+									{
+										uniqueId: '',
+									}
+								);
 
 								wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlockId );
 							} }
@@ -1102,7 +1108,7 @@ export default compose( [
 		setDeviceType( type ) {
 			const {
 				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
-			} = dispatch( 'core/edit-post' );
+			} = dispatch( 'core/edit-post' ) || false;
 
 			if ( ! setPreviewDeviceType ) {
 				return;
@@ -1114,7 +1120,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		const {
 			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
-		} = select( 'core/edit-post' );
+		} = select( 'core/edit-post' ) || false;
 
 		if ( ! getPreviewDeviceType ) {
 			return {

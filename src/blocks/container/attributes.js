@@ -468,10 +468,6 @@ const attributes = {
 		type: 'string',
 		default: generateBlocksDefaults.container.alignmentMobile,
 	},
-	showAdvancedTypography: {
-		type: 'boolean',
-		default: generateBlocksDefaults.headline.showAdvancedTypography,
-	},
 	fontFamily: {
 		type: 'string',
 		default: generateBlocksDefaults.container.fontFamily,

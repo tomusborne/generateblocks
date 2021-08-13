@@ -226,7 +226,13 @@ class GenerateButtonContainer extends Component {
 
 										if ( blockToCopyId ) {
 											const blockToCopy = wp.data.select( 'core/block-editor' ).getBlocksByClientId( blockToCopyId )[ 0 ];
-											const clonedBlock = cloneBlock( blockToCopy );
+
+											const clonedBlock = cloneBlock(
+												blockToCopy,
+												{
+													uniqueId: '',
+												}
+											);
 
 											wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, clientId );
 										}
@@ -487,7 +493,7 @@ export default compose( [
 		setDeviceType( type ) {
 			const {
 				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
-			} = dispatch( 'core/edit-post' );
+			} = dispatch( 'core/edit-post' ) || false;
 
 			if ( ! setPreviewDeviceType ) {
 				return;
@@ -499,7 +505,7 @@ export default compose( [
 	withSelect( ( select ) => {
 		const {
 			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
-		} = select( 'core/edit-post' );
+		} = select( 'core/edit-post' ) || false;
 
 		if ( ! getPreviewDeviceType ) {
 			return {

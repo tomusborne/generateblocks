@@ -21,6 +21,7 @@ import MobileCSS from './css/mobile.js';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 import hasNumericValue from '../../utils/has-numeric-value';
+import isBlockVersionLessThan from '../../utils/check-block-version';
 
 import {
 	__,
@@ -89,6 +90,8 @@ class GenerateBlockContainer extends Component {
 	}
 
 	componentDidMount() {
+		const wasJustInserted = this.props.wasBlockJustInserted;
+
 		// Generate a unique ID if none exists or if the same ID exists on this page.
 		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
 		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
@@ -128,13 +131,28 @@ class GenerateBlockContainer extends Component {
 			}
 		}
 
-		// Update block version flag if it's out of date.
-		const blockVersion = 2;
+		// Set our old defaults as static values.
+		// @since 1.4.0.
+		if ( ! wasJustInserted && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
 
-		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < blockVersion ) {
-			this.props.setAttributes( {
-				blockVersion,
+			const newAttrs = {};
+			const items = [ 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft' ];
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( this.props.attributes[ item ] ) ) {
+					newAttrs[ item ] = legacyDefaults[ item ];
+				}
 			} );
+
+			if ( Object.keys( newAttrs ).length > 0 ) {
+				this.props.setAttributes( newAttrs );
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			this.props.setAttributes( { blockVersion: 2 } );
 		}
 	}
 
@@ -1104,6 +1122,7 @@ class GenerateBlockContainer extends Component {
 								<TypographyControls { ...this.props }
 									device={ 'Tablet' }
 									showFontSize={ true }
+									disableAdvancedToggle={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 									defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
@@ -1118,6 +1137,7 @@ class GenerateBlockContainer extends Component {
 								<TypographyControls { ...this.props }
 									device={ 'Mobile' }
 									showFontSize={ true }
+									disableAdvancedToggle={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 									defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
@@ -2349,7 +2369,7 @@ export default compose( [
 		setDeviceType( type ) {
 			const {
 				__experimentalSetPreviewDeviceType: setPreviewDeviceType,
-			} = dispatch( 'core/edit-post' );
+			} = dispatch( 'core/edit-post' ) || false;
 
 			if ( ! setPreviewDeviceType ) {
 				return;
@@ -2358,7 +2378,15 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select ) => {
+	withSelect( ( select, props ) => {
+		if ( ! select( 'core/edit-post' ) ) {
+			return {
+				media: null,
+				deviceType: null,
+				wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
+			};
+		}
+
 		const {
 			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
 		} = select( 'core/edit-post' );
@@ -2377,12 +2405,14 @@ export default compose( [
 			return {
 				media: featuredImageId ? getMedia( featuredImageId ) : null,
 				deviceType: null,
+				wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 			};
 		}
 
 		return {
 			media: featuredImageId ? getMedia( featuredImageId ) : null,
 			deviceType: getPreviewDeviceType(),
+			wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 		};
 	} ),
 ] )( GenerateBlockContainer );

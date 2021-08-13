@@ -3,9 +3,9 @@ Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
 Requires at least: 5.4
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 1.3.3
+Stable tag: 1.3.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,16 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.3.5 =
+* Fix: Error saving classic widgets in Customizer
+* Fix: Console error in widget editor due to core/edit-post
+* Tweak: Remove wp-editor dependency from widget editor
+
+= 1.3.4 =
+* New: Integrate with the new widget block editor
+* Fix: Memory leak when reusable blocks try to render inside themselves
+* Tweak: Use new block_categories_all filter in WP 5.8
 
 = 1.3.3 =
 * Fix: Constant re-rendering of SVG icons in code editor
