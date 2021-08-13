@@ -61,8 +61,8 @@ import {
 import {
 	compose,
 } from '@wordpress/compose';
-import isBlockVersionLessThan from "../../utils/check-block-version";
-import hasNumericValue from "../../utils/has-numeric-value";
+import isBlockVersionLessThan from '../../utils/check-block-version';
+import hasNumericValue from '../../utils/has-numeric-value';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.

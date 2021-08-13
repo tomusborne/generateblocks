@@ -40,7 +40,6 @@ const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
  * Add controls to the Container block toolbar.
  *
  * @param {Function} BlockEdit Block edit component.
- *
  * @return {Function} BlockEdit Modified block edit component.
  */
 const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
