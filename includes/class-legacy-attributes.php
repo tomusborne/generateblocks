@@ -31,6 +31,8 @@ class GenerateBlocks_Legacy_Attributes {
 						'paddingRight' => '40',
 						'paddingBottom' => '40',
 						'paddingLeft' => '40',
+						'width' => 50,
+						'widthMobile' => 100,
 					),
 				)
 			);
@@ -72,6 +74,8 @@ class GenerateBlocks_Legacy_Attributes {
 				$settings['paddingRight'] = $legacy_settings['paddingRight'];
 				$settings['paddingBottom'] = $legacy_settings['paddingBottom'];
 				$settings['paddingLeft'] = $legacy_settings['paddingLeft'];
+				$settings['width'] = $legacy_settings['width'];
+				$settings['widthMobile'] = $legacy_settings['widthMobile'];
 			}
 		}
 

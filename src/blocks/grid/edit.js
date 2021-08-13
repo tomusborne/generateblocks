@@ -187,6 +187,7 @@ class GenerateBlockGridContainer extends Component {
 				paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '0',
 				paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '0',
 				paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '0',
+				widthMobile: 100,
 			};
 
 			colAttrs.width = Number( columnsData[ i ] );
