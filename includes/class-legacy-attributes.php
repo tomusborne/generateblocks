@@ -85,6 +85,7 @@ class GenerateBlocks_Legacy_Attributes {
 				$settings['paddingBottom'] = $legacy_settings['paddingBottom'];
 				$settings['paddingLeft'] = $legacy_settings['paddingLeft'];
 
+				$settings['gradientDirection'] = $legacy_settings['gradientDirection'];
 				$settings['gradientColorOne'] = $legacy_settings['gradientColorOne'];
 				$settings['gradientColorOneOpacity'] = $legacy_settings['gradientColorOneOpacity'];
 				$settings['gradientColorTwo'] = $legacy_settings['gradientColorTwo'];
@@ -101,6 +102,7 @@ class GenerateBlocks_Legacy_Attributes {
 				$settings['gradientColorOneOpacity'] = $button_legacy_settings['gradientColorOneOpacity'];
 				$settings['gradientColorTwo'] = $button_legacy_settings['gradientColorTwo'];
 				$settings['gradientColorTwoOpacity'] = $button_legacy_settings['gradientColorTwoOpacity'];
+				$settings['gradientDirection'] = $button_legacy_settings['gradientDirection'];
 			}
 		}
 

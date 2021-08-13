@@ -122,7 +122,7 @@ class GradientControl extends Component {
 								<ColorPicker
 									value={ attributes[ attrGradientColorOne ] }
 									alpha={ true }
-									valueOpacity={ attributes[ attrGradientColorOneOpacity ] }
+									valueOpacity={ attributes[ attrGradientColorOneOpacity ] || 1 }
 									attrOpacity={ 'gradientColorOneOpacity' }
 									onChange={ ( value ) =>
 										setAttributes( {
@@ -172,7 +172,7 @@ class GradientControl extends Component {
 								<ColorPicker
 									value={ attributes[ attrGradientColorTwo ] }
 									alpha={ true }
-									valueOpacity={ attributes[ attrGradientColorTwoOpacity ] }
+									valueOpacity={ attributes[ attrGradientColorTwoOpacity ] || 1 }
 									attrOpacity={ 'gradientColorTwoOpacity' }
 									onChange={ ( value ) =>
 										setAttributes( {
