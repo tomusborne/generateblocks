@@ -21,6 +21,7 @@ import MobileCSS from './css/mobile.js';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 import hasNumericValue from '../../utils/has-numeric-value';
+import isBlockVersionLessThan from '../../utils/check-block-version';
 
 import {
 	__,
@@ -128,13 +129,28 @@ class GenerateBlockContainer extends Component {
 			}
 		}
 
-		// Update block version flag if it's out of date.
-		const blockVersion = 2;
+		// Set our old defaults as static values.
+		// @since 1.4.0.
+		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
 
-		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < blockVersion ) {
-			this.props.setAttributes( {
-				blockVersion,
+			const newAttrs = {};
+			const items = [ 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft' ];
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( this.props.attributes[ item ] ) ) {
+					newAttrs[ item ] = legacyDefaults[ item ];
+				}
 			} );
+
+			if ( Object.keys( newAttrs ).length > 0 ) {
+				this.props.setAttributes( newAttrs );
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			this.props.setAttributes( { blockVersion: 2 } );
 		}
 	}
 
