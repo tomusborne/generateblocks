@@ -118,7 +118,6 @@ function generateblocks_get_block_defaults() {
 		'width' => 50,
 		'widthTablet' => '',
 		'widthMobile' => 100,
-		'autoWidth' => false,
 		'autoWidthTablet' => false,
 		'autoWidthMobile' => false,
 		'flexGrow' => '',

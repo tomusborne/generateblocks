@@ -32,10 +32,6 @@ const attributes = {
 		type: 'number',
 		default: generateBlocksDefaults.container.widthMobile,
 	},
-	autoWidth: {
-		type: 'boolean',
-		default: generateBlocksDefaults.container.autoWidth,
-	},
 	autoWidthTablet: {
 		type: 'boolean',
 		default: generateBlocksDefaults.container.autoWidthTablet,

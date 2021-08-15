@@ -195,7 +195,6 @@ class GenerateBlockContainer extends Component {
 			width,
 			widthTablet,
 			widthMobile,
-			autoWidth,
 			autoWidthTablet,
 			autoWidthMobile,
 			flexGrow,
@@ -557,41 +556,28 @@ class GenerateBlockContainer extends Component {
 										/>
 
 										<ButtonGroup className={ 'widthButtons' }>
-											<Button isPrimary={ !! autoWidth } onClick={ () => {
-												if ( autoWidth ) {
-													setAttributes( { autoWidth: false } );
-												} else {
-													setAttributes( { autoWidth: true } );
-												}
-											} }>
-												{ __( 'Auto', 'generateblocks' ) }
-											</Button>
-
-											<Button isPrimary={ width === 25 && ! autoWidth } onClick={ () => setAttributes( { width: 25, autoWidth: false } ) }>25</Button>
-											<Button isPrimary={ width === 33.33 && ! autoWidth } onClick={ () => setAttributes( { width: 33.33, autoWidth: false } ) }>33</Button>
-											<Button isPrimary={ width === 50 && ! autoWidth } onClick={ () => setAttributes( { width: 50, autoWidth: false } ) }>50</Button>
-											<Button isPrimary={ width === 66.66 && ! autoWidth } onClick={ () => setAttributes( { width: 66.66, autoWidth: false } ) }>66</Button>
-											<Button isPrimary={ width === 75 && ! autoWidth } onClick={ () => setAttributes( { width: 75, autoWidth: false } ) }>75</Button>
-											<Button isPrimary={ width === 100 && ! autoWidth } onClick={ () => setAttributes( { width: 100, autoWidth: false } ) }>100</Button>
+											<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
+											<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
+											<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
+											<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
+											<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
+											<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
 										</ButtonGroup>
 									</BaseControl>
 
-									{ ! autoWidth &&
-										<RangeControl
-											className={ 'gblocks-column-width-control' }
-											value={ width || '' }
-											onChange={ ( value ) => {
-												setAttributes( {
-													width: value,
-													autoWidth: false,
-												} );
-											} }
-											min={ 0 }
-											max={ 100 }
-											step={ 0.01 }
-											initialPosition={ generateBlocksDefaults.container.width }
-										/>
-									}
+									<RangeControl
+										className={ 'gblocks-column-width-control' }
+										value={ width || '' }
+										onChange={ ( value ) => {
+											setAttributes( {
+												width: value,
+											} );
+										} }
+										min={ 0 }
+										max={ 100 }
+										step={ 0.01 }
+										initialPosition={ generateBlocksDefaults.container.width }
+									/>
 
 									<BaseControl
 										className="gblocks-flex-controls"
