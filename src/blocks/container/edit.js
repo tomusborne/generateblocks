@@ -137,11 +137,14 @@ class GenerateBlockContainer extends Component {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
 
 			const newAttrs = {};
+
 			const items = [
 				'paddingTop',
 				'paddingRight',
 				'paddingBottom',
 				'paddingLeft',
+				'width',
+				'widthMobile',
 				'gradientDirection',
 				'gradientColorOne',
 				'gradientColorOneOpacity',
