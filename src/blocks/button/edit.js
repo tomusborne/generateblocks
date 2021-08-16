@@ -1085,7 +1085,6 @@ class GenerateBlockButton extends Component {
 										onChange={ ( value ) => setAttributes( { text: value } ) }
 										allowedFormats={ applyFilters( 'generateblocks.editor.buttonDisableFormatting', false, this.props ) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 										isSelected={ isSelected }
-										keepPlaceholderOnFocus
 									/>
 								</span>
 							}
@@ -1106,7 +1105,6 @@ class GenerateBlockButton extends Component {
 							onChange={ ( value ) => setAttributes( { text: value } ) }
 							allowedFormats={ applyFilters( 'generateblocks.editor.buttonDisableFormatting', false, this.props ) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 							isSelected={ isSelected }
-							keepPlaceholderOnFocus
 						/>
 					}
 				</Element>
