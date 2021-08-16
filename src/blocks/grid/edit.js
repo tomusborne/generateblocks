@@ -171,7 +171,6 @@ class GenerateBlockGridContainer extends Component {
 	 * Get columns sizes array from layout string
 	 *
 	 * @param {string} layout - layout data. Example: `3-6-3`
-	 *
 	 * @return {Array}.
 	 */
 	getColumnsFromLayout( layout ) {

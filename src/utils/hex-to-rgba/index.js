@@ -1,7 +1,7 @@
 /**
  * Turn hex values to RGBA.
  *
- * @param {string} hex the color hex.
+ * @param {string} hex   the color hex.
  * @param {number} alpha the alpha number.
  * @return {string} rgba color.
  */
