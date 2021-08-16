@@ -31,6 +31,20 @@ class GenerateBlocks_Legacy_Attributes {
 						'paddingRight' => '40',
 						'paddingBottom' => '40',
 						'paddingLeft' => '40',
+						'width' => 50,
+						'widthMobile' => 100,
+						'gradientDirection' => 90,
+						'gradientColorOne' => '#ffffff',
+						'gradientColorOneOpacity' => 0.1,
+						'gradientColorTwo' => '#000000',
+						'gradientColorTwoOpacity' => 0.3,
+					),
+					'button' => array(
+						'gradientDirection' => 90,
+						'gradientColorOne' => '#ffffff',
+						'gradientColorOneOpacity' => 0.1,
+						'gradientColorTwo' => '#000000',
+						'gradientColorTwoOpacity' => 0.3,
 					),
 				)
 			);
@@ -72,6 +86,27 @@ class GenerateBlocks_Legacy_Attributes {
 				$settings['paddingRight'] = $legacy_settings['paddingRight'];
 				$settings['paddingBottom'] = $legacy_settings['paddingBottom'];
 				$settings['paddingLeft'] = $legacy_settings['paddingLeft'];
+				$settings['width'] = $legacy_settings['width'];
+				$settings['widthMobile'] = $legacy_settings['widthMobile'];
+
+				$settings['gradientDirection'] = $legacy_settings['gradientDirection'];
+				$settings['gradientColorOne'] = $legacy_settings['gradientColorOne'];
+				$settings['gradientColorOneOpacity'] = $legacy_settings['gradientColorOneOpacity'];
+				$settings['gradientColorTwo'] = $legacy_settings['gradientColorTwo'];
+				$settings['gradientColorTwoOpacity'] = $legacy_settings['gradientColorTwoOpacity'];
+			}
+
+			if ( 'button' === $block ) {
+				$button_legacy_settings = wp_parse_args(
+					$atts,
+					$legacy_defaults['button']
+				);
+
+				$settings['gradientColorOne'] = $button_legacy_settings['gradientColorOne'];
+				$settings['gradientColorOneOpacity'] = $button_legacy_settings['gradientColorOneOpacity'];
+				$settings['gradientColorTwo'] = $button_legacy_settings['gradientColorTwo'];
+				$settings['gradientColorTwoOpacity'] = $button_legacy_settings['gradientColorTwoOpacity'];
+				$settings['gradientDirection'] = $button_legacy_settings['gradientDirection'];
 			}
 		}
 

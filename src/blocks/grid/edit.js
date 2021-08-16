@@ -171,7 +171,6 @@ class GenerateBlockGridContainer extends Component {
 	 * Get columns sizes array from layout string
 	 *
 	 * @param {string} layout - layout data. Example: `3-6-3`
-	 *
 	 * @return {Array}.
 	 */
 	getColumnsFromLayout( layout ) {
@@ -187,6 +186,7 @@ class GenerateBlockGridContainer extends Component {
 				paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '',
 				paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '',
 				paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '',
+				widthMobile: 100,
 			};
 
 			colAttrs.width = Number( columnsData[ i ] );

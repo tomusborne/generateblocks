@@ -40,7 +40,6 @@ const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
  * Add controls to the Container block toolbar.
  *
  * @param {Function} BlockEdit Block edit component.
- *
  * @return {Function} BlockEdit Modified block edit component.
  */
 const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
@@ -86,18 +85,6 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 									);
 
 									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentGridId );
-								} }
-								showTooltip
-							/>
-						</ToolbarGroup>
-
-						<ToolbarGroup>
-							<ToolbarButton
-								className="gblocks-block-control-icon"
-								icon={ getIcon( 'grid' ) }
-								label={ __( 'Select Parent Grid', 'generateblocks' ) }
-								onClick={ () => {
-									wp.data.dispatch( 'core/block-editor' ).selectBlock( parentGridId );
 								} }
 								showTooltip
 							/>

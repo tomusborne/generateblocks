@@ -635,7 +635,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
-				if ( 100 !== $settings['widthMobile'] && ! $settings['autoWidthMobile'] ) {
+				if ( ! $settings['autoWidthMobile'] ) {
 					$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
 				}
 
@@ -955,6 +955,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $atts );
+				}
 
 				$selector = 'a.gb-button-' . $id;
 
@@ -1727,15 +1733,6 @@ function generateblocks_get_frontend_block_css() {
 			generateblocks_get_parsed_css( $data['tablet_only'] )
 		);
 	}
-
-	array_unshift(
-		$data['mobile'],
-		array(
-			'.gb-grid-wrapper > .gb-grid-column' => array(
-				'width: 100%;',
-			),
-		)
-	);
 
 	if ( ! empty( $data['mobile'] ) ) {
 		$css .= sprintf(

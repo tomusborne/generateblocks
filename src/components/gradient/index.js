@@ -58,8 +58,17 @@ class GradientControl extends Component {
 					label={ __( 'Use Gradient', 'generateblocks' ) }
 					checked={ !! attributes[ attrGradient ] }
 					onChange={ ( value ) => {
+						const props = this.props;
+
+						const gradientDirection = props.attributes[ props.attrGradientDirection ] || 90;
+						const gradientColorOne = props.attributes[ props.attrGradientColorOne ] || 'rgba(255, 255, 255, 0.1)';
+						const gradientColorTwo = props.attributes[ props.attrGradientColorTwo ] || 'rgba(0, 0, 0, 0.30)';
+
 						setAttributes( {
-							[ this.props[ 'attrGradient' ] ]: value, // eslint-disable-line dot-notation
+							[ props[ 'attrGradient' ] ]: value, // eslint-disable-line dot-notation
+							[ props[ 'attrGradientDirection' ] ]: gradientDirection, // eslint-disable-line dot-notation
+							[ props[ 'attrGradientColorOne' ] ]: gradientColorOne, // eslint-disable-line dot-notation
+							[ props[ 'attrGradientColorTwo' ] ]: gradientColorTwo, // eslint-disable-line dot-notation
 						} );
 					} }
 				/>
@@ -93,7 +102,7 @@ class GradientControl extends Component {
 							<span className="components-base-control__label">{ __( 'Direction', 'generateblocks' ) }</span>
 
 							<RangeControl
-								value={ attributes[ attrGradientDirection ] ? attributes[ attrGradientDirection ] : 1 }
+								value={ attributes[ attrGradientDirection ] ? attributes[ attrGradientDirection ] : 0 }
 								onChange={ ( value ) => {
 									setAttributes( {
 										[ attrGradientDirection ]: value,
@@ -113,7 +122,7 @@ class GradientControl extends Component {
 								<ColorPicker
 									value={ attributes[ attrGradientColorOne ] }
 									alpha={ true }
-									valueOpacity={ attributes[ attrGradientColorOneOpacity ] }
+									valueOpacity={ attributes[ attrGradientColorOneOpacity ] || 1 }
 									attrOpacity={ 'gradientColorOneOpacity' }
 									onChange={ ( value ) =>
 										setAttributes( {
@@ -163,7 +172,7 @@ class GradientControl extends Component {
 								<ColorPicker
 									value={ attributes[ attrGradientColorTwo ] }
 									alpha={ true }
-									valueOpacity={ attributes[ attrGradientColorTwoOpacity ] }
+									valueOpacity={ attributes[ attrGradientColorTwoOpacity ] || 1 }
 									attrOpacity={ 'gradientColorTwoOpacity' }
 									onChange={ ( value ) =>
 										setAttributes( {

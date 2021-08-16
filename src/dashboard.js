@@ -209,6 +209,7 @@ class App extends Component {
 	}
 }
 
+// eslint-disable-next-line @wordpress/no-global-event-listener
 window.addEventListener( 'DOMContentLoaded', () => {
 	render(
 		<App />,

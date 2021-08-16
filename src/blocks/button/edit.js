@@ -61,6 +61,8 @@ import {
 import {
 	compose,
 } from '@wordpress/compose';
+import isBlockVersionLessThan from '../../utils/check-block-version';
+import hasNumericValue from '../../utils/has-numeric-value';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.
@@ -120,6 +122,39 @@ class GenerateBlockButton extends Component {
 					hasUrl: true,
 				} );
 			}
+		}
+
+		// Set our old defaults as static values.
+		// @since 1.4.0.
+		if (
+			! this.props.wasBlockJustInserted &&
+			isBlockVersionLessThan( this.props.attributes.blockVersion, 2 )
+		) {
+			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.button;
+
+			const newAttrs = {};
+			const items = [
+				'gradientDirection',
+				'gradientColorOne',
+				'gradientColorOneOpacity',
+				'gradientColorTwo',
+				'gradientColorTwoOpacity',
+			];
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( this.props.attributes[ item ] ) ) {
+					newAttrs[ item ] = legacyDefaults[ item ];
+				}
+			} );
+
+			if ( Object.keys( newAttrs ).length > 0 ) {
+				this.props.setAttributes( newAttrs );
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			this.props.setAttributes( { blockVersion: 2 } );
 		}
 	}
 
@@ -1050,7 +1085,6 @@ class GenerateBlockButton extends Component {
 										onChange={ ( value ) => setAttributes( { text: value } ) }
 										allowedFormats={ applyFilters( 'generateblocks.editor.buttonDisableFormatting', false, this.props ) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 										isSelected={ isSelected }
-										keepPlaceholderOnFocus
 									/>
 								</span>
 							}
@@ -1071,7 +1105,6 @@ class GenerateBlockButton extends Component {
 							onChange={ ( value ) => setAttributes( { text: value } ) }
 							allowedFormats={ applyFilters( 'generateblocks.editor.buttonDisableFormatting', false, this.props ) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 							isSelected={ isSelected }
-							keepPlaceholderOnFocus
 						/>
 					}
 				</Element>
@@ -1117,19 +1150,22 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select ) => {
+	withSelect( ( select, props ) => {
 		const {
 			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
 		} = select( 'core/edit-post' ) || false;
+		const wasBlockJustInserted = select( 'core/block-editor' ).wasBlockJustInserted( props.clientId );
 
 		if ( ! getPreviewDeviceType ) {
 			return {
 				deviceType: null,
+				wasBlockJustInserted,
 			};
 		}
 
 		return {
 			deviceType: getPreviewDeviceType(),
+			wasBlockJustInserted,
 		};
 	} ),
 ] )( GenerateBlockButton );
