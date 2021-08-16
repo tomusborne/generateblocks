@@ -90,18 +90,6 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 								showTooltip
 							/>
 						</ToolbarGroup>
-
-						<ToolbarGroup>
-							<ToolbarButton
-								className="gblocks-block-control-icon"
-								icon={ getIcon( 'grid' ) }
-								label={ __( 'Select Parent Grid', 'generateblocks' ) }
-								onClick={ () => {
-									wp.data.dispatch( 'core/block-editor' ).selectBlock( parentGridId );
-								} }
-								showTooltip
-							/>
-						</ToolbarGroup>
 					</BlockControls>
 				}
 
