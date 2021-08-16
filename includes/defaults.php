@@ -457,10 +457,10 @@ function generateblocks_get_default_styles() {
 			'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20',
 		),
 		'container' => array(
-			'gridItemPaddingTop' => '0',
-			'gridItemPaddingRight' => '0',
-			'gridItemPaddingBottom' => '0',
-			'gridItemPaddingLeft' => '0',
+			'gridItemPaddingTop' => '',
+			'gridItemPaddingRight' => '',
+			'gridItemPaddingBottom' => '',
+			'gridItemPaddingLeft' => '',
 			'bgImageSize' => 'full',
 			'shapeDividers' => array(
 				'shape' => 'gb-waves-1',
