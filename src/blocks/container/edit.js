@@ -784,18 +784,17 @@ class GenerateBlockContainer extends Component {
 									</BaseControl>
 
 									{ ! autoWidthTablet &&
-										<RangeControl
-											className={ 'gblocks-column-width-control' }
-											value={ widthTablet || '' }
+										<RangeControlInput
+											value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
 											onChange={ ( value ) => {
 												setAttributes( {
 													widthTablet: value,
 													autoWidthTablet: false,
 												} );
 											} }
-											min={ 0 }
-											max={ 100 }
-											step={ 0.01 }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.widthTablet }
 										/>
 									}
@@ -959,18 +958,17 @@ class GenerateBlockContainer extends Component {
 									</BaseControl>
 
 									{ ! autoWidthMobile &&
-										<RangeControl
-											className={ 'gblocks-column-width-control' }
-											value={ widthMobile || '' }
+										<RangeControlInput
+											value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
 											onChange={ ( value ) => {
 												setAttributes( {
 													widthMobile: value,
 													autoWidthMobile: false,
 												} );
 											} }
-											min={ 0 }
-											max={ 100 }
-											step={ 0.01 }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.widthMobile }
 										/>
 									}
