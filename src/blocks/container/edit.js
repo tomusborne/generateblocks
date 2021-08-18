@@ -22,6 +22,7 @@ import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 import hasNumericValue from '../../utils/has-numeric-value';
 import isBlockVersionLessThan from '../../utils/check-block-version';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 
 import {
 	__,
@@ -90,8 +91,6 @@ class GenerateBlockContainer extends Component {
 	}
 
 	componentDidMount() {
-		const wasJustInserted = this.props.wasBlockJustInserted;
-
 		// Generate a unique ID if none exists or if the same ID exists on this page.
 		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
 		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
@@ -133,7 +132,7 @@ class GenerateBlockContainer extends Component {
 
 		// Set our old defaults as static values.
 		// @since 1.4.0.
-		if ( ! wasJustInserted && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+		if ( ! wasBlockJustInserted && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
 
 			const newAttrs = {};
@@ -161,6 +160,10 @@ class GenerateBlockContainer extends Component {
 			if ( Object.keys( newAttrs ).length > 0 ) {
 				this.props.setAttributes( newAttrs );
 			}
+		}
+
+		if ( wasBlockJustInserted ) {
+			this.props.setAttributes( { wasBlockJustInserted: false } );
 		}
 
 		// Update block version flag if it's out of date.
