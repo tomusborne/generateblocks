@@ -13,6 +13,7 @@ import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 import sanitizeSVG from '../../utils/sanitize-svg';
 import ResponsiveTabs from '../../components/responsive-tabs';
+import RangeControlInput from '../../components/range-control';
 import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
@@ -608,18 +609,17 @@ class GenerateBlockContainer extends Component {
 									</BaseControl>
 
 									{ ! autoWidth &&
-										<RangeControl
-											className={ 'gblocks-column-width-control' }
-											value={ width || '' }
+										<RangeControlInput
+											value={ hasNumericValue( width ) ? width : '' }
 											onChange={ ( value ) => {
 												setAttributes( {
 													width: value,
 													autoWidth: false,
 												} );
 											} }
-											min={ 0 }
-											max={ 100 }
-											step={ 0.01 }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.width }
 										/>
 									}
@@ -784,18 +784,17 @@ class GenerateBlockContainer extends Component {
 									</BaseControl>
 
 									{ ! autoWidthTablet &&
-										<RangeControl
-											className={ 'gblocks-column-width-control' }
-											value={ widthTablet || '' }
+										<RangeControlInput
+											value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
 											onChange={ ( value ) => {
 												setAttributes( {
 													widthTablet: value,
 													autoWidthTablet: false,
 												} );
 											} }
-											min={ 0 }
-											max={ 100 }
-											step={ 0.01 }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.widthTablet }
 										/>
 									}
@@ -959,18 +958,17 @@ class GenerateBlockContainer extends Component {
 									</BaseControl>
 
 									{ ! autoWidthMobile &&
-										<RangeControl
-											className={ 'gblocks-column-width-control' }
-											value={ widthMobile || '' }
+										<RangeControlInput
+											value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
 											onChange={ ( value ) => {
 												setAttributes( {
 													widthMobile: value,
 													autoWidthMobile: false,
 												} );
 											} }
-											min={ 0 }
-											max={ 100 }
-											step={ 0.01 }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.widthMobile }
 										/>
 									}
