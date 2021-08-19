@@ -133,7 +133,7 @@ class GenerateBlockContainer extends Component {
 
 		// Set our old defaults as static values.
 		// @since 1.4.0.
-		if ( ! wasBlockJustInserted && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+		if ( ! wasBlockJustInserted( this.props ) && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
 
 			const newAttrs = {};
@@ -163,7 +163,7 @@ class GenerateBlockContainer extends Component {
 			}
 		}
 
-		if ( wasBlockJustInserted ) {
+		if ( wasBlockJustInserted( this.props ) ) {
 			this.props.setAttributes( { wasBlockJustInserted: false } );
 		}
 
