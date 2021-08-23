@@ -145,12 +145,17 @@ class GenerateBlockContainer extends Component {
 				'paddingLeft',
 				'width',
 				'widthMobile',
-				'gradientDirection',
-				'gradientColorOne',
-				'gradientColorOneOpacity',
-				'gradientColorTwo',
-				'gradientColorTwoOpacity',
 			];
+
+			if ( this.props.attributes.gradient ) {
+				items.push(
+					'gradientDirection',
+					'gradientColorOne',
+					'gradientColorOneOpacity',
+					'gradientColorTwo',
+					'gradientColorTwoOpacity'
+				);
+			}
 
 			items.forEach( ( item ) => {
 				if ( ! hasNumericValue( this.props.attributes[ item ] ) ) {

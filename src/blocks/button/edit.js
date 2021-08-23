@@ -133,13 +133,17 @@ class GenerateBlockButton extends Component {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.button;
 
 			const newAttrs = {};
-			const items = [
-				'gradientDirection',
-				'gradientColorOne',
-				'gradientColorOneOpacity',
-				'gradientColorTwo',
-				'gradientColorTwoOpacity',
-			];
+			const items = [];
+
+			if ( this.props.attributes.gradient ) {
+				items.push(
+					'gradientDirection',
+					'gradientColorOne',
+					'gradientColorOneOpacity',
+					'gradientColorTwo',
+					'gradientColorTwoOpacity'
+				);
+			}
 
 			items.forEach( ( item ) => {
 				if ( ! hasNumericValue( this.props.attributes[ item ] ) ) {
