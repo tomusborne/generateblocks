@@ -365,10 +365,6 @@ function generateblocks_hex2rgba( $hex, $alpha ) {
 		return;
 	}
 
-	if ( strpos($hex, 'rgba') !== false ) {
-		return $hex;
-	}
-
 	if ( 1 === $alpha || '' === $alpha ) {
 		return $hex;
 	}
