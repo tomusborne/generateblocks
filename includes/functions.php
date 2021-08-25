@@ -365,7 +365,7 @@ function generateblocks_hex2rgba( $hex, $alpha ) {
 		return;
 	}
 
-	if ( 1 === $alpha || '' === $alpha ) {
+	if ( 1 === $alpha || ! is_numeric( $alpha ) ) {
 		return $hex;
 	}
 
