@@ -59,10 +59,15 @@ class GradientControl extends Component {
 					checked={ !! attributes[ attrGradient ] }
 					onChange={ ( value ) => {
 						const props = this.props;
+						let gradientDirection = attributes[ attrGradientDirection ],
+							gradientColorOne = attributes[ attrGradientColorOne ],
+							gradientColorTwo = attributes[ attrGradientColorTwo ];
 
-						const gradientDirection = props.attributes[ props.attrGradientDirection ] || 90;
-						const gradientColorOne = props.attributes[ props.attrGradientColorOne ] || 'rgba(255, 255, 255, 0.1)';
-						const gradientColorTwo = props.attributes[ props.attrGradientColorTwo ] || 'rgba(0, 0, 0, 0.30)';
+						if ( value ) {
+							gradientDirection = gradientDirection || 90;
+							gradientColorOne = gradientColorOne || 'rgba(255, 255, 255, 0.1)';
+							gradientColorTwo = gradientColorTwo || 'rgba(0, 0, 0, 0.30)';
+						}
 
 						setAttributes( {
 							[ props[ 'attrGradient' ] ]: value, // eslint-disable-line dot-notation
