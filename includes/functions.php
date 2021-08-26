@@ -369,6 +369,11 @@ function generateblocks_hex2rgba( $hex, $alpha ) {
 		return $hex;
 	}
 
+	// Make sure we're dealing with a hex value.
+	if ( isset( $hex[0] ) && '#' !== $hex[0] ) {
+		return $hex;
+	}
+
 	$hex = str_replace( '#', '', $hex );
 
 	if ( strlen( $hex ) == 3 ) { // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
