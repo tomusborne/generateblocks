@@ -14,7 +14,7 @@ export default function hexToRGBA( hex, alpha ) {
 		return hex;
 	}
 
-	if ( 1 === alpha ) {
+	if ( 1 === alpha || ! hex.startsWith( '#' ) ) {
 		return hex;
 	}
 
