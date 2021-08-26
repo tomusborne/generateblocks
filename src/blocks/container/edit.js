@@ -143,9 +143,14 @@ class GenerateBlockContainer extends Component {
 				'paddingRight',
 				'paddingBottom',
 				'paddingLeft',
-				'width',
-				'widthMobile',
 			];
+
+			if ( this.props.attributes.isGrid ) {
+				items.push(
+					'width',
+					'widthMobile',
+				);
+			}
 
 			if ( this.props.attributes.gradient ) {
 				items.push(
