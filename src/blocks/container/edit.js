@@ -1284,7 +1284,7 @@ class GenerateBlockContainer extends Component {
 
 								<TextControl
 									type={ 'number' }
-									value={ minHeightTablet ? minHeightTablet : '' }
+									value={ minHeightTablet || 0 === minHeightTablet ? minHeightTablet : '' }
 									onChange={ ( value ) => {
 										setAttributes( {
 											minHeightTablet: parseFloat( value ),
@@ -1387,7 +1387,7 @@ class GenerateBlockContainer extends Component {
 
 								<TextControl
 									type={ 'number' }
-									value={ minHeightMobile ? minHeightMobile : '' }
+									value={ minHeightMobile || 0 === minHeightMobile ? minHeightMobile : '' }
 									onChange={ ( value ) => {
 										setAttributes( {
 											minHeightMobile: parseFloat( value ),
