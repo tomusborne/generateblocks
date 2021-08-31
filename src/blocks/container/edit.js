@@ -13,6 +13,7 @@ import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 import sanitizeSVG from '../../utils/sanitize-svg';
 import ResponsiveTabs from '../../components/responsive-tabs';
+import RangeControlInput from '../../components/range-control';
 import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
@@ -21,6 +22,8 @@ import MobileCSS from './css/mobile.js';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 import hasNumericValue from '../../utils/has-numeric-value';
+import isBlockVersionLessThan from '../../utils/check-block-version';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 
 import {
 	__,
@@ -128,13 +131,55 @@ class GenerateBlockContainer extends Component {
 			}
 		}
 
-		// Update block version flag if it's out of date.
-		const blockVersion = 2;
+		// Set our old defaults as static values.
+		// @since 1.4.0.
+		if ( ! wasBlockJustInserted( this.props ) && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
 
-		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < blockVersion ) {
-			this.props.setAttributes( {
-				blockVersion,
+			const newAttrs = {};
+
+			const items = [
+				'paddingTop',
+				'paddingRight',
+				'paddingBottom',
+				'paddingLeft',
+			];
+
+			if ( this.props.attributes.isGrid ) {
+				items.push(
+					'width',
+					'widthMobile',
+				);
+			}
+
+			if ( this.props.attributes.gradient ) {
+				items.push(
+					'gradientDirection',
+					'gradientColorOne',
+					'gradientColorOneOpacity',
+					'gradientColorTwo',
+					'gradientColorTwoOpacity'
+				);
+			}
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( this.props.attributes[ item ] ) ) {
+					newAttrs[ item ] = legacyDefaults[ item ];
+				}
 			} );
+
+			if ( Object.keys( newAttrs ).length > 0 ) {
+				this.props.setAttributes( newAttrs );
+			}
+		}
+
+		if ( wasBlockJustInserted( this.props ) ) {
+			this.props.setAttributes( { wasBlockJustInserted: false } );
+		}
+
+		// Update block version flag if it's out of date.
+		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			this.props.setAttributes( { blockVersion: 2 } );
 		}
 	}
 
@@ -565,17 +610,16 @@ class GenerateBlockContainer extends Component {
 										</ButtonGroup>
 									</BaseControl>
 
-									<RangeControl
-										className={ 'gblocks-column-width-control' }
-										value={ width || '' }
+									<RangeControlInput
+										value={ hasNumericValue( width ) ? width : '' }
 										onChange={ ( value ) => {
 											setAttributes( {
 												width: value,
 											} );
 										} }
-										min={ 0 }
-										max={ 100 }
-										step={ 0.01 }
+										rangeMin={ 10 }
+										rangeMax={ 100 }
+										step={ 5 }
 										initialPosition={ generateBlocksDefaults.container.width }
 									/>
 
@@ -739,18 +783,17 @@ class GenerateBlockContainer extends Component {
 									</BaseControl>
 
 									{ ! autoWidthTablet &&
-										<RangeControl
-											className={ 'gblocks-column-width-control' }
-											value={ widthTablet || '' }
+										<RangeControlInput
+											value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
 											onChange={ ( value ) => {
 												setAttributes( {
 													widthTablet: value,
 													autoWidthTablet: false,
 												} );
 											} }
-											min={ 0 }
-											max={ 100 }
-											step={ 0.01 }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.widthTablet }
 										/>
 									}
@@ -914,18 +957,17 @@ class GenerateBlockContainer extends Component {
 									</BaseControl>
 
 									{ ! autoWidthMobile &&
-										<RangeControl
-											className={ 'gblocks-column-width-control' }
-											value={ widthMobile || '' }
+										<RangeControlInput
+											value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
 											onChange={ ( value ) => {
 												setAttributes( {
 													widthMobile: value,
 													autoWidthMobile: false,
 												} );
 											} }
-											min={ 0 }
-											max={ 100 }
-											step={ 0.01 }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.widthMobile }
 										/>
 									}
@@ -2346,11 +2388,12 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select ) => {
+	withSelect( ( select, props ) => {
 		if ( ! select( 'core/edit-post' ) ) {
 			return {
 				media: null,
 				deviceType: null,
+				wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 			};
 		}
 
@@ -2372,12 +2415,14 @@ export default compose( [
 			return {
 				media: featuredImageId ? getMedia( featuredImageId ) : null,
 				deviceType: null,
+				wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 			};
 		}
 
 		return {
 			media: featuredImageId ? getMedia( featuredImageId ) : null,
 			deviceType: getPreviewDeviceType(),
+			wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 		};
 	} ),
 ] )( GenerateBlockContainer );

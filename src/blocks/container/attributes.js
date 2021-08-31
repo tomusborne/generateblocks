@@ -518,6 +518,10 @@ const attributes = {
 	blockVersion: {
 		type: 'number',
 	},
+	wasBlockJustInserted: {
+		type: 'boolean',
+		default: false,
+	},
 	// deprecated since 1.2.0.
 	elementId: {
 		type: 'string',

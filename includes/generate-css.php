@@ -83,6 +83,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'grid', $settings, $atts );
+				}
 
 				$gap_direction = 'left';
 
@@ -91,7 +97,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				// Don't output horizontal gap defaults if we're using global styles.
-				if ( isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] && isset( $settings['globalStyleId'] ) && $settings['globalStyleId'] ) {
+				if ( $blockVersion < 2 && isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] && isset( $settings['globalStyleId'] ) && $settings['globalStyleId'] ) {
 					if ( (string) $settings['horizontalGap'] === (string) $defaults['gridContainer']['horizontalGap'] ) {
 						$settings['horizontalGap'] = '';
 					}
@@ -239,6 +245,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$id = $atts['uniqueId'];
 				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'container', $settings, $atts );
+				}
 
 				$fontFamily = $settings['fontFamily'];
 
@@ -621,7 +632,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
-				if ( 100 !== $settings['widthMobile'] && ! $settings['autoWidthMobile'] ) {
+				if ( ! $settings['autoWidthMobile'] ) {
 					$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
 				}
 
@@ -941,6 +952,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $atts );
+				}
 
 				$selector = 'a.gb-button-' . $id;
 
@@ -1713,15 +1730,6 @@ function generateblocks_get_frontend_block_css() {
 			generateblocks_get_parsed_css( $data['tablet_only'] )
 		);
 	}
-
-	array_unshift(
-		$data['mobile'],
-		array(
-			'.gb-grid-wrapper > .gb-grid-column' => array(
-				'width: 100%;',
-			),
-		)
-	);
 
 	if ( ! empty( $data['mobile'] ) ) {
 		$css .= sprintf(
