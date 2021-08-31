@@ -414,10 +414,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( $settings['isGrid'] ) {
 					$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
-
-					if ( ! $settings['autoWidth'] ) {
-						$css->add_property( 'width', $settings['width'], '%' );
-					}
+					$css->add_property( 'width', $settings['width'], '%' );
 
 					$css->add_property( 'flex-grow', $settings['flexGrow'] );
 					$css->add_property( 'flex-shrink', $settings['flexShrink'] );
