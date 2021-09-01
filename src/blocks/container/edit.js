@@ -410,6 +410,10 @@ class GenerateBlockContainer extends Component {
 			} );
 		} );
 
+		const hasFlexBasis = ( attribute ) => {
+			return hasNumericValue( attribute ) && 'auto' !== attribute;
+		};
+
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-container': true,
@@ -590,38 +594,42 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Desktop' === this.getDeviceType() && (
 								<Fragment>
-									<BaseControl>
-										<UnitPicker
-											label={ __( 'Container Width', 'generateblocks' ) }
-											value={ '%' }
-											units={ [ '%' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
+									{ ! hasFlexBasis( flexBasis ) &&
+										<>
+											<BaseControl>
+												<UnitPicker
+													label={ __( 'Container Width', 'generateblocks' ) }
+													value={ '%' }
+													units={ [ '%' ] }
+													onClick={ () => {
+														return false;
+													} }
+												/>
 
-										<ButtonGroup className={ 'widthButtons' }>
-											<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
-											<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
-											<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
-											<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
-											<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
-											<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
-										</ButtonGroup>
-									</BaseControl>
+												<ButtonGroup className={ 'widthButtons' }>
+													<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
+													<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
+													<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
+													<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
+													<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
+													<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
+												</ButtonGroup>
+											</BaseControl>
 
-									<RangeControlInput
-										value={ hasNumericValue( width ) ? width : '' }
-										onChange={ ( value ) => {
-											setAttributes( {
-												width: value,
-											} );
-										} }
-										rangeMin={ 10 }
-										rangeMax={ 100 }
-										step={ 5 }
-										initialPosition={ generateBlocksDefaults.container.width }
-									/>
+											<RangeControlInput
+												value={ hasNumericValue( width ) ? width : '' }
+												onChange={ ( value ) => {
+													setAttributes( {
+														width: value,
+													} );
+												} }
+												rangeMin={ 10 }
+												rangeMax={ 100 }
+												step={ 5 }
+												initialPosition={ generateBlocksDefaults.container.width }
+											/>
+										</>
+									}
 
 									<BaseControl
 										className="gblocks-flex-controls"
@@ -699,9 +707,20 @@ class GenerateBlockContainer extends Component {
 													placeholder="auto"
 													value={ flexBasis }
 													onChange={ ( value ) => {
-														setAttributes( {
+														const newAttributes = {
 															flexBasis: value,
-														} );
+														};
+
+														if ( hasNumericValue( value ) && 'auto' !== value ) {
+															newAttributes.width = '';
+															newAttributes.widthTablet = '';
+															newAttributes.widthMobile = '';
+														} else {
+															newAttributes.width = 50;
+															newAttributes.widthMobile = 100;
+														}
+
+														setAttributes( newAttributes );
 													} }
 												/>
 											</div>
@@ -752,50 +771,60 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Tablet' === this.getDeviceType() && (
 								<Fragment>
-									<BaseControl>
-										<UnitPicker
-											label={ __( 'Container Width', 'generateblocks' ) }
-											value={ '%' }
-											units={ [ '%' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
+									{ (
+										'auto' === flexBasisTablet ||
+										(
+											! hasFlexBasis( flexBasis ) &&
+											! hasFlexBasis( flexBasisTablet )
+										)
+									) &&
+										<>
+											<BaseControl>
+												<UnitPicker
+													label={ __( 'Container Width', 'generateblocks' ) }
+													value={ '%' }
+													units={ [ '%' ] }
+													onClick={ () => {
+														return false;
+													} }
+												/>
 
-										<ButtonGroup className={ 'widthButtons' }>
-											<Button isPrimary={ !! autoWidthTablet } onClick={ () => {
-												if ( autoWidthTablet ) {
-													setAttributes( { autoWidthTablet: false } );
-												} else {
-													setAttributes( { autoWidthTablet: true } );
-												}
-											} }>
-												{ __( 'Auto', 'generateblocks' ) }
-											</Button>
+												<ButtonGroup className={ 'widthButtons' }>
+													<Button isPrimary={ !! autoWidthTablet } onClick={ () => {
+														if ( autoWidthTablet ) {
+															setAttributes( { autoWidthTablet: false } );
+														} else {
+															setAttributes( { autoWidthTablet: true } );
+														}
+													} }>
+														{ __( 'Auto', 'generateblocks' ) }
+													</Button>
 
-											<Button isPrimary={ widthTablet === 25 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 25, autoWidthTablet: false } ) }>25</Button>
-											<Button isPrimary={ widthTablet === 33.33 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 33.33, autoWidthTablet: false } ) }>33</Button>
-											<Button isPrimary={ widthTablet === 50 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 50, autoWidthTablet: false } ) }>50</Button>
-											<Button isPrimary={ widthTablet === 66.66 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 66.66, autoWidthTablet: false } ) }>66</Button>
-											<Button isPrimary={ widthTablet === 75 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 75, autoWidthTablet: false } ) }>75</Button>
-											<Button isPrimary={ widthTablet === 100 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 100, autoWidthTablet: false } ) }>100</Button>
-										</ButtonGroup>
-									</BaseControl>
+													<Button isPrimary={ widthTablet === 25 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 25, autoWidthTablet: false } ) }>25</Button>
+													<Button isPrimary={ widthTablet === 33.33 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 33.33, autoWidthTablet: false } ) }>33</Button>
+													<Button isPrimary={ widthTablet === 50 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 50, autoWidthTablet: false } ) }>50</Button>
+													<Button isPrimary={ widthTablet === 66.66 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 66.66, autoWidthTablet: false } ) }>66</Button>
+													<Button isPrimary={ widthTablet === 75 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 75, autoWidthTablet: false } ) }>75</Button>
+													<Button isPrimary={ widthTablet === 100 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 100, autoWidthTablet: false } ) }>100</Button>
+												</ButtonGroup>
+											</BaseControl>
 
-									{ ! autoWidthTablet &&
-										<RangeControlInput
-											value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
-											onChange={ ( value ) => {
-												setAttributes( {
-													widthTablet: value,
-													autoWidthTablet: false,
-												} );
-											} }
-											rangeMin={ 10 }
-											rangeMax={ 100 }
-											step={ 5 }
-											initialPosition={ generateBlocksDefaults.container.widthTablet }
-										/>
+											{ ! autoWidthTablet &&
+												<RangeControlInput
+													value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
+													onChange={ ( value ) => {
+														setAttributes( {
+															widthTablet: value,
+															autoWidthTablet: false,
+														} );
+													} }
+													rangeMin={ 10 }
+													rangeMax={ 100 }
+													step={ 5 }
+													initialPosition={ generateBlocksDefaults.container.widthTablet }
+												/>
+											}
+										</>
 									}
 
 									<BaseControl
@@ -874,9 +903,15 @@ class GenerateBlockContainer extends Component {
 													value={ flexBasisTablet }
 													placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, 'Tablet', 'auto' ) }
 													onChange={ ( value ) => {
-														setAttributes( {
+														const newAttributes = {
 															flexBasisTablet: value,
-														} );
+														};
+
+														if ( width && hasNumericValue( value ) ) {
+															newAttributes.autoWidthTablet = true;
+														}
+
+														setAttributes( newAttributes );
 													} }
 												/>
 											</div>
@@ -926,50 +961,61 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Mobile' === this.getDeviceType() && (
 								<Fragment>
-									<BaseControl>
-										<UnitPicker
-											label={ __( 'Container Width', 'generateblocks' ) }
-											value={ '%' }
-											units={ [ '%' ] }
-											onClick={ () => {
-												return false;
-											} }
-										/>
+									{ (
+										'auto' === flexBasisMobile ||
+										(
+											! hasFlexBasis( flexBasis ) &&
+											! hasFlexBasis( flexBasisTablet ) &&
+											! hasFlexBasis( flexBasisMobile )
+										)
+									) &&
+										<>
+											<BaseControl>
+												<UnitPicker
+													label={ __( 'Container Width', 'generateblocks' ) }
+													value={ '%' }
+													units={ [ '%' ] }
+													onClick={ () => {
+														return false;
+													} }
+												/>
 
-										<ButtonGroup className={ 'widthButtons' }>
-											<Button isPrimary={ !! autoWidthMobile } onClick={ () => {
-												if ( autoWidthMobile ) {
-													setAttributes( { autoWidthMobile: false } );
-												} else {
-													setAttributes( { autoWidthMobile: true } );
-												}
-											} }>
-												{ __( 'Auto', 'generateblocks' ) }
-											</Button>
+												<ButtonGroup className={ 'widthButtons' }>
+													<Button isPrimary={ !! autoWidthMobile } onClick={ () => {
+														if ( autoWidthMobile ) {
+															setAttributes( { autoWidthMobile: false } );
+														} else {
+															setAttributes( { autoWidthMobile: true } );
+														}
+													} }>
+														{ __( 'Auto', 'generateblocks' ) }
+													</Button>
 
-											<Button isPrimary={ widthMobile === 25 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 25, autoWidthMobile: false } ) }>25</Button>
-											<Button isPrimary={ widthMobile === 33.33 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 33.33, autoWidthMobile: false } ) }>33</Button>
-											<Button isPrimary={ widthMobile === 50 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 50, autoWidthMobile: false } ) }>50</Button>
-											<Button isPrimary={ widthMobile === 66.66 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 66.66, autoWidthMobile: false } ) }>66</Button>
-											<Button isPrimary={ widthMobile === 75 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 75, autoWidthMobile: false } ) }>75</Button>
-											<Button isPrimary={ widthMobile === 100 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 100, autoWidthMobile: false } ) }>100</Button>
-										</ButtonGroup>
-									</BaseControl>
+													<Button isPrimary={ widthMobile === 25 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 25, autoWidthMobile: false } ) }>25</Button>
+													<Button isPrimary={ widthMobile === 33.33 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 33.33, autoWidthMobile: false } ) }>33</Button>
+													<Button isPrimary={ widthMobile === 50 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 50, autoWidthMobile: false } ) }>50</Button>
+													<Button isPrimary={ widthMobile === 66.66 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 66.66, autoWidthMobile: false } ) }>66</Button>
+													<Button isPrimary={ widthMobile === 75 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 75, autoWidthMobile: false } ) }>75</Button>
+													<Button isPrimary={ widthMobile === 100 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 100, autoWidthMobile: false } ) }>100</Button>
+												</ButtonGroup>
+											</BaseControl>
 
-									{ ! autoWidthMobile &&
-										<RangeControlInput
-											value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
-											onChange={ ( value ) => {
-												setAttributes( {
-													widthMobile: value,
-													autoWidthMobile: false,
-												} );
-											} }
-											rangeMin={ 10 }
-											rangeMax={ 100 }
-											step={ 5 }
-											initialPosition={ generateBlocksDefaults.container.widthMobile }
-										/>
+											{ ! autoWidthMobile &&
+												<RangeControlInput
+													value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
+													onChange={ ( value ) => {
+														setAttributes( {
+															widthMobile: value,
+															autoWidthMobile: false,
+														} );
+													} }
+													rangeMin={ 10 }
+													rangeMax={ 100 }
+													step={ 5 }
+													initialPosition={ generateBlocksDefaults.container.widthMobile }
+												/>
+											}
+										</>
 									}
 
 									<BaseControl
@@ -1048,9 +1094,15 @@ class GenerateBlockContainer extends Component {
 													value={ flexBasisMobile }
 													placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, 'Mobile', 'auto' ) }
 													onChange={ ( value ) => {
-														setAttributes( {
+														const newAttributes = {
 															flexBasisMobile: value,
-														} );
+														};
+
+														if ( ( width || widthTablet ) && hasNumericValue( value ) ) {
+															newAttributes.autoWidthMobile = true;
+														}
+
+														setAttributes( newAttributes );
 													} }
 												/>
 											</div>
