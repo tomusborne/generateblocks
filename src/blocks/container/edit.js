@@ -707,20 +707,9 @@ class GenerateBlockContainer extends Component {
 													placeholder="auto"
 													value={ flexBasis }
 													onChange={ ( value ) => {
-														const newAttributes = {
+														setAttributes( {
 															flexBasis: value,
-														};
-
-														if ( hasNumericValue( value ) && 'auto' !== value ) {
-															newAttributes.width = '';
-															newAttributes.widthTablet = '';
-															newAttributes.widthMobile = '';
-														} else {
-															newAttributes.width = 50;
-															newAttributes.widthMobile = 100;
-														}
-
-														setAttributes( newAttributes );
+														} );
 													} }
 												/>
 											</div>
@@ -903,15 +892,9 @@ class GenerateBlockContainer extends Component {
 													value={ flexBasisTablet }
 													placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, 'Tablet', 'auto' ) }
 													onChange={ ( value ) => {
-														const newAttributes = {
+														setAttributes( {
 															flexBasisTablet: value,
-														};
-
-														if ( width && hasNumericValue( value ) ) {
-															newAttributes.autoWidthTablet = true;
-														}
-
-														setAttributes( newAttributes );
+														} );
 													} }
 												/>
 											</div>
@@ -1094,15 +1077,9 @@ class GenerateBlockContainer extends Component {
 													value={ flexBasisMobile }
 													placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, 'Mobile', 'auto' ) }
 													onChange={ ( value ) => {
-														const newAttributes = {
+														setAttributes( {
 															flexBasisMobile: value,
-														};
-
-														if ( ( width || widthTablet ) && hasNumericValue( value ) ) {
-															newAttributes.autoWidthMobile = true;
-														}
-
-														setAttributes( newAttributes );
+														} );
 													} }
 												/>
 											</div>
