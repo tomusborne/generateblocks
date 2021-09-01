@@ -608,6 +608,12 @@ class GenerateBlockContainer extends Component {
 											} }
 										/>
 
+										{ !! hideWidthDesktop &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
+
 										<ButtonGroup className={ 'widthButtons' }>
 											<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) } disabled={ hideWidthDesktop }>25</Button>
 											<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) } disabled={ hideWidthDesktop }>33</Button>
@@ -770,6 +776,12 @@ class GenerateBlockContainer extends Component {
 												return false;
 											} }
 										/>
+
+										{ !! hideWidthTablet &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
 
 										<ButtonGroup className={ 'widthButtons' }>
 											<Button isPrimary={ !! autoWidthTablet } disabled={ hideWidthTablet } onClick={ () => {
@@ -945,6 +957,12 @@ class GenerateBlockContainer extends Component {
 												return false;
 											} }
 										/>
+
+										{ !! hideWidthMobile &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
 
 										<ButtonGroup className={ 'widthButtons' }>
 											<Button isPrimary={ !! autoWidthMobile } disabled={ hideWidthMobile } onClick={ () => {
