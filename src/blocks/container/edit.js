@@ -133,7 +133,7 @@ class GenerateBlockContainer extends Component {
 
 		// Set our old defaults as static values.
 		// @since 1.4.0.
-		if ( ! wasBlockJustInserted( this.props ) && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+		if ( ! wasBlockJustInserted( this.props.attributes ) && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
 
 			const newAttrs = {};
@@ -171,10 +171,6 @@ class GenerateBlockContainer extends Component {
 			if ( Object.keys( newAttrs ).length > 0 ) {
 				this.props.setAttributes( newAttrs );
 			}
-		}
-
-		if ( wasBlockJustInserted( this.props ) ) {
-			this.props.setAttributes( { wasBlockJustInserted: false } );
 		}
 
 		// Update block version flag if it's out of date.
@@ -2388,12 +2384,11 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select, props ) => {
+	withSelect( ( select ) => {
 		if ( ! select( 'core/edit-post' ) ) {
 			return {
 				media: null,
 				deviceType: null,
-				wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 			};
 		}
 
@@ -2415,14 +2410,12 @@ export default compose( [
 			return {
 				media: featuredImageId ? getMedia( featuredImageId ) : null,
 				deviceType: null,
-				wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 			};
 		}
 
 		return {
 			media: featuredImageId ? getMedia( featuredImageId ) : null,
 			deviceType: getPreviewDeviceType(),
-			wasBlockJustInserted: select( 'core/block-editor' ).wasBlockJustInserted( props.clientId ),
 		};
 	} ),
 ] )( GenerateBlockContainer );

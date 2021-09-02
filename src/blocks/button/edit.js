@@ -20,6 +20,9 @@ import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import Element from '../../components/element';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
+import isBlockVersionLessThan from '../../utils/check-block-version';
+import hasNumericValue from '../../utils/has-numeric-value';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 
 import {
 	__,
@@ -61,8 +64,6 @@ import {
 import {
 	compose,
 } from '@wordpress/compose';
-import isBlockVersionLessThan from '../../utils/check-block-version';
-import hasNumericValue from '../../utils/has-numeric-value';
 
 /**
  * Regular expression matching invalid anchor characters for replacement.
@@ -127,7 +128,7 @@ class GenerateBlockButton extends Component {
 		// Set our old defaults as static values.
 		// @since 1.4.0.
 		if (
-			! this.props.wasBlockJustInserted &&
+			! wasBlockJustInserted( this.props.attributes ) &&
 			isBlockVersionLessThan( this.props.attributes.blockVersion, 2 )
 		) {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.button;
@@ -1154,22 +1155,19 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select, props ) => {
+	withSelect( ( select ) => {
 		const {
 			__experimentalGetPreviewDeviceType: getPreviewDeviceType,
 		} = select( 'core/edit-post' ) || false;
-		const wasBlockJustInserted = select( 'core/block-editor' ).wasBlockJustInserted( props.clientId );
 
 		if ( ! getPreviewDeviceType ) {
 			return {
 				deviceType: null,
-				wasBlockJustInserted,
 			};
 		}
 
 		return {
 			deviceType: getPreviewDeviceType(),
-			wasBlockJustInserted,
 		};
 	} ),
 ] )( GenerateBlockButton );
