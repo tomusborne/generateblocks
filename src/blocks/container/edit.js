@@ -699,6 +699,13 @@ class GenerateBlockContainer extends Component {
 															flexBasis: value,
 														} );
 													} }
+													onBlur={ () => {
+														if ( ! flexBasis.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasis: '',
+															} );
+														}
+													} }
 												/>
 											</div>
 										</div>
