@@ -907,6 +907,13 @@ class GenerateBlockContainer extends Component {
 															flexBasisTablet: value,
 														} );
 													} }
+													onBlur={ () => {
+														if ( ! flexBasisTablet.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasisTablet: '',
+															} );
+														}
+													} }
 												/>
 											</div>
 										</div>
@@ -1087,6 +1094,13 @@ class GenerateBlockContainer extends Component {
 														setAttributes( {
 															flexBasisMobile: value,
 														} );
+													} }
+													onBlur={ () => {
+														if ( ! flexBasisMobile.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasisMobile: '',
+															} );
+														}
 													} }
 												/>
 											</div>
