@@ -12,7 +12,7 @@
 	"homepage": "https://generateblocks.com",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/tomusborne/generateblocks-pro.git"
+		"url": "git+https://github.com/tomusborne/generateblocks.git"
 	},
 	"bugs": {
 		"url": "https://generateblocks.com/support"
