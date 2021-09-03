@@ -410,6 +410,14 @@ class GenerateBlockContainer extends Component {
 			} );
 		} );
 
+		const hasFlexBasis = ( attribute ) => {
+			return hasNumericValue( attribute ) && 'auto' !== attribute;
+		};
+
+		const hideWidthDesktop = hasFlexBasis( flexBasis );
+		const hideWidthTablet = 'auto' !== flexBasisTablet && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) );
+		const hideWidthMobile = 'auto' !== flexBasisMobile && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) || hasFlexBasis( flexBasisMobile ) );
+
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-container': true,
@@ -600,13 +608,19 @@ class GenerateBlockContainer extends Component {
 											} }
 										/>
 
+										{ !! hideWidthDesktop &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
+
 										<ButtonGroup className={ 'widthButtons' }>
-											<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
-											<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
-											<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
-											<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
-											<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
-											<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
+											<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) } disabled={ hideWidthDesktop }>25</Button>
+											<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) } disabled={ hideWidthDesktop }>33</Button>
+											<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) } disabled={ hideWidthDesktop }>50</Button>
+											<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) } disabled={ hideWidthDesktop }>66</Button>
+											<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) } disabled={ hideWidthDesktop }>75</Button>
+											<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) } disabled={ hideWidthDesktop }>100</Button>
 										</ButtonGroup>
 									</BaseControl>
 
@@ -621,6 +635,7 @@ class GenerateBlockContainer extends Component {
 										rangeMax={ 100 }
 										step={ 5 }
 										initialPosition={ generateBlocksDefaults.container.width }
+										disabled={ hideWidthDesktop }
 									/>
 
 									<BaseControl
@@ -703,6 +718,13 @@ class GenerateBlockContainer extends Component {
 															flexBasis: value,
 														} );
 													} }
+													onBlur={ () => {
+														if ( ! flexBasis.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasis: '',
+															} );
+														}
+													} }
 												/>
 											</div>
 										</div>
@@ -762,8 +784,14 @@ class GenerateBlockContainer extends Component {
 											} }
 										/>
 
+										{ !! hideWidthTablet &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
+
 										<ButtonGroup className={ 'widthButtons' }>
-											<Button isPrimary={ !! autoWidthTablet } onClick={ () => {
+											<Button isPrimary={ !! autoWidthTablet } disabled={ hideWidthTablet } onClick={ () => {
 												if ( autoWidthTablet ) {
 													setAttributes( { autoWidthTablet: false } );
 												} else {
@@ -773,12 +801,12 @@ class GenerateBlockContainer extends Component {
 												{ __( 'Auto', 'generateblocks' ) }
 											</Button>
 
-											<Button isPrimary={ widthTablet === 25 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 25, autoWidthTablet: false } ) }>25</Button>
-											<Button isPrimary={ widthTablet === 33.33 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 33.33, autoWidthTablet: false } ) }>33</Button>
-											<Button isPrimary={ widthTablet === 50 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 50, autoWidthTablet: false } ) }>50</Button>
-											<Button isPrimary={ widthTablet === 66.66 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 66.66, autoWidthTablet: false } ) }>66</Button>
-											<Button isPrimary={ widthTablet === 75 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 75, autoWidthTablet: false } ) }>75</Button>
-											<Button isPrimary={ widthTablet === 100 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 100, autoWidthTablet: false } ) }>100</Button>
+											<Button isPrimary={ widthTablet === 25 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 25, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>25</Button>
+											<Button isPrimary={ widthTablet === 33.33 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 33.33, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>33</Button>
+											<Button isPrimary={ widthTablet === 50 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 50, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>50</Button>
+											<Button isPrimary={ widthTablet === 66.66 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 66.66, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>66</Button>
+											<Button isPrimary={ widthTablet === 75 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 75, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>75</Button>
+											<Button isPrimary={ widthTablet === 100 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 100, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>100</Button>
 										</ButtonGroup>
 									</BaseControl>
 
@@ -795,6 +823,7 @@ class GenerateBlockContainer extends Component {
 											rangeMax={ 100 }
 											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.widthTablet }
+											disabled={ hideWidthTablet }
 										/>
 									}
 
@@ -878,6 +907,13 @@ class GenerateBlockContainer extends Component {
 															flexBasisTablet: value,
 														} );
 													} }
+													onBlur={ () => {
+														if ( ! flexBasisTablet.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasisTablet: '',
+															} );
+														}
+													} }
 												/>
 											</div>
 										</div>
@@ -936,8 +972,14 @@ class GenerateBlockContainer extends Component {
 											} }
 										/>
 
+										{ !! hideWidthMobile &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
+
 										<ButtonGroup className={ 'widthButtons' }>
-											<Button isPrimary={ !! autoWidthMobile } onClick={ () => {
+											<Button isPrimary={ !! autoWidthMobile } disabled={ hideWidthMobile } onClick={ () => {
 												if ( autoWidthMobile ) {
 													setAttributes( { autoWidthMobile: false } );
 												} else {
@@ -947,12 +989,12 @@ class GenerateBlockContainer extends Component {
 												{ __( 'Auto', 'generateblocks' ) }
 											</Button>
 
-											<Button isPrimary={ widthMobile === 25 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 25, autoWidthMobile: false } ) }>25</Button>
-											<Button isPrimary={ widthMobile === 33.33 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 33.33, autoWidthMobile: false } ) }>33</Button>
-											<Button isPrimary={ widthMobile === 50 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 50, autoWidthMobile: false } ) }>50</Button>
-											<Button isPrimary={ widthMobile === 66.66 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 66.66, autoWidthMobile: false } ) }>66</Button>
-											<Button isPrimary={ widthMobile === 75 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 75, autoWidthMobile: false } ) }>75</Button>
-											<Button isPrimary={ widthMobile === 100 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 100, autoWidthMobile: false } ) }>100</Button>
+											<Button isPrimary={ widthMobile === 25 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 25, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>25</Button>
+											<Button isPrimary={ widthMobile === 33.33 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 33.33, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>33</Button>
+											<Button isPrimary={ widthMobile === 50 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 50, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>50</Button>
+											<Button isPrimary={ widthMobile === 66.66 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 66.66, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>66</Button>
+											<Button isPrimary={ widthMobile === 75 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 75, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>75</Button>
+											<Button isPrimary={ widthMobile === 100 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 100, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>100</Button>
 										</ButtonGroup>
 									</BaseControl>
 
@@ -969,6 +1011,7 @@ class GenerateBlockContainer extends Component {
 											rangeMax={ 100 }
 											step={ 5 }
 											initialPosition={ generateBlocksDefaults.container.widthMobile }
+											disabled={ hideWidthMobile }
 										/>
 									}
 
@@ -1051,6 +1094,13 @@ class GenerateBlockContainer extends Component {
 														setAttributes( {
 															flexBasisMobile: value,
 														} );
+													} }
+													onBlur={ () => {
+														if ( ! flexBasisMobile.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasisMobile: '',
+															} );
+														}
 													} }
 												/>
 											</div>

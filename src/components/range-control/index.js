@@ -27,6 +27,7 @@ export default class RangeControlInput extends Component {
 			beforeIcon = '',
 			initialPosition = '',
 			placeholder = '',
+			disabled = false,
 		} = this.props;
 
 		return (
@@ -49,6 +50,7 @@ export default class RangeControlInput extends Component {
 							step={ step }
 							withInputField={ false }
 							initialPosition={ initialPosition }
+							disabled={ disabled }
 						/>
 					</div>
 
@@ -60,6 +62,7 @@ export default class RangeControlInput extends Component {
 							max={ inputMax }
 							step={ step }
 							value={ hasNumericValue( value ) ? value : '' }
+							disabled={ disabled }
 							onChange={ ( newVal ) => onChange( newVal ) }
 							onBlur={ () => {
 								if ( hasNumericValue( value ) ) {
