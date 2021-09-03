@@ -77,6 +77,30 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.4.0 =
+* New: Add flex (flex-grow, flex-shrink, flex-basis) options to grid item containers
+* New: Add "auto" width option to grid item containers on tablet and mobile
+* New: Allow CSS variables in color picker component
+* New: Use built-in color transparency in color picker component
+* Tweak: Remove Container padding defaults
+* Tweak: Remove grid gap default
+* Tweak: Remove gradient defaults
+* Tweak: Remove grid item width defaults
+* Tweak: Make Button Container stack & fill options device-specific
+* Tweak: Stop auto-adding z-index to Container when using pseudo gradients
+* Tweak: Only output shorthand CSS values if all fields are set
+* Tweak: Add missing tablet "order" property from editor CSS
+* Tweak: Improve unique ID generation
+* Tweak: Remove GeneratePress full width option from Container block
+* Tweak: Replace advanced typography attribute with local storage
+* Tweak: Allow for empty Container padding values
+* Tweak: Check for FS_CHMOD_FILE constant in external css file
+* Tweak: Force inline CSS on single posts
+* Tweak: Remove "Select Grid" button from grid item Containers
+* Tweak: Allow for no value in grid item width field
+* Tweak: Allow zero values for minHeight on devices
+* Fix: Responsive border-radius when using pseudo backgrounds
+
 = 1.3.5 =
 * Fix: Error saving classic widgets in Customizer
 * Fix: Console error in widget editor due to core/edit-post
