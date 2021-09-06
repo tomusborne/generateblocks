@@ -60,6 +60,10 @@ import {
 	compose,
 } from '@wordpress/compose';
 
+import {
+	createBlock,
+} from '@wordpress/blocks';
+
 /**
  * Regular expression matching invalid anchor characters for replacement.
  *
@@ -159,6 +163,9 @@ class GenerateBlockHeadline extends Component {
 		const {
 			attributes,
 			setAttributes,
+			mergeBlocks,
+			onReplace,
+			onRemove,
 		} = this.props;
 
 		const {
@@ -237,6 +244,17 @@ class GenerateBlockHeadline extends Component {
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
+
+		const onSplit = ( value ) => {
+			if ( ! value ) {
+				return createBlock( 'core/paragraph' );
+			}
+
+			return createBlock( 'generateblocks/headline', {
+				...attributes,
+				content: value,
+			} );
+		};
 
 		return (
 			<Fragment>
@@ -1254,6 +1272,10 @@ class GenerateBlockHeadline extends Component {
 										tagName="span"
 										value={ content }
 										onChange={ ( value ) => setAttributes( { content: value } ) }
+										onSplit={ onSplit }
+										onMerge={ mergeBlocks }
+										onReplace={ onReplace }
+										onRemove={ onRemove }
 										placeholder={ __( 'Headline', 'generateblocks' ) }
 										allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 									/>
@@ -1267,6 +1289,10 @@ class GenerateBlockHeadline extends Component {
 							tagName="span"
 							value={ content }
 							onChange={ ( value ) => setAttributes( { content: value } ) }
+							onSplit={ onSplit }
+							onMerge={ mergeBlocks }
+							onReplace={ onReplace }
+							onRemove={ onRemove }
 							placeholder={ __( 'Headline', 'generateblocks' ) }
 							allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 						/>
