@@ -419,6 +419,7 @@ class GenerateBlockContainer extends Component {
 				'gb-container': true,
 				[ `gb-container-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
+				'gb-container-empty': ! hasChildBlocks,
 			} ),
 			id: anchor ? anchor : null,
 		};
@@ -2409,11 +2410,7 @@ class GenerateBlockContainer extends Component {
 							templateLock={ false }
 							renderAppender={ ( hasChildBlocks ? undefined : () => {
 								return (
-									<div className="gblocks-container-appender">
-										<InnerBlocks.ButtonBlockAppender
-											className="is-primary"
-										/>
-									</div>
+									<InnerBlocks.ButtonBlockAppender />
 								);
 							} ) }
 						/>
