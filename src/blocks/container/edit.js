@@ -414,10 +414,12 @@ class GenerateBlockContainer extends Component {
 		const hideWidthTablet = 'auto' !== flexBasisTablet && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) );
 		const hideWidthMobile = 'auto' !== flexBasisMobile && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) || hasFlexBasis( flexBasisMobile ) );
 
-		const hasStyling = (
+		let hasStyling = (
 			!! backgroundColor ||
 			attributes.borderSizeTop || attributes.borderSizeRight || attributes.borderSizeBottom || attributes.borderSizeLeft
 		);
+
+		hasStyling = applyFilters( 'generateblocks.editor.containerHasStyling', hasStyling, this.props );
 
 		let htmlAttributes = {
 			className: classnames( {
