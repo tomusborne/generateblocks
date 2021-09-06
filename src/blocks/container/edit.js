@@ -22,7 +22,6 @@ import MobileCSS from './css/mobile.js';
 import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 import hasNumericValue from '../../utils/has-numeric-value';
-import hasValue from '../../utils/has-value';
 import isBlockVersionLessThan from '../../utils/check-block-version';
 import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 
@@ -651,21 +650,19 @@ class GenerateBlockContainer extends Component {
 												{ __( 'Flex', 'generateblocks' ) }
 											</label>
 
-											{ ( hasValue( flexGrow ) || hasValue( flexShrink ) || hasValue( flexBasis ) ) &&
-												<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
-													<Button
-														className="gblocks-inline-reset-button"
-														icon={ getIcon( 'refresh' ) }
-														onClick={ () => {
-															setAttributes( {
-																flexGrow: '',
-																flexShrink: '',
-																flexBasis: '',
-															} );
-														} }
-													/>
-												</Tooltip>
-											}
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrow: '',
+															flexShrink: '',
+															flexBasis: '',
+														} );
+													} }
+												/>
+											</Tooltip>
 										</div>
 
 										<div className="gblocks-flex-controls-inner">
@@ -868,21 +865,19 @@ class GenerateBlockContainer extends Component {
 												{ __( 'Flex', 'generateblocks' ) }
 											</label>
 
-											{ ( hasValue( flexGrowTablet ) || hasValue( flexShrinkTablet ) || hasValue( flexBasisTablet ) ) &&
-												<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
-													<Button
-														className="gblocks-inline-reset-button"
-														icon={ getIcon( 'refresh' ) }
-														onClick={ () => {
-															setAttributes( {
-																flexGrowTablet: '',
-																flexShrinkTablet: '',
-																flexBasisTablet: '',
-															} );
-														} }
-													/>
-												</Tooltip>
-											}
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrowTablet: '',
+															flexShrinkTablet: '',
+															flexBasisTablet: '',
+														} );
+													} }
+												/>
+											</Tooltip>
 										</div>
 
 										<div className="gblocks-flex-controls-inner">
@@ -1084,21 +1079,19 @@ class GenerateBlockContainer extends Component {
 												{ __( 'Flex', 'generateblocks' ) }
 											</label>
 
-											{ ( hasValue( flexGrowMobile ) || hasValue( flexShrinkMobile ) || hasValue( flexBasisMobile ) ) &&
-												<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
-													<Button
-														className="gblocks-inline-reset-button"
-														icon={ getIcon( 'refresh' ) }
-														onClick={ () => {
-															setAttributes( {
-																flexGrowMobile: '',
-																flexShrinkMobile: '',
-																flexBasisMobile: '',
-															} );
-														} }
-													/>
-												</Tooltip>
-											}
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrowMobile: '',
+															flexShrinkMobile: '',
+															flexBasisMobile: '',
+														} );
+													} }
+												/>
+											</Tooltip>
 										</div>
 
 										<div className="gblocks-flex-controls-inner">
