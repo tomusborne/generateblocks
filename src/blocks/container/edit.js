@@ -2522,11 +2522,15 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select ) => {
+	withSelect( ( select, props ) => {
+		const { clientId } = props;
+		const blockEditor = select( 'core/block-editor' );
+
 		if ( ! select( 'core/edit-post' ) ) {
 			return {
 				media: null,
 				deviceType: null,
+				hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 			};
 		}
 
@@ -2548,12 +2552,14 @@ export default compose( [
 			return {
 				media: featuredImageId ? getMedia( featuredImageId ) : null,
 				deviceType: null,
+				hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 			};
 		}
 
 		return {
 			media: featuredImageId ? getMedia( featuredImageId ) : null,
 			deviceType: getPreviewDeviceType(),
+			hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 		};
 	} ),
 ] )( GenerateBlockContainer );
