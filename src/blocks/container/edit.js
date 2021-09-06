@@ -641,9 +641,30 @@ class GenerateBlockContainer extends Component {
 
 									<BaseControl
 										className="gblocks-flex-controls"
-										label={ __( 'Flex', 'generateblocks' ) }
-										id="gblocks-flex-grow-desktop"
 									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-desktop"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrow: '',
+															flexShrink: '',
+															flexBasis: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
 										<div className="gblocks-flex-controls-inner">
 											<TextControl
 												help={ __( 'Grow', 'generateblocks' ) }
@@ -835,9 +856,30 @@ class GenerateBlockContainer extends Component {
 
 									<BaseControl
 										className="gblocks-flex-controls"
-										label={ __( 'Flex', 'generateblocks' ) }
-										id="gblocks-flex-grow-tablet"
 									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-tablet"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrowTablet: '',
+															flexShrinkTablet: '',
+															flexBasisTablet: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
 										<div className="gblocks-flex-controls-inner">
 											<TextControl
 												help={ __( 'Grow', 'generateblocks' ) }
@@ -1028,9 +1070,30 @@ class GenerateBlockContainer extends Component {
 
 									<BaseControl
 										className="gblocks-flex-controls"
-										label={ __( 'Flex', 'generateblocks' ) }
-										id="gblocks-flex-grow-mobile"
 									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-mobile"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrowMobile: '',
+															flexShrinkMobile: '',
+															flexBasisMobile: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
 										<div className="gblocks-flex-controls-inner">
 											<TextControl
 												help={ __( 'Grow', 'generateblocks' ) }
