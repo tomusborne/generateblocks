@@ -274,9 +274,16 @@ body .gb-container .wp-block {
 			cursor: pointer;
 		}
 
-		&__selected:before {
-			border-color: rgba(0,0,0,0.05);
-			cursor: unset;
+		&__selected {
+			& > .gb-inside-container,
+			.block-editor-button-block-appender {
+				width: 100%;
+			}
+
+			&:before {
+				border-color: rgba(0,0,0,0.05);
+				cursor: unset;
+			}
 		}
 	}
 
