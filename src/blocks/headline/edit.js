@@ -163,9 +163,8 @@ class GenerateBlockHeadline extends Component {
 		const {
 			attributes,
 			setAttributes,
-			mergeBlocks,
 			onReplace,
-			onRemove,
+			clientId,
 		} = this.props;
 
 		const {
@@ -245,15 +244,23 @@ class GenerateBlockHeadline extends Component {
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
 
-		const onSplit = ( value ) => {
-			if ( ! value ) {
-				return createBlock( 'core/paragraph' );
+		const onSplit = ( value, isOriginal ) => {
+			let block;
+
+			if ( isOriginal || value ) {
+				block = createBlock( 'generateblocks/headline', {
+					...attributes,
+					content: value,
+				} );
+			} else {
+				block = createBlock( 'core/paragraph' );
 			}
 
-			return createBlock( 'generateblocks/headline', {
-				...attributes,
-				content: value,
-			} );
+			if ( isOriginal ) {
+				block.clientId = clientId;
+			}
+
+			return block;
 		};
 
 		return (
@@ -1273,9 +1280,7 @@ class GenerateBlockHeadline extends Component {
 										value={ content }
 										onChange={ ( value ) => setAttributes( { content: value } ) }
 										onSplit={ onSplit }
-										onMerge={ mergeBlocks }
 										onReplace={ onReplace }
-										onRemove={ onRemove }
 										placeholder={ __( 'Headline', 'generateblocks' ) }
 										allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 									/>
@@ -1290,9 +1295,7 @@ class GenerateBlockHeadline extends Component {
 							value={ content }
 							onChange={ ( value ) => setAttributes( { content: value } ) }
 							onSplit={ onSplit }
-							onMerge={ mergeBlocks }
 							onReplace={ onReplace }
-							onRemove={ onRemove }
 							placeholder={ __( 'Headline', 'generateblocks' ) }
 							allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 						/>
