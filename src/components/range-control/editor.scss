@@ -18,4 +18,9 @@
 		font-style: normal;
 		color: rgb(117, 117, 117);
 	}
+
+	.components-base-control,
+	.components-base-control__field {
+		margin-bottom: 0 !important;
+	}
 }
