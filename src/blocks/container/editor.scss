@@ -256,11 +256,22 @@ body .gb-container .wp-block {
 
 .gb-container-empty {
     text-align: center;
-    border: 1px dashed rgba(0, 0, 0, 0.2);
-    padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
+	padding: 5px;
+	position: relative;
+
+	&:before {
+		content: "";
+		position: absolute;
+		top: 0.5px;
+		right: 0.5px;
+		bottom: 0.5px;
+		left: 0.5px;
+		border: 1px dashed rgba(0,0,0,0.1);
+		cursor: pointer;
+	}
 
 	.components-button {
 		height: 25px;
