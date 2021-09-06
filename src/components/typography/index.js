@@ -181,7 +181,7 @@ class TypographyControls extends Component {
 									'fontWeight': value, // eslint-disable-line quote-props
 								} );
 							} }
-							className="components-base-control"
+							className="components-base-control gblocks-font-weight-control"
 						/>
 					}
 
@@ -195,13 +195,14 @@ class TypographyControls extends Component {
 									'textTransform': value, // eslint-disable-line quote-props
 								} );
 							} }
-							className="components-base-control"
+							className="components-base-control gblocks-transform-control"
 						/>
 					}
 				</div>
 
 				{ ! disableAdvancedToggle &&
 					<ToggleControl
+						className="gblocks-advanced-typography-control"
 						label={ __( 'Show Advanced Typography', 'generateblocks' ) }
 						checked={ !! this.state.showAdvancedTypography }
 						onChange={ ( value ) => {
@@ -293,7 +294,7 @@ class TypographyControls extends Component {
 				}
 
 				{ showFontSize && showAdvancedToggle &&
-					<BaseControl>
+					<BaseControl className="gblocks-font-size-control">
 						<UnitPicker
 							label={ __( 'Font Size', 'generateblocks' ) }
 							value={ attributes.fontSizeUnit }

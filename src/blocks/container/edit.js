@@ -490,6 +490,7 @@ class GenerateBlockContainer extends Component {
 									}
 
 									<SelectControl
+										className="gblocks-container-control"
 										label={ __( 'Container', 'generateblocks' ) }
 										value={ outerContainer }
 										options={ [
@@ -511,6 +512,7 @@ class GenerateBlockContainer extends Component {
 
 									{ 'full' === outerContainer &&
 										<SelectControl
+											className="gblocks-inner-container-control"
 											label={ __( 'Inner Container', 'generateblocks' ) }
 											value={ innerContainer }
 											options={ [
@@ -551,6 +553,7 @@ class GenerateBlockContainer extends Component {
 									}
 
 									<SelectControl
+										className="gblocks-tag-name-control"
 										label={ __( 'Tag Name', 'generateblocks' ) }
 										value={ tagName }
 										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
@@ -1217,26 +1220,28 @@ class GenerateBlockContainer extends Component {
 
 						{ 'Desktop' === this.getDeviceType() && (
 							<Fragment>
-								<UnitPicker
-									label={ __( 'Minimum Height', 'generateblocks' ) }
-									value={ minHeightUnit }
-									units={ [ 'px', 'vh', 'vw' ] }
-									onClick={ ( value ) => {
-										setAttributes( {
-											minHeightUnit: value,
-										} );
-									} }
-								/>
+								<div className="gblocks-minimum-height-control">
+									<UnitPicker
+										label={ __( 'Minimum Height', 'generateblocks' ) }
+										value={ minHeightUnit }
+										units={ [ 'px', 'vh', 'vw' ] }
+										onClick={ ( value ) => {
+											setAttributes( {
+												minHeightUnit: value,
+											} );
+										} }
+									/>
 
-								<TextControl
-									type={ 'number' }
-									value={ minHeight ? minHeight : '' }
-									onChange={ ( value ) => {
-										setAttributes( {
-											minHeight: parseFloat( value ),
-										} );
-									} }
-								/>
+									<TextControl
+										type={ 'number' }
+										value={ minHeight ? minHeight : '' }
+										onChange={ ( value ) => {
+											setAttributes( {
+												minHeight: parseFloat( value ),
+											} );
+										} }
+									/>
+								</div>
 
 								{ !! minHeight && ! isGrid &&
 									<SelectControl
@@ -1256,7 +1261,9 @@ class GenerateBlockContainer extends Component {
 									/>
 								}
 
-								<DimensionsControl { ...this.props }
+								<DimensionsControl
+									{ ...this.props }
+									className="gblock-padding-control"
 									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Padding', 'generateblocks' ) }
@@ -1270,7 +1277,9 @@ class GenerateBlockContainer extends Component {
 									units={ [ 'px', 'em', '%' ] }
 								/>
 
-								<DimensionsControl { ...this.props }
+								<DimensionsControl
+									{ ...this.props }
+									className="gblock-margin-control"
 									device={ this.getDeviceType() }
 									type={ 'margin' }
 									label={ __( 'Margin', 'generateblocks' ) }
@@ -1284,7 +1293,9 @@ class GenerateBlockContainer extends Component {
 									units={ [ 'px', 'em', '%' ] }
 								/>
 
-								<DimensionsControl { ...this.props }
+								<DimensionsControl
+									{ ...this.props }
+									className="gblock-border-size-control"
 									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Size', 'generateblocks' ) }
@@ -1297,7 +1308,9 @@ class GenerateBlockContainer extends Component {
 									units={ [ 'px' ] }
 								/>
 
-								<DimensionsControl { ...this.props }
+								<DimensionsControl
+									{ ...this.props }
+									className="gblocks-border-radius-control"
 									device={ this.getDeviceType() }
 									type={ 'padding' }
 									label={ __( 'Border Radius', 'generateblocks' ) }
@@ -1316,6 +1329,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<TextControl
+									className="gblocks-outer-zindex-control"
 									label={ __( 'Outer z-index', 'generateblocks' ) }
 									type={ 'number' }
 									value={ zindex || 0 === zindex ? zindex : '' }
@@ -1336,6 +1350,7 @@ class GenerateBlockContainer extends Component {
 								/>
 
 								<TextControl
+									className="gblocks-inner-zindex-control"
 									label={ __( 'Inner z-index', 'generateblocks' ) }
 									type={ 'number' }
 									value={ innerZindex || 0 === innerZindex ? innerZindex : '' }

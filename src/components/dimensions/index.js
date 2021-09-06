@@ -93,11 +93,13 @@ class DimensionsControl extends Component {
 			device,
 			block,
 			units,
+			className,
 		} = this.props;
 
 		const classes = classnames(
 			'components-base-control',
 			'components-gblocks-dimensions-control',
+			className
 		);
 
 		const onChangeTopValue = ( event ) => {
@@ -266,7 +268,7 @@ class DimensionsControl extends Component {
 
 					<div className="components-gblocks-dimensions-control__inputs">
 						<input
-							className="components-gblocks-dimensions-control__number"
+							className="components-gblocks-dimensions-control__number gblocks-top-input"
 							placeholder={ topPlaceholder }
 							type="number"
 							onChange={ onChangeTopValue }
@@ -277,7 +279,7 @@ class DimensionsControl extends Component {
 							data-attribute={ type }
 						/>
 						<input
-							className="components-gblocks-dimensions-control__number"
+							className="components-gblocks-dimensions-control__number gblocks-right-input"
 							placeholder={ rightPlaceholder }
 							type="number"
 							onChange={ onChangeRightValue }
@@ -288,7 +290,7 @@ class DimensionsControl extends Component {
 							data-attribute={ type }
 						/>
 						<input
-							className="components-gblocks-dimensions-control__number"
+							className="components-gblocks-dimensions-control__number gblocks-bottom-input"
 							placeholder={ bottomPlaceholder }
 							type="number"
 							onChange={ onChangeBottomValue }
@@ -299,7 +301,7 @@ class DimensionsControl extends Component {
 							data-attribute={ type }
 						/>
 						<input
-							className="components-gblocks-dimensions-control__number"
+							className="components-gblocks-dimensions-control__number gblocks-left-input"
 							placeholder={ leftPlaceholder }
 							type="number"
 							onChange={ onChangeLeftValue }
