@@ -262,15 +262,22 @@ body .gb-container .wp-block {
 	padding: 5px;
 	position: relative;
 
-	&:before {
-		content: "";
-		position: absolute;
-		top: 0.5px;
-		right: 0.5px;
-		bottom: 0.5px;
-		left: 0.5px;
-		border: 1px dashed rgba(0,0,0,0.1);
-		cursor: pointer;
+	&.gb-container-visual-guides {
+		&:before {
+			content: "";
+			position: absolute;
+			top: 0.5px;
+			right: 0.5px;
+			bottom: 0.5px;
+			left: 0.5px;
+			border: 1px dashed rgba(0,0,0,0.1);
+			cursor: pointer;
+		}
+
+		&__selected:before {
+			border-color: rgba(0,0,0,0.05);
+			cursor: unset;
+		}
 	}
 
 	.components-button {

@@ -414,12 +414,19 @@ class GenerateBlockContainer extends Component {
 		const hideWidthTablet = 'auto' !== flexBasisTablet && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) );
 		const hideWidthMobile = 'auto' !== flexBasisMobile && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) || hasFlexBasis( flexBasisMobile ) );
 
+		const hasStyling = (
+			!! backgroundColor ||
+			attributes.borderSizeTop || attributes.borderSizeRight || attributes.borderSizeBottom || attributes.borderSizeLeft
+		);
+
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-container': true,
 				[ `gb-container-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
 				'gb-container-empty': ! hasChildBlocks,
+				'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling,
+				'gb-container-visual-guides__selected': ! hasChildBlocks && ! hasStyling && this.props.isSelected,
 			} ),
 			id: anchor ? anchor : null,
 		};
