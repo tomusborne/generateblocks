@@ -74,3 +74,27 @@
 	color: #777;
 	margin-bottom: 10px;
 }
+
+.gblocks-utility-label {
+    display: flex;
+    align-items: flex-end;
+	margin-bottom: 5px;
+
+	label {
+		margin-right: auto;
+	}
+
+	.components-button {
+		height: auto;
+		justify-content: center !important;
+		margin-left: 5px;
+		min-width: auto;
+		padding: 0 6px;
+
+		svg {
+			margin-right: 0 !important;
+			height: 12px;
+			width: 12px;
+		}
+	}
+}
