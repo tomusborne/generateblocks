@@ -628,27 +628,53 @@ class GenerateBlockContainer extends Component {
 											<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) } disabled={ hideWidthDesktop }>75</Button>
 											<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) } disabled={ hideWidthDesktop }>100</Button>
 										</ButtonGroup>
-									</BaseControl>
 
-									<RangeControlInput
-										value={ hasNumericValue( width ) ? width : '' }
-										onChange={ ( value ) => {
-											setAttributes( {
-												width: value,
-											} );
-										} }
-										rangeMin={ 10 }
-										rangeMax={ 100 }
-										step={ 5 }
-										initialPosition={ generateBlocksDefaults.container.width }
-										disabled={ hideWidthDesktop }
-									/>
+										<RangeControlInput
+											value={ hasNumericValue( width ) ? width : '' }
+											onChange={ ( value ) => {
+												// No zero value or values that start with zero.
+												if ( value.startsWith( 0 ) ) {
+													value = '';
+												}
+
+												setAttributes( {
+													width: value,
+												} );
+											} }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
+											initialPosition={ generateBlocksDefaults.container.width }
+											disabled={ hideWidthDesktop }
+										/>
+									</BaseControl>
 
 									<BaseControl
 										className="gblocks-flex-controls"
-										label={ __( 'Flex', 'generateblocks' ) }
-										id="gblocks-flex-grow-desktop"
 									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-desktop"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrow: '',
+															flexShrink: '',
+															flexBasis: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
 										<div className="gblocks-flex-controls-inner">
 											<TextControl
 												help={ __( 'Grow', 'generateblocks' ) }
@@ -814,30 +840,56 @@ class GenerateBlockContainer extends Component {
 											<Button isPrimary={ widthTablet === 75 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 75, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>75</Button>
 											<Button isPrimary={ widthTablet === 100 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 100, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>100</Button>
 										</ButtonGroup>
-									</BaseControl>
 
-									{ ! autoWidthTablet &&
-										<RangeControlInput
-											value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
-											onChange={ ( value ) => {
-												setAttributes( {
-													widthTablet: value,
-													autoWidthTablet: false,
-												} );
-											} }
-											rangeMin={ 10 }
-											rangeMax={ 100 }
-											step={ 5 }
-											initialPosition={ generateBlocksDefaults.container.widthTablet }
-											disabled={ hideWidthTablet }
-										/>
-									}
+										{ ! autoWidthTablet &&
+											<RangeControlInput
+												value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
+												onChange={ ( value ) => {
+													// No zero value or values that start with zero.
+													if ( value.startsWith( 0 ) ) {
+														value = '';
+													}
+
+													setAttributes( {
+														widthTablet: value,
+														autoWidthTablet: false,
+													} );
+												} }
+												rangeMin={ 10 }
+												rangeMax={ 100 }
+												step={ 5 }
+												initialPosition={ generateBlocksDefaults.container.widthTablet }
+												disabled={ hideWidthTablet }
+											/>
+										}
+									</BaseControl>
 
 									<BaseControl
 										className="gblocks-flex-controls"
-										label={ __( 'Flex', 'generateblocks' ) }
-										id="gblocks-flex-grow-tablet"
 									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-tablet"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrowTablet: '',
+															flexShrinkTablet: '',
+															flexBasisTablet: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
 										<div className="gblocks-flex-controls-inner">
 											<TextControl
 												help={ __( 'Grow', 'generateblocks' ) }
@@ -1002,30 +1054,56 @@ class GenerateBlockContainer extends Component {
 											<Button isPrimary={ widthMobile === 75 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 75, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>75</Button>
 											<Button isPrimary={ widthMobile === 100 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 100, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>100</Button>
 										</ButtonGroup>
-									</BaseControl>
 
-									{ ! autoWidthMobile &&
-										<RangeControlInput
-											value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
-											onChange={ ( value ) => {
-												setAttributes( {
-													widthMobile: value,
-													autoWidthMobile: false,
-												} );
-											} }
-											rangeMin={ 10 }
-											rangeMax={ 100 }
-											step={ 5 }
-											initialPosition={ generateBlocksDefaults.container.widthMobile }
-											disabled={ hideWidthMobile }
-										/>
-									}
+										{ ! autoWidthMobile &&
+											<RangeControlInput
+												value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
+												onChange={ ( value ) => {
+													// No zero value or values that start with zero.
+													if ( value.startsWith( 0 ) ) {
+														value = '';
+													}
+
+													setAttributes( {
+														widthMobile: value,
+														autoWidthMobile: false,
+													} );
+												} }
+												rangeMin={ 10 }
+												rangeMax={ 100 }
+												step={ 5 }
+												initialPosition={ generateBlocksDefaults.container.widthMobile }
+												disabled={ hideWidthMobile }
+											/>
+										}
+									</BaseControl>
 
 									<BaseControl
 										className="gblocks-flex-controls"
-										label={ __( 'Flex', 'generateblocks' ) }
-										id="gblocks-flex-grow-mobile"
 									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-mobile"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrowMobile: '',
+															flexShrinkMobile: '',
+															flexBasisMobile: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
 										<div className="gblocks-flex-controls-inner">
 											<TextControl
 												help={ __( 'Grow', 'generateblocks' ) }
