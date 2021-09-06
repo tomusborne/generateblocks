@@ -254,22 +254,20 @@ body .gb-container .wp-block {
 	}
 }
 
-.gblocks-empty-container {
-	position: relative;
+.gblocks-container-appender {
+    text-align: center;
+    border: 1px dashed rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-	.gblocks-select-container {
-		position: absolute;
-		left: 0;
-		z-index: 10;
-		border-right: 1px solid #1e1e1e;
-
-		svg {
-			margin-right: 0 !important;
-		}
-	}
-
-	.block-editor-inserter {
-		display: block;
+	.components-button {
+		height: 25px;
+		width: 25px;
+		padding: 0;
+		color: inherit;
+		box-shadow: unset;
 	}
 }
 
