@@ -99,6 +99,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Remove "Select Grid" button from grid item Containers
 * Tweak: Allow for no value in grid item width field
 * Tweak: Allow zero values for minHeight on devices
+* Tweak: Add new block on Enter key in Headline block
 * Fix: Responsive border-radius when using pseudo backgrounds
 
 = 1.3.5 =
