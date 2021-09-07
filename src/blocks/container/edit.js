@@ -414,11 +414,22 @@ class GenerateBlockContainer extends Component {
 		const hideWidthTablet = 'auto' !== flexBasisTablet && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) );
 		const hideWidthMobile = 'auto' !== flexBasisMobile && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) || hasFlexBasis( flexBasisMobile ) );
 
+		let hasStyling = (
+			!! backgroundColor ||
+			attributes.borderSizeTop || attributes.borderSizeRight || attributes.borderSizeBottom || attributes.borderSizeLeft
+		);
+
+		hasStyling = applyFilters( 'generateblocks.editor.containerHasStyling', hasStyling, this.props );
+
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-container': true,
 				[ `gb-container-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
+				'gb-container-empty': ! hasChildBlocks,
+				'gb-container-empty__selected': ! hasChildBlocks && this.props.isSelected,
+				'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling,
+				'gb-container-visual-guides__selected': ! hasChildBlocks && ! hasStyling && this.props.isSelected,
 			} ),
 			id: anchor ? anchor : null,
 		};
@@ -2512,11 +2523,15 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select ) => {
+	withSelect( ( select, props ) => {
+		const { clientId } = props;
+		const blockEditor = select( 'core/block-editor' );
+
 		if ( ! select( 'core/edit-post' ) ) {
 			return {
 				media: null,
 				deviceType: null,
+				hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 			};
 		}
 
@@ -2538,12 +2553,14 @@ export default compose( [
 			return {
 				media: featuredImageId ? getMedia( featuredImageId ) : null,
 				deviceType: null,
+				hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 			};
 		}
 
 		return {
 			media: featuredImageId ? getMedia( featuredImageId ) : null,
 			deviceType: getPreviewDeviceType(),
+			hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 		};
 	} ),
 ] )( GenerateBlockContainer );
