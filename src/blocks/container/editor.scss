@@ -261,6 +261,7 @@ body .gb-container .wp-block {
 	justify-content: center;
 	padding: 5px;
 	position: relative;
+	cursor: pointer;
 
 	&.gb-container-visual-guides {
 		&:before {
@@ -271,15 +272,9 @@ body .gb-container .wp-block {
 			bottom: 0.5px;
 			left: 0.5px;
 			border: 1px dashed rgba(0,0,0,0.1);
-			cursor: pointer;
 		}
 
 		&__selected {
-			& > .gb-inside-container,
-			.block-editor-button-block-appender {
-				width: 100%;
-			}
-
 			&:before {
 				border-color: rgba(0,0,0,0.05);
 				cursor: unset;
@@ -291,8 +286,17 @@ body .gb-container .wp-block {
 		height: 25px;
 		width: 25px;
 		padding: 0;
-		color: inherit;
+		background: #000;
+		color: #fff;
 		box-shadow: unset;
+
+		&:active {
+			color: #fff;
+		}
+	}
+
+	&__selected {
+		cursor: unset;
 	}
 }
 
