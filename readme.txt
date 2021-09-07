@@ -82,6 +82,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * New: Add "auto" width option to grid item containers on tablet and mobile
 * New: Allow CSS variables in color picker component
 * New: Use built-in color transparency in color picker component
+* Tweak: Improve selectability of empty Container blocks
 * Tweak: Remove Container padding defaults
 * Tweak: Remove grid gap default
 * Tweak: Remove gradient defaults
