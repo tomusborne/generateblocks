@@ -28,6 +28,9 @@ export default class MainCSS extends Component {
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId ] = [ {
 			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
+		} ];
+
+		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'justify-content': flexboxAlignment( alignment ),
 		} ];
 
