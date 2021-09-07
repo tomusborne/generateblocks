@@ -272,11 +272,16 @@ body .gb-container .wp-block {
 			bottom: 0.5px;
 			left: 0.5px;
 			border: 1px dashed rgba(0,0,0,0.1);
+			transition: border-color 500ms ease;
+		}
+
+		&:hover:before {
+			border-color: rgba(0,0,0,0.2);
 		}
 
 		&__selected {
 			&:before {
-				border-color: rgba(0,0,0,0.05);
+				border-color: rgba(0,0,0,0.2);
 				cursor: unset;
 			}
 		}
