@@ -34,7 +34,6 @@ export default class MobileCSS extends Component {
 			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
 			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
 			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
-			'justify-content': flexboxAlignment( alignmentMobile ),
 			'flex-direction': stackMobile ? 'column' : false,
 			'align-items': stackMobile ? flexboxAlignment( alignmentMobile ) : false,
 		} ];
@@ -42,6 +41,7 @@ export default class MobileCSS extends Component {
 		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'flex-direction': stackMobile ? 'column' : false,
 			'align-items': stackMobile ? flexboxAlignment( alignmentMobile ) : false,
+			'justify-content': flexboxAlignment( alignmentMobile ),
 		} ];
 
 		if ( fillHorizontalSpaceMobile ) {
