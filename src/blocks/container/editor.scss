@@ -287,7 +287,17 @@ body .gb-container .wp-block {
 		}
 	}
 
-	.components-button {
+	&__selected {
+		cursor: unset;
+	}
+}
+
+.gblocks-container-appender {
+	display: flex;
+    align-items: center;
+	padding: 5px 0;
+
+	.components-button.block-editor-button-block-appender {
 		height: 25px;
 		width: 25px;
 		padding: 0;
@@ -298,10 +308,6 @@ body .gb-container .wp-block {
 		&:active {
 			color: #fff;
 		}
-	}
-
-	&__selected {
-		cursor: unset;
 	}
 }
 
