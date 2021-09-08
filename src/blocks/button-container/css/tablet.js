@@ -31,6 +31,7 @@ export default class TabletCSS extends Component {
 			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
 			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
 			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
+			'justify-content': flexboxAlignment( alignmentTablet ),
 		} ];
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {

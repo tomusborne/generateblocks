@@ -34,6 +34,7 @@ export default class MobileCSS extends Component {
 			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
 			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
 			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
+			'justify-content': flexboxAlignment( alignmentMobile ),
 			'flex-direction': stackMobile ? 'column' : false,
 			'align-items': stackMobile ? flexboxAlignment( alignmentMobile ) : false,
 		} ];
