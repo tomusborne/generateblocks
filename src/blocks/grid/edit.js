@@ -337,6 +337,8 @@ class GenerateBlockGridContainer extends Component {
 											paddingRight: generateBlocksStyling.container.gridItemPaddingRight || '',
 											paddingBottom: generateBlocksStyling.container.gridItemPaddingBottom || '',
 											paddingLeft: generateBlocksStyling.container.gridItemPaddingLeft || '',
+											width: 50,
+											widthMobile: 100,
 										} ),
 										undefined,
 										clientId
