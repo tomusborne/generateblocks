@@ -2498,8 +2498,8 @@ class GenerateBlockContainer extends Component {
 							templateLock={ false }
 							renderAppender={
 								( ! hasChildBlocks || this.props.isSelected ? () =>
-									<div className="gblocks-container-appender"><InnerBlocks.ButtonBlockAppender /></div> :
-									false
+									<div className="gblocks-container-appender"><InnerBlocks.ButtonBlockAppender /></div>
+									: false
 								)
 							}
 						/>
