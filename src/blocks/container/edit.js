@@ -2496,7 +2496,12 @@ class GenerateBlockContainer extends Component {
 						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 						<InnerBlocks
 							templateLock={ false }
-							renderAppender={ ( ! hasChildBlocks || this.props.isSelected ? () => <div className="gblocks-container-appender"><InnerBlocks.ButtonBlockAppender /></div> : undefined ) }
+							renderAppender={
+								( ! hasChildBlocks || this.props.isSelected ? () =>
+									<div className="gblocks-container-appender"><InnerBlocks.ButtonBlockAppender /></div>
+									: false
+								)
+							}
 						/>
 					</div>
 
