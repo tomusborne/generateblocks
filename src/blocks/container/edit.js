@@ -634,7 +634,7 @@ class GenerateBlockContainer extends Component {
 											value={ hasNumericValue( width ) ? width : '' }
 											onChange={ ( value ) => {
 												// No zero value or values that start with zero.
-												if ( value.startsWith( 0 ) ) {
+												if ( String( value ).startsWith( 0 ) ) {
 													value = '';
 												}
 
@@ -847,7 +847,7 @@ class GenerateBlockContainer extends Component {
 												value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
 												onChange={ ( value ) => {
 													// No zero value or values that start with zero.
-													if ( value.startsWith( 0 ) ) {
+													if ( String( value ).startsWith( 0 ) ) {
 														value = '';
 													}
 
@@ -1061,7 +1061,7 @@ class GenerateBlockContainer extends Component {
 												value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
 												onChange={ ( value ) => {
 													// No zero value or values that start with zero.
-													if ( value.startsWith( 0 ) ) {
+													if ( String( value ).startsWith( 0 ) ) {
 														value = '';
 													}
 
