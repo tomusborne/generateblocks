@@ -129,6 +129,18 @@ class GenerateBlocks_Render_Block {
 		}
 
 		$tagName = apply_filters( 'generateblocks_container_tagname', $settings['tagName'], $attributes );
+		$allowedTagNames = apply_filters( 'generateblocks_container_allowed_tagnames', array(
+			'div',
+			'section',
+			'header',
+			'footer',
+			'aside',
+			'a',
+		), $attributes );
+
+		if ( ! in_array( $tagName, $allowedTagNames ) ) {
+			$tagName = 'div';
+		}
 
 		$output .= sprintf(
 			'<%1$s %2$s>',
