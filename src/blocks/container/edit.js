@@ -303,13 +303,15 @@ class GenerateBlockContainer extends Component {
 				{ label: 'section', value: 'section' },
 				{ label: 'header', value: 'header' },
 				{ label: 'footer', value: 'footer' },
-				{ label: 'aside', value: 'aside' }
+				{ label: 'aside', value: 'aside' },
 			],
 			this.props,
 			this.state
 		);
 
-		const filterTagName = ( tagName ) => tagNames.map( tag => tag.value ).includes( tagName ) ? tagName : 'div';
+		const filterTagName = ( tagValue ) => tagNames
+			.map( ( tag ) => tag.value )
+			.includes( tagValue ) ? tagValue : 'div';
 
 		let googleFontsAttr = '';
 
