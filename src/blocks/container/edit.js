@@ -309,8 +309,20 @@ class GenerateBlockContainer extends Component {
 			this.state
 		);
 
-		const filterTagName = ( tagValue ) => tagNames
-			.map( ( tag ) => tag.value )
+		const allowedTagNames = applyFilters(
+			'generateblocks.editor.allowedContainerTagNames',
+			[
+				'div',
+				'section',
+				'header',
+				'footer',
+				'aside',
+				'a',
+			]
+		);
+
+		const filterTagName = ( tagValue ) => allowedTagNames
+			.map( ( tag ) => tag )
 			.includes( tagValue ) ? tagValue : 'div';
 
 		let googleFontsAttr = '';
