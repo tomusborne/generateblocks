@@ -296,13 +296,22 @@ class GenerateBlockContainer extends Component {
 			attributes.bgOptions.opacity = 1;
 		}
 
-		const tagNames = [
-			{ label: 'div', value: 'div' },
-			{ label: 'section', value: 'section' },
-			{ label: 'header', value: 'header' },
-			{ label: 'footer', value: 'footer' },
-			{ label: 'aside', value: 'aside' },
-		];
+		const tagNames = applyFilters(
+			'generateblocks.editor.containerTagNames',
+			[
+				{ label: 'div', value: 'div' },
+				{ label: 'section', value: 'section' },
+				{ label: 'header', value: 'header' },
+				{ label: 'footer', value: 'footer' },
+				{ label: 'aside', value: 'aside' },
+			],
+			this.props,
+			this.state
+		);
+
+		const filterTagName = ( tagValue ) => tagNames
+			.map( ( tag ) => tag.value )
+			.includes( tagValue ) ? tagValue : 'div';
 
 		let googleFontsAttr = '';
 
@@ -564,10 +573,10 @@ class GenerateBlockContainer extends Component {
 									<SelectControl
 										label={ __( 'Tag Name', 'generateblocks' ) }
 										value={ tagName }
-										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
+										options={ tagNames }
 										onChange={ ( value ) => {
 											setAttributes( {
-												tagName: value,
+												tagName: filterTagName( value ),
 											} );
 										} }
 									/>
@@ -793,10 +802,10 @@ class GenerateBlockContainer extends Component {
 									<SelectControl
 										label={ __( 'Tag Name', 'generateblocks' ) }
 										value={ tagName }
-										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
+										options={ tagNames }
 										onChange={ ( value ) => {
 											setAttributes( {
-												tagName: value,
+												tagName: filterTagName( value ),
 											} );
 										} }
 									/>
@@ -2484,7 +2493,7 @@ class GenerateBlockContainer extends Component {
 				}
 
 				<Element
-					tagName={ applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) }
+					tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
 					htmlAttrs={ htmlAttributes }
 				>
 					{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
