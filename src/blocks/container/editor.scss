@@ -255,10 +255,6 @@ body .gb-container .wp-block {
 }
 
 .gb-container-empty {
-	text-align: center;
-	display: flex;
-	align-items: center;
-	justify-content: center;
 	padding: 5px;
 	position: relative;
 	cursor: pointer;
@@ -292,25 +288,31 @@ body .gb-container .wp-block {
 	}
 }
 
-.gblocks-container-appender {
-	display: flex;
-	align-items: center;
-	padding: 5px 0;
+.gb-container {
+	.block-editor-block-list__layout {
+		.block-list-appender {
+			margin: 0;
 
-	.components-button.block-editor-button-block-appender {
-		height: 25px;
-		width: 25px;
-		padding: 0;
-		background: #000;
-		color: #fff;
-		box-shadow: unset;
-
-		&:active {
-			color: #fff;
+			&:not(:first-child):not(:empty) {
+				margin-top: 10px;
+			}
 		}
 	}
 }
 
-.gb-container .block-list-appender {
-	margin-top: 0;
+.gblocks-container-selector {
+	width: 100%;
+	display: block;
+	text-align: left;
+
+	svg {
+		transform: scale(0.8);
+		position: relative;
+		top: 2px;
+		opacity: 0.2;
+
+		path {
+			fill: currentColor;
+		}
+	}
 }
