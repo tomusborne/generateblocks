@@ -103,6 +103,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Add new block on Enter key in Headline block
 * Fix: Responsive border-radius when using pseudo backgrounds
 * Fix: Buttons alignment in the editor
+* Fix: Container tag name accepting any value
 
 = 1.3.5 =
 * Fix: Error saving classic widgets in Customizer
