@@ -2515,12 +2515,24 @@ class GenerateBlockContainer extends Component {
 						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 						<InnerBlocks
 							templateLock={ false }
-							renderAppender={
-								( ! hasChildBlocks || this.props.isSelected ? () =>
-									<div className="gblocks-container-appender"><InnerBlocks.ButtonBlockAppender /></div>
-									: false
-								)
-							}
+							renderAppender={ () => {
+								// Selected Container.
+								if ( this.props.isSelected ) {
+									return <InnerBlocks.ButtonBlockAppender />;
+								}
+
+								// Empty non-selected Container.
+								if ( ! hasChildBlocks && ! this.props.isSelected ) {
+									return <Button
+										className="gblocks-container-selector"
+										onClick={ () => wp.data.dispatch( 'core/block-editor' ).selectBlock( clientId ) }
+										aria-label={ __( 'Select Container', 'generateblocks' ) }
+										icon={ getIcon( 'container' ) }
+									/>;
+								}
+
+								return false;
+							} }
 						/>
 					</div>
 

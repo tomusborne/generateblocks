@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import tinycolor from 'tinycolor2';
 import buildCSS from '../../../utils/build-css';
 import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
@@ -350,6 +351,26 @@ export default class MainCSS extends Component {
 					} );
 				}
 			} );
+		}
+
+		const backgroundColorIsDark = backgroundColor ? tinycolor( backgroundColor ).isDark() : false;
+		const textColorIsDark = textColor ? tinycolor( textColor ).isDark() : false;
+
+		const appenderSelectors = [
+			'.gb-container-' + uniqueId + ' > .gb-inside-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender .block-editor-button-block-appender',
+			'.gb-container-' + uniqueId + ' > .gb-inside-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender .block-editor-button-block-appender:active',
+			'.gb-container-' + uniqueId + ' > .gb-inside-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender .block-editor-button-block-appender:focus',
+		];
+
+		if ( backgroundColorIsDark || textColorIsDark ) {
+			cssObj[ appenderSelectors.join( ',' ) ] = [ {
+				color: '#fff',
+				'box-shadow': 'inset 0 0 0 1px #fff',
+			} ];
+
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender .gblocks-container-selector svg path' ] = [ {
+				fill: '#fff',
+			} ];
 		}
 
 		cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, this.props, 'container' );

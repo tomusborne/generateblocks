@@ -39,7 +39,8 @@
 		"grunt-contrib-compress": "^2.0.0",
 		"grunt-contrib-copy": "^1.0.0",
 		"jest": "^27.0.6",
-		"request": "^2.88.2"
+		"request": "^2.88.2",
+		"tinycolor2": "^1.4.2"
 	},
 	"scripts": {
 		"build": "wp-scripts build src/blocks.js src/dashboard.js --output-path=dist",
