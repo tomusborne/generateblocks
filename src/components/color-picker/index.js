@@ -147,7 +147,10 @@ export default class GenerateBlocksColorPicker extends Component {
 										className="components-color-clear-color"
 										onClick={ () => {
 											onChange( '' );
-											onOpacityChange( 1 );
+
+											if ( alpha && 1 !== valueOpacity ) {
+												onOpacityChange( 1 );
+											}
 
 											this.setState( {
 												colorKey: false,
