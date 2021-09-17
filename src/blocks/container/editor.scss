@@ -267,17 +267,19 @@ body .gb-container .wp-block {
 			right: 0.5px;
 			bottom: 0.5px;
 			left: 0.5px;
-			border: 1px dashed rgba(0,0,0,0.1);
-			transition: border-color 500ms ease;
+			border: 1px dashed;
+			border-color: inherit;
+			opacity: 0.1;
+			transition: opacity 500ms ease;
 		}
 
 		&:hover:before {
-			border-color: rgba(0,0,0,0.2);
+			opacity: 0.2;
 		}
 
 		&__selected {
 			&:before {
-				border-color: rgba(0,0,0,0.2);
+				opacity: 0.2;
 				cursor: unset;
 			}
 		}
@@ -300,10 +302,11 @@ body .gb-container .wp-block {
 	}
 }
 
-.gblocks-container-selector {
+.components-button.gblocks-container-selector {
 	width: 100%;
 	display: block;
 	text-align: left;
+	color: inherit;
 
 	svg {
 		transform: scale(0.8);
@@ -314,5 +317,17 @@ body .gb-container .wp-block {
 		path {
 			fill: currentColor;
 		}
+	}
+}
+
+.gb-container > .gb-inside-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender .block-editor-button-block-appender {
+	background: rgba(255, 255, 255, 0.9);
+	color: #000;
+	transition: background-color 200ms ease;
+
+	&:hover,
+	&:active,
+	&:focus {
+		background: #fff;
 	}
 }
