@@ -348,7 +348,7 @@ function generateblocks_get_google_fonts_uri() {
 		)
 	);
 
-	return add_query_arg( $font_args, '//fonts.googleapis.com/css' );
+	return add_query_arg( $font_args, 'https://fonts.googleapis.com/css' );
 }
 
 /**
