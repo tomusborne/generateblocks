@@ -60,6 +60,10 @@ export default class GenerateBlocksColorPicker extends Component {
 			}
 		};
 
+		const isHex = ( hex ) => {
+			return /^([0-9A-F]{3}){1,2}$/i.test( hex );
+		};
+
 		return (
 			<BaseControl
 				className="gblocks-component-color-picker-wrapper"
@@ -132,6 +136,10 @@ export default class GenerateBlocksColorPicker extends Component {
 										type={ 'text' }
 										value={ value || '' }
 										onChange={ ( color ) => {
+											if ( ! color.startsWith( '#' ) && isHex( color ) ) {
+												color = '#' + color;
+											}
+
 											onChange( color );
 										} }
 										onBlur={ () => {
