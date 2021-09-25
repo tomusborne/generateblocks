@@ -19,7 +19,6 @@ import PanelArea from '../../components/panel-area/';
 import Element from '../../components/element';
 import './markformat';
 import HeadingLevelIcon from './element-icons';
-import getAllUniqueIds from '../../utils/get-all-unique-ids';
 
 import {
 	__,
@@ -86,16 +85,6 @@ class GenerateBlockHeadline extends Component {
 	}
 
 	componentDidMount() {
-		// Generate a unique ID if none exists or if the same ID exists on this page.
-		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
-		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
-
-		if ( ! this.props.attributes.uniqueId || uniqueIds.includes( this.props.attributes.uniqueId ) ) {
-			this.props.setAttributes( {
-				uniqueId: this.props.clientId.substr( 2, 9 ).replace( '-', '' ),
-			} );
-		}
-
 		const tempFontSizePlaceholder = this.getFontSizePlaceholder();
 
 		if ( tempFontSizePlaceholder !== this.state.fontSizePlaceholder ) {
