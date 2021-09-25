@@ -12,7 +12,6 @@ import TabletCSS from './css/tablet.js';
 import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import PanelArea from '../../components/panel-area/';
-import getAllUniqueIds from '../../utils/get-all-unique-ids';
 
 import {
 	__,
@@ -96,16 +95,6 @@ class GenerateButtonContainer extends Component {
 	}
 
 	componentDidMount() {
-		// Generate a unique ID if none exists or if the same ID exists on this page.
-		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
-		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
-
-		if ( ! this.props.attributes.uniqueId || uniqueIds.includes( this.props.attributes.uniqueId ) ) {
-			this.props.setAttributes( {
-				uniqueId: this.props.clientId.substr( 2, 9 ).replace( '-', '' ),
-			} );
-		}
-
 		const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( this.props.clientId )[ 0 ];
 
 		if ( thisBlock ) {
