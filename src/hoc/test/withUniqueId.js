@@ -13,25 +13,25 @@ describe( 'withUniqueId HOC', () => {
 				name: 'notGB/block',
 				clientId: '71442354-877f-4b1b-ac8a-8a8569c42cde',
 				attributes: {
-					uniqueId: '44235487'
+					uniqueId: '44235487',
 				},
 				setAttributes: setAttributesMock,
-				innerBlocks: []
+				innerBlocks: [],
 			},
 			{
 				name: 'generateblocks/block',
 				clientId: 'b778e621-2186-4464-a301-8c0603c77e87',
 				attributes: {
-					uniqueId: '78e62121'
+					uniqueId: '78e62121',
 				},
 				setAttributes: setAttributesMock,
-				innerBlocks: []
+				innerBlocks: [],
 			},
 			{
 				name: 'generateblocks/block',
 				clientId: '71442354-877f-4b1b-ac8a-8a8569c42cde',
 				attributes: {
-					uniqueId: '44235487'
+					uniqueId: '44235487',
 				},
 				setAttributes: setAttributesMock,
 				innerBlocks: [
@@ -39,7 +39,7 @@ describe( 'withUniqueId HOC', () => {
 						name: 'generateblocks/block',
 						clientId: 'e440631f-af99-48e5-a3aa-073be4fbcff8',
 						attributes: {
-							uniqueId: '40631faf'
+							uniqueId: '40631faf',
 						},
 						setAttributes: setAttributesMock,
 						innerBlocks: [
@@ -47,23 +47,23 @@ describe( 'withUniqueId HOC', () => {
 								name: 'generateblocks/block',
 								clientId: 'd9930069-7118-463c-9720-3359c922c58c',
 								attributes: {
-									uniqueId: '93006971'
+									uniqueId: '93006971',
 								},
 								setAttributes: setAttributesMock,
-								innerBlocks: []
+								innerBlocks: [],
 							},
 							{
 								name: 'generateblocks/block',
 								clientId: 'd9930069-7118-463c-9720-3359c922c58c',
 								attributes: {
-									uniqueId: '93006971'
+									uniqueId: '93006971',
 								},
 								setAttributes: setAttributesMock,
-								innerBlocks: []
+								innerBlocks: [],
 							},
-						]
+						],
 					},
-				]
+				],
 			},
 		] );
 	} );
@@ -94,13 +94,10 @@ describe( 'withUniqueId HOC', () => {
 			expect( hasDuplicates( [ 'a', 'b', 'c', 'd', 'c' ], 'c' ) ).toBeTruthy();
 			expect( hasDuplicates( [ 'a', 'b', 'c', 'ab' ], 'ab' ) ).toBeFalsy();
 			expect( hasDuplicates( [ 'a', 'b', 'c' ], 'ab' ) ).toBeFalsy();
-			expect( hasDuplicates( [
-				'78e62121',
-				'44235487',
-				'40631faf',
-				'93006971',
-				'93006971'
-				], '93006971' ) ).toBeTruthy();
+
+			const uniqueIds = [ '78e62121', '44235487', '40631faf', '93006971', '93006971' ];
+
+			expect( hasDuplicates( uniqueIds, '93006971' ) ).toBeTruthy();
 		} );
 	} );
 
