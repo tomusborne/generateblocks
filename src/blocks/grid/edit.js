@@ -139,10 +139,7 @@ const GridEdit = ( props ) => {
 			<div { ...htmlAttributes }>
 				{ attributes.columns || selectedLayout
 					? <InnerBlocks allowedBlocks={ [ 'generateblocks/container' ] } renderAppender={ false } />
-					: <LayoutSelector
-						uniqueId={ attributes.uniqueId }
-						onClick={ setSelectedLayout }
-					/>
+					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
 				}
 			</div>
 		</Fragment>
