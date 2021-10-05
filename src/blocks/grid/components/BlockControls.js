@@ -1,10 +1,13 @@
 import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import getIcon from '../../../utils/get-icon';
-import {__} from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
+import { useDispatch } from '@wordpress/data';
 
-export default ( { uniqueId, clientId,  } ) => {
+export default ( { uniqueId, clientId } ) => {
+	const { insertBlocks } = useDispatch( 'core/block-editor' );
+
 	return (
 		<BlockControls>
 			<ToolbarGroup>
@@ -13,7 +16,7 @@ export default ( { uniqueId, clientId,  } ) => {
 					icon={ getIcon( 'addContainer' ) }
 					label={ __( 'Add Grid Item', 'generateblocks' ) }
 					onClick={ () => {
-						wp.data.dispatch( 'core/block-editor' ).insertBlocks(
+						insertBlocks(
 							createBlock( 'generateblocks/container', {
 								isGrid: true,
 								gridId: uniqueId,
