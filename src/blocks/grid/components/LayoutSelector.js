@@ -5,7 +5,7 @@ import classnames from 'classnames';
 /**
  * Get columns sizes array from layout string
  *
- * @param {string} layout The layout string. Example: `3-6-3`
+ * @param {string} layout   The layout string. Example: `3-6-3`
  * @param {string} uniqueId The grid block uniqueId attribute
  * @return {Array} The columns attributes
  */
@@ -29,7 +29,7 @@ export const getColumnsFromLayout = ( layout, uniqueId ) => {
 		widthMobile: 100,
 		width: Number( col ),
 	} ) );
-}
+};
 
 export default ( { uniqueId, onClick } ) => {
 	const layouts = [
