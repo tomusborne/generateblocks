@@ -2527,8 +2527,11 @@ class GenerateBlockContainer extends Component {
 										className="gblocks-container-selector"
 										onClick={ () => wp.data.dispatch( 'core/block-editor' ).selectBlock( clientId ) }
 										aria-label={ __( 'Select Container', 'generateblocks' ) }
-										icon={ getIcon( 'container' ) }
-									/>;
+									>
+										<span className="gblocks-container-selector__icon">
+											{ getIcon( 'container' ) }
+										</span>
+									</Button>;
 								}
 
 								return false;
