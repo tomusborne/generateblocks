@@ -257,7 +257,6 @@ body .gb-container .wp-block {
 .gb-container-empty {
 	padding: 5px;
 	position: relative;
-	cursor: pointer;
 
 	&.gb-container-visual-guides {
 		&:before {
@@ -276,17 +275,6 @@ body .gb-container .wp-block {
 		&:hover:before {
 			opacity: 0.3;
 		}
-
-		&__selected {
-			&:before {
-				opacity: 0.3;
-				cursor: unset;
-			}
-		}
-	}
-
-	&__selected {
-		cursor: unset;
 	}
 }
 

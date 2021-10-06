@@ -446,9 +446,7 @@ class GenerateBlockContainer extends Component {
 				[ `gb-container-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
 				'gb-container-empty': ! hasChildBlocks,
-				'gb-container-empty__selected': ! hasChildBlocks && this.props.isSelected,
 				'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling,
-				'gb-container-visual-guides__selected': ! hasChildBlocks && ! hasStyling && this.props.isSelected,
 			} ),
 			id: anchor ? anchor : null,
 		};
