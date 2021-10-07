@@ -57,7 +57,6 @@ function generateblocks_do_block_editor_assets() {
 		array(
 			'isGeneratePress' => defined( 'GENERATE_VERSION' ),
 			'hasCustomFields' => post_type_supports( get_post_type(), 'custom-fields' ),
-			'hasWideAlignSupport' => current_theme_supports( 'align-wide' ),
 			'imageSizes' => $image_sizes,
 			'svgShapes' => generateblocks_get_svg_shapes(),
 			'syncResponsivePreviews' => generateblocks_get_option( 'sync_responsive_previews' ),

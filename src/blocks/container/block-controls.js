@@ -31,9 +31,9 @@ import {
 
 import {
 	cloneBlock,
+	getBlockSupport,
 } from '@wordpress/blocks';
 
-const hasWideAlignSupport = generateBlocksInfo.hasWideAlignSupport;
 const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
 
 /**
@@ -44,10 +44,12 @@ const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
  */
 const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
+		if ( 'generateblocks/container' !== props.name ) {
+			return <BlockEdit { ...props } />;
+		}
+
 		const {
-			name,
 			attributes,
-			isSelected,
 			clientId,
 			setAttributes,
 		} = props;
@@ -65,9 +67,15 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 			parentGridId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
 		}
 
+		/**
+		 * We don't define "align" support in block registration as we don't want it enabled for grid items.
+		 * This allows us to enable support for regular non-grid item Containers.
+		 */
+		const hasAlignmentSupport = getBlockSupport( '', 'align', true ) && ! isGrid;
+
 		return (
 			<Fragment>
-				{ isSelected && isGrid && parentGridId && 'generateblocks/container' === name &&
+				{ isGrid && parentGridId &&
 					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton
@@ -92,7 +100,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 					</BlockControls>
 				}
 
-				{ isSelected && hasWideAlignSupport && ! isGrid && 'generateblocks/container' === name &&
+				{ hasAlignmentSupport &&
 					<BlockControls>
 						<BlockAlignmentToolbar
 							value={ align }
@@ -123,4 +131,3 @@ addFilter(
 	'generateblocks/container-block-controls',
 	withAdvancedControls
 );
-
