@@ -15,22 +15,26 @@ import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 import withUniqueId from '../../hoc/withUniqueId';
 import { compose } from '@wordpress/compose';
-import useDeviceType from '../../hooks/useDeviceType';
+import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 
 const GridEdit = ( props ) => {
 	const {
+		clientId,
 		attributes,
 		setAttributes,
 	} = props;
 
 	const [ selectedLayout, setSelectedLayout ] = useState( false );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const innerBlocksCount = useInnerBlocksCount( clientId );
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 
-	const getBlocksByClientId = useSelect( ( select ) => {
-		return select( 'core/block-editor' ).getBlocksByClientId;
-	} );
+	useEffect( () => {
+		setAttributes( {
+			columns: innerBlocksCount,
+		} );
+	}, [ innerBlocksCount ] );
 
 	useEffect( () => {
 		if ( ! attributes.isDynamic ) {
@@ -78,14 +82,6 @@ const GridEdit = ( props ) => {
 			} );
 
 			setSelectedLayout( false );
-		} else {
-			const parentBlock = getBlocksByClientId( props.clientId )[ 0 ];
-
-			if ( parentBlock ) {
-				setAttributes( {
-					columns: parentBlock.innerBlocks.length,
-				} );
-			}
 		}
 	}, [ selectedLayout, attributes.uniqueId, props.clientId ] );
 
