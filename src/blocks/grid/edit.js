@@ -13,6 +13,9 @@ import MainCSS from './css/main';
 import ComponentCSS from './components/ComponentCSS';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
+import withUniqueId from '../../hoc/withUniqueId';
+import { compose } from '@wordpress/compose';
+import useDeviceType from '../../hooks/useDeviceType';
 
 const GridEdit = ( props ) => {
 	const {
@@ -20,24 +23,14 @@ const GridEdit = ( props ) => {
 		setAttributes,
 	} = props;
 
-	const {
-		__experimentalSetPreviewDeviceType: setPreviewDeviceType = () => {},
-	} = useDispatch( 'core/edit-post' );
-
-	const previewDeviceType = useSelect( ( select ) => {
-		const editPost = select( 'core/edit-post' );
-
-		return editPost.__experimentalGetPreviewDeviceType ? editPost.__experimentalGetPreviewDeviceType() : false;
-	}, [] );
+	const [ selectedLayout, setSelectedLayout ] = useState( false );
+	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 
 	const getBlocksByClientId = useSelect( ( select ) => {
 		return select( 'core/block-editor' ).getBlocksByClientId;
 	} );
-
-	const [ selectedLayout, setSelectedLayout ] = useState( false );
-	const [ selectedDevice, setSelectedDevice ] = useState( previewDeviceType || 'Desktop' );
 
 	useEffect( () => {
 		if ( ! attributes.isDynamic ) {
@@ -96,12 +89,6 @@ const GridEdit = ( props ) => {
 		}
 	}, [ selectedLayout, attributes.uniqueId, props.clientId ] );
 
-	useEffect( () => {
-		if ( generateBlocksInfo.syncResponsivePreviews ) {
-			setPreviewDeviceType( selectedDevice );
-		}
-	}, [ selectedDevice ] );
-
 	let htmlAttributes = {
 		className: classnames( {
 			'gb-grid-wrapper': true,
@@ -121,9 +108,9 @@ const GridEdit = ( props ) => {
 
 			<InspectorControls
 				{ ...props }
-				state={ { selectedLayout, selectedDevice } }
-				deviceType={ selectedDevice }
-				setDeviceType={ setSelectedDevice }
+				state={ { selectedLayout, deviceType } }
+				deviceType={ deviceType }
+				setDeviceType={ setDeviceType }
 				blockDefaults={ generateBlocksDefaults.gridContainer }
 			/>
 
@@ -134,7 +121,7 @@ const GridEdit = ( props ) => {
 
 			<MainCSS { ...props } />
 
-			<ComponentCSS { ...props } deviceType={ selectedDevice } />
+			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<div { ...htmlAttributes }>
 				{ attributes.columns || selectedLayout
@@ -146,4 +133,4 @@ const GridEdit = ( props ) => {
 	);
 };
 
-export default GridEdit;
+export default compose( withUniqueId )( GridEdit );

@@ -20,7 +20,6 @@ import {
 import {
 	InnerBlocks,
 } from '@wordpress/block-editor';
-import withUniqueId from '../../hoc/withUniqueId';
 
 /**
  * Register our Grid block.
@@ -44,7 +43,7 @@ registerBlockType( 'generateblocks/grid', {
 	supports: {
 		className: false,
 	},
-	edit: withUniqueId( editGridContainer ),
+	edit: editGridContainer,
 	save: () => {
 		return (
 			<InnerBlocks.Content />
