@@ -105,6 +105,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Responsive border-radius when using pseudo backgrounds
 * Fix: Buttons alignment in the editor
 * Fix: Container tag name accepting any value
+* Fix: Missing align wide/full options when using block themes
 
 = 1.3.5 =
 * Fix: Error saving classic widgets in Customizer
