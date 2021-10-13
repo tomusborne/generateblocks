@@ -13,6 +13,7 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
+import withQueryLoop from './hoc/withQueryLoop';
 
 const GridEdit = ( props ) => {
 	const {
@@ -20,6 +21,8 @@ const GridEdit = ( props ) => {
 		attributes,
 		setAttributes,
 		InnerBlocksRenderer = InnerBlocks,
+		defaultLayout = false,
+		templateLock = false,
 	} = props;
 
 	const [ selectedLayout, setSelectedLayout ] = useState( false );
@@ -33,6 +36,10 @@ const GridEdit = ( props ) => {
 			columns: innerBlocksCount,
 		} );
 	}, [ innerBlocksCount ] );
+
+	useEffect( () => {
+		setSelectedLayout( defaultLayout );
+	}, [ defaultLayout ] );
 
 	useEffect( () => {
 		if ( selectedLayout ) {
@@ -64,7 +71,7 @@ const GridEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			{ ( attributes.columns > 0 || selectedLayout ) &&
+			{ ( ! attributes.isQueryLoop || attributes.columns > 0 || selectedLayout ) &&
 				<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
 			}
 
@@ -86,8 +93,14 @@ const GridEdit = ( props ) => {
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<div { ...htmlAttributes }>
-				{ ( attributes.columns > 0 || selectedLayout )
-					? <InnerBlocksRenderer allowedBlocks={ [ 'generateblocks/container' ] } renderAppender={ false } />
+				{ ( attributes.isQueryLoop || attributes.columns > 0 || selectedLayout )
+					? <InnerBlocksRenderer
+						templateLock={ templateLock }
+						allowedBlocks={ [ 'generateblocks/container' ] }
+						renderAppender={ false }
+						clientId={ clientId }
+						uniqueId={ attributes.uniqueId }
+					/>
 					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
 				}
 			</div>
@@ -96,6 +109,7 @@ const GridEdit = ( props ) => {
 };
 
 export default compose(
+	withQueryLoop,
 	withUniqueId,
 	withGridLegacyMigration,
 )( GridEdit );
