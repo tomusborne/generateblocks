@@ -46,10 +46,6 @@ const GridEdit = ( props ) => {
 				);
 			} );
 
-			setAttributes( {
-				columns: columnsData.length,
-			} );
-
 			setSelectedLayout( false );
 		}
 	}, [ selectedLayout, attributes.uniqueId, props.clientId ] );
@@ -68,7 +64,7 @@ const GridEdit = ( props ) => {
 	return (
 		<Fragment>
 			{ ( attributes.columns > 0 || selectedLayout ) &&
-			<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
+				<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
 			}
 
 			<InspectorControls
@@ -89,7 +85,7 @@ const GridEdit = ( props ) => {
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<div { ...htmlAttributes }>
-				{ attributes.columns || selectedLayout
+				{ ( attributes.columns > 0 || selectedLayout )
 					? <InnerBlocks allowedBlocks={ [ 'generateblocks/container' ] } renderAppender={ false } />
 					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
 				}
