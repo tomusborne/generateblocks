@@ -66,6 +66,10 @@
 	  margin-right: 0;
 	}
   }
+
+  [data-type="generateblocks/container"] + .block-list-appender {
+	  display: none;
+  }
 }
 
 .wp-block.gb-col {
