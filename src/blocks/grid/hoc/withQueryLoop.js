@@ -6,8 +6,8 @@ import QueryLoopRenderer from '../components/QueryLoopRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
-		const { setAttributes } = props;
-		const [ isQueryLoop, setIsQueryLoop ] = useState( false );
+		const { attributes, setAttributes } = props;
+		const [ isQueryLoop, setIsQueryLoop ] = useState( attributes.isQueryLoop );
 
 		useEffect( () => {
 			setAttributes( { isQueryLoop } );
