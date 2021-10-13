@@ -23,6 +23,8 @@ export default class MainCSS extends Component {
 
 		let cssObj = [];
 
+		const gridSelector = this.props.isQueryLoop ? '.gb-grid-wrapper-' + uniqueId : '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
+
 		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'align-items': verticalAlignment,
 			'justify-content': horizontalAlignment,
@@ -30,7 +32,7 @@ export default class MainCSS extends Component {
 			'margin-right': '-' + ( horizontalGap / 2 ) + 'px',
 		} ];
 
-		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block' ] = [ {
+		cssObj[ gridSelector + ' > .wp-block' ] = [ {
 			'padding-left': ( horizontalGap / 2 ) + 'px',
 			'padding-right': ( horizontalGap / 2 ) + 'px',
 			'margin-bottom': valueWithUnit( verticalGap, 'px' ),

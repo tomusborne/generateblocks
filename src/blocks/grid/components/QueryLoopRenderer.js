@@ -47,11 +47,13 @@ export default ( props ) => {
 						{ ...props }
 						template={ getTemplate( containerAttributes ) }
 					/>
-					: <BlockPreview
-						blocks={ innerBlocks }
-						__experimentalLive
-						__experimentalOnClick={ () => setActiveContext( postContext ) }
-					/>
+					: <div className={'block-editor-inner-blocks'}>
+						<BlockPreview
+							blocks={ innerBlocks }
+							__experimentalLive
+							__experimentalOnClick={ () => setActiveContext( postContext ) }
+						/>
+					</div>
 				}
 			</BlockContextProvider>
 		) ) );

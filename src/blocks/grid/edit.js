@@ -63,6 +63,7 @@ const GridEdit = ( props ) => {
 			'gb-grid-wrapper': true,
 			[ `gb-grid-wrapper-${ attributes.uniqueId }` ]: true,
 			[ `${ attributes.className }` ]: undefined !== attributes.className,
+			'gb-is-query-wrapper': attributes.isQueryLoop,
 		} ),
 		id: attributes.anchor ? attributes.anchor : null,
 	};
