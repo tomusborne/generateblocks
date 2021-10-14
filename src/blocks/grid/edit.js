@@ -42,7 +42,7 @@ const GridEdit = ( props ) => {
 	}, [ defaultLayout ] );
 
 	useEffect( () => {
-		if ( selectedLayout ) {
+		if ( ! attributes.isQueryLoop && selectedLayout ) {
 			const columnsData = getColumnsFromLayout( selectedLayout, attributes.uniqueId );
 
 			columnsData.forEach( ( colAttrs ) => {
@@ -56,7 +56,7 @@ const GridEdit = ( props ) => {
 
 			setSelectedLayout( false );
 		}
-	}, [ selectedLayout, attributes.uniqueId, props.clientId ] );
+	}, [ selectedLayout, attributes.uniqueId, props.clientId, attributes.isQueryLoop ] );
 
 	let htmlAttributes = {
 		className: classnames( {

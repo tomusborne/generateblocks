@@ -40,7 +40,7 @@ export default ( props ) => {
 
 	useEffect( () => {
 		if ( hasData && ! innerBlocks.length ) {
-			insertBlocks( getDefaultInnerBlock( uniqueId ), 0, clientId );
+			insertBlocks( getDefaultInnerBlock( uniqueId ), 0, clientId, false );
 			setTemplateLock( 'all' );
 		}
 	}, [ hasData, innerBlocks ] );
