@@ -70,6 +70,22 @@ export default class GenerateBlocksColorPicker extends Component {
 			return /^([0-9A-F]{3}){1,2}$/i.test( hex );
 		};
 
+		const getPaletteValue = ( colorValue ) => {
+			if ( colorValue.startsWith( 'var(' ) ) {
+				const variableName = colorValue.match( /\(([^)]+)\)/ );
+
+				if ( variableName ) {
+					const variableValue = getComputedStyle( document.documentElement ).getPropertyValue( variableName[ 1 ] );
+
+					if ( variableValue ) {
+						colorValue = variableValue;
+					}
+				}
+			}
+
+			return colorValue;
+		};
+
 		return (
 			<BaseControl
 				className="gblocks-component-color-picker-wrapper"
@@ -120,7 +136,7 @@ export default class GenerateBlocksColorPicker extends Component {
 							<BaseControl key={ colorKey }>
 								<ColorPicker
 									key={ colorKey }
-									color={ value ? value : '' }
+									color={ getPaletteValue( value ) || '' }
 									onChangeComplete={ ( color ) => {
 										let colorString;
 
