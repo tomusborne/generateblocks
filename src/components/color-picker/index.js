@@ -34,6 +34,12 @@ export default class GenerateBlocksColorPicker extends Component {
 		this.state = {
 			colorKey: false,
 		};
+
+		this.timer = null;
+	}
+
+	componentWillUnmount() {
+		clearTimeout( this.timer );
 	}
 
 	render() {
@@ -157,11 +163,20 @@ export default class GenerateBlocksColorPicker extends Component {
 											}
 
 											onChange( color );
-										} }
-										onBlur={ () => {
-											this.setState( {
-												colorKey: value,
-											} );
+
+											clearTimeout( this.timer );
+
+											this.timer = setTimeout( () => {
+												this.setState( {
+													colorKey: color,
+												} );
+
+												const input = document.querySelector( '.gblocks-color-input-wrapper input' );
+
+												if ( input ) {
+													input.focus();
+												}
+											}, 350 );
 										} }
 									/>
 
