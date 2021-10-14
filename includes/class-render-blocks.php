@@ -223,30 +223,7 @@ class GenerateBlocks_Render_Block {
 		if ( empty( $attributes['isQueryLoop'] ) ) {
 			$output .= $content;
 		} else {
-			$the_query = new WP_Query(
-				array(
-					'post_type' => 'post',
-					'posts_per_page' => 10,
-				)
-			);
-
-			if ( $the_query->have_posts() ) {
-				while ( $the_query->have_posts() ) {
-					$the_query->the_post();
-
-					$block_content = (
-						new WP_Block(
-							$block->parsed_block,
-							array(
-								'postType' => get_post_type(),
-								'postId'   => get_the_ID(),
-							)
-						)
-					)->render( array( 'dynamic' => false ) );
-
-					$output .= $block_content;
-				}
-			}
+			$output .= $this->do_query_loop_block( $attributes, $content, $block );
 		}
 
 		$output .= '</div>';
@@ -299,6 +276,43 @@ class GenerateBlocks_Render_Block {
 		$output .= '</div>';
 
 		return $output;
+	}
+
+	/**
+	 * Output the query.
+	 *
+	 * @param array  $attributes The block attributes.
+	 * @param string $content The inner blocks.
+	 * @param object $block The block data.
+	 */
+	public function do_query_loop_block( $attributes, $content, $block ) {
+		$the_query = new WP_Query(
+			array(
+				'post_type' => 'post',
+				'posts_per_page' => 10,
+			)
+		);
+
+		$content = '';
+		if ( $the_query->have_posts() ) {
+			while ( $the_query->have_posts() ) {
+				$the_query->the_post();
+
+				$block_content = (
+					new WP_Block(
+						$block->parsed_block,
+						array(
+							'postType' => get_post_type(),
+							'postId'   => get_the_ID(),
+						)
+					)
+				)->render( array( 'dynamic' => false ) );
+
+				$content .= $block_content;
+			}
+		}
+
+		return $content;
 	}
 }
 
