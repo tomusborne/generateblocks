@@ -1,19 +1,12 @@
-import { Fragment, useState, useEffect } from '@wordpress/element';
-import { InspectorControls } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
-import { ToggleControl } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
+import InspectorControls from '../components/query-loop/InspectorControls';
 import QueryLoopRenderer from '../components/QueryLoopRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
 		const { attributes, setAttributes } = props;
-		const [ isQueryLoop, setIsQueryLoop ] = useState( attributes.isQueryLoop );
 
-		useEffect( () => {
-			setAttributes( { isQueryLoop } );
-		}, [ isQueryLoop ] );
-
-		const newProps = isQueryLoop ? Object.assign( {}, props, {
+		const newProps = attributes.isQueryLoop ? Object.assign( {}, props, {
 			defaultLayout: '100',
 			templateLock: 'all',
 			InnerBlocksRenderer: QueryLoopRenderer,
@@ -21,14 +14,7 @@ export default ( WrappedComponent ) => {
 
 		return (
 			<Fragment>
-				<InspectorControls>
-					<ToggleControl
-						label={ __( 'Enable query loop', 'generateblocks' ) }
-						checked={ isQueryLoop }
-						onChange={ setIsQueryLoop }
-					/>
-				</InspectorControls>
-
+				<InspectorControls attributes={ attributes } setAttributes={ setAttributes } />
 				<WrappedComponent { ...newProps } />
 			</Fragment>
 		);
