@@ -72,7 +72,7 @@ const GridEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			{ ( ! attributes.isQueryLoop || attributes.columns > 0 || selectedLayout ) &&
+			{ ( ! attributes.isQueryLoop && ( attributes.columns > 0 || selectedLayout ) ) &&
 				<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
 			}
 

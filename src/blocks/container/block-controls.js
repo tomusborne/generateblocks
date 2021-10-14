@@ -54,6 +54,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const {
 			isGrid,
+			isQueryLoop,
 			align,
 		} = attributes;
 
@@ -67,7 +68,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		return (
 			<Fragment>
-				{ isSelected && isGrid && parentGridId && 'generateblocks/container' === name &&
+				{ ! isQueryLoop && isSelected && isGrid && parentGridId && 'generateblocks/container' === name &&
 					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton
