@@ -185,8 +185,9 @@ class GenerateBlocks_Render_Block {
 	 * @since 1.2.0
 	 * @param array  $attributes The block attributes.
 	 * @param string $content The inner blocks.
+	 * @param object $block The block data.
 	 */
-	public function do_grid_block( $attributes, $content ) {
+	public function do_grid_block( $attributes, $content, $block ) {
 		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
 			return $content;
 		}
@@ -219,7 +220,34 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		$output .= $content;
+		if ( empty( $attributes['isQueryLoop'] ) ) {
+			$output .= $content;
+		} else {
+			$the_query = new WP_Query(
+				array(
+					'post_type' => 'post',
+					'posts_per_page' => 10,
+				)
+			);
+
+			if ( $the_query->have_posts() ) {
+				while ( $the_query->have_posts() ) {
+					$the_query->the_post();
+
+					$block_content = (
+						new WP_Block(
+							$block->parsed_block,
+							array(
+								'postType' => get_post_type(),
+								'postId'   => get_the_ID(),
+							)
+						)
+					)->render( array( 'dynamic' => false ) );
+
+					$output .= $block_content;
+				}
+			}
+		}
 
 		$output .= '</div>';
 
