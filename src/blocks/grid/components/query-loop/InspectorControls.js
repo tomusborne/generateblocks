@@ -1,14 +1,17 @@
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { ToggleControl } from '@wordpress/components';
 import PanelArea from '../../../../components/panel-area';
 import { useEffect, useState } from '@wordpress/element';
+import { useDispatch } from '@wordpress/data';
 
-export default ( { attributes, setAttributes } ) => {
+export default ( { clientId, attributes, setAttributes } ) => {
 	const [ isQueryLoop, setIsQueryLoop ] = useState( attributes.isQueryLoop );
+	const { replaceInnerBlocks } = useDispatch( blockEditorStore );
 
 	useEffect( () => {
 		setAttributes( { isQueryLoop } );
+		replaceInnerBlocks( clientId, [] );
 	}, [ isQueryLoop ] );
 
 	return (

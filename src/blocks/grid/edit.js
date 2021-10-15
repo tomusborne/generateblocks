@@ -38,12 +38,10 @@ const GridEdit = ( props ) => {
 	}, [ innerBlocksCount ] );
 
 	useEffect( () => {
-		setSelectedLayout( defaultLayout );
-	}, [ defaultLayout ] );
+		const layout = defaultLayout || selectedLayout;
 
-	useEffect( () => {
-		if ( ! attributes.isQueryLoop && selectedLayout ) {
-			const columnsData = getColumnsFromLayout( selectedLayout, attributes.uniqueId );
+		if ( ! attributes.isQueryLoop && layout ) {
+			const columnsData = getColumnsFromLayout( layout, attributes.uniqueId );
 
 			columnsData.forEach( ( colAttrs ) => {
 				insertBlocks(
@@ -56,7 +54,13 @@ const GridEdit = ( props ) => {
 
 			setSelectedLayout( false );
 		}
-	}, [ selectedLayout, attributes.uniqueId, props.clientId, attributes.isQueryLoop ] );
+	}, [
+		selectedLayout,
+		defaultLayout,
+		attributes.uniqueId,
+		props.clientId,
+		attributes.isQueryLoop
+	] );
 
 	let htmlAttributes = {
 		className: classnames( {
