@@ -34,6 +34,12 @@ export default class GenerateBlocksColorPicker extends Component {
 		this.state = {
 			colorKey: false,
 		};
+
+		this.timer = null;
+	}
+
+	componentWillUnmount() {
+		clearTimeout( this.timer );
 	}
 
 	render() {
@@ -62,6 +68,22 @@ export default class GenerateBlocksColorPicker extends Component {
 
 		const isHex = ( hex ) => {
 			return /^([0-9A-F]{3}){1,2}$/i.test( hex );
+		};
+
+		const getPaletteValue = ( colorValue ) => {
+			if ( colorValue.startsWith( 'var(' ) ) {
+				const variableName = colorValue.match( /\(([^)]+)\)/ );
+
+				if ( variableName ) {
+					const variableValue = getComputedStyle( document.documentElement ).getPropertyValue( variableName[ 1 ] );
+
+					if ( variableValue ) {
+						colorValue = variableValue;
+					}
+				}
+			}
+
+			return colorValue;
 		};
 
 		return (
@@ -114,7 +136,7 @@ export default class GenerateBlocksColorPicker extends Component {
 							<BaseControl key={ colorKey }>
 								<ColorPicker
 									key={ colorKey }
-									color={ value ? value : '' }
+									color={ getPaletteValue( value ) || '' }
 									onChangeComplete={ ( color ) => {
 										let colorString;
 
@@ -141,11 +163,20 @@ export default class GenerateBlocksColorPicker extends Component {
 											}
 
 											onChange( color );
-										} }
-										onBlur={ () => {
-											this.setState( {
-												colorKey: value,
-											} );
+
+											clearTimeout( this.timer );
+
+											this.timer = setTimeout( () => {
+												this.setState( {
+													colorKey: color,
+												} );
+
+												const input = document.querySelector( '.gblocks-color-input-wrapper input' );
+
+												if ( input ) {
+													input.focus();
+												}
+											}, 350 );
 										} }
 									/>
 

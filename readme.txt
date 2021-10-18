@@ -101,9 +101,11 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Allow for no value in grid item width field
 * Tweak: Allow zero values for minHeight on devices
 * Tweak: Add new block on Enter key in Headline block
+* Tweak: Remove relative protocol from Google Fonts requests
 * Fix: Responsive border-radius when using pseudo backgrounds
 * Fix: Buttons alignment in the editor
 * Fix: Container tag name accepting any value
+* Fix: Missing align wide/full options when using block themes
 
 = 1.3.5 =
 * Fix: Error saving classic widgets in Customizer
