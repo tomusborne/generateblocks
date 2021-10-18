@@ -76,6 +76,7 @@ export default class MainCSS extends Component {
 			fontSizeUnit,
 			textTransform,
 			shapeDividers,
+			gridId,
 		} = attributes;
 
 		let containerWidthPreview = containerWidth;
@@ -249,7 +250,12 @@ export default class MainCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
+		const gridColumnWrappers = [
+			'.gb-grid-wrapper:not(.gb-is-query-wrapper) > div > .block-editor-block-list__layout > #block-' + clientId,
+			'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .block-editor-inner-blocks',
+		];
+
+		cssObj[ gridColumnWrappers.join( ',' ) ] = [ {
 			width: ! autoWidth ? valueWithUnit( width, '%' ) : false,
 			'flex-grow': flexGrow,
 			'flex-shrink': flexShrink,

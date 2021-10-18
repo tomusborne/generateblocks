@@ -1,6 +1,6 @@
 // Styles from core Columns block
 // https://github.com/WordPress/gutenberg/blob/master/blocks/library/columns/editor.scss
-.gb-grid-wrapper {
+.gb-grid-wrapper:not(.gb-is-query-wrapper) {
     position: relative;
     display: block;
     // These margins make sure that nested blocks stack/overlay with the parent block chrome
@@ -50,6 +50,50 @@
         right: 10px;
         left: auto;
     }
+}
+
+.gb-is-query-wrapper {
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
+	margin-right: -15px;
+	margin-left: -15px;
+
+	& > .block-editor-inner-blocks {
+		& > .block-editor-block-list__layout {
+			height: 100%;
+
+			& > .wp-block {
+				height: 100%;
+				margin-left: 0;
+				margin-right: 0;
+			}
+		}
+
+		/**
+		 * Need to go deep here for disabled duplicated containers.
+		*/
+		& > div {
+			height: 100%;
+
+			& > .components-disabled {
+				height: 100%;
+
+				& > .block-editor-block-list__layout {
+					height: 100%;
+
+					& > .wp-block {
+						height: 100%;
+					}
+				}
+			}
+		}
+	}
+
+	[data-type="generateblocks/container"] + .block-list-appender {
+		display: none;
+	}
 }
 
 .wp-block.gb-col {

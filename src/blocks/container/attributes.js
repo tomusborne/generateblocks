@@ -16,6 +16,9 @@ const attributes = {
 		type: 'string',
 		default: '',
 	},
+	isQueryLoop: {
+		type: 'boolean',
+	},
 	tagName: {
 		type: 'string',
 		default: generateBlocksDefaults.container.tagName,

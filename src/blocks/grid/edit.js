@@ -1,7 +1,4 @@
-import wasBlockJustInserted from '../../utils/was-block-just-inserted';
-import isBlockVersionLessThan from '../../utils/check-block-version';
-import hasNumericValue from '../../utils/has-numeric-value';
-import { useDispatch, useSelect } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import { InnerBlocks } from '@wordpress/block-editor';
 import LayoutSelector, { getColumnsFromLayout } from './components/LayoutSelector';
@@ -13,63 +10,38 @@ import MainCSS from './css/main';
 import ComponentCSS from './components/ComponentCSS';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
+import { compose } from '@wordpress/compose';
+import { useDeviceType, useInnerBlocksCount } from '../../hooks';
+import { withUniqueId, withGridLegacyMigration } from '../../hoc';
+import withQueryLoop from './hoc/withQueryLoop';
 
 const GridEdit = ( props ) => {
 	const {
+		clientId,
 		attributes,
 		setAttributes,
+		InnerBlocksRenderer = InnerBlocks,
+		defaultLayout = false,
+		templateLock = false,
 	} = props;
 
-	const {
-		__experimentalSetPreviewDeviceType: setPreviewDeviceType = () => {},
-	} = useDispatch( 'core/edit-post' );
-
-	const previewDeviceType = useSelect( ( select ) => {
-		const editPost = select( 'core/edit-post' );
-
-		return editPost.__experimentalGetPreviewDeviceType ? editPost.__experimentalGetPreviewDeviceType() : false;
-	}, [] );
+	const [ selectedLayout, setSelectedLayout ] = useState( false );
+	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const innerBlocksCount = useInnerBlocksCount( clientId );
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 
-	const getBlocksByClientId = useSelect( ( select ) => {
-		return select( 'core/block-editor' ).getBlocksByClientId;
-	} );
-
-	const [ selectedLayout, setSelectedLayout ] = useState( false );
-	const [ selectedDevice, setSelectedDevice ] = useState( previewDeviceType || 'Desktop' );
+	useEffect( () => {
+		setAttributes( {
+			columns: innerBlocksCount,
+		} );
+	}, [ innerBlocksCount ] );
 
 	useEffect( () => {
-		if ( ! attributes.isDynamic ) {
-			setAttributes( { isDynamic: true } );
-		}
+		const layout = defaultLayout || selectedLayout;
 
-		// Set our old defaults as static values.
-		// @since 1.4.0.
-		if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
-			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.gridContainer;
-
-			const newAttrs = {};
-
-			const hasGlobalStyle = attributes.useGlobalStyle && attributes.globalStyleId;
-
-			if ( ! hasGlobalStyle && ! hasNumericValue( attributes.horizontalGap ) ) {
-				newAttrs.horizontalGap = legacyDefaults.horizontalGap;
-			}
-
-			if ( Object.keys( newAttrs ).length > 0 ) {
-				setAttributes( newAttrs );
-			}
-		}
-
-		if ( isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
-			setAttributes( { blockVersion: 2 } );
-		}
-	}, [] );
-
-	useEffect( () => {
-		if ( selectedLayout ) {
-			const columnsData = getColumnsFromLayout( selectedLayout, attributes.uniqueId );
+		if ( ! attributes.isQueryLoop && layout ) {
+			const columnsData = getColumnsFromLayout( layout, attributes.uniqueId );
 
 			columnsData.forEach( ( colAttrs ) => {
 				insertBlocks(
@@ -80,33 +52,22 @@ const GridEdit = ( props ) => {
 				);
 			} );
 
-			setAttributes( {
-				columns: columnsData.length,
-			} );
-
 			setSelectedLayout( false );
-		} else {
-			const parentBlock = getBlocksByClientId( props.clientId )[ 0 ];
-
-			if ( parentBlock ) {
-				setAttributes( {
-					columns: parentBlock.innerBlocks.length,
-				} );
-			}
 		}
-	}, [ selectedLayout, attributes.uniqueId, props.clientId ] );
-
-	useEffect( () => {
-		if ( generateBlocksInfo.syncResponsivePreviews ) {
-			setPreviewDeviceType( selectedDevice );
-		}
-	}, [ selectedDevice ] );
+	}, [
+		selectedLayout,
+		defaultLayout,
+		attributes.uniqueId,
+		props.clientId,
+		attributes.isQueryLoop
+	] );
 
 	let htmlAttributes = {
 		className: classnames( {
 			'gb-grid-wrapper': true,
 			[ `gb-grid-wrapper-${ attributes.uniqueId }` ]: true,
 			[ `${ attributes.className }` ]: undefined !== attributes.className,
+			'gb-is-query-wrapper': attributes.isQueryLoop,
 		} ),
 		id: attributes.anchor ? attributes.anchor : null,
 	};
@@ -115,15 +76,15 @@ const GridEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			{ ( attributes.columns > 0 || selectedLayout ) &&
-			<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
+			{ ( ! attributes.isQueryLoop && ( attributes.columns > 0 || selectedLayout ) ) &&
+				<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
 			}
 
 			<InspectorControls
 				{ ...props }
-				state={ { selectedLayout, selectedDevice } }
-				deviceType={ selectedDevice }
-				setDeviceType={ setSelectedDevice }
+				state={ { selectedLayout, deviceType } }
+				deviceType={ deviceType }
+				setDeviceType={ setDeviceType }
 				blockDefaults={ generateBlocksDefaults.gridContainer }
 			/>
 
@@ -134,11 +95,17 @@ const GridEdit = ( props ) => {
 
 			<MainCSS { ...props } />
 
-			<ComponentCSS { ...props } deviceType={ selectedDevice } />
+			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<div { ...htmlAttributes }>
-				{ attributes.columns || selectedLayout
-					? <InnerBlocks allowedBlocks={ [ 'generateblocks/container' ] } renderAppender={ false } />
+				{ ( attributes.isQueryLoop || attributes.columns > 0 || selectedLayout )
+					? <InnerBlocksRenderer
+						templateLock={ templateLock }
+						allowedBlocks={ [ 'generateblocks/container' ] }
+						renderAppender={ false }
+						clientId={ clientId }
+						uniqueId={ attributes.uniqueId }
+					/>
 					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
 				}
 			</div>
@@ -146,4 +113,8 @@ const GridEdit = ( props ) => {
 	);
 };
 
-export default GridEdit;
+export default compose(
+	withQueryLoop,
+	withUniqueId,
+	withGridLegacyMigration,
+)( GridEdit );
