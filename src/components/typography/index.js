@@ -314,8 +314,21 @@ class TypographyControls extends Component {
 									const name = getAttributeName( 'fontSize', device );
 
 									setAttributes( {
-										[ name ]: parseFloat( value ),
+										[ name ]: value,
 									} );
+								} }
+								onBlur={ () => {
+									const name = getAttributeName( 'fontSize', device );
+
+									if ( '' !== getValue( 'fontSize', device ) ) {
+										setAttributes( {
+											[ name ]: parseFloat( getValue( 'fontSize', device ) ),
+										} );
+									}
+								} }
+								onClick={ ( e ) => {
+									// Make sure onBlur fires in Firefox.
+									e.currentTarget.focus();
 								} }
 								min={ 1 }
 								autoComplete="off"
@@ -367,9 +380,11 @@ class TypographyControls extends Component {
 								onBlur={ () => {
 									const name = getAttributeName( 'lineHeight', device );
 
-									setAttributes( {
-										[ name ]: parseFloat( getValue( 'lineHeight', device ) ),
-									} );
+									if ( '' !== getValue( 'lineHeight', device ) ) {
+										setAttributes( {
+											[ name ]: parseFloat( getValue( 'lineHeight', device ) ),
+										} );
+									}
 								} }
 								onClick={ ( e ) => {
 									// Make sure onBlur fires in Firefox.
