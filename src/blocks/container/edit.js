@@ -135,15 +135,19 @@ class GenerateBlockContainer extends Component {
 		// @since 1.4.0.
 		if ( ! wasBlockJustInserted( this.props.attributes ) && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
+			const useGlobalStyle = 'undefined' !== typeof this.props.attributes.useGlobalStyle && this.props.attributes.useGlobalStyle;
 
 			const newAttrs = {};
+			const items = [];
 
-			const items = [
-				'paddingTop',
-				'paddingRight',
-				'paddingBottom',
-				'paddingLeft',
-			];
+			if ( ! useGlobalStyle ) {
+				items.push(
+					'paddingTop',
+					'paddingRight',
+					'paddingBottom',
+					'paddingLeft',
+				);
+			}
 
 			if ( this.props.attributes.isGrid ) {
 				items.push(
