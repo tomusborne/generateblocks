@@ -36,6 +36,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-plugin-update.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-legacy-attributes.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-dynamic-data.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**

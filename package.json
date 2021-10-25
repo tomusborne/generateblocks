@@ -18,6 +18,7 @@
 		"url": "https://generateblocks.com/support"
 	},
 	"dependencies": {
+		"@wordpress/date": "^4.2.1",
 		"@wordpress/core-data": "^4.0.3",
 		"classnames": "^2.3.1",
 		"dompurify": "^2.2.8"
@@ -40,6 +41,7 @@
 		"grunt-contrib-compress": "^2.0.0",
 		"grunt-contrib-copy": "^1.0.0",
 		"jest": "^27.0.6",
+		"react-select": "^5.0.0",
 		"request": "^2.88.2"
 	},
 	"scripts": {
