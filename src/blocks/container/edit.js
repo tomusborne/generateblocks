@@ -124,6 +124,10 @@ class GenerateBlockContainer extends Component {
 				updateOldZindex = !! this.props.attributes.bgImage && 'undefined' !== typeof this.props.attributes.bgOptions.selector && 'pseudo-element' === this.props.attributes.bgOptions.selector;
 			}
 
+			if ( ! updateOldZindex ) {
+				updateOldZindex = 'undefined' !== typeof this.props.attributes.useAdvBackgrounds && this.props.attributes.useAdvBackgrounds;
+			}
+
 			if ( updateOldZindex ) {
 				this.props.setAttributes( {
 					innerZindex: 1,
