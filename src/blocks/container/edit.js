@@ -124,6 +124,10 @@ class GenerateBlockContainer extends Component {
 				updateOldZindex = !! this.props.attributes.bgImage && 'undefined' !== typeof this.props.attributes.bgOptions.selector && 'pseudo-element' === this.props.attributes.bgOptions.selector;
 			}
 
+			if ( ! updateOldZindex ) {
+				updateOldZindex = 'undefined' !== typeof this.props.attributes.useAdvBackgrounds && this.props.attributes.useAdvBackgrounds;
+			}
+
 			if ( updateOldZindex ) {
 				this.props.setAttributes( {
 					innerZindex: 1,
@@ -135,15 +139,19 @@ class GenerateBlockContainer extends Component {
 		// @since 1.4.0.
 		if ( ! wasBlockJustInserted( this.props.attributes ) && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
 			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
+			const useGlobalStyle = 'undefined' !== typeof this.props.attributes.useGlobalStyle && this.props.attributes.useGlobalStyle;
 
 			const newAttrs = {};
+			const items = [];
 
-			const items = [
-				'paddingTop',
-				'paddingRight',
-				'paddingBottom',
-				'paddingLeft',
-			];
+			if ( ! useGlobalStyle ) {
+				items.push(
+					'paddingTop',
+					'paddingRight',
+					'paddingBottom',
+					'paddingLeft',
+				);
+			}
 
 			if ( this.props.attributes.isGrid ) {
 				items.push(
