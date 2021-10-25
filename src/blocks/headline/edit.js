@@ -5,7 +5,7 @@ import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
 import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 import Element from '../../components/element';
 import IconWrapper from '../../components/icon-wrapper';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
@@ -56,6 +56,12 @@ export default ( props ) => {
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+
+	useEffect( () => {
+		if ( ! hasIcon && icon ) {
+			setAttributes( { hasIcon: true } );
+		}
+	}, [] );
 
 	let htmlAttributes = {
 		className: classnames( {
