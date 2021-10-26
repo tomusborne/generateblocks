@@ -2,8 +2,9 @@
  * Internal dependencies
  */
 import './editor.scss';
-import googleFonts from './google-fonts';
+import googleFonts from './google-fonts.json';
 import UnitPicker from '../unit-picker';
+import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
 
 /**
  * WordPress dependencies
@@ -29,6 +30,14 @@ import {
  * Typography Component
  */
 class TypographyControls extends Component {
+	constructor() {
+		super( ...arguments );
+
+		this.state = {
+			showAdvancedTypography: 'true' === localStorage.getItem( 'generateblocksShowAdvancedTypography' ) || false,
+		};
+	}
+
 	render() {
 		const {
 			setAttributes,
@@ -96,7 +105,7 @@ class TypographyControls extends Component {
 				const hasLetters = k.match( /[a-z]/g );
 				const hasNumbers = k.match( /[0-9]/g );
 
-				if ( ( hasLetters && hasNumbers ) || 'italic' === k ) {
+				if ( ( hasLetters && hasNumbers ) || 'italic' === k || 'regular' === k ) {
 					return false;
 				}
 
@@ -153,38 +162,10 @@ class TypographyControls extends Component {
 			return attributeName;
 		};
 
-		let showAdvancedToggle = attributes.showAdvancedTypography;
+		let showAdvancedToggle = this.state.showAdvancedTypography;
 
 		if ( disableAdvancedToggle ) {
 			showAdvancedToggle = true;
-		}
-
-		let responsiveFontSizePlaceholder = fontSizePlaceholder;
-
-		if ( 'Tablet' === device && attributes.fontSize ) {
-			responsiveFontSizePlaceholder = attributes.fontSize;
-		}
-
-		if ( 'Mobile' === device ) {
-			if ( attributes.fontSizeTablet ) {
-				responsiveFontSizePlaceholder = attributes.fontSizeTablet;
-			} else if ( attributes.fontSize ) {
-				responsiveFontSizePlaceholder = attributes.fontSize;
-			}
-		}
-
-		let responsiveLineHeightPlaceholder = '';
-
-		if ( 'Tablet' === device && attributes.lineHeight ) {
-			responsiveLineHeightPlaceholder = attributes.lineHeight;
-		}
-
-		if ( 'Mobile' === device ) {
-			if ( attributes.lineHeightTablet ) {
-				responsiveLineHeightPlaceholder = attributes.lineHeightTablet;
-			} else if ( attributes.lineHeight ) {
-				responsiveLineHeightPlaceholder = attributes.lineHeight;
-			}
 		}
 
 		return (
@@ -222,10 +203,12 @@ class TypographyControls extends Component {
 				{ ! disableAdvancedToggle &&
 					<ToggleControl
 						label={ __( 'Show Advanced Typography', 'generateblocks' ) }
-						checked={ !! attributes.showAdvancedTypography }
+						checked={ !! this.state.showAdvancedTypography }
 						onChange={ ( value ) => {
-							setAttributes( {
-								'showAdvancedTypography': value, // eslint-disable-line quote-props
+							localStorage.setItem( 'generateblocksShowAdvancedTypography', value );
+
+							this.setState( {
+								showAdvancedTypography: value,
 							} );
 						} }
 					/>
@@ -326,13 +309,26 @@ class TypographyControls extends Component {
 							<TextControl
 								type={ 'number' }
 								value={ getValue( 'fontSize', device ) || '' }
-								placeholder={ responsiveFontSizePlaceholder }
+								placeholder={ getResponsivePlaceholder( 'fontSize', attributes, device, fontSizePlaceholder ) }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'fontSize', device );
 
 									setAttributes( {
-										[ name ]: parseFloat( value ),
+										[ name ]: value,
 									} );
+								} }
+								onBlur={ () => {
+									const name = getAttributeName( 'fontSize', device );
+
+									if ( '' !== getValue( 'fontSize', device ) ) {
+										setAttributes( {
+											[ name ]: parseFloat( getValue( 'fontSize', device ) ),
+										} );
+									}
+								} }
+								onClick={ ( e ) => {
+									// Make sure onBlur fires in Firefox.
+									e.currentTarget.focus();
 								} }
 								min={ 1 }
 								autoComplete="off"
@@ -373,7 +369,7 @@ class TypographyControls extends Component {
 							<TextControl
 								type={ 'number' }
 								value={ getValue( 'lineHeight', device ) || 0 === getValue( 'lineHeight', device ) ? getValue( 'lineHeight', device ) : '' }
-								placeholder={ responsiveLineHeightPlaceholder }
+								placeholder={ getResponsivePlaceholder( 'lineHeight', attributes, device, '' ) }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'lineHeight', device );
 
@@ -384,9 +380,11 @@ class TypographyControls extends Component {
 								onBlur={ () => {
 									const name = getAttributeName( 'lineHeight', device );
 
-									setAttributes( {
-										[ name ]: parseFloat( getValue( 'lineHeight', device ) ),
-									} );
+									if ( '' !== getValue( 'lineHeight', device ) ) {
+										setAttributes( {
+											[ name ]: parseFloat( getValue( 'lineHeight', device ) ),
+										} );
+									}
 								} }
 								onClick={ ( e ) => {
 									// Make sure onBlur fires in Firefox.
@@ -430,7 +428,7 @@ class TypographyControls extends Component {
 							<TextControl
 								type={ 'number' }
 								value={ getValue( 'letterSpacing', device ) || '' }
-								placeholder="0.01"
+								placeholder={ getResponsivePlaceholder( 'letterSpacing', attributes, device, '0.01' ) }
 								onChange={ ( value ) => {
 									const name = getAttributeName( 'letterSpacing', device );
 
@@ -441,9 +439,11 @@ class TypographyControls extends Component {
 								onBlur={ () => {
 									const name = getAttributeName( 'letterSpacing', device );
 
-									setAttributes( {
-										[ name ]: parseFloat( getValue( 'letterSpacing', device ) ),
-									} );
+									if ( '' !== getValue( 'letterSpacing', device ) ) {
+										setAttributes( {
+											[ name ]: parseFloat( getValue( 'letterSpacing', device ) ),
+										} );
+									}
 								} }
 								onClick={ ( e ) => {
 									// Make sure onBlur fires in Firefox.

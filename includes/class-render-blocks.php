@@ -54,6 +54,7 @@ class GenerateBlocks_Render_Block {
 		register_block_type(
 			'generateblocks/container',
 			array(
+				'title' => esc_html__( 'Container', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_container_block' ),
 			)
 		);
@@ -61,6 +62,7 @@ class GenerateBlocks_Render_Block {
 		register_block_type(
 			'generateblocks/grid',
 			array(
+				'title' => esc_html__( 'Grid', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_grid_block' ),
 			)
 		);
@@ -68,6 +70,7 @@ class GenerateBlocks_Render_Block {
 		register_block_type(
 			'generateblocks/button-container',
 			array(
+				'title' => esc_html__( 'Buttons', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_button_container' ),
 			)
 		);
@@ -126,6 +129,23 @@ class GenerateBlocks_Render_Block {
 		}
 
 		$tagName = apply_filters( 'generateblocks_container_tagname', $settings['tagName'], $attributes );
+
+		$allowedTagNames = apply_filters(
+			'generateblocks_container_allowed_tagnames',
+			array(
+				'div',
+				'section',
+				'header',
+				'footer',
+				'aside',
+				'a',
+			),
+			$attributes
+		);
+
+		if ( ! in_array( $tagName, $allowedTagNames ) ) {
+			$tagName = 'div';
+		}
 
 		$output .= sprintf(
 			'<%1$s %2$s>',

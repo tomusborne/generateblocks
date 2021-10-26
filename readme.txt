@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiw
 Requires at least: 5.4
 Tested up to: 5.8
 Requires PHP: 5.6
-Stable tag: 1.3.5
+Stable tag: 1.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,36 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.4.0 =
+* New: Add flex (flex-grow, flex-shrink, flex-basis) options to grid item containers
+* New: Add "auto" width option to grid item containers on tablet and mobile
+* New: Allow CSS variables in color picker component
+* New: Use built-in color transparency in color picker component
+* Tweak: Improve design of empty Container blocks
+* Tweak: Remove Container padding defaults
+* Tweak: Remove grid gap default
+* Tweak: Remove gradient defaults
+* Tweak: Remove grid item width defaults
+* Tweak: Make Button Container stack & fill options device-specific
+* Tweak: Stop auto-adding z-index to Container when using pseudo gradients
+* Tweak: Only output shorthand CSS values if all fields are set
+* Tweak: Add missing tablet "order" property from editor CSS
+* Tweak: Improve unique ID generation
+* Tweak: Remove GeneratePress full width option from Container block
+* Tweak: Replace advanced typography attribute with local storage
+* Tweak: Allow for empty Container padding values
+* Tweak: Check for FS_CHMOD_FILE constant in external css file
+* Tweak: Force inline CSS on single posts
+* Tweak: Remove "Select Grid" button from grid item Containers
+* Tweak: Allow for no value in grid item width field
+* Tweak: Allow zero values for minHeight on devices
+* Tweak: Add new block on Enter key in Headline block
+* Tweak: Remove relative protocol from Google Fonts requests
+* Fix: Responsive border-radius when using pseudo backgrounds
+* Fix: Buttons alignment in the editor
+* Fix: Container tag name accepting any value
+* Fix: Missing align wide/full options when using block themes
 
 = 1.3.5 =
 * Fix: Error saving classic widgets in Customizer

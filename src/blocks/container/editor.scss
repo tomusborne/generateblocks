@@ -25,16 +25,21 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	margin: 0 0 10px;
 }
 
-.widthButtons button {
-    font-size: 12px;
-    flex: 1;
-	box-shadow: inset 0 0 0 1px #007cba;
-	justify-content: center;
-}
-
 .widthButtons {
     margin-bottom: 10px;
     display: flex;
+
+	button {
+		font-size: 12px;
+		flex: 1;
+		box-shadow: inset 0 0 0 1px #007cba;
+		justify-content: center;
+		padding: 5px 0;
+
+		&:first-child {
+			padding: 5px;
+		}
+	}
 }
 
 .gblocks-column-width-control input[type="number"] {
@@ -210,4 +215,127 @@ body .gb-container .wp-block {
 /* GPress content width */
 .gblocks-gpress-full-width .components-base-control__label {
 	display: block;
+}
+
+/* Flex Controls */
+.gblocks-flex-controls-inner {
+    display: flex;
+
+	& > .components-base-control {
+		margin-bottom: 0;
+
+		&:nth-child(1) {
+			margin-right: 1px;
+			flex-basis: 25%;
+		}
+
+		&:nth-child(2) {
+			margin-right: 1px;
+			flex-basis: 25%;
+		}
+
+		&:nth-child(3) {
+			flex-basis: 50%;
+		}
+	}
+
+	p {
+		margin-bottom: 0;
+	}
+
+	.gblocks-flex-basis-wrapper {
+		position: relative;
+
+		.components-gblocks-units-control-header__units {
+			position: absolute;
+			right: 0;
+			top: 5px;
+		}
+	}
+}
+
+.gb-container-empty {
+	padding: 5px;
+	position: relative;
+
+	&.gb-container-visual-guides {
+		&:before {
+			content: "";
+			position: absolute;
+			top: 0.5px;
+			right: 0.5px;
+			bottom: 0.5px;
+			left: 0.5px;
+			border: 1px dashed #000;
+			box-shadow: inset 0 0 0 1px #fff;
+			opacity: 0.2;
+			transition: opacity 500ms ease;
+		}
+
+		&:hover:before {
+			opacity: 0.3;
+		}
+	}
+}
+
+.gb-container {
+	.block-editor-block-list__layout {
+		.block-list-appender {
+			margin: 0;
+
+			&:not(:first-child):not(:empty) {
+				margin-top: 10px;
+			}
+		}
+	}
+}
+
+.components-button.gblocks-container-selector {
+	width: 100%;
+	display: block;
+	text-align: left;
+	color: inherit;
+	padding: 5px;
+	border: 1px solid transparent;
+
+	.gblocks-container-selector__icon {
+		background: #fff;
+		opacity: 0.3;
+		display: inline-flex;
+		height: 25px;
+		width: 25px;
+		align-items: center;
+		justify-content: center;
+		border-radius: 2px;
+		transition: opacity 500ms ease;
+
+		svg {
+			transform: scale(0.7);
+
+			path {
+				fill: #000;
+			}
+		}
+	}
+
+	&:hover {
+		.gblocks-container-selector__icon {
+			opacity: 0.4;
+		}
+	}
+}
+
+.gb-container > .gb-inside-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender .block-editor-button-block-appender {
+	background: unset;
+	color: #000;
+	box-shadow: inset 0 0 0 1px #fff;
+	border: 1px solid #000;
+	padding: 5px 12px;
+
+	svg path {
+		fill: #000;
+		stroke: #fff;
+		stroke-width: 2px;
+		paint-order: stroke;
+	}
 }

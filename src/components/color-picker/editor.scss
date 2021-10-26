@@ -12,6 +12,23 @@
 }
 
 .gblocks-component-color-picker {
+	.components-color-picker__inputs-wrapper {
+		display: none;
+	}
+
+	.gblocks-color-input-wrapper {
+		display: flex;
+		padding: 16px 16px 0;
+
+		input {
+			margin-right: 5px;
+		}
+
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+	}
+
 	& > .components-base-control:first-child {
 		margin-bottom: 0;
 	}
@@ -21,8 +38,7 @@
 	}
 
     .gblocks-component-color-picker-palette {
-        padding: 16px;
-		margin-top: 10px;
+        padding: 16px 16px 0;
 
 		.components-circular-option-picker {
 		    display: flex;
@@ -34,17 +50,12 @@
 		}
     }
 
-	.components-base-control__field,
 	.components-color-palette {
         margin: 0;
     }
 
 	.components-color-picker {
 		padding: 5px;
-	}
-
-	.components-color-picker__inputs-toggle {
-	    display: none;
 	}
 
 	.components-color-picker__body {
@@ -56,12 +67,8 @@
 		width: 300px;
 	}
 
-	.components-color-picker__inputs-fields {
-		margin-right: 0;
-	}
-
 	.components-color-clear-color {
-		margin: 0 16px;
+		height: auto;
 	}
 }
 

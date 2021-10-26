@@ -19,6 +19,7 @@ import PanelArea from '../../components/panel-area/';
 import Element from '../../components/element';
 import './markformat';
 import HeadingLevelIcon from './element-icons';
+import getAllUniqueIds from '../../utils/get-all-unique-ids';
 
 import {
 	__,
@@ -59,14 +60,16 @@ import {
 	compose,
 } from '@wordpress/compose';
 
+import {
+	createBlock,
+} from '@wordpress/blocks';
+
 /**
  * Regular expression matching invalid anchor characters for replacement.
  *
  * @type {RegExp}
  */
 const ANCHOR_REGEX = /[\s#]/g;
-
-const gbHeadlineIds = [];
 
 class GenerateBlockHeadline extends Component {
 	constructor() {
@@ -83,25 +86,14 @@ class GenerateBlockHeadline extends Component {
 	}
 
 	componentDidMount() {
-		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		// Generate a unique ID if none exists or if the same ID exists on this page.
+		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
+		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
 
-		// We don't want to ever regenerate unique IDs if they're a global style.
-		const isGlobalStyle = 'undefined' !== typeof this.props.attributes.isGlobalStyle && this.props.attributes.isGlobalStyle;
-
-		if ( ! this.props.attributes.uniqueId ) {
+		if ( ! this.props.attributes.uniqueId || uniqueIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.setAttributes( {
-				uniqueId: id,
+				uniqueId: this.props.clientId.substr( 2, 9 ).replace( '-', '' ),
 			} );
-
-			gbHeadlineIds.push( id );
-		} else if ( gbHeadlineIds.includes( this.props.attributes.uniqueId ) && ! isGlobalStyle ) {
-			this.props.setAttributes( {
-				uniqueId: id,
-			} );
-
-			gbHeadlineIds.push( id );
-		} else {
-			gbHeadlineIds.push( this.props.attributes.uniqueId );
 		}
 
 		const tempFontSizePlaceholder = this.getFontSizePlaceholder();
@@ -171,6 +163,8 @@ class GenerateBlockHeadline extends Component {
 		const {
 			attributes,
 			setAttributes,
+			onReplace,
+			clientId,
 		} = this.props;
 
 		const {
@@ -249,6 +243,25 @@ class GenerateBlockHeadline extends Component {
 		};
 
 		htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
+
+		const onSplit = ( value, isOriginal ) => {
+			let block;
+
+			if ( isOriginal || value ) {
+				block = createBlock( 'generateblocks/headline', {
+					...attributes,
+					content: value,
+				} );
+			} else {
+				block = createBlock( 'core/paragraph' );
+			}
+
+			if ( isOriginal ) {
+				block.clientId = clientId;
+			}
+
+			return block;
+		};
 
 		return (
 			<Fragment>
@@ -1266,8 +1279,9 @@ class GenerateBlockHeadline extends Component {
 										tagName="span"
 										value={ content }
 										onChange={ ( value ) => setAttributes( { content: value } ) }
+										onSplit={ onSplit }
+										onReplace={ onReplace }
 										placeholder={ __( 'Headline', 'generateblocks' ) }
-										keepPlaceholderOnFocus={ true }
 										allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 									/>
 								</span>
@@ -1280,8 +1294,9 @@ class GenerateBlockHeadline extends Component {
 							tagName="span"
 							value={ content }
 							onChange={ ( value ) => setAttributes( { content: value } ) }
+							onSplit={ onSplit }
+							onReplace={ onReplace }
 							placeholder={ __( 'Headline', 'generateblocks' ) }
-							keepPlaceholderOnFocus={ true }
 							allowedFormats={ applyFilters( 'generateblocks.editor.headlineDisableFormatting', false, this.props ) ? [] : null }
 						/>
 					}

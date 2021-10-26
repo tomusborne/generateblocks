@@ -19,6 +19,10 @@ import TabletCSS from './css/tablet.js';
 import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import Element from '../../components/element';
+import getAllUniqueIds from '../../utils/get-all-unique-ids';
+import isBlockVersionLessThan from '../../utils/check-block-version';
+import hasNumericValue from '../../utils/has-numeric-value';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 
 import {
 	__,
@@ -68,8 +72,6 @@ import {
  */
 const ANCHOR_REGEX = /[\s#]/g;
 
-const gbButtonIds = [];
-
 class GenerateBlockButton extends Component {
 	constructor() {
 		super( ...arguments );
@@ -85,25 +87,14 @@ class GenerateBlockButton extends Component {
 	}
 
 	componentDidMount() {
-		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		// Generate a unique ID if none exists or if the same ID exists on this page.
+		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
+		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
 
-		// We don't want to ever regenerate unique IDs if they're a global style.
-		const isGlobalStyle = 'undefined' !== typeof this.props.attributes.isGlobalStyle && this.props.attributes.isGlobalStyle;
-
-		if ( ! this.props.attributes.uniqueId ) {
+		if ( ! this.props.attributes.uniqueId || uniqueIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.setAttributes( {
-				uniqueId: id,
+				uniqueId: this.props.clientId.substr( 2, 9 ).replace( '-', '' ),
 			} );
-
-			gbButtonIds.push( id );
-		} else if ( gbButtonIds.includes( this.props.attributes.uniqueId ) && ! isGlobalStyle ) {
-			this.props.setAttributes( {
-				uniqueId: id,
-			} );
-
-			gbButtonIds.push( id );
-		} else {
-			gbButtonIds.push( this.props.attributes.uniqueId );
 		}
 
 		const tempFontSizePlaceholder = this.getFontSizePlaceholder();
@@ -132,6 +123,43 @@ class GenerateBlockButton extends Component {
 					hasUrl: true,
 				} );
 			}
+		}
+
+		// Set our old defaults as static values.
+		// @since 1.4.0.
+		if (
+			! wasBlockJustInserted( this.props.attributes ) &&
+			isBlockVersionLessThan( this.props.attributes.blockVersion, 2 )
+		) {
+			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.button;
+
+			const newAttrs = {};
+			const items = [];
+
+			if ( this.props.attributes.gradient ) {
+				items.push(
+					'gradientDirection',
+					'gradientColorOne',
+					'gradientColorOneOpacity',
+					'gradientColorTwo',
+					'gradientColorTwoOpacity'
+				);
+			}
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( this.props.attributes[ item ] ) ) {
+					newAttrs[ item ] = legacyDefaults[ item ];
+				}
+			} );
+
+			if ( Object.keys( newAttrs ).length > 0 ) {
+				this.props.setAttributes( newAttrs );
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			this.props.setAttributes( { blockVersion: 2 } );
 		}
 	}
 
@@ -273,7 +301,7 @@ class GenerateBlockButton extends Component {
 					<ToolbarGroup>
 						<ToolbarButton
 							className="gblocks-add-new-button"
-							icon={ 'insert' }
+							icon={ getIcon( 'insert' ) }
 							label={ __( 'Add Button', 'generateblocks' ) }
 							onClick={ () => {
 								let parentBlockId = false;
@@ -285,7 +313,13 @@ class GenerateBlockButton extends Component {
 								}
 
 								const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
-								const clonedBlock = cloneBlock( thisBlock );
+
+								const clonedBlock = cloneBlock(
+									thisBlock,
+									{
+										uniqueId: '',
+									}
+								);
 
 								wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentBlockId );
 							} }
@@ -1056,7 +1090,6 @@ class GenerateBlockButton extends Component {
 										onChange={ ( value ) => setAttributes( { text: value } ) }
 										allowedFormats={ applyFilters( 'generateblocks.editor.buttonDisableFormatting', false, this.props ) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 										isSelected={ isSelected }
-										keepPlaceholderOnFocus
 									/>
 								</span>
 							}
@@ -1077,7 +1110,6 @@ class GenerateBlockButton extends Component {
 							onChange={ ( value ) => setAttributes( { text: value } ) }
 							allowedFormats={ applyFilters( 'generateblocks.editor.buttonDisableFormatting', false, this.props ) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ] }
 							isSelected={ isSelected }
-							keepPlaceholderOnFocus
 						/>
 					}
 				</Element>

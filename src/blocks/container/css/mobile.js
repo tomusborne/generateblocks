@@ -22,6 +22,11 @@ export default class MobileCSS extends Component {
 			uniqueId,
 			isGrid,
 			widthMobile,
+			autoWidthMobile,
+			flexGrowMobile,
+			flexShrinkMobile,
+			flexBasisMobile,
+			flexBasisUnit,
 			minHeightMobile,
 			minHeightUnitMobile,
 			paddingTopMobile,
@@ -105,13 +110,25 @@ export default class MobileCSS extends Component {
 		} ];
 
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
-			'width': valueWithUnit( widthMobile, '%' ), // eslint-disable-line quote-props
+			width: ! autoWidthMobile ? valueWithUnit( widthMobile, '%' ) : 'auto',
+			'flex-grow': flexGrowMobile,
+			'flex-shrink': flexShrinkMobile,
+			'flex-basis': isNaN( flexBasisMobile ) ? flexBasisMobile : valueWithUnit( flexBasisMobile, flexBasisUnit ),
 			'order': orderMobile, // eslint-disable-line quote-props
 		} ];
 
 		if ( removeVerticalGapMobile ) {
 			cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
 				'margin-bottom': '0px !important',
+			} ];
+		}
+
+		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
+			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
+				'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
+				'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
+				'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
+				'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
 			} ];
 		}
 

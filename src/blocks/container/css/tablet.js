@@ -22,6 +22,11 @@ export default class TabletCSS extends Component {
 			uniqueId,
 			isGrid,
 			widthTablet,
+			autoWidthTablet,
+			flexGrowTablet,
+			flexShrinkTablet,
+			flexBasisTablet,
+			flexBasisUnit,
 			minHeightTablet,
 			minHeightUnitTablet,
 			paddingTopTablet,
@@ -47,7 +52,10 @@ export default class TabletCSS extends Component {
 			alignmentTablet,
 			fontSizeTablet,
 			fontSizeUnit,
+			orderTablet,
 			shapeDividers,
+			bgImage,
+			bgOptions,
 		} = attributes;
 
 		let cssObj = [];
@@ -101,8 +109,21 @@ export default class TabletCSS extends Component {
 		} ];
 
 		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
-			'width': valueWithUnit( widthTablet, '%' ), // eslint-disable-line quote-props
+			width: ! autoWidthTablet ? valueWithUnit( widthTablet, '%' ) : 'auto',
+			'flex-grow': flexGrowTablet,
+			'flex-shrink': flexShrinkTablet,
+			'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
+			order: orderTablet,
 		} ];
+
+		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
+			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
+				'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
+				'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
+				'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
+				'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
+			} ];
+		}
 
 		if ( shapeDividers.length ) {
 			shapeDividers.forEach( ( location, index ) => {

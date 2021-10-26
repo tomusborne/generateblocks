@@ -83,6 +83,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'grid', $settings, $atts );
+				}
 
 				$gap_direction = 'left';
 
@@ -91,7 +97,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				// Don't output horizontal gap defaults if we're using global styles.
-				if ( isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] && isset( $settings['globalStyleId'] ) && $settings['globalStyleId'] ) {
+				if ( $blockVersion < 2 && isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'] && isset( $settings['globalStyleId'] ) && $settings['globalStyleId'] ) {
 					if ( (string) $settings['horizontalGap'] === (string) $defaults['gridContainer']['horizontalGap'] ) {
 						$settings['horizontalGap'] = '';
 					}
@@ -238,6 +244,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'container', $settings, $atts );
+				}
 
 				$fontFamily = $settings['fontFamily'];
 
@@ -266,7 +278,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 				$css->add_property( 'font-weight', $settings['fontWeight'] );
 				$css->add_property( 'text-transform', $settings['textTransform'] );
-				$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+				$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 
 				if ( 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
 					if ( ! empty( $containerWidth ) ) {
@@ -308,13 +320,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'z-index', $settings['zindex'] );
 				}
 
-				$css->add_property( 'border-radius', generateblocks_get_shorthand_css( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], $settings['borderRadiusUnit'] ) );
-				$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
-
-				if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
-					$css->add_property( 'border-style', 'solid' );
-				}
-
+				$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
+				$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 				$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
 
@@ -350,13 +357,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'bottom', '0' );
 					$css->add_property( 'left', '0' );
 					$css->add_property( 'transition', 'inherit' );
-					$css->add_property( 'border-radius', generateblocks_get_shorthand_css( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], $settings['borderRadiusUnit'] ) );
+					$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
 
 					if ( isset( $settings['bgOptions']['opacity'] ) && 1 !== $settings['bgOptions']['opacity'] ) {
 						$css->add_property( 'opacity', $settings['bgOptions']['opacity'] );
 					}
 
-					if ( ! $innerZIndex ) {
+					if ( $blockVersion < 2 && ! $innerZIndex ) {
 						$innerZIndex = 1;
 					}
 				}
@@ -372,13 +379,13 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'bottom', '0' );
 					$css->add_property( 'left', '0' );
 
-					if ( ! $innerZIndex ) {
+					if ( $blockVersion < 2 && ! $innerZIndex ) {
 						$innerZIndex = 1;
 					}
 				}
 
 				$css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
-				$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+				$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 
 				if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
 					if ( ! empty( $containerWidth ) ) {
@@ -394,7 +401,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$usingMinHeightInnerWidth = true;
 				}
 
-				if ( $innerZIndex ) {
+				if ( $innerZIndex || 0 === $innerZIndex ) {
 					$css->add_property( 'z-index', $innerZIndex );
 					$css->add_property( 'position', 'relative' );
 				}
@@ -408,6 +415,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				if ( $settings['isGrid'] ) {
 					$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 					$css->add_property( 'width', $settings['width'], '%' );
+
+					$css->add_property( 'flex-grow', $settings['flexGrow'] );
+					$css->add_property( 'flex-shrink', $settings['flexShrink'] );
+
+					if ( is_numeric( $settings['flexBasis'] ) ) {
+						$css->add_property( 'flex-basis', $settings['flexBasis'], $settings['flexBasisUnit'] );
+					} else {
+						$css->add_property( 'flex-basis', $settings['flexBasis'] );
+					}
 				}
 
 				if ( $settings['removeVerticalGap'] ) {
@@ -487,11 +503,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 				$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 				$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
-
-				if ( $settings['borderSizeTopTablet'] || $settings['borderSizeRightTablet'] || $settings['borderSizeBottomTablet'] || $settings['borderSizeLeftTablet'] ) {
-					$tablet_css->add_property( 'border-style', 'solid' );
-				}
-
 				$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
 
 				if ( ! $settings['isGrid'] ) {
@@ -530,7 +541,21 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
-				$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
+
+				if ( ! $settings['autoWidthTablet'] ) {
+					$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
+				} else {
+					$tablet_css->add_property( 'width', 'auto' );
+				}
+
+				$tablet_css->add_property( 'flex-grow', $settings['flexGrowTablet'] );
+				$tablet_css->add_property( 'flex-shrink', $settings['flexShrinkTablet'] );
+
+				if ( is_numeric( $settings['flexBasisTablet'] ) ) {
+					$tablet_css->add_property( 'flex-basis', $settings['flexBasisTablet'], $settings['flexBasisUnit'] );
+				} else {
+					$tablet_css->add_property( 'flex-basis', $settings['flexBasisTablet'] );
+				}
 
 				if ( $settings['isGrid'] ) {
 					$tablet_css->add_property( 'order', $settings['orderTablet'] );
@@ -545,6 +570,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 					$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
+				}
+
+				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+					$tablet_css->set_selector( '.gb-container-' . $id . ':before' );
+					$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 				}
 
 				if ( ! empty( $settings['shapeDividers'] ) ) {
@@ -569,11 +599,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 				$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 				$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
-
-				if ( $settings['borderSizeTopMobile'] || $settings['borderSizeRightMobile'] || $settings['borderSizeBottomMobile'] || $settings['borderSizeLeftMobile'] ) {
-					$mobile_css->add_property( 'border-style', 'solid' );
-				}
-
 				$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
 
 				if ( ! $settings['isGrid'] ) {
@@ -607,8 +632,21 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
-				if ( 100 !== $settings['widthMobile'] ) {
+				if ( ! $settings['autoWidthMobile'] ) {
 					$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
+				}
+
+				if ( $settings['autoWidthMobile'] ) {
+					$mobile_css->add_property( 'width', 'auto' );
+				}
+
+				$mobile_css->add_property( 'flex-grow', $settings['flexGrowMobile'] );
+				$mobile_css->add_property( 'flex-shrink', $settings['flexShrinkMobile'] );
+
+				if ( is_numeric( $settings['flexBasisMobile'] ) ) {
+					$mobile_css->add_property( 'flex-basis', $settings['flexBasisMobile'], $settings['flexBasisUnit'] );
+				} else {
+					$mobile_css->add_property( 'flex-basis', $settings['flexBasisMobile'] );
 				}
 
 				if ( $settings['isGrid'] ) {
@@ -624,6 +662,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 					$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
+				}
+
+				if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
+					$mobile_css->set_selector( '.gb-container-' . $id . ':before' );
+					$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 				}
 
 				if ( ! empty( $settings['shapeDividers'] ) ) {
@@ -739,24 +782,34 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
 				$css->set_selector( '.gb-button-wrapper-' . $id );
-				$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+				$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 				$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 
+				$stack_desktop = $desktop_css;
+				$stack_tablet_only = $tablet_only_css;
+
+				if ( $blockVersion < 2 ) {
+					$stack_desktop = $css;
+					$stack_tablet_only = $tablet_css;
+				}
+
 				if ( $settings['stack'] ) {
-					$css->add_property( 'flex-direction', 'column' );
-					$css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
+					$stack_desktop->set_selector( '.gb-button-wrapper-' . $id );
+					$stack_desktop->add_property( 'flex-direction', 'column' );
+					$stack_desktop->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpace'] ) {
-					$css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
-					$css->add_property( 'flex', '1' );
+					$stack_desktop->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
+					$stack_desktop->add_property( 'flex', '1' );
 				}
 
 				if ( $settings['stack'] && $settings['fillHorizontalSpace'] ) {
-					$css->add_property( 'width', '100%' );
-					$css->add_property( 'box-sizing', 'border-box' );
+					$stack_desktop->add_property( 'width', '100%' );
+					$stack_desktop->add_property( 'box-sizing', 'border-box' );
 				}
 
 				$tablet_css->set_selector( '.gb-button-wrapper-' . $id );
@@ -764,18 +817,19 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 
 				if ( $settings['stackTablet'] ) {
-					$tablet_css->add_property( 'flex-direction', 'column' );
-					$tablet_css->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+					$stack_tablet_only->set_selector( '.gb-button-wrapper-' . $id );
+					$stack_tablet_only->add_property( 'flex-direction', 'column' );
+					$stack_tablet_only->add_property( 'align-items', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
 				}
 
 				if ( $settings['fillHorizontalSpaceTablet'] ) {
-					$tablet_css->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
-					$tablet_css->add_property( 'flex', '1' );
+					$stack_tablet_only->set_selector( '.gb-button-wrapper-' . $id . ' > .gb-button' );
+					$stack_tablet_only->add_property( 'flex', '1' );
 				}
 
 				if ( $settings['stackTablet'] && $settings['fillHorizontalSpaceTablet'] ) {
-					$tablet_css->add_property( 'width', '100%' );
-					$tablet_css->add_property( 'box-sizing', 'border-box' );
+					$stack_tablet_only->add_property( 'width', '100%' );
+					$stack_tablet_only->add_property( 'box-sizing', 'border-box' );
 				}
 
 				$mobile_css->set_selector( '.gb-button-wrapper-' . $id );
@@ -898,6 +952,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				);
 
 				$id = $atts['uniqueId'];
+				$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+				// Use legacy settings if needed.
+				if ( $blockVersion < 2 ) {
+					$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $atts );
+				}
 
 				$selector = 'a.gb-button-' . $id;
 
@@ -942,15 +1002,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'font-weight', $settings['fontWeight'] );
 				$css->add_property( 'text-transform', $settings['textTransform'] );
 				$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
-				$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
-				$css->add_property( 'border-radius', generateblocks_get_shorthand_css( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], $settings['borderRadiusUnit'] ) );
-				$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
-				$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
-
-				if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
-					$css->add_property( 'border-style', 'solid' );
-				}
-
+				$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
+				$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
+				$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
+				$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 				$css->add_property( 'text-transform', $settings['textTransform'] );
 
@@ -969,7 +1024,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'font-size', $settings['iconSize'], $settings['iconSizeUnit'] );
 
 					if ( ! $settings['removeText'] ) {
-						$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+						$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
 					}
 				}
 
@@ -980,10 +1035,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 				$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 				$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
-
-				if ( $settings['borderSizeTopTablet'] || $settings['borderSizeRightTablet'] || $settings['borderSizeBottomTablet'] || $settings['borderSizeLeftTablet'] ) {
-					$tablet_css->add_property( 'border-style', 'solid' );
-				}
 
 				if ( $settings['hasIcon'] ) {
 					$tablet_css->set_selector( $selector . ' .gb-icon' );
@@ -1001,10 +1052,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 				$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 				$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
-
-				if ( $settings['borderSizeTopMobile'] || $settings['borderSizeRightMobile'] || $settings['borderSizeBottomMobile'] || $settings['borderSizeLeftMobile'] ) {
-					$mobile_css->add_property( 'border-style', 'solid' );
-				}
 
 				if ( $settings['hasIcon'] ) {
 					$mobile_css->set_selector( $selector . ' .gb-icon' );
@@ -1138,15 +1185,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'text-transform', $settings['textTransform'] );
 					$css->add_property( 'line-height', $settings['lineHeight'], $settings['lineHeightUnit'] );
 					$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
-					$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
+					$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 					$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
-					$css->add_property( 'border-radius', generateblocks_get_shorthand_css( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'], $settings['borderRadiusUnit'] ) );
-					$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
+					$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
+					$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 					$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
-
-					if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
-						$css->add_property( 'border-style', 'solid' );
-					}
 
 					if ( $settings['inlineWidth'] ) {
 						if ( $settings['hasIcon'] ) {
@@ -1187,7 +1230,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
 
 						if ( ! $settings['removeText'] ) {
-							$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+							$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
 						}
 
 						if ( 'above' === $settings['iconLocation'] ) {
@@ -1213,10 +1256,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 					$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 					$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
-
-					if ( $settings['borderSizeTopTablet'] || $settings['borderSizeRightTablet'] || $settings['borderSizeBottomTablet'] || $settings['borderSizeLeftTablet'] ) {
-						$tablet_css->add_property( 'border-style', 'solid' );
-					}
 
 					if ( $settings['inlineWidthTablet'] ) {
 						if ( $settings['hasIcon'] ) {
@@ -1265,10 +1304,6 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 					$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 					$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
-
-					if ( $settings['borderSizeTopMobile'] || $settings['borderSizeRightMobile'] || $settings['borderSizeBottomMobile'] || $settings['borderSizeLeftMobile'] ) {
-						$mobile_css->add_property( 'border-style', 'solid' );
-					}
 
 					if ( $settings['inlineWidthMobile'] ) {
 						if ( $settings['hasIcon'] ) {
@@ -1328,12 +1363,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 							$css->add_property( 'display', 'inline-block' );
 						}
 
-						$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
-
-						if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
-							$css->add_property( 'border-style', 'solid' );
-						}
-
+						$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 						$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 					}
 
@@ -1344,8 +1374,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 
 					if ( ! $settings['hasIcon'] ) {
-						$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
-						$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+						$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
+						$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 
 						if ( function_exists( 'generate_get_default_fonts' ) && '' === $settings['marginBottom'] ) {
 							$defaultBlockStyles = generateblocks_get_default_styles();
@@ -1366,7 +1396,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
 
 						if ( ! $settings['removeText'] ) {
-							$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'], $settings['iconPaddingUnit'] ) );
+							$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
 						}
 
 						$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
@@ -1380,8 +1410,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
 
 						$css->set_selector( '.gb-headline-wrapper-' . $id );
-						$css->add_property( 'padding', generateblocks_get_shorthand_css( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'], $settings['paddingUnit'] ) );
-						$css->add_property( 'margin', generateblocks_get_shorthand_css( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'], $settings['marginUnit'] ) );
+						$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
+						$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 
 						$defaultBlockStyles = generateblocks_get_default_styles();
 
@@ -1411,12 +1441,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 						$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 						$css->add_property( 'color', $settings['textColor'] );
-						$css->add_property( 'border-width', generateblocks_get_shorthand_css( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'], 'px' ) );
-
-						if ( $settings['borderSizeTop'] || $settings['borderSizeRight'] || $settings['borderSizeBottom'] || $settings['borderSizeLeft'] ) {
-							$css->add_property( 'border-style', 'solid' );
-						}
-
+						$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 						$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 
 						if ( 'above' === $settings['iconLocation'] ) {
@@ -1705,15 +1730,6 @@ function generateblocks_get_frontend_block_css() {
 			generateblocks_get_parsed_css( $data['tablet_only'] )
 		);
 	}
-
-	array_unshift(
-		$data['mobile'],
-		array(
-			'.gb-grid-wrapper > .gb-grid-column' => array(
-				'width: 100%;',
-			),
-		)
-	);
 
 	if ( ! empty( $data['mobile'] ) ) {
 		$css .= sprintf(

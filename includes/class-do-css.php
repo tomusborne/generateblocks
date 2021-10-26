@@ -94,6 +94,10 @@ class GenerateBlocks_Dynamic_CSS {
 			if ( $valueTop && $valueRight && $valueBottom && $valueLeft ) {
 				$value = generateblocks_get_shorthand_css( $value[0], $value[1], $value[2], $value[3], $unit );
 
+				if ( 'border-width' === $property ) {
+					$this->_css .= 'border-style: solid;';
+				}
+
 				$this->_css .= $property . ':' . $value . ';';
 				return $this;
 			} else {
@@ -105,6 +109,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$property_top = 'border-top-left-radius';
 					} elseif ( 'border-width' === $property ) {
 						$property_top = 'border-top-width';
+						$this->_css .= 'border-top-style: solid;';
 					}
 
 					if ( 0 === $value[0] || '0' === $value[0] ) {
@@ -122,6 +127,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$property_right = 'border-top-right-radius';
 					} elseif ( 'border-width' === $property ) {
 						$property_right = 'border-right-width';
+						$this->_css .= 'border-right-style: solid;';
 					}
 
 					if ( 0 === $value[1] || '0' === $value[1] ) {
@@ -139,6 +145,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$property_bottom = 'border-bottom-right-radius';
 					} elseif ( 'border-width' === $property ) {
 						$property_bottom = 'border-bottom-width';
+						$this->_css .= 'border-bottom-style: solid;';
 					}
 
 					if ( 0 === $value[2] || '0' === $value[2] ) {
@@ -156,6 +163,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$property_left = 'border-bottom-left-radius';
 					} elseif ( 'border-width' === $property ) {
 						$property_left = 'border-left-width';
+						$this->_css .= 'border-left-style: solid;';
 					}
 
 					if ( 0 === $value[3] || '0' === $value[3] ) {

@@ -348,7 +348,7 @@ function generateblocks_get_google_fonts_uri() {
 		)
 	);
 
-	return add_query_arg( $font_args, '//fonts.googleapis.com/css' );
+	return add_query_arg( $font_args, 'https://fonts.googleapis.com/css' );
 }
 
 /**
@@ -365,7 +365,12 @@ function generateblocks_hex2rgba( $hex, $alpha ) {
 		return;
 	}
 
-	if ( 1 === $alpha ) {
+	if ( 1 === $alpha || ! is_numeric( $alpha ) ) {
+		return $hex;
+	}
+
+	// Make sure we're dealing with a hex value.
+	if ( isset( $hex[0] ) && '#' !== $hex[0] ) {
 		return $hex;
 	}
 

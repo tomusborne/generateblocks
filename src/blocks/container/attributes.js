@@ -32,6 +32,54 @@ const attributes = {
 		type: 'number',
 		default: generateBlocksDefaults.container.widthMobile,
 	},
+	autoWidthTablet: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.autoWidthTablet,
+	},
+	autoWidthMobile: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.autoWidthMobile,
+	},
+	flexGrow: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexGrow,
+	},
+	flexGrowTablet: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexGrowTablet,
+	},
+	flexGrowMobile: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexGrowMobile,
+	},
+	flexShrink: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexShrink,
+	},
+	flexShrinkTablet: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexShrinkTablet,
+	},
+	flexShrinkMobile: {
+		type: 'number',
+		default: generateBlocksDefaults.container.flexShrinkMobile,
+	},
+	flexBasis: {
+		type: 'string',
+		default: generateBlocksDefaults.container.flexBasis,
+	},
+	flexBasisTablet: {
+		type: 'string',
+		default: generateBlocksDefaults.container.flexBasisTablet,
+	},
+	flexBasisMobile: {
+		type: 'string',
+		default: generateBlocksDefaults.container.flexBasisMobile,
+	},
+	flexBasisUnit: {
+		type: 'string',
+		default: generateBlocksDefaults.container.flexBasisUnit,
+	},
 	orderTablet: {
 		type: 'number',
 		default: generateBlocksDefaults.container.orderTablet,
@@ -416,10 +464,6 @@ const attributes = {
 		type: 'string',
 		default: generateBlocksDefaults.container.alignmentMobile,
 	},
-	showAdvancedTypography: {
-		type: 'boolean',
-		default: generateBlocksDefaults.headline.showAdvancedTypography,
-	},
 	fontFamily: {
 		type: 'string',
 		default: generateBlocksDefaults.container.fontFamily,
@@ -470,6 +514,9 @@ const attributes = {
 	},
 	isDynamic: {
 		type: 'boolean',
+	},
+	blockVersion: {
+		type: 'number',
 	},
 	// deprecated since 1.2.0.
 	elementId: {

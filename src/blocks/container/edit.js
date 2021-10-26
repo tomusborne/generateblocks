@@ -13,11 +13,17 @@ import TypographyControls from '../../components/typography';
 import GradientControl from '../../components/gradient/';
 import sanitizeSVG from '../../utils/sanitize-svg';
 import ResponsiveTabs from '../../components/responsive-tabs';
+import RangeControlInput from '../../components/range-control';
 import MainCSS from './css/main.js';
 import DesktopCSS from './css/desktop.js';
 import TabletCSS from './css/tablet.js';
 import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
+import getAllUniqueIds from '../../utils/get-all-unique-ids';
+import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
+import hasNumericValue from '../../utils/has-numeric-value';
+import isBlockVersionLessThan from '../../utils/check-block-version';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 
 import {
 	__,
@@ -73,8 +79,6 @@ import {
  */
 const ANCHOR_REGEX = /[\s#]/g;
 
-const gbContainerIds = [];
-
 class GenerateBlockContainer extends Component {
 	constructor() {
 		super( ...arguments );
@@ -88,25 +92,14 @@ class GenerateBlockContainer extends Component {
 	}
 
 	componentDidMount() {
-		const id = this.props.clientId.substr( 2, 9 ).replace( '-', '' );
+		// Generate a unique ID if none exists or if the same ID exists on this page.
+		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
+		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
 
-		// We don't want to ever regenerate unique IDs if they're a global style.
-		const isGlobalStyle = 'undefined' !== typeof this.props.attributes.isGlobalStyle && this.props.attributes.isGlobalStyle;
-
-		if ( ! this.props.attributes.uniqueId ) {
+		if ( ! this.props.attributes.uniqueId || uniqueIds.includes( this.props.attributes.uniqueId ) ) {
 			this.props.setAttributes( {
-				uniqueId: id,
+				uniqueId: this.props.clientId.substr( 2, 9 ).replace( '-', '' ),
 			} );
-
-			gbContainerIds.push( id );
-		} else if ( gbContainerIds.includes( this.props.attributes.uniqueId ) && ! isGlobalStyle ) {
-			this.props.setAttributes( {
-				uniqueId: id,
-			} );
-
-			gbContainerIds.push( id );
-		} else {
-			gbContainerIds.push( this.props.attributes.uniqueId );
 		}
 
 		const thisBlock = document.getElementById( 'block-' + this.props.clientId );
@@ -120,6 +113,77 @@ class GenerateBlockContainer extends Component {
 			this.props.setAttributes( {
 				isDynamic: true,
 			} );
+		}
+
+		// Set our inner z-index if we're using a gradient overlay or pseudo background.
+		// @since 1.4.0.
+		if ( 'undefined' === typeof this.props.attributes.blockVersion || this.props.attributes.blockVersion < 2 ) {
+			let updateOldZindex = this.props.attributes.gradient && 'pseudo-element' === this.props.attributes.gradientSelector && ! hasNumericValue( this.props.attributes.innerZindex );
+
+			if ( ! updateOldZindex ) {
+				updateOldZindex = !! this.props.attributes.bgImage && 'undefined' !== typeof this.props.attributes.bgOptions.selector && 'pseudo-element' === this.props.attributes.bgOptions.selector;
+			}
+
+			if ( ! updateOldZindex ) {
+				updateOldZindex = 'undefined' !== typeof this.props.attributes.useAdvBackgrounds && this.props.attributes.useAdvBackgrounds;
+			}
+
+			if ( updateOldZindex ) {
+				this.props.setAttributes( {
+					innerZindex: 1,
+				} );
+			}
+		}
+
+		// Set our old defaults as static values.
+		// @since 1.4.0.
+		if ( ! wasBlockJustInserted( this.props.attributes ) && isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
+			const useGlobalStyle = 'undefined' !== typeof this.props.attributes.useGlobalStyle && this.props.attributes.useGlobalStyle;
+
+			const newAttrs = {};
+			const items = [];
+
+			if ( ! useGlobalStyle ) {
+				items.push(
+					'paddingTop',
+					'paddingRight',
+					'paddingBottom',
+					'paddingLeft',
+				);
+			}
+
+			if ( this.props.attributes.isGrid ) {
+				items.push(
+					'width',
+					'widthMobile',
+				);
+			}
+
+			if ( this.props.attributes.gradient ) {
+				items.push(
+					'gradientDirection',
+					'gradientColorOne',
+					'gradientColorOneOpacity',
+					'gradientColorTwo',
+					'gradientColorTwoOpacity'
+				);
+			}
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( this.props.attributes[ item ] ) ) {
+					newAttrs[ item ] = legacyDefaults[ item ];
+				}
+			} );
+
+			if ( Object.keys( newAttrs ).length > 0 ) {
+				this.props.setAttributes( newAttrs );
+			}
+		}
+
+		// Update block version flag if it's out of date.
+		if ( isBlockVersionLessThan( this.props.attributes.blockVersion, 2 ) ) {
+			this.props.setAttributes( { blockVersion: 2 } );
 		}
 	}
 
@@ -180,6 +244,18 @@ class GenerateBlockContainer extends Component {
 			width,
 			widthTablet,
 			widthMobile,
+			autoWidthTablet,
+			autoWidthMobile,
+			flexGrow,
+			flexGrowTablet,
+			flexGrowMobile,
+			flexShrink,
+			flexShrinkTablet,
+			flexShrinkMobile,
+			flexBasis,
+			flexBasisTablet,
+			flexBasisMobile,
+			flexBasisUnit,
 			outerContainer,
 			innerContainer,
 			containerWidth,
@@ -215,7 +291,6 @@ class GenerateBlockContainer extends Component {
 			fontFamily,
 			googleFont,
 			googleFontVariants,
-			fullWidthContent,
 			align,
 			shapeDividers,
 		} = attributes;
@@ -229,68 +304,32 @@ class GenerateBlockContainer extends Component {
 			attributes.bgOptions.opacity = 1;
 		}
 
-		const tagNames = [
-			{ label: 'div', value: 'div' },
-			{ label: 'section', value: 'section' },
-			{ label: 'header', value: 'header' },
-			{ label: 'footer', value: 'footer' },
-			{ label: 'aside', value: 'aside' },
-		];
+		const tagNames = applyFilters(
+			'generateblocks.editor.containerTagNames',
+			[
+				{ label: 'div', value: 'div' },
+				{ label: 'section', value: 'section' },
+				{ label: 'header', value: 'header' },
+				{ label: 'footer', value: 'footer' },
+				{ label: 'aside', value: 'aside' },
+			],
+			this.props,
+			this.state
+		);
 
-		const pageBuilderContainerOption = document.getElementById( '_generate-full-width-content' );
-		const changeEvent = new Event( 'change' ); // eslint-disable-line no-undef
-		const getRootId = wp.data.select( 'core/block-editor' ).getBlockHierarchyRootClientId( clientId );
-		const isRootContainer = getRootId === clientId;
+		const allowedTagNames = applyFilters(
+			'generateblocks.editor.allowedContainerTagNames',
+			[
+				'div',
+				'section',
+				'header',
+				'footer',
+				'aside',
+				'a',
+			]
+		);
 
-		const fullWidthContentOptions = () => {
-			return (
-				<Fragment>
-					{ generateBlocksInfo.isGeneratePress && isRootContainer && pageBuilderContainerOption &&
-						<BaseControl
-							id="gblocks-gp-full-width-page"
-							label={ __( 'If you want to build a full width page, use the option below to remove the page width, margin and padding.', 'generateblocks' ) }
-							className="gblocks-gpress-full-width"
-						>
-							<ToggleControl
-								label={ __( 'Make page full-width', 'generateblocks' ) }
-								checked={ fullWidthContent ? true : false }
-								onChange={ ( value ) => {
-									if ( value ) {
-										if ( 'select' === pageBuilderContainerOption.tagName.toLowerCase() ) {
-											pageBuilderContainerOption.value = 'true';
-											pageBuilderContainerOption.dispatchEvent( changeEvent );
-										} else {
-											pageBuilderContainerOption.checked = true;
-											pageBuilderContainerOption.setAttribute( 'value', 'true' );
-											pageBuilderContainerOption.dispatchEvent( changeEvent );
-										}
-
-										setAttributes( {
-											fullWidthContent: 'true',
-											align: '',
-										} );
-									} else {
-										if ( 'select' === pageBuilderContainerOption.tagName.toLowerCase() ) {
-											pageBuilderContainerOption.value = '';
-											pageBuilderContainerOption.dispatchEvent( changeEvent );
-										} else {
-											pageBuilderContainerOption.checked = false;
-											pageBuilderContainerOption.setAttribute( 'value', '' );
-											document.querySelector( 'input[name="_generate-full-width-content"]#default-content' ).checked = true;
-											pageBuilderContainerOption.dispatchEvent( changeEvent );
-										}
-
-										setAttributes( {
-											fullWidthContent: '',
-										} );
-									}
-								} }
-							/>
-						</BaseControl>
-					}
-				</Fragment>
-			);
-		};
+		const filterTagName = ( tagValue ) => allowedTagNames.includes( tagValue ) ? tagValue : 'div';
 
 		let googleFontsAttr = '';
 
@@ -394,11 +433,28 @@ class GenerateBlockContainer extends Component {
 			} );
 		} );
 
+		const hasFlexBasis = ( attribute ) => {
+			return hasNumericValue( attribute ) && 'auto' !== attribute;
+		};
+
+		const hideWidthDesktop = hasFlexBasis( flexBasis );
+		const hideWidthTablet = 'auto' !== flexBasisTablet && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) );
+		const hideWidthMobile = 'auto' !== flexBasisMobile && ( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) || hasFlexBasis( flexBasisMobile ) );
+
+		let hasStyling = (
+			!! backgroundColor ||
+			attributes.borderSizeTop || attributes.borderSizeRight || attributes.borderSizeBottom || attributes.borderSizeLeft
+		);
+
+		hasStyling = applyFilters( 'generateblocks.editor.containerHasStyling', hasStyling, this.props );
+
 		let htmlAttributes = {
 			className: classnames( {
 				'gb-container': true,
 				[ `gb-container-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
+				'gb-container-empty': ! hasChildBlocks,
+				'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling && ! this.props.isSelected,
 			} ),
 			id: anchor ? anchor : null,
 		};
@@ -533,17 +589,15 @@ class GenerateBlockContainer extends Component {
 									<SelectControl
 										label={ __( 'Tag Name', 'generateblocks' ) }
 										value={ tagName }
-										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
+										options={ tagNames }
 										onChange={ ( value ) => {
 											setAttributes( {
-												tagName: value,
+												tagName: filterTagName( value ),
 											} );
 										} }
 									/>
 
 									{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', this.props, this.state ) }
-
-									{ fullWidthContentOptions() }
 								</Fragment>
 							}
 
@@ -576,37 +630,163 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Desktop' === this.getDeviceType() && (
 								<Fragment>
-									<UnitPicker
-										label={ __( 'Container Width', 'generateblocks' ) }
-										value={ '%' }
-										units={ [ '%' ] }
-										onClick={ () => {
-											return false;
-										} }
-									/>
+									<BaseControl>
+										<UnitPicker
+											label={ __( 'Container Width', 'generateblocks' ) }
+											value={ '%' }
+											units={ [ '%' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
 
-									<ButtonGroup className={ 'widthButtons' }>
-										<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) }>25</Button>
-										<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) }>33</Button>
-										<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) }>50</Button>
-										<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) }>66</Button>
-										<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) }>75</Button>
-										<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) }>100</Button>
-									</ButtonGroup>
+										{ !! hideWidthDesktop &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
 
-									<RangeControl
-										className={ 'gblocks-column-width-control' }
-										value={ width || '' }
-										onChange={ ( value ) => {
-											setAttributes( {
-												width: value,
-											} );
-										} }
-										min={ 0 }
-										max={ 100 }
-										step={ 0.01 }
-										initialPosition={ generateBlocksDefaults.container.width }
-									/>
+										<ButtonGroup className={ 'widthButtons' }>
+											<Button isPrimary={ width === 25 } onClick={ () => setAttributes( { width: 25 } ) } disabled={ hideWidthDesktop }>25</Button>
+											<Button isPrimary={ width === 33.33 } onClick={ () => setAttributes( { width: 33.33 } ) } disabled={ hideWidthDesktop }>33</Button>
+											<Button isPrimary={ width === 50 } onClick={ () => setAttributes( { width: 50 } ) } disabled={ hideWidthDesktop }>50</Button>
+											<Button isPrimary={ width === 66.66 } onClick={ () => setAttributes( { width: 66.66 } ) } disabled={ hideWidthDesktop }>66</Button>
+											<Button isPrimary={ width === 75 } onClick={ () => setAttributes( { width: 75 } ) } disabled={ hideWidthDesktop }>75</Button>
+											<Button isPrimary={ width === 100 } onClick={ () => setAttributes( { width: 100 } ) } disabled={ hideWidthDesktop }>100</Button>
+										</ButtonGroup>
+
+										<RangeControlInput
+											value={ hasNumericValue( width ) ? width : '' }
+											onChange={ ( value ) => {
+												// No zero value or values that start with zero.
+												if ( String( value ).startsWith( 0 ) ) {
+													value = '';
+												}
+
+												setAttributes( {
+													width: value,
+												} );
+											} }
+											rangeMin={ 10 }
+											rangeMax={ 100 }
+											step={ 5 }
+											initialPosition={ generateBlocksDefaults.container.width }
+											disabled={ hideWidthDesktop }
+										/>
+									</BaseControl>
+
+									<BaseControl
+										className="gblocks-flex-controls"
+									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-desktop"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrow: '',
+															flexShrink: '',
+															flexBasis: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
+										<div className="gblocks-flex-controls-inner">
+											<TextControl
+												help={ __( 'Grow', 'generateblocks' ) }
+												id="gblocks-flex-grow-desktop"
+												type={ 'number' }
+												value={ flexGrow }
+												min="0"
+												step="1"
+												placeholder="0"
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexGrow: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexGrow ) {
+														setAttributes( {
+															flexGrow: parseFloat( flexGrow ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<TextControl
+												help={ __( 'Shrink', 'generateblocks' ) }
+												type={ 'number' }
+												value={ flexShrink }
+												min="0"
+												step="1"
+												placeholder="1"
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexShrink: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexShrink ) {
+														setAttributes( {
+															flexShrink: parseFloat( flexShrink ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<div className="gblocks-flex-basis-wrapper">
+												{ ! isNaN( flexBasis ) &&
+													<UnitPicker
+														value={ flexBasisUnit }
+														units={ [ 'px', '%' ] }
+														onClick={ ( value ) => {
+															setAttributes( {
+																flexBasisUnit: value,
+															} );
+														} }
+													/>
+												}
+
+												<TextControl
+													help={ __( 'Basis', 'generateblocks' ) }
+													type={ 'text' }
+													placeholder="auto"
+													value={ flexBasis }
+													onChange={ ( value ) => {
+														setAttributes( {
+															flexBasis: value,
+														} );
+													} }
+													onBlur={ () => {
+														if ( ! flexBasis.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasis: '',
+															} );
+														}
+													} }
+												/>
+											</div>
+										</div>
+									</BaseControl>
 
 									<SelectControl
 										label={ __( 'Vertical Alignment', 'generateblocks' ) }
@@ -638,10 +818,10 @@ class GenerateBlockContainer extends Component {
 									<SelectControl
 										label={ __( 'Tag Name', 'generateblocks' ) }
 										value={ tagName }
-										options={ applyFilters( 'generateblocks.editor.containerTagNames', tagNames, this.props, this.state ) }
+										options={ tagNames }
 										onChange={ ( value ) => {
 											setAttributes( {
-												tagName: value,
+												tagName: filterTagName( value ),
 											} );
 										} }
 									/>
@@ -652,37 +832,176 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Tablet' === this.getDeviceType() && (
 								<Fragment>
-									<UnitPicker
-										label={ __( 'Container Width', 'generateblocks' ) }
-										value={ '%' }
-										units={ [ '%' ] }
-										onClick={ () => {
-											return false;
-										} }
-									/>
+									<BaseControl>
+										<UnitPicker
+											label={ __( 'Container Width', 'generateblocks' ) }
+											value={ '%' }
+											units={ [ '%' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
 
-									<ButtonGroup className={ 'widthButtons' }>
-										<Button isPrimary={ widthTablet === 25 } onClick={ () => setAttributes( { widthTablet: 25 } ) }>25</Button>
-										<Button isPrimary={ widthTablet === 33.33 } onClick={ () => setAttributes( { widthTablet: 33.33 } ) }>33</Button>
-										<Button isPrimary={ widthTablet === 50 } onClick={ () => setAttributes( { widthTablet: 50 } ) }>50</Button>
-										<Button isPrimary={ widthTablet === 66.66 } onClick={ () => setAttributes( { widthTablet: 66.66 } ) }>66</Button>
-										<Button isPrimary={ widthTablet === 75 } onClick={ () => setAttributes( { widthTablet: 75 } ) }>75</Button>
-										<Button isPrimary={ widthTablet === 100 } onClick={ () => setAttributes( { widthTablet: 100 } ) }>100</Button>
-									</ButtonGroup>
+										{ !! hideWidthTablet &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
 
-									<RangeControl
-										className={ 'gblocks-column-width-control' }
-										value={ widthTablet || '' }
-										onChange={ ( value ) => {
-											setAttributes( {
-												widthTablet: value,
-											} );
-										} }
-										min={ 0 }
-										max={ 100 }
-										step={ 0.01 }
-										initialPosition={ generateBlocksDefaults.container.widthTablet }
-									/>
+										<ButtonGroup className={ 'widthButtons' }>
+											<Button isPrimary={ !! autoWidthTablet } disabled={ hideWidthTablet } onClick={ () => {
+												if ( autoWidthTablet ) {
+													setAttributes( { autoWidthTablet: false } );
+												} else {
+													setAttributes( { autoWidthTablet: true } );
+												}
+											} }>
+												{ __( 'Auto', 'generateblocks' ) }
+											</Button>
+
+											<Button isPrimary={ widthTablet === 25 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 25, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>25</Button>
+											<Button isPrimary={ widthTablet === 33.33 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 33.33, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>33</Button>
+											<Button isPrimary={ widthTablet === 50 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 50, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>50</Button>
+											<Button isPrimary={ widthTablet === 66.66 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 66.66, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>66</Button>
+											<Button isPrimary={ widthTablet === 75 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 75, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>75</Button>
+											<Button isPrimary={ widthTablet === 100 && ! autoWidthTablet } onClick={ () => setAttributes( { widthTablet: 100, autoWidthTablet: false } ) } disabled={ hideWidthTablet }>100</Button>
+										</ButtonGroup>
+
+										{ ! autoWidthTablet &&
+											<RangeControlInput
+												value={ hasNumericValue( widthTablet ) ? widthTablet : '' }
+												onChange={ ( value ) => {
+													// No zero value or values that start with zero.
+													if ( String( value ).startsWith( 0 ) ) {
+														value = '';
+													}
+
+													setAttributes( {
+														widthTablet: value,
+														autoWidthTablet: false,
+													} );
+												} }
+												rangeMin={ 10 }
+												rangeMax={ 100 }
+												step={ 5 }
+												initialPosition={ generateBlocksDefaults.container.widthTablet }
+												disabled={ hideWidthTablet }
+											/>
+										}
+									</BaseControl>
+
+									<BaseControl
+										className="gblocks-flex-controls"
+									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-tablet"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrowTablet: '',
+															flexShrinkTablet: '',
+															flexBasisTablet: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
+										<div className="gblocks-flex-controls-inner">
+											<TextControl
+												help={ __( 'Grow', 'generateblocks' ) }
+												id="gblocks-flex-grow-tablet"
+												type={ 'number' }
+												value={ flexGrowTablet }
+												min="0"
+												step="1"
+												placeholder={ getResponsivePlaceholder( 'flexGrow', attributes, 'Tablet', '0' ) }
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexGrowTablet: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexGrowTablet ) {
+														setAttributes( {
+															flexGrowTablet: parseFloat( flexGrowTablet ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<TextControl
+												help={ __( 'Shrink', 'generateblocks' ) }
+												type={ 'number' }
+												value={ flexShrinkTablet }
+												min="0"
+												step="1"
+												placeholder={ getResponsivePlaceholder( 'flexShrink', attributes, 'Tablet', '1' ) }
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexShrinkTablet: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexShrinkTablet ) {
+														setAttributes( {
+															flexShrinkTablet: parseFloat( flexShrinkTablet ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<div className="gblocks-flex-basis-wrapper">
+												{ ! isNaN( flexBasisTablet ) &&
+													<UnitPicker
+														value={ flexBasisUnit }
+														units={ [ 'px', '%' ] }
+														onClick={ ( value ) => {
+															setAttributes( {
+																flexBasisUnit: value,
+															} );
+														} }
+													/>
+												}
+
+												<TextControl
+													help={ __( 'Basis', 'generateblocks' ) }
+													type={ 'text' }
+													value={ flexBasisTablet }
+													placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, 'Tablet', 'auto' ) }
+													onChange={ ( value ) => {
+														setAttributes( {
+															flexBasisTablet: value,
+														} );
+													} }
+													onBlur={ () => {
+														if ( ! flexBasisTablet.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasisTablet: '',
+															} );
+														}
+													} }
+												/>
+											</div>
+										</div>
+									</BaseControl>
 
 									<SelectControl
 										label={ __( 'Vertical Alignment', 'generateblocks' ) }
@@ -727,37 +1046,176 @@ class GenerateBlockContainer extends Component {
 
 							{ 'Mobile' === this.getDeviceType() && (
 								<Fragment>
-									<UnitPicker
-										label={ __( 'Container Width', 'generateblocks' ) }
-										value={ '%' }
-										units={ [ '%' ] }
-										onClick={ () => {
-											return false;
-										} }
-									/>
+									<BaseControl>
+										<UnitPicker
+											label={ __( 'Container Width', 'generateblocks' ) }
+											value={ '%' }
+											units={ [ '%' ] }
+											onClick={ () => {
+												return false;
+											} }
+										/>
 
-									<ButtonGroup className={ 'widthButtons' }>
-										<Button isPrimary={ widthMobile === 25 } onClick={ () => setAttributes( { widthMobile: 25 } ) }>25</Button>
-										<Button isPrimary={ widthMobile === 33.33 } onClick={ () => setAttributes( { widthMobile: 33.33 } ) }>33</Button>
-										<Button isPrimary={ widthMobile === 50 } onClick={ () => setAttributes( { widthMobile: 50 } ) }>50</Button>
-										<Button isPrimary={ widthMobile === 66.66 } onClick={ () => setAttributes( { widthMobile: 66.66 } ) }>66</Button>
-										<Button isPrimary={ widthMobile === 75 } onClick={ () => setAttributes( { widthMobile: 75 } ) }>75</Button>
-										<Button isPrimary={ widthMobile === 100 } onClick={ () => setAttributes( { widthMobile: 100 } ) }>100</Button>
-									</ButtonGroup>
+										{ !! hideWidthMobile &&
+											<div className="gblocks-small-notice-description">
+												{ __( 'Width disabled as Flex Basis is not "auto".', 'generateblocks' ) }
+											</div>
+										}
 
-									<RangeControl
-										className={ 'gblocks-column-width-control' }
-										value={ widthMobile || '' }
-										onChange={ ( value ) => {
-											setAttributes( {
-												widthMobile: value,
-											} );
-										} }
-										min={ 0 }
-										max={ 100 }
-										step={ 0.01 }
-										initialPosition={ generateBlocksDefaults.container.widthMobile }
-									/>
+										<ButtonGroup className={ 'widthButtons' }>
+											<Button isPrimary={ !! autoWidthMobile } disabled={ hideWidthMobile } onClick={ () => {
+												if ( autoWidthMobile ) {
+													setAttributes( { autoWidthMobile: false } );
+												} else {
+													setAttributes( { autoWidthMobile: true } );
+												}
+											} }>
+												{ __( 'Auto', 'generateblocks' ) }
+											</Button>
+
+											<Button isPrimary={ widthMobile === 25 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 25, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>25</Button>
+											<Button isPrimary={ widthMobile === 33.33 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 33.33, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>33</Button>
+											<Button isPrimary={ widthMobile === 50 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 50, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>50</Button>
+											<Button isPrimary={ widthMobile === 66.66 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 66.66, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>66</Button>
+											<Button isPrimary={ widthMobile === 75 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 75, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>75</Button>
+											<Button isPrimary={ widthMobile === 100 && ! autoWidthMobile } onClick={ () => setAttributes( { widthMobile: 100, autoWidthMobile: false } ) } disabled={ hideWidthMobile }>100</Button>
+										</ButtonGroup>
+
+										{ ! autoWidthMobile &&
+											<RangeControlInput
+												value={ hasNumericValue( widthMobile ) ? widthMobile : '' }
+												onChange={ ( value ) => {
+													// No zero value or values that start with zero.
+													if ( String( value ).startsWith( 0 ) ) {
+														value = '';
+													}
+
+													setAttributes( {
+														widthMobile: value,
+														autoWidthMobile: false,
+													} );
+												} }
+												rangeMin={ 10 }
+												rangeMax={ 100 }
+												step={ 5 }
+												initialPosition={ generateBlocksDefaults.container.widthMobile }
+												disabled={ hideWidthMobile }
+											/>
+										}
+									</BaseControl>
+
+									<BaseControl
+										className="gblocks-flex-controls"
+									>
+										<div className="gblocks-utility-label">
+											<label
+												htmlFor="gblocks-flex-grow-mobile"
+												className="components-base-control__label"
+											>
+												{ __( 'Flex', 'generateblocks' ) }
+											</label>
+
+											<Tooltip text={ __( 'Reset', 'generateblocks' ) } position="top">
+												<Button
+													className="gblocks-reset-button"
+													icon={ getIcon( 'reset' ) }
+													onClick={ () => {
+														setAttributes( {
+															flexGrowMobile: '',
+															flexShrinkMobile: '',
+															flexBasisMobile: '',
+														} );
+													} }
+												/>
+											</Tooltip>
+										</div>
+
+										<div className="gblocks-flex-controls-inner">
+											<TextControl
+												help={ __( 'Grow', 'generateblocks' ) }
+												id="gblocks-flex-grow-mobile"
+												type={ 'number' }
+												value={ flexGrowMobile }
+												min="0"
+												step="1"
+												placeholder={ getResponsivePlaceholder( 'flexGrow', attributes, 'Mobile', '0' ) }
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexGrowMobile: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexGrowMobile ) {
+														setAttributes( {
+															flexGrowMobile: parseFloat( flexGrowMobile ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<TextControl
+												help={ __( 'Shrink', 'generateblocks' ) }
+												type={ 'number' }
+												value={ flexShrinkMobile }
+												min="0"
+												step="1"
+												placeholder={ getResponsivePlaceholder( 'flexShrink', attributes, 'Mobile', '1' ) }
+												onChange={ ( value ) => {
+													setAttributes( {
+														flexShrinkMobile: value,
+													} );
+												} }
+												onBlur={ () => {
+													if ( '' !== flexShrinkMobile ) {
+														setAttributes( {
+															flexShrinkMobile: parseFloat( flexShrinkMobile ),
+														} );
+													}
+												} }
+												onClick={ ( e ) => {
+													// Make sure onBlur fires in Firefox.
+													e.currentTarget.focus();
+												} }
+											/>
+
+											<div className="gblocks-flex-basis-wrapper">
+												{ ! isNaN( flexBasisMobile ) &&
+													<UnitPicker
+														value={ flexBasisUnit }
+														units={ [ 'px', '%' ] }
+														onClick={ ( value ) => {
+															setAttributes( {
+																flexBasisUnit: value,
+															} );
+														} }
+													/>
+												}
+
+												<TextControl
+													help={ __( 'Basis', 'generateblocks' ) }
+													type={ 'text' }
+													value={ flexBasisMobile }
+													placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, 'Mobile', 'auto' ) }
+													onChange={ ( value ) => {
+														setAttributes( {
+															flexBasisMobile: value,
+														} );
+													} }
+													onBlur={ () => {
+														if ( ! flexBasisMobile.match( /(auto|fill|max-content|min-content|fit-content|content|inherit|initial|revert|unset|[0-9.]+)/g ) ) {
+															setAttributes( {
+																flexBasisMobile: '',
+															} );
+														}
+													} }
+												/>
+											</div>
+										</div>
+									</BaseControl>
 
 									<SelectControl
 										label={ __( 'Vertical Alignment', 'generateblocks' ) }
@@ -834,6 +1292,7 @@ class GenerateBlockContainer extends Component {
 								<TypographyControls { ...this.props }
 									device={ 'Tablet' }
 									showFontSize={ true }
+									disableAdvancedToggle={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeTablet }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 									defaultLineHeight={ generateBlocksDefaults.container.lineHeightTablet }
@@ -848,6 +1307,7 @@ class GenerateBlockContainer extends Component {
 								<TypographyControls { ...this.props }
 									device={ 'Mobile' }
 									showFontSize={ true }
+									disableAdvancedToggle={ true }
 									defaultFontSize={ generateBlocksDefaults.container.fontSizeMobile }
 									defaultFontSizeUnit={ generateBlocksDefaults.container.fontSizeUnit }
 									defaultLineHeight={ generateBlocksDefaults.container.lineHeightMobile }
@@ -1026,7 +1486,7 @@ class GenerateBlockContainer extends Component {
 
 								<TextControl
 									type={ 'number' }
-									value={ minHeightTablet ? minHeightTablet : '' }
+									value={ minHeightTablet || 0 === minHeightTablet ? minHeightTablet : '' }
 									onChange={ ( value ) => {
 										setAttributes( {
 											minHeightTablet: parseFloat( value ),
@@ -1129,7 +1589,7 @@ class GenerateBlockContainer extends Component {
 
 								<TextControl
 									type={ 'number' }
-									value={ minHeightMobile ? minHeightMobile : '' }
+									value={ minHeightMobile || 0 === minHeightMobile ? minHeightMobile : '' }
 									onChange={ ( value ) => {
 										setAttributes( {
 											minHeightMobile: parseFloat( value ),
@@ -1433,6 +1893,12 @@ class GenerateBlockContainer extends Component {
 															selector: value,
 														},
 													} );
+
+													if ( 'pseudo-element' === value && ! innerZindex && 0 !== innerZindex ) {
+														setAttributes( {
+															innerZindex: 1,
+														} );
+													}
 												} }
 											/>
 
@@ -1447,6 +1913,12 @@ class GenerateBlockContainer extends Component {
 															selector: 'pseudo-element',
 														},
 													} );
+
+													if ( ! innerZindex && 0 !== innerZindex ) {
+														setAttributes( {
+															innerZindex: 1,
+														} );
+													}
 												} }
 												min={ 0 }
 												max={ 1 }
@@ -2037,7 +2509,7 @@ class GenerateBlockContainer extends Component {
 				}
 
 				<Element
-					tagName={ applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) }
+					tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
 					htmlAttrs={ htmlAttributes }
 				>
 					{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
@@ -2049,7 +2521,27 @@ class GenerateBlockContainer extends Component {
 						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 						<InnerBlocks
 							templateLock={ false }
-							renderAppender={ ( hasChildBlocks ? undefined : () => <InnerBlocks.ButtonBlockAppender /> ) }
+							renderAppender={ () => {
+								// Selected Container.
+								if ( this.props.isSelected ) {
+									return <InnerBlocks.ButtonBlockAppender />;
+								}
+
+								// Empty non-selected Container.
+								if ( ! hasChildBlocks && ! this.props.isSelected ) {
+									return <Button
+										className="gblocks-container-selector"
+										onClick={ () => wp.data.dispatch( 'core/block-editor' ).selectBlock( clientId ) }
+										aria-label={ __( 'Select Container', 'generateblocks' ) }
+									>
+										<span className="gblocks-container-selector__icon">
+											{ getIcon( 'container' ) }
+										</span>
+									</Button>;
+								}
+
+								return false;
+							} }
 						/>
 					</div>
 
@@ -2076,11 +2568,15 @@ export default compose( [
 			setPreviewDeviceType( type );
 		},
 	} ) ),
-	withSelect( ( select ) => {
+	withSelect( ( select, props ) => {
+		const { clientId } = props;
+		const blockEditor = select( 'core/block-editor' );
+
 		if ( ! select( 'core/edit-post' ) ) {
 			return {
 				media: null,
 				deviceType: null,
+				hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 			};
 		}
 
@@ -2102,12 +2598,14 @@ export default compose( [
 			return {
 				media: featuredImageId ? getMedia( featuredImageId ) : null,
 				deviceType: null,
+				hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 			};
 		}
 
 		return {
 			media: featuredImageId ? getMedia( featuredImageId ) : null,
 			deviceType: getPreviewDeviceType(),
+			hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
 		};
 	} ),
 ] )( GenerateBlockContainer );
