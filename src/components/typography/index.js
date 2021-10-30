@@ -26,6 +26,10 @@ import {
 	Button,
 } from '@wordpress/components';
 
+import {
+	applyFilters,
+} from '@wordpress/hooks';
+
 /**
  * Typography Component
  */
@@ -53,13 +57,13 @@ class TypographyControls extends Component {
 			fontSizePlaceholder = '17',
 		} = this.props;
 
-		const fonts = [
+		const fonts = applyFilters( 'generateblocks.editor.fonts', [
 			{ value: '', label: __( 'Select font', 'generateblocks' ) },
 			{ value: 'Arial', label: 'Arial' },
 			{ value: 'Helvetica', label: 'Helvetica' },
 			{ value: 'Times New Roman', label: 'Times New Roman' },
 			{ value: 'Georgia', label: 'Georgia' },
-		];
+		] );
 
 		Object.keys( googleFonts ).slice( 0, 20 ).forEach( ( k ) => {
 			fonts.push(
