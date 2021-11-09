@@ -1,5 +1,6 @@
 import { useDeviceType } from '../../hooks';
 import classnames from 'classnames';
+import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
