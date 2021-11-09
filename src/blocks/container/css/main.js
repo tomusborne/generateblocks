@@ -76,7 +76,6 @@ export default class MainCSS extends Component {
 			fontSizeUnit,
 			textTransform,
 			shapeDividers,
-			gridId,
 		} = attributes;
 
 		let containerWidthPreview = containerWidth;

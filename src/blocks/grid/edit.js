@@ -112,6 +112,5 @@ const GridEdit = ( props ) => {
 
 export default compose(
 	withUniqueId,
-	withUniqueId,
 	withGridLegacyMigration,
 )( GridEdit );
