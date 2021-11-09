@@ -3,12 +3,12 @@ name: GenerateBlocks JS CI
 on:
   push:
     branches:
-      - test
-#      - 'release/**'
-#  pull_request:
-#    branches:
-#      - master
-#      - 'release/**'
+      - master
+      - 'release/**'
+  pull_request:
+    branches:
+      - master
+      - 'release/**'
 
 jobs:
   build:
