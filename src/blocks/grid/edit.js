@@ -13,7 +13,6 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
-import withQueryLoop from './hoc/withQueryLoop';
 
 const GridEdit = ( props ) => {
 	const {
@@ -114,7 +113,6 @@ const GridEdit = ( props ) => {
 };
 
 export default compose(
-	withQueryLoop,
 	withUniqueId,
 	withGridLegacyMigration,
 )( GridEdit );
