@@ -21,6 +21,7 @@ import {
 import {
 	InnerBlocks,
 } from '@wordpress/block-editor';
+import withUniqueId from '../../hoc/withUniqueId';
 
 /**
  * Register our Button Container block.
@@ -44,7 +45,7 @@ registerBlockType( 'generateblocks/button-container', {
 	supports: {
 		className: false,
 	},
-	edit,
+	edit: withUniqueId( edit ),
 	save: () => {
 		return (
 			<InnerBlocks.Content />

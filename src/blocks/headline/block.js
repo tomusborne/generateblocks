@@ -2,7 +2,6 @@
  * Block: Headline
  */
 
-//import './style.scss';
 import './editor.scss';
 
 import editHeadline from './edit';
@@ -11,6 +10,7 @@ import blockAttributes from './attributes';
 import transforms from './transforms';
 import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
+import withUniqueId from '../../hoc/withUniqueId';
 
 import {
 	__,
@@ -43,7 +43,7 @@ registerBlockType( 'generateblocks/headline', {
 	supports: {
 		className: false,
 	},
-	edit: editHeadline,
+	edit: withUniqueId( editHeadline ),
 	save: saveHeadline,
 	transforms,
 	deprecated,

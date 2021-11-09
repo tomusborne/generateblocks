@@ -19,7 +19,6 @@ import TabletCSS from './css/tablet.js';
 import TabletOnlyCSS from './css/tablet-only.js';
 import MobileCSS from './css/mobile.js';
 import Element from '../../components/element';
-import getAllUniqueIds from '../../utils/get-all-unique-ids';
 import isBlockVersionLessThan from '../../utils/check-block-version';
 import hasNumericValue from '../../utils/has-numeric-value';
 import wasBlockJustInserted from '../../utils/was-block-just-inserted';
@@ -87,16 +86,6 @@ class GenerateBlockButton extends Component {
 	}
 
 	componentDidMount() {
-		// Generate a unique ID if none exists or if the same ID exists on this page.
-		const allBlocks = wp.data.select( 'core/block-editor' ).getBlocks();
-		const uniqueIds = getAllUniqueIds( allBlocks, [], this.props.clientId );
-
-		if ( ! this.props.attributes.uniqueId || uniqueIds.includes( this.props.attributes.uniqueId ) ) {
-			this.props.setAttributes( {
-				uniqueId: this.props.clientId.substr( 2, 9 ).replace( '-', '' ),
-			} );
-		}
-
 		const tempFontSizePlaceholder = this.getFontSizePlaceholder();
 
 		if ( tempFontSizePlaceholder !== this.state.fontSizePlaceholder ) {
