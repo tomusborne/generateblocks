@@ -28,7 +28,7 @@ const getFontSizePlaceholder = ( uniqueId, fontSizeUnit ) => {
 	}
 
 	return '25';
-}
+};
 
 export default ( props ) => {
 	const {

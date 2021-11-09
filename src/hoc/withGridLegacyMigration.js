@@ -7,7 +7,7 @@ export default ( WrappedComponent ) => {
 	return ( props ) => {
 		const {
 			attributes,
-			setAttributes
+			setAttributes,
 		} = props;
 
 		useEffect( () => {
@@ -36,7 +36,6 @@ export default ( WrappedComponent ) => {
 			if ( isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
 				setAttributes( { blockVersion: 2 } );
 			}
-
 		}, [] );
 
 		return ( <WrappedComponent { ...props } /> );

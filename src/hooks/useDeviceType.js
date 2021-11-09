@@ -12,11 +12,11 @@ export default ( initialDeviceType = 'Desktop' ) => {
 
 	const previewDeviceType = useSelect( ( select ) => {
 		const {
-			__experimentalGetPreviewDeviceType = () => false,
+			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType = () => false,
 		} = select( 'core/edit-post' );
 
-		return __experimentalGetPreviewDeviceType();
-	},[]);
+		return experimentalGetPreviewDeviceType();
+	}, [] );
 
 	return [ previewDeviceType, setPreviewDeviceType ];
 };

@@ -15,9 +15,9 @@ export default ( { anchor, setAttributes } ) => {
 			help={ __( 'Anchors lets you link directly to a section on a page.', 'generateblocks' ) }
 			value={ anchor || '' }
 			onChange={ ( value ) => {
-				const anchor = value.replace( ANCHOR_REGEX, '-' );
+				const anchorValue = value.replace( ANCHOR_REGEX, '-' );
 
-				setAttributes( { anchor } );
+				setAttributes( { anchor: anchorValue } );
 			} } />
 	);
 };

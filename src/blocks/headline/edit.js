@@ -117,12 +117,12 @@ export default ( props ) => {
 					hideChildren={ removeText }
 					showWrapper={ ! removeText }
 					wrapperClassname={ 'gb-headline-text' }
-					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel: undefined ) }
+					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
 					<RichText
 						tagName="span"
 						value={ content }
-						onChange={ ( content ) => setAttributes( { content } ) }
+						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
 						onSplit={ onSplit( attributes, clientId ) }
 						onReplace={ onReplace }
 						placeholder={ __( 'Headline', 'generateblocks' ) }

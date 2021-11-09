@@ -2,10 +2,9 @@ import { mount } from 'enzyme';
 import IconWrapper from '../index';
 import generalSvgs from '../../icon-picker/svgs-general';
 
-const ChildrenComponent = () => (<h2> { 'My children component' } </h2>);
+const ChildrenComponent = () => ( <h2> { 'My children component' } </h2> );
 
 describe( 'IconWrapper', () => {
-
 	it( 'should render children elements', () => {
 		const wrapper = mount(
 			<IconWrapper>
@@ -13,7 +12,7 @@ describe( 'IconWrapper', () => {
 			</IconWrapper>
 		);
 
-		expect( wrapper).toMatchSnapshot();
+		expect( wrapper ).toMatchSnapshot();
 	} );
 
 	it( 'should render left icon', () => {

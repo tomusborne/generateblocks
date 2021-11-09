@@ -20,12 +20,12 @@ export default ( {
 
 	return (
 		<Fragment>
-			{ hasIcon && 'left' === direction && Icon}
+			{ hasIcon && 'left' === direction && Icon }
 			{ hideChildren || ( showWrapper
 				? <span className={ wrapperClassname }>{ children }</span>
 				: children
 			) }
-			{ hasIcon && 'right' === direction && Icon}
+			{ hasIcon && 'right' === direction && Icon }
 		</Fragment>
 	);
 };
