@@ -96,13 +96,15 @@ const GridEdit = ( props ) => {
 
 			<div { ...htmlAttributes }>
 				{ ( attributes.columns > 0 || selectedLayout )
-					? <InnerBlocksRenderer
-						templateLock={ templateLock }
-						allowedBlocks={ [ 'generateblocks/container' ] }
-						renderAppender={ false }
-						clientId={ clientId }
-						uniqueId={ attributes.uniqueId }
-					/>
+					? (
+						<InnerBlocksRenderer
+							templateLock={ templateLock }
+							allowedBlocks={ [ 'generateblocks/container' ] }
+							renderAppender={ false }
+							clientId={ clientId }
+							uniqueId={ attributes.uniqueId }
+						/>
+					)
 					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
 				}
 			</div>
