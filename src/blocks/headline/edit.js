@@ -117,7 +117,7 @@ export default ( props ) => {
 					hideChildren={ removeText }
 					showWrapper={ ! removeText }
 					wrapperClassname={ 'gb-headline-text' }
-					ariaLabel={ ( ! removeText ? ariaLabel : undefined ) }
+					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel: undefined ) }
 				>
 					<RichText
 						tagName="span"
