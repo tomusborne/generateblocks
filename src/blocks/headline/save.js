@@ -4,14 +4,9 @@
 
 import classnames from 'classnames';
 import Element from '../../components/element';
-
-import {
-	RichText,
-} from '@wordpress/block-editor';
-
-import {
-	applyFilters,
-} from '@wordpress/hooks';
+import { RichText } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
+import IconWrapper from '../../components/icon-wrapper';
 
 export default ( { attributes } ) => {
 	const {
@@ -21,6 +16,7 @@ export default ( { attributes } ) => {
 		element,
 		content,
 		icon,
+		hasIcon,
 		removeText,
 		ariaLabel,
 	} = attributes;
@@ -29,34 +25,34 @@ export default ( { attributes } ) => {
 		className: classnames( {
 			'gb-headline': true,
 			[ `gb-headline-${ uniqueId }` ]: true,
-			'gb-headline-text': ! icon,
+			'gb-headline-text': ! hasIcon,
 			[ className ]: undefined !== className,
 		} ),
 		id: anchor ? anchor : null,
 	};
 
-	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
+	htmlAttributes = applyFilters(
+		'generateblocks.frontend.htmlAttributes',
+		htmlAttributes,
+		'generateblocks/headline',
+		attributes
+	);
 
 	return (
-		<Element
-			tagName={ element }
-			htmlAttrs={ htmlAttributes }
-		>
-			{ !! icon &&
-				<span
-					className="gb-icon"
-					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
-					dangerouslySetInnerHTML={ { __html: icon } }
-				/>
-			}
-
-			{ ! removeText &&
+		<Element tagName={ element } htmlAttrs={ htmlAttributes }>
+			<IconWrapper
+				hasIcon={ hasIcon }
+				icon={ icon }
+				hideChildren={ removeText }
+				showWrapper={ false }
+				ariaLabel={ ( ! removeText ? ariaLabel : undefined ) }
+			>
 				<RichText.Content
 					value={ content }
-					tagName={ !! icon ? 'span' : null }
-					className={ !! icon ? 'gb-headline-text' : null }
+					tagName={ hasIcon && icon ? 'span' : undefined }
+					className={ hasIcon && icon ? 'gb-headline-text' : undefined }
 				/>
-			}
+			</IconWrapper>
 		</Element>
 	);
 };
