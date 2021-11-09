@@ -115,7 +115,7 @@ export default ( props ) => {
 					hasIcon={ hasIcon }
 					icon={ icon }
 					hideChildren={ removeText }
-					showWrapper={ ! removeText }
+					showWrapper={ ! removeText && hasIcon }
 					wrapperClassname={ 'gb-headline-text' }
 					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
