@@ -75,7 +75,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		return (
 			<Fragment>
-				{ isGrid && parentGridId && 'generateblocks/container' === name &&
+				{ isGrid && parentGridId &&
 					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton
