@@ -67,7 +67,7 @@ export default ( props ) => {
 
 	return (
 		<InspectorControls>
-			<ResponsiveTabs selectedDevice={ deviceType } onClick={ setDeviceType } />
+			<ResponsiveTabs { ...props } selectedDevice={ deviceType } onClick={ setDeviceType } />
 
 			<PanelArea
 				{ ...props }
