@@ -16,7 +16,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 const getFontSizePlaceholder = ( uniqueId ) => {
 	let placeholder = '17';
 
-	const buttonId = document.querySelector( `.gb-button-${uniqueId}` );
+	const buttonId = document.querySelector( `.gb-button-${ uniqueId }` );
 
 	if ( buttonId ) {
 		placeholder = parseFloat( window.getComputedStyle( buttonId ).fontSize );
