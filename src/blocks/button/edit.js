@@ -64,8 +64,6 @@ const ButtonEdit = ( props ) => {
 			'gb-button-text': ! icon,
 			[ `${ className }` ]: undefined !== className,
 		} ),
-		href: !! url ? url : null,
-		target: !! target ? '_blank' : null,
 		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
 		id: anchor ? anchor : null,
