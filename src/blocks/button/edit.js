@@ -115,7 +115,7 @@ const ButtonEdit = ( props ) => {
 					icon={ icon }
 					direction={ iconLocation }
 					hideChildren={ removeText }
-					showWrapper={ !removeText && !! icon }
+					showWrapper={ ! removeText && !! icon }
 					wrapperClassname={ 'gb-button-text' }
 					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
