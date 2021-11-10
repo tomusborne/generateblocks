@@ -17,7 +17,6 @@ import {
 import {
 	registerBlockType,
 } from '@wordpress/blocks';
-import withUniqueId from '../../hoc/withUniqueId';
 
 /**
  * Register our Button block.
@@ -44,7 +43,7 @@ registerBlockType( 'generateblocks/button', {
 		inserter: false,
 		reusable: false,
 	},
-	edit: withUniqueId( editButton ),
+	edit: editButton,
 	save: saveButton,
 	deprecated,
 } );
