@@ -10,7 +10,7 @@ import { Fragment, useEffect } from '@wordpress/element';
 import Element from '../../components/element';
 import IconWrapper from '../../components/icon-wrapper';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
-import GoogleFontLink from './components/GoogleFontLink';
+import GoogleFontLink from '../../components/google-font-link';
 import ComponentCSS from './components/ComponentCSS';
 import { createBlock } from '@wordpress/blocks';
 

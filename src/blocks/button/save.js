@@ -12,6 +12,7 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import IconWrapper from '../../components/icon-wrapper';
 
 export default ( { attributes } ) => {
 	const {
@@ -57,34 +58,29 @@ export default ( { attributes } ) => {
 		id: anchor ? anchor : null,
 	};
 
-	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
+	htmlAttributes = applyFilters(
+		'generateblocks.frontend.htmlAttributes',
+		htmlAttributes,
+		'generateblocks/button',
+		attributes
+	);
 
 	return (
-		<Element
-			tagName={ url ? 'a' : 'span' }
-			htmlAttrs={ htmlAttributes }
-		>
-			{ !! icon && 'left' === iconLocation &&
-				<span
-					className="gb-icon"
-					dangerouslySetInnerHTML={ { __html: icon } }
-				/>
-			}
-
-			{ ! removeText &&
+		<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ htmlAttributes }>
+			<IconWrapper
+				hasIcon={ !! icon }
+				direction={ iconLocation }
+				icon={ icon }
+				hideChildren={ removeText }
+				showWrapper={ false }
+				ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
+			>
 				<RichText.Content
 					value={ text }
-					tagName={ !! icon ? 'span' : null }
-					className={ !! icon ? 'gb-button-text' : null }
+					tagName={ !! icon ? 'span' : undefined }
+					className={ !! icon ? 'gb-button-text' : undefined }
 				/>
-			}
-
-			{ !! icon && 'right' === iconLocation &&
-				<span
-					className="gb-icon"
-					dangerouslySetInnerHTML={ { __html: icon } }
-				/>
-			}
+			</IconWrapper>
 		</Element>
 	);
 };
