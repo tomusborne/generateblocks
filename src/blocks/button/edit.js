@@ -115,7 +115,7 @@ const ButtonEdit = ( props ) => {
 					icon={ icon }
 					direction={ iconLocation }
 					hideChildren={ removeText }
-					showWrapper={ true }
+					showWrapper={ !removeText && !! icon }
 					wrapperClassname={ 'gb-button-text' }
 					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
@@ -130,27 +130,27 @@ const ButtonEdit = ( props ) => {
 			</Element>
 
 			{ isSelected &&
-			<URLInput
-				url={ url }
-				target={ target }
-				relNoFollow={ relNoFollow }
-				relSponsored={ relSponsored }
-				onChange={ ( data ) => {
-					setAttributes( data );
+				<URLInput
+					url={ url }
+					target={ target }
+					relNoFollow={ relNoFollow }
+					relSponsored={ relSponsored }
+					onChange={ ( data ) => {
+						setAttributes( data );
 
-					if ( '' !== data.url ) {
-						setAttributes( {
-							hasUrl: true,
-						} );
-					} else {
-						setAttributes( {
-							hasUrl: false,
-						} );
-					}
-				} }
-				autoFocus={ false } // eslint-disable-line jsx-a11y/no-autofocus
-				className="gblocks-component-url-input-float"
-			/>
+						if ( '' !== data.url ) {
+							setAttributes( {
+								hasUrl: true,
+							} );
+						} else {
+							setAttributes( {
+								hasUrl: false,
+							} );
+						}
+					} }
+					autoFocus={ false } // eslint-disable-line jsx-a11y/no-autofocus
+					className="gblocks-component-url-input-float"
+				/>
 			}
 		</Fragment>
 	);
