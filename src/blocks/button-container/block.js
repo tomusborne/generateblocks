@@ -2,26 +2,15 @@
  * Block: Button Container
  */
 
-//import './style.scss';
 import './editor.scss';
 
-import edit from './edit';
+import editButtonContainer from './edit';
 import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
-
-import {
-	__,
-} from '@wordpress/i18n';
-
-import {
-	registerBlockType,
-} from '@wordpress/blocks';
-
-import {
-	InnerBlocks,
-} from '@wordpress/block-editor';
-import withUniqueId from '../../hoc/withUniqueId';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * Register our Button Container block.
@@ -45,7 +34,7 @@ registerBlockType( 'generateblocks/button-container', {
 	supports: {
 		className: false,
 	},
-	edit: withUniqueId( edit ),
+	edit: editButtonContainer,
 	save: () => {
 		return (
 			<InnerBlocks.Content />
