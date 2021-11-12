@@ -188,9 +188,9 @@ const ContainerEdit = ( props ) => {
 									onClick={ () => selectBlock( clientId ) }
 									aria-label={ __( 'Select Container', 'generateblocks' ) }
 								>
-										<span className="gblocks-container-selector__icon">
-											{ getIcon( 'container' ) }
-										</span>
+									<span className="gblocks-container-selector__icon">
+										{ getIcon( 'container' ) }
+									</span>
 								</Button>;
 							}
 
@@ -206,7 +206,6 @@ const ContainerEdit = ( props ) => {
 		</Fragment>
 	);
 };
-
 
 export default compose(
 	withSelect( ( select, props ) => {

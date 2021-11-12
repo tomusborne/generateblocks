@@ -11,7 +11,7 @@ import {
 	SelectControl,
 	TextControl,
 	ToggleControl,
-	Tooltip
+	Tooltip,
 } from '@wordpress/components';
 import UnitPicker from '../../../components/unit-picker';
 import { applyFilters } from '@wordpress/hooks';
@@ -93,7 +93,7 @@ export default ( props ) => {
 		shapeDividers,
 	} = attributes;
 
-	let hasGridContainer = false,
+	const hasGridContainer = false,
 		gridContainerId = '';
 
 	const hideWidthDesktop = hasFlexBasis( flexBasis );
@@ -129,6 +129,15 @@ export default ( props ) => {
 		shapeDividersValues.splice( index, 1 );
 		setAttributes( { shapeDividers: shapeDividersValues } );
 	};
+
+	const bgImageSizes = [];
+
+	Object.keys( generateBlocksInfo.imageSizes ).forEach( ( size ) => {
+		bgImageSizes.push( {
+			label: generateBlocksInfo.imageSizes[ size ],
+			value: generateBlocksInfo.imageSizes[ size ],
+		} );
+	} );
 
 	return (
 		<InspectorControls>
@@ -1772,16 +1781,16 @@ export default ( props ) => {
 																											>
 																												{ 'string' === typeof svgItems[ svgItem ].icon ? (
 																													<Fragment>
-																																	<span
-																																		className="editor-block-types-list__item-icon"
-																																		dangerouslySetInnerHTML={ { __html: sanitizeSVG( svgItems[ svgItem ].icon ) } }
-																																	/>
+																														<span
+																															className="editor-block-types-list__item-icon"
+																															dangerouslySetInnerHTML={ { __html: sanitizeSVG( svgItems[ svgItem ].icon ) } }
+																														/>
 																													</Fragment>
 																												) : (
 																													<Fragment>
-																																	<span className="editor-block-types-list__item-icon">
-																																		{ svgItems[ svgItem ].icon }
-																																	</span>
+																														<span className="editor-block-types-list__item-icon">
+																															{ svgItems[ svgItem ].icon }
+																														</span>
 																													</Fragment>
 																												) }
 																											</Button>

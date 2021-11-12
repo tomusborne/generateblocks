@@ -27,8 +27,8 @@ export default ( WrappedComponent ) => {
 			// @since 1.4.0.
 			if ( 'undefined' === typeof attributes.blockVersion || attributes.blockVersion < 2 ) {
 				let updateOldZindex =
-					attributes.gradient && 'pseudo-element' === attributes.gradientSelector
-					&& ! hasNumericValue( attributes.innerZindex );
+					attributes.gradient && 'pseudo-element' === attributes.gradientSelector &&
+					! hasNumericValue( attributes.innerZindex );
 
 				if ( ! updateOldZindex ) {
 					updateOldZindex = !! attributes.bgImage && 'undefined' !== typeof attributes.bgOptions.selector && 'pseudo-element' === attributes.bgOptions.selector;
