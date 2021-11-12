@@ -39,6 +39,14 @@ const ContainerEdit = ( props ) => {
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
 	const { selectBlock } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
+	useEffect( () => {
+		const thisBlock = document.getElementById( `block-${ clientId }` );
+
+		if ( thisBlock && 'full' === attributes.align ) {
+			thisBlock.setAttribute( 'data-align', 'full' );
+		}
+	}, [] );
+
 	// Attribute defaults added to an object late don't get defaults.
 	if ( 'undefined' === typeof attributes.bgOptions.selector ) {
 		attributes.bgOptions.selector = 'element';

@@ -6,18 +6,11 @@ import isBlockVersionLessThan from '../utils/check-block-version';
 export default ( WrappedComponent ) => {
 	return ( props ) => {
 		const {
-			clientId,
 			attributes,
 			setAttributes,
 		} = props;
 
 		useEffect( () => {
-			const thisBlock = document.getElementById( `block-${ clientId }` );
-
-			if ( thisBlock && 'full' === attributes.align ) {
-				thisBlock.setAttribute( 'data-align', 'full' );
-			}
-
 			// This block used to be static. Set it to dynamic by default from now on.
 			if ( 'undefined' === typeof attributes.isDynamic || ! attributes.isDynamic ) {
 				setAttributes( { isDynamic: true } );

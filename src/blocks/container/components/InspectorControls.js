@@ -24,6 +24,7 @@ import ColorPicker from '../../../components/color-picker';
 import GradientControl from '../../../components/gradient';
 import classnames from 'classnames';
 import sanitizeSVG from '../../../utils/sanitize-svg';
+import { useSelect } from '@wordpress/data';
 
 const hasFlexBasis = ( attribute ) => {
 	return hasNumericValue( attribute ) && 'auto' !== attribute;
@@ -31,6 +32,7 @@ const hasFlexBasis = ( attribute ) => {
 
 export default ( props ) => {
 	const {
+		clientId,
 		attributes,
 		setAttributes,
 		deviceType,
@@ -93,8 +95,28 @@ export default ( props ) => {
 		shapeDividers,
 	} = attributes;
 
-	const hasGridContainer = false,
+	const {
+		getBlockParents,
+		getBlocksByClientId,
+	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+
+	let parentBlockId = false,
+		parentBlock = false,
+		hasGridContainer = false,
 		gridContainerId = '';
+
+	if ( typeof getBlockParents === 'function' ) {
+		parentBlockId = getBlockParents( clientId, true )[ 0 ];
+
+		if ( parentBlockId ) {
+			parentBlock = getBlocksByClientId( parentBlockId );
+
+			if ( parentBlock && 'generateblocks/grid' === parentBlock[ 0 ].name ) {
+				hasGridContainer = true;
+				gridContainerId = parentBlock[ 0 ].attributes.uniqueId;
+			}
+		}
+	}
 
 	const hideWidthDesktop = hasFlexBasis( flexBasis );
 	const hideWidthTablet = 'auto' !== flexBasisTablet &&
