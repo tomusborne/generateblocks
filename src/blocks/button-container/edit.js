@@ -1,4 +1,4 @@
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
@@ -10,6 +10,8 @@ import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { withButtonContainerLegacyMigration, withUniqueId } from '../../hoc';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { createBlock } from '@wordpress/blocks';
 
 const ButtonContainerEdit = ( props ) => {
 	const {
@@ -25,6 +27,25 @@ const ButtonContainerEdit = ( props ) => {
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+
+	const { insertBlocks } = useDispatch( 'core/block-editor' );
+	const { getBlocksByClientId } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+
+	useEffect( () => {
+		const thisBlock = getBlocksByClientId( clientId )[ 0 ];
+
+		if ( thisBlock ) {
+			const childBlocks = thisBlock.innerBlocks;
+
+			if ( 0 === childBlocks.length ) {
+				insertBlocks(
+					createBlock( 'generateblocks/button', generateBlocksStyling.button ),
+					undefined,
+					clientId
+				);
+			}
+		}
+	}, [] );
 
 	let htmlAttributes = {
 		className: classnames( {
