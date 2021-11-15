@@ -5,7 +5,7 @@ import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
 import Element from '../../components/element';
 import IconWrapper from '../../components/icon-wrapper';
-import { RichText } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import URLInput from '../../components/url-input';
 import { Fragment } from '@wordpress/element';
@@ -76,6 +76,8 @@ const ButtonEdit = ( props ) => {
 		attributes
 	);
 
+	const blockProps = useBlockProps( htmlAttributes );
+
 	const richTextFormats = applyFilters(
 		'generateblocks.editor.buttonDisableFormatting',
 		false,
@@ -109,7 +111,7 @@ const ButtonEdit = ( props ) => {
 				googleFontVariants={ googleFontVariants }
 			/>
 
-			<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ htmlAttributes }>
+			<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
 				<IconWrapper
 					hasIcon={ !! icon }
 					icon={ icon }

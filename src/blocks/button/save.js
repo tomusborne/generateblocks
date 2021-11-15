@@ -4,14 +4,8 @@
 
 import classnames from 'classnames';
 import Element from '../../components/element';
-
-import {
-	RichText,
-} from '@wordpress/block-editor';
-
-import {
-	applyFilters,
-} from '@wordpress/hooks';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
 import IconWrapper from '../../components/icon-wrapper';
 
 export default ( { attributes } ) => {
@@ -65,8 +59,10 @@ export default ( { attributes } ) => {
 		attributes
 	);
 
+	const blockProps = useBlockProps.save( htmlAttributes );
+
 	return (
-		<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ htmlAttributes }>
+		<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
 			<IconWrapper
 				hasIcon={ !! icon }
 				direction={ iconLocation }
