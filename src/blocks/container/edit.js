@@ -9,9 +9,8 @@ import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
 import { Fragment, useEffect } from '@wordpress/element';
-import { useDeviceType } from '../../hooks';
+import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import classnames from 'classnames';
-import { useSelect } from '@wordpress/data';
 import ShapeDividers from './components/ShapeDividers';
 import InspectorControls from './components/InspectorControls';
 import { compose } from '@wordpress/compose';
@@ -36,8 +35,8 @@ const ContainerEdit = ( props ) => {
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
-	const { selectBlock, getBlockOrder } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
-	const hasChildBlocks = 0 < getBlockOrder( clientId ).length;
+	const innerBlocksCount = useInnerBlocksCount( clientId );
+	const hasChildBlocks = 0 < innerBlocksCount;
 
 	useEffect( () => {
 		const thisBlock = document.getElementById( `block-${ clientId }` );
