@@ -14,6 +14,7 @@ export default {
 	},
 	isQueryLoop: {
 		type: 'boolean',
+		default: false,
 	},
 	horizontalGap: {
 		type: 'number',
