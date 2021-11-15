@@ -37,7 +37,6 @@ const withBlockControls = createHigherOrderComponent(
 			attributes,
 			clientId,
 			setAttributes,
-			name,
 		} = props;
 
 		const {
@@ -62,7 +61,7 @@ const withBlockControls = createHigherOrderComponent(
 
 		return (
 			<Fragment>
-				{ ! isQueryLoop && isGrid && parentGridId && 'generateblocks/container' === name &&
+				{ ! isQueryLoop && isGrid && parentGridId &&
 					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton
