@@ -15,6 +15,7 @@ import ShapeDividers from './components/ShapeDividers';
 import InspectorControls from './components/InspectorControls';
 import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
+import { useDispatch } from '@wordpress/data';
 
 const ContainerEdit = ( props ) => {
 	const {
@@ -34,6 +35,7 @@ const ContainerEdit = ( props ) => {
 		googleFontVariants,
 	} = attributes;
 
+	const { selectBlock } = useDispatch( 'core/block-editor' );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 	const hasChildBlocks = 0 < innerBlocksCount;

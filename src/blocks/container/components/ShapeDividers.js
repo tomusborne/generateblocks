@@ -15,13 +15,13 @@ export default ( { attributes, allShapes } ) => {
 
 						return <Fragment key={ index }>
 							{ 'undefined' !== typeof allShapes[ shapeDividers[ index ].shape ] &&
-							<div
-								className={ classnames( {
-									'gb-shape': true,
-									[ `gb-shape-${ shapeNumber }` ]: true,
-								} ) }
-								dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
-							/>
+								<div
+									className={ classnames( {
+										'gb-shape': true,
+										[ `gb-shape-${ shapeNumber }` ]: true,
+									} ) }
+									dangerouslySetInnerHTML={ { __html: sanitizeSVG( allShapes[ shapeDividers[ index ].shape ].icon ) } }
+								/>
 							}
 						</Fragment>;
 					} )
