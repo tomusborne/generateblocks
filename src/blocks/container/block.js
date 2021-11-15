@@ -5,23 +5,13 @@
 import './editor.scss';
 import './block-controls.js';
 
-import edit from './edit';
+import containerEdit from './edit';
 import blockAttributes from './attributes';
 import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
-
-import {
-	__,
-} from '@wordpress/i18n';
-
-import {
-	registerBlockType,
-} from '@wordpress/blocks';
-
-import {
-	InnerBlocks,
-} from '@wordpress/block-editor';
-import withUniqueId from '../../hoc/withUniqueId';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * Register our Container block.
@@ -46,7 +36,7 @@ registerBlockType( 'generateblocks/container', {
 		align: false,
 		className: false,
 	},
-	edit: withUniqueId( edit ),
+	edit: containerEdit,
 	save: () => {
 		return (
 			<InnerBlocks.Content />
