@@ -11,7 +11,7 @@ import getIcon from '../../utils/get-icon';
 import { Fragment, useEffect } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import classnames from 'classnames';
-import { useSelect, withSelect } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import ShapeDividers from './components/ShapeDividers';
 import InspectorControls from './components/InspectorControls';
 import { compose } from '@wordpress/compose';
