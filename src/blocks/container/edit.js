@@ -21,7 +21,6 @@ const ContainerEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
-		hasChildBlocks,
 		clientId,
 	} = props;
 
@@ -37,7 +36,8 @@ const ContainerEdit = ( props ) => {
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
-	const { selectBlock } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const { selectBlock, getBlockOrder } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const hasChildBlocks = 0 < getBlockOrder( clientId ).length;
 
 	useEffect( () => {
 		const thisBlock = document.getElementById( `block-${ clientId }` );
@@ -143,7 +143,7 @@ const ContainerEdit = ( props ) => {
 				}
 			}
 		}
-	} );
+	}, [ attributes.align ] );
 
 	return (
 		<Fragment>
@@ -216,18 +216,6 @@ const ContainerEdit = ( props ) => {
 };
 
 export default compose(
-	withSelect( ( select, props ) => {
-		const { clientId } = props;
-		const blockEditor = select( 'core/block-editor' );
-		const { getMedia } = select( 'core' );
-		const { getEditedPostAttribute } = select( 'core/editor' );
-		const featuredImageId = getEditedPostAttribute( 'featured_media' );
-
-		return {
-			media: featuredImageId ? getMedia( featuredImageId ) : null,
-			hasChildBlocks: blockEditor ? 0 < blockEditor.getBlockOrder( clientId ).length : false,
-		};
-	} ),
 	withUniqueId,
 	withContainerLegacyMigration
 )( ContainerEdit );

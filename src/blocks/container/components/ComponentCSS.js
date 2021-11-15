@@ -14,23 +14,23 @@ export default ( props ) => {
 			<MainCSS { ...props } />
 
 			{ deviceType &&
-			<Fragment>
-				{ 'Desktop' === deviceType &&
-					<DesktopCSS { ...props } />
-				}
+				<Fragment>
+					{ 'Desktop' === deviceType &&
+						<DesktopCSS { ...props } />
+					}
 
-				{ ( 'Tablet' === deviceType || 'Mobile' === deviceType ) &&
-					<TabletCSS { ...props } />
-				}
+					{ ( 'Tablet' === deviceType || 'Mobile' === deviceType ) &&
+						<TabletCSS { ...props } />
+					}
 
-				{ 'Tablet' === deviceType &&
-					<TabletOnlyCSS { ...props } />
-				}
+					{ 'Tablet' === deviceType &&
+						<TabletOnlyCSS { ...props } />
+					}
 
-				{ 'Mobile' === deviceType &&
-					<MobileCSS { ...props } />
-				}
-			</Fragment>
+					{ 'Mobile' === deviceType &&
+						<MobileCSS { ...props } />
+					}
+				</Fragment>
 			}
 		</Fragment>
 	);
