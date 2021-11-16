@@ -4,7 +4,7 @@ import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
 import Element from '../../components/element';
 import { applyFilters } from '@wordpress/hooks';
-import { InnerBlocks } from '@wordpress/block-editor';
+import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
@@ -13,6 +13,7 @@ import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import classnames from 'classnames';
 import ShapeDividers from './components/ShapeDividers';
 import InspectorControls from './components/InspectorControls';
+import GridItem from './components/GridItem';
 import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
 import { useDispatch } from '@wordpress/data';
@@ -33,6 +34,7 @@ const ContainerEdit = ( props ) => {
 		fontFamily,
 		googleFont,
 		googleFontVariants,
+		isGrid,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
@@ -112,6 +114,8 @@ const ContainerEdit = ( props ) => {
 		attributes
 	);
 
+	const blockProps = useBlockProps( htmlAttributes );
+
 	const allShapes = [];
 
 	Object.keys( generateBlocksInfo.svgShapes ).forEach( ( key ) => {
@@ -175,43 +179,45 @@ const ContainerEdit = ( props ) => {
 				googleFontVariants={ googleFontVariants }
 			/>
 
-			<Element
-				tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
-				htmlAttrs={ htmlAttributes }
-			>
-				{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
-				<div className={ 'gb-inside-container' }>
-					{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
-					<InnerBlocks
-						templateLock={ false }
-						renderAppender={ () => {
-							// Selected Container.
-							if ( props.isSelected ) {
-								return <InnerBlocks.ButtonBlockAppender />;
-							}
+			<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
+				<Element
+					tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
+					htmlAttrs={ blockProps }
+				>
+					{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
+					<div className={ 'gb-inside-container' }>
+						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
+						<InnerBlocks
+							templateLock={ false }
+							renderAppender={ () => {
+								// Selected Container.
+								if ( props.isSelected ) {
+									return <InnerBlocks.ButtonBlockAppender />;
+								}
 
-							// Empty non-selected Container.
-							if ( ! hasChildBlocks && ! props.isSelected ) {
-								return <Button
-									className="gblocks-container-selector"
-									onClick={ () => selectBlock( clientId ) }
-									aria-label={ __( 'Select Container', 'generateblocks' ) }
-								>
-									<span className="gblocks-container-selector__icon">
-										{ getIcon( 'container' ) }
-									</span>
-								</Button>;
-							}
+								// Empty non-selected Container.
+								if ( ! hasChildBlocks && ! props.isSelected ) {
+									return <Button
+										className="gblocks-container-selector"
+										onClick={ () => selectBlock( clientId ) }
+										aria-label={ __( 'Select Container', 'generateblocks' ) }
+									>
+										<span className="gblocks-container-selector__icon">
+											{ getIcon( 'container' ) }
+										</span>
+									</Button>;
+								}
 
-							return false;
-						} }
-					/>
-				</div>
+								return false;
+							} }
+						/>
+					</div>
 
-				<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
+					<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
 
-				{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
-			</Element>
+					{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
+				</Element>
+			</GridItem>
 		</Fragment>
 	);
 };

@@ -249,24 +249,23 @@ export default class MainCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
-			width: ! autoWidth ? valueWithUnit( width, '%' ) : false,
-			'flex-grow': flexGrow,
-			'flex-shrink': flexShrink,
-			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
-			'display': 'flex', // eslint-disable-line quote-props
-			'flex-direction': 'column',
-			'margin-left': '0px',
-			'margin-right': '0px',
-		} ];
+		if ( isGrid ) {
+			cssObj[ '.gb-grid-wrapper .gb-grid-column-' + uniqueId ] = [ {
+				width: ! autoWidth ? valueWithUnit( width, '%' ) : false,
+				'flex-grow': flexGrow,
+				'flex-shrink': flexShrink,
+				'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
+			} ];
+
+			cssObj[ '.gb-grid-wrapper .gb-grid-column-' + uniqueId + ' > .gb-container' ] = [ {
+				display: 'flex',
+				'flex-direction': 'column',
+				height: '100%',
+			} ];
+		}
 
 		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
 			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
-		} ];
-
-		cssObj[ `.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
-		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"]` ] = [ {
-			'height': '100%', // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),
