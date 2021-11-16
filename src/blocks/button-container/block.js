@@ -21,6 +21,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/button-container', {
+	apiVersion: 2,
 	title: __( 'Buttons', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	icon: getIcon( 'button' ),

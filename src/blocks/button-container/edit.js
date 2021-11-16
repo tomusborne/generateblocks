@@ -3,7 +3,7 @@ import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
-import { InnerBlocks } from '@wordpress/block-editor';
+import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import BlockAppender from './components/BlockAppender';
 import { useDeviceType } from '../../hooks';
 import classnames from 'classnames';
@@ -63,6 +63,8 @@ const ButtonContainerEdit = ( props ) => {
 		attributes
 	);
 
+	const blockProps = useBlockProps( htmlAttributes );
+
 	return (
 		<Fragment>
 
@@ -86,7 +88,7 @@ const ButtonContainerEdit = ( props ) => {
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
-			<div { ...htmlAttributes }>
+			<div { ...blockProps }>
 				<InnerBlocks
 					allowedBlocks={ [ 'generateblocks/button' ] }
 					renderAppender={ () => (
