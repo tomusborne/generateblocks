@@ -44,7 +44,6 @@ export default ( props ) => {
 	const {
 		uniqueId,
 		anchor,
-		className,
 		content,
 		element,
 		fontFamily,
@@ -69,7 +68,6 @@ export default ( props ) => {
 			'gb-headline': true,
 			[ `gb-headline-${ uniqueId }` ]: true,
 			'gb-headline-text': ! hasIcon,
-			[ className ]: undefined !== className,
 		} ),
 		id: anchor ? anchor : null,
 	};
