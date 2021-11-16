@@ -185,7 +185,7 @@ const ContainerEdit = ( props ) => {
 			>
 				<Element
 					tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
-					htmlAttrs={ htmlAttributes }
+					htmlAttrs={ blockProps }
 				>
 					{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
 					<div className={ 'gb-inside-container' }>
