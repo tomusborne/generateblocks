@@ -29,6 +29,7 @@ import {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/headline', {
+	apiVersion: 2,
 	title: __( 'Headline', 'generateblocks' ),
 	description: __( 'Craft text-rich content with advanced typography.', 'generateblocks' ),
 	icon: getIcon( 'headline' ),

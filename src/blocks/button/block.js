@@ -27,6 +27,7 @@ import {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/button', {
+	apiVersion: 2,
 	title: __( 'Button', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	parent: [ 'generateblocks/button-container' ],
