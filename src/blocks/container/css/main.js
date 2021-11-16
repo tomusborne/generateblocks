@@ -252,7 +252,7 @@ export default class MainCSS extends Component {
 
 		if ( isGrid ) {
 			const gridColumnSelectors = [
-				'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .block-editor-inner-blocks',
+				'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .gb-query-wrapper > .block-editor-inner-blocks',
 				'.gb-grid-wrapper:not(.gb-is-query-wrapper) .gb-grid-column-' + uniqueId,
 			];
 
@@ -264,7 +264,7 @@ export default class MainCSS extends Component {
 			} ];
 
 			const gridContainerSelectors = [
-				'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout',
+				'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .gb-query-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout',
 				'.gb-grid-wrapper:not(.gb-is-query-wrapper) .gb-grid-column-' + uniqueId + ' > .gb-container',
 			];
 

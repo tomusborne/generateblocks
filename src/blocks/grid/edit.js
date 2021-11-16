@@ -14,6 +14,7 @@ import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
 import withQueryLoop from './hoc/withQueryLoop';
+import QueryWrapper from './components/QueryWrapper';
 
 const GridEdit = ( props ) => {
 	const {
@@ -102,13 +103,15 @@ const GridEdit = ( props ) => {
 			<div { ...blockProps }>
 				{ ( attributes.isQueryLoop || attributes.columns > 0 || selectedLayout )
 					? (
-						<InnerBlocksRenderer
-							templateLock={ templateLock }
-							allowedBlocks={ [ 'generateblocks/container' ] }
-							renderAppender={ false }
-							clientId={ clientId }
-							uniqueId={ attributes.uniqueId }
-						/>
+						<QueryWrapper isQueryLoop={ attributes.isQueryLoop }>
+							<InnerBlocksRenderer
+								templateLock={ templateLock }
+								allowedBlocks={ [ 'generateblocks/container' ] }
+								renderAppender={ false }
+								clientId={ clientId }
+								uniqueId={ attributes.uniqueId }
+							/>
+						</QueryWrapper>
 					)
 					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
 				}
