@@ -4,14 +4,13 @@
 
 import classnames from 'classnames';
 import Element from '../../components/element';
-import { RichText } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 import IconWrapper from '../../components/icon-wrapper';
 
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		className,
 		anchor,
 		element,
 		content,
@@ -26,7 +25,6 @@ export default ( { attributes } ) => {
 			'gb-headline': true,
 			[ `gb-headline-${ uniqueId }` ]: true,
 			'gb-headline-text': ! hasIcon,
-			[ className ]: undefined !== className,
 		} ),
 		id: anchor ? anchor : null,
 	};
@@ -38,8 +36,10 @@ export default ( { attributes } ) => {
 		attributes
 	);
 
+	const blockProps = useBlockProps.save( htmlAttributes );
+
 	return (
-		<Element tagName={ element } htmlAttrs={ htmlAttributes }>
+		<Element tagName={ element } htmlAttrs={ blockProps }>
 			<IconWrapper
 				hasIcon={ hasIcon }
 				icon={ icon }

@@ -4,7 +4,7 @@ import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
-import { RichText } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useEffect } from '@wordpress/element';
 import Element from '../../components/element';
@@ -44,7 +44,6 @@ export default ( props ) => {
 	const {
 		uniqueId,
 		anchor,
-		className,
 		content,
 		element,
 		fontFamily,
@@ -69,7 +68,6 @@ export default ( props ) => {
 			'gb-headline': true,
 			[ `gb-headline-${ uniqueId }` ]: true,
 			'gb-headline-text': ! hasIcon,
-			[ className ]: undefined !== className,
 		} ),
 		id: anchor ? anchor : null,
 	};
@@ -80,6 +78,8 @@ export default ( props ) => {
 		'generateblocks/headline',
 		attributes
 	);
+
+	const blockProps = useBlockProps( htmlAttributes );
 
 	const richTextFormats = applyFilters(
 		'generateblocks.editor.headlineDisableFormatting',
@@ -111,7 +111,7 @@ export default ( props ) => {
 
 			{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', props ) }
 
-			<Element tagName={ element } htmlAttrs={ htmlAttributes }>
+			<Element tagName={ element } htmlAttrs={ blockProps }>
 				<IconWrapper
 					hasIcon={ hasIcon }
 					icon={ icon }

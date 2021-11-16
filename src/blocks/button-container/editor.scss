@@ -4,6 +4,7 @@
 	align-items: flex-start;
 	justify-content: flex-start;
 	clear: both;
+	margin: 0;
 }
 
 .gb-button-wrapper .block-editor-block-list__layout > .block-list-appender {
@@ -26,9 +27,4 @@
 
 .gblocks-button-container-appender {
 	align-self: center;
-}
-
-.wp-block[data-type="generateblocks/button-container"] {
-	margin-top: 0;
-	margin-bottom: 0;
 }
