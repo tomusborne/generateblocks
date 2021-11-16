@@ -1,6 +1,6 @@
 import { useDispatch } from '@wordpress/data';
 import { Fragment, useEffect, useState } from '@wordpress/element';
-import { InnerBlocks } from '@wordpress/block-editor';
+import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import LayoutSelector, { getColumnsFromLayout } from './components/LayoutSelector';
 import { createBlock } from '@wordpress/blocks';
 import BlockControls from './components/BlockControls';
@@ -71,6 +71,8 @@ const GridEdit = ( props ) => {
 
 	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/grid', attributes );
 
+	const blockProps = useBlockProps( htmlAttributes );
+
 	return (
 		<Fragment>
 			{ ( attributes.columns > 0 || selectedLayout ) &&
@@ -94,7 +96,7 @@ const GridEdit = ( props ) => {
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
-			<div { ...htmlAttributes }>
+			<div { ...blockProps }>
 				{ ( attributes.columns > 0 || selectedLayout )
 					? (
 						<InnerBlocksRenderer

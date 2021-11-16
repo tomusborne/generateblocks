@@ -4,7 +4,7 @@ import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
 import Element from '../../components/element';
 import { applyFilters } from '@wordpress/hooks';
-import { InnerBlocks } from '@wordpress/block-editor';
+import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
@@ -113,6 +113,8 @@ const ContainerEdit = ( props ) => {
 		'generateblocks/container',
 		attributes
 	);
+
+	const blockProps = useBlockProps( htmlAttributes );
 
 	const allShapes = [];
 
