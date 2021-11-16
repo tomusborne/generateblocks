@@ -11,7 +11,6 @@ import IconWrapper from '../../components/icon-wrapper';
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		className,
 		text,
 		url,
 		target,
@@ -43,7 +42,6 @@ export default ( { attributes } ) => {
 			'gb-button': true,
 			[ `gb-button-${ uniqueId }` ]: true,
 			'gb-button-text': ! icon,
-			[ `${ className }` ]: undefined !== className,
 		} ),
 		href: !! url ? url : null,
 		target: !! target ? '_blank' : null,
