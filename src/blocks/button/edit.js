@@ -25,7 +25,6 @@ const ButtonEdit = ( props ) => {
 
 	const {
 		uniqueId,
-		className,
 		anchor,
 		text,
 		url,
@@ -62,7 +61,6 @@ const ButtonEdit = ( props ) => {
 			'gb-button': true,
 			[ `gb-button-${ uniqueId }` ]: true,
 			'gb-button-text': ! icon,
-			[ `${ className }` ]: undefined !== className,
 		} ),
 		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
