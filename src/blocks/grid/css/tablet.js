@@ -25,18 +25,16 @@ export default class TabletCSS extends Component {
 		let cssObj = [];
 
 		const gridSelector = isQueryLoop ? '.gb-grid-wrapper-' + uniqueId : '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
-		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .wp-block';
+		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .gb-grid-column';
 
-		cssObj[ gridItemSelector ] = [ {
+		cssObj[ gridSelector ] = [ {
 			'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
 			'justify-content': 'inherit' !== horizontalAlignmentTablet ? horizontalAlignmentTablet : null,
-			'margin-left': horizontalGapTablet || 0 === horizontalGapTablet ? '-' + ( horizontalGapTablet / 2 ) + 'px' : null,
-			'margin-right': horizontalGapTablet || 0 === horizontalGapTablet ? '-' + ( horizontalGapTablet / 2 ) + 'px' : null,
+			'margin-left': horizontalGapTablet || 0 === horizontalGapTablet ? '-' + horizontalGapTablet + 'px' : null,
 		} ];
 
 		cssObj[ gridItemSelector ] = [ {
-			'padding-left': horizontalGapTablet || 0 === horizontalGapTablet ? ( horizontalGapTablet / 2 ) + 'px' : null,
-			'padding-right': horizontalGapTablet || 0 === horizontalGapTablet ? ( horizontalGapTablet / 2 ) + 'px' : null,
+			'padding-left': valueWithUnit( horizontalGapTablet, 'px' ),
 			'margin-bottom': verticalGapTablet || 0 === verticalGapTablet ? valueWithUnit( verticalGapTablet, 'px' ) : null,
 		} ];
 

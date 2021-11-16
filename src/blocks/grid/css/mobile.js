@@ -25,18 +25,16 @@ export default class MobileCSS extends Component {
 		let cssObj = [];
 
 		const gridSelector = isQueryLoop ? '.gb-grid-wrapper-' + uniqueId : '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
-		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .wp-block';
+		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .gb-grid-column';
 
-		cssObj[ gridItemSelector ] = [ {
+		cssObj[ gridSelector ] = [ {
 			'align-items': 'inherit' !== verticalAlignmentMobile ? verticalAlignmentMobile : null,
 			'justify-content': 'inherit' !== horizontalAlignmentMobile ? horizontalAlignmentMobile : null,
-			'margin-left': horizontalGapMobile || 0 === horizontalGapMobile ? '-' + ( horizontalGapMobile / 2 ) + 'px' : null,
-			'margin-right': horizontalGapMobile || 0 === horizontalGapMobile ? '-' + ( horizontalGapMobile / 2 ) + 'px' : null,
+			'margin-left': horizontalGapMobile || 0 === horizontalGapMobile ? '-' + horizontalGapMobile + 'px' : null,
 		} ];
 
 		cssObj[ gridItemSelector ] = [ {
-			'padding-left': horizontalGapMobile || 0 === horizontalGapMobile ? ( horizontalGapMobile / 2 ) + 'px' : null,
-			'padding-right': horizontalGapMobile || 0 === horizontalGapMobile ? ( horizontalGapMobile / 2 ) + 'px' : null,
+			'padding-left': valueWithUnit( horizontalGapMobile, 'px' ),
 			'margin-bottom': verticalGapMobile || 0 === verticalGapMobile ? valueWithUnit( verticalGapMobile, 'px' ) : null,
 		} ];
 

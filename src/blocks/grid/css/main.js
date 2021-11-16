@@ -25,18 +25,16 @@ export default class MainCSS extends Component {
 		let cssObj = [];
 
 		const gridSelector = isQueryLoop ? '.gb-grid-wrapper-' + uniqueId : '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
-		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .wp-block';
+		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .gb-grid-column';
 
-		cssObj[ gridItemSelector ] = [ {
+		cssObj[ gridSelector ] = [ {
 			'align-items': verticalAlignment,
 			'justify-content': horizontalAlignment,
-			'margin-left': '-' + ( horizontalGap / 2 ) + 'px',
-			'margin-right': '-' + ( horizontalGap / 2 ) + 'px',
+			'margin-left': horizontalGap || 0 === horizontalGap ? '-' + horizontalGap + 'px' : null,
 		} ];
 
 		cssObj[ gridItemSelector ] = [ {
-			'padding-left': ( horizontalGap / 2 ) + 'px',
-			'padding-right': ( horizontalGap / 2 ) + 'px',
+			'padding-left': valueWithUnit( horizontalGap, 'px' ),
 			'margin-bottom': valueWithUnit( verticalGap, 'px' ),
 		} ];
 

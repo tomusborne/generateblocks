@@ -1,100 +1,59 @@
-// Styles from core Columns block
-// https://github.com/WordPress/gutenberg/blob/master/blocks/library/columns/editor.scss
 .gb-grid-wrapper:not(.gb-is-query-wrapper) {
-    position: relative;
-    display: block;
-    // These margins make sure that nested blocks stack/overlay with the parent block chrome
-    // This is sort of an experiment at making sure the editor looks as much like the end result as possible
-    // Potentially the rules here can apply to all nested blocks and enable stacking, in which case it should be moved elsewhere
-    margin-right: 0;
-    margin-left: 0;
+	margin: 0;
 
     > .block-editor-inner-blocks > .block-editor-block-list__layout {
         position: relative;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        margin-right: -15px;
-        margin-left: -15px;
-
-        // This max-width is used to constrain the main editor column, it should not cascade into columns
-        .editor-block-list__block {
-            max-width: none;
-            margin-right: 0;
-            margin-left: 0;
-        }
-    }
-
-    // Fullwide: show margin left/right to ensure there's room for the side UI
-    // This is not a 1:1 preview with the front-end where these margins would presumably be zero
-    // @todo this could be revisited, by for example showing this margin only when the parent block was selected first
-    // Then at least an unselected columns block would be an accurate preview
-    .block-editor-block-list__block[data-align="full"][data-type="generateblocks/grid"] > .block-editor-block-list__block-edit > div > & {
-        > .gb-grid-wrapper-button-select {
-            right: 1px;
-        }
-        > .block-editor-inner-blocks > .block-editor-block-list__layout {
-            margin-right: 1px;
-            margin-left: 1px;
-        }
-    }
-
-    // Hide appender shortcuts in columns
-    // @todo This essentially duplicates the mobile styles for the appender component
-    // It would be nice to be able to use element queries in that component instead https://github.com/tomhodgins/element-queries-spec
-    .editor-inserter-with-shortcuts {
-        display: none;
-    }
-    .editor-block-list__empty-block-inserter,
-    .editor-default-block-appender .editor-inserter {
-        right: 10px;
-        left: auto;
     }
 }
 
 .gb-is-query-wrapper {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-right: -15px;
-  margin-left: -15px;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: flex-start;
 
-  & > .block-editor-inner-blocks {
-	& > .block-editor-block-list__layout {
-	  height: 100%;
-
-	  & > .wp-block {
-		height: 100%;
-		margin-left: 0;
-		margin-right: 0;
-	  }
-	}
-
-	/**
-	 * Need to go deep here for disabled duplicated containers.
-	*/
-	& > div {
-	  height: 100%;
-
-	  & > .components-disabled {
-		height: 100%;
-
+	& > .block-editor-inner-blocks {
 		& > .block-editor-block-list__layout {
-		  height: 100%;
-
-		  & > .wp-block {
 			height: 100%;
-			margin: 0;
-		  }
-		}
-	  }
-	}
-  }
 
-  [data-type="generateblocks/container"] + .block-list-appender {
-	display: none;
-  }
+			& > .gb-grid-column {
+				height: 100%;
+				margin-left: 0;
+				margin-right: 0;
+
+				& > .gb-container {
+					height: 100%;
+				}
+	  		}
+		}
+
+		/**
+		* Need to go deep here for disabled duplicated containers.
+		*/
+		& > div {
+			height: 100%;
+
+			& > .components-disabled {
+				height: 100%;
+
+				& > .block-editor-block-list__layout {
+		  			height: 100%;
+
+		 			 & > .wp-block {
+						height: 100%;
+						margin: 0;
+					}
+				}
+			}
+		}
+	}
+
+	[data-type="generateblocks/container"] + .block-list-appender {
+		display: none;
+	}
 }
 
 .wp-block.gb-col {

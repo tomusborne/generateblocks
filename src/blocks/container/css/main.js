@@ -173,12 +173,12 @@ export default class MainCSS extends Component {
 		}
 
 		if ( isGrid ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.gb-grid-wrapper:not(.gb-is-query-wrapper) .gb-container-' + uniqueId ] = [ {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'column',
 				'height': '100%', // eslint-disable-line quote-props
 				'justify-content': verticalAlignment,
-			} );
+			} ];
 
 			cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
 				'height': '100%', // eslint-disable-line quote-props
@@ -250,29 +250,33 @@ export default class MainCSS extends Component {
 			} );
 		}
 
-		const gridColumnWrappers = [
-			'.gb-grid-wrapper:not(.gb-is-query-wrapper) > div > .block-editor-block-list__layout > #block-' + clientId,
-			'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .block-editor-inner-blocks',
-		];
+		if ( isGrid ) {
+			const gridColumnSelectors = [
+				'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .block-editor-inner-blocks',
+				'.gb-grid-wrapper:not(.gb-is-query-wrapper) .gb-grid-column-' + uniqueId,
+			];
 
-		cssObj[ gridColumnWrappers.join( ',' ) ] = [ {
-			width: ! autoWidth ? valueWithUnit( width, '%' ) : false,
-			'flex-grow': flexGrow,
-			'flex-shrink': flexShrink,
-			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
-			'display': 'flex', // eslint-disable-line quote-props
-			'flex-direction': 'column',
-			'margin-left': '0px',
-			'margin-right': '0px',
-		} ];
+			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
+				width: ! autoWidth ? valueWithUnit( width, '%' ) : false,
+				'flex-grow': flexGrow,
+				'flex-shrink': flexShrink,
+				'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
+			} ];
+
+			const gridContainerSelectors = [
+				'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout',
+				'.gb-grid-wrapper:not(.gb-is-query-wrapper) .gb-grid-column-' + uniqueId + ' > .gb-container',
+			];
+
+			cssObj[ gridContainerSelectors.join( ',' ) ] = [ {
+				display: 'flex',
+				'flex-direction': 'column',
+				height: '100%',
+			} ];
+		}
 
 		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
 			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
-		} ];
-
-		cssObj[ `.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit,
-		.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-` + clientId + ` > .block-editor-block-list__block-edit > [data-block="` + clientId + `"]` ] = [ {
-			'height': '100%', // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),

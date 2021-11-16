@@ -3,7 +3,7 @@ import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { __, sprintf } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 import {
 	BaseControl,
 	Button,
@@ -47,6 +47,7 @@ export default ( props ) => {
 	const {
 		tagName,
 		isGrid,
+		gridId,
 		width,
 		widthTablet,
 		widthMobile,
@@ -100,23 +101,38 @@ export default ( props ) => {
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
-	let parentBlockId = false,
-		parentBlock = false,
-		hasGridContainer = false,
-		gridContainerId = '';
-
-	if ( typeof getBlockParents === 'function' ) {
-		parentBlockId = getBlockParents( clientId, true )[ 0 ];
+	useEffect( () => {
+		const parentBlockId = getBlockParents( clientId, true )[ 0 ];
 
 		if ( parentBlockId ) {
-			parentBlock = getBlocksByClientId( parentBlockId );
+			const parentBlock = getBlocksByClientId( parentBlockId );
 
-			if ( parentBlock && 'generateblocks/grid' === parentBlock[ 0 ].name ) {
-				hasGridContainer = true;
-				gridContainerId = parentBlock[ 0 ].attributes.uniqueId;
+			if ( parentBlock ) {
+				if ( 'generateblocks/grid' === parentBlock[ 0 ].name ) {
+					const parentGridId = parentBlock[ 0 ].attributes.uniqueId;
+
+					if ( parentGridId !== gridId ) {
+						setAttributes( {
+							isGrid: true,
+							gridId: parentGridId,
+						} );
+					}
+				} else if ( isGrid ) {
+					// Grid block isn't the parent, can't be a grid item.
+					setAttributes( {
+						isGrid: false,
+						gridId: '',
+					} );
+				}
 			}
+		} else if ( isGrid ) {
+			// No parent exists, can't be a grid item.
+			setAttributes( {
+				isGrid: false,
+				gridId: '',
+			} );
 		}
-	}
+	} );
 
 	const hideWidthDesktop = hasFlexBasis( flexBasis );
 	const hideWidthTablet = 'auto' !== flexBasisTablet &&
@@ -177,20 +193,6 @@ export default ( props ) => {
 				>
 					{ 'Desktop' === deviceType &&
 						<Fragment>
-							{ hasGridContainer &&
-								<ToggleControl
-									label={ __( 'Grid Item', 'generateblocks' ) }
-									help={ __( 'This Container is inside a Grid Block but is not set as a grid item. Enable this option for optimal results.', 'generateblocks' ) }
-									checked={ !! isGrid }
-									onChange={ ( value ) => {
-										setAttributes( {
-											isGrid: value,
-											gridId: gridContainerId,
-										} );
-									} }
-								/>
-							}
-
 							<SelectControl
 								label={ __( 'Container', 'generateblocks' ) }
 								value={ outerContainer }
@@ -281,20 +283,6 @@ export default ( props ) => {
 					id={ 'containerGridLayout' }
 					state={ state }
 				>
-					{ ! hasGridContainer &&
-						<ToggleControl
-							label={ __( 'Grid Item', 'generateblocks' ) }
-							help={ __( 'This container is set as a grid item but is not inside a grid block. Deactivate this option for optimal results.', 'generateblocks' ) }
-							checked={ !! isGrid }
-							onChange={ ( value ) => {
-								setAttributes( {
-									isGrid: value,
-									gridId: '',
-								} );
-							} }
-						/>
-					}
-
 					{ 'Desktop' === deviceType && (
 						<Fragment>
 							<BaseControl>
