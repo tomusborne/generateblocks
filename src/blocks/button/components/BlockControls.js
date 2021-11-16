@@ -1,11 +1,13 @@
-import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { ToolbarButton, ToolbarGroup, Dropdown, ToggleControl } from '@wordpress/components';
 import getIcon from '../../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
 import { cloneBlock } from '@wordpress/blocks';
-import { BlockControls } from '@wordpress/block-editor';
+import { BlockControls, URLInput } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
+import { link } from '@wordpress/icons';
+import { applyFilters } from '@wordpress/hooks';
 
-export default ( { clientId } ) => {
+export default ( { clientId, attributes, setAttributes } ) => {
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 	const {
 		getBlockParentsByBlockName,
@@ -13,36 +15,115 @@ export default ( { clientId } ) => {
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
+	const {
+		url,
+		target,
+		relNoFollow,
+		relSponsored,
+	} = attributes;
+
+	const POPOVER_PROPS = {
+		className: 'block-editor-block-settings-menu__popover',
+		position: 'bottom right',
+	};
+
 	return (
-		<BlockControls>
-			<ToolbarGroup>
-				<ToolbarButton
-					className="gblocks-add-new-button"
-					icon={ getIcon( 'insert' ) }
-					label={ __( 'Add Button', 'generateblocks' ) }
-					onClick={ () => {
-						let parentBlockId = false;
+		<>
+			<BlockControls>
+				<ToolbarGroup>
+					<ToolbarButton
+						className="gblocks-add-new-button"
+						icon={ getIcon( 'insert' ) }
+						label={ __( 'Add Button', 'generateblocks' ) }
+						onClick={ () => {
+							let parentBlockId = false;
 
-						if ( typeof getBlockParentsByBlockName === 'function' ) {
-							parentBlockId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
-						} else {
-							parentBlockId = getBlockRootClientId( clientId );
-						}
-
-						const thisBlock = getBlocksByClientId( clientId )[ 0 ];
-
-						const clonedBlock = cloneBlock(
-							thisBlock,
-							{
-								uniqueId: '',
+							if ( typeof getBlockParentsByBlockName === 'function' ) {
+								parentBlockId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+							} else {
+								parentBlockId = getBlockRootClientId( clientId );
 							}
-						);
 
-						insertBlocks( clonedBlock, undefined, parentBlockId );
-					} }
-					showTooltip
-				/>
-			</ToolbarGroup>
-		</BlockControls>
+							const thisBlock = getBlocksByClientId( clientId )[ 0 ];
+
+							const clonedBlock = cloneBlock(
+								thisBlock,
+								{
+									uniqueId: '',
+								}
+							);
+
+							insertBlocks( clonedBlock, undefined, parentBlockId );
+						} }
+						showTooltip
+					/>
+				</ToolbarGroup>
+
+				<ToolbarGroup>
+					<Dropdown
+						contentClassName="gblocks-button-link-dropdown"
+						popoverProps={ POPOVER_PROPS }
+						renderToggle={ ( { isOpen, onToggle } ) => (
+							<ToolbarButton
+								icon={ link }
+								label={ ! url ? __( 'Add Link', 'generateblocks' ) : __( 'Change Link', 'generateblocks' ) }
+								onClick={ onToggle }
+								aria-expanded={ isOpen }
+								isPressed={ !! url }
+							/>
+						) }
+						renderContent={ () => (
+							<>
+								<URLInput
+									className={ 'gblocks-button-link' }
+									value={ url }
+									onChange={ ( value ) => {
+										setAttributes( {
+											url: value,
+										} );
+									} }
+								/>
+
+								{ '' !== url &&
+									<>
+										{ applyFilters( 'generateblocks.editor.urlInputMoreOptions', '', attributes ) }
+
+										<ToggleControl
+											label={ __( 'Open link in a new tab', 'generateblocks' ) }
+											checked={ target || '' }
+											onChange={ ( value ) => {
+												setAttributes( {
+													target: value,
+												} );
+											} }
+										/>
+
+										<ToggleControl
+											label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
+											checked={ relNoFollow || '' }
+											onChange={ ( value ) => {
+												setAttributes( {
+													relNoFollow: value,
+												} );
+											} }
+										/>
+
+										<ToggleControl
+											label={ __( 'Add rel="sponsored"', 'generateblocks' ) }
+											checked={ relSponsored || '' }
+											onChange={ ( value ) => {
+												setAttributes( {
+													relSponsored: value,
+												} );
+											} }
+										/>
+									</>
+								}
+							</>
+						) }
+					/>
+				</ToolbarGroup>
+			</BlockControls>
+		</>
 	);
 };

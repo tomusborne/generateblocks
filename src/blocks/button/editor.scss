@@ -65,3 +65,21 @@
 	margin-top: 0;
 	margin-bottom: 0;
 }
+
+.components-popover .gblocks-button-link {
+	margin-bottom: 10px;
+
+	input[type=text].block-editor-url-input__input {
+		max-width: 100%;
+		border: 1px solid #ddd;
+		border-radius: 2px;
+	}
+}
+
+.gblocks-button-link-dropdown {
+	.components-base-control:last-child {
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+	}
+}

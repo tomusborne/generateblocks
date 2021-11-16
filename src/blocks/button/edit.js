@@ -7,7 +7,6 @@ import Element from '../../components/element';
 import IconWrapper from '../../components/icon-wrapper';
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import URLInput from '../../components/url-input';
 import { Fragment } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import { applyFilters } from '@wordpress/hooks';
@@ -84,7 +83,11 @@ const ButtonEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			<BlockControls clientId={ clientId } />
+			<BlockControls
+				clientId={ clientId }
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			/>
 
 			<InspectorControls
 				attributes={ attributes }
@@ -128,30 +131,6 @@ const ButtonEdit = ( props ) => {
 					/>
 				</IconWrapper>
 			</Element>
-
-			{ isSelected &&
-				<URLInput
-					url={ url }
-					target={ target }
-					relNoFollow={ relNoFollow }
-					relSponsored={ relSponsored }
-					onChange={ ( data ) => {
-						setAttributes( data );
-
-						if ( '' !== data.url ) {
-							setAttributes( {
-								hasUrl: true,
-							} );
-						} else {
-							setAttributes( {
-								hasUrl: false,
-							} );
-						}
-					} }
-					autoFocus={ false } // eslint-disable-line jsx-a11y/no-autofocus
-					className="gblocks-component-url-input-float"
-				/>
-			}
 		</Fragment>
 	);
 };
