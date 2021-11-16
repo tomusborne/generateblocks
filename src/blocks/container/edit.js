@@ -179,10 +179,7 @@ const ContainerEdit = ( props ) => {
 				googleFontVariants={ googleFontVariants }
 			/>
 
-			<GridItem
-				isGrid={ isGrid }
-				uniqueId={ uniqueId }
-			>
+			<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
 				<Element
 					tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
 					htmlAttrs={ blockProps }
