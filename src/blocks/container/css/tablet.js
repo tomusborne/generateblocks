@@ -15,10 +15,6 @@ export default class TabletCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			clientId,
-		} = this.props;
-
-		const {
 			uniqueId,
 			isGrid,
 			widthTablet,
@@ -108,13 +104,15 @@ export default class TabletCSS extends Component {
 			'width': minHeightTablet && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
-			width: ! autoWidthTablet ? valueWithUnit( widthTablet, '%' ) : 'auto',
-			'flex-grow': flexGrowTablet,
-			'flex-shrink': flexShrinkTablet,
-			'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
-			order: orderTablet,
-		} ];
+		if ( isGrid ) {
+			cssObj[ '.gb-grid-wrapper .gb-grid-column-' + uniqueId ] = [ {
+				width: ! autoWidthTablet ? valueWithUnit( widthTablet, '%' ) : 'auto',
+				'flex-grow': flexGrowTablet,
+				'flex-shrink': flexShrinkTablet,
+				'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
+				order: orderTablet,
+			} ];
+		}
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {

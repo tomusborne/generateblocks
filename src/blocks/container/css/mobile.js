@@ -109,13 +109,15 @@ export default class MobileCSS extends Component {
 			'width': minHeightMobile && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
-			width: ! autoWidthMobile ? valueWithUnit( widthMobile, '%' ) : 'auto',
-			'flex-grow': flexGrowMobile,
-			'flex-shrink': flexShrinkMobile,
-			'flex-basis': isNaN( flexBasisMobile ) ? flexBasisMobile : valueWithUnit( flexBasisMobile, flexBasisUnit ),
-			'order': orderMobile, // eslint-disable-line quote-props
-		} ];
+		if ( isGrid ) {
+			cssObj[ '.gb-grid-wrapper .gb-grid-column-' + uniqueId ] = [ {
+				width: ! autoWidthMobile ? valueWithUnit( widthMobile, '%' ) : 'auto',
+				'flex-grow': flexGrowMobile,
+				'flex-shrink': flexShrinkMobile,
+				'flex-basis': isNaN( flexBasisMobile ) ? flexBasisMobile : valueWithUnit( flexBasisMobile, flexBasisUnit ),
+				'order': orderMobile, // eslint-disable-line quote-props
+			} ];
+		}
 
 		if ( removeVerticalGapMobile ) {
 			cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {

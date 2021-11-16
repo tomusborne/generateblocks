@@ -26,13 +26,11 @@ export default class MainCSS extends Component {
 		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'align-items': verticalAlignment,
 			'justify-content': horizontalAlignment,
-			'margin-left': '-' + ( horizontalGap / 2 ) + 'px',
-			'margin-right': '-' + ( horizontalGap / 2 ) + 'px',
+			'margin-left': horizontalGap || 0 === horizontalGap ? '-' + horizontalGap + 'px' : null,
 		} ];
 
-		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block' ] = [ {
-			'padding-left': ( horizontalGap / 2 ) + 'px',
-			'padding-right': ( horizontalGap / 2 ) + 'px',
+		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column' ] = [ {
+			'padding-left': valueWithUnit( horizontalGap, 'px' ),
 			'margin-bottom': valueWithUnit( verticalGap, 'px' ),
 		} ];
 
