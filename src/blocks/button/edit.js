@@ -5,7 +5,7 @@ import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
 import Element from '../../components/element';
 import IconWrapper from '../../components/icon-wrapper';
-import { RichText } from '@wordpress/block-editor';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
@@ -24,7 +24,6 @@ const ButtonEdit = ( props ) => {
 
 	const {
 		uniqueId,
-		className,
 		anchor,
 		text,
 		url,
@@ -61,7 +60,6 @@ const ButtonEdit = ( props ) => {
 			'gb-button': true,
 			[ `gb-button-${ uniqueId }` ]: true,
 			'gb-button-text': ! icon,
-			[ `${ className }` ]: undefined !== className,
 		} ),
 		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
@@ -74,6 +72,8 @@ const ButtonEdit = ( props ) => {
 		'generateblocks/button',
 		attributes
 	);
+
+	const blockProps = useBlockProps( htmlAttributes );
 
 	const richTextFormats = applyFilters(
 		'generateblocks.editor.buttonDisableFormatting',
@@ -112,7 +112,7 @@ const ButtonEdit = ( props ) => {
 				googleFontVariants={ googleFontVariants }
 			/>
 
-			<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ htmlAttributes }>
+			<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
 				<IconWrapper
 					hasIcon={ !! icon }
 					icon={ icon }
