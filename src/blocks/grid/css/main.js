@@ -24,7 +24,7 @@ export default class MainCSS extends Component {
 
 		let cssObj = [];
 
-		const gridSelector = isQueryLoop ? '.gb-grid-wrapper-' + uniqueId : '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
+		const gridSelector = isQueryLoop ? '.gb-grid-wrapper-' + uniqueId + ' > .gb-query-wrapper' : '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
 		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .gb-grid-column';
 
 		cssObj[ gridSelector ] = [ {

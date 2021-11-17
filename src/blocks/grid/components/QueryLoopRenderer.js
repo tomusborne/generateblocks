@@ -6,7 +6,7 @@ import useQueryLoopData from '../hooks/useQueryLoopData';
 import { createBlock } from '@wordpress/blocks';
 
 const getDefaultInnerBlock = ( uniqueId ) => {
-	const attributes = getColumnsFromLayout( '100', uniqueId )[0];
+	const attributes = getColumnsFromLayout( '100', uniqueId )[ 0 ];
 	const containerInnerBlocks = [
 		createBlock( 'core/post-title' ),
 		createBlock( 'core/post-date' ),
@@ -62,8 +62,8 @@ export default ( props ) => {
 				value={ postContext }
 			>
 				{ postContext === ( activeContext || dataContexts[ 0 ] )
-					? <InnerBlocks { ...props } templateLock={ templateLock }  />
-					: <div className={'block-editor-inner-blocks'}>
+					? <InnerBlocks { ...props } templateLock={ templateLock } />
+					: <div className={ 'block-editor-inner-blocks' }>
 						<BlockPreview
 							blocks={ innerBlocks }
 							__experimentalLive

@@ -1,6 +1,4 @@
 .gb-grid-wrapper:not(.gb-is-query-wrapper) {
-	margin: 0;
-
     > .block-editor-inner-blocks > .block-editor-block-list__layout {
         position: relative;
         display: flex;
@@ -9,7 +7,7 @@
     }
 }
 
-.gb-is-query-wrapper {
+.gb-query-wrapper {
 	position: relative;
 	display: flex;
 	flex-wrap: wrap;
