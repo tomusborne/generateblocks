@@ -29,6 +29,7 @@
 		"@wordpress/compose": "^4.0.0",
 		"@wordpress/core-data": "^4.0.7",
 		"@wordpress/data": "^5.0.0",
+		"@wordpress/date": "^4.2.3",
 		"@wordpress/element": "^3.0.0",
 		"@wordpress/hooks": "^3.0.0",
 		"@wordpress/i18n": "^4.0.0",
@@ -41,6 +42,7 @@
 		"grunt-contrib-compress": "^2.0.0",
 		"grunt-contrib-copy": "^1.0.0",
 		"jest": "^27.0.6",
+		"react-select": "^5.2.1",
 		"request": "^2.88.2"
 	},
 	"scripts": {

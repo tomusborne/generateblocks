@@ -10,7 +10,7 @@ import blockAttributes from './attributes';
 import transforms from './transforms';
 import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
-import withUniqueId from '../../hoc/withUniqueId';
+import dynamicContentAttributes from './components/dynamic-content/attributes';
 
 import {
 	__,
@@ -19,6 +19,12 @@ import {
 import {
 	registerBlockType,
 } from '@wordpress/blocks';
+
+const attributes = Object.assign(
+	{},
+	blockAttributes,
+	dynamicContentAttributes
+);
 
 /**
  * Register our Headline block.
@@ -40,12 +46,13 @@ registerBlockType( 'generateblocks/headline', {
 		__( 'title' ),
 		__( 'generate' ),
 	],
-	attributes: blockAttributes,
+	attributes,
 	supports: {
 		className: false,
 	},
-	edit: withUniqueId( editHeadline ),
+	edit: editHeadline,
 	save: saveHeadline,
 	transforms,
 	deprecated,
+	usesContext: [ 'postId', 'postType' ],
 } );

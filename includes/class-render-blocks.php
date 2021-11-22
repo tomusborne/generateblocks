@@ -82,6 +82,14 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => array( $this, 'do_button_container' ),
 			)
 		);
+
+		register_block_type(
+			'generateblocks/headline',
+			array(
+				'title' => esc_html__( 'Headline', 'generateblocks' ),
+				'render_callback' => array( $this, 'do_headline_block' ),
+			)
+		);
 	}
 
 	/**
@@ -323,6 +331,111 @@ class GenerateBlocks_Render_Block {
 		$the_query->reset_postdata();
 
 		return $content;
+	}
+
+	/**
+	 * Wrapper function for our dynamic headlines.
+	 *
+	 * @since 1.5.0
+	 * @param array  $attributes The block attributes.
+	 * @param string $content The dynamic text to display.
+	 */
+	public static function do_headline_block( $attributes, $content ) {
+		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
+			return $content;
+		}
+
+		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+
+		if ( ! $dynamic_content ) {
+			return '';
+		}
+
+		$defaults = generateblocks_get_block_defaults();
+
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['headline']
+		);
+
+		$classNames = array(
+			'gb-headline',
+			'gb-headline-' . $settings['uniqueId'],
+		);
+
+		if ( ! empty( $settings['className'] ) ) {
+			$classNames[] = $settings['className'];
+		}
+
+		if ( empty( $settings['dynamicIcon'] ) ) {
+			$classNames[] = 'gb-headline-text';
+		}
+
+		$tagName = apply_filters( 'generateblocks_dynamic_headline_tagname', $settings['element'], $attributes );
+
+		$allowedTagNames = apply_filters(
+			'generateblocks_dynamic_headline_allowed_tagnames',
+			array(
+				'h1',
+				'h2',
+				'h3',
+				'h4',
+				'h5',
+				'h6',
+				'div',
+				'p',
+			),
+			$attributes
+		);
+
+		if ( ! in_array( $tagName, $allowedTagNames ) ) {
+			$tagName = 'div';
+		}
+
+		$output = sprintf(
+			'<%1$s %2$s>',
+			$tagName,
+			generateblocks_attr(
+				'dynamic-headline',
+				array(
+					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
+					'class' => implode( ' ', $classNames ),
+				),
+				$settings
+			)
+		);
+
+		if ( ! empty( $settings['dynamicIcon'] ) ) {
+			$output .= sprintf(
+				'<span class="gb-icon">%s</span>',
+				$settings['dynamicIcon']
+			);
+
+			$output .= '<span class="gb-headline-text">';
+		}
+
+		$dynamic_link = null;
+
+		if ( $dynamic_link ) {
+			$dynamic_content = sprintf(
+				'<a href="%s">%s</a>',
+				$dynamic_link,
+				$dynamic_content
+			);
+		}
+
+		$output .= $dynamic_content;
+
+		if ( ! empty( $settings['dynamicIcon'] ) ) {
+			$output .= '</span>';
+		}
+
+		$output .= sprintf(
+			'</%s>',
+			$tagName
+		);
+
+		return $output;
 	}
 }
 
