@@ -37,36 +37,34 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_content( $attributes ) {
-		error_log( $attributes['contentType'] );
-		if ( isset( $attributes['contentType'] ) ) {
-			switch ( $attributes['contentType'] ) {
-				case 'post-excerpt':
-					return self::get_post_excerpt( $attributes );
+		if ( ! isset( $attributes['contentType'] ) ) {
+			return self::get_post_title( $attributes );
+		}
 
-				case 'post-date-published':
-					return self::get_post_date( $attributes );
+		switch ( $attributes['contentType'] ) {
+			case 'post-excerpt':
+				return self::get_post_excerpt( $attributes );
 
-				case 'post-date-updated':
-					return self::get_post_date( $attributes, true );
+			case 'post-date-published':
+				return self::get_post_date( $attributes );
 
-				case 'author-email':
-					return self::get_user_data( self::get_source_author_id( $attributes ), 'user_email' );
+			case 'post-date-updated':
+				return self::get_post_date( $attributes, true );
 
-				case 'author-name':
-					return self::get_user_data( self::get_source_author_id( $attributes ), 'display_name' );
+			case 'author-email':
+				return self::get_user_data( self::get_source_author_id( $attributes ), 'user_email' );
 
-				case 'author-nickname':
-					return self::get_user_data( self::get_source_author_id( $attributes ), 'nickname' );
+			case 'author-name':
+				return self::get_user_data( self::get_source_author_id( $attributes ), 'display_name' );
 
-				case 'author-first-name':
-					return self::get_user_data( self::get_source_author_id( $attributes ), 'first_name' );
+			case 'author-nickname':
+				return self::get_user_data( self::get_source_author_id( $attributes ), 'nickname' );
 
-				case 'author-last-name':
-					return self::get_user_data( self::get_source_author_id( $attributes ), 'last_name' );
+			case 'author-first-name':
+				return self::get_user_data( self::get_source_author_id( $attributes ), 'first_name' );
 
-				default:
-					return self::get_post_title( $attributes );
-			}
+			case 'author-last-name':
+				return self::get_user_data( self::get_source_author_id( $attributes ), 'last_name' );
 		}
 	}
 
@@ -154,7 +152,11 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_source_id( $attributes ) {
-		if ( 'current-post' !== $attributes['dynamicSource'] && isset( $attributes['postId'] ) ) {
+		if (
+			isset( $attributes['dynamicSource'] ) &&
+			'current-post' !== $attributes['dynamicSource'] &&
+			isset( $attributes['postId'] )
+		) {
 			return absint( $attributes['postId'] );
 		}
 

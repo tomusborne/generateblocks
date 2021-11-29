@@ -367,7 +367,7 @@ class GenerateBlocks_Render_Block {
 			$classNames[] = $settings['className'];
 		}
 
-		if ( empty( $settings['dynamicIcon'] ) ) {
+		if ( empty( $settings['icon'] ) ) {
 			$classNames[] = 'gb-headline-text';
 		}
 
@@ -405,10 +405,10 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		if ( ! empty( $settings['dynamicIcon'] ) ) {
+		if ( ! empty( $settings['icon'] ) ) {
 			$output .= sprintf(
 				'<span class="gb-icon">%s</span>',
-				$settings['dynamicIcon']
+				$settings['icon']
 			);
 
 			$output .= '<span class="gb-headline-text">';
@@ -426,7 +426,7 @@ class GenerateBlocks_Render_Block {
 
 		$output .= $dynamic_content;
 
-		if ( ! empty( $settings['dynamicIcon'] ) ) {
+		if ( ! empty( $settings['icon'] ) ) {
 			$output .= '</span>';
 		}
 

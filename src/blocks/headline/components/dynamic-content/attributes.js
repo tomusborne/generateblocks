@@ -23,4 +23,9 @@ export default {
 		type: 'string',
 		default: 'post',
 	},
+
+	icon: {
+		type: 'string',
+		default: '',
+	},
 };
