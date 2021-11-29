@@ -301,8 +301,6 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		error_log( print_r( $the_query, true ) );
-
 		$content = '';
 		if ( $the_query->have_posts() ) {
 			while ( $the_query->have_posts() ) {
