@@ -55,4 +55,23 @@ registerBlockType( 'generateblocks/headline', {
 	transforms,
 	deprecated,
 	usesContext: [ 'postId', 'postType' ],
+	__experimentalLabel: ( { isDynamicContent, contentType } ) => {
+		if ( isDynamicContent ) {
+			const labels = {
+				'post-title': __( 'Post title', 'generateblocks' ),
+				'post-excerpt': __( 'Post excerpt', 'generateblocks' ),
+				'post-date-published': __( 'Post date published', 'generateblocks' ),
+				'post-date-updated': __( 'Post date updated', 'generateblocks' ),
+				'author-email': __( 'Author email', 'generateblocks' ),
+				'author-name': __( 'Author name', 'generateblocks' ),
+				'author-nickname': __( 'Author nickname', 'generateblocks' ),
+				'author-first-name': __( 'Author first name', 'generateblocks' ),
+				'author-last-name': __( 'Author last name', 'generateblocks' ),
+			};
+
+			return labels[ contentType ] ?? __( 'Dynamic content', 'generateblocks' );
+		}
+
+		return __( 'Headline', 'generateblocks' );
+	},
 } );
