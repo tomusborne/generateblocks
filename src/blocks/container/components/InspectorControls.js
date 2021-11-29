@@ -108,7 +108,7 @@ export default ( props ) => {
 			const parentBlock = getBlocksByClientId( parentBlockId );
 
 			if ( parentBlock ) {
-				if ( 'generateblocks/grid' === parentBlock[ 0 ].name ) {
+				if ( 'generateblocks/grid' === parentBlock[ 0 ].name || 'generateblocks/query-loop' === parentBlock[ 0 ].name ) {
 					const parentGridId = parentBlock[ 0 ].attributes.uniqueId;
 
 					if ( parentGridId !== gridId ) {

@@ -12,10 +12,6 @@ export default {
 		type: 'number',
 		default: '',
 	},
-	isQueryLoop: {
-		type: 'boolean',
-		default: false,
-	},
 	horizontalGap: {
 		type: 'number',
 		default: generateBlocksDefaults.gridContainer.horizontalGap,
