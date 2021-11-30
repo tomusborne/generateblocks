@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { dateI18n } from '@wordpress/date';
 
 /**
@@ -6,7 +6,7 @@ import { dateI18n } from '@wordpress/date';
  *
  * @param {Object} record The post object
  * @param {Object} options Options to retrieve the correct content
- * @returns {string} The content
+ * @return {string} The content
  */
 export default ( record, options ) => {
 	switch ( options.contentType ) {
@@ -48,7 +48,11 @@ export default ( record, options ) => {
 			return __( 'Comments number', 'generateblocks' );
 
 		default:
-			return __( `Content type "${ options.contentType }" is not supported.`, 'generateblocks' );
+			return sprintf(
+				// translators: %s: Content type.
+				__( 'Content type %s is not supported.', 'generateblocks' ),
+				options.contentType
+			);
 	}
 };
 
@@ -56,7 +60,7 @@ export default ( record, options ) => {
  * Return the post title
  *
  * @param {Object} record The post object
- * @returns {string} The post title
+ * @return {string} The post title
  */
 const getPostTitle = ( record ) => record?.title?.raw || __( 'No post title.', 'generateblocks' );
 
@@ -64,7 +68,7 @@ const getPostTitle = ( record ) => record?.title?.raw || __( 'No post title.', '
  * Returns the post excerpt
  *
  * @param {Object} record The post object
- * @returns {string} The post excerpt
+ * @return {string} The post excerpt
  */
 const getPostExcerpt = ( record ) => {
 	const {
@@ -89,7 +93,7 @@ const getPostExcerpt = ( record ) => {
  * @param {Object} record The post object
  * @param {string} siteDateFormat The global site date format
  * @param {string} dateType The date type
- * @returns {string} The post date
+ * @return {string} The post date
  */
 const getPostDate = ( record, siteDateFormat, dateType ) => {
 	if ( ! record.date ) {
@@ -102,10 +106,11 @@ const getPostDate = ( record, siteDateFormat, dateType ) => {
 };
 
 /**
- * Returns the author content
+ * Returns the author content.
+ *
  * @param {Object} record Author object
- * @param contentType The author content type
- * @returns {string} THe content
+ * @param {string} contentType The author content type
+ * @return {string} THe content
  */
 const getPostAuthor = ( record, contentType ) => {
 	switch ( contentType ) {

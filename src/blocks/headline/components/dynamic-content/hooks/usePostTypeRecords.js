@@ -5,6 +5,6 @@ export default ( postType ) => (
 	useSelect( ( select ) => {
 		const { getEntityRecords } = select( coreStore );
 
-		return getEntityRecords( 'postType', postType, { per_page: -1 } )
+		return getEntityRecords( 'postType', postType, { per_page: -1 } );
 	}, [ postType ] )
 );

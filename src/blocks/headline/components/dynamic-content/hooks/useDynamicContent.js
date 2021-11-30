@@ -1,4 +1,4 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore, useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
@@ -16,14 +16,19 @@ export default ( context, attributes ) => {
 
 	const record = useSelect( ( select ) => {
 		const { getEntityRecord, getUser } = select( coreStore );
-		const postRecord =  getEntityRecord( 'postType', postType, postId );
+		const postRecord = getEntityRecord( 'postType', postType, postId );
 		const author = getUser( postRecord?.author );
 
 		return Object.assign( {}, postRecord, { author } );
 	}, [ postType, postId ] );
 
 	if ( ! record ) {
-		return __( `Post of id #${ postId } and post type "${ postType }" was not found.`, 'generateblocks' );
+		return sprintf(
+			// translators: %1$s: post ID, %2$s: post type.
+			__( 'Post of id #%1$s and post type %2$s was not found.', 'generateblocks' ),
+			postId,
+			postType
+		);
 	}
 
 	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
