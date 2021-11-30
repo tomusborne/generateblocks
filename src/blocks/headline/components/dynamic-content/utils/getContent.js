@@ -16,11 +16,25 @@ export default ( record, options ) => {
 		case 'post-excerpt':
 			return getPostExcerpt( record );
 
-		case 'post-date-published':
-			return getPostDate( record, options.siteDateFormat, 'published' );
+		case 'post-date':
+			let dateType = options.dateType;
 
-		case 'post-date-updated':
-			return getPostDate( record, options.siteDateFormat, 'updated' );
+			if ( 'published' === dateType && options.dateReplacePublished ) {
+				dateType = 'updated';
+			}
+
+			return getPostDate( record, options.siteDateFormat, dateType );
+
+		case 'post-meta':
+			return getPostMeta( record?.meta, options.metaFieldName );
+
+		case 'author-meta':
+			// @todo: Get author meta.
+			return __( 'Author meta', 'generateblocks' );
+
+		case 'terms':
+			// @todo: Get list of terms.
+			return __( 'List of terms', 'generateblocks' );
 
 		case 'author-email':
 		case 'author-name':
@@ -28,6 +42,10 @@ export default ( record, options ) => {
 		case 'author-first-name':
 		case 'author-last-name':
 			return getPostAuthor( record?.author, options.contentType );
+
+		case 'comments-number':
+			// @todo: Get comments number.
+			return __( 'Comments number', 'generateblocks' );
 
 		default:
 			return __( `Content type "${ options.contentType }" is not supported.`, 'generateblocks' );
@@ -109,4 +127,19 @@ const getPostAuthor = ( record, contentType ) => {
 		default:
 			return __( 'No author found.', 'generateblocks' );
 	}
+};
+
+/**
+ * Returns the post meta.
+ *
+ * @param {Object} record Meta object
+ * @param {string} metaField The meta field name.
+ * @return {string} THe content
+ */
+const getPostMeta = ( record, metaField ) => {
+	if ( record[ metaField ] ) {
+		return record[ metaField ];
+	}
+
+	return __( 'Post meta', 'generateblocks' );
 };

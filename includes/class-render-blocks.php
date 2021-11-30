@@ -414,7 +414,7 @@ class GenerateBlocks_Render_Block {
 			$output .= '<span class="gb-headline-text">';
 		}
 
-		$dynamic_link = null;
+		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes );
 
 		if ( $dynamic_link ) {
 			$dynamic_content = sprintf(

@@ -30,6 +30,9 @@ export default ( context, attributes ) => {
 
 	return getContent( record, {
 		contentType: attributes.contentType,
+		dateType: attributes.dateType,
+		dateReplacePublished: attributes.dateReplacePublished,
+		metaFieldName: attributes.metaFieldName,
 		siteDateFormat: siteFormat,
 		postType,
 	} );
