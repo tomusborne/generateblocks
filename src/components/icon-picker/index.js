@@ -89,6 +89,13 @@ class IconPicker extends Component {
 							} else {
 								setAttributes( {
 									'hasIcon': false, // eslint-disable-line quote-props
+									dynamicIcon: '',
+								} );
+							}
+
+							if ( attributes.isDynamicContent ) {
+								setAttributes( {
+									dynamicIcon: sanitizeSVG( value ),
 								} );
 							}
 						} }
@@ -104,6 +111,7 @@ class IconPicker extends Component {
 								setAttributes( {
 									[ this.props[ 'attrIcon' ] ]: '', // eslint-disable-line dot-notation
 									'hasIcon': false, // eslint-disable-line quote-props
+									dynamicIcon: '',
 								} );
 							} }
 						>

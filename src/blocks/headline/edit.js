@@ -13,6 +13,9 @@ import InspectorAdvancedControls from '../grid/components/InspectorAdvancedContr
 import GoogleFontLink from '../../components/google-font-link';
 import ComponentCSS from './components/ComponentCSS';
 import { createBlock } from '@wordpress/blocks';
+import { compose } from '@wordpress/compose';
+import { withUniqueId } from '../../hoc';
+import withDynamicContent from './components/dynamic-content/hoc/withDynamicContent';
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	let block;
@@ -33,12 +36,14 @@ const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	return block;
 } );
 
-export default ( props ) => {
+const HeadlineEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
 		onReplace,
 		clientId,
+		ContentRenderer = RichText,
+		context,
 	} = props;
 
 	const {
@@ -120,7 +125,7 @@ export default ( props ) => {
 					wrapperClassname={ 'gb-headline-text' }
 					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
-					<RichText
+					<ContentRenderer
 						tagName="span"
 						value={ content }
 						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
@@ -128,9 +133,17 @@ export default ( props ) => {
 						onReplace={ onReplace }
 						placeholder={ __( 'Headline', 'generateblocks' ) }
 						allowedFormats={ richTextFormats }
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						context={ context }
 					/>
 				</IconWrapper>
 			</Element>
 		</Fragment>
 	);
 };
+
+export default compose(
+	withDynamicContent,
+	withUniqueId
+)( HeadlineEdit );
