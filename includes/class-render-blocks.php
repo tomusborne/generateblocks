@@ -68,6 +68,14 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
+			'generateblocks/query-loop',
+			array(
+				'title' => esc_html__( 'Query loop', 'generateblocks' ),
+				'render_callback' => array( $this, 'do_grid_block' ),
+			)
+		);
+
+		register_block_type(
 			'generateblocks/button-container',
 			array(
 				'title' => esc_html__( 'Buttons', 'generateblocks' ),
@@ -311,6 +319,8 @@ class GenerateBlocks_Render_Block {
 				$content .= $block_content;
 			}
 		}
+
+		$the_query->reset_postdata();
 
 		return $content;
 	}

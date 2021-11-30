@@ -1,5 +1,5 @@
 import { useDispatch, useSelect } from '@wordpress/data';
-import { getColumnsFromLayout } from './LayoutSelector';
+import { getColumnsFromLayout } from '../../grid/components/LayoutSelector';
 import { useState, useMemo, useEffect } from '@wordpress/element';
 import { BlockContextProvider, BlockPreview, InnerBlocks } from '@wordpress/block-editor';
 import useQueryLoopData from '../hooks/useQueryLoopData';

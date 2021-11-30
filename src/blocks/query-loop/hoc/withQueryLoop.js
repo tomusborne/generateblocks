@@ -1,10 +1,14 @@
-import { Fragment } from '@wordpress/element';
-import InspectorControls from '../components/query-loop/InspectorControls';
+import { Fragment, useEffect } from '@wordpress/element';
+import InspectorControls from '../components/InspectorControls';
 import QueryLoopRenderer from '../components/QueryLoopRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
-		const { clientId, attributes, setAttributes } = props;
+		const { attributes, setAttributes } = props;
+
+		useEffect( () => {
+			setAttributes( { isQueryLoop: true } );
+		}, [] );
 
 		const newProps = attributes.isQueryLoop ? Object.assign( {}, props, {
 			defaultLayout: '100',
@@ -14,11 +18,7 @@ export default ( WrappedComponent ) => {
 
 		return (
 			<Fragment>
-				<InspectorControls
-					clientId={ clientId }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
+				<InspectorControls />
 				<WrappedComponent { ...newProps } />
 			</Fragment>
 		);

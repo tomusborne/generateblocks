@@ -1,7 +1,7 @@
 import { useDispatch } from '@wordpress/data';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import LayoutSelector, { getColumnsFromLayout } from './components/LayoutSelector';
+import GridLayoutSelector, { getColumnsFromLayout } from './components/LayoutSelector';
 import { createBlock } from '@wordpress/blocks';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
@@ -13,8 +13,7 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
-import withQueryLoop from './hoc/withQueryLoop';
-import QueryWrapper from './components/QueryWrapper';
+import QueryWrapper from '../query-loop/components/QueryWrapper';
 
 const GridEdit = ( props ) => {
 	const {
@@ -22,6 +21,7 @@ const GridEdit = ( props ) => {
 		attributes,
 		setAttributes,
 		InnerBlocksRenderer = InnerBlocks,
+		LayoutSelector = GridLayoutSelector,
 		defaultLayout = false,
 		templateLock = false,
 	} = props;
@@ -121,7 +121,6 @@ const GridEdit = ( props ) => {
 };
 
 export default compose(
-	withQueryLoop,
 	withUniqueId,
 	withGridLegacyMigration,
 )( GridEdit );
