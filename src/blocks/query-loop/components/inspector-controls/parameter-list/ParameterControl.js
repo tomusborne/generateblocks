@@ -20,6 +20,7 @@ const attributeValueNormalizer = ( attribute, value ) => {
 	switch ( attribute ) {
 		case 'post_type':
 		case 'order':
+		case 'orderby':
 			return value.value;
 
 		default:

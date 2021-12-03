@@ -31,4 +31,25 @@ export default [
 		description: __( 'Designates the ascending or descending order of the ‘orderby‘ parameter.', 'generateblocks' ),
 		group: __( 'Order & Order by', 'generateblocks' ),
 	},
+	{
+		id: 'orderby',
+		type: 'select',
+		default: 'date',
+		selectOptions: [
+			{ value: 'id', label: 'Id' },
+			{ value: 'title', label: 'Title' },
+			{ value: 'slug', label: 'Slug' },
+			{ value: 'author', label: 'Author' },
+			{ value: 'date', label: 'Date' },
+			{ value: 'modified', label: 'Last modified date' },
+			{ value: 'parent', label: 'Parent id' },
+			// Need extra fields to be set
+			// { value: 'relevance', label: 'Relevance' },
+			// { value: 'include', label: 'Include' },
+			// { value: 'include_slug', label: 'Include slug' },
+		],
+		label: __( 'Order by', 'generateblocks' ),
+		description: __( 'Sort retrieved posts by parameter.', 'generateblocks' ),
+		group: __( 'Order & Order by', 'generateblocks' ),
+	},
 ];
