@@ -1,12 +1,13 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../components/panel-area';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useMemo, useState } from '@wordpress/element';
 import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
 import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
 import ParameterList from './inspector-controls/parameter-list';
 import useQueryReducer from '../hooks/useQueryReducer';
 import isEmpty from '../../../utils/object-is-empty';
+import queryParameterOptions from '../query-parameters';
 
 export default ( { attributes, setAttributes } ) => {
 	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer();
@@ -27,6 +28,14 @@ export default ( { attributes, setAttributes } ) => {
 		setAttributes( { query: queryState } );
 	}, [ queryState ] );
 
+	const parameterOptions = useMemo( () => (
+		queryParameterOptions.map( ( parameter ) => {
+			parameter.isDisabled = Object.keys( queryState ).includes( parameter.id );
+
+			return parameter;
+		} )
+	), [ queryState ] );
+
 	return (
 		<InspectorControls>
 			<PanelArea
@@ -46,6 +55,7 @@ export default ( { attributes, setAttributes } ) => {
 
 				{ displayParameterSelect &&
 					<SelectQueryParameter
+						options={ parameterOptions }
 						onChange={ ( option ) => {
 							setParameter( option.id, option.default );
 							setDisplayParameterSelect( false );
