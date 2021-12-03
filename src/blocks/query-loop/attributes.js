@@ -5,4 +5,9 @@ export default Object.assign( {}, gridAttributes, {
 		type: 'boolean',
 		default: false,
 	},
+
+	query: {
+		type: 'object',
+		default: {}
+	},
 } );

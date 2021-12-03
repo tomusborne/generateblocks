@@ -4,25 +4,34 @@ import { useState, useMemo, useEffect } from '@wordpress/element';
 import { BlockContextProvider, BlockPreview, InnerBlocks } from '@wordpress/block-editor';
 import useQueryLoopData from '../hooks/useQueryLoopData';
 import { createBlock } from '@wordpress/blocks';
+import { Spinner } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 const getDefaultInnerBlock = ( uniqueId ) => {
 	const attributes = getColumnsFromLayout( '100', uniqueId )[ 0 ];
 	const containerInnerBlocks = [
-		createBlock( 'core/post-title' ),
-		createBlock( 'core/post-date' ),
+		createBlock( 'generateblocks/headline', {
+			isDynamicContent: true,
+		} ),
+		createBlock( 'generateblocks/headline', {
+			isDynamicContent: true,
+			element: 'p',
+			contentType: 'post-date-published',
+		} ),
 	];
 
-	return createBlock(
-		'generateblocks/container',
-		Object.assign( {}, attributes, { isQueryLoop: true } ),
-		containerInnerBlocks
-	);
+	return createBlock( 'generateblocks/container', attributes, containerInnerBlocks );
 };
 
+function removeEmpty( obj ) {
+	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => !! value ) );
+}
+
 export default ( props ) => {
-	const { clientId, uniqueId } = props;
+	const { clientId, uniqueId, attributes } = props;
 	const [ activeContext, setActiveContext ] = useState();
 	const [ templateLock, setTemplateLock ] = useState( false );
+	const { query } = attributes;
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 
@@ -30,12 +39,10 @@ export default ( props ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
 
-	const { data, hasData } = useQueryLoopData( [
+	const { data, hasData, isResolvingData, hasResolvedData } = useQueryLoopData( [
 		'postType',
-		'post',
-		{
-			per_page: -1,
-		},
+		query.post_type || 'post',
+		removeEmpty( query ),
 	] );
 
 	useEffect( () => {
@@ -53,6 +60,14 @@ export default ( props ) => {
 			} ) ),
 		[ data, hasData ]
 	);
+
+	if ( isResolvingData ) {
+		return (<Spinner />);
+	}
+
+	if ( hasResolvedData && ! hasData ) {
+		return (<h5>{ __( 'No results found.', 'generateblocks' ) }</h5>);
+	}
 
 	return (
 		dataContexts &&

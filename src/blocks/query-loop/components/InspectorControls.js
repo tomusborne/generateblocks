@@ -1,8 +1,32 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../components/panel-area';
+import { useEffect, useState } from '@wordpress/element';
+import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
+import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
+import ParameterList from './inspector-controls/parameter-list';
+import useQueryReducer from '../hooks/useQueryReducer';
+import isEmpty from '../../../utils/object-is-empty';
 
-export default () => {
+export default ( { attributes, setAttributes } ) => {
+	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer();
+	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
+
+	useEffect( () => {
+		if ( ! isEmpty( attributes.query ) ) {
+			insertParameters( attributes.query );
+		} else {
+			insertParameters( {
+				'post_type': 'post',
+				'per_page': 10,
+			} );
+		}
+	}, [] );
+
+	useEffect( () => {
+		setAttributes( { query: queryState } );
+	}, [ queryState ] );
+
 	return (
 		<InspectorControls>
 			<PanelArea
@@ -10,7 +34,24 @@ export default () => {
 				title={ __( 'Query loop', 'generateblocks' ) }
 				initialOpen={ true }
 			>
-				{ 'Query controls will be here' }
+				<ParameterList
+					query={ queryState }
+					setParameter={ setParameter }
+					removeParameter={ removeParameter }
+				/>
+
+				<AddQueryParameterButton onClick={ () => {
+					setDisplayParameterSelect( true );
+				} } />
+
+				{ displayParameterSelect &&
+					<SelectQueryParameter
+						onChange={ ( option ) => {
+							setParameter( option.id, option.default );
+							setDisplayParameterSelect( false );
+						} }
+					/>
+				}
 			</PanelArea>
 		</InspectorControls>
 	);

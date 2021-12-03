@@ -20,7 +20,7 @@ export default ( queryParams ) => {
 				queryParams
 			),
 		};
-	}, [] );
+	}, [ queryParams ] );
 
 	return {
 		data: data,

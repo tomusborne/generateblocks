@@ -17,6 +17,11 @@ export default ( props ) => {
 			...base,
 			zIndex: 999999,
 		} ),
+
+		control: ( base ) => ( {
+			...base,
+			marginBottom: '8px',
+		} ),
 	};
 
 	const customTheme = ( provided ) => ( {
@@ -48,10 +53,20 @@ export default ( props ) => {
 
 	const finalProps = Object.assign( {}, defaultProps, props );
 
+	const labelStyles = { marginBottom: '8px', display: 'inline-block' };
+	const helpStyles = { fontSize: '12px', fontStyle: 'normal', color: 'rgb(117, 117, 117)' };
+
 	return (
 		<div style={ { marginBottom: '24px' } }>
-			{ finalProps.label && <label htmlFor={ finalProps.id }>{ finalProps.label }</label> }
+			{ finalProps.label &&
+				<label style={ labelStyles } htmlFor={ finalProps.id }>{ finalProps.label }</label>
+			}
+
 			<Select { ...finalProps } />
+
+			{ finalProps.help &&
+				<p style={ helpStyles }>{ finalProps.help }</p>
+			}
 		</div>
 	);
 };

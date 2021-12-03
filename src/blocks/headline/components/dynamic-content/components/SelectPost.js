@@ -3,7 +3,7 @@ import AdvancedSelect from '../../../../../components/advanced-select';
 import usePostTypeRecords from '../hooks/usePostTypeRecords';
 import { useMemo } from '@wordpress/element';
 
-export default ( { postId, postType, onChange } ) => {
+export default ( { postId, postType, onChange, help } ) => {
 	const records = usePostTypeRecords( postType ) || [];
 
 	const recordOptions = useMemo( () => {
@@ -16,6 +16,7 @@ export default ( { postId, postType, onChange } ) => {
 		<AdvancedSelect
 			id={ 'gblocks-select-post' }
 			label={ __( 'Select source post', 'generateblocks' ) }
+			help={ help }
 			placeholder={ __( 'Select source post', 'generateblocks' ) }
 			options={ recordOptions }
 			value={ value }
