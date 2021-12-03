@@ -302,12 +302,9 @@ class GenerateBlocks_Render_Block {
 	 * @param object $block The block data.
 	 */
 	public function do_query_loop_block( $attributes, $content, $block ) {
-		$the_query = new WP_Query(
-			array(
-				'post_type' => 'post',
-				'posts_per_page' => 10,
-			)
-		);
+		$queryArgs = self::mapPostTypeArguments( $attributes[ 'query' ] );
+
+		$the_query = new WP_Query( $queryArgs );
 
 		$content = '';
 		if ( $the_query->have_posts() ) {
@@ -331,6 +328,31 @@ class GenerateBlocks_Render_Block {
 		$the_query->reset_postdata();
 
 		return $content;
+	}
+
+	public static function mapPostTypeArguments( $arguments ) {
+		$postTypeArguments = array(
+			'author'         => 'author__in',
+			'author_exclude' => 'author__not_in',
+			'exclude'        => 'post__not_in',
+			'include'        => 'post__in',
+			'menu_order'     => 'menu_order',
+			'offset'         => 'offset',
+			'order'          => 'order',
+			'orderby'        => 'orderby',
+			'page'           => 'paged',
+			'parent'         => 'post_parent__in',
+			'parent_exclude' => 'post_parent__not_in',
+			'search'         => 's',
+			'slug'           => 'post_name__in',
+			'status'         => 'post_status',
+			'per_page'       => 'posts_per_page',
+		);
+
+		return array_combine(
+			array_map( function( $arg ) use ( $postTypeArguments ) {
+				return isset( $postTypeArguments[ $arg ] ) ? $postTypeArguments[ $arg ] : $arg;
+			}, array_keys( $arguments ) ), array_values( $arguments ) );
 	}
 
 	/**
