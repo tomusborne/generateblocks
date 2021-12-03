@@ -42,18 +42,20 @@ export default ( { parameter, query, setParameter, removeParameter } ) => {
 					setParameter( parameter.id, attributeValueNormalizer( parameter.id, value ) );
 				} }
 			/>
-			<Tooltip text={ __( 'Delete parameter', 'generateblocks-pro' ) }>
-				<Button
-					className="gblocks-remove-parameter"
-					onClick={ () => {
-						// eslint-disable-next-line
-						if ( window.confirm( __( 'This will permanently delete this parameter.', 'generateblocks' ) ) ) {
-							removeParameter( parameter.id );
-						}
-					} }
-					icon={ getIcon( 'x' ) }
-				/>
-			</Tooltip>
+			{ ! parameter.isSticky &&
+				<Tooltip text={ __( 'Delete parameter', 'generateblocks-pro' ) }>
+					<Button
+						className="gblocks-remove-parameter"
+						onClick={ () => {
+							// eslint-disable-next-line
+							if ( window.confirm( __( 'This will permanently delete this parameter.', 'generateblocks' ) ) ) {
+								removeParameter( parameter.id );
+							}
+						} }
+						icon={ getIcon( 'x' ) }
+					/>
+				</Tooltip>
+			}
 		</div>
 	);
 };
