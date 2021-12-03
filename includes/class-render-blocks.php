@@ -302,7 +302,8 @@ class GenerateBlocks_Render_Block {
 	 * @param object $block The block data.
 	 */
 	public function do_query_loop_block( $attributes, $content, $block ) {
-		$queryArgs = self::mapPostTypeArguments( $attributes[ 'query' ] );
+		$queryAttributes = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
+		$queryArgs = self::mapPostTypeArguments( $queryAttributes );
 
 		$the_query = new WP_Query( $queryArgs );
 
