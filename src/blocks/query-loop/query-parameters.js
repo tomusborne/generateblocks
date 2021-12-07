@@ -52,4 +52,20 @@ export default [
 		description: __( 'Sort retrieved posts by parameter.', 'generateblocks' ),
 		group: __( 'Order & Order by', 'generateblocks' ),
 	},
+	{
+		id: 'author',
+		type: 'authorsSelect',
+		default: [],
+		label: __( 'Authors', 'generateblocks' ),
+		description: __( 'Show posts from authors.', 'generateblocks' ),
+		group: __( 'Author', 'generateblocks' ),
+	},
+	{
+		id: 'author_exclude',
+		type: 'authorsSelect',
+		default: [],
+		label: __( 'Exclude authors', 'generateblocks' ),
+		description: __( "Exclude posts from authors.", 'generateblocks' ),
+		group: __( 'Author', 'generateblocks' ),
+	},
 ];

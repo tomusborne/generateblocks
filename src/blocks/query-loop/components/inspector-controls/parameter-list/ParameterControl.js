@@ -3,6 +3,7 @@ import SelectPostType from '../../../../headline/components/dynamic-content/comp
 import SimpleSelect from '../../../../../components/simple-select';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../../../utils/get-icon';
+import AuthorsSelect from '../../../../../components/authors-select';
 
 const getParameterComponent = ( parameterType ) => {
 	switch ( parameterType ) {
@@ -13,6 +14,8 @@ const getParameterComponent = ( parameterType ) => {
 			return SelectPostType;
 		case 'select':
 			return SimpleSelect;
+		case 'authorsSelect':
+			return AuthorsSelect;
 	}
 };
 
@@ -22,6 +25,14 @@ const attributeValueNormalizer = ( attribute, value ) => {
 		case 'order':
 		case 'orderby':
 			return value.value;
+
+		case 'author':
+		case 'author_exclude':
+			return value.reduce( ( result, option ) => {
+				result.push( option.value );
+
+				return result;
+			}, [] );
 
 		default:
 			return value;
