@@ -20,6 +20,14 @@ export default [
 		isSticky: true,
 	},
 	{
+		id: 'search',
+		type: 'text',
+		default: '',
+		label: __( 'Search', 'generateblocks' ),
+		description: __( 'Show posts based on a keyword search.', 'generateblocks' ),
+		group: __( 'Search', 'generateblocks' ),
+	},
+	{
 		id: 'order',
 		type: 'select',
 		default: 'desc',
