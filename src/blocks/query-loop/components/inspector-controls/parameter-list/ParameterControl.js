@@ -4,6 +4,7 @@ import SimpleSelect from '../../../../../components/simple-select';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../../../utils/get-icon';
 import AuthorsSelect from '../../../../../components/authors-select';
+import CategoriesSelect from '../../../../../components/categories-select';
 
 const getParameterComponent = ( parameterType ) => {
 	switch ( parameterType ) {
@@ -16,6 +17,8 @@ const getParameterComponent = ( parameterType ) => {
 			return SimpleSelect;
 		case 'authorsSelect':
 			return AuthorsSelect;
+		case 'categoriesSelect':
+			return CategoriesSelect;
 	}
 };
 
@@ -28,6 +31,8 @@ const attributeValueNormalizer = ( attribute, value ) => {
 
 		case 'author':
 		case 'author_exclude':
+		case 'categories':
+		case 'categories_exclude':
 			return value.reduce( ( result, option ) => {
 				result.push( option.value );
 

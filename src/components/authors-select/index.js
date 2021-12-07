@@ -1,6 +1,5 @@
-
-import { useMemo } from '@wordpress/element';
 import AdvancedSelect from '../advanced-select';
+import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import useAuthors from '../../hooks/useAuthors';
 

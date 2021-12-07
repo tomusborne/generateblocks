@@ -348,6 +348,8 @@ class GenerateBlocks_Render_Block {
 			'slug'           => 'post_name__in',
 			'status'         => 'post_status',
 			'per_page'       => 'posts_per_page',
+			'categories'     => 'category__in',
+			'categories_exclude' => 'category__not_in',
 		);
 
 		return array_combine(

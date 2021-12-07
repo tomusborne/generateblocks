@@ -68,4 +68,20 @@ export default [
 		description: __( "Exclude posts from authors.", 'generateblocks' ),
 		group: __( 'Author', 'generateblocks' ),
 	},
+	{
+		id: 'categories',
+		type: 'categoriesSelect',
+		default: [],
+		label: __( 'Categories', 'generateblocks' ),
+		description: __( 'Show posts from categories.', 'generateblocks' ),
+		group: __( 'Category', 'generateblocks' ),
+	},
+	{
+		id: 'categories_exclude',
+		type: 'categoriesSelect',
+		default: [],
+		label: __( 'Exclude categories', 'generateblocks' ),
+		description: __( "Exclude posts from categories.", 'generateblocks' ),
+		group: __( 'Category', 'generateblocks' ),
+	},
 ];
