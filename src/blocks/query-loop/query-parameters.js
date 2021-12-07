@@ -74,7 +74,7 @@ export default [
 		default: [],
 		label: __( 'Categories', 'generateblocks' ),
 		description: __( 'Show posts from categories.', 'generateblocks' ),
-		group: __( 'Category', 'generateblocks' ),
+		group: __( 'Taxonomy', 'generateblocks' ),
 	},
 	{
 		id: 'categories_exclude',
@@ -82,6 +82,22 @@ export default [
 		default: [],
 		label: __( 'Exclude categories', 'generateblocks' ),
 		description: __( "Exclude posts from categories.", 'generateblocks' ),
-		group: __( 'Category', 'generateblocks' ),
+		group: __( 'Taxonomy', 'generateblocks' ),
+	},
+	{
+		id: 'tags',
+		type: 'tagsSelect',
+		default: [],
+		label: __( 'Tags', 'generateblocks' ),
+		description: __( 'Show posts from tags.', 'generateblocks' ),
+		group: __( 'Taxonomy', 'generateblocks' ),
+	},
+	{
+		id: 'tags_exclude',
+		type: 'tagsSelect',
+		default: [],
+		label: __( 'Exclude tags', 'generateblocks' ),
+		description: __( "Exclude posts from tags.", 'generateblocks' ),
+		group: __( 'Taxonomy', 'generateblocks' ),
 	},
 ];

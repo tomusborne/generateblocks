@@ -302,10 +302,10 @@ class GenerateBlocks_Render_Block {
 	 * @param object $block The block data.
 	 */
 	public function do_query_loop_block( $attributes, $content, $block ) {
-		$queryAttributes = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
-		$queryArgs = self::mapPostTypeArguments( $queryAttributes );
+		$query_attributes = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
+		$query_args = self::map_post_type_arguments( $query_attributes );
 
-		$the_query = new WP_Query( $queryArgs );
+		$the_query = new WP_Query( $query_args );
 
 		$content = '';
 		if ( $the_query->have_posts() ) {
@@ -331,8 +331,8 @@ class GenerateBlocks_Render_Block {
 		return $content;
 	}
 
-	public static function mapPostTypeArguments( $arguments ) {
-		$postTypeArguments = array(
+	public static function map_post_type_arguments( $arguments ) {
+		$post_type_arguments = array(
 			'author'         => 'author__in',
 			'author_exclude' => 'author__not_in',
 			'exclude'        => 'post__not_in',
@@ -350,11 +350,13 @@ class GenerateBlocks_Render_Block {
 			'per_page'       => 'posts_per_page',
 			'categories'     => 'category__in',
 			'categories_exclude' => 'category__not_in',
+			'tags'           => 'tag__in',
+			'tags_exclude'   => 'tag__not_in',
 		);
 
 		return array_combine(
-			array_map( function( $arg ) use ( $postTypeArguments ) {
-				return isset( $postTypeArguments[ $arg ] ) ? $postTypeArguments[ $arg ] : $arg;
+			array_map( function( $arg ) use ( $post_type_arguments ) {
+				return isset( $post_type_arguments[ $arg ] ) ? $post_type_arguments[ $arg ] : $arg;
 			}, array_keys( $arguments ) ), array_values( $arguments ) );
 	}
 
