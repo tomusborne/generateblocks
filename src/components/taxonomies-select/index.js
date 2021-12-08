@@ -1,10 +1,10 @@
 import { useMemo } from '@wordpress/element';
 import AdvancedSelect from '../advanced-select';
 import { __ } from '@wordpress/i18n';
-import useTaxonomies from '../../hooks/useTaxonomies';
+import useTaxonomyRecords from '../../hooks/useTaxonomyRecords';
 
 export default function TaxonomiesSelect( { taxonomy, label, onChange, value, help } ) {
-	const { taxonomies, isResolving } = useTaxonomies( taxonomy );
+	const { taxonomies, isResolving } = useTaxonomyRecords( taxonomy );
 
 	const taxonomiesOptions = useMemo( () => {
 		return taxonomies
