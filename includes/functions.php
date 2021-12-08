@@ -752,3 +752,20 @@ function generateblocks_get_svg_shapes() {
 		)
 	);
 }
+
+/**
+ * Given an array it will change keys based on the map.
+ *
+ * @param array $arr
+ * @param array $keyMap
+ *
+ * @return array|false
+ *
+ * @since 1.5.0
+ */
+function map_array_keys( $arr = [], $keyMap = [] ) {
+	return array_combine(
+		array_map( function( $key ) use ( $keyMap ) {
+			return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
+		}, array_keys( $arr ) ), array_values( $arr ) );
+}

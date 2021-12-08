@@ -1,15 +1,12 @@
 import AdvancedSelect from '../advanced-select';
 
-export default ( { label, help, placeholder, options, value, onChange } ) => {
+export default ( props ) => {
+	const { options, value } = props;
 	return (
 		<AdvancedSelect
+			{ ...props }
 			id={ 'gblocks-simple-select' }
-			label={ label }
-			help={ help }
-			placeholder={ placeholder }
-			options={ options }
 			value={ options.filter( ( option ) => ( option.value === value ) ) }
-			onChange={ onChange }
 		/>
 	);
 };

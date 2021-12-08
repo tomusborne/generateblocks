@@ -303,7 +303,8 @@ class GenerateBlocks_Render_Block {
 	 */
 	public function do_query_loop_block( $attributes, $content, $block ) {
 		$query_attributes = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
-		$query_args = self::map_post_type_arguments( $query_attributes );
+		$query_args = self::map_post_type_attributes( $query_attributes );
+		$query_args = self::normalize_tax_query_attributes( $query_args );
 
 		$the_query = new WP_Query( $query_args );
 
@@ -331,33 +332,51 @@ class GenerateBlocks_Render_Block {
 		return $content;
 	}
 
-	public static function map_post_type_arguments( $arguments ) {
-		$post_type_arguments = array(
+	public static function map_post_type_attributes( $attributes ) {
+		$attributes_map = array(
+//			'page'           => 'paged',
+			'per_page'       => 'posts_per_page',
+			'search'         => 's',
+//			'after' => '',
 			'author'         => 'author__in',
 			'author_exclude' => 'author__not_in',
-			'exclude'        => 'post__not_in',
-			'include'        => 'post__in',
-			'menu_order'     => 'menu_order',
-			'offset'         => 'offset',
+//			'before' => '',
+//			'exclude'        => 'post__not_in',
+//			'include'        => 'post__in',
+//			'offset'         => 'offset',
 			'order'          => 'order',
 			'orderby'        => 'orderby',
-			'page'           => 'paged',
-			'parent'         => 'post_parent__in',
-			'parent_exclude' => 'post_parent__not_in',
-			'search'         => 's',
-			'slug'           => 'post_name__in',
-			'status'         => 'post_status',
-			'per_page'       => 'posts_per_page',
+//			'slug'           => 'post_name__in',
+//			'status'         => 'post_status',
 			'categories'     => 'category__in',
 			'categories_exclude' => 'category__not_in',
 			'tags'           => 'tag__in',
 			'tags_exclude'   => 'tag__not_in',
+//			'sticky'         => '',
+//			'menu_order'     => 'menu_order',
+//			'parent'         => 'post_parent__in',
+//			'parent_exclude' => 'post_parent__not_in',
 		);
 
-		return array_combine(
-			array_map( function( $arg ) use ( $post_type_arguments ) {
-				return isset( $post_type_arguments[ $arg ] ) ? $post_type_arguments[ $arg ] : $arg;
-			}, array_keys( $arguments ) ), array_values( $arguments ) );
+		return map_array_keys( $attributes, $attributes_map );
+	}
+
+	public static function normalize_tax_query_attributes( $attributes ) {
+		if ( ! isset( $attributes[ 'tax_query' ] ) ) {
+			return $attributes;
+		}
+
+		$tax_query = array_map( function( $tax ) {
+			return [
+				'taxonomy' => $tax[ 'taxonomy' ],
+				'field'    => 'term_id',
+				'terms'    => $tax[ 'terms' ],
+			];
+		}, $attributes[ 'tax_query' ] );
+
+		$attributes[ 'tax_query' ] = $tax_query;
+
+		return $attributes;
 	}
 
 	/**

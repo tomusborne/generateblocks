@@ -27,6 +27,18 @@ function removeEmpty( obj ) {
 	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => !! value ) );
 }
 
+function normalizeRepeatableArgs( query ) {
+	if ( Array.isArray( query[ 'tax_query' ] ) ) {
+		const normalized = query[ 'tax_query' ].reduce( ( normalized, taxQuery ) => {
+			return Object.assign( {}, normalized, { [ taxQuery.rest ]: taxQuery.terms } );
+		}, {} );
+
+		return Object.assign( {}, query, normalized, { ['tax_query']: undefined } );
+	}
+
+	return query;
+}
+
 export default ( props ) => {
 	const { clientId, uniqueId, attributes } = props;
 	const [ activeContext, setActiveContext ] = useState();
@@ -42,7 +54,7 @@ export default ( props ) => {
 	const { data, hasData, isResolvingData, hasResolvedData } = useQueryLoopData( [
 		'postType',
 		query.post_type || 'post',
-		removeEmpty( query ),
+		normalizeRepeatableArgs( removeEmpty( query ) ),
 	] );
 
 	useEffect( () => {

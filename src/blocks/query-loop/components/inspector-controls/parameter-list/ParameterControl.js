@@ -1,28 +1,4 @@
-import { Button, TextControl, Tooltip } from '@wordpress/components';
-import SelectPostType from '../../../../headline/components/dynamic-content/components/SelectPostType';
-import SimpleSelect from '../../../../../components/simple-select';
-import { __ } from '@wordpress/i18n';
-import getIcon from '../../../../../utils/get-icon';
-import AuthorsSelect from '../../../../../components/authors-select';
-import { CategoriesSelect, TagsSelect } from '../../../../../components/taxonomies-select';
-
-const getParameterComponent = ( parameterType ) => {
-	switch ( parameterType ) {
-		case 'text':
-		case 'number':
-			return TextControl;
-		case 'postTypeSelect':
-			return SelectPostType;
-		case 'select':
-			return SimpleSelect;
-		case 'authorsSelect':
-			return AuthorsSelect;
-		case 'categoriesSelect':
-			return CategoriesSelect;
-		case 'tagsSelect':
-			return TagsSelect;
-	}
-};
+import ControlBuilder from './ControlBuilder';
 
 const attributeValueNormalizer = ( attribute, value ) => {
 	switch ( attribute ) {
@@ -50,33 +26,43 @@ const attributeValueNormalizer = ( attribute, value ) => {
 };
 
 export default ( { parameter, query, setParameter, removeParameter } ) => {
-	const Component = getParameterComponent( parameter.type );
-	return (
-		<div className={ 'gblocks-parameter-component' }>
-			<Component
-				type={ parameter.type }
-				label={ parameter.label }
-				help={ parameter.description }
-				value={ query[ parameter.id ] }
-				options={ parameter?.selectOptions || [] }
-				onChange={ ( value ) => {
-					setParameter( parameter.id, attributeValueNormalizer( parameter.id, value ) );
-				} }
+	const parameterValue = query[ parameter.id ];
+
+	function onChangeControl( newValue ) {
+		setParameter( parameter.id, attributeValueNormalizer( parameter.id, newValue ) );
+	}
+
+	function ParameterControl( value, onChange, onClickRemove ) {
+		return (
+			<ControlBuilder
+				{ ...parameter }
+				value={ value }
+				onChange={ onChange }
+				onClickRemove={ onClickRemove }
 			/>
-			{ ! parameter.isSticky &&
-				<Tooltip text={ __( 'Delete parameter', 'generateblocks-pro' ) }>
-					<Button
-						className="gblocks-remove-parameter"
-						onClick={ () => {
-							// eslint-disable-next-line
-							if ( window.confirm( __( 'This will permanently delete this parameter.', 'generateblocks' ) ) ) {
-								removeParameter( parameter.id );
-							}
-						} }
-						icon={ getIcon( 'x' ) }
-					/>
-				</Tooltip>
-			}
-		</div>
+		);
+	}
+
+	if ( ! parameter.isRepeatable ) {
+		return ParameterControl( parameterValue, onChangeControl, removeParameter );
+	}
+
+	return (
+		<>
+			{ Array.isArray( parameterValue ) && parameterValue.map( ( value, idx ) => (
+				ParameterControl( value, ( newValue ) => {
+					parameterValue[ idx ] = newValue;
+					setParameter( parameter.id, [ ...parameterValue ] );
+				}, ( id ) => {
+					parameterValue.splice( idx, 1 );
+
+					if ( parameterValue.length === 0 ) {
+						removeParameter( id );
+					} else {
+						setParameter( parameter.id, [ ...parameterValue ] );
+					}
+				} )
+			) ) }
+		</>
 	);
 };

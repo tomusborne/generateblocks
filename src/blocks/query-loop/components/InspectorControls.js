@@ -30,7 +30,7 @@ export default ( { attributes, setAttributes } ) => {
 
 	const parameterOptions = useMemo( () => (
 		queryParameterOptions.map( ( parameter ) => {
-			parameter.isDisabled = Object.keys( queryState ).includes( parameter.id );
+			parameter.isDisabled = ! parameter.isRepeatable && Object.keys( queryState ).includes( parameter.id );
 
 			return parameter;
 		} )
@@ -57,7 +57,20 @@ export default ( { attributes, setAttributes } ) => {
 					<SelectQueryParameter
 						options={ parameterOptions }
 						onChange={ ( option ) => {
-							setParameter( option.id, option.default );
+							if (
+								!! option.isRepeatable &&
+								Array.isArray( option.default ) &&
+								!! option.repeatableDefaultValue
+							) {
+								const parameterValue = !! queryState[ option.id ]
+									? queryState[ option.id ]
+									: option.default;
+
+								setParameter( option.id, [ ...parameterValue, option.repeatableDefaultValue ] );
+							} else {
+								setParameter( option.id, option.default );
+							}
+
 							setDisplayParameterSelect( false );
 						} }
 					/>

@@ -51,13 +51,17 @@ export default ( props ) => {
 		menuPortalTarget: document.querySelector( 'body' ),
 	};
 
+	const wrapperStyles = Object.assign( {}, {
+		marginBottom: '24px',
+	}, props?.wrapperStyles );
+
 	const finalProps = Object.assign( {}, defaultProps, props );
 
 	const labelStyles = { marginBottom: '8px', display: 'inline-block' };
 	const helpStyles = { fontSize: '12px', fontStyle: 'normal', color: 'rgb(117, 117, 117)' };
 
 	return (
-		<div style={ { marginBottom: '24px' } }>
+		<div style={ wrapperStyles }>
 			{ finalProps.label &&
 				<label style={ labelStyles } htmlFor={ finalProps.id }>{ finalProps.label }</label>
 			}

@@ -3,7 +3,7 @@ import AdvancedSelect from '../advanced-select';
 import { __ } from '@wordpress/i18n';
 import useTaxonomyRecords from '../../hooks/useTaxonomyRecords';
 
-export default function TaxonomiesSelect( { taxonomy, label, onChange, value, help } ) {
+export default function TaxonomiesSelect( { taxonomy, label, onChange, value = [], help } ) {
 	const { taxonomies, isResolving } = useTaxonomyRecords( taxonomy );
 
 	const taxonomiesOptions = useMemo( () => {

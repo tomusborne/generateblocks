@@ -14,5 +14,5 @@ export default ( taxonomy ) => (
 			taxonomies: getEntityRecords( ...entityParams ) || [],
 			isResolving: isResolving( 'getEntityRecords', entityParams ),
 		};
-	}, [] )
+	}, [ taxonomy ] )
 );
