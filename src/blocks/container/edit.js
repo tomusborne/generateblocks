@@ -35,6 +35,9 @@ const ContainerEdit = ( props ) => {
 		googleFont,
 		googleFontVariants,
 		isGrid,
+		bgOptions,
+		bgImage,
+		bgImageInline,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
@@ -106,6 +109,22 @@ const ContainerEdit = ( props ) => {
 		} ),
 		id: anchor ? anchor : null,
 	};
+
+	if ( bgImageInline && bgImage.image && bgImage.image.url ) {
+		const backgroundUrl = applyFilters( 'generateblocks.editor.bgImageURL', bgImage.image.url, props );
+
+		if ( backgroundUrl ) {
+			let imageAttributeName = 'background-image';
+
+			if ( 'element' !== bgOptions.selector ) {
+				imageAttributeName = '--' + imageAttributeName;
+			}
+
+			htmlAttributes.style = {
+				[ imageAttributeName ]: 'url(' + backgroundUrl + ')',
+			};
+		}
+	}
 
 	htmlAttributes = applyFilters(
 		'generateblocks.frontend.htmlAttributes',
