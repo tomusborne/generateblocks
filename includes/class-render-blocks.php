@@ -304,7 +304,19 @@ class GenerateBlocks_Render_Block {
 	public function do_query_loop_block( $attributes, $content, $block ) {
 		$query_attributes = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
 		$query_args = self::map_post_type_attributes( $query_attributes );
-		$query_args = self::normalize_tax_query_attributes( $query_args );
+
+		if ( isset( $query_args[ 'tax_query' ] ) ) {
+			$query_args[ 'tax_query' ] = self::normalize_tax_query_attributes( $query_args['tax_query'] );
+		}
+
+		if ( isset( $query_args[ 'tax_query_exclude' ] ) ) {
+			$not_in_tax_query = self::normalize_tax_query_attributes( $query_args['tax_query_exclude'], 'NOT IN' );
+			$query_args[ 'tax_query' ] = isset( $query_args[ 'tax_query' ] )
+				? array_merge( $query_args[ 'tax_query' ], $not_in_tax_query )
+				: $not_in_tax_query;
+
+			unset( $query_args[ 'tax_query_exclude' ] );
+		}
 
 		$the_query = new WP_Query( $query_args );
 
@@ -334,49 +346,46 @@ class GenerateBlocks_Render_Block {
 
 	public static function map_post_type_attributes( $attributes ) {
 		$attributes_map = array(
-//			'page'           => 'paged',
-			'per_page'       => 'posts_per_page',
-			'search'         => 's',
-//			'after' => '',
-			'author'         => 'author__in',
-			'author_exclude' => 'author__not_in',
-//			'before' => '',
-//			'exclude'        => 'post__not_in',
-//			'include'        => 'post__in',
-//			'offset'         => 'offset',
-			'order'          => 'order',
-			'orderby'        => 'orderby',
-//			'slug'           => 'post_name__in',
-//			'status'         => 'post_status',
-			'categories'     => 'category__in',
-			'categories_exclude' => 'category__not_in',
-			'tags'           => 'tag__in',
-			'tags_exclude'   => 'tag__not_in',
-//			'sticky'         => '',
-//			'menu_order'     => 'menu_order',
-//			'parent'         => 'post_parent__in',
-//			'parent_exclude' => 'post_parent__not_in',
+//			'page'               => 'paged',
+			'per_page'           => 'posts_per_page',
+			'search'             => 's',
+//			'after'              => '',
+			'author'             => 'author__in',
+			'author_exclude'     => 'author__not_in',
+//			'before'             => '',
+//			'exclude'            => 'post__not_in',
+//			'include'            => 'post__in',
+//			'offset'             => 'offset',
+			'order'              => 'order',
+			'orderby'            => 'orderby',
+//			'slug'               => 'post_name__in',
+//			'status'             => 'post_status',
+//			'sticky'             => '',
+//			'menu_order'         => 'menu_order',
+//			'parent'             => 'post_parent__in',
+//			'parent_exclude'     => 'post_parent__not_in',
 		);
 
-		return map_array_keys( $attributes, $attributes_map );
+		return generateblocks_map_array_keys( $attributes, $attributes_map );
 	}
 
-	public static function normalize_tax_query_attributes( $attributes ) {
-		if ( ! isset( $attributes[ 'tax_query' ] ) ) {
-			return $attributes;
-		}
-
-		$tax_query = array_map( function( $tax ) {
+	/**
+	 * Normalize the tax query attributes to be used in the WP_Query
+	 *
+	 * @param $raw_tax_query
+	 * @param string $operator
+	 *
+	 * @return array|array[]
+	 */
+	public static function normalize_tax_query_attributes( $raw_tax_query, $operator = 'IN' ) {
+		return array_map( function( $tax ) use ( $operator ) {
 			return [
 				'taxonomy' => $tax[ 'taxonomy' ],
 				'field'    => 'term_id',
 				'terms'    => $tax[ 'terms' ],
+				'operator' => $operator,
 			];
-		}, $attributes[ 'tax_query' ] );
-
-		$attributes[ 'tax_query' ] = $tax_query;
-
-		return $attributes;
+		}, $raw_tax_query );
 	}
 
 	/**

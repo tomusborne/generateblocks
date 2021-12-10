@@ -763,7 +763,7 @@ function generateblocks_get_svg_shapes() {
  *
  * @since 1.5.0
  */
-function map_array_keys( $arr = [], $keyMap = [] ) {
+function generateblocks_map_array_keys( $arr = [], $keyMap = [] ) {
 	return array_combine(
 		array_map( function( $key ) use ( $keyMap ) {
 			return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
