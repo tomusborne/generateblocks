@@ -20,6 +20,14 @@ export default [
 		isSticky: true,
 	},
 	{
+		id: 'offset',
+		type: 'number',
+		default: undefined,
+		label: __( 'Offset', 'generateblocks' ),
+		description: __( 'Show posts from the nth one', 'generateblocks' ),
+		group: __( 'Pagination', 'generateblocks' ),
+	},
+	{
 		id: 'search',
 		type: 'text',
 		default: '',

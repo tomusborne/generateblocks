@@ -355,7 +355,6 @@ class GenerateBlocks_Render_Block {
 //			'before'             => '',
 //			'exclude'            => 'post__not_in',
 //			'include'            => 'post__in',
-//			'offset'             => 'offset',
 			'order'              => 'order',
 			'orderby'            => 'orderby',
 //			'slug'               => 'post_name__in',
