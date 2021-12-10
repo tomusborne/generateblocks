@@ -359,7 +359,7 @@ class GenerateBlocks_Render_Block {
 			'order'              => 'order',
 			'orderby'            => 'orderby',
 //			'slug'               => 'post_name__in',
-//			'status'             => 'post_status',
+			'status'             => 'post_status',
 //			'sticky'             => '',
 //			'menu_order'         => 'menu_order',
 //			'parent'             => 'post_parent__in',

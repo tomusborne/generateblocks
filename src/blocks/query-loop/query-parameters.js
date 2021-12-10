@@ -96,4 +96,23 @@ export default [
 		isRepeatable: true,
 		repeatableDefaultValue: { taxonomy: '', terms: [], rest: '' },
 	},
+	{
+		id: 'status',
+		type: 'select',
+		default: '',
+		selectOptions: [
+			{ value: 'publish', label: __( 'Publish', 'generateblocks' ) },
+			{ value: 'pending', label: __( 'Pending', 'generateblocks' ) },
+			{ value: 'draft', label: __( 'Draft', 'generateblocks' ) },
+			{ value: 'auto-draft', label: __( 'Auto draft', 'generateblocks' ) },
+			{ value: 'future', label: __( 'Future', 'generateblocks' ) },
+			{ value: 'private', label: __( 'Private', 'generateblocks' ) },
+			{ value: 'inherit', label: __( 'Inherit', 'generateblocks' ) },
+			{ value: 'trash', label: __( 'Trash', 'generateblocks' ) },
+			{ value: 'any', label: __( 'Any', 'generateblocks' ) },
+		],
+		label: __( 'Post status', 'generateblocks' ),
+		description: __( 'Show posts by post status.', 'generateblocks' ),
+		group: __( 'Status', 'generateblocks' ),
+	},
 ];
