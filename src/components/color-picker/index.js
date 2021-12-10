@@ -1,4 +1,3 @@
-import classnames from 'classnames';
 import hexToRGBA from '../../utils/hex-to-rgba';
 import getIcon from '../../utils/get-icon';
 
@@ -98,7 +97,7 @@ export default class GenerateBlocksColorPicker extends Component {
 
 				<div className="gblocks-color-picker-area">
 					{ ! this.state.isVisible &&
-						<div className={ classnames( 'components-color-palette__item-wrapper components-circular-option-picker__option-wrapper', value ? '' : 'components-color-palette__custom-color' ) }>
+						<div className="components-circular-option-picker__option-wrapper">
 							<Tooltip text={ __( 'Choose Color', 'generateblocks' ) }>
 								<button
 									type="button"
@@ -115,7 +114,7 @@ export default class GenerateBlocksColorPicker extends Component {
 					}
 
 					{ this.state.isVisible &&
-						<div className={ classnames( 'components-color-palette__item-wrapper components-circular-option-picker__option-wrapper', value ? '' : 'components-color-palette__custom-color' ) }>
+						<div className="components-circular-option-picker__option-wrapper">
 							<Tooltip text={ __( 'Choose Color', 'generateblocks' ) }>
 								<button
 									type="button"
