@@ -4,7 +4,7 @@ import usePostTypeRecords from '../hooks/usePostTypeRecords';
 import { useMemo } from '@wordpress/element';
 
 export default ( { postId, postType, onChange, help } ) => {
-	const records = usePostTypeRecords( postType ) || [];
+	const { records } = usePostTypeRecords( postType ) || [];
 
 	const recordOptions = useMemo( () => {
 		return records?.map( ( post ) => ( { value: post.id, label: post.title.raw } ) );

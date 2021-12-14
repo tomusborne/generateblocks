@@ -24,6 +24,7 @@ export default function AuthorsSelect( { label, onChange, value, help } ) {
 			placeholder={ label || __( 'Select authors', 'generateblocks' ) }
 			options={ authorOptions }
 			isMulti
+			isSearchable
 			value={ selectedValues }
 			onChange={ onChange }
 			isLoading={ authorOptions.length === 0 }

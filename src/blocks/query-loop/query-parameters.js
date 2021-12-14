@@ -24,7 +24,7 @@ export default [
 		type: 'number',
 		default: undefined,
 		label: __( 'Offset', 'generateblocks' ),
-		description: __( 'Show posts from the nth one', 'generateblocks' ),
+		description: __( 'Offset the result set by a specific number of items', 'generateblocks' ),
 		group: __( 'Pagination', 'generateblocks' ),
 	},
 	{
@@ -59,10 +59,6 @@ export default [
 			{ value: 'date', label: 'Date' },
 			{ value: 'modified', label: 'Last modified date' },
 			{ value: 'parent', label: 'Parent id' },
-			// Need extra fields to be set
-			// { value: 'relevance', label: 'Relevance' },
-			// { value: 'include', label: 'Include' },
-			// { value: 'include_slug', label: 'Include slug' },
 		],
 		label: __( 'Order by', 'generateblocks' ),
 		description: __( 'Sort retrieved posts by parameter.', 'generateblocks' ),
@@ -122,5 +118,27 @@ export default [
 		label: __( 'Post status', 'generateblocks' ),
 		description: __( 'Show posts by post status.', 'generateblocks' ),
 		group: __( 'Status', 'generateblocks' ),
+	},
+	{
+		id: 'include',
+		type: 'postsSelect',
+		default: [],
+		dependencies: {
+			postType: 'post_type',
+		},
+		label: __( 'Include posts', 'generateblocks' ),
+		description: __( 'Limit result set to specific posts.', 'generateblocks' ),
+		group: __( 'Post', 'generateblocks' ),
+	},
+	{
+		id: 'exclude',
+		type: 'postsSelect',
+		default: [],
+		dependencies: {
+			postType: 'post_type',
+		},
+		label: __( 'Exclude posts', 'generateblocks' ),
+		description: __( 'Ensure result set excludes specific posts.', 'generateblocks' ),
+		group: __( 'Post', 'generateblocks' ),
 	},
 ];

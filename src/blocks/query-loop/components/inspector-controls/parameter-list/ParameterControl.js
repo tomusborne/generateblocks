@@ -10,10 +10,8 @@ const attributeValueNormalizer = ( attribute, value ) => {
 
 		case 'author':
 		case 'author_exclude':
-		case 'categories':
-		case 'categories_exclude':
-		case 'tags':
-		case 'tags_exclude':
+		case 'include':
+		case 'exclude':
 			return value.reduce( ( result, option ) => {
 				result.push( option.value );
 
@@ -27,11 +25,18 @@ const attributeValueNormalizer = ( attribute, value ) => {
 };
 
 export default ( { parameter, query, setParameter, removeParameter } ) => {
+	const { dependencies = {} } = parameter;
 	const parameterValue = query[ parameter.id ];
 
 	function onChangeControl( newValue ) {
 		setParameter( parameter.id, attributeValueNormalizer( parameter.id, newValue ) );
 	}
+
+	const dependenciesValues = Object.keys( dependencies ).reduce( ( dependenciesProps, dependencyKey ) => {
+		dependenciesProps[ dependencyKey ] = query[ dependencies[ dependencyKey ] ];
+
+		return dependenciesProps;
+	}, {} );
 
 	function ParameterControl( value, onChange, onClickRemove ) {
 		return (
@@ -40,6 +45,7 @@ export default ( { parameter, query, setParameter, removeParameter } ) => {
 				value={ value }
 				onChange={ onChange }
 				onClickRemove={ onClickRemove }
+				dependencies={ dependenciesValues }
 			/>
 		);
 	}

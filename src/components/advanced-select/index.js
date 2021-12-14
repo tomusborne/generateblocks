@@ -1,5 +1,4 @@
 
-import './style.scss';
 import Select from 'react-select';
 
 export default ( props ) => {
@@ -22,6 +21,15 @@ export default ( props ) => {
 			...base,
 			marginBottom: '8px',
 		} ),
+		valueContainer: ( base ) => ( {
+			...base,
+			padding: '0 6px',
+		} ),
+		input: ( base ) => ( {
+			...base,
+			margin: 0,
+			padding: 0,
+		} )
 	};
 
 	const customTheme = ( provided ) => ( {

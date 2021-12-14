@@ -24,6 +24,7 @@ export default function TaxonomiesSelect( { taxonomy, label, onChange, value = [
 			placeholder={ label || __( 'Select taxonomies', 'generateblocks' ) }
 			options={ taxonomiesOptions }
 			isMulti
+			isSearchable
 			value={ selectedValues }
 			onChange={ onChange }
 			isLoading={ isResolving }

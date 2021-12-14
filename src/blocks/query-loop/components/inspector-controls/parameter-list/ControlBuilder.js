@@ -5,6 +5,7 @@ import AuthorsSelect from '../../../../../components/authors-select';
 import { CategoriesSelect, TagsSelect } from '../../../../../components/taxonomies-select';
 import RemoveButton from './RemoveButton';
 import TaxonomyParameterControl from '../controls/TaxonomyParameterControl';
+import PostTypeRecordsSelect from '../../../../../components/post-type-records-select';
 
 const getParameterControl = ( parameterType ) => {
 	switch ( parameterType ) {
@@ -23,6 +24,8 @@ const getParameterControl = ( parameterType ) => {
 			return TagsSelect;
 		case 'taxonomySelect':
 			return TaxonomyParameterControl;
+		case 'postsSelect':
+			return PostTypeRecordsSelect;
 	}
 };
 
@@ -37,6 +40,7 @@ export default function ControlBuilder( props ) {
 		value,
 		onChange,
 		onClickRemove,
+		dependencies,
 	} = props;
 
 	const Control = getParameterControl( type );
@@ -50,6 +54,7 @@ export default function ControlBuilder( props ) {
 				options={ selectOptions }
 				value={ value }
 				onChange={ onChange }
+				{ ...dependencies }
 			/>
 			{ ! isSticky && <RemoveButton id={ id } onClick={ onClickRemove } /> }
 		</div>

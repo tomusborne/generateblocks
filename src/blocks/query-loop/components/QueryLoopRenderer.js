@@ -24,7 +24,9 @@ const getDefaultInnerBlock = ( uniqueId ) => {
 };
 
 function removeEmpty( obj ) {
-	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => !! value ) );
+	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => {
+		return Array.isArray( value ) ? !! value.length : !! value;
+	} ) );
 }
 
 function getTaxQueryParam( taxQuery, isExclude = false ) {
