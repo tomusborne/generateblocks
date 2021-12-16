@@ -769,3 +769,17 @@ function generateblocks_map_array_keys( $arr = [], $keyMap = [] ) {
 			return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
 		}, array_keys( $arr ) ), array_values( $arr ) );
 }
+
+/**
+ * Checks if the date is correctly formatted
+ *
+ * @param string $date The date to validate
+ * @param string $format The allowed format
+ *
+ * @return bool
+ */
+function generateblocks_is_valid_date( $date, $format = 'Y-m-d\TH:i:s' ) {
+	$dateTime = DateTime::createFromFormat( $format, $date );
+
+	return ( $dateTime && $dateTime->format( $format ) === $date );
+}

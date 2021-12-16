@@ -1,5 +1,6 @@
 
 import Select from 'react-select';
+import LabelAndHelpWrapper from '../LabelAndHelpWrapper';
 
 export default ( props ) => {
 	const customStyles = {
@@ -65,20 +66,11 @@ export default ( props ) => {
 
 	const finalProps = Object.assign( {}, defaultProps, props );
 
-	const labelStyles = { marginBottom: '8px', display: 'inline-block' };
-	const helpStyles = { fontSize: '12px', fontStyle: 'normal', color: 'rgb(117, 117, 117)' };
-
 	return (
 		<div style={ wrapperStyles }>
-			{ finalProps.label &&
-				<label style={ labelStyles } htmlFor={ finalProps.id }>{ finalProps.label }</label>
-			}
-
-			<Select { ...finalProps } />
-
-			{ finalProps.help &&
-				<p style={ helpStyles }>{ finalProps.help }</p>
-			}
+			<LabelAndHelpWrapper label={ finalProps.label } htmlFor={ finalProps.id } help={ finalProps.help } >
+				<Select { ...finalProps } />
+			</LabelAndHelpWrapper>
 		</div>
 	);
 };

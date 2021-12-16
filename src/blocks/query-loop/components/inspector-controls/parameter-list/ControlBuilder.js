@@ -6,6 +6,7 @@ import { CategoriesSelect, TagsSelect } from '../../../../../components/taxonomi
 import RemoveButton from './RemoveButton';
 import TaxonomyParameterControl from '../controls/TaxonomyParameterControl';
 import PostTypeRecordsSelect from '../../../../../components/post-type-records-select';
+import DateTimePicker from '../controls/DateTimePicker';
 
 const getParameterControl = ( parameterType ) => {
 	switch ( parameterType ) {
@@ -26,6 +27,8 @@ const getParameterControl = ( parameterType ) => {
 			return TaxonomyParameterControl;
 		case 'postsSelect':
 			return PostTypeRecordsSelect;
+		case 'dateTimePicker':
+			return DateTimePicker;
 	}
 };
 

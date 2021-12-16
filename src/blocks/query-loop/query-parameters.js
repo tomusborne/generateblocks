@@ -141,4 +141,20 @@ export default [
 		description: __( 'Ensure result set excludes specific posts.', 'generateblocks' ),
 		group: __( 'Post', 'generateblocks' ),
 	},
+	{
+		id: 'after',
+		type: 'dateTimePicker',
+		default: '',
+		label: __( 'After', 'generateblocks' ),
+		description: __( 'Limit response to posts published after a given date.', 'generateblocks' ),
+		group: __( 'Date', 'generateblocks' ),
+	},
+	{
+		id: 'before',
+		type: 'dateTimePicker',
+		default: '',
+		label: __( 'Before', 'generateblocks' ),
+		description: __( 'Limit response to posts published before a given date.', 'generateblocks' ),
+		group: __( 'Date', 'generateblocks' ),
+	}
 ];

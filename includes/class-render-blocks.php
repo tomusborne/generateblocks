@@ -309,6 +309,16 @@ class GenerateBlocks_Render_Block {
 			$query_args[ 'tax_query' ] = self::normalize_tax_query_attributes( $query_args['tax_query'] );
 		}
 
+		if ( isset( $query_args[ 'date_query_after' ] ) || isset( $query_args[ 'date_query_before' ] ) ) {
+			$query_args[ 'date_query' ] = self::normalize_date_query_attributes(
+				isset( $query_args[ 'date_query_after' ] ) ? $query_args[ 'date_query_after' ] : null,
+				isset( $query_args[ 'date_query_before' ] ) ? $query_args[ 'date_query_before' ] : null
+			);
+
+			unset( $query_args[ 'date_query_after' ] );
+			unset( $query_args[ 'date_query_before' ] );
+		}
+
 		if ( isset( $query_args[ 'tax_query_exclude' ] ) ) {
 			$not_in_tax_query = self::normalize_tax_query_attributes( $query_args['tax_query_exclude'], 'NOT IN' );
 			$query_args[ 'tax_query' ] = isset( $query_args[ 'tax_query' ] )
@@ -349,10 +359,9 @@ class GenerateBlocks_Render_Block {
 //			'page'               => 'paged',
 			'per_page'           => 'posts_per_page',
 			'search'             => 's',
-//			'after'              => '',
+			'after'              => 'date_query_after',
+			'before'             => 'date_query_before',
 			'author'             => 'author__in',
-			'author_exclude'     => 'author__not_in',
-//			'before'             => '',
 			'exclude'            => 'post__not_in',
 			'include'            => 'post__in',
 			'order'              => 'order',
@@ -362,6 +371,7 @@ class GenerateBlocks_Render_Block {
 //			'menu_order'         => 'menu_order',
 //			'parent'             => 'post_parent__in',
 //			'parent_exclude'     => 'post_parent__not_in',
+			'author_exclude'     => 'author__not_in',
 		);
 
 		return generateblocks_map_array_keys( $attributes, $attributes_map );
@@ -384,6 +394,28 @@ class GenerateBlocks_Render_Block {
 				'operator' => $operator,
 			];
 		}, $raw_tax_query );
+	}
+
+	/**
+	 * Normalize the date query attributes to be used in the WP_Query
+	 *
+	 * @param string|null $after The after date
+	 * @param string|null $before The before date
+	 *
+	 * @return array
+	 */
+	public static function normalize_date_query_attributes( $after = null, $before = null ) {
+		$result = [ 'inclusive' => true ];
+
+		if ( generateblocks_is_valid_date( $after ) ) {
+			$result[ 'after' ] = $after;
+		}
+
+		if ( generateblocks_is_valid_date( $before ) ) {
+			$result[ 'before' ] = $before;
+		}
+
+		return $result;
 	}
 
 	/**
