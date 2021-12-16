@@ -396,6 +396,7 @@ class GenerateBlocks_Render_Block {
 				'field'    => 'term_id',
 				'terms'    => $tax[ 'terms' ],
 				'operator' => $operator,
+				'include_children' => false,
 			];
 		}, $raw_tax_query );
 	}
