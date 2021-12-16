@@ -1,4 +1,4 @@
-import { TextControl } from '@wordpress/components';
+import { TextControl, ToggleControl } from '@wordpress/components';
 import SelectPostType from '../../../../headline/components/dynamic-content/components/SelectPostType';
 import SimpleSelect from '../../../../../components/simple-select';
 import AuthorsSelect from '../../../../../components/authors-select';
@@ -29,6 +29,8 @@ const getParameterControl = ( parameterType ) => {
 			return PostTypeRecordsSelect;
 		case 'dateTimePicker':
 			return DateTimePicker;
+		case 'toggleControl':
+			return ToggleControl;
 	}
 };
 

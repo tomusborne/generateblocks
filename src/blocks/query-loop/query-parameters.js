@@ -150,6 +150,17 @@ export default [
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
+		id: 'sticky',
+		type: 'toggleControl',
+		dependencies: {
+			checked: 'sticky',
+		},
+		default: false,
+		label: __( 'Sticky', 'generateblocks' ),
+		description: __( 'Limit result set to items that are sticky.', 'generateblocks' ),
+		group: __( 'Post', 'generateblocks' ),
+	},
+	{
 		id: 'after',
 		type: 'dateTimePicker',
 		default: '',
@@ -164,5 +175,5 @@ export default [
 		label: __( 'Before', 'generateblocks' ),
 		description: __( 'Limit response to posts published before a given date.', 'generateblocks' ),
 		group: __( 'Date', 'generateblocks' ),
-	}
+	},
 ];

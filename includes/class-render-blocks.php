@@ -319,6 +319,12 @@ class GenerateBlocks_Render_Block {
 			unset( $query_args[ 'date_query_before' ] );
 		}
 
+		if ( isset( $query_args[ 'sticky' ] ) ) {
+			$sticky_posts = get_option( 'sticky_posts' );
+			$query_args[ 'post__in' ] = $sticky_posts;
+			unset( $query_args[ 'sticky' ] );
+		}
+
 		if ( isset( $query_args[ 'tax_query_exclude' ] ) ) {
 			$not_in_tax_query = self::normalize_tax_query_attributes( $query_args['tax_query_exclude'], 'NOT IN' );
 			$query_args[ 'tax_query' ] = isset( $query_args[ 'tax_query' ] )
@@ -367,7 +373,6 @@ class GenerateBlocks_Render_Block {
 			'order'              => 'order',
 			'orderby'            => 'orderby',
 			'status'             => 'post_status',
-//			'sticky'             => '',
 //			'menu_order'         => 'menu_order',
 //			'parent'             => 'post_parent__in',
 //			'parent_exclude'     => 'post_parent__not_in',
