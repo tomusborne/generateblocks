@@ -356,7 +356,7 @@ class GenerateBlocks_Render_Block {
 
 	public static function map_post_type_attributes( $attributes ) {
 		$attributes_map = array(
-//			'page'               => 'paged',
+			'page'               => 'paged',
 			'per_page'           => 'posts_per_page',
 			'search'             => 's',
 			'after'              => 'date_query_after',

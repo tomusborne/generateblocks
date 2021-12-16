@@ -20,6 +20,14 @@ export default [
 		isSticky: true,
 	},
 	{
+		id: 'page',
+		type: 'number',
+		default: 1,
+		label: __( 'Page', 'generateblocks' ),
+		description: __( 'Display posts from page', 'generateblocks' ),
+		group: __( 'Pagination', 'generateblocks' ),
+	},
+	{
 		id: 'offset',
 		type: 'number',
 		default: undefined,
