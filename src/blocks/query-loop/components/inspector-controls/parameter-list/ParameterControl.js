@@ -12,6 +12,8 @@ const attributeValueNormalizer = ( attribute, value ) => {
 		case 'author_exclude':
 		case 'include':
 		case 'exclude':
+		case 'parent':
+		case 'parent_exclude':
 			return value.reduce( ( result, option ) => {
 				result.push( option.value );
 

@@ -373,9 +373,8 @@ class GenerateBlocks_Render_Block {
 			'order'              => 'order',
 			'orderby'            => 'orderby',
 			'status'             => 'post_status',
-//			'menu_order'         => 'menu_order',
-//			'parent'             => 'post_parent__in',
-//			'parent_exclude'     => 'post_parent__not_in',
+			'parent'             => 'post_parent__in',
+			'parent_exclude'     => 'post_parent__not_in',
 			'author_exclude'     => 'author__not_in',
 		);
 

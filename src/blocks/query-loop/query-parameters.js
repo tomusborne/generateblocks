@@ -128,6 +128,29 @@ export default [
 		group: __( 'Status', 'generateblocks' ),
 	},
 	{
+		id: 'parent',
+		type: 'postsSelect',
+		default: [],
+		dependencies: {
+			postType: 'post_type',
+		},
+		label: __( 'Parent', 'generateblocks' ),
+		description: __( 'Show posts from parents.', 'generateblocks' ),
+		group: __( 'Post', 'generateblocks' ),
+	},
+
+	{
+		id: 'parent_exclude',
+		type: 'postsSelect',
+		default: [],
+		dependencies: {
+			postType: 'post_type',
+		},
+		label: __( 'Parent exclude', 'generateblocks' ),
+		description: __( 'Do not show posts from parents.', 'generateblocks' ),
+		group: __( 'Post', 'generateblocks' ),
+	},
+	{
 		id: 'include',
 		type: 'postsSelect',
 		default: [],
