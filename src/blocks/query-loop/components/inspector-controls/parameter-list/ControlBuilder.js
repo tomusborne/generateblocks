@@ -2,7 +2,7 @@ import { TextControl, ToggleControl } from '@wordpress/components';
 import SelectPostType from '../../../../headline/components/dynamic-content/components/SelectPostType';
 import SimpleSelect from '../../../../../components/simple-select';
 import AuthorsSelect from '../../../../../components/authors-select';
-import { CategoriesSelect, TagsSelect } from '../../../../../components/taxonomies-select';
+import { CategoriesSelect, TagsSelect } from '../../../../../components/taxonomy-records-select';
 import RemoveButton from './RemoveButton';
 import TaxonomyParameterControl from '../controls/TaxonomyParameterControl';
 import PostTypeRecordsSelect from '../../../../../components/post-type-records-select';

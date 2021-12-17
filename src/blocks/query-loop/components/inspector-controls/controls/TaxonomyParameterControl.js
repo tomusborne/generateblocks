@@ -1,7 +1,7 @@
-import SimpleSelect from '../../../../../components/simple-select';
-import TaxonomiesSelect from '../../../../../components/taxonomies-select';
-import { useEffect, useMemo, useState } from '@wordpress/element';
-import { useTaxonomies } from '../../../../../hooks';
+import TaxonomyRecordsSelect from '../../../../../components/taxonomy-records-select';
+import { useEffect, useState } from '@wordpress/element';
+import TaxonomySelect from '../../../../../components/taxonomy-select';
+import useTaxonomies from '../../../../../hooks/useTaxonomies';
 
 export default function TaxonomyParameterControl( { label, value, onChange } ) {
 	const [ taxonomy, setTaxonomy ] = useState();
@@ -38,19 +38,14 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 		}
 	}, [ taxonomy, terms ] );
 
-	const taxonomiesOptions = useMemo( () => (
-		taxonomies.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
-	), [ taxonomies ] );
-
 	const labelStyles = { marginBottom: '8px', display: 'inline-block' };
 
 	return (
 		<>
 			{ label && <label style={ labelStyles }>{ label }</label> }
 
-			<SimpleSelect
+			<TaxonomySelect
 				wrapperStyles={ { marginBottom: '8px' } }
-				options={ taxonomiesOptions }
 				value={ taxonomy }
 				onChange={ ( option ) => {
 					setTaxonomy( option.value );
@@ -58,7 +53,7 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 				} }
 			/>
 
-			<TaxonomiesSelect
+			<TaxonomyRecordsSelect
 				taxonomy={ taxonomy }
 				value={ terms }
 				onChange={ ( value ) => {
