@@ -12,7 +12,7 @@ const attributes = {
 		type: 'boolean',
 		default: false,
 	},
-	isQueryLoop: {
+	isQueryLoopItem: {
 		type: 'boolean',
 		default: false,
 	},

@@ -47,7 +47,7 @@ export default ( props ) => {
 	const {
 		tagName,
 		isGrid,
-		isQueryLoop,
+		isQueryLoopItem,
 		gridId,
 		width,
 		widthTablet,
@@ -118,7 +118,7 @@ export default ( props ) => {
 							gridId: parentGridId,
 						} );
 					}
-				} else if ( isGrid && ! isQueryLoop ) {
+				} else if ( isGrid && ! isQueryLoopItem ) {
 					// Grid block isn't the parent, can't be a grid item.
 					setAttributes( {
 						isGrid: false,
@@ -126,7 +126,7 @@ export default ( props ) => {
 					} );
 				}
 			}
-		} else if ( isGrid && ! isQueryLoop ) {
+		} else if ( isGrid && ! isQueryLoopItem ) {
 			// No parent exists, can't be a grid item.
 			setAttributes( {
 				isGrid: false,
