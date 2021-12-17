@@ -1,8 +1,11 @@
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 import { useMemo } from '@wordpress/element';
+import { removeEmpty, normalizeRepeatableArgs } from './utils';
 
-export default ( queryParams ) => {
+export default ( kind, name, query ) => {
+	const queryParams = [ kind, name, normalizeRepeatableArgs( removeEmpty( query ) ) ];
+
 	const { data, isResolvingData, hasResolvedData } = useSelect( ( select ) => {
 		const {
 			getEntityRecords,

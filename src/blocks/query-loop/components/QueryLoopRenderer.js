@@ -27,51 +27,6 @@ const getDefaultInnerBlock = ( uniqueId ) => {
 	);
 };
 
-function removeEmpty( obj ) {
-	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => {
-		return Array.isArray( value ) ? !! value.length : !! value;
-	} ) );
-}
-
-function getTaxQueryParam( taxQuery, isExclude = false ) {
-	const paramKey = isExclude ? `${taxQuery.rest}_exclude` : taxQuery.rest;
-	return { [ paramKey ]: taxQuery.terms };
-}
-
-function normalizeTaxQuery( taxQueryValue, isExclude = false ) {
-	return taxQueryValue.reduce( ( normalized, taxQuery ) => {
-		return Object.assign( {}, normalized, getTaxQueryParam( taxQuery, isExclude ) );
-	}, {} );
-}
-
-function normalizeRepeatableArgs( query ) {
-	let normalizedQuery = Object.assign( {}, query );
-
-	if ( Array.isArray( query[ 'tax_query' ] ) ) {
-		const normalizedTaxQuery = normalizeTaxQuery( query[ 'tax_query' ] );
-
-		normalizedQuery = Object.assign(
-			{},
-			normalizedQuery,
-			normalizedTaxQuery,
-			{ ['tax_query']: undefined }
-		);
-	}
-
-	if ( Array.isArray( query[ 'tax_query_exclude' ] ) ) {
-		const normalizedTaxQueryExclude = normalizeTaxQuery( query[ 'tax_query_exclude' ], true );
-
-		normalizedQuery = Object.assign(
-			{},
-			normalizedQuery,
-			normalizedTaxQueryExclude,
-			{ ['tax_query_exclude']: undefined }
-		);
-	}
-
-	return normalizedQuery;
-}
-
 export default ( props ) => {
 	const { clientId, uniqueId, attributes } = props;
 	const [ activeContext, setActiveContext ] = useState();
@@ -84,11 +39,12 @@ export default ( props ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
 
-	const { data, hasData, isResolvingData, hasResolvedData } = useQueryLoopData( [
-		'postType',
-		query.post_type || 'post',
-		normalizeRepeatableArgs( removeEmpty( query ) ),
-	] );
+	const {
+		data,
+		hasData,
+		isResolvingData,
+		hasResolvedData,
+	} = useQueryLoopData( 'postType', query.post_type || 'post', query );
 
 	useEffect( () => {
 		if ( hasData && ! innerBlocks.length ) {
