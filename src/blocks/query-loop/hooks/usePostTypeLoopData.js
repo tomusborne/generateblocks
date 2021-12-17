@@ -3,8 +3,8 @@ import { store as coreStore } from '@wordpress/core-data';
 import { useMemo } from '@wordpress/element';
 import { removeEmpty, normalizeRepeatableArgs } from './utils';
 
-export default ( kind, name, query ) => {
-	const queryParams = [ kind, name, normalizeRepeatableArgs( removeEmpty( query ) ) ];
+export default function usePostTypeLoopData( postType, query ) {
+	const queryParams = [ 'postType', postType, normalizeRepeatableArgs( removeEmpty( query ) ) ];
 
 	const { data, isResolvingData, hasResolvedData } = useSelect( ( select ) => {
 		const {
