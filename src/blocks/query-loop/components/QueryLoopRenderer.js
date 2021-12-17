@@ -20,7 +20,11 @@ const getDefaultInnerBlock = ( uniqueId ) => {
 		} ),
 	];
 
-	return createBlock( 'generateblocks/container', attributes, containerInnerBlocks );
+	return createBlock(
+		'generateblocks/container',
+		Object.assign( {}, attributes, { isQueryLoop: true } ),
+		containerInnerBlocks
+	);
 };
 
 function removeEmpty( obj ) {
