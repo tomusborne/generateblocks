@@ -173,7 +173,7 @@ export default class MainCSS extends Component {
 		}
 
 		if ( isGrid ) {
-			cssObj[ '.gb-grid-wrapper:not(.gb-is-query-wrapper) .gb-container-' + uniqueId ] = [ {
+			cssObj[ '.gb-grid-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column > .gb-container-' + uniqueId ] = [ {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'column',
 				'height': '100%', // eslint-disable-line quote-props
@@ -253,7 +253,7 @@ export default class MainCSS extends Component {
 		if ( isGrid ) {
 			const gridColumnSelectors = [
 				'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .gb-query-wrapper > .block-editor-inner-blocks',
-				'.gb-grid-wrapper:not(.gb-is-query-wrapper) .gb-grid-column-' + uniqueId,
+				'.gb-grid-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column-' + uniqueId,
 			];
 
 			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
@@ -265,7 +265,7 @@ export default class MainCSS extends Component {
 
 			const gridContainerSelectors = [
 				'.gb-is-query-wrapper.gb-grid-wrapper-' + gridId + ' > .gb-query-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout',
-				'.gb-grid-wrapper:not(.gb-is-query-wrapper) .gb-grid-column-' + uniqueId + ' > .gb-container',
+				'.gb-grid-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column-' + uniqueId + ' > .gb-container',
 			];
 
 			cssObj[ gridContainerSelectors.join( ',' ) ] = [ {

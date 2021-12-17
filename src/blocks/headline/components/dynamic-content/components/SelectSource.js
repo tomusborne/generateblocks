@@ -14,7 +14,7 @@ const getOptions = () => {
 	);
 };
 
-export default ( { source, onChange } ) => {
+export default ( { source, onChange, help } ) => {
 	const options = getOptions();
 	const value = options.filter( ( option ) => ( option.value === source ) );
 
@@ -22,6 +22,7 @@ export default ( { source, onChange } ) => {
 		<AdvancedSelect
 			id={ 'gblocks-select-source-control' }
 			label={ __( 'Content source', 'generateblocks' ) }
+			help={ help }
 			placeholder={ __( 'Select source', 'generateblocks' ) }
 			options={ options }
 			value={ value }

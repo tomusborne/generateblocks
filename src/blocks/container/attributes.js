@@ -12,6 +12,10 @@ const attributes = {
 		type: 'boolean',
 		default: false,
 	},
+	isQueryLoopItem: {
+		type: 'boolean',
+		default: false,
+	},
 	gridId: {
 		type: 'string',
 		default: '',

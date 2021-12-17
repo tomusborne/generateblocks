@@ -752,3 +752,34 @@ function generateblocks_get_svg_shapes() {
 		)
 	);
 }
+
+/**
+ * Given an array it will change keys based on the map.
+ *
+ * @param array $arr
+ * @param array $keyMap
+ *
+ * @return array|false
+ *
+ * @since 1.5.0
+ */
+function generateblocks_map_array_keys( $arr = [], $keyMap = [] ) {
+	return array_combine(
+		array_map( function( $key ) use ( $keyMap ) {
+			return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
+		}, array_keys( $arr ) ), array_values( $arr ) );
+}
+
+/**
+ * Checks if the date is correctly formatted
+ *
+ * @param string $date The date to validate
+ * @param string $format The allowed format
+ *
+ * @return bool
+ */
+function generateblocks_is_valid_date( $date, $format = 'Y-m-d\TH:i:s' ) {
+	$dateTime = DateTime::createFromFormat( $format, $date );
+
+	return ( $dateTime && $dateTime->format( $format ) === $date );
+}

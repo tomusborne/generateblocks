@@ -49,7 +49,8 @@
 		}
 	}
 
-	[data-type="generateblocks/container"] + .block-list-appender {
+	.block-editor-default-block-appender,
+	.gb-container + .block-list-appender {
 		display: none;
 	}
 }
@@ -207,4 +208,19 @@
 .wp-block[data-type="generateblocks/grid"] {
 	margin-top: 0;
 	margin-bottom: 0;
+}
+
+.gblocks-parameter-component {
+  	position: relative;
+  	margin-bottom: 24px;
+
+	.gblocks-remove-parameter {
+	  	position: absolute;
+	  	top: -4px;
+	  	right: -1px;
+
+	  	&.components-button.has-icon.has-text svg {
+		  	margin-right: 0;
+		}
+	}
 }

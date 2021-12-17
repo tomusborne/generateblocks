@@ -110,6 +110,7 @@ const GridEdit = ( props ) => {
 								renderAppender={ false }
 								clientId={ clientId }
 								uniqueId={ attributes.uniqueId }
+								attributes={ attributes }
 							/>
 						</QueryWrapper>
 					)

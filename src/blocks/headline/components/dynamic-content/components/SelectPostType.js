@@ -3,7 +3,7 @@ import AdvancedSelect from '../../../../../components/advanced-select';
 import usePostTypes from '../hooks/usePostTypes';
 import { useMemo } from '@wordpress/element';
 
-export default ( { postType, onChange } ) => {
+export default ( { postType, onChange, value, help } ) => {
 	const postTypes = usePostTypes();
 
 	const postTypeOptions = useMemo( () => {
@@ -15,15 +15,16 @@ export default ( { postType, onChange } ) => {
 			}, [] );
 	}, [ postTypes ] );
 
-	const value = postTypeOptions.filter( ( option ) => ( option.value === postType ) );
+	const selectValue = postTypeOptions.filter( ( option ) => ( option.value === postType || option.value === value ) );
 
 	return (
 		<AdvancedSelect
 			id={ 'gblocks-select-post-type' }
-			label={ __( 'Select source post type', 'generateblocks' ) }
-			placeholder={ __( 'Select source post type', 'generateblocks' ) }
+			label={ __( 'Select post type', 'generateblocks' ) }
+			help={ help }
+			placeholder={ __( 'Select post type', 'generateblocks' ) }
 			options={ postTypeOptions }
-			value={ value }
+			value={ selectValue }
 			onChange={ onChange }
 			isLoading={ postTypeOptions.length === 0 }
 		/>

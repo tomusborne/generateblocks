@@ -302,12 +302,39 @@ class GenerateBlocks_Render_Block {
 	 * @param object $block The block data.
 	 */
 	public function do_query_loop_block( $attributes, $content, $block ) {
-		$the_query = new WP_Query(
-			array(
-				'post_type' => 'post',
-				'posts_per_page' => 10,
-			)
-		);
+		$query_attributes = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
+		$query_args = self::map_post_type_attributes( $query_attributes );
+
+		if ( isset( $query_args[ 'tax_query' ] ) ) {
+			$query_args[ 'tax_query' ] = self::normalize_tax_query_attributes( $query_args['tax_query'] );
+		}
+
+		if ( isset( $query_args[ 'date_query_after' ] ) || isset( $query_args[ 'date_query_before' ] ) ) {
+			$query_args[ 'date_query' ] = self::normalize_date_query_attributes(
+				isset( $query_args[ 'date_query_after' ] ) ? $query_args[ 'date_query_after' ] : null,
+				isset( $query_args[ 'date_query_before' ] ) ? $query_args[ 'date_query_before' ] : null
+			);
+
+			unset( $query_args[ 'date_query_after' ] );
+			unset( $query_args[ 'date_query_before' ] );
+		}
+
+		if ( isset( $query_args[ 'sticky' ] ) ) {
+			$sticky_posts = get_option( 'sticky_posts' );
+			$query_args[ 'post__in' ] = $sticky_posts;
+			unset( $query_args[ 'sticky' ] );
+		}
+
+		if ( isset( $query_args[ 'tax_query_exclude' ] ) ) {
+			$not_in_tax_query = self::normalize_tax_query_attributes( $query_args['tax_query_exclude'], 'NOT IN' );
+			$query_args[ 'tax_query' ] = isset( $query_args[ 'tax_query' ] )
+				? array_merge( $query_args[ 'tax_query' ], $not_in_tax_query )
+				: $not_in_tax_query;
+
+			unset( $query_args[ 'tax_query_exclude' ] );
+		}
+
+		$the_query = new WP_Query( $query_args );
 
 		$content = '';
 		if ( $the_query->have_posts() ) {
@@ -331,6 +358,69 @@ class GenerateBlocks_Render_Block {
 		$the_query->reset_postdata();
 
 		return $content;
+	}
+
+	public static function map_post_type_attributes( $attributes ) {
+		$attributes_map = array(
+			'page'               => 'paged',
+			'per_page'           => 'posts_per_page',
+			'search'             => 's',
+			'after'              => 'date_query_after',
+			'before'             => 'date_query_before',
+			'author'             => 'author__in',
+			'exclude'            => 'post__not_in',
+			'include'            => 'post__in',
+			'order'              => 'order',
+			'orderby'            => 'orderby',
+			'status'             => 'post_status',
+			'parent'             => 'post_parent__in',
+			'parent_exclude'     => 'post_parent__not_in',
+			'author_exclude'     => 'author__not_in',
+		);
+
+		return generateblocks_map_array_keys( $attributes, $attributes_map );
+	}
+
+	/**
+	 * Normalize the tax query attributes to be used in the WP_Query
+	 *
+	 * @param $raw_tax_query
+	 * @param string $operator
+	 *
+	 * @return array|array[]
+	 */
+	public static function normalize_tax_query_attributes( $raw_tax_query, $operator = 'IN' ) {
+		return array_map( function( $tax ) use ( $operator ) {
+			return [
+				'taxonomy' => $tax[ 'taxonomy' ],
+				'field'    => 'term_id',
+				'terms'    => $tax[ 'terms' ],
+				'operator' => $operator,
+				'include_children' => false,
+			];
+		}, $raw_tax_query );
+	}
+
+	/**
+	 * Normalize the date query attributes to be used in the WP_Query
+	 *
+	 * @param string|null $after The after date
+	 * @param string|null $before The before date
+	 *
+	 * @return array
+	 */
+	public static function normalize_date_query_attributes( $after = null, $before = null ) {
+		$result = [ 'inclusive' => true ];
+
+		if ( generateblocks_is_valid_date( $after ) ) {
+			$result[ 'after' ] = $after;
+		}
+
+		if ( generateblocks_is_valid_date( $before ) ) {
+			$result[ 'before' ] = $before;
+		}
+
+		return $result;
 	}
 
 	/**
