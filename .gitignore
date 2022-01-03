@@ -2,7 +2,6 @@ node_modules
 vendor
 .DS_Store
 *.zip
-package-lock.json
 composer.lock
 ## Uncomment line below if you prefer to
 ## keep compiled files out of version control
