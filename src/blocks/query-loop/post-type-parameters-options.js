@@ -90,7 +90,7 @@ export default [
 	},
 	{
 		id: 'tax_query',
-		type: 'taxonomySelect',
+		type: 'taxonomyParamSelect',
 		default: [],
 		label: __( 'Taxonomies', 'generateblocks' ),
 		description: __( "Show posts from taxonomies.", 'generateblocks' ),
@@ -100,7 +100,7 @@ export default [
 	},
 	{
 		id: 'tax_query_exclude',
-		type: 'taxonomySelect',
+		type: 'taxonomyParamSelect',
 		default: [],
 		label: __( 'Exclude taxonomies', 'generateblocks' ),
 		description: __( "Exclude posts from taxonomies.", 'generateblocks' ),

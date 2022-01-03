@@ -2,11 +2,12 @@ import { TextControl, ToggleControl } from '@wordpress/components';
 import SelectPostType from '../../../../headline/components/dynamic-content/components/SelectPostType';
 import SimpleSelect from '../../../../../components/simple-select';
 import AuthorsSelect from '../../../../../components/authors-select';
-import { CategoriesSelect, TagsSelect } from '../../../../../components/taxonomy-records-select';
+import TaxonomyRecordsSelect from '../../../../../components/taxonomy-records-select';
 import RemoveButton from './RemoveButton';
 import TaxonomyParameterControl from '../controls/TaxonomyParameterControl';
 import PostTypeRecordsSelect from '../../../../../components/post-type-records-select';
 import DateTimePicker from '../controls/DateTimePicker';
+import TaxonomySelect from '../../../../../components/taxonomy-select';
 
 const getParameterControl = ( parameterType ) => {
 	switch ( parameterType ) {
@@ -19,11 +20,7 @@ const getParameterControl = ( parameterType ) => {
 			return SimpleSelect;
 		case 'authorsSelect':
 			return AuthorsSelect;
-		case 'categoriesSelect':
-			return CategoriesSelect;
-		case 'tagsSelect':
-			return TagsSelect;
-		case 'taxonomySelect':
+		case 'taxonomyParamSelect':
 			return TaxonomyParameterControl;
 		case 'postsSelect':
 			return PostTypeRecordsSelect;
@@ -31,6 +28,10 @@ const getParameterControl = ( parameterType ) => {
 			return DateTimePicker;
 		case 'toggleControl':
 			return ToggleControl;
+		case 'taxonomySelect':
+			return TaxonomySelect;
+		case 'termsSelect':
+			return TaxonomyRecordsSelect;
 	}
 };
 
@@ -46,6 +47,7 @@ export default function ControlBuilder( props ) {
 		onChange,
 		onClickRemove,
 		dependencies,
+		controlProps,
 	} = props;
 
 	const Control = getParameterControl( type );
@@ -60,6 +62,7 @@ export default function ControlBuilder( props ) {
 				value={ value }
 				onChange={ onChange }
 				{ ...dependencies }
+				{ ...controlProps }
 			/>
 			{ ! isSticky && <RemoveButton id={ id } onClick={ onClickRemove } /> }
 		</div>

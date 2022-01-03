@@ -2,6 +2,7 @@ import { useReducer } from '@wordpress/element';
 
 const ADD_QUERY_PARAMETER = 'add_query_parameter';
 const REMOVE_QUERY_PARAMETER = 'remove_query_parameter';
+const RESET_QUERY_PARAMETER = 'reset_query_parameter';
 
 const queryReducer = function( queryState, action ) {
 	switch ( action.type ) {
@@ -11,6 +12,9 @@ const queryReducer = function( queryState, action ) {
 		case REMOVE_QUERY_PARAMETER:
 			const { [ action.payload ]: removedKey, ...newQueryState } = queryState;
 			return newQueryState;
+
+		case RESET_QUERY_PARAMETER:
+			return {};
 
 		default:
 			throw new Error( `queryReducer does not support action type "${ action.type }".` );
@@ -25,5 +29,6 @@ export default ( initialQueryState = {} ) => {
 		setParameter: ( key, value ) => ( dispatch( { type: ADD_QUERY_PARAMETER, payload: { [ key ]: value } } ) ),
 		insertParameters: ( payload ) => ( dispatch( { type: ADD_QUERY_PARAMETER, payload } ) ),
 		removeParameter: ( payload ) => ( dispatch( { type: REMOVE_QUERY_PARAMETER, payload } ) ),
+		resetParameters: () => ( dispatch( { type: RESET_QUERY_PARAMETER } ) ),
 	};
 };

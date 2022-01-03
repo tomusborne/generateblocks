@@ -88,6 +88,7 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Headline', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_headline_block' ),
+				'uses_context' => [ 'taxonomy', 'termId' ],
 			)
 		);
 	}
@@ -302,6 +303,41 @@ class GenerateBlocks_Render_Block {
 	 * @param object $block The block data.
 	 */
 	public function do_query_loop_block( $attributes, $content, $block ) {
+		$query_type = isset( $attributes[ 'queryType' ] ) ? $attributes[ 'queryType' ] : 'postType';
+
+		if ( $query_type === 'taxonomy' ) {
+			return $this->do_taxonomy_loop( $attributes, $content, $block );
+		} else {
+			return $this->do_post_type_loop( $attributes, $content, $block );
+		}
+	}
+
+	public function do_taxonomy_loop( $attributes, $content, $block ) {
+		$query_args = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
+
+		$terms = get_terms( $query_args );
+
+		if ( empty( $terms ) ) {
+			return __( 'No results found.', 'generateblocks' );
+		}
+
+		$content = '';
+
+		foreach( $terms as $term ) {
+			$block_content = (
+				new WP_Block( $block->parsed_block, array(
+					'taxonomy' => $term->taxonomy,
+					'termId'   => $term->term_id,
+				) )
+			)->render( array( 'dynamic' => false ) );
+
+			$content .= $block_content;
+		}
+
+		return $content;
+	}
+
+	public function do_post_type_loop( $attributes, $content, $block ) {
 		$query_attributes = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
 		$query_args = self::map_post_type_attributes( $query_attributes );
 
@@ -430,12 +466,12 @@ class GenerateBlocks_Render_Block {
 	 * @param array  $attributes The block attributes.
 	 * @param string $content The dynamic text to display.
 	 */
-	public static function do_headline_block( $attributes, $content ) {
+	public static function do_headline_block( $attributes, $content, $block ) {
 		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
 			return $content;
 		}
 
-		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes, $block->context );
 
 		if ( ! $dynamic_content ) {
 			return '';

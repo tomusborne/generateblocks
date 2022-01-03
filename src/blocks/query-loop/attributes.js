@@ -6,6 +6,11 @@ export default Object.assign( {}, gridAttributes, {
 		default: false,
 	},
 
+	queryType: {
+		type: 'string',
+		default: '',
+	},
+
 	query: {
 		type: 'object',
 		default: {}

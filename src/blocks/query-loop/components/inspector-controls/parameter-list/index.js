@@ -1,13 +1,13 @@
 import { __ } from '@wordpress/i18n';
-import queryParameterOptions from '../../../query-parameters';
 import ParameterControl from './ParameterControl';
+import { getParameterOptions } from '../../InspectorControls';
 
-const getParametersList = ( query ) => {
-	return queryParameterOptions.filter( ( parameter ) => Object.keys( query ).includes( parameter.id ) );
+const getParametersList = ( type, query ) => {
+	return getParameterOptions( type ).filter( ( parameter ) => Object.keys( query ).includes( parameter.id ) );
 };
 
-export default ( { query, setParameter, removeParameter } ) => {
-	const parameterList = getParametersList( query );
+export default ( { queryType, query, setParameter, removeParameter } ) => {
+	const parameterList = getParametersList( queryType, query );
 
 	return (
 		<>

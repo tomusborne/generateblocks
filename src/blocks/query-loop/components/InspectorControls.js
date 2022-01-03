@@ -1,4 +1,4 @@
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, store } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../components/panel-area';
 import { useEffect, useMemo, useState } from '@wordpress/element';
@@ -7,29 +7,69 @@ import AddQueryParameterButton from './inspector-controls/AddQueryParameterButto
 import ParameterList from './inspector-controls/parameter-list';
 import useQueryReducer from '../hooks/useQueryReducer';
 import isEmpty from '../../../utils/object-is-empty';
-import queryParameterOptions from '../query-parameters';
+import postTypeParameterOptions from '../post-type-parameters-options';
+import taxonomyParameterOptions from '../taxonomy-parameters-options';
+import QueryTypeSelect from './inspector-controls/QueryTypeSelect';
 
-export default ( { attributes, setAttributes } ) => {
-	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer();
-	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
+function getQueryTypeDefaultParams( type ) {
+	switch ( type ) {
+		case 'taxonomy':
+			return {
+				'taxonomy': 'category',
+				'per_page': 10,
+			};
 
-	useEffect( () => {
-		if ( ! isEmpty( attributes.query ) ) {
-			insertParameters( attributes.query );
-		} else {
-			insertParameters( {
+		default:
+			return {
 				'post_type': 'post',
 				'per_page': 10,
-			} );
+			};
+	}
+}
+
+export function getParameterOptions( type ) {
+	switch ( type ) {
+		case 'taxonomy':
+			return taxonomyParameterOptions;
+
+		default:
+			return postTypeParameterOptions;
+	}
+}
+
+export default ( { attributes, setAttributes } ) => {
+	const {
+		queryState,
+		insertParameters,
+		setParameter,
+		removeParameter,
+		resetParameters,
+	} = useQueryReducer();
+	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
+	const [ queryType, setQueryType ] = useState( attributes.queryType );
+
+	useEffect( () => {
+		setQueryType( attributes.queryType || 'postType' );
+
+		if ( ! isEmpty( attributes.query ) ) {
+			insertParameters( attributes.query );
 		}
 	}, [] );
 
 	useEffect( () => {
-		setAttributes( { query: queryState } );
+		if ( attributes.queryType !== queryType ) {
+			setAttributes( { queryType } );
+			resetParameters();
+			insertParameters( getQueryTypeDefaultParams( queryType ) );
+		}
+	}, [ queryType ] );
+
+	useEffect( () => {
+		setAttributes( { queryType, query: queryState } );
 	}, [ queryState ] );
 
 	const parameterOptions = useMemo( () => (
-		queryParameterOptions.map( ( parameter ) => {
+		getParameterOptions( queryType ).map( ( parameter ) => {
 			parameter.isDisabled = ! parameter.isRepeatable && Object.keys( queryState ).includes( parameter.id );
 
 			return parameter;
@@ -43,7 +83,13 @@ export default ( { attributes, setAttributes } ) => {
 				title={ __( 'Query loop', 'generateblocks' ) }
 				initialOpen={ true }
 			>
+				<QueryTypeSelect
+					value={ queryType }
+					onChange={ ( option ) => setQueryType( option.value ) }
+				/>
+
 				<ParameterList
+					queryType={ queryType }
 					query={ queryState }
 					setParameter={ setParameter }
 					removeParameter={ removeParameter }

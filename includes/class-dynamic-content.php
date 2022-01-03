@@ -36,7 +36,13 @@ class GenerateBlocks_Dynamic_Content {
 	 *
 	 * @param array $attributes The block attributes.
 	 */
-	public static function get_content( $attributes ) {
+	public static function get_content( $attributes, $context ) {
+		if ( isset( $context['termId'] ) && isset( $context['taxonomy'] ) ) {
+			$term = get_term( $context['termId'], $context['taxonomy'] );
+
+			return $term->name;
+		}
+
 		if ( ! isset( $attributes['contentType'] ) ) {
 			return self::get_post_title( $attributes );
 		}

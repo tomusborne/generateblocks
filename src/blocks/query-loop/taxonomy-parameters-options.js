@@ -1,0 +1,100 @@
+import { __ } from '@wordpress/i18n';
+
+export default [
+	{
+		id: 'taxonomy',
+		type: 'taxonomySelect',
+		default: 'category',
+		label: __( 'Taxonomy', 'generateblocks' ),
+		description: __( 'Retrieves terms by taxonomy', 'generateblocks' ),
+		group: __( 'Taxonomy', 'generateblocks' ),
+		isSticky: true,
+	},
+	{
+		id: 'per_page',
+		type: 'number',
+		default: 10,
+		label: __( 'Terms per page', 'generateblocks' ),
+		description: __( 'Number of terms to show per page', 'generateblocks' ),
+		group: __( 'Pagination', 'generateblocks' ),
+		isSticky: true,
+	},
+	{
+		id: 'page',
+		type: 'number',
+		default: 1,
+		label: __( 'Page', 'generateblocks' ),
+		description: __( 'Show terms from page', 'generateblocks' ),
+		group: __( 'Pagination', 'generateblocks' ),
+	},
+	{
+		id: 'search',
+		type: 'text',
+		default: '',
+		label: __( 'Search', 'generateblocks' ),
+		description: __( 'Show terms based on a keyword search.', 'generateblocks' ),
+		group: __( 'Search', 'generateblocks' ),
+	},
+	{
+		id: 'order',
+		type: 'select',
+		default: 'desc',
+		selectOptions: [
+			{ value: 'desc', label: 'DESC' },
+			{ value: 'asc', label: 'ASC' },
+		],
+		label: __( 'Order', 'generateblocks' ),
+		description: __( 'Designates the ascending or descending order of the ‘orderby‘ parameter.', 'generateblocks' ),
+		group: __( 'Order & Order by', 'generateblocks' ),
+	},
+	{
+		id: 'orderby',
+		type: 'select',
+		default: 'date',
+		selectOptions: [
+			{ value: 'id', label: 'Id' },
+			{ value: 'name', label: 'Name' },
+			{ value: 'slug', label: 'Slug' },
+			{ value: 'description', label: 'Description' },
+		],
+		label: __( 'Order by', 'generateblocks' ),
+		description: __( 'Sort retrieved terms.', 'generateblocks' ),
+		group: __( 'Order & Order by', 'generateblocks' ),
+	},
+	{
+		id: 'include',
+		type: 'termsSelect',
+		default: [],
+		dependencies: {
+			taxonomy: 'taxonomy',
+		},
+		label: __( 'Include terms', 'generateblocks' ),
+		description: __( 'Limit result set to specific terms.', 'generateblocks' ),
+		group: __( 'Term', 'generateblocks' ),
+	},
+	{
+		id: 'exclude',
+		type: 'termsSelect',
+		default: [],
+		dependencies: {
+			taxonomy: 'taxonomy',
+		},
+		label: __( 'Exclude terms', 'generateblocks' ),
+		description: __( 'Ensure result set excludes specific terms.', 'generateblocks' ),
+		group: __( 'Term', 'generateblocks' ),
+	},
+	{
+		id: 'term_parent',
+		type: 'termsSelect',
+		default: 0,
+		dependencies: {
+			taxonomy: 'taxonomy',
+		},
+		controlProps: {
+			isMulti: false,
+		},
+		label: __( 'Parent', 'generateblocks' ),
+		description: __( 'Limit result set to terms assigned to a specific parent.', 'generateblocks' ),
+		group: __( 'Term', 'generateblocks' ),
+	},
+];

@@ -6,6 +6,8 @@ const attributeValueNormalizer = ( attribute, value ) => {
 		case 'order':
 		case 'orderby':
 		case 'status':
+		case 'taxonomy':
+		case 'term_parent':
 			return value.value;
 
 		case 'author':
@@ -27,7 +29,7 @@ const attributeValueNormalizer = ( attribute, value ) => {
 };
 
 export default ( { parameter, query, setParameter, removeParameter } ) => {
-	const { dependencies = {} } = parameter;
+	const { dependencies = {}, controlProps = {} } = parameter;
 	const parameterValue = query[ parameter.id ];
 
 	function onChangeControl( newValue ) {
@@ -48,6 +50,7 @@ export default ( { parameter, query, setParameter, removeParameter } ) => {
 				onChange={ onChange }
 				onClickRemove={ onClickRemove }
 				dependencies={ dependenciesValues }
+				controlProps={ controlProps }
 			/>
 		);
 	}

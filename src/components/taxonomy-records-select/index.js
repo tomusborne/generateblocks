@@ -3,7 +3,16 @@ import AdvancedSelect from '../advanced-select';
 import { __ } from '@wordpress/i18n';
 import useTaxonomyRecords from '../../hooks/useTaxonomyRecords';
 
-export default function TaxonomyRecordsSelect( { taxonomy, label, onChange, value = [], help } ) {
+export default function TaxonomyRecordsSelect( props ) {
+	const {
+		taxonomy,
+		label,
+		onChange,
+		value = [],
+		help,
+		isMulti = true
+	} = props;
+
 	const { taxonomies, isResolving } = useTaxonomyRecords( taxonomy );
 
 	const taxonomiesOptions = useMemo( () => {
@@ -14,7 +23,9 @@ export default function TaxonomyRecordsSelect( { taxonomy, label, onChange, valu
 			}, [] );
 	}, [ taxonomies ] );
 
-	const selectedValues = taxonomiesOptions.filter( ( option ) => ( value.includes( option.value ) ) );
+	const selectedValues = isMulti
+		? taxonomiesOptions.filter( ( option ) => ( value.includes( option.value ) ) )
+		: taxonomiesOptions.filter( ( option ) => ( option.value === value ) );
 
 	return (
 		<AdvancedSelect
@@ -23,7 +34,7 @@ export default function TaxonomyRecordsSelect( { taxonomy, label, onChange, valu
 			help={ help }
 			placeholder={ label || __( 'Select taxonomies', 'generateblocks' ) }
 			options={ taxonomiesOptions }
-			isMulti
+			isMulti={ isMulti }
 			isSearchable
 			value={ selectedValues }
 			onChange={ onChange }
@@ -31,15 +42,3 @@ export default function TaxonomyRecordsSelect( { taxonomy, label, onChange, valu
 		/>
 	);
 };
-
-export function CategoriesSelect ( props ) {
-	return (
-		<TaxonomyRecordsSelect { ...props } taxonomy={ 'category' } />
-	);
-}
-
-export function TagsSelect ( props ) {
-	return (
-		<TaxonomyRecordsSelect { ...props } taxonomy={ 'post_tag' } />
-	);
-}

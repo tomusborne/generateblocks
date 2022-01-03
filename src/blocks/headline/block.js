@@ -54,7 +54,7 @@ registerBlockType( 'generateblocks/headline', {
 	save: saveHeadline,
 	transforms,
 	deprecated,
-	usesContext: [ 'postId', 'postType' ],
+	usesContext: [ 'postId', 'postType', 'taxonomy', 'termId' ],
 	__experimentalLabel: ( { isDynamicContent, contentType } ) => {
 		if ( isDynamicContent ) {
 			const labels = {
