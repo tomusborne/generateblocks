@@ -77,6 +77,11 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.4.1 =
+* Fix: Color picker UI in WP 5.9
+* Fix: PHP notice when first saving Dashboard settings
+* Tweak: Make Container appender relative positioned in WP 5.9
+
 = 1.4.0 =
 * New: Add flex (flex-grow, flex-shrink, flex-basis) options to grid item containers
 * New: Add "auto" width option to grid item containers on tablet and mobile
