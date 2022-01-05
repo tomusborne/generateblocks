@@ -15,10 +15,12 @@
 	background: #fff;
 	color: #000;
 
-	.components-placeholder__label,
+	.components-placeholder__label {
+		margin: 0 auto;
+	}
+
 	.components-placeholder__instructions {
-		margin-left: auto;
-		margin-right: auto;
+		margin: 0 auto 25px;
 	}
 
 	iframe {
@@ -64,6 +66,7 @@
             .gb-col {
 				background: #fff;
 				border: 1px solid #000;
+				margin: 1px;
                 height: 40px;
             }
         }
