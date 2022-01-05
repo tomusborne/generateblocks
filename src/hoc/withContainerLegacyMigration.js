@@ -82,6 +82,26 @@ export default ( WrappedComponent ) => {
 				}
 			}
 
+			// Attribute defaults added to an object late don't get defaults.
+			// @since 1.1.2
+			if ( 'undefined' === typeof attributes.bgOptions.selector ) {
+				setAttributes( {
+					bgOptions: {
+						...attributes.bgOptions,
+						selector: 'element',
+					},
+				} );
+			}
+
+			if ( 'undefined' === typeof attributes.bgOptions.opacity ) {
+				setAttributes( {
+					bgOptions: {
+						...attributes.bgOptions,
+						opacity: 1,
+					},
+				} );
+			}
+
 			// Update block version flag if it's out of date.
 			if ( isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
 				setAttributes( { blockVersion: 2 } );
