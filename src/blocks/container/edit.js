@@ -50,15 +50,6 @@ const ContainerEdit = ( props ) => {
 		}
 	}, [] );
 
-	// Attribute defaults added to an object late don't get defaults.
-	if ( 'undefined' === typeof attributes.bgOptions.selector ) {
-		attributes.bgOptions.selector = 'element';
-	}
-
-	if ( 'undefined' === typeof attributes.bgOptions.opacity ) {
-		attributes.bgOptions.opacity = 1;
-	}
-
 	const tagNames = applyFilters(
 		'generateblocks.editor.containerTagNames',
 		[
