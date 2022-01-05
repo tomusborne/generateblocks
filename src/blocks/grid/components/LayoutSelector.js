@@ -69,7 +69,7 @@ export default ( { uniqueId, onClick } ) => {
 								return (
 									<div
 										key={ `layout-${ layout }-col-${ idx }` }
-										className={ classnames( 'gb-col', `gb-col-${ colAttrs.width }` ) }
+										className={ classnames( 'gb-col', `gb-col-${ colAttrs.width.toString().replace( '.', '-' ) }` ) }
 									/>
 								);
 							} ) }

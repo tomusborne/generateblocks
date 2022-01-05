@@ -9,18 +9,35 @@
     }
 }
 
-.wp-block.gb-col {
-    margin-top: 29px;
-}
-
 // Layouts selector.
 .components-placeholder.components-placeholder.gb-select-layout {
     padding: 25px;
 	background: #fff;
 	color: #000;
 
-    .components-placeholder__fieldset > em {
-        margin-bottom: 25px;
+	.components-placeholder__label,
+	.components-placeholder__instructions {
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	iframe {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.gb-grid-wrapper-layout-preview {
+		max-width: 500px;
+	}
+
+    .components-placeholder__fieldset {
+		display: flex;
+		justify-content: center;
+
+		& > em {
+        	margin-bottom: 25px;
+		}
     }
 
     .gb-grid-wrapper-layout-preview {
@@ -32,7 +49,7 @@
 
         .gb-grid-wrapper-layout-preview-btn {
             display: flex;
-            flex-wrap: wrap;
+            flex-wrap: nowrap;
             width: 85px;
             padding: 0;
             margin-right: 7px;
@@ -41,122 +58,58 @@
             overflow: hidden;
             cursor: pointer;
             background: none;
-            border: 2px solid rgba(#4f5969, .75);
-            border-radius: 4px;
-            transition: .15s border-color, .15s background-color;
+            border-radius: 0;
+			border: 0;
 
             .gb-col {
+				background: #fff;
+				border: 1px solid #000;
                 height: 40px;
-                border-right: 2px solid rgba(#4f5969, .75);
-                transition: .15s border-color;
-
-                &:last-of-type {
-                    border-right: none;
-                }
-            }
-
-            &:hover,
-            &:focus {
-                background-color: #fff;
-                border-color: #4f5969;
-
-                .gb-col {
-                    border-color: #4f5969;
-                }
             }
         }
-    }
-
-    // templates button.
-    .components-button.is-primary {
-        height: 35px;
-        padding: 0 15px;
-        margin-top: 10px;
-        font-size: 14px;
     }
 }
 
 .gb-col {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    width: 0;
+	&.gb-col-100 {
+		width: 100%;
+	}
 
-    > .block-editor-block-list__block-edit {
-        display: flex;
-        flex-basis: 100%;
-        // stylelint-disable-next-line
-        margin-top: 0 !important;
-        // stylelint-disable-next-line
-        margin-bottom: 0 !important;
+	&.gb-col-20 {
+		flex-basis: 20%;
+	}
 
-        > [data-block] {
-            flex: 100%;
-        }
+	&.gb-col-25 {
+		flex-basis: 25%;
+	}
 
-        // fix selected column block content position.
-        > .editor-block-contextual-toolbar + [data-block] {
-            margin-left: 30px;
-        }
-    }
-}
+	&.gb-col-75 {
+		flex-basis: 75%;
+	}
 
-.gb-col.gb-col-25 {
-    flex-basis: 25%;
-}
+	&.gb-col-66-66 {
+		flex-basis: 66.66%;
+	}
 
-.gb-col.gb-col-75 {
-    flex-basis: 75%;
-}
+	&.gb-col-50 {
+		flex-basis: 50%;
+	}
 
-.gb-col.gb-col-50 {
-    flex-basis: 50%;
-}
+	&.gb-col-60 {
+		flex-basis: 60%;
+	}
 
-.gb-col.gb-col-60 {
-    flex-basis: 60%;
-}
+	&.gb-col-33-33 {
+		flex-basis: 33.33%;
+	}
 
-.gb-col.gb-col-20 {
-    flex-basis: 20%;
-}
+	&.gb-col-20 {
+		flex-basis: 20%;
+	}
 
-.gb-col.gb-col-16 {
-    flex-basis: 16.6%;
-}
-
-.gb-grid-appender button {
-    background: #fff;
-	box-shadow: inset 0 0 0 1px #555d66, inset 0 0 0 2px #fff;
-    padding: 20px;
-	width: 100%;
-    justify-content: center;
-	height: auto;
-}
-
-.gb-grid-appender button.components-button svg {
-    margin-right: 0;
-}
-
-.gb-select-layout .components-placeholder__label,
-.gb-select-layout .components-placeholder__instructions {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.gb-select-layout iframe {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.gb-select-layout .gb-grid-wrapper-layout-preview {
-    max-width: 500px;
-}
-
-.gb-select-layout .components-placeholder__fieldset {
-    display: flex;
-    justify-content: center;
+	&.gb-col-16 {
+		flex-basis: 16.6%;
+	}
 }
 
 .wp-block[data-type="generateblocks/grid"] {
