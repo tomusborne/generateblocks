@@ -131,7 +131,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 
 		foreach ( $new_settings as $name => $value ) {
 			// Skip if the option hasn't changed.
-			if ( $current_settings[ $name ] === $new_settings[ $name ] ) {
+			if ( isset( $current_settings[ $name ] ) && $current_settings[ $name ] === $new_settings[ $name ] ) {
 				unset( $new_settings[ $name ] );
 				continue;
 			}
