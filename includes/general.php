@@ -288,3 +288,29 @@ function generateblocks_do_widget_styling( $content ) {
 
 	return $content;
 }
+
+add_filter( 'generateblocks_attr_container', 'generateblocks_set_inline_background_style', 10, 2 );
+/**
+ * Add our background image attribute to the Container.
+ *
+ * @since 1.5.0
+ * @param array $attributes Existing attributes.
+ * @param array $settings Block settings.
+ */
+function generateblocks_set_inline_background_style( $attributes, $settings ) {
+	if ( $settings['bgImageInline'] ) {
+		$url = generateblocks_get_background_image_url( $settings );
+
+		if ( $url ) {
+			$attribute_name = 'background-image';
+
+			if ( 'element' !== $settings['bgOptions']['selector'] ) {
+				$attribute_name = '--' . $attribute_name;
+			}
+
+			$attributes['style'] = $attribute_name . ': url(' . esc_url( $url ) . ');';
+		}
+	}
+
+	return $attributes;
+}
