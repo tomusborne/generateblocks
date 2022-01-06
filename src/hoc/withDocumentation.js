@@ -66,7 +66,7 @@ const withDocumentation = createHigherOrderComponent( ( BlockEdit ) => {
 						<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
 						<a href={ blockData.url } target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
 
-						{ applyFilters( 'generateblocks.editor.controls', '', 'buttonDocumentation', props, state ) }
+						{ applyFilters( 'generateblocks.editor.controls', '', blockData.id, props, state ) }
 					</PanelArea>
 				</InspectorControls>
 			</Fragment>
