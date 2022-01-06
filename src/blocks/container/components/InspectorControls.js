@@ -82,6 +82,7 @@ export default ( props ) => {
 		bgImage,
 		bgOptions,
 		bgImageSize,
+		bgImageInline,
 		verticalAlignment,
 		verticalAlignmentTablet,
 		verticalAlignmentMobile,
@@ -1515,6 +1516,16 @@ export default ( props ) => {
 
 					{ !! bgImage && (
 						<Fragment>
+							<ToggleControl
+								label={ __( 'Use inline style', 'generateblocks' ) }
+								checked={ !! bgImageInline }
+								onChange={ ( nextImageInline ) => {
+									setAttributes( {
+										bgImageInline: nextImageInline,
+									} );
+								} }
+							/>
+
 							{ !! bgOptions.overlay ? ( // This option is deprecated, so only show it if it's in use.
 								<Fragment>
 									<ToggleControl

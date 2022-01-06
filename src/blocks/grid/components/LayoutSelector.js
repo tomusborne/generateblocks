@@ -52,7 +52,7 @@ export default ( { uniqueId, onClick } ) => {
 	return (
 		<Placeholder
 			label={ __( 'Grid', 'generateblocks' ) }
-			instructions={ __( 'Select one layout to get started.', 'generateblocks' ) }
+			instructions={ __( 'Choose how many Containers to start with.', 'generateblocks' ) }
 			className="gb-select-layout"
 		>
 			<div className="gb-grid-wrapper-layout-preview">
@@ -69,7 +69,7 @@ export default ( { uniqueId, onClick } ) => {
 								return (
 									<div
 										key={ `layout-${ layout }-col-${ idx }` }
-										className={ classnames( 'gb-col', `gb-col-${ colAttrs.width }` ) }
+										className={ classnames( 'gb-col', `gb-col-${ colAttrs.width.toString().replace( '.', '-' ) }` ) }
 									/>
 								);
 							} ) }

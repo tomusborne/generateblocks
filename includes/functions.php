@@ -467,6 +467,30 @@ function generateblocks_has_number_value( $value ) {
 }
 
 /**
+ * Get our background image URL.
+ *
+ * @since 1.5.0
+ * @param array $settings Block settings.
+ */
+function generateblocks_get_background_image_url( $settings ) {
+	$url = '';
+
+	if ( isset( $settings['bgImage']['id'] ) ) {
+		$image_src = wp_get_attachment_image_src( $settings['bgImage']['id'], $settings['bgImageSize'] );
+
+		if ( is_array( $image_src ) ) {
+			$url = $image_src[0];
+		} else {
+			$url = $settings['bgImage']['image']['url'];
+		}
+	} else {
+		$url = $settings['bgImage']['image']['url'];
+	}
+
+	return apply_filters( 'generateblocks_background_image_url', $url, $settings );
+}
+
+/**
  * Get the background-image value for our Container block.
  *
  * @param string $type Gradient or background image.
@@ -499,21 +523,7 @@ function generateblocks_get_background_image_css( $type, $settings ) {
 	$backgroundImage = '';
 
 	if ( $settings['bgImage'] ) {
-		$url = '';
-
-		if ( isset( $settings['bgImage']['id'] ) ) {
-			$image_src = wp_get_attachment_image_src( $settings['bgImage']['id'], $settings['bgImageSize'] );
-
-			if ( is_array( $image_src ) ) {
-				$url = $image_src[0];
-			} else {
-				$url = $settings['bgImage']['image']['url'];
-			}
-		} else {
-			$url = $settings['bgImage']['image']['url'];
-		}
-
-		$url = apply_filters( 'generateblocks_background_image_url', $url, $settings );
+		$url = generateblocks_get_background_image_url( $settings );
 
 		// Old background image overlays mixed with our gradients.
 		if (
@@ -530,6 +540,10 @@ function generateblocks_get_background_image_css( $type, $settings ) {
 			}
 		} else {
 			$backgroundImage = 'url(' . esc_url( $url ) . ')';
+
+			if ( $settings['bgImageInline'] && 'element' !== $settings['bgOptions']['selector'] ) {
+				$backgroundImage = 'var(--background-image)';
+			}
 		}
 	}
 
