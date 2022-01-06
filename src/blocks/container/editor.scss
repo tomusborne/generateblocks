@@ -105,11 +105,6 @@ body .gb-container .wp-block {
 	}
 }
 
-.wp-block[data-type="generateblocks/container"] {
-	margin-top: 0;
-	margin-bottom: 0;
-}
-
 .gb-container .wp-block-image {
     margin-top: 0;
     margin-bottom: 0;
@@ -279,6 +274,9 @@ body .gb-container .wp-block {
 }
 
 .gb-container {
+	margin-top: 0;
+	margin-bottom: 0;
+
 	.block-editor-block-list__layout {
 		.block-list-appender {
 			margin: 0;
