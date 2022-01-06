@@ -45,7 +45,7 @@ const withDocumentation = createHigherOrderComponent( ( BlockEdit ) => {
 			return name === obj.name;
 		} );
 
-		if ( 0 === blockData.length ) {
+		if ( ! blockData || 0 === blockData.length ) {
 			return <BlockEdit { ...props } />;
 		}
 
