@@ -8,14 +8,3 @@ mark.gb-highlight {
 		display: inline-block;
 	}
 }
-
-/* Remove auto margins from block. */
-.editor-styles-wrapper .gb-headline {
-	margin: 0;
-}
-
-/* Re-add auto margins when it's the root block. */
-.is-root-container > .gb-headline {
-	margin-left: auto;
-	margin-right: auto;
-}
