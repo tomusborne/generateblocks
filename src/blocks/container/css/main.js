@@ -274,7 +274,7 @@ export default class MainCSS extends Component {
 		} ];
 
 		if ( shapeDividers.length ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				position: 'relative',
 			} );
 
