@@ -55,7 +55,7 @@ export default class TabletCSS extends Component {
 		} = attributes;
 
 		let cssObj = [];
-		cssObj[ '.gb-container-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
 			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
 			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
 			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
@@ -70,7 +70,7 @@ export default class TabletCSS extends Component {
 		} ];
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
@@ -80,7 +80,7 @@ export default class TabletCSS extends Component {
 		}
 
 		if ( minHeightTablet && ! isGrid ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
 				'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
@@ -88,7 +88,7 @@ export default class TabletCSS extends Component {
 		}
 
 		if ( isGrid && 'inherit' !== verticalAlignmentTablet ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'column',
 				'height': '100%', // eslint-disable-line quote-props

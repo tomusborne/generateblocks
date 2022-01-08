@@ -28,7 +28,7 @@ export default class MobileCSS extends Component {
 
 		let cssObj = [];
 
-		cssObj[ '.gb-button-wrapper-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId ] = [ {
 			'display': fillHorizontalSpaceMobile ? 'block' : false, // eslint-disable-line quote-props
 			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
 			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
