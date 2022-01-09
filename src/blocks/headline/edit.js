@@ -39,6 +39,7 @@ export default ( props ) => {
 		setAttributes,
 		onReplace,
 		clientId,
+		name,
 	} = props;
 
 	const {
@@ -98,6 +99,7 @@ export default ( props ) => {
 				deviceType={ deviceType }
 				setDeviceType={ setDeviceType }
 				blockState={ { deviceType } }
+				name={ name }
 			/>
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 

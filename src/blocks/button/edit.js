@@ -20,6 +20,7 @@ const ButtonEdit = ( props ) => {
 		setAttributes,
 		isSelected,
 		clientId,
+		name,
 	} = props;
 
 	const {
@@ -96,6 +97,7 @@ const ButtonEdit = ( props ) => {
 				setDeviceType={ setDeviceType }
 				state={ { deviceType } }
 				blockDefaults={ generateBlocksDefaults.button }
+				name={ name }
 			/>
 
 			<InspectorAdvancedControls
