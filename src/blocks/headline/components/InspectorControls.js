@@ -893,21 +893,6 @@ export default ( props ) => {
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'headlineIcon', props, blockState ) }
 			</PanelArea>
-
-			<PanelArea
-				{ ...props }
-				title={ __( 'Documentation', 'generateblocks' ) }
-				icon={ getIcon( 'documentation' ) }
-				initialOpen={ false }
-				className={ 'gblocks-panel-label' }
-				id={ 'headlineDocumentation' }
-				state={ blockState }
-			>
-				<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
-				<a href="https://docs.generateblocks.com/collection/headline/" target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
-
-				{ applyFilters( 'generateblocks.editor.controls', '', 'headlineDocumentation', props, blockState ) }
-			</PanelArea>
 		</InspectorControls>
 	);
 };

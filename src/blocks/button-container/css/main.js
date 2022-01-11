@@ -26,7 +26,7 @@ export default class MainCSS extends Component {
 
 		let cssObj = [];
 
-		cssObj[ '.gb-button-wrapper-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId ] = [ {
 			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'justify-content': flexboxAlignment( alignment ),
 		} ];

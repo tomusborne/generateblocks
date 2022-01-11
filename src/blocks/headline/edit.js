@@ -8,6 +8,7 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useEffect } from '@wordpress/element';
 import Element from '../../components/element';
+import RootElement from '../../components/root-element';
 import IconWrapper from '../../components/icon-wrapper';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
@@ -39,6 +40,7 @@ export default ( props ) => {
 		setAttributes,
 		onReplace,
 		clientId,
+		name,
 	} = props;
 
 	const {
@@ -111,26 +113,28 @@ export default ( props ) => {
 
 			{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', props ) }
 
-			<Element tagName={ element } htmlAttrs={ blockProps }>
-				<IconWrapper
-					hasIcon={ hasIcon }
-					icon={ icon }
-					hideChildren={ removeText }
-					showWrapper={ ! removeText && hasIcon }
-					wrapperClassname={ 'gb-headline-text' }
-					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
-				>
-					<RichText
-						tagName="span"
-						value={ content }
-						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
-						onSplit={ onSplit( attributes, clientId ) }
-						onReplace={ onReplace }
-						placeholder={ __( 'Headline', 'generateblocks' ) }
-						allowedFormats={ richTextFormats }
-					/>
-				</IconWrapper>
-			</Element>
+			<RootElement name={ name } clientId={ clientId }>
+				<Element tagName={ element } htmlAttrs={ blockProps }>
+					<IconWrapper
+						hasIcon={ hasIcon }
+						icon={ icon }
+						hideChildren={ removeText }
+						showWrapper={ ! removeText && hasIcon }
+						wrapperClassname={ 'gb-headline-text' }
+						ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
+					>
+						<RichText
+							tagName="span"
+							value={ content }
+							onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
+							onSplit={ onSplit( attributes, clientId ) }
+							onReplace={ onReplace }
+							placeholder={ __( 'Headline', 'generateblocks' ) }
+							allowedFormats={ richTextFormats }
+						/>
+					</IconWrapper>
+				</Element>
+			</RootElement>
 		</Fragment>
 	);
 };

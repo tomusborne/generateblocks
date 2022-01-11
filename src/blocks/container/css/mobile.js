@@ -60,7 +60,7 @@ export default class MobileCSS extends Component {
 		} = attributes;
 
 		let cssObj = [];
-		cssObj[ '.gb-container-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
 			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
 			'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
 			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
@@ -75,7 +75,7 @@ export default class MobileCSS extends Component {
 		} ];
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
@@ -85,7 +85,7 @@ export default class MobileCSS extends Component {
 		}
 
 		if ( 'inherit' !== verticalAlignmentMobile && minHeightMobile && ! isGrid ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
 				'align-items': verticalAlignmentMobile,
@@ -93,7 +93,7 @@ export default class MobileCSS extends Component {
 		}
 
 		if ( isGrid && 'inherit' !== verticalAlignmentMobile ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'column',
 				'height': '100%', // eslint-disable-line quote-props
