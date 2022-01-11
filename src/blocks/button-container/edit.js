@@ -12,12 +12,14 @@ import { compose } from '@wordpress/compose';
 import { withButtonContainerLegacyMigration, withUniqueId } from '../../hoc';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
+import RootElement from '../../components/root-element';
 
 const ButtonContainerEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
 		clientId,
+		name,
 	} = props;
 
 	const {
@@ -88,14 +90,16 @@ const ButtonContainerEdit = ( props ) => {
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
-			<div { ...blockProps }>
-				<InnerBlocks
-					allowedBlocks={ [ 'generateblocks/button' ] }
-					renderAppender={ () => (
-						<BlockAppender clientId={ clientId } innerBlockStyles={ generateBlocksStyling.button } />
-					) }
-				/>
-			</div>
+			<RootElement name={ name } clientId={ clientId }>
+				<div { ...blockProps }>
+					<InnerBlocks
+						allowedBlocks={ [ 'generateblocks/button' ] }
+						renderAppender={ () => (
+							<BlockAppender clientId={ clientId } innerBlockStyles={ generateBlocksStyling.button } />
+						) }
+					/>
+				</div>
+			</RootElement>
 		</Fragment>
 	);
 };
