@@ -2137,21 +2137,6 @@ export default ( props ) => {
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'containerShapeDivider', props, state ) }
 			</PanelArea>
-
-			<PanelArea
-				{ ...props }
-				title={ __( 'Documentation', 'generateblocks' ) }
-				initialOpen={ false }
-				icon={ getIcon( 'documentation' ) }
-				className={ 'gblocks-panel-label' }
-				id={ 'containerDocumentation' }
-				state={ state }
-			>
-				<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
-				<a href="https://docs.generateblocks.com/collection/container/" target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
-
-				{ applyFilters( 'generateblocks.editor.controls', '', 'containerDocumentation', props, state ) }
-			</PanelArea>
 		</InspectorControls>
 	);
 };
