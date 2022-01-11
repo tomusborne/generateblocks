@@ -18,7 +18,6 @@ const ButtonContainerEdit = ( props ) => {
 		attributes,
 		setAttributes,
 		clientId,
-		name,
 	} = props;
 
 	const {
@@ -77,13 +76,11 @@ const ButtonContainerEdit = ( props ) => {
 			/>
 
 			<InspectorControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
+				{ ...props }
 				deviceType={ deviceType }
 				setDeviceType={ setDeviceType }
 				state={ { deviceType } }
 				blockDefaults={ generateBlocksDefaults.buttonContainer }
-				name={ name }
 			/>
 
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
