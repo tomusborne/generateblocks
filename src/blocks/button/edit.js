@@ -90,8 +90,7 @@ const ButtonEdit = ( props ) => {
 			/>
 
 			<InspectorControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
+				{ ...props }
 				deviceType={ deviceType }
 				setDeviceType={ setDeviceType }
 				state={ { deviceType } }

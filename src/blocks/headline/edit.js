@@ -94,13 +94,13 @@ export default ( props ) => {
 			<BlockControls attributes={ attributes } setAttributes={ setAttributes } deviceType={ deviceType } />
 
 			<InspectorControls
+				{ ...props }
 				uniqueId={ uniqueId }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
 				deviceType={ deviceType }
 				setDeviceType={ setDeviceType }
 				blockState={ { deviceType } }
 			/>
+
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />

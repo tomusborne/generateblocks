@@ -78,8 +78,7 @@ const ButtonContainerEdit = ( props ) => {
 			/>
 
 			<InspectorControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
+				{ ...props }
 				deviceType={ deviceType }
 				setDeviceType={ setDeviceType }
 				state={ { deviceType } }
