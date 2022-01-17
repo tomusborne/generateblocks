@@ -3,9 +3,9 @@ Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
 Requires at least: 5.6
-Tested up to: 5.8
+Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 1.4.0
+Stable tag: 1.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -76,6 +76,11 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.4.1 =
+* Fix: Color picker UI in WP 5.9
+* Fix: PHP notice when first saving Dashboard settings
+* Tweak: Make Container appender relative positioned in WP 5.9
 
 = 1.4.0 =
 * New: Add flex (flex-grow, flex-shrink, flex-basis) options to grid item containers
