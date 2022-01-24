@@ -72,6 +72,7 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Query loop', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_grid_block' ),
+				'uses_context' => [ 'postType', 'postId' ],
 			)
 		);
 
@@ -315,7 +316,16 @@ class GenerateBlocks_Render_Block {
 	public function do_taxonomy_loop( $attributes, $content, $block ) {
 		$query_args = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
 
-		$terms = get_terms( $query_args );
+		if (
+			isset( $attributes['useContext'] ) &&
+			$attributes['useContext'] === true &&
+			isset( $block->context['postId'] ) &&
+			isset( $block->context['postType'] )
+		) {
+			$terms = get_the_terms( $block->context['postId'], $query_args['taxonomy'] );
+		} else {
+			$terms = get_terms( $query_args );
+		}
 
 		if ( empty( $terms ) ) {
 			return __( 'No results found.', 'generateblocks' );

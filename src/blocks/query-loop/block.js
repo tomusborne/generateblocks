@@ -18,11 +18,24 @@ registerBlockType( 'generateblocks/query-loop', {
 		__( 'generate' ),
 	],
 	attributes,
+	usesContext: [ 'postId', 'postType', 'taxonomy', 'termId', 'taxonomyRest' ],
 	supports: { className: false },
 	edit: withQueryLoop( editGridContainer ),
 	save: () => {
 		return (
 			<InnerBlocks.Content />
 		);
+	},
+	__experimentalLabel: ( { isQueryLoop, queryType } ) => {
+		if ( isQueryLoop ) {
+			const labels = {
+				'postType': __( 'Posts loop', 'generateblocks' ),
+				'taxonomy': __( 'Terms loop', 'generateblocks' ),
+			};
+
+			return labels[ queryType ] ?? __( 'Query loop', 'generateblocks' );
+		}
+
+		return __( 'Query loop', 'generateblocks' );
 	},
 } );

@@ -24,6 +24,7 @@ const GridEdit = ( props ) => {
 		LayoutSelector = GridLayoutSelector,
 		defaultLayout = false,
 		templateLock = false,
+		context,
 	} = props;
 
 	const [ selectedLayout, setSelectedLayout ] = useState( false );
@@ -111,6 +112,7 @@ const GridEdit = ( props ) => {
 								clientId={ clientId }
 								uniqueId={ attributes.uniqueId }
 								attributes={ attributes }
+								context={ context }
 							/>
 						</QueryWrapper>
 					)

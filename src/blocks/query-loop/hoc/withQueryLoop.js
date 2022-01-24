@@ -6,7 +6,7 @@ import filterAttributes from '../../../utils/filter-attributes';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
-		const { attributes, setAttributes } = props;
+		const { clientId, attributes, setAttributes } = props;
 
 		useEffect( () => {
 			setAttributes( { isQueryLoop: true } );
@@ -21,6 +21,7 @@ export default ( WrappedComponent ) => {
 		return (
 			<Fragment>
 				<InspectorControls
+					clientId={ clientId }
 					attributes={ filterAttributes( attributes, Object.keys( queryLoopAttributes ) ) }
 					setAttributes={ setAttributes }
 				/>

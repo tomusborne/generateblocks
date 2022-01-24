@@ -10,6 +10,8 @@ import isEmpty from '../../../utils/object-is-empty';
 import postTypeParameterOptions from '../post-type-parameters-options';
 import taxonomyParameterOptions from '../taxonomy-parameters-options';
 import QueryTypeSelect from './inspector-controls/QueryTypeSelect';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { ToggleControl } from '@wordpress/components';
 
 function getQueryTypeDefaultParams( type ) {
 	switch ( type ) {
@@ -37,7 +39,7 @@ export function getParameterOptions( type ) {
 	}
 }
 
-export default ( { attributes, setAttributes } ) => {
+export default ( { clientId, attributes, setAttributes } ) => {
 	const {
 		queryState,
 		insertParameters,
@@ -47,6 +49,20 @@ export default ( { attributes, setAttributes } ) => {
 	} = useQueryReducer();
 	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
 	const [ queryType, setQueryType ] = useState( attributes.queryType );
+
+	const { removeBlocks } = useDispatch( 'core/block-editor' );
+	const innerBlocks = useSelect( ( select ) => {
+		return select( 'core/block-editor' )?.getBlocks( clientId );
+	}, [] );
+
+	const hasQueryLoopParent = useSelect( ( select ) => {
+		const parentBlocks = select( 'core/block-editor' )?.getBlockParents( clientId );
+		return select('core/block-editor')
+			?.getBlocksByClientId( parentBlocks )
+			?.map( ( block ) => ( block.name ) )
+			?.filter( ( block ) => ( block === 'generateblocks/query-loop' ) )
+			?.length > 0;
+	}, [] );
 
 	useEffect( () => {
 		setQueryType( attributes.queryType || 'postType' );
@@ -61,12 +77,20 @@ export default ( { attributes, setAttributes } ) => {
 			setAttributes( { queryType } );
 			resetParameters();
 			insertParameters( getQueryTypeDefaultParams( queryType ) );
+
+			const innerBlocksIds = innerBlocks.map( ( block ) => ( block.clientId ) );
+
+			removeBlocks( innerBlocksIds );
 		}
 	}, [ queryType ] );
 
 	useEffect( () => {
 		setAttributes( { queryType, query: queryState } );
 	}, [ queryState ] );
+
+	useEffect( () => {
+		setAttributes( { useContext: hasQueryLoopParent } );
+	}, [ hasQueryLoopParent ] );
 
 	const parameterOptions = useMemo( () => (
 		getParameterOptions( queryType ).map( ( parameter ) => {
@@ -86,6 +110,12 @@ export default ( { attributes, setAttributes } ) => {
 				<QueryTypeSelect
 					value={ queryType }
 					onChange={ ( option ) => setQueryType( option.value ) }
+				/>
+
+				<ToggleControl
+					label={ __( 'Use context', 'generateblocks' ) }
+					checked={ attributes.useContext }
+					onChange={ ( useContext ) => ( setAttributes( { useContext } ) ) }
 				/>
 
 				<ParameterList

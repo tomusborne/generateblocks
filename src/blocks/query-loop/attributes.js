@@ -11,6 +11,11 @@ export default Object.assign( {}, gridAttributes, {
 		default: '',
 	},
 
+	useContext: {
+		type: 'boolean',
+		default: false,
+	},
+
 	query: {
 		type: 'object',
 		default: {}

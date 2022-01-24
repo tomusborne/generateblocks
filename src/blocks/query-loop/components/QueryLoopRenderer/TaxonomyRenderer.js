@@ -3,9 +3,22 @@ import { useEffect } from '@wordpress/element';
 import useTaxonomyRecords from '../../../../hooks/useTaxonomyRecords';
 
 export default function TaxonomyRenderer( props ) {
-	const { query, innerBlocks, templateLock, setHasData } = props;
+	const {
+		query,
+		innerBlocks,
+		templateLock,
+		setHasData,
+		context,
+		useContext,
+	} = props;
 
-	const loopData = useTaxonomyRecords( query.taxonomy, query );
+	const queryWithContext = Object.assign( {}, query );
+
+	if ( useContext && context.postType && context.postId ) {
+		queryWithContext[ context.postType ] = context.postId;
+	}
+
+	const loopData = useTaxonomyRecords( query.taxonomy, ( useContext ? queryWithContext : query ) );
 
 	useEffect( () => {
 		setHasData( loopData.hasData );
@@ -19,6 +32,7 @@ export default function TaxonomyRenderer( props ) {
 			contextCallback={ ( term ) => ( {
 				taxonomy: term.taxonomy,
 				termId: term.id,
+				taxonomyRest: 'category',
 			} ) }
 		/>
 	);
