@@ -34,7 +34,7 @@ export default ( queryParams ) => {
 			}
 
 			return false;
-		} )
+		} );
 	}, [ data ] );
 
 	return {

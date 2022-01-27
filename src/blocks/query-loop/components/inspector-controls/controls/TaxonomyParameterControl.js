@@ -31,8 +31,8 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 
 	useEffect( () => {
 		if ( !! taxonomy ) {
-			const tax = taxonomies.filter( ( tax ) => ( tax.slug === taxonomy ) );
-			const rest = !! tax[0] ? tax[0].rest_base : undefined;
+			const tax = taxonomies.filter( ( record ) => ( record.slug === taxonomy ) );
+			const rest = !! tax[ 0 ] ? tax[ 0 ].rest_base : undefined;
 
 			onChange( { taxonomy, terms, rest } );
 		}
@@ -46,7 +46,7 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 
 	return (
 		<>
-			{ label && <label style={ labelStyles }>{ label }</label> }
+			{ label && <label htmlFor={ 'tax-label' } style={ labelStyles }>{ label }</label> }
 
 			<SimpleSelect
 				wrapperStyles={ { marginBottom: '8px' } }
@@ -61,14 +61,14 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 			<TaxonomiesSelect
 				taxonomy={ taxonomy }
 				value={ terms }
-				onChange={ ( value ) => {
-					const terms = value.reduce( ( result, option ) => {
+				onChange={ ( newValue ) => {
+					const newTerms = newValue.reduce( ( result, option ) => {
 						result.push( option.value );
 
 						return result;
 					}, [] );
 
-					setTerms( terms );
+					setTerms( newTerms );
 				} }
 			/>
 		</>

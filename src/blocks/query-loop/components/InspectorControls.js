@@ -18,8 +18,8 @@ export default ( { attributes, setAttributes } ) => {
 			insertParameters( attributes.query );
 		} else {
 			insertParameters( {
-				'post_type': 'post',
-				'per_page': 10,
+				post_type: 'post',
+				per_page: 10,
 			} );
 		}
 	}, [] );

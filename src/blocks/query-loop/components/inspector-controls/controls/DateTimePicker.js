@@ -7,7 +7,7 @@ export default function DateTimePickerControl( { label, help, value, onChange } 
 	return (
 		<div style={ { marginBottom: '24px' } }>
 			<LabelAndHelpWrapper label={ label } help={ help }>
-				<DateTimePicker currentDate={ currentDate } onChange={ onChange} is12Hour={ true } />
+				<DateTimePicker currentDate={ currentDate } onChange={ onChange } is12Hour={ true } />
 			</LabelAndHelpWrapper>
 		</div>
 	);

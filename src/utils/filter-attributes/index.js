@@ -1,9 +1,9 @@
 /**
  * Given an attributes object will return only the allowed attributes
  *
- * @param {Object} attributes Full block attributes
- * @param {Array} allowedKeys The allowed attributes
- * @returns {Object} The filtered attributes object
+ * @param {Object} attributes  Full block attributes
+ * @param {Array}  allowedKeys The allowed attributes
+ * @return {Object} The filtered attributes object
  */
 export default ( attributes, allowedKeys = [] ) => Object
 	.keys( attributes )

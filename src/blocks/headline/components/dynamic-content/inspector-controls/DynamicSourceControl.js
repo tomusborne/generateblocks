@@ -1,5 +1,3 @@
-import { __ } from '@wordpress/i18n';
-import { ToggleControl } from '@wordpress/components';
 import SelectPostType from '../components/SelectPostType';
 import SelectPost from '../components/SelectPost';
 import SelectSource from '../components/SelectSource';
@@ -13,7 +11,7 @@ export default ( { dynamicSource, postType, postId, setAttributes } ) => {
 					setAttributes( {
 						dynamicSource: option.value,
 						postId: '',
-						postType: 'post'
+						postType: 'post',
 					} );
 				} }
 			/>

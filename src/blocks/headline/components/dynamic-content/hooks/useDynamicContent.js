@@ -16,14 +16,14 @@ export default ( context, attributes ) => {
 
 	const record = useSelect( ( select ) => {
 		const { getEntityRecord, getUser } = select( coreStore );
-		const postRecord =  getEntityRecord( 'postType', postType, postId );
+		const postRecord = getEntityRecord( 'postType', postType, postId );
 		const author = getUser( postRecord?.author );
 
 		return Object.assign( {}, postRecord, { author } );
 	}, [ postType, postId ] );
 
 	if ( ! record ) {
-		return __( `Post of id #${ postId } and post type "${ postType }" was not found.`, 'generateblocks' );
+		return __( 'Post was not found.', 'generateblocks' );
 	}
 
 	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
