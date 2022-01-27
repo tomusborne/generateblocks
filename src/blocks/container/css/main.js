@@ -96,7 +96,7 @@ export default class MainCSS extends Component {
 		const gradientValue = getBackgroundImageCSS( 'gradient', this.props );
 
 		let cssObj = [];
-		cssObj[ '.gb-container-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
 			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
@@ -112,7 +112,7 @@ export default class MainCSS extends Component {
 		} ];
 
 		if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'background-image': backgroundImageValue,
 				'background-size': bgOptions.size,
 				'background-position': bgOptions.position,
@@ -120,7 +120,7 @@ export default class MainCSS extends Component {
 				'background-attachment': bgOptions.attachment,
 			} );
 		} else if ( gradient && 'element' === gradientSelector ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'background-image': gradientValue,
 			} );
 		}
@@ -130,7 +130,7 @@ export default class MainCSS extends Component {
 			zindex ||
 			( gradient && 'pseudo-element' === gradientSelector )
 		) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'position': 'relative', // eslint-disable-line quote-props
 			} );
 		}
@@ -139,7 +139,7 @@ export default class MainCSS extends Component {
 			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
 			( gradient && 'pseudo-element' === gradientSelector )
 		) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'overflow': 'hidden', // eslint-disable-line quote-props
 			} );
 
@@ -158,14 +158,14 @@ export default class MainCSS extends Component {
 		} ];
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
 				'border-style': 'solid',
 			} );
 		}
 
 		if ( minHeight && ! isGrid ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
 				'align-items': verticalAlignment,
@@ -285,7 +285,7 @@ export default class MainCSS extends Component {
 		} ];
 
 		if ( shapeDividers.length ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				position: 'relative',
 			} );
 

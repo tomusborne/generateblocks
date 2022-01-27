@@ -424,6 +424,10 @@ const attributes = {
 		type: 'string',
 		default: generateBlocksDefaults.container.bgImageSize,
 	},
+	bgImageInline: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.bgImageInline,
+	},
 	verticalAlignment: {
 		type: 'string',
 		default: generateBlocksDefaults.container.verticalAlignment,

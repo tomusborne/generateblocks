@@ -8,6 +8,7 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useEffect } from '@wordpress/element';
 import Element from '../../components/element';
+import RootElement from '../../components/root-element';
 import IconWrapper from '../../components/icon-wrapper';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
@@ -44,6 +45,7 @@ const HeadlineEdit = ( props ) => {
 		clientId,
 		ContentRenderer = RichText,
 		context,
+		name,
 	} = props;
 
 	const {
@@ -97,13 +99,13 @@ const HeadlineEdit = ( props ) => {
 			<BlockControls attributes={ attributes } setAttributes={ setAttributes } deviceType={ deviceType } />
 
 			<InspectorControls
+				{ ...props }
 				uniqueId={ uniqueId }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
 				deviceType={ deviceType }
 				setDeviceType={ setDeviceType }
 				blockState={ { deviceType } }
 			/>
+
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />
@@ -116,29 +118,31 @@ const HeadlineEdit = ( props ) => {
 
 			{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', props ) }
 
-			<Element tagName={ element } htmlAttrs={ blockProps }>
-				<IconWrapper
-					hasIcon={ hasIcon }
-					icon={ icon }
-					hideChildren={ removeText }
-					showWrapper={ ! removeText && hasIcon }
-					wrapperClassname={ 'gb-headline-text' }
-					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
-				>
-					<ContentRenderer
-						tagName="span"
-						value={ content }
-						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
-						onSplit={ onSplit( attributes, clientId ) }
-						onReplace={ onReplace }
-						placeholder={ __( 'Headline', 'generateblocks' ) }
-						allowedFormats={ richTextFormats }
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-						context={ context }
-					/>
-				</IconWrapper>
-			</Element>
+			<RootElement name={ name } clientId={ clientId }>
+				<Element tagName={ element } htmlAttrs={ blockProps }>
+					<IconWrapper
+						hasIcon={ hasIcon }
+						icon={ icon }
+						hideChildren={ removeText }
+						showWrapper={ ! removeText && hasIcon }
+						wrapperClassname={ 'gb-headline-text' }
+						ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
+					>
+						<ContentRenderer
+							tagName="span"
+							value={ content }
+							onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
+							onSplit={ onSplit( attributes, clientId ) }
+							onReplace={ onReplace }
+							placeholder={ __( 'Headline', 'generateblocks' ) }
+							allowedFormats={ richTextFormats }
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+							context={ context }
+						/>
+					</IconWrapper>
+				</Element>
+			</RootElement>
 		</Fragment>
 	);
 };

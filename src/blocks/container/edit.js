@@ -3,6 +3,7 @@ import InspectorAdvancedControls from '../grid/components/InspectorAdvancedContr
 import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
 import Element from '../../components/element';
+import RootElement from '../../components/root-element';
 import { applyFilters } from '@wordpress/hooks';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
@@ -23,6 +24,7 @@ const ContainerEdit = ( props ) => {
 		attributes,
 		setAttributes,
 		clientId,
+		name,
 	} = props;
 
 	const {
@@ -35,6 +37,9 @@ const ContainerEdit = ( props ) => {
 		googleFont,
 		googleFontVariants,
 		isGrid,
+		bgOptions,
+		bgImage,
+		bgImageInline,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
@@ -49,15 +54,6 @@ const ContainerEdit = ( props ) => {
 			thisBlock.setAttribute( 'data-align', 'full' );
 		}
 	}, [] );
-
-	// Attribute defaults added to an object late don't get defaults.
-	if ( 'undefined' === typeof attributes.bgOptions.selector ) {
-		attributes.bgOptions.selector = 'element';
-	}
-
-	if ( 'undefined' === typeof attributes.bgOptions.opacity ) {
-		attributes.bgOptions.opacity = 1;
-	}
 
 	const tagNames = applyFilters(
 		'generateblocks.editor.containerTagNames',
@@ -107,6 +103,22 @@ const ContainerEdit = ( props ) => {
 		id: anchor ? anchor : null,
 	};
 
+	if ( bgImageInline && bgImage.image && bgImage.image.url ) {
+		const backgroundUrl = applyFilters( 'generateblocks.editor.bgImageURL', bgImage.image.url, props );
+
+		if ( backgroundUrl ) {
+			let imageAttributeName = 'background-image';
+
+			if ( 'element' !== bgOptions.selector ) {
+				imageAttributeName = '--' + imageAttributeName;
+			}
+
+			htmlAttributes.style = {
+				[ imageAttributeName ]: 'url(' + backgroundUrl + ')',
+			};
+		}
+	}
+
 	htmlAttributes = applyFilters(
 		'generateblocks.frontend.htmlAttributes',
 		htmlAttributes,
@@ -121,10 +133,10 @@ const ContainerEdit = ( props ) => {
 	Object.keys( generateBlocksInfo.svgShapes ).forEach( ( key ) => {
 		const shapes = generateBlocksInfo.svgShapes[ key ].svgs;
 
-		Object.keys( shapes ).forEach( ( name ) => {
-			allShapes[ name ] = {
-				label: shapes[ name ].label,
-				icon: shapes[ name ].icon,
+		Object.keys( shapes ).forEach( ( shapeName ) => {
+			allShapes[ shapeName ] = {
+				label: shapes[ shapeName ].label,
+				icon: shapes[ shapeName ].icon,
 			};
 		} );
 	} );
@@ -179,45 +191,47 @@ const ContainerEdit = ( props ) => {
 				googleFontVariants={ googleFontVariants }
 			/>
 
-			<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
-				<Element
-					tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
-					htmlAttrs={ blockProps }
-				>
-					{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
-					<div className={ 'gb-inside-container' }>
-						{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
-						<InnerBlocks
-							templateLock={ false }
-							renderAppender={ () => {
-								// Selected Container.
-								if ( props.isSelected ) {
-									return <InnerBlocks.ButtonBlockAppender />;
-								}
+			<RootElement name={ name } clientId={ clientId }>
+				<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
+					<Element
+						tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
+						htmlAttrs={ blockProps }
+					>
+						{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
+						<div className={ 'gb-inside-container' }>
+							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
+							<InnerBlocks
+								templateLock={ false }
+								renderAppender={ () => {
+									// Selected Container.
+									if ( props.isSelected ) {
+										return <InnerBlocks.ButtonBlockAppender />;
+									}
 
-								// Empty non-selected Container.
-								if ( ! hasChildBlocks && ! props.isSelected ) {
-									return <Button
-										className="gblocks-container-selector"
-										onClick={ () => selectBlock( clientId ) }
-										aria-label={ __( 'Select Container', 'generateblocks' ) }
-									>
-										<span className="gblocks-container-selector__icon">
-											{ getIcon( 'container' ) }
-										</span>
-									</Button>;
-								}
+									// Empty non-selected Container.
+									if ( ! hasChildBlocks && ! props.isSelected ) {
+										return <Button
+											className="gblocks-container-selector"
+											onClick={ () => selectBlock( clientId ) }
+											aria-label={ __( 'Select Container', 'generateblocks' ) }
+										>
+											<span className="gblocks-container-selector__icon">
+												{ getIcon( 'container' ) }
+											</span>
+										</Button>;
+									}
 
-								return false;
-							} }
-						/>
-					</div>
+									return false;
+								} }
+							/>
+						</div>
 
-					<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
+						<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
 
-					{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
-				</Element>
-			</GridItem>
+						{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
+					</Element>
+				</GridItem>
+			</RootElement>
 		</Fragment>
 	);
 };

@@ -292,7 +292,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'color', $settings['textColor'] );
 
 				if ( $hasBgImage && 'element' === $settings['bgOptions']['selector'] && $backgroundImageValue ) {
-					$css->add_property( 'background-image', $backgroundImageValue );
+					if ( ! $settings['bgImageInline'] || ( $settings['bgImageInline'] && 'element' !== $settings['bgOptions']['selector'] ) ) {
+						$css->add_property( 'background-image', $backgroundImageValue );
+					}
+
 					$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );

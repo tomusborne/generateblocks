@@ -11,6 +11,7 @@ export default function getBackgroundImageCSS( type, props ) {
 		backgroundColor,
 		backgroundColorOpacity,
 		bgImage,
+		bgImageInline,
 		gradient,
 		bgOptions,
 		gradientColorOne,
@@ -64,6 +65,10 @@ export default function getBackgroundImageCSS( type, props ) {
 			}
 		} else {
 			backgroundImage = 'url(' + url + ')';
+
+			if ( bgImageInline && 'element' !== bgOptions.selector ) {
+				backgroundImage = 'var(--background-image)';
+			}
 		}
 	}
 
