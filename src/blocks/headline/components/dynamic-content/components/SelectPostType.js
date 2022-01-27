@@ -8,9 +8,9 @@ export default ( { postType, onChange, value, help } ) => {
 
 	const postTypeOptions = useMemo( () => {
 		return postTypes
-			.filter( ( postType ) => ( postType.viewable ) )
-			.reduce( ( result, postType ) => {
-				result.push( { value: postType.slug, label: postType.name } );
+			.filter( ( type ) => ( type.viewable ) )
+			.reduce( ( result, type ) => {
+				result.push( { value: type.slug, label: type.name } );
 				return result;
 			}, [] );
 	}, [ postTypes ] );

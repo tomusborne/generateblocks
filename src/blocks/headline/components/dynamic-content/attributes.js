@@ -14,12 +14,12 @@ export default {
 		default: 'current-post',
 	},
 
-	postId:  {
+	postId: {
 		type: 'number',
 		default: '',
 	},
 
-	postType:  {
+	postType: {
 		type: 'string',
 		default: 'post',
 	},

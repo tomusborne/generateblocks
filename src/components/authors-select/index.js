@@ -30,4 +30,4 @@ export default function AuthorsSelect( { label, onChange, value, help } ) {
 			isLoading={ authorOptions.length === 0 }
 		/>
 	);
-};
+}

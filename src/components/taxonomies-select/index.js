@@ -8,8 +8,8 @@ export default function TaxonomiesSelect( { taxonomy, label, onChange, value = [
 
 	const taxonomiesOptions = useMemo( () => {
 		return taxonomies
-			.reduce( ( result, taxonomy ) => {
-				result.push( { value: taxonomy.id, label: taxonomy.name } );
+			.reduce( ( result, tax ) => {
+				result.push( { value: tax.id, label: tax.name } );
 				return result;
 			}, [] );
 	}, [ taxonomies ] );
@@ -30,15 +30,15 @@ export default function TaxonomiesSelect( { taxonomy, label, onChange, value = [
 			isLoading={ isResolving }
 		/>
 	);
-};
+}
 
-export function CategoriesSelect ( props ) {
+export function CategoriesSelect( props ) {
 	return (
 		<TaxonomiesSelect { ...props } taxonomy={ 'category' } />
 	);
 }
 
-export function TagsSelect ( props ) {
+export function TagsSelect( props ) {
 	return (
 		<TaxonomiesSelect { ...props } taxonomy={ 'post_tag' } />
 	);

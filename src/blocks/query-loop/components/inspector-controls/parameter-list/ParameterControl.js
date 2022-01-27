@@ -22,7 +22,6 @@ const attributeValueNormalizer = ( attribute, value ) => {
 
 		default:
 			return value;
-
 	}
 };
 
