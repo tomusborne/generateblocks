@@ -12,6 +12,10 @@ const attributes = {
 		type: 'boolean',
 		default: false,
 	},
+	isQueryLoopItem: {
+		type: 'boolean',
+		default: false,
+	},
 	gridId: {
 		type: 'string',
 		default: '',
@@ -419,6 +423,10 @@ const attributes = {
 	bgImageSize: {
 		type: 'string',
 		default: generateBlocksDefaults.container.bgImageSize,
+	},
+	bgImageInline: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.bgImageInline,
 	},
 	verticalAlignment: {
 		type: 'string',

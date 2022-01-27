@@ -26,7 +26,7 @@ export default class TabletCSS extends Component {
 
 		let cssObj = [];
 
-		cssObj[ '.gb-button-wrapper-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId ] = [ {
 			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
 			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
 			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),

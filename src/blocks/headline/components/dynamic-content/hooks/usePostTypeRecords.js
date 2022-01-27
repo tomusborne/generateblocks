@@ -3,8 +3,16 @@ import { store as coreStore } from '@wordpress/core-data';
 
 export default ( postType ) => (
 	useSelect( ( select ) => {
-		const { getEntityRecords } = select( coreStore );
+		const {
+			getEntityRecords,
+			isResolving,
+		} = select( coreStore );
 
-		return getEntityRecords( 'postType', postType, { per_page: -1 } );
+		const entityParams = [ 'postType', postType, { per_page: -1 } ];
+
+		return {
+			records: getEntityRecords( ...entityParams ) || [],
+			isResolving: isResolving( 'getEntityRecords', entityParams ),
+		};
 	}, [ postType ] )
 );

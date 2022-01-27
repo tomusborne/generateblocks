@@ -4,12 +4,20 @@ import { useState, useMemo, useEffect } from '@wordpress/element';
 import { BlockContextProvider, BlockPreview, InnerBlocks } from '@wordpress/block-editor';
 import useQueryLoopData from '../hooks/useQueryLoopData';
 import { createBlock } from '@wordpress/blocks';
+import { Spinner } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
 const getDefaultInnerBlock = ( uniqueId ) => {
 	const attributes = getColumnsFromLayout( '100', uniqueId )[ 0 ];
 	const containerInnerBlocks = [
-		createBlock( 'core/post-title' ),
-		createBlock( 'core/post-date' ),
+		createBlock( 'generateblocks/headline', {
+			isDynamicContent: true,
+		} ),
+		createBlock( 'generateblocks/headline', {
+			isDynamicContent: true,
+			element: 'p',
+			contentType: 'post-date-published',
+		} ),
 	];
 
 	return createBlock(
@@ -19,10 +27,56 @@ const getDefaultInnerBlock = ( uniqueId ) => {
 	);
 };
 
+function removeEmpty( obj ) {
+	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => {
+		return Array.isArray( value ) ? !! value.length : !! value;
+	} ) );
+}
+
+function getTaxQueryParam( taxQuery, isExclude = false ) {
+	const paramKey = isExclude ? `${taxQuery.rest}_exclude` : taxQuery.rest;
+	return { [ paramKey ]: taxQuery.terms };
+}
+
+function normalizeTaxQuery( taxQueryValue, isExclude = false ) {
+	return taxQueryValue.reduce( ( normalized, taxQuery ) => {
+		return Object.assign( {}, normalized, getTaxQueryParam( taxQuery, isExclude ) );
+	}, {} );
+}
+
+function normalizeRepeatableArgs( query ) {
+	let normalizedQuery = Object.assign( {}, query );
+
+	if ( Array.isArray( query[ 'tax_query' ] ) ) {
+		const normalizedTaxQuery = normalizeTaxQuery( query[ 'tax_query' ] );
+
+		normalizedQuery = Object.assign(
+			{},
+			normalizedQuery,
+			normalizedTaxQuery,
+			{ ['tax_query']: undefined }
+		);
+	}
+
+	if ( Array.isArray( query[ 'tax_query_exclude' ] ) ) {
+		const normalizedTaxQueryExclude = normalizeTaxQuery( query[ 'tax_query_exclude' ], true );
+
+		normalizedQuery = Object.assign(
+			{},
+			normalizedQuery,
+			normalizedTaxQueryExclude,
+			{ ['tax_query_exclude']: undefined }
+		);
+	}
+
+	return normalizedQuery;
+}
+
 export default ( props ) => {
-	const { clientId, uniqueId } = props;
+	const { clientId, uniqueId, attributes } = props;
 	const [ activeContext, setActiveContext ] = useState();
 	const [ templateLock, setTemplateLock ] = useState( false );
+	const { query } = attributes;
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 
@@ -30,12 +84,10 @@ export default ( props ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
 
-	const { data, hasData } = useQueryLoopData( [
+	const { data, hasData, isResolvingData, hasResolvedData } = useQueryLoopData( [
 		'postType',
-		'post',
-		{
-			per_page: -1,
-		},
+		query.post_type || 'post',
+		normalizeRepeatableArgs( removeEmpty( query ) ),
 	] );
 
 	useEffect( () => {
@@ -53,6 +105,14 @@ export default ( props ) => {
 			} ) ),
 		[ data, hasData ]
 	);
+
+	if ( isResolvingData ) {
+		return (<Spinner />);
+	}
+
+	if ( hasResolvedData && ! hasData ) {
+		return (<h5>{ __( 'No results found.', 'generateblocks' ) }</h5>);
+	}
 
 	return (
 		dataContexts &&

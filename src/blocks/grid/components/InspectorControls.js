@@ -7,7 +7,6 @@ import { Button, SelectControl, TextControl } from '@wordpress/components';
 import hasNumericValue from '../../../utils/has-numeric-value';
 import getResponsivePlaceholder from '../../../utils/get-responsive-placeholder';
 import { applyFilters } from '@wordpress/hooks';
-import getIcon from '../../../utils/get-icon';
 import { InspectorControls } from '@wordpress/block-editor';
 
 export default ( props ) => {
@@ -461,21 +460,6 @@ export default ( props ) => {
 				) }
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'gridLayout', props, state ) }
-			</PanelArea>
-
-			<PanelArea
-				{ ...props }
-				title={ __( 'Documentation', 'generateblocks' ) }
-				icon={ getIcon( 'documentation' ) }
-				initialOpen={ false }
-				className={ 'gblocks-panel-label' }
-				id={ 'gridDocumentation' }
-				state={ state }
-			>
-				<p>{ __( 'Need help with this block?', 'generateblocks' ) }</p>
-				<a href="https://docs.generateblocks.com/collection/grid/" target="_blank" rel="noreferrer noopener">{ __( 'Visit our documentation', 'generateblocks' ) }</a>
-
-				{ applyFilters( 'generateblocks.editor.controls', '', 'gridDocumentation', props, state ) }
 			</PanelArea>
 		</InspectorControls>
 	);

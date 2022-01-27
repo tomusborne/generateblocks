@@ -1,6 +1,6 @@
 
-import './style.scss';
 import Select from 'react-select';
+import LabelAndHelpWrapper from '../LabelAndHelpWrapper';
 
 export default ( props ) => {
 	const customStyles = {
@@ -17,6 +17,20 @@ export default ( props ) => {
 			...base,
 			zIndex: 999999,
 		} ),
+
+		control: ( base ) => ( {
+			...base,
+			marginBottom: '8px',
+		} ),
+		valueContainer: ( base ) => ( {
+			...base,
+			padding: '0 6px',
+		} ),
+		input: ( base ) => ( {
+			...base,
+			margin: 0,
+			padding: 0,
+		} )
 	};
 
 	const customTheme = ( provided ) => ( {
@@ -46,12 +60,17 @@ export default ( props ) => {
 		menuPortalTarget: document.querySelector( 'body' ),
 	};
 
+	const wrapperStyles = Object.assign( {}, {
+		marginBottom: '24px',
+	}, props?.wrapperStyles );
+
 	const finalProps = Object.assign( {}, defaultProps, props );
 
 	return (
-		<div style={ { marginBottom: '24px' } }>
-			{ finalProps.label && <label htmlFor={ finalProps.id }>{ finalProps.label }</label> }
-			<Select { ...finalProps } />
+		<div style={ wrapperStyles }>
+			<LabelAndHelpWrapper label={ finalProps.label } htmlFor={ finalProps.id } help={ finalProps.help } >
+				<Select { ...finalProps } />
+			</LabelAndHelpWrapper>
 		</div>
 	);
 };
