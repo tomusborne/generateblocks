@@ -9,7 +9,7 @@ const queryReducer = function( queryState, action ) {
 			return Object.assign( {}, queryState, action.payload );
 
 		case REMOVE_QUERY_PARAMETER:
-			const { [ action.payload ]: removedKey, ...newQueryState } = queryState;
+			const { [ action.payload ]: removedKey, ...newQueryState } = queryState; // eslint-disable-line no-unused-vars
 			return newQueryState;
 
 		default:

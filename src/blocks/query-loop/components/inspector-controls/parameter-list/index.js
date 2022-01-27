@@ -15,6 +15,7 @@ export default ( { query, setParameter, removeParameter } ) => {
 			<div style={ { marginBottom: '1.33em' } }>
 				{ parameterList && parameterList.map( ( parameter ) => (
 					<ParameterControl
+						key={ parameter.id }
 						parameter={ parameter }
 						query={ query }
 						setParameter={ setParameter }

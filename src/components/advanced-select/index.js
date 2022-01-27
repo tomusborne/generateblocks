@@ -30,7 +30,7 @@ export default ( props ) => {
 			...base,
 			margin: 0,
 			padding: 0,
-		} )
+		} ),
 	};
 
 	const customTheme = ( provided ) => ( {
@@ -47,7 +47,6 @@ export default ( props ) => {
 			menuGutter: 3,
 		},
 	} );
-
 
 	const defaultProps = {
 		className: 'generate-advanced-select',

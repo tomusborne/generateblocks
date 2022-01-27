@@ -8,6 +8,6 @@ export default Object.assign( {}, gridAttributes, {
 
 	query: {
 		type: 'object',
-		default: {}
+		default: {},
 	},
 } );

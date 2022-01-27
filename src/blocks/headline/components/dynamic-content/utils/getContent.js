@@ -4,7 +4,7 @@ import { dateI18n } from '@wordpress/date';
 /**
  * Returns the post content
  *
- * @param {Object} record The post object
+ * @param {Object} record  The post object
  * @param {Object} options Options to retrieve the correct content
  * @return {string} The content
  */
@@ -90,9 +90,9 @@ const getPostExcerpt = ( record ) => {
 /**
  * Returns the post date
  *
- * @param {Object} record The post object
+ * @param {Object} record         The post object
  * @param {string} siteDateFormat The global site date format
- * @param {string} dateType The date type
+ * @param {string} dateType       The date type
  * @return {string} The post date
  */
 const getPostDate = ( record, siteDateFormat, dateType ) => {
@@ -106,11 +106,11 @@ const getPostDate = ( record, siteDateFormat, dateType ) => {
 };
 
 /**
- * Returns the author content.
+ * Returns the author content
  *
- * @param {Object} record Author object
+ * @param {Object} record      Author object
  * @param {string} contentType The author content type
- * @return {string} THe content
+ * @return {string} The content
  */
 const getPostAuthor = ( record, contentType ) => {
 	switch ( contentType ) {
