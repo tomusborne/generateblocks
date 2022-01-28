@@ -15,11 +15,12 @@ export default ( context, attributes ) => {
 	}
 
 	const record = useSelect( ( select ) => {
-		const { getEntityRecord, getUser } = select( coreStore );
+		const { getEntityRecord, getEntityRecords, getUser } = select( coreStore );
 		const postRecord = getEntityRecord( 'postType', postType, postId );
 		const author = getUser( postRecord?.author );
+		const comments = getEntityRecords( 'root', 'comment', { post: postId } );
 
-		return Object.assign( {}, postRecord, { author } );
+		return Object.assign( {}, postRecord, { author, comments } );
 	}, [ postType, postId ] );
 
 	if ( ! record ) {
@@ -39,6 +40,9 @@ export default ( context, attributes ) => {
 		dateReplacePublished: attributes.dateReplacePublished,
 		metaFieldName: attributes.metaFieldName,
 		siteDateFormat: siteFormat,
+		noCommentsText: attributes.noCommentsText,
+		singleCommentText: attributes.singleCommentText,
+		multipleCommentsText: attributes.multipleCommentsText,
 		postType,
 	} );
 };

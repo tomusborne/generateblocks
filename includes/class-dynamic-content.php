@@ -203,13 +203,13 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		if ( ! post_password_required( $id ) && ( comments_open( $id ) || get_comments_number( $id ) ) ) {
-			if ( ! isset( $attributes['noCommentsText'] ) ) {
-				$attributes['noCommentsText'] = __( 'No comments', 'generateblocks' );
-			}
+		if ( ! isset( $attributes['noCommentsText'] ) ) {
+			$attributes['noCommentsText'] = __( 'No comments', 'generateblocks' );
+		}
 
+		if ( ! post_password_required( $id ) && ( comments_open( $id ) || get_comments_number( $id ) ) ) {
 			if ( '' === $attributes['noCommentsText'] && get_comments_number( $id ) < 1 ) {
-				return '';
+				return $attributes['noCommentsText'];
 			}
 
 			$comments_text = get_comments_number_text(
@@ -220,7 +220,7 @@ class GenerateBlocks_Dynamic_Content {
 
 			return $comments_text;
 		} else {
-			return '';
+			return $attributes['noCommentsText'];
 		}
 	}
 

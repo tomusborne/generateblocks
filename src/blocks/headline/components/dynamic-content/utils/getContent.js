@@ -44,8 +44,12 @@ export default ( record, options ) => {
 			return getPostAuthor( record?.author, options.contentType );
 
 		case 'comments-number':
-			// @todo: Get comments number.
-			return __( 'Comments number', 'generateblocks' );
+			return getPostCommentsNumber(
+				record.comments,
+				options.noCommentsText,
+				options.singleCommentText,
+				options.multipleCommentsText,
+			);
 
 		default:
 			return sprintf(
@@ -147,4 +151,20 @@ const getPostMeta = ( record, metaField ) => {
 	}
 
 	return __( 'Post meta', 'generateblocks' );
+};
+
+const getPostCommentsNumber = ( comments = [], noCommentsText, singleCommentText, multipleCommentsText ) => {
+	const noComments = noCommentsText || __( 'No comments', 'generateblocks' );
+	const singleComment = singleCommentText || __( '1 comment', 'generateblocks' );
+	const multipleComments = multipleCommentsText || __( '% comments', 'generateblocks' );
+
+	if ( Array.isArray( comments ) && comments.length > 0 ) {
+		if ( comments.length > 1 ) {
+			return multipleComments.replace( '%', String( comments.length ) );
+		} else {
+			return singleComment;
+		}
+	} else {
+		return noComments;
+	}
 };
