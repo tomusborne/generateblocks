@@ -20,11 +20,12 @@ export default ( WrappedComponent ) => {
 
 		return (
 			<Fragment>
+				<WrappedComponent { ...newProps } />
+
 				<InspectorControls
 					attributes={ filterAttributes( attributes, Object.keys( queryLoopAttributes ) ) }
 					setAttributes={ setAttributes }
 				/>
-				<WrappedComponent { ...newProps } />
 			</Fragment>
 		);
 	};

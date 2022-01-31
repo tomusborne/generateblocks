@@ -26,6 +26,7 @@ export default ( props ) => {
 			isSearchable
 			pageSize={ 20 }
 			{ ...props }
+			menuPlacement={ 'top' }
 			options={ groupBy( props.options, 'group', 'Other' ) }
 		/>
 	);
