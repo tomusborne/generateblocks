@@ -495,13 +495,30 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		if ( ! empty( $settings['icon'] ) ) {
-			$output .= sprintf(
-				'<span class="gb-icon">%s</span>',
-				$settings['icon']
-			);
+		$icon_html = '';
 
-			$output .= '<span class="gb-headline-text">';
+		// Extract our icon from the static HTML.
+		if ( $settings['hasIcon'] && class_exists( 'DOMDocument' ) ) {
+			$doc = new DOMDocument();
+
+			// Prevent PHP warnings when getting <svg> elements: https://stackoverflow.com/a/6090728
+			libxml_use_internal_errors( true );
+
+			$doc->loadHTML( $content );
+			$htmlNodes = $doc->getElementsByTagName( 'span' );
+
+			foreach ( $htmlNodes as $node ) {
+				if ( 'gb-icon' === $node->getAttribute( 'class' ) ) {
+					$icon_html = $doc->saveHTML( $node );
+				}
+			}
+
+			libxml_clear_errors();
+
+			if ( $icon_html ) {
+				$output .= $icon_html;
+				$output .= '<span class="gb-headline-text">';
+			}
 		}
 
 		$dynamic_link = null;
@@ -516,7 +533,7 @@ class GenerateBlocks_Render_Block {
 
 		$output .= $dynamic_content;
 
-		if ( ! empty( $settings['icon'] ) ) {
+		if ( $icon_html ) {
 			$output .= '</span>';
 		}
 
