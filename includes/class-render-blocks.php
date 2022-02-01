@@ -498,22 +498,8 @@ class GenerateBlocks_Render_Block {
 		$icon_html = '';
 
 		// Extract our icon from the static HTML.
-		if ( $settings['hasIcon'] && class_exists( 'DOMDocument' ) ) {
-			$doc = new DOMDocument();
-
-			// Prevent PHP warnings when getting <svg> elements: https://stackoverflow.com/a/6090728
-			libxml_use_internal_errors( true );
-
-			$doc->loadHTML( $content );
-			$htmlNodes = $doc->getElementsByTagName( 'span' );
-
-			foreach ( $htmlNodes as $node ) {
-				if ( 'gb-icon' === $node->getAttribute( 'class' ) ) {
-					$icon_html = $doc->saveHTML( $node );
-				}
-			}
-
-			libxml_clear_errors();
+		if ( $settings['hasIcon'] ) {
+			$icon_html = generateblocks_get_static_icon_html( $content );
 
 			if ( $icon_html ) {
 				$output .= $icon_html;

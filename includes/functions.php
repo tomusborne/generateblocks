@@ -797,3 +797,59 @@ function generateblocks_is_valid_date( $date, $format = 'Y-m-d\TH:i:s' ) {
 
 	return ( $dateTime && $dateTime->format( $format ) === $date );
 }
+
+/**
+ * Extracts the icon element from our content.
+ * This is useful when using icons in dynamic blocks.
+ *
+ * @param string $content The content to search through.
+ */
+function generateblocks_get_static_icon_html( $content ) {
+	$icon_html = '';
+
+	if ( class_exists( 'DOMDocument' ) ) {
+		$doc = new DOMDocument();
+
+		// Enable user error handling for the HTML parsing. HTML5 elements aren't
+		// supported (as of PHP 7.4) and There's no way to guarantee that the markup
+		// is valid anyway, so we're just going to ignore all errors in parsing.
+		// Nested heading elements will still be parsed.
+		// The lack of HTML5 support is a libxml2 issue:
+		// https://bugzilla.gnome.org/show_bug.cgi?id=761534.
+		libxml_use_internal_errors( true );
+
+		// Parse the post content into an HTML document.
+		$doc->loadHTML(
+			// loadHTML expects ISO-8859-1, so we need to convert the post content to
+			// that format. We use htmlentities to encode Unicode characters not
+			// supported by ISO-8859-1 as HTML entities. However, this function also
+			// converts all special characters like < or > to HTML entities, so we use
+			// htmlspecialchars_decode to decode them.
+			htmlspecialchars_decode(
+				utf8_decode(
+					htmlentities(
+						'<html><body>' . $content . '</body></html>',
+						ENT_COMPAT,
+						'UTF-8',
+						false
+					)
+				),
+				ENT_COMPAT
+			)
+		);
+
+		// We're done parsing, so we can disable user error handling. This also
+		// clears any existing errors, which helps avoid a memory leak.
+		libxml_use_internal_errors( false );
+
+		$html_nodes = $doc->getElementsByTagName( 'span' );
+
+		foreach ( $html_nodes as $node ) {
+			if ( 'gb-icon' === $node->getAttribute( 'class' ) ) {
+				$icon_html = $doc->saveHTML( $node );
+			}
+		}
+	}
+
+	return $icon_html;
+}
