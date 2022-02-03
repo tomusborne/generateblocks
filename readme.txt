@@ -77,6 +77,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.4.2 =
+
 = 1.4.1 =
 * Fix: Color picker UI in WP 5.9
 * Fix: PHP notice when first saving Dashboard settings
