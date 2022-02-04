@@ -495,13 +495,16 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		if ( ! empty( $settings['icon'] ) ) {
-			$output .= sprintf(
-				'<span class="gb-icon">%s</span>',
-				$settings['icon']
-			);
+		$icon_html = '';
 
-			$output .= '<span class="gb-headline-text">';
+		// Extract our icon from the static HTML.
+		if ( $settings['hasIcon'] ) {
+			$icon_html = generateblocks_get_static_icon_html( $content );
+
+			if ( $icon_html ) {
+				$output .= $icon_html;
+				$output .= '<span class="gb-headline-text">';
+			}
 		}
 
 		$dynamic_link = null;
@@ -516,7 +519,7 @@ class GenerateBlocks_Render_Block {
 
 		$output .= $dynamic_content;
 
-		if ( ! empty( $settings['icon'] ) ) {
+		if ( $icon_html ) {
 			$output .= '</span>';
 		}
 
