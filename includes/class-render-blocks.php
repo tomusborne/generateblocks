@@ -56,6 +56,8 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Container', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_container_block' ),
+				'editor_script' => 'generateblocks',
+				'editor_style' => 'generateblocks',
 			)
 		);
 

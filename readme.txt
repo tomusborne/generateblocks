@@ -78,6 +78,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.4.2 =
+* Fix: Missing responsive editor styles in Firefox
 
 = 1.4.1 =
 * Fix: Color picker UI in WP 5.9
