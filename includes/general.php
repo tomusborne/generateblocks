@@ -28,7 +28,7 @@ function generateblocks_do_block_editor_assets() {
 		unset( $generateblocks_deps[2] );
 	}
 
-	wp_register_script(
+	wp_enqueue_script(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.js',
 		$generateblocks_deps,
@@ -40,7 +40,7 @@ function generateblocks_do_block_editor_assets() {
 		wp_set_script_translations( 'generateblocks', 'generateblocks' );
 	}
 
-	wp_register_style(
+	wp_enqueue_style(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.css',
 		array( 'wp-edit-blocks' ),
