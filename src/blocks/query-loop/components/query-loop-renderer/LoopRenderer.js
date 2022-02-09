@@ -4,27 +4,26 @@ import { __ } from '@wordpress/i18n';
 import { memo, useMemo, useState } from '@wordpress/element';
 import { __experimentalUseBlockPreview as useBlockPreview, } from '@wordpress/block-editor';
 
-// Locked the first block as active
 function BlockPreview( {
 	blocks,
-	// contextId,
-	// setActiveContextId,
+	contextId,
+	setActiveContextId,
 } ) {
 	const blockPreviewProps = useBlockPreview( {
 		blocks,
 	} );
 
-	// const handleOnClick = () => { setActiveContextId( contextId ) };
+	const handleOnClick = () => { setActiveContextId( contextId ) };
 
 	return (
 		<div
 			{ ...blockPreviewProps }
 			className={ 'block-editor-inner-blocks' }
-			// tabIndex={ 0 }
+			tabIndex={ 0 }
 			// eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
-			// role={ 'button' }
-			// onClick={ handleOnClick }
-			// onKeyPress={ handleOnClick }
+			role={ 'button' }
+			onClick={ handleOnClick }
+			onKeyPress={ handleOnClick }
 		/>
 	);
 }
