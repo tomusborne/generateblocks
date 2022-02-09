@@ -28,32 +28,12 @@
 	  		}
 		}
 
-		/**
-		* Need to go deep here for disabled duplicated containers.
-		*/
-		& > div {
+		/* Fix for Container not knowing it's a grid item */
+		& > .gb-is-root-block {
 			height: 100%;
 
-			& > .components-disabled {
+			& > .gb-container {
 				height: 100%;
-
-				& > .block-editor-block-list__layout {
-		  			height: 100%;
-
-					& > .gb-is-root-block {
-						height: 100%;
-
-						& > .wp-block {
-							height: 100%;
-							margin: 0;
-						}
-					}
-
-		 			& > .wp-block {
-						height: 100%;
-						margin: 0;
-					}
-				}
 			}
 		}
 	}
