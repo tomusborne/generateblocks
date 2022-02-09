@@ -1,7 +1,8 @@
 import ToolbarGroup from './ToolbarGroup';
+import { memo } from '@wordpress/element';
 import { AlignmentToolbar, BlockControls } from '@wordpress/block-editor';
 
-export default ( props ) => {
+function HeadlineBlockControls( props ) {
 	const {
 		attributes,
 		setAttributes,
@@ -50,4 +51,18 @@ export default ( props ) => {
 			}
 		</BlockControls>
 	);
-};
+}
+
+export default memo( HeadlineBlockControls, ( prevProps, nextProps ) => {
+	return [
+		'element',
+		'alignment',
+		'alignmentTablet',
+		'alignmentMobile',
+		'inlineWidth',
+		'inlineWidthTablet',
+		'inlineWidthMobile',
+	].every( ( key ) => {
+		return prevProps.attributes[ key ] === nextProps.attributes[ key ];
+	} ) && prevProps.deviceType === nextProps.deviceType;
+} );
