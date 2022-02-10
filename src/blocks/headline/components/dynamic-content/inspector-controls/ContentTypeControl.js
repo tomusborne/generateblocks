@@ -48,7 +48,10 @@ export default ( { contentType, setAttributes } ) => {
 			options={ options }
 			value={ value }
 			onChange={ ( option ) => {
-				setAttributes( { contentType: option.value } );
+				setAttributes( {
+					contentType: option.value,
+					metaFieldName: '',
+				} );
 
 				if ( 'comments-number' === option.value ) {
 					setAttributes( {

@@ -26,11 +26,10 @@ export default ( record, options ) => {
 			return getPostDate( record, options.siteDateFormat, dateType );
 
 		case 'post-meta':
-			return getPostMeta( record?.meta, options.metaFieldName, record?.acf );
+			return getMetaValue( options.metaFieldName, record?.meta, record?.acf );
 
 		case 'author-meta':
-			// @todo: Get author meta.
-			return __( 'Author meta', 'generateblocks' );
+			return getMetaValue( options.metaFieldName, record?.author?.meta, record?.author?.acf );
 
 		case 'terms':
 			// @todo: Get list of terms.
@@ -152,23 +151,23 @@ function isStringOrNumber( value ) {
 }
 
 /**
- * Returns the post meta.
+ * Returns the meta value of given key.
  *
- * @param {Object} record Meta object
  * @param {string} metaField The meta field name.
- * @param {string} acfRecord The ACF meta object
+ * @param {Object} metaValues The meta values
+ * @param {string} acfMetaValues The ACF meta values
  * @return {string} The content
  */
-const getPostMeta = ( record, metaField, acfRecord ) => {
-	if ( record && record[ metaField ] ) {
-		return isStringOrNumber( record[ metaField ] )
-			? record[ metaField ]
+const getMetaValue = ( metaField, metaValues, acfMetaValues ) => {
+	if ( metaValues && metaValues[ metaField ] ) {
+		return isStringOrNumber( metaValues[ metaField ] )
+			? metaValues[ metaField ]
 			: __( 'Meta value not supported.', 'generateblocks' );
 	}
 
-	if ( acfRecord && acfRecord[ metaField ] ) {
-		return isStringOrNumber( acfRecord[ metaField ] )
-			? acfRecord[ metaField ]
+	if ( acfMetaValues && acfMetaValues[ metaField ] ) {
+		return isStringOrNumber( acfMetaValues[ metaField ] )
+			? acfMetaValues[ metaField ]
 			: __( 'Meta value not supported.', 'generateblocks' );
 	}
 

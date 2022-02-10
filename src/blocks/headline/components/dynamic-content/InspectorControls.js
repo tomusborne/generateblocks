@@ -7,6 +7,7 @@ import ContentTypeControl from './inspector-controls/ContentTypeControl';
 import LinkTypeControl from './inspector-controls/LinkTypeControl';
 import PostDateControl from './inspector-controls/PostDateControl';
 import PostMetaControl from './inspector-controls/PostMetaControl';
+import AuthorMetaControl from './inspector-controls/AuthorMetaControl';
 
 export default ( { context, attributes, setAttributes } ) => {
 	const {
@@ -71,13 +72,13 @@ export default ( { context, attributes, setAttributes } ) => {
 							setAttributes={ setAttributes }
 						/>
 
-						{ 'author-meta' === contentType &&
-							<TextControl
-								label={ __( 'Meta field name', 'generateblocks' ) }
-								value={ metaFieldName }
-								onChange={ ( value ) => setAttributes( { metaFieldName: value } ) }
-							/>
-						}
+						<AuthorMetaControl
+							isActive={ 'author-meta' === contentType }
+							postType={ currentPostType }
+							postId={ currentPostId }
+							metaFieldName={ metaFieldName }
+							setAttributes={ setAttributes }
+						/>
 
 						{ 'comments-number' === contentType &&
 							<>
