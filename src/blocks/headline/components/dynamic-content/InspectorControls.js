@@ -6,6 +6,7 @@ import DynamicSourceControl from './inspector-controls/DynamicSourceControl';
 import ContentTypeControl from './inspector-controls/ContentTypeControl';
 import LinkTypeControl from './inspector-controls/LinkTypeControl';
 import PostDateControl from './inspector-controls/PostDateControl';
+import getIcon from '../../../../utils/get-icon';
 
 export default ( { attributes, setAttributes } ) => {
 	const {
@@ -31,7 +32,7 @@ export default ( { attributes, setAttributes } ) => {
 			<PanelArea
 				id={ 'dynamicContentControls' }
 				title={ __( 'Dynamic content', 'generateblocks' ) }
-				initialOpen={ true }
+				initialOpen={ false }
 			>
 				<ToggleControl
 					label={ __( 'Enable dynamic content', 'generateblocks' ) }

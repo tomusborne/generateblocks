@@ -12,8 +12,8 @@ export default ( WrappedComponent ) => {
 
 		return (
 			<Fragment>
-				<InspectorControls attributes={ attributes } setAttributes={ setAttributes } />
 				<WrappedComponent { ...newProps } />
+				<InspectorControls attributes={ attributes } setAttributes={ setAttributes } />
 			</Fragment>
 		);
 	};
