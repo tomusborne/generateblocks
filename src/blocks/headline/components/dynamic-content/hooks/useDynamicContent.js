@@ -1,6 +1,5 @@
 import { __, sprintf } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
-import { store as coreStore, useEntityProp } from '@wordpress/core-data';
+import { useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
 import usePostRecord from './usePostRecord';
 

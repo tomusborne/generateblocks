@@ -146,7 +146,7 @@ const getPostAuthor = ( record, contentType ) => {
  * @return {string} THe content
  */
 const getPostMeta = ( record, metaField ) => {
-	if ( record[ metaField ] ) {
+	if ( record && record[ metaField ] ) {
 		return record[ metaField ];
 	}
 
