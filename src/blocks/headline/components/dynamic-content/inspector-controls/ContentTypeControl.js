@@ -34,7 +34,7 @@ const getOptions = () => {
 	);
 };
 
-export default ( { contentType, onChange } ) => {
+export default ( { contentType, setAttributes } ) => {
 	const options = getOptions();
 	const value = options
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
@@ -47,7 +47,24 @@ export default ( { contentType, onChange } ) => {
 			placeholder={ __( 'Content type', 'generateblocks' ) }
 			options={ options }
 			value={ value }
-			onChange={ onChange }
+			onChange={ ( option ) => {
+				setAttributes( { contentType: option.value } );
+
+				if ( 'comments-number' === option.value ) {
+					setAttributes( {
+						noCommentsText: __( 'No comments', 'generateblocks' ),
+						singleCommentText: __( '1 comment', 'generateblocks' ),
+						// translators: Number of comments.
+						multipleCommentsText: __( '% comments', 'generateblocks' ),
+					} );
+				} else {
+					setAttributes( {
+						noCommentsText: '',
+						singleCommentText: '',
+						multipleCommentsText: '',
+					} );
+				}
+			} }
 		/>
 	);
 };

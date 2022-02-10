@@ -5,6 +5,7 @@ import PanelArea from '../../../../components/panel-area';
 import DynamicSourceControl from './inspector-controls/DynamicSourceControl';
 import ContentTypeControl from './inspector-controls/ContentTypeControl';
 import LinkTypeControl from './inspector-controls/LinkTypeControl';
+import PostDateControl from './inspector-controls/PostDateControl';
 
 export default ( { attributes, setAttributes } ) => {
 	const {
@@ -49,49 +50,14 @@ export default ( { attributes, setAttributes } ) => {
 							setAttributes={ setAttributes }
 						/>
 
-						<ContentTypeControl
-							contentType={ contentType }
-							onChange={ ( option ) => {
-								setAttributes( { contentType: option.value } );
+						<ContentTypeControl contentType={ contentType } setAttributes={ setAttributes } />
 
-								if ( 'comments-number' === option.value ) {
-									setAttributes( {
-										noCommentsText: __( 'No comments', 'generateblocks' ),
-										singleCommentText: __( '1 comment', 'generateblocks' ),
-										// translators: Number of comments.
-										multipleCommentsText: __( '% comments', 'generateblocks' ),
-									} );
-								} else {
-									setAttributes( {
-										noCommentsText: '',
-										singleCommentText: '',
-										multipleCommentsText: '',
-									} );
-								}
-							} }
+						<PostDateControl
+							isActive={ 'post-date' === contentType }
+							dateType={ dateType }
+							dateReplacePublished={ dateReplacePublished }
+							setAttributes={ setAttributes }
 						/>
-
-						{ 'post-date' === contentType &&
-							<>
-								<SelectControl
-									label={ __( 'Date type', 'generateblocks' ) }
-									value={ dateType }
-									options={ [
-										{ value: 'published', label: __( 'Published', 'generateblocks' ) },
-										{ value: 'updated', label: __( 'Updated', 'generateblocks' ) },
-									] }
-									onChange={ ( value ) => setAttributes( { dateType: value } ) }
-								/>
-
-								{ 'published' === dateType &&
-									<ToggleControl
-										label={ __( 'Replace with updated date', 'generateblocks' ) }
-										checked={ !! dateReplacePublished }
-										onChange={ ( value ) => setAttributes( { dateReplacePublished: value } ) }
-									/>
-								}
-							</>
-						}
 
 						{ ( 'post-meta' === contentType || 'author-meta' === contentType ) &&
 							<TextControl
