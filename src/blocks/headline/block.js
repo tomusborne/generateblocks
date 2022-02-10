@@ -60,8 +60,8 @@ registerBlockType( 'generateblocks/headline', {
 			const labels = {
 				'post-title': __( 'Post title', 'generateblocks' ),
 				'post-excerpt': __( 'Post excerpt', 'generateblocks' ),
-				'post-date-published': __( 'Post date published', 'generateblocks' ),
-				'post-date-updated': __( 'Post date updated', 'generateblocks' ),
+				'post-date': __( 'Post date', 'generateblocks' ),
+				'post-meta': __( 'Post meta', 'generateblocks' ),
 				'author-email': __( 'Author email', 'generateblocks' ),
 				'author-name': __( 'Author name', 'generateblocks' ),
 				'author-nickname': __( 'Author nickname', 'generateblocks' ),

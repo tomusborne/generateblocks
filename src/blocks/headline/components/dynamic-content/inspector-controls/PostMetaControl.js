@@ -20,6 +20,15 @@ export default function PostMetaControl( props ) {
 			.map( ( metaKey ) => ( { value: metaKey, label: metaKey } ) );
 	}
 
+	// ACF support
+	if ( record && record.acf ) {
+		options = options.concat(
+			Object
+				.keys( record.acf )
+				.map( ( metaKey ) => ( { value: metaKey, label: metaKey } ) )
+		);
+	}
+
 	return (
 		<>
 			{ isActive &&

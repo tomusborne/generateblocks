@@ -26,7 +26,7 @@ export default ( record, options ) => {
 			return getPostDate( record, options.siteDateFormat, dateType );
 
 		case 'post-meta':
-			return getPostMeta( record?.meta, options.metaFieldName );
+			return getPostMeta( record?.meta, options.metaFieldName, record?.acf );
 
 		case 'author-meta':
 			// @todo: Get author meta.
@@ -143,11 +143,16 @@ const getPostAuthor = ( record, contentType ) => {
  *
  * @param {Object} record Meta object
  * @param {string} metaField The meta field name.
- * @return {string} THe content
+ * @param {string} acfRecord The ACF meta object
+ * @return {string} The content
  */
-const getPostMeta = ( record, metaField ) => {
+const getPostMeta = ( record, metaField, acfRecord ) => {
 	if ( record && record[ metaField ] ) {
 		return record[ metaField ];
+	}
+
+	if ( acfRecord && acfRecord[ metaField ] ) {
+		return acfRecord[ metaField ];
 	}
 
 	return __( 'Post meta', 'generateblocks' );
