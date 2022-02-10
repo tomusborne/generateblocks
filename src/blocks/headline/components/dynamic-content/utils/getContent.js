@@ -139,6 +139,19 @@ const getPostAuthor = ( record, contentType ) => {
 };
 
 /**
+ * Check if value is string or number
+ *
+ * @param {mixed} value The value
+ * @returns {boolean}
+ */
+function isStringOrNumber( value ) {
+	return (
+		typeof value === 'string' ||
+		typeof value === 'number'
+	);
+}
+
+/**
  * Returns the post meta.
  *
  * @param {Object} record Meta object
@@ -148,14 +161,18 @@ const getPostAuthor = ( record, contentType ) => {
  */
 const getPostMeta = ( record, metaField, acfRecord ) => {
 	if ( record && record[ metaField ] ) {
-		return record[ metaField ];
+		return isStringOrNumber( record[ metaField ] )
+			? record[ metaField ]
+			: __( 'Meta value not supported.', 'generateblocks' );
 	}
 
 	if ( acfRecord && acfRecord[ metaField ] ) {
-		return acfRecord[ metaField ];
+		return isStringOrNumber( acfRecord[ metaField ] )
+			? acfRecord[ metaField ]
+			: __( 'Meta value not supported.', 'generateblocks' );
 	}
 
-	return __( 'Post meta', 'generateblocks' );
+	return __( 'No meta value.', 'generateblocks' );
 };
 
 const getPostCommentsNumber = ( comments = [], noCommentsText, singleCommentText, multipleCommentsText ) => {
