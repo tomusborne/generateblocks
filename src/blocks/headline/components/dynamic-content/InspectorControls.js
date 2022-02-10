@@ -1,14 +1,14 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { ToggleControl, SelectControl, TextControl } from '@wordpress/components';
+import { ToggleControl, TextControl } from '@wordpress/components';
 import PanelArea from '../../../../components/panel-area';
 import DynamicSourceControl from './inspector-controls/DynamicSourceControl';
 import ContentTypeControl from './inspector-controls/ContentTypeControl';
 import LinkTypeControl from './inspector-controls/LinkTypeControl';
 import PostDateControl from './inspector-controls/PostDateControl';
-import getIcon from '../../../../utils/get-icon';
+import PostMetaControl from './inspector-controls/PostMetaControl';
 
-export default ( { attributes, setAttributes } ) => {
+export default ( { context, attributes, setAttributes } ) => {
 	const {
 		postType,
 		postId,
@@ -26,6 +26,9 @@ export default ( { attributes, setAttributes } ) => {
 		dynamicLinkType,
 		linkMetaFieldName,
 	} = attributes;
+
+	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
+	const currentPostId = dynamicSource === 'current-post' ? context.postId : postId;
 
 	return (
 		<InspectorControls>
@@ -60,7 +63,15 @@ export default ( { attributes, setAttributes } ) => {
 							setAttributes={ setAttributes }
 						/>
 
-						{ ( 'post-meta' === contentType || 'author-meta' === contentType ) &&
+						<PostMetaControl
+							isActive={ 'post-meta' === contentType }
+							postType={ currentPostType }
+							postId={ currentPostId }
+							metaFieldName={ metaFieldName }
+							setAttributes={ setAttributes }
+						/>
+
+						{ 'author-meta' === contentType &&
 							<TextControl
 								label={ __( 'Meta field name', 'generateblocks' ) }
 								value={ metaFieldName }

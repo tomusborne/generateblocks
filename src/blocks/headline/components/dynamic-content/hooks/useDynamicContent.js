@@ -2,6 +2,7 @@ import { __, sprintf } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore, useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
+import usePostRecord from './usePostRecord';
 
 export default ( context, attributes ) => {
 	const { postId, postType } = attributes.dynamicSource === 'current-post' ? context : attributes;
@@ -14,14 +15,7 @@ export default ( context, attributes ) => {
 		return __( 'Select source post', 'generateblocks' );
 	}
 
-	const record = useSelect( ( select ) => {
-		const { getEntityRecord, getEntityRecords, getUser } = select( coreStore );
-		const postRecord = getEntityRecord( 'postType', postType, postId );
-		const author = getUser( postRecord?.author );
-		const comments = getEntityRecords( 'root', 'comment', { post: postId } );
-
-		return Object.assign( {}, postRecord, { author, comments } );
-	}, [ postType, postId ] );
+	const record = usePostRecord( postType, postId );
 
 	if ( ! record ) {
 		return sprintf(
