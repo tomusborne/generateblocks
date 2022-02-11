@@ -3,16 +3,14 @@ import useDynamicContent from './hooks/useDynamicContent';
 import filterAttributes from '../../../../utils/filter-attributes';
 import dynamicContentAttributes from './attributes';
 import applyContext from './utils/applyContext';
-import { useEntityProp } from '@wordpress/core-data';
 
-function LinkWrapper( { children, postId, postType, dynamicLinkType } ) {
-	if ( ! dynamicLinkType || dynamicLinkType === '' ) {
+function LinkWrapper( { children, displayLink } ) {
+	if ( ! displayLink ) {
 		return ( children );
 	}
 
-	const [ link ] = useEntityProp( 'postType', postType, 'link', postId );
 	const linkAttributes = {
-		href: link,
+		href: '#',
 		onClick: ( e ) => ( e.preventDefault() ),
 	};
 
@@ -23,13 +21,13 @@ export default ( { attributes, context } ) => {
 	const dynamicAttributes = filterAttributes( attributes, Object.keys( dynamicContentAttributes ) );
 	const attributesWithContext = applyContext( context, dynamicAttributes );
 	const content = useDynamicContent( attributesWithContext );
+	const displayLink = ! (
+		! attributesWithContext.dynamicLinkType
+		|| attributesWithContext.dynamicLinkType === ''
+	);
 
 	return (
-		<LinkWrapper
-			dynamicLinkType={attributesWithContext.dynamicLinkType}
-			postType={ attributesWithContext.postType }
-			postId={ attributesWithContext.postId }
-		>
+		<LinkWrapper displayLink={ displayLink }>
 			<RichText.Content
 				value={ content }
 				tagName={ attributes.hasIcon && attributes.icon ? 'span' : undefined }
