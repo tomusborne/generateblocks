@@ -3,17 +3,18 @@ import { useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
 import usePostRecord from './usePostRecord';
 
-export default ( context, attributes ) => {
-	const { postId, postType } = attributes.dynamicSource === 'current-post' ? context : attributes;
+export default ( attributes ) => {
+	const { postId, postType } = attributes;
 
 	if ( ! postType ) {
-		return __( 'Select source post type', 'generateblocks' );
+		return __( 'Post type not selected.', 'generateblocks' );
 	}
 
 	if ( postType && ! postId ) {
-		return __( 'Select source post', 'generateblocks' );
+		return __( 'Post source not selected.', 'generateblocks' );
 	}
 
+	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
 	const record = usePostRecord( postType, postId );
 
 	if ( ! record ) {
@@ -25,17 +26,7 @@ export default ( context, attributes ) => {
 		);
 	}
 
-	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
+	const contentAttributes = Object.assign( {}, attributes, { dateFormat: siteFormat } );
 
-	return getContent( record, {
-		contentType: attributes.contentType,
-		dateType: attributes.dateType,
-		dateReplacePublished: attributes.dateReplacePublished,
-		metaFieldName: attributes.metaFieldName,
-		siteDateFormat: siteFormat,
-		noCommentsText: attributes.noCommentsText,
-		singleCommentText: attributes.singleCommentText,
-		multipleCommentsText: attributes.multipleCommentsText,
-		postType,
-	} );
+	return getContent( attributes.contentType, record, contentAttributes );
 };

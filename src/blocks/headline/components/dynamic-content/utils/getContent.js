@@ -1,79 +1,77 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { dateI18n } from '@wordpress/date';
+import { useEntityProp } from '@wordpress/core-data';
 
 /**
- * Returns the post content
+ * The content type selectors map.
  *
- * @param {Object} record  The post object
- * @param {Object} options Options to retrieve the correct content
- * @return {string} The content
+ * @type {Object}
  */
-export default ( record, options ) => {
-	switch ( options.contentType ) {
-		case 'post-title':
-			return getPostTitle( record );
-
-		case 'post-excerpt':
-			return getPostExcerpt( record );
-
-		case 'post-date':
-			let dateType = options.dateType;
-
-			if ( 'published' === dateType && options.dateReplacePublished ) {
-				dateType = 'updated';
-			}
-
-			return getPostDate( record, options.siteDateFormat, dateType );
-
-		case 'post-meta':
-			return getMetaValue( options.metaFieldName, record?.meta, record?.acf );
-
-		case 'author-meta':
-			return getMetaValue( options.metaFieldName, record?.author?.meta, record?.author?.acf );
-
-		case 'terms':
-			// @todo: Get list of terms.
-			return __( 'List of terms', 'generateblocks' );
-
-		case 'author-email':
-		case 'author-name':
-		case 'author-nickname':
-		case 'author-first-name':
-		case 'author-last-name':
-			return getPostAuthor( record?.author, options.contentType );
-
-		case 'comments-number':
-			return getPostCommentsNumber(
-				record.comments,
-				options.noCommentsText,
-				options.singleCommentText,
-				options.multipleCommentsText,
-			);
-
-		default:
-			return sprintf(
-				// translators: %s: Content type.
-				__( 'Content type %s is not supported.', 'generateblocks' ),
-				options.contentType
-			);
-	}
+const contentTypeSelectors = {
+	'post-title': getPostTitle,
+	'post-excerpt': getPostExcerpt,
+	'post-date': getPostDate,
+	'post-meta': getPostMetaValue,
+	'author-meta': getAuthorMetaValue,
+	'author-email': getAuthorEmail,
+	'author-name': getAuthorName,
+	'author-nickname': getAuthorNickname,
+	'author-first-name': getAuthorFirstName,
+	'author-last-name': getAuthorLastName,
+	'comments-number': getPostCommentsNumber,
+	'terms': contentTypeNotSupported,
 };
 
 /**
- * Return the post title
+ * Returns the record content by type.
  *
- * @param {Object} record The post object
- * @return {string} The post title
+ * @param {string} contentType The content type to select.
+ * @param {Object} record The post object.
+ * @param {Object} attributes The dynamic content attributes.
+ * @return {string} The selected content.
  */
-const getPostTitle = ( record ) => record?.title?.raw || __( 'No post title.', 'generateblocks' );
+export default function getContent( contentType, record, attributes ) {
+	const contentSelector = contentTypeSelectors[ contentType ];
+
+	if ( contentSelector && 'function' === typeof contentSelector ) {
+		return contentSelector( record, attributes );
+	}
+
+	return contentTypeNotSupported( record, attributes );
+}
 
 /**
- * Returns the post excerpt
+ * Returns message for not supported content types.
  *
- * @param {Object} record The post object
- * @return {string} The post excerpt
+ * @param {Object} record The post object.
+ * @param {Object} attributes The dynamic content attributes.
+ * @returns {string}
  */
-const getPostExcerpt = ( record ) => {
+function contentTypeNotSupported( record, attributes ) {
+	return sprintf(
+		// translators: %s: Content type.
+		__( 'Content type %s is not supported.', 'generateblocks' ),
+		attributes.contentType
+	);
+}
+
+/**
+ * Return the post title.
+ *
+ * @param {Object} record The post object.
+ * @return {string} The post title.
+ */
+function getPostTitle( record ) {
+	return record.title.raw || __( 'No post title.', 'generateblocks' );
+}
+
+/**
+ * Returns the post excerpt.
+ *
+ * @param {Object} record The post object.
+ * @return {string} The post excerpt.
+ */
+function getPostExcerpt( record ) {
 	const {
 		raw: rawExcerpt,
 		rendered: renderedExcerpt,
@@ -88,104 +86,192 @@ const getPostExcerpt = ( record ) => {
 	const strippedRenderedExcerpt = document.body.textContent || document.body.innerText || '';
 
 	return rawExcerpt || strippedRenderedExcerpt;
-};
+}
 
 /**
- * Returns the post date
+ * Returns the post date.
  *
- * @param {Object} record         The post object
- * @param {string} siteDateFormat The global site date format
- * @param {string} dateType       The date type
- * @return {string} The post date
+ * @param {Object} record The post object.
+ * @param {Object} attributes The dynamic content attributes.
+ * @return {string} The post date.
  */
-const getPostDate = ( record, siteDateFormat, dateType ) => {
+function getPostDate( record, attributes ) {
+	let dateType = attributes.dateType;
+
+	if ( 'published' === dateType && attributes.dateReplacePublished ) {
+		dateType = 'updated';
+	}
+
 	if ( ! record.date ) {
 		return __( 'No post date.', 'generateblocks' );
 	}
 
-	const dateContent = dateType === 'updated' ? record?.modified : record?.date;
+	const dateContent = dateType === 'updated' ? record.modified : record.date;
 
-	return dateI18n( siteDateFormat || 'F j, Y', dateContent, '' );
-};
-
-/**
- * Returns the author content
- *
- * @param {Object} record      Author object
- * @param {string} contentType The author content type
- * @return {string} The content
- */
-const getPostAuthor = ( record, contentType ) => {
-	switch ( contentType ) {
-		case 'author-email':
-			return record?.email || __( 'No author email', 'generateblocks' );
-
-		case 'author-name':
-			return record?.name || __( 'No author name', 'generateblocks' );
-
-		case 'author-nickname':
-			return record?.nickname || __( 'No author nickname', 'generateblocks' );
-
-		case 'author-first-name':
-			return record?.first_name || __( 'No author first name', 'generateblocks' );
-
-		case 'author-last-name':
-			return record?.last_name || __( 'No author last name', 'generateblocks' );
-
-		default:
-			return __( 'No author found.', 'generateblocks' );
-	}
-};
+	return dateI18n( attributes.dateFormat || 'F j, Y', dateContent, '' );
+}
 
 /**
- * Check if value is string or number
+ * Check if value is string or number.
  *
- * @param {mixed} value The value
+ * @param {mixed} value The value to check.
  * @returns {boolean}
  */
 function isStringOrNumber( value ) {
-	return (
-		typeof value === 'string' ||
-		typeof value === 'number'
-	);
+	return typeof value === 'string' || typeof value === 'number';
 }
 
 /**
  * Returns the meta value of given key.
  *
  * @param {string} metaField The meta field name.
- * @param {Object} metaValues The meta values
- * @param {string} acfMetaValues The ACF meta values
- * @return {string} The content
+ * @param {Object} metaValues The post meta values.
+ * @param {Object} customMetaValues The custom meta values.
+ * @return {string} The meta value.
  */
-const getMetaValue = ( metaField, metaValues, acfMetaValues ) => {
+const getMetaValue = ( metaField, metaValues, customMetaValues ) => {
 	if ( metaValues && metaValues[ metaField ] ) {
 		return isStringOrNumber( metaValues[ metaField ] )
 			? metaValues[ metaField ]
 			: __( 'Meta value not supported.', 'generateblocks' );
 	}
 
-	if ( acfMetaValues && acfMetaValues[ metaField ] ) {
-		return isStringOrNumber( acfMetaValues[ metaField ] )
-			? acfMetaValues[ metaField ]
+	if ( customMetaValues && customMetaValues[ metaField ] ) {
+		return isStringOrNumber( customMetaValues[ metaField ] )
+			? customMetaValues[ metaField ]
 			: __( 'Meta value not supported.', 'generateblocks' );
 	}
 
 	return __( 'No meta value.', 'generateblocks' );
 };
 
-const getPostCommentsNumber = ( comments = [], noCommentsText, singleCommentText, multipleCommentsText ) => {
-	const noComments = noCommentsText || __( 'No comments', 'generateblocks' );
-	const singleComment = singleCommentText || __( '1 comment', 'generateblocks' );
-	const multipleComments = multipleCommentsText || __( '% comments', 'generateblocks' );
+/**
+ * Returns the post meta values.
+ *
+ * @param {Object} record The post object.
+ * @param {Object} attributes The dynamic content attributes.
+ * @returns {string} The post meta value.
+ */
+function getPostMetaValue( record, attributes ) {
+	return getMetaValue( attributes.metaFieldName, record.meta, record.acf );
+}
 
-	if ( Array.isArray( comments ) && comments.length > 0 ) {
-		if ( comments.length > 1 ) {
-			return multipleComments.replace( '%', String( comments.length ) );
-		} else {
-			return singleComment;
-		}
-	} else {
-		return noComments;
+/**
+ * Returns the author meta values.
+ *
+ * @param {Object} record The post object.
+ * @param {Object} attributes The dynamic content attributes.
+ * @returns {string} The author meta value.
+ */
+function getAuthorMetaValue( record, attributes ) {
+	if ( ! record.author ) {
+		return authorNotFound();
 	}
-};
+
+	return getMetaValue( attributes.metaFieldName, record.author.meta, record.author.acf );
+}
+
+/**
+ * Returns author not found.
+ *
+ * @returns {string}
+ */
+function authorNotFound() {
+	return __( 'Author not found.', 'generateblocks' );
+}
+
+/**
+ * Returns the author email.
+ *
+ * @param {Object} record The post object.
+ * @returns {string} The author email.
+ */
+function getAuthorEmail( record ) {
+	if ( ! record.author ) {
+		return authorNotFound();
+	}
+
+	return record.author.email || __( 'No author email.', 'generateblocks' );
+}
+
+/**
+ * Returns the author name.
+ *
+ * @param {Object} record The post object.
+ * @returns {string} The author name.
+ */
+function getAuthorName( record ) {
+	if ( ! record.author ) {
+		return authorNotFound();
+	}
+
+	return record.author.name || __( 'No author name.', 'generateblocks' );
+}
+
+/**
+ * Returns the author nickname.
+ *
+ * @param {Object} record The post object.
+ * @returns {string} The author nickname.
+ */
+function getAuthorNickname( record ) {
+	if ( ! record.author ) {
+		return authorNotFound();
+	}
+
+	return record.author.nickname || __( 'No author nickname.', 'generateblocks' );
+}
+
+/**
+ * Returns the author first name.
+ *
+ * @param {Object} record The post object.
+ * @returns {string} The author first name.
+ */
+function getAuthorFirstName( record ) {
+	if ( ! record.author ) {
+		return authorNotFound();
+	}
+
+	return record.author.first_name || __( 'No author first name.', 'generateblocks' );
+}
+
+/**
+ * Returns the author last name.
+ *
+ * @param {Object} record The post object.
+ * @returns {string} The author first name.
+ */
+function getAuthorLastName( record ) {
+	if ( ! record.author ) {
+		return authorNotFound();
+	}
+
+	return record.author.last_name || __( 'No author last name.', 'generateblocks' );
+}
+
+/**
+ * Returns the post comments number.
+ *
+ * @param {Object} record The post object.
+ * @param {Object} attributes The dynamic content attributes.
+ * @returns {string} The post comments number.
+ */
+function getPostCommentsNumber( record, attributes ) {
+	const commentsLength = Array.isArray( record.comments ) ? record.comments.length : 0;
+	const {
+		noCommentsText,
+		singleCommentText,
+		multipleCommentsText,
+	} = attributes;
+
+	if ( commentsLength === 0 ) {
+		return noCommentsText;
+	}
+
+	if ( commentsLength === 1 ) {
+		return singleCommentText;
+	}
+
+	return multipleCommentsText.replace( '%', String( commentsLength ) );
+}

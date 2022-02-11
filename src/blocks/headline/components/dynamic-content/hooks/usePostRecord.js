@@ -8,6 +8,8 @@ export default function usePostRecord( postType, postId ) {
 		const author = getUser( postRecord?.author );
 		const comments = getEntityRecords( 'root', 'comment', { post: postId } );
 
-		return Object.assign( {}, postRecord, { author, comments } );
+		return postRecord
+			? Object.assign( {}, postRecord, { author, comments } )
+			: undefined;
 	}, [ postType, postId ] );
 }
