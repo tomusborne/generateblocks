@@ -23,6 +23,7 @@ const ButtonEdit = ( props ) => {
 		clientId,
 		ContentRenderer = RichText,
 		context,
+		name,
 	} = props;
 
 	const {
@@ -125,6 +126,7 @@ const ButtonEdit = ( props ) => {
 					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
 					<ContentRenderer
+						name={ name }
 						placeholder={ __( 'Add text…', 'generateblocks' ) }
 						value={ text }
 						onChange={ ( value ) => setAttributes( { text: value } ) }

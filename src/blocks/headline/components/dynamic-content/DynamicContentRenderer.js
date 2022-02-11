@@ -17,13 +17,14 @@ function LinkWrapper( { children, displayLink } ) {
 	return ( <a { ...linkAttributes }>{ children }</a> );
 }
 
-export default ( { attributes, context } ) => {
+export default ( { attributes, context, name } ) => {
 	const dynamicAttributes = filterAttributes( attributes, Object.keys( dynamicContentAttributes ) );
 	const attributesWithContext = applyContext( context, dynamicAttributes );
 	const content = useDynamicContent( attributesWithContext );
 	const displayLink = ! (
-		! attributesWithContext.dynamicLinkType
-		|| attributesWithContext.dynamicLinkType === ''
+		! attributesWithContext.dynamicLinkType ||
+		attributesWithContext.dynamicLinkType === '' ||
+		'generateblocks/button' === name
 	);
 
 	return (
