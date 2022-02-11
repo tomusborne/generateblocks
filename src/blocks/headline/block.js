@@ -67,6 +67,7 @@ registerBlockType( 'generateblocks/headline', {
 				'author-nickname': __( 'Author nickname', 'generateblocks' ),
 				'author-first-name': __( 'Author first name', 'generateblocks' ),
 				'author-last-name': __( 'Author last name', 'generateblocks' ),
+				'author-meta': __( 'Author meta', 'generateblocks' ),
 			};
 
 			return labels[ contentType ] ?? __( 'Dynamic content', 'generateblocks' );

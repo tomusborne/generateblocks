@@ -9,6 +9,7 @@ import saveButton from './save';
 import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
+import dynamicContentAttributes from '../headline/components/dynamic-content/attributes';
 
 import {
 	__,
@@ -17,6 +18,12 @@ import {
 import {
 	registerBlockType,
 } from '@wordpress/blocks';
+
+const attributes = Object.assign(
+	{},
+	blockAttributes,
+	dynamicContentAttributes
+);
 
 /**
  * Register our Button block.
@@ -38,7 +45,7 @@ registerBlockType( 'generateblocks/button', {
 		__( 'buttons' ),
 		__( 'generate' ),
 	],
-	attributes: blockAttributes,
+	attributes,
 	supports: {
 		className: false,
 		inserter: false,
@@ -47,4 +54,5 @@ registerBlockType( 'generateblocks/button', {
 	edit: editButton,
 	save: saveButton,
 	deprecated,
+	usesContext: [ 'postId', 'postType' ],
 } );
