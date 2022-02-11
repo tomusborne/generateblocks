@@ -61,9 +61,11 @@
 	min-height: 36px; // This height matches the height of the buttons and ensures an empty block doesn't collapse.
 }
 
-.components-popover .gblocks-button-link {
+.components-popover .gblocks-button-link:not(:last-child) {
 	margin-bottom: 10px;
+}
 
+.components-popover .gblocks-button-link {
 	input[type=text].block-editor-url-input__input {
 		max-width: 100%;
 		border: 1px solid #ddd;

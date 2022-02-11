@@ -20,6 +20,8 @@ export default ( { clientId, attributes, setAttributes } ) => {
 		target,
 		relNoFollow,
 		relSponsored,
+		isDynamicContent,
+		dynamicLinkType,
 	} = attributes;
 
 	const POPOVER_PROPS = {
@@ -74,20 +76,32 @@ export default ( { clientId, attributes, setAttributes } ) => {
 						) }
 						renderContent={ () => (
 							<>
-								<URLInput
-									className={ 'gblocks-button-link' }
-									value={ url }
-									onChange={ ( value ) => {
-										setAttributes( {
-											url: value,
-										} );
-									} }
-								/>
+								{ ! isDynamicContent && ! dynamicLinkType &&
+									<URLInput
+										className={ 'gblocks-button-link' }
+										value={ url }
+										onChange={ ( value ) => {
+											setAttributes( {
+												url: value,
+											} );
+										} }
+									/>
+								}
 
-								{ '' !== url &&
+								{ !! isDynamicContent && !! dynamicLinkType &&
+									<div style={ {
+										width: '300px',
+										'font-style': 'italic',
+										'margin-bottom': '15px',
+									} }>
+										{ __( 'This button is using a dynamic link.', 'generateblocks' ) }
+									</div>
+								}
+
+								{ applyFilters( 'generateblocks.editor.urlInputMoreOptions', '', attributes ) }
+
+								{ ( !! url || ( !! isDynamicContent && !! dynamicLinkType ) ) &&
 									<>
-										{ applyFilters( 'generateblocks.editor.urlInputMoreOptions', '', attributes ) }
-
 										<ToggleControl
 											label={ __( 'Open link in a new tab', 'generateblocks' ) }
 											checked={ target || '' }
