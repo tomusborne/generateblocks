@@ -587,6 +587,21 @@ class GenerateBlocks_Render_Block {
 			$tagName = 'a';
 		}
 
+		$relAttributes = array();
+
+		if ( ! empty( $settings['relNoFollow'] ) ) {
+			$relAttributes[] = 'nofollow';
+		}
+
+		if ( ! empty( $settings['target'] ) ) {
+			$relAttributes[] = 'noopener';
+			$relAttributes[] = 'noreferrer';
+		}
+
+		if ( ! empty( $settings['relSponsored'] ) ) {
+			$relAttributes[] = 'sponsored';
+		}
+
 		$output = sprintf(
 			'<%1$s %2$s>',
 			$tagName,
@@ -596,6 +611,8 @@ class GenerateBlocks_Render_Block {
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 					'href' => 'a' === $tagName ? $dynamic_link : null,
+					'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+					'target' => ! empty( $settings['target'] ) ? '_blank' : null,
 				),
 				$settings
 			)
