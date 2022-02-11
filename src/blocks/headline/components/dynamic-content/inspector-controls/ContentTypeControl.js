@@ -5,17 +5,20 @@ import { applyFilters } from '@wordpress/hooks';
 const getOptions = () => {
 	const defaultOptions = [
 		{
-			label: 'Post',
+			label: __( 'Post', 'generateblocks' ),
 			options: [
 				{ value: 'post-title', label: __( 'Title', 'generateblocks' ) },
 				{ value: 'post-excerpt', label: __( 'Excerpt', 'generateblocks' ) },
-				{ value: 'post-date-published', label: __( 'Published date', 'generateblocks' ) },
-				{ value: 'post-date-updated', label: __( 'Updated date', 'generateblocks' ) },
+				{ value: 'post-date', label: __( 'Post date', 'generateblocks' ) },
+				{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
+				{ value: 'comments-number', label: __( 'Comments number', 'generateblocks' ) },
+				{ value: 'terms', label: __( 'List of terms', 'generateblocks' ) },
 			],
 		},
 		{
-			label: 'Author',
+			label: __( 'Author', 'generateblocks' ),
 			options: [
+				{ value: 'author-meta', label: __( 'Author meta', 'generateblocks' ) },
 				{ value: 'author-email', label: __( 'Email', 'generateblocks' ) },
 				{ value: 'author-name', label: __( 'Name', 'generateblocks' ) },
 				{ value: 'author-nickname', label: __( 'Nickname', 'generateblocks' ) },
@@ -31,7 +34,7 @@ const getOptions = () => {
 	);
 };
 
-export default ( { contentType, onChange } ) => {
+export default ( { contentType, setAttributes } ) => {
 	const options = getOptions();
 	const value = options
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
@@ -44,7 +47,27 @@ export default ( { contentType, onChange } ) => {
 			placeholder={ __( 'Content type', 'generateblocks' ) }
 			options={ options }
 			value={ value }
-			onChange={ onChange }
+			onChange={ ( option ) => {
+				setAttributes( {
+					contentType: option.value,
+					metaFieldName: '',
+				} );
+
+				if ( 'comments-number' === option.value ) {
+					setAttributes( {
+						noCommentsText: __( 'No comments', 'generateblocks' ),
+						singleCommentText: __( '1 comment', 'generateblocks' ),
+						// translators: Number of comments.
+						multipleCommentsText: __( '% comments', 'generateblocks' ),
+					} );
+				} else {
+					setAttributes( {
+						noCommentsText: '',
+						singleCommentText: '',
+						multipleCommentsText: '',
+					} );
+				}
+			} }
 		/>
 	);
 };

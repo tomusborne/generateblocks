@@ -15,7 +15,7 @@ const getDefaultInnerBlock = ( uniqueId ) => {
 		createBlock( 'generateblocks/headline', {
 			isDynamicContent: true,
 			element: 'p',
-			contentType: 'post-date-published',
+			contentType: 'post-date',
 		} ),
 	];
 

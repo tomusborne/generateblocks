@@ -439,7 +439,7 @@ class GenerateBlocks_Render_Block {
 
 		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
 
-		if ( ! $dynamic_content ) {
+		if ( ! $dynamic_content && '0' !== $dynamic_content ) {
 			return '';
 		}
 
@@ -509,7 +509,7 @@ class GenerateBlocks_Render_Block {
 			}
 		}
 
-		$dynamic_link = null;
+		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes );
 
 		if ( $dynamic_link ) {
 			$dynamic_content = sprintf(

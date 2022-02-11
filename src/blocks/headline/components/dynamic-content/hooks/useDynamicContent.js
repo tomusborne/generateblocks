@@ -1,36 +1,32 @@
-import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
-import { store as coreStore, useEntityProp } from '@wordpress/core-data';
+import { __, sprintf } from '@wordpress/i18n';
+import { useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
+import usePostRecord from './usePostRecord';
 
-export default ( context, attributes ) => {
-	const { postId, postType } = attributes.dynamicSource === 'current-post' ? context : attributes;
+export default ( attributes ) => {
+	const { postId, postType } = attributes;
 
 	if ( ! postType ) {
-		return __( 'Select source post type', 'generateblocks' );
+		return __( 'Post type not selected.', 'generateblocks' );
 	}
 
 	if ( postType && ! postId ) {
-		return __( 'Select source post', 'generateblocks' );
-	}
-
-	const record = useSelect( ( select ) => {
-		const { getEntityRecord, getUser } = select( coreStore );
-		const postRecord = getEntityRecord( 'postType', postType, postId );
-		const author = getUser( postRecord?.author );
-
-		return Object.assign( {}, postRecord, { author } );
-	}, [ postType, postId ] );
-
-	if ( ! record ) {
-		return __( 'Post was not found.', 'generateblocks' );
+		return __( 'Post source not selected.', 'generateblocks' );
 	}
 
 	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
+	const record = usePostRecord( postType, postId );
 
-	return getContent( record, {
-		contentType: attributes.contentType,
-		siteDateFormat: siteFormat,
-		postType,
-	} );
+	if ( ! record ) {
+		return sprintf(
+			// translators: %1$s: post ID, %2$s: post type.
+			__( 'Post of id #%1$s and post type %2$s was not found.', 'generateblocks' ),
+			postId,
+			postType
+		);
+	}
+
+	const contentAttributes = Object.assign( {}, attributes, { dateFormat: siteFormat } );
+
+	return getContent( attributes.contentType, record, contentAttributes );
 };

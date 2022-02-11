@@ -2,23 +2,37 @@ import { RichText } from '@wordpress/block-editor';
 import useDynamicContent from './hooks/useDynamicContent';
 import filterAttributes from '../../../../utils/filter-attributes';
 import dynamicContentAttributes from './attributes';
+import applyContext from './utils/applyContext';
 
-export default ( props ) => {
-	const {
-		attributes,
-		context,
-	} = props;
+function LinkWrapper( { children, displayLink } ) {
+	if ( ! displayLink ) {
+		return ( children );
+	}
 
-	const dynamicContent = useDynamicContent(
-		context,
-		filterAttributes( attributes, Object.keys( dynamicContentAttributes ) )
+	const linkAttributes = {
+		href: '#',
+		onClick: ( e ) => ( e.preventDefault() ),
+	};
+
+	return ( <a { ...linkAttributes }>{ children }</a> );
+}
+
+export default ( { attributes, context } ) => {
+	const dynamicAttributes = filterAttributes( attributes, Object.keys( dynamicContentAttributes ) );
+	const attributesWithContext = applyContext( context, dynamicAttributes );
+	const content = useDynamicContent( attributesWithContext );
+	const displayLink = ! (
+		! attributesWithContext.dynamicLinkType
+		|| attributesWithContext.dynamicLinkType === ''
 	);
 
 	return (
-		<RichText.Content
-			value={ dynamicContent }
-			tagName={ attributes.hasIcon && attributes.icon ? 'span' : undefined }
-			className={ attributes.hasIcon && attributes.icon ? 'gb-headline-text' : undefined }
-		/>
+		<LinkWrapper displayLink={ displayLink }>
+			<RichText.Content
+				value={ content }
+				tagName={ attributes.hasIcon && attributes.icon ? 'span' : undefined }
+				className={ attributes.hasIcon && attributes.icon ? 'gb-headline-text' : undefined }
+			/>
+		</LinkWrapper>
 	);
 };
