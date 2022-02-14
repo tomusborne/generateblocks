@@ -8,6 +8,7 @@ import LinkTypeControl from './inspector-controls/LinkTypeControl';
 import PostDateControl from './inspector-controls/PostDateControl';
 import PostMetaControl from './inspector-controls/PostMetaControl';
 import AuthorMetaControl from './inspector-controls/AuthorMetaControl';
+import getIcon from '../../../../utils/get-icon';
 
 export default ( { context, attributes, setAttributes } ) => {
 	const {
@@ -35,8 +36,10 @@ export default ( { context, attributes, setAttributes } ) => {
 		<InspectorControls>
 			<PanelArea
 				id={ 'dynamicContentControls' }
-				title={ __( 'Dynamic content', 'generateblocks' ) }
+				title={ __( 'Dynamic Content', 'generateblocks' ) }
 				initialOpen={ false }
+				icon={ getIcon( 'dynamic' ) }
+				className="gblocks-panel-label"
 			>
 				<ToggleControl
 					label={ __( 'Enable dynamic content', 'generateblocks' ) }
