@@ -129,6 +129,7 @@ const HeadlineEdit = ( props ) => {
 						ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 					>
 						<ContentRenderer
+							name={ name }
 							tagName="span"
 							value={ content }
 							onChange={ ( newContent ) => setAttributes( { content: newContent } ) }

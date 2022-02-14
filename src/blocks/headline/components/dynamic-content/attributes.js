@@ -49,11 +49,6 @@ export default {
 		default: '',
 	},
 
-	icon: {
-		type: 'string',
-		default: '',
-	},
-
 	termTaxonomy: {
 		type: 'string',
 		default: 'category',

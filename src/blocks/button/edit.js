@@ -13,6 +13,7 @@ import { applyFilters } from '@wordpress/hooks';
 import classnames from 'classnames';
 import { compose } from '@wordpress/compose';
 import { withButtonLegacyMigration, withUniqueId } from '../../hoc';
+import withDynamicContent from '../headline/components/dynamic-content/hoc/withDynamicContent';
 
 const ButtonEdit = ( props ) => {
 	const {
@@ -20,6 +21,9 @@ const ButtonEdit = ( props ) => {
 		setAttributes,
 		isSelected,
 		clientId,
+		ContentRenderer = RichText,
+		context,
+		name,
 	} = props;
 
 	const {
@@ -121,12 +125,16 @@ const ButtonEdit = ( props ) => {
 					wrapperClassname={ 'gb-button-text' }
 					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
-					<RichText
+					<ContentRenderer
+						name={ name }
 						placeholder={ __( 'Add text…', 'generateblocks' ) }
 						value={ text }
 						onChange={ ( value ) => setAttributes( { text: value } ) }
 						allowedFormats={ richTextFormats }
 						isSelected={ isSelected }
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						context={ context }
 					/>
 				</IconWrapper>
 			</Element>
@@ -135,6 +143,7 @@ const ButtonEdit = ( props ) => {
 };
 
 export default compose(
+	withDynamicContent,
 	withUniqueId,
 	withButtonLegacyMigration
 )( ButtonEdit );

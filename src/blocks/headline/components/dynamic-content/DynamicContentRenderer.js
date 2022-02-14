@@ -17,13 +17,15 @@ function LinkWrapper( { children, displayLink } ) {
 	return ( <a { ...linkAttributes }>{ children }</a> );
 }
 
-export default ( { attributes, context } ) => {
+export default ( { attributes, context, name } ) => {
 	const dynamicAttributes = filterAttributes( attributes, Object.keys( dynamicContentAttributes ) );
 	const attributesWithContext = applyContext( context, dynamicAttributes );
 	const content = useDynamicContent( attributesWithContext );
+	const textClassName = 'generateblocks/headline' === name ? 'gb-headline-text' : 'gb-button-text';
 	const displayLink = ! (
-		! attributesWithContext.dynamicLinkType
-		|| attributesWithContext.dynamicLinkType === ''
+		! attributesWithContext.dynamicLinkType ||
+		attributesWithContext.dynamicLinkType === '' ||
+		'generateblocks/button' === name
 	);
 
 	return (
@@ -31,7 +33,7 @@ export default ( { attributes, context } ) => {
 			<RichText.Content
 				value={ content }
 				tagName={ attributes.hasIcon && attributes.icon ? 'span' : undefined }
-				className={ attributes.hasIcon && attributes.icon ? 'gb-headline-text' : undefined }
+				className={ attributes.hasIcon && attributes.icon ? textClassName : undefined }
 			/>
 		</LinkWrapper>
 	);

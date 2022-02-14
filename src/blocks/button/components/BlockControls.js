@@ -20,12 +20,16 @@ export default ( { clientId, attributes, setAttributes } ) => {
 		target,
 		relNoFollow,
 		relSponsored,
+		isDynamicContent,
+		dynamicLinkType,
 	} = attributes;
 
 	const POPOVER_PROPS = {
 		className: 'block-editor-block-settings-menu__popover',
 		position: 'bottom right',
 	};
+
+	const hasDynamicLink = isDynamicContent && dynamicLinkType;
 
 	return (
 		<>
@@ -60,68 +64,82 @@ export default ( { clientId, attributes, setAttributes } ) => {
 				</ToolbarGroup>
 
 				<ToolbarGroup>
-					<Dropdown
-						contentClassName="gblocks-button-link-dropdown"
-						popoverProps={ POPOVER_PROPS }
-						renderToggle={ ( { isOpen, onToggle } ) => (
-							<ToolbarButton
-								icon={ link }
-								label={ ! url ? __( 'Add Link', 'generateblocks' ) : __( 'Change Link', 'generateblocks' ) }
-								onClick={ onToggle }
-								aria-expanded={ isOpen }
-								isPressed={ !! url }
-							/>
-						) }
-						renderContent={ () => (
-							<>
-								<URLInput
-									className={ 'gblocks-button-link' }
-									value={ url }
-									onChange={ ( value ) => {
-										setAttributes( {
-											url: value,
-										} );
-									} }
+					{ ( ! isDynamicContent || hasDynamicLink ) &&
+						<Dropdown
+							contentClassName="gblocks-button-link-dropdown"
+							popoverProps={ POPOVER_PROPS }
+							renderToggle={ ( { isOpen, onToggle } ) => (
+								<ToolbarButton
+									icon={ link }
+									label={ ! url ? __( 'Add Link', 'generateblocks' ) : __( 'Change Link', 'generateblocks' ) }
+									onClick={ onToggle }
+									aria-expanded={ isOpen }
+									isPressed={ !! url }
 								/>
-
-								{ '' !== url &&
-									<>
-										{ applyFilters( 'generateblocks.editor.urlInputMoreOptions', '', attributes ) }
-
-										<ToggleControl
-											label={ __( 'Open link in a new tab', 'generateblocks' ) }
-											checked={ target || '' }
+							) }
+							renderContent={ () => (
+								<>
+									{ ! isDynamicContent &&
+										<URLInput
+											className={ 'gblocks-button-link' }
+											value={ url }
 											onChange={ ( value ) => {
 												setAttributes( {
-													target: value,
+													url: value,
 												} );
 											} }
 										/>
+									}
 
-										<ToggleControl
-											label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
-											checked={ relNoFollow || '' }
-											onChange={ ( value ) => {
-												setAttributes( {
-													relNoFollow: value,
-												} );
-											} }
-										/>
+									{ !! isDynamicContent &&
+										<div style={ {
+											width: '300px',
+											'font-style': 'italic',
+											'margin-bottom': ( !! dynamicLinkType ? '15px' : '0' ),
+										} }>
+											{ __( 'This button is using a dynamic link.', 'generateblocks' ) }
+										</div>
+									}
 
-										<ToggleControl
-											label={ __( 'Add rel="sponsored"', 'generateblocks' ) }
-											checked={ relSponsored || '' }
-											onChange={ ( value ) => {
-												setAttributes( {
-													relSponsored: value,
-												} );
-											} }
-										/>
-									</>
-								}
-							</>
-						) }
-					/>
+									{ applyFilters( 'generateblocks.editor.urlInputMoreOptions', '', attributes ) }
+
+									{ ( !! url || hasDynamicLink ) &&
+										<>
+											<ToggleControl
+												label={ __( 'Open link in a new tab', 'generateblocks' ) }
+												checked={ target || '' }
+												onChange={ ( value ) => {
+													setAttributes( {
+														target: value,
+													} );
+												} }
+											/>
+
+											<ToggleControl
+												label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
+												checked={ relNoFollow || '' }
+												onChange={ ( value ) => {
+													setAttributes( {
+														relNoFollow: value,
+													} );
+												} }
+											/>
+
+											<ToggleControl
+												label={ __( 'Add rel="sponsored"', 'generateblocks' ) }
+												checked={ relSponsored || '' }
+												onChange={ ( value ) => {
+													setAttributes( {
+														relSponsored: value,
+													} );
+												} }
+											/>
+										</>
+									}
+								</>
+							) }
+						/>
+					}
 				</ToolbarGroup>
 			</BlockControls>
 		</>

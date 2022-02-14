@@ -92,6 +92,14 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => array( $this, 'do_headline_block' ),
 			)
 		);
+
+		register_block_type(
+			'generateblocks/button',
+			array(
+				'title' => esc_html__( 'Button', 'generateblocks' ),
+				'render_callback' => array( $this, 'do_button_block' ),
+			)
+		);
 	}
 
 	/**
@@ -517,6 +525,109 @@ class GenerateBlocks_Render_Block {
 				$dynamic_link,
 				$dynamic_content
 			);
+		}
+
+		$output .= $dynamic_content;
+
+		if ( $icon_html ) {
+			$output .= '</span>';
+		}
+
+		$output .= sprintf(
+			'</%s>',
+			$tagName
+		);
+
+		return $output;
+	}
+
+	/**
+	 * Wrapper function for our dynamic buttons.
+	 *
+	 * @since 1.5.0
+	 * @param array  $attributes The block attributes.
+	 * @param string $content The dynamic text to display.
+	 */
+	public static function do_button_block( $attributes, $content ) {
+		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
+			return $content;
+		}
+
+		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+
+		if ( ! $dynamic_content && '0' !== $dynamic_content ) {
+			return '';
+		}
+
+		$defaults = generateblocks_get_block_defaults();
+
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['button']
+		);
+
+		$classNames = array(
+			'gb-button',
+			'gb-button-' . $settings['uniqueId'],
+		);
+
+		if ( ! empty( $settings['className'] ) ) {
+			$classNames[] = $settings['className'];
+		}
+
+		if ( empty( $settings['icon'] ) ) {
+			$classNames[] = 'gb-button-text';
+		}
+
+		$tagName = 'span';
+
+		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes );
+
+		if ( $dynamic_link ) {
+			$tagName = 'a';
+		}
+
+		$relAttributes = array();
+
+		if ( ! empty( $settings['relNoFollow'] ) ) {
+			$relAttributes[] = 'nofollow';
+		}
+
+		if ( ! empty( $settings['target'] ) ) {
+			$relAttributes[] = 'noopener';
+			$relAttributes[] = 'noreferrer';
+		}
+
+		if ( ! empty( $settings['relSponsored'] ) ) {
+			$relAttributes[] = 'sponsored';
+		}
+
+		$output = sprintf(
+			'<%1$s %2$s>',
+			$tagName,
+			generateblocks_attr(
+				'dynamic-button',
+				array(
+					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
+					'class' => implode( ' ', $classNames ),
+					'href' => 'a' === $tagName ? $dynamic_link : null,
+					'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+					'target' => ! empty( $settings['target'] ) ? '_blank' : null,
+				),
+				$settings
+			)
+		);
+
+		$icon_html = '';
+
+		// Extract our icon from the static HTML.
+		if ( $settings['hasIcon'] ) {
+			$icon_html = generateblocks_get_static_icon_html( $content );
+
+			if ( $icon_html ) {
+				$output .= $icon_html;
+				$output .= '<span class="gb-button-text">';
+			}
 		}
 
 		$output .= $dynamic_content;
