@@ -12,7 +12,7 @@ import CommentsControl from './inspector-controls/CommentsControl';
 import TermsControl from './inspector-controls/TermsControl';
 import getIcon from '../../../../utils/get-icon';
 
-export default ( { context, attributes, setAttributes } ) => {
+export default ( { context, attributes, setAttributes, name } ) => {
 	const {
 		postType,
 		postId,
@@ -99,6 +99,7 @@ export default ( { context, attributes, setAttributes } ) => {
 							termTaxonomy={ termTaxonomy }
 							termSeparator={ termSeparator }
 							setAttributes={ setAttributes }
+							name={ name }
 						/>
 
 						<LinkTypeControl
