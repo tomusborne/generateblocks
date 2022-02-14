@@ -32,18 +32,18 @@ export default function AuthorMetaControl( props ) {
 	return (
 		<>
 			{ isActive &&
-			<AdvancedSelect
-				id={ 'gblocks-select-author-meta-control' }
-				label={ __( 'Author meta field', 'generateblocks' ) }
-				placeholder={ __( 'Author meta field', 'generateblocks' ) }
-				options={ options }
-				value={ { value: metaFieldName, label: metaFieldName } }
-				isSearchable
-				isLoading={ ( !record && ! record.author && ! record.author.meta ) }
-				onChange={ ( option ) => {
-					setAttributes( { metaFieldName: option.value } );
-				} }
-			/>
+				<AdvancedSelect
+					id={ 'gblocks-select-author-meta-control' }
+					label={ __( 'Author meta field', 'generateblocks' ) }
+					placeholder={ __( 'Author meta field', 'generateblocks' ) }
+					options={ options }
+					value={ { value: metaFieldName, label: metaFieldName } }
+					isSearchable
+					isLoading={ ( !record && ! record.author && ! record.author.meta ) }
+					onChange={ ( option ) => {
+						setAttributes( { metaFieldName: option.value } );
+					} }
+				/>
 			}
 		</>
 	);

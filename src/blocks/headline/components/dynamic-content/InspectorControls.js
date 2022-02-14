@@ -8,6 +8,7 @@ import LinkTypeControl from './inspector-controls/LinkTypeControl';
 import PostDateControl from './inspector-controls/PostDateControl';
 import PostMetaControl from './inspector-controls/PostMetaControl';
 import AuthorMetaControl from './inspector-controls/AuthorMetaControl';
+import CommentsControl from './inspector-controls/CommentsControl';
 
 export default ( { context, attributes, setAttributes } ) => {
 	const {
@@ -80,27 +81,13 @@ export default ( { context, attributes, setAttributes } ) => {
 							setAttributes={ setAttributes }
 						/>
 
-						{ 'comments-number' === contentType &&
-							<>
-								<TextControl
-									label={ __( 'No comments text', 'generateblocks' ) }
-									value={ noCommentsText }
-									onChange={ ( value ) => setAttributes( { noCommentsText: value } ) }
-								/>
-
-								<TextControl
-									label={ __( 'Single comment text', 'generateblocks' ) }
-									value={ singleCommentText }
-									onChange={ ( value ) => setAttributes( { singleCommentText: value } ) }
-								/>
-
-								<TextControl
-									label={ __( 'Multiple comments text', 'generateblocks' ) }
-									value={ multipleCommentsText }
-									onChange={ ( value ) => setAttributes( { multipleCommentsText: value } ) }
-								/>
-							</>
-						}
+						<CommentsControl
+							isActive={ 'comments-number' === contentType }
+							noCommentsText={ noCommentsText }
+							singleCommentText={ singleCommentText }
+							multipleCommentsText={ multipleCommentsText }
+							setAttributes={ setAttributes }
+						/>
 
 						{ 'terms' === contentType &&
 							<>
@@ -122,16 +109,9 @@ export default ( { context, attributes, setAttributes } ) => {
 						<LinkTypeControl
 							linkType={ dynamicLinkType }
 							contentType={ contentType }
+							linkMetaFieldName={ linkMetaFieldName }
 							onChange={ ( option ) => setAttributes( { dynamicLinkType: option.value } ) }
 						/>
-
-						{ 'post-meta' === dynamicLinkType &&
-							<TextControl
-								label={ __( 'Meta field name', 'generateblocks' ) }
-								value={ linkMetaFieldName }
-								onChange={ ( value ) => setAttributes( { linkMetaFieldName: value } ) }
-							/>
-						}
 					</>
 				}
 			</PanelArea>
