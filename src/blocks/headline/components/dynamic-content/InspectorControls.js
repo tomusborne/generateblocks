@@ -1,6 +1,6 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { ToggleControl, TextControl } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
 import PanelArea from '../../../../components/panel-area';
 import DynamicSourceControl from './inspector-controls/DynamicSourceControl';
 import ContentTypeControl from './inspector-controls/ContentTypeControl';
@@ -9,6 +9,7 @@ import PostDateControl from './inspector-controls/PostDateControl';
 import PostMetaControl from './inspector-controls/PostMetaControl';
 import AuthorMetaControl from './inspector-controls/AuthorMetaControl';
 import CommentsControl from './inspector-controls/CommentsControl';
+import TermsControl from './inspector-controls/TermsControl';
 
 export default ( { context, attributes, setAttributes } ) => {
 	const {
@@ -89,22 +90,13 @@ export default ( { context, attributes, setAttributes } ) => {
 							setAttributes={ setAttributes }
 						/>
 
-						{ 'terms' === contentType &&
-							<>
-								<TextControl
-									label={ __( 'Taxonomy', 'generateblocks' ) }
-									help="Would be cool if this was an auto-populated select"
-									value={ termTaxonomy }
-									onChange={ ( value ) => setAttributes( { termTaxonomy: value } ) }
-								/>
-
-								<TextControl
-									label={ __( 'Term separator', 'generateblocks' ) }
-									value={ termSeparator }
-									onChange={ ( value ) => setAttributes( { termSeparator: value } ) }
-								/>
-							</>
-						}
+						<TermsControl
+							isActive={ 'terms' === contentType }
+							postType={ postType }
+							termTaxonomy={ termTaxonomy }
+							termSeparator={ termSeparator }
+							setAttributes={ setAttributes }
+						/>
 
 						<LinkTypeControl
 							linkType={ dynamicLinkType }
