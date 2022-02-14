@@ -562,12 +562,6 @@ class GenerateBlocks_Render_Block {
 			return '';
 		}
 
-		// Add content to an array if it isn't already.
-		// This allows us to loop the output (terms etc...).
-		if ( ! is_array( $dynamic_content ) ) {
-			$dynamic_content = array( $dynamic_content );
-		}
-
 		$defaults = generateblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
@@ -612,7 +606,7 @@ class GenerateBlocks_Render_Block {
 
 		$output = '';
 
-		foreach ( $dynamic_content as $content ) {
+		foreach ( (array) $dynamic_content as $content ) {
 			if ( isset( $content['term_slug'] ) ) {
 				if ( ! in_array( 'post-term-item', $classNames ) ) {
 					$classNames[] = 'post-term-item';
