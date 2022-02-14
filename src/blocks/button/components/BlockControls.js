@@ -88,11 +88,11 @@ export default ( { clientId, attributes, setAttributes } ) => {
 									/>
 								}
 
-								{ !! isDynamicContent && !! dynamicLinkType &&
+								{ !! isDynamicContent &&
 									<div style={ {
 										width: '300px',
 										'font-style': 'italic',
-										'margin-bottom': '15px',
+										'margin-bottom': ( !! dynamicLinkType ? '15px' : '0' ),
 									} }>
 										{ __( 'This button is using a dynamic link.', 'generateblocks' ) }
 									</div>
