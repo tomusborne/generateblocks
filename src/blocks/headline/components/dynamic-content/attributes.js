@@ -51,7 +51,7 @@ export default {
 
 	termTaxonomy: {
 		type: 'string',
-		default: 'category',
+		default: '',
 	},
 
 	termSeparator: {

@@ -1,6 +1,5 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { dateI18n } from '@wordpress/date';
-import { useEntityProp } from '@wordpress/core-data';
 
 /**
  * The content type selectors map.
@@ -19,7 +18,7 @@ const contentTypeSelectors = {
 	'author-first-name': getAuthorFirstName,
 	'author-last-name': getAuthorLastName,
 	'comments-number': getPostCommentsNumber,
-	'terms': contentTypeNotSupported,
+	'terms': getPostTerms,
 };
 
 /**
@@ -274,4 +273,21 @@ function getPostCommentsNumber( record, attributes ) {
 	}
 
 	return multipleCommentsText.replace( '%', String( commentsLength ) );
+}
+
+/**
+ * Returns the post terms list.
+ *
+ * @param {Object} record The post object.
+ * @param {Object} attributes The dynamic content attributes.
+ * @returns {string} The post terms list.
+ */
+function getPostTerms( record, attributes ) {
+	if ( Array.isArray( record.terms ) && record.terms.length > 0 ) {
+		return record.terms
+			.map( ( term ) => ( term.name ) )
+			.join( attributes.termSeparator );
+	}
+
+	return 'No terms';
 }
