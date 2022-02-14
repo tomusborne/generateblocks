@@ -241,6 +241,7 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
+		$is_button = isset( $attributes['isButton'] );
 		$taxonomy = isset( $attributes['termTaxonomy'] ) ? $attributes['termTaxonomy'] : 'category';
 		$terms = get_the_terms( $id, $taxonomy );
 		$link_type = isset( $attributes['dynamicLinkType'] ) ? $attributes['dynamicLinkType'] : '';
@@ -260,19 +261,34 @@ class GenerateBlocks_Dynamic_Content {
 				$term_link = get_term_link( $term, $taxonomy );
 
 				if ( ! is_wp_error( $term_link ) ) {
+					if ( $is_button ) {
+						$term_items[] = array(
+							'link' => esc_url( get_term_link( $term, $taxonomy ) ),
+							'content' => $term->name,
+							'term_slug' => $term->slug,
+						);
+					} else {
+						$term_items[] = sprintf(
+							'<span class="post-term-item term-%3$s"><a href="%1$s">%2$s</a></span>',
+							esc_url( get_term_link( $term, $taxonomy ) ),
+							$term->name,
+							$term->slug
+						);
+					}
+				}
+			} else {
+				if ( $is_button ) {
+					$term_items[] = array(
+						'content' => $term->name,
+						'term_slug' => $term->slug,
+					);
+				} else {
 					$term_items[] = sprintf(
-						'<span class="post-term-item term-%3$s"><a href="%1$s">%2$s</a></span>',
-						esc_url( get_term_link( $term, $taxonomy ) ),
+						'<span class="post-term-item term-%2$s">%1$s</span>',
 						$term->name,
 						$term->slug
 					);
 				}
-			} else {
-				$term_items[] = sprintf(
-					'<span class="post-term-item term-%2$s">%1$s</span>',
-					$term->name,
-					$term->slug
-				);
 			}
 		}
 
@@ -281,7 +297,7 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		$sep = isset( $attributes['termSeparator'] ) ? $attributes['termSeparator'] : ', ';
-		$term_output = implode( $sep, $term_items );
+		$term_output = $is_button ? $term_items : implode( $sep, $term_items );
 
 		return $term_output;
 	}
