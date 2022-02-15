@@ -4,7 +4,7 @@ import DynamicContentRenderer from '../DynamicContentRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
-		const { attributes, setAttributes, context } = props;
+		const { attributes, setAttributes, context, name } = props;
 
 		const newProps = attributes.isDynamicContent ? Object.assign( {}, props, {
 			ContentRenderer: DynamicContentRenderer,
@@ -17,6 +17,7 @@ export default ( WrappedComponent ) => {
 					context={ context }
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					name={ name }
 				/>
 			</Fragment>
 		);

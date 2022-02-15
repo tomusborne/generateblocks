@@ -11,6 +11,7 @@ export default function TermsControl( props ) {
 		termTaxonomy,
 		termSeparator,
 		setAttributes,
+		name,
 	} = props;
 
 	const taxonomies = useTaxonomies();
@@ -33,11 +34,14 @@ export default function TermsControl( props ) {
 							setAttributes( { termTaxonomy: option.value } );
 						} }
 					/>
-					<TextControl
-						label={ __( 'Term separator', 'generateblocks' ) }
-						value={ termSeparator }
-						onChange={ ( value ) => setAttributes( { termSeparator: value } ) }
-					/>
+
+					{ 'generateblocks/button' !== name &&
+						<TextControl
+							label={ __( 'Term separator', 'generateblocks' ) }
+							value={ termSeparator }
+							onChange={ ( value ) => setAttributes( { termSeparator: value } ) }
+						/>
+					}
 				</>
 			}
 		</>
