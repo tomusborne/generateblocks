@@ -32,6 +32,7 @@
 		"@wordpress/data": "6.1.5",
 		"@wordpress/date": "4.2.3",
 		"@wordpress/element": "4.0.4",
+		"@wordpress/eslint-plugin": "10.0.1",
 		"@wordpress/hooks": "3.2.2",
 		"@wordpress/i18n": "4.2.4",
 		"@wordpress/icons": "6.1.1",
