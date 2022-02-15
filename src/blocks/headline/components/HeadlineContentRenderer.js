@@ -25,7 +25,7 @@ export default function HeadlineContentRenderer( props ) {
 		hasIcon,
 		anchor,
 		removeText,
-		ariaLabel
+		ariaLabel,
 	} = attributes;
 
 	let htmlAttributes = {
