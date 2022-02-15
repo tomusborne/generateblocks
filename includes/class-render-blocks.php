@@ -445,9 +445,20 @@ class GenerateBlocks_Render_Block {
 			return $content;
 		}
 
-		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		$allow_empty_content = false;
 
-		if ( ! $dynamic_content && '0' !== $dynamic_content ) {
+		if ( isset( $attributes['contentType'] ) && 'none' === $attributes['contentType'] ) {
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
+
+			if ( ! empty( $attributes['hasIcon'] ) && ! empty( $attributes['removeText'] ) ) {
+				// Allow icon-only items to continue.
+				$allow_empty_content = true;
+			}
+		} else {
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		}
+
+		if ( ! $dynamic_content && '0' !== $dynamic_content && ! $allow_empty_content ) {
 			return '';
 		}
 
@@ -509,7 +520,7 @@ class GenerateBlocks_Render_Block {
 
 		// Extract our icon from the static HTML.
 		if ( $settings['hasIcon'] ) {
-			$icon_html = generateblocks_get_static_icon_html( $content );
+			$icon_html = GenerateBlocks_Dynamic_Content::get_icon_html( $content );
 
 			if ( $icon_html ) {
 				$output .= $icon_html;
@@ -553,9 +564,20 @@ class GenerateBlocks_Render_Block {
 			return $content;
 		}
 
-		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		$allow_empty_content = false;
 
-		if ( ! $dynamic_content && '0' !== $dynamic_content ) {
+		if ( isset( $attributes['contentType'] ) && 'none' === $attributes['contentType'] ) {
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
+
+			if ( ! empty( $attributes['hasIcon'] ) && ! empty( $attributes['removeText'] ) ) {
+				// Allow icon-only items to continue.
+				$allow_empty_content = true;
+			}
+		} else {
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		}
+
+		if ( ! $dynamic_content && '0' !== $dynamic_content && ! $allow_empty_content ) {
 			return '';
 		}
 
@@ -622,7 +644,7 @@ class GenerateBlocks_Render_Block {
 
 		// Extract our icon from the static HTML.
 		if ( $settings['hasIcon'] ) {
-			$icon_html = generateblocks_get_static_icon_html( $content );
+			$icon_html = GenerateBlocks_Dynamic_Content::get_icon_html( $content );
 
 			if ( $icon_html ) {
 				$output .= $icon_html;

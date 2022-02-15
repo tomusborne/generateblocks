@@ -438,6 +438,109 @@ class GenerateBlocks_Dynamic_Content {
 
 		return $data;
 	}
+
+	/**
+	 * Run HTML through DOMDocument so we can use parts of it
+	 * when needed.
+	 *
+	 * @param string $content The content to run through DOMDocument.
+	 */
+	public static function load_html( $content ) {
+		if ( ! class_exists( 'DOMDocument' ) ) {
+			return;
+		}
+
+		$doc = new DOMDocument();
+
+		// Enable user error handling for the HTML parsing. HTML5 elements aren't
+		// supported (as of PHP 7.4) and There's no way to guarantee that the markup
+		// is valid anyway, so we're just going to ignore all errors in parsing.
+		// Nested heading elements will still be parsed.
+		// The lack of HTML5 support is a libxml2 issue:
+		// https://bugzilla.gnome.org/show_bug.cgi?id=761534.
+		libxml_use_internal_errors( true );
+
+		// Parse the post content into an HTML document.
+		$doc->loadHTML(
+			// loadHTML expects ISO-8859-1, so we need to convert the post content to
+			// that format. We use htmlentities to encode Unicode characters not
+			// supported by ISO-8859-1 as HTML entities. However, this function also
+			// converts all special characters like < or > to HTML entities, so we use
+			// htmlspecialchars_decode to decode them.
+			htmlspecialchars_decode(
+				utf8_decode(
+					htmlentities(
+						'<html><body>' . $content . '</body></html>',
+						ENT_COMPAT,
+						'UTF-8',
+						false
+					)
+				),
+				ENT_COMPAT
+			)
+		);
+
+		// We're done parsing, so we can disable user error handling. This also
+		// clears any existing errors, which helps avoid a memory leak.
+		libxml_use_internal_errors( false );
+
+		return $doc;
+	}
+
+	/**
+	 * Extracts the icon element from our content.
+	 * This is useful when using icons in dynamic blocks.
+	 *
+	 * @param string $content The content to search through.
+	 */
+	public static function get_icon_html( $content ) {
+		$doc = self::load_html( $content );
+
+		if ( ! $doc ) {
+			return;
+		}
+
+		$icon_html = '';
+		$html_nodes = $doc->getElementsByTagName( 'span' );
+
+		foreach ( $html_nodes as $node ) {
+			if ( 'gb-icon' === $node->getAttribute( 'class' ) ) {
+				$icon_html = $doc->saveHTML( $node );
+			}
+		}
+
+		return $icon_html;
+	}
+
+	/**
+	 * Extracts the static content the user has entered.
+	 * This is useful when using dynamic links with static content.
+	 *
+	 * @param string $content The content to search through.
+	 */
+	public static function get_static_content( $content ) {
+		$doc = self::load_html( $content );
+
+		if ( ! $doc ) {
+			return;
+		}
+
+		$static_content = '';
+		$html_nodes = $doc->getElementsByTagName( '*' );
+
+		foreach ( $html_nodes as $node ) {
+			if (
+				strpos( $node->getAttribute( 'class' ), 'gb-button-text' ) !== false ||
+				strpos( $node->getAttribute( 'class' ), 'gb-headline-text' ) !== false
+			) {
+				foreach ( $node->childNodes as $childNode ) {
+					$static_content .= $doc->saveHTML( $childNode );
+				}
+			}
+		}
+
+		return $static_content;
+	}
 }
 
 GenerateBlocks_Dynamic_Content::get_instance();
