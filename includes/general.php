@@ -221,6 +221,19 @@ function generateblocks_set_excerpt_allowed_blocks( $allowed ) {
 	return $allowed;
 }
 
+add_filter( 'excerpt_allowed_wrapper_blocks', 'generateblocks_set_excerpt_allowed_wrapper_blocks' );
+/**
+ * Allows excerpts to be generated from the `innerBlocks` of these wrappers.
+ *
+ * @param array $allowed Existing allowed wrapper blocks.
+ * @since 1.5.0
+ */
+function generateblocks_set_excerpt_allowed_wrapper_blocks( $allowed ) {
+	$allowed[] = 'generateblocks/container';
+
+	return $allowed;
+}
+
 add_filter( 'generateblocks_before_container_close', 'generateblocks_do_shape_divider', 10, 2 );
 /**
  * Add shape divider to Container.
