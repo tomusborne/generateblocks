@@ -6,7 +6,7 @@ export default {
 
 	contentType: {
 		type: 'string',
-		default: 'post-title',
+		default: '',
 	},
 
 	dynamicLinkType: {

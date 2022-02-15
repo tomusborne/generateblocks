@@ -37,11 +37,10 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_content( $attributes ) {
-		if ( ! isset( $attributes['contentType'] ) ) {
-			return self::get_post_title( $attributes );
-		}
-
 		switch ( $attributes['contentType'] ) {
+			case 'post-title':
+				return self::get_post_title( $attributes );
+
 			case 'post-excerpt':
 				return self::get_post_excerpt( $attributes );
 

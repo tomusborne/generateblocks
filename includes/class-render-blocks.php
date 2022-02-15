@@ -447,7 +447,7 @@ class GenerateBlocks_Render_Block {
 
 		$allow_empty_content = false;
 
-		if ( isset( $attributes['contentType'] ) && 'none' === $attributes['contentType'] ) {
+		if ( empty( $attributes['contentType'] ) ) {
 			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
 
 			if ( ! empty( $attributes['hasIcon'] ) && ! empty( $attributes['removeText'] ) ) {
@@ -566,7 +566,7 @@ class GenerateBlocks_Render_Block {
 
 		$allow_empty_content = false;
 
-		if ( isset( $attributes['contentType'] ) && 'none' === $attributes['contentType'] ) {
+		if ( empty( $attributes['contentType'] ) ) {
 			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
 
 			if ( ! empty( $attributes['hasIcon'] ) && ! empty( $attributes['removeText'] ) ) {

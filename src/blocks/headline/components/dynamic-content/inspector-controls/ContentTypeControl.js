@@ -6,7 +6,7 @@ const getOptions = () => {
 	const defaultOptions = [
 		{
 			options: [
-				{ value: 'none', label: __( 'None', 'generateblocks' ) },
+				{ value: '', label: __( 'Select…', 'generateblocks' ) },
 			],
 		},
 		{
