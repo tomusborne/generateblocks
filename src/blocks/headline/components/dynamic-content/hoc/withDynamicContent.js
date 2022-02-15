@@ -1,5 +1,6 @@
 import { Fragment } from '@wordpress/element';
 import InspectorControls from '../InspectorControls';
+import DynamicRenderer from '../DynamicRenderer';
 import DynamicContentRenderer from '../DynamicContentRenderer';
 
 export default ( WrappedComponent ) => {
@@ -7,7 +8,7 @@ export default ( WrappedComponent ) => {
 		const { attributes, setAttributes, context, name } = props;
 
 		const newProps = attributes.isDynamicContent ? Object.assign( {}, props, {
-			ContentRenderer: DynamicContentRenderer,
+			ContentRenderer: DynamicRenderer,
 		} ) : props;
 
 		return (

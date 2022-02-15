@@ -11,6 +11,7 @@ export default function ButtonContentRenderer( props ) {
 		setAttributes,
 		isSelected,
 		InnerContent = RichText,
+		innerContentProps = {},
 		context,
 		name,
 	} = props;
@@ -90,6 +91,7 @@ export default function ButtonContentRenderer( props ) {
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					context={ context }
+					{ ...innerContentProps }
 				/>
 			</IconWrapper>
 		</Element>
