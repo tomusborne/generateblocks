@@ -15,6 +15,7 @@ export default function HeadlineContentRenderer( props ) {
 		onSplit,
 		onReplace,
 		InnerContent = RichText,
+		innerContentProps = {},
 	} = props;
 	const {
 		uniqueId,
@@ -71,6 +72,7 @@ export default function HeadlineContentRenderer( props ) {
 						onReplace={ onReplace }
 						placeholder={ __( 'Headline', 'generateblocks' ) }
 						allowedFormats={ richTextFormats }
+						{ ...innerContentProps }
 					/>
 				</IconWrapper>
 			</Element>
