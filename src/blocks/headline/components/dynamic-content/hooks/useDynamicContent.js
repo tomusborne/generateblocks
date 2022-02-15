@@ -15,7 +15,11 @@ export default ( attributes ) => {
 	}
 
 	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
-	const record = usePostRecord( postType, postId );
+
+	const recordLoad = 'terms' === attributes.contentType ? [ 'terms' ] : [];
+	const recordLoadOptions = 'terms' === attributes.contentType ? { taxonomy: attributes.termTaxonomy } : {};
+
+	const record = usePostRecord( postType, postId, recordLoad, recordLoadOptions );
 
 	if ( ! record ) {
 		return sprintf(
