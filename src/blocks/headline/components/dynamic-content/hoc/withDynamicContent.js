@@ -7,9 +7,11 @@ export default ( WrappedComponent ) => {
 	return ( props ) => {
 		const { attributes, setAttributes, context, name } = props;
 
-		const newProps = attributes.isDynamicContent && !! attributes.contentType ? Object.assign( {}, props, {
-			ContentRenderer: DynamicRenderer,
-		} ) : props;
+		const newProps = attributes.isDynamicContent &&
+			( !! attributes.contentType || !! attributes.dynamicLinkType )
+			? Object.assign( {}, props, {
+				ContentRenderer: DynamicRenderer,
+			} ) : props;
 
 		return (
 			<Fragment>

@@ -1,7 +1,9 @@
 
+import { select } from '@wordpress/data';
+
 function EmptyLink( { text } ) {
 	return (
-		<a href="#" onClick={ ( e ) => ( e.preventDefault() ) }>{ text }</a> // eslint-disable-line jsx-a11y/anchor-is-valid
+		<a>{ text }</a> // eslint-disable-line jsx-a11y/anchor-is-valid
 	);
 }
 
@@ -14,7 +16,7 @@ export default function withContentLink( WrappedComponent ) {
 			return <WrappedComponent { ...props } />;
 		}
 
-		const linkedContent = 'terms' === contentType
+		const newContent = 'terms' === contentType
 			? innerContentProps.value
 				.split( termSeparator )
 				.map( ( content, idx, fullContent ) => {
@@ -25,9 +27,20 @@ export default function withContentLink( WrappedComponent ) {
 						</>
 					);
 				} )
-			: Array( <EmptyLink text={ innerContentProps.value } /> );
+			: innerContentProps.value;
 
-		const innerProps = Object.assign( {}, innerContentProps, { value: linkedContent } );
+		const formats = select( 'core/rich-text' ).getFormatTypes();
+
+		// Remove the link option.
+		const newFormats = formats.filter( ( format ) => {
+			return 'core/link' !== format.name;
+		} ).map( ( formatNames ) => formatNames.name );
+
+		const innerProps = Object.assign( {}, innerContentProps, {
+			value: newContent,
+			tagName: 'terms' !== contentType ? 'a' : null,
+			allowedFormats: newFormats,
+		} );
 
 		return (
 			<WrappedComponent { ...props } innerContentProps={ innerProps } />

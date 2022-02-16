@@ -29,13 +29,13 @@ export default function DynamicRenderer( props ) {
 		: 'gb-button-text';
 
 	const innerContentProps = {
-		value: content,
+		value: !! attributes.contentType ? content : attributes.content,
 		tagName: ( attributes.hasIcon && attributes.icon ? 'span' : undefined ),
 		className: ( attributes.hasIcon && attributes.icon ? textClassName : undefined ),
 	};
 
 	const newProps = Object.assign( {}, props, {
-		InnerContent: RichText.Content,
+		InnerContent: !! attributes.contentType ? RichText.Content : RichText,
 		innerContentProps,
 	} );
 
