@@ -47,7 +47,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 					label={ __( 'Enable dynamic content', 'generateblocks' ) }
 					checked={ isDynamicContent }
 					onChange={ ( value ) => {
-						setAttributes( { isDynamicContent: value, content: '' } );
+						setAttributes( { isDynamicContent: value } );
 					} }
 				/>
 
