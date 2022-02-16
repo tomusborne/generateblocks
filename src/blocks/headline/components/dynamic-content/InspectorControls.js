@@ -37,14 +37,14 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	return (
 		<InspectorControls>
 			<PanelArea
-				id={ 'dynamicContentControls' }
-				title={ __( 'Dynamic Content', 'generateblocks' ) }
+				id={ 'dynamicDataControls' }
+				title={ __( 'Dynamic Data', 'generateblocks' ) }
 				initialOpen={ false }
 				icon={ getIcon( 'dynamic' ) }
 				className="gblocks-panel-label"
 			>
 				<ToggleControl
-					label={ __( 'Enable dynamic content', 'generateblocks' ) }
+					label={ __( 'Enable Dynamic Data', 'generateblocks' ) }
 					checked={ isDynamicContent }
 					onChange={ ( value ) => {
 						setAttributes( { isDynamicContent: value } );
