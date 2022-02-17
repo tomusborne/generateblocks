@@ -16,5 +16,5 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 		return postRecord
 			? Object.assign( {}, postRecord, { author, comments, terms } )
 			: undefined;
-	}, [ postType, postId ] );
+	}, [ postType, postId, load.join(), JSON.stringify( options ) ] );
 }
