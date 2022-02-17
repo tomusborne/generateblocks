@@ -3,40 +3,23 @@ import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
-import Element from '../../components/element';
-import IconWrapper from '../../components/icon-wrapper';
-import { RichText, useBlockProps } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
 import { Fragment } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
-import { applyFilters } from '@wordpress/hooks';
-import classnames from 'classnames';
 import { compose } from '@wordpress/compose';
 import { withButtonLegacyMigration, withUniqueId } from '../../hoc';
 import withDynamicContent from '../headline/components/dynamic-content/hoc/withDynamicContent';
+import ButtonContentRenderer from './components/ButtonContentRenderer';
 
 const ButtonEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
-		isSelected,
 		clientId,
-		ContentRenderer = RichText,
-		context,
-		name,
+		ContentRenderer = ButtonContentRenderer,
 	} = props;
 
 	const {
-		uniqueId,
 		anchor,
-		text,
-		url,
-		target,
-		relNoFollow,
-		relSponsored,
-		icon,
-		iconLocation,
-		removeText,
 		ariaLabel,
 		fontFamily,
 		googleFont,
@@ -44,46 +27,6 @@ const ButtonEdit = ( props ) => {
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
-
-	const relAttributes = [];
-
-	if ( relNoFollow ) {
-		relAttributes.push( 'nofollow' );
-	}
-
-	if ( target ) {
-		relAttributes.push( 'noopener', 'noreferrer' );
-	}
-
-	if ( relSponsored ) {
-		relAttributes.push( 'sponsored' );
-	}
-
-	let htmlAttributes = {
-		className: classnames( {
-			'gb-button': true,
-			[ `gb-button-${ uniqueId }` ]: true,
-			'gb-button-text': ! icon,
-		} ),
-		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
-		'aria-label': !! ariaLabel ? ariaLabel : null,
-		id: anchor ? anchor : null,
-	};
-
-	htmlAttributes = applyFilters(
-		'generateblocks.frontend.htmlAttributes',
-		htmlAttributes,
-		'generateblocks/button',
-		attributes
-	);
-
-	const blockProps = useBlockProps( htmlAttributes );
-
-	const richTextFormats = applyFilters(
-		'generateblocks.editor.buttonDisableFormatting',
-		false,
-		props
-	) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ];
 
 	return (
 		<Fragment>
@@ -115,29 +58,7 @@ const ButtonEdit = ( props ) => {
 				googleFontVariants={ googleFontVariants }
 			/>
 
-			<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
-				<IconWrapper
-					hasIcon={ !! icon }
-					icon={ icon }
-					direction={ iconLocation }
-					hideChildren={ removeText }
-					showWrapper={ ! removeText && !! icon }
-					wrapperClassname={ 'gb-button-text' }
-					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
-				>
-					<ContentRenderer
-						name={ name }
-						placeholder={ __( 'Add text…', 'generateblocks' ) }
-						value={ text }
-						onChange={ ( value ) => setAttributes( { text: value } ) }
-						allowedFormats={ richTextFormats }
-						isSelected={ isSelected }
-						attributes={ attributes }
-						setAttributes={ setAttributes }
-						context={ context }
-					/>
-				</IconWrapper>
-			</Element>
+			<ContentRenderer { ...props } />
 		</Fragment>
 	);
 };

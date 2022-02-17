@@ -6,7 +6,7 @@ export default {
 
 	contentType: {
 		type: 'string',
-		default: 'post-title',
+		default: '',
 	},
 
 	dynamicLinkType: {
@@ -51,7 +51,7 @@ export default {
 
 	termTaxonomy: {
 		type: 'string',
-		default: 'category',
+		default: '',
 	},
 
 	termSeparator: {

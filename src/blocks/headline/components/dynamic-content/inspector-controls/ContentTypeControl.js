@@ -5,6 +5,11 @@ import { applyFilters } from '@wordpress/hooks';
 const getOptions = () => {
 	const defaultOptions = [
 		{
+			options: [
+				{ value: '', label: __( 'Select…', 'generateblocks' ) },
+			],
+		},
+		{
 			label: __( 'Post', 'generateblocks' ),
 			options: [
 				{ value: 'post-title', label: __( 'Title', 'generateblocks' ) },

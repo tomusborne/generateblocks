@@ -11,6 +11,7 @@ const getDefaultInnerBlock = ( uniqueId ) => {
 	const containerInnerBlocks = [
 		createBlock( 'generateblocks/headline', {
 			isDynamicContent: true,
+			contentType: 'post-title',
 		} ),
 		createBlock( 'generateblocks/headline', {
 			isDynamicContent: true,

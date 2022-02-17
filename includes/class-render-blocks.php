@@ -445,9 +445,20 @@ class GenerateBlocks_Render_Block {
 			return $content;
 		}
 
-		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		$allow_empty_content = false;
 
-		if ( ! $dynamic_content && '0' !== $dynamic_content ) {
+		if ( empty( $attributes['contentType'] ) ) {
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
+
+			if ( ! empty( $attributes['hasIcon'] ) && ! empty( $attributes['removeText'] ) ) {
+				// Allow icon-only items to continue.
+				$allow_empty_content = true;
+			}
+		} else {
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		}
+
+		if ( ! $dynamic_content && '0' !== $dynamic_content && ! $allow_empty_content ) {
 			return '';
 		}
 
@@ -509,7 +520,7 @@ class GenerateBlocks_Render_Block {
 
 		// Extract our icon from the static HTML.
 		if ( $settings['hasIcon'] ) {
-			$icon_html = generateblocks_get_static_icon_html( $content );
+			$icon_html = GenerateBlocks_Dynamic_Content::get_icon_html( $content );
 
 			if ( $icon_html ) {
 				$output .= $icon_html;
@@ -553,9 +564,23 @@ class GenerateBlocks_Render_Block {
 			return $content;
 		}
 
-		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		$allow_empty_content = false;
 
-		if ( ! $dynamic_content && '0' !== $dynamic_content ) {
+		// Add an attribute showing we're working with the Button block.
+		$attributes['isButton'] = true;
+
+		if ( empty( $attributes['contentType'] ) ) {
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
+
+			if ( ! empty( $attributes['hasIcon'] ) && ! empty( $attributes['removeText'] ) ) {
+				// Allow icon-only items to continue.
+				$allow_empty_content = true;
+			}
+		} else {
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+		}
+
+		if ( ! $dynamic_content && '0' !== $dynamic_content && ! $allow_empty_content ) {
 			return '';
 		}
 
@@ -579,14 +604,6 @@ class GenerateBlocks_Render_Block {
 			$classNames[] = 'gb-button-text';
 		}
 
-		$tagName = 'span';
-
-		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes );
-
-		if ( $dynamic_link ) {
-			$tagName = 'a';
-		}
-
 		$relAttributes = array();
 
 		if ( ! empty( $settings['relNoFollow'] ) ) {
@@ -602,44 +619,72 @@ class GenerateBlocks_Render_Block {
 			$relAttributes[] = 'sponsored';
 		}
 
-		$output = sprintf(
-			'<%1$s %2$s>',
-			$tagName,
-			generateblocks_attr(
-				'dynamic-button',
-				array(
-					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
-					'class' => implode( ' ', $classNames ),
-					'href' => 'a' === $tagName ? $dynamic_link : null,
-					'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
-					'target' => ! empty( $settings['target'] ) ? '_blank' : null,
-				),
-				$settings
-			)
-		);
-
 		$icon_html = '';
 
 		// Extract our icon from the static HTML.
 		if ( $settings['hasIcon'] ) {
-			$icon_html = generateblocks_get_static_icon_html( $content );
+			$icon_html = GenerateBlocks_Dynamic_Content::get_icon_html( $content );
+		}
+
+		$output = '';
+
+		foreach ( (array) $dynamic_content as $content ) {
+			if ( isset( $content['term_slug'] ) ) {
+				if ( ! in_array( 'post-term-item', $classNames ) ) {
+					$classNames[] = 'post-term-item';
+				}
+
+				$classNames[] = 'term-' . $content['term_slug'];
+			}
+
+			$tagName = 'span';
+
+			if ( isset( $content['link'] ) ) {
+				$dynamic_link = $content['link'];
+			} else {
+				$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes );
+			}
+
+			if ( $dynamic_link ) {
+				$tagName = 'a';
+			}
+
+			$output .= sprintf(
+				'<%1$s %2$s>',
+				$tagName,
+				generateblocks_attr(
+					'dynamic-button',
+					array(
+						'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
+						'class' => implode( ' ', $classNames ),
+						'href' => 'a' === $tagName ? $dynamic_link : null,
+						'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+						'target' => ! empty( $settings['target'] ) ? '_blank' : null,
+					),
+					$settings
+				)
+			);
 
 			if ( $icon_html ) {
 				$output .= $icon_html;
 				$output .= '<span class="gb-button-text">';
 			}
+
+			if ( isset( $content['content'] ) ) {
+				$output .= $content['content'];
+			} else {
+				$output .= $content;
+			}
+
+			if ( $icon_html ) {
+				$output .= '</span>';
+			}
+
+			$output .= sprintf(
+				'</%s>',
+				$tagName
+			);
 		}
-
-		$output .= $dynamic_content;
-
-		if ( $icon_html ) {
-			$output .= '</span>';
-		}
-
-		$output .= sprintf(
-			'</%s>',
-			$tagName
-		);
 
 		return $output;
 	}

@@ -1,15 +1,9 @@
 import { useDeviceType } from '../../hooks';
-import classnames from 'classnames';
 import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
-import { RichText, useBlockProps } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
 import { Fragment, useEffect } from '@wordpress/element';
-import Element from '../../components/element';
-import RootElement from '../../components/root-element';
-import IconWrapper from '../../components/icon-wrapper';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import ComponentCSS from './components/ComponentCSS';
@@ -17,6 +11,7 @@ import { createBlock } from '@wordpress/blocks';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
 import withDynamicContent from './components/dynamic-content/hoc/withDynamicContent';
+import HeadlineContentRenderer from './components/HeadlineContentRenderer';
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	let block;
@@ -41,25 +36,17 @@ const HeadlineEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
-		onReplace,
-		clientId,
-		ContentRenderer = RichText,
-		context,
-		name,
+		ContentRenderer = HeadlineContentRenderer,
 	} = props;
 
 	const {
 		uniqueId,
 		anchor,
-		content,
-		element,
 		fontFamily,
 		googleFont,
 		googleFontVariants,
 		icon,
 		hasIcon,
-		removeText,
-		ariaLabel,
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
@@ -69,30 +56,6 @@ const HeadlineEdit = ( props ) => {
 			setAttributes( { hasIcon: true } );
 		}
 	}, [] );
-
-	let htmlAttributes = {
-		className: classnames( {
-			'gb-headline': true,
-			[ `gb-headline-${ uniqueId }` ]: true,
-			'gb-headline-text': ! hasIcon,
-		} ),
-		id: anchor ? anchor : null,
-	};
-
-	htmlAttributes = applyFilters(
-		'generateblocks.frontend.htmlAttributes',
-		htmlAttributes,
-		'generateblocks/headline',
-		attributes
-	);
-
-	const blockProps = useBlockProps( htmlAttributes );
-
-	const richTextFormats = applyFilters(
-		'generateblocks.editor.headlineDisableFormatting',
-		false,
-		props
-	) ? [] : null;
 
 	return (
 		<Fragment>
@@ -118,32 +81,7 @@ const HeadlineEdit = ( props ) => {
 
 			{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', props ) }
 
-			<RootElement name={ name } clientId={ clientId }>
-				<Element tagName={ element } htmlAttrs={ blockProps }>
-					<IconWrapper
-						hasIcon={ hasIcon }
-						icon={ icon }
-						hideChildren={ removeText }
-						showWrapper={ ! removeText && hasIcon }
-						wrapperClassname={ 'gb-headline-text' }
-						ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
-					>
-						<ContentRenderer
-							name={ name }
-							tagName="span"
-							value={ content }
-							onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
-							onSplit={ onSplit( attributes, clientId ) }
-							onReplace={ onReplace }
-							placeholder={ __( 'Headline', 'generateblocks' ) }
-							allowedFormats={ richTextFormats }
-							attributes={ attributes }
-							setAttributes={ setAttributes }
-							context={ context }
-						/>
-					</IconWrapper>
-				</Element>
-			</RootElement>
+			<ContentRenderer { ...props } onSplit={ onSplit } />
 		</Fragment>
 	);
 };

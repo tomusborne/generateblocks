@@ -37,11 +37,10 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_content( $attributes ) {
-		if ( ! isset( $attributes['contentType'] ) ) {
-			return self::get_post_title( $attributes );
-		}
-
 		switch ( $attributes['contentType'] ) {
+			case 'post-title':
+				return self::get_post_title( $attributes );
+
 			case 'post-excerpt':
 				return self::get_post_excerpt( $attributes );
 
@@ -241,6 +240,7 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
+		$is_button = isset( $attributes['isButton'] );
 		$taxonomy = isset( $attributes['termTaxonomy'] ) ? $attributes['termTaxonomy'] : 'category';
 		$terms = get_the_terms( $id, $taxonomy );
 		$link_type = isset( $attributes['dynamicLinkType'] ) ? $attributes['dynamicLinkType'] : '';
@@ -251,28 +251,39 @@ class GenerateBlocks_Dynamic_Content {
 
 		$term_items = array();
 
-		foreach ( (array) $terms as $term ) {
+		foreach ( (array) $terms as $index => $term ) {
 			if ( ! isset( $term->name ) ) {
 				continue;
+			}
+
+			if ( $is_button ) {
+				$term_items[ $index ] = array(
+					'content' => $term->name,
+					'term_slug' => $term->slug,
+				);
+			} else {
+				$term_items[ $index ] = sprintf(
+					'<span class="post-term-item term-%2$s">%1$s</span>',
+					$term->name,
+					$term->slug
+				);
 			}
 
 			if ( 'term-archives' === $link_type ) {
 				$term_link = get_term_link( $term, $taxonomy );
 
 				if ( ! is_wp_error( $term_link ) ) {
-					$term_items[] = sprintf(
-						'<span class="post-term-item term-%3$s"><a href="%1$s">%2$s</a></span>',
-						esc_url( get_term_link( $term, $taxonomy ) ),
-						$term->name,
-						$term->slug
-					);
+					if ( $is_button ) {
+						$term_items[ $index ]['link'] = esc_url( get_term_link( $term, $taxonomy ) );
+					} else {
+						$term_items[ $index ] = sprintf(
+							'<span class="post-term-item term-%3$s"><a href="%1$s">%2$s</a></span>',
+							esc_url( get_term_link( $term, $taxonomy ) ),
+							$term->name,
+							$term->slug
+						);
+					}
 				}
-			} else {
-				$term_items[] = sprintf(
-					'<span class="post-term-item term-%2$s">%1$s</span>',
-					$term->name,
-					$term->slug
-				);
 			}
 		}
 
@@ -281,7 +292,7 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		$sep = isset( $attributes['termSeparator'] ) ? $attributes['termSeparator'] : ', ';
-		$term_output = implode( $sep, $term_items );
+		$term_output = $is_button ? $term_items : implode( $sep, $term_items );
 
 		return $term_output;
 	}
@@ -437,6 +448,109 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $data;
+	}
+
+	/**
+	 * Run HTML through DOMDocument so we can use parts of it
+	 * when needed.
+	 *
+	 * @param string $content The content to run through DOMDocument.
+	 */
+	public static function load_html( $content ) {
+		if ( ! class_exists( 'DOMDocument' ) ) {
+			return;
+		}
+
+		$doc = new DOMDocument();
+
+		// Enable user error handling for the HTML parsing. HTML5 elements aren't
+		// supported (as of PHP 7.4) and There's no way to guarantee that the markup
+		// is valid anyway, so we're just going to ignore all errors in parsing.
+		// Nested heading elements will still be parsed.
+		// The lack of HTML5 support is a libxml2 issue:
+		// https://bugzilla.gnome.org/show_bug.cgi?id=761534.
+		libxml_use_internal_errors( true );
+
+		// Parse the post content into an HTML document.
+		$doc->loadHTML(
+			// loadHTML expects ISO-8859-1, so we need to convert the post content to
+			// that format. We use htmlentities to encode Unicode characters not
+			// supported by ISO-8859-1 as HTML entities. However, this function also
+			// converts all special characters like < or > to HTML entities, so we use
+			// htmlspecialchars_decode to decode them.
+			htmlspecialchars_decode(
+				utf8_decode(
+					htmlentities(
+						'<html><body>' . $content . '</body></html>',
+						ENT_COMPAT,
+						'UTF-8',
+						false
+					)
+				),
+				ENT_COMPAT
+			)
+		);
+
+		// We're done parsing, so we can disable user error handling. This also
+		// clears any existing errors, which helps avoid a memory leak.
+		libxml_use_internal_errors( false );
+
+		return $doc;
+	}
+
+	/**
+	 * Extracts the icon element from our content.
+	 * This is useful when using icons in dynamic blocks.
+	 *
+	 * @param string $content The content to search through.
+	 */
+	public static function get_icon_html( $content ) {
+		$doc = self::load_html( $content );
+
+		if ( ! $doc ) {
+			return;
+		}
+
+		$icon_html = '';
+		$html_nodes = $doc->getElementsByTagName( 'span' );
+
+		foreach ( $html_nodes as $node ) {
+			if ( 'gb-icon' === $node->getAttribute( 'class' ) ) {
+				$icon_html = $doc->saveHTML( $node );
+			}
+		}
+
+		return $icon_html;
+	}
+
+	/**
+	 * Extracts the static content the user has entered.
+	 * This is useful when using dynamic links with static content.
+	 *
+	 * @param string $content The content to search through.
+	 */
+	public static function get_static_content( $content ) {
+		$doc = self::load_html( $content );
+
+		if ( ! $doc ) {
+			return;
+		}
+
+		$static_content = '';
+		$html_nodes = $doc->getElementsByTagName( '*' );
+
+		foreach ( $html_nodes as $node ) {
+			if (
+				strpos( $node->getAttribute( 'class' ), 'gb-button-text' ) !== false ||
+				strpos( $node->getAttribute( 'class' ), 'gb-headline-text' ) !== false
+			) {
+				foreach ( $node->childNodes as $childNode ) {
+					$static_content .= $doc->saveHTML( $childNode );
+				}
+			}
+		}
+
+		return $static_content;
 	}
 }
 
