@@ -31,9 +31,15 @@ export default function DynamicRenderer( props ) {
 		if ( !! dynamicLinkType && 'terms' === contentType && 'generateblocks/headline' === name ) {
 			return rawContent
 				.split( termSeparator )
-				.map( ( content, idx, fullContent ) => {
-					return ( <><a>{ content }</a>{ idx + 1 !== fullContent.length && termSeparator }</> );
+				.map( ( newContent, idx, fullContent ) => {
+					return ( <><a>{ newContent }</a>{ idx + 1 !== fullContent.length && termSeparator }</> ); // eslint-disable-line jsx-a11y/anchor-is-valid
 				} );
+		}
+
+		// Only return first term in buttons for now.
+		if ( 'terms' === contentType && 'generateblocks/button' === name ) {
+			return rawContent
+				.split( termSeparator )[ 0 ];
 		}
 
 		return !! attributes.contentType ? rawContent : attributes.content;
@@ -42,13 +48,13 @@ export default function DynamicRenderer( props ) {
 		dynamicLinkType,
 		termSeparator,
 		rawContent,
-		attributes.content
+		attributes.content,
 	] );
 
 	const newAttributes = Object.assign( {}, attributes, {
 		content: 'generateblocks/headline' === name ? content : undefined,
 		text: 'generateblocks/button' === name ? content : undefined,
-	})
+	} );
 
 	const newProps = Object.assign( {}, props, {
 		InnerContent: !! attributes.contentType ? RichText.Content : RichText,
