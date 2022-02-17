@@ -566,6 +566,9 @@ class GenerateBlocks_Render_Block {
 
 		$allow_empty_content = false;
 
+		// Add an attribute showing we're working with the Button block.
+		$attributes['isButton'] = true;
+
 		if ( empty( $attributes['contentType'] ) ) {
 			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
 
@@ -576,9 +579,6 @@ class GenerateBlocks_Render_Block {
 		} else {
 			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
 		}
-
-		// Add an attribute showing we're working with the Button block.
-		$attributes['isButton'] = true;
 
 		if ( ! $dynamic_content && '0' !== $dynamic_content && ! $allow_empty_content ) {
 			return '';
