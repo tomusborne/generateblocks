@@ -5,6 +5,8 @@ import { __ } from '@wordpress/i18n';
 import RootElement from '../../../components/root-element';
 import IconWrapper from '../../../components/icon-wrapper';
 import Element from '../../../components/element';
+import { useSelect } from '@wordpress/data';
+import { useMemo } from '@wordpress/element';
 
 export default function HeadlineContentRenderer( props ) {
 	const {
@@ -15,7 +17,6 @@ export default function HeadlineContentRenderer( props ) {
 		onSplit,
 		onReplace,
 		InnerContent = RichText,
-		innerContentProps = {},
 	} = props;
 	const {
 		uniqueId,
@@ -26,6 +27,8 @@ export default function HeadlineContentRenderer( props ) {
 		anchor,
 		removeText,
 		ariaLabel,
+		contentType,
+		dynamicLinkType,
 	} = attributes;
 
 	let htmlAttributes = {
@@ -52,6 +55,20 @@ export default function HeadlineContentRenderer( props ) {
 		props
 	) ? [] : null;
 
+	const tagName = ( 'terms' !== contentType && !! dynamicLinkType ) ? 'a' : 'span';
+
+	const linkAllowedFormats = useSelect( ( select ) => ( select( 'core/rich-text' ).getFormatTypes() ), [] );
+
+	const textFormats = useMemo( () => {
+		if ( linkAllowedFormats && !! dynamicLinkType ) {
+			return linkAllowedFormats
+				.filter( ( format ) => ( 'core/link' !== format.name ) )
+				.map( ( formatNames ) => ( formatNames.name ) );
+		}
+
+		return richTextFormats;
+	}, [ linkAllowedFormats, richTextFormats, dynamicLinkType ] );
+
 	return (
 		<RootElement name={ name } clientId={ clientId }>
 			<Element tagName={ element } htmlAttrs={ blockProps }>
@@ -65,14 +82,13 @@ export default function HeadlineContentRenderer( props ) {
 				>
 					<InnerContent
 						name={ name }
-						tagName="span"
+						tagName={ tagName }
 						value={ content }
 						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
 						onSplit={ onSplit( attributes, clientId ) }
 						onReplace={ onReplace }
 						placeholder={ __( 'Headline', 'generateblocks' ) }
-						allowedFormats={ richTextFormats }
-						{ ...innerContentProps }
+						allowedFormats={ textFormats }
 					/>
 				</IconWrapper>
 			</Element>

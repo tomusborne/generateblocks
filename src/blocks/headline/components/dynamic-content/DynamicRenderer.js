@@ -5,9 +5,7 @@ import dynamicContentAttributes from './attributes';
 import applyContext from './utils/applyContext';
 import { RichText } from '@wordpress/block-editor';
 import useDynamicContent from './hooks/useDynamicContent';
-import { compose } from '@wordpress/compose';
-import withContentLink from './hoc/withContentLink';
-import withPreviewContent from './hoc/withPreviewContent';
+import { useMemo } from '@wordpress/element';
 
 export default function DynamicRenderer( props ) {
 	const {
@@ -18,25 +16,43 @@ export default function DynamicRenderer( props ) {
 
 	const dynamicAttributes = filterAttributes( attributes, Object.keys( dynamicContentAttributes ) );
 	const attributesWithContext = applyContext( context, dynamicAttributes );
-	const content = useDynamicContent( attributesWithContext );
+	const {
+		contentType,
+		dynamicLinkType,
+		termSeparator,
+	} = attributesWithContext;
+	const rawContent = useDynamicContent( attributesWithContext );
 
 	const ContentRenderer = 'generateblocks/headline' === name
-		? compose( withContentLink )( HeadlineContentRenderer )
-		: compose( withPreviewContent )( ButtonContentRenderer );
+		? HeadlineContentRenderer
+		: ButtonContentRenderer;
 
-	const textClassName = 'generateblocks/headline' === name
-		? 'gb-headline-text'
-		: 'gb-button-text';
+	const content = useMemo( () => {
+		if ( !! dynamicLinkType && 'terms' === contentType && 'generateblocks/headline' === name ) {
+			return rawContent
+				.split( termSeparator )
+				.map( ( content, idx, fullContent ) => {
+					return ( <><a>{ content }</a>{ idx + 1 !== fullContent.length && termSeparator }</> );
+				} );
+		}
 
-	const innerContentProps = {
-		value: !! attributes.contentType ? content : attributes.content,
-		tagName: ( attributes.hasIcon && attributes.icon ? 'span' : undefined ),
-		className: ( attributes.hasIcon && attributes.icon ? textClassName : undefined ),
-	};
+		return !! attributes.contentType ? rawContent : attributes.content;
+	}, [
+		contentType,
+		dynamicLinkType,
+		termSeparator,
+		rawContent,
+		attributes.content
+	] );
+
+	const newAttributes = Object.assign( {}, attributes, {
+		content: 'generateblocks/headline' === name ? content : undefined,
+		text: 'generateblocks/button' === name ? content : undefined,
+	})
 
 	const newProps = Object.assign( {}, props, {
 		InnerContent: !! attributes.contentType ? RichText.Content : RichText,
-		innerContentProps,
+		attributes: newAttributes,
 	} );
 
 	return (
