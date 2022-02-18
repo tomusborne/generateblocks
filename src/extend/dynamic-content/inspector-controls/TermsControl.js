@@ -1,5 +1,5 @@
-import SimpleSelect from '../../../../../components/simple-select';
-import { useTaxonomies } from '../../../../../hooks';
+import SimpleSelect from '../../../components/simple-select';
+import { useTaxonomies } from '../../../hooks';
 import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { TextControl } from '@wordpress/components';

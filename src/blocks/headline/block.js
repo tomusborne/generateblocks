@@ -10,7 +10,7 @@ import blockAttributes from './attributes';
 import transforms from './transforms';
 import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
-import dynamicContentAttributes from './components/dynamic-content/attributes';
+import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 
 import {
 	__,

@@ -1,7 +1,7 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { ToggleControl } from '@wordpress/components';
-import PanelArea from '../../../../components/panel-area';
+import PanelArea from '../../components/panel-area';
 import DynamicSourceControl from './inspector-controls/DynamicSourceControl';
 import ContentTypeControl from './inspector-controls/ContentTypeControl';
 import LinkTypeControl from './inspector-controls/LinkTypeControl';
@@ -10,7 +10,7 @@ import PostMetaControl from './inspector-controls/PostMetaControl';
 import AuthorMetaControl from './inspector-controls/AuthorMetaControl';
 import CommentsControl from './inspector-controls/CommentsControl';
 import TermsControl from './inspector-controls/TermsControl';
-import getIcon from '../../../../utils/get-icon';
+import getIcon from '../../utils/get-icon';
 
 export default ( { context, attributes, setAttributes, name } ) => {
 	const {

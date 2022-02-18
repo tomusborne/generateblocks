@@ -1,4 +1,3 @@
-
 import { select } from '@wordpress/data';
 
 function EmptyLink( { text } ) {

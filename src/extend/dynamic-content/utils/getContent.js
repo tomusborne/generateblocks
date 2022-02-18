@@ -18,15 +18,15 @@ const contentTypeSelectors = {
 	'author-first-name': getAuthorFirstName,
 	'author-last-name': getAuthorLastName,
 	'comments-number': getPostCommentsNumber,
-	'terms': getPostTerms,
+	terms: getPostTerms,
 };
 
 /**
  * Returns the record content by type.
  *
  * @param {string} contentType The content type to select.
- * @param {Object} record The post object.
- * @param {Object} attributes The dynamic content attributes.
+ * @param {Object} record      The post object.
+ * @param {Object} attributes  The dynamic content attributes.
  * @return {string} The selected content.
  */
 export default function getContent( contentType, record, attributes ) {
@@ -42,9 +42,9 @@ export default function getContent( contentType, record, attributes ) {
 /**
  * Returns message for not supported content types.
  *
- * @param {Object} record The post object.
+ * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
- * @returns {string}
+ * @return {string} Text for non-supported content.
  */
 function contentTypeNotSupported( record, attributes ) {
 	return sprintf(
@@ -90,7 +90,7 @@ function getPostExcerpt( record ) {
 /**
  * Returns the post date.
  *
- * @param {Object} record The post object.
+ * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
  * @return {string} The post date.
  */
@@ -113,8 +113,8 @@ function getPostDate( record, attributes ) {
 /**
  * Check if value is string or number.
  *
- * @param {mixed} value The value to check.
- * @returns {boolean}
+ * @param {*} value The value to check.
+ * @return {boolean} Whether a value is a string or a number.
  */
 function isStringOrNumber( value ) {
 	return typeof value === 'string' || typeof value === 'number';
@@ -123,8 +123,8 @@ function isStringOrNumber( value ) {
 /**
  * Returns the meta value of given key.
  *
- * @param {string} metaField The meta field name.
- * @param {Object} metaValues The post meta values.
+ * @param {string} metaField        The meta field name.
+ * @param {Object} metaValues       The post meta values.
  * @param {Object} customMetaValues The custom meta values.
  * @return {string} The meta value.
  */
@@ -147,9 +147,9 @@ const getMetaValue = ( metaField, metaValues, customMetaValues ) => {
 /**
  * Returns the post meta values.
  *
- * @param {Object} record The post object.
+ * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
- * @returns {string} The post meta value.
+ * @return {string} The post meta value.
  */
 function getPostMetaValue( record, attributes ) {
 	return getMetaValue( attributes.metaFieldName, record.meta, record.acf );
@@ -158,9 +158,9 @@ function getPostMetaValue( record, attributes ) {
 /**
  * Returns the author meta values.
  *
- * @param {Object} record The post object.
+ * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
- * @returns {string} The author meta value.
+ * @return {string} The author meta value.
  */
 function getAuthorMetaValue( record, attributes ) {
 	if ( ! record.author ) {
@@ -173,7 +173,7 @@ function getAuthorMetaValue( record, attributes ) {
 /**
  * Returns author not found.
  *
- * @returns {string}
+ * @return {string} Text when author is not found.
  */
 function authorNotFound() {
 	return __( 'Author not found.', 'generateblocks' );
@@ -183,7 +183,7 @@ function authorNotFound() {
  * Returns the author email.
  *
  * @param {Object} record The post object.
- * @returns {string} The author email.
+ * @return {string} The author email.
  */
 function getAuthorEmail( record ) {
 	if ( ! record.author ) {
@@ -197,7 +197,7 @@ function getAuthorEmail( record ) {
  * Returns the author name.
  *
  * @param {Object} record The post object.
- * @returns {string} The author name.
+ * @return {string} The author name.
  */
 function getAuthorName( record ) {
 	if ( ! record.author ) {
@@ -211,7 +211,7 @@ function getAuthorName( record ) {
  * Returns the author nickname.
  *
  * @param {Object} record The post object.
- * @returns {string} The author nickname.
+ * @return {string} The author nickname.
  */
 function getAuthorNickname( record ) {
 	if ( ! record.author ) {
@@ -225,7 +225,7 @@ function getAuthorNickname( record ) {
  * Returns the author first name.
  *
  * @param {Object} record The post object.
- * @returns {string} The author first name.
+ * @return {string} The author first name.
  */
 function getAuthorFirstName( record ) {
 	if ( ! record.author ) {
@@ -239,7 +239,7 @@ function getAuthorFirstName( record ) {
  * Returns the author last name.
  *
  * @param {Object} record The post object.
- * @returns {string} The author first name.
+ * @return {string} The author first name.
  */
 function getAuthorLastName( record ) {
 	if ( ! record.author ) {
@@ -252,9 +252,9 @@ function getAuthorLastName( record ) {
 /**
  * Returns the post comments number.
  *
- * @param {Object} record The post object.
+ * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
- * @returns {string} The post comments number.
+ * @return {string} The post comments number.
  */
 function getPostCommentsNumber( record, attributes ) {
 	const commentsLength = Array.isArray( record.comments ) ? record.comments.length : 0;
@@ -278,9 +278,9 @@ function getPostCommentsNumber( record, attributes ) {
 /**
  * Returns the post terms list.
  *
- * @param {Object} record The post object.
+ * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
- * @returns {string} The post terms list.
+ * @return {string} The post terms list.
  */
 function getPostTerms( record, attributes ) {
 	if ( Array.isArray( record.terms ) && record.terms.length > 0 ) {

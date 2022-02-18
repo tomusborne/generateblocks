@@ -1,6 +1,6 @@
-import HeadlineContentRenderer from '../HeadlineContentRenderer';
-import ButtonContentRenderer from '../../../button/components/ButtonContentRenderer';
-import filterAttributes from '../../../../utils/filter-attributes';
+import HeadlineContentRenderer from '../../blocks/headline/components/HeadlineContentRenderer';
+import ButtonContentRenderer from '../../blocks/button/components/ButtonContentRenderer';
+import filterAttributes from '../../utils/filter-attributes';
 import dynamicContentAttributes from './attributes';
 import applyContext from './utils/applyContext';
 import { RichText } from '@wordpress/block-editor';

@@ -7,7 +7,7 @@ import { Fragment } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import { compose } from '@wordpress/compose';
 import { withButtonLegacyMigration, withUniqueId } from '../../hoc';
-import withDynamicContent from '../headline/components/dynamic-content/hoc/withDynamicContent';
+import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import ButtonContentRenderer from './components/ButtonContentRenderer';
 
 const ButtonEdit = ( props ) => {

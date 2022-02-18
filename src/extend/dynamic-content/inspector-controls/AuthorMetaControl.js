@@ -1,8 +1,8 @@
 import usePostRecord from '../hooks/usePostRecord';
 import { __ } from '@wordpress/i18n';
-import AdvancedSelect from '../../../../../components/advanced-select';
+import AdvancedSelect from '../../../components/advanced-select';
 
-export default function PostMetaControl( props ) {
+export default function AuthorMetaControl( props ) {
 	const {
 		isActive = false,
 		postType,
@@ -14,17 +14,17 @@ export default function PostMetaControl( props ) {
 	const record = usePostRecord( postType, postId );
 	let options = [];
 
-	if ( record && record.meta ) {
+	if ( record && record.author && record.author.meta ) {
 		options = Object
-			.keys( record.meta )
+			.keys( record.author.meta )
 			.map( ( metaKey ) => ( { value: metaKey, label: metaKey } ) );
 	}
 
 	// ACF support
-	if ( record && record.acf ) {
+	if ( record && record.author && record.author.acf ) {
 		options = options.concat(
 			Object
-				.keys( record.acf )
+				.keys( record.author.acf )
 				.map( ( metaKey ) => ( { value: metaKey, label: metaKey } ) )
 		);
 	}
@@ -33,13 +33,13 @@ export default function PostMetaControl( props ) {
 		<>
 			{ isActive &&
 				<AdvancedSelect
-					id={ 'gblocks-select-post-meta-control' }
-					label={ __( 'Post meta field', 'generateblocks' ) }
-					placeholder={ __( 'Post meta field', 'generateblocks' ) }
+					id={ 'gblocks-select-author-meta-control' }
+					label={ __( 'Author meta field', 'generateblocks' ) }
+					placeholder={ __( 'Author meta field', 'generateblocks' ) }
 					options={ options }
 					value={ { value: metaFieldName, label: metaFieldName } }
 					isSearchable
-					isLoading={ ( ! record && ! record.meta ) }
+					isLoading={ ( ! record && ! record.author && ! record.author.meta ) }
 					onChange={ ( option ) => {
 						setAttributes( { metaFieldName: option.value } );
 					} }

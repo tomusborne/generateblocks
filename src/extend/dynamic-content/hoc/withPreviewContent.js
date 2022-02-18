@@ -6,5 +6,5 @@ export default function withPreviewContent( WrappedComponent ) {
 				<div>{ 'previews buttons will be here' }</div>
 			</>
 		);
-	}
+	};
 }
