@@ -10,7 +10,7 @@ import ComponentCSS from './components/ComponentCSS';
 import { createBlock } from '@wordpress/blocks';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
-import withDynamicContent from './components/dynamic-content/hoc/withDynamicContent';
+import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import HeadlineContentRenderer from './components/HeadlineContentRenderer';
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {

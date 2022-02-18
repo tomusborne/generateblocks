@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import AdvancedSelect from '../../../../../components/advanced-select';
+import AdvancedSelect from '../../../components/advanced-select';
 import usePostTypes from '../hooks/usePostTypes';
 import { useMemo } from '@wordpress/element';
 

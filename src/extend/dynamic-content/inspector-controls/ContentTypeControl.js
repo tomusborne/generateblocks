@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import AdvancedSelect from '../../../../../components/advanced-select';
+import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
 const getOptions = () => {

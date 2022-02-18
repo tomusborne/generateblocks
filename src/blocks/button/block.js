@@ -9,7 +9,7 @@ import saveButton from './save';
 import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
-import dynamicContentAttributes from '../headline/components/dynamic-content/attributes';
+import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 
 import {
 	__,

@@ -1,7 +1,6 @@
 import { Fragment } from '@wordpress/element';
 import InspectorControls from '../InspectorControls';
 import DynamicRenderer from '../DynamicRenderer';
-import DynamicContentRenderer from '../DynamicContentRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {

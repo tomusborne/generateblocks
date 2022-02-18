@@ -1,6 +1,6 @@
 import AdvancedSelect from '../advanced-select';
 import { __ } from '@wordpress/i18n';
-import usePostTypeRecords from '../../blocks/headline/components/dynamic-content/hooks/usePostTypeRecords';
+import usePostTypeRecords from '../../extend/dynamic-content/hooks/usePostTypeRecords';
 import { useMemo } from '@wordpress/element';
 
 export default function PostTypeRecordsSelect( { postType, label, value, ...props } ) {

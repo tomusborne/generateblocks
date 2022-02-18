@@ -1,5 +1,5 @@
 import { TextControl, ToggleControl } from '@wordpress/components';
-import SelectPostType from '../../../../headline/components/dynamic-content/components/SelectPostType';
+import SelectPostType from '../../../../../extend/dynamic-content/components/SelectPostType';
 import SimpleSelect from '../../../../../components/simple-select';
 import AuthorsSelect from '../../../../../components/authors-select';
 import { CategoriesSelect, TagsSelect } from '../../../../../components/taxonomies-select';
