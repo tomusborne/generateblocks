@@ -27,6 +27,8 @@ export default function DynamicRenderer( props ) {
 		? HeadlineContentRenderer
 		: ButtonContentRenderer;
 
+	const staticContent = 'generateblocks/headline' === name ? attributes.content : attributes.text;
+
 	const content = useMemo( () => {
 		if ( !! dynamicLinkType && 'terms' === contentType && 'generateblocks/headline' === name ) {
 			return rawContent
@@ -42,13 +44,13 @@ export default function DynamicRenderer( props ) {
 				.split( termSeparator )[ 0 ];
 		}
 
-		return !! attributes.contentType ? rawContent : attributes.content;
+		return !! attributes.contentType ? rawContent : staticContent;
 	}, [
 		contentType,
 		dynamicLinkType,
 		termSeparator,
 		rawContent,
-		attributes.content,
+		staticContent,
 	] );
 
 	const newAttributes = Object.assign( {}, attributes, {
