@@ -26,7 +26,7 @@ const getOptions = ( contentType ) => {
 	);
 };
 
-export default ( { linkType, linkMetaFieldName, contentType, onChange } ) => {
+export default ( { linkType, linkMetaFieldName, contentType, setAttributes, onChange } ) => {
 	const options = getOptions( contentType );
 	const value = options.filter( ( option ) => ( option.value === linkType ) );
 
@@ -45,7 +45,7 @@ export default ( { linkType, linkMetaFieldName, contentType, onChange } ) => {
 				<TextControl
 					label={ __( 'Meta field name', 'generateblocks' ) }
 					value={ linkMetaFieldName }
-					onChange={ ( value ) => setAttributes( { linkMetaFieldName: value } ) }
+					onChange={ ( newValue ) => setAttributes( { linkMetaFieldName: newValue } ) }
 				/>
 			}
 		</>
