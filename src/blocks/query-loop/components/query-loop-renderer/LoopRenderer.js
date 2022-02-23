@@ -8,12 +8,17 @@ function BlockPreview( {
 	blocks,
 	contextId,
 	setActiveContextId,
+	isHidden,
 } ) {
 	const blockPreviewProps = useBlockPreview( {
 		blocks,
 	} );
 
 	const handleOnClick = () => { setActiveContextId( contextId ) };
+
+	const style = {
+		display: isHidden ? 'none' : undefined,
+	};
 
 	return (
 		<div
@@ -24,6 +29,7 @@ function BlockPreview( {
 			role={ 'button' }
 			onClick={ handleOnClick }
 			onKeyPress={ handleOnClick }
+			style={ style }
 		/>
 	);
 }
@@ -61,17 +67,19 @@ export default function LoopRenderer( props ) {
 		dataContexts &&
 		dataContexts.map( ( postContext ) => (
 			<BlockContextProvider key={ postContext.postId } value={ postContext }>
-				{ postContext.postId ===
-				( activeContextId ||
-					dataContexts[ 0 ]?.postId ) ? (
-						<InnerBlocks { ...props } templateLock={ templateLock } />
-					) :
-						<MemoizedBlockPreview
-							blocks={ innerBlocks }
-							contextId={ postContext.postId }
-							setActiveContextId={ setActiveContextId }
-						/>
-					}
+
+				{ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId )
+					? ( <InnerBlocks { ...props } templateLock={ templateLock } /> )
+					: null
+				}
+
+				<MemoizedBlockPreview
+					blocks={ innerBlocks }
+					contextId={ postContext.postId }
+					setActiveContextId={ setActiveContextId }
+					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
+				/>
+
 			</BlockContextProvider>
 		) ) );
 }
