@@ -107,7 +107,6 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							contentType={ contentType }
 							linkMetaFieldName={ linkMetaFieldName }
 							setAttributes={ setAttributes }
-							onChange={ ( option ) => setAttributes( { dynamicLinkType: option.value } ) }
 						/>
 					</>
 				}

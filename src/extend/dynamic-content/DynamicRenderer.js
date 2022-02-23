@@ -40,8 +40,7 @@ export default function DynamicRenderer( props ) {
 
 		// Only return first term in buttons for now.
 		if ( 'terms' === contentType && 'generateblocks/button' === name ) {
-			return rawContent
-				.split( termSeparator )[ 0 ];
+			return rawContent.split( termSeparator )[ 0 ];
 		}
 
 		return !! attributes.contentType ? rawContent : staticContent;
