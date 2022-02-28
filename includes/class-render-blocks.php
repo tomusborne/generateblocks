@@ -74,6 +74,9 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Query loop', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_grid_block' ),
+				'provides_context' => array(
+					'generateblocks/query' => 'query',
+				),
 			)
 		);
 
@@ -100,6 +103,12 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => array( $this, 'do_button_block' ),
 			)
 		);
+
+		register_block_type( GENERATEBLOCKS_DIR . 'src/blocks/post-template', array(
+			'title' => esc_html__( 'Post template', 'generateblocks' ),
+			'render_callback' => array( $this, 'do_post_template' ),
+			'uses_context' => [ 'generateblocks/query' ],
+		) );
 	}
 
 	/**
@@ -246,11 +255,7 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		if ( empty( $attributes['isQueryLoop'] ) ) {
-			$output .= $content;
-		} else {
-			$output .= $this->do_query_loop_block( $attributes, $content, $block );
-		}
+		$output .= $content;
 
 		$output .= '</div>';
 
@@ -311,8 +316,11 @@ class GenerateBlocks_Render_Block {
 	 * @param string $content The inner blocks.
 	 * @param object $block The block data.
 	 */
-	public function do_query_loop_block( $attributes, $content, $block ) {
-		$query_attributes = is_array( $attributes[ 'query' ] ) ? $attributes[ 'query' ] : [];
+	public function do_post_template( $attributes, $content, $block ) {
+		$query_attributes = ( is_array( $block->context ) && isset( $block->context['generateblocks/query'] ) )
+			? $block->context['generateblocks/query']
+			: [];
+
 		$query_args = self::map_post_type_attributes( $query_attributes );
 
 		if ( isset( $query_args[ 'tax_query' ] ) ) {

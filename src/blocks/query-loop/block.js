@@ -19,6 +19,9 @@ registerBlockType( 'generateblocks/query-loop', {
 	],
 	attributes,
 	supports: { className: false },
+	providesContext: {
+		'generateblocks/query': 'query',
+	},
 	edit: withQueryLoop( editGridContainer ),
 	save: () => {
 		return (

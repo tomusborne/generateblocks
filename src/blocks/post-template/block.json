@@ -1,0 +1,20 @@
+{
+  	"$schema": "https://schemas.wp.org/trunk/block.json",
+  	"apiVersion": 2,
+  	"name": "generateblocks/post-template",
+  	"title": "Post template",
+  	"description": "Post template description",
+  	"category": "generateblocks",
+  	"parent": [ "generateblocks/query-loop" ],
+  	"usesContext": [
+	  	"generateblocks/query"
+	],
+  	"supports": {
+		"reusable": false,
+		"html": false,
+		"align": false,
+		"__experimentalLayout": {
+	  		"allowEditing": false
+		}
+  	}
+}
