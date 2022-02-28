@@ -5,6 +5,7 @@ import attributes from './attributes';
 import editGridContainer from '../grid/edit';
 import { InnerBlocks } from '@wordpress/block-editor';
 import withQueryLoop from './hoc/withQueryLoop';
+import './editor.scss';
 
 registerBlockType( 'generateblocks/query-loop', {
 	apiVersion: 2,
