@@ -3,7 +3,7 @@ import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 import { TextControl } from '@wordpress/components';
 
-const getOptions = ( contentType ) => {
+const getOptions = ( contentType, isPagination = false ) => {
 	let defaultOptions = [
 		{ value: '', label: __( 'Select…', 'generateblocks' ) },
 		{ value: 'single-post', label: __( 'Single post', 'generateblocks' ) },
@@ -21,6 +21,14 @@ const getOptions = ( contentType ) => {
 		];
 	}
 
+	if ( isPagination ) {
+		defaultOptions = [
+			{ value: 'pagination-prev', label: __( 'Pagination previous page', 'generateblocks' ) },
+			{ value: 'pagination-numbers', label: __( 'Pagination numbers', 'generateblocks' ) },
+			{ value: 'pagination-next', label: __( 'Pagination next page', 'generateblocks' ) },
+		];
+	}
+
 	return applyFilters(
 		'generateblocks.editor.dynamicContent.linkTypes',
 		defaultOptions,
@@ -28,8 +36,8 @@ const getOptions = ( contentType ) => {
 	);
 };
 
-export default ( { linkType, linkMetaFieldName, contentType, setAttributes } ) => {
-	const options = getOptions( contentType );
+export default ( { linkType, linkMetaFieldName, contentType, setAttributes, isPagination } ) => {
+	const options = getOptions( contentType, isPagination );
 	const value = options.filter( ( option ) => ( option.value === linkType ) );
 
 	return (

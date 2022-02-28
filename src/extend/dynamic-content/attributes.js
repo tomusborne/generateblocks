@@ -4,6 +4,11 @@ export default {
 		default: false,
 	},
 
+	isPagination: {
+		type: 'boolean',
+		default: false,
+	},
+
 	contentType: {
 		type: 'string',
 		default: '',

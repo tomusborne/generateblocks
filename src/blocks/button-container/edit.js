@@ -20,6 +20,7 @@ const ButtonContainerEdit = ( props ) => {
 		setAttributes,
 		clientId,
 		name,
+		context,
 	} = props;
 
 	const {
@@ -48,6 +49,12 @@ const ButtonContainerEdit = ( props ) => {
 			}
 		}
 	}, [] );
+
+	useEffect( () => {
+		if ( context[ 'generateblocks/gridId' ] ) {
+			setAttributes( { isPagination: true } );
+		}
+	}, [ context[ 'generateblocks/gridId' ] ] );
 
 	let htmlAttributes = {
 		className: classnames( {

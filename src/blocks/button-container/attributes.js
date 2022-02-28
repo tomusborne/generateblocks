@@ -8,6 +8,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	isPagination: {
+		type: 'boolean',
+		default: false,
+	},
 	alignment: {
 		type: 'string',
 		default: generateBlocksDefaults.buttonContainer.alignment,
