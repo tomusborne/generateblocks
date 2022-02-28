@@ -9,7 +9,7 @@ import './editor.scss';
 
 registerBlockType( 'generateblocks/query-loop', {
 	apiVersion: 2,
-	title: __( 'Query loop', 'generateblocks' ),
+	title: __( 'Query Loop', 'generateblocks' ),
 	description: __( 'Create advanced loops.', 'generateblocks' ),
 	icon: getIcon( 'grid' ),
 	category: 'generateblocks',

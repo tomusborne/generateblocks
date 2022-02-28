@@ -2,8 +2,7 @@
   	"$schema": "https://schemas.wp.org/trunk/block.json",
   	"apiVersion": 2,
   	"name": "generateblocks/post-template",
-  	"title": "Post template",
-  	"description": "Post template description",
+  	"title": "Post Template",
   	"category": "generateblocks",
   	"parent": [ "generateblocks/query-loop" ],
   	"usesContext": [

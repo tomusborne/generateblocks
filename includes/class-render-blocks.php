@@ -108,7 +108,7 @@ class GenerateBlocks_Render_Block {
 		register_block_type(
 			GENERATEBLOCKS_DIR . 'src/blocks/post-template',
 			array(
-				'title' => esc_html__( 'Post template', 'generateblocks' ),
+				'title' => esc_html__( 'Post Template', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_post_template' ),
 				'uses_context' => array(
 					'generateblocks/query',
