@@ -76,6 +76,7 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => array( $this, 'do_grid_block' ),
 				'provides_context' => array(
 					'generateblocks/query' => 'query',
+					'generateblocks/gridId' => 'uniqueId',
 				),
 			)
 		);
@@ -104,11 +105,17 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		register_block_type( GENERATEBLOCKS_DIR . 'src/blocks/post-template', array(
-			'title' => esc_html__( 'Post template', 'generateblocks' ),
-			'render_callback' => array( $this, 'do_post_template' ),
-			'uses_context' => [ 'generateblocks/query' ],
-		) );
+		register_block_type(
+			GENERATEBLOCKS_DIR . 'src/blocks/post-template',
+			array(
+				'title' => esc_html__( 'Post template', 'generateblocks' ),
+				'render_callback' => array( $this, 'do_post_template' ),
+				'uses_context' => array(
+					'generateblocks/query',
+					'generateblocks/gridId',
+				),
+			)
+		);
 	}
 
 	/**

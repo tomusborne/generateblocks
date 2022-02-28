@@ -5,6 +5,6 @@ import PostTemplateEdit from './edit';
 registerBlockType( 'generateblocks/post-template', {
 	edit: PostTemplateEdit,
 	save: () => {
-		return <InnerBlocks.Content />
-	}
+		return <InnerBlocks.Content />;
+	},
 } );

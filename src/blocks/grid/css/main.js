@@ -19,21 +19,27 @@ export default class MainCSS extends Component {
 			verticalGap,
 			verticalAlignment,
 			horizontalAlignment,
-			isQueryLoop,
 		} = attributes;
 
 		let cssObj = [];
 
-		const gridSelector = isQueryLoop ? '.gb-grid-wrapper-' + uniqueId + ' > .gb-query-wrapper' : '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
-		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .gb-grid-column';
+		const gridSelectors = [
+			'.gb-post-template-' + uniqueId + ' > .gb-post-template-wrapper',
+			'.gb-grid-wrapper-' + uniqueId + ':not(.gb-is-query-wrapper) > .block-editor-inner-blocks > .block-editor-block-list__layout',
+		];
 
-		cssObj[ gridSelector ] = [ {
+		cssObj[ gridSelectors.join( ',' ) ] = [ {
 			'align-items': verticalAlignment,
 			'justify-content': horizontalAlignment,
 			'margin-left': horizontalGap || 0 === horizontalGap ? '-' + horizontalGap + 'px' : null,
 		} ];
 
-		cssObj[ gridItemSelector ] = [ {
+		const gridItemSelectors = [
+			'.gb-post-template-' + uniqueId + ' > .gb-post-template-wrapper > .block-editor-inner-blocks',
+			'.gb-grid-wrapper-' + uniqueId + ':not(.gb-is-query-wrapper) > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column',
+		];
+
+		cssObj[ gridItemSelectors.join( ',' ) ] = [ {
 			'padding-left': valueWithUnit( horizontalGap, 'px' ),
 			'margin-bottom': valueWithUnit( verticalGap, 'px' ),
 		} ];

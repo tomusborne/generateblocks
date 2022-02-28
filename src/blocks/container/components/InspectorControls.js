@@ -104,19 +104,21 @@ export default ( props ) => {
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	useEffect( () => {
-		const parentBlockId = getBlockParents( clientId, true )[ 0 ];
+		const parentBlockId = getBlockParents( clientId, true );
 
 		if ( parentBlockId ) {
-			const parentBlock = getBlocksByClientId( parentBlockId );
+			const parentBlocks = getBlocksByClientId( parentBlockId );
 
-			if ( parentBlock ) {
+			if ( parentBlocks.length > 0 ) {
 				if (
-					( 'generateblocks/grid' === parentBlock[ 0 ].name ||
-						'generateblocks/query-loop' === parentBlock[ 0 ].name ) ||
-					( 'generateblocks/post-template' === parentBlock[ 0 ].name ||
-						'generateblocks/post-template' === parentBlock[ 0 ].name )
+					'generateblocks/grid' === parentBlocks[ 0 ].name ||
+					( parentBlocks[ 1 ] && 'generateblocks/query-loop' === parentBlocks[ 1 ].name )
 				) {
-					const parentGridId = parentBlock[ 0 ].attributes.uniqueId;
+					let parentGridId = parentBlocks[ 0 ].attributes.uniqueId;
+
+					if ( parentBlocks[ 1 ] && 'generateblocks/query-loop' === parentBlocks[ 1 ].name ) {
+						parentGridId = parentBlocks[ 1 ].attributes.uniqueId;
+					}
 
 					if ( parentGridId !== gridId ) {
 						setAttributes( {

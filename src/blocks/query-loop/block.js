@@ -21,6 +21,7 @@ registerBlockType( 'generateblocks/query-loop', {
 	supports: { className: false },
 	providesContext: {
 		'generateblocks/query': 'query',
+		'generateblocks/gridId': 'uniqueId',
 	},
 	edit: withQueryLoop( editGridContainer ),
 	save: () => {

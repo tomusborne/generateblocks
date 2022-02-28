@@ -7,14 +7,12 @@
   	"category": "generateblocks",
   	"parent": [ "generateblocks/query-loop" ],
   	"usesContext": [
-	  	"generateblocks/query"
+	  	"generateblocks/query",
+		"generateblocks/gridId"
 	],
   	"supports": {
 		"reusable": false,
 		"html": false,
-		"align": false,
-		"__experimentalLayout": {
-	  		"allowEditing": false
-		}
+		"align": false
   	}
 }
