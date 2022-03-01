@@ -5,10 +5,11 @@ import attributes from './attributes';
 import editGridContainer from '../grid/edit';
 import { InnerBlocks } from '@wordpress/block-editor';
 import withQueryLoop from './hoc/withQueryLoop';
+import './editor.scss';
 
 registerBlockType( 'generateblocks/query-loop', {
 	apiVersion: 2,
-	title: __( 'Query loop', 'generateblocks' ),
+	title: __( 'Query Loop', 'generateblocks' ),
 	description: __( 'Create advanced loops.', 'generateblocks' ),
 	icon: getIcon( 'grid' ),
 	category: 'generateblocks',
@@ -19,6 +20,10 @@ registerBlockType( 'generateblocks/query-loop', {
 	],
 	attributes,
 	supports: { className: false },
+	providesContext: {
+		'generateblocks/query': 'query',
+		'generateblocks/gridId': 'uniqueId',
+	},
 	edit: withQueryLoop( editGridContainer ),
 	save: () => {
 		return (

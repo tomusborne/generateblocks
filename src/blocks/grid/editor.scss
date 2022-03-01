@@ -1,47 +1,10 @@
-.gb-grid-wrapper:not(.gb-is-query-wrapper) {
+.gb-grid-wrapper {
     > .block-editor-inner-blocks > .block-editor-block-list__layout {
         position: relative;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
     }
-}
-
-.gb-query-wrapper {
-	position: relative;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: flex-start;
-
-	& > .block-editor-inner-blocks {
-		& > .block-editor-block-list__layout {
-			height: 100%;
-
-			& > .gb-grid-column {
-				height: 100%;
-				margin-left: 0;
-				margin-right: 0;
-
-				& > .gb-container {
-					height: 100%;
-				}
-	  		}
-		}
-
-		/* Fix for Container not knowing it's a grid item */
-		& > .gb-is-root-block {
-			height: 100%;
-
-			& > .gb-container {
-				height: 100%;
-			}
-		}
-	}
-
-	.block-editor-default-block-appender,
-	.gb-container + .block-list-appender {
-		display: none;
-	}
 }
 
 .wp-block.gb-col {

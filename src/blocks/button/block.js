@@ -18,6 +18,7 @@ import {
 import {
 	registerBlockType,
 } from '@wordpress/blocks';
+import getContentTypeLabel from '../../extend/dynamic-content/utils/getContentTypeLabel';
 
 const attributes = Object.assign(
 	{},
@@ -54,5 +55,8 @@ registerBlockType( 'generateblocks/button', {
 	edit: editButton,
 	save: saveButton,
 	deprecated,
-	usesContext: [ 'postId', 'postType' ],
+	usesContext: [ 'postId', 'postType', 'generateblocks/query' ],
+	__experimentalLabel: ( attributes ) => (
+		getContentTypeLabel( attributes, __( 'Button', 'generateblocks' ) )
+	),
 } );

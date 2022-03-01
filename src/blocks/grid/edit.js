@@ -13,7 +13,6 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
-import QueryWrapper from '../query-loop/components/QueryWrapper';
 
 const GridEdit = ( props ) => {
 	const {
@@ -68,7 +67,6 @@ const GridEdit = ( props ) => {
 			'gb-grid-wrapper': true,
 			[ `gb-grid-wrapper-${ attributes.uniqueId }` ]: true,
 			[ `${ attributes.className }` ]: undefined !== attributes.className,
-			'gb-is-query-wrapper': attributes.isQueryLoop,
 		} ),
 		id: attributes.anchor ? attributes.anchor : null,
 	};
@@ -103,16 +101,14 @@ const GridEdit = ( props ) => {
 			<div { ...blockProps }>
 				{ ( attributes.isQueryLoop || attributes.columns > 0 || selectedLayout )
 					? (
-						<QueryWrapper isQueryLoop={ attributes.isQueryLoop }>
-							<InnerBlocksRenderer
-								templateLock={ templateLock }
-								allowedBlocks={ [ 'generateblocks/container' ] }
-								renderAppender={ false }
-								clientId={ clientId }
-								uniqueId={ attributes.uniqueId }
-								attributes={ attributes }
-							/>
-						</QueryWrapper>
+						<InnerBlocksRenderer
+							templateLock={ templateLock }
+							allowedBlocks={ [ 'generateblocks/container' ] }
+							renderAppender={ false }
+							clientId={ clientId }
+							uniqueId={ attributes.uniqueId }
+							attributes={ attributes }
+						/>
 					)
 					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
 				}

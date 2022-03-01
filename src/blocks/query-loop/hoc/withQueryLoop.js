@@ -1,6 +1,6 @@
 import { Fragment, useEffect } from '@wordpress/element';
 import InspectorControls from '../components/InspectorControls';
-import QueryLoopRenderer from '../components/query-loop-renderer';
+import QueryLoopRenderer from '../components/QueryLoopRenderer';
 import queryLoopAttributes from '../attributes';
 import filterAttributes from '../../../utils/filter-attributes';
 

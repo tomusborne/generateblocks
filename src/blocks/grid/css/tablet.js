@@ -24,8 +24,13 @@ export default class TabletCSS extends Component {
 
 		let cssObj = [];
 
-		const gridSelector = isQueryLoop ? '.gb-grid-wrapper-' + uniqueId + ' > .gb-query-wrapper' : '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
-		const gridItemSelector = isQueryLoop ? gridSelector + ' > .block-editor-inner-blocks' : gridSelector + ' > .gb-grid-column';
+		const gridSelector = isQueryLoop
+			? '.gb-post-template-' + uniqueId + ' > .gb-post-template-wrapper'
+			: '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
+
+		const gridItemSelector = isQueryLoop
+			? gridSelector + ' > .block-editor-inner-blocks'
+			: gridSelector + ' > .gb-grid-column';
 
 		cssObj[ gridSelector ] = [ {
 			'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,

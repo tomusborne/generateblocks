@@ -29,6 +29,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		termSeparator,
 		dynamicLinkType,
 		linkMetaFieldName,
+		isPagination,
 	} = attributes;
 
 	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
@@ -106,8 +107,8 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							linkType={ dynamicLinkType }
 							contentType={ contentType }
 							linkMetaFieldName={ linkMetaFieldName }
+							isPagination={ isPagination }
 							setAttributes={ setAttributes }
-							onChange={ ( option ) => setAttributes( { dynamicLinkType: option.value } ) }
 						/>
 					</>
 				}
