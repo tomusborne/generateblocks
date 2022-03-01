@@ -34,7 +34,7 @@ const PAGINATION_TEMPLATE = [ 'generateblocks/button-container', {},
 		[
 			'generateblocks/button',
 			Object.assign( {}, DEFAULT_BUTTON_ATTRIBUTES, {
-				text: __( '1 2 ... 10', 'generateblocks' ),
+				text: __( '1 2 … 10', 'generateblocks' ),
 				dynamicLinkType: 'pagination-numbers',
 			} ),
 		],
@@ -118,4 +118,3 @@ export default function QueryLoopRenderer( { attributes, clientId } ) {
 		</BlockContextProvider>
 	);
 }
-
