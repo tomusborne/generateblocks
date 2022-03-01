@@ -102,6 +102,10 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Button', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_button_block' ),
+				'uses_context' => array(
+					'generateblocks/query',
+					'generateblocks/gridId',
+				),
 			)
 		);
 
@@ -319,47 +323,14 @@ class GenerateBlocks_Render_Block {
 	/**
 	 * Output the query.
 	 *
-	 * @param array  $attributes The block attributes.
-	 * @param string $content The inner blocks.
-	 * @param object $block The block data.
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content The inner blocks.
+	 * @param WP_Block $block Block instance.
 	 */
 	public function do_post_template( $attributes, $content, $block ) {
-		$query_attributes = ( is_array( $block->context ) && isset( $block->context['generateblocks/query'] ) )
-			? $block->context['generateblocks/query']
-			: [];
-
-		$query_args = self::map_post_type_attributes( $query_attributes );
-
-		if ( isset( $query_args[ 'tax_query' ] ) ) {
-			$query_args[ 'tax_query' ] = self::normalize_tax_query_attributes( $query_args['tax_query'] );
-		}
-
-		if ( isset( $query_args[ 'date_query_after' ] ) || isset( $query_args[ 'date_query_before' ] ) ) {
-			$query_args[ 'date_query' ] = self::normalize_date_query_attributes(
-				isset( $query_args[ 'date_query_after' ] ) ? $query_args[ 'date_query_after' ] : null,
-				isset( $query_args[ 'date_query_before' ] ) ? $query_args[ 'date_query_before' ] : null
-			);
-
-			unset( $query_args[ 'date_query_after' ] );
-			unset( $query_args[ 'date_query_before' ] );
-		}
-
-		if ( isset( $query_args[ 'sticky' ] ) ) {
-			$sticky_posts = get_option( 'sticky_posts' );
-			$query_args[ 'post__in' ] = $sticky_posts;
-			unset( $query_args[ 'sticky' ] );
-		}
-
-		if ( isset( $query_args[ 'tax_query_exclude' ] ) ) {
-			$not_in_tax_query = self::normalize_tax_query_attributes( $query_args['tax_query_exclude'], 'NOT IN' );
-			$query_args[ 'tax_query' ] = isset( $query_args[ 'tax_query' ] )
-				? array_merge( $query_args[ 'tax_query' ], $not_in_tax_query )
-				: $not_in_tax_query;
-
-			unset( $query_args[ 'tax_query_exclude' ] );
-		}
-
-		$the_query = new WP_Query( $query_args );
+		$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
+		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
+		$the_query = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
 
 		$content = '';
 		if ( $the_query->have_posts() ) {
@@ -385,77 +356,15 @@ class GenerateBlocks_Render_Block {
 		return $content;
 	}
 
-	public static function map_post_type_attributes( $attributes ) {
-		$attributes_map = array(
-			'page'               => 'paged',
-			'per_page'           => 'posts_per_page',
-			'search'             => 's',
-			'after'              => 'date_query_after',
-			'before'             => 'date_query_before',
-			'author'             => 'author__in',
-			'exclude'            => 'post__not_in',
-			'include'            => 'post__in',
-			'order'              => 'order',
-			'orderby'            => 'orderby',
-			'status'             => 'post_status',
-			'parent'             => 'post_parent__in',
-			'parent_exclude'     => 'post_parent__not_in',
-			'author_exclude'     => 'author__not_in',
-		);
-
-		return generateblocks_map_array_keys( $attributes, $attributes_map );
-	}
-
-	/**
-	 * Normalize the tax query attributes to be used in the WP_Query
-	 *
-	 * @param $raw_tax_query
-	 * @param string $operator
-	 *
-	 * @return array|array[]
-	 */
-	public static function normalize_tax_query_attributes( $raw_tax_query, $operator = 'IN' ) {
-		return array_map( function( $tax ) use ( $operator ) {
-			return [
-				'taxonomy' => $tax[ 'taxonomy' ],
-				'field'    => 'term_id',
-				'terms'    => $tax[ 'terms' ],
-				'operator' => $operator,
-				'include_children' => false,
-			];
-		}, $raw_tax_query );
-	}
-
-	/**
-	 * Normalize the date query attributes to be used in the WP_Query
-	 *
-	 * @param string|null $after The after date
-	 * @param string|null $before The before date
-	 *
-	 * @return array
-	 */
-	public static function normalize_date_query_attributes( $after = null, $before = null ) {
-		$result = [ 'inclusive' => true ];
-
-		if ( generateblocks_is_valid_date( $after ) ) {
-			$result[ 'after' ] = $after;
-		}
-
-		if ( generateblocks_is_valid_date( $before ) ) {
-			$result[ 'before' ] = $before;
-		}
-
-		return $result;
-	}
-
 	/**
 	 * Wrapper function for our dynamic headlines.
 	 *
 	 * @since 1.5.0
-	 * @param array  $attributes The block attributes.
-	 * @param string $content The dynamic text to display.
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content The dynamic text to display.
+	 * @param WP_Block $block Block instance.
 	 */
-	public static function do_headline_block( $attributes, $content ) {
+	public static function do_headline_block( $attributes, $content, $block ) {
 		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
 			return $content;
 		}
@@ -543,7 +452,7 @@ class GenerateBlocks_Render_Block {
 			}
 		}
 
-		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes );
+		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 
 		if ( $dynamic_link ) {
 			$dynamic_content = sprintf(
@@ -551,6 +460,9 @@ class GenerateBlocks_Render_Block {
 				$dynamic_link,
 				$dynamic_content
 			);
+		} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
+			// If we've set a dynamic link and don't have one, don't output anything.
+			return '';
 		}
 
 		$output .= $dynamic_content;
@@ -571,10 +483,11 @@ class GenerateBlocks_Render_Block {
 	 * Wrapper function for our dynamic buttons.
 	 *
 	 * @since 1.5.0
-	 * @param array  $attributes The block attributes.
-	 * @param string $content The dynamic text to display.
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content The dynamic text to display.
+	 * @param WP_Block $block Block instance.
 	 */
-	public static function do_button_block( $attributes, $content ) {
+	public static function do_button_block( $attributes, $content, $block ) {
 		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
 			return $content;
 		}
@@ -657,11 +570,14 @@ class GenerateBlocks_Render_Block {
 			if ( isset( $content['link'] ) ) {
 				$dynamic_link = $content['link'];
 			} else {
-				$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes );
+				$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 			}
 
 			if ( $dynamic_link ) {
 				$tagName = 'a';
+			} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
+				// If we've set a dynamic link and don't have one, don't output anything.
+				return '';
 			}
 
 			$output .= sprintf(

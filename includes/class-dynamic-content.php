@@ -344,9 +344,10 @@ class GenerateBlocks_Dynamic_Content {
 	/**
 	 * Get our dynamic URL.
 	 *
-	 * @param array $attributes The block attributes.
+	 * @param array  $attributes The block attributes.
+	 * @param object $block The block object.
 	 */
-	public static function get_dynamic_url( $attributes ) {
+	public static function get_dynamic_url( $attributes, $block ) {
 		$id = self::get_source_id( $attributes );
 		$author_id = get_post_field( 'post_author', $id );
 		$link_type = isset( $attributes['dynamicLinkType'] ) ? $attributes['dynamicLinkType'] : '';
@@ -378,28 +379,29 @@ class GenerateBlocks_Dynamic_Content {
 			$url = get_comments_link( $id );
 		}
 
-		if ( 'next-posts' === $link_type ) {
-			global $paged, $wp_query;
+		if ( 'pagination-next' === $link_type ) {
+			$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
+			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
+			$max_page = isset( $block->context['query']['pages'] ) ? (int) $block->context['query']['pages'] : 0;
 
-			$max_page = 0;
+			if ( ! $max_page || $max_page > $page ) {
+				$custom_query           = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
+				$custom_query_max_pages = (int) $custom_query->max_num_pages;
 
-			if ( ! $max_page ) {
-				$max_page = $wp_query->max_num_pages;
-			}
+				if ( $custom_query_max_pages && $custom_query_max_pages !== $page ) {
+					$url = esc_url( add_query_arg( $page_key, $page + 1 ) );
+				}
 
-			$paged_num = isset( $paged ) && $paged ? $paged : 1;
-			$nextpage = (int) $paged_num + 1;
-
-			if ( ! is_single() && ( $nextpage <= $max_page ) ) {
-				$url = next_posts( $max_page, false );
+				wp_reset_postdata(); // Restore original Post Data.
 			}
 		}
 
-		if ( 'previous-posts' === $link_type ) {
-			global $paged;
+		if ( 'pagination-prev' === $link_type ) {
+			$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
+			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
 
-			if ( ! is_single() && (int) $paged > 1 ) {
-				$url = previous_posts( false );
+			if ( 1 !== $page ) {
+				$url = esc_url( add_query_arg( $page_key, $page - 1 ) );
 			}
 		}
 

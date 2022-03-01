@@ -35,8 +35,9 @@ registerBlockType( 'generateblocks/button-container', {
 	supports: {
 		className: false,
 	},
-	"usesContext": [
-		"generateblocks/gridId"
+	usesContext: [
+		'generateblocks/gridId',
+		'generateblocks/query',
 	],
 	edit: editButtonContainer,
 	save: () => {

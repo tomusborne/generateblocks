@@ -3,7 +3,7 @@ import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
-import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import { InnerBlocks, useBlockProps, BlockContextProvider } from '@wordpress/block-editor';
 import BlockAppender from './components/BlockAppender';
 import { useDeviceType } from '../../hooks';
 import classnames from 'classnames';
@@ -98,12 +98,14 @@ const ButtonContainerEdit = ( props ) => {
 
 			<RootElement name={ name } clientId={ clientId }>
 				<div { ...blockProps }>
-					<InnerBlocks
-						allowedBlocks={ [ 'generateblocks/button' ] }
-						renderAppender={ () => (
-							<BlockAppender clientId={ clientId } innerBlockStyles={ generateBlocksStyling.button } />
-						) }
-					/>
+					<BlockContextProvider value={ { 'generateblocks/query': context[ 'generateblocks/query' ] } }>
+						<InnerBlocks
+							allowedBlocks={ [ 'generateblocks/button' ] }
+							renderAppender={ () => (
+								<BlockAppender clientId={ clientId } innerBlockStyles={ generateBlocksStyling.button } />
+							) }
+						/>
+					</BlockContextProvider>
 				</div>
 			</RootElement>
 		</Fragment>
