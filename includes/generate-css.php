@@ -70,6 +70,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 			$css->set_selector( '.gb-grid-wrapper .wp-block-image' );
 			$css->add_property( 'margin-bottom', '0' );
 
+			if ( generateblocks_block_has_value( 'isQueryLoop', $blockData ) ) {
+				$css->set_selector( '.gb-query-loop-wrapper > *:not(.gb-query-loop-item)' );
+				$css->add_property( 'flex-basis', '100%' );
+			}
+
 			foreach ( $blockData as $atts ) {
 				if ( ! isset( $atts['uniqueId'] ) ) {
 					continue;
