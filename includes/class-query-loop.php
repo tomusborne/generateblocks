@@ -175,7 +175,7 @@ class GenerateBlocks_Query_Loop {
 	 * @param array $defaults Block defaults.
 	 */
 	public function add_block_defaults( $defaults ) {
-		$defualts['container']['isQueryLoopItem'] = false;
+		$defaults['container']['isQueryLoopItem'] = false;
 		$defaults['gridContainer']['isQueryLoop'] = false;
 
 		return $defaults;
