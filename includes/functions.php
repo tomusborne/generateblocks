@@ -802,25 +802,30 @@ function generateblocks_block_has_value( $setting, $data ) {
 /**
  * Given an array it will change keys based on the map.
  *
- * @param array $arr
- * @param array $keyMap
+ * @param array $arr The array to check.
+ * @param array $keyMap The array to map.
  *
  * @return array|false
  *
  * @since 1.5.0
  */
-function generateblocks_map_array_keys( $arr = [], $keyMap = [] ) {
+function generateblocks_map_array_keys( $arr = array(), $keyMap = array() ) {
 	return array_combine(
-		array_map( function( $key ) use ( $keyMap ) {
-			return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
-		}, array_keys( $arr ) ), array_values( $arr ) );
+		array_map(
+			function( $key ) use ( $keyMap ) {
+				return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
+			},
+			array_keys( $arr )
+		),
+		array_values( $arr )
+	);
 }
 
 /**
  * Checks if the date is correctly formatted
  *
- * @param string $date The date to validate
- * @param string $format The allowed format
+ * @param string $date The date to validate.
+ * @param string $format The allowed format.
  *
  * @return bool
  */
