@@ -7,7 +7,14 @@ import { useBlockProps } from '@wordpress/block-editor';
 import classnames from 'classnames';
 
 const TEMPLATE = [
-	[ 'generateblocks/container', { isQueryLoop: true }, [
+	[ 'generateblocks/container', {
+		isQueryLoopItem: true,
+		width: 100,
+		lock: {
+			remove: true,
+			move: true,
+		},
+	}, [
 		[ 'generateblocks/headline', {
 			isDynamicContent: true,
 			contentType: 'post-title',

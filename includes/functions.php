@@ -768,6 +768,23 @@ function generateblocks_get_svg_shapes() {
 }
 
 /**
+ * Search an array to check if a key has a value.
+ *
+ * @since 1.5.0
+ * @param string $setting The setting to check.
+ * @param array  $data The array to search.
+ */
+function generateblocks_block_has_value( $setting, $data ) {
+	foreach ( (array) $data as $key => $val ) {
+		if ( isset( $val[ $setting ] ) && ( $val[ $setting ] || 0 === $val[ $setting ] ) ) {
+			return true;
+		}
+	}
+
+	return null;
+}
+
+/**
  * Given an array it will change keys based on the map.
  *
  * @param array $arr

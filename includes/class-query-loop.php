@@ -39,6 +39,15 @@ class GenerateBlocks_Query_Loop {
 	}
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		add_filter( 'generateblocks_attr_grid-wrapper', array( $this, 'add_grid_wrapper_attributes' ), 10, 2 );
+		add_filter( 'generateblocks_attr_grid-item', array( $this, 'add_grid_item_attributes' ), 10, 2 );
+		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
+	}
+
+	/**
 	 * Helper function that constructs a WP_Query args array from
 	 * a `Query` block properties.
 	 *
@@ -89,6 +98,11 @@ class GenerateBlocks_Query_Loop {
 		return $query_args;
 	}
 
+	/**
+	 * Map query parameters to their correct query names.
+	 *
+	 * @param array $attributes Block attributes.
+	 */
 	public static function map_post_type_attributes( $attributes ) {
 		$attributes_map = array(
 			'page'               => 'paged',
@@ -113,8 +127,8 @@ class GenerateBlocks_Query_Loop {
 	/**
 	 * Normalize the tax query attributes to be used in the WP_Query
 	 *
-	 * @param $raw_tax_query
-	 * @param string $operator
+	 * @param array  $raw_tax_query Tax query.
+	 * @param string $operator Tax operator.
 	 *
 	 * @return array|array[]
 	 */
@@ -122,9 +136,9 @@ class GenerateBlocks_Query_Loop {
 		return array_map(
 			function( $tax ) use ( $operator ) {
 				return array(
-					'taxonomy' => $tax[ 'taxonomy' ],
+					'taxonomy' => $tax['taxonomy'],
 					'field'    => 'term_id',
-					'terms'    => $tax[ 'terms' ],
+					'terms'    => $tax['terms'],
 					'operator' => $operator,
 					'include_children' => false,
 				);
@@ -153,6 +167,46 @@ class GenerateBlocks_Query_Loop {
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Add defaults for our Query settings.
+	 *
+	 * @param array $defaults Block defaults.
+	 */
+	public function add_block_defaults( $defaults ) {
+		$defaults['container']['isQueryLoopItem'] = false;
+		$defaults['gridContainer']['isQueryLoop'] = false;
+
+		return $defaults;
+	}
+
+	/**
+	 * Add HTML attributes to the Query Loop wrapper.
+	 *
+	 * @param array $attributes Existing HTML attributes.
+	 * @param array $settings Block settings.
+	 */
+	public function add_grid_wrapper_attributes( $attributes, $settings ) {
+		if ( $settings['isQueryLoop'] ) {
+			$attributes['class'] .= ' gb-query-loop-wrapper';
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Add HTML attributes to the Query Loop Item wrapper.
+	 *
+	 * @param array $attributes Existing HTML attributes.
+	 * @param array $settings Block settings.
+	 */
+	public function add_grid_item_attributes( $attributes, $settings ) {
+		if ( $settings['isQueryLoopItem'] ) {
+			$attributes['class'] .= ' ' . implode( ' ', get_post_class( 'gb-query-loop-item' ) );
+		}
+
+		return $attributes;
 	}
 }
 

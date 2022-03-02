@@ -1,8 +1,7 @@
-import { BlockContextProvider, InnerBlocks } from '@wordpress/block-editor';
+import { BlockContextProvider, InnerBlocks, __experimentalUseBlockPreview as useBlockPreview } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { memo, useMemo, useState } from '@wordpress/element';
-import { __experimentalUseBlockPreview as useBlockPreview, } from '@wordpress/block-editor';
 
 function BlockPreview( {
 	blocks,
