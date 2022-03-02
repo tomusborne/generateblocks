@@ -455,6 +455,25 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
+	 * Get the featured image URL.
+	 *
+	 * @param array $attributes The block attributes.
+	 *
+	 * @return int|boolean
+	 */
+	public static function get_featured_image_url( $attributes ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return false;
+		}
+
+		$size = isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full';
+
+		return get_the_post_thumbnail_url( $id, $size );
+	}
+
+	/**
 	 * Get our dynamic URL.
 	 *
 	 * @param array  $attributes The block attributes.

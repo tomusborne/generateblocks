@@ -45,6 +45,7 @@ class GenerateBlocks_Query_Loop {
 		add_filter( 'generateblocks_attr_grid-wrapper', array( $this, 'add_grid_wrapper_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_attr_grid-item', array( $this, 'add_grid_item_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
+		add_filter( 'generateblocks_background_image_url', array( $this, 'set_dynamic_background_image' ), 10, 2 );
 	}
 
 	/**
@@ -176,6 +177,8 @@ class GenerateBlocks_Query_Loop {
 	 */
 	public function add_block_defaults( $defaults ) {
 		$defaults['container']['isQueryLoopItem'] = false;
+		$defaults['container']['isDynamicContent'] = false;
+		$defaults['container']['contentType'] = '';
 		$defaults['gridContainer']['isQueryLoop'] = false;
 
 		return $defaults;
@@ -207,6 +210,24 @@ class GenerateBlocks_Query_Loop {
 		}
 
 		return $attributes;
+	}
+
+	/**
+	 * Set our dynamic background image.
+	 *
+	 * @param string $url Existing background image URL.
+	 * @param array  $settings Block settings.
+	 */
+	public function set_dynamic_background_image( $url, $settings ) {
+		if ( $settings['isDynamicContent'] && 'featured-image' === $settings['contentType'] ) {
+			$featured_image_url = GenerateBlocks_Dynamic_Content::get_featured_image_url( $settings );
+
+			if ( $featured_image_url ) {
+				$url = $featured_image_url;
+			}
+		}
+
+		return $url;
 	}
 }
 

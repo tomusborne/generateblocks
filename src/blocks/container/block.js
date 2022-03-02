@@ -12,6 +12,13 @@ import getIcon from '../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/block-editor';
+import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
+
+const attributes = Object.assign(
+	{},
+	blockAttributes,
+	dynamicContentAttributes
+);
 
 /**
  * Register our Container block.
@@ -32,7 +39,7 @@ registerBlockType( 'generateblocks/container', {
 		__( 'container' ),
 		__( 'generate' ),
 	],
-	attributes: blockAttributes,
+	attributes,
 	supports: {
 		align: false,
 		className: false,

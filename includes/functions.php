@@ -467,6 +467,21 @@ function generateblocks_has_number_value( $value ) {
 }
 
 /**
+ * Check if we have a Container background image to display.
+ *
+ * @since 1.5.0
+ * @param array $settings The block settings.
+ */
+function generateblocks_has_background_image( $settings ) {
+	return $settings['bgImage'] ||
+	(
+		$settings['isDynamicContent'] &&
+		'featured-image' === $settings['contentType'] &&
+		GenerateBlocks_Dynamic_Content::get_featured_image_url( $settings )
+	);
+}
+
+/**
  * Get our background image URL.
  *
  * @since 1.5.0
@@ -483,7 +498,7 @@ function generateblocks_get_background_image_url( $settings ) {
 		} else {
 			$url = $settings['bgImage']['image']['url'];
 		}
-	} else {
+	} elseif ( isset( $settings['bgImage']['image']['url'] ) ) {
 		$url = $settings['bgImage']['image']['url'];
 	}
 
@@ -522,7 +537,7 @@ function generateblocks_get_background_image_css( $type, $settings ) {
 
 	$backgroundImage = '';
 
-	if ( $settings['bgImage'] ) {
+	if ( generateblocks_has_background_image( $settings ) ) {
 		$url = generateblocks_get_background_image_url( $settings );
 
 		// Old background image overlays mixed with our gradients.

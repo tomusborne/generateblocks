@@ -18,6 +18,7 @@ import GridItem from './components/GridItem';
 import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
 import { useDispatch } from '@wordpress/data';
+import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 
 const ContainerEdit = ( props ) => {
 	const {
@@ -238,5 +239,6 @@ const ContainerEdit = ( props ) => {
 
 export default compose(
 	withUniqueId,
-	withContainerLegacyMigration
+	withContainerLegacyMigration,
+	withDynamicContent,
 )( ContainerEdit );

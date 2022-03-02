@@ -21,7 +21,7 @@ export default ( { source, onChange, help } ) => {
 	return (
 		<AdvancedSelect
 			id={ 'gblocks-select-source-control' }
-			label={ __( 'Content source', 'generateblocks' ) }
+			label={ __( 'Data source', 'generateblocks' ) }
 			help={ help }
 			placeholder={ __( 'Select source', 'generateblocks' ) }
 			options={ options }

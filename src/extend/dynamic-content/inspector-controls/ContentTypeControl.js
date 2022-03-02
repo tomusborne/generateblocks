@@ -3,7 +3,7 @@ import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
 const getOptions = ( name ) => {
-	const defaultOptions = [
+	let defaultOptions = [
 		{
 			options: [
 				{ value: '', label: __( 'Select…', 'generateblocks' ) },
@@ -44,9 +44,33 @@ const getOptions = ( name ) => {
 		);
 	}
 
+	if ( 'generateblocks/container' === name ) {
+		defaultOptions = [
+			{
+				options: [
+					{ value: '', label: __( 'Select…', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Post', 'generateblocks' ),
+				options: [
+					{ value: 'featured-image', label: __( 'Featured Image', 'generateblocks' ) },
+					{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Author', 'generateblocks' ),
+				options: [
+					{ value: 'author-meta', label: __( 'Author meta', 'generateblocks' ) },
+				],
+			},
+		];
+	}
+
 	return applyFilters(
 		'generateblocks.editor.dynamicContent.sourceTypes',
 		defaultOptions,
+		name,
 	);
 };
 
@@ -56,11 +80,15 @@ export default ( { contentType, setAttributes, name } ) => {
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
 		.filter( ( option ) => ( option.value === contentType ) );
 
+	const label = 'generateblocks/container' === name
+		? __( 'Background image type', 'generateblocks' )
+		: __( 'Data type', 'generateblocks' );
+
 	return (
 		<AdvancedSelect
 			id={ 'gblocks-select-content-type-control' }
-			label={ __( 'Content type', 'generateblocks' ) }
-			placeholder={ __( 'Content type', 'generateblocks' ) }
+			label={ label }
+			placeholder={ label }
 			options={ options }
 			value={ value }
 			onChange={ ( option ) => {
