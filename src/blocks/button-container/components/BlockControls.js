@@ -35,6 +35,7 @@ export default ( props ) => {
 		alignment,
 		alignmentTablet,
 		alignmentMobile,
+		isPagination,
 	} = attributes;
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
@@ -42,42 +43,45 @@ export default ( props ) => {
 
 	return (
 		<BlockControls>
-			<ToolbarGroup>
-				<ToolbarButton
-					className="gblocks-add-new-button"
-					icon={ getIcon( 'insert' ) }
-					label={ __( 'Add Button', 'generateblocks' ) }
-					onClick={ () => {
-						const thisBlock = getBlocksByClientId( clientId )[ 0 ];
 
-						if ( thisBlock ) {
-							const childBlocks = thisBlock.innerBlocks;
-							const keys = Object.keys( childBlocks );
-							const lastKey = keys[ keys.length - 1 ];
+			{ ! isPagination &&
+				<ToolbarGroup>
+					<ToolbarButton
+						className="gblocks-add-new-button"
+						icon={ getIcon( 'insert' ) }
+						label={ __( 'Add Button', 'generateblocks' ) }
+						onClick={ () => {
+							const thisBlock = getBlocksByClientId( clientId )[ 0 ];
 
-							if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
-								const blockToCopyId = childBlocks[ lastKey ].clientId;
+							if ( thisBlock ) {
+								const childBlocks = thisBlock.innerBlocks;
+								const keys = Object.keys( childBlocks );
+								const lastKey = keys[ keys.length - 1 ];
 
-								if ( blockToCopyId ) {
-									const blockToCopy = getBlocksByClientId( blockToCopyId )[ 0 ];
+								if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
+									const blockToCopyId = childBlocks[ lastKey ].clientId;
 
-									const clonedBlock = cloneBlock(
-										blockToCopy,
-										{
-											uniqueId: '',
-										}
-									);
+									if ( blockToCopyId ) {
+										const blockToCopy = getBlocksByClientId( blockToCopyId )[ 0 ];
 
-									insertBlocks( clonedBlock, undefined, clientId );
+										const clonedBlock = cloneBlock(
+											blockToCopy,
+											{
+												uniqueId: '',
+											}
+										);
+
+										insertBlocks( clonedBlock, undefined, clientId );
+									}
+								} else if ( 0 === childBlocks.length ) {
+									insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
 								}
-							} else if ( 0 === childBlocks.length ) {
-								insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
 							}
-						}
-					} }
-					showTooltip
-				/>
-			</ToolbarGroup>
+						} }
+						showTooltip
+					/>
+				</ToolbarGroup>
+			}
 
 			{ 'Desktop' === deviceType && (
 				<AlignmentToolbar

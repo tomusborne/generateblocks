@@ -61,7 +61,11 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							setAttributes={ setAttributes }
 						/>
 
-						<ContentTypeControl contentType={ contentType } setAttributes={ setAttributes } />
+						<ContentTypeControl
+							contentType={ contentType }
+							setAttributes={ setAttributes }
+							name={ name }
+						/>
 
 						<PostDateControl
 							isActive={ 'post-date' === contentType }

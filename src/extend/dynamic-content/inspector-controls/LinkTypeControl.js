@@ -24,9 +24,12 @@ const getOptions = ( contentType, isPagination = false ) => {
 	if ( isPagination ) {
 		defaultOptions = [
 			{ value: 'pagination-prev', label: __( 'Pagination previous page', 'generateblocks' ) },
-			{ value: 'pagination-numbers', label: __( 'Pagination numbers', 'generateblocks' ) },
 			{ value: 'pagination-next', label: __( 'Pagination next page', 'generateblocks' ) },
 		];
+
+		if ( 'pagination-numbers' === contentType ) {
+			defaultOptions = [];
+		}
 	}
 
 	return applyFilters(
@@ -38,6 +41,11 @@ const getOptions = ( contentType, isPagination = false ) => {
 
 export default ( { linkType, linkMetaFieldName, contentType, setAttributes, isPagination } ) => {
 	const options = getOptions( contentType, isPagination );
+
+	if ( options.length === 0 ) {
+		return null;
+	}
+
 	const value = options.filter( ( option ) => ( option.value === linkType ) );
 
 	return (
