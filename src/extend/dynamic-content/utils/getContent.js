@@ -18,6 +18,7 @@ const contentTypeSelectors = {
 	'author-first-name': getAuthorFirstName,
 	'author-last-name': getAuthorLastName,
 	'comments-number': getPostCommentsNumber,
+	'pagination-numbers': getPaginationNumbers,
 	terms: getPostTerms,
 };
 
@@ -290,4 +291,13 @@ function getPostTerms( record, attributes ) {
 	}
 
 	return 'No terms';
+}
+
+/**
+ * Return the pagination numbers.
+ *
+ * @return {string} The pagination numbers.
+ */
+function getPaginationNumbers() {
+	return __( '1 … 2 3', 'generateblocks' );
 }

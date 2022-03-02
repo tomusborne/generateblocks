@@ -34,9 +34,10 @@ class GenerateBlocks_Dynamic_Content {
 	/**
 	 * Get the requested dynamic content.
 	 *
-	 * @param array $attributes The block attributes.
+	 * @param array    $attributes The block attributes.
+	 * @param WP_Block $block Block instance.
 	 */
-	public static function get_content( $attributes ) {
+	public static function get_content( $attributes, $block ) {
 		switch ( $attributes['contentType'] ) {
 			case 'post-title':
 				return self::get_post_title( $attributes );
@@ -73,6 +74,9 @@ class GenerateBlocks_Dynamic_Content {
 
 			case 'author-last-name':
 				return self::get_user_data( self::get_source_author_id( $attributes ), 'last_name' );
+
+			case 'pagination-numbers':
+				return self::get_paginate_links( $attributes, $block );
 		}
 	}
 
@@ -108,12 +112,11 @@ class GenerateBlocks_Dynamic_Content {
 	/**
 	 * Get the post excerpt
 	 *
-	 * @param $attributes
+	 * @param array $attributes The block attributes.
 	 *
 	 * @return string
 	 */
 	public static function get_post_excerpt( $attributes ) {
-		error_log( self::get_source_id( $attributes ) );
 		return get_the_excerpt( self::get_source_id( $attributes ) );
 	}
 
@@ -274,7 +277,7 @@ class GenerateBlocks_Dynamic_Content {
 
 				if ( ! is_wp_error( $term_link ) ) {
 					if ( $is_button ) {
-						$term_items[ $index ]['link'] = esc_url( get_term_link( $term, $taxonomy ) );
+						$term_items[ $index ]['attributes']['href'] = esc_url( get_term_link( $term, $taxonomy ) );
 					} else {
 						$term_items[ $index ] = sprintf(
 							'<span class="post-term-item term-%3$s"><a href="%1$s">%2$s</a></span>',
@@ -295,6 +298,114 @@ class GenerateBlocks_Dynamic_Content {
 		$term_output = $is_button ? $term_items : implode( $sep, $term_items );
 
 		return $term_output;
+	}
+
+	/**
+	 * Get the pagination numbers.
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param WP_Block $block Block instance.
+	 */
+	public static function get_paginate_links( $attributes, $block ) {
+		$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
+		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$max_page = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
+
+		global $wp_query;
+
+		$block_query = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
+
+		// `paginate_links` works with the global $wp_query, so we have to
+		// temporarily switch it with our custom query.
+		$prev_wp_query = $wp_query;
+		$wp_query      = $block_query; // phpcs:ignore -- No way around overwriting core global.
+		$total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
+
+		$paginate_args = array(
+			'base'      => '%_%',
+			'format'    => "?$page_key=%#%",
+			'current'   => max( 1, $page ),
+			'total'     => $total,
+			'prev_next' => false,
+		);
+
+		if ( 1 !== $page ) {
+			/**
+			 * `paginate_links` doesn't use the provided `format` when the page is `1`.
+			 * This is great for the main query as it removes the extra query params
+			 * making the URL shorter, but in the case of multiple custom queries is
+			 * problematic. It results in returning an empty link which ends up with
+			 * a link to the current page.
+			 *
+			 * A way to address this is to add a `fake` query arg with no value that
+			 * is the same for all custom queries. This way the link is not empty and
+			 * preserves all the other existent query args.
+			 *
+			 * @see https://developer.wordpress.org/reference/functions/paginate_links/
+			 *
+			 * The proper fix of this should be in core. Track Ticket:
+			 * @see https://core.trac.wordpress.org/ticket/53868
+			 *
+			 * TODO: After two WP versions (starting from the WP version the core patch landed),
+			 * we should remove this and call `paginate_links` with the proper new arg.
+			 */
+			$paginate_args['add_args'] = array( 'cst' => '' );
+		}
+
+		// We still need to preserve `paged` query param if exists, as is used
+		// for Queries that inherit from global context.
+		$paged = empty( $_GET['paged'] ) ? null : (int) $_GET['paged']; // phpcs:ignore -- No data processing happening.
+
+		if ( $paged ) {
+			$paginate_args['add_args'] = array( 'paged' => $paged );
+		}
+
+		$links = paginate_links( $paginate_args );
+		wp_reset_postdata(); // Restore original Post Data.
+		$wp_query = $prev_wp_query; // phpcs:ignore -- Restoring core global.
+
+		$doc = self::load_html( $links );
+
+		if ( ! $doc ) {
+			return;
+		}
+
+		$data = array();
+		$html_nodes = $doc->getElementsByTagName( '*' );
+
+		foreach ( $html_nodes as $index => $node ) {
+			// phpcs:ignore -- DOMDocument doesn't use snake-case.
+			if ( 'span' === $node->tagName || 'a' === $node->tagName ) {
+				$data[ $index ]['href'] = $node->getAttribute( 'href' ) ? $node->getAttribute( 'href' ) : '';
+				$data[ $index ]['aria-current'] = $node->getAttribute( 'aria-current' ) ? $node->getAttribute( 'aria-current' ) : '';
+				$data[ $index ]['class'] = $node->getAttribute( 'class' ) ? $node->getAttribute( 'class' ) : '';
+
+				// phpcs:ignore -- DOMDocument doesn't use snake-case.
+				foreach ( $node->childNodes as $childNode ) {
+					$data[ $index ]['content'] = $doc->saveHTML( $childNode );
+				}
+			}
+		}
+
+		$paginate_links = array_values( $data );
+		$link_items = array();
+
+		foreach ( (array) $paginate_links as $index => $link ) {
+			$link_items[ $index ] = array(
+				'content' => $link['content'],
+				'attributes' => array(
+					'href' => $link['href'],
+					'aria-current' => $link['aria-current'],
+					'class' => $link['class'],
+				),
+			);
+		}
+
+		if ( empty( $link_items ) ) {
+			return '';
+		}
+
+		return $link_items;
 	}
 
 	/**
@@ -381,8 +492,8 @@ class GenerateBlocks_Dynamic_Content {
 
 		if ( 'pagination-next' === $link_type ) {
 			$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
-			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
-			$max_page = isset( $block->context['query']['pages'] ) ? (int) $block->context['query']['pages'] : 0;
+			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+			$max_page = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
 
 			if ( ! $max_page || $max_page > $page ) {
 				$custom_query           = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
@@ -398,7 +509,7 @@ class GenerateBlocks_Dynamic_Content {
 
 		if ( 'pagination-prev' === $link_type ) {
 			$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
-			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
+			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 
 			if ( 1 !== $page ) {
 				$url = esc_url( add_query_arg( $page_key, $page - 1 ) );
@@ -411,7 +522,7 @@ class GenerateBlocks_Dynamic_Content {
 	/**
 	 * Get user data.
 	 *
-	 * @param int    $author_id The ID of the user.
+	 * @param int         $author_id The ID of the user.
 	 * @param string|void $field The field to look up.
 	 */
 	public static function get_user_data( $author_id, $field ) {
@@ -546,6 +657,7 @@ class GenerateBlocks_Dynamic_Content {
 				strpos( $node->getAttribute( 'class' ), 'gb-button-text' ) !== false ||
 				strpos( $node->getAttribute( 'class' ), 'gb-headline-text' ) !== false
 			) {
+				// phpcs:ignore -- DOMDocument doesn't use snake-case.
 				foreach ( $node->childNodes as $childNode ) {
 					$static_content .= $doc->saveHTML( $childNode );
 				}

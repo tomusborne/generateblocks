@@ -329,7 +329,7 @@ class GenerateBlocks_Render_Block {
 	 */
 	public function do_post_template( $attributes, $content, $block ) {
 		$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
-		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ];
+		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$the_query = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
 
 		$content = '';
@@ -379,7 +379,7 @@ class GenerateBlocks_Render_Block {
 				$allow_empty_content = true;
 			}
 		} else {
-			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes, $block );
 		}
 
 		if ( ! $dynamic_content && '0' !== $dynamic_content && ! $allow_empty_content ) {
@@ -505,7 +505,7 @@ class GenerateBlocks_Render_Block {
 				$allow_empty_content = true;
 			}
 		} else {
-			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes );
+			$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes, $block );
 		}
 
 		if ( ! $dynamic_content && '0' !== $dynamic_content && ! $allow_empty_content ) {
@@ -567,17 +567,31 @@ class GenerateBlocks_Render_Block {
 
 			$tagName = 'span';
 
-			if ( isset( $content['link'] ) ) {
-				$dynamic_link = $content['link'];
-			} else {
-				$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
-			}
+			$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 
-			if ( $dynamic_link ) {
+			if ( isset( $content['attributes']['href'] ) || $dynamic_link ) {
 				$tagName = 'a';
 			} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
 				// If we've set a dynamic link and don't have one, don't output anything.
 				return '';
+			}
+
+			$button_attributes = array(
+				'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
+				'class' => implode( ' ', $classNames ),
+				'href' => 'a' === $tagName ? $dynamic_link : null,
+				'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+				'target' => ! empty( $settings['target'] ) ? '_blank' : null,
+			);
+
+			if ( isset( $content['attributes'] ) ) {
+				foreach ( $content['attributes'] as $attribute => $value ) {
+					if ( 'class' === $attribute ) {
+						$button_attributes[ $attribute ] .= ' ' . $value;
+					} else {
+						$button_attributes[ $attribute ] = $value;
+					}
+				}
 			}
 
 			$output .= sprintf(
@@ -585,13 +599,7 @@ class GenerateBlocks_Render_Block {
 				$tagName,
 				generateblocks_attr(
 					'dynamic-button',
-					array(
-						'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
-						'class' => implode( ' ', $classNames ),
-						'href' => 'a' === $tagName ? $dynamic_link : null,
-						'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
-						'target' => ! empty( $settings['target'] ) ? '_blank' : null,
-					),
+					$button_attributes,
 					$settings
 				)
 			);

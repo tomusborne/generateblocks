@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
-const getOptions = () => {
+const getOptions = ( name ) => {
 	const defaultOptions = [
 		{
 			options: [
@@ -33,14 +33,25 @@ const getOptions = () => {
 		},
 	];
 
+	if ( 'generateblocks/button' === name ) {
+		defaultOptions.push(
+			{
+				label: __( 'Pagination', 'generateblocks' ),
+				options: [
+					{ value: 'pagination-numbers', label: __( 'Pagination numbers', 'generateblocks' ) },
+				],
+			},
+		);
+	}
+
 	return applyFilters(
 		'generateblocks.editor.dynamicContent.sourceTypes',
 		defaultOptions,
 	);
 };
 
-export default ( { contentType, setAttributes } ) => {
-	const options = getOptions();
+export default ( { contentType, setAttributes, name } ) => {
+	const options = getOptions( name );
 	const value = options
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
 		.filter( ( option ) => ( option.value === contentType ) );
