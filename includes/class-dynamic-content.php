@@ -262,7 +262,9 @@ class GenerateBlocks_Dynamic_Content {
 			if ( $is_button ) {
 				$term_items[ $index ] = array(
 					'content' => $term->name,
-					'term_slug' => $term->slug,
+					'attributes' => array(
+						'class' => 'post-term-item post-term-' . $term->slug,
+					),
 				);
 			} else {
 				$term_items[ $index ] = sprintf(

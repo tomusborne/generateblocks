@@ -557,14 +557,6 @@ class GenerateBlocks_Render_Block {
 		$output = '';
 
 		foreach ( (array) $dynamic_content as $content ) {
-			if ( isset( $content['term_slug'] ) ) {
-				if ( ! in_array( 'post-term-item', $classNames ) ) {
-					$classNames[] = 'post-term-item';
-				}
-
-				$classNames[] = 'term-' . $content['term_slug'];
-			}
-
 			$tagName = 'span';
 
 			$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
