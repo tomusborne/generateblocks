@@ -455,13 +455,13 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
-	 * Get the featured image URL.
+	 * Get the dynamic background image url.
 	 *
 	 * @param array $attributes The block attributes.
 	 *
 	 * @return int|boolean
 	 */
-	public static function get_featured_image_url( $attributes ) {
+	public static function get_dynamic_background_image_url( $attributes ) {
 		$id = self::get_source_id( $attributes );
 
 		if ( ! $id ) {
@@ -470,7 +470,9 @@ class GenerateBlocks_Dynamic_Content {
 
 		$size = isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full';
 
-		return get_the_post_thumbnail_url( $id, $size );
+		if ( isset( $attributes['contentType'] ) && 'featured-image' === $attributes['contentType'] ) {
+			return get_the_post_thumbnail_url( $id, $size );
+		}
 	}
 
 	/**

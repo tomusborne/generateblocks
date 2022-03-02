@@ -477,7 +477,7 @@ function generateblocks_has_background_image( $settings ) {
 	(
 		$settings['isDynamicContent'] &&
 		'featured-image' === $settings['contentType'] &&
-		GenerateBlocks_Dynamic_Content::get_featured_image_url( $settings )
+		GenerateBlocks_Dynamic_Content::get_dynamic_background_image_url( $settings )
 	);
 }
 

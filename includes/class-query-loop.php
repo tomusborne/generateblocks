@@ -220,7 +220,7 @@ class GenerateBlocks_Query_Loop {
 	 */
 	public function set_dynamic_background_image( $url, $settings ) {
 		if ( $settings['isDynamicContent'] && 'featured-image' === $settings['contentType'] ) {
-			$featured_image_url = GenerateBlocks_Dynamic_Content::get_featured_image_url( $settings );
+			$featured_image_url = GenerateBlocks_Dynamic_Content::get_dynamic_background_image_url( $settings );
 
 			if ( $featured_image_url ) {
 				$url = $featured_image_url;
