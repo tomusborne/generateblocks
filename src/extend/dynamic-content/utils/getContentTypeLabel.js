@@ -26,6 +26,7 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 			'author-first-name': __( 'Author first name', 'generateblocks' ),
 			'author-last-name': __( 'Author last name', 'generateblocks' ),
 			'author-meta': __( 'Author meta', 'generateblocks' ),
+			'pagination-numbers': __( 'Page numbers', 'generateblocks' ),
 		};
 
 		const linkLabels = {
@@ -37,7 +38,6 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 			'next-posts': __( 'Next posts', 'generateblocks' ),
 			'term-archives': __( 'Term archives', 'generateblocks' ),
 			'pagination-prev': __( 'Previous page', 'generateblocks' ),
-			'pagination-numbers': __( 'Page numbers', 'generateblocks' ),
 			'pagination-next': __( 'Next page', 'generateblocks' ),
 		};
 
