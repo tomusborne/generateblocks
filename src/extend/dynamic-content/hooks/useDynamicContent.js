@@ -19,6 +19,10 @@ export default ( attributes ) => {
 	const recordLoad = 'terms' === attributes.contentType ? [ 'terms' ] : [];
 	const recordLoadOptions = 'terms' === attributes.contentType ? { taxonomy: attributes.termTaxonomy } : {};
 
+	if ( 'featured-image' === attributes.contentType ) {
+		recordLoad.push( 'featured-image' );
+	}
+
 	const record = usePostRecord( postType, postId, recordLoad, recordLoadOptions );
 
 	if ( ! record ) {

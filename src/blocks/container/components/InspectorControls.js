@@ -1573,7 +1573,7 @@ export default ( props ) => {
 							) : ( // These options is only for people not using the deprecated overlay option.
 								<Fragment>
 									{ (
-										bgImage.id ||
+										( bgImage && bgImage.id ) ||
 										( isDynamicContent && '' !== contentType ) ) &&
 										<SelectControl
 											label={ __( 'Image Size', 'generateblocks' ) }

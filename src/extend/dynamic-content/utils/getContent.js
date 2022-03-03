@@ -19,6 +19,7 @@ const contentTypeSelectors = {
 	'author-last-name': getAuthorLastName,
 	'comments-number': getPostCommentsNumber,
 	'pagination-numbers': getPaginationNumbers,
+	'featured-image': getPostFeaturedImage,
 	terms: getPostTerms,
 };
 
@@ -300,4 +301,15 @@ function getPostTerms( record, attributes ) {
  */
 function getPaginationNumbers() {
 	return __( '1 … 2 3', 'generateblocks' );
+}
+
+/**
+ * Returns post featured image.
+ *
+ * @param {Object} record     The post object.
+ * @param {Object} attributes The dynamic content attributes.
+ * @return {string} The featured image url.
+ */
+function getPostFeaturedImage( record, attributes ) {
+	return "http://generate.local/wp-content/uploads/2013/03/soworthloving-wallpaper-1.jpg";
 }

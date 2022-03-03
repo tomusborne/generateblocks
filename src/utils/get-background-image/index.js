@@ -21,8 +21,6 @@ export default function getBackgroundImageCSS( type, props ) {
 		gradientColorStopOne,
 		gradientColorStopTwo,
 		gradientDirection,
-		isDynamicContent,
-		contentType,
 	} = attributes;
 
 	let gradientValue = '';
@@ -53,7 +51,7 @@ export default function getBackgroundImageCSS( type, props ) {
 
 	const backgroundColorValue = hexToRGBA( backgroundColor, backgroundColorOpacity );
 
-	if ( !! bgImage || ( isDynamicContent && '' !== contentType ) ) {
+	if ( !! bgImage ) {
 		let url = bgImage?.image?.url;
 
 		// @todo: Needs to get the dynamic image here.
