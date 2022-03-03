@@ -468,9 +468,13 @@ class GenerateBlocks_Dynamic_Content {
 			return false;
 		}
 
+		if ( empty( $attributes['contentType'] ) ) {
+			return;
+		}
+
 		$size = isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full';
 
-		if ( isset( $attributes['contentType'] ) && 'featured-image' === $attributes['contentType'] ) {
+		if ( 'featured-image' === $attributes['contentType'] ) {
 			return get_the_post_thumbnail_url( $id, $size );
 		}
 	}
