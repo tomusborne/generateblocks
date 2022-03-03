@@ -40,7 +40,8 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	useEffect( () => {
 		if (
 			'generateblocks/container' === name &&
-			'featured-image' === contentType &&
+			isDynamicContent &&
+			'' !== contentType &&
 			isQueryLoopItem
 		) {
 			setAttributes( {
