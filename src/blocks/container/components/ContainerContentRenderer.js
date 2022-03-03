@@ -11,6 +11,7 @@ import classnames from 'classnames';
 import { useInnerBlocksCount } from '../../../hooks';
 import { useDispatch } from '@wordpress/data';
 import ComponentCSS from './ComponentCSS';
+import getBackgroundImageUrl from '../../../utils/get-background-image-url';
 
 export default function ContainerContentRenderer( props ) {
 	const {
@@ -30,7 +31,6 @@ export default function ContainerContentRenderer( props ) {
 		backgroundColor,
 		isGrid,
 		bgOptions,
-		bgImage,
 		bgImageInline,
 	} = attributes;
 
@@ -59,20 +59,18 @@ export default function ContainerContentRenderer( props ) {
 		id: anchor ? anchor : null,
 	};
 
-	if ( bgImageInline && bgImage.image && bgImage.image.url ) {
-		const backgroundUrl = applyFilters( 'generateblocks.editor.bgImageURL', bgImage.image.url, props );
+	const backgroundUrl = getBackgroundImageUrl( props );
 
-		if ( backgroundUrl ) {
-			let imageAttributeName = 'background-image';
+	if ( bgImageInline && backgroundUrl ) {
+		let imageAttributeName = 'background-image';
 
-			if ( 'element' !== bgOptions.selector ) {
-				imageAttributeName = '--' + imageAttributeName;
-			}
-
-			htmlAttributes.style = {
-				[ imageAttributeName ]: 'url(' + backgroundUrl + ')',
-			};
+		if ( 'element' !== bgOptions.selector ) {
+			imageAttributeName = '--' + imageAttributeName;
 		}
+
+		htmlAttributes.style = {
+			[ imageAttributeName ]: 'url(' + backgroundUrl + ')',
+		};
 	}
 
 	htmlAttributes = applyFilters(
@@ -112,9 +110,9 @@ export default function ContainerContentRenderer( props ) {
 											onClick={ () => selectBlock( clientId ) }
 											aria-label={ __( 'Select Container', 'generateblocks' ) }
 										>
-												<span className="gblocks-container-selector__icon">
-													{ getIcon( 'container' ) }
-												</span>
+											<span className="gblocks-container-selector__icon">
+												{ getIcon( 'container' ) }
+											</span>
 										</Button>;
 									}
 

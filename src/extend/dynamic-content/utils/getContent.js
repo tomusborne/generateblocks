@@ -311,5 +311,7 @@ function getPaginationNumbers() {
  * @return {string} The featured image url.
  */
 function getPostFeaturedImage( record, attributes ) {
-	return "http://generate.local/wp-content/uploads/2013/03/soworthloving-wallpaper-1.jpg";
+	const size = attributes.bgImageSize || 'full';
+
+	return record.media?.media_details?.sizes?.[ size ]?.source_url || record.media?.source_url;
 }

@@ -64,7 +64,7 @@ export default function DynamicRenderer( props ) {
 	const newAttributes = Object.assign( {}, attributes, {
 		content: 'generateblocks/headline' === name ? content : undefined,
 		text: 'generateblocks/button' === name ? content : undefined,
-		// bgImage: 'generateblocks/container' === name ? content : undefined,
+		dynamicImage: 'generateblocks/container' === name ? content : undefined,
 	} );
 
 	const newProps = Object.assign( {}, props, {

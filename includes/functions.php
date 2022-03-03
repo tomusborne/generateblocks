@@ -476,8 +476,7 @@ function generateblocks_has_background_image( $settings ) {
 	return $settings['bgImage'] ||
 	(
 		$settings['isDynamicContent'] &&
-		'' !== $settings['contentType'] &&
-		GenerateBlocks_Dynamic_Content::get_dynamic_background_image_url( $settings )
+		'' !== $settings['contentType']
 	);
 }
 
