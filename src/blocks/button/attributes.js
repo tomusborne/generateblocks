@@ -457,6 +457,9 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.button.iconSizeUnit,
 	},
+	blockVersion: {
+		type: 'number',
+	},
 	// deprecated since 1.2.0
 	elementId: {
 		type: 'string',
