@@ -298,7 +298,7 @@ add_filter( 'generateblocks_attr_container', 'generateblocks_set_inline_backgrou
  * @param array $settings Block settings.
  */
 function generateblocks_set_inline_background_style( $attributes, $settings ) {
-	if ( $settings['bgImageInline'] ) {
+	if ( generateblocks_has_background_image( $settings ) && $settings['bgImageInline'] ) {
 		$url = generateblocks_get_background_image_url( $settings );
 
 		if ( $url ) {

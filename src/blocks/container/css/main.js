@@ -77,6 +77,9 @@ export default class MainCSS extends Component {
 			textTransform,
 			shapeDividers,
 			gridId,
+			isDynamicContent,
+			contentType,
+			bgImageInline,
 		} = attributes;
 
 		let containerWidthPreview = containerWidth;
@@ -91,7 +94,7 @@ export default class MainCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		const hasBgImage = !! bgImage;
+		const hasBgImage = !! bgImage || ( isDynamicContent && '' !== contentType );
 		const backgroundImageValue = getBackgroundImageCSS( 'image', this.props );
 		const gradientValue = getBackgroundImageCSS( 'gradient', this.props );
 
@@ -113,7 +116,7 @@ export default class MainCSS extends Component {
 
 		if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'background-image': backgroundImageValue,
+				'background-image': ! bgImageInline ? backgroundImageValue : null,
 				'background-size': bgOptions.size,
 				'background-position': bgOptions.position,
 				'background-repeat': bgOptions.repeat,

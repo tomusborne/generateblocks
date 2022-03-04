@@ -96,6 +96,8 @@ export default ( props ) => {
 		orderMobile,
 		align,
 		shapeDividers,
+		isDynamicContent,
+		contentType,
 	} = attributes;
 
 	const {
@@ -1522,10 +1524,21 @@ export default ( props ) => {
 						</div>
 					</BaseControl>
 
-					{ !! bgImage && (
+					{ isDynamicContent && '' !== contentType &&
+						<Notice
+							className="gblocks-option-notice"
+							status="info"
+							isDismissible={ false }
+						>
+							{ __( 'Using featured image as dynamic background.', 'generateblocks' ) }
+						</Notice>
+					}
+
+					{ ( !! bgImage || ( isDynamicContent && '' !== contentType ) ) && (
 						<Fragment>
 							<ToggleControl
 								label={ __( 'Use inline style', 'generateblocks' ) }
+								disabled={ isDynamicContent && '' !== contentType && isQueryLoopItem }
 								checked={ !! bgImageInline }
 								onChange={ ( nextImageInline ) => {
 									setAttributes( {
@@ -1559,7 +1572,9 @@ export default ( props ) => {
 								</Fragment>
 							) : ( // These options is only for people not using the deprecated overlay option.
 								<Fragment>
-									{ 'undefined' !== typeof bgImage.id && bgImage.id &&
+									{ (
+										( bgImage && bgImage.id ) ||
+										( isDynamicContent && '' !== contentType ) ) &&
 										<SelectControl
 											label={ __( 'Image Size', 'generateblocks' ) }
 											value={ bgImageSize }

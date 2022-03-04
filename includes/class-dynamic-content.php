@@ -32,6 +32,14 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
+	 * Constructor.
+	 */
+	public function __construct() {
+		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
+		add_filter( 'generateblocks_background_image_url', array( $this, 'set_dynamic_background_image' ), 10, 2 );
+	}
+
+	/**
 	 * Get the requested dynamic content.
 	 *
 	 * @param array    $attributes The block attributes.
@@ -455,6 +463,31 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
+	 * Get the dynamic background image url.
+	 *
+	 * @param array $attributes The block attributes.
+	 *
+	 * @return int|boolean
+	 */
+	public static function get_dynamic_background_image_url( $attributes ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return false;
+		}
+
+		if ( empty( $attributes['contentType'] ) ) {
+			return;
+		}
+
+		$size = isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full';
+
+		if ( 'featured-image' === $attributes['contentType'] ) {
+			return get_the_post_thumbnail_url( $id, $size );
+		}
+	}
+
+	/**
 	 * Get our dynamic URL.
 	 *
 	 * @param array  $attributes The block attributes.
@@ -667,6 +700,37 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $static_content;
+	}
+
+	/**
+	 * Set our dynamic background image.
+	 *
+	 * @param string $url Existing background image URL.
+	 * @param array  $settings Block settings.
+	 */
+	public function set_dynamic_background_image( $url, $settings ) {
+		if ( $settings['isDynamicContent'] && '' !== $settings['contentType'] ) {
+			$dynamic_image_url = self::get_dynamic_background_image_url( $settings );
+
+			if ( $dynamic_image_url ) {
+				$url = $dynamic_image_url;
+			}
+		}
+
+		return $url;
+	}
+
+	/**
+	 * Add defaults for our Query settings.
+	 *
+	 * @param array $defaults Block defaults.
+	 */
+	public function add_block_defaults( $defaults ) {
+		$defaults['container']['isDynamicContent'] = false;
+		$defaults['container']['contentType'] = '';
+		$defaults['container']['dynamicLinkType'] = '';
+
+		return $defaults;
 	}
 }
 

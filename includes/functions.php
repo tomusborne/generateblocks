@@ -467,6 +467,20 @@ function generateblocks_has_number_value( $value ) {
 }
 
 /**
+ * Check if we have a Container background image to display.
+ *
+ * @since 1.5.0
+ * @param array $settings The block settings.
+ */
+function generateblocks_has_background_image( $settings ) {
+	return $settings['bgImage'] ||
+	(
+		$settings['isDynamicContent'] &&
+		'' !== $settings['contentType']
+	);
+}
+
+/**
  * Get our background image URL.
  *
  * @since 1.5.0
@@ -483,7 +497,7 @@ function generateblocks_get_background_image_url( $settings ) {
 		} else {
 			$url = $settings['bgImage']['image']['url'];
 		}
-	} else {
+	} elseif ( isset( $settings['bgImage']['image']['url'] ) ) {
 		$url = $settings['bgImage']['image']['url'];
 	}
 
@@ -522,7 +536,7 @@ function generateblocks_get_background_image_css( $type, $settings ) {
 
 	$backgroundImage = '';
 
-	if ( $settings['bgImage'] ) {
+	if ( generateblocks_has_background_image( $settings ) ) {
 		$url = generateblocks_get_background_image_url( $settings );
 
 		// Old background image overlays mixed with our gradients.
@@ -787,25 +801,30 @@ function generateblocks_block_has_value( $setting, $data ) {
 /**
  * Given an array it will change keys based on the map.
  *
- * @param array $arr
- * @param array $keyMap
+ * @param array $arr The array to check.
+ * @param array $keyMap The array to map.
  *
  * @return array|false
  *
  * @since 1.5.0
  */
-function generateblocks_map_array_keys( $arr = [], $keyMap = [] ) {
+function generateblocks_map_array_keys( $arr = array(), $keyMap = array() ) {
 	return array_combine(
-		array_map( function( $key ) use ( $keyMap ) {
-			return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
-		}, array_keys( $arr ) ), array_values( $arr ) );
+		array_map(
+			function( $key ) use ( $keyMap ) {
+				return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
+			},
+			array_keys( $arr )
+		),
+		array_values( $arr )
+	);
 }
 
 /**
  * Checks if the date is correctly formatted
  *
- * @param string $date The date to validate
- * @param string $format The allowed format
+ * @param string $date The date to validate.
+ * @param string $format The allowed format.
  *
  * @return bool
  */
