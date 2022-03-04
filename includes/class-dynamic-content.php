@@ -37,6 +37,7 @@ class GenerateBlocks_Dynamic_Content {
 	public function __construct() {
 		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
 		add_filter( 'generateblocks_background_image_url', array( $this, 'set_dynamic_background_image' ), 10, 2 );
+		add_filter( 'generateblocks_button_count', array( $this, 'update_button_count' ), 10, 3 );
 	}
 
 	/**
@@ -731,6 +732,28 @@ class GenerateBlocks_Dynamic_Content {
 		$defaults['container']['dynamicLinkType'] = '';
 
 		return $defaults;
+	}
+
+	/**
+	 * Update button count depending on dynamic content.
+	 *
+	 * @param int    $button_count How many buttons the block container has.
+	 * @param array  $attributes The block attributes.
+	 * @param object $block The block data.
+	 */
+	public function update_button_count( $button_count, $attributes, $block ) {
+		$inner_blocks = $block->parsed_block['innerBlocks'];
+
+		foreach ( (array) $inner_blocks as $inner_block ) {
+			$block_attributes = $inner_block['attrs'];
+
+			// Remove button from count if it has no dynamic content.
+			if ( ! empty( $block_attributes['contentType'] ) && ! self::get_content( $block_attributes, $block ) ) {
+				$button_count--;
+			}
+		}
+
+		return $button_count;
 	}
 }
 

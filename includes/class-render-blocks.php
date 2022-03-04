@@ -320,6 +320,19 @@ class GenerateBlocks_Render_Block {
 			return $content;
 		}
 
+		if ( isset( $block->parsed_block['innerBlocks'] ) ) {
+			$button_count = apply_filters(
+				'generateblocks_button_count',
+				count( (array) $block->parsed_block['innerBlocks'] ),
+				$attributes,
+				$block
+			);
+
+			if ( 0 === $button_count ) {
+				return;
+			}
+		}
+
 		$defaults = generateblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
