@@ -128,8 +128,9 @@ class GenerateBlocks_Render_Block {
 	 * @since 1.2.0
 	 * @param array  $attributes The block attributes.
 	 * @param string $content The inner blocks.
+	 * @param object $block The block data.
 	 */
-	public function do_container_block( $attributes, $content ) {
+	public function do_container_block( $attributes, $content, $block ) {
 		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
 			return $content;
 		}
@@ -156,7 +157,8 @@ class GenerateBlocks_Render_Block {
 					array(
 						'class' => implode( ' ', $gridItemClassNames ),
 					),
-					$settings
+					$settings,
+					$block
 				)
 			);
 		}
@@ -174,7 +176,18 @@ class GenerateBlocks_Render_Block {
 			$classNames[] = 'align' . $settings['align'];
 		}
 
-		$tagName = apply_filters( 'generateblocks_container_tagname', $settings['tagName'], $attributes );
+		// Pass the dynamic url to our URL attribute.
+		if ( isset( $settings['url'] ) ) {
+			if ( $settings['isDynamicContent'] && '' !== $settings['dynamicLinkType'] ) {
+				$attributes['url'] = GenerateBlocks_Dynamic_Content::get_dynamic_url( $settings, $block );
+			}
+		}
+
+		$tagName = apply_filters(
+			'generateblocks_container_tagname',
+			$settings['tagName'],
+			$attributes
+		);
 
 		$allowedTagNames = apply_filters(
 			'generateblocks_container_allowed_tagnames',
@@ -186,7 +199,8 @@ class GenerateBlocks_Render_Block {
 				'aside',
 				'a',
 			),
-			$attributes
+			$attributes,
+			$block
 		);
 
 		if ( ! in_array( $tagName, $allowedTagNames ) ) {
@@ -202,16 +216,36 @@ class GenerateBlocks_Render_Block {
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
-				$settings
+				$settings,
+				$block
 			)
 		);
 
-		$output = apply_filters( 'generateblocks_after_container_open', $output, $attributes );
+		$output = apply_filters(
+			'generateblocks_after_container_open',
+			$output,
+			$attributes,
+			$block
+		);
+
 		$output .= '<div class="gb-inside-container">';
-		$output = apply_filters( 'generateblocks_inside_container', $output, $attributes );
+
+		$output = apply_filters(
+			'generateblocks_inside_container',
+			$output,
+			$attributes,
+			$block
+		);
+
 		$output .= $content;
 		$output .= '</div>';
-		$output = apply_filters( 'generateblocks_before_container_close', $output, $attributes );
+
+		$output = apply_filters(
+			'generateblocks_before_container_close',
+			$output,
+			$attributes,
+			$block
+		);
 
 		$output .= sprintf(
 			'</%s>',
@@ -323,7 +357,8 @@ class GenerateBlocks_Render_Block {
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
-				$settings
+				$settings,
+				$block
 			)
 		);
 
@@ -420,7 +455,12 @@ class GenerateBlocks_Render_Block {
 			$classNames[] = 'gb-headline-text';
 		}
 
-		$tagName = apply_filters( 'generateblocks_dynamic_headline_tagname', $settings['element'], $attributes );
+		$tagName = apply_filters(
+			'generateblocks_dynamic_headline_tagname',
+			$settings['element'],
+			$attributes,
+			$block
+		);
 
 		$allowedTagNames = apply_filters(
 			'generateblocks_dynamic_headline_allowed_tagnames',
@@ -434,7 +474,8 @@ class GenerateBlocks_Render_Block {
 				'div',
 				'p',
 			),
-			$attributes
+			$attributes,
+			$block
 		);
 
 		if ( ! in_array( $tagName, $allowedTagNames ) ) {
@@ -450,7 +491,8 @@ class GenerateBlocks_Render_Block {
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
-				$settings
+				$settings,
+				$block
 			)
 		);
 
@@ -606,7 +648,8 @@ class GenerateBlocks_Render_Block {
 				generateblocks_attr(
 					'dynamic-button',
 					$button_attributes,
-					$settings
+					$settings,
+					$block
 				)
 			);
 

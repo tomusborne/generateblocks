@@ -39,7 +39,7 @@ const getOptions = ( contentType, isPagination = false ) => {
 	);
 };
 
-export default ( { linkType, linkMetaFieldName, contentType, setAttributes, isPagination } ) => {
+export default ( { linkType, linkMetaFieldName, contentType, setAttributes, isPagination, isActive } ) => {
 	const options = getOptions( contentType, isPagination );
 
 	if ( options.length === 0 ) {
@@ -50,21 +50,25 @@ export default ( { linkType, linkMetaFieldName, contentType, setAttributes, isPa
 
 	return (
 		<>
-			<AdvancedSelect
-				id={ 'gblocks-select-link-type-control' }
-				label={ __( 'Link type', 'generateblocks' ) }
-				placeholder={ __( 'Link type', 'generateblocks' ) }
-				options={ options }
-				value={ value }
-				onChange={ ( option ) => setAttributes( { dynamicLinkType: option.value } ) }
-			/>
+			{ isActive &&
+				<>
+					<AdvancedSelect
+						id={ 'gblocks-select-link-type-control' }
+						label={ __( 'Link type', 'generateblocks' ) }
+						placeholder={ __( 'Link type', 'generateblocks' ) }
+						options={ options }
+						value={ value }
+						onChange={ ( option ) => setAttributes( { dynamicLinkType: option.value } ) }
+					/>
 
-			{ 'post-meta' === linkType &&
-				<TextControl
-					label={ __( 'Meta field name', 'generateblocks' ) }
-					value={ linkMetaFieldName }
-					onChange={ ( newValue ) => setAttributes( { linkMetaFieldName: newValue } ) }
-				/>
+					{ 'post-meta' === linkType &&
+						<TextControl
+							label={ __( 'Meta field name', 'generateblocks' ) }
+							value={ linkMetaFieldName }
+							onChange={ ( newValue ) => setAttributes( { linkMetaFieldName: newValue } ) }
+						/>
+					}
+				</>
 			}
 		</>
 	);

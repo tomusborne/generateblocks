@@ -126,6 +126,13 @@ export default ( { context, attributes, setAttributes, name } ) => {
 						/>
 
 						<LinkTypeControl
+							isActive={
+								'generateblocks/container' !== name ||
+								(
+									'generateblocks/container' === name &&
+									'undefined' !== typeof attributes.url
+								)
+							}
 							linkType={ dynamicLinkType }
 							contentType={ contentType }
 							linkMetaFieldName={ linkMetaFieldName }
