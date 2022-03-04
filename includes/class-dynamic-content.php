@@ -728,6 +728,7 @@ class GenerateBlocks_Dynamic_Content {
 	public function add_block_defaults( $defaults ) {
 		$defaults['container']['isDynamicContent'] = false;
 		$defaults['container']['contentType'] = '';
+		$defaults['container']['dynamicLinkType'] = '';
 
 		return $defaults;
 	}
