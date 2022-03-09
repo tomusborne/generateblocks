@@ -4,6 +4,7 @@ import withButtonLegacyMigration from './withButtonLegacyMigration';
 import withContainerLegacyMigration from './withContainerLegacyMigration';
 import withButtonContainerLegacyMigration from './withButtonContainerLegacyMigration';
 import './withDocumentation';
+import './withResponsiveTabs';
 
 export {
 	withUniqueId,

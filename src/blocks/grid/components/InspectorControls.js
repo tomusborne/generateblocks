@@ -1,4 +1,3 @@
-import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { Fragment } from '@wordpress/element';
 import UnitPicker from '../../../components/unit-picker';
@@ -14,7 +13,6 @@ export default ( props ) => {
 		attributes,
 		state,
 		deviceType,
-		setDeviceType,
 		setAttributes,
 		blockDefaults,
 	} = props;
@@ -35,12 +33,6 @@ export default ( props ) => {
 
 	return (
 		<InspectorControls>
-			<ResponsiveTabs
-				{ ...props }
-				selectedDevice={ deviceType }
-				onClick={ setDeviceType }
-			/>
-
 			<PanelArea
 				{ ...props }
 				id={ 'gridLayout' }
