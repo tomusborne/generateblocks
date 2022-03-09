@@ -116,18 +116,3 @@
 		flex-basis: 16.6%;
 	}
 }
-
-.gblocks-parameter-component {
-  	position: relative;
-  	margin-bottom: 24px;
-
-	.gblocks-remove-parameter {
-	  	position: absolute;
-	  	top: -4px;
-	  	right: -1px;
-
-	  	&.components-button.has-icon.has-text svg {
-		  	margin-right: 0;
-		}
-	}
-}

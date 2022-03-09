@@ -40,7 +40,7 @@ export default ( { attributes, setAttributes } ) => {
 		<InspectorControls>
 			<PanelArea
 				id={ 'queryLoopControls' }
-				title={ __( 'Query loop', 'generateblocks' ) }
+				title={ __( 'Query Parameters', 'generateblocks' ) }
 				initialOpen={ true }
 			>
 				<ParameterList
@@ -49,9 +49,11 @@ export default ( { attributes, setAttributes } ) => {
 					removeParameter={ removeParameter }
 				/>
 
-				<AddQueryParameterButton onClick={ () => {
-					setDisplayParameterSelect( true );
-				} } />
+				{ ! displayParameterSelect &&
+					<AddQueryParameterButton onClick={ () => {
+						setDisplayParameterSelect( true );
+					} } />
+				}
 
 				{ displayParameterSelect &&
 					<SelectQueryParameter

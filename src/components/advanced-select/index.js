@@ -1,6 +1,7 @@
 
 import Select from 'react-select';
 import LabelAndHelpWrapper from '../LabelAndHelpWrapper';
+import './editor.scss';
 
 export default ( props ) => {
 	const customStyles = {

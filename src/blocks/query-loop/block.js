@@ -10,7 +10,7 @@ import './editor.scss';
 registerBlockType( 'generateblocks/query-loop', {
 	apiVersion: 2,
 	title: __( 'Query Loop', 'generateblocks' ),
-	description: __( 'Create advanced loops.', 'generateblocks' ),
+	description: __( 'Build a list of posts from any post type using advanced query parameters.', 'generateblocks' ),
 	icon: getIcon( 'grid' ),
 	category: 'generateblocks',
 	keywords: [

@@ -56,3 +56,22 @@
 		}
 	}
 }
+
+.gblocks-parameter-component {
+	position: relative;
+	margin-bottom: 24px;
+
+  .gblocks-remove-parameter {
+		position: absolute;
+		top: 0;
+		right: 0;
+		justify-content: flex-end !important;
+    	height: auto;
+
+		&.components-button.has-icon.has-text svg {
+			margin-right: 0;
+			height: 15px;
+			width: 15px;
+	  }
+  }
+}

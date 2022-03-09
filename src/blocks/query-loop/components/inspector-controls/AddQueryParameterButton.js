@@ -3,10 +3,10 @@ import { __ } from '@wordpress/i18n';
 
 export default ( props ) => {
 	return (
-		<div style={ { textAlign: 'center', marginBottom: '1.33em' } }>
+		<div style={ { marginBottom: '1.33em' } }>
 			<Button
 				isPrimary
-				text={ __( 'Add query parameter', 'generateblocks' ) }
+				text={ __( 'Add Parameter', 'generateblocks' ) }
 				{ ...props }
 			/>
 		</div>
