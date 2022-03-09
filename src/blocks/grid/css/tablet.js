@@ -29,7 +29,7 @@ export default class TabletCSS extends Component {
 			'margin-left': horizontalGapTablet || 0 === horizontalGapTablet ? '-' + horizontalGapTablet + 'px' : null,
 		} ];
 
-		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block' ] = [ {
+		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column' ] = [ {
 			'padding-left': valueWithUnit( horizontalGapTablet, 'px' ),
 			'margin-bottom': verticalGapTablet || 0 === verticalGapTablet ? valueWithUnit( verticalGapTablet, 'px' ) : null,
 		} ];
