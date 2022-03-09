@@ -114,3 +114,11 @@
 	margin-top: 0;
 	margin-bottom: 0;
 }
+
+.gblocks-block-icon {
+	padding: 1px;
+}
+
+.block-editor-list-view-leaf.is-selected .gblocks-block-icon path {
+    fill: currentColor !important;
+}
