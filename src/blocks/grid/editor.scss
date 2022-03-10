@@ -1,6 +1,10 @@
 .gb-grid-wrapper {
 	margin: 0;
 
+	.gb-grid-column {
+		box-sizing: border-box;
+	}
+
     > .block-editor-inner-blocks > .block-editor-block-list__layout {
         position: relative;
         display: flex;
