@@ -14,6 +14,7 @@ import {
 	Spinner,
 	ToggleControl,
 	SelectControl,
+	TextControl,
 } from '@wordpress/components';
 
 import {
@@ -107,6 +108,34 @@ class App extends Component {
 						title={ __( 'Settings', 'generateblocks' ) }
 					>
 						<div className="gblocks-dashboard-panel-row-wrapper">
+							<PanelRow className="gblocks-container-width">
+								<div className="gblocks-units">px</div>
+
+								<TextControl
+									label={ __( 'Default Container Width', 'generateblocks' ) }
+									help={ !! generateBlocksSettings.gpContainerWidth ?
+										__( 'The default width of the Container block is set by GeneratePress in the Customizer.', 'generateblocks' ) :
+										__( 'The default width of the Container block.', 'generateblocks' )
+									}
+									disabled={ !! generateBlocksSettings.gpContainerWidth }
+									value={ generateBlocksSettings.gpContainerWidth || this.getSetting( 'container_width' ) }
+									onChange={ ( value ) => {
+										this.setState( {
+											settings: {
+												...this.state.settings,
+												container_width: value,
+											},
+										} );
+									} }
+								/>
+
+								{ !! generateBlocksSettings.gpContainerWidthLink &&
+									<a href={ generateBlocksSettings.gpContainerWidthLink } target="_blank" rel="noopener noreferrer" style={ { fontSize: '12px' } }>
+										{ __( 'Go to option →', 'generateblocks' ) }
+									</a>
+								}
+							</PanelRow>
+
 							<PanelRow className="gblocks-css-print-method">
 								<SelectControl
 									label={ __( 'CSS Print Method', 'generateblocks' ) }
