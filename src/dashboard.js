@@ -112,6 +112,7 @@ class App extends Component {
 								<div className="gblocks-units">px</div>
 
 								<TextControl
+									type="number"
 									label={ __( 'Default Container Width', 'generateblocks' ) }
 									help={ !! generateBlocksSettings.gpContainerWidth ?
 										__( 'The default width of the Container block is set by GeneratePress in the Customizer.', 'generateblocks' ) :
