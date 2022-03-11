@@ -83,11 +83,13 @@
 
 	&__button-no-label {
 		padding: 4px;
+		border: 0;
 	}
 
 	&__indicator {
-		width: 30px;
-		height: 20px;
+		width: 25px;
+		height: 25px;
+		border-radius: 50%;
 		background: linear-gradient(-45deg,transparent 48%,#ddd 0,#ddd 52%,transparent 0);
 		border: 1px solid #ddd;
 	}
