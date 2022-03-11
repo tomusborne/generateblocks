@@ -1,0 +1,13 @@
+.gblocks-color-group {
+    border-top: 1px solid #ddd;
+
+	& > .components-dropdown {
+		display: block;
+
+		.gblocks-color-component-toggle {
+			&__button {
+				border-top: 0;
+			}
+		}
+	}
+}
