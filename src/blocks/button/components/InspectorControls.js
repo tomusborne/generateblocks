@@ -6,6 +6,7 @@ import { Fragment, useEffect, useState } from '@wordpress/element';
 import TypographyControls from '../../../components/typography';
 import { applyFilters } from '@wordpress/hooks';
 import DimensionsControl from '../../../components/dimensions';
+import DimensionsGroup from '../../../components/dimensions-group';
 import { Button, TabPanel, TextControl } from '@wordpress/components';
 import ColorPicker from '../../../components/color-picker';
 import GradientControl from '../../../components/gradient';
@@ -139,207 +140,34 @@ export default ( props ) => {
 				id={ 'buttonSpacing' }
 				state={ state }
 			>
-
-				{ 'Desktop' === deviceType && (
-					<Fragment>
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Padding', 'generateblocks' ) }
-							attrTop={ 'paddingTop' }
-							attrRight={ 'paddingRight' }
-							attrBottom={ 'paddingBottom' }
-							attrLeft={ 'paddingLeft' }
-							attrUnit={ 'paddingUnit' }
-							attrSyncUnits={ 'paddingSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'margin' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTop' }
-							attrRight={ 'marginRight' }
-							attrBottom={ 'marginBottom' }
-							attrLeft={ 'marginLeft' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Size', 'generateblocks' ) }
-							attrTop={ 'borderSizeTop' }
-							attrRight={ 'borderSizeRight' }
-							attrBottom={ 'borderSizeBottom' }
-							attrLeft={ 'borderSizeLeft' }
-							attrSyncUnits={ 'borderSizeSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Radius', 'generateblocks' ) }
-							attrTop={ 'borderRadiusTopLeft' }
-							attrRight={ 'borderRadiusTopRight' }
-							attrBottom={ 'borderRadiusBottomRight' }
-							attrLeft={ 'borderRadiusBottomLeft' }
-							attrUnit={ 'borderRadiusUnit' }
-							attrSyncUnits={ 'borderRadiusSyncUnits' }
-							labelTop={ __( 'T-Left', 'generateblocks' ) }
-							labelRight={ __( 'T-Right', 'generateblocks' ) }
-							labelBottom={ __( 'B-Right', 'generateblocks' ) }
-							labelLeft={ __( 'B-Left', 'generateblocks' ) }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-					</Fragment>
-				) }
-
-				{ 'Tablet' === deviceType && (
-					<Fragment>
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Padding', 'generateblocks' ) }
-							attrTop={ 'paddingTopTablet' }
-							attrRight={ 'paddingRightTablet' }
-							attrBottom={ 'paddingBottomTablet' }
-							attrLeft={ 'paddingLeftTablet' }
-							attrUnit={ 'paddingUnit' }
-							attrSyncUnits={ 'paddingSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'margin' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTopTablet' }
-							attrRight={ 'marginRightTablet' }
-							attrBottom={ 'marginBottomTablet' }
-							attrLeft={ 'marginLeftTablet' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Size', 'generateblocks' ) }
-							attrTop={ 'borderSizeTopTablet' }
-							attrRight={ 'borderSizeRightTablet' }
-							attrBottom={ 'borderSizeBottomTablet' }
-							attrLeft={ 'borderSizeLeftTablet' }
-							attrSyncUnits={ 'borderSizeSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Radius', 'generateblocks' ) }
-							attrTop={ 'borderRadiusTopLeftTablet' }
-							attrRight={ 'borderRadiusTopRightTablet' }
-							attrBottom={ 'borderRadiusBottomRightTablet' }
-							attrLeft={ 'borderRadiusBottomLeftTablet' }
-							attrUnit={ 'borderRadiusUnit' }
-							attrSyncUnits={ 'borderRadiusSyncUnits' }
-							labelTop={ __( 'T-Left', 'generateblocks' ) }
-							labelRight={ __( 'T-Right', 'generateblocks' ) }
-							labelBottom={ __( 'B-Right', 'generateblocks' ) }
-							labelLeft={ __( 'B-Left', 'generateblocks' ) }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-					</Fragment>
-				) }
-
-				{ 'Mobile' === deviceType && (
-					<Fragment>
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Padding', 'generateblocks' ) }
-							attrTop={ 'paddingTopMobile' }
-							attrRight={ 'paddingRightMobile' }
-							attrBottom={ 'paddingBottomMobile' }
-							attrLeft={ 'paddingLeftMobile' }
-							attrUnit={ 'paddingUnit' }
-							attrSyncUnits={ 'paddingSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTopMobile' }
-							attrRight={ 'marginRightMobile' }
-							attrBottom={ 'marginBottomMobile' }
-							attrLeft={ 'marginLeftMobile' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Size', 'generateblocks' ) }
-							attrTop={ 'borderSizeTopMobile' }
-							attrRight={ 'borderSizeRightMobile' }
-							attrBottom={ 'borderSizeBottomMobile' }
-							attrLeft={ 'borderSizeLeftMobile' }
-							attrSyncUnits={ 'borderSizeSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Radius', 'generateblocks' ) }
-							attrTop={ 'borderRadiusTopLeftMobile' }
-							attrRight={ 'borderRadiusTopRightMobile' }
-							attrBottom={ 'borderRadiusBottomRightMobile' }
-							attrLeft={ 'borderRadiusBottomLeftMobile' }
-							attrUnit={ 'borderRadiusUnit' }
-							attrSyncUnits={ 'borderRadiusSyncUnits' }
-							labelTop={ __( 'T-Left', 'generateblocks' ) }
-							labelRight={ __( 'T-Right', 'generateblocks' ) }
-							labelBottom={ __( 'B-Right', 'generateblocks' ) }
-							labelLeft={ __( 'B-Left', 'generateblocks' ) }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-					</Fragment>
-				) }
+				<DimensionsGroup
+					{ ...props }
+					deviceType={ deviceType }
+					dimensions={
+						[
+							{
+								type: 'padding',
+								label: __( 'Padding', 'generateblocks' ),
+								units: [ 'px', 'em', '%' ],
+							},
+							{
+								type: 'margin',
+								label: __( 'Margin', 'generateblocks' ),
+								units: [ 'px', 'em', '%' ],
+							},
+							{
+								type: 'borderSize',
+								label: __( 'Border Size', 'generateblocks' ),
+								units: [ 'px' ],
+							},
+							{
+								type: 'borderRadius',
+								label: __( 'Border Radius', 'generateblocks' ),
+								units: [ 'px', 'em', '%' ],
+							},
+						]
+					}
+				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'buttonSpacing', props, state ) }
 			</PanelArea>
@@ -551,22 +379,13 @@ export default ( props ) => {
 				{ 'Desktop' === deviceType && !! icon && (
 					<Fragment>
 						{ ! removeText &&
-						<Fragment>
 							<DimensionsControl
 								{ ...props }
 								device={ deviceType }
-								type={ 'padding' }
+								type={ 'iconPadding' }
 								label={ __( 'Padding', 'generateblocks' ) }
-								attrTop={ 'iconPaddingTop' }
-								attrRight={ 'iconPaddingRight' }
-								attrBottom={ 'iconPaddingBottom' }
-								attrLeft={ 'iconPaddingLeft' }
-								attrUnit={ 'iconPaddingUnit' }
-								attrSyncUnits={ 'iconPaddingSyncUnits' }
-								defaults={ blockDefaults }
 								units={ [ 'px', 'em', '%' ] }
 							/>
-						</Fragment>
 						}
 
 						<UnitPicker
@@ -620,22 +439,13 @@ export default ( props ) => {
 				{ 'Tablet' === deviceType && !! icon &&
 				<Fragment>
 					{ ! removeText &&
-					<Fragment>
 						<DimensionsControl
 							{ ...props }
 							device={ deviceType }
-							type={ 'padding' }
+							type={ 'iconPadding' }
 							label={ __( 'Padding', 'generateblocks' ) }
-							attrTop={ 'iconPaddingTopTablet' }
-							attrRight={ 'iconPaddingRightTablet' }
-							attrBottom={ 'iconPaddingBottomTablet' }
-							attrLeft={ 'iconPaddingLeftTablet' }
-							attrUnit={ 'iconPaddingUnit' }
-							attrSyncUnits={ 'iconPaddingSyncUnits' }
-							defaults={ blockDefaults }
 							units={ [ 'px', 'em', '%' ] }
 						/>
-					</Fragment>
 					}
 
 					<UnitPicker
@@ -690,22 +500,13 @@ export default ( props ) => {
 				{ 'Mobile' === deviceType && !! icon && (
 					<Fragment>
 						{ ! removeText &&
-						<Fragment>
 							<DimensionsControl
 								{ ...props }
 								device={ deviceType }
-								type={ 'padding' }
+								type={ 'iconPadding' }
 								label={ __( 'Padding', 'generateblocks' ) }
-								attrTop={ 'iconPaddingTopMobile' }
-								attrRight={ 'iconPaddingRightMobile' }
-								attrBottom={ 'iconPaddingBottomMobile' }
-								attrLeft={ 'iconPaddingLeftMobile' }
-								attrUnit={ 'iconPaddingUnit' }
-								attrSyncUnits={ 'iconPaddingSyncUnits' }
-								defaults={ blockDefaults }
 								units={ [ 'px', 'em', '%' ] }
 							/>
-						</Fragment>
 						}
 
 						<UnitPicker
