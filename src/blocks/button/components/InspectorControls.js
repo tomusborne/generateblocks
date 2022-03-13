@@ -6,12 +6,12 @@ import { Fragment, useEffect, useState } from '@wordpress/element';
 import TypographyControls from '../../../components/typography';
 import { applyFilters } from '@wordpress/hooks';
 import DimensionsControl from '../../../components/dimensions';
-import { Button, TabPanel, TextControl } from '@wordpress/components';
+import { TabPanel } from '@wordpress/components';
 import ColorPicker from '../../../components/color-picker';
 import GradientControl from '../../../components/gradient';
-import UnitPicker from '../../../components/unit-picker';
 import IconPicker from '../../../components/icon-picker';
 import { InspectorControls } from '@wordpress/block-editor';
+import NumberControl from '../../../components/number-control';
 
 const getFontSizePlaceholder = ( uniqueId ) => {
 	let placeholder = '17';
@@ -49,9 +49,6 @@ export default ( props ) => {
 		borderColorOpacity,
 		borderColorHover,
 		borderColorHoverOpacity,
-		iconSize,
-		iconSizeTablet,
-		iconSizeMobile,
 		iconSizeUnit,
 	} = attributes;
 
@@ -568,52 +565,6 @@ export default ( props ) => {
 							/>
 						</Fragment>
 						}
-
-						<UnitPicker
-							label={ __( 'Icon Size', 'generateblocks' ) }
-							value={ iconSizeUnit }
-							units={ [ 'px', 'em' ] }
-							onClick={ ( value ) => {
-								setAttributes( {
-									iconSizeUnit: value,
-								} );
-							} }
-						/>
-
-						<div className="components-base-control components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ iconSize || '' }
-								step={ 'em' === iconSizeUnit ? .1 : 1 }
-								onChange={ ( value ) => {
-									setAttributes( {
-										iconSize: value,
-									} );
-								} }
-								onBlur={ () => {
-									setAttributes( {
-										iconSize: parseFloat( iconSize ),
-									} );
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									setAttributes( {
-										iconSize: blockDefaults.iconSize,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
 					</Fragment>
 				) }
 
@@ -637,53 +588,6 @@ export default ( props ) => {
 						/>
 					</Fragment>
 					}
-
-					<UnitPicker
-						label={ __( 'Icon Size', 'generateblocks' ) }
-						value={ iconSizeUnit }
-						units={ [ 'px', 'em' ] }
-						onClick={ ( value ) => {
-							setAttributes( {
-								iconSizeUnit: value,
-							} );
-						} }
-					/>
-
-					<div className="components-base-control components-gblocks-typography-control__inputs">
-						<TextControl
-							type={ 'number' }
-							value={ iconSizeTablet || '' }
-							step={ 'em' === iconSizeUnit ? .1 : 1 }
-							placeholder="1"
-							onChange={ ( value ) => {
-								setAttributes( {
-									iconSizeTablet: value,
-								} );
-							} }
-							onBlur={ () => {
-								setAttributes( {
-									iconSizeTablet: parseFloat( iconSizeTablet ),
-								} );
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
-
-						<Button
-							isSmall
-							isSecondary
-							className="components-gblocks-default-number"
-							onClick={ () => {
-								setAttributes( {
-									iconSizeTablet: blockDefaults.iconSizeTablet,
-								} );
-							} }
-						>
-							{ __( 'Reset', 'generateblocks' ) }
-						</Button>
-					</div>
 				</Fragment>
 				}
 
@@ -707,55 +611,22 @@ export default ( props ) => {
 							/>
 						</Fragment>
 						}
-
-						<UnitPicker
-							label={ __( 'Icon Size', 'generateblocks' ) }
-							value={ iconSizeUnit }
-							units={ [ 'px', 'em' ] }
-							onClick={ ( value ) => {
-								setAttributes( {
-									iconSizeUnit: value,
-								} );
-							} }
-						/>
-
-						<div className="components-base-control components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ iconSizeMobile || '' }
-								step={ 'em' === iconSizeUnit ? .1 : 1 }
-								placeholder="1"
-								onChange={ ( value ) => {
-									setAttributes( {
-										iconSizeMobile: value,
-									} );
-								} }
-								onBlur={ () => {
-									setAttributes( {
-										iconSizeMobile: parseFloat( iconSizeMobile ),
-									} );
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									setAttributes( {
-										iconSizeMobile: blockDefaults.iconSizeMobile,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
 					</Fragment>
 				) }
+
+				{ !! icon &&
+					<NumberControl
+						{ ...props }
+						label={ __( 'Icon Size', 'generateblocks' ) }
+						attributeName="iconSize"
+						units={ [ 'px', 'em' ] }
+						device={ deviceType }
+						presets={ [ 0.7, 1, 1.5, 2 ] }
+						presetUnit="em"
+						min="1"
+						step={ 'em' === iconSizeUnit ? .1 : 1 }
+					/>
+				}
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'buttonIcon', props, state ) }
 			</PanelArea>
