@@ -31,7 +31,6 @@ export default function NumberControl( props ) {
 		unit = 'px',
 		device,
 		presets = [],
-		presetUnit = 'px',
 		min = 0,
 		max,
 		step,
@@ -54,9 +53,14 @@ export default function NumberControl( props ) {
 		props,
 	);
 
-	const presetsHaveValue = allPresets.length > 0 && 'object' === typeof allPresets[ 0 ]
-		? allPresets.find( ( preset ) => preset.value === attributes[ attributeNames.value ] )
-		: allPresets.includes( attributes[ attributeNames.value ] );
+	const presetData = allPresets.length > 0 ? allPresets[ 0 ].data : [];
+	const presetUnit = allPresets.length > 0 ? allPresets[ 0 ].unit : 'px';
+
+	const presetsHaveValue = presetData.length > 0 && 'object' === typeof presetData[ 0 ]
+		? presetData.find( ( preset ) => {
+			return preset.value === attributes[ attributeNames.value ];
+		} )
+		: presetData.includes( attributes[ attributeNames.value ] );
 
 	const showCustom = allPresets.length === 0 ||
 		(
@@ -88,7 +92,7 @@ export default function NumberControl( props ) {
 			{ ! showCustom &&
 				<ButtonGroup className="gblocks-component-number-presets">
 					{
-						allPresets.map( ( preset, index ) => {
+						presetData.map( ( preset, index ) => {
 							const presetValue = 'object' === typeof preset
 								? preset.value
 								: preset;

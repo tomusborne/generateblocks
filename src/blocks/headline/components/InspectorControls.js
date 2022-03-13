@@ -745,7 +745,14 @@ export default ( props ) => {
 						attributeName="iconSize"
 						units={ [ 'px', 'em' ] }
 						device={ deviceType }
-						presets={ [ 0.7, 1, 1.5, 2 ] }
+						presets={
+							[
+								{
+									unit: 'em',
+									data: [ 0.7, 1, 1.5, 2 ],
+								},
+							]
+						}
 						presetUnit="em"
 						min="1"
 						step={ 'em' === iconSizeUnit ? .1 : 1 }

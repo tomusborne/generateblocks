@@ -284,7 +284,14 @@ class TypographyControls extends Component {
 						attributeName="fontSize"
 						units={ [ 'px', 'em', '%' ] }
 						device={ deviceType }
-						presets={ [ 13, 17, 25, 35 ] }
+						presets={
+							[
+								{
+									unit: 'px',
+									data: [ 13, 17, 25, 35 ],
+								},
+							]
+						}
 						min="1"
 					/>
 				}
@@ -299,20 +306,24 @@ class TypographyControls extends Component {
 						presets={
 							[
 								{
-									label: __( 'Small', 'generateblocks' ),
-									value: 0.8,
-								},
-								{
-									label: __( 'Medium', 'generateblocks' ),
-									value: 1,
-								},
-								{
-									label: __( 'Large', 'generateblocks' ),
-									value: 1.5,
+									unit: 'em',
+									data: [
+										{
+											label: __( 'Small', 'generateblocks' ),
+											value: 0.8,
+										},
+										{
+											label: __( 'Medium', 'generateblocks' ),
+											value: 1,
+										},
+										{
+											label: __( 'Large', 'generateblocks' ),
+											value: 1.5,
+										},
+									],
 								},
 							]
 						}
-						presetUnit="em"
 						min="0"
 						step={ .1 }
 					/>
@@ -329,20 +340,24 @@ class TypographyControls extends Component {
 						presets={
 							[
 								{
-									label: __( 'Small', 'generateblocks' ),
-									value: -0.02,
-								},
-								{
-									label: __( 'Medium', 'generateblocks' ),
-									value: 0.02,
-								},
-								{
-									label: __( 'Large', 'generateblocks' ),
-									value: 0.05,
+									unit: 'em',
+									data: [
+										{
+											label: __( 'Small', 'generateblocks' ),
+											value: -0.02,
+										},
+										{
+											label: __( 'Medium', 'generateblocks' ),
+											value: 0.02,
+										},
+										{
+											label: __( 'Large', 'generateblocks' ),
+											value: 0.05,
+										},
+									],
 								},
 							]
 						}
-						presetUnit="em"
 						min={ -1 }
 						step={ .01 }
 					/>

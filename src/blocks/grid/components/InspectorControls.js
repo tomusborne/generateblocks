@@ -45,7 +45,14 @@ export default ( props ) => {
 					unit="px"
 					units={ [ 'px' ] }
 					device={ deviceType }
-					presets={ [ 20, 40, 60, 80 ] }
+					presets={
+						[
+							{
+								unit: 'px',
+								data: [ 20, 40, 60, 80 ],
+							},
+						]
+					}
 				/>
 
 				<NumberControl
@@ -55,7 +62,14 @@ export default ( props ) => {
 					unit="px"
 					units={ [ 'px' ] }
 					device={ deviceType }
-					presets={ [ 20, 40, 60, 80 ] }
+					presets={
+						[
+							{
+								unit: 'px',
+								data: [ 20, 40, 60, 80 ],
+							},
+						]
+					}
 				/>
 
 				{ 'Desktop' === deviceType && (
