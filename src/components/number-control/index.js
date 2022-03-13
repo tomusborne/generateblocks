@@ -4,6 +4,7 @@
 import { useState } from '@wordpress/element';
 import { settings as settingsIcon } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 import {
 	TextControl,
 	ButtonGroup,
@@ -47,11 +48,17 @@ export default function NumberControl( props ) {
 		attributeNames.value += device;
 	}
 
-	const presetsHaveValue = presets.length > 0 && 'object' === typeof presets[ 0 ]
-		? presets.find( ( preset ) => preset.value === attributes[ attributeNames.value ] )
-		: presets.includes( attributes[ attributeNames.value ] );
+	const allPresets = applyFilters(
+		'generateblocns.editor.numberPresets',
+		presets,
+		props,
+	);
 
-	const showCustom = presets.length === 0 ||
+	const presetsHaveValue = allPresets.length > 0 && 'object' === typeof allPresets[ 0 ]
+		? allPresets.find( ( preset ) => preset.value === attributes[ attributeNames.value ] )
+		: allPresets.includes( attributes[ attributeNames.value ] );
+
+	const showCustom = allPresets.length === 0 ||
 		(
 			!! hasNumericValue( attributes[ attributeNames.value ] ) &&
 			! presetsHaveValue
@@ -81,7 +88,7 @@ export default function NumberControl( props ) {
 			{ ! showCustom &&
 				<ButtonGroup className="gblocks-component-number-presets">
 					{
-						presets.map( ( preset, index ) => {
+						allPresets.map( ( preset, index ) => {
 							const presetValue = 'object' === typeof preset
 								? preset.value
 								: preset;
@@ -151,7 +158,7 @@ export default function NumberControl( props ) {
 					/>
 
 					{
-						presets.length > 0 &&
+						allPresets.length > 0 &&
 						(
 							presetsHaveValue ||
 							! hasNumericValue( attributes[ attributeNames.value ] )
