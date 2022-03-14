@@ -13,7 +13,6 @@ export default ( props ) => {
 		setAttributes,
 		deviceType,
 		state,
-		blockDefaults,
 	} = props;
 
 	const {
@@ -36,23 +35,16 @@ export default ( props ) => {
 				id={ 'buttonContainerSpacing' }
 				state={ state }
 			>
+				<DimensionsControl
+					{ ...props }
+					device={ deviceType }
+					type={ 'margin' }
+					label={ __( 'Margin', 'generateblocks' ) }
+					units={ [ 'px', 'em', '%' ] }
+				/>
+
 				{ 'Desktop' === deviceType && (
 					<Fragment>
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'margin' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTop' }
-							attrRight={ 'marginRight' }
-							attrBottom={ 'marginBottom' }
-							attrLeft={ 'marginLeft' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
 						<ToggleControl
 							label={ __( 'Stack Vertically', 'generateblocks' ) }
 							checked={ !! stack }
@@ -81,21 +73,6 @@ export default ( props ) => {
 
 				{ 'Tablet' === deviceType && (
 					<Fragment>
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'margin' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTopTablet' }
-							attrRight={ 'marginRightTablet' }
-							attrBottom={ 'marginBottomTablet' }
-							attrLeft={ 'marginLeftTablet' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
 						<ToggleControl
 							label={ __( 'Stack Vertically', 'generateblocks' ) }
 							checked={ !! stackTablet }
@@ -122,21 +99,6 @@ export default ( props ) => {
 
 				{ 'Mobile' === deviceType && (
 					<Fragment>
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'margin' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTopMobile' }
-							attrRight={ 'marginRightMobile' }
-							attrBottom={ 'marginBottomMobile' }
-							attrLeft={ 'marginLeftMobile' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
 						<ToggleControl
 							label={ __( 'Stack Vertically', 'generateblocks' ) }
 							checked={ !! stackMobile }

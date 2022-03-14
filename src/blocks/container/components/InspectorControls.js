@@ -18,8 +18,9 @@ import RangeControlInput from '../../../components/range-control';
 import hasNumericValue from '../../../utils/has-numeric-value';
 import getResponsivePlaceholder from '../../../utils/get-responsive-placeholder';
 import TypographyControls from '../../../components/typography';
-import DimensionsControl from '../../../components/dimensions';
+import DimensionsGroup from '../../../components/dimensions-group';
 import ColorPicker from '../../../components/color-picker';
+import ColorGroup from '../../../components/color-group';
 import GradientControl from '../../../components/gradient';
 import classnames from 'classnames';
 import sanitizeSVG from '../../../utils/sanitize-svg';
@@ -71,13 +72,7 @@ export default ( props ) => {
 		minHeightUnitTablet,
 		minHeightMobile,
 		minHeightUnitMobile,
-		borderColor,
-		borderColorOpacity,
 		backgroundColor,
-		backgroundColorOpacity,
-		textColor,
-		linkColor,
-		linkColorHover,
 		bgImage,
 		bgOptions,
 		bgImageSize,
@@ -995,7 +990,34 @@ export default ( props ) => {
 				id={ 'containerSpacing' }
 				state={ state }
 			>
-
+				<DimensionsGroup
+					{ ...props }
+					deviceType={ deviceType }
+					dimensions={
+						[
+							{
+								type: 'padding',
+								label: __( 'Padding', 'generateblocks' ),
+								units: [ 'px', 'em', '%' ],
+							},
+							{
+								type: 'margin',
+								label: __( 'Margin', 'generateblocks' ),
+								units: [ 'px', 'em', '%' ],
+							},
+							{
+								type: 'borderSize',
+								label: __( 'Border Size', 'generateblocks' ),
+								units: [ 'px' ],
+							},
+							{
+								type: 'borderRadius',
+								label: __( 'Border Radius', 'generateblocks' ),
+								units: [ 'px', 'em', '%' ],
+							},
+						]
+					}
+				/>
 				{ 'Desktop' === deviceType && (
 					<Fragment>
 						<UnitPicker
@@ -1036,69 +1058,6 @@ export default ( props ) => {
 								} }
 							/>
 						}
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Padding', 'generateblocks' ) }
-							attrTop={ 'paddingTop' }
-							attrRight={ 'paddingRight' }
-							attrBottom={ 'paddingBottom' }
-							attrLeft={ 'paddingLeft' }
-							attrUnit={ 'paddingUnit' }
-							attrSyncUnits={ 'paddingSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'margin' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTop' }
-							attrRight={ 'marginRight' }
-							attrBottom={ 'marginBottom' }
-							attrLeft={ 'marginLeft' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Size', 'generateblocks' ) }
-							attrTop={ 'borderSizeTop' }
-							attrRight={ 'borderSizeRight' }
-							attrBottom={ 'borderSizeBottom' }
-							attrLeft={ 'borderSizeLeft' }
-							attrSyncUnits={ 'borderSizeSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Radius', 'generateblocks' ) }
-							attrTop={ 'borderRadiusTopLeft' }
-							attrRight={ 'borderRadiusTopRight' }
-							attrBottom={ 'borderRadiusBottomRight' }
-							attrLeft={ 'borderRadiusBottomLeft' }
-							attrUnit={ 'borderRadiusUnit' }
-							attrSyncUnits={ 'borderRadiusSyncUnits' }
-							labelTop={ __( 'T-Left', 'generateblocks' ) }
-							labelRight={ __( 'T-Right', 'generateblocks' ) }
-							labelBottom={ __( 'B-Right', 'generateblocks' ) }
-							labelLeft={ __( 'B-Left', 'generateblocks' ) }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
 
 						<TextControl
 							label={ __( 'Outer z-index', 'generateblocks' ) }
@@ -1183,69 +1142,6 @@ export default ( props ) => {
 								} }
 							/>
 						}
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Padding', 'generateblocks' ) }
-							attrTop={ 'paddingTopTablet' }
-							attrRight={ 'paddingRightTablet' }
-							attrBottom={ 'paddingBottomTablet' }
-							attrLeft={ 'paddingLeftTablet' }
-							attrUnit={ 'paddingUnit' }
-							attrSyncUnits={ 'paddingSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'margin' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTopTablet' }
-							attrRight={ 'marginRightTablet' }
-							attrBottom={ 'marginBottomTablet' }
-							attrLeft={ 'marginLeftTablet' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Size', 'generateblocks' ) }
-							attrTop={ 'borderSizeTopTablet' }
-							attrRight={ 'borderSizeRightTablet' }
-							attrBottom={ 'borderSizeBottomTablet' }
-							attrLeft={ 'borderSizeLeftTablet' }
-							attrSyncUnits={ 'borderSizeSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Radius', 'generateblocks' ) }
-							attrTop={ 'borderRadiusTopLeftTablet' }
-							attrRight={ 'borderRadiusTopRightTablet' }
-							attrBottom={ 'borderRadiusBottomRightTablet' }
-							attrLeft={ 'borderRadiusBottomLeftTablet' }
-							attrUnit={ 'borderRadiusUnit' }
-							attrSyncUnits={ 'borderRadiusSyncUnits' }
-							labelTop={ __( 'T-Left', 'generateblocks' ) }
-							labelRight={ __( 'T-Right', 'generateblocks' ) }
-							labelBottom={ __( 'B-Right', 'generateblocks' ) }
-							labelLeft={ __( 'B-Left', 'generateblocks' ) }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
 					</Fragment>
 				) }
 
@@ -1290,69 +1186,6 @@ export default ( props ) => {
 								} }
 							/>
 						}
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Padding', 'generateblocks' ) }
-							attrTop={ 'paddingTopMobile' }
-							attrRight={ 'paddingRightMobile' }
-							attrBottom={ 'paddingBottomMobile' }
-							attrLeft={ 'paddingLeftMobile' }
-							attrUnit={ 'paddingUnit' }
-							attrSyncUnits={ 'paddingSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'margin' }
-							label={ __( 'Margin', 'generateblocks' ) }
-							attrTop={ 'marginTopMobile' }
-							attrRight={ 'marginRightMobile' }
-							attrBottom={ 'marginBottomMobile' }
-							attrLeft={ 'marginLeftMobile' }
-							attrUnit={ 'marginUnit' }
-							attrSyncUnits={ 'marginSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Size', 'generateblocks' ) }
-							attrTop={ 'borderSizeTopMobile' }
-							attrRight={ 'borderSizeRightMobile' }
-							attrBottom={ 'borderSizeBottomMobile' }
-							attrLeft={ 'borderSizeLeftMobile' }
-							attrSyncUnits={ 'borderSizeSyncUnits' }
-							defaults={ blockDefaults }
-							units={ [ 'px' ] }
-						/>
-
-						<DimensionsControl
-							{ ...props }
-							device={ deviceType }
-							type={ 'padding' }
-							label={ __( 'Border Radius', 'generateblocks' ) }
-							attrTop={ 'borderRadiusTopLeftMobile' }
-							attrRight={ 'borderRadiusTopRightMobile' }
-							attrBottom={ 'borderRadiusBottomRightMobile' }
-							attrLeft={ 'borderRadiusBottomLeftMobile' }
-							attrUnit={ 'borderRadiusUnit' }
-							attrSyncUnits={ 'borderRadiusSyncUnits' }
-							labelTop={ __( 'T-Left', 'generateblocks' ) }
-							labelRight={ __( 'T-Right', 'generateblocks' ) }
-							labelBottom={ __( 'B-Right', 'generateblocks' ) }
-							labelLeft={ __( 'B-Left', 'generateblocks' ) }
-							defaults={ blockDefaults }
-							units={ [ 'px', 'em', '%' ] }
-						/>
 					</Fragment>
 				) }
 
@@ -1369,76 +1202,35 @@ export default ( props ) => {
 				state={ state }
 			>
 				{ 'Desktop' === deviceType &&
-				<Fragment>
-					<ColorPicker
-						label={ __( 'Background Color', 'generateblocks' ) }
-						value={ backgroundColor }
-						alpha={ true }
-						valueOpacity={ backgroundColorOpacity }
-						attrOpacity={ 'backgroundColorOpacity' }
-						onChange={ ( nextBackgroundColor ) =>
-							setAttributes( {
-								backgroundColor: nextBackgroundColor,
-							} )
-						}
-						onOpacityChange={ ( value ) =>
-							setAttributes( {
-								backgroundColorOpacity: value,
-							} )
-						}
-					/>
-
-					<ColorPicker
-						label={ __( 'Text Color', 'generateblocks' ) }
-						value={ textColor }
-						alpha={ false }
-						onChange={ ( nextTextColor ) =>
-							setAttributes( {
-								textColor: nextTextColor,
-							} )
-						}
-					/>
-
-					<ColorPicker
-						label={ __( 'Link Color', 'generateblocks' ) }
-						value={ linkColor }
-						alpha={ false }
-						onChange={ ( nextLinkColor ) =>
-							setAttributes( {
-								linkColor: nextLinkColor,
-							} )
+					<ColorGroup
+						{ ...props }
+						colors={
+							[
+								{
+									label: __( 'Background', 'generateblocks' ),
+									attribute: 'backgroundColor',
+									alpha: true,
+								},
+								{
+									label: __( 'Text', 'generateblocks' ),
+									attribute: 'textColor',
+								},
+								{
+									label: __( 'Link', 'generateblocks' ),
+									attribute: 'linkColor',
+								},
+								{
+									label: __( 'Link Hover', 'generateblocks' ),
+									attribute: 'linkColorHover',
+								},
+								{
+									label: __( 'Border', 'generateblocks' ),
+									attribute: 'borderColor',
+									alpha: true,
+								},
+							]
 						}
 					/>
-
-					<ColorPicker
-						label={ __( 'Link Color Hover', 'generateblocks' ) }
-						value={ linkColorHover }
-						alpha={ false }
-						onChange={ ( nextLinkColorHover ) =>
-							setAttributes( {
-								linkColorHover: nextLinkColorHover,
-							} )
-						}
-					/>
-
-					<ColorPicker
-						label={ __( 'Border Color', 'generateblocks' ) }
-						value={ borderColor }
-						alpha={ true }
-						valueOpacity={ borderColorOpacity }
-						attrOpacity={ 'borderColorOpacity' }
-						onChange={ ( value ) =>
-							setAttributes( {
-								borderColor: value,
-							} )
-						}
-						onOpacityChange={ ( value ) =>
-							setAttributes( {
-								borderColorOpacity: value,
-							} )
-						}
-					/>
-				</Fragment>
 				}
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'containerColors', props, state ) }

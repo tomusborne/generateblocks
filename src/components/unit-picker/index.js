@@ -25,6 +25,7 @@ export default class UnitChooser extends Component {
 			onClick,
 			units,
 			id,
+			disabled = false,
 		} = this.props;
 
 		return (
@@ -65,6 +66,7 @@ export default class UnitChooser extends Component {
 							>
 								<Button
 									key={ unit }
+									disabled={ disabled }
 									className={ 'components-gblocks-control-button__units--' + unit }
 									isSmall
 									isPrimary={ value === unit }

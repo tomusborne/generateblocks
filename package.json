@@ -37,7 +37,8 @@
 		"@wordpress/i18n": "4.2.4",
 		"@wordpress/icons": "6.1.1",
 		"@wordpress/rich-text": "5.0.7",
-		"@wordpress/scripts": "19.2.3",
+		"@wordpress/scripts": "22.2.1",
+		"colord": "2.9.2",
 		"enzyme": "^3.11.0",
 		"grunt": "^1.4.0",
 		"grunt-contrib-clean": "^2.0.0",
@@ -45,6 +46,7 @@
 		"grunt-contrib-copy": "^1.0.0",
 		"jest": "^27.0.6",
 		"react-select": "^5.2.1",
+		"react-colorful": "5.5.1",
 		"request": "^2.88.2"
 	},
 	"scripts": {

@@ -3,8 +3,7 @@
  */
 import './editor.scss';
 import googleFonts from './google-fonts.json';
-import UnitPicker from '../unit-picker';
-import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
+import NumberControl from '../number-control';
 
 /**
  * WordPress dependencies
@@ -23,7 +22,6 @@ import {
 	SelectControl,
 	ToggleControl,
 	TextControl,
-	Button,
 } from '@wordpress/components';
 
 /**
@@ -42,7 +40,6 @@ class TypographyControls extends Component {
 		const {
 			setAttributes,
 			attributes,
-			device = '',
 			showFontSize = false,
 			showFontFamily = false,
 			showFontWeight = false,
@@ -50,7 +47,7 @@ class TypographyControls extends Component {
 			showLineHeight = false,
 			showLetterSpacing = false,
 			disableAdvancedToggle = false,
-			fontSizePlaceholder = '17',
+			deviceType,
 		} = this.props;
 
 		const fonts = [
@@ -148,18 +145,6 @@ class TypographyControls extends Component {
 		const onFontShortcut = ( event ) => {
 			setAttributes( { 'fontFamily': event.target.value } ); // eslint-disable-line quote-props
 			onFontChange( event.target.value );
-		};
-
-		const getValue = ( value, setDevice ) => {
-			const valueName = value + setDevice;
-
-			return attributes[ valueName ];
-		};
-
-		const getAttributeName = ( name, setDevice ) => {
-			const attributeName = name + setDevice;
-
-			return attributeName;
 		};
 
 		let showAdvancedToggle = this.state.showAdvancedTypography;
@@ -293,183 +278,89 @@ class TypographyControls extends Component {
 				}
 
 				{ showFontSize && showAdvancedToggle &&
-					<BaseControl>
-						<UnitPicker
-							label={ __( 'Font Size', 'generateblocks' ) }
-							value={ attributes.fontSizeUnit }
-							units={ [ 'px', 'em', '%' ] }
-							onClick={ ( value ) => {
-								setAttributes( {
-									fontSizeUnit: value,
-								} );
-							} }
-						/>
-
-						<div className="components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ getValue( 'fontSize', device ) || '' }
-								placeholder={ getResponsivePlaceholder( 'fontSize', attributes, device, fontSizePlaceholder ) }
-								onChange={ ( value ) => {
-									const name = getAttributeName( 'fontSize', device );
-
-									setAttributes( {
-										[ name ]: value,
-									} );
-								} }
-								onBlur={ () => {
-									const name = getAttributeName( 'fontSize', device );
-
-									if ( '' !== getValue( 'fontSize', device ) ) {
-										setAttributes( {
-											[ name ]: parseFloat( getValue( 'fontSize', device ) ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-								min={ 1 }
-								autoComplete="off"
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									const name = getAttributeName( 'fontSize', device );
-
-									setAttributes( {
-										[ name ]: this.props.defaultFontSize,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-					</BaseControl>
+					<NumberControl
+						{ ...this.props }
+						label={ __( 'Font Size', 'generateblocks' ) }
+						attributeName="fontSize"
+						units={ [ 'px', 'em', '%' ] }
+						device={ deviceType }
+						presets={
+							[
+								{
+									unit: 'px',
+									data: [ 13, 17, 25, 35 ],
+								},
+							]
+						}
+						min="1"
+					/>
 				}
 
 				{ showLineHeight && showAdvancedToggle &&
-					<BaseControl>
-						<UnitPicker
-							label={ __( 'Line Height', 'generateblocks' ) }
-							value={ attributes.lineHeightUnit }
-							units={ [ 'px', 'em', '%' ] }
-							onClick={ ( value ) => {
-								setAttributes( {
-									lineHeightUnit: value,
-								} );
-							} }
-						/>
-
-						<div className="components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ getValue( 'lineHeight', device ) || 0 === getValue( 'lineHeight', device ) ? getValue( 'lineHeight', device ) : '' }
-								placeholder={ getResponsivePlaceholder( 'lineHeight', attributes, device, '' ) }
-								onChange={ ( value ) => {
-									const name = getAttributeName( 'lineHeight', device );
-
-									setAttributes( {
-										[ name ]: value,
-									} );
-								} }
-								onBlur={ () => {
-									const name = getAttributeName( 'lineHeight', device );
-
-									if ( '' !== getValue( 'lineHeight', device ) ) {
-										setAttributes( {
-											[ name ]: parseFloat( getValue( 'lineHeight', device ) ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-								min={ 0 }
-								step={ .1 }
-								autoComplete="off"
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									const name = getAttributeName( 'lineHeight', device );
-
-									setAttributes( {
-										[ name ]: this.props.defaultLineHeight,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-					</BaseControl>
+					<NumberControl
+						{ ...this.props }
+						label={ __( 'Line Height', 'generateblocks' ) }
+						attributeName="lineHeight"
+						units={ [ 'px', 'em', '%' ] }
+						device={ deviceType }
+						presets={
+							[
+								{
+									unit: 'em',
+									data: [
+										{
+											label: __( 'Small', 'generateblocks' ),
+											value: 0.8,
+										},
+										{
+											label: __( 'Medium', 'generateblocks' ),
+											value: 1,
+										},
+										{
+											label: __( 'Large', 'generateblocks' ),
+											value: 1.5,
+										},
+									],
+								},
+							]
+						}
+						min="0"
+						step={ .1 }
+					/>
 				}
 
 				{ showLetterSpacing && showAdvancedToggle &&
-					<BaseControl>
-						<UnitPicker
-							label={ __( 'Letter Spacing', 'generateblocks' ) }
-							value={ 'em' }
-							units={ [ 'em' ] }
-							onClick={ () => {
-								return false;
-							} }
-						/>
-
-						<div className="components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ getValue( 'letterSpacing', device ) || '' }
-								placeholder={ getResponsivePlaceholder( 'letterSpacing', attributes, device, '0.01' ) }
-								onChange={ ( value ) => {
-									const name = getAttributeName( 'letterSpacing', device );
-
-									setAttributes( {
-										[ name ]: value,
-									} );
-								} }
-								onBlur={ () => {
-									const name = getAttributeName( 'letterSpacing', device );
-
-									if ( '' !== getValue( 'letterSpacing', device ) ) {
-										setAttributes( {
-											[ name ]: parseFloat( getValue( 'letterSpacing', device ) ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-								min={ -1 }
-								step={ .01 }
-								autoComplete="off"
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									const name = getAttributeName( 'letterSpacing', device );
-
-									setAttributes( {
-										[ name ]: this.props.defaultLetterSpacing,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-					</BaseControl>
+					<NumberControl
+						{ ...this.props }
+						label={ __( 'Letter Spacing', 'generateblocks' ) }
+						attributeName="letterSpacing"
+						unit="em"
+						units={ [ 'em' ] }
+						device={ deviceType }
+						presets={
+							[
+								{
+									unit: 'em',
+									data: [
+										{
+											label: __( 'Small', 'generateblocks' ),
+											value: -0.02,
+										},
+										{
+											label: __( 'Medium', 'generateblocks' ),
+											value: 0.02,
+										},
+										{
+											label: __( 'Large', 'generateblocks' ),
+											value: 0.05,
+										},
+									],
+								},
+							]
+						}
+						min={ -1 }
+						step={ .01 }
+					/>
 				}
 			</Fragment>
 		);
