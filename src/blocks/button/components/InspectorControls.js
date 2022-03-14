@@ -6,8 +6,8 @@ import { Fragment, useEffect, useState } from '@wordpress/element';
 import TypographyControls from '../../../components/typography';
 import { applyFilters } from '@wordpress/hooks';
 import DimensionsControl from '../../../components/dimensions';
-import { Button, TabPanel, TextControl } from '@wordpress/components';
-import ColorPicker from '../../../components/color-picker';
+import { Button, TextControl } from '@wordpress/components';
+import ColorGroup from '../../../components/color-group';
 import GradientControl from '../../../components/gradient';
 import UnitPicker from '../../../components/unit-picker';
 import IconPicker from '../../../components/icon-picker';
@@ -39,16 +39,6 @@ export default ( props ) => {
 	const {
 		icon,
 		removeText,
-		backgroundColor,
-		backgroundColorOpacity,
-		textColor,
-		backgroundColorHover,
-		backgroundColorHoverOpacity,
-		textColorHover,
-		borderColor,
-		borderColorOpacity,
-		borderColorHover,
-		borderColorHoverOpacity,
 		iconSize,
 		iconSizeTablet,
 		iconSizeMobile,
@@ -354,143 +344,41 @@ export default ( props ) => {
 				state={ state }
 			>
 				{ 'Desktop' === deviceType &&
-				<TabPanel
-					className="layout-tab-panel gblocks-control-tabs"
-					activeClass="active-tab"
-					tabs={ [
-						{
-							name: 'button-colors',
-							title: __( 'Normal', 'generateblocks' ),
-							className: 'button-colors',
-						},
-						{
-							name: 'button-colors-hover',
-							title: __( 'Hover', 'generateblocks' ),
-							className: 'button-colors-hover',
-						},
-					] }>
-					{
-						( tab ) => {
-							const isNormal = tab.name === 'button-colors';
-
-							return (
-								<div>
-									{ isNormal ? (
-										<Fragment>
-											<ColorPicker
-												label={ __( 'Background Color', 'generateblocks' ) }
-												value={ backgroundColor }
-												alpha={ true }
-												valueOpacity={ backgroundColorOpacity }
-												attrOpacity={ 'backgroundColorOpacity' }
-												key={ 'buttonBackgroundColor' }
-												onChange={ ( nextBackgroundColor ) =>
-													setAttributes( {
-														backgroundColor: nextBackgroundColor,
-													} )
-												}
-												onOpacityChange={ ( value ) =>
-													setAttributes( {
-														backgroundColorOpacity: value,
-													} )
-												}
-											/>
-
-											<ColorPicker
-												label={ __( 'Text Color', 'generateblocks' ) }
-												value={ textColor }
-												alpha={ false }
-												key={ 'buttonTextColor' }
-												onChange={ ( nextTextColor ) =>
-													setAttributes( {
-														textColor: nextTextColor,
-													} )
-												}
-											/>
-
-											<ColorPicker
-												label={ __( 'Border Color', 'generateblocks' ) }
-												value={ borderColor }
-												alpha={ true }
-												valueOpacity={ borderColorOpacity }
-												attrOpacity={ 'borderColorOpacity' }
-												key={ 'buttonBorderColor' }
-												onChange={ ( value ) =>
-													setAttributes( {
-														borderColor: value,
-													} )
-												}
-												onOpacityChange={ ( value ) =>
-													setAttributes( {
-														borderColorOpacity: value,
-													} )
-												}
-											/>
-
-											{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsNormal', props, state ) }
-										</Fragment>
-
-									) : (
-
-										<Fragment>
-											<ColorPicker
-												label={ __( 'Background Color', 'generateblocks' ) }
-												value={ backgroundColorHover }
-												alpha={ true }
-												valueOpacity={ backgroundColorHoverOpacity }
-												attrOpacity={ 'backgroundColorHoverOpacity' }
-												key={ 'buttonBackgroundColorHover' }
-												onChange={ ( nextBackgroundColorHover ) =>
-													setAttributes( {
-														backgroundColorHover: nextBackgroundColorHover,
-													} )
-												}
-												onOpacityChange={ ( value ) =>
-													setAttributes( {
-														backgroundColorHoverOpacity: value,
-													} )
-												}
-											/>
-
-											<ColorPicker
-												label={ __( 'Text Color', 'generateblocks' ) }
-												value={ textColorHover }
-												alpha={ false }
-												key={ 'buttonTextColorHover' }
-												onChange={ ( nextTextColorHover ) =>
-													setAttributes( {
-														textColorHover: nextTextColorHover,
-													} )
-												}
-											/>
-
-											<ColorPicker
-												label={ __( 'Border Color', 'generateblocks' ) }
-												value={ borderColorHover }
-												alpha={ true }
-												valueOpacity={ borderColorHoverOpacity }
-												attrOpacity={ 'borderColorHoverOpacity' }
-												key={ 'buttonBorderColorHover' }
-												onChange={ ( value ) =>
-													setAttributes( {
-														borderColorHover: value,
-													} )
-												}
-												onOpacityChange={ ( value ) =>
-													setAttributes( {
-														borderColorHoverOpacity: value,
-													} )
-												}
-											/>
-
-											{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColorsHover', props, state ) }
-										</Fragment>
-									) }
-								</div>
-							);
+					<ColorGroup
+						{ ...props }
+						colors={
+							[
+								{
+									label: __( 'Background', 'generateblocks' ),
+									attribute: 'backgroundColor',
+									alpha: true,
+								},
+								{
+									label: __( 'Background Hover', 'generateblocks' ),
+									attribute: 'backgroundColorHover',
+									alpha: true,
+								},
+								{
+									label: __( 'Text', 'generateblocks' ),
+									attribute: 'textColor',
+								},
+								{
+									label: __( 'Text Hover', 'generateblocks' ),
+									attribute: 'textColorHover',
+								},
+								{
+									label: __( 'Border', 'generateblocks' ),
+									attribute: 'borderColor',
+									alpha: true,
+								},
+								{
+									label: __( 'Border Hover', 'generateblocks' ),
+									attribute: 'borderColorHover',
+									alpha: true,
+								},
+							]
 						}
-					}
-				</TabPanel>
+					/>
 				}
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'buttonColors', props, state ) }
