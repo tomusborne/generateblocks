@@ -1,13 +1,11 @@
 import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { Fragment } from '@wordpress/element';
-import UnitPicker from '../../../components/unit-picker';
 import { __ } from '@wordpress/i18n';
-import { Button, SelectControl, TextControl } from '@wordpress/components';
-import hasNumericValue from '../../../utils/has-numeric-value';
-import getResponsivePlaceholder from '../../../utils/get-responsive-placeholder';
+import { SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { InspectorControls } from '@wordpress/block-editor';
+import NumberControl from '../../../components/number-control';
 
 export default ( props ) => {
 	const {
@@ -16,17 +14,11 @@ export default ( props ) => {
 		deviceType,
 		setDeviceType,
 		setAttributes,
-		blockDefaults,
 	} = props;
+
 	const {
-		horizontalGap,
-		verticalGap,
 		verticalAlignment,
-		horizontalGapTablet,
-		verticalGapTablet,
 		verticalAlignmentTablet,
-		horizontalGapMobile,
-		verticalGapMobile,
 		verticalAlignmentMobile,
 		horizontalAlignment,
 		horizontalAlignmentTablet,
@@ -46,106 +38,42 @@ export default ( props ) => {
 				id={ 'gridLayout' }
 				state={ state }
 			>
+				<NumberControl
+					{ ...props }
+					label={ __( 'Horizontal Gap', 'generateblocks' ) }
+					attributeName="horizontalGap"
+					unit="px"
+					units={ [ 'px' ] }
+					device={ deviceType }
+					presets={
+						[
+							{
+								unit: 'px',
+								data: [ 20, 40, 60, 80 ],
+							},
+						]
+					}
+				/>
+
+				<NumberControl
+					{ ...props }
+					label={ __( 'Vertical Gap', 'generateblocks' ) }
+					attributeName="verticalGap"
+					unit="px"
+					units={ [ 'px' ] }
+					device={ deviceType }
+					presets={
+						[
+							{
+								unit: 'px',
+								data: [ 20, 40, 60, 80 ],
+							},
+						]
+					}
+				/>
+
 				{ 'Desktop' === deviceType && (
 					<Fragment>
-						<UnitPicker
-							label={ __( 'Horizontal Gap', 'generateblocks' ) }
-							value={ 'px' }
-							units={ [ 'px' ] }
-							onClick={ () => {
-								return false;
-							} }
-						/>
-
-						<div className="components-base-control components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ hasNumericValue( horizontalGap ) ? horizontalGap : '' }
-								min="0"
-								onChange={ ( value ) => {
-									// No hyphens allowed here.
-									value = value.toString().replace( /-/g, '' );
-
-									setAttributes( {
-										horizontalGap: value,
-									} );
-								} }
-								onBlur={ () => {
-									if ( '' !== horizontalGap ) {
-										setAttributes( {
-											horizontalGap: parseFloat( horizontalGap ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									setAttributes( {
-										horizontalGap: blockDefaults.horizontalGap,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-
-						<UnitPicker
-							label={ __( 'Vertical Gap', 'generateblocks' ) }
-							value={ 'px' }
-							units={ [ 'px' ] }
-							onClick={ () => {
-								return false;
-							} }
-						/>
-
-						<div className="components-base-control components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ hasNumericValue( verticalGap ) ? verticalGap : '' }
-								min="0"
-								onChange={ ( value ) => {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-
-									setAttributes( {
-										verticalGap: value,
-									} );
-								} }
-								onBlur={ () => {
-									if ( '' !== verticalGap ) {
-										setAttributes( {
-											verticalGap: parseFloat( verticalGap ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									setAttributes( {
-										verticalGap: blockDefaults.verticalGap,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-
 						<SelectControl
 							label={ __( 'Vertical Alignment', 'generateblocks' ) }
 							value={ verticalAlignment }
@@ -183,106 +111,6 @@ export default ( props ) => {
 
 				{ 'Tablet' === deviceType && (
 					<Fragment>
-						<UnitPicker
-							label={ __( 'Horizontal Gap', 'generateblocks' ) }
-							value={ 'px' }
-							units={ [ 'px' ] }
-							onClick={ () => {
-								return false;
-							} }
-						/>
-
-						<div className="components-base-control components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ hasNumericValue( horizontalGapTablet ) ? horizontalGapTablet : '' }
-								min="0"
-								placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Tablet', '' ) }
-								onChange={ ( value ) => {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-
-									setAttributes( {
-										horizontalGapTablet: value,
-									} );
-								} }
-								onBlur={ () => {
-									if ( '' !== horizontalGapTablet ) {
-										setAttributes( {
-											horizontalGapTablet: parseFloat( horizontalGapTablet ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									setAttributes( {
-										horizontalGapTablet: blockDefaults.horizontalGapTablet,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-
-						<UnitPicker
-							label={ __( 'Vertical Gap', 'generateblocks' ) }
-							value={ 'px' }
-							units={ [ 'px' ] }
-							onClick={ () => {
-								return false;
-							} }
-						/>
-
-						<div className="components-base-control components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ hasNumericValue( verticalGapTablet ) ? verticalGapTablet : '' }
-								min="0"
-								placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Tablet', '' ) }
-								onChange={ ( value ) => {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-
-									setAttributes( {
-										verticalGapTablet: value,
-									} );
-								} }
-								onBlur={ () => {
-									if ( '' !== verticalGapTablet ) {
-										setAttributes( {
-											verticalGapTablet: parseFloat( verticalGapTablet ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									setAttributes( {
-										verticalGapTablet: blockDefaults.verticalGapTablet,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-
 						<SelectControl
 							label={ __( 'Vertical Alignment', 'generateblocks' ) }
 							help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }
@@ -322,106 +150,6 @@ export default ( props ) => {
 
 				{ 'Mobile' === deviceType && (
 					<Fragment>
-						<UnitPicker
-							label={ __( 'Horizontal Gap', 'generateblocks' ) }
-							value={ 'px' }
-							units={ [ 'px' ] }
-							onClick={ () => {
-								return false;
-							} }
-						/>
-
-						<div className="components-base-control components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ hasNumericValue( horizontalGapMobile ) ? horizontalGapMobile : '' }
-								min="0"
-								placeholder={ getResponsivePlaceholder( 'horizontalGap', attributes, 'Mobile', '' ) }
-								onChange={ ( value ) => {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-
-									setAttributes( {
-										horizontalGapMobile: value,
-									} );
-								} }
-								onBlur={ () => {
-									if ( '' !== horizontalGapMobile ) {
-										setAttributes( {
-											horizontalGapMobile: parseFloat( horizontalGapMobile ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									setAttributes( {
-										horizontalGapMobile: blockDefaults.horizontalGapMobile,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-
-						<UnitPicker
-							label={ __( 'Vertical Gap', 'generateblocks' ) }
-							value={ 'px' }
-							units={ [ 'px' ] }
-							onClick={ () => {
-								return false;
-							} }
-						/>
-
-						<div className="components-base-control components-gblocks-typography-control__inputs">
-							<TextControl
-								type={ 'number' }
-								value={ hasNumericValue( verticalGapMobile ) ? verticalGapMobile : '' }
-								min="0"
-								placeholder={ getResponsivePlaceholder( 'verticalGap', attributes, 'Mobile', '' ) }
-								onChange={ ( value ) => {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-
-									setAttributes( {
-										verticalGapMobile: value,
-									} );
-								} }
-								onBlur={ () => {
-									if ( '' !== verticalGapMobile ) {
-										setAttributes( {
-											verticalGapMobile: parseFloat( verticalGapMobile ),
-										} );
-									}
-								} }
-								onClick={ ( e ) => {
-									// Make sure onBlur fires in Firefox.
-									e.currentTarget.focus();
-								} }
-							/>
-
-							<Button
-								isSmall
-								isSecondary
-								className="components-gblocks-default-number"
-								onClick={ () => {
-									setAttributes( {
-										verticalGapMobile: blockDefaults.verticalGapMobile,
-									} );
-								} }
-							>
-								{ __( 'Reset', 'generateblocks' ) }
-							</Button>
-						</div>
-
 						<SelectControl
 							label={ __( 'Vertical Alignment', 'generateblocks' ) }
 							help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }

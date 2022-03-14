@@ -1,6 +1,6 @@
 import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
-import { Button, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { SelectControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import getIcon from '../../../utils/get-icon';
@@ -10,8 +10,8 @@ import DimensionsControl from '../../../components/dimensions';
 import DimensionsGroup from '../../../components/dimensions-group';
 import ColorGroup from '../../../components/color-group';
 import IconPicker from '../../../components/icon-picker';
-import UnitPicker from '../../../components/unit-picker';
 import { InspectorControls } from '@wordpress/block-editor';
+import NumberControl from '../../../components/number-control';
 
 const getFontSizePlaceholder = ( uniqueId, fontSizeUnit ) => {
 	if ( 'em' === fontSizeUnit ) {
@@ -54,9 +54,6 @@ export default ( props ) => {
 		iconVerticalAlignment,
 		iconVerticalAlignmentTablet,
 		iconVerticalAlignmentMobile,
-		iconSize,
-		iconSizeTablet,
-		iconSizeMobile,
 		iconSizeUnit,
 		inlineWidth,
 		inlineWidthTablet,
@@ -74,16 +71,6 @@ export default ( props ) => {
 			setFontSizePlaceholder( currentPlaceholder );
 		}
 	} );
-
-	let iconSizePlaceholderMobile = '';
-
-	if ( iconSizeTablet || 0 === iconSizeTablet ) {
-		iconSizePlaceholderMobile = iconSizeTablet;
-	} else if ( iconSize || 0 === iconSize ) {
-		iconSizePlaceholderMobile = iconSize;
-	} else {
-		iconSizePlaceholderMobile = '';
-	}
 
 	return (
 		<InspectorControls>
@@ -392,52 +379,6 @@ export default ( props ) => {
 						/>
 					</Fragment>
 					}
-
-					<UnitPicker
-						label={ __( 'Icon Size', 'generateblocks' ) }
-						value={ iconSizeUnit }
-						units={ [ 'px', 'em' ] }
-						onClick={ ( value ) => {
-							setAttributes( {
-								iconSizeUnit: value,
-							} );
-						} }
-					/>
-
-					<div className="components-base-control components-gblocks-typography-control__inputs">
-						<TextControl
-							type={ 'number' }
-							value={ iconSize || 0 === iconSize ? iconSize : '' }
-							step={ 'em' === iconSizeUnit ? .1 : 1 }
-							onChange={ ( value ) => {
-								setAttributes( {
-									iconSize: value,
-								} );
-							} }
-							onBlur={ () => {
-								setAttributes( {
-									iconSize: parseFloat( iconSize ),
-								} );
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
-
-						<Button
-							isSmall
-							isSecondary
-							className="components-gblocks-default-number"
-							onClick={ () => {
-								setAttributes( {
-									iconSize: generateBlocksDefaults.headline.iconSize,
-								} );
-							} }
-						>
-							{ __( 'Reset', 'generateblocks' ) }
-						</Button>
-					</div>
 				</Fragment>
 				}
 
@@ -489,53 +430,6 @@ export default ( props ) => {
 						/>
 					</Fragment>
 					}
-
-					<UnitPicker
-						label={ __( 'Icon Size', 'generateblocks' ) }
-						value={ iconSizeUnit }
-						units={ [ 'px', 'em' ] }
-						onClick={ ( value ) => {
-							setAttributes( {
-								iconSizeUnit: value,
-							} );
-						} }
-					/>
-
-					<div className="components-base-control components-gblocks-typography-control__inputs">
-						<TextControl
-							type={ 'number' }
-							value={ iconSizeTablet || 0 === iconSizeTablet ? iconSizeTablet : '' }
-							step={ 'em' === iconSizeUnit ? .1 : 1 }
-							placeholder={ iconSize || 0 === iconSize ? iconSize : '' }
-							onChange={ ( value ) => {
-								setAttributes( {
-									iconSizeTablet: value,
-								} );
-							} }
-							onBlur={ () => {
-								setAttributes( {
-									iconSizeTablet: parseFloat( iconSizeTablet ),
-								} );
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
-
-						<Button
-							isSmall
-							isSecondary
-							className="components-gblocks-default-number"
-							onClick={ () => {
-								setAttributes( {
-									iconSizeTablet: generateBlocksDefaults.headline.iconSizeTablet,
-								} );
-							} }
-						>
-							{ __( 'Reset', 'generateblocks' ) }
-						</Button>
-					</div>
 				</Fragment>
 				}
 
@@ -587,54 +481,28 @@ export default ( props ) => {
 						/>
 					</Fragment>
 					}
-
-					<UnitPicker
-						label={ __( 'Icon Size', 'generateblocks' ) }
-						value={ iconSizeUnit }
-						units={ [ 'px', 'em' ] }
-						onClick={ ( value ) => {
-							setAttributes( {
-								iconSizeUnit: value,
-							} );
-						} }
-					/>
-
-					<div className="components-base-control components-gblocks-typography-control__inputs">
-						<TextControl
-							type={ 'number' }
-							value={ iconSizeMobile || 0 === iconSizeMobile ? iconSizeMobile : '' }
-							step={ 'em' === iconSizeUnit ? .1 : 1 }
-							placeholder={ iconSizePlaceholderMobile }
-							onChange={ ( value ) => {
-								setAttributes( {
-									iconSizeMobile: value,
-								} );
-							} }
-							onBlur={ () => {
-								setAttributes( {
-									iconSizeMobile: parseFloat( iconSizeMobile ),
-								} );
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
-
-						<Button
-							isSmall
-							isSecondary
-							className="components-gblocks-default-number"
-							onClick={ () => {
-								setAttributes( {
-									iconSizeMobile: generateBlocksDefaults.headline.iconSizeMobile,
-								} );
-							} }
-						>
-							{ __( 'Reset', 'generateblocks' ) }
-						</Button>
-					</div>
 				</Fragment>
+				}
+
+				{ !! icon &&
+					<NumberControl
+						{ ...props }
+						label={ __( 'Icon Size', 'generateblocks' ) }
+						attributeName="iconSize"
+						units={ [ 'px', 'em' ] }
+						device={ deviceType }
+						presets={
+							[
+								{
+									unit: 'em',
+									data: [ 0.7, 1, 1.5, 2 ],
+								},
+							]
+						}
+						presetUnit="em"
+						min="1"
+						step={ 'em' === iconSizeUnit ? .1 : 1 }
+					/>
 				}
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'headlineIcon', props, blockState ) }
