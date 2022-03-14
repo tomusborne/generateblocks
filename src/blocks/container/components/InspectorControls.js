@@ -21,6 +21,7 @@ import getResponsivePlaceholder from '../../../utils/get-responsive-placeholder'
 import TypographyControls from '../../../components/typography';
 import DimensionsGroup from '../../../components/dimensions-group';
 import ColorPicker from '../../../components/color-picker';
+import ColorGroup from '../../../components/color-group';
 import GradientControl from '../../../components/gradient';
 import classnames from 'classnames';
 import sanitizeSVG from '../../../utils/sanitize-svg';
@@ -72,13 +73,7 @@ export default ( props ) => {
 		minHeightUnitTablet,
 		minHeightMobile,
 		minHeightUnitMobile,
-		borderColor,
-		borderColorOpacity,
 		backgroundColor,
-		backgroundColorOpacity,
-		textColor,
-		linkColor,
-		linkColorHover,
 		bgImage,
 		bgOptions,
 		bgImageSize,
@@ -1201,76 +1196,35 @@ export default ( props ) => {
 				state={ state }
 			>
 				{ 'Desktop' === deviceType &&
-				<Fragment>
-					<ColorPicker
-						label={ __( 'Background Color', 'generateblocks' ) }
-						value={ backgroundColor }
-						alpha={ true }
-						valueOpacity={ backgroundColorOpacity }
-						attrOpacity={ 'backgroundColorOpacity' }
-						onChange={ ( nextBackgroundColor ) =>
-							setAttributes( {
-								backgroundColor: nextBackgroundColor,
-							} )
-						}
-						onOpacityChange={ ( value ) =>
-							setAttributes( {
-								backgroundColorOpacity: value,
-							} )
-						}
-					/>
-
-					<ColorPicker
-						label={ __( 'Text Color', 'generateblocks' ) }
-						value={ textColor }
-						alpha={ false }
-						onChange={ ( nextTextColor ) =>
-							setAttributes( {
-								textColor: nextTextColor,
-							} )
-						}
-					/>
-
-					<ColorPicker
-						label={ __( 'Link Color', 'generateblocks' ) }
-						value={ linkColor }
-						alpha={ false }
-						onChange={ ( nextLinkColor ) =>
-							setAttributes( {
-								linkColor: nextLinkColor,
-							} )
+					<ColorGroup
+						{ ...props }
+						colors={
+							[
+								{
+									label: __( 'Background', 'generateblocks' ),
+									attribute: 'backgroundColor',
+									alpha: true,
+								},
+								{
+									label: __( 'Text', 'generateblocks' ),
+									attribute: 'textColor',
+								},
+								{
+									label: __( 'Link', 'generateblocks' ),
+									attribute: 'linkColor',
+								},
+								{
+									label: __( 'Link Hover', 'generateblocks' ),
+									attribute: 'linkColorHover',
+								},
+								{
+									label: __( 'Border', 'generateblocks' ),
+									attribute: 'borderColor',
+									alpha: true,
+								},
+							]
 						}
 					/>
-
-					<ColorPicker
-						label={ __( 'Link Color Hover', 'generateblocks' ) }
-						value={ linkColorHover }
-						alpha={ false }
-						onChange={ ( nextLinkColorHover ) =>
-							setAttributes( {
-								linkColorHover: nextLinkColorHover,
-							} )
-						}
-					/>
-
-					<ColorPicker
-						label={ __( 'Border Color', 'generateblocks' ) }
-						value={ borderColor }
-						alpha={ true }
-						valueOpacity={ borderColorOpacity }
-						attrOpacity={ 'borderColorOpacity' }
-						onChange={ ( value ) =>
-							setAttributes( {
-								borderColor: value,
-							} )
-						}
-						onOpacityChange={ ( value ) =>
-							setAttributes( {
-								borderColorOpacity: value,
-							} )
-						}
-					/>
-				</Fragment>
 				}
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'containerColors', props, state ) }

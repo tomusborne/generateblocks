@@ -7,8 +7,8 @@ import getIcon from '../../../utils/get-icon';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import TypographyControls from '../../../components/typography';
 import DimensionsControl from '../../../components/dimensions';
-import ColorPicker from '../../../components/color-picker';
 import DimensionsGroup from '../../../components/dimensions-group';
+import ColorGroup from '../../../components/color-group';
 import IconPicker from '../../../components/icon-picker';
 import UnitPicker from '../../../components/unit-picker';
 import { InspectorControls } from '@wordpress/block-editor';
@@ -43,21 +43,11 @@ export default ( props ) => {
 
 	const {
 		element,
-		backgroundColor,
-		backgroundColorOpacity,
-		textColor,
-		linkColor,
-		linkColorHover,
-		borderColor,
-		borderColorOpacity,
-		highlightTextColor,
 		marginTop,
 		marginRight,
 		marginBottom,
 		marginLeft,
 		icon,
-		iconColor,
-		iconColorOpacity,
 		iconLocation,
 		iconLocationTablet,
 		iconLocationMobile,
@@ -296,103 +286,42 @@ export default ( props ) => {
 				state={ blockState }
 				showPanel={ 'Desktop' === deviceType || false }
 			>
-				<ColorPicker
-					label={ __( 'Background Color', 'generateblocks' ) }
-					value={ backgroundColor }
-					alpha={ true }
-					valueOpacity={ backgroundColorOpacity }
-					attrOpacity={ 'backgroundColorOpacity' }
-					onChange={ ( value ) =>
-						setAttributes( {
-							backgroundColor: value,
-						} )
-					}
-					onOpacityChange={ ( value ) =>
-						setAttributes( {
-							backgroundColorOpacity: value,
-						} )
-					}
-				/>
-
-				<ColorPicker
-					label={ __( 'Text Color', 'generateblocks' ) }
-					value={ textColor }
-					alpha={ false }
-					onChange={ ( value ) =>
-						setAttributes( {
-							textColor: value,
-						} )
-					}
-				/>
-
-				<ColorPicker
-					label={ __( 'Link Color', 'generateblocks' ) }
-					value={ linkColor }
-					alpha={ false }
-					onChange={ ( value ) =>
-						setAttributes( {
-							linkColor: value,
-						} )
-					}
-				/>
-
-				<ColorPicker
-					label={ __( 'Link Color Hover', 'generateblocks' ) }
-					value={ linkColorHover }
-					alpha={ false }
-					onChange={ ( value ) =>
-						setAttributes( {
-							linkColorHover: value,
-						} )
-					}
-				/>
-
-				<ColorPicker
-					label={ __( 'Border Color', 'generateblocks' ) }
-					value={ borderColor }
-					alpha={ true }
-					valueOpacity={ borderColorOpacity }
-					attrOpacity={ 'borderColorOpacity' }
-					onChange={ ( value ) =>
-						setAttributes( {
-							borderColor: value,
-						} )
-					}
-					onOpacityChange={ ( value ) =>
-						setAttributes( {
-							borderColorOpacity: value,
-						} )
-					}
-				/>
-
-				{ icon &&
-				<ColorPicker
-					label={ __( 'Icon Color', 'generateblocks' ) }
-					value={ iconColor }
-					alpha={ true }
-					valueOpacity={ iconColorOpacity }
-					attrOpacity={ 'iconColorOpacity' }
-					onChange={ ( value ) =>
-						setAttributes( {
-							iconColor: value,
-						} )
-					}
-					onOpacityChange={ ( value ) =>
-						setAttributes( {
-							iconColorOpacity: value,
-						} )
-					}
-				/>
-				}
-
-				<ColorPicker
-					label={ __( 'Highlight Text', 'generateblocks' ) }
-					value={ highlightTextColor }
-					alpha={ false }
-					onChange={ ( value ) =>
-						setAttributes( {
-							highlightTextColor: value,
-						} )
+				<ColorGroup
+					{ ...props }
+					colors={
+						[
+							{
+								label: __( 'Background', 'generateblocks' ),
+								attribute: 'backgroundColor',
+								alpha: true,
+							},
+							{
+								label: __( 'Text', 'generateblocks' ),
+								attribute: 'textColor',
+							},
+							{
+								label: __( 'Link', 'generateblocks' ),
+								attribute: 'linkColor',
+							},
+							{
+								label: __( 'Link Hover', 'generateblocks' ),
+								attribute: 'linkColorHover',
+							},
+							{
+								label: __( 'Border', 'generateblocks' ),
+								attribute: 'borderColor',
+								alpha: true,
+							},
+							{
+								label: __( 'Icon', 'generateblocks' ),
+								attribute: 'iconColor',
+								alpha: true,
+							},
+							{
+								label: __( 'Highlight Text', 'generateblocks' ),
+								attribute: 'highlightTextColor',
+							},
+						]
 					}
 				/>
 			</PanelArea>
