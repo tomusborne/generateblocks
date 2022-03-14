@@ -8,6 +8,7 @@ import ParameterList from './inspector-controls/parameter-list';
 import useQueryReducer from '../hooks/useQueryReducer';
 import isEmpty from '../../../utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';
+import getIcon from '../../../utils/get-icon';
 
 export default ( { attributes, setAttributes } ) => {
 	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer();
@@ -42,6 +43,8 @@ export default ( { attributes, setAttributes } ) => {
 				id={ 'queryLoopControls' }
 				title={ __( 'Query Parameters', 'generateblocks' ) }
 				initialOpen={ true }
+				icon={ getIcon( 'query-params' ) }
+				className="gblocks-panel-label"
 			>
 				<ParameterList
 					query={ queryState }
