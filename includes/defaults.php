@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function generateblocks_get_block_defaults() {
 	$defaults = array();
 
-	$container_width = 1100;
+	$container_width = generateblocks_get_option( 'container_width' );
 
 	if ( function_exists( 'generate_get_option' ) ) {
 		$container_width = generate_get_option( 'container_width' );
@@ -432,6 +432,7 @@ function generateblocks_get_option_defaults() {
 	return apply_filters(
 		'generateblocks_option_defaults',
 		array(
+			'container_width' => 1100,
 			'css_print_method' => 'file',
 			'sync_responsive_previews' => true,
 		)
