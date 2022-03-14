@@ -1,5 +1,4 @@
 import { InspectorControls, MediaUpload } from '@wordpress/block-editor';
-import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { __, sprintf } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
@@ -36,7 +35,6 @@ export default ( props ) => {
 		attributes,
 		setAttributes,
 		deviceType,
-		setDeviceType,
 		state,
 		blockDefaults,
 		tagNames,
@@ -190,8 +188,6 @@ export default ( props ) => {
 
 	return (
 		<InspectorControls>
-			<ResponsiveTabs { ...props } selectedDevice={ deviceType } onClick={ setDeviceType } />
-
 			{ ! isGrid && (
 				<PanelArea
 					{ ...props }

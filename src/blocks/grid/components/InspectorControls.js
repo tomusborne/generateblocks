@@ -1,10 +1,10 @@
-import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { Fragment } from '@wordpress/element';
 import UnitPicker from '../../../components/unit-picker';
 import { __ } from '@wordpress/i18n';
 import { Button, SelectControl, TextControl } from '@wordpress/components';
 import hasNumericValue from '../../../utils/has-numeric-value';
+import getIcon from '../../../utils/get-icon';
 import getResponsivePlaceholder from '../../../utils/get-responsive-placeholder';
 import { applyFilters } from '@wordpress/hooks';
 import { InspectorControls } from '@wordpress/block-editor';
@@ -14,7 +14,6 @@ export default ( props ) => {
 		attributes,
 		state,
 		deviceType,
-		setDeviceType,
 		setAttributes,
 		blockDefaults,
 	} = props;
@@ -31,18 +30,17 @@ export default ( props ) => {
 		horizontalAlignment,
 		horizontalAlignmentTablet,
 		horizontalAlignmentMobile,
+		isQueryLoop,
 	} = attributes;
 
 	return (
 		<InspectorControls>
-			<ResponsiveTabs
-				{ ...props }
-				selectedDevice={ deviceType }
-				onClick={ setDeviceType }
-			/>
-
 			<PanelArea
 				{ ...props }
+				title={ __( 'Layout', 'generateblocks' ) }
+				initialOpen={ ! isQueryLoop }
+				icon={ getIcon( 'layout' ) }
+				className={ 'gblocks-panel-label' }
 				id={ 'gridLayout' }
 				state={ state }
 			>

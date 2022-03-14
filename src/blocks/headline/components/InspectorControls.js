@@ -1,4 +1,3 @@
-import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { Button, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -36,7 +35,6 @@ export default ( props ) => {
 		attributes,
 		setAttributes,
 		deviceType,
-		setDeviceType,
 		blockState,
 	} = props;
 
@@ -96,8 +94,6 @@ export default ( props ) => {
 
 	return (
 		<InspectorControls>
-			<ResponsiveTabs { ...props } selectedDevice={ deviceType } onClick={ setDeviceType } />
-
 			<PanelArea
 				{ ...props }
 				id={ 'headlineElement' }

@@ -13,7 +13,7 @@ export default function RemoveButton( { id, onClick } ) {
 						onClick( id );
 					}
 				} }
-				icon={ getIcon( 'x' ) }
+				icon={ getIcon( 'trash' ) }
 			/>
 		</Tooltip>
 	);

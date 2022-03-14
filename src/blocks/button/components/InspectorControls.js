@@ -1,4 +1,3 @@
-import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
@@ -31,7 +30,6 @@ export default ( props ) => {
 		attributes,
 		setAttributes,
 		deviceType,
-		setDeviceType,
 		state,
 		blockDefaults,
 	} = props;
@@ -67,8 +65,6 @@ export default ( props ) => {
 
 	return (
 		<InspectorControls>
-			<ResponsiveTabs { ...props } selectedDevice={ deviceType } onClick={ setDeviceType } />
-
 			<PanelArea
 				{ ...props }
 				title={ __( 'Typography', 'generateblocks' ) }
