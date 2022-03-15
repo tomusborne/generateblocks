@@ -925,7 +925,7 @@ export default ( props ) => {
 				<TypographyControls
 					{ ...props }
 					deviceType={ deviceType }
-					options={ [ 'appearance', 'fontSize', 'fontFamily' ] }
+					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'fontFamily' ] }
 				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'containerTypography', props, state ) }

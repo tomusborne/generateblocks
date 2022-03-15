@@ -68,7 +68,7 @@ export default ( props ) => {
 				<TypographyControls
 					{ ...props }
 					deviceType={ deviceType }
-					options={ [ 'appearance', 'fontSize', 'letterSpacing', 'fontFamily' ] }
+					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'letterSpacing', 'fontFamily' ] }
 				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'buttonTypography', props, state ) }

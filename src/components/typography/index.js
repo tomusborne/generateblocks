@@ -10,15 +10,11 @@ import NumberControl from '../number-control';
  */
 import { __ } from '@wordpress/i18n';
 import { Fragment, useEffect, useState } from '@wordpress/element';
-import { moreVertical, check, plus } from '@wordpress/icons';
 import {
 	BaseControl,
 	SelectControl,
 	ToggleControl,
 	TextControl,
-	DropdownMenu,
-	MenuGroup,
-	MenuItem,
 } from '@wordpress/components';
 
 export default function TypographyComponent( props ) {
@@ -38,45 +34,19 @@ export default function TypographyComponent( props ) {
 		textTransform,
 	} = attributes;
 
-	const [ selectedOptions, setSelectedOptions ] = useState( [] );
 	const [ availableOptions, setAvailableOptions ] = useState( options );
-	let typographyPreferences = JSON.parse( localStorage.getItem( 'generateblocksTypography' ) ) || [];
 
 	useEffect( () => {
-		// Appearance and font family options don't have device values.
+		// These options don't have device values.
 		if ( 'Desktop' !== deviceType ) {
 			setAvailableOptions( availableOptions.filter(
 				( option ) =>
-					'appearance' !== option &&
+					'fontWeight' !== option &&
+					'textTransform' !== option &&
 					'fontFamily' !== option
 			) );
 		}
-	}, [] );
-
-	useEffect( () => {
-		const newSelectedOptions = [];
-
-		if ( 2 === availableOptions.length ) {
-			// If there's only 2, always show them.
-			newSelectedOptions.push( availableOptions[ 0 ], availableOptions[ 1 ] );
-		} else if ( availableOptions.length > 0 ) {
-			// Make the first option selected by default.
-			newSelectedOptions.push( availableOptions[ 0 ] );
-
-			// Select other options if they have a value.
-			availableOptions.forEach( ( option, index ) => {
-				if ( index > 0 ) {
-					if ( 'appearance' === option && ( fontWeight || textTransform || typographyPreferences.includes( 'appearance' ) ) ) {
-						newSelectedOptions.push( option );
-					} else if ( attributes[ option ] || typographyPreferences.includes( option ) ) {
-						newSelectedOptions.push( option );
-					}
-				}
-			} );
-		}
-
-		setSelectedOptions( [ ...selectedOptions, ...newSelectedOptions ] );
-	}, [ availableOptions, deviceType ] );
+	}, [ deviceType ] );
 
 	const fonts = [
 		{ value: '', label: __( 'Select font', 'generateblocks' ) },
@@ -165,96 +135,39 @@ export default function TypographyComponent( props ) {
 		onFontChange( value );
 	};
 
-	const optionNames = {
-		appearance: __( 'Appearance', 'generateblocks' ),
-		fontSize: __( 'Font Size', 'generateblocks' ),
-		fontFamily: __( 'Font Family', 'generateblocks' ),
-		lineHeight: __( 'Line Height', 'generateblocks' ),
-		letterSpacing: __( 'Letter Spacing', 'generateblocks' ),
-	};
-
 	return (
 		<div className="gblocks-typography-component">
-			{ availableOptions.length > 1 &&
-				<DropdownMenu
-					icon={ selectedOptions.length > 1
-						? moreVertical
-						: plus
-					}
-					label={ selectedOptions.length > 1
-						? __( 'Toggle Options', 'generateblocks' )
-						: __( 'Add Options', 'generateblocks' )
-					}
-					toggleProps={ {
-						className: 'gblocks-typography-component__toggle',
-					} }
-				>
-					{ () => (
-						<Fragment>
-							<MenuGroup>
-								{ availableOptions.map( ( option, index ) =>
-									<MenuItem
-										key={ index }
-										disabled={ index === 0 }
-										icon={ selectedOptions.includes( option ) ? check : null }
-										onClick={ () => {
-											// Fetch latest localStorage.
-											// useState would be better, but it was acting strange with localStorage.
-											typographyPreferences = JSON.parse( localStorage.getItem( 'generateblocksTypography' ) ) || [];
-
-											if ( selectedOptions.includes( option ) ) {
-												setSelectedOptions( selectedOptions.filter( ( panel ) => panel !== option ) );
-
-												localStorage.setItem(
-													'generateblocksTypography',
-													JSON.stringify( typographyPreferences.filter( ( pref ) => pref !== option ) )
-												);
-											} else {
-												setSelectedOptions( [ ...selectedOptions, option ] );
-
-												localStorage.setItem(
-													'generateblocksTypography',
-													JSON.stringify( [ ...typographyPreferences, option ] )
-												);
-											}
-										} }
-									>
-										{ optionNames[ option ] }
-									</MenuItem>
-								) }
-							</MenuGroup>
-						</Fragment>
-					) }
-				</DropdownMenu>
-			}
-
-			{ availableOptions.includes( 'appearance' ) && selectedOptions.includes( 'appearance' ) &&
+			{ ( availableOptions.includes( 'fontWeight' ) || availableOptions.includes( 'textTransform' ) ) &&
 				<BaseControl className="gblocks-typography-component__appearance">
-					<SelectControl
-						label={ __( 'Weight', 'generateblocks' ) }
-						value={ fontWeight }
-						options={ weight }
-						onChange={ ( value ) => {
-							setAttributes( {
-								fontWeight: value,
-							} );
-						} }
-					/>
+					{ availableOptions.includes( 'fontWeight' ) &&
+						<SelectControl
+							label={ __( 'Weight', 'generateblocks' ) }
+							value={ fontWeight }
+							options={ weight }
+							onChange={ ( value ) => {
+								setAttributes( {
+									fontWeight: value,
+								} );
+							} }
+						/>
+					}
 
-					<SelectControl
-						label={ __( 'Transform', 'generateblocks' ) }
-						value={ textTransform }
-						options={ transform }
-						onChange={ ( value ) => {
-							setAttributes( {
-								textTransform: value,
-							} );
-						} }
-					/>
+					{ availableOptions.includes( 'textTransform' ) &&
+						<SelectControl
+							label={ __( 'Transform', 'generateblocks' ) }
+							value={ textTransform }
+							options={ transform }
+							onChange={ ( value ) => {
+								setAttributes( {
+									textTransform: value,
+								} );
+							} }
+						/>
+					}
 				</BaseControl>
 			}
 
-			{ availableOptions.includes( 'fontSize' ) && selectedOptions.includes( 'fontSize' ) &&
+			{ availableOptions.includes( 'fontSize' ) &&
 				<NumberControl
 					{ ...props }
 					label={ __( 'Font Size', 'generateblocks' ) }
@@ -273,7 +186,7 @@ export default function TypographyComponent( props ) {
 				/>
 			}
 
-			{ availableOptions.includes( 'lineHeight' ) && selectedOptions.includes( 'lineHeight' ) &&
+			{ availableOptions.includes( 'lineHeight' ) &&
 				<NumberControl
 					{ ...props }
 					label={ __( 'Line Height', 'generateblocks' ) }
@@ -306,7 +219,7 @@ export default function TypographyComponent( props ) {
 				/>
 			}
 
-			{ availableOptions.includes( 'letterSpacing' ) && selectedOptions.includes( 'letterSpacing' ) &&
+			{ availableOptions.includes( 'letterSpacing' ) &&
 				<NumberControl
 					{ ...props }
 					label={ __( 'Letter Spacing', 'generateblocks' ) }
@@ -340,7 +253,7 @@ export default function TypographyComponent( props ) {
 				/>
 			}
 
-			{ availableOptions.includes( 'fontFamily' ) && selectedOptions.includes( 'fontFamily' ) &&
+			{ availableOptions.includes( 'fontFamily' ) &&
 				<>
 					<BaseControl className="gblocks-typography-component__font-family">
 						<SelectControl

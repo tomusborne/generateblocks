@@ -126,7 +126,7 @@ export default ( props ) => {
 				<TypographyControls
 					{ ...props }
 					deviceType={ deviceType }
-					options={ [ 'appearance', 'fontSize', 'lineHeight', 'letterSpacing', 'fontFamily' ] }
+					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'lineHeight', 'letterSpacing', 'fontFamily' ] }
 				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'headlineTypography', props, blockState ) }
