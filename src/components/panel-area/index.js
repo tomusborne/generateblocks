@@ -2,7 +2,6 @@ import ApplyFilters from '../apply-filters/';
 
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
-import { useEffect, useState } from '@wordpress/element';
 
 export default function PanelArea( props ) {
 	const {
@@ -16,12 +15,7 @@ export default function PanelArea( props ) {
 		children,
 	} = props;
 
-	const [ openPanels, setOpenPanels ] = useState( JSON.parse( localStorage.getItem( 'generateblocksPanels' ) ) || [] );
-
-	useEffect( () => {
-		localStorage.setItem( 'generateblocksPanels', JSON.stringify( openPanels ) );
-	}, [ openPanels ] );
-
+	let panelData = JSON.parse( localStorage.getItem( 'generateblocksPanels' ) ) || [];
 	const show = applyFilters( 'generateblocks.editor.showPanel', showPanel, id, props );
 
 	if ( ! show ) {
@@ -43,22 +37,44 @@ export default function PanelArea( props ) {
 		return null;
 	}
 
+	const thisPanelData = panelData.filter( ( panel ) => id === panel.id );
+
 	return (
 		<ApplyFilters name={ 'generateblocks.panel.' + id } props={ props } state={ state }>
 			{ title ? (
 				<PanelBody
 					title={ title }
-					initialOpen={ initialOpen || openPanels.includes( id ) }
+					initialOpen={ thisPanelData.length > 0
+						? thisPanelData[ 0 ].open
+						: initialOpen
+					}
 					icon={ icon }
 					className={ className }
 					onToggle={ () => {
-						const panels = JSON.parse( localStorage.getItem( 'generateblocksPanels' ) );
+						// Fetch latest localStorage.
+						// useState would be better, but it was acting strange with localStorage.
+						panelData = JSON.parse( localStorage.getItem( 'generateblocksPanels' ) );
 
-						if ( panels.includes( id ) ) {
-							setOpenPanels( panels.filter( ( panel ) => panel !== id ) );
-						} else {
-							setOpenPanels( [ ...panels, id ] );
-						}
+						const newPanelData = panelData.filter(
+							( panel ) => id === panel.id
+						).length > 0
+							? panelData.map( ( panel ) =>
+								id === panel.id
+									? { ...panel, open: !! panel.open ? false : true }
+									: panel
+							)
+							: [
+								...panelData,
+								{
+									id,
+									open: true,
+								},
+							];
+
+						localStorage.setItem(
+							'generateblocksPanels',
+							JSON.stringify( newPanelData )
+						);
 					} }
 				>
 					{
