@@ -12,6 +12,7 @@ import {
 	BaseControl,
 	Tooltip,
 } from '@wordpress/components';
+import useLocalStorageState from 'use-local-storage-state';
 
 /**
  * Internal dependencies
@@ -37,6 +38,13 @@ export default function NumberControl( props ) {
 	} = props;
 
 	const [ isCustom, setCustom ] = useState( false );
+
+	const [ inputPreferences, setInputPreferences ] = useLocalStorageState(
+		'generateblocksCustomInputs', {
+			ssr: true,
+			defaultValue: [],
+		}
+	);
 
 	const attributeNames = {
 		value: attributeName,
@@ -71,7 +79,8 @@ export default function NumberControl( props ) {
 			! presetsHaveValue
 		) ||
 		hasParentValue ||
-		isCustom;
+		isCustom ||
+		inputPreferences.some( ( pref ) => pref.includes( attributeName ) );
 
 	return (
 		<BaseControl className="gblocks-number-component">
@@ -127,7 +136,13 @@ export default function NumberControl( props ) {
 					}
 
 					<Tooltip text={ __( 'Custom', 'generateblocks' ) }>
-						<Button icon={ settingsIcon } onClick={ () => setCustom( true ) } />
+						<Button
+							icon={ settingsIcon }
+							onClick={ () => {
+								setCustom( true );
+								setInputPreferences( [ ...inputPreferences, attributeName ] );
+							} }
+						/>
 					</Tooltip>
 				</ButtonGroup>
 			}
@@ -173,7 +188,18 @@ export default function NumberControl( props ) {
 						) &&
 						! hasParentValue &&
 						<Tooltip text={ __( 'Presets', 'generateblocks' ) }>
-							<Button isPrimary icon={ settingsIcon } onClick={ () => setCustom( false ) } />
+							<Button
+								icon={ settingsIcon }
+								onClick={ () => {
+									setCustom( false );
+
+									setAttributes( {
+										[ attributeNames.unit ]: presetUnit,
+									} );
+
+									setInputPreferences( inputPreferences.filter( ( pref ) => pref !== attributeName ) );
+								} }
+							/>
 						</Tooltip>
 					}
 				</div>
