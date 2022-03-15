@@ -1,0 +1,32 @@
+{
+  	"$schema": "https://schemas.wp.org/trunk/block.json",
+  	"apiVersion": 2,
+  	"name": "generateblocks/image",
+  	"title": "Image",
+  	"category": "generateblocks",
+  	"description": "Display a image.",
+  	"textdomain": "generateblocks",
+  	"attributes": {
+		"uniqueId": {
+			"type": "string"
+		},
+	  	"mediaId": {
+			"type": "number",
+			"source": "attribute"
+	  	},
+	  	"url": {
+		  	"type": "string",
+		  	"source": "html"
+		}
+	},
+  	"usesContext": [ "postId", "postType" ],
+  	"supports": {
+		"customClassName": true,
+		"align": [ "left", "right", "center", "wide", "full" ],
+		"html": false,
+		"spacing": {
+	  		"margin": true,
+	  		"padding": true
+		}
+  	}
+}

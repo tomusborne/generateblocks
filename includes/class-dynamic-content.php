@@ -86,6 +86,9 @@ class GenerateBlocks_Dynamic_Content {
 
 			case 'pagination-numbers':
 				return self::get_paginate_links( $attributes, $block );
+
+			case 'featured-image':
+				return self::get_dynamic_image( $attributes, $block );
 		}
 	}
 
@@ -417,6 +420,33 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $link_items;
+	}
+
+	/**
+	 * Get the dynamic image.
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param WP_Block $block Block instance.
+	 */
+	public static function get_dynamic_image( $attributes, $block ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		$size_slug = isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full';
+		if ( 'featured-image' === $attributes['contentType'] ) {
+			$featured_image = get_the_post_thumbnail( $id, $size_slug );
+		} else {
+			$featured_image = wp_get_attachment_image( $id, $size_slug );
+		}
+
+		if ( ! $featured_image ) {
+			return '';
+		}
+
+		return $featured_image;
 	}
 
 	/**

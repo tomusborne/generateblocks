@@ -120,6 +120,20 @@ class GenerateBlocks_Render_Block {
 				),
 			)
 		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . 'src/blocks/image',
+			array(
+				'title' => esc_html__( 'Image', 'generateblocks' ),
+				'render_callback' => array( $this, 'do_image_block' ),
+				'uses_context' => array(
+					'generateblocks/query',
+					'generateblocks/gridId',
+					'postType',
+					'postId',
+				),
+			)
+		);
 	}
 
 	/**
@@ -673,6 +687,74 @@ class GenerateBlocks_Render_Block {
 				$tagName
 			);
 		}
+
+		return $output;
+	}
+
+	/**
+	 * Wrapper function for our image block.
+	 *
+	 * @since 1.5.0
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content The dynamic text to display.
+	 * @param WP_Block $block Block instance.
+	 */
+	public static function do_image_block( $attributes, $content, $block ) {
+		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
+			return $content;
+		}
+
+		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes, $block );
+
+		if ( ! $dynamic_content ) {
+			return '';
+		}
+
+		$defaults = generateblocks_get_block_defaults();
+
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['dynamicImage']
+		);
+
+		$classNames = array(
+			'gb-dynamic-image',
+			'gb-dynamic-image-' . $settings['uniqueId'],
+		);
+
+		if ( ! empty( $settings['className'] ) ) {
+			$classNames[] = $settings['className'];
+		}
+
+		$output = sprintf(
+			'<figure %s>',
+			generateblocks_attr(
+				'dynamic-image',
+				array(
+					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
+					'class' => implode( ' ', $classNames ),
+				),
+				$settings,
+				$block
+			)
+		);
+
+		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
+
+		if ( $dynamic_link ) {
+			$dynamic_content = sprintf(
+				'<a href="%s">%s</a>',
+				$dynamic_link,
+				$dynamic_content
+			);
+		} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
+			// If we've set a dynamic link and don't have one, don't output anything.
+			return '';
+		}
+
+		$output .= $dynamic_content;
+
+		$output .= '</figure>';
 
 		return $output;
 	}

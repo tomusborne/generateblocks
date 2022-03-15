@@ -44,7 +44,7 @@ const getOptions = ( name ) => {
 		);
 	}
 
-	if ( 'generateblocks/container' === name ) {
+	if ( 'generateblocks/container' === name || 'generateblocks/image' === name ) {
 		defaultOptions = [
 			{
 				options: [

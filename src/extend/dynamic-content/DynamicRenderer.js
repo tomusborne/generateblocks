@@ -7,12 +7,14 @@ import { RichText } from '@wordpress/block-editor';
 import useDynamicContent from './hooks/useDynamicContent';
 import { useMemo } from '@wordpress/element';
 import ContainerContentRenderer from '../../blocks/container/components/ContainerContentRenderer';
+import ImageContentRenderer from '../../blocks/image/components/ImageContentRenderer';
 
 function getContentRenderer( name ) {
 	const contentRenders = {
 		'generateblocks/headline': HeadlineContentRenderer,
 		'generateblocks/button': ButtonContentRenderer,
 		'generateblocks/container': ContainerContentRenderer,
+		'generateblocks/image': ImageContentRenderer,
 	};
 
 	return contentRenders[ name ];

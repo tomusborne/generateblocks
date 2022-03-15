@@ -420,6 +420,34 @@ function generateblocks_get_block_defaults() {
 		'ariaLabel' => '',
 	);
 
+	$defaults['dynamicImage'] = array(
+		'marginTop' => '',
+		'marginRight' => '',
+		'marginBottom' => '',
+		'marginLeft' => '',
+		'marginTopTablet' => '',
+		'marginRightTablet' => '',
+		'marginBottomTablet' => '',
+		'marginLeftTablet' => '',
+		'marginTopMobile' => '',
+		'marginRightMobile' => '',
+		'marginBottomMobile' => '',
+		'marginLeftMobile' => '',
+		'marginUnit' => 'px',
+		'borderSizeTop' => '',
+		'borderSizeRight' => '',
+		'borderSizeBottom' => '',
+		'borderSizeLeft' => '',
+		'borderSizeTopTablet' => '',
+		'borderSizeRightTablet' => '',
+		'borderSizeBottomTablet' => '',
+		'borderSizeLeftTablet' => '',
+		'borderSizeTopMobile' => '',
+		'borderSizeRightMobile' => '',
+		'borderSizeBottomMobile' => '',
+		'borderSizeLeftMobile' => '',
+	);
+
 	return apply_filters( 'generateblocks_defaults', $defaults );
 }
 
