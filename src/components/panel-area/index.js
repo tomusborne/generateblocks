@@ -2,6 +2,7 @@ import ApplyFilters from '../apply-filters/';
 
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
+import useLocalStorageState from 'use-local-storage-state';
 
 export default function PanelArea( props ) {
 	const {
@@ -15,7 +16,13 @@ export default function PanelArea( props ) {
 		children,
 	} = props;
 
-	let panelData = JSON.parse( localStorage.getItem( 'generateblocksPanels' ) ) || [];
+	const [ panels, setPanels ] = useLocalStorageState(
+		'generateblocksPanels', {
+			ssr: true,
+			defaultValue: {},
+		}
+	);
+
 	const show = applyFilters( 'generateblocks.editor.showPanel', showPanel, id, props );
 
 	if ( ! show ) {
@@ -37,44 +44,29 @@ export default function PanelArea( props ) {
 		return null;
 	}
 
-	const thisPanelData = panelData.filter( ( panel ) => id === panel.id );
-
 	return (
 		<ApplyFilters name={ 'generateblocks.panel.' + id } props={ props } state={ state }>
 			{ title ? (
 				<PanelBody
 					title={ title }
-					initialOpen={ thisPanelData.length > 0
-						? thisPanelData[ 0 ].open
-						: initialOpen
+					initialOpen={
+						'undefined' !== typeof panels[ id ]
+							? panels[ id ]
+							: initialOpen
 					}
 					icon={ icon }
 					className={ className }
 					onToggle={ () => {
-						// Fetch latest localStorage.
-						// useState would be better, but it was acting strange with localStorage.
-						panelData = JSON.parse( localStorage.getItem( 'generateblocksPanels' ) );
+						const isOpen = panels[ id ] ||
+							(
+								'undefined' === typeof panels[ id ] &&
+								initialOpen
+							);
 
-						const newPanelData = panelData.filter(
-							( panel ) => id === panel.id
-						).length > 0
-							? panelData.map( ( panel ) =>
-								id === panel.id
-									? { ...panel, open: !! panel.open ? false : true }
-									: panel
-							)
-							: [
-								...panelData,
-								{
-									id,
-									open: true,
-								},
-							];
-
-						localStorage.setItem(
-							'generateblocksPanels',
-							JSON.stringify( newPanelData )
-						);
+						setPanels( {
+							...panels,
+							[ id ]: ! isOpen,
+						} );
 					} }
 				>
 					{
