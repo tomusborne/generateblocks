@@ -188,7 +188,7 @@ export default function TypographyComponent( props ) {
 						className: 'gblocks-typography-component__toggle',
 					} }
 				>
-					{ ( { onClose } ) => (
+					{ () => (
 						<Fragment>
 							<MenuGroup>
 								{ availableOptions.map( ( option, index ) =>
@@ -202,8 +202,6 @@ export default function TypographyComponent( props ) {
 											} else {
 												setSelectedOptions( [ ...selectedOptions, option ] );
 											}
-
-											onClose();
 										} }
 									>
 										{ optionNames[ option ] }
