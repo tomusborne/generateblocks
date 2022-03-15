@@ -40,6 +40,7 @@ export default function TypographyComponent( props ) {
 
 	const [ selectedOptions, setSelectedOptions ] = useState( [] );
 	const [ availableOptions, setAvailableOptions ] = useState( options );
+	let typographyPreferences = JSON.parse( localStorage.getItem( 'generateblocksTypography' ) ) || [];
 
 	useEffect( () => {
 		// Appearance and font family options don't have device values.
@@ -65,9 +66,9 @@ export default function TypographyComponent( props ) {
 			// Select other options if they have a value.
 			availableOptions.forEach( ( option, index ) => {
 				if ( index > 0 ) {
-					if ( 'appearance' === option && ( fontWeight || textTransform ) ) {
+					if ( 'appearance' === option && ( fontWeight || textTransform || typographyPreferences.includes( 'appearance' ) ) ) {
 						newSelectedOptions.push( option );
-					} else if ( attributes[ option ] ) {
+					} else if ( attributes[ option ] || typographyPreferences.includes( option ) ) {
 						newSelectedOptions.push( option );
 					}
 				}
@@ -197,10 +198,24 @@ export default function TypographyComponent( props ) {
 										disabled={ index === 0 }
 										icon={ selectedOptions.includes( option ) ? check : null }
 										onClick={ () => {
+											// Fetch latest localStorage.
+											// useState would be better, but it was acting strange with localStorage.
+											typographyPreferences = JSON.parse( localStorage.getItem( 'generateblocksTypography' ) ) || [];
+
 											if ( selectedOptions.includes( option ) ) {
 												setSelectedOptions( selectedOptions.filter( ( panel ) => panel !== option ) );
+
+												localStorage.setItem(
+													'generateblocksTypography',
+													JSON.stringify( typographyPreferences.filter( ( pref ) => pref !== option ) )
+												);
 											} else {
 												setSelectedOptions( [ ...selectedOptions, option ] );
+
+												localStorage.setItem(
+													'generateblocksTypography',
+													JSON.stringify( [ ...typographyPreferences, option ] )
+												);
 											}
 										} }
 									>
