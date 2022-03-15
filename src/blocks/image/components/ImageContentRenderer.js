@@ -3,10 +3,12 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { useEntityProp, store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
+import classnames from 'classnames';
+import { applyFilters } from '@wordpress/hooks';
 
 export default function ImageContentRenderer( props ) {
 	const { context, attributes, setAttributes } = props;
-	const blockProps = useBlockProps();
+	const { uniqueId, anchor } = attributes;
 	const postType = 'post-type' === attributes.dynamicSource ? attributes.postType : context.postType;
 	const postId = 'post-type' === attributes.dynamicSource ? attributes.postId : context.postId;
 
@@ -24,9 +26,26 @@ export default function ImageContentRenderer( props ) {
 		} );
 	}, [ attributes.isDynamicContent ] );
 
+	let htmlAttributes = {
+		className: classnames( {
+			'gb-image': true,
+			[ `gb-image-${ uniqueId }` ]: true,
+		} ),
+		id: anchor ? anchor : null,
+	};
+
+	htmlAttributes = applyFilters(
+		'generateblocks.frontend.htmlAttributes',
+		htmlAttributes,
+		'generateblocks/image',
+		attributes
+	);
+
+	const blockProps = useBlockProps( htmlAttributes );
+
 	return (
 		<figure { ...blockProps }>
-			{ ( imageUrl )
+			{ ( !! imageUrl )
 				? <img src={ imageUrl } alt="" />
 				: <ImagePlaceholder />
 			}

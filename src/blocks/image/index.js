@@ -10,6 +10,7 @@ import { useBlockProps } from '@wordpress/block-editor';
  */
 import metadata from './block.json';
 import edit from './edit';
+import save from './save';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 
 const attributes = Object.assign(
@@ -22,15 +23,5 @@ registerBlockType( 'generateblocks/image', {
 	icon: postFeaturedImage,
 	attributes,
 	edit,
-	save: ( { attributes } ) => {
-		if ( ! attributes.isDynamicContent ) {
-			return (
-				<figure { ...useBlockProps.save() }>
-					<img src={ attributes.url } alt="" />
-				</figure>
-			);
-		}
-
-		return undefined;
-	},
+	save,
 } );
