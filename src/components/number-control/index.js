@@ -62,11 +62,15 @@ export default function NumberControl( props ) {
 		} )
 		: presetData.includes( attributes[ attributeNames.value ] );
 
+	const hasParentValue = 'Desktop' !== device &&
+		getResponsivePlaceholder( attributeNames.value, attributes, device, '' );
+
 	const showCustom = allPresets.length === 0 ||
 		(
 			!! hasNumericValue( attributes[ attributeNames.value ] ) &&
 			! presetsHaveValue
 		) ||
+		hasParentValue ||
 		isCustom;
 
 	return (
@@ -76,7 +80,7 @@ export default function NumberControl( props ) {
 					label={ label }
 					value={ attributes[ attributeNames.unit ] || unit }
 					units={ units }
-					disabled={ ! showCustom }
+					singleOption={ ! showCustom }
 					onClick={ ( value ) => {
 						if ( 'undefined' !== typeof attributes[ attributeNames.unit ] ) {
 							setAttributes( {
@@ -167,6 +171,7 @@ export default function NumberControl( props ) {
 							presetsHaveValue ||
 							! hasNumericValue( attributes[ attributeNames.value ] )
 						) &&
+						! hasParentValue &&
 						<Tooltip text={ __( 'Presets', 'generateblocks' ) }>
 							<Button isPrimary icon={ settingsIcon } onClick={ () => setCustom( false ) } />
 						</Tooltip>
