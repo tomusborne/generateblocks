@@ -12,8 +12,8 @@ export default ( { attributes } ) => {
 
 	let htmlAttributes = {
 		className: classnames( {
-			'gb-image': true,
-			[ `gb-image-${ uniqueId }` ]: true,
+			'gb-block-image': true,
+			[ `gb-block-image-${ uniqueId }` ]: true,
 		} ),
 		id: anchor ? anchor : null,
 	};
@@ -29,7 +29,7 @@ export default ( { attributes } ) => {
 
 	return (
 		<Element tagName="figure" htmlAttrs={ blockProps }>
-			<img src={ url } alt="" />
+			<img src={ url } className={ `gb-image-${ uniqueId }` } alt="" />
 		</Element>
 	);
 };

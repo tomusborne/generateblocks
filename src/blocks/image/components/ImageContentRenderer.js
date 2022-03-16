@@ -28,8 +28,8 @@ export default function ImageContentRenderer( props ) {
 
 	let htmlAttributes = {
 		className: classnames( {
-			'gb-image': true,
-			[ `gb-image-${ uniqueId }` ]: true,
+			'gb-block-image': true,
+			[ `gb-block-image-${ uniqueId }` ]: true,
 		} ),
 		id: anchor ? anchor : null,
 	};
@@ -46,7 +46,7 @@ export default function ImageContentRenderer( props ) {
 	return (
 		<figure { ...blockProps }>
 			{ ( !! imageUrl )
-				? <img src={ imageUrl } alt="" />
+				? <img src={ imageUrl } className={ `gb-image-${ uniqueId }` } alt="" />
 				: <ImagePlaceholder />
 			}
 		</figure>

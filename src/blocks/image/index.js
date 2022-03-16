@@ -3,7 +3,6 @@
  */
 import { postFeaturedImage } from '@wordpress/icons';
 import { registerBlockType } from '@wordpress/blocks';
-import { useBlockProps } from '@wordpress/block-editor';
 
 /**
  * Internal dependencies
