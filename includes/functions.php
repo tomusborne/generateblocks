@@ -64,6 +64,10 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['button'][] = $block['attrs'];
 			}
 
+			if ( 'generateblocks/image' === $block['blockName'] ) {
+				$data['image'][] = $block['attrs'];
+			}
+
 			if ( 'core/block' === $block['blockName'] ) {
 				if ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) {
 					$atts = $block['attrs'];

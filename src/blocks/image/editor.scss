@@ -2,6 +2,13 @@
 // @todo: this CSS is similar to that of the Site Logo. That makes it an opportunity
 // to create a new component for placeholders meant to inherit some theme styles.
 .wp-block-generateblocks-image {
+	margin-top: 0;
+	margin-bottom: 0;
+
+	img {
+		vertical-align: middle;
+	}
+
   // Inherit border radius from style variations.
   .components-placeholder,
   .components-resizable-box__container {

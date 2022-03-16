@@ -5,9 +5,17 @@ import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
+import RootElement from '../../../components/root-element';
+import Element from '../../../components/element';
 
 export default function ImageContentRenderer( props ) {
-	const { context, attributes, setAttributes } = props;
+	const {
+		context,
+		attributes,
+		setAttributes,
+		name,
+		clientId,
+	} = props;
 	const { uniqueId, anchor } = attributes;
 	const postType = 'post-type' === attributes.dynamicSource ? attributes.postType : context.postType;
 	const postId = 'post-type' === attributes.dynamicSource ? attributes.postId : context.postId;
@@ -44,11 +52,13 @@ export default function ImageContentRenderer( props ) {
 	const blockProps = useBlockProps( htmlAttributes );
 
 	return (
-		<figure { ...blockProps }>
-			{ ( !! imageUrl )
-				? <img src={ imageUrl } className={ `gb-image-${ uniqueId }` } alt="" />
-				: <ImagePlaceholder />
-			}
-		</figure>
+		<RootElement name={ name } clientId={ clientId }>
+			<Element tagName="figure" htmlAttrs={ blockProps }>
+				{ ( !! imageUrl )
+					? <img src={ imageUrl } className={ `gb-image-${ uniqueId }` } alt="" />
+					: <ImagePlaceholder />
+				}
+			</Element>
+		</RootElement>
 	);
 }

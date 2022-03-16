@@ -700,26 +700,22 @@ class GenerateBlocks_Render_Block {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function do_image_block( $attributes, $content, $block ) {
-		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
-			return $content;
-		}
-
-		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes, $block );
-
-		if ( ! $dynamic_content ) {
-			return '';
-		}
-
 		$defaults = generateblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
 			$attributes,
-			$defaults['dynamicImage']
+			$defaults['image']
 		);
 
+		$image = GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
+
+		if ( ! $image ) {
+			return '';
+		}
+
 		$classNames = array(
-			'gb-dynamic-image',
-			'gb-dynamic-image-' . $settings['uniqueId'],
+			'gb-block-image',
+			'gb-block-image-' . $settings['uniqueId'],
 		);
 
 		if ( ! empty( $settings['className'] ) ) {
@@ -729,7 +725,7 @@ class GenerateBlocks_Render_Block {
 		$output = sprintf(
 			'<figure %s>',
 			generateblocks_attr(
-				'dynamic-image',
+				'image',
 				array(
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
@@ -742,17 +738,17 @@ class GenerateBlocks_Render_Block {
 		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 
 		if ( $dynamic_link ) {
-			$dynamic_content = sprintf(
+			$image = sprintf(
 				'<a href="%s">%s</a>',
 				$dynamic_link,
-				$dynamic_content
+				$image
 			);
 		} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
 			// If we've set a dynamic link and don't have one, don't output anything.
 			return '';
 		}
 
-		$output .= $dynamic_content;
+		$output .= $image;
 
 		$output .= '</figure>';
 

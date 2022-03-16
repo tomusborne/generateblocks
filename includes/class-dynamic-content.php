@@ -436,11 +436,14 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		$size_slug = isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full';
-		if ( 'featured-image' === $attributes['contentType'] ) {
-			$featured_image = get_the_post_thumbnail( $id, $size_slug );
-		} else {
-			$featured_image = wp_get_attachment_image( $id, $size_slug );
-		}
+		$featured_image = wp_get_attachment_image(
+			$id,
+			$size_slug,
+			false,
+			array(
+				'class' => isset( $attributes['uniqueId'] ) ? 'gb-image-' . $attributes['uniqueId'] : null,
+			)
+		);
 
 		if ( ! $featured_image ) {
 			return '';
@@ -461,6 +464,13 @@ class GenerateBlocks_Dynamic_Content {
 			isset( $attributes['postId'] )
 		) {
 			return absint( $attributes['postId'] );
+		}
+
+		if (
+			empty( $attributes['isDynamicContent'] ) &&
+			! empty( $attributes['mediaId'] )
+		) {
+			return absint( $attributes['mediaId'] );
 		}
 
 		if ( ! is_singular() ) {

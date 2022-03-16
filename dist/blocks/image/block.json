@@ -11,8 +11,7 @@
 			"type": "string"
 		},
 	  	"mediaId": {
-			"type": "number",
-			"source": "attribute"
+			"type": "number"
 	  	},
 	  	"url": {
 		  	"type": "string",
