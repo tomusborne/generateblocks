@@ -436,20 +436,35 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		$size_slug = isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full';
-		$featured_image = wp_get_attachment_image(
-			$id,
-			$size_slug,
-			false,
-			array(
-				'class' => isset( $attributes['uniqueId'] ) ? 'gb-image-' . $attributes['uniqueId'] : null,
-			)
-		);
 
-		if ( ! $featured_image ) {
+		if (
+			! empty( $attributes['isDynamicContent'] ) &&
+			isset( $attributes['contentType'] ) &&
+			'featured-image' === $attributes['contentType']
+		) {
+			$dynamic_image = get_the_post_thumbnail(
+				$id,
+				$size_slug,
+				array(
+					'class' => isset( $attributes['uniqueId'] ) ? 'gb-image-' . $attributes['uniqueId'] : null,
+				)
+			);
+		} else {
+			$dynamic_image = wp_get_attachment_image(
+				$id,
+				$size_slug,
+				false,
+				array(
+					'class' => isset( $attributes['uniqueId'] ) ? 'gb-image-' . $attributes['uniqueId'] : null,
+				)
+			);
+		}
+
+		if ( ! $dynamic_image ) {
 			return '';
 		}
 
-		return $featured_image;
+		return $dynamic_image;
 	}
 
 	/**
