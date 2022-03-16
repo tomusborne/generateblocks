@@ -1,4 +1,4 @@
-export default function getSpacingAttributes( name, types ) {
+export default function getSpacingAttributes( name, types = [ 'margin', 'padding', 'border', 'borderRadius' ] ) {
 	const attributes = {};
 
 	if ( types.includes( 'padding' ) ) {

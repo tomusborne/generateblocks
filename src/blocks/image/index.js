@@ -17,7 +17,7 @@ const attributes = Object.assign(
 	{},
 	metadata.attributes,
 	dynamicContentAttributes,
-	getSpacingAttributes( 'image', [ 'margin', 'padding', 'border', 'borderRadius' ] )
+	getSpacingAttributes( 'image' )
 );
 
 registerBlockType( 'generateblocks/image', {
