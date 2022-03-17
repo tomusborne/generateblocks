@@ -837,3 +837,32 @@ function generateblocks_is_valid_date( $date, $format = 'Y-m-d\TH:i:s' ) {
 
 	return ( $dateTime && $dateTime->format( $format ) === $date );
 }
+
+/**
+ * Modifies the markup of images in provided content.
+ *
+ * @param string $content The content to modify.
+ * @param array  $attributes The block attributes.
+ *
+ * @since 1.5.0
+ */
+function generateblocks_filter_images( $content, $attributes ) {
+	if ( ! empty( $attributes['mediaId'] ) ) {
+		// Add 'width' and 'height' attributes if applicable.
+		if ( false === strpos( $content, ' width=' ) && false === strpos( $content, ' height=' ) ) {
+			$content = wp_img_tag_add_width_and_height_attr( $content, '', $attributes['mediaId'] );
+		}
+
+		// Add 'srcset' and 'sizes' attributes if applicable.
+		if ( false === strpos( $content, ' srcset=' ) ) {
+			$content = wp_img_tag_add_srcset_and_sizes_attr( $content, '', $attributes['mediaId'] );
+		}
+	}
+
+	// Add 'loading' attribute if applicable.
+	if ( wp_lazy_loading_enabled( 'img', '' ) && false === strpos( $content, ' loading=' ) ) {
+		$content = wp_img_tag_add_loading_attr( $content, '' );
+	}
+
+	return $content;
+}

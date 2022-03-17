@@ -700,18 +700,22 @@ class GenerateBlocks_Render_Block {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function do_image_block( $attributes, $content, $block ) {
-		$defaults = generateblocks_get_block_defaults();
-
-		$settings = wp_parse_args(
-			$attributes,
-			$defaults['image']
-		);
+		if ( empty( $attributes['isDynamicContent'] ) ) {
+			return generateblocks_filter_images( $content, $attributes );
+		}
 
 		$image = GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
 
 		if ( ! $image ) {
 			return '';
 		}
+
+		$defaults = generateblocks_get_block_defaults();
+
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['image']
+		);
 
 		$classNames = array(
 			'gb-block-image',
