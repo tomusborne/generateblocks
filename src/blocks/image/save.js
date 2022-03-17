@@ -10,6 +10,8 @@ export default ( { attributes } ) => {
 		anchor,
 		alt,
 		title,
+		caption,
+		isDynamicContent,
 	} = attributes;
 
 	let htmlAttributes = {
@@ -37,6 +39,10 @@ export default ( { attributes } ) => {
 				className={ `gb-image-${ uniqueId }` }
 				title={ title }
 			/>
+
+			{ ! isDynamicContent && !! caption &&
+				<Element tagName={ 'figcaption' }>{ caption }</Element>
+			}
 		</Element>
 	);
 };

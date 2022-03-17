@@ -24,6 +24,7 @@ function ImageEdit( props ) {
 			setAttributes( {
 				mediaId: value?.id,
 				url: value?.url,
+				caption: value?.caption?.rendered,
 			} );
 		}
 	};

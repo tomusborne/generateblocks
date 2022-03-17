@@ -6,6 +6,7 @@ import RootElement from '../../../components/root-element';
 import Element from '../../../components/element';
 import { MenuItem } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import Image from './Image';
 
 export default function ImageContentRenderer( props ) {
 	const {
@@ -33,6 +34,7 @@ export default function ImageContentRenderer( props ) {
 	const imageUrl = isDynamicContent ? featuredImage?.source_url : attributes.url;
 	const altText = isDynamicContent ? featuredImage?.alt_text : attributes.alt;
 	const titleText = isDynamicContent ? featuredImage?.title?.rendered : attributes.title;
+	const captionText = isDynamicContent ? featuredImage?.caption?.rendered : attributes.caption;
 
 	let htmlAttributes = {
 		className: classnames( {
@@ -51,13 +53,17 @@ export default function ImageContentRenderer( props ) {
 
 	const blockProps = useBlockProps( htmlAttributes );
 
-	const imgAttributes = {
-		className: `gb-image-${ uniqueId }`,
-		title: titleText,
-	};
-
 	const hasStaticImage = !! mediaId && ! isDynamicContent;
 	const hasFeaturedImage = !! isDynamicContent && 'featured-image' === contentType && 'current-post' === dynamicSource;
+	const imageProps = {
+		src: imageUrl,
+		alt: altText,
+		title: titleText,
+		caption: attributes.caption,
+		className: `gb-image-${ uniqueId }`,
+		hasCaption: ! isDynamicContent,
+		setAttributes,
+	};
 
 	return (
 		<>
@@ -89,7 +95,7 @@ export default function ImageContentRenderer( props ) {
 			<RootElement name={ name } clientId={ clientId }>
 				<Element tagName="figure" htmlAttrs={ blockProps }>
 					{ ( !! imageUrl )
-						? <img src={ imageUrl } alt={ altText } { ...imgAttributes } />
+						? <Image { ...imageProps } />
 						: <ImagePlaceholder { ...props } />
 					}
 				</Element>

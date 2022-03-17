@@ -29,10 +29,12 @@ export default function ImageSettingsControls( props ) {
 		if ( ! isDynamicContent ) {
 			const altText = !! image ? image.alt_text : '';
 			const titleText = !! image ? image.title.rendered : '';
+			const caption = !! image ? image.caption.rendered : '';
 
 			setAttributes( {
 				alt: altText,
 				title: titleText,
+				caption,
 			} );
 		}
 	}, [ isDynamicContent, mediaId, media, image ] );
