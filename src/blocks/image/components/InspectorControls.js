@@ -1,5 +1,4 @@
 import { InspectorControls } from '@wordpress/block-editor';
-import MediaUploadControl from '../../../components/media-upload-control';
 import PanelArea from '../../../components/panel-area';
 import DimensionsGroup from '../../../components/dimensions-group';
 import getIcon from '../../../utils/get-icon';
@@ -8,30 +7,12 @@ import ImageSettingsControls from './inspector-controls/ImageSettingsControl';
 
 export default function ImageInspectorControls( props ) {
 	const {
-		attributes,
-		setAttributes,
 		state,
 		deviceType,
 	} = props;
 
 	return (
 		<InspectorControls>
-			<MediaUploadControl
-				url={ attributes.url }
-				id={ attributes.mediaId }
-				disabled={ attributes.isDynamicContent }
-				onSelect={ ( media ) => {
-					setAttributes( {
-						mediaId: media?.id,
-						url: media?.url,
-					} );
-				} }
-				onChange={ ( newUrl ) => {
-					setAttributes( { url: newUrl, mediaId: undefined } );
-				} }
-				onClose={ () => {} }
-			/>
-
 			<ImageSettingsControls { ...props } />
 
 			<PanelArea

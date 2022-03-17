@@ -6,14 +6,14 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 
 	return useSelect( ( select ) => {
 		let terms = [];
-		let media = {};
+		let featured_media_object = {};
 		const { getEntityRecord, getEntityRecords, getUser, getMedia } = select( coreStore );
 		const postRecord = getEntityRecord( 'postType', postType, postId );
 		const author = getUser( postRecord?.author );
 		const comments = getEntityRecords( 'root', 'comment', { post: postId } );
 
 		if ( load.includes( 'featured-image' ) && postRecord ) {
-			media = getMedia( featuredImage, { context: 'view' } );
+			featured_media_object = getMedia( featuredImage, { context: 'view' } );
 		}
 
 		if ( load.includes( 'terms' ) && postRecord ) {
@@ -21,7 +21,7 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 		}
 
 		return postRecord
-			? Object.assign( {}, postRecord, { author, comments, terms, media } )
+			? Object.assign( {}, postRecord, { author, comments, terms, featured_media_object } )
 			: undefined;
-	}, [ postType, postId, load.join(), JSON.stringify( options ) ] );
+	}, [ postType, postId, featuredImage, load.join(), JSON.stringify( options ) ] );
 }

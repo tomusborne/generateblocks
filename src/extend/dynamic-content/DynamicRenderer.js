@@ -20,6 +20,10 @@ function getContentRenderer( name ) {
 	return contentRenders[ name ];
 }
 
+function getMediaUrl( media, size ) {
+	return media?.media_details?.sizes?.[ size ]?.source_url || media?.source_url;
+}
+
 export default function DynamicRenderer( props ) {
 	const {
 		name,
@@ -66,7 +70,10 @@ export default function DynamicRenderer( props ) {
 	const newAttributes = Object.assign( {}, attributes, {
 		content: 'generateblocks/headline' === name ? content : undefined,
 		text: 'generateblocks/button' === name ? content : undefined,
-		dynamicImage: 'generateblocks/container' === name ? content : undefined,
+		dynamicImage: 'generateblocks/container' === name
+			? getMediaUrl( content, attributes.bgImageSize || 'full' )
+			: undefined,
+		featuredImage: 'generateblocks/image' === name ? content : undefined,
 	} );
 
 	const newProps = Object.assign( {}, props, {
