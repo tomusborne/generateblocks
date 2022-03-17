@@ -59,9 +59,9 @@ export default function ImageContentRenderer( props ) {
 		src: imageUrl,
 		alt: altText,
 		title: titleText,
-		caption: attributes.caption,
+		caption: captionText,
 		className: `gb-image-${ uniqueId }`,
-		hasCaption: ! isDynamicContent,
+		isDynamic: !! isDynamicContent,
 		setAttributes,
 	};
 

@@ -9,6 +9,10 @@
 		vertical-align: middle;
 	}
 
+	figcaption p {
+		margin: 0;
+	}
+
   // Inherit border radius from style variations.
   .components-placeholder,
   .components-resizable-box__container {

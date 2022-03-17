@@ -8,9 +8,11 @@ export default function Image( props ) {
 		title,
 		caption,
 		className,
-		hasCaption,
+		isDynamic,
 		setAttributes,
 	} = props;
+
+	const cleanCaption = caption ? caption.replace( /<\/?[^>]+(>|$)/g, '' ) : '';
 
 	return (
 		<>
@@ -21,7 +23,7 @@ export default function Image( props ) {
 				className={ className }
 			/>
 
-			{ hasCaption &&
+			{ ! isDynamic &&
 				<RichText
 					tagName="figcaption"
 					aria-label={ __( 'Image caption text' ) }
@@ -32,6 +34,10 @@ export default function Image( props ) {
 					}
 					inlineToolbar
 				/>
+			}
+
+			{ !! isDynamic && !! caption &&
+				<figcaption>{ cleanCaption }</figcaption>
 			}
 		</>
 	);
