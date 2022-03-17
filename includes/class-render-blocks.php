@@ -754,6 +754,15 @@ class GenerateBlocks_Render_Block {
 
 		$output .= $image;
 
+		$caption = GenerateBlocks_Dynamic_Content::get_dynamic_image_caption( $attributes );
+
+		if ( $caption ) {
+			$output .= sprintf(
+				'<figcaption>%s</figcaption>',
+				$caption
+			);
+		}
+
 		$output .= '</figure>';
 
 		return $output;
