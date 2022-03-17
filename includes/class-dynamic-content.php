@@ -435,30 +435,14 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		$size_slug = isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full';
-
-		if (
-			! empty( $attributes['isDynamicContent'] ) &&
-			isset( $attributes['contentType'] ) &&
-			'featured-image' === $attributes['contentType']
-		) {
-			$dynamic_image = get_the_post_thumbnail(
-				$id,
-				$size_slug,
-				array(
-					'class' => isset( $attributes['uniqueId'] ) ? 'gb-image-' . $attributes['uniqueId'] : null,
-				)
-			);
-		} else {
-			$dynamic_image = wp_get_attachment_image(
-				$id,
-				$size_slug,
-				false,
-				array(
-					'class' => isset( $attributes['uniqueId'] ) ? 'gb-image-' . $attributes['uniqueId'] : null,
-				)
-			);
-		}
+		$dynamic_image = wp_get_attachment_image(
+			$id,
+			isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full',
+			false,
+			array(
+				'class' => 'gb-image-' . $attributes['uniqueId'],
+			)
+		);
 
 		if ( ! $dynamic_image ) {
 			return '';
@@ -468,31 +452,49 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
+	 * Get the dynamic image caption.
+	 *
+	 * @param array $attributes The block attributes.
+	 */
+	public static function get_dynamic_image_caption( $attributes ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		return wp_get_attachment_caption( $id );
+	}
+
+	/**
 	 * Get our source ID.
 	 *
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_source_id( $attributes ) {
+		$id = get_the_ID();
+
 		if (
 			isset( $attributes['dynamicSource'] ) &&
 			'current-post' !== $attributes['dynamicSource'] &&
 			isset( $attributes['postId'] )
 		) {
-			return absint( $attributes['postId'] );
+			$id = absint( $attributes['postId'] );
 		}
 
 		if (
-			empty( $attributes['isDynamicContent'] ) &&
-			! empty( $attributes['mediaId'] )
+			! empty( $attributes['isDynamicContent'] ) &&
+			! empty( $attributes['contentType'] ) &&
+			'featured-image' === $attributes['contentType']
 		) {
-			return absint( $attributes['mediaId'] );
+			$id = get_post_thumbnail_id( $id );
 		}
 
 		if ( ! is_singular() ) {
-			return get_queried_object_id();
+			$id = get_queried_object_id();
 		}
 
-		return get_the_ID();
+		return $id;
 	}
 
 	/**
@@ -536,11 +538,10 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		$size = isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full';
-
-		if ( 'featured-image' === $attributes['contentType'] ) {
-			return get_the_post_thumbnail_url( $id, $size );
-		}
+		return wp_get_attachment_image_url(
+			$id,
+			isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full'
+		);
 	}
 
 	/**
