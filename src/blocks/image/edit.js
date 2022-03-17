@@ -20,6 +20,10 @@ function ImageEdit( props ) {
 	const [ deviceType ] = useDeviceType( 'Desktop' );
 
 	const onSelectImage = ( value ) => {
+		/**
+		 * todo: Needs setFeaturedImage in here.
+		 */
+
 		if ( ! isDynamicContent ) {
 			setAttributes( {
 				mediaId: value?.id,

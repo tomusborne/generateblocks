@@ -78,6 +78,9 @@ export default function ImageContentRenderer( props ) {
 						onError={ onUploadError }
 					>
 						<MenuItem onClick={ () => {
+							/**
+							 * todo: Needs setFeaturedImage in here.
+							 */
 
 							if ( ! isDynamicContent ) {
 								setAttributes( {
