@@ -8,6 +8,7 @@ export default ( { attributes } ) => {
 		uniqueId,
 		url,
 		anchor,
+		alt,
 	} = attributes;
 
 	let htmlAttributes = {
@@ -29,7 +30,7 @@ export default ( { attributes } ) => {
 
 	return (
 		<Element tagName="figure" htmlAttrs={ blockProps }>
-			<img src={ url } className={ `gb-image-${ uniqueId }` } alt="" />
+			<img src={ url } alt={ alt } className={ `gb-image-${ uniqueId }` } />
 		</Element>
 	);
 };

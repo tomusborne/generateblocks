@@ -72,6 +72,7 @@ function ImageEdit( props ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				deviceType={ deviceType }
+				media={ media }
 			/>
 
 			{ ( hasStaticImage || ( hasFeaturedImage && ! isDescendentOfQueryLoop ) ) &&
