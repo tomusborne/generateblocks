@@ -13,9 +13,10 @@ export default function ImageContentRenderer( props ) {
 		media,
 	} = props;
 
-	const { uniqueId, isDynamicContent, anchor, alt } = attributes;
+	const { uniqueId, isDynamicContent, anchor } = attributes;
 	const imageUrl = isDynamicContent ? media?.source_url : attributes.url;
 	const altText = isDynamicContent ? media?.alt_text : attributes.alt;
+	const titleText = isDynamicContent ? media?.title?.rendered : attributes.title;
 
 	let htmlAttributes = {
 		className: classnames( {
@@ -34,11 +35,16 @@ export default function ImageContentRenderer( props ) {
 
 	const blockProps = useBlockProps( htmlAttributes );
 
+	const imgAttributes = {
+		className: `gb-image-${ uniqueId }`,
+		title: titleText,
+	};
+
 	return (
 		<RootElement name={ name } clientId={ clientId }>
 			<Element tagName="figure" htmlAttrs={ blockProps }>
 				{ ( !! imageUrl )
-					? <img src={ imageUrl } alt={ altText } className={ `gb-image-${ uniqueId }` } />
+					? <img src={ imageUrl } alt={ altText } { ...imgAttributes } />
 					: <ImagePlaceholder { ...props } />
 				}
 			</Element>

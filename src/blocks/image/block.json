@@ -25,6 +25,12 @@
 			"selector": "img",
 			"attribute": "alt",
 			"default": ""
+	  	},
+	  	"title": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "img",
+			"attribute": "title"
 	  	}
 	},
   	"usesContext": [ "postId", "postType" ],

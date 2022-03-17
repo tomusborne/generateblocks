@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../../utils/get-icon';
 import PanelArea from '../../../../components/panel-area';
-import { TextareaControl } from '@wordpress/components';
+import { TextareaControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 import { useEffect } from '@wordpress/element';
@@ -18,6 +18,7 @@ export default function ImageSettingsControls( props ) {
 		isDynamicContent,
 		mediaId,
 		alt,
+		title,
 	} = attributes;
 
 	const image = useSelect( ( select ) => {
@@ -27,8 +28,12 @@ export default function ImageSettingsControls( props ) {
 	useEffect( () => {
 		if ( ! isDynamicContent ) {
 			const altText = !! image ? image.alt_text : '';
+			const titleText = !! image ? image.title.rendered : '';
 
-			setAttributes( { alt: altText } );
+			setAttributes( {
+				alt: altText,
+				title: titleText,
+			} );
 		}
 	}, [ isDynamicContent, mediaId, media, image ] );
 
@@ -50,6 +55,16 @@ export default function ImageSettingsControls( props ) {
 				disabled={ isDynamicContent }
 				onChange={ ( value ) => (
 					setAttributes( { alt: value } )
+				) }
+			/>
+
+			<TextControl
+				label={ __( 'Title attribute', 'generateblocks' ) }
+				help={ __( 'Describe the role of this image on the page.', 'generateblocks' ) }
+				value={ isDynamicContent ? media?.title?.rendered : title }
+				disabled={ isDynamicContent }
+				onChange={ ( value ) => (
+					setAttributes( { title: value } )
 				) }
 			/>
 
