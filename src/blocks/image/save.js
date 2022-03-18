@@ -3,6 +3,7 @@ import Element from '../../components/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 import { removeEmpty } from '../post-template/utils';
+import AnchorTag from './components/AnchorTag';
 
 export default ( { attributes } ) => {
 	const {
@@ -12,6 +13,10 @@ export default ( { attributes } ) => {
 		alt,
 		title,
 		caption,
+		href,
+		target,
+		relNoFollow,
+		relSponsored,
 		isDynamicContent,
 	} = attributes;
 
@@ -43,9 +48,19 @@ export default ( { attributes } ) => {
 		className: `gb-image-${ uniqueId }`,
 	} );
 
+	const anchorAttributes = {
+		href,
+		target,
+		relNoFollow,
+		relSponsored,
+	};
+
 	return (
 		<Element tagName="figure" htmlAttrs={ blockProps }>
-			<Element tagName="img" htmlAttrs={ imageAttributes } />
+			<AnchorTag { ...anchorAttributes }>
+				<Element tagName="img" htmlAttrs={ imageAttributes } />
+			</AnchorTag>
+
 			{ !! caption && <Element tagName={ 'figcaption' }>{ caption }</Element> }
 		</Element>
 	);

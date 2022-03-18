@@ -1,5 +1,6 @@
 import { RichText } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+import AnchorTag from './AnchorTag';
 
 export default function Image( props ) {
 	const {
@@ -11,16 +12,19 @@ export default function Image( props ) {
 		isDynamic,
 		setAttributes,
 		isSelected,
+		anchorAttributes,
 	} = props;
 
 	return (
 		<>
-			<img
-				src={ src }
-				alt={ alt }
-				title={ title }
-				className={ className }
-			/>
+			<AnchorTag { ...anchorAttributes }>
+				<img
+					src={ src }
+					alt={ alt }
+					title={ title }
+					className={ className }
+				/>
+			</AnchorTag>
 
 			{ ! isDynamic &&
 				(

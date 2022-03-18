@@ -1,12 +1,11 @@
 import ImagePlaceholder from './ImagePlaceholder';
-import { BlockControls, MediaReplaceFlow, useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps } from '@wordpress/block-editor';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 import RootElement from '../../../components/root-element';
 import Element from '../../../components/element';
-import { MenuItem } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
 import Image from './Image';
+import BlockControls from './BlockControls';
 
 export default function ImageContentRenderer( props ) {
 	const {
@@ -14,24 +13,22 @@ export default function ImageContentRenderer( props ) {
 		setAttributes,
 		name,
 		clientId,
-		context,
-		onSelectImage,
-		onUploadError,
-		onResetImage,
 		isSelected,
+		context,
 	} = props;
 
 	const {
 		uniqueId,
 		isDynamicContent,
-		anchor,
 		contentType,
 		dynamicSource,
-		mediaId,
+		anchor,
 		featuredImage, // Injected by DynamicRenderer
+		href,
+		target,
+		relNoFollow,
+		relSponsored,
 	} = attributes;
-
-	const isDescendentOfQueryLoop = !! context[ 'generateblocks/query' ];
 
 	const imageUrl = isDynamicContent ? featuredImage?.source_url : attributes.url;
 	const altText = isDynamicContent ? featuredImage?.alt_text : attributes.alt;
@@ -55,6 +52,8 @@ export default function ImageContentRenderer( props ) {
 
 	const blockProps = useBlockProps( htmlAttributes );
 
+	const isDescendentOfQueryLoop = !! context[ 'generateblocks/query' ];
+
 	const canUploadImage =
 		! isDynamicContent ||
 		(
@@ -63,6 +62,15 @@ export default function ImageContentRenderer( props ) {
 			'current-post' === dynamicSource &&
 			! isDescendentOfQueryLoop
 		);
+
+	const anchorAttributes = {
+		href,
+		target,
+		relNoFollow,
+		relSponsored,
+		disabled: true,
+	};
+
 	const imageProps = {
 		src: imageUrl,
 		alt: altText,
@@ -72,26 +80,12 @@ export default function ImageContentRenderer( props ) {
 		isDynamic: !! isDynamicContent,
 		setAttributes,
 		isSelected,
+		anchorAttributes,
 	};
 
 	return (
 		<>
-			{ !! imageUrl && canUploadImage &&
-				<BlockControls group="other">
-					<MediaReplaceFlow
-						mediaId={ mediaId }
-						mediaURL={ imageUrl }
-						allowedTypes={ [ 'image' ] }
-						accept="image/*"
-						onSelect={ onSelectImage }
-						onError={ onUploadError }
-					>
-						<MenuItem onClick={ onResetImage }>
-							{ __( 'Reset' ) }
-						</MenuItem>
-					</MediaReplaceFlow>
-				</BlockControls>
-			}
+			<BlockControls { ...props } imageUrl={ imageUrl } canUploadImage={ canUploadImage } />
 
 			<RootElement name={ name } clientId={ clientId }>
 				<Element tagName="figure" htmlAttrs={ blockProps }>

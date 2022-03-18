@@ -39,6 +39,30 @@
 			"source": "html",
 			"selector": "figcaption",
 		  	"default": ""
+	  	},
+	  	"href": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure > a",
+			"attribute": "href"
+	  	},
+	  	"target": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure > a",
+			"attribute": "target"
+	  	},
+	  	"relNoFollow": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure > a",
+			"attribute": "rel"
+	  	},
+	  	"relSponsored": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure > a",
+			"attribute": "rel"
 	  	}
 	},
   	"usesContext": [ "postId", "postType" ],
