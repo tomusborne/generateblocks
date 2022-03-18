@@ -80,15 +80,7 @@ export default function ImageContentRenderer( props ) {
 						onSelect={ onSelectImage }
 						onError={ onUploadError }
 					>
-						<MenuItem onClick={ () => {
-							/**
-							 * todo: Needs setFeaturedImage in here.
-							 */
-
-							if ( ! isDynamicContent ) {
-								onResetImage();
-							}
-						} }>
+						<MenuItem onClick={ onResetImage }>
 							{ __( 'Reset' ) }
 						</MenuItem>
 					</MediaReplaceFlow>

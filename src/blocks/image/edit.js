@@ -8,23 +8,28 @@ import ComponentCSS from './components/ComponentCSS';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 import InspectorControls from './components/InspectorControls';
-import { useEffect } from '@wordpress/element';
+import { useEntityProp } from '@wordpress/core-data';
 
 function ImageEdit( props ) {
 	const {
 		attributes,
 		setAttributes,
+		context,
 		ContentRenderer = ImageContentRenderer,
 	} = props;
 
-	const { isDynamicContent } = attributes;
+	const { isDynamicContent, contentType } = attributes;
 	const [ deviceType ] = useDeviceType( 'Desktop' );
 	const { createErrorNotice } = useDispatch( noticesStore );
+	const postType = 'post-type' === attributes.dynamicSource ? attributes.postType : context.postType;
+	const postId = 'post-type' === attributes.dynamicSource ? attributes.postId : context.postId;
+
+	const [ featuredImage, setFeaturedImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
 
 	const onSelectImage = ( image ) => {
-		/**
-		 * todo: Needs setFeaturedImage in here.
-		 */
+		if ( isDynamicContent && 'featured-image' === contentType && image?.id ) {
+			setFeaturedImage( image.id );
+		}
 
 		if ( ! isDynamicContent ) {
 			setAttributes( {
@@ -42,6 +47,10 @@ function ImageEdit( props ) {
 	};
 
 	const onResetImage = () => {
+		if ( isDynamicContent && 'featured-image' === contentType ) {
+			setFeaturedImage( 0 );
+		}
+
 		setAttributes( {
 			mediaId: undefined,
 			url: '',
@@ -50,10 +59,6 @@ function ImageEdit( props ) {
 			caption: '',
 		} );
 	};
-
-	useEffect( () => {
-		onResetImage();
-	}, [ isDynamicContent ] );
 
 	return (
 		<>
