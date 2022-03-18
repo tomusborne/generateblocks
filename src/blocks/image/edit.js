@@ -34,7 +34,7 @@ function ImageEdit( props ) {
 		if ( ! isDynamicContent ) {
 			setAttributes( {
 				mediaId: image?.id,
-				url: image?.url,
+				mediaUrl: image?.url,
 				alt: image?.alt,
 				title: image?.title,
 				caption: image?.caption,
@@ -53,7 +53,7 @@ function ImageEdit( props ) {
 
 		setAttributes( {
 			mediaId: undefined,
-			url: '',
+			mediaUrl: '',
 			alt: '',
 			title: '',
 			caption: '',

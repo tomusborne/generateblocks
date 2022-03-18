@@ -25,12 +25,12 @@ export default function ImageContentRenderer( props ) {
 		anchor,
 		featuredImage, // Injected by DynamicRenderer
 		href,
-		target,
+		openInNewWindow,
 		relNoFollow,
 		relSponsored,
 	} = attributes;
 
-	const imageUrl = isDynamicContent ? featuredImage?.source_url : attributes.url;
+	const imageUrl = isDynamicContent ? featuredImage?.source_url : attributes.mediaUrl;
 	const altText = isDynamicContent ? featuredImage?.alt_text : attributes.alt;
 	const titleText = isDynamicContent ? featuredImage?.title?.rendered : attributes.title;
 	const captionText = isDynamicContent ? featuredImage?.caption?.rendered : attributes.caption;
@@ -65,7 +65,7 @@ export default function ImageContentRenderer( props ) {
 
 	const anchorAttributes = {
 		href,
-		target,
+		openInNewWindow,
 		relNoFollow,
 		relSponsored,
 		disabled: true,

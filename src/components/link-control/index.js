@@ -18,7 +18,7 @@ function DisabledInputMessage( marginBottom = false ) {
 
 	return (
 		<div style={ styles }>
-			{  __( 'This button is using a dynamic link.', 'generateblocks' ) }
+			{ __( 'This button is using a dynamic link.', 'generateblocks' ) }
 		</div>
 	);
 }
@@ -27,24 +27,33 @@ function LinkDropdownContent( props ) {
 	const {
 		attributes,
 		setAttributes,
+		name,
 	} = props;
 
 	const {
 		href,
-		target,
 		relNoFollow,
 		relSponsored,
 		dynamicLinkType,
 		isDynamicContent,
-		hasDynamicLink,
+		url,
 	} = attributes;
+
+	const hasDynamicLink = isDynamicContent && dynamicLinkType;
+	const targetAttribute = 'generateblocks/button' === name
+		? 'target'
+		: 'openInNewWindow';
+	const targetValue = attributes[ targetAttribute ];
+	const urlValue = 'generateblocks/button' === name
+		? url
+		: href;
 
 	return (
 		<>
 			{ ! isDynamicContent
 				? <URLInput
 					className={ 'gblocks-link-url' }
-					value={ href }
+					value={ urlValue }
 					onChange={ ( value ) => ( setAttributes( { href: value } ) ) }
 				/>
 				: <DisabledInputMessage marginBottom={ !! dynamicLinkType } />
@@ -52,13 +61,13 @@ function LinkDropdownContent( props ) {
 
 			{ applyFilters( 'generateblocks.editor.urlInputMoreOptions', '', attributes ) }
 
-			{ ( !! href || hasDynamicLink ) &&
+			{ ( !! urlValue || hasDynamicLink ) &&
 				<>
 					<ToggleControl
 						label={ __( 'Open link in a new tab', 'generateblocks' ) }
-						checked={ target || '' }
+						checked={ targetValue || '' }
 						onChange={ ( value ) => (
-							setAttributes( { target: ( value ? '_blank' : undefined ) } )
+							setAttributes( { [ targetAttribute ]: value } )
 						) }
 					/>
 
@@ -66,7 +75,7 @@ function LinkDropdownContent( props ) {
 						label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
 						checked={ relNoFollow || '' }
 						onChange={ ( value ) => (
-							setAttributes( { relNoFollow: ( value ? 'nofollow' : undefined ) } )
+							setAttributes( { relNoFollow: value } )
 						) }
 					/>
 
@@ -74,7 +83,7 @@ function LinkDropdownContent( props ) {
 						label={ __( 'Add rel="sponsored"', 'generateblocks' ) }
 						checked={ relSponsored || '' }
 						onChange={ ( value ) => (
-							setAttributes( { relSponsored: ( value ? 'sponsored' : undefined ) } )
+							setAttributes( { relSponsored: value } )
 						) }
 					/>
 				</>
@@ -84,9 +93,14 @@ function LinkDropdownContent( props ) {
 }
 
 export default function Index( props ) {
-	const { url } = props;
+	const { attributes, name } = props;
+	const { url, href } = attributes;
 
-	const buttonLabel = ! url
+	const urlValue = 'generateblocks/button' === name
+		? url
+		: href;
+
+	const buttonLabel = ! urlValue
 		? __( 'Add Link', 'generateblocks' )
 		: __( 'Change Link', 'generateblocks' );
 
@@ -100,7 +114,7 @@ export default function Index( props ) {
 					label={ buttonLabel }
 					onClick={ onToggle }
 					aria-expanded={ isOpen }
-					isPressed={ !! url }
+					isPressed={ !! urlValue }
 				/>
 			) }
 			renderContent={ () => ( <LinkDropdownContent { ...props } /> ) }

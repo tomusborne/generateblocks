@@ -13,7 +13,7 @@
 	  	"mediaId": {
 			"type": "number"
 	  	},
-	  	"url": {
+	  	"mediaUrl": {
 		  	"type": "string",
 		  	"source": "attribute",
         	"selector": "img",
@@ -46,23 +46,17 @@
 			"selector": "figure > a",
 			"attribute": "href"
 	  	},
-	  	"target": {
-			"type": "string",
-			"source": "attribute",
-			"selector": "figure > a",
-			"attribute": "target"
+	  	"openInNewWindow": {
+			"type": "boolean",
+			"default": false
 	  	},
 	  	"relNoFollow": {
-			"type": "string",
-			"source": "attribute",
-			"selector": "figure > a",
-			"attribute": "rel"
+			"type": "boolean",
+			"default": false
 	  	},
 	  	"relSponsored": {
-			"type": "string",
-			"source": "attribute",
-			"selector": "figure > a",
-			"attribute": "rel"
+			"type": "boolean",
+			"default": false
 	  	}
 	},
   	"usesContext": [ "postId", "postType" ],

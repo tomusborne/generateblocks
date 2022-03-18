@@ -8,19 +8,19 @@ import AnchorTag from './components/AnchorTag';
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		url,
+		mediaUrl,
 		anchor,
 		alt,
 		title,
 		caption,
 		href,
-		target,
+		openInNewWindow,
 		relNoFollow,
 		relSponsored,
 		isDynamicContent,
 	} = attributes;
 
-	if ( isDynamicContent || ! url ) {
+	if ( isDynamicContent || ! mediaUrl ) {
 		return undefined;
 	}
 
@@ -42,7 +42,7 @@ export default ( { attributes } ) => {
 	const blockProps = useBlockProps.save( htmlAttributes );
 
 	const imageAttributes = removeEmpty( {
-		src: url,
+		src: mediaUrl,
 		alt,
 		title,
 		className: `gb-image-${ uniqueId }`,
@@ -50,7 +50,7 @@ export default ( { attributes } ) => {
 
 	const anchorAttributes = {
 		href,
-		target,
+		openInNewWindow,
 		relNoFollow,
 		relSponsored,
 	};

@@ -742,9 +742,40 @@ class GenerateBlocks_Render_Block {
 		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 
 		if ( $dynamic_link ) {
+			$relAttributes = array();
+
+			if ( ! empty( $settings['relNoFollow'] ) ) {
+				$relAttributes[] = 'nofollow';
+			}
+
+			if ( ! empty( $settings['openInNewWindow'] ) ) {
+				$relAttributes[] = 'noopener';
+				$relAttributes[] = 'noreferrer';
+			}
+
+			if ( ! empty( $settings['relSponsored'] ) ) {
+				$relAttributes[] = 'sponsored';
+			}
+
+			$dynamic_link_data = array(
+				'href' => $dynamic_link,
+				'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+				'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
+			);
+
+			$dynamic_link_attributes = '';
+
+			foreach ( $dynamic_link_data as $attribute => $value ) {
+				$dynamic_link_attributes .= sprintf(
+					' %s="%s"',
+					$attribute,
+					$value
+				);
+			}
+
 			$image = sprintf(
-				'<a href="%s">%s</a>',
-				$dynamic_link,
+				'<a %s>%s</a>',
+				trim( $dynamic_link_attributes ),
 				$image
 			);
 		} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {

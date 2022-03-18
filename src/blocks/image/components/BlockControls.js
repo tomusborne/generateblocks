@@ -18,6 +18,14 @@ export default function ImageBlockControls( props ) {
 
 	return (
 		<BlockControls>
+			{ !! imageUrl &&
+				<ToolbarGroup>
+					<LinkControl
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+					/>
+				</ToolbarGroup>
+			}
 
 			{ !! imageUrl && canUploadImage &&
 				<ToolbarGroup>
@@ -35,14 +43,6 @@ export default function ImageBlockControls( props ) {
 					</MediaReplaceFlow>
 				</ToolbarGroup>
 			}
-
-			<ToolbarGroup>
-				<LinkControl
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
-			</ToolbarGroup>
-
 		</BlockControls>
 	);
 }

@@ -1,7 +1,7 @@
 export default function AnchorTag( props ) {
 	const {
 		href,
-		target,
+		openInNewWindow,
 		relNoFollow,
 		relSponsored,
 		children,
@@ -10,7 +10,7 @@ export default function AnchorTag( props ) {
 
 	const relAttributes = [];
 
-	if ( target ) {
+	if ( openInNewWindow ) {
 		relAttributes.push( 'noopener', 'noreferrer' );
 	}
 
@@ -27,7 +27,7 @@ export default function AnchorTag( props ) {
 			{ !! href
 				? <a
 					href={ disabled ? undefined : href }
-					target={ target }
+					target={ openInNewWindow ? '_blank' : undefined }
 					rel={ relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null }
 				>
 					{ children }
