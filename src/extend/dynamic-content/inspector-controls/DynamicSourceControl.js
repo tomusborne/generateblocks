@@ -10,6 +10,7 @@ export default ( { dynamicSource, postType, postId, setAttributes } ) => {
 				onChange={ ( option ) => {
 					setAttributes( {
 						dynamicSource: option.value,
+						contentType: '',
 						postId: '',
 						postType: 'post',
 					} );
