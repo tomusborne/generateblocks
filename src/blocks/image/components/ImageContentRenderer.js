@@ -55,8 +55,14 @@ export default function ImageContentRenderer( props ) {
 
 	const blockProps = useBlockProps( htmlAttributes );
 
-	const hasStaticImage = !! mediaId && ! isDynamicContent;
-	const hasFeaturedImage = !! isDynamicContent && 'featured-image' === contentType && 'current-post' === dynamicSource;
+	const canUploadImage =
+		! isDynamicContent ||
+		(
+			isDynamicContent &&
+			'featured-image' === contentType &&
+			'current-post' === dynamicSource &&
+			! isDescendentOfQueryLoop
+		);
 	const imageProps = {
 		src: imageUrl,
 		alt: altText,
@@ -70,7 +76,7 @@ export default function ImageContentRenderer( props ) {
 
 	return (
 		<>
-			{ ( hasStaticImage || ( hasFeaturedImage && ! isDescendentOfQueryLoop ) ) &&
+			{ !! imageUrl && canUploadImage &&
 				<BlockControls group="other">
 					<MediaReplaceFlow
 						mediaId={ mediaId }
@@ -91,7 +97,7 @@ export default function ImageContentRenderer( props ) {
 				<Element tagName="figure" htmlAttrs={ blockProps }>
 					{ ( !! imageUrl )
 						? <Image { ...imageProps } />
-						: <ImagePlaceholder { ...props } />
+						: <ImagePlaceholder { ...props } canUploadImage={ canUploadImage } />
 					}
 				</Element>
 			</RootElement>

@@ -9,16 +9,12 @@ export default function ImagePlaceholder( props ) {
 		onSelectImage,
 		onUploadError,
 		attributes,
-		context,
+		canUploadImage,
 	} = props;
 
 	const {
 		isDynamicContent,
-		contentType,
-		dynamicSource,
 	} = attributes;
-
-	const isDescendentOfQueryLoop = !! context[ 'generateblocks/query' ];
 
 	const placeholderIllustration = (
 		<SVG
@@ -32,52 +28,43 @@ export default function ImagePlaceholder( props ) {
 		</SVG>
 	);
 
-	let placeholder = <div className="wp-block-post-featured-image__placeholder">
-		{ placeholderIllustration }
-	</div>;
+	let placeholder = <MediaPlaceholder
+		onSelect={ onSelectImage }
+		accept="image/*"
+		allowedTypes={ [ 'image' ] }
+		onError={ onUploadError }
+		placeholder={ ( content ) => {
+			return (
+				<Placeholder className="block-editor-media-placeholder">
+					{ placeholderIllustration }
+					{ content }
+				</Placeholder>
+			);
+		} }
+		mediaLibraryButton={ ( { open } ) => {
+			return (
+				<Button
+					icon={ upload }
+					variant="primary"
+					label={
+						! isDynamicContent
+							? __( 'Add an image', 'generateblocks' )
+							: __( 'Add a featured image', 'generateblocks' )
+					}
+					showTooltip
+					tooltipPosition="top center"
+					onClick={ () => {
+						open();
+					} }
+				/>
+			);
+		} }
+	/>;
 
-	const buttonLabel = ! isDynamicContent ? __( 'Add an image', 'generateblocks' ) : __( 'Add a featured image', 'generateblocks' );
-
-	if (
-		(
-			! isDynamicContent &&
-			! isDescendentOfQueryLoop
-		) ||
-		(
-			isDynamicContent &&
-			'featured-image' === contentType &&
-			'current-post' === dynamicSource &&
-			! isDescendentOfQueryLoop
-		)
-	) {
-		placeholder = <MediaPlaceholder
-			onSelect={ onSelectImage }
-			accept="image/*"
-			allowedTypes={ [ 'image' ] }
-			onError={ onUploadError }
-			placeholder={ ( content ) => {
-				return (
-					<Placeholder className="block-editor-media-placeholder">
-						{ placeholderIllustration }
-						{ content }
-					</Placeholder>
-				);
-			} }
-			mediaLibraryButton={ ( { open } ) => {
-				return (
-					<Button
-						icon={ upload }
-						variant="primary"
-						label={ buttonLabel }
-						showTooltip
-						tooltipPosition="top center"
-						onClick={ () => {
-							open();
-						} }
-					/>
-				);
-			} }
-		/>;
+	if ( ! canUploadImage ) {
+		placeholder = <div className="wp-block-post-featured-image__placeholder">
+			{ placeholderIllustration }
+		</div>;
 	}
 
 	return placeholder;
