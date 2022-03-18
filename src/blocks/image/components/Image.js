@@ -13,8 +13,6 @@ export default function Image( props ) {
 		isSelected,
 	} = props;
 
-	const cleanCaption = caption ? caption.replace( /<\/?[^>]+(>|$)/g, '' ) : '';
-
 	return (
 		<>
 			<img
@@ -42,7 +40,7 @@ export default function Image( props ) {
 			}
 
 			{ !! isDynamic && !! caption &&
-				<figcaption>{ cleanCaption }</figcaption>
+				<figcaption>{ caption }</figcaption>
 			}
 		</>
 	);

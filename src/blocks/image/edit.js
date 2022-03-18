@@ -19,16 +19,18 @@ function ImageEdit( props ) {
 	const { isDynamicContent } = attributes;
 	const [ deviceType ] = useDeviceType( 'Desktop' );
 
-	const onSelectImage = ( value ) => {
+	const onSelectImage = ( image ) => {
 		/**
 		 * todo: Needs setFeaturedImage in here.
 		 */
 
 		if ( ! isDynamicContent ) {
 			setAttributes( {
-				mediaId: value?.id,
-				url: value?.url,
-				caption: value?.caption?.rendered,
+				mediaId: image?.id,
+				url: image?.url,
+				alt: image?.alt,
+				title: image?.title,
+				caption: image?.caption,
 			} );
 		}
 	};

@@ -88,6 +88,9 @@ export default function ImageContentRenderer( props ) {
 								setAttributes( {
 									mediaId: '',
 									url: '',
+									alt: '',
+									title: '',
+									caption: '',
 								} );
 							}
 						} }>
