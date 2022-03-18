@@ -2,6 +2,7 @@ import classnames from 'classnames';
 import Element from '../../components/element';
 import { useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
+import { removeEmpty } from '../post-template/utils';
 
 export default ( { attributes } ) => {
 	const {
@@ -13,6 +14,10 @@ export default ( { attributes } ) => {
 		caption,
 		isDynamicContent,
 	} = attributes;
+
+	if ( isDynamicContent || ! url ) {
+		return undefined;
+	}
 
 	let htmlAttributes = {
 		className: classnames( {
@@ -31,18 +36,17 @@ export default ( { attributes } ) => {
 
 	const blockProps = useBlockProps.save( htmlAttributes );
 
+	const imageAttributes = removeEmpty( {
+		src: url,
+		alt,
+		title,
+		className: `gb-image-${ uniqueId }`,
+	} );
+
 	return (
 		<Element tagName="figure" htmlAttrs={ blockProps }>
-			<img
-				src={ url }
-				alt={ alt }
-				className={ `gb-image-${ uniqueId }` }
-				title={ title }
-			/>
-
-			{ ! isDynamicContent && !! caption &&
-				<Element tagName={ 'figcaption' }>{ caption }</Element>
-			}
+			<Element tagName="img" htmlAttrs={ imageAttributes } />
+			{ !! caption && <Element tagName={ 'figcaption' }>{ caption }</Element> }
 		</Element>
 	);
 };

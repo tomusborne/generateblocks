@@ -17,6 +17,7 @@ export default function ImageContentRenderer( props ) {
 		context,
 		onSelectImage,
 		onUploadError,
+		onResetImage,
 		isSelected,
 	} = props;
 
@@ -85,13 +86,7 @@ export default function ImageContentRenderer( props ) {
 							 */
 
 							if ( ! isDynamicContent ) {
-								setAttributes( {
-									mediaId: '',
-									url: '',
-									alt: '',
-									title: '',
-									caption: '',
-								} );
+								onResetImage();
 							}
 						} }>
 							{ __( 'Reset' ) }

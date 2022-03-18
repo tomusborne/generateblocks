@@ -13,6 +13,7 @@ export default function ImageSettingsControls( props ) {
 
 	const {
 		isDynamicContent,
+		mediaId,
 		alt,
 		title,
 	} = attributes;
@@ -28,25 +29,29 @@ export default function ImageSettingsControls( props ) {
 			state={ state }
 		>
 
-			<TextareaControl
-				label={ __( 'Alt text (alternative text)', 'generateblocks' ) }
-				help={ __( 'Describe the purpose of the image, leave empty if the image is purely decorative.', 'generateblocks' ) }
-				value={ isDynamicContent ? media?.alt_text : alt }
-				disabled={ isDynamicContent }
-				onChange={ ( value ) => (
-					setAttributes( { alt: value } )
-				) }
-			/>
+			{ ! isDynamicContent && mediaId &&
+				<>
+					<TextareaControl
+						label={ __( 'Alt text (alternative text)', 'generateblocks' ) }
+						help={ __( 'Describe the purpose of the image, leave empty if the image is purely decorative.', 'generateblocks' ) }
+						value={ isDynamicContent ? media?.alt_text : alt }
+						disabled={ isDynamicContent }
+						onChange={ ( value ) => (
+							setAttributes( { alt: value } )
+						) }
+					/>
 
-			<TextControl
-				label={ __( 'Title attribute', 'generateblocks' ) }
-				help={ __( 'Describe the role of this image on the page.', 'generateblocks' ) }
-				value={ isDynamicContent ? media?.title?.rendered : title }
-				disabled={ isDynamicContent }
-				onChange={ ( value ) => (
-					setAttributes( { title: value } )
-				) }
-			/>
+					<TextControl
+						label={ __( 'Title attribute', 'generateblocks' ) }
+						help={ __( 'Describe the role of this image on the page.', 'generateblocks' ) }
+						value={ isDynamicContent ? media?.title?.rendered : title }
+						disabled={ isDynamicContent }
+						onChange={ ( value ) => (
+							setAttributes( { title: value } )
+						) }
+					/>
+				</>
+			}
 		</PanelArea>
 	);
 }

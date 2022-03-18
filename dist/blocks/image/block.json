@@ -17,7 +17,8 @@
 		  	"type": "string",
 		  	"source": "attribute",
         	"selector": "img",
-        	"attribute": "src"
+        	"attribute": "src",
+		  	"default": ""
 		},
 	  	"alt": {
 			"type": "string",
@@ -30,12 +31,14 @@
 			"type": "string",
 			"source": "attribute",
 			"selector": "img",
-			"attribute": "title"
+			"attribute": "title",
+		  	"default": ""
 	  	},
 	  	"caption": {
 			"type": "string",
 			"source": "html",
-			"selector": "figcaption"
+			"selector": "figcaption",
+		  	"default": ""
 	  	}
 	},
   	"usesContext": [ "postId", "postType" ],

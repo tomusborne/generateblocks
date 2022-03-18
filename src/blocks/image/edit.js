@@ -8,6 +8,7 @@ import ComponentCSS from './components/ComponentCSS';
 import { useDispatch } from '@wordpress/data';
 import { store as noticesStore } from '@wordpress/notices';
 import InspectorControls from './components/InspectorControls';
+import { useEffect } from '@wordpress/element';
 
 function ImageEdit( props ) {
 	const {
@@ -18,6 +19,7 @@ function ImageEdit( props ) {
 
 	const { isDynamicContent } = attributes;
 	const [ deviceType ] = useDeviceType( 'Desktop' );
+	const { createErrorNotice } = useDispatch( noticesStore );
 
 	const onSelectImage = ( image ) => {
 		/**
@@ -35,10 +37,23 @@ function ImageEdit( props ) {
 		}
 	};
 
-	const { createErrorNotice } = useDispatch( noticesStore );
 	const onUploadError = ( message ) => {
 		createErrorNotice( message[ 2 ], { type: 'snackbar' } );
 	};
+
+	const onResetImage = () => {
+		setAttributes( {
+			mediaId: undefined,
+			url: '',
+			alt: '',
+			title: '',
+			caption: '',
+		} );
+	};
+
+	useEffect( () => {
+		onResetImage();
+	}, [ isDynamicContent ] );
 
 	return (
 		<>
@@ -54,6 +69,7 @@ function ImageEdit( props ) {
 				{ ...props }
 				onSelectImage={ onSelectImage }
 				onUploadError={ onUploadError }
+				onResetImage={ onResetImage }
 			/>
 		</>
 	);
