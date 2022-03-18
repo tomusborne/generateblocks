@@ -10,6 +10,7 @@ export default function Image( props ) {
 		className,
 		isDynamic,
 		setAttributes,
+		isSelected,
 	} = props;
 
 	const cleanCaption = caption ? caption.replace( /<\/?[^>]+(>|$)/g, '' ) : '';
@@ -24,6 +25,10 @@ export default function Image( props ) {
 			/>
 
 			{ ! isDynamic &&
+				(
+					!! caption ||
+					isSelected
+				) &&
 				<RichText
 					tagName="figcaption"
 					aria-label={ __( 'Image caption text' ) }

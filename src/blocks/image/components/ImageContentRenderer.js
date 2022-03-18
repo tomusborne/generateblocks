@@ -17,6 +17,7 @@ export default function ImageContentRenderer( props ) {
 		context,
 		onSelectImage,
 		onUploadError,
+		isSelected,
 	} = props;
 
 	const {
@@ -63,6 +64,7 @@ export default function ImageContentRenderer( props ) {
 		className: `gb-image-${ uniqueId }`,
 		isDynamic: !! isDynamicContent,
 		setAttributes,
+		isSelected,
 	};
 
 	return (

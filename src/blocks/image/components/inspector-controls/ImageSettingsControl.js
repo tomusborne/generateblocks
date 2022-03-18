@@ -19,6 +19,7 @@ export default function ImageSettingsControls( props ) {
 		mediaId,
 		alt,
 		title,
+		caption,
 	} = attributes;
 
 	const image = useSelect( ( select ) => {
@@ -27,14 +28,14 @@ export default function ImageSettingsControls( props ) {
 
 	useEffect( () => {
 		if ( ! isDynamicContent ) {
-			const altText = !! image ? image.alt_text : '';
-			const titleText = !! image ? image.title.rendered : '';
-			const caption = !! image ? image.caption.rendered : '';
+			const altText = image?.alt_text || alt;
+			const titleText = image?.title?.rendered || title;
+			const captionText = image?.caption?.rendered || caption;
 
 			setAttributes( {
 				alt: altText,
 				title: titleText,
-				caption,
+				caption: captionText,
 			} );
 		}
 	}, [ isDynamicContent, mediaId, media, image ] );
@@ -69,7 +70,6 @@ export default function ImageSettingsControls( props ) {
 					setAttributes( { title: value } )
 				) }
 			/>
-
 		</PanelArea>
 	);
 }
