@@ -435,18 +435,35 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		$size_slug = isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full';
-		if ( 'featured-image' === $attributes['contentType'] ) {
-			$featured_image = get_the_post_thumbnail( $id, $size_slug );
-		} else {
-			$featured_image = wp_get_attachment_image( $id, $size_slug );
-		}
+		$dynamic_image = wp_get_attachment_image(
+			$id,
+			isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full',
+			false,
+			array(
+				'class' => 'gb-image-' . $attributes['uniqueId'],
+			)
+		);
 
-		if ( ! $featured_image ) {
+		if ( ! $dynamic_image ) {
 			return '';
 		}
 
-		return $featured_image;
+		return $dynamic_image;
+	}
+
+	/**
+	 * Get the dynamic image caption.
+	 *
+	 * @param array $attributes The block attributes.
+	 */
+	public static function get_dynamic_image_caption( $attributes ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		return wp_get_attachment_caption( $id );
 	}
 
 	/**
@@ -455,19 +472,29 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_source_id( $attributes ) {
+		$id = get_the_ID();
+
 		if (
 			isset( $attributes['dynamicSource'] ) &&
 			'current-post' !== $attributes['dynamicSource'] &&
 			isset( $attributes['postId'] )
 		) {
-			return absint( $attributes['postId'] );
+			$id = absint( $attributes['postId'] );
+		}
+
+		if (
+			! empty( $attributes['isDynamicContent'] ) &&
+			! empty( $attributes['contentType'] ) &&
+			'featured-image' === $attributes['contentType']
+		) {
+			$id = get_post_thumbnail_id( $id );
 		}
 
 		if ( ! is_singular() ) {
-			return get_queried_object_id();
+			$id = get_queried_object_id();
 		}
 
-		return get_the_ID();
+		return $id;
 	}
 
 	/**
@@ -511,11 +538,10 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		$size = isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full';
-
-		if ( 'featured-image' === $attributes['contentType'] ) {
-			return get_the_post_thumbnail_url( $id, $size );
-		}
+		return wp_get_attachment_image_url(
+			$id,
+			isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full'
+		);
 	}
 
 	/**

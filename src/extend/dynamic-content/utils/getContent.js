@@ -311,7 +311,5 @@ function getPaginationNumbers() {
  * @return {string} The featured image url.
  */
 function getPostFeaturedImage( record, attributes ) {
-	const size = attributes.bgImageSize || 'full';
-
-	return record.media?.media_details?.sizes?.[ size ]?.source_url || record.media?.source_url;
+	return record.featured_media_object;
 }

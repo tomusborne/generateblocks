@@ -700,13 +700,13 @@ class GenerateBlocks_Render_Block {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function do_image_block( $attributes, $content, $block ) {
-		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
-			return $content;
+		if ( empty( $attributes['isDynamicContent'] ) ) {
+			return generateblocks_filter_images( $content, $attributes );
 		}
 
-		$dynamic_content = GenerateBlocks_Dynamic_Content::get_content( $attributes, $block );
+		$image = GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
 
-		if ( ! $dynamic_content ) {
+		if ( ! $image ) {
 			return '';
 		}
 
@@ -714,12 +714,12 @@ class GenerateBlocks_Render_Block {
 
 		$settings = wp_parse_args(
 			$attributes,
-			$defaults['dynamicImage']
+			$defaults['image']
 		);
 
 		$classNames = array(
-			'gb-dynamic-image',
-			'gb-dynamic-image-' . $settings['uniqueId'],
+			'gb-block-image',
+			'gb-block-image-' . $settings['uniqueId'],
 		);
 
 		if ( ! empty( $settings['className'] ) ) {
@@ -729,7 +729,7 @@ class GenerateBlocks_Render_Block {
 		$output = sprintf(
 			'<figure %s>',
 			generateblocks_attr(
-				'dynamic-image',
+				'image',
 				array(
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
@@ -742,17 +742,57 @@ class GenerateBlocks_Render_Block {
 		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 
 		if ( $dynamic_link ) {
-			$dynamic_content = sprintf(
-				'<a href="%s">%s</a>',
-				$dynamic_link,
-				$dynamic_content
+			$relAttributes = array();
+
+			if ( ! empty( $settings['relNoFollow'] ) ) {
+				$relAttributes[] = 'nofollow';
+			}
+
+			if ( ! empty( $settings['openInNewWindow'] ) ) {
+				$relAttributes[] = 'noopener';
+				$relAttributes[] = 'noreferrer';
+			}
+
+			if ( ! empty( $settings['relSponsored'] ) ) {
+				$relAttributes[] = 'sponsored';
+			}
+
+			$dynamic_link_data = array(
+				'href' => $dynamic_link,
+				'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+				'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
+			);
+
+			$dynamic_link_attributes = '';
+
+			foreach ( $dynamic_link_data as $attribute => $value ) {
+				$dynamic_link_attributes .= sprintf(
+					' %s="%s"',
+					$attribute,
+					$value
+				);
+			}
+
+			$image = sprintf(
+				'<a %s>%s</a>',
+				trim( $dynamic_link_attributes ),
+				$image
 			);
 		} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
 			// If we've set a dynamic link and don't have one, don't output anything.
 			return '';
 		}
 
-		$output .= $dynamic_content;
+		$output .= $image;
+
+		$caption = GenerateBlocks_Dynamic_Content::get_dynamic_image_caption( $attributes );
+
+		if ( $caption ) {
+			$output .= sprintf(
+				'<figcaption>%s</figcaption>',
+				$caption
+			);
+		}
 
 		$output .= '</figure>';
 

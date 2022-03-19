@@ -11,15 +11,53 @@
 			"type": "string"
 		},
 	  	"mediaId": {
-			"type": "number",
-			"source": "attribute"
+			"type": "number"
 	  	},
-	  	"url": {
+	  	"mediaUrl": {
 		  	"type": "string",
 		  	"source": "attribute",
         	"selector": "img",
-        	"attribute": "src"
-		}
+        	"attribute": "src",
+		  	"default": ""
+		},
+	  	"alt": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "img",
+			"attribute": "alt",
+			"default": ""
+	  	},
+	  	"title": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "img",
+			"attribute": "title",
+		  	"default": ""
+	  	},
+	  	"caption": {
+			"type": "string",
+			"source": "html",
+			"selector": "figcaption",
+		  	"default": ""
+	  	},
+	  	"href": {
+			"type": "string",
+			"source": "attribute",
+			"selector": "figure > a",
+			"attribute": "href"
+	  	},
+	  	"openInNewWindow": {
+			"type": "boolean",
+			"default": false
+	  	},
+	  	"relNoFollow": {
+			"type": "boolean",
+			"default": false
+	  	},
+	  	"relSponsored": {
+			"type": "boolean",
+			"default": false
+	  	}
 	},
   	"usesContext": [ "postId", "postType" ],
   	"supports": {

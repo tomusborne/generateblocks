@@ -420,7 +420,9 @@ function generateblocks_get_block_defaults() {
 		'ariaLabel' => '',
 	);
 
-	$defaults['dynamicImage'] = array(
+	$defaults['image'] = array(
+		'mediaId' => '',
+		'sizeSlug' => 'full',
 		'marginTop' => '',
 		'marginRight' => '',
 		'marginBottom' => '',
@@ -434,6 +436,20 @@ function generateblocks_get_block_defaults() {
 		'marginBottomMobile' => '',
 		'marginLeftMobile' => '',
 		'marginUnit' => 'px',
+		'paddingTop' => '',
+		'paddingRight' => '',
+		'paddingBottom' => '',
+		'paddingLeft' => '',
+		'paddingTopTablet' => '',
+		'paddingRightTablet' => '',
+		'paddingBottomTablet' => '',
+		'paddingLeftTablet' => '',
+		'paddingTopMobile' => '',
+		'paddingRightMobile' => '',
+		'paddingBottomMobile' => '',
+		'paddingLeftMobile' => '',
+		'paddingUnit' => 'px',
+		'borderColor' => '',
 		'borderSizeTop' => '',
 		'borderSizeRight' => '',
 		'borderSizeBottom' => '',
@@ -446,6 +462,19 @@ function generateblocks_get_block_defaults() {
 		'borderSizeRightMobile' => '',
 		'borderSizeBottomMobile' => '',
 		'borderSizeLeftMobile' => '',
+		'borderRadiusTopRight' => '',
+		'borderRadiusBottomRight' => '',
+		'borderRadiusBottomLeft' => '',
+		'borderRadiusTopLeft' => '',
+		'borderRadiusTopRightTablet' => '',
+		'borderRadiusBottomRightTablet' => '',
+		'borderRadiusBottomLeftTablet' => '',
+		'borderRadiusTopLeftTablet' => '',
+		'borderRadiusTopRightMobile' => '',
+		'borderRadiusBottomRightMobile' => '',
+		'borderRadiusBottomLeftMobile' => '',
+		'borderRadiusTopLeftMobile' => '',
+		'borderRadiusUnit' => 'px',
 	);
 
 	return apply_filters( 'generateblocks_defaults', $defaults );

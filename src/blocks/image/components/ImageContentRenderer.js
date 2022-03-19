@@ -1,30 +1,39 @@
 import ImagePlaceholder from './ImagePlaceholder';
 import { useBlockProps } from '@wordpress/block-editor';
-import { useEntityProp, store as coreStore } from '@wordpress/core-data';
-import { useSelect } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
+import RootElement from '../../../components/root-element';
+import Element from '../../../components/element';
+import Image from './Image';
+import BlockControls from './BlockControls';
 
 export default function ImageContentRenderer( props ) {
-	const { context, attributes, setAttributes } = props;
-	const { uniqueId, anchor } = attributes;
-	const postType = 'post-type' === attributes.dynamicSource ? attributes.postType : context.postType;
-	const postId = 'post-type' === attributes.dynamicSource ? attributes.postId : context.postId;
+	const {
+		attributes,
+		setAttributes,
+		name,
+		clientId,
+		isSelected,
+		context,
+	} = props;
 
-	const [ featuredImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
+	const {
+		uniqueId,
+		isDynamicContent,
+		contentType,
+		dynamicSource,
+		anchor,
+		featuredImage, // Injected by DynamicRenderer
+		href,
+		openInNewWindow,
+		relNoFollow,
+		relSponsored,
+	} = attributes;
 
-	const media = useSelect( ( select ) => {
-		return featuredImage && select( coreStore ).getMedia( featuredImage, { context: 'view' } );
-	}, [ featuredImage ] );
-
-	const imageUrl = attributes.isDynamicContent ? media?.source_url : attributes.url;
-
-	useEffect( () => {
-		setAttributes( {
-			contentType: attributes.isDynamicContent ? 'featured-image' : '',
-		} );
-	}, [ attributes.isDynamicContent ] );
+	const imageUrl = isDynamicContent ? featuredImage?.source_url : attributes.mediaUrl;
+	const altText = isDynamicContent ? featuredImage?.alt_text : attributes.alt;
+	const titleText = isDynamicContent ? featuredImage?.title?.rendered : attributes.title;
+	const captionText = isDynamicContent ? featuredImage?.caption?.rendered : attributes.caption;
 
 	let htmlAttributes = {
 		className: classnames( {
@@ -43,12 +52,49 @@ export default function ImageContentRenderer( props ) {
 
 	const blockProps = useBlockProps( htmlAttributes );
 
+	const isDescendentOfQueryLoop = !! context[ 'generateblocks/query' ];
+
+	const canUploadImage =
+		! isDynamicContent ||
+		(
+			isDynamicContent &&
+			'featured-image' === contentType &&
+			'current-post' === dynamicSource &&
+			! isDescendentOfQueryLoop
+		);
+
+	const anchorAttributes = {
+		href,
+		openInNewWindow,
+		relNoFollow,
+		relSponsored,
+		disabled: true,
+	};
+
+	const imageProps = {
+		src: imageUrl,
+		alt: altText,
+		title: titleText,
+		caption: captionText,
+		className: `gb-image-${ uniqueId }`,
+		isDynamic: !! isDynamicContent,
+		setAttributes,
+		isSelected,
+		anchorAttributes,
+	};
+
 	return (
-		<figure { ...blockProps }>
-			{ ( !! imageUrl )
-				? <img src={ imageUrl } className={ `gb-image-${ uniqueId }` } alt="" />
-				: <ImagePlaceholder />
-			}
-		</figure>
+		<>
+			<BlockControls { ...props } imageUrl={ imageUrl } canUploadImage={ canUploadImage } />
+
+			<RootElement name={ name } clientId={ clientId }>
+				<Element tagName="figure" htmlAttrs={ blockProps }>
+					{ ( !! imageUrl )
+						? <Image { ...imageProps } />
+						: <ImagePlaceholder { ...props } canUploadImage={ canUploadImage } />
+					}
+				</Element>
+			</RootElement>
+		</>
 	);
 }
