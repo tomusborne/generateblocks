@@ -11,6 +11,7 @@ export default ( { dynamicSource, postType, postId, setAttributes } ) => {
 					setAttributes( {
 						dynamicSource: option.value,
 						contentType: '',
+						dynamicLinkType: '',
 						postId: '',
 						postType: 'post',
 					} );
