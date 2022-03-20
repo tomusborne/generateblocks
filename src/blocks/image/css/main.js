@@ -2,6 +2,7 @@ import buildCSS from '../../../utils/build-css';
 
 import { applyFilters } from '@wordpress/hooks';
 import shorthandCSS from '../../../utils/shorthand-css';
+import valueWithUnit from '../../../utils/value-with-unit';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -28,6 +29,9 @@ export default function MainCSS( props ) {
 		borderRadiusTopLeft,
 		borderRadiusUnit,
 		borderColor,
+		objectFit,
+		width,
+		height,
 	} = attributes;
 
 	let cssObj = [];
@@ -40,6 +44,9 @@ export default function MainCSS( props ) {
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 		'border-color': borderColor,
+		width: objectFit ? valueWithUnit( width, 'px' ) : null,
+		height: objectFit ? valueWithUnit( height, 'px' ) : null,
+		'object-fit': objectFit,
 	} ];
 
 	if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {

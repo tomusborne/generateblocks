@@ -2,6 +2,7 @@ import buildCSS from '../../../utils/build-css';
 
 import { applyFilters } from '@wordpress/hooks';
 import shorthandCSS from '../../../utils/shorthand-css';
+import valueWithUnit from '../../../utils/value-with-unit';
 
 export default function TabletCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -28,6 +29,10 @@ export default function TabletCSS( props ) {
 		borderRadiusTopLeftTablet,
 		borderRadiusUnit,
 		borderColor,
+		objectFit,
+		objectFitTablet,
+		widthTablet,
+		heightTablet,
 	} = attributes;
 
 	let cssObj = [];
@@ -40,6 +45,9 @@ export default function TabletCSS( props ) {
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-radius': shorthandCSS( borderRadiusTopLeftTablet, borderRadiusTopRightTablet, borderRadiusBottomRightTablet, borderRadiusBottomLeftTablet, borderRadiusUnit ),
 		'border-color': borderColor,
+		width: ( objectFit || objectFitTablet ) ? valueWithUnit( widthTablet, 'px' ) : null,
+		height: ( objectFit || objectFitTablet ) ? valueWithUnit( heightTablet, 'px' ) : null,
+		'object-fit': objectFitTablet,
 	} ];
 
 	if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {

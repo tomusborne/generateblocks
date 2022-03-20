@@ -1,3 +1,14 @@
+.gblocks-image-dimensions {
+	&__row {
+		display: flex;
+		justify-content: space-between;
+
+		& > div {
+			width: calc(50% - 2px);
+		}
+	}
+}
+
 // Give the featured image placeholder the appearance of a literal image placeholder.
 // @todo: this CSS is similar to that of the Site Logo. That makes it an opportunity
 // to create a new component for placeholders meant to inherit some theme styles.

@@ -23,17 +23,19 @@ export default function ImageContentRenderer( props ) {
 		contentType,
 		dynamicSource,
 		anchor,
-		featuredImage, // Injected by DynamicRenderer
+		dynamicImage, // Injected by DynamicRenderer
 		href,
 		openInNewWindow,
 		relNoFollow,
 		relSponsored,
+		width,
+		height,
 	} = attributes;
 
-	const imageUrl = isDynamicContent ? featuredImage?.source_url : attributes.mediaUrl;
-	const altText = isDynamicContent ? featuredImage?.alt_text : attributes.alt;
-	const titleText = isDynamicContent ? featuredImage?.title?.rendered : attributes.title;
-	const captionText = isDynamicContent ? featuredImage?.caption?.rendered : attributes.caption;
+	const imageUrl = isDynamicContent ? dynamicImage?.source_url : attributes.mediaUrl;
+	const altText = isDynamicContent ? dynamicImage?.alt_text : attributes.alt;
+	const titleText = isDynamicContent ? dynamicImage?.title?.rendered : attributes.title;
+	const captionText = isDynamicContent ? dynamicImage?.caption?.rendered : attributes.caption;
 
 	let htmlAttributes = {
 		className: classnames( {
@@ -72,6 +74,8 @@ export default function ImageContentRenderer( props ) {
 	};
 
 	const imageProps = {
+		width,
+		height,
 		src: imageUrl,
 		alt: altText,
 		title: titleText,

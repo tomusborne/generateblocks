@@ -5,10 +5,12 @@ import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicCont
 import { withUniqueId } from '../../hoc';
 import { useDeviceType } from '../../hooks';
 import ComponentCSS from './components/ComponentCSS';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 import { store as noticesStore } from '@wordpress/notices';
 import InspectorControls from './components/InspectorControls';
-import { useEntityProp } from '@wordpress/core-data';
+import { useEntityProp, store as coreStore } from '@wordpress/core-data';
+import getImageSizes from '../../utils/get-image-sizes';
 
 function ImageEdit( props ) {
 	const {
@@ -18,7 +20,14 @@ function ImageEdit( props ) {
 		ContentRenderer = ImageContentRenderer,
 	} = props;
 
-	const { isDynamicContent, contentType } = attributes;
+	const {
+		isDynamicContent,
+		contentType,
+		mediaId,
+		sizeSlug,
+		dynamicImage,
+	} = attributes;
+
 	const [ deviceType ] = useDeviceType( 'Desktop' );
 	const { createErrorNotice } = useDispatch( noticesStore );
 	const postType = 'post-type' === attributes.dynamicSource ? attributes.postType : context.postType;
@@ -26,9 +35,25 @@ function ImageEdit( props ) {
 
 	const [ featuredImage, setFeaturedImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
 
+	/**
+	 * Returning dynamicImage isn't working here.
+	 * Can test by seeing if width/height are updated when changing sizes.
+	 */
+	const imageData = useSelect( ( select ) => {
+		const { getMedia } = select( coreStore );
+
+		const newMediaId = isDynamicContent ? dynamicImage : mediaId;
+		return newMediaId && getMedia( newMediaId, { context: 'view' } );
+	}, [ isDynamicContent, mediaId, dynamicImage ] );
+
 	const onSelectImage = ( image ) => {
 		if ( isDynamicContent && 'featured-image' === contentType && image?.id ) {
 			setFeaturedImage( image.id );
+
+			setAttributes( {
+				width: image?.sizes[ sizeSlug ]?.width,
+				height: image?.sizes[ sizeSlug ]?.height,
+			} );
 		}
 
 		if ( ! isDynamicContent ) {
@@ -38,6 +63,8 @@ function ImageEdit( props ) {
 				alt: image?.alt,
 				title: image?.title,
 				caption: image?.caption,
+				width: image?.sizes[ sizeSlug ]?.width,
+				height: image?.sizes[ sizeSlug ]?.height,
 			} );
 		}
 	};
@@ -57,8 +84,16 @@ function ImageEdit( props ) {
 			alt: '',
 			title: '',
 			caption: '',
+			width: undefined,
+			height: undefined,
 		} );
 	};
+
+	useEffect( () => {
+		if ( ! sizeSlug ) {
+			setAttributes( { sizeSlug: 'full' } );
+		}
+	}, [] );
 
 	return (
 		<>
@@ -66,6 +101,8 @@ function ImageEdit( props ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				deviceType={ deviceType }
+				imageSizes={ getImageSizes() }
+				imageData={ imageData }
 			/>
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />

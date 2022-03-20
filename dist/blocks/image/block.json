@@ -57,7 +57,47 @@
 	  	"relSponsored": {
 			"type": "boolean",
 			"default": false
-	  	}
+	  	},
+		"sizeSlug": {
+			"type": "string",
+			"default": ""
+		},
+	  	"width": {
+			"type": "number",
+			"default": false
+	  	},
+		"widthTablet": {
+			"type": "number",
+			"default": false
+	  	},
+		"widthMobile": {
+			"type": "number",
+			"default": false
+	  	},
+	  	"height": {
+			"type": "number",
+			"default": false
+	  	},
+		"heightTablet": {
+			"type": "number",
+			"default": false
+	  	},
+		"heightMobile": {
+			"type": "number",
+			"default": false
+	  	},
+		"objectFit": {
+			"type": "string",
+			"default": ""
+		},
+		"objectFitTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"objectFitMobile": {
+			"type": "string",
+			"default": ""
+		}
 	},
   	"usesContext": [ "postId", "postType" ],
   	"supports": {
