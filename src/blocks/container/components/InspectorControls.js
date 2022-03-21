@@ -922,55 +922,11 @@ export default ( props ) => {
 				id={ 'containerTypography' }
 				state={ state }
 			>
-
-				{ 'Desktop' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							showFontFamily={ true }
-							showFontWeight={ true }
-							showTextTransform={ true }
-							showFontSize={ true }
-							defaultFontSize={ blockDefaults.fontSize }
-							defaultFontSizeUnit={ blockDefaults.fontSizeUnit }
-							defaultLineHeight={ blockDefaults.lineHeight }
-							defaultLineHeightUnit={ blockDefaults.lineHeightUnit }
-							defaultLetterSpacing={ blockDefaults.letterSpacing }
-						/>
-					</Fragment>
-				) }
-
-				{ 'Tablet' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							device={ 'Tablet' }
-							showFontSize={ true }
-							disableAdvancedToggle={ true }
-							defaultFontSize={ blockDefaults.fontSizeTablet }
-							defaultFontSizeUnit={ blockDefaults.fontSizeUnit }
-							defaultLineHeight={ blockDefaults.lineHeightTablet }
-							defaultLineHeightUnit={ blockDefaults.lineHeightUnit }
-							defaultLetterSpacing={ blockDefaults.letterSpacingTablet }
-						/>
-					</Fragment>
-				) }
-
-				{ 'Mobile' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							device={ 'Mobile' }
-							showFontSize={ true }
-							disableAdvancedToggle={ true }
-							defaultFontSize={ blockDefaults.fontSizeMobile }
-							defaultFontSizeUnit={ blockDefaults.fontSizeUnit }
-							defaultLineHeight={ blockDefaults.lineHeightMobile }
-							defaultLineHeightUnit={ blockDefaults.lineHeightUnit }
-							defaultLetterSpacing={ blockDefaults.letterSpacingMobile }
-						/>
-					</Fragment>
-				) }
+				<TypographyControls
+					{ ...props }
+					deviceType={ deviceType }
+					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'fontFamily' ] }
+				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'containerTypography', props, state ) }
 			</PanelArea>
