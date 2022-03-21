@@ -4,6 +4,7 @@ import PanelArea from '../../../../components/panel-area';
 import { TextareaControl, TextControl, SelectControl } from '@wordpress/components';
 import NumberControl from '../../../../components/number-control';
 import getAttribute from '../../../../utils/get-attribute';
+import getMediaUrl from '../../../../utils/get-media-url';
 
 export default function ImageSettingsControls( props ) {
 	const {
@@ -27,6 +28,7 @@ export default function ImageSettingsControls( props ) {
 		objectFit,
 		objectFitTablet,
 		objectFitMobile,
+		mediaUrl,
 	} = attributes;
 
 	const showImageDimensions =
@@ -69,8 +71,10 @@ export default function ImageSettingsControls( props ) {
 
 						const newWidth = imageData?.media_details?.sizes[ value ].width || width;
 						const newHeight = imageData?.media_details?.sizes[ value ].height || height;
+						const imageUrl = getMediaUrl( imageData, value ) || mediaUrl;
 
 						setAttributes( {
+							mediaUrl: imageUrl,
 							width: newWidth,
 							height: newHeight,
 						} );

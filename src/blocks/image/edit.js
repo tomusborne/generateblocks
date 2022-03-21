@@ -57,9 +57,11 @@ function ImageEdit( props ) {
 		}
 
 		if ( ! isDynamicContent ) {
+			const imageUrl = image?.sizes[ sizeSlug ]?.url || image?.url;
+
 			setAttributes( {
 				mediaId: image?.id,
-				mediaUrl: image?.url,
+				mediaUrl: imageUrl,
 				alt: image?.alt,
 				title: image?.title,
 				caption: image?.caption,
