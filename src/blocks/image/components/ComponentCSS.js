@@ -4,7 +4,7 @@ import TabletCSS from '../css/tablet';
 import TabletOnlyCSS from '../css/tablet-only';
 import MobileCSS from '../css/mobile';
 import MainCSS from '../css/main';
-import { shouldRebuildCSS } from '../../headline/components/ComponentCSS';
+import shouldRebuildCSS from '../../../utils/should-rebuild-css';
 
 function ComponentCSS( props ) {
 	const { deviceType } = props;
