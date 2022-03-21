@@ -2,7 +2,7 @@ import ApplyFilters from '../apply-filters/';
 
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
-import { useEffect, useState } from '@wordpress/element';
+import useLocalStorageState from 'use-local-storage-state';
 
 export default function PanelArea( props ) {
 	const {
@@ -16,11 +16,12 @@ export default function PanelArea( props ) {
 		children,
 	} = props;
 
-	const [ openPanels, setOpenPanels ] = useState( JSON.parse( localStorage.getItem( 'generateblocksPanels' ) ) || [] );
-
-	useEffect( () => {
-		localStorage.setItem( 'generateblocksPanels', JSON.stringify( openPanels ) );
-	}, [ openPanels ] );
+	const [ panels, setPanels ] = useLocalStorageState(
+		'generateblocksPanels', {
+			ssr: true,
+			defaultValue: {},
+		}
+	);
 
 	const show = applyFilters( 'generateblocks.editor.showPanel', showPanel, id, props );
 
@@ -48,17 +49,24 @@ export default function PanelArea( props ) {
 			{ title ? (
 				<PanelBody
 					title={ title }
-					initialOpen={ initialOpen || ( Array.isArray( openPanels ) && openPanels.includes( id ) ) }
+					initialOpen={
+						'undefined' !== typeof panels[ id ]
+							? panels[ id ]
+							: initialOpen
+					}
 					icon={ icon }
 					className={ className }
 					onToggle={ () => {
-						const panels = JSON.parse( localStorage.getItem( 'generateblocksPanels' ) );
+						const isOpen = panels[ id ] ||
+							(
+								'undefined' === typeof panels[ id ] &&
+								initialOpen
+							);
 
-						if ( panels.includes( id ) ) {
-							setOpenPanels( panels.filter( ( panel ) => panel !== id ) );
-						} else {
-							setOpenPanels( [ ...panels, id ] );
-						}
+						setPanels( {
+							...panels,
+							[ id ]: ! isOpen,
+						} );
 					} }
 				>
 					{

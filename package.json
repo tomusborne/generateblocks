@@ -47,7 +47,8 @@
 		"jest": "^27.0.6",
 		"react-select": "^5.2.1",
 		"react-colorful": "5.5.1",
-		"request": "^2.88.2"
+		"request": "^2.88.2",
+		"use-local-storage-state": "16.0.0"
 	},
 	"scripts": {
 		"build": "wp-scripts build src/blocks.js src/dashboard.js --output-path=dist",
