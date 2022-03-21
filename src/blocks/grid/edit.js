@@ -6,7 +6,6 @@ import { createBlock } from '@wordpress/blocks';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
-import MainCSS from './css/main';
 import ComponentCSS from './components/ComponentCSS';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
@@ -93,8 +92,6 @@ const GridEdit = ( props ) => {
 				anchor={ attributes.anchor }
 				setAttributes={ setAttributes }
 			/>
-
-			<MainCSS { ...props } />
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
