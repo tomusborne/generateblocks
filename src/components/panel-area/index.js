@@ -48,7 +48,7 @@ export default function PanelArea( props ) {
 			{ title ? (
 				<PanelBody
 					title={ title }
-					initialOpen={ initialOpen || openPanels.includes( id ) }
+					initialOpen={ initialOpen || ( Array.isArray( openPanels ) && openPanels.includes( id ) ) }
 					icon={ icon }
 					className={ className }
 					onToggle={ () => {

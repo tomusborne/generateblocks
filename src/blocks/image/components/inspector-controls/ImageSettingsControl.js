@@ -69,8 +69,8 @@ export default function ImageSettingsControls( props ) {
 							sizeSlug: value,
 						} );
 
-						const newWidth = imageData?.media_details?.sizes[ value ].width || width;
-						const newHeight = imageData?.media_details?.sizes[ value ].height || height;
+						const newWidth = imageData?.media_details?.sizes[ value ]?.width || width;
+						const newHeight = imageData?.media_details?.sizes[ value ]?.height || height;
 						const imageUrl = getMediaUrl( imageData, value ) || mediaUrl;
 
 						setAttributes( {
