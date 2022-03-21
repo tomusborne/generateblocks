@@ -42,7 +42,7 @@ export default function ImageContentRenderer( props ) {
 			return getMedia( parseInt( dynamicImage ), { context: 'view' } ) || mediaObject;
 		}
 
-		return mediaObject;
+		return dynamicImage;
 	}, [ isDynamicContent, dynamicImage ] );
 
 	const currentImage = !! imageData ? imageData : dynamicImage;
