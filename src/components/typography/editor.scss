@@ -1,54 +1,46 @@
-.edit-post-settings-sidebar__panel-block .components-panel__body .components-base-control.gblocks-font-family-shortcuts {
-    margin-bottom: 2px;
-}
-
-.components-gblocks-typography-control__header {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    align-items: center;
-}
-
-.components-gblocks-typography-control__inputs + .components-gblocks-typography-control__header {
-    margin-top: 25px;
-}
-
-.components-gblocks-typography-control__inputs {
-    display: flex;
-    justify-content: space-between;
-
-	button.components-button {
-	    line-height: unset;
-	    height: unset;
+.gblocks-typography-component {
+	.components-dropdown-menu {
+		margin-bottom: 15px;
 	}
 
-	.components-base-control {
-		margin-bottom: 0;
+	&__toggle {
+		border: 1px solid #ddd;
+		border-radius: 3px;
+		margin: 0;
 	}
-}
 
-.edit-post-settings-sidebar__panel-block .components-panel__body .components-gblocks-typography-control__inputs .components-base-control,
-.components-gblocks-typography-control__inputs .components-base-control .components-base-control__field {
-    margin-bottom: 0;
-}
+	&__appearance {
+		& > .components-base-control__field {
+			display: flex;
+			justify-content: space-between;
 
-.components-gblocks-typography-weight-transform {
-    display: flex;
-    justify-content: space-between;
-}
+			& > .components-base-control {
+				margin-bottom: 0 !important;
+				width: calc(50% - 2px);
+			}
+		}
+	}
 
-.components-gblocks-typography-weight-transform > div {
-    width: 48%;
-}
+	&__font-family {
+		.components-base-control {
+			margin-bottom: 0 !important;
+		}
+	}
 
-.components-gblocks-typography-control__units > .components-button-group .components-button.is-button:first-child:last-child {
-    border-radius: 3px;
-}
+	&__font-family-select {
+		margin-bottom: 5px;
+	}
 
-.components-gblocks-typography-control__inputs button {
-    margin-left: 10px;
-}
+	&__font-family-input {
+		display: flex;
 
-.components-gblocks-typography-control__inputs .components-base-control {
-    flex-grow: 1;
+		& > :first-child {
+			flex: 1;
+		}
+
+		& > :nth-child(2) {
+			width: 100px;
+			margin-left: 5px;
+		}
+	}
 }

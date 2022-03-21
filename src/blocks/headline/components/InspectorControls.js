@@ -119,59 +119,11 @@ export default ( props ) => {
 				state={ blockState }
 				showPanel={ ! removeText || false }
 			>
-				{ 'Desktop' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							showFontFamily={ true }
-							showFontWeight={ true }
-							showTextTransform={ true }
-							showFontSize={ true }
-							showLineHeight={ true }
-							showLetterSpacing={ true }
-							fontSizePlaceholder={ fontSizePlaceholder }
-							defaultFontSize={ generateBlocksDefaults.headline.fontSize }
-							defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-							defaultLineHeight={ generateBlocksDefaults.headline.lineHeight }
-							defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-							defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacing }
-						/>
-					</Fragment>
-				) }
-
-				{ 'Tablet' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							device={ 'Tablet' }
-							showFontSize={ true }
-							showLineHeight={ true }
-							showLetterSpacing={ true }
-							defaultFontSize={ generateBlocksDefaults.headline.fontSizeTablet }
-							defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-							defaultLineHeight={ generateBlocksDefaults.headline.lineHeightTablet }
-							defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-							defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingTablet }
-						/>
-					</Fragment>
-				) }
-
-				{ 'Mobile' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							device={ 'Mobile' }
-							showFontSize={ true }
-							showLineHeight={ true }
-							showLetterSpacing={ true }
-							defaultFontSize={ generateBlocksDefaults.headline.fontSizeMobile }
-							defaultFontSizeUnit={ generateBlocksDefaults.headline.fontSizeUnit }
-							defaultLineHeight={ generateBlocksDefaults.headline.lineHeightMobile }
-							defaultLineHeightUnit={ generateBlocksDefaults.headline.lineHeightUnit }
-							defaultLetterSpacing={ generateBlocksDefaults.headline.letterSpacingMobile }
-						/>
-					</Fragment>
-				) }
+				<TypographyControls
+					{ ...props }
+					deviceType={ deviceType }
+					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'lineHeight', 'letterSpacing', 'fontFamily' ] }
+				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'headlineTypography', props, blockState ) }
 			</PanelArea>

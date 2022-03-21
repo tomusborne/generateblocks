@@ -61,53 +61,11 @@ export default ( props ) => {
 				state={ state }
 				showPanel={ ! removeText || false }
 			>
-
-				{ 'Desktop' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							showFontFamily={ true }
-							showFontWeight={ true }
-							showTextTransform={ true }
-							showFontSize={ true }
-							showLetterSpacing={ true }
-							fontSizePlaceholder={ fontSizePlaceholder }
-							defaultFontSize={ blockDefaults.fontSize }
-							defaultFontSizeUnit={ blockDefaults.fontSizeUnit }
-							defaultLetterSpacing={ blockDefaults.letterSpacing }
-						/>
-					</Fragment>
-				) }
-
-				{ 'Tablet' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							device={ 'Tablet' }
-							showFontSize={ true }
-							showLetterSpacing={ true }
-							disableAdvancedToggle={ true }
-							defaultFontSize={ blockDefaults.fontSizeTablet }
-							defaultFontSizeUnit={ blockDefaults.fontSizeUnit }
-							defaultLetterSpacing={ blockDefaults.letterSpacingTablet }
-						/>
-					</Fragment>
-				) }
-
-				{ 'Mobile' === deviceType && (
-					<Fragment>
-						<TypographyControls
-							{ ...props }
-							device={ 'Mobile' }
-							showFontSize={ true }
-							showLetterSpacing={ true }
-							disableAdvancedToggle={ true }
-							defaultFontSize={ blockDefaults.fontSizeMobile }
-							defaultFontSizeUnit={ blockDefaults.fontSizeUnit }
-							defaultLetterSpacing={ blockDefaults.letterSpacingMobile }
-						/>
-					</Fragment>
-				) }
+				<TypographyControls
+					{ ...props }
+					deviceType={ deviceType }
+					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'letterSpacing', 'fontFamily' ] }
+				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'buttonTypography', props, state ) }
 			</PanelArea>
