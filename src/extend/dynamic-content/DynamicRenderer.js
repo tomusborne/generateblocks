@@ -40,28 +40,20 @@ export default function DynamicRenderer( props ) {
 
 	const staticContent = 'generateblocks/headline' === name ? attributes.content : attributes.text;
 
-	const content = useMemo( () => {
-		if ( !! dynamicLinkType && 'terms' === contentType && 'generateblocks/headline' === name ) {
-			return rawContent
-				.split( termSeparator )
-				.map( ( newContent, idx, fullContent ) => {
-					return ( <><a>{ newContent }</a>{ idx + 1 !== fullContent.length && termSeparator }</> ); // eslint-disable-line jsx-a11y/anchor-is-valid
-				} );
-		}
+	let content = !! attributes.contentType ? rawContent : staticContent;
 
-		// Only return first term in buttons for now.
-		if ( 'terms' === contentType && 'generateblocks/button' === name ) {
-			return rawContent.split( termSeparator )[ 0 ];
-		}
+	if ( !! dynamicLinkType && 'terms' === contentType && 'generateblocks/headline' === name ) {
+		content = rawContent
+			.split( termSeparator )
+			.map( ( newContent, idx, fullContent ) => {
+				return ( <><a>{ newContent }</a>{ idx + 1 !== fullContent.length && termSeparator }</> ); // eslint-disable-line jsx-a11y/anchor-is-valid
+			} );
+	}
 
-		return !! attributes.contentType ? rawContent : staticContent;
-	}, [
-		contentType,
-		dynamicLinkType,
-		termSeparator,
-		rawContent,
-		staticContent,
-	] );
+	// Only return first term in buttons for now.
+	if ( 'terms' === contentType && 'generateblocks/button' === name ) {
+		content = rawContent.split( termSeparator )[ 0 ];
+	}
 
 	const newAttributes = Object.assign( {}, attributes, {
 		content: 'generateblocks/headline' === name ? content : undefined,

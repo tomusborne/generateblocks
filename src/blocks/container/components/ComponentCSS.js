@@ -1,21 +1,20 @@
-import { Fragment, memo } from '@wordpress/element';
+import { memo } from '@wordpress/element';
 import DesktopCSS from '../css/desktop';
 import TabletCSS from '../css/tablet';
 import TabletOnlyCSS from '../css/tablet-only';
 import MobileCSS from '../css/mobile';
 import MainCSS from '../css/main';
-import { shouldRebuildCSS } from '../../headline/components/ComponentCSS';
+import shouldRebuildCSS from '../../../utils/should-rebuild-css';
 
-function  ComponentCSS( props ) {
+function ComponentCSS( props ) {
 	const { deviceType } = props;
 
 	return (
-		<Fragment>
-
+		<>
 			<MainCSS { ...props } />
 
 			{ deviceType &&
-				<Fragment>
+				<>
 					{ 'Desktop' === deviceType &&
 						<DesktopCSS { ...props } />
 					}
@@ -31,9 +30,9 @@ function  ComponentCSS( props ) {
 					{ 'Mobile' === deviceType &&
 						<MobileCSS { ...props } />
 					}
-				</Fragment>
+				</>
 			}
-		</Fragment>
+		</>
 	);
 }
 
