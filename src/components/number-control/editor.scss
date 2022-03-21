@@ -1,12 +1,13 @@
 .gblocks-component-number-presets {
     display: flex;
-	border: 1px solid #ddd;
+	border: 1px solid #8c8f94;
     padding: 2px;
     border-radius: 3px;
 
 	.components-button {
 		border: 0;
     	box-shadow: 0 0 0;
+		height: 30px;
 
 		&:not(.has-icon) {
 			flex: 1;
