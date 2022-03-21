@@ -6,6 +6,8 @@ import RootElement from '../../../components/root-element';
 import Element from '../../../components/element';
 import Image from './Image';
 import BlockControls from './BlockControls';
+import { useSelect } from '@wordpress/data';
+import { store as coreStore } from '@wordpress/core-data';
 
 export default function ImageContentRenderer( props ) {
 	const {
@@ -32,10 +34,23 @@ export default function ImageContentRenderer( props ) {
 		height,
 	} = attributes;
 
-	const imageUrl = isDynamicContent ? dynamicImage?.source_url : attributes.mediaUrl;
-	const altText = isDynamicContent ? dynamicImage?.alt_text : attributes.alt;
-	const titleText = isDynamicContent ? dynamicImage?.title?.rendered : attributes.title;
-	const captionText = isDynamicContent ? dynamicImage?.caption?.rendered : attributes.caption;
+	const imageData = useSelect( ( select ) => {
+		const { getMedia } = select( coreStore );
+		const mediaObject = { source_url: dynamicImage };
+
+		if ( 'post-meta' === contentType && 'object' !== typeof dynamicImage ) {
+			return getMedia( parseInt( dynamicImage ), { context: 'view' } ) || mediaObject;
+		}
+
+		return mediaObject;
+	}, [ isDynamicContent, dynamicImage ] );
+
+	const currentImage = !! imageData ? imageData : dynamicImage;
+
+	const imageUrl = isDynamicContent ? currentImage?.source_url : attributes.mediaUrl;
+	const altText = isDynamicContent ? currentImage?.alt_text : attributes.alt;
+	const titleText = isDynamicContent ? currentImage?.title?.rendered : attributes.title;
+	const captionText = isDynamicContent ? currentImage?.caption?.rendered : attributes.caption;
 
 	let htmlAttributes = {
 		className: classnames( {

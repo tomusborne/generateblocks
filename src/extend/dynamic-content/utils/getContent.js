@@ -21,6 +21,7 @@ const contentTypeSelectors = {
 	'pagination-numbers': getPaginationNumbers,
 	'featured-image': getPostFeaturedImage,
 	terms: getPostTerms,
+	'author-avatar': getAuthorAvatar,
 };
 
 /**
@@ -311,4 +312,14 @@ function getPaginationNumbers() {
  */
 function getPostFeaturedImage( record ) {
 	return record.featured_media_object;
+}
+
+/**
+ * Returns post author avatar.
+ *
+ * @param {Object} record The post object.
+ * @return {Object} The post author avatar.
+ */
+function getAuthorAvatar( record ) {
+	return { source_url: record?.author?.avatar_urls[ 96 ] };
 }

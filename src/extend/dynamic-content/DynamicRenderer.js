@@ -5,7 +5,6 @@ import dynamicContentAttributes from './attributes';
 import applyContext from './utils/applyContext';
 import { RichText } from '@wordpress/block-editor';
 import useDynamicContent from './hooks/useDynamicContent';
-import { useMemo } from '@wordpress/element';
 import ContainerContentRenderer from '../../blocks/container/components/ContainerContentRenderer';
 import ImageContentRenderer from '../../blocks/image/components/ImageContentRenderer';
 
