@@ -1676,7 +1676,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 				$css->add_property( 'border-color', $settings['borderColor'] );
 
-				if ( 'inherit' !== $settings['objectFit'] ) {
+				if ( $settings['objectFit'] ) {
 					$css->add_property( 'width', $settings['width'], 'px' );
 					$css->add_property( 'height', $settings['height'], 'px' );
 					$css->add_property( 'object-fit', $settings['objectFit'] );
