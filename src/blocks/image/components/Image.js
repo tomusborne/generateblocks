@@ -13,12 +13,16 @@ export default function Image( props ) {
 		setAttributes,
 		isSelected,
 		anchorAttributes,
+		width,
+		height,
 	} = props;
 
 	return (
 		<>
 			<AnchorTag { ...anchorAttributes }>
 				<img
+					width={ width }
+					height={ height }
 					src={ src }
 					alt={ alt }
 					title={ title }

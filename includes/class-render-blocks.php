@@ -783,6 +783,8 @@ class GenerateBlocks_Render_Block {
 			return '';
 		}
 
+		$image = GenerateBlocks_Dynamic_Content::get_image_with_dimensions( $image, $settings );
+
 		$output .= $image;
 
 		$caption = GenerateBlocks_Dynamic_Content::get_dynamic_image_caption( $attributes );

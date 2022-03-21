@@ -422,7 +422,9 @@ function generateblocks_get_block_defaults() {
 
 	$defaults['image'] = array(
 		'mediaId' => '',
-		'sizeSlug' => 'full',
+		'sizeSlug' => '',
+		'width' => '',
+		'height' => '',
 		'marginTop' => '',
 		'marginRight' => '',
 		'marginBottom' => '',
@@ -475,6 +477,9 @@ function generateblocks_get_block_defaults() {
 		'borderRadiusBottomLeftMobile' => '',
 		'borderRadiusTopLeftMobile' => '',
 		'borderRadiusUnit' => 'px',
+		'objectFit' => '',
+		'objectFitTablet' => '',
+		'objectFitMobile' => '',
 	);
 
 	return apply_filters( 'generateblocks_defaults', $defaults );

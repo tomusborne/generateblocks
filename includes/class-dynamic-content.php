@@ -729,6 +729,48 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
+	 * Replace the image dimensions with the settings.
+	 * The width and height attributes aren't available via filter.
+	 *
+	 * @param string $content The image HTML.
+	 * @param array  $settings The block settings.
+	 */
+	public static function get_image_with_dimensions( $content, $settings ) {
+		$doc = self::load_html( $content );
+
+		if ( ! $doc ) {
+			return $content;
+		}
+
+		$image =
+			isset( $doc->getElementsByTagName( 'img' )[0] )
+			? $doc->getElementsByTagName( 'img' )[0]
+			: false;
+
+		if ( ! $image ) {
+			return $content;
+		}
+
+		$update_image = false;
+
+		if ( $settings['width'] ) {
+			$image->setAttribute( 'width', $settings['width'] );
+			$update_image = true;
+		}
+
+		if ( $settings['height'] ) {
+			$image->setAttribute( 'height', $settings['height'] );
+			$update_image = true;
+		}
+
+		if ( $update_image ) {
+			$content = $doc->saveHTML( $image );
+		}
+
+		return $content;
+	}
+
+	/**
 	 * Extracts the static content the user has entered.
 	 * This is useful when using dynamic links with static content.
 	 *

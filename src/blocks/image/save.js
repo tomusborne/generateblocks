@@ -1,6 +1,6 @@
 import classnames from 'classnames';
 import Element from '../../components/element';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 import { removeEmpty } from '../post-template/utils';
 import AnchorTag from './components/AnchorTag';
@@ -18,6 +18,8 @@ export default ( { attributes } ) => {
 		relNoFollow,
 		relSponsored,
 		isDynamicContent,
+		width,
+		height,
 	} = attributes;
 
 	if ( isDynamicContent || ! mediaUrl ) {
@@ -42,6 +44,8 @@ export default ( { attributes } ) => {
 	const blockProps = useBlockProps.save( htmlAttributes );
 
 	const imageAttributes = removeEmpty( {
+		width,
+		height,
 		src: mediaUrl,
 		alt,
 		title,
@@ -61,7 +65,9 @@ export default ( { attributes } ) => {
 				<Element tagName="img" htmlAttrs={ imageAttributes } />
 			</AnchorTag>
 
-			{ !! caption && <Element tagName={ 'figcaption' }>{ caption }</Element> }
+			{ ! RichText.isEmpty( caption ) && (
+				<RichText.Content tagName="figcaption" value={ caption } />
+			) }
 		</Element>
 	);
 };

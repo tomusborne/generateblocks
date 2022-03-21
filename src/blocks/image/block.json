@@ -17,28 +17,24 @@
 		  	"type": "string",
 		  	"source": "attribute",
         	"selector": "img",
-        	"attribute": "src",
-		  	"default": ""
+        	"attribute": "src"
 		},
 	  	"alt": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "img",
-			"attribute": "alt",
-			"default": ""
+			"attribute": "alt"
 	  	},
 	  	"title": {
 			"type": "string",
 			"source": "attribute",
 			"selector": "img",
-			"attribute": "title",
-		  	"default": ""
+			"attribute": "title"
 	  	},
 	  	"caption": {
 			"type": "string",
 			"source": "html",
-			"selector": "figcaption",
-		  	"default": ""
+			"selector": "figcaption"
 	  	},
 	  	"href": {
 			"type": "string",
@@ -57,7 +53,47 @@
 	  	"relSponsored": {
 			"type": "boolean",
 			"default": false
-	  	}
+	  	},
+		"sizeSlug": {
+			"type": "string",
+			"default": ""
+		},
+	  	"width": {
+			"type": "number",
+			"default": false
+	  	},
+		"widthTablet": {
+			"type": "number",
+			"default": false
+	  	},
+		"widthMobile": {
+			"type": "number",
+			"default": false
+	  	},
+	  	"height": {
+			"type": "number",
+			"default": false
+	  	},
+		"heightTablet": {
+			"type": "number",
+			"default": false
+	  	},
+		"heightMobile": {
+			"type": "number",
+			"default": false
+	  	},
+		"objectFit": {
+			"type": "string",
+			"default": ""
+		},
+		"objectFitTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"objectFitMobile": {
+			"type": "string",
+			"default": ""
+		}
 	},
   	"usesContext": [ "postId", "postType" ],
   	"supports": {
