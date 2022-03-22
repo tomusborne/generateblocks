@@ -70,6 +70,13 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
+			'generateblocks/redux',
+			array(
+				'title' => esc_html__( 'Redux', 'generateblocks' ),
+			)
+		);
+
+		register_block_type(
 			'generateblocks/query-loop',
 			array(
 				'title' => esc_html__( 'Query loop', 'generateblocks' ),

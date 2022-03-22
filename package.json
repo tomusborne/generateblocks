@@ -19,8 +19,10 @@
 	},
 	"dependencies": {
 		"@emotion/react": "^11.7.1",
+		"@reduxjs/toolkit": "^1.8.0",
 		"classnames": "^2.3.1",
-		"dompurify": "^2.2.8"
+		"dompurify": "^2.2.8",
+		"react-redux": "^7.2.6"
 	},
 	"devDependencies": {
 		"@wordpress/api-fetch": "5.2.6",
@@ -45,8 +47,8 @@
 		"grunt-contrib-compress": "^2.0.0",
 		"grunt-contrib-copy": "^1.0.0",
 		"jest": "^27.0.6",
-		"react-select": "^5.2.1",
 		"react-colorful": "5.5.1",
+		"react-select": "^5.2.1",
 		"request": "^2.88.2",
 		"use-local-storage-state": "16.0.0"
 	},
