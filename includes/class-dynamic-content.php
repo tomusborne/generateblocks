@@ -433,10 +433,6 @@ class GenerateBlocks_Dynamic_Content {
 			return absint( $attributes['postId'] );
 		}
 
-		if ( ! is_singular() ) {
-			return get_queried_object_id();
-		}
-
 		return get_the_ID();
 	}
 
