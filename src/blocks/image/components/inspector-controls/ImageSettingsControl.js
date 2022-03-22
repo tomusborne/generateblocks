@@ -5,6 +5,9 @@ import { TextareaControl, TextControl, SelectControl } from '@wordpress/componen
 import NumberControl from '../../../../components/number-control';
 import getAttribute from '../../../../utils/get-attribute';
 import getMediaUrl from '../../../../utils/get-media-url';
+import { store as coreStore } from '@wordpress/core-data';
+import { useSelect } from '@wordpress/data';
+import getImageSizes from '../../../../utils/get-image-sizes';
 
 export default function ImageSettingsControls( props ) {
 	const {
@@ -12,8 +15,6 @@ export default function ImageSettingsControls( props ) {
 		attributes,
 		setAttributes,
 		media,
-		imageSizes,
-		imageData,
 		deviceType,
 	} = props;
 
@@ -49,6 +50,12 @@ export default function ImageSettingsControls( props ) {
 			)
 		);
 
+	const mediaData = useSelect( ( select ) => {
+		const { getMedia } = select( coreStore );
+
+		return mediaId && getMedia( mediaId, { context: 'view' } );
+	}, [ isDynamicContent, mediaId ] );
+
 	return (
 		<PanelArea
 			{ ...props }
@@ -63,21 +70,23 @@ export default function ImageSettingsControls( props ) {
 				<SelectControl
 					label={ __( 'Size', 'generateblocks' ) }
 					value={ sizeSlug }
-					options={ imageSizes }
+					options={ getImageSizes() }
 					onChange={ ( value ) => {
 						setAttributes( {
 							sizeSlug: value,
 						} );
 
-						const newWidth = imageData?.media_details?.sizes[ value ]?.width || width;
-						const newHeight = imageData?.media_details?.sizes[ value ]?.height || height;
-						const imageUrl = getMediaUrl( imageData, value ) || mediaUrl;
+						if ( ! isDynamicContent ) {
+							const newWidth = mediaData?.media_details?.sizes[ value ]?.width || width;
+							const newHeight = mediaData?.media_details?.sizes[ value ]?.height || height;
+							const imageUrl = getMediaUrl( mediaData, value ) || mediaUrl;
 
-						setAttributes( {
-							mediaUrl: imageUrl,
-							width: newWidth,
-							height: newHeight,
-						} );
+							setAttributes( {
+								mediaUrl: imageUrl,
+								width: newWidth,
+								height: newHeight,
+							} );
+						}
 					} }
 				/>
 			}
