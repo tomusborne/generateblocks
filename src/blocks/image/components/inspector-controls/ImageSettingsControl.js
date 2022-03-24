@@ -68,9 +68,9 @@ export default function ImageSettingsControls( props ) {
 	return (
 		<PanelArea
 			{ ...props }
-			title={ __( 'Image', 'generateblocks' ) }
+			title={ __( 'Settings', 'generateblocks' ) }
 			initialOpen={ false }
-			icon={ getIcon( 'spacing' ) }
+			icon={ getIcon( 'backgrounds' ) }
 			className={ 'gblocks-panel-label' }
 			id={ 'imageSettings' }
 			state={ state }
