@@ -12,6 +12,7 @@ export default function RootElement( { name, clientId, children } ) {
 	const blockProps = {
 		className: classnames( {
 			'wp-block': true,
+			'block-editor-block-list__block': true,
 			'gb-is-root-block': true,
 			[ `gb-root-block-${ blockName }` ]: true,
 		} ),
