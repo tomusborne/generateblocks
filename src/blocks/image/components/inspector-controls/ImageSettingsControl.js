@@ -5,6 +5,10 @@ import { TextareaControl, TextControl, SelectControl } from '@wordpress/componen
 import NumberControl from '../../../../components/number-control';
 import getAttribute from '../../../../utils/get-attribute';
 import getMediaUrl from '../../../../utils/get-media-url';
+import { store as coreStore } from '@wordpress/core-data';
+import { useSelect } from '@wordpress/data';
+import getImageSizes from '../../../../utils/get-image-sizes';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 
 export default function ImageSettingsControls( props ) {
 	const {
@@ -12,8 +16,6 @@ export default function ImageSettingsControls( props ) {
 		attributes,
 		setAttributes,
 		media,
-		imageSizes,
-		imageData,
 		deviceType,
 	} = props;
 
@@ -49,12 +51,26 @@ export default function ImageSettingsControls( props ) {
 			)
 		);
 
+	const mediaData = useSelect( ( select ) => {
+		const { getMedia } = select( coreStore );
+
+		return mediaId && getMedia( mediaId, { context: 'view' } );
+	}, [ isDynamicContent, mediaId ] );
+
+	const imageDimensions = useSelect( ( select ) => {
+		const {
+			getSettings,
+		} = select( blockEditorStore );
+
+		return getSettings().imageDimensions || [];
+	}, [] );
+
 	return (
 		<PanelArea
 			{ ...props }
-			title={ __( 'Image', 'generateblocks' ) }
+			title={ __( 'Settings', 'generateblocks' ) }
 			initialOpen={ false }
-			icon={ getIcon( 'spacing' ) }
+			icon={ getIcon( 'backgrounds' ) }
 			className={ 'gblocks-panel-label' }
 			id={ 'imageSettings' }
 			state={ state }
@@ -63,15 +79,24 @@ export default function ImageSettingsControls( props ) {
 				<SelectControl
 					label={ __( 'Size', 'generateblocks' ) }
 					value={ sizeSlug }
-					options={ imageSizes }
+					options={ getImageSizes() }
 					onChange={ ( value ) => {
 						setAttributes( {
 							sizeSlug: value,
 						} );
 
-						const newWidth = imageData?.media_details?.sizes[ value ]?.width || width;
-						const newHeight = imageData?.media_details?.sizes[ value ]?.height || height;
-						const imageUrl = getMediaUrl( imageData, value ) || mediaUrl;
+						const imageUrl = getMediaUrl( mediaData, value ) || mediaUrl;
+						let newWidth = mediaData?.media_details?.sizes[ value ]?.width || width;
+						let newHeight = mediaData?.media_details?.sizes[ value ]?.height || height;
+
+						/**
+						 * We can't get specific image data for dynamic images, so we'll use the
+						 * available sizing options for each sizeSlug.
+						 */
+						if ( isDynamicContent ) {
+							newWidth = imageDimensions[ value ]?.width || '';
+							newHeight = imageDimensions[ value ]?.height || '';
+						}
 
 						setAttributes( {
 							mediaUrl: imageUrl,
