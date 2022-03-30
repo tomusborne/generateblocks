@@ -1,7 +1,6 @@
 /**
  * WordPress dependencies
  */
-import { postFeaturedImage } from '@wordpress/icons';
 import { registerBlockType } from '@wordpress/blocks';
 
 /**
@@ -12,6 +11,7 @@ import edit from './edit';
 import save from './save';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 import getSpacingAttributes from '../../components/dimensions/attributes';
+import getIcon from '../../utils/get-icon';
 
 const attributes = Object.assign(
 	{},
@@ -21,7 +21,7 @@ const attributes = Object.assign(
 );
 
 registerBlockType( 'generateblocks/image', {
-	icon: postFeaturedImage,
+	icon: getIcon( 'image' ),
 	attributes,
 	edit,
 	save,
