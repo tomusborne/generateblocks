@@ -97,7 +97,7 @@ class GenerateBlocks_Dynamic_Content {
 	public static function get_post_title( $attributes ) {
 		$post_title = get_the_title( self::get_source_id( $attributes ) );
 
-		if ( ! in_the_loop() ) {
+		if ( ! in_the_loop() && ! is_main_query() ) {
 			if ( is_tax() || is_category() || is_tag() ) {
 				$post_title = get_queried_object()->name;
 			} elseif ( is_post_type_archive() ) {
@@ -324,56 +324,67 @@ class GenerateBlocks_Dynamic_Content {
 
 		global $wp_query;
 
-		$block_query = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
+		if ( isset( $block->context['generateblocks/inheritQuery'] ) && $block->context['generateblocks/inheritQuery'] ) {
+			// Take into account if we have set a bigger `max page`
+			// than what the query has.
+			$total = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
+			$paginate_args = array(
+				'prev_next' => false,
+				'total' => $total,
+			);
+			$links = paginate_links( $paginate_args );
+		} else {
+			$block_query = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
 
-		// `paginate_links` works with the global $wp_query, so we have to
-		// temporarily switch it with our custom query.
-		$prev_wp_query = $wp_query;
-		$wp_query      = $block_query; // phpcs:ignore -- No way around overwriting core global.
-		$total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
+			// `paginate_links` works with the global $wp_query, so we have to
+			// temporarily switch it with our custom query.
+			$prev_wp_query = $wp_query;
+			$wp_query      = $block_query; // phpcs:ignore -- No way around overwriting core global.
+			$total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
 
-		$paginate_args = array(
-			'base'      => '%_%',
-			'format'    => "?$page_key=%#%",
-			'current'   => max( 1, $page ),
-			'total'     => $total,
-			'prev_next' => false,
-		);
+			$paginate_args = array(
+				'base'      => '%_%',
+				'format'    => "?$page_key=%#%",
+				'current'   => max( 1, $page ),
+				'total'     => $total,
+				'prev_next' => false,
+			);
 
-		if ( 1 !== $page ) {
-			/**
-			 * `paginate_links` doesn't use the provided `format` when the page is `1`.
-			 * This is great for the main query as it removes the extra query params
-			 * making the URL shorter, but in the case of multiple custom queries is
-			 * problematic. It results in returning an empty link which ends up with
-			 * a link to the current page.
-			 *
-			 * A way to address this is to add a `fake` query arg with no value that
-			 * is the same for all custom queries. This way the link is not empty and
-			 * preserves all the other existent query args.
-			 *
-			 * @see https://developer.wordpress.org/reference/functions/paginate_links/
-			 *
-			 * The proper fix of this should be in core. Track Ticket:
-			 * @see https://core.trac.wordpress.org/ticket/53868
-			 *
-			 * TODO: After two WP versions (starting from the WP version the core patch landed),
-			 * we should remove this and call `paginate_links` with the proper new arg.
-			 */
-			$paginate_args['add_args'] = array( 'cst' => '' );
+			if ( 1 !== $page ) {
+				/**
+				 * `paginate_links` doesn't use the provided `format` when the page is `1`.
+				 * This is great for the main query as it removes the extra query params
+				 * making the URL shorter, but in the case of multiple custom queries is
+				 * problematic. It results in returning an empty link which ends up with
+				 * a link to the current page.
+				 *
+				 * A way to address this is to add a `fake` query arg with no value that
+				 * is the same for all custom queries. This way the link is not empty and
+				 * preserves all the other existent query args.
+				 *
+				 * @see https://developer.wordpress.org/reference/functions/paginate_links/
+				 *
+				 * The proper fix of this should be in core. Track Ticket:
+				 * @see https://core.trac.wordpress.org/ticket/53868
+				 *
+				 * TODO: After two WP versions (starting from the WP version the core patch landed),
+				 * we should remove this and call `paginate_links` with the proper new arg.
+				 */
+				$paginate_args['add_args'] = array( 'cst' => '' );
+			}
+
+			// We still need to preserve `paged` query param if exists, as is used
+			// for Queries that inherit from global context.
+			$paged = empty( $_GET['paged'] ) ? null : (int) $_GET['paged']; // phpcs:ignore -- No data processing happening.
+
+			if ( $paged ) {
+				$paginate_args['add_args'] = array( 'paged' => $paged );
+			}
+
+			$links = paginate_links( $paginate_args );
+			wp_reset_postdata(); // Restore original Post Data.
+			$wp_query = $prev_wp_query; // phpcs:ignore -- Restoring core global.
 		}
-
-		// We still need to preserve `paged` query param if exists, as is used
-		// for Queries that inherit from global context.
-		$paged = empty( $_GET['paged'] ) ? null : (int) $_GET['paged']; // phpcs:ignore -- No data processing happening.
-
-		if ( $paged ) {
-			$paginate_args['add_args'] = array( 'paged' => $paged );
-		}
-
-		$links = paginate_links( $paginate_args );
-		wp_reset_postdata(); // Restore original Post Data.
-		$wp_query = $prev_wp_query; // phpcs:ignore -- Restoring core global.
 
 		$doc = self::load_html( $links );
 
@@ -527,7 +538,23 @@ class GenerateBlocks_Dynamic_Content {
 			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 			$max_page = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
 
-			if ( ! $max_page || $max_page > $page ) {
+			if ( isset( $block->context['generateblocks/inheritQuery'] ) && $block->context['generateblocks/inheritQuery'] ) {
+				global $wp_query, $paged;
+
+				if ( ! $max_page || $max_page > $wp_query->max_num_pages ) {
+					$max_page = $wp_query->max_num_pages;
+				}
+
+				if ( ! $paged ) {
+					$paged = 1; // phpcs:ignore -- Need to overrite global here.
+				}
+
+				$nextpage = (int) $paged + 1;
+
+				if ( $nextpage <= $max_page ) {
+					$url = next_posts( $max_page, false );
+				}
+			} elseif ( ! $max_page || $max_page > $page ) {
 				$custom_query           = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
 				$custom_query_max_pages = (int) $custom_query->max_num_pages;
 
@@ -543,7 +570,13 @@ class GenerateBlocks_Dynamic_Content {
 			$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
 			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 
-			if ( 1 !== $page ) {
+			if ( isset( $block->context['generateblocks/inheritQuery'] ) && $block->context['generateblocks/inheritQuery'] ) {
+				global $paged;
+
+				if ( $paged > 1 ) {
+					$url = previous_posts( false );
+				}
+			} elseif ( 1 !== $page ) {
 				$url = esc_url( add_query_arg( $page_key, $page - 1 ) );
 			}
 		}

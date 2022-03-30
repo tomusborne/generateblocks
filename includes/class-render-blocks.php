@@ -77,6 +77,7 @@ class GenerateBlocks_Render_Block {
 				'provides_context' => array(
 					'generateblocks/query' => 'query',
 					'generateblocks/gridId' => 'uniqueId',
+					'generateblocks/inheritQuery' => 'inheritQuery',
 				),
 			)
 		);
@@ -105,6 +106,7 @@ class GenerateBlocks_Render_Block {
 				'uses_context' => array(
 					'generateblocks/query',
 					'generateblocks/gridId',
+					'generateblocks/inheritQuery',
 				),
 			)
 		);
@@ -117,6 +119,7 @@ class GenerateBlocks_Render_Block {
 				'uses_context' => array(
 					'generateblocks/query',
 					'generateblocks/gridId',
+					'generateblocks/inheritQuery',
 				),
 			)
 		);
@@ -379,7 +382,26 @@ class GenerateBlocks_Render_Block {
 	public function do_post_template( $attributes, $content, $block ) {
 		$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
 		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$the_query = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
+		$query_args = GenerateBlocks_Query_Loop::get_query_args( $block, $page );
+
+		// Override the custom query with the global query if needed.
+		$use_global_query = ( isset( $block->context['generateblocks/inheritQuery'] ) && $block->context['generateblocks/inheritQuery'] );
+
+		if ( $use_global_query ) {
+			global $wp_query;
+
+			if ( $wp_query && isset( $wp_query->query_vars ) && is_array( $wp_query->query_vars ) ) {
+				// Unset `offset` because if is set, $wp_query overrides/ignores the paged parameter and breaks pagination.
+				unset( $query_args['offset'] );
+				$query_args = wp_parse_args( $wp_query->query_vars, $query_args );
+
+				if ( empty( $query_args['post_type'] ) && is_singular() ) {
+					$query_args['post_type'] = get_post_type( get_the_ID() );
+				}
+			}
+		}
+
+		$the_query = new WP_Query( $query_args );
 
 		$content = '';
 		if ( $the_query->have_posts() ) {

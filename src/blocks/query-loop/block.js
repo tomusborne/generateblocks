@@ -23,6 +23,7 @@ registerBlockType( 'generateblocks/query-loop', {
 	providesContext: {
 		'generateblocks/query': 'query',
 		'generateblocks/gridId': 'uniqueId',
+		'generateblocks/inheritQuery': 'inheritQuery',
 	},
 	edit: withQueryLoop( editGridContainer ),
 	save: () => {
