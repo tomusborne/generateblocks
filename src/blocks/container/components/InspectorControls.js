@@ -228,7 +228,12 @@ export default ( props ) => {
 							{ ( 'contained' === outerContainer || 'contained' === innerContainer ) &&
 								<Fragment>
 									<UnitPicker
-										label={ __( 'Container Width', 'generateblocks' ) }
+										label={
+											'full' === outerContainer &&
+											'contained' === innerContainer
+												? __( 'Inner Container Width', 'generateblocks' )
+												: __( 'Container Width', 'generateblocks' )
+										}
 										value={ 'px' }
 										units={ [ 'px' ] }
 										onClick={ () => {
@@ -1157,26 +1162,46 @@ export default ( props ) => {
 						colors={
 							[
 								{
+									group: 'background',
 									label: __( 'Background', 'generateblocks' ),
-									attribute: 'backgroundColor',
-									alpha: true,
+									items: [
+										{
+											attribute: 'backgroundColor',
+											alpha: true,
+										},
+									],
 								},
 								{
+									group: 'text',
 									label: __( 'Text', 'generateblocks' ),
-									attribute: 'textColor',
+									items: [
+										{
+											attribute: 'textColor',
+										},
+									],
 								},
 								{
+									group: 'link',
 									label: __( 'Link', 'generateblocks' ),
-									attribute: 'linkColor',
+									items: [
+										{
+											attribute: 'linkColor',
+										},
+										{
+											tooltip: __( 'Hover', 'generateblocks' ),
+											attribute: 'linkColorHover',
+										},
+									],
 								},
 								{
-									label: __( 'Link Hover', 'generateblocks' ),
-									attribute: 'linkColorHover',
-								},
-								{
+									group: 'border',
 									label: __( 'Border', 'generateblocks' ),
-									attribute: 'borderColor',
-									alpha: true,
+									items: [
+										{
+											attribute: 'borderColor',
+											alpha: true,
+										},
+									],
 								},
 							]
 						}
@@ -1577,36 +1602,38 @@ export default ( props ) => {
 																}
 															</BaseControl>
 
-															<ColorPicker
-																label={ __( 'Color', 'generateblocks' ) }
-																value={ shapeDividers[ index ].color }
-																alpha={ true }
-																valueOpacity={ shapeDividers[ index ].colorOpacity }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+															<BaseControl>
+																<ColorPicker
+																	label={ __( 'Color', 'generateblocks' ) }
+																	value={ shapeDividers[ index ].color }
+																	alpha={ true }
+																	valueOpacity={ shapeDividers[ index ].colorOpacity }
+																	onChange={ ( value ) => {
+																		const shapes = [ ...shapeDividers ];
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		color: value,
-																	};
+																		shapes[ index ] = {
+																			...shapes[ index ],
+																			color: value,
+																		};
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-																onOpacityChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+																		setAttributes( {
+																			shapeDividers: shapes,
+																		} );
+																	} }
+																	onOpacityChange={ ( value ) => {
+																		const shapes = [ ...shapeDividers ];
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		colorOpacity: value,
-																	};
+																		shapes[ index ] = {
+																			...shapes[ index ],
+																			colorOpacity: value,
+																		};
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
+																		setAttributes( {
+																			shapeDividers: shapes,
+																		} );
+																	} }
+																/>
+															</BaseControl>
 
 															<SelectControl
 																label={ __( 'Location', 'generateblocks' ) }

@@ -1,4 +1,27 @@
 .gblocks-color-component {
+	display: flex;
+	align-items: center;
+
+	&__label {
+		flex: 1;
+	}
+
+	&__toggle-button {
+		height: auto;
+		min-height: auto;
+		padding: 4px
+	}
+
+	&__toggle-indicator {
+		width: 25px;
+		height: 25px;
+		border-radius: 50%;
+		background: linear-gradient(-45deg,transparent 48%,rgba(0,0,0,0.2) 0,rgba(0,0,0,0.2) 52%,transparent 0);
+		border: 1px solid rgba(0,0,0,0.2);
+	}
+}
+
+.gblocks-color-component-content {
 	.components-popover__content {
 		padding: 5px;
 		width: 300px;
@@ -65,36 +88,5 @@
 			flex-grow: 1;
 			padding-left: 5px;
 		}
-	}
-}
-
-.gblocks-color-component-toggle {
-	&__button {
-		height: auto;
-    	min-height: auto;
-    	padding: 10px 12px;
-		width: 100%;
-		border: 1px solid #ddd;
-
-		&[aria-expanded=true] {
-			background: #fafafa;
-		}
-	}
-
-	&__button-no-label {
-		padding: 4px;
-		border: 0;
-	}
-
-	&__indicator {
-		width: 25px;
-		height: 25px;
-		border-radius: 50%;
-		background: linear-gradient(-45deg,transparent 48%,#ddd 0,#ddd 52%,transparent 0);
-		border: 1px solid #ddd;
-	}
-
-	&__label {
-		margin-left: 10px;
 	}
 }
