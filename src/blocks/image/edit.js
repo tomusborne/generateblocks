@@ -23,6 +23,7 @@ function ImageEdit( props ) {
 		isDynamicContent,
 		contentType,
 		sizeSlug,
+		mediaUrl,
 	} = attributes;
 
 	const [ deviceType ] = useDeviceType( 'Desktop' );
@@ -56,6 +57,17 @@ function ImageEdit( props ) {
 			} );
 		}
 	};
+
+	const onSelectURL = ( newURL ) => {
+		if ( newURL !== mediaUrl ) {
+			setAttributes( {
+				mediaUrl: newURL,
+				mediaId: undefined,
+				width: undefined,
+				height: undefined,
+			} );
+		}
+	}
 
 	const onUploadError = ( message ) => {
 		createErrorNotice( message[ 2 ], { type: 'snackbar' } );
@@ -96,6 +108,7 @@ function ImageEdit( props ) {
 			<ContentRenderer
 				{ ...props }
 				onSelectImage={ onSelectImage }
+				onSelectURL={ onSelectURL }
 				onUploadError={ onUploadError }
 				onResetImage={ onResetImage }
 			/>

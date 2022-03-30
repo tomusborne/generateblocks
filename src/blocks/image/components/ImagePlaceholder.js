@@ -1,20 +1,22 @@
 import { Path, SVG } from '@wordpress/primitives';
 import { MediaPlaceholder } from '@wordpress/block-editor';
-import { Button, Placeholder } from '@wordpress/components';
-import { upload } from '@wordpress/icons';
+import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import getIcon from '../../../utils/get-icon';
 
 export default function ImagePlaceholder( props ) {
 	const {
 		onSelectImage,
+		onSelectURL,
 		onUploadError,
 		attributes,
 		canUploadImage,
 	} = props;
 
 	const {
-		isDynamicContent,
 		width,
+		mediaId,
+		mediaUrl,
 	} = attributes;
 
 	const placeholderIllustration = (
@@ -30,34 +32,26 @@ export default function ImagePlaceholder( props ) {
 	);
 
 	let placeholder = <MediaPlaceholder
+		labels={ {
+			title: __( 'Image', 'generateblocks' ),
+			instructions: __( 'Choose an image from your media library or add one with a URL.', 'generateblocks' ),
+		} }
+		icon={ getIcon( 'image' ) }
 		onSelect={ onSelectImage }
+		onSelectURL={ onSelectURL }
+		onError={ onUploadError }
 		accept="image/*"
 		allowedTypes={ [ 'image' ] }
-		onError={ onUploadError }
-		placeholder={ ( content ) => {
-			return (
-				<Placeholder className="block-editor-media-placeholder">
-					{ placeholderIllustration }
-					{ content }
-				</Placeholder>
-			);
-		} }
 		mediaLibraryButton={ ( { open } ) => {
 			return (
 				<Button
-					icon={ upload }
 					variant="primary"
-					label={
-						! isDynamicContent
-							? __( 'Add an image', 'generateblocks' )
-							: __( 'Add a featured image', 'generateblocks' )
-					}
-					showTooltip
-					tooltipPosition="top center"
 					onClick={ () => {
 						open();
 					} }
-				/>
+				>
+					{ __( 'Media Library', 'generateblocks' ) }
+				</Button>
 			);
 		} }
 	/>;
