@@ -228,7 +228,12 @@ export default ( props ) => {
 							{ ( 'contained' === outerContainer || 'contained' === innerContainer ) &&
 								<Fragment>
 									<UnitPicker
-										label={ __( 'Container Width', 'generateblocks' ) }
+										label={
+											'full' === outerContainer &&
+											'contained' === innerContainer
+												? __( 'Inner Container Width', 'generateblocks' )
+												: __( 'Container Width', 'generateblocks' )
+										}
 										value={ 'px' }
 										units={ [ 'px' ] }
 										onClick={ () => {
@@ -1597,36 +1602,38 @@ export default ( props ) => {
 																}
 															</BaseControl>
 
-															<ColorPicker
-																label={ __( 'Color', 'generateblocks' ) }
-																value={ shapeDividers[ index ].color }
-																alpha={ true }
-																valueOpacity={ shapeDividers[ index ].colorOpacity }
-																onChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+															<BaseControl>
+																<ColorPicker
+																	label={ __( 'Color', 'generateblocks' ) }
+																	value={ shapeDividers[ index ].color }
+																	alpha={ true }
+																	valueOpacity={ shapeDividers[ index ].colorOpacity }
+																	onChange={ ( value ) => {
+																		const shapes = [ ...shapeDividers ];
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		color: value,
-																	};
+																		shapes[ index ] = {
+																			...shapes[ index ],
+																			color: value,
+																		};
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-																onOpacityChange={ ( value ) => {
-																	const shapes = [ ...shapeDividers ];
+																		setAttributes( {
+																			shapeDividers: shapes,
+																		} );
+																	} }
+																	onOpacityChange={ ( value ) => {
+																		const shapes = [ ...shapeDividers ];
 
-																	shapes[ index ] = {
-																		...shapes[ index ],
-																		colorOpacity: value,
-																	};
+																		shapes[ index ] = {
+																			...shapes[ index ],
+																			colorOpacity: value,
+																		};
 
-																	setAttributes( {
-																		shapeDividers: shapes,
-																	} );
-																} }
-															/>
+																		setAttributes( {
+																			shapeDividers: shapes,
+																		} );
+																	} }
+																/>
+															</BaseControl>
 
 															<SelectControl
 																label={ __( 'Location', 'generateblocks' ) }
