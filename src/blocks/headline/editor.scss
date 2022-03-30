@@ -1,10 +1,19 @@
-mark.gb-highlight {
-	background: none;
-	color: unset;
-}
+.editor-styles-wrapper {
+	mark.gb-highlight {
+		background: none;
+		color: unset;
+	}
 
-.gb-headline {
-	span.rich-text {
-		display: inline-block;
+	div.gb-headline {
+		margin: 0;
+	}
+
+	.gb-headline {
+		margin-left: 0;
+		margin-right: 0;
+
+		span.rich-text {
+			display: inline-block;
+		}
 	}
 }

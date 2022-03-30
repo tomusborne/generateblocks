@@ -141,6 +141,7 @@ body .gb-container .wp-block {
 
 	.gblocks-shape-chooser {
 		margin: 0;
+		display: block;
 
 		li {
 			margin: 5px 0;
@@ -163,6 +164,10 @@ body .gb-container .wp-block {
 				}
 			}
 		}
+	}
+
+	.components-panel__row {
+		display: block;
 	}
 }
 
