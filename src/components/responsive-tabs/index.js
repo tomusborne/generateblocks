@@ -17,6 +17,7 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import { Icon, desktop, tablet, mobile } from '@wordpress/icons';
 
 export default class ResponsiveTabs extends Component {
 	render() {
@@ -25,9 +26,12 @@ export default class ResponsiveTabs extends Component {
 			selectedDevice,
 		} = this.props;
 
+		const panelHeader = document.querySelector( '.edit-post-sidebar .edit-post-sidebar__panel-tabs' );
+		const panelHeaderHeight = panelHeader ? panelHeader.offsetHeight : 0;
+
 		return (
 			<Fragment>
-				<div className="gb-responsive-tabs">
+				<div className="gb-responsive-tabs" style={ { top: panelHeaderHeight + 'px' } }>
 					<Tooltip text={ __( 'Show options for all devices', 'generateblocks' ) }>
 						<Button
 							isPressed={ 'Desktop' === selectedDevice ? true : false }
@@ -35,7 +39,7 @@ export default class ResponsiveTabs extends Component {
 								onClick( 'Desktop' );
 							} }
 						>
-							{ __( 'Desktop', 'generateblocks' ) }
+							<Icon icon={ desktop } />
 						</Button>
 					</Tooltip>
 
@@ -46,7 +50,7 @@ export default class ResponsiveTabs extends Component {
 								onClick( 'Tablet' );
 							} }
 						>
-							{ __( 'Tablet', 'generateblocks' ) }
+							<Icon icon={ tablet } />
 						</Button>
 					</Tooltip>
 
@@ -57,7 +61,7 @@ export default class ResponsiveTabs extends Component {
 								onClick( 'Mobile' );
 							} }
 						>
-							{ __( 'Mobile', 'generateblocks' ) }
+							<Icon icon={ mobile } />
 						</Button>
 					</Tooltip>
 				</div>

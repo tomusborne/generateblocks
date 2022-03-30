@@ -130,32 +130,47 @@ export default ( props ) => {
 						colors={
 							[
 								{
+									group: 'background',
 									label: __( 'Background', 'generateblocks' ),
-									attribute: 'backgroundColor',
-									alpha: true,
+									items: [
+										{
+											attribute: 'backgroundColor',
+											alpha: true,
+										},
+										{
+											tooltip: __( 'Hover', 'generateblocks' ),
+											attribute: 'backgroundColorHover',
+											alpha: true,
+										},
+									],
 								},
 								{
-									label: __( 'Background Hover', 'generateblocks' ),
-									attribute: 'backgroundColorHover',
-									alpha: true,
-								},
-								{
+									group: 'text',
 									label: __( 'Text', 'generateblocks' ),
-									attribute: 'textColor',
+									items: [
+										{
+											attribute: 'textColor',
+										},
+										{
+											tooltip: __( 'Hover', 'generateblocks' ),
+											attribute: 'textColorHover',
+										},
+									],
 								},
 								{
-									label: __( 'Text Hover', 'generateblocks' ),
-									attribute: 'textColorHover',
-								},
-								{
+									group: 'border',
 									label: __( 'Border', 'generateblocks' ),
-									attribute: 'borderColor',
-									alpha: true,
-								},
-								{
-									label: __( 'Border Hover', 'generateblocks' ),
-									attribute: 'borderColorHover',
-									alpha: true,
+									items: [
+										{
+											attribute: 'borderColor',
+											alpha: true,
+										},
+										{
+											tooltip: __( 'Hover', 'generateblocks' ),
+											attribute: 'borderColorHover',
+											alpha: true,
+										},
+									],
 								},
 							]
 						}
