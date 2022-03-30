@@ -11,7 +11,7 @@ registerBlockType( 'generateblocks/query-loop', {
 	apiVersion: 2,
 	title: __( 'Query Loop', 'generateblocks' ),
 	description: __( 'Build a list of posts from any post type using advanced query parameters.', 'generateblocks' ),
-	icon: getIcon( 'grid' ),
+	icon: getIcon( 'query-loop' ),
 	category: 'generateblocks',
 	keywords: [
 		__( 'query' ),

@@ -1,13 +1,11 @@
-.gblocks-color-group {
-    border-top: 1px solid #ddd;
+.gblocks-color-group{
+	&__row {
+		display: flex;
+		align-items: center;
+		padding: 7px 0;
+	}
 
-	& > .components-dropdown {
-		display: block;
-
-		.gblocks-color-component-toggle {
-			&__button {
-				border-top: 0;
-			}
-		}
+	&__row-label {
+		flex: 1;
 	}
 }
