@@ -228,7 +228,12 @@ export default ( props ) => {
 							{ ( 'contained' === outerContainer || 'contained' === innerContainer ) &&
 								<Fragment>
 									<UnitPicker
-										label={ __( 'Container Width', 'generateblocks' ) }
+										label={
+											'full' === outerContainer &&
+											'contained' === innerContainer
+												? __( 'Inner Container Width', 'generateblocks' )
+												: __( 'Container Width', 'generateblocks' )
+										}
 										value={ 'px' }
 										units={ [ 'px' ] }
 										onClick={ () => {
