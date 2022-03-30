@@ -443,7 +443,7 @@ class GenerateBlocks_Dynamic_Content {
 					return '';
 				}
 
-				if ( is_int( $meta_value ) ) {
+				if ( is_numeric( $meta_value ) ) {
 					$id = $meta_value;
 				} else {
 					// Needs alt and other attributes.
