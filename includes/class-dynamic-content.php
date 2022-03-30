@@ -95,27 +95,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_post_title( $attributes ) {
-		$post_title = get_the_title( self::get_source_id( $attributes ) );
-
-		if ( ! in_the_loop() && ! is_main_query() ) {
-			if ( is_tax() || is_category() || is_tag() ) {
-				$post_title = get_queried_object()->name;
-			} elseif ( is_post_type_archive() ) {
-				$post_title = post_type_archive_title( '', false );
-			} elseif ( is_archive() && function_exists( 'get_the_archive_title' ) ) {
-				$post_title = get_the_archive_title();
-			} elseif ( is_home() ) {
-				$page_for_posts = get_option( 'page_for_posts' );
-
-				if ( ! empty( $page_for_posts ) ) {
-					$post_title = get_the_title( $page_for_posts );
-				} else {
-					$post_title = __( 'Blog', 'generateblocks' );
-				}
-			}
-		}
-
-		return $post_title;
+		return get_the_title( self::get_source_id( $attributes ) );
 	}
 
 	/**
