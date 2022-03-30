@@ -14,6 +14,7 @@ export default function ImagePlaceholder( props ) {
 
 	const {
 		isDynamicContent,
+		width,
 	} = attributes;
 
 	const placeholderIllustration = (
@@ -62,10 +63,14 @@ export default function ImagePlaceholder( props ) {
 	/>;
 
 	if ( ! canUploadImage ) {
-		placeholder = <div className="wp-block-post-featured-image__placeholder">
-			{ placeholderIllustration }
-		</div>;
+		placeholder = placeholderIllustration;
 	}
 
-	return placeholder;
+	return <div className="wp-block-post-featured-image__placeholder"
+		style={ {
+			position: 'relative',
+			maxWidth: '100%',
+			width,
+		} }
+	>{ placeholder }</div>;
 }

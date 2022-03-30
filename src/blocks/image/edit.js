@@ -5,12 +5,11 @@ import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicCont
 import { withUniqueId } from '../../hoc';
 import { useDeviceType } from '../../hooks';
 import ComponentCSS from './components/ComponentCSS';
-import { useDispatch, useSelect } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { store as noticesStore } from '@wordpress/notices';
 import InspectorControls from './components/InspectorControls';
-import { useEntityProp, store as coreStore } from '@wordpress/core-data';
-import getImageSizes from '../../utils/get-image-sizes';
+import { useEntityProp } from '@wordpress/core-data';
 
 function ImageEdit( props ) {
 	const {
@@ -23,9 +22,7 @@ function ImageEdit( props ) {
 	const {
 		isDynamicContent,
 		contentType,
-		mediaId,
 		sizeSlug,
-		dynamicImage,
 	} = attributes;
 
 	const [ deviceType ] = useDeviceType( 'Desktop' );
@@ -34,17 +31,6 @@ function ImageEdit( props ) {
 	const postId = 'post-type' === attributes.dynamicSource ? attributes.postId : context.postId;
 
 	const [ featuredImage, setFeaturedImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
-
-	/**
-	 * Returning dynamicImage isn't working here.
-	 * Can test by seeing if width/height are updated when changing sizes.
-	 */
-	const imageData = useSelect( ( select ) => {
-		const { getMedia } = select( coreStore );
-
-		const newMediaId = isDynamicContent ? dynamicImage : mediaId;
-		return newMediaId && getMedia( newMediaId, { context: 'view' } );
-	}, [ isDynamicContent, mediaId, dynamicImage ] );
 
 	const onSelectImage = ( image ) => {
 		if ( isDynamicContent && 'featured-image' === contentType && image?.id ) {
@@ -103,8 +89,6 @@ function ImageEdit( props ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				deviceType={ deviceType }
-				imageSizes={ getImageSizes() }
-				imageData={ imageData }
 			/>
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />

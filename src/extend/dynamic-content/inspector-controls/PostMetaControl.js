@@ -39,7 +39,7 @@ export default function PostMetaControl( props ) {
 					options={ options }
 					value={ { value: metaFieldName, label: metaFieldName } }
 					isSearchable
-					isLoading={ ( ! record && ! record.meta ) }
+					isLoading={ ( ! record && ! record?.meta ) }
 					onChange={ ( option ) => {
 						setAttributes( { metaFieldName: option.value } );
 					} }

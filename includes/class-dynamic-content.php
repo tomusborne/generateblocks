@@ -435,6 +435,31 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
+		if ( ! empty( $attributes['contentType'] ) ) {
+			if ( 'post-meta' === $attributes['contentType'] ) {
+				$meta_value = self::get_post_meta( $attributes );
+
+				if ( ! $meta_value ) {
+					return '';
+				}
+
+				if ( is_numeric( $meta_value ) ) {
+					$id = $meta_value;
+				} else {
+					// Needs alt and other attributes.
+					return sprintf(
+						'<img src="%1$s" />',
+						$meta_value
+					);
+				}
+			}
+
+			if ( 'author-avatar' === $attributes['contentType'] ) {
+				$author_id = self::get_source_author_id( $attributes );
+				return get_avatar( $author_id, $attributes['width'] );
+			}
+		}
+
 		$dynamic_image = wp_get_attachment_image(
 			$id,
 			isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full',
