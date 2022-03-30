@@ -112,6 +112,7 @@ export default class MainCSS extends Component {
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'min-height': valueWithUnit( minHeight, minHeightUnit ),
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
+			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
 		} ];
 
 		if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
@@ -277,10 +278,6 @@ export default class MainCSS extends Component {
 				height: '100%',
 			} ];
 		}
-
-		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
-		} ];
 
 		cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),
 		#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-editor-block-list__layout > div:not(:first-child) > .block-list-appender` ] = [ {

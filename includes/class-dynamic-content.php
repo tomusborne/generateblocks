@@ -515,10 +515,6 @@ class GenerateBlocks_Dynamic_Content {
 			$id = get_post_thumbnail_id( $id );
 		}
 
-		if ( ! is_singular() ) {
-			$id = get_queried_object_id();
-		}
-
 		return $id;
 	}
 

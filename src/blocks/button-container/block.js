@@ -24,7 +24,7 @@ registerBlockType( 'generateblocks/button-container', {
 	apiVersion: 2,
 	title: __( 'Buttons', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
-	icon: getIcon( 'button' ),
+	icon: getIcon( 'button-container' ),
 	category: 'generateblocks',
 	keywords: [
 		__( 'button' ),

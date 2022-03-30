@@ -171,7 +171,10 @@ export default function NumberControl( props ) {
 							} );
 						} }
 						onBlur={ () => {
-							if ( attributes[ attributeNames.value ] || 0 === attributes[ attributeNames.value ] ) {
+							if (
+								'' !== attributes[ attributeNames.value ] &&
+								false !== attributes[ attributeNames.value ]
+							) {
 								setAttributes( {
 									[ attributeNames.value ]: parseFloat( attributes[ attributeNames.value ] ),
 								} );
