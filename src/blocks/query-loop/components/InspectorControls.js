@@ -49,6 +49,7 @@ export default ( { attributes, setAttributes } ) => {
 			>
 				<ToggleControl
 					label={ __( 'Inherit query from template', 'generateblocks' ) }
+					help={ __( 'Toggle to use the global query context that is set with the current template, such as an archive or search.', 'generateblocks' ) }
 					checked={ !! attributes.inheritQuery }
 					onChange={ ( value ) => setAttributes( { inheritQuery: value } ) }
 				/>
