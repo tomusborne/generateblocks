@@ -34,18 +34,15 @@ export default function ImageContentRenderer( props ) {
 		height,
 	} = attributes;
 
-	const imageData = useSelect( ( select ) => {
+	const currentImage = useSelect( ( select ) => {
 		const { getMedia } = select( coreStore );
-		const mediaObject = { source_url: dynamicImage };
 
 		if ( 'post-meta' === contentType && 'object' !== typeof dynamicImage ) {
-			return getMedia( parseInt( dynamicImage ), { context: 'view' } ) || mediaObject;
+			return getMedia( parseInt( dynamicImage ), { context: 'view' } );
 		}
 
 		return dynamicImage;
 	}, [ isDynamicContent, dynamicImage ] );
-
-	const currentImage = !! imageData ? imageData : dynamicImage;
 
 	const imageUrl = isDynamicContent ? currentImage?.source_url : attributes.mediaUrl;
 	const altText = isDynamicContent ? currentImage?.alt_text : attributes.alt;
