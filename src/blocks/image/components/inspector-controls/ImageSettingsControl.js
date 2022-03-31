@@ -7,8 +7,8 @@ import getAttribute from '../../../../utils/get-attribute';
 import getMediaUrl from '../../../../utils/get-media-url';
 import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
-import getImageSizes from '../../../../utils/get-image-sizes';
 import { store as blockEditorStore } from '@wordpress/block-editor';
+import { useEffect } from '@wordpress/element';
 
 export default function ImageSettingsControls( props ) {
 	const {
@@ -65,6 +65,24 @@ export default function ImageSettingsControls( props ) {
 		return getSettings().imageDimensions || [];
 	}, [] );
 
+	const imageSizes = useSelect( ( select ) => {
+		const {
+			getSettings,
+		} = select( blockEditorStore );
+
+		const sizes = getSettings().imageSizes || [];
+		return sizes.map( ( size ) => ( { value: size.slug, label: size.name } ) );
+	}, [] );
+
+	useEffect( () => {
+		if ( isDynamicContent ) {
+			setAttributes( {
+				width: imageDimensions[ sizeSlug ]?.width || '',
+				height: imageDimensions[ sizeSlug ]?.height || '',
+			} );
+		}
+	}, [ isDynamicContent ] );
+
 	return (
 		<PanelArea
 			{ ...props }
@@ -75,11 +93,16 @@ export default function ImageSettingsControls( props ) {
 			id={ 'imageSettings' }
 			state={ state }
 		>
-			{ 'Desktop' === deviceType &&
+			{
+				'Desktop' === deviceType &&
+				(
+					!! mediaId ||
+					isDynamicContent
+				) &&
 				<SelectControl
 					label={ __( 'Size', 'generateblocks' ) }
 					value={ sizeSlug }
-					options={ getImageSizes() }
+					options={ imageSizes }
 					onChange={ ( value ) => {
 						setAttributes( {
 							sizeSlug: value,

@@ -67,7 +67,7 @@ function ImageEdit( props ) {
 				height: undefined,
 			} );
 		}
-	}
+	};
 
 	const onUploadError = ( message ) => {
 		createErrorNotice( message[ 2 ], { type: 'snackbar' } );

@@ -15,6 +15,8 @@ export default function Image( props ) {
 		anchorAttributes,
 		width,
 		height,
+		imageRef,
+		setLoadedNaturalSize,
 	} = props;
 
 	return (
@@ -27,6 +29,13 @@ export default function Image( props ) {
 					alt={ alt }
 					title={ title }
 					className={ className }
+					ref={ imageRef }
+					onLoad={ ( event ) => {
+						setLoadedNaturalSize( {
+							loadedNaturalWidth: event.target?.naturalWidth,
+							loadedNaturalHeight: event.target?.naturalHeight,
+						} );
+					} }
 				/>
 			</AnchorTag>
 
