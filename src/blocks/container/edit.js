@@ -9,7 +9,7 @@ import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import classnames from 'classnames';
 import ShapeDividers from './components/ShapeDividers';
@@ -40,20 +40,13 @@ const ContainerEdit = ( props ) => {
 		bgOptions,
 		bgImage,
 		bgImageInline,
+		align,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 	const hasChildBlocks = 0 < innerBlocksCount;
-
-	useEffect( () => {
-		const thisBlock = document.getElementById( `block-${ clientId }` );
-
-		if ( thisBlock && 'full' === attributes.align ) {
-			thisBlock.setAttribute( 'data-align', 'full' );
-		}
-	}, [] );
 
 	const tagNames = applyFilters(
 		'generateblocks.editor.containerTagNames',
@@ -101,6 +94,7 @@ const ContainerEdit = ( props ) => {
 			'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling && ! props.isSelected,
 		} ),
 		id: anchor ? anchor : null,
+		'data-align': align ? align : null,
 	};
 
 	if ( bgImageInline && bgImage.image && bgImage.image.url ) {
@@ -141,27 +135,6 @@ const ContainerEdit = ( props ) => {
 		} );
 	} );
 
-	useEffect( () => {
-		const thisBlock = document.getElementById( `block-${ clientId }` );
-
-		if ( thisBlock ) {
-			const alignValue = attributes.align;
-			let currentDataAlign = '';
-
-			if ( thisBlock.getAttribute( 'data-align' ) ) {
-				currentDataAlign = thisBlock.getAttribute( 'data-align' );
-			}
-
-			if ( alignValue !== currentDataAlign ) {
-				if ( ( '' === alignValue || undefined === alignValue ) && '' !== currentDataAlign ) {
-					thisBlock.removeAttribute( 'data-align' );
-				} else {
-					thisBlock.setAttribute( 'data-align', alignValue );
-				}
-			}
-		}
-	}, [ attributes.align ] );
-
 	return (
 		<Fragment>
 			<BlockControls
@@ -191,7 +164,7 @@ const ContainerEdit = ( props ) => {
 				googleFontVariants={ googleFontVariants }
 			/>
 
-			<RootElement name={ name } clientId={ clientId }>
+			<RootElement name={ name } clientId={ clientId } align={ align }>
 				<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
 					<Element
 						tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
