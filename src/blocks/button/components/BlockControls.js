@@ -1,10 +1,9 @@
 import { ToolbarButton, ToolbarGroup, Dropdown, ToggleControl } from '@wordpress/components';
-import getIcon from '../../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
 import { cloneBlock } from '@wordpress/blocks';
 import { BlockControls, URLInput } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { link } from '@wordpress/icons';
+import { link, plus } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
 
 export default ( { clientId, attributes, setAttributes } ) => {
@@ -33,7 +32,7 @@ export default ( { clientId, attributes, setAttributes } ) => {
 				<ToolbarGroup>
 					<ToolbarButton
 						className="gblocks-add-new-button"
-						icon={ getIcon( 'insert' ) }
+						icon={ plus }
 						label={ __( 'Add Button', 'generateblocks' ) }
 						onClick={ () => {
 							let parentBlockId = false;

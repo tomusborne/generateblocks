@@ -1,9 +1,9 @@
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
-import getIcon from '../../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
 import { cloneBlock, createBlock } from '@wordpress/blocks';
 import { AlignmentToolbar, BlockControls } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
+import { plus } from '@wordpress/icons';
 
 const ALIGNMENT_CONTROLS = [
 	{
@@ -45,7 +45,7 @@ export default ( props ) => {
 			<ToolbarGroup>
 				<ToolbarButton
 					className="gblocks-add-new-button"
-					icon={ getIcon( 'insert' ) }
+					icon={ plus }
 					label={ __( 'Add Button', 'generateblocks' ) }
 					onClick={ () => {
 						const thisBlock = getBlocksByClientId( clientId )[ 0 ];
