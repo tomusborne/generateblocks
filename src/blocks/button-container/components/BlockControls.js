@@ -4,21 +4,22 @@ import { __ } from '@wordpress/i18n';
 import { cloneBlock, createBlock } from '@wordpress/blocks';
 import { AlignmentToolbar, BlockControls } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
+import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
 
 const ALIGNMENT_CONTROLS = [
 	{
-		icon: 'editor-alignleft',
-		title: __( 'Align Buttons Left', 'generateblocks' ),
+		icon: alignLeft,
+		title: __( 'Align buttons left', 'generateblocks' ),
 		align: 'left',
 	},
 	{
-		icon: 'editor-aligncenter',
-		title: __( 'Align Buttons Center', 'generateblocks' ),
+		icon: alignCenter,
+		title: __( 'Align buttons center', 'generateblocks' ),
 		align: 'center',
 	},
 	{
-		icon: 'editor-alignright',
-		title: __( 'Align Buttons Right', 'generateblocks' ),
+		icon: alignRight,
+		title: __( 'Align buttons right', 'generateblocks' ),
 		align: 'right',
 	},
 ];

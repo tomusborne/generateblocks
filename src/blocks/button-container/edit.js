@@ -1,16 +1,15 @@
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment, useEffect, useState } from '@wordpress/element';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import BlockAppender from './components/BlockAppender';
-import { useDeviceType } from '../../hooks';
+import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { withButtonContainerLegacyMigration, withUniqueId } from '../../hoc';
-import { useDispatch, useSelect } from '@wordpress/data';
+import { useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import RootElement from '../../components/root-element';
 
@@ -28,26 +27,33 @@ const ButtonContainerEdit = ( props ) => {
 		anchor,
 	} = attributes;
 
+	const [ buttonCount, setButtonCount ] = useState( 0 );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const innerBlocksCount = useInnerBlocksCount( clientId );
 
-	const { insertBlocks } = useDispatch( 'core/block-editor' );
-	const { getBlocksByClientId } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const { insertBlocks, removeBlock } = useDispatch( 'core/block-editor' );
 
 	useEffect( () => {
-		const thisBlock = getBlocksByClientId( clientId )[ 0 ];
-
-		if ( thisBlock ) {
-			const childBlocks = thisBlock.innerBlocks;
-
-			if ( 0 === childBlocks.length ) {
-				insertBlocks(
-					createBlock( 'generateblocks/button', generateBlocksStyling.button ),
-					undefined,
-					clientId
-				);
-			}
+		// Add a button when the container is inserted.
+		if ( 0 === innerBlocksCount ) {
+			insertBlocks(
+				createBlock( 'generateblocks/button', generateBlocksStyling.button ),
+				undefined,
+				clientId
+			);
 		}
+
+		setButtonCount( innerBlocksCount );
 	}, [] );
+
+	useEffect( () => {
+		// If we've removed all of our buttons, remove the container.
+		if ( 1 === buttonCount && 0 === innerBlocksCount ) {
+			removeBlock( clientId );
+		}
+
+		setButtonCount( innerBlocksCount );
+	}, [ innerBlocksCount ] );
 
 	let htmlAttributes = {
 		className: classnames( {
@@ -69,7 +75,6 @@ const ButtonContainerEdit = ( props ) => {
 
 	return (
 		<Fragment>
-
 			<BlockControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
@@ -93,9 +98,7 @@ const ButtonContainerEdit = ( props ) => {
 				<div { ...blockProps }>
 					<InnerBlocks
 						allowedBlocks={ [ 'generateblocks/button' ] }
-						renderAppender={ () => (
-							<BlockAppender clientId={ clientId } innerBlockStyles={ generateBlocksStyling.button } />
-						) }
+						renderAppender={ false }
 					/>
 				</div>
 			</RootElement>
