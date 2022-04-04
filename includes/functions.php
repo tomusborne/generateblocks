@@ -26,7 +26,7 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 
 	foreach ( $content as $index => $block ) {
 		if ( ! is_object( $block ) && is_array( $block ) && isset( $block['blockName'] ) ) {
-			if ( 'generateblocks/grid' === $block['blockName'] || 'generateblocks/query-loop' === $block['blockName'] ) {
+			if ( 'generateblocks/grid' === $block['blockName'] ) {
 				$data['grid'][] = $block['attrs'];
 				$depth++;
 				$data[ 'tempGridId-' . $depth ] = $block['attrs']['uniqueId'];

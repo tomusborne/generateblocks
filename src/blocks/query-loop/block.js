@@ -2,10 +2,10 @@ import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
 import attributes from './attributes';
-import editGridContainer from '../grid/edit';
 import { InnerBlocks } from '@wordpress/block-editor';
-import withQueryLoop from './hoc/withQueryLoop';
+import edit from './edit';
 import './editor.scss';
+import withUniqueId from '../../hoc/withUniqueId';
 
 registerBlockType( 'generateblocks/query-loop', {
 	apiVersion: 2,
@@ -22,9 +22,9 @@ registerBlockType( 'generateblocks/query-loop', {
 	supports: { className: false },
 	providesContext: {
 		'generateblocks/query': 'query',
-		'generateblocks/gridId': 'uniqueId',
+		'generateblocks/queryId': 'uniqueId',
 	},
-	edit: withQueryLoop( editGridContainer ),
+	edit: withUniqueId( edit ),
 	save: () => {
 		return (
 			<InnerBlocks.Content />

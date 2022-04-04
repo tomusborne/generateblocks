@@ -12,6 +12,7 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
+import withPostTemplate from '../query-loop/hoc/withPostTemplate';
 
 const GridEdit = ( props ) => {
 	const {
@@ -22,6 +23,7 @@ const GridEdit = ( props ) => {
 		LayoutSelector = GridLayoutSelector,
 		defaultLayout = false,
 		templateLock = false,
+		context,
 	} = props;
 
 	const [ selectedLayout, setSelectedLayout ] = useState( false );
@@ -66,6 +68,8 @@ const GridEdit = ( props ) => {
 			'gb-grid-wrapper': true,
 			[ `gb-grid-wrapper-${ attributes.uniqueId }` ]: true,
 			[ `${ attributes.className }` ]: undefined !== attributes.className,
+			'gb-post-template': !! attributes.isQueryLoop,
+			[ `gb-post-template-${ attributes.uniqueId }` ]: !! attributes.isQueryLoop,
 		} ),
 		id: attributes.anchor ? attributes.anchor : null,
 	};
@@ -105,6 +109,7 @@ const GridEdit = ( props ) => {
 							clientId={ clientId }
 							uniqueId={ attributes.uniqueId }
 							attributes={ attributes }
+							context={ context }
 						/>
 					)
 					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
@@ -115,6 +120,7 @@ const GridEdit = ( props ) => {
 };
 
 export default compose(
+	withPostTemplate,
 	withUniqueId,
 	withGridLegacyMigration,
 )( GridEdit );

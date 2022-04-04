@@ -66,6 +66,10 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Grid', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_grid_block' ),
+				'uses_context' => array(
+					'generateblocks/query',
+					'generateblocks/queryId',
+				),
 			)
 		);
 
@@ -76,7 +80,7 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => array( $this, 'do_grid_block' ),
 				'provides_context' => array(
 					'generateblocks/query' => 'query',
-					'generateblocks/gridId' => 'uniqueId',
+					'generateblocks/queryId' => 'uniqueId',
 				),
 			)
 		);
@@ -104,19 +108,7 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => array( $this, 'do_button_block' ),
 				'uses_context' => array(
 					'generateblocks/query',
-					'generateblocks/gridId',
-				),
-			)
-		);
-
-		register_block_type(
-			GENERATEBLOCKS_DIR . 'src/blocks/post-template',
-			array(
-				'title' => esc_html__( 'Post Template', 'generateblocks' ),
-				'render_callback' => array( $this, 'do_post_template' ),
-				'uses_context' => array(
-					'generateblocks/query',
-					'generateblocks/gridId',
+					'generateblocks/queryId',
 				),
 			)
 		);
@@ -300,7 +292,11 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		$output .= $content;
+		if ( empty( $attributes['isQueryLoop'] ) ) {
+			$output .= $content;
+		} else {
+			$output .= $this->do_post_template( $attributes, $content, $block );
+		}
 
 		$output .= '</div>';
 
@@ -377,7 +373,7 @@ class GenerateBlocks_Render_Block {
 	 * @param WP_Block $block Block instance.
 	 */
 	public function do_post_template( $attributes, $content, $block ) {
-		$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
+		$page_key = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] . '-page' : 'query-page';
 		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$the_query = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
 

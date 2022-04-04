@@ -36,7 +36,7 @@ registerBlockType( 'generateblocks/button-container', {
 		className: false,
 	},
 	usesContext: [
-		'generateblocks/gridId',
+		'generateblocks/queryId',
 		'generateblocks/query',
 	],
 	edit: editButtonContainer,

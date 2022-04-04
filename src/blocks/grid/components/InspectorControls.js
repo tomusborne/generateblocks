@@ -1,11 +1,12 @@
 import PanelArea from '../../../components/panel-area';
 import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, PanelBody } from '@wordpress/components';
 import getIcon from '../../../utils/get-icon';
 import { applyFilters } from '@wordpress/hooks';
 import { InspectorControls } from '@wordpress/block-editor';
 import NumberControl from '../../../components/number-control';
+import { useSelect, useDispatch } from '@wordpress/data';
 
 export default ( props ) => {
 	const {
@@ -13,6 +14,7 @@ export default ( props ) => {
 		state,
 		deviceType,
 		setAttributes,
+		clientId,
 	} = props;
 
 	const {
@@ -25,8 +27,29 @@ export default ( props ) => {
 		isQueryLoop,
 	} = attributes;
 
+	const {
+		getBlockParents,
+	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const { selectBlock } = useDispatch( 'core/block-editor' );
+
 	return (
 		<InspectorControls>
+			{ !! isQueryLoop &&
+				<PanelBody
+					title={ __( 'Query Parameters', 'generateblocks' ) }
+					icon={ getIcon( 'query-params' ) }
+					className="gblocks-action-panel gblocks-panel-label"
+					onToggle={ () => {
+						const parentId = getBlockParents( clientId, true )[ 0 ];
+
+						if ( parentId ) {
+							selectBlock( parentId );
+						}
+					} }
+					opened={ true }
+				/>
+			}
+
 			<PanelArea
 				{ ...props }
 				title={ __( 'Layout', 'generateblocks' ) }
