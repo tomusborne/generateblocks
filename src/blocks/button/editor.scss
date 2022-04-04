@@ -19,46 +19,17 @@
         .editor-rich-text__tinymce {
             line-height: 1em;
         }
-    }
 
-    > .block-editor-inner-blocks > .block-editor-block-list__layout {
-        // we need to use inline-flex because of bug with selecting wrapper block in editor.
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: flex-start;
-        margin-right: 0;
+		.gb-icon {
+			align-self: center;
+		}
 
-        > div {
-            width: auto;
-        }
-    }
-
-    // add new button
-    .components-button.gblocks-add-button {
-		background: #fff;
-        align-self: center;
-
-		svg {
-			margin-right: 0;
+		&.button {
+			font-size: inherit;
+    		min-height: auto;
+    		border-radius: unset;
 		}
     }
-}
-
-.gb-button .gb-icon {
-	align-self: center;
-}
-
-.button.gb-button {
-	font-size: inherit;
-    min-height: auto;
-    border-radius: unset;
-}
-
-// Selected/unselected states.
-// Unselected block is preview, selected has additional options.
-[data-type="generateblocks/button-container"]:not(.is-selected):not(.has-child-selected) .gb-button-wrapper {
-	min-height: 36px; // This height matches the height of the buttons and ensures an empty block doesn't collapse.
 }
 
 .components-popover .gblocks-button-link {
