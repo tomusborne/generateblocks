@@ -114,3 +114,18 @@
 	margin-top: 0;
 	margin-bottom: 0;
 }
+
+.gblocks-block-icon {
+	path {
+		fill: #1e72bd;
+	}
+
+	&__headline {
+		transform: scale(0.9);
+		transform-origin: center;
+	}
+}
+
+.block-editor-list-view-leaf.is-selected .gblocks-block-icon path {
+    fill: currentColor !important;
+}
