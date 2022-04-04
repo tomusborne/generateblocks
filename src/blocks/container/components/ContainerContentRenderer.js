@@ -32,6 +32,7 @@ export default function ContainerContentRenderer( props ) {
 		isGrid,
 		bgOptions,
 		bgImageInline,
+		align,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
@@ -57,6 +58,7 @@ export default function ContainerContentRenderer( props ) {
 			'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling && ! props.isSelected,
 		} ),
 		id: anchor ? anchor : null,
+		'data-align': align ? align : null,
 	};
 
 	const backgroundUrl = getBackgroundImageUrl( props );
@@ -86,7 +88,7 @@ export default function ContainerContentRenderer( props ) {
 		<>
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
-			<RootElement name={ name } clientId={ clientId }>
+			<RootElement name={ name } clientId={ clientId } align={ align }>
 				<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
 					<Element
 						tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }

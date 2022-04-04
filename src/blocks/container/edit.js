@@ -2,7 +2,7 @@ import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import { applyFilters } from '@wordpress/hooks';
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import InspectorControls from './components/InspectorControls';
 import { compose } from '@wordpress/compose';
@@ -14,7 +14,6 @@ const ContainerEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
-		clientId,
 		ContentRenderer = ContainerContentRenderer,
 	} = props;
 
@@ -26,14 +25,6 @@ const ContainerEdit = ( props ) => {
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
-
-	useEffect( () => {
-		const thisBlock = document.getElementById( `block-${ clientId }` );
-
-		if ( thisBlock && 'full' === attributes.align ) {
-			thisBlock.setAttribute( 'data-align', 'full' );
-		}
-	}, [] );
 
 	const tagNames = applyFilters(
 		'generateblocks.editor.containerTagNames',
@@ -74,27 +65,6 @@ const ContainerEdit = ( props ) => {
 			};
 		} );
 	} );
-
-	useEffect( () => {
-		const thisBlock = document.getElementById( `block-${ clientId }` );
-
-		if ( thisBlock ) {
-			const alignValue = attributes.align;
-			let currentDataAlign = '';
-
-			if ( thisBlock.getAttribute( 'data-align' ) ) {
-				currentDataAlign = thisBlock.getAttribute( 'data-align' );
-			}
-
-			if ( alignValue !== currentDataAlign ) {
-				if ( ( '' === alignValue || undefined === alignValue ) && '' !== currentDataAlign ) {
-					thisBlock.removeAttribute( 'data-align' );
-				} else {
-					thisBlock.setAttribute( 'data-align', alignValue );
-				}
-			}
-		}
-	}, [ attributes.align ] );
 
 	return (
 		<Fragment>
