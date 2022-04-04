@@ -2,7 +2,7 @@ import { createElement } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import classnames from 'classnames';
 
-export default function RootElement( { name, clientId, children } ) {
+export default function RootElement( { name, clientId, align, children } ) {
 	const {
 		getBlockRootClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
@@ -16,6 +16,7 @@ export default function RootElement( { name, clientId, children } ) {
 			'gb-is-root-block': true,
 			[ `gb-root-block-${ blockName }` ]: true,
 		} ),
+		'data-align': align ? align : null,
 	};
 
 	const parentBlock = getBlockRootClientId( clientId );
