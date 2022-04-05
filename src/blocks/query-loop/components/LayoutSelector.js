@@ -29,7 +29,7 @@ export default ( { clientId } ) => {
 						>
 							{ template.icon }
 							<p>
-								{ template.name }
+								{ template.title }
 							</p>
 						</Button>
 					);
