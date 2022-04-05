@@ -12,7 +12,7 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
-import withPostTemplate from '../query-loop/hoc/withPostTemplate';
+import withQueryLoop from '../query-loop/hoc/withQueryLoop';
 
 const GridEdit = ( props ) => {
 	const {
@@ -120,7 +120,7 @@ const GridEdit = ( props ) => {
 };
 
 export default compose(
-	withPostTemplate,
+	withQueryLoop,
 	withUniqueId,
 	withGridLegacyMigration,
 )( GridEdit );

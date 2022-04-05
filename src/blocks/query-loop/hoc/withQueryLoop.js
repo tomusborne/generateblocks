@@ -1,4 +1,4 @@
-import PostTemplateRenderer from '../components/PostTemplateRenderer';
+import QueryLoopRenderer from '../components/QueryLoopRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -7,7 +7,7 @@ export default ( WrappedComponent ) => {
 		const newProps = attributes.isQueryLoop ? Object.assign( {}, props, {
 			defaultLayout: '100',
 			templateLock: 'all',
-			InnerBlocksRenderer: PostTemplateRenderer,
+			InnerBlocksRenderer: QueryLoopRenderer,
 		} ) : props;
 
 		return <WrappedComponent { ...newProps } />;
