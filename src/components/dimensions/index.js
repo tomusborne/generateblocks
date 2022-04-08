@@ -1,9 +1,7 @@
 /**
  * External dependencies
  */
-import classnames from 'classnames';
-import { __, sprintf } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { __, _x, sprintf } from '@wordpress/i18n';
 import { BaseControl, Button, Tooltip } from '@wordpress/components';
 import { link, linkOff } from '@wordpress/icons';
 
@@ -50,10 +48,10 @@ export default function Dimensions( props ) {
 		attributeNames.bottom = 'borderRadiusBottomRight';
 		attributeNames.left = 'borderRadiusBottomLeft';
 
-		labels.top = __( 'Top Left', 'generateblocks' );
-		labels.right = __( 'Top Right', 'generateblocks' );
-		labels.bottom = __( 'Bottom Right', 'generateblocks' );
-		labels.left = __( 'Bottom Left', 'generateblocks' );
+		labels.top = _x( 'T-Left', 'short for Top Left', 'generateblocks' );
+		labels.right = _x( 'T-Right', 'short for Top Right', 'generateblocks' );
+		labels.bottom = _x( 'B-Right', 'short for Bottom Right', 'generateblocks' );
+		labels.left = _x( 'B-Left', 'short for Bottom Left', 'generateblocks' );
 	}
 
 	if ( 'Desktop' !== device ) {
@@ -63,7 +61,6 @@ export default function Dimensions( props ) {
 		attributeNames.left += device;
 	}
 
-	const [ selectedSides, setSelectedSides ] = useState( [] );
 	const onChangeTop = ( value ) => setAttributes( { [ attributeNames.top ]: value } );
 	const onChangeRight = ( value ) => setAttributes( { [ attributeNames.right ]: value } );
 	const onChangeBottom = ( value ) => setAttributes( { [ attributeNames.bottom ]: value } );
@@ -113,178 +110,121 @@ export default function Dimensions( props ) {
 			/>
 
 			<div className="components-gblocks-dimensions-control__inputs">
-				<span className="components-gblocks-dimensions-control-sides-wrapper">
-					<span className="components-gblocks-dimensions-control-sides-wrapper__box">
-						<span
-							className={ classnames(
-								'components-gblocks-dimensions-control-sides-wrapper__side',
-								{
-									'is-selected': selectedSides.includes( attributeNames.top ) || !! attributes[ attributeNames.sync ],
-								}
-							) }
-						/>
-						<span
-							className={ classnames(
-								'components-gblocks-dimensions-control-sides-wrapper__side',
-								{
-									'is-selected': selectedSides.includes( attributeNames.right ) || !! attributes[ attributeNames.sync ],
-								}
-							) }
-						/>
-						<span
-							className={ classnames(
-								'components-gblocks-dimensions-control-sides-wrapper__side',
-								{
-									'is-selected': selectedSides.includes( attributeNames.bottom ) || !! attributes[ attributeNames.sync ],
-								}
-							) }
-						/>
-						<span
-							className={ classnames(
-								'components-gblocks-dimensions-control-sides-wrapper__side',
-								{
-									'is-selected': selectedSides.includes( attributeNames.left ) || !! attributes[ attributeNames.sync ],
-								}
-							) }
-						/>
-					</span>
-				</span>
+				<div>
+					<input
+						id={ attributeNames.top }
+						className="components-gblocks-dimensions-control__number"
+						placeholder={ getResponsivePlaceholder( attributeNames.top, attributes, device, '' ) }
+						type="number"
+						onChange={ ( event ) => {
+							let value = event.target.value;
 
-				<Tooltip text={ labels.top }>
-					<div>
-						<input
-							className="components-gblocks-dimensions-control__number"
-							placeholder={ getResponsivePlaceholder( attributeNames.top, attributes, device, '' ) }
-							type="number"
-							onChange={ ( event ) => {
-								let value = event.target.value;
+							if ( 'margin' !== type ) {
+								// No negative values allowed here.
+								value = value.toString().replace( /-/g, '' );
+							}
 
-								if ( 'margin' !== type ) {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-								}
+							if ( attributes[ attributeNames.sync ] ) {
+								onChangeAll( value );
+							} else {
+								onChangeTop( value );
+							}
+						} }
+						/* translators: Dimension label (padding, margin, border) */
+						aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
+						value={ attributes[ attributeNames.top ] || '' }
+						min={ 'margin' !== type ? 0 : undefined }
+					/>
 
-								if ( attributes[ attributeNames.sync ] ) {
-									onChangeAll( value );
-								} else {
-									onChangeTop( value );
-								}
-							} }
-							onFocus={ () => setSelectedSides( [
-								...selectedSides,
-								attributeNames.top,
-								'borderRadius' === type ? attributeNames.left : null,
-							] ) }
-							onBlur={ () => setSelectedSides( [] ) }
-							/* translators: Dimension label (padding, margin, border) */
-							aria-label={ sprintf( __( '%s Top', 'generateblocks' ), label ) }
-							value={ attributes[ attributeNames.top ] || '' }
-							min={ 'margin' !== type ? 0 : undefined }
-						/>
-					</div>
-				</Tooltip>
+					<label htmlFor={ attributeNames.top } className="gblocks-dimensions-control__label">{ labels.top }</label>
+				</div>
 
-				<Tooltip text={ labels.right }>
-					<div>
-						<input
-							className="components-gblocks-dimensions-control__number"
-							placeholder={ getResponsivePlaceholder( attributeNames.right, attributes, device, '' ) }
-							type="number"
-							onChange={ ( event ) => {
-								let value = event.target.value;
+				<div>
+					<input
+						id={ attributeNames.right }
+						className="components-gblocks-dimensions-control__number"
+						placeholder={ getResponsivePlaceholder( attributeNames.right, attributes, device, '' ) }
+						type="number"
+						onChange={ ( event ) => {
+							let value = event.target.value;
 
-								if ( 'margin' !== type ) {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-								}
+							if ( 'margin' !== type ) {
+								// No negative values allowed here.
+								value = value.toString().replace( /-/g, '' );
+							}
 
-								if ( attributes[ attributeNames.sync ] ) {
-									onChangeAll( value );
-								} else {
-									onChangeRight( value );
-								}
-							} }
-							onFocus={ () => setSelectedSides( [
-								...selectedSides,
-								attributeNames.right,
-								'borderRadius' === type ? attributeNames.top : null,
-							] ) }
-							onBlur={ () => setSelectedSides( [] ) }
-							/* translators: Dimension label (padding, margin, border) */
-							aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
-							value={ attributes[ attributeNames.right ] || '' }
-							min={ 'margin' !== type ? 0 : undefined }
-						/>
-					</div>
-				</Tooltip>
+							if ( attributes[ attributeNames.sync ] ) {
+								onChangeAll( value );
+							} else {
+								onChangeRight( value );
+							}
+						} }
+						/* translators: Dimension label (padding, margin, border) */
+						aria-label={ sprintf( __( '%s Right', 'generateblocks' ), label ) }
+						value={ attributes[ attributeNames.right ] || '' }
+						min={ 'margin' !== type ? 0 : undefined }
+					/>
 
-				<Tooltip text={ labels.bottom }>
-					<div>
-						<input
-							className="components-gblocks-dimensions-control__number"
-							placeholder={ getResponsivePlaceholder( attributeNames.bottom, attributes, device, '' ) }
-							type="number"
-							onChange={ ( event ) => {
-								let value = event.target.value;
+					<label htmlFor={ attributeNames.right } className="gblocks-dimensions-control__label">{ labels.right }</label>
+				</div>
 
-								if ( 'margin' !== type ) {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-								}
+				<div>
+					<input
+						id={ attributeNames.bottom }
+						className="components-gblocks-dimensions-control__number"
+						placeholder={ getResponsivePlaceholder( attributeNames.bottom, attributes, device, '' ) }
+						type="number"
+						onChange={ ( event ) => {
+							let value = event.target.value;
 
-								if ( attributes[ attributeNames.sync ] ) {
-									onChangeAll( value );
-								} else {
-									onChangeBottom( value );
-								}
-							} }
-							onFocus={ () => setSelectedSides( [
-								...selectedSides,
-								attributeNames.bottom,
-								'borderRadius' === type ? attributeNames.right : null,
-							] ) }
-							onBlur={ () => setSelectedSides( [] ) }
-							/* translators: Dimension label (padding, margin, border) */
-							aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
-							value={ attributes[ attributeNames.bottom ] || '' }
-							min={ 'margin' !== type ? 0 : undefined }
-						/>
-					</div>
-				</Tooltip>
+							if ( 'margin' !== type ) {
+								// No negative values allowed here.
+								value = value.toString().replace( /-/g, '' );
+							}
 
-				<Tooltip text={ labels.left }>
-					<div>
-						<input
-							className="components-gblocks-dimensions-control__number"
-							placeholder={ getResponsivePlaceholder( attributeNames.left, attributes, device, '' ) }
-							type="number"
-							onChange={ ( event ) => {
-								let value = event.target.value;
+							if ( attributes[ attributeNames.sync ] ) {
+								onChangeAll( value );
+							} else {
+								onChangeBottom( value );
+							}
+						} }
+						/* translators: Dimension label (padding, margin, border) */
+						aria-label={ sprintf( __( '%s Bottom', 'generateblocks' ), label ) }
+						value={ attributes[ attributeNames.bottom ] || '' }
+						min={ 'margin' !== type ? 0 : undefined }
+					/>
 
-								if ( 'margin' !== type ) {
-									// No negative values allowed here.
-									value = value.toString().replace( /-/g, '' );
-								}
+					<label htmlFor={ attributeNames.bottom } className="gblocks-dimensions-control__label">{ labels.bottom }</label>
+				</div>
 
-								if ( attributes[ attributeNames.sync ] ) {
-									onChangeAll( value );
-								} else {
-									onChangeLeft( value );
-								}
-							} }
-							onFocus={ () => setSelectedSides( [
-								...selectedSides,
-								attributeNames.left,
-								'borderRadius' === type ? attributeNames.bottom : null,
-							] ) }
-							onBlur={ () => setSelectedSides( [] ) }
-							/* translators: Dimension label (padding, margin, border) */
-							aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }
-							value={ attributes[ attributeNames.left ] || '' }
-							min={ 'margin' !== type ? 0 : undefined }
-						/>
-					</div>
-				</Tooltip>
+				<div>
+					<input
+						id={ attributeNames.left }
+						className="components-gblocks-dimensions-control__number"
+						placeholder={ getResponsivePlaceholder( attributeNames.left, attributes, device, '' ) }
+						type="number"
+						onChange={ ( event ) => {
+							let value = event.target.value;
+
+							if ( 'margin' !== type ) {
+								// No negative values allowed here.
+								value = value.toString().replace( /-/g, '' );
+							}
+
+							if ( attributes[ attributeNames.sync ] ) {
+								onChangeAll( value );
+							} else {
+								onChangeLeft( value );
+							}
+						} }
+						/* translators: Dimension label (padding, margin, border) */
+						aria-label={ sprintf( __( '%s Left', 'generateblocks' ), label ) }
+						value={ attributes[ attributeNames.left ] || '' }
+						min={ 'margin' !== type ? 0 : undefined }
+					/>
+
+					<label htmlFor={ attributeNames.left } className="gblocks-dimensions-control__label">{ labels.left }</label>
+				</div>
 
 				<Tooltip text={ !! attributes[ attributeNames.sync ] ? __( 'Unlink Sides', 'generateblocks' ) : __( 'Link Sides', 'generateblocks' ) } >
 					<Button
