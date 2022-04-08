@@ -306,12 +306,9 @@ function getPaginationNumbers() {
 /**
  * Returns post featured image.
  *
- * @param {Object} record     The post object.
- * @param {Object} attributes The dynamic content attributes.
+ * @param {Object} record The post object.
  * @return {string} The featured image url.
  */
-function getPostFeaturedImage( record, attributes ) {
-	const size = attributes.bgImageSize || 'full';
-
-	return record.media?.media_details?.sizes?.[ size ]?.source_url || record.media?.source_url;
+function getPostFeaturedImage( record ) {
+	return record?.featured_media;
 }

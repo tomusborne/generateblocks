@@ -55,6 +55,7 @@ const getOptions = ( name ) => {
 				label: __( 'Post', 'generateblocks' ),
 				options: [
 					{ value: 'featured-image', label: __( 'Featured Image', 'generateblocks' ) },
+					{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
 				],
 			},
 		];

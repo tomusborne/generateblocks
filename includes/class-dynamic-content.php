@@ -425,15 +425,25 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_source_id( $attributes ) {
+		$id = get_the_ID();
+
 		if (
 			isset( $attributes['dynamicSource'] ) &&
 			'current-post' !== $attributes['dynamicSource'] &&
 			isset( $attributes['postId'] )
 		) {
-			return absint( $attributes['postId'] );
+			$id = absint( $attributes['postId'] );
 		}
 
-		return get_the_ID();
+		if (
+			! empty( $attributes['isDynamicContent'] ) &&
+			! empty( $attributes['contentType'] ) &&
+			'featured-image' === $attributes['contentType']
+		) {
+			$id = get_post_thumbnail_id( $id );
+		}
+
+		return $id;
 	}
 
 	/**
@@ -477,11 +487,22 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		$size = isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full';
+		$image_id = $id;
 
-		if ( 'featured-image' === $attributes['contentType'] ) {
-			return get_the_post_thumbnail_url( $id, $size );
+		if ( 'post-meta' === $attributes['contentType'] && isset( $attributes['metaFieldName'] ) ) {
+			$meta_value = get_post_meta( $id, $attributes['metaFieldName'], true );
+
+			if ( is_numeric( $meta_value ) ) {
+				$image_id = $meta_value;
+			} else {
+				return $meta_value;
+			}
 		}
+
+		return wp_get_attachment_image_url(
+			$image_id,
+			isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full'
+		);
 	}
 
 	/**
