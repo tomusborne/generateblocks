@@ -6,7 +6,7 @@ import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 import Element from '../../components/element';
 import RootElement from '../../components/root-element';
 import IconWrapper from '../../components/icon-wrapper';
@@ -57,12 +57,24 @@ export default ( props ) => {
 		ariaLabel,
 	} = attributes;
 
+	const ref = useRef( null );
+	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
 
 	useEffect( () => {
 		if ( ! hasIcon && icon ) {
 			setAttributes( { hasIcon: true } );
 		}
+	}, [] );
+
+	useEffect( () => {
+		const computedHeadlineStyles = getComputedStyle( ref.current );
+
+		setComputedStyles( {
+			marginTop: parseInt( computedHeadlineStyles.marginTop ) || '',
+			marginBottom: parseInt( computedHeadlineStyles.marginBottom ) || '',
+			fontSize: parseInt( computedHeadlineStyles.fontSize ) || '',
+		} );
 	}, [] );
 
 	let htmlAttributes = {
@@ -72,6 +84,7 @@ export default ( props ) => {
 			'gb-headline-text': ! hasIcon,
 		} ),
 		id: anchor ? anchor : null,
+		ref,
 	};
 
 	htmlAttributes = applyFilters(
@@ -99,6 +112,7 @@ export default ( props ) => {
 				deviceType={ deviceType }
 				setDeviceType={ setDeviceType }
 				blockState={ { deviceType } }
+				computedStyles={ computedStyles }
 			/>
 
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />

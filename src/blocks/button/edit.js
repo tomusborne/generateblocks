@@ -7,7 +7,7 @@ import Element from '../../components/element';
 import IconWrapper from '../../components/icon-wrapper';
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useRef, useState, useEffect } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import { applyFilters } from '@wordpress/hooks';
 import classnames from 'classnames';
@@ -39,7 +39,17 @@ const ButtonEdit = ( props ) => {
 		googleFontVariants,
 	} = attributes;
 
+	const ref = useRef( null );
+	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+
+	useEffect( () => {
+		const computedButtonStyles = getComputedStyle( ref.current );
+
+		setComputedStyles( {
+			fontSize: parseInt( computedButtonStyles.fontSize ) || '',
+		} );
+	}, [] );
 
 	const relAttributes = [];
 
@@ -64,6 +74,7 @@ const ButtonEdit = ( props ) => {
 		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
 		id: anchor ? anchor : null,
+		ref,
 	};
 
 	htmlAttributes = applyFilters(
@@ -95,6 +106,7 @@ const ButtonEdit = ( props ) => {
 				setDeviceType={ setDeviceType }
 				state={ { deviceType } }
 				blockDefaults={ generateBlocksDefaults.button }
+				computedStyles={ computedStyles }
 			/>
 
 			<InspectorAdvancedControls
