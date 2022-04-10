@@ -37,6 +37,7 @@ export default ( props ) => {
 		setAttributes,
 		deviceType,
 		blockState,
+		computedStyles,
 	} = props;
 
 	const {
@@ -123,6 +124,7 @@ export default ( props ) => {
 					{ ...props }
 					deviceType={ deviceType }
 					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'lineHeight', 'letterSpacing', 'fontFamily' ] }
+					computedStyles={ computedStyles }
 				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'headlineTypography', props, blockState ) }
@@ -151,6 +153,7 @@ export default ( props ) => {
 								type: 'margin',
 								label: __( 'Margin', 'generateblocks' ),
 								units: [ 'px', 'em', '%' ],
+								computedStyles,
 							},
 							{
 								type: 'borderSize',
