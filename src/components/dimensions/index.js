@@ -24,7 +24,7 @@ export default function Dimensions( props ) {
 		labelLeft = __( 'Left', 'generateblocks' ),
 		device,
 		units,
-		computedStyles,
+		computedStyles = {},
 	} = props;
 
 	const attributeNames = {
