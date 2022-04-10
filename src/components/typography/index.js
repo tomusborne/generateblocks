@@ -23,6 +23,7 @@ export default function TypographyComponent( props ) {
 		attributes,
 		options = [],
 		deviceType,
+		computedStyles = {},
 	} = props;
 
 	const {
@@ -32,6 +33,7 @@ export default function TypographyComponent( props ) {
 		googleFontVariants,
 		fontWeight,
 		textTransform,
+		fontSizeUnit,
 	} = attributes;
 
 	const [ availableOptions, setAvailableOptions ] = useState( options );
@@ -174,6 +176,11 @@ export default function TypographyComponent( props ) {
 					attributeName="fontSize"
 					units={ [ 'px', 'em', '%' ] }
 					device={ deviceType }
+					defaultPlaceholder={
+						computedStyles.fontSize && 'px' === fontSizeUnit
+							? computedStyles.fontSize
+							: ''
+					}
 					presets={
 						[
 							{

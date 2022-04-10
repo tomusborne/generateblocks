@@ -17,6 +17,7 @@ export default function HeadlineContentRenderer( props ) {
 		onSplit,
 		onReplace,
 		InnerContent = RichText,
+		headlineRef,
 	} = props;
 	const {
 		uniqueId,
@@ -38,6 +39,7 @@ export default function HeadlineContentRenderer( props ) {
 			'gb-headline-text': ! hasIcon,
 		} ),
 		id: anchor ? anchor : null,
+		ref: headlineRef,
 	};
 
 	htmlAttributes = applyFilters(

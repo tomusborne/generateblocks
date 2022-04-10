@@ -1,7 +1,7 @@
 import PanelArea from '../../../components/panel-area';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
-import { Fragment, useEffect, useState } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import TypographyControls from '../../../components/typography';
 import { applyFilters } from '@wordpress/hooks';
 import DimensionsControl from '../../../components/dimensions';
@@ -12,25 +12,13 @@ import IconPicker from '../../../components/icon-picker';
 import { InspectorControls } from '@wordpress/block-editor';
 import NumberControl from '../../../components/number-control';
 
-const getFontSizePlaceholder = ( uniqueId ) => {
-	let placeholder = '17';
-
-	const buttonId = document.querySelector( `.gb-button-${ uniqueId }` );
-
-	if ( buttonId ) {
-		placeholder = parseFloat( window.getComputedStyle( buttonId ).fontSize );
-	}
-
-	return placeholder;
-};
-
 export default ( props ) => {
 	const {
-		uniqueId,
 		attributes,
 		deviceType,
 		state,
 		blockDefaults,
+		computedStyles,
 	} = props;
 
 	const {
@@ -38,16 +26,6 @@ export default ( props ) => {
 		removeText,
 		iconSizeUnit,
 	} = attributes;
-
-	const [ fontSizePlaceholder, setFontSizePlaceholder ] = useState( '17' );
-
-	useEffect( () => {
-		const currentPlaceholder = getFontSizePlaceholder( uniqueId );
-
-		if ( currentPlaceholder !== fontSizePlaceholder ) {
-			setFontSizePlaceholder( currentPlaceholder );
-		}
-	} );
 
 	return (
 		<InspectorControls>
@@ -65,6 +43,7 @@ export default ( props ) => {
 					{ ...props }
 					deviceType={ deviceType }
 					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'letterSpacing', 'fontFamily' ] }
+					computedStyles={ computedStyles }
 				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'buttonTypography', props, state ) }

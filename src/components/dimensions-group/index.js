@@ -32,6 +32,7 @@ export default function DimensionsGroup( props ) {
 							type={ item.type }
 							label={ item.label }
 							units={ item.units }
+							computedStyles={ item.computedStyles }
 						/>
 					);
 				} )
