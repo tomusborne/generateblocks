@@ -3,7 +3,7 @@ import { SelectControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import getIcon from '../../../utils/get-icon';
-import { Fragment, useEffect, useState } from '@wordpress/element';
+import { Fragment } from '@wordpress/element';
 import TypographyControls from '../../../components/typography';
 import DimensionsControl from '../../../components/dimensions';
 import DimensionsGroup from '../../../components/dimensions-group';
@@ -12,31 +12,14 @@ import IconPicker from '../../../components/icon-picker';
 import { InspectorControls } from '@wordpress/block-editor';
 import NumberControl from '../../../components/number-control';
 
-const getFontSizePlaceholder = ( uniqueId, fontSizeUnit ) => {
-	if ( 'em' === fontSizeUnit ) {
-		return '1';
-	}
-
-	if ( '%' === fontSizeUnit ) {
-		return '100';
-	}
-
-	const headlineId = document.querySelector( `.gb-headline-${ uniqueId }` );
-
-	if ( headlineId ) {
-		return parseFloat( window.getComputedStyle( headlineId ).fontSize );
-	}
-
-	return '25';
-};
-
 export default ( props ) => {
 	const {
-		uniqueId,
 		attributes,
 		setAttributes,
 		deviceType,
+		setDeviceType,
 		blockState,
+		computedStyles,
 	} = props;
 
 	const {
@@ -57,18 +40,7 @@ export default ( props ) => {
 		inlineWidthTablet,
 		inlineWidthMobile,
 		removeText,
-		fontSizeUnit,
 	} = attributes;
-
-	const [ fontSizePlaceholder, setFontSizePlaceholder ] = useState( '17' );
-
-	useEffect( () => {
-		const currentPlaceholder = getFontSizePlaceholder( uniqueId, fontSizeUnit );
-
-		if ( currentPlaceholder !== fontSizePlaceholder ) {
-			setFontSizePlaceholder( currentPlaceholder );
-		}
-	} );
 
 	return (
 		<InspectorControls>
@@ -123,6 +95,7 @@ export default ( props ) => {
 					{ ...props }
 					deviceType={ deviceType }
 					options={ [ 'fontWeight', 'textTransform', 'fontSize', 'lineHeight', 'letterSpacing', 'fontFamily' ] }
+					computedStyles={ computedStyles }
 				/>
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'headlineTypography', props, blockState ) }
@@ -151,6 +124,7 @@ export default ( props ) => {
 								type: 'margin',
 								label: __( 'Margin', 'generateblocks' ),
 								units: [ 'px', 'em', '%' ],
+								computedStyles,
 							},
 							{
 								type: 'borderSize',

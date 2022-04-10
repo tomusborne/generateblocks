@@ -3,7 +3,7 @@ import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useRef, useState, useEffect } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import { compose } from '@wordpress/compose';
 import { withButtonLegacyMigration, withUniqueId } from '../../hoc';
@@ -26,7 +26,17 @@ const ButtonEdit = ( props ) => {
 		googleFontVariants,
 	} = attributes;
 
+	const ref = useRef( null );
+	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+
+	useEffect( () => {
+		const computedButtonStyles = getComputedStyle( ref.current );
+
+		setComputedStyles( {
+			fontSize: parseInt( computedButtonStyles.fontSize ) || '',
+		} );
+	}, [] );
 
 	return (
 		<Fragment>
@@ -42,6 +52,7 @@ const ButtonEdit = ( props ) => {
 				setDeviceType={ setDeviceType }
 				state={ { deviceType } }
 				blockDefaults={ generateBlocksDefaults.button }
+				computedStyles={ computedStyles }
 			/>
 
 			<InspectorAdvancedControls
@@ -58,7 +69,7 @@ const ButtonEdit = ( props ) => {
 				googleFontVariants={ googleFontVariants }
 			/>
 
-			<ContentRenderer { ...props } />
+			<ContentRenderer { ...props } buttonRef={ ref } />
 		</Fragment>
 	);
 };

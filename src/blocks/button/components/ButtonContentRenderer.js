@@ -13,6 +13,7 @@ export default function ButtonContentRenderer( props ) {
 		InnerContent = RichText,
 		context,
 		name,
+		buttonRef,
 	} = props;
 
 	const {
@@ -52,6 +53,7 @@ export default function ButtonContentRenderer( props ) {
 		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
 		id: anchor ? anchor : null,
+		ref: buttonRef,
 	};
 
 	htmlAttributes = applyFilters(
