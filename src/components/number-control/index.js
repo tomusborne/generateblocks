@@ -35,6 +35,7 @@ export default function NumberControl( props ) {
 		min = 0,
 		max,
 		step,
+		defaultPlaceholder = '',
 	} = props;
 
 	const [ isCustom, setCustom ] = useState( false );
@@ -117,7 +118,7 @@ export default function NumberControl( props ) {
 							return (
 								<Button
 									key={ index }
-									isPrimary={ presetValue === attributes[ attributeNames.value ] }
+									isPrimary={ presetValue === attributes[ attributeNames.value ] || presetValue === defaultPlaceholder }
 									onClick={ () => {
 										if ( attributes[ attributeNames.value ] !== presetValue ) {
 											setAttributes( {
@@ -152,7 +153,7 @@ export default function NumberControl( props ) {
 					<TextControl
 						type="number"
 						value={ hasNumericValue( attributes[ attributeNames.value ] ) ? attributes[ attributeNames.value ] : '' }
-						placeholder={ getResponsivePlaceholder( attributeNames.value, attributes, device, '' ) }
+						placeholder={ getResponsivePlaceholder( attributeNames.value, attributes, device, defaultPlaceholder ) }
 						min={ min }
 						max={ max }
 						step={ step }
