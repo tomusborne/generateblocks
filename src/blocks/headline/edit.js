@@ -3,7 +3,7 @@ import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import ComponentCSS from './components/ComponentCSS';
@@ -47,8 +47,11 @@ const HeadlineEdit = ( props ) => {
 		googleFontVariants,
 		icon,
 		hasIcon,
+		element,
 	} = attributes;
 
+	const ref = useRef( null );
+	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
 
 	useEffect( () => {
@@ -56,6 +59,16 @@ const HeadlineEdit = ( props ) => {
 			setAttributes( { hasIcon: true } );
 		}
 	}, [] );
+
+	useEffect( () => {
+		const computedHeadlineStyles = getComputedStyle( ref.current );
+
+		setComputedStyles( {
+			marginTop: parseInt( computedHeadlineStyles.marginTop ) || '',
+			marginBottom: parseInt( computedHeadlineStyles.marginBottom ) || '',
+			fontSize: parseInt( computedHeadlineStyles.fontSize ) || '',
+		} );
+	}, [ element ] );
 
 	return (
 		<Fragment>
@@ -67,6 +80,7 @@ const HeadlineEdit = ( props ) => {
 				deviceType={ deviceType }
 				setDeviceType={ setDeviceType }
 				blockState={ { deviceType } }
+				computedStyles={ computedStyles }
 			/>
 
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
@@ -81,7 +95,7 @@ const HeadlineEdit = ( props ) => {
 
 			{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', props ) }
 
-			<ContentRenderer { ...props } onSplit={ onSplit } />
+			<ContentRenderer { ...props } onSplit={ onSplit } headlineRef={ ref } />
 		</Fragment>
 	);
 };
