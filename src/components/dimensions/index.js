@@ -24,6 +24,7 @@ export default function Dimensions( props ) {
 		labelLeft = __( 'Left', 'generateblocks' ),
 		device,
 		units,
+		computedStyles,
 	} = props;
 
 	const attributeNames = {
@@ -114,7 +115,14 @@ export default function Dimensions( props ) {
 					<input
 						id={ attributeNames.top }
 						className="components-gblocks-dimensions-control__number"
-						placeholder={ getResponsivePlaceholder( attributeNames.top, attributes, device, '' ) }
+						placeholder={ getResponsivePlaceholder(
+							attributeNames.top,
+							attributes,
+							device,
+							'margin' === type && 'px' === attributes.marginUnit
+								? computedStyles.marginTop
+								: ''
+						) }
 						type="number"
 						onChange={ ( event ) => {
 							let value = event.target.value;
@@ -172,7 +180,14 @@ export default function Dimensions( props ) {
 					<input
 						id={ attributeNames.bottom }
 						className="components-gblocks-dimensions-control__number"
-						placeholder={ getResponsivePlaceholder( attributeNames.bottom, attributes, device, '' ) }
+						placeholder={ getResponsivePlaceholder(
+							attributeNames.bottom,
+							attributes,
+							device,
+							'margin' === type && 'px' === attributes.marginUnit
+								? computedStyles.marginBottom
+								: ''
+						) }
 						type="number"
 						onChange={ ( event ) => {
 							let value = event.target.value;
