@@ -63,9 +63,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 				setAttributes( {
 					isDynamicContent: true,
 					contentType: 'caption',
-					dynamicSource: 'post-type',
-					postType: 'attachment',
-					postId: context[ 'generateblocks/dynamicImage' ],
+					dynamicSource: 'current-post',
 				} );
 			} else {
 				setAttributes( {
@@ -102,6 +100,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							postType={ postType }
 							postId={ postId }
 							setAttributes={ setAttributes }
+							contentType={ contentType }
 						/>
 
 						<ContentTypeControl

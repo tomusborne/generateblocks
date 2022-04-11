@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
-const getOptions = ( name ) => {
+const getOptions = ( name, contentType ) => {
 	let defaultOptions = [
 		{
 			options: [
@@ -67,6 +67,22 @@ const getOptions = ( name ) => {
 		];
 	}
 
+	if ( 'caption' === contentType ) {
+		defaultOptions = [
+			{
+				options: [
+					{ value: '', label: __( 'Select…', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Image', 'generateblocks' ),
+				options: [
+					{ value: 'caption', label: __( 'Caption', 'generateblocks' ) },
+				],
+			},
+		];
+	}
+
 	return applyFilters(
 		'generateblocks.editor.dynamicContent.sourceTypes',
 		defaultOptions,
@@ -75,7 +91,7 @@ const getOptions = ( name ) => {
 };
 
 export default ( { contentType, setAttributes, name } ) => {
-	const options = getOptions( name );
+	const options = getOptions( name, contentType );
 	const value = options
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
 		.filter( ( option ) => ( option.value === contentType ) );
