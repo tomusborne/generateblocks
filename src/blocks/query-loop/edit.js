@@ -11,6 +11,8 @@ import { __ } from '@wordpress/i18n';
 import { Tooltip, Button } from '@wordpress/components';
 import { Icon, plus } from '@wordpress/icons';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
+import { useInnerBlocksCount } from '../../hooks';
+import LayoutSelector from './components/LayoutSelector';
 
 const DEFAULT_BUTTON_ATTRIBUTES = {
 	hasUrl: false,
@@ -55,15 +57,6 @@ const PAGINATION_TEMPLATE = [
 	],
 ];
 
-const TEMPLATE = [ [ 'generateblocks/grid', {
-	isQueryLoop: true,
-	lock: {
-		remove: true,
-	},
-} ], PAGINATION_TEMPLATE ];
-
-const ALLOWED_BLOCKS = [ 'generateblocks/grid', 'generateblocks/button-container' ];
-
 export default function QueryLoopEdit( props ) {
 	const {
 		attributes,
@@ -91,55 +84,59 @@ export default function QueryLoopEdit( props ) {
 	};
 
 	const blockProps = useBlockProps();
+	const innerBlocksCount = useInnerBlocksCount( clientId );
 
 	return (
 		<>
-			<InspectorControls
-				attributes={ filterAttributes( attributes, Object.keys( queryLoopAttributes ) ) }
-				setAttributes={ setAttributes }
-				clientId={ clientId }
-			/>
-
 			<div { ...blockProps }>
-				<BlockContextProvider value={ { 'generateblocks/query': attributes.query } }>
-					<InnerBlocks
-						template={ TEMPLATE }
-						allowedBlocks={ ALLOWED_BLOCKS }
-						renderAppender={ () => {
-							const childBlocks = getClientIdsOfDescendants( [ clientId ] );
+				{ 0 === innerBlocksCount
+					? <LayoutSelector clientId={ clientId } />
+					: <>
+						<InspectorControls
+							attributes={ filterAttributes( attributes, Object.keys( queryLoopAttributes ) ) }
+							setAttributes={ setAttributes }
+							clientId={ clientId }
+						/>
 
-							if ( childBlocks ) {
-								const directChildren = childBlocks.filter( ( child ) => {
-									const parentId = getBlockParents( child, true )[ 0 ];
-									const parent = getBlock( parentId );
+						<BlockContextProvider value={ { 'generateblocks/query': attributes.query } }>
+							<InnerBlocks
+								renderAppender={ () => {
+									const childBlocks = getClientIdsOfDescendants( [ clientId ] );
 
-									if ( 'generateblocks/query-loop' === parent.name ) {
-										return true;
+									if ( childBlocks ) {
+										const directChildren = childBlocks.filter( ( child ) => {
+											const parentId = getBlockParents( child, true )[ 0 ];
+											const parent = getBlock( parentId );
+
+											if ( 'generateblocks/query-loop' === parent.name ) {
+												return true;
+											}
+
+											return false;
+										} );
+
+										const hasPagination = hasBlock( 'generateblocks/button-container', directChildren );
+
+										if ( ! hasPagination ) {
+											return <Tooltip text={ __( 'Add Pagination', 'generateblocks' ) }>
+												<Button
+													className="block-editor-button-block-appender gblocks-query-block-appender"
+													onClick={ () => {
+														insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
+													} }
+												>
+													<Icon icon={ plus } />
+												</Button>
+											</Tooltip>;
+										}
 									}
 
 									return false;
-								} );
-
-								const hasPagination = hasBlock( 'generateblocks/button-container', directChildren );
-
-								if ( ! hasPagination ) {
-									return <Tooltip text={ __( 'Add Pagination', 'generateblocks' ) }>
-										<Button
-											className="block-editor-button-block-appender gblocks-query-block-appender"
-											onClick={ () => {
-												insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
-											} }
-										>
-											<Icon icon={ plus } />
-										</Button>
-									</Tooltip>;
-								}
-							}
-
-							return false;
-						} }
-					/>
-				</BlockContextProvider>
+								} }
+							/>
+						</BlockContextProvider>
+					</>
+				}
 			</div>
 		</>
 	);
