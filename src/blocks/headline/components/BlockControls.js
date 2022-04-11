@@ -7,6 +7,7 @@ function HeadlineBlockControls( props ) {
 		attributes,
 		setAttributes,
 		deviceType,
+		context,
 	} = props;
 
 	const {
@@ -21,7 +22,11 @@ function HeadlineBlockControls( props ) {
 
 	return (
 		<BlockControls>
-			<ToolbarGroup setAttributes={ setAttributes } element={ element } />
+			<ToolbarGroup
+				setAttributes={ setAttributes }
+				element={ element }
+				context={ context }
+			/>
 
 			{ 'Desktop' === deviceType && ! inlineWidth &&
 			<AlignmentToolbar

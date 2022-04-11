@@ -98,6 +98,9 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Headline', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_headline_block' ),
+				'uses_context' => array(
+					'generateblocks/dynamicImage',
+				),
 			)
 		);
 
@@ -330,6 +333,8 @@ class GenerateBlocks_Render_Block {
 			return $content;
 		}
 
+		var_dump($block);
+
 		if ( isset( $block->parsed_block['innerBlocks'] ) ) {
 			$button_count = apply_filters(
 				'generateblocks_button_count',
@@ -483,6 +488,7 @@ class GenerateBlocks_Render_Block {
 				'h6',
 				'div',
 				'p',
+				'figcaption',
 			),
 			$attributes,
 			$block
@@ -557,6 +563,8 @@ class GenerateBlocks_Render_Block {
 		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
 			return $content;
 		}
+
+		//var_dump($block);
 
 		$allow_empty_content = false;
 
@@ -700,6 +708,8 @@ class GenerateBlocks_Render_Block {
 			return generateblocks_filter_images( $content, $attributes );
 		}
 
+		var_dump($block);
+
 		$image = GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
 
 		if ( ! $image ) {
@@ -783,14 +793,24 @@ class GenerateBlocks_Render_Block {
 
 		$output .= $image;
 
-		$caption = GenerateBlocks_Dynamic_Content::get_dynamic_image_caption( $attributes );
+		// $caption = '';
+		// if ( isset( $block->parsed_block['innerBlocks'][0] ) ) {
+		// 	$image_id = GenerateBlocks_Dynamic_Content::get_source_id( $attributes );
 
-		if ( $caption ) {
-			$output .= sprintf(
-				'<figcaption>%s</figcaption>',
-				$caption
-			);
-		}
+		// 	$caption = (
+		// 		new WP_Block(
+		// 			$block->parsed_block['innerBlocks'][0],
+		// 			array(
+		// 				'postType' => 'attachment',
+		// 				'postId'   => $image_id,
+		// 			)
+		// 		)
+		// 	)->render( array( 'dynamic' => false ) );
+		// }
+
+		// if ( $caption ) {
+		// 	$output .= $caption;
+		// }
 
 		$output .= '</figure>';
 

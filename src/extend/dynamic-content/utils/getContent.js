@@ -22,6 +22,7 @@ const contentTypeSelectors = {
 	'featured-image': getPostFeaturedImage,
 	terms: getPostTerms,
 	'author-avatar': getAuthorAvatar,
+	caption: getCaption,
 };
 
 /**
@@ -322,4 +323,14 @@ function getPostFeaturedImage( record ) {
  */
 function getAuthorAvatar( record ) {
 	return { source_url: record?.author?.avatar_urls[ 96 ] };
+}
+
+/**
+ * Returns the caption.
+ *
+ * @param {Object} record The post object.
+ * @return {string} The image caption.
+ */
+function getCaption( record ) {
+	return record?.caption?.raw || __( 'Image caption', 'generateblocks' );
 }

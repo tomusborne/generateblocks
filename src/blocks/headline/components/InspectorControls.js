@@ -40,6 +40,7 @@ export default ( props ) => {
 		inlineWidthTablet,
 		inlineWidthMobile,
 		removeText,
+		isCaption,
 	} = attributes;
 
 	return (
@@ -48,7 +49,10 @@ export default ( props ) => {
 				{ ...props }
 				id={ 'headlineElement' }
 				state={ blockState }
-				showPanel={ 'Desktop' === deviceType }
+				showPanel={
+					'Desktop' === deviceType &&
+					! isCaption
+				}
 			>
 				<SelectControl
 					label={ __( 'Tag Name', 'generateblocks' ) }
@@ -62,6 +66,7 @@ export default ( props ) => {
 						{ label: 'h6', value: 'h6' },
 						{ label: 'paragraph', value: 'p' },
 						{ label: 'div', value: 'div' },
+						{ label: 'figcaption', value: 'figcaption' },
 					] }
 					onChange={ ( value ) => {
 						setAttributes( {

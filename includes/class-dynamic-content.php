@@ -89,6 +89,9 @@ class GenerateBlocks_Dynamic_Content {
 
 			case 'featured-image':
 				return self::get_dynamic_image( $attributes, $block );
+
+			case 'caption':
+				return self::get_image_caption( $attributes, $block );
 		}
 	}
 
@@ -477,21 +480,6 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
-	 * Get the dynamic image caption.
-	 *
-	 * @param array $attributes The block attributes.
-	 */
-	public static function get_dynamic_image_caption( $attributes ) {
-		$id = self::get_source_id( $attributes );
-
-		if ( ! $id ) {
-			return;
-		}
-
-		return wp_get_attachment_caption( $id );
-	}
-
-	/**
 	 * Get our source ID.
 	 *
 	 * @param array $attributes The block attributes.
@@ -789,6 +777,22 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Get the dynamic image caption.
+	 *
+	 * @param array $attributes The block attributes.
+	 */
+	public static function get_image_caption( $attributes, $block ) {
+		//var_dump($block->context);
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		return wp_get_attachment_caption( $id );
 	}
 
 	/**

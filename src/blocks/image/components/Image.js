@@ -1,5 +1,4 @@
-import { RichText } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
+import { InnerBlocks, BlockContextProvider } from '@wordpress/block-editor';
 import AnchorTag from './AnchorTag';
 
 export default function Image( props ) {
@@ -7,16 +6,13 @@ export default function Image( props ) {
 		src,
 		alt,
 		title,
-		caption,
 		className,
-		isDynamic,
-		setAttributes,
-		isSelected,
 		anchorAttributes,
 		width,
 		height,
 		imageRef,
 		setLoadedNaturalSize,
+		dynamicImage,
 	} = props;
 
 	return (
@@ -39,26 +35,12 @@ export default function Image( props ) {
 				/>
 			</AnchorTag>
 
-			{ ! isDynamic &&
-				(
-					!! caption ||
-					isSelected
-				) &&
-				<RichText
-					tagName="figcaption"
-					aria-label={ __( 'Image caption text' ) }
-					placeholder={ __( 'Add caption' ) }
-					value={ caption }
-					onChange={ ( value ) =>
-						setAttributes( { caption: value } )
-					}
-					inlineToolbar
+			<BlockContextProvider value={ { 'generateblocks/dynamicImage': dynamicImage } }>
+				<InnerBlocks
+					allowedBlocks={ [ 'generateblocks/headline' ] }
+					renderAppender={ false }
 				/>
-			}
-
-			{ !! isDynamic && !! caption &&
-				<figcaption>{ caption }</figcaption>
-			}
+			</BlockContextProvider>
 		</>
 	);
 }
