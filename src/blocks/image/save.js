@@ -2,7 +2,7 @@ import classnames from 'classnames';
 import Element from '../../components/element';
 import { useBlockProps, RichText } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
-import { removeEmpty } from '../post-template/utils';
+import { removeEmpty } from '../query-loop/components/utils';
 import AnchorTag from './components/AnchorTag';
 
 export default ( { attributes } ) => {
