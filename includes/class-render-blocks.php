@@ -98,9 +98,6 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Headline', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_headline_block' ),
-				'uses_context' => array(
-					'generateblocks/dynamicImage',
-				),
 			)
 		);
 
