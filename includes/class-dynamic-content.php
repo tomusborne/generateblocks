@@ -547,8 +547,20 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
+		$image_id = $id;
+
+		if ( 'post-meta' === $attributes['contentType'] && isset( $attributes['metaFieldName'] ) ) {
+			$meta_value = get_post_meta( $id, $attributes['metaFieldName'], true );
+
+			if ( is_numeric( $meta_value ) ) {
+				$image_id = $meta_value;
+			} else {
+				return $meta_value;
+			}
+		}
+
 		return wp_get_attachment_image_url(
-			$id,
+			$image_id,
 			isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full'
 		);
 	}

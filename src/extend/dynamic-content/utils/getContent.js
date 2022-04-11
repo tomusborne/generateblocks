@@ -312,7 +312,7 @@ function getPaginationNumbers() {
  * @return {string} The featured image url.
  */
 function getPostFeaturedImage( record ) {
-	return record.featured_media_object;
+	return record?.featured_media;
 }
 
 /**

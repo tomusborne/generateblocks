@@ -1,6 +1,5 @@
-import {
-	applyFilters,
-} from '@wordpress/hooks';
+import { applyFilters } from '@wordpress/hooks';
+import getDynamicImage from '../get-dynamic-image';
 import getMediaUrl from '../get-media-url';
 
 export default function getBackgroundImageUrl( props ) {
@@ -10,12 +9,14 @@ export default function getBackgroundImageUrl( props ) {
 		bgImage,
 		isDynamicContent,
 		contentType,
+		bgImageSize,
 	} = attributes;
 
 	let url = bgImage?.image?.url;
+	const dynamicImage = getDynamicImage( props );
 
-	if ( isDynamicContent && '' !== contentType && attributes.dynamicImage ) {
-		url = getMediaUrl( attributes.dynamicImage, attributes.bgImageSize || 'full' );
+	if ( isDynamicContent && '' !== contentType ) {
+		url = getMediaUrl( dynamicImage, bgImageSize );
 	}
 
 	return applyFilters( 'generateblocks.editor.bgImageURL', url, props );
