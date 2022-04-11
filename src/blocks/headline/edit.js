@@ -40,8 +40,6 @@ const HeadlineEdit = ( props ) => {
 		context,
 	} = props;
 
-	console.log(context);
-
 	const {
 		uniqueId,
 		anchor,

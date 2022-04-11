@@ -2,10 +2,10 @@ import { BlockControls, MediaReplaceFlow } from '@wordpress/block-editor';
 import { MenuItem, ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import LinkControl from '../../../components/link-control';
-import { postExcerpt } from '@wordpress/icons';
 import { useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import { useInnerBlocksCount } from '../../../hooks';
+import getIcon from '../../../utils/get-icon';
 
 export default function ImageBlockControls( props ) {
 	const {
@@ -19,7 +19,7 @@ export default function ImageBlockControls( props ) {
 		clientId,
 	} = props;
 
-	const { mediaId, caption, isDynamicContent } = attributes;
+	const { mediaId, caption } = attributes;
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
@@ -30,15 +30,13 @@ export default function ImageBlockControls( props ) {
 				<ToolbarGroup>
 					<ToolbarButton
 						className="gblocks-add-new-button"
-						icon={ postExcerpt }
-						label={ __( 'Add Button', 'generateblocks' ) }
+						icon={ getIcon( 'caption' ) }
+						label={ __( 'Add Caption', 'generateblocks' ) }
 						onClick={ () => {
 							insertBlocks( createBlock( 'generateblocks/headline', {
 								element: 'figcaption',
 								content: caption,
 								isCaption: true,
-								isDynamicContent: !! isDynamicContent,
-								contentType: !! isDynamicContent ? 'caption' : null,
 							} ), undefined, clientId );
 						} }
 						showTooltip

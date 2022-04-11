@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 /**
  * Return the correct label for the content types.
  *
- * @param {Object} attributes The block attributes.
+ * @param {Object} attributes   The block attributes.
  * @param {string} defaultLabel Default label.
  * @return {string} The content type label.
  */
@@ -27,6 +27,7 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 			'author-last-name': __( 'Author last name', 'generateblocks' ),
 			'author-meta': __( 'Author meta', 'generateblocks' ),
 			'pagination-numbers': __( 'Page numbers', 'generateblocks' ),
+			caption: __( 'Caption', 'generateblocks' ),
 		};
 
 		const linkLabels = {

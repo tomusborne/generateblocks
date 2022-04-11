@@ -333,8 +333,6 @@ class GenerateBlocks_Render_Block {
 			return $content;
 		}
 
-		var_dump($block);
-
 		if ( isset( $block->parsed_block['innerBlocks'] ) ) {
 			$button_count = apply_filters(
 				'generateblocks_button_count',
@@ -564,8 +562,6 @@ class GenerateBlocks_Render_Block {
 			return $content;
 		}
 
-		//var_dump($block);
-
 		$allow_empty_content = false;
 
 		// Add an attribute showing we're working with the Button block.
@@ -708,8 +704,6 @@ class GenerateBlocks_Render_Block {
 			return generateblocks_filter_images( $content, $attributes );
 		}
 
-		var_dump($block);
-
 		$image = GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
 
 		if ( ! $image ) {
@@ -792,25 +786,7 @@ class GenerateBlocks_Render_Block {
 		$image = GenerateBlocks_Dynamic_Content::get_image_with_dimensions( $image, $settings );
 
 		$output .= $image;
-
-		// $caption = '';
-		// if ( isset( $block->parsed_block['innerBlocks'][0] ) ) {
-		// 	$image_id = GenerateBlocks_Dynamic_Content::get_source_id( $attributes );
-
-		// 	$caption = (
-		// 		new WP_Block(
-		// 			$block->parsed_block['innerBlocks'][0],
-		// 			array(
-		// 				'postType' => 'attachment',
-		// 				'postId'   => $image_id,
-		// 			)
-		// 		)
-		// 	)->render( array( 'dynamic' => false ) );
-		// }
-
-		// if ( $caption ) {
-		// 	$output .= $caption;
-		// }
+		$output .= $content;
 
 		$output .= '</figure>';
 

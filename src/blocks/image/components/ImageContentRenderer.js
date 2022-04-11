@@ -6,9 +6,9 @@ import RootElement from '../../../components/root-element';
 import Element from '../../../components/element';
 import Image from './Image';
 import BlockControls from './BlockControls';
-import { useSelect } from '@wordpress/data';
-import { store as coreStore } from '@wordpress/core-data';
 import { useRef, useState, useMemo, useEffect } from '@wordpress/element';
+import getDynamicImage from '../../../utils/get-dynamic-image';
+import getMediaUrl from '../../../utils/get-media-url';
 
 export default function ImageContentRenderer( props ) {
 	const {
@@ -33,6 +33,7 @@ export default function ImageContentRenderer( props ) {
 		relSponsored,
 		width,
 		height,
+		sizeSlug,
 	} = attributes;
 
 	const imageRef = useRef();
@@ -77,17 +78,9 @@ export default function ImageContentRenderer( props ) {
 		loadedNaturalHeight,
 	] );
 
-	const currentImage = useSelect( ( select ) => {
-		const { getMedia } = select( coreStore );
-
-		if ( 'post-meta' === contentType && 'object' !== typeof dynamicImage ) {
-			return getMedia( parseInt( dynamicImage ), { context: 'view' } );
-		}
-
-		return dynamicImage;
-	}, [ isDynamicContent, dynamicImage ] );
-
-	const imageUrl = isDynamicContent ? currentImage?.source_url : attributes.mediaUrl;
+	const currentImage = getDynamicImage( props );
+	const dynamicImageUrl = getMediaUrl( currentImage, sizeSlug );
+	const imageUrl = isDynamicContent ? dynamicImageUrl : attributes.mediaUrl;
 	const altText = isDynamicContent ? currentImage?.alt_text : attributes.alt;
 	const titleText = isDynamicContent ? currentImage?.title?.rendered : attributes.title;
 	const captionText = isDynamicContent ? currentImage?.caption?.rendered : attributes.caption;
@@ -144,6 +137,7 @@ export default function ImageContentRenderer( props ) {
 		naturalWidth,
 		naturalHeight,
 		setLoadedNaturalSize,
+		dynamicImage,
 	};
 
 	return (

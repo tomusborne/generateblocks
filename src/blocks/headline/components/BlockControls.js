@@ -18,41 +18,44 @@ function HeadlineBlockControls( props ) {
 		inlineWidth,
 		inlineWidthTablet,
 		inlineWidthMobile,
+		isCaption,
 	} = attributes;
 
 	return (
 		<BlockControls>
-			<ToolbarGroup
-				setAttributes={ setAttributes }
-				element={ element }
-				context={ context }
-			/>
+			{ ! isCaption &&
+				<ToolbarGroup
+					setAttributes={ setAttributes }
+					element={ element }
+					context={ context }
+				/>
+			}
 
 			{ 'Desktop' === deviceType && ! inlineWidth &&
-			<AlignmentToolbar
-				value={ alignment }
-				onChange={ ( value ) => {
-					setAttributes( { alignment: value } );
-				} }
-			/>
+				<AlignmentToolbar
+					value={ alignment }
+					onChange={ ( value ) => {
+						setAttributes( { alignment: value } );
+					} }
+				/>
 			}
 
 			{ 'Tablet' === deviceType && ! inlineWidthTablet &&
-			<AlignmentToolbar
-				value={ alignmentTablet }
-				onChange={ ( value ) => {
-					setAttributes( { alignmentTablet: value } );
-				} }
-			/>
+				<AlignmentToolbar
+					value={ alignmentTablet }
+					onChange={ ( value ) => {
+						setAttributes( { alignmentTablet: value } );
+					} }
+				/>
 			}
 
 			{ 'Mobile' === deviceType && ! inlineWidthMobile &&
-			<AlignmentToolbar
-				value={ alignmentMobile }
-				onChange={ ( value ) => {
-					setAttributes( { alignmentMobile: value } );
-				} }
-			/>
+				<AlignmentToolbar
+					value={ alignmentMobile }
+					onChange={ ( value ) => {
+						setAttributes( { alignmentMobile: value } );
+					} }
+				/>
 			}
 		</BlockControls>
 	);
