@@ -783,7 +783,21 @@ class GenerateBlocks_Render_Block {
 		$image = GenerateBlocks_Dynamic_Content::get_image_with_dimensions( $image, $settings );
 
 		$output .= $image;
-		$output .= $content;
+
+		if ( isset( $block->parsed_block['innerBlocks'][0]['attrs'] ) ) {
+			$image_id = GenerateBlocks_Dynamic_Content::get_source_id( $attributes );
+			$block->parsed_block['innerBlocks'][0]['attrs']['dynamicImage'] = $image_id;
+
+			$caption = (
+				new WP_Block(
+					$block->parsed_block['innerBlocks'][0]
+				)
+			)->render( array( 'dynamic' => true ) );
+
+			if ( $caption ) {
+				$output .= $caption;
+			}
+		}
 
 		$output .= '</figure>';
 

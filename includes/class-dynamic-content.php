@@ -495,20 +495,13 @@ class GenerateBlocks_Dynamic_Content {
 			$id = absint( $attributes['postId'] );
 		}
 
-		if (
-			! empty( $attributes['isDynamicContent'] ) &&
-			! empty( $attributes['contentType'] ) &&
-			(
-				'featured-image' === $attributes['contentType'] ||
-				'caption' === $attributes['contentType']
-			)
-		) {
-			$featured_image_id = get_post_thumbnail_id( $id );
+		if ( isset( $attributes['contentType'] ) ) {
+			if ( 'featured-image' === $attributes['contentType'] ) {
+				$id = get_post_thumbnail_id( $id );
+			}
 
-			// We don't know if captions will be using the featured image ID
-			// or the plain ID, so we have to see if it exists here.
-			if ( $featured_image_id ) {
-				$id = $featured_image_id;
+			if ( 'caption' === $attributes['contentType'] && ! empty( $attributes['dynamicImage'] ) ) {
+				$id = $attributes['dynamicImage'];
 			}
 		}
 
