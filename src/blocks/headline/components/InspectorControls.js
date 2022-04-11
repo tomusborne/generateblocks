@@ -17,7 +17,6 @@ export default ( props ) => {
 		attributes,
 		setAttributes,
 		deviceType,
-		setDeviceType,
 		blockState,
 		computedStyles,
 	} = props;

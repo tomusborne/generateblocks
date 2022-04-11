@@ -7,7 +7,6 @@ function HeadlineBlockControls( props ) {
 		attributes,
 		setAttributes,
 		deviceType,
-		context,
 	} = props;
 
 	const {
