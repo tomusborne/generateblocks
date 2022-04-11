@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
-const getOptions = ( name, contentType ) => {
+const getOptions = ( name, isCaption ) => {
 	let defaultOptions = [
 		{
 			options: [
@@ -67,7 +67,7 @@ const getOptions = ( name, contentType ) => {
 		];
 	}
 
-	if ( 'caption' === contentType ) {
+	if ( isCaption ) {
 		defaultOptions = [
 			{
 				options: [
@@ -90,8 +90,8 @@ const getOptions = ( name, contentType ) => {
 	);
 };
 
-export default ( { contentType, setAttributes, name } ) => {
-	const options = getOptions( name, contentType );
+export default ( { contentType, setAttributes, name, isCaption } ) => {
+	const options = getOptions( name, isCaption );
 	const value = options
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
 		.filter( ( option ) => ( option.value === contentType ) );

@@ -57,23 +57,27 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	useEffect( () => {
 		if (
 			'generateblocks/headline' === name &&
-			isCaption
+			isCaption &&
+			isDynamicContent
 		) {
-			if ( context[ 'generateblocks/dynamicImage' ] ) {
+			if ( context[ 'generateblocks/mediaId' ] ) {
 				setAttributes( {
-					isDynamicContent: true,
-					contentType: 'caption',
-					dynamicSource: 'current-post',
+					postId: context[ 'generateblocks/mediaId' ],
+					postType: 'attachment',
+					dynamicSource: 'post-type',
 				} );
 			} else {
 				setAttributes( {
-					isDynamicContent: false,
+					postId: '',
+					postType: 'post',
+					dynamicSource: 'current-post',
 				} );
 			}
 		}
 	}, [
 		isCaption,
-		context[ 'generateblocks/dynamicImage' ],
+		context[ 'generateblocks/mediaId' ],
+		isDynamicContent,
 	] );
 
 	return (
@@ -107,6 +111,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							contentType={ contentType }
 							setAttributes={ setAttributes }
 							name={ name }
+							isCaption={ isCaption }
 						/>
 
 						<PostDateControl

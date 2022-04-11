@@ -34,6 +34,7 @@ export default function ImageContentRenderer( props ) {
 		width,
 		height,
 		sizeSlug,
+		mediaId,
 	} = attributes;
 
 	const imageRef = useRef();
@@ -138,6 +139,8 @@ export default function ImageContentRenderer( props ) {
 		naturalHeight,
 		setLoadedNaturalSize,
 		dynamicImage,
+		isDynamicContent,
+		mediaId,
 	};
 
 	return (

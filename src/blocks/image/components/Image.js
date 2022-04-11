@@ -13,6 +13,8 @@ export default function Image( props ) {
 		imageRef,
 		setLoadedNaturalSize,
 		dynamicImage,
+		isDynamicContent,
+		mediaId,
 	} = props;
 
 	return (
@@ -35,7 +37,10 @@ export default function Image( props ) {
 				/>
 			</AnchorTag>
 
-			<BlockContextProvider value={ { 'generateblocks/dynamicImage': dynamicImage } }>
+			<BlockContextProvider value={ {
+				'generateblocks/dynamicImage': dynamicImage,
+				'generateblocks/mediaId': ! isDynamicContent ? mediaId : false,
+			} }>
 				<InnerBlocks
 					allowedBlocks={ [ 'generateblocks/headline' ] }
 					renderAppender={ false }
