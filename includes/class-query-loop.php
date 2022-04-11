@@ -46,7 +46,6 @@ class GenerateBlocks_Query_Loop {
 		add_filter( 'generateblocks_attr_grid-item', array( $this, 'add_grid_item_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_attr_button-container', array( $this, 'add_button_wrapper_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
-		add_action( 'generateblocks_block_css_data', array( $this, 'generate_css' ), 10, 7 );
 	}
 
 	/**
@@ -224,38 +223,6 @@ class GenerateBlocks_Query_Loop {
 		}
 
 		return $attributes;
-	}
-
-	/**
-	 * Generate frontend CSS for the Query Loop.
-	 *
-	 * @param string $name Name of the block.
-	 * @param array  $settings Our available settings.
-	 * @param object $css Current desktop CSS object.
-	 * @param object $desktop_css Current desktop-only CSS object.
-	 * @param object $tablet_css Current tablet CSS object.
-	 * @param object $tablet_only_css Current tablet-only CSS object.
-	 * @param object $mobile_css Current mobile CSS object.
-	 */
-	public function generate_css( $name, $settings, $css, $desktop_css, $tablet_css, $tablet_only_css, $mobile_css ) {
-		if ( 'grid' === $name && $settings['isQueryLoop'] ) {
-			$gap_direction = is_rtl() ? 'right' : 'left';
-
-			if ( $settings['horizontalGap'] || 0 === $settings['horizontalGap'] ) {
-				$css->set_selector( '.gb-grid-wrapper-' . $settings['uniqueId'] . '.gb-query-loop-wrapper > *:not(.gb-query-loop-item)' );
-				$css->add_property( 'padding-' . $gap_direction, $settings['horizontalGap'], 'px' );
-			}
-
-			if ( $settings['horizontalGapTablet'] || 0 === $settings['horizontalGapTablet'] ) {
-				$tablet_css->set_selector( '.gb-grid-wrapper-' . $settings['uniqueId'] . '.gb-query-loop-wrapper > *:not(.gb-query-loop-item)' );
-				$tablet_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapTablet'], 'px' );
-			}
-
-			if ( $settings['horizontalGapMobile'] || 0 === $settings['horizontalGapMobile'] ) {
-				$mobile_css->set_selector( '.gb-grid-wrapper-' . $settings['uniqueId'] . '.gb-query-loop-wrapper > *:not(.gb-query-loop-item)' );
-				$mobile_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapMobile'], 'px' );
-			}
-		}
 	}
 }
 
