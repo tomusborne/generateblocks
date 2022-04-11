@@ -426,12 +426,11 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
-	 * Get the dynamic image.
+	 * Get the dynamic image ID.
 	 *
-	 * @param array    $attributes The block attributes.
-	 * @param WP_Block $block Block instance.
+	 * @param array $attributes The block attributes.
 	 */
-	public static function get_dynamic_image( $attributes, $block ) {
+	public static function get_dynamic_image_id( $attributes ) {
 		$id = self::get_source_id( $attributes );
 
 		if ( ! $id ) {
@@ -440,27 +439,39 @@ class GenerateBlocks_Dynamic_Content {
 
 		if ( ! empty( $attributes['contentType'] ) ) {
 			if ( 'post-meta' === $attributes['contentType'] ) {
-				$meta_value = self::get_post_meta( $attributes );
-
-				if ( ! $meta_value ) {
-					return '';
-				}
-
-				if ( is_numeric( $meta_value ) ) {
-					$id = $meta_value;
-				} else {
-					// Needs alt and other attributes.
-					return sprintf(
-						'<img src="%1$s" />',
-						$meta_value
-					);
-				}
+				$id = self::get_post_meta( $attributes );
 			}
+		}
 
+		return $id;
+	}
+
+	/**
+	 * Get the dynamic image.
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param WP_Block $block Block instance.
+	 */
+	public static function get_dynamic_image( $attributes, $block ) {
+		$id = self::get_dynamic_image_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		if ( ! empty( $attributes['contentType'] ) ) {
 			if ( 'author-avatar' === $attributes['contentType'] ) {
 				$author_id = self::get_source_author_id( $attributes );
 				return get_avatar( $author_id, $attributes['width'] );
 			}
+		}
+
+		if ( $id && ! is_numeric( $id ) ) {
+			// Our image ID isn't a number - must be a static URL.
+			return sprintf(
+				'<img src="%1$s" />',
+				$id
+			);
 		}
 
 		$dynamic_image = wp_get_attachment_image(
@@ -500,8 +511,13 @@ class GenerateBlocks_Dynamic_Content {
 				$id = get_post_thumbnail_id( $id );
 			}
 
-			if ( 'caption' === $attributes['contentType'] && ! empty( $attributes['dynamicImage'] ) ) {
-				$id = $attributes['dynamicImage'];
+			if ( 'caption' === $attributes['contentType'] ) {
+				if ( isset( $attributes['dynamicImage'] ) ) {
+					$id = $attributes['dynamicImage'];
+				} elseif ( isset( $attributes['postId'] ) ) {
+					// Use the saved post ID if we're working with a static image.
+					$id = absint( $attributes['postId'] );
+				}
 			}
 		}
 
@@ -539,7 +555,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @return int|boolean
 	 */
 	public static function get_dynamic_background_image_url( $attributes ) {
-		$id = self::get_source_id( $attributes );
+		$id = self::get_dynamic_image_id( $attributes );
 
 		if ( ! $id ) {
 			return false;
@@ -549,20 +565,13 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		$image_id = $id;
-
-		if ( 'post-meta' === $attributes['contentType'] && isset( $attributes['metaFieldName'] ) ) {
-			$meta_value = get_post_meta( $id, $attributes['metaFieldName'], true );
-
-			if ( is_numeric( $meta_value ) ) {
-				$image_id = $meta_value;
-			} else {
-				return $meta_value;
-			}
+		if ( $id && ! is_numeric( $id ) ) {
+			// Our image ID isn't a number - must be a static URL.
+			return $id;
 		}
 
 		return wp_get_attachment_image_url(
-			$image_id,
+			$id,
 			isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full'
 		);
 	}

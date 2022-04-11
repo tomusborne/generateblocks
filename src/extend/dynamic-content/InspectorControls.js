@@ -64,7 +64,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 				setAttributes( {
 					postId: context[ 'generateblocks/mediaId' ],
 					postType: 'attachment',
-					dynamicSource: 'post-type',
+					dynamicSource: 'current-post',
 					contentType: 'caption',
 				} );
 			} else {

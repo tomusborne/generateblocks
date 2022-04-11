@@ -785,7 +785,7 @@ class GenerateBlocks_Render_Block {
 		$output .= $image;
 
 		if ( isset( $block->parsed_block['innerBlocks'][0]['attrs'] ) ) {
-			$image_id = GenerateBlocks_Dynamic_Content::get_source_id( $attributes );
+			$image_id = GenerateBlocks_Dynamic_Content::get_dynamic_image_id( $attributes );
 			$block->parsed_block['innerBlocks'][0]['attrs']['dynamicImage'] = $image_id;
 
 			$caption = (
