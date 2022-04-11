@@ -56,12 +56,6 @@ const ButtonContainerEdit = ( props ) => {
 		setButtonCount( innerBlocksCount );
 	}, [ innerBlocksCount ] );
 
-	useEffect( () => {
-		if ( context[ 'generateblocks/gridId' ] ) {
-			setAttributes( { isPagination: true } );
-		}
-	}, [ context[ 'generateblocks/gridId' ] ] );
-
 	let htmlAttributes = {
 		className: classnames( {
 			'gb-button-wrapper': true,

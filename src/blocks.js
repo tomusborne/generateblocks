@@ -9,5 +9,4 @@ import './blocks/button-container/block.js';
 import './blocks/button/block.js';
 import './blocks/headline/block.js';
 import './shared/style-imports.js';
-import './blocks/post-template';
 import './blocks/image';

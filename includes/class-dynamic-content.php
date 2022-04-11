@@ -321,7 +321,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function get_paginate_links( $attributes, $block ) {
-		$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
+		$page_key = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] . '-page' : 'query-page';
 		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$max_page = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
 
@@ -604,7 +604,7 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		if ( 'pagination-next' === $link_type ) {
-			$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
+			$page_key = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] . '-page' : 'query-page';
 			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 			$max_page = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
 
@@ -621,7 +621,7 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		if ( 'pagination-prev' === $link_type ) {
-			$page_key = isset( $block->context['generateblocks/gridId'] ) ? 'query-' . $block->context['generateblocks/gridId'] . '-page' : 'query-page';
+			$page_key = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] . '-page' : 'query-page';
 			$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 
 			if ( 1 !== $page ) {

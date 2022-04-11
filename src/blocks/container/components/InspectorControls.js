@@ -105,15 +105,8 @@ export default ( props ) => {
 			const parentBlocks = getBlocksByClientId( parentBlockId );
 
 			if ( parentBlocks.length > 0 ) {
-				if (
-					'generateblocks/grid' === parentBlocks[ 0 ].name ||
-					( parentBlocks[ 1 ] && 'generateblocks/query-loop' === parentBlocks[ 1 ].name )
-				) {
-					let parentGridId = parentBlocks[ 0 ].attributes.uniqueId;
-
-					if ( parentBlocks[ 1 ] && 'generateblocks/query-loop' === parentBlocks[ 1 ].name ) {
-						parentGridId = parentBlocks[ 1 ].attributes.uniqueId;
-					}
+				if ( 'generateblocks/grid' === parentBlocks[ 0 ].name ) {
+					const parentGridId = parentBlocks[ 0 ].attributes.uniqueId;
 
 					if ( parentGridId !== gridId ) {
 						setAttributes( {

@@ -105,7 +105,7 @@ const ContainerEdit = ( props ) => {
 };
 
 export default compose(
+	withDynamicContent,
 	withUniqueId,
 	withContainerLegacyMigration,
-	withDynamicContent,
 )( ContainerEdit );
