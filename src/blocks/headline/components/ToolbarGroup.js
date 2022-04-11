@@ -2,8 +2,8 @@ import HeadingLevelIcon from '../element-icons';
 import { __, sprintf } from '@wordpress/i18n';
 import { ToolbarGroup } from '@wordpress/components';
 
-export default ( { setAttributes, element, context } ) => {
-	if ( 'undefined' !== typeof context[ 'generateblocks/caption' ] ) {
+export default ( { setAttributes, element, isCaption } ) => {
+	if ( isCaption ) {
 		return null;
 	}
 

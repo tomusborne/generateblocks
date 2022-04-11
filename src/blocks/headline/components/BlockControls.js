@@ -23,13 +23,11 @@ function HeadlineBlockControls( props ) {
 
 	return (
 		<BlockControls>
-			{ ! isCaption &&
-				<ToolbarGroup
-					setAttributes={ setAttributes }
-					element={ element }
-					context={ context }
-				/>
-			}
+			<ToolbarGroup
+				setAttributes={ setAttributes }
+				element={ element }
+				isCaption={ isCaption }
+			/>
 
 			{ 'Desktop' === deviceType && ! inlineWidth &&
 				<AlignmentToolbar
