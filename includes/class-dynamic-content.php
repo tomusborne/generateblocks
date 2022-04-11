@@ -426,27 +426,6 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
-	 * Get the dynamic image ID.
-	 *
-	 * @param array $attributes The block attributes.
-	 */
-	public static function get_dynamic_image_id( $attributes ) {
-		$id = self::get_source_id( $attributes );
-
-		if ( ! $id ) {
-			return;
-		}
-
-		if ( ! empty( $attributes['contentType'] ) ) {
-			if ( 'post-meta' === $attributes['contentType'] ) {
-				$id = self::get_post_meta( $attributes );
-			}
-		}
-
-		return $id;
-	}
-
-	/**
 	 * Get the dynamic image.
 	 *
 	 * @param array    $attributes The block attributes.
@@ -545,6 +524,27 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $author_id;
+	}
+
+	/**
+	 * Get the dynamic image ID.
+	 *
+	 * @param array $attributes The block attributes.
+	 */
+	public static function get_dynamic_image_id( $attributes ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		if ( ! empty( $attributes['contentType'] ) ) {
+			if ( 'post-meta' === $attributes['contentType'] ) {
+				$id = self::get_post_meta( $attributes );
+			}
+		}
+
+		return $id;
 	}
 
 	/**
