@@ -9,6 +9,11 @@ export default {
 		default: false,
 	},
 
+	isCaption: {
+		type: 'boolean',
+		default: false,
+	},
+
 	contentType: {
 		type: 'string',
 		default: '',

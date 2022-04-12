@@ -2,7 +2,7 @@ import SelectPostType from '../components/SelectPostType';
 import SelectPost from '../components/SelectPost';
 import SelectSource from '../components/SelectSource';
 
-export default ( { dynamicSource, postType, postId, setAttributes } ) => {
+export default ( { dynamicSource, postType, postId, setAttributes, contentType } ) => {
 	return (
 		<>
 			<SelectSource
@@ -14,6 +14,7 @@ export default ( { dynamicSource, postType, postId, setAttributes } ) => {
 						postType: 'post',
 					} );
 				} }
+				contentType={ contentType }
 			/>
 
 			{ dynamicSource === 'post-type' &&

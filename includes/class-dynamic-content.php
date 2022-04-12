@@ -89,6 +89,9 @@ class GenerateBlocks_Dynamic_Content {
 
 			case 'featured-image':
 				return self::get_dynamic_image( $attributes, $block );
+
+			case 'caption':
+				return self::get_image_caption( $attributes, $block );
 		}
 	}
 
@@ -429,35 +432,25 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function get_dynamic_image( $attributes, $block ) {
-		$id = self::get_source_id( $attributes );
+		$id = self::get_dynamic_image_id( $attributes );
 
 		if ( ! $id ) {
 			return;
 		}
 
 		if ( ! empty( $attributes['contentType'] ) ) {
-			if ( 'post-meta' === $attributes['contentType'] ) {
-				$meta_value = self::get_post_meta( $attributes );
-
-				if ( ! $meta_value ) {
-					return '';
-				}
-
-				if ( is_numeric( $meta_value ) ) {
-					$id = $meta_value;
-				} else {
-					// Needs alt and other attributes.
-					return sprintf(
-						'<img src="%1$s" />',
-						$meta_value
-					);
-				}
-			}
-
 			if ( 'author-avatar' === $attributes['contentType'] ) {
 				$author_id = self::get_source_author_id( $attributes );
 				return get_avatar( $author_id, $attributes['width'] );
 			}
+		}
+
+		if ( $id && ! is_numeric( $id ) ) {
+			// Our image ID isn't a number - must be a static URL.
+			return sprintf(
+				'<img src="%1$s" />',
+				$id
+			);
 		}
 
 		$dynamic_image = wp_get_attachment_image(
@@ -477,21 +470,6 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
-	 * Get the dynamic image caption.
-	 *
-	 * @param array $attributes The block attributes.
-	 */
-	public static function get_dynamic_image_caption( $attributes ) {
-		$id = self::get_source_id( $attributes );
-
-		if ( ! $id ) {
-			return;
-		}
-
-		return wp_get_attachment_caption( $id );
-	}
-
-	/**
 	 * Get our source ID.
 	 *
 	 * @param array $attributes The block attributes.
@@ -507,12 +485,19 @@ class GenerateBlocks_Dynamic_Content {
 			$id = absint( $attributes['postId'] );
 		}
 
-		if (
-			! empty( $attributes['isDynamicContent'] ) &&
-			! empty( $attributes['contentType'] ) &&
-			'featured-image' === $attributes['contentType']
-		) {
-			$id = get_post_thumbnail_id( $id );
+		if ( isset( $attributes['contentType'] ) ) {
+			if ( 'featured-image' === $attributes['contentType'] ) {
+				$id = get_post_thumbnail_id( $id );
+			}
+
+			if ( 'caption' === $attributes['contentType'] ) {
+				if ( isset( $attributes['dynamicImage'] ) ) {
+					$id = $attributes['dynamicImage'];
+				} elseif ( isset( $attributes['postId'] ) ) {
+					// Use the saved post ID if we're working with a static image.
+					$id = absint( $attributes['postId'] );
+				}
+			}
 		}
 
 		return $id;
@@ -542,6 +527,27 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
+	 * Get the dynamic image ID.
+	 *
+	 * @param array $attributes The block attributes.
+	 */
+	public static function get_dynamic_image_id( $attributes ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		if ( ! empty( $attributes['contentType'] ) ) {
+			if ( 'post-meta' === $attributes['contentType'] ) {
+				$id = self::get_post_meta( $attributes );
+			}
+		}
+
+		return $id;
+	}
+
+	/**
 	 * Get the dynamic background image url.
 	 *
 	 * @param array $attributes The block attributes.
@@ -549,7 +555,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @return int|boolean
 	 */
 	public static function get_dynamic_background_image_url( $attributes ) {
-		$id = self::get_source_id( $attributes );
+		$id = self::get_dynamic_image_id( $attributes );
 
 		if ( ! $id ) {
 			return false;
@@ -557,6 +563,11 @@ class GenerateBlocks_Dynamic_Content {
 
 		if ( empty( $attributes['contentType'] ) ) {
 			return;
+		}
+
+		if ( $id && ! is_numeric( $id ) ) {
+			// Our image ID isn't a number - must be a static URL.
+			return $id;
 		}
 
 		return wp_get_attachment_image_url(
@@ -789,6 +800,22 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Get the dynamic image caption.
+	 *
+	 * @param array  $attributes The block attributes.
+	 * @param object $block The block object.
+	 */
+	public static function get_image_caption( $attributes, $block ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		return wp_get_attachment_caption( $id );
 	}
 
 	/**

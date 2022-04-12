@@ -483,6 +483,7 @@ class GenerateBlocks_Render_Block {
 				'h6',
 				'div',
 				'p',
+				'figcaption',
 			),
 			$attributes,
 			$block
@@ -783,13 +784,19 @@ class GenerateBlocks_Render_Block {
 
 		$output .= $image;
 
-		$caption = GenerateBlocks_Dynamic_Content::get_dynamic_image_caption( $attributes );
+		if ( isset( $block->parsed_block['innerBlocks'][0]['attrs'] ) ) {
+			$image_id = GenerateBlocks_Dynamic_Content::get_dynamic_image_id( $attributes );
+			$block->parsed_block['innerBlocks'][0]['attrs']['dynamicImage'] = $image_id;
 
-		if ( $caption ) {
-			$output .= sprintf(
-				'<figcaption>%s</figcaption>',
-				$caption
-			);
+			$caption = (
+				new WP_Block(
+					$block->parsed_block['innerBlocks'][0]
+				)
+			)->render( array( 'dynamic' => true ) );
+
+			if ( $caption ) {
+				$output .= $caption;
+			}
 		}
 
 		$output .= '</figure>';

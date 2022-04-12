@@ -2,9 +2,11 @@ import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
-const getOptions = () => {
+const getOptions = ( contentType ) => {
 	const defaultOptions = [
-		{ value: 'current-post', label: __( 'Current post', 'generateblocks' ) },
+		{ value: 'current-post', label: 'caption' === contentType
+			? __( 'Current image', 'generateblocks' )
+			: __( 'Current post', 'generateblocks' ) },
 		{ value: 'post-type', label: __( 'Post type', 'generateblocks' ) },
 	];
 
@@ -14,8 +16,8 @@ const getOptions = () => {
 	);
 };
 
-export default ( { source, onChange, help } ) => {
-	const options = getOptions();
+export default ( { source, onChange, help, contentType } ) => {
+	const options = getOptions( contentType );
 	const value = options.filter( ( option ) => ( option.value === source ) );
 
 	return (

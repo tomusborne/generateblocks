@@ -1,7 +1,11 @@
 import { BlockControls, MediaReplaceFlow } from '@wordpress/block-editor';
-import { MenuItem, ToolbarGroup } from '@wordpress/components';
+import { MenuItem, ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import LinkControl from '../../../components/link-control';
+import { useDispatch } from '@wordpress/data';
+import { createBlock } from '@wordpress/blocks';
+import { useInnerBlocksCount } from '../../../hooks';
+import getIcon from '../../../utils/get-icon';
 
 export default function ImageBlockControls( props ) {
 	const {
@@ -12,12 +16,34 @@ export default function ImageBlockControls( props ) {
 		onResetImage,
 		imageUrl,
 		canUploadImage,
+		clientId,
 	} = props;
 
-	const { mediaId } = attributes;
+	const { mediaId, caption } = attributes;
+
+	const { insertBlocks } = useDispatch( 'core/block-editor' );
+	const innerBlocksCount = useInnerBlocksCount( clientId );
 
 	return (
 		<BlockControls>
+			{ 0 === innerBlocksCount &&
+				<ToolbarGroup>
+					<ToolbarButton
+						className="gblocks-add-new-button"
+						icon={ getIcon( 'caption' ) }
+						label={ __( 'Add Caption', 'generateblocks' ) }
+						onClick={ () => {
+							insertBlocks( createBlock( 'generateblocks/headline', {
+								element: 'figcaption',
+								content: caption,
+								isCaption: true,
+							} ), undefined, clientId );
+						} }
+						showTooltip
+					/>
+				</ToolbarGroup>
+			}
+
 			{ !! imageUrl &&
 				<ToolbarGroup>
 					<LinkControl

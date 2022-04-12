@@ -32,6 +32,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		linkMetaFieldName,
 		isPagination,
 		isQueryLoopItem,
+		isCaption,
 	} = attributes;
 
 	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
@@ -51,6 +52,34 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	}, [
 		contentType,
 		isQueryLoopItem,
+	] );
+
+	useEffect( () => {
+		if (
+			'generateblocks/headline' === name &&
+			isCaption &&
+			isDynamicContent
+		) {
+			if ( context[ 'generateblocks/mediaId' ] ) {
+				setAttributes( {
+					postId: context[ 'generateblocks/mediaId' ],
+					postType: 'attachment',
+					dynamicSource: 'current-post',
+					contentType: 'caption',
+				} );
+			} else {
+				setAttributes( {
+					postId: '',
+					postType: 'post',
+					dynamicSource: 'current-post',
+					contentType: 'caption',
+				} );
+			}
+		}
+	}, [
+		isCaption,
+		context[ 'generateblocks/mediaId' ],
+		isDynamicContent,
 	] );
 
 	return (
@@ -77,12 +106,14 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							postType={ postType }
 							postId={ postId }
 							setAttributes={ setAttributes }
+							contentType={ contentType }
 						/>
 
 						<ContentTypeControl
 							contentType={ contentType }
 							setAttributes={ setAttributes }
 							name={ name }
+							isCaption={ isCaption }
 						/>
 
 						<PostDateControl

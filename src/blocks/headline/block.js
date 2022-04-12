@@ -55,7 +55,7 @@ registerBlockType( 'generateblocks/headline', {
 	save: saveHeadline,
 	transforms,
 	deprecated,
-	usesContext: [ 'postId', 'postType' ],
+	usesContext: [ 'postId', 'postType', 'generateblocks/dynamicImage', 'generateblocks/mediaId' ],
 	__experimentalLabel: ( attributes ) => (
 		getContentTypeLabel( attributes, __( 'Headline', 'generateblocks' ) )
 	),
