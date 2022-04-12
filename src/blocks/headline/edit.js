@@ -37,6 +37,7 @@ const HeadlineEdit = ( props ) => {
 		attributes,
 		setAttributes,
 		ContentRenderer = HeadlineContentRenderer,
+		context,
 	} = props;
 
 	const {
@@ -72,7 +73,12 @@ const HeadlineEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			<BlockControls attributes={ attributes } setAttributes={ setAttributes } deviceType={ deviceType } />
+			<BlockControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				deviceType={ deviceType }
+				context={ context }
+			/>
 
 			<InspectorControls
 				{ ...props }

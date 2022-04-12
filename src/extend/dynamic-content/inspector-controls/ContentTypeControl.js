@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
-const getOptions = ( name ) => {
+const getOptions = ( name, isCaption ) => {
 	let defaultOptions = [
 		{
 			options: [
@@ -44,7 +44,7 @@ const getOptions = ( name ) => {
 		);
 	}
 
-	if ( 'generateblocks/container' === name ) {
+	if ( 'generateblocks/container' === name || 'generateblocks/image' === name ) {
 		defaultOptions = [
 			{
 				options: [
@@ -55,6 +55,29 @@ const getOptions = ( name ) => {
 				label: __( 'Post', 'generateblocks' ),
 				options: [
 					{ value: 'featured-image', label: __( 'Featured Image', 'generateblocks' ) },
+					{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Author', 'generateblocks' ),
+				options: [
+					{ value: 'author-avatar', label: __( 'Author avatar', 'generateblocks' ) },
+				],
+			},
+		];
+	}
+
+	if ( isCaption ) {
+		defaultOptions = [
+			{
+				options: [
+					{ value: '', label: __( 'Select…', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Image', 'generateblocks' ),
+				options: [
+					{ value: 'caption', label: __( 'Caption', 'generateblocks' ) },
 				],
 			},
 		];
@@ -67,8 +90,8 @@ const getOptions = ( name ) => {
 	);
 };
 
-export default ( { contentType, setAttributes, name } ) => {
-	const options = getOptions( name );
+export default ( { contentType, setAttributes, name, isCaption } ) => {
+	const options = getOptions( name, isCaption );
 	const value = options
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
 		.filter( ( option ) => ( option.value === contentType ) );

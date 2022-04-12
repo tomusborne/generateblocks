@@ -5,14 +5,15 @@ import dynamicContentAttributes from './attributes';
 import applyContext from './utils/applyContext';
 import { RichText } from '@wordpress/block-editor';
 import useDynamicContent from './hooks/useDynamicContent';
-import { useMemo } from '@wordpress/element';
 import ContainerContentRenderer from '../../blocks/container/components/ContainerContentRenderer';
+import ImageContentRenderer from '../../blocks/image/components/ImageContentRenderer';
 
 function getContentRenderer( name ) {
 	const contentRenders = {
 		'generateblocks/headline': HeadlineContentRenderer,
 		'generateblocks/button': ButtonContentRenderer,
 		'generateblocks/container': ContainerContentRenderer,
+		'generateblocks/image': ImageContentRenderer,
 	};
 
 	return contentRenders[ name ];
@@ -56,7 +57,10 @@ export default function DynamicRenderer( props ) {
 	const newAttributes = Object.assign( {}, attributes, {
 		content: 'generateblocks/headline' === name ? content : undefined,
 		text: 'generateblocks/button' === name ? content : undefined,
-		dynamicImage: 'generateblocks/container' === name ? content : undefined,
+		dynamicImage: 'generateblocks/container' === name ||
+			'generateblocks/image' === name
+			? content
+			: undefined,
 	} );
 
 	const newProps = Object.assign( {}, props, {

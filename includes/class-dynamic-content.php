@@ -86,6 +86,12 @@ class GenerateBlocks_Dynamic_Content {
 
 			case 'pagination-numbers':
 				return self::get_paginate_links( $attributes, $block );
+
+			case 'featured-image':
+				return self::get_dynamic_image( $attributes, $block );
+
+			case 'caption':
+				return self::get_image_caption( $attributes, $block );
 		}
 	}
 
@@ -411,20 +417,81 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
+	 * Get the dynamic image.
+	 *
+	 * @param array    $attributes The block attributes.
+	 * @param WP_Block $block Block instance.
+	 */
+	public static function get_dynamic_image( $attributes, $block ) {
+		$id = self::get_dynamic_image_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		if ( ! empty( $attributes['contentType'] ) ) {
+			if ( 'author-avatar' === $attributes['contentType'] ) {
+				$author_id = self::get_source_author_id( $attributes );
+				return get_avatar( $author_id, $attributes['width'] );
+			}
+		}
+
+		if ( $id && ! is_numeric( $id ) ) {
+			// Our image ID isn't a number - must be a static URL.
+			return sprintf(
+				'<img src="%1$s" />',
+				$id
+			);
+		}
+
+		$dynamic_image = wp_get_attachment_image(
+			$id,
+			isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full',
+			false,
+			array(
+				'class' => 'gb-image-' . $attributes['uniqueId'],
+			)
+		);
+
+		if ( ! $dynamic_image ) {
+			return '';
+		}
+
+		return $dynamic_image;
+	}
+
+	/**
 	 * Get our source ID.
 	 *
 	 * @param array $attributes The block attributes.
 	 */
 	public static function get_source_id( $attributes ) {
+		$id = get_the_ID();
+
 		if (
 			isset( $attributes['dynamicSource'] ) &&
 			'current-post' !== $attributes['dynamicSource'] &&
 			isset( $attributes['postId'] )
 		) {
-			return absint( $attributes['postId'] );
+			$id = absint( $attributes['postId'] );
 		}
 
-		return get_the_ID();
+		if ( isset( $attributes['contentType'] ) ) {
+			if ( 'featured-image' === $attributes['contentType'] ) {
+				$id = get_post_thumbnail_id( $id );
+			}
+
+			if ( 'caption' === $attributes['contentType'] ) {
+				if ( isset( $attributes['dynamicImage'] ) ) {
+					$id = $attributes['dynamicImage'];
+				} elseif ( isset( $attributes['postId'] ) ) {
+					// Use the saved post ID if we're working with a static image.
+					$id = absint( $attributes['postId'] );
+				}
+			}
+		}
+
+		return $id;
 	}
 
 	/**
@@ -451,6 +518,27 @@ class GenerateBlocks_Dynamic_Content {
 	}
 
 	/**
+	 * Get the dynamic image ID.
+	 *
+	 * @param array $attributes The block attributes.
+	 */
+	public static function get_dynamic_image_id( $attributes ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		if ( ! empty( $attributes['contentType'] ) ) {
+			if ( 'post-meta' === $attributes['contentType'] ) {
+				$id = self::get_post_meta( $attributes );
+			}
+		}
+
+		return $id;
+	}
+
+	/**
 	 * Get the dynamic background image url.
 	 *
 	 * @param array $attributes The block attributes.
@@ -458,7 +546,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @return int|boolean
 	 */
 	public static function get_dynamic_background_image_url( $attributes ) {
-		$id = self::get_source_id( $attributes );
+		$id = self::get_dynamic_image_id( $attributes );
 
 		if ( ! $id ) {
 			return false;
@@ -468,11 +556,15 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		$size = isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full';
-
-		if ( 'featured-image' === $attributes['contentType'] ) {
-			return get_the_post_thumbnail_url( $id, $size );
+		if ( $id && ! is_numeric( $id ) ) {
+			// Our image ID isn't a number - must be a static URL.
+			return $id;
 		}
+
+		return wp_get_attachment_image_url(
+			$id,
+			isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full'
+		);
 	}
 
 	/**
@@ -679,6 +771,64 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $icon_html;
+	}
+
+	/**
+	 * Replace the image dimensions with the settings.
+	 * The width and height attributes aren't available via filter.
+	 *
+	 * @param string $content The image HTML.
+	 * @param array  $settings The block settings.
+	 */
+	public static function get_image_with_dimensions( $content, $settings ) {
+		$doc = self::load_html( $content );
+
+		if ( ! $doc ) {
+			return $content;
+		}
+
+		$image =
+			isset( $doc->getElementsByTagName( 'img' )[0] )
+			? $doc->getElementsByTagName( 'img' )[0]
+			: false;
+
+		if ( ! $image ) {
+			return $content;
+		}
+
+		$update_image = false;
+
+		if ( $settings['width'] ) {
+			$image->setAttribute( 'width', $settings['width'] );
+			$update_image = true;
+		}
+
+		if ( $settings['height'] ) {
+			$image->setAttribute( 'height', $settings['height'] );
+			$update_image = true;
+		}
+
+		if ( $update_image ) {
+			$content = $doc->saveHTML( $image );
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Get the dynamic image caption.
+	 *
+	 * @param array  $attributes The block attributes.
+	 * @param object $block The block object.
+	 */
+	public static function get_image_caption( $attributes, $block ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return;
+		}
+
+		return wp_get_attachment_caption( $id );
 	}
 
 	/**

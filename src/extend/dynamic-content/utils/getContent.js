@@ -21,6 +21,8 @@ const contentTypeSelectors = {
 	'pagination-numbers': getPaginationNumbers,
 	'featured-image': getPostFeaturedImage,
 	terms: getPostTerms,
+	'author-avatar': getAuthorAvatar,
+	caption: getCaption,
 };
 
 /**
@@ -306,12 +308,29 @@ function getPaginationNumbers() {
 /**
  * Returns post featured image.
  *
- * @param {Object} record     The post object.
- * @param {Object} attributes The dynamic content attributes.
+ * @param {Object} record The post object.
  * @return {string} The featured image url.
  */
-function getPostFeaturedImage( record, attributes ) {
-	const size = attributes.bgImageSize || 'full';
+function getPostFeaturedImage( record ) {
+	return record?.featured_media;
+}
 
-	return record.media?.media_details?.sizes?.[ size ]?.source_url || record.media?.source_url;
+/**
+ * Returns post author avatar.
+ *
+ * @param {Object} record The post object.
+ * @return {Object} The post author avatar.
+ */
+function getAuthorAvatar( record ) {
+	return { source_url: record?.author?.avatar_urls[ 96 ] };
+}
+
+/**
+ * Returns the caption.
+ *
+ * @param {Object} record The post object.
+ * @return {string} The image caption.
+ */
+function getCaption( record ) {
+	return record?.caption?.raw || __( 'Image caption', 'generateblocks' );
 }

@@ -114,6 +114,20 @@ class GenerateBlocks_Render_Block {
 				),
 			)
 		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . 'src/blocks/image',
+			array(
+				'title' => esc_html__( 'Image', 'generateblocks' ),
+				'render_callback' => array( $this, 'do_image_block' ),
+				'uses_context' => array(
+					'generateblocks/query',
+					'generateblocks/gridId',
+					'postType',
+					'postId',
+				),
+			)
+		);
 	}
 
 	/**
@@ -490,6 +504,7 @@ class GenerateBlocks_Render_Block {
 				'h6',
 				'div',
 				'p',
+				'figcaption',
 			),
 			$attributes,
 			$block
@@ -690,6 +705,122 @@ class GenerateBlocks_Render_Block {
 				$tagName
 			);
 		}
+
+		return $output;
+	}
+
+	/**
+	 * Wrapper function for our image block.
+	 *
+	 * @since 1.5.0
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content The dynamic text to display.
+	 * @param WP_Block $block Block instance.
+	 */
+	public static function do_image_block( $attributes, $content, $block ) {
+		if ( empty( $attributes['isDynamicContent'] ) ) {
+			return generateblocks_filter_images( $content, $attributes );
+		}
+
+		$image = GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
+
+		if ( ! $image ) {
+			return '';
+		}
+
+		$defaults = generateblocks_get_block_defaults();
+
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['image']
+		);
+
+		$classNames = array(
+			'gb-block-image',
+			'gb-block-image-' . $settings['uniqueId'],
+		);
+
+		if ( ! empty( $settings['className'] ) ) {
+			$classNames[] = $settings['className'];
+		}
+
+		$output = sprintf(
+			'<figure %s>',
+			generateblocks_attr(
+				'image',
+				array(
+					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
+					'class' => implode( ' ', $classNames ),
+				),
+				$settings,
+				$block
+			)
+		);
+
+		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
+
+		if ( $dynamic_link ) {
+			$relAttributes = array();
+
+			if ( ! empty( $settings['relNoFollow'] ) ) {
+				$relAttributes[] = 'nofollow';
+			}
+
+			if ( ! empty( $settings['openInNewWindow'] ) ) {
+				$relAttributes[] = 'noopener';
+				$relAttributes[] = 'noreferrer';
+			}
+
+			if ( ! empty( $settings['relSponsored'] ) ) {
+				$relAttributes[] = 'sponsored';
+			}
+
+			$dynamic_link_data = array(
+				'href' => $dynamic_link,
+				'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+				'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
+			);
+
+			$dynamic_link_attributes = '';
+
+			foreach ( $dynamic_link_data as $attribute => $value ) {
+				$dynamic_link_attributes .= sprintf(
+					' %s="%s"',
+					$attribute,
+					$value
+				);
+			}
+
+			$image = sprintf(
+				'<a %s>%s</a>',
+				trim( $dynamic_link_attributes ),
+				$image
+			);
+		} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
+			// If we've set a dynamic link and don't have one, don't output anything.
+			return '';
+		}
+
+		$image = GenerateBlocks_Dynamic_Content::get_image_with_dimensions( $image, $settings );
+
+		$output .= $image;
+
+		if ( isset( $block->parsed_block['innerBlocks'][0]['attrs'] ) ) {
+			$image_id = GenerateBlocks_Dynamic_Content::get_dynamic_image_id( $attributes );
+			$block->parsed_block['innerBlocks'][0]['attrs']['dynamicImage'] = $image_id;
+
+			$caption = (
+				new WP_Block(
+					$block->parsed_block['innerBlocks'][0]
+				)
+			)->render( array( 'dynamic' => true ) );
+
+			if ( $caption ) {
+				$output .= $caption;
+			}
+		}
+
+		$output .= '</figure>';
 
 		return $output;
 	}
