@@ -246,8 +246,14 @@ export default function getIcon( icon ) {
 
 	if ( 'caption' === icon ) {
 		return <svg strokeWidth="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-			<path d="M7 12h10M7 8h6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-			<path d="M3 20.29V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7.961a2 2 0 0 0-1.561.75l-2.331 2.914A.6.6 0 0 1 3 20.29Z" fill="none" stroke="currentColor" />
+			<path d="M7 12h10M7 8h6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
+			<path
+				d="M3 20.29V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7.961a2 2 0 0 0-1.561.75l-2.331 2.914A.6.6 0 0 1 3 20.29Z"
+				fill="none" stroke="currentColor"/>
 		</svg>;
+	}
+
+	if ( 'add-pagination' === icon ) {
+		return <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8.2h-5.2V3h-1.6v5.2H6v1.6h5.2V15h1.6V9.8H18V8.2ZM8.5 17.5h-3a1.5 1.5 0 0 0 0 3h3a1.5 1.5 0 0 0 0-3ZM15 19a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0ZM20 19a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" fill="#000" /></svg>;
 	}
 }

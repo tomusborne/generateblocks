@@ -23,6 +23,7 @@ registerBlockType( 'generateblocks/query-loop', {
 	providesContext: {
 		'generateblocks/query': 'query',
 		'generateblocks/queryId': 'uniqueId',
+		'generateblocks/inheritQuery': 'inheritQuery',
 	},
 	edit: withUniqueId( edit ),
 	save: () => {

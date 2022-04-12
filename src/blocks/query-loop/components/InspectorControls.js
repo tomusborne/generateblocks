@@ -9,7 +9,7 @@ import useQueryReducer from '../hooks/useQueryReducer';
 import isEmpty from '../../../utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';
 import getIcon from '../../../utils/get-icon';
-import { PanelBody } from '@wordpress/components';
+import { ToggleControl, PanelBody } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 
 export default ( { attributes, setAttributes, clientId } ) => {
@@ -71,39 +71,50 @@ export default ( { attributes, setAttributes, clientId } ) => {
 				icon={ getIcon( 'query-params' ) }
 				className="gblocks-panel-label"
 			>
-				<ParameterList
-					query={ queryState }
-					setParameter={ setParameter }
-					removeParameter={ removeParameter }
+				<ToggleControl
+					label={ __( 'Inherit query from template', 'generateblocks' ) }
+					help={ __( 'Toggle to use the global query context that is set with the current template, such as an archive or search.', 'generateblocks' ) }
+					checked={ !! attributes.inheritQuery }
+					onChange={ ( value ) => setAttributes( { inheritQuery: value } ) }
 				/>
 
-				{ ! displayParameterSelect &&
-					<AddQueryParameterButton onClick={ () => {
-						setDisplayParameterSelect( true );
-					} } />
-				}
+				{ ! attributes.inheritQuery &&
+					<>
+						<ParameterList
+							query={ queryState }
+							setParameter={ setParameter }
+							removeParameter={ removeParameter }
+						/>
 
-				{ displayParameterSelect &&
-					<SelectQueryParameter
-						options={ parameterOptions }
-						onChange={ ( option ) => {
-							if (
-								!! option.isRepeatable &&
-								Array.isArray( option.default ) &&
-								!! option.repeatableDefaultValue
-							) {
-								const parameterValue = !! queryState[ option.id ]
-									? queryState[ option.id ]
-									: option.default;
+						{ ! displayParameterSelect &&
+							<AddQueryParameterButton onClick={ () => {
+								setDisplayParameterSelect( true );
+							} } />
+						}
 
-								setParameter( option.id, [ ...parameterValue, option.repeatableDefaultValue ] );
-							} else {
-								setParameter( option.id, option.default );
-							}
+						{ displayParameterSelect &&
+							<SelectQueryParameter
+								options={ parameterOptions }
+								onChange={ ( option ) => {
+									if (
+										!! option.isRepeatable &&
+										Array.isArray( option.default ) &&
+										!! option.repeatableDefaultValue
+									) {
+										const parameterValue = !! queryState[ option.id ]
+											? queryState[ option.id ]
+											: option.default;
 
-							setDisplayParameterSelect( false );
-						} }
-					/>
+										setParameter( option.id, [ ...parameterValue, option.repeatableDefaultValue ] );
+									} else {
+										setParameter( option.id, option.default );
+									}
+
+									setDisplayParameterSelect( false );
+								} }
+							/>
+						}
+					</>
 				}
 			</PanelArea>
 		</InspectorControls>
