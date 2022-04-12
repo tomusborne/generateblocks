@@ -3,6 +3,9 @@ import { useSelect } from '@wordpress/data';
 import LoopRenderer from './LoopRenderer';
 import { normalizeRepeatableArgs, removeEmpty } from './utils';
 import { store as coreStore } from '@wordpress/core-data';
+import usePostTypeRecords from '../../../hooks/usePostTypeRecords';
+import { useSelector } from 'react-redux';
+import useQueryData from '../hooks/useQueryData';
 
 const TEMPLATE = [
 	[ 'generateblocks/container', {
@@ -26,7 +29,7 @@ const TEMPLATE = [
 ];
 
 export default function QueryLoopRenderer( props ) {
-	const { clientId, context } = props;
+	const { clientId, context, attributes } = props;
 	const query = context[ 'generateblocks/query' ] || {};
 
 	const innerBlocks = useSelect( ( select ) => {
@@ -37,29 +40,14 @@ export default function QueryLoopRenderer( props ) {
 		return normalizeRepeatableArgs( removeEmpty( query ) );
 	}, [ JSON.stringify( query ) ] );
 
-	const { data, isResolvingData, hasResolvedData } = useSelect( ( select ) => {
-		const {
-			getEntityRecords,
-			isResolving,
-			hasFinishedResolution,
-		} = select( coreStore );
-
-		const queryParams = [ 'postType', query.post_type || 'post', normalizedQuery ];
-
-		return {
-			data: getEntityRecords( ...queryParams ),
-			isResolvingData: isResolving( 'getEntityRecords', queryParams ),
-			hasResolvedData: hasFinishedResolution( 'getEntityRecords', queryParams ),
-		};
-	}, [ normalizedQuery ] );
+	const { data, status } = useQueryData( attributes.uniqueId, query.post_type, normalizedQuery );
 
 	return (
 		<div className="gb-post-template-wrapper">
 			<LoopRenderer
 				data={ data }
-				hasData={ !! ( hasResolvedData && data?.length ) }
-				isResolvingData={ isResolvingData }
-				hasResolvedData={ hasResolvedData }
+				hasData={ data?.length }
+				dataStatus={ status }
 				templateLock={ true }
 				template={ TEMPLATE }
 				innerBlocks={ innerBlocks }

@@ -4,12 +4,11 @@ import {
 } from '@reduxjs/toolkit';
 
 import {
-	fetchTypes,
 	fetchOneRecord,
 	fetchManyRecords,
 } from './actions';
 
-const objectAdapter = createEntityAdapter();
+export const objectAdapter = createEntityAdapter();
 const typesAdapter = createEntityAdapter( {
 	selectId: ( type ) => ( type.slug ),
 } );
@@ -32,7 +31,7 @@ function getAdapter( kind ) {
 	return 'types' === kind ? typesAdapter : objectAdapter;
 }
 
-export const slice = createSlice( {
+export const dataSlice = createSlice( {
 	name: 'generateBlocks/data',
 
 	initialState: {
@@ -82,4 +81,4 @@ export const slice = createSlice( {
 export * from './selectors';
 export * from './actions';
 
-export default slice.reducer;
+export default dataSlice.reducer;

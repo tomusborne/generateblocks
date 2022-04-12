@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import dataSlice from './data/slice';
+import dataReducer from './data/slice';
+import queryLoopReducer from './query-loop/slice';
 
 const rootReducer = combineReducers( {
-	data: dataSlice,
+	data: dataReducer,
+	queryLoop: queryLoopReducer,
 } );
 
 export default configureStore({

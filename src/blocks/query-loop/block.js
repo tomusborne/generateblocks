@@ -6,6 +6,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 import edit from './edit';
 import './editor.scss';
 import withUniqueId from '../../hoc/withUniqueId';
+import withStore from '../../store/withStore';
 
 registerBlockType( 'generateblocks/query-loop', {
 	apiVersion: 2,
@@ -25,7 +26,7 @@ registerBlockType( 'generateblocks/query-loop', {
 		'generateblocks/queryId': 'uniqueId',
 		'generateblocks/inheritQuery': 'inheritQuery',
 	},
-	edit: withUniqueId( edit ),
+	edit: withStore( withUniqueId( edit ) ),
 	save: () => {
 		return (
 			<InnerBlocks.Content />

@@ -39,8 +39,7 @@ export default function LoopRenderer( props ) {
 	const {
 		data,
 		hasData,
-		isResolvingData,
-		hasResolvedData,
+		dataStatus,
 		templateLock,
 		contextCallback,
 		innerBlocks,
@@ -54,11 +53,11 @@ export default function LoopRenderer( props ) {
 		[ data, hasData ]
 	);
 
-	if ( isResolvingData ) {
+	if ( 'pending' === dataStatus ) {
 		return ( <Spinner /> );
 	}
 
-	if ( hasResolvedData && ! hasData ) {
+	if ( 'fulfilled' === dataStatus && ! hasData ) {
 		return ( <h5>{ __( 'No results found.', 'generateblocks' ) }</h5> );
 	}
 
