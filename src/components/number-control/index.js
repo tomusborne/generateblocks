@@ -118,7 +118,10 @@ export default function NumberControl( props ) {
 							return (
 								<Button
 									key={ index }
-									isPrimary={ presetValue === attributes[ attributeNames.value ] || presetValue === defaultPlaceholder }
+									isPrimary={
+										presetValue === attributes[ attributeNames.value ] ||
+										( presetValue === defaultPlaceholder && ! hasNumericValue( attributes[ attributeNames.value ] ) )
+									}
 									onClick={ () => {
 										if ( attributes[ attributeNames.value ] !== presetValue ) {
 											setAttributes( {
