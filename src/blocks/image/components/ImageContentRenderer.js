@@ -81,10 +81,10 @@ export default function ImageContentRenderer( props ) {
 
 	const currentImage = getDynamicImage( props );
 	const dynamicImageUrl = getMediaUrl( currentImage, sizeSlug );
-	const imageUrl = isDynamicContent ? dynamicImageUrl : attributes.mediaUrl;
-	const altText = isDynamicContent ? currentImage?.alt_text : attributes.alt;
-	const titleText = isDynamicContent ? currentImage?.title?.rendered : attributes.title;
-	const captionText = isDynamicContent ? currentImage?.caption?.rendered : attributes.caption;
+	const imageUrl = isDynamicContent && contentType ? dynamicImageUrl : attributes.mediaUrl;
+	const altText = isDynamicContent && contentType ? currentImage?.alt_text : attributes.alt;
+	const titleText = isDynamicContent && contentType ? currentImage?.title?.rendered : attributes.title;
+	const captionText = isDynamicContent && contentType ? currentImage?.caption?.rendered : attributes.caption;
 
 	let htmlAttributes = {
 		className: classnames( {

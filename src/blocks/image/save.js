@@ -19,9 +19,10 @@ export default ( { attributes } ) => {
 		isDynamicContent,
 		width,
 		height,
+		contentType,
 	} = attributes;
 
-	if ( isDynamicContent || ! mediaUrl ) {
+	if ( ( isDynamicContent && contentType ) || ! mediaUrl ) {
 		return <InnerBlocks.Content />;
 	}
 

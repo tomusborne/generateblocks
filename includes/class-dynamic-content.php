@@ -869,7 +869,8 @@ class GenerateBlocks_Dynamic_Content {
 		foreach ( $html_nodes as $node ) {
 			if (
 				strpos( $node->getAttribute( 'class' ), 'gb-button-text' ) !== false ||
-				strpos( $node->getAttribute( 'class' ), 'gb-headline-text' ) !== false
+				strpos( $node->getAttribute( 'class' ), 'gb-headline-text' ) !== false ||
+				strpos( $node->getAttribute( 'class' ), 'gb-block-image' ) !== false
 			) {
 				// phpcs:ignore -- DOMDocument doesn't use snake-case.
 				foreach ( $node->childNodes as $childNode ) {
