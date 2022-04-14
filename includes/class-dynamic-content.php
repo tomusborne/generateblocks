@@ -112,7 +112,66 @@ class GenerateBlocks_Dynamic_Content {
 	 * @return string
 	 */
 	public static function get_post_excerpt( $attributes ) {
-		return get_the_excerpt( self::get_source_id( $attributes ) );
+		$filter_excerpt_length = function( $length ) use ( $attributes ) {
+			return isset( $attributes['excerptLength'] ) ? $attributes['excerptLength'] : $length;
+		};
+
+		add_filter(
+			'excerpt_length',
+			$filter_excerpt_length,
+			100
+		);
+
+		if ( isset( $attributes['useDefaultMoreLink'] ) && ! $attributes['useDefaultMoreLink'] ) {
+			$filter_more_text = function() use ( $attributes ) {
+				if ( empty( $attributes['customMoreLinkText'] ) ) {
+					return ' ...';
+				}
+
+				return apply_filters(
+					'generateblocks_dynamic_excerpt_more_link',
+					sprintf(
+						' ... <a class="gb-dynamic-read-more" href="%1$s" aria-label="%3$s">%2$s</a>',
+						esc_url( get_permalink( get_the_ID() ) ),
+						wp_kses_post( $attributes['customMoreLinkText'] ),
+						sprintf(
+							/* translators: Aria-label describing the read more button */
+							_x( 'More on %s', 'more on post title', 'gp-premium' ),
+							the_title_attribute( 'echo=0' )
+						)
+					)
+				);
+			};
+
+			add_filter(
+				'excerpt_more',
+				$filter_more_text,
+				100
+			);
+		}
+
+		$excerpt = apply_filters(
+			'the_excerpt', // phpcs:ignore -- Core filter.
+			get_the_excerpt( self::get_source_id( $attributes ) )
+		);
+
+		if ( isset( $filter_excerpt_length ) ) {
+			remove_filter(
+				'excerpt_length',
+				$filter_excerpt_length,
+				100
+			);
+		}
+
+		if ( isset( $filter_more_text ) ) {
+			remove_filter(
+				'excerpt_more',
+				$filter_more_text,
+				100
+			);
+		}
+
+		return $excerpt;
 	}
 
 	/**

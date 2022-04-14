@@ -60,6 +60,7 @@ function generateblocks_do_block_editor_assets() {
 			'imageSizes' => $image_sizes,
 			'svgShapes' => generateblocks_get_svg_shapes(),
 			'syncResponsivePreviews' => generateblocks_get_option( 'sync_responsive_previews' ),
+			'excerptLength' => apply_filters( 'excerpt_length', 55 ), // phpcs:ignore -- Core filter.
 		)
 	);
 

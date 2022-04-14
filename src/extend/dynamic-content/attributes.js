@@ -83,4 +83,19 @@ export default {
 		type: 'string',
 		default: '',
 	},
+
+	useDefaultMoreLink: {
+		type: 'boolean',
+		default: true,
+	},
+
+	customMoreLinkText: {
+		type: 'string',
+		default: '',
+	},
+
+	excerptLength: {
+		type: 'number',
+		default: generateBlocksInfo.excerptLength,
+	},
 };
