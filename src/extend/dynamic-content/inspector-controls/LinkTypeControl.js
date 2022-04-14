@@ -3,7 +3,7 @@ import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 import { TextControl } from '@wordpress/components';
 
-const getOptions = ( contentType, isPagination = false ) => {
+const getOptions = ( contentType, isPagination = false, name ) => {
 	let defaultOptions = [
 		{ value: '', label: __( 'Select…', 'generateblocks' ) },
 		{ value: 'single-post', label: __( 'Single post', 'generateblocks' ) },
@@ -32,6 +32,12 @@ const getOptions = ( contentType, isPagination = false ) => {
 		}
 	}
 
+	if ( 'generateblocks/image' === name ) {
+		defaultOptions.splice( 2, 0, {
+			value: 'single-image', label: __( 'Single image', 'generateblocks' ),
+		} );
+	}
+
 	return applyFilters(
 		'generateblocks.editor.dynamicContent.linkTypes',
 		defaultOptions,
@@ -39,8 +45,16 @@ const getOptions = ( contentType, isPagination = false ) => {
 	);
 };
 
-export default ( { linkType, linkMetaFieldName, contentType, setAttributes, isPagination, isActive } ) => {
-	const options = getOptions( contentType, isPagination );
+export default ( {
+	linkType,
+	linkMetaFieldName,
+	contentType,
+	setAttributes,
+	isPagination,
+	isActive,
+	name,
+} ) => {
+	const options = getOptions( contentType, isPagination, name );
 
 	if ( options.length === 0 ) {
 		return null;
