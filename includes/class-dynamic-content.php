@@ -477,10 +477,6 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		if ( isset( $attributes['contentType'] ) ) {
-			if ( 'featured-image' === $attributes['contentType'] ) {
-				$id = get_post_thumbnail_id( $id );
-			}
-
 			if ( 'caption' === $attributes['contentType'] ) {
 				if ( isset( $attributes['dynamicImage'] ) ) {
 					$id = $attributes['dynamicImage'];
@@ -532,6 +528,10 @@ class GenerateBlocks_Dynamic_Content {
 		if ( ! empty( $attributes['contentType'] ) ) {
 			if ( 'post-meta' === $attributes['contentType'] ) {
 				$id = self::get_post_meta( $attributes );
+			}
+
+			if ( 'featured-image' === $attributes['contentType'] ) {
+				$id = get_post_thumbnail_id( $id );
 			}
 		}
 
