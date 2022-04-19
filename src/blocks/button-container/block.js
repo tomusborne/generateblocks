@@ -34,6 +34,7 @@ registerBlockType( 'generateblocks/button-container', {
 	attributes: blockAttributes,
 	supports: {
 		className: false,
+		html: false,
 	},
 	edit: editButtonContainer,
 	save: () => {

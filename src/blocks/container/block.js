@@ -36,6 +36,7 @@ registerBlockType( 'generateblocks/container', {
 	supports: {
 		align: false,
 		className: false,
+		html: false,
 	},
 	edit: containerEdit,
 	save: () => {
