@@ -1,22 +1,19 @@
 import { TextControl } from '@wordpress/components';
-import { useDebounce } from 'use-debounce';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
+import useDebounceState from '../../hooks/useDebounceState';
 
 export default function DebouncedTextControl( props ) {
-	const [ value, setValue ] = useState( props?.value );
-	const [ debouncedValue ] = useDebounce( value, 800 );
+	const [ debounceValue, value, setValue ] = useDebounceState( props?.value, 800 );
 
 	useEffect( () => {
-		props.onChange( debouncedValue );
-	}, [ debouncedValue ] );
+		props.onChange( debounceValue );
+	}, [ debounceValue ] );
 
 	return (
 		<TextControl
 			{ ...props }
 			value={ value }
-			onChange={ ( newValue ) => {
-				setValue( newValue );
-			} }
+			onChange={ setValue }
 		/>
 	);
 }

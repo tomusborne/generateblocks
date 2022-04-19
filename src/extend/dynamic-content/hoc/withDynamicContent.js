@@ -1,6 +1,7 @@
-import { Fragment } from '@wordpress/element';
 import InspectorControls from '../InspectorControls';
 import DynamicRenderer from '../DynamicRenderer';
+import { Provider } from 'react-redux';
+import gbStore from '../../../store';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -13,7 +14,7 @@ export default ( WrappedComponent ) => {
 			} ) : props;
 
 		return (
-			<Fragment>
+			<Provider store={ gbStore }>
 				<WrappedComponent { ...newProps } />
 				<InspectorControls
 					context={ context }
@@ -21,7 +22,7 @@ export default ( WrappedComponent ) => {
 					setAttributes={ setAttributes }
 					name={ name }
 				/>
-			</Fragment>
+			</Provider>
 		);
 	};
 };

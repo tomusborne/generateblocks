@@ -65,7 +65,7 @@ function contentTypeNotSupported( record, attributes ) {
  * @return {string} The post title.
  */
 function getPostTitle( record ) {
-	return record.title.raw || __( 'No post title.', 'generateblocks' );
+	return ( record.title.raw || record.title.rendered ) || __( 'No post title.', 'generateblocks' );
 }
 
 /**

@@ -53,7 +53,7 @@ export default function LoopRenderer( props ) {
 		[ data, hasData ]
 	);
 
-	if ( 'pending' === dataStatus ) {
+	if ( 'pending' === dataStatus || ( 'idle' === dataStatus && ! hasData ) ) {
 		return ( <Spinner /> );
 	}
 

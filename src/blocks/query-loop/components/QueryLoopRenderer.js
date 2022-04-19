@@ -2,9 +2,6 @@ import { useMemo } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import LoopRenderer from './LoopRenderer';
 import { normalizeRepeatableArgs, removeEmpty } from './utils';
-import { store as coreStore } from '@wordpress/core-data';
-import usePostTypeRecords from '../../../hooks/usePostTypeRecords';
-import { useSelector } from 'react-redux';
 import useQueryData from '../hooks/useQueryData';
 
 const TEMPLATE = [

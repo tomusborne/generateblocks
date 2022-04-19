@@ -1,10 +1,10 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
-import usePostRecord from './usePostRecord';
+import usePostTypeRecord from '../../../hooks/usePostTypeRecord';
 
 export default ( attributes ) => {
-	const { postId, postType } = attributes;
+	const { postId, postType, contentType } = attributes;
 
 	if ( ! postType ) {
 		return __( 'Post type not selected.', 'generateblocks' );
@@ -16,12 +16,27 @@ export default ( attributes ) => {
 
 	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
 
-	const recordLoad = 'terms' === attributes.contentType ? [ 'terms' ] : [];
-	const recordLoadOptions = 'terms' === attributes.contentType ? { taxonomy: attributes.termTaxonomy } : {};
+	const relations = [];
 
-	const record = usePostRecord( postType, postId, recordLoad, recordLoadOptions );
+	if ( contentType.startsWith( 'author' ) ) {
+		relations.push( 'author' );
+	}
 
-	if ( ! record ) {
+	if ( contentType.startsWith( 'comments' ) ) {
+		relations.push( 'comments' );
+	}
+
+	if ( 'terms' === contentType ) {
+		relations.push( 'terms.' + attributes.termTaxonomy );
+	}
+
+	const { record, status } = usePostTypeRecord( postType, postId, relations );
+
+	if ( 'pending' === status ) {
+		return __( 'Loading...', 'generateblocks' );
+	}
+
+	if ( ! record && [ 'rejected', 'idle' ].includes( status ) ) {
 		return sprintf(
 			// translators: %1$s: post ID, %2$s: post type.
 			__( 'Post of id #%1$s and post type %2$s was not found.', 'generateblocks' ),

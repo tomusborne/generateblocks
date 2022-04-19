@@ -14,7 +14,7 @@ export default function useQueryData( uniqueId, postType, query ) {
 		if ( !! type?.rest_base ) {
 			dispatch( fetchManyRecords( { kind: type?.rest_base, query, uniqueId } ) );
 		}
-	}, [ JSON.stringify( query ), !! type ] );
+	}, [ JSON.stringify( query ), !! type, uniqueId ] );
 
 	return {
 		data,

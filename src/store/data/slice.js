@@ -8,8 +8,8 @@ import {
 	fetchManyRecords,
 } from './actions';
 
-export const objectAdapter = createEntityAdapter();
-const typesAdapter = createEntityAdapter( {
+export const idAdapter = createEntityAdapter();
+const slugAdapter = createEntityAdapter( {
 	selectId: ( type ) => ( type.slug ),
 } );
 
@@ -27,8 +27,18 @@ function isRejectedAction( action ) {
 	);
 }
 
+function isFulfilledAction( action ) {
+	return (
+		action.type.endsWith( 'fetchMany/fulfilled' ) ||
+		action.type.endsWith( 'fetchOne/fulfilled' )
+	);
+}
+
 function getAdapter( kind ) {
-	return 'types' === kind ? typesAdapter : objectAdapter;
+	return (
+		'types' === kind
+		|| 'taxonomies' === kind
+	) ? slugAdapter : idAdapter;
 }
 
 export const dataSlice = createSlice( {
@@ -36,6 +46,7 @@ export const dataSlice = createSlice( {
 
 	initialState: {
 		loadedObjects: [],
+		relations: {},
 	},
 
 	reducers: {},
@@ -52,9 +63,30 @@ export const dataSlice = createSlice( {
 
 			.addCase( fetchManyRecords.fulfilled, ( state, action ) => {
 				const key = action?.meta?.arg?.kind;
+				const adapterMethod = !! action?.meta?.arg?.setAll
+					? getAdapter( key ).setAll
+					: getAdapter( key ).setMany;
 
-				getAdapter( key ).setMany( state[ key ], action?.payload );
+				adapterMethod( state[ key ], action?.payload );
 				state[ key ].status = 'idle';
+			} )
+
+			.addMatcher( isFulfilledAction, ( state, action ) => {
+				const kind = action?.meta?.arg?.kind;
+				const relationKind = action?.meta?.arg?.relationKind;
+				const relationId = action?.meta?.arg?.relationId;
+				const hasRelation = action?.meta?.arg?.hasRelation || false;
+				const relationKey = `${ relationKind }-${ kind }`;
+
+				if ( hasRelation ) {
+					state.relations = {
+						...state.relations,
+						[ relationKey ]: {
+							...state?.relations[ relationKey ],
+							[ relationId ]: action?.payload?.map( ( item ) => ( item.id ) ),
+						},
+					};
+				}
 			} )
 
 			.addMatcher( isPendingAction, ( state, action ) => {
