@@ -71,10 +71,11 @@ function getPostTitle( record ) {
 /**
  * Returns the post excerpt.
  *
- * @param {Object} record The post object.
+ * @param {Object} record     The post object.
+ * @param {Object} attributes The dynamic content attributes.
  * @return {string} The post excerpt.
  */
-function getPostExcerpt( record ) {
+function getPostExcerpt( record, attributes ) {
 	const {
 		raw: rawExcerpt,
 		rendered: renderedExcerpt,
@@ -85,10 +86,37 @@ function getPostExcerpt( record ) {
 		return __( 'No post excerpt.', 'generateblocks' );
 	}
 
-	const document = new window.DOMParser().parseFromString( renderedExcerpt, 'text/html' );
-	const strippedRenderedExcerpt = document.body.textContent || document.body.innerText || '';
+	const renderedText = ( text ) => new window.DOMParser().parseFromString( text, 'text/html' );
 
-	return rawExcerpt || strippedRenderedExcerpt;
+	const excerptDocument = renderedText( renderedExcerpt );
+	const readMoreDocument = renderedText( generateBlocksInfo.excerptMore );
+
+	// Get stripped except text.
+	const strippedRenderedExcerpt = excerptDocument.body.textContent || excerptDocument.body.innerText || '';
+
+	// Get stripped excerpt more text.
+	let strippedExcerptMore = readMoreDocument.body.textContent || readMoreDocument.body.innerText || '';
+	strippedExcerptMore = strippedExcerptMore.replace( '...', '…' );
+
+	let excerpt = rawExcerpt || strippedRenderedExcerpt;
+	const hasReadMore = excerpt.includes( strippedExcerptMore );
+
+	// Remove more text from excerpt.
+	excerpt = hasReadMore
+		? excerpt.replace( strippedExcerptMore, '' )
+		: excerpt;
+
+	// Apply excerpt length.
+	excerpt = excerpt.split( ' ' ).splice( 0, attributes.excerptLength ).join( ' ' );
+
+	// Re-add more text to excerpt.
+	if ( ! attributes.useDefaultMoreLink ) {
+		excerpt += ' ... ' + '<a href="#">' + attributes.customMoreLinkText + '</a>';
+	} else if ( hasReadMore ) {
+		excerpt += generateBlocksInfo.excerptMore;
+	}
+
+	return excerpt;
 }
 
 /**
