@@ -6,7 +6,8 @@ import RootElement from '../../../components/root-element';
 import IconWrapper from '../../../components/icon-wrapper';
 import Element from '../../../components/element';
 import { useSelect } from '@wordpress/data';
-import { useMemo } from '@wordpress/element';
+import { useEffect, useMemo } from '@wordpress/element';
+import useDebounceState from '../../../hooks/useDebounceState';
 
 export default function HeadlineContentRenderer( props ) {
 	const {
@@ -31,6 +32,12 @@ export default function HeadlineContentRenderer( props ) {
 		contentType,
 		dynamicLinkType,
 	} = attributes;
+
+	const [ debouncedContent, setContentState ] = useDebounceState( content, 500 );
+
+	useEffect( () => {
+		setAttributes( { content: debouncedContent } );
+	}, [ debouncedContent ] );
 
 	let htmlAttributes = {
 		className: classnames( {
@@ -86,7 +93,7 @@ export default function HeadlineContentRenderer( props ) {
 						name={ name }
 						tagName={ tagName }
 						value={ content }
-						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
+						onChange={ setContentState }
 						onSplit={ onSplit( attributes, clientId ) }
 						onReplace={ onReplace }
 						placeholder={ __( 'Headline', 'generateblocks' ) }
