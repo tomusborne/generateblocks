@@ -533,10 +533,6 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		if ( isset( $attributes['contentType'] ) ) {
-			if ( 'featured-image' === $attributes['contentType'] ) {
-				$id = get_post_thumbnail_id( $id );
-			}
-
 			if ( 'caption' === $attributes['contentType'] ) {
 				if ( isset( $attributes['dynamicImage'] ) ) {
 					$id = $attributes['dynamicImage'];
@@ -589,6 +585,10 @@ class GenerateBlocks_Dynamic_Content {
 			if ( 'post-meta' === $attributes['contentType'] ) {
 				$id = self::get_post_meta( $attributes );
 			}
+
+			if ( 'featured-image' === $attributes['contentType'] ) {
+				$id = get_post_thumbnail_id( $id );
+			}
 		}
 
 		return $id;
@@ -637,6 +637,25 @@ class GenerateBlocks_Dynamic_Content {
 
 		if ( 'single-post' === $link_type ) {
 			$url = get_permalink( $id );
+		}
+
+		if ( 'single-image' === $link_type ) {
+			if ( ! empty( $attributes['contentType'] ) ) {
+				$image_id = self::get_dynamic_image_id( $attributes );
+
+				if ( $image_id && ! is_numeric( $image_id ) ) {
+					// Our image ID isn't a number - must be a static URL.
+					return $image_id;
+				}
+			} else {
+				$image_id = ! empty( $attributes['mediaId'] ) ? $attributes['mediaId'] : false;
+			}
+
+			if ( $image_id ) {
+				$url = wp_get_attachment_url( $image_id );
+			} elseif ( ! empty( $attributes['mediaUrl'] ) ) {
+				$url = $attributes['mediaUrl'];
+			}
 		}
 
 		if ( isset( $attributes['linkMetaFieldName'] ) ) {
@@ -906,7 +925,8 @@ class GenerateBlocks_Dynamic_Content {
 		foreach ( $html_nodes as $node ) {
 			if (
 				strpos( $node->getAttribute( 'class' ), 'gb-button-text' ) !== false ||
-				strpos( $node->getAttribute( 'class' ), 'gb-headline-text' ) !== false
+				strpos( $node->getAttribute( 'class' ), 'gb-headline-text' ) !== false ||
+				strpos( $node->getAttribute( 'class' ), 'gb-block-image' ) !== false
 			) {
 				// phpcs:ignore -- DOMDocument doesn't use snake-case.
 				foreach ( $node->childNodes as $childNode ) {

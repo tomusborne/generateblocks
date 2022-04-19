@@ -722,7 +722,9 @@ class GenerateBlocks_Render_Block {
 			return generateblocks_filter_images( $content, $attributes );
 		}
 
-		$image = GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
+		$image = empty( $attributes['contentType'] )
+			? generateblocks_filter_images( GenerateBlocks_Dynamic_Content::get_static_content( $content ), $attributes )
+			: GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
 
 		if ( ! $image ) {
 			return '';

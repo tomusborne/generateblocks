@@ -182,6 +182,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							linkMetaFieldName={ linkMetaFieldName }
 							isPagination={ isPagination }
 							setAttributes={ setAttributes }
+							name={ name }
 						/>
 					</>
 				}
