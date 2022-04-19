@@ -100,7 +100,6 @@ class IconPicker extends Component {
 								setAttributes( {
 									[ this.props[ 'attrIcon' ] ]: '', // eslint-disable-line dot-notation
 									'hasIcon': false, // eslint-disable-line quote-props
-									dynamicIcon: '',
 								} );
 							} }
 						>
