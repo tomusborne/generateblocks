@@ -150,10 +150,7 @@ class GenerateBlocks_Dynamic_Content {
 			);
 		}
 
-		$excerpt = apply_filters(
-			'the_excerpt', // phpcs:ignore -- Core filter.
-			get_the_excerpt( self::get_source_id( $attributes ) )
-		);
+		$excerpt = get_the_excerpt( self::get_source_id( $attributes ) );
 
 		if ( isset( $filter_excerpt_length ) ) {
 			remove_filter(
