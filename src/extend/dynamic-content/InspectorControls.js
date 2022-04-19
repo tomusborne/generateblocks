@@ -11,6 +11,7 @@ import PostMetaControl from './inspector-controls/PostMetaControl';
 import AuthorMetaControl from './inspector-controls/AuthorMetaControl';
 import CommentsControl from './inspector-controls/CommentsControl';
 import TermsControl from './inspector-controls/TermsControl';
+import ExcerptControl from './inspector-controls/ExcerptControl';
 import getIcon from '../../utils/get-icon';
 
 export default ( { context, attributes, setAttributes, name } ) => {
@@ -33,6 +34,9 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		isPagination,
 		isQueryLoopItem,
 		isCaption,
+		excerptLength,
+		useDefaultMoreLink,
+		customMoreLinkText,
 	} = attributes;
 
 	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
@@ -154,6 +158,15 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							termSeparator={ termSeparator }
 							setAttributes={ setAttributes }
 							name={ name }
+						/>
+
+						<ExcerptControl
+							isActive={ 'post-excerpt' === contentType }
+							excerptLength={ excerptLength }
+							useDefaultMoreLink={ useDefaultMoreLink }
+							customMoreLinkText={ customMoreLinkText }
+							setAttributes={ setAttributes }
+							attributes={ attributes }
 						/>
 
 						<LinkTypeControl
