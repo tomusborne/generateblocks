@@ -43,6 +43,7 @@ registerBlockType( 'generateblocks/container', {
 	supports: {
 		align: false,
 		className: false,
+		html: false,
 	},
 	usesContext: [ 'postId', 'postType' ],
 	edit: containerEdit,

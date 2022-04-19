@@ -28,14 +28,14 @@ export default function NumberControl( props ) {
 		attributeName,
 		attributes,
 		setAttributes,
-		units,
+		units = [],
 		unit = 'px',
 		device,
 		presets = [],
 		min = 0,
 		max,
 		step,
-		id,
+		id = attributeName,
 		defaultPlaceholder = '',
 	} = props;
 
@@ -85,7 +85,11 @@ export default function NumberControl( props ) {
 		inputPreferences.some( ( pref ) => pref.includes( attributeName ) );
 
 	return (
-		<BaseControl className="gblocks-number-component">
+		<BaseControl
+			label={ units.length === 0 ? label : null }
+			id={ id }
+			className="gblocks-number-component"
+		>
 			{ units.length > 0 &&
 				<UnitPicker
 					label={ label }
@@ -120,7 +124,10 @@ export default function NumberControl( props ) {
 							return (
 								<Button
 									key={ index }
-									isPrimary={ presetValue === attributes[ attributeNames.value ] || presetValue === defaultPlaceholder }
+									isPrimary={
+										presetValue === attributes[ attributeNames.value ] ||
+										( presetValue === defaultPlaceholder && ! hasNumericValue( attributes[ attributeNames.value ] ) )
+									}
 									onClick={ () => {
 										if ( attributes[ attributeNames.value ] !== presetValue ) {
 											setAttributes( {

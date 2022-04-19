@@ -77,6 +77,28 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.5.0 =
+* New: Add inline background image option
+* New: Add default container width option
+* New: Number component
+* New: Block icons in the editor
+* Fix: Button link redirecting outside editor
+* Fix: Nested block post excerpts
+* Fix: Button block causing window confirm on refresh
+* Fix: Shape panel spacing issues
+* Fix: Headline link hover color in editor
+* Fix: Outer container width in editor
+* Tweak: Full code refactor in the editor
+* Tweak: Move button URL options to toolbar
+* Tweak: Switch all blocks to apiVersion 2
+* Tweak: Require WordPress 5.6
+* Tweak: Rebuild color component
+* Tweak: Rebuild dimensions component
+* Tweak: Rebuild typography component
+* Tweak: Add memory to open editor panels
+* Tweak: Make device buttons sticky
+* Tweak: Improve container width label
+
 = 1.4.2 =
 * Fix: Missing responsive editor styles in Firefox
 
