@@ -86,17 +86,6 @@ class IconPicker extends Component {
 								setAttributes( {
 									'hasIcon': true, // eslint-disable-line quote-props
 								} );
-							} else {
-								setAttributes( {
-									'hasIcon': false, // eslint-disable-line quote-props
-									dynamicIcon: '',
-								} );
-							}
-
-							if ( attributes.isDynamicContent ) {
-								setAttributes( {
-									dynamicIcon: sanitizeSVG( value ),
-								} );
 							}
 						} }
 					/>
