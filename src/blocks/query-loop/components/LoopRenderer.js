@@ -1,4 +1,8 @@
-import { BlockContextProvider, InnerBlocks, __experimentalUseBlockPreview as useBlockPreview } from '@wordpress/block-editor';
+import {
+	BlockContextProvider,
+	InnerBlocks,
+	__experimentalUseBlockPreview as useBlockPreview, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+} from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { memo, useMemo, useState } from '@wordpress/element';
@@ -13,7 +17,7 @@ function BlockPreview( {
 		blocks,
 	} );
 
-	const handleOnClick = () => { setActiveContextId( contextId ) };
+	const handleOnClick = () => setActiveContextId( contextId );
 
 	const style = {
 		display: isHidden ? 'none' : undefined,

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid, react/jsx-no-target-blank */
 export default function AnchorTag( props ) {
 	const {
 		href,
@@ -25,14 +26,18 @@ export default function AnchorTag( props ) {
 	return (
 		<>
 			{ !! href
-				? <a
-					href={ disabled ? undefined : href }
-					target={ openInNewWindow ? '_blank' : undefined }
-					rel={ relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null }
-				>
-					{ children }
-				</a> : children
+				? (
+					<a
+						href={ disabled ? undefined : href }
+						target={ openInNewWindow ? '_blank' : undefined }
+						rel={ relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null }
+					>
+						{ children }
+					</a>
+				) : children
 			}
 		</>
 	);
 }
+
+/* eslint-enable jsx-a11y/anchor-is-valid, react/jsx-no-target-blank */

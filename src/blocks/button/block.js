@@ -56,7 +56,7 @@ registerBlockType( 'generateblocks/button', {
 	save: saveButton,
 	deprecated,
 	usesContext: [ 'postId', 'postType', 'generateblocks/query', 'generateblocks/inheritQuery' ],
-	__experimentalLabel: ( attributes ) => (
-		getContentTypeLabel( attributes, __( 'Button', 'generateblocks' ) )
+	__experimentalLabel: ( attrs ) => (
+		getContentTypeLabel( attrs, __( 'Button', 'generateblocks' ) )
 	),
 } );
