@@ -1,4 +1,4 @@
-import { TextControl, ToggleControl } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
 import SelectPostType from '../../../../../extend/dynamic-content/components/SelectPostType';
 import SimpleSelect from '../../../../../components/simple-select';
 import AuthorsSelect from '../../../../../components/authors-select';
@@ -7,12 +7,13 @@ import RemoveButton from './RemoveButton';
 import TaxonomyParameterControl from '../controls/TaxonomyParameterControl';
 import PostTypeRecordsSelect from '../../../../../components/post-type-records-select';
 import DateTimePicker from '../controls/DateTimePicker';
+import DebouncedTextControl from '../../../../../components/debounced-text-control';
 
 const getParameterControl = ( parameterType ) => {
 	switch ( parameterType ) {
 		case 'text':
 		case 'number':
-			return TextControl;
+			return DebouncedTextControl;
 		case 'postTypeSelect':
 			return SelectPostType;
 		case 'select':

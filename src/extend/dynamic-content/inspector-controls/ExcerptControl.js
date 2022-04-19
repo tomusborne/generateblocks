@@ -1,6 +1,7 @@
-import { TextControl, ToggleControl } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import NumberControl from '../../../components/number-control';
+import DebouncedTextControl from '../../../components/debounced-text-control';
 
 export default function ExcerptControl( props ) {
 	const {
@@ -28,7 +29,7 @@ export default function ExcerptControl( props ) {
 					/>
 
 					{ ! useDefaultMoreLink &&
-						<TextControl
+						<DebouncedTextControl
 							label={ __( 'Custom more link text', 'generateblocks' ) }
 							value={ customMoreLinkText }
 							onChange={ ( value ) => setAttributes( { customMoreLinkText: value } ) }
