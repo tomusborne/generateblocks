@@ -8,7 +8,6 @@ import getMediaUrl from '../../../../utils/get-media-url';
 import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
-import { useEffect } from '@wordpress/element';
 
 export default function ImageSettingsControls( props ) {
 	const {
@@ -73,15 +72,6 @@ export default function ImageSettingsControls( props ) {
 		const sizes = getSettings().imageSizes || [];
 		return sizes.map( ( size ) => ( { value: size.slug, label: size.name } ) );
 	}, [] );
-
-	useEffect( () => {
-		if ( isDynamicContent ) {
-			setAttributes( {
-				width: imageDimensions[ sizeSlug ]?.width || '',
-				height: imageDimensions[ sizeSlug ]?.height || '',
-			} );
-		}
-	}, [ isDynamicContent ] );
 
 	return (
 		<PanelArea
