@@ -488,7 +488,15 @@ class GenerateBlocks_Dynamic_Content {
 		if ( ! empty( $attributes['contentType'] ) ) {
 			if ( 'author-avatar' === $attributes['contentType'] ) {
 				$author_id = self::get_source_author_id( $attributes );
-				return get_avatar( $author_id, $attributes['width'] );
+				return get_avatar(
+					$author_id,
+					$attributes['width'],
+					'',
+					'',
+					array(
+						'class' => 'gb-image-' . $attributes['uniqueId'],
+					)
+				);
 			}
 		}
 
