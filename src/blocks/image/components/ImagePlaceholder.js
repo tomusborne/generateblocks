@@ -15,6 +15,7 @@ export default function ImagePlaceholder( props ) {
 
 	const {
 		width,
+		height,
 	} = attributes;
 
 	const placeholderIllustration = (
@@ -63,6 +64,8 @@ export default function ImagePlaceholder( props ) {
 			position: 'relative',
 			maxWidth: '100%',
 			width,
+			height,
+			minHeight: height ? height : null,
 		} }
 	>{ placeholder }</div>;
 }
