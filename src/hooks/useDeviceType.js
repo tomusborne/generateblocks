@@ -3,7 +3,10 @@ import useLocalStorageState from 'use-local-storage-state';
 
 export default ( initialDeviceType = 'Desktop' ) => {
 	if ( ! generateBlocksInfo || ! generateBlocksInfo.syncResponsivePreviews ) {
-		return useLocalStorageState( initialDeviceType );
+		return useLocalStorageState(
+			'generateblocksDeviceType',
+			{ defaultValue: initialDeviceType },
+		);
 	}
 
 	const {
