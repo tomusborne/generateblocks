@@ -245,10 +245,7 @@ export default function getIcon( icon ) {
 	}
 
 	if ( 'caption' === icon ) {
-		return <svg strokeWidth="1.5" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-			<path d="M7 12h10M7 8h6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" />
-			<path d="M3 20.29V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H7.961a2 2 0 0 0-1.561.75l-2.331 2.914A.6.6 0 0 1 3 20.29Z" fill="none" stroke="currentColor" />
-		</svg>;
+		return <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" viewBox="0 0 32 32"><path fill="currentColor" d="M11.5 13C10.24 13 9 14.213 9 16s1.24 3 2.5 3a2.17 2.17 0 0 0 1.274-.421 1 1 0 1 1 1.164 1.626A4.17 4.17 0 0 1 11.5 21C8.893 21 7 18.632 7 16s1.893-5 4.5-5c.95 0 1.822.326 2.536.867a1 1 0 1 1-1.208 1.594A2.183 2.183 0 0 0 11.5 13Zm7.5 3c0-1.787 1.24-3 2.5-3 .479 0 .934.162 1.328.46a1 1 0 0 0 1.208-1.593A4.182 4.182 0 0 0 21.5 11c-2.607 0-4.5 2.368-4.5 5s1.893 5 4.5 5a4.17 4.17 0 0 0 2.438-.795 1 1 0 1 0-1.164-1.626A2.172 2.172 0 0 1 21.5 19c-1.26 0-2.5-1.213-2.5-3ZM2 8.5A4.5 4.5 0 0 1 6.5 4h19A4.5 4.5 0 0 1 30 8.5v15a4.5 4.5 0 0 1-4.5 4.5h-19A4.5 4.5 0 0 1 2 23.5v-15ZM6.5 6A2.5 2.5 0 0 0 4 8.5v15A2.5 2.5 0 0 0 6.5 26h19a2.5 2.5 0 0 0 2.5-2.5v-15A2.5 2.5 0 0 0 25.5 6h-19Z" /></svg>;
 	}
 
 	if ( 'add-pagination' === icon ) {
