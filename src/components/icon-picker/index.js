@@ -86,6 +86,10 @@ class IconPicker extends Component {
 								setAttributes( {
 									'hasIcon': true, // eslint-disable-line quote-props
 								} );
+							} else {
+								setAttributes( {
+									'hasIcon': false, // eslint-disable-line quote-props
+								} );
 							}
 						} }
 					/>
