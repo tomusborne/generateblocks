@@ -1,6 +1,7 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import PanelArea from '../../../components/panel-area';
 import DimensionsGroup from '../../../components/dimensions-group';
+import ColorGroup from '../../../components/color-group';
 import getIcon from '../../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
 import ImageSettingsControls from './inspector-controls/ImageSettingsControl';
@@ -48,6 +49,34 @@ export default function ImageInspectorControls( props ) {
 								type: 'borderRadius',
 								label: __( 'Border Radius', 'generateblocks' ),
 								units: [ 'px', 'em', '%' ],
+							},
+						]
+					}
+				/>
+			</PanelArea>
+
+			<PanelArea
+				{ ...props }
+				title={ __( 'Colors', 'generateblocks' ) }
+				initialOpen={ false }
+				icon={ getIcon( 'colors' ) }
+				className={ 'gblocks-panel-label' }
+				id={ 'imageColors' }
+				state={ state }
+			>
+				<ColorGroup
+					{ ...props }
+					colors={
+						[
+							{
+								group: 'border',
+								label: __( 'Border', 'generateblocks' ),
+								items: [
+									{
+										attribute: 'borderColor',
+										alpha: true,
+									},
+								],
 							},
 						]
 					}

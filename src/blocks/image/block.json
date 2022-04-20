@@ -93,6 +93,10 @@
 		"objectFitMobile": {
 			"type": "string",
 			"default": ""
+		},
+		"borderColor": {
+			"type": "string",
+			"default": ""
 		}
 	},
   	"usesContext": [ "postId", "postType" ],
