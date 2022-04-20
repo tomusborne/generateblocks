@@ -1,9 +1,9 @@
-import { useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
+import useLocalStorageState from 'use-local-storage-state';
 
 export default ( initialDeviceType = 'Desktop' ) => {
 	if ( ! generateBlocksInfo || ! generateBlocksInfo.syncResponsivePreviews ) {
-		return useState( initialDeviceType );
+		return useLocalStorageState( initialDeviceType );
 	}
 
 	const {
