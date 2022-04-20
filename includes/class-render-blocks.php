@@ -109,7 +109,7 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => array( $this, 'do_button_block' ),
 				'uses_context' => array(
 					'generateblocks/query',
-					'generateblocks/gridId',
+					'generateblocks/queryId',
 					'generateblocks/inheritQuery',
 				),
 			)
@@ -122,7 +122,7 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => array( $this, 'do_image_block' ),
 				'uses_context' => array(
 					'generateblocks/query',
-					'generateblocks/gridId',
+					'generateblocks/queryId',
 					'postType',
 					'postId',
 				),

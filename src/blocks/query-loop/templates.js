@@ -112,6 +112,7 @@ const templates = [
 						{
 							isQueryLoopItem: true,
 							width: 50,
+							widthMobile: 100,
 							backgroundColor: '#fafafa',
 							paddingTop: '20',
 							paddingRight: '20',
