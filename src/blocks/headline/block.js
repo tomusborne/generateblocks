@@ -56,7 +56,7 @@ registerBlockType( 'generateblocks/headline', {
 	transforms,
 	deprecated,
 	usesContext: [ 'postId', 'postType', 'generateblocks/dynamicImage', 'generateblocks/mediaId' ],
-	__experimentalLabel: ( attributes ) => (
-		getContentTypeLabel( attributes, __( 'Headline', 'generateblocks' ) )
+	__experimentalLabel: ( attrs ) => (
+		getContentTypeLabel( attrs, __( 'Headline', 'generateblocks' ) )
 	),
 } );

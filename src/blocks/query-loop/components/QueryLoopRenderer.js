@@ -4,27 +4,6 @@ import LoopRenderer from './LoopRenderer';
 import { normalizeRepeatableArgs, removeEmpty } from './utils';
 import { store as coreStore } from '@wordpress/core-data';
 
-const TEMPLATE = [
-	[ 'generateblocks/container', {
-		isQueryLoopItem: true,
-		width: 100,
-		lock: {
-			remove: true,
-			move: true,
-		},
-	}, [
-		[ 'generateblocks/headline', {
-			isDynamicContent: true,
-			contentType: 'post-title',
-		} ],
-		[ 'generateblocks/headline', {
-			isDynamicContent: true,
-			element: 'p',
-			contentType: 'post-date',
-		} ],
-	] ],
-];
-
 export default function QueryLoopRenderer( props ) {
 	const { clientId, context } = props;
 	const query = context[ 'generateblocks/query' ] || {};
@@ -61,7 +40,6 @@ export default function QueryLoopRenderer( props ) {
 				isResolvingData={ isResolvingData }
 				hasResolvedData={ hasResolvedData }
 				templateLock={ true }
-				template={ TEMPLATE }
 				innerBlocks={ innerBlocks }
 				contextCallback={ ( post ) => ( {
 					postType: post.type,

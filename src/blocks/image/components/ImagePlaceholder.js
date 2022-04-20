@@ -15,8 +15,6 @@ export default function ImagePlaceholder( props ) {
 
 	const {
 		width,
-		mediaId,
-		mediaUrl,
 	} = attributes;
 
 	const placeholderIllustration = (

@@ -31,6 +31,7 @@ function ImageEdit( props ) {
 	const postType = 'post-type' === attributes.dynamicSource ? attributes.postType : context.postType;
 	const postId = 'post-type' === attributes.dynamicSource ? attributes.postId : context.postId;
 
+	// eslint-disable-next-line no-unused-vars
 	const [ featuredImage, setFeaturedImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
 
 	const onSelectImage = ( image ) => {

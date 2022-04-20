@@ -51,11 +51,13 @@ function LinkDropdownContent( props ) {
 	return (
 		<>
 			{ ! isDynamicContent
-				? <URLInput
-					className={ 'gblocks-link-url' }
-					value={ urlValue }
-					onChange={ ( value ) => ( setAttributes( { href: value } ) ) }
-				/>
+				? (
+					<URLInput
+						className={ 'gblocks-link-url' }
+						value={ urlValue }
+						onChange={ ( value ) => ( setAttributes( { href: value } ) ) }
+					/>
+				)
 				: <DisabledInputMessage marginBottom={ !! dynamicLinkType } />
 			}
 

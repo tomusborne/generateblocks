@@ -48,9 +48,7 @@ const withBlockControls = createHigherOrderComponent(
 		let parentGridId = false;
 
 		if ( typeof getBlockParentsByBlockName === 'function' ) {
-			parentGridId =
-				getBlockParentsByBlockName( clientId, 'generateblocks/grid', true )[ 0 ] ||
-				getBlockParentsByBlockName( clientId, 'generateblocks/query-loop', true )[ 0 ];
+			parentGridId = getBlockParentsByBlockName( clientId, 'generateblocks/grid', true )[ 0 ];
 		} else {
 			parentGridId = getBlockRootClientId( clientId );
 		}
