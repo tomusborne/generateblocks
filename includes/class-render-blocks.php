@@ -803,8 +803,6 @@ class GenerateBlocks_Render_Block {
 			return '';
 		}
 
-		$image = GenerateBlocks_Dynamic_Content::get_image_with_dimensions( $image, $settings );
-
 		$output .= $image;
 
 		if ( isset( $block->parsed_block['innerBlocks'][0]['attrs'] ) ) {
