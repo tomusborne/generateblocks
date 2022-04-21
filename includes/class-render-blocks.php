@@ -686,7 +686,10 @@ class GenerateBlocks_Render_Block {
 			);
 
 			if ( $icon_html ) {
-				$output .= $icon_html;
+				if ( 'left' === $settings['iconLocation'] ) {
+					$output .= $icon_html;
+				}
+
 				$output .= '<span class="gb-button-text">';
 			}
 
@@ -698,6 +701,10 @@ class GenerateBlocks_Render_Block {
 
 			if ( $icon_html ) {
 				$output .= '</span>';
+
+				if ( 'right' === $settings['iconLocation'] ) {
+					$output .= $icon_html;
+				}
 			}
 
 			$output .= sprintf(
