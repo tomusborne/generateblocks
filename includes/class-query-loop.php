@@ -96,6 +96,10 @@ class GenerateBlocks_Query_Loop {
 			unset( $query_args['tax_query_exclude'] );
 		}
 
+		if ( isset( $query_args['offset'] ) ) {
+			$query_args[ 'offset' ] = ( $query_args['posts_per_page']  * ( $page - 1 ) ) + $query_args[ 'offset' ];
+		}
+
 		return $query_args;
 	}
 
