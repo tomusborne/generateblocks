@@ -686,7 +686,10 @@ class GenerateBlocks_Render_Block {
 			);
 
 			if ( $icon_html ) {
-				$output .= $icon_html;
+				if ( 'left' === $settings['iconLocation'] ) {
+					$output .= $icon_html;
+				}
+
 				$output .= '<span class="gb-button-text">';
 			}
 
@@ -698,6 +701,10 @@ class GenerateBlocks_Render_Block {
 
 			if ( $icon_html ) {
 				$output .= '</span>';
+
+				if ( 'right' === $settings['iconLocation'] ) {
+					$output .= $icon_html;
+				}
 			}
 
 			$output .= sprintf(
@@ -802,8 +809,6 @@ class GenerateBlocks_Render_Block {
 			// If we've set a dynamic link and don't have one, don't output anything.
 			return '';
 		}
-
-		$image = GenerateBlocks_Dynamic_Content::get_image_with_dimensions( $image, $settings );
 
 		$output .= $image;
 

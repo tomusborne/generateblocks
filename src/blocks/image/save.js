@@ -22,8 +22,12 @@ export default ( { attributes } ) => {
 		contentType,
 	} = attributes;
 
-	if ( ( isDynamicContent && contentType ) || ! mediaUrl ) {
+	if ( isDynamicContent && contentType ) {
 		return <InnerBlocks.Content />;
+	}
+
+	if ( ! mediaUrl ) {
+		return null;
 	}
 
 	let htmlAttributes = {
