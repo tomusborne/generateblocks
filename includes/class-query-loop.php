@@ -96,6 +96,24 @@ class GenerateBlocks_Query_Loop {
 			unset( $query_args['tax_query_exclude'] );
 		}
 
+		if (
+			isset( $query_args['posts_per_page'] ) &&
+			is_numeric( $query_args['posts_per_page'] )
+		) {
+			$per_page = absint( $query_args['posts_per_page'] );
+			$offset   = 0;
+
+			if (
+				isset( $query_args['offset'] ) &&
+				is_numeric( $query_args['offset'] )
+			) {
+				$offset = absint( $query_args['offset'] );
+			}
+
+			$query_args['offset'] = ( $per_page * ( $page - 1 ) ) + $offset;
+			$query_args['posts_per_page'] = $per_page;
+		}
+
 		return $query_args;
 	}
 
