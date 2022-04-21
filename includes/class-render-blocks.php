@@ -548,9 +548,6 @@ class GenerateBlocks_Render_Block {
 				$dynamic_link,
 				$dynamic_content
 			);
-		} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
-			// If we've set a dynamic link and don't have one, don't output anything.
-			return '';
 		}
 
 		$output .= $dynamic_content;
@@ -651,9 +648,6 @@ class GenerateBlocks_Render_Block {
 
 			if ( isset( $content['attributes']['href'] ) || $dynamic_link ) {
 				$tagName = 'a';
-			} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
-				// If we've set a dynamic link and don't have one, don't output anything.
-				return '';
 			}
 
 			$button_attributes = array(
@@ -805,9 +799,6 @@ class GenerateBlocks_Render_Block {
 				trim( $dynamic_link_attributes ),
 				$image
 			);
-		} elseif ( ! empty( $attributes['dynamicLinkType'] ) ) {
-			// If we've set a dynamic link and don't have one, don't output anything.
-			return '';
 		}
 
 		$output .= $image;
