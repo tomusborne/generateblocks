@@ -23,6 +23,8 @@ const contentTypeSelectors = {
 	terms: getPostTerms,
 	'author-avatar': getAuthorAvatar,
 	caption: getCaption,
+	'alt-text': getAltText,
+	description: getDescription,
 };
 
 /**
@@ -361,4 +363,24 @@ function getAuthorAvatar( record ) {
  */
 function getCaption( record ) {
 	return record?.caption?.raw || __( 'Image caption', 'generateblocks' );
+}
+
+/**
+ * Returns the alt text.
+ *
+ * @param {Object} record The post object.
+ * @return {string} The image caption.
+ */
+function getAltText( record ) {
+	return record?.alt_text || __( 'Image alt text', 'generateblocks' );
+}
+
+/**
+ * Returns the description.
+ *
+ * @param {Object} record The post object.
+ * @return {string} The image caption.
+ */
+function getDescription( record ) {
+	return record?.description?.raw || __( 'Image description', 'generateblocks' );
 }
