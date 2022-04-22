@@ -11,6 +11,7 @@ import queryParameterOptions from '../query-parameters';
 import getIcon from '../../../utils/get-icon';
 import { ToggleControl, PanelBody } from '@wordpress/components';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { isEqual } from 'lodash';
 
 export default ( { attributes, setAttributes, clientId } ) => {
 	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer();
@@ -28,7 +29,9 @@ export default ( { attributes, setAttributes, clientId } ) => {
 	}, [] );
 
 	useEffect( () => {
-		setAttributes( { query: queryState } );
+		if ( ! isEmpty( queryState ) && ! isEqual( attributes.query, queryState ) ) {
+			setAttributes( { query: queryState } );
+		}
 	}, [ queryState ] );
 
 	const {
