@@ -1,7 +1,6 @@
 import ImagePlaceholder from './ImagePlaceholder';
 import { useBlockProps } from '@wordpress/block-editor';
 import classnames from 'classnames';
-import { applyFilters } from '@wordpress/hooks';
 import RootElement from '../../../components/root-element';
 import Element from '../../../components/element';
 import Image from './Image';
@@ -16,7 +15,6 @@ export default function ImageContentRenderer( props ) {
 		setAttributes,
 		name,
 		clientId,
-		isSelected,
 		context,
 	} = props;
 
@@ -25,8 +23,6 @@ export default function ImageContentRenderer( props ) {
 		isDynamicContent,
 		contentType,
 		dynamicSource,
-		anchor,
-		dynamicImage, // Injected by DynamicRenderer
 		href,
 		openInNewWindow,
 		relNoFollow,
@@ -34,7 +30,7 @@ export default function ImageContentRenderer( props ) {
 		width,
 		height,
 		sizeSlug,
-		mediaId,
+		className,
 	} = attributes;
 
 	const imageRef = useRef();
@@ -84,24 +80,20 @@ export default function ImageContentRenderer( props ) {
 	const imageUrl = isDynamicContent && contentType ? dynamicImageUrl : attributes.mediaUrl;
 	const altText = isDynamicContent && contentType ? currentImage?.alt_text : attributes.alt;
 	const titleText = isDynamicContent && contentType ? currentImage?.title?.rendered : attributes.title;
-	const captionText = isDynamicContent && contentType ? currentImage?.caption?.rendered : attributes.caption;
 
-	let htmlAttributes = {
+	const figureAttrs = {
 		className: classnames( {
 			'gb-block-image': true,
 			[ `gb-block-image-${ uniqueId }` ]: true,
 		} ),
-		id: anchor ? anchor : null,
 	};
 
-	htmlAttributes = applyFilters(
-		'generateblocks.frontend.htmlAttributes',
-		htmlAttributes,
-		'generateblocks/image',
-		attributes
-	);
+	const blockProps = useBlockProps( figureAttrs );
 
-	const blockProps = useBlockProps( htmlAttributes );
+	// We don't want our className appearing in the figure.
+	if ( blockProps?.className.includes( className ) ) {
+		blockProps.className = blockProps.className.replace( className, '' ).trim();
+	}
 
 	const isDescendentOfQueryLoop = !! context[ 'generateblocks/query' ];
 
@@ -123,24 +115,14 @@ export default function ImageContentRenderer( props ) {
 	};
 
 	const imageProps = {
-		width,
-		height,
 		src: imageUrl,
 		alt: altText,
 		title: titleText,
-		caption: captionText,
-		className: `gb-image-${ uniqueId }`,
-		isDynamic: !! isDynamicContent,
 		setAttributes,
-		isSelected,
 		anchorAttributes,
 		imageRef,
-		naturalWidth,
-		naturalHeight,
 		setLoadedNaturalSize,
-		dynamicImage,
-		isDynamicContent,
-		mediaId,
+		attributes,
 	};
 
 	return (

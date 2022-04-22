@@ -30,31 +30,32 @@ export default ( { attributes } ) => {
 		return null;
 	}
 
-	let htmlAttributes = {
+	const figureAttrs = {
 		className: classnames( {
 			'gb-block-image': true,
 			[ `gb-block-image-${ uniqueId }` ]: true,
 		} ),
-		id: anchor ? anchor : null,
 	};
 
-	htmlAttributes = applyFilters(
+	const htmlAttributes = applyFilters(
 		'generateblocks.frontend.htmlAttributes',
-		htmlAttributes,
+		{
+			className: classnames( {
+				'gb-image': true,
+				[ `gb-image-${ uniqueId }` ]: true,
+			} ),
+			id: anchor ? anchor : null,
+			width,
+			height,
+			src: mediaUrl,
+			alt,
+			title,
+		},
 		'generateblocks/image',
 		attributes
 	);
 
-	const blockProps = useBlockProps.save( htmlAttributes );
-
-	const imageAttributes = removeEmpty( {
-		width,
-		height,
-		src: mediaUrl,
-		alt,
-		title,
-		className: `gb-image-${ uniqueId }`,
-	} );
+	const imageAttributes = removeEmpty( htmlAttributes );
 
 	const anchorAttributes = {
 		href,
@@ -64,9 +65,9 @@ export default ( { attributes } ) => {
 	};
 
 	return (
-		<Element tagName="figure" htmlAttrs={ blockProps }>
+		<Element tagName="figure" htmlAttrs={ figureAttrs }>
 			<AnchorTag { ...anchorAttributes }>
-				<Element tagName="img" htmlAttrs={ imageAttributes } />
+				<Element tagName="img" htmlAttrs={ useBlockProps.save( imageAttributes ) } />
 			</AnchorTag>
 
 			<InnerBlocks.Content />
