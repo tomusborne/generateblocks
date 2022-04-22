@@ -16,6 +16,7 @@ export default function ImagePlaceholder( props ) {
 	const {
 		width,
 		height,
+		isDynamicContent,
 	} = attributes;
 
 	const placeholderIllustration = (
@@ -30,6 +31,12 @@ export default function ImagePlaceholder( props ) {
 		</SVG>
 	);
 
+	let placeholderImage = generateBlocksInfo.imagePlaceholders.standard;
+
+	if ( width && width < 500 && width === height ) {
+		placeholderImage = generateBlocksInfo.imagePlaceholders.square;
+	}
+
 	let placeholder = <MediaPlaceholder
 		labels={ {
 			title: __( 'Image', 'generateblocks' ),
@@ -37,7 +44,7 @@ export default function ImagePlaceholder( props ) {
 		} }
 		icon={ getIcon( 'image' ) }
 		onSelect={ onSelectImage }
-		onSelectURL={ onSelectURL }
+		onSelectURL={ ! isDynamicContent ? onSelectURL : null }
 		onError={ onUploadError }
 		accept="image/*"
 		allowedTypes={ [ 'image' ] }
@@ -56,16 +63,21 @@ export default function ImagePlaceholder( props ) {
 	/>;
 
 	if ( ! canUploadImage ) {
-		placeholder = placeholderIllustration;
+		placeholder = <>
+			<img
+				src={ placeholderImage }
+				alt=""
+				width={ width ? width : 1000 }
+				height={ height ? height : 650 }
+			/>
+			{ placeholderIllustration }
+		</>;
 	}
 
-	return <div className="wp-block-post-featured-image__placeholder"
-		style={ {
-			position: 'relative',
-			maxWidth: '100%',
-			width,
-			height,
-			minHeight: height ? height : null,
-		} }
-	>{ placeholder }</div>;
+	return <div
+		className="gblocks-image__placeholder"
+		style={ { width: ! canUploadImage && width ? width + 'px' : null } }
+	>
+		{ placeholder }
+	</div>;
 }
