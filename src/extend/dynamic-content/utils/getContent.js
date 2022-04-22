@@ -98,7 +98,7 @@ function getPostExcerpt( record, attributes ) {
 	let strippedExcerptMore = readMoreDocument.body.textContent || readMoreDocument.body.innerText || '';
 	strippedExcerptMore = strippedExcerptMore.replace( '...', '…' );
 
-	let excerpt = rawExcerpt || strippedRenderedExcerpt;
+	let excerpt = rawExcerpt.trim() ? rawExcerpt : strippedRenderedExcerpt;
 	const hasReadMore = excerpt.includes( strippedExcerptMore );
 
 	// Remove more text from excerpt.
