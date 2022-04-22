@@ -3,7 +3,7 @@ import { useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
 import usePostRecord from './usePostRecord';
 
-export default ( attributes ) => {
+export default ( attributes, name ) => {
 	const { postId, postType } = attributes;
 
 	if ( ! postType ) {
@@ -20,6 +20,10 @@ export default ( attributes ) => {
 	const recordLoadOptions = 'terms' === attributes.contentType ? { taxonomy: attributes.termTaxonomy } : {};
 
 	const record = usePostRecord( postType, postId, recordLoad, recordLoadOptions );
+
+	if ( 'generateblocks/image' === name && ! record ) {
+		return undefined;
+	}
 
 	if ( ! record ) {
 		return sprintf(

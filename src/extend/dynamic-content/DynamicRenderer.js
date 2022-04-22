@@ -33,7 +33,7 @@ export default function DynamicRenderer( props ) {
 		dynamicLinkType,
 		termSeparator,
 	} = attributesWithContext;
-	const rawContent = useDynamicContent( attributesWithContext );
+	const rawContent = useDynamicContent( attributesWithContext, name );
 
 	const ContentRenderer = getContentRenderer( name );
 
