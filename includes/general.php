@@ -62,6 +62,10 @@ function generateblocks_do_block_editor_assets() {
 			'syncResponsivePreviews' => generateblocks_get_option( 'sync_responsive_previews' ),
 			'excerptLength' => apply_filters( 'excerpt_length', 55 ), // phpcs:ignore -- Core filter.
 			'excerptMore' => apply_filters( 'excerpt_more', ' ' . '[&hellip;]' ), // phpcs:ignore -- Core filter.
+			'imagePlaceholders' => array(
+				'standard' => GENERATEBLOCKS_DIR_URL . 'assets/images/image-placeholder.png',
+				'square' => GENERATEBLOCKS_DIR_URL . 'assets/images/square-image-placeholder.png',
+			),
 		)
 	);
 

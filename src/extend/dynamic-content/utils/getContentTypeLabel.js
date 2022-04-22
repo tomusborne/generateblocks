@@ -12,6 +12,7 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 		isDynamicContent,
 		contentType,
 		dynamicLinkType,
+		isCaption,
 	} = attributes;
 
 	if ( isDynamicContent ) {
@@ -51,6 +52,10 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 		}
 
 		return __( 'Dynamic content', 'generateblocks' );
+	}
+
+	if ( isCaption ) {
+		return __( 'Caption', 'generateblocks' );
 	}
 
 	return defaultLabel;
