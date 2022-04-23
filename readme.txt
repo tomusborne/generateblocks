@@ -78,6 +78,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.4.3 =
+* Fix: Fix error when opening Headline color pickers in WP 6.0
 
 = 1.4.2 =
 * Fix: Missing responsive editor styles in Firefox
