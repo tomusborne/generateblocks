@@ -35,6 +35,7 @@ export default ( attributes, name ) => {
 	}
 
 	const contentAttributes = Object.assign( {}, attributes, { dateFormat: siteFormat } );
+	const forceEmptyMessage = 'generateblocks/image' === name;
 
-	return getContent( attributes.contentType, record, contentAttributes );
+	return getContent( attributes.contentType, record, contentAttributes, forceEmptyMessage );
 };

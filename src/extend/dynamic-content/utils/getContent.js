@@ -33,16 +33,17 @@ const contentTypeSelectors = {
  * @param {string} contentType The content type to select.
  * @param {Object} record      The post object.
  * @param {Object} attributes  The dynamic content attributes.
+ * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The selected content.
  */
-export default function getContent( contentType, record, attributes ) {
+export default function getContent( contentType, record, attributes, emptyNotFoundMessage = false ) {
 	const contentSelector = contentTypeSelectors[ contentType ];
 
 	if ( contentSelector && 'function' === typeof contentSelector ) {
-		return contentSelector( record, attributes );
+		return contentSelector( record, attributes, emptyNotFoundMessage );
 	}
 
-	return contentTypeNotSupported( record, attributes );
+	return contentTypeNotSupported( record, attributes, emptyNotFoundMessage );
 }
 
 /**
@@ -50,14 +51,15 @@ export default function getContent( contentType, record, attributes ) {
  *
  * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
+ * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} Text for non-supported content.
  */
-function contentTypeNotSupported( record, attributes ) {
-	return sprintf(
+function contentTypeNotSupported( record, attributes, emptyNotFoundMessage ) {
+	return ! emptyNotFoundMessage ? sprintf(
 		// translators: %s: Content type.
 		__( 'Content type %s is not supported.', 'generateblocks' ),
 		attributes.contentType
-	);
+	) : undefined;
 }
 
 /**
@@ -160,22 +162,23 @@ function isStringOrNumber( value ) {
  * @param {string} metaField        The meta field name.
  * @param {Object} metaValues       The post meta values.
  * @param {Object} customMetaValues The custom meta values.
+ * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The meta value.
  */
-const getMetaValue = ( metaField, metaValues, customMetaValues ) => {
+const getMetaValue = ( metaField, metaValues, customMetaValues, emptyNotFoundMessage = false ) => {
 	if ( metaValues && metaValues[ metaField ] ) {
 		return isStringOrNumber( metaValues[ metaField ] )
 			? metaValues[ metaField ]
-			: __( 'Meta value not supported.', 'generateblocks' );
+			: ( ! emptyNotFoundMessage ? __( 'Meta value not supported.', 'generateblocks' ) : undefined );
 	}
 
 	if ( customMetaValues && customMetaValues[ metaField ] ) {
 		return isStringOrNumber( customMetaValues[ metaField ] )
 			? customMetaValues[ metaField ]
-			: __( 'Meta value not supported.', 'generateblocks' );
+			: ( ! emptyNotFoundMessage ? __( 'Meta value not supported.', 'generateblocks' ) : undefined );
 	}
 
-	return __( 'No meta value.', 'generateblocks' );
+	return ! emptyNotFoundMessage ? __( 'No meta value.', 'generateblocks' ) : undefined;
 };
 
 /**
@@ -183,10 +186,11 @@ const getMetaValue = ( metaField, metaValues, customMetaValues ) => {
  *
  * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
+ * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The post meta value.
  */
-function getPostMetaValue( record, attributes ) {
-	return getMetaValue( attributes.metaFieldName, record.meta, record.acf );
+function getPostMetaValue( record, attributes, emptyNotFoundMessage = false ) {
+	return getMetaValue( attributes.metaFieldName, record.meta, record.acf, emptyNotFoundMessage );
 }
 
 /**
