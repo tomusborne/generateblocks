@@ -6,6 +6,14 @@
 		& > div {
 			width: calc(50% - 2px);
 		}
+
+		.components-base-control {
+			margin: 0 !important;
+
+			&__field {
+				margin: 0;
+			}
+		}
 	}
 }
 
@@ -14,6 +22,8 @@
 
 	img {
 		vertical-align: middle;
+		max-width: 100%;
+		height: auto;
 	}
 
 	figcaption p {

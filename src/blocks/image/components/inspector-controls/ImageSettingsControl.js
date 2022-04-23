@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../../utils/get-icon';
 import PanelArea from '../../../../components/panel-area';
-import { TextareaControl, TextControl, SelectControl } from '@wordpress/components';
+import { TextareaControl, TextControl, SelectControl, BaseControl } from '@wordpress/components';
 import NumberControl from '../../../../components/number-control';
 import getAttribute from '../../../../utils/get-attribute';
 import getMediaUrl from '../../../../utils/get-media-url';
@@ -56,14 +56,6 @@ export default function ImageSettingsControls( props ) {
 		return mediaId && getMedia( mediaId, { context: 'view' } );
 	}, [ isDynamicContent, mediaId ] );
 
-	const imageDimensions = useSelect( ( select ) => {
-		const {
-			getSettings,
-		} = select( blockEditorStore );
-
-		return getSettings().imageDimensions || [];
-	}, [] );
-
 	const imageSizes = useSelect( ( select ) => {
 		const {
 			getSettings,
@@ -107,8 +99,8 @@ export default function ImageSettingsControls( props ) {
 						 * available sizing options for each sizeSlug.
 						 */
 						if ( isDynamicContent ) {
-							newWidth = imageDimensions[ value ]?.width || '';
-							newHeight = imageDimensions[ value ]?.height || '';
+							newWidth = '';
+							newHeight = '';
 						}
 
 						setAttributes( {
@@ -121,27 +113,31 @@ export default function ImageSettingsControls( props ) {
 			}
 
 			{ showImageDimensions &&
-				<div className="gblocks-image-dimensions__row">
-					<NumberControl
-						{ ...props }
-						label={ __( 'Width', 'generateblocks' ) }
-						id="gblocks-image-width"
-						attributeName="width"
-						device={ deviceType }
-						units={ [ 'px' ] }
-						min="1"
-					/>
+				<BaseControl
+					help={ !! isDynamicContent ? __( 'Dynamic images use their own dimensions unless the above fields are set.', 'generateblocks' ) : '' }
+				>
+					<div className="gblocks-image-dimensions__row">
+						<NumberControl
+							{ ...props }
+							label={ __( 'Width', 'generateblocks' ) }
+							id="gblocks-image-width"
+							attributeName="width"
+							device={ deviceType }
+							units={ [ 'px' ] }
+							min="1"
+						/>
 
-					<NumberControl
-						{ ...props }
-						label={ __( 'Height', 'generateblocks' ) }
-						id="gblocks-image-height"
-						attributeName="height"
-						device={ deviceType }
-						units={ [ 'px' ] }
-						min="1"
-					/>
-				</div>
+						<NumberControl
+							{ ...props }
+							label={ __( 'Height', 'generateblocks' ) }
+							id="gblocks-image-height"
+							attributeName="height"
+							device={ deviceType }
+							units={ [ 'px' ] }
+							min="1"
+						/>
+					</div>
+				</BaseControl>
 			}
 
 			<SelectControl

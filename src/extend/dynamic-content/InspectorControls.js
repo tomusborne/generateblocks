@@ -100,6 +100,13 @@ export default ( { context, attributes, setAttributes, name } ) => {
 					checked={ isDynamicContent }
 					onChange={ ( value ) => {
 						setAttributes( { isDynamicContent: value } );
+
+						if ( value && 'generateblocks/image' === name ) {
+							setAttributes( {
+								width: '',
+								height: '',
+							} );
+						}
 					} }
 				/>
 
