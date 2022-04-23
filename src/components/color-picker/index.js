@@ -188,7 +188,7 @@ export default function ColorPicker( props ) {
 							className="gblocks-color-component-content__palette"
 						>
 							<ColorPalette
-								value={ value }
+								value={ value ? value : '' }
 								onChange={ ( color ) => {
 									onChange( color );
 
