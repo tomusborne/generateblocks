@@ -20,6 +20,7 @@ export default ( { attributes } ) => {
 		width,
 		height,
 		contentType,
+		className,
 	} = attributes;
 
 	if ( isDynamicContent && contentType ) {
@@ -30,12 +31,17 @@ export default ( { attributes } ) => {
 		return null;
 	}
 
-	const figureAttrs = {
+	const figureAttributes = useBlockProps.save( {
 		className: classnames( {
 			'gb-block-image': true,
 			[ `gb-block-image-${ uniqueId }` ]: true,
 		} ),
-	};
+	} );
+
+	// We don't want our className appearing in the figure.
+	if ( figureAttributes?.className.includes( className ) ) {
+		figureAttributes.className = figureAttributes.className.replace( className, '' ).trim();
+	}
 
 	const htmlAttributes = applyFilters(
 		'generateblocks.frontend.htmlAttributes',
@@ -43,6 +49,7 @@ export default ( { attributes } ) => {
 			className: classnames( {
 				'gb-image': true,
 				[ `gb-image-${ uniqueId }` ]: true,
+				[ `${ className }` ]: undefined !== className,
 			} ),
 			id: anchor ? anchor : null,
 			width,
@@ -65,9 +72,9 @@ export default ( { attributes } ) => {
 	};
 
 	return (
-		<Element tagName="figure" htmlAttrs={ figureAttrs }>
+		<Element tagName="figure" htmlAttrs={ figureAttributes }>
 			<AnchorTag { ...anchorAttributes }>
-				<Element tagName="img" htmlAttrs={ useBlockProps.save( imageAttributes ) } />
+				<Element tagName="img" htmlAttrs={ imageAttributes } />
 			</AnchorTag>
 
 			<InnerBlocks.Content />

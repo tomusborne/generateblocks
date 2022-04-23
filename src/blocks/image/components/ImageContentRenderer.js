@@ -81,18 +81,16 @@ export default function ImageContentRenderer( props ) {
 	const altText = isDynamicContent && contentType ? currentImage?.alt_text : attributes.alt;
 	const titleText = isDynamicContent && contentType ? currentImage?.title?.rendered : attributes.title;
 
-	const figureAttrs = {
+	const figureAttributes = useBlockProps( {
 		className: classnames( {
 			'gb-block-image': true,
 			[ `gb-block-image-${ uniqueId }` ]: true,
 		} ),
-	};
-
-	const blockProps = useBlockProps( figureAttrs );
+	} );
 
 	// We don't want our className appearing in the figure.
-	if ( blockProps?.className.includes( className ) ) {
-		blockProps.className = blockProps.className.replace( className, '' ).trim();
+	if ( figureAttributes.className.includes( className ) ) {
+		figureAttributes.className = figureAttributes.className.replace( className, '' ).trim();
 	}
 
 	const isDescendentOfQueryLoop = !! context[ 'generateblocks/query' ];
@@ -130,7 +128,7 @@ export default function ImageContentRenderer( props ) {
 			<BlockControls { ...props } imageUrl={ imageUrl } canUploadImage={ canUploadImage } />
 
 			<RootElement name={ name } clientId={ clientId }>
-				<Element tagName="figure" htmlAttrs={ blockProps }>
+				<Element tagName="figure" htmlAttrs={ figureAttributes }>
 					{ ( !! imageUrl )
 						? <Image { ...imageProps } />
 						: <ImagePlaceholder { ...props } canUploadImage={ canUploadImage } />

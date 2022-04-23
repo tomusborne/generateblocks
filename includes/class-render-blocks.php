@@ -738,17 +738,18 @@ class GenerateBlocks_Render_Block {
 			$defaults['image']
 		);
 
-		$classNames = array(
-			'gb-block-image',
-			'gb-block-image-' . $settings['uniqueId'],
-		);
-
 		$output = sprintf(
 			'<figure %s>',
 			generateblocks_attr(
-				'figure',
+				'image-figure',
 				array(
-					'class' => implode( ' ', $classNames ),
+					'class' => implode(
+						' ',
+						array(
+							'gb-block-image',
+							'gb-block-image-' . $settings['uniqueId'],
+						)
+					),
 				),
 				$settings,
 				$block
