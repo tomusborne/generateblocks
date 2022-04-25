@@ -485,6 +485,20 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
+		$classes = array(
+			'gb-image-' . $attributes['uniqueId'],
+			isset( $attributes['className'] ) ? $attributes['className'] : '',
+		);
+
+		$html_attributes = generateblocks_parse_attr(
+			'image',
+			array(
+				'id' => isset( $attributes['anchor'] ) ? $attributes['anchor'] : null,
+				'class' => implode( ' ', $classes ),
+			),
+			$attributes
+		);
+
 		if ( ! empty( $attributes['contentType'] ) ) {
 			if ( 'author-avatar' === $attributes['contentType'] ) {
 				$author_id = self::get_source_author_id( $attributes );
@@ -493,18 +507,18 @@ class GenerateBlocks_Dynamic_Content {
 					$attributes['width'],
 					'',
 					'',
-					array(
-						'class' => 'gb-image-' . $attributes['uniqueId'],
-					)
+					$html_attributes
 				);
 			}
 		}
 
 		if ( $id && ! is_numeric( $id ) ) {
 			// Our image ID isn't a number - must be a static URL.
+			$html_attributes['src'] = $id;
+
 			return sprintf(
-				'<img src="%1$s" />',
-				$id
+				'<img %s />',
+				$html_attributes
 			);
 		}
 
@@ -512,9 +526,7 @@ class GenerateBlocks_Dynamic_Content {
 			$id,
 			isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full',
 			false,
-			array(
-				'class' => 'gb-image-' . $attributes['uniqueId'],
-			)
+			$html_attributes
 		);
 
 		if ( ! $dynamic_image ) {

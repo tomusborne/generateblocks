@@ -9,7 +9,9 @@ import { useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { store as noticesStore } from '@wordpress/notices';
 import InspectorControls from './components/InspectorControls';
+import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import { useEntityProp } from '@wordpress/core-data';
+import HTMLAnchor from '../../components/html-anchor';
 
 function ImageEdit( props ) {
 	const {
@@ -24,6 +26,7 @@ function ImageEdit( props ) {
 		contentType,
 		sizeSlug,
 		mediaUrl,
+		anchor,
 	} = attributes;
 
 	const [ deviceType ] = useDeviceType( 'Desktop' );
@@ -94,6 +97,10 @@ function ImageEdit( props ) {
 				setAttributes={ setAttributes }
 				deviceType={ deviceType }
 			/>
+
+			<InspectorAdvancedControls>
+				<HTMLAnchor { ...props } anchor={ anchor } />
+			</InspectorAdvancedControls>
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 

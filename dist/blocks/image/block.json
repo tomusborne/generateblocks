@@ -31,11 +31,6 @@
 			"selector": "img",
 			"attribute": "title"
 	  	},
-	  	"caption": {
-			"type": "string",
-			"source": "html",
-			"selector": "figcaption"
-	  	},
 	  	"href": {
 			"type": "string",
 			"source": "attribute",
@@ -97,6 +92,10 @@
 		"borderColor": {
 			"type": "string",
 			"default": ""
+		},
+		"anchor": {
+			"type": "string",
+			"default": ""
 		}
 	},
   	"usesContext": [ "postId", "postType" ],
@@ -104,10 +103,6 @@
 		"className": false,
 		"customClassName": true,
 		"align": [ "left", "right", "center", "wide", "full" ],
-		"html": false,
-		"spacing": {
-	  		"margin": true,
-	  		"padding": true
-		}
+		"html": false
   	}
 }
