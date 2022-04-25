@@ -22,6 +22,13 @@ class GenerateBlocks_Dynamic_Content {
 	private static $instance;
 
 	/**
+	 * For the excerpt we need to keep track of ids to prevent infinite loops.
+	 *
+	 * @var array $source_ids The current post id.
+	 */
+	private static $source_ids = [];
+
+	/**
 	 * Initiator
 	 */
 	public static function get_instance() {
@@ -112,6 +119,13 @@ class GenerateBlocks_Dynamic_Content {
 	 * @return string
 	 */
 	public static function get_post_excerpt( $attributes ) {
+		// This prevents endless loops by not rendering excerpts within themselves.
+		if ( array_search( self::get_source_id( $attributes ), self::$source_ids ) !== false ) {
+			return '';
+		}
+
+		array_push( self::$source_ids, self::get_source_id( $attributes ) );
+
 		$filter_excerpt_length = function( $length ) use ( $attributes ) {
 			return isset( $attributes['excerptLength'] ) ? $attributes['excerptLength'] : $length;
 		};
