@@ -8,7 +8,7 @@ export default ( props ) => {
 
 	const {
 		dynamicImage,
-		isDynamicContent,
+		useDynamicData,
 		bgImageSize,
 	} = attributes;
 
@@ -20,5 +20,5 @@ export default ( props ) => {
 		}
 
 		return dynamicImage;
-	}, [ isDynamicContent, dynamicImage, bgImageSize ] );
+	}, [ useDynamicData, dynamicImage, bgImageSize ] );
 };

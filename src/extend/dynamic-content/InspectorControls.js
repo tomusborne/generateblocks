@@ -18,7 +18,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	const {
 		postType,
 		postId,
-		isDynamicContent,
+		useDynamicData,
 		dynamicSource,
 		contentType,
 		dateType,
@@ -45,7 +45,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	useEffect( () => {
 		if (
 			'generateblocks/container' === name &&
-			isDynamicContent &&
+			useDynamicData &&
 			'' !== contentType &&
 			isQueryLoopItem
 		) {
@@ -62,7 +62,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		if (
 			'generateblocks/headline' === name &&
 			isCaption &&
-			isDynamicContent
+			useDynamicData
 		) {
 			if ( context[ 'generateblocks/mediaId' ] ) {
 				setAttributes( {
@@ -83,7 +83,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	}, [
 		isCaption,
 		context[ 'generateblocks/mediaId' ],
-		isDynamicContent,
+		useDynamicData,
 	] );
 
 	return (
@@ -97,9 +97,9 @@ export default ( { context, attributes, setAttributes, name } ) => {
 			>
 				<ToggleControl
 					label={ __( 'Enable Dynamic Data', 'generateblocks' ) }
-					checked={ isDynamicContent }
+					checked={ useDynamicData }
 					onChange={ ( value ) => {
-						setAttributes( { isDynamicContent: value } );
+						setAttributes( { useDynamicData: value } );
 
 						if ( value && 'generateblocks/image' === name ) {
 							setAttributes( {
@@ -110,7 +110,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 					} }
 				/>
 
-				{ isDynamicContent &&
+				{ useDynamicData &&
 					<>
 						<DynamicSourceControl
 							dynamicSource={ dynamicSource }

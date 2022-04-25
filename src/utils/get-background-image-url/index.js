@@ -7,7 +7,7 @@ export default function getBackgroundImageUrl( props ) {
 
 	const {
 		bgImage,
-		isDynamicContent,
+		useDynamicData,
 		contentType,
 		bgImageSize,
 	} = attributes;
@@ -15,7 +15,7 @@ export default function getBackgroundImageUrl( props ) {
 	let url = bgImage?.image?.url;
 	const dynamicImage = getDynamicImage( props );
 
-	if ( isDynamicContent && '' !== contentType ) {
+	if ( useDynamicData && '' !== contentType ) {
 		url = getMediaUrl( dynamicImage, bgImageSize );
 	}
 

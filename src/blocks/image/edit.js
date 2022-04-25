@@ -22,7 +22,7 @@ function ImageEdit( props ) {
 	} = props;
 
 	const {
-		isDynamicContent,
+		useDynamicData,
 		contentType,
 		sizeSlug,
 		mediaUrl,
@@ -38,7 +38,7 @@ function ImageEdit( props ) {
 	const [ featuredImage, setFeaturedImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
 
 	const onSelectImage = ( image ) => {
-		if ( ! isDynamicContent ) {
+		if ( ! useDynamicData ) {
 			const imageUrl = image?.sizes[ sizeSlug ]?.url || image?.url;
 
 			setAttributes( {
@@ -69,7 +69,7 @@ function ImageEdit( props ) {
 	};
 
 	const onResetImage = () => {
-		if ( isDynamicContent && 'featured-image' === contentType ) {
+		if ( useDynamicData && 'featured-image' === contentType ) {
 			setFeaturedImage( 0 );
 		}
 

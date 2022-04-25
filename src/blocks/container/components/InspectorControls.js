@@ -89,7 +89,7 @@ export default ( props ) => {
 		orderMobile,
 		align,
 		shapeDividers,
-		isDynamicContent,
+		useDynamicData,
 		contentType,
 	} = attributes;
 
@@ -1286,7 +1286,7 @@ export default ( props ) => {
 						</div>
 					</BaseControl>
 
-					{ isDynamicContent && '' !== contentType &&
+					{ useDynamicData && '' !== contentType &&
 						<Notice
 							className="gblocks-option-notice"
 							status="info"
@@ -1296,11 +1296,11 @@ export default ( props ) => {
 						</Notice>
 					}
 
-					{ ( !! bgImage || ( isDynamicContent && '' !== contentType ) ) && (
+					{ ( !! bgImage || ( useDynamicData && '' !== contentType ) ) && (
 						<Fragment>
 							<ToggleControl
 								label={ __( 'Use inline style', 'generateblocks' ) }
-								disabled={ isDynamicContent && '' !== contentType && isQueryLoopItem }
+								disabled={ useDynamicData && '' !== contentType && isQueryLoopItem }
 								checked={ !! bgImageInline }
 								onChange={ ( nextImageInline ) => {
 									setAttributes( {
@@ -1336,7 +1336,7 @@ export default ( props ) => {
 								<Fragment>
 									{ (
 										( bgImage && bgImage.id ) ||
-										( isDynamicContent && '' !== contentType ) ) &&
+										( useDynamicData && '' !== contentType ) ) &&
 										<SelectControl
 											label={ __( 'Image Size', 'generateblocks' ) }
 											value={ bgImageSize }

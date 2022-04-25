@@ -9,13 +9,13 @@ import { __ } from '@wordpress/i18n';
  */
 export default function getContentTypeLabel( attributes, defaultLabel ) {
 	const {
-		isDynamicContent,
+		useDynamicData,
 		contentType,
 		dynamicLinkType,
 		isCaption,
 	} = attributes;
 
-	if ( isDynamicContent ) {
+	if ( useDynamicData ) {
 		const labels = {
 			'post-title': __( 'Post title', 'generateblocks' ),
 			'post-excerpt': __( 'Post excerpt', 'generateblocks' ),

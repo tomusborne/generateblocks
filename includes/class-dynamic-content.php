@@ -968,7 +968,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array  $settings Block settings.
 	 */
 	public function set_dynamic_background_image( $url, $settings ) {
-		if ( $settings['isDynamicContent'] && '' !== $settings['contentType'] ) {
+		if ( $settings['useDynamicData'] && '' !== $settings['contentType'] ) {
 			$dynamic_image_url = self::get_dynamic_background_image_url( $settings );
 
 			if ( $dynamic_image_url ) {
@@ -985,7 +985,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array $defaults Block defaults.
 	 */
 	public function add_block_defaults( $defaults ) {
-		$defaults['container']['isDynamicContent'] = false;
+		$defaults['container']['useDynamicData'] = false;
 		$defaults['container']['contentType'] = '';
 		$defaults['container']['dynamicLinkType'] = '';
 

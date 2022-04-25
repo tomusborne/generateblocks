@@ -1,5 +1,5 @@
 export default {
-	isDynamicContent: {
+	useDynamicData: {
 		type: 'boolean',
 		default: false,
 	},

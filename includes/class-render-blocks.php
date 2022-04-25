@@ -186,7 +186,7 @@ class GenerateBlocks_Render_Block {
 
 		// Pass the dynamic url to our URL attribute.
 		if ( isset( $settings['url'] ) ) {
-			if ( $settings['isDynamicContent'] && '' !== $settings['dynamicLinkType'] ) {
+			if ( $settings['useDynamicData'] && '' !== $settings['dynamicLinkType'] ) {
 				$attributes['url'] = GenerateBlocks_Dynamic_Content::get_dynamic_url( $settings, $block );
 			}
 		}
@@ -445,7 +445,7 @@ class GenerateBlocks_Render_Block {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function do_headline_block( $attributes, $content, $block ) {
-		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
+		if ( ! isset( $attributes['useDynamicData'] ) || ! $attributes['useDynamicData'] ) {
 			return $content;
 		}
 
@@ -573,7 +573,7 @@ class GenerateBlocks_Render_Block {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function do_button_block( $attributes, $content, $block ) {
-		if ( ! isset( $attributes['isDynamicContent'] ) || ! $attributes['isDynamicContent'] ) {
+		if ( ! isset( $attributes['useDynamicData'] ) || ! $attributes['useDynamicData'] ) {
 			return $content;
 		}
 
@@ -719,7 +719,7 @@ class GenerateBlocks_Render_Block {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function do_image_block( $attributes, $content, $block ) {
-		if ( empty( $attributes['isDynamicContent'] ) ) {
+		if ( empty( $attributes['useDynamicData'] ) ) {
 			return generateblocks_filter_images( $content, $attributes );
 		}
 

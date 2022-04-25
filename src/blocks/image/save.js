@@ -16,14 +16,14 @@ export default ( { attributes } ) => {
 		openInNewWindow,
 		relNoFollow,
 		relSponsored,
-		isDynamicContent,
+		useDynamicData,
 		width,
 		height,
 		contentType,
 		className,
 	} = attributes;
 
-	if ( isDynamicContent && contentType ) {
+	if ( useDynamicData && contentType ) {
 		return <InnerBlocks.Content />;
 	}
 

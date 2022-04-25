@@ -19,7 +19,7 @@ export default function Image( props ) {
 		anchor,
 		mediaId,
 		dynamicImage,
-		isDynamicContent,
+		useDynamicData,
 		className,
 		width,
 		height,
@@ -64,7 +64,7 @@ export default function Image( props ) {
 
 			<BlockContextProvider value={ {
 				'generateblocks/dynamicImage': dynamicImage,
-				'generateblocks/mediaId': ! isDynamicContent ? mediaId : false,
+				'generateblocks/mediaId': ! useDynamicData ? mediaId : false,
 			} }>
 				<InnerBlocks
 					allowedBlocks={ [ 'generateblocks/headline' ] }

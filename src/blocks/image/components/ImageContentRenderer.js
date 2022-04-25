@@ -20,7 +20,7 @@ export default function ImageContentRenderer( props ) {
 
 	const {
 		uniqueId,
-		isDynamicContent,
+		useDynamicData,
 		contentType,
 		dynamicSource,
 		href,
@@ -61,7 +61,7 @@ export default function ImageContentRenderer( props ) {
 	] );
 
 	useEffect( () => {
-		if ( ! isDynamicContent ) {
+		if ( ! useDynamicData ) {
 			if ( ! width ) {
 				setAttributes( { width: naturalWidth } );
 			}
@@ -77,9 +77,9 @@ export default function ImageContentRenderer( props ) {
 
 	const currentImage = getDynamicImage( props );
 	const dynamicImageUrl = getMediaUrl( currentImage, sizeSlug );
-	const imageUrl = isDynamicContent && contentType ? dynamicImageUrl : attributes.mediaUrl;
-	const altText = isDynamicContent && contentType ? currentImage?.alt_text : attributes.alt;
-	const titleText = isDynamicContent && contentType ? currentImage?.title?.rendered : attributes.title;
+	const imageUrl = useDynamicData && contentType ? dynamicImageUrl : attributes.mediaUrl;
+	const altText = useDynamicData && contentType ? currentImage?.alt_text : attributes.alt;
+	const titleText = useDynamicData && contentType ? currentImage?.title?.rendered : attributes.title;
 
 	const figureAttributes = useBlockProps( {
 		className: classnames( {
@@ -96,9 +96,9 @@ export default function ImageContentRenderer( props ) {
 	const isDescendentOfQueryLoop = !! context[ 'generateblocks/query' ];
 
 	const canUploadImage =
-		! isDynamicContent ||
+		! useDynamicData ||
 		(
-			isDynamicContent &&
+			useDynamicData &&
 			'featured-image' === contentType &&
 			'current-post' === dynamicSource &&
 			! isDescendentOfQueryLoop

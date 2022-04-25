@@ -26,19 +26,19 @@ const templates = [
 						},
 						[
 							[ 'generateblocks/headline', {
-								isDynamicContent: true,
+								useDynamicData: true,
 								contentType: 'post-title',
 								dynamicLinkType: 'single-post',
 								marginBottom: '5',
 							} ],
 							[ 'generateblocks/headline', {
-								isDynamicContent: true,
+								useDynamicData: true,
 								element: 'p',
 								contentType: 'post-date',
 								fontSize: 14,
 							} ],
 							[ 'generateblocks/headline', {
-								isDynamicContent: true,
+								useDynamicData: true,
 								element: 'div',
 								contentType: 'post-excerpt',
 							} ],
@@ -73,7 +73,7 @@ const templates = [
 						},
 						[
 							[ 'generateblocks/headline', {
-								isDynamicContent: true,
+								useDynamicData: true,
 								element: 'h2',
 								fontSize: 20,
 								contentType: 'post-title',
@@ -81,7 +81,7 @@ const templates = [
 								marginBottom: '5',
 							} ],
 							[ 'generateblocks/headline', {
-								isDynamicContent: true,
+								useDynamicData: true,
 								element: 'p',
 								marginBottom: '0',
 								contentType: 'post-date',
@@ -125,7 +125,7 @@ const templates = [
 						},
 						[
 							[ 'generateblocks/headline', {
-								isDynamicContent: true,
+								useDynamicData: true,
 								element: 'h2',
 								fontSize: 30,
 								contentType: 'post-title',
@@ -133,14 +133,14 @@ const templates = [
 								marginBottom: '5',
 							} ],
 							[ 'generateblocks/headline', {
-								isDynamicContent: true,
+								useDynamicData: true,
 								element: 'p',
 								marginBottom: '30',
 								contentType: 'post-date',
 								fontSize: 14,
 							} ],
 							[ 'generateblocks/headline', {
-								isDynamicContent: true,
+								useDynamicData: true,
 								element: 'div',
 								contentType: 'post-excerpt',
 							} ],

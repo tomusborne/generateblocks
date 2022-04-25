@@ -22,7 +22,7 @@ export default function getBackgroundImageCSS( type, props ) {
 		gradientColorStopOne,
 		gradientColorStopTwo,
 		gradientDirection,
-		isDynamicContent,
+		useDynamicData,
 		contentType,
 	} = attributes;
 
@@ -54,7 +54,7 @@ export default function getBackgroundImageCSS( type, props ) {
 
 	const backgroundColorValue = hexToRGBA( backgroundColor, backgroundColorOpacity );
 
-	if ( !! bgImage || ( isDynamicContent && '' !== contentType ) ) {
+	if ( !! bgImage || ( useDynamicData && '' !== contentType ) ) {
 		const url = getBackgroundImageUrl( props );
 
 		if ( 'element' === bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {

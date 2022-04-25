@@ -19,7 +19,7 @@ export default ( { clientId, attributes, setAttributes } ) => {
 		target,
 		relNoFollow,
 		relSponsored,
-		isDynamicContent,
+		useDynamicData,
 		dynamicLinkType,
 	} = attributes;
 
@@ -28,7 +28,7 @@ export default ( { clientId, attributes, setAttributes } ) => {
 		position: 'bottom right',
 	};
 
-	const hasDynamicLink = isDynamicContent && dynamicLinkType;
+	const hasDynamicLink = useDynamicData && dynamicLinkType;
 
 	return (
 		<>
@@ -63,7 +63,7 @@ export default ( { clientId, attributes, setAttributes } ) => {
 				</ToolbarGroup>
 
 				<ToolbarGroup>
-					{ ( ! isDynamicContent || hasDynamicLink ) &&
+					{ ( ! useDynamicData || hasDynamicLink ) &&
 						<Dropdown
 							contentClassName="gblocks-button-link-dropdown"
 							popoverProps={ POPOVER_PROPS }
@@ -78,7 +78,7 @@ export default ( { clientId, attributes, setAttributes } ) => {
 							) }
 							renderContent={ () => (
 								<>
-									{ ! isDynamicContent &&
+									{ ! useDynamicData &&
 										<URLInput
 											className={ 'gblocks-button-link' }
 											value={ url }
@@ -90,7 +90,7 @@ export default ( { clientId, attributes, setAttributes } ) => {
 										/>
 									}
 
-									{ !! isDynamicContent &&
+									{ !! useDynamicData &&
 										<div style={ {
 											width: '300px',
 											'font-style': 'italic',
