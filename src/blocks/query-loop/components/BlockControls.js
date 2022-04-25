@@ -29,7 +29,7 @@ export default ( { clientId } ) => {
 				'generateblocks/button',
 				Object.assign( {}, DEFAULT_BUTTON_ATTRIBUTES, generateBlocksStyling.button, {
 					text: __( '1 2 … 10', 'generateblocks' ),
-					contentType: 'pagination-numbers',
+					dynamicContentType: 'pagination-numbers',
 				} ),
 			],
 			[

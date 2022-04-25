@@ -29,7 +29,7 @@ export default function HeadlineContentRenderer( props ) {
 		anchor,
 		removeText,
 		ariaLabel,
-		contentType,
+		dynamicContentType,
 		dynamicLinkType,
 	} = attributes;
 
@@ -64,7 +64,7 @@ export default function HeadlineContentRenderer( props ) {
 		props
 	) ? [] : null;
 
-	const tagName = ( 'terms' !== contentType && !! dynamicLinkType ) ? 'a' : 'span';
+	const tagName = ( 'terms' !== dynamicContentType && !! dynamicLinkType ) ? 'a' : 'span';
 
 	const linkAllowedFormats = useSelect( ( select ) => ( select( 'core/rich-text' ).getFormatTypes() ), [] );
 

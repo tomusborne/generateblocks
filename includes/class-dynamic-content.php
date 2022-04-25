@@ -47,7 +47,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function get_content( $attributes, $block ) {
-		switch ( $attributes['contentType'] ) {
+		switch ( $attributes['dynamicContentType'] ) {
 			case 'post-title':
 				return self::get_post_title( $attributes );
 
@@ -499,8 +499,8 @@ class GenerateBlocks_Dynamic_Content {
 			$attributes
 		);
 
-		if ( ! empty( $attributes['contentType'] ) ) {
-			if ( 'author-avatar' === $attributes['contentType'] ) {
+		if ( ! empty( $attributes['dynamicContentType'] ) ) {
+			if ( 'author-avatar' === $attributes['dynamicContentType'] ) {
 				$author_id = self::get_source_author_id( $attributes );
 				return get_avatar(
 					$author_id,
@@ -555,8 +555,8 @@ class GenerateBlocks_Dynamic_Content {
 			$id = absint( $attributes['postId'] );
 		}
 
-		if ( isset( $attributes['contentType'] ) ) {
-			if ( 'caption' === $attributes['contentType'] ) {
+		if ( isset( $attributes['dynamicContentType'] ) ) {
+			if ( 'caption' === $attributes['dynamicContentType'] ) {
 				if ( isset( $attributes['dynamicImage'] ) ) {
 					$id = $attributes['dynamicImage'];
 				} elseif ( isset( $attributes['postId'] ) ) {
@@ -604,12 +604,12 @@ class GenerateBlocks_Dynamic_Content {
 			return;
 		}
 
-		if ( ! empty( $attributes['contentType'] ) ) {
-			if ( 'post-meta' === $attributes['contentType'] ) {
+		if ( ! empty( $attributes['dynamicContentType'] ) ) {
+			if ( 'post-meta' === $attributes['dynamicContentType'] ) {
 				$id = self::get_post_meta( $attributes );
 			}
 
-			if ( 'featured-image' === $attributes['contentType'] ) {
+			if ( 'featured-image' === $attributes['dynamicContentType'] ) {
 				$id = get_post_thumbnail_id( $id );
 			}
 		}
@@ -631,7 +631,7 @@ class GenerateBlocks_Dynamic_Content {
 			return false;
 		}
 
-		if ( empty( $attributes['contentType'] ) ) {
+		if ( empty( $attributes['dynamicContentType'] ) ) {
 			return;
 		}
 
@@ -663,7 +663,7 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		if ( 'single-image' === $link_type ) {
-			if ( ! empty( $attributes['contentType'] ) ) {
+			if ( ! empty( $attributes['dynamicContentType'] ) ) {
 				$image_id = self::get_dynamic_image_id( $attributes );
 
 				if ( $image_id && ! is_numeric( $image_id ) ) {
@@ -968,7 +968,7 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param array  $settings Block settings.
 	 */
 	public function set_dynamic_background_image( $url, $settings ) {
-		if ( $settings['useDynamicData'] && '' !== $settings['contentType'] ) {
+		if ( $settings['useDynamicData'] && '' !== $settings['dynamicContentType'] ) {
 			$dynamic_image_url = self::get_dynamic_background_image_url( $settings );
 
 			if ( $dynamic_image_url ) {
@@ -986,7 +986,7 @@ class GenerateBlocks_Dynamic_Content {
 	 */
 	public function add_block_defaults( $defaults ) {
 		$defaults['container']['useDynamicData'] = false;
-		$defaults['container']['contentType'] = '';
+		$defaults['container']['dynamicContentType'] = '';
 		$defaults['container']['dynamicLinkType'] = '';
 
 		return $defaults;
@@ -1006,7 +1006,7 @@ class GenerateBlocks_Dynamic_Content {
 			$block_attributes = $inner_block['attrs'];
 
 			// Remove button from count if it has no dynamic content.
-			if ( ! empty( $block_attributes['contentType'] ) && ! self::get_content( $block_attributes, $block ) ) {
+			if ( ! empty( $block_attributes['dynamicContentType'] ) && ! self::get_content( $block_attributes, $block ) ) {
 				$button_count--;
 			}
 		}

@@ -14,7 +14,7 @@ export default {
 		default: false,
 	},
 
-	contentType: {
+	dynamicContentType: {
 		type: 'string',
 		default: '',
 	},

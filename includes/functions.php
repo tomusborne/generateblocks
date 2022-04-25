@@ -480,7 +480,7 @@ function generateblocks_has_background_image( $settings ) {
 	return $settings['bgImage'] ||
 	(
 		$settings['useDynamicData'] &&
-		'' !== $settings['contentType']
+		'' !== $settings['dynamicContentType']
 	);
 }
 

@@ -2,9 +2,9 @@ import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
-const getOptions = ( contentType ) => {
+const getOptions = ( dynamicContentType ) => {
 	const defaultOptions = [
-		{ value: 'current-post', label: 'caption' === contentType
+		{ value: 'current-post', label: 'caption' === dynamicContentType
 			? __( 'Current image', 'generateblocks' )
 			: __( 'Current post', 'generateblocks' ) },
 		{ value: 'post-type', label: __( 'Post type', 'generateblocks' ) },
@@ -16,8 +16,8 @@ const getOptions = ( contentType ) => {
 	);
 };
 
-export default ( { source, onChange, help, contentType } ) => {
-	const options = getOptions( contentType );
+export default ( { source, onChange, help, dynamicContentType } ) => {
+	const options = getOptions( dynamicContentType );
 	const value = options.filter( ( option ) => ( option.value === source ) );
 
 	return (
