@@ -1,32 +1,57 @@
 import { InnerBlocks, BlockContextProvider } from '@wordpress/block-editor';
 import AnchorTag from './AnchorTag';
+import classnames from 'classnames';
+import { applyFilters } from '@wordpress/hooks';
 
 export default function Image( props ) {
 	const {
 		src,
 		alt,
 		title,
-		className,
 		anchorAttributes,
-		width,
-		height,
 		imageRef,
 		setLoadedNaturalSize,
+		attributes,
+	} = props;
+
+	const {
+		uniqueId,
+		anchor,
+		mediaId,
 		dynamicImage,
 		isDynamicContent,
-		mediaId,
-	} = props;
+		className,
+		width,
+		height,
+	} = attributes;
+
+	const htmlAttributes = applyFilters(
+		'generateblocks.frontend.htmlAttributes',
+		{
+			className: classnames( {
+				'gb-image': true,
+				[ `gb-image-${ uniqueId }` ]: true,
+				[ `${ className }` ]: undefined !== className,
+			} ),
+			id: anchor ? anchor : null,
+			width,
+			height,
+			src,
+			alt,
+			title,
+		},
+		'generateblocks/image',
+		attributes
+	);
+
+	/* eslint-disable jsx-a11y/alt-text */
+	// The alt tag below is added via htmlAttributes.
 
 	return (
 		<>
 			<AnchorTag { ...anchorAttributes }>
 				<img
-					width={ width }
-					height={ height }
-					src={ src }
-					alt={ alt }
-					title={ title }
-					className={ className }
+					{ ...htmlAttributes }
 					ref={ imageRef }
 					onLoad={ ( event ) => {
 						setLoadedNaturalSize( {
@@ -48,4 +73,6 @@ export default function Image( props ) {
 			</BlockContextProvider>
 		</>
 	);
+
+	/* eslint-enable jsx-a11y/alt-text */
 }
