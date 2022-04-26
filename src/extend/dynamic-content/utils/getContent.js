@@ -29,8 +29,8 @@ const contentTypeSelectors = {
  * Returns the record content by type.
  *
  * @param {string} dynamicContentType The content type to select.
- * @param {Object} record      The post object.
- * @param {Object} attributes  The dynamic content attributes.
+ * @param {Object} record             The post object.
+ * @param {Object} attributes         The dynamic content attributes.
  * @return {string} The selected content.
  */
 export default function getContent( dynamicContentType, record, attributes ) {
@@ -82,38 +82,64 @@ function getPostExcerpt( record, attributes ) {
 		protected: isProtected,
 	} = record?.excerpt;
 
-	if ( isProtected || ( ! rawExcerpt && ! renderedExcerpt ) ) {
+	const {
+		raw: rawContent,
+		rendered: renderedContent,
+	} = record?.content;
+
+	if ( isProtected || ( ! rawContent && ! renderedContent ) ) {
 		return __( 'No post excerpt.', 'generateblocks' );
 	}
 
+	const buildExcerptFromContent = ( text ) => text
+		.replace( ( /  |\r\n|\n|\r/gm ), ' ' ) // Remove new lines and tabs.
+		.split( ' ' ).filter( ( word ) => '' !== word ) // Create array of words.
+		.splice( 0, ( attributes.excerptLength - 1 ) ) // Trim array to excerpt length (minus 1 as arrays start at 0).
+		.join( ' ' ); // Turn array back into string.
+
+	// Create an excerpt with HTML markup so we can see if the More tag exists
+	// within our excerpt length.
+	const excerptWithMarkup = buildExcerptFromContent( renderedContent );
+	const hasMoreTag = excerptWithMarkup.includes( '<!--more-->' );
+
+	// Remove markup from our content.
 	const renderedText = ( text ) => new window.DOMParser().parseFromString( text, 'text/html' );
-
 	const excerptDocument = renderedText( renderedExcerpt );
+	const contentDocument = renderedText( renderedContent );
 	const readMoreDocument = renderedText( generateBlocksInfo.excerptMore );
-
-	// Get stripped except text.
-	const strippedRenderedExcerpt = excerptDocument.body.textContent || excerptDocument.body.innerText || '';
-
-	// Get stripped excerpt more text.
+	const strippedExcerptContent = excerptDocument.body.textContent || excerptDocument.body.innerText || '';
+	const strippedRenderedContent = contentDocument.body.textContent || contentDocument.body.innerText || '';
 	let strippedExcerptMore = readMoreDocument.body.textContent || readMoreDocument.body.innerText || '';
 	strippedExcerptMore = strippedExcerptMore.replace( '...', '…' );
 
-	let excerpt = rawExcerpt.trim() ? rawExcerpt : strippedRenderedExcerpt;
-	const hasReadMore = excerpt.includes( strippedExcerptMore );
+	// Use excerpt if we have a more tag.
+	let excerpt = hasMoreTag
+		? strippedExcerptContent
+		: strippedRenderedContent;
 
-	// Remove more text from excerpt.
+	// Use manual excerpt if it's set.
+	excerpt = rawExcerpt.trim() ? rawExcerpt : excerpt;
+
+	// Check if we have a read more link by default.
+	const hasReadMore = excerpt.includes( strippedExcerptMore ) || ( ! hasMoreTag && ! rawExcerpt.trim() );
+
+	// Remove more text from excerpt so it doesn't count towards our excerpt length.
 	excerpt = hasReadMore
 		? excerpt.replace( strippedExcerptMore, '' )
 		: excerpt;
 
-	// Apply excerpt length.
-	excerpt = excerpt.split( ' ' ).splice( 0, attributes.excerptLength ).join( ' ' );
+	// Create an excerpt from the content.
+	if ( ! rawExcerpt.trim() && ! hasMoreTag ) {
+		excerpt = buildExcerptFromContent( excerpt );
+	}
 
 	// Re-add more text to excerpt.
-	if ( ! attributes.useDefaultMoreLink ) {
-		excerpt += ' ... ' + '<a href="#">' + attributes.customMoreLinkText + '</a>';
-	} else if ( hasReadMore ) {
-		excerpt += generateBlocksInfo.excerptMore;
+	if ( hasReadMore ) {
+		if ( ! attributes.useDefaultMoreLink ) {
+			excerpt += ' ... ' + '<a href="#">' + attributes.customMoreLinkText + '</a>';
+		} else {
+			excerpt += generateBlocksInfo.excerptMore;
+		}
 	}
 
 	return excerpt;
