@@ -35,11 +35,11 @@ function LinkDropdownContent( props ) {
 		relNoFollow,
 		relSponsored,
 		dynamicLinkType,
-		isDynamicContent,
+		useDynamicData,
 		url,
 	} = attributes;
 
-	const hasDynamicLink = isDynamicContent && dynamicLinkType;
+	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const targetAttribute = 'generateblocks/button' === name
 		? 'target'
 		: 'openInNewWindow';
@@ -50,7 +50,7 @@ function LinkDropdownContent( props ) {
 
 	return (
 		<>
-			{ ! isDynamicContent
+			{ ! useDynamicData
 				? (
 					<URLInput
 						className={ 'gblocks-link-url' }

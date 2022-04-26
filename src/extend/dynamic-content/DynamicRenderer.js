@@ -29,7 +29,7 @@ export default function DynamicRenderer( props ) {
 	const dynamicAttributes = filterAttributes( attributes, Object.keys( dynamicContentAttributes ) );
 	const attributesWithContext = applyContext( context, dynamicAttributes );
 	const {
-		contentType,
+		dynamicContentType,
 		dynamicLinkType,
 		termSeparator,
 	} = attributesWithContext;
@@ -39,9 +39,9 @@ export default function DynamicRenderer( props ) {
 
 	const staticContent = 'generateblocks/headline' === name ? attributes.content : attributes.text;
 
-	let content = !! attributes.contentType ? rawContent : staticContent;
+	let content = !! attributes.dynamicContentType ? rawContent : staticContent;
 
-	if ( !! dynamicLinkType && 'terms' === contentType && 'generateblocks/headline' === name ) {
+	if ( !! dynamicLinkType && 'terms' === dynamicContentType && 'generateblocks/headline' === name ) {
 		content = rawContent
 			.split( termSeparator )
 			.map( ( newContent, idx, fullContent ) => {
@@ -50,7 +50,7 @@ export default function DynamicRenderer( props ) {
 	}
 
 	// Only return first term in buttons for now.
-	if ( 'terms' === contentType && 'generateblocks/button' === name ) {
+	if ( 'terms' === dynamicContentType && 'generateblocks/button' === name ) {
 		content = rawContent.split( termSeparator )[ 0 ];
 	}
 
@@ -64,7 +64,7 @@ export default function DynamicRenderer( props ) {
 	} );
 
 	const newProps = Object.assign( {}, props, {
-		InnerContent: !! attributes.contentType ? RichText.Content : RichText,
+		InnerContent: !! attributes.dynamicContentType ? RichText.Content : RichText,
 		attributes: newAttributes,
 	} );
 

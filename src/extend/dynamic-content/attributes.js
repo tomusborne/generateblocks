@@ -1,5 +1,5 @@
 export default {
-	isDynamicContent: {
+	useDynamicData: {
 		type: 'boolean',
 		default: false,
 	},
@@ -14,7 +14,7 @@ export default {
 		default: false,
 	},
 
-	contentType: {
+	dynamicContentType: {
 		type: 'string',
 		default: '',
 	},

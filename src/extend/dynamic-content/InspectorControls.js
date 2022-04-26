@@ -18,9 +18,9 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	const {
 		postType,
 		postId,
-		isDynamicContent,
+		useDynamicData,
 		dynamicSource,
-		contentType,
+		dynamicContentType,
 		dateType,
 		dateReplacePublished,
 		metaFieldName,
@@ -45,8 +45,8 @@ export default ( { context, attributes, setAttributes, name } ) => {
 	useEffect( () => {
 		if (
 			'generateblocks/container' === name &&
-			isDynamicContent &&
-			'' !== contentType &&
+			useDynamicData &&
+			'' !== dynamicContentType &&
 			isQueryLoopItem
 		) {
 			setAttributes( {
@@ -54,7 +54,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 			} );
 		}
 	}, [
-		contentType,
+		dynamicContentType,
 		isQueryLoopItem,
 	] );
 
@@ -62,28 +62,28 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		if (
 			'generateblocks/headline' === name &&
 			isCaption &&
-			isDynamicContent
+			useDynamicData
 		) {
 			if ( context[ 'generateblocks/mediaId' ] ) {
 				setAttributes( {
 					postId: context[ 'generateblocks/mediaId' ],
 					postType: 'attachment',
 					dynamicSource: 'current-post',
-					contentType: 'caption',
+					dynamicContentType: 'caption',
 				} );
 			} else {
 				setAttributes( {
 					postId: '',
 					postType: 'post',
 					dynamicSource: 'current-post',
-					contentType: 'caption',
+					dynamicContentType: 'caption',
 				} );
 			}
 		}
 	}, [
 		isCaption,
 		context[ 'generateblocks/mediaId' ],
-		isDynamicContent,
+		useDynamicData,
 	] );
 
 	return (
@@ -97,9 +97,9 @@ export default ( { context, attributes, setAttributes, name } ) => {
 			>
 				<ToggleControl
 					label={ __( 'Enable Dynamic Data', 'generateblocks' ) }
-					checked={ isDynamicContent }
+					checked={ useDynamicData }
 					onChange={ ( value ) => {
-						setAttributes( { isDynamicContent: value } );
+						setAttributes( { useDynamicData: value } );
 
 						if ( value && 'generateblocks/image' === name ) {
 							setAttributes( {
@@ -110,32 +110,32 @@ export default ( { context, attributes, setAttributes, name } ) => {
 					} }
 				/>
 
-				{ isDynamicContent &&
+				{ useDynamicData &&
 					<>
 						<DynamicSourceControl
 							dynamicSource={ dynamicSource }
 							postType={ postType }
 							postId={ postId }
 							setAttributes={ setAttributes }
-							contentType={ contentType }
+							dynamicContentType={ dynamicContentType }
 						/>
 
 						<ContentTypeControl
-							contentType={ contentType }
+							dynamicContentType={ dynamicContentType }
 							setAttributes={ setAttributes }
 							name={ name }
 							isCaption={ isCaption }
 						/>
 
 						<PostDateControl
-							isActive={ 'post-date' === contentType }
+							isActive={ 'post-date' === dynamicContentType }
 							dateType={ dateType }
 							dateReplacePublished={ dateReplacePublished }
 							setAttributes={ setAttributes }
 						/>
 
 						<PostMetaControl
-							isActive={ 'post-meta' === contentType }
+							isActive={ 'post-meta' === dynamicContentType }
 							postType={ currentPostType }
 							postId={ currentPostId }
 							metaFieldName={ metaFieldName }
@@ -143,7 +143,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 						/>
 
 						<AuthorMetaControl
-							isActive={ 'author-meta' === contentType }
+							isActive={ 'author-meta' === dynamicContentType }
 							postType={ currentPostType }
 							postId={ currentPostId }
 							metaFieldName={ metaFieldName }
@@ -151,7 +151,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 						/>
 
 						<CommentsControl
-							isActive={ 'comments-number' === contentType }
+							isActive={ 'comments-number' === dynamicContentType }
 							noCommentsText={ noCommentsText }
 							singleCommentText={ singleCommentText }
 							multipleCommentsText={ multipleCommentsText }
@@ -159,7 +159,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 						/>
 
 						<TermsControl
-							isActive={ 'terms' === contentType }
+							isActive={ 'terms' === dynamicContentType }
 							postType={ postType }
 							termTaxonomy={ termTaxonomy }
 							termSeparator={ termSeparator }
@@ -168,7 +168,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 						/>
 
 						<ExcerptControl
-							isActive={ 'post-excerpt' === contentType }
+							isActive={ 'post-excerpt' === dynamicContentType }
 							excerptLength={ excerptLength }
 							useDefaultMoreLink={ useDefaultMoreLink }
 							customMoreLinkText={ customMoreLinkText }
@@ -185,7 +185,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 								)
 							}
 							linkType={ dynamicLinkType }
-							contentType={ contentType }
+							dynamicContentType={ dynamicContentType }
 							linkMetaFieldName={ linkMetaFieldName }
 							isPagination={ isPagination }
 							setAttributes={ setAttributes }

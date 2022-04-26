@@ -9,13 +9,13 @@ import { __ } from '@wordpress/i18n';
  */
 export default function getContentTypeLabel( attributes, defaultLabel ) {
 	const {
-		isDynamicContent,
-		contentType,
+		useDynamicData,
+		dynamicContentType,
 		dynamicLinkType,
 		isCaption,
 	} = attributes;
 
-	if ( isDynamicContent ) {
+	if ( useDynamicData ) {
 		const labels = {
 			'post-title': __( 'Post title', 'generateblocks' ),
 			'post-excerpt': __( 'Post excerpt', 'generateblocks' ),
@@ -43,8 +43,8 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 			'pagination-next': __( 'Next page', 'generateblocks' ),
 		};
 
-		if ( Object.keys( labels ).includes( contentType ) ) {
-			return labels[ contentType ];
+		if ( Object.keys( labels ).includes( dynamicContentType ) ) {
+			return labels[ dynamicContentType ];
 		}
 
 		if ( Object.keys( linkLabels ).includes( dynamicLinkType ) ) {

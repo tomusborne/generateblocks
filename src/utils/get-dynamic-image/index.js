@@ -9,8 +9,8 @@ export default ( props ) => {
 
 	const {
 		dynamicImage,
-		isDynamicContent,
-		contentType,
+		useDynamicData,
+		dynamicContentType,
 		bgImageSize,
 	} = attributes;
 
@@ -18,14 +18,14 @@ export default ( props ) => {
 		const { getMedia } = select( coreStore );
 
 		if (
-			( 'featured-image' === contentType && !! featuredImage ) ||
+			( 'featured-image' === dynamicContentType && !! featuredImage ) ||
 			! isNaN( parseInt( dynamicImage ) )
 		) {
-			const mediaId = 'featured-image' === contentType ? featuredImage : parseInt( dynamicImage );
+			const mediaId = 'featured-image' === dynamicContentType ? featuredImage : parseInt( dynamicImage );
 
 			return getMedia( mediaId, { context: 'view' } );
 		}
 
 		return dynamicImage;
-	}, [ isDynamicContent, dynamicImage, bgImageSize, featuredImage, contentType ] );
+	}, [ useDynamicData, dynamicImage, bgImageSize, featuredImage, dynamicContentType ] );
 };

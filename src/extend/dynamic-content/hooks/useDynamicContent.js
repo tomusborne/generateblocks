@@ -16,8 +16,8 @@ export default ( attributes, name ) => {
 
 	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
 
-	const recordLoad = 'terms' === attributes.contentType ? [ 'terms' ] : [];
-	const recordLoadOptions = 'terms' === attributes.contentType ? { taxonomy: attributes.termTaxonomy } : {};
+	const recordLoad = 'terms' === attributes.dynamicContentType ? [ 'terms' ] : [];
+	const recordLoadOptions = 'terms' === attributes.dynamicContentType ? { taxonomy: attributes.termTaxonomy } : {};
 
 	const record = usePostRecord( postType, postId, recordLoad, recordLoadOptions );
 
@@ -37,5 +37,5 @@ export default ( attributes, name ) => {
 	const contentAttributes = Object.assign( {}, attributes, { dateFormat: siteFormat } );
 	const forceEmptyMessage = 'generateblocks/image' === name;
 
-	return getContent( attributes.contentType, record, contentAttributes, forceEmptyMessage );
+	return getContent( attributes.dynamicContentType, record, contentAttributes, forceEmptyMessage );
 };

@@ -30,14 +30,14 @@ const contentTypeSelectors = {
 /**
  * Returns the record content by type.
  *
- * @param {string} contentType The content type to select.
+ * @param {string} dynamicContentType The content type to select.
  * @param {Object} record      The post object.
  * @param {Object} attributes  The dynamic content attributes.
  * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The selected content.
  */
-export default function getContent( contentType, record, attributes, emptyNotFoundMessage = false ) {
-	const contentSelector = contentTypeSelectors[ contentType ];
+export default function getContent( dynamicContentType, record, attributes, emptyNotFoundMessage = false ) {
+	const contentSelector = contentTypeSelectors[ dynamicContentType ];
 
 	if ( contentSelector && 'function' === typeof contentSelector ) {
 		return contentSelector( record, attributes, emptyNotFoundMessage );
@@ -58,7 +58,7 @@ function contentTypeNotSupported( record, attributes, emptyNotFoundMessage ) {
 	return ! emptyNotFoundMessage ? sprintf(
 		// translators: %s: Content type.
 		__( 'Content type %s is not supported.', 'generateblocks' ),
-		attributes.contentType
+		attributes.dynamicContentType
 	) : undefined;
 }
 
