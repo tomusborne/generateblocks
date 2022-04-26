@@ -9,7 +9,7 @@ export default ( { clientId } ) => {
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 
 	const DEFAULT_BUTTON_ATTRIBUTES = {
-		isDynamicContent: true,
+		useDynamicData: true,
 		isPagination: true,
 	};
 

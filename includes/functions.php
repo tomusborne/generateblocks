@@ -479,7 +479,7 @@ function generateblocks_has_number_value( $value ) {
 function generateblocks_has_background_image( $settings ) {
 	return $settings['bgImage'] ||
 	(
-		$settings['isDynamicContent'] &&
+		$settings['useDynamicData'] &&
 		'' !== $settings['contentType']
 	);
 }

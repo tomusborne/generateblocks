@@ -19,7 +19,7 @@ export default function ImageSettingsControls( props ) {
 	} = props;
 
 	const {
-		isDynamicContent,
+		useDynamicData,
 		mediaId,
 		alt,
 		title,
@@ -54,7 +54,7 @@ export default function ImageSettingsControls( props ) {
 		const { getMedia } = select( coreStore );
 
 		return mediaId && getMedia( mediaId, { context: 'view' } );
-	}, [ isDynamicContent, mediaId ] );
+	}, [ useDynamicData, mediaId ] );
 
 	const imageSizes = useSelect( ( select ) => {
 		const {
@@ -79,7 +79,7 @@ export default function ImageSettingsControls( props ) {
 				'Desktop' === deviceType &&
 				(
 					!! mediaId ||
-					isDynamicContent
+					useDynamicData
 				) &&
 				<SelectControl
 					label={ __( 'Size', 'generateblocks' ) }
@@ -98,7 +98,7 @@ export default function ImageSettingsControls( props ) {
 						 * We can't get specific image data for dynamic images, so we'll use the
 						 * available sizing options for each sizeSlug.
 						 */
-						if ( isDynamicContent ) {
+						if ( useDynamicData ) {
 							newWidth = '';
 							newHeight = '';
 						}
@@ -114,7 +114,7 @@ export default function ImageSettingsControls( props ) {
 
 			{ showImageDimensions &&
 				<BaseControl
-					help={ !! isDynamicContent ? __( 'Dynamic images use their own dimensions unless the above fields are set.', 'generateblocks' ) : '' }
+					help={ !! useDynamicData ? __( 'Dynamic images use their own dimensions unless the above fields are set.', 'generateblocks' ) : '' }
 				>
 					<div className="gblocks-image-dimensions__row">
 						<NumberControl
@@ -176,13 +176,13 @@ export default function ImageSettingsControls( props ) {
 				} }
 			/>
 
-			{ ! isDynamicContent && mediaId &&
+			{ ! useDynamicData && mediaId &&
 				<>
 					<TextareaControl
 						label={ __( 'Alt text (alternative text)', 'generateblocks' ) }
 						help={ __( 'Describe the purpose of the image, leave empty if the image is purely decorative.', 'generateblocks' ) }
-						value={ isDynamicContent ? media?.alt_text : alt }
-						disabled={ isDynamicContent }
+						value={ useDynamicData ? media?.alt_text : alt }
+						disabled={ useDynamicData }
 						onChange={ ( value ) => (
 							setAttributes( { alt: value } )
 						) }
@@ -191,8 +191,8 @@ export default function ImageSettingsControls( props ) {
 					<TextControl
 						label={ __( 'Title attribute', 'generateblocks' ) }
 						help={ __( 'Describe the role of this image on the page.', 'generateblocks' ) }
-						value={ isDynamicContent ? media?.title?.rendered : title }
-						disabled={ isDynamicContent }
+						value={ useDynamicData ? media?.title?.rendered : title }
+						disabled={ useDynamicData }
 						onChange={ ( value ) => (
 							setAttributes( { title: value } )
 						) }

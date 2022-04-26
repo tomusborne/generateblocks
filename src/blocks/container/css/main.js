@@ -72,7 +72,7 @@ export default function MainCSS( props ) {
 		textTransform,
 		shapeDividers,
 		gridId,
-		isDynamicContent,
+		useDynamicData,
 		contentType,
 		bgImageInline,
 	} = attributes;
@@ -89,7 +89,7 @@ export default function MainCSS( props ) {
 		fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 	}
 
-	const hasBgImage = !! bgImage || ( isDynamicContent && '' !== contentType );
+	const hasBgImage = !! bgImage || ( useDynamicData && '' !== contentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
 

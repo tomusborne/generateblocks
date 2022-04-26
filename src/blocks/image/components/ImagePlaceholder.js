@@ -16,7 +16,7 @@ export default function ImagePlaceholder( props ) {
 	const {
 		width,
 		height,
-		isDynamicContent,
+		useDynamicData,
 	} = attributes;
 
 	const placeholderIllustration = (
@@ -44,7 +44,7 @@ export default function ImagePlaceholder( props ) {
 		} }
 		icon={ getIcon( 'image' ) }
 		onSelect={ onSelectImage }
-		onSelectURL={ ! isDynamicContent ? onSelectURL : null }
+		onSelectURL={ ! useDynamicData ? onSelectURL : null }
 		onError={ onUploadError }
 		accept="image/*"
 		allowedTypes={ [ 'image' ] }
