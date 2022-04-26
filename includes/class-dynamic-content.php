@@ -504,6 +504,10 @@ class GenerateBlocks_Dynamic_Content {
 			isset( $attributes['className'] ) ? $attributes['className'] : '',
 		);
 
+		if ( ! empty( $attributes['align'] ) ) {
+			$classes[] = 'align' . $attributes['align'];
+		}
+
 		$html_attributes = generateblocks_parse_attr(
 			'image',
 			array(
