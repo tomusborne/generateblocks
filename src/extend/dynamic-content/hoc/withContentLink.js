@@ -9,13 +9,13 @@ function EmptyLink( { text } ) {
 export default function withContentLink( WrappedComponent ) {
 	return function( props ) {
 		const { attributes, innerContentProps } = props;
-		const { dynamicLinkType, termSeparator, contentType } = attributes;
+		const { dynamicLinkType, termSeparator, dynamicContentType } = attributes;
 
 		if ( ! dynamicLinkType ) {
 			return <WrappedComponent { ...props } />;
 		}
 
-		const newContent = 'terms' === contentType
+		const newContent = 'terms' === dynamicContentType
 			? innerContentProps.value
 				.split( termSeparator )
 				.map( ( content, idx, fullContent ) => {
@@ -37,7 +37,7 @@ export default function withContentLink( WrappedComponent ) {
 
 		const innerProps = Object.assign( {}, innerContentProps, {
 			value: newContent,
-			tagName: 'terms' !== contentType ? 'a' : null,
+			tagName: 'terms' !== dynamicContentType ? 'a' : null,
 			allowedFormats: newFormats,
 		} );
 

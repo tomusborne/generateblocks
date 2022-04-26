@@ -90,11 +90,11 @@ const getOptions = ( name, isCaption ) => {
 	);
 };
 
-export default ( { contentType, setAttributes, name, isCaption } ) => {
+export default ( { dynamicContentType, setAttributes, name, isCaption } ) => {
 	const options = getOptions( name, isCaption );
 	const value = options
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
-		.filter( ( option ) => ( option.value === contentType ) );
+		.filter( ( option ) => ( option.value === dynamicContentType ) );
 
 	const label = 'generateblocks/container' === name
 		? __( 'Background image type', 'generateblocks' )
@@ -109,7 +109,7 @@ export default ( { contentType, setAttributes, name, isCaption } ) => {
 			value={ value }
 			onChange={ ( option ) => {
 				setAttributes( {
-					contentType: option.value,
+					dynamicContentType: option.value,
 					metaFieldName: '',
 				} );
 

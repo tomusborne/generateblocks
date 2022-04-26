@@ -451,7 +451,7 @@ class GenerateBlocks_Render_Block {
 
 		$allow_empty_content = false;
 
-		if ( empty( $attributes['contentType'] ) ) {
+		if ( empty( $attributes['dynamicContentType'] ) ) {
 			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
 
 			if ( ! empty( $attributes['hasIcon'] ) && ! empty( $attributes['removeText'] ) ) {
@@ -582,7 +582,7 @@ class GenerateBlocks_Render_Block {
 		// Add an attribute showing we're working with the Button block.
 		$attributes['isButton'] = true;
 
-		if ( empty( $attributes['contentType'] ) ) {
+		if ( empty( $attributes['dynamicContentType'] ) ) {
 			$dynamic_content = GenerateBlocks_Dynamic_Content::get_static_content( $content );
 
 			if ( ! empty( $attributes['hasIcon'] ) && ! empty( $attributes['removeText'] ) ) {
@@ -723,7 +723,7 @@ class GenerateBlocks_Render_Block {
 			return generateblocks_filter_images( $content, $attributes );
 		}
 
-		$image = empty( $attributes['contentType'] )
+		$image = empty( $attributes['dynamicContentType'] )
 			? generateblocks_filter_images( GenerateBlocks_Dynamic_Content::get_static_content( $content ), $attributes )
 			: GenerateBlocks_Dynamic_Content::get_dynamic_image( $attributes, $block );
 

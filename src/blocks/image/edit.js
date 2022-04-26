@@ -23,7 +23,7 @@ function ImageEdit( props ) {
 
 	const {
 		useDynamicData,
-		contentType,
+		dynamicContentType,
 		sizeSlug,
 		mediaUrl,
 		anchor,
@@ -69,7 +69,7 @@ function ImageEdit( props ) {
 	};
 
 	const onResetImage = () => {
-		if ( useDynamicData && 'featured-image' === contentType ) {
+		if ( useDynamicData && 'featured-image' === dynamicContentType ) {
 			setFeaturedImage( 0 );
 		}
 

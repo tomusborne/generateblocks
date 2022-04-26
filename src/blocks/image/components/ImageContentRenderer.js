@@ -21,7 +21,7 @@ export default function ImageContentRenderer( props ) {
 	const {
 		uniqueId,
 		useDynamicData,
-		contentType,
+		dynamicContentType,
 		dynamicSource,
 		href,
 		openInNewWindow,
@@ -77,9 +77,9 @@ export default function ImageContentRenderer( props ) {
 
 	const currentImage = getDynamicImage( props );
 	const dynamicImageUrl = getMediaUrl( currentImage, sizeSlug );
-	const imageUrl = useDynamicData && contentType ? dynamicImageUrl : attributes.mediaUrl;
-	const altText = useDynamicData && contentType ? currentImage?.alt_text : attributes.alt;
-	const titleText = useDynamicData && contentType ? currentImage?.title?.rendered : attributes.title;
+	const imageUrl = useDynamicData && dynamicContentType ? dynamicImageUrl : attributes.mediaUrl;
+	const altText = useDynamicData && dynamicContentType ? currentImage?.alt_text : attributes.alt;
+	const titleText = useDynamicData && dynamicContentType ? currentImage?.title?.rendered : attributes.title;
 
 	const figureAttributes = useBlockProps( {
 		className: classnames( {
@@ -99,7 +99,7 @@ export default function ImageContentRenderer( props ) {
 		! useDynamicData ||
 		(
 			useDynamicData &&
-			'featured-image' === contentType &&
+			'featured-image' === dynamicContentType &&
 			'current-post' === dynamicSource &&
 			! isDescendentOfQueryLoop
 		);

@@ -19,11 +19,11 @@ export default ( { attributes } ) => {
 		useDynamicData,
 		width,
 		height,
-		contentType,
+		dynamicContentType,
 		className,
 	} = attributes;
 
-	if ( useDynamicData && contentType ) {
+	if ( useDynamicData && dynamicContentType ) {
 		return <InnerBlocks.Content />;
 	}
 
