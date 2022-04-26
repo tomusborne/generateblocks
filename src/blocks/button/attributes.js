@@ -77,9 +77,21 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.button.backgroundColorHoverOpacity,
 	},
+	backgroundColorFocus: {
+		type: 'string',
+		default: generateBlocksDefaults.button.backgroundColorFocus,
+	},
+	backgroundColorFocusOpacity: {
+		type: 'number',
+		default: generateBlocksDefaults.button.backgroundColorFocusOpacity,
+	},
 	textColorHover: {
 		type: 'string',
 		default: generateBlocksDefaults.button.textColorHover,
+	},
+	textColorFocus: {
+		type: 'string',
+		default: generateBlocksDefaults.button.textColorFocus,
 	},
 	borderColor: {
 		type: 'string',
@@ -96,6 +108,14 @@ export default {
 	borderColorHoverOpacity: {
 		type: 'number',
 		default: generateBlocksDefaults.button.borderColorHoverOpacity,
+	},
+	borderColorFocus: {
+		type: 'string',
+		default: generateBlocksDefaults.button.borderColorFocus,
+	},
+	borderColorFocusOpacity: {
+		type: 'number',
+		default: generateBlocksDefaults.button.borderColorFocusOpacity,
 	},
 	fontFamily: {
 		type: 'string',

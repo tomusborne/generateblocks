@@ -107,12 +107,21 @@ function generateblocks_do_block_editor_assets() {
 		);
 
 		$css .= sprintf(
-			'.gb-button.button:active, .gb-button.button:hover, .gb-button.button:focus {
+			'.gb-button.button:hover {
 				background-color: %1$s;
 				color: %2$s;
 			}',
 			$generatepressDefaultStyling['buttonBackgroundHover'],
 			$generatepressDefaultStyling['buttonTextHover']
+		);
+
+		$css .= sprintf(
+			'.gb-button.button:active, .gb-button.button:focus {
+				background-color: %1$s;
+				color: %2$s;
+			}',
+			$generatepressDefaultStyling['buttonBackgroundFocus'],
+			$generatepressDefaultStyling['buttonTextFocus']
 		);
 
 		wp_add_inline_style( 'generateblocks', $css );

@@ -117,6 +117,11 @@ export default ( props ) => {
 											attribute: 'backgroundColorHover',
 											alpha: true,
 										},
+										{
+											tooltip: __( 'Focus', 'generateblocks' ),
+											attribute: 'backgroundColorFocus',
+											alpha: true,
+										},
 									],
 								},
 								{
@@ -129,6 +134,10 @@ export default ( props ) => {
 										{
 											tooltip: __( 'Hover', 'generateblocks' ),
 											attribute: 'textColorHover',
+										},
+										{
+											tooltip: __( 'Focus', 'generateblocks' ),
+											attribute: 'textColorFocus',
 										},
 									],
 								},
@@ -143,6 +152,11 @@ export default ( props ) => {
 										{
 											tooltip: __( 'Hover', 'generateblocks' ),
 											attribute: 'borderColorHover',
+											alpha: true,
+										},
+										{
+											tooltip: __( 'Focus', 'generateblocks' ),
+											attribute: 'borderColorFocus',
 											alpha: true,
 										},
 									],

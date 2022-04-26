@@ -25,7 +25,10 @@ export default class MainCSS extends Component {
 			textColor,
 			backgroundColorHover,
 			backgroundColorHoverOpacity,
+			backgroundColorFocus,
+			backgroundColorFocusOpacity,
 			textColorHover,
+			textColorFocus,
 			fontFamily,
 			fontFamilyFallback,
 			fontWeight,
@@ -56,6 +59,8 @@ export default class MainCSS extends Component {
 			borderColorOpacity,
 			borderColorHover,
 			borderColorHoverOpacity,
+			borderColorFocus,
+			borderColorFocusOpacity,
 			gradient,
 			gradientDirection,
 			gradientColorOne,
@@ -126,12 +131,19 @@ export default class MainCSS extends Component {
 			} );
 		}
 
-		cssObj[ `.block-editor-block-list__block ` + selector + `:hover,
-		.block-editor-block-list__block ` + selector + `:focus,
-		.block-editor-block-list__block ` + selector + `:active` ] = [ {
+		cssObj[ `.block-editor-block-list__block ${ selector }:hover` ] = [ {
 			'background-color': hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),
 			'color': textColorHover, // eslint-disable-line quote-props
 			'border-color': hexToRGBA( borderColorHover, borderColorHoverOpacity ),
+		} ];
+
+		cssObj[
+			`.block-editor-block-list__block ${ selector }:focus,` +
+			`.block-editor-block-list__block ${ selector }:active`
+		] = [ {
+			'background-color': hexToRGBA( backgroundColorFocus, backgroundColorFocusOpacity ),
+			'color': textColorFocus, // eslint-disable-line quote-props
+			'border-color': hexToRGBA( borderColorFocus, borderColorFocusOpacity ),
 		} ];
 
 		cssObj[ '.block-editor-block-list__block ' + selector + ' .gb-icon' ] = [ {

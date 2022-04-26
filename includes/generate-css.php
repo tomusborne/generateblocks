@@ -1017,10 +1017,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'align-items', 'center' );
 				}
 
-				$css->set_selector( '.gb-button-wrapper ' . $selector . ':hover,.gb-button-wrapper ' . $selector . ':active,.gb-button-wrapper ' . $selector . ':focus' );
+				$css->set_selector( ".gb-button-wrapper {$selector}:hover" );
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
 				$css->add_property( 'color', $settings['textColorHover'] );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
+
+				$css->set_selector( ".gb-button-wrapper {$selector}:active, .gb-button-wrapper {$selector}:focus, .gb-button-wrapper {$selector}.current" );
+				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorFocus'], $settings['backgroundColorFocusOpacity'] ) );
+				$css->add_property( 'color', $settings['textColorFocus'] );
+				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorFocus'], $settings['borderColorFocusOpacity'] ) );
 
 				if ( $settings['hasIcon'] ) {
 					$css->set_selector( $selector . ' .gb-icon' );
