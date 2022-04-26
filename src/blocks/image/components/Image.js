@@ -63,7 +63,7 @@ export default function Image( props ) {
 			</AnchorTag>
 
 			<BlockContextProvider value={ {
-				'generateblocks/dynamicImage': parseInt(dynamicImage),
+				'generateblocks/dynamicImage': isDynamicContent ? parseInt( dynamicImage ) : false,
 				'generateblocks/mediaId': ! isDynamicContent ? mediaId : false,
 			} }>
 				<InnerBlocks
