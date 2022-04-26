@@ -34,13 +34,22 @@ export default function MobileCSS( props ) {
 		objectFitMobile,
 		widthMobile,
 		heightMobile,
+		alignmentMobile,
 	} = attributes;
 
 	let cssObj = [];
 
+	const floats = {
+		floatLeft: 'left',
+		floatRight: 'right',
+		floatNone: 'none',
+	};
+
 	cssObj[ '.editor-styles-wrapper .gb-block-image-' + uniqueId ] = [ {
 		margin: shorthandCSS( marginTopMobile, marginRightMobile, marginBottomMobile, marginLeftMobile, marginUnit ),
 		padding: shorthandCSS( paddingTopMobile, paddingRightMobile, paddingBottomMobile, paddingLeftMobile, paddingUnit ),
+		'text-align': ! alignmentMobile.startsWith( 'float' ) ? alignmentMobile : null,
+		float: alignmentMobile.startsWith( 'float' ) ? floats[ alignmentMobile ] : null,
 	} ];
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {

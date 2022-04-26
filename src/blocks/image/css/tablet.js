@@ -33,13 +33,22 @@ export default function TabletCSS( props ) {
 		objectFitTablet,
 		widthTablet,
 		heightTablet,
+		alignmentTablet,
 	} = attributes;
 
 	let cssObj = [];
 
+	const floats = {
+		floatLeft: 'left',
+		floatRight: 'right',
+		floatNone: 'none',
+	};
+
 	cssObj[ '.editor-styles-wrapper .gb-block-image-' + uniqueId ] = [ {
 		margin: shorthandCSS( marginTopTablet, marginRightTablet, marginBottomTablet, marginLeftTablet, marginUnit ),
 		padding: shorthandCSS( paddingTopTablet, paddingRightTablet, paddingBottomTablet, paddingLeftTablet, paddingUnit ),
+		'text-align': ! alignmentTablet.startsWith( 'float' ) ? alignmentTablet : null,
+		float: alignmentTablet.startsWith( 'float' ) ? floats[ alignmentTablet ] : null,
 	} ];
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {

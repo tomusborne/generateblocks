@@ -110,6 +110,7 @@ function ImageEdit( props ) {
 				onSelectURL={ onSelectURL }
 				onUploadError={ onUploadError }
 				onResetImage={ onResetImage }
+				deviceType={ deviceType }
 			/>
 		</>
 	);

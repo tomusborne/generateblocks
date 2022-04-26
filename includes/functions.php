@@ -436,6 +436,26 @@ function generateblocks_get_flexbox_alignment( $value ) {
 }
 
 /**
+ * Return float alignment values.
+ *
+ * @since 1.5.0
+ * @param string $value The value to convert.
+ *
+ * @return string The float alignment value.
+ */
+function generateblocks_get_float_alignment( $value ) {
+	$floats = [
+		'floatLeft' => 'left',
+		'floatRight' => 'right',
+		'floatNone' => 'none',
+	];
+
+	return isset( $floats[ $value ] )
+		? $floats[ $value ]
+		: $value;
+}
+
+/**
  * Get an option from the database.
  *
  * @param string $option The option to get.
