@@ -458,11 +458,17 @@ class GenerateBlocks_Dynamic_Content {
 		$html_nodes = $doc->getElementsByTagName( '*' );
 
 		foreach ( $html_nodes as $index => $node ) {
+			$classes = $node->getAttribute( 'class' ) ? $node->getAttribute( 'class' ) : '';
+
+			if ( $node->getAttribute( 'aria-current' ) ) {
+				$classes = str_replace( 'current', 'gb-button__current', $classes );
+			}
+
 			// phpcs:ignore -- DOMDocument doesn't use snake-case.
 			if ( 'span' === $node->tagName || 'a' === $node->tagName ) {
 				$data[ $index ]['href'] = $node->getAttribute( 'href' ) ? $node->getAttribute( 'href' ) : '';
 				$data[ $index ]['aria-current'] = $node->getAttribute( 'aria-current' ) ? $node->getAttribute( 'aria-current' ) : '';
-				$data[ $index ]['class'] = $node->getAttribute( 'class' ) ? $node->getAttribute( 'class' ) : '';
+				$data[ $index ]['class'] = $classes;
 
 				// phpcs:ignore -- DOMDocument doesn't use snake-case.
 				foreach ( $node->childNodes as $childNode ) {
