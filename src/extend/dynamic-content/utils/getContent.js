@@ -1,5 +1,6 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { dateI18n } from '@wordpress/date';
+import _ from 'lodash';
 
 /**
  * The content type selectors map.
@@ -143,33 +144,17 @@ function getPostDate( record, attributes ) {
 }
 
 /**
- * Check if value is string or number.
- *
- * @param {*} value The value to check.
- * @return {boolean} Whether a value is a string or a number.
- */
-function isStringOrNumber( value ) {
-	return typeof value === 'string' || typeof value === 'number';
-}
-
-/**
  * Returns the meta value of given key.
  *
  * @param {string} metaField        The meta field name.
  * @param {Object} metaValues       The post meta values.
- * @param {Object} customMetaValues The custom meta values.
  * @return {string} The meta value.
  */
-const getMetaValue = ( metaField, metaValues, customMetaValues ) => {
+const getMetaValue = ( metaField, metaValues ) => {
 	if ( metaValues && metaValues[ metaField ] ) {
-		return isStringOrNumber( metaValues[ metaField ] )
-			? metaValues[ metaField ]
-			: __( 'Meta value not supported.', 'generateblocks' );
-	}
-
-	if ( customMetaValues && customMetaValues[ metaField ] ) {
-		return isStringOrNumber( customMetaValues[ metaField ] )
-			? customMetaValues[ metaField ]
+		const value = metaValues[ metaField ];
+		return ( _.isString( value ) || _.isNumber( value ) )
+			? _.toString( value )
 			: __( 'Meta value not supported.', 'generateblocks' );
 	}
 
@@ -184,7 +169,7 @@ const getMetaValue = ( metaField, metaValues, customMetaValues ) => {
  * @return {string} The post meta value.
  */
 function getPostMetaValue( record, attributes ) {
-	return getMetaValue( attributes.metaFieldName, record.meta, record.acf );
+	return getMetaValue( attributes.metaFieldName, record.meta );
 }
 
 /**
@@ -199,7 +184,7 @@ function getAuthorMetaValue( record, attributes ) {
 		return authorNotFound();
 	}
 
-	return getMetaValue( attributes.metaFieldName, record.author.meta, record.author.acf );
+	return getMetaValue( attributes.metaFieldName, record.author.meta );
 }
 
 /**
