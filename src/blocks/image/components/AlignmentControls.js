@@ -11,7 +11,6 @@ import {
 	positionRight,
 	stretchFullWidth,
 	stretchWide,
-	alignNone,
 } from '@wordpress/icons';
 
 export default function AlignmentControls( props ) {
@@ -90,15 +89,6 @@ export default function AlignmentControls( props ) {
 			isActive: 'floatRight' === getAttribute( 'alignment', props ),
 		},
 	];
-
-	if ( 'Desktop' !== deviceType ) {
-		alignmentOptions.push( {
-			icon: alignNone,
-			title: __( 'Float none', 'generateblocks' ),
-			onClick: () => updateAlignment( 'floatNone' ),
-			isActive: 'floatNone' === getAttribute( 'alignment', props ),
-		} );
-	}
 
 	if ( wideControlsEnabled && 'Desktop' === deviceType ) {
 		alignmentOptions.push(

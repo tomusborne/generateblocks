@@ -1666,7 +1666,12 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 				$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 
-				if ( 'floatLeft' === $settings['alignment'] || 'floatRight' === $settings['alignment'] ) {
+				// Set a flag we'll update later if we disable floats.
+				$disable_float = false;
+				$has_desktop_float = 'floatLeft' === $settings['alignment'] || 'floatRight' === $settings['alignment'];
+				$has_tablet_float = 'floatLeft' === $settings['alignmentTablet'] || 'floatRight' === $settings['alignmentTablet'];
+
+				if ( $has_desktop_float ) {
 					$css->add_property( 'float', generateblocks_get_float_alignment( $settings['alignment'] ) );
 				} else {
 					$css->add_property( 'text-align', $settings['alignment'] );
@@ -1687,10 +1692,15 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 				$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 
-				if ( 'floatLeft' === $settings['alignmentTablet'] || 'floatRight' === $settings['alignmentTablet'] || 'floatNone' === $settings['alignmentTablet'] ) {
+				if ( $has_tablet_float ) {
 					$tablet_css->add_property( 'float', generateblocks_get_float_alignment( $settings['alignmentTablet'] ) );
 				} else {
 					$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
+
+					if ( $settings['alignmentTablet'] && $has_desktop_float ) {
+						$tablet_css->add_property( 'float', 'none' );
+						$disable_float = true;
+					}
 				}
 
 				$tablet_css->set_selector( '.gb-image-' . $id );
@@ -1707,10 +1717,21 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 				$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 
-				if ( 'floatLeft' === $settings['alignmentMobile'] || 'floatRight' === $settings['alignmentMobile'] || 'floatNone' === $settings['alignmentMobile'] ) {
+				if ( 'floatLeft' === $settings['alignmentMobile'] || 'floatRight' === $settings['alignmentMobile'] ) {
 					$mobile_css->add_property( 'float', generateblocks_get_float_alignment( $settings['alignmentMobile'] ) );
 				} else {
 					$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
+
+					if (
+						$settings['alignmentMobile'] &&
+						! $disable_float &&
+						(
+							$has_desktop_float ||
+							$has_tablet_float
+						)
+					) {
+						$mobile_css->add_property( 'float', 'none' );
+					}
 				}
 
 				$mobile_css->set_selector( '.gb-image-' . $id );
