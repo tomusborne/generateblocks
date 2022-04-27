@@ -1023,7 +1023,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
 				$css->set_selector( ".gb-button-wrapper {$selector}:active, .gb-button-wrapper {$selector}:focus, .gb-button-wrapper {$selector}.current" );
-				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorFocus'], $settings['backgroundColorFocusOpacity'] ) );
+				$css->add_property( 'background-color', $settings['backgroundColorFocus'] );
 				$css->add_property( 'color', $settings['textColorFocus'] );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorFocus'], $settings['borderColorFocusOpacity'] ) );
 
