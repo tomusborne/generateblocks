@@ -39,7 +39,9 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 	}, [ taxonomy, terms ] );
 
 	const taxonomiesOptions = useMemo( () => (
-		taxonomies.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
+		taxonomies
+			.filter( ( tax ) => ( 'nav_menu' !== tax.slug ) )
+			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
 	), [ taxonomies ] );
 
 	const labelStyles = { marginBottom: '8px', display: 'inline-block' };
