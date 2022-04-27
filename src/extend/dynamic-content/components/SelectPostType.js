@@ -8,7 +8,7 @@ export default ( { postType, onChange, value, help } ) => {
 
 	const postTypeOptions = useMemo( () => {
 		return postTypes
-			.filter( ( type ) => ( type.viewable ) )
+			.filter( ( type ) => ( type.viewable && 'attachment' !== type.slug ) )
 			.reduce( ( result, type ) => {
 				result.push( { value: type.slug, label: type.name } );
 				return result;

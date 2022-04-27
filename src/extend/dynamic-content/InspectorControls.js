@@ -69,14 +69,14 @@ export default ( { context, attributes, setAttributes, name } ) => {
 					postId: context[ 'generateblocks/mediaId' ],
 					postType: 'attachment',
 					dynamicSource: 'current-post',
-					dynamicContentType: 'caption',
+					dynamicContentType: dynamicContentType || 'caption',
 				} );
 			} else {
 				setAttributes( {
 					postId: '',
 					postType: 'post',
 					dynamicSource: 'current-post',
-					dynamicContentType: 'caption',
+					dynamicContentType: dynamicContentType || 'caption',
 				} );
 			}
 		}
@@ -84,6 +84,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		isCaption,
 		context[ 'generateblocks/mediaId' ],
 		useDynamicData,
+		dynamicContentType,
 	] );
 
 	return (
