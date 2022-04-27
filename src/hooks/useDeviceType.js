@@ -1,13 +1,14 @@
 import { useDispatch, useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 import useLocalStorageState from 'use-local-storage-state';
 
 export default ( initialDeviceType = 'Desktop' ) => {
-	if ( ! generateBlocksInfo || ! generateBlocksInfo.syncResponsivePreviews ) {
-		return useLocalStorageState(
-			'generateblocksDeviceType',
-			{ defaultValue: initialDeviceType },
-		);
-	}
+	const [ localDeviceType, setLocalDeviceType ] = useLocalStorageState(
+		'generateblocksDeviceType', {
+			ssr: true,
+			defaultValue: initialDeviceType,
+		}
+	);
 
 	const {
 		__experimentalSetPreviewDeviceType: setPreviewDeviceType = () => {},
@@ -21,5 +22,17 @@ export default ( initialDeviceType = 'Desktop' ) => {
 		return experimentalGetPreviewDeviceType();
 	}, [] );
 
-	return [ previewDeviceType, setPreviewDeviceType ];
+	useEffect( () => {
+		setLocalDeviceType( previewDeviceType );
+	}, [ previewDeviceType ] );
+
+	const setDeviceType = ( type ) => {
+		if ( generateBlocksInfo && generateBlocksInfo.syncResponsivePreviews ) {
+			setPreviewDeviceType( type );
+		}
+
+		setLocalDeviceType( type );
+	};
+
+	return [ localDeviceType, setDeviceType ];
 };

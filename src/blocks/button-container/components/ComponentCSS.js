@@ -1,4 +1,5 @@
 import { memo } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import DesktopCSS from '../css/desktop';
 import TabletCSS from '../css/tablet';
 import TabletOnlyCSS from '../css/tablet-only';
@@ -7,7 +8,13 @@ import MainCSS from '../css/main';
 import shouldRebuildCSS from '../../../utils/should-rebuild-css';
 
 function ComponentCSS( props ) {
-	const { deviceType } = props;
+	const deviceType = useSelect( ( select ) => {
+		const {
+			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType = () => 'Desktop',
+		} = select( 'core/edit-post' );
+
+		return experimentalGetPreviewDeviceType();
+	}, [] );
 
 	return (
 		<>
