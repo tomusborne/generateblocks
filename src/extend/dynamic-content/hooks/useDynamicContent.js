@@ -3,7 +3,7 @@ import { useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
 import usePostRecord from './usePostRecord';
 
-export default ( attributes ) => {
+export default ( attributes, name ) => {
 	const { postId, postType } = attributes;
 
 	if ( ! postType ) {
@@ -21,6 +21,10 @@ export default ( attributes ) => {
 
 	const record = usePostRecord( postType, postId, recordLoad, recordLoadOptions );
 
+	if ( 'generateblocks/image' === name && ! record ) {
+		return undefined;
+	}
+
 	if ( ! record ) {
 		return sprintf(
 			// translators: %1$s: post ID, %2$s: post type.
@@ -31,6 +35,7 @@ export default ( attributes ) => {
 	}
 
 	const contentAttributes = Object.assign( {}, attributes, { dateFormat: siteFormat } );
+	const forceEmptyMessage = 'generateblocks/image' === name;
 
-	return getContent( attributes.dynamicContentType, record, contentAttributes );
+	return getContent( attributes.dynamicContentType, record, contentAttributes, forceEmptyMessage );
 };
