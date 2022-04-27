@@ -982,7 +982,7 @@ class GenerateBlocks_Dynamic_Content {
 
 		$media = get_post( $id );
 
-		return $media->post_content;
+		return isset( $media ) ? $media->post_content : '';
 	}
 
 	/**
