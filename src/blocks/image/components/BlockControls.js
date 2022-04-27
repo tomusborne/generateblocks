@@ -18,6 +18,7 @@ export default function ImageBlockControls( props ) {
 		imageUrl,
 		canUploadImage,
 		clientId,
+		deviceType,
 	} = props;
 
 	const { mediaId, caption } = attributes;
@@ -27,7 +28,11 @@ export default function ImageBlockControls( props ) {
 
 	return (
 		<BlockControls>
-			<AlignmentControls { ...props } />
+			<AlignmentControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				deviceType={ deviceType }
+			/>
 
 			{ 0 === innerBlocksCount &&
 				<ToolbarGroup>
