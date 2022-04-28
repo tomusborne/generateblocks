@@ -11,6 +11,7 @@ import GradientControl from '../../../components/gradient';
 import IconPicker from '../../../components/icon-picker';
 import { InspectorControls } from '@wordpress/block-editor';
 import NumberControl from '../../../components/number-control';
+import './ConditionalColors';
 
 export default ( props ) => {
 	const {
