@@ -21,6 +21,7 @@ export default ( { attributes } ) => {
 		height,
 		dynamicContentType,
 		className,
+		align,
 	} = attributes;
 
 	if ( useDynamicData && dynamicContentType ) {
@@ -50,6 +51,7 @@ export default ( { attributes } ) => {
 				'gb-image': true,
 				[ `gb-image-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
+				[ `align${ align }` ]: '' !== align,
 			} ),
 			id: anchor ? anchor : null,
 			width,

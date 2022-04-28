@@ -23,6 +23,7 @@ export default function Image( props ) {
 		className,
 		width,
 		height,
+		align,
 	} = attributes;
 
 	const htmlAttributes = applyFilters(
@@ -32,6 +33,7 @@ export default function Image( props ) {
 				'gb-image': true,
 				[ `gb-image-${ uniqueId }` ]: true,
 				[ `${ className }` ]: undefined !== className,
+				[ `align${ align }` ]: '' !== align,
 			} ),
 			id: anchor ? anchor : null,
 			width,
