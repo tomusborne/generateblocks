@@ -548,10 +548,7 @@ class GenerateBlocks_Dynamic_Content {
 
 			return sprintf(
 				'<img %s />',
-				implode(' ', array_map(
-					function ($k, $v) { return $k .'="'. htmlspecialchars($v) .'"'; },
-					array_keys($html_attributes), $html_attributes
-				))
+				generateblocks_attr( 'static_image', $html_attributes )
 			);
 		}
 
