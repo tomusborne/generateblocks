@@ -103,7 +103,7 @@ export default function ImageContentRenderer( props ) {
 	const dynamicImageFallback = applyFilters(
 		'generateblocks.editor.dynamicImageFallback',
 		dynamicImageUrl,
-		context
+		props
 	);
 
 	const imageUrl = useDynamicData && dynamicContentType ? dynamicImageFallback : attributes.mediaUrl;
