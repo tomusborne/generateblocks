@@ -17,8 +17,21 @@
 	}
 }
 
+[data-align=wide],
+[data-align=full] {
+	& > .gb-block-image {
+		max-width: none;
+
+		img {
+			height: auto;
+			width: 100%;
+		}
+	}
+}
+
 .wp-block-generateblocks-image {
 	margin: 0;
+	position: relative;
 
 	img {
 		vertical-align: middle;

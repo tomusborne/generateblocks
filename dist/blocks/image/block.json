@@ -96,13 +96,28 @@
 		"anchor": {
 			"type": "string",
 			"default": ""
+		},
+		"align": {
+			"type": "string",
+			"default": ""
+		},
+		"alignment": {
+			"type": "string",
+			"default": ""
+		},
+		"alignmentTablet": {
+			"type": "string",
+			"default": ""
+		},
+		"alignmentMobile": {
+			"type": "string",
+			"default": ""
 		}
 	},
   	"usesContext": [ "postId", "postType" ],
   	"supports": {
 		"className": false,
 		"customClassName": true,
-		"align": [ "left", "right", "center", "wide", "full" ],
 		"html": false
   	}
 }

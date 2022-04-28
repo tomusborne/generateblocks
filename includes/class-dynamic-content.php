@@ -99,6 +99,12 @@ class GenerateBlocks_Dynamic_Content {
 
 			case 'caption':
 				return self::get_image_caption( $attributes, $block );
+
+			case 'alt-text':
+				return self::get_image_alt_text( $attributes, $block );
+
+			case 'description':
+				return self::get_image_description( $attributes, $block );
 		}
 	}
 
@@ -504,6 +510,10 @@ class GenerateBlocks_Dynamic_Content {
 			isset( $attributes['className'] ) ? $attributes['className'] : '',
 		);
 
+		if ( ! empty( $attributes['align'] ) ) {
+			$classes[] = 'align' . $attributes['align'];
+		}
+
 		$html_attributes = generateblocks_parse_attr(
 			'image',
 			array(
@@ -569,11 +579,13 @@ class GenerateBlocks_Dynamic_Content {
 			$id = absint( $attributes['postId'] );
 		}
 
+		$image_content_types = array( 'caption', 'post-title', 'alt-text', 'description' );
+
 		if ( isset( $attributes['dynamicContentType'] ) ) {
-			if ( 'caption' === $attributes['dynamicContentType'] ) {
+			if ( in_array( $attributes['dynamicContentType'], $image_content_types ) ) {
 				if ( isset( $attributes['dynamicImage'] ) ) {
 					$id = $attributes['dynamicImage'];
-				} elseif ( isset( $attributes['postId'] ) ) {
+				} elseif ( isset( $attributes['postId'] ) && 'attachment' === $attributes['postType'] ) {
 					// Use the saved post ID if we're working with a static image.
 					$id = absint( $attributes['postId'] );
 				}
@@ -941,6 +953,40 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return wp_get_attachment_caption( $id );
+	}
+
+	/**
+	 * Get the image alt text.
+	 *
+	 * @param array  $attributes The block attributes.
+	 * @param object $block The block object.
+	 */
+	public static function get_image_alt_text( $attributes, $block ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return '';
+		}
+
+		return get_post_meta( $id, '_wp_attachment_image_alt', true );
+	}
+
+	/**
+	 * Get the image description.
+	 *
+	 * @param array  $attributes The block attributes.
+	 * @param object $block The block object.
+	 */
+	public static function get_image_description( $attributes, $block ) {
+		$id = self::get_source_id( $attributes );
+
+		if ( ! $id ) {
+			return '';
+		}
+
+		$media = get_post( $id );
+
+		return isset( $media ) ? $media->post_content : '';
 	}
 
 	/**

@@ -106,10 +106,12 @@ function ImageEdit( props ) {
 
 			<ContentRenderer
 				{ ...props }
+				featuredImage={ featuredImage }
 				onSelectImage={ onSelectImage }
 				onSelectURL={ onSelectURL }
 				onUploadError={ onUploadError }
 				onResetImage={ onResetImage }
+				deviceType={ deviceType }
 			/>
 		</>
 	);

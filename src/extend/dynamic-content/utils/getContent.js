@@ -24,6 +24,8 @@ const contentTypeSelectors = {
 	terms: getPostTerms,
 	'author-avatar': getAuthorAvatar,
 	caption: getCaption,
+	'alt-text': getAltText,
+	description: getDescription,
 };
 
 /**
@@ -32,16 +34,17 @@ const contentTypeSelectors = {
  * @param {string} dynamicContentType The content type to select.
  * @param {Object} record      The post object.
  * @param {Object} attributes  The dynamic content attributes.
+ * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The selected content.
  */
-export default function getContent( dynamicContentType, record, attributes ) {
+export default function getContent( dynamicContentType, record, attributes, emptyNotFoundMessage = false ) {
 	const contentSelector = contentTypeSelectors[ dynamicContentType ];
 
 	if ( contentSelector && 'function' === typeof contentSelector ) {
-		return contentSelector( record, attributes );
+		return contentSelector( record, attributes, emptyNotFoundMessage );
 	}
 
-	return contentTypeNotSupported( record, attributes );
+	return contentTypeNotSupported( record, attributes, emptyNotFoundMessage );
 }
 
 /**
@@ -49,14 +52,15 @@ export default function getContent( dynamicContentType, record, attributes ) {
  *
  * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
+ * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} Text for non-supported content.
  */
-function contentTypeNotSupported( record, attributes ) {
-	return sprintf(
+function contentTypeNotSupported( record, attributes, emptyNotFoundMessage ) {
+	return ! emptyNotFoundMessage ? sprintf(
 		// translators: %s: Content type.
 		__( 'Content type %s is not supported.', 'generateblocks' ),
 		attributes.dynamicContentType
-	);
+	) : undefined;
 }
 
 /**
@@ -148,17 +152,19 @@ function getPostDate( record, attributes ) {
  *
  * @param {string} metaField        The meta field name.
  * @param {Object} metaValues       The post meta values.
+ * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The meta value.
  */
-const getMetaValue = ( metaField, metaValues ) => {
+const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false ) => {
 	if ( metaValues && metaValues[ metaField ] ) {
 		const value = metaValues[ metaField ];
+
 		return ( _.isString( value ) || _.isNumber( value ) )
 			? _.toString( value )
-			: __( 'Meta value not supported.', 'generateblocks' );
+			: ( ! emptyNotFoundMessage ? __( 'Meta value not supported.', 'generateblocks' ) : undefined );
 	}
 
-	return __( 'No meta value.', 'generateblocks' );
+	return ! emptyNotFoundMessage ? __( 'No meta value.', 'generateblocks' ) : undefined;
 };
 
 /**
@@ -166,10 +172,11 @@ const getMetaValue = ( metaField, metaValues ) => {
  *
  * @param {Object} record     The post object.
  * @param {Object} attributes The dynamic content attributes.
+ * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The post meta value.
  */
-function getPostMetaValue( record, attributes ) {
-	return getMetaValue( attributes.metaFieldName, record.meta );
+function getPostMetaValue( record, attributes, emptyNotFoundMessage = false ) {
+	return getMetaValue( attributes.metaFieldName, record.meta, emptyNotFoundMessage );
 }
 
 /**
@@ -346,4 +353,24 @@ function getAuthorAvatar( record ) {
  */
 function getCaption( record ) {
 	return record?.caption?.raw || __( 'Image caption', 'generateblocks' );
+}
+
+/**
+ * Returns the alt text.
+ *
+ * @param {Object} record The post object.
+ * @return {string} The image caption.
+ */
+function getAltText( record ) {
+	return record?.alt_text || __( 'Image alt text', 'generateblocks' );
+}
+
+/**
+ * Returns the description.
+ *
+ * @param {Object} record The post object.
+ * @return {string} The image caption.
+ */
+function getDescription( record ) {
+	return record?.description?.raw || __( 'Image description', 'generateblocks' );
 }
