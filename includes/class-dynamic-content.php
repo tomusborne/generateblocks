@@ -508,7 +508,7 @@ class GenerateBlocks_Dynamic_Content {
 		$id = self::get_dynamic_image_id( $attributes );
 
 		if ( ! $id ) {
-			return;
+			$id = apply_filters( 'generateblocks_dynamic_image_fallback', '' );
 		}
 
 		$classes = array(
@@ -548,7 +548,10 @@ class GenerateBlocks_Dynamic_Content {
 
 			return sprintf(
 				'<img %s />',
-				$html_attributes
+				implode(' ', array_map(
+					function ($k, $v) { return $k .'="'. htmlspecialchars($v) .'"'; },
+					array_keys($html_attributes), $html_attributes
+				))
 			);
 		}
 
