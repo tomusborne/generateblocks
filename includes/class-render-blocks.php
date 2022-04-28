@@ -165,8 +165,7 @@ class GenerateBlocks_Render_Block {
 					array(
 						'class' => implode( ' ', $gridItemClassNames ),
 					),
-					$settings,
-					$block
+					$settings
 				)
 			);
 		}
@@ -224,8 +223,7 @@ class GenerateBlocks_Render_Block {
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
-				$settings,
-				$block
+				$settings
 			)
 		);
 
@@ -369,8 +367,7 @@ class GenerateBlocks_Render_Block {
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
-				$settings,
-				$block
+				$settings
 			)
 		);
 
@@ -523,8 +520,7 @@ class GenerateBlocks_Render_Block {
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
-				$settings,
-				$block
+				$settings
 			)
 		);
 
@@ -674,8 +670,7 @@ class GenerateBlocks_Render_Block {
 				generateblocks_attr(
 					'dynamic-button',
 					$button_attributes,
-					$settings,
-					$block
+					$settings
 				)
 			);
 
@@ -751,8 +746,7 @@ class GenerateBlocks_Render_Block {
 						)
 					),
 				),
-				$settings,
-				$block
+				$settings
 			)
 		);
 
