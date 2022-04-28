@@ -116,7 +116,7 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
-			GENERATEBLOCKS_DIR . 'src/blocks/image',
+			GENERATEBLOCKS_DIR . 'dist/blocks/image',
 			array(
 				'title' => esc_html__( 'Image', 'generateblocks' ),
 				'render_callback' => array( $this, 'do_image_block' ),
