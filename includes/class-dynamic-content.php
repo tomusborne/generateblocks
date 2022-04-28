@@ -508,7 +508,7 @@ class GenerateBlocks_Dynamic_Content {
 		$id = self::get_dynamic_image_id( $attributes );
 
 		if ( ! $id ) {
-			$id = apply_filters( 'generateblocks_dynamic_image_fallback', '' );
+			$id = apply_filters( 'generateblocks_dynamic_image_fallback', '', $attributes, $block );
 		}
 
 		$classes = array(
