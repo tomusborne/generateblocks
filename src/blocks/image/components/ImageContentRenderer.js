@@ -10,6 +10,7 @@ import { useSelect } from '@wordpress/data';
 import getDynamicImage from '../../../utils/get-dynamic-image';
 import getMediaUrl from '../../../utils/get-media-url';
 import getAttribute from '../../../utils/get-attribute';
+import { applyFilters } from '@wordpress/hooks';
 
 export default function ImageContentRenderer( props ) {
 	const {
@@ -98,7 +99,14 @@ export default function ImageContentRenderer( props ) {
 	const parentBlock = getBlockRootClientId( clientId );
 	const currentImage = getDynamicImage( props );
 	const dynamicImageUrl = getMediaUrl( currentImage, sizeSlug );
-	const imageUrl = useDynamicData && dynamicContentType ? dynamicImageUrl : attributes.mediaUrl;
+
+	const dynamicImageFallback = applyFilters(
+		'generateblocks.editor.dynamicImageFallback',
+		dynamicImageUrl,
+		context
+	);
+
+	const imageUrl = useDynamicData && dynamicContentType ? dynamicImageFallback : attributes.mediaUrl;
 	const altText = useDynamicData && dynamicContentType ? currentImage?.alt_text : attributes.alt;
 	const titleText = useDynamicData && dynamicContentType ? currentImage?.title?.rendered : attributes.title;
 
