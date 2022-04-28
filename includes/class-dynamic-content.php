@@ -526,7 +526,8 @@ class GenerateBlocks_Dynamic_Content {
 				'id' => isset( $attributes['anchor'] ) ? $attributes['anchor'] : null,
 				'class' => implode( ' ', $classes ),
 			),
-			$attributes
+			$attributes,
+			$block
 		);
 
 		if ( ! empty( $attributes['dynamicContentType'] ) ) {
