@@ -34,13 +34,38 @@ export default function MobileCSS( props ) {
 		objectFitMobile,
 		widthMobile,
 		heightMobile,
+		alignment,
+		alignmentTablet,
+		alignmentMobile,
 	} = attributes;
 
 	let cssObj = [];
 
+	const floats = {
+		floatLeft: 'left',
+		floatRight: 'right',
+		floatNone: 'none',
+	};
+
+	let float = alignmentMobile.startsWith( 'float' ) ? floats[ alignmentMobile ] : null;
+
+	if (
+		alignmentMobile &&
+		! float &&
+		(
+			alignmentTablet.startsWith( 'float' ) ||
+			alignment.startsWith( 'float' )
+		)
+	) {
+		// We have a mobile alignment and tablet/desktop is set to float, so let's disable it.
+		float = 'none';
+	}
+
 	cssObj[ '.editor-styles-wrapper .gb-block-image-' + uniqueId ] = [ {
 		margin: shorthandCSS( marginTopMobile, marginRightMobile, marginBottomMobile, marginLeftMobile, marginUnit ),
 		padding: shorthandCSS( paddingTopMobile, paddingRightMobile, paddingBottomMobile, paddingLeftMobile, paddingUnit ),
+		'text-align': ! alignmentMobile.startsWith( 'float' ) ? alignmentMobile : null,
+		float,
 	} ];
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
