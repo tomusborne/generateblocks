@@ -31,10 +31,10 @@ const contentTypeSelectors = {
 /**
  * Returns the record content by type.
  *
- * @param {string} dynamicContentType The content type to select.
- * @param {Object} record      The post object.
- * @param {Object} attributes  The dynamic content attributes.
- * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
+ * @param {string}  dynamicContentType   The content type to select.
+ * @param {Object}  record               The post object.
+ * @param {Object}  attributes           The dynamic content attributes.
+ * @param {boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The selected content.
  */
 export default function getContent( dynamicContentType, record, attributes, emptyNotFoundMessage = false ) {
@@ -50,9 +50,9 @@ export default function getContent( dynamicContentType, record, attributes, empt
 /**
  * Returns message for not supported content types.
  *
- * @param {Object} record     The post object.
- * @param {Object} attributes The dynamic content attributes.
- * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
+ * @param {Object}  record               The post object.
+ * @param {Object}  attributes           The dynamic content attributes.
+ * @param {boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} Text for non-supported content.
  */
 function contentTypeNotSupported( record, attributes, emptyNotFoundMessage ) {
@@ -154,18 +154,21 @@ function getPostDate( record, attributes ) {
 /**
  * Returns the meta value of given key.
  *
- * @param {string} metaField        The meta field name.
- * @param {Object} metaValues       The post meta values.
- * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
+ * @param {string}  metaField            The meta field name.
+ * @param {Object}  metaValues           The post meta values.
+ * @param {boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The meta value.
  */
 const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false ) => {
 	if ( metaValues && metaValues[ metaField ] ) {
 		const value = metaValues[ metaField ];
+		const notSupportedMessage = ! emptyNotFoundMessage
+			? __( 'Meta value not supported.', 'generateblocks' )
+			: undefined;
 
 		return ( _.isString( value ) || _.isNumber( value ) )
 			? _.toString( value )
-			: ( ! emptyNotFoundMessage ? __( 'Meta value not supported.', 'generateblocks' ) : undefined );
+			: notSupportedMessage;
 	}
 
 	return ! emptyNotFoundMessage ? __( 'No meta value.', 'generateblocks' ) : undefined;
@@ -174,9 +177,9 @@ const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false ) => 
 /**
  * Returns the post meta values.
  *
- * @param {Object} record     The post object.
- * @param {Object} attributes The dynamic content attributes.
- * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
+ * @param {Object}  record               The post object.
+ * @param {Object}  attributes           The dynamic content attributes.
+ * @param {boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The post meta value.
  */
 function getPostMetaValue( record, attributes, emptyNotFoundMessage = false ) {
