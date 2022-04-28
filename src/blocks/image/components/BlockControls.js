@@ -6,6 +6,7 @@ import { useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import { useInnerBlocksCount } from '../../../hooks';
 import getIcon from '../../../utils/get-icon';
+import AlignmentControls from './AlignmentControls';
 
 export default function ImageBlockControls( props ) {
 	const {
@@ -17,6 +18,7 @@ export default function ImageBlockControls( props ) {
 		imageUrl,
 		canUploadImage,
 		clientId,
+		deviceType,
 	} = props;
 
 	const { mediaId, caption } = attributes;
@@ -26,6 +28,12 @@ export default function ImageBlockControls( props ) {
 
 	return (
 		<BlockControls>
+			<AlignmentControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+				deviceType={ deviceType }
+			/>
+
 			{ 0 === innerBlocksCount &&
 				<ToolbarGroup>
 					<ToolbarButton

@@ -487,6 +487,10 @@ function generateblocks_get_block_defaults() {
 		'objectFit' => '',
 		'objectFitTablet' => '',
 		'objectFitMobile' => '',
+		'align' => '',
+		'alignment' => '',
+		'alignmentTablet' => '',
+		'alignmentMobile' => '',
 	);
 
 	return apply_filters( 'generateblocks_defaults', $defaults );

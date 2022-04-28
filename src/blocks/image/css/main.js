@@ -32,13 +32,22 @@ export default function MainCSS( props ) {
 		objectFit,
 		width,
 		height,
+		alignment,
 	} = attributes;
 
 	let cssObj = [];
 
+	const floats = {
+		floatLeft: 'left',
+		floatRight: 'right',
+		floatNone: 'none',
+	};
+
 	cssObj[ '.editor-styles-wrapper .gb-block-image-' + uniqueId ] = [ {
 		margin: shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ),
 		padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
+		'text-align': ! alignment.startsWith( 'float' ) ? alignment : null,
+		float: alignment.startsWith( 'float' ) ? floats[ alignment ] : 'none',
 	} ];
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
