@@ -81,6 +81,10 @@ function getPostTitle( record ) {
  * @return {string} The post excerpt.
  */
 function getPostExcerpt( record, attributes ) {
+	if ( ! record.excerpt ) {
+		return __( 'Post except not supported for this type.', 'generateblocks' );
+	}
+
 	const {
 		raw: rawExcerpt,
 		rendered: renderedExcerpt,

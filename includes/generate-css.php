@@ -992,7 +992,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$css->set_selector( '.gb-button-wrapper ' . $selector . ',.gb-button-wrapper ' . $selector . ':visited' );
+				$css->set_selector( '.gb-button-wrapper ' . $selector );
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 				$css->add_property( 'color', $settings['textColor'] );
 
@@ -1021,6 +1021,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
 				$css->add_property( 'color', $settings['textColorHover'] );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
+
+				$css->set_selector( '.gb-button-wrapper ' . $selector . '.gb-button__current' );
+				$css->add_property( 'background-color', $settings['backgroundColorCurrent'] );
+				$css->add_property( 'color', $settings['textColorCurrent'] );
+				$css->add_property( 'border-color', $settings['borderColorCurrent'] );
 
 				if ( $settings['hasIcon'] ) {
 					$css->set_selector( $selector . ' .gb-icon' );
