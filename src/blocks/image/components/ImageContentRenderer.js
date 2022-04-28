@@ -6,8 +6,10 @@ import Element from '../../../components/element';
 import Image from './Image';
 import BlockControls from './BlockControls';
 import { useRef, useState, useMemo, useEffect } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 import getDynamicImage from '../../../utils/get-dynamic-image';
 import getMediaUrl from '../../../utils/get-media-url';
+import getAttribute from '../../../utils/get-attribute';
 
 export default function ImageContentRenderer( props ) {
 	const {
@@ -16,6 +18,7 @@ export default function ImageContentRenderer( props ) {
 		name,
 		clientId,
 		context,
+		deviceType,
 	} = props;
 
 	const {
@@ -31,13 +34,16 @@ export default function ImageContentRenderer( props ) {
 		height,
 		sizeSlug,
 		className,
+		align,
 	} = attributes;
 
 	const imageRef = useRef();
+	const figureRef = useRef();
 	const [
 		{ loadedNaturalWidth, loadedNaturalHeight },
 		setLoadedNaturalSize,
 	] = useState( {} );
+	const [ imageFloat, setImageFloat ] = useState( false );
 
 	// Get naturalWidth and naturalHeight from image ref, and fall back to loaded natural
 	// width and height. This resolves an issue in Safari where the loaded natural
@@ -75,17 +81,48 @@ export default function ImageContentRenderer( props ) {
 		loadedNaturalHeight,
 	] );
 
+	useEffect( () => {
+		if ( figureRef.current ) {
+			const imageStyles = getComputedStyle( figureRef.current );
+
+			if ( imageStyles ) {
+				setImageFloat( imageStyles.float );
+			}
+		}
+	}, [ getAttribute( 'alignment', props ) ] );
+
+	const {
+		getBlockRootClientId,
+	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+
+	const parentBlock = getBlockRootClientId( clientId );
 	const currentImage = getDynamicImage( props );
 	const dynamicImageUrl = getMediaUrl( currentImage, sizeSlug );
 	const imageUrl = useDynamicData && dynamicContentType ? dynamicImageUrl : attributes.mediaUrl;
 	const altText = useDynamicData && dynamicContentType ? currentImage?.alt_text : attributes.alt;
 	const titleText = useDynamicData && dynamicContentType ? currentImage?.title?.rendered : attributes.title;
 
+	const getDataAlign = () => {
+		let dataAlign = null;
+
+		if ( align ) {
+			dataAlign = align;
+		}
+
+		if ( 'left' === imageFloat || 'right' === imageFloat ) {
+			dataAlign = imageFloat;
+		}
+
+		return dataAlign;
+	};
+
 	const figureAttributes = useBlockProps( {
 		className: classnames( {
 			'gb-block-image': true,
 			[ `gb-block-image-${ uniqueId }` ]: true,
 		} ),
+		'data-align': !! parentBlock ? getDataAlign() : null,
+		ref: figureRef,
 	} );
 
 	// We don't want our className appearing in the figure.
@@ -125,9 +162,14 @@ export default function ImageContentRenderer( props ) {
 
 	return (
 		<>
-			<BlockControls { ...props } imageUrl={ imageUrl } canUploadImage={ canUploadImage } />
+			<BlockControls
+				{ ...props }
+				imageUrl={ imageUrl }
+				canUploadImage={ canUploadImage }
+				deviceType={ deviceType }
+			/>
 
-			<RootElement name={ name } clientId={ clientId }>
+			<RootElement name={ name } clientId={ clientId } align={ getDataAlign() }>
 				<Element tagName="figure" htmlAttrs={ figureAttributes }>
 					{ ( !! imageUrl )
 						? <Image { ...imageProps } />

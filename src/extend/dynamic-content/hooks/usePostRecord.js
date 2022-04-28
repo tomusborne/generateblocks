@@ -1,5 +1,6 @@
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
+import { applyFilters } from '@wordpress/hooks';
 
 export default function usePostRecord( postType, postId, load = [], options = {} ) {
 	return useSelect( ( select ) => {
@@ -13,8 +14,10 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 			terms = getEntityRecords( 'taxonomy', options.taxonomy, { post: postId } );
 		}
 
-		return postRecord
+		const record = postRecord
 			? Object.assign( {}, postRecord, { author, comments, terms } )
 			: undefined;
+
+		return applyFilters( 'generateblocks.editor.postRecord', record );
 	}, [ postType, postId, load.join(), JSON.stringify( options ) ] );
 }

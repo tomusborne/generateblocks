@@ -1,5 +1,6 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { dateI18n } from '@wordpress/date';
+import _ from 'lodash';
 
 /**
  * The content type selectors map.
@@ -80,6 +81,10 @@ function getPostTitle( record ) {
  * @return {string} The post excerpt.
  */
 function getPostExcerpt( record, attributes ) {
+	if ( ! record.excerpt ) {
+		return __( 'Post except not supported for this type.', 'generateblocks' );
+	}
+
 	const {
 		raw: rawExcerpt,
 		rendered: renderedExcerpt,
@@ -147,34 +152,19 @@ function getPostDate( record, attributes ) {
 }
 
 /**
- * Check if value is string or number.
- *
- * @param {*} value The value to check.
- * @return {boolean} Whether a value is a string or a number.
- */
-function isStringOrNumber( value ) {
-	return typeof value === 'string' || typeof value === 'number';
-}
-
-/**
  * Returns the meta value of given key.
  *
  * @param {string} metaField        The meta field name.
  * @param {Object} metaValues       The post meta values.
- * @param {Object} customMetaValues The custom meta values.
  * @param {Boolean} emptyNotFoundMessage If the message should be undefined.
  * @return {string} The meta value.
  */
-const getMetaValue = ( metaField, metaValues, customMetaValues, emptyNotFoundMessage = false ) => {
+const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false ) => {
 	if ( metaValues && metaValues[ metaField ] ) {
-		return isStringOrNumber( metaValues[ metaField ] )
-			? metaValues[ metaField ]
-			: ( ! emptyNotFoundMessage ? __( 'Meta value not supported.', 'generateblocks' ) : undefined );
-	}
+		const value = metaValues[ metaField ];
 
-	if ( customMetaValues && customMetaValues[ metaField ] ) {
-		return isStringOrNumber( customMetaValues[ metaField ] )
-			? customMetaValues[ metaField ]
+		return ( _.isString( value ) || _.isNumber( value ) )
+			? _.toString( value )
 			: ( ! emptyNotFoundMessage ? __( 'Meta value not supported.', 'generateblocks' ) : undefined );
 	}
 
@@ -190,7 +180,7 @@ const getMetaValue = ( metaField, metaValues, customMetaValues, emptyNotFoundMes
  * @return {string} The post meta value.
  */
 function getPostMetaValue( record, attributes, emptyNotFoundMessage = false ) {
-	return getMetaValue( attributes.metaFieldName, record.meta, record.acf, emptyNotFoundMessage );
+	return getMetaValue( attributes.metaFieldName, record.meta, emptyNotFoundMessage );
 }
 
 /**
@@ -205,7 +195,7 @@ function getAuthorMetaValue( record, attributes ) {
 		return authorNotFound();
 	}
 
-	return getMetaValue( attributes.metaFieldName, record.author.meta, record.author.acf );
+	return getMetaValue( attributes.metaFieldName, record.author.meta );
 }
 
 /**

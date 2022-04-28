@@ -33,13 +33,34 @@ export default function TabletCSS( props ) {
 		objectFitTablet,
 		widthTablet,
 		heightTablet,
+		alignment,
+		alignmentTablet,
 	} = attributes;
 
 	let cssObj = [];
 
+	const floats = {
+		floatLeft: 'left',
+		floatRight: 'right',
+		floatNone: 'none',
+	};
+
+	let float = alignmentTablet.startsWith( 'float' ) ? floats[ alignmentTablet ] : null;
+
+	if (
+		alignmentTablet &&
+		! float &&
+		alignment.startsWith( 'float' )
+	) {
+		// We have a tablet alignment and desktop is set to float, so let's disable it.
+		float = 'none';
+	}
+
 	cssObj[ '.editor-styles-wrapper .gb-block-image-' + uniqueId ] = [ {
 		margin: shorthandCSS( marginTopTablet, marginRightTablet, marginBottomTablet, marginLeftTablet, marginUnit ),
 		padding: shorthandCSS( paddingTopTablet, paddingRightTablet, paddingBottomTablet, paddingLeftTablet, paddingUnit ),
+		'text-align': ! alignmentTablet.startsWith( 'float' ) ? alignmentTablet : null,
+		float,
 	} ];
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
