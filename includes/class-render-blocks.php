@@ -194,7 +194,8 @@ class GenerateBlocks_Render_Block {
 		$tagName = apply_filters(
 			'generateblocks_container_tagname',
 			$settings['tagName'],
-			$attributes
+			$attributes,
+			$block
 		);
 
 		$allowedTagNames = apply_filters(
@@ -304,7 +305,8 @@ class GenerateBlocks_Render_Block {
 					'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
 					'class' => implode( ' ', $classNames ),
 				),
-				$settings
+				$settings,
+				$block
 			)
 		);
 

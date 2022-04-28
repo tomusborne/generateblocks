@@ -595,12 +595,13 @@ function generateblocks_get_background_image_css( $type, $settings ) {
  *
  * @since 1.2.0
  *
- * @param string $context    The context, to build filter name.
- * @param array  $attributes Optional. Extra attributes to merge with defaults.
- * @param array  $settings   Optional. Custom data to pass to filter.
+ * @param string   $context    The context, to build filter name.
+ * @param array    $attributes Optional. Extra attributes to merge with defaults.
+ * @param array    $settings   Optional. Custom data to pass to filter.
+ * @param WP_Block $block      Block instance.
  * @return string String of HTML attributes and values.
  */
-function generateblocks_attr( $context, $attributes = array(), $settings = array() ) {
+function generateblocks_attr( $context, $attributes = array(), $settings = array(), $block = null ) {
 	$attributes = generateblocks_parse_attr( $context, $attributes, $settings );
 
 	$output = '';
@@ -619,7 +620,7 @@ function generateblocks_attr( $context, $attributes = array(), $settings = array
 		}
 	}
 
-	$output = apply_filters( "generateblocks_attr_{$context}_output", $output, $attributes, $settings, $context );
+	$output = apply_filters( "generateblocks_attr_{$context}_output", $output, $attributes, $settings, $context, $block );
 
 	return trim( $output );
 }
@@ -631,12 +632,13 @@ function generateblocks_attr( $context, $attributes = array(), $settings = array
  *
  * @since 1.2.0
  *
- * @param string $context    The context, to build filter name.
- * @param array  $attributes Optional. Extra attributes to merge with defaults.
- * @param array  $settings   Optional. Custom data to pass to filter.
+ * @param string   $context    The context, to build filter name.
+ * @param array    $attributes Optional. Extra attributes to merge with defaults.
+ * @param array    $settings   Optional. Custom data to pass to filter.
+ * @param WP_Block $block      Block instance.
  * @return array Merged and filtered attributes.
  */
-function generateblocks_parse_attr( $context, $attributes = array(), $settings = array() ) {
+function generateblocks_parse_attr( $context, $attributes = array(), $settings = array(), $block = null ) {
 	$defaults = array(
 		'class' => sanitize_html_class( $context ),
 	);
@@ -644,7 +646,7 @@ function generateblocks_parse_attr( $context, $attributes = array(), $settings =
 	$attributes = wp_parse_args( $attributes, $defaults );
 
 	// Contextual filter.
-	return apply_filters( "generateblocks_attr_{$context}", $attributes, $settings, $context );
+	return apply_filters( "generateblocks_attr_{$context}", $attributes, $settings, $context, $block );
 }
 
 /**

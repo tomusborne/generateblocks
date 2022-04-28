@@ -538,7 +538,7 @@ class GenerateBlocks_Dynamic_Content {
 					$attributes['width'],
 					'',
 					'',
-					generateblocks_parse_attr( 'image', $html_attributes, $attributes )
+					generateblocks_parse_attr( 'image', $html_attributes, $attributes, $block )
 				);
 			}
 		}
@@ -549,7 +549,7 @@ class GenerateBlocks_Dynamic_Content {
 
 			return sprintf(
 				'<img %s />',
-				generateblocks_attr( 'static-image', $html_attributes, $attributes )
+				generateblocks_attr( 'static-image', $html_attributes, $attributes, $block )
 			);
 		}
 
@@ -557,7 +557,7 @@ class GenerateBlocks_Dynamic_Content {
 			$id,
 			isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full',
 			false,
-			generateblocks_parse_attr( 'image', $html_attributes, $attributes )
+			generateblocks_parse_attr( 'image', $html_attributes, $attributes, $block )
 		);
 
 		if ( ! $dynamic_image ) {
