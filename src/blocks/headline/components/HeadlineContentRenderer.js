@@ -29,15 +29,18 @@ export default function HeadlineContentRenderer( props ) {
 		anchor,
 		removeText,
 		ariaLabel,
+		useDynamicData,
 		dynamicContentType,
 		dynamicLinkType,
 	} = attributes;
 
-	const [ debouncedContent, setContentState ] = useDebounceState( content, 500 );
+	const [ debouncedContent, setContentState ] = useDebounceState( '', 500 );
 
 	useEffect( () => {
-		setAttributes( { content: debouncedContent } );
-	}, [ debouncedContent ] );
+		if ( ! useDynamicData ) {
+			setAttributes( { content: debouncedContent } );
+		}
+	}, [ useDynamicData, debouncedContent ] );
 
 	let htmlAttributes = {
 		className: classnames( {

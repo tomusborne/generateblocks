@@ -11,7 +11,7 @@ export default function PostMetaControl( props ) {
 		setAttributes,
 	} = props;
 
-	const record = usePostRecord( postType, postId );
+	const { record, isLoading } = usePostRecord( postType, postId );
 	let options = [];
 
 	if ( record && record.meta ) {
@@ -30,7 +30,7 @@ export default function PostMetaControl( props ) {
 					options={ options }
 					value={ { value: metaFieldName, label: metaFieldName } }
 					isSearchable
-					isLoading={ ( ! record && ! record?.meta ) }
+					isLoading={ isLoading }
 					onChange={ ( option ) => {
 						setAttributes( { metaFieldName: option.value } );
 					} }
