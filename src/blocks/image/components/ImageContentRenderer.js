@@ -18,7 +18,6 @@ export default function ImageContentRenderer( props ) {
 		setAttributes,
 		name,
 		clientId,
-		context,
 		deviceType,
 	} = props;
 
@@ -26,7 +25,6 @@ export default function ImageContentRenderer( props ) {
 		uniqueId,
 		useDynamicData,
 		dynamicContentType,
-		dynamicSource,
 		href,
 		openInNewWindow,
 		relNoFollow,
@@ -138,15 +136,11 @@ export default function ImageContentRenderer( props ) {
 		figureAttributes.className = figureAttributes.className.replace( className, '' ).trim();
 	}
 
-	const isDescendentOfQueryLoop = !! context[ 'generateblocks/query' ];
-
 	const canUploadImage =
 		! useDynamicData ||
 		(
 			useDynamicData &&
-			'featured-image' === dynamicContentType &&
-			'current-post' === dynamicSource &&
-			! isDescendentOfQueryLoop
+			! dynamicContentType
 		);
 
 	const anchorAttributes = {

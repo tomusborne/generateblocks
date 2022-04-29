@@ -23,7 +23,6 @@ function ImageEdit( props ) {
 
 	const {
 		useDynamicData,
-		dynamicContentType,
 		sizeSlug,
 		mediaUrl,
 		anchor,
@@ -33,9 +32,7 @@ function ImageEdit( props ) {
 	const { createErrorNotice } = useDispatch( noticesStore );
 	const postType = 'post-type' === attributes.dynamicSource ? attributes.postType : context.postType;
 	const postId = 'post-type' === attributes.dynamicSource ? attributes.postId : context.postId;
-
-	// eslint-disable-next-line no-unused-vars
-	const [ featuredImage, setFeaturedImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
+	const [ featuredImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
 
 	const onSelectImage = ( image ) => {
 		if ( ! useDynamicData ) {
@@ -69,10 +66,6 @@ function ImageEdit( props ) {
 	};
 
 	const onResetImage = () => {
-		if ( useDynamicData && 'featured-image' === dynamicContentType ) {
-			setFeaturedImage( 0 );
-		}
-
 		setAttributes( {
 			mediaId: undefined,
 			mediaUrl: '',
