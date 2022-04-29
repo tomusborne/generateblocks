@@ -9,7 +9,7 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 			isResolving,
 			getEntityRecord,
 			getEntityRecords,
-			hasFinishedResolution
+			hasFinishedResolution,
 		} = select( coreStore );
 
 		// Post data fetching.
