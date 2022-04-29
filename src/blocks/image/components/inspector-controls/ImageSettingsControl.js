@@ -24,8 +24,6 @@ export default function ImageSettingsControls( props ) {
 		alt,
 		title,
 		sizeSlug,
-		width,
-		height,
 		mediaUrl,
 	} = attributes;
 
@@ -65,27 +63,11 @@ export default function ImageSettingsControls( props ) {
 					value={ sizeSlug }
 					options={ imageSizes }
 					onChange={ ( value ) => {
-						setAttributes( {
-							sizeSlug: value,
-						} );
-
 						const imageUrl = getMediaUrl( mediaData, value ) || mediaUrl;
-						let newWidth = mediaData?.media_details?.sizes[ value ]?.width || width;
-						let newHeight = mediaData?.media_details?.sizes[ value ]?.height || height;
-
-						/**
-						 * We can't get specific image data for dynamic images, so we'll use the
-						 * available sizing options for each sizeSlug.
-						 */
-						if ( useDynamicData ) {
-							newWidth = '';
-							newHeight = '';
-						}
 
 						setAttributes( {
 							mediaUrl: imageUrl,
-							width: newWidth,
-							height: newHeight,
+							sizeSlug: value,
 						} );
 					} }
 				/>
