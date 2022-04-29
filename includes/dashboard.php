@@ -202,7 +202,7 @@ function generateblocks_do_dashboard() {
 					<a class="button" href="https://docs.generateblocks.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Documentation', 'generateblocks' ); ?></a>
 
 					<?php if ( ! function_exists( 'generateblocks_pro_init' ) ) : ?>
-						<a class="button primary" href="https://generatepress.com/pro" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'GenerateBlocks Pro', 'generateblocks' ); ?></a>
+						<a class="button primary" href="https://generateblocks.com/pro" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'GenerateBlocks Pro', 'generateblocks' ); ?></a>
 					<?php endif; ?>
 				</div>
 			</div>
