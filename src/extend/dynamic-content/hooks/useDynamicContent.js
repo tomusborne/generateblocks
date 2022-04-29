@@ -44,7 +44,7 @@ export default ( attributes, name ) => {
 	}
 
 	if ( isLoading ) {
-		return __( 'Loading...', 'generateblocks' );
+		return __( 'Loading…', 'generateblocks' );
 	}
 
 	if ( ! record ) {
