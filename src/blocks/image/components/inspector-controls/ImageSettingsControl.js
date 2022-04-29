@@ -26,29 +26,8 @@ export default function ImageSettingsControls( props ) {
 		sizeSlug,
 		width,
 		height,
-		objectFit,
-		objectFitTablet,
-		objectFitMobile,
 		mediaUrl,
 	} = attributes;
-
-	const showImageDimensions =
-		'Desktop' === deviceType ||
-		(
-			'Tablet' === deviceType &&
-			(
-				objectFit ||
-				objectFitTablet
-			)
-		) ||
-		(
-			'Mobile' === deviceType &&
-			(
-				objectFit ||
-				objectFitTablet ||
-				objectFitMobile
-			)
-		);
 
 	const mediaData = useSelect( ( select ) => {
 		const { getMedia } = select( coreStore );
@@ -112,33 +91,31 @@ export default function ImageSettingsControls( props ) {
 				/>
 			}
 
-			{ showImageDimensions &&
-				<BaseControl
-					help={ !! useDynamicData ? __( 'Dynamic images use their own dimensions unless the above fields are set.', 'generateblocks' ) : '' }
-				>
-					<div className="gblocks-image-dimensions__row">
-						<NumberControl
-							{ ...props }
-							label={ __( 'Width', 'generateblocks' ) }
-							id="gblocks-image-width"
-							attributeName="width"
-							device={ deviceType }
-							units={ [ 'px' ] }
-							min="1"
-						/>
+			<BaseControl
+				help={ __( 'These fields will resize the image using CSS.', 'generateblocks' ) }
+			>
+				<div className="gblocks-image-dimensions__row">
+					<NumberControl
+						{ ...props }
+						label={ __( 'Width', 'generateblocks' ) }
+						id="gblocks-image-width"
+						attributeName="width"
+						device={ deviceType }
+						units={ [ 'px' ] }
+						min="1"
+					/>
 
-						<NumberControl
-							{ ...props }
-							label={ __( 'Height', 'generateblocks' ) }
-							id="gblocks-image-height"
-							attributeName="height"
-							device={ deviceType }
-							units={ [ 'px' ] }
-							min="1"
-						/>
-					</div>
-				</BaseControl>
-			}
+					<NumberControl
+						{ ...props }
+						label={ __( 'Height', 'generateblocks' ) }
+						id="gblocks-image-height"
+						attributeName="height"
+						device={ deviceType }
+						units={ [ 'px' ] }
+						min="1"
+					/>
+				</div>
+			</BaseControl>
 
 			<SelectControl
 				label={ __( 'Object-fit', 'generateblocks' ) }

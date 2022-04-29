@@ -44,8 +44,8 @@ function ImageEdit( props ) {
 				alt: image?.alt,
 				title: image?.title,
 				caption: image?.caption,
-				width: image?.sizes[ sizeSlug ]?.width,
-				height: image?.sizes[ sizeSlug ]?.height,
+				width: undefined,
+				height: undefined,
 			} );
 		}
 	};

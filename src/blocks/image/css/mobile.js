@@ -29,8 +29,6 @@ export default function MobileCSS( props ) {
 		borderRadiusTopLeftMobile,
 		borderRadiusUnit,
 		borderColor,
-		objectFit,
-		objectFitTablet,
 		objectFitMobile,
 		widthMobile,
 		heightMobile,
@@ -71,8 +69,8 @@ export default function MobileCSS( props ) {
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-radius': shorthandCSS( borderRadiusTopLeftMobile, borderRadiusTopRightMobile, borderRadiusBottomRightMobile, borderRadiusBottomLeftMobile, borderRadiusUnit ),
 		'border-color': borderColor,
-		width: ( objectFit || objectFitTablet || objectFitMobile ) ? valueWithUnit( widthMobile, 'px' ) : null,
-		height: ( objectFit || objectFitTablet || objectFitMobile ) ? valueWithUnit( heightMobile, 'px' ) : null,
+		width: valueWithUnit( widthMobile, 'px' ),
+		height: valueWithUnit( heightMobile, 'px' ),
 		'object-fit': objectFitMobile,
 	} ];
 
