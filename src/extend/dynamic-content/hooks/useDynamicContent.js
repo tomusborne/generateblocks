@@ -4,20 +4,10 @@ import getContent from '../utils/getContent';
 import usePostRecord from './usePostRecord';
 
 function getExtraLoad( contentType, attributes ) {
-	const authorContentTypes = [
-		'author-meta',
-		'author-email',
-		'author-name',
-		'author-nickname',
-		'author-first-name',
-		'author-last-name',
-		'author-avatar'
-	];
-
 	const load = [];
 	let loadOptions = {};
 
-	if ( authorContentTypes.includes( contentType ) ) {
+	if ( contentType.startsWith( 'author-' ) ) {
 		load.push( 'author' );
 	}
 
