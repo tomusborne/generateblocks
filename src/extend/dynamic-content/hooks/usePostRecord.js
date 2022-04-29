@@ -4,20 +4,77 @@ import { applyFilters } from '@wordpress/hooks';
 
 export default function usePostRecord( postType, postId, load = [], options = {} ) {
 	return useSelect( ( select ) => {
-		let terms = [];
-		const { getEntityRecord, getEntityRecords, getUser } = select( coreStore );
-		const postRecord = getEntityRecord( 'postType', postType, postId );
-		const author = getUser( postRecord?.author );
-		const comments = getEntityRecords( 'root', 'comment', { post: postId } );
+		const {
+			getUser,
+			isResolving,
+			getEntityRecord,
+			getEntityRecords,
+			hasFinishedResolution
+		} = select( coreStore );
 
-		if ( load.includes( 'terms' ) && postRecord ) {
-			terms = getEntityRecords( 'taxonomy', options.taxonomy, { post: postId } );
+		// Post data fetching.
+		const params = [ 'postType', postType, postId ];
+
+		let postRecord = getEntityRecord( ...params );
+
+		const postRecordIsLoading = (
+			! hasFinishedResolution( 'getEntityRecord', params ) ||
+			isResolving( 'getEntityRecord', params )
+		);
+
+		// Author data fetching.
+		let authorIsLoading = false;
+
+		if ( load.includes( 'author' ) && ! postRecordIsLoading && !! postRecord ) {
+			const author = getUser( postRecord.author );
+
+			authorIsLoading = (
+				! hasFinishedResolution( 'getUser', [ postRecord.author ] ) ||
+				isResolving( 'getUser', [ postRecord.author ] )
+			);
+
+			if ( ! authorIsLoading && !! author ) {
+				postRecord = Object.assign( {}, postRecord, { author } );
+			}
 		}
 
-		const record = postRecord
-			? Object.assign( {}, postRecord, { author, comments, terms } )
-			: undefined;
+		// Comments data fetching.
+		let commentsIsLoading = false;
 
-		return applyFilters( 'generateblocks.editor.postRecord', record );
+		if ( load.includes( 'comments' ) && ! postRecordIsLoading && !! postRecord ) {
+			const commentsParams = [ 'root', 'comment', { post: postId } ];
+			const comments = getEntityRecords( ...commentsParams );
+
+			commentsIsLoading = (
+				! hasFinishedResolution( 'getEntityRecords', commentsParams ) ||
+				isResolving( 'getEntityRecords', commentsParams )
+			);
+
+			if ( ! commentsIsLoading && !! comments ) {
+				postRecord = Object.assign( {}, postRecord, { comments } );
+			}
+		}
+
+		// Terms data fetching.
+		let termsIsLoading = false;
+
+		if ( load.includes( 'terms' ) && ! postRecordIsLoading && !! postRecord ) {
+			const termParams = [ 'taxonomy', options.taxonomy, { post: postId } ];
+			const terms = getEntityRecords( ...termParams );
+
+			termsIsLoading = (
+				! hasFinishedResolution( 'getEntityRecords', termParams ) ||
+				isResolving( 'getEntityRecords', termParams )
+			);
+
+			if ( ! termsIsLoading && !! terms ) {
+				postRecord = Object.assign( {}, postRecord, { terms } );
+			}
+		}
+
+		return {
+			record: applyFilters( 'generateblocks.editor.postRecord', postRecord ),
+			isLoading: ( postRecordIsLoading || authorIsLoading || commentsIsLoading || termsIsLoading ),
+		};
 	}, [ postType, postId, load.join(), JSON.stringify( options ) ] );
 }

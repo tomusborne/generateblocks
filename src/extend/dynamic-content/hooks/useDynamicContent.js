@@ -3,6 +3,36 @@ import { useEntityProp } from '@wordpress/core-data';
 import getContent from '../utils/getContent';
 import usePostRecord from './usePostRecord';
 
+function getExtraLoad( contentType, attributes ) {
+	const authorContentTypes = [
+		'author-meta',
+		'author-email',
+		'author-name',
+		'author-nickname',
+		'author-first-name',
+		'author-last-name',
+		'author-avatar'
+	];
+
+	const load = [];
+	let loadOptions = {};
+
+	if ( authorContentTypes.includes( contentType ) ) {
+		load.push( 'author' );
+	}
+
+	if ( 'terms' === contentType ) {
+		load.push( 'terms' );
+		loadOptions = Object.assign( {}, loadOptions, { taxonomy: attributes.termTaxonomy } );
+	}
+
+	if ( 'comments-number' === contentType ) {
+		load.push( 'comments' );
+	}
+
+	return { load, loadOptions };
+}
+
 export default ( attributes, name ) => {
 	const { postId, postType } = attributes;
 
@@ -16,13 +46,15 @@ export default ( attributes, name ) => {
 
 	const [ siteFormat ] = useEntityProp( 'root', 'site', 'date_format' );
 
-	const recordLoad = 'terms' === attributes.dynamicContentType ? [ 'terms' ] : [];
-	const recordLoadOptions = 'terms' === attributes.dynamicContentType ? { taxonomy: attributes.termTaxonomy } : {};
-
-	const record = usePostRecord( postType, postId, recordLoad, recordLoadOptions );
+	const { load, loadOptions } = getExtraLoad( attributes.dynamicContentType, attributes );
+	const { record, isLoading } = usePostRecord( postType, postId, load, loadOptions );
 
 	if ( 'generateblocks/image' === name && ! record ) {
 		return undefined;
+	}
+
+	if ( isLoading ) {
+		return __( 'Loading...', 'generateblocks' );
 	}
 
 	if ( ! record ) {

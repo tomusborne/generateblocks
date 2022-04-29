@@ -11,7 +11,7 @@ export default function AuthorMetaControl( props ) {
 		setAttributes,
 	} = props;
 
-	const record = usePostRecord( postType, postId );
+	const { record, isLoading } = usePostRecord( postType, postId, [ 'author' ] );
 	let options = [];
 
 	if ( record && record.author && record.author.meta ) {
@@ -39,7 +39,7 @@ export default function AuthorMetaControl( props ) {
 					options={ options }
 					value={ { value: metaFieldName, label: metaFieldName } }
 					isSearchable
-					isLoading={ ( ! record && ! record.author && ! record.author.meta ) }
+					isLoading={ isLoading }
 					onChange={ ( option ) => {
 						setAttributes( { metaFieldName: option.value } );
 					} }
