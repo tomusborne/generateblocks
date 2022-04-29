@@ -4,7 +4,7 @@
   	"name": "generateblocks/image",
   	"title": "Image",
   	"category": "generateblocks",
-  	"description": "Display a image.",
+  	"description": "Add images to your content to make a visual statement.",
   	"textdomain": "generateblocks",
   	"attributes": {
 		"uniqueId": {
