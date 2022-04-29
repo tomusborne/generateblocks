@@ -21,7 +21,9 @@ export default ( props ) => {
 			( 'featured-image' === dynamicContentType && !! featuredImage ) ||
 			! isNaN( parseInt( dynamicImage ) )
 		) {
-			const mediaId = 'featured-image' === dynamicContentType ? featuredImage : parseInt( dynamicImage );
+			const mediaId = 'featured-image' === dynamicContentType && !! featuredImage
+				? featuredImage
+				: parseInt( dynamicImage );
 
 			return getMedia( mediaId, { context: 'view' } );
 		}
