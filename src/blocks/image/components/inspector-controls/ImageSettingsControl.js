@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import getIcon from '../../../../utils/get-icon';
 import PanelArea from '../../../../components/panel-area';
 import { TextareaControl, TextControl, SelectControl, BaseControl } from '@wordpress/components';
-import NumberControl from '../../../../components/number-control';
+import UnitControl from '../../../../components/unit-control';
 import getAttribute from '../../../../utils/get-attribute';
 import getMediaUrl from '../../../../utils/get-media-url';
 import { store as coreStore } from '@wordpress/core-data';
@@ -77,23 +77,21 @@ export default function ImageSettingsControls( props ) {
 				help={ __( 'These fields will resize the image using CSS.', 'generateblocks' ) }
 			>
 				<div className="gblocks-image-dimensions__row">
-					<NumberControl
+					<UnitControl
 						{ ...props }
 						label={ __( 'Width', 'generateblocks' ) }
 						id="gblocks-image-width"
 						attributeName="width"
 						device={ deviceType }
-						units={ [ 'px' ] }
 						min="1"
 					/>
 
-					<NumberControl
+					<UnitControl
 						{ ...props }
 						label={ __( 'Height', 'generateblocks' ) }
 						id="gblocks-image-height"
 						attributeName="height"
 						device={ deviceType }
-						units={ [ 'px' ] }
 						min="1"
 					/>
 				</div>
