@@ -40,24 +40,11 @@ export default function UnitControl( props ) {
 
 	const getNumericValue = ( values ) => values.length > 0 ? values[ 0 ] : '';
 	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : 'px';
+	const desktopValues = splitValues( attributes[ attributeName ] );
+	const tabletValues = splitValues( attributes[ attributeName + 'Tablet' ] );
 
-	// Split the number and unit into two values.
-	// This fires on first render and each time we change the device so the
-	// states update to the correct values for each device.
-	useEffect( () => {
-		const values = splitValues( attributes[ attribute ] );
-
-		setNumericValue( getNumericValue( values ) );
-		setUnitValue( getUnitValue( values ) );
-	}, [ device ] );
-
-	// Set the device placeholders and switch the units to match
-	// their parent device value if no device-specific value exists.
-	useEffect( () => {
+	const setPlaceholders = () => {
 		if ( ! attributes[ attribute ] ) {
-			const desktopValues = splitValues( attributes[ attributeName ] );
-			const tabletValues = splitValues( attributes[ attributeName + 'Tablet' ] );
-
 			// Set desktop value as placeholder.
 			if ( ! attributes[ attributeName + 'Tablet' ] ) {
 				if (
@@ -81,12 +68,42 @@ export default function UnitControl( props ) {
 				setUnitValue( getUnitValue( tabletValues ) );
 			}
 		}
+	};
+
+	// Split the number and unit into two values.
+	// This fires on first render and each time we change the device so the
+	// states update to the correct values for each device.
+	useEffect( () => {
+		const values = splitValues( attributes[ attribute ] );
+
+		setNumericValue( getNumericValue( values ) );
+		setUnitValue( getUnitValue( values ) );
+
+		// Set the device placeholders and switch the units to match
+		// their parent device value if no device-specific value exists.
+		setPlaceholders();
 	}, [ device ] );
 
 	useEffect( () => {
 		const fullValue = hasNumericValue( numericValue )
 			? numericValue + unitValue
 			: '';
+
+		const deviceValues = {
+			Tablet: desktopValues,
+			Mobile: tabletValues,
+		};
+
+		// Clear the placeholder if the units don't match.
+		if ( ! fullValue ) {
+			if ( device in deviceValues ) {
+				if ( unitValue !== getUnitValue( deviceValues[ device ] ) ) {
+					setPlaceholderValue( '' );
+				} else {
+					setPlaceholders();
+				}
+			}
+		}
 
 		if ( fullValue !== attributes[ attribute ] ) {
 			setAttributes( {
