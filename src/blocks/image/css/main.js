@@ -53,8 +53,8 @@ export default function MainCSS( props ) {
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 		'border-color': borderColor,
-		width: objectFit ? valueWithUnit( width, 'px' ) : null,
-		height: objectFit ? valueWithUnit( height, 'px' ) : null,
+		width: valueWithUnit( width, 'px' ),
+		height: valueWithUnit( height, 'px' ),
 		'object-fit': objectFit,
 	} ];
 

@@ -29,8 +29,6 @@ export default function ImageContentRenderer( props ) {
 		openInNewWindow,
 		relNoFollow,
 		relSponsored,
-		width,
-		height,
 		sizeSlug,
 		className,
 		align,
@@ -63,21 +61,6 @@ export default function ImageContentRenderer( props ) {
 		loadedNaturalWidth,
 		loadedNaturalHeight,
 		imageRef.current?.complete,
-	] );
-
-	useEffect( () => {
-		if ( ! useDynamicData ) {
-			if ( ! width ) {
-				setAttributes( { width: naturalWidth } );
-			}
-
-			if ( ! height ) {
-				setAttributes( { height: naturalHeight } );
-			}
-		}
-	}, [
-		loadedNaturalWidth,
-		loadedNaturalHeight,
 	] );
 
 	useEffect( () => {
@@ -159,6 +142,8 @@ export default function ImageContentRenderer( props ) {
 		anchorAttributes,
 		imageRef,
 		setLoadedNaturalSize,
+		naturalWidth,
+		naturalHeight,
 		attributes,
 	};
 

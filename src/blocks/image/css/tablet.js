@@ -29,7 +29,6 @@ export default function TabletCSS( props ) {
 		borderRadiusTopLeftTablet,
 		borderRadiusUnit,
 		borderColor,
-		objectFit,
 		objectFitTablet,
 		widthTablet,
 		heightTablet,
@@ -66,8 +65,8 @@ export default function TabletCSS( props ) {
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-radius': shorthandCSS( borderRadiusTopLeftTablet, borderRadiusTopRightTablet, borderRadiusBottomRightTablet, borderRadiusBottomLeftTablet, borderRadiusUnit ),
 		'border-color': borderColor,
-		width: ( objectFit || objectFitTablet ) ? valueWithUnit( widthTablet, 'px' ) : null,
-		height: ( objectFit || objectFitTablet ) ? valueWithUnit( heightTablet, 'px' ) : null,
+		width: valueWithUnit( widthTablet, 'px' ),
+		height: valueWithUnit( heightTablet, 'px' ),
 		'object-fit': objectFitTablet,
 	} ];
 

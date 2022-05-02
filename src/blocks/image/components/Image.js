@@ -11,6 +11,8 @@ export default function Image( props ) {
 		anchorAttributes,
 		imageRef,
 		setLoadedNaturalSize,
+		naturalWidth,
+		naturalHeight,
 		attributes,
 	} = props;
 
@@ -21,8 +23,6 @@ export default function Image( props ) {
 		dynamicImage,
 		useDynamicData,
 		className,
-		width,
-		height,
 		align,
 	} = attributes;
 
@@ -36,8 +36,8 @@ export default function Image( props ) {
 				[ `align${ align }` ]: '' !== align,
 			} ),
 			id: anchor ? anchor : null,
-			width,
-			height,
+			width: naturalWidth,
+			height: naturalHeight,
 			src,
 			alt,
 			title,
