@@ -1686,8 +1686,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
 				$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 				$css->add_property( 'border-color', $settings['borderColor'] );
-				$css->add_property( 'width', $settings['width'], 'px' );
-				$css->add_property( 'height', $settings['height'], 'px' );
+				$css->add_property( 'width', $settings['width'] );
+				$css->add_property( 'height', $settings['height'] );
 				$css->add_property( 'object-fit', $settings['objectFit'] );
 
 				$tablet_css->set_selector( '.gb-block-image-' . $id );
@@ -1708,8 +1708,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$tablet_css->set_selector( '.gb-image-' . $id );
 				$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 				$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
-				$tablet_css->add_property( 'width', $settings['widthTablet'], 'px' );
-				$tablet_css->add_property( 'height', $settings['heightTablet'], 'px' );
+				$tablet_css->add_property( 'width', $settings['widthTablet'] );
+				$tablet_css->add_property( 'height', $settings['heightTablet'] );
 				$tablet_css->add_property( 'object-fit', $settings['objectFitTablet'] );
 
 				$mobile_css->set_selector( '.gb-block-image-' . $id );
@@ -1736,8 +1736,8 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$mobile_css->set_selector( '.gb-image-' . $id );
 				$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 				$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
-				$mobile_css->add_property( 'width', $settings['widthMobile'], 'px' );
-				$mobile_css->add_property( 'height', $settings['heightMobile'], 'px' );
+				$mobile_css->add_property( 'width', $settings['widthMobile'] );
+				$mobile_css->add_property( 'height', $settings['heightMobile'] );
 				$mobile_css->add_property( 'object-fit', $settings['objectFitMobile'] );
 
 				/**

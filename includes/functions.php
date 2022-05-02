@@ -869,6 +869,11 @@ function generateblocks_is_valid_date( $date, $format = 'Y-m-d\TH:i:s' ) {
  * @since 1.5.0
  */
 function generateblocks_filter_images( $content, $attributes ) {
+	// Bail early if not using WP 5.5.
+	if ( ! function_exists( 'wp_img_tag_add_width_and_height_attr' ) ) {
+		return $content;
+	}
+
 	if ( ! empty( $attributes['mediaId'] ) ) {
 		// Add 'width' and 'height' attributes if applicable.
 		if ( false === strpos( $content, ' width=' ) && false === strpos( $content, ' height=' ) ) {
