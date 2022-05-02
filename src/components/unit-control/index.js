@@ -138,14 +138,16 @@ export default function UnitControl( props ) {
 					} }
 				/>
 
-				<select
-					value={ unitValue }
-					onChange={ ( e ) => {
-						setUnitValue( e.target.value );
-					} }
-				>
-					{ units.map( ( unitOption ) => <option key={ unitOption } value={ unitOption }>{ unitOption }</option> ) }
-				</select>
+				<span className="gblocks-unit-control__unit-select">
+					<select
+						value={ unitValue }
+						onChange={ ( e ) => {
+							setUnitValue( e.target.value );
+						} }
+					>
+						{ units.map( ( unitOption ) => <option key={ unitOption } value={ unitOption }>{ unitOption }</option> ) }
+					</select>
+				</span>
 			</div>
 		</BaseControl>
 	);
