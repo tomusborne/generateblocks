@@ -19,6 +19,7 @@ export default function ImageContentRenderer( props ) {
 		name,
 		clientId,
 		deviceType,
+		temporaryURL,
 	} = props;
 
 	const {
@@ -109,6 +110,7 @@ export default function ImageContentRenderer( props ) {
 		className: classnames( {
 			'gb-block-image': true,
 			[ `gb-block-image-${ uniqueId }` ]: true,
+			'is-applying': !! temporaryURL,
 		} ),
 		'data-align': !! parentBlock ? getDataAlign() : null,
 		ref: figureRef,
@@ -145,6 +147,7 @@ export default function ImageContentRenderer( props ) {
 		naturalWidth,
 		naturalHeight,
 		attributes,
+		temporaryURL,
 	};
 
 	return (
@@ -158,7 +161,7 @@ export default function ImageContentRenderer( props ) {
 
 			<RootElement name={ name } clientId={ clientId } align={ getDataAlign() }>
 				<Element tagName="figure" htmlAttrs={ figureAttributes }>
-					{ ( !! imageUrl )
+					{ ( !! temporaryURL || !! imageUrl )
 						? <Image { ...imageProps } />
 						: <ImagePlaceholder { ...props } canUploadImage={ canUploadImage } />
 					}

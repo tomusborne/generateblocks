@@ -2,6 +2,7 @@ import { InnerBlocks, BlockContextProvider } from '@wordpress/block-editor';
 import AnchorTag from './AnchorTag';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
+import { Spinner } from '@wordpress/components';
 
 export default function Image( props ) {
 	const {
@@ -14,6 +15,7 @@ export default function Image( props ) {
 		naturalWidth,
 		naturalHeight,
 		attributes,
+		temporaryURL,
 	} = props;
 
 	const {
@@ -38,7 +40,7 @@ export default function Image( props ) {
 			id: anchor ? anchor : null,
 			width: naturalWidth,
 			height: naturalHeight,
-			src,
+			src: temporaryURL || src,
 			alt,
 			title,
 		},
@@ -62,6 +64,8 @@ export default function Image( props ) {
 						} );
 					} }
 				/>
+
+				{ temporaryURL && <Spinner /> }
 			</AnchorTag>
 
 			<BlockContextProvider value={ {
