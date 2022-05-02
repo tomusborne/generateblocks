@@ -16,7 +16,7 @@ export default function UnitControl( props ) {
 		attributeName,
 		attributes,
 		setAttributes,
-		units = [ 'px', '%', 'vw', 'rem' ],
+		units = [ 'px', 'em', '%', 'rem' ],
 		device,
 		min = 0,
 		max,

@@ -84,6 +84,7 @@ export default function ImageSettingsControls( props ) {
 						attributeName="width"
 						device={ deviceType }
 						min="1"
+						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 
 					<UnitControl
@@ -93,6 +94,7 @@ export default function ImageSettingsControls( props ) {
 						attributeName="height"
 						device={ deviceType }
 						min="1"
+						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 				</div>
 			</BaseControl>
