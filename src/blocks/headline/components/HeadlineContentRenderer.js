@@ -34,7 +34,7 @@ export default function HeadlineContentRenderer( props ) {
 		dynamicLinkType,
 	} = attributes;
 
-	const [ debouncedContent, setContentState ] = useDebounceState( '', 500 );
+	const [ debouncedContent, setContentState ] = useDebounceState( content, 500 );
 
 	useEffect( () => {
 		if ( ! useDynamicData ) {
