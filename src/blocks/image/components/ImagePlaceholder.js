@@ -17,6 +17,7 @@ export default function ImagePlaceholder( props ) {
 		width,
 		height,
 		useDynamicData,
+		uniqueId,
 	} = attributes;
 
 	const placeholderIllustration = (
@@ -65,6 +66,7 @@ export default function ImagePlaceholder( props ) {
 	if ( ! canUploadImage ) {
 		placeholder = <>
 			<img
+				className={ 'gb-image-' + uniqueId }
 				src={ placeholderImage }
 				alt=""
 				width={ width ? width : 1000 }
