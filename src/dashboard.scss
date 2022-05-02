@@ -98,7 +98,8 @@ $settings-container-width: 750px;
 		}
 
 		.components-button.is-primary .components-spinner {
-			background: #000;
+			background: rgba(0,0,0,0.1);
+			border-radius: 100%;
 		}
 
 		.components-panel__body {
