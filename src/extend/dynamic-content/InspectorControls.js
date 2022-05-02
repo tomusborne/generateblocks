@@ -101,13 +101,6 @@ export default ( { context, attributes, setAttributes, name } ) => {
 					checked={ useDynamicData }
 					onChange={ ( value ) => {
 						setAttributes( { useDynamicData: value } );
-
-						if ( value && 'generateblocks/image' === name ) {
-							setAttributes( {
-								width: '',
-								height: '',
-							} );
-						}
 					} }
 				/>
 
