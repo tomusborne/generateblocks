@@ -36,7 +36,7 @@ function ImageEdit( props ) {
 
 	const onSelectImage = ( image ) => {
 		if ( ! useDynamicData && !! image ) {
-			const imageUrl = image?.sizes && image?.sizes[ sizeSlug ]?.url || image?.url;
+			const imageUrl = ( image?.sizes && image?.sizes[ sizeSlug ]?.url ) || image?.url;
 
 			setAttributes( {
 				mediaId: image?.id,
