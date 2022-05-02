@@ -564,9 +564,6 @@ class GenerateBlocks_Dynamic_Content {
 			return '';
 		}
 
-		// Add our saved dimensions to the image.
-		$dynamic_image = self::get_image_with_dimensions( $dynamic_image, $attributes );
-
 		return $dynamic_image;
 	}
 
@@ -902,48 +899,6 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $icon_html;
-	}
-
-	/**
-	 * Replace the image dimensions with the settings.
-	 * The width and height attributes aren't available via filter.
-	 *
-	 * @param string $content The image HTML.
-	 * @param array  $attributes The block settings.
-	 */
-	public static function get_image_with_dimensions( $content, $attributes ) {
-		$doc = self::load_html( $content );
-
-		if ( ! $doc ) {
-			return $content;
-		}
-
-		$image =
-			isset( $doc->getElementsByTagName( 'img' )[0] )
-			? $doc->getElementsByTagName( 'img' )[0]
-			: false;
-
-		if ( ! $image ) {
-			return $content;
-		}
-
-		$update_image = false;
-
-		if ( ! empty( $attributes['width'] ) ) {
-			$image->setAttribute( 'width', $attributes['width'] );
-			$update_image = true;
-		}
-
-		if ( ! empty( $attributes['height'] ) ) {
-			$image->setAttribute( 'height', $attributes['height'] );
-			$update_image = true;
-		}
-
-		if ( $update_image ) {
-			$content = $doc->saveHTML( $image );
-		}
-
-		return $content;
 	}
 
 	/**

@@ -24,31 +24,8 @@ export default function ImageSettingsControls( props ) {
 		alt,
 		title,
 		sizeSlug,
-		width,
-		height,
-		objectFit,
-		objectFitTablet,
-		objectFitMobile,
 		mediaUrl,
 	} = attributes;
-
-	const showImageDimensions =
-		'Desktop' === deviceType ||
-		(
-			'Tablet' === deviceType &&
-			(
-				objectFit ||
-				objectFitTablet
-			)
-		) ||
-		(
-			'Mobile' === deviceType &&
-			(
-				objectFit ||
-				objectFitTablet ||
-				objectFitMobile
-			)
-		);
 
 	const mediaData = useSelect( ( select ) => {
 		const { getMedia } = select( coreStore );
@@ -86,59 +63,41 @@ export default function ImageSettingsControls( props ) {
 					value={ sizeSlug }
 					options={ imageSizes }
 					onChange={ ( value ) => {
-						setAttributes( {
-							sizeSlug: value,
-						} );
-
 						const imageUrl = getMediaUrl( mediaData, value ) || mediaUrl;
-						let newWidth = mediaData?.media_details?.sizes[ value ]?.width || width;
-						let newHeight = mediaData?.media_details?.sizes[ value ]?.height || height;
-
-						/**
-						 * We can't get specific image data for dynamic images, so we'll use the
-						 * available sizing options for each sizeSlug.
-						 */
-						if ( useDynamicData ) {
-							newWidth = '';
-							newHeight = '';
-						}
 
 						setAttributes( {
 							mediaUrl: imageUrl,
-							width: newWidth,
-							height: newHeight,
+							sizeSlug: value,
 						} );
 					} }
 				/>
 			}
 
-			{ showImageDimensions &&
-				<BaseControl
-					help={ !! useDynamicData ? __( 'Dynamic images use their own dimensions unless the above fields are set.', 'generateblocks' ) : '' }
-				>
-					<div className="gblocks-image-dimensions__row">
-						<NumberControl
-							{ ...props }
-							label={ __( 'Width', 'generateblocks' ) }
-							id="gblocks-image-width"
-							attributeName="width"
-							device={ deviceType }
-							units={ [ 'px' ] }
-							min="1"
-						/>
+			<BaseControl
+				help={ __( 'These fields will resize the image using CSS.', 'generateblocks' ) }
+			>
+				<div className="gblocks-image-dimensions__row">
+					<NumberControl
+						{ ...props }
+						label={ __( 'Width', 'generateblocks' ) }
+						id="gblocks-image-width"
+						attributeName="width"
+						device={ deviceType }
+						units={ [ 'px' ] }
+						min="1"
+					/>
 
-						<NumberControl
-							{ ...props }
-							label={ __( 'Height', 'generateblocks' ) }
-							id="gblocks-image-height"
-							attributeName="height"
-							device={ deviceType }
-							units={ [ 'px' ] }
-							min="1"
-						/>
-					</div>
-				</BaseControl>
-			}
+					<NumberControl
+						{ ...props }
+						label={ __( 'Height', 'generateblocks' ) }
+						id="gblocks-image-height"
+						attributeName="height"
+						device={ deviceType }
+						units={ [ 'px' ] }
+						min="1"
+					/>
+				</div>
+			</BaseControl>
 
 			<SelectControl
 				label={ __( 'Object-fit', 'generateblocks' ) }
