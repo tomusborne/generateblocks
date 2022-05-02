@@ -59,20 +59,24 @@ export default function UnitControl( props ) {
 			const tabletValues = splitValues( attributes[ attributeName + 'Tablet' ] );
 
 			// Set desktop value as placeholder.
-			if (
-				'Tablet' === device ||
-				(
-					'Mobile' === device &&
-					! attributes[ attributeName + 'Tablet' ] &&
-					attributes[ attributeName ]
-				)
-			) {
-				setPlaceholderValue( getNumericValue( desktopValues ) );
-				setUnitValue( getUnitValue( desktopValues ) );
+			if ( ! attributes[ attributeName + 'Tablet' ] ) {
+				if (
+					'Tablet' === device ||
+					(
+						'Mobile' === device &&
+						attributes[ attributeName ]
+					)
+				) {
+					setPlaceholderValue( getNumericValue( desktopValues ) );
+					setUnitValue( getUnitValue( desktopValues ) );
+				}
 			}
 
 			// Set tablet value as placeholder.
-			if ( 'Mobile' === device && attributes[ attributeName + 'Tablet' ] ) {
+			if (
+				'Mobile' === device &&
+				attributes[ attributeName + 'Tablet' ]
+			) {
 				setPlaceholderValue( getNumericValue( tabletValues ) );
 				setUnitValue( getUnitValue( tabletValues ) );
 			}
