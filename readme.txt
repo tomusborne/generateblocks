@@ -78,6 +78,9 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.5.0 =
+* New: Dynamic data
+* New: Query Loop block
+* New: Image block
 * New: Add inline background image option
 * New: Add default container width option
 * New: Number component
@@ -98,6 +101,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Add memory to open editor panels
 * Tweak: Make device buttons sticky
 * Tweak: Improve container width label
+* Tweak: Remove :visited selector from buttons
 
 = 1.4.2 =
 * Fix: Missing responsive editor styles in Firefox

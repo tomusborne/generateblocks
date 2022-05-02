@@ -32,6 +32,11 @@ const data = [
 		id: 'headlineDocumentation',
 		url: 'https://docs.generateblocks.com/collection/headline/',
 	},
+	{
+		name: 'generateblocks/image',
+		id: 'imageDocumentation',
+		url: 'https://docs.generateblocks.com/collection/image/',
+	},
 ];
 
 const withDocumentation = createHigherOrderComponent( ( BlockEdit ) => {

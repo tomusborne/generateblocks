@@ -52,6 +52,7 @@ export default class TabletCSS extends Component {
 			shapeDividers,
 			bgImage,
 			bgOptions,
+			gridId,
 		} = attributes;
 
 		let cssObj = [];
@@ -105,7 +106,12 @@ export default class TabletCSS extends Component {
 		} ];
 
 		if ( isGrid ) {
-			cssObj[ '.gb-grid-wrapper .gb-grid-column-' + uniqueId ] = [ {
+			const gridColumnSelectors = [
+				'.gb-post-template-' + gridId + ' > .gb-post-template-wrapper > .block-editor-inner-blocks',
+				'.gb-grid-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column-' + uniqueId,
+			];
+
+			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
 				width: ! autoWidthTablet ? valueWithUnit( widthTablet, '%' ) : 'auto',
 				'flex-grow': flexGrowTablet,
 				'flex-shrink': flexShrinkTablet,

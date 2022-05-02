@@ -60,6 +60,12 @@ function generateblocks_do_block_editor_assets() {
 			'imageSizes' => $image_sizes,
 			'svgShapes' => generateblocks_get_svg_shapes(),
 			'syncResponsivePreviews' => generateblocks_get_option( 'sync_responsive_previews' ),
+			'excerptLength' => apply_filters( 'excerpt_length', 55 ), // phpcs:ignore -- Core filter.
+			'excerptMore' => apply_filters( 'excerpt_more', ' ' . '[&hellip;]' ), // phpcs:ignore -- Core filter.
+			'imagePlaceholders' => array(
+				'standard' => GENERATEBLOCKS_DIR_URL . 'assets/images/image-placeholder.png',
+				'square' => GENERATEBLOCKS_DIR_URL . 'assets/images/square-image-placeholder.png',
+			),
 		)
 	);
 
@@ -311,7 +317,7 @@ add_filter( 'generateblocks_attr_container', 'generateblocks_set_inline_backgrou
  * @param array $settings Block settings.
  */
 function generateblocks_set_inline_background_style( $attributes, $settings ) {
-	if ( $settings['bgImageInline'] ) {
+	if ( generateblocks_has_background_image( $settings ) && $settings['bgImageInline'] ) {
 		$url = generateblocks_get_background_image_url( $settings );
 
 		if ( $url ) {

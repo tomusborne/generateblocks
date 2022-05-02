@@ -19,17 +19,26 @@ export default class TabletCSS extends Component {
 			verticalGapTablet,
 			verticalAlignmentTablet,
 			horizontalAlignmentTablet,
+			isQueryLoop,
 		} = attributes;
 
 		let cssObj = [];
 
-		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
+		const gridSelector = isQueryLoop
+			? '.gb-post-template-' + uniqueId + ' > .gb-post-template-wrapper'
+			: '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
+
+		const gridItemSelector = isQueryLoop
+			? gridSelector + ' > .block-editor-inner-blocks'
+			: gridSelector + ' > .gb-grid-column';
+
+		cssObj[ gridSelector ] = [ {
 			'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
 			'justify-content': 'inherit' !== horizontalAlignmentTablet ? horizontalAlignmentTablet : null,
 			'margin-left': horizontalGapTablet || 0 === horizontalGapTablet ? '-' + horizontalGapTablet + 'px' : null,
 		} ];
 
-		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column' ] = [ {
+		cssObj[ gridItemSelector ] = [ {
 			'padding-left': valueWithUnit( horizontalGapTablet, 'px' ),
 			'margin-bottom': verticalGapTablet || 0 === verticalGapTablet ? valueWithUnit( verticalGapTablet, 'px' ) : null,
 		} ];

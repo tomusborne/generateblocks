@@ -20,7 +20,8 @@
 	"dependencies": {
 		"@emotion/react": "^11.7.1",
 		"classnames": "^2.3.1",
-		"dompurify": "^2.2.8"
+		"dompurify": "^2.2.8",
+		"use-debounce": "^7.0.1"
 	},
 	"devDependencies": {
 		"@wordpress/api-fetch": "5.2.6",
@@ -28,14 +29,16 @@
 		"@wordpress/blocks": "11.1.5",
 		"@wordpress/components": "19.2.0",
 		"@wordpress/compose": "5.0.7",
+		"@wordpress/core-data": "4.0.9",
 		"@wordpress/data": "6.1.5",
+		"@wordpress/date": "4.2.3",
 		"@wordpress/element": "4.0.4",
 		"@wordpress/eslint-plugin": "10.0.1",
 		"@wordpress/hooks": "3.2.2",
 		"@wordpress/i18n": "4.2.4",
 		"@wordpress/icons": "6.1.1",
 		"@wordpress/rich-text": "5.0.7",
-		"@wordpress/scripts": "19.2.3",
+		"@wordpress/scripts": "22.2.1",
 		"colord": "2.9.2",
 		"enzyme": "^3.11.0",
 		"grunt": "^1.4.0",
@@ -45,6 +48,7 @@
 		"jest": "^27.0.6",
 		"lodash": "4.17.21",
 		"react-colorful": "5.5.1",
+		"react-select": "^5.2.1",
 		"request": "^2.88.2",
 		"use-local-storage-state": "16.0.0"
 	},

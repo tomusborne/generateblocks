@@ -1,7 +1,7 @@
 import { useDispatch } from '@wordpress/data';
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
-import LayoutSelector, { getColumnsFromLayout } from './components/LayoutSelector';
+import GridLayoutSelector, { getColumnsFromLayout } from './components/LayoutSelector';
 import { createBlock } from '@wordpress/blocks';
 import BlockControls from './components/BlockControls';
 import InspectorControls from './components/InspectorControls';
@@ -12,6 +12,7 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
+import withQueryLoop from '../query-loop/hoc/withQueryLoop';
 
 const GridEdit = ( props ) => {
 	const {
@@ -19,8 +20,10 @@ const GridEdit = ( props ) => {
 		attributes,
 		setAttributes,
 		InnerBlocksRenderer = InnerBlocks,
+		LayoutSelector = GridLayoutSelector,
 		defaultLayout = false,
 		templateLock = false,
+		context,
 	} = props;
 
 	const [ selectedLayout, setSelectedLayout ] = useState( false );
@@ -38,7 +41,7 @@ const GridEdit = ( props ) => {
 	useEffect( () => {
 		const layout = defaultLayout || selectedLayout;
 
-		if ( layout ) {
+		if ( ! attributes.isQueryLoop && layout ) {
 			const columnsData = getColumnsFromLayout( layout, attributes.uniqueId );
 
 			columnsData.forEach( ( colAttrs ) => {
@@ -57,6 +60,7 @@ const GridEdit = ( props ) => {
 		defaultLayout,
 		attributes.uniqueId,
 		props.clientId,
+		attributes.isQueryLoop,
 	] );
 
 	let htmlAttributes = {
@@ -64,6 +68,8 @@ const GridEdit = ( props ) => {
 			'gb-grid-wrapper': true,
 			[ `gb-grid-wrapper-${ attributes.uniqueId }` ]: true,
 			[ `${ attributes.className }` ]: undefined !== attributes.className,
+			'gb-post-template': !! attributes.isQueryLoop,
+			[ `gb-post-template-${ attributes.uniqueId }` ]: !! attributes.isQueryLoop,
 		} ),
 		id: attributes.anchor ? attributes.anchor : null,
 	};
@@ -74,7 +80,7 @@ const GridEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			{ ( attributes.columns > 0 || selectedLayout ) &&
+			{ ( ! attributes.isQueryLoop && ( attributes.columns > 0 || selectedLayout ) ) &&
 				<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
 			}
 
@@ -94,7 +100,7 @@ const GridEdit = ( props ) => {
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<div { ...blockProps }>
-				{ ( attributes.columns > 0 || selectedLayout )
+				{ ( attributes.isQueryLoop || attributes.columns > 0 || selectedLayout )
 					? (
 						<InnerBlocksRenderer
 							templateLock={ templateLock }
@@ -102,6 +108,8 @@ const GridEdit = ( props ) => {
 							renderAppender={ false }
 							clientId={ clientId }
 							uniqueId={ attributes.uniqueId }
+							attributes={ attributes }
+							context={ context }
 						/>
 					)
 					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
@@ -112,6 +120,7 @@ const GridEdit = ( props ) => {
 };
 
 export default compose(
+	withQueryLoop,
 	withUniqueId,
 	withGridLegacyMigration,
 )( GridEdit );

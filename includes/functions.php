@@ -64,6 +64,10 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['button'][] = $block['attrs'];
 			}
 
+			if ( 'generateblocks/image' === $block['blockName'] ) {
+				$data['image'][] = $block['attrs'];
+			}
+
 			if ( 'core/block' === $block['blockName'] ) {
 				if ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) {
 					$atts = $block['attrs'];
@@ -432,6 +436,26 @@ function generateblocks_get_flexbox_alignment( $value ) {
 }
 
 /**
+ * Return float alignment values.
+ *
+ * @since 1.5.0
+ * @param string $value The value to convert.
+ *
+ * @return string The float alignment value.
+ */
+function generateblocks_get_float_alignment( $value ) {
+	$floats = [
+		'floatLeft' => 'left',
+		'floatRight' => 'right',
+		'floatNone' => 'none',
+	];
+
+	return isset( $floats[ $value ] )
+		? $floats[ $value ]
+		: $value;
+}
+
+/**
  * Get an option from the database.
  *
  * @param string $option The option to get.
@@ -467,6 +491,20 @@ function generateblocks_has_number_value( $value ) {
 }
 
 /**
+ * Check if we have a Container background image to display.
+ *
+ * @since 1.5.0
+ * @param array $settings The block settings.
+ */
+function generateblocks_has_background_image( $settings ) {
+	return $settings['bgImage'] ||
+	(
+		$settings['useDynamicData'] &&
+		'' !== $settings['dynamicContentType']
+	);
+}
+
+/**
  * Get our background image URL.
  *
  * @since 1.5.0
@@ -483,7 +521,7 @@ function generateblocks_get_background_image_url( $settings ) {
 		} else {
 			$url = $settings['bgImage']['image']['url'];
 		}
-	} else {
+	} elseif ( isset( $settings['bgImage']['image']['url'] ) ) {
 		$url = $settings['bgImage']['image']['url'];
 	}
 
@@ -522,7 +560,7 @@ function generateblocks_get_background_image_css( $type, $settings ) {
 
 	$backgroundImage = '';
 
-	if ( $settings['bgImage'] ) {
+	if ( generateblocks_has_background_image( $settings ) ) {
 		$url = generateblocks_get_background_image_url( $settings );
 
 		// Old background image overlays mixed with our gradients.
@@ -557,12 +595,13 @@ function generateblocks_get_background_image_css( $type, $settings ) {
  *
  * @since 1.2.0
  *
- * @param string $context    The context, to build filter name.
- * @param array  $attributes Optional. Extra attributes to merge with defaults.
- * @param array  $settings   Optional. Custom data to pass to filter.
+ * @param string   $context    The context, to build filter name.
+ * @param array    $attributes Optional. Extra attributes to merge with defaults.
+ * @param array    $settings   Optional. Custom data to pass to filter.
+ * @param WP_Block $block      Block instance.
  * @return string String of HTML attributes and values.
  */
-function generateblocks_attr( $context, $attributes = array(), $settings = array() ) {
+function generateblocks_attr( $context, $attributes = array(), $settings = array(), $block = null ) {
 	$attributes = generateblocks_parse_attr( $context, $attributes, $settings );
 
 	$output = '';
@@ -581,7 +620,7 @@ function generateblocks_attr( $context, $attributes = array(), $settings = array
 		}
 	}
 
-	$output = apply_filters( "generateblocks_attr_{$context}_output", $output, $attributes, $settings, $context );
+	$output = apply_filters( "generateblocks_attr_{$context}_output", $output, $attributes, $settings, $context, $block );
 
 	return trim( $output );
 }
@@ -593,12 +632,13 @@ function generateblocks_attr( $context, $attributes = array(), $settings = array
  *
  * @since 1.2.0
  *
- * @param string $context    The context, to build filter name.
- * @param array  $attributes Optional. Extra attributes to merge with defaults.
- * @param array  $settings   Optional. Custom data to pass to filter.
+ * @param string   $context    The context, to build filter name.
+ * @param array    $attributes Optional. Extra attributes to merge with defaults.
+ * @param array    $settings   Optional. Custom data to pass to filter.
+ * @param WP_Block $block      Block instance.
  * @return array Merged and filtered attributes.
  */
-function generateblocks_parse_attr( $context, $attributes = array(), $settings = array() ) {
+function generateblocks_parse_attr( $context, $attributes = array(), $settings = array(), $block = null ) {
 	$defaults = array(
 		'class' => sanitize_html_class( $context ),
 	);
@@ -606,7 +646,7 @@ function generateblocks_parse_attr( $context, $attributes = array(), $settings =
 	$attributes = wp_parse_args( $attributes, $defaults );
 
 	// Contextual filter.
-	return apply_filters( "generateblocks_attr_{$context}", $attributes, $settings, $context );
+	return apply_filters( "generateblocks_attr_{$context}", $attributes, $settings, $context, $block );
 }
 
 /**
@@ -765,4 +805,91 @@ function generateblocks_get_svg_shapes() {
 			),
 		)
 	);
+}
+
+/**
+ * Search an array to check if a key has a value.
+ *
+ * @since 1.5.0
+ * @param string $setting The setting to check.
+ * @param array  $data The array to search.
+ */
+function generateblocks_block_has_value( $setting, $data ) {
+	foreach ( (array) $data as $key => $val ) {
+		if ( isset( $val[ $setting ] ) && ( $val[ $setting ] || 0 === $val[ $setting ] ) ) {
+			return true;
+		}
+	}
+
+	return null;
+}
+
+/**
+ * Given an array it will change keys based on the map.
+ *
+ * @param array $arr The array to check.
+ * @param array $keyMap The array to map.
+ *
+ * @return array|false
+ *
+ * @since 1.5.0
+ */
+function generateblocks_map_array_keys( $arr = array(), $keyMap = array() ) {
+	return array_combine(
+		array_map(
+			function( $key ) use ( $keyMap ) {
+				return isset( $keyMap[ $key ] ) ? $keyMap[ $key ] : $key;
+			},
+			array_keys( $arr )
+		),
+		array_values( $arr )
+	);
+}
+
+/**
+ * Checks if the date is correctly formatted
+ *
+ * @param string $date The date to validate.
+ * @param string $format The allowed format.
+ *
+ * @return bool
+ */
+function generateblocks_is_valid_date( $date, $format = 'Y-m-d\TH:i:s' ) {
+	$dateTime = DateTime::createFromFormat( $format, $date );
+
+	return ( $dateTime && $dateTime->format( $format ) === $date );
+}
+
+/**
+ * Modifies the markup of images in provided content.
+ *
+ * @param string $content The content to modify.
+ * @param array  $attributes The block attributes.
+ *
+ * @since 1.5.0
+ */
+function generateblocks_filter_images( $content, $attributes ) {
+	// Bail early if not using WP 5.5.
+	if ( ! function_exists( 'wp_img_tag_add_width_and_height_attr' ) ) {
+		return $content;
+	}
+
+	if ( ! empty( $attributes['mediaId'] ) ) {
+		// Add 'width' and 'height' attributes if applicable.
+		if ( false === strpos( $content, ' width=' ) && false === strpos( $content, ' height=' ) ) {
+			$content = wp_img_tag_add_width_and_height_attr( $content, '', $attributes['mediaId'] );
+		}
+
+		// Add 'srcset' and 'sizes' attributes if applicable.
+		if ( false === strpos( $content, ' srcset=' ) ) {
+			$content = wp_img_tag_add_srcset_and_sizes_attr( $content, '', $attributes['mediaId'] );
+		}
+	}
+
+	// Add 'loading' attribute if applicable.
+	if ( wp_lazy_loading_enabled( 'img', '' ) && false === strpos( $content, ' loading=' ) ) {
+		$content = wp_img_tag_add_loading_attr( $content, '' );
+	}
+
+	return $content;
 }

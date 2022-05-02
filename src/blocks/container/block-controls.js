@@ -41,6 +41,7 @@ const withBlockControls = createHigherOrderComponent(
 
 		const {
 			isGrid,
+			isQueryLoopItem,
 			align,
 		} = attributes;
 
@@ -60,7 +61,7 @@ const withBlockControls = createHigherOrderComponent(
 
 		return (
 			<Fragment>
-				{ isGrid && parentGridId &&
+				{ ! isQueryLoopItem && isGrid && parentGridId &&
 					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton

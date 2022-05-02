@@ -1,0 +1,33 @@
+.gblocks-unit-control {
+	&__input {
+		display: flex;
+		align-items: flex-start;
+
+		select {
+			appearance: none;
+			background: transparent;
+			border-radius: 0px 2px 2px 0px;
+			box-sizing: border-box;
+			color: rgb(85, 93, 102);
+			display: block;
+			font-size: 8px;
+			letter-spacing: -0.5px;
+			outline: none;
+			padding: 2px 3px;
+			text-align-last: center;
+			text-transform: uppercase;
+			width: 30px;
+			cursor: pointer;
+			height: 100%;
+			margin: 0;
+		}
+	}
+
+	&__unit-select {
+		-moz-box-align: center;
+		align-items: center;
+		align-self: stretch;
+		box-sizing: border-box;
+		display: flex;
+	}
+}

@@ -66,6 +66,10 @@ export default {
 	blockVersion: {
 		type: 'number',
 	},
+	isQueryLoop: {
+		type: 'boolean',
+		default: false,
+	},
 	// deprecated since 1.2.0
 	elementId: {
 		type: 'string',

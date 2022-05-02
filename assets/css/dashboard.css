@@ -11,7 +11,7 @@
 .gblocks-dashboard-intro-content {
     padding: 60px;
     font-size: 30px;
-    line-height: 1.8;
+    line-height: 1.3;
     text-align: center;
     margin: 0 auto;
     max-width: 700px;
@@ -37,7 +37,7 @@
     background-image: linear-gradient(180deg, #fff 50%, rgba(0,0,0,0.02));
     display: flex;
     flex-direction: column;
-    width: 21%;
+    width: 29%;
     box-sizing: border-box;
     margin: 0 2% 4%;
     border-bottom: 2px solid #ddd;
@@ -47,7 +47,7 @@
 .gblocks-block svg {
     width: 75px;
     height: 75px;
-	color: #006eb7;
+	fill: #006eb7;
 }
 
 .gblocks-block > *:last-child {

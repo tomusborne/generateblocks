@@ -1,4 +1,3 @@
-import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
@@ -12,12 +11,12 @@ import GradientControl from '../../../components/gradient';
 import IconPicker from '../../../components/icon-picker';
 import { InspectorControls } from '@wordpress/block-editor';
 import NumberControl from '../../../components/number-control';
+import './ConditionalColors';
 
 export default ( props ) => {
 	const {
 		attributes,
 		deviceType,
-		setDeviceType,
 		state,
 		blockDefaults,
 		computedStyles,
@@ -31,8 +30,6 @@ export default ( props ) => {
 
 	return (
 		<InspectorControls>
-			<ResponsiveTabs { ...props } selectedDevice={ deviceType } onClick={ setDeviceType } />
-
 			<PanelArea
 				{ ...props }
 				title={ __( 'Typography', 'generateblocks' ) }

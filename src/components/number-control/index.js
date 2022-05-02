@@ -28,13 +28,14 @@ export default function NumberControl( props ) {
 		attributeName,
 		attributes,
 		setAttributes,
-		units,
+		units = [],
 		unit = 'px',
 		device,
 		presets = [],
 		min = 0,
 		max,
 		step,
+		id = attributeName,
 		defaultPlaceholder = '',
 	} = props;
 
@@ -52,7 +53,7 @@ export default function NumberControl( props ) {
 		unit: attributeName + 'Unit',
 	};
 
-	if ( 'Desktop' !== device ) {
+	if ( device && 'Desktop' !== device ) {
 		attributeNames.value += device;
 	}
 
@@ -84,10 +85,15 @@ export default function NumberControl( props ) {
 		inputPreferences.some( ( pref ) => pref.includes( attributeName ) );
 
 	return (
-		<BaseControl className="gblocks-number-component">
+		<BaseControl
+			label={ units.length === 0 ? label : null }
+			id={ id }
+			className="gblocks-number-component"
+		>
 			{ units.length > 0 &&
 				<UnitPicker
 					label={ label }
+					id={ id }
 					value={ attributes[ attributeNames.unit ] || unit }
 					units={ units }
 					singleOption={ ! showCustom }
@@ -157,6 +163,7 @@ export default function NumberControl( props ) {
 						type="number"
 						value={ hasNumericValue( attributes[ attributeNames.value ] ) ? attributes[ attributeNames.value ] : '' }
 						placeholder={ getResponsivePlaceholder( attributeNames.value, attributes, device, defaultPlaceholder ) }
+						id={ id }
 						min={ min }
 						max={ max }
 						step={ step }

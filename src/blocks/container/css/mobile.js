@@ -57,6 +57,7 @@ export default class MobileCSS extends Component {
 			shapeDividers,
 			bgImage,
 			bgOptions,
+			gridId,
 		} = attributes;
 
 		let cssObj = [];
@@ -110,7 +111,12 @@ export default class MobileCSS extends Component {
 		} ];
 
 		if ( isGrid ) {
-			cssObj[ '.gb-grid-wrapper .gb-grid-column-' + uniqueId ] = [ {
+			const gridColumnSelectors = [
+				'.gb-post-template-' + gridId + ' > .gb-post-template-wrapper > .block-editor-inner-blocks',
+				'.gb-grid-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column-' + uniqueId,
+			];
+
+			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
 				width: ! autoWidthMobile ? valueWithUnit( widthMobile, '%' ) : 'auto',
 				'flex-grow': flexGrowMobile,
 				'flex-shrink': flexShrinkMobile,

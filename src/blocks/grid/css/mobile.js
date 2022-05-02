@@ -19,17 +19,26 @@ export default class MobileCSS extends Component {
 			verticalGapMobile,
 			verticalAlignmentMobile,
 			horizontalAlignmentMobile,
+			isQueryLoop,
 		} = attributes;
 
 		let cssObj = [];
 
-		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
+		const gridSelector = isQueryLoop
+			? '.gb-post-template-' + uniqueId + ' > .gb-post-template-wrapper'
+			: '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout';
+
+		const gridItemSelector = isQueryLoop
+			? gridSelector + ' > .block-editor-inner-blocks'
+			: gridSelector + ' > .gb-grid-column';
+
+		cssObj[ gridSelector ] = [ {
 			'align-items': 'inherit' !== verticalAlignmentMobile ? verticalAlignmentMobile : null,
 			'justify-content': 'inherit' !== horizontalAlignmentMobile ? horizontalAlignmentMobile : null,
 			'margin-left': horizontalGapMobile || 0 === horizontalGapMobile ? '-' + horizontalGapMobile + 'px' : null,
 		} ];
 
-		cssObj[ '.gb-grid-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column' ] = [ {
+		cssObj[ gridItemSelector ] = [ {
 			'padding-left': valueWithUnit( horizontalGapMobile, 'px' ),
 			'margin-bottom': verticalGapMobile || 0 === verticalGapMobile ? valueWithUnit( verticalGapMobile, 'px' ) : null,
 		} ];

@@ -1,5 +1,4 @@
 import { InspectorControls, MediaUpload } from '@wordpress/block-editor';
-import ResponsiveTabs from '../../../components/responsive-tabs';
 import PanelArea from '../../../components/panel-area';
 import { __, sprintf } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
@@ -37,7 +36,6 @@ export default ( props ) => {
 		attributes,
 		setAttributes,
 		deviceType,
-		setDeviceType,
 		state,
 		blockDefaults,
 		tagNames,
@@ -48,6 +46,7 @@ export default ( props ) => {
 	const {
 		tagName,
 		isGrid,
+		isQueryLoopItem,
 		gridId,
 		width,
 		widthTablet,
@@ -90,6 +89,8 @@ export default ( props ) => {
 		orderMobile,
 		align,
 		shapeDividers,
+		useDynamicData,
+		dynamicContentType,
 	} = attributes;
 
 	const {
@@ -98,14 +99,14 @@ export default ( props ) => {
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	useEffect( () => {
-		const parentBlockId = getBlockParents( clientId, true )[ 0 ];
+		const parentBlockId = getBlockParents( clientId, true );
 
 		if ( parentBlockId ) {
-			const parentBlock = getBlocksByClientId( parentBlockId );
+			const parentBlocks = getBlocksByClientId( parentBlockId );
 
-			if ( parentBlock ) {
-				if ( 'generateblocks/grid' === parentBlock[ 0 ].name ) {
-					const parentGridId = parentBlock[ 0 ].attributes.uniqueId;
+			if ( parentBlocks.length > 0 ) {
+				if ( 'generateblocks/grid' === parentBlocks[ 0 ].name ) {
+					const parentGridId = parentBlocks[ 0 ].attributes.uniqueId;
 
 					if ( parentGridId !== gridId ) {
 						setAttributes( {
@@ -113,7 +114,7 @@ export default ( props ) => {
 							gridId: parentGridId,
 						} );
 					}
-				} else if ( isGrid ) {
+				} else if ( isGrid && ! isQueryLoopItem ) {
 					// Grid block isn't the parent, can't be a grid item.
 					setAttributes( {
 						isGrid: false,
@@ -121,7 +122,7 @@ export default ( props ) => {
 					} );
 				}
 			}
-		} else if ( isGrid ) {
+		} else if ( isGrid && ! isQueryLoopItem ) {
 			// No parent exists, can't be a grid item.
 			setAttributes( {
 				isGrid: false,
@@ -175,8 +176,6 @@ export default ( props ) => {
 
 	return (
 		<InspectorControls>
-			<ResponsiveTabs { ...props } selectedDevice={ deviceType } onClick={ setDeviceType } />
-
 			{ ! isGrid && (
 				<PanelArea
 					{ ...props }
@@ -1287,10 +1286,21 @@ export default ( props ) => {
 						</div>
 					</BaseControl>
 
-					{ !! bgImage && (
+					{ useDynamicData && '' !== dynamicContentType &&
+						<Notice
+							className="gblocks-option-notice"
+							status="info"
+							isDismissible={ false }
+						>
+							{ __( 'Using featured image as dynamic background.', 'generateblocks' ) }
+						</Notice>
+					}
+
+					{ ( !! bgImage || ( useDynamicData && '' !== dynamicContentType ) ) && (
 						<Fragment>
 							<ToggleControl
 								label={ __( 'Use inline style', 'generateblocks' ) }
+								disabled={ useDynamicData && '' !== dynamicContentType && isQueryLoopItem }
 								checked={ !! bgImageInline }
 								onChange={ ( nextImageInline ) => {
 									setAttributes( {
@@ -1324,7 +1334,9 @@ export default ( props ) => {
 								</Fragment>
 							) : ( // These options is only for people not using the deprecated overlay option.
 								<Fragment>
-									{ 'undefined' !== typeof bgImage.id && bgImage.id &&
+									{ (
+										( bgImage && bgImage.id ) ||
+										( useDynamicData && '' !== dynamicContentType ) ) &&
 										<SelectControl
 											label={ __( 'Image Size', 'generateblocks' ) }
 											value={ bgImageSize }

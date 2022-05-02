@@ -36,6 +36,10 @@ registerBlockType( 'generateblocks/button-container', {
 		className: false,
 		html: false,
 	},
+	usesContext: [
+		'generateblocks/queryId',
+		'generateblocks/query',
+	],
 	edit: editButtonContainer,
 	save: () => {
 		return (
@@ -43,4 +47,9 @@ registerBlockType( 'generateblocks/button-container', {
 		);
 	},
 	deprecated,
+	__experimentalLabel: ( attributes ) => (
+		attributes.isPagination
+			? __( 'Pagination', 'generateblocks' )
+			: __( 'Buttons', 'generateblocks' )
+	),
 } );
