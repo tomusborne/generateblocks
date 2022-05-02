@@ -35,8 +35,8 @@ function ImageEdit( props ) {
 	const [ featuredImage ] = useEntityProp( 'postType', postType, 'featured_media', postId );
 
 	const onSelectImage = ( image ) => {
-		if ( ! useDynamicData ) {
-			const imageUrl = image?.sizes[ sizeSlug ]?.url || image?.url;
+		if ( ! useDynamicData && !! image ) {
+			const imageUrl = image?.sizes && image?.sizes[ sizeSlug ]?.url || image?.url;
 
 			setAttributes( {
 				mediaId: image?.id,
