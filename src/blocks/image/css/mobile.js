@@ -1,8 +1,6 @@
 import buildCSS from '../../../utils/build-css';
-
 import { applyFilters } from '@wordpress/hooks';
 import shorthandCSS from '../../../utils/shorthand-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 
 export default function MobileCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -69,8 +67,8 @@ export default function MobileCSS( props ) {
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-radius': shorthandCSS( borderRadiusTopLeftMobile, borderRadiusTopRightMobile, borderRadiusBottomRightMobile, borderRadiusBottomLeftMobile, borderRadiusUnit ),
 		'border-color': borderColor,
-		width: valueWithUnit( widthMobile, 'px' ),
-		height: valueWithUnit( heightMobile, 'px' ),
+		width: widthMobile,
+		height: heightMobile,
 		'object-fit': objectFitMobile,
 	} ];
 

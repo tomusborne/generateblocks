@@ -54,28 +54,28 @@
 			"default": ""
 		},
 	  	"width": {
-			"type": "number",
-			"default": false
+			"type": "string",
+			"default": ""
 	  	},
 		"widthTablet": {
-			"type": "number",
-			"default": false
+			"type": "string",
+			"default": ""
 	  	},
 		"widthMobile": {
-			"type": "number",
-			"default": false
+			"type": "string",
+			"default": ""
 	  	},
 	  	"height": {
-			"type": "number",
-			"default": false
+			"type": "string",
+			"default": ""
 	  	},
 		"heightTablet": {
-			"type": "number",
-			"default": false
+			"type": "string",
+			"default": ""
 	  	},
 		"heightMobile": {
-			"type": "number",
-			"default": false
+			"type": "string",
+			"default": ""
 	  	},
 		"objectFit": {
 			"type": "string",
