@@ -1,6 +1,5 @@
 import { Path, SVG } from '@wordpress/primitives';
 import { MediaPlaceholder } from '@wordpress/block-editor';
-import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
 
@@ -49,18 +48,6 @@ export default function ImagePlaceholder( props ) {
 		onError={ onUploadError }
 		accept="image/*"
 		allowedTypes={ [ 'image' ] }
-		mediaLibraryButton={ ( { open } ) => {
-			return (
-				<Button
-					variant="primary"
-					onClick={ () => {
-						open();
-					} }
-				>
-					{ __( 'Media Library', 'generateblocks' ) }
-				</Button>
-			);
-		} }
 	/>;
 
 	if ( ! canUploadImage ) {
