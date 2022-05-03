@@ -212,7 +212,7 @@ export default function MainCSS( props ) {
 		cssObj[ '.gb-container-' + uniqueId + ':after' ] = [ {
 			'content': '""', // eslint-disable-line quote-props
 			'background-image': gradientValue,
-			'z-index': '0',
+			'z-index': '0 !important',
 			'position': 'absolute', // eslint-disable-line quote-props
 			'top': '0', // eslint-disable-line quote-props
 			'right': '0', // eslint-disable-line quote-props
