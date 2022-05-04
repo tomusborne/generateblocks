@@ -150,6 +150,33 @@ const templates = [
 			],
 		],
 	},
+	{
+		name: 'blank',
+		title: __( 'Start blank', 'generateblocks' ),
+		icon: <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"></svg>,
+		innerBlocks: [
+			[ 'generateblocks/grid',
+				{
+					isQueryLoop: true,
+					lock: {
+						remove: true,
+					},
+				},
+				[
+					[ 'generateblocks/container',
+						{
+							isQueryLoopItem: true,
+							width: 100,
+							lock: {
+								remove: true,
+								move: true,
+							},
+						},
+					],
+				],
+			],
+		],
+	},
 ];
 
 export default templates;
