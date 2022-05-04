@@ -153,7 +153,7 @@ const templates = [
 	{
 		name: 'two-columns-feature-image',
 		title: __( 'Two columns & featured image', 'generateblocks' ),
-		icon: <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M14 28h78v11H14zM14 46h36.035v5H14zM14 66h78v5H14zM14 77h78v5H14zM108 28h78v11h-78zM108 46h36.035v5H108zM108 66h78v5h-78zM108 77h78v5h-78zM14 118h78v11H14zM14 136h36.035v5H14zM14 156h78v5H14zM14 167h78v5H14zM108 118h78v11h-78zM108 136h36.035v5H108zM108 156h78v5h-78zM108 167h78v5h-78z" /></svg>,
+		icon: <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><path d="M110 57h78v11h-78V57ZM110 16h78v35h-78V16ZM110 76h78v5h-78zM110 87h55v5h-55zM110 149h78v11h-78v-11ZM110 108h78v35h-78v-35ZM110 168h78v5h-78zM110 179h55v5h-55zM15 149h78v11H15v-11ZM15 108h78v35H15v-35ZM15 168h78v5H15zM15 179h55v5H15zM15 57h78v11H15V57ZM15 16h78v35H15V16ZM15 76h78v5H15zM15 87h55v5H15z" /></svg>,
 		innerBlocks: [
 			[ 'generateblocks/grid',
 				{
