@@ -154,7 +154,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 
 						<TermsControl
 							isActive={ 'terms' === dynamicContentType }
-							postType={ postType }
+							postType={ currentPostType }
 							termTaxonomy={ termTaxonomy }
 							termSeparator={ termSeparator }
 							setAttributes={ setAttributes }
