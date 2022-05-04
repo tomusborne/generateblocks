@@ -125,12 +125,15 @@ class GenerateBlocks_Dynamic_Content {
 	 * @return string
 	 */
 	public static function get_post_excerpt( $attributes ) {
+		$source_id = self::get_source_id( $attributes );
+		$unique_id = $attributes['uniqueId'];
+
 		// This prevents endless loops by not rendering excerpts within themselves.
-		if ( array_search( self::get_source_id( $attributes ), self::$source_ids ) !== false ) {
+		if ( isset( self::$source_ids[ $unique_id ] ) && $source_id === self::$source_ids[ $unique_id ] ) {
 			return '';
 		}
 
-		array_push( self::$source_ids, self::get_source_id( $attributes ) );
+		self::$source_ids[ $unique_id ] = $source_id;
 
 		$filter_excerpt_length = function( $length ) use ( $attributes ) {
 			return isset( $attributes['excerptLength'] ) ? $attributes['excerptLength'] : $length;
@@ -170,7 +173,7 @@ class GenerateBlocks_Dynamic_Content {
 			);
 		}
 
-		$excerpt = get_the_excerpt( self::get_source_id( $attributes ) );
+		$excerpt = get_the_excerpt( $source_id );
 
 		if ( isset( $filter_excerpt_length ) ) {
 			remove_filter(
