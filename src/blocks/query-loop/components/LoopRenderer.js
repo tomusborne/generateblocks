@@ -55,7 +55,7 @@ export default function LoopRenderer( props ) {
 	const containerHasInnerBlocks = (
 		!! innerBlocks[ 0 ] &&
 		'generateblocks/container' === innerBlocks[ 0 ]?.name &&
-		innerBlocks[0]?.innerBlocks.length > 0
+		innerBlocks[ 0 ]?.innerBlocks.length > 0
 	);
 
 	const dataContexts = useMemo(
