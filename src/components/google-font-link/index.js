@@ -1,6 +1,10 @@
 import { Fragment } from '@wordpress/element';
 
-export default ( { fontFamily, googleFont, googleFontVariants } ) => {
+export default ( { fontFamily, googleFont, googleFontVariants, isBlockPreview } ) => {
+	if ( isBlockPreview ) {
+		return null;
+	}
+
 	const gFontsUrl = 'https://fonts.googleapis.com/css?family=';
 	const googleFontsAttr = googleFontVariants ? `:${ googleFontVariants }` : '';
 	const href = gFontsUrl + fontFamily.replace( / /g, '+' ) + googleFontsAttr;

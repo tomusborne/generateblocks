@@ -49,6 +49,7 @@ const HeadlineEdit = ( props ) => {
 		icon,
 		hasIcon,
 		element,
+		isBlockPreview = false,
 	} = attributes;
 
 	const ref = useRef( null );
@@ -97,6 +98,7 @@ const HeadlineEdit = ( props ) => {
 				fontFamily={ fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
+				isBlockPreview={ isBlockPreview }
 			/>
 
 			{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', props ) }
