@@ -5,11 +5,10 @@ import RootElement from '../../../components/root-element';
 import Element from '../../../components/element';
 import Image from './Image';
 import BlockControls from './BlockControls';
-import { useRef, useState, useMemo, useEffect } from '@wordpress/element';
+import { useRef, useState, useMemo } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import getDynamicImage from '../../../utils/get-dynamic-image';
 import getMediaUrl from '../../../utils/get-media-url';
-import getAttribute from '../../../utils/get-attribute';
 import { applyFilters } from '@wordpress/hooks';
 
 export default function ImageContentRenderer( props ) {
@@ -41,7 +40,6 @@ export default function ImageContentRenderer( props ) {
 		{ loadedNaturalWidth, loadedNaturalHeight },
 		setLoadedNaturalSize,
 	] = useState( {} );
-	const [ imageFloat, setImageFloat ] = useState( false );
 
 	// Get naturalWidth and naturalHeight from image ref, and fall back to loaded natural
 	// width and height. This resolves an issue in Safari where the loaded natural
@@ -64,16 +62,6 @@ export default function ImageContentRenderer( props ) {
 		imageRef.current?.complete,
 	] );
 
-	useEffect( () => {
-		if ( figureRef.current ) {
-			const imageStyles = getComputedStyle( figureRef.current );
-
-			if ( imageStyles ) {
-				setImageFloat( imageStyles.float );
-			}
-		}
-	}, [ getAttribute( 'alignment', props ) ] );
-
 	const {
 		getBlockRootClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
@@ -92,27 +80,13 @@ export default function ImageContentRenderer( props ) {
 	const altText = useDynamicData && dynamicContentType ? currentImage?.alt_text : attributes.alt;
 	const titleText = useDynamicData && dynamicContentType ? currentImage?.title?.rendered : attributes.title;
 
-	const getDataAlign = () => {
-		let dataAlign = null;
-
-		if ( align ) {
-			dataAlign = align;
-		}
-
-		if ( 'left' === imageFloat || 'right' === imageFloat ) {
-			dataAlign = imageFloat;
-		}
-
-		return dataAlign;
-	};
-
 	const figureAttributes = useBlockProps( {
 		className: classnames( {
 			'gb-block-image': true,
 			[ `gb-block-image-${ uniqueId }` ]: true,
 			'is-applying': !! temporaryURL,
 		} ),
-		'data-align': !! parentBlock ? getDataAlign() : null,
+		'data-align': !! parentBlock ? align : null,
 		ref: figureRef,
 	} );
 
@@ -159,7 +133,7 @@ export default function ImageContentRenderer( props ) {
 				deviceType={ deviceType }
 			/>
 
-			<RootElement name={ name } clientId={ clientId } align={ getDataAlign() }>
+			<RootElement name={ name } clientId={ clientId } align={ align }>
 				<Element tagName="figure" htmlAttrs={ figureAttributes }>
 					{ ( !! temporaryURL || !! imageUrl )
 						? <Image { ...imageProps } />

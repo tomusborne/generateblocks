@@ -62,6 +62,8 @@ export default function MobileCSS( props ) {
 		padding: shorthandCSS( paddingTopMobile, paddingRightMobile, paddingBottomMobile, paddingLeftMobile, paddingUnit ),
 		'text-align': ! alignmentMobile.startsWith( 'float' ) ? alignmentMobile : null,
 		float,
+		position: float && 'none' !== float ? 'relative' : null,
+		'z-index': float && 'none' !== float ? '22' : null,
 	} ];
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {

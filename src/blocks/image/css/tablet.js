@@ -58,6 +58,8 @@ export default function TabletCSS( props ) {
 		padding: shorthandCSS( paddingTopTablet, paddingRightTablet, paddingBottomTablet, paddingLeftTablet, paddingUnit ),
 		'text-align': ! alignmentTablet.startsWith( 'float' ) ? alignmentTablet : null,
 		float,
+		position: float && 'none' !== float ? 'relative' : null,
+		'z-index': float && 'none' !== float ? '22' : null,
 	} ];
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
