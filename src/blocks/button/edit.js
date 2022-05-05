@@ -24,6 +24,7 @@ const ButtonEdit = ( props ) => {
 		fontFamily,
 		googleFont,
 		googleFontVariants,
+		isBlockPreview = false,
 	} = attributes;
 
 	const ref = useRef( null );
@@ -67,6 +68,7 @@ const ButtonEdit = ( props ) => {
 				fontFamily={ fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
+				isBlockPreview={ isBlockPreview }
 			/>
 
 			<ContentRenderer { ...props } buttonRef={ ref } />

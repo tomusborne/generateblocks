@@ -22,6 +22,7 @@ const ContainerEdit = ( props ) => {
 		fontFamily,
 		googleFont,
 		googleFontVariants,
+		isBlockPreview = false,
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
@@ -91,6 +92,7 @@ const ContainerEdit = ( props ) => {
 				fontFamily={ fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
+				isBlockPreview={ isBlockPreview }
 			/>
 
 			<ContentRenderer
