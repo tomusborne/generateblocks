@@ -61,12 +61,6 @@ export default function LoopRenderer( props ) {
 
 	const [ activeContextId, setActiveContextId ] = useState();
 
-	const containerHasInnerBlocks = (
-		!! innerBlocks[ 0 ] &&
-		'generateblocks/container' === innerBlocks[ 0 ]?.name &&
-		innerBlocks[ 0 ]?.innerBlocks.length > 0
-	);
-
 	const dataContexts = useMemo(
 		() =>
 			hasData && data.map( ( item ) => ( contextCallback( item ) ) ),
@@ -91,14 +85,12 @@ export default function LoopRenderer( props ) {
 					: null
 				}
 
-				{ containerHasInnerBlocks &&
-					<MemoizedBlockPreview
-						blocks={ setIsBlockPreview( innerBlocks ) }
-						contextId={ postContext.postId }
-						setActiveContextId={ setActiveContextId }
-						isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
-					/>
-				}
+				<MemoizedBlockPreview
+					blocks={ setIsBlockPreview( innerBlocks ) }
+					contextId={ postContext.postId }
+					setActiveContextId={ setActiveContextId }
+					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
+				/>
 
 			</BlockContextProvider>
 		) ) );
