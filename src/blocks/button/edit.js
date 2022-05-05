@@ -24,6 +24,7 @@ const ButtonEdit = ( props ) => {
 		fontFamily,
 		googleFont,
 		googleFontVariants,
+		isBlockPreview = false,
 	} = attributes;
 
 	const ref = useRef( null );
@@ -40,34 +41,38 @@ const ButtonEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			<BlockControls
-				clientId={ clientId }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-			/>
+			{ ! isBlockPreview &&
+				<>
+					<BlockControls
+						clientId={ clientId }
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+					/>
 
-			<InspectorControls
-				{ ...props }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				state={ { deviceType } }
-				blockDefaults={ generateBlocksDefaults.button }
-				computedStyles={ computedStyles }
-			/>
+					<InspectorControls
+						{ ...props }
+						deviceType={ deviceType }
+						setDeviceType={ setDeviceType }
+						state={ { deviceType } }
+						blockDefaults={ generateBlocksDefaults.button }
+						computedStyles={ computedStyles }
+					/>
 
-			<InspectorAdvancedControls
-				anchor={ anchor }
-				ariaLabel={ ariaLabel }
-				setAttributes={ setAttributes }
-			/>
+					<InspectorAdvancedControls
+						anchor={ anchor }
+						ariaLabel={ ariaLabel }
+						setAttributes={ setAttributes }
+					/>
 
-			<ComponentCSS { ...props } deviceType={ deviceType } />
+					<ComponentCSS { ...props } deviceType={ deviceType } />
 
-			<GoogleFontLink
-				fontFamily={ fontFamily }
-				googleFont={ googleFont }
-				googleFontVariants={ googleFontVariants }
-			/>
+					<GoogleFontLink
+						fontFamily={ fontFamily }
+						googleFont={ googleFont }
+						googleFontVariants={ googleFontVariants }
+					/>
+				</>
+			}
 
 			<ContentRenderer { ...props } buttonRef={ ref } />
 		</Fragment>

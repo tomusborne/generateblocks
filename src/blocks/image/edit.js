@@ -29,6 +29,7 @@ function ImageEdit( props ) {
 		mediaId,
 		mediaUrl,
 		anchor,
+		isBlockPreview = false,
 	} = attributes;
 
 	const [ deviceType ] = useDeviceType( 'Desktop' );
@@ -148,17 +149,21 @@ function ImageEdit( props ) {
 
 	return (
 		<>
-			<InspectorControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				deviceType={ deviceType }
-			/>
+			{ ! isBlockPreview &&
+				<>
+					<InspectorControls
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						deviceType={ deviceType }
+					/>
 
-			<InspectorAdvancedControls>
-				<HTMLAnchor { ...props } anchor={ anchor } />
-			</InspectorAdvancedControls>
+					<InspectorAdvancedControls>
+						<HTMLAnchor { ...props } anchor={ anchor } />
+					</InspectorAdvancedControls>
 
-			<ComponentCSS { ...props } deviceType={ deviceType } />
+					<ComponentCSS { ...props } deviceType={ deviceType } />
+				</>
+			}
 
 			<ContentRenderer
 				{ ...props }

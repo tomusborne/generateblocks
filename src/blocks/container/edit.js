@@ -22,6 +22,7 @@ const ContainerEdit = ( props ) => {
 		fontFamily,
 		googleFont,
 		googleFontVariants,
+		isBlockPreview = false,
 	} = attributes;
 
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
@@ -68,30 +69,34 @@ const ContainerEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			<BlockControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				deviceType={ deviceType }
-			/>
+			{ ! isBlockPreview &&
+				<>
+					<BlockControls
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						deviceType={ deviceType }
+					/>
 
-			<InspectorControls
-				{ ...props }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				state={ { deviceType } }
-				blockDefaults={ generateBlocksDefaults.container }
-				tagNames={ tagNames }
-				filterTagName={ filterTagName }
-				allShapes={ allShapes }
-			/>
+					<InspectorControls
+						{ ...props }
+						deviceType={ deviceType }
+						setDeviceType={ setDeviceType }
+						state={ { deviceType } }
+						blockDefaults={ generateBlocksDefaults.container }
+						tagNames={ tagNames }
+						filterTagName={ filterTagName }
+						allShapes={ allShapes }
+					/>
 
-			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
+					<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 
-			<GoogleFontLink
-				fontFamily={ fontFamily }
-				googleFont={ googleFont }
-				googleFontVariants={ googleFontVariants }
-			/>
+					<GoogleFontLink
+						fontFamily={ fontFamily }
+						googleFont={ googleFont }
+						googleFontVariants={ googleFontVariants }
+					/>
+				</>
+			}
 
 			<ContentRenderer
 				{ ...props }

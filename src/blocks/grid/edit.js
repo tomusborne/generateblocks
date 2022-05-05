@@ -26,6 +26,10 @@ const GridEdit = ( props ) => {
 		context,
 	} = props;
 
+	const {
+		isBlockPreview = false,
+	} = attributes;
+
 	const [ selectedLayout, setSelectedLayout ] = useState( false );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
@@ -80,24 +84,28 @@ const GridEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			{ ( ! attributes.isQueryLoop && ( attributes.columns > 0 || selectedLayout ) ) &&
-				<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
+			{ ! isBlockPreview &&
+				<>
+					{ ( ! attributes.isQueryLoop && ( attributes.columns > 0 || selectedLayout ) ) &&
+						<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
+					}
+
+					<InspectorControls
+						{ ...props }
+						state={ { selectedLayout, deviceType } }
+						deviceType={ deviceType }
+						setDeviceType={ setDeviceType }
+						blockDefaults={ generateBlocksDefaults.gridContainer }
+					/>
+
+					<InspectorAdvancedControls
+						anchor={ attributes.anchor }
+						setAttributes={ setAttributes }
+					/>
+
+					<ComponentCSS { ...props } deviceType={ deviceType } />
+				</>
 			}
-
-			<InspectorControls
-				{ ...props }
-				state={ { selectedLayout, deviceType } }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				blockDefaults={ generateBlocksDefaults.gridContainer }
-			/>
-
-			<InspectorAdvancedControls
-				anchor={ attributes.anchor }
-				setAttributes={ setAttributes }
-			/>
-
-			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<div { ...blockProps }>
 				{ ( attributes.isQueryLoop || attributes.columns > 0 || selectedLayout )
@@ -116,7 +124,7 @@ const GridEdit = ( props ) => {
 						<LayoutSelector
 							uniqueId={ attributes.uniqueId }
 							onClick={ setSelectedLayout }
-							isDisabled={ attributes?.isBlockPreview }
+							isDisabled={ isBlockPreview }
 						/>
 					)
 				}

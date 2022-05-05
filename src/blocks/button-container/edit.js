@@ -26,6 +26,7 @@ const ButtonContainerEdit = ( props ) => {
 		uniqueId,
 		className,
 		anchor,
+		isBlockPreview = false,
 	} = attributes;
 
 	const [ buttonCount, setButtonCount ] = useState( 0 );
@@ -76,24 +77,28 @@ const ButtonContainerEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			<BlockControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				clientId={ clientId }
-				deviceType={ deviceType }
-			/>
+			{ ! isBlockPreview &&
+				<>
+					<BlockControls
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						clientId={ clientId }
+						deviceType={ deviceType }
+					/>
 
-			<InspectorControls
-				{ ...props }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				state={ { deviceType } }
-				blockDefaults={ generateBlocksDefaults.buttonContainer }
-			/>
+					<InspectorControls
+						{ ...props }
+						deviceType={ deviceType }
+						setDeviceType={ setDeviceType }
+						state={ { deviceType } }
+						blockDefaults={ generateBlocksDefaults.buttonContainer }
+					/>
 
-			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
+					<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 
-			<ComponentCSS { ...props } deviceType={ deviceType } />
+					<ComponentCSS { ...props } deviceType={ deviceType } />
+				</>
+			}
 
 			<RootElement name={ name } clientId={ clientId }>
 				<div { ...blockProps }>

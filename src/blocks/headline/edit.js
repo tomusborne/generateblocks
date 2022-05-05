@@ -49,6 +49,7 @@ const HeadlineEdit = ( props ) => {
 		icon,
 		hasIcon,
 		element,
+		isBlockPreview = false,
 	} = attributes;
 
 	const ref = useRef( null );
@@ -73,31 +74,35 @@ const HeadlineEdit = ( props ) => {
 
 	return (
 		<Fragment>
-			<BlockControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				deviceType={ deviceType }
-				context={ context }
-			/>
+			{ ! isBlockPreview &&
+				<>
+					<BlockControls
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						deviceType={ deviceType }
+						context={ context }
+					/>
 
-			<InspectorControls
-				{ ...props }
-				uniqueId={ uniqueId }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				blockState={ { deviceType } }
-				computedStyles={ computedStyles }
-			/>
+					<InspectorControls
+						{ ...props }
+						uniqueId={ uniqueId }
+						deviceType={ deviceType }
+						setDeviceType={ setDeviceType }
+						blockState={ { deviceType } }
+						computedStyles={ computedStyles }
+					/>
 
-			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
+					<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 
-			<ComponentCSS { ...props } deviceType={ deviceType } />
+					<ComponentCSS { ...props } deviceType={ deviceType } />
 
-			<GoogleFontLink
-				fontFamily={ fontFamily }
-				googleFont={ googleFont }
-				googleFontVariants={ googleFontVariants }
-			/>
+					<GoogleFontLink
+						fontFamily={ fontFamily }
+						googleFont={ googleFont }
+						googleFontVariants={ googleFontVariants }
+					/>
+				</>
+			}
 
 			{ applyFilters( 'generateblocks.editor.beforeHeadlineElement', '', props ) }
 
