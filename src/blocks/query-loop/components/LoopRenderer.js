@@ -39,6 +39,15 @@ function BlockPreview( {
 
 const MemoizedBlockPreview = memo( BlockPreview );
 
+function setIsBlockPreview( innerBlocks ) {
+	return innerBlocks.map( ( block ) => {
+		const newInnerBlocks = setIsBlockPreview( block.innerBlocks );
+		const attributes = Object.assign( {}, block.attributes, { isBlockPreview: true } );
+
+		return Object.assign( {}, block, { attributes, innerBlocks: newInnerBlocks } );
+	} );
+}
+
 export default function LoopRenderer( props ) {
 	const {
 		data,
@@ -51,12 +60,6 @@ export default function LoopRenderer( props ) {
 	} = props;
 
 	const [ activeContextId, setActiveContextId ] = useState();
-
-	const containerHasInnerBlocks = (
-		!! innerBlocks[ 0 ] &&
-		'generateblocks/container' === innerBlocks[ 0 ]?.name &&
-		innerBlocks[ 0 ]?.innerBlocks.length > 0
-	);
 
 	const dataContexts = useMemo(
 		() =>
@@ -82,14 +85,12 @@ export default function LoopRenderer( props ) {
 					: null
 				}
 
-				{ containerHasInnerBlocks &&
-					<MemoizedBlockPreview
-						blocks={ innerBlocks }
-						contextId={ postContext.postId }
-						setActiveContextId={ setActiveContextId }
-						isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
-					/>
-				}
+				<MemoizedBlockPreview
+					blocks={ setIsBlockPreview( innerBlocks ) }
+					contextId={ postContext.postId }
+					setActiveContextId={ setActiveContextId }
+					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
+				/>
 
 			</BlockContextProvider>
 		) ) );

@@ -31,7 +31,11 @@ export const getColumnsFromLayout = ( layout, uniqueId ) => {
 	} ) );
 };
 
-export default ( { uniqueId, onClick } ) => {
+export default ( { uniqueId, onClick, isDisabled = false } ) => {
+	if ( isDisabled ) {
+		return false;
+	}
+
 	const layouts = [
 		'100',
 		'50-50',
