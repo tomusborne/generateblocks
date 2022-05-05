@@ -33,6 +33,7 @@ export default function ContainerContentRenderer( props ) {
 		bgOptions,
 		bgImageInline,
 		align,
+		disableAppender = false,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
@@ -100,6 +101,10 @@ export default function ContainerContentRenderer( props ) {
 							<InnerBlocks
 								templateLock={ false }
 								renderAppender={ () => {
+									if ( disableAppender ) {
+										return false;
+									}
+
 									// Selected Container.
 									if ( props.isSelected ) {
 										return <InnerBlocks.ButtonBlockAppender />;

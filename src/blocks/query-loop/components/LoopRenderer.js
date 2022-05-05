@@ -39,6 +39,15 @@ function BlockPreview( {
 
 const MemoizedBlockPreview = memo( BlockPreview );
 
+function disablePreviewAppender( innerBlocks ) {
+	return innerBlocks.map( ( block ) => {
+		const newInnerBlocks = disablePreviewAppender( block.innerBlocks );
+		const attributes = Object.assign( {}, block.attributes, { disableAppender: true } );
+
+		return Object.assign( {}, block, { attributes, innerBlocks: newInnerBlocks } );
+	} );
+}
+
 export default function LoopRenderer( props ) {
 	const {
 		data,
@@ -84,7 +93,7 @@ export default function LoopRenderer( props ) {
 
 				{ containerHasInnerBlocks &&
 					<MemoizedBlockPreview
-						blocks={ innerBlocks }
+						blocks={ disablePreviewAppender( innerBlocks ) }
 						contextId={ postContext.postId }
 						setActiveContextId={ setActiveContextId }
 						isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }

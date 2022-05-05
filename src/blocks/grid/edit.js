@@ -112,7 +112,11 @@ const GridEdit = ( props ) => {
 							context={ context }
 						/>
 					)
-					: <LayoutSelector uniqueId={ attributes.uniqueId } onClick={ setSelectedLayout } />
+					: ( <LayoutSelector
+						uniqueId={ attributes.uniqueId }
+						onClick={ setSelectedLayout }
+						isDisabled={ attributes?.disableAppender }
+					/> )
 				}
 			</div>
 		</Fragment>
