@@ -46,6 +46,8 @@ export default function MainCSS( props ) {
 		padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
 		'text-align': ! alignment.startsWith( 'float' ) ? alignment : null,
 		float: alignment.startsWith( 'float' ) ? floats[ alignment ] : 'none',
+		position: alignment.startsWith( 'float' ) ? 'relative' : null,
+		'z-index': alignment.startsWith( 'float' ) ? '22' : null,
 	} ];
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
