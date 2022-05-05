@@ -533,6 +533,10 @@ class GenerateBlocks_Dynamic_Content {
 			'class' => implode( ' ', $classes ),
 		);
 
+		$parsed_html_attributes = generateblocks_parse_attr( 'image', $html_attributes, $attributes, $block );
+		$parsed_html_attributes = array_map( 'trim', $parsed_html_attributes );
+		$parsed_html_attributes = array_filter( $parsed_html_attributes );
+
 		if ( ! empty( $attributes['dynamicContentType'] ) ) {
 			if ( 'author-avatar' === $attributes['dynamicContentType'] ) {
 				$author_id = self::get_source_author_id( $attributes );
@@ -541,7 +545,7 @@ class GenerateBlocks_Dynamic_Content {
 					$attributes['width'],
 					'',
 					'',
-					generateblocks_parse_attr( 'image', $html_attributes, $attributes, $block )
+					$parsed_html_attributes
 				);
 			}
 		}
@@ -552,7 +556,7 @@ class GenerateBlocks_Dynamic_Content {
 
 			return sprintf(
 				'<img %s />',
-				generateblocks_attr( 'static-image', $html_attributes, $attributes, $block )
+				generateblocks_attr( 'image', $html_attributes, $attributes, $block )
 			);
 		}
 
@@ -560,7 +564,7 @@ class GenerateBlocks_Dynamic_Content {
 			$id,
 			isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full',
 			false,
-			generateblocks_parse_attr( 'image', $html_attributes, $attributes, $block )
+			$parsed_html_attributes
 		);
 
 		if ( ! $dynamic_image ) {
