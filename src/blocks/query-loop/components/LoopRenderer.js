@@ -42,7 +42,7 @@ const MemoizedBlockPreview = memo( BlockPreview );
 function disablePreviewAppender( innerBlocks ) {
 	return innerBlocks.map( ( block ) => {
 		const newInnerBlocks = disablePreviewAppender( block.innerBlocks );
-		const attributes = Object.assign( {}, block.attributes, { disableAppender: true } );
+		const attributes = Object.assign( {}, block.attributes, { isBlockPreview: true } );
 
 		return Object.assign( {}, block, { attributes, innerBlocks: newInnerBlocks } );
 	} );
