@@ -3,10 +3,18 @@ import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import getIcon from '../../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 export default ( { clientId } ) => {
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
+	const {
+		getBlock,
+	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const { selectBlock } = useDispatch( 'core/block-editor' );
+
+	const thisBlock = getBlock( clientId );
+	const gridBlock = thisBlock ? thisBlock?.innerBlocks[ 0 ] : false;
+	const containerBlock = thisBlock ? thisBlock?.innerBlocks[ 0 ]?.innerBlocks[ 0 ] : false;
 
 	const DEFAULT_BUTTON_ATTRIBUTES = {
 		useDynamicData: true,
@@ -44,6 +52,32 @@ export default ( { clientId } ) => {
 
 	return (
 		<BlockControls>
+			{ ( !! gridBlock || !! containerBlock ) &&
+				<ToolbarGroup>
+					{ !! gridBlock &&
+						<ToolbarButton
+							icon={ getIcon( 'grid' ) }
+							label={ __( 'Open Grid', 'generateblocks' ) }
+							onClick={ () => {
+								selectBlock( gridBlock.clientId );
+							} }
+							showTooltip
+						/>
+					}
+
+					{ !! containerBlock &&
+						<ToolbarButton
+							icon={ getIcon( 'container' ) }
+							label={ __( 'Open Container', 'generateblocks' ) }
+							onClick={ () => {
+								selectBlock( containerBlock.clientId );
+							} }
+							showTooltip
+						/>
+					}
+				</ToolbarGroup>
+			}
+
 			<ToolbarGroup>
 				<ToolbarButton
 					icon={ getIcon( 'add-pagination' ) }

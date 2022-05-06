@@ -9,11 +9,10 @@ import useQueryReducer from '../hooks/useQueryReducer';
 import isEmpty from '../../../utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';
 import getIcon from '../../../utils/get-icon';
-import { ToggleControl, PanelBody } from '@wordpress/components';
-import { useSelect, useDispatch } from '@wordpress/data';
+import { ToggleControl } from '@wordpress/components';
 import { isEqual } from 'lodash';
 
-export default ( { attributes, setAttributes, clientId } ) => {
+export default ( { attributes, setAttributes } ) => {
 	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer();
 	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
 
@@ -34,11 +33,6 @@ export default ( { attributes, setAttributes, clientId } ) => {
 		}
 	}, [ queryState ] );
 
-	const {
-		getBlock,
-	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
-	const { selectBlock } = useDispatch( 'core/block-editor' );
-
 	const parameterOptions = useMemo( () => (
 		queryParameterOptions.map( ( parameter ) => {
 			parameter.isDisabled = ! parameter.isRepeatable && Object.keys( queryState ).includes( parameter.id );
@@ -49,24 +43,6 @@ export default ( { attributes, setAttributes, clientId } ) => {
 
 	return (
 		<InspectorControls>
-			<PanelBody
-				title={ __( 'Layout', 'generateblocks' ) }
-				icon={ getIcon( 'layout' ) }
-				className="gblocks-action-panel gblocks-panel-label"
-				onToggle={ () => {
-					const thisBlock = getBlock( clientId );
-
-					if ( thisBlock ) {
-						const gridBlock = thisBlock?.innerBlocks[ 0 ];
-
-						if ( gridBlock ) {
-							selectBlock( gridBlock.clientId );
-						}
-					}
-				} }
-				opened={ true }
-			/>
-
 			<PanelArea
 				id={ 'queryLoopControls' }
 				title={ __( 'Query Parameters', 'generateblocks' ) }
