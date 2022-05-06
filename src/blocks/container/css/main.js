@@ -171,19 +171,6 @@ export default function MainCSS( props ) {
 		} );
 	}
 
-	if ( isGrid ) {
-		cssObj[ '.gb-grid-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column > .gb-container-' + uniqueId ] = [ {
-			'display': 'flex', // eslint-disable-line quote-props
-			'flex-direction': 'column',
-			'height': '100%', // eslint-disable-line quote-props
-			'justify-content': verticalAlignment,
-		} ];
-
-		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
-			'height': '100%', // eslint-disable-line quote-props
-		} ];
-	}
-
 	if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 		cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 			'content': '""', // eslint-disable-line quote-props
@@ -262,16 +249,12 @@ export default function MainCSS( props ) {
 			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
 		} ];
 
-		const gridContainerSelectors = [
-			'.gb-post-template-' + gridId + ' > .gb-post-template-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout',
-			'.gb-grid-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column-' + uniqueId + ' > .gb-container',
-		];
-
-		cssObj[ gridContainerSelectors.join( ',' ) ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			display: 'flex',
 			'flex-direction': 'column',
 			height: '100%',
-		} ];
+			'justify-content': verticalAlignment,
+		} );
 	}
 
 	cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),
