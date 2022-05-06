@@ -1,5 +1,6 @@
 
 import Select from 'react-select';
+import CreatableSelect from 'react-select/creatable';
 import LabelAndHelpWrapper from '../LabelAndHelpWrapper';
 import './editor.scss';
 
@@ -64,12 +65,14 @@ export default ( props ) => {
 		marginBottom: '24px',
 	}, props?.wrapperStyles );
 
+	const SelectComponent = props?.isCreatable ? CreatableSelect : Select;
+
 	const finalProps = Object.assign( {}, defaultProps, props );
 
 	return (
 		<div style={ wrapperStyles }>
 			<LabelAndHelpWrapper label={ finalProps.label } htmlFor={ finalProps.id } help={ finalProps.help } >
-				<Select { ...finalProps } />
+				<SelectComponent { ...finalProps } />
 			</LabelAndHelpWrapper>
 		</div>
 	);
