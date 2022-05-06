@@ -67,6 +67,7 @@ export default [
 			{ value: 'date', label: 'Date' },
 			{ value: 'modified', label: 'Last modified date' },
 			{ value: 'parent', label: 'Parent id' },
+			{ value: 'menu_order', label: 'Menu order' },
 		],
 		label: __( 'Order by', 'generateblocks' ),
 		description: __( 'Sort retrieved posts by parameter.', 'generateblocks' ),
