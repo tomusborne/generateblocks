@@ -6,6 +6,7 @@ import {
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { memo, useMemo, useState } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 function BlockPreview( {
 	blocks,
@@ -50,14 +51,18 @@ function setIsBlockPreview( innerBlocks ) {
 
 export default function LoopRenderer( props ) {
 	const {
+		clientId,
 		data,
 		hasData,
 		isResolvingData,
 		hasResolvedData,
 		templateLock,
 		contextCallback,
-		innerBlocks,
 	} = props;
+
+	const innerBlocks = useSelect( ( select ) => {
+		return select( 'core/block-editor' )?.getBlocks( clientId );
+	}, [] );
 
 	const [ activeContextId, setActiveContextId ] = useState();
 
