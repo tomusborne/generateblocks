@@ -12,20 +12,15 @@ export default function AuthorMetaControl( props ) {
 	} = props;
 
 	const { record, isLoading } = usePostRecord( postType, postId, [ 'author' ] );
-	let options = [];
+	const value = !! metaFieldName ? { value: metaFieldName, label: metaFieldName } : undefined;
+
+	let options = !! value ? [ value ] : [];
 
 	if ( record && record.author && record.author.meta ) {
-		options = Object
-			.keys( record.author.meta )
-			.map( ( metaKey ) => ( { value: metaKey, label: metaKey } ) );
-	}
-
-	// ACF support
-	if ( record && record.author && record.author.acf ) {
-		options = options.concat(
-			Object
-				.keys( record.author.acf )
-				.map( ( metaKey ) => ( { value: metaKey, label: metaKey } ) )
+		options = options.concat( Object
+			.keys( record.meta )
+			.filter( ( metaKey ) => ( metaKey !== metaFieldName ) )
+			.map( ( metaKey ) => ( { value: metaKey, label: metaKey } ) )
 		);
 	}
 
@@ -35,13 +30,17 @@ export default function AuthorMetaControl( props ) {
 				<AdvancedSelect
 					id={ 'gblocks-select-author-meta-control' }
 					label={ __( 'Author meta field', 'generateblocks' ) }
-					placeholder={ __( 'Author meta field', 'generateblocks' ) }
+					help={ __( 'Live preview is only available to meta exposed to the REST API.', 'generateblocks' ) }
+					placeholder={ __( 'Choose or add meta key', 'generateblocks' ) }
 					options={ options }
-					value={ { value: metaFieldName, label: metaFieldName } }
+					value={ value }
 					isSearchable
+					isCreatable
+					isClearable
+					formatCreateLabel={ ( input ) => ( `Add "${ input }"` ) }
 					isLoading={ isLoading }
 					onChange={ ( option ) => {
-						setAttributes( { metaFieldName: option.value } );
+						setAttributes( { metaFieldName: option?.value || undefined } );
 					} }
 				/>
 			}
