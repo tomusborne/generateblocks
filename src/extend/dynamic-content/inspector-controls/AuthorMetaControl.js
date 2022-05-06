@@ -12,9 +12,9 @@ export default function AuthorMetaControl( props ) {
 	} = props;
 
 	const { record, isLoading } = usePostRecord( postType, postId, [ 'author' ] );
-	const value = { value: metaFieldName, label: metaFieldName };
+	const value = !! metaFieldName ? { value: metaFieldName, label: metaFieldName } : undefined;
 
-	let options = !! metaFieldName ? [ value ] : [];
+	let options = !! value ? [ value ] : [];
 
 	if ( record && record.author && record.author.meta ) {
 		options = options.concat( Object
@@ -31,15 +31,16 @@ export default function AuthorMetaControl( props ) {
 					id={ 'gblocks-select-author-meta-control' }
 					label={ __( 'Author meta field', 'generateblocks' ) }
 					help={ __( 'Live preview is only available to meta exposed to the REST API.', 'generateblocks' ) }
-					placeholder={ __( 'Choose or create meta field', 'generateblocks' ) }
+					placeholder={ __( 'Choose or add meta key', 'generateblocks' ) }
 					options={ options }
 					value={ value }
 					isSearchable
 					isCreatable
+					isClearable
 					formatCreateLabel={ ( input ) => ( `Add "${ input }"` ) }
 					isLoading={ isLoading }
 					onChange={ ( option ) => {
-						setAttributes( { metaFieldName: option.value } );
+						setAttributes( { metaFieldName: option?.value || undefined } );
 					} }
 				/>
 			}

@@ -14,7 +14,7 @@ export default function PostMetaControl( props ) {
 	const { record, isLoading } = usePostRecord( postType, postId );
 	const value = { value: metaFieldName, label: metaFieldName };
 
-	let options = !! metaFieldName ? [ value ] : [];
+	let options = !! value ? [ value ] : [];
 
 	if ( record && record.meta ) {
 		options = options.concat( Object
@@ -31,15 +31,16 @@ export default function PostMetaControl( props ) {
 					id={ 'gblocks-select-post-meta-control' }
 					label={ __( 'Post meta field', 'generateblocks' ) }
 					help={ __( 'Live preview is only available to meta exposed to the REST API.', 'generateblocks' ) }
-					placeholder={ __( 'Choose or create meta field', 'generateblocks' ) }
+					placeholder={ __( 'Choose or add meta key', 'generateblocks' ) }
 					options={ options }
 					value={ value }
 					isSearchable
 					isCreatable
+					isClearable
 					formatCreateLabel={ ( input ) => ( `Add "${ input }"` ) }
 					isLoading={ isLoading }
 					onChange={ ( option ) => {
-						setAttributes( { metaFieldName: option.value } );
+						setAttributes( { metaFieldName: option?.value || undefined } );
 					} }
 				/>
 			}
