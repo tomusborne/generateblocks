@@ -36,6 +36,7 @@ export default function AuthorMetaControl( props ) {
 					value={ value }
 					isSearchable
 					isCreatable
+					formatCreateLabel={ ( input ) => ( `Add "${ input }"` ) }
 					isLoading={ isLoading }
 					onChange={ ( option ) => {
 						setAttributes( { metaFieldName: option.value } );
