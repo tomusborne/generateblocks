@@ -12,7 +12,7 @@ export default function PostMetaControl( props ) {
 	} = props;
 
 	const { record, isLoading } = usePostRecord( postType, postId );
-	const value = { value: metaFieldName, label: metaFieldName };
+	const value = !! metaFieldName ? { value: metaFieldName, label: metaFieldName } : undefined;
 
 	let options = !! value ? [ value ] : [];
 
