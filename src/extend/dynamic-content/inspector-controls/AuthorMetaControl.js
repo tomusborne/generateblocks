@@ -12,7 +12,7 @@ export default function AuthorMetaControl( props ) {
 	} = props;
 
 	const { record, isLoading } = usePostRecord( postType, postId, [ 'author' ] );
-	const value = { value: metaFieldName, label: metaFieldName }
+	const value = { value: metaFieldName, label: metaFieldName };
 
 	let options = !! metaFieldName ? [ value ] : [];
 
