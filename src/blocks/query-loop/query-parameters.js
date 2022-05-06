@@ -110,8 +110,8 @@ export default [
 	},
 	{
 		id: 'status',
-		type: 'select',
-		default: '',
+		type: 'multiSelect',
+		default: [],
 		selectOptions: [
 			{ value: 'publish', label: __( 'Publish', 'generateblocks' ) },
 			{ value: 'pending', label: __( 'Pending', 'generateblocks' ) },

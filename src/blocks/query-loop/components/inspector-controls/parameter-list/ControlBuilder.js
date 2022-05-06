@@ -8,6 +8,7 @@ import TaxonomyParameterControl from '../controls/TaxonomyParameterControl';
 import PostTypeRecordsSelect from '../../../../../components/post-type-records-select';
 import DateTimePicker from '../controls/DateTimePicker';
 import DebouncedTextControl from '../../../../../components/debounced-text-control';
+import SimpleMultiSelect from '../../../../../components/simple-multi-select';
 
 const getParameterControl = ( parameterType ) => {
 	switch ( parameterType ) {
@@ -18,6 +19,8 @@ const getParameterControl = ( parameterType ) => {
 			return SelectPostType;
 		case 'select':
 			return SimpleSelect;
+		case 'multiSelect':
+			return SimpleMultiSelect;
 		case 'authorsSelect':
 			return AuthorsSelect;
 		case 'categoriesSelect':

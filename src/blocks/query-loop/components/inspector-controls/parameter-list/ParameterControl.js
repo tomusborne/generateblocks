@@ -5,9 +5,9 @@ const attributeValueNormalizer = ( attribute, value ) => {
 		case 'post_type':
 		case 'order':
 		case 'orderby':
-		case 'status':
 			return value.value;
 
+		case 'status':
 		case 'author':
 		case 'author_exclude':
 		case 'include':
