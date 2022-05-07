@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect, useState, useRef } from '@wordpress/element';
 import { TextControl, BaseControl } from '@wordpress/components';
 
 /**
@@ -27,6 +27,7 @@ export default function UnitControl( props ) {
 	const [ unitValue, setUnitValue ] = useState( '' );
 	const [ numericValue, setNumericValue ] = useState( '' );
 	const [ placeholderValue, setPlaceholderValue ] = useState( '' );
+	const isMounted = useRef( false );
 
 	const attribute = device && 'Desktop' !== device
 		? attributeName + device
@@ -85,6 +86,12 @@ export default function UnitControl( props ) {
 	}, [ device ] );
 
 	useEffect( () => {
+		// Don't run this on first render.
+		if ( ! isMounted.current ) {
+			isMounted.current = true;
+			return;
+		}
+
 		const fullValue = hasNumericValue( numericValue )
 			? numericValue + unitValue
 			: '';
