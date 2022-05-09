@@ -72,6 +72,8 @@ export default function LoopRenderer( props ) {
 		[ data, hasData ]
 	);
 
+	const memoizedInnerBlocks = useMemo( () => setIsBlockPreview( innerBlocks ), [ innerBlocks ] );
+
 	if ( isResolvingData ) {
 		return ( <Spinner /> );
 	}
@@ -91,7 +93,7 @@ export default function LoopRenderer( props ) {
 				}
 
 				<MemoizedBlockPreview
-					blocks={ setIsBlockPreview( innerBlocks ) }
+					blocks={ memoizedInnerBlocks }
 					contextId={ postContext.postId }
 					setActiveContextId={ setActiveContextId }
 					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
