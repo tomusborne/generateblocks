@@ -5,7 +5,7 @@ import {
 } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { memo, useMemo, useState } from '@wordpress/element';
+import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 function BlockPreview( {
@@ -72,7 +72,16 @@ export default function LoopRenderer( props ) {
 		[ data, hasData ]
 	);
 
-	const memoizedInnerBlocks = useMemo( () => setIsBlockPreview( innerBlocks ), [ innerBlocks ] );
+	const useDebouncedEffect = ( effect, deps, delay ) => {
+		useEffect( () => {
+			const handler = setTimeout( () => effect(), delay );
+
+			return () => clearTimeout( handler );
+		}, [ ...deps || [], delay ] );
+	};
+
+	const [ innerBlockData, setInnerBlockData ] = useState( setIsBlockPreview( innerBlocks ) );
+	useDebouncedEffect( () => setInnerBlockData( setIsBlockPreview( innerBlocks ) ), [ JSON.stringify( innerBlocks ) ], 500 );
 
 	if ( isResolvingData ) {
 		return ( <Spinner /> );
@@ -93,7 +102,7 @@ export default function LoopRenderer( props ) {
 				}
 
 				<MemoizedBlockPreview
-					blocks={ memoizedInnerBlocks }
+					blocks={ innerBlockData }
 					contextId={ postContext.postId }
 					setActiveContextId={ setActiveContextId }
 					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
