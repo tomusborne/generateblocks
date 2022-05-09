@@ -80,8 +80,8 @@ function ImageEdit( props ) {
 			setAttributes( {
 				mediaUrl: newURL,
 				mediaId: undefined,
-				title: undefined,
-				alt: undefined,
+				title: '',
+				alt: '',
 			} );
 		}
 	};
@@ -96,12 +96,12 @@ function ImageEdit( props ) {
 			mediaUrl: '',
 			alt: '',
 			title: '',
-			width: undefined,
-			widthTablet: undefined,
-			widthMobile: undefined,
-			height: undefined,
-			heightTablet: undefined,
-			heightMobile: undefined,
+			width: '',
+			widthTablet: '',
+			widthMobile: '',
+			height: '',
+			heightTablet: '',
+			heightMobile: '',
 		} );
 	};
 
