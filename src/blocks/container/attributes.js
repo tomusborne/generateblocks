@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-const attributes = {
+export default {
 	uniqueId: {
 		type: 'string',
 		default: '',
@@ -536,16 +535,3 @@ const attributes = {
 		default: '',
 	},
 };
-
-if ( generateBlocksInfo.hasCustomFields ) {
-	Object.assign( attributes, {
-		fullWidthContent: {
-			type: 'string',
-			source: 'meta',
-			meta: '_generate-full-width-content',
-		},
-	} );
-}
-
-export default attributes;
-/* eslint-enable no-undef */
