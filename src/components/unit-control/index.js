@@ -72,8 +72,6 @@ export default function UnitControl( props ) {
 	};
 
 	// Split the number and unit into two values.
-	// This fires on first render and each time we change the device so the
-	// states update to the correct values for each device.
 	useEffect( () => {
 		const values = splitValues( attributes[ attribute ] );
 
@@ -83,7 +81,7 @@ export default function UnitControl( props ) {
 		// Set the device placeholders and switch the units to match
 		// their parent device value if no device-specific value exists.
 		setPlaceholders();
-	}, [ device ] );
+	}, [ device, attributes[ attribute ] ] );
 
 	useEffect( () => {
 		// Don't run this on first render.
