@@ -70,6 +70,10 @@ function contentTypeNotSupported( record, attributes, emptyNotFoundMessage ) {
  * @return {string} The post title.
  */
 function getPostTitle( record ) {
+	if ( ! record.title ) {
+		return __( 'Post title not supported for this type.', 'generateblocks' );
+	}
+
 	return record.title.raw || __( 'No post title.', 'generateblocks' );
 }
 
