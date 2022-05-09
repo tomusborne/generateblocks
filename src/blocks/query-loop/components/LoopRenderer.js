@@ -49,6 +49,14 @@ function setIsBlockPreview( innerBlocks ) {
 	} );
 }
 
+function useDebouncedEffect( effect, deps, delay ) {
+	useEffect( () => {
+		const handler = setTimeout( () => effect(), delay );
+
+		return () => clearTimeout( handler );
+	}, [ ...deps || [], delay ] );
+}
+
 export default function LoopRenderer( props ) {
 	const {
 		clientId,
@@ -64,24 +72,18 @@ export default function LoopRenderer( props ) {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
 
+	const [ innerBlockData, setInnerBlockData ] = useState( setIsBlockPreview( innerBlocks ) );
 	const [ activeContextId, setActiveContextId ] = useState();
+
+	useDebouncedEffect( () => {
+		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
+	}, [ JSON.stringify( innerBlocks ) ], 250 );
 
 	const dataContexts = useMemo(
 		() =>
 			hasData && data.map( ( item ) => ( contextCallback( item ) ) ),
 		[ data, hasData ]
 	);
-
-	const useDebouncedEffect = ( effect, deps, delay ) => {
-		useEffect( () => {
-			const handler = setTimeout( () => effect(), delay );
-
-			return () => clearTimeout( handler );
-		}, [ ...deps || [], delay ] );
-	};
-
-	const [ innerBlockData, setInnerBlockData ] = useState( setIsBlockPreview( innerBlocks ) );
-	useDebouncedEffect( () => setInnerBlockData( setIsBlockPreview( innerBlocks ) ), [ JSON.stringify( innerBlocks ) ], 500 );
 
 	if ( isResolvingData ) {
 		return ( <Spinner /> );
