@@ -91,6 +91,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Shape panel spacing issues
 * Fix: Headline link hover color in editor
 * Fix: Outer container width in editor
+* Fix: Error in FSE when adding a Container to the front page
 * Tweak: Full code refactor in the editor
 * Tweak: Move button URL options to toolbar
 * Tweak: Switch all blocks to apiVersion 2
