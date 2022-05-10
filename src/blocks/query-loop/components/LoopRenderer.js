@@ -87,7 +87,14 @@ export default function LoopRenderer( props ) {
 	];
 
 	useEffect( () => {
-		if ( debounceBlocks.includes( getSelectedBlock()?.name ) ) {
+		const selectedBlock = getSelectedBlock();
+
+		if (
+			debounceBlocks.includes( selectedBlock?.name ) &&
+			! selectedBlock?.attributes?.useDynamicData &&
+			! selectedBlock?.attributes?.dynamicContentType
+		) {
+			// Only debounce if we're using a RichText component.
 			debounced();
 		} else {
 			setInnerBlockData( setIsBlockPreview( innerBlocks ) );
