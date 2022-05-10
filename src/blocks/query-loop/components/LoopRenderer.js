@@ -8,6 +8,7 @@ import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { useDebouncedCallback } from 'use-debounce';
 
 function BlockPreview( {
 	blocks,
@@ -50,14 +51,6 @@ function setIsBlockPreview( innerBlocks ) {
 	} );
 }
 
-function useDebouncedEffect( effect, deps, delay ) {
-	useEffect( () => {
-		const handler = setTimeout( () => effect(), delay );
-
-		return () => clearTimeout( handler );
-	}, [ ...deps || [], delay ] );
-}
-
 export default function LoopRenderer( props ) {
 	const {
 		clientId,
@@ -81,9 +74,13 @@ export default function LoopRenderer( props ) {
 		setIsBlockPreview( innerBlocks );
 	}, [] );
 
-	useDebouncedEffect( () => {
+	const debounced = useDebouncedCallback( () => {
 		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
-	}, [ JSON.stringify( innerBlocks ) ], 10 );
+	}, 150 );
+
+	useEffect( () => {
+		debounced();
+	}, [ JSON.stringify( innerBlocks ) ] );
 
 	const debounceBlocks = [
 		'core/paragraph',
