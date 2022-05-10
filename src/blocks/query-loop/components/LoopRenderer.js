@@ -2,6 +2,7 @@ import {
 	BlockContextProvider,
 	InnerBlocks,
 	__experimentalUseBlockPreview as useBlockPreview, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
@@ -72,12 +73,29 @@ export default function LoopRenderer( props ) {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
 
-	const [ innerBlockData, setInnerBlockData ] = useState( setIsBlockPreview( innerBlocks ) );
+	const { getSelectedBlock } = useSelect( blockEditorStore );
+	const [ innerBlockData, setInnerBlockData ] = useState( [] );
 	const [ activeContextId, setActiveContextId ] = useState();
+
+	useEffect( () => {
+		setIsBlockPreview( innerBlocks );
+	}, [] );
 
 	useDebouncedEffect( () => {
 		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
-	}, [ JSON.stringify( innerBlocks ) ], 250 );
+	}, [ JSON.stringify( innerBlocks ) ], 10 );
+
+	const debounceBlocks = [
+		'core/paragraph',
+		'core/heading',
+		'core/button',
+		'generateblocks/headline',
+		'generateblocks/button',
+	];
+
+	const previewBlocks = debounceBlocks.includes( getSelectedBlock()?.name )
+		? innerBlockData
+		: setIsBlockPreview( innerBlocks );
 
 	const dataContexts = useMemo(
 		() =>
@@ -104,7 +122,7 @@ export default function LoopRenderer( props ) {
 				}
 
 				<MemoizedBlockPreview
-					blocks={ innerBlockData }
+					blocks={ previewBlocks }
 					contextId={ postContext.postId }
 					setActiveContextId={ setActiveContextId }
 					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
