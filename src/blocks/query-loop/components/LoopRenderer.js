@@ -71,16 +71,12 @@ export default function LoopRenderer( props ) {
 	const [ activeContextId, setActiveContextId ] = useState();
 
 	useEffect( () => {
-		setIsBlockPreview( innerBlocks );
+		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
 	}, [] );
 
 	const debounced = useDebouncedCallback( () => {
 		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
-	}, 150 );
-
-	useEffect( () => {
-		debounced();
-	}, [ JSON.stringify( innerBlocks ) ] );
+	}, 10 );
 
 	const debounceBlocks = [
 		'core/paragraph',
@@ -90,9 +86,13 @@ export default function LoopRenderer( props ) {
 		'generateblocks/button',
 	];
 
-	const previewBlocks = debounceBlocks.includes( getSelectedBlock()?.name )
-		? innerBlockData
-		: setIsBlockPreview( innerBlocks );
+	useEffect( () => {
+		if ( debounceBlocks.includes( getSelectedBlock()?.name ) ) {
+			debounced();
+		} else {
+			setInnerBlockData( setIsBlockPreview( innerBlocks ) );
+		}
+	}, [ JSON.stringify( innerBlocks ) ] );
 
 	const dataContexts = useMemo(
 		() =>
@@ -119,7 +119,7 @@ export default function LoopRenderer( props ) {
 				}
 
 				<MemoizedBlockPreview
-					blocks={ previewBlocks }
+					blocks={ innerBlockData }
 					contextId={ postContext.postId }
 					setActiveContextId={ setActiveContextId }
 					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
