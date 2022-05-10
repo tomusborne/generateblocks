@@ -6,8 +6,7 @@ import RootElement from '../../../components/root-element';
 import IconWrapper from '../../../components/icon-wrapper';
 import Element from '../../../components/element';
 import { useSelect } from '@wordpress/data';
-import { useEffect, useMemo } from '@wordpress/element';
-import useDebounceState from '../../../hooks/useDebounceState';
+import { useMemo } from '@wordpress/element';
 
 export default function HeadlineContentRenderer( props ) {
 	const {
@@ -20,6 +19,7 @@ export default function HeadlineContentRenderer( props ) {
 		InnerContent = RichText,
 		headlineRef,
 	} = props;
+
 	const {
 		uniqueId,
 		element,
@@ -29,18 +29,9 @@ export default function HeadlineContentRenderer( props ) {
 		anchor,
 		removeText,
 		ariaLabel,
-		useDynamicData,
 		dynamicContentType,
 		dynamicLinkType,
 	} = attributes;
-
-	const [ debouncedContent, setContentState ] = useDebounceState( content, 500 );
-
-	useEffect( () => {
-		if ( ! useDynamicData ) {
-			setAttributes( { content: debouncedContent } );
-		}
-	}, [ useDynamicData, debouncedContent ] );
 
 	let htmlAttributes = {
 		className: classnames( {
@@ -96,7 +87,7 @@ export default function HeadlineContentRenderer( props ) {
 						name={ name }
 						tagName={ tagName }
 						value={ content }
-						onChange={ setContentState }
+						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
 						onSplit={ onSplit( attributes, clientId ) }
 						onReplace={ onReplace }
 						placeholder={ __( 'Headline', 'generateblocks' ) }

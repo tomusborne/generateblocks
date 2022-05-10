@@ -4,8 +4,6 @@ import { __ } from '@wordpress/i18n';
 import Element from '../../../components/element';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
-import useDebounceState from '../../../hooks/useDebounceState';
-import { useEffect } from '@wordpress/element';
 
 export default function ButtonContentRenderer( props ) {
 	const {
@@ -31,12 +29,6 @@ export default function ButtonContentRenderer( props ) {
 		removeText,
 		ariaLabel,
 	} = attributes;
-
-	const [ debouncedText, setTextState ] = useDebounceState( text, 500 );
-
-	useEffect( () => {
-		setAttributes( { text: debouncedText } );
-	}, [ debouncedText ] );
 
 	const relAttributes = [];
 
@@ -94,7 +86,7 @@ export default function ButtonContentRenderer( props ) {
 					name={ name }
 					placeholder={ __( 'Add text…', 'generateblocks' ) }
 					value={ text }
-					onChange={ setTextState }
+					onChange={ ( value ) => setAttributes( { text: value } ) }
 					allowedFormats={ richTextFormats }
 					isSelected={ isSelected }
 					attributes={ attributes }
