@@ -6,6 +6,7 @@ import {
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { memo, useMemo, useState } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 
 function BlockPreview( {
 	blocks,
@@ -39,16 +40,29 @@ function BlockPreview( {
 
 const MemoizedBlockPreview = memo( BlockPreview );
 
+function setIsBlockPreview( innerBlocks ) {
+	return innerBlocks.map( ( block ) => {
+		const newInnerBlocks = setIsBlockPreview( block.innerBlocks );
+		const attributes = Object.assign( {}, block.attributes, { isBlockPreview: true } );
+
+		return Object.assign( {}, block, { attributes, innerBlocks: newInnerBlocks } );
+	} );
+}
+
 export default function LoopRenderer( props ) {
 	const {
+		clientId,
 		data,
 		hasData,
 		isResolvingData,
 		hasResolvedData,
 		templateLock,
 		contextCallback,
-		innerBlocks,
 	} = props;
+
+	const innerBlocks = useSelect( ( select ) => {
+		return select( 'core/block-editor' )?.getBlocks( clientId );
+	}, [] );
 
 	const [ activeContextId, setActiveContextId ] = useState();
 
@@ -77,7 +91,7 @@ export default function LoopRenderer( props ) {
 				}
 
 				<MemoizedBlockPreview
-					blocks={ innerBlocks }
+					blocks={ setIsBlockPreview( innerBlocks ) }
 					contextId={ postContext.postId }
 					setActiveContextId={ setActiveContextId }
 					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }

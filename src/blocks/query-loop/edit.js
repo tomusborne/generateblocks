@@ -6,9 +6,10 @@ import {
 	BlockContextProvider,
 	InnerBlocks,
 	useBlockProps,
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { useInnerBlocksCount } from '../../hooks';
 import LayoutSelector from './components/LayoutSelector';
+import { useSelect } from '@wordpress/data';
 
 export default function QueryLoopEdit( props ) {
 	const {
@@ -18,12 +19,17 @@ export default function QueryLoopEdit( props ) {
 	} = props;
 
 	const blockProps = useBlockProps();
-	const innerBlocksCount = useInnerBlocksCount( clientId );
+
+	const hasInnerBlocks = useSelect(
+		( select ) =>
+			!! select( blockEditorStore ).getBlocks( clientId ).length,
+		[ clientId ]
+	);
 
 	return (
 		<>
 			<div { ...blockProps }>
-				{ 0 === innerBlocksCount
+				{ ! hasInnerBlocks
 					? <LayoutSelector clientId={ clientId } />
 					: <>
 						<BlockControls clientId={ clientId } />

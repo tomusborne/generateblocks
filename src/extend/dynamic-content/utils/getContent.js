@@ -70,6 +70,10 @@ function contentTypeNotSupported( record, attributes, emptyNotFoundMessage ) {
  * @return {string} The post title.
  */
 function getPostTitle( record ) {
+	if ( ! record.title ) {
+		return __( 'Post title not supported for this type.', 'generateblocks' );
+	}
+
 	return record.title.raw || __( 'No post title.', 'generateblocks' );
 }
 
@@ -163,7 +167,7 @@ const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false ) => 
 	if ( metaValues && metaValues[ metaField ] ) {
 		const value = metaValues[ metaField ];
 		const notSupportedMessage = ! emptyNotFoundMessage
-			? __( 'Meta value not supported.', 'generateblocks' )
+			? __( 'Meta value', 'generateblocks' )
 			: undefined;
 
 		return ( _.isString( value ) || _.isNumber( value ) )
@@ -171,7 +175,7 @@ const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false ) => 
 			: notSupportedMessage;
 	}
 
-	return ! emptyNotFoundMessage ? __( 'No meta value.', 'generateblocks' ) : undefined;
+	return ! emptyNotFoundMessage ? __( 'Meta value', 'generateblocks' ) : undefined;
 };
 
 /**

@@ -5,7 +5,11 @@ import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { useDispatch } from '@wordpress/data';
 import getIcon from '../../../utils/get-icon';
 
-export default ( { clientId } ) => {
+export default ( { clientId, isDisabled } ) => {
+	if ( isDisabled ) {
+		return false;
+	}
+
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 
 	return (

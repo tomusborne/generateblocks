@@ -41,13 +41,14 @@ export default ( { context, attributes, setAttributes, name } ) => {
 
 	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
 	const currentPostId = dynamicSource === 'current-post' ? context.postId : postId;
+	const isInQueryLoop = 'undefined' !== typeof context[ 'generateblocks/queryId' ];
 
 	useEffect( () => {
 		if (
 			'generateblocks/container' === name &&
 			useDynamicData &&
 			'' !== dynamicContentType &&
-			isQueryLoopItem
+			( isQueryLoopItem || isInQueryLoop )
 		) {
 			setAttributes( {
 				bgImageInline: true,
@@ -154,7 +155,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 
 						<TermsControl
 							isActive={ 'terms' === dynamicContentType }
-							postType={ postType }
+							postType={ currentPostType }
 							termTaxonomy={ termTaxonomy }
 							termSeparator={ termSeparator }
 							setAttributes={ setAttributes }

@@ -1,6 +1,6 @@
 {
 	"name": "generateblocks",
-	"version": "1.5.0-alpha.1",
+	"version": "1.5.0-alpha.2",
 	"private": true,
 	"description": "A small collection of lightweight WordPress blocks that can accomplish nearly anything.",
 	"author": "Tom Usborne",
@@ -49,7 +49,7 @@
 		"jest": "^27.0.6",
 		"lodash": "4.17.21",
 		"react-colorful": "5.5.1",
-		"react-select": "^5.2.1",
+		"react-select": "^5.3.1",
 		"request": "^2.88.2",
 		"use-local-storage-state": "16.0.0"
 	},

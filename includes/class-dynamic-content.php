@@ -125,12 +125,15 @@ class GenerateBlocks_Dynamic_Content {
 	 * @return string
 	 */
 	public static function get_post_excerpt( $attributes ) {
+		$source_id = self::get_source_id( $attributes );
+		$unique_id = $attributes['uniqueId'];
+
 		// This prevents endless loops by not rendering excerpts within themselves.
-		if ( array_search( self::get_source_id( $attributes ), self::$source_ids ) !== false ) {
+		if ( isset( self::$source_ids[ $unique_id ] ) && $source_id === self::$source_ids[ $unique_id ] ) {
 			return '';
 		}
 
-		array_push( self::$source_ids, self::get_source_id( $attributes ) );
+		self::$source_ids[ $unique_id ] = $source_id;
 
 		$filter_excerpt_length = function( $length ) use ( $attributes ) {
 			return isset( $attributes['excerptLength'] ) ? $attributes['excerptLength'] : $length;
@@ -170,7 +173,7 @@ class GenerateBlocks_Dynamic_Content {
 			);
 		}
 
-		$excerpt = get_the_excerpt( self::get_source_id( $attributes ) );
+		$excerpt = get_the_excerpt( $source_id );
 
 		if ( isset( $filter_excerpt_length ) ) {
 			remove_filter(
@@ -530,6 +533,10 @@ class GenerateBlocks_Dynamic_Content {
 			'class' => implode( ' ', $classes ),
 		);
 
+		$parsed_html_attributes = generateblocks_parse_attr( 'image', $html_attributes, $attributes, $block );
+		$parsed_html_attributes = array_map( 'trim', $parsed_html_attributes );
+		$parsed_html_attributes = array_filter( $parsed_html_attributes );
+
 		if ( ! empty( $attributes['dynamicContentType'] ) ) {
 			if ( 'author-avatar' === $attributes['dynamicContentType'] ) {
 				$author_id = self::get_source_author_id( $attributes );
@@ -538,7 +545,7 @@ class GenerateBlocks_Dynamic_Content {
 					$attributes['width'],
 					'',
 					'',
-					generateblocks_parse_attr( 'image', $html_attributes, $attributes, $block )
+					$parsed_html_attributes
 				);
 			}
 		}
@@ -549,7 +556,7 @@ class GenerateBlocks_Dynamic_Content {
 
 			return sprintf(
 				'<img %s />',
-				generateblocks_attr( 'static-image', $html_attributes, $attributes, $block )
+				generateblocks_attr( 'image', $html_attributes, $attributes, $block )
 			);
 		}
 
@@ -557,7 +564,7 @@ class GenerateBlocks_Dynamic_Content {
 			$id,
 			isset( $attributes['sizeSlug'] ) ? $attributes['sizeSlug'] : 'full',
 			false,
-			generateblocks_parse_attr( 'image', $html_attributes, $attributes, $block )
+			$parsed_html_attributes
 		);
 
 		if ( ! $dynamic_image ) {

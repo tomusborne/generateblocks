@@ -8,10 +8,6 @@ export default function QueryLoopRenderer( props ) {
 	const { clientId, context } = props;
 	const query = context[ 'generateblocks/query' ] || {};
 
-	const innerBlocks = useSelect( ( select ) => {
-		return select( 'core/block-editor' )?.getBlocks( clientId );
-	}, [] );
-
 	const normalizedQuery = useMemo( () => {
 		return normalizeRepeatableArgs( removeEmpty( query ) );
 	}, [ JSON.stringify( query ) ] );
@@ -30,7 +26,7 @@ export default function QueryLoopRenderer( props ) {
 			isResolvingData: isResolving( 'getEntityRecords', queryParams ),
 			hasResolvedData: hasFinishedResolution( 'getEntityRecords', queryParams ),
 		};
-	}, [ normalizedQuery ] );
+	}, [ JSON.stringify( normalizedQuery ) ] );
 
 	return (
 		<div className="gb-post-template-wrapper">
@@ -40,7 +36,7 @@ export default function QueryLoopRenderer( props ) {
 				isResolvingData={ isResolvingData }
 				hasResolvedData={ hasResolvedData }
 				templateLock={ true }
-				innerBlocks={ innerBlocks }
+				clientId={ clientId }
 				contextCallback={ ( post ) => ( {
 					postType: post.type,
 					postId: post.id,

@@ -41,6 +41,7 @@ export default ( props ) => {
 		tagNames,
 		filterTagName,
 		allShapes,
+		context,
 	} = props;
 
 	const {
@@ -131,6 +132,7 @@ export default ( props ) => {
 		}
 	} );
 
+	const isInQueryLoop = 'undefined' !== typeof context[ 'generateblocks/queryId' ];
 	const hideWidthDesktop = hasFlexBasis( flexBasis );
 	const hideWidthTablet = 'auto' !== flexBasisTablet &&
 		( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) );
@@ -1300,7 +1302,7 @@ export default ( props ) => {
 						<Fragment>
 							<ToggleControl
 								label={ __( 'Use inline style', 'generateblocks' ) }
-								disabled={ useDynamicData && '' !== dynamicContentType && isQueryLoopItem }
+								disabled={ useDynamicData && '' !== dynamicContentType && ( isQueryLoopItem || isInQueryLoop ) }
 								checked={ !! bgImageInline }
 								onChange={ ( nextImageInline ) => {
 									setAttributes( {

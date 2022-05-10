@@ -16,6 +16,14 @@ function ComponentCSS( props ) {
 		return experimentalGetPreviewDeviceType();
 	}, [] );
 
+	const {
+		isBlockPreview = false,
+	} = props?.attributes;
+
+	if ( isBlockPreview ) {
+		return null;
+	}
+
 	return (
 		<>
 			<MainCSS { ...props } />

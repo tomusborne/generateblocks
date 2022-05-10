@@ -33,6 +33,7 @@ export default function ContainerContentRenderer( props ) {
 		bgOptions,
 		bgImageInline,
 		align,
+		isBlockPreview = false,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
@@ -54,8 +55,8 @@ export default function ContainerContentRenderer( props ) {
 			'gb-container': true,
 			[ `gb-container-${ uniqueId }` ]: true,
 			[ `${ className }` ]: undefined !== className,
-			'gb-container-empty': ! hasChildBlocks,
-			'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling && ! props.isSelected,
+			'gb-container-empty': ! hasChildBlocks && ! isBlockPreview,
+			'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling && ! props.isSelected && ! isBlockPreview,
 		} ),
 		id: anchor ? anchor : null,
 		'data-align': align ? align : null,
@@ -100,6 +101,10 @@ export default function ContainerContentRenderer( props ) {
 							<InnerBlocks
 								templateLock={ false }
 								renderAppender={ () => {
+									if ( isBlockPreview ) {
+										return false;
+									}
+
 									// Selected Container.
 									if ( props.isSelected ) {
 										return <InnerBlocks.ButtonBlockAppender />;
