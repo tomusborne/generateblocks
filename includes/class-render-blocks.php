@@ -648,6 +648,18 @@ class GenerateBlocks_Render_Block {
 
 			$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 
+			// Don't output pagination buttons with no link.
+			if (
+				! $dynamic_link &&
+				! empty( $attributes['dynamicLinkType'] ) &&
+				(
+					'pagination-prev' === $attributes['dynamicLinkType'] ||
+					'pagination-next' === $attributes['dynamicLinkType']
+				)
+			) {
+				return '';
+			}
+
 			if ( isset( $content['attributes']['href'] ) || $dynamic_link ) {
 				$tagName = 'a';
 			}
