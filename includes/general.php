@@ -28,11 +28,19 @@ function generateblocks_do_block_editor_assets() {
 		unset( $generateblocks_deps[2] );
 	}
 
+	$assets_file = GENERATEBLOCKS_DIR . 'dist/blocks.asset.php';
+	$assets = file_exists( $assets_file )
+		? require $assets_file
+		: [
+			'dependencies' => $generateblocks_deps,
+			'version' => filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.js' ),
+		];
+
 	wp_enqueue_script(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.js',
-		$generateblocks_deps,
-		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.js' ),
+		$assets['dependencies'],
+		$assets['version'],
 		true
 	);
 
