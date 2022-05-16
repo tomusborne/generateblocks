@@ -29,8 +29,14 @@ function generateblocks_do_block_editor_assets() {
 	}
 
 	$assets_file = GENERATEBLOCKS_DIR . 'dist/blocks.asset.php';
-	$assets = file_exists( $assets_file )
+	$compiled_assets = file_exists( $assets_file )
 		? require $assets_file
+		: false;
+
+	$assets =
+		isset( $compiled_assets['dependencies'] ) &&
+		isset( $compiled_assets['version'] )
+		? $compiled_assets
 		: [
 			'dependencies' => $generateblocks_deps,
 			'version' => filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.js' ),
