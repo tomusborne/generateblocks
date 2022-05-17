@@ -225,7 +225,7 @@ export default class GenerateBlocksColorPicker extends Component {
 								className="gblocks-component-color-picker-palette"
 							>
 								<ColorPalette
-									value={ value }
+									value={ value ? value : '' }
 									onChange={ ( color ) => {
 										onChange( color );
 
