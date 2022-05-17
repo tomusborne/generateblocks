@@ -2,11 +2,13 @@ import {
 	BlockContextProvider,
 	InnerBlocks,
 	__experimentalUseBlockPreview as useBlockPreview, // eslint-disable-line @wordpress/no-unsafe-wp-apis
+	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { memo, useMemo, useState } from '@wordpress/element';
+import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
+import { useDebouncedCallback } from 'use-debounce';
 
 function BlockPreview( {
 	blocks,
@@ -64,7 +66,40 @@ export default function LoopRenderer( props ) {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
 
+	const { getSelectedBlock } = useSelect( blockEditorStore );
+	const [ innerBlockData, setInnerBlockData ] = useState( [] );
 	const [ activeContextId, setActiveContextId ] = useState();
+
+	useEffect( () => {
+		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
+	}, [] );
+
+	const debounced = useDebouncedCallback( () => {
+		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
+	}, 10 );
+
+	const debounceBlocks = [
+		'core/paragraph',
+		'core/heading',
+		'core/button',
+		'generateblocks/headline',
+		'generateblocks/button',
+	];
+
+	useEffect( () => {
+		const selectedBlock = getSelectedBlock();
+
+		if (
+			debounceBlocks.includes( selectedBlock?.name ) &&
+			! selectedBlock?.attributes?.useDynamicData &&
+			! selectedBlock?.attributes?.dynamicContentType
+		) {
+			// Only debounce if we're using a RichText component.
+			debounced();
+		} else {
+			setInnerBlockData( setIsBlockPreview( innerBlocks ) );
+		}
+	}, [ JSON.stringify( innerBlocks ) ] );
 
 	const dataContexts = useMemo(
 		() =>
@@ -91,7 +126,7 @@ export default function LoopRenderer( props ) {
 				}
 
 				<MemoizedBlockPreview
-					blocks={ setIsBlockPreview( innerBlocks ) }
+					blocks={ innerBlockData }
 					contextId={ postContext.postId }
 					setActiveContextId={ setActiveContextId }
 					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }

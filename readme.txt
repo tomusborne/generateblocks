@@ -3,9 +3,9 @@ Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
 Requires at least: 5.6
-Tested up to: 5.9
+Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -103,6 +103,10 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Make device buttons sticky
 * Tweak: Improve container width label
 * Tweak: Remove :visited selector from buttons
+
+= 1.4.3 =
+* Fix: Error when opening Headline color pickers in WP 6.0
+* Fix: Button URL field not selectable in WP 6.0
 
 = 1.4.2 =
 * Fix: Missing responsive editor styles in Firefox

@@ -28,7 +28,7 @@
         "php": [
             "phpcs -p .",
             "parallel-lint --exclude .git --exclude vendor --exclude node_modules .",
-            "phpcs -p . --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.2- --ignore=*/vendor/,*/node_modules/"
+            "phpcs -p . --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6- --ignore=*/vendor/,*/node_modules/"
 		],
         "lint:wpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
         "lint:php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor --exclude node_modules .",
@@ -37,5 +37,10 @@
     "support": {
         "issues": "https://github.com/tomusborne/generateblocks/issues",
         "source": "https://github.com/tomusborne/generateblocks"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

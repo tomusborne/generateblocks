@@ -137,13 +137,17 @@ export default function ColorPicker( props ) {
 										nextColor = '#' + nextColor;
 									}
 
-									if ( colord( nextColor ).isValid() ) {
-										const alphaValue = colord( nextColor ).alpha();
-										nextColor = 1 === alphaValue ? colord( nextColor ).toHex() : nextColor;
-									}
-
 									debouncedSetColor( nextColor );
 									setManualInput( true );
+								} }
+								onBlur={ () => {
+									if ( colord( value ).isValid() ) {
+										const alphaValue = colord( value ).alpha();
+
+										if ( 1 === alphaValue ) {
+											debouncedSetColor( colord( value ).toHex() );
+										}
+									}
 								} }
 							/>
 
