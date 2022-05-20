@@ -86,8 +86,9 @@ class GenerateBlocks_Settings {
 				'gpContainerWidth' => function_exists( 'generate_get_option' ) ? generate_get_option( 'container_width' ) : false,
 				'gpContainerWidthLink' => function_exists( 'generate_get_option' ) ?
 					add_query_arg(
-						array( 'autofocus[control]' => 'generate_settings[container_width]' ),
-						admin_url( 'customize.php' )
+						rawurlencode( 'autofocus[control]' ),
+						rawurlencode( 'generate_settings[container_width]' ),
+						wp_customize_url()
 					) :
 					false,
 			)
