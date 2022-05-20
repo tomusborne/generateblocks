@@ -820,7 +820,12 @@ class GenerateBlocks_Dynamic_Content {
 			}
 		}
 
-		return $url;
+		return apply_filters(
+			'generateblocks_dynamic_url_output',
+			$url,
+			$attributes,
+			$block
+		);
 	}
 
 	/**
