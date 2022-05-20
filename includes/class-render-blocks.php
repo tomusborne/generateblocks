@@ -412,6 +412,13 @@ class GenerateBlocks_Render_Block {
 			}
 		}
 
+		$query_args = apply_filters(
+			'generateblocks_query_loop_args',
+			$query_args,
+			$attributes,
+			$block
+		);
+
 		$the_query = new WP_Query( $query_args );
 
 		$content = '';
