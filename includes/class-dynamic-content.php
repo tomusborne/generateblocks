@@ -703,9 +703,15 @@ class GenerateBlocks_Dynamic_Content {
 			return $id;
 		}
 
-		return wp_get_attachment_image_url(
+		$url = wp_get_attachment_image_url(
 			$id,
 			isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full'
+		);
+
+		return apply_filters(
+			'generateblocks_dynamic_background_image_url',
+			$url,
+			$attributes
 		);
 	}
 
