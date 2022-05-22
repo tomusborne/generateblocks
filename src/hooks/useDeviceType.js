@@ -1,4 +1,4 @@
-import { useDispatch, useSelect } from '@wordpress/data';
+import { useDispatch, useSelect, dispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import useLocalStorageState from 'use-local-storage-state';
 
@@ -9,6 +9,14 @@ export default ( initialDeviceType = 'Desktop' ) => {
 			defaultValue: initialDeviceType,
 		}
 	);
+
+	if ( ! dispatch( 'core/edit-post' ) ) {
+		const setDeviceType = ( type ) => {
+			setLocalDeviceType( type );
+		};
+
+		return [ localDeviceType, setDeviceType ];
+	}
 
 	const {
 		__experimentalSetPreviewDeviceType: setPreviewDeviceType = () => {},
