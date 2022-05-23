@@ -54,58 +54,84 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function get_content( $attributes, $block ) {
+		$content = '';
+
 		switch ( $attributes['dynamicContentType'] ) {
 			case 'post-title':
-				return self::get_post_title( $attributes );
+				$content = self::get_post_title( $attributes );
+				break;
 
 			case 'post-excerpt':
-				return self::get_post_excerpt( $attributes );
+				$content = self::get_post_excerpt( $attributes );
+				break;
 
 			case 'post-date':
-				return self::get_post_date( $attributes );
+				$content = self::get_post_date( $attributes );
+				break;
 
 			case 'post-meta':
-				return self::get_post_meta( $attributes );
+				$content = self::get_post_meta( $attributes );
+				break;
 
 			case 'comments-number':
-				return self::get_comments_number( $attributes );
+				$content = self::get_comments_number( $attributes );
+				break;
 
 			case 'terms':
-				return self::get_terms( $attributes );
+				$content = self::get_terms( $attributes );
+				break;
 
 			case 'author-meta':
-				return self::get_author_meta( $attributes );
+				$content = self::get_author_meta( $attributes );
+				break;
 
 			case 'author-email':
-				return self::get_user_data( self::get_source_author_id( $attributes ), 'user_email' );
+				$content = self::get_user_data( self::get_source_author_id( $attributes ), 'user_email' );
+				break;
 
 			case 'author-name':
-				return self::get_user_data( self::get_source_author_id( $attributes ), 'display_name' );
+				$content = self::get_user_data( self::get_source_author_id( $attributes ), 'display_name' );
+				break;
 
 			case 'author-nickname':
-				return self::get_user_data( self::get_source_author_id( $attributes ), 'nickname' );
+				$content = self::get_user_data( self::get_source_author_id( $attributes ), 'nickname' );
+				break;
 
 			case 'author-first-name':
-				return self::get_user_data( self::get_source_author_id( $attributes ), 'first_name' );
+				$content = self::get_user_data( self::get_source_author_id( $attributes ), 'first_name' );
+				break;
 
 			case 'author-last-name':
-				return self::get_user_data( self::get_source_author_id( $attributes ), 'last_name' );
+				$content = self::get_user_data( self::get_source_author_id( $attributes ), 'last_name' );
+				break;
 
 			case 'pagination-numbers':
-				return self::get_paginate_links( $attributes, $block );
+				$content = self::get_paginate_links( $attributes, $block );
+				break;
 
 			case 'featured-image':
-				return self::get_dynamic_image( $attributes, $block );
+				$content = self::get_dynamic_image( $attributes, $block );
+				break;
 
 			case 'caption':
-				return self::get_image_caption( $attributes, $block );
+				$content = self::get_image_caption( $attributes, $block );
+				break;
 
 			case 'alt-text':
-				return self::get_image_alt_text( $attributes, $block );
+				$content = self::get_image_alt_text( $attributes, $block );
+				break;
 
 			case 'description':
-				return self::get_image_description( $attributes, $block );
+				$content = self::get_image_description( $attributes, $block );
+				break;
 		}
+
+		return apply_filters(
+			'generateblocks_dynamic_content_output',
+			$content,
+			$attributes,
+			$block
+		);
 	}
 
 	/**
@@ -677,9 +703,15 @@ class GenerateBlocks_Dynamic_Content {
 			return $id;
 		}
 
-		return wp_get_attachment_image_url(
+		$url = wp_get_attachment_image_url(
 			$id,
 			isset( $attributes['bgImageSize'] ) ? $attributes['bgImageSize'] : 'full'
+		);
+
+		return apply_filters(
+			'generateblocks_dynamic_background_image_url',
+			$url,
+			$attributes
 		);
 	}
 
@@ -788,7 +820,12 @@ class GenerateBlocks_Dynamic_Content {
 			}
 		}
 
-		return $url;
+		return apply_filters(
+			'generateblocks_dynamic_url_output',
+			$url,
+			$attributes,
+			$block
+		);
 	}
 
 	/**
