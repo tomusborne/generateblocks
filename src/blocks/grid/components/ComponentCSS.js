@@ -9,6 +9,10 @@ import shouldRebuildCSS from '../../../utils/should-rebuild-css';
 
 function ComponentCSS( props ) {
 	const deviceType = useSelect( ( select ) => {
+		if ( ! select( 'core/edit-post' ) ) {
+			return 'Desktop';
+		}
+
 		const {
 			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType = () => 'Desktop',
 		} = select( 'core/edit-post' );
