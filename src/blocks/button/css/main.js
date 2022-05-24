@@ -96,15 +96,15 @@ export default class MainCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		let selector = 'a.gb-button-' + uniqueId;
+		let selector = '.editor-styles-wrapper .gb-button-wrapper a.gb-button-' + uniqueId;
 
 		if ( ! url ) {
-			selector = '.gb-button-' + uniqueId;
+			selector = '.editor-styles-wrapper .gb-button-wrapper .gb-button-' + uniqueId;
 		}
 
 		let cssObj = [];
 
-		cssObj[ '.block-editor-block-list__block ' + selector ] = [ {
+		cssObj[ selector ] = [ {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'background-image': backgroundImageValue,
 			'color': textColor, // eslint-disable-line quote-props
@@ -120,21 +120,19 @@ export default class MainCSS extends Component {
 		} ];
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			cssObj[ '.block-editor-block-list__block ' + selector ].push( {
+			cssObj[ selector ].push( {
 				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
 				'border-style': 'solid',
 			} );
 		}
 
-		cssObj[ `.block-editor-block-list__block ` + selector + `:hover,
-		.block-editor-block-list__block ` + selector + `:focus,
-		.block-editor-block-list__block ` + selector + `:active` ] = [ {
+		cssObj[ selector + ':hover, ' + selector + ':focus, ' + selector + ':active' ] = [ {
 			'background-color': hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),
 			'color': textColorHover, // eslint-disable-line quote-props
 			'border-color': hexToRGBA( borderColorHover, borderColorHoverOpacity ),
 		} ];
 
-		cssObj[ '.block-editor-block-list__block ' + selector + ' .gb-icon' ] = [ {
+		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
 			'font-size': valueWithUnit( iconSize, iconSizeUnit ),
 		} ];
