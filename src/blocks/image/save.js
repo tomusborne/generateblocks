@@ -60,7 +60,7 @@ export default ( { attributes } ) => {
 		attributes
 	);
 
-	const imageAttributes = removeEmpty( htmlAttributes );
+	const imageAttributes = removeEmpty( htmlAttributes, true );
 
 	const anchorAttributes = {
 		href,
