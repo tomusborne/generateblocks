@@ -47,6 +47,7 @@ export default function ControlBuilder( props ) {
 		selectOptions = [],
 		isSticky,
 		value,
+		default: defaultValue,
 		onChange,
 		onClickRemove,
 		dependencies,
@@ -62,6 +63,7 @@ export default function ControlBuilder( props ) {
 				help={ description }
 				options={ selectOptions }
 				value={ value }
+				placeholder={ defaultValue }
 				onChange={ onChange }
 				{ ...dependencies }
 			/>
