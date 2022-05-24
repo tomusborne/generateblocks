@@ -5,7 +5,6 @@ export default ( {
 	hasIcon = true,
 	direction = 'left',
 	children,
-	ariaLabel,
 	hideChildren = false,
 	showWrapper = false,
 	wrapperClassname = '',
@@ -13,7 +12,6 @@ export default ( {
 	const Icon = icon ? (
 		<span
 			className="gb-icon"
-			aria-label={ ariaLabel }
 			dangerouslySetInnerHTML={ { __html: icon } }
 		/>
 	) : undefined;
