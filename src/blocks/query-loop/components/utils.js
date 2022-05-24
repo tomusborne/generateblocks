@@ -1,7 +1,7 @@
-export function removeEmpty( obj, isImage = false ) {
+export function removeEmpty( obj ) {
 	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => {
 		// Allow the image alt attribute to be empty.
-		if ( isImage && 'alt' === idx ) {
+		if ( 'alt' === idx ) {
 			return true;
 		}
 
