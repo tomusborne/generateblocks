@@ -77,6 +77,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.4.4 =
+
 = 1.4.3 =
 * Fix: Error when opening Headline color pickers in WP 6.0
 * Fix: Button URL field not selectable in WP 6.0
