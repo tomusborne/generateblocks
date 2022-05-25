@@ -1,5 +1,10 @@
 export function removeEmpty( obj ) {
-	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => { // eslint-disable-line no-unused-vars
+	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => {
+		// Allow the image alt attribute to be empty.
+		if ( 'alt' === idx ) {
+			return true;
+		}
+
 		return Array.isArray( value ) ? !! value.length : !! value;
 	} ) );
 }
