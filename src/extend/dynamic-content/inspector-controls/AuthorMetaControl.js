@@ -18,7 +18,7 @@ export default function AuthorMetaControl( props ) {
 
 	if ( record && record.author && record.author.meta ) {
 		options = options.concat( Object
-			.keys( record.meta )
+			.keys( record.author.meta )
 			.filter( ( metaKey ) => ( metaKey !== metaFieldName ) )
 			.map( ( metaKey ) => ( { value: metaKey, label: metaKey } ) )
 		);
