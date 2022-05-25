@@ -67,7 +67,6 @@ export default ( { attributes } ) => {
 				icon={ icon }
 				hideChildren={ removeText }
 				showWrapper={ false }
-				ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 			>
 				<RichText.Content
 					value={ text }

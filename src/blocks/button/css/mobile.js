@@ -49,15 +49,15 @@ export default class MobileCSS extends Component {
 			iconSizeUnit,
 		} = attributes;
 
-		let selector = 'a.gb-button-' + uniqueId;
+		let selector = '.editor-styles-wrapper .gb-button-wrapper a.gb-button-' + uniqueId;
 
 		if ( ! url ) {
-			selector = '.gb-button-' + uniqueId;
+			selector = '.editor-styles-wrapper .gb-button-wrapper .gb-button-' + uniqueId;
 		}
 
 		let cssObj = [];
 
-		cssObj[ '.block-editor-block-list__block ' + selector ] = [ {
+		cssObj[ selector ] = [ {
 			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
@@ -75,7 +75,7 @@ export default class MobileCSS extends Component {
 		} ];
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
-			cssObj[ '.block-editor-block-list__block ' + selector ].push( {
+			cssObj[ selector ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
@@ -84,7 +84,7 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.block-editor-block-list__block ' + selector + ' .gb-icon' ] = [ {
+		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopMobile, iconPaddingUnit ) : false,
 			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightMobile, iconPaddingUnit ) : false,
 			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomMobile, iconPaddingUnit ) : false,
