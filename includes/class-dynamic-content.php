@@ -894,22 +894,12 @@ class GenerateBlocks_Dynamic_Content {
 		libxml_use_internal_errors( true );
 
 		// Parse the post content into an HTML document.
+		// Ensure UTF-8 encoding.
+		// https://stackoverflow.com/a/37834812.
 		$doc->loadHTML(
-			// loadHTML expects ISO-8859-1, so we need to convert the post content to
-			// that format. We use htmlentities to encode Unicode characters not
-			// supported by ISO-8859-1 as HTML entities. However, this function also
-			// converts all special characters like < or > to HTML entities, so we use
-			// htmlspecialchars_decode to decode them.
-			htmlspecialchars_decode(
-				utf8_decode(
-					htmlentities(
-						'<html><body>' . $content . '</body></html>',
-						ENT_COMPAT,
-						'UTF-8',
-						false
-					)
-				),
-				ENT_COMPAT
+			sprintf(
+				'<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>%s</body></html>',
+				$content
 			)
 		);
 
