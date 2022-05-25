@@ -327,3 +327,18 @@ function generateblocks_set_inline_background_style( $attributes, $settings ) {
 
 	return $attributes;
 }
+
+add_filter( 'generateblocks_query_loop_args', 'generateblocks_set_query_loop_default_query_args', 10, 1 );
+/**
+ * Set the default query loop arguments.
+ *
+ * @param array $query_args The query loop arguments.
+ * @return array The query loop arguments with defaults.
+ */
+function generateblocks_set_query_loop_default_query_args( $query_args ) {
+	if ( ! isset( $query_args['posts_per_page'] ) || $query_args['posts_per_page'] === '' ) {
+		$query_args['posts_per_page'] = 10;
+	}
+
+	return $query_args;
+}
