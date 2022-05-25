@@ -80,7 +80,6 @@ export default function ButtonContentRenderer( props ) {
 				hideChildren={ removeText }
 				showWrapper={ ! removeText && !! icon }
 				wrapperClassname={ 'gb-button-text' }
-				ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 			>
 				<InnerContent
 					name={ name }
