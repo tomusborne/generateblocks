@@ -462,15 +462,17 @@ export default ( props ) => {
 								} }
 							/>
 
-							<ToggleControl
-								label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-								checked={ !! removeVerticalGap }
-								onChange={ ( value ) => {
-									setAttributes( {
-										removeVerticalGap: value,
-									} );
-								} }
-							/>
+							{ ! isQueryLoopItem &&
+								<ToggleControl
+									label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
+									checked={ !! removeVerticalGap }
+									onChange={ ( value ) => {
+										setAttributes( {
+											removeVerticalGap: value,
+										} );
+									} }
+								/>
+							}
 
 							<SelectControl
 								label={ __( 'Tag Name', 'generateblocks' ) }
@@ -678,15 +680,17 @@ export default ( props ) => {
 								} }
 							/>
 
-							<ToggleControl
-								label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-								checked={ !! removeVerticalGapTablet }
-								onChange={ ( value ) => {
-									setAttributes( {
-										removeVerticalGapTablet: value,
-									} );
-								} }
-							/>
+							{ ! isQueryLoopItem &&
+								<ToggleControl
+									label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
+									checked={ !! removeVerticalGapTablet }
+									onChange={ ( value ) => {
+										setAttributes( {
+											removeVerticalGapTablet: value,
+										} );
+									} }
+								/>
+							}
 
 							<TextControl
 								type={ 'number' }
@@ -892,15 +896,17 @@ export default ( props ) => {
 								} }
 							/>
 
-							<ToggleControl
-								label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-								checked={ !! removeVerticalGapMobile }
-								onChange={ ( value ) => {
-									setAttributes( {
-										removeVerticalGapMobile: value,
-									} );
-								} }
-							/>
+							{ ! isQueryLoopItem &&
+								<ToggleControl
+									label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
+									checked={ !! removeVerticalGapMobile }
+									onChange={ ( value ) => {
+										setAttributes( {
+											removeVerticalGapMobile: value,
+										} );
+									} }
+								/>
+							}
 
 							<TextControl
 								type={ 'number' }
