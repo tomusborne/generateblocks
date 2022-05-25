@@ -898,7 +898,8 @@ class GenerateBlocks_Dynamic_Content {
 		// https://stackoverflow.com/a/37834812.
 		$doc->loadHTML(
 			sprintf(
-				'<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body>%s</body></html>',
+				'<html><head><meta http-equiv="Content-Type" content="text/html; charset=%s"></head><body>%s</body></html>',
+				esc_attr( get_bloginfo( 'charset' ) ),
 				$content
 			)
 		);
