@@ -17,7 +17,6 @@ export default ( { attributes } ) => {
 		icon,
 		hasIcon,
 		removeText,
-		ariaLabel,
 	} = attributes;
 
 	let htmlAttributes = {
@@ -45,7 +44,6 @@ export default ( { attributes } ) => {
 				icon={ icon }
 				hideChildren={ removeText }
 				showWrapper={ false }
-				ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 			>
 				<RichText.Content
 					value={ content }
