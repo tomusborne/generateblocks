@@ -251,7 +251,7 @@ class GenerateBlocks_Query_Loop {
 	 * @return array The query loop arguments with defaults.
 	 */
 	public function set_query_loop_defaults( $query_args ) {
-		if ( ! isset( $query_args['posts_per_page'] ) || $query_args['posts_per_page'] === '' ) {
+		if ( ! isset( $query_args['posts_per_page'] ) || '' === $query_args['posts_per_page'] ) {
 			$query_args['posts_per_page'] = 10;
 		}
 
