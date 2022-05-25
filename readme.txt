@@ -78,6 +78,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.4.4 =
+* Fix: Grid layout selector in WP 6.0
 
 = 1.4.3 =
 * Fix: Error when opening Headline color pickers in WP 6.0
