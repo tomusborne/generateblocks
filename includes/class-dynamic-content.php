@@ -622,7 +622,11 @@ class GenerateBlocks_Dynamic_Content {
 			if ( in_array( $attributes['dynamicContentType'], $image_content_types ) ) {
 				if ( isset( $attributes['dynamicImage'] ) ) {
 					$id = $attributes['dynamicImage'];
-				} elseif ( isset( $attributes['postId'] ) && 'attachment' === $attributes['postType'] ) {
+				} elseif (
+					isset( $attributes['postId'] ) &&
+					isset( $attributes['postType'] ) &&
+					'attachment' === $attributes['postType']
+				) {
 					// Use the saved post ID if we're working with a static image.
 					$id = absint( $attributes['postId'] );
 				}
