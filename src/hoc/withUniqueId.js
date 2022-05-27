@@ -20,7 +20,7 @@ export const getUniqueIdFromBlocks = ( blocks ) => blocks
 		}
 
 		if ( block.innerBlocks ) {
-			const { uniqueIds, clientIds } = getUniqueIdFromBlocks( block.innerBlocks )
+			const { uniqueIds, clientIds } = getUniqueIdFromBlocks( block.innerBlocks );
 			result.uniqueIds = result.uniqueIds.concat( uniqueIds );
 			result.clientIds = result.clientIds.concat( clientIds );
 		}
@@ -39,8 +39,8 @@ export const generateUniqueId = ( clientId ) => clientId.substr( 2, 9 ).replace(
 /**
  * Checks if the array contains duplicates of the value
  *
- * @param {Array} arr   The array to check the values
- * @param {any}   value The value to check if has duplicates
+ * @param {Array}  arr          The array to check the values
+ * @param {any}    value        The value to check if has duplicates
  * @param {number} currentIndex The current index
  * @return {boolean} If the array has duplicates
  */
