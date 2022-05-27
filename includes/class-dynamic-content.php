@@ -63,6 +63,9 @@ class GenerateBlocks_Dynamic_Content {
 
 			case 'post-excerpt':
 				$content = self::get_post_excerpt( $attributes );
+				// Once we have the excerpt content we are safe to clear the source ids.
+				// By doing so we avoid empty content for subsequent calls.
+				self::$source_ids = [];
 				break;
 
 			case 'post-date':
