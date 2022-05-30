@@ -108,6 +108,8 @@ export default function MainCSS( props ) {
 		'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
+		'margin-left': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
+		'margin-right': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
 	} ];
 
 	if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
