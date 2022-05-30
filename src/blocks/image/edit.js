@@ -65,14 +65,12 @@ function ImageEdit( props ) {
 		setTemporaryURL();
 
 		if (
+			!! image &&
 			(
-				!! image &&
+				! useDynamicData ||
 				(
-					! useDynamicData ||
-					(
-						!! useDynamicData &&
-						! dynamicContentType
-					)
+					!! useDynamicData &&
+					! dynamicContentType
 				)
 			)
 		) {
