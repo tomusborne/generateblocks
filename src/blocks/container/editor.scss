@@ -75,6 +75,10 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	box-sizing: border-box;
 }
 
+.gb-container .gb-inside-container {
+  	box-sizing: inherit;
+}
+
 .gblocks-bg-image-wrapper {
 	display: flex;
 
