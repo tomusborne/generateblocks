@@ -25,6 +25,7 @@ function ImageEdit( props ) {
 
 	const {
 		useDynamicData,
+		dynamicContentType,
 		sizeSlug,
 		mediaId,
 		mediaUrl,
@@ -63,7 +64,18 @@ function ImageEdit( props ) {
 
 		setTemporaryURL();
 
-		if ( ! useDynamicData && !! image ) {
+		if (
+			(
+				!! image &&
+				(
+					! useDynamicData ||
+					(
+						!! useDynamicData &&
+						! dynamicContentType
+					)
+				)
+			)
+		) {
 			const imageUrl = ( image?.sizes && image?.sizes[ sizeSlug ]?.url ) || image?.url;
 
 			setAttributes( {
