@@ -79,6 +79,10 @@ body .gb-container .wp-block {
 	box-sizing: border-box;
 }
 
+.gb-container .gb-inside-container {
+  	box-sizing: inherit;
+}
+
 .gblocks-bg-image-wrapper {
 	display: flex;
 
