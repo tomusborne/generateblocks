@@ -23,8 +23,12 @@
 
 .gblocks-color-component-content {
 	.components-popover__content {
-		padding: 5px;
+		padding: 15px;
 		width: 300px;
+
+		& > div {
+			padding: 0;
+		}
 	}
 
 	.components-base-control__field {

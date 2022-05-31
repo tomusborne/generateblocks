@@ -46,6 +46,7 @@ class GenerateBlocks_Query_Loop {
 		add_filter( 'generateblocks_attr_grid-item', array( $this, 'add_grid_item_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_attr_button-container', array( $this, 'add_button_wrapper_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
+		add_filter( 'generateblocks_query_loop_args', array( $this, 'set_query_loop_defaults' ) );
 	}
 
 	/**
@@ -241,6 +242,20 @@ class GenerateBlocks_Query_Loop {
 		}
 
 		return $attributes;
+	}
+
+	/**
+	 * Set the default query loop arguments.
+	 *
+	 * @param array $query_args The query loop arguments.
+	 * @return array The query loop arguments with defaults.
+	 */
+	public function set_query_loop_defaults( $query_args ) {
+		if ( ! isset( $query_args['posts_per_page'] ) || '' === $query_args['posts_per_page'] ) {
+			$query_args['posts_per_page'] = 10;
+		}
+
+		return $query_args;
 	}
 }
 

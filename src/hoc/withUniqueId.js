@@ -1,4 +1,7 @@
+import { useEffect } from '@wordpress/element';
 import getEditorBlocks from '../utils/get-editor-blocks';
+import { useDispatch } from '@wordpress/data';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 
 /**
  * Search all blocks for uniqueIds
@@ -7,20 +10,23 @@ import getEditorBlocks from '../utils/get-editor-blocks';
  * @return {Array} The array of uniqueIds
  */
 export const getUniqueIdFromBlocks = ( blocks ) => blocks
-	.reduce( ( uniqueIds, block ) => {
+	.reduce( ( result, block ) => {
 		if (
 			( block.name && block.name.includes( 'generateblocks' ) ) &&
 			( block.attributes && block.attributes.uniqueId )
 		) {
-			uniqueIds.push( block.attributes.uniqueId );
+			result.uniqueIds.push( block.attributes.uniqueId );
+			result.clientIds.push( block.clientId );
 		}
 
 		if ( block.innerBlocks ) {
-			uniqueIds = uniqueIds.concat( getUniqueIdFromBlocks( block.innerBlocks ) );
+			const { uniqueIds, clientIds } = getUniqueIdFromBlocks( block.innerBlocks );
+			result.uniqueIds = result.uniqueIds.concat( uniqueIds );
+			result.clientIds = result.clientIds.concat( clientIds );
 		}
 
-		return uniqueIds;
-	}, [] );
+		return result;
+	}, { uniqueIds: [], clientIds: [] } );
 
 /**
  * Generates a unique id based on the clientId
@@ -33,11 +39,15 @@ export const generateUniqueId = ( clientId ) => clientId.substr( 2, 9 ).replace(
 /**
  * Checks if the array contains duplicates of the value
  *
- * @param {Array} arr   The array to check the values
- * @param {any}   value The value to check if has duplicates
+ * @param {Array}  arr          The array to check the values
+ * @param {any}    value        The value to check if has duplicates
+ * @param {number} currentIndex The current index
  * @return {boolean} If the array has duplicates
  */
-export const hasDuplicates = ( arr, value ) => arr.filter( ( el ) => ( el === value ) ).length > 1;
+export const hasDuplicates = ( arr, value, currentIndex ) => (
+	arr.filter( ( el ) => ( el === value ) ).length > 1 &&
+	currentIndex === arr.lastIndexOf( value )
+);
 
 /**
  * It will enhance a block component with the attributes.uniqueId property
@@ -46,14 +56,21 @@ export const hasDuplicates = ( arr, value ) => arr.filter( ( el ) => ( el === va
  * @return {function(*)} The wrapped component
  */
 export default ( WrappedComponent ) => ( ( props ) => {
-	const { clientId, attributes, setAttributes } = props;
-	const uniqueIds = getUniqueIdFromBlocks( getEditorBlocks() );
+	const { clientId, attributes } = props;
+	const { updateBlockAttributes } = useDispatch( blockEditorStore );
 
-	if ( ! attributes.uniqueId || '' === attributes.uniqueId || hasDuplicates( uniqueIds, attributes.uniqueId ) ) {
-		const uniqueId = generateUniqueId( clientId );
+	useEffect( () => {
+		const { uniqueIds, clientIds } = getUniqueIdFromBlocks( getEditorBlocks() );
 
-		setAttributes( { uniqueId } );
-	}
+		if (
+			! attributes.uniqueId ||
+			hasDuplicates( uniqueIds, attributes.uniqueId, clientIds.indexOf( clientId ) )
+		) {
+			const uniqueId = generateUniqueId( clientId );
+
+			updateBlockAttributes( clientId, { uniqueId } );
+		}
+	}, [ clientId ] );
 
 	return ( <WrappedComponent { ...props } /> );
 } );
