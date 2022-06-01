@@ -760,14 +760,26 @@ class GenerateBlocks_Dynamic_Content {
 		if ( isset( $attributes['linkMetaFieldName'] ) ) {
 			if ( 'post-meta' === $link_type ) {
 				$url = get_post_meta( $id, $attributes['linkMetaFieldName'], true );
+
+				if ( isset( $attributes['linkMetaFieldType'] ) ) {
+					$url = $attributes['linkMetaFieldType'] . $url;
+				}
 			}
 
 			if ( 'user-meta' === $link_type ) {
 				$url = self::get_user_data( $author_id, $attributes['linkMetaFieldName'] );
+
+				if ( isset( $attributes['linkMetaFieldType'] ) ) {
+					$url = $attributes['linkMetaFieldType'] . $url;
+				}
 			}
 
 			if ( 'term-meta' === $link_type ) {
 				$url = get_term_meta( get_queried_object_id(), $attributes['linkMetaFieldName'], true );
+
+				if ( isset( $attributes['linkMetaFieldType'] ) ) {
+					$url = $attributes['linkMetaFieldType'] . $url;
+				}
 			}
 		}
 

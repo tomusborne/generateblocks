@@ -59,6 +59,11 @@ export default {
 		default: '',
 	},
 
+	linkMetaFieldType: {
+		type: 'string',
+		default: '',
+	},
+
 	termTaxonomy: {
 		type: 'string',
 		default: '',

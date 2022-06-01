@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
-import { TextControl } from '@wordpress/components';
+import { SelectControl, TextControl } from '@wordpress/components';
 
 const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 	let defaultOptions = [
@@ -48,6 +48,7 @@ const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 export default ( {
 	linkType,
 	linkMetaFieldName,
+	linkMetaFieldType,
 	dynamicContentType,
 	setAttributes,
 	isPagination,
@@ -76,11 +77,35 @@ export default ( {
 					/>
 
 					{ 'post-meta' === linkType &&
-						<TextControl
-							label={ __( 'Meta field name', 'generateblocks' ) }
-							value={ linkMetaFieldName }
-							onChange={ ( newValue ) => setAttributes( { linkMetaFieldName: newValue } ) }
-						/>
+						<>
+							<TextControl
+								label={ __( 'Meta field name', 'generateblocks' ) }
+								value={ linkMetaFieldName }
+								onChange={ ( newValue ) => setAttributes( { linkMetaFieldName: newValue } ) }
+							/>
+
+							{ !! linkMetaFieldName &&
+								<SelectControl
+									label={ __( 'Meta field link type', 'generateblocks' ) }
+									value={ linkMetaFieldType }
+									onChange={ ( newValue ) => setAttributes( { linkMetaFieldType: newValue } ) }
+									options={ [
+										{
+											label: __( 'Default', 'generateblocks' ),
+											value: '',
+										},
+										{
+											label: __( 'Email', 'generateblocks' ),
+											value: 'mailto:',
+										},
+										{
+											label: __( 'Telephone', 'generateblocks' ),
+											value: 'tel:',
+										},
+									] }
+								/>
+							}
+						</>
 					}
 				</>
 			}
