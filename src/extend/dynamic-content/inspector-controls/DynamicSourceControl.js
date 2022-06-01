@@ -1,5 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import SelectPostType from '../components/SelectPostType';
-import SelectPost from '../components/SelectPost';
+import PostTypeRecordsSelect from '../../../components/post-type-records-select';
 import SelectSource from '../components/SelectSource';
 
 export default ( { dynamicSource, postType, postId, setAttributes, dynamicContentType } ) => {
@@ -26,12 +27,16 @@ export default ( { dynamicSource, postType, postId, setAttributes, dynamicConten
 						} }
 					/>
 
-					<SelectPost
+					<PostTypeRecordsSelect
 						postId={ postId }
 						postType={ postType }
+						value={ [ postId ] }
+						id={ 'gblocks-select-post' }
+						label={ __( 'Select source post', 'generateblocks' ) }
 						onChange={ ( option ) => {
 							setAttributes( { postId: option.value } );
 						} }
+						isMulti={ false }
 					/>
 				</>
 			}
