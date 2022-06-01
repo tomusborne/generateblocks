@@ -8,9 +8,10 @@ export default function PostTypeRecordsSelect( { postType, label, value, ...prop
 
 	const recordOptions = useMemo( () => {
 		return records?.map( ( post ) => {
-			const label = ( post.title && post.title.raw ) ? post.title.raw : post.slug;
+			// If the post type does not support title we use the slug instead.
+			const title = ( post.title && post.title.raw ) ? post.title.raw : post.slug;
 
-			return { value: post.id, label: `#${ post.id }: ${ label }` }
+			return { value: post.id, label: `#${ post.id }: ${ title }` };
 		} );
 	}, [ records, postType ] );
 
