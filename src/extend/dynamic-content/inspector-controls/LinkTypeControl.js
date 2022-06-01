@@ -45,6 +45,24 @@ const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 	);
 };
 
+const getMetaLinkTypes = applyFilters(
+	'generateblocks.editor.dynamicContent.linkPrependOptions',
+	[
+		{
+			label: __( 'Default', 'generateblocks' ),
+			value: '',
+		},
+		{
+			label: __( 'Email', 'generateblocks' ),
+			value: 'mailto:',
+		},
+		{
+			label: __( 'Telephone', 'generateblocks' ),
+			value: 'tel:',
+		},
+	]
+);
+
 export default ( {
 	linkType,
 	linkMetaFieldName,
@@ -89,20 +107,7 @@ export default ( {
 									label={ __( 'Meta field link type', 'generateblocks' ) }
 									value={ linkMetaFieldType }
 									onChange={ ( newValue ) => setAttributes( { linkMetaFieldType: newValue } ) }
-									options={ [
-										{
-											label: __( 'Default', 'generateblocks' ),
-											value: '',
-										},
-										{
-											label: __( 'Email', 'generateblocks' ),
-											value: 'mailto:',
-										},
-										{
-											label: __( 'Telephone', 'generateblocks' ),
-											value: 'tel:',
-										},
-									] }
+									options={ getMetaLinkTypes }
 								/>
 							}
 						</>
