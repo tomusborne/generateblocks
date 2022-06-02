@@ -3,6 +3,7 @@ vendor
 .DS_Store
 *.zip
 composer.lock
+.idea/
 ## Uncomment line below if you prefer to
 ## keep compiled files out of version control
 # dist/

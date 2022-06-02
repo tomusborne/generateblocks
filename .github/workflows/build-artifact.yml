@@ -1,0 +1,30 @@
+name: Build artifact
+
+on:
+  workflow_dispatch:
+
+jobs:
+
+  build-artifact:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'npm'
+      - run: npm install
+      - run: npm run build
+
+      - uses: actions/upload-artifact@v3.1.0
+        with:
+          name: generateblocks
+          path: |
+            assets/
+            dist/
+            includes/
+            src/
+            plugin.php
+            readme.txt
+          retention-days: 1
