@@ -74,6 +74,7 @@ const ANCHOR_REGEX = /[\s#]/g;
 class GenerateBlockHeadline extends Component {
 	constructor() {
 		super( ...arguments );
+		console.log( 'testing' );
 
 		this.getFontSizePlaceholder = this.getFontSizePlaceholder.bind( this );
 		this.getDeviceType = this.getDeviceType.bind( this );
