@@ -31,6 +31,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		termSeparator,
 		dynamicLinkType,
 		linkMetaFieldName,
+		linkMetaFieldType,
 		isPagination,
 		isQueryLoopItem,
 		isCaption,
@@ -182,6 +183,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							linkType={ dynamicLinkType }
 							dynamicContentType={ dynamicContentType }
 							linkMetaFieldName={ linkMetaFieldName }
+							linkMetaFieldType={ linkMetaFieldType }
 							isPagination={ isPagination }
 							setAttributes={ setAttributes }
 							name={ name }
