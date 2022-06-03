@@ -19,7 +19,10 @@ registerBlockType( 'generateblocks/query-loop', {
 		__( 'generate' ),
 	],
 	attributes,
-	supports: { className: false },
+	supports: {
+		className: false,
+		customClassName: false,
+	},
 	providesContext: {
 		'generateblocks/query': 'query',
 		'generateblocks/queryId': 'uniqueId',
