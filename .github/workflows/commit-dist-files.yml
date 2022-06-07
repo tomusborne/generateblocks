@@ -1,0 +1,33 @@
+name: Commit dist files
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - release/*
+    paths:
+      - src/**
+
+jobs:
+
+  commit-dist:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'npm'
+
+      - name: NPM install
+        run: npm install
+
+      - name: NPM build
+        run: npm run build
+
+      - uses: EndBug/add-and-commit@v9
+        with:
+          default_author: github_actions
+          message: 'Update dist files'
+          add: 'dist/'
