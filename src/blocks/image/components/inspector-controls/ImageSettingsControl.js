@@ -135,7 +135,7 @@ export default function ImageSettingsControls( props ) {
 				} }
 			/>
 
-			{ ! useDynamicData &&
+			{ ! useDynamicData && 'Desktop' === deviceType &&
 				<>
 					<TextareaControl
 						label={ __( 'Alt text (alternative text)', 'generateblocks' ) }
