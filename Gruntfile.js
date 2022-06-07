@@ -40,6 +40,39 @@ module.exports = function( grunt ) {
 				],
 				dest: 'generateblocks/',
 			},
+			actionPackage: {
+				options: {
+					mode: true,
+				},
+				src: [
+					'**',
+					'!node_modules/**',
+					'!build/**',
+					'!css/sourcemap/**',
+					'!.git/**',
+					'!.github/**',
+					'!bin/**',
+					'!.gitlab-ci.yml',
+					'!cghooks.lock',
+					'!tests/**',
+					'!*.sh',
+					'!*.map',
+					'!Gruntfile.js',
+					'!package.json',
+					'!.gitignore',
+					'!phpunit.xml',
+					'!README.md',
+					'!sass/**',
+					'!vendor/**',
+					'!composer.json',
+					'!composer.lock',
+					'!package-lock.json',
+					'!phpcs.xml.dist',
+					'!.eslintignore',
+					'!.eslintrc.json',
+				],
+				dest: 'package/generateblocks/',
+			},
 		},
 
 		compress: {
@@ -72,7 +105,7 @@ module.exports = function( grunt ) {
 
 	// Grunt release - Create installable package of the local files
 	grunt.registerTask( 'package', [ 'clean:zip', 'copy:main', 'compress:main', 'clean:main' ] );
-	grunt.registerTask( 'action-package', [ 'copy:main' ] );
+	grunt.registerTask( 'action-package', [ 'copy:actionPackage' ] );
 
 	grunt.registerTask( 'download-google-fonts', function() {
 		const done = this.async();

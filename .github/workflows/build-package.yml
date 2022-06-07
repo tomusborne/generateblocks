@@ -34,5 +34,5 @@ jobs:
         with:
           name: ${{ github.event.inputs.name }}
           path: |
-            generateblocks/
+            package/
           retention-days: 1
