@@ -72,6 +72,7 @@ module.exports = function( grunt ) {
 
 	// Grunt release - Create installable package of the local files
 	grunt.registerTask( 'package', [ 'clean:zip', 'copy:main', 'compress:main', 'clean:main' ] );
+	grunt.registerTask( 'action-package', [ 'copy:main' ] );
 
 	grunt.registerTask( 'download-google-fonts', function() {
 		const done = this.async();

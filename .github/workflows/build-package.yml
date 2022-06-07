@@ -26,31 +26,13 @@ jobs:
       - name: NPM build
         run: npm run build
 
+      - name: Grunt action-package
+        run: npm run action-package
+
       - name: Build zip file
         uses: actions/upload-artifact@v3.1.0
         with:
           name: ${{ github.event.inputs.name }}
           path: |
-            assets/
-            dist/
-            includes/
-            src/
-            plugin.php
-            readme.txt
-            !/.wordpress-org
-            !/.git
-            !/.github
-            !.distignore
-            !.DS_Store
-            !.editorconfig
-            !.eslintignore
-            !.eslintrc.json
-            !.gitattributes
-            !.gitignore
-            !package-lock.json
-            !package.json
-            !composer.json
-            !composer.lock
-            !phpcs.xml.dist
-            !Gruntfile.js
+            generateblocks/
           retention-days: 1
