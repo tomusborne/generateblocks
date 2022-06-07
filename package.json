@@ -59,6 +59,7 @@
 		"lint:js": "wp-scripts lint-js",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"package": "grunt package",
+		"action-package": "grunt action-package",
 		"googleFonts": "grunt download-google-fonts",
 		"test:unit": "wp-scripts test-unit-js"
 	}
