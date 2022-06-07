@@ -135,7 +135,7 @@ export default function ImageSettingsControls( props ) {
 				} }
 			/>
 
-			{ ! useDynamicData && mediaId &&
+			{ ! useDynamicData &&
 				<>
 					<TextareaControl
 						label={ __( 'Alt text (alternative text)', 'generateblocks' ) }
