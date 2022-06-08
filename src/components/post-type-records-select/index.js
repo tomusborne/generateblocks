@@ -7,7 +7,12 @@ export default function PostTypeRecordsSelect( { postType, label, value, ...prop
 	const { records, isResolving } = usePostTypeRecords( postType ) || [];
 
 	const recordOptions = useMemo( () => {
-		return records?.map( ( post ) => ( { value: post.id, label: post.title.raw } ) );
+		return records?.map( ( post ) => {
+			// If the post type does not support title we use the slug instead.
+			const title = ( post.title && post.title.raw ) ? post.title.raw : post.slug;
+
+			return { value: post.id, label: `#${ post.id }: ${ title }` };
+		} );
 	}, [ records, postType ] );
 
 	const selectedValues = recordOptions.filter( ( option ) => ( value.includes( option.value ) ) );

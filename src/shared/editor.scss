@@ -143,3 +143,13 @@
 		transform-origin: center;
 	}
 }
+
+/**
+ * This is a fix for GP Premium < 2.2.0.
+ * @todo Remove in GB 1.6.0.
+ */
+.post-type-gp_elements {
+	.wp-block {
+		max-width: none;
+	}
+}
