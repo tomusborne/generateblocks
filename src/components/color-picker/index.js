@@ -6,7 +6,7 @@ import { colord } from 'colord';
 import { useDebounce } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 import { ColorPalette } from '@wordpress/block-editor';
-import { useState, useEffect, useMemo } from '@wordpress/element';
+import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
 import {
 	Tooltip,
 	BaseControl,
@@ -35,6 +35,7 @@ export default function ColorPicker( props ) {
 	} = props;
 
 	const [ valueState, setValueState ] = useState( value || '' );
+	const inputRef = useRef( null );
 
 	const Component = alpha && 1 === valueOpacity
 		? RgbaStringColorPicker
@@ -65,6 +66,13 @@ export default function ColorPicker( props ) {
 
 	useEffect( () => {
 		debouncedSetColor( valueState );
+
+		// Keep the input focused.
+		setTimeout( () => {
+			if ( inputRef.current ) {
+				inputRef.current.focus();
+			}
+		}, 10 );
 	}, [ valueState ] );
 
 	return (
@@ -145,10 +153,6 @@ export default function ColorPicker( props ) {
 									if ( alpha && 1 !== valueOpacity ) {
 										onOpacityChange( 1 );
 									}
-
-									setTimeout( function() {
-										document.querySelector( '.gblocks-color-component-content__input-wrapper input' ).focus();
-									}, 10 );
 								} }
 							>
 								{ __( 'Clear', 'generateblocks' ) }
@@ -180,9 +184,6 @@ export default function ColorPicker( props ) {
 								onChange={ ( color ) => {
 									onChange( color );
 
-									setTimeout( function() {
-										document.querySelector( '.gblocks-color-component-content__input-wrapper input' ).focus();
-									}, 10 );
 								} }
 								disableCustomColors={ true }
 								clearable={ false }
