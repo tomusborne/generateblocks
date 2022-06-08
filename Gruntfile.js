@@ -37,39 +37,7 @@ module.exports = function( grunt ) {
 					'!phpcs.xml.dist',
 					'!.eslintignore',
 					'!.eslintrc.json',
-				],
-				dest: 'generateblocks/',
-			},
-			actionPackage: {
-				options: {
-					mode: true,
-				},
-				src: [
-					'**',
-					'!node_modules/**',
-					'!build/**',
-					'!css/sourcemap/**',
-					'!.git/**',
-					'!.github/**',
-					'!bin/**',
-					'!.gitlab-ci.yml',
-					'!cghooks.lock',
-					'!tests/**',
-					'!*.sh',
-					'!*.map',
-					'!Gruntfile.js',
-					'!package.json',
-					'!.gitignore',
-					'!phpunit.xml',
-					'!README.md',
-					'!sass/**',
-					'!vendor/**',
-					'!composer.json',
-					'!composer.lock',
-					'!package-lock.json',
-					'!phpcs.xml.dist',
-					'!.eslintignore',
-					'!.eslintrc.json',
+					'!*.zip',
 				],
 				dest: 'package/generateblocks/',
 			},
@@ -84,16 +52,17 @@ module.exports = function( grunt ) {
 				},
 				files: [
 					{
-						src: [
-							'./generateblocks/**',
-						],
+						expand: true,
+						cwd: 'package/',
+						src: [ 'generateblocks/**' ],
+						dest: '/',
 					},
 				],
 			},
 		},
 
 		clean: {
-			main: [ 'generateblocks' ],
+			main: [ 'package' ],
 			zip: [ '*.zip' ],
 		},
 	} );
@@ -105,7 +74,7 @@ module.exports = function( grunt ) {
 
 	// Grunt release - Create installable package of the local files
 	grunt.registerTask( 'package', [ 'clean:zip', 'copy:main', 'compress:main', 'clean:main' ] );
-	grunt.registerTask( 'action-package', [ 'copy:actionPackage' ] );
+	grunt.registerTask( 'action-package', [ 'clean:main', 'copy:main' ] );
 
 	grunt.registerTask( 'download-google-fonts', function() {
 		const done = this.async();
