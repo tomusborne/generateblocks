@@ -116,12 +116,13 @@ export default function ColorPicker( props ) {
 									nextColor = 1 === alphaValue ? colord( nextColor ).toHex() : nextColor;
 								}
 
-								debouncedSetColor( nextColor );
+								setValueState( nextColor );
 							} }
 						/>
 
 						<div className="gblocks-color-component-content__input-wrapper">
 							<TextControl
+								ref={ inputRef }
 								className="gblocks-color-input"
 								type={ 'text' }
 								value={ valueState }
@@ -137,7 +138,7 @@ export default function ColorPicker( props ) {
 										const alphaValue = colord( value ).alpha();
 
 										if ( 1 === alphaValue ) {
-											debouncedSetColor( colord( value ).toHex() );
+											setValueState( colord( value ).toHex() );
 										}
 									}
 								} }
@@ -148,7 +149,7 @@ export default function ColorPicker( props ) {
 								isSecondary
 								className="gblocks-color-input-clear"
 								onClick={ () => {
-									onChange( '' );
+									setValueState( '' );
 
 									if ( alpha && 1 !== valueOpacity ) {
 										onOpacityChange( 1 );
@@ -182,8 +183,7 @@ export default function ColorPicker( props ) {
 							<ColorPalette
 								value={ value ? value : '' }
 								onChange={ ( color ) => {
-									onChange( color );
-
+									setValueState( color );
 								} }
 								disableCustomColors={ true }
 								clearable={ false }
