@@ -37,6 +37,14 @@ Craft text-rich content with advanced typography. Everything from headings to pa
 
 Drive conversions with beautiful buttons.
 
+= Query Loop =
+
+Build a list of posts from any post type using advanced query parameters.
+
+= Image =
+
+Add static or dynamic images to your content to make a visual statement.
+
 = Performance =
 
 We take performance seriously. Minimal CSS is generated only for the blocks you need, and our HTML structure is as simple as possible while allowing for maximum flexibility.
