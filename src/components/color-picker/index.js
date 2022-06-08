@@ -34,30 +34,11 @@ export default function ColorPicker( props ) {
 		tooltip,
 	} = props;
 
-	const [ isManualInput, setManualInput ] = useState( false );
+	const [ valueState, setValueState ] = useState( value || '' );
 
 	const Component = alpha && 1 === valueOpacity
 		? RgbaStringColorPicker
 		: RgbStringColorPicker;
-
-	useEffect( () => {
-		if ( ! isManualInput ) {
-			return;
-		}
-
-		const timeout = setTimeout( () => {
-			const colorInput = document.querySelector( '.gblocks-color-input-wrapper input' );
-
-			if ( colorInput ) {
-				colorInput.focus();
-			}
-		}, 350 );
-
-		return () => {
-			clearTimeout( timeout );
-			setManualInput( false );
-		};
-	}, [ value ] );
 
 	const isHex = ( hex ) => {
 		return /^([0-9A-F]{3}){1,2}$/i.test( hex );
@@ -81,6 +62,10 @@ export default function ColorPicker( props ) {
 
 	const rgbColor = useMemo( () => getPaletteValue( value ), [ value ] );
 	const debouncedSetColor = useDebounce( onChange );
+
+	useEffect( () => {
+		debouncedSetColor( valueState );
+	}, [ valueState ] );
 
 	return (
 		<div className="gblocks-color-component">
@@ -131,14 +116,13 @@ export default function ColorPicker( props ) {
 							<TextControl
 								className="gblocks-color-input"
 								type={ 'text' }
-								value={ value || '' }
+								value={ valueState }
 								onChange={ ( nextColor ) => {
 									if ( ! nextColor.startsWith( '#' ) && isHex( nextColor ) ) {
 										nextColor = '#' + nextColor;
 									}
 
-									debouncedSetColor( nextColor );
-									setManualInput( true );
+									setValueState( nextColor );
 								} }
 								onBlur={ () => {
 									if ( colord( value ).isValid() ) {
