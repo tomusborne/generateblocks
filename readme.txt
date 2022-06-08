@@ -100,6 +100,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Headline link hover color in editor
 * Fix: Outer container width in editor
 * Fix: Error in FSE when adding a Container to the front page
+* Fix: Color picker autocomplete when typing in color
+* Fix: Inherit box-sizing on gb-inside-container in editor
 * Tweak: Full code refactor in the editor
 * Tweak: Move button URL options to toolbar
 * Tweak: Switch all blocks to apiVersion 2
@@ -111,6 +113,9 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Make device buttons sticky
 * Tweak: Improve container width label
 * Tweak: Remove :visited selector from buttons
+* Tweak: Use compiled assets in script registration
+* Tweak: Improve button CSS selectors in the editor
+* Tweak: Allow more decimal places in background image opacity
 
 = 1.4.4 =
 * Fix: Grid layout selector in WP 6.0
