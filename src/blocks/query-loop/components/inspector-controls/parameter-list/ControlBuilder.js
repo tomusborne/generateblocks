@@ -1,4 +1,5 @@
 import { ToggleControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 import SelectPostType from '../../../../../extend/dynamic-content/components/SelectPostType';
 import SimpleSelect from '../../../../../components/simple-select';
 import AuthorsSelect from '../../../../../components/authors-select';
@@ -54,13 +55,18 @@ export default function ControlBuilder( props ) {
 	} = props;
 
 	const Control = getParameterControl( type );
+	let controlDescription = description;
+
+	if ( 'per_page' === id && ( '-1' === value || value > 50 ) ) {
+		controlDescription += ' ' + __( 'Editor only: A maximum of 50 posts can be previewed in the editor.', 'generateblocks' );
+	}
 
 	return (
 		<div className={ 'gblocks-parameter-component' }>
 			<Control
 				type={ type }
 				label={ label }
-				help={ description }
+				help={ controlDescription }
 				options={ selectOptions }
 				value={ value }
 				placeholder={ defaultValue }

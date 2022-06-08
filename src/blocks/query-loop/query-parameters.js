@@ -15,7 +15,7 @@ export default [
 		type: 'number',
 		default: 10,
 		label: __( 'Posts per page', 'generateblocks' ),
-		description: __( 'Number of post to show per page. Editor only: displays a maximum of 50 posts', 'generateblocks' ),
+		description: __( 'Number of post to show per page.', 'generateblocks' ),
 		group: __( 'Pagination', 'generateblocks' ),
 		isSticky: true,
 	},
