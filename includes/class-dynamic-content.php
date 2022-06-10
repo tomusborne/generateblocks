@@ -124,7 +124,7 @@ class GenerateBlocks_Dynamic_Content {
 				$content = self::get_image_alt_text( $attributes, $block );
 				break;
 
-			case 'description':
+			case 'image-description':
 				$content = self::get_image_description( $attributes, $block );
 				break;
 		}
@@ -619,7 +619,7 @@ class GenerateBlocks_Dynamic_Content {
 			$id = absint( $attributes['postId'] );
 		}
 
-		$image_content_types = array( 'caption', 'post-title', 'alt-text', 'description' );
+		$image_content_types = array( 'caption', 'post-title', 'alt-text', 'image-description' );
 
 		if ( isset( $attributes['dynamicContentType'] ) ) {
 			if ( in_array( $attributes['dynamicContentType'], $image_content_types ) ) {
