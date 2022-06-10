@@ -5,11 +5,27 @@ import { SelectControl, TextControl } from '@wordpress/components';
 
 const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 	let defaultOptions = [
-		{ value: '', label: __( 'Select…', 'generateblocks' ) },
-		{ value: 'single-post', label: __( 'Single post', 'generateblocks' ) },
-		{ value: 'author-archives', label: __( 'Author archives', 'generateblocks' ) },
-		{ value: 'comments-area', label: __( 'Comments area', 'generateblocks' ) },
-		{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
+		{
+			options: [
+				{ value: '', label: __( 'Select…', 'generateblocks' ) },
+			],
+		},
+		{
+			label: __( 'Post', 'generateblocks' ),
+			options: [
+				{ value: 'single-post', label: __( 'Single post', 'generateblocks' ) },
+				{ value: 'comments-area', label: __( 'Comments area', 'generateblocks' ) },
+				{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
+			],
+		},
+		{
+			label: __( 'Author', 'generateblocks' ),
+			options: [
+				{ value: 'author-archives', label: __( 'Author archives', 'generateblocks' ) },
+				{ value: 'author-meta', label: __( 'Author meta', 'generateblocks' ) },
+				{ value: 'author-email', label: __( 'Author email', 'generateblocks' ) },
+			],
+		},
 	];
 
 	if ( 'terms' === dynamicContentType ) {
@@ -31,8 +47,11 @@ const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 	}
 
 	if ( 'generateblocks/image' === name ) {
-		defaultOptions.splice( 2, 0, {
-			value: 'single-image', label: __( 'Single image', 'generateblocks' ),
+		defaultOptions.splice( 1, 0, {
+			label: __( 'Image', 'generateblocks' ),
+			options: [
+				{ value: 'single-image', label: __( 'Single image', 'generateblocks' ) },
+			],
 		} );
 	}
 
@@ -77,7 +96,11 @@ export default ( {
 		return null;
 	}
 
-	const value = options.filter( ( option ) => ( option.value === linkType ) );
+	const value = options
+		.reduce( ( result, group ) => result.concat( group.options ), [] )
+		.filter( ( option ) => ( option.value === linkType ) );
+
+	const isMeta = 'post-meta' === linkType || 'author-meta' === linkType;
 
 	return (
 		<>
@@ -85,30 +108,31 @@ export default ( {
 				<>
 					<AdvancedSelect
 						id={ 'gblocks-select-link-type-control' }
-						label={ __( 'Link type', 'generateblocks' ) }
-						placeholder={ __( 'Link type', 'generateblocks' ) }
+						label={ __( 'Link source', 'generateblocks' ) }
+						placeholder={ __( 'Link source', 'generateblocks' ) }
 						options={ options }
 						value={ value }
 						onChange={ ( option ) => setAttributes( { dynamicLinkType: option.value } ) }
 					/>
 
-					{ 'post-meta' === linkType &&
-						<>
-							<TextControl
-								label={ __( 'Meta field name', 'generateblocks' ) }
-								value={ linkMetaFieldName }
-								onChange={ ( newValue ) => setAttributes( { linkMetaFieldName: newValue } ) }
-							/>
+					{ isMeta &&
+						<TextControl
+							label={ __( 'Meta field name', 'generateblocks' ) }
+							value={ linkMetaFieldName }
+							onChange={ ( newValue ) => setAttributes( { linkMetaFieldName: newValue } ) }
+						/>
+					}
 
-							{ !! linkMetaFieldName &&
-								<SelectControl
-									label={ __( 'Meta field link type', 'generateblocks' ) }
-									value={ linkMetaFieldType }
-									onChange={ ( newValue ) => setAttributes( { linkMetaFieldType: newValue } ) }
-									options={ getMetaLinkTypes }
-								/>
-							}
-						</>
+					{ (
+						'author-email' === linkType ||
+						( isMeta && !! linkMetaFieldName )
+					) &&
+						<SelectControl
+							label={ __( 'Link type', 'generateblocks' ) }
+							value={ linkMetaFieldType }
+							onChange={ ( newValue ) => setAttributes( { linkMetaFieldType: newValue } ) }
+							options={ getMetaLinkTypes }
+						/>
 					}
 				</>
 			}
