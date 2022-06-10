@@ -80,7 +80,7 @@ const getOptions = ( name, isCaption ) => {
 					{ value: 'caption', label: __( 'Caption', 'generateblocks' ) },
 					{ value: 'post-title', label: __( 'Title', 'generateblocks' ) },
 					{ value: 'alt-text', label: __( 'Alt text', 'generateblocks' ) },
-					{ value: 'description', label: __( 'Description', 'generateblocks' ) },
+					{ value: 'image-description', label: __( 'Description', 'generateblocks' ) },
 				],
 			},
 		];
