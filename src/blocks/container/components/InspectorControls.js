@@ -102,7 +102,7 @@ export default ( props ) => {
 	useEffect( () => {
 		const parentBlockId = getBlockParents( clientId, true );
 
-		if ( parentBlockId ) {
+		if ( parentBlockId.length > 0 ) {
 			const parentBlocks = getBlocksByClientId( parentBlockId );
 
 			if ( parentBlocks.length > 0 ) {
@@ -130,7 +130,7 @@ export default ( props ) => {
 				gridId: '',
 			} );
 		}
-	} );
+	}, [] );
 
 	const isInQueryLoop = 'undefined' !== typeof context[ 'generateblocks/queryId' ];
 	const hideWidthDesktop = hasFlexBasis( flexBasis );
