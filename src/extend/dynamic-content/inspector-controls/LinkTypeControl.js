@@ -10,8 +10,6 @@ const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 		{ value: 'author-archives', label: __( 'Author archives', 'generateblocks' ) },
 		{ value: 'comments-area', label: __( 'Comments area', 'generateblocks' ) },
 		{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
-		{ value: 'previous-posts', label: __( 'Previous posts', 'generateblocks' ) },
-		{ value: 'next-posts', label: __( 'Next posts', 'generateblocks' ) },
 	];
 
 	if ( 'terms' === dynamicContentType ) {
