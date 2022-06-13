@@ -61,6 +61,7 @@
 		"package": "grunt package",
 		"action-package": "grunt action-package",
 		"googleFonts": "grunt download-google-fonts",
-		"test:unit": "wp-scripts test-unit-js"
+		"test:unit": "wp-scripts test-unit-js",
+		"clean": "git checkout -- dist/ && git clean -fd dist/"
 	}
 }
