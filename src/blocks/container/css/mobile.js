@@ -153,7 +153,7 @@ export default class MobileCSS extends Component {
 
 		if ( !! bgImage && 'fixed' === bgOptions.attachment ) {
 			if ( 'element' === bgOptions.selector ) {
-				cssObj[ '.gb-container-' + uniqueId ].push( {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 					'background-attachment': 'initial',
 				} );
 			}
