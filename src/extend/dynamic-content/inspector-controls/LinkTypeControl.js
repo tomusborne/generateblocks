@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
-import { SelectControl, TextControl } from '@wordpress/components';
+import { SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 	let defaultOptions = [
@@ -108,6 +108,7 @@ export default ( {
 	isPagination,
 	isActive,
 	name,
+	dynamicLinkRemoveIfEmpty,
 } ) => {
 	const options = getOptions( dynamicContentType, isPagination, name );
 
@@ -151,6 +152,14 @@ export default ( {
 							value={ linkMetaFieldType }
 							onChange={ ( newValue ) => setAttributes( { linkMetaFieldType: newValue } ) }
 							options={ getMetaLinkTypes }
+						/>
+					}
+
+					{ !! linkType &&
+						<ToggleControl
+							label={ __( 'Remove block if link is empty', 'generateblocks' ) }
+							checked={ !! dynamicLinkRemoveIfEmpty }
+							onChange={ ( newValue ) => setAttributes( { dynamicLinkRemoveIfEmpty: newValue } ) }
 						/>
 					}
 				</>

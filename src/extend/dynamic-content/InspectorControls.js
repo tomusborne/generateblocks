@@ -38,6 +38,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		excerptLength,
 		useDefaultMoreLink,
 		customMoreLinkText,
+		dynamicLinkRemoveIfEmpty,
 	} = attributes;
 
 	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
@@ -181,6 +182,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 								)
 							}
 							linkType={ dynamicLinkType }
+							dynamicLinkRemoveIfEmpty={ dynamicLinkRemoveIfEmpty }
 							dynamicContentType={ dynamicContentType }
 							linkMetaFieldName={ linkMetaFieldName }
 							linkMetaFieldType={ linkMetaFieldType }

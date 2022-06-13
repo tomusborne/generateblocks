@@ -43,6 +43,7 @@ class GenerateBlocks_Render_Block {
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
+		add_filter( 'render_block', array( $this, 'filter_rendered_blocks' ), 10, 3 );
 	}
 
 	/**
@@ -655,18 +656,6 @@ class GenerateBlocks_Render_Block {
 
 			$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 
-			// Don't output pagination buttons with no link.
-			if (
-				! $dynamic_link &&
-				! empty( $attributes['dynamicLinkType'] ) &&
-				(
-					'pagination-prev' === $attributes['dynamicLinkType'] ||
-					'pagination-next' === $attributes['dynamicLinkType']
-				)
-			) {
-				return '';
-			}
-
 			if ( isset( $content['attributes']['href'] ) || $dynamic_link ) {
 				$tagName = 'a';
 			}
@@ -838,6 +827,29 @@ class GenerateBlocks_Render_Block {
 		$output .= '</figure>';
 
 		return $output;
+	}
+
+	/**
+	 * Filter existing rendered blocks.
+	 *
+	 * @since 1.5.0
+	 * @param string   $block_content The block content.
+	 * @param array    $block The block data.
+	 * @param WP_Block $instance Block instance.
+	 */
+	public function filter_rendered_blocks( $block_content, $block, $instance ) {
+		$attributes = isset( $block['attrs'] ) ? $block['attrs'] : null;
+
+		// Don't output if no dynamic link exists.
+		if ( isset( $attributes ) && ! empty( $attributes['dynamicLinkType'] ) && ! empty( $attributes['dynamicLinkRemoveIfEmpty'] ) ) {
+			$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $instance );
+
+			if ( ! $dynamic_link ) {
+				return '';
+			}
+		}
+
+		return $block_content;
 	}
 }
 
