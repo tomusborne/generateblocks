@@ -101,7 +101,7 @@ class GenerateBlocks_Query_Loop {
 			isset( $query_args['posts_per_page'] ) &&
 			is_numeric( $query_args['posts_per_page'] )
 		) {
-			$per_page = absint( $query_args['posts_per_page'] );
+			$per_page = intval( $query_args['posts_per_page'] );
 			$offset   = 0;
 
 			if (
