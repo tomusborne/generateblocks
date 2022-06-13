@@ -30,15 +30,34 @@ const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 
 	if ( 'terms' === dynamicContentType ) {
 		defaultOptions = [
-			{ value: '', label: __( 'Select…', 'generateblocks' ) },
-			{ value: 'term-archives', label: __( 'Term archives', 'generateblocks' ) },
+			{
+				options: [
+					{ value: '', label: __( 'Select…', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Terms', 'generateblocks' ),
+				options: [
+					{ value: 'term-archives', label: __( 'Term archives', 'generateblocks' ) },
+				],
+			},
 		];
 	}
 
 	if ( isPagination ) {
 		defaultOptions = [
-			{ value: 'pagination-prev', label: __( 'Pagination previous page', 'generateblocks' ) },
-			{ value: 'pagination-next', label: __( 'Pagination next page', 'generateblocks' ) },
+			{
+				options: [
+					{ value: '', label: __( 'Select…', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Pagination', 'generateblocks' ),
+				options: [
+					{ value: 'pagination-prev', label: __( 'Previous page', 'generateblocks' ) },
+					{ value: 'pagination-next', label: __( 'Next page', 'generateblocks' ) },
+				],
+			},
 		];
 
 		if ( 'pagination-numbers' === dynamicContentType ) {
