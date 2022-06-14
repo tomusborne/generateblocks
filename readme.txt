@@ -112,7 +112,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Add memory to open editor panels
 * Tweak: Make device buttons sticky
 * Tweak: Improve container width label
-* Tweak: Remove :visited selector from buttons
+* Tweak: Remove :visited selector from button, headline and container links
 * Tweak: Use compiled assets in script registration
 * Tweak: Improve button CSS selectors in the editor
 * Tweak: Allow more decimal places in background image opacity
