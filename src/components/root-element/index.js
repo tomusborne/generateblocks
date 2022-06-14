@@ -17,6 +17,7 @@ export default function RootElement( { name, clientId, align, children } ) {
 			[ `gb-root-block-${ blockName }` ]: true,
 		} ),
 		'data-align': align ? align : null,
+		'data-block': clientId,
 	};
 
 	const parentBlock = getBlockRootClientId( clientId );
