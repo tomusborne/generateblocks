@@ -119,7 +119,7 @@ export default class MobileCSS extends Component {
 			'height': valueWithUnit( iconSizeMobile, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '#block-' + clientId ] = [ {
+		cssObj[ '[data-block="' + clientId + '"]' ] = [ {
 			'display': inlineWidthMobile ? 'inline-flex' : false, // eslint-disable-line quote-props
 		} ];
 
