@@ -80,7 +80,7 @@ const getOptions = ( name, isCaption ) => {
 					{ value: 'caption', label: __( 'Caption', 'generateblocks' ) },
 					{ value: 'post-title', label: __( 'Title', 'generateblocks' ) },
 					{ value: 'alt-text', label: __( 'Alt text', 'generateblocks' ) },
-					{ value: 'description', label: __( 'Description', 'generateblocks' ) },
+					{ value: 'image-description', label: __( 'Description', 'generateblocks' ) },
 				],
 			},
 		];
@@ -99,9 +99,15 @@ export default ( { dynamicContentType, setAttributes, name, isCaption } ) => {
 		.reduce( ( result, group ) => result.concat( group.options ), [] )
 		.filter( ( option ) => ( option.value === dynamicContentType ) );
 
-	const label = 'generateblocks/container' === name
-		? __( 'Background image type', 'generateblocks' )
-		: __( 'Data type', 'generateblocks' );
+	let label = __( 'Content source', 'generateblocks' );
+
+	if ( 'generateblocks/container' === name ) {
+		label = __( 'Background image source', 'generateblocks' );
+	}
+
+	if ( 'generateblocks/image' === name ) {
+		label = __( 'Image source', 'generateblocks' );
+	}
 
 	return (
 		<AdvancedSelect

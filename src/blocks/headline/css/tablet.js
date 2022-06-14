@@ -119,7 +119,7 @@ export default class TabletCSS extends Component {
 			'height': valueWithUnit( iconSizeTablet, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '#block-' + clientId ] = [ {
+		cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
 			'display': inlineWidthTablet ? 'inline-flex' : false, // eslint-disable-line quote-props
 		} ];
 

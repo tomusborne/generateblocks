@@ -154,7 +154,7 @@ export default class MainCSS extends Component {
 			'color': highlightTextColor, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '#block-' + clientId ] = [ {
+		cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
 			'display': inlineWidth ? 'inline-flex' : false, // eslint-disable-line quote-props
 		} ];
 

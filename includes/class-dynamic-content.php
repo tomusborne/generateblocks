@@ -124,7 +124,7 @@ class GenerateBlocks_Dynamic_Content {
 				$content = self::get_image_alt_text( $attributes, $block );
 				break;
 
-			case 'description':
+			case 'image-description':
 				$content = self::get_image_description( $attributes, $block );
 				break;
 		}
@@ -619,7 +619,7 @@ class GenerateBlocks_Dynamic_Content {
 			$id = absint( $attributes['postId'] );
 		}
 
-		$image_content_types = array( 'caption', 'post-title', 'alt-text', 'description' );
+		$image_content_types = array( 'caption', 'post-title', 'alt-text', 'image-description' );
 
 		if ( isset( $attributes['dynamicContentType'] ) ) {
 			if ( in_array( $attributes['dynamicContentType'], $image_content_types ) ) {
@@ -766,20 +766,20 @@ class GenerateBlocks_Dynamic_Content {
 				}
 			}
 
-			if ( 'user-meta' === $link_type ) {
+			if ( 'author-meta' === $link_type ) {
 				$url = self::get_user_data( $author_id, $attributes['linkMetaFieldName'] );
 
 				if ( isset( $attributes['linkMetaFieldType'] ) ) {
 					$url = $attributes['linkMetaFieldType'] . $url;
 				}
 			}
+		}
 
-			if ( 'term-meta' === $link_type ) {
-				$url = get_term_meta( get_queried_object_id(), $attributes['linkMetaFieldName'], true );
+		if ( 'author-email' === $link_type ) {
+			$url = self::get_user_data( $author_id, 'user_email' );
 
-				if ( isset( $attributes['linkMetaFieldType'] ) ) {
-					$url = $attributes['linkMetaFieldType'] . $url;
-				}
+			if ( isset( $attributes['linkMetaFieldType'] ) ) {
+				$url = $attributes['linkMetaFieldType'] . $url;
 			}
 		}
 

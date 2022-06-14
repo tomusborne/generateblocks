@@ -24,6 +24,11 @@ export default {
 		default: '',
 	},
 
+	dynamicLinkRemoveIfEmpty: {
+		type: 'boolean',
+		default: false,
+	},
+
 	dynamicSource: {
 		type: 'string',
 		default: 'current-post',

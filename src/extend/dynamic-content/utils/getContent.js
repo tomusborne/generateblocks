@@ -25,7 +25,7 @@ const contentTypeSelectors = {
 	'author-avatar': getAuthorAvatar,
 	caption: getCaption,
 	'alt-text': getAltText,
-	description: getDescription,
+	'image-description': getDescription,
 };
 
 /**
