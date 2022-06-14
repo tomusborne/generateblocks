@@ -31,6 +31,7 @@ export default ( { clientId } ) => {
 				Object.assign( {}, DEFAULT_BUTTON_ATTRIBUTES, generateBlocksStyling.button, {
 					text: __( 'Previous', 'generateblocks' ),
 					dynamicLinkType: 'pagination-prev',
+					dynamicLinkRemoveIfEmpty: true,
 				} ),
 			],
 			[
@@ -45,6 +46,7 @@ export default ( { clientId } ) => {
 				Object.assign( {}, DEFAULT_BUTTON_ATTRIBUTES, generateBlocksStyling.button, {
 					text: __( 'Next', 'generateblocks' ),
 					dynamicLinkType: 'pagination-next',
+					dynamicLinkRemoveIfEmpty: true,
 				} ),
 			],
 		],
