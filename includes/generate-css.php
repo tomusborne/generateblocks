@@ -409,7 +409,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'position', 'relative' );
 				}
 
-				$css->set_selector( '.gb-container-' . $id . ' a, .gb-container-' . $id . ' a:visited' );
+				$css->set_selector( '.gb-container-' . $id . ' a' );
 				$css->add_property( 'color', $settings['linkColor'] );
 
 				$css->set_selector( '.gb-container-' . $id . ' a:hover' );
@@ -1394,7 +1394,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						}
 					}
 
-					$css->set_selector( '.gb-headline-' . $id . ' a, .gb-headline-' . $id . ' a:visited' );
+					$css->set_selector( '.gb-headline-' . $id . ' a' );
 					$css->add_property( 'color', $settings['linkColor'] );
 
 					$css->set_selector( '.gb-headline-' . $id . ' a:hover' );
