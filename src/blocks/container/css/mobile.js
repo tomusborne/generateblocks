@@ -15,10 +15,6 @@ export default class MobileCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			clientId,
-		} = this.props;
-
-		const {
 			uniqueId,
 			isGrid,
 			widthMobile,
@@ -126,7 +122,7 @@ export default class MobileCSS extends Component {
 		}
 
 		if ( removeVerticalGapMobile ) {
-			cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
+			cssObj[ '.gb-grid-column-' + uniqueId ] = [ {
 				'margin-bottom': '0px !important',
 			} ];
 		}
