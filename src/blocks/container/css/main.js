@@ -210,11 +210,11 @@ export default function MainCSS( props ) {
 		} ];
 	}
 
-	cssObj[ '.gb-container-' + uniqueId + ' a, .gb-container-' + uniqueId + ' a:visited' ] = [ {
+	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId + ' a, .editor-styles-wrapper .gb-container-' + uniqueId + ' a:visited' ] = [ {
 		'color': linkColor, // eslint-disable-line quote-props
 	} ];
 
-	cssObj[ '.gb-container-' + uniqueId + ' a:hover' ] = [ {
+	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId + ' a:hover' ] = [ {
 		'color': linkColorHover, // eslint-disable-line quote-props
 	} ];
 
