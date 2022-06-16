@@ -210,7 +210,7 @@ export default function MainCSS( props ) {
 		} ];
 	}
 
-	cssObj[ '.gb-container-' + uniqueId + ' a' ] = [ {
+	cssObj[ '.gb-container-' + uniqueId + ' a, .gb-container-' + uniqueId + ' a:visited' ] = [ {
 		'color': linkColor, // eslint-disable-line quote-props
 	} ];
 

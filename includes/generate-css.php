@@ -409,7 +409,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					$css->add_property( 'position', 'relative' );
 				}
 
-				$css->set_selector( '.gb-container-' . $id . ' a' );
+				$css->set_selector( '.gb-container-' . $id . ' a, .gb-container-' . $id . ' a:visited' );
 				$css->add_property( 'color', $settings['linkColor'] );
 
 				$css->set_selector( '.gb-container-' . $id . ' a:hover' );
@@ -992,7 +992,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					}
 				}
 
-				$css->set_selector( '.gb-button-wrapper ' . $selector );
+				$css->set_selector( '.gb-button-wrapper ' . $selector . ',.gb-button-wrapper ' . $selector . ':visited' );
 				$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 				$css->add_property( 'color', $settings['textColor'] );
 
@@ -1022,7 +1022,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'color', $settings['textColorHover'] );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
-				$css->set_selector( '.gb-button-wrapper ' . $selector . '.gb-button__current' );
+				$css->set_selector( '.gb-button-wrapper ' . $selector . '.gb-button__current, .gb-button-wrapper ' . $selector . '.gb-button__current:visited' );
 				$css->add_property( 'background-color', $settings['backgroundColorCurrent'] );
 				$css->add_property( 'color', $settings['textColorCurrent'] );
 				$css->add_property( 'border-color', $settings['borderColorCurrent'] );
@@ -1394,7 +1394,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						}
 					}
 
-					$css->set_selector( '.gb-headline-' . $id . ' a' );
+					$css->set_selector( '.gb-headline-' . $id . ' a, .gb-headline-' . $id . ' a:visited' );
 					$css->add_property( 'color', $settings['linkColor'] );
 
 					$css->set_selector( '.gb-headline-' . $id . ' a:hover' );
