@@ -278,13 +278,13 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	}
 }
 
+body .gb-container .wp-block {
+	max-width: none;
+}
+
 .gb-container {
 	margin-top: 0;
 	margin-bottom: 0;
-
-	.wp-block {
-		max-width: none;
-	}
 
 	.block-editor-block-list__layout {
 		.block-list-appender {

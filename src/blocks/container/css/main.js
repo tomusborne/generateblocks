@@ -107,9 +107,6 @@ export default function MainCSS( props ) {
 		'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 		'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
-		'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
-		'margin-left': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
-		'margin-right': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
 	} ];
 
 	if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
@@ -237,6 +234,14 @@ export default function MainCSS( props ) {
 			'margin-right': 'auto',
 		} );
 	}
+
+	// We need use an ID for the contained block width so it overrides other
+	// .wp-block max-width selectors.
+	cssObj[ '#block-' + clientId ] = [ {
+		'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
+		'margin-left': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
+		'margin-right': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
+	} ];
 
 	if ( isGrid ) {
 		const gridColumnSelectors = [
