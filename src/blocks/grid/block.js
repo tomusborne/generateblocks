@@ -52,4 +52,9 @@ registerBlockType( 'generateblocks/grid', {
 		);
 	},
 	deprecated,
+	__experimentalLabel: ( attrs ) => {
+		return attrs.isQueryLoop
+			? __( 'Post Template', 'generateblocks' )
+			: __( 'Grid', 'generateblocks' );
+	},
 } );

@@ -21,10 +21,12 @@ function normalizeTaxQuery( taxQueryValue, isExclude = false ) {
 }
 
 export function normalizeRepeatableArgs( query ) {
+	const defaultPerPage = !! query.per_page ? query.per_page : 10;
+
 	// In the editor we capped to 50 posts.
 	const perPage = '-1' === query.per_page || query.per_page > 50
 		? 50
-		: query.per_page;
+		: defaultPerPage;
 
 	let normalizedQuery = Object.assign( {}, query, { per_page: perPage } );
 
