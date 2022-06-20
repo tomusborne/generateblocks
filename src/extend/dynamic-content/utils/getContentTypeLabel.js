@@ -29,6 +29,8 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 			'author-meta': __( 'Author meta', 'generateblocks' ),
 			'pagination-numbers': __( 'Page numbers', 'generateblocks' ),
 			caption: __( 'Caption', 'generateblocks' ),
+			terms: __( 'List of terms', 'generateblocks' ),
+			'comments-number': __( 'Comments number', 'generateblocks' ),
 		};
 
 		const linkLabels = {
