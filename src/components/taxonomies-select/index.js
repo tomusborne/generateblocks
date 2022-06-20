@@ -19,9 +19,9 @@ export default function TaxonomiesSelect( { taxonomy, label, onChange, value = [
 	return (
 		<AdvancedSelect
 			id={ 'gblocks-select-author' }
-			label={ label || __( 'Select taxonomies', 'generateblocks' ) }
+			label={ label || __( 'Select terms', 'generateblocks' ) }
 			help={ help }
-			placeholder={ label || __( 'Select taxonomies', 'generateblocks' ) }
+			placeholder={ label || __( 'Select terms', 'generateblocks' ) }
 			options={ taxonomiesOptions }
 			isMulti
 			isSearchable
