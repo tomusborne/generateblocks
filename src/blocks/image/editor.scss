@@ -1,0 +1,87 @@
+.gblocks-image-dimensions {
+	&__row {
+		display: flex;
+		justify-content: space-between;
+
+		& > div {
+			width: calc(50% - 2px);
+		}
+
+		.components-base-control {
+			margin: 0 !important;
+
+			&__field {
+				margin: 0;
+			}
+		}
+	}
+}
+
+[data-align=wide],
+[data-align=full] {
+	& > .gb-block-image {
+		max-width: none;
+
+		img {
+			height: auto;
+			width: 100%;
+		}
+	}
+}
+
+.wp-block-generateblocks-image {
+	margin: 0;
+	position: relative;
+
+	&.is-applying img {
+		opacity: 0.3;
+	}
+
+	// Shown while image is being uploaded
+	.components-spinner {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -9px;
+		margin-left: -9px;
+	}
+
+	img {
+		vertical-align: middle;
+		max-width: 100%;
+		height: auto;
+	}
+
+	figcaption p {
+		margin: 0;
+	}
+
+  // Inherit border radius from style variations.
+  .components-placeholder,
+  .components-resizable-box__container {
+	border-radius: inherit;
+  }
+
+  .gblocks-image__placeholder {
+	position: relative;
+	max-width: 100%;
+
+	img {
+		border: 1px dashed currentColor;
+		opacity: 0.4;
+	}
+
+	.components-placeholder__illustration {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		stroke: currentColor;
+		stroke-dasharray: 3;
+		opacity: 0.4;
+	}
+  }
+}

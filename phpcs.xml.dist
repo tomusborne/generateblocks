@@ -26,6 +26,7 @@
 		<exclude name="WordPress.PHP.StrictInArray.MissingTrueStrict"/>
 		<exclude name="Generic.Files.LineEndings" />
 		<exclude name="Generic.Formatting.MultipleStatementAlignment.NotSameWarning" />
+		<exclude name="Generic.Arrays.DisallowShortArraySyntax"/>
 	</rule>
 
 	<!-- Let's also check that everything is properly documented. -->

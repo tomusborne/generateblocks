@@ -4,19 +4,13 @@
 
 import classnames from 'classnames';
 import Element from '../../components/element';
-
-import {
-	RichText,
-} from '@wordpress/block-editor';
-
-import {
-	applyFilters,
-} from '@wordpress/hooks';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
+import IconWrapper from '../../components/icon-wrapper';
 
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		className,
 		text,
 		url,
 		target,
@@ -48,7 +42,6 @@ export default ( { attributes } ) => {
 			'gb-button': true,
 			[ `gb-button-${ uniqueId }` ]: true,
 			'gb-button-text': ! icon,
-			[ `${ className }` ]: undefined !== className,
 		} ),
 		href: !! url ? url : null,
 		target: !! target ? '_blank' : null,
@@ -57,34 +50,30 @@ export default ( { attributes } ) => {
 		id: anchor ? anchor : null,
 	};
 
-	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/button', attributes );
+	htmlAttributes = applyFilters(
+		'generateblocks.frontend.htmlAttributes',
+		htmlAttributes,
+		'generateblocks/button',
+		attributes
+	);
+
+	const blockProps = useBlockProps.save( htmlAttributes );
 
 	return (
-		<Element
-			tagName={ url ? 'a' : 'span' }
-			htmlAttrs={ htmlAttributes }
-		>
-			{ !! icon && 'left' === iconLocation &&
-				<span
-					className="gb-icon"
-					dangerouslySetInnerHTML={ { __html: icon } }
-				/>
-			}
-
-			{ ! removeText &&
+		<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
+			<IconWrapper
+				hasIcon={ !! icon }
+				direction={ iconLocation }
+				icon={ icon }
+				hideChildren={ removeText }
+				showWrapper={ false }
+			>
 				<RichText.Content
 					value={ text }
-					tagName={ !! icon ? 'span' : null }
-					className={ !! icon ? 'gb-button-text' : null }
+					tagName={ !! icon ? 'span' : undefined }
+					className={ !! icon ? 'gb-button-text' : undefined }
 				/>
-			}
-
-			{ !! icon && 'right' === iconLocation &&
-				<span
-					className="gb-icon"
-					dangerouslySetInnerHTML={ { __html: icon } }
-				/>
-			}
+			</IconWrapper>
 		</Element>
 	);
 };

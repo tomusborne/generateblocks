@@ -3,36 +3,14 @@ import getIcon from '../../utils/get-icon';
 /**
  * WordPress Dependencies
  */
-import {
-	__,
-} from '@wordpress/i18n';
-
-import {
-	addFilter,
-} from '@wordpress/hooks';
-
-import {
-	Fragment,
-} from '@wordpress/element';
-
-import {
-	BlockControls,
-	BlockAlignmentToolbar,
-} from '@wordpress/block-editor';
-
-import {
-	ToolbarGroup,
-	ToolbarButton,
-} from '@wordpress/components';
-
-import {
-	createHigherOrderComponent,
-} from '@wordpress/compose';
-
-import {
-	cloneBlock,
-	getBlockSupport,
-} from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { addFilter } from '@wordpress/hooks';
+import { Fragment } from '@wordpress/element';
+import { BlockControls, BlockAlignmentToolbar } from '@wordpress/block-editor';
+import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import { createHigherOrderComponent } from '@wordpress/compose';
+import { cloneBlock, getBlockSupport } from '@wordpress/blocks';
+import { useDispatch, useSelect } from '@wordpress/data';
 
 const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
 
@@ -42,11 +20,18 @@ const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
  * @param {Function} BlockEdit Block edit component.
  * @return {Function} BlockEdit Modified block edit component.
  */
-const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
-	return ( props ) => {
+const withBlockControls = createHigherOrderComponent(
+	( BlockEdit ) => ( props ) => {
 		if ( 'generateblocks/container' !== props.name ) {
 			return <BlockEdit { ...props } />;
 		}
+
+		const { insertBlocks } = useDispatch( 'core/block-editor' );
+		const {
+			getBlockParentsByBlockName,
+			getBlockRootClientId,
+			getBlocksByClientId,
+		} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 		const {
 			attributes,
@@ -56,15 +41,16 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		const {
 			isGrid,
+			isQueryLoopItem,
 			align,
 		} = attributes;
 
 		let parentGridId = false;
 
-		if ( typeof wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName === 'function' ) {
-			parentGridId = wp.data.select( 'core/block-editor' ).getBlockParentsByBlockName( clientId, 'generateblocks/grid', true )[ 0 ];
+		if ( typeof getBlockParentsByBlockName === 'function' ) {
+			parentGridId = getBlockParentsByBlockName( clientId, 'generateblocks/grid', true )[ 0 ];
 		} else {
-			parentGridId = wp.data.select( 'core/block-editor' ).getBlockRootClientId( clientId );
+			parentGridId = getBlockRootClientId( clientId );
 		}
 
 		/**
@@ -75,7 +61,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 
 		return (
 			<Fragment>
-				{ isGrid && parentGridId &&
+				{ ! isQueryLoopItem && isGrid && parentGridId &&
 					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton
@@ -83,7 +69,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 								icon={ getIcon( 'addContainer' ) }
 								label={ __( 'Duplicate Grid Item', 'generateblocks' ) }
 								onClick={ () => {
-									const thisBlock = wp.data.select( 'core/block-editor' ).getBlocksByClientId( clientId )[ 0 ];
+									const thisBlock = getBlocksByClientId( clientId )[ 0 ];
 
 									const clonedBlock = cloneBlock(
 										thisBlock,
@@ -92,7 +78,7 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 										}
 									);
 
-									wp.data.dispatch( 'core/block-editor' ).insertBlocks( clonedBlock, undefined, parentGridId );
+									insertBlocks( clonedBlock, undefined, parentGridId );
 								} }
 								showTooltip
 							/>
@@ -123,11 +109,12 @@ const withAdvancedControls = createHigherOrderComponent( ( BlockEdit ) => {
 				<BlockEdit { ...props } />
 			</Fragment>
 		);
-	};
-}, 'withAdvancedControls' );
+	},
+	'withBlockControls'
+);
 
 addFilter(
 	'editor.BlockEdit',
 	'generateblocks/container-block-controls',
-	withAdvancedControls
+	withBlockControls
 );

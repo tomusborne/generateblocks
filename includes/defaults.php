@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 function generateblocks_get_block_defaults() {
 	$defaults = array();
 
-	$container_width = 1100;
+	$container_width = generateblocks_get_option( 'container_width' );
 
 	if ( function_exists( 'generate_get_option' ) ) {
 		$container_width = generate_get_option( 'container_width' );
@@ -115,6 +115,7 @@ function generateblocks_get_block_defaults() {
 			'attachment' => '',
 		),
 		'bgImageSize' => 'full',
+		'bgImageInline' => false,
 		'width' => '',
 		'widthTablet' => '',
 		'widthMobile' => '',
@@ -184,10 +185,17 @@ function generateblocks_get_block_defaults() {
 	$defaults['button'] = array(
 		'backgroundColor' => false,
 		'backgroundColorOpacity' => 1,
-		'textColor' => false,
 		'backgroundColorHover' => false,
 		'backgroundColorHoverOpacity' => 1,
+		'backgroundColorCurrent' => '',
+		'textColor' => false,
 		'textColorHover' => false,
+		'textColorCurrent' => '',
+		'borderColor' => false,
+		'borderColorOpacity' => 1,
+		'borderColorHover' => false,
+		'borderColorHoverOpacity' => 1,
+		'borderColorCurrent' => false,
 		'fontFamily' => '',
 		'fontFamilyFallback' => '',
 		'googleFont' => false,
@@ -252,10 +260,6 @@ function generateblocks_get_block_defaults() {
 		'borderRadiusBottomLeftMobile' => '',
 		'borderRadiusTopLeftMobile' => '',
 		'borderRadiusUnit' => 'px',
-		'borderColor' => false,
-		'borderColorOpacity' => 1,
-		'borderColorHover' => false,
-		'borderColorHoverOpacity' => 1,
 		'icon' => '',
 		'hasIcon' => false,
 		'iconLocation' => 'left',
@@ -419,6 +423,76 @@ function generateblocks_get_block_defaults() {
 		'ariaLabel' => '',
 	);
 
+	$defaults['image'] = array(
+		'mediaId' => '',
+		'sizeSlug' => '',
+		'width' => '',
+		'widthTablet' => '',
+		'widthMobile' => '',
+		'height' => '',
+		'heightTablet' => '',
+		'heightMobile' => '',
+		'marginTop' => '',
+		'marginRight' => '',
+		'marginBottom' => '',
+		'marginLeft' => '',
+		'marginTopTablet' => '',
+		'marginRightTablet' => '',
+		'marginBottomTablet' => '',
+		'marginLeftTablet' => '',
+		'marginTopMobile' => '',
+		'marginRightMobile' => '',
+		'marginBottomMobile' => '',
+		'marginLeftMobile' => '',
+		'marginUnit' => 'px',
+		'paddingTop' => '',
+		'paddingRight' => '',
+		'paddingBottom' => '',
+		'paddingLeft' => '',
+		'paddingTopTablet' => '',
+		'paddingRightTablet' => '',
+		'paddingBottomTablet' => '',
+		'paddingLeftTablet' => '',
+		'paddingTopMobile' => '',
+		'paddingRightMobile' => '',
+		'paddingBottomMobile' => '',
+		'paddingLeftMobile' => '',
+		'paddingUnit' => 'px',
+		'borderColor' => '',
+		'borderSizeTop' => '',
+		'borderSizeRight' => '',
+		'borderSizeBottom' => '',
+		'borderSizeLeft' => '',
+		'borderSizeTopTablet' => '',
+		'borderSizeRightTablet' => '',
+		'borderSizeBottomTablet' => '',
+		'borderSizeLeftTablet' => '',
+		'borderSizeTopMobile' => '',
+		'borderSizeRightMobile' => '',
+		'borderSizeBottomMobile' => '',
+		'borderSizeLeftMobile' => '',
+		'borderRadiusTopRight' => '',
+		'borderRadiusBottomRight' => '',
+		'borderRadiusBottomLeft' => '',
+		'borderRadiusTopLeft' => '',
+		'borderRadiusTopRightTablet' => '',
+		'borderRadiusBottomRightTablet' => '',
+		'borderRadiusBottomLeftTablet' => '',
+		'borderRadiusTopLeftTablet' => '',
+		'borderRadiusTopRightMobile' => '',
+		'borderRadiusBottomRightMobile' => '',
+		'borderRadiusBottomLeftMobile' => '',
+		'borderRadiusTopLeftMobile' => '',
+		'borderRadiusUnit' => 'px',
+		'objectFit' => '',
+		'objectFitTablet' => '',
+		'objectFitMobile' => '',
+		'align' => '',
+		'alignment' => '',
+		'alignmentTablet' => '',
+		'alignmentMobile' => '',
+	);
+
 	return apply_filters( 'generateblocks_defaults', $defaults );
 }
 
@@ -431,6 +505,7 @@ function generateblocks_get_option_defaults() {
 	return apply_filters(
 		'generateblocks_option_defaults',
 		array(
+			'container_width' => 1100,
 			'css_print_method' => 'file',
 			'sync_responsive_previews' => true,
 		)

@@ -2,7 +2,6 @@
  * Block: Headline
  */
 
-//import './style.scss';
 import './editor.scss';
 
 import editHeadline from './edit';
@@ -11,6 +10,8 @@ import blockAttributes from './attributes';
 import transforms from './transforms';
 import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
+import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
+import getContentTypeLabel from '../../extend/dynamic-content/utils/getContentTypeLabel';
 
 import {
 	__,
@@ -19,6 +20,12 @@ import {
 import {
 	registerBlockType,
 } from '@wordpress/blocks';
+
+const attributes = Object.assign(
+	{},
+	blockAttributes,
+	dynamicContentAttributes
+);
 
 /**
  * Register our Headline block.
@@ -29,6 +36,7 @@ import {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/headline', {
+	apiVersion: 2,
 	title: __( 'Headline', 'generateblocks' ),
 	description: __( 'Craft text-rich content with advanced typography.', 'generateblocks' ),
 	icon: getIcon( 'headline' ),
@@ -39,7 +47,7 @@ registerBlockType( 'generateblocks/headline', {
 		__( 'title' ),
 		__( 'generate' ),
 	],
-	attributes: blockAttributes,
+	attributes,
 	supports: {
 		className: false,
 	},
@@ -47,4 +55,8 @@ registerBlockType( 'generateblocks/headline', {
 	save: saveHeadline,
 	transforms,
 	deprecated,
+	usesContext: [ 'postId', 'postType', 'generateblocks/dynamicImage', 'generateblocks/mediaId' ],
+	__experimentalLabel: ( attrs ) => (
+		getContentTypeLabel( attrs, __( 'Headline', 'generateblocks' ) )
+	),
 } );

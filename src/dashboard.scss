@@ -98,7 +98,8 @@ $settings-container-width: 750px;
 		}
 
 		.components-button.is-primary .components-spinner {
-			background: #000;
+			background: rgba(0,0,0,0.1);
+			border-radius: 100%;
 		}
 
 		.components-panel__body {
@@ -125,11 +126,11 @@ $settings-container-width: 750px;
 
 				.components-base-control {
 					.components-base-control__help {
-						margin-bottom: 0;
+						margin: 0;
 					}
 
 					.components-base-control__field {
-						margin-bottom: 10px;
+						margin-bottom: 5px;
 					}
 				}
 			}
@@ -155,4 +156,16 @@ $settings-container-width: 750px;
 		padding: 0 20px;
 		margin: 0;
 	}
+}
+
+.gblocks-units {
+    position: absolute;
+    top: 0;
+    right: 0;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.gblocks-container-width {
+    position: relative;
 }

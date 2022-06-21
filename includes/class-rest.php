@@ -104,6 +104,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 		$callbacks = apply_filters(
 			'generateblocks_option_sanitize_callbacks',
 			array(
+				'container_width' => 'absint',
 				'css_print_method' => 'sanitize_text_field',
 				'sync_responsive_previews' => 'rest_sanitize_boolean',
 			)

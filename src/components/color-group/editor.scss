@@ -1,0 +1,11 @@
+.gblocks-color-group{
+	&__row {
+		display: flex;
+		align-items: center;
+		padding: 7px 0;
+	}
+
+	&__row-label {
+		flex: 1;
+	}
+}

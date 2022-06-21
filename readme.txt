@@ -2,10 +2,10 @@
 Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
-Requires at least: 5.4
+Requires at least: 5.6
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 1.4.4
+Stable tag: 1.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,14 @@ Craft text-rich content with advanced typography. Everything from headings to pa
 = Buttons =
 
 Drive conversions with beautiful buttons.
+
+= Query Loop =
+
+Build a list of posts from any post type using advanced query parameters.
+
+= Image =
+
+Add static or dynamic images to your content to make a visual statement.
 
 = Performance =
 
@@ -76,6 +84,37 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.5.0 =
+* New: Dynamic data
+* New: Query Loop block
+* New: Image block
+* New: Add inline background image option
+* New: Add default container width option
+* New: Number component
+* New: Block icons in the editor
+* Fix: Button link redirecting outside editor
+* Fix: Nested block post excerpts
+* Fix: Button block causing window confirm on refresh
+* Fix: Shape panel spacing issues
+* Fix: Headline link hover color in editor
+* Fix: Outer container width in editor
+* Fix: Error in FSE when adding a Container to the front page
+* Fix: Color picker autocomplete when typing in color
+* Fix: Inherit box-sizing on gb-inside-container in editor
+* Tweak: Full code refactor in the editor
+* Tweak: Move button URL options to toolbar
+* Tweak: Switch all blocks to apiVersion 2
+* Tweak: Require WordPress 5.6
+* Tweak: Rebuild color component
+* Tweak: Rebuild dimensions component
+* Tweak: Rebuild typography component
+* Tweak: Add memory to open editor panels
+* Tweak: Make device buttons sticky
+* Tweak: Improve container width label
+* Tweak: Use compiled assets in script registration
+* Tweak: Improve button CSS selectors in the editor
+* Tweak: Allow more decimal places in background image opacity
 
 = 1.4.4 =
 * Fix: Grid layout selector in WP 6.0

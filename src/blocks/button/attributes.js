@@ -65,10 +65,6 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.button.backgroundColorOpacity,
 	},
-	textColor: {
-		type: 'string',
-		default: generateBlocksDefaults.button.textColor,
-	},
 	backgroundColorHover: {
 		type: 'string',
 		default: generateBlocksDefaults.button.backgroundColorHover,
@@ -77,9 +73,21 @@ export default {
 		type: 'number',
 		default: generateBlocksDefaults.button.backgroundColorHoverOpacity,
 	},
+	backgroundColorCurrent: {
+		type: 'string',
+		default: generateBlocksDefaults.button.backgroundColorCurrent,
+	},
+	textColor: {
+		type: 'string',
+		default: generateBlocksDefaults.button.textColor,
+	},
 	textColorHover: {
 		type: 'string',
 		default: generateBlocksDefaults.button.textColorHover,
+	},
+	textColorCurrent: {
+		type: 'string',
+		default: generateBlocksDefaults.button.textColorCurrent,
 	},
 	borderColor: {
 		type: 'string',
@@ -96,6 +104,10 @@ export default {
 	borderColorHoverOpacity: {
 		type: 'number',
 		default: generateBlocksDefaults.button.borderColorHoverOpacity,
+	},
+	borderColorCurrent: {
+		type: 'string',
+		default: generateBlocksDefaults.button.borderColorCurrent,
 	},
 	fontFamily: {
 		type: 'string',
@@ -456,6 +468,9 @@ export default {
 	iconSizeUnit: {
 		type: 'string',
 		default: generateBlocksDefaults.button.iconSizeUnit,
+	},
+	blockVersion: {
+		type: 'number',
 	},
 	// deprecated since 1.2.0
 	elementId: {

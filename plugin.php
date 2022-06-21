@@ -5,8 +5,8 @@
  * Description: A small collection of lightweight WordPress blocks that can accomplish nearly anything.
  * Author: Tom Usborne
  * Author URI: https://tomusborne.com
- * Version: 1.4.4
- * Requires at least: 5.4
+ * Version: 1.5.0
+ * Requires at least: 5.6
  * Requires PHP: 5.6
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'GENERATEBLOCKS_VERSION', '1.4.4' );
+define( 'GENERATEBLOCKS_VERSION', '1.5.0' );
 define( 'GENERATEBLOCKS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 
@@ -33,6 +33,8 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-enqueue-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/dashboard.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-settings.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-plugin-update.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-query-loop.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-dynamic-content.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-legacy-attributes.php';

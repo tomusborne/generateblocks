@@ -2,25 +2,15 @@
  * Block: Button Container
  */
 
-//import './style.scss';
 import './editor.scss';
 
-import edit from './edit';
+import editButtonContainer from './edit';
 import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
-
-import {
-	__,
-} from '@wordpress/i18n';
-
-import {
-	registerBlockType,
-} from '@wordpress/blocks';
-
-import {
-	InnerBlocks,
-} from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import { InnerBlocks } from '@wordpress/block-editor';
 
 /**
  * Register our Button Container block.
@@ -31,9 +21,10 @@ import {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/button-container', {
+	apiVersion: 2,
 	title: __( 'Buttons', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
-	icon: getIcon( 'button' ),
+	icon: getIcon( 'button-container' ),
 	category: 'generateblocks',
 	keywords: [
 		__( 'button' ),
@@ -43,12 +34,22 @@ registerBlockType( 'generateblocks/button-container', {
 	attributes: blockAttributes,
 	supports: {
 		className: false,
+		html: false,
 	},
-	edit,
+	usesContext: [
+		'generateblocks/queryId',
+		'generateblocks/query',
+	],
+	edit: editButtonContainer,
 	save: () => {
 		return (
 			<InnerBlocks.Content />
 		);
 	},
 	deprecated,
+	__experimentalLabel: ( attributes ) => (
+		attributes.isPagination
+			? __( 'Pagination', 'generateblocks' )
+			: __( 'Buttons', 'generateblocks' )
+	),
 } );

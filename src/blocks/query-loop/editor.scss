@@ -1,0 +1,92 @@
+.gb-post-template {
+	.gb-post-template-wrapper {
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-start;
+
+		& > .block-editor-inner-blocks {
+			width: 100%;
+			box-sizing: border-box;
+
+			& > .block-editor-block-list__layout {
+				height: 100%;
+
+				& > .gb-grid-column {
+					height: 100%;
+					margin-left: 0;
+					margin-right: 0;
+				}
+			}
+
+			/* Fix for Container not knowing it's a grid item */
+			& > .gb-is-root-block {
+				height: 100%;
+
+				& > .gb-grid-column {
+					height: 100%;
+				}
+			}
+		}
+	}
+
+	.block-editor-default-block-appender,
+	.gb-container + .block-list-appender {
+		display: none;
+	}
+
+	& + .block-list-appender {
+		position: relative;
+
+		.gblocks-query-block-appender {
+			width: auto;
+		}
+	}
+}
+
+.gblocks-parameter-component {
+	position: relative;
+	margin-bottom: 24px;
+
+  .gblocks-remove-parameter {
+		position: absolute;
+		top: 0;
+		right: 0;
+		justify-content: flex-end !important;
+    	height: auto;
+		min-width: auto;
+
+		&.components-button.has-icon.has-text svg {
+			margin-right: 0;
+			height: 15px;
+			width: 15px;
+	  }
+  }
+}
+
+.gblocks-query-loop-layout-selector {
+	&__content {
+		display: flex;
+		margin-top: 20px;
+		align-items: flex-start;
+
+		.components-button {
+			display: block;
+			height: auto;
+			padding: 0;
+			flex-basis: 80px;
+			margin-right: 30px;
+
+			svg {
+				fill: var(--wp-admin-theme-color);
+				border: 1px solid var(--wp-admin-theme-color);
+			}
+
+			p {
+				margin-top: 5px;
+				margin-bottom: 0;
+				font-size: 11px;
+			}
+		}
+	}
+}

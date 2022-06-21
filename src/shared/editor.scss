@@ -109,3 +109,47 @@
 		}
 	}
 }
+
+.wp-block.gb-is-root-block {
+	margin-top: 0;
+	margin-bottom: 0;
+	position: relative;
+}
+
+.gblocks-block-icon {
+	path {
+		fill: #1e72bd;
+	}
+
+	&__headline {
+		transform: scale(0.9);
+		transform-origin: center;
+	}
+}
+
+.block-editor-list-view-leaf.is-selected .gblocks-block-icon path {
+    fill: currentColor !important;
+}
+
+.gblocks-action-panel {
+    padding: 0 !important;
+
+	.components-panel__body-title {
+		margin: 0 !important;
+	}
+
+	.components-panel__arrow path {
+		transform: rotate(90deg);
+		transform-origin: center;
+	}
+}
+
+/**
+ * This is a fix for GP Premium < 2.2.0.
+ * @todo Remove in GB 1.6.0.
+ */
+.post-type-gp_elements {
+	.wp-block {
+		max-width: none;
+	}
+}

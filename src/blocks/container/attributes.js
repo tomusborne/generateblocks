@@ -1,5 +1,4 @@
-/* eslint-disable no-undef */
-const attributes = {
+export default {
 	uniqueId: {
 		type: 'string',
 		default: '',
@@ -9,6 +8,10 @@ const attributes = {
 		default: '',
 	},
 	isGrid: {
+		type: 'boolean',
+		default: false,
+	},
+	isQueryLoopItem: {
 		type: 'boolean',
 		default: false,
 	},
@@ -420,6 +423,10 @@ const attributes = {
 		type: 'string',
 		default: generateBlocksDefaults.container.bgImageSize,
 	},
+	bgImageInline: {
+		type: 'boolean',
+		default: generateBlocksDefaults.container.bgImageInline,
+	},
 	verticalAlignment: {
 		type: 'string',
 		default: generateBlocksDefaults.container.verticalAlignment,
@@ -528,16 +535,3 @@ const attributes = {
 		default: '',
 	},
 };
-
-if ( generateBlocksInfo.hasCustomFields ) {
-	Object.assign( attributes, {
-		fullWidthContent: {
-			type: 'string',
-			source: 'meta',
-			meta: '_generate-full-width-content',
-		},
-	} );
-}
-
-export default attributes;
-/* eslint-enable no-undef */

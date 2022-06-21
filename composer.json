@@ -37,5 +37,10 @@
     "support": {
         "issues": "https://github.com/tomusborne/generateblocks/issues",
         "source": "https://github.com/tomusborne/generateblocks"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

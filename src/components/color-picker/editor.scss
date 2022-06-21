@@ -1,44 +1,63 @@
-.gblocks-component-color-picker-wrapper {
-    > .components-base-control__field {
-		position: relative;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+.gblocks-color-component {
+	display: flex;
+	align-items: center;
 
-        .components-color-palette__item-wrapper {
-            margin: 0;
-        }
+	&__label {
+		flex: 1;
+	}
+
+	&__toggle-button {
+		height: auto;
+		min-height: auto;
+		padding: 4px
+	}
+
+	&__toggle-indicator {
+		width: 25px;
+		height: 25px;
+		border-radius: 50%;
+		background: linear-gradient(-45deg,transparent 48%,rgba(0,0,0,0.2) 0,rgba(0,0,0,0.2) 52%,transparent 0);
+		border: 1px solid rgba(0,0,0,0.2);
 	}
 }
 
-.gblocks-component-color-picker {
-	.components-color-picker__inputs-wrapper {
-		display: none;
+.gblocks-color-component-content {
+	.components-popover__content {
+		padding: 15px;
+		width: 300px;
+
+		& > div {
+			padding: 0;
+		}
+	}
+
+	.components-base-control__field {
+		margin-bottom: 0;
 	}
 
 	.react-colorful {
 		width: 100% !important;
 
+		.react-colorful__pointer {
+			width: 20px;
+			height: 20px;
+		}
+
 		.react-colorful__saturation {
 			height: 150px;
 		}
-
-		.react-colorful__hue,
-		.react-colorful__alpha {
-			width: calc(100% - 40px);
-		}
-
-		& + div {
-			display: none;
-		}
 	}
 
-	.gblocks-color-input-wrapper {
+	&__input-wrapper {
 		display: flex;
-		padding: 16px 16px 0;
+		margin-top: 15px;
 
-		input {
-			margin-right: 5px;
+		.gblocks-color-input {
+			flex: 1;
+		}
+
+		.gblocks-color-input-clear {
+			height: auto;
 		}
 
 		.components-base-control__field {
@@ -46,16 +65,8 @@
 		}
 	}
 
-	& > .components-base-control:first-child {
-		margin-bottom: 0;
-	}
-
-	.components-color-picker__inputs-wrapper {
-		min-width: auto;
-	}
-
-    .gblocks-component-color-picker-palette {
-        padding: 16px 16px 0;
+    &__palette {
+		margin-top: 15px;
 
 		.components-circular-option-picker {
 		    display: flex;
@@ -71,44 +82,15 @@
 				}
 			}
 		}
-    }
-
-	.components-color-palette {
-        margin: 0;
-    }
-
-	.components-color-picker {
-		padding: 5px;
-		width: 100%;
 	}
 
-	.components-color-picker__body {
-	    padding-bottom: 0;
-	}
+	&__opacity {
+		display: flex;
+		margin-top: 15px;
 
-	.components-popover__content {
-		padding: 10px;
-		width: 300px;
-	}
-
-	.components-color-clear-color {
-		height: auto;
+		.components-range-control {
+			flex-grow: 1;
+			padding-left: 5px;
+		}
 	}
 }
-
-.gblocks-component-color-opacity {
-    display: flex;
-	padding: 0 16px;
-	margin: 10px 0;
-
-	.components-range-control {
-	    flex-grow: 1;
-	    padding-left: 5px;
-	}
-}
-
-.gblocks-color-picker-area {
-	width: 28px;
-	height: 28px;
-}
-

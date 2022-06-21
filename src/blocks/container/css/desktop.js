@@ -14,16 +14,13 @@ export default class DesktopCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			clientId,
-		} = this.props;
-
-		const {
+			uniqueId,
 			removeVerticalGap,
 		} = attributes;
 
 		let cssObj = [];
 
-		cssObj[ '.block-editor-block-list__layout > #block-' + clientId ] = [ {
+		cssObj[ '.gb-grid-column-' + uniqueId ] = [ {
 			'margin-bottom': removeVerticalGap ? '0px !important' : false,
 		} ];
 

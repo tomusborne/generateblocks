@@ -30,11 +30,10 @@ jobs:
             ${{ runner.os }}-modules-
 
       - name: NPM install
-        if: steps.npm-cache.outputs.cache-hit != 'true'
         run: npm install
 
-      - name: NPM lint
+      - name: Lint JS
         run: npm run lint:js
 
-      - name: NPM test
+      - name: Unit tests
         run: npm run test:unit

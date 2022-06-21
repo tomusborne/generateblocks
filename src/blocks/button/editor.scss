@@ -1,165 +1,55 @@
 /**
  * Editor Styles
  */
-.gb-button-wrapper {
-    position: relative;
-    margin-top: 0;
+.editor-styles-wrapper {
+	.gb-button-wrapper {
+		position: relative;
 
-    .gb-button {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		text-align: center;
-	    padding: unset;
-	    line-height: unset;
-	    text-decoration: none !important;
-	    border: none;
-	    transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
+		.gb-button {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			text-align: center;
+			padding: unset;
+			line-height: unset;
+			text-decoration: none !important;
+			border: none;
+			transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
+			margin: 0;
 
-        .editor-rich-text__tinymce {
-            line-height: 1em;
-        }
-    }
+			.editor-rich-text__tinymce {
+				line-height: 1em;
+			}
 
-    > .block-editor-inner-blocks > .block-editor-block-list__layout {
-        // we need to use inline-flex because of bug with selecting wrapper block in editor.
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        justify-content: flex-start;
-        margin-right: 0;
+			.gb-icon {
+				align-self: center;
+			}
 
-        > div {
-            width: auto;
-        }
-    }
-
-    &.gb-button-wrapper-align-right > .block-editor-inner-blocks > .block-editor-block-list__layout {
-        justify-content: flex-end;
-    }
-
-    &.gb-button-wrapper-align-center > .block-editor-inner-blocks > .block-editor-block-list__layout {
-        justify-content: center;
-    }
-
-    > .block-editor-inner-blocks > .block-editor-block-list__layout > * {
-        > .block-editor-block-list__block-edit {
-            margin-top: 0;
-            margin-bottom: 0;
-        }
-    }
-
-    .blocks-format-toolbar__link-modal {
-        top: calc(100% + 2px);
-        left: 50%;
-        transform: translateX(-50%);
-        z-index: 2;
-    }
-
-    .blocks-link-url__suggestions {
-        right: -35px;
-    }
-
-    .blocks-rich-text__tinymce {
-        cursor: text;
-    }
-
-    // add new button
-    .components-button.gblocks-add-button {
-		background: #fff;
-        align-self: center;
-
-		svg {
-			margin-right: 0;
+			&.button {
+				font-size: inherit;
+				min-height: auto;
+				border-radius: unset;
+			}
 		}
-    }
-}
-
-.gb-button .gb-icon {
-	align-self: center;
-}
-
-.using-theme-colors {
-	background-color: #e9f5f9;
-	border-left: 4px solid #409ecd;
-	padding: 10px;
-}
-
-.using-theme-colors p:last-child {
-	margin-bottom: 0;
-}
-
-.button.gb-button {
-	font-size: inherit;
-    min-height: auto;
-    border-radius: unset;
-}
-
-// Reduce the paddings, margins, and UI of inner-blocks.
-// @todo: eventually we may add a feature that lets a parent container absorb the block UI of a child block.
-// When that happens, leverage that instead of the following overrides.
-[data-type="generateblocks/button-container"] {
-	// 1. Reset margins on immediate innerblocks container.
-	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout {
-		margin-left: 0;
-		margin-right: 0;
-	}
-
-	// 2. Remove paddings on subsequent immediate children.
-	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block {
-		width: auto;
-		padding-left: 0;
-		padding-right: 0;
-		margin-left: 0;
-		margin-right: 0;
-	}
-
-	// 3. Remove margins on subsequent Edit container.
-	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit {
-		margin-left: 0;
-		margin-right: 0;
-	}
-
-	// 4. Minimize the block outlines.
-	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit::before {
-		border-right: none;
-		border-top: none;
-		border-bottom: none;
-	}
-
-	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block.is-hovered:not(.is-navigate-mode) > .block-editor-block-list__block-edit::before {
-		box-shadow: none;
-	}
-
-	// 5. Remove the dashed outlines for child blocks.
-	&.is-hovered .gb-button-wrapper .block-editor-block-list__block-edit::before,
-	&.is-selected .gb-button-wrapper .block-editor-block-list__block-edit::before,
-	&.has-child-selected .gb-button-wrapper .block-editor-block-list__block-edit::before {
-		border-color: transparent !important; // !important used to keep the selector from growing any more complex.
-	}
-
-	// 6. Remove vertical margins on subsequent block container.
-	.gb-button-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .wp-block > .block-editor-block-list__block-edit > [data-block] {
-		margin-top: 0;
-		margin-bottom: 0;
-	}
-
-	// Hide the breadcrumb.
-	// Hide the mover.
-	// Hide the sibling inserter.
-	.gb-button-wrapper .block-editor-block-list__insertion-point,
-	.gb-button-wrapper .block-editor-block-list__breadcrumb { // Needs specificity.
-		display: none;
 	}
 }
 
-// Selected/unselected states.
-// Unselected block is preview, selected has additional options.
-[data-type="generateblocks/button-container"]:not(.is-selected):not(.has-child-selected) .gb-button-wrapper {
-	min-height: 36px; // This height matches the height of the buttons and ensures an empty block doesn't collapse.
+.components-popover .gblocks-button-link {
+	margin-bottom: 10px;
 }
 
-.wp-block[data-type="generateblocks/button"] {
-	margin-top: 0;
-	margin-bottom: 0;
+.components-popover .gblocks-button-link {
+	input[type=text].block-editor-url-input__input {
+		max-width: 100%;
+		border: 1px solid #ddd;
+		border-radius: 2px;
+	}
+}
+
+.gblocks-button-link-dropdown {
+	.components-base-control:last-child {
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+	}
 }

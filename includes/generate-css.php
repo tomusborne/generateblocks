@@ -271,7 +271,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 
 				$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
 				$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
-				$hasBgImage = $settings['bgImage'];
+				$hasBgImage = generateblocks_has_background_image( $settings );
 
 				$css->set_selector( '.gb-container-' . $id );
 				$css->add_property( 'font-family', $fontFamily );
@@ -292,7 +292,10 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'color', $settings['textColor'] );
 
 				if ( $hasBgImage && 'element' === $settings['bgOptions']['selector'] && $backgroundImageValue ) {
-					$css->add_property( 'background-image', $backgroundImageValue );
+					if ( ! $settings['bgImageInline'] || ( $settings['bgImageInline'] && 'element' !== $settings['bgOptions']['selector'] ) ) {
+						$css->add_property( 'background-image', $backgroundImageValue );
+					}
+
 					$css->add_property( 'background-repeat', $settings['bgOptions']['repeat'] );
 					$css->add_property( 'background-position', $settings['bgOptions']['position'] );
 					$css->add_property( 'background-size', $settings['bgOptions']['size'] );
@@ -1019,6 +1022,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				$css->add_property( 'color', $settings['textColorHover'] );
 				$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
+				$css->set_selector( '.gb-button-wrapper ' . $selector . '.gb-button__current, .gb-button-wrapper ' . $selector . '.gb-button__current:visited' );
+				$css->add_property( 'background-color', $settings['backgroundColorCurrent'] );
+				$css->add_property( 'color', $settings['textColorCurrent'] );
+				$css->add_property( 'border-color', $settings['borderColorCurrent'] );
+
 				if ( $settings['hasIcon'] ) {
 					$css->set_selector( $selector . ' .gb-icon' );
 					$css->add_property( 'font-size', $settings['iconSize'], $settings['iconSizeUnit'] );
@@ -1577,6 +1585,160 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 						}
 					}
 				}
+
+				/**
+				 * Do generateblocks_block_css_data hook
+				 *
+				 * @since 1.0
+				 *
+				 * @param string $name The name of our block.
+				 * @param array  $settings The settings for the current block.
+				 * @param object $css Our desktop/main CSS data.
+				 * @param object $desktop_css Our desktop only CSS data.
+				 * @param object $tablet_css Our tablet CSS data.
+				 * @param object $tablet_only_css Our tablet only CSS data.
+				 * @param object $mobile_css Our mobile CSS data.
+				 */
+				do_action(
+					'generateblocks_block_css_data',
+					$name,
+					$settings,
+					$css,
+					$desktop_css,
+					$tablet_css,
+					$tablet_only_css,
+					$mobile_css
+				);
+			}
+
+			if ( $css->css_output() ) {
+				$main_css_data[] = $css->css_output();
+			}
+
+			if ( $desktop_css->css_output() ) {
+				$desktop_css_data[] = $desktop_css->css_output();
+			}
+
+			if ( $tablet_css->css_output() ) {
+				$tablet_css_data[] = $tablet_css->css_output();
+			}
+
+			if ( $tablet_only_css->css_output() ) {
+				$tablet_only_css_data[] = $tablet_only_css->css_output();
+			}
+
+			if ( $mobile_css->css_output() ) {
+				$mobile_css_data[] = $mobile_css->css_output();
+			}
+		}
+
+		/**
+		 * Get our Image block CSS.
+		 *
+		 * @since 1.5.0
+		 */
+		if ( 'image' === $name ) {
+			if ( empty( $blockData ) ) {
+				continue;
+			}
+
+			$blocks_exist = true;
+
+			$css = new GenerateBlocks_Dynamic_CSS();
+			$desktop_css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_css = new GenerateBlocks_Dynamic_CSS();
+			$tablet_only_css = new GenerateBlocks_Dynamic_CSS();
+			$mobile_css = new GenerateBlocks_Dynamic_CSS();
+
+			$css->set_selector( '.gb-block-image img' );
+			$css->add_property( 'vertical-align', 'middle' );
+
+			foreach ( $blockData as $atts ) {
+				if ( ! isset( $atts['uniqueId'] ) ) {
+					continue;
+				}
+
+				$defaults = generateblocks_get_block_defaults();
+
+				$settings = wp_parse_args(
+					$atts,
+					$defaults['image']
+				);
+
+				$id = $atts['uniqueId'];
+
+				$css->set_selector( '.gb-block-image-' . $id );
+				$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
+				$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
+
+				// Set a flag we'll update later if we disable floats.
+				$disable_float = false;
+				$has_desktop_float = 'floatLeft' === $settings['alignment'] || 'floatRight' === $settings['alignment'];
+				$has_tablet_float = 'floatLeft' === $settings['alignmentTablet'] || 'floatRight' === $settings['alignmentTablet'];
+
+				if ( $has_desktop_float ) {
+					$css->add_property( 'float', generateblocks_get_float_alignment( $settings['alignment'] ) );
+				} else {
+					$css->add_property( 'text-align', $settings['alignment'] );
+				}
+
+				$css->set_selector( '.gb-image-' . $id );
+				$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
+				$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
+				$css->add_property( 'border-color', $settings['borderColor'] );
+				$css->add_property( 'width', $settings['width'] );
+				$css->add_property( 'height', $settings['height'] );
+				$css->add_property( 'object-fit', $settings['objectFit'] );
+
+				$tablet_css->set_selector( '.gb-block-image-' . $id );
+				$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
+				$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
+
+				if ( $has_tablet_float ) {
+					$tablet_css->add_property( 'float', generateblocks_get_float_alignment( $settings['alignmentTablet'] ) );
+				} else {
+					$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
+
+					if ( $settings['alignmentTablet'] && $has_desktop_float ) {
+						$tablet_css->add_property( 'float', 'none' );
+						$disable_float = true;
+					}
+				}
+
+				$tablet_css->set_selector( '.gb-image-' . $id );
+				$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
+				$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
+				$tablet_css->add_property( 'width', $settings['widthTablet'] );
+				$tablet_css->add_property( 'height', $settings['heightTablet'] );
+				$tablet_css->add_property( 'object-fit', $settings['objectFitTablet'] );
+
+				$mobile_css->set_selector( '.gb-block-image-' . $id );
+				$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+				$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
+
+				if ( 'floatLeft' === $settings['alignmentMobile'] || 'floatRight' === $settings['alignmentMobile'] ) {
+					$mobile_css->add_property( 'float', generateblocks_get_float_alignment( $settings['alignmentMobile'] ) );
+				} else {
+					$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
+
+					if (
+						$settings['alignmentMobile'] &&
+						! $disable_float &&
+						(
+							$has_desktop_float ||
+							$has_tablet_float
+						)
+					) {
+						$mobile_css->add_property( 'float', 'none' );
+					}
+				}
+
+				$mobile_css->set_selector( '.gb-image-' . $id );
+				$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
+				$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
+				$mobile_css->add_property( 'width', $settings['widthMobile'] );
+				$mobile_css->add_property( 'height', $settings['heightMobile'] );
+				$mobile_css->add_property( 'object-fit', $settings['objectFitMobile'] );
 
 				/**
 				 * Do generateblocks_block_css_data hook

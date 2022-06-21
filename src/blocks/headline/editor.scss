@@ -1,15 +1,16 @@
-mark.gb-highlight {
-	background: none;
-	color: unset;
-}
+.editor-styles-wrapper {
+	mark.gb-highlight {
+		background: none;
+		color: unset;
+	}
 
-.gb-headline {
-	span.rich-text {
-		display: inline-block;
+	.gb-headline {
+		span.rich-text {
+			display: inline-block;
+		}
 	}
 }
 
-.wp-block[data-type="generateblocks/headline"] {
-	margin-top: 0;
-	margin-bottom: 0;
+.gb-headline {
+	margin: 0;
 }

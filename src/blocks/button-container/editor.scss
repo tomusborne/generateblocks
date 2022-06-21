@@ -1,34 +1,21 @@
 .gb-button-wrapper {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: flex-start;
-	justify-content: flex-start;
-	clear: both;
-}
+	margin: 0;
 
-.gb-button-wrapper .block-editor-block-list__layout > .block-list-appender {
-    display: none !important;
-}
+	> .block-editor-inner-blocks > .block-editor-block-list__layout {
+        // we need to use inline-flex because of bug with selecting wrapper block in editor.
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        justify-content: flex-start;
+        margin-right: 0;
 
-.gb-button-wrapper .block-editor-block-list__layout > .block-list-appender:first-child {
-    display: block !important;
-}
-
-[data-type="generateblocks/button-container"].has-child-selected .gb-button-wrapper > .components-button,
-[data-type="generateblocks/button-container"].is-selected .gb-button-wrapper > .components-button {
-	display: inline-flex;
+        > div {
+            width: auto;
+        }
+    }
 }
 
 .gblocks-add-new-button svg {
 	margin-right: 0 !important;
 	margin-left: 0 !important;
-}
-
-.gblocks-button-container-appender {
-	align-self: center;
-}
-
-.wp-block[data-type="generateblocks/button-container"] {
-	margin-top: 0;
-	margin-bottom: 0;
 }

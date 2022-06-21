@@ -25,7 +25,10 @@ export default class UnitChooser extends Component {
 			onClick,
 			units,
 			id,
+			singleOption = false,
 		} = this.props;
+
+		const allUnits = singleOption ? [ value ] : units;
 
 		return (
 			<div className="components-gblocks-units-control-header__units">
@@ -39,7 +42,7 @@ export default class UnitChooser extends Component {
 
 				<div className="components-gblocks-control__units">
 					<ButtonGroup className="components-gblocks-control-buttons__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
-						{ units.map( ( unit ) => {
+						{ allUnits.map( ( unit ) => {
 							let unitName = unit;
 
 							if ( 'px' === unit ) {

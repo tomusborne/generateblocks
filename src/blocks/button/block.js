@@ -9,6 +9,7 @@ import saveButton from './save';
 import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
+import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 
 import {
 	__,
@@ -17,6 +18,13 @@ import {
 import {
 	registerBlockType,
 } from '@wordpress/blocks';
+import getContentTypeLabel from '../../extend/dynamic-content/utils/getContentTypeLabel';
+
+const attributes = Object.assign(
+	{},
+	blockAttributes,
+	dynamicContentAttributes
+);
 
 /**
  * Register our Button block.
@@ -27,6 +35,7 @@ import {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/button', {
+	apiVersion: 2,
 	title: __( 'Button', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	parent: [ 'generateblocks/button-container' ],
@@ -37,7 +46,7 @@ registerBlockType( 'generateblocks/button', {
 		__( 'buttons' ),
 		__( 'generate' ),
 	],
-	attributes: blockAttributes,
+	attributes,
 	supports: {
 		className: false,
 		inserter: false,
@@ -46,4 +55,8 @@ registerBlockType( 'generateblocks/button', {
 	edit: editButton,
 	save: saveButton,
 	deprecated,
+	usesContext: [ 'postId', 'postType', 'generateblocks/query', 'generateblocks/inheritQuery' ],
+	__experimentalLabel: ( attrs ) => (
+		getContentTypeLabel( attrs, __( 'Button', 'generateblocks' ) )
+	),
 } );

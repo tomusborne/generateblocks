@@ -1,54 +1,15 @@
-// Styles from core Columns block
-// https://github.com/WordPress/gutenberg/blob/master/blocks/library/columns/editor.scss
 .gb-grid-wrapper {
-    position: relative;
-    display: block;
-    // These margins make sure that nested blocks stack/overlay with the parent block chrome
-    // This is sort of an experiment at making sure the editor looks as much like the end result as possible
-    // Potentially the rules here can apply to all nested blocks and enable stacking, in which case it should be moved elsewhere
-    margin-right: 0;
-    margin-left: 0;
+	margin: 0;
+
+	.gb-grid-column {
+		box-sizing: border-box;
+	}
 
     > .block-editor-inner-blocks > .block-editor-block-list__layout {
         position: relative;
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        margin-right: -15px;
-        margin-left: -15px;
-
-        // This max-width is used to constrain the main editor column, it should not cascade into columns
-        .editor-block-list__block {
-            max-width: none;
-            margin-right: 0;
-            margin-left: 0;
-        }
-    }
-
-    // Fullwide: show margin left/right to ensure there's room for the side UI
-    // This is not a 1:1 preview with the front-end where these margins would presumably be zero
-    // @todo this could be revisited, by for example showing this margin only when the parent block was selected first
-    // Then at least an unselected columns block would be an accurate preview
-    .block-editor-block-list__block[data-align="full"][data-type="generateblocks/grid"] > .block-editor-block-list__block-edit > div > & {
-        > .gb-grid-wrapper-button-select {
-            right: 1px;
-        }
-        > .block-editor-inner-blocks > .block-editor-block-list__layout {
-            margin-right: 1px;
-            margin-left: 1px;
-        }
-    }
-
-    // Hide appender shortcuts in columns
-    // @todo This essentially duplicates the mobile styles for the appender component
-    // It would be nice to be able to use element queries in that component instead https://github.com/tomhodgins/element-queries-spec
-    .editor-inserter-with-shortcuts {
-        display: none;
-    }
-    .editor-block-list__empty-block-inserter,
-    .editor-default-block-appender .editor-inserter {
-        right: 10px;
-        left: auto;
     }
 }
 
@@ -62,8 +23,31 @@
 	background: #fff;
 	color: #000;
 
-    .components-placeholder__fieldset > em {
-        margin-bottom: 25px;
+	.components-placeholder__label {
+		margin: 0 auto;
+	}
+
+	.components-placeholder__instructions {
+		margin: 0 auto 25px;
+	}
+
+	iframe {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.gb-grid-wrapper-layout-preview {
+		max-width: 500px;
+	}
+
+    .components-placeholder__fieldset {
+		display: flex;
+		justify-content: center;
+
+		& > em {
+        	margin-bottom: 25px;
+		}
     }
 
     .gb-grid-wrapper-layout-preview {
@@ -75,6 +59,7 @@
 
         .gb-grid-wrapper-layout-preview-btn {
             display: flex;
+            flex-wrap: nowrap;
             width: 85px;
             padding: 0;
             margin-right: 7px;
@@ -83,125 +68,57 @@
             overflow: hidden;
             cursor: pointer;
             background: none;
-            border: 2px solid rgba(#4f5969, .75);
-            border-radius: 4px;
-            transition: .15s border-color, .15s background-color;
+            border-radius: 0;
+			border: 0;
 
             .gb-col {
+				background: #fff;
+				border: 1px solid #000;
+				margin: 1px;
                 height: 40px;
-                border-right: 2px solid rgba(#4f5969, .75);
-                transition: .15s border-color;
-
-                &:last-of-type {
-                    border-right: none;
-                }
-            }
-
-            &:hover,
-            &:focus {
-                background-color: #fff;
-                border-color: #4f5969;
-
-                .gb-col {
-                    border-color: #4f5969;
-                }
             }
         }
-    }
-
-    // templates button.
-    .components-button.is-primary {
-        height: 35px;
-        padding: 0 15px;
-        margin-top: 10px;
-        font-size: 14px;
     }
 }
 
 .gb-col {
-    display: flex;
-    flex: 1;
-    flex-direction: column;
-    width: 0;
+	&.gb-col-100 {
+		width: 100%;
+	}
 
-    > .block-editor-block-list__block-edit {
-        display: flex;
-        flex-basis: 100%;
-        // stylelint-disable-next-line
-        margin-top: 0 !important;
-        // stylelint-disable-next-line
-        margin-bottom: 0 !important;
+	&.gb-col-20 {
+		flex-basis: 20%;
+	}
 
-        > [data-block] {
-            flex: 100%;
-        }
+	&.gb-col-25 {
+		flex-basis: 25%;
+	}
 
-        // fix selected column block content position.
-        > .editor-block-contextual-toolbar + [data-block] {
-            margin-left: 30px;
-        }
-    }
-}
+	&.gb-col-75 {
+		flex-basis: 75%;
+	}
 
-.gb-col.gb-col-25 {
-    flex-basis: 25%;
-}
+	&.gb-col-66-66 {
+		flex-basis: 66.66%;
+	}
 
-.gb-col.gb-col-75 {
-    flex-basis: 75%;
-}
+	&.gb-col-50 {
+		flex-basis: 50%;
+	}
 
-.gb-col.gb-col-50 {
-    flex-basis: 50%;
-}
+	&.gb-col-60 {
+		flex-basis: 60%;
+	}
 
-.gb-col.gb-col-60 {
-    flex-basis: 60%;
-}
+	&.gb-col-33-33 {
+		flex-basis: 33.33%;
+	}
 
-.gb-col.gb-col-20 {
-    flex-basis: 20%;
-}
+	&.gb-col-20 {
+		flex-basis: 20%;
+	}
 
-.gb-col.gb-col-16 {
-    flex-basis: 16.6%;
-}
-
-.gb-grid-appender button {
-    background: #fff;
-	box-shadow: inset 0 0 0 1px #555d66, inset 0 0 0 2px #fff;
-    padding: 20px;
-	width: 100%;
-    justify-content: center;
-	height: auto;
-}
-
-.gb-grid-appender button.components-button svg {
-    margin-right: 0;
-}
-
-.gb-select-layout .components-placeholder__label,
-.gb-select-layout .components-placeholder__instructions {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.gb-select-layout iframe {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.gb-select-layout .gb-grid-wrapper-layout-preview {
-    max-width: 500px;
-}
-
-.gb-select-layout .components-placeholder__fieldset {
-    display: flex;
-    justify-content: center;
-}
-
-.wp-block[data-type="generateblocks/grid"] {
-	margin-top: 0;
-	margin-bottom: 0;
+	&.gb-col-16 {
+		flex-basis: 16.6%;
+	}
 }

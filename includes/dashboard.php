@@ -200,15 +200,17 @@ function generateblocks_do_dashboard() {
 				<div class="gblocks-sub-navigation">
 					<a class="button" href="https://generateblocks.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Learn More', 'generateblocks' ); ?></a>
 					<a class="button" href="https://docs.generateblocks.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Documentation', 'generateblocks' ); ?></a>
+
+					<?php if ( ! function_exists( 'generateblocks_pro_init' ) ) : ?>
+						<a class="button primary" href="https://generateblocks.com/pro" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'GenerateBlocks Pro', 'generateblocks' ); ?></a>
+					<?php endif; ?>
 				</div>
 			</div>
 
 			<div class="gblocks-dashboard-content-container">
 				<div class="gblocks-dashboard-blocks">
 					<div class="gblocks-block">
-						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 20 20" xml:space="preserve">
-							<path style="fill:currentColor;" class="st0" d="M2.8 3.4c0-.4.3-.7.7-.7h1.2V0H3.4C1.5 0 0 1.5 0 3.4v1.2h2.8V3.4zM0 7.4h2.8v5.3H0zm17.2 0H20v5.3h-2.8zm0 9.2c0 .4-.3.7-.7.7h-1.2V20h1.2c1.9 0 3.4-1.5 3.4-3.4v-1.2h-2.8v1.2h.1zM7.4 0h5.3v2.8H7.4zm-4 17.2c-.4 0-.7-.3-.7-.7v-1.2H0v1.2c0 2 1.5 3.5 3.4 3.5h1.2v-2.8H3.4zm4 0h5.3V20H7.4zm9.2-14.4c.4 0 .7.3.7.7v1.2H20V3.4C20 1.5 18.5 0 16.6 0h-1.2v2.8h1.2z"/>
-						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon"><path d="M23.7 24h-5.2v-2.2h3.3v-3.3H24v5.2c0 .2-.1.3-.3.3zm-15-2.2h6.5V24H8.7zM5.5 24H.3c-.2 0-.3-.1-.3-.3v-5.2h2.2v3.3h3.3V24zM0 8.7h2.2v6.5H0zm2.2-3.2H0V.3C0 .1.1 0 .3 0h5.2v2.2H2.2v3.3zM8.7 0h6.5v2.2H8.7zM24 5.5h-2.2V2.2h-3.3V0h5.2c.2 0 .3.1.3.3v5.2zm-2.2 3.2H24v6.5h-2.2z" /></svg>
 
 						<h3><?php esc_html_e( 'Container', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Organize your content into rows and sections.', 'generateblocks' ); ?></p>
@@ -219,9 +221,7 @@ function generateblocks_do_dashboard() {
 					</div>
 
 					<div class="gblocks-block">
-						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 20 20" xml:space="preserve">
-							<path style="fill:currentColor;" class="st0" d="M20 .6c0-.3-.2-.6-.5-.6H.5C.2 0 0 .3 0 .6v4.6c0 .3.2.6.5.6h19c.3 0 .5-.3.5-.6V.6zM6.7 7.7c0-.3-.2-.6-.5-.6H.5c-.3 0-.5.3-.5.6v4.6c0 .3.2.6.5.6h5.6c.3 0 .5-.3.5-.6l.1-4.6zm13.2 0c0-.3-.2-.6-.6-.6H8.6c-.4 0-.6.3-.6.6v4.5c0 .3.2.6.6.6h10.8c.3 0 .6-.3.6-.6l-.1-4.5zM20 14.8c0-.3-.2-.6-.5-.6h-5.6c-.3 0-.5.2-.5.6v4.6c0 .3.2.6.5.6h5.6c.3 0 .5-.2.5-.6v-4.6zm-8 0c0-.3-.2-.5-.5-.5H.5c-.3 0-.5.2-.5.5v4.6c0 .4.2.6.5.6h11c.3 0 .5-.2.5-.5v-4.7z"/>
-						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon"><path d="M13.8 10.8H.3c-.2 0-.3-.1-.3-.3V.3C0 .1.1 0 .3 0h13.6c.2 0 .3.1.3.3v10.3c-.1.1-.2.2-.4.2zM1.8 9h10.6V1.8H1.8V9zm21.9 1.8h-7c-.2 0-.3-.1-.3-.3V.3c0-.2.1-.3.3-.3h7c.2 0 .3.1.3.3v10.3c0 .1-.1.2-.3.2zM18.2 9h4V1.8h-4V9zm-8 4.2h13.6c.2 0 .3.1.3.3v10.3c0 .2-.1.3-.3.3H10.2c-.2 0-.3-.1-.3-.3V13.5c0-.2.1-.3.3-.3zm12 1.8H11.7v7.3h10.6V15zM.3 13.2h7c.2 0 .3.1.3.3v10.3c0 .2-.1.3-.3.3h-7c-.2-.1-.3-.2-.3-.4V13.5c0-.2.1-.3.3-.3zM5.8 15h-4v7.3h4V15z" /></svg>
 
 						<h3><?php esc_html_e( 'Grid', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Create advanced layouts with flexible grids.', 'generateblocks' ); ?></p>
@@ -232,9 +232,7 @@ function generateblocks_do_dashboard() {
 					</div>
 
 					<div class="gblocks-block">
-						<svg style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;" xml:space="preserve" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 38 38" height="100%" width="100%">
-							<path style="fill:currentColor;fill-rule:nonzero;" d="M34.82,37.5l-10.183,0l0,-14.037l-11.774,0l0,14.037l-10.183,0l0,-37.5l10.183,0l0,12.652l11.774,0l0,-12.652l10.183,0l0,37.5Z"></path>
-						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon gblocks-block-icon__headline"><path d="M23.7 24h-8c-.1 0-.3-.1-.3-.3V16H8.7v7.6c0 .1-.1.3-.3.3H.3c-.1.1-.3 0-.3-.2V.3C0 .2.1 0 .3 0h8c.2 0 .4.1.4.3V8h6.8V.3c0-.1.1-.3.3-.3h8c.1 0 .2.1.2.3v23.5c0 .1-.1.2-.3.2zm-6.6-1.7h5V1.7h-5v8H6.9v-8h-5v20.4h5v-8h10.3v8.2z" /></svg>
 
 						<h3><?php esc_html_e( 'Headline', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Craft text-rich content with advanced typography.', 'generateblocks' ); ?></p>
@@ -245,8 +243,10 @@ function generateblocks_do_dashboard() {
 					</div>
 
 					<div class="gblocks-block">
-						<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" viewBox="0 0 20 20" xml:space="preserve">
-							<path style="fill:currentColor;" class="st0" d="M19.2 0H.8C.4 0 0 .4 0 .8v6.4c0 .4.4.8.8.8h18.4c.4 0 .8-.4.8-.8V.8c0-.4-.4-.8-.8-.8zm-.8 12H1.6c-.9 0-1.6.7-1.6 1.6v4.8c0 .9.7 1.6 1.6 1.6h16.8c.9 0 1.6-.7 1.6-1.6v-4.8c0-.9-.7-1.6-1.6-1.6zm.4 6.4c0 .2-.2.4-.4.4H1.6c-.2 0-.4-.2-.4-.4v-4.8c0-.2.2-.4.4-.4h16.8c.2 0 .4.2.4.4v4.8z"/>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon">
+							<path d="M23.7 10.8H.3c-.1 0-.1 0-.2-.1-.1 0-.1-.1-.1-.1V.4C0 .3 0 .3.1.2S.2 0 .3 0h23.4c.1 0 .1 0 .2.1.1 0 .1.1.1.2v10.2c0 .1 0 .1-.1.2 0 .1-.1.1-.2.1zM1.8 9.1h20.4V1.9L12 1.8H1.8v7.3z" />
+							<path d="M15 6.3H4.8V4.5H15v.9zm4.2 0h-2.6V4.5h2.6v.9zM23.7 24H.3c-.1 0-.1 0-.2-.1s-.1-.1-.1-.2V13.5c0-.1 0-.1.1-.2s.1-.1.2-.1h23.4c.1 0 .1 0 .2.1s.1.1.1.2v10.2c0 .1 0 .1-.1.2 0 .1-.1.1-.2.1zM1.8 22.2h20.4V15H1.8v7.2z" />
+							<path d="M19.2 19.5H9v-1.8h10.2v.9zM4.8 17.7h2.6v1.8H4.8v-.9z" />
 						</svg>
 
 						<h3><?php esc_html_e( 'Buttons', 'generateblocks' ); ?></h3>
@@ -254,6 +254,35 @@ function generateblocks_do_dashboard() {
 
 						<div class="gblocks-block-learn-more">
 							<a class="button" href="https://docs.generateblocks.com/collection/buttons/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Buttons Documentation', 'generateblocks' ); ?></a>
+						</div>
+					</div>
+
+					<div class="gblocks-block">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon">
+							<path d="M22.8 5.2h-7.4c-.2 0-.3-.1-.3-.3V3.7c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c0 .2-.1.3-.3.3zm0 3.4h-7.4c-.2 0-.3-.1-.3-.3V7.1c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c0 .2-.1.3-.3.3zm0-6.8h-7.4c-.2 0-.3-.1-.3-.3V.3c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c0 .2-.1.3-.3.3zM8.6 20.6H1.2c-.2 0-.3-.1-.3-.3v-1.2c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c-.1.2-.2.3-.3.3zm0 3.4H1.2c-.2 0-.3-.1-.3-.3v-1.2c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c-.1.2-.2.3-.3.3zm0-6.8H1.2c-.2 0-.3-.1-.3-.3v-1.2c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c-.1.1-.2.3-.3.3z" />
+							<path d="M17.7 24c-1.7 0-3.3-.7-4.4-1.8-2.4-2.4-2.3-6.3-2.2-10.2.1-4.3.2-8.4-3-9.8-1.5-.7-3.2-.5-4.4.4-1.2.8-1.9 2.1-1.9 3.5 0 .8.2 1.6.5 2.3.9 1.7 2.5 2.5 5.6 2.7.2 0 .3.1.3.3l-.1 1.2c0 .2-.1.3-.3.3-2-.1-4.4-.5-6-2.2-1.3-1.3-2-3.1-1.8-5 .2-1.9 1.1-3.5 2.7-4.6C4.4-.1 6.7-.3 8.8.5c4.4 1.8 4.2 7 4.1 11.5-.1 3.5-.2 7.1 1.6 8.9.9.9 2.2 1.4 3.6 1.3 1.3-.1 2.5-.8 3.3-1.9.9-1.2 1-2.9.4-4.4-.8-1.9-2.5-2.8-5.8-3-.2 0-.3-.1-.3-.3l.1-1.2c0-.2.1-.3.3-.3 2.7.2 6 .8 7.3 4.1.9 2 .6 4.4-.6 6.1-1.1 1.5-2.8 2.5-4.6 2.7h-.5z" />
+						</svg>
+
+						<h3><?php esc_html_e( 'Query Loop', 'generateblocks' ); ?></h3>
+						<p><?php esc_html_e( 'Build a list of posts from any post type using advanced query parameters.', 'generateblocks' ); ?></p>
+
+						<div class="gblocks-block-learn-more">
+							<a class="button" href="https://docs.generateblocks.com/collection/query-loop/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Query Loop Documentation', 'generateblocks' ); ?></a>
+						</div>
+					</div>
+
+					<div class="gblocks-block">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon">
+							<path d="M16.4 11.9c-2.3 0-4.2-1.9-4.2-4.2s1.9-4.2 4.2-4.2 4.2 1.9 4.2 4.2-1.9 4.2-4.2 4.2zm0-6.7c-1.3 0-2.4 1.1-2.4 2.4s1.1 2.4 2.4 2.4c1.3 0 2.4-1.1 2.4-2.4s-1.1-2.4-2.4-2.4z" />
+							<path d="M23.7 24H.3c-.2 0-.3-.1-.3-.3V.3C0 .1.1 0 .3 0h23.4c.2 0 .3.1.3.3v23.4c0 .2-.1.3-.3.3zM1.8 22.2h20.4V1.8H1.8v20.4z" />
+							<path d="M22.3 23.6 8.4 11.7l-6.9 6.1-1.2-1.3 7.9-6.9c.1-.1.3-.1.4 0l15.1 13-1 1.1c-.1 0-.3 0-.4-.1z" />
+						</svg>
+
+						<h3><?php esc_html_e( 'Image', 'generateblocks' ); ?></h3>
+						<p><?php esc_html_e( 'Add images to your content to make a visual statement.', 'generateblocks' ); ?></p>
+
+						<div class="gblocks-block-learn-more">
+							<a class="button" href="https://docs.generateblocks.com/collection/image/" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Image Documentation', 'generateblocks' ); ?></a>
 						</div>
 					</div>
 				</div>
@@ -265,7 +294,7 @@ function generateblocks_do_dashboard() {
 							<p><?php esc_html_e( 'Looking for a WordPress theme? GenerateBlocks and GeneratePress are built with the same principles in mind and complement each other perfectly.', 'generateblocks' ); ?></p>
 							<div class="stats">
 								<div class="downloads">
-									<strong>3,000,000+</strong><br> <?php esc_html_e( 'Downloads', 'generateblocks' ); ?>
+									<strong>4,000,000+</strong><br> <?php esc_html_e( 'Downloads', 'generateblocks' ); ?>
 								</div>
 
 								<div class="stars">
@@ -274,11 +303,11 @@ function generateblocks_do_dashboard() {
 								</div>
 
 								<div class="active-websites">
-									<strong>300,000+</strong><br> <?php esc_html_e( 'Active websites', 'generateblocks' ); ?>
+									<strong>400,000+</strong><br> <?php esc_html_e( 'Active websites', 'generateblocks' ); ?>
 								</div>
 
 								<div class="active-websites">
-									<strong>70,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
+									<strong>90,000+</strong><br> <?php esc_html_e( 'Happy customers', 'generateblocks' ); ?>
 								</div>
 							</div>
 							<a class="gblocks-button" href="https://generatepress.com" target="_blank" rel="noreferrer noopener"><?php esc_html_e( 'Learn more', 'generateblocks' ); ?></a>

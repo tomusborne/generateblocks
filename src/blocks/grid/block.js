@@ -30,6 +30,7 @@ import {
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/grid', {
+	apiVersion: 2,
 	title: __( 'Grid', 'generateblocks' ),
 	description: __( 'Create advanced layouts with flexible grids.', 'generateblocks' ),
 	icon: getIcon( 'grid' ),
@@ -42,6 +43,7 @@ registerBlockType( 'generateblocks/grid', {
 	attributes: blockAttributes,
 	supports: {
 		className: false,
+		html: false,
 	},
 	edit: editGridContainer,
 	save: () => {
@@ -50,4 +52,9 @@ registerBlockType( 'generateblocks/grid', {
 		);
 	},
 	deprecated,
+	__experimentalLabel: ( attrs ) => {
+		return attrs.isQueryLoop
+			? __( 'Post Template', 'generateblocks' )
+			: __( 'Grid', 'generateblocks' );
+	},
 } );

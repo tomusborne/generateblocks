@@ -28,6 +28,7 @@ export default class MainCSS extends Component {
 			backgroundColorOpacity,
 			textColor,
 			linkColor,
+			linkColorHover,
 			borderColor,
 			borderColorOpacity,
 			highlightTextColor,
@@ -130,7 +131,11 @@ export default class MainCSS extends Component {
 		}
 
 		cssObj[ '.editor-styles-wrapper ' + selector + ' a' ] = [ {
-			'color': linkColor, // eslint-disable-line quote-props
+			color: linkColor,
+		} ];
+
+		cssObj[ '.editor-styles-wrapper ' + selector + ' a:hover' ] = [ {
+			color: linkColorHover,
 		} ];
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
@@ -149,7 +154,7 @@ export default class MainCSS extends Component {
 			'color': highlightTextColor, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '#block-' + clientId ] = [ {
+		cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
 			'display': inlineWidth ? 'inline-flex' : false, // eslint-disable-line quote-props
 		} ];
 

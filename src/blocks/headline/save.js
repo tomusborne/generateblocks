@@ -4,59 +4,53 @@
 
 import classnames from 'classnames';
 import Element from '../../components/element';
-
-import {
-	RichText,
-} from '@wordpress/block-editor';
-
-import {
-	applyFilters,
-} from '@wordpress/hooks';
+import { RichText, useBlockProps } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
+import IconWrapper from '../../components/icon-wrapper';
 
 export default ( { attributes } ) => {
 	const {
 		uniqueId,
-		className,
 		anchor,
 		element,
 		content,
 		icon,
+		hasIcon,
 		removeText,
-		ariaLabel,
 	} = attributes;
 
 	let htmlAttributes = {
 		className: classnames( {
 			'gb-headline': true,
 			[ `gb-headline-${ uniqueId }` ]: true,
-			'gb-headline-text': ! icon,
-			[ className ]: undefined !== className,
+			'gb-headline-text': ! hasIcon,
 		} ),
 		id: anchor ? anchor : null,
 	};
 
-	htmlAttributes = applyFilters( 'generateblocks.frontend.htmlAttributes', htmlAttributes, 'generateblocks/headline', attributes );
+	htmlAttributes = applyFilters(
+		'generateblocks.frontend.htmlAttributes',
+		htmlAttributes,
+		'generateblocks/headline',
+		attributes
+	);
+
+	const blockProps = useBlockProps.save( htmlAttributes );
 
 	return (
-		<Element
-			tagName={ element }
-			htmlAttrs={ htmlAttributes }
-		>
-			{ !! icon &&
-				<span
-					className="gb-icon"
-					aria-label={ !! removeText && !! ariaLabel ? ariaLabel : undefined }
-					dangerouslySetInnerHTML={ { __html: icon } }
-				/>
-			}
-
-			{ ! removeText &&
+		<Element tagName={ element } htmlAttrs={ blockProps }>
+			<IconWrapper
+				hasIcon={ hasIcon }
+				icon={ icon }
+				hideChildren={ removeText }
+				showWrapper={ false }
+			>
 				<RichText.Content
 					value={ content }
-					tagName={ !! icon ? 'span' : null }
-					className={ !! icon ? 'gb-headline-text' : null }
+					tagName={ hasIcon && icon ? 'span' : undefined }
+					className={ hasIcon && icon ? 'gb-headline-text' : undefined }
 				/>
-			}
+			</IconWrapper>
 		</Element>
 	);
 };

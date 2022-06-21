@@ -1,4 +1,5 @@
 import hexToRGBA from '../hex-to-rgba';
+import getBackgroundImageUrl from '../get-background-image-url';
 
 import {
 	applyFilters,
@@ -11,6 +12,7 @@ export default function getBackgroundImageCSS( type, props ) {
 		backgroundColor,
 		backgroundColorOpacity,
 		bgImage,
+		bgImageInline,
 		gradient,
 		bgOptions,
 		gradientColorOne,
@@ -20,6 +22,8 @@ export default function getBackgroundImageCSS( type, props ) {
 		gradientColorStopOne,
 		gradientColorStopTwo,
 		gradientDirection,
+		useDynamicData,
+		dynamicContentType,
 	} = attributes;
 
 	let gradientValue = '';
@@ -50,10 +54,8 @@ export default function getBackgroundImageCSS( type, props ) {
 
 	const backgroundColorValue = hexToRGBA( backgroundColor, backgroundColorOpacity );
 
-	if ( !! bgImage ) {
-		let url = bgImage.image.url;
-
-		url = applyFilters( 'generateblocks.editor.bgImageURL', url, props );
+	if ( !! bgImage || ( useDynamicData && '' !== dynamicContentType ) ) {
+		const url = getBackgroundImageUrl( props );
 
 		if ( 'element' === bgOptions.selector && ( backgroundColorValue || gradient ) && 'undefined' !== typeof bgOptions.overlay && bgOptions.overlay ) {
 			// Old background image overlays mixed with our gradients.
@@ -64,6 +66,10 @@ export default function getBackgroundImageCSS( type, props ) {
 			}
 		} else {
 			backgroundImage = 'url(' + url + ')';
+
+			if ( bgImageInline && 'element' !== bgOptions.selector ) {
+				backgroundImage = 'var(--background-image)';
+			}
 		}
 	}
 

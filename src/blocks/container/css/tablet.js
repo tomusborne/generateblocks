@@ -15,10 +15,6 @@ export default class TabletCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			clientId,
-		} = this.props;
-
-		const {
 			uniqueId,
 			isGrid,
 			widthTablet,
@@ -56,10 +52,11 @@ export default class TabletCSS extends Component {
 			shapeDividers,
 			bgImage,
 			bgOptions,
+			gridId,
 		} = attributes;
 
 		let cssObj = [];
-		cssObj[ '.gb-container-' + uniqueId ] = [ {
+		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
 			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
 			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
 			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
@@ -74,7 +71,7 @@ export default class TabletCSS extends Component {
 		} ];
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
 				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
 				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
@@ -84,7 +81,7 @@ export default class TabletCSS extends Component {
 		}
 
 		if ( minHeightTablet && ! isGrid ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
 				'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
@@ -92,7 +89,7 @@ export default class TabletCSS extends Component {
 		}
 
 		if ( isGrid && 'inherit' !== verticalAlignmentTablet ) {
-			cssObj[ '.gb-container-' + uniqueId ].push( {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'column',
 				'height': '100%', // eslint-disable-line quote-props
@@ -108,13 +105,20 @@ export default class TabletCSS extends Component {
 			'width': minHeightTablet && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-grid-wrapper > div > .block-editor-block-list__layout > #block-' + clientId ] = [ {
-			width: ! autoWidthTablet ? valueWithUnit( widthTablet, '%' ) : 'auto',
-			'flex-grow': flexGrowTablet,
-			'flex-shrink': flexShrinkTablet,
-			'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
-			order: orderTablet,
-		} ];
+		if ( isGrid ) {
+			const gridColumnSelectors = [
+				'.gb-post-template-' + gridId + ' > .gb-post-template-wrapper > .block-editor-inner-blocks',
+				'.gb-grid-wrapper > .block-editor-inner-blocks > .block-editor-block-list__layout > .gb-grid-column-' + uniqueId,
+			];
+
+			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
+				width: ! autoWidthTablet ? valueWithUnit( widthTablet, '%' ) : 'auto',
+				'flex-grow': flexGrowTablet,
+				'flex-shrink': flexShrinkTablet,
+				'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
+				order: orderTablet,
+			} ];
+		}
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
