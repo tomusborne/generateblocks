@@ -44,9 +44,9 @@ class GenerateBlocks_Render_Block {
 	public function __construct() {
 		add_action( 'init', array( $this, 'register_blocks' ) );
 
-        if ( version_compare( $GLOBALS['wp_version'], '5.9', '>' ) ) {
-            add_filter( 'render_block', array( $this, 'filter_rendered_blocks' ), 10, 3 );
-        }
+		if ( version_compare( $GLOBALS['wp_version'], '5.9', '>' ) ) {
+			add_filter( 'render_block', array( $this, 'filter_rendered_blocks' ), 10, 3 );
+		}
 	}
 
 	/**
