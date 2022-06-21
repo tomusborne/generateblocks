@@ -2,7 +2,7 @@
 Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
-Requires at least: 5.6
+Requires at least: 5.9
 Tested up to: 6.0
 Requires PHP: 5.6
 Stable tag: 1.5.0
