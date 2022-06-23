@@ -735,7 +735,7 @@ class GenerateBlocks_Block_Headline {
 			);
 		}
 
-		$output = sprintf(
+		$output .= sprintf(
 			'<%1$s %2$s>',
 			$tagName,
 			generateblocks_attr(
