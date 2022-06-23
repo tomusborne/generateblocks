@@ -86,6 +86,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.5.2 =
+* Fix: Container gridId attribute not updating correctly
 
 = 1.5.1 =
 * Fix: Require WordPress version 5.9 or higher
