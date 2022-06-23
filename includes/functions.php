@@ -1214,3 +1214,25 @@ function generateblocks_add_to_css_data( $data ) {
 		}
 	);
 }
+
+/**
+ * Prepend our inline styles to our blocks.
+ *
+ * @since 1.6.0
+ * @param string $content Our block content.
+ * @param array  $data Block data.
+ */
+function generateblocks_with_inline_styles( $content = '', $data = [] ) {
+	if (
+		isset( $data['attributes']['uniqueId'] ) &&
+		! in_array( $data['attributes']['uniqueId'], $data['block_ids'] )
+	) {
+		// Build our CSS for this block.
+		$content .= generateblocks_do_inline_css_output(
+			$content,
+			$data['css_data']
+		);
+	}
+
+	return $content;
+}

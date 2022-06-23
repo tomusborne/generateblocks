@@ -343,13 +343,15 @@ class GenerateBlocks_Block_Button {
 		}
 
 		if ( ! isset( $attributes['useDynamicData'] ) || ! $attributes['useDynamicData'] ) {
-			if ( ! in_array( $attributes['uniqueId'], self::$block_ids ) ) {
-				// Build our CSS for this block.
-				$content = generateblocks_do_inline_css_output(
-					$content,
-					self::get_css_data( $attributes )
-				);
-			}
+			// Add styles to this block if needed.
+			$content = generateblocks_with_inline_styles(
+				$content,
+				[
+					'attributes' => $attributes,
+					'css_data' => self::get_css_data( $attributes ),
+					'block_ids' => self::$block_ids,
+				]
+			);
 
 			return $content;
 		}
@@ -416,15 +418,15 @@ class GenerateBlocks_Block_Button {
 			$icon_html = GenerateBlocks_Dynamic_Content::get_icon_html( $content );
 		}
 
-		$output = '';
-
-		if ( ! in_array( $attributes['uniqueId'], self::$block_ids ) ) {
-			// Build our CSS for this block.
-			$output .= generateblocks_do_inline_css_output(
-				'',
-				self::get_css_data( $attributes )
-			);
-		}
+		// Add styles to this block if needed.
+		$output = generateblocks_with_inline_styles(
+			'',
+			[
+				'attributes' => $attributes,
+				'css_data' => self::get_css_data( $attributes ),
+				'block_ids' => self::$block_ids,
+			]
+		);
 
 		foreach ( (array) $dynamic_content as $content ) {
 			$tagName = 'span';
