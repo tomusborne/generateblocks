@@ -198,7 +198,7 @@ class GenerateBlocks_Block_Headline {
 
 		self::$block_ids[] = $id;
 
-		if ( ! isset( $atts['hasWrapper'] ) ) {
+		if ( ! isset( $attributes['hasWrapper'] ) ) {
 			$css->set_selector( $selector );
 			$css->add_property( 'font-family', $fontFamily );
 			$css->add_property( 'text-align', $settings['alignment'] );

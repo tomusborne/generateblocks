@@ -111,11 +111,11 @@ class GenerateBlocks_Block_Image {
 		$defaults = generateblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
-			$atts,
+			$attributes,
 			$defaults['image']
 		);
 
-		$id = $atts['uniqueId'];
+		$id = $attributes['uniqueId'];
 
 		// Only add this CSS once.
 		if ( count( (array) self::$block_ids ) === 0 ) {
