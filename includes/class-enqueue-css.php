@@ -138,6 +138,9 @@ class GenerateBlocks_Enqueue_CSS {
 	 */
 	public function print_inline_css() {
 		if ( 'inline' === $this->mode() || ! wp_style_is( 'generateblocks', 'enqueued' ) ) {
+			// Build our CSS based on the content we find.
+			generateblocks_get_dynamic_css();
+
 			$css = generateblocks_get_frontend_block_css();
 
 			if ( empty( $css ) ) {
@@ -166,6 +169,9 @@ class GenerateBlocks_Enqueue_CSS {
 		if ( empty( $has_generateblocks ) ) {
 			return false;
 		}
+
+		// Build our CSS based on the content we find.
+		generateblocks_get_dynamic_css();
 
 		$content = generateblocks_get_frontend_block_css();
 

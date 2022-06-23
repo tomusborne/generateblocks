@@ -27,7 +27,6 @@ define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 require_once GENERATEBLOCKS_DIR . 'includes/functions.php';
 require_once GENERATEBLOCKS_DIR . 'includes/general.php';
 require_once GENERATEBLOCKS_DIR . 'includes/defaults.php';
-require_once GENERATEBLOCKS_DIR . 'includes/generate-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-do-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-enqueue-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/dashboard.php';
@@ -38,6 +37,15 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-dynamic-content.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-legacy-attributes.php';
+
+// Blocks.
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-container.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button-container.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-grid.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-headline.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-image.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-loop.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**
