@@ -1228,9 +1228,9 @@ function generateblocks_with_inline_styles( $content = '', $data = [] ) {
 		! in_array( $data['attributes']['uniqueId'], $data['block_ids'] )
 	) {
 		// Build our CSS for this block.
-		$content .= generateblocks_do_inline_css_output(
+		$content = generateblocks_do_inline_css_output(
 			$content,
-			$data['css_data']
+			call_user_func( [ $data['class_name'], 'get_css_data' ], $data['attributes'] )
 		);
 	}
 

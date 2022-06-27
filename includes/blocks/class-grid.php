@@ -200,8 +200,8 @@ class GenerateBlocks_Block_Grid {
 			$content = generateblocks_with_inline_styles(
 				$content,
 				[
+					'class_name' => 'GenerateBlocks_Block_Grid',
 					'attributes' => $attributes,
-					'css_data' => self::get_css_data( $attributes ),
 					'block_ids' => self::$block_ids,
 				]
 			);
@@ -229,8 +229,8 @@ class GenerateBlocks_Block_Grid {
 		$output = generateblocks_with_inline_styles(
 			'',
 			[
+				'class_name' => 'GenerateBlocks_Block_Grid',
 				'attributes' => $attributes,
-				'css_data' => self::get_css_data( $attributes ),
 				'block_ids' => self::$block_ids,
 			]
 		);
