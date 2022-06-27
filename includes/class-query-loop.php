@@ -88,8 +88,8 @@ class GenerateBlocks_Query_Loop {
 
 		if ( isset( $query_args['stickyPosts'] ) && 'exclude' === $query_args['stickyPosts'] ) {
 			$sticky_posts = get_option( 'sticky_posts' );
-			$post_not_in = is_array($query_args['post__not_in']) ? $query_args['post__not_in'] : array();
-			$query_args['post__not_in'] = array_merge($sticky_posts, $post_not_in);
+			$post_not_in = is_array( $query_args['post__not_in'] ) ? $query_args['post__not_in'] : array();
+			$query_args['post__not_in'] = array_merge( $sticky_posts, $post_not_in );
 		}
 
 		if ( isset( $query_args['stickyPosts'] ) && 'only' === $query_args['stickyPosts'] ) {
