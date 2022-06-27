@@ -174,14 +174,17 @@ export default [
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
-		id: 'sticky',
-		type: 'toggleControl',
-		dependencies: {
-			checked: 'sticky',
-		},
-		default: false,
-		label: __( 'Sticky', 'generateblocks' ),
-		description: __( 'Limit result set to items that are sticky.', 'generateblocks' ),
+		id: 'stickyPosts',
+		type: 'select',
+		default: 'include',
+		selectOptions: [
+			{ value: 'include', label: 'Include' },
+			{ value: 'exclude', label: 'Exclude' },
+			{ value: 'ignore', label: 'Ignore' },
+			{ value: 'only', label: 'Only' },
+		],
+		label: __( 'Sticky posts', 'generateblocks' ),
+		description: __( 'Configure how sticky posts should show in the query.', 'generateblocks' ),
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{

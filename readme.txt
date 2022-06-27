@@ -86,6 +86,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.5.2 =
+* Feature: Add option to exclude or ignore sticky posts
 * Fix: Container gridId attribute not updating correctly
 
 = 1.5.1 =
