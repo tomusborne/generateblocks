@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles option changes on plugin updates.
+ * Handles the Query Loop block.
  *
  * @package GenerateBlocks
  */
@@ -10,13 +10,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Process option updates if necessary.
+ * Add Query Loop related functions.
  */
 class GenerateBlocks_Block_Query_Loop {
 	/**
 	 * Wrapper function for our dynamic buttons.
 	 *
-	 * @since 1.5.0
+	 * @since 1.6.0
 	 * @param array    $attributes The block attributes.
 	 * @param string   $content The dynamic text to display.
 	 * @param WP_Block $block Block instance.

@@ -1,6 +1,6 @@
 <?php
 /**
- * Handles option changes on plugin updates.
+ * Handles the Button block.
  *
  * @package GenerateBlocks
  */
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Process option updates if necessary.
+ * Add Button related functions.
  */
 class GenerateBlocks_Block_Button {
 	/**
@@ -332,7 +332,7 @@ class GenerateBlocks_Block_Button {
 	/**
 	 * Wrapper function for our dynamic buttons.
 	 *
-	 * @since 1.5.0
+	 * @since 1.6.0
 	 * @param array    $attributes The block attributes.
 	 * @param string   $content The dynamic text to display.
 	 * @param WP_Block $block Block instance.
