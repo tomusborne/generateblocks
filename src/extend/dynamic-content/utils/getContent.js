@@ -353,7 +353,11 @@ function getPostFeaturedImage( record ) {
  * @return {Object} The post author avatar.
  */
 function getAuthorAvatar( record ) {
-	return { source_url: record?.author?.avatar_urls[ 96 ] };
+	return {
+		source_url: record?.author?.avatar_urls && record?.author?.avatar_urls[ 96 ]
+			? record?.author?.avatar_urls[ 96 ]
+			: '',
+	};
 }
 
 /**

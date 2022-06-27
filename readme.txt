@@ -88,6 +88,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 = 1.5.2 =
 * Feature: Add option to exclude or ignore sticky posts
 * Fix: Container gridId attribute not updating correctly
+* Fix: Broken dynamic author image block when avatars are disabled
 
 = 1.5.1 =
 * Fix: Require WordPress version 5.9 or higher
