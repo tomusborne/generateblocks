@@ -978,36 +978,6 @@ function generateblocks_group_css_data( $existing_data = [], $new_data ) {
 }
 
 /**
- * Output our CSS inline or within wp_head.
- *
- * This is a fallback in case we aren't able to find
- * our blocks in generateblocks_get_parsed_content().
- *
- * @since 1.6.0
- * @param string $content Our block content.
- * @param array  $css_data Our CSS data.
- */
-function generateblocks_do_inline_css_output( $content, $css_data ) {
-	if ( did_action( 'wp_head' ) ) {
-		// Add inline <style> elements if we don't have access to wp_head.
-		$grouped_css = generateblocks_group_css_data( [], $css_data );
-		$compiled_css = generateblocks_get_compiled_css( $grouped_css );
-
-		if ( $compiled_css ) {
-			$content = sprintf(
-				'<style>%s</style>',
-				$compiled_css
-			) . $content;
-		}
-	} else {
-		// Add our CSS to the pool of existing CSS in wp_head.
-		generateblocks_add_to_css_data( $css_data );
-	}
-
-	return $content;
-}
-
-/**
  * Turn our CSS array into plain CSS.
  *
  * @since 1.0
@@ -1062,13 +1032,17 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 		return;
 	}
 
+	$blocks = [
+		'grid' => 'GenerateBlocks_Block_Grid',
+		'container' => 'GenerateBlocks_Block_Container',
+		'button-container' => 'GenerateBlocks_Block_Button_Container',
+		'button' => 'GenerateBlocks_Block_Button',
+		'headline' => 'GenerateBlocks_Block_Headline',
+		'image' => 'GenerateBlocks_Block_Image',
+	];
+
 	foreach ( $data as $name => $blockData ) {
-		/**
-		 * Get our Grid block CSS.
-		 *
-		 * @since 0.1
-		 */
-		if ( 'grid' === $name ) {
+		if ( isset( $blocks[ $name ] ) ) {
 			if ( empty( $blockData ) ) {
 				continue;
 			}
@@ -1079,112 +1053,7 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 				}
 
 				generateblocks_add_to_css_data(
-					GenerateBlocks_Block_Grid::get_css_data( $atts )
-				);
-			}
-		}
-
-		/**
-		 * Get our Container block CSS.
-		 *
-		 * @since 0.1
-		 */
-		if ( 'container' === $name ) {
-			if ( empty( $blockData ) ) {
-				continue;
-			}
-
-			foreach ( $blockData as $atts ) {
-				if ( ! isset( $atts['uniqueId'] ) ) {
-					continue;
-				}
-
-				generateblocks_add_to_css_data(
-					GenerateBlocks_Block_Container::get_css_data( $atts )
-				);
-			}
-		}
-
-		/**
-		 * Get our Button Container block CSS.
-		 *
-		 * @since 0.1
-		 */
-		if ( 'button-container' === $name ) {
-			if ( empty( $blockData ) ) {
-				continue;
-			}
-
-			foreach ( $blockData as $atts ) {
-				if ( ! isset( $atts['uniqueId'] ) ) {
-					continue;
-				}
-
-				generateblocks_add_to_css_data(
-					GenerateBlocks_Block_Button_Container::get_css_data( $atts )
-				);
-			}
-		}
-
-		/**
-		 * Get our Button block CSS.
-		 *
-		 * @since 0.1
-		 */
-		if ( 'button' === $name ) {
-			if ( empty( $blockData ) ) {
-				continue;
-			}
-
-			foreach ( $blockData as $atts ) {
-				if ( ! isset( $atts['uniqueId'] ) ) {
-					continue;
-				}
-
-				generateblocks_add_to_css_data(
-					GenerateBlocks_Block_Button::get_css_data( $atts )
-				);
-			}
-		}
-
-		/**
-		 * Get our Headline block CSS.
-		 *
-		 * @since 0.1
-		 */
-		if ( 'headline' === $name ) {
-			if ( empty( $blockData ) ) {
-				continue;
-			}
-
-			foreach ( $blockData as $atts ) {
-				if ( ! isset( $atts['uniqueId'] ) ) {
-					continue;
-				}
-
-				generateblocks_add_to_css_data(
-					GenerateBlocks_Block_Headline::get_css_data( $atts )
-				);
-			}
-		}
-
-		/**
-		 * Get our Image block CSS.
-		 *
-		 * @since 1.5.0
-		 */
-		if ( 'image' === $name ) {
-			if ( empty( $blockData ) ) {
-				continue;
-			}
-
-			foreach ( $blockData as $atts ) {
-				if ( ! isset( $atts['uniqueId'] ) ) {
-					continue;
-				}
-
-				generateblocks_add_to_css_data(
-					GenerateBlocks_Block_Image::get_css_data( $atts )
+					call_user_func( [ $blocks[ $name ], 'get_css_data' ], $atts )
 				);
 			}
 		}
@@ -1227,11 +1096,23 @@ function generateblocks_with_inline_styles( $content = '', $data = [] ) {
 		isset( $data['attributes']['uniqueId'] ) &&
 		! in_array( $data['attributes']['uniqueId'], $data['block_ids'] )
 	) {
-		// Build our CSS for this block.
-		$content = generateblocks_do_inline_css_output(
-			$content,
-			call_user_func( [ $data['class_name'], 'get_css_data' ], $data['attributes'] )
-		);
+		$css_data = call_user_func( [ $data['class_name'], 'get_css_data' ], $data['attributes'] );
+
+		if ( did_action( 'wp_head' ) ) {
+			// Add inline <style> elements if we don't have access to wp_head.
+			$grouped_css = generateblocks_group_css_data( [], $css_data );
+			$compiled_css = generateblocks_get_compiled_css( $grouped_css );
+
+			if ( $compiled_css ) {
+				$content = sprintf(
+					'<style>%s</style>',
+					$compiled_css
+				) . $content;
+			}
+		} else {
+			// Add our CSS to the pool of existing CSS in wp_head.
+			generateblocks_add_to_css_data( $css_data );
+		}
 	}
 
 	return $content;
