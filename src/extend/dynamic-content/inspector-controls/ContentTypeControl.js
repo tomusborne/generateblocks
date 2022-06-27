@@ -136,6 +136,18 @@ export default ( { dynamicContentType, setAttributes, name, isCaption } ) => {
 						multipleCommentsText: '',
 					} );
 				}
+
+				if ( 'author-avatar' === option.value ) {
+					setAttributes( {
+						width: '50px',
+						height: '50px',
+					} );
+				} else {
+					setAttributes( {
+						width: '',
+						height: '',
+					} );
+				}
 			} }
 		/>
 	);
