@@ -21,14 +21,7 @@ function normalizeTaxQuery( taxQueryValue, isExclude = false ) {
 }
 
 export function normalizeRepeatableArgs( query ) {
-	const defaultPerPage = !! query.per_page ? query.per_page : 10;
-
-	// In the editor we capped to 50 posts.
-	const perPage = '-1' === query.per_page || query.per_page > 50
-		? 50
-		: defaultPerPage;
-
-	let normalizedQuery = Object.assign( {}, query, { per_page: perPage } );
+	let normalizedQuery = normalizeArgs( query );
 
 	if ( Array.isArray( query.tax_query ) ) {
 		const normalizedTaxQuery = normalizeTaxQuery( query.tax_query );
@@ -53,4 +46,23 @@ export function normalizeRepeatableArgs( query ) {
 	}
 
 	return normalizedQuery;
+}
+
+export function normalizeArgs( query ) {
+	const defaultPerPage = !! query.per_page ? query.per_page : 10;
+
+	// In the editor we capped to 50 posts.
+	const perPage = '-1' === query.per_page || query.per_page > 50
+		? 50
+		: defaultPerPage;
+
+	let sticky;
+
+	if ( 'exclude' === query.stickyPosts ) {
+		sticky = false;
+	} else if ( 'only' === query.stickyPosts ) {
+		sticky = true;
+	}
+
+	return Object.assign( {}, query, { per_page: perPage, sticky } );
 }
