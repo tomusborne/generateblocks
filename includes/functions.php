@@ -1052,9 +1052,11 @@ function generateblocks_get_dynamic_css( $content = '' ) {
 					continue;
 				}
 
-				generateblocks_add_to_css_data(
-					call_user_func( [ $blocks[ $name ], 'get_css_data' ], $atts )
-				);
+				if ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
+					generateblocks_add_to_css_data(
+						$blocks[ $name ]::get_css_data( $atts )
+					);
+				}
 			}
 		}
 	}
@@ -1096,7 +1098,13 @@ function generateblocks_with_inline_styles( $content = '', $data = [] ) {
 		isset( $data['attributes']['uniqueId'] ) &&
 		! in_array( $data['attributes']['uniqueId'], $data['block_ids'] )
 	) {
-		$css_data = call_user_func( [ $data['class_name'], 'get_css_data' ], $data['attributes'] );
+		$css_data = is_callable( [ $data['class_name'], 'get_css_data' ] )
+			? $data['class_name']::get_css_data( $data['attributes'] )
+			: false;
+
+		if ( ! $css_data ) {
+			return $content;
+		}
 
 		if ( did_action( 'wp_head' ) ) {
 			// Add inline <style> elements if we don't have access to wp_head.
