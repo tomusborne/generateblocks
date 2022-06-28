@@ -84,18 +84,20 @@ class GenerateBlocks_Query_Loop {
 
 		if ( isset( $query_args['stickyPosts'] ) && 'ignore' === $query_args['stickyPosts'] ) {
 			$query_args['ignore_sticky_posts'] = true;
+			unset( $query_args['stickyPosts'] );
 		}
 
 		if ( isset( $query_args['stickyPosts'] ) && 'exclude' === $query_args['stickyPosts'] ) {
 			$sticky_posts = get_option( 'sticky_posts' );
 			$post_not_in = isset( $query_args['post__not_in'] ) && is_array( $query_args['post__not_in'] ) ? $query_args['post__not_in'] : array();
 			$query_args['post__not_in'] = array_merge( $sticky_posts, $post_not_in );
+			unset( $query_args['stickyPosts'] );
 		}
 
 		if ( isset( $query_args['stickyPosts'] ) && 'only' === $query_args['stickyPosts'] ) {
 			$sticky_posts = get_option( 'sticky_posts' );
 			$query_args['post__in'] = $sticky_posts;
-			unset( $query_args['sticky'] );
+			unset( $query_args['stickyPosts'] );
 		}
 
 		if ( isset( $query_args['tax_query_exclude'] ) ) {
