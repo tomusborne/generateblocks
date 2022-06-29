@@ -85,6 +85,7 @@ export default ( { clientId, attributes, setAttributes } ) => {
 											onChange={ ( value ) => {
 												setAttributes( {
 													url: value,
+													hasUrl: !! value,
 												} );
 											} }
 										/>
