@@ -71,7 +71,7 @@ class GenerateBlocks_Block_Query_Loop {
 			}
 		}
 
-		$the_query->reset_postdata();
+		wp_reset_postdata();
 
 		return $content;
 	}
