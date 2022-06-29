@@ -476,8 +476,8 @@ class GenerateBlocks_Dynamic_Content {
 			}
 
 			$links = paginate_links( $paginate_args );
-			wp_reset_postdata(); // Restore original Post Data.
 			$wp_query = $prev_wp_query; // phpcs:ignore -- Restoring core global.
+			wp_reset_postdata(); // Restore original Post Data.
 		}
 
 		$doc = self::load_html( $links );
