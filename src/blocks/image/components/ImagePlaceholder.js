@@ -65,7 +65,7 @@ export default function ImagePlaceholder( props ) {
 
 	return <div
 		className="gblocks-image__placeholder"
-		style={ { width: ! canUploadImage && width ? width + 'px' : null } }
+		style={ { width: ! canUploadImage && width ? width : null } }
 	>
 		{ placeholder }
 	</div>;

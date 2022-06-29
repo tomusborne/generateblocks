@@ -130,7 +130,7 @@ export default ( props ) => {
 				gridId: '',
 			} );
 		}
-	}, [] );
+	} );
 
 	const isInQueryLoop = 'undefined' !== typeof context[ 'generateblocks/queryId' ];
 	const hideWidthDesktop = hasFlexBasis( flexBasis );
