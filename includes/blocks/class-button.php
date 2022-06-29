@@ -216,8 +216,6 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'fill', 'currentColor' );
 		}
 
-		self::$block_ids[] = $id;
-
 		$css->set_selector( '.gb-button-wrapper ' . $selector . ',.gb-button-wrapper ' . $selector . ':visited' );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
@@ -295,6 +293,9 @@ class GenerateBlocks_Block_Button {
 				$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
 			}
 		}
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook

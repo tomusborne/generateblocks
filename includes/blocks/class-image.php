@@ -123,8 +123,6 @@ class GenerateBlocks_Block_Image {
 			$css->add_property( 'vertical-align', 'middle' );
 		}
 
-		self::$block_ids[] = $id;
-
 		$css->set_selector( '.gb-block-image-' . $id );
 		$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
@@ -197,6 +195,9 @@ class GenerateBlocks_Block_Image {
 		$mobile_css->add_property( 'width', $settings['widthMobile'] );
 		$mobile_css->add_property( 'height', $settings['heightMobile'] );
 		$mobile_css->add_property( 'object-fit', $settings['objectFitMobile'] );
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook

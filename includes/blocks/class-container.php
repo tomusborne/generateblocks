@@ -228,8 +228,6 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'fill', 'currentColor' );
 		}
 
-		self::$block_ids[] = $id;
-
 		$css->set_selector( '.gb-container-' . $id );
 		$css->add_property( 'font-family', $fontFamily );
 		$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
@@ -657,6 +655,9 @@ class GenerateBlocks_Block_Container {
 
 			$mobile_css->add_property( 'background-attachment', 'initial' );
 		}
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook

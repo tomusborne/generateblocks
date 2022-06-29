@@ -196,8 +196,6 @@ class GenerateBlocks_Block_Headline {
 			$css->add_property( 'color', 'unset' );
 		}
 
-		self::$block_ids[] = $id;
-
 		if ( ! isset( $attributes['hasWrapper'] ) ) {
 			$css->set_selector( $selector );
 			$css->add_property( 'font-family', $fontFamily );
@@ -601,6 +599,9 @@ class GenerateBlocks_Block_Headline {
 				}
 			}
 		}
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
 
 		/**
 			* Do generateblocks_block_css_data hook

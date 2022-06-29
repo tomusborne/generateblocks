@@ -99,8 +99,6 @@ class GenerateBlocks_Block_Grid {
 			$css->add_property( 'margin-bottom', '0' );
 		}
 
-		self::$block_ids[] = $id;
-
 		$css->set_selector( '.gb-grid-wrapper-' . $id );
 		$css->add_property( 'align-items', $settings['verticalAlignment'] );
 		$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
@@ -152,6 +150,9 @@ class GenerateBlocks_Block_Grid {
 		$mobile_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$mobile_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapMobile'], 'px' );
 		$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook

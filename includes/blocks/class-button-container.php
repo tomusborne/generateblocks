@@ -83,8 +83,6 @@ class GenerateBlocks_Block_Button_Container {
 			$css->add_property( 'clear', 'both' );
 		}
 
-		self::$block_ids[] = $id;
-
 		$css->set_selector( '.gb-button-wrapper-' . $id );
 		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 		$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
@@ -151,6 +149,9 @@ class GenerateBlocks_Block_Button_Container {
 			$mobile_css->add_property( 'width', '100%' );
 			$mobile_css->add_property( 'box-sizing', 'border-box' );
 		}
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook
