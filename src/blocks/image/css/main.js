@@ -58,6 +58,10 @@ export default function MainCSS( props ) {
 		'object-fit': objectFit,
 	} ];
 
+	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId + ' + .components-placeholder__illustration' ] = [ {
+		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
+	} ];
+
 	if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 		cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ].push( {
 			'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
