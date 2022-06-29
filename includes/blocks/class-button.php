@@ -344,7 +344,7 @@ class GenerateBlocks_Block_Button {
 
 		if ( ! isset( $attributes['useDynamicData'] ) || ! $attributes['useDynamicData'] ) {
 			// Add styles to this block if needed.
-			$content = generateblocks_with_inline_styles(
+			$content = generateblocks_maybe_add_block_css(
 				$content,
 				[
 					'class_name' => 'GenerateBlocks_Block_Button',
@@ -419,7 +419,7 @@ class GenerateBlocks_Block_Button {
 		}
 
 		// Add styles to this block if needed.
-		$output = generateblocks_with_inline_styles(
+		$output = generateblocks_maybe_add_block_css(
 			'',
 			[
 				'class_name' => 'GenerateBlocks_Block_Button',

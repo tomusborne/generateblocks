@@ -242,7 +242,7 @@ class GenerateBlocks_Block_Image {
 	public static function render_block( $attributes, $content, $block ) {
 		if ( empty( $attributes['useDynamicData'] ) ) {
 			// Add styles to this block if needed.
-			$content = generateblocks_with_inline_styles(
+			$content = generateblocks_maybe_add_block_css(
 				$content,
 				[
 					'class_name' => 'GenerateBlocks_Block_Image',
@@ -270,7 +270,7 @@ class GenerateBlocks_Block_Image {
 		);
 
 		// Add styles to this block if needed.
-		$output = generateblocks_with_inline_styles(
+		$output = generateblocks_maybe_add_block_css(
 			'',
 			[
 				'class_name' => 'GenerateBlocks_Block_Image',

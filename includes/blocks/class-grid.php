@@ -197,7 +197,7 @@ class GenerateBlocks_Block_Grid {
 	public static function render_block( $attributes, $content, $block ) {
 		if ( ! isset( $attributes['isDynamic'] ) || ! $attributes['isDynamic'] ) {
 			// Add styles to this block if needed.
-			$content = generateblocks_with_inline_styles(
+			$content = generateblocks_maybe_add_block_css(
 				$content,
 				[
 					'class_name' => 'GenerateBlocks_Block_Grid',
@@ -226,7 +226,7 @@ class GenerateBlocks_Block_Grid {
 		}
 
 		// Add styles to this block if needed.
-		$output = generateblocks_with_inline_styles(
+		$output = generateblocks_maybe_add_block_css(
 			'',
 			[
 				'class_name' => 'GenerateBlocks_Block_Grid',
