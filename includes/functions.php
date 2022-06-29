@@ -1098,6 +1098,11 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 		isset( $data['attributes']['uniqueId'] ) &&
 		! in_array( $data['attributes']['uniqueId'], $data['block_ids'] )
 	) {
+		// Don't try to print CSS for the Query Loop block.
+		if ( isset( $data['attributes']['query'] ) ) {
+			return $content;
+		}
+
 		$css_data = is_callable( [ $data['class_name'], 'get_css_data' ] )
 			? $data['class_name']::get_css_data( $data['attributes'] )
 			: false;
