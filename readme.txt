@@ -86,13 +86,13 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.5.3 =
+* Fix: Dynamic image placeholder border radius
 
 = 1.5.2 =
 * Feature: Add option to exclude or ignore sticky posts
 * Fix: Container gridId attribute not updating correctly
 * Fix: Broken dynamic author image block when avatars are disabled
 * Fix: Properly reset postdata after queries
-* Fix: Dynamic image placeholder border radius
 * Tweak: Set hasUrl attribute when adding URL to button
 
 = 1.5.1 =
