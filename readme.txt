@@ -87,6 +87,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 = 1.5.3 =
 * Fix: Dynamic image placeholder border radius
+* Fix: Dulicated block options in Query Loop when selecting links
 
 = 1.5.2 =
 * Feature: Add option to exclude or ignore sticky posts
