@@ -86,6 +86,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.5.3 =
+* Tweak: Added necessary filters to related posts
 * Fix: Dynamic image placeholder border radius
 * Fix: Duplicated block options in Query Loop when selecting links
 * Fix: Inherit query option in Query Loop

@@ -2,17 +2,28 @@ import { useMemo } from '@wordpress/element';
 import AdvancedSelect from '../advanced-select';
 import { __ } from '@wordpress/i18n';
 import useTaxonomyRecords from '../../hooks/useTaxonomyRecords';
+import { applyFilters } from '@wordpress/hooks';
 
-export default function TaxonomiesSelect( { taxonomy, label, onChange, value = [], help } ) {
+export default function TaxonomiesSelect( props ) {
+	const {
+		taxonomy,
+		label,
+		onChange,
+		value = [],
+		help,
+		filterName = 'generateblocks.editor.taxonomies-select',
+	} = props;
 	const { taxonomies, isResolving } = useTaxonomyRecords( taxonomy );
 
 	const taxonomiesOptions = useMemo( () => {
-		return taxonomies
+		const filteredTaxonomies = taxonomies
 			.reduce( ( result, tax ) => {
 				result.push( { value: tax.id, label: tax.name } );
 				return result;
 			}, [] );
-	}, [ taxonomies ] );
+
+		return applyFilters( filterName, filteredTaxonomies );
+	}, [ JSON.stringify( taxonomies ) ] );
 
 	const selectedValues = taxonomiesOptions.filter( ( option ) => ( value.includes( option.value ) ) );
 

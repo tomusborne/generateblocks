@@ -3,7 +3,8 @@ import TaxonomiesSelect from '../../../../../components/taxonomies-select';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { useTaxonomies } from '../../../../../hooks';
 
-export default function TaxonomyParameterControl( { label, value, onChange } ) {
+export default function TaxonomyParameterControl( props ) {
+	const { label, value, onChange } = props;
 	const [ taxonomy, setTaxonomy ] = useState();
 	const [ terms, setTerms ] = useState( [] );
 
@@ -36,7 +37,7 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 
 			onChange( { taxonomy, terms, rest } );
 		}
-	}, [ taxonomy, terms ] );
+	}, [ taxonomy, JSON.stringify( terms ) ] );
 
 	const taxonomiesOptions = useMemo( () => (
 		taxonomies
@@ -63,6 +64,7 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 			<TaxonomiesSelect
 				taxonomy={ taxonomy }
 				value={ terms }
+				filterName={ 'generateblocks.editor.taxonomy-parameter-control.' + props.id }
 				onChange={ ( newValue ) => {
 					const newTerms = newValue.reduce( ( result, option ) => {
 						result.push( option.value );
