@@ -2,7 +2,11 @@ import queryParameterOptions from '../../../query-parameters';
 import ParameterControl from './ParameterControl';
 
 const getParametersList = ( query ) => {
-	return queryParameterOptions.filter( ( parameter ) => Object.keys( query ).includes( parameter.id ) );
+	const options = queryParameterOptions.filter( ( param ) => param.isSticky );
+
+	return options.concat( Object.keys( query ).map( ( id ) => (
+		queryParameterOptions.find( ( param ) => ( id === param.id && ! param.isSticky ) )
+	) ).filter( Boolean ) );
 };
 
 export default ( { query, setParameter, removeParameter } ) => {
