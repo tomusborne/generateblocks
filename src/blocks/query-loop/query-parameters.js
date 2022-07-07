@@ -104,7 +104,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 		description: __( 'Show posts from taxonomies.', 'generateblocks' ),
 		group: __( 'Taxonomy', 'generateblocks' ),
 		isRepeatable: true,
-		repeatableDefaultValue: { taxonomy: '', terms: [], rest: '' },
+		repeatableDefaultValue: { taxonomy: '', terms: [], rest: '', includeChildren: true },
 	},
 	{
 		id: 'tax_query_exclude',
@@ -114,7 +114,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 		description: __( 'Exclude posts from taxonomies.', 'generateblocks' ),
 		group: __( 'Taxonomy', 'generateblocks' ),
 		isRepeatable: true,
-		repeatableDefaultValue: { taxonomy: '', terms: [], rest: '' },
+		repeatableDefaultValue: { taxonomy: '', terms: [], rest: '', includeChildren: true },
 	},
 	{
 		id: 'status',

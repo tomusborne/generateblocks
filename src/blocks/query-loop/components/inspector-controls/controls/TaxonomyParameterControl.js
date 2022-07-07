@@ -2,23 +2,15 @@ import SimpleSelect from '../../../../../components/simple-select';
 import TaxonomiesSelect from '../../../../../components/taxonomies-select';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { useTaxonomies } from '../../../../../hooks';
+import { ToggleControl } from '@wordpress/components';
+import { __ } from '@wordpress/i18n';
 
-export default function TaxonomyParameterControl( props ) {
-	const { label, value, onChange } = props;
-	const [ taxonomy, setTaxonomy ] = useState();
-	const [ terms, setTerms ] = useState( [] );
+export default function TaxonomyParameterControl( { label, value, onChange } ) {
+	const [ taxonomy, setTaxonomy ] = useState( value.taxonomy );
+	const [ terms, setTerms ] = useState( value.terms );
+	const [ includeChildren, setIncludeChildren ] = useState( false !== value.includeChildren );
 
 	const taxonomies = useTaxonomies();
-
-	useEffect( () => {
-		if ( !! value.taxonomy ) {
-			setTaxonomy( value.taxonomy );
-		}
-
-		if ( !! value.terms ) {
-			setTerms( value.terms );
-		}
-	}, [] );
 
 	useEffect( () => {
 		if ( value.taxonomy !== taxonomy ) {
@@ -35,9 +27,9 @@ export default function TaxonomyParameterControl( props ) {
 			const tax = taxonomies.filter( ( record ) => ( record.slug === taxonomy ) );
 			const rest = !! tax[ 0 ] ? tax[ 0 ].rest_base : undefined;
 
-			onChange( { taxonomy, terms, rest } );
+			onChange( { taxonomy, terms, rest, includeChildren } );
 		}
-	}, [ taxonomy, JSON.stringify( terms ) ] );
+	}, [ taxonomy, JSON.stringify( terms ), includeChildren ] );
 
 	const taxonomiesOptions = useMemo( () => (
 		taxonomies
@@ -74,6 +66,13 @@ export default function TaxonomyParameterControl( props ) {
 
 					setTerms( newTerms );
 				} }
+			/>
+
+			<ToggleControl
+				checked={ includeChildren }
+				label={ __( 'Include children', 'generateblocks' ) }
+				help={ __( 'Whether to include children taxonomies', 'generateblocks' ) }
+				onChange={ setIncludeChildren }
 			/>
 		</>
 	);
