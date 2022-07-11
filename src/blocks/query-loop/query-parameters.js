@@ -1,6 +1,7 @@
 import { __ } from '@wordpress/i18n';
+import { applyFilters } from '@wordpress/hooks';
 
-export default [
+export default applyFilters( 'generateblocks.editor.query-loop.query-parameters', [
 	{
 		id: 'post_type',
 		type: 'postTypeSelect',
@@ -77,6 +78,9 @@ export default [
 		id: 'author',
 		type: 'authorsSelect',
 		default: [],
+		dependencies: {
+			filterName: 'generateblocks.editor.query-loop.author',
+		},
 		label: __( 'Authors', 'generateblocks' ),
 		description: __( 'Show posts from authors.', 'generateblocks' ),
 		group: __( 'Author', 'generateblocks' ),
@@ -85,6 +89,9 @@ export default [
 		id: 'author_exclude',
 		type: 'authorsSelect',
 		default: [],
+		dependencies: {
+			filterName: 'generateblocks.editor.query-loop.author-exclude',
+		},
 		label: __( 'Exclude authors', 'generateblocks' ),
 		description: __( 'Exclude posts from authors.', 'generateblocks' ),
 		group: __( 'Author', 'generateblocks' ),
@@ -134,18 +141,19 @@ export default [
 		default: [],
 		dependencies: {
 			postType: 'post_type',
+			filterName: 'generateblocks.editor.query-loop.include-parent',
 		},
 		label: __( 'Parent', 'generateblocks' ),
 		description: __( 'Show posts from parents.', 'generateblocks' ),
 		group: __( 'Post', 'generateblocks' ),
 	},
-
 	{
 		id: 'parent_exclude',
 		type: 'postsSelect',
 		default: [],
 		dependencies: {
 			postType: 'post_type',
+			filterName: 'generateblocks.editor.query-loop.exclude-parent',
 		},
 		label: __( 'Parent exclude', 'generateblocks' ),
 		description: __( 'Do not show posts from parents.', 'generateblocks' ),
@@ -168,6 +176,7 @@ export default [
 		default: [],
 		dependencies: {
 			postType: 'post_type',
+			filterName: 'generateblocks.editor.query-loop.exclude-posts-select',
 		},
 		label: __( 'Exclude posts', 'generateblocks' ),
 		description: __( 'Ensure result set excludes specific posts.', 'generateblocks' ),
@@ -203,4 +212,4 @@ export default [
 		description: __( 'Limit response to posts published before a given date.', 'generateblocks' ),
 		group: __( 'Date', 'generateblocks' ),
 	},
-];
+] );

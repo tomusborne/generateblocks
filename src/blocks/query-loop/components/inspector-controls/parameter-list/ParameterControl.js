@@ -35,7 +35,7 @@ export default ( { parameter, query, setParameter, removeParameter } ) => {
 	}
 
 	const dependenciesValues = Object.keys( dependencies ).reduce( ( dependenciesProps, dependencyKey ) => {
-		dependenciesProps[ dependencyKey ] = query[ dependencies[ dependencyKey ] ];
+		dependenciesProps[ dependencyKey ] = query[ dependencies[ dependencyKey ] ] || dependencies[ dependencyKey ];
 
 		return dependenciesProps;
 	}, {} );
