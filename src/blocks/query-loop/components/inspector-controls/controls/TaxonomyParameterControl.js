@@ -5,7 +5,8 @@ import { useTaxonomies } from '../../../../../hooks';
 import { ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
-export default function TaxonomyParameterControl( { label, value, onChange } ) {
+export default function TaxonomyParameterControl( props ) {
+	const { label, value, onChange } = props;
 	const [ taxonomy, setTaxonomy ] = useState( value.taxonomy );
 	const [ terms, setTerms ] = useState( value.terms );
 	const [ includeChildren, setIncludeChildren ] = useState( false !== value.includeChildren );
@@ -53,27 +54,32 @@ export default function TaxonomyParameterControl( { label, value, onChange } ) {
 				} }
 			/>
 
-			<TaxonomiesSelect
-				taxonomy={ taxonomy }
-				value={ terms }
-				filterName={ 'generateblocks.editor.taxonomy-parameter-control.' + props.id }
-				onChange={ ( newValue ) => {
-					const newTerms = newValue.reduce( ( result, option ) => {
-						result.push( option.value );
+			{ taxonomy &&
+				<>
+					<TaxonomiesSelect
+						taxonomy={ taxonomy }
+						value={ terms }
+						filterName={ 'generateblocks.editor.taxonomy-parameter-control.' + props.id }
+						onChange={ ( newValue ) => {
+							const newTerms = newValue.reduce( ( result, option ) => {
+								result.push( option.value );
 
-						return result;
-					}, [] );
+								return result;
+							}, [] );
 
-					setTerms( newTerms );
-				} }
-			/>
+							setTerms( newTerms );
+						} }
+						help={ terms.length === 0 ? __( 'You must select at least one term.', 'generateblocks' ) : '' }
+					/>
 
-			<ToggleControl
-				checked={ includeChildren }
-				label={ __( 'Include children', 'generateblocks' ) }
-				help={ __( 'Whether to include children taxonomies', 'generateblocks' ) }
-				onChange={ setIncludeChildren }
-			/>
+					<ToggleControl
+						checked={ includeChildren }
+						label={ __( 'Include children', 'generateblocks' ) }
+						help={ __( 'Whether to include children taxonomies', 'generateblocks' ) }
+						onChange={ setIncludeChildren }
+					/>
+				</>
+			}
 		</>
 	);
 }
