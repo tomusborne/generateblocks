@@ -90,6 +90,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Duplicated block options in Query Loop when selecting links
 * Fix: Inherit query option in Query Loop
 * Fix: Keep the order in which query loop parameter was included
+* Tweak: Move Post Template list view label to Container
 
 = 1.5.2 =
 * Feature: Add option to exclude or ignore sticky posts
