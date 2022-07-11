@@ -10,15 +10,14 @@ import isEmpty from '../../../utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';
 import getIcon from '../../../utils/get-icon';
 import { ToggleControl } from '@wordpress/components';
+import { isEqual } from 'lodash';
 
 export default ( { attributes, setAttributes } ) => {
-	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer();
+	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer( attributes.query );
 	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
 
 	useEffect( () => {
-		if ( ! isEmpty( attributes.query ) ) {
-			insertParameters( attributes.query );
-		} else {
+		if ( isEmpty( attributes.query ) ) {
 			insertParameters( {
 				post_type: 'post',
 				per_page: 10,
@@ -28,7 +27,7 @@ export default ( { attributes, setAttributes } ) => {
 
 	useEffect( () => {
 		setAttributes( { query: queryState } );
-	}, [ JSON.stringify( queryState ) ] );
+	}, [ JSON.stringify( queryState ), ! isEqual( attributes.query, queryState ) ] );
 
 	const parameterOptions = useMemo( () => (
 		queryParameterOptions.map( ( parameter ) => {
