@@ -172,7 +172,7 @@ class GenerateBlocks_Query_Loop {
 					'field'    => 'term_id',
 					'terms'    => $tax['terms'],
 					'operator' => $operator,
-					'include_children' => false,
+					'include_children' => isset( $tax['includeChildren'] ) ? $tax['includeChildren'] : true,
 				);
 			},
 			$raw_tax_query

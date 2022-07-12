@@ -92,6 +92,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Inherit query option in Query Loop
 * Fix: Keep the order in which query loop parameter was included
 * Tweak: Move Post Template list view label to Container
+* Fix: Query loop taxonomy query include/exclude children
 
 = 1.5.2 =
 * Feature: Add option to exclude or ignore sticky posts
