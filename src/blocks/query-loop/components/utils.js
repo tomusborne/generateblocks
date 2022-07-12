@@ -1,3 +1,5 @@
+import { applyFilters } from '@wordpress/hooks';
+
 export function removeEmpty( obj ) {
 	return Object.fromEntries( Object.entries( obj ).filter( ( [ idx, value ] ) => {
 		// Allow the image alt attribute to be empty.
@@ -11,7 +13,10 @@ export function removeEmpty( obj ) {
 
 function getTaxQueryParam( taxQuery, isExclude = false ) {
 	const paramKey = isExclude ? `${ taxQuery.rest }_exclude` : taxQuery.rest;
-	return { [ paramKey ]: taxQuery.terms };
+	return { [ paramKey ]: {
+		terms: taxQuery.terms,
+		include_children: taxQuery.includeChildren,
+	} };
 }
 
 function normalizeTaxQuery( taxQueryValue, isExclude = false ) {
@@ -23,8 +28,8 @@ function normalizeTaxQuery( taxQueryValue, isExclude = false ) {
 export function normalizeRepeatableArgs( query ) {
 	let normalizedQuery = normalizeArgs( query );
 
-	if ( Array.isArray( query.tax_query ) ) {
-		const normalizedTaxQuery = normalizeTaxQuery( query.tax_query );
+	if ( Array.isArray( normalizedQuery.tax_query ) ) {
+		const normalizedTaxQuery = normalizeTaxQuery( normalizedQuery.tax_query );
 
 		normalizedQuery = Object.assign(
 			{},
@@ -34,8 +39,8 @@ export function normalizeRepeatableArgs( query ) {
 		);
 	}
 
-	if ( Array.isArray( query.tax_query_exclude ) ) {
-		const normalizedTaxQueryExclude = normalizeTaxQuery( query.tax_query_exclude, true );
+	if ( Array.isArray( normalizedQuery.tax_query_exclude ) ) {
+		const normalizedTaxQueryExclude = normalizeTaxQuery( normalizedQuery.tax_query_exclude, true );
 
 		normalizedQuery = Object.assign(
 			{},
@@ -64,5 +69,7 @@ export function normalizeArgs( query ) {
 		sticky = true;
 	}
 
-	return Object.assign( {}, query, { per_page: perPage, sticky } );
+	const normalizedQuery = Object.assign( {}, query, { per_page: perPage, sticky } );
+
+	return applyFilters( 'generateblocks.editor.query-loop.normalize-parameters', normalizedQuery );
 }
