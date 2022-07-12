@@ -74,8 +74,7 @@ export default function TaxonomyParameterControl( props ) {
 
 					<ToggleControl
 						checked={ includeChildren }
-						label={ __( 'Include children', 'generateblocks' ) }
-						help={ __( 'Whether to include children taxonomies', 'generateblocks' ) }
+						label={ __( 'Include child terms', 'generateblocks' ) }
 						onChange={ setIncludeChildren }
 					/>
 				</>
