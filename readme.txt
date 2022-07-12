@@ -86,13 +86,13 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.5.3 =
-* Tweak: Added necessary filters to related posts
-* Tweak: Move Post Template list view label to Container
+* Feature: Added necessary filters for related posts
+* Feature: Add option to include/exclude term children in query
 * Fix: Dynamic image placeholder border radius
 * Fix: Duplicated block options in Query Loop when selecting links
 * Fix: Inherit query option in Query Loop
-* Fix: Keep the order in which query loop parameter was included
-* Fix: Query loop taxonomy query include/exclude children
+* Fix: Keep the order in which query loop parameters are added
+* Tweak: Move Post Template list view label to Container
 
 = 1.5.2 =
 * Feature: Add option to exclude or ignore sticky posts
