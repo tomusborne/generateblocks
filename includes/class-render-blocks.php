@@ -73,6 +73,7 @@ class GenerateBlocks_Render_Block {
 				'uses_context' => array(
 					'generateblocks/query',
 					'generateblocks/queryId',
+					'generateblocks/inheritQuery',
 				),
 			)
 		);

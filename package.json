@@ -1,6 +1,6 @@
 {
 	"name": "generateblocks",
-	"version": "1.5.2",
+	"version": "1.5.3",
 	"private": true,
 	"description": "A small collection of lightweight WordPress blocks that can accomplish nearly anything.",
 	"author": "Tom Usborne",
@@ -18,9 +18,9 @@
 		"url": "https://generateblocks.com/support"
 	},
 	"dependencies": {
-		"@emotion/react": "^11.7.1",
+		"@emotion/react": "^11.9.3",
 		"classnames": "^2.3.1",
-		"dompurify": "^2.2.8",
+		"dompurify": "^2.3.9",
 		"use-debounce": "^7.0.1"
 	},
 	"devDependencies": {
@@ -42,14 +42,14 @@
 		"@wordpress/scripts": "22.2.1",
 		"colord": "2.9.2",
 		"enzyme": "^3.11.0",
-		"grunt": "^1.4.0",
-		"grunt-contrib-clean": "^2.0.0",
+		"grunt": "^1.5.3",
+		"grunt-contrib-clean": "^2.0.1",
 		"grunt-contrib-compress": "^2.0.0",
 		"grunt-contrib-copy": "^1.0.0",
-		"jest": "^27.0.6",
+		"jest": "^27.5.1",
 		"lodash": "4.17.21",
 		"react-colorful": "5.5.1",
-		"react-select": "^5.3.1",
+		"react-select": "^5.4.0",
 		"request": "^2.88.2",
 		"use-local-storage-state": "16.0.0"
 	},

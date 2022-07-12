@@ -29,7 +29,7 @@ function BlockPreview( {
 	return (
 		<div
 			{ ...blockPreviewProps }
-			className={ 'block-editor-inner-blocks' }
+			className={ 'block-editor-inner-blocks gb-query-loop-block-preview' }
 			tabIndex={ 0 }
 			// eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
 			role={ 'button' }

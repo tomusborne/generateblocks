@@ -64,6 +64,7 @@ export default function ControlBuilder( props ) {
 	return (
 		<div className={ 'gblocks-parameter-component' }>
 			<Control
+				id={ id }
 				type={ type }
 				label={ label }
 				help={ controlDescription }

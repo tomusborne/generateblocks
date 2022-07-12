@@ -2,16 +2,26 @@ import AdvancedSelect from '../advanced-select';
 import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import useAuthors from '../../hooks/useAuthors';
+import { applyFilters } from '@wordpress/hooks';
 
-export default function AuthorsSelect( { label, onChange, value, help } ) {
+export default function AuthorsSelect( props ) {
+	const {
+		label,
+		onChange,
+		value,
+		help,
+		filterName = 'generateblocks.editor.authors-select',
+	} = props;
 	const authors = useAuthors();
 
 	const authorOptions = useMemo( () => {
-		return authors
+		const options = authors
 			.reduce( ( result, author ) => {
 				result.push( { value: author.id, label: author.name } );
 				return result;
 			}, [] );
+
+		return applyFilters( filterName, options );
 	}, [ authors ] );
 
 	const selectedValues = authorOptions.filter( ( option ) => ( value.includes( option.value ) ) );

@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiw
 Requires at least: 5.9
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 1.5.2
+Stable tag: 1.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,15 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.5.3 =
+* Feature: Added necessary filters for related posts
+* Feature: Add option to include/exclude term children in query
+* Fix: Dynamic image placeholder border radius
+* Fix: Duplicated block options in Query Loop when selecting links
+* Fix: Inherit query option in Query Loop
+* Fix: Keep the order in which query loop parameters are added
+* Tweak: Move Post Template list view label to Container
 
 = 1.5.2 =
 * Feature: Add option to exclude or ignore sticky posts
