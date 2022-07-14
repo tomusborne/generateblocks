@@ -15,7 +15,7 @@ function getTaxQueryParam( taxQuery, isExclude = false ) {
 	const paramKey = isExclude ? `${ taxQuery.rest }_exclude` : taxQuery.rest;
 	return { [ paramKey ]: {
 		terms: taxQuery.terms,
-		include_children: taxQuery.includeChildren,
+		include_children: taxQuery?.includeChildren,
 	} };
 }
 

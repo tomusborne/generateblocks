@@ -86,6 +86,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.5.4 =
+* Fix: Non hierarchical taxonomies with broken REST API calls
 
 = 1.5.3 =
 * Feature: Added necessary filters for related posts
