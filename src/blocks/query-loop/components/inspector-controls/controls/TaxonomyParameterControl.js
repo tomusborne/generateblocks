@@ -13,6 +13,12 @@ export default function TaxonomyParameterControl( props ) {
 
 	const taxonomies = useTaxonomies();
 
+	const isHierarchical = useMemo( () => {
+		const tax = taxonomies.filter( ( record ) => ( record.slug === taxonomy ) );
+
+		return !! tax[ 0 ] ? tax[ 0 ].hierarchical : false;
+	}, [ JSON.stringify( taxonomies ), taxonomy ] );
+
 	useEffect( () => {
 		if ( value.taxonomy !== taxonomy ) {
 			setTaxonomy( value.taxonomy );
@@ -27,8 +33,14 @@ export default function TaxonomyParameterControl( props ) {
 		if ( !! taxonomy ) {
 			const tax = taxonomies.filter( ( record ) => ( record.slug === taxonomy ) );
 			const rest = !! tax[ 0 ] ? tax[ 0 ].rest_base : undefined;
+			const hierarchical = !! tax[ 0 ] ? tax[ 0 ].hierarchical : false;
 
-			onChange( { taxonomy, terms, rest, includeChildren } );
+			onChange( {
+				taxonomy,
+				terms,
+				rest,
+				includeChildren: hierarchical ? includeChildren : undefined,
+			} );
 		}
 	}, [ taxonomy, JSON.stringify( terms ), includeChildren ] );
 
@@ -36,7 +48,7 @@ export default function TaxonomyParameterControl( props ) {
 		taxonomies
 			.filter( ( tax ) => ( 'nav_menu' !== tax.slug ) )
 			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
-	), [ taxonomies ] );
+	), [ JSON.stringify( taxonomies ) ] );
 
 	const labelStyles = { marginBottom: '8px', display: 'inline-block' };
 
@@ -72,11 +84,13 @@ export default function TaxonomyParameterControl( props ) {
 						help={ terms.length === 0 ? __( 'You must select at least one term.', 'generateblocks' ) : '' }
 					/>
 
-					<ToggleControl
-						checked={ includeChildren }
-						label={ __( 'Include child terms', 'generateblocks' ) }
-						onChange={ setIncludeChildren }
-					/>
+					{ isHierarchical &&
+						<ToggleControl
+							checked={ includeChildren }
+							label={ __( 'Include child terms', 'generateblocks' ) }
+							onChange={ setIncludeChildren }
+						/>
+					}
 				</>
 			}
 		</>
