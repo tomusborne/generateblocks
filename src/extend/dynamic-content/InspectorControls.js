@@ -137,6 +137,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							postId={ currentPostId }
 							metaFieldName={ metaFieldName }
 							setAttributes={ setAttributes }
+							attributes={ attributes }
 						/>
 
 						<AuthorMetaControl
@@ -145,6 +146,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							postId={ currentPostId }
 							metaFieldName={ metaFieldName }
 							setAttributes={ setAttributes }
+							attributes={ attributes }
 						/>
 
 						<CommentsControl
@@ -181,6 +183,9 @@ export default ( { context, attributes, setAttributes, name } ) => {
 									'undefined' !== typeof attributes.url
 								)
 							}
+							postType={ currentPostType }
+							postId={ currentPostId }
+							attributes={ attributes }
 							linkType={ dynamicLinkType }
 							dynamicLinkRemoveIfEmpty={ dynamicLinkRemoveIfEmpty }
 							dynamicContentType={ dynamicContentType }

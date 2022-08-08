@@ -1,4 +1,16 @@
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
+
+/**
+ * Returns the post meta label field label.
+ *
+ * @param {string} metaFieldName The meta field name.
+ * @return {string} The meta field label.
+ */
+function getPostMetaLabel( metaFieldName ) {
+	return !! metaFieldName
+		? sprintf( 'Post meta: %s', metaFieldName )
+		: __( 'Post meta', 'generateblocks' );
+}
 
 /**
  * Return the correct label for the content types.
@@ -13,6 +25,7 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 		dynamicContentType,
 		dynamicLinkType,
 		isCaption,
+		metaFieldName,
 	} = attributes;
 
 	if ( useDynamicData ) {
@@ -20,7 +33,7 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 			'post-title': __( 'Post title', 'generateblocks' ),
 			'post-excerpt': __( 'Post excerpt', 'generateblocks' ),
 			'post-date': __( 'Post date', 'generateblocks' ),
-			'post-meta': __( 'Post meta', 'generateblocks' ),
+			'post-meta': getPostMetaLabel( metaFieldName ),
 			'author-email': __( 'Author email', 'generateblocks' ),
 			'author-name': __( 'Author name', 'generateblocks' ),
 			'author-nickname': __( 'Author nickname', 'generateblocks' ),
@@ -37,7 +50,7 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 			'single-post': __( 'Single post', 'generateblocks' ),
 			'author-archives': __( 'Author archives', 'generateblocks' ),
 			'comments-area': __( 'Comments area', 'generateblocks' ),
-			'post-meta': __( 'Post meta', 'generateblocks' ),
+			'post-meta': getPostMetaLabel( metaFieldName ),
 			'previous-posts': __( 'Previous posts', 'generateblocks' ),
 			'next-posts': __( 'Next posts', 'generateblocks' ),
 			'term-archives': __( 'Term archives', 'generateblocks' ),

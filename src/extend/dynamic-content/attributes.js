@@ -1,4 +1,6 @@
-export default {
+import { applyFilters } from '@wordpress/hooks';
+
+export default applyFilters( 'generateblocks.editor.dynamicContent.attributes', {
 	useDynamicData: {
 		type: 'boolean',
 		default: false,
@@ -108,4 +110,4 @@ export default {
 		type: 'number',
 		default: generateBlocksInfo.excerptLength,
 	},
-};
+} );
