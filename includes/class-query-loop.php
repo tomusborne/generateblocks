@@ -96,6 +96,7 @@ class GenerateBlocks_Query_Loop {
 
 		if ( isset( $query_args['stickyPosts'] ) && 'only' === $query_args['stickyPosts'] ) {
 			$sticky_posts = get_option( 'sticky_posts' );
+			$query_args['ignore_sticky_posts'] = true;
 			$query_args['post__in'] = $sticky_posts;
 			unset( $query_args['stickyPosts'] );
 		}
