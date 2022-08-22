@@ -173,7 +173,7 @@ const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false, attr
 			attributes
 		);
 
-		if ( _.isEmpty( value ) ) {
+		if ( _.isEmpty( value ) && ! _.isNumber( value ) ) {
 			return metaField;
 		}
 

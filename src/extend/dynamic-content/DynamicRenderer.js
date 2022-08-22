@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import HeadlineContentRenderer from '../../blocks/headline/components/HeadlineContentRenderer';
 import ButtonContentRenderer from '../../blocks/button/components/ButtonContentRenderer';
 import filterAttributes from '../../utils/filter-attributes';
@@ -54,13 +55,15 @@ export default function DynamicRenderer( props ) {
 		content = rawContent.split( termSeparator )[ 0 ];
 	}
 
+	const dynamicImage = (
+		! _.isNaN( parseInt( content ) ) &&
+		( 'generateblocks/container' === name || 'generateblocks/image' === name )
+	) ? content : undefined;
+
 	const newAttributes = Object.assign( {}, attributes, {
 		content: 'generateblocks/headline' === name ? content : undefined,
 		text: 'generateblocks/button' === name ? content : undefined,
-		dynamicImage: 'generateblocks/container' === name ||
-			'generateblocks/image' === name
-			? content
-			: undefined,
+		dynamicImage,
 	} );
 
 	const newProps = Object.assign( {}, props, {
