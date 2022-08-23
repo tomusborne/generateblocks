@@ -1,8 +1,9 @@
 import AdvancedSelect from '../advanced-select';
 import { __ } from '@wordpress/i18n';
-import usePostTypeRecords from '../../extend/dynamic-content/hooks/usePostTypeRecords';
-import { useMemo } from '@wordpress/element';
+import { usePersistentPostRecords } from '../../extend/dynamic-content/hooks/usePostTypeRecords';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
+import useDebounceState from '../../hooks/useDebounceState';
 
 export default function PostTypeRecordsSelect( props ) {
 	const {
@@ -12,7 +13,21 @@ export default function PostTypeRecordsSelect( props ) {
 		filterName = 'generateblocks.editor.post-type-record-select',
 		...otherProps
 	} = props;
-	const { records, isResolving } = usePostTypeRecords( postType ) || [];
+
+	const [ loadValues, setLoadValues ] = useState( value.length > 0 );
+	const [ search, setSearch ] = useDebounceState( '', 500 );
+	const { records, isLoading } = usePersistentPostRecords( postType, {
+		per_page: 10,
+		orderby: 'id',
+		search: !! search ? search : undefined,
+		include: loadValues ? value : undefined,
+	} );
+
+	useEffect( () => {
+		if ( loadValues && records.some( ( post ) => ( value.includes( post.id ) ) ) ) {
+			setLoadValues( false );
+		}
+	}, [ JSON.stringify( records ), JSON.stringify( value ) ] );
 
 	const recordOptions = useMemo( () => {
 		const options = records?.map( ( post ) => {
@@ -33,11 +48,16 @@ export default function PostTypeRecordsSelect( props ) {
 			label={ label || __( 'Select post', 'generateblocks' ) }
 			placeholder={ label || __( 'Select post', 'generateblocks' ) }
 			value={ selectedValues }
-			isLoading={ isResolving }
+			isLoading={ isLoading }
 			isSearchable
 			isMulti
 			{ ...otherProps }
 			options={ recordOptions }
+			onInputChange={ ( inputValue, { action } ) => {
+				if ( 'input-change' === action ) {
+					setSearch( inputValue );
+				}
+			} }
 		/>
 	);
 }
