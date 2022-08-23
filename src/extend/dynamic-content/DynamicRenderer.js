@@ -35,6 +35,7 @@ export default function DynamicRenderer( props ) {
 		termSeparator,
 	} = attributesWithContext;
 	const rawContent = useDynamicContent( attributesWithContext, name );
+	console.log( rawContent );
 
 	const ContentRenderer = getContentRenderer( name );
 
@@ -56,7 +57,8 @@ export default function DynamicRenderer( props ) {
 	}
 
 	const dynamicImage = (
-		! _.isNaN( parseInt( content ) ) &&
+		!! content &&
+		! content.includes( 'Loading' ) &&
 		( 'generateblocks/container' === name || 'generateblocks/image' === name )
 	) ? content : undefined;
 
