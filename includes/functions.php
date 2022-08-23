@@ -893,3 +893,240 @@ function generateblocks_filter_images( $content, $attributes ) {
 
 	return $content;
 }
+
+/**
+ * Compile our CSS based on our CSS data.
+ *
+ * @since 1.6.0
+ * @param array $manual_data CSS data input directly to the function.
+ */
+function generateblocks_get_compiled_css( $manual_data = [] ) {
+	$data = apply_filters( 'generateblocks_css_data', [] );
+
+	// Allows us to input manual data if necessary.
+	if ( count( (array) $manual_data ) > 0 ) {
+		$data = $manual_data;
+	}
+
+	$css = '';
+
+	if ( ! empty( $data['main'] ) ) {
+		$css .= $data['main'];
+	}
+
+	if ( ! empty( $data['desktop'] ) ) {
+		$css .= sprintf(
+			'@media %1$s {%2$s}',
+			generateblocks_get_media_query( 'desktop' ),
+			$data['desktop']
+		);
+	}
+
+	if ( ! empty( $data['tablet'] ) ) {
+		$css .= sprintf(
+			'@media %1$s {%2$s}',
+			generateblocks_get_media_query( 'tablet' ),
+			$data['tablet']
+		);
+	}
+
+	if ( ! empty( $data['tablet_only'] ) ) {
+		$css .= sprintf(
+			'@media %1$s {%2$s}',
+			generateblocks_get_media_query( 'tablet_only' ),
+			$data['tablet_only']
+		);
+	}
+
+	if ( ! empty( $data['mobile'] ) ) {
+		$css .= sprintf(
+			'@media %1$s {%2$s}',
+			generateblocks_get_media_query( 'mobile' ),
+			$data['mobile']
+		);
+	}
+
+	return $css;
+}
+
+/**
+ * This is a helper function that groups our static CSS into device-specific groups.
+ *
+ * @since 1.6.0
+ * @param array $existing_data An array of existing data to add to.
+ * @param array $new_data The new data we wish to group.
+ */
+function generateblocks_group_css_data( $existing_data = [], $new_data ) {
+	$existing_data = wp_parse_args(
+		$existing_data,
+		[
+			'main' => '',
+			'desktop' => '',
+			'tablet' => '',
+			'tablet_only' => '',
+			'mobile' => '',
+		]
+	);
+
+	$existing_data['main'] .= generateblocks_get_parsed_css( $new_data['main'] );
+	$existing_data['desktop'] .= generateblocks_get_parsed_css( $new_data['desktop'] );
+	$existing_data['tablet'] .= generateblocks_get_parsed_css( $new_data['tablet'] );
+	$existing_data['tablet_only'] .= generateblocks_get_parsed_css( $new_data['tablet_only'] );
+	$existing_data['mobile'] .= generateblocks_get_parsed_css( $new_data['mobile'] );
+
+	return $existing_data;
+}
+
+/**
+ * Turn our CSS array into plain CSS.
+ *
+ * @since 1.0
+ * @param array $data Our CSS data.
+ */
+function generateblocks_get_parsed_css( $data ) {
+	$output = '';
+
+	foreach ( $data as $selector => $properties ) {
+		if ( ! count( $properties ) ) {
+			continue;
+		}
+
+		$temporary_output = $selector . '{';
+		$elements_added = 0;
+
+		foreach ( $properties as $key => $value ) {
+			if ( empty( $value ) ) {
+				continue;
+			}
+
+			$elements_added++;
+			$temporary_output .= $value;
+		}
+
+		$temporary_output .= '}';
+
+		if ( $elements_added > 0 ) {
+			$output .= $temporary_output;
+		}
+	}
+
+	return $output;
+}
+
+/**
+ *  Build the CSS from our block attributes.
+ *
+ * @since 0.1
+ * @param string $content The content we're looking through.
+ *
+ * @return string The dynamic CSS.
+ */
+function generateblocks_get_dynamic_css( $content = '' ) {
+	if ( ! $content ) {
+		$content = generateblocks_get_parsed_content();
+	}
+
+	$data = generateblocks_get_block_data( $content );
+
+	if ( empty( $data ) ) {
+		return;
+	}
+
+	$blocks = [
+		'grid' => 'GenerateBlocks_Block_Grid',
+		'container' => 'GenerateBlocks_Block_Container',
+		'button-container' => 'GenerateBlocks_Block_Button_Container',
+		'button' => 'GenerateBlocks_Block_Button',
+		'headline' => 'GenerateBlocks_Block_Headline',
+		'image' => 'GenerateBlocks_Block_Image',
+	];
+
+	foreach ( $data as $name => $blockData ) {
+		if ( isset( $blocks[ $name ] ) ) {
+			if ( empty( $blockData ) ) {
+				continue;
+			}
+
+			foreach ( $blockData as $atts ) {
+				if ( ! isset( $atts['uniqueId'] ) ) {
+					continue;
+				}
+
+				if ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
+					generateblocks_add_to_css_data(
+						$blocks[ $name ]::get_css_data( $atts )
+					);
+				}
+			}
+		}
+	}
+}
+
+/**
+ * Print our CSS for each block.
+ *
+ * @since 0.1
+ */
+function generateblocks_get_frontend_block_css() {
+	return apply_filters( 'generateblocks_css_output', generateblocks_get_compiled_css() );
+}
+
+/**
+ * Add block CSS to our pool of generated CSS.
+ *
+ * @since 1.6.0
+ * @param array $data Our CSS data.
+ */
+function generateblocks_add_to_css_data( $data ) {
+	add_filter(
+		'generateblocks_css_data',
+		function( $css_data ) use ( $data ) {
+			return generateblocks_group_css_data( $css_data, $data );
+		}
+	);
+}
+
+/**
+ * Maybe add block CSS  if it hasn't already been added for this block.
+ *
+ * @since 1.6.0
+ * @param string $content Our block content.
+ * @param array  $data Block data.
+ */
+function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
+	if (
+		isset( $data['attributes']['uniqueId'] ) &&
+		! in_array( $data['attributes']['uniqueId'], $data['block_ids'] )
+	) {
+		// Don't try to print CSS for the Query Loop block.
+		if ( isset( $data['attributes']['query'] ) ) {
+			return $content;
+		}
+
+		$css_data = is_callable( [ $data['class_name'], 'get_css_data' ] )
+			? $data['class_name']::get_css_data( $data['attributes'] )
+			: false;
+
+		if ( ! $css_data ) {
+			return $content;
+		}
+
+		if ( did_action( 'wp_head' ) ) {
+			// Add inline <style> elements if we don't have access to wp_head.
+			$grouped_css = generateblocks_group_css_data( [], $css_data );
+			$compiled_css = generateblocks_get_compiled_css( $grouped_css );
+
+			if ( $compiled_css ) {
+				$content = sprintf(
+					'<style>%s</style>',
+					$compiled_css
+				) . $content;
+			}
+		} else {
+			// Add our CSS to the pool of existing CSS in wp_head.
+			generateblocks_add_to_css_data( $css_data );
+		}
+	}
+
+	return $content;
+}

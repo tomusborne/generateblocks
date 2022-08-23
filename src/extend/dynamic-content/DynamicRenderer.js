@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import HeadlineContentRenderer from '../../blocks/headline/components/HeadlineContentRenderer';
 import ButtonContentRenderer from '../../blocks/button/components/ButtonContentRenderer';
 import filterAttributes from '../../utils/filter-attributes';
@@ -35,7 +34,6 @@ export default function DynamicRenderer( props ) {
 		termSeparator,
 	} = attributesWithContext;
 	const rawContent = useDynamicContent( attributesWithContext, name );
-	console.log( rawContent );
 
 	const ContentRenderer = getContentRenderer( name );
 
