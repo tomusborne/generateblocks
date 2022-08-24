@@ -10,7 +10,7 @@ export default ( { postType, onChange, value, help } ) => {
 	const enabledPostTypes = useMemo( () => {
 		const enabled = postTypes.filter( ( type ) => ( type.viewable && 'attachment' !== type.slug ) );
 
-		return applyFilters( 'generateBlocks.editor.query-loop.enabled-post-types', enabled, postTypes );
+		return applyFilters( 'generateblocks.editor.query-loop.enabled-post-types', enabled, postTypes );
 	}, [ postTypes ] );
 
 	const postTypeOptions = useMemo( () => {
