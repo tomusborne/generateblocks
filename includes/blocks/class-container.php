@@ -768,6 +768,7 @@ class GenerateBlocks_Block_Container {
 		if ( isset( $settings['url'] ) ) {
 			if ( $settings['useDynamicData'] && '' !== $settings['dynamicLinkType'] ) {
 				$attributes['url'] = GenerateBlocks_Dynamic_Content::get_dynamic_url( $settings, $block );
+				$settings['url'] = $attributes['url'];
 			}
 		}
 
