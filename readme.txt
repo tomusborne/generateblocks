@@ -85,7 +85,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 = 1.6.0 =
-
+* Fix: Removing icons without text does not display text back again
 
 = 1.5.4 =
 * Fix: Non hierarchical taxonomies with broken REST API calls
