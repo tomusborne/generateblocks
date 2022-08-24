@@ -782,6 +782,7 @@ class GenerateBlocks_Block_Container {
 			'generateblocks_container_allowed_tagnames',
 			array(
 				'div',
+				'article',
 				'section',
 				'header',
 				'footer',
