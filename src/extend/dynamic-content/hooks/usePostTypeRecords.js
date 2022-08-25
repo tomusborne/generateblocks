@@ -3,6 +3,7 @@ import { store as coreStore } from '@wordpress/core-data';
 import useRecordsReducer from '../../../hooks/useRecordsReducer';
 import { useEffect } from '@wordpress/element';
 import { isUndefined } from 'lodash';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * Return records for a given post but persisting previous calls.
@@ -62,13 +63,18 @@ export default function usePostTypeRecords( postType, query = {} ) {
 
 		const queryParams = Object.assign( { per_page: -1 }, query );
 
+		const queryArgs = applyFilters(
+			'generateblocks.editor.hooks.usePostTypeRecordsQueryArgs',
+			queryParams
+		);
+
 		// We have to check for undefined "include" here and delete it
 		// because somehow core does not return results if hasOwnProperty( 'include' ) returns true
-		if ( queryParams.hasOwnProperty( 'include' ) && isUndefined( queryParams.include ) ) {
-			delete queryParams.include;
+		if ( queryArgs.hasOwnProperty( 'include' ) && isUndefined( queryArgs.include ) ) {
+			delete queryArgs.include;
 		}
 
-		const entityParams = [ 'postType', postType, queryParams ];
+		const entityParams = [ 'postType', postType, queryArgs ];
 
 		return {
 			records: getEntityRecords( ...entityParams ) || [],

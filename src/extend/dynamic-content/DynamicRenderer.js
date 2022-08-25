@@ -54,13 +54,16 @@ export default function DynamicRenderer( props ) {
 		content = rawContent.split( termSeparator )[ 0 ];
 	}
 
+	const dynamicImage = (
+		!! content &&
+		! content.includes( 'Loading' ) &&
+		( 'generateblocks/container' === name || 'generateblocks/image' === name )
+	) ? content : undefined;
+
 	const newAttributes = Object.assign( {}, attributes, {
 		content: 'generateblocks/headline' === name ? content : undefined,
 		text: 'generateblocks/button' === name ? content : undefined,
-		dynamicImage: 'generateblocks/container' === name ||
-			'generateblocks/image' === name
-			? content
-			: undefined,
+		dynamicImage,
 	} );
 
 	const newProps = Object.assign( {}, props, {
