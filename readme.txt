@@ -84,8 +84,16 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
 = 1.6.0 =
+* Feature: Add support for FSE styling
+* Feature: Improve dynamic select components performance
 * Fix: Removing icons without text does not display text back again
+* Fix: "Sticky posts only" not displaying correctly in the frontend
+* Fix: Pass dynamic container link to settings variable
+* Fix: Color picker behavior when manually changing value
+* Tweak: Remove block-editor-block-list__block class from root wrapper
+* Tweak: Headline transform to core Heading keep the level
 
 = 1.5.4 =
 * Fix: Non hierarchical taxonomies with broken REST API calls
