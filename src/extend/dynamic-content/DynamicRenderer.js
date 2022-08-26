@@ -19,6 +19,15 @@ function getContentRenderer( name ) {
 	return contentRenders[ name ];
 }
 
+function isValidUrl( string ) {
+	try {
+		new URL( string );
+		return true;
+	} catch ( err ) {
+		return false;
+	}
+}
+
 export default function DynamicRenderer( props ) {
 	const {
 		name,
@@ -56,8 +65,8 @@ export default function DynamicRenderer( props ) {
 
 	const dynamicImage = (
 		!! content &&
-		! content.includes( 'Loading' ) &&
-		( 'generateblocks/container' === name || 'generateblocks/image' === name )
+		( 'generateblocks/container' === name || 'generateblocks/image' === name ) &&
+		( isValidUrl( content ) || ! isNaN( parseInt( content ) ) )
 	) ? content : undefined;
 
 	const newAttributes = Object.assign( {}, attributes, {
