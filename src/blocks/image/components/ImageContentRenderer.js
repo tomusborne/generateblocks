@@ -1,5 +1,5 @@
 import ImagePlaceholder from './ImagePlaceholder';
-import { useBlockProps } from '@wordpress/block-editor';
+import { useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
 import classnames from 'classnames';
 import RootElement from '../../../components/root-element';
 import Element from '../../../components/element';
@@ -79,14 +79,22 @@ export default function ImageContentRenderer( props ) {
 	const imageUrl = useDynamicData && dynamicContentType ? dynamicImageFallback : attributes.mediaUrl;
 	const altText = useDynamicData && dynamicContentType ? currentImage?.alt_text : attributes.alt;
 	const titleText = useDynamicData && dynamicContentType ? currentImage?.title?.rendered : attributes.title;
+	const supportsLayout = useSelect( ( select ) => {
+		const {
+			getSettings,
+		} = select( blockEditorStore );
+
+		return getSettings().supportsLayout || false;
+	}, [] );
 
 	const figureAttributes = useBlockProps( {
 		className: classnames( {
 			'gb-block-image': true,
 			[ `gb-block-image-${ uniqueId }` ]: true,
 			'is-applying': !! temporaryURL,
+			[ `align${ align }` ]: !! parentBlock && supportsLayout,
 		} ),
-		'data-align': !! parentBlock ? align : null,
+		'data-align': !! parentBlock && ! supportsLayout ? align : null,
 		ref: figureRef,
 	} );
 

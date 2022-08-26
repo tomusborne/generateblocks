@@ -2,14 +2,14 @@ import RootElement from '../../../components/root-element';
 import GridItem from './GridItem';
 import Element from '../../../components/element';
 import { applyFilters } from '@wordpress/hooks';
-import { InnerBlocks, useBlockProps } from '@wordpress/block-editor';
+import { InnerBlocks, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
 import ShapeDividers from './ShapeDividers';
 import classnames from 'classnames';
 import { useInnerBlocksCount } from '../../../hooks';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import ComponentCSS from './ComponentCSS';
 import getBackgroundImageUrl from '../../../utils/get-background-image-url';
 
@@ -39,6 +39,13 @@ export default function ContainerContentRenderer( props ) {
 	const { selectBlock } = useDispatch( 'core/block-editor' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 	const hasChildBlocks = 0 < innerBlocksCount;
+	const supportsLayout = useSelect( ( select ) => {
+		const {
+			getSettings,
+		} = select( blockEditorStore );
+
+		return getSettings().supportsLayout || false;
+	}, [] );
 
 	let hasStyling = (
 		!! backgroundColor ||
@@ -57,9 +64,10 @@ export default function ContainerContentRenderer( props ) {
 			[ `${ className }` ]: undefined !== className,
 			'gb-container-empty': ! hasChildBlocks && ! isBlockPreview,
 			'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling && ! props.isSelected && ! isBlockPreview,
+			[ `align${ align }` ]: supportsLayout,
 		} ),
 		id: anchor ? anchor : null,
-		'data-align': align ? align : null,
+		'data-align': align && ! supportsLayout ? align : null,
 	};
 
 	const backgroundUrl = getBackgroundImageUrl( props );
