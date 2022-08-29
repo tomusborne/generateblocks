@@ -8,12 +8,12 @@ import { isUndefined } from 'lodash';
  * Returns list of authors.
  *
  * @param {Object} query The query params.
- * @return {{isLoading: boolean, records: Object}} The result set.
+ * @return {{isResolving: boolean, records: Object}} The result set.
  */
 export default function useAuthors( query = {} ) {
 	return useSelect( ( select ) => {
 		const {
-			getUsers,
+			getEntityRecords,
 			isResolving,
 		} = select( coreStore );
 
@@ -28,9 +28,11 @@ export default function useAuthors( query = {} ) {
 			delete queryParams.include;
 		}
 
+		const entityParams = [ 'root', 'user', queryParams ];
+
 		return {
-			records: getUsers( queryParams ) || [],
-			isLoading: isResolving( 'core', 'getUsers', [ queryParams ] ),
+			records: getEntityRecords( ...entityParams ) || [],
+			isResolving: isResolving( 'getEntityRecords', entityParams ),
 		};
 	}, [ JSON.stringify( query ) ] );
 }
@@ -56,7 +58,11 @@ export function usePersistentAuthors( queryParams = {} ) {
 		setIsLoading( true );
 	}, [ JSON.stringify( queryParams ) ] );
 
-	const { records: authors } = useAuthors( query );
+	const { records: authors, isResolving } = useAuthors( query );
+
+	useEffect( () => {
+		setIsLoading( isResolving );
+	}, [ isResolving ] );
 
 	useEffect( () => {
 		setRecords( authors );
