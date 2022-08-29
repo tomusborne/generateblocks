@@ -1,8 +1,9 @@
 import AdvancedSelect from '../advanced-select';
-import { useMemo } from '@wordpress/element';
+import { useEffect, useMemo, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import useAuthors from '../../hooks/useAuthors';
+import { usePersistentAuthors } from '../../hooks/useAuthors';
 import { applyFilters } from '@wordpress/hooks';
+import useDebounceState from '../../hooks/useDebounceState';
 
 export default function AuthorsSelect( props ) {
 	const {
@@ -12,17 +13,31 @@ export default function AuthorsSelect( props ) {
 		help,
 		filterName = 'generateblocks.editor.authors-select',
 	} = props;
-	const authors = useAuthors();
+
+	const [ search, setSearch ] = useDebounceState( '', 400 );
+	const [ loadValues, setLoadValues ] = useState( value.length > 0 );
+
+	const { records, isLoading } = usePersistentAuthors( {
+		per_page: 10,
+		search: !! search ? search : undefined,
+		include: loadValues ? value : undefined,
+	} );
+
+	useEffect( () => {
+		if ( loadValues && records.some( ( author ) => ( value.includes( author.id ) ) ) ) {
+			setLoadValues( false );
+		}
+	}, [ JSON.stringify( records ), JSON.stringify( value ) ] );
 
 	const authorOptions = useMemo( () => {
-		const options = authors
+		const options = records
 			.reduce( ( result, author ) => {
 				result.push( { value: author.id, label: author.name } );
 				return result;
 			}, [] );
 
 		return applyFilters( filterName, options );
-	}, [ authors ] );
+	}, [ records ] );
 
 	const selectedValues = authorOptions.filter( ( option ) => ( value.includes( option.value ) ) );
 
@@ -37,7 +52,12 @@ export default function AuthorsSelect( props ) {
 			isSearchable
 			value={ selectedValues }
 			onChange={ onChange }
-			isLoading={ authorOptions.length === 0 }
+			isLoading={ isLoading }
+			onInputChange={ ( inputValue, { action } ) => {
+				if ( 'input-change' === action ) {
+					setSearch( inputValue );
+				}
+			} }
 		/>
 	);
 }
