@@ -10,6 +10,7 @@ export default function PostTypeRecordsSelect( props ) {
 		postType,
 		label,
 		value,
+		placeholder,
 		filterName = 'generateblocks.editor.post-type-record-select',
 		...otherProps
 	} = props;
@@ -18,7 +19,6 @@ export default function PostTypeRecordsSelect( props ) {
 	const [ search, setSearch ] = useDebounceState( '', 500 );
 	const { records, isLoading } = usePersistentPostRecords( postType, {
 		per_page: 10,
-		orderby: 'id',
 		search: !! search ? search : undefined,
 		include: loadValues ? value : undefined,
 	} );
@@ -46,7 +46,7 @@ export default function PostTypeRecordsSelect( props ) {
 		<AdvancedSelect
 			id={ 'gblocks-select-posts' }
 			label={ label || __( 'Select post', 'generateblocks' ) }
-			placeholder={ label || __( 'Select post', 'generateblocks' ) }
+			placeholder={ placeholder || __( 'Search posts…', 'generateblocks' ) }
 			value={ selectedValues }
 			isLoading={ isLoading }
 			isSearchable

@@ -6,7 +6,7 @@ import { ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 export default function TaxonomyParameterControl( props ) {
-	const { label, value, onChange } = props;
+	const { label, placeholder, value, onChange } = props;
 	const [ taxonomy, setTaxonomy ] = useState( value.taxonomy );
 	const [ terms, setTerms ] = useState( value.terms );
 	const [ includeChildren, setIncludeChildren ] = useState( false !== value.includeChildren );
@@ -50,14 +50,12 @@ export default function TaxonomyParameterControl( props ) {
 			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
 	), [ JSON.stringify( taxonomies ) ] );
 
-	const labelStyles = { marginBottom: '8px', display: 'inline-block' };
-
 	return (
 		<>
-			{ label && <label htmlFor={ 'tax-label' } style={ labelStyles }>{ label }</label> }
-
 			<SimpleSelect
 				wrapperStyles={ { marginBottom: '8px' } }
+				label={ label }
+				placeholder={ placeholder || __( 'Select taxonomy', 'generateblocks' ) }
 				options={ taxonomiesOptions }
 				value={ taxonomy }
 				onChange={ ( option ) => {
@@ -72,6 +70,7 @@ export default function TaxonomyParameterControl( props ) {
 						taxonomy={ taxonomy }
 						value={ terms }
 						filterName={ 'generateblocks.editor.taxonomy-parameter-control.' + props.id }
+						placeholder={ placeholder || __( 'Search terms…', 'generateblocks' ) }
 						onChange={ ( newValue ) => {
 							const newTerms = newValue.reduce( ( result, option ) => {
 								result.push( option.value );

@@ -11,6 +11,7 @@ export default function AuthorsSelect( props ) {
 		onChange,
 		value,
 		help,
+		placeholder,
 		filterName = 'generateblocks.editor.authors-select',
 	} = props;
 
@@ -46,7 +47,7 @@ export default function AuthorsSelect( props ) {
 			id={ 'gblocks-select-author' }
 			label={ label || __( 'Select authors', 'generateblocks' ) }
 			help={ help }
-			placeholder={ label || __( 'Select authors', 'generateblocks' ) }
+			placeholder={ placeholder || __( 'Search authors…', 'generateblocks' ) }
 			options={ authorOptions }
 			isMulti
 			isSearchable

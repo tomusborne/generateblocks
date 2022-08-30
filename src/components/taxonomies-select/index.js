@@ -12,6 +12,7 @@ export default function TaxonomiesSelect( props ) {
 		onChange,
 		value = [],
 		help,
+		placeholder,
 		filterName = 'generateblocks.editor.taxonomies-select',
 	} = props;
 
@@ -46,7 +47,7 @@ export default function TaxonomiesSelect( props ) {
 			id={ 'gblocks-select-author' }
 			label={ label || __( 'Select terms', 'generateblocks' ) }
 			help={ help }
-			placeholder={ label || __( 'Select terms', 'generateblocks' ) }
+			placeholder={ placeholder || __( 'Search authors…', 'generateblocks' ) }
 			options={ taxonomiesOptions }
 			isMulti
 			isSearchable
