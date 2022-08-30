@@ -70,7 +70,11 @@ export default ( props ) => {
 
 	return (
 		<div style={ wrapperStyles }>
-			<BaseControl label={ finalProps.label } htmlFor={ finalProps.id } help={ finalProps.help } >
+			<BaseControl
+				id={ finalProps.id }
+				label={ finalProps.label }
+				help={ finalProps.help }
+			>
 				<SelectComponent { ...finalProps } />
 			</BaseControl>
 		</div>

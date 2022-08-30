@@ -1,11 +1,11 @@
 import { BaseControl, DateTimePicker } from '@wordpress/components';
 
-export default function DateTimePickerControl( { label, help, value, onChange } ) {
+export default function DateTimePickerControl( { id, label, help, value, onChange } ) {
 	const currentDate = !! value ? new Date( value ) : new Date();
 
 	return (
 		<div style={ { marginBottom: '24px' } }>
-			<BaseControl label={ label } help={ help }>
+			<BaseControl id={ id } label={ label } help={ help }>
 				<DateTimePicker currentDate={ currentDate } onChange={ onChange } is12Hour={ true } />
 			</BaseControl>
 		</div>
