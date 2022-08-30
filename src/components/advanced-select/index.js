@@ -1,8 +1,7 @@
-
 import Select from 'react-select';
 import CreatableSelect from 'react-select/creatable';
-import LabelAndHelpWrapper from '../LabelAndHelpWrapper';
 import './editor.scss';
+import { BaseControl } from '@wordpress/components';
 
 export default ( props ) => {
 	const customStyles = {
@@ -71,9 +70,13 @@ export default ( props ) => {
 
 	return (
 		<div style={ wrapperStyles }>
-			<LabelAndHelpWrapper label={ finalProps.label } htmlFor={ finalProps.id } help={ finalProps.help } >
+			<BaseControl
+				id={ finalProps.id }
+				label={ finalProps.label }
+				help={ finalProps.help }
+			>
 				<SelectComponent { ...finalProps } />
-			</LabelAndHelpWrapper>
+			</BaseControl>
 		</div>
 	);
 };

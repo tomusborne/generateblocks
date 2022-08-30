@@ -10,6 +10,7 @@ import PostTypeRecordsSelect from '../../../../../components/post-type-records-s
 import DateTimePicker from '../controls/DateTimePicker';
 import DebouncedTextControl from '../../../../../components/debounced-text-control';
 import SimpleMultiSelect from '../../../../../components/simple-multi-select';
+import { isArray, isObject } from 'lodash';
 
 const getParameterControl = ( parameterType ) => {
 	switch ( parameterType ) {
@@ -52,6 +53,7 @@ export default function ControlBuilder( props ) {
 		onChange,
 		onClickRemove,
 		dependencies,
+		placeholder,
 	} = props;
 
 	const Control = getParameterControl( type );
@@ -60,6 +62,12 @@ export default function ControlBuilder( props ) {
 	if ( 'per_page' === id && ( '-1' === value || value > 50 ) ) {
 		controlDescription += ' ' + __( 'Editor only: A maximum of 50 posts can be previewed in the editor.', 'generateblocks' );
 	}
+
+	const defaultValuePlaceholder = !! defaultValue && ( ! isArray( defaultValue ) || ! isObject( defaultValue ) )
+		? defaultValue
+		: undefined;
+
+	const controlPlaceholder = placeholder || defaultValuePlaceholder;
 
 	return (
 		<div className={ 'gblocks-parameter-component' }>
@@ -70,7 +78,7 @@ export default function ControlBuilder( props ) {
 				help={ controlDescription }
 				options={ selectOptions }
 				value={ value }
-				placeholder={ defaultValue }
+				placeholder={ controlPlaceholder }
 				onChange={ onChange }
 				{ ...dependencies }
 			/>

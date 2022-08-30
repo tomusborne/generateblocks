@@ -1,8 +1,9 @@
-import { useMemo } from '@wordpress/element';
+import { useMemo, useState, useEffect } from '@wordpress/element';
 import AdvancedSelect from '../advanced-select';
 import { __ } from '@wordpress/i18n';
-import useTaxonomyRecords from '../../hooks/useTaxonomyRecords';
+import { usePersistentTaxonomyRecords } from '../../hooks/useTaxonomyRecords';
 import { applyFilters } from '@wordpress/hooks';
+import useDebounceState from '../../hooks/useDebounceState';
 
 export default function TaxonomiesSelect( props ) {
 	const {
@@ -11,19 +12,33 @@ export default function TaxonomiesSelect( props ) {
 		onChange,
 		value = [],
 		help,
+		placeholder,
 		filterName = 'generateblocks.editor.taxonomies-select',
 	} = props;
-	const { taxonomies, isResolving } = useTaxonomyRecords( taxonomy );
+
+	const [ loadValues, setLoadValues ] = useState( value.length > 0 );
+	const [ search, setSearch ] = useDebounceState( '', 500 );
+	const { records, isLoading } = usePersistentTaxonomyRecords( taxonomy, {
+		per_page: 10,
+		search: !! search ? search : undefined,
+		include: loadValues ? value : undefined,
+	} );
+
+	useEffect( () => {
+		if ( loadValues && records.some( ( tax ) => ( value.includes( tax.id ) ) ) ) {
+			setLoadValues( false );
+		}
+	}, [ JSON.stringify( records ), JSON.stringify( value ) ] );
 
 	const taxonomiesOptions = useMemo( () => {
-		const filteredTaxonomies = taxonomies
+		const filteredTaxonomies = records
 			.reduce( ( result, tax ) => {
 				result.push( { value: tax.id, label: tax.name } );
 				return result;
 			}, [] );
 
 		return applyFilters( filterName, filteredTaxonomies );
-	}, [ JSON.stringify( taxonomies ) ] );
+	}, [ JSON.stringify( records ) ] );
 
 	const selectedValues = taxonomiesOptions.filter( ( option ) => ( value.includes( option.value ) ) );
 
@@ -32,13 +47,18 @@ export default function TaxonomiesSelect( props ) {
 			id={ 'gblocks-select-author' }
 			label={ label || __( 'Select terms', 'generateblocks' ) }
 			help={ help }
-			placeholder={ label || __( 'Select terms', 'generateblocks' ) }
+			placeholder={ placeholder || __( 'Search authors…', 'generateblocks' ) }
 			options={ taxonomiesOptions }
 			isMulti
 			isSearchable
 			value={ selectedValues }
 			onChange={ onChange }
-			isLoading={ isResolving }
+			isLoading={ isLoading }
+			onInputChange={ ( inputValue, { action } ) => {
+				if ( 'input-change' === action ) {
+					setSearch( inputValue );
+				}
+			} }
 		/>
 	);
 }
