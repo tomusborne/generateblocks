@@ -139,7 +139,7 @@ class GenerateBlocks_Enqueue_CSS {
 
 		if ( 'file' === $this->mode() ) {
 			if ( ! self::$has_made_css ) {
-				// Build our CSS based on the content we find.
+				// Store our block IDs based on the content we find.
 				generateblocks_get_dynamic_css( '', 'id' );
 			}
 
