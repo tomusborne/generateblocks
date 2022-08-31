@@ -1055,10 +1055,10 @@ function generateblocks_get_dynamic_css( $content = '', $return = 'full' ) {
 
 				if ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
 					if ( 'id' === $return ) {
-						$blocks[ $name ]::get_css_data( $atts, $return );
+						$blocks[ $name ]::store_block_id( $atts['uniqueId'] );
 					} else {
 						generateblocks_add_to_css_data(
-							$blocks[ $name ]::get_css_data( $atts, $return )
+							$blocks[ $name ]::get_css_data( $atts )
 						);
 					}
 				}

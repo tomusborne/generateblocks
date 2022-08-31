@@ -149,22 +149,20 @@ class GenerateBlocks_Block_Headline {
 	}
 
 	/**
+	 * Store our block ID in memory.
+	 *
+	 * @param string $id The block ID to store.
+	 */
+	public static function store_block_id( $id ) {
+		self::$block_ids[] = $id;
+	}
+
+	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
-	 * @param array  $attributes Our block attributes.
-	 * @param string $return Whether to build the CSS store the ID.
+	 * @param array $attributes Our block attributes.
 	 */
-	public static function get_css_data( $attributes, $return = 'full' ) {
-		$id = $attributes['uniqueId'];
-
-		// Store this block ID in memory.
-		self::$block_ids[] = $id;
-
-		// Bail if we only need to store our block ID.
-		if ( 'id' === $return ) {
-			return;
-		}
-
+	public static function get_css_data( $attributes ) {
 		$css = new GenerateBlocks_Dynamic_CSS();
 		$desktop_css = new GenerateBlocks_Dynamic_CSS();
 		$tablet_css = new GenerateBlocks_Dynamic_CSS();
@@ -178,6 +176,8 @@ class GenerateBlocks_Block_Headline {
 			$attributes,
 			$defaults['headline']
 		);
+
+		$id = $attributes['uniqueId'];
 
 		$selector = '.gb-headline-' . $id;
 
@@ -617,6 +617,9 @@ class GenerateBlocks_Block_Headline {
 				}
 			}
 		}
+
+		// Store this block ID in memory.
+		self::store_block_id( $id );
 
 		/**
 			* Do generateblocks_block_css_data hook
