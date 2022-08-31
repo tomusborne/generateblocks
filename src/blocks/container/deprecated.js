@@ -14,6 +14,43 @@ import {
 } from '@wordpress/block-editor';
 
 const deprecated = [
+	// v2
+	{
+		attributes: {
+			...blockAttributes,
+			width: {
+				type: 'number',
+				default: generateBlocksDefaults.container.width,
+			},
+		},
+		supports: {
+			align: false,
+			className: false,
+			html: false,
+		},
+		migrate( attributes ) {
+			return {
+				...attributes,
+				width: 'number' === typeof attributes.width
+					? String( attributes.width ) + '%'
+					: attributes.width,
+				widthTablet: 'number' === typeof attributes.widthTablet
+					? String( attributes.widthTablet ) + '%'
+					: attributes.widthTablet,
+				widthMobile: 'number' === typeof attributes.widthMobile
+					? String( attributes.widthMobile ) + '%'
+					: attributes.widthMobile,
+			};
+		},
+		isEligible: ( attributes ) => {
+			return 'number' === typeof attributes.width || 'number' === typeof attributes.widthTablet || 'number' === typeof attributes.widthMobile;
+		},
+		save: () => {
+			return (
+				<InnerBlocks.Content />
+			);
+		},
+	},
 	// v1 of container block. Deprecated the gb-grid-column wrapper in save component.
 	{
 		attributes: blockAttributes,

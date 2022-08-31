@@ -75,6 +75,8 @@ export default function MainCSS( props ) {
 		useDynamicData,
 		dynamicContentType,
 		bgImageInline,
+		useLegacyLayout,
+		maxWidth,
 	} = attributes;
 
 	let containerWidthPreview = containerWidth;
@@ -107,7 +109,15 @@ export default function MainCSS( props ) {
 		'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 		'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
+		maxWidth: ! isGrid ? maxWidth : null,
+		width: ! isGrid ? width : null,
 	} ];
+
+	if ( ! useLegacyLayout ) {
+		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
+		} );
+	}
 
 	if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -215,33 +225,35 @@ export default function MainCSS( props ) {
 		'color': linkColorHover, // eslint-disable-line quote-props
 	} ];
 
-	cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-		'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
-		'width': minHeight && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
-	} ];
+	if ( useLegacyLayout ) {
+		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
+			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
+			'width': minHeight && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
+		} ];
 
-	if ( innerZindex || 0 === innerZindex ) {
-		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
-			'z-index': innerZindex,
-			position: 'relative',
-		} );
+		if ( innerZindex || 0 === innerZindex ) {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
+				'z-index': innerZindex,
+				position: 'relative',
+			} );
+		}
+
+		if ( 'contained' === innerContainer && ! isGrid ) {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
+				'max-width': valueWithUnit( containerWidthPreview, 'px' ),
+				'margin-left': 'auto',
+				'margin-right': 'auto',
+			} );
+		}
+
+		// We need use an ID for the contained block width so it overrides other
+		// .wp-block max-width selectors.
+		cssObj[ '#block-' + clientId ] = [ {
+			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
+			'margin-left': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
+			'margin-right': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
+		} ];
 	}
-
-	if ( 'contained' === innerContainer && ! isGrid ) {
-		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
-			'max-width': valueWithUnit( containerWidthPreview, 'px' ),
-			'margin-left': 'auto',
-			'margin-right': 'auto',
-		} );
-	}
-
-	// We need use an ID for the contained block width so it overrides other
-	// .wp-block max-width selectors.
-	cssObj[ '#block-' + clientId ] = [ {
-		'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
-		'margin-left': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
-		'margin-right': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
-	} ];
 
 	if ( isGrid ) {
 		const gridColumnSelectors = [
@@ -250,7 +262,7 @@ export default function MainCSS( props ) {
 		];
 
 		cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
-			width: ! autoWidth ? valueWithUnit( width, '%' ) : false,
+			width: ! autoWidth ? width : false,
 			'flex-grow': flexGrow,
 			'flex-shrink': flexShrink,
 			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),

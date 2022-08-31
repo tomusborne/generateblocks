@@ -24,7 +24,7 @@ export default {
 		default: generateBlocksDefaults.container.tagName,
 	},
 	width: {
-		type: 'number',
+		type: 'string',
 		default: generateBlocksDefaults.container.width,
 	},
 	widthTablet: {
@@ -524,6 +524,22 @@ export default {
 	},
 	blockVersion: {
 		type: 'number',
+	},
+	maxWidth: {
+		type: 'string',
+		default: '',
+	},
+	maxWidthTablet: {
+		type: 'string',
+		default: '',
+	},
+	maxWidthMobile: {
+		type: 'string',
+		default: '',
+	},
+	useLegacyLayout: {
+		type: 'boolean',
+		default: false,
 	},
 	// deprecated since 1.2.0.
 	elementId: {
