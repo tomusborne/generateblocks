@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Button_Container {
 	private static $block_ids = [];
 
 	/**
+	 * Keep track of CSS we want to output once per block type.
+	 *
+	 * @var boolean
+	 */
+	private static $singular_css_added = false;
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {
@@ -53,9 +60,20 @@ class GenerateBlocks_Block_Button_Container {
 	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
-	 * @param array $attributes Our block attributes.
+	 * @param array  $attributes Our block attributes.
+	 * @param string $return Whether to build the CSS store the ID.
 	 */
-	public static function get_css_data( $attributes ) {
+	public static function get_css_data( $attributes, $return = 'full' ) {
+		$id = $attributes['uniqueId'];
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
+
+		// Bail if we only need to store our block ID.
+		if ( 'id' === $return ) {
+			return;
+		}
+
 		$css = new GenerateBlocks_Dynamic_CSS();
 		$desktop_css = new GenerateBlocks_Dynamic_CSS();
 		$tablet_css = new GenerateBlocks_Dynamic_CSS();
@@ -70,17 +88,18 @@ class GenerateBlocks_Block_Button_Container {
 			$defaults['buttonContainer']
 		);
 
-		$id = $attributes['uniqueId'];
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
 		// Only add this CSS once.
-		if ( count( (array) self::$block_ids ) === 0 ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-button-wrapper' );
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );
 			$css->add_property( 'align-items', 'flex-start' );
 			$css->add_property( 'justify-content', 'flex-start' );
 			$css->add_property( 'clear', 'both' );
+
+			self::$singular_css_added = true;
 		}
 
 		$css->set_selector( '.gb-button-wrapper-' . $id );
@@ -149,9 +168,6 @@ class GenerateBlocks_Block_Button_Container {
 			$mobile_css->add_property( 'width', '100%' );
 			$mobile_css->add_property( 'box-sizing', 'border-box' );
 		}
-
-		// Store this block ID in memory.
-		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook

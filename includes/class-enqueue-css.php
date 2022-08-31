@@ -23,6 +23,15 @@ class GenerateBlocks_Enqueue_CSS {
 	private static $instance;
 
 	/**
+	 * Check to see if we've made this CSS in this instance.
+	 * This should only run on first load if needed.
+	 *
+	 * @access private
+	 * @var boolean
+	 */
+	private static $has_made_css = false;
+
+	/**
 	 * Initiator.
 	 *
 	 * @since 0.1
@@ -129,6 +138,11 @@ class GenerateBlocks_Enqueue_CSS {
 		}
 
 		if ( 'file' === $this->mode() ) {
+			if ( ! self::$has_made_css ) {
+				// Build our CSS based on the content we find.
+				generateblocks_get_dynamic_css( '', 'id' );
+			}
+
 			wp_enqueue_style( 'generateblocks', esc_url( $this->file( 'uri' ) ), array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		}
 	}
@@ -224,6 +238,9 @@ class GenerateBlocks_Enqueue_CSS {
 
 				// Update the 'generateblocks_dynamic_css_time' option.
 				$this->update_saved_time();
+
+				// Set flag.
+				self::$has_made_css = true;
 
 				// Success!
 				return true;

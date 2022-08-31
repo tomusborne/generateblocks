@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Grid {
 	private static $block_ids = [];
 
 	/**
+	 * Keep track of CSS we want to output once per block type.
+	 *
+	 * @var boolean
+	 */
+	private static $singular_css_added = false;
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {
@@ -43,9 +50,20 @@ class GenerateBlocks_Block_Grid {
 	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
-	 * @param array $attributes Our block attributes.
+	 * @param array  $attributes Our block attributes.
+	 * @param string $return Whether to build the CSS store the ID.
 	 */
-	public static function get_css_data( $attributes ) {
+	public static function get_css_data( $attributes, $return = 'full' ) {
+		$id = $attributes['uniqueId'];
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
+
+		// Bail if we only need to store our block ID.
+		if ( 'id' === $return ) {
+			return;
+		}
+
 		$css = new GenerateBlocks_Dynamic_CSS();
 		$desktop_css = new GenerateBlocks_Dynamic_CSS();
 		$tablet_css = new GenerateBlocks_Dynamic_CSS();
@@ -60,7 +78,6 @@ class GenerateBlocks_Block_Grid {
 			$defaults['gridContainer']
 		);
 
-		$id = $attributes['uniqueId'];
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
 		// Use legacy settings if needed.
@@ -82,7 +99,7 @@ class GenerateBlocks_Block_Grid {
 		}
 
 		// Only add this CSS once.
-		if ( count( (array) self::$block_ids ) === 0 ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-grid-wrapper' );
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );
@@ -97,6 +114,8 @@ class GenerateBlocks_Block_Grid {
 
 			$css->set_selector( '.gb-grid-wrapper .wp-block-image' );
 			$css->add_property( 'margin-bottom', '0' );
+
+			self::$singular_css_added = true;
 		}
 
 		$css->set_selector( '.gb-grid-wrapper-' . $id );
@@ -150,9 +169,6 @@ class GenerateBlocks_Block_Grid {
 		$mobile_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$mobile_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapMobile'], 'px' );
 		$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
-
-		// Store this block ID in memory.
-		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook

@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Container {
 	private static $block_ids = [];
 
 	/**
+	 * Keep track of CSS we want to output once per block type.
+	 *
+	 * @var boolean
+	 */
+	private static $singular_css_added = false;
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {
@@ -166,9 +173,20 @@ class GenerateBlocks_Block_Container {
 	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
-	 * @param array $attributes Our block attributes.
+	 * @param array  $attributes Our block attributes.
+	 * @param string $return Whether to build the CSS store the ID.
 	 */
-	public static function get_css_data( $attributes ) {
+	public static function get_css_data( $attributes, $return = 'full' ) {
+		$id = $attributes['uniqueId'];
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
+
+		// Bail if we only need to store our block ID.
+		if ( 'id' === $return ) {
+			return;
+		}
+
 		$css = new GenerateBlocks_Dynamic_CSS();
 		$desktop_css = new GenerateBlocks_Dynamic_CSS();
 		$tablet_css = new GenerateBlocks_Dynamic_CSS();
@@ -183,7 +201,6 @@ class GenerateBlocks_Block_Container {
 			$defaults['container']
 		);
 
-		$id = $attributes['uniqueId'];
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
 		// Use legacy settings if needed.
@@ -214,7 +231,7 @@ class GenerateBlocks_Block_Container {
 		$hasBgImage = generateblocks_has_background_image( $settings );
 
 		// Only add this CSS once.
-		if ( count( (array) self::$block_ids ) === 0 ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-container .wp-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
 
@@ -226,6 +243,8 @@ class GenerateBlocks_Block_Container {
 
 			$css->set_selector( '.gb-container .gb-shape svg' );
 			$css->add_property( 'fill', 'currentColor' );
+
+			self::$singular_css_added = true;
 		}
 
 		$css->set_selector( '.gb-container-' . $id );
@@ -655,9 +674,6 @@ class GenerateBlocks_Block_Container {
 
 			$mobile_css->add_property( 'background-attachment', 'initial' );
 		}
-
-		// Store this block ID in memory.
-		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook

@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Image {
 	private static $block_ids = [];
 
 	/**
+	 * Keep track of CSS we want to output once per block type.
+	 *
+	 * @var boolean
+	 */
+	private static $singular_css_added = false;
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {
@@ -98,9 +105,20 @@ class GenerateBlocks_Block_Image {
 	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
-	 * @param array $attributes Our block attributes.
+	 * @param array  $attributes Our block attributes.
+	 * @param string $return Whether to build the CSS store the ID.
 	 */
-	public static function get_css_data( $attributes ) {
+	public static function get_css_data( $attributes, $return = 'full' ) {
+		$id = $attributes['uniqueId'];
+
+		// Store this block ID in memory.
+		self::$block_ids[] = $id;
+
+		// Bail if we only need to store our block ID.
+		if ( 'id' === $return ) {
+			return;
+		}
+
 		$css = new GenerateBlocks_Dynamic_CSS();
 		$desktop_css = new GenerateBlocks_Dynamic_CSS();
 		$tablet_css = new GenerateBlocks_Dynamic_CSS();
@@ -115,12 +133,12 @@ class GenerateBlocks_Block_Image {
 			$defaults['image']
 		);
 
-		$id = $attributes['uniqueId'];
-
 		// Only add this CSS once.
-		if ( count( (array) self::$block_ids ) === 0 ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
+
+			self::$singular_css_added = true;
 		}
 
 		$css->set_selector( '.gb-block-image-' . $id );
@@ -195,9 +213,6 @@ class GenerateBlocks_Block_Image {
 		$mobile_css->add_property( 'width', $settings['widthMobile'] );
 		$mobile_css->add_property( 'height', $settings['heightMobile'] );
 		$mobile_css->add_property( 'object-fit', $settings['objectFitMobile'] );
-
-		// Store this block ID in memory.
-		self::$block_ids[] = $id;
 
 		/**
 		 * Do generateblocks_block_css_data hook
