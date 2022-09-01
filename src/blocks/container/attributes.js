@@ -24,7 +24,7 @@ export default {
 		default: generateBlocksDefaults.container.tagName,
 	},
 	width: {
-		type: 'string',
+		type: 'number',
 		default: generateBlocksDefaults.container.width,
 	},
 	widthTablet: {

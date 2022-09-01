@@ -109,13 +109,13 @@ export default function MainCSS( props ) {
 		'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 		'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
-		maxWidth: ! isGrid ? maxWidth : null,
-		width: ! isGrid ? width : null,
 	} ];
 
 	if ( ! useLegacyLayout ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
+			maxWidth: ! isGrid ? maxWidth : null,
+			width: ! isGrid ? width : null,
 		} );
 	}
 
@@ -262,7 +262,7 @@ export default function MainCSS( props ) {
 		];
 
 		cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
-			width: ! autoWidth ? width : false,
+			width: ! autoWidth ? valueWithUnit( width, '%' ) : false,
 			'flex-grow': flexGrow,
 			'flex-shrink': flexShrink,
 			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
