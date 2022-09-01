@@ -1018,11 +1018,11 @@ function generateblocks_get_parsed_css( $data ) {
  *
  * @since 0.1
  * @param string $content The content we're looking through.
- * @param string $return Whether to return full CSS output or add to block IDs.
+ * @param string $store_block_id_only Store the found block IDs instead of adding CSS.
  *
  * @return string The dynamic CSS.
  */
-function generateblocks_get_dynamic_css( $content = '', $return = 'full' ) {
+function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = false ) {
 	if ( ! $content ) {
 		$content = generateblocks_get_parsed_content();
 	}
@@ -1054,7 +1054,7 @@ function generateblocks_get_dynamic_css( $content = '', $return = 'full' ) {
 				}
 
 				if ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
-					if ( 'id' === $return ) {
+					if ( $store_block_id_only ) {
 						$blocks[ $name ]::store_block_id( $atts['uniqueId'] );
 					} else {
 						generateblocks_add_to_css_data(

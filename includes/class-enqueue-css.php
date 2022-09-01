@@ -140,7 +140,7 @@ class GenerateBlocks_Enqueue_CSS {
 		if ( 'file' === $this->mode() ) {
 			if ( ! self::$has_made_css ) {
 				// Store our block IDs based on the content we find.
-				generateblocks_get_dynamic_css( '', 'id' );
+				generateblocks_get_dynamic_css( '', true );
 			}
 
 			wp_enqueue_style( 'generateblocks', esc_url( $this->file( 'uri' ) ), array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
