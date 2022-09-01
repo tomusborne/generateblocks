@@ -1135,3 +1135,12 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 
 	return $content;
 }
+
+function generateblocks_get_global_container_width() {
+	return apply_filters(
+		'generateblocks_global_container_width',
+		function_exists( 'generate_get_option' )
+			? generate_get_option( 'container_width' ) . 'px'
+			: generateblocks_get_option( 'container_width' ) . 'px'
+	);
+}

@@ -168,6 +168,10 @@ class GenerateBlocks_Block_Container {
 			'fontSizeUnit' => 'px',
 			'textTransform' => '',
 			'useLegacyLayout' => false,
+			'useGlobalContainerWidth' => false,
+			'maxWidth' => '',
+			'maxWidthTablet' => '',
+			'maxWidthMobile' => '',
 		];
 	}
 
@@ -231,6 +235,11 @@ class GenerateBlocks_Block_Container {
 		$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
 		$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
 		$hasBgImage = generateblocks_has_background_image( $settings );
+		$maxWidth = $settings['maxWidth'];
+
+		if ( $settings['useGlobalContainerWidth'] ) {
+			$maxWidth = generateblocks_get_global_container_width();
+		}
 
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
@@ -255,6 +264,7 @@ class GenerateBlocks_Block_Container {
 		$css->add_property( 'font-weight', $settings['fontWeight'] );
 		$css->add_property( 'text-transform', $settings['textTransform'] );
 		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
+		$css->add_property( 'max-width', $maxWidth );
 
 		if ( ! $useLegacyLayout ) {
 			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
@@ -489,6 +499,7 @@ class GenerateBlocks_Block_Container {
 		$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 		$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
 		$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
+		$tablet_css->add_property( 'max-width', $settings['maxWidthTablet'] );
 
 		if ( ! $useLegacyLayout ) {
 			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
@@ -591,6 +602,7 @@ class GenerateBlocks_Block_Container {
 		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 		$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
 		$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
+		$mobile_css->add_property( 'max-width', $settings['maxWidthMobile'] );
 
 		if ( ! $useLegacyLayout ) {
 			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );

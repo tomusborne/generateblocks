@@ -77,6 +77,7 @@ export default function MainCSS( props ) {
 		bgImageInline,
 		useLegacyLayout,
 		maxWidth,
+		useGlobalContainerWidth,
 	} = attributes;
 
 	let containerWidthPreview = containerWidth;
@@ -94,6 +95,7 @@ export default function MainCSS( props ) {
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
+	const maxWidthValue = useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : maxWidth;
 
 	let cssObj = [];
 	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
@@ -114,7 +116,7 @@ export default function MainCSS( props ) {
 	if ( ! useLegacyLayout ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
-			maxWidth: ! isGrid ? maxWidth : null,
+			'max-width': maxWidthValue,
 		} );
 	}
 
