@@ -14,6 +14,7 @@ import {
 } from '@wordpress/components';
 import UnitPicker from '../../../components/unit-picker';
 import { applyFilters } from '@wordpress/hooks';
+import hasNumericValue from '../../../utils/has-numeric-value';
 import TypographyControls from '../../../components/typography';
 import DimensionsGroup from '../../../components/dimensions-group';
 import ColorPicker from '../../../components/color-picker';
@@ -35,21 +36,43 @@ export default ( props ) => {
 		blockDefaults,
 		allShapes,
 		context,
+		tagNames,
+		filterTagName,
 	} = props;
 
 	const {
 		isGrid,
 		isQueryLoopItem,
 		gridId,
+		flexBasis,
+		flexBasisTablet,
+		flexBasisMobile,
+		minHeight,
+		minHeightUnit,
+		minHeightTablet,
+		minHeightUnitTablet,
+		minHeightMobile,
+		minHeightUnitMobile,
 		backgroundColor,
 		bgImage,
 		bgOptions,
 		bgImageSize,
 		bgImageInline,
+		verticalAlignment,
+		verticalAlignmentTablet,
+		verticalAlignmentMobile,
+		zindex,
 		innerZindex,
+		removeVerticalGap,
+		removeVerticalGapTablet,
+		removeVerticalGapMobile,
+		orderTablet,
+		orderMobile,
 		shapeDividers,
 		useDynamicData,
 		dynamicContentType,
+		tagName,
+		useLegacyLayout,
 	} = attributes;
 
 	const {
@@ -129,15 +152,185 @@ export default ( props ) => {
 		} );
 	} );
 
+	const hasFlexBasis = ( attribute ) => {
+		return hasNumericValue( attribute ) && 'auto' !== attribute;
+	};
+
+	const hideWidthDesktop = hasFlexBasis( flexBasis );
+	const hideWidthTablet = 'auto' !== flexBasisTablet &&
+		( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) );
+	const hideWidthMobile = 'auto' !== flexBasisMobile &&
+		( hasFlexBasis( flexBasis ) || hasFlexBasis( flexBasisTablet ) || hasFlexBasis( flexBasisMobile ) );
+
 	return (
 		<InspectorControls>
-			<LegacyLayoutControls
+			<PanelArea
 				{ ...props }
-			/>
+				title={ __( 'Layout', 'generateblocks' ) }
+				initialOpen={ true }
+				icon={ getIcon( 'layout' ) }
+				className={ 'gblocks-panel-label' }
+				id={ 'containerLayout' }
+				state={ state }
+			>
+				<LegacyLayoutControls
+					{ ...props }
+					hasFlexBasis={ hasFlexBasis }
+					hideWidthDesktop={ hideWidthDesktop }
+					hideWidthTablet={ hideWidthTablet }
+					hideWidthMobile={ hideWidthMobile }
+				/>
 
-			<LayoutControls
-				{ ...props }
-			/>
+				<LayoutControls
+					{ ...props }
+					hasFlexBasis={ hasFlexBasis }
+					hideWidthDesktop={ hideWidthDesktop }
+					hideWidthTablet={ hideWidthTablet }
+					hideWidthMobile={ hideWidthMobile }
+				/>
+
+				{ 'Desktop' === deviceType &&
+					<>
+						{ !! isGrid &&
+							<>
+								<SelectControl
+									label={ __( 'Vertical Alignment', 'generateblocks' ) }
+									help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
+									value={ verticalAlignment }
+									options={ [
+										{ label: __( 'Default', 'generateblocks' ), value: '' },
+										{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+										{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+										{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+									] }
+									onChange={ ( value ) => {
+										setAttributes( {
+											verticalAlignment: value,
+										} );
+									} }
+								/>
+
+								{ ! isQueryLoopItem &&
+									<ToggleControl
+										label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
+										checked={ !! removeVerticalGap }
+										onChange={ ( value ) => {
+											setAttributes( {
+												removeVerticalGap: value,
+											} );
+										} }
+									/>
+								}
+							</>
+						}
+
+						<SelectControl
+							label={ __( 'Tag Name', 'generateblocks' ) }
+							value={ tagName }
+							options={ tagNames }
+							onChange={ ( value ) => {
+								setAttributes( {
+									tagName: filterTagName( value ),
+								} );
+							} }
+						/>
+
+						{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', props, state ) }
+					</>
+				}
+
+				{ 'Tablet' === deviceType && !! isGrid &&
+					<>
+						<SelectControl
+							label={ __( 'Vertical Alignment', 'generateblocks' ) }
+							help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
+							value={ verticalAlignmentTablet }
+							options={ [
+								{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+								{ label: __( 'Default', 'generateblocks' ), value: '' },
+								{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+								{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+								{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+							] }
+							onChange={ ( value ) => {
+								setAttributes( {
+									verticalAlignmentTablet: value,
+								} );
+							} }
+						/>
+
+						{ ! isQueryLoopItem &&
+							<ToggleControl
+								label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
+								checked={ !! removeVerticalGapTablet }
+								onChange={ ( value ) => {
+									setAttributes( {
+										removeVerticalGapTablet: value,
+									} );
+								} }
+							/>
+						}
+
+						<TextControl
+							type={ 'number' }
+							label={ __( 'Order', 'generateblocks' ) }
+							value={ orderTablet || 0 === orderTablet ? orderTablet : '' }
+							onChange={ ( value ) => {
+								setAttributes( {
+									orderTablet: parseFloat( value ),
+								} );
+							} }
+						/>
+					</>
+				}
+
+				{ 'Mobile' === deviceType && !! isGrid &&
+					<Fragment>
+						<SelectControl
+							label={ __( 'Vertical Alignment', 'generateblocks' ) }
+							help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
+							value={ verticalAlignmentMobile }
+							options={ [
+								{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+								{ label: __( 'Default', 'generateblocks' ), value: '' },
+								{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+								{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+								{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+							] }
+							onChange={ ( value ) => {
+								setAttributes( {
+									verticalAlignmentMobile: value,
+								} );
+							} }
+						/>
+
+						{ ! isQueryLoopItem &&
+							<ToggleControl
+								label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
+								checked={ !! removeVerticalGapMobile }
+								onChange={ ( value ) => {
+									setAttributes( {
+										removeVerticalGapMobile: value,
+									} );
+								} }
+							/>
+						}
+
+						<TextControl
+							type={ 'number' }
+							label={ __( 'Order', 'generateblocks' ) }
+							value={ orderMobile || 0 === orderMobile ? orderMobile : '' }
+							onChange={ ( value ) => {
+								setAttributes( {
+									orderMobile: parseFloat( value ),
+								} );
+							} }
+						/>
+					</Fragment>
+				}
+
+				{ applyFilters( 'generateblocks.editor.controls', '', 'containerLayout', props, state ) }
+			</PanelArea>
 
 			<PanelArea
 				{ ...props }
@@ -194,6 +387,179 @@ export default ( props ) => {
 						]
 					}
 				/>
+
+				{ 'Desktop' === deviceType && (
+					<Fragment>
+						<UnitPicker
+							label={ __( 'Minimum Height', 'generateblocks' ) }
+							value={ minHeightUnit }
+							units={ [ 'px', 'vh', 'vw' ] }
+							onClick={ ( value ) => {
+								setAttributes( {
+									minHeightUnit: value,
+								} );
+							} }
+						/>
+
+						<TextControl
+							type={ 'number' }
+							value={ minHeight ? minHeight : '' }
+							onChange={ ( value ) => {
+								setAttributes( {
+									minHeight: parseFloat( value ),
+								} );
+							} }
+						/>
+
+						{ !! minHeight && ! isGrid &&
+							<SelectControl
+								label={ __( 'Vertical Alignment', 'generateblocks' ) }
+								value={ verticalAlignment }
+								options={ [
+									{ label: __( 'Default', 'generateblocks' ), value: '' },
+									{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+									{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+									{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+								] }
+								onChange={ ( value ) => {
+									setAttributes( {
+										verticalAlignment: value,
+									} );
+								} }
+							/>
+						}
+
+						<TextControl
+							label={ !! useLegacyLayout ? __( 'Outer z-index', 'generateblocks' ) : __( 'z-index', 'generateblocks' ) }
+							type={ 'number' }
+							value={ zindex || 0 === zindex ? zindex : '' }
+							onChange={ ( value ) => {
+								setAttributes( {
+									zindex: value,
+								} );
+							} }
+							onBlur={ () => {
+								setAttributes( {
+									zindex: parseFloat( zindex ),
+								} );
+							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
+						/>
+
+						{ !! useLegacyLayout &&
+							<TextControl
+								label={ __( 'Inner z-index', 'generateblocks' ) }
+								type={ 'number' }
+								value={ innerZindex || 0 === innerZindex ? innerZindex : '' }
+								onChange={ ( value ) => {
+									setAttributes( {
+										innerZindex: value,
+									} );
+								} }
+								onBlur={ () => {
+									setAttributes( {
+										innerZindex: parseFloat( innerZindex ),
+									} );
+								} }
+								onClick={ ( e ) => {
+									// Make sure onBlur fires in Firefox.
+									e.currentTarget.focus();
+								} }
+							/>
+						}
+					</Fragment>
+				) }
+
+				{ 'Tablet' === deviceType && (
+					<Fragment>
+						<UnitPicker
+							label={ __( 'Minimum Height', 'generateblocks' ) }
+							value={ minHeightUnitTablet }
+							units={ [ 'px', 'vh', 'vw' ] }
+							onClick={ ( value ) => {
+								setAttributes( {
+									minHeightUnitTablet: value,
+								} );
+							} }
+						/>
+
+						<TextControl
+							type={ 'number' }
+							value={ minHeightTablet || 0 === minHeightTablet ? minHeightTablet : '' }
+							onChange={ ( value ) => {
+								setAttributes( {
+									minHeightTablet: parseFloat( value ),
+								} );
+							} }
+						/>
+
+						{ ( !! minHeight || !! minHeightTablet ) && ! isGrid &&
+							<SelectControl
+								label={ __( 'Vertical Alignment', 'generateblocks' ) }
+								value={ verticalAlignmentTablet }
+								options={ [
+									{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+									{ label: __( 'Default', 'generateblocks' ), value: '' },
+									{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+									{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+									{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+								] }
+								onChange={ ( value ) => {
+									setAttributes( {
+										verticalAlignmentTablet: value,
+									} );
+								} }
+							/>
+						}
+					</Fragment>
+				) }
+
+				{ 'Mobile' === deviceType && (
+					<Fragment>
+						<UnitPicker
+							label={ __( 'Minimum Height', 'generateblocks' ) }
+							value={ minHeightUnitMobile }
+							units={ [ 'px', 'vh', 'vw' ] }
+							onClick={ ( value ) => {
+								setAttributes( {
+									minHeightUnitMobile: value,
+								} );
+							} }
+						/>
+
+						<TextControl
+							type={ 'number' }
+							value={ minHeightMobile || 0 === minHeightMobile ? minHeightMobile : '' }
+							onChange={ ( value ) => {
+								setAttributes( {
+									minHeightMobile: parseFloat( value ),
+								} );
+							} }
+						/>
+
+						{ ( !! minHeight || !! minHeightTablet || !! minHeightMobile ) && ! isGrid &&
+							<SelectControl
+								label={ __( 'Vertical Alignment', 'generateblocks' ) }
+								value={ verticalAlignmentMobile }
+								options={ [
+									{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+									{ label: __( 'Default', 'generateblocks' ), value: '' },
+									{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+									{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+									{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+								] }
+								onChange={ ( value ) => {
+									setAttributes( {
+										verticalAlignmentMobile: value,
+									} );
+								} }
+							/>
+						}
+					</Fragment>
+				) }
 
 				{ applyFilters( 'generateblocks.editor.controls', '', 'containerSpacing', props, state ) }
 			</PanelArea>

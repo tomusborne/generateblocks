@@ -115,7 +115,6 @@ export default function MainCSS( props ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
 			maxWidth: ! isGrid ? maxWidth : null,
-			width: ! isGrid ? width : null,
 		} );
 	}
 
