@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Grid {
 	private static $block_ids = [];
 
 	/**
+	 * Keep track of CSS we want to output once per block type.
+	 *
+	 * @var boolean
+	 */
+	private static $singular_css_added = false;
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {
@@ -38,6 +45,15 @@ class GenerateBlocks_Block_Grid {
 			'horizontalAlignmentTablet' => '',
 			'horizontalAlignmentMobile' => '',
 		];
+	}
+
+	/**
+	 * Store our block ID in memory.
+	 *
+	 * @param string $id The block ID to store.
+	 */
+	public static function store_block_id( $id ) {
+		self::$block_ids[] = $id;
 	}
 
 	/**
@@ -82,7 +98,7 @@ class GenerateBlocks_Block_Grid {
 		}
 
 		// Only add this CSS once.
-		if ( count( (array) self::$block_ids ) === 0 ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-grid-wrapper' );
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );
@@ -97,6 +113,8 @@ class GenerateBlocks_Block_Grid {
 
 			$css->set_selector( '.gb-grid-wrapper .wp-block-image' );
 			$css->add_property( 'margin-bottom', '0' );
+
+			self::$singular_css_added = true;
 		}
 
 		$css->set_selector( '.gb-grid-wrapper-' . $id );
@@ -152,7 +170,7 @@ class GenerateBlocks_Block_Grid {
 		$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
 
 		// Store this block ID in memory.
-		self::$block_ids[] = $id;
+		self::store_block_id( $id );
 
 		/**
 		 * Do generateblocks_block_css_data hook

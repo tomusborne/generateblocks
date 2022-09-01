@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Button_Container {
 	private static $block_ids = [];
 
 	/**
+	 * Keep track of CSS we want to output once per block type.
+	 *
+	 * @var boolean
+	 */
+	private static $singular_css_added = false;
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {
@@ -51,6 +58,15 @@ class GenerateBlocks_Block_Button_Container {
 	}
 
 	/**
+	 * Store our block ID in memory.
+	 *
+	 * @param string $id The block ID to store.
+	 */
+	public static function store_block_id( $id ) {
+		self::$block_ids[] = $id;
+	}
+
+	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
 	 * @param array $attributes Our block attributes.
@@ -74,13 +90,15 @@ class GenerateBlocks_Block_Button_Container {
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
 		// Only add this CSS once.
-		if ( count( (array) self::$block_ids ) === 0 ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-button-wrapper' );
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );
 			$css->add_property( 'align-items', 'flex-start' );
 			$css->add_property( 'justify-content', 'flex-start' );
 			$css->add_property( 'clear', 'both' );
+
+			self::$singular_css_added = true;
 		}
 
 		$css->set_selector( '.gb-button-wrapper-' . $id );
@@ -151,7 +169,7 @@ class GenerateBlocks_Block_Button_Container {
 		}
 
 		// Store this block ID in memory.
-		self::$block_ids[] = $id;
+		self::store_block_id( $id );
 
 		/**
 		 * Do generateblocks_block_css_data hook
