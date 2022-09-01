@@ -88,6 +88,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 = 1.6.0 =
 * Feature: Add support for FSE styling
 * Feature: Improve dynamic select components performance
+* Feature: Add necessary filters and actions for ACF integration in GB Pro
 * Fix: Missing styling when blocks added outside content
 * Fix: Missing styling for blocks within loop content
 * Fix: Removing icons without text does not display text back again

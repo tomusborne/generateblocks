@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Container {
 	private static $block_ids = [];
 
 	/**
+	 * Keep track of CSS we want to output once per block type.
+	 *
+	 * @var boolean
+	 */
+	private static $singular_css_added = false;
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {
@@ -165,6 +172,15 @@ class GenerateBlocks_Block_Container {
 	}
 
 	/**
+	 * Store our block ID in memory.
+	 *
+	 * @param string $id The block ID to store.
+	 */
+	public static function store_block_id( $id ) {
+		self::$block_ids[] = $id;
+	}
+
+	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
 	 * @param array $attributes Our block attributes.
@@ -215,7 +231,7 @@ class GenerateBlocks_Block_Container {
 		$hasBgImage = generateblocks_has_background_image( $settings );
 
 		// Only add this CSS once.
-		if ( count( (array) self::$block_ids ) === 0 ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-container .wp-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
 
@@ -227,6 +243,8 @@ class GenerateBlocks_Block_Container {
 
 			$css->set_selector( '.gb-container .gb-shape svg' );
 			$css->add_property( 'fill', 'currentColor' );
+
+			self::$singular_css_added = true;
 		}
 
 		$css->set_selector( '.gb-container-' . $id );
@@ -676,7 +694,7 @@ class GenerateBlocks_Block_Container {
 		}
 
 		// Store this block ID in memory.
-		self::$block_ids[] = $id;
+		self::store_block_id( $id );
 
 		/**
 		 * Do generateblocks_block_css_data hook
