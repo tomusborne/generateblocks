@@ -16,6 +16,10 @@ export default ( WrappedComponent ) => {
 				setAttributes( { isDynamic: true } );
 			}
 
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
+				setAttributes( { useLegacyLayout: true } );
+			}
+
 			// Set our inner z-index if we're using a gradient overlay or pseudo background.
 			// @since 1.4.0.
 			if ( 'undefined' === typeof attributes.blockVersion || attributes.blockVersion < 2 ) {
@@ -103,8 +107,8 @@ export default ( WrappedComponent ) => {
 			}
 
 			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
-				setAttributes( { blockVersion: 2 } );
+			if ( isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
+				setAttributes( { blockVersion: 3 } );
 			}
 		}, [] );
 
