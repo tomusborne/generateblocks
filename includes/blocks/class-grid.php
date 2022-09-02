@@ -28,6 +28,16 @@ class GenerateBlocks_Block_Grid {
 	private static $singular_css_added = false;
 
 	/**
+	 * Reset ids and singular css add properties.
+	 *
+	 * @return void
+	 */
+	public static function reset_ids() {
+		self::$block_ids = [];
+		self::$singular_css_added = false;
+	}
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {

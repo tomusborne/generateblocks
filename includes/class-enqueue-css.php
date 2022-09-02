@@ -148,10 +148,28 @@ class GenerateBlocks_Enqueue_CSS {
 	}
 
 	/**
+	 * Reset block unique ids' memory.
+	 * This is required to avoid CSS duplications or missing CSS parts.
+	 *
+	 * @return void
+	 */
+	public function reset_block_ids() {
+		GenerateBlocks_Block_Button::reset_ids();
+		GenerateBlocks_Block_Button_Container::reset_ids();
+		GenerateBlocks_Block_Container::reset_ids();
+		GenerateBlocks_Block_Grid::reset_ids();
+		GenerateBlocks_Block_Headline::reset_ids();
+		GenerateBlocks_Block_Image::reset_ids();
+	}
+
+	/**
 	 * Print our inline CSS.
 	 */
 	public function print_inline_css() {
 		if ( 'inline' === $this->mode() || ! wp_style_is( 'generateblocks', 'enqueued' ) ) {
+			// We need to reset the ids in case of do_blocks running on wp_head filter before our call.
+			$this->reset_block_ids();
+
 			// Build our CSS based on the content we find.
 			generateblocks_get_dynamic_css();
 
@@ -183,6 +201,9 @@ class GenerateBlocks_Enqueue_CSS {
 		if ( empty( $has_generateblocks ) ) {
 			return false;
 		}
+
+		// We need to reset the ids in case of do_blocks running on wp_enqueue_scripts filter before our call.
+		$this->reset_block_ids();
 
 		// Build our CSS based on the content we find.
 		generateblocks_get_dynamic_css();
