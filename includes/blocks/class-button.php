@@ -18,7 +18,7 @@ class GenerateBlocks_Block_Button {
 	 *
 	 * @var array $block_ids The current block id.
 	 */
-	private static $block_ids = [];
+	public static $block_ids = [];
 
 	/**
 	 * Keep track of CSS we want to output once per block type.

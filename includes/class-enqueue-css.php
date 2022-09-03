@@ -65,7 +65,7 @@ class GenerateBlocks_Enqueue_CSS {
 		$dynamic_css_priority = apply_filters( 'generateblocks_dynamic_css_priority', 10 );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dynamic_css' ), $dynamic_css_priority );
-		add_action( 'wp_head', array( $this, 'print_inline_css' ), $dynamic_css_priority );
+		add_action( 'wp_enqueue_scripts', array( $this, 'print_inline_css' ), $dynamic_css_priority );
 	}
 
 	/**
@@ -161,8 +161,12 @@ class GenerateBlocks_Enqueue_CSS {
 				return;
 			}
 
-			printf(
-				'<style id="generateblocks-css">%s</style>',
+			// Add a "dummy" handle we can add inline styles to.
+			wp_register_style( 'generateblocks', false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			wp_enqueue_style( 'generateblocks' );
+
+			wp_add_inline_style(
+				'generateblocks',
 				wp_strip_all_tags( $css ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}
