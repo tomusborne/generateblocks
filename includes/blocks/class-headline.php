@@ -18,7 +18,7 @@ class GenerateBlocks_Block_Headline {
 	 *
 	 * @var array $block_ids The current block id.
 	 */
-	public static $block_ids = [];
+	private static $block_ids = [];
 
 	/**
 	 * Keep track of CSS we want to output once per block type.
@@ -155,6 +155,15 @@ class GenerateBlocks_Block_Headline {
 	 */
 	public static function store_block_id( $id ) {
 		self::$block_ids[] = $id;
+	}
+
+	/**
+	 * Check if our block ID exists.
+	 *
+	 * @param string $id The block ID to store.
+	 */
+	public static function block_id_exists( $id ) {
+		return in_array( $id, (array) self::$block_ids );
 	}
 
 	/**
