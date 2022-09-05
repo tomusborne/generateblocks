@@ -95,6 +95,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: "Sticky posts only" not displaying correctly in the frontend
 * Fix: Pass dynamic container link to settings variable
 * Fix: Color picker behavior when manually changing value
+* Tweak: Enqueue inline embedding stylesheet using wp_enqueue_scripts
 * Tweak: Remove block-editor-block-list__block class from root wrapper
 * Tweak: Headline transform to core Heading keep the level
 
