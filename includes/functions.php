@@ -1056,7 +1056,7 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 				if ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
 					if ( $store_block_id_only ) {
 						$blocks[ $name ]::store_block_id( $atts['uniqueId'] );
-					} else {
+					} elseif ( ! $blocks[ $name ]::block_id_exists( $atts['uniqueId'] ) ) {
 						generateblocks_add_to_css_data(
 							$blocks[ $name ]::get_css_data( $atts )
 						);

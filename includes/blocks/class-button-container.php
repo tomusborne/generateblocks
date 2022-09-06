@@ -67,6 +67,15 @@ class GenerateBlocks_Block_Button_Container {
 	}
 
 	/**
+	 * Check if our block ID exists.
+	 *
+	 * @param string $id The block ID to store.
+	 */
+	public static function block_id_exists( $id ) {
+		return in_array( $id, (array) self::$block_ids );
+	}
+
+	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
 	 * @param array $attributes Our block attributes.
