@@ -15,6 +15,7 @@ export default ( props ) => {
 		isGrid,
 		useLegacyLayout,
 		useGlobalContainerWidth,
+		useInnerContainer,
 	} = attributes;
 
 	if ( useLegacyLayout ) {
@@ -23,12 +24,25 @@ export default ( props ) => {
 
 	return (
 		<>
-			{ ! useGlobalContainerWidth &&
+			<UnitControl
+				{ ...props }
+				label={ ! useInnerContainer
+					? __( 'max-width', 'generateblocks' )
+					: __( 'Outer max-width', 'generateblocks' )
+				}
+				id="gblocks-max-width"
+				attributeName="maxWidth"
+				device={ deviceType }
+				min="1"
+				units={ [ 'px', '%', 'vw', 'rem' ] }
+			/>
+
+			{ !! useInnerContainer &&
 				<UnitControl
 					{ ...props }
-					label={ __( 'max-width', 'generateblocks' ) }
-					id="gblocks-max-width"
-					attributeName="maxWidth"
+					label={ __( 'Inner max-width', 'generateblocks' ) }
+					id="gblocks-inner-max-width"
+					attributeName="innerMaxWidth"
 					device={ deviceType }
 					min="1"
 					units={ [ 'px', '%', 'vw', 'rem' ] }

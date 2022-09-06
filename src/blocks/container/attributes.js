@@ -537,6 +537,22 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	innerMaxWidth: {
+		type: 'string',
+		default: '',
+	},
+	innerMaxWidthTablet: {
+		type: 'string',
+		default: '',
+	},
+	innerMaxWidthMobile: {
+		type: 'string',
+		default: '',
+	},
+	useInnerContainer: {
+		type: 'boolean',
+		default: true,
+	},
 	useLegacyLayout: {
 		type: 'boolean',
 		default: false,

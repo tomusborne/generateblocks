@@ -35,7 +35,7 @@ export default function ContainerContentRenderer( props ) {
 		bgImageInline,
 		align,
 		isBlockPreview = false,
-		useLegacyLayout,
+		useInnerContainer,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
@@ -106,7 +106,7 @@ export default function ContainerContentRenderer( props ) {
 						htmlAttrs={ blockProps }
 					>
 						{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
-						<InsideContainer useLegacyLayout={ useLegacyLayout } >
+						<InsideContainer useInnerContainer={ useInnerContainer } >
 							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 							<InnerBlocks
 								templateLock={ false }

@@ -76,7 +76,9 @@ export default function MainCSS( props ) {
 		dynamicContentType,
 		bgImageInline,
 		useLegacyLayout,
+		useInnerContainer,
 		maxWidth,
+		innerMaxWidth,
 		useGlobalContainerWidth,
 	} = attributes;
 
@@ -96,6 +98,7 @@ export default function MainCSS( props ) {
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
 	const maxWidthValue = useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : maxWidth;
+	const innerMaxWidthValue = useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : innerMaxWidth;
 
 	let cssObj = [];
 	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
@@ -113,10 +116,15 @@ export default function MainCSS( props ) {
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 	} ];
 
-	if ( ! useLegacyLayout ) {
+	if ( ! useInnerContainer ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
-			'max-width': maxWidthValue,
+		} );
+	}
+
+	if ( ! useLegacyLayout ) {
+		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+			'max-width': maxWidthValue || 'unset',
 		} );
 	}
 
@@ -226,11 +234,17 @@ export default function MainCSS( props ) {
 		'color': linkColorHover, // eslint-disable-line quote-props
 	} ];
 
-	if ( useLegacyLayout ) {
+	if ( useInnerContainer ) {
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
 			'width': minHeight && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
+
+		if ( ! useLegacyLayout ) {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
+				'max-width': innerMaxWidthValue,
+			} );
+		}
 
 		if ( innerZindex || 0 === innerZindex ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
@@ -239,21 +253,23 @@ export default function MainCSS( props ) {
 			} );
 		}
 
-		if ( 'contained' === innerContainer && ! isGrid ) {
-			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
-				'max-width': valueWithUnit( containerWidthPreview, 'px' ),
-				'margin-left': 'auto',
-				'margin-right': 'auto',
-			} );
-		}
+		if ( useLegacyLayout ) {
+			if ( 'contained' === innerContainer && ! isGrid ) {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
+					'max-width': valueWithUnit( containerWidthPreview, 'px' ),
+					'margin-left': 'auto',
+					'margin-right': 'auto',
+				} );
+			}
 
-		// We need use an ID for the contained block width so it overrides other
-		// .wp-block max-width selectors.
-		cssObj[ '#block-' + clientId ] = [ {
-			'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
-			'margin-left': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
-			'margin-right': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
-		} ];
+			// We need use an ID for the contained block width so it overrides other
+			// .wp-block max-width selectors.
+			cssObj[ '#block-' + clientId ] = [ {
+				'max-width': 'contained' === outerContainer && ! isGrid ? valueWithUnit( containerWidthPreview, 'px' ) : false,
+				'margin-left': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
+				'margin-right': 'contained' === outerContainer && ! isGrid ? 'auto' : false,
+			} ];
+		}
 	}
 
 	if ( isGrid ) {

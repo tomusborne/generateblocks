@@ -1,7 +1,7 @@
 import { createElement } from '@wordpress/element';
 
-export default function InsideContainer( { useLegacyLayout, children } ) {
-	if ( ! useLegacyLayout ) {
+export default function InsideContainer( { useInnerContainer, children } ) {
+	if ( ! useInnerContainer ) {
 		return children;
 	}
 

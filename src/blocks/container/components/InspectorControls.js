@@ -72,7 +72,7 @@ export default ( props ) => {
 		useDynamicData,
 		dynamicContentType,
 		tagName,
-		useLegacyLayout,
+		useInnerContainer,
 	} = attributes;
 
 	const {
@@ -173,6 +173,17 @@ export default ( props ) => {
 				id={ 'containerLayout' }
 				state={ state }
 			>
+				<ToggleControl
+					label={ __( 'Add inner content container', 'generateblocks' ) }
+					checked={ !! useInnerContainer }
+					onChange={ ( value ) => {
+						setAttributes( {
+							useInnerContainer: value,
+							useLegacyLayout: false, // Turn off our legacy layout if we use this new option.
+						} );
+					} }
+				/>
+
 				<LegacyLayoutControls
 					{ ...props }
 					hasFlexBasis={ hasFlexBasis }
@@ -430,7 +441,7 @@ export default ( props ) => {
 						}
 
 						<TextControl
-							label={ !! useLegacyLayout ? __( 'Outer z-index', 'generateblocks' ) : __( 'z-index', 'generateblocks' ) }
+							label={ !! useInnerContainer ? __( 'Outer z-index', 'generateblocks' ) : __( 'z-index', 'generateblocks' ) }
 							type={ 'number' }
 							value={ zindex || 0 === zindex ? zindex : '' }
 							onChange={ ( value ) => {
@@ -449,7 +460,7 @@ export default ( props ) => {
 							} }
 						/>
 
-						{ !! useLegacyLayout &&
+						{ !! useInnerContainer &&
 							<TextControl
 								label={ __( 'Inner z-index', 'generateblocks' ) }
 								type={ 'number' }

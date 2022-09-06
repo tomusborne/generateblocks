@@ -168,10 +168,14 @@ class GenerateBlocks_Block_Container {
 			'fontSizeUnit' => 'px',
 			'textTransform' => '',
 			'useLegacyLayout' => false,
+			'useInnerContainer' => true,
 			'useGlobalContainerWidth' => false,
 			'maxWidth' => '',
 			'maxWidthTablet' => '',
 			'maxWidthMobile' => '',
+			'innerMaxWidth' => '',
+			'innerMaxWidthTablet' => '',
+			'innerMaxWidthMobile' => '',
 		];
 	}
 
@@ -264,10 +268,13 @@ class GenerateBlocks_Block_Container {
 		$css->add_property( 'font-weight', $settings['fontWeight'] );
 		$css->add_property( 'text-transform', $settings['textTransform'] );
 		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
-		$css->add_property( 'max-width', $maxWidth );
+
+		if ( ! $settings['useInnerContainer'] ) {
+			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
+		}
 
 		if ( ! $useLegacyLayout ) {
-			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
+			$css->add_property( 'max-width', $maxWidth );
 		}
 
 		if ( $useLegacyLayout && 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
@@ -377,11 +384,15 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
-		if ( $useLegacyLayout ) {
+		if ( $settings['useInnerContainer'] ) {
 			$css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 
-			if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
+			if ( ! $useLegacyLayout ) {
+				$css->add_property( 'max-width', $settings['innerMaxWidth'] );
+			}
+
+			if ( $useLegacyLayout && 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
 				if ( ! empty( $containerWidth ) ) {
 					$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
 					$css->add_property( 'margin-left', 'auto' );
@@ -499,10 +510,13 @@ class GenerateBlocks_Block_Container {
 		$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 		$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
 		$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
-		$tablet_css->add_property( 'max-width', $settings['maxWidthTablet'] );
+
+		if ( ! $settings['useInnerContainer'] ) {
+			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
+		}
 
 		if ( ! $useLegacyLayout ) {
-			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
+			$tablet_css->add_property( 'max-width', $settings['maxWidthTablet'] );
 		}
 
 		if ( ! $settings['isGrid'] ) {
@@ -520,9 +534,13 @@ class GenerateBlocks_Block_Container {
 
 		$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
 
-		if ( $useLegacyLayout ) {
+		if ( $settings['useInnerContainer'] ) {
 			$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
+
+			if ( ! $useLegacyLayout ) {
+				$tablet_css->add_property( 'max-width', $settings['innerMaxWidth'] );
+			}
 
 			$usingMinHeightInnerWidthBoxSizing = false;
 
@@ -533,7 +551,7 @@ class GenerateBlocks_Block_Container {
 
 					$usingMinHeightInnerWidth = true;
 				} elseif ( $usingMinHeightInnerWidth ) {
-					if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
+					if ( $useLegacyLayout && 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
 						$tablet_css->add_property( 'box-sizing', 'border-box' );
 
 						$usingMinHeightInnerWidthBoxSizing = true;
@@ -602,10 +620,13 @@ class GenerateBlocks_Block_Container {
 		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 		$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
 		$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
-		$mobile_css->add_property( 'max-width', $settings['maxWidthMobile'] );
+
+		if ( $settings['useInnerContainer'] ) {
+			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+		}
 
 		if ( ! $useLegacyLayout ) {
-			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+			$mobile_css->add_property( 'max-width', $settings['maxWidthMobile'] );
 		}
 
 		if ( ! $settings['isGrid'] ) {
@@ -623,16 +644,20 @@ class GenerateBlocks_Block_Container {
 
 		$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
 
-		if ( $useLegacyLayout ) {
+		if ( $settings['useInnerContainer'] ) {
 			$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+
+			if ( ! $useLegacyLayout ) {
+				$mobile_css->add_property( 'max-width', $settings['innerMaxWidth'] );
+			}
 
 			if ( ! $settings['isGrid'] ) {
 				// Needs 100% width if it's a flex item.
 				if ( ! $usingMinHeightInnerWidth && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 					$mobile_css->add_property( 'width', '100%' );
 				} elseif ( $usingMinHeightInnerWidth && ! $usingMinHeightInnerWidthBoxSizing ) {
-					if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
+					if ( $useLegacyLayout && 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
 						$mobile_css->add_property( 'box-sizing', 'border-box' );
 					}
 				}
@@ -773,9 +798,6 @@ class GenerateBlocks_Block_Container {
 			$defaults['container']
 		);
 
-		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
-		$useLegacyLayout = $blockVersion < 3 || $settings['useLegacyLayout'];
-
 		// Add styles to this block if needed.
 		$output = generateblocks_maybe_add_block_css(
 			'',
@@ -873,7 +895,7 @@ class GenerateBlocks_Block_Container {
 			$block
 		);
 
-		if ( $useLegacyLayout ) {
+		if ( $settings['useInnerContainer'] ) {
 			$output .= '<div class="gb-inside-container">';
 		}
 
@@ -886,7 +908,7 @@ class GenerateBlocks_Block_Container {
 
 		$output .= $content;
 
-		if ( $useLegacyLayout ) {
+		if ( $settings['useInnerContainer'] ) {
 			$output .= '</div>';
 		}
 
