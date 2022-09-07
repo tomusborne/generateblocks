@@ -58,4 +58,21 @@ registerBlockType( 'generateblocks/container', {
 			? __( 'Post Template', 'generateblocks' )
 			: __( 'Container', 'generateblocks' );
 	},
+	variations: [
+		{
+			name: 'section',
+			title: __( 'Section' ),
+			description: __( 'A top-level block that adds an outer and inner container.', 'generateblocks' ),
+			innerBlocks: [
+				[
+					'generateblocks/container',
+					{
+						useGlobalContainerWidth: true,
+						marginLeft: 'auto',
+						marginRight: 'auto',
+					},
+				],
+			],
+		},
+	],
 } );
