@@ -63,6 +63,11 @@ registerBlockType( 'generateblocks/container', {
 			name: 'section',
 			title: __( 'Section' ),
 			description: __( 'A top-level block that adds an outer and inner container.', 'generateblocks' ),
+			icon: getIcon( 'section' ),
+			attributes: {
+				variantType: 'section',
+			},
+			isActive: ( attrs ) => 'section' === attrs.variantType,
 			innerBlocks: [
 				[
 					'generateblocks/container',
