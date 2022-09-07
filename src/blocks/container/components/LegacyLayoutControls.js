@@ -22,10 +22,10 @@ export default ( props ) => {
 		innerContainer,
 		containerWidth,
 		align,
-		useLegacyLayout,
+		useInnerContainer,
 	} = attributes;
 
-	if ( ! useLegacyLayout ) {
+	if ( ! useInnerContainer ) {
 		return null;
 	}
 

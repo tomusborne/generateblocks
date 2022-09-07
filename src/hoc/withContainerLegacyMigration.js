@@ -17,7 +17,7 @@ export default ( WrappedComponent ) => {
 			}
 
 			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				setAttributes( { useLegacyLayout: true } );
+				setAttributes( { useInnerContainer: true } );
 			}
 
 			// Set our inner z-index if we're using a gradient overlay or pseudo background.

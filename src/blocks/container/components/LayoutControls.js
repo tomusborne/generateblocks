@@ -13,12 +13,11 @@ export default ( props ) => {
 
 	const {
 		isGrid,
-		useLegacyLayout,
-		useGlobalContainerWidth,
 		useInnerContainer,
+		useGlobalContainerWidth,
 	} = attributes;
 
-	if ( useLegacyLayout ) {
+	if ( useInnerContainer ) {
 		return null;
 	}
 
@@ -26,31 +25,19 @@ export default ( props ) => {
 		<>
 			<UnitControl
 				{ ...props }
-				label={ ! useInnerContainer
-					? __( 'max-width', 'generateblocks' )
-					: __( 'Outer max-width', 'generateblocks' )
-				}
+				label={ __( 'Maximum Width', 'generateblocks' ) }
 				id="gblocks-max-width"
 				attributeName="maxWidth"
 				device={ deviceType }
 				min="1"
 				units={ [ 'px', '%', 'vw', 'rem' ] }
+				overrideValue={ !! useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : null }
+				disabled={ !! useGlobalContainerWidth }
 			/>
-
-			{ !! useInnerContainer &&
-				<UnitControl
-					{ ...props }
-					label={ __( 'Inner max-width', 'generateblocks' ) }
-					id="gblocks-inner-max-width"
-					attributeName="innerMaxWidth"
-					device={ deviceType }
-					min="1"
-					units={ [ 'px', '%', 'vw', 'rem' ] }
-				/>
-			}
 
 			<ToggleControl
 				label={ __( 'Use Global Container Width', 'generateblocks' ) }
+				className={ 'gblocks-global-container-width' }
 				checked={ !! useGlobalContainerWidth }
 				onChange={ ( value ) => {
 					setAttributes( {

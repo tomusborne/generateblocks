@@ -173,17 +173,6 @@ export default ( props ) => {
 				id={ 'containerLayout' }
 				state={ state }
 			>
-				<ToggleControl
-					label={ __( 'Add inner content container', 'generateblocks' ) }
-					checked={ !! useInnerContainer }
-					onChange={ ( value ) => {
-						setAttributes( {
-							useInnerContainer: value,
-							useLegacyLayout: false, // Turn off our legacy layout if we use this new option.
-						} );
-					} }
-				/>
-
 				<LegacyLayoutControls
 					{ ...props }
 					hasFlexBasis={ hasFlexBasis }

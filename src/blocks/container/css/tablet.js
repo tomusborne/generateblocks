@@ -54,9 +54,7 @@ export default class TabletCSS extends Component {
 			bgOptions,
 			gridId,
 			useInnerContainer,
-			useLegacyLayout,
 			maxWidthTablet,
-			innerMaxWidthTablet,
 		} = attributes;
 
 		let cssObj = [];
@@ -80,11 +78,6 @@ export default class TabletCSS extends Component {
 				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
 				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
 				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
-			} );
-		}
-
-		if ( ! useLegacyLayout ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'max-width': maxWidthTablet,
 			} );
 		}
@@ -124,12 +117,6 @@ export default class TabletCSS extends Component {
 				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
 				'width': minHeightTablet && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
-
-			if ( ! useLegacyLayout ) {
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
-					'max-width': innerMaxWidthTablet,
-				} );
-			}
 		}
 
 		if ( isGrid ) {

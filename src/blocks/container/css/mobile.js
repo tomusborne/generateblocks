@@ -55,9 +55,7 @@ export default class MobileCSS extends Component {
 			bgOptions,
 			gridId,
 			useInnerContainer,
-			useLegacyLayout,
 			maxWidthMobile,
-			innerMaxWidthMobile,
 		} = attributes;
 
 		let cssObj = [];
@@ -81,11 +79,6 @@ export default class MobileCSS extends Component {
 				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
 				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
 				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
-			} );
-		}
-
-		if ( ! useLegacyLayout ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'max-width': maxWidthMobile,
 			} );
 		}
@@ -125,12 +118,6 @@ export default class MobileCSS extends Component {
 				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
 				'width': minHeightMobile && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
-
-			if ( ! useLegacyLayout ) {
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ].push( {
-					'max-width': innerMaxWidthMobile,
-				} );
-			}
 		}
 
 		if ( isGrid ) {
