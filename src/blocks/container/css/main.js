@@ -105,7 +105,10 @@ export default function MainCSS( props ) {
 		'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 		'color': textColor, // eslint-disable-line quote-props
 		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
-		'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
+		'margin-top': valueWithUnit( marginTop, 'auto' !== marginTop ? marginUnit : '' ),
+		'margin-right': valueWithUnit( marginRight, 'auto' !== marginRight ? marginUnit : '' ) || '0',
+		'margin-bottom': valueWithUnit( marginBottom, 'auto' !== marginBottom ? marginUnit : '' ),
+		'margin-left': valueWithUnit( marginLeft, 'auto' !== marginLeft ? marginUnit : '' ) || '0',
 		'z-index': zindex,
 		'text-align': alignment,
 		'font-family': fontFamily + fontFamilyFallbackValue,
