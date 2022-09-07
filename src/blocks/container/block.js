@@ -65,9 +65,9 @@ registerBlockType( 'generateblocks/container', {
 			description: __( 'A top-level block that adds an outer and inner container.', 'generateblocks' ),
 			icon: getIcon( 'section' ),
 			attributes: {
-				variantType: 'section',
+				variantRole: 'section',
 			},
-			isActive: ( attrs ) => 'section' === attrs.variantType,
+			isActive: ( attrs ) => 'section' === attrs.variantRole,
 			innerBlocks: [
 				[
 					'generateblocks/container',

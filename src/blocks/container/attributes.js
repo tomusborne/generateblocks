@@ -545,7 +545,7 @@ export default {
 		type: 'boolean',
 		default: false,
 	},
-	variantType: {
+	variantRole: {
 		type: 'string',
 		default: '',
 	},
