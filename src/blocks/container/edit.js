@@ -1,5 +1,5 @@
 import BlockControls from './components/BlockControls';
-import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
+import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import { applyFilters } from '@wordpress/hooks';
 import { Fragment } from '@wordpress/element';
@@ -18,7 +18,6 @@ const ContainerEdit = ( props ) => {
 	} = props;
 
 	const {
-		anchor,
 		fontFamily,
 		googleFont,
 		googleFontVariants,
@@ -88,7 +87,7 @@ const ContainerEdit = ( props ) => {
 				allShapes={ allShapes }
 			/>
 
-			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
+			<InspectorAdvancedControls { ...props } />
 
 			<GoogleFontLink
 				fontFamily={ fontFamily }
