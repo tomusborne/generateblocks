@@ -1141,6 +1141,11 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 	return $content;
 }
 
+/**
+ * Get our default Container block width.
+ *
+ * @since 1.7.0
+ */
 function generateblocks_get_global_container_width() {
 	return apply_filters(
 		'generateblocks_global_container_width',
