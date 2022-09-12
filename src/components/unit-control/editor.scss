@@ -3,6 +3,15 @@
 		display: flex;
 		align-items: flex-start;
 
+		.components-base-control:first-child {
+			flex-grow: 1;
+		}
+
+		.components-base-control,
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+
 		select {
 			appearance: none;
 			background: transparent;
@@ -20,6 +29,10 @@
 			cursor: pointer;
 			height: 100%;
 			margin: 0;
+
+			&:disabled {
+				background: none;
+			}
 		}
 	}
 

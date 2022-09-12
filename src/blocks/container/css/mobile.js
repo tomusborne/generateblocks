@@ -54,6 +54,8 @@ export default class MobileCSS extends Component {
 			bgImage,
 			bgOptions,
 			gridId,
+			useInnerContainer,
+			maxWidthMobile,
 		} = attributes;
 
 		let cssObj = [];
@@ -70,6 +72,16 @@ export default class MobileCSS extends Component {
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'min-height': valueWithUnit( minHeightMobile, minHeightUnitMobile ),
 		} ];
+
+		if ( ! useInnerContainer ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
+				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
+				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
+				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
+				'max-width': maxWidthMobile,
+			} );
+		}
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -98,13 +110,15 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
-		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
-			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
-			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
-			'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
-			'width': minHeightMobile && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
-		} ];
+		if ( useInnerContainer ) {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
+				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
+				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
+				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
+				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
+				'width': minHeightMobile && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
+			} ];
+		}
 
 		if ( isGrid ) {
 			const gridColumnSelectors = [

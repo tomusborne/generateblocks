@@ -525,6 +525,30 @@ export default {
 	blockVersion: {
 		type: 'number',
 	},
+	maxWidth: {
+		type: 'string',
+		default: '',
+	},
+	maxWidthTablet: {
+		type: 'string',
+		default: '',
+	},
+	maxWidthMobile: {
+		type: 'string',
+		default: '',
+	},
+	useInnerContainer: {
+		type: 'boolean',
+		default: false,
+	},
+	useGlobalContainerWidth: {
+		type: 'boolean',
+		default: false,
+	},
+	variantRole: {
+		type: 'string',
+		default: '',
+	},
 	// deprecated since 1.2.0.
 	elementId: {
 		type: 'string',

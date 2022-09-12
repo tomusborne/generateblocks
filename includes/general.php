@@ -78,6 +78,7 @@ function generateblocks_do_block_editor_assets() {
 				'standard' => GENERATEBLOCKS_DIR_URL . 'assets/images/image-placeholder.png',
 				'square' => GENERATEBLOCKS_DIR_URL . 'assets/images/square-image-placeholder.png',
 			),
+			'globalContainerWidth' => generateblocks_get_global_container_width(),
 		)
 	);
 

@@ -1,5 +1,6 @@
 import RootElement from '../../../components/root-element';
 import GridItem from './GridItem';
+import InsideContainer from './InsideContainer';
 import Element from '../../../components/element';
 import { applyFilters } from '@wordpress/hooks';
 import { InnerBlocks, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
@@ -34,6 +35,7 @@ export default function ContainerContentRenderer( props ) {
 		bgImageInline,
 		align,
 		isBlockPreview = false,
+		useInnerContainer,
 	} = attributes;
 
 	const { selectBlock } = useDispatch( 'core/block-editor' );
@@ -104,7 +106,7 @@ export default function ContainerContentRenderer( props ) {
 						htmlAttrs={ blockProps }
 					>
 						{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
-						<div className={ 'gb-inside-container' }>
+						<InsideContainer useInnerContainer={ useInnerContainer } >
 							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 							<InnerBlocks
 								templateLock={ false }
@@ -134,7 +136,7 @@ export default function ContainerContentRenderer( props ) {
 									return false;
 								} }
 							/>
-						</div>
+						</InsideContainer>
 
 						<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
 

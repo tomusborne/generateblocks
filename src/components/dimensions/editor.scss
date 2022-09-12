@@ -6,7 +6,8 @@
 			width: calc(25% - 5px);
 		}
 
-		input[type="number"] {
+		input[type="number"],
+		input[type="text"] {
 			border-top-right-radius: 0;
 			border-bottom-right-radius: 0;
 			height: 30px;

@@ -146,10 +146,15 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
 		return;
 	}
 
-	$top = ( floatval( $top ) <> 0 ) ? floatval( $top ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$right = ( floatval( $right ) <> 0 ) ? floatval( $right ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$bottom = ( floatval( $bottom ) <> 0 ) ? floatval( $bottom ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$left = ( floatval( $left ) <> 0 ) ? floatval( $left ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$top_fallback = 'auto' === $top ? 'auto ' : '0 ';
+	$right_fallback = 'auto' === $right ? 'auto ' : '0 ';
+	$bottom_fallback = 'auto' === $bottom ? 'auto ' : '0 ';
+	$left_fallback = 'auto' === $left ? 'auto ' : '0 ';
+
+	$top = ( floatval( $top ) <> 0 ) ? floatval( $top ) . $unit . ' ' : $top_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$right = ( floatval( $right ) <> 0 ) ? floatval( $right ) . $unit . ' ' : $right_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$bottom = ( floatval( $bottom ) <> 0 ) ? floatval( $bottom ) . $unit . ' ' : $bottom_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$left = ( floatval( $left ) <> 0 ) ? floatval( $left ) . $unit . ' ' : $left_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 
 	if ( $right === $left ) {
 		$left = '';
@@ -1134,4 +1139,18 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 	}
 
 	return $content;
+}
+
+/**
+ * Get our default Container block width.
+ *
+ * @since 1.7.0
+ */
+function generateblocks_get_global_container_width() {
+	return apply_filters(
+		'generateblocks_global_container_width',
+		function_exists( 'generate_get_option' )
+			? generate_get_option( 'container_width' ) . 'px'
+			: generateblocks_get_option( 'container_width' ) . 'px'
+	);
 }

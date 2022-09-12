@@ -22,6 +22,8 @@ export default function UnitControl( props ) {
 		max,
 		step,
 		id = attributeName,
+		disabled = false,
+		overrideValue = null,
 	} = props;
 
 	const [ unitValue, setUnitValue ] = useState( '' );
@@ -73,7 +75,7 @@ export default function UnitControl( props ) {
 
 	// Split the number and unit into two values.
 	useEffect( () => {
-		const values = splitValues( attributes[ attribute ] );
+		const values = splitValues( overrideValue || attributes[ attribute ] );
 
 		setNumericValue( getNumericValue( values ) );
 		setUnitValue( getUnitValue( values ) );
@@ -81,7 +83,7 @@ export default function UnitControl( props ) {
 		// Set the device placeholders and switch the units to match
 		// their parent device value if no device-specific value exists.
 		setPlaceholders();
-	}, [ device, attributes[ attribute ] ] );
+	}, [ device, attributes[ attribute ], overrideValue ] );
 
 	useEffect( () => {
 		// Don't run this on first render.
@@ -110,7 +112,7 @@ export default function UnitControl( props ) {
 			}
 		}
 
-		if ( fullValue !== attributes[ attribute ] ) {
+		if ( ! overrideValue && fullValue !== attributes[ attribute ] ) {
 			setAttributes( {
 				[ attribute ]: fullValue,
 			} );
@@ -133,6 +135,7 @@ export default function UnitControl( props ) {
 					max={ max }
 					step={ step }
 					autoComplete="off"
+					disabled={ disabled }
 					onChange={ ( value ) => {
 						if ( min >= 0 ) {
 							// No hyphens allowed here.
@@ -146,6 +149,7 @@ export default function UnitControl( props ) {
 				<span className="gblocks-unit-control__unit-select">
 					<select
 						value={ unitValue }
+						disabled={ disabled }
 						onChange={ ( e ) => {
 							setUnitValue( e.target.value );
 						} }

@@ -251,4 +251,8 @@ export default function getIcon( icon ) {
 	if ( 'add-pagination' === icon ) {
 		return <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 8.2h-5.2V3h-1.6v5.2H6v1.6h5.2V15h1.6V9.8H18V8.2ZM8.5 17.5h-3a1.5 1.5 0 0 0 0 3h3a1.5 1.5 0 0 0 0-3ZM15 19a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0ZM20 19a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z" fill="#000" /></svg>;
 	}
+
+	if ( 'section' === icon ) {
+		return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path d="M22.7 24H1.3C.6 24 0 23.4 0 22.7V1.3C0 .6.6 0 1.3 0h21.4c.7 0 1.3.6 1.3 1.3v21.4c0 .7-.6 1.3-1.3 1.3zM1.8 22.2h20.3V1.8H1.8v20.4z" /><path d="M5.6 7v2.3h1.6V7.2h2.1V5.6H7c-.8 0-1.4.6-1.4 1.4zM17 5.6h-2.4v1.6h2.1v2.1h1.6V7c.1-.8-.5-1.4-1.3-1.4zm-9.8 9.1H5.6V17c0 .8.6 1.4 1.4 1.4h2.4v-1.6H7.2v-2.1zm9.6 2.1h-2.1v1.6H17c.8 0 1.4-.6 1.4-1.4v-2.3h-1.6v2.1zM10.3 5.6h3.3v1.6h-3.3zm0 11.2h3.3v1.6h-3.3zm6.5-6.5h1.6v3.5h-1.6zm-11.2 0h1.6v3.5H5.6z" /></svg>;
+	}
 }
