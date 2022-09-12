@@ -1,5 +1,5 @@
 import { useReducer } from '@wordpress/element';
-import { unionBy, sortBy } from 'lodash';
+import { unionBy, orderBy } from 'lodash';
 
 const defaultState = {
 	query: {},
@@ -17,9 +17,10 @@ function recordsReducer( state, action ) {
 	switch ( action.type ) {
 		case 'SET_RECORDS':
 			return Object.assign( {}, newState, {
-				records: sortBy(
+				records: orderBy(
 					unionBy( newState.records, action.payload, 'id' ),
-					( post ) => ( post.id )
+					( post ) => ( post.date ),
+					[ 'desc' ]
 				),
 			} );
 

@@ -21,6 +21,13 @@ class GenerateBlocks_Block_Headline {
 	private static $block_ids = [];
 
 	/**
+	 * Keep track of CSS we want to output once per block type.
+	 *
+	 * @var boolean
+	 */
+	private static $singular_css_added = false;
+
+	/**
 	 * Block defaults.
 	 */
 	public static function defaults() {
@@ -142,6 +149,24 @@ class GenerateBlocks_Block_Headline {
 	}
 
 	/**
+	 * Store our block ID in memory.
+	 *
+	 * @param string $id The block ID to store.
+	 */
+	public static function store_block_id( $id ) {
+		self::$block_ids[] = $id;
+	}
+
+	/**
+	 * Check if our block ID exists.
+	 *
+	 * @param string $id The block ID to store.
+	 */
+	public static function block_id_exists( $id ) {
+		return in_array( $id, (array) self::$block_ids );
+	}
+
+	/**
 	 * Compile our CSS data based on our block attributes.
 	 *
 	 * @param array $attributes Our block attributes.
@@ -181,7 +206,7 @@ class GenerateBlocks_Block_Headline {
 		}
 
 		// Only add this CSS once.
-		if ( count( (array) self::$block_ids ) === 0 ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-icon' );
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'line-height', '0' );
@@ -194,6 +219,8 @@ class GenerateBlocks_Block_Headline {
 			$css->set_selector( '.gb-highlight' );
 			$css->add_property( 'background', 'none' );
 			$css->add_property( 'color', 'unset' );
+
+			self::$singular_css_added = true;
 		}
 
 		if ( ! isset( $attributes['hasWrapper'] ) ) {
@@ -601,7 +628,7 @@ class GenerateBlocks_Block_Headline {
 		}
 
 		// Store this block ID in memory.
-		self::$block_ids[] = $id;
+		self::store_block_id( $id );
 
 		/**
 			* Do generateblocks_block_css_data hook
