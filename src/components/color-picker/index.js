@@ -34,7 +34,7 @@ export default function ColorPicker( props ) {
 		tooltip,
 	} = props;
 
-	const [ valueState, setValueState ] = useState( value || '' );
+	const [ valueState, setValueState ] = useState( value );
 	const inputRef = useRef( null );
 
 	const Component = alpha && 1 === valueOpacity
@@ -65,7 +65,9 @@ export default function ColorPicker( props ) {
 	const debouncedSetColor = useDebounce( onChange );
 
 	useEffect( () => {
-		debouncedSetColor( valueState );
+		if ( value !== valueState ) {
+			debouncedSetColor( valueState );
+		}
 
 		// Keep the input focused.
 		setTimeout( () => {
