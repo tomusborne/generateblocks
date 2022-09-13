@@ -123,6 +123,13 @@ class GenerateBlocks_Block_Grid {
 			$css->set_selector( '.gb-grid-wrapper .wp-block-image' );
 			$css->add_property( 'margin-bottom', '0' );
 
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'grid',
+				$settings,
+				$css
+			);
+
 			self::$singular_css_added = true;
 		}
 

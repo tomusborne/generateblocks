@@ -220,6 +220,13 @@ class GenerateBlocks_Block_Headline {
 			$css->add_property( 'background', 'none' );
 			$css->add_property( 'color', 'unset' );
 
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'headline',
+				$settings,
+				$css
+			);
+
 			self::$singular_css_added = true;
 		}
 

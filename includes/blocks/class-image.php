@@ -147,6 +147,13 @@ class GenerateBlocks_Block_Image {
 			$css->set_selector( '.gb-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
 
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'image',
+				$settings,
+				$css
+			);
+
 			self::$singular_css_added = true;
 		}
 

@@ -264,6 +264,13 @@ class GenerateBlocks_Block_Container {
 			$css->set_selector( '.gb-container .gb-shape svg' );
 			$css->add_property( 'fill', 'currentColor' );
 
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'container',
+				$settings,
+				$css
+			);
+
 			self::$singular_css_added = true;
 		}
 
