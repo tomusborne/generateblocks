@@ -69,7 +69,7 @@ class IconPicker extends Component {
 			},
 		};
 
-		iconSVGSets = applyFilters( 'generateblocks.editor.iconSVGSets', iconSVGSets );
+		iconSVGSets = applyFilters( 'generateblocks.editor.iconSVGSets', iconSVGSets, { attributes } );
 
 		return (
 			<Fragment>
