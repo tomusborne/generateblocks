@@ -14,7 +14,6 @@ const ButtonEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
-		clientId,
 		ContentRenderer = ButtonContentRenderer,
 	} = props;
 
