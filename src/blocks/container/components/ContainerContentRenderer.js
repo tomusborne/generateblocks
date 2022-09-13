@@ -4,15 +4,13 @@ import InsideContainer from './InsideContainer';
 import Element from '../../../components/element';
 import { applyFilters } from '@wordpress/hooks';
 import { InnerBlocks, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
-import { Button } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
-import getIcon from '../../../utils/get-icon';
 import ShapeDividers from './ShapeDividers';
 import classnames from 'classnames';
 import { useInnerBlocksCount } from '../../../hooks';
-import { useDispatch, useSelect } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import ComponentCSS from './ComponentCSS';
 import getBackgroundImageUrl from '../../../utils/get-background-image-url';
+import BlockAppender from './BlockAppender';
 
 export default function ContainerContentRenderer( props ) {
 	const {
@@ -38,7 +36,6 @@ export default function ContainerContentRenderer( props ) {
 		useInnerContainer,
 	} = attributes;
 
-	const { selectBlock } = useDispatch( 'core/block-editor' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 	const hasChildBlocks = 0 < innerBlocksCount;
 	const supportsLayout = useSelect( ( select ) => {
@@ -110,31 +107,7 @@ export default function ContainerContentRenderer( props ) {
 							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 							<InnerBlocks
 								templateLock={ false }
-								renderAppender={ () => {
-									if ( isBlockPreview ) {
-										return false;
-									}
-
-									// Selected Container.
-									if ( props.isSelected ) {
-										return <InnerBlocks.ButtonBlockAppender />;
-									}
-
-									// Empty non-selected Container.
-									if ( ! hasChildBlocks && ! props.isSelected ) {
-										return <Button
-											className="gblocks-container-selector"
-											onClick={ () => selectBlock( clientId ) }
-											aria-label={ __( 'Select Container', 'generateblocks' ) }
-										>
-											<span className="gblocks-container-selector__icon">
-												{ getIcon( 'container' ) }
-											</span>
-										</Button>;
-									}
-
-									return false;
-								} }
+								renderAppender={ () => <BlockAppender clientId={ clientId } isSelected={ props.isSelected } attributes={ attributes } /> }
 							/>
 						</InsideContainer>
 
