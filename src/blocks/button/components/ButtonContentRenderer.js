@@ -71,8 +71,10 @@ export default function ButtonContentRenderer( props ) {
 		props
 	) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ];
 
+	const buttonTagName = applyFilters( 'generateblocks.frontend.buttonTagName', url ? 'a' : 'span', props );
+
 	return (
-		<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
+		<Element tagName={ buttonTagName } htmlAttrs={ blockProps }>
 			<IconWrapper
 				hasIcon={ !! icon }
 				icon={ icon }
