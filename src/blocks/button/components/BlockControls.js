@@ -36,6 +36,7 @@ export default ( props ) => {
 
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
+	const showButtonLinkControl = applyFilters( 'generateblocks.editor.showButtonLinkControl', true, props );
 
 	return (
 		<>
@@ -72,7 +73,7 @@ export default ( props ) => {
 				</ToolbarGroup>
 
 				<ToolbarGroup>
-					{ ( ! useDynamicData || hasDynamicLink ) &&
+					{ ( ! useDynamicData || hasDynamicLink ) && showButtonLinkControl &&
 						<Dropdown
 							contentClassName="gblocks-button-link-dropdown"
 							popoverProps={ POPOVER_PROPS }
