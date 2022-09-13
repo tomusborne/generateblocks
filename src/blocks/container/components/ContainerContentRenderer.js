@@ -106,7 +106,7 @@ export default function ContainerContentRenderer( props ) {
 						<InsideContainer useInnerContainer={ useInnerContainer } >
 							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
 							<InnerBlocks
-								templateLock={ false }
+								templateLock={ applyFilters( 'generateblocks.editor.containerTemplateLock', false, props ) }
 								renderAppender={ () => <BlockAppender clientId={ clientId } isSelected={ props.isSelected } attributes={ attributes } /> }
 							/>
 						</InsideContainer>
