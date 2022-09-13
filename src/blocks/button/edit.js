@@ -42,9 +42,7 @@ const ButtonEdit = ( props ) => {
 	return (
 		<Fragment>
 			<BlockControls
-				clientId={ clientId }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
+				{ ...props }
 			/>
 
 			<InspectorControls

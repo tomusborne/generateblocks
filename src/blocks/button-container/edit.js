@@ -77,9 +77,7 @@ const ButtonContainerEdit = ( props ) => {
 	return (
 		<Fragment>
 			<BlockControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				clientId={ clientId }
+				{ ...props }
 				deviceType={ deviceType }
 			/>
 

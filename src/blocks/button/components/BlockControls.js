@@ -6,7 +6,13 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { link, plus } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
 
-export default ( { clientId, attributes, setAttributes } ) => {
+export default ( props ) => {
+	const {
+		attributes,
+		clientId,
+		setAttributes,
+	} = props;
+
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 	const {
 		getBlockParentsByBlockName,
@@ -29,37 +35,40 @@ export default ( { clientId, attributes, setAttributes } ) => {
 	};
 
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
+	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
 
 	return (
 		<>
 			<BlockControls>
 				<ToolbarGroup>
-					<ToolbarButton
-						className="gblocks-add-new-button"
-						icon={ plus }
-						label={ __( 'Add Button', 'generateblocks' ) }
-						onClick={ () => {
-							let parentBlockId = false;
+					{ showAppender &&
+						<ToolbarButton
+							className="gblocks-add-new-button"
+							icon={ plus }
+							label={ __( 'Add Button', 'generateblocks' ) }
+							onClick={ () => {
+								let parentBlockId = false;
 
-							if ( typeof getBlockParentsByBlockName === 'function' ) {
-								parentBlockId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
-							} else {
-								parentBlockId = getBlockRootClientId( clientId );
-							}
-
-							const thisBlock = getBlocksByClientId( clientId )[ 0 ];
-
-							const clonedBlock = cloneBlock(
-								thisBlock,
-								{
-									uniqueId: '',
+								if ( typeof getBlockParentsByBlockName === 'function' ) {
+									parentBlockId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+								} else {
+									parentBlockId = getBlockRootClientId( clientId );
 								}
-							);
 
-							insertBlocks( clonedBlock, undefined, parentBlockId );
-						} }
-						showTooltip
-					/>
+								const thisBlock = getBlocksByClientId( clientId )[ 0 ];
+
+								const clonedBlock = cloneBlock(
+									thisBlock,
+									{
+										uniqueId: '',
+									}
+								);
+
+								insertBlocks( clonedBlock, undefined, parentBlockId );
+							} }
+							showTooltip
+						/>
+					}
 				</ToolbarGroup>
 
 				<ToolbarGroup>
