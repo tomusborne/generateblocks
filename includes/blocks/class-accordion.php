@@ -45,6 +45,8 @@ class GenerateBlocks_Accordion_Variant {
 		add_filter( 'generateblocks_defaults', [ $this, 'set_defaults' ] );
 		add_filter( 'generateblocks_after_container_open', [ $this, 'enqueue_scripts' ], 10, 2 );
 		add_filter( 'generateblocks_attr_container', [ $this, 'set_container_attributes' ], 10, 2 );
+		add_filter( 'generateblocks_attr_dynamic-button', [ $this, 'set_button_attributes' ], 10, 2 );
+		add_filter( 'generateblocks_dynamic_button_tagname', [ $this, 'set_button_tagname' ], 10, 2 );
 		add_action( 'generateblocks_block_one_time_css_data', [ $this, 'generate_css' ], 10, 3 );
 		add_filter( 'generateblocks_before_container_open', [ $this, 'open_accordion_content_container' ], 1, 2 );
 		add_filter( 'generateblocks_after_container_close', [ $this, 'close_accordion_content_container' ], 100, 2 );
@@ -92,6 +94,22 @@ class GenerateBlocks_Accordion_Variant {
 		}
 
 		return $attributes;
+	}
+
+	public function set_button_attributes( $attributes, $settings ) {
+		if ( $settings['accordionToggle'] ) {
+			$attributes['class'] .= ' gb-accordion__toggle';
+		}
+
+		return $attributes;
+	}
+
+	public function set_button_tagname( $tagName, $attributes ) {
+		if ( ! empty( $attributes['accordionToggle'] ) ) {
+			return 'button';
+		}
+
+		return $tagName;
 	}
 
 	public function generate_css( $name, $settings, $css ) {
