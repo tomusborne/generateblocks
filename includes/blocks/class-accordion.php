@@ -1,6 +1,6 @@
 <?php
 /**
- * This file handles the Query Loop functions.
+ * This file handles the Accordion functions.
  *
  * @package GenerateBlocks
  */
@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Query Loop functions.
+ * Accordion functions.
  *
  * @since 1.7.0
  */
@@ -52,6 +52,11 @@ class GenerateBlocks_Accordion_Variant {
 		add_filter( 'generateblocks_after_container_close', [ $this, 'close_accordion_content_container' ], 100, 2 );
 	}
 
+	/**
+	 * Set our attribute defaults.
+	 *
+	 * @param array $defaults Existing defaults.
+	 */
 	public function set_defaults( $defaults ) {
 		$defaults['container']['accordionContainer'] = false;
 		$defaults['container']['accordionItem'] = false;
@@ -62,6 +67,12 @@ class GenerateBlocks_Accordion_Variant {
 		return $defaults;
 	}
 
+	/**
+	 * Enqueue our accordion script.
+	 *
+	 * @param string $content Block content.
+	 * @param array  $attributes Block attributes.
+	 */
 	public function enqueue_scripts( $content, $attributes ) {
 		if ( ! empty( $attributes['accordionContainer'] ) ) {
 			wp_enqueue_script(
@@ -76,6 +87,12 @@ class GenerateBlocks_Accordion_Variant {
 		return $content;
 	}
 
+	/**
+	 * Set our Container block HTML attributes.
+	 *
+	 * @param array $attributes HTML attributes.
+	 * @param array $settings Block settings.
+	 */
 	public function set_container_attributes( $attributes, $settings ) {
 		if ( $settings['accordionContainer'] ) {
 			$attributes['class'] .= ' gb-accordion';
@@ -96,6 +113,12 @@ class GenerateBlocks_Accordion_Variant {
 		return $attributes;
 	}
 
+	/**
+	 * Set our dynamic Button block HTML attributes.
+	 *
+	 * @param array $attributes HTML attributes.
+	 * @param array $settings Block settings.
+	 */
 	public function set_button_attributes( $attributes, $settings ) {
 		if ( $settings['accordionToggle'] ) {
 			$attributes['class'] .= ' gb-accordion__toggle';
@@ -104,6 +127,12 @@ class GenerateBlocks_Accordion_Variant {
 		return $attributes;
 	}
 
+	/**
+	 * Set our dynamic Button tag name.
+	 *
+	 * @param string $tagName Existing tag name.
+	 * @param array  $attributes Block attributes.
+	 */
 	public function set_button_tagname( $tagName, $attributes ) {
 		if ( ! empty( $attributes['accordionToggle'] ) ) {
 			return 'button';
@@ -112,6 +141,13 @@ class GenerateBlocks_Accordion_Variant {
 		return $tagName;
 	}
 
+	/**
+	 * Generate our one-time accordion CSS.
+	 *
+	 * @param string $name The block name.
+	 * @param array  $settings Block settings.
+	 * @param object $css The CSS object.
+	 */
 	public function generate_css( $name, $settings, $css ) {
 		if ( 'container' === $name ) {
 			$css->set_selector( '.gb-accordion__item > .gb-accordion__content' );
@@ -139,6 +175,12 @@ class GenerateBlocks_Accordion_Variant {
 		}
 	}
 
+	/**
+	 * Inject our opening accordion content div.
+	 *
+	 * @param string $content Block content.
+	 * @param array  $attributes Block attributes.
+	 */
 	public function open_accordion_content_container( $content, $attributes ) {
 		if ( ! empty( $attributes['accordionContent'] ) ) {
 			$content = '<div class="gb-accordion__content">' . $content;
@@ -147,6 +189,12 @@ class GenerateBlocks_Accordion_Variant {
 		return $content;
 	}
 
+	/**
+	 * Inject our closing accordion content div.
+	 *
+	 * @param string $content Block content.
+	 * @param array  $attributes Block attributes.
+	 */
 	public function close_accordion_content_container( $content, $attributes ) {
 		if ( ! empty( $attributes['accordionContent'] ) ) {
 			$content .= '</div>';
