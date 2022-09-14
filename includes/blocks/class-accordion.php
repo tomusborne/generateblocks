@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.7.0
  */
-class GenerateBlocks_Accordion_Variant {
+class GenerateBlocks_Block_Variant_Accordion {
 	/**
 	 * Instance.
 	 *
@@ -204,4 +204,4 @@ class GenerateBlocks_Accordion_Variant {
 	}
 }
 
-GenerateBlocks_Accordion_Variant::get_instance();
+GenerateBlocks_Block_Variant_Accordion::get_instance();
