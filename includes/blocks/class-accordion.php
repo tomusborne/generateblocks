@@ -150,13 +150,13 @@ class GenerateBlocks_Block_Variant_Accordion {
 	 */
 	public function generate_css( $name, $settings, $css ) {
 		if ( 'container' === $name ) {
-			$css->set_selector( '.gb-accordion__item > .gb-accordion__content' );
+			$css->set_selector( '.gb-accordion__content' );
 			$css->add_property( 'transition', 'max-height 250ms ease' );
 			$css->add_property( 'will-change', 'max-height, margin, border' );
 			$css->add_property( 'max-height', 0 );
 			$css->add_property( 'overflow', 'hidden' );
 
-			$css->set_selector( '.gb-accordion__item.gb-accordion__item-open > .gb-accordion__content' );
+			$css->set_selector( '.gb-accordion__item-open > .gb-accordion__content' );
 			$css->add_property( 'max-height', 'inherit' );
 
 			$css->set_selector( 'button.gb-accordion__toggle' );
