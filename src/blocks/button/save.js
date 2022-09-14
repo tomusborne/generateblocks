@@ -8,7 +8,11 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 import IconWrapper from '../../components/icon-wrapper';
 
-export default ( { attributes } ) => {
+export default ( props ) => {
+	const {
+		attributes,
+	} = props;
+
 	const {
 		uniqueId,
 		text,
@@ -58,9 +62,10 @@ export default ( { attributes } ) => {
 	);
 
 	const blockProps = useBlockProps.save( htmlAttributes );
+	const buttonTagName = applyFilters( 'generateblocks.frontend.buttonTagName', url ? 'a' : 'span', props );
 
 	return (
-		<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
+		<Element tagName={ buttonTagName } htmlAttrs={ blockProps }>
 			<IconWrapper
 				hasIcon={ !! icon }
 				direction={ iconLocation }

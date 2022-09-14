@@ -264,6 +264,13 @@ class GenerateBlocks_Block_Container {
 			$css->set_selector( '.gb-container .gb-shape svg' );
 			$css->add_property( 'fill', 'currentColor' );
 
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'container',
+				$settings,
+				$css
+			);
+
 			self::$singular_css_added = true;
 		}
 
@@ -861,6 +868,13 @@ class GenerateBlocks_Block_Container {
 			$tagName = 'div';
 		}
 
+		$output = apply_filters(
+			'generateblocks_before_container_open',
+			$output,
+			$attributes,
+			$block
+		);
+
 		$output .= sprintf(
 			'<%1$s %2$s>',
 			$tagName,
@@ -909,6 +923,13 @@ class GenerateBlocks_Block_Container {
 		$output .= sprintf(
 			'</%s>',
 			$tagName
+		);
+
+		$output = apply_filters(
+			'generateblocks_after_container_close',
+			$output,
+			$attributes,
+			$block
 		);
 
 		if ( $settings['isGrid'] ) {

@@ -240,6 +240,13 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'width', '1em' );
 			$css->add_property( 'fill', 'currentColor' );
 
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'button',
+				$settings,
+				$css
+			);
+
 			self::$singular_css_added = true;
 		}
 

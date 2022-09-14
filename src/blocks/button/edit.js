@@ -14,7 +14,6 @@ const ButtonEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
-		clientId,
 		ContentRenderer = ButtonContentRenderer,
 	} = props;
 
@@ -42,9 +41,7 @@ const ButtonEdit = ( props ) => {
 	return (
 		<Fragment>
 			<BlockControls
-				clientId={ clientId }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
+				{ ...props }
 			/>
 
 			<InspectorControls
