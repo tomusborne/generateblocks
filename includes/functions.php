@@ -1154,3 +1154,24 @@ function generateblocks_get_global_container_width() {
 			: generateblocks_get_option( 'container_width' ) . 'px'
 	);
 }
+
+/**
+ * Add our Layout component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
+	$options = [
+		'display' => 'display',
+		'flex-direction' => 'flexDirection',
+		'flex-wrap' => 'flexWrap',
+		'align-items' => 'alignItems',
+		'justify-content' => 'justifyContent',
+	];
+
+	foreach ( $options as $property => $option ) {
+		$css->add_property( $property, $settings[ $option . $device ] );
+	}
+}
