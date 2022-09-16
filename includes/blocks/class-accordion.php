@@ -167,10 +167,10 @@ class GenerateBlocks_Block_Variant_Accordion {
 			$css->add_property( 'padding', 0 );
 			$css->add_property( 'margin', 0 );
 
-			$css->set_selector( '.gb-accordion__item:not(.gb-accordion__item-open) > .gb-button-wrapper .gb-accordion__icon-open' );
+			$css->set_selector( '.gb-accordion__item:not(.gb-accordion__item-open) > .gb-button .gb-accordion__icon-open' );
 			$css->add_property( 'display', 'none' );
 
-			$css->set_selector( '.gb-accordion__item.gb-accordion__item-open > .gb-button-wrapper .gb-accordion__icon' );
+			$css->set_selector( '.gb-accordion__item.gb-accordion__item-open > .gb-button .gb-accordion__icon' );
 			$css->add_property( 'display', 'none' );
 		}
 	}
