@@ -22,8 +22,8 @@ import { InnerBlocks } from '@wordpress/block-editor';
  */
 registerBlockType( 'generateblocks/button-container', {
 	apiVersion: 2,
-	title: __( 'Buttons', 'generateblocks' ),
-	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
+	title: __( 'Button Group', 'generateblocks' ),
+	description: __( 'Group your buttons in a row.', 'generateblocks' ),
 	icon: getIcon( 'button-container' ),
 	category: 'generateblocks',
 	keywords: [

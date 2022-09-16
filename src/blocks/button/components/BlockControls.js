@@ -16,7 +16,6 @@ export default ( props ) => {
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 	const {
 		getBlockParentsByBlockName,
-		getBlockRootClientId,
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
@@ -37,25 +36,18 @@ export default ( props ) => {
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
 	const showButtonLinkControl = applyFilters( 'generateblocks.editor.showButtonLinkControl', true, props );
+	const parentBlockId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
 
 	return (
 		<>
 			<BlockControls>
 				<ToolbarGroup>
-					{ showAppender &&
+					{ showAppender && parentBlockId &&
 						<ToolbarButton
 							className="gblocks-add-new-button"
 							icon={ plus }
 							label={ __( 'Add Button', 'generateblocks' ) }
 							onClick={ () => {
-								let parentBlockId = false;
-
-								if ( typeof getBlockParentsByBlockName === 'function' ) {
-									parentBlockId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
-								} else {
-									parentBlockId = getBlockRootClientId( clientId );
-								}
-
 								const thisBlock = getBlocksByClientId( clientId )[ 0 ];
 
 								const clonedBlock = cloneBlock(

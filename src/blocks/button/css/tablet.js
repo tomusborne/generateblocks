@@ -47,13 +47,12 @@ export default class TabletCSS extends Component {
 			iconPaddingUnit,
 			iconSizeTablet,
 			iconSizeUnit,
+			hasButtonContainer,
 		} = attributes;
 
-		let selector = '.editor-styles-wrapper .gb-button-wrapper a.gb-button-' + uniqueId;
-
-		if ( ! url ) {
-			selector = '.editor-styles-wrapper .gb-button-wrapper .gb-button-' + uniqueId;
-		}
+		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
+		let selector = !! url ? 'a.gb-button-' + uniqueId : '.gb-button-' + uniqueId;
+		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
 
