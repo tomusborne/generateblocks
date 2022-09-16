@@ -139,6 +139,7 @@ class GenerateBlocks_Block_Button {
 			'iconSizeTablet' => '',
 			'iconSizeMobile' => '',
 			'iconSizeUnit' => 'em',
+			'hasButtonContainer' => false,
 		];
 	}
 
@@ -188,11 +189,14 @@ class GenerateBlocks_Block_Button {
 			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $attributes );
 		}
 
+		$containerSelector = $settings['hasButtonContainer'] || $blockVersion < 3 ? '.gb-button-wrapper ' : '';
 		$selector = 'a.gb-button-' . $id;
 
 		if ( isset( $attributes['hasUrl'] ) && ! $attributes['hasUrl'] ) {
 			$selector = '.gb-button-' . $id;
 		}
+
+		$selector = $containerSelector . $selector;
 
 		// Back-compatibility for when icon held a value.
 		if ( $settings['icon'] ) {
@@ -220,7 +224,7 @@ class GenerateBlocks_Block_Button {
 
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
-			$css->set_selector( '.gb-button-wrapper .gb-button' );
+			$css->set_selector( '.gb-button' );
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'align-items', 'center' );
 			$css->add_property( 'justify-content', 'center' );
@@ -228,7 +232,7 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'text-decoration', 'none' );
 			$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
 
-			$css->set_selector( '.gb-button-wrapper .gb-button .gb-icon' );
+			$css->set_selector( '.gb-button .gb-icon' );
 			$css->add_property( 'align-items', 'center' );
 
 			$css->set_selector( '.gb-icon' );
@@ -250,7 +254,7 @@ class GenerateBlocks_Block_Button {
 			self::$singular_css_added = true;
 		}
 
-		$css->set_selector( '.gb-button-wrapper ' . $selector . ',.gb-button-wrapper ' . $selector . ':visited' );
+		$css->set_selector( $selector . ', ' . $selector . ':visited' );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
 
@@ -275,12 +279,12 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'align-items', 'center' );
 		}
 
-		$css->set_selector( '.gb-button-wrapper ' . $selector . ':hover,.gb-button-wrapper ' . $selector . ':active,.gb-button-wrapper ' . $selector . ':focus' );
+		$css->set_selector( $selector . ':hover, ' . $selector . ':active, ' . $selector . ':focus' );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
 		$css->add_property( 'color', $settings['textColorHover'] );
 		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
-		$css->set_selector( '.gb-button-wrapper ' . $selector . '.gb-button__current, .gb-button-wrapper ' . $selector . '.gb-button__current:visited' );
+		$css->set_selector( $selector . '.gb-button__current, ' . $selector . '.gb-button__current:visited' );
 		$css->add_property( 'background-color', $settings['backgroundColorCurrent'] );
 		$css->add_property( 'color', $settings['textColorCurrent'] );
 		$css->add_property( 'border-color', $settings['borderColorCurrent'] );
@@ -294,7 +298,7 @@ class GenerateBlocks_Block_Button {
 			}
 		}
 
-		$tablet_css->set_selector( '.gb-button-wrapper ' . $selector );
+		$tablet_css->set_selector( $selector );
 		$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 		$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 		$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
@@ -311,7 +315,7 @@ class GenerateBlocks_Block_Button {
 			}
 		}
 
-		$mobile_css->set_selector( '.gb-button-wrapper ' . $selector );
+		$mobile_css->set_selector( $selector );
 		$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 		$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 		$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );

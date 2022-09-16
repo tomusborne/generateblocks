@@ -71,6 +71,7 @@ export default class MainCSS extends Component {
 			iconPaddingUnit,
 			iconSize,
 			iconSizeUnit,
+			hasButtonContainer,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -96,11 +97,9 @@ export default class MainCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		let selector = '.editor-styles-wrapper .gb-button-wrapper a.gb-button-' + uniqueId;
-
-		if ( ! url ) {
-			selector = '.editor-styles-wrapper .gb-button-wrapper .gb-button-' + uniqueId;
-		}
+		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
+		let selector = !! url ? 'a.gb-button-' + uniqueId : '.gb-button-' + uniqueId;
+		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
 

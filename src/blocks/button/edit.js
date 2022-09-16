@@ -9,12 +9,15 @@ import { compose } from '@wordpress/compose';
 import { withButtonLegacyMigration, withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import ButtonContentRenderer from './components/ButtonContentRenderer';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
+import { useSelect } from '@wordpress/data';
 
 const ButtonEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
 		ContentRenderer = ButtonContentRenderer,
+		clientId,
 	} = props;
 
 	const {
@@ -24,11 +27,17 @@ const ButtonEdit = ( props ) => {
 		googleFont,
 		googleFontVariants,
 		isBlockPreview = false,
+		hasButtonContainer,
+		blockVersion,
 	} = attributes;
 
 	const ref = useRef( null );
 	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const {
+		getBlockParents,
+		getBlocksByClientId,
+	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	useEffect( () => {
 		const computedButtonStyles = getComputedStyle( ref.current );
@@ -36,6 +45,29 @@ const ButtonEdit = ( props ) => {
 		setComputedStyles( {
 			fontSize: parseInt( computedButtonStyles.fontSize ) || '',
 		} );
+	}, [] );
+
+	useEffect( () => {
+		const parentBlockId = getBlockParents( clientId, true );
+
+		if ( parentBlockId.length > 0 ) {
+			const parentBlocks = getBlocksByClientId( parentBlockId );
+
+			if ( parentBlocks.length > 0 && 'generateblocks/button-container' === parentBlocks[ 0 ].name ) {
+				setAttributes( { hasButtonContainer: true } );
+			} else if ( !! hasButtonContainer ) {
+				setAttributes( { hasButtonContainer: false } );
+			}
+		} else if ( !! hasButtonContainer ) {
+			setAttributes( { hasButtonContainer: false } );
+		}
+	}, [] );
+
+	useEffect( () => {
+		// Add our default Button styles when inserted.
+		if ( wasBlockJustInserted( attributes ) && ! blockVersion ) {
+			setAttributes( generateBlocksStyling.button );
+		}
 	}, [] );
 
 	return (

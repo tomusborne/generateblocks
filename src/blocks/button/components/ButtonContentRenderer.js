@@ -2,6 +2,7 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import IconWrapper from '../../../components/icon-wrapper';
 import { __ } from '@wordpress/i18n';
 import Element from '../../../components/element';
+import RootElement from '../../../components/root-element';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 
@@ -14,6 +15,7 @@ export default function ButtonContentRenderer( props ) {
 		context,
 		name,
 		buttonRef,
+		clientId,
 	} = props;
 
 	const {
@@ -74,27 +76,29 @@ export default function ButtonContentRenderer( props ) {
 	const buttonTagName = applyFilters( 'generateblocks.frontend.buttonTagName', url ? 'a' : 'span', props );
 
 	return (
-		<Element tagName={ buttonTagName } htmlAttrs={ blockProps }>
-			<IconWrapper
-				hasIcon={ !! icon }
-				icon={ icon }
-				direction={ iconLocation }
-				hideChildren={ removeText }
-				showWrapper={ ! removeText && !! icon }
-				wrapperClassname={ 'gb-button-text' }
-			>
-				<InnerContent
-					name={ name }
-					placeholder={ __( 'Add text…', 'generateblocks' ) }
-					value={ text }
-					onChange={ ( value ) => setAttributes( { text: value } ) }
-					allowedFormats={ richTextFormats }
-					isSelected={ isSelected }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					context={ context }
-				/>
-			</IconWrapper>
-		</Element>
+		<RootElement name={ name } clientId={ clientId }>
+			<Element tagName={ buttonTagName } htmlAttrs={ blockProps }>
+				<IconWrapper
+					hasIcon={ !! icon }
+					icon={ icon }
+					direction={ iconLocation }
+					hideChildren={ removeText }
+					showWrapper={ ! removeText && !! icon }
+					wrapperClassname={ 'gb-button-text' }
+				>
+					<InnerContent
+						name={ name }
+						placeholder={ __( 'Add text…', 'generateblocks' ) }
+						value={ text }
+						onChange={ ( value ) => setAttributes( { text: value } ) }
+						allowedFormats={ richTextFormats }
+						isSelected={ isSelected }
+						attributes={ attributes }
+						setAttributes={ setAttributes }
+						context={ context }
+					/>
+				</IconWrapper>
+			</Element>
+		</RootElement>
 	);
 }
