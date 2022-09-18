@@ -158,8 +158,10 @@ class GenerateBlocks_Block_Variant_Accordion {
 
 			$css->set_selector( '.gb-accordion__item-open > .gb-accordion__content' );
 			$css->add_property( 'max-height', 'inherit' );
+		}
 
-			$css->set_selector( 'button.gb-accordion__toggle' );
+		if ( 'button' === $name ) {
+			$css->set_selector( '.gb-accordion__toggle' );
 			$css->add_property( 'background', 'none' );
 			$css->add_property( 'border', 'none' );
 			$css->add_property( 'color', 'inherit' );
