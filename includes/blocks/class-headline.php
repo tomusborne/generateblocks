@@ -730,7 +730,7 @@ class GenerateBlocks_Block_Headline {
 			$classNames[] = $settings['className'];
 		}
 
-		if ( empty( $settings['icon'] ) ) {
+		if ( empty( $settings['hasIcon'] ) ) {
 			$classNames[] = 'gb-headline-text';
 		}
 

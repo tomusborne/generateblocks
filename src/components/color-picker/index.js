@@ -65,7 +65,9 @@ export default function ColorPicker( props ) {
 	const debouncedSetColor = useDebounce( onChange );
 
 	useEffect( () => {
-		debouncedSetColor( valueState );
+		if ( value !== valueState ) {
+			debouncedSetColor( valueState );
+		}
 
 		// Keep the input focused.
 		setTimeout( () => {
