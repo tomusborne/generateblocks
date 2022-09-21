@@ -1,7 +1,7 @@
-import { SelectControl, PanelBody } from '@wordpress/components';
+import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import getAttribute from '../../utils/get-attribute';
 import getIcon from '../../utils/get-icon';
+import LayoutControl from './LayoutControl';
 
 export default ( props ) => {
 	const {
@@ -45,6 +45,12 @@ export default ( props ) => {
 		return flexItem;
 	}
 
+	const componentProps = {
+		setAttributes,
+		attributes,
+		deviceType,
+	};
+
 	return (
 		<>
 			<PanelBody
@@ -52,9 +58,10 @@ export default ( props ) => {
 				icon={ getIcon( 'layout' ) }
 				className="gblocks-panel-label"
 			>
-				<SelectControl
+				<LayoutControl
+					{ ...componentProps }
 					label={ __( 'Display', 'generateblocks' ) }
-					value={ getAttribute( 'display', props ) }
+					attributeName="display"
 					options={ [
 						{ label: __( 'Default', 'generateblocks' ), value: '' },
 						{ label: 'block', value: 'block' },
@@ -64,18 +71,14 @@ export default ( props ) => {
 						{ label: 'inline', value: 'inline' },
 						{ label: 'none', value: 'none' },
 					] }
-					onChange={ ( value ) => {
-						setAttributes( {
-							[ getAttribute( 'display', props, true ) ]: value,
-						} );
-					} }
 				/>
 
 				{ isFlexItem() &&
 					<>
-						<SelectControl
+						<LayoutControl
+							{ ...componentProps }
 							label={ __( 'Flex Direction', 'generateblocks' ) }
-							value={ getAttribute( 'flexDirection', props ) }
+							attributeName="flexDirection"
 							options={ [
 								{ label: __( 'Default', 'generateblocks' ), value: '' },
 								{ label: __( 'Row', 'generateblocks' ), value: 'row' },
@@ -83,32 +86,24 @@ export default ( props ) => {
 								{ label: __( 'Row (reverse)', 'generateblocks' ), value: 'row-reverse' },
 								{ label: __( 'Column (reverse)', 'generateblocks' ), value: 'column-reverse' },
 							] }
-							onChange={ ( value ) => {
-								setAttributes( {
-									[ getAttribute( 'flexDirection', props, true ) ]: value,
-								} );
-							} }
 						/>
 
-						<SelectControl
+						<LayoutControl
+							{ ...componentProps }
 							label={ __( 'Flex Wrap', 'generateblocks' ) }
-							value={ getAttribute( 'flexWrap', props ) }
+							attributeName="flexWrap"
 							options={ [
 								{ label: __( 'Default', 'generateblocks' ), value: '' },
 								{ label: __( 'No Wrap', 'generateblocks' ), value: 'nowrap' },
 								{ label: __( 'Wrap', 'generateblocks' ), value: 'wrap' },
 								{ label: __( 'Wrap (reverse)', 'generateblocks' ), value: 'wrap-reverse' },
 							] }
-							onChange={ ( value ) => {
-								setAttributes( {
-									[ getAttribute( 'flexWrap', props, true ) ]: value,
-								} );
-							} }
 						/>
 
-						<SelectControl
+						<LayoutControl
+							{ ...componentProps }
 							label={ __( 'Align Items', 'generateblocks' ) }
-							value={ getAttribute( 'alignItems', props ) }
+							attributeName="alignItems"
 							options={ [
 								{ label: __( 'Default', 'generateblocks' ), value: '' },
 								{ label: __( 'Center', 'generateblocks' ), value: 'center' },
@@ -116,16 +111,12 @@ export default ( props ) => {
 								{ label: __( 'End', 'generateblocks' ), value: 'flex-end' },
 								{ label: __( 'Stretch', 'generateblocks' ), value: 'stretch' },
 							] }
-							onChange={ ( value ) => {
-								setAttributes( {
-									[ getAttribute( 'alignItems', props, true ) ]: value,
-								} );
-							} }
 						/>
 
-						<SelectControl
+						<LayoutControl
+							{ ...componentProps }
 							label={ __( 'Justify Content', 'generateblocks' ) }
-							value={ getAttribute( 'justifyContent', props ) }
+							attributeName="justifyContent"
 							options={ [
 								{ label: __( 'Default', 'generateblocks' ), value: '' },
 								{ label: __( 'Center', 'generateblocks' ), value: 'center' },
@@ -134,11 +125,6 @@ export default ( props ) => {
 								{ label: __( 'Space Between', 'generateblocks' ), value: 'space-between' },
 								{ label: __( 'Space Around', 'generateblocks' ), value: 'space-around' },
 							] }
-							onChange={ ( value ) => {
-								setAttributes( {
-									[ getAttribute( 'justifyContent', props, true ) ]: value,
-								} );
-							} }
 						/>
 					</>
 				}
