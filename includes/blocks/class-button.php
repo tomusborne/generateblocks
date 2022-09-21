@@ -420,7 +420,7 @@ class GenerateBlocks_Block_Button {
 			$classNames[] = $settings['className'];
 		}
 
-		if ( empty( $settings['icon'] ) ) {
+		if ( empty( $settings['hasIcon'] ) ) {
 			$classNames[] = 'gb-button-text';
 		}
 
