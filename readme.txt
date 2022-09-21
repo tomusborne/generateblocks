@@ -96,6 +96,9 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Pass dynamic container link to settings variable
 * Fix: Color picker behavior when manually changing value
 * Fix: Missing legacy alpha color slider in gradient component if set to 0
+* Fix: Remove gb-*-text class from dynamic blocks with icons
+* Fix: Dynamic content conflict with icons and custom classes
+* Fix: Missing legacy alpha color slider in gradient component
 * Tweak: Enqueue inline embedding stylesheet using wp_enqueue_scripts
 * Tweak: Remove block-editor-block-list__block class from root wrapper
 * Tweak: Headline transform to core Heading keep the level
