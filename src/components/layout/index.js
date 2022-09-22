@@ -2,6 +2,7 @@ import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
 import LayoutControl from './LayoutControl';
+import isFlexItem from '../../utils/is-flex-item';
 
 export default ( props ) => {
 	const {
@@ -9,41 +10,6 @@ export default ( props ) => {
 		attributes,
 		deviceType,
 	} = props;
-
-	const {
-		display,
-		displayTablet,
-		displayMobile,
-	} = attributes;
-
-	function isFlexItem() {
-		let flexItem = false;
-
-		if ( 'Desktop' === deviceType && display.includes( 'flex' ) ) {
-			flexItem = true;
-		}
-
-		if ( 'Tablet' === deviceType ) {
-			if (
-				( displayTablet && displayTablet.includes( 'flex' ) ) ||
-				( ! displayTablet && display.includes( 'flex' ) )
-			) {
-				flexItem = true;
-			}
-		}
-
-		if ( 'Mobile' === deviceType ) {
-			if (
-				( displayMobile && displayMobile.includes( 'flex' ) ) ||
-				( ! displayMobile && displayTablet && displayTablet.includes( 'flex' ) ) ||
-				( ! displayMobile && ! displayTablet && display.includes( 'flex' ) )
-			) {
-				flexItem = true;
-			}
-		}
-
-		return flexItem;
-	}
 
 	const componentProps = {
 		setAttributes,
@@ -73,7 +39,7 @@ export default ( props ) => {
 					] }
 				/>
 
-				{ isFlexItem() &&
+				{ isFlexItem( { deviceType, attributes } ) &&
 					<>
 						<LayoutControl
 							{ ...componentProps }
