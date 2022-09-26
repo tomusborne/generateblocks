@@ -14,7 +14,6 @@ const withResponsiveTabs = createHigherOrderComponent( ( BlockEdit ) => {
 			'generateblocks.editor.responsiveTabBlocks',
 			[
 				'generateblocks/button',
-				'generateblocks/button-container',
 				'generateblocks/container',
 				'generateblocks/grid',
 				'generateblocks/image',
