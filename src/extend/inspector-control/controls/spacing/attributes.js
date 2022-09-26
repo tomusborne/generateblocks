@@ -224,5 +224,29 @@ export default function getSpacingAttributes( defaults ) {
 			type: 'boolean',
 			default: defaults.inlineWidthMobile,
 		},
+		stack: {
+			type: 'boolean',
+			default: defaults.stack,
+		},
+		stackTablet: {
+			type: 'boolean',
+			default: defaults.stackTablet,
+		},
+		stackMobile: {
+			type: 'boolean',
+			default: defaults.stackMobile,
+		},
+		fillHorizontalSpace: {
+			type: 'boolean',
+			default: defaults.fillHorizontalSpace,
+		},
+		fillHorizontalSpaceTablet: {
+			type: 'boolean',
+			default: defaults.fillHorizontalSpaceTablet,
+		},
+		fillHorizontalSpaceMobile: {
+			type: 'boolean',
+			default: defaults.fillHorizontalSpaceMobile,
+		},
 	};
 }

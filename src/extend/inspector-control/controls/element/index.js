@@ -1,8 +1,11 @@
 import PanelArea from '../../../../components/panel-area';
 import HtmlTag from './components/html-tag';
+import { useContext } from "@wordpress/element";
+import ControlsContext from "../../../../block-context";
 
 export default function ElementControls( { attributes, setAttributes } ) {
 	const marginUnit = generateBlocksDefaults.headline.marginUnit;
+	const { id } = useContext( ControlsContext );
 	const {
 		element,
 		marginTop,
@@ -12,7 +15,7 @@ export default function ElementControls( { attributes, setAttributes } ) {
 	} = attributes;
 
 	return (
-		<PanelArea id={ 'headlineElement' }>
+		<PanelArea id={ `${id}Element` }>
 			<HtmlTag
 				value={ element }
 				onChange={ ( value ) => {
