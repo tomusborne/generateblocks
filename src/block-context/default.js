@@ -1,4 +1,5 @@
 const defaultContext = {
+	id: '',
 	supports: {
 		responsiveTabs: false,
 		typography: {
@@ -12,6 +13,9 @@ const defaultContext = {
 		},
 		spacing: {
 			enabled: false,
+			inlineWidth: false,
+			stackVertically: false,
+			fillHorizontalSpace: false,
 			dimensions: [],
 		},
 		colors: {

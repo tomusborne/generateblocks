@@ -5,8 +5,11 @@ import { useDeviceType } from '../../../../hooks';
 import IconPicker from '../../../../components/icon-picker';
 import IconStyles from './components/icon-styles';
 import IconSize from './components/icon-size';
+import { useContext } from "@wordpress/element";
+import ControlsContext from "../../../../block-context";
 
 export default function IconControls( { attributes, setAttributes } ) {
+	const { id } = useContext( ControlsContext );
 	const [ device ] = useDeviceType();
 	const {
 		icon,
@@ -25,7 +28,7 @@ export default function IconControls( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'icons' ) }
 			className="gblocks-panel-label"
-			id="headlineIcon"
+			id={ `${id}Icon` }
 		>
 			{ 'Desktop' === device &&
 				<>

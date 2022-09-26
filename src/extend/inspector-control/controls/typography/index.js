@@ -13,7 +13,7 @@ import FontFamily from './components/font-family';
 
 export default function Typography( { attributes, setAttributes, computedStyles } ) {
 	const [ device ] = useDeviceType();
-	const { supports: { typography } } = useContext( ControlsContext );
+	const { id, supports: { typography } } = useContext( ControlsContext );
 	const isDesktop = 'Desktop' === device;
 
 	return (
@@ -22,7 +22,7 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 			initialOpen={ false }
 			icon={ getIcon( 'typography' ) }
 			className="gblocks-panel-label"
-			id="headlineTypography"
+			id={ `${id}Typography` }
 		>
 			{ typography.fontWeight && isDesktop &&
 				<FontWeight

@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import BlockControls from './components/BlockControls';
-import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import { InnerBlocks, useBlockProps, BlockContextProvider } from '@wordpress/block-editor';
@@ -12,6 +11,8 @@ import { withButtonContainerLegacyMigration, withUniqueId } from '../../hoc';
 import { useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import RootElement from '../../components/root-element';
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from "../../extend/inspector-control";
 
 const ButtonContainerEdit = ( props ) => {
 	const {
@@ -29,7 +30,7 @@ const ButtonContainerEdit = ( props ) => {
 	} = attributes;
 
 	const [ buttonCount, setButtonCount ] = useState( 0 );
-	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const [ deviceType ] = useDeviceType( 'Desktop' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 
 	const { insertBlocks, removeBlock } = useDispatch( 'core/block-editor' );
@@ -83,13 +84,7 @@ const ButtonContainerEdit = ( props ) => {
 				deviceType={ deviceType }
 			/>
 
-			<InspectorControls
-				{ ...props }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				state={ { deviceType } }
-				blockDefaults={ generateBlocksDefaults.buttonContainer }
-			/>
+			<GenerateBlocksInspectorControls attributes={ attributes } setAttributes={ setAttributes } />
 
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 
@@ -110,6 +105,7 @@ const ButtonContainerEdit = ( props ) => {
 };
 
 export default compose(
+	withBlockContext,
 	withUniqueId,
 	withButtonContainerLegacyMigration
 )( ButtonContainerEdit );

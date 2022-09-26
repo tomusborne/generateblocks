@@ -2,7 +2,8 @@ import defaultContext from './default';
 import { __ } from '@wordpress/i18n';
 
 const headlineContext = Object.assign( {}, defaultContext, {
-	supports: {
+	id: 'headline',
+	supports: Object.assign( {}, defaultContext.supports, {
 		responsiveTabs: true,
 		hasIcon: true,
 		typography: {
@@ -16,6 +17,7 @@ const headlineContext = Object.assign( {}, defaultContext, {
 		},
 		spacing: {
 			enabled: true,
+			inlineWidth: true,
 			dimensions: [
 				{
 					type: 'padding',
@@ -119,7 +121,7 @@ const headlineContext = Object.assign( {}, defaultContext, {
 				{ label: 'figcaption', value: 'figcaption' },
 			],
 		},
-	},
+	} ),
 } );
 
 export default headlineContext;

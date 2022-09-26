@@ -1,6 +1,7 @@
 import { createContext } from '@wordpress/element';
 import defaultContext from './default';
 import headlineContext from './headline';
+import buttonContainerContext from "./button-container";
 import getElementAttributes from '../extend/inspector-control/controls/element/attributes';
 import getTypographyAttributes from '../extend/inspector-control/controls/typography/attributes';
 import getSpacingAttributes from '../extend/inspector-control/controls/spacing/attributes';
@@ -23,6 +24,7 @@ const BlockContext = createContext( defaultContext );
 export function getBlockContext( blockName ) {
 	return {
 		'generateblocks/headline': headlineContext,
+		'generateblocks/button-container': buttonContainerContext,
 	}[ blockName ];
 }
 
