@@ -952,11 +952,12 @@ function generateblocks_get_compiled_css( $manual_data = [] ) {
 /**
  * This is a helper function that groups our static CSS into device-specific groups.
  *
- * @since 1.6.0
  * @param array $existing_data An array of existing data to add to.
  * @param array $new_data The new data we wish to group.
+ *
+ * @since 1.6.0
  */
-function generateblocks_group_css_data( $existing_data = [], $new_data ) {
+function generateblocks_group_css_data( $existing_data = [], $new_data = [] ) {
 	$existing_data = wp_parse_args(
 		$existing_data,
 		[
