@@ -13,7 +13,6 @@ const withResponsiveTabs = createHigherOrderComponent( ( BlockEdit ) => {
 		const blocks = applyFilters(
 			'generateblocks.editor.responsiveTabBlocks',
 			[
-				'generateblocks/button',
 				'generateblocks/container',
 				'generateblocks/grid',
 				'generateblocks/image',

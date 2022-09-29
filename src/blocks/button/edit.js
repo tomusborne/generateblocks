@@ -1,5 +1,4 @@
 import BlockControls from './components/BlockControls';
-import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
@@ -11,6 +10,8 @@ import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicCont
 import ButtonContentRenderer from './components/ButtonContentRenderer';
 import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 import { useSelect } from '@wordpress/data';
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from "../../extend/inspector-control";
 
 const ButtonEdit = ( props ) => {
 	const {
@@ -33,7 +34,7 @@ const ButtonEdit = ( props ) => {
 
 	const ref = useRef( null );
 	const [ computedStyles, setComputedStyles ] = useState( {} );
-	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const [ deviceType ] = useDeviceType( 'Desktop' );
 	const {
 		getBlockParents,
 		getBlocksByClientId,
@@ -76,12 +77,9 @@ const ButtonEdit = ( props ) => {
 				{ ...props }
 			/>
 
-			<InspectorControls
-				{ ...props }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				state={ { deviceType } }
-				blockDefaults={ generateBlocksDefaults.button }
+			<GenerateBlocksInspectorControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
 				computedStyles={ computedStyles }
 			/>
 
@@ -106,6 +104,7 @@ const ButtonEdit = ( props ) => {
 };
 
 export default compose(
+	withBlockContext,
 	withDynamicContent,
 	withUniqueId,
 	withButtonLegacyMigration
