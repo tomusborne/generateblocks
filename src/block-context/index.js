@@ -2,11 +2,13 @@ import { createContext } from '@wordpress/element';
 import defaultContext from './default';
 import headlineContext from './headline';
 import buttonContainerContext from "./button-container";
+import buttonContext from "./button";
 import getElementAttributes from '../extend/inspector-control/controls/element/attributes';
 import getTypographyAttributes from '../extend/inspector-control/controls/typography/attributes';
 import getSpacingAttributes from '../extend/inspector-control/controls/spacing/attributes';
 import getColorsAttributes from '../extend/inspector-control/controls/colors/attributes';
 import getIconAttributes from '../extend/inspector-control/controls/icon/attributes';
+import getBackgroundGradientAttributes from "../extend/inspector-control/controls/background-gradient/attributes";
 
 /**
  * The BlockContext represents the layer to build the block components.
@@ -25,6 +27,7 @@ export function getBlockContext( blockName ) {
 	return {
 		'generateblocks/headline': headlineContext,
 		'generateblocks/button-container': buttonContainerContext,
+		'generateblocks/button': buttonContext,
 	}[ blockName ];
 }
 
@@ -70,7 +73,11 @@ export function getBlockAttributes( blockAttributes, context, defaults ) {
 		attributes = Object.assign( {}, attributes, getColorsAttributes( defaults ) );
 	}
 
-	if ( context.supports.hasIcon ) {
+	if ( context.supports.backgroundGradient.enabled ) {
+		attributes = Object.assign( {}, attributes, getBackgroundGradientAttributes( defaults ) );
+	}
+
+	if ( context.supports.icon.enabled ) {
 		attributes = Object.assign( {}, attributes, getIconAttributes( defaults ) );
 	}
 

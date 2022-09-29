@@ -22,7 +22,13 @@ const defaultContext = {
 			enabled: false,
 			elements: [],
 		},
-		hasIcon: false,
+		backgroundGradient: {
+			enabled: false,
+		},
+		icon: {
+			enabled: false,
+			location: [],
+		},
 		htmlTags: {
 			enabled: false,
 			tags: [],
