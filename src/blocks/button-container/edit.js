@@ -10,7 +10,6 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { withButtonContainerLegacyMigration, withUniqueId } from '../../hoc';
 import { useDispatch } from '@wordpress/data';
-import { createBlock } from '@wordpress/blocks';
 import RootElement from '../../components/root-element';
 
 const ButtonContainerEdit = ( props ) => {
@@ -32,20 +31,7 @@ const ButtonContainerEdit = ( props ) => {
 	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 
-	const { insertBlocks, removeBlock } = useDispatch( 'core/block-editor' );
-
-	useEffect( () => {
-		// Add a button when the container is inserted.
-		if ( 0 === innerBlocksCount ) {
-			insertBlocks(
-				createBlock( 'generateblocks/button', generateBlocksStyling.button ),
-				undefined,
-				clientId
-			);
-		}
-
-		setButtonCount( innerBlocksCount );
-	}, [] );
+	const { removeBlock } = useDispatch( 'core/block-editor' );
 
 	useEffect( () => {
 		// If we've removed all of our buttons, remove the container.
@@ -101,6 +87,9 @@ const ButtonContainerEdit = ( props ) => {
 						<InnerBlocks
 							allowedBlocks={ [ 'generateblocks/button' ] }
 							renderAppender={ false }
+							template={ [
+								[ 'generateblocks/button', generateBlocksStyling.button ],
+							] }
 						/>
 					</BlockContextProvider>
 				</div>
