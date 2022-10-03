@@ -1,6 +1,4 @@
 import { __ } from '@wordpress/i18n';
-import getIcon from '../../../../utils/get-icon';
-import PanelArea from '../../../../components/panel-area';
 import { TextareaControl, TextControl, SelectControl, BaseControl } from '@wordpress/components';
 import UnitControl from '../../../../components/unit-control';
 import getAttribute from '../../../../utils/get-attribute';
@@ -11,7 +9,6 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 
 export default function ImageSettingsControls( props ) {
 	const {
-		state,
 		attributes,
 		setAttributes,
 		media,
@@ -43,15 +40,7 @@ export default function ImageSettingsControls( props ) {
 	}, [] );
 
 	return (
-		<PanelArea
-			{ ...props }
-			title={ __( 'Settings', 'generateblocks' ) }
-			initialOpen={ false }
-			icon={ getIcon( 'backgrounds' ) }
-			className={ 'gblocks-panel-label' }
-			id={ 'imageSettings' }
-			state={ state }
-		>
+		<>
 			{
 				'Desktop' === deviceType &&
 				(
@@ -158,6 +147,6 @@ export default function ImageSettingsControls( props ) {
 					/>
 				</>
 			}
-		</PanelArea>
+		</>
 	);
 }

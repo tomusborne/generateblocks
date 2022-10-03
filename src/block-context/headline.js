@@ -1,9 +1,10 @@
 import defaultContext from './default';
 import { __ } from '@wordpress/i18n';
+import { defaultsDeep } from "lodash";
 
-const headlineContext = Object.assign( {}, defaultContext, {
+const headlineContext = defaultsDeep( {
 	id: 'headline',
-	supports: Object.assign( {}, defaultContext.supports, {
+	supports: {
 		responsiveTabs: true,
 		typography: {
 			enabled: true,
@@ -127,7 +128,7 @@ const headlineContext = Object.assign( {}, defaultContext, {
 				{ label: 'figcaption', value: 'figcaption' },
 			],
 		},
-	} ),
-} );
+	},
+}, defaultContext );
 
 export default headlineContext;

@@ -1,9 +1,10 @@
 import defaultContext from './default';
 import { __ } from '@wordpress/i18n';
+import { defaultsDeep } from "lodash";
 
-const buttonContext = Object.assign( {}, defaultContext, {
+const buttonContext = defaultsDeep( {
 	id: 'button',
-	supports: Object.assign( {}, defaultContext.supports, {
+	supports: {
 		responsiveTabs: true,
 		typography: {
 			enabled: true,
@@ -96,7 +97,7 @@ const buttonContext = Object.assign( {}, defaultContext, {
 				{ label: __( 'Right', 'generateblocks' ), value: 'right' },
 			],
 		},
-	} ),
-} );
+	},
+}, defaultContext );
 
 export default buttonContext;
