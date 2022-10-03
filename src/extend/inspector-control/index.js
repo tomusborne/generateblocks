@@ -9,12 +9,14 @@ import ColorsControls from './controls/colors';
 import IconControls from './controls/icon';
 import ElementControls from './controls/element';
 import BackgroundGradient from "./controls/background-gradient";
+import SettingsPanel from "./controls/settings-panel";
 
-export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles } ) {
+export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles, children } ) {
 	const [ device ] = useDeviceType();
 	const {
 		supports: {
 			responsiveTabs,
+			settingsPanel,
 			typography,
 			spacing,
 			colors,
@@ -27,6 +29,10 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 	return (
 		<InspectorControls>
 			{ responsiveTabs && <ResponsiveTabs /> }
+
+			{ settingsPanel.enabled && !! children &&
+				<SettingsPanel>{ children }</SettingsPanel>
+			}
 
 			{ htmlTags.enabled && 'Desktop' === device && ! attributes.isCaption &&
 				<ElementControls

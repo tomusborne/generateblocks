@@ -1,9 +1,10 @@
 import defaultContext from './default';
 import { __ } from '@wordpress/i18n';
+import { defaultsDeep } from "lodash";
 
-const buttonContainerContext = Object.assign( {}, defaultContext, {
+const buttonContainerContext = defaultsDeep( {
 	id: 'buttonContainer',
-	supports: Object.assign( {}, defaultContext.supports, {
+	supports: {
 		responsiveTabs: true,
 		spacing: {
 			enabled: true,
@@ -17,7 +18,7 @@ const buttonContainerContext = Object.assign( {}, defaultContext, {
 				},
 			],
 		},
-	} ),
-} );
+	},
+}, defaultContext );
 
 export default buttonContainerContext;

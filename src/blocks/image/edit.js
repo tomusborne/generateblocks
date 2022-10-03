@@ -8,12 +8,14 @@ import ComponentCSS from './components/ComponentCSS';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import { store as noticesStore } from '@wordpress/notices';
-import InspectorControls from './components/InspectorControls';
+import ImageSettingsControls from './components/inspector-controls/ImageSettingsControl';
 import { InspectorAdvancedControls, store as blockEditorStore } from '@wordpress/block-editor';
 import { useEntityProp } from '@wordpress/core-data';
 import { getBlobByURL, isBlobURL, revokeBlobURL } from '@wordpress/blob';
 import HTMLAnchor from '../../components/html-anchor';
 import { pick } from 'lodash';
+import { withBlockContext } from "../../block-context";
+import GenerateBlocksInspectorControls from "../../extend/inspector-control";
 
 function ImageEdit( props ) {
 	const {
@@ -158,11 +160,16 @@ function ImageEdit( props ) {
 
 	return (
 		<>
-			<InspectorControls
+			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-				deviceType={ deviceType }
-			/>
+			>
+				<ImageSettingsControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					deviceType={ deviceType }
+				/>
+			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls>
 				<HTMLAnchor { ...props } anchor={ anchor } />
@@ -185,6 +192,7 @@ function ImageEdit( props ) {
 }
 
 export default compose(
+	withBlockContext,
 	withDynamicContent,
 	withUniqueId,
 )( ImageEdit );
