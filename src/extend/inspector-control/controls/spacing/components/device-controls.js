@@ -1,8 +1,8 @@
-import { useContext } from "@wordpress/element";
-import ControlsContext from "../../../../../block-context";
-import InlineWidth from "./inline-width";
-import StackVertically from "./stack-vertically";
-import FillHorizontalSpace from "./fill-horizontal-space";
+import { useContext } from '@wordpress/element';
+import ControlsContext from '../../../../../block-context';
+import InlineWidth from './inline-width';
+import StackVertically from './stack-vertically';
+import FillHorizontalSpace from './fill-horizontal-space';
 
 export default function DeviceControls( props ) {
 	const { supports: { spacing } } = useContext( ControlsContext );

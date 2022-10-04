@@ -11,7 +11,7 @@ import ButtonContentRenderer from './components/ButtonContentRenderer';
 import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 import { useSelect } from '@wordpress/data';
 import { withBlockContext } from '../../block-context';
-import GenerateBlocksInspectorControls from "../../extend/inspector-control";
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 
 const ButtonEdit = ( props ) => {
 	const {

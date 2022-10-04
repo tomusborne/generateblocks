@@ -12,8 +12,8 @@ import save from './save';
 import transforms from './transforms';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 import getIcon from '../../utils/get-icon';
-import { getBlockAttributes } from "../../block-context";
-import imageContext from "../../block-context/image";
+import { getBlockAttributes } from '../../block-context';
+import imageContext from '../../block-context/image';
 
 const attributes = Object.assign(
 	{},

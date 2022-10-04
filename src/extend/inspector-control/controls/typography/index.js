@@ -22,7 +22,7 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 			initialOpen={ false }
 			icon={ getIcon( 'typography' ) }
 			className="gblocks-panel-label"
-			id={ `${id}Typography` }
+			id={ `${ id }Typography` }
 		>
 			{ typography.fontWeight && isDesktop &&
 				<FontWeight

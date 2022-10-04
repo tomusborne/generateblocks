@@ -5,7 +5,7 @@ import DimensionsGroup from '../../../../components/dimensions-group';
 import { useDeviceType } from '../../../../hooks';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
-import DeviceControls from "./components/device-controls";
+import DeviceControls from './components/device-controls';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const [ device ] = useDeviceType();
@@ -28,7 +28,7 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			initialOpen={ false }
 			icon={ getIcon( 'spacing' ) }
 			className="gblocks-panel-label"
-			id={ `${id}Spacing` }
+			id={ `${ id }Spacing` }
 		>
 			{ spacing.dimensions &&
 				<DimensionsGroup
@@ -89,9 +89,13 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 					inlineWidth={ !! inlineWidthMobile }
 					onChangeInlineWidth={ ( checked ) => setAttributes( { inlineWidthMobile: checked } ) }
 					stack={ !! stackMobile }
-					onChangeStack={ ( value ) => { setAttributes( { stackMobile: value } ) } }
+					onChangeStack={ ( value ) => {
+						setAttributes( { stackMobile: value } );
+					} }
 					fill={ !! fillHorizontalSpaceMobile }
-					onFillChange={ ( value ) => { setAttributes( { fillHorizontalSpaceMobile: value } ) } }
+					onFillChange={ ( value ) => {
+						setAttributes( { fillHorizontalSpaceMobile: value } );
+					} }
 				/>
 			}
 		</PanelArea>
