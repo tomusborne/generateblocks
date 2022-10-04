@@ -23,6 +23,15 @@ class GenerateBlocks_Enqueue_CSS {
 	private static $instance;
 
 	/**
+	 * Check to see if we've made this CSS in this instance.
+	 * This should only run on first load if needed.
+	 *
+	 * @access private
+	 * @var boolean
+	 */
+	private static $has_made_css = false;
+
+	/**
 	 * Initiator.
 	 *
 	 * @since 0.1
@@ -56,7 +65,7 @@ class GenerateBlocks_Enqueue_CSS {
 		$dynamic_css_priority = apply_filters( 'generateblocks_dynamic_css_priority', 10 );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dynamic_css' ), $dynamic_css_priority );
-		add_action( 'wp_head', array( $this, 'print_inline_css' ), $dynamic_css_priority );
+		add_action( 'wp_enqueue_scripts', array( $this, 'print_inline_css' ), $dynamic_css_priority );
 	}
 
 	/**
@@ -129,6 +138,11 @@ class GenerateBlocks_Enqueue_CSS {
 		}
 
 		if ( 'file' === $this->mode() ) {
+			if ( ! self::$has_made_css ) {
+				// Store our block IDs based on the content we find.
+				generateblocks_get_dynamic_css( '', true );
+			}
+
 			wp_enqueue_style( 'generateblocks', esc_url( $this->file( 'uri' ) ), array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 		}
 	}
@@ -138,14 +152,21 @@ class GenerateBlocks_Enqueue_CSS {
 	 */
 	public function print_inline_css() {
 		if ( 'inline' === $this->mode() || ! wp_style_is( 'generateblocks', 'enqueued' ) ) {
+			// Build our CSS based on the content we find.
+			generateblocks_get_dynamic_css();
+
 			$css = generateblocks_get_frontend_block_css();
 
 			if ( empty( $css ) ) {
 				return;
 			}
 
-			printf(
-				'<style id="generateblocks-css">%s</style>',
+			// Add a "dummy" handle we can add inline styles to.
+			wp_register_style( 'generateblocks', false ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
+			wp_enqueue_style( 'generateblocks' );
+
+			wp_add_inline_style(
+				'generateblocks',
 				wp_strip_all_tags( $css ) // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			);
 		}
@@ -166,6 +187,9 @@ class GenerateBlocks_Enqueue_CSS {
 		if ( empty( $has_generateblocks ) ) {
 			return false;
 		}
+
+		// Build our CSS based on the content we find.
+		generateblocks_get_dynamic_css();
 
 		$content = generateblocks_get_frontend_block_css();
 
@@ -218,6 +242,9 @@ class GenerateBlocks_Enqueue_CSS {
 
 				// Update the 'generateblocks_dynamic_css_time' option.
 				$this->update_saved_time();
+
+				// Set flag.
+				self::$has_made_css = true;
 
 				// Success!
 				return true;

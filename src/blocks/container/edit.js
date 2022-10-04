@@ -31,6 +31,7 @@ const ContainerEdit = ( props ) => {
 		'generateblocks.editor.containerTagNames',
 		[
 			{ label: 'div', value: 'div' },
+			{ label: 'article', value: 'article' },
 			{ label: 'section', value: 'section' },
 			{ label: 'header', value: 'header' },
 			{ label: 'footer', value: 'footer' },
@@ -44,6 +45,7 @@ const ContainerEdit = ( props ) => {
 		'generateblocks.editor.allowedContainerTagNames',
 		[
 			'div',
+			'article',
 			'section',
 			'header',
 			'footer',

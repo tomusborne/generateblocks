@@ -270,11 +270,19 @@ class GenerateBlocks_Dynamic_Content {
 	public static function get_post_meta( $attributes ) {
 		if ( isset( $attributes['metaFieldName'] ) ) {
 			$meta_value = get_post_meta( self::get_source_id( $attributes ), $attributes['metaFieldName'], true );
-			return (
+
+			$value = (
 				is_string( $meta_value ) ||
 				is_integer( $meta_value ) ||
 				is_float( $meta_value )
 			) ? $meta_value : '';
+
+			return apply_filters(
+				'generateblocks_dynamic_content_post_meta',
+				$value,
+				self::get_source_id( $attributes ),
+				$attributes
+			);
 		}
 	}
 
@@ -297,7 +305,14 @@ class GenerateBlocks_Dynamic_Content {
 				return;
 			}
 
-			return self::get_user_data( $author_id, $attributes['metaFieldName'] );
+			$value = self::get_user_data( $author_id, $attributes['metaFieldName'] );
+
+			return apply_filters(
+				'generateblocks_dynamic_content_author_meta',
+				$value,
+				$author_id,
+				$attributes
+			);
 		}
 	}
 
@@ -761,6 +776,13 @@ class GenerateBlocks_Dynamic_Content {
 			if ( 'post-meta' === $link_type ) {
 				$url = get_post_meta( $id, $attributes['linkMetaFieldName'], true );
 
+				$url = apply_filters(
+					'generateblocks_dynamic_url_post_meta',
+					$url,
+					self::get_source_id( $attributes ),
+					$attributes
+				);
+
 				if ( isset( $attributes['linkMetaFieldType'] ) ) {
 					$url = $attributes['linkMetaFieldType'] . $url;
 				}
@@ -768,6 +790,13 @@ class GenerateBlocks_Dynamic_Content {
 
 			if ( 'author-meta' === $link_type ) {
 				$url = self::get_user_data( $author_id, $attributes['linkMetaFieldName'] );
+
+				$url = apply_filters(
+					'generateblocks_dynamic_url_author_meta',
+					$url,
+					$author_id,
+					$attributes
+				);
 
 				if ( isset( $attributes['linkMetaFieldType'] ) ) {
 					$url = $attributes['linkMetaFieldType'] . $url;
@@ -1022,10 +1051,12 @@ class GenerateBlocks_Dynamic_Content {
 		$html_nodes = $doc->getElementsByTagName( '*' );
 
 		foreach ( $html_nodes as $node ) {
+			$classes = explode( ' ', $node->getAttribute( 'class' ) );
+
 			if (
-				strpos( $node->getAttribute( 'class' ), 'gb-button-text' ) !== false ||
-				strpos( $node->getAttribute( 'class' ), 'gb-headline-text' ) !== false ||
-				strpos( $node->getAttribute( 'class' ), 'gb-block-image' ) !== false
+				in_array( 'gb-button-text', $classes ) ||
+				in_array( 'gb-headline-text', $classes ) ||
+				in_array( 'gb-block-image', $classes )
 			) {
 				// phpcs:ignore -- DOMDocument doesn't use snake-case.
 				foreach ( $node->childNodes as $childNode ) {

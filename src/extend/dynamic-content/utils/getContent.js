@@ -1,6 +1,7 @@
 import { __, sprintf } from '@wordpress/i18n';
 import { dateI18n } from '@wordpress/date';
 import _ from 'lodash';
+import { applyFilters } from '@wordpress/hooks';
 
 /**
  * The content type selectors map.
@@ -161,13 +162,23 @@ function getPostDate( record, attributes ) {
  * @param {string}  metaField            The meta field name.
  * @param {Object}  metaValues           The post meta values.
  * @param {boolean} emptyNotFoundMessage If the message should be undefined.
+ * @param {Object}  attributes           The dynamic content attributes.
  * @return {string} The meta value.
  */
-const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false ) => {
-	if ( metaValues && metaValues[ metaField ] ) {
-		const value = metaValues[ metaField ];
+const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false, attributes = {} ) => {
+	if ( !! metaValues && !! metaField ) {
+		const value = applyFilters(
+			'generateblocks.editor.dynamicContent.postMetaField',
+			metaValues[ metaField ],
+			attributes
+		);
+
+		if ( _.isEmpty( value ) && ! _.isNumber( value ) ) {
+			return metaField;
+		}
+
 		const notSupportedMessage = ! emptyNotFoundMessage
-			? __( 'Meta value', 'generateblocks' )
+			? __( 'Meta field value not supported.', 'generateblocks' )
 			: undefined;
 
 		return ( _.isString( value ) || _.isNumber( value ) )
@@ -187,7 +198,7 @@ const getMetaValue = ( metaField, metaValues, emptyNotFoundMessage = false ) => 
  * @return {string} The post meta value.
  */
 function getPostMetaValue( record, attributes, emptyNotFoundMessage = false ) {
-	return getMetaValue( attributes.metaFieldName, record.meta, emptyNotFoundMessage );
+	return getMetaValue( attributes.metaFieldName, record.meta, emptyNotFoundMessage, attributes );
 }
 
 /**
@@ -202,7 +213,7 @@ function getAuthorMetaValue( record, attributes ) {
 		return authorNotFound();
 	}
 
-	return getMetaValue( attributes.metaFieldName, record.author.meta );
+	return getMetaValue( attributes.metaFieldName, record.author.meta, false, attributes );
 }
 
 /**

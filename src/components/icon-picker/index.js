@@ -103,7 +103,8 @@ class IconPicker extends Component {
 							onClick={ () => {
 								setAttributes( {
 									[ this.props[ 'attrIcon' ] ]: '', // eslint-disable-line dot-notation
-									'hasIcon': false, // eslint-disable-line quote-props
+									hasIcon: false,
+									[ this.props[ 'attrRemoveText' ] ]: false, // eslint-disable-line dot-notation
 								} );
 							} }
 						>

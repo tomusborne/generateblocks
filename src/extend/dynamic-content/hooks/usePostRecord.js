@@ -13,7 +13,10 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 		} = select( coreStore );
 
 		// Post data fetching.
-		const params = [ 'postType', postType, postId ];
+		const params = applyFilters(
+			'generateblocks.editor.dynamicContent.post-request-params',
+			[ 'postType', postType, postId ]
+		);
 
 		let postRecord = getEntityRecord( ...params );
 
@@ -26,11 +29,16 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 		let authorIsLoading = false;
 
 		if ( load.includes( 'author' ) && ! postRecordIsLoading && !! postRecord ) {
-			const author = getUser( postRecord.author );
+			const authorParams = applyFilters(
+				'generateblocks.editor.dynamicContent.author-request-params',
+				[ postRecord.author ]
+			);
+
+			const author = getUser( ...authorParams );
 
 			authorIsLoading = (
-				! hasFinishedResolution( 'getUser', [ postRecord.author ] ) ||
-				isResolving( 'getUser', [ postRecord.author ] )
+				! hasFinishedResolution( 'getUser', authorParams ) ||
+				isResolving( 'getUser', authorParams )
 			);
 
 			if ( ! authorIsLoading && !! author ) {
@@ -42,7 +50,10 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 		let commentsIsLoading = false;
 
 		if ( load.includes( 'comments' ) && ! postRecordIsLoading && !! postRecord ) {
-			const commentsParams = [ 'root', 'comment', { post: postId } ];
+			const commentsParams = applyFilters(
+				'generateblocks.editor.dynamicContent.comments-request-params',
+				[ 'root', 'comment', { post: postId } ]
+			);
 			const comments = getEntityRecords( ...commentsParams );
 
 			commentsIsLoading = (
@@ -59,7 +70,10 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 		let termsIsLoading = false;
 
 		if ( load.includes( 'terms' ) && ! postRecordIsLoading && !! postRecord ) {
-			const termParams = [ 'taxonomy', options.taxonomy, { post: postId } ];
+			const termParams = applyFilters(
+				'generateblocks.editor.dynamicContent.terms-request-params',
+				[ 'taxonomy', options.taxonomy, { post: postId } ]
+			);
 			const terms = getEntityRecords( ...termParams );
 
 			termsIsLoading = (
@@ -73,7 +87,10 @@ export default function usePostRecord( postType, postId, load = [], options = {}
 		}
 
 		return {
-			record: applyFilters( 'generateblocks.editor.postRecord', postRecord ),
+			record: applyFilters(
+				'generateblocks.editor.dynamicContent.postRecord',
+				postRecord
+			),
 			isLoading: ( postRecordIsLoading || authorIsLoading || commentsIsLoading || termsIsLoading ),
 		};
 	}, [ postType, postId, load.join(), JSON.stringify( options ) ] );

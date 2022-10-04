@@ -23,7 +23,7 @@ export default ( { clientId, isDisabled } ) => {
 				{ templates.map( ( template ) => {
 					return (
 						<Button
-							key={ `template-${ template }` }
+							key={ `template-${ template.name }` }
 							onClick={ () => {
 								replaceInnerBlocks(
 									clientId,

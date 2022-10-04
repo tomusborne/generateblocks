@@ -6,7 +6,7 @@ import { colord } from 'colord';
 import { useDebounce } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 import { ColorPalette } from '@wordpress/block-editor';
-import { useState, useEffect, useMemo } from '@wordpress/element';
+import { useState, useEffect, useMemo, useRef } from '@wordpress/element';
 import {
 	Tooltip,
 	BaseControl,
@@ -34,30 +34,12 @@ export default function ColorPicker( props ) {
 		tooltip,
 	} = props;
 
-	const [ isManualInput, setManualInput ] = useState( false );
+	const [ valueState, setValueState ] = useState( value || '' );
+	const inputRef = useRef( null );
 
 	const Component = alpha && 1 === valueOpacity
 		? RgbaStringColorPicker
 		: RgbStringColorPicker;
-
-	useEffect( () => {
-		if ( ! isManualInput ) {
-			return;
-		}
-
-		const timeout = setTimeout( () => {
-			const colorInput = document.querySelector( '.gblocks-color-input-wrapper input' );
-
-			if ( colorInput ) {
-				colorInput.focus();
-			}
-		}, 350 );
-
-		return () => {
-			clearTimeout( timeout );
-			setManualInput( false );
-		};
-	}, [ value ] );
 
 	const isHex = ( hex ) => {
 		return /^([0-9A-F]{3}){1,2}$/i.test( hex );
@@ -81,6 +63,19 @@ export default function ColorPicker( props ) {
 
 	const rgbColor = useMemo( () => getPaletteValue( value ), [ value ] );
 	const debouncedSetColor = useDebounce( onChange );
+
+	useEffect( () => {
+		if ( value !== valueState ) {
+			debouncedSetColor( valueState );
+		}
+
+		// Keep the input focused.
+		setTimeout( () => {
+			if ( inputRef.current ) {
+				inputRef.current.focus();
+			}
+		}, 10 );
+	}, [ valueState ] );
 
 	return (
 		<div className="gblocks-color-component">
@@ -123,29 +118,29 @@ export default function ColorPicker( props ) {
 									nextColor = 1 === alphaValue ? colord( nextColor ).toHex() : nextColor;
 								}
 
-								debouncedSetColor( nextColor );
+								setValueState( nextColor );
 							} }
 						/>
 
 						<div className="gblocks-color-component-content__input-wrapper">
 							<TextControl
+								ref={ inputRef }
 								className="gblocks-color-input"
 								type={ 'text' }
-								value={ value || '' }
+								value={ valueState }
 								onChange={ ( nextColor ) => {
 									if ( ! nextColor.startsWith( '#' ) && isHex( nextColor ) ) {
 										nextColor = '#' + nextColor;
 									}
 
-									debouncedSetColor( nextColor );
-									setManualInput( true );
+									setValueState( nextColor );
 								} }
 								onBlur={ () => {
 									if ( colord( value ).isValid() ) {
 										const alphaValue = colord( value ).alpha();
 
 										if ( 1 === alphaValue ) {
-											debouncedSetColor( colord( value ).toHex() );
+											setValueState( colord( value ).toHex() );
 										}
 									}
 								} }
@@ -156,15 +151,11 @@ export default function ColorPicker( props ) {
 								isSecondary
 								className="gblocks-color-input-clear"
 								onClick={ () => {
-									onChange( '' );
+									setValueState( '' );
 
 									if ( alpha && 1 !== valueOpacity ) {
 										onOpacityChange( 1 );
 									}
-
-									setTimeout( function() {
-										document.querySelector( '.gblocks-color-component-content__input-wrapper input' ).focus();
-									}, 10 );
 								} }
 							>
 								{ __( 'Clear', 'generateblocks' ) }
@@ -194,11 +185,7 @@ export default function ColorPicker( props ) {
 							<ColorPalette
 								value={ value ? value : '' }
 								onChange={ ( color ) => {
-									onChange( color );
-
-									setTimeout( function() {
-										document.querySelector( '.gblocks-color-component-content__input-wrapper input' ).focus();
-									}, 10 );
+									setValueState( color );
 								} }
 								disableCustomColors={ true }
 								clearable={ false }

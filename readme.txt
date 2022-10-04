@@ -1,11 +1,11 @@
 === GenerateBlocks ===
 Contributors: edge22
 Donate link: https://generateblocks.com
-Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor
+Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor, query, loop, posts
 Requires at least: 5.9
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 1.5.4
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -84,6 +84,24 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.6.0 =
+* Feature: Add support for FSE styling
+* Feature: Improve dynamic select components performance
+* Feature: Add necessary filters and actions for ACF integration in GB Pro
+* Fix: Missing styling when blocks added outside content
+* Fix: Missing styling for blocks within loop content
+* Fix: Removing icons without text does not display text back again
+* Fix: "Sticky posts only" not displaying correctly in the frontend
+* Fix: Pass dynamic container link to settings variable
+* Fix: Color picker behavior when manually changing value
+* Fix: Missing legacy alpha color slider in gradient component if set to 0
+* Fix: Remove gb-*-text class from dynamic blocks with icons
+* Fix: Dynamic content conflict with icons and custom classes
+* Fix: Missing legacy alpha color slider in gradient component
+* Tweak: Enqueue inline embedding stylesheet using wp_enqueue_scripts
+* Tweak: Remove block-editor-block-list__block class from root wrapper
+* Tweak: Headline transform to core Heading keep the level
 
 = 1.5.4 =
 * Fix: Non hierarchical taxonomies with broken REST API calls

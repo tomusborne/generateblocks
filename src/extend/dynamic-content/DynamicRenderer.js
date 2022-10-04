@@ -19,6 +19,15 @@ function getContentRenderer( name ) {
 	return contentRenders[ name ];
 }
 
+function isValidUrl( string ) {
+	try {
+		new URL( string );
+		return true;
+	} catch ( err ) {
+		return false;
+	}
+}
+
 export default function DynamicRenderer( props ) {
 	const {
 		name,
@@ -54,13 +63,16 @@ export default function DynamicRenderer( props ) {
 		content = rawContent.split( termSeparator )[ 0 ];
 	}
 
+	const dynamicImage = (
+		!! content &&
+		( 'generateblocks/container' === name || 'generateblocks/image' === name ) &&
+		( isValidUrl( content ) || ! isNaN( parseInt( content ) ) )
+	) ? content : undefined;
+
 	const newAttributes = Object.assign( {}, attributes, {
 		content: 'generateblocks/headline' === name ? content : undefined,
 		text: 'generateblocks/button' === name ? content : undefined,
-		dynamicImage: 'generateblocks/container' === name ||
-			'generateblocks/image' === name
-			? content
-			: undefined,
+		dynamicImage,
 	} );
 
 	const newProps = Object.assign( {}, props, {

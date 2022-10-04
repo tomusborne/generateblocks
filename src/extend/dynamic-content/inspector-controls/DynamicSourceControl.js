@@ -30,7 +30,7 @@ export default ( { dynamicSource, postType, postId, setAttributes, dynamicConten
 					<PostTypeRecordsSelect
 						postId={ postId }
 						postType={ postType }
-						value={ [ postId ] }
+						value={ !! postId ? [ postId ] : [] }
 						id={ 'gblocks-select-post' }
 						label={ __( 'Select source post', 'generateblocks' ) }
 						onChange={ ( option ) => {

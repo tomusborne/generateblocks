@@ -1,7 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
-import { SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { SelectControl, ToggleControl } from '@wordpress/components';
+import PostMetaControl from './PostMetaControl';
+import AuthorMetaControl from './AuthorMetaControl';
 
 const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 	let defaultOptions = [
@@ -109,6 +111,9 @@ export default ( {
 	isActive,
 	name,
 	dynamicLinkRemoveIfEmpty,
+	postType,
+	postId,
+	attributes,
 } ) => {
 	const options = getOptions( dynamicContentType, isPagination, name );
 
@@ -135,13 +140,25 @@ export default ( {
 						onChange={ ( option ) => setAttributes( { dynamicLinkType: option.value } ) }
 					/>
 
-					{ isMeta &&
-						<TextControl
-							label={ __( 'Meta field name', 'generateblocks' ) }
-							value={ linkMetaFieldName }
-							onChange={ ( newValue ) => setAttributes( { linkMetaFieldName: newValue } ) }
-						/>
-					}
+					<PostMetaControl
+						isActive={ isMeta && 'post-meta' === linkType }
+						postType={ postType }
+						postId={ postId }
+						metaFieldKey={ 'linkMetaFieldName' }
+						metaFieldName={ linkMetaFieldName }
+						setAttributes={ setAttributes }
+						attributes={ attributes }
+					/>
+
+					<AuthorMetaControl
+						isActive={ isMeta && 'author-meta' === linkType }
+						postType={ postType }
+						postId={ postId }
+						metaFieldKey={ 'linkMetaFieldName' }
+						metaFieldName={ linkMetaFieldName }
+						setAttributes={ setAttributes }
+						attributes={ attributes }
+					/>
 
 					{ (
 						'author-email' === linkType ||
