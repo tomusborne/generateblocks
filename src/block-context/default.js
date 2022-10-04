@@ -1,7 +1,14 @@
+import { __ } from "@wordpress/i18n";
+
 const defaultContext = {
 	id: '',
 	supports: {
 		responsiveTabs: false,
+		settingsPanel: {
+			enabled: false,
+			label: __( 'Settings', 'generateblocks' ),
+			icon: 'wrench',
+		},
 		typography: {
 			enabled: false,
 			fontWeight: false,
