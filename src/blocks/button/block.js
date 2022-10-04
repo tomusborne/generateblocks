@@ -19,10 +19,12 @@ import {
 	registerBlockType,
 } from '@wordpress/blocks';
 import getContentTypeLabel from '../../extend/dynamic-content/utils/getContentTypeLabel';
+import { getBlockAttributes } from '../../block-context';
+import buttonContext from '../../block-context/button';
 
 const attributes = Object.assign(
 	{},
-	blockAttributes,
+	getBlockAttributes( blockAttributes, buttonContext, generateBlocksDefaults.button ),
 	dynamicContentAttributes
 );
 

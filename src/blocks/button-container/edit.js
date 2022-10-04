@@ -1,6 +1,5 @@
 import { Fragment, useEffect, useState } from '@wordpress/element';
 import BlockControls from './components/BlockControls';
-import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import { InnerBlocks, useBlockProps, BlockContextProvider } from '@wordpress/block-editor';
@@ -10,8 +9,9 @@ import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { withButtonContainerLegacyMigration, withUniqueId } from '../../hoc';
 import { useDispatch } from '@wordpress/data';
-import { createBlock } from '@wordpress/blocks';
 import RootElement from '../../components/root-element';
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 
 const ButtonContainerEdit = ( props ) => {
 	const {
@@ -29,23 +29,10 @@ const ButtonContainerEdit = ( props ) => {
 	} = attributes;
 
 	const [ buttonCount, setButtonCount ] = useState( 0 );
-	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const [ deviceType ] = useDeviceType( 'Desktop' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 
-	const { insertBlocks, removeBlock } = useDispatch( 'core/block-editor' );
-
-	useEffect( () => {
-		// Add a button when the container is inserted.
-		if ( 0 === innerBlocksCount ) {
-			insertBlocks(
-				createBlock( 'generateblocks/button', generateBlocksStyling.button ),
-				undefined,
-				clientId
-			);
-		}
-
-		setButtonCount( innerBlocksCount );
-	}, [] );
+	const { removeBlock } = useDispatch( 'core/block-editor' );
 
 	useEffect( () => {
 		// If we've removed all of our buttons, remove the container.
@@ -81,13 +68,7 @@ const ButtonContainerEdit = ( props ) => {
 				deviceType={ deviceType }
 			/>
 
-			<InspectorControls
-				{ ...props }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				state={ { deviceType } }
-				blockDefaults={ generateBlocksDefaults.buttonContainer }
-			/>
+			<GenerateBlocksInspectorControls attributes={ attributes } setAttributes={ setAttributes } />
 
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 
@@ -99,6 +80,9 @@ const ButtonContainerEdit = ( props ) => {
 						<InnerBlocks
 							allowedBlocks={ [ 'generateblocks/button' ] }
 							renderAppender={ false }
+							template={ [
+								[ 'generateblocks/button', generateBlocksStyling.button ],
+							] }
 						/>
 					</BlockContextProvider>
 				</div>
@@ -108,6 +92,7 @@ const ButtonContainerEdit = ( props ) => {
 };
 
 export default compose(
+	withBlockContext,
 	withUniqueId,
 	withButtonContainerLegacyMigration
 )( ButtonContainerEdit );

@@ -2,7 +2,6 @@ import { useDeviceType } from '../../hooks';
 import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
-import InspectorControls from './components/InspectorControls';
 import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
@@ -12,6 +11,8 @@ import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import HeadlineContentRenderer from './components/HeadlineContentRenderer';
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	let block;
@@ -41,7 +42,6 @@ const HeadlineEdit = ( props ) => {
 	} = props;
 
 	const {
-		uniqueId,
 		anchor,
 		fontFamily,
 		googleFont,
@@ -54,7 +54,7 @@ const HeadlineEdit = ( props ) => {
 
 	const ref = useRef( null );
 	const [ computedStyles, setComputedStyles ] = useState( {} );
-	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const [ deviceType ] = useDeviceType();
 
 	useEffect( () => {
 		if ( ! hasIcon && icon ) {
@@ -81,12 +81,9 @@ const HeadlineEdit = ( props ) => {
 				context={ context }
 			/>
 
-			<InspectorControls
-				{ ...props }
-				uniqueId={ uniqueId }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				blockState={ { deviceType } }
+			<GenerateBlocksInspectorControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
 				computedStyles={ computedStyles }
 			/>
 
@@ -109,6 +106,7 @@ const HeadlineEdit = ( props ) => {
 };
 
 export default compose(
+	withBlockContext,
 	withDynamicContent,
 	withUniqueId
 )( HeadlineEdit );
