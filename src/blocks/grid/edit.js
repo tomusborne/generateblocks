@@ -13,6 +13,8 @@ import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
 import withQueryLoop from '../query-loop/hoc/withQueryLoop';
+import { withBlockContext } from "../../block-context";
+import GenerateBlocksInspectorControls from "../../extend/inspector-control";
 
 const GridEdit = ( props ) => {
 	const {
@@ -84,13 +86,16 @@ const GridEdit = ( props ) => {
 				<BlockControls uniqueId={ attributes.uniqueId } clientId={ props.clientId } />
 			}
 
-			<InspectorControls
-				{ ...props }
-				state={ { selectedLayout, deviceType } }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				blockDefaults={ generateBlocksDefaults.gridContainer }
-			/>
+			<GenerateBlocksInspectorControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			>
+				<InspectorControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					deviceType={ deviceType }
+				/>
+			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls
 				anchor={ attributes.anchor }
@@ -126,6 +131,7 @@ const GridEdit = ( props ) => {
 };
 
 export default compose(
+	withBlockContext,
 	withQueryLoop,
 	withUniqueId,
 	withGridLegacyMigration,
