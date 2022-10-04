@@ -225,9 +225,6 @@ class GenerateBlocks_Block_Button {
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-button' );
-			$css->add_property( 'display', 'inline-flex' );
-			$css->add_property( 'align-items', 'center' );
-			$css->add_property( 'justify-content', 'center' );
 			$css->add_property( 'text-align', 'center' );
 			$css->add_property( 'text-decoration', 'none' );
 			$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
@@ -255,6 +252,7 @@ class GenerateBlocks_Block_Button {
 		}
 
 		$css->set_selector( $selector . ', ' . $selector . ':visited' );
+		generateblocks_add_layout_css( $css, $settings );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
 
@@ -274,9 +272,10 @@ class GenerateBlocks_Block_Button {
 		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 		$css->add_property( 'text-transform', $settings['textTransform'] );
 
-		if ( $settings['hasIcon'] ) {
+		if ( $blockVersion < 3 ) {
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'align-items', 'center' );
+			$css->add_property( 'justify-content', 'center' );
 		}
 
 		$css->set_selector( $selector . ':hover, ' . $selector . ':active, ' . $selector . ':focus' );
@@ -299,6 +298,7 @@ class GenerateBlocks_Block_Button {
 		}
 
 		$tablet_css->set_selector( $selector );
+		generateblocks_add_layout_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 		$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 		$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
@@ -316,6 +316,7 @@ class GenerateBlocks_Block_Button {
 		}
 
 		$mobile_css->set_selector( $selector );
+		generateblocks_add_layout_css( $mobile_css, $settings, 'Mobile' );
 		$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 		$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 		$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
