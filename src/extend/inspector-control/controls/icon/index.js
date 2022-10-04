@@ -9,7 +9,7 @@ import { useContext } from "@wordpress/element";
 import ControlsContext from "../../../../block-context";
 
 export default function IconControls( { attributes, setAttributes } ) {
-	const { id } = useContext( ControlsContext );
+	const { id, supports: { icon: iconSupport } } = useContext( ControlsContext );
 	const [ device ] = useDeviceType();
 	const {
 		icon,
@@ -45,11 +45,13 @@ export default function IconControls( { attributes, setAttributes } ) {
 							attributes={ attributes }
 							setAttributes={ setAttributes }
 							iconLocation={ iconLocation }
+							locationOptions={ iconSupport.location }
 							onChangeLocation={ ( value ) => {
 								setAttributes( {
 									iconLocation: value,
-									iconPaddingRight: 'inline' === value ? '0.5' : '',
+									iconPaddingRight: 'inline' === value || 'left' === value ? '0.5' : '',
 									iconPaddingBottom: 'above' === value ? '0.5' : '',
+									iconPaddingLeft: 'right' === value ? '0.5' : '',
 								} );
 							} }
 							iconVerticalAlignment={ iconVerticalAlignment }
@@ -68,11 +70,13 @@ export default function IconControls( { attributes, setAttributes } ) {
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					iconLocation={ iconLocationTablet }
+					locationOptions={ iconSupport.location }
 					onChangeLocation={ ( value ) => {
 						setAttributes( {
 							iconLocationTablet: value,
-							iconPaddingRightTablet: 'inline' === value ? '0.5' : '',
+							iconPaddingRightTablet: 'inline' === value || 'left' === value ? '0.5' : '',
 							iconPaddingBottomTablet: 'above' === value ? '0.5' : '',
+							iconPaddingLeftTablet: 'right' === value ? '0.5' : '',
 						} );
 					} }
 					iconVerticalAlignment={ iconVerticalAlignmentTablet }
@@ -89,11 +93,13 @@ export default function IconControls( { attributes, setAttributes } ) {
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					iconLocation={ iconLocationMobile }
+					locationOptions={ iconSupport.location }
 					onChangeLocation={ ( value ) => {
 						setAttributes( {
 							iconLocationMobile: value,
-							iconPaddingRightMobile: 'inline' === value ? '0.5' : '',
+							iconPaddingRightMobile: 'inline' === value || 'left' === value ? '0.5' : '',
 							iconPaddingBottomMobile: 'above' === value ? '0.5' : '',
+							iconPaddingLeftMobile: 'right' === value ? '0.5' : '',
 						} );
 					} }
 					iconVerticalAlignment={ iconVerticalAlignmentMobile }

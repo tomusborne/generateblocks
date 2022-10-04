@@ -4,6 +4,7 @@ import IconPadding from './icon-padding';
 
 export default function IconStyles( props ) {
 	const {
+		locationOptions,
 		iconLocation,
 		iconVerticalAlignment,
 		attributes,
@@ -14,7 +15,7 @@ export default function IconStyles( props ) {
 
 	return (
 		<>
-			<IconLocation value={ iconLocation } onChange={ onChangeLocation } />
+			<IconLocation value={ iconLocation } onChange={ onChangeLocation } options={ locationOptions } />
 
 			{ 'inline' === iconLocation &&
 				<IconAlignment value={ iconVerticalAlignment } onChange={ onChangeAlignment } />

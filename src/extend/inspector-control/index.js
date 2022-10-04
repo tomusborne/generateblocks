@@ -8,6 +8,7 @@ import SpacingControls from './controls/spacing';
 import ColorsControls from './controls/colors';
 import IconControls from './controls/icon';
 import ElementControls from './controls/element';
+import BackgroundGradient from "./controls/background-gradient";
 
 export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles } ) {
 	const [ device ] = useDeviceType();
@@ -17,7 +18,8 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			typography,
 			spacing,
 			colors,
-			hasIcon,
+			backgroundGradient,
+			icon,
 			htmlTags,
 		},
 	} = useContext( ControlsContext );
@@ -56,7 +58,14 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				/>
 			}
 
-			{ hasIcon && ( 'Desktop' === device || !! attributes.icon ) &&
+			{ backgroundGradient.enabled &&
+				<BackgroundGradient
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ icon.enabled && ( 'Desktop' === device || !! attributes.icon ) &&
 				<IconControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
