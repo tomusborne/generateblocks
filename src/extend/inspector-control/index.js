@@ -10,6 +10,7 @@ import IconControls from './controls/icon';
 import ElementControls from './controls/element';
 import BackgroundGradient from './controls/background-gradient';
 import SettingsPanel from './controls/settings-panel';
+import LayoutControls from './controls/layout';
 
 export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles, children } ) {
 	const [ device ] = useDeviceType();
@@ -17,6 +18,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 		supports: {
 			responsiveTabs,
 			settingsPanel,
+			layout,
 			typography,
 			spacing,
 			colors,
@@ -36,6 +38,13 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 
 			{ htmlTags.enabled && 'Desktop' === device && ! attributes.isCaption &&
 				<ElementControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ layout.enabled &&
+				<LayoutControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>

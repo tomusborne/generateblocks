@@ -1,29 +1,31 @@
-import { PanelBody } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import getIcon from '../../utils/get-icon';
-import LayoutControl from './LayoutControl';
-import isFlexItem from '../../utils/is-flex-item';
+import PanelArea from '../../../../components/panel-area';
+import getIcon from '../../../../utils/get-icon';
+import { useDeviceType } from '../../../../hooks';
+import { useContext } from '@wordpress/element';
+import ControlsContext from '../../../../block-context';
+import LayoutControl from './components/LayoutControl';
+import isFlexItem from '../../../../utils/is-flex-item';
 
-export default ( props ) => {
-	const {
-		setAttributes,
-		attributes,
-		deviceType,
-	} = props;
+export default function Layout( { attributes, setAttributes } ) {
+	const [ device ] = useDeviceType();
+	const { id, supports: { layout } } = useContext( ControlsContext );
 
 	const componentProps = {
 		setAttributes,
 		attributes,
-		deviceType,
+		deviceType: device,
 	};
 
 	return (
-		<>
-			<PanelBody
-				title={ __( 'Layout', 'generateblocks' ) }
-				icon={ getIcon( 'layout' ) }
-				className="gblocks-panel-label"
-			>
+		<PanelArea
+			title={ __( 'Layout', 'generateblocks' ) }
+			initialOpen={ false }
+			icon={ getIcon( 'layout' ) }
+			className="gblocks-panel-label"
+			id={ `${ id }Layout` }
+		>
+			{ layout.display &&
 				<LayoutControl
 					{ ...componentProps }
 					label={ __( 'Display', 'generateblocks' ) }
@@ -38,9 +40,11 @@ export default ( props ) => {
 						{ label: 'none', value: 'none' },
 					] }
 				/>
+			}
 
-				{ isFlexItem( { deviceType, attributes } ) &&
-					<>
+			{ isFlexItem( { device, attributes } ) &&
+				<>
+					{ layout.flexDirection &&
 						<LayoutControl
 							{ ...componentProps }
 							label={ __( 'Flex Direction', 'generateblocks' ) }
@@ -53,7 +57,9 @@ export default ( props ) => {
 								{ label: __( 'Column (reverse)', 'generateblocks' ), value: 'column-reverse' },
 							] }
 						/>
+					}
 
+					{ layout.flexWrap &&
 						<LayoutControl
 							{ ...componentProps }
 							label={ __( 'Flex Wrap', 'generateblocks' ) }
@@ -65,7 +71,9 @@ export default ( props ) => {
 								{ label: __( 'Wrap (reverse)', 'generateblocks' ), value: 'wrap-reverse' },
 							] }
 						/>
+					}
 
+					{ layout.alignItems &&
 						<LayoutControl
 							{ ...componentProps }
 							label={ __( 'Align Items', 'generateblocks' ) }
@@ -78,7 +86,9 @@ export default ( props ) => {
 								{ label: __( 'Stretch', 'generateblocks' ), value: 'stretch' },
 							] }
 						/>
+					}
 
+					{ layout.justifyContent &&
 						<LayoutControl
 							{ ...componentProps }
 							label={ __( 'Justify Content', 'generateblocks' ) }
@@ -92,9 +102,9 @@ export default ( props ) => {
 								{ label: __( 'Space Around', 'generateblocks' ), value: 'space-around' },
 							] }
 						/>
-					</>
-				}
-			</PanelBody>
-		</>
+					}
+				</>
+			}
+		</PanelArea>
 	);
-};
+}

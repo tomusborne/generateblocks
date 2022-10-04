@@ -1,4 +1,4 @@
-import addToCSS from '../../utils/add-to-css';
+import addToCSS from '../../../../../utils/add-to-css';
 
 export default function LayoutCSS( css, selector, attributes, device = '' ) {
 	return (

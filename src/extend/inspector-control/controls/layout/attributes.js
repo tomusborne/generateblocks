@@ -1,5 +1,5 @@
 
-export default function getLayoutAttributes( name ) {
+export default function getLayoutAttributes( defaults ) {
 	const options = [
 		'display',
 		'flexDirection',
@@ -13,17 +13,17 @@ export default function getLayoutAttributes( name ) {
 	options.forEach( ( option ) => {
 		attributes[ option ] = {
 			type: 'string',
-			default: generateBlocksDefaults[ name ][ option ],
+			default: defaults[ option ],
 		};
 
 		attributes[ option + 'Tablet' ] = {
 			type: 'string',
-			default: generateBlocksDefaults[ name ][ option + 'Tablet' ],
+			default: defaults[ option + 'Tablet' ],
 		};
 
 		attributes[ option + 'Mobile' ] = {
 			type: 'string',
-			default: generateBlocksDefaults[ name ][ option + 'Mobile' ],
+			default: defaults[ option + 'Mobile' ],
 		};
 	} );
 

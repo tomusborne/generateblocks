@@ -1,6 +1,6 @@
 export default function isFlexItem( props ) {
 	const {
-		deviceType,
+		device,
 		attributes,
 	} = props;
 
@@ -12,11 +12,11 @@ export default function isFlexItem( props ) {
 
 	let flexItem = false;
 
-	if ( 'Desktop' === deviceType && display.includes( 'flex' ) ) {
+	if ( 'Desktop' === device && display.includes( 'flex' ) ) {
 		flexItem = true;
 	}
 
-	if ( 'Tablet' === deviceType ) {
+	if ( 'Tablet' === device ) {
 		if (
 			( displayTablet && displayTablet.includes( 'flex' ) ) ||
 			( ! displayTablet && display.includes( 'flex' ) )
@@ -25,7 +25,7 @@ export default function isFlexItem( props ) {
 		}
 	}
 
-	if ( 'Mobile' === deviceType ) {
+	if ( 'Mobile' === device ) {
 		if (
 			( displayMobile && displayMobile.includes( 'flex' ) ) ||
 			( ! displayMobile && displayTablet && displayTablet.includes( 'flex' ) ) ||

@@ -1,5 +1,5 @@
 import { SelectControl } from '@wordpress/components';
-import getAttribute from '../../utils/get-attribute';
+import getAttribute from '../../../../../utils/get-attribute';
 
 export default ( props ) => {
 	const {
@@ -15,6 +15,7 @@ export default ( props ) => {
 			value={ getAttribute( attributeName, props ) }
 			options={ options }
 			onChange={ ( value ) => {
+				console.log(getAttribute( attributeName, props, true ));
 				setAttributes( {
 					[ getAttribute( attributeName, props, true ) ]: value,
 				} );
