@@ -4,6 +4,7 @@ import headlineContext from './headline';
 import buttonContainerContext from "./button-container";
 import buttonContext from "./button";
 import imageContext from "./image";
+import gridContext from "./grid";
 import getElementAttributes from '../extend/inspector-control/controls/element/attributes';
 import getTypographyAttributes from '../extend/inspector-control/controls/typography/attributes';
 import getSpacingAttributes from '../extend/inspector-control/controls/spacing/attributes';
@@ -30,6 +31,7 @@ export function getBlockContext( blockName ) {
 		'generateblocks/button-container': buttonContainerContext,
 		'generateblocks/button': buttonContext,
 		'generateblocks/image': imageContext,
+		'generateblocks/grid': gridContext,
 	}[ blockName ];
 }
 
