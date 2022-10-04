@@ -1,6 +1,6 @@
 {
 	"name": "generateblocks",
-	"version": "1.6.0-alpha.2",
+	"version": "1.6.0",
 	"private": true,
 	"description": "A small collection of lightweight WordPress blocks that can accomplish nearly anything.",
 	"author": "Tom Usborne",

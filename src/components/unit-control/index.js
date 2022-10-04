@@ -7,7 +7,7 @@ import { TextControl, BaseControl } from '@wordpress/components';
 /**
  * Internal dependencies
  */
-import hasNumericValue from '../../utils/has-numeric-value';
+
 import './editor.scss';
 
 export default function UnitControl( props ) {
@@ -43,6 +43,7 @@ export default function UnitControl( props ) {
 
 	const getNumericValue = ( values ) => values.length > 0 ? values[ 0 ] : '';
 	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : 'px';
+	const hasNumber = ( value ) => /\d/.test( value );
 	const desktopValues = splitValues( attributes[ attributeName ] );
 	const tabletValues = splitValues( attributes[ attributeName + 'Tablet' ] );
 
@@ -75,10 +76,18 @@ export default function UnitControl( props ) {
 
 	// Split the number and unit into two values.
 	useEffect( () => {
-		const values = splitValues( overrideValue || attributes[ attribute ] );
+		const value = overrideValue || attributes[ attribute ];
 
-		setNumericValue( getNumericValue( values ) );
-		setUnitValue( getUnitValue( values ) );
+		// Split our values if we have a number.
+		if ( hasNumber( value ) ) {
+			const values = splitValues( value );
+
+			setNumericValue( getNumericValue( values ) );
+			setUnitValue( getUnitValue( values ) );
+		} else {
+			setNumericValue( value );
+			setUnitValue( '' );
+		}
 
 		// Set the device placeholders and switch the units to match
 		// their parent device value if no device-specific value exists.
@@ -92,17 +101,17 @@ export default function UnitControl( props ) {
 			return;
 		}
 
-		const fullValue = hasNumericValue( numericValue )
+		const fullValue = hasNumber( numericValue )
 			? numericValue + unitValue
-			: '';
-
-		const deviceValues = {
-			Tablet: desktopValues,
-			Mobile: tabletValues,
-		};
+			: numericValue;
 
 		// Clear the placeholder if the units don't match.
 		if ( ! fullValue ) {
+			const deviceValues = {
+				Tablet: desktopValues,
+				Mobile: tabletValues,
+			};
+
 			if ( device in deviceValues ) {
 				if ( unitValue !== getUnitValue( deviceValues[ device ] ) ) {
 					setPlaceholderValue( '' );
@@ -127,7 +136,7 @@ export default function UnitControl( props ) {
 		>
 			<div className="gblocks-unit-control__input">
 				<TextControl
-					type="number"
+					type="text"
 					value={ numericValue }
 					placeholder={ placeholderValue }
 					id={ id }
@@ -136,27 +145,26 @@ export default function UnitControl( props ) {
 					step={ step }
 					autoComplete="off"
 					disabled={ disabled }
-					onChange={ ( value ) => {
-						if ( min >= 0 ) {
-							// No hyphens allowed here.
-							value = value.toString().replace( /-/g, '' );
-						}
-
-						setNumericValue( value );
-					} }
+					onChange={ ( value ) => setNumericValue( value ) }
 				/>
 
-				<span className="gblocks-unit-control__unit-select">
-					<select
-						value={ unitValue }
-						disabled={ disabled }
-						onChange={ ( e ) => {
-							setUnitValue( e.target.value );
-						} }
-					>
-						{ units.map( ( unitOption ) => <option key={ unitOption } value={ unitOption }>{ unitOption }</option> ) }
-					</select>
-				</span>
+				{ (
+					hasNumber( numericValue ) ||
+					(
+						! numericValue &&
+						( ! placeholderValue || hasNumber( placeholderValue ) )
+					)
+				) &&
+					<span className="gblocks-unit-control__unit-select">
+						<select
+							value={ unitValue }
+							disabled={ disabled }
+							onChange={ ( e ) => setUnitValue( e.target.value ) }
+						>
+							{ units.map( ( unitOption ) => <option key={ unitOption } value={ unitOption }>{ unitOption }</option> ) }
+						</select>
+					</span>
+				}
 			</div>
 		</BaseControl>
 	);

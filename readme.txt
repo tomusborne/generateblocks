@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiw
 Requires at least: 5.9
 Tested up to: 6.0
 Requires PHP: 5.6
-Stable tag: 1.5.4
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -95,6 +95,10 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: "Sticky posts only" not displaying correctly in the frontend
 * Fix: Pass dynamic container link to settings variable
 * Fix: Color picker behavior when manually changing value
+* Fix: Missing legacy alpha color slider in gradient component if set to 0
+* Fix: Remove gb-*-text class from dynamic blocks with icons
+* Fix: Dynamic content conflict with icons and custom classes
+* Fix: Missing legacy alpha color slider in gradient component
 * Tweak: Enqueue inline embedding stylesheet using wp_enqueue_scripts
 * Tweak: Remove block-editor-block-list__block class from root wrapper
 * Tweak: Headline transform to core Heading keep the level
