@@ -12,7 +12,6 @@ const imageContext = defaultsDeep({
 		},
 		spacing: {
 			enabled: true,
-			inlineWidth: true,
 			dimensions: [
 				{
 					type: 'padding',
