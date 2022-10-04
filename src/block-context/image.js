@@ -1,8 +1,8 @@
 import defaultContext from './default';
 import { __ } from '@wordpress/i18n';
-import { defaultsDeep } from "lodash";
+import { defaultsDeep } from 'lodash';
 
-const imageContext = defaultsDeep({
+const imageContext = defaultsDeep( {
 	id: 'image',
 	supports: {
 		responsiveTabs: true,

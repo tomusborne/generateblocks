@@ -14,7 +14,7 @@ export default function Colors( { attributes, setAttributes } ) {
 			initialOpen={ true }
 			icon={ getIcon( 'colors' ) }
 			className="gblocks-panel-label"
-			id={ `${id}Colors` }
+			id={ `${ id }Colors` }
 		>
 			<ColorGroup
 				attributes={ attributes }

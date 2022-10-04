@@ -13,8 +13,8 @@ import { compose } from '@wordpress/compose';
 import { useDeviceType, useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
 import withQueryLoop from '../query-loop/hoc/withQueryLoop';
-import { withBlockContext } from "../../block-context";
-import GenerateBlocksInspectorControls from "../../extend/inspector-control";
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 
 const GridEdit = ( props ) => {
 	const {
@@ -29,7 +29,7 @@ const GridEdit = ( props ) => {
 	} = props;
 
 	const [ selectedLayout, setSelectedLayout ] = useState( false );
-	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const [ deviceType ] = useDeviceType();
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );

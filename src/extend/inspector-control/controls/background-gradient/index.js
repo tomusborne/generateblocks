@@ -1,9 +1,9 @@
-import { __ } from "@wordpress/i18n";
-import getIcon from "../../../../utils/get-icon";
-import GradientControl from "../../../../components/gradient";
-import PanelArea from "../../../../components/panel-area";
-import { useContext } from "@wordpress/element";
-import ControlsContext from "../../../../block-context";
+import { __ } from '@wordpress/i18n';
+import getIcon from '../../../../utils/get-icon';
+import GradientControl from '../../../../components/gradient';
+import PanelArea from '../../../../components/panel-area';
+import { useContext } from '@wordpress/element';
+import ControlsContext from '../../../../block-context';
 
 export default function BackgroundGradient( { attributes, setAttributes } ) {
 	const { id } = useContext( ControlsContext );

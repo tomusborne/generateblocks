@@ -1,16 +1,16 @@
 import { createContext } from '@wordpress/element';
 import defaultContext from './default';
 import headlineContext from './headline';
-import buttonContainerContext from "./button-container";
-import buttonContext from "./button";
-import imageContext from "./image";
-import gridContext from "./grid";
+import buttonContainerContext from './button-container';
+import buttonContext from './button';
+import imageContext from './image';
+import gridContext from './grid';
 import getElementAttributes from '../extend/inspector-control/controls/element/attributes';
 import getTypographyAttributes from '../extend/inspector-control/controls/typography/attributes';
 import getSpacingAttributes from '../extend/inspector-control/controls/spacing/attributes';
 import getColorsAttributes from '../extend/inspector-control/controls/colors/attributes';
 import getIconAttributes from '../extend/inspector-control/controls/icon/attributes';
-import getBackgroundGradientAttributes from "../extend/inspector-control/controls/background-gradient/attributes";
+import getBackgroundGradientAttributes from '../extend/inspector-control/controls/background-gradient/attributes';
 
 /**
  * The BlockContext represents the layer to build the block components.

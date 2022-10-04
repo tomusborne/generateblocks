@@ -11,7 +11,7 @@ import { withButtonContainerLegacyMigration, withUniqueId } from '../../hoc';
 import { useDispatch } from '@wordpress/data';
 import RootElement from '../../components/root-element';
 import { withBlockContext } from '../../block-context';
-import GenerateBlocksInspectorControls from "../../extend/inspector-control";
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 
 const ButtonContainerEdit = ( props ) => {
 	const {

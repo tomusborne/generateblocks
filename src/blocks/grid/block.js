@@ -10,8 +10,8 @@ import deprecated from './deprecated';
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/block-editor';
-import { getBlockAttributes } from "../../block-context";
-import gridContext from "../../block-context/grid";
+import { getBlockAttributes } from '../../block-context';
+import gridContext from '../../block-context/grid';
 
 const attributes = getBlockAttributes(
 	blockAttributes,

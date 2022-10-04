@@ -14,8 +14,8 @@ import { useEntityProp } from '@wordpress/core-data';
 import { getBlobByURL, isBlobURL, revokeBlobURL } from '@wordpress/blob';
 import HTMLAnchor from '../../components/html-anchor';
 import { pick } from 'lodash';
-import { withBlockContext } from "../../block-context";
-import GenerateBlocksInspectorControls from "../../extend/inspector-control";
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 
 function ImageEdit( props ) {
 	const {

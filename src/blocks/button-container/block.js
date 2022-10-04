@@ -11,8 +11,8 @@ import getIcon from '../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/block-editor';
-import { getBlockAttributes } from "../../block-context";
-import buttonContainerContext from "../../block-context/button-container";
+import { getBlockAttributes } from '../../block-context';
+import buttonContainerContext from '../../block-context/button-container';
 
 const attributes = getBlockAttributes(
 	blockAttributes,
@@ -55,8 +55,8 @@ registerBlockType( 'generateblocks/button-container', {
 		);
 	},
 	deprecated,
-	__experimentalLabel: ( attributes ) => (
-		attributes.isPagination
+	__experimentalLabel: ( { isPagination } ) => (
+		isPagination
 			? __( 'Pagination', 'generateblocks' )
 			: __( 'Buttons', 'generateblocks' )
 	),

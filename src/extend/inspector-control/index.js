@@ -8,8 +8,8 @@ import SpacingControls from './controls/spacing';
 import ColorsControls from './controls/colors';
 import IconControls from './controls/icon';
 import ElementControls from './controls/element';
-import BackgroundGradient from "./controls/background-gradient";
-import SettingsPanel from "./controls/settings-panel";
+import BackgroundGradient from './controls/background-gradient';
+import SettingsPanel from './controls/settings-panel';
 
 export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles, children } ) {
 	const [ device ] = useDeviceType();
