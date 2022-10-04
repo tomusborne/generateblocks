@@ -15,7 +15,6 @@ export default ( props ) => {
 			value={ getAttribute( attributeName, props ) }
 			options={ options }
 			onChange={ ( value ) => {
-				console.log(getAttribute( attributeName, props, true ));
 				setAttributes( {
 					[ getAttribute( attributeName, props, true ) ]: value,
 				} );
