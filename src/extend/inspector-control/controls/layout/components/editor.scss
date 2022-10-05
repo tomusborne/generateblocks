@@ -1,0 +1,28 @@
+.gblocks-flex-button-group {
+	display: flex;
+
+	button {
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+
+		svg {
+			width: 18px;
+			color: #777;
+		}
+
+		&.is-primary {
+			svg {
+				color: #fff;
+			}
+		}
+	}
+}
+
+.gblocks-is-column-direction-alignItems svg {
+	transform: rotate(-90deg);
+}
+
+.gblocks-is-column-direction-justifyContent svg {
+	transform: rotate(90deg);
+}
