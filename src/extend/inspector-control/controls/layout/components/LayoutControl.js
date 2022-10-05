@@ -46,6 +46,19 @@ export default ( props ) => {
 		}
 	}
 
+	function ButtonElement( option ) {
+		return (
+			<Button
+				isPrimary={ option.value === getAttribute( attributeName, props ) }
+				onClick={ () => setAttributes( {
+					[ getAttribute( attributeName, props, true ) ]: option.value !== getAttribute( attributeName, props ) ? option.value : '',
+				} ) }
+			>
+				{ option.icon || option.label }
+			</Button>
+		);
+	}
+
 	return (
 		<BaseControl
 			id={ attributeName }
@@ -56,16 +69,14 @@ export default ( props ) => {
 				{
 					flexOptions[ attributeName ].map( ( flexOption ) => {
 						return (
-							<Tooltip text={ flexOption.label } key={ flexOption.label }>
-								<Button
-									isPrimary={ flexOption.value === getAttribute( attributeName, props ) }
-									onClick={ () => setAttributes( {
-										[ getAttribute( attributeName, props, true ) ]: flexOption.value !== getAttribute( attributeName, props ) ? flexOption.value : '',
-									} ) }
-								>
-									{ flexOption.icon }
-								</Button>
-							</Tooltip>
+							<>
+								{ !! flexOption.icon
+									? <Tooltip text={ flexOption.label } key={ flexOption.label }>
+										{ ButtonElement( flexOption ) }
+									</Tooltip>
+									: ButtonElement( flexOption )
+								}
+							</>
 						);
 					} )
 				}

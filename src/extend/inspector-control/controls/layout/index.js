@@ -33,12 +33,11 @@ export default function Layout( { attributes, setAttributes } ) {
 					value={ getAttribute( 'display', componentProps ) }
 					options={ [
 						{ label: __( 'Default', 'generateblocks' ), value: '' },
-						{ label: 'block', value: 'block' },
-						{ label: 'inline-block', value: 'inline-block' },
-						{ label: 'flex', value: 'flex' },
-						{ label: 'inline-flex', value: 'inline-flex' },
-						{ label: 'inline', value: 'inline' },
-						{ label: 'none', value: 'none' },
+						{ label: 'Block', value: 'block' },
+						{ label: 'Inline Block', value: 'inline-block' },
+						{ label: 'Flex', value: 'flex' },
+						{ label: 'Inline Flex', value: 'inline-flex' },
+						{ label: 'Inline', value: 'inline' },
 					] }
 					onChange={ ( value ) => {
 						setAttributes( {
