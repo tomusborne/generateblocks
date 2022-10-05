@@ -58,14 +58,6 @@ export default function Layout( { attributes, setAttributes } ) {
 						/>
 					}
 
-					{ layout.flexWrap &&
-						<LayoutControl
-							{ ...componentProps }
-							label={ __( 'Wrap', 'generateblocks' ) }
-							attributeName="flexWrap"
-						/>
-					}
-
 					{ layout.alignItems &&
 						<LayoutControl
 							{ ...componentProps }
@@ -79,6 +71,14 @@ export default function Layout( { attributes, setAttributes } ) {
 							{ ...componentProps }
 							label={ __( 'Justify Content', 'generateblocks' ) }
 							attributeName="justifyContent"
+						/>
+					}
+
+					{ layout.flexWrap &&
+						<LayoutControl
+							{ ...componentProps }
+							label={ __( 'Wrap', 'generateblocks' ) }
+							attributeName="flexWrap"
 						/>
 					}
 				</>
