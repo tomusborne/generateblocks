@@ -13,10 +13,23 @@
 	}
 }
 
-.gblocks-is-column-direction-alignItems svg {
+.gblocks-flex-direction-alignItems-column svg {
+	transform: rotate(-90deg) scale(-1, 1);
+}
+
+.gblocks-flex-direction-justifyContent-column svg {
+	transform: rotate(90deg);
+}
+
+.gblocks-flex-direction-alignItems-column-reverse svg {
 	transform: rotate(-90deg);
 }
 
-.gblocks-is-column-direction-justifyContent svg {
-	transform: rotate(90deg);
+.gblocks-flex-direction-justifyContent-column-reverse svg {
+	transform: rotate(90deg) scale(-1, 1);
+}
+
+.gblocks-flex-direction-alignItems-row-reverse svg,
+.gblocks-flex-direction-justifyContent-row-reverse svg {
+	transform: scale(-1, 1);
 }

@@ -1,7 +1,9 @@
 import { BaseControl, ButtonGroup, Button, Tooltip } from '@wordpress/components';
 import getAttribute from '../../../../../utils/get-attribute';
+import getResponsivePlaceholder from '../../../../../utils/get-responsive-placeholder';
 import flexOptions from '../options';
 import './editor.scss';
+import classnames from 'classnames';
 
 export default ( props ) => {
 	const {
@@ -12,39 +14,7 @@ export default ( props ) => {
 		attributes,
 	} = props;
 
-	const {
-		flexDirection,
-		flexDirectionTablet,
-		flexDirectionMobile,
-	} = attributes;
-
-	function attributeHasColumn( attribute ) {
-		return attribute.includes( 'column' );
-	}
-
-	function isColumn() {
-		if ( 'alignItems' === attributeName || 'justifyContent' === attributeName ) {
-			if ( 'Desktop' === deviceType ) {
-				return attributeHasColumn( flexDirection );
-			}
-
-			if ( 'Tablet' === deviceType ) {
-				return attributeHasColumn( flexDirectionTablet ) || ( '' === flexDirectionTablet && attributeHasColumn( flexDirection ) );
-			}
-
-			if ( 'Mobile' === deviceType ) {
-				return attributeHasColumn( flexDirectionMobile ) ||
-				(
-					'' === flexDirectionMobile &&
-					attributeHasColumn( flexDirectionTablet )
-				) ||
-				(
-					'' === flexDirectionTablet &&
-					attributeHasColumn( flexDirection )
-				);
-			}
-		}
-	}
+	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, deviceType, 'row' );
 
 	function ButtonElement( option ) {
 		return (
@@ -63,7 +33,9 @@ export default ( props ) => {
 		<BaseControl
 			id={ attributeName }
 			label={ label }
-			className={ isColumn() ? 'gblocks-is-column-direction-' + attributeName : '' }
+			className={ classnames( {
+				[ `gblocks-flex-direction-${ attributeName + '-' + directionValue }` ]: true,
+			} ) }
 		>
 			<ButtonGroup id={ attributeName } className="gblocks-flex-button-group">
 				{
