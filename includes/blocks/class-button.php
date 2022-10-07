@@ -234,8 +234,6 @@ class GenerateBlocks_Block_Button {
 
 			$css->set_selector( '.gb-button .gb-icon' );
 			$css->add_property( 'align-items', 'center' );
-
-			$css->set_selector( '.gb-icon' );
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'line-height', '0' );
 
