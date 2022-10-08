@@ -1,0 +1,35 @@
+.gblocks-flex-button-group {
+	display: flex;
+
+	button {
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+		font-size: 12px;
+
+		svg {
+			width: 15px;
+		}
+	}
+}
+
+.gblocks-flex-direction-alignItems-column svg {
+	transform: rotate(-90deg) scale(-1, 1);
+}
+
+.gblocks-flex-direction-justifyContent-column svg {
+	transform: rotate(90deg);
+}
+
+.gblocks-flex-direction-alignItems-column-reverse svg {
+	transform: rotate(-90deg);
+}
+
+.gblocks-flex-direction-justifyContent-column-reverse svg {
+	transform: rotate(90deg) scale(-1, 1);
+}
+
+.gblocks-flex-direction-alignItems-row-reverse svg,
+.gblocks-flex-direction-justifyContent-row-reverse svg {
+	transform: scale(-1, 1);
+}

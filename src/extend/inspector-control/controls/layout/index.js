@@ -6,6 +6,8 @@ import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import LayoutControl from './components/LayoutControl';
 import isFlexItem from '../../../../utils/is-flex-item';
+import getAttribute from '../../../../utils/get-attribute';
+import { SelectControl } from '@wordpress/components';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const [ device ] = useDeviceType();
@@ -26,19 +28,22 @@ export default function Layout( { attributes, setAttributes } ) {
 			id={ `${ id }Layout` }
 		>
 			{ layout.display &&
-				<LayoutControl
-					{ ...componentProps }
+				<SelectControl
 					label={ __( 'Display', 'generateblocks' ) }
-					attributeName="display"
+					value={ getAttribute( 'display', componentProps ) }
 					options={ [
 						{ label: __( 'Default', 'generateblocks' ), value: '' },
-						{ label: 'block', value: 'block' },
-						{ label: 'inline-block', value: 'inline-block' },
-						{ label: 'flex', value: 'flex' },
-						{ label: 'inline-flex', value: 'inline-flex' },
-						{ label: 'inline', value: 'inline' },
-						{ label: 'none', value: 'none' },
+						{ label: 'Block', value: 'block' },
+						{ label: 'Inline Block', value: 'inline-block' },
+						{ label: 'Flex', value: 'flex' },
+						{ label: 'Inline Flex', value: 'inline-flex' },
+						{ label: 'Inline', value: 'inline' },
 					] }
+					onChange={ ( value ) => {
+						setAttributes( {
+							[ getAttribute( 'display', componentProps, true ) ]: value,
+						} );
+					} }
 				/>
 			}
 
@@ -47,29 +52,8 @@ export default function Layout( { attributes, setAttributes } ) {
 					{ layout.flexDirection &&
 						<LayoutControl
 							{ ...componentProps }
-							label={ __( 'Flex Direction', 'generateblocks' ) }
+							label={ __( 'Direction', 'generateblocks' ) }
 							attributeName="flexDirection"
-							options={ [
-								{ label: __( 'Default', 'generateblocks' ), value: '' },
-								{ label: __( 'Row', 'generateblocks' ), value: 'row' },
-								{ label: __( 'Column', 'generateblocks' ), value: 'column' },
-								{ label: __( 'Row (reverse)', 'generateblocks' ), value: 'row-reverse' },
-								{ label: __( 'Column (reverse)', 'generateblocks' ), value: 'column-reverse' },
-							] }
-						/>
-					}
-
-					{ layout.flexWrap &&
-						<LayoutControl
-							{ ...componentProps }
-							label={ __( 'Flex Wrap', 'generateblocks' ) }
-							attributeName="flexWrap"
-							options={ [
-								{ label: __( 'Default', 'generateblocks' ), value: '' },
-								{ label: __( 'No Wrap', 'generateblocks' ), value: 'nowrap' },
-								{ label: __( 'Wrap', 'generateblocks' ), value: 'wrap' },
-								{ label: __( 'Wrap (reverse)', 'generateblocks' ), value: 'wrap-reverse' },
-							] }
 						/>
 					}
 
@@ -78,13 +62,6 @@ export default function Layout( { attributes, setAttributes } ) {
 							{ ...componentProps }
 							label={ __( 'Align Items', 'generateblocks' ) }
 							attributeName="alignItems"
-							options={ [
-								{ label: __( 'Default', 'generateblocks' ), value: '' },
-								{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-								{ label: __( 'Start', 'generateblocks' ), value: 'flex-start' },
-								{ label: __( 'End', 'generateblocks' ), value: 'flex-end' },
-								{ label: __( 'Stretch', 'generateblocks' ), value: 'stretch' },
-							] }
 						/>
 					}
 
@@ -93,14 +70,14 @@ export default function Layout( { attributes, setAttributes } ) {
 							{ ...componentProps }
 							label={ __( 'Justify Content', 'generateblocks' ) }
 							attributeName="justifyContent"
-							options={ [
-								{ label: __( 'Default', 'generateblocks' ), value: '' },
-								{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-								{ label: __( 'Start', 'generateblocks' ), value: 'flex-start' },
-								{ label: __( 'End', 'generateblocks' ), value: 'flex-end' },
-								{ label: __( 'Space Between', 'generateblocks' ), value: 'space-between' },
-								{ label: __( 'Space Around', 'generateblocks' ), value: 'space-around' },
-							] }
+						/>
+					}
+
+					{ layout.flexWrap &&
+						<LayoutControl
+							{ ...componentProps }
+							label={ __( 'Wrap', 'generateblocks' ) }
+							attributeName="flexWrap"
 						/>
 					}
 				</>
