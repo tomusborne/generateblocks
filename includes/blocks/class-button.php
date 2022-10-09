@@ -229,11 +229,7 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'text-decoration', 'none' );
 			$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
 
-			$css->set_selector( '.gb-button .gb-icon' );
-			$css->add_property( 'align-items', 'center' );
-
 			$css->set_selector( '.gb-icon' );
-			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'line-height', '0' );
 
 			$css->set_selector( '.gb-icon svg' );
@@ -294,6 +290,11 @@ class GenerateBlocks_Block_Button {
 
 			if ( ! $settings['removeText'] ) {
 				$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
+			}
+
+			if ( $blockVersion < 3 ) {
+				$css->add_property( 'align-items', 'center' );
+				$css->add_property( 'display', 'inline-flex' );
 			}
 		}
 
