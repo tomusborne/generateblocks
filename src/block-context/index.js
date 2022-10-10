@@ -5,6 +5,7 @@ import buttonContainerContext from './button-container';
 import buttonContext from './button';
 import imageContext from './image';
 import gridContext from './grid';
+import containerContext from './container';
 import getElementAttributes from '../extend/inspector-control/controls/element/attributes';
 import getTypographyAttributes from '../extend/inspector-control/controls/typography/attributes';
 import getSpacingAttributes from '../extend/inspector-control/controls/spacing/attributes';
@@ -32,6 +33,7 @@ export function getBlockContext( blockName ) {
 		'generateblocks/button': buttonContext,
 		'generateblocks/image': imageContext,
 		'generateblocks/grid': gridContext,
+		'generateblocks/container': containerContext,
 	}[ blockName ];
 }
 
@@ -42,8 +44,12 @@ export function getBlockContext( blockName ) {
  * @return {function(*)} The component with context provider.
  */
 export const withBlockContext = ( WrappedComponent ) => ( ( props ) => {
+	const blockContext = getBlockContext( props.name );
+	const isInQueryLoop = 'undefined' !== typeof props.context[ 'generateblocks/queryId' ];
+	const blockName = props.name;
+
 	return (
-		<BlockContext.Provider value={ getBlockContext( props.name ) }>
+		<BlockContext.Provider value={ Object.assign( {}, blockContext, { isInQueryLoop, blockName } ) }>
 			<WrappedComponent { ...props } />
 		</BlockContext.Provider>
 	);
