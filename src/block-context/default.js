@@ -2,6 +2,8 @@ import { __ } from '@wordpress/i18n';
 
 const defaultContext = {
 	id: '',
+	blockName: '',
+	isInQueryLoop: false,
 	supports: {
 		responsiveTabs: false,
 		settingsPanel: {
@@ -23,6 +25,10 @@ const defaultContext = {
 			inlineWidth: false,
 			stackVertically: false,
 			fillHorizontalSpace: false,
+			minimumHeight: false,
+			verticalAlignment: false,
+			zIndex: false,
+			innerZIndex: false,
 			dimensions: [],
 		},
 		colors: {
@@ -30,6 +36,12 @@ const defaultContext = {
 			elements: [],
 		},
 		backgroundGradient: {
+			enabled: false,
+		},
+		backgroundPanel: {
+			enabled: false,
+		},
+		shapesPanel: {
 			enabled: false,
 		},
 		icon: {
