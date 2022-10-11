@@ -19,6 +19,12 @@ export default function Layout( { attributes, setAttributes } ) {
 		deviceType: device,
 	};
 
+	const {
+		display,
+		displayTablet,
+		displayMobile,
+	} = attributes;
+
 	return (
 		<PanelArea
 			title={ __( 'Layout', 'generateblocks' ) }
@@ -36,7 +42,7 @@ export default function Layout( { attributes, setAttributes } ) {
 				/>
 			}
 
-			{ isFlexItem( { device, attributes } ) &&
+			{ isFlexItem( { device, display, displayTablet, displayMobile } ) &&
 				<>
 					{ layout.flexDirection &&
 						<LayoutControl
