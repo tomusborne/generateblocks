@@ -525,18 +525,6 @@ export default {
 	blockVersion: {
 		type: 'number',
 	},
-	maxWidth: {
-		type: 'string',
-		default: '',
-	},
-	maxWidthTablet: {
-		type: 'string',
-		default: '',
-	},
-	maxWidthMobile: {
-		type: 'string',
-		default: '',
-	},
 	useInnerContainer: {
 		type: 'boolean',
 		default: false,

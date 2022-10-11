@@ -11,6 +11,11 @@ const containerContext = defaultsDeep( {
 			label: __( 'Layout', 'generateblocks' ),
 			icon: 'layout',
 		},
+		sizing: {
+			enabled: true,
+			maxWidth: true,
+			useGlobalMaxWidth: true,
+		},
 		typography: {
 			enabled: true,
 			fontWeight: true,
