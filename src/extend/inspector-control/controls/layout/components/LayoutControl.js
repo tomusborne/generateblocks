@@ -1,28 +1,22 @@
 import { BaseControl, ButtonGroup, Button, Tooltip } from '@wordpress/components';
-import getAttribute from '../../../../../utils/get-attribute';
-import getResponsivePlaceholder from '../../../../../utils/get-responsive-placeholder';
 import flexOptions from '../options';
 import './editor.scss';
 import classnames from 'classnames';
 
 export default ( props ) => {
 	const {
-		setAttributes,
+		value,
+		onChange,
 		label,
 		attributeName,
-		deviceType,
-		attributes,
+		directionValue,
 	} = props;
-
-	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, deviceType, 'row' );
 
 	function ButtonElement( option ) {
 		return (
 			<Button
-				isPrimary={ option.value === getAttribute( attributeName, props ) }
-				onClick={ () => setAttributes( {
-					[ getAttribute( attributeName, props, true ) ]: option.value !== getAttribute( attributeName, props ) ? option.value : '',
-				} ) }
+				isPrimary={ option.value === value }
+				onClick={ () => onChange( option.value ) }
 			>
 				{ option.icon || option.label }
 			</Button>
