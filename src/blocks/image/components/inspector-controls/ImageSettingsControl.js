@@ -67,21 +67,21 @@ export default function ImageSettingsControls( props ) {
 			>
 				<div className="gblocks-image-dimensions__row">
 					<UnitControl
-						{ ...props }
 						label={ __( 'Width', 'generateblocks' ) }
 						id="gblocks-image-width"
+						attributes={ attributes }
+						setAttributes={ setAttributes }
 						attributeName="width"
-						device={ deviceType }
 						min="1"
 						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 
 					<UnitControl
-						{ ...props }
 						label={ __( 'Height', 'generateblocks' ) }
 						id="gblocks-image-height"
+						attributes={ attributes }
+						setAttributes={ setAttributes }
 						attributeName="height"
-						device={ deviceType }
 						min="1"
 						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
