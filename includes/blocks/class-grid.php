@@ -137,15 +137,26 @@ class GenerateBlocks_Block_Grid {
 		$css->add_property( 'align-items', $settings['verticalAlignment'] );
 		$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
+		if ( $blockVersion > 2 ) {
+			$css->add_property( 'row-gap', $settings['verticalGap'], 'px' );
+		}
+
 		if ( $settings['horizontalGap'] ) {
 			$css->add_property( 'margin-' . $gap_direction, '-' . $settings['horizontalGap'] . 'px' );
 		}
 
 		$css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$css->add_property( 'padding-' . $gap_direction, $settings['horizontalGap'], 'px' );
-		$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
+
+		if ( $blockVersion < 3 ) {
+			$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
+		}
 
 		$tablet_css->set_selector( '.gb-grid-wrapper-' . $id );
+
+		if ( $blockVersion > 2 ) {
+			$tablet_css->add_property( 'row-gap', $settings['verticalGapTablet'], 'px' );
+		}
 
 		if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 			$tablet_css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
@@ -163,9 +174,16 @@ class GenerateBlocks_Block_Grid {
 
 		$tablet_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$tablet_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapTablet'], 'px' );
-		$tablet_css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
+
+		if ( $blockVersion < 3 ) {
+			$tablet_css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
+		}
 
 		$mobile_css->set_selector( '.gb-grid-wrapper-' . $id );
+
+		if ( $blockVersion > 2 ) {
+			$mobile_css->add_property( 'row-gap', $settings['verticalGapMobile'], 'px' );
+		}
 
 		if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 			$mobile_css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
@@ -183,7 +201,10 @@ class GenerateBlocks_Block_Grid {
 
 		$mobile_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$mobile_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapMobile'], 'px' );
-		$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
+
+		if ( $blockVersion < 3 ) {
+			$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
+		}
 
 		// Store this block ID in memory.
 		self::store_block_id( $id );
