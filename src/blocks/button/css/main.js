@@ -3,6 +3,7 @@ import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 
 import {
 	Component,
@@ -117,6 +118,8 @@ export default class MainCSS extends Component {
 			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
+
+		LayoutCSS( cssObj, selector, attributes );
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			cssObj[ selector ].push( {

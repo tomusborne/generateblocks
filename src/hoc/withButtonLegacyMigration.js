@@ -28,6 +28,16 @@ export default ( WrappedComponent ) => {
 				setAttributes( { hasUrl: ( !! url ) } );
 			}
 
+			// Set our layout attributes for old Button blocks.
+			// @since 1.7.0
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 3 ) ) {
+				setAttributes( {
+					display: 'inline-flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+				} );
+			}
+
 			// Set our old defaults as static values.
 			// @since 1.4.0.
 			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 2 ) ) {
