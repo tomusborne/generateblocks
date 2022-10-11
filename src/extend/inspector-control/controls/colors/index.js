@@ -6,7 +6,7 @@ import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 
 export default function Colors( { attributes, setAttributes } ) {
-	const { id, supports: { colors } } = useContext( ControlsContext );
+	const { id, blockName, supports: { colors } } = useContext( ControlsContext );
 
 	return (
 		<PanelArea
@@ -20,6 +20,7 @@ export default function Colors( { attributes, setAttributes } ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				colors={ colors.elements }
+				name={ blockName }
 			/>
 		</PanelArea>
 	);

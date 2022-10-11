@@ -10,9 +10,11 @@ import IconControls from './controls/icon';
 import ElementControls from './controls/element';
 import BackgroundGradient from './controls/background-gradient';
 import SettingsPanel from './controls/settings-panel';
+import BackgroundPanel from './controls/background-panel';
+import ShapesPanel from './controls/shapes-panel';
 import LayoutControls from './controls/layout';
 
-export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles, children } ) {
+export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles = {}, children } ) {
 	const [ device ] = useDeviceType();
 	const {
 		supports: {
@@ -23,6 +25,8 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			spacing,
 			colors,
 			backgroundGradient,
+			backgroundPanel,
+			shapesPanel,
 			icon,
 			htmlTags,
 		},
@@ -75,6 +79,20 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 
 			{ backgroundGradient.enabled &&
 				<BackgroundGradient
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ backgroundPanel.enabled &&
+				<BackgroundPanel
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ shapesPanel.enabled && 'Desktop' === device &&
+				<ShapesPanel
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
