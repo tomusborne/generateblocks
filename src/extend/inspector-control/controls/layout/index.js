@@ -25,6 +25,8 @@ export default function Layout( { attributes, setAttributes } ) {
 		displayMobile,
 	} = attributes;
 
+	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
+
 	return (
 		<PanelArea
 			title={ __( 'Layout', 'generateblocks' ) }
@@ -52,7 +54,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							} ) }
 							label={ __( 'Direction', 'generateblocks' ) }
 							attributeName="flexDirection"
-							directionValue={ getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' ) }
+							directionValue={ directionValue }
 						/>
 					}
 
@@ -64,7 +66,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							} ) }
 							label={ __( 'Align Items', 'generateblocks' ) }
 							attributeName="alignItems"
-							directionValue={ getResponsivePlaceholder( 'alignItems', attributes, device, 'row' ) }
+							directionValue={ directionValue }
 						/>
 					}
 
@@ -76,7 +78,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							} ) }
 							label={ __( 'Justify Content', 'generateblocks' ) }
 							attributeName="justifyContent"
-							directionValue={ getResponsivePlaceholder( 'justifyContent', attributes, device, 'row' ) }
+							directionValue={ directionValue }
 						/>
 					}
 
@@ -88,7 +90,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							} ) }
 							label={ __( 'Wrap', 'generateblocks' ) }
 							attributeName="flexWrap"
-							directionValue={ getResponsivePlaceholder( 'flexWrap', attributes, device, 'row' ) }
+							directionValue={ directionValue }
 						/>
 					}
 				</>
