@@ -63,6 +63,7 @@ class GenerateBlocks_Block_Variant_Accordion {
 		$defaults['container']['accordionItemOpen'] = false;
 		$defaults['container']['accordionContent'] = false;
 		$defaults['container']['accordionMultipleOpen'] = false;
+		$defaults['button']['accordionToggle'] = false;
 
 		return $defaults;
 	}
