@@ -16,7 +16,6 @@ export default ( props ) => {
 		clientId,
 		attributes,
 		setAttributes,
-		filterTagName,
 	} = props;
 	const [ deviceType ] = useDeviceType();
 
@@ -32,27 +31,12 @@ export default ( props ) => {
 		verticalAlignmentMobile,
 		orderTablet,
 		orderMobile,
-		tagName,
 	} = attributes;
 
 	const {
 		getBlockParents,
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
-
-	const tagNames = applyFilters(
-		'generateblocks.editor.containerTagNames',
-		[
-			{ label: 'div', value: 'div' },
-			{ label: 'article', value: 'article' },
-			{ label: 'section', value: 'section' },
-			{ label: 'header', value: 'header' },
-			{ label: 'footer', value: 'footer' },
-			{ label: 'aside', value: 'aside' },
-		],
-		props,
-		{ deviceType }
-	);
 
 	useEffect( () => {
 		const parentBlockId = getBlockParents( clientId, true );
@@ -143,19 +127,6 @@ export default ( props ) => {
 							/>
 						</>
 					}
-
-					<SelectControl
-						label={ __( 'Tag Name', 'generateblocks' ) }
-						value={ tagName }
-						options={ tagNames }
-						onChange={ ( value ) => {
-							setAttributes( {
-								tagName: filterTagName( value ),
-							} );
-						} }
-					/>
-
-					{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', props ) }
 				</>
 			}
 

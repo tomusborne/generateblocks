@@ -77,7 +77,10 @@ const ContainerEdit = ( props ) => {
 				/>
 			</GenerateBlocksInspectorControls>
 
-			<InspectorAdvancedControls { ...props } />
+			<InspectorAdvancedControls
+				{ ...props }
+				filterTagName={ filterTagName }
+			/>
 
 			<GoogleFontLink
 				fontFamily={ fontFamily }
