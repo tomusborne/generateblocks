@@ -3,7 +3,6 @@ import { Fragment, useEffect } from '@wordpress/element';
 import {
 	SelectControl,
 	TextControl,
-	ToggleControl,
 } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import hasNumericValue from '../../../utils/has-numeric-value';
@@ -31,9 +30,6 @@ export default ( props ) => {
 		verticalAlignment,
 		verticalAlignmentTablet,
 		verticalAlignmentMobile,
-		removeVerticalGap,
-		removeVerticalGapTablet,
-		removeVerticalGapMobile,
 		orderTablet,
 		orderMobile,
 		tagName,
@@ -145,18 +141,6 @@ export default ( props ) => {
 									} );
 								} }
 							/>
-
-							{ ! isQueryLoopItem &&
-								<ToggleControl
-									label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-									checked={ !! removeVerticalGap }
-									onChange={ ( value ) => {
-										setAttributes( {
-											removeVerticalGap: value,
-										} );
-									} }
-								/>
-							}
 						</>
 					}
 
@@ -195,18 +179,6 @@ export default ( props ) => {
 						} }
 					/>
 
-					{ ! isQueryLoopItem &&
-						<ToggleControl
-							label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-							checked={ !! removeVerticalGapTablet }
-							onChange={ ( value ) => {
-								setAttributes( {
-									removeVerticalGapTablet: value,
-								} );
-							} }
-						/>
-					}
-
 					<TextControl
 						type={ 'number' }
 						label={ __( 'Order', 'generateblocks' ) }
@@ -239,18 +211,6 @@ export default ( props ) => {
 							} );
 						} }
 					/>
-
-					{ ! isQueryLoopItem &&
-						<ToggleControl
-							label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-							checked={ !! removeVerticalGapMobile }
-							onChange={ ( value ) => {
-								setAttributes( {
-									removeVerticalGapMobile: value,
-								} );
-							} }
-						/>
-					}
 
 					<TextControl
 						type={ 'number' }
