@@ -9,6 +9,7 @@ import { TextControl, BaseControl } from '@wordpress/components';
  */
 
 import './editor.scss';
+import { useDeviceType } from '../../hooks';
 
 export default function UnitControl( props ) {
 	const {
@@ -17,7 +18,6 @@ export default function UnitControl( props ) {
 		attributes,
 		setAttributes,
 		units = [ 'px', 'em', '%', 'rem' ],
-		device,
 		min = 0,
 		max,
 		step,
@@ -26,6 +26,7 @@ export default function UnitControl( props ) {
 		overrideValue = null,
 	} = props;
 
+	const [ device ] = useDeviceType();
 	const [ unitValue, setUnitValue ] = useState( '' );
 	const [ numericValue, setNumericValue ] = useState( '' );
 	const [ placeholderValue, setPlaceholderValue ] = useState( '' );
