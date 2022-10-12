@@ -3,7 +3,6 @@ import { Fragment, useEffect } from '@wordpress/element';
 import {
 	SelectControl,
 	TextControl,
-	ToggleControl,
 } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import hasNumericValue from '../../../utils/has-numeric-value';
@@ -17,7 +16,6 @@ export default ( props ) => {
 		clientId,
 		attributes,
 		setAttributes,
-		filterTagName,
 	} = props;
 	const [ deviceType ] = useDeviceType();
 
@@ -31,32 +29,14 @@ export default ( props ) => {
 		verticalAlignment,
 		verticalAlignmentTablet,
 		verticalAlignmentMobile,
-		removeVerticalGap,
-		removeVerticalGapTablet,
-		removeVerticalGapMobile,
 		orderTablet,
 		orderMobile,
-		tagName,
 	} = attributes;
 
 	const {
 		getBlockParents,
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
-
-	const tagNames = applyFilters(
-		'generateblocks.editor.containerTagNames',
-		[
-			{ label: 'div', value: 'div' },
-			{ label: 'article', value: 'article' },
-			{ label: 'section', value: 'section' },
-			{ label: 'header', value: 'header' },
-			{ label: 'footer', value: 'footer' },
-			{ label: 'aside', value: 'aside' },
-		],
-		props,
-		{ deviceType }
-	);
 
 	useEffect( () => {
 		const parentBlockId = getBlockParents( clientId, true );
@@ -145,33 +125,8 @@ export default ( props ) => {
 									} );
 								} }
 							/>
-
-							{ ! isQueryLoopItem &&
-								<ToggleControl
-									label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-									checked={ !! removeVerticalGap }
-									onChange={ ( value ) => {
-										setAttributes( {
-											removeVerticalGap: value,
-										} );
-									} }
-								/>
-							}
 						</>
 					}
-
-					<SelectControl
-						label={ __( 'Tag Name', 'generateblocks' ) }
-						value={ tagName }
-						options={ tagNames }
-						onChange={ ( value ) => {
-							setAttributes( {
-								tagName: filterTagName( value ),
-							} );
-						} }
-					/>
-
-					{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', props ) }
 				</>
 			}
 
@@ -194,18 +149,6 @@ export default ( props ) => {
 							} );
 						} }
 					/>
-
-					{ ! isQueryLoopItem &&
-						<ToggleControl
-							label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-							checked={ !! removeVerticalGapTablet }
-							onChange={ ( value ) => {
-								setAttributes( {
-									removeVerticalGapTablet: value,
-								} );
-							} }
-						/>
-					}
 
 					<TextControl
 						type={ 'number' }
@@ -239,18 +182,6 @@ export default ( props ) => {
 							} );
 						} }
 					/>
-
-					{ ! isQueryLoopItem &&
-						<ToggleControl
-							label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-							checked={ !! removeVerticalGapMobile }
-							onChange={ ( value ) => {
-								setAttributes( {
-									removeVerticalGapMobile: value,
-								} );
-							} }
-						/>
-					}
 
 					<TextControl
 						type={ 'number' }

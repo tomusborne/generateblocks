@@ -33,8 +33,8 @@ export default ( WrappedComponent ) => {
 				}
 			}
 
-			if ( isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
-				setAttributes( { blockVersion: 2 } );
+			if ( isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
+				setAttributes( { blockVersion: 3 } );
 			}
 		}, [] );
 
