@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 import {
 	Component,
@@ -9,6 +10,7 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import sizingValue from '../../../utils/sizingValue';
 
 export default class TabletCSS extends Component {
 	render() {
@@ -17,14 +19,10 @@ export default class TabletCSS extends Component {
 		const {
 			uniqueId,
 			isGrid,
-			widthTablet,
-			autoWidthTablet,
 			flexGrowTablet,
 			flexShrinkTablet,
 			flexBasisTablet,
 			flexBasisUnit,
-			minHeightTablet,
-			minHeightUnitTablet,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
@@ -54,7 +52,7 @@ export default class TabletCSS extends Component {
 			bgOptions,
 			gridId,
 			useInnerContainer,
-			maxWidthTablet,
+			sizing,
 		} = attributes;
 
 		let cssObj = [];
@@ -69,8 +67,9 @@ export default class TabletCSS extends Component {
 			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 			'text-align': alignmentTablet,
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
-			'min-height': valueWithUnit( minHeightTablet, minHeightUnitTablet ),
 		} ];
+
+		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 
 		if ( ! useInnerContainer ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -78,7 +77,6 @@ export default class TabletCSS extends Component {
 				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
 				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
 				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
-				'max-width': maxWidthTablet,
 			} );
 		}
 
@@ -92,7 +90,7 @@ export default class TabletCSS extends Component {
 			} );
 		}
 
-		if ( minHeightTablet && ! isGrid ) {
+		if ( SizingCSS( 'minHeightTablet', sizing ) && ! isGrid ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
@@ -115,7 +113,7 @@ export default class TabletCSS extends Component {
 				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
 				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
 				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
-				'width': minHeightTablet && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
+				'width': sizingValue( 'minHeightTablet', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
 		}
 
@@ -126,7 +124,7 @@ export default class TabletCSS extends Component {
 			];
 
 			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
-				width: ! autoWidthTablet ? valueWithUnit( widthTablet, '%' ) : 'auto',
+				width: sizingValue( 'widthTablet', sizing ),
 				'flex-grow': flexGrowTablet,
 				'flex-shrink': flexShrinkTablet,
 				'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
