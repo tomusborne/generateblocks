@@ -1155,3 +1155,52 @@ function generateblocks_get_global_container_width() {
 			: generateblocks_get_option( 'container_width' ) . 'px'
 	);
 }
+
+/**
+ * Add our Sizing component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_sizing_css( $css, $settings, $device = '' ) {
+	$options = [
+		'width' => 'width',
+		'height' => 'height',
+		'min-width' => 'minWidth',
+		'min-height' => 'minHeight',
+		'max-width' => 'maxWidth',
+		'max-height' => 'maxHeight',
+	];
+
+	if ( ! empty( $settings['useInnerContainer'] ) ) {
+		unset( $options['max-width'] );
+	}
+
+	if ( ! empty( $settings['isGrid'] ) ) {
+		unset( $options['width'] );
+		unset( $options['min-width'] );
+		unset( $options['max-width'] );
+	}
+
+	foreach ( $options as $property => $option ) {
+		$option_name = $option . $device;
+		$value = generateblocks_get_array_attribute_value( $option_name, $settings['sizing'] );
+
+		if ( 'max-width' === $property && ! empty( $settings['useGlobalContainerWidth'] ) && ! $device ) {
+			$value = generateblocks_get_global_container_width();
+		}
+
+		$css->add_property( $property, $value );
+	}
+}
+
+/**
+ * Helper function to get an attribute value from an array.
+ *
+ * @param string $name The name of the attribute.
+ * @param array  $array The array of attribute values.
+ */
+function generateblocks_get_array_attribute_value( $name, $array ) {
+	return isset( $array[ $name ] ) ? $array[ $name ] : '';
+}

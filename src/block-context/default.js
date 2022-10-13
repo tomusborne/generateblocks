@@ -11,9 +11,14 @@ const defaultContext = {
 			label: __( 'Settings', 'generateblocks' ),
 			icon: 'wrench',
 		},
-		sizing: {
+		sizingPanel: {
 			enabled: false,
+			width: false,
+			height: false,
+			minWidth: false,
+			minHeight: false,
 			maxWidth: false,
+			maxHeight: false,
 			useGlobalMaxWidth: false,
 		},
 		typography: {

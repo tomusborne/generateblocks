@@ -72,7 +72,7 @@ export function getBlockAttributes( blockAttributes, context, defaults ) {
 		attributes = Object.assign( {}, attributes, getElementAttributes( defaults ) );
 	}
 
-	if ( context.supports.sizing.enabled ) {
+	if ( context.supports.sizingPanel.enabled ) {
 		attributes = Object.assign( {}, attributes, getSizingAttributes( defaults ) );
 	}
 

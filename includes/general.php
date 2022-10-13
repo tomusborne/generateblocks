@@ -328,3 +328,17 @@ function generateblocks_set_inline_background_style( $attributes, $settings ) {
 
 	return $attributes;
 }
+
+add_filter( 'generateblocks_defaults', 'generateblocks_set_sizing_component_defaults' );
+/**
+ * Set the defaults for our Layout options.
+ *
+ * @param array $defaults Existing defaults.
+ */
+function generateblocks_set_sizing_component_defaults( $defaults ) {
+	foreach ( $defaults as $block => $values ) {
+		$defaults[ $block ]['sizing'] = [];
+	}
+
+	return $defaults;
+}

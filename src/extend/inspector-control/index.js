@@ -28,7 +28,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			shapesPanel,
 			icon,
 			htmlTags,
-			sizing,
+			sizingPanel,
 		},
 	} = useContext( ControlsContext );
 
@@ -47,7 +47,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				/>
 			}
 
-			{ sizing.enabled &&
+			{ sizingPanel.enabled &&
 				<SizingControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
