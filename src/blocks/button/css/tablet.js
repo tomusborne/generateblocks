@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 import {
 	Component,
@@ -72,6 +73,8 @@ export default class TabletCSS extends Component {
 			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
 			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 		} ];
+
+		SizingCSS( cssObj, selector, attributes, 'Tablet' );
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ selector ].push( {

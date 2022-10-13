@@ -6,6 +6,15 @@ const buttonContext = defaultsDeep( {
 	id: 'button',
 	supports: {
 		responsiveTabs: true,
+		sizingPanel: {
+			enabled: true,
+			width: true,
+			height: true,
+			minWidth: true,
+			minHeight: true,
+			maxWidth: true,
+			maxHeight: true,
+		},
 		typography: {
 			enabled: true,
 			fontWeight: true,
