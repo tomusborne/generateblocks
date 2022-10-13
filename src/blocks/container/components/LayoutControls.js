@@ -1,4 +1,3 @@
-import GridItemWidthControl from './GridItemWidthControl';
 import FlexControls from './FlexControls';
 
 export default ( props ) => {
@@ -19,10 +18,6 @@ export default ( props ) => {
 		<>
 			{ !! isGrid &&
 				<>
-					<GridItemWidthControl
-						{ ...props }
-					/>
-
 					<FlexControls
 						{ ...props }
 					/>

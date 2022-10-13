@@ -35,8 +35,6 @@ const defaultContext = {
 			inlineWidth: false,
 			stackVertically: false,
 			fillHorizontalSpace: false,
-			minimumHeight: false,
-			verticalAlignment: false,
 			zIndex: false,
 			innerZIndex: false,
 			dimensions: [],
