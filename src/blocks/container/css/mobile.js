@@ -9,6 +9,8 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import sizingValue from '../../../utils/sizingValue';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 export default class MobileCSS extends Component {
 	render() {
@@ -17,14 +19,10 @@ export default class MobileCSS extends Component {
 		const {
 			uniqueId,
 			isGrid,
-			widthMobile,
-			autoWidthMobile,
 			flexGrowMobile,
 			flexShrinkMobile,
 			flexBasisMobile,
 			flexBasisUnit,
-			minHeightMobile,
-			minHeightUnitMobile,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -55,7 +53,7 @@ export default class MobileCSS extends Component {
 			bgOptions,
 			gridId,
 			useInnerContainer,
-			maxWidthMobile,
+			sizing,
 		} = attributes;
 
 		let cssObj = [];
@@ -70,8 +68,9 @@ export default class MobileCSS extends Component {
 			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 			'text-align': alignmentMobile,
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
-			'min-height': valueWithUnit( minHeightMobile, minHeightUnitMobile ),
 		} ];
+
+		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 
 		if ( ! useInnerContainer ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -79,7 +78,6 @@ export default class MobileCSS extends Component {
 				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
 				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
 				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
-				'max-width': maxWidthMobile,
 			} );
 		}
 
@@ -93,7 +91,7 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
-		if ( 'inherit' !== verticalAlignmentMobile && minHeightMobile && ! isGrid ) {
+		if ( 'inherit' !== verticalAlignmentMobile && sizingValue( 'minHeightMobile', sizing ) && ! isGrid ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
@@ -116,7 +114,7 @@ export default class MobileCSS extends Component {
 				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
 				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
 				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
-				'width': minHeightMobile && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
+				'width': sizingValue( 'minHeightMobile', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
 		}
 
@@ -127,7 +125,7 @@ export default class MobileCSS extends Component {
 			];
 
 			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
-				width: ! autoWidthMobile ? valueWithUnit( widthMobile, '%' ) : 'auto',
+				width: sizingValue( 'widthMobile', sizing ),
 				'flex-grow': flexGrowMobile,
 				'flex-shrink': flexShrinkMobile,
 				'flex-basis': isNaN( flexBasisMobile ) ? flexBasisMobile : valueWithUnit( flexBasisMobile, flexBasisUnit ),

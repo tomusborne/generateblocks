@@ -2,6 +2,7 @@ import { useEffect } from '@wordpress/element';
 import hasNumericValue from '../utils/has-numeric-value';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
+import MigrateSizing from '../blocks/container/migrate-sizing';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -15,6 +16,8 @@ export default ( WrappedComponent ) => {
 			if ( 'undefined' === typeof attributes.isDynamic || ! attributes.isDynamic ) {
 				setAttributes( { isDynamic: true } );
 			}
+
+			MigrateSizing( { attributes, setAttributes } );
 
 			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
 				setAttributes( { useInnerContainer: true } );

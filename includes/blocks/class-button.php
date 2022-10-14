@@ -255,6 +255,7 @@ class GenerateBlocks_Block_Button {
 		}
 
 		$css->set_selector( $selector . ', ' . $selector . ':visited' );
+		generateblocks_add_sizing_css( $css, $settings );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
 
@@ -299,6 +300,7 @@ class GenerateBlocks_Block_Button {
 		}
 
 		$tablet_css->set_selector( $selector );
+		generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 		$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
 		$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
@@ -316,6 +318,7 @@ class GenerateBlocks_Block_Button {
 		}
 
 		$mobile_css->set_selector( $selector );
+		generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 		$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 		$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
 		$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );

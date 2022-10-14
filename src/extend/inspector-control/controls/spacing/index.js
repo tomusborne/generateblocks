@@ -6,8 +6,6 @@ import { useDeviceType } from '../../../../hooks';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import DeviceControls from './components/device-controls';
-import MinimumHeight from './components/minimum-height';
-import VerticalAlignment from './components/vertical-alignment';
 import ZIndex from './components/z-index';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
@@ -23,15 +21,6 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 		fillHorizontalSpace,
 		fillHorizontalSpaceTablet,
 		fillHorizontalSpaceMobile,
-		minHeight,
-		minHeightUnit,
-		verticalAlignment,
-		minHeightTablet,
-		minHeightUnitTablet,
-		verticalAlignmentTablet,
-		minHeightMobile,
-		minHeightUnitMobile,
-		verticalAlignmentMobile,
 		zindex,
 		innerZindex,
 	} = attributes;
@@ -77,24 +66,6 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 						} }
 					/>
 
-					{ spacing.minimumHeight &&
-						<>
-							<MinimumHeight
-								value={ minHeight }
-								onChange={ ( value ) => setAttributes( { minHeight: parseFloat( value ) } ) }
-								unitValue={ minHeightUnit }
-								onChangeUnit={ ( value ) => setAttributes( { minHeightUnit: value } ) }
-							/>
-
-							{ !! minHeight && spacing.verticalAlignment &&
-								<VerticalAlignment
-									value={ verticalAlignment }
-									onChange={ ( value ) => setAttributes( { verticalAlignment: value } ) }
-								/>
-							}
-						</>
-					}
-
 					{ spacing.zIndex &&
 						<ZIndex
 							label={ spacing.innerZIndex && __( 'Outer z-index', 'generateblocks' ) }
@@ -133,24 +104,6 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 							} );
 						} }
 					/>
-
-					{ spacing.minimumHeight &&
-						<>
-							<MinimumHeight
-								value={ minHeightTablet }
-								onChange={ ( value ) => setAttributes( { minHeightTablet: parseFloat( value ) } ) }
-								unitValue={ minHeightUnitTablet }
-								onChangeUnit={ ( value ) => setAttributes( { minHeightUnitTablet: value } ) }
-							/>
-
-							{ ( !! minHeight || !! minHeightTablet ) && spacing.verticalAlignment &&
-								<VerticalAlignment
-									value={ verticalAlignmentTablet }
-									onChange={ ( value ) => setAttributes( { verticalAlignmentTablet: value } ) }
-								/>
-							}
-						</>
-					}
 				</>
 			}
 
@@ -164,24 +117,6 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 						fill={ !! fillHorizontalSpaceMobile }
 						onFillChange={ ( value ) => setAttributes( { fillHorizontalSpaceMobile: value } ) }
 					/>
-
-					{ spacing.minimumHeight &&
-						<>
-							<MinimumHeight
-								value={ minHeightMobile }
-								onChange={ ( value ) => setAttributes( { minHeightMobile: parseFloat( value ) } ) }
-								unitValue={ minHeightUnitMobile }
-								onChangeUnit={ ( value ) => setAttributes( { minHeightUnitMobile: value } ) }
-							/>
-
-							{ ( !! minHeight || !! minHeightTablet || !! minHeightMobile ) && spacing.verticalAlignment &&
-								<VerticalAlignment
-									value={ verticalAlignmentMobile }
-									onChange={ ( value ) => setAttributes( { verticalAlignmentMobile: value } ) }
-								/>
-							}
-						</>
-					}
 				</>
 			}
 		</PanelArea>

@@ -74,6 +74,7 @@ const ContainerEdit = ( props ) => {
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					filterTagName={ filterTagName }
+					deviceType={ deviceType }
 				/>
 			</GenerateBlocksInspectorControls>
 

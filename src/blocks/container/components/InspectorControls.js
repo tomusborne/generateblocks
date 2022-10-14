@@ -10,6 +10,7 @@ import { useSelect } from '@wordpress/data';
 import LegacyLayoutControls from './LegacyLayoutControls';
 import LayoutControls from './LayoutControls';
 import { useDeviceType } from '../../../hooks';
+import sizingValue from '../../../utils/sizingValue';
 
 export default ( props ) => {
 	const {
@@ -31,6 +32,7 @@ export default ( props ) => {
 		verticalAlignmentMobile,
 		orderTablet,
 		orderMobile,
+		sizing,
 	} = attributes;
 
 	const {
@@ -107,7 +109,7 @@ export default ( props ) => {
 
 			{ 'Desktop' === deviceType &&
 				<>
-					{ !! isGrid &&
+					{ ( !! isGrid || sizingValue( 'minHeight', sizing ) ) &&
 						<>
 							<SelectControl
 								label={ __( 'Vertical Alignment', 'generateblocks' ) }
@@ -130,70 +132,70 @@ export default ( props ) => {
 				</>
 			}
 
-			{ 'Tablet' === deviceType && !! isGrid &&
-				<>
-					<SelectControl
-						label={ __( 'Vertical Alignment', 'generateblocks' ) }
-						help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
-						value={ verticalAlignmentTablet }
-						options={ [
-							{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
-							{ label: __( 'Default', 'generateblocks' ), value: '' },
-							{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
-							{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-							{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
-						] }
-						onChange={ ( value ) => {
-							setAttributes( {
-								verticalAlignmentTablet: value,
-							} );
-						} }
-					/>
+			{ 'Tablet' === deviceType && ( !! isGrid || sizingValue( 'minHeight', sizing ) || sizingValue( 'minHeightTablet', sizing ) ) &&
+				<SelectControl
+					label={ __( 'Vertical Alignment', 'generateblocks' ) }
+					help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
+					value={ verticalAlignmentTablet }
+					options={ [
+						{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+						{ label: __( 'Default', 'generateblocks' ), value: '' },
+						{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+						{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+						{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+					] }
+					onChange={ ( value ) => {
+						setAttributes( {
+							verticalAlignmentTablet: value,
+						} );
+					} }
+				/>
+			}
 
-					<TextControl
-						type={ 'number' }
-						label={ __( 'Order', 'generateblocks' ) }
-						value={ orderTablet || 0 === orderTablet ? orderTablet : '' }
-						onChange={ ( value ) => {
-							setAttributes( {
-								orderTablet: parseFloat( value ),
-							} );
-						} }
-					/>
-				</>
+			{ 'Tablet' === deviceType && !! isGrid &&
+				<TextControl
+					type={ 'number' }
+					label={ __( 'Order', 'generateblocks' ) }
+					value={ orderTablet || 0 === orderTablet ? orderTablet : '' }
+					onChange={ ( value ) => {
+						setAttributes( {
+							orderTablet: parseFloat( value ),
+						} );
+					} }
+				/>
+			}
+
+			{ 'Mobile' === deviceType && ( !! isGrid || sizingValue( 'minHeight', sizing ) || sizingValue( 'minHeightTablet', sizing ) || sizingValue( 'minHeightMobile', sizing ) ) &&
+				<SelectControl
+					label={ __( 'Vertical Alignment', 'generateblocks' ) }
+					help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
+					value={ verticalAlignmentMobile }
+					options={ [
+						{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+						{ label: __( 'Default', 'generateblocks' ), value: '' },
+						{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+						{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+						{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+					] }
+					onChange={ ( value ) => {
+						setAttributes( {
+							verticalAlignmentMobile: value,
+						} );
+					} }
+				/>
 			}
 
 			{ 'Mobile' === deviceType && !! isGrid &&
-				<Fragment>
-					<SelectControl
-						label={ __( 'Vertical Alignment', 'generateblocks' ) }
-						help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
-						value={ verticalAlignmentMobile }
-						options={ [
-							{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
-							{ label: __( 'Default', 'generateblocks' ), value: '' },
-							{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
-							{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-							{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
-						] }
-						onChange={ ( value ) => {
-							setAttributes( {
-								verticalAlignmentMobile: value,
-							} );
-						} }
-					/>
-
-					<TextControl
-						type={ 'number' }
-						label={ __( 'Order', 'generateblocks' ) }
-						value={ orderMobile || 0 === orderMobile ? orderMobile : '' }
-						onChange={ ( value ) => {
-							setAttributes( {
-								orderMobile: parseFloat( value ),
-							} );
-						} }
-					/>
-				</Fragment>
+				<TextControl
+					type={ 'number' }
+					label={ __( 'Order', 'generateblocks' ) }
+					value={ orderMobile || 0 === orderMobile ? orderMobile : '' }
+					onChange={ ( value ) => {
+						setAttributes( {
+							orderMobile: parseFloat( value ),
+						} );
+					} }
+				/>
 			}
 
 			{ applyFilters( 'generateblocks.editor.controls', '', 'containerLayout', props ) }
