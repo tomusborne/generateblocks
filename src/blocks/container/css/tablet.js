@@ -90,7 +90,7 @@ export default class TabletCSS extends Component {
 			} );
 		}
 
-		if ( SizingCSS( 'minHeightTablet', sizing ) && ! isGrid ) {
+		if ( sizingValue( 'minHeightTablet', sizing ) && ! isGrid ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'display': 'flex', // eslint-disable-line quote-props
 				'flex-direction': 'row',
