@@ -13,6 +13,7 @@ import SettingsPanel from './controls/settings-panel';
 import BackgroundPanel from './controls/background-panel';
 import ShapesPanel from './controls/shapes-panel';
 import LayoutControls from './controls/layout';
+import SizingControls from './controls/sizing';
 
 export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles = {}, children } ) {
 	const [ device ] = useDeviceType();
@@ -29,6 +30,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			shapesPanel,
 			icon,
 			htmlTags,
+			sizingPanel,
 		},
 	} = useContext( ControlsContext );
 
@@ -49,6 +51,13 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 
 			{ layout.enabled &&
 				<LayoutControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ sizingPanel.enabled &&
+				<SizingControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>

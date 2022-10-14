@@ -15,6 +15,7 @@ import {
 	ButtonGroup,
 	Button,
 	Tooltip,
+	BaseControl,
 } from '@wordpress/components';
 
 export default class UnitChooser extends Component {
@@ -31,15 +32,7 @@ export default class UnitChooser extends Component {
 		const allUnits = singleOption ? [ value ] : units;
 
 		return (
-			<div className="components-gblocks-units-control-header__units">
-				<div className="components-gblocks-units-control-label__units">
-					{ !! id ? (
-						<label htmlFor={ id }>{ label }</label>
-					) : (
-						label
-					) }
-				</div>
-
+			<BaseControl label={ label } id={ id } className="components-gblocks-units-control-header__units">
 				<div className="components-gblocks-control__units">
 					<ButtonGroup className="components-gblocks-control-buttons__units" aria-label={ __( 'Select Units', 'generateblocks' ) }>
 						{ allUnits.map( ( unit ) => {
@@ -82,7 +75,7 @@ export default class UnitChooser extends Component {
 						} ) }
 					</ButtonGroup>
 				</div>
-			</div>
+			</BaseControl>
 		);
 	}
 }
