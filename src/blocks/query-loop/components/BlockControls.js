@@ -24,6 +24,7 @@ export default ( { clientId } ) => {
 	const PAGINATION_TEMPLATE = [
 		'generateblocks/button-container', {
 			isPagination: true,
+			marginTop: '20',
 		},
 		[
 			[
