@@ -9,6 +9,7 @@ import Display from './components/Display';
 import isFlexItem from '../../../../utils/is-flex-item';
 import getAttribute from '../../../../utils/get-attribute';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
+import FlexDirection from './components/FlexDirection';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const [ device ] = useDeviceType();
@@ -47,13 +48,28 @@ export default function Layout( { attributes, setAttributes } ) {
 			{ isFlexItem( { device, display, displayTablet, displayMobile } ) &&
 				<>
 					{ layout.flexDirection &&
-						<LayoutControl
+						<FlexDirection
 							value={ getAttribute( 'flexDirection', componentProps ) }
-							onChange={ ( value ) => setAttributes( {
-								[ getAttribute( 'flexDirection', componentProps, true ) ]: value !== getAttribute( 'flexDirection', componentProps ) ? value : '',
-							} ) }
+							onChange={ ( value ) => {
+								const currentDirection = getAttribute( 'flexDirection', componentProps );
+								value = currentDirection.includes( 'reverse' ) ? value + '-reverse' : value;
+
+								setAttributes( {
+									[ getAttribute( 'flexDirection', componentProps, true ) ]: value !== getAttribute( 'flexDirection', componentProps ) ? value : '',
+								} );
+							} }
+							onReverse={ ( value ) => {
+								if ( '' === value ) {
+									value = 'row';
+								}
+
+								value = value.includes( 'reverse' ) ? value.replace( '-reverse', '' ) : value + '-reverse';
+
+								setAttributes( {
+									[ getAttribute( 'flexDirection', componentProps, true ) ]: value,
+								} );
+							} }
 							label={ __( 'Direction', 'generateblocks' ) }
-							attributeName="flexDirection"
 							directionValue={ directionValue }
 						/>
 					}

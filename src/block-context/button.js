@@ -14,6 +14,15 @@ const buttonContext = defaultsDeep( {
 			alignItems: true,
 			justifyContent: true,
 		},
+		sizingPanel: {
+			enabled: true,
+			width: true,
+			height: true,
+			minWidth: true,
+			minHeight: true,
+			maxWidth: true,
+			maxHeight: true,
+		},
 		typography: {
 			enabled: true,
 			fontWeight: true,

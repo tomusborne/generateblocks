@@ -3,7 +3,6 @@ import { Fragment, useEffect } from '@wordpress/element';
 import {
 	SelectControl,
 	TextControl,
-	ToggleControl,
 } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import hasNumericValue from '../../../utils/has-numeric-value';
@@ -11,13 +10,13 @@ import { useSelect } from '@wordpress/data';
 import LegacyLayoutControls from './LegacyLayoutControls';
 import LayoutControls from './LayoutControls';
 import { useDeviceType } from '../../../hooks';
+import sizingValue from '../../../utils/sizingValue';
 
 export default ( props ) => {
 	const {
 		clientId,
 		attributes,
 		setAttributes,
-		filterTagName,
 	} = props;
 	const [ deviceType ] = useDeviceType();
 
@@ -31,32 +30,15 @@ export default ( props ) => {
 		verticalAlignment,
 		verticalAlignmentTablet,
 		verticalAlignmentMobile,
-		removeVerticalGap,
-		removeVerticalGapTablet,
-		removeVerticalGapMobile,
 		orderTablet,
 		orderMobile,
-		tagName,
+		sizing,
 	} = attributes;
 
 	const {
 		getBlockParents,
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
-
-	const tagNames = applyFilters(
-		'generateblocks.editor.containerTagNames',
-		[
-			{ label: 'div', value: 'div' },
-			{ label: 'article', value: 'article' },
-			{ label: 'section', value: 'section' },
-			{ label: 'header', value: 'header' },
-			{ label: 'footer', value: 'footer' },
-			{ label: 'aside', value: 'aside' },
-		],
-		props,
-		{ deviceType }
-	);
 
 	useEffect( () => {
 		const parentBlockId = getBlockParents( clientId, true );
@@ -127,7 +109,7 @@ export default ( props ) => {
 
 			{ 'Desktop' === deviceType &&
 				<>
-					{ !! isGrid &&
+					{ ( !! isGrid || sizingValue( 'minHeight', sizing ) ) &&
 						<>
 							<SelectControl
 								label={ __( 'Vertical Alignment', 'generateblocks' ) }
@@ -145,124 +127,75 @@ export default ( props ) => {
 									} );
 								} }
 							/>
-
-							{ ! isQueryLoopItem &&
-								<ToggleControl
-									label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-									checked={ !! removeVerticalGap }
-									onChange={ ( value ) => {
-										setAttributes( {
-											removeVerticalGap: value,
-										} );
-									} }
-								/>
-							}
 						</>
 					}
-
-					<SelectControl
-						label={ __( 'Tag Name', 'generateblocks' ) }
-						value={ tagName }
-						options={ tagNames }
-						onChange={ ( value ) => {
-							setAttributes( {
-								tagName: filterTagName( value ),
-							} );
-						} }
-					/>
-
-					{ applyFilters( 'generateblocks.editor.controls', '', 'containerAfterElementTag', props ) }
 				</>
+			}
+
+			{ 'Tablet' === deviceType && ( !! isGrid || sizingValue( 'minHeight', sizing ) || sizingValue( 'minHeightTablet', sizing ) ) &&
+				<SelectControl
+					label={ __( 'Vertical Alignment', 'generateblocks' ) }
+					help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
+					value={ verticalAlignmentTablet }
+					options={ [
+						{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+						{ label: __( 'Default', 'generateblocks' ), value: '' },
+						{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+						{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+						{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+					] }
+					onChange={ ( value ) => {
+						setAttributes( {
+							verticalAlignmentTablet: value,
+						} );
+					} }
+				/>
 			}
 
 			{ 'Tablet' === deviceType && !! isGrid &&
-				<>
-					<SelectControl
-						label={ __( 'Vertical Alignment', 'generateblocks' ) }
-						help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
-						value={ verticalAlignmentTablet }
-						options={ [
-							{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
-							{ label: __( 'Default', 'generateblocks' ), value: '' },
-							{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
-							{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-							{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
-						] }
-						onChange={ ( value ) => {
-							setAttributes( {
-								verticalAlignmentTablet: value,
-							} );
-						} }
-					/>
+				<TextControl
+					type={ 'number' }
+					label={ __( 'Order', 'generateblocks' ) }
+					value={ orderTablet || 0 === orderTablet ? orderTablet : '' }
+					onChange={ ( value ) => {
+						setAttributes( {
+							orderTablet: parseFloat( value ),
+						} );
+					} }
+				/>
+			}
 
-					{ ! isQueryLoopItem &&
-						<ToggleControl
-							label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-							checked={ !! removeVerticalGapTablet }
-							onChange={ ( value ) => {
-								setAttributes( {
-									removeVerticalGapTablet: value,
-								} );
-							} }
-						/>
-					}
-
-					<TextControl
-						type={ 'number' }
-						label={ __( 'Order', 'generateblocks' ) }
-						value={ orderTablet || 0 === orderTablet ? orderTablet : '' }
-						onChange={ ( value ) => {
-							setAttributes( {
-								orderTablet: parseFloat( value ),
-							} );
-						} }
-					/>
-				</>
+			{ 'Mobile' === deviceType && ( !! isGrid || sizingValue( 'minHeight', sizing ) || sizingValue( 'minHeightTablet', sizing ) || sizingValue( 'minHeightMobile', sizing ) ) &&
+				<SelectControl
+					label={ __( 'Vertical Alignment', 'generateblocks' ) }
+					help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
+					value={ verticalAlignmentMobile }
+					options={ [
+						{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
+						{ label: __( 'Default', 'generateblocks' ), value: '' },
+						{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
+						{ label: __( 'Center', 'generateblocks' ), value: 'center' },
+						{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
+					] }
+					onChange={ ( value ) => {
+						setAttributes( {
+							verticalAlignmentMobile: value,
+						} );
+					} }
+				/>
 			}
 
 			{ 'Mobile' === deviceType && !! isGrid &&
-				<Fragment>
-					<SelectControl
-						label={ __( 'Vertical Alignment', 'generateblocks' ) }
-						help={ __( 'Align grid item content. Does not apply if vertical alignment is set in the grid.', 'generateblocks' ) }
-						value={ verticalAlignmentMobile }
-						options={ [
-							{ label: __( 'Inherit', 'generateblocks' ), value: 'inherit' },
-							{ label: __( 'Default', 'generateblocks' ), value: '' },
-							{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },
-							{ label: __( 'Center', 'generateblocks' ), value: 'center' },
-							{ label: __( 'Bottom', 'generateblocks' ), value: 'flex-end' },
-						] }
-						onChange={ ( value ) => {
-							setAttributes( {
-								verticalAlignmentMobile: value,
-							} );
-						} }
-					/>
-
-					{ ! isQueryLoopItem &&
-						<ToggleControl
-							label={ __( 'Remove Vertical Gap', 'generateblocks' ) }
-							checked={ !! removeVerticalGapMobile }
-							onChange={ ( value ) => {
-								setAttributes( {
-									removeVerticalGapMobile: value,
-								} );
-							} }
-						/>
-					}
-
-					<TextControl
-						type={ 'number' }
-						label={ __( 'Order', 'generateblocks' ) }
-						value={ orderMobile || 0 === orderMobile ? orderMobile : '' }
-						onChange={ ( value ) => {
-							setAttributes( {
-								orderMobile: parseFloat( value ),
-							} );
-						} }
-					/>
-				</Fragment>
+				<TextControl
+					type={ 'number' }
+					label={ __( 'Order', 'generateblocks' ) }
+					value={ orderMobile || 0 === orderMobile ? orderMobile : '' }
+					onChange={ ( value ) => {
+						setAttributes( {
+							orderMobile: parseFloat( value ),
+						} );
+					} }
+				/>
 			}
 
 			{ applyFilters( 'generateblocks.editor.controls', '', 'containerLayout', props ) }

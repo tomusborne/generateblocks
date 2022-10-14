@@ -5,7 +5,6 @@ import {
 import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import UnitPicker from '../../../components/unit-picker';
-import GridItemWidthControl from './GridItemWidthControl';
 import FlexControls from './FlexControls';
 
 export default ( props ) => {
@@ -107,10 +106,6 @@ export default ( props ) => {
 
 			{ isGrid && (
 				<>
-					<GridItemWidthControl
-						{ ...props }
-					/>
-
 					<FlexControls
 						{ ...props }
 					/>

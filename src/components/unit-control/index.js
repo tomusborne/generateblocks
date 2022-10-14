@@ -3,59 +3,61 @@
  */
 import { useEffect, useState, useRef } from '@wordpress/element';
 import { TextControl, BaseControl } from '@wordpress/components';
+import classnames from 'classnames';
 
 /**
  * Internal dependencies
  */
 
 import './editor.scss';
+import { useDeviceType } from '../../hooks';
 
 export default function UnitControl( props ) {
 	const {
 		label,
-		attributeName,
-		attributes,
-		setAttributes,
 		units = [ 'px', 'em', '%', 'rem' ],
-		device,
 		min = 0,
 		max,
 		step,
-		id = attributeName,
+		id,
 		disabled = false,
 		overrideValue = null,
+		onChange,
+		value,
+		desktopValue,
+		tabletValue,
 	} = props;
 
+	const [ device ] = useDeviceType();
 	const [ unitValue, setUnitValue ] = useState( '' );
 	const [ numericValue, setNumericValue ] = useState( '' );
 	const [ placeholderValue, setPlaceholderValue ] = useState( '' );
 	const isMounted = useRef( false );
 
-	const attribute = device && 'Desktop' !== device
-		? attributeName + device
-		: attributeName;
+	const splitValues = ( values ) => {
+		const unitRegex = units.join( '|' );
+		const splitRegex = new RegExp( `(${ unitRegex })` );
 
-	const splitValues = ( value ) => {
-		return value
-			? value.split( /(\d+)/ ).filter( ( singleValue ) => '' !== singleValue )
+		return values
+			? values.split( splitRegex ).filter( ( singleValue ) => '' !== singleValue )
 			: [];
 	};
 
 	const getNumericValue = ( values ) => values.length > 0 ? values[ 0 ] : '';
-	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : 'px';
-	const hasNumber = ( value ) => /\d/.test( value );
-	const desktopValues = splitValues( attributes[ attributeName ] );
-	const tabletValues = splitValues( attributes[ attributeName + 'Tablet' ] );
+	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : units[ 0 ];
+	const hasNumber = ( number ) => /\d/.test( number );
+	const desktopValues = splitValues( desktopValue );
+	const tabletValues = splitValues( tabletValue );
 
 	const setPlaceholders = () => {
-		if ( ! attributes[ attribute ] ) {
+		if ( ! value ) {
 			// Set desktop value as placeholder.
-			if ( ! attributes[ attributeName + 'Tablet' ] ) {
+			if ( ! tabletValue ) {
 				if (
 					'Tablet' === device ||
 					(
 						'Mobile' === device &&
-						attributes[ attributeName ]
+						desktopValue
 					)
 				) {
 					setPlaceholderValue( getNumericValue( desktopValues ) );
@@ -66,7 +68,7 @@ export default function UnitControl( props ) {
 			// Set tablet value as placeholder.
 			if (
 				'Mobile' === device &&
-				attributes[ attributeName + 'Tablet' ]
+				tabletValue
 			) {
 				setPlaceholderValue( getNumericValue( tabletValues ) );
 				setUnitValue( getUnitValue( tabletValues ) );
@@ -76,23 +78,23 @@ export default function UnitControl( props ) {
 
 	// Split the number and unit into two values.
 	useEffect( () => {
-		const value = overrideValue || attributes[ attribute ];
+		const newValue = overrideValue || value;
 
 		// Split our values if we have a number.
-		if ( hasNumber( value ) ) {
-			const values = splitValues( value );
+		if ( hasNumber( newValue ) ) {
+			const values = splitValues( newValue );
 
 			setNumericValue( getNumericValue( values ) );
 			setUnitValue( getUnitValue( values ) );
 		} else {
-			setNumericValue( value );
+			setNumericValue( newValue );
 			setUnitValue( '' );
 		}
 
 		// Set the device placeholders and switch the units to match
 		// their parent device value if no device-specific value exists.
 		setPlaceholders();
-	}, [ device, attributes[ attribute ], overrideValue ] );
+	}, [ device, value, overrideValue ] );
 
 	useEffect( () => {
 		// Don't run this on first render.
@@ -121,10 +123,8 @@ export default function UnitControl( props ) {
 			}
 		}
 
-		if ( ! overrideValue && fullValue !== attributes[ attribute ] ) {
-			setAttributes( {
-				[ attribute ]: fullValue,
-			} );
+		if ( ! overrideValue && fullValue !== value ) {
+			onChange( fullValue );
 		}
 	}, [ numericValue, unitValue ] );
 
@@ -132,7 +132,10 @@ export default function UnitControl( props ) {
 		<BaseControl
 			label={ label }
 			id={ id }
-			className="gblocks-unit-control"
+			className={ classnames( {
+				'gblocks-unit-control': true,
+				'gblocks-unit-control__disabled': !! disabled,
+			} ) }
 		>
 			<div className="gblocks-unit-control__input">
 				<TextControl
@@ -145,7 +148,7 @@ export default function UnitControl( props ) {
 					step={ step }
 					autoComplete="off"
 					disabled={ disabled }
-					onChange={ ( value ) => setNumericValue( value ) }
+					onChange={ ( newValue ) => setNumericValue( newValue ) }
 				/>
 
 				{ (
@@ -158,7 +161,7 @@ export default function UnitControl( props ) {
 					<span className="gblocks-unit-control__unit-select">
 						<select
 							value={ unitValue }
-							disabled={ disabled }
+							disabled={ disabled || 1 === units.length }
 							onChange={ ( e ) => setUnitValue( e.target.value ) }
 						>
 							{ units.map( ( unitOption ) => <option key={ unitOption } value={ unitOption }>{ unitOption }</option> ) }

@@ -244,11 +244,6 @@ class GenerateBlocks_Block_Container {
 		$backgroundImageValue = generateblocks_get_background_image_css( 'image', $settings );
 		$gradientValue = generateblocks_get_background_image_css( 'gradient', $settings );
 		$hasBgImage = generateblocks_has_background_image( $settings );
-		$maxWidth = $settings['maxWidth'];
-
-		if ( $settings['useGlobalContainerWidth'] ) {
-			$maxWidth = generateblocks_get_global_container_width();
-		}
 
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
@@ -275,6 +270,7 @@ class GenerateBlocks_Block_Container {
 		}
 
 		$css->set_selector( '.gb-container-' . $id );
+		generateblocks_add_sizing_css( $css, $settings );
 		$css->add_property( 'font-family', $fontFamily );
 		$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 		$css->add_property( 'font-weight', $settings['fontWeight'] );
@@ -283,7 +279,6 @@ class GenerateBlocks_Block_Container {
 
 		if ( ! $useInnerContainer ) {
 			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
-			$css->add_property( 'max-width', $maxWidth );
 		}
 
 		if ( $useInnerContainer && 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
@@ -332,7 +327,10 @@ class GenerateBlocks_Block_Container {
 		$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
 		$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
-		$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
+
+		if ( $blockVersion < 3 ) {
+			$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
+		}
 
 		// Set flags so we don't duplicate this CSS in media queries.
 		$usingMinHeightFlex = false;
@@ -425,7 +423,12 @@ class GenerateBlocks_Block_Container {
 
 		if ( $settings['isGrid'] ) {
 			$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
-			$css->add_property( 'width', $settings['width'], '%' );
+
+			if ( $blockVersion < 3 ) {
+				$css->add_property( 'width', $settings['width'], '%' );
+			} else {
+				$css->add_property( 'width', generateblocks_get_array_attribute_value( 'width', $settings['sizing'] ) );
+			}
 
 			$css->add_property( 'flex-grow', $settings['flexGrow'] );
 			$css->add_property( 'flex-shrink', $settings['flexShrink'] );
@@ -510,15 +513,18 @@ class GenerateBlocks_Block_Container {
 		}
 
 		$tablet_css->set_selector( '.gb-container-' . $id );
+		generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 		$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 		$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 		$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
-		$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
+
+		if ( $blockVersion < 3 ) {
+			$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
+		}
 
 		if ( ! $useInnerContainer ) {
 			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
-			$tablet_css->add_property( 'max-width', $settings['maxWidthTablet'] );
 		}
 
 		if ( ! $settings['isGrid'] ) {
@@ -560,10 +566,14 @@ class GenerateBlocks_Block_Container {
 
 		$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
-		if ( ! $settings['autoWidthTablet'] ) {
-			$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
+		if ( $blockVersion < 3 ) {
+			if ( ! $settings['autoWidthTablet'] ) {
+				$tablet_css->add_property( 'width', $settings['widthTablet'], '%' );
+			} else {
+				$tablet_css->add_property( 'width', 'auto' );
+			}
 		} else {
-			$tablet_css->add_property( 'width', 'auto' );
+			$tablet_css->add_property( 'width', generateblocks_get_array_attribute_value( 'widthTablet', $settings['sizing'] ) );
 		}
 
 		$tablet_css->add_property( 'flex-grow', $settings['flexGrowTablet'] );
@@ -613,15 +623,18 @@ class GenerateBlocks_Block_Container {
 		}
 
 		$mobile_css->set_selector( '.gb-container-' . $id );
+		generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 		$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 		$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 		$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
-		$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
+
+		if ( $blockVersion < 3 ) {
+			$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
+		}
 
 		if ( $useInnerContainer ) {
 			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
-			$mobile_css->add_property( 'max-width', $settings['maxWidthMobile'] );
 		}
 
 		if ( ! $settings['isGrid'] ) {
@@ -657,12 +670,16 @@ class GenerateBlocks_Block_Container {
 
 		$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
-		if ( ! $settings['autoWidthMobile'] ) {
-			$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
-		}
+		if ( $blockVersion < 3 ) {
+			if ( ! $settings['autoWidthMobile'] ) {
+				$mobile_css->add_property( 'width', $settings['widthMobile'], '%' );
+			}
 
-		if ( $settings['autoWidthMobile'] ) {
-			$mobile_css->add_property( 'width', 'auto' );
+			if ( $settings['autoWidthMobile'] ) {
+				$mobile_css->add_property( 'width', 'auto' );
+			}
+		} else {
+			$mobile_css->add_property( 'width', generateblocks_get_array_attribute_value( 'widthMobile', $settings['sizing'] ) );
 		}
 
 		$mobile_css->add_property( 'flex-grow', $settings['flexGrowMobile'] );

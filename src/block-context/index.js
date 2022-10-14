@@ -13,6 +13,7 @@ import getColorsAttributes from '../extend/inspector-control/controls/colors/att
 import getIconAttributes from '../extend/inspector-control/controls/icon/attributes';
 import getBackgroundGradientAttributes from '../extend/inspector-control/controls/background-gradient/attributes';
 import getLayoutAttributes from '../extend/inspector-control/controls/layout/attributes';
+import getSizingAttributes from '../extend/inspector-control/controls/sizing/attributes';
 
 /**
  * The BlockContext represents the layer to build the block components.
@@ -74,6 +75,10 @@ export function getBlockAttributes( blockAttributes, context, defaults ) {
 
 	if ( context.supports.layout.enabled ) {
 		attributes = Object.assign( {}, attributes, getLayoutAttributes( defaults ) );
+	}
+
+	if ( context.supports.sizingPanel.enabled ) {
+		attributes = Object.assign( {}, attributes, getSizingAttributes( defaults ) );
 	}
 
 	if ( context.supports.typography.enabled ) {
