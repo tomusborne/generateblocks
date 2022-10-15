@@ -1,6 +1,7 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 
 import {
 	Component,
@@ -73,6 +74,8 @@ export default class MobileCSS extends Component {
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 
 		if ( ! useInnerContainer ) {
+			LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
+
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
 				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
@@ -91,23 +94,6 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
-		if ( 'inherit' !== verticalAlignmentMobile && sizingValue( 'minHeightMobile', sizing ) && ! isGrid ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'row',
-				'align-items': verticalAlignmentMobile,
-			} );
-		}
-
-		if ( isGrid && 'inherit' !== verticalAlignmentMobile ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'column',
-				'height': '100%', // eslint-disable-line quote-props
-				'justify-content': verticalAlignmentMobile,
-			} );
-		}
-
 		if ( useInnerContainer ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
@@ -116,6 +102,23 @@ export default class MobileCSS extends Component {
 				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
 				'width': sizingValue( 'minHeightMobile', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
+
+			if ( 'inherit' !== verticalAlignmentMobile && sizingValue( 'minHeightMobile', sizing ) && ! isGrid ) {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+					'display': 'flex', // eslint-disable-line quote-props
+					'flex-direction': 'row',
+					'align-items': verticalAlignmentMobile,
+				} );
+			}
+
+			if ( isGrid && 'inherit' !== verticalAlignmentMobile ) {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+					'display': 'flex', // eslint-disable-line quote-props
+					'flex-direction': 'column',
+					'height': '100%', // eslint-disable-line quote-props
+					'justify-content': verticalAlignmentMobile,
+				} );
+			}
 		}
 
 		if ( isGrid ) {

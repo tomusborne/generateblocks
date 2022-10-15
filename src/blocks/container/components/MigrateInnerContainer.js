@@ -4,6 +4,7 @@ import { useState } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import hasNumericValue from '../../../utils/has-numeric-value';
+import sizingValue from '../../../utils/sizingValue';
 
 export default ( props ) => {
 	const {
@@ -35,6 +36,10 @@ export default ( props ) => {
 		marginLeft,
 		marginRight,
 		useGlobalContainerWidth,
+		verticalAlignment,
+		verticalAlignmentTablet,
+		verticalAlignmentMobile,
+		sizing,
 	} = attributes;
 
 	const [ isInnerContainerMigrateOpen, setIsInnerContainerMigrateOpen ] = useState( false );
@@ -44,6 +49,53 @@ export default ( props ) => {
 	const { getBlocksByClientId } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 	const hasDefaultContainerWidth = parseInt( containerWidth ) === parseInt( generateBlocksInfo.globalContainerWidth );
 	const recommended = ( ! isGrid && 'full' === outerContainer && 'contained' === innerContainer ) || hasNumericValue( innerZindex );
+	const layoutAttributes = {};
+	let setMinHeightFlex = false;
+
+	if ( sizingValue( 'minHeight', sizing ) && verticalAlignment && ! isGrid ) {
+		layoutAttributes.display = 'flex';
+		layoutAttributes.flexDirection = 'column';
+		layoutAttributes.justifyContent = verticalAlignment;
+		setMinHeightFlex = true;
+	}
+
+	if ( isGrid && verticalAlignment ) {
+		layoutAttributes.display = 'flex';
+		layoutAttributes.flexDirection = 'column';
+		layoutAttributes.justifyContent = verticalAlignment;
+	}
+
+	if ( ! isGrid ) {
+		if ( ! setMinHeightFlex && sizingValue( 'minHeightTablet', sizing ) && 'inherit' !== verticalAlignmentTablet ) {
+			layoutAttributes.displayTablet = 'flex';
+			layoutAttributes.flexDirectionTablet = 'column';
+			setMinHeightFlex = true;
+		}
+
+		if ( setMinHeightFlex && 'inherit' !== verticalAlignmentTablet ) {
+			layoutAttributes.justifyContentTablet = verticalAlignmentTablet;
+		}
+	}
+
+	if ( isGrid && verticalAlignmentTablet && 'inherit' !== verticalAlignmentTablet ) {
+		layoutAttributes.justifyContentTablet = verticalAlignmentTablet;
+	}
+
+	if ( ! isGrid ) {
+		if ( ! setMinHeightFlex && sizingValue( 'minHeightMobile', sizing ) && 'inherit' !== verticalAlignmentMobile ) {
+			layoutAttributes.displayMobile = 'flex';
+			layoutAttributes.flexDirectionMobile = 'column';
+			setMinHeightFlex = true;
+		}
+
+		if ( setMinHeightFlex && 'inherit' !== verticalAlignmentTablet ) {
+			layoutAttributes.justifyContentMobile = verticalAlignmentMobile;
+		}
+	}
+
+	if ( isGrid && verticalAlignmentMobile && 'inherit' !== verticalAlignmentMobile ) {
+		layoutAttributes.justifyContentMobile = verticalAlignmentMobile;
+	}
 
 	return (
 		<>
@@ -118,9 +170,14 @@ export default ( props ) => {
 								paddingUnit: generateBlocksDefaults.container.paddingUnit,
 								variantRole: 'section',
 								useGlobalContainerWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
-								maxWidth: ! isGrid && 'contained' === outerContainer && ! hasDefaultContainerWidth && containerWidth ? containerWidth + 'px' : '',
 								marginLeft: ! isGrid && 'contained' === outerContainer ? 'auto' : marginLeft,
 								marginRight: ! isGrid && 'contained' === outerContainer ? 'auto' : marginRight,
+								sizing: {
+									...attributes.sizing,
+									height: isGrid ? '100%' : '',
+									maxWidth: ! isGrid && 'contained' === outerContainer && ! hasDefaultContainerWidth && containerWidth ? containerWidth + 'px' : '',
+								},
+								...layoutAttributes,
 							} );
 
 							closeModal();
@@ -135,9 +192,14 @@ export default ( props ) => {
 							setAttributes( {
 								useInnerContainer: false,
 								useGlobalContainerWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
-								maxWidth: ! isGrid && 'contained' === outerContainer && ! hasDefaultContainerWidth && containerWidth ? containerWidth + 'px' : '',
 								marginLeft: ! isGrid && 'contained' === outerContainer ? 'auto' : marginLeft,
 								marginRight: ! isGrid && 'contained' === outerContainer ? 'auto' : marginRight,
+								sizing: {
+									...attributes.sizing,
+									height: isGrid ? '100%' : '',
+									maxWidth: ! isGrid && 'contained' === outerContainer && ! hasDefaultContainerWidth && containerWidth ? containerWidth + 'px' : '',
+								},
+								...layoutAttributes,
 							} );
 							closeModal();
 						} }

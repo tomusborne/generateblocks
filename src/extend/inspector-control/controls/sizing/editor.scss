@@ -7,6 +7,7 @@
 
 	& > div {
 		width: calc(50% - 10px);
+		flex-grow: 1;
 	}
 
 	.components-base-control {

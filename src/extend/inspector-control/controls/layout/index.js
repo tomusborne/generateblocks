@@ -10,6 +10,7 @@ import isFlexItem from '../../../../utils/is-flex-item';
 import getAttribute from '../../../../utils/get-attribute';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 import FlexDirection from './components/FlexDirection';
+import LegacyLayoutControls from '../../../../blocks/container/components/LegacyLayoutControls';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const [ device ] = useDeviceType();
@@ -24,7 +25,27 @@ export default function Layout( { attributes, setAttributes } ) {
 		display,
 		displayTablet,
 		displayMobile,
+		useInnerContainer,
 	} = attributes;
+
+	if ( 'container' === id && useInnerContainer ) {
+		return (
+			<PanelArea
+				title={ __( 'Layout', 'generateblocks' ) }
+				initialOpen={ false }
+				icon={ getIcon( 'layout' ) }
+				className="gblocks-panel-label"
+				id={ `${ id }Layout` }
+			>
+				<LegacyLayoutControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					deviceType={ device }
+					blockDefaults={ generateBlocksDefaults.container }
+				/>
+			</PanelArea>
+		);
+	}
 
 	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
 

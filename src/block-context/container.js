@@ -11,6 +11,14 @@ const containerContext = defaultsDeep( {
 			label: __( 'Layout', 'generateblocks' ),
 			icon: 'layout',
 		},
+		layout: {
+			enabled: true,
+			display: true,
+			flexDirection: true,
+			flexWrap: true,
+			alignItems: true,
+			justifyContent: true,
+		},
 		sizingPanel: {
 			enabled: true,
 			width: true,
@@ -20,6 +28,7 @@ const containerContext = defaultsDeep( {
 			maxWidth: true,
 			maxHeight: true,
 			useGlobalMaxWidth: true,
+			flex: true,
 		},
 		typography: {
 			enabled: true,

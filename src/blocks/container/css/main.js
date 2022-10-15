@@ -9,6 +9,7 @@ import {
 	applyFilters,
 } from '@wordpress/hooks';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -113,6 +114,8 @@ export default function MainCSS( props ) {
 	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 
 	if ( ! useInnerContainer ) {
+		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
+
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
 		} );
@@ -171,14 +174,6 @@ export default function MainCSS( props ) {
 		} );
 	}
 
-	if ( sizingValue( 'minHeight', sizing ) && ! isGrid ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			'display': 'flex', // eslint-disable-line quote-props
-			'flex-direction': 'row',
-			'align-items': verticalAlignment,
-		} );
-	}
-
 	if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 		cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 			'content': '""', // eslint-disable-line quote-props
@@ -225,6 +220,14 @@ export default function MainCSS( props ) {
 	} ];
 
 	if ( useInnerContainer ) {
+		if ( sizingValue( 'minHeight', sizing ) && ! isGrid ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'display': 'flex', // eslint-disable-line quote-props
+				'flex-direction': 'row',
+				'align-items': verticalAlignment,
+			} );
+		}
+
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
 			'width': sizingValue( 'minHeight', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
@@ -267,12 +270,14 @@ export default function MainCSS( props ) {
 			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
 		} ];
 
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			display: 'flex',
-			'flex-direction': 'column',
-			height: '100%',
-			'justify-content': verticalAlignment,
-		} );
+		if ( useInnerContainer ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				display: 'flex',
+				'flex-direction': 'column',
+				height: '100%',
+				'justify-content': verticalAlignment,
+			} );
+		}
 	}
 
 	cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),

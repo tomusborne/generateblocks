@@ -18,6 +18,7 @@ const defaultContext = {
 			flexWrap: false,
 			alignItems: false,
 			justifyContent: false,
+			order: false,
 		},
 		sizingPanel: {
 			enabled: false,
@@ -28,6 +29,7 @@ const defaultContext = {
 			maxWidth: false,
 			maxHeight: false,
 			useGlobalMaxWidth: false,
+			flex: false,
 		},
 		typography: {
 			enabled: false,

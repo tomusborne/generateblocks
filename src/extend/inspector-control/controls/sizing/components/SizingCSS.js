@@ -1,5 +1,6 @@
 import addToCSS from '../../../../../utils/add-to-css';
 import sizingValue from '../../../../../utils/sizingValue';
+import valueWithUnit from '../../../../../utils/value-with-unit';
 
 export default function SizingCSS( css, selector, attributes, device = '' ) {
 	const {
@@ -25,6 +26,14 @@ export default function SizingCSS( css, selector, attributes, device = '' ) {
 		delete styles.width;
 		delete styles[ 'min-width' ];
 		delete styles[ 'max-width' ];
+	}
+
+	if ( ! attributes.isGrid ) {
+		styles[ 'flex-grow' ] = attributes[ 'flexGrow' + device ];
+		styles[ 'flex-shrink' ] = attributes[ 'flexShrink' + device ];
+		styles[ 'flex-basis' ] = isNaN( attributes[ 'flexBasis' + device ] )
+			? attributes[ 'flexBasis' + device ]
+			: valueWithUnit( attributes[ 'flexBasis' + device ], attributes[ 'flexBasisUnit' + device ] );
 	}
 
 	return (

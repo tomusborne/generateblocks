@@ -2,6 +2,7 @@
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 
 import {
 	Component,
@@ -72,6 +73,8 @@ export default class TabletCSS extends Component {
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 
 		if ( ! useInnerContainer ) {
+			LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
 				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
@@ -90,23 +93,6 @@ export default class TabletCSS extends Component {
 			} );
 		}
 
-		if ( sizingValue( 'minHeightTablet', sizing ) && ! isGrid ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'row',
-				'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
-			} );
-		}
-
-		if ( isGrid && 'inherit' !== verticalAlignmentTablet ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'column',
-				'height': '100%', // eslint-disable-line quote-props
-				'justify-content': verticalAlignmentTablet,
-			} );
-		}
-
 		if ( useInnerContainer ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
@@ -115,6 +101,23 @@ export default class TabletCSS extends Component {
 				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
 				'width': sizingValue( 'minHeightTablet', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
+
+			if ( sizingValue( 'minHeightTablet', sizing ) && ! isGrid ) {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+					'display': 'flex', // eslint-disable-line quote-props
+					'flex-direction': 'row',
+					'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
+				} );
+			}
+
+			if ( isGrid && 'inherit' !== verticalAlignmentTablet ) {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+					'display': 'flex', // eslint-disable-line quote-props
+					'flex-direction': 'column',
+					'height': '100%', // eslint-disable-line quote-props
+					'justify-content': verticalAlignmentTablet,
+				} );
+			}
 		}
 
 		if ( isGrid ) {

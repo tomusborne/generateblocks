@@ -1164,6 +1164,10 @@ function generateblocks_get_global_container_width() {
  * @param string $device The device we're adding to.
  */
 function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
+	if ( ! empty( $settings['useInnerContainer'] ) ) {
+		return;
+	}
+
 	$options = [
 		'display' => 'display',
 		'flex-direction' => 'flexDirection',
@@ -1204,9 +1208,19 @@ function generateblocks_add_sizing_css( $css, $settings, $device = '' ) {
 		unset( $options['max-width'] );
 	}
 
+	if ( empty( $settings['isGrid'] ) ) {
+		$options['flex-grow'] = 'flexGrow';
+		$options['flex-shrink'] = 'flexShrink';
+		$options['flex-basis'] = 'flexBasis';
+	}
+
 	foreach ( $options as $property => $option ) {
 		$option_name = $option . $device;
 		$value = generateblocks_get_array_attribute_value( $option_name, $settings['sizing'] );
+
+		if ( 'flex-grow' === $property || 'flex-shrink' === $property || 'flex-basis' === $property ) {
+			$value = $settings[ $option ];
+		}
 
 		if ( 'max-width' === $property && ! empty( $settings['useGlobalContainerWidth'] ) && ! $device ) {
 			$value = generateblocks_get_global_container_width();

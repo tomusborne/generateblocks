@@ -2,15 +2,15 @@ import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import { applyFilters } from '@wordpress/hooks';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useEffect } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
-import InspectorControls from './components/InspectorControls';
 import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import ContainerContentRenderer from './components/ContainerContentRenderer';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import { withBlockContext } from '../../block-context';
+import { useSelect } from '@wordpress/data';
 
 const ContainerEdit = ( props ) => {
 	const {
@@ -25,6 +25,9 @@ const ContainerEdit = ( props ) => {
 		googleFont,
 		googleFontVariants,
 		isBlockPreview = false,
+		gridId,
+		isGrid,
+		isQueryLoopItem,
 	} = attributes;
 
 	const [ deviceType ] = useDeviceType();
@@ -57,6 +60,44 @@ const ContainerEdit = ( props ) => {
 		} );
 	} );
 
+	const {
+		getBlockParents,
+		getBlocksByClientId,
+	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+
+	useEffect( () => {
+		const parentBlockId = getBlockParents( clientId, true );
+
+		if ( parentBlockId.length > 0 ) {
+			const parentBlocks = getBlocksByClientId( parentBlockId );
+
+			if ( parentBlocks.length > 0 ) {
+				if ( 'generateblocks/grid' === parentBlocks[ 0 ].name ) {
+					const parentGridId = parentBlocks[ 0 ].attributes.uniqueId;
+
+					if ( parentGridId !== gridId ) {
+						setAttributes( {
+							isGrid: true,
+							gridId: parentGridId,
+						} );
+					}
+				} else if ( isGrid && ! isQueryLoopItem ) {
+					// Grid block isn't the parent, can't be a grid item.
+					setAttributes( {
+						isGrid: false,
+						gridId: '',
+					} );
+				}
+			}
+		} else if ( isGrid && ! isQueryLoopItem ) {
+			// No parent exists, can't be a grid item.
+			setAttributes( {
+				isGrid: false,
+				gridId: '',
+			} );
+		}
+	} );
+
 	return (
 		<Fragment>
 			<BlockControls
@@ -68,15 +109,7 @@ const ContainerEdit = ( props ) => {
 			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-			>
-				<InspectorControls
-					clientId={ clientId }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					filterTagName={ filterTagName }
-					deviceType={ deviceType }
-				/>
-			</GenerateBlocksInspectorControls>
+			/>
 
 			<InspectorAdvancedControls
 				{ ...props }
