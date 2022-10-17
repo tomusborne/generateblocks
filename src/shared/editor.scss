@@ -6,10 +6,21 @@
 	margin-bottom: 20px;
 }
 
-.gblocks-panel-label .components-panel__body-toggle.components-button {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+.gblocks-panel-label {
+	.components-panel__body-toggle.components-button {
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: flex-end;
+	}
+
+	.gblocks-panel-label {
+		border: 0;
+		background-color: #fafafa;
+
+		.components-panel__body-toggle {
+			padding: 10px;
+		}
+	}
 }
 
 .gblocks-panel-label svg.components-panel__icon {
