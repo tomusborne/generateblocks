@@ -382,6 +382,7 @@ function generateblocks_set_flex_child_component_defaults( $defaults ) {
 		'flexGrow',
 		'flexShrink',
 		'flexBasis',
+		'order',
 	];
 
 	foreach ( $defaults as $block => $values ) {

@@ -1178,7 +1178,9 @@ function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
 	];
 
 	foreach ( $options as $property => $option ) {
-		$css->add_property( $property, $settings[ $option . $device ] );
+		$value = isset( $settings[ $option . $device ] ) ? $settings[ $option . $device ] : '';
+
+		$css->add_property( $property, $value );
 	}
 }
 

@@ -138,7 +138,6 @@ class GenerateBlocks_Block_Container {
 			'verticalAlignment' => '',
 			'verticalAlignmentTablet' => 'inherit',
 			'verticalAlignmentMobile' => 'inherit',
-			'zindex' => '',
 			'innerZindex' => '',
 			'removeVerticalGap' => false,
 			'removeVerticalGapTablet' => false,
