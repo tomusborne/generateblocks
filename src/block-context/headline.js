@@ -14,6 +14,11 @@ const headlineContext = defaultsDeep( {
 			alignItems: true,
 			justifyContent: true,
 		},
+		flexChildPanel: {
+			enabled: true,
+			flex: true,
+			order: true,
+		},
 		typography: {
 			enabled: true,
 			fontWeight: true,

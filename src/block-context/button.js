@@ -14,6 +14,11 @@ const buttonContext = defaultsDeep( {
 			alignItems: true,
 			justifyContent: true,
 		},
+		flexChildPanel: {
+			enabled: true,
+			flex: true,
+			order: true,
+		},
 		sizingPanel: {
 			enabled: true,
 			width: true,
