@@ -6,7 +6,6 @@ import { useDeviceType } from '../../../../hooks';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import DeviceControls from './components/device-controls';
-import ZIndex from './components/z-index';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const [ device ] = useDeviceType();
@@ -21,8 +20,6 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 		fillHorizontalSpace,
 		fillHorizontalSpaceTablet,
 		fillHorizontalSpaceMobile,
-		zindex,
-		innerZindex,
 	} = attributes;
 
 	return (
@@ -65,22 +62,6 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 							} );
 						} }
 					/>
-
-					{ spacing.zIndex &&
-						<ZIndex
-							label={ spacing.innerZIndex && __( 'Outer z-index', 'generateblocks' ) }
-							value={ zindex }
-							onChange={ ( value ) => setAttributes( { zindex: value } ) }
-						/>
-					}
-
-					{ spacing.innerZIndex &&
-						<ZIndex
-							label={ __( 'Inner z-index', 'generateblocks' ) }
-							value={ innerZindex }
-							onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
-						/>
-					}
 				</>
 			}
 

@@ -134,26 +134,14 @@ class GenerateBlocks_Block_Container {
 			'autoWidth' => false,
 			'autoWidthTablet' => false,
 			'autoWidthMobile' => false,
-			'flexGrow' => '',
-			'flexGrowTablet' => '',
-			'flexGrowMobile' => '',
-			'flexShrink' => '',
-			'flexShrinkTablet' => '',
-			'flexShrinkMobile' => '',
-			'flexBasis' => '',
-			'flexBasisTablet' => '',
-			'flexBasisMobile' => '',
 			'flexBasisUnit' => 'px',
 			'verticalAlignment' => '',
 			'verticalAlignmentTablet' => 'inherit',
 			'verticalAlignmentMobile' => 'inherit',
-			'zindex' => '',
 			'innerZindex' => '',
 			'removeVerticalGap' => false,
 			'removeVerticalGapTablet' => false,
 			'removeVerticalGapMobile' => false,
-			'orderTablet' => false,
-			'orderMobile' => false,
 			'alignment' => '',
 			'alignmentTablet' => '',
 			'alignmentMobile' => '',
@@ -169,9 +157,6 @@ class GenerateBlocks_Block_Container {
 			'textTransform' => '',
 			'useInnerContainer' => false,
 			'useGlobalContainerWidth' => false,
-			'maxWidth' => '',
-			'maxWidthTablet' => '',
-			'maxWidthMobile' => '',
 		];
 	}
 
@@ -221,7 +206,8 @@ class GenerateBlocks_Block_Container {
 			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'container', $settings, $attributes );
 		}
 
-		$useInnerContainer = $blockVersion < 3 || $settings['useInnerContainer'];
+		$settings['useInnerContainer'] = $blockVersion < 3 || $settings['useInnerContainer'];
+		$useInnerContainer = $settings['useInnerContainer'];
 
 		$fontFamily = $settings['fontFamily'];
 
@@ -269,28 +255,30 @@ class GenerateBlocks_Block_Container {
 			self::$singular_css_added = true;
 		}
 
+		/**
+		 * Main Container selector.
+		 *
+		 * Example: .gb-container-{ $uniqueId }
+		 */
 		$css->set_selector( '.gb-container-' . $id );
 		generateblocks_add_sizing_css( $css, $settings );
+		generateblocks_add_layout_css( $css, $settings );
+		generateblocks_add_flex_child_css( $css, $settings );
 		$css->add_property( 'font-family', $fontFamily );
 		$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 		$css->add_property( 'font-weight', $settings['fontWeight'] );
 		$css->add_property( 'text-transform', $settings['textTransform'] );
 		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
+		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
+		$css->add_property( 'color', $settings['textColor'] );
+		$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
+		$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
+		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
+		$css->add_property( 'text-align', $settings['alignment'] );
 
 		if ( ! $useInnerContainer ) {
 			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 		}
-
-		if ( $useInnerContainer && 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
-			if ( ! empty( $containerWidth ) ) {
-				$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
-				$css->add_property( 'margin-left', 'auto' );
-				$css->add_property( 'margin-right', 'auto' );
-			}
-		}
-
-		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
-		$css->add_property( 'color', $settings['textColor'] );
 
 		if ( $hasBgImage && 'element' === $settings['bgOptions']['selector'] && $backgroundImageValue ) {
 			if ( ! $settings['bgImageInline'] || ( $settings['bgImageInline'] && 'element' !== $settings['bgOptions']['selector'] ) ) {
@@ -320,14 +308,6 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'overflow', 'hidden' );
 		}
 
-		if ( $settings['zindex'] ) {
-			$css->add_property( 'z-index', $settings['zindex'] );
-		}
-
-		$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
-		$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
-		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
-
 		if ( $blockVersion < 3 ) {
 			$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
 		}
@@ -336,18 +316,33 @@ class GenerateBlocks_Block_Container {
 		$usingMinHeightFlex = false;
 		$usingMinHeightInnerWidth = false;
 
-		if ( $settings['minHeight'] && $settings['verticalAlignment'] && ! $settings['isGrid'] ) {
-			$css->add_property( 'display', 'flex' );
-			$css->add_property( 'flex-direction', 'row' );
-			$css->add_property( 'align-items', $settings['verticalAlignment'] );
+		if ( $useInnerContainer ) {
+			if ( 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
+				if ( ! empty( $containerWidth ) ) {
+					$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
+					$css->add_property( 'margin-left', 'auto' );
+					$css->add_property( 'margin-right', 'auto' );
+				}
+			}
 
-			$usingMinHeightFlex = true;
+			$minHeight = $blockVersion < 3 ? $settings['minHeight'] : generateblocks_get_array_attribute_value( 'minHeight', $settings['sizing'] );
+
+			if ( $minHeight && $settings['verticalAlignment'] && ! $settings['isGrid'] ) {
+				$css->add_property( 'display', 'flex' );
+				$css->add_property( 'flex-direction', 'row' );
+				$css->add_property( 'align-items', $settings['verticalAlignment'] );
+
+				$usingMinHeightFlex = true;
+			}
 		}
-
-		$css->add_property( 'text-align', $settings['alignment'] );
 
 		$innerZIndex = $settings['innerZindex'];
 
+		/**
+		 * Container before pseudo selector.
+		 *
+		 * Example: .gb-container-{ $uniqueId }:before
+		 */
 		$css->set_selector( '.gb-container-' . $id . ':before' );
 
 		if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
@@ -375,6 +370,11 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
+		/**
+		 * Container after pseudo selector.
+		 *
+		 * Example: .gb-container-{ $uniqueId }:after
+		 */
 		if ( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] ) {
 			$css->set_selector( '.gb-container-' . $id . ':after' );
 			$css->add_property( 'content', '""' );
@@ -391,6 +391,11 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
+		/**
+		 * Legacy inner Container selector.
+		 *
+		 * Example: .gb-container-{ $uniqueId } > .gb-inside-container
+		 */
 		if ( $useInnerContainer ) {
 			$css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
@@ -415,12 +420,22 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
+		/**
+		 * Container links.
+		 *
+		 * Example: .gb-container-{ $uniqueId } a, .gb-container-{ $uniqueId } a:visited
+		 */
 		$css->set_selector( '.gb-container-' . $id . ' a, .gb-container-' . $id . ' a:visited' );
 		$css->add_property( 'color', $settings['linkColor'] );
 
 		$css->set_selector( '.gb-container-' . $id . ' a:hover' );
 		$css->add_property( 'color', $settings['linkColorHover'] );
 
+		/**
+		 * Grid item selector.
+		 *
+		 * Example: .gb-grid-wrapper > .gb-grid-column-{ $uniqueId }
+		 */
 		if ( $settings['isGrid'] ) {
 			$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
@@ -433,21 +448,48 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'flex-grow', $settings['flexGrow'] );
 			$css->add_property( 'flex-shrink', $settings['flexShrink'] );
 
-			if ( is_numeric( $settings['flexBasis'] ) ) {
+			if ( is_numeric( $settings['flexBasis'] ) && $blockVersion < 3 ) {
 				$css->add_property( 'flex-basis', $settings['flexBasis'], $settings['flexBasisUnit'] );
 			} else {
 				$css->add_property( 'flex-basis', $settings['flexBasis'] );
 			}
+
+			if ( $settings['isGrid'] ) {
+				$css->add_property( 'order', $settings['order'] );
+			}
 		}
 
+		/**
+		 * Grid item selector with tag name.
+		 *
+		 * This was used for the removeVerticalGap option which was deprecated
+		 * in version 3 of the Grid block.
+		 *
+		 * Example: .gb-grid-wrapper > div.gb-grid-column-{ $uniqueId }
+		 */
 		if ( $settings['removeVerticalGap'] ) {
 			$desktop_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
 			$desktop_css->add_property( 'padding-bottom', '0' );
 		}
 
-		$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
-		$css->add_property( 'justify-content', $settings['verticalAlignment'] );
+		/**
+		 * Grid item Container selector.
+		 *
+		 * Example: .gb-grid-wrapper > .gb-grid-column-{ $uniqueId } > .gb-container
+		 */
+		if ( $useInnerContainer ) {
+			$css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
+			$css->add_property( 'justify-content', $settings['verticalAlignment'] );
+			$css->add_property( 'display', 'flex' );
+			$css->add_property( 'flex-direction', 'column' );
+			$css->add_property( 'height', '100%' );
+		}
 
+		/**
+		 * Container selector for shapes.
+		 *
+		 * Example: .gb-container-{ $uniqueId }
+		 */
 		if ( ! empty( $settings['shapeDividers'] ) ) {
 			$css->set_selector( '.gb-container-' . $id );
 			$css->add_property( 'position', 'relative' );
@@ -512,12 +554,20 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
+		/**
+		 * Main Container selector for tablet.
+		 *
+		 * Example: .gb-container-{ $uniqueId }
+		 */
 		$tablet_css->set_selector( '.gb-container-' . $id );
 		generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
+		generateblocks_add_layout_css( $tablet_css, $settings, 'Tablet' );
+		generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 		$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 		$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 		$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
+		$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
 
 		if ( $blockVersion < 3 ) {
 			$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
@@ -527,22 +577,28 @@ class GenerateBlocks_Block_Container {
 			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 		}
 
-		if ( ! $settings['isGrid'] ) {
-			if ( ! $usingMinHeightFlex && $settings['minHeightTablet'] && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-				$tablet_css->add_property( 'display', 'flex' );
-				$tablet_css->add_property( 'flex-direction', 'row' );
-
-				$usingMinHeightFlex = true;
-			}
-
-			if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-				$tablet_css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
-			}
-		}
-
-		$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
-
 		if ( $useInnerContainer ) {
+			// Need to check if we're using minHeightTablet in two places below.
+			$minHeightTablet = $blockVersion < 3 ? $settings['minHeightTablet'] : generateblocks_get_array_attribute_value( 'minHeightTablet', $settings['sizing'] );
+
+			if ( ! $settings['isGrid'] ) {
+				if ( ! $usingMinHeightFlex && $minHeightTablet && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+					$tablet_css->add_property( 'display', 'flex' );
+					$tablet_css->add_property( 'flex-direction', 'row' );
+
+					$usingMinHeightFlex = true;
+				}
+
+				if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+					$tablet_css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
+				}
+			}
+
+			/**
+			 * Legacy inner Container selector for tablet.
+			 *
+			 * Example: .gb-container-{ $uniqueId } > .gb-inside-container
+			 */
 			$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 
@@ -550,7 +606,7 @@ class GenerateBlocks_Block_Container {
 
 			if ( ! $settings['isGrid'] ) {
 				// Needs 100% width if it's a flex item.
-				if ( ! $usingMinHeightInnerWidth && $settings['minHeightTablet'] && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+				if ( ! $usingMinHeightInnerWidth && $minHeightTablet && 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 					$tablet_css->add_property( 'width', '100%' );
 
 					$usingMinHeightInnerWidth = true;
@@ -564,6 +620,11 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
+		/**
+		 * Grid item selector for tablet.
+		 *
+		 * Example: .gb-grid-wrapper > .gb-grid-column-{ $uniqueId }
+		 */
 		$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
 		if ( $blockVersion < 3 ) {
@@ -589,22 +650,47 @@ class GenerateBlocks_Block_Container {
 			$tablet_css->add_property( 'order', $settings['orderTablet'] );
 		}
 
+		/**
+		 * Grid item selector with tag name for tablet.
+		 *
+		 * This was used for the removeVerticalGap option which was deprecated
+		 * in version 3 of the Grid block.
+		 *
+		 * Example: .gb-grid-wrapper > div.gb-grid-column-{ $uniqueId }
+		 */
 		if ( $settings['removeVerticalGapTablet'] ) {
 			$tablet_only_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
 			$tablet_only_css->add_property( 'padding-bottom', '0' );
 		}
 
-		$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
+		/**
+		 * Grid item Container selector for tablet.
+		 *
+		 * Example: .gb-grid-wrapper > .gb-grid-column-{ $uniqueId } > .gb-container
+		 */
+		if ( $useInnerContainer ) {
+			$tablet_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
 
-		if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
-			$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
+			if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
+				$tablet_css->add_property( 'justify-content', $settings['verticalAlignmentTablet'] );
+			}
 		}
 
+		/**
+		 * Container before pseudo selector for tablet.
+		 *
+		 * Example: .gb-container-{ $uniqueId }:before
+		 */
 		if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 			$tablet_css->set_selector( '.gb-container-' . $id . ':before' );
 			$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 		}
 
+		/**
+		 * Shape selector for tablets.
+		 *
+		 * Example: .gb-container-{ $uniqueId } > .gb-shapes .gb-shape-{ $shapeNumber } svg
+		 */
 		if ( ! empty( $settings['shapeDividers'] ) ) {
 			$default_styles = generateblocks_get_default_styles();
 
@@ -622,12 +708,20 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
+		/**
+		 * Main Container selector for mobile.
+		 *
+		 * Example: .gb-container-{ $uniqueId }
+		 */
 		$mobile_css->set_selector( '.gb-container-' . $id );
 		generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
+		generateblocks_add_layout_css( $mobile_css, $settings, 'Mobile' );
+		generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
 		$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 		$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 		$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
+		$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
 
 		if ( $blockVersion < 3 ) {
 			$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
@@ -635,30 +729,34 @@ class GenerateBlocks_Block_Container {
 
 		if ( $useInnerContainer ) {
 			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
-		}
 
-		if ( ! $settings['isGrid'] ) {
-			if ( ! $usingMinHeightFlex && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-				$mobile_css->add_property( 'display', 'flex' );
-				$mobile_css->add_property( 'flex-direction', 'row' );
+			// Need to check if we're using minHeightMobile in two places below.
+			$minHeightMobile = $blockVersion < 3 ? $settings['minHeightMobile'] : generateblocks_get_array_attribute_value( 'minHeightMobile', $settings['sizing'] );
 
-				$usingMinHeightFlex = true;
+			if ( ! $settings['isGrid'] ) {
+				if ( ! $usingMinHeightFlex && $minHeightMobile && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+					$mobile_css->add_property( 'display', 'flex' );
+					$mobile_css->add_property( 'flex-direction', 'row' );
+
+					$usingMinHeightFlex = true;
+				}
+
+				if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+					$mobile_css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
+				}
 			}
 
-			if ( $usingMinHeightFlex && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-				$mobile_css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
-			}
-		}
-
-		$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
-
-		if ( $useInnerContainer ) {
+			/**
+			 * Legacy inner Container selector for mobile.
+			 *
+			 * Example: .gb-container-{ $uniqueId } > .gb-inside-container
+			 */
 			$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
 			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 
 			if ( ! $settings['isGrid'] ) {
 				// Needs 100% width if it's a flex item.
-				if ( ! $usingMinHeightInnerWidth && $settings['minHeightMobile'] && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+				if ( ! $usingMinHeightInnerWidth && $minHeightMobile && 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 					$mobile_css->add_property( 'width', '100%' );
 				} elseif ( $usingMinHeightInnerWidth && ! $usingMinHeightInnerWidthBoxSizing ) {
 					if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
@@ -668,6 +766,11 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
+		/**
+		 * Grid item selector for tablet.
+		 *
+		 * Example: .gb-grid-wrapper > .gb-grid-column-{ $uniqueId }
+		 */
 		$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id );
 
 		if ( $blockVersion < 3 ) {
@@ -695,22 +798,47 @@ class GenerateBlocks_Block_Container {
 			$mobile_css->add_property( 'order', $settings['orderMobile'] );
 		}
 
+		/**
+		 * Grid item selector with tag name for mobile.
+		 *
+		 * This was used for the removeVerticalGap option which was deprecated
+		 * in version 3 of the Grid block.
+		 *
+		 * Example: .gb-grid-wrapper > div.gb-grid-column-{ $uniqueId }
+		 */
 		if ( $settings['removeVerticalGapMobile'] ) {
 			$mobile_css->set_selector( '.gb-grid-wrapper > div.gb-grid-column-' . $id );
 			$mobile_css->add_property( 'padding-bottom', '0' );
 		}
 
-		$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
+		/**
+		 * Grid item Container selector for mobile.
+		 *
+		 * Example: .gb-grid-wrapper > .gb-grid-column-{ $uniqueId } > .gb-container
+		 */
+		if ( $useInnerContainer ) {
+			$mobile_css->set_selector( '.gb-grid-wrapper > .gb-grid-column-' . $id . ' > .gb-container' );
 
-		if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
-			$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
+			if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
+				$mobile_css->add_property( 'justify-content', $settings['verticalAlignmentMobile'] );
+			}
 		}
 
+		/**
+		 * Container before pseudo selector for mobile.
+		 *
+		 * Example: .gb-container-{ $uniqueId }:before
+		 */
 		if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 			$mobile_css->set_selector( '.gb-container-' . $id . ':before' );
 			$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 		}
 
+		/**
+		 * Shape selector for tablets.
+		 *
+		 * Example: .gb-container-{ $uniqueId } > .gb-shapes .gb-shape-{ $shapeNumber } svg
+		 */
 		if ( ! empty( $settings['shapeDividers'] ) ) {
 			$default_styles = generateblocks_get_default_styles();
 
@@ -728,6 +856,12 @@ class GenerateBlocks_Block_Container {
 			}
 		}
 
+		/**
+		 * Conditional selector to disable fixed backgrounds on mobile.
+		 *
+		 * Example 1: .gb-container-{ $uniqueId }
+		 * Example 2: .gb-container-{ $uniqueId }:before
+		 */
 		if ( $hasBgImage && 'fixed' === $settings['bgOptions']['attachment'] ) {
 			if ( 'element' === $settings['bgOptions']['selector'] ) {
 				$mobile_css->set_selector( '.gb-container-' . $id );

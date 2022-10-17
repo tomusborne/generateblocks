@@ -18,6 +18,12 @@ const defaultContext = {
 			flexWrap: false,
 			alignItems: false,
 			justifyContent: false,
+			zIndex: false,
+		},
+		flexChildPanel: {
+			enabled: false,
+			flex: false,
+			order: false,
 		},
 		sizingPanel: {
 			enabled: false,
@@ -43,8 +49,6 @@ const defaultContext = {
 			inlineWidth: false,
 			stackVertically: false,
 			fillHorizontalSpace: false,
-			zIndex: false,
-			innerZIndex: false,
 			dimensions: [],
 		},
 		colors: {

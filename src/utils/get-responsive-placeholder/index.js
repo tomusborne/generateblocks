@@ -4,7 +4,7 @@ export default function getResponsivePlaceholder( name, attributes, device, fall
 
 	let responsivePlaceholder = attributes[ name ];
 
-	if ( 'Mobile' === device && attributes[ name + 'Tablet' ] ) {
+	if ( 'Mobile' === device && ( attributes[ name + 'Tablet' ] || 0 === attributes[ name + 'Tablet' ] ) ) {
 		responsivePlaceholder = attributes[ name + 'Tablet' ];
 	}
 

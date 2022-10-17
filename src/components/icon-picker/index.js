@@ -124,7 +124,7 @@ class IconPicker extends Component {
 							const svgItems = iconSVGSets[ svg ].svgs;
 
 							return (
-								<PanelBody title={ iconSVGSets[ svg ].group } initialOpen={ false } key={ i }>
+								<PanelBody className="gblocks-panel-label gblocks-icon-panel" title={ iconSVGSets[ svg ].group } initialOpen={ false } key={ i }>
 									<PanelRow>
 										<BaseControl>
 											<ul className="gblocks-icon-chooser">

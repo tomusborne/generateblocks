@@ -9,6 +9,8 @@ import {
 	applyFilters,
 } from '@wordpress/hooks';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -23,7 +25,6 @@ export default function MainCSS( props ) {
 		flexGrow,
 		flexShrink,
 		flexBasis,
-		flexBasisUnit,
 		outerContainer,
 		innerContainer,
 		containerWidth,
@@ -74,6 +75,7 @@ export default function MainCSS( props ) {
 		bgImageInline,
 		useInnerContainer,
 		sizing,
+		order,
 	} = attributes;
 
 	let containerWidthPreview = containerWidth;
@@ -101,7 +103,6 @@ export default function MainCSS( props ) {
 		'margin-right': valueWithUnit( marginRight, 'auto' !== marginRight ? marginUnit : '' ) || '0',
 		'margin-bottom': valueWithUnit( marginBottom, 'auto' !== marginBottom ? marginUnit : '' ),
 		'margin-left': valueWithUnit( marginLeft, 'auto' !== marginLeft ? marginUnit : '' ) || '0',
-		'z-index': zindex,
 		'text-align': alignment,
 		'font-family': fontFamily + fontFamilyFallbackValue,
 		'font-weight': fontWeight,
@@ -111,6 +112,8 @@ export default function MainCSS( props ) {
 	} ];
 
 	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
+	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
+	FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 
 	if ( ! useInnerContainer ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -171,14 +174,6 @@ export default function MainCSS( props ) {
 		} );
 	}
 
-	if ( sizingValue( 'minHeight', sizing ) && ! isGrid ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			'display': 'flex', // eslint-disable-line quote-props
-			'flex-direction': 'row',
-			'align-items': verticalAlignment,
-		} );
-	}
-
 	if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 		cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 			'content': '""', // eslint-disable-line quote-props
@@ -225,6 +220,14 @@ export default function MainCSS( props ) {
 	} ];
 
 	if ( useInnerContainer ) {
+		if ( sizingValue( 'minHeight', sizing ) && ! isGrid ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'display': 'flex', // eslint-disable-line quote-props
+				'flex-direction': 'row',
+				'align-items': verticalAlignment,
+			} );
+		}
+
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
 			'width': sizingValue( 'minHeight', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
@@ -264,15 +267,18 @@ export default function MainCSS( props ) {
 			width: sizingValue( 'width', sizing ),
 			'flex-grow': flexGrow,
 			'flex-shrink': flexShrink,
-			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
+			'flex-basis': flexBasis,
+			order,
 		} ];
 
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			display: 'flex',
-			'flex-direction': 'column',
-			height: '100%',
-			'justify-content': verticalAlignment,
-		} );
+		if ( useInnerContainer ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				display: 'flex',
+				'flex-direction': 'column',
+				height: '100%',
+				'justify-content': verticalAlignment,
+			} );
+		}
 	}
 
 	cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),

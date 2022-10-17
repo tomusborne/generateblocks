@@ -212,43 +212,6 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	display: block;
 }
 
-/* Flex Controls */
-.gblocks-flex-controls-inner {
-    display: flex;
-
-	& > .components-base-control {
-		margin-bottom: 0;
-
-		&:nth-child(1) {
-			margin-right: 1px;
-			flex-basis: 25%;
-		}
-
-		&:nth-child(2) {
-			margin-right: 1px;
-			flex-basis: 25%;
-		}
-
-		&:nth-child(3) {
-			flex-basis: 50%;
-		}
-	}
-
-	p {
-		margin-bottom: 0;
-	}
-
-	.gblocks-flex-basis-wrapper {
-		position: relative;
-
-		.components-gblocks-units-control-header__units {
-			position: absolute;
-			right: 0;
-			top: 5px;
-		}
-	}
-}
-
 .gb-container-empty {
 	position: relative;
 
@@ -276,13 +239,16 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	margin-top: 0;
 	margin-bottom: 0;
 
-	.block-editor-block-list__layout {
-		.block-list-appender {
-			margin: 0;
+	& > .wp-block {
+		margin-left: 0;
+		margin-right: 0;
+	}
 
-			&:not(:first-child):not(:empty) {
-				margin-top: 10px;
-			}
+	.block-list-appender {
+		margin: 0;
+
+		&:not(:first-child):not(:empty) {
+			margin: 5px;
 		}
 	}
 }
@@ -322,8 +288,8 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	}
 }
 
-.gb-container > .gb-inside-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender,
-.gb-container > .block-editor-inner-blocks > .block-editor-block-list__layout > .block-list-appender {
+.gb-container > .gb-inside-container > .block-list-appender,
+.gb-container > .block-list-appender {
 	position: relative;
 
 	.block-editor-button-block-appender {

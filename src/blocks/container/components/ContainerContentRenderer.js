@@ -1,9 +1,7 @@
 import RootElement from '../../../components/root-element';
 import GridItem from './GridItem';
-import InsideContainer from './InsideContainer';
-import Element from '../../../components/element';
 import { applyFilters } from '@wordpress/hooks';
-import { InnerBlocks, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
+import { useBlockProps, store as blockEditorStore, useInnerBlocksProps } from '@wordpress/block-editor';
 import ShapeDividers from './ShapeDividers';
 import classnames from 'classnames';
 import { useInnerBlocksCount } from '../../../hooks';
@@ -36,6 +34,7 @@ export default function ContainerContentRenderer( props ) {
 		useInnerContainer,
 	} = attributes;
 
+	const TagName = filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 	const hasChildBlocks = 0 < innerBlocksCount;
 	const supportsLayout = useSelect( ( select ) => {
@@ -92,29 +91,33 @@ export default function ContainerContentRenderer( props ) {
 
 	const blockProps = useBlockProps( htmlAttributes );
 
+	const innerBlocksProps = useInnerBlocksProps(
+		! useInnerContainer
+			? blockProps
+			: { className: 'gb-inside-container' },
+		{
+			templateLock: applyFilters( 'generateblocks.editor.containerTemplateLock', false, props ),
+			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ props.isSelected } attributes={ attributes } />,
+		}
+	);
+
+	const containerBlockProps = useInnerContainer ? blockProps : innerBlocksProps;
+
 	return (
 		<>
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<RootElement name={ name } clientId={ clientId } align={ align }>
 				<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
-					<Element
-						tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
-						htmlAttrs={ blockProps }
-					>
-						{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
-						<InsideContainer useInnerContainer={ useInnerContainer } >
-							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
-							<InnerBlocks
-								templateLock={ applyFilters( 'generateblocks.editor.containerTemplateLock', false, props ) }
-								renderAppender={ () => <BlockAppender clientId={ clientId } isSelected={ props.isSelected } attributes={ attributes } /> }
-							/>
-						</InsideContainer>
-
-						<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
-
-						{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
-					</Element>
+					<TagName { ...containerBlockProps }>
+						<>
+							{ useInnerContainer
+								? <div { ...innerBlocksProps }>{ innerBlocksProps.children }</div>
+								: innerBlocksProps.children
+							}
+							<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
+						</>
+					</TagName>
 				</GridItem>
 			</RootElement>
 		</>
