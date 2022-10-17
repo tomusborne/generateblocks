@@ -239,6 +239,11 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	margin-top: 0;
 	margin-bottom: 0;
 
+	& > .wp-block {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
 	.block-list-appender {
 		margin: 0;
 
