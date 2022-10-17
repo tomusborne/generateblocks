@@ -146,15 +146,15 @@ export default function Layout( { attributes, setAttributes } ) {
 				</>
 			}
 
-			{ flexChildPanel.enabled &&
-				<FlexChild
+			{ !! useInnerContainer &&
+				<MigrateInnerContainer
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
 			}
 
-			{ !! useInnerContainer &&
-				<MigrateInnerContainer
+			{ flexChildPanel.enabled &&
+				<FlexChild
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
