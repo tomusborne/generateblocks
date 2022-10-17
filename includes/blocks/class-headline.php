@@ -271,9 +271,6 @@ class GenerateBlocks_Block_Headline {
 				if ( 'above' === $settings['iconLocation'] ) {
 					$css->add_property( 'flex-direction', 'column' );
 				}
-
-				$css->set_selector( $selector . ' .gb-icon' );
-				$css->add_property( 'display', 'inline-flex' );
 			}
 
 			$css->set_selector( $selector . ' a' );
@@ -291,8 +288,12 @@ class GenerateBlocks_Block_Headline {
 					$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
 				}
 
-				if ( $blockVersion < 2 && 'above' === $settings['iconLocation'] ) {
-					$css->add_property( 'display', 'inline' );
+				if ( $blockVersion < 2 ) {
+					if ( 'above' === $settings['iconLocation'] ) {
+						$css->add_property( 'display', 'inline' );
+					} else {
+						$css->add_property( 'display', 'inline-flex' );
+					}
 				}
 
 				$css->set_selector( $selector . ' .gb-icon svg' );
