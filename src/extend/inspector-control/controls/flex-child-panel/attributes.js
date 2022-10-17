@@ -8,6 +8,8 @@ export default function getFlexChildAttributes( defaults ) {
 	];
 
 	const numberOptions = [
+		'flexGrow',
+		'flexShrink',
 		'order',
 	];
 
