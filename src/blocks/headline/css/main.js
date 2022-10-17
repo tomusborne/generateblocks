@@ -4,6 +4,7 @@ import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 import {
 	Component,
@@ -97,6 +98,7 @@ export default class MainCSS extends Component {
 		} ];
 
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
+		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 
 		cssObj[ '.editor-styles-wrapper .gb-container ' + selector ] = [ {

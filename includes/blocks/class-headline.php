@@ -230,6 +230,7 @@ class GenerateBlocks_Block_Headline {
 		if ( ! isset( $attributes['hasWrapper'] ) ) {
 			$css->set_selector( $selector );
 			generateblocks_add_layout_css( $css, $settings );
+			generateblocks_add_sizing_css( $css, $settings );
 			generateblocks_add_flex_child_css( $css, $settings );
 			$css->add_property( 'font-family', $fontFamily );
 			$css->add_property( 'text-align', $settings['alignment'] );
@@ -309,6 +310,7 @@ class GenerateBlocks_Block_Headline {
 
 			$tablet_css->set_selector( $selector );
 			generateblocks_add_layout_css( $tablet_css, $settings, 'Tablet' );
+			generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 			generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
 			$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
 			$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
@@ -363,6 +365,7 @@ class GenerateBlocks_Block_Headline {
 
 			$mobile_css->set_selector( $selector );
 			generateblocks_add_layout_css( $mobile_css, $settings, 'Mobile' );
+			generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 			generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
 			$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
 			$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
