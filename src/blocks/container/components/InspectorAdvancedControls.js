@@ -1,6 +1,5 @@
 import { InspectorAdvancedControls } from '@wordpress/block-editor';
 import HTMLAnchor from '../../../components/html-anchor';
-import MigrateInnerContainer from './MigrateInnerContainer';
 import TagName from './TagName';
 
 export default ( props ) => {
@@ -19,8 +18,6 @@ export default ( props ) => {
 				tagName={ attributes.tagName }
 				onChange={ ( value ) => setAttributes( { tagName: filterTagName( value ) } ) }
 			/>
-
-			<MigrateInnerContainer { ...props } />
 		</InspectorAdvancedControls>
 	);
 };
