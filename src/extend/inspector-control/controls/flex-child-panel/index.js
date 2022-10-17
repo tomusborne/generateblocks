@@ -1,6 +1,5 @@
 import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../../components/panel-area';
-import getIcon from '../../../../utils/get-icon';
 import { useDeviceType } from '../../../../hooks';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
@@ -28,7 +27,6 @@ export default function FlexChild( { attributes, setAttributes } ) {
 		<PanelArea
 			title={ __( 'Flex Child', 'generateblocks' ) }
 			initialOpen={ false }
-			icon={ getIcon( 'layout' ) }
 			className="gblocks-panel-label"
 			id={ `${ id }FlexChild` }
 		>

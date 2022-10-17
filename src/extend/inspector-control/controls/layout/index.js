@@ -12,10 +12,11 @@ import getResponsivePlaceholder from '../../../../utils/get-responsive-placehold
 import FlexDirection from './components/FlexDirection';
 import LegacyLayoutControls from '../../../../blocks/container/components/LegacyLayoutControls';
 import ZIndex from './components/ZIndex';
+import FlexChild from '../flex-child-panel';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const [ device ] = useDeviceType();
-	const { id, supports: { layout } } = useContext( ControlsContext );
+	const { id, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 
 	const componentProps = {
 		attributes,
@@ -142,6 +143,13 @@ export default function Layout( { attributes, setAttributes } ) {
 						/>
 					}
 				</>
+			}
+
+			{ flexChildPanel.enabled &&
+				<FlexChild
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
 			}
 		</PanelArea>
 	);

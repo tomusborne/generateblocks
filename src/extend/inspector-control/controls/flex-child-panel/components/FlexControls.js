@@ -11,7 +11,7 @@ import { useDeviceType } from '../../../../../hooks';
 import getAttribute from '../../../../../utils/get-attribute';
 import UnitControl from '../../../../../components/unit-control';
 
-export default ( props ) => {
+export default function FlexChildControls( props ) {
 	const {
 		attributes,
 		setAttributes,
@@ -116,4 +116,4 @@ export default ( props ) => {
 			</BaseControl>
 		</>
 	);
-};
+}
