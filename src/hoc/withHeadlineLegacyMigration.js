@@ -53,7 +53,6 @@ export default ( WrappedComponent ) => {
 			}
 
 			// Update block version flag if it's out of date.
-			// Update block version flag if it's out of date.
 			if ( isBlockVersionLessThan( blockVersion, 2 ) ) {
 				setAttributes( { blockVersion: 2 } );
 			}
