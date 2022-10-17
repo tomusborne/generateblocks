@@ -101,7 +101,6 @@ export default function MainCSS( props ) {
 		'margin-right': valueWithUnit( marginRight, 'auto' !== marginRight ? marginUnit : '' ) || '0',
 		'margin-bottom': valueWithUnit( marginBottom, 'auto' !== marginBottom ? marginUnit : '' ),
 		'margin-left': valueWithUnit( marginLeft, 'auto' !== marginLeft ? marginUnit : '' ) || '0',
-		'z-index': zindex,
 		'text-align': alignment,
 		'font-family': fontFamily + fontFamilyFallbackValue,
 		'font-weight': fontWeight,
@@ -111,10 +110,9 @@ export default function MainCSS( props ) {
 	} ];
 
 	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
+	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 
 	if ( ! useInnerContainer ) {
-		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
-
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
 		} );

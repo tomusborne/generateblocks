@@ -18,6 +18,7 @@ const containerContext = defaultsDeep( {
 			flexWrap: true,
 			alignItems: true,
 			justifyContent: true,
+			zIndex: true,
 		},
 		sizingPanel: {
 			enabled: true,
@@ -39,8 +40,6 @@ const containerContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			zIndex: true,
-			innerZIndex: false,
 			dimensions: [
 				{
 					type: 'padding',

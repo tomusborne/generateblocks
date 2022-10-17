@@ -70,10 +70,9 @@ export default class TabletCSS extends Component {
 		} ];
 
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 
 		if ( ! useInnerContainer ) {
-			LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
-
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
 				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),

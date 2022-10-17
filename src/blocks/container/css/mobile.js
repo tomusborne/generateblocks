@@ -71,10 +71,9 @@ export default class MobileCSS extends Component {
 		} ];
 
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
+		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 
 		if ( ! useInnerContainer ) {
-			LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
-
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
 				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),

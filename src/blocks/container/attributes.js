@@ -439,10 +439,6 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.container.verticalAlignmentMobile,
 	},
-	zindex: {
-		type: 'number',
-		default: generateBlocksDefaults.container.zindex,
-	},
 	innerZindex: {
 		type: 'number',
 		default: generateBlocksDefaults.container.innerZindex,

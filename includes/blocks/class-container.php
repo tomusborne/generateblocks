@@ -319,10 +319,6 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'overflow', 'hidden' );
 		}
 
-		if ( $settings['zindex'] ) {
-			$css->add_property( 'z-index', $settings['zindex'] );
-		}
-
 		if ( $blockVersion < 3 ) {
 			$css->add_property( 'min-height', $settings['minHeight'], $settings['minHeightUnit'] );
 		}

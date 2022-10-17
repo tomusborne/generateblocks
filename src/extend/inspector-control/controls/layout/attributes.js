@@ -27,5 +27,10 @@ export default function getLayoutAttributes( defaults ) {
 		};
 	} );
 
+	attributes.zindex = {
+		type: 'number',
+		default: defaults.zindex,
+	};
+
 	return attributes;
 }

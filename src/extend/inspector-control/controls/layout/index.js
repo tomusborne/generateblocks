@@ -26,6 +26,8 @@ export default function Layout( { attributes, setAttributes } ) {
 		displayTablet,
 		displayMobile,
 		useInnerContainer,
+		zindex,
+		innerZindex,
 	} = attributes;
 
 	if ( 'container' === id && useInnerContainer ) {
@@ -128,6 +130,24 @@ export default function Layout( { attributes, setAttributes } ) {
 							label={ __( 'Wrap', 'generateblocks' ) }
 							attributeName="flexWrap"
 							directionValue={ directionValue }
+						/>
+					}
+				</>
+			}
+
+			{ layout.zIndex && 'Desktop' === device &&
+				<>
+					<ZIndex
+						label={ useInnerContainer && __( 'Outer z-index', 'generateblocks' ) }
+						value={ zindex }
+						onChange={ ( value ) => setAttributes( { zindex: value } ) }
+					/>
+
+					{ useInnerContainer &&
+						<ZIndex
+							label={ __( 'Inner z-index', 'generateblocks' ) }
+							value={ innerZindex }
+							onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
 						/>
 					}
 				</>

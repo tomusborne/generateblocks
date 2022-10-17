@@ -1174,6 +1174,7 @@ function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
 		'flex-wrap' => 'flexWrap',
 		'align-items' => 'alignItems',
 		'justify-content' => 'justifyContent',
+		'z-index' => 'zindex',
 	];
 
 	foreach ( $options as $property => $option ) {
