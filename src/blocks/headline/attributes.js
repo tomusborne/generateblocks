@@ -29,6 +29,9 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.headline.ariaLabel,
 	},
+	blockVersion: {
+		type: 'number',
+	},
 	// deprecated since 1.2.0.
 	elementId: {
 		type: 'string',

@@ -56,6 +56,7 @@ class IconPicker extends Component {
 			attrIconLocation,
 			locationOptions,
 			attrRemoveText,
+			id,
 		} = this.props;
 
 		let iconSVGSets = {
@@ -85,6 +86,8 @@ class IconPicker extends Component {
 							if ( '' !== value ) {
 								setAttributes( {
 									'hasIcon': true, // eslint-disable-line quote-props
+									display: 'headline' === id ? 'flex' : 'inline-flex',
+									alignItems: 'center',
 								} );
 							} else {
 								setAttributes( {
@@ -142,6 +145,8 @@ class IconPicker extends Component {
 																			setAttributes( {
 																				[ this.props.attrIcon ]: iconValue,
 																				hasIcon: true,
+																				display: 'headline' === id ? 'flex' : 'inline-flex',
+																				alignItems: 'center',
 																			} );
 																		} }
 																	>
