@@ -78,7 +78,6 @@ const HeadlineEdit = ( props ) => {
 			<BlockControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-				deviceType={ deviceType }
 				context={ context }
 			/>
 
