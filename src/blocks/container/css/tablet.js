@@ -23,7 +23,6 @@ export default class TabletCSS extends Component {
 			flexGrowTablet,
 			flexShrinkTablet,
 			flexBasisTablet,
-			flexBasisUnit,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
@@ -130,7 +129,7 @@ export default class TabletCSS extends Component {
 				width: sizingValue( 'widthTablet', sizing ),
 				'flex-grow': flexGrowTablet,
 				'flex-shrink': flexShrinkTablet,
-				'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
+				'flex-basis': flexBasisTablet,
 				order: orderTablet,
 			} ];
 		}

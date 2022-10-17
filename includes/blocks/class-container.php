@@ -463,7 +463,7 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'flex-grow', $settings['flexGrow'] );
 			$css->add_property( 'flex-shrink', $settings['flexShrink'] );
 
-			if ( is_numeric( $settings['flexBasis'] ) ) {
+			if ( is_numeric( $settings['flexBasis'] ) && $blockVersion < 3 ) {
 				$css->add_property( 'flex-basis', $settings['flexBasis'], $settings['flexBasisUnit'] );
 			} else {
 				$css->add_property( 'flex-basis', $settings['flexBasis'] );

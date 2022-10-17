@@ -24,7 +24,6 @@ export default function MainCSS( props ) {
 		flexGrow,
 		flexShrink,
 		flexBasis,
-		flexBasisUnit,
 		outerContainer,
 		innerContainer,
 		containerWidth,
@@ -267,7 +266,7 @@ export default function MainCSS( props ) {
 			width: sizingValue( 'width', sizing ),
 			'flex-grow': flexGrow,
 			'flex-shrink': flexShrink,
-			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),
+			'flex-basis': flexBasis,
 		} ];
 
 		if ( useInnerContainer ) {

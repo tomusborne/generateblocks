@@ -23,7 +23,6 @@ export default class MobileCSS extends Component {
 			flexGrowMobile,
 			flexShrinkMobile,
 			flexBasisMobile,
-			flexBasisUnit,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -131,7 +130,7 @@ export default class MobileCSS extends Component {
 				width: sizingValue( 'widthMobile', sizing ),
 				'flex-grow': flexGrowMobile,
 				'flex-shrink': flexShrinkMobile,
-				'flex-basis': isNaN( flexBasisMobile ) ? flexBasisMobile : valueWithUnit( flexBasisMobile, flexBasisUnit ),
+				'flex-basis': flexBasisMobile,
 				'order': orderMobile, // eslint-disable-line quote-props
 			} ];
 		}
