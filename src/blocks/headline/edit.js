@@ -13,6 +13,7 @@ import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicCont
 import HeadlineContentRenderer from './components/HeadlineContentRenderer';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import withHeadlineLegacyMigration from '../../hoc/withHeadlineLegacyMigration';
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	let block;
@@ -108,5 +109,6 @@ const HeadlineEdit = ( props ) => {
 export default compose(
 	withBlockContext,
 	withDynamicContent,
-	withUniqueId
+	withUniqueId,
+	withHeadlineLegacyMigration
 )( HeadlineEdit );
