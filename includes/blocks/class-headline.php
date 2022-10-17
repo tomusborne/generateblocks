@@ -208,9 +208,6 @@ class GenerateBlocks_Block_Headline {
 
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
-			$css->set_selector( '.gb-icon' );
-			$css->add_property( 'line-height', '0' );
-
 			$css->set_selector( '.gb-icon svg' );
 			$css->add_property( 'height', '1em' );
 			$css->add_property( 'width', '1em' );
@@ -287,6 +284,7 @@ class GenerateBlocks_Block_Headline {
 
 			if ( $settings['hasIcon'] ) {
 				$css->set_selector( $selector . ' .gb-icon' );
+				$css->add_property( 'line-height', '0' );
 				$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
 
 				if ( ! $settings['removeText'] ) {
@@ -464,6 +462,7 @@ class GenerateBlocks_Block_Headline {
 
 			if ( $settings['hasIcon'] ) {
 				$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon' );
+				$css->add_property( 'line-height', '0' );
 
 				if ( ! $settings['removeText'] ) {
 					$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
