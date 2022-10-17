@@ -9,9 +9,12 @@ import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import ContainerContentRenderer from './components/ContainerContentRenderer';
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import { withBlockContext } from '../../block-context';
 
 const ContainerEdit = ( props ) => {
 	const {
+		clientId,
 		attributes,
 		setAttributes,
 		ContentRenderer = ContainerContentRenderer,
@@ -24,21 +27,7 @@ const ContainerEdit = ( props ) => {
 		isBlockPreview = false,
 	} = attributes;
 
-	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
-
-	const tagNames = applyFilters(
-		'generateblocks.editor.containerTagNames',
-		[
-			{ label: 'div', value: 'div' },
-			{ label: 'article', value: 'article' },
-			{ label: 'section', value: 'section' },
-			{ label: 'header', value: 'header' },
-			{ label: 'footer', value: 'footer' },
-			{ label: 'aside', value: 'aside' },
-		],
-		props,
-		{ deviceType }
-	);
+	const [ deviceType ] = useDeviceType();
 
 	const allowedTagNames = applyFilters(
 		'generateblocks.editor.allowedContainerTagNames',
@@ -76,18 +65,23 @@ const ContainerEdit = ( props ) => {
 				deviceType={ deviceType }
 			/>
 
-			<InspectorControls
-				{ ...props }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				state={ { deviceType } }
-				blockDefaults={ generateBlocksDefaults.container }
-				tagNames={ tagNames }
-				filterTagName={ filterTagName }
-				allShapes={ allShapes }
-			/>
+			<GenerateBlocksInspectorControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			>
+				<InspectorControls
+					clientId={ clientId }
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					filterTagName={ filterTagName }
+					deviceType={ deviceType }
+				/>
+			</GenerateBlocksInspectorControls>
 
-			<InspectorAdvancedControls { ...props } />
+			<InspectorAdvancedControls
+				{ ...props }
+				filterTagName={ filterTagName }
+			/>
 
 			<GoogleFontLink
 				fontFamily={ fontFamily }
@@ -108,6 +102,7 @@ const ContainerEdit = ( props ) => {
 };
 
 export default compose(
+	withBlockContext,
 	withDynamicContent,
 	withUniqueId,
 	withContainerLegacyMigration,

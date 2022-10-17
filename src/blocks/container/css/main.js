@@ -4,10 +4,11 @@ import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import valueWithUnit from '../../../utils/value-with-unit';
 import getBackgroundImageCSS from '../../../utils/get-background-image';
-
+import sizingValue from '../../../utils/sizingValue';
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -19,8 +20,6 @@ export default function MainCSS( props ) {
 	const {
 		uniqueId,
 		isGrid,
-		width,
-		autoWidth,
 		flexGrow,
 		flexShrink,
 		flexBasis,
@@ -28,8 +27,6 @@ export default function MainCSS( props ) {
 		outerContainer,
 		innerContainer,
 		containerWidth,
-		minHeight,
-		minHeightUnit,
 		paddingTop,
 		paddingRight,
 		paddingBottom,
@@ -76,8 +73,7 @@ export default function MainCSS( props ) {
 		dynamicContentType,
 		bgImageInline,
 		useInnerContainer,
-		maxWidth,
-		useGlobalContainerWidth,
+		sizing,
 	} = attributes;
 
 	let containerWidthPreview = containerWidth;
@@ -95,7 +91,6 @@ export default function MainCSS( props ) {
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
-	const maxWidthValue = useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : maxWidth;
 
 	let cssObj = [];
 	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
@@ -112,14 +107,14 @@ export default function MainCSS( props ) {
 		'font-weight': fontWeight,
 		'text-transform': textTransform,
 		'font-size': valueWithUnit( fontSize, fontSizeUnit ),
-		'min-height': valueWithUnit( minHeight, minHeightUnit ),
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 	} ];
+
+	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 
 	if ( ! useInnerContainer ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
-			'max-width': maxWidthValue || 'unset',
 		} );
 	}
 
@@ -176,7 +171,7 @@ export default function MainCSS( props ) {
 		} );
 	}
 
-	if ( minHeight && ! isGrid ) {
+	if ( sizingValue( 'minHeight', sizing ) && ! isGrid ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			'display': 'flex', // eslint-disable-line quote-props
 			'flex-direction': 'row',
@@ -232,7 +227,7 @@ export default function MainCSS( props ) {
 	if ( useInnerContainer ) {
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
-			'width': minHeight && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
+			'width': sizingValue( 'minHeight', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 
 		if ( innerZindex || 0 === innerZindex ) {
@@ -266,7 +261,7 @@ export default function MainCSS( props ) {
 		];
 
 		cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
-			width: ! autoWidth ? valueWithUnit( width, '%' ) : false,
+			width: sizingValue( 'width', sizing ),
 			'flex-grow': flexGrow,
 			'flex-shrink': flexShrink,
 			'flex-basis': isNaN( flexBasis ) ? flexBasis : valueWithUnit( flexBasis, flexBasisUnit ),

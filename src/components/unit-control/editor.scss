@@ -1,4 +1,8 @@
 .gblocks-unit-control {
+	&__disabled {
+		opacity: 0.5;
+	}
+
 	&__input {
 		display: flex;
 		align-items: flex-start;
@@ -32,6 +36,8 @@
 
 			&:disabled {
 				background: none;
+				color: rgb(85, 93, 102);
+				border-color: rgb(85, 93, 102);
 			}
 		}
 	}

@@ -6,6 +6,7 @@ import { useDeviceType } from '../../../../hooks';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import DeviceControls from './components/device-controls';
+import ZIndex from './components/z-index';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const [ device ] = useDeviceType();
@@ -20,6 +21,8 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 		fillHorizontalSpace,
 		fillHorizontalSpaceTablet,
 		fillHorizontalSpaceMobile,
+		zindex,
+		innerZindex,
 	} = attributes;
 
 	return (
@@ -41,62 +44,80 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			}
 
 			{ 'Desktop' === device &&
-				<DeviceControls
-					inlineWidth={ !! inlineWidth }
-					onChangeInlineWidth={ ( checked ) => setAttributes( { inlineWidth: checked } ) }
-					stack={ !! stack }
-					onChangeStack={ ( value ) => {
-						setAttributes( {
-							stack: value,
-							stackTablet: !! value && ! stackTablet ? value : stackTablet,
-							stackMobile: !! value && ! stackMobile ? value : stackMobile,
-						} );
-					} }
-					fill={ !! fillHorizontalSpace }
-					onFillChange={ ( value ) => {
-						setAttributes( {
-							fillHorizontalSpace: value,
-							fillHorizontalSpaceTablet: !! value && ! fillHorizontalSpaceTablet ? value : fillHorizontalSpaceTablet,
-							fillHorizontalSpaceMobile: !! value && ! fillHorizontalSpaceMobile ? value : fillHorizontalSpaceMobile,
-						} );
-					} }
-				/>
+				<>
+					<DeviceControls
+						inlineWidth={ !! inlineWidth }
+						onChangeInlineWidth={ ( checked ) => setAttributes( { inlineWidth: checked } ) }
+						stack={ !! stack }
+						onChangeStack={ ( value ) => {
+							setAttributes( {
+								stack: value,
+								stackTablet: !! value && ! stackTablet ? value : stackTablet,
+								stackMobile: !! value && ! stackMobile ? value : stackMobile,
+							} );
+						} }
+						fill={ !! fillHorizontalSpace }
+						onFillChange={ ( value ) => {
+							setAttributes( {
+								fillHorizontalSpace: value,
+								fillHorizontalSpaceTablet: !! value && ! fillHorizontalSpaceTablet ? value : fillHorizontalSpaceTablet,
+								fillHorizontalSpaceMobile: !! value && ! fillHorizontalSpaceMobile ? value : fillHorizontalSpaceMobile,
+							} );
+						} }
+					/>
+
+					{ spacing.zIndex &&
+						<ZIndex
+							label={ spacing.innerZIndex && __( 'Outer z-index', 'generateblocks' ) }
+							value={ zindex }
+							onChange={ ( value ) => setAttributes( { zindex: value } ) }
+						/>
+					}
+
+					{ spacing.innerZIndex &&
+						<ZIndex
+							label={ __( 'Inner z-index', 'generateblocks' ) }
+							value={ innerZindex }
+							onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
+						/>
+					}
+				</>
 			}
 
 			{ 'Tablet' === device &&
-				<DeviceControls
-					inlineWidth={ !! inlineWidthTablet }
-					onChangeInlineWidth={ ( checked ) => setAttributes( { inlineWidthTablet: checked } ) }
-					stack={ !! stackTablet }
-					onChangeStack={ ( value ) => {
-						setAttributes( {
-							stackTablet: value,
-							stackMobile: !! value && ! stackMobile ? value : stackMobile,
-						} );
-					} }
-					fill={ !! fillHorizontalSpaceTablet }
-					onFillChange={ ( value ) => {
-						setAttributes( {
-							fillHorizontalSpaceTablet: value,
-							fillHorizontalSpaceMobile: !! value && ! fillHorizontalSpaceMobile ? value : fillHorizontalSpaceMobile,
-						} );
-					} }
-				/>
+				<>
+					<DeviceControls
+						inlineWidth={ !! inlineWidthTablet }
+						onChangeInlineWidth={ ( checked ) => setAttributes( { inlineWidthTablet: checked } ) }
+						stack={ !! stackTablet }
+						onChangeStack={ ( value ) => {
+							setAttributes( {
+								stackTablet: value,
+								stackMobile: !! value && ! stackMobile ? value : stackMobile,
+							} );
+						} }
+						fill={ !! fillHorizontalSpaceTablet }
+						onFillChange={ ( value ) => {
+							setAttributes( {
+								fillHorizontalSpaceTablet: value,
+								fillHorizontalSpaceMobile: !! value && ! fillHorizontalSpaceMobile ? value : fillHorizontalSpaceMobile,
+							} );
+						} }
+					/>
+				</>
 			}
 
 			{ 'Mobile' === device &&
-				<DeviceControls
-					inlineWidth={ !! inlineWidthMobile }
-					onChangeInlineWidth={ ( checked ) => setAttributes( { inlineWidthMobile: checked } ) }
-					stack={ !! stackMobile }
-					onChangeStack={ ( value ) => {
-						setAttributes( { stackMobile: value } );
-					} }
-					fill={ !! fillHorizontalSpaceMobile }
-					onFillChange={ ( value ) => {
-						setAttributes( { fillHorizontalSpaceMobile: value } );
-					} }
-				/>
+				<>
+					<DeviceControls
+						inlineWidth={ !! inlineWidthMobile }
+						onChangeInlineWidth={ ( checked ) => setAttributes( { inlineWidthMobile: checked } ) }
+						stack={ !! stackMobile }
+						onChangeStack={ ( value ) => setAttributes( { stackMobile: value } ) }
+						fill={ !! fillHorizontalSpaceMobile }
+						onFillChange={ ( value ) => setAttributes( { fillHorizontalSpaceMobile: value } ) }
+					/>
+				</>
 			}
 		</PanelArea>
 	);

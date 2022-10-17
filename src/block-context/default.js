@@ -2,6 +2,8 @@ import { __ } from '@wordpress/i18n';
 
 const defaultContext = {
 	id: '',
+	blockName: '',
+	isInQueryLoop: false,
 	supports: {
 		responsiveTabs: false,
 		settingsPanel: {
@@ -17,6 +19,16 @@ const defaultContext = {
 			alignItems: false,
 			justifyContent: false,
 		},
+		sizingPanel: {
+			enabled: false,
+			width: false,
+			height: false,
+			minWidth: false,
+			minHeight: false,
+			maxWidth: false,
+			maxHeight: false,
+			useGlobalMaxWidth: false,
+		},
 		typography: {
 			enabled: false,
 			fontWeight: false,
@@ -31,6 +43,8 @@ const defaultContext = {
 			inlineWidth: false,
 			stackVertically: false,
 			fillHorizontalSpace: false,
+			zIndex: false,
+			innerZIndex: false,
 			dimensions: [],
 		},
 		colors: {
@@ -38,6 +52,12 @@ const defaultContext = {
 			elements: [],
 		},
 		backgroundGradient: {
+			enabled: false,
+		},
+		backgroundPanel: {
+			enabled: false,
+		},
+		shapesPanel: {
 			enabled: false,
 		},
 		icon: {

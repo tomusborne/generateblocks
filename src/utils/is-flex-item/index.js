@@ -1,14 +1,10 @@
 export default function isFlexItem( props ) {
 	const {
 		device,
-		attributes,
-	} = props;
-
-	const {
 		display,
 		displayTablet,
 		displayMobile,
-	} = attributes;
+	} = props;
 
 	let flexItem = false;
 

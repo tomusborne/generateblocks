@@ -1,6 +1,8 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 import {
 	Component,
@@ -72,6 +74,9 @@ export default class MobileCSS extends Component {
 			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
 			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 		} ];
+
+		LayoutCSS( cssObj, selector, attributes, 'Mobile' );
+		SizingCSS( cssObj, selector, attributes, 'Mobile' );
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ selector ].push( {

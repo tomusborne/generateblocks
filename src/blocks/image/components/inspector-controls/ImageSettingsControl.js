@@ -22,6 +22,10 @@ export default function ImageSettingsControls( props ) {
 		title,
 		sizeSlug,
 		mediaUrl,
+		width,
+		widthTablet,
+		height,
+		heightTablet,
 	} = attributes;
 
 	const mediaData = useSelect( ( select ) => {
@@ -67,21 +71,31 @@ export default function ImageSettingsControls( props ) {
 			>
 				<div className="gblocks-image-dimensions__row">
 					<UnitControl
-						{ ...props }
 						label={ __( 'Width', 'generateblocks' ) }
 						id="gblocks-image-width"
-						attributeName="width"
-						device={ deviceType }
+						value={ getAttribute( 'width', { attributes, deviceType } ) }
+						desktopValue={ width }
+						tabletValue={ widthTablet }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ getAttribute( 'width', { attributes, deviceType }, true ) ]: value,
+							} );
+						} }
 						min="1"
 						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 
 					<UnitControl
-						{ ...props }
 						label={ __( 'Height', 'generateblocks' ) }
 						id="gblocks-image-height"
-						attributeName="height"
-						device={ deviceType }
+						value={ getAttribute( 'height', { attributes, deviceType } ) }
+						desktopValue={ height }
+						tabletValue={ heightTablet }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ getAttribute( 'height', { attributes, deviceType }, true ) ]: value,
+							} );
+						} }
 						min="1"
 						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>

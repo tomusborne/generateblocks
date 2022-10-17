@@ -5,22 +5,10 @@ const flexOptions = {
 		{
 			label: __( 'Row', 'generateblocks' ),
 			value: 'row',
-			icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z" /><path d="m15 5-1.41 1.41L18.17 11H2v2h16.17l-4.59 4.59L15 19l7-7-7-7z" /></svg>,
 		},
 		{
 			label: __( 'Column', 'generateblocks' ),
 			value: 'column',
-			icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z" /><path d="m19 15-1.41-1.41L13 18.17V2h-2v16.17l-4.59-4.59L5 15l7 7 7-7z" /></svg>,
-		},
-		{
-			label: __( 'Reverse Row', 'generateblocks' ),
-			value: 'row-reverse',
-			icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z" /><path d="m9 19 1.41-1.41L5.83 13H22v-2H5.83l4.59-4.59L9 5l-7 7 7 7z" /></svg>,
-		},
-		{
-			label: __( 'Reverse Column', 'generateblocks' ),
-			value: 'column-reverse',
-			icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="none" d="M0 0h24v24H0z" /><path d="m5 9 1.41 1.41L11 5.83V22h2V5.83l4.59 4.59L19 9l-7-7-7 7z" /></svg>,
 		},
 	],
 	flexWrap: [
