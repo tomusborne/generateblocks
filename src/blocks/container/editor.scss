@@ -212,43 +212,6 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	display: block;
 }
 
-/* Flex Controls */
-.gblocks-flex-controls-inner {
-    display: flex;
-
-	& > .components-base-control {
-		margin-bottom: 0;
-
-		&:nth-child(1) {
-			margin-right: 1px;
-			flex-basis: 25%;
-		}
-
-		&:nth-child(2) {
-			margin-right: 1px;
-			flex-basis: 25%;
-		}
-
-		&:nth-child(3) {
-			flex-basis: 50%;
-		}
-	}
-
-	p {
-		margin-bottom: 0;
-	}
-
-	.gblocks-flex-basis-wrapper {
-		position: relative;
-
-		.components-gblocks-units-control-header__units {
-			position: absolute;
-			right: 0;
-			top: 5px;
-		}
-	}
-}
-
 .gb-container-empty {
 	position: relative;
 

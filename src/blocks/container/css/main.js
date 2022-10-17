@@ -10,6 +10,7 @@ import {
 } from '@wordpress/hooks';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -74,6 +75,7 @@ export default function MainCSS( props ) {
 		bgImageInline,
 		useInnerContainer,
 		sizing,
+		order,
 	} = attributes;
 
 	let containerWidthPreview = containerWidth;
@@ -111,6 +113,7 @@ export default function MainCSS( props ) {
 
 	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
+	FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 
 	if ( ! useInnerContainer ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -265,6 +268,7 @@ export default function MainCSS( props ) {
 			'flex-grow': flexGrow,
 			'flex-shrink': flexShrink,
 			'flex-basis': flexBasis,
+			order,
 		} ];
 
 		if ( useInnerContainer ) {

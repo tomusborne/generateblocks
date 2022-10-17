@@ -364,6 +364,20 @@ add_filter( 'generateblocks_defaults', 'generateblocks_set_sizing_component_defa
  * @param array $defaults Existing defaults.
  */
 function generateblocks_set_sizing_component_defaults( $defaults ) {
+	foreach ( $defaults as $block => $values ) {
+		$defaults[ $block ]['sizing'] = [];
+	}
+
+	return $defaults;
+}
+
+add_filter( 'generateblocks_defaults', 'generateblocks_set_flex_child_component_defaults' );
+/**
+ * Set the defaults for our Flex Child options.
+ *
+ * @param array $defaults Existing defaults.
+ */
+function generateblocks_set_flex_child_component_defaults( $defaults ) {
 	$options = [
 		'flexGrow',
 		'flexShrink',
@@ -371,8 +385,6 @@ function generateblocks_set_sizing_component_defaults( $defaults ) {
 	];
 
 	foreach ( $defaults as $block => $values ) {
-		$defaults[ $block ]['sizing'] = [];
-
 		foreach ( $options as $option ) {
 			$defaults[ $block ][ $option ] = '';
 			$defaults[ $block ][ $option . 'Tablet' ] = '';

@@ -1209,23 +1209,39 @@ function generateblocks_add_sizing_css( $css, $settings, $device = '' ) {
 		unset( $options['max-width'] );
 	}
 
-	if ( empty( $settings['isGrid'] ) ) {
-		$options['flex-grow'] = 'flexGrow';
-		$options['flex-shrink'] = 'flexShrink';
-		$options['flex-basis'] = 'flexBasis';
-	}
-
 	foreach ( $options as $property => $option ) {
 		$option_name = $option . $device;
 		$value = generateblocks_get_array_attribute_value( $option_name, $settings['sizing'] );
 
-		if ( 'flex-grow' === $property || 'flex-shrink' === $property || 'flex-basis' === $property ) {
-			$value = $settings[ $option ];
-		}
-
 		if ( 'max-width' === $property && ! empty( $settings['useGlobalContainerWidth'] ) && ! $device ) {
 			$value = generateblocks_get_global_container_width();
 		}
+
+		$css->add_property( $property, $value );
+	}
+}
+
+/**
+ * Add our Flex Child component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_flex_child_css( $css, $settings, $device = '' ) {
+	if ( ! empty( $settings['isGrid'] ) ) {
+		return;
+	}
+
+	$options = [
+		'flex-grow' => 'flexGrow',
+		'flex-shrink' => 'flexShrink',
+		'flex-basis' => 'flexBasis',
+		'order' => 'order',
+	];
+
+	foreach ( $options as $property => $option ) {
+		$value = isset( $settings[ $option . $device ] ) ? $settings[ $option . $device ] : '';
 
 		$css->add_property( $property, $value );
 	}

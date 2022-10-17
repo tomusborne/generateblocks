@@ -134,15 +134,6 @@ class GenerateBlocks_Block_Container {
 			'autoWidth' => false,
 			'autoWidthTablet' => false,
 			'autoWidthMobile' => false,
-			'flexGrow' => '',
-			'flexGrowTablet' => '',
-			'flexGrowMobile' => '',
-			'flexShrink' => '',
-			'flexShrinkTablet' => '',
-			'flexShrinkMobile' => '',
-			'flexBasis' => '',
-			'flexBasisTablet' => '',
-			'flexBasisMobile' => '',
 			'flexBasisUnit' => 'px',
 			'verticalAlignment' => '',
 			'verticalAlignmentTablet' => 'inherit',
@@ -152,8 +143,6 @@ class GenerateBlocks_Block_Container {
 			'removeVerticalGap' => false,
 			'removeVerticalGapTablet' => false,
 			'removeVerticalGapMobile' => false,
-			'orderTablet' => false,
-			'orderMobile' => false,
 			'alignment' => '',
 			'alignmentTablet' => '',
 			'alignmentMobile' => '',
@@ -275,6 +264,7 @@ class GenerateBlocks_Block_Container {
 		$css->set_selector( '.gb-container-' . $id );
 		generateblocks_add_sizing_css( $css, $settings );
 		generateblocks_add_layout_css( $css, $settings );
+		generateblocks_add_flex_child_css( $css, $settings );
 		$css->add_property( 'font-family', $fontFamily );
 		$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
 		$css->add_property( 'font-weight', $settings['fontWeight'] );
@@ -464,6 +454,10 @@ class GenerateBlocks_Block_Container {
 			} else {
 				$css->add_property( 'flex-basis', $settings['flexBasis'] );
 			}
+
+			if ( $settings['isGrid'] ) {
+				$css->add_property( 'order', $settings['order'] );
+			}
 		}
 
 		/**
@@ -569,6 +563,7 @@ class GenerateBlocks_Block_Container {
 		$tablet_css->set_selector( '.gb-container-' . $id );
 		generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_layout_css( $tablet_css, $settings, 'Tablet' );
+		generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
 		$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 		$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
@@ -722,6 +717,7 @@ class GenerateBlocks_Block_Container {
 		$mobile_css->set_selector( '.gb-container-' . $id );
 		generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_layout_css( $mobile_css, $settings, 'Mobile' );
+		generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
 		$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
 		$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );

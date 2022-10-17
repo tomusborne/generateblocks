@@ -27,8 +27,6 @@ export default ( props ) => {
 		verticalAlignment,
 		verticalAlignmentTablet,
 		verticalAlignmentMobile,
-		orderTablet,
-		orderMobile,
 	} = attributes;
 
 	if ( ! useInnerContainer ) {
@@ -156,19 +154,6 @@ export default ( props ) => {
 				/>
 			}
 
-			{ 'Tablet' === deviceType && !! isGrid &&
-				<TextControl
-					type={ 'number' }
-					label={ __( 'Order', 'generateblocks' ) }
-					value={ orderTablet || 0 === orderTablet ? orderTablet : '' }
-					onChange={ ( value ) => {
-						setAttributes( {
-							orderTablet: parseFloat( value ),
-						} );
-					} }
-				/>
-			}
-
 			{ 'Mobile' === deviceType && ( !! isGrid || sizingValue( 'minHeight', sizing ) || sizingValue( 'minHeightTablet', sizing ) || sizingValue( 'minHeightMobile', sizing ) ) &&
 				<SelectControl
 					label={ __( 'Vertical Alignment', 'generateblocks' ) }
@@ -184,19 +169,6 @@ export default ( props ) => {
 					onChange={ ( value ) => {
 						setAttributes( {
 							verticalAlignmentMobile: value,
-						} );
-					} }
-				/>
-			}
-
-			{ 'Mobile' === deviceType && !! isGrid &&
-				<TextControl
-					type={ 'number' }
-					label={ __( 'Order', 'generateblocks' ) }
-					value={ orderMobile || 0 === orderMobile ? orderMobile : '' }
-					onChange={ ( value ) => {
-						setAttributes( {
-							orderMobile: parseFloat( value ),
 						} );
 					} }
 				/>

@@ -19,6 +19,10 @@ const defaultContext = {
 			alignItems: false,
 			justifyContent: false,
 			zIndex: false,
+		},
+		flexChildPanel: {
+			enabled: false,
+			flex: false,
 			order: false,
 		},
 		sizingPanel: {
@@ -30,7 +34,6 @@ const defaultContext = {
 			maxWidth: false,
 			maxHeight: false,
 			useGlobalMaxWidth: false,
-			flex: false,
 		},
 		typography: {
 			enabled: false,

@@ -20,6 +20,11 @@ const containerContext = defaultsDeep( {
 			justifyContent: true,
 			zIndex: true,
 		},
+		flexChildPanel: {
+			enabled: true,
+			flex: true,
+			order: true,
+		},
 		sizingPanel: {
 			enabled: true,
 			width: true,
@@ -29,7 +34,6 @@ const containerContext = defaultsDeep( {
 			maxWidth: true,
 			maxHeight: true,
 			useGlobalMaxWidth: true,
-			flex: true,
 		},
 		typography: {
 			enabled: true,

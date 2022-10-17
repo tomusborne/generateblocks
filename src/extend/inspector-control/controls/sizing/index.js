@@ -13,7 +13,6 @@ import Height from './components/Height';
 import MinWidth from './components/MinWidth';
 import MaxHeight from './components/MaxHeight';
 import './editor.scss';
-import FlexControls from './components/FlexControls';
 
 export default function Sizing( props ) {
 	const { id, supports: { sizingPanel } } = useContext( ControlsContext );
@@ -155,13 +154,6 @@ export default function Sizing( props ) {
 							useGlobalContainerWidth: value,
 						} );
 					} }
-				/>
-			}
-
-			{ sizingPanel.flex &&
-				<FlexControls
-					attributes={ attributes }
-					setAttributes={ setAttributes }
 				/>
 			}
 		</PanelArea>
