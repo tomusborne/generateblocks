@@ -11,6 +11,22 @@ const containerContext = defaultsDeep( {
 			label: __( 'Layout', 'generateblocks' ),
 			icon: 'layout',
 		},
+		layout: {
+			enabled: true,
+			display: true,
+			flexDirection: true,
+			flexWrap: true,
+			alignItems: true,
+			justifyContent: true,
+			columnGap: true,
+			rowGap: true,
+			zIndex: true,
+		},
+		flexChildPanel: {
+			enabled: true,
+			flex: true,
+			order: true,
+		},
 		sizingPanel: {
 			enabled: true,
 			width: true,
@@ -30,8 +46,6 @@ const containerContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			zIndex: true,
-			innerZIndex: false,
 			dimensions: [
 				{
 					type: 'padding',

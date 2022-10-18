@@ -11,6 +11,22 @@ const defaultContext = {
 			label: __( 'Settings', 'generateblocks' ),
 			icon: 'wrench',
 		},
+		layout: {
+			enabled: false,
+			display: false,
+			flexDirection: false,
+			flexWrap: false,
+			alignItems: false,
+			justifyContent: false,
+			columnGap: false,
+			rowGap: false,
+			zIndex: false,
+		},
+		flexChildPanel: {
+			enabled: false,
+			flex: false,
+			order: false,
+		},
 		sizingPanel: {
 			enabled: false,
 			width: false,
@@ -35,8 +51,6 @@ const defaultContext = {
 			inlineWidth: false,
 			stackVertically: false,
 			fillHorizontalSpace: false,
-			zIndex: false,
-			innerZIndex: false,
 			dimensions: [],
 		},
 		colors: {

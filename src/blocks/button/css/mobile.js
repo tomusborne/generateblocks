@@ -1,7 +1,9 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 
 import {
 	Component,
@@ -74,7 +76,9 @@ export default class MobileCSS extends Component {
 			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 		} ];
 
+		LayoutCSS( cssObj, selector, attributes, 'Mobile' );
 		SizingCSS( cssObj, selector, attributes, 'Mobile' );
+		FlexChildCSS( cssObj, selector, attributes, 'Mobile' );
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ selector ].push( {

@@ -20,7 +20,18 @@ export default ( WrappedComponent ) => {
 			MigrateSizing( { attributes, setAttributes } );
 
 			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				setAttributes( { useInnerContainer: true } );
+				const flexBasisAttributes = {};
+
+				[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
+					if ( attributes[ 'flexBasis' + device ] && ! isNaN( attributes[ 'flexBasis' + device ] ) ) {
+						flexBasisAttributes[ 'flexBasis' + device ] = attributes[ 'flexBasis' + device ] + attributes.flexBasisUnit;
+					}
+				} );
+
+				setAttributes( {
+					useInnerContainer: true,
+					...flexBasisAttributes,
+				} );
 			}
 
 			// Set our inner z-index if we're using a gradient overlay or pseudo background.

@@ -3,9 +3,6 @@
  */
 .editor-styles-wrapper {
 	.gb-button {
-		display: inline-flex;
-		justify-content: center;
-		align-items: center;
 		text-align: center;
 		padding: unset;
 		line-height: unset;
@@ -17,10 +14,6 @@
 
 		.editor-rich-text__tinymce {
 			line-height: 1em;
-		}
-
-		.gb-icon {
-			align-self: center;
 		}
 
 		&.button {

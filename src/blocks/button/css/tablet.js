@@ -1,7 +1,9 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 
 import {
 	Component,
@@ -74,7 +76,9 @@ export default class TabletCSS extends Component {
 			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 		} ];
 
+		LayoutCSS( cssObj, selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, selector, attributes, 'Tablet' );
+		FlexChildCSS( cssObj, selector, attributes, 'Tablet' );
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ selector ].push( {
