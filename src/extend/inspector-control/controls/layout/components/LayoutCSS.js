@@ -11,6 +11,8 @@ export default function LayoutCSS( css, selector, attributes, device = '' ) {
 		styles[ 'flex-wrap' ] = attributes[ 'flexWrap' + device ];
 		styles[ 'align-items' ] = attributes[ 'alignItems' + device ];
 		styles[ 'justify-content' ] = attributes[ 'justifyContent' + device ];
+		styles[ 'column-gap' ] = attributes[ 'columnGap' + device ];
+		styles[ 'row-gap' ] = attributes[ 'rowGap' + device ];
 		styles.order = attributes[ 'order' + device ];
 	}
 

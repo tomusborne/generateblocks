@@ -13,6 +13,8 @@ const headlineContext = defaultsDeep( {
 			flexWrap: true,
 			alignItems: true,
 			justifyContent: true,
+			columnGap: true,
+			rowGap: true,
 		},
 		flexChildPanel: {
 			enabled: true,
