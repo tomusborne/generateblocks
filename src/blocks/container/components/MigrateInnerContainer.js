@@ -1,16 +1,16 @@
 import { ToggleControl, Modal, Button, Notice } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useState } from '@wordpress/element';
+import { useState, useContext } from '@wordpress/element';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import hasNumericValue from '../../../utils/has-numeric-value';
 import sizingValue from '../../../utils/sizingValue';
+import ControlsContext from '../../../block-context';
 
-export default ( props ) => {
+export default function MigrateInnerContainer( props ) {
 	const {
 		setAttributes,
 		attributes,
-		clientId,
 	} = props;
 
 	const {
@@ -42,6 +42,7 @@ export default ( props ) => {
 		sizing,
 	} = attributes;
 
+	const { clientId } = useContext( ControlsContext );
 	const [ isInnerContainerMigrateOpen, setIsInnerContainerMigrateOpen ] = useState( false );
 	const openModal = () => setIsInnerContainerMigrateOpen( true );
 	const closeModal = () => setIsInnerContainerMigrateOpen( false );
@@ -210,4 +211,4 @@ export default ( props ) => {
 			}
 		</>
 	);
-};
+}

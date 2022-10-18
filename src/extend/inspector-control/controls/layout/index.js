@@ -13,6 +13,7 @@ import FlexDirection from './components/FlexDirection';
 import LegacyLayoutControls from '../../../../blocks/container/components/LegacyLayoutControls';
 import ZIndex from './components/ZIndex';
 import FlexChild from '../flex-child-panel';
+import MigrateInnerContainer from '../../../../blocks/container/components/MigrateInnerContainer';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const [ device ] = useDeviceType();
@@ -143,6 +144,13 @@ export default function Layout( { attributes, setAttributes } ) {
 						/>
 					}
 				</>
+			}
+
+			{ !! useInnerContainer &&
+				<MigrateInnerContainer
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
 			}
 
 			{ flexChildPanel.enabled &&

@@ -50,9 +50,10 @@ export const withBlockContext = ( WrappedComponent ) => ( ( props ) => {
 	const blockContext = getBlockContext( props.name );
 	const isInQueryLoop = 'undefined' !== typeof props.context[ 'generateblocks/queryId' ];
 	const blockName = props.name;
+	const clientId = props.clientId;
 
 	return (
-		<BlockContext.Provider value={ Object.assign( {}, blockContext, { isInQueryLoop, blockName } ) }>
+		<BlockContext.Provider value={ Object.assign( {}, blockContext, { isInQueryLoop, blockName, clientId } ) }>
 			<WrappedComponent { ...props } />
 		</BlockContext.Provider>
 	);
