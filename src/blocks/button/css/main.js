@@ -5,6 +5,7 @@ import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 
 import {
 	Component,
@@ -122,6 +123,7 @@ export default class MainCSS extends Component {
 
 		LayoutCSS( cssObj, selector, attributes );
 		SizingCSS( cssObj, selector, attributes );
+		FlexChildCSS( cssObj, selector, attributes );
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			cssObj[ selector ].push( {
