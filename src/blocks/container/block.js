@@ -15,6 +15,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 import { getBlockAttributes } from '../../block-context';
 import containerContext from '../../block-context/container';
+import './variations';
 
 const attributes = Object.assign(
 	{},
@@ -60,26 +61,4 @@ registerBlockType( 'generateblocks/container', {
 			? __( 'Post Template', 'generateblocks' )
 			: __( 'Container', 'generateblocks' );
 	},
-	variations: [
-		{
-			name: 'section',
-			title: __( 'Section' ),
-			description: __( 'A top-level block that adds an outer and inner container.', 'generateblocks' ),
-			icon: getIcon( 'section' ),
-			attributes: {
-				variantRole: 'section',
-			},
-			isActive: ( attrs ) => 'section' === attrs.variantRole,
-			innerBlocks: [
-				[
-					'generateblocks/container',
-					{
-						useGlobalContainerWidth: true,
-						marginLeft: 'auto',
-						marginRight: 'auto',
-					},
-				],
-			],
-		},
-	],
 } );

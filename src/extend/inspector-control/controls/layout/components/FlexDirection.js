@@ -1,4 +1,5 @@
 import { BaseControl, ButtonGroup, Button, Tooltip } from '@wordpress/components';
+import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import flexOptions from '../options';
 import './editor.scss';
@@ -34,16 +35,16 @@ export default ( props ) => {
 		>
 			<ButtonGroup id={ 'flexDirection' } className="gblocks-flex-button-group">
 				{
-					flexOptions.flexDirection.map( ( flexOption ) => {
+					flexOptions.flexDirection.map( ( flexOption, index ) => {
 						return (
-							<>
+							<Fragment key={ label + index }>
 								{ !! flexOption.icon
-									? <Tooltip text={ flexOption.label } key={ flexOption.label }>
+									? <Tooltip text={ flexOption.label }>
 										{ ButtonElement( flexOption ) }
 									</Tooltip>
-									: ButtonElement( flexOption )
+									: ButtonElement( flexOption, flexOption.label )
 								}
-							</>
+							</Fragment>
 						);
 					} )
 				}
