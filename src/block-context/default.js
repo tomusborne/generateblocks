@@ -18,6 +18,8 @@ const defaultContext = {
 			flexWrap: false,
 			alignItems: false,
 			justifyContent: false,
+			columnGap: false,
+			rowGap: false,
 			zIndex: false,
 		},
 		flexChildPanel: {

@@ -14,6 +14,7 @@ import LegacyLayoutControls from '../../../../blocks/container/components/Legacy
 import ZIndex from './components/ZIndex';
 import FlexChild from '../flex-child-panel';
 import MigrateInnerContainer from '../../../../blocks/container/components/MigrateInnerContainer';
+import UnitControl from '../../../../components/unit-control';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const [ device ] = useDeviceType();
@@ -31,6 +32,10 @@ export default function Layout( { attributes, setAttributes } ) {
 		useInnerContainer,
 		zindex,
 		innerZindex,
+		columnGap,
+		columnGapTablet,
+		rowGap,
+		rowGapTablet,
 	} = attributes;
 
 	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
@@ -124,6 +129,38 @@ export default function Layout( { attributes, setAttributes } ) {
 							attributeName="flexWrap"
 							directionValue={ directionValue }
 						/>
+					}
+
+					{ ( layout.columnGap || layout.rowGap ) &&
+						<div className="gblocks-layout-gap">
+							{ layout.columnGap &&
+								<UnitControl
+									label={ __( 'Column Gap', 'generateblocks' ) }
+									id="gblocks-column-gap"
+									units={ [ 'px', '%', 'vw', 'rem' ] }
+									value={ getAttribute( 'columnGap', componentProps ) }
+									desktopValue={ columnGap }
+									tabletValue={ columnGapTablet }
+									onChange={ ( value ) => setAttributes( {
+										[ getAttribute( 'columnGap', componentProps, true ) ]: value,
+									} ) }
+								/>
+							}
+
+							{ layout.rowGap &&
+								<UnitControl
+									label={ __( 'Row Gap', 'generateblocks' ) }
+									id="gblocks-row-gap"
+									units={ [ 'px', '%', 'vw', 'rem' ] }
+									value={ getAttribute( 'rowGap', componentProps ) }
+									desktopValue={ rowGap }
+									tabletValue={ rowGapTablet }
+									onChange={ ( value ) => setAttributes( {
+										[ getAttribute( 'rowGap', componentProps, true ) ]: value,
+									} ) }
+								/>
+							}
+						</div>
 					}
 				</>
 			}
