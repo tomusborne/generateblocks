@@ -342,6 +342,8 @@ function generateblocks_set_layout_component_defaults( $defaults ) {
 		'flexWrap',
 		'alignItems',
 		'justifyContent',
+		'columnGap',
+		'rowGap',
 	];
 
 	foreach ( $defaults as $block => $values ) {

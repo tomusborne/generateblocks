@@ -6,6 +6,8 @@ export default function getLayoutAttributes( defaults ) {
 		'flexWrap',
 		'alignItems',
 		'justifyContent',
+		'columnGap',
+		'rowGap',
 	];
 
 	const attributes = {};

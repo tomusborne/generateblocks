@@ -18,6 +18,8 @@ const containerContext = defaultsDeep( {
 			flexWrap: true,
 			alignItems: true,
 			justifyContent: true,
+			columnGap: true,
+			rowGap: true,
 			zIndex: true,
 		},
 		flexChildPanel: {
