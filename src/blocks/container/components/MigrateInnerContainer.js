@@ -47,9 +47,10 @@ export default function MigrateInnerContainer( props ) {
 	const openModal = () => setIsInnerContainerMigrateOpen( true );
 	const closeModal = () => setIsInnerContainerMigrateOpen( false );
 	const { insertBlocks, removeBlocks } = useDispatch( 'core/block-editor' );
-	const { getBlocksByClientId } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const { getBlocksByClientId, getBlockRootClientId } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const hasParentBlock = getBlockRootClientId( clientId );
 	const hasDefaultContainerWidth = parseInt( containerWidth ) === parseInt( generateBlocksInfo.globalContainerWidth );
-	const recommended = ( ! isGrid && 'full' === outerContainer && 'contained' === innerContainer ) || hasNumericValue( innerZindex );
+	const recommended = ( ! hasParentBlock && 'full' === outerContainer && 'contained' === innerContainer ) || hasNumericValue( innerZindex );
 	const layoutAttributes = {};
 	let setMinHeightFlex = false;
 
@@ -145,7 +146,7 @@ export default function MigrateInnerContainer( props ) {
 									useGlobalContainerWidth: 'contained' === innerContainer ? !! hasDefaultContainerWidth : useGlobalContainerWidth,
 									marginLeft: 'auto',
 									marginRight: 'auto',
-									innerZindex,
+									zindex: innerZindex,
 								},
 								childBlocks
 							);
@@ -169,7 +170,7 @@ export default function MigrateInnerContainer( props ) {
 								paddingBottomMobile: '',
 								paddingLeftMobile: '',
 								paddingUnit: generateBlocksDefaults.container.paddingUnit,
-								variantRole: 'section',
+								variantRole: ! hasParentBlock ? 'section' : '',
 								useGlobalContainerWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
 								marginLeft: ! isGrid && 'contained' === outerContainer ? 'auto' : marginLeft,
 								marginRight: ! isGrid && 'contained' === outerContainer ? 'auto' : marginRight,
