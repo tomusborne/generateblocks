@@ -17,6 +17,7 @@ export default ( props ) => {
 	const {
 		getBlockParentsByBlockName,
 		getBlocksByClientId,
+		getBlockAttributes,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	const {
@@ -36,13 +37,25 @@ export default ( props ) => {
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
 	const showButtonLinkControl = applyFilters( 'generateblocks.editor.showButtonLinkControl', true, props );
-	const parentBlockId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+	let containerId = false;
+	const buttonContainerId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
+	const containerVariantId = getBlockParentsByBlockName( clientId, 'generateblocks/container', true )[ 0 ];
+
+	if ( buttonContainerId ) {
+		containerId = buttonContainerId;
+	} else if ( containerVariantId ) {
+		const containerAttributes = getBlockAttributes( containerVariantId );
+
+		if ( 'button-container' === containerAttributes.variantRole ) {
+			containerId = containerVariantId;
+		}
+	}
 
 	return (
 		<>
 			<BlockControls>
 				<ToolbarGroup>
-					{ showAppender && parentBlockId &&
+					{ showAppender && containerId &&
 						<ToolbarButton
 							className="gblocks-add-new-button"
 							icon={ plus }
@@ -57,7 +70,7 @@ export default ( props ) => {
 									}
 								);
 
-								insertBlocks( clonedBlock, undefined, parentBlockId );
+								insertBlocks( clonedBlock, undefined, containerId );
 							} }
 							showTooltip
 						/>
