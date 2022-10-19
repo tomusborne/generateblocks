@@ -41,6 +41,12 @@ export default function MigrateInnerContainer( props ) {
 		return currentBlock && currentBlock.innerBlocks.length ? getBlock( currentBlock.innerBlocks[ 0 ].clientId ) : '';
 	}
 
+	const migrateInnerContainer = shouldMigrateInnerContainer( {
+		attributes,
+		insideGridBlock: isInsideGridBlock( clientId ),
+		childBlock: getChildBlock( clientId ),
+	} );
+
 	return (
 		<>
 			{ !! useInnerContainer &&
@@ -57,23 +63,13 @@ export default function MigrateInnerContainer( props ) {
 					<p>{ __( 'We can automatically add an inner Container block to this block if your layout relies on it.', 'generateblocks' ) }</p>
 					<Notice status="info" isDismissible={ false } className="gblocks-inner-container-notice">
 						<strong>{ __( 'Recommendation:', 'generateblocks' ) }</strong>
-						{ !! shouldMigrateInnerContainer( {
-							attributes,
-							insideGridBlock: isInsideGridBlock( clientId ),
-							childBlock: getChildBlock( clientId ),
-						} )
+						{ !! migrateInnerContainer
 							? ' ' + __( 'Yes, we recommend you add an inner Container block to maintain your current layout.', 'generateblocks' )
 							: ' ' + __( 'No, we do not believe you need an inner Container block based on your current layout.', 'generateblocks' )
 						}
 					</Notice>
 					<Button
-						variant={
-							!! shouldMigrateInnerContainer( {
-								attributes,
-								insideGridBlock: isInsideGridBlock( clientId ),
-								childBlock: getChildBlock( clientId ),
-							} ) ? 'primary' : 'tertiary'
-						}
+						variant={ !! migrateInnerContainer ? 'primary' : 'tertiary' }
 						style={ { marginRight: '5px' } }
 						onClick={ () => {
 							doInnerContainerMigration( {
@@ -92,13 +88,7 @@ export default function MigrateInnerContainer( props ) {
 					</Button>
 
 					<Button
-						variant={
-							! shouldMigrateInnerContainer( {
-								attributes,
-								insideGridBlock: isInsideGridBlock( clientId ),
-								childBlock: getChildBlock( clientId ),
-							} ) ? 'primary' : 'tertiary'
-						}
+						variant={ ! migrateInnerContainer ? 'primary' : 'tertiary' }
 						onClick={ () => {
 							doSimpleMigration( { attributes, setAttributes } );
 							closeModal();
