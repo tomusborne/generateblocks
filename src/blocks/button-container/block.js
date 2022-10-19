@@ -30,8 +30,8 @@ const attributes = getBlockAttributes(
  */
 registerBlockType( 'generateblocks/button-container', {
 	apiVersion: 2,
-	title: __( 'Button Group', 'generateblocks' ),
-	description: __( 'Group your buttons in a row.', 'generateblocks' ),
+	title: __( 'Buttons', 'generateblocks' ),
+	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	icon: getIcon( 'button-container' ),
 	category: 'generateblocks',
 	keywords: [
@@ -43,6 +43,7 @@ registerBlockType( 'generateblocks/button-container', {
 	supports: {
 		className: false,
 		html: false,
+		inserter: false,
 	},
 	usesContext: [
 		'generateblocks/queryId',
