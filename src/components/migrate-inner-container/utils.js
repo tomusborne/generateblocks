@@ -149,6 +149,10 @@ function doInnerContainerMigration( props ) {
 			paddingLeftMobile,
 			paddingUnit,
 			useGlobalContainerWidth: 'contained' === innerContainer ? !! hasDefaultContainerWidth : useGlobalContainerWidth,
+			sizing: {
+				...attributes.sizing,
+				maxWidth: 'contained' === innerContainer && ! hasDefaultContainerWidth && containerWidth ? containerWidth + 'px' : '',
+			},
 			marginLeft: 'auto',
 			marginRight: 'auto',
 			zindex: innerZindex,
