@@ -10,10 +10,15 @@ import isFlexItem from '../../../../utils/is-flex-item';
 import getAttribute from '../../../../utils/get-attribute';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 import FlexDirection from './components/FlexDirection';
+import LegacyLayoutControls from '../../../../blocks/container/components/LegacyLayoutControls';
+import ZIndex from './components/ZIndex';
+import FlexChild from '../flex-child-panel';
+import MigrateInnerContainer from '../../../../blocks/container/components/MigrateInnerContainer';
+import UnitControl from '../../../../components/unit-control';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const [ device ] = useDeviceType();
-	const { id, supports: { layout } } = useContext( ControlsContext );
+	const { id, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 
 	const componentProps = {
 		attributes,
@@ -24,6 +29,13 @@ export default function Layout( { attributes, setAttributes } ) {
 		display,
 		displayTablet,
 		displayMobile,
+		useInnerContainer,
+		zindex,
+		innerZindex,
+		columnGap,
+		columnGapTablet,
+		rowGap,
+		rowGapTablet,
 	} = attributes;
 
 	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
@@ -36,7 +48,16 @@ export default function Layout( { attributes, setAttributes } ) {
 			className="gblocks-panel-label"
 			id={ `${ id }Layout` }
 		>
-			{ layout.display &&
+			{ !! useInnerContainer &&
+				<LegacyLayoutControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					deviceType={ device }
+					blockDefaults={ generateBlocksDefaults.container }
+				/>
+			}
+
+			{ layout.display && ! useInnerContainer &&
 				<Display
 					value={ getAttribute( 'display', componentProps ) }
 					onChange={ ( nextDisplay ) => setAttributes( {
@@ -45,7 +66,7 @@ export default function Layout( { attributes, setAttributes } ) {
 				/>
 			}
 
-			{ isFlexItem( { device, display, displayTablet, displayMobile } ) &&
+			{ isFlexItem( { device, display, displayTablet, displayMobile } ) && ! useInnerContainer &&
 				<>
 					{ layout.flexDirection &&
 						<FlexDirection
@@ -109,7 +130,71 @@ export default function Layout( { attributes, setAttributes } ) {
 							directionValue={ directionValue }
 						/>
 					}
+
+					{ ( layout.columnGap || layout.rowGap ) &&
+						<div className="gblocks-layout-gap">
+							{ layout.columnGap &&
+								<UnitControl
+									label={ __( 'Column Gap', 'generateblocks' ) }
+									id="gblocks-column-gap"
+									units={ [ 'px', '%', 'vw', 'rem' ] }
+									value={ getAttribute( 'columnGap', componentProps ) }
+									desktopValue={ columnGap }
+									tabletValue={ columnGapTablet }
+									onChange={ ( value ) => setAttributes( {
+										[ getAttribute( 'columnGap', componentProps, true ) ]: value,
+									} ) }
+								/>
+							}
+
+							{ layout.rowGap &&
+								<UnitControl
+									label={ __( 'Row Gap', 'generateblocks' ) }
+									id="gblocks-row-gap"
+									units={ [ 'px', '%', 'vw', 'rem' ] }
+									value={ getAttribute( 'rowGap', componentProps ) }
+									desktopValue={ rowGap }
+									tabletValue={ rowGapTablet }
+									onChange={ ( value ) => setAttributes( {
+										[ getAttribute( 'rowGap', componentProps, true ) ]: value,
+									} ) }
+								/>
+							}
+						</div>
+					}
 				</>
+			}
+
+			{ layout.zIndex && 'Desktop' === device &&
+				<>
+					<ZIndex
+						label={ useInnerContainer && __( 'Outer z-index', 'generateblocks' ) }
+						value={ zindex }
+						onChange={ ( value ) => setAttributes( { zindex: value } ) }
+					/>
+
+					{ useInnerContainer &&
+						<ZIndex
+							label={ __( 'Inner z-index', 'generateblocks' ) }
+							value={ innerZindex }
+							onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
+						/>
+					}
+				</>
+			}
+
+			{ !! useInnerContainer &&
+				<MigrateInnerContainer
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ flexChildPanel.enabled &&
+				<FlexChild
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
 			}
 		</PanelArea>
 	);

@@ -14,6 +14,7 @@ import getIconAttributes from '../extend/inspector-control/controls/icon/attribu
 import getBackgroundGradientAttributes from '../extend/inspector-control/controls/background-gradient/attributes';
 import getLayoutAttributes from '../extend/inspector-control/controls/layout/attributes';
 import getSizingAttributes from '../extend/inspector-control/controls/sizing/attributes';
+import getFlexChildAttributes from '../extend/inspector-control/controls/flex-child-panel/attributes';
 
 /**
  * The BlockContext represents the layer to build the block components.
@@ -49,9 +50,10 @@ export const withBlockContext = ( WrappedComponent ) => ( ( props ) => {
 	const blockContext = getBlockContext( props.name );
 	const isInQueryLoop = 'undefined' !== typeof props.context[ 'generateblocks/queryId' ];
 	const blockName = props.name;
+	const clientId = props.clientId;
 
 	return (
-		<BlockContext.Provider value={ Object.assign( {}, blockContext, { isInQueryLoop, blockName } ) }>
+		<BlockContext.Provider value={ Object.assign( {}, blockContext, { isInQueryLoop, blockName, clientId } ) }>
 			<WrappedComponent { ...props } />
 		</BlockContext.Provider>
 	);
@@ -75,6 +77,10 @@ export function getBlockAttributes( blockAttributes, context, defaults ) {
 
 	if ( context.supports.layout.enabled ) {
 		attributes = Object.assign( {}, attributes, getLayoutAttributes( defaults ) );
+	}
+
+	if ( context.supports.flexChildPanel.enabled ) {
+		attributes = Object.assign( {}, attributes, getFlexChildAttributes( defaults ) );
 	}
 
 	if ( context.supports.sizingPanel.enabled ) {

@@ -1,6 +1,8 @@
 import buildCSS from '../../../utils/build-css';
-import flexboxAlignment from '../../../utils/flexbox-alignment';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 import {
 	Component,
@@ -46,9 +48,6 @@ export default class TabletCSS extends Component {
 			borderRadiusBottomLeftTablet,
 			borderRadiusTopLeftTablet,
 			borderRadiusUnit,
-			icon,
-			iconLocationTablet,
-			iconVerticalAlignmentTablet,
 			iconPaddingTopTablet,
 			iconPaddingRightTablet,
 			iconPaddingBottomTablet,
@@ -56,12 +55,12 @@ export default class TabletCSS extends Component {
 			iconPaddingUnit,
 			iconSizeTablet,
 			iconSizeUnit,
-			inlineWidthTablet,
 			removeText,
+			displayTablet,
+			inlineWidthTablet,
 		} = attributes;
 
 		const selector = element + '.gb-headline-' + uniqueId;
-		let inlineWidthValue = 'inline-block';
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
@@ -69,10 +68,6 @@ export default class TabletCSS extends Component {
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeightTablet, lineHeightUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
-			display: !! icon ? 'flex' : false,
-			'align-items': 'inline' === iconLocationTablet ? flexboxAlignment( iconVerticalAlignmentTablet ) : flexboxAlignment( alignmentTablet ),
-			'justify-content': flexboxAlignment( alignmentTablet ),
-			'flex-direction': icon && 'above' === iconLocationTablet ? 'column' : false,
 			'margin-top': valueWithUnit( marginTopTablet, marginUnit ) + ' !important',
 			'margin-right': valueWithUnit( marginRightTablet, marginUnit ) + ' !important',
 			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ) + ' !important',
@@ -87,13 +82,9 @@ export default class TabletCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
 		} ];
 
-		if ( icon ) {
-			inlineWidthValue = 'inline-flex';
-
-			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
-				'display': inlineWidthTablet ? inlineWidthValue : false, // eslint-disable-line quote-props
-			} );
-		}
+		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
+		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
+		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
@@ -110,8 +101,6 @@ export default class TabletCSS extends Component {
 			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightTablet, iconPaddingUnit ) : false,
 			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomTablet, iconPaddingUnit ) : false,
 			'padding-left': ! removeText ? valueWithUnit( iconPaddingLeftTablet, iconPaddingUnit ) : false,
-			'align-self': icon && 'above' === iconLocationTablet ? flexboxAlignment( alignmentTablet ) : false,
-			'display': icon && 'above' === iconLocationTablet ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
@@ -119,9 +108,11 @@ export default class TabletCSS extends Component {
 			'height': valueWithUnit( iconSizeTablet, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
-			'display': inlineWidthTablet ? 'inline-flex' : false, // eslint-disable-line quote-props
-		} ];
+		if ( inlineWidthTablet ) {
+			cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
+				display: displayTablet,
+			} ];
+		}
 
 		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'text' );
 

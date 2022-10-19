@@ -112,11 +112,6 @@ class GenerateBlocks_Block_Grid {
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );
 
-			$css->set_selector( '.gb-grid-wrapper > .gb-grid-column > .gb-container' );
-			$css->add_property( 'display', 'flex' );
-			$css->add_property( 'flex-direction', 'column' );
-			$css->add_property( 'height', '100%' );
-
 			$css->set_selector( '.gb-grid-column' );
 			$css->add_property( 'box-sizing', 'border-box' );
 

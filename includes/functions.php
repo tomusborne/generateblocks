@@ -1164,16 +1164,25 @@ function generateblocks_get_global_container_width() {
  * @param string $device The device we're adding to.
  */
 function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
+	if ( ! empty( $settings['useInnerContainer'] ) ) {
+		return;
+	}
+
 	$options = [
 		'display' => 'display',
 		'flex-direction' => 'flexDirection',
 		'flex-wrap' => 'flexWrap',
 		'align-items' => 'alignItems',
 		'justify-content' => 'justifyContent',
+		'column-gap' => 'columnGap',
+		'row-gap' => 'rowGap',
+		'z-index' => 'zindex',
 	];
 
 	foreach ( $options as $property => $option ) {
-		$css->add_property( $property, $settings[ $option . $device ] );
+		$value = isset( $settings[ $option . $device ] ) ? $settings[ $option . $device ] : '';
+
+		$css->add_property( $property, $value );
 	}
 }
 
@@ -1211,6 +1220,32 @@ function generateblocks_add_sizing_css( $css, $settings, $device = '' ) {
 		if ( 'max-width' === $property && ! empty( $settings['useGlobalContainerWidth'] ) && ! $device ) {
 			$value = generateblocks_get_global_container_width();
 		}
+
+		$css->add_property( $property, $value );
+	}
+}
+
+/**
+ * Add our Flex Child component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_flex_child_css( $css, $settings, $device = '' ) {
+	if ( ! empty( $settings['isGrid'] ) ) {
+		return;
+	}
+
+	$options = [
+		'flex-grow' => 'flexGrow',
+		'flex-shrink' => 'flexShrink',
+		'flex-basis' => 'flexBasis',
+		'order' => 'order',
+	];
+
+	foreach ( $options as $property => $option ) {
+		$value = isset( $settings[ $option . $device ] ) ? $settings[ $option . $device ] : '';
 
 		$css->add_property( $property, $value );
 	}

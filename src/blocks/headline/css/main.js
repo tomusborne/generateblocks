@@ -1,8 +1,10 @@
 import buildCSS from '../../../utils/build-css';
-import flexboxAlignment from '../../../utils/flexbox-alignment';
 import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 import {
 	Component,
@@ -60,11 +62,8 @@ export default class MainCSS extends Component {
 			borderRadiusBottomLeft,
 			borderRadiusTopLeft,
 			borderRadiusUnit,
-			icon,
 			iconColor,
 			iconColorOpacity,
-			iconLocation,
-			iconVerticalAlignment,
 			iconPaddingTop,
 			iconPaddingRight,
 			iconPaddingBottom,
@@ -72,12 +71,12 @@ export default class MainCSS extends Component {
 			iconPaddingUnit,
 			iconSize,
 			iconSizeUnit,
-			inlineWidth,
 			removeText,
+			display,
+			inlineWidth,
 		} = attributes;
 
-		let fontFamilyFallbackValue = '',
-			inlineWidthValue = 'inline-block';
+		let fontFamilyFallbackValue = '';
 
 		if ( fontFamily && fontFamilyFallback ) {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
@@ -96,24 +95,19 @@ export default class MainCSS extends Component {
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeight, lineHeightUnit ),
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
-			display: !! icon ? 'flex' : false,
-			'align-items': 'inline' === iconLocation ? flexboxAlignment( iconVerticalAlignment ) : flexboxAlignment( alignment ),
-			'justify-content': flexboxAlignment( alignment ),
-			'flex-direction': icon && 'above' === iconLocation ? 'column' : false,
 		} ];
+
+		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
+		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
+		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 
 		cssObj[ '.editor-styles-wrapper .gb-container ' + selector ] = [ {
 			color: textColor,
 		} ];
 
-		if ( icon ) {
-			inlineWidthValue = 'inline-flex';
-		}
-
 		cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
-			'display': inlineWidth ? inlineWidthValue : false, // eslint-disable-line quote-props
 			'margin-top': valueWithUnit( marginTop, marginUnit ),
 			'margin-right': valueWithUnit( marginRight, marginUnit ),
 			'margin-bottom': valueWithUnit( marginBottom, marginUnit ),
@@ -140,9 +134,7 @@ export default class MainCSS extends Component {
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
-			'align-self': icon && 'above' === iconLocation ? flexboxAlignment( alignment ) : false,
 			'color': hexToRGBA( iconColor, iconColorOpacity ), // eslint-disable-line quote-props
-			'display': icon && 'above' === iconLocation ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
@@ -154,9 +146,11 @@ export default class MainCSS extends Component {
 			'color': highlightTextColor, // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
-			'display': inlineWidth ? 'inline-flex' : false, // eslint-disable-line quote-props
-		} ];
+		if ( inlineWidth ) {
+			cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
+				display,
+			} ];
+		}
 
 		cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, this.props, 'headline' );
 

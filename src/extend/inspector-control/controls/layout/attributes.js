@@ -6,6 +6,8 @@ export default function getLayoutAttributes( defaults ) {
 		'flexWrap',
 		'alignItems',
 		'justifyContent',
+		'columnGap',
+		'rowGap',
 	];
 
 	const attributes = {};
@@ -26,6 +28,11 @@ export default function getLayoutAttributes( defaults ) {
 			default: defaults[ option + 'Mobile' ],
 		};
 	} );
+
+	attributes.zindex = {
+		type: 'number',
+		default: defaults.zindex,
+	};
 
 	return attributes;
 }

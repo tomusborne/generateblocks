@@ -6,6 +6,30 @@ const headlineContext = defaultsDeep( {
 	id: 'headline',
 	supports: {
 		responsiveTabs: true,
+		layout: {
+			enabled: true,
+			display: true,
+			flexDirection: true,
+			flexWrap: true,
+			alignItems: true,
+			justifyContent: true,
+			columnGap: true,
+			rowGap: true,
+		},
+		flexChildPanel: {
+			enabled: true,
+			flex: true,
+			order: true,
+		},
+		sizingPanel: {
+			enabled: true,
+			width: true,
+			height: true,
+			minWidth: true,
+			minHeight: true,
+			maxWidth: true,
+			maxHeight: true,
+		},
 		typography: {
 			enabled: true,
 			fontWeight: true,
@@ -17,7 +41,6 @@ const headlineContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			inlineWidth: true,
 			dimensions: [
 				{
 					type: 'padding',
@@ -109,10 +132,6 @@ const headlineContext = defaultsDeep( {
 		},
 		icon: {
 			enabled: true,
-			location: [
-				{ label: __( 'Inline', 'generateblocks' ), value: 'inline' },
-				{ label: __( 'Above', 'generateblocks' ), value: 'above' },
-			],
 		},
 		htmlTags: {
 			enabled: true,

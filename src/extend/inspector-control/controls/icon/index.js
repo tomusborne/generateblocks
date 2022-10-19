@@ -38,6 +38,7 @@ export default function IconControls( { attributes, setAttributes } ) {
 						attrIcon={ 'icon' }
 						attrRemoveText={ 'removeText' }
 						attrAriaLabel={ 'ariaLabel' }
+						id={ id }
 					/>
 
 					{ !! icon && ! removeText &&
