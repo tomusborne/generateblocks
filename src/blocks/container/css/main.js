@@ -372,9 +372,7 @@ export default function MainCSS( props ) {
 
 	if ( isFlexItem( { device, display, displayTablet, displayMobile } ) ) {
 		cssObj[ '.gb-container-' + uniqueId + '.block-editor-block-list__block > .block-list-appender' ] = [ {
-			position: 'absolute',
-			bottom: 0,
-			right: 0,
+			'margin-top': 0,
 		} ];
 	}
 
