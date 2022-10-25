@@ -19,7 +19,13 @@ export default function FontFamily( { attributes, setAttributes } ) {
 			.keys( googleFonts )
 			.slice( 0, 20 )
 			.forEach( ( k ) => {
-				fontFamilyOptions.push( { value: k, label: k } );
+				const fontExists = Object.keys( fontFamilyOptions ).some( ( font ) => {
+					return fontFamilyOptions[ font ]?.value === k;
+				} );
+
+				if ( ! fontExists ) {
+					fontFamilyOptions.push( { value: k, label: k } );
+				}
 			} );
 
 		return fontFamilyOptions;
