@@ -39,6 +39,7 @@ const defaultContext = {
 		},
 		typography: {
 			enabled: false,
+			alignment: false,
 			fontWeight: false,
 			textTransform: false,
 			fontSize: false,

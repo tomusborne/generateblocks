@@ -24,18 +24,13 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 			className="gblocks-panel-label"
 			id={ `${ id }Typography` }
 		>
-			{ typography.fontWeight && isDesktop &&
-				<FontWeight
-					value={ attributes.fontWeight }
-					onChange={ ( value ) => setAttributes( { fontWeight: value } ) }
+			{ typography.alignment &&
+				<Alignment
+					value={ getAttribute( 'alignment', { attributes, deviceType: device } ) }
+					onChange={ ( value ) => setAttributes( { [ getAttribute( 'alignment', { attributes, deviceType: device }, true ) ]: value } ) }
 				/>
 			}
 
-			{ typography.textTransform && isDesktop &&
-				<TextTransform
-					value={ attributes.textTransform }
-					onChange={ ( textTransform ) => setAttributes( { textTransform } ) }
-				/>
 			}
 
 			{ typography.fontSize &&
