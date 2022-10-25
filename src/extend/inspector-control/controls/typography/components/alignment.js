@@ -5,7 +5,7 @@ import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
 export default function Alignment( { value, onChange } ) {
 	return (
 		<BaseControl
-			label={ __('Text Alignment', 'generateblocks' ) }
+			label={ __( 'Text Alignment', 'generateblocks' ) }
 			id="gblocks-alignment-button-group"
 		>
 			<div>
