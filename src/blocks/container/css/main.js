@@ -11,6 +11,8 @@ import {
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import isFlexItem from '../../../utils/is-flex-item';
+import { useDeviceType } from '../../../hooks';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -76,6 +78,9 @@ export default function MainCSS( props ) {
 		useInnerContainer,
 		sizing,
 		order,
+		display,
+		displayTablet,
+		displayMobile,
 	} = attributes;
 
 	let containerWidthPreview = containerWidth;
@@ -93,6 +98,7 @@ export default function MainCSS( props ) {
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
+	const [ device ] = useDeviceType();
 
 	let cssObj = [];
 	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
@@ -362,6 +368,12 @@ export default function MainCSS( props ) {
 				} );
 			}
 		} );
+	}
+
+	if ( isFlexItem( { device, display, displayTablet, displayMobile } ) ) {
+		cssObj[ '.gb-container-' + uniqueId + '.block-editor-block-list__block > .block-list-appender' ] = [ {
+			'margin-top': 0,
+		} ];
 	}
 
 	cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, props, 'container' );
