@@ -2,6 +2,12 @@ import hasNumericValue from '../../utils/has-numeric-value';
 import sizingValue from '../../utils/sizingValue';
 import { createBlock } from '@wordpress/blocks';
 
+/**
+ * Returns migrated layout options for new Layout panel in 1.7.0.
+ *
+ * @param {Object} attributes The block attributes.
+ * @return {Object} The new attributes.
+ */
 function getLayoutAttributes( attributes ) {
 	const {
 		isGrid,
@@ -62,7 +68,19 @@ function getLayoutAttributes( attributes ) {
 	return layoutAttributes;
 }
 
-function shouldMigrateInnerContainer( { attributes, insideGridBlock, childBlock } ) {
+/**
+ * Check if we should wrap block contents in an additional Container.
+ *
+ * @param {Object} props The function props.
+ * @return {boolean} Whether to add an inner Container.
+ */
+function shouldMigrateInnerContainer( props ) {
+	const {
+		attributes,
+		insideGridBlock,
+		childBlock,
+	} = props;
+
 	const {
 		outerContainer,
 		innerContainer,
@@ -93,6 +111,11 @@ function shouldMigrateInnerContainer( { attributes, insideGridBlock, childBlock 
 	return recommend;
 }
 
+/**
+ * Wrap all child blocks in an additional Container block.
+ *
+ * @param {Object} props The function props.
+ */
 function doInnerContainerMigration( props ) {
 	const {
 		clientId,
@@ -132,6 +155,7 @@ function doInnerContainerMigration( props ) {
 	const hasDefaultContainerWidth = parseInt( containerWidth ) === parseInt( generateBlocksInfo.globalContainerWidth );
 	const layoutAttributes = getLayoutAttributes( attributes );
 
+	// Wrap our existing child blocks in a new Container block.
 	const newInnerBlocks = createBlock(
 		'generateblocks/container',
 		{
@@ -164,6 +188,7 @@ function doInnerContainerMigration( props ) {
 	removeBlocks( childClientIds );
 	insertBlocks( newInnerBlocks, 0, clientId );
 
+	// Update attributes for existing Container block.
 	setAttributes( {
 		useInnerContainer: false,
 		paddingTop: '',
@@ -192,7 +217,18 @@ function doInnerContainerMigration( props ) {
 	} );
 }
 
-function doSimpleMigration( { attributes, setAttributes } ) {
+/**
+ * Just updates current Container block attributes.
+ * Doesn't wrap inner blocks.
+ *
+ * @param {Object} props The function props.
+ */
+function doSimpleMigration( props ) {
+	const {
+		attributes,
+		setAttributes,
+	} = props;
+
 	const {
 		isGrid,
 		outerContainer,
