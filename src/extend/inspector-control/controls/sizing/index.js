@@ -35,6 +35,15 @@ export default function Sizing( props ) {
 			: '';
 	}
 
+	const widthPresets = [
+		{ label: '25', value: '25%' },
+		{ label: '33', value: '33.33%' },
+		{ label: '50', value: '50%' },
+		{ label: '66', value: '66.66%' },
+		{ label: '75', value: '75%' },
+		{ label: '100', value: '100%' },
+	];
+
 	return (
 		<PanelArea
 			title={ __( 'Sizing', 'generateblocks' ) }
@@ -57,6 +66,7 @@ export default function Sizing( props ) {
 								},
 							} );
 						} }
+						presets={ isGrid ? widthPresets : [] }
 					/>
 				}
 
@@ -114,7 +124,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'maxWidth' ) }
 						desktopValue={ sizing?.maxWidth }
 						tabletValue={ sizing?.maxWidthTablet }
-						useGlobalContainerWidth={ useGlobalContainerWidth }
+						overrideValue={ !! useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : null }
 						disabled={ useInnerContainer || useGlobalContainerWidth || isGrid }
 						onChange={ ( value ) => {
 							setAttributes( {

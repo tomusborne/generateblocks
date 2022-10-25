@@ -49,4 +49,15 @@
 		box-sizing: border-box;
 		display: flex;
 	}
+
+	&__popover {
+		margin-top: 5px;
+		border: 0;
+
+		.components-popover__content {
+			box-shadow: 0 0 0;
+			border: 0;
+			outline: 0;
+		}
+	}
 }
