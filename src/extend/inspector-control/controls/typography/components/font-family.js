@@ -1,8 +1,10 @@
-import { BaseControl, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { BaseControl, DropdownMenu, Notice, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useMemo } from '@wordpress/element';
 import googleFonts from '../../../../../components/typography/google-fonts.json';
 import typographyOptions from '../options';
+import FlexControl from '../../../../../components/flex-control';
+import { plus } from '@wordpress/icons';
 
 export default function FontFamily( { attributes, setAttributes } ) {
 	const {
@@ -30,6 +32,15 @@ export default function FontFamily( { attributes, setAttributes } ) {
 
 		return fontFamilyOptions;
 	}, [] );
+
+	const fontDropdownOptions = [];
+
+	fonts.forEach( ( font ) => {
+		fontDropdownOptions.push( {
+			title: font.label,
+			onClick: () => onFontShortcut( font.value ),
+		} );
+	} );
 
 	function onFontChange( value ) {
 		if ( 'other' === value ) {
@@ -60,17 +71,21 @@ export default function FontFamily( { attributes, setAttributes } ) {
 
 	return (
 		<>
-			<BaseControl className="gblocks-typography-component__font-family">
-				<SelectControl
-					label={ __( 'Font Family', 'generateblocks' ) }
-					options={ fonts }
-					onChange={ onFontShortcut }
+			<BaseControl
+				label={ __( 'Font Family', 'generateblocks' ) }
+				id="gblocks-font-family"
+				className="gblocks-font-family"
+			>
+				<DropdownMenu
+					label={ __( 'Font shortcuts', 'generateblocks' ) }
+					controls={ fontDropdownOptions }
+					icon={ plus }
 				/>
 
-				<div className="gblocks-typography-component__font-family-input">
+				<FlexControl>
 					<TextControl
+						id="gblocks-font-family"
 						value={ fontFamily }
-						placeholder={ __( 'Enter font name', 'generateblocks' ) }
 						onChange={ ( nextFontFamily ) => onFontChange( nextFontFamily ) }
 					/>
 
@@ -85,7 +100,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 							} }
 						/>
 					}
-				</div>
+				</FlexControl>
 			</BaseControl>
 
 			{ '' !== fontFamily &&
@@ -121,6 +136,14 @@ export default function FontFamily( { attributes, setAttributes } ) {
 							} }
 						/>
 					}
+
+					<Notice
+						isDismissible={ false }
+						status="warning"
+						className="gblocks-font-family-notice"
+					>
+						{ __( 'Font families should ideally be set globally instead of on a per-block basis.', 'generateblocks' ) }
+					</Notice>
 				</Fragment>
 			}
 		</>

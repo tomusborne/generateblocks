@@ -1,0 +1,28 @@
+.gblocks-font-family {
+	.components-base-control {
+		margin-bottom: 0 !important;
+	}
+
+	& > .components-base-control__field {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+
+		button {
+			padding: 0;
+			width: 25px;
+			height: 25px;
+			min-width: 25px;
+		}
+
+		.gblocks-flex-control {
+			flex-basis: 100%;
+		}
+	}
+}
+
+.gblocks-font-family-notice {
+	margin-left: 0;
+	margin-right: 0;
+}

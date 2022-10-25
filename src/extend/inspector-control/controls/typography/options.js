@@ -2,7 +2,6 @@ import { __ } from '@wordpress/i18n';
 
 const typographyOptions = {
 	fontFamily: [
-		{ value: '', label: __( 'Select font', 'generateblocks' ) },
 		{ value: 'Arial', label: 'Arial' },
 		{ value: 'Helvetica', label: 'Helvetica' },
 		{ value: 'Times New Roman', label: 'Times New Roman' },
