@@ -49,15 +49,15 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				/>
 			}
 
-			{ layout.enabled &&
-				<LayoutControls
+			{ sizingPanel.enabled &&
+				<SizingControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
 			}
 
-			{ sizingPanel.enabled &&
-				<SizingControls
+			{ layout.enabled &&
+				<LayoutControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
