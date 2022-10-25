@@ -6,9 +6,10 @@ export default function Alignment( { value, onChange } ) {
 	return (
 		<BaseControl
 			label={ __('Text Alignment', 'generateblocks' ) }
+			id="gblocks-alignment-button-group"
 		>
 			<div>
-				<ButtonGroup className="gblocks-alignment-button-group">
+				<ButtonGroup className="gblocks-alignment-button-group" id="gblocks-alignment-button-group">
 					<Button
 						isPrimary={ 'left' === value }
 						onClick={ () => onChange( 'left' !== value ? 'left' : '' ) }
