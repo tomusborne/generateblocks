@@ -15,6 +15,7 @@ import getBackgroundGradientAttributes from '../extend/inspector-control/control
 import getLayoutAttributes from '../extend/inspector-control/controls/layout/attributes';
 import getSizingAttributes from '../extend/inspector-control/controls/sizing/attributes';
 import getFlexChildAttributes from '../extend/inspector-control/controls/flex-child-panel/attributes';
+import { __ } from '@wordpress/i18n';
 
 /**
  * The BlockContext represents the layer to build the block components.
@@ -51,9 +52,20 @@ export const withBlockContext = ( WrappedComponent ) => ( ( props ) => {
 	const isInQueryLoop = 'undefined' !== typeof props.context[ 'generateblocks/queryId' ];
 	const blockName = props.name;
 	const clientId = props.clientId;
+	let supports = Object.assign( {}, blockContext.supports );
+
+	if ( !! props.attributes.accordionItem || !! props.attributes.accordionContainer ) {
+		supports = Object.assign( {}, blockContext.supports, {
+			settingsPanel: {
+				enabled: true,
+				label: __( 'Accordion', 'generateblocks' ),
+				icon: 'wrench',
+			},
+		} );
+	}
 
 	return (
-		<BlockContext.Provider value={ Object.assign( {}, blockContext, { isInQueryLoop, blockName, clientId } ) }>
+		<BlockContext.Provider value={ Object.assign( {}, blockContext, { isInQueryLoop, blockName, clientId, supports } ) }>
 			<WrappedComponent { ...props } />
 		</BlockContext.Provider>
 	);

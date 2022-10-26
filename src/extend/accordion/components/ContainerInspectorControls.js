@@ -1,21 +1,17 @@
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { Fragment, useEffect } from '@wordpress/element';
 import { InspectorControls, BlockControls } from '@wordpress/block-editor';
-import { addFilter, applyFilters } from '@wordpress/hooks';
+import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { ToggleControl, ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { cloneBlock } from '@wordpress/blocks';
-
-// Internal dependencies.
-import PanelArea from '../../../components/panel-area';
 import getIcon from '../../../utils/get-icon';
 
 const withContainerAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 	return ( props ) => {
 		const {
 			name,
-			state,
 			attributes,
 			setAttributes,
 			clientId,
@@ -26,11 +22,8 @@ const withContainerAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 		}
 
 		const {
-			accordionContainer,
 			accordionItem,
-			accordionItemOpen,
 			accordionContent,
-			accordionMultipleOpen,
 		} = attributes;
 
 		const {
@@ -111,52 +104,53 @@ const withContainerAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 							</ToolbarGroup>
 						</BlockControls>
 					}
-
-					{ ( !! accordionContainer || !! accordionItem ) &&
-						<PanelArea
-							{ ...props }
-							title={ __( 'Accordion', 'generateblocks' ) }
-							initialOpen={ false }
-							className={ 'gblocks-panel-label' }
-							id={ 'containerAccordion' }
-							state={ state }
-						>
-							<>
-								{ !! accordionContainer &&
-									<ToggleControl
-										label={ __( 'Keep multiple items open', 'generateblocks' ) }
-										checked={ !! accordionMultipleOpen }
-										onChange={ ( value ) => {
-											setAttributes( {
-												accordionMultipleOpen: value,
-											} );
-										} }
-									/>
-								}
-
-								{ !! accordionItem &&
-									<>
-										<ToggleControl
-											label={ __( 'Item open by default', 'generateblocks' ) }
-											checked={ !! accordionItemOpen }
-											onChange={ ( value ) => {
-												setAttributes( {
-													accordionItemOpen: value,
-												} );
-											} }
-										/>
-									</>
-								}
-							</>
-
-							{ applyFilters( 'generateblocks.editor.controls', '', 'containerAccordion', props, state ) }
-						</PanelArea>
-					}
 				</InspectorControls>
 			</Fragment>
 		);
 	};
 }, 'withContainerAccordion' );
+
+function accordionSettingsPanel( content, props ) {
+	const { attributes, setAttributes } = props;
+	const { accordionContainer, accordionItem, accordionMultipleOpen, accordionItemOpen } = attributes;
+
+	return (
+		<>
+			{ !! accordionContainer &&
+				<ToggleControl
+					label={ __( 'Keep multiple items open', 'generateblocks' ) }
+					checked={ !! accordionMultipleOpen }
+					onChange={ ( value ) => {
+						setAttributes( {
+							accordionMultipleOpen: value,
+						} );
+					} }
+				/>
+			}
+
+			{ !! accordionItem &&
+				<>
+					<ToggleControl
+						label={ __( 'Item open by default', 'generateblocks' ) }
+						checked={ !! accordionItemOpen }
+						onChange={ ( value ) => {
+							setAttributes( {
+								accordionItemOpen: value,
+							} );
+						} }
+					/>
+				</>
+			}
+			{ content }
+		</>
+	);
+}
+
+addFilter(
+	'generateblocks.editor.containerSettingsPanel',
+	'generateblocks/accordion/containerSettingsPanel',
+	accordionSettingsPanel
+);
 
 addFilter(
 	'editor.BlockEdit',
