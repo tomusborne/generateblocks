@@ -30,6 +30,7 @@ const ButtonEdit = ( props ) => {
 		isBlockPreview = false,
 		hasButtonContainer,
 		blockVersion,
+		display,
 	} = attributes;
 
 	const ref = useRef( null );
@@ -67,7 +68,10 @@ const ButtonEdit = ( props ) => {
 	useEffect( () => {
 		// Add our default Button styles when inserted.
 		if ( wasBlockJustInserted( attributes ) && ! blockVersion ) {
-			setAttributes( generateBlocksStyling.button );
+			setAttributes( {
+				...generateBlocksStyling.button,
+				display: ! display ? 'inline-block' : display,
+			} );
 		}
 	}, [] );
 
