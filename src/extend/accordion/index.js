@@ -10,6 +10,7 @@ import './components/ButtonInspectorControls';
 import './components/BlockAppender';
 import AccordionTemplate from './components/AccordionTemplate';
 import './editor.scss';
+import getIcon from '../../utils/get-icon';
 
 const BlockData = ( settings ) => {
 	if ( 'generateblocks/container' === settings.name ) {
@@ -50,6 +51,7 @@ registerBlockVariation(
 	{
 		title: __( 'Accordion', 'generateblocks' ),
 		name: 'accordion',
+		icon: getIcon( 'accordion' ),
 		attributes: {
 			variantRole: 'accordion',
 		},
