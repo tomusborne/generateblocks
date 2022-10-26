@@ -1,3 +1,4 @@
+import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import { applyFilters } from '@wordpress/hooks';
@@ -99,6 +100,11 @@ const ContainerEdit = ( props ) => {
 
 	return (
 		<Fragment>
+			<BlockControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			/>
+
 			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
