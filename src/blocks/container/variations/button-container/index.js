@@ -11,6 +11,7 @@ registerBlockVariation(
 		title: __( 'Button Container' ),
 		description: __( 'Group your buttons in a Container.', 'generateblocks' ),
 		icon: getIcon( 'button-container' ),
+		scope: [ 'block' ],
 		attributes: {
 			variantRole: 'button-container',
 			display: 'flex',
