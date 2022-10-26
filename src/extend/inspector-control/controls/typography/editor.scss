@@ -26,3 +26,16 @@
 	margin-left: 0;
 	margin-right: 0;
 }
+
+.gblocks-alignment-button-group {
+	display: flex;
+
+	button.components-button.has-icon {
+		flex: 1;
+		justify-content: center;
+
+		svg {
+			margin: 0;
+		}
+	}
+}
