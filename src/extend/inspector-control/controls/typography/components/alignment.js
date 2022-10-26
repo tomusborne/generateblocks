@@ -1,23 +1,9 @@
 import { BaseControl, Button, ButtonGroup, Tooltip } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { alignLeft, alignRight, alignCenter, alignJustify } from '@wordpress/icons';
+import typographyOptions from '../options';
 
 export default function Alignment( { value, onChange } ) {
-	const alignments = [ 'left', 'center', 'right', 'justify' ];
-
-	const icons = {
-		left: alignLeft,
-		center: alignCenter,
-		right: alignRight,
-		justify: alignJustify,
-	};
-
-	const labels = {
-		left: __( 'Left', 'generateblocks' ),
-		center: __( 'Center', 'generateblocks' ),
-		right: __( 'Right', 'generateblocks' ),
-		justify: __( 'Justify', 'generateblocks' ),
-	};
+	const alignments = typographyOptions.alignments;
 
 	return (
 		<BaseControl
@@ -26,13 +12,13 @@ export default function Alignment( { value, onChange } ) {
 		>
 			<div>
 				<ButtonGroup className="gblocks-alignment-button-group" id="gblocks-alignment-button-group">
-					{ alignments.map( ( alignment ) => {
+					{ Object.values( alignments ).map( ( alignment ) => {
 						return (
-							<Tooltip key={ alignment } text={ labels[ alignment ] }>
+							<Tooltip key={ alignment.align } text={ alignment.title }>
 								<Button
-									isPrimary={ alignment === value }
-									onClick={ () => onChange( alignment !== value ? alignment : '' ) }
-									icon={ icons[ alignment ] }
+									isPrimary={ alignment.align === value }
+									onClick={ () => onChange( alignment.align !== value ? alignment.align : '' ) }
+									icon={ alignment.icon }
 								/>
 							</Tooltip>
 						);
