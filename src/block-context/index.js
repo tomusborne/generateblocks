@@ -15,7 +15,7 @@ import getBackgroundGradientAttributes from '../extend/inspector-control/control
 import getLayoutAttributes from '../extend/inspector-control/controls/layout/attributes';
 import getSizingAttributes from '../extend/inspector-control/controls/sizing/attributes';
 import getFlexChildAttributes from '../extend/inspector-control/controls/flex-child-panel/attributes';
-import { __ } from '@wordpress/i18n';
+import { addFilter, applyFilters } from '@wordpress/hooks';
 
 /**
  * The BlockContext represents the layer to build the block components.
@@ -48,28 +48,39 @@ export function getBlockContext( blockName ) {
  * @return {function(*)} The component with context provider.
  */
 export const withBlockContext = ( WrappedComponent ) => ( ( props ) => {
-	const blockContext = getBlockContext( props.name );
-	const isInQueryLoop = 'undefined' !== typeof props.context[ 'generateblocks/queryId' ];
-	const blockName = props.name;
-	const clientId = props.clientId;
-	let supports = Object.assign( {}, blockContext.supports );
-
-	if ( !! props.attributes.accordionItem || !! props.attributes.accordionContainer ) {
-		supports = Object.assign( {}, blockContext.supports, {
-			settingsPanel: {
-				enabled: true,
-				label: __( 'Accordion', 'generateblocks' ),
-				icon: 'wrench',
-			},
-		} );
-	}
+	const blockContext = applyFilters(
+		'generateblocks.editor.blockContext',
+		getBlockContext( props.name ),
+		props
+	);
 
 	return (
-		<BlockContext.Provider value={ Object.assign( {}, blockContext, { isInQueryLoop, blockName, clientId, supports } ) }>
+		<BlockContext.Provider value={ blockContext }>
 			<WrappedComponent { ...props } />
 		</BlockContext.Provider>
 	);
 } );
+
+/**
+ * GenerateBlocks default context rules.
+ *
+ * @param {Object} blockContext The block context.
+ * @param {Object} props        The component props.
+ * @return {Object} The block context with default rules.
+ */
+function defaultBlockContextRules( blockContext, props ) {
+	const isInQueryLoop = 'undefined' !== typeof props.context[ 'generateblocks/queryId' ];
+	const blockName = props.name;
+	const clientId = props.clientId;
+
+	return Object.assign( {}, blockContext, { isInQueryLoop, blockName, clientId } );
+}
+
+addFilter(
+	'generateblocks.editor.blockContext',
+	'generateblocks/editor/blockContext/default',
+	defaultBlockContextRules
+);
 
 /**
  * Returns the attributes list based on the context.

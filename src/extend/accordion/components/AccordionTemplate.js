@@ -2,14 +2,14 @@ import { __ } from '@wordpress/i18n';
 
 const template = [ [ 'generateblocks/container',
 	{
-		accordionItem: true,
+		variantRole: 'accordion-item',
 	},
 	[
 		[ 'generateblocks/button',
 			{
 				text: __( 'Accordion title', 'generateblocks' ),
 				blockVersion: 3,
-				accordionToggle: true,
+				variantRole: 'accordion-toggle',
 				marginBottom: '0',
 				iconLocation: 'right',
 				iconPaddingLeft: '0.5',
@@ -31,7 +31,7 @@ const template = [ [ 'generateblocks/container',
 		],
 		[ 'generateblocks/container',
 			{
-				accordionContent: true,
+				variantRole: 'accordion-content',
 				paddingTop: '20',
 				paddingRight: '20',
 				paddingBottom: '20',

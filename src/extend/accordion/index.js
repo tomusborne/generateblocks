@@ -13,12 +13,12 @@ import './editor.scss';
 
 const BlockData = ( settings ) => {
 	if ( 'generateblocks/container' === settings.name ) {
-		settings.__experimentalLabel = ( { accordionItem, accordionContent } ) => {
-			if ( accordionItem ) {
+		settings.__experimentalLabel = ( { variantRole } ) => {
+			if ( 'accordion-item' === variantRole ) {
 				return __( 'Accordion Item', 'generateblocks' );
 			}
 
-			if ( accordionContent ) {
+			if ( 'accordion-content' === variantRole ) {
 				return __( 'Accordion Content', 'generateblocks' );
 			}
 
@@ -27,8 +27,8 @@ const BlockData = ( settings ) => {
 	}
 
 	if ( 'generateblocks/button' === settings.name ) {
-		settings.__experimentalLabel = ( { accordionToggle } ) => {
-			if ( accordionToggle ) {
+		settings.__experimentalLabel = ( { variantRole } ) => {
+			if ( 'accordion-toggle' === variantRole ) {
 				return __( 'Accordion Toggle', 'generateblocks' );
 			}
 
@@ -52,9 +52,37 @@ registerBlockVariation(
 		name: 'accordion',
 		attributes: {
 			variantRole: 'accordion',
-			accordionContainer: true,
 		},
 		innerBlocks: AccordionTemplate,
 		isActive: ( attrs ) => 'accordion' === attrs.variantRole,
 	}
+);
+
+/**
+ * Accordion blockContext rules.
+ *
+ * @param {Object} blockContext The blockContext.
+ * @param {Object} props        The component props.
+ * @return {Object} The block context with accordion rules.
+ */
+function accordionBlockContextRules( blockContext, props ) {
+	if ( 'accordion-item' === props.attributes.variantRole || 'accordion' === props.attributes.variantRole ) {
+		const supports = Object.assign( {}, blockContext.supports, {
+			settingsPanel: {
+				enabled: true,
+				label: __( 'Accordion', 'generateblocks' ),
+				icon: 'wrench',
+			},
+		} );
+
+		return Object.assign( {}, blockContext, { supports } );
+	}
+
+	return blockContext;
+}
+
+addFilter(
+	'generateblocks.editor.blockContext',
+	'generateblocks/editor/blockContext/accordion',
+	accordionBlockContextRules
 );

@@ -10,11 +10,10 @@ const BlockAppender = ( appender, { clientId, isSelected, attributes } ) => {
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 
 	const {
-		accordionContainer,
-		accordionItem,
+		variantRole,
 	} = attributes;
 
-	if ( accordionContainer && isSelected ) {
+	if ( 'accordion' === variantRole && isSelected ) {
 		return <Tooltip text={ __( 'Add Accordion Item', 'generateblocks' ) }>
 			<Button
 				className="block-editor-button-block-appender"
@@ -27,7 +26,7 @@ const BlockAppender = ( appender, { clientId, isSelected, attributes } ) => {
 		</Tooltip>;
 	}
 
-	if ( accordionItem && isSelected ) {
+	if ( 'accordion-item' === variantRole && isSelected ) {
 		return false;
 	}
 

@@ -9,9 +9,9 @@ const addCustomAttributes = ( blockHtmlAttributes, blockName, blockAttributes ) 
 			{
 				className: classnames( {
 					[ blockHtmlAttributes.className ]: true,
-					'gb-accordion': !! blockAttributes.accordionContainer,
-					'gb-accordion__item': !! blockAttributes.accordionItem,
-					'gb-accordion__item-open': !! blockAttributes.accordionItem && !! blockAttributes.accordionItemOpen,
+					'gb-accordion': 'accordion' === blockAttributes.variantRole,
+					'gb-accordion__item': 'accordion-item' === blockAttributes.variantRole,
+					'gb-accordion__item-open': 'accordion-item' === blockAttributes.variantRole && !! blockAttributes.accordionItemOpen,
 				} ),
 				'data-accordion-multiple-open': !! blockAttributes.accordionMultipleOpen ? true : null,
 			}
@@ -24,7 +24,7 @@ const addCustomAttributes = ( blockHtmlAttributes, blockName, blockAttributes ) 
 			{
 				className: classnames( {
 					[ blockHtmlAttributes.className ]: true,
-					'gb-accordion__toggle': !! blockAttributes.accordionToggle,
+					'gb-accordion__toggle': 'accordion-toggle' === blockAttributes.variantRole,
 				} ),
 			}
 		);
@@ -56,14 +56,14 @@ const RemoveButtonAppender = ( show, props ) => {
 		if ( parentBlockId ) {
 			const parentBlock = getBlocksByClientId( parentBlockId );
 
-			if ( parentBlock && parentBlock[ 0 ].attributes.accordionItem ) {
+			if ( parentBlock && 'accordion-item' === parentBlock[ 0 ].attributes.variantRole ) {
 				show = false;
 			}
 		}
 	}
 
 	if ( 'generateblocks/button' === name ) {
-		if ( props.attributes.accordionToggle ) {
+		if ( 'accordion-toggle' === props.attributes.variantRole ) {
 			show = false;
 		}
 	}
@@ -79,7 +79,7 @@ addFilter(
 
 const RemoveButtonLinkControl = ( show, props ) => {
 	if ( 'generateblocks/button' === props.name ) {
-		if ( props.attributes.accordionToggle ) {
+		if ( 'accordion-toggle' === props.attributes.variantRole ) {
 			show = false;
 		}
 	}
@@ -94,7 +94,7 @@ addFilter(
 );
 
 function setButtonTagName( tagName, props ) {
-	if ( props.attributes.accordionToggle ) {
+	if ( 'accordion-toggle' === props.attributes.variantRole ) {
 		return 'button';
 	}
 

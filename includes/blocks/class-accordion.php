@@ -58,12 +58,8 @@ class GenerateBlocks_Block_Variant_Accordion {
 	 * @param array $defaults Existing defaults.
 	 */
 	public function set_defaults( $defaults ) {
-		$defaults['container']['accordionContainer'] = false;
-		$defaults['container']['accordionItem'] = false;
 		$defaults['container']['accordionItemOpen'] = false;
-		$defaults['container']['accordionContent'] = false;
 		$defaults['container']['accordionMultipleOpen'] = false;
-		$defaults['button']['accordionToggle'] = false;
 
 		return $defaults;
 	}
@@ -75,7 +71,7 @@ class GenerateBlocks_Block_Variant_Accordion {
 	 * @param array  $attributes Block attributes.
 	 */
 	public function enqueue_scripts( $content, $attributes ) {
-		if ( ! empty( $attributes['accordionContainer'] ) ) {
+		if ( ! empty( $attributes['variantRole'] ) && 'accordion' === $attributes['variantRole'] ) {
 			wp_enqueue_script(
 				'generateblocks-accordion',
 				GENERATEBLOCKS_DIR_URL . 'dist/accordion.js',
@@ -95,7 +91,7 @@ class GenerateBlocks_Block_Variant_Accordion {
 	 * @param array $settings Block settings.
 	 */
 	public function set_container_attributes( $attributes, $settings ) {
-		if ( $settings['accordionContainer'] ) {
+		if ( isset( $settings['variantRole'] ) && 'accordion' === $settings['variantRole'] ) {
 			$attributes['class'] .= ' gb-accordion';
 
 			if ( $settings['accordionMultipleOpen'] ) {
@@ -103,7 +99,7 @@ class GenerateBlocks_Block_Variant_Accordion {
 			}
 		}
 
-		if ( $settings['accordionItem'] ) {
+		if ( isset( $settings['variantRole'] ) && 'accordion-item' === $settings['variantRole'] ) {
 			$attributes['class'] .= ' gb-accordion__item';
 
 			if ( $settings['accordionItemOpen'] ) {
@@ -121,7 +117,7 @@ class GenerateBlocks_Block_Variant_Accordion {
 	 * @param array $settings Block settings.
 	 */
 	public function set_button_attributes( $attributes, $settings ) {
-		if ( $settings['accordionToggle'] ) {
+		if ( isset( $settings['variantRole'] ) && 'accordion-toggle' === $settings['variantRole'] ) {
 			$attributes['class'] .= ' gb-accordion__toggle';
 		}
 
@@ -135,7 +131,7 @@ class GenerateBlocks_Block_Variant_Accordion {
 	 * @param array  $attributes Block attributes.
 	 */
 	public function set_button_tagname( $tagName, $attributes ) {
-		if ( ! empty( $attributes['accordionToggle'] ) ) {
+		if ( isset( $attributes['variantRole'] ) && 'accordion-toggle' === $attributes['variantRole'] ) {
 			return 'button';
 		}
 
@@ -185,7 +181,7 @@ class GenerateBlocks_Block_Variant_Accordion {
 	 * @param array  $attributes Block attributes.
 	 */
 	public function open_accordion_content_container( $content, $attributes ) {
-		if ( ! empty( $attributes['accordionContent'] ) ) {
+		if ( ! empty( $attributes['variantRole'] ) && 'accordion-content' === $attributes['variantRole'] ) {
 			$content = '<div class="gb-accordion__content">' . $content;
 		}
 
@@ -199,7 +195,7 @@ class GenerateBlocks_Block_Variant_Accordion {
 	 * @param array  $attributes Block attributes.
 	 */
 	public function close_accordion_content_container( $content, $attributes ) {
-		if ( ! empty( $attributes['accordionContent'] ) ) {
+		if ( ! empty( $attributes['variantRole'] ) && 'accordion-content' === $attributes['variantRole'] ) {
 			$content .= '</div>';
 		}
 

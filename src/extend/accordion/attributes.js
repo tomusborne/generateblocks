@@ -14,34 +14,11 @@ const attributes = ( settings ) => {
 	if ( 'generateblocks/container' === settings.name ) {
 		settings.attributes = Object.assign(
 			settings.attributes, {
-				accordionContainer: {
-					type: 'boolean',
-					default: false,
-				},
-				accordionItem: {
-					type: 'boolean',
-					default: false,
-				},
 				accordionItemOpen: {
 					type: 'boolean',
 					default: false,
 				},
-				accordionContent: {
-					type: 'boolean',
-					default: false,
-				},
 				accordionMultipleOpen: {
-					type: 'boolean',
-					default: false,
-				},
-			}
-		);
-	}
-
-	if ( 'generateblocks/button' === settings.name ) {
-		settings.attributes = Object.assign(
-			settings.attributes, {
-				accordionToggle: {
 					type: 'boolean',
 					default: false,
 				},

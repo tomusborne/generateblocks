@@ -140,6 +140,7 @@ class GenerateBlocks_Block_Button {
 			'iconSizeMobile' => '',
 			'iconSizeUnit' => 'em',
 			'hasButtonContainer' => false,
+			'variantRole' => '',
 		];
 	}
 
