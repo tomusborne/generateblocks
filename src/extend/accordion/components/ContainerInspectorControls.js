@@ -22,8 +22,7 @@ const withContainerAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 		}
 
 		const {
-			accordionItem,
-			accordionContent,
+			variantRole,
 		} = attributes;
 
 		const {
@@ -42,35 +41,39 @@ const withContainerAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 
 				if ( parentBlock ) {
 					if ( 'generateblocks/container' === parentBlock[ 0 ].name ) {
-						const isAccordionItem = parentBlock[ 0 ].attributes.accordionContainer;
+						const isAccordionItem = 'accordion' === parentBlock[ 0 ].attributes.variantRole;
 
-						if ( isAccordionItem && ! accordionItem ) {
+						if ( isAccordionItem && 'accordion-item' !== variantRole ) {
 							setAttributes( {
-								accordionItem: true,
+								variantRole: 'accordion-item',
 							} );
 						}
 
-						if ( ! isAccordionItem && !! accordionItem ) {
+						if ( ! isAccordionItem && 'accordion-item' === variantRole ) {
 							setAttributes( {
-								accordionItem: false,
+								variantRole: '',
 							} );
 						}
 
-						const isAccordionContent = parentBlock[ 0 ].attributes.accordionItem;
+						const isAccordionContent = 'accordion-item' === parentBlock[ 0 ].attributes.variantRole;
 
-						if ( isAccordionContent && ! accordionContent ) {
+						if ( isAccordionContent && 'accordion-content' !== variantRole ) {
 							setAttributes( {
-								accordionContent: true,
+								variantRole: 'accordion-content',
 							} );
 						}
 
-						if ( ! isAccordionContent && !! accordionContent ) {
+						if ( ! isAccordionContent && 'accordion-content' === variantRole ) {
 							setAttributes( {
-								accordionContent: false,
+								variantRole: '',
 							} );
 						}
 					}
 				}
+			} else if ( 'accordion-item' === variantRole || 'accordion-content' === variantRole ) {
+				setAttributes( {
+					variantRole: '',
+				} );
 			}
 		} );
 
@@ -79,7 +82,7 @@ const withContainerAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 				<BlockEdit { ...props } />
 
 				<InspectorControls>
-					{ !! accordionItem &&
+					{ 'accordion-item' === variantRole &&
 						<BlockControls>
 							<ToolbarGroup>
 								<ToolbarButton
@@ -112,11 +115,11 @@ const withContainerAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 
 function accordionSettingsPanel( content, props ) {
 	const { attributes, setAttributes } = props;
-	const { accordionContainer, accordionItem, accordionMultipleOpen, accordionItemOpen } = attributes;
+	const { variantRole, accordionMultipleOpen, accordionItemOpen } = attributes;
 
 	return (
 		<>
-			{ !! accordionContainer &&
+			{ 'accordion' === variantRole &&
 				<ToggleControl
 					label={ __( 'Keep multiple items open', 'generateblocks' ) }
 					checked={ !! accordionMultipleOpen }
@@ -128,7 +131,7 @@ function accordionSettingsPanel( content, props ) {
 				/>
 			}
 
-			{ !! accordionItem &&
+			{ 'accordion-item' === variantRole &&
 				<>
 					<ToggleControl
 						label={ __( 'Item open by default', 'generateblocks' ) }
@@ -164,10 +167,10 @@ const ContainerTemplateLock = ( templateLock, props ) => {
 	} = props;
 
 	const {
-		accordionItem,
+		variantRole,
 	} = attributes;
 
-	if ( accordionItem ) {
+	if ( 'accordion-item' === variantRole ) {
 		templateLock = 'insert';
 	}
 

@@ -18,7 +18,7 @@ const withButtonAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 		}
 
 		const {
-			accordionToggle,
+			variantRole,
 		} = attributes;
 
 		const {
@@ -33,26 +33,24 @@ const withButtonAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 				const parentBlock = getBlocksByClientId( parentBlockId );
 
 				if ( parentBlock ) {
-					const isAccordionToggle = parentBlock[ 0 ].attributes.accordionItem;
+					const isAccordionToggle = 'accordion-item' === parentBlock[ 0 ].attributes.variantRole;
 
-					if ( isAccordionToggle && ! accordionToggle ) {
+					if ( isAccordionToggle && 'accordion-toggle' !== variantRole ) {
 						setAttributes( {
-							accordionToggle: true,
-							lock: {
-								remove: true,
-							},
+							variantRole: 'accordion-toggle',
 						} );
 					}
 
-					if ( ! isAccordionToggle && !! accordionToggle ) {
+					if ( ! isAccordionToggle && 'accordion-toggle' === variantRole ) {
 						setAttributes( {
-							accordionToggle: false,
-							lock: {
-								remove: false,
-							},
+							variantRole: '',
 						} );
 					}
 				}
+			} else if ( 'accordion-toggle' === variantRole ) {
+				setAttributes( {
+					variantRole: '',
+				} );
 			}
 		} );
 
@@ -67,7 +65,7 @@ addFilter(
 );
 
 const addAccordionIcons = ( iconSVGSets, { attributes } ) => {
-	if ( attributes.accordionToggle ) {
+	if ( 'accordion-toggle' === attributes.variantRole ) {
 		iconSVGSets = {
 			accordion: {
 				group: __( 'Accordion', 'generateblocks' ),
