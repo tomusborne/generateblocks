@@ -72,7 +72,7 @@
 	padding: 0;
 }
 
-.gblocks-block-control-icon svg path {
+.gblocks-block-control-icon svg path:not(.gblocks-svg-icon-box) {
     fill: inherit !important;
 }
 
@@ -132,17 +132,12 @@
 }
 
 .gblocks-block-icon {
-	path {
+	path:not(.gblocks-svg-icon-box) {
 		fill: #1e72bd;
-	}
-
-	&__headline {
-		transform: scale(0.9);
-		transform-origin: center;
 	}
 }
 
-.block-editor-list-view-leaf.is-selected .gblocks-block-icon path {
+.block-editor-list-view-leaf.is-selected .gblocks-block-icon path:not(.gblocks-svg-icon-box) {
     fill: currentColor !important;
 }
 
@@ -167,4 +162,8 @@
 	.wp-block {
 		max-width: none;
 	}
+}
+
+path.gblocks-svg-icon-box {
+	fill: none !important;
 }

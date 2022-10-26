@@ -258,6 +258,7 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	& > .block-list-appender {
 		position: relative;
 		display: inline-block;
+		vertical-align: middle;
 		padding: 0;
 		margin-top: 10px;
 
@@ -307,7 +308,7 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 		svg {
 			transform: scale(0.7);
 
-			path {
+			path:not(.gblocks-svg-icon-box) {
 				fill: #000;
 			}
 		}
