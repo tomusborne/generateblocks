@@ -1,6 +1,6 @@
 import { BaseControl, Button, ButtonGroup, Tooltip } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { alignLeft, alignRight, alignCenter } from '@wordpress/icons';
+import { alignLeft, alignRight, alignCenter, alignJustify } from '@wordpress/icons';
 
 export default function Alignment( { value, onChange } ) {
 	const alignments = [ 'left', 'center', 'right', 'justify' ];
@@ -9,12 +9,14 @@ export default function Alignment( { value, onChange } ) {
 		left: alignLeft,
 		center: alignCenter,
 		right: alignRight,
+		justify: alignJustify,
 	};
 
 	const labels = {
 		left: __( 'Left', 'generateblocks' ),
 		center: __( 'Center', 'generateblocks' ),
 		right: __( 'Right', 'generateblocks' ),
+		justify: __( 'Justify', 'generateblocks' ),
 	};
 
 	return (
