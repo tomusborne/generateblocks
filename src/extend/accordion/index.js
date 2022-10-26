@@ -58,3 +58,32 @@ registerBlockVariation(
 		isActive: ( attrs ) => 'accordion' === attrs.variantRole,
 	}
 );
+
+/**
+ * Accordion blockContext rules.
+ *
+ * @param {Object} blockContext The blockContext.
+ * @param {Object} props        The component props.
+ * @return {Object} The block context with accordion rules.
+ */
+function accordionBlockContextRules( blockContext, props ) {
+	if ( !! props.attributes.accordionItem || !! props.attributes.accordionContainer ) {
+		const supports = Object.assign( {}, blockContext.supports, {
+			settingsPanel: {
+				enabled: true,
+				label: __( 'Accordion', 'generateblocks' ),
+				icon: 'wrench',
+			},
+		} );
+
+		return Object.assign( {}, blockContext, { supports } );
+	}
+
+	return blockContext;
+}
+
+addFilter(
+	'generateblocks.editor.blockContext',
+	'generateblocks/editor/blockContext/accordion',
+	accordionBlockContextRules
+);
