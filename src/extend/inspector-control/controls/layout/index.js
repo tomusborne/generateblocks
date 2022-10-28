@@ -13,7 +13,7 @@ import FlexDirection from './components/FlexDirection';
 import LegacyLayoutControls from '../../../../blocks/container/components/LegacyLayoutControls';
 import ZIndex from './components/ZIndex';
 import FlexChild from '../flex-child-panel';
-import MigrateInnerContainer from '../../../../blocks/container/components/MigrateInnerContainer';
+import MigrateInnerContainer from '../../../../components/migrate-inner-container';
 import UnitControl from '../../../../components/unit-control';
 
 export default function Layout( { attributes, setAttributes } ) {
