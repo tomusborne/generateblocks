@@ -1,10 +1,11 @@
 import { ToolbarButton, ToolbarGroup, Dropdown, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { cloneBlock } from '@wordpress/blocks';
+import { cloneBlock, createBlock } from '@wordpress/blocks';
 import { BlockControls, URLInput } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { link, plus } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
+import getIcon from '../../../utils/get-icon';
 
 export default ( props ) => {
 	const {
@@ -13,11 +14,13 @@ export default ( props ) => {
 		setAttributes,
 	} = props;
 
-	const { insertBlocks } = useDispatch( 'core/block-editor' );
+	const { insertBlocks, replaceBlocks } = useDispatch( 'core/block-editor' );
 	const {
 		getBlockParentsByBlockName,
 		getBlocksByClientId,
 		getBlockAttributes,
+		getSelectedBlockClientIds,
+		getBlock,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	const {
@@ -54,6 +57,40 @@ export default ( props ) => {
 	return (
 		<>
 			<BlockControls>
+				{ ! containerId &&
+					<ToolbarGroup>
+						<ToolbarButton
+							icon={ getIcon( 'button-container' ) }
+							label={ __( 'Add to Button Container', 'generateblocks' ) }
+							onClick={ () => {
+								const selectedBlockIds = getSelectedBlockClientIds();
+
+								const selectedBlocks = selectedBlockIds.map( ( blockId ) => {
+									const block = getBlock( blockId );
+
+									return createBlock(
+										block.name,
+										block.attributes,
+										block.innerBlocks
+									);
+								} );
+
+								const groupedBlocks = createBlock(
+									'generateblocks/container',
+									{
+										display: 'flex',
+										variantRole: 'button-container',
+									},
+									selectedBlocks
+								);
+
+								replaceBlocks( selectedBlockIds, groupedBlocks );
+							} }
+							showTooltip
+						/>
+					</ToolbarGroup>
+				}
+
 				<ToolbarGroup>
 					{ showAppender && containerId &&
 						<ToolbarButton
