@@ -64,9 +64,6 @@ function generateblocks_get_default_styles() {
 			'paddingRight' => $defaults['button']['paddingRight'] ? $defaults['button']['paddingRight'] : '20',
 			'paddingBottom' => $defaults['button']['paddingBottom'] ? $defaults['button']['paddingBottom'] : '15',
 			'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20',
-			'display' => 'inline-flex',
-			'alignItems' => 'center',
-			'justifyContent' => 'center',
 		),
 		'container' => array(
 			'gridItemPaddingTop' => '',
