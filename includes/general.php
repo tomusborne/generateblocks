@@ -397,3 +397,44 @@ function generateblocks_set_flex_child_component_defaults( $defaults ) {
 
 	return $defaults;
 }
+
+add_filter( 'generateblocks_defaults', 'generateblocks_set_spacing_defaults' );
+/**
+ * Set the defaults for our Spacing options.
+ *
+ * @param array $defaults Existing defaults.
+ */
+function generateblocks_set_spacing_defaults( $defaults ) {
+	$options = [
+		'marginTop',
+		'marginRight',
+		'marginBottom',
+		'marginLeft',
+		'paddingTop',
+		'paddingRight',
+		'paddingBottom',
+		'paddingLeft',
+		'borderSizeTop',
+		'borderSizeRight',
+		'borderSizeBottom',
+		'borderSizeLeft',
+		'borderRadiusTopRight',
+		'borderRadiusBottomRight',
+		'borderRadiusBottomLeft',
+		'borderRadiusTopLeft',
+	];
+
+	foreach ( $defaults as $block => $values ) {
+		foreach ( $options as $option ) {
+			$defaults[ $block ][ $option ] = '';
+			$defaults[ $block ][ $option . 'Tablet' ] = '';
+			$defaults[ $block ][ $option . 'Mobile' ] = '';
+		}
+
+		$defaults[ $block ]['marginUnit'] = 'px';
+		$defaults[ $block ]['paddingUnit'] = 'px';
+		$defaults[ $block ]['borderRadiusUnit'] = 'px';
+	}
+
+	return $defaults;
+}
