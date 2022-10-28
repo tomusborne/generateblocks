@@ -35,15 +35,6 @@ export default function Sizing( props ) {
 			: '';
 	}
 
-	const widthPresets = [
-		{ label: '25', value: '25%' },
-		{ label: '33', value: '33.33%' },
-		{ label: '50', value: '50%' },
-		{ label: '66', value: '66.66%' },
-		{ label: '75', value: '75%' },
-		{ label: '100', value: '100%' },
-	];
-
 	return (
 		<PanelArea
 			title={ __( 'Sizing', 'generateblocks' ) }
@@ -66,7 +57,6 @@ export default function Sizing( props ) {
 								},
 							} );
 						} }
-						presets={ isGrid ? widthPresets : [] }
 					/>
 				}
 
