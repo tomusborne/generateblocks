@@ -287,11 +287,6 @@ export default function MainCSS( props ) {
 		}
 	}
 
-	cssObj[ `#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-list-appender:not(:first-child),
-	#block-` + clientId + `:not(.has-child-selected):not(.is-selected) .block-editor-block-list__layout > div:not(:first-child) > .block-list-appender` ] = [ {
-		'display': 'none', // eslint-disable-line quote-props
-	} ];
-
 	if ( shapeDividers.length ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 			position: 'relative',
