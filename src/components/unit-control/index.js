@@ -45,7 +45,7 @@ export default function UnitControl( props ) {
 
 	const getNumericValue = ( values ) => values.length > 0 ? values[ 0 ] : '';
 	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : units[ 0 ];
-	const hasNumber = ( number ) => /\d/.test( number );
+	const startsWithNumber = ( number ) => /^\d/.test( number );
 	const desktopValues = splitValues( desktopValue );
 	const tabletValues = splitValues( tabletValue );
 
@@ -80,8 +80,8 @@ export default function UnitControl( props ) {
 	useEffect( () => {
 		const newValue = overrideValue || value;
 
-		// Split our values if we have a number.
-		if ( hasNumber( newValue ) ) {
+		// Split our values if we're starting with a number.
+		if ( startsWithNumber( newValue ) ) {
 			const values = splitValues( newValue );
 
 			setNumericValue( getNumericValue( values ) );
@@ -103,7 +103,7 @@ export default function UnitControl( props ) {
 			return;
 		}
 
-		const fullValue = hasNumber( numericValue )
+		const fullValue = startsWithNumber( numericValue )
 			? numericValue + unitValue
 			: numericValue;
 
@@ -152,10 +152,10 @@ export default function UnitControl( props ) {
 				/>
 
 				{ (
-					hasNumber( numericValue ) ||
+					startsWithNumber( numericValue ) ||
 					(
 						! numericValue &&
-						( ! placeholderValue || hasNumber( placeholderValue ) )
+						( ! placeholderValue || startsWithNumber( placeholderValue ) )
 					)
 				) &&
 					<span className="gblocks-unit-control__unit-select">
