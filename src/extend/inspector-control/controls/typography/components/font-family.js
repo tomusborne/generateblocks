@@ -1,10 +1,9 @@
-import { BaseControl, DropdownMenu, Notice, TextControl, ToggleControl } from '@wordpress/components';
+import { BaseControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useMemo } from '@wordpress/element';
 import googleFonts from '../../../../../components/typography/google-fonts.json';
 import typographyOptions from '../options';
-import FlexControl from '../../../../../components/flex-control';
-import { plus } from '@wordpress/icons';
+import AdvancedSelect from '../../../../../components/advanced-select';
 
 export default function FontFamily( { attributes, setAttributes } ) {
 	const {
@@ -33,20 +32,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 		return fontFamilyOptions;
 	}, [] );
 
-	const fontDropdownOptions = [];
-
-	fonts.forEach( ( font ) => {
-		fontDropdownOptions.push( {
-			title: font.label,
-			onClick: () => onFontShortcut( font.value ),
-		} );
-	} );
-
 	function onFontChange( value ) {
-		if ( 'other' === value ) {
-			value = '';
-		}
-
 		setAttributes( { fontFamily: value } );
 
 		if ( typeof googleFonts[ value ] !== 'undefined' ) {
@@ -64,10 +50,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 		}
 	}
 
-	const onFontShortcut = ( value ) => {
-		setAttributes( { fontFamily: value } );
-		onFontChange( value );
-	};
+	const value = !! fontFamily ? { value: fontFamily, label: fontFamily } : '';
 
 	return (
 		<>
@@ -76,31 +59,16 @@ export default function FontFamily( { attributes, setAttributes } ) {
 				id="gblocks-font-family"
 				className="gblocks-font-family"
 			>
-				<DropdownMenu
-					label={ __( 'Font shortcuts', 'generateblocks' ) }
-					controls={ fontDropdownOptions }
-					icon={ plus }
+				<AdvancedSelect
+					placeholder={ __( 'Choose or add font name', 'generateblocks' ) }
+					options={ fonts }
+					value={ value }
+					isSearchable
+					isCreatable
+					isClearable
+					formatCreateLabel={ ( input ) => ( `Add "${ input }"` ) }
+					onChange={ ( option ) => onFontChange( option?.value || '' ) }
 				/>
-
-				<FlexControl>
-					<TextControl
-						id="gblocks-font-family"
-						value={ fontFamily }
-						onChange={ ( nextFontFamily ) => onFontChange( nextFontFamily ) }
-					/>
-
-					{ ( !! fontFamilyFallback || !! googleFont ) &&
-						<TextControl
-							value={ fontFamilyFallback }
-							placeholder={ __( 'sans-serif', 'generateblocks' ) }
-							onChange={ ( value ) => {
-								setAttributes( {
-									fontFamilyFallback: value,
-								} );
-							} }
-						/>
-					}
-				</FlexControl>
 			</BaseControl>
 
 			{ '' !== fontFamily &&
@@ -108,12 +76,12 @@ export default function FontFamily( { attributes, setAttributes } ) {
 					<ToggleControl
 						label={ __( 'Use Google Fonts API', 'generateblocks' ) }
 						checked={ !! googleFont }
-						onChange={ ( value ) => {
+						onChange={ ( newGoogleFontValue ) => {
 							setAttributes( {
-								googleFont: value,
+								googleFont: newGoogleFontValue,
 							} );
 
-							if ( value ) {
+							if ( newGoogleFontValue ) {
 								if ( typeof googleFonts[ fontFamily ] !== 'undefined' ) {
 									setAttributes( {
 										fontFamilyFallback: googleFonts[ fontFamily ].fallback,
@@ -125,25 +93,30 @@ export default function FontFamily( { attributes, setAttributes } ) {
 					/>
 
 					{ !! googleFont &&
-						<TextControl
-							label={ __( 'Variants', 'generateblocks' ) }
-							value={ googleFontVariants }
-							placeholder={ __( '300, 400, 400i', 'generateblocks' ) }
-							onChange={ ( value ) => {
-								setAttributes( {
-									googleFontVariants: value,
-								} );
-							} }
-						/>
-					}
+						<>
+							<TextControl
+								label={ __( 'Font fallback', 'generateblocks' ) }
+								value={ fontFamilyFallback }
+								placeholder={ __( 'sans-serif', 'generateblocks' ) }
+								onChange={ ( newFallback ) => {
+									setAttributes( {
+										fontFamilyFallback: newFallback,
+									} );
+								} }
+							/>
 
-					<Notice
-						isDismissible={ false }
-						status="warning"
-						className="gblocks-font-family-notice"
-					>
-						{ __( 'Font families should ideally be set globally instead of on a per-block basis.', 'generateblocks' ) }
-					</Notice>
+							<TextControl
+								label={ __( 'Variants', 'generateblocks' ) }
+								value={ googleFontVariants }
+								placeholder={ __( '300, 400, 400i', 'generateblocks' ) }
+								onChange={ ( newVariantsValue ) => {
+									setAttributes( {
+										googleFontVariants: newVariantsValue,
+									} );
+								} }
+							/>
+						</>
+					}
 				</Fragment>
 			}
 		</>
