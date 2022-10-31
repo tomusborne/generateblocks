@@ -13,7 +13,7 @@ import Attachment from './components/attachment';
 import GradientControl from '../../../../components/gradient';
 
 export default function BackgroundPanel( { attributes, setAttributes } ) {
-	const { id, isInQueryLoop } = useContext( ControlsContext );
+	const { id, isInQueryLoop, supports: { backgroundPanel } } = useContext( ControlsContext );
 
 	const {
 		bgImage,
@@ -34,67 +34,73 @@ export default function BackgroundPanel( { attributes, setAttributes } ) {
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
-			<ImageUrl
-				bgImage={ bgImage }
-				setAttributes={ setAttributes }
-				isUsingFeaturedImage={ useDynamicData && '' !== dynamicContentType }
-			/>
-
-			{ ( !! bgImage || ( useDynamicData && '' !== dynamicContentType ) ) &&
+			{ !! backgroundPanel.backgroundImage &&
 				<>
-					<UseInlineStyle
-						checked={ !! bgImageInline }
-						disabled={ useDynamicData && '' !== dynamicContentType && ( isQueryLoopItem || isInQueryLoop ) }
-						onChange={ ( value ) => setAttributes( { bgImageInline: value } ) }
-					/>
-
-					<BackgroundOptions
-						attributes={ attributes }
+					<ImageUrl
+						bgImage={ bgImage }
 						setAttributes={ setAttributes }
+						isUsingFeaturedImage={ useDynamicData && '' !== dynamicContentType }
 					/>
 
-					<Size
-						value={ bgOptions.size }
-						onChange={ ( nextSize ) => setAttributes( { bgOptions: { ...bgOptions, size: nextSize } } ) }
-					/>
+					{ ( !! bgImage || ( useDynamicData && '' !== dynamicContentType ) ) &&
+						<>
+							<UseInlineStyle
+								checked={ !! bgImageInline }
+								disabled={ useDynamicData && '' !== dynamicContentType && ( isQueryLoopItem || isInQueryLoop ) }
+								onChange={ ( value ) => setAttributes( { bgImageInline: value } ) }
+							/>
 
-					<Position
-						value={ bgOptions.position }
-						onChange={ ( nextPosition ) => setAttributes( {
-							bgOptions: { ...bgOptions, position: nextPosition },
-						} ) }
-					/>
+							<BackgroundOptions
+								attributes={ attributes }
+								setAttributes={ setAttributes }
+							/>
 
-					<Repeat
-						value={ bgOptions.repeat }
-						onChange={ ( nextRepeat ) => setAttributes( {
-							bgOptions: { ...bgOptions, repeat: nextRepeat },
-						} ) }
-					/>
+							<Size
+								value={ bgOptions.size }
+								onChange={ ( nextSize ) => setAttributes( { bgOptions: { ...bgOptions, size: nextSize } } ) }
+							/>
 
-					<Attachment
-						value={ bgOptions.attachment }
-						onChange={ ( nextAttachment ) => setAttributes( {
-							bgOptions: { ...bgOptions, attachment: nextAttachment },
-						} ) }
-					/>
+							<Position
+								value={ bgOptions.position }
+								onChange={ ( nextPosition ) => setAttributes( {
+									bgOptions: { ...bgOptions, position: nextPosition },
+								} ) }
+							/>
+
+							<Repeat
+								value={ bgOptions.repeat }
+								onChange={ ( nextRepeat ) => setAttributes( {
+									bgOptions: { ...bgOptions, repeat: nextRepeat },
+								} ) }
+							/>
+
+							<Attachment
+								value={ bgOptions.attachment }
+								onChange={ ( nextAttachment ) => setAttributes( {
+									bgOptions: { ...bgOptions, attachment: nextAttachment },
+								} ) }
+							/>
+						</>
+					}
 				</>
 			}
 
-			<GradientControl
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-				attrGradient={ 'gradient' }
-				attrGradientDirection={ 'gradientDirection' }
-				attrGradientColorOne={ 'gradientColorOne' }
-				attrGradientColorStopOne={ 'gradientColorStopOne' }
-				attrGradientColorTwo={ 'gradientColorTwo' }
-				attrGradientColorStopTwo={ 'gradientColorStopTwo' }
-				attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
-				attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-				defaultColorOne={ generateBlocksDefaults.container.gradientColorOne }
-				defaultColorTwo={ generateBlocksDefaults.container.gradientColorTwo }
-			/>
+			{ !! backgroundPanel.backgroundGradient &&
+				<GradientControl
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					attrGradient={ 'gradient' }
+					attrGradientDirection={ 'gradientDirection' }
+					attrGradientColorOne={ 'gradientColorOne' }
+					attrGradientColorStopOne={ 'gradientColorStopOne' }
+					attrGradientColorTwo={ 'gradientColorTwo' }
+					attrGradientColorStopTwo={ 'gradientColorStopTwo' }
+					attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
+					attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
+					defaultColorOne={ generateBlocksDefaults[ id ].gradientColorOne }
+					defaultColorTwo={ generateBlocksDefaults[ id ].gradientColorTwo }
+				/>
+			}
 		</PanelArea>
 	);
 }

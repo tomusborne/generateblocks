@@ -8,7 +8,6 @@ import SpacingControls from './controls/spacing';
 import ColorsControls from './controls/colors';
 import IconControls from './controls/icon';
 import ElementControls from './controls/element';
-import BackgroundGradient from './controls/background-gradient';
 import SettingsPanel from './controls/settings-panel';
 import BackgroundPanel from './controls/background-panel';
 import ShapesPanel from './controls/shapes-panel';
@@ -25,7 +24,6 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			typography,
 			spacing,
 			colors,
-			backgroundGradient,
 			backgroundPanel,
 			shapesPanel,
 			icon,
@@ -81,13 +79,6 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 
 			{ colors.enabled &&
 				<ColorsControls
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
-			}
-
-			{ backgroundGradient.enabled &&
-				<BackgroundGradient
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>

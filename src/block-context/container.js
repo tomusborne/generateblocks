@@ -118,6 +118,8 @@ const containerContext = defaultsDeep( {
 		},
 		backgroundPanel: {
 			enabled: true,
+			backgroundImage: true,
+			backgroundGradient: true,
 		},
 		shapesPanel: {
 			enabled: true,
