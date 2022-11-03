@@ -2,7 +2,7 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { useContext } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import ControlsContext from '../../block-context';
-import ResponsiveTabs from './controls/responsive-tabs/responsive-tabs';
+import ResponsiveTabs from './controls/responsive-tabs';
 import TypographyControls from './controls/typography';
 import SpacingControls from './controls/spacing';
 import ColorsControls from './controls/colors';
