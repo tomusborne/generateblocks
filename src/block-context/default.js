@@ -39,6 +39,7 @@ const defaultContext = {
 		},
 		typography: {
 			enabled: false,
+			alignment: false,
 			fontWeight: false,
 			textTransform: false,
 			fontSize: false,
@@ -57,11 +58,10 @@ const defaultContext = {
 			enabled: false,
 			elements: [],
 		},
-		backgroundGradient: {
-			enabled: false,
-		},
 		backgroundPanel: {
 			enabled: false,
+			backgroundImage: false,
+			backgroundGradient: false,
 		},
 		shapesPanel: {
 			enabled: false,

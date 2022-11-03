@@ -32,6 +32,7 @@ const headlineContext = defaultsDeep( {
 		},
 		typography: {
 			enabled: true,
+			alignment: true,
 			fontWeight: true,
 			textTransform: true,
 			fontSize: true,

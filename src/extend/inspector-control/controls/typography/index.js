@@ -10,6 +10,10 @@ import TextTransform from './components/text-transform';
 import LetterSpacing from './components/letter-spacing';
 import LineHeight from './components/line-height';
 import FontFamily from './components/font-family';
+import Alignment from './components/alignment';
+import getAttribute from '../../../../utils/get-attribute';
+import FlexControl from '../../../../components/flex-control';
+import './editor.scss';
 
 export default function Typography( { attributes, setAttributes, computedStyles } ) {
 	const [ device ] = useDeviceType();
@@ -24,18 +28,25 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 			className="gblocks-panel-label"
 			id={ `${ id }Typography` }
 		>
-			{ typography.fontWeight && isDesktop &&
-				<FontWeight
-					value={ attributes.fontWeight }
-					onChange={ ( value ) => setAttributes( { fontWeight: value } ) }
+			{ typography.alignment &&
+				<Alignment
+					value={ getAttribute( 'alignment', { attributes, deviceType: device } ) }
+					onChange={ ( value ) => setAttributes( { [ getAttribute( 'alignment', { attributes, deviceType: device }, true ) ]: value } ) }
 				/>
 			}
 
-			{ typography.textTransform && isDesktop &&
-				<TextTransform
-					value={ attributes.textTransform }
-					onChange={ ( textTransform ) => setAttributes( { textTransform } ) }
-				/>
+			{ !! isDesktop && ( typography.fontWeight || typography.textTransform ) &&
+				<FlexControl>
+					<FontWeight
+						value={ attributes.fontWeight }
+						onChange={ ( value ) => setAttributes( { fontWeight: value } ) }
+					/>
+
+					<TextTransform
+						value={ attributes.textTransform }
+						onChange={ ( textTransform ) => setAttributes( { textTransform } ) }
+					/>
+				</FlexControl>
 			}
 
 			{ typography.fontSize &&

@@ -1,0 +1,25 @@
+.gblocks-font-family {
+	margin-bottom: 0 !important;
+
+	.gblocks-advanced-select,
+	.components-base-control {
+		margin-bottom: 0 !important;
+
+		&__control {
+			margin-bottom: 0;
+		}
+	}
+}
+
+.gblocks-alignment-button-group {
+	display: flex;
+
+	button.components-button.has-icon {
+		flex: 1;
+		justify-content: center;
+
+		svg {
+			margin: 0;
+		}
+	}
+}

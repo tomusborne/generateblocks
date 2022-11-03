@@ -103,7 +103,6 @@ const ContainerEdit = ( props ) => {
 			<BlockControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-				deviceType={ deviceType }
 			/>
 
 			<GenerateBlocksInspectorControls

@@ -1,40 +1,30 @@
 import { AlignmentToolbar, BlockControls } from '@wordpress/block-editor';
+import getAttribute from '../../../utils/get-attribute';
+import { useDeviceType } from '../../../hooks';
+import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
+import isFlexItem from '../../../utils/is-flex-item';
 
-export default ( { attributes, setAttributes, deviceType } ) => {
+export default ( { attributes, setAttributes } ) => {
+	const [ deviceType ] = useDeviceType();
 	const {
-		alignment,
-		alignmentTablet,
-		alignmentMobile,
+		display,
+		displayTablet,
+		displayMobile,
 	} = attributes;
 
 	return (
 		<BlockControls>
-			{ 'Desktop' === deviceType && (
+			{ ! isFlexItem( { device: deviceType, display, displayTablet, displayMobile } ) &&
 				<AlignmentToolbar
-					value={ alignment }
+					value={ getAttribute( 'alignment', { attributes, deviceType } ) }
 					onChange={ ( value ) => {
-						setAttributes( { alignment: value } );
+						setAttributes( {
+							[ getAttribute( 'alignment', { attributes, deviceType }, true ) ]: value,
+						} );
 					} }
+					alignmentControls={ typographyOptions.alignments }
 				/>
-			) }
-
-			{ 'Tablet' === deviceType && (
-				<AlignmentToolbar
-					value={ alignmentTablet }
-					onChange={ ( value ) => {
-						setAttributes( { alignmentTablet: value } );
-					} }
-				/>
-			) }
-
-			{ 'Mobile' === deviceType && (
-				<AlignmentToolbar
-					value={ alignmentMobile }
-					onChange={ ( value ) => {
-						setAttributes( { alignmentMobile: value } );
-					} }
-				/>
-			) }
+			}
 		</BlockControls>
 	);
 };

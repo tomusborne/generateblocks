@@ -87,7 +87,7 @@ function getPostTitle( record ) {
  */
 function getPostExcerpt( record, attributes ) {
 	if ( ! record.excerpt ) {
-		return __( 'Post except not supported for this type.', 'generateblocks' );
+		return __( 'Post excerpt not supported for this type.', 'generateblocks' );
 	}
 
 	const {
@@ -105,7 +105,7 @@ function getPostExcerpt( record, attributes ) {
 	const excerptDocument = renderedText( renderedExcerpt );
 	const readMoreDocument = renderedText( generateBlocksInfo.excerptMore );
 
-	// Get stripped except text.
+	// Get stripped excerpt text.
 	const strippedRenderedExcerpt = excerptDocument.body.textContent || excerptDocument.body.innerText || '';
 
 	// Get stripped excerpt more text.

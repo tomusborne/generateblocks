@@ -34,6 +34,7 @@ const containerContext = defaultsDeep( {
 		},
 		typography: {
 			enabled: true,
+			alignment: true,
 			fontWeight: true,
 			textTransform: true,
 			fontSize: true,
@@ -113,6 +114,8 @@ const containerContext = defaultsDeep( {
 		},
 		backgroundPanel: {
 			enabled: true,
+			backgroundImage: true,
+			backgroundGradient: true,
 		},
 		shapesPanel: {
 			enabled: true,

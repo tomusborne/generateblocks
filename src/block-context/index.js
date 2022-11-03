@@ -11,7 +11,7 @@ import getTypographyAttributes from '../extend/inspector-control/controls/typogr
 import getSpacingAttributes from '../extend/inspector-control/controls/spacing/attributes';
 import getColorsAttributes from '../extend/inspector-control/controls/colors/attributes';
 import getIconAttributes from '../extend/inspector-control/controls/icon/attributes';
-import getBackgroundGradientAttributes from '../extend/inspector-control/controls/background-gradient/attributes';
+import getBackgroundGradientAttributes from '../extend/inspector-control/controls/background-panel/attributes';
 import getLayoutAttributes from '../extend/inspector-control/controls/layout/attributes';
 import getSizingAttributes from '../extend/inspector-control/controls/sizing/attributes';
 import getFlexChildAttributes from '../extend/inspector-control/controls/flex-child-panel/attributes';
@@ -122,7 +122,7 @@ export function getBlockAttributes( blockAttributes, context, defaults ) {
 		attributes = Object.assign( {}, attributes, getColorsAttributes( defaults ) );
 	}
 
-	if ( context.supports.backgroundGradient.enabled ) {
+	if ( context.supports.backgroundPanel.enabled ) {
 		attributes = Object.assign( {}, attributes, getBackgroundGradientAttributes( defaults ) );
 	}
 

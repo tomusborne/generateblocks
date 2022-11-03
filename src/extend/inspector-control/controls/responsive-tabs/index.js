@@ -1,8 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import { Button, Tooltip } from '@wordpress/components';
 import { Icon, desktop, tablet, mobile } from '@wordpress/icons';
-import { memo, useCallback } from '@wordpress/element';
+import { memo, useCallback, useEffect, render } from '@wordpress/element';
 import { useDeviceType } from '../../../../hooks';
+import './editor.scss';
 
 function DeviceButton( { deviceKey, label, isActive, onClick, icon } ) {
 	return (
@@ -34,16 +35,12 @@ const devices = [
 	},
 ];
 
-function ResponsiveTabs() {
+function ResponsiveTabButtons() {
 	const [ deviceType, setDeviceType ] = useDeviceType();
-
-	const panelHeader = document.querySelector( '.edit-post-sidebar .edit-post-sidebar__panel-tabs' );
-	const panelHeaderHeight = panelHeader ? `${ panelHeader.offsetHeight }px` : 0;
-
 	const onClickDeviceButton = useCallback( setDeviceType, [] );
 
 	return (
-		<div className="gb-responsive-tabs" style={ { top: panelHeaderHeight } }>
+		<>
 			{ devices && devices.map( ( device ) => (
 				<MemoizedDeviceButton
 					key={ device.key }
@@ -54,8 +51,33 @@ function ResponsiveTabs() {
 					onClick={ onClickDeviceButton }
 				/>
 			) ) }
-		</div>
+		</>
 	);
+}
+
+function ResponsiveTabs() {
+	useEffect( () => {
+		const BlockCardElement = document.querySelector( '.block-editor-block-card' );
+		const ResponsiveTabsElement = document.querySelector( '.gb-responsive-tabs' );
+
+		if ( ! BlockCardElement || ResponsiveTabsElement ) {
+			return;
+		}
+
+		const panelHeader = document.querySelector( '.edit-post-sidebar .edit-post-sidebar__panel-tabs' );
+		const panelHeaderHeight = panelHeader ? `${ panelHeader.offsetHeight }px` : 0;
+		const buttonWrapper = document.createElement( 'div' );
+		buttonWrapper.classList.add( 'gb-responsive-tabs' );
+		buttonWrapper.style.top = panelHeaderHeight;
+		BlockCardElement.parentNode.insertBefore( buttonWrapper, BlockCardElement );
+
+		render(
+			<ResponsiveTabButtons />,
+			document.querySelector( '.gb-responsive-tabs' )
+		);
+	}, [] );
+
+	return null;
 }
 
 export default memo( ResponsiveTabs );
