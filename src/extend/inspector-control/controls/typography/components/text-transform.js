@@ -6,7 +6,7 @@ export default function TextTransform( { value, onChange } ) {
 	return (
 		<SelectControl
 			labelPosition={ 'top' }
-			label={ __( 'Transforms', 'generateblocks' ) }
+			label={ __( 'Transform', 'generateblocks' ) }
 			value={ value }
 			options={ options.textTransform }
 			onChange={ onChange }

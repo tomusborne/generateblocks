@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n';
+import { alignLeft, alignCenter, alignRight, alignJustify } from '@wordpress/icons';
 
 const typographyOptions = {
 	fontFamily: [
-		{ value: '', label: __( 'Select font', 'generateblocks' ) },
 		{ value: 'Arial', label: 'Arial' },
 		{ value: 'Helvetica', label: 'Helvetica' },
 		{ value: 'Times New Roman', label: 'Times New Roman' },
@@ -28,6 +28,28 @@ const typographyOptions = {
 		{ value: 'lowercase', 	label: __( 'Lowercase', 'generateblocks' ) },
 		{ value: 'capitalize', 	label: __( 'Capitalize', 'generateblocks' ) },
 		{ value: 'initial', 	label: __( 'Normal', 'generateblocks' ) },
+	],
+	alignments: [
+		{
+			icon: alignLeft,
+			title: __( 'Align text left', 'generateblocks' ),
+			align: 'left',
+		},
+		{
+			icon: alignCenter,
+			title: __( 'Align text center', 'generateblocks' ),
+			align: 'center',
+		},
+		{
+			icon: alignRight,
+			title: __( 'Align text right', 'generateblocks' ),
+			align: 'right',
+		},
+		{
+			icon: alignJustify,
+			title: __( 'Justify text', 'generateblocks' ),
+			align: 'justify',
+		},
 	],
 };
 
