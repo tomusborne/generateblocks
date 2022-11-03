@@ -111,8 +111,9 @@ const buttonContext = defaultsDeep( {
 				},
 			],
 		},
-		backgroundGradient: {
+		backgroundPanel: {
 			enabled: true,
+			backgroundGradient: true,
 		},
 		icon: {
 			enabled: true,
