@@ -114,7 +114,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'maxWidth' ) }
 						desktopValue={ sizing?.maxWidth }
 						tabletValue={ sizing?.maxWidthTablet }
-						useGlobalContainerWidth={ useGlobalContainerWidth }
+						overrideValue={ !! useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : null }
 						disabled={ useInnerContainer || useGlobalContainerWidth || isGrid }
 						onChange={ ( value ) => {
 							setAttributes( {

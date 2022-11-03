@@ -164,6 +164,21 @@
 	}
 }
 
+.gblocks-flex-button-group {
+	display: flex;
+
+	button {
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+		font-size: 12px;
+
+		svg {
+			width: 15px;
+		}
+	}
+}
+
 path.gblocks-svg-icon-box {
 	fill: none !important;
 }

@@ -1,18 +1,3 @@
-.gblocks-flex-button-group {
-	display: flex;
-
-	button {
-		flex-grow: 1;
-		display: flex;
-		justify-content: center;
-		font-size: 12px;
-
-		svg {
-			width: 15px;
-		}
-	}
-}
-
 .gblocks-flex-direction-alignItems-column svg {
 	transform: rotate(-90deg) scale(-1, 1);
 }

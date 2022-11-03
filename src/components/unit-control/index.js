@@ -1,8 +1,8 @@
 /**
  * External dependencies
  */
-import { useEffect, useState, useRef } from '@wordpress/element';
-import { TextControl, BaseControl } from '@wordpress/components';
+import { useEffect, useState, useRef, Fragment } from '@wordpress/element';
+import { TextControl, BaseControl, ButtonGroup, Button, SlotFillProvider, Popover } from '@wordpress/components';
 import classnames from 'classnames';
 
 /**
@@ -26,13 +26,17 @@ export default function UnitControl( props ) {
 		value,
 		desktopValue,
 		tabletValue,
+		presets = [],
 	} = props;
 
 	const [ device ] = useDeviceType();
 	const [ unitValue, setUnitValue ] = useState( '' );
 	const [ numericValue, setNumericValue ] = useState( '' );
 	const [ placeholderValue, setPlaceholderValue ] = useState( '' );
+	const [ showPresets, setShowPresets ] = useState( false );
 	const isMounted = useRef( false );
+	const wrapperRef = useRef( false );
+	const inputRef = useRef( false );
 
 	const splitValues = ( values ) => {
 		const unitRegex = units.join( '|' );
@@ -128,47 +132,99 @@ export default function UnitControl( props ) {
 		}
 	}, [ numericValue, unitValue ] );
 
-	return (
-		<BaseControl
-			label={ label }
-			id={ id }
-			className={ classnames( {
-				'gblocks-unit-control': true,
-				'gblocks-unit-control__disabled': !! disabled,
-			} ) }
-		>
-			<div className="gblocks-unit-control__input">
-				<TextControl
-					type="text"
-					value={ numericValue }
-					placeholder={ placeholderValue }
-					id={ id }
-					min={ min }
-					max={ max }
-					step={ step }
-					autoComplete="off"
-					disabled={ disabled }
-					onChange={ ( newValue ) => setNumericValue( newValue ) }
-				/>
-
-				{ (
-					startsWithNumber( numericValue ) ||
-					(
-						! numericValue &&
-						( ! placeholderValue || startsWithNumber( placeholderValue ) )
-					)
-				) &&
-					<span className="gblocks-unit-control__unit-select">
-						<select
-							value={ unitValue }
-							disabled={ disabled || 1 === units.length }
-							onChange={ ( e ) => setUnitValue( e.target.value ) }
-						>
-							{ units.map( ( unitOption ) => <option key={ unitOption } value={ unitOption }>{ unitOption }</option> ) }
-						</select>
-					</span>
+	const useOutsideClick = ( ref, callback ) => {
+		useEffect( () => {
+			const handleClickOutside = ( evt ) => {
+				if ( ref.current && ! ref.current.contains( evt.target ) ) {
+					callback(); //Do what you want to handle in the callback
 				}
-			</div>
-		</BaseControl>
+			};
+
+			document.addEventListener( 'mousedown', handleClickOutside );
+
+			return () => {
+				document.removeEventListener( 'mousedown', handleClickOutside );
+			};
+		} );
+	};
+
+	useOutsideClick( wrapperRef, () => setShowPresets( false ) );
+
+	const doesPresetUnitMatch = Object.keys( presets ).some( ( k ) => {
+		return presets[ k ]?.value.includes( unitValue );
+	} );
+
+	return (
+		<SlotFillProvider>
+			<BaseControl
+				label={ label }
+				id={ id }
+				className={ classnames( {
+					'gblocks-unit-control': true,
+					'gblocks-unit-control__disabled': !! disabled,
+				} ) }
+			>
+				<div className="gblocks-unit-control__input" ref={ wrapperRef }>
+					<TextControl
+						type="text"
+						value={ numericValue }
+						placeholder={ placeholderValue }
+						id={ id }
+						min={ min }
+						max={ max }
+						step={ step }
+						autoComplete="off"
+						disabled={ disabled }
+						onChange={ ( newValue ) => setNumericValue( newValue ) }
+						onFocus={ () => setShowPresets( true ) }
+						ref={ inputRef }
+					/>
+
+					{ (
+						startsWithNumber( numericValue ) ||
+						(
+							! numericValue &&
+							( ! placeholderValue || startsWithNumber( placeholderValue ) )
+						)
+					) &&
+						<span className="gblocks-unit-control__unit-select">
+							<select
+								value={ unitValue }
+								disabled={ disabled || 1 === units.length }
+								onChange={ ( e ) => setUnitValue( e.target.value ) }
+							>
+								{ units.map( ( unitOption ) => <option key={ unitOption } value={ unitOption }>{ unitOption }</option> ) }
+							</select>
+						</span>
+					}
+
+					{ !! presets.length && !! showPresets && doesPresetUnitMatch &&
+						<Popover focusOnMount={ false } className="gblocks-unit-control__popover">
+							<ButtonGroup className="gblocks-flex-button-group">
+								{
+									Object.values( presets ).map( ( preset, index ) => {
+										return (
+											<Fragment key={ 'sizing-preset-' + index }>
+												<Button
+													isPrimary={ preset.value === value }
+													onClick={ () => {
+														onChange( preset.value );
+														inputRef.current.focus();
+													} }
+												>
+													{ preset.label }
+												</Button>
+											</Fragment>
+										);
+									} )
+								}
+							</ButtonGroup>
+						</Popover>
+					}
+
+					<Popover.Slot />
+				</div>
+			</BaseControl>
+		</SlotFillProvider>
 	);
 }
