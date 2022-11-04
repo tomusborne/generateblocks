@@ -1,4 +1,5 @@
 import getIcon from '../../utils/get-icon';
+import useInnerBlocksCount from '../../hooks/useInnerBlocksCount';
 
 /**
  * WordPress Dependencies
@@ -9,7 +10,7 @@ import { Fragment } from '@wordpress/element';
 import { BlockControls, BlockAlignmentToolbar } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { cloneBlock, getBlockSupport } from '@wordpress/blocks';
+import { cloneBlock, getBlockSupport, createBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
 
 const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
@@ -53,6 +54,9 @@ const withBlockControls = createHigherOrderComponent(
 			parentGridId = getBlockRootClientId( clientId );
 		}
 
+		const hasParentBlock = getBlockRootClientId( clientId );
+		const innerBlocksCount = useInnerBlocksCount( clientId );
+
 		/**
 		 * We don't define "align" support in block registration as we don't want it enabled for grid items.
 		 * This allows us to enable support for regular non-grid item Containers.
@@ -61,6 +65,29 @@ const withBlockControls = createHigherOrderComponent(
 
 		return (
 			<Fragment>
+				{ ! hasParentBlock && 0 === innerBlocksCount &&
+					<BlockControls>
+						<ToolbarGroup>
+							<ToolbarButton
+								icon={ getIcon( 'section' ) }
+								label={ __( 'Insert Inner Container', 'generateblocks' ) }
+								onClick={ () => {
+									insertBlocks(
+										createBlock( 'generateblocks/container', {
+											useGlobalContainerWidth: true,
+											marginLeft: 'auto',
+											marginRight: 'auto',
+										} ),
+										undefined,
+										clientId
+									);
+								} }
+								showTooltip
+							/>
+						</ToolbarGroup>
+					</BlockControls>
+				}
+
 				{ ! isQueryLoopItem && isGrid && parentGridId &&
 					<BlockControls>
 						<ToolbarGroup>
