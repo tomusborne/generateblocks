@@ -51,6 +51,7 @@ export default class TabletCSS extends Component {
 			iconSizeTablet,
 			iconSizeUnit,
 			hasButtonContainer,
+			alignmentTablet,
 		} = attributes;
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
@@ -70,6 +71,7 @@ export default class TabletCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
+			'text-align': alignmentTablet,
 			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
 			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
 			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),

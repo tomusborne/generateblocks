@@ -75,6 +75,7 @@ export default class MainCSS extends Component {
 			iconSize,
 			iconSizeUnit,
 			hasButtonContainer,
+			alignment,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -116,6 +117,7 @@ export default class MainCSS extends Component {
 			'font-weight': fontWeight,
 			'text-transform': textTransform,
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
+			'text-align': alignment,
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
 			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),

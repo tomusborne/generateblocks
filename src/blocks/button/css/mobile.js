@@ -51,6 +51,7 @@ export default class MobileCSS extends Component {
 			iconSizeMobile,
 			iconSizeUnit,
 			hasButtonContainer,
+			alignmentMobile,
 		} = attributes;
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
@@ -70,6 +71,7 @@ export default class MobileCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
+			'text-align': alignmentMobile,
 			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
 			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
 			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
