@@ -178,7 +178,6 @@ class GenerateBlocks_Block_Button {
 		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-button' );
 			$css->add_property( 'text-decoration', 'none' );
-			$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
 
 			$css->set_selector( '.gb-icon svg' );
 			$css->add_property( 'height', '1em' );
@@ -223,6 +222,7 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'align-items', 'center' );
 			$css->add_property( 'justify-content', 'center' );
 			$css->add_property( 'text-align', 'center' );
+			$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
 		}
 
 		$css->set_selector( $selector . ':hover, ' . $selector . ':active, ' . $selector . ':focus' );
