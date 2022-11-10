@@ -1,11 +1,15 @@
 import { ToolbarButton, ToolbarGroup, Dropdown, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { cloneBlock, createBlock } from '@wordpress/blocks';
-import { BlockControls, URLInput } from '@wordpress/block-editor';
+import { BlockControls, URLInput, AlignmentToolbar } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { link, plus } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
 import getIcon from '../../../utils/get-icon';
+import isFlexItem from '../../../utils/is-flex-item';
+import getAttribute from '../../../utils/get-attribute';
+import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
+import { useDeviceType } from '../../../hooks';
 
 export default ( props ) => {
 	const {
@@ -30,6 +34,9 @@ export default ( props ) => {
 		relSponsored,
 		useDynamicData,
 		dynamicLinkType,
+		display,
+		displayTablet,
+		displayMobile,
 	} = attributes;
 
 	const POPOVER_PROPS = {
@@ -37,6 +44,7 @@ export default ( props ) => {
 		position: 'bottom right',
 	};
 
+	const [ deviceType ] = useDeviceType();
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
 	const showButtonLinkControl = applyFilters( 'generateblocks.editor.showButtonLinkControl', true, props );
@@ -113,6 +121,18 @@ export default ( props ) => {
 						/>
 					}
 				</ToolbarGroup>
+
+				{ ! isFlexItem( { device: deviceType, display, displayTablet, displayMobile } ) &&
+					<AlignmentToolbar
+						value={ getAttribute( 'alignment', { attributes, deviceType } ) }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ getAttribute( 'alignment', { attributes, deviceType }, true ) ]: value,
+							} );
+						} }
+						alignmentControls={ typographyOptions.alignments }
+					/>
+				}
 
 				<ToolbarGroup>
 					{ ( ! useDynamicData || hasDynamicLink ) && showButtonLinkControl &&
