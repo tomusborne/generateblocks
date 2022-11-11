@@ -113,9 +113,19 @@ const withContainerAccordion = createHigherOrderComponent( ( BlockEdit ) => {
 	};
 }, 'withContainerAccordion' );
 
+addFilter(
+	'editor.BlockEdit',
+	'generateblocks/accordion/containerInspectorControls',
+	withContainerAccordion,
+);
+
 function accordionSettingsPanel( content, props ) {
 	const { attributes, setAttributes } = props;
 	const { variantRole, accordionMultipleOpen, accordionItemOpen } = attributes;
+
+	if ( 'accordion' !== variantRole && 'accordion-item' !== variantRole ) {
+		return content;
+	}
 
 	return (
 		<>
@@ -144,6 +154,7 @@ function accordionSettingsPanel( content, props ) {
 					/>
 				</>
 			}
+
 			{ content }
 		</>
 	);
@@ -155,22 +166,8 @@ addFilter(
 	accordionSettingsPanel
 );
 
-addFilter(
-	'editor.BlockEdit',
-	'generateblocks/accordion/containerInspectorControls',
-	withContainerAccordion,
-);
-
 const ContainerTemplateLock = ( templateLock, props ) => {
-	const {
-		attributes,
-	} = props;
-
-	const {
-		variantRole,
-	} = attributes;
-
-	if ( 'accordion-item' === variantRole ) {
+	if ( 'accordion-item' === props.attributes.variantRole ) {
 		templateLock = 'insert';
 	}
 

@@ -8,7 +8,7 @@ const defaultContext = {
 		responsiveTabs: false,
 		settingsPanel: {
 			enabled: false,
-			label: __( 'Settings', 'generateblocks' ),
+			label: __( 'Block Settings', 'generateblocks' ),
 			icon: 'wrench',
 		},
 		layout: {

@@ -1,5 +1,4 @@
 import { addFilter } from '@wordpress/hooks';
-import { useSelect } from '@wordpress/data';
 import classnames from 'classnames';
 
 const addCustomAttributes = ( blockHtmlAttributes, blockName, blockAttributes ) => {
@@ -39,33 +38,9 @@ addFilter(
 	addCustomAttributes
 );
 
-const RemoveButtonAppender = ( show, props ) => {
-	const {
-		name,
-		clientId,
-	} = props;
-
-	const {
-		getBlockParentsByBlockName,
-		getBlocksByClientId,
-	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
-
-	if ( 'generateblocks/button-container' === name ) {
-		const parentBlockId = getBlockParentsByBlockName( clientId, 'generateblocks/container', true )[ 0 ];
-
-		if ( parentBlockId ) {
-			const parentBlock = getBlocksByClientId( parentBlockId );
-
-			if ( parentBlock && 'accordion-item' === parentBlock[ 0 ].attributes.variantRole ) {
-				show = false;
-			}
-		}
-	}
-
-	if ( 'generateblocks/button' === name ) {
-		if ( 'accordion-toggle' === props.attributes.variantRole ) {
-			show = false;
-		}
+const RemoveButtonControls = ( show, props ) => {
+	if ( 'generateblocks/button' === props.name && 'accordion-toggle' === props.attributes.variantRole ) {
+		show = false;
 	}
 
 	return show;
@@ -74,23 +49,19 @@ const RemoveButtonAppender = ( show, props ) => {
 addFilter(
 	'generateblocks.editor.showButtonAppender',
 	'generateblocks/accordion/remove-button-appender',
-	RemoveButtonAppender
+	RemoveButtonControls
 );
-
-const RemoveButtonLinkControl = ( show, props ) => {
-	if ( 'generateblocks/button' === props.name ) {
-		if ( 'accordion-toggle' === props.attributes.variantRole ) {
-			show = false;
-		}
-	}
-
-	return show;
-};
 
 addFilter(
 	'generateblocks.editor.showButtonLinkControl',
 	'generateblocks/accordion/remove-button-link-control',
-	RemoveButtonLinkControl
+	RemoveButtonControls
+);
+
+addFilter(
+	'generateblocks.editor.showButtonContainerControl',
+	'generateblocks/accordion/remove-button-container-control',
+	RemoveButtonControls
 );
 
 function setButtonTagName( tagName, props ) {
