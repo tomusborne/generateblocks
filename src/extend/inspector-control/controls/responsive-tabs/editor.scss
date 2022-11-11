@@ -6,6 +6,17 @@
     z-index: 10;
     display: flex;
 
+	& + .block-editor-block-card {
+		.block-editor-block-card__description {
+			display: none;
+		}
+
+		.block-editor-block-card__title,
+		.block-editor-block-card__content {
+			margin-bottom: 0;
+		}
+	}
+
 	button {
 	    flex-grow: 1;
 	    justify-content: center;
