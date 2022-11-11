@@ -308,7 +308,7 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 		svg {
 			transform: scale(0.7);
 
-			path:not(.gblocks-svg-icon-box) {
+			path {
 				fill: #000;
 			}
 		}
