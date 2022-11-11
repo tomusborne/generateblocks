@@ -6,11 +6,6 @@ const containerContext = defaultsDeep( {
 	id: 'container',
 	supports: {
 		responsiveTabs: true,
-		settingsPanel: {
-			enabled: true,
-			label: __( 'Layout', 'generateblocks' ),
-			icon: 'layout',
-		},
 		layout: {
 			enabled: true,
 			display: true,

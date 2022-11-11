@@ -89,6 +89,7 @@ class GenerateBlocks_Block_Button {
 			'iconSizeMobile' => '',
 			'iconSizeUnit' => 'em',
 			'hasButtonContainer' => false,
+			'variantRole' => '',
 		];
 	}
 
@@ -431,12 +432,7 @@ class GenerateBlocks_Block_Button {
 				$tagName = 'a';
 			}
 
-			$tagName = apply_filters(
-				'generateblocks_button_tagname',
-				$tagName,
-				$attributes,
-				$block
-			);
+			$tagName = apply_filters( 'generateblocks_dynamic_button_tagname', $tagName, $attributes, $block );
 
 			$button_attributes = array(
 				'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,

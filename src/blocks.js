@@ -10,3 +10,4 @@ import './blocks/button/block.js';
 import './blocks/headline/block.js';
 import './shared/style-imports.js';
 import './blocks/image';
+import './extend/accordion';

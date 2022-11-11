@@ -106,6 +106,7 @@ class GenerateBlocks_Block_Container {
 			'textTransform' => '',
 			'useInnerContainer' => false,
 			'useGlobalContainerWidth' => false,
+			'variantRole' => '',
 		];
 	}
 
