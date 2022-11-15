@@ -79,6 +79,7 @@ function generateblocks_do_block_editor_assets() {
 				'square' => GENERATEBLOCKS_DIR_URL . 'assets/images/square-image-placeholder.png',
 			),
 			'globalContainerWidth' => generateblocks_get_global_container_width(),
+			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ), // phpcs:ignore -- Core filter.
 		)
 	);
 
