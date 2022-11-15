@@ -13,18 +13,6 @@ export default {
 		source: 'html',
 		selector: '.gb-headline-text',
 	},
-	alignment: {
-		type: 'string',
-		default: generateBlocksDefaults.headline.alignment,
-	},
-	alignmentTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.headline.alignmentTablet,
-	},
-	alignmentMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.headline.alignmentMobile,
-	},
 	ariaLabel: {
 		type: 'string',
 		default: generateBlocksDefaults.headline.ariaLabel,

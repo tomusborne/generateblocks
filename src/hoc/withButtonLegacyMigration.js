@@ -35,6 +35,7 @@ export default ( WrappedComponent ) => {
 					display: 'inline-flex',
 					alignItems: 'center',
 					justifyContent: 'center',
+					alignment: 'center',
 				} );
 			}
 

@@ -10,6 +10,19 @@ export default function getTypographyAttributes( defaults ) {
 			default: '',
 		},
 
+		alignment: {
+			type: 'string',
+			default: defaults.alignment,
+		},
+		alignmentTablet: {
+			type: 'string',
+			default: defaults.alignmentTablet,
+		},
+		alignmentMobile: {
+			type: 'string',
+			default: defaults.alignmentMobile,
+		},
+
 		// FONT SIZE ATTRIBUTES
 		fontSize: {
 			type: 'number',
