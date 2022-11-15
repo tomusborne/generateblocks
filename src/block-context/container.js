@@ -8,8 +8,7 @@ const containerContext = defaultsDeep( {
 		responsiveTabs: true,
 		settingsPanel: {
 			enabled: true,
-			label: __( 'Layout', 'generateblocks' ),
-			icon: 'layout',
+			icon: 'container-settings',
 		},
 		layout: {
 			enabled: true,

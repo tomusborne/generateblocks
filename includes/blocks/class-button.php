@@ -92,6 +92,7 @@ class GenerateBlocks_Block_Button {
 			'alignment' => '',
 			'alignmentTablet' => '',
 			'alignmentMobile' => '',
+			'variantRole' => '',
 		];
 	}
 
@@ -435,6 +436,8 @@ class GenerateBlocks_Block_Button {
 			if ( isset( $content['attributes']['href'] ) || $dynamic_link ) {
 				$tagName = 'a';
 			}
+
+			$tagName = apply_filters( 'generateblocks_dynamic_button_tagname', $tagName, $attributes, $block );
 
 			$button_attributes = array(
 				'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,

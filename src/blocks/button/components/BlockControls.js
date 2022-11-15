@@ -47,6 +47,7 @@ export default ( props ) => {
 	const [ deviceType ] = useDeviceType();
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
+	const showButtonContainer = applyFilters( 'generateblocks.editor.showButtonContainerControl', true, props );
 	const showButtonLinkControl = applyFilters( 'generateblocks.editor.showButtonLinkControl', true, props );
 	let containerId = false;
 	const buttonContainerId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
@@ -65,7 +66,7 @@ export default ( props ) => {
 	return (
 		<>
 			<BlockControls>
-				{ ! containerId &&
+				{ !! showButtonContainer && ! containerId &&
 					<ToolbarGroup>
 						<ToolbarButton
 							icon={ getIcon( 'button-container' ) }

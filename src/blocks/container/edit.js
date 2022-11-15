@@ -108,7 +108,9 @@ const ContainerEdit = ( props ) => {
 			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-			/>
+			>
+				{ applyFilters( 'generateblocks.editor.containerSettingsPanel', undefined, props ) }
+			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls
 				{ ...props }

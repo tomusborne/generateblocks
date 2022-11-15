@@ -72,8 +72,8 @@
 	padding: 0;
 }
 
-.gblocks-block-control-icon svg path:not(.gblocks-svg-icon-box) {
-    fill: inherit !important;
+.gblocks-block-control-icon svg path {
+    fill: inherit;
 }
 
 .gblocks-option-notice.components-notice {
@@ -132,13 +132,13 @@
 }
 
 .gblocks-block-icon {
-	path:not(.gblocks-svg-icon-box) {
+	path {
 		fill: #1e72bd;
 	}
 }
 
-.block-editor-list-view-leaf.is-selected .gblocks-block-icon path:not(.gblocks-svg-icon-box) {
-    fill: currentColor !important;
+.block-editor-list-view-leaf.is-selected .gblocks-block-icon path {
+    fill: currentColor;
 }
 
 .gblocks-action-panel {
@@ -177,8 +177,4 @@
 			width: 15px;
 		}
 	}
-}
-
-path.gblocks-svg-icon-box {
-	fill: none !important;
 }

@@ -12,6 +12,7 @@ export default function DimensionsGroup( props ) {
 	const {
 		dimensions,
 		deviceType,
+		computedStyles,
 	} = props;
 
 	const dimensionItems = applyFilters(
@@ -32,7 +33,7 @@ export default function DimensionsGroup( props ) {
 							type={ item.type }
 							label={ item.label }
 							units={ item.units }
-							computedStyles={ item.computedStyles }
+							computedStyles={ computedStyles }
 						/>
 					);
 				} )
