@@ -651,7 +651,11 @@ class GenerateBlocks_Dynamic_Content {
 			}
 		}
 
-		return $id;
+		return apply_filters(
+			'generateblocks_dynamic_source_id',
+			$id,
+			$attributes
+		);
 	}
 
 	/**
