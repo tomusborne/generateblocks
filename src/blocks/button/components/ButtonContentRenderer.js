@@ -94,7 +94,6 @@ export default function ButtonContentRenderer( props ) {
 						allowedFormats={ richTextFormats }
 						isSelected={ isSelected }
 						attributes={ attributes }
-						setAttributes={ setAttributes }
 						context={ context }
 					/>
 				</IconWrapper>
