@@ -15,6 +15,10 @@ function getLayoutAttributes( attributes ) {
 		verticalAlignmentTablet,
 		verticalAlignmentMobile,
 		sizing,
+		gpInlinePostMeta,
+		gpInlinePostMetaJustify,
+		gpInlinePostMetaJustifyTablet,
+		gpInlinePostMetaJustifyMobile,
 	} = attributes;
 
 	const layoutAttributes = {};
@@ -63,6 +67,27 @@ function getLayoutAttributes( attributes ) {
 
 	if ( isGrid && verticalAlignmentMobile && 'inherit' !== verticalAlignmentMobile ) {
 		layoutAttributes.justifyContentMobile = verticalAlignmentMobile;
+	}
+
+	if ( gpInlinePostMeta ) {
+		layoutAttributes.display = 'flex';
+		layoutAttributes.alignItems = 'center';
+		layoutAttributes.gpInlinePostMeta = false;
+
+		if ( gpInlinePostMetaJustify ) {
+			layoutAttributes.justifyContent = gpInlinePostMetaJustify;
+			layoutAttributes.gpInlinePostMetaJustify = '';
+		}
+
+		if ( gpInlinePostMetaJustifyTablet ) {
+			layoutAttributes.justifyContentTablet = gpInlinePostMetaJustifyTablet;
+			layoutAttributes.gpInlinePostMetaJustifyTablet = '';
+		}
+
+		if ( gpInlinePostMetaJustifyMobile ) {
+			layoutAttributes.justifyContentMobile = gpInlinePostMetaJustifyMobile;
+			layoutAttributes.gpInlinePostMetaJustifyMobile = '';
+		}
 	}
 
 	return layoutAttributes;
