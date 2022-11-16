@@ -16,9 +16,6 @@ export default function IconControls( { attributes, setAttributes } ) {
 		iconLocation,
 		iconLocationTablet,
 		iconLocationMobile,
-		iconVerticalAlignment,
-		iconVerticalAlignmentTablet,
-		iconVerticalAlignmentMobile,
 		removeText,
 	} = attributes;
 
@@ -55,12 +52,6 @@ export default function IconControls( { attributes, setAttributes } ) {
 									iconPaddingLeft: 'right' === value ? '0.5' : '',
 								} );
 							} }
-							iconVerticalAlignment={ iconVerticalAlignment }
-							onChangeAlignment={ ( value ) => {
-								setAttributes( {
-									iconVerticalAlignment: value,
-								} );
-							} }
 						/>
 					}
 				</>
@@ -80,12 +71,6 @@ export default function IconControls( { attributes, setAttributes } ) {
 							iconPaddingLeftTablet: 'right' === value ? '0.5' : '',
 						} );
 					} }
-					iconVerticalAlignment={ iconVerticalAlignmentTablet }
-					onChangeAlignment={ ( value ) => {
-						setAttributes( {
-							iconVerticalAlignmentTablet: value,
-						} );
-					} }
 				/>
 			}
 
@@ -101,12 +86,6 @@ export default function IconControls( { attributes, setAttributes } ) {
 							iconPaddingRightMobile: 'inline' === value || 'left' === value ? '0.5' : '',
 							iconPaddingBottomMobile: 'above' === value ? '0.5' : '',
 							iconPaddingLeftMobile: 'right' === value ? '0.5' : '',
-						} );
-					} }
-					iconVerticalAlignment={ iconVerticalAlignmentMobile }
-					onChangeAlignment={ ( value ) => {
-						setAttributes( {
-							iconVerticalAlignmentMobile: value,
 						} );
 					} }
 				/>
