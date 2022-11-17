@@ -56,9 +56,9 @@ export function normalizeRepeatableArgs( query ) {
 export function normalizeArgs( query ) {
 	const defaultPerPage = !! query.per_page ? query.per_page : 10;
 
-	// In the editor we capped to 50 posts.
-	const perPage = '-1' === query.per_page || query.per_page > 50
-		? 50
+	// In the editor we capped the posts.
+	const perPage = '-1' === query.per_page || parseInt( query.per_page ) > parseInt( generateBlocksInfo.queryLoopEditorPostsCap )
+		? generateBlocksInfo.queryLoopEditorPostsCap
 		: defaultPerPage;
 
 	let sticky;
