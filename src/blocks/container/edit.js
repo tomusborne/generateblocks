@@ -21,6 +21,7 @@ const ContainerEdit = ( props ) => {
 	} = props;
 
 	const {
+		anchor,
 		fontFamily,
 		googleFont,
 		googleFontVariants,
@@ -113,7 +114,9 @@ const ContainerEdit = ( props ) => {
 			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls
-				{ ...props }
+				anchor={ anchor }
+				attributes={ attributes }
+				setAttributes={ setAttributes }
 				filterTagName={ filterTagName }
 			/>
 
