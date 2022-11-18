@@ -158,7 +158,7 @@ class GenerateBlocks_Dynamic_Content {
 		$unique_id = $attributes['uniqueId'];
 
 		// This prevents endless loops by not rendering excerpts within themselves.
-		if ( isset( self::$source_ids[ $unique_id ] ) && $source_id === self::$source_ids[ $unique_id ] ) {
+		if ( ! $source_id || ( isset( self::$source_ids[ $unique_id ] ) && $source_id === self::$source_ids[ $unique_id ] ) ) {
 			return '';
 		}
 
@@ -651,7 +651,11 @@ class GenerateBlocks_Dynamic_Content {
 			}
 		}
 
-		return $id;
+		return apply_filters(
+			'generateblocks_dynamic_source_id',
+			$id,
+			$attributes
+		);
 	}
 
 	/**
