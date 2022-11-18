@@ -18,10 +18,12 @@ export default function TaxonomiesSelect( props ) {
 
 	const [ loadValues, setLoadValues ] = useState( value.length > 0 );
 	const [ search, setSearch ] = useDebounceState( '', 500 );
+	const isSearchById = search.match( /^#\d+/g );
+	const includeSearchId = ( isSearchById ? [ search.replace( '#', '' ) ] : undefined );
 	const { records, isLoading } = usePersistentTaxonomyRecords( taxonomy, {
-		per_page: 10,
-		search: !! search ? search : undefined,
-		include: loadValues ? value : undefined,
+		per_page: !! search ? 100 : 10,
+		search: !! search && ! isSearchById ? search : undefined,
+		include: loadValues ? value : includeSearchId,
 	} );
 
 	useEffect( () => {
@@ -33,7 +35,7 @@ export default function TaxonomiesSelect( props ) {
 	const taxonomiesOptions = useMemo( () => {
 		const filteredTaxonomies = records
 			.reduce( ( result, tax ) => {
-				result.push( { value: tax.id, label: tax.name } );
+				result.push( { value: tax.id, label: '#' + tax.id + ': ' + tax.name } );
 				return result;
 			}, [] );
 

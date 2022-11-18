@@ -6,7 +6,7 @@ import { ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 
 export default function TaxonomyParameterControl( props ) {
-	const { label, placeholder, value, onChange } = props;
+	const { label, placeholder, value, onChange, help } = props;
 	const [ taxonomy, setTaxonomy ] = useState( value.taxonomy );
 	const [ terms, setTerms ] = useState( value.terms );
 	const [ includeChildren, setIncludeChildren ] = useState( false !== value.includeChildren );
@@ -80,7 +80,7 @@ export default function TaxonomyParameterControl( props ) {
 
 							setTerms( newTerms );
 						} }
-						help={ terms.length === 0 ? __( 'You must select at least one term.', 'generateblocks' ) : '' }
+						help={ terms.length === 0 ? __( 'You must select at least one term. Use #123 with your ID to search by term ID.', 'generateblocks' ) : help }
 					/>
 
 					{ isHierarchical &&

@@ -18,10 +18,13 @@ export default function AuthorsSelect( props ) {
 	const [ search, setSearch ] = useDebounceState( '', 400 );
 	const [ loadValues, setLoadValues ] = useState( value.length > 0 );
 
+	const isSearchById = search.match( /^#\d+/g );
+	const includeSearchId = ( isSearchById ? [ search.replace( '#', '' ) ] : undefined );
+
 	const { records, isLoading } = usePersistentAuthors( {
-		per_page: 10,
-		search: !! search ? search : undefined,
-		include: loadValues ? value : undefined,
+		per_page: !! search ? 100 : 10,
+		search: !! search && ! isSearchById ? search : undefined,
+		include: loadValues ? value : includeSearchId,
 	} );
 
 	useEffect( () => {

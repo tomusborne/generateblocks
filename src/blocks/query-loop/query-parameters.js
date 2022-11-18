@@ -82,7 +82,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 			filterName: 'generateblocks.editor.query-loop.author',
 		},
 		label: __( 'Authors', 'generateblocks' ),
-		description: __( 'Show posts from authors.', 'generateblocks' ),
+		description: __( 'Show posts from authors. Use #123 with your ID to search by author ID.', 'generateblocks' ),
 		group: __( 'Author', 'generateblocks' ),
 	},
 	{
@@ -93,7 +93,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 			filterName: 'generateblocks.editor.query-loop.author-exclude',
 		},
 		label: __( 'Exclude authors', 'generateblocks' ),
-		description: __( 'Exclude posts from authors.', 'generateblocks' ),
+		description: __( 'Exclude posts from authors. Use #123 with your ID to search by author ID.', 'generateblocks' ),
 		group: __( 'Author', 'generateblocks' ),
 	},
 	{
@@ -101,7 +101,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 		type: 'taxonomySelect',
 		default: [],
 		label: __( 'Taxonomies', 'generateblocks' ),
-		description: __( 'Show posts from taxonomies.', 'generateblocks' ),
+		description: __( 'Show posts from taxonomies. Use #123 with your ID to search by term ID.', 'generateblocks' ),
 		group: __( 'Taxonomy', 'generateblocks' ),
 		isRepeatable: true,
 		repeatableDefaultValue: { taxonomy: '', terms: [], rest: '', includeChildren: true },
@@ -111,7 +111,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 		type: 'taxonomySelect',
 		default: [],
 		label: __( 'Exclude taxonomies', 'generateblocks' ),
-		description: __( 'Exclude posts from taxonomies.', 'generateblocks' ),
+		description: __( 'Exclude posts from taxonomies. Use #123 with your ID to search by term ID.', 'generateblocks' ),
 		group: __( 'Taxonomy', 'generateblocks' ),
 		isRepeatable: true,
 		repeatableDefaultValue: { taxonomy: '', terms: [], rest: '', includeChildren: true },
@@ -144,7 +144,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 			filterName: 'generateblocks.editor.query-loop.include-parent',
 		},
 		label: __( 'Parent', 'generateblocks' ),
-		description: __( 'Show posts from parents.', 'generateblocks' ),
+		description: __( 'Show posts from parents. Use #123 with your ID to search by post ID.', 'generateblocks' ),
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
@@ -156,7 +156,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 			filterName: 'generateblocks.editor.query-loop.exclude-parent',
 		},
 		label: __( 'Parent exclude', 'generateblocks' ),
-		description: __( 'Do not show posts from parents.', 'generateblocks' ),
+		description: __( 'Do not show posts from parents. Use #123 with your ID to search by post ID.', 'generateblocks' ),
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
@@ -167,7 +167,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 			postType: 'post_type',
 		},
 		label: __( 'Include posts', 'generateblocks' ),
-		description: __( 'Limit result set to specific posts.', 'generateblocks' ),
+		description: __( 'Limit result set to specific posts. Use #123 with your ID to search by post ID.', 'generateblocks' ),
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
@@ -179,7 +179,7 @@ export default applyFilters( 'generateblocks.editor.query-loop.query-parameters'
 			filterName: 'generateblocks.editor.query-loop.exclude-posts-select',
 		},
 		label: __( 'Exclude posts', 'generateblocks' ),
-		description: __( 'Ensure result set excludes specific posts.', 'generateblocks' ),
+		description: __( 'Ensure result set excludes specific posts. Use #123 with your ID to search by post ID.', 'generateblocks' ),
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
