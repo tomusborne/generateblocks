@@ -73,7 +73,13 @@ export default function ButtonContentRenderer( props ) {
 		props
 	) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ];
 
-	const buttonTagName = applyFilters( 'generateblocks.frontend.buttonTagName', url ? 'a' : 'span', props );
+	let buttonTagName = applyFilters( 'generateblocks.frontend.buttonTagName', url ? 'a' : 'span', props );
+
+	// The `button` element prevents RichText from allowing spaces.
+	// To fix that we'll return a `span` element in the editor only.
+	if ( 'button' === buttonTagName ) {
+		buttonTagName = 'span';
+	}
 
 	return (
 		<RootElement name={ name } clientId={ clientId }>
