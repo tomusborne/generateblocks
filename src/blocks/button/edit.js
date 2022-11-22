@@ -12,6 +12,8 @@ import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 import { useSelect } from '@wordpress/data';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import { applyFilters } from '@wordpress/hooks';
+import './components/ConditionalColors';
 
 const ButtonEdit = ( props ) => {
 	const {
@@ -85,7 +87,9 @@ const ButtonEdit = ( props ) => {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				computedStyles={ computedStyles }
-			/>
+			>
+				{ applyFilters( 'generateblocks.editor.buttonSettingsPanel', undefined, props ) }
+			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls
 				anchor={ anchor }

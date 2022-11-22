@@ -6,6 +6,10 @@ const buttonContext = defaultsDeep( {
 	id: 'button',
 	supports: {
 		responsiveTabs: true,
+		settingsPanel: {
+			enabled: true,
+			icon: 'button-settings',
+		},
 		layout: {
 			enabled: true,
 			display: true,
