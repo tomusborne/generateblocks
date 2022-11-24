@@ -156,6 +156,8 @@ class GenerateBlocks_Block_Container {
 			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'container', $settings, $attributes );
 		}
 
+		$selector = generateblocks_get_css_selector( 'container', $attributes );
+		$use_visited_selector = generateblocks_use_visited_selector( 'container', $attributes );
 		$settings['useInnerContainer'] = $blockVersion < 3 || $settings['useInnerContainer'];
 		$useInnerContainer = $settings['useInnerContainer'];
 
@@ -210,7 +212,7 @@ class GenerateBlocks_Block_Container {
 		 *
 		 * Example: .gb-container-{ $uniqueId }
 		 */
-		$css->set_selector( '.gb-container-' . $id );
+		$css->set_selector( $selector );
 		generateblocks_add_sizing_css( $css, $settings );
 		generateblocks_add_layout_css( $css, $settings );
 		generateblocks_add_flex_child_css( $css, $settings );
@@ -293,7 +295,7 @@ class GenerateBlocks_Block_Container {
 		 *
 		 * Example: .gb-container-{ $uniqueId }:before
 		 */
-		$css->set_selector( '.gb-container-' . $id . ':before' );
+		$css->set_selector( $selector . ':before' );
 
 		if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 			$css->add_property( 'content', '""' );
@@ -326,7 +328,7 @@ class GenerateBlocks_Block_Container {
 		 * Example: .gb-container-{ $uniqueId }:after
 		 */
 		if ( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] ) {
-			$css->set_selector( '.gb-container-' . $id . ':after' );
+			$css->set_selector( $selector . ':after' );
 			$css->add_property( 'content', '""' );
 			$css->add_property( 'background-image', $gradientValue );
 			$css->add_property( 'z-index', '0' );
@@ -347,7 +349,7 @@ class GenerateBlocks_Block_Container {
 		 * Example: .gb-container-{ $uniqueId } > .gb-inside-container
 		 */
 		if ( $useInnerContainer ) {
-			$css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
+			$css->set_selector( $selector . ' > .gb-inside-container' );
 			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 
 			if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
@@ -373,12 +375,16 @@ class GenerateBlocks_Block_Container {
 		/**
 		 * Container links.
 		 *
-		 * Example: .gb-container-{ $uniqueId } a, .gb-container-{ $uniqueId } a:visited
+		 * Example: .gb-container-{ $uniqueId } a
 		 */
-		$css->set_selector( '.gb-container-' . $id . ' a, .gb-container-' . $id . ' a:visited' );
+		$visited_selector = $use_visited_selector
+			? ', ' . $selector . ' a:visited'
+			: '';
+
+		$css->set_selector( $selector . $visited_selector );
 		$css->add_property( 'color', $settings['linkColor'] );
 
-		$css->set_selector( '.gb-container-' . $id . ' a:hover' );
+		$css->set_selector( $selector . ' a:hover' );
 		$css->add_property( 'color', $settings['linkColorHover'] );
 
 		/**
@@ -441,7 +447,7 @@ class GenerateBlocks_Block_Container {
 		 * Example: .gb-container-{ $uniqueId }
 		 */
 		if ( ! empty( $settings['shapeDividers'] ) ) {
-			$css->set_selector( '.gb-container-' . $id );
+			$css->set_selector( $selector );
 			$css->add_property( 'position', 'relative' );
 
 			$default_styles = generateblocks_get_default_styles();
@@ -464,7 +470,7 @@ class GenerateBlocks_Block_Container {
 					$shapeTransforms[] = 'scaleX(-1)';
 				}
 
-				$css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber );
+				$css->set_selector( $selector . ' > .gb-shapes .gb-shape-' . $shapeNumber );
 				$css->add_property( 'color', generateblocks_hex2rgba( $shapeOptions['color'], $shapeOptions['colorOpacity'] ) );
 				$css->add_property( 'z-index', $shapeOptions['zindex'] );
 
@@ -491,7 +497,7 @@ class GenerateBlocks_Block_Container {
 					$shapeWidth = 'calc(' . $shapeWidth . ' + 1.3px)';
 				}
 
-				$css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
+				$css->set_selector( $selector . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 				$css->add_property( 'height', $shapeOptions['height'], 'px' );
 				$css->add_property( 'width', $shapeWidth );
 
@@ -509,7 +515,7 @@ class GenerateBlocks_Block_Container {
 		 *
 		 * Example: .gb-container-{ $uniqueId }
 		 */
-		$tablet_css->set_selector( '.gb-container-' . $id );
+		$tablet_css->set_selector( $selector );
 		generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_layout_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
@@ -549,7 +555,7 @@ class GenerateBlocks_Block_Container {
 			 *
 			 * Example: .gb-container-{ $uniqueId } > .gb-inside-container
 			 */
-			$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
+			$tablet_css->set_selector( $selector . ' > .gb-inside-container' );
 			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 
 			$usingMinHeightInnerWidthBoxSizing = false;
@@ -632,7 +638,7 @@ class GenerateBlocks_Block_Container {
 		 * Example: .gb-container-{ $uniqueId }:before
 		 */
 		if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
-			$tablet_css->set_selector( '.gb-container-' . $id . ':before' );
+			$tablet_css->set_selector( $selector . ':before' );
 			$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 		}
 
@@ -652,7 +658,7 @@ class GenerateBlocks_Block_Container {
 					$default_styles['container']['shapeDividers']
 				);
 
-				$tablet_css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
+				$tablet_css->set_selector( $selector . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 				$tablet_css->add_property( 'height', $shapeOptions['heightTablet'], 'px' );
 				$tablet_css->add_property( 'width', $shapeOptions['widthTablet'], '%' );
 			}
@@ -663,7 +669,7 @@ class GenerateBlocks_Block_Container {
 		 *
 		 * Example: .gb-container-{ $uniqueId }
 		 */
-		$mobile_css->set_selector( '.gb-container-' . $id );
+		$mobile_css->set_selector( $selector );
 		generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_layout_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
@@ -701,7 +707,7 @@ class GenerateBlocks_Block_Container {
 			 *
 			 * Example: .gb-container-{ $uniqueId } > .gb-inside-container
 			 */
-			$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-inside-container' );
+			$mobile_css->set_selector( $selector . ' > .gb-inside-container' );
 			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 
 			if ( ! $settings['isGrid'] ) {
@@ -780,7 +786,7 @@ class GenerateBlocks_Block_Container {
 		 * Example: .gb-container-{ $uniqueId }:before
 		 */
 		if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
-			$mobile_css->set_selector( '.gb-container-' . $id . ':before' );
+			$mobile_css->set_selector( $selector . ':before' );
 			$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 		}
 
@@ -800,7 +806,7 @@ class GenerateBlocks_Block_Container {
 					$default_styles['container']['shapeDividers']
 				);
 
-				$mobile_css->set_selector( '.gb-container-' . $id . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
+				$mobile_css->set_selector( $selector . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 				$mobile_css->add_property( 'height', $shapeOptions['heightMobile'], 'px' );
 				$mobile_css->add_property( 'width', $shapeOptions['widthMobile'], '%' );
 			}
@@ -814,11 +820,11 @@ class GenerateBlocks_Block_Container {
 		 */
 		if ( $hasBgImage && 'fixed' === $settings['bgOptions']['attachment'] ) {
 			if ( 'element' === $settings['bgOptions']['selector'] ) {
-				$mobile_css->set_selector( '.gb-container-' . $id );
+				$mobile_css->set_selector( $selector );
 			}
 
 			if ( 'pseudo-element' === $settings['bgOptions']['selector'] ) {
-				$mobile_css->set_selector( '.gb-container-' . $id . ':before' );
+				$mobile_css->set_selector( $selector . ':before' );
 			}
 
 			$mobile_css->add_property( 'background-attachment', 'initial' );

@@ -1260,3 +1260,59 @@ function generateblocks_add_flex_child_css( $css, $settings, $device = '' ) {
 function generateblocks_get_array_attribute_value( $name, $array ) {
 	return isset( $array[ $name ] ) ? $array[ $name ] : '';
 }
+
+/**
+ * Return the CSS selector for a specific block.
+ *
+ * @param string $name The name of the block.
+ * @param array  $attributes The block attributes.
+ */
+function generateblocks_get_css_selector( $name, $attributes ) {
+	$selector = '';
+	$id = $attributes['uniqueId'];
+
+	if ( 'button' === $name ) {
+		$selector = '.gb-button-' . $id;
+	}
+
+	if ( 'headline' === $name ) {
+		$selector = '.gb-headline-' . $id;
+	}
+
+	if ( 'container' === $name ) {
+		$selector = '.gb-container-' . $id;
+	}
+
+	return apply_filters(
+		'generateblocks_block_css_selector',
+		$selector,
+		$name,
+		$attributes
+	);
+}
+
+/**
+ * Determine whether we should add the :visited selector to links.
+ *
+ * @param string $name The block name.
+ * @param array  $attributes The block attributes.
+ */
+function generateblocks_use_visited_selector( $name, $attributes ) {
+	$blockVersion = ! empty( $attributes['blockVersion'] ) ? $attributes['blockVersion'] : 1;
+	$use_visited_selector = false;
+
+	if ( ( 'button' === $name || 'container' === $name ) && $blockVersion < 3 ) {
+		$use_visited_selector = true;
+	}
+
+	if ( 'headline' === $name && $blockVersion < 2 ) {
+		$use_visited_selector = true;
+	}
+
+	return apply_filters(
+		'generateblocks_use_visited_selector',
+		$use_visited_selector,
+		$name,
+		$attributes
+	);
+}
