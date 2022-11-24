@@ -33,6 +33,7 @@ export default ( { dynamicSource, postType, postId, setAttributes, dynamicConten
 						value={ !! postId ? [ postId ] : [] }
 						id={ 'gblocks-select-post' }
 						label={ __( 'Select source post', 'generateblocks' ) }
+						help={ __( 'Use #123 with your ID to search by term ID.', 'generateblocks' ) }
 						onChange={ ( option ) => {
 							setAttributes( { postId: option.value } );
 						} }
