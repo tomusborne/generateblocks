@@ -673,6 +673,10 @@ class GenerateBlocks_Block_Container {
 		$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
 		$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
 
+		if ( ! $useInnerContainer ) {
+			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+		}
+
 		if ( $blockVersion < 3 ) {
 			$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
 		}
