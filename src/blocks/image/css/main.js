@@ -1,6 +1,7 @@
 import buildCSS from '../../../utils/build-css';
 import { applyFilters } from '@wordpress/hooks';
 import shorthandCSS from '../../../utils/shorthand-css';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -12,11 +13,6 @@ export default function MainCSS( props ) {
 		paddingBottom,
 		paddingLeft,
 		paddingUnit,
-		marginTop,
-		marginRight,
-		marginBottom,
-		marginLeft,
-		marginUnit,
 		borderSizeTop,
 		borderSizeRight,
 		borderSizeBottom,
@@ -42,13 +38,14 @@ export default function MainCSS( props ) {
 	};
 
 	cssObj[ '.editor-styles-wrapper .gb-block-image-' + uniqueId ] = [ {
-		margin: shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ),
 		padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
 		'text-align': ! alignment.startsWith( 'float' ) ? alignment : null,
 		float: alignment.startsWith( 'float' ) ? floats[ alignment ] : 'none',
 		position: alignment.startsWith( 'float' ) ? 'relative' : null,
 		'z-index': alignment.startsWith( 'float' ) ? '22' : null,
 	} ];
+
+	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-block-image-' + uniqueId, attributes );
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),

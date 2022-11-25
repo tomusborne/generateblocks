@@ -4,6 +4,7 @@ import valueWithUnit from '../../../utils/value-with-unit';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -29,11 +30,6 @@ export default class TabletCSS extends Component {
 			paddingBottomTablet,
 			paddingLeftTablet,
 			paddingUnit,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginUnit,
 			borderSizeTopTablet,
 			borderSizeRightTablet,
 			borderSizeBottomTablet,
@@ -62,14 +58,11 @@ export default class TabletCSS extends Component {
 			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
 			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
-			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
-			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 			'text-align': alignmentTablet,
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 		} ];
 
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );

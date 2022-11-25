@@ -4,6 +4,7 @@ import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -24,11 +25,6 @@ export default class TabletCSS extends Component {
 			letterSpacingTablet,
 			fontSizeTablet,
 			fontSizeUnit,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginUnit,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
@@ -72,12 +68,9 @@ export default class TabletCSS extends Component {
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
 			'text-align': alignmentTablet,
-			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
-			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 		} ];
 
+		SpacingCSS( cssObj, selector, attributes, 'Tablet' );
 		LayoutCSS( cssObj, selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, selector, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, selector, attributes, 'Tablet' );

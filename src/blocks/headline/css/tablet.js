@@ -3,6 +3,7 @@ import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -29,11 +30,6 @@ export default class TabletCSS extends Component {
 			lineHeightTablet,
 			lineHeightUnit,
 			letterSpacingTablet,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginUnit,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
@@ -68,10 +64,6 @@ export default class TabletCSS extends Component {
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeightTablet, lineHeightUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
-			'margin-top': valueWithUnit( marginTopTablet, marginUnit ) + ' !important',
-			'margin-right': valueWithUnit( marginRightTablet, marginUnit ) + ' !important',
-			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ) + ' !important',
-			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ) + ' !important',
 			'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
@@ -82,6 +74,7 @@ export default class TabletCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
 		} ];
 
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
