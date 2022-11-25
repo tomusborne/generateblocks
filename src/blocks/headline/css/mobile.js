@@ -3,6 +3,7 @@ import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -29,11 +30,6 @@ export default class MobileCSS extends Component {
 			lineHeightMobile,
 			lineHeightUnit,
 			letterSpacingMobile,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			marginUnit,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -68,10 +64,6 @@ export default class MobileCSS extends Component {
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeightMobile, lineHeightUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
-			'margin-top': valueWithUnit( marginTopMobile, marginUnit ) + ' !important',
-			'margin-right': valueWithUnit( marginRightMobile, marginUnit ) + ' !important',
-			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ) + ' !important',
-			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ) + ' !important',
 			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
@@ -82,6 +74,7 @@ export default class MobileCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
 		} ];
 
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );

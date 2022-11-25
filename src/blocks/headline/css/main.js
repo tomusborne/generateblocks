@@ -5,6 +5,7 @@ import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -43,11 +44,6 @@ export default class MainCSS extends Component {
 			lineHeight,
 			lineHeightUnit,
 			letterSpacing,
-			marginTop,
-			marginRight,
-			marginBottom,
-			marginLeft,
-			marginUnit,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -97,6 +93,7 @@ export default class MainCSS extends Component {
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
 		} ];
 
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
@@ -108,10 +105,6 @@ export default class MainCSS extends Component {
 		cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
-			'margin-top': valueWithUnit( marginTop, marginUnit ),
-			'margin-right': valueWithUnit( marginRight, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottom, marginUnit ),
-			'margin-left': valueWithUnit( marginLeft, marginUnit ),
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
 			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
