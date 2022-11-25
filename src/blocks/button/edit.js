@@ -33,6 +33,7 @@ const ButtonEdit = ( props ) => {
 		hasButtonContainer,
 		blockVersion,
 		display,
+		buttonType,
 	} = attributes;
 
 	const ref = useRef( null );
@@ -94,6 +95,7 @@ const ButtonEdit = ( props ) => {
 			<InspectorAdvancedControls
 				anchor={ anchor }
 				ariaLabel={ ariaLabel }
+				buttonType={ buttonType }
 				setAttributes={ setAttributes }
 			/>
 

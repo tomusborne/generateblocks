@@ -37,6 +37,7 @@ export default ( props ) => {
 		display,
 		displayTablet,
 		displayMobile,
+		buttonType,
 	} = attributes;
 
 	const POPOVER_PROPS = {
@@ -48,7 +49,7 @@ export default ( props ) => {
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
 	const showButtonContainer = applyFilters( 'generateblocks.editor.showButtonContainerControl', true, props );
-	const showButtonLinkControl = applyFilters( 'generateblocks.editor.showButtonLinkControl', true, props );
+	const showButtonLinkControl = applyFilters( 'generateblocks.editor.showButtonLinkControl', 'link' === buttonType, props );
 	let containerId = false;
 	const buttonContainerId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
 	const containerVariantId = getBlockParentsByBlockName( clientId, 'generateblocks/container', true )[ 0 ];
