@@ -3,6 +3,7 @@ import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -29,11 +30,6 @@ export default class MobileCSS extends Component {
 			paddingBottomMobile,
 			paddingLeftMobile,
 			paddingUnit,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			marginUnit,
 			borderSizeTopMobile,
 			borderSizeRightMobile,
 			borderSizeBottomMobile,
@@ -63,14 +59,11 @@ export default class MobileCSS extends Component {
 			'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
 			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
-			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
-			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 			'text-align': alignmentMobile,
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 		} ];
 
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );

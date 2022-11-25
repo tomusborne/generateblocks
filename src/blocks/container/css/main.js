@@ -12,6 +12,7 @@ import SizingCSS from '../../../extend/inspector-control/controls/sizing/compone
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import isFlexItem from '../../../utils/is-flex-item';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -35,11 +36,6 @@ export default function MainCSS( props ) {
 		paddingBottom,
 		paddingLeft,
 		paddingUnit,
-		marginTop,
-		marginRight,
-		marginBottom,
-		marginLeft,
-		marginUnit,
 		borderSizeTop,
 		borderSizeRight,
 		borderSizeBottom,
@@ -104,10 +100,6 @@ export default function MainCSS( props ) {
 		'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 		'color': textColor, // eslint-disable-line quote-props
 		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
-		'margin-top': valueWithUnit( marginTop, 'auto' !== marginTop ? marginUnit : '' ),
-		'margin-right': valueWithUnit( marginRight, 'auto' !== marginRight ? marginUnit : '' ) || '0',
-		'margin-bottom': valueWithUnit( marginBottom, 'auto' !== marginBottom ? marginUnit : '' ),
-		'margin-left': valueWithUnit( marginLeft, 'auto' !== marginLeft ? marginUnit : '' ) || '0',
 		'text-align': alignment,
 		'font-family': fontFamily + fontFamilyFallbackValue,
 		'font-weight': fontWeight,
@@ -116,6 +108,7 @@ export default function MainCSS( props ) {
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 	} ];
 
+	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );

@@ -14,6 +14,7 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 export default class MainCSS extends Component {
 	render() {
@@ -35,11 +36,6 @@ export default class MainCSS extends Component {
 			letterSpacing,
 			fontSize,
 			fontSizeUnit,
-			marginTop,
-			marginRight,
-			marginBottom,
-			marginLeft,
-			marginUnit,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -118,10 +114,10 @@ export default class MainCSS extends Component {
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'text-align': alignment,
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
-			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
 
+		SpacingCSS( cssObj, selector, attributes );
 		LayoutCSS( cssObj, selector, attributes );
 		SizingCSS( cssObj, selector, attributes );
 		FlexChildCSS( cssObj, selector, attributes );
