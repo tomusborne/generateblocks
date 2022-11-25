@@ -12,7 +12,6 @@ import SizingCSS from '../../../extend/inspector-control/controls/sizing/compone
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import isFlexItem from '../../../utils/is-flex-item';
-import { useDeviceType } from '../../../hooks';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 export default function MainCSS( props ) {
@@ -20,6 +19,7 @@ export default function MainCSS( props ) {
 
 	const {
 		clientId,
+		device,
 	} = props;
 
 	const {
@@ -94,7 +94,6 @@ export default function MainCSS( props ) {
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
-	const [ device ] = useDeviceType();
 
 	let cssObj = [];
 	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
