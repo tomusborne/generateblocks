@@ -15,6 +15,7 @@ import { withUniqueId, withGridLegacyMigration } from '../../hoc';
 import withQueryLoop from '../query-loop/hoc/withQueryLoop';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import './components/WidthControls';
 
 const GridEdit = ( props ) => {
 	const {
