@@ -47,6 +47,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	buttonType: {
+		type: 'string',
+		default: 'link',
+	},
 	// deprecated since 1.2.0
 	elementId: {
 		type: 'string',

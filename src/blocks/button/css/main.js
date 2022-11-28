@@ -21,7 +21,6 @@ export default class MainCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			url,
 			uniqueId,
 			removeText,
 			backgroundColor,
@@ -98,7 +97,7 @@ export default class MainCSS extends Component {
 		}
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
-		let selector = !! url ? 'a.gb-button-' + uniqueId : '.gb-button-' + uniqueId;
+		let selector = '.gb-button-' + uniqueId;
 		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];

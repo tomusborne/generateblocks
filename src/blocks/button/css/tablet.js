@@ -19,7 +19,6 @@ export default class TabletCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			url,
 			uniqueId,
 			removeText,
 			letterSpacingTablet,
@@ -51,7 +50,7 @@ export default class TabletCSS extends Component {
 		} = attributes;
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
-		let selector = !! url ? 'a.gb-button-' + uniqueId : '.gb-button-' + uniqueId;
+		let selector = '.gb-button-' + uniqueId;
 		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
