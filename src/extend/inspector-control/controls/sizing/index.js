@@ -4,6 +4,7 @@ import getIcon from '../../../../utils/get-icon';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import { ToggleControl } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
 import MinHeight from './components/MinHeight';
 import getAttribute from '../../../../utils/get-attribute';
 import { useDeviceType } from '../../../../hooks';
@@ -35,6 +36,14 @@ export default function Sizing( props ) {
 			: '';
 	}
 
+	function getUnits( context ) {
+		return applyFilters(
+			'generateblocks.editor.sizingUnits',
+			[ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ],
+			context
+		);
+	}
+
 	return (
 		<PanelArea
 			title={ __( 'Sizing', 'generateblocks' ) }
@@ -49,6 +58,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'width' ) }
 						desktopValue={ sizing?.width }
 						tabletValue={ sizing?.widthTablet }
+						units={ getUnits( 'width' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -65,6 +75,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'height' ) }
 						desktopValue={ sizing?.height }
 						tabletValue={ sizing?.heightTablet }
+						units={ getUnits( 'height' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -81,6 +92,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'minWidth' ) }
 						desktopValue={ sizing?.minWidth }
 						tabletValue={ sizing?.minWidthTablet }
+						units={ getUnits( 'minWidth' ) }
 						disabled={ isGrid }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -98,6 +110,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'minHeight' ) }
 						desktopValue={ sizing?.minHeight }
 						tabletValue={ sizing?.minHeightTablet }
+						units={ getUnits( 'minHeight' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -114,6 +127,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'maxWidth' ) }
 						desktopValue={ sizing?.maxWidth }
 						tabletValue={ sizing?.maxWidthTablet }
+						units={ getUnits( 'maxWidth' ) }
 						overrideValue={ !! useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : null }
 						disabled={ useInnerContainer || useGlobalContainerWidth || isGrid }
 						onChange={ ( value ) => {
@@ -132,6 +146,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'maxHeight' ) }
 						desktopValue={ sizing?.maxHeight }
 						tabletValue={ sizing?.maxHeightTablet }
+						units={ getUnits( 'maxHeight' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
