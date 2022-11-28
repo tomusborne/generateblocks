@@ -80,7 +80,7 @@ export default function TaxonomyParameterControl( props ) {
 
 							setTerms( newTerms );
 						} }
-						help={ terms.length === 0 ? __( 'You must select at least one term. Use #123 with your ID to search by term ID.', 'generateblocks' ) : help }
+						help={ terms.length === 0 ? __( 'You must select at least one term. Search by name or ID.', 'generateblocks' ) : help }
 					/>
 
 					{ isHierarchical &&
