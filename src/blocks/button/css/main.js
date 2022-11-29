@@ -71,6 +71,9 @@ export default class MainCSS extends Component {
 			iconSizeUnit,
 			hasButtonContainer,
 			alignment,
+			backgroundColorCurrent,
+			textColorCurrent,
+			borderColorCurrent,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -128,6 +131,12 @@ export default class MainCSS extends Component {
 				'border-style': 'solid',
 			} );
 		}
+
+		cssObj[ selector + '[data-button-is-current]' ] = [ {
+			'background-color': backgroundColorCurrent,
+			color: textColorCurrent,
+			'border-color': borderColorCurrent,
+		} ];
 
 		cssObj[ selector + ':hover, ' + selector + ':focus, ' + selector + ':active' ] = [ {
 			'background-color': hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),
