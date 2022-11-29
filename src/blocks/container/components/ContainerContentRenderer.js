@@ -1,6 +1,6 @@
 import RootElement from '../../../components/root-element';
 import GridItem from './GridItem';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, doAction } from '@wordpress/hooks';
 import { useBlockProps, store as blockEditorStore, useInnerBlocksProps } from '@wordpress/block-editor';
 import ShapeDividers from './ShapeDividers';
 import classnames from 'classnames';
@@ -18,6 +18,7 @@ export default function ContainerContentRenderer( props ) {
 		filterTagName,
 		allShapes,
 		deviceType,
+		containerRef,
 	} = props;
 
 	const {
@@ -66,6 +67,7 @@ export default function ContainerContentRenderer( props ) {
 		} ),
 		id: anchor ? anchor : null,
 		'data-align': align && ! supportsLayout ? align : null,
+		ref: containerRef,
 	};
 
 	const backgroundUrl = getBackgroundImageUrl( props );
@@ -101,6 +103,7 @@ export default function ContainerContentRenderer( props ) {
 		}
 	);
 
+	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: containerRef } );
 	const containerBlockProps = useInnerContainer ? blockProps : innerBlocksProps;
 
 	return (

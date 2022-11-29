@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 import Element from '../../../components/element';
 import RootElement from '../../../components/root-element';
 import classnames from 'classnames';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, doAction } from '@wordpress/hooks';
 
 export default function ButtonContentRenderer( props ) {
 	const {
@@ -81,6 +81,8 @@ export default function ButtonContentRenderer( props ) {
 	if ( 'button' === buttonType ) {
 		buttonTagName = 'span';
 	}
+
+	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: buttonRef } );
 
 	return (
 		<RootElement name={ name } clientId={ clientId }>

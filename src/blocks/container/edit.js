@@ -2,7 +2,7 @@ import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import { applyFilters } from '@wordpress/hooks';
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment, useEffect, useRef } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
@@ -31,6 +31,7 @@ const ContainerEdit = ( props ) => {
 		isQueryLoopItem,
 	} = attributes;
 
+	const ref = useRef( null );
 	const [ deviceType ] = useDeviceType();
 
 	const allowedTagNames = applyFilters(
@@ -133,6 +134,7 @@ const ContainerEdit = ( props ) => {
 				filterTagName={ filterTagName }
 				allShapes={ allShapes }
 				deviceType={ deviceType }
+				containerRef={ ref }
 			/>
 		</Fragment>
 	);
