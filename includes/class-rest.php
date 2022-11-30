@@ -82,6 +82,16 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'update_settings_permission' ),
 			)
 		);
+
+		register_rest_route(
+			$namespace,
+			'/onboard/',
+			array(
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'onboard' ),
+				'permission_callback' => array( $this, 'onboard_permission' ),
+			)
+		);
 	}
 
 	/**
@@ -169,6 +179,38 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 		update_option( 'generateblocks_dynamic_css_posts', array() );
 
 		return $this->success( __( 'CSS files regenerated.', 'generateblocks' ) );
+	}
+
+	/**
+	 * Mark an onboard as "viewed" by the user.
+	 *
+	 * @param WP_REST_Request $request request object.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function onboard( WP_REST_Request $request ) {
+		$user_id = get_current_user_id();
+		$onboard = get_user_meta( $user_id, 'gb_onboard', true );
+		$key = $request->get_param( 'key' );
+
+		if ( ! $onboard ) {
+			$onboard = array();
+		}
+
+		$onboard[ $key ] = true;
+
+		update_user_meta( get_current_user_id(), 'gb_onboard', $onboard );
+
+		return new WP_REST_Response( array( 'success' => true ), 200 );
+	}
+
+	/**
+	 * Get onboard edit permission.
+	 *
+	 * @return bool
+	 */
+	public function onboard_permission() {
+		return current_user_can( 'edit_posts' );
 	}
 
 	/**

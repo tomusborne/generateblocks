@@ -439,3 +439,27 @@ function generateblocks_set_spacing_defaults( $defaults ) {
 
 	return $defaults;
 }
+add_action( 'init', 'generateblocks_register_user_meta' );
+/**
+ * Register GenerateBlocks custom user meta fields.
+ *
+ * @return void
+ */
+function generateblocks_register_user_meta() {
+	register_meta(
+		'user',
+		'gb_onboard',
+		array(
+			'type' => 'object',
+			'single' => true,
+			'show_in_rest' => array(
+				'schema' => array(
+					'type'  => 'object',
+					'properties' => array(
+						'insert-inner-container' => array( 'type' => 'boolean' ),
+					),
+				),
+			),
+		)
+	);
+}
