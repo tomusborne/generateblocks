@@ -345,6 +345,9 @@ function generateblocks_set_layout_component_defaults( $defaults ) {
 		'justifyContent',
 		'columnGap',
 		'rowGap',
+		'position',
+		'overflowX',
+		'overflowY',
 	];
 
 	foreach ( $defaults as $block => $values ) {

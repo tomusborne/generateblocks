@@ -15,6 +15,18 @@ function getLayoutAttributes( attributes ) {
 		verticalAlignmentTablet,
 		verticalAlignmentMobile,
 		sizing,
+		bgImage,
+		bgOptions,
+		useDynamicData,
+		dynamicContentType,
+		zindex,
+		gradient,
+		gradientSelector,
+		shapeDividers,
+		linkType,
+		url,
+		dynamicLinkType,
+		advBackgrounds,
 		gpInlinePostMeta,
 		gpInlinePostMetaJustify,
 		gpInlinePostMetaJustifyTablet,
@@ -69,6 +81,28 @@ function getLayoutAttributes( attributes ) {
 		layoutAttributes.justifyContentMobile = verticalAlignmentMobile;
 	}
 
+	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
+
+	if ( zindex || shapeDividers.length ) {
+		layoutAttributes.position = 'relative';
+	}
+
+	if (
+		( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
+		( gradient && 'pseudo-element' === gradientSelector ) ||
+		advBackgrounds.length
+	) {
+		layoutAttributes.position = 'relative';
+		layoutAttributes.overflowX = 'hidden';
+		layoutAttributes.overflowY = 'hidden';
+	}
+
+	// GB Pro features.
+	if ( 'hidden-link' === linkType && ( url || ( useDynamicData && dynamicLinkType ) ) ) {
+		layoutAttributes.position = 'relative';
+	}
+
+	// GP Premium feature.
 	if ( gpInlinePostMeta ) {
 		layoutAttributes.display = 'flex';
 		layoutAttributes.alignItems = 'center';
@@ -205,6 +239,7 @@ function doInnerContainerMigration( props ) {
 			marginLeft: 'auto',
 			marginRight: 'auto',
 			zindex: innerZindex,
+			position: innerZindex || 0 === innerZindex ? 'relative' : '',
 		},
 		childBlocks
 	);

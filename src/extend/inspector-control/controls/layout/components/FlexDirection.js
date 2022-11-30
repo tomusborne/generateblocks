@@ -1,7 +1,7 @@
 import { BaseControl, ButtonGroup, Button, Tooltip } from '@wordpress/components';
 import { Fragment } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
-import flexOptions from '../options';
+import { flexOptions } from '../options';
 import './editor.scss';
 import classnames from 'classnames';
 

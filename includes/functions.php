@@ -1177,6 +1177,9 @@ function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
 		'column-gap' => 'columnGap',
 		'row-gap' => 'rowGap',
 		'z-index' => 'zindex',
+		'position' => 'position',
+		'overflow-x' => 'overflowX',
+		'overflow-y' => 'overflowY',
 	];
 
 	foreach ( $options as $property => $option ) {

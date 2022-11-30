@@ -14,6 +14,9 @@ export default function LayoutCSS( css, selector, attributes, device = '' ) {
 		styles[ 'column-gap' ] = attributes[ 'columnGap' + device ];
 		styles[ 'row-gap' ] = attributes[ 'rowGap' + device ];
 		styles.order = attributes[ 'order' + device ];
+		styles.position = attributes[ 'position' + device ];
+		styles[ 'overflow-x' ] = attributes[ 'overflowX' + device ];
+		styles[ 'overflow-y' ] = attributes[ 'overflowY' + device ];
 	}
 
 	return (

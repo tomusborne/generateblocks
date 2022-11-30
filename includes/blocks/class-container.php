@@ -243,19 +243,21 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'background-image', $gradientValue );
 		}
 
-		if (
-			( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
-			$settings['zindex'] ||
-			( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
-		) {
-			$css->add_property( 'position', 'relative' );
-		}
+		if ( $useInnerContainer ) {
+			if (
+				( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
+				$settings['zindex'] ||
+				( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
+			) {
+				$css->add_property( 'position', 'relative' );
+			}
 
-		if (
-			( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
-			( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
-		) {
-			$css->add_property( 'overflow', 'hidden' );
+			if (
+				( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
+				( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
+			) {
+				$css->add_property( 'overflow', 'hidden' );
+			}
 		}
 
 		if ( $blockVersion < 3 ) {
@@ -442,7 +444,10 @@ class GenerateBlocks_Block_Container {
 		 */
 		if ( ! empty( $settings['shapeDividers'] ) ) {
 			$css->set_selector( '.gb-container-' . $id );
-			$css->add_property( 'position', 'relative' );
+
+			if ( $useInnerContainer ) {
+				$css->add_property( 'position', 'relative' );
+			}
 
 			$default_styles = generateblocks_get_default_styles();
 

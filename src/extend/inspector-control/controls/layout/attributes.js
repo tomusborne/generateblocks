@@ -8,6 +8,9 @@ export default function getLayoutAttributes( defaults ) {
 		'justifyContent',
 		'columnGap',
 		'rowGap',
+		'position',
+		'overflowX',
+		'overflowY',
 	];
 
 	const attributes = {};

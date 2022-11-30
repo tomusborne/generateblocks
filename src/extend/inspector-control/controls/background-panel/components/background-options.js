@@ -11,6 +11,10 @@ export default function BackgroundOptions( { attributes, setAttributes } ) {
 		useDynamicData,
 		dynamicContentType,
 		innerZindex,
+		useInnerContainer,
+		position,
+		overflowX,
+		overflowY,
 	} = attributes;
 
 	return (
@@ -40,8 +44,17 @@ export default function BackgroundOptions( { attributes, setAttributes } ) {
 						value={ bgOptions.selector }
 						onChange={ ( value ) => {
 							setAttributes( { bgOptions: { ...bgOptions, selector: value } } );
-							if ( 'pseudo-element' === value && ! innerZindex && 0 !== innerZindex ) {
+
+							if ( useInnerContainer && 'pseudo-element' === value && ! innerZindex && 0 !== innerZindex ) {
 								setAttributes( { innerZindex: 1 } );
+							}
+
+							if ( ! useInnerContainer && 'pseudo-element' === value ) {
+								setAttributes( {
+									position: ! position ? 'relative' : position,
+									overflowX: ! overflowX ? 'hidden' : overflowX,
+									overflowY: ! overflowY ? 'hidden' : overflowY,
+								} );
 							}
 						} }
 					/>
@@ -53,8 +66,17 @@ export default function BackgroundOptions( { attributes, setAttributes } ) {
 							setAttributes( {
 								bgOptions: { ...bgOptions, opacity: value, selector: 'pseudo-element' },
 							} );
-							if ( ! innerZindex && 0 !== innerZindex ) {
+
+							if ( useInnerContainer && ! innerZindex && 0 !== innerZindex ) {
 								setAttributes( { innerZindex: 1 } );
+							}
+
+							if ( ! useInnerContainer ) {
+								setAttributes( {
+									position: ! position ? 'relative' : position,
+									overflowX: ! overflowX ? 'hidden' : overflowX,
+									overflowY: ! overflowY ? 'hidden' : overflowY,
+								} );
 							}
 						} }
 					/>
