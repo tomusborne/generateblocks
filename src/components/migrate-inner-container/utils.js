@@ -167,6 +167,19 @@ function shouldMigrateInnerContainer( props ) {
 		recommend = true;
 	}
 
+	// Some effects target the inner container.
+	const effects = [ 'opacities', 'transitions', 'boxShadows', 'transforms', 'textShadows', 'filters' ];
+
+	effects.forEach( ( effect ) => {
+		const hasInnerContainerEffect =
+			attributes[ effect ] &&
+			attributes[ effect ].some( ( type ) => 'innerContainer' === type.target );
+
+		if ( hasInnerContainerEffect ) {
+			recommend = true;
+		}
+	} );
+
 	return recommend;
 }
 
@@ -181,7 +194,6 @@ function doInnerContainerMigration( props ) {
 		attributes,
 		setAttributes,
 		parentBlock,
-		hasParentBlock,
 		removeBlocks,
 		insertBlocks,
 	} = props;
@@ -264,7 +276,6 @@ function doInnerContainerMigration( props ) {
 		paddingBottomMobile: '',
 		paddingLeftMobile: '',
 		paddingUnit: generateBlocksDefaults.container.paddingUnit,
-		variantRole: ! hasParentBlock ? 'section' : '',
 		useGlobalContainerWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
 		marginLeft: ! isGrid && 'contained' === outerContainer ? 'auto' : marginLeft,
 		marginRight: ! isGrid && 'contained' === outerContainer ? 'auto' : marginRight,
