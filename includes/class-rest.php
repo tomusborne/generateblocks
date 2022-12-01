@@ -36,6 +36,13 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	protected $version = '1';
 
 	/**
+	 * Onboarding meta key.
+	 *
+	 * @var string
+	 */
+	const ONBOARDING_META_KEY = 'generateblocks_onboarding';
+
+	/**
 	 * Initiator.
 	 *
 	 * @return object initialized object of class.
@@ -85,11 +92,11 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 
 		register_rest_route(
 			$namespace,
-			'/onboard/',
+			'/onboarding/',
 			array(
 				'methods'             => WP_REST_Server::EDITABLE,
-				'callback'            => array( $this, 'onboard' ),
-				'permission_callback' => array( $this, 'onboard_permission' ),
+				'callback'            => array( $this, 'onboarding' ),
+				'permission_callback' => array( $this, 'onboarding_permission' ),
 			)
 		);
 	}
@@ -188,9 +195,9 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	 *
 	 * @return WP_REST_Response The response.
 	 */
-	public function onboard( WP_REST_Request $request ) {
+	public function onboarding( WP_REST_Request $request ) {
 		$user_id = get_current_user_id();
-		$onboard = get_user_meta( $user_id, 'gb_onboard', true );
+		$onboard = get_user_meta( $user_id, GenerateBlocks_Rest::ONBOARDING_META_KEY, true );
 		$key = $request->get_param( 'key' );
 
 		if ( ! $onboard ) {
@@ -199,17 +206,17 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 
 		$onboard[ $key ] = true;
 
-		update_user_meta( get_current_user_id(), 'gb_onboard', $onboard );
+		update_user_meta( get_current_user_id(), GenerateBlocks_Rest::ONBOARDING_META_KEY, $onboard );
 
 		return new WP_REST_Response( array( 'success' => true ), 200 );
 	}
 
 	/**
-	 * Get onboard edit permission.
+	 * Get onboarding edit permission.
 	 *
 	 * @return bool
 	 */
-	public function onboard_permission() {
+	public function onboarding_permission() {
 		return current_user_can( 'edit_posts' );
 	}
 

@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 
 export default function InsertInnerContainerOnboard() {
 	return (
-		<OnboardPopover onboardKey="insert-inner-container">
+		<OnboardPopover onboardingKey="insert_inner_container">
 			<h3>
 				{ __( 'Insert inner container', 'generateblocks' ) }
 			</h3>
@@ -11,7 +11,7 @@ export default function InsertInnerContainerOnboard() {
 				{ __( 'Use this button to add a centered inner Container block for your content.', 'generateblocks' ) }
 			</p>
 			<p>
-				{ __( 'We generally recommend this for top-level Containers so your content doesn\'t span the entire width of your screen. ', 'generateblocks' ) }
+				{ __( 'We generally recommend this for top-level Containers so your content does not span the entire width of your screen. ', 'generateblocks' ) }
 				<a
 					target="_blank"
 					rel="noreferrer"

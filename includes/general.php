@@ -448,7 +448,7 @@ add_action( 'init', 'generateblocks_register_user_meta' );
 function generateblocks_register_user_meta() {
 	register_meta(
 		'user',
-		'gb_onboard',
+		GenerateBlocks_Rest::ONBOARDING_META_KEY,
 		array(
 			'type' => 'object',
 			'single' => true,
@@ -456,7 +456,7 @@ function generateblocks_register_user_meta() {
 				'schema' => array(
 					'type'  => 'object',
 					'properties' => array(
-						'insert-inner-container' => array( 'type' => 'boolean' ),
+						'insert_inner_container' => array( 'type' => 'boolean' ),
 					),
 				),
 			),

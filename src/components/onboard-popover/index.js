@@ -6,18 +6,18 @@ import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import apiFetch from '@wordpress/api-fetch';
 
-const OnboardPopover = memo( function OnboardPopover( { onboardKey, children } ) {
+const OnboardPopover = memo( function OnboardPopover( { onboardingKey, children } ) {
 	const [ showOnboard, setShowOnboard ] = useState( false );
 	const user = useSelect( ( select ) => select( coreStore )?.getCurrentUser(), [] );
 
 	useEffect( function() {
 		if (
-			sessionStorage.getItem( onboardKey ) !== '1' &&
-			! user?.meta?.gb_onboard[ onboardKey ]
+			sessionStorage.getItem( `generateblocks_onboarding_${ onboardingKey }` ) !== '1' &&
+			! user?.meta?.generateblocks_onboarding[ onboardingKey ]
 		) {
 			setShowOnboard( true );
 		}
-	}, [ user?.id, JSON.stringify( user?.meta ), onboardKey ] );
+	}, [ user?.id, JSON.stringify( user?.meta ), onboardingKey ] );
 
 	return (
 		<>
@@ -34,17 +34,17 @@ const OnboardPopover = memo( function OnboardPopover( { onboardKey, children } )
 					{ children }
 					<div className="gb-onboard-popover__button">
 						<Button
-							variant="tertiary"
+							variant="primary"
 							onClick={ () => {
 								apiFetch( {
-									path: '/generateblocks/v1/onboard',
+									path: '/generateblocks/v1/onboarding',
 									method: 'POST',
 									data: {
-										key: onboardKey,
+										key: onboardingKey,
 									},
 								} ).then( () => {
 									setShowOnboard( false );
-									sessionStorage.setItem( onboardKey, '1' );
+									sessionStorage.setItem( `generateblocks_onboarding_${ onboardingKey }`, '1' );
 								} );
 							} }
 						>
