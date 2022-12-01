@@ -37,5 +37,15 @@ export default function getLayoutAttributes( defaults ) {
 		default: defaults.zindex,
 	};
 
+	attributes.zindexTablet = {
+		type: 'number',
+		default: defaults.zindexTablet,
+	};
+
+	attributes.zindexMobile = {
+		type: 'number',
+		default: defaults.zindexMobile,
+	};
+
 	return attributes;
 }
