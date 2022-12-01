@@ -197,7 +197,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	 */
 	public function onboarding( WP_REST_Request $request ) {
 		$user_id = get_current_user_id();
-		$onboard = get_user_meta( $user_id, GenerateBlocks_Rest::ONBOARDING_META_KEY, true );
+		$onboard = get_user_meta( $user_id, self::ONBOARDING_META_KEY, true );
 		$key = $request->get_param( 'key' );
 
 		if ( ! $onboard ) {
@@ -206,7 +206,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 
 		$onboard[ $key ] = true;
 
-		update_user_meta( get_current_user_id(), GenerateBlocks_Rest::ONBOARDING_META_KEY, $onboard );
+		update_user_meta( get_current_user_id(), self::ONBOARDING_META_KEY, $onboard );
 
 		return new WP_REST_Response( array( 'success' => true ), 200 );
 	}
