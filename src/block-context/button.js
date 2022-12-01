@@ -19,6 +19,7 @@ const buttonContext = defaultsDeep( {
 			justifyContent: true,
 			columnGap: true,
 			rowGap: true,
+			zIndex: true,
 			position: true,
 		},
 		flexChildPanel: {

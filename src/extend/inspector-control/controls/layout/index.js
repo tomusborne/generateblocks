@@ -39,7 +39,6 @@ export default function Layout( { attributes, setAttributes } ) {
 		columnGapTablet,
 		rowGap,
 		rowGapTablet,
-		position,
 	} = attributes;
 
 	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
@@ -169,24 +168,35 @@ export default function Layout( { attributes, setAttributes } ) {
 				</>
 			}
 
-			{ layout.zIndex && 'Desktop' === device &&
+			{ layout.zIndex &&
 				<>
-					<ZIndex
-						label={ useInnerContainer && __( 'Outer z-index', 'generateblocks' ) }
-						value={ zindex }
-						onChange={ ( value ) => {
-							setAttributes( {
-								zindex: value,
-								position: ! position && ! useInnerContainer ? 'relative' : position,
-							} );
-						} }
-					/>
+					{ !! useInnerContainer && 'Desktop' === device &&
+						<>
+							<ZIndex
+								label={ __( 'Outer z-index', 'generateblocks' ) }
+								value={ zindex }
+								onChange={ ( value ) => setAttributes( { zindex: value } ) }
+							/>
 
-					{ useInnerContainer &&
+							<ZIndex
+								label={ __( 'Inner z-index', 'generateblocks' ) }
+								value={ innerZindex }
+								onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
+							/>
+						</>
+					}
+
+					{ ! useInnerContainer &&
 						<ZIndex
-							label={ __( 'Inner z-index', 'generateblocks' ) }
-							value={ innerZindex }
-							onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
+							label={ __( 'z-index', 'generateblocks' ) }
+							value={ getAttribute( 'zindex', componentProps ) }
+							placeholder={ getResponsivePlaceholder( 'zindex', attributes, device ) }
+							onChange={ ( value ) => setAttributes( {
+								[ getAttribute( 'zindex', componentProps, true ) ]: value,
+								[ getAttribute( 'position', componentProps, true ) ]: ! getAttribute( 'position', componentProps )
+									? 'relative'
+									: getAttribute( 'position', componentProps ),
+							} ) }
 						/>
 					}
 				</>

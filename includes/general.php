@@ -348,6 +348,7 @@ function generateblocks_set_layout_component_defaults( $defaults ) {
 		'position',
 		'overflowX',
 		'overflowY',
+		'zindex',
 	];
 
 	foreach ( $defaults as $block => $values ) {
@@ -356,8 +357,6 @@ function generateblocks_set_layout_component_defaults( $defaults ) {
 			$defaults[ $block ][ $option . 'Tablet' ] = '';
 			$defaults[ $block ][ $option . 'Mobile' ] = '';
 		}
-
-		$defaults[ $block ]['zindex'] = '';
 	}
 
 	return $defaults;
