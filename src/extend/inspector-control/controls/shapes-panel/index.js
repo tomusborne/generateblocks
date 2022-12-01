@@ -25,6 +25,7 @@ export default function ShapesPanel( { attributes, setAttributes } ) {
 	const {
 		backgroundColor,
 		shapeDividers,
+		position,
 	} = attributes;
 
 	const allShapes = [];
@@ -58,7 +59,10 @@ export default function ShapesPanel( { attributes, setAttributes } ) {
 			zindex: generateBlocksStyling.container.shapeDividers.zindex,
 		} );
 
-		setAttributes( { shapeDividers: shapeDividersValues } );
+		setAttributes( {
+			shapeDividers: shapeDividersValues,
+			position: ! position ? 'relative' : position,
+		} );
 	};
 
 	const handleRemoveShape = ( index ) => {

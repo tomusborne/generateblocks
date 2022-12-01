@@ -133,24 +133,35 @@ export default function MainCSS( props ) {
 		} );
 	}
 
-	if (
-		( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
-		zindex ||
-		( gradient && 'pseudo-element' === gradientSelector )
-	) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			'position': 'relative', // eslint-disable-line quote-props
-		} );
+	if ( useInnerContainer ) {
+		if (
+			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
+			zindex ||
+			( gradient && 'pseudo-element' === gradientSelector )
+		) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'position': 'relative', // eslint-disable-line quote-props
+			} );
+		}
+
+		if (
+			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
+			( gradient && 'pseudo-element' === gradientSelector )
+		) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'overflow': 'hidden', // eslint-disable-line quote-props
+			} );
+
+			cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
+				'z-index': 10,
+			} ];
+		}
 	}
 
 	if (
 		( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
 		( gradient && 'pseudo-element' === gradientSelector )
 	) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			'overflow': 'hidden', // eslint-disable-line quote-props
-		} );
-
 		cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 			'z-index': 10,
 		} ];
@@ -280,9 +291,11 @@ export default function MainCSS( props ) {
 	}
 
 	if ( shapeDividers.length ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			position: 'relative',
-		} );
+		if ( useInnerContainer ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				position: 'relative',
+			} );
+		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 			position: 'relative',

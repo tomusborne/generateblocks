@@ -22,7 +22,6 @@ export default function MigrateInnerContainer( props ) {
 
 	const {
 		getBlocksByClientId,
-		getBlockRootClientId,
 		getBlockParentsByBlockName,
 		getBlock,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
@@ -77,7 +76,6 @@ export default function MigrateInnerContainer( props ) {
 								attributes,
 								setAttributes,
 								parentBlock: getBlocksByClientId( clientId )[ 0 ],
-								hasParentBlock: getBlockRootClientId( clientId ),
 								insertBlocks,
 								removeBlocks,
 							} );

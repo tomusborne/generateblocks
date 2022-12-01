@@ -21,6 +21,8 @@ const defaultContext = {
 			columnGap: false,
 			rowGap: false,
 			zIndex: false,
+			position: false,
+			overflow: false,
 		},
 		flexChildPanel: {
 			enabled: false,

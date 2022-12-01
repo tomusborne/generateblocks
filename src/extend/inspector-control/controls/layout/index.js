@@ -15,6 +15,9 @@ import ZIndex from './components/ZIndex';
 import FlexChild from '../flex-child-panel';
 import MigrateInnerContainer from '../../../../components/migrate-inner-container';
 import UnitControl from '../../../../components/unit-control';
+import { SelectControl } from '@wordpress/components';
+import { positionOptions, overflowOptions } from './options';
+import FlexControl from '../../../../components/flex-control';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const [ device ] = useDeviceType();
@@ -36,6 +39,7 @@ export default function Layout( { attributes, setAttributes } ) {
 		columnGapTablet,
 		rowGap,
 		rowGapTablet,
+		position,
 	} = attributes;
 
 	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
@@ -170,7 +174,12 @@ export default function Layout( { attributes, setAttributes } ) {
 					<ZIndex
 						label={ useInnerContainer && __( 'Outer z-index', 'generateblocks' ) }
 						value={ zindex }
-						onChange={ ( value ) => setAttributes( { zindex: value } ) }
+						onChange={ ( value ) => {
+							setAttributes( {
+								zindex: value,
+								position: ! position && ! useInnerContainer ? 'relative' : position,
+							} );
+						} }
 					/>
 
 					{ useInnerContainer &&
@@ -179,6 +188,43 @@ export default function Layout( { attributes, setAttributes } ) {
 							value={ innerZindex }
 							onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
 						/>
+					}
+				</>
+			}
+
+			{ ! useInnerContainer &&
+				<>
+					{ layout.position &&
+						<SelectControl
+							label={ __( 'Position', 'generateblocks' ) }
+							value={ getAttribute( 'position', componentProps ) }
+							options={ positionOptions }
+							onChange={ ( value ) => setAttributes( {
+								[ getAttribute( 'position', componentProps, true ) ]: value,
+							} ) }
+						/>
+					}
+
+					{ layout.overflow &&
+						<FlexControl>
+							<SelectControl
+								label={ __( 'Overflow-x', 'generateblocks' ) }
+								value={ getAttribute( 'overflowX', componentProps ) }
+								options={ overflowOptions }
+								onChange={ ( value ) => setAttributes( {
+									[ getAttribute( 'overflowX', componentProps, true ) ]: value,
+								} ) }
+							/>
+
+							<SelectControl
+								label={ __( 'Overflow-y', 'generateblocks' ) }
+								value={ getAttribute( 'overflowY', componentProps ) }
+								options={ overflowOptions }
+								onChange={ ( value ) => setAttributes( {
+									[ getAttribute( 'overflowY', componentProps, true ) ]: value,
+								} ) }
+							/>
+						</FlexControl>
 					}
 				</>
 			}
