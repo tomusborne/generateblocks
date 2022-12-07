@@ -219,7 +219,7 @@ function doInnerContainerMigration( props ) {
 		innerZindex,
 		marginLeft,
 		marginRight,
-		useGlobalContainerWidth,
+		useGlobalMaxWidth,
 	} = attributes;
 
 	const childBlocks = parentBlock.innerBlocks;
@@ -243,7 +243,7 @@ function doInnerContainerMigration( props ) {
 			paddingBottomMobile,
 			paddingLeftMobile,
 			paddingUnit,
-			useGlobalContainerWidth: 'contained' === innerContainer ? !! hasDefaultContainerWidth : useGlobalContainerWidth,
+			useGlobalMaxWidth: 'contained' === innerContainer ? !! hasDefaultContainerWidth : useGlobalMaxWidth,
 			sizing: {
 				...attributes.sizing,
 				maxWidth: 'contained' === innerContainer && ! hasDefaultContainerWidth && containerWidth ? containerWidth + 'px' : '',
@@ -276,7 +276,7 @@ function doInnerContainerMigration( props ) {
 		paddingBottomMobile: '',
 		paddingLeftMobile: '',
 		paddingUnit: generateBlocksDefaults.container.paddingUnit,
-		useGlobalContainerWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
+		useGlobalMaxWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
 		marginLeft: ! isGrid && 'contained' === outerContainer ? 'auto' : marginLeft,
 		marginRight: ! isGrid && 'contained' === outerContainer ? 'auto' : marginRight,
 		sizing: {
@@ -313,7 +313,7 @@ function doSimpleMigration( props ) {
 
 	setAttributes( {
 		useInnerContainer: false,
-		useGlobalContainerWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
+		useGlobalMaxWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
 		marginLeft: ! isGrid && 'contained' === outerContainer ? 'auto' : marginLeft,
 		marginRight: ! isGrid && 'contained' === outerContainer ? 'auto' : marginRight,
 		sizing: {

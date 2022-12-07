@@ -105,7 +105,6 @@ class GenerateBlocks_Block_Container {
 			'fontSizeUnit' => 'px',
 			'textTransform' => '',
 			'useInnerContainer' => false,
-			'useGlobalContainerWidth' => false,
 			'variantRole' => '',
 		];
 	}

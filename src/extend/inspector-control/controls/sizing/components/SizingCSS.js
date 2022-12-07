@@ -17,7 +17,7 @@ export default function SizingCSS( css, selector, attributes, device = '' ) {
 
 	if ( attributes.useInnerContainer ) {
 		delete styles[ 'max-width' ];
-	} else if ( attributes.useGlobalContainerWidth && ! device ) {
+	} else if ( attributes.useGlobalMaxWidth && ! device ) {
 		styles[ 'max-width' ] = generateBlocksInfo.globalContainerWidth;
 	}
 

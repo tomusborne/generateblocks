@@ -371,6 +371,7 @@ add_filter( 'generateblocks_defaults', 'generateblocks_set_sizing_component_defa
 function generateblocks_set_sizing_component_defaults( $defaults ) {
 	foreach ( $defaults as $block => $values ) {
 		$defaults[ $block ]['sizing'] = [];
+		$defaults[ $block ]['useGlobalMaxWidth'] = false;
 	}
 
 	return $defaults;
