@@ -84,7 +84,7 @@ export default function UnitControl( props ) {
 
 	// Split the number and unit into two values.
 	useEffect( () => {
-		const newValue = overrideValue || value;
+		const newValue = overrideValue && disabled ? overrideValue : value;
 
 		// Split our values if we're starting with a number.
 		if ( startsWithNumber( newValue ) ) {
@@ -109,6 +109,8 @@ export default function UnitControl( props ) {
 			return;
 		}
 
+		const hasOverride = !! overrideValue && !! disabled;
+
 		const fullValue = startsWithNumber( numericValue )
 			? numericValue + unitValue
 			: numericValue;
@@ -129,7 +131,7 @@ export default function UnitControl( props ) {
 			}
 		}
 
-		if ( ! overrideValue && fullValue !== value ) {
+		if ( ! hasOverride && fullValue !== value ) {
 			onChange( fullValue );
 		}
 	}, [ numericValue, unitValue ] );
