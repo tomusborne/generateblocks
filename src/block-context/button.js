@@ -35,6 +35,7 @@ const buttonContext = defaultsDeep( {
 			minHeight: true,
 			maxWidth: true,
 			maxHeight: true,
+			useGlobalMaxWidth: true,
 		},
 		typography: {
 			enabled: true,
