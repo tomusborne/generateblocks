@@ -62,11 +62,12 @@ export default function UnitControl( props ) {
 					'Tablet' === device ||
 					(
 						'Mobile' === device &&
-						desktopValue
+						( desktopValue || overrideValue )
 					)
 				) {
-					setPlaceholderValue( getNumericValue( desktopValues ) );
-					setUnitValue( getUnitValue( desktopValues ) );
+					const overridePlaceholder = splitValues( overrideValue );
+					setPlaceholderValue( getNumericValue( desktopValues.length ? desktopValues : overridePlaceholder ) );
+					setUnitValue( getUnitValue( desktopValues.length ? desktopValues : overridePlaceholder ) );
 				}
 			}
 
