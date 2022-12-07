@@ -3,7 +3,7 @@ import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
 import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
-import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
+import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import ComponentCSS from './components/ComponentCSS';
 import { createBlock } from '@wordpress/blocks';
@@ -87,7 +87,11 @@ const HeadlineEdit = ( props ) => {
 				computedStyles={ computedStyles }
 			/>
 
-			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
+			<InspectorAdvancedControls
+				anchor={ anchor }
+				setAttributes={ setAttributes }
+				attributes={ attributes }
+			/>
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 

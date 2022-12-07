@@ -126,6 +126,17 @@ const containerContext = defaultsDeep( {
 		shapesPanel: {
 			enabled: true,
 		},
+		htmlTags: {
+			enabled: true,
+			tags: [
+				{ label: 'div', value: 'div' },
+				{ label: 'article', value: 'article' },
+				{ label: 'section', value: 'section' },
+				{ label: 'header', value: 'header' },
+				{ label: 'footer', value: 'footer' },
+				{ label: 'aside', value: 'aside' },
+			],
+		},
 	},
 }, defaultContext );
 

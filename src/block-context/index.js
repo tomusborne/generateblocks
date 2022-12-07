@@ -6,7 +6,6 @@ import buttonContext from './button';
 import imageContext from './image';
 import gridContext from './grid';
 import containerContext from './container';
-import getElementAttributes from '../extend/inspector-control/controls/element/attributes';
 import getTypographyAttributes from '../extend/inspector-control/controls/typography/attributes';
 import getSpacingAttributes from '../extend/inspector-control/controls/spacing/attributes';
 import getColorsAttributes from '../extend/inspector-control/controls/colors/attributes';
@@ -93,10 +92,6 @@ addFilter(
  */
 export function getBlockAttributes( blockAttributes, context, defaults ) {
 	let attributes = Object.assign( {}, blockAttributes );
-
-	if ( context.supports.htmlTags.enabled ) {
-		attributes = Object.assign( {}, attributes, getElementAttributes( defaults ) );
-	}
 
 	if ( context.supports.layout.enabled ) {
 		attributes = Object.assign( {}, attributes, getLayoutAttributes( defaults ) );

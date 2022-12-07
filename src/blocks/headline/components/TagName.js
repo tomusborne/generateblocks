@@ -9,6 +9,7 @@ export default function TagName( props ) {
 	const {
 		onChange,
 		tagName,
+		isCaption,
 	} = props;
 
 	const [ device ] = useDeviceType();
@@ -19,14 +20,14 @@ export default function TagName( props ) {
 	} = useContext( ControlsContext );
 
 	const tagNames = applyFilters(
-		'generateblocks.editor.containerTagNames',
+		'generateblocks.editor.headlineTagNames',
 		htmlTags.tags,
 		{ ...props, deviceType: device }
 	);
 
 	return (
 		<>
-			{ htmlTags.enabled && 'Desktop' === device &&
+			{ htmlTags.enabled && 'Desktop' === device && ! isCaption &&
 				<SelectControl
 					label={ __( 'Tag Name', 'generateblocks' ) }
 					value={ tagName }
