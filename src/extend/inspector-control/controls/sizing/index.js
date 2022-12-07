@@ -3,7 +3,8 @@ import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
-import { ToggleControl } from '@wordpress/components';
+import { Tooltip, Button } from '@wordpress/components';
+import { globe } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
 import MinHeight from './components/MinHeight';
 import getAttribute from '../../../../utils/get-attribute';
@@ -138,6 +139,25 @@ export default function Sizing( props ) {
 								},
 							} );
 						} }
+						overrideAction={ () => {
+							if ( ! sizingPanel.useGlobalMaxWidth || useInnerContainer || isGrid || 'Desktop' !== device || getValue( 'maxWidth' ) ) {
+								return null;
+							}
+
+							return (
+								<Tooltip text={ __( 'Use global max-width', 'generateblocks' ) }>
+									<Button
+										icon={ globe }
+										isPrimary={ !! useGlobalMaxWidth }
+										onClick={ () => {
+											setAttributes( {
+												useGlobalMaxWidth: useGlobalMaxWidth ? false : true,
+											} );
+										} }
+									/>
+								</Tooltip>
+							);
+						} }
 					/>
 				}
 
@@ -158,19 +178,6 @@ export default function Sizing( props ) {
 					/>
 				}
 			</div>
-
-			{ sizingPanel.useGlobalMaxWidth && ! useInnerContainer && ! isGrid &&
-				<ToggleControl
-					label={ __( 'Use Global max-width', 'generateblocks' ) }
-					className={ 'gblocks-global-container-width' }
-					checked={ !! useGlobalContainerWidth }
-					onChange={ ( value ) => {
-						setAttributes( {
-							useGlobalContainerWidth: value,
-						} );
-					} }
-				/>
-			}
 		</PanelArea>
 	);
 }

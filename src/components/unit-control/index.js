@@ -22,6 +22,7 @@ export default function UnitControl( props ) {
 		id,
 		disabled = false,
 		overrideValue = null,
+		overrideAction = () => null,
 		onChange,
 		value,
 		desktopValue,
@@ -179,6 +180,8 @@ export default function UnitControl( props ) {
 						onFocus={ () => setShowPresets( true ) }
 						ref={ inputRef }
 					/>
+
+					{ !! overrideAction && <div className="gblocks-unit-control__override-action">{ overrideAction() } </div> }
 
 					{ (
 						startsWithNumber( numericValue ) ||
