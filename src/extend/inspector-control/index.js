@@ -47,25 +47,10 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				/>
 			}
 
-			{ sizingPanel.enabled &&
-				<SizingControls
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
-			}
-
 			{ layout.enabled &&
 				<LayoutControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
-				/>
-			}
-
-			{ typography.enabled && ! attributes.removeText &&
-				<TypographyControls
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					computedStyles={ computedStyles }
 				/>
 			}
 
@@ -81,6 +66,21 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				<ColorsControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ sizingPanel.enabled &&
+				<SizingControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ typography.enabled && ! attributes.removeText &&
+				<TypographyControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					computedStyles={ computedStyles }
 				/>
 			}
 

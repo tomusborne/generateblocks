@@ -168,40 +168,6 @@ export default function Layout( { attributes, setAttributes } ) {
 				</>
 			}
 
-			{ layout.zIndex &&
-				<>
-					{ !! useInnerContainer && 'Desktop' === device &&
-						<>
-							<ZIndex
-								label={ __( 'Outer z-index', 'generateblocks' ) }
-								value={ zindex }
-								onChange={ ( value ) => setAttributes( { zindex: value } ) }
-							/>
-
-							<ZIndex
-								label={ __( 'Inner z-index', 'generateblocks' ) }
-								value={ innerZindex }
-								onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
-							/>
-						</>
-					}
-
-					{ ! useInnerContainer &&
-						<ZIndex
-							label={ __( 'z-index', 'generateblocks' ) }
-							value={ getAttribute( 'zindex', componentProps ) }
-							placeholder={ getResponsivePlaceholder( 'zindex', attributes, device ) }
-							onChange={ ( value ) => setAttributes( {
-								[ getAttribute( 'zindex', componentProps, true ) ]: value,
-								[ getAttribute( 'position', componentProps, true ) ]: ! getAttribute( 'position', componentProps )
-									? 'relative'
-									: getAttribute( 'position', componentProps ),
-							} ) }
-						/>
-					}
-				</>
-			}
-
 			{ ! useInnerContainer &&
 				<>
 					{ layout.position &&
@@ -235,6 +201,40 @@ export default function Layout( { attributes, setAttributes } ) {
 								} ) }
 							/>
 						</FlexControl>
+					}
+				</>
+			}
+
+			{ layout.zIndex &&
+				<>
+					{ !! useInnerContainer && 'Desktop' === device &&
+						<>
+							<ZIndex
+								label={ __( 'Outer z-index', 'generateblocks' ) }
+								value={ zindex }
+								onChange={ ( value ) => setAttributes( { zindex: value } ) }
+							/>
+
+							<ZIndex
+								label={ __( 'Inner z-index', 'generateblocks' ) }
+								value={ innerZindex }
+								onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
+							/>
+						</>
+					}
+
+					{ ! useInnerContainer &&
+						<ZIndex
+							label={ __( 'z-index', 'generateblocks' ) }
+							value={ getAttribute( 'zindex', componentProps ) }
+							placeholder={ getResponsivePlaceholder( 'zindex', attributes, device ) }
+							onChange={ ( value ) => setAttributes( {
+								[ getAttribute( 'zindex', componentProps, true ) ]: value,
+								[ getAttribute( 'position', componentProps, true ) ]: ! getAttribute( 'position', componentProps )
+									? 'relative'
+									: getAttribute( 'position', componentProps ),
+							} ) }
+						/>
 					}
 				</>
 			}
