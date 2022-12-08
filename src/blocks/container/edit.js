@@ -112,7 +112,7 @@ const ContainerEdit = ( props ) => {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 			>
-				{ applyFilters( 'generateblocks.editor.containerSettingsPanel', undefined, props ) }
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
 			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls

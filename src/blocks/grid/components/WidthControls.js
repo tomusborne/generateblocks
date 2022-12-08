@@ -6,17 +6,17 @@ import getAttribute from '../../../utils/get-attribute';
 import { useDeviceType } from '../../../hooks';
 
 function GridItemSettings( content, props ) {
-	const { attributes, setAttributes } = props;
+	const { attributes, setAttributes, name } = props;
 	const { isGrid, sizing } = attributes;
 	const [ device ] = useDeviceType();
 
-	if ( ! isGrid ) {
+	if ( 'generateblocks/container' !== name || ! isGrid ) {
 		return content;
 	}
 
-	function getValue( name ) {
-		return sizing && sizing[ getAttribute( name, { attributes, deviceType: device }, true ) ]
-			? sizing[ getAttribute( name, { attributes, deviceType: device }, true ) ]
+	function getValue( attributeName ) {
+		return sizing && sizing[ getAttribute( attributeName, { attributes, deviceType: device }, true ) ]
+			? sizing[ getAttribute( attributeName, { attributes, deviceType: device }, true ) ]
 			: '';
 	}
 
@@ -60,7 +60,7 @@ function GridItemSettings( content, props ) {
 }
 
 addFilter(
-	'generateblocks.editor.containerSettingsPanel',
+	'generateblocks.editor.settingsPanel',
 	'generateblocks/grid/gridItemSettings',
 	GridItemSettings
 );
