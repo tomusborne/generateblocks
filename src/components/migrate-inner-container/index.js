@@ -13,6 +13,8 @@ export default function MigrateInnerContainer( props ) {
 
 	const {
 		useInnerContainer,
+		useGlobalStyle,
+		isGlobalStyle,
 	} = attributes;
 
 	const { clientId } = useContext( ControlsContext );
@@ -67,6 +69,21 @@ export default function MigrateInnerContainer( props ) {
 							: ' ' + __( 'No, we do not believe you need an inner Container block based on your current layout.', 'generateblocks' )
 						}
 					</Notice>
+
+					{ !! useGlobalStyle &&
+						<Notice status="warning" isDismissible={ false } className="gblocks-inner-container-notice">
+							<strong>{ __( 'Warning:', 'generateblocks' ) }</strong>
+							{ ' ' + __( 'This block is using a Global Style. If the Global Style targets the width of the legacy inner container, proceeding with this migration will prevent it from working.', 'generateblocks' ) }
+							<p style={ { 'margin-bottom': 0 } }>{ __( 'If that is the case, we suggest creating a separate Global Style for the inner container that this migration will create for you.', 'generateblocks' ) }</p>
+						</Notice>
+					}
+
+					{ !! isGlobalStyle &&
+						<Notice status="warning" isDismissible={ false } className="gblocks-inner-container-notice">
+							<strong>{ __( 'Warning:', 'generateblocks' ) }</strong>
+							{ ' ' + __( 'This block is a Global Style. If you migrate the inner container on this block you will need to make sure that all Container blocks using it are migrated as well.', 'generateblocks' ) }
+						</Notice>
+					}
 					<Button
 						variant={ !! migrateInnerContainer ? 'primary' : 'tertiary' }
 						style={ { marginRight: '5px' } }
