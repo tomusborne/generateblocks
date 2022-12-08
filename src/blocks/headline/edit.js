@@ -85,7 +85,9 @@ const HeadlineEdit = ( props ) => {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 				computedStyles={ computedStyles }
-			/>
+			>
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 

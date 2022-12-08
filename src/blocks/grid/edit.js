@@ -91,6 +91,8 @@ const GridEdit = ( props ) => {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 			>
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+
 				<InspectorControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }

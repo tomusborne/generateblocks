@@ -68,7 +68,12 @@ const ButtonContainerEdit = ( props ) => {
 				deviceType={ deviceType }
 			/>
 
-			<GenerateBlocksInspectorControls attributes={ attributes } setAttributes={ setAttributes } />
+			<GenerateBlocksInspectorControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
+			>
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
 
