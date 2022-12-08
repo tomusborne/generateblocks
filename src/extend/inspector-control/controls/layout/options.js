@@ -1,3 +1,4 @@
+import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
 const flexOptions = {
@@ -81,4 +82,45 @@ const flexOptions = {
 	],
 };
 
-export default flexOptions;
+const positionOptions = applyFilters(
+	'generateblocks.editor.layoutPositionOptions',
+	[
+		{
+			label: __( 'Default', 'generateblocks' ),
+			value: '',
+		},
+		{
+			label: __( 'Relative', 'generateblocks' ),
+			value: 'relative',
+		},
+	]
+);
+
+const overflowOptions = [
+	{
+		label: __( 'Default', 'generateblocks' ),
+		value: '',
+	},
+	{
+		label: __( 'Visible', 'generateblocks' ),
+		value: 'visible',
+	},
+	{
+		label: __( 'Hidden', 'generateblocks' ),
+		value: 'hidden',
+	},
+	{
+		label: __( 'Scroll', 'generateblocks' ),
+		value: 'scroll',
+	},
+	{
+		label: __( 'Auto', 'generateblocks' ),
+		value: 'auto',
+	},
+];
+
+export {
+	flexOptions,
+	positionOptions,
+	overflowOptions,
+};

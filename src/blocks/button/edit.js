@@ -33,6 +33,7 @@ const ButtonEdit = ( props ) => {
 		hasButtonContainer,
 		blockVersion,
 		display,
+		buttonType,
 	} = attributes;
 
 	const ref = useRef( null );
@@ -88,12 +89,13 @@ const ButtonEdit = ( props ) => {
 				setAttributes={ setAttributes }
 				computedStyles={ computedStyles }
 			>
-				{ applyFilters( 'generateblocks.editor.buttonSettingsPanel', undefined, props ) }
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
 			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls
 				anchor={ anchor }
 				ariaLabel={ ariaLabel }
+				buttonType={ buttonType }
 				setAttributes={ setAttributes }
 			/>
 

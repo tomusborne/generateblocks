@@ -16,6 +16,7 @@ import HTMLAnchor from '../../components/html-anchor';
 import { pick } from 'lodash';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import { applyFilters } from '@wordpress/hooks';
 
 function ImageEdit( props ) {
 	const {
@@ -164,6 +165,8 @@ function ImageEdit( props ) {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 			>
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+
 				<ImageSettingsControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }

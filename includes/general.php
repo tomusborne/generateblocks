@@ -345,6 +345,10 @@ function generateblocks_set_layout_component_defaults( $defaults ) {
 		'justifyContent',
 		'columnGap',
 		'rowGap',
+		'position',
+		'overflowX',
+		'overflowY',
+		'zindex',
 	];
 
 	foreach ( $defaults as $block => $values ) {
@@ -353,8 +357,6 @@ function generateblocks_set_layout_component_defaults( $defaults ) {
 			$defaults[ $block ][ $option . 'Tablet' ] = '';
 			$defaults[ $block ][ $option . 'Mobile' ] = '';
 		}
-
-		$defaults[ $block ]['zindex'] = '';
 	}
 
 	return $defaults;
@@ -369,6 +371,7 @@ add_filter( 'generateblocks_defaults', 'generateblocks_set_sizing_component_defa
 function generateblocks_set_sizing_component_defaults( $defaults ) {
 	foreach ( $defaults as $block => $values ) {
 		$defaults[ $block ]['sizing'] = [];
+		$defaults[ $block ]['useGlobalMaxWidth'] = false;
 	}
 
 	return $defaults;
@@ -486,4 +489,29 @@ function generateblocks_set_block_css_selectors( $selector, $name, $attributes )
 	}
 
 	return $selector;
+}
+
+add_action( 'init', 'generateblocks_register_user_meta' );
+/**
+ * Register GenerateBlocks custom user meta fields.
+ *
+ * @return void
+ */
+function generateblocks_register_user_meta() {
+	register_meta(
+		'user',
+		GenerateBlocks_Rest::ONBOARDING_META_KEY,
+		array(
+			'type' => 'object',
+			'single' => true,
+			'show_in_rest' => array(
+				'schema' => array(
+					'type'  => 'object',
+					'properties' => array(
+						'insert_inner_container' => array( 'type' => 'boolean' ),
+					),
+				),
+			),
+		)
+	);
 }

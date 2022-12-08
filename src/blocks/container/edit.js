@@ -2,7 +2,7 @@ import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import { applyFilters } from '@wordpress/hooks';
-import { Fragment, useEffect } from '@wordpress/element';
+import { Fragment, useEffect, useRef } from '@wordpress/element';
 import { useDeviceType } from '../../hooks';
 import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
@@ -11,6 +11,7 @@ import ContainerContentRenderer from './components/ContainerContentRenderer';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import { withBlockContext } from '../../block-context';
 import { useSelect } from '@wordpress/data';
+import { withTemplateContext } from '../../extend/template-selector/templateContext';
 
 const ContainerEdit = ( props ) => {
 	const {
@@ -31,6 +32,7 @@ const ContainerEdit = ( props ) => {
 		isQueryLoopItem,
 	} = attributes;
 
+	const ref = useRef( null );
 	const [ deviceType ] = useDeviceType();
 
 	const allowedTagNames = applyFilters(
@@ -110,7 +112,7 @@ const ContainerEdit = ( props ) => {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 			>
-				{ applyFilters( 'generateblocks.editor.containerSettingsPanel', undefined, props ) }
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
 			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls
@@ -133,12 +135,14 @@ const ContainerEdit = ( props ) => {
 				filterTagName={ filterTagName }
 				allShapes={ allShapes }
 				deviceType={ deviceType }
+				containerRef={ ref }
 			/>
 		</Fragment>
 	);
 };
 
 export default compose(
+	withTemplateContext,
 	withBlockContext,
 	withDynamicContent,
 	withUniqueId,

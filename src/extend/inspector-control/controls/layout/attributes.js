@@ -8,6 +8,9 @@ export default function getLayoutAttributes( defaults ) {
 		'justifyContent',
 		'columnGap',
 		'rowGap',
+		'position',
+		'overflowX',
+		'overflowY',
 	];
 
 	const attributes = {};
@@ -32,6 +35,16 @@ export default function getLayoutAttributes( defaults ) {
 	attributes.zindex = {
 		type: 'number',
 		default: defaults.zindex,
+	};
+
+	attributes.zindexTablet = {
+		type: 'number',
+		default: defaults.zindexTablet,
+	};
+
+	attributes.zindexMobile = {
+		type: 'number',
+		default: defaults.zindexMobile,
 	};
 
 	return attributes;

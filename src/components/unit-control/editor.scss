@@ -1,11 +1,33 @@
 .gblocks-unit-control {
 	&__disabled {
-		opacity: 0.5;
+		.gblocks-unit-control__input > *:not(.gblocks-unit-control__override-action):not(.popover-slot) {
+			opacity: 0.5;
+		}
+	}
+
+	&__override-action {
+		position: absolute;
+		right: 30px;
+		top: 0;
+
+		button.components-button {
+			width: 30px;
+			height: 30px;
+			min-width: 30px;
+			padding: 0;
+			justify-content: center !important;
+
+			svg {
+				width: 20px;
+				margin: 0 !important;
+			}
+		}
 	}
 
 	&__input {
 		display: flex;
 		align-items: flex-start;
+		position: relative;
 
 		.components-base-control:first-child {
 			flex-grow: 1;

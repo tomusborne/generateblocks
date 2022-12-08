@@ -12,6 +12,7 @@ import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { cloneBlock, getBlockSupport, createBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
+import InsertInnerContainerOnboard from '../../components/onboard-popover/onboards/insert-inner-container-onboard';
 
 const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
 
@@ -74,7 +75,7 @@ const withBlockControls = createHigherOrderComponent(
 								onClick={ () => {
 									insertBlocks(
 										createBlock( 'generateblocks/container', {
-											useGlobalContainerWidth: true,
+											useGlobalMaxWidth: true,
 											marginLeft: 'auto',
 											marginRight: 'auto',
 										} ),
@@ -84,6 +85,7 @@ const withBlockControls = createHigherOrderComponent(
 								} }
 								showTooltip
 							/>
+							<InsertInnerContainerOnboard />
 						</ToolbarGroup>
 					</BlockControls>
 				}

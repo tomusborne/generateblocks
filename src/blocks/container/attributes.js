@@ -257,10 +257,6 @@ export default {
 		type: 'boolean',
 		default: false,
 	},
-	useGlobalContainerWidth: {
-		type: 'boolean',
-		default: false,
-	},
 	variantRole: {
 		type: 'string',
 		default: '',

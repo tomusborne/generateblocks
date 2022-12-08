@@ -15,6 +15,8 @@ const headlineContext = defaultsDeep( {
 			justifyContent: true,
 			columnGap: true,
 			rowGap: true,
+			zIndex: true,
+			position: true,
 		},
 		flexChildPanel: {
 			enabled: true,
@@ -29,6 +31,7 @@ const headlineContext = defaultsDeep( {
 			minHeight: true,
 			maxWidth: true,
 			maxHeight: true,
+			useGlobalMaxWidth: true,
 		},
 		typography: {
 			enabled: true,

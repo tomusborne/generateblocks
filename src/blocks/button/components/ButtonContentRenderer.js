@@ -4,7 +4,7 @@ import { __ } from '@wordpress/i18n';
 import Element from '../../../components/element';
 import RootElement from '../../../components/root-element';
 import classnames from 'classnames';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, doAction } from '@wordpress/hooks';
 
 export default function ButtonContentRenderer( props ) {
 	const {
@@ -30,6 +30,7 @@ export default function ButtonContentRenderer( props ) {
 		iconLocation,
 		removeText,
 		ariaLabel,
+		buttonType,
 	} = attributes;
 
 	const relAttributes = [];
@@ -52,7 +53,7 @@ export default function ButtonContentRenderer( props ) {
 			[ `gb-button-${ uniqueId }` ]: true,
 			'gb-button-text': ! icon,
 		} ),
-		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
+		rel: relAttributes && relAttributes.length > 0 && 'link' === buttonType ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
 		id: anchor ? anchor : null,
 		ref: buttonRef,
@@ -73,13 +74,15 @@ export default function ButtonContentRenderer( props ) {
 		props
 	) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ];
 
-	let buttonTagName = applyFilters( 'generateblocks.frontend.buttonTagName', url ? 'a' : 'span', props );
+	let buttonTagName = url ? 'a' : 'span';
 
 	// The `button` element prevents RichText from allowing spaces.
 	// To fix that we'll return a `span` element in the editor only.
-	if ( 'button' === buttonTagName ) {
+	if ( 'button' === buttonType ) {
 		buttonTagName = 'span';
 	}
+
+	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: buttonRef } );
 
 	return (
 		<RootElement name={ name } clientId={ clientId }>

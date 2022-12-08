@@ -15,6 +15,18 @@ function getLayoutAttributes( attributes ) {
 		verticalAlignmentTablet,
 		verticalAlignmentMobile,
 		sizing,
+		bgImage,
+		bgOptions,
+		useDynamicData,
+		dynamicContentType,
+		zindex,
+		gradient,
+		gradientSelector,
+		shapeDividers,
+		linkType,
+		url,
+		dynamicLinkType,
+		advBackgrounds,
 		gpInlinePostMeta,
 		gpInlinePostMetaJustify,
 		gpInlinePostMetaJustifyTablet,
@@ -69,6 +81,28 @@ function getLayoutAttributes( attributes ) {
 		layoutAttributes.justifyContentMobile = verticalAlignmentMobile;
 	}
 
+	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
+
+	if ( zindex || shapeDividers.length ) {
+		layoutAttributes.position = 'relative';
+	}
+
+	if (
+		( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
+		( gradient && 'pseudo-element' === gradientSelector ) ||
+		advBackgrounds.length
+	) {
+		layoutAttributes.position = 'relative';
+		layoutAttributes.overflowX = 'hidden';
+		layoutAttributes.overflowY = 'hidden';
+	}
+
+	// GB Pro features.
+	if ( 'hidden-link' === linkType && ( url || ( useDynamicData && dynamicLinkType ) ) ) {
+		layoutAttributes.position = 'relative';
+	}
+
+	// GP Premium feature.
 	if ( gpInlinePostMeta ) {
 		layoutAttributes.display = 'flex';
 		layoutAttributes.alignItems = 'center';
@@ -133,6 +167,19 @@ function shouldMigrateInnerContainer( props ) {
 		recommend = true;
 	}
 
+	// Some effects target the inner container.
+	const effects = [ 'opacities', 'transitions', 'boxShadows', 'transforms', 'textShadows', 'filters' ];
+
+	effects.forEach( ( effect ) => {
+		const hasInnerContainerEffect =
+			attributes[ effect ] &&
+			attributes[ effect ].some( ( type ) => 'innerContainer' === type.target );
+
+		if ( hasInnerContainerEffect ) {
+			recommend = true;
+		}
+	} );
+
 	return recommend;
 }
 
@@ -147,7 +194,6 @@ function doInnerContainerMigration( props ) {
 		attributes,
 		setAttributes,
 		parentBlock,
-		hasParentBlock,
 		removeBlocks,
 		insertBlocks,
 	} = props;
@@ -173,7 +219,7 @@ function doInnerContainerMigration( props ) {
 		innerZindex,
 		marginLeft,
 		marginRight,
-		useGlobalContainerWidth,
+		useGlobalMaxWidth,
 	} = attributes;
 
 	const childBlocks = parentBlock.innerBlocks;
@@ -197,7 +243,7 @@ function doInnerContainerMigration( props ) {
 			paddingBottomMobile,
 			paddingLeftMobile,
 			paddingUnit,
-			useGlobalContainerWidth: 'contained' === innerContainer ? !! hasDefaultContainerWidth : useGlobalContainerWidth,
+			useGlobalMaxWidth: 'contained' === innerContainer ? !! hasDefaultContainerWidth : useGlobalMaxWidth,
 			sizing: {
 				...attributes.sizing,
 				maxWidth: 'contained' === innerContainer && ! hasDefaultContainerWidth && containerWidth ? containerWidth + 'px' : '',
@@ -205,6 +251,7 @@ function doInnerContainerMigration( props ) {
 			marginLeft: 'auto',
 			marginRight: 'auto',
 			zindex: innerZindex,
+			position: innerZindex || 0 === innerZindex ? 'relative' : '',
 		},
 		childBlocks
 	);
@@ -229,8 +276,7 @@ function doInnerContainerMigration( props ) {
 		paddingBottomMobile: '',
 		paddingLeftMobile: '',
 		paddingUnit: generateBlocksDefaults.container.paddingUnit,
-		variantRole: ! hasParentBlock ? 'section' : '',
-		useGlobalContainerWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
+		useGlobalMaxWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
 		marginLeft: ! isGrid && 'contained' === outerContainer ? 'auto' : marginLeft,
 		marginRight: ! isGrid && 'contained' === outerContainer ? 'auto' : marginRight,
 		sizing: {
@@ -267,7 +313,7 @@ function doSimpleMigration( props ) {
 
 	setAttributes( {
 		useInnerContainer: false,
-		useGlobalContainerWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
+		useGlobalMaxWidth: ! isGrid && 'contained' === outerContainer && !! hasDefaultContainerWidth,
 		marginLeft: ! isGrid && 'contained' === outerContainer ? 'auto' : marginLeft,
 		marginRight: ! isGrid && 'contained' === outerContainer ? 'auto' : marginRight,
 		sizing: {

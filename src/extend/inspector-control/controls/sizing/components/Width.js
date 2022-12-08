@@ -7,13 +7,14 @@ export default function Width( props ) {
 		desktopValue,
 		tabletValue,
 		onChange,
+		units,
 	} = props;
 
 	return (
 		<UnitControl
 			label={ __( 'Width', 'generateblocks' ) }
 			id="gblocks-width"
-			units={ [ 'px', '%', 'vw', 'rem' ] }
+			units={ units }
 			value={ value }
 			desktopValue={ desktopValue }
 			tabletValue={ tabletValue }

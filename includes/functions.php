@@ -1177,6 +1177,9 @@ function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
 		'column-gap' => 'columnGap',
 		'row-gap' => 'rowGap',
 		'z-index' => 'zindex',
+		'position' => 'position',
+		'overflow-x' => 'overflowX',
+		'overflow-y' => 'overflowY',
 	];
 
 	foreach ( $options as $property => $option ) {
@@ -1217,7 +1220,7 @@ function generateblocks_add_sizing_css( $css, $settings, $device = '' ) {
 		$option_name = $option . $device;
 		$value = generateblocks_get_array_attribute_value( $option_name, $settings['sizing'] );
 
-		if ( 'max-width' === $property && ! empty( $settings['useGlobalContainerWidth'] ) && ! $device ) {
+		if ( 'max-width' === $property && ! empty( $settings['useGlobalMaxWidth'] ) && ! $device ) {
 			$value = generateblocks_get_global_container_width();
 		}
 

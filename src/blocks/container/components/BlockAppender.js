@@ -1,10 +1,11 @@
 import { useInnerBlocksCount } from '../../../hooks';
-import { InnerBlocks } from '@wordpress/block-editor';
+import { Inserter } from '@wordpress/block-editor';
 import { useDispatch } from '@wordpress/data';
-import { __ } from '@wordpress/i18n';
-import { Button } from '@wordpress/components';
+import { __, sprintf, _x } from '@wordpress/i18n';
+import { Button, Icon, Tooltip } from '@wordpress/components';
 import getIcon from '../../../utils/get-icon';
 import { applyFilters } from '@wordpress/hooks';
+import { plus } from '@wordpress/icons';
 
 export default ( { clientId, isSelected, attributes } ) => {
 	const { isBlockPreview } = attributes;
@@ -18,9 +19,49 @@ export default ( { clientId, isSelected, attributes } ) => {
 		return false;
 	}
 
+	function ButtonBlockAppender() {
+		return (
+			<Inserter
+				position="bottom right"
+				rootClientId={ clientId }
+				__experimentalIsQuick
+				renderToggle={ ( {
+					onToggle,
+					disabled,
+					isOpen,
+					blockTitle,
+					hasSingleBlockType,
+				} ) => {
+					const label = hasSingleBlockType
+						? sprintf(
+							// translators: %s: the name of the block when there is only one
+							_x( 'Add %s', 'directly add the only allowed block', 'generateblocks' ),
+							blockTitle
+						) : _x( 'Add block', 'Generic label for block inserter button', 'generateblocks' );
+
+					return (
+						<Tooltip text={ label }>
+							<Button
+								className={ 'block-editor-button-block-appender' }
+								onClick={ onToggle }
+								aria-haspopup={ ! hasSingleBlockType ? 'true' : undefined }
+								aria-expanded={ ! hasSingleBlockType ? isOpen : undefined }
+								disabled={ disabled }
+								label={ label }
+							>
+								<Icon icon={ plus } />
+							</Button>
+						</Tooltip>
+					);
+				} }
+				isAppender
+			/>
+		);
+	}
+
 	// Selected Container.
 	if ( isSelected ) {
-		appender = <InnerBlocks.ButtonBlockAppender />;
+		appender = <ButtonBlockAppender />;
 	}
 
 	// Empty non-selected Container.

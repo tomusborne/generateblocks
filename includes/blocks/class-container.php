@@ -105,7 +105,6 @@ class GenerateBlocks_Block_Container {
 			'fontSizeUnit' => 'px',
 			'textTransform' => '',
 			'useInnerContainer' => false,
-			'useGlobalContainerWidth' => false,
 			'variantRole' => '',
 		];
 	}
@@ -245,19 +244,21 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'background-image', $gradientValue );
 		}
 
-		if (
-			( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
-			$settings['zindex'] ||
-			( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
-		) {
-			$css->add_property( 'position', 'relative' );
-		}
+		if ( $useInnerContainer ) {
+			if (
+				( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
+				$settings['zindex'] ||
+				( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
+			) {
+				$css->add_property( 'position', 'relative' );
+			}
 
-		if (
-			( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
-			( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
-		) {
-			$css->add_property( 'overflow', 'hidden' );
+			if (
+				( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) ||
+				( $settings['gradient'] && 'pseudo-element' === $settings['gradientSelector'] )
+			) {
+				$css->add_property( 'overflow', 'hidden' );
+			}
 		}
 
 		if ( $blockVersion < 3 ) {
@@ -448,7 +449,10 @@ class GenerateBlocks_Block_Container {
 		 */
 		if ( ! empty( $settings['shapeDividers'] ) ) {
 			$css->set_selector( $selector );
-			$css->add_property( 'position', 'relative' );
+
+			if ( $useInnerContainer ) {
+				$css->add_property( 'position', 'relative' );
+			}
 
 			$default_styles = generateblocks_get_default_styles();
 
@@ -678,6 +682,10 @@ class GenerateBlocks_Block_Container {
 		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 		$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
 		$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
+
+		if ( ! $useInnerContainer ) {
+			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+		}
 
 		if ( $blockVersion < 3 ) {
 			$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );

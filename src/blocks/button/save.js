@@ -25,6 +25,7 @@ export default ( props ) => {
 		removeText,
 		ariaLabel,
 		anchor,
+		buttonType,
 	} = attributes;
 
 	const relAttributes = [];
@@ -47,9 +48,9 @@ export default ( props ) => {
 			[ `gb-button-${ uniqueId }` ]: true,
 			'gb-button-text': ! icon,
 		} ),
-		href: !! url ? url : null,
-		target: !! target ? '_blank' : null,
-		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
+		href: !! url && 'link' === buttonType ? url : null,
+		target: !! target && 'link' === buttonType ? '_blank' : null,
+		rel: relAttributes && relAttributes.length > 0 && 'link' === buttonType ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
 		id: anchor ? anchor : null,
 	};
@@ -62,7 +63,10 @@ export default ( props ) => {
 	);
 
 	const blockProps = useBlockProps.save( htmlAttributes );
-	const buttonTagName = applyFilters( 'generateblocks.frontend.buttonTagName', url ? 'a' : 'span', props );
+	const linkButtonTagName = url ? 'a' : 'span';
+	const buttonTagName = 'button' === buttonType
+		? 'button'
+		: linkButtonTagName;
 
 	return (
 		<Element tagName={ buttonTagName } htmlAttrs={ blockProps }>

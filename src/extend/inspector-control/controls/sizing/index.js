@@ -3,7 +3,9 @@ import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
-import { ToggleControl } from '@wordpress/components';
+import { Tooltip, Button } from '@wordpress/components';
+import { globe } from '@wordpress/icons';
+import { applyFilters } from '@wordpress/hooks';
 import MinHeight from './components/MinHeight';
 import getAttribute from '../../../../utils/get-attribute';
 import { useDeviceType } from '../../../../hooks';
@@ -23,7 +25,7 @@ export default function Sizing( props ) {
 	} = props;
 
 	const {
-		useGlobalContainerWidth = false,
+		useGlobalMaxWidth = false,
 		useInnerContainer = false,
 		isGrid = false,
 		sizing,
@@ -33,6 +35,14 @@ export default function Sizing( props ) {
 		return sizing && sizing[ getAttribute( name, { attributes, deviceType: device }, true ) ]
 			? sizing[ getAttribute( name, { attributes, deviceType: device }, true ) ]
 			: '';
+	}
+
+	function getUnits( context ) {
+		return applyFilters(
+			'generateblocks.editor.sizingUnits',
+			[ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ],
+			context
+		);
 	}
 
 	return (
@@ -49,6 +59,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'width' ) }
 						desktopValue={ sizing?.width }
 						tabletValue={ sizing?.widthTablet }
+						units={ getUnits( 'width' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -65,6 +76,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'height' ) }
 						desktopValue={ sizing?.height }
 						tabletValue={ sizing?.heightTablet }
+						units={ getUnits( 'height' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -81,6 +93,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'minWidth' ) }
 						desktopValue={ sizing?.minWidth }
 						tabletValue={ sizing?.minWidthTablet }
+						units={ getUnits( 'minWidth' ) }
 						disabled={ isGrid }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -98,6 +111,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'minHeight' ) }
 						desktopValue={ sizing?.minHeight }
 						tabletValue={ sizing?.minHeightTablet }
+						units={ getUnits( 'minHeight' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -114,8 +128,9 @@ export default function Sizing( props ) {
 						value={ getValue( 'maxWidth' ) }
 						desktopValue={ sizing?.maxWidth }
 						tabletValue={ sizing?.maxWidthTablet }
-						overrideValue={ !! useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : null }
-						disabled={ useInnerContainer || useGlobalContainerWidth || isGrid }
+						units={ getUnits( 'maxWidth' ) }
+						overrideValue={ !! useGlobalMaxWidth ? generateBlocksInfo.globalContainerWidth : null }
+						disabled={ useInnerContainer || isGrid || ( useGlobalMaxWidth && 'Desktop' === device ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -123,6 +138,25 @@ export default function Sizing( props ) {
 									[ getAttribute( 'maxWidth', { attributes, deviceType: device }, true ) ]: value,
 								},
 							} );
+						} }
+						overrideAction={ () => {
+							if ( ! sizingPanel.useGlobalMaxWidth || useInnerContainer || isGrid || 'Desktop' !== device || getValue( 'maxWidth' ) ) {
+								return null;
+							}
+
+							return (
+								<Tooltip text={ __( 'Use global max-width', 'generateblocks' ) }>
+									<Button
+										icon={ globe }
+										isPrimary={ !! useGlobalMaxWidth }
+										onClick={ () => {
+											setAttributes( {
+												useGlobalMaxWidth: useGlobalMaxWidth ? false : true,
+											} );
+										} }
+									/>
+								</Tooltip>
+							);
 						} }
 					/>
 				}
@@ -132,6 +166,7 @@ export default function Sizing( props ) {
 						value={ getValue( 'maxHeight' ) }
 						desktopValue={ sizing?.maxHeight }
 						tabletValue={ sizing?.maxHeightTablet }
+						units={ getUnits( 'maxHeight' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -143,19 +178,6 @@ export default function Sizing( props ) {
 					/>
 				}
 			</div>
-
-			{ sizingPanel.useGlobalMaxWidth && ! useInnerContainer && ! isGrid &&
-				<ToggleControl
-					label={ __( 'Use Global max-width', 'generateblocks' ) }
-					className={ 'gblocks-global-container-width' }
-					checked={ !! useGlobalContainerWidth }
-					onChange={ ( value ) => {
-						setAttributes( {
-							useGlobalContainerWidth: value,
-						} );
-					} }
-				/>
-			}
 		</PanelArea>
 	);
 }

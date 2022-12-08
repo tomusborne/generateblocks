@@ -15,6 +15,7 @@ import { withUniqueId, withGridLegacyMigration } from '../../hoc';
 import withQueryLoop from '../query-loop/hoc/withQueryLoop';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import './components/WidthControls';
 
 const GridEdit = ( props ) => {
 	const {
@@ -90,6 +91,8 @@ const GridEdit = ( props ) => {
 				attributes={ attributes }
 				setAttributes={ setAttributes }
 			>
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+
 				<InspectorControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }

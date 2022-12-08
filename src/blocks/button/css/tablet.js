@@ -4,6 +4,7 @@ import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -18,17 +19,11 @@ export default class TabletCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			url,
 			uniqueId,
 			removeText,
 			letterSpacingTablet,
 			fontSizeTablet,
 			fontSizeUnit,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginUnit,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
@@ -55,7 +50,7 @@ export default class TabletCSS extends Component {
 		} = attributes;
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
-		let selector = !! url ? 'a.gb-button-' + uniqueId : '.gb-button-' + uniqueId;
+		let selector = '.gb-button-' + uniqueId;
 		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
@@ -72,12 +67,9 @@ export default class TabletCSS extends Component {
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
 			'text-align': alignmentTablet,
-			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
-			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 		} ];
 
+		SpacingCSS( cssObj, selector, attributes, 'Tablet' );
 		LayoutCSS( cssObj, selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, selector, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, selector, attributes, 'Tablet' );

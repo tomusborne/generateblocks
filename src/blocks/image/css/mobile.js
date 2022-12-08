@@ -1,6 +1,7 @@
 import buildCSS from '../../../utils/build-css';
 import { applyFilters } from '@wordpress/hooks';
 import shorthandCSS from '../../../utils/shorthand-css';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 export default function MobileCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -12,11 +13,6 @@ export default function MobileCSS( props ) {
 		paddingBottomMobile,
 		paddingLeftMobile,
 		paddingUnit,
-		marginTopMobile,
-		marginRightMobile,
-		marginBottomMobile,
-		marginLeftMobile,
-		marginUnit,
 		borderSizeTopMobile,
 		borderSizeRightMobile,
 		borderSizeBottomMobile,
@@ -58,13 +54,14 @@ export default function MobileCSS( props ) {
 	}
 
 	cssObj[ '.editor-styles-wrapper .gb-block-image-' + uniqueId ] = [ {
-		margin: shorthandCSS( marginTopMobile, marginRightMobile, marginBottomMobile, marginLeftMobile, marginUnit ),
 		padding: shorthandCSS( paddingTopMobile, paddingRightMobile, paddingBottomMobile, paddingLeftMobile, paddingUnit ),
 		'text-align': ! alignmentMobile.startsWith( 'float' ) ? alignmentMobile : null,
 		float,
 		position: float && 'none' !== float ? 'relative' : null,
 		'z-index': float && 'none' !== float ? '22' : null,
 	} ];
+
+	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-block-image-' + uniqueId, attributes, 'Mobile' );
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-radius': shorthandCSS( borderRadiusTopLeftMobile, borderRadiusTopRightMobile, borderRadiusBottomRightMobile, borderRadiusBottomLeftMobile, borderRadiusUnit ),

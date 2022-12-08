@@ -12,13 +12,14 @@ import SizingCSS from '../../../extend/inspector-control/controls/sizing/compone
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import isFlexItem from '../../../utils/is-flex-item';
-import { useDeviceType } from '../../../hooks';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
 
 	const {
 		clientId,
+		device,
 	} = props;
 
 	const {
@@ -35,11 +36,6 @@ export default function MainCSS( props ) {
 		paddingBottom,
 		paddingLeft,
 		paddingUnit,
-		marginTop,
-		marginRight,
-		marginBottom,
-		marginLeft,
-		marginUnit,
 		borderSizeTop,
 		borderSizeRight,
 		borderSizeBottom,
@@ -98,17 +94,12 @@ export default function MainCSS( props ) {
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
-	const [ device ] = useDeviceType();
 
 	let cssObj = [];
 	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
 		'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 		'color': textColor, // eslint-disable-line quote-props
 		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
-		'margin-top': valueWithUnit( marginTop, 'auto' !== marginTop ? marginUnit : '' ),
-		'margin-right': valueWithUnit( marginRight, 'auto' !== marginRight ? marginUnit : '' ) || '0',
-		'margin-bottom': valueWithUnit( marginBottom, 'auto' !== marginBottom ? marginUnit : '' ),
-		'margin-left': valueWithUnit( marginLeft, 'auto' !== marginLeft ? marginUnit : '' ) || '0',
 		'text-align': alignment,
 		'font-family': fontFamily + fontFamilyFallbackValue,
 		'font-weight': fontWeight,
@@ -117,6 +108,7 @@ export default function MainCSS( props ) {
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 	} ];
 
+	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
@@ -141,24 +133,35 @@ export default function MainCSS( props ) {
 		} );
 	}
 
-	if (
-		( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
-		zindex ||
-		( gradient && 'pseudo-element' === gradientSelector )
-	) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			'position': 'relative', // eslint-disable-line quote-props
-		} );
+	if ( useInnerContainer ) {
+		if (
+			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
+			zindex ||
+			( gradient && 'pseudo-element' === gradientSelector )
+		) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'position': 'relative', // eslint-disable-line quote-props
+			} );
+		}
+
+		if (
+			( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
+			( gradient && 'pseudo-element' === gradientSelector )
+		) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'overflow': 'hidden', // eslint-disable-line quote-props
+			} );
+
+			cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
+				'z-index': 10,
+			} ];
+		}
 	}
 
 	if (
 		( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
 		( gradient && 'pseudo-element' === gradientSelector )
 	) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			'overflow': 'hidden', // eslint-disable-line quote-props
-		} );
-
 		cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 			'z-index': 10,
 		} ];
@@ -288,9 +291,11 @@ export default function MainCSS( props ) {
 	}
 
 	if ( shapeDividers.length ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			position: 'relative',
-		} );
+		if ( useInnerContainer ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				position: 'relative',
+			} );
+		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' .block-list-appender' ] = [ {
 			position: 'relative',

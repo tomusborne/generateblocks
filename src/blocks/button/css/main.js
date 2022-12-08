@@ -14,13 +14,13 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 export default class MainCSS extends Component {
 	render() {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			url,
 			uniqueId,
 			removeText,
 			backgroundColor,
@@ -36,11 +36,6 @@ export default class MainCSS extends Component {
 			letterSpacing,
 			fontSize,
 			fontSizeUnit,
-			marginTop,
-			marginRight,
-			marginBottom,
-			marginLeft,
-			marginUnit,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -76,6 +71,9 @@ export default class MainCSS extends Component {
 			iconSizeUnit,
 			hasButtonContainer,
 			alignment,
+			backgroundColorCurrent,
+			textColorCurrent,
+			borderColorCurrent,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -102,7 +100,7 @@ export default class MainCSS extends Component {
 		}
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
-		let selector = !! url ? 'a.gb-button-' + uniqueId : '.gb-button-' + uniqueId;
+		let selector = '.gb-button-' + uniqueId;
 		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
@@ -119,10 +117,10 @@ export default class MainCSS extends Component {
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 			'text-align': alignment,
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
-			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
 
+		SpacingCSS( cssObj, selector, attributes );
 		LayoutCSS( cssObj, selector, attributes );
 		SizingCSS( cssObj, selector, attributes );
 		FlexChildCSS( cssObj, selector, attributes );
@@ -133,6 +131,12 @@ export default class MainCSS extends Component {
 				'border-style': 'solid',
 			} );
 		}
+
+		cssObj[ selector + '[data-button-is-current]' ] = [ {
+			'background-color': backgroundColorCurrent,
+			color: textColorCurrent,
+			'border-color': borderColorCurrent,
+		} ];
 
 		cssObj[ selector + ':hover, ' + selector + ':focus, ' + selector + ':active' ] = [ {
 			'background-color': hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),

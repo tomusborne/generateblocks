@@ -20,6 +20,8 @@ const containerContext = defaultsDeep( {
 			columnGap: true,
 			rowGap: true,
 			zIndex: true,
+			position: true,
+			overflow: true,
 		},
 		flexChildPanel: {
 			enabled: true,
