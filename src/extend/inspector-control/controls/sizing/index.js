@@ -3,7 +3,8 @@ import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
-import { ToggleControl } from '@wordpress/components';
+import { Tooltip, Button } from '@wordpress/components';
+import { globe } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
 import MinHeight from './components/MinHeight';
 import getAttribute from '../../../../utils/get-attribute';
@@ -24,7 +25,7 @@ export default function Sizing( props ) {
 	} = props;
 
 	const {
-		useGlobalContainerWidth = false,
+		useGlobalMaxWidth = false,
 		useInnerContainer = false,
 		isGrid = false,
 		sizing,
@@ -128,8 +129,8 @@ export default function Sizing( props ) {
 						desktopValue={ sizing?.maxWidth }
 						tabletValue={ sizing?.maxWidthTablet }
 						units={ getUnits( 'maxWidth' ) }
-						overrideValue={ !! useGlobalContainerWidth ? generateBlocksInfo.globalContainerWidth : null }
-						disabled={ useInnerContainer || useGlobalContainerWidth || isGrid }
+						overrideValue={ !! useGlobalMaxWidth ? generateBlocksInfo.globalContainerWidth : null }
+						disabled={ useInnerContainer || isGrid || ( useGlobalMaxWidth && 'Desktop' === device ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -137,6 +138,25 @@ export default function Sizing( props ) {
 									[ getAttribute( 'maxWidth', { attributes, deviceType: device }, true ) ]: value,
 								},
 							} );
+						} }
+						overrideAction={ () => {
+							if ( ! sizingPanel.useGlobalMaxWidth || useInnerContainer || isGrid || 'Desktop' !== device || getValue( 'maxWidth' ) ) {
+								return null;
+							}
+
+							return (
+								<Tooltip text={ __( 'Use global max-width', 'generateblocks' ) }>
+									<Button
+										icon={ globe }
+										isPrimary={ !! useGlobalMaxWidth }
+										onClick={ () => {
+											setAttributes( {
+												useGlobalMaxWidth: useGlobalMaxWidth ? false : true,
+											} );
+										} }
+									/>
+								</Tooltip>
+							);
 						} }
 					/>
 				}
@@ -158,19 +178,6 @@ export default function Sizing( props ) {
 					/>
 				}
 			</div>
-
-			{ sizingPanel.useGlobalMaxWidth && ! useInnerContainer && ! isGrid &&
-				<ToggleControl
-					label={ __( 'Use Global max-width', 'generateblocks' ) }
-					className={ 'gblocks-global-container-width' }
-					checked={ !! useGlobalContainerWidth }
-					onChange={ ( value ) => {
-						setAttributes( {
-							useGlobalContainerWidth: value,
-						} );
-					} }
-				/>
-			}
 		</PanelArea>
 	);
 }

@@ -22,6 +22,7 @@ export default function UnitControl( props ) {
 		id,
 		disabled = false,
 		overrideValue = null,
+		overrideAction = () => null,
 		onChange,
 		value,
 		desktopValue,
@@ -61,11 +62,12 @@ export default function UnitControl( props ) {
 					'Tablet' === device ||
 					(
 						'Mobile' === device &&
-						desktopValue
+						( desktopValue || overrideValue )
 					)
 				) {
-					setPlaceholderValue( getNumericValue( desktopValues ) );
-					setUnitValue( getUnitValue( desktopValues ) );
+					const overridePlaceholder = splitValues( overrideValue );
+					setPlaceholderValue( getNumericValue( desktopValues.length ? desktopValues : overridePlaceholder ) );
+					setUnitValue( getUnitValue( desktopValues.length ? desktopValues : overridePlaceholder ) );
 				}
 			}
 
@@ -82,7 +84,7 @@ export default function UnitControl( props ) {
 
 	// Split the number and unit into two values.
 	useEffect( () => {
-		const newValue = overrideValue || value;
+		const newValue = overrideValue && disabled ? overrideValue : value;
 
 		// Split our values if we're starting with a number.
 		if ( startsWithNumber( newValue ) ) {
@@ -107,6 +109,8 @@ export default function UnitControl( props ) {
 			return;
 		}
 
+		const hasOverride = !! overrideValue && !! disabled;
+
 		const fullValue = startsWithNumber( numericValue )
 			? numericValue + unitValue
 			: numericValue;
@@ -127,7 +131,7 @@ export default function UnitControl( props ) {
 			}
 		}
 
-		if ( ! overrideValue && fullValue !== value ) {
+		if ( ! hasOverride && fullValue !== value ) {
 			onChange( fullValue );
 		}
 	}, [ numericValue, unitValue ] );
@@ -179,6 +183,8 @@ export default function UnitControl( props ) {
 						onFocus={ () => setShowPresets( true ) }
 						ref={ inputRef }
 					/>
+
+					{ !! overrideAction && <div className="gblocks-unit-control__override-action">{ overrideAction() } </div> }
 
 					{ (
 						startsWithNumber( numericValue ) ||

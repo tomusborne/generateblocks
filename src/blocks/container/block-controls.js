@@ -75,7 +75,7 @@ const withBlockControls = createHigherOrderComponent(
 								onClick={ () => {
 									insertBlocks(
 										createBlock( 'generateblocks/container', {
-											useGlobalContainerWidth: true,
+											useGlobalMaxWidth: true,
 											marginLeft: 'auto',
 											marginRight: 'auto',
 										} ),

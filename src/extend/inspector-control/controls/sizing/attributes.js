@@ -4,5 +4,9 @@ export default function getSizingAttributes() {
 			type: 'object',
 			default: {},
 		},
+		useGlobalMaxWidth: {
+			type: 'boolean',
+			default: false,
+		},
 	};
 }
