@@ -233,7 +233,12 @@ class GenerateBlocks_Block_Button {
 			? ', ' . $selector . '.gb-button__current:visited'
 			: '';
 
-		$css->set_selector( $selector . '.gb-button__current' . $visited_selector );
+		$current_selector = sprintf(
+			'%1$s.gb-button__current, %1$s.gb-button__current:hover, %1$s.gb-button__current:active, %1$s.gb-button__current:focus',
+			$selector
+		);
+
+		$css->set_selector( $current_selector . $visited_selector );
 		$css->add_property( 'background-color', $settings['backgroundColorCurrent'] );
 		$css->add_property( 'color', $settings['textColorCurrent'] );
 		$css->add_property( 'border-color', $settings['borderColorCurrent'] );
