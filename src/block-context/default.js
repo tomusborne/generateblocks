@@ -72,10 +72,6 @@ const defaultContext = {
 			enabled: false,
 			location: [],
 		},
-		htmlTags: {
-			enabled: false,
-			tags: [],
-		},
 	},
 };
 

@@ -1,9 +1,7 @@
 import { SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
-import { useContext } from '@wordpress/element';
 import { useDeviceType } from '../../../hooks';
-import ControlsContext from '../../../block-context';
 
 export default function TagName( props ) {
 	const {
@@ -13,21 +11,26 @@ export default function TagName( props ) {
 	} = props;
 
 	const [ device ] = useDeviceType();
-	const {
-		supports: {
-			htmlTags,
-		},
-	} = useContext( ControlsContext );
 
 	const tagNames = applyFilters(
 		'generateblocks.editor.headlineTagNames',
-		htmlTags.tags,
+		[
+			{ label: 'h1', value: 'h1' },
+			{ label: 'h2', value: 'h2' },
+			{ label: 'h3', value: 'h3' },
+			{ label: 'h4', value: 'h4' },
+			{ label: 'h5', value: 'h5' },
+			{ label: 'h6', value: 'h6' },
+			{ label: 'paragraph', value: 'p' },
+			{ label: 'div', value: 'div' },
+			{ label: 'figcaption', value: 'figcaption' },
+		],
 		{ ...props, deviceType: device }
 	);
 
 	return (
 		<>
-			{ htmlTags.enabled && 'Desktop' === device && ! isCaption &&
+			{ 'Desktop' === device && ! isCaption &&
 				<SelectControl
 					label={ __( 'Tag Name', 'generateblocks' ) }
 					value={ tagName }
