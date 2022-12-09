@@ -7,7 +7,6 @@ import TypographyControls from './controls/typography';
 import SpacingControls from './controls/spacing';
 import ColorsControls from './controls/colors';
 import IconControls from './controls/icon';
-import ElementControls from './controls/element';
 import SettingsPanel from './controls/settings-panel';
 import BackgroundPanel from './controls/background-panel';
 import ShapesPanel from './controls/shapes-panel';
@@ -27,7 +26,6 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			backgroundPanel,
 			shapesPanel,
 			icon,
-			htmlTags,
 			sizingPanel,
 		},
 	} = useContext( ControlsContext );
@@ -38,13 +36,6 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 
 			{ settingsPanel.enabled && !! children &&
 				<SettingsPanel>{ children }</SettingsPanel>
-			}
-
-			{ htmlTags.enabled && 'Desktop' === device && ! attributes.isCaption &&
-				<ElementControls
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
 			}
 
 			{ layout.enabled &&

@@ -13,6 +13,10 @@ export default {
 		source: 'html',
 		selector: '.gb-headline-text',
 	},
+	element: {
+		type: 'string',
+		default: 'h2',
+	},
 	ariaLabel: {
 		type: 'string',
 		default: generateBlocksDefaults.headline.ariaLabel,
