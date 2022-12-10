@@ -15,6 +15,14 @@ export default ( WrappedComponent ) => {
 				setAttributes( { isDynamic: true } );
 			}
 
+			// Prevent layouts from switching to row-gap.
+			// @since 1.7.0
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
+				setAttributes( {
+					useLegacyRowGap: true,
+				} );
+			}
+
 			// Set our old defaults as static values.
 			// @since 1.4.0.
 			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {

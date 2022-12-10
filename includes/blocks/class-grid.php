@@ -44,6 +44,7 @@ class GenerateBlocks_Block_Grid {
 			'horizontalAlignment' => '',
 			'horizontalAlignmentTablet' => '',
 			'horizontalAlignmentMobile' => '',
+			'useLegacyRowGap' => false,
 		];
 	}
 
@@ -132,7 +133,7 @@ class GenerateBlocks_Block_Grid {
 		$css->add_property( 'align-items', $settings['verticalAlignment'] );
 		$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
-		if ( $blockVersion > 2 ) {
+		if ( $blockVersion > 2 && ! $settings['useLegacyRowGap'] ) {
 			$css->add_property( 'row-gap', $settings['verticalGap'], 'px' );
 		}
 
@@ -143,13 +144,13 @@ class GenerateBlocks_Block_Grid {
 		$css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$css->add_property( 'padding-' . $gap_direction, $settings['horizontalGap'], 'px' );
 
-		if ( $blockVersion < 3 ) {
+		if ( $blockVersion < 3 || $settings['useLegacyRowGap'] ) {
 			$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
 		}
 
 		$tablet_css->set_selector( '.gb-grid-wrapper-' . $id );
 
-		if ( $blockVersion > 2 ) {
+		if ( $blockVersion > 2 && ! $settings['useLegacyRowGap'] ) {
 			$tablet_css->add_property( 'row-gap', $settings['verticalGapTablet'], 'px' );
 		}
 
@@ -170,13 +171,13 @@ class GenerateBlocks_Block_Grid {
 		$tablet_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$tablet_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapTablet'], 'px' );
 
-		if ( $blockVersion < 3 ) {
+		if ( $blockVersion < 3 || $settings['useLegacyRowGap'] ) {
 			$tablet_css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
 		}
 
 		$mobile_css->set_selector( '.gb-grid-wrapper-' . $id );
 
-		if ( $blockVersion > 2 ) {
+		if ( $blockVersion > 2 && ! $settings['useLegacyRowGap'] ) {
 			$mobile_css->add_property( 'row-gap', $settings['verticalGapMobile'], 'px' );
 		}
 
@@ -197,7 +198,7 @@ class GenerateBlocks_Block_Grid {
 		$mobile_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$mobile_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapMobile'], 'px' );
 
-		if ( $blockVersion < 3 ) {
+		if ( $blockVersion < 3 || $settings['useLegacyRowGap'] ) {
 			$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
 		}
 
