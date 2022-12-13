@@ -85,6 +85,63 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 == Changelog ==
 
+= 1.7.0 =
+* Feature: Add flexbox controls to all blocks
+* Feature: Add sizing controls to all blocks
+* Feature: Add global max-width option to sizing
+* Feature: Add position option to all blocks
+* Feature: Add overflow options to Container block
+* Feature: Add flex child controls to Headline and Button blocks
+* Feature: Add Button Container variant using Container block
+* Feature: Deprecate existing Button Container block
+* Feature: Remove inner container div from newly added Container blocks
+* Feature: Add manual migration for existing Container blocks with inner container
+* Feature: Add insert inner Container button
+* Feature: Allow adding singular Button blocks
+* Feature: Allow grouping of singular Buttons inside a Container
+* Feature: Add z-index options to tablet and mobile
+* Feature: Add order option to desktop
+* Feature: Add text alignment to Button block
+* Feature: Add generateblocks_dynamic_source_id filter
+* Feature: Add generateblocks.editor.addButtonCurrentColors filter
+* Feature: Add generateblocks_block_css_selector filter
+* Feature: Add button type option
+* Feature: Accept ID-only searches in dynamic content post selects
+* Feature: Add template selector system
+* Feature: Add generateblocks.editor.renderBlock hook
+* Feature: Add onboard system
+* Feature: Add generateblocks.editor.settingsPanel filter
+* Feature: Use row-gap for Grid vertical gap option
+* Feature: Add generateblocks_block_one_time_css_data hook
+* Feature: Add generateblocks_before_container_open hook
+* Feature: Add generateblocks_after_container_close hook
+* Feature: Allow "auto" as value in margin controls
+* Feature: Add generateblocks_use_visited_selector filter
+* Feature: Add generateblocks_query_loop_editor_posts_cap filter
+* Tweak: Improve typography font family select
+* Tweak: Improve Container block appender
+* Tweak: Migrate flexBasis to use one value with unit
+* Tweak: Move z-index to Layout panel
+* Tweak: Add Flex Child panel to Layout panel
+* Tweak: Improve Typography section layout
+* Tweak: Move Container alignment to typography section
+* Tweak: Change panel icon color
+* Tweak: Update block icons
+* Tweak: Move device buttons above block name
+* Tweak: Remove transition from Button block
+* Tweak: Remove block description from inspector controls
+* Tweak: Improve advanced select results
+* Tweak: Use new editor_script/style_handles
+* Tweak: Re-order panels
+* Tweak: Move Headline tag name control to Advanced
+* Tweak: Ignore button hover colors on current buttons
+* Tweak: Remove :visited pseudo selector from CSS
+* Tweak: Remove tag name from CSS selectors
+* Fix: Responsive placeholder not showing 0 value
+* Fix: Excerpt spelling mistake
+* Fix: Image placeholder position
+* Fix: Missing source ID in excerpt
+
 = 1.6.0 =
 * Feature: Add support for FSE styling
 * Feature: Improve dynamic select components performance
