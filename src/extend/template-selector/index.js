@@ -5,7 +5,7 @@ import TemplateContext from './templateContext';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { useDispatch } from '@wordpress/data';
 
-export default function TemplateSelector( { clientId } ) {
+export default function TemplateSelector( { clientId, setAttributes } ) {
 	const { label, instructions, templates } = useContext( TemplateContext );
 	const { replaceInnerBlocks } = useDispatch( 'core/block-editor' );
 
@@ -26,6 +26,10 @@ export default function TemplateSelector( { clientId } ) {
 									clientId,
 									createBlocksFromInnerBlocksTemplate( template.innerBlocks )
 								);
+
+								if ( template.attributes ) {
+									setAttributes( template.attributes );
+								}
 							} }
 						>
 							{ template.icon }<span>{ template.label }</span>
