@@ -442,6 +442,55 @@ function generateblocks_set_spacing_defaults( $defaults ) {
 
 	return $defaults;
 }
+
+add_filter( 'generateblocks_block_css_selector', 'generateblocks_set_block_css_selectors', 10, 3 );
+/**
+ * Change our block selectors if needed.
+ *
+ * @param string $selector Existing selector.
+ * @param string $name The block name.
+ * @param array  $attributes The block attributes.
+ */
+function generateblocks_set_block_css_selectors( $selector, $name, $attributes ) {
+	$blockVersion = ! empty( $attributes['blockVersion'] ) ? $attributes['blockVersion'] : 1;
+	$defaults = generateblocks_get_block_defaults();
+
+	if ( 'button' === $name ) {
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['button']
+		);
+
+		if ( $blockVersion < 3 ) {
+			$clean_selector = $selector;
+			$selector = 'a' . $selector;
+
+			if ( isset( $settings['hasUrl'] ) && ! $settings['hasUrl'] ) {
+				$selector = $clean_selector;
+			}
+		}
+
+		if ( $settings['hasButtonContainer'] || $blockVersion < 3 ) {
+			$selector = '.gb-button-wrapper ' . $selector;
+		}
+	}
+
+	if ( 'headline' === $name ) {
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['headline']
+		);
+
+		$include_tagname_default = $blockVersion < 2;
+
+		if ( apply_filters( 'generateblocks_headline_selector_tagname', $include_tagname_default, $attributes ) ) {
+			$selector = $settings['element'] . $selector;
+		}
+	}
+
+	return $selector;
+}
+
 add_action( 'init', 'generateblocks_register_user_meta' );
 /**
  * Register GenerateBlocks custom user meta fields.

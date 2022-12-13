@@ -15,6 +15,7 @@ import {
 	applyFilters,
 } from '@wordpress/hooks';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import { sprintf } from '@wordpress/i18n';
 
 export default class MainCSS extends Component {
 	render() {
@@ -132,7 +133,12 @@ export default class MainCSS extends Component {
 			} );
 		}
 
-		cssObj[ selector + '[data-button-is-current]' ] = [ {
+		const currentSelector = sprintf(
+			'%1$s[data-button-is-current], %1$s[data-button-is-current]:hover, %1$s[data-button-is-current]:active, %1$s[data-button-is-current]:focus',
+			selector
+		);
+
+		cssObj[ currentSelector ] = [ {
 			'background-color': backgroundColorCurrent,
 			color: textColorCurrent,
 			'border-color': borderColorCurrent,

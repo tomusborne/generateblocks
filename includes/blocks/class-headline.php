@@ -137,12 +137,7 @@ class GenerateBlocks_Block_Headline {
 
 		$id = $attributes['uniqueId'];
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
-
-		$selector = '.gb-headline-' . $id;
-
-		if ( apply_filters( 'generateblocks_headline_selector_tagname', true, $attributes ) ) {
-			$selector = $settings['element'] . $selector;
-		}
+		$selector = generateblocks_get_css_selector( 'headline', $attributes );
 
 		// Back-compatibility for when icon held a value.
 		if ( $settings['icon'] ) {

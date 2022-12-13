@@ -142,14 +142,8 @@ class GenerateBlocks_Block_Button {
 			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $attributes );
 		}
 
-		$containerSelector = $settings['hasButtonContainer'] || $blockVersion < 3 ? '.gb-button-wrapper ' : '';
-		$selector = 'a.gb-button-' . $id;
-
-		if ( isset( $attributes['hasUrl'] ) && ! $attributes['hasUrl'] ) {
-			$selector = '.gb-button-' . $id;
-		}
-
-		$selector = $containerSelector . $selector;
+		$selector = generateblocks_get_css_selector( 'button', $attributes );
+		$use_visited_selector = generateblocks_use_visited_selector( 'button', $attributes );
 
 		// Back-compatibility for when icon held a value.
 		if ( $settings['icon'] ) {
@@ -195,7 +189,11 @@ class GenerateBlocks_Block_Button {
 			self::$singular_css_added = true;
 		}
 
-		$css->set_selector( $selector . ', ' . $selector . ':visited' );
+		$visited_selector = $use_visited_selector
+			? ', ' . $selector . ':visited'
+			: '';
+
+		$css->set_selector( $selector . $visited_selector );
 		generateblocks_add_layout_css( $css, $settings );
 		generateblocks_add_sizing_css( $css, $settings );
 		generateblocks_add_flex_child_css( $css, $settings );
@@ -231,7 +229,16 @@ class GenerateBlocks_Block_Button {
 		$css->add_property( 'color', $settings['textColorHover'] );
 		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
-		$css->set_selector( $selector . '.gb-button__current, ' . $selector . '.gb-button__current:visited' );
+		$visited_selector = $use_visited_selector
+			? ', ' . $selector . '.gb-button__current:visited'
+			: '';
+
+		$current_selector = sprintf(
+			'%1$s.gb-button__current, %1$s.gb-button__current:hover, %1$s.gb-button__current:active, %1$s.gb-button__current:focus',
+			$selector
+		);
+
+		$css->set_selector( $current_selector . $visited_selector );
 		$css->add_property( 'background-color', $settings['backgroundColorCurrent'] );
 		$css->add_property( 'color', $settings['textColorCurrent'] );
 		$css->add_property( 'border-color', $settings['borderColorCurrent'] );
