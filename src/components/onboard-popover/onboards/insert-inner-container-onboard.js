@@ -15,8 +15,8 @@ export default function InsertInnerContainerOnboard() {
 				<a
 					target="_blank"
 					rel="noreferrer"
-					href="https://docs.generateblocks.com/article/container-overview"
-					title={ __( 'Container overview - GenerateBlocks documentation' ) }>
+					href="https://docs.generateblocks.com/article/add-inner-container/"
+					title={ __( 'Read more about adding inner Container blocks.', 'generateblocks' ) }>
 					{ __( 'Read more.', 'generateblocks' ) }
 				</a>
 			</p>
