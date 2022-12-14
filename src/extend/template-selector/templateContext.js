@@ -23,7 +23,7 @@ export const withTemplateContext = ( WrappedComponent ) => ( ( props ) => {
 	return (
 		<TemplateContext.Provider value={ templateContext }>
 			{ 0 < templateContext.templates.length && 0 === innerBlocksCount
-				? <TemplateSelector { ...props } />
+				? <WrappedComponent { ...props } ContentRenderer={ TemplateSelector } />
 				: <WrappedComponent { ...props } />
 			}
 		</TemplateContext.Provider>
