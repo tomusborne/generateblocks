@@ -461,13 +461,11 @@ function generateblocks_set_block_css_selectors( $selector, $name, $attributes )
 			$defaults['button']
 		);
 
-		if ( $blockVersion < 3 ) {
-			$clean_selector = $selector;
-			$selector = 'a' . $selector;
+		$clean_selector = $selector;
+		$selector = 'a' . $selector;
 
-			if ( isset( $settings['hasUrl'] ) && ! $settings['hasUrl'] ) {
-				$selector = $clean_selector;
-			}
+		if ( ( isset( $settings['hasUrl'] ) && ! $settings['hasUrl'] ) || 'link' !== $settings['buttonType'] ) {
+			$selector = $clean_selector;
 		}
 
 		if ( $settings['hasButtonContainer'] || $blockVersion < 3 ) {
