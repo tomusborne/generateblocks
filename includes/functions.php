@@ -1346,8 +1346,8 @@ function generateblocks_get_wp_filesystem() {
 		$credentials = array();
 
 		// We provide credentials based on wp-config.php constants.
-		// Reference https://developer.wordpress.org/apis/wp-config-php/#wordpress-upgrade-constants
-		foreach( $constants as $key => $constant ) {
+		// Reference https://developer.wordpress.org/apis/wp-config-php/#wordpress-upgrade-constants.
+		foreach ( $constants as $key => $constant ) {
 			if ( defined( $constant ) ) {
 				$credentials[ $key ] = constant( $constant );
 			}

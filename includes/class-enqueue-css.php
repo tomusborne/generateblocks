@@ -204,7 +204,9 @@ class GenerateBlocks_Enqueue_CSS {
 			return false;
 		}
 
-		if ( ! $filesystem = generateblocks_get_wp_filesystem() ) {
+		$filesystem = generateblocks_get_wp_filesystem();
+
+		if ( ! $filesystem ) {
 			return false;
 		}
 
