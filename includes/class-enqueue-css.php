@@ -204,12 +204,8 @@ class GenerateBlocks_Enqueue_CSS {
 			return false;
 		}
 
-		global $wp_filesystem;
-
-		// Initialize the WordPress filesystem.
-		if ( empty( $wp_filesystem ) ) {
-			require_once ABSPATH . '/wp-admin/includes/file.php';
-			WP_Filesystem();
+		if ( ! $filesystem = generateblocks_get_wp_filesystem() ) {
+			return false;
 		}
 
 		// Take care of domain mapping.
@@ -229,7 +225,7 @@ class GenerateBlocks_Enqueue_CSS {
 				$chmod_file = FS_CHMOD_FILE;
 			}
 
-			if ( ! $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $content ), $chmod_file ) ) {
+			if ( ! $filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $content ), $chmod_file ) ) {
 
 				// Fail!
 				return false;
