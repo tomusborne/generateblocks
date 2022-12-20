@@ -382,7 +382,7 @@ class GenerateBlocks_Block_Container {
 			? ', ' . $selector . ' a:visited'
 			: '';
 
-		$css->set_selector( $selector . $visited_selector );
+		$css->set_selector( $selector . ' a' . $visited_selector );
 		$css->add_property( 'color', $settings['linkColor'] );
 
 		$css->set_selector( $selector . ' a:hover' );
