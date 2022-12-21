@@ -692,8 +692,6 @@ class GenerateBlocks_Block_Container {
 		}
 
 		if ( $useInnerContainer ) {
-			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
-
 			// Need to check if we're using minHeightMobile in two places below.
 			$minHeightMobile = $blockVersion < 3 ? $settings['minHeightMobile'] : generateblocks_get_array_attribute_value( 'minHeightMobile', $settings['sizing'] );
 
