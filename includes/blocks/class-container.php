@@ -270,6 +270,10 @@ class GenerateBlocks_Block_Container {
 		$usingMinHeightInnerWidth = false;
 
 		if ( $useInnerContainer ) {
+			if ( $settings['zindex'] ) {
+				$css->add_property( 'z-index', $settings['zindex'] );
+			}
+
 			if ( 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
 				if ( ! empty( $containerWidth ) ) {
 					$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
