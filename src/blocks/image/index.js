@@ -2,6 +2,7 @@
  * WordPress dependencies
  */
 import { registerBlockType } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 
 /**
  * Internal dependencies
@@ -22,6 +23,7 @@ const attributes = Object.assign(
 );
 
 registerBlockType( 'generateblocks/image', {
+	title: __( 'Image', 'generateblocks' ),
 	icon: getIcon( 'image' ),
 	attributes,
 	edit,
