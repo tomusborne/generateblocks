@@ -1,16 +1,16 @@
 import PanelArea from '../../../../components/panel-area';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../../utils/get-icon';
-import { useDeviceType } from '../../../../hooks';
 import IconPicker from '../../../../components/icon-picker';
 import IconStyles from './components/icon-styles';
 import IconSize from './components/icon-size';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
+import getDeviceType from '../../../../utils/get-device-type';
 
 export default function IconControls( { attributes, setAttributes } ) {
 	const { id, supports: { icon: iconSupport } } = useContext( ControlsContext );
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 	const {
 		icon,
 		iconLocation,

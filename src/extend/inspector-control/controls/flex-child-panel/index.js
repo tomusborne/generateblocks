@@ -1,6 +1,5 @@
 import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../../components/panel-area';
-import { useDeviceType } from '../../../../hooks';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import getAttribute from '../../../../utils/get-attribute';
@@ -8,9 +7,10 @@ import getResponsivePlaceholder from '../../../../utils/get-responsive-placehold
 import FlexControls from './components/FlexControls';
 import hasNumericValue from '../../../../utils/has-numeric-value';
 import { TextControl } from '@wordpress/components';
+import getDeviceType from '../../../../utils/get-device-type';
 
 export default function FlexChild( { attributes, setAttributes } ) {
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 	const { id, supports: { flexChildPanel } } = useContext( ControlsContext );
 
 	const componentProps = {

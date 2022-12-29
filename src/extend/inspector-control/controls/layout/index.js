@@ -1,7 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
-import { useDeviceType } from '../../../../hooks';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import LayoutControl from './components/LayoutControl';
@@ -18,9 +17,10 @@ import UnitControl from '../../../../components/unit-control';
 import { SelectControl } from '@wordpress/components';
 import { positionOptions, overflowOptions } from './options';
 import FlexControl from '../../../../components/flex-control';
+import getDeviceType from '../../../../utils/get-device-type';
 
 export default function Layout( { attributes, setAttributes } ) {
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 	const { id, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 
 	const componentProps = {

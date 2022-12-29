@@ -1,4 +1,3 @@
-import { useDeviceType } from '../../hooks';
 import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
@@ -14,6 +13,7 @@ import HeadlineContentRenderer from './components/HeadlineContentRenderer';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import withHeadlineLegacyMigration from '../../hoc/withHeadlineLegacyMigration';
+import getDeviceType from '../../utils/get-device-type';
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	let block;
@@ -55,7 +55,7 @@ const HeadlineEdit = ( props ) => {
 
 	const ref = useRef( null );
 	const [ computedStyles, setComputedStyles ] = useState( {} );
-	const [ deviceType ] = useDeviceType();
+	const deviceType = getDeviceType();
 
 	useEffect( () => {
 		if ( ! hasIcon && icon ) {

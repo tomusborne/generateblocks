@@ -3,7 +3,7 @@ import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import { InnerBlocks, useBlockProps, BlockContextProvider } from '@wordpress/block-editor';
-import { useDeviceType, useInnerBlocksCount } from '../../hooks';
+import { useInnerBlocksCount } from '../../hooks';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
@@ -12,6 +12,7 @@ import { useDispatch } from '@wordpress/data';
 import RootElement from '../../components/root-element';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import getDeviceType from '../../utils/get-device-type';
 
 const ButtonContainerEdit = ( props ) => {
 	const {
@@ -29,7 +30,7 @@ const ButtonContainerEdit = ( props ) => {
 	} = attributes;
 
 	const [ buttonCount, setButtonCount ] = useState( 0 );
-	const [ deviceType ] = useDeviceType( 'Desktop' );
+	const deviceType = getDeviceType();
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 
 	const { removeBlock } = useDispatch( 'core/block-editor' );

@@ -1,7 +1,7 @@
 import { SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
-import { useDeviceType } from '../../../hooks';
+import getDeviceType from '../../../utils/get-device-type';
 
 export default function TagName( props ) {
 	const {
@@ -10,7 +10,7 @@ export default function TagName( props ) {
 		isCaption,
 	} = props;
 
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 
 	const tagNames = applyFilters(
 		'generateblocks.editor.headlineTagNames',

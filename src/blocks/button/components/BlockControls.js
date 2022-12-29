@@ -9,7 +9,7 @@ import getIcon from '../../../utils/get-icon';
 import isFlexItem from '../../../utils/is-flex-item';
 import getAttribute from '../../../utils/get-attribute';
 import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
-import { useDeviceType } from '../../../hooks';
+import getDeviceType from '../../../utils/get-device-type';
 
 export default ( props ) => {
 	const {
@@ -45,7 +45,7 @@ export default ( props ) => {
 		position: 'bottom right',
 	};
 
-	const [ deviceType ] = useDeviceType();
+	const deviceType = getDeviceType();
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
 	const showButtonContainer = applyFilters( 'generateblocks.editor.showButtonContainerControl', true, props );
