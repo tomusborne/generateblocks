@@ -46,6 +46,7 @@ const withBlockControls = createHigherOrderComponent(
 			isQueryLoopItem,
 			align,
 			variantRole,
+			useInnerContainer,
 		} = attributes;
 
 		let parentGridId = false;
@@ -67,7 +68,7 @@ const withBlockControls = createHigherOrderComponent(
 
 		return (
 			<Fragment>
-				{ ! hasParentBlock && 0 === innerBlocksCount && '' === variantRole &&
+				{ ! hasParentBlock && 0 === innerBlocksCount && '' === variantRole && ! useInnerContainer &&
 					<BlockControls>
 						<ToolbarGroup>
 							<ToolbarButton

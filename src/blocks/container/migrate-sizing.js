@@ -2,21 +2,24 @@ export default function MigrateSizing( { attributes, setAttributes } ) {
 	const sizingAttributes = {};
 	const oldAttributes = {};
 
-	if ( attributes.width ) {
-		sizingAttributes.width = attributes.width + '%';
-		oldAttributes.width = '';
-	}
+	// Only migrate these if we're an active Grid item.
+	if ( attributes.isGrid ) {
+		if ( attributes.width ) {
+			sizingAttributes.width = attributes.width + '%';
+			oldAttributes.width = '';
+		}
 
-	if ( attributes.widthTablet || attributes.autoWidthTablet ) {
-		sizingAttributes.widthTablet = attributes.autoWidthTablet ? 'auto' : attributes.widthTablet + '%';
-		oldAttributes.widthTablet = '';
-		oldAttributes.autoWidthTablet = false;
-	}
+		if ( attributes.widthTablet || attributes.autoWidthTablet ) {
+			sizingAttributes.widthTablet = attributes.autoWidthTablet ? 'auto' : attributes.widthTablet + '%';
+			oldAttributes.widthTablet = '';
+			oldAttributes.autoWidthTablet = false;
+		}
 
-	if ( attributes.widthMobile || attributes.autoWidthMobile ) {
-		sizingAttributes.widthMobile = attributes.autoWidthMobile ? 'auto' : attributes.widthMobile + '%';
-		oldAttributes.widthMobile = '';
-		oldAttributes.autoWidthMobile = false;
+		if ( attributes.widthMobile || attributes.autoWidthMobile ) {
+			sizingAttributes.widthMobile = attributes.autoWidthMobile ? 'auto' : attributes.widthMobile + '%';
+			oldAttributes.widthMobile = '';
+			oldAttributes.autoWidthMobile = false;
+		}
 	}
 
 	if ( attributes.minHeight ) {

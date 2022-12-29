@@ -270,6 +270,10 @@ class GenerateBlocks_Block_Container {
 		$usingMinHeightInnerWidth = false;
 
 		if ( $useInnerContainer ) {
+			if ( $settings['zindex'] ) {
+				$css->add_property( 'z-index', $settings['zindex'] );
+			}
+
 			if ( 'contained' === $settings['outerContainer'] && ! $settings['isGrid'] ) {
 				if ( ! empty( $containerWidth ) ) {
 					$css->add_property( 'max-width', absint( $containerWidth ), 'px' );
@@ -382,7 +386,7 @@ class GenerateBlocks_Block_Container {
 			? ', ' . $selector . ' a:visited'
 			: '';
 
-		$css->set_selector( $selector . $visited_selector );
+		$css->set_selector( $selector . ' a' . $visited_selector );
 		$css->add_property( 'color', $settings['linkColor'] );
 
 		$css->set_selector( $selector . ' a:hover' );
@@ -692,8 +696,6 @@ class GenerateBlocks_Block_Container {
 		}
 
 		if ( $useInnerContainer ) {
-			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
-
 			// Need to check if we're using minHeightMobile in two places below.
 			$minHeightMobile = $blockVersion < 3 ? $settings['minHeightMobile'] : generateblocks_get_array_attribute_value( 'minHeightMobile', $settings['sizing'] );
 
