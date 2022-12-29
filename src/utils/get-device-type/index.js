@@ -1,3 +1,4 @@
 export default () => {
-	return localStorage.getItem( 'generateblocksDeviceType' ) || 'Desktop';
+	const localValue = localStorage.getItem( 'generateblocksDeviceType' );
+	return localValue ? JSON.parse( localValue ) : 'Desktop';
 };
