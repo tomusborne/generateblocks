@@ -48,25 +48,72 @@ export default function MigrateInnerContainer( props ) {
 		childBlock: getChildBlock( clientId ),
 	} );
 
+	function migrateInnerContainerButton() {
+		return <Button
+			variant={ !! migrateInnerContainer ? 'primary' : 'secondary' }
+			style={ { marginRight: '5px' } }
+			onClick={ () => {
+				doInnerContainerMigration( {
+					clientId,
+					attributes,
+					setAttributes,
+					parentBlock: getBlocksByClientId( clientId )[ 0 ],
+					insertBlocks,
+					removeBlocks,
+				} );
+				closeModal();
+			} }
+		>
+			{ __( 'Enable new system with inner Container block', 'generateblocks' ) }
+		</Button>;
+	}
+
+	function enableNewSystemButton() {
+		return <Button
+			variant={ ! migrateInnerContainer ? 'primary' : 'secondary' }
+			style={ { marginRight: '5px' } }
+			onClick={ () => {
+				doSimpleMigration( { attributes, setAttributes } );
+				closeModal();
+			} }
+		>
+			{ __( 'Enable new system only', 'generateblocks' ) }
+		</Button>;
+	}
+
 	return (
 		<>
 			{ !! useInnerContainer &&
 				<ToggleControl
-					label={ __( 'Use legacy inner container', 'generateblocks' ) }
-					help={ __( 'Old versions of the Container block had an inner container div. This will remove that inner div for you.', 'generateblocks' ) }
+					label={ __( 'Use legacy layout system', 'generateblocks' ) }
+					help={ __( 'This Container is using an old layout system. Toggle this to migrate to the new system.', 'generateblocks' ) }
 					checked={ !! useInnerContainer }
 					onChange={ openModal }
 				/>
 			}
 
 			{ !! isInnerContainerMigrateOpen &&
-				<Modal title={ __( 'Add inner Container block', 'generateblocks' ) } onRequestClose={ closeModal }>
-					<p>{ __( 'We can automatically add an inner Container block to this block if your layout relies on it.', 'generateblocks' ) }</p>
+				<Modal title={ __( 'New Layout System', 'generateblocks' ) } onRequestClose={ closeModal }>
+					<p>{ __( 'Migrating to our new layout system will do the following:', 'generateblocks' ) }</p>
+					<ul className="gblocks-layout-system-ul">
+						<li>{ __( 'Remove the inner div element that was included by default in the old system.', 'generateblocks' ) }</li>
+						<li>{ __( 'Enable our new layout system for this Container block.', 'generateblocks' ) }</li>
+					</ul>
+					<p>{ __( 'We can automatically replace the old inner div element with a Container block if your layout relies on it.', 'generateblocks' ) }</p>
 					<Notice status="info" isDismissible={ false } className="gblocks-inner-container-notice">
-						<strong>{ __( 'Recommendation:', 'generateblocks' ) }</strong>
 						{ !! migrateInnerContainer
-							? ' ' + __( 'Yes, we recommend you add an inner Container block to maintain your current layout.', 'generateblocks' )
-							: ' ' + __( 'No, we do not believe you need an inner Container block based on your current layout.', 'generateblocks' )
+							? (
+								<>
+									<p style={ { 'margin-top': 0 } }><strong>{ __( 'Recommendation:', 'generateblocks' ) }</strong> { __( 'Yes, we recommend you add a new inner Container block to maintain your current layout.', 'generateblocks' ) }</p>
+
+									{ migrateInnerContainerButton() }
+								</>
+							) : (
+								<>
+									<p style={ { 'margin-top': 0 } }><strong>{ __( 'Recommendation:', 'generateblocks' ) }</strong> { __( 'No, we do not believe you need an inner Container block based on your current layout.', 'generateblocks' ) }</p>
+									{ enableNewSystemButton() }
+								</>
+							)
 						}
 					</Notice>
 
@@ -84,32 +131,20 @@ export default function MigrateInnerContainer( props ) {
 							{ ' ' + __( 'This block is a Global Style. If you migrate the inner container on this block you will need to make sure that all Container blocks using it are migrated as well.', 'generateblocks' ) }
 						</Notice>
 					}
-					<Button
-						variant={ !! migrateInnerContainer ? 'primary' : 'tertiary' }
-						style={ { marginRight: '5px' } }
-						onClick={ () => {
-							doInnerContainerMigration( {
-								clientId,
-								attributes,
-								setAttributes,
-								parentBlock: getBlocksByClientId( clientId )[ 0 ],
-								insertBlocks,
-								removeBlocks,
-							} );
-							closeModal();
-						} }
-					>
-						{ __( 'Yes, add an inner Container block', 'generateblocks' ) }
-					</Button>
+
+					{ ! migrateInnerContainer &&
+						migrateInnerContainerButton()
+					}
+
+					{ !! migrateInnerContainer &&
+						enableNewSystemButton()
+					}
 
 					<Button
-						variant={ ! migrateInnerContainer ? 'primary' : 'tertiary' }
-						onClick={ () => {
-							doSimpleMigration( { attributes, setAttributes } );
-							closeModal();
-						} }
+						variant="secondary"
+						onClick={ closeModal }
 					>
-						{ __( 'No, just remove the legacy inner container div', 'generateblocks' ) }
+						{ __( 'Cancel', 'generateblocks' ) }
 					</Button>
 				</Modal>
 			}

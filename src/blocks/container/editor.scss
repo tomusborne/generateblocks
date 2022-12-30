@@ -324,5 +324,10 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 .gblocks-inner-container-notice {
 	margin: 0 0 1em;
 	background: rgba(0,0,0,0.03);
-	max-width: 700px;
+	max-width: 720px;
+}
+
+.gblocks-layout-system-ul {
+	list-style-type: disc;
+	margin-left: 1em;
 }
