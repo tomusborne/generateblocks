@@ -71,8 +71,9 @@ function defaultBlockContextRules( blockContext, props ) {
 	const isInQueryLoop = 'undefined' !== typeof props.context[ 'generateblocks/queryId' ];
 	const blockName = props.name;
 	const clientId = props.clientId;
+	const deviceType = props.deviceType;
 
-	return Object.assign( {}, blockContext, { isInQueryLoop, blockName, clientId } );
+	return Object.assign( {}, blockContext, { isInQueryLoop, blockName, clientId, deviceType } );
 }
 
 addFilter(

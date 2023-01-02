@@ -4,7 +4,7 @@ import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
 import { Fragment, useRef, useState, useEffect } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { withButtonLegacyMigration, withUniqueId } from '../../hoc';
+import { withButtonLegacyMigration, withDeviceType, withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import ButtonContentRenderer from './components/ButtonContentRenderer';
 import wasBlockJustInserted from '../../utils/was-block-just-inserted';
@@ -111,6 +111,7 @@ const ButtonEdit = ( props ) => {
 };
 
 export default compose(
+	withDeviceType,
 	withBlockContext,
 	withDynamicContent,
 	withUniqueId,

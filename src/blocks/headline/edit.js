@@ -7,7 +7,7 @@ import GoogleFontLink from '../../components/google-font-link';
 import ComponentCSS from './components/ComponentCSS';
 import { createBlock } from '@wordpress/blocks';
 import { compose } from '@wordpress/compose';
-import { withUniqueId } from '../../hoc';
+import { withDeviceType, withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import HeadlineContentRenderer from './components/HeadlineContentRenderer';
 import { withBlockContext } from '../../block-context';
@@ -112,6 +112,7 @@ const HeadlineEdit = ( props ) => {
 };
 
 export default compose(
+	withDeviceType,
 	withBlockContext,
 	withDynamicContent,
 	withUniqueId,

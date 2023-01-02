@@ -7,7 +7,7 @@ import { useInnerBlocksCount } from '../../hooks';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
-import { withButtonContainerLegacyMigration, withUniqueId } from '../../hoc';
+import { withButtonContainerLegacyMigration, withDeviceType, withUniqueId } from '../../hoc';
 import { useDispatch } from '@wordpress/data';
 import RootElement from '../../components/root-element';
 import { withBlockContext } from '../../block-context';
@@ -98,6 +98,7 @@ const ButtonContainerEdit = ( props ) => {
 };
 
 export default compose(
+	withDeviceType,
 	withBlockContext,
 	withUniqueId,
 	withButtonContainerLegacyMigration

@@ -1,4 +1,8 @@
+import { useContext } from '@wordpress/element';
+import BlockContext from '../../block-context';
+
 export default () => {
-	const localValue = localStorage.getItem( 'generateblocksDeviceType' );
-	return localValue ? JSON.parse( localValue ) : 'Desktop';
+	const { deviceType } = useContext( BlockContext );
+
+	return deviceType;
 };

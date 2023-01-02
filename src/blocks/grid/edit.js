@@ -11,7 +11,7 @@ import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
 import { useInnerBlocksCount } from '../../hooks';
-import { withUniqueId, withGridLegacyMigration } from '../../hoc';
+import { withUniqueId, withGridLegacyMigration, withDeviceType } from '../../hoc';
 import withQueryLoop from '../query-loop/hoc/withQueryLoop';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
@@ -135,6 +135,7 @@ const GridEdit = ( props ) => {
 };
 
 export default compose(
+	withDeviceType,
 	withBlockContext,
 	withQueryLoop,
 	withUniqueId,
