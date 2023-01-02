@@ -470,6 +470,8 @@ function generateblocks_set_block_css_selectors( $selector, $name, $attributes )
 
 		if ( $settings['hasButtonContainer'] || $blockVersion < 3 ) {
 			$selector = '.gb-button-wrapper ' . $selector;
+		} elseif ( isset( $settings['isPagination'] ) && $settings['isPagination'] ) {
+			$selector = '.gb-query-loop-pagination ' . $selector;
 		}
 	}
 
