@@ -443,7 +443,14 @@ class GenerateBlocks_Dynamic_Content {
 			);
 			$links = paginate_links( $paginate_args );
 		} else {
-			$block_query = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
+			$query_args = apply_filters(
+				'generateblocks_query_loop_args',
+				GenerateBlocks_Query_Loop::get_query_args( $block, $page ),
+				$attributes,
+				$block
+			);
+
+			$block_query = new WP_Query( $query_args );
 
 			// `paginate_links` works with the global $wp_query, so we have to
 			// temporarily switch it with our custom query.
@@ -846,7 +853,14 @@ class GenerateBlocks_Dynamic_Content {
 					$url = next_posts( $max_page, false );
 				}
 			} elseif ( ! $max_page || $max_page > $page ) {
-				$custom_query           = new WP_Query( GenerateBlocks_Query_Loop::get_query_args( $block, $page ) );
+				$query_args = apply_filters(
+					'generateblocks_query_loop_args',
+					GenerateBlocks_Query_Loop::get_query_args( $block, $page ),
+					$attributes,
+					$block
+				);
+
+				$custom_query           = new WP_Query( $query_args );
 				$custom_query_max_pages = (int) $custom_query->max_num_pages;
 
 				if ( $custom_query_max_pages && $custom_query_max_pages !== $page ) {
