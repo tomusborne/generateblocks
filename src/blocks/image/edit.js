@@ -2,7 +2,7 @@ import './editor.scss';
 import ImageContentRenderer from './components/ImageContentRenderer';
 import { compose } from '@wordpress/compose';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
-import { withUniqueId } from '../../hoc';
+import { withDeviceType, withUniqueId } from '../../hoc';
 import ComponentCSS from './components/ComponentCSS';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
@@ -195,6 +195,7 @@ function ImageEdit( props ) {
 }
 
 export default compose(
+	withDeviceType,
 	withBlockContext,
 	withDynamicContent,
 	withUniqueId,

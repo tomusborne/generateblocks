@@ -4,7 +4,7 @@ import GoogleFontLink from '../../components/google-font-link';
 import { applyFilters } from '@wordpress/hooks';
 import { Fragment, useEffect, useRef } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
+import { withUniqueId, withContainerLegacyMigration, withDeviceType } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import ContainerContentRenderer from './components/ContainerContentRenderer';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
@@ -142,6 +142,7 @@ const ContainerEdit = ( props ) => {
 };
 
 export default compose(
+	withDeviceType,
 	withTemplateContext,
 	withBlockContext,
 	withDynamicContent,
