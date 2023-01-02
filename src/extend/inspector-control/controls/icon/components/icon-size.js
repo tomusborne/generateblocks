@@ -1,9 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import NumberControl from '../../../../../components/number-control';
-import { useDeviceType } from '../../../../../hooks';
+import getDeviceType from '../../../../../utils/get-device-type';
 
 export default function IconSize( { attributes, setAttributes } ) {
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 
 	return (
 		<NumberControl

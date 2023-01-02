@@ -26,6 +26,7 @@ export default ( { clientId } ) => {
 			marginTop: '20',
 			variantRole: 'button-container',
 			display: 'flex',
+			isPagination: true,
 		},
 		[
 			[

@@ -3,7 +3,6 @@ import { __ } from '@wordpress/i18n';
 import getIcon from '../../../../utils/get-icon';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
-import { useDeviceType } from '../../../../hooks';
 import FontSize from './components/font-size';
 import FontWeight from './components/font-weight';
 import TextTransform from './components/text-transform';
@@ -13,10 +12,11 @@ import FontFamily from './components/font-family';
 import Alignment from './components/alignment';
 import getAttribute from '../../../../utils/get-attribute';
 import FlexControl from '../../../../components/flex-control';
+import getDeviceType from '../../../../utils/get-device-type';
 import './editor.scss';
 
 export default function Typography( { attributes, setAttributes, computedStyles } ) {
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 	const { id, supports: { typography } } = useContext( ControlsContext );
 	const isDesktop = 'Desktop' === device;
 

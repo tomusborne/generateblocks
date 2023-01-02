@@ -441,7 +441,7 @@ class GenerateBlocks_Block_Button {
 
 			$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
 
-			if ( isset( $content['attributes']['href'] ) || $dynamic_link ) {
+			if ( ! empty( $content['attributes']['href'] ) || $dynamic_link ) {
 				$tagName = 'a';
 			}
 

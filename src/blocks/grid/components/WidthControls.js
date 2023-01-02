@@ -3,16 +3,17 @@ import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { BaseControl, ButtonGroup, Button } from '@wordpress/components';
 import getAttribute from '../../../utils/get-attribute';
-import { useDeviceType } from '../../../hooks';
+import getDeviceType from '../../../utils/get-device-type';
 
 function GridItemSettings( content, props ) {
 	const { attributes, setAttributes, name } = props;
 	const { isGrid, sizing } = attributes;
-	const [ device ] = useDeviceType();
 
 	if ( 'generateblocks/container' !== name || ! isGrid ) {
 		return content;
 	}
+
+	const device = getDeviceType();
 
 	function getValue( attributeName ) {
 		return sizing && sizing[ getAttribute( attributeName, { attributes, deviceType: device }, true ) ]

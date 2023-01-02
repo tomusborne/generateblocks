@@ -7,9 +7,9 @@ import {
 import { __ } from '@wordpress/i18n';
 import getResponsivePlaceholder from '../../../../../utils/get-responsive-placeholder';
 import getIcon from '../../../../../utils/get-icon';
-import { useDeviceType } from '../../../../../hooks';
 import getAttribute from '../../../../../utils/get-attribute';
 import UnitControl from '../../../../../components/unit-control';
+import getDeviceType from '../../../../../utils/get-device-type';
 
 export default function FlexChildControls( props ) {
 	const {
@@ -22,7 +22,7 @@ export default function FlexChildControls( props ) {
 		flexBasisTablet,
 	} = attributes;
 
-	const [ deviceType ] = useDeviceType();
+	const deviceType = getDeviceType();
 
 	return (
 		<>

@@ -3,7 +3,6 @@ import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import { applyFilters } from '@wordpress/hooks';
 import { Fragment, useEffect, useRef } from '@wordpress/element';
-import { useDeviceType } from '../../hooks';
 import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
@@ -12,6 +11,7 @@ import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import { withBlockContext } from '../../block-context';
 import { useSelect } from '@wordpress/data';
 import { withTemplateContext } from '../../extend/template-selector/templateContext';
+import getDeviceType from '../../utils/get-device-type';
 
 const ContainerEdit = ( props ) => {
 	const {
@@ -33,7 +33,7 @@ const ContainerEdit = ( props ) => {
 	} = attributes;
 
 	const ref = useRef( null );
-	const [ deviceType ] = useDeviceType();
+	const deviceType = getDeviceType();
 
 	const allowedTagNames = applyFilters(
 		'generateblocks.editor.allowedContainerTagNames',

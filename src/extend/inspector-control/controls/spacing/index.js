@@ -2,13 +2,13 @@ import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
 import DimensionsGroup from '../../../../components/dimensions-group';
-import { useDeviceType } from '../../../../hooks';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import DeviceControls from './components/device-controls';
+import getDeviceType from '../../../../utils/get-device-type';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 	const { id, supports: { spacing } } = useContext( ControlsContext );
 	const {
 		inlineWidth,

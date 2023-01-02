@@ -8,17 +8,17 @@ import { globe } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
 import MinHeight from './components/MinHeight';
 import getAttribute from '../../../../utils/get-attribute';
-import { useDeviceType } from '../../../../hooks';
 import Width from './components/Width';
 import MaxWidth from './components/MaxWidth';
 import Height from './components/Height';
 import MinWidth from './components/MinWidth';
 import MaxHeight from './components/MaxHeight';
 import './editor.scss';
+import getDeviceType from '../../../../utils/get-device-type';
 
 export default function Sizing( props ) {
 	const { id, supports: { sizingPanel } } = useContext( ControlsContext );
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 	const {
 		attributes,
 		setAttributes,
