@@ -141,6 +141,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Excerpt spelling mistake
 * Fix: Image placeholder position
 * Fix: Missing source ID in excerpt
+* Fix: Dynamic Button tag name with no link
 
 = 1.6.0 =
 * Feature: Add support for FSE styling
