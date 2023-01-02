@@ -10,7 +10,7 @@ import classnames from 'classnames';
  */
 
 import './editor.scss';
-import { useDeviceType } from '../../hooks';
+import getDeviceType from '../../utils/get-device-type';
 
 export default function UnitControl( props ) {
 	const {
@@ -30,7 +30,7 @@ export default function UnitControl( props ) {
 		presets = [],
 	} = props;
 
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 	const [ unitValue, setUnitValue ] = useState( '' );
 	const [ numericValue, setNumericValue ] = useState( '' );
 	const [ placeholderValue, setPlaceholderValue ] = useState( '' );

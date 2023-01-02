@@ -1,6 +1,5 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { useContext } from '@wordpress/element';
-import { useDeviceType } from '../../hooks';
 import ControlsContext from '../../block-context';
 import ResponsiveTabs from './controls/responsive-tabs';
 import TypographyControls from './controls/typography';
@@ -12,9 +11,10 @@ import BackgroundPanel from './controls/background-panel';
 import ShapesPanel from './controls/shapes-panel';
 import LayoutControls from './controls/layout';
 import SizingControls from './controls/sizing';
+import getDeviceType from '../../utils/get-device-type';
 
 export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles = {}, children } ) {
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 	const {
 		supports: {
 			responsiveTabs,

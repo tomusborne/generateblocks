@@ -1,10 +1,10 @@
 import ToolbarGroup from './ToolbarGroup';
 import { memo } from '@wordpress/element';
 import { AlignmentToolbar, BlockControls } from '@wordpress/block-editor';
-import { useDeviceType } from '../../../hooks';
 import isFlexItem from '../../../utils/is-flex-item';
 import getAttribute from '../../../utils/get-attribute';
 import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
+import getDeviceType from '../../../utils/get-device-type';
 
 function HeadlineBlockControls( props ) {
 	const {
@@ -20,7 +20,7 @@ function HeadlineBlockControls( props ) {
 		displayMobile,
 	} = attributes;
 
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 
 	return (
 		<BlockControls>

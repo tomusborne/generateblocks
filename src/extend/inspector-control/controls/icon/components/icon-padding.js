@@ -1,9 +1,9 @@
 import { __ } from '@wordpress/i18n';
 import DimensionsControl from '../../../../../components/dimensions';
-import { useDeviceType } from '../../../../../hooks';
+import getDeviceType from '../../../../../utils/get-device-type';
 
 export default function IconPadding( { attributes, setAttributes } ) {
-	const [ device ] = useDeviceType();
+	const device = getDeviceType();
 
 	return (
 		<DimensionsControl

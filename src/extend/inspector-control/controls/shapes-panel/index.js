@@ -17,11 +17,11 @@ import {
 } from '@wordpress/components';
 import ColorPicker from '../../../../components/color-picker';
 import UnitPicker from '../../../../components/unit-picker';
-import { useDeviceType } from '../../../../hooks';
+import getDeviceType from '../../../../utils/get-device-type';
 
 export default function ShapesPanel( { attributes, setAttributes } ) {
 	const { id } = useContext( ControlsContext );
-	const [ deviceType ] = useDeviceType();
+	const deviceType = getDeviceType();
 	const {
 		backgroundColor,
 		shapeDividers,

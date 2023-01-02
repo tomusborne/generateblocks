@@ -3,7 +3,6 @@ import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
 import { Fragment, useRef, useState, useEffect } from '@wordpress/element';
-import { useDeviceType } from '../../hooks';
 import { compose } from '@wordpress/compose';
 import { withButtonLegacyMigration, withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
@@ -13,6 +12,7 @@ import { useSelect } from '@wordpress/data';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import { applyFilters } from '@wordpress/hooks';
+import getDeviceType from '../../utils/get-device-type';
 import './components/ConditionalColors';
 
 const ButtonEdit = ( props ) => {
@@ -38,7 +38,7 @@ const ButtonEdit = ( props ) => {
 
 	const ref = useRef( null );
 	const [ computedStyles, setComputedStyles ] = useState( {} );
-	const [ deviceType ] = useDeviceType( 'Desktop' );
+	const deviceType = getDeviceType();
 	const {
 		getBlockParents,
 		getBlocksByClientId,

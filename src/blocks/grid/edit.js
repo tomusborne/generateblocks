@@ -10,12 +10,13 @@ import ComponentCSS from './components/ComponentCSS';
 import classnames from 'classnames';
 import { applyFilters } from '@wordpress/hooks';
 import { compose } from '@wordpress/compose';
-import { useDeviceType, useInnerBlocksCount } from '../../hooks';
+import { useInnerBlocksCount } from '../../hooks';
 import { withUniqueId, withGridLegacyMigration } from '../../hoc';
 import withQueryLoop from '../query-loop/hoc/withQueryLoop';
 import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import './components/WidthControls';
+import getDeviceType from '../../utils/get-device-type';
 
 const GridEdit = ( props ) => {
 	const {
@@ -30,7 +31,7 @@ const GridEdit = ( props ) => {
 	} = props;
 
 	const [ selectedLayout, setSelectedLayout ] = useState( false );
-	const [ deviceType ] = useDeviceType();
+	const deviceType = getDeviceType();
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
