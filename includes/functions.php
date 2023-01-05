@@ -607,7 +607,7 @@ function generateblocks_get_background_image_css( $type, $settings ) {
  * @return string String of HTML attributes and values.
  */
 function generateblocks_attr( $context, $attributes = array(), $settings = array(), $block = null ) {
-	$attributes = generateblocks_parse_attr( $context, $attributes, $settings );
+	$attributes = generateblocks_parse_attr( $context, $attributes, $settings, $block );
 
 	$output = '';
 
