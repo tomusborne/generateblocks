@@ -461,11 +461,24 @@ function generateblocks_set_block_css_selectors( $selector, $name, $attributes )
 			$defaults['button']
 		);
 
-		$clean_selector = $selector;
-		$selector = 'a' . $selector;
+		if ( $blockVersion < 3 ) {
+			// Old versions of the this block used this backwards logic
+			// to determine whether to remove the "a" to the selector.
+			$clean_selector = $selector;
+			$selector = 'a' . $selector;
 
-		if ( ( isset( $settings['hasUrl'] ) && ! $settings['hasUrl'] ) || 'link' !== $settings['buttonType'] ) {
-			$selector = $clean_selector;
+			if ( isset( $attributes['hasUrl'] ) && ! $attributes['hasUrl'] ) {
+				$selector = $clean_selector;
+			}
+		} else {
+			$is_link = (
+				! empty( $settings['hasUrl'] ) ||
+				! empty( $settings['dynamicLinkType'] )
+			) && 'link' === $settings['buttonType'];
+
+			if ( $is_link ) {
+				$selector = 'a' . $selector;
+			}
 		}
 
 		if ( $settings['hasButtonContainer'] || $blockVersion < 3 ) {
