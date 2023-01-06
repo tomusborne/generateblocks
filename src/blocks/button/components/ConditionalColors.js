@@ -12,13 +12,9 @@ function AddColorItems( items, props ) {
 		dynamicContentType,
 	} = attributes;
 
-	if ( 'generateblocks/button' !== name ) {
-		return items;
-	}
-
 	const addCurrentColors = applyFilters(
 		'generateblocks.editor.addButtonCurrentColors',
-		useDynamicData && 'pagination-numbers' === dynamicContentType,
+		'generateblocks/button' === name && useDynamicData && 'pagination-numbers' === dynamicContentType,
 		props
 	);
 
