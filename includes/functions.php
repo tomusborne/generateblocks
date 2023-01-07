@@ -614,7 +614,7 @@ function generateblocks_attr( $context, $attributes = array(), $settings = array
 	// Cycle through attributes, build tag attribute string.
 	foreach ( $attributes as $key => $value ) {
 
-		if ( ! $value ) {
+		if ( ! $value && '0' !== $value ) {
 			continue;
 		}
 
