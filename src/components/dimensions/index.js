@@ -132,6 +132,10 @@ export default function Dimensions( props ) {
 								value = value.toString().replace( /-/g, '' );
 							}
 
+							if ( 'margin' === type && value ) {
+								value = value.toString().toLowerCase();
+							}
+
 							if ( attributes[ attributeNames.sync ] ) {
 								onChangeAll( value );
 							} else {
@@ -159,6 +163,10 @@ export default function Dimensions( props ) {
 							if ( 'margin' !== type ) {
 								// No negative values allowed here.
 								value = value.toString().replace( /-/g, '' );
+							}
+
+							if ( 'margin' === type && value ) {
+								value = value.toString().toLowerCase();
 							}
 
 							if ( attributes[ attributeNames.sync ] ) {
@@ -197,6 +205,10 @@ export default function Dimensions( props ) {
 								value = value.toString().replace( /-/g, '' );
 							}
 
+							if ( 'margin' === type && value ) {
+								value = value.toString().toLowerCase();
+							}
+
 							if ( attributes[ attributeNames.sync ] ) {
 								onChangeAll( value );
 							} else {
@@ -224,6 +236,10 @@ export default function Dimensions( props ) {
 							if ( 'margin' !== type ) {
 								// No negative values allowed here.
 								value = value.toString().replace( /-/g, '' );
+							}
+
+							if ( 'margin' === type && value ) {
+								value = value.toString().toLowerCase();
 							}
 
 							if ( attributes[ attributeNames.sync ] ) {
