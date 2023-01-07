@@ -494,9 +494,7 @@ function generateblocks_set_block_css_selectors( $selector, $name, $attributes )
 			$defaults['headline']
 		);
 
-		$include_tagname_default = $blockVersion < 2;
-
-		if ( apply_filters( 'generateblocks_headline_selector_tagname', $include_tagname_default, $attributes ) ) {
+		if ( apply_filters( 'generateblocks_headline_selector_tagname', true, $attributes ) ) {
 			$selector = $settings['element'] . $selector;
 		}
 	}
