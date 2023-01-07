@@ -90,7 +90,9 @@ export default function Dimensions( props ) {
 			return;
 		}
 
-		const syncValue = Math.max.apply( null, numbers ).toString();
+		const syncValue = numbers.includes( 'auto' )
+			? 'auto'
+			: Math.max.apply( null, numbers ).toString();
 
 		setAttributes( {
 			[ value ]: ! attributes[ value ],
