@@ -62,7 +62,7 @@ class GenerateBlocks_Enqueue_CSS {
 	 * Enqueue our front-end assets.
 	 */
 	public function enqueue_assets() {
-		$dynamic_css_priority = apply_filters( 'generateblocks_dynamic_css_priority', 10 );
+		$dynamic_css_priority = apply_filters( 'generateblocks_dynamic_css_priority', 25 );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dynamic_css' ), $dynamic_css_priority );
 		add_action( 'wp_enqueue_scripts', array( $this, 'print_inline_css' ), $dynamic_css_priority );
