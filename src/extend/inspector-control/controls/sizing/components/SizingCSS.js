@@ -11,7 +11,7 @@ export default function SizingCSS( css, selector, attributes, device = '' ) {
 		height: sizingValue( 'height' + device, sizing ),
 		'min-width': sizingValue( 'min-width' + device, sizing ),
 		'min-height': sizingValue( 'minHeight' + device, sizing ),
-		'max-width': sizingValue( 'maxWidth' + device, sizing ) || 'unset',
+		'max-width': sizingValue( 'maxWidth' + device, sizing ),
 		'max-height': sizingValue( 'maxHeight' + device, sizing ),
 	};
 
@@ -25,6 +25,10 @@ export default function SizingCSS( css, selector, attributes, device = '' ) {
 		delete styles.width;
 		delete styles[ 'min-width' ];
 		delete styles[ 'max-width' ];
+	}
+
+	if ( ! styles[ 'max-width' ] ) {
+		styles[ 'max-width' ] = 'unset';
 	}
 
 	return (
