@@ -137,6 +137,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Ignore button hover colors on current buttons
 * Tweak: Remove :visited pseudo selector from CSS
 * Tweak: Remove tag name from CSS selectors
+* Tweak: Load CSS later to prevent specificity issues
 * Tweak: Allow "0" as HTML attribute value
 * Fix: Responsive placeholder not showing 0 value
 * Fix: Excerpt spelling mistake
