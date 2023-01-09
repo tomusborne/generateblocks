@@ -43,6 +43,7 @@ export default function MainCSS( props ) {
 		float: alignment.startsWith( 'float' ) ? floats[ alignment ] : 'none',
 		position: alignment.startsWith( 'float' ) ? 'relative' : null,
 		'z-index': alignment.startsWith( 'float' ) ? '22' : null,
+		'max-width': 'unset',
 	} ];
 
 	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-block-image-' + uniqueId, attributes );
