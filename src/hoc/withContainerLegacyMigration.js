@@ -17,9 +17,9 @@ export default ( WrappedComponent ) => {
 				setAttributes( { isDynamic: true } );
 			}
 
-			MigrateSizing( { attributes, setAttributes } );
-
 			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
+				MigrateSizing( { attributes, setAttributes } );
+
 				const flexBasisAttributes = {};
 
 				[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
