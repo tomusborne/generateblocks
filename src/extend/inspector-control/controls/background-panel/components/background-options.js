@@ -42,6 +42,8 @@ export default function BackgroundOptions( { attributes, setAttributes } ) {
 
 					<Selector
 						value={ bgOptions.selector }
+						position={ position }
+						useInnerContainer={ useInnerContainer }
 						onChange={ ( value ) => {
 							setAttributes( { bgOptions: { ...bgOptions, selector: value } } );
 
