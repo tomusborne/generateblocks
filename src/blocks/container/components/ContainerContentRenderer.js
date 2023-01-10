@@ -30,6 +30,7 @@ export default function ContainerContentRenderer( props ) {
 		isGrid,
 		bgOptions,
 		bgImageInline,
+		bgImage,
 		align,
 		isBlockPreview = false,
 		useInnerContainer,
@@ -48,6 +49,7 @@ export default function ContainerContentRenderer( props ) {
 
 	let hasStyling = (
 		!! backgroundColor ||
+		!! bgImage ||
 		attributes.borderSizeTop ||
 		attributes.borderSizeRight ||
 		attributes.borderSizeBottom ||
