@@ -9,7 +9,7 @@ export default function SizingCSS( css, selector, attributes, device = '' ) {
 	const styles = {
 		width: sizingValue( 'width' + device, sizing ),
 		height: sizingValue( 'height' + device, sizing ),
-		'min-width': sizingValue( 'min-width' + device, sizing ),
+		'min-width': sizingValue( 'minWidth' + device, sizing ),
 		'min-height': sizingValue( 'minHeight' + device, sizing ),
 		'max-width': sizingValue( 'maxWidth' + device, sizing ),
 		'max-height': sizingValue( 'maxHeight' + device, sizing ),
