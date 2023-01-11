@@ -515,7 +515,7 @@ class GenerateBlocks_Dynamic_Content {
 			$classes = $node->getAttribute( 'class' ) ? $node->getAttribute( 'class' ) : '';
 
 			if ( $node->getAttribute( 'aria-current' ) ) {
-				$classes = str_replace( 'current', 'gb-button__current', $classes );
+				$classes = str_replace( 'current', 'gb-block-is-current', $classes );
 			}
 
 			// phpcs:ignore -- DOMDocument doesn't use snake-case.
