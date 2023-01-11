@@ -139,6 +139,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Remove tag name from CSS selectors
 * Tweak: Load CSS later to prevent specificity issues
 * Tweak: Allow "0" as HTML attribute value
+* Tweak: Replace gb-button__current class with gb-block-is-current
 * Fix: Responsive placeholder not showing 0 value
 * Fix: Excerpt spelling mistake
 * Fix: Image placeholder position

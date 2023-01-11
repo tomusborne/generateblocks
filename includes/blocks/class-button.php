@@ -231,11 +231,11 @@ class GenerateBlocks_Block_Button {
 		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
 		$visited_selector = $use_visited_selector
-			? ', ' . $selector . '.gb-button__current:visited'
+			? ', ' . $selector . '.gb-block-is-current:visited'
 			: '';
 
 		$current_selector = sprintf(
-			'%1$s.gb-button__current, %1$s.gb-button__current:hover, %1$s.gb-button__current:active, %1$s.gb-button__current:focus',
+			'%1$s.gb-block-is-current, %1$s.gb-block-is-current:hover, %1$s.gb-block-is-current:active, %1$s.gb-block-is-current:focus',
 			$selector
 		);
 
