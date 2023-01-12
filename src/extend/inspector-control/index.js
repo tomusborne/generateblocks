@@ -53,13 +53,6 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				/>
 			}
 
-			{ colors.enabled &&
-				<ColorsControls
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
-			}
-
 			{ sizingPanel.enabled &&
 				<SizingControls
 					attributes={ attributes }
@@ -72,6 +65,13 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					computedStyles={ computedStyles }
+				/>
+			}
+
+			{ colors.enabled &&
+				<ColorsControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
 				/>
 			}
 
