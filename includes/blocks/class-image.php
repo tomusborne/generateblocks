@@ -299,10 +299,15 @@ class GenerateBlocks_Block_Image {
 				$relAttributes[] = 'sponsored';
 			}
 
-			$dynamic_link_data = array(
-				'href' => $dynamic_link,
-				'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
-				'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
+			$dynamic_link_data = apply_filters(
+				'generateblocks_image_block_dynamic_link_attributes',
+				array(
+					'href' => $dynamic_link,
+					'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+					'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
+				),
+				$settings,
+				$block
 			);
 
 			$dynamic_link_attributes = '';
