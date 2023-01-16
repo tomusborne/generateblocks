@@ -317,6 +317,7 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'left', '0' );
 			$css->add_property( 'transition', 'inherit' );
 			$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
+			$css->add_property( 'pointer-events', 'none' );
 
 			if ( isset( $settings['bgOptions']['opacity'] ) && 1 !== $settings['bgOptions']['opacity'] ) {
 				$css->add_property( 'opacity', $settings['bgOptions']['opacity'] );
