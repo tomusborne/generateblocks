@@ -190,12 +190,10 @@ function shouldMigrateInnerContainer( props ) {
  */
 function doInnerContainerMigration( props ) {
 	const {
-		clientId,
 		attributes,
 		setAttributes,
 		parentBlock,
-		removeBlocks,
-		insertBlocks,
+		replaceBlocks,
 	} = props;
 
 	const {
@@ -226,6 +224,17 @@ function doInnerContainerMigration( props ) {
 	const hasDefaultContainerWidth = parseInt( containerWidth ) === parseInt( generateBlocksInfo.globalContainerWidth );
 	const layoutAttributes = getLayoutAttributes( attributes );
 
+	// We need to create new block instances for each inner block
+	// to prevent a bug where re-usable block content is removed
+	// during migration.
+	const newChildBlocks = childBlocks.map( ( block ) => {
+		return createBlock(
+			block.name,
+			block.attributes,
+			block.innerBlocks
+		);
+	} );
+
 	// Wrap our existing child blocks in a new Container block.
 	const newInnerBlocks = createBlock(
 		'generateblocks/container',
@@ -252,12 +261,11 @@ function doInnerContainerMigration( props ) {
 			zindex: innerZindex,
 			position: innerZindex || 0 === innerZindex ? 'relative' : '',
 		},
-		childBlocks
+		newChildBlocks
 	);
 
 	const childClientIds = childBlocks.map( ( block ) => block.clientId );
-	removeBlocks( childClientIds );
-	insertBlocks( newInnerBlocks, 0, clientId );
+	replaceBlocks( childClientIds, newInnerBlocks );
 
 	// Update attributes for existing Container block.
 	setAttributes( {

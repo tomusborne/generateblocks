@@ -29,8 +29,7 @@ export default function MigrateInnerContainer( props ) {
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	const {
-		insertBlocks,
-		removeBlocks,
+		replaceBlocks,
 	} = useDispatch( 'core/block-editor' );
 
 	function isInsideGridBlock( blockClientId ) {
@@ -54,12 +53,10 @@ export default function MigrateInnerContainer( props ) {
 			style={ { marginRight: '5px' } }
 			onClick={ () => {
 				doInnerContainerMigration( {
-					clientId,
 					attributes,
 					setAttributes,
 					parentBlock: getBlocksByClientId( clientId )[ 0 ],
-					insertBlocks,
-					removeBlocks,
+					replaceBlocks,
 				} );
 				closeModal();
 			} }
