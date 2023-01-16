@@ -28,6 +28,9 @@ export const getColumnsFromLayout = ( layout, uniqueId ) => {
 		paddingLeft: gridItemPaddingLeft || '',
 		widthMobile: 100,
 		width: Number( col ),
+		sizing: {
+			width: `${ col }%`,
+		},
 	} ) );
 };
 
