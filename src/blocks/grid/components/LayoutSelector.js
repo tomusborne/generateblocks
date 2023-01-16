@@ -26,10 +26,10 @@ export const getColumnsFromLayout = ( layout, uniqueId ) => {
 		paddingRight: gridItemPaddingRight || '',
 		paddingBottom: gridItemPaddingBottom || '',
 		paddingLeft: gridItemPaddingLeft || '',
-		widthMobile: 100,
 		width: Number( col ),
 		sizing: {
 			width: `${ col }%`,
+			widthMobile: '100%',
 		},
 	} ) );
 };
