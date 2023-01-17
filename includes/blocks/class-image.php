@@ -299,30 +299,19 @@ class GenerateBlocks_Block_Image {
 				$relAttributes[] = 'sponsored';
 			}
 
-			$dynamic_link_data = apply_filters(
-				'generateblocks_image_block_dynamic_link_attributes',
-				array(
-					'href' => $dynamic_link,
-					'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
-					'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
-				),
-				$settings,
-				$block
-			);
-
-			$dynamic_link_attributes = '';
-
-			foreach ( $dynamic_link_data as $attribute => $value ) {
-				$dynamic_link_attributes .= sprintf(
-					' %s="%s"',
-					$attribute,
-					$value
-				);
-			}
-
 			$image = sprintf(
 				'<a %s>%s</a>',
-				trim( $dynamic_link_attributes ),
+				generateblocks_attr(
+					'image-link',
+					array(
+						'class' => '',
+						'href' => $dynamic_link,
+						'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+						'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
+					),
+					$settings,
+					$block
+				),
 				$image
 			);
 		}
