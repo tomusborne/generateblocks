@@ -218,6 +218,7 @@ export default function MainCSS( props ) {
 			'right': '0', // eslint-disable-line quote-props
 			'bottom': '0', // eslint-disable-line quote-props
 			'left': '0', // eslint-disable-line quote-props
+			'pointer-events': 'none',
 		} ];
 	}
 

@@ -343,6 +343,7 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'right', '0' );
 			$css->add_property( 'bottom', '0' );
 			$css->add_property( 'left', '0' );
+			$css->add_property( 'pointer-events', 'none' );
 
 			if ( $blockVersion < 2 && ! $innerZIndex ) {
 				$innerZIndex = 1;
