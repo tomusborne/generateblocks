@@ -198,6 +198,7 @@ export default function MainCSS( props ) {
 			'bottom': '0', // eslint-disable-line quote-props
 			'left': '0', // eslint-disable-line quote-props
 			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
+			'pointer-events': 'none',
 		} ];
 
 		if ( typeof bgOptions.opacity !== 'undefined' && 1 !== bgOptions.opacity ) {
@@ -217,6 +218,7 @@ export default function MainCSS( props ) {
 			'right': '0', // eslint-disable-line quote-props
 			'bottom': '0', // eslint-disable-line quote-props
 			'left': '0', // eslint-disable-line quote-props
+			'pointer-events': 'none',
 		} ];
 	}
 
