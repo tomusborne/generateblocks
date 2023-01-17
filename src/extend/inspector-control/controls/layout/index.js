@@ -140,7 +140,7 @@ export default function Layout( { attributes, setAttributes } ) {
 								<UnitControl
 									label={ __( 'Column Gap', 'generateblocks' ) }
 									id="gblocks-column-gap"
-									units={ [ 'px', '%', 'vw', 'rem' ] }
+									units={ [ 'px', '%', 'vw', 'em', 'rem' ] }
 									value={ getAttribute( 'columnGap', componentProps ) }
 									desktopValue={ columnGap }
 									tabletValue={ columnGapTablet }
@@ -154,7 +154,7 @@ export default function Layout( { attributes, setAttributes } ) {
 								<UnitControl
 									label={ __( 'Row Gap', 'generateblocks' ) }
 									id="gblocks-row-gap"
-									units={ [ 'px', '%', 'vw', 'rem' ] }
+									units={ [ 'px', '%', 'vw', 'em', 'rem' ] }
 									value={ getAttribute( 'rowGap', componentProps ) }
 									desktopValue={ rowGap }
 									tabletValue={ rowGapTablet }
