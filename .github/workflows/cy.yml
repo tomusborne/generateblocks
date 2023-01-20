@@ -10,6 +10,10 @@ on:
         type: boolean
         default: false
         description: Build the zip package
+      stable-release:
+        type: boolean
+        default: false
+        description: If its a stable release
 
   push:
     branches:
@@ -207,10 +211,11 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v3
 
-      #      - name: Check readme.txt
-      #        run: 'cat readme.txt | grep -w "Stable tag: ${PR_TITLE:9}"'
-      #        env:
-      #          PR_TITLE: ${{ github.event.pull_request.title }}
+      - name: Check readme.txt
+        if: github.event.inputs.stable-release == 'true'
+        run: 'cat readme.txt | grep -w "Stable tag: ${PR_TITLE:9}"'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
 
       - name: Check package.json
         run: 'cat package.json | grep -w "\"version\": \"${PR_TITLE:9}\","'
