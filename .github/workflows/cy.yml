@@ -206,7 +206,7 @@ jobs:
   check-version:
     name: Check versions
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && contains('Release', github.event.pull_request.title)
+    if: github.event_name == 'pull_request'
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
