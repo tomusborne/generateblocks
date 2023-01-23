@@ -145,6 +145,7 @@ class GenerateBlocks_Block_Button {
 
 		$selector = generateblocks_get_css_selector( 'button', $attributes );
 		$use_visited_selector = generateblocks_use_visited_selector( 'button', $attributes );
+		$using_global_style = isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'];
 
 		// Back-compatibility for when icon held a value.
 		if ( $settings['icon'] ) {
@@ -217,12 +218,11 @@ class GenerateBlocks_Block_Button {
 		$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
 		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 
-		if ( $blockVersion < 3 ) {
+		if ( $blockVersion < 3 && ! $using_global_style ) {
 			$css->add_property( 'display', 'inline-flex' );
 			$css->add_property( 'align-items', 'center' );
 			$css->add_property( 'justify-content', 'center' );
 			$css->add_property( 'text-align', 'center' );
-			$css->add_property( 'transition', '.2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out' );
 		}
 
 		$css->set_selector( $selector . ':hover, ' . $selector . ':active, ' . $selector . ':focus' );

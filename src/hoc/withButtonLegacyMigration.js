@@ -17,6 +17,7 @@ export default ( WrappedComponent ) => {
 			url,
 			blockVersion,
 			gradient,
+			useGlobalStyle,
 		} = attributes;
 
 		useEffect( () => {
@@ -30,7 +31,7 @@ export default ( WrappedComponent ) => {
 
 			// Set our layout attributes for old Button blocks.
 			// @since 1.7.0
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 3 ) ) {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 3 ) && ! useGlobalStyle ) {
 				setAttributes( {
 					display: 'inline-flex',
 					alignItems: 'center',
