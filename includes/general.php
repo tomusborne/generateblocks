@@ -78,6 +78,8 @@ function generateblocks_do_block_editor_assets() {
 				'standard' => GENERATEBLOCKS_DIR_URL . 'assets/images/image-placeholder.png',
 				'square' => GENERATEBLOCKS_DIR_URL . 'assets/images/square-image-placeholder.png',
 			),
+			'globalContainerWidth' => generateblocks_get_global_container_width(),
+			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ), // phpcs:ignore -- Core filter.
 		)
 	);
 
@@ -326,4 +328,208 @@ function generateblocks_set_inline_background_style( $attributes, $settings ) {
 	}
 
 	return $attributes;
+}
+
+add_filter( 'generateblocks_defaults', 'generateblocks_set_layout_component_defaults' );
+/**
+ * Set the defaults for our Layout options.
+ *
+ * @param array $defaults Existing defaults.
+ */
+function generateblocks_set_layout_component_defaults( $defaults ) {
+	$options = [
+		'display',
+		'flexDirection',
+		'flexWrap',
+		'alignItems',
+		'justifyContent',
+		'columnGap',
+		'rowGap',
+		'position',
+		'overflowX',
+		'overflowY',
+		'zindex',
+	];
+
+	foreach ( $defaults as $block => $values ) {
+		foreach ( $options as $option ) {
+			$defaults[ $block ][ $option ] = '';
+			$defaults[ $block ][ $option . 'Tablet' ] = '';
+			$defaults[ $block ][ $option . 'Mobile' ] = '';
+		}
+	}
+
+	return $defaults;
+}
+
+add_filter( 'generateblocks_defaults', 'generateblocks_set_sizing_component_defaults' );
+/**
+ * Set the defaults for our Layout options.
+ *
+ * @param array $defaults Existing defaults.
+ */
+function generateblocks_set_sizing_component_defaults( $defaults ) {
+	foreach ( $defaults as $block => $values ) {
+		$defaults[ $block ]['sizing'] = [];
+		$defaults[ $block ]['useGlobalMaxWidth'] = false;
+	}
+
+	return $defaults;
+}
+
+add_filter( 'generateblocks_defaults', 'generateblocks_set_flex_child_component_defaults' );
+/**
+ * Set the defaults for our Flex Child options.
+ *
+ * @param array $defaults Existing defaults.
+ */
+function generateblocks_set_flex_child_component_defaults( $defaults ) {
+	$options = [
+		'flexGrow',
+		'flexShrink',
+		'flexBasis',
+		'order',
+	];
+
+	foreach ( $defaults as $block => $values ) {
+		foreach ( $options as $option ) {
+			$defaults[ $block ][ $option ] = '';
+			$defaults[ $block ][ $option . 'Tablet' ] = '';
+			$defaults[ $block ][ $option . 'Mobile' ] = '';
+		}
+	}
+
+	return $defaults;
+}
+
+add_filter( 'generateblocks_defaults', 'generateblocks_set_spacing_defaults' );
+/**
+ * Set the defaults for our Spacing options.
+ *
+ * @param array $defaults Existing defaults.
+ */
+function generateblocks_set_spacing_defaults( $defaults ) {
+	$options = [
+		'marginTop',
+		'marginRight',
+		'marginBottom',
+		'marginLeft',
+		'paddingTop',
+		'paddingRight',
+		'paddingBottom',
+		'paddingLeft',
+		'borderSizeTop',
+		'borderSizeRight',
+		'borderSizeBottom',
+		'borderSizeLeft',
+		'borderRadiusTopRight',
+		'borderRadiusBottomRight',
+		'borderRadiusBottomLeft',
+		'borderRadiusTopLeft',
+	];
+
+	foreach ( $defaults as $block => $values ) {
+		foreach ( $options as $option ) {
+			$defaults[ $block ][ $option ] = '';
+			$defaults[ $block ][ $option . 'Tablet' ] = '';
+			$defaults[ $block ][ $option . 'Mobile' ] = '';
+		}
+
+		$defaults[ $block ]['marginUnit'] = 'px';
+		$defaults[ $block ]['paddingUnit'] = 'px';
+		$defaults[ $block ]['borderRadiusUnit'] = 'px';
+	}
+
+	return $defaults;
+}
+
+add_filter( 'generateblocks_block_css_selector', 'generateblocks_set_block_css_selectors', 10, 3 );
+/**
+ * Change our block selectors if needed.
+ *
+ * @param string $selector Existing selector.
+ * @param string $name The block name.
+ * @param array  $attributes The block attributes.
+ */
+function generateblocks_set_block_css_selectors( $selector, $name, $attributes ) {
+	$blockVersion = ! empty( $attributes['blockVersion'] ) ? $attributes['blockVersion'] : 1;
+	$defaults = generateblocks_get_block_defaults();
+
+	if ( 'button' === $name ) {
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['button']
+		);
+
+		if ( $blockVersion < 3 ) {
+			// Old versions of the this block used this backwards logic
+			// to determine whether to remove the "a" to the selector.
+			$clean_selector = $selector;
+			$selector = 'a' . $selector;
+
+			if ( isset( $attributes['hasUrl'] ) && ! $attributes['hasUrl'] ) {
+				$selector = $clean_selector;
+			}
+		} else {
+			$is_link = (
+				! empty( $settings['hasUrl'] ) ||
+				! empty( $settings['dynamicLinkType'] )
+			) && 'link' === $settings['buttonType'];
+
+			if ( $is_link ) {
+				$selector = 'a' . $selector;
+			}
+		}
+
+		if ( $settings['hasButtonContainer'] || $blockVersion < 3 ) {
+			$selector = '.gb-button-wrapper ' . $selector;
+		} elseif ( isset( $settings['isPagination'] ) && $settings['isPagination'] ) {
+			$selector = '.gb-query-loop-pagination ' . $selector;
+		}
+	}
+
+	if ( 'headline' === $name ) {
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['headline']
+		);
+
+		$include_tagname_default = $blockVersion < 2;
+
+		if ( apply_filters( 'generateblocks_headline_selector_tagname', $include_tagname_default, $attributes ) ) {
+			$selector = $settings['element'] . $selector;
+		}
+	}
+
+	return $selector;
+}
+
+add_action( 'init', 'generateblocks_register_user_meta' );
+/**
+ * Register GenerateBlocks custom user meta fields.
+ *
+ * @return void
+ */
+function generateblocks_register_user_meta() {
+	$onboarding_properties = apply_filters(
+		'generateblocks_onboarding_user_meta_properties',
+		array(
+			'insert_inner_container' => array( 'type' => 'boolean' ),
+		)
+	);
+
+	register_meta(
+		'user',
+		GenerateBlocks_Rest::ONBOARDING_META_KEY,
+		array(
+			'type' => 'object',
+			'single' => true,
+			'show_in_rest' => array(
+				'schema' => array(
+					'type'  => 'object',
+					'properties' => $onboarding_properties,
+				),
+			),
+		)
+	);
 }

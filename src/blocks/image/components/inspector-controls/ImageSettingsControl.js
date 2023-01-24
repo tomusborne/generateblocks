@@ -1,6 +1,4 @@
 import { __ } from '@wordpress/i18n';
-import getIcon from '../../../../utils/get-icon';
-import PanelArea from '../../../../components/panel-area';
 import { TextareaControl, TextControl, SelectControl, BaseControl } from '@wordpress/components';
 import UnitControl from '../../../../components/unit-control';
 import getAttribute from '../../../../utils/get-attribute';
@@ -11,7 +9,6 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 
 export default function ImageSettingsControls( props ) {
 	const {
-		state,
 		attributes,
 		setAttributes,
 		media,
@@ -25,6 +22,10 @@ export default function ImageSettingsControls( props ) {
 		title,
 		sizeSlug,
 		mediaUrl,
+		width,
+		widthTablet,
+		height,
+		heightTablet,
 	} = attributes;
 
 	const mediaData = useSelect( ( select ) => {
@@ -43,15 +44,7 @@ export default function ImageSettingsControls( props ) {
 	}, [] );
 
 	return (
-		<PanelArea
-			{ ...props }
-			title={ __( 'Settings', 'generateblocks' ) }
-			initialOpen={ false }
-			icon={ getIcon( 'backgrounds' ) }
-			className={ 'gblocks-panel-label' }
-			id={ 'imageSettings' }
-			state={ state }
-		>
+		<>
 			{
 				'Desktop' === deviceType &&
 				(
@@ -78,21 +71,31 @@ export default function ImageSettingsControls( props ) {
 			>
 				<div className="gblocks-image-dimensions__row">
 					<UnitControl
-						{ ...props }
 						label={ __( 'Width', 'generateblocks' ) }
 						id="gblocks-image-width"
-						attributeName="width"
-						device={ deviceType }
+						value={ getAttribute( 'width', { attributes, deviceType } ) }
+						desktopValue={ width }
+						tabletValue={ widthTablet }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ getAttribute( 'width', { attributes, deviceType }, true ) ]: value,
+							} );
+						} }
 						min="1"
 						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 
 					<UnitControl
-						{ ...props }
 						label={ __( 'Height', 'generateblocks' ) }
 						id="gblocks-image-height"
-						attributeName="height"
-						device={ deviceType }
+						value={ getAttribute( 'height', { attributes, deviceType } ) }
+						desktopValue={ height }
+						tabletValue={ heightTablet }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ getAttribute( 'height', { attributes, deviceType }, true ) ]: value,
+							} );
+						} }
 						min="1"
 						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
@@ -158,6 +161,6 @@ export default function ImageSettingsControls( props ) {
 					/>
 				</>
 			}
-		</PanelArea>
+		</>
 	);
 }

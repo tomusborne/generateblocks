@@ -26,8 +26,10 @@ export const getColumnsFromLayout = ( layout, uniqueId ) => {
 		paddingRight: gridItemPaddingRight || '',
 		paddingBottom: gridItemPaddingBottom || '',
 		paddingLeft: gridItemPaddingLeft || '',
-		widthMobile: 100,
-		width: Number( col ),
+		sizing: {
+			width: `${ col }%`,
+			widthMobile: '100%',
+		},
 	} ) );
 };
 
@@ -70,10 +72,12 @@ export default ( { uniqueId, onClick, isDisabled = false } ) => {
 							onClick={ () => onClick( layout ) }
 						>
 							{ columnsData.map( ( colAttrs, idx ) => {
+								const colWidth = colAttrs.sizing.width.replace( '%', '' ).replace( '.', '-' );
+
 								return (
 									<div
 										key={ `layout-${ layout }-col-${ idx }` }
-										className={ classnames( 'gb-col', `gb-col-${ colAttrs.width.toString().replace( '.', '-' ) }` ) }
+										className={ classnames( 'gb-col', `gb-col-${ colWidth }` ) }
 									/>
 								);
 							} ) }

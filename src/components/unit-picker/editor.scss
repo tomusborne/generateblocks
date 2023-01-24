@@ -1,8 +1,17 @@
-.components-gblocks-units-control-header__units {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    align-items: center;
+.components-base-control.components-gblocks-units-control-header__units {
+	display: block;
+	margin-bottom: 0;
+
+	.components-base-control__field {
+		display: flex;
+		justify-content: space-between;
+		gap: 8px;
+		align-items: center;
+	}
+
+	.components-base-control__label {
+		margin-bottom: 0;
+	}
 }
 
 .components-gblocks-control__units{

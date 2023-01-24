@@ -20,6 +20,7 @@ export default class MainCSS extends Component {
 			verticalAlignment,
 			horizontalAlignment,
 			isQueryLoop,
+			useLegacyRowGap,
 		} = attributes;
 
 		let cssObj = [];
@@ -36,11 +37,12 @@ export default class MainCSS extends Component {
 			'align-items': verticalAlignment,
 			'justify-content': horizontalAlignment,
 			'margin-left': horizontalGap || 0 === horizontalGap ? '-' + horizontalGap + 'px' : null,
+			'row-gap': ! useLegacyRowGap ? valueWithUnit( verticalGap, 'px' ) : '',
 		} ];
 
 		cssObj[ gridItemSelector ] = [ {
 			'padding-left': valueWithUnit( horizontalGap, 'px' ),
-			'margin-bottom': valueWithUnit( verticalGap, 'px' ),
+			'margin-bottom': !! useLegacyRowGap ? valueWithUnit( verticalGap, 'px' ) : '',
 		} ];
 
 		cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, this.props, 'grid' );

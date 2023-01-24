@@ -1,5 +1,5 @@
 import classnames from 'classnames';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, doAction } from '@wordpress/hooks';
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import RootElement from '../../../components/root-element';
@@ -71,6 +71,8 @@ export default function HeadlineContentRenderer( props ) {
 
 		return richTextFormats;
 	}, [ linkAllowedFormats, richTextFormats, dynamicLinkType ] );
+
+	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: headlineRef } );
 
 	return (
 		<RootElement name={ name } clientId={ clientId }>

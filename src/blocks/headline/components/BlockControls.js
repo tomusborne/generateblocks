@@ -1,24 +1,26 @@
 import ToolbarGroup from './ToolbarGroup';
 import { memo } from '@wordpress/element';
 import { AlignmentToolbar, BlockControls } from '@wordpress/block-editor';
+import isFlexItem from '../../../utils/is-flex-item';
+import getAttribute from '../../../utils/get-attribute';
+import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
+import getDeviceType from '../../../utils/get-device-type';
 
 function HeadlineBlockControls( props ) {
 	const {
 		attributes,
 		setAttributes,
-		deviceType,
 	} = props;
 
 	const {
 		element,
-		alignment,
-		alignmentTablet,
-		alignmentMobile,
-		inlineWidth,
-		inlineWidthTablet,
-		inlineWidthMobile,
 		isCaption,
+		display,
+		displayTablet,
+		displayMobile,
 	} = attributes;
+
+	const device = getDeviceType();
 
 	return (
 		<BlockControls>
@@ -28,31 +30,18 @@ function HeadlineBlockControls( props ) {
 				isCaption={ isCaption }
 			/>
 
-			{ 'Desktop' === deviceType && ! inlineWidth &&
-				<AlignmentToolbar
-					value={ alignment }
-					onChange={ ( value ) => {
-						setAttributes( { alignment: value } );
-					} }
-				/>
-			}
-
-			{ 'Tablet' === deviceType && ! inlineWidthTablet &&
-				<AlignmentToolbar
-					value={ alignmentTablet }
-					onChange={ ( value ) => {
-						setAttributes( { alignmentTablet: value } );
-					} }
-				/>
-			}
-
-			{ 'Mobile' === deviceType && ! inlineWidthMobile &&
-				<AlignmentToolbar
-					value={ alignmentMobile }
-					onChange={ ( value ) => {
-						setAttributes( { alignmentMobile: value } );
-					} }
-				/>
+			{ ! isFlexItem( { device, display, displayTablet, displayMobile } ) &&
+				<>
+					<AlignmentToolbar
+						value={ getAttribute( 'alignment', { attributes, deviceType: device } ) }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ getAttribute( 'alignment', { attributes, deviceType: device }, true ) ]: value,
+							} );
+						} }
+						alignmentControls={ typographyOptions.alignments }
+					/>
+				</>
 			}
 		</BlockControls>
 	);
@@ -64,9 +53,9 @@ export default memo( HeadlineBlockControls, ( prevProps, nextProps ) => {
 		'alignment',
 		'alignmentTablet',
 		'alignmentMobile',
-		'inlineWidth',
-		'inlineWidthTablet',
-		'inlineWidthMobile',
+		'display',
+		'displayTablet',
+		'displayMobile',
 	].every( ( key ) => {
 		return prevProps.attributes[ key ] === nextProps.attributes[ key ];
 	} ) && prevProps.deviceType === nextProps.deviceType;

@@ -20,6 +20,7 @@ export default class TabletCSS extends Component {
 			verticalAlignmentTablet,
 			horizontalAlignmentTablet,
 			isQueryLoop,
+			useLegacyRowGap,
 		} = attributes;
 
 		let cssObj = [];
@@ -36,11 +37,12 @@ export default class TabletCSS extends Component {
 			'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
 			'justify-content': 'inherit' !== horizontalAlignmentTablet ? horizontalAlignmentTablet : null,
 			'margin-left': horizontalGapTablet || 0 === horizontalGapTablet ? '-' + horizontalGapTablet + 'px' : null,
+			'row-gap': ! useLegacyRowGap && ( verticalGapTablet || 0 === verticalGapTablet ) ? valueWithUnit( verticalGapTablet, 'px' ) : null,
 		} ];
 
 		cssObj[ gridItemSelector ] = [ {
 			'padding-left': valueWithUnit( horizontalGapTablet, 'px' ),
-			'margin-bottom': verticalGapTablet || 0 === verticalGapTablet ? valueWithUnit( verticalGapTablet, 'px' ) : null,
+			'margin-bottom': !! useLegacyRowGap && ( verticalGapTablet || 0 === verticalGapTablet ) ? valueWithUnit( verticalGapTablet, 'px' ) : null,
 		} ];
 
 		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'grid' );

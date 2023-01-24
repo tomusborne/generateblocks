@@ -17,6 +17,7 @@ export default ( WrappedComponent ) => {
 			url,
 			blockVersion,
 			gradient,
+			useGlobalStyle,
 		} = attributes;
 
 		useEffect( () => {
@@ -26,6 +27,17 @@ export default ( WrappedComponent ) => {
 
 			if ( ! hasUrl ) {
 				setAttributes( { hasUrl: ( !! url ) } );
+			}
+
+			// Set our layout attributes for old Button blocks.
+			// @since 1.7.0
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 3 ) && ! useGlobalStyle ) {
+				setAttributes( {
+					display: 'inline-flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					alignment: 'center',
+				} );
 			}
 
 			// Set our old defaults as static values.
@@ -58,8 +70,8 @@ export default ( WrappedComponent ) => {
 			}
 
 			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( blockVersion, 2 ) ) {
-				setAttributes( { blockVersion: 2 } );
+			if ( isBlockVersionLessThan( blockVersion, 3 ) ) {
+				setAttributes( { blockVersion: 3 } );
 			}
 		}, [] );
 
