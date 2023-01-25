@@ -1078,7 +1078,9 @@ class GenerateBlocks_Dynamic_Content {
 			) {
 				// phpcs:ignore -- DOMDocument doesn't use snake-case.
 				foreach ( $node->childNodes as $childNode ) {
-					$static_content .= $doc->saveHTML( $childNode );
+					if ( isset($childNode->tagName) && 'img' === $childNode->tagName ) {
+						$static_content .= $doc->saveHTML( $childNode );
+					}
 				}
 			}
 		}
