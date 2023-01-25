@@ -11,12 +11,14 @@ export default ( props ) => {
 		label,
 		attributeName,
 		directionValue,
+		fallback,
 	} = props;
 
 	function ButtonElement( option ) {
 		return (
 			<Button
 				isPrimary={ option.value === value }
+				className={ ! value && fallback === option.value ? 'is-inherited' : '' }
 				onClick={ () => onChange( option.value ) }
 			>
 				{ option.icon || option.label }

@@ -95,6 +95,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							} }
 							label={ __( 'Direction', 'generateblocks' ) }
 							directionValue={ directionValue }
+							fallback={ getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' ) }
 						/>
 					}
 
@@ -107,6 +108,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							label={ __( 'Align Items', 'generateblocks' ) }
 							attributeName="alignItems"
 							directionValue={ directionValue }
+							fallback={ getResponsivePlaceholder( 'alignItems', attributes, device, '' ) }
 						/>
 					}
 
@@ -119,6 +121,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							label={ __( 'Justify Content', 'generateblocks' ) }
 							attributeName="justifyContent"
 							directionValue={ directionValue }
+							fallback={ getResponsivePlaceholder( 'justifyContent', attributes, device, '' ) }
 						/>
 					}
 
@@ -131,11 +134,12 @@ export default function Layout( { attributes, setAttributes } ) {
 							label={ __( 'Wrap', 'generateblocks' ) }
 							attributeName="flexWrap"
 							directionValue={ directionValue }
+							fallback={ getResponsivePlaceholder( 'flexWrap', attributes, device, '' ) }
 						/>
 					}
 
 					{ ( layout.columnGap || layout.rowGap ) &&
-						<div className="gblocks-layout-gap">
+						<FlexControl>
 							{ layout.columnGap &&
 								<UnitControl
 									label={ __( 'Column Gap', 'generateblocks' ) }
@@ -163,7 +167,7 @@ export default function Layout( { attributes, setAttributes } ) {
 									} ) }
 								/>
 							}
-						</div>
+						</FlexControl>
 					}
 				</>
 			}
