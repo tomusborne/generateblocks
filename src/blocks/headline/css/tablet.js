@@ -74,7 +74,7 @@ export default class TabletCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
 		} ];
 
-		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );

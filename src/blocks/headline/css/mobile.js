@@ -74,7 +74,7 @@ export default class MobileCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
 		} ];
 
-		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
