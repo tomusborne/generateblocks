@@ -38,8 +38,8 @@ jobs:
         uses: tj-actions/changed-files@v35.4.3
         with:
           files: |
-            *.js
-            *.json
+            **/*.js
+            **/*.json
 
       - name: Setup node
         if: steps.js-files.outputs.any_changed == 'true'
@@ -71,8 +71,8 @@ jobs:
         uses: tj-actions/changed-files@v35.4.3
         with:
           files: |
-            *.js
-            *.json
+            **/*.js
+            **/*.json
 
       - name: Setup node
         if: steps.js-files.outputs.any_changed == 'true'
@@ -105,8 +105,8 @@ jobs:
         uses: tj-actions/changed-files@v35.4.3
         with:
           files: |
-            *.js
-            *.json
+            **/*.js
+            **/*.json
 
       - name: Setup node
         if: steps.js-files.outputs.any_changed == 'true'
@@ -150,7 +150,7 @@ jobs:
         uses: tj-actions/changed-files@v35.4.3
         with:
           files: |
-            *.php
+            **/*.php
 
       - name: Setup PHP
         if: steps.php-files.outputs.any_changed == 'true'
