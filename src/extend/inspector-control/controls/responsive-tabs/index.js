@@ -57,10 +57,10 @@ function ResponsiveTabButtons() {
 
 function ResponsiveTabs() {
 	useEffect( () => {
-		const BlockCardElement = document.querySelector( '.block-editor-block-card' );
+		const BlockInspectorControls = document.querySelector( '.block-editor-block-inspector' );
 		const ResponsiveTabsElement = document.querySelector( '.gb-responsive-tabs' );
 
-		if ( ! BlockCardElement || ResponsiveTabsElement ) {
+		if ( ! BlockInspectorControls || ResponsiveTabsElement ) {
 			return;
 		}
 
@@ -69,7 +69,7 @@ function ResponsiveTabs() {
 		const buttonWrapper = document.createElement( 'div' );
 		buttonWrapper.classList.add( 'gb-responsive-tabs' );
 		buttonWrapper.style.top = panelHeaderHeight;
-		BlockCardElement.parentNode.insertBefore( buttonWrapper, BlockCardElement );
+		BlockInspectorControls.prepend( buttonWrapper );
 
 		render(
 			<ResponsiveTabButtons />,
