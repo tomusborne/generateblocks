@@ -33,28 +33,28 @@ jobs:
         with:
           fetch-depth: 0
 
-#      - name: Check changed files
-#        id: 'js-files'
-#        uses: tj-actions/changed-files@v35.4.3
-#        with:
-#          files: |
-#            *.js
-#            *.json
+      - name: Check changed files
+        id: 'js-files'
+        uses: tj-actions/changed-files@v35.4.3
+        with:
+          files: |
+            **/*.js
+            **/*.json
 
       - name: Setup node
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: 14
 
       - name: Download deps
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         uses: bahmutov/npm-install@v1
         with:
           useLockFile: false
 
       - name: Lint
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         run: npm run lint:js
 
   js-tests:
@@ -66,28 +66,28 @@ jobs:
         with:
           fetch-depth: 0
 
-#      - name: Check changed files
-#        id: 'js-files'
-#        uses: tj-actions/changed-files@v35.4.3
-#        with:
-#          files: |
-#            *.js
-#            *.json
+      - name: Check changed files
+        id: 'js-files'
+        uses: tj-actions/changed-files@v35.4.3
+        with:
+          files: |
+            **/*.js
+            **/*.json
 
       - name: Setup node
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: 14
 
       - name: Download deps
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         uses: bahmutov/npm-install@v1
         with:
           useLockFile: false
 
       - name: Run tests
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         run: npm run test:unit
 
   js-commit-dist:
@@ -100,32 +100,32 @@ jobs:
         with:
           fetch-depth: 0
 
-#      - name: Check changed files
-#        id: 'js-files'
-#        uses: tj-actions/changed-files@v35.4.3
-#        with:
-#          files: |
-#            *.js
-#            *.json
+      - name: Check changed files
+        id: 'js-files'
+        uses: tj-actions/changed-files@v35.4.3
+        with:
+          files: |
+            **/*.js
+            **/*.json
 
       - name: Setup node
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
           node-version: 14
 
       - name: Download deps
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         uses: bahmutov/npm-install@v1
         with:
           useLockFile: false
 
       - name: Build files
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         run: npm run build
 
       - name: Commit files
-#        if: steps.js-files.outputs.any_changed == 'true'
+        if: steps.js-files.outputs.any_changed == 'true'
         uses: EndBug/add-and-commit@v9
         with:
           default_author: github_actions
@@ -145,25 +145,25 @@ jobs:
         with:
           fetch-depth: 0
 
-#      - name: Check changed files
-#        id: 'php-files'
-#        uses: tj-actions/changed-files@v35.4.3
-#        with:
-#          files: |
-#            *.php
+      - name: Check changed files
+        id: 'php-files'
+        uses: tj-actions/changed-files@v35.4.3
+        with:
+          files: |
+            **/*.php
 
       - name: Setup PHP
-#        if: steps.php-files.outputs.any_changed == 'true'
+        if: steps.php-files.outputs.any_changed == 'true'
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
 
       - name: Download deps
-#        if: steps.php-files.outputs.any_changed == 'true'
+        if: steps.php-files.outputs.any_changed == 'true'
         uses: ramsey/composer-install@v2
 
       - name: Lint
-#        if: steps.php-files.outputs.any_changed == 'true'
+        if: steps.php-files.outputs.any_changed == 'true'
         run: composer run-script php
 
   build-package:
