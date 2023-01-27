@@ -62,7 +62,7 @@ class GenerateBlocks_Enqueue_CSS {
 	 * Enqueue our front-end assets.
 	 */
 	public function enqueue_assets() {
-		$dynamic_css_priority = apply_filters( 'generateblocks_dynamic_css_priority', 10 );
+		$dynamic_css_priority = apply_filters( 'generateblocks_dynamic_css_priority', 25 );
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_dynamic_css' ), $dynamic_css_priority );
 		add_action( 'wp_enqueue_scripts', array( $this, 'print_inline_css' ), $dynamic_css_priority );
@@ -204,12 +204,10 @@ class GenerateBlocks_Enqueue_CSS {
 			return false;
 		}
 
-		global $wp_filesystem;
+		$filesystem = generateblocks_get_wp_filesystem();
 
-		// Initialize the WordPress filesystem.
-		if ( empty( $wp_filesystem ) ) {
-			require_once ABSPATH . '/wp-admin/includes/file.php';
-			WP_Filesystem();
+		if ( ! $filesystem ) {
+			return false;
 		}
 
 		// Take care of domain mapping.
@@ -229,7 +227,7 @@ class GenerateBlocks_Enqueue_CSS {
 				$chmod_file = FS_CHMOD_FILE;
 			}
 
-			if ( ! $wp_filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $content ), $chmod_file ) ) {
+			if ( ! $filesystem->put_contents( $this->file( 'path' ), wp_strip_all_tags( $content ), $chmod_file ) ) {
 
 				// Fail!
 				return false;

@@ -8,7 +8,11 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 import IconWrapper from '../../components/icon-wrapper';
 
-export default ( { attributes } ) => {
+export default ( props ) => {
+	const {
+		attributes,
+	} = props;
+
 	const {
 		uniqueId,
 		text,
@@ -21,6 +25,7 @@ export default ( { attributes } ) => {
 		removeText,
 		ariaLabel,
 		anchor,
+		buttonType,
 	} = attributes;
 
 	const relAttributes = [];
@@ -43,9 +48,9 @@ export default ( { attributes } ) => {
 			[ `gb-button-${ uniqueId }` ]: true,
 			'gb-button-text': ! icon,
 		} ),
-		href: !! url ? url : null,
-		target: !! target ? '_blank' : null,
-		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
+		href: !! url && 'link' === buttonType ? url : null,
+		target: !! target && 'link' === buttonType ? '_blank' : null,
+		rel: relAttributes && relAttributes.length > 0 && 'link' === buttonType ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
 		id: anchor ? anchor : null,
 	};
@@ -58,9 +63,13 @@ export default ( { attributes } ) => {
 	);
 
 	const blockProps = useBlockProps.save( htmlAttributes );
+	const linkButtonTagName = url ? 'a' : 'span';
+	const buttonTagName = 'button' === buttonType
+		? 'button'
+		: linkButtonTagName;
 
 	return (
-		<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
+		<Element tagName={ buttonTagName } htmlAttrs={ blockProps }>
 			<IconWrapper
 				hasIcon={ !! icon }
 				direction={ iconLocation }

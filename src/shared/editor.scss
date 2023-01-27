@@ -6,10 +6,25 @@
 	margin-bottom: 20px;
 }
 
-.gblocks-panel-label .components-panel__body-toggle.components-button {
-    display: flex;
-    flex-direction: row-reverse;
-    justify-content: flex-end;
+.gblocks-panel-label {
+	.components-panel__body-toggle.components-button {
+		display: flex;
+		flex-direction: row-reverse;
+		justify-content: flex-end;
+	}
+
+	.gblocks-panel-label {
+		border: 0;
+		background-color: #fafafa;
+
+		.components-panel__body-toggle {
+			padding: 10px;
+		}
+	}
+
+	.components-panel__icon {
+		color: currentColor;
+	}
 }
 
 .gblocks-panel-label svg.components-panel__icon {
@@ -58,7 +73,7 @@
 }
 
 .gblocks-block-control-icon svg path {
-    fill: inherit !important;
+    fill: inherit;
 }
 
 .gblocks-option-notice.components-notice {
@@ -120,15 +135,10 @@
 	path {
 		fill: #1e72bd;
 	}
-
-	&__headline {
-		transform: scale(0.9);
-		transform-origin: center;
-	}
 }
 
 .block-editor-list-view-leaf.is-selected .gblocks-block-icon path {
-    fill: currentColor !important;
+    fill: currentColor;
 }
 
 .gblocks-action-panel {
@@ -151,5 +161,20 @@
 .post-type-gp_elements {
 	.wp-block {
 		max-width: none;
+	}
+}
+
+.gblocks-flex-button-group {
+	display: flex;
+
+	button {
+		flex-grow: 1;
+		display: flex;
+		justify-content: center;
+		font-size: 12px;
+
+		svg {
+			width: 15px;
+		}
 	}
 }

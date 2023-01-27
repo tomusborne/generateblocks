@@ -1,6 +1,10 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -15,17 +19,11 @@ export default class TabletCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			url,
 			uniqueId,
 			removeText,
 			letterSpacingTablet,
 			fontSizeTablet,
 			fontSizeUnit,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginUnit,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
@@ -47,13 +45,13 @@ export default class TabletCSS extends Component {
 			iconPaddingUnit,
 			iconSizeTablet,
 			iconSizeUnit,
+			hasButtonContainer,
+			alignmentTablet,
 		} = attributes;
 
-		let selector = '.editor-styles-wrapper .gb-button-wrapper a.gb-button-' + uniqueId;
-
-		if ( ! url ) {
-			selector = '.editor-styles-wrapper .gb-button-wrapper .gb-button-' + uniqueId;
-		}
+		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
+		let selector = '.gb-button-' + uniqueId;
+		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
 
@@ -68,11 +66,13 @@ export default class TabletCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
-			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
-			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
+			'text-align': alignmentTablet,
 		} ];
+
+		SpacingCSS( cssObj, selector, attributes, 'Tablet' );
+		LayoutCSS( cssObj, selector, attributes, 'Tablet' );
+		SizingCSS( cssObj, selector, attributes, 'Tablet' );
+		FlexChildCSS( cssObj, selector, attributes, 'Tablet' );
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ selector ].push( {

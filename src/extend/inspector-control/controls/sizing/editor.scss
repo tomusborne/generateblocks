@@ -1,0 +1,20 @@
+
+.gblocks-sizing-fields {
+	display: flex;
+	align-items: flex-start;
+	flex-wrap: wrap;
+	gap: 10px;
+
+	& > div {
+		width: calc(50% - 10px);
+		flex-grow: 1;
+	}
+
+	.components-base-control {
+		margin: 0;
+
+		&__field {
+			margin: 0;
+		}
+	}
+}

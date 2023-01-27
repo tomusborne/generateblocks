@@ -56,6 +56,7 @@ class IconPicker extends Component {
 			attrIconLocation,
 			locationOptions,
 			attrRemoveText,
+			id,
 		} = this.props;
 
 		let iconSVGSets = {
@@ -69,7 +70,7 @@ class IconPicker extends Component {
 			},
 		};
 
-		iconSVGSets = applyFilters( 'generateblocks.editor.iconSVGSets', iconSVGSets );
+		iconSVGSets = applyFilters( 'generateblocks.editor.iconSVGSets', iconSVGSets, { attributes } );
 
 		return (
 			<Fragment>
@@ -85,6 +86,8 @@ class IconPicker extends Component {
 							if ( '' !== value ) {
 								setAttributes( {
 									'hasIcon': true, // eslint-disable-line quote-props
+									display: 'headline' === id ? 'flex' : 'inline-flex',
+									alignItems: 'center',
 								} );
 							} else {
 								setAttributes( {
@@ -121,7 +124,7 @@ class IconPicker extends Component {
 							const svgItems = iconSVGSets[ svg ].svgs;
 
 							return (
-								<PanelBody title={ iconSVGSets[ svg ].group } initialOpen={ false } key={ i }>
+								<PanelBody className="gblocks-panel-label gblocks-icon-panel" title={ iconSVGSets[ svg ].group } initialOpen={ false } key={ i }>
 									<PanelRow>
 										<BaseControl>
 											<ul className="gblocks-icon-chooser">
@@ -142,6 +145,8 @@ class IconPicker extends Component {
 																			setAttributes( {
 																				[ this.props.attrIcon ]: iconValue,
 																				hasIcon: true,
+																				display: 'headline' === id ? 'flex' : 'inline-flex',
+																				alignItems: 'center',
 																			} );
 																		} }
 																	>

@@ -1,6 +1,10 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -9,6 +13,7 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import sizingValue from '../../../utils/sizingValue';
 
 export default class TabletCSS extends Component {
 	render() {
@@ -17,24 +22,14 @@ export default class TabletCSS extends Component {
 		const {
 			uniqueId,
 			isGrid,
-			widthTablet,
-			autoWidthTablet,
 			flexGrowTablet,
 			flexShrinkTablet,
 			flexBasisTablet,
-			flexBasisUnit,
-			minHeightTablet,
-			minHeightUnitTablet,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
 			paddingLeftTablet,
 			paddingUnit,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginUnit,
 			borderSizeTopTablet,
 			borderSizeRightTablet,
 			borderSizeBottomTablet,
@@ -53,6 +48,8 @@ export default class TabletCSS extends Component {
 			bgImage,
 			bgOptions,
 			gridId,
+			useInnerContainer,
+			sizing,
 		} = attributes;
 
 		let cssObj = [];
@@ -61,14 +58,23 @@ export default class TabletCSS extends Component {
 			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
 			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
-			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
-			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 			'text-align': alignmentTablet,
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
-			'min-height': valueWithUnit( minHeightTablet, minHeightUnitTablet ),
 		} ];
+
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+
+		if ( ! useInnerContainer ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
+				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
+				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
+				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
+			} );
+		}
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -80,30 +86,32 @@ export default class TabletCSS extends Component {
 			} );
 		}
 
-		if ( minHeightTablet && ! isGrid ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'row',
-				'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
-			} );
-		}
+		if ( useInnerContainer ) {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
+				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
+				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
+				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
+				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
+				'width': sizingValue( 'minHeightTablet', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
+			} ];
 
-		if ( isGrid && 'inherit' !== verticalAlignmentTablet ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'column',
-				'height': '100%', // eslint-disable-line quote-props
-				'justify-content': verticalAlignmentTablet,
-			} );
-		}
+			if ( sizingValue( 'minHeightTablet', sizing ) && ! isGrid ) {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+					'display': 'flex', // eslint-disable-line quote-props
+					'flex-direction': 'row',
+					'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
+				} );
+			}
 
-		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
-			'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
-			'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
-			'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
-			'width': minHeightTablet && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
-		} ];
+			if ( isGrid && 'inherit' !== verticalAlignmentTablet ) {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+					'display': 'flex', // eslint-disable-line quote-props
+					'flex-direction': 'column',
+					'height': '100%', // eslint-disable-line quote-props
+					'justify-content': verticalAlignmentTablet,
+				} );
+			}
+		}
 
 		if ( isGrid ) {
 			const gridColumnSelectors = [
@@ -112,10 +120,10 @@ export default class TabletCSS extends Component {
 			];
 
 			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
-				width: ! autoWidthTablet ? valueWithUnit( widthTablet, '%' ) : 'auto',
+				width: sizingValue( 'widthTablet', sizing ),
 				'flex-grow': flexGrowTablet,
 				'flex-shrink': flexShrinkTablet,
-				'flex-basis': isNaN( flexBasisTablet ) ? flexBasisTablet : valueWithUnit( flexBasisTablet, flexBasisUnit ),
+				'flex-basis': flexBasisTablet,
 				order: orderTablet,
 			} ];
 		}
