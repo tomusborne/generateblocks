@@ -94,6 +94,7 @@ jobs:
     name: Commit dist files
     runs-on: ubuntu-latest
     needs: [js-lint, js-tests]
+    if: ${{ 'master' == github.ref_name || startsWith(github.ref_name, 'release/') }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -202,13 +203,13 @@ jobs:
   check-version:
     name: Check versions
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && contains('Release', github.event.pull_request.title)
+    if: ${{ github.event_name == 'pull_request' && startsWith(github.event.pull_request.title, 'Release:') }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
 
       - name: Check readme.txt
-        if: "!contains('alpha', github.event.pull_request.title) && !contains('beta', github.event.pull_request.title) && !contains('rc', github.event.pull_request.title)"
+        if: ${{ !contains(fromJSON('["-alpha.", "-beta.", "-rc."]'), github.event.pull_request.title) }}
         run: 'cat readme.txt | grep -w "Stable tag: ${PR_TITLE:9}"'
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
