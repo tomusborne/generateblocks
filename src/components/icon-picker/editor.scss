@@ -44,7 +44,6 @@
 }
 
 .gb-icon {
-	display: inline-flex;
 	line-height: 0;
 }
 
@@ -96,19 +95,6 @@ button.components-icon-picker-item {
 	}
 }
 
-.block-editor-block-inspector .gb-icon-chooser .components-panel__body {
-    border-color: #ddd;
-    margin-top: 0;
-
-	button.components-panel__body-toggle {
-		background: #fafafa;
-	}
-
-	&.is-opened {
-		background: #fafafa;
-	}
-
-	&:last-child {
-		border-bottom: 1px solid #ddd;
-	}
+.gblocks-icon-panel:not(:first-child) {
+	border-top: 1px solid #eee !important;
 }

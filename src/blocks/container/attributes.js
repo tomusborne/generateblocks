@@ -43,53 +43,9 @@ export default {
 		type: 'boolean',
 		default: generateBlocksDefaults.container.autoWidthMobile,
 	},
-	flexGrow: {
-		type: 'number',
-		default: generateBlocksDefaults.container.flexGrow,
-	},
-	flexGrowTablet: {
-		type: 'number',
-		default: generateBlocksDefaults.container.flexGrowTablet,
-	},
-	flexGrowMobile: {
-		type: 'number',
-		default: generateBlocksDefaults.container.flexGrowMobile,
-	},
-	flexShrink: {
-		type: 'number',
-		default: generateBlocksDefaults.container.flexShrink,
-	},
-	flexShrinkTablet: {
-		type: 'number',
-		default: generateBlocksDefaults.container.flexShrinkTablet,
-	},
-	flexShrinkMobile: {
-		type: 'number',
-		default: generateBlocksDefaults.container.flexShrinkMobile,
-	},
-	flexBasis: {
-		type: 'string',
-		default: generateBlocksDefaults.container.flexBasis,
-	},
-	flexBasisTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.flexBasisTablet,
-	},
-	flexBasisMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.flexBasisMobile,
-	},
 	flexBasisUnit: {
 		type: 'string',
 		default: generateBlocksDefaults.container.flexBasisUnit,
-	},
-	orderTablet: {
-		type: 'number',
-		default: generateBlocksDefaults.container.orderTablet,
-	},
-	orderMobile: {
-		type: 'number',
-		default: generateBlocksDefaults.container.orderMobile,
 	},
 	outerContainer: {
 		type: 'string',
@@ -126,218 +82,6 @@ export default {
 	minHeightUnitMobile: {
 		type: 'string',
 		default: generateBlocksDefaults.container.minHeightUnitMobile,
-	},
-	paddingTop: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingTop,
-	},
-	paddingRight: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingRight,
-	},
-	paddingBottom: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingBottom,
-	},
-	paddingLeft: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingLeft,
-	},
-	paddingUnit: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingUnit,
-	},
-	paddingSyncUnits: {
-		type: 'boolean',
-		default: false,
-	},
-	paddingTopTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingTopTablet,
-	},
-	paddingRightTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingRightTablet,
-	},
-	paddingBottomTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingBottomTablet,
-	},
-	paddingLeftTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingLeftTablet,
-	},
-	paddingTopMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingTopMobile,
-	},
-	paddingRightMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingRightMobile,
-	},
-	paddingBottomMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingBottomMobile,
-	},
-	paddingLeftMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.paddingLeftMobile,
-	},
-	marginTop: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginTop,
-	},
-	marginRight: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginRight,
-	},
-	marginBottom: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginBottom,
-	},
-	marginLeft: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginLeft,
-	},
-	marginUnit: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginUnit,
-	},
-	marginSyncUnits: {
-		type: 'boolean',
-		default: false,
-	},
-	marginTopTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginTopTablet,
-	},
-	marginRightTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginRightTablet,
-	},
-	marginBottomTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginBottomTablet,
-	},
-	marginLeftTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginLeftTablet,
-	},
-	marginTopMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginTopMobile,
-	},
-	marginRightMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginRightMobile,
-	},
-	marginBottomMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginBottomMobile,
-	},
-	marginLeftMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.marginLeftMobile,
-	},
-	borderSizeTop: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeTop,
-	},
-	borderSizeRight: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeRight,
-	},
-	borderSizeBottom: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeBottom,
-	},
-	borderSizeLeft: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeLeft,
-	},
-	borderSizeTopTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeTopTablet,
-	},
-	borderSizeRightTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeRightTablet,
-	},
-	borderSizeBottomTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeBottomTablet,
-	},
-	borderSizeLeftTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeLeftTablet,
-	},
-	borderSizeTopMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeTopMobile,
-	},
-	borderSizeRightMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeRightMobile,
-	},
-	borderSizeBottomMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeBottomMobile,
-	},
-	borderSizeLeftMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderSizeLeftMobile,
-	},
-	borderRadiusTopRight: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusTopRight,
-	},
-	borderRadiusBottomRight: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusBottomRight,
-	},
-	borderRadiusBottomLeft: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusBottomLeft,
-	},
-	borderRadiusTopLeft: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusTopLeft,
-	},
-	borderRadiusUnit: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusUnit,
-	},
-	borderRadiusTopRightTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusTopRightTablet,
-	},
-	borderRadiusBottomRightTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusBottomRightTablet,
-	},
-	borderRadiusBottomLeftTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusBottomLeftTablet,
-	},
-	borderRadiusTopLeftTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusTopLeftTablet,
-	},
-	borderRadiusTopRightMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusTopRightMobile,
-	},
-	borderRadiusBottomRightMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusBottomRightMobile,
-	},
-	borderRadiusBottomLeftMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusBottomLeftMobile,
-	},
-	borderRadiusTopLeftMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.borderRadiusTopLeftMobile,
 	},
 	borderColor: {
 		type: 'string',
@@ -439,10 +183,6 @@ export default {
 		type: 'string',
 		default: generateBlocksDefaults.container.verticalAlignmentMobile,
 	},
-	zindex: {
-		type: 'number',
-		default: generateBlocksDefaults.container.zindex,
-	},
 	innerZindex: {
 		type: 'number',
 		default: generateBlocksDefaults.container.innerZindex,
@@ -458,18 +198,6 @@ export default {
 	removeVerticalGapMobile: {
 		type: 'boolean',
 		default: generateBlocksDefaults.container.removeVerticalGapMobile,
-	},
-	alignment: {
-		type: 'string',
-		default: generateBlocksDefaults.container.alignment,
-	},
-	alignmentTablet: {
-		type: 'string',
-		default: generateBlocksDefaults.container.alignmentTablet,
-	},
-	alignmentMobile: {
-		type: 'string',
-		default: generateBlocksDefaults.container.alignmentMobile,
 	},
 	fontFamily: {
 		type: 'string',
@@ -524,6 +252,14 @@ export default {
 	},
 	blockVersion: {
 		type: 'number',
+	},
+	useInnerContainer: {
+		type: 'boolean',
+		default: false,
+	},
+	variantRole: {
+		type: 'string',
+		default: '',
 	},
 	// deprecated since 1.2.0.
 	elementId: {

@@ -40,58 +40,7 @@ class GenerateBlocks_Block_Image {
 			'height' => '',
 			'heightTablet' => '',
 			'heightMobile' => '',
-			'marginTop' => '',
-			'marginRight' => '',
-			'marginBottom' => '',
-			'marginLeft' => '',
-			'marginTopTablet' => '',
-			'marginRightTablet' => '',
-			'marginBottomTablet' => '',
-			'marginLeftTablet' => '',
-			'marginTopMobile' => '',
-			'marginRightMobile' => '',
-			'marginBottomMobile' => '',
-			'marginLeftMobile' => '',
-			'marginUnit' => 'px',
-			'paddingTop' => '',
-			'paddingRight' => '',
-			'paddingBottom' => '',
-			'paddingLeft' => '',
-			'paddingTopTablet' => '',
-			'paddingRightTablet' => '',
-			'paddingBottomTablet' => '',
-			'paddingLeftTablet' => '',
-			'paddingTopMobile' => '',
-			'paddingRightMobile' => '',
-			'paddingBottomMobile' => '',
-			'paddingLeftMobile' => '',
-			'paddingUnit' => 'px',
 			'borderColor' => '',
-			'borderSizeTop' => '',
-			'borderSizeRight' => '',
-			'borderSizeBottom' => '',
-			'borderSizeLeft' => '',
-			'borderSizeTopTablet' => '',
-			'borderSizeRightTablet' => '',
-			'borderSizeBottomTablet' => '',
-			'borderSizeLeftTablet' => '',
-			'borderSizeTopMobile' => '',
-			'borderSizeRightMobile' => '',
-			'borderSizeBottomMobile' => '',
-			'borderSizeLeftMobile' => '',
-			'borderRadiusTopRight' => '',
-			'borderRadiusBottomRight' => '',
-			'borderRadiusBottomLeft' => '',
-			'borderRadiusTopLeft' => '',
-			'borderRadiusTopRightTablet' => '',
-			'borderRadiusBottomRightTablet' => '',
-			'borderRadiusBottomLeftTablet' => '',
-			'borderRadiusTopLeftTablet' => '',
-			'borderRadiusTopRightMobile' => '',
-			'borderRadiusBottomRightMobile' => '',
-			'borderRadiusBottomLeftMobile' => '',
-			'borderRadiusTopLeftMobile' => '',
-			'borderRadiusUnit' => 'px',
 			'objectFit' => '',
 			'objectFitTablet' => '',
 			'objectFitMobile' => '',
@@ -146,6 +95,13 @@ class GenerateBlocks_Block_Image {
 		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
+
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'image',
+				$settings,
+				$css
+			);
 
 			self::$singular_css_added = true;
 		}
@@ -343,25 +299,19 @@ class GenerateBlocks_Block_Image {
 				$relAttributes[] = 'sponsored';
 			}
 
-			$dynamic_link_data = array(
-				'href' => $dynamic_link,
-				'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
-				'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
-			);
-
-			$dynamic_link_attributes = '';
-
-			foreach ( $dynamic_link_data as $attribute => $value ) {
-				$dynamic_link_attributes .= sprintf(
-					' %s="%s"',
-					$attribute,
-					$value
-				);
-			}
-
 			$image = sprintf(
 				'<a %s>%s</a>',
-				trim( $dynamic_link_attributes ),
+				generateblocks_attr(
+					'image-link',
+					array(
+						'class' => '',
+						'href' => $dynamic_link,
+						'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
+						'target' => ! empty( $settings['openInNewWindow'] ) ? '_blank' : null,
+					),
+					$settings,
+					$block
+				),
 				$image
 			);
 		}

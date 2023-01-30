@@ -2,6 +2,7 @@ import { useEffect } from '@wordpress/element';
 import hasNumericValue from '../utils/has-numeric-value';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
+import MigrateSizing from '../blocks/container/migrate-sizing';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -14,6 +15,23 @@ export default ( WrappedComponent ) => {
 			// This block used to be static. Set it to dynamic by default from now on.
 			if ( 'undefined' === typeof attributes.isDynamic || ! attributes.isDynamic ) {
 				setAttributes( { isDynamic: true } );
+			}
+
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
+				MigrateSizing( { attributes, setAttributes } );
+
+				const flexBasisAttributes = {};
+
+				[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
+					if ( attributes[ 'flexBasis' + device ] && ! isNaN( attributes[ 'flexBasis' + device ] ) ) {
+						flexBasisAttributes[ 'flexBasis' + device ] = attributes[ 'flexBasis' + device ] + attributes.flexBasisUnit;
+					}
+				} );
+
+				setAttributes( {
+					useInnerContainer: true,
+					...flexBasisAttributes,
+				} );
 			}
 
 			// Set our inner z-index if we're using a gradient overlay or pseudo background.
@@ -103,8 +121,8 @@ export default ( WrappedComponent ) => {
 			}
 
 			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
-				setAttributes( { blockVersion: 2 } );
+			if ( isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
+				setAttributes( { blockVersion: 3 } );
 			}
 		}, [] );
 
