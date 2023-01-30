@@ -491,14 +491,16 @@ export default function ShapesPanel( { attributes, setAttributes } ) {
 					} )
 				}
 
-				<div className="gblocks-add-new-shape">
-					<Button
-						isSecondary
-						onClick={ handleAddShape }
-					>
-						{ __( 'Add Shape', 'generateblocks' ) }
-					</Button>
-				</div>
+				{ 'Desktop' === deviceType &&
+					<div className="gblocks-add-new-shape">
+						<Button
+							isSecondary
+							onClick={ handleAddShape }
+						>
+							{ __( 'Add Shape', 'generateblocks' ) }
+						</Button>
+					</div>
+				}
 			</BaseControl>
 		</PanelArea>
 	);

@@ -82,7 +82,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				/>
 			}
 
-			{ shapesPanel.enabled && 'Desktop' === device &&
+			{ shapesPanel.enabled && ( 'Desktop' === device || attributes?.shapeDividers.length > 0 ) &&
 				<ShapesPanel
 					attributes={ attributes }
 					setAttributes={ setAttributes }
