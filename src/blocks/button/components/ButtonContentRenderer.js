@@ -2,8 +2,9 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import IconWrapper from '../../../components/icon-wrapper';
 import { __ } from '@wordpress/i18n';
 import Element from '../../../components/element';
+import RootElement from '../../../components/root-element';
 import classnames from 'classnames';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, doAction } from '@wordpress/hooks';
 
 export default function ButtonContentRenderer( props ) {
 	const {
@@ -14,6 +15,7 @@ export default function ButtonContentRenderer( props ) {
 		context,
 		name,
 		buttonRef,
+		clientId,
 	} = props;
 
 	const {
@@ -28,6 +30,7 @@ export default function ButtonContentRenderer( props ) {
 		iconLocation,
 		removeText,
 		ariaLabel,
+		buttonType,
 	} = attributes;
 
 	const relAttributes = [];
@@ -50,7 +53,7 @@ export default function ButtonContentRenderer( props ) {
 			[ `gb-button-${ uniqueId }` ]: true,
 			'gb-button-text': ! icon,
 		} ),
-		rel: relAttributes && relAttributes.length > 0 ? relAttributes.join( ' ' ) : null,
+		rel: relAttributes && relAttributes.length > 0 && 'link' === buttonType ? relAttributes.join( ' ' ) : null,
 		'aria-label': !! ariaLabel ? ariaLabel : null,
 		id: anchor ? anchor : null,
 		ref: buttonRef,
@@ -71,28 +74,39 @@ export default function ButtonContentRenderer( props ) {
 		props
 	) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ];
 
+	let buttonTagName = url ? 'a' : 'span';
+
+	// The `button` element prevents RichText from allowing spaces.
+	// To fix that we'll return a `span` element in the editor only.
+	if ( 'button' === buttonType ) {
+		buttonTagName = 'span';
+	}
+
+	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: buttonRef } );
+
 	return (
-		<Element tagName={ url ? 'a' : 'span' } htmlAttrs={ blockProps }>
-			<IconWrapper
-				hasIcon={ !! icon }
-				icon={ icon }
-				direction={ iconLocation }
-				hideChildren={ removeText }
-				showWrapper={ ! removeText && !! icon }
-				wrapperClassname={ 'gb-button-text' }
-			>
-				<InnerContent
-					name={ name }
-					placeholder={ __( 'Add text…', 'generateblocks' ) }
-					value={ text }
-					onChange={ ( value ) => setAttributes( { text: value } ) }
-					allowedFormats={ richTextFormats }
-					isSelected={ isSelected }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					context={ context }
-				/>
-			</IconWrapper>
-		</Element>
+		<RootElement name={ name } clientId={ clientId }>
+			<Element tagName={ buttonTagName } htmlAttrs={ blockProps }>
+				<IconWrapper
+					hasIcon={ !! icon }
+					icon={ icon }
+					direction={ iconLocation }
+					hideChildren={ removeText }
+					showWrapper={ ! removeText && !! icon }
+					wrapperClassname={ 'gb-button-text' }
+				>
+					<InnerContent
+						name={ name }
+						placeholder={ __( 'Add text…', 'generateblocks' ) }
+						value={ text }
+						onChange={ ( value ) => setAttributes( { text: value } ) }
+						allowedFormats={ richTextFormats }
+						isSelected={ isSelected }
+						attributes={ attributes }
+						context={ context }
+					/>
+				</IconWrapper>
+			</Element>
+		</RootElement>
 	);
 }

@@ -81,7 +81,15 @@ class GenerateBlocks_Dynamic_CSS {
 			return false;
 		}
 
-		if ( is_array( $value ) && ! array_filter( $value, 'is_numeric' ) ) {
+		if (
+			is_array( $value ) &&
+			! array_filter(
+				$value,
+				function( $v ) {
+					return is_numeric( $v ) || 'auto' === $v;
+				}
+			)
+		) {
 			return false;
 		}
 
@@ -112,7 +120,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$this->_css .= 'border-top-style: solid;';
 					}
 
-					if ( 0 === $value[0] || '0' === $value[0] ) {
+					if ( 0 === $value[0] || '0' === $value[0] || 'auto' === $value[0] ) {
 						$unit_top = '';
 					}
 
@@ -130,7 +138,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$this->_css .= 'border-right-style: solid;';
 					}
 
-					if ( 0 === $value[1] || '0' === $value[1] ) {
+					if ( 0 === $value[1] || '0' === $value[1] || 'auto' === $value[1] ) {
 						$unit_right = '';
 					}
 
@@ -148,7 +156,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$this->_css .= 'border-bottom-style: solid;';
 					}
 
-					if ( 0 === $value[2] || '0' === $value[2] ) {
+					if ( 0 === $value[2] || '0' === $value[2] || 'auto' === $value[2] ) {
 						$unit_bottom = '';
 					}
 
@@ -166,7 +174,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$this->_css .= 'border-left-style: solid;';
 					}
 
-					if ( 0 === $value[3] || '0' === $value[3] ) {
+					if ( 0 === $value[3] || '0' === $value[3] || 'auto' === $value[3] ) {
 						$unit_left = '';
 					}
 

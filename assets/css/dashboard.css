@@ -50,6 +50,10 @@
 	fill: #006eb7;
 }
 
+.gblocks-block svg path:first-child {
+    fill: none;
+}
+
 .gblocks-block > *:last-child {
     margin-bottom: 0;
 }

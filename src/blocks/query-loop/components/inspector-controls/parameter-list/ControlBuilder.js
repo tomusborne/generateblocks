@@ -1,5 +1,5 @@
 import { ToggleControl } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
+import { sprintf } from '@wordpress/i18n';
 import SelectPostType from '../../../../../extend/dynamic-content/components/SelectPostType';
 import SimpleSelect from '../../../../../components/simple-select';
 import AuthorsSelect from '../../../../../components/authors-select';
@@ -59,8 +59,11 @@ export default function ControlBuilder( props ) {
 	const Control = getParameterControl( type );
 	let controlDescription = description;
 
-	if ( 'per_page' === id && ( '-1' === value || value > 50 ) ) {
-		controlDescription += ' ' + __( 'Editor only: A maximum of 50 posts can be previewed in the editor.', 'generateblocks' );
+	if ( 'per_page' === id && ( '-1' === value || parseInt( value ) > parseInt( generateBlocksInfo.queryLoopEditorPostsCap ) ) ) {
+		controlDescription += ' ' + sprintf(
+			'Editor only: A maximum of %s posts can be previewed in the editor.',
+			generateBlocksInfo.queryLoopEditorPostsCap
+		);
 	}
 
 	const defaultValuePlaceholder = !! defaultValue && ( ! isArray( defaultValue ) || ! isObject( defaultValue ) )

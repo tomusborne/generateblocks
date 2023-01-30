@@ -31,7 +31,9 @@ export default ( initialDeviceType = 'Desktop' ) => {
 	}, [] );
 
 	useEffect( () => {
-		setLocalDeviceType( previewDeviceType );
+		if ( previewDeviceType !== localDeviceType ) {
+			setLocalDeviceType( previewDeviceType );
+		}
 	}, [ previewDeviceType ] );
 
 	const setDeviceType = ( type ) => {
