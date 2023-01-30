@@ -3,23 +3,21 @@
  */
 
 import './editor.scss';
-
 import editGridContainer from './edit';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
 import deprecated from './deprecated';
+import { __ } from '@wordpress/i18n';
+import { registerBlockType } from '@wordpress/blocks';
+import { InnerBlocks } from '@wordpress/block-editor';
+import { getBlockAttributes } from '../../block-context';
+import gridContext from '../../block-context/grid';
 
-import {
-	__,
-} from '@wordpress/i18n';
-
-import {
-	registerBlockType,
-} from '@wordpress/blocks';
-
-import {
-	InnerBlocks,
-} from '@wordpress/block-editor';
+const attributes = getBlockAttributes(
+	blockAttributes,
+	gridContext,
+	generateBlocksDefaults.gridContainer
+);
 
 /**
  * Register our Grid block.
@@ -40,7 +38,7 @@ registerBlockType( 'generateblocks/grid', {
 		__( 'column' ),
 		__( 'generate' ),
 	],
-	attributes: blockAttributes,
+	attributes,
 	supports: {
 		className: false,
 		html: false,

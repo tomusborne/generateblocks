@@ -1,5 +1,5 @@
 import ApplyFilters from '../apply-filters/';
-
+import objectIsEmpty from '../../utils/object-is-empty';
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import useLocalStorageState from 'use-local-storage-state';
@@ -29,18 +29,7 @@ export default function PanelArea( props ) {
 		return null;
 	}
 
-	let hasChildren = true;
-
-	if ( '' === children ) {
-		hasChildren = false;
-	}
-
-	// If we have items in the panel, make sure they're not empty.
-	if ( 'object' === typeof children ) {
-		hasChildren = Object.values( children ).some( ( x ) => ( x !== null && x !== false && x !== '' ) );
-	}
-
-	if ( ! hasChildren ) {
+	if ( ! children || objectIsEmpty( children ) ) {
 		return null;
 	}
 

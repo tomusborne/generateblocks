@@ -1,6 +1,10 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -15,17 +19,11 @@ export default class MobileCSS extends Component {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			url,
 			uniqueId,
 			removeText,
 			letterSpacingMobile,
 			fontSizeMobile,
 			fontSizeUnit,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			marginUnit,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -47,13 +45,13 @@ export default class MobileCSS extends Component {
 			iconPaddingUnit,
 			iconSizeMobile,
 			iconSizeUnit,
+			hasButtonContainer,
+			alignmentMobile,
 		} = attributes;
 
-		let selector = '.editor-styles-wrapper .gb-button-wrapper a.gb-button-' + uniqueId;
-
-		if ( ! url ) {
-			selector = '.editor-styles-wrapper .gb-button-wrapper .gb-button-' + uniqueId;
-		}
+		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
+		let selector = '.gb-button-' + uniqueId;
+		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
 
@@ -68,11 +66,13 @@ export default class MobileCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
-			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
-			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
+			'text-align': alignmentMobile,
 		} ];
+
+		SpacingCSS( cssObj, selector, attributes, 'Mobile' );
+		LayoutCSS( cssObj, selector, attributes, 'Mobile' );
+		SizingCSS( cssObj, selector, attributes, 'Mobile' );
+		FlexChildCSS( cssObj, selector, attributes, 'Mobile' );
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ selector ].push( {

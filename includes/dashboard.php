@@ -210,7 +210,7 @@ function generateblocks_do_dashboard() {
 			<div class="gblocks-dashboard-content-container">
 				<div class="gblocks-dashboard-blocks">
 					<div class="gblocks-block">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon"><path d="M23.7 24h-5.2v-2.2h3.3v-3.3H24v5.2c0 .2-.1.3-.3.3zm-15-2.2h6.5V24H8.7zM5.5 24H.3c-.2 0-.3-.1-.3-.3v-5.2h2.2v3.3h3.3V24zM0 8.7h2.2v6.5H0zm2.2-3.2H0V.3C0 .1.1 0 .3 0h5.2v2.2H2.2v3.3zM8.7 0h6.5v2.2H8.7zM24 5.5h-2.2V2.2h-3.3V0h5.2c.2 0 .3.1.3.3v5.2zm-2.2 3.2H24v6.5h-2.2z" /></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path className="gblocks-svg-icon-box" d="M0 0h24v24H0z" /><path d="M21.375 22h-3.75v-1.25h3.125v-3.125H22v3.75c0 .345-.28.625-.625.625zM9.188 20.75h5.625V22H9.188zM6.375 22h-3.75A.625.625 0 0 1 2 21.375v-3.75h1.25v3.125h3.125V22zM2 9.187h1.25v5.625H2zm1.25-2.812H2v-3.75C2 2.28 2.28 2 2.625 2h3.75v1.25H3.25v3.125zM9.188 2h5.625v1.25H9.188zM22 6.375h-1.25V3.25h-3.125V2h3.75c.345 0 .625.28.625.625v3.75zm-1.25 2.812H22v5.625h-1.25z" /></svg>
 
 						<h3><?php esc_html_e( 'Container', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Organize your content into rows and sections.', 'generateblocks' ); ?></p>
@@ -221,7 +221,7 @@ function generateblocks_do_dashboard() {
 					</div>
 
 					<div class="gblocks-block">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon"><path d="M13.8 10.8H.3c-.2 0-.3-.1-.3-.3V.3C0 .1.1 0 .3 0h13.6c.2 0 .3.1.3.3v10.3c-.1.1-.2.2-.4.2zM1.8 9h10.6V1.8H1.8V9zm21.9 1.8h-7c-.2 0-.3-.1-.3-.3V.3c0-.2.1-.3.3-.3h7c.2 0 .3.1.3.3v10.3c0 .1-.1.2-.3.2zM18.2 9h4V1.8h-4V9zm-8 4.2h13.6c.2 0 .3.1.3.3v10.3c0 .2-.1.3-.3.3H10.2c-.2 0-.3-.1-.3-.3V13.5c0-.2.1-.3.3-.3zm12 1.8H11.7v7.3h10.6V15zM.3 13.2h7c.2 0 .3.1.3.3v10.3c0 .2-.1.3-.3.3h-7c-.2-.1-.3-.2-.3-.4V13.5c0-.2.1-.3.3-.3zM5.8 15h-4v7.3h4V15z" /></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path className="gblocks-svg-icon-box" d="M0 0h24v24H0z" /><path d="M21.375 10.755h-4.689a.625.625 0 0 1-.625-.625V2.625c0-.345.28-.625.625-.625h4.689a.624.624 0 0 1 .625.625v7.505c0 .345-.28.625-.625.625zm-4.064-1.251h3.44V3.25h-3.44v6.254zm-4.474 1.251H2.625A.625.625 0 0 1 2 10.13V2.625C2 2.28 2.28 2 2.625 2h10.212c.345 0 .625.28.625.625v7.505a.626.626 0 0 1-.625.625zM3.249 9.504h8.963V3.25H3.249v6.254zm4.064 12.497H2.625A.625.625 0 0 1 2 21.375V13.87c0-.345.28-.625.625-.625h4.688c.345 0 .625.28.625.625v7.505a.627.627 0 0 1-.625.626zM3.249 20.75h3.439v-6.255H3.249v6.255zm18.126 1.251H11.162a.625.625 0 0 1-.625-.625V13.87c0-.345.28-.625.625-.625h10.213c.345 0 .625.28.625.625v7.505c0 .346-.28.626-.625.626zm-9.588-1.251h8.964v-6.255h-8.964v6.255z" /></svg>
 
 						<h3><?php esc_html_e( 'Grid', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Create advanced layouts with flexible grids.', 'generateblocks' ); ?></p>
@@ -232,7 +232,7 @@ function generateblocks_do_dashboard() {
 					</div>
 
 					<div class="gblocks-block">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon gblocks-block-icon__headline"><path d="M23.7 24h-8c-.1 0-.3-.1-.3-.3V16H8.7v7.6c0 .1-.1.3-.3.3H.3c-.1.1-.3 0-.3-.2V.3C0 .2.1 0 .3 0h8c.2 0 .4.1.4.3V8h6.8V.3c0-.1.1-.3.3-.3h8c.1 0 .2.1.2.3v23.5c0 .1-.1.2-.3.2zm-6.6-1.7h5V1.7h-5v8H6.9v-8h-5v20.4h5v-8h10.3v8.2z" /></svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path className="gblocks-svg-icon-box" d="M0 0h24v24H0z" /><path d="M21.375 22h-5.769a.625.625 0 0 1-.625-.625v-6.042H9.019v6.042a.625.625 0 0 1-.625.625H2.625A.625.625 0 0 1 2 21.375V2.625C2 2.28 2.28 2 2.625 2h5.769c.346 0 .625.28.625.625v6.041h5.961V2.625A.626.626 0 0 1 15.606 2h5.769c.345 0 .625.28.625.625v18.75c0 .345-.28.625-.625.625zm-5.144-1.25h4.519V3.25h-4.519v6.041c0 .345-.28.625-.625.625H8.394a.625.625 0 0 1-.625-.625V3.25H3.25v17.5h4.519v-6.042c0-.345.28-.625.625-.625h7.212c.345 0 .625.28.625.625v6.042z" /></svg>
 
 						<h3><?php esc_html_e( 'Headline', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Craft text-rich content with advanced typography.', 'generateblocks' ); ?></p>
@@ -243,13 +243,9 @@ function generateblocks_do_dashboard() {
 					</div>
 
 					<div class="gblocks-block">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon">
-							<path d="M23.7 10.8H.3c-.1 0-.1 0-.2-.1-.1 0-.1-.1-.1-.1V.4C0 .3 0 .3.1.2S.2 0 .3 0h23.4c.1 0 .1 0 .2.1.1 0 .1.1.1.2v10.2c0 .1 0 .1-.1.2 0 .1-.1.1-.2.1zM1.8 9.1h20.4V1.9L12 1.8H1.8v7.3z" />
-							<path d="M15 6.3H4.8V4.5H15v.9zm4.2 0h-2.6V4.5h2.6v.9zM23.7 24H.3c-.1 0-.1 0-.2-.1s-.1-.1-.1-.2V13.5c0-.1 0-.1.1-.2s.1-.1.2-.1h23.4c.1 0 .1 0 .2.1s.1.1.1.2v10.2c0 .1 0 .1-.1.2 0 .1-.1.1-.2.1zM1.8 22.2h20.4V15H1.8v7.2z" />
-							<path d="M19.2 19.5H9v-1.8h10.2v.9zM4.8 17.7h2.6v1.8H4.8v-.9z" />
-						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path className="gblocks-svg-icon-box" d="M0 0h24v24H0z" /><path d="M21.375 16.45H2.625A.625.625 0 0 1 2 15.825v-7.65c0-.345.28-.625.625-.625h18.75c.345 0 .625.28.625.625v7.65c0 .345-.28.625-.625.625zM3.25 15.2h17.5V8.8H3.25v6.4z" /><path d="M15.536 12.625H5.882a.625.625 0 0 1 0-1.25h9.654a.625.625 0 0 1 0 1.25z" /><circle cx="17.936" cy="12" r=".807" /></svg>
 
-						<h3><?php esc_html_e( 'Buttons', 'generateblocks' ); ?></h3>
+						<h3><?php esc_html_e( 'Button', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Drive conversions with beautiful buttons.', 'generateblocks' ); ?></p>
 
 						<div class="gblocks-block-learn-more">
@@ -258,10 +254,7 @@ function generateblocks_do_dashboard() {
 					</div>
 
 					<div class="gblocks-block">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon">
-							<path d="M22.8 5.2h-7.4c-.2 0-.3-.1-.3-.3V3.7c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c0 .2-.1.3-.3.3zm0 3.4h-7.4c-.2 0-.3-.1-.3-.3V7.1c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c0 .2-.1.3-.3.3zm0-6.8h-7.4c-.2 0-.3-.1-.3-.3V.3c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c0 .2-.1.3-.3.3zM8.6 20.6H1.2c-.2 0-.3-.1-.3-.3v-1.2c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c-.1.2-.2.3-.3.3zm0 3.4H1.2c-.2 0-.3-.1-.3-.3v-1.2c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c-.1.2-.2.3-.3.3zm0-6.8H1.2c-.2 0-.3-.1-.3-.3v-1.2c0-.2.1-.3.3-.3h7.4c.2 0 .3.1.3.3v1.2c-.1.1-.2.3-.3.3z" />
-							<path d="M17.7 24c-1.7 0-3.3-.7-4.4-1.8-2.4-2.4-2.3-6.3-2.2-10.2.1-4.3.2-8.4-3-9.8-1.5-.7-3.2-.5-4.4.4-1.2.8-1.9 2.1-1.9 3.5 0 .8.2 1.6.5 2.3.9 1.7 2.5 2.5 5.6 2.7.2 0 .3.1.3.3l-.1 1.2c0 .2-.1.3-.3.3-2-.1-4.4-.5-6-2.2-1.3-1.3-2-3.1-1.8-5 .2-1.9 1.1-3.5 2.7-4.6C4.4-.1 6.7-.3 8.8.5c4.4 1.8 4.2 7 4.1 11.5-.1 3.5-.2 7.1 1.6 8.9.9.9 2.2 1.4 3.6 1.3 1.3-.1 2.5-.8 3.3-1.9.9-1.2 1-2.9.4-4.4-.8-1.9-2.5-2.8-5.8-3-.2 0-.3-.1-.3-.3l.1-1.2c0-.2.1-.3.3-.3 2.7.2 6 .8 7.3 4.1.9 2 .6 4.4-.6 6.1-1.1 1.5-2.8 2.5-4.6 2.7h-.5z" />
-						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path className="gblocks-svg-icon-box" d="M0 0h24v24H0z" /><path d="M21.374 6.133H14.67a.625.625 0 0 1 0-1.25h6.704a.625.625 0 0 1 0 1.25zm0 2.882H14.67a.625.625 0 0 1 0-1.25h6.704a.625.625 0 0 1 0 1.25zm0-5.764H14.67a.625.625 0 0 1 0-1.251h6.704a.625.625 0 0 1 0 1.251zM9.329 19.118H2.625a.625.625 0 1 1 0-1.25h6.704a.625.625 0 0 1 0 1.25zm0 2.883H2.625a.625.625 0 0 1 0-1.25h6.704a.625.625 0 0 1 0 1.25zm0-5.766H2.625a.625.625 0 1 1 0-1.25h6.704a.625.625 0 0 1 0 1.25z" /><path d="M16.841 22.001a5.17 5.17 0 0 1-3.661-1.517c-1.961-1.961-1.876-5.29-1.793-8.51.095-3.705.185-7.204-2.646-8.399-1.275-.538-2.731-.405-3.8.351-.981.692-1.576 1.721-1.677 2.895a3.929 3.929 0 0 0 1.137 3.116c.882.882 2.245 1.322 4.419 1.428.344.017.61.31.594.655a.621.621 0 0 1-.655.594c-1.688-.082-3.81-.36-5.242-1.792a5.179 5.179 0 0 1-1.498-4.107A5.211 5.211 0 0 1 4.22 2.904c1.418-1.002 3.337-1.186 5.006-.481 3.616 1.526 3.511 5.622 3.409 9.583-.076 2.956-.154 6.012 1.428 7.594a3.924 3.924 0 0 0 3.114 1.137c1.174-.1 2.202-.695 2.896-1.675.754-1.066.889-2.52.353-3.796-.72-1.716-2.283-2.509-5.226-2.652a.626.626 0 0 1-.594-.655.615.615 0 0 1 .655-.594c2.32.112 5.136.602 6.317 3.416.701 1.67.515 3.587-.486 5.002a5.204 5.204 0 0 1-4.251 2.218z" /></svg>
 
 						<h3><?php esc_html_e( 'Query Loop', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Build a list of posts from any post type using advanced query parameters.', 'generateblocks' ); ?></p>
@@ -272,11 +265,7 @@ function generateblocks_do_dashboard() {
 					</div>
 
 					<div class="gblocks-block">
-						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="20" width="20" className="gblocks-block-icon">
-							<path d="M16.4 11.9c-2.3 0-4.2-1.9-4.2-4.2s1.9-4.2 4.2-4.2 4.2 1.9 4.2 4.2-1.9 4.2-4.2 4.2zm0-6.7c-1.3 0-2.4 1.1-2.4 2.4s1.1 2.4 2.4 2.4c1.3 0 2.4-1.1 2.4-2.4s-1.1-2.4-2.4-2.4z" />
-							<path d="M23.7 24H.3c-.2 0-.3-.1-.3-.3V.3C0 .1.1 0 .3 0h23.4c.2 0 .3.1.3.3v23.4c0 .2-.1.3-.3.3zM1.8 22.2h20.4V1.8H1.8v20.4z" />
-							<path d="M22.3 23.6 8.4 11.7l-6.9 6.1-1.2-1.3 7.9-6.9c.1-.1.3-.1.4 0l15.1 13-1 1.1c-.1 0-.3 0-.4-.1z" />
-						</svg>
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path className="gblocks-svg-icon-box" d="M0 0h24v24H0z" /><path d="M15.77 11.655a3.429 3.429 0 0 1-3.425-3.425 3.428 3.428 0 0 1 3.425-3.425 3.429 3.429 0 0 1 3.424 3.425 3.429 3.429 0 0 1-3.424 3.425zm0-5.6a2.179 2.179 0 0 0-2.176 2.175c0 1.199.977 2.175 2.176 2.175s2.175-.976 2.175-2.175a2.178 2.178 0 0 0-2.175-2.175z" /><path d="M21.375 22.001H2.625A.625.625 0 0 1 2 21.375V2.625C2 2.28 2.28 2 2.625 2h18.751a.624.624 0 0 1 .624.625v18.751c0 .345-.28.625-.625.625zM3.249 20.75H20.75V3.25H3.249v17.5z" /><path d="M20.956 21.839 8.968 11.018l-5.91 5.698-.867-.9L8.52 9.714a.624.624 0 0 1 .853-.014l12.422 11.212-.839.927z" /></svg>
 
 						<h3><?php esc_html_e( 'Image', 'generateblocks' ); ?></h3>
 						<p><?php esc_html_e( 'Add images to your content to make a visual statement.', 'generateblocks' ); ?></p>

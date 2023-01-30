@@ -1,21 +1,26 @@
 import BlockControls from './components/BlockControls';
-import InspectorControls from './components/InspectorControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
 import { Fragment, useRef, useState, useEffect } from '@wordpress/element';
-import { useDeviceType } from '../../hooks';
 import { compose } from '@wordpress/compose';
-import { withButtonLegacyMigration, withUniqueId } from '../../hoc';
+import { withButtonLegacyMigration, withDeviceType, withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import ButtonContentRenderer from './components/ButtonContentRenderer';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
+import { useSelect } from '@wordpress/data';
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import { applyFilters } from '@wordpress/hooks';
+import getDeviceType from '../../utils/get-device-type';
+import './components/ConditionalColors';
 
 const ButtonEdit = ( props ) => {
 	const {
 		attributes,
 		setAttributes,
-		clientId,
 		ContentRenderer = ButtonContentRenderer,
+		clientId,
 	} = props;
 
 	const {
@@ -25,11 +30,19 @@ const ButtonEdit = ( props ) => {
 		googleFont,
 		googleFontVariants,
 		isBlockPreview = false,
+		hasButtonContainer,
+		blockVersion,
+		buttonType,
+		variantRole,
 	} = attributes;
 
 	const ref = useRef( null );
 	const [ computedStyles, setComputedStyles ] = useState( {} );
-	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const deviceType = getDeviceType();
+	const {
+		getBlockParents,
+		getBlocksByClientId,
+	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	useEffect( () => {
 		const computedButtonStyles = getComputedStyle( ref.current );
@@ -39,26 +52,47 @@ const ButtonEdit = ( props ) => {
 		} );
 	}, [] );
 
+	useEffect( () => {
+		const parentBlockId = getBlockParents( clientId, true );
+
+		if ( parentBlockId.length > 0 ) {
+			const parentBlocks = getBlocksByClientId( parentBlockId );
+
+			if ( parentBlocks.length > 0 && 'generateblocks/button-container' === parentBlocks[ 0 ].name ) {
+				setAttributes( { hasButtonContainer: true } );
+			} else if ( !! hasButtonContainer ) {
+				setAttributes( { hasButtonContainer: false } );
+			}
+		} else if ( !! hasButtonContainer ) {
+			setAttributes( { hasButtonContainer: false } );
+		}
+	}, [] );
+
+	useEffect( () => {
+		// Add our default Button styles when inserted.
+		if ( wasBlockJustInserted( attributes ) && ! blockVersion && ! variantRole ) {
+			setAttributes( generateBlocksStyling.button );
+		}
+	}, [] );
+
 	return (
 		<Fragment>
 			<BlockControls
-				clientId={ clientId }
-				attributes={ attributes }
-				setAttributes={ setAttributes }
+				{ ...props }
 			/>
 
-			<InspectorControls
-				{ ...props }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				state={ { deviceType } }
-				blockDefaults={ generateBlocksDefaults.button }
+			<GenerateBlocksInspectorControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
 				computedStyles={ computedStyles }
-			/>
+			>
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls
 				anchor={ anchor }
 				ariaLabel={ ariaLabel }
+				buttonType={ buttonType }
 				setAttributes={ setAttributes }
 			/>
 
@@ -77,6 +111,8 @@ const ButtonEdit = ( props ) => {
 };
 
 export default compose(
+	withDeviceType,
+	withBlockContext,
 	withDynamicContent,
 	withUniqueId,
 	withButtonLegacyMigration

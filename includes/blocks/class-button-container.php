@@ -107,6 +107,13 @@ class GenerateBlocks_Block_Button_Container {
 			$css->add_property( 'justify-content', 'flex-start' );
 			$css->add_property( 'clear', 'both' );
 
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'button-container',
+				$settings,
+				$css
+			);
+
 			self::$singular_css_added = true;
 		}
 

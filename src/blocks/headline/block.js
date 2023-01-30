@@ -20,10 +20,12 @@ import {
 import {
 	registerBlockType,
 } from '@wordpress/blocks';
+import { getBlockAttributes } from '../../block-context';
+import headlineContext from '../../block-context/headline';
 
 const attributes = Object.assign(
 	{},
-	blockAttributes,
+	getBlockAttributes( blockAttributes, headlineContext, generateBlocksDefaults.headline ),
 	dynamicContentAttributes
 );
 
