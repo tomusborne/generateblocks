@@ -150,7 +150,6 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Prevent faded background image in editor
 * Fix: Pass $block to generateblocks_parse_attr function
 * Fix: WP Filesystem error missing credentials
-* Fix: Triple captions using static image with dynamic link
 
 = 1.6.0 =
 * Feature: Add support for FSE styling
