@@ -102,6 +102,7 @@ export default function FlexChildControls( props ) {
 
 					<div className="gblocks-flex-basis-wrapper">
 						<UnitControl
+							help={ __( 'Basis', 'generateblocks' ) }
 							value={ getAttribute( 'flexBasis', { attributes, deviceType } ) }
 							desktopValue={ flexBasis }
 							tabletValue={ flexBasisTablet }
