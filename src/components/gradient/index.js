@@ -48,6 +48,8 @@ class GradientControl extends Component {
 		const {
 			gradientSelector,
 			innerZindex,
+			useInnerContainer,
+			position,
 		} = attributes;
 
 		const selectorHelp = 'element' === gradientSelector ? __( 'Displays behind the background image.', 'generateblocks' ) : __( 'Displays in front of the background image.', 'generateblocks' );
@@ -94,10 +96,14 @@ class GradientControl extends Component {
 										gradientSelector: value,
 									} );
 
-									if ( ! hasNumericValue( innerZindex ) && 'pseudo-element' === value ) {
+									if ( useInnerContainer && ! hasNumericValue( innerZindex ) && 'pseudo-element' === value ) {
 										setAttributes( {
 											innerZindex: 1,
 										} );
+									}
+
+									if ( ! useInnerContainer && 'pseudo-element' === value && ! position ) {
+										setAttributes( { position: 'relative' } );
 									}
 								} }
 							/>

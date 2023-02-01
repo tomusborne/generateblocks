@@ -13,10 +13,13 @@ import { __ } from '@wordpress/i18n';
 import { registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/block-editor';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
+import { getBlockAttributes } from '../../block-context';
+import containerContext from '../../block-context/container';
+import './variations';
 
 const attributes = Object.assign(
 	{},
-	blockAttributes,
+	getBlockAttributes( blockAttributes, containerContext, generateBlocksDefaults.container ),
 	dynamicContentAttributes
 );
 

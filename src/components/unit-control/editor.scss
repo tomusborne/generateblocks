@@ -1,7 +1,42 @@
 .gblocks-unit-control {
+	&__disabled {
+		.gblocks-unit-control__input > *:not(.gblocks-unit-control__override-action):not(.popover-slot) {
+			opacity: 0.5;
+		}
+	}
+
+	&__override-action {
+		position: absolute;
+		right: 30px;
+		top: 0;
+
+		button.components-button {
+			width: 30px;
+			height: 30px;
+			min-width: 30px;
+			padding: 0;
+			justify-content: center !important;
+
+			svg {
+				width: 20px;
+				margin: 0 !important;
+			}
+		}
+	}
+
 	&__input {
 		display: flex;
 		align-items: flex-start;
+		position: relative;
+
+		.components-base-control:first-child {
+			flex-grow: 1;
+		}
+
+		.components-base-control,
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
 
 		select {
 			appearance: none;
@@ -20,6 +55,12 @@
 			cursor: pointer;
 			height: 100%;
 			margin: 0;
+
+			&:disabled {
+				background: none;
+				color: rgb(85, 93, 102);
+				border-color: rgb(85, 93, 102);
+			}
 		}
 	}
 
@@ -29,5 +70,16 @@
 		align-self: stretch;
 		box-sizing: border-box;
 		display: flex;
+	}
+
+	&__popover {
+		margin-top: 5px;
+		border: 0;
+
+		.components-popover__content {
+			box-shadow: 0 0 0;
+			border: 0;
+			outline: 0;
+		}
 	}
 }
