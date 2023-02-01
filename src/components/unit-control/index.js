@@ -28,6 +28,7 @@ export default function UnitControl( props ) {
 		desktopValue,
 		tabletValue,
 		presets = [],
+		help = '',
 	} = props;
 
 	const device = getDeviceType();
@@ -162,6 +163,7 @@ export default function UnitControl( props ) {
 		<SlotFillProvider>
 			<BaseControl
 				label={ label }
+				help={ help }
 				id={ id }
 				className={ classnames( {
 					'gblocks-unit-control': true,
