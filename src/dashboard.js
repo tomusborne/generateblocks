@@ -113,10 +113,10 @@ class App extends Component {
 
 								<TextControl
 									type="number"
-									label={ __( 'Default Container Width', 'generateblocks' ) }
+									label={ __( 'Global max-width', 'generateblocks' ) }
 									help={ !! generateBlocksSettings.gpContainerWidth
-										? __( 'The default width of the Container block is set by GeneratePress in the Customizer.', 'generateblocks' )
-										: __( 'The default width of the Container block.', 'generateblocks' )
+										? __( 'The global max-width is set by GeneratePress in the Customizer.', 'generateblocks' )
+										: __( 'The global max-width value you can use in your blocks.', 'generateblocks' )
 									}
 									disabled={ !! generateBlocksSettings.gpContainerWidth }
 									value={ generateBlocksSettings.gpContainerWidth || this.getSetting( 'container_width' ) }

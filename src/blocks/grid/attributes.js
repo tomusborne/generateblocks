@@ -70,6 +70,10 @@ export default {
 		type: 'boolean',
 		default: false,
 	},
+	useLegacyRowGap: {
+		type: 'boolean',
+		default: false,
+	},
 	// deprecated since 1.2.0
 	elementId: {
 		type: 'string',

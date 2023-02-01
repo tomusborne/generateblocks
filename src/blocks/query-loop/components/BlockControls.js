@@ -22,7 +22,10 @@ export default ( { clientId } ) => {
 	};
 
 	const PAGINATION_TEMPLATE = [
-		'generateblocks/button-container', {
+		'generateblocks/container', {
+			marginTop: '20',
+			variantRole: 'button-container',
+			display: 'flex',
 			isPagination: true,
 		},
 		[

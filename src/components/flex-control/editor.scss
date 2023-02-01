@@ -1,0 +1,12 @@
+.gblocks-flex-control {
+	display: flex;
+	gap: 5px;
+
+	& > div {
+		flex: 1;
+
+		.components-base-control__field {
+			margin-bottom: 0;
+		}
+	}
+}

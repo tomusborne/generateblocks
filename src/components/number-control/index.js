@@ -137,6 +137,12 @@ export default function NumberControl( props ) {
 										} else {
 											setAttributes( { [ attributeNames.value ]: '' } );
 										}
+
+										// Disable our legacy row gap option in the Grid block if this option is changed.
+										// Since 1.7.0.
+										if ( 'verticalGap' === attributeName ) {
+											setAttributes( { useLegacyRowGap: false } );
+										}
 									} }
 								>
 									{ presetLabel }
@@ -186,6 +192,12 @@ export default function NumberControl( props ) {
 								setAttributes( {
 									[ attributeNames.value ]: parseFloat( attributes[ attributeNames.value ] ),
 								} );
+							}
+
+							// Disable our legacy row gap option in the Grid block if this option is changed.
+							// Since 1.7.0.
+							if ( 'verticalGap' === attributeName ) {
+								setAttributes( { useLegacyRowGap: false } );
 							}
 						} }
 						onClick={ ( e ) => {

@@ -1,17 +1,19 @@
-import { useDeviceType } from '../../hooks';
 import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
-import InspectorControls from './components/InspectorControls';
 import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
-import InspectorAdvancedControls from '../grid/components/InspectorAdvancedControls';
+import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import ComponentCSS from './components/ComponentCSS';
 import { createBlock } from '@wordpress/blocks';
 import { compose } from '@wordpress/compose';
-import { withUniqueId } from '../../hoc';
+import { withDeviceType, withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import HeadlineContentRenderer from './components/HeadlineContentRenderer';
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import withHeadlineLegacyMigration from '../../hoc/withHeadlineLegacyMigration';
+import getDeviceType from '../../utils/get-device-type';
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	let block;
@@ -41,7 +43,6 @@ const HeadlineEdit = ( props ) => {
 	} = props;
 
 	const {
-		uniqueId,
 		anchor,
 		fontFamily,
 		googleFont,
@@ -54,7 +55,7 @@ const HeadlineEdit = ( props ) => {
 
 	const ref = useRef( null );
 	const [ computedStyles, setComputedStyles ] = useState( {} );
-	const [ deviceType, setDeviceType ] = useDeviceType( 'Desktop' );
+	const deviceType = getDeviceType();
 
 	useEffect( () => {
 		if ( ! hasIcon && icon ) {
@@ -77,20 +78,22 @@ const HeadlineEdit = ( props ) => {
 			<BlockControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-				deviceType={ deviceType }
 				context={ context }
 			/>
 
-			<InspectorControls
-				{ ...props }
-				uniqueId={ uniqueId }
-				deviceType={ deviceType }
-				setDeviceType={ setDeviceType }
-				blockState={ { deviceType } }
+			<GenerateBlocksInspectorControls
+				attributes={ attributes }
+				setAttributes={ setAttributes }
 				computedStyles={ computedStyles }
-			/>
+			>
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+			</GenerateBlocksInspectorControls>
 
-			<InspectorAdvancedControls anchor={ anchor } setAttributes={ setAttributes } />
+			<InspectorAdvancedControls
+				anchor={ anchor }
+				setAttributes={ setAttributes }
+				attributes={ attributes }
+			/>
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
@@ -109,6 +112,9 @@ const HeadlineEdit = ( props ) => {
 };
 
 export default compose(
+	withDeviceType,
+	withBlockContext,
 	withDynamicContent,
-	withUniqueId
+	withUniqueId,
+	withHeadlineLegacyMigration
 )( HeadlineEdit );

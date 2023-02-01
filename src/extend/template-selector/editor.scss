@@ -1,0 +1,15 @@
+.editor-styles-wrapper {
+  .gb-templates-wrapper {
+	display: flex;
+	gap: 16px;
+
+	.gb-template-selector-button {
+	  font-size: 13px;
+	  display: inline-flex;
+	  flex-direction: column;
+	  height: 100%;
+	  padding: 0;
+	  gap: 8px;
+	}
+  }
+}
