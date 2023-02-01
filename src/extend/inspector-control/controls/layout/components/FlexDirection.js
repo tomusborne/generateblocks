@@ -51,10 +51,10 @@ export default ( props ) => {
 						return (
 							<Fragment key={ label + index }>
 								{ !! flexOption.icon
-									? <Tooltip text={ flexOption.label }>
+									? <Tooltip text={ flexOption.label || flexOption.value }>
 										{ ButtonElement( flexOption ) }
 									</Tooltip>
-									: ButtonElement( flexOption, flexOption.label )
+									: ButtonElement( flexOption )
 								}
 							</Fragment>
 						);
