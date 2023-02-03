@@ -26,6 +26,7 @@ export default function MigrateInnerContainer( props ) {
 		getBlocksByClientId,
 		getBlockParentsByBlockName,
 		getBlock,
+		isBlockMultiSelected,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	const {
@@ -76,6 +77,10 @@ export default function MigrateInnerContainer( props ) {
 		>
 			{ __( 'Enable new system only', 'generateblocks' ) }
 		</Button>;
+	}
+
+	if ( isBlockMultiSelected( clientId ) ) {
+		return null;
 	}
 
 	return (
