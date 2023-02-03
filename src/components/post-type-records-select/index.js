@@ -17,10 +17,12 @@ export default function PostTypeRecordsSelect( props ) {
 
 	const [ loadValues, setLoadValues ] = useState( value.length > 0 );
 	const [ search, setSearch ] = useDebounceState( '', 500 );
+	const isSearchById = !! search.trim() && ! search.trim().match( /\D/g );
+	const includeSearchId = isSearchById ? [ search.replace( /\D/g, '' ) ] : undefined;
 	const { records, isLoading } = usePersistentPostRecords( postType, {
-		per_page: 10,
-		search: !! search ? search : undefined,
-		include: loadValues ? value : undefined,
+		per_page: !! search ? 100 : 10,
+		search: !! search && ! isSearchById ? search : undefined,
+		include: loadValues ? value : includeSearchId,
 	} );
 
 	useEffect( () => {

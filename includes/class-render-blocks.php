@@ -55,14 +55,22 @@ class GenerateBlocks_Render_Block {
 	 * @since 1.2.0
 	 */
 	public function register_blocks() {
+		$container_args = [
+			'title' => esc_html__( 'Container', 'generateblocks' ),
+			'render_callback' => [ 'GenerateBlocks_Block_Container', 'render_block' ],
+		];
+
+		if ( version_compare( $GLOBALS['wp_version'], '6.1.0', '<' ) ) {
+			$container_args['editor_script'] = 'generateblocks';
+			$container_args['editor_style'] = 'generateblocks';
+		} else {
+			$container_args['editor_script_handles'] = [ 'generateblocks' ];
+			$container_args['editor_style_handles'] = [ 'generateblocks' ];
+		}
+
 		register_block_type(
 			'generateblocks/container',
-			array(
-				'title' => esc_html__( 'Container', 'generateblocks' ),
-				'render_callback' => [ 'GenerateBlocks_Block_Container', 'render_block' ],
-				'editor_script' => 'generateblocks',
-				'editor_style' => 'generateblocks',
-			)
+			$container_args
 		);
 
 		register_block_type(

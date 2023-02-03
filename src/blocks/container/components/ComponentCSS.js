@@ -30,7 +30,7 @@ function ComponentCSS( props ) {
 
 	return (
 		<>
-			<MainCSS { ...props } />
+			<MainCSS device={ deviceType } { ...props } />
 
 			{ deviceType &&
 				<>
