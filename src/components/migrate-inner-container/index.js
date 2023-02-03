@@ -30,6 +30,7 @@ export default function MigrateInnerContainer( props ) {
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	const {
+		insertBlocks,
 		replaceBlocks,
 	} = useDispatch( 'core/block-editor' );
 
@@ -58,6 +59,8 @@ export default function MigrateInnerContainer( props ) {
 					setAttributes,
 					parentBlock: getBlocksByClientId( clientId )[ 0 ],
 					replaceBlocks,
+					insertBlocks,
+					clientId,
 				} );
 				closeModal();
 			} }
