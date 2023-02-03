@@ -83,7 +83,7 @@ function getLayoutAttributes( attributes ) {
 
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 
-	if ( zindex || shapeDividers?.length ) {
+	if ( zindex || shapeDividers.length ) {
 		layoutAttributes.position = 'relative';
 	}
 
