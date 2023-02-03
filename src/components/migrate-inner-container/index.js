@@ -38,7 +38,7 @@ export default function MigrateInnerContainer( props ) {
 
 	function getChildBlock( blockClientId ) {
 		const currentBlock = getBlock( blockClientId );
-		return currentBlock && currentBlock.innerBlocks.length ? getBlock( currentBlock.innerBlocks[ 0 ].clientId ) : '';
+		return currentBlock && currentBlock.innerBlocks?.length ? getBlock( currentBlock.innerBlocks[ 0 ].clientId ) : '';
 	}
 
 	const migrateInnerContainer = shouldMigrateInnerContainer( {

@@ -83,14 +83,14 @@ function getLayoutAttributes( attributes ) {
 
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 
-	if ( zindex || shapeDividers.length ) {
+	if ( zindex || shapeDividers?.length ) {
 		layoutAttributes.position = 'relative';
 	}
 
 	if (
 		( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
 		( gradient && 'pseudo-element' === gradientSelector ) ||
-		advBackgrounds.length
+		advBackgrounds?.length
 	) {
 		layoutAttributes.position = 'relative';
 		layoutAttributes.overflowX = 'hidden';
