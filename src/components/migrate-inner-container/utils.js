@@ -90,7 +90,7 @@ function getLayoutAttributes( attributes ) {
 	if (
 		( hasBgImage && 'pseudo-element' === bgOptions.selector ) ||
 		( gradient && 'pseudo-element' === gradientSelector ) ||
-		advBackgrounds.length
+		advBackgrounds?.length
 	) {
 		layoutAttributes.position = 'relative';
 		layoutAttributes.overflowX = 'hidden';
