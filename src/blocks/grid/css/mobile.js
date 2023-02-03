@@ -20,6 +20,7 @@ export default class MobileCSS extends Component {
 			verticalAlignmentMobile,
 			horizontalAlignmentMobile,
 			isQueryLoop,
+			useLegacyRowGap,
 		} = attributes;
 
 		let cssObj = [];
@@ -36,11 +37,12 @@ export default class MobileCSS extends Component {
 			'align-items': 'inherit' !== verticalAlignmentMobile ? verticalAlignmentMobile : null,
 			'justify-content': 'inherit' !== horizontalAlignmentMobile ? horizontalAlignmentMobile : null,
 			'margin-left': horizontalGapMobile || 0 === horizontalGapMobile ? '-' + horizontalGapMobile + 'px' : null,
+			'row-gap': ! useLegacyRowGap && ( verticalGapMobile || 0 === verticalGapMobile ) ? valueWithUnit( verticalGapMobile, 'px' ) : null,
 		} ];
 
 		cssObj[ gridItemSelector ] = [ {
 			'padding-left': valueWithUnit( horizontalGapMobile, 'px' ),
-			'margin-bottom': verticalGapMobile || 0 === verticalGapMobile ? valueWithUnit( verticalGapMobile, 'px' ) : null,
+			'margin-bottom': !! useLegacyRowGap && ( verticalGapMobile || 0 === verticalGapMobile ) ? valueWithUnit( verticalGapMobile, 'px' ) : null,
 		} ];
 
 		cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, this.props, 'grid' );

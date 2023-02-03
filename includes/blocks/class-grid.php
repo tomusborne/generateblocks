@@ -44,6 +44,7 @@ class GenerateBlocks_Block_Grid {
 			'horizontalAlignment' => '',
 			'horizontalAlignmentTablet' => '',
 			'horizontalAlignmentMobile' => '',
+			'useLegacyRowGap' => false,
 		];
 	}
 
@@ -112,16 +113,18 @@ class GenerateBlocks_Block_Grid {
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );
 
-			$css->set_selector( '.gb-grid-wrapper > .gb-grid-column > .gb-container' );
-			$css->add_property( 'display', 'flex' );
-			$css->add_property( 'flex-direction', 'column' );
-			$css->add_property( 'height', '100%' );
-
 			$css->set_selector( '.gb-grid-column' );
 			$css->add_property( 'box-sizing', 'border-box' );
 
 			$css->set_selector( '.gb-grid-wrapper .wp-block-image' );
 			$css->add_property( 'margin-bottom', '0' );
+
+			do_action(
+				'generateblocks_block_one_time_css_data',
+				'grid',
+				$settings,
+				$css
+			);
 
 			self::$singular_css_added = true;
 		}
@@ -130,15 +133,26 @@ class GenerateBlocks_Block_Grid {
 		$css->add_property( 'align-items', $settings['verticalAlignment'] );
 		$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
+		if ( $blockVersion > 2 && ! $settings['useLegacyRowGap'] ) {
+			$css->add_property( 'row-gap', $settings['verticalGap'], 'px' );
+		}
+
 		if ( $settings['horizontalGap'] ) {
 			$css->add_property( 'margin-' . $gap_direction, '-' . $settings['horizontalGap'] . 'px' );
 		}
 
 		$css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$css->add_property( 'padding-' . $gap_direction, $settings['horizontalGap'], 'px' );
-		$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
+
+		if ( $blockVersion < 3 || $settings['useLegacyRowGap'] ) {
+			$css->add_property( 'padding-bottom', $settings['verticalGap'], 'px' );
+		}
 
 		$tablet_css->set_selector( '.gb-grid-wrapper-' . $id );
+
+		if ( $blockVersion > 2 && ! $settings['useLegacyRowGap'] ) {
+			$tablet_css->add_property( 'row-gap', $settings['verticalGapTablet'], 'px' );
+		}
 
 		if ( 'inherit' !== $settings['verticalAlignmentTablet'] ) {
 			$tablet_css->add_property( 'align-items', $settings['verticalAlignmentTablet'] );
@@ -156,9 +170,16 @@ class GenerateBlocks_Block_Grid {
 
 		$tablet_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$tablet_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapTablet'], 'px' );
-		$tablet_css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
+
+		if ( $blockVersion < 3 || $settings['useLegacyRowGap'] ) {
+			$tablet_css->add_property( 'padding-bottom', $settings['verticalGapTablet'], 'px' );
+		}
 
 		$mobile_css->set_selector( '.gb-grid-wrapper-' . $id );
+
+		if ( $blockVersion > 2 && ! $settings['useLegacyRowGap'] ) {
+			$mobile_css->add_property( 'row-gap', $settings['verticalGapMobile'], 'px' );
+		}
 
 		if ( 'inherit' !== $settings['verticalAlignmentMobile'] ) {
 			$mobile_css->add_property( 'align-items', $settings['verticalAlignmentMobile'] );
@@ -176,7 +197,10 @@ class GenerateBlocks_Block_Grid {
 
 		$mobile_css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
 		$mobile_css->add_property( 'padding-' . $gap_direction, $settings['horizontalGapMobile'], 'px' );
-		$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
+
+		if ( $blockVersion < 3 || $settings['useLegacyRowGap'] ) {
+			$mobile_css->add_property( 'padding-bottom', $settings['verticalGapMobile'], 'px' );
+		}
 
 		// Store this block ID in memory.
 		self::store_block_id( $id );

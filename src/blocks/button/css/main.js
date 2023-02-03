@@ -3,6 +3,9 @@ import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 
 import {
 	Component,
@@ -11,13 +14,14 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import { sprintf } from '@wordpress/i18n';
 
 export default class MainCSS extends Component {
 	render() {
 		const attributes = applyFilters( 'generateblocks.editor.cssAttrs', this.props.attributes, this.props );
 
 		const {
-			url,
 			uniqueId,
 			removeText,
 			backgroundColor,
@@ -33,11 +37,6 @@ export default class MainCSS extends Component {
 			letterSpacing,
 			fontSize,
 			fontSizeUnit,
-			marginTop,
-			marginRight,
-			marginBottom,
-			marginLeft,
-			marginUnit,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -71,6 +70,11 @@ export default class MainCSS extends Component {
 			iconPaddingUnit,
 			iconSize,
 			iconSizeUnit,
+			hasButtonContainer,
+			alignment,
+			backgroundColorCurrent,
+			textColorCurrent,
+			borderColorCurrent,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -96,11 +100,9 @@ export default class MainCSS extends Component {
 			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
 		}
 
-		let selector = '.editor-styles-wrapper .gb-button-wrapper a.gb-button-' + uniqueId;
-
-		if ( ! url ) {
-			selector = '.editor-styles-wrapper .gb-button-wrapper .gb-button-' + uniqueId;
-		}
+		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
+		let selector = '.gb-button-' + uniqueId;
+		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
 
@@ -114,10 +116,15 @@ export default class MainCSS extends Component {
 			'font-weight': fontWeight,
 			'text-transform': textTransform,
 			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
+			'text-align': alignment,
 			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
-			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
+
+		SpacingCSS( cssObj, selector, attributes );
+		LayoutCSS( cssObj, selector, attributes );
+		SizingCSS( cssObj, selector, attributes );
+		FlexChildCSS( cssObj, selector, attributes );
 
 		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
 			cssObj[ selector ].push( {
@@ -125,6 +132,17 @@ export default class MainCSS extends Component {
 				'border-style': 'solid',
 			} );
 		}
+
+		const currentSelector = sprintf(
+			'%1$s[data-button-is-current], %1$s[data-button-is-current]:hover, %1$s[data-button-is-current]:active, %1$s[data-button-is-current]:focus',
+			selector
+		);
+
+		cssObj[ currentSelector ] = [ {
+			'background-color': backgroundColorCurrent,
+			color: textColorCurrent,
+			'border-color': borderColorCurrent,
+		} ];
 
 		cssObj[ selector + ':hover, ' + selector + ':focus, ' + selector + ':active' ] = [ {
 			'background-color': hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),

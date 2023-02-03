@@ -2,34 +2,22 @@
  * Editor Styles
  */
 .editor-styles-wrapper {
-	.gb-button-wrapper {
-		position: relative;
+	.gb-button {
+		padding: unset;
+		line-height: unset;
+		text-decoration: none !important;
+		border: none;
+		margin: 0;
+		box-sizing: border-box;
 
-		.gb-button {
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			text-align: center;
-			padding: unset;
-			line-height: unset;
-			text-decoration: none !important;
-			border: none;
-			transition: .2s background-color ease-in-out, .2s color ease-in-out, .2s border-color ease-in-out, .2s opacity ease-in-out, .2s box-shadow ease-in-out;
-			margin: 0;
+		.editor-rich-text__tinymce {
+			line-height: 1em;
+		}
 
-			.editor-rich-text__tinymce {
-				line-height: 1em;
-			}
-
-			.gb-icon {
-				align-self: center;
-			}
-
-			&.button {
-				font-size: inherit;
-				min-height: auto;
-				border-radius: unset;
-			}
+		&.button {
+			font-size: inherit;
+			min-height: auto;
+			border-radius: unset;
 		}
 	}
 }

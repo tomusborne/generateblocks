@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { addFilter } from '@wordpress/hooks';
+import { addFilter, applyFilters } from '@wordpress/hooks';
 
 function AddColorItems( items, props ) {
 	const {
@@ -16,7 +16,11 @@ function AddColorItems( items, props ) {
 		return items;
 	}
 
-	const addCurrentColors = useDynamicData && 'pagination-numbers' === dynamicContentType;
+	const addCurrentColors = applyFilters(
+		'generateblocks.editor.addButtonCurrentColors',
+		useDynamicData && 'pagination-numbers' === dynamicContentType,
+		props
+	);
 
 	if ( addCurrentColors ) {
 		const newItems = [

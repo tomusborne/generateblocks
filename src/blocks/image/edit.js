@@ -2,18 +2,21 @@ import './editor.scss';
 import ImageContentRenderer from './components/ImageContentRenderer';
 import { compose } from '@wordpress/compose';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
-import { withUniqueId } from '../../hoc';
-import { useDeviceType } from '../../hooks';
+import { withDeviceType, withUniqueId } from '../../hoc';
 import ComponentCSS from './components/ComponentCSS';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect, useState } from '@wordpress/element';
 import { store as noticesStore } from '@wordpress/notices';
-import InspectorControls from './components/InspectorControls';
+import ImageSettingsControls from './components/inspector-controls/ImageSettingsControl';
 import { InspectorAdvancedControls, store as blockEditorStore } from '@wordpress/block-editor';
 import { useEntityProp } from '@wordpress/core-data';
 import { getBlobByURL, isBlobURL, revokeBlobURL } from '@wordpress/blob';
 import HTMLAnchor from '../../components/html-anchor';
 import { pick } from 'lodash';
+import { withBlockContext } from '../../block-context';
+import GenerateBlocksInspectorControls from '../../extend/inspector-control';
+import { applyFilters } from '@wordpress/hooks';
+import getDeviceType from '../../utils/get-device-type';
 
 function ImageEdit( props ) {
 	const {
@@ -32,7 +35,7 @@ function ImageEdit( props ) {
 		anchor,
 	} = attributes;
 
-	const [ deviceType ] = useDeviceType( 'Desktop' );
+	const deviceType = getDeviceType();
 	const { createErrorNotice } = useDispatch( noticesStore );
 	const [ temporaryURL, setTemporaryURL ] = useState();
 	const postType = 'post-type' === attributes.dynamicSource ? attributes.postType : context.postType;
@@ -158,11 +161,18 @@ function ImageEdit( props ) {
 
 	return (
 		<>
-			<InspectorControls
+			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-				deviceType={ deviceType }
-			/>
+			>
+				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+
+				<ImageSettingsControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+					deviceType={ deviceType }
+				/>
+			</GenerateBlocksInspectorControls>
 
 			<InspectorAdvancedControls>
 				<HTMLAnchor { ...props } anchor={ anchor } />
@@ -185,6 +195,8 @@ function ImageEdit( props ) {
 }
 
 export default compose(
+	withDeviceType,
+	withBlockContext,
 	withDynamicContent,
 	withUniqueId,
 )( ImageEdit );

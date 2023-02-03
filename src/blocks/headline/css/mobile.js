@@ -1,6 +1,9 @@
 import buildCSS from '../../../utils/build-css';
-import flexboxAlignment from '../../../utils/flexbox-alignment';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -27,11 +30,6 @@ export default class MobileCSS extends Component {
 			lineHeightMobile,
 			lineHeightUnit,
 			letterSpacingMobile,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			marginUnit,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -46,9 +44,6 @@ export default class MobileCSS extends Component {
 			borderRadiusBottomLeftMobile,
 			borderRadiusTopLeftMobile,
 			borderRadiusUnit,
-			icon,
-			iconLocationMobile,
-			iconVerticalAlignmentMobile,
 			iconPaddingTopMobile,
 			iconPaddingRightMobile,
 			iconPaddingBottomMobile,
@@ -56,12 +51,12 @@ export default class MobileCSS extends Component {
 			iconPaddingUnit,
 			iconSizeMobile,
 			iconSizeUnit,
-			inlineWidthMobile,
 			removeText,
+			displayMobile,
+			inlineWidthMobile,
 		} = attributes;
 
 		const selector = element + '.gb-headline-' + uniqueId;
-		let inlineWidthValue = 'inline-block';
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
@@ -69,14 +64,6 @@ export default class MobileCSS extends Component {
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'line-height': valueWithUnit( lineHeightMobile, lineHeightUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
-			display: !! icon ? 'flex' : false,
-			'align-items': 'inline' === iconLocationMobile ? flexboxAlignment( iconVerticalAlignmentMobile ) : flexboxAlignment( alignmentMobile ),
-			'justify-content': flexboxAlignment( alignmentMobile ),
-			'flex-direction': icon && 'above' === iconLocationMobile ? 'column' : false,
-			'margin-top': valueWithUnit( marginTopMobile, marginUnit ) + ' !important',
-			'margin-right': valueWithUnit( marginRightMobile, marginUnit ) + ' !important',
-			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ) + ' !important',
-			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ) + ' !important',
 			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
 			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
 			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
@@ -87,13 +74,10 @@ export default class MobileCSS extends Component {
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
 		} ];
 
-		if ( icon ) {
-			inlineWidthValue = 'inline-flex';
-
-			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
-				'display': inlineWidthMobile ? inlineWidthValue : false, // eslint-disable-line quote-props
-			} );
-		}
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
+		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
+		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
+		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
@@ -110,8 +94,6 @@ export default class MobileCSS extends Component {
 			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightMobile, iconPaddingUnit ) : false,
 			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomMobile, iconPaddingUnit ) : false,
 			'padding-left': ! removeText ? valueWithUnit( iconPaddingLeftMobile, iconPaddingUnit ) : false,
-			'align-self': icon && 'above' === iconLocationMobile ? flexboxAlignment( alignmentMobile ) : false,
-			'display': icon && 'above' === iconLocationMobile ? 'inline' : false, // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
@@ -119,9 +101,11 @@ export default class MobileCSS extends Component {
 			'height': valueWithUnit( iconSizeMobile, iconSizeUnit ), // eslint-disable-line quote-props
 		} ];
 
-		cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
-			'display': inlineWidthMobile ? 'inline-flex' : false, // eslint-disable-line quote-props
-		} ];
+		if ( inlineWidthMobile ) {
+			cssObj[ '.gb-is-root-block[data-block="' + clientId + '"]' ] = [ {
+				display: displayMobile,
+			} ];
+		}
 
 		cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, this.props, 'headline' );
 

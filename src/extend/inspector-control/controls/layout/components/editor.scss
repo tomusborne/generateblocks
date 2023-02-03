@@ -1,0 +1,68 @@
+.gblocks-flex-direction-alignItems-column svg {
+	transform: rotate(-90deg) scale(-1, 1);
+}
+
+.gblocks-flex-direction-justifyContent-column svg {
+	transform: rotate(90deg);
+}
+
+.gblocks-flex-direction-alignItems-column-reverse svg {
+	transform: rotate(-90deg);
+}
+
+.gblocks-flex-direction-justifyContent-column-reverse svg {
+	transform: rotate(90deg) scale(-1, 1);
+}
+
+.gblocks-flex-direction-alignItems-row-reverse svg,
+.gblocks-flex-direction-justifyContent-row-reverse svg {
+	transform: scale(-1, 1);
+}
+
+
+.gblocks-flex-controls {
+	& > .components-base-control__field {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+  	}
+
+  	.gblocks-flex-controls-inner {
+		flex-basis: 100%;
+		display: flex;
+
+		& > .components-base-control {
+			margin-bottom: 0;
+
+			&:nth-child(1) {
+				margin-right: 1px;
+				flex-basis: 25%;
+			}
+
+			&:nth-child(2) {
+				margin-right: 1px;
+				flex-basis: 25%;
+			}
+		}
+
+		p {
+			margin-bottom: 0;
+		}
+
+		.gblocks-flex-basis-wrapper {
+			position: relative;
+			flex-basis: 50%;
+
+			.components-gblocks-units-control-header__units {
+				position: absolute;
+				right: 0;
+				top: 5px;
+			}
+		}
+  	}
+}
+
+.gblocks-layout-gap {
+	display: flex;
+	gap: 5px;
+}
