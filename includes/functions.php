@@ -146,10 +146,15 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
 		return;
 	}
 
-	$top = ( floatval( $top ) <> 0 ) ? floatval( $top ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$right = ( floatval( $right ) <> 0 ) ? floatval( $right ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$bottom = ( floatval( $bottom ) <> 0 ) ? floatval( $bottom ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$left = ( floatval( $left ) <> 0 ) ? floatval( $left ) . $unit . ' ' : '0 '; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$top_fallback = 'auto' === $top ? 'auto ' : '0 ';
+	$right_fallback = 'auto' === $right ? 'auto ' : '0 ';
+	$bottom_fallback = 'auto' === $bottom ? 'auto ' : '0 ';
+	$left_fallback = 'auto' === $left ? 'auto ' : '0 ';
+
+	$top = ( floatval( $top ) <> 0 ) ? floatval( $top ) . $unit . ' ' : $top_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$right = ( floatval( $right ) <> 0 ) ? floatval( $right ) . $unit . ' ' : $right_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$bottom = ( floatval( $bottom ) <> 0 ) ? floatval( $bottom ) . $unit . ' ' : $bottom_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	$left = ( floatval( $left ) <> 0 ) ? floatval( $left ) . $unit . ' ' : $left_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
 
 	if ( $right === $left ) {
 		$left = '';
@@ -602,14 +607,14 @@ function generateblocks_get_background_image_css( $type, $settings ) {
  * @return string String of HTML attributes and values.
  */
 function generateblocks_attr( $context, $attributes = array(), $settings = array(), $block = null ) {
-	$attributes = generateblocks_parse_attr( $context, $attributes, $settings );
+	$attributes = generateblocks_parse_attr( $context, $attributes, $settings, $block );
 
 	$output = '';
 
 	// Cycle through attributes, build tag attribute string.
 	foreach ( $attributes as $key => $value ) {
 
-		if ( ! $value ) {
+		if ( ! $value && '0' !== $value ) {
 			continue;
 		}
 
@@ -1135,4 +1140,225 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 	}
 
 	return $content;
+}
+
+/**
+ * Get our default Container block width.
+ *
+ * @since 1.7.0
+ */
+function generateblocks_get_global_container_width() {
+	return apply_filters(
+		'generateblocks_global_container_width',
+		function_exists( 'generate_get_option' )
+			? generate_get_option( 'container_width' ) . 'px'
+			: generateblocks_get_option( 'container_width' ) . 'px'
+	);
+}
+
+/**
+ * Add our Layout component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
+	if ( ! empty( $settings['useInnerContainer'] ) ) {
+		return;
+	}
+
+	$options = [
+		'display' => 'display',
+		'flex-direction' => 'flexDirection',
+		'flex-wrap' => 'flexWrap',
+		'align-items' => 'alignItems',
+		'justify-content' => 'justifyContent',
+		'column-gap' => 'columnGap',
+		'row-gap' => 'rowGap',
+		'z-index' => 'zindex',
+		'position' => 'position',
+		'overflow-x' => 'overflowX',
+		'overflow-y' => 'overflowY',
+	];
+
+	foreach ( $options as $property => $option ) {
+		$value = isset( $settings[ $option . $device ] ) ? $settings[ $option . $device ] : '';
+
+		$css->add_property( $property, $value );
+	}
+}
+
+/**
+ * Add our Sizing component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_sizing_css( $css, $settings, $device = '' ) {
+	$options = [
+		'width' => 'width',
+		'height' => 'height',
+		'min-width' => 'minWidth',
+		'min-height' => 'minHeight',
+		'max-width' => 'maxWidth',
+		'max-height' => 'maxHeight',
+	];
+
+	if ( ! empty( $settings['useInnerContainer'] ) ) {
+		unset( $options['max-width'] );
+	}
+
+	if ( ! empty( $settings['isGrid'] ) ) {
+		unset( $options['width'] );
+		unset( $options['min-width'] );
+		unset( $options['max-width'] );
+	}
+
+	foreach ( $options as $property => $option ) {
+		$option_name = $option . $device;
+		$value = generateblocks_get_array_attribute_value( $option_name, $settings['sizing'] );
+
+		if ( 'max-width' === $property && ! empty( $settings['useGlobalMaxWidth'] ) && ! $device ) {
+			$value = generateblocks_get_global_container_width();
+		}
+
+		$css->add_property( $property, $value );
+	}
+}
+
+/**
+ * Add our Flex Child component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_flex_child_css( $css, $settings, $device = '' ) {
+	if ( ! empty( $settings['isGrid'] ) ) {
+		return;
+	}
+
+	$options = [
+		'flex-grow' => 'flexGrow',
+		'flex-shrink' => 'flexShrink',
+		'flex-basis' => 'flexBasis',
+		'order' => 'order',
+	];
+
+	foreach ( $options as $property => $option ) {
+		$value = isset( $settings[ $option . $device ] ) ? $settings[ $option . $device ] : '';
+
+		$css->add_property( $property, $value );
+	}
+}
+
+/**
+ * Helper function to get an attribute value from an array.
+ *
+ * @param string $name The name of the attribute.
+ * @param array  $array The array of attribute values.
+ */
+function generateblocks_get_array_attribute_value( $name, $array ) {
+	return isset( $array[ $name ] ) ? $array[ $name ] : '';
+}
+
+/**
+ * Return the CSS selector for a specific block.
+ *
+ * @param string $name The name of the block.
+ * @param array  $attributes The block attributes.
+ */
+function generateblocks_get_css_selector( $name, $attributes ) {
+	$selector = '';
+	$id = $attributes['uniqueId'];
+
+	if ( 'button' === $name ) {
+		$selector = '.gb-button-' . $id;
+	}
+
+	if ( 'headline' === $name ) {
+		$selector = '.gb-headline-' . $id;
+	}
+
+	if ( 'container' === $name ) {
+		$selector = '.gb-container-' . $id;
+	}
+
+	return apply_filters(
+		'generateblocks_block_css_selector',
+		$selector,
+		$name,
+		$attributes
+	);
+}
+
+/**
+ * Determine whether we should add the :visited selector to links.
+ *
+ * @param string $name The block name.
+ * @param array  $attributes The block attributes.
+ */
+function generateblocks_use_visited_selector( $name, $attributes ) {
+	$blockVersion = ! empty( $attributes['blockVersion'] ) ? $attributes['blockVersion'] : 1;
+	$use_visited_selector = false;
+
+	if ( ( 'button' === $name || 'container' === $name ) && $blockVersion < 3 ) {
+		$use_visited_selector = true;
+	}
+
+	if ( 'headline' === $name && $blockVersion < 2 ) {
+		$use_visited_selector = true;
+	}
+
+	return apply_filters(
+		'generateblocks_use_visited_selector',
+		$use_visited_selector,
+		$name,
+		$attributes
+	);
+}
+
+/**
+ * Returns the global $wp_filesystem with credentials set.
+ * Returns null in case of any errors.
+ *
+ * @return WP_Filesystem_Base|null
+ */
+function generateblocks_get_wp_filesystem() {
+	global $wp_filesystem;
+
+	$success = true;
+
+	// Initialize the file system if it has not been done yet.
+	if ( ! $wp_filesystem ) {
+		require_once ABSPATH . '/wp-admin/includes/file.php';
+
+		$constants = array(
+			'hostname'    => 'FTP_HOST',
+			'username'    => 'FTP_USER',
+			'password'    => 'FTP_PASS',
+			'public_key'  => 'FTP_PUBKEY',
+			'private_key' => 'FTP_PRIKEY',
+		);
+
+		$credentials = array();
+
+		// We provide credentials based on wp-config.php constants.
+		// Reference https://developer.wordpress.org/apis/wp-config-php/#wordpress-upgrade-constants.
+		foreach ( $constants as $key => $constant ) {
+			if ( defined( $constant ) ) {
+				$credentials[ $key ] = constant( $constant );
+			}
+		}
+
+		$success = WP_Filesystem( $credentials );
+	}
+
+	if ( ! $success || $wp_filesystem->errors->has_errors() ) {
+		return null;
+	}
+
+	return $wp_filesystem;
 }
