@@ -194,6 +194,8 @@ function doInnerContainerMigration( props ) {
 		setAttributes,
 		parentBlock,
 		replaceBlocks,
+		insertBlocks,
+		clientId,
 	} = props;
 
 	const {
@@ -265,7 +267,12 @@ function doInnerContainerMigration( props ) {
 	);
 
 	const childClientIds = childBlocks.map( ( block ) => block.clientId );
-	replaceBlocks( childClientIds, newInnerBlocks );
+
+	if ( childClientIds.length > 0 ) {
+		replaceBlocks( childClientIds, newInnerBlocks );
+	} else {
+		insertBlocks( newInnerBlocks, 0, clientId );
+	}
 
 	// Update attributes for existing Container block.
 	setAttributes( {
