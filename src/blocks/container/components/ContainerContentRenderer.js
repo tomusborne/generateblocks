@@ -1,17 +1,14 @@
 import RootElement from '../../../components/root-element';
 import GridItem from './GridItem';
-import Element from '../../../components/element';
-import { applyFilters } from '@wordpress/hooks';
-import { InnerBlocks, useBlockProps, store as blockEditorStore } from '@wordpress/block-editor';
-import { Button } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
-import getIcon from '../../../utils/get-icon';
+import { applyFilters, doAction } from '@wordpress/hooks';
+import { useBlockProps, store as blockEditorStore, useInnerBlocksProps } from '@wordpress/block-editor';
 import ShapeDividers from './ShapeDividers';
 import classnames from 'classnames';
 import { useInnerBlocksCount } from '../../../hooks';
-import { useDispatch, useSelect } from '@wordpress/data';
+import { useSelect } from '@wordpress/data';
 import ComponentCSS from './ComponentCSS';
 import getBackgroundImageUrl from '../../../utils/get-background-image-url';
+import BlockAppender from './BlockAppender';
 
 export default function ContainerContentRenderer( props ) {
 	const {
@@ -21,6 +18,7 @@ export default function ContainerContentRenderer( props ) {
 		filterTagName,
 		allShapes,
 		deviceType,
+		containerRef,
 	} = props;
 
 	const {
@@ -32,11 +30,13 @@ export default function ContainerContentRenderer( props ) {
 		isGrid,
 		bgOptions,
 		bgImageInline,
+		bgImage,
 		align,
 		isBlockPreview = false,
+		useInnerContainer,
 	} = attributes;
 
-	const { selectBlock } = useDispatch( 'core/block-editor' );
+	const TagName = filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 	const hasChildBlocks = 0 < innerBlocksCount;
 	const supportsLayout = useSelect( ( select ) => {
@@ -49,6 +49,7 @@ export default function ContainerContentRenderer( props ) {
 
 	let hasStyling = (
 		!! backgroundColor ||
+		!! bgImage ||
 		attributes.borderSizeTop ||
 		attributes.borderSizeRight ||
 		attributes.borderSizeBottom ||
@@ -68,6 +69,7 @@ export default function ContainerContentRenderer( props ) {
 		} ),
 		id: anchor ? anchor : null,
 		'data-align': align && ! supportsLayout ? align : null,
+		ref: containerRef,
 	};
 
 	const backgroundUrl = getBackgroundImageUrl( props );
@@ -93,53 +95,34 @@ export default function ContainerContentRenderer( props ) {
 
 	const blockProps = useBlockProps( htmlAttributes );
 
+	const innerBlocksProps = useInnerBlocksProps(
+		! useInnerContainer
+			? blockProps
+			: { className: 'gb-inside-container' },
+		{
+			templateLock: applyFilters( 'generateblocks.editor.containerTemplateLock', false, props ),
+			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ props.isSelected } attributes={ attributes } />,
+		}
+	);
+
+	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: containerRef } );
+	const containerBlockProps = useInnerContainer ? blockProps : innerBlocksProps;
+
 	return (
 		<>
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<RootElement name={ name } clientId={ clientId } align={ align }>
 				<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
-					<Element
-						tagName={ filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) ) }
-						htmlAttrs={ blockProps }
-					>
-						{ applyFilters( 'generateblocks.frontend.afterContainerOpen', '', attributes ) }
-						<div className={ 'gb-inside-container' }>
-							{ applyFilters( 'generateblocks.frontend.insideContainer', '', attributes ) }
-							<InnerBlocks
-								templateLock={ false }
-								renderAppender={ () => {
-									if ( isBlockPreview ) {
-										return false;
-									}
-
-									// Selected Container.
-									if ( props.isSelected ) {
-										return <InnerBlocks.ButtonBlockAppender />;
-									}
-
-									// Empty non-selected Container.
-									if ( ! hasChildBlocks && ! props.isSelected ) {
-										return <Button
-											className="gblocks-container-selector"
-											onClick={ () => selectBlock( clientId ) }
-											aria-label={ __( 'Select Container', 'generateblocks' ) }
-										>
-											<span className="gblocks-container-selector__icon">
-												{ getIcon( 'container' ) }
-											</span>
-										</Button>;
-									}
-
-									return false;
-								} }
-							/>
-						</div>
-
-						<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
-
-						{ applyFilters( 'generateblocks.frontend.beforeContainerClose', '', attributes ) }
-					</Element>
+					<TagName { ...containerBlockProps }>
+						<>
+							{ useInnerContainer
+								? <div { ...innerBlocksProps }>{ innerBlocksProps.children }</div>
+								: innerBlocksProps.children
+							}
+							<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
+						</>
+					</TagName>
 				</GridItem>
 			</RootElement>
 		</>

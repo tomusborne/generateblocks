@@ -69,7 +69,7 @@ export default ( props ) => {
 	const finalProps = Object.assign( {}, defaultProps, props );
 
 	return (
-		<div style={ wrapperStyles }>
+		<div className="gblocks-advanced-select" style={ wrapperStyles }>
 			<BaseControl
 				id={ finalProps.id }
 				label={ finalProps.label }

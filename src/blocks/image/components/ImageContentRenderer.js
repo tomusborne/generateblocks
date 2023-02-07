@@ -9,7 +9,7 @@ import { useRef, useState, useMemo } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import getDynamicImage from '../../../utils/get-dynamic-image';
 import getMediaUrl from '../../../utils/get-media-url';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, doAction } from '@wordpress/hooks';
 
 export default function ImageContentRenderer( props ) {
 	const {
@@ -131,6 +131,8 @@ export default function ImageContentRenderer( props ) {
 		attributes,
 		temporaryURL,
 	};
+
+	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: imageRef } );
 
 	return (
 		<>

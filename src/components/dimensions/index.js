@@ -90,7 +90,9 @@ export default function Dimensions( props ) {
 			return;
 		}
 
-		const syncValue = Math.max.apply( null, numbers ).toString();
+		const syncValue = numbers.includes( 'auto' )
+			? 'auto'
+			: Math.max.apply( null, numbers ).toString();
 
 		setAttributes( {
 			[ value ]: ! attributes[ value ],
@@ -123,13 +125,17 @@ export default function Dimensions( props ) {
 								? computedStyles.marginTop
 								: ''
 						) }
-						type="number"
+						type={ 'margin' === type ? 'text' : 'number' }
 						onChange={ ( event ) => {
 							let value = event.target.value;
 
 							if ( 'margin' !== type ) {
 								// No negative values allowed here.
 								value = value.toString().replace( /-/g, '' );
+							}
+
+							if ( 'margin' === type && value ) {
+								value = value.toString().toLowerCase();
 							}
 
 							if ( attributes[ attributeNames.sync ] ) {
@@ -152,13 +158,17 @@ export default function Dimensions( props ) {
 						id={ attributeNames.right }
 						className="components-gblocks-dimensions-control__number"
 						placeholder={ getResponsivePlaceholder( attributeNames.right, attributes, device, '' ) }
-						type="number"
+						type={ 'margin' === type ? 'text' : 'number' }
 						onChange={ ( event ) => {
 							let value = event.target.value;
 
 							if ( 'margin' !== type ) {
 								// No negative values allowed here.
 								value = value.toString().replace( /-/g, '' );
+							}
+
+							if ( 'margin' === type && value ) {
+								value = value.toString().toLowerCase();
 							}
 
 							if ( attributes[ attributeNames.sync ] ) {
@@ -188,13 +198,17 @@ export default function Dimensions( props ) {
 								? computedStyles.marginBottom
 								: ''
 						) }
-						type="number"
+						type={ 'margin' === type ? 'text' : 'number' }
 						onChange={ ( event ) => {
 							let value = event.target.value;
 
 							if ( 'margin' !== type ) {
 								// No negative values allowed here.
 								value = value.toString().replace( /-/g, '' );
+							}
+
+							if ( 'margin' === type && value ) {
+								value = value.toString().toLowerCase();
 							}
 
 							if ( attributes[ attributeNames.sync ] ) {
@@ -217,13 +231,17 @@ export default function Dimensions( props ) {
 						id={ attributeNames.left }
 						className="components-gblocks-dimensions-control__number"
 						placeholder={ getResponsivePlaceholder( attributeNames.left, attributes, device, '' ) }
-						type="number"
+						type={ 'margin' === type ? 'text' : 'number' }
 						onChange={ ( event ) => {
 							let value = event.target.value;
 
 							if ( 'margin' !== type ) {
 								// No negative values allowed here.
 								value = value.toString().replace( /-/g, '' );
+							}
+
+							if ( 'margin' === type && value ) {
+								value = value.toString().toLowerCase();
 							}
 
 							if ( attributes[ attributeNames.sync ] ) {
