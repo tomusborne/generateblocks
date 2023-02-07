@@ -105,28 +105,15 @@ export default function MigrateInnerContainer( props ) {
 						<li>{ __( 'Enable our new layout system for this Container block.', 'generateblocks' ) }</li>
 					</ul>
 					<p>{ __( 'We can automatically replace the old inner div element with a Container block if your layout relies on it.', 'generateblocks' ) }</p>
-					<Notice status="info" isDismissible={ false } className="gblocks-inner-container-notice">
-						{ !! migrateInnerContainer
-							? (
-								<>
-									<p style={ { 'margin-top': 0 } }><strong>{ __( 'Recommendation:', 'generateblocks' ) }</strong> { __( 'Yes, we recommend you add a new inner Container block to maintain your current layout.', 'generateblocks' ) }</p>
-
-									{ migrateInnerContainerButton() }
-								</>
-							) : (
-								<>
-									<p style={ { 'margin-top': 0 } }><strong>{ __( 'Recommendation:', 'generateblocks' ) }</strong> { __( 'No, we do not believe you need an inner Container block based on your current layout.', 'generateblocks' ) }</p>
-									{ enableNewSystemButton() }
-								</>
-							)
-						}
-					</Notice>
 
 					{ !! useGlobalStyle &&
 						<Notice status="warning" isDismissible={ false } className="gblocks-inner-container-notice">
 							<strong>{ __( 'Warning:', 'generateblocks' ) }</strong>
-							{ ' ' + __( 'This block is using a Global Style. If the Global Style targets the width of the legacy inner container, proceeding with this migration will prevent it from working.', 'generateblocks' ) }
-							<p style={ { 'margin-bottom': 0 } }>{ __( 'If that is the case, we suggest creating a separate Global Style for the inner container that this migration will create for you.', 'generateblocks' ) }</p>
+							{ ' ' + __( 'This block is using a Global Style. Make sure the Global Style you are using is also using the new layout system.', 'generateblocks' ) }
+
+							{ !! migrateInnerContainer &&
+								<p style={ { marginBottom: 0 } }>{ __( 'You may want to create two new Global Styles for this Container. One for the outer Container block and one for the inner Container block.', 'generateblocks' ) }</p>
+							}
 						</Notice>
 					}
 
@@ -136,6 +123,23 @@ export default function MigrateInnerContainer( props ) {
 							{ ' ' + __( 'This block is a Global Style. If you migrate the inner container on this block you will need to make sure that all Container blocks using it are migrated as well.', 'generateblocks' ) }
 						</Notice>
 					}
+
+					<Notice status="info" isDismissible={ false } className="gblocks-inner-container-notice">
+						{ !! migrateInnerContainer
+							? (
+								<>
+									<p style={ { marginTop: 0 } }><strong>{ __( 'Recommendation:', 'generateblocks' ) }</strong> { __( 'Yes, we recommend you add a new inner Container block to maintain your current layout.', 'generateblocks' ) }</p>
+
+									{ migrateInnerContainerButton() }
+								</>
+							) : (
+								<>
+									<p style={ { marginTop: 0 } }><strong>{ __( 'Recommendation:', 'generateblocks' ) }</strong> { __( 'No, we do not believe you need an inner Container block based on your current layout.', 'generateblocks' ) }</p>
+									{ enableNewSystemButton() }
+								</>
+							)
+						}
+					</Notice>
 
 					{ ! migrateInnerContainer &&
 						migrateInnerContainerButton()
