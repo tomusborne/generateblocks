@@ -72,6 +72,13 @@ class IconPicker extends Component {
 
 		iconSVGSets = applyFilters( 'generateblocks.editor.iconSVGSets', iconSVGSets, { attributes } );
 
+		const flexAttributes = {};
+
+		if ( ! attributes.display.includes( 'flex' ) ) {
+			flexAttributes.display = 'headline' === id ? 'flex' : 'inline-flex';
+			flexAttributes.alignItems = 'center';
+		}
+
 		return (
 			<Fragment>
 				<BaseControl className="gb-svg-html">
@@ -86,8 +93,7 @@ class IconPicker extends Component {
 							if ( '' !== value ) {
 								setAttributes( {
 									'hasIcon': true, // eslint-disable-line quote-props
-									display: 'headline' === id ? 'flex' : 'inline-flex',
-									alignItems: 'center',
+									...flexAttributes,
 								} );
 							} else {
 								setAttributes( {
@@ -145,8 +151,7 @@ class IconPicker extends Component {
 																			setAttributes( {
 																				[ this.props.attrIcon ]: iconValue,
 																				hasIcon: true,
-																				display: 'headline' === id ? 'flex' : 'inline-flex',
-																				alignItems: 'center',
+																				...flexAttributes,
 																			} );
 																		} }
 																	>
