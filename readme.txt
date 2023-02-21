@@ -5,15 +5,13 @@ Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiw
 Requires at least: 5.9
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.6.0
+Stable tag: 1.7.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 A small collection of lightweight WordPress blocks that can accomplish nearly anything.
 
 == Description ==
-
-https://vimeo.com/412896611
 
 Add incredible versatility to your editor without bloating it with tons of one-dimensional Gutenberg blocks. With GenerateBlocks, you can learn a handful of blocks deeply and use them to build anything.
 
@@ -33,7 +31,7 @@ Create advanced layouts with flexible grids. The Grid block gives you the abilit
 
 Craft text-rich content with advanced typography. Everything from headings to paragraphs - take full control of your text.
 
-= Buttons =
+= Button =
 
 Drive conversions with beautiful buttons.
 
