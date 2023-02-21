@@ -43,6 +43,7 @@ class GenerateBlocks_Query_Loop {
 	 */
 	public function __construct() {
 		add_filter( 'generateblocks_attr_grid-wrapper', array( $this, 'add_grid_wrapper_attributes' ), 10, 2 );
+		add_filter( 'generateblocks_attr_container', array( $this, 'add_container_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_attr_grid-item', array( $this, 'add_grid_item_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_attr_button-container', array( $this, 'add_button_wrapper_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
@@ -209,6 +210,7 @@ class GenerateBlocks_Query_Loop {
 	 */
 	public function add_block_defaults( $defaults ) {
 		$defaults['container']['isQueryLoopItem'] = false;
+		$defaults['container']['isPagination'] = false;
 		$defaults['gridContainer']['isQueryLoop'] = false;
 		$defaults['buttonContainer']['isPagination'] = false;
 
@@ -224,6 +226,20 @@ class GenerateBlocks_Query_Loop {
 	public function add_grid_wrapper_attributes( $attributes, $settings ) {
 		if ( $settings['isQueryLoop'] ) {
 			$attributes['class'] .= ' gb-query-loop-wrapper';
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Add HTML attributes to the Query Loop Containers.
+	 *
+	 * @param array $attributes Existing HTML attributes.
+	 * @param array $settings Block settings.
+	 */
+	public function add_container_attributes( $attributes, $settings ) {
+		if ( $settings['isPagination'] ) {
+			$attributes['class'] .= ' gb-query-loop-pagination';
 		}
 
 		return $attributes;

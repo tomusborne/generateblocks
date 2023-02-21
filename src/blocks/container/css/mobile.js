@@ -1,6 +1,9 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
+import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -9,6 +12,8 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import sizingValue from '../../../utils/sizingValue';
+import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 
 export default class MobileCSS extends Component {
 	render() {
@@ -17,24 +22,14 @@ export default class MobileCSS extends Component {
 		const {
 			uniqueId,
 			isGrid,
-			widthMobile,
-			autoWidthMobile,
 			flexGrowMobile,
 			flexShrinkMobile,
 			flexBasisMobile,
-			flexBasisUnit,
-			minHeightMobile,
-			minHeightUnitMobile,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
 			paddingUnit,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			marginUnit,
 			borderSizeTopMobile,
 			borderSizeRightMobile,
 			borderSizeBottomMobile,
@@ -54,6 +49,8 @@ export default class MobileCSS extends Component {
 			bgImage,
 			bgOptions,
 			gridId,
+			useInnerContainer,
+			sizing,
 		} = attributes;
 
 		let cssObj = [];
@@ -62,14 +59,23 @@ export default class MobileCSS extends Component {
 			'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
 			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
 			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
-			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
-			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 			'text-align': alignmentMobile,
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
-			'min-height': valueWithUnit( minHeightMobile, minHeightUnitMobile ),
 		} ];
+
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
+		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
+		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
+		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
+
+		if ( ! useInnerContainer ) {
+			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
+				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
+				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
+				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
+			} );
+		}
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -81,30 +87,32 @@ export default class MobileCSS extends Component {
 			} );
 		}
 
-		if ( 'inherit' !== verticalAlignmentMobile && minHeightMobile && ! isGrid ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'row',
-				'align-items': verticalAlignmentMobile,
-			} );
-		}
+		if ( useInnerContainer ) {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
+				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
+				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
+				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
+				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
+				'width': sizingValue( 'minHeightMobile', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
+			} ];
 
-		if ( isGrid && 'inherit' !== verticalAlignmentMobile ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'display': 'flex', // eslint-disable-line quote-props
-				'flex-direction': 'column',
-				'height': '100%', // eslint-disable-line quote-props
-				'justify-content': verticalAlignmentMobile,
-			} );
-		}
+			if ( 'inherit' !== verticalAlignmentMobile && sizingValue( 'minHeightMobile', sizing ) && ! isGrid ) {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+					'display': 'flex', // eslint-disable-line quote-props
+					'flex-direction': 'row',
+					'align-items': verticalAlignmentMobile,
+				} );
+			}
 
-		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
-			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
-			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
-			'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
-			'width': minHeightMobile && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
-		} ];
+			if ( isGrid && 'inherit' !== verticalAlignmentMobile ) {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+					'display': 'flex', // eslint-disable-line quote-props
+					'flex-direction': 'column',
+					'height': '100%', // eslint-disable-line quote-props
+					'justify-content': verticalAlignmentMobile,
+				} );
+			}
+		}
 
 		if ( isGrid ) {
 			const gridColumnSelectors = [
@@ -113,10 +121,10 @@ export default class MobileCSS extends Component {
 			];
 
 			cssObj[ gridColumnSelectors.join( ',' ) ] = [ {
-				width: ! autoWidthMobile ? valueWithUnit( widthMobile, '%' ) : 'auto',
+				width: sizingValue( 'widthMobile', sizing ),
 				'flex-grow': flexGrowMobile,
 				'flex-shrink': flexShrinkMobile,
-				'flex-basis': isNaN( flexBasisMobile ) ? flexBasisMobile : valueWithUnit( flexBasisMobile, flexBasisUnit ),
+				'flex-basis': flexBasisMobile,
 				'order': orderMobile, // eslint-disable-line quote-props
 			} ];
 		}
