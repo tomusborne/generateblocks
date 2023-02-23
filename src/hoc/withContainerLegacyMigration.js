@@ -92,6 +92,14 @@ export default ( WrappedComponent ) => {
 				items.forEach( ( item ) => {
 					if ( ! hasNumericValue( attributes[ item ] ) ) {
 						newAttrs[ item ] = legacyDefaults[ item ];
+
+						if ( 'width' === item || 'widthMobile' === item ) {
+							if ( ! newAttrs.sizing ) {
+								newAttrs.sizing = {};
+							}
+
+							newAttrs.sizing[ item ] = String( legacyDefaults[ item ] + '%' );
+						}
 					}
 				} );
 
