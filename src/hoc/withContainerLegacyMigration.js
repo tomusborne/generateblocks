@@ -89,16 +89,16 @@ export default ( WrappedComponent ) => {
 					);
 				}
 
+				if ( ! newAttrs.sizing ) {
+					newAttrs.sizing = {};
+				}
+
 				items.forEach( ( item ) => {
-					if ( ! hasNumericValue( attributes[ item ] ) ) {
-						newAttrs[ item ] = legacyDefaults[ item ];
-
-						if ( 'width' === item || 'widthMobile' === item ) {
-							if ( ! newAttrs.sizing ) {
-								newAttrs.sizing = {};
-							}
-
+					if ( 'width' === item || 'widthMobile' === item ) {
+						if ( ! hasNumericValue( attributes[ item ] ) ) {
 							newAttrs.sizing[ item ] = String( legacyDefaults[ item ] + '%' );
+						} else {
+							newAttrs.sizing[ item ] = String( attributes[ item ] + '%' );
 						}
 					}
 				} );
