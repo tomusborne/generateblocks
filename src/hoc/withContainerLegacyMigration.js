@@ -100,6 +100,8 @@ export default ( WrappedComponent ) => {
 						} else {
 							newAttrs.sizing[ item ] = String( attributes[ item ] + '%' );
 						}
+					} else if ( ! hasNumericValue( attributes[ item ] ) ) {
+						newAttrs[ item ] = legacyDefaults[ item ];
 					}
 				} );
 
