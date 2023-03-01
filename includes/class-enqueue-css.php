@@ -32,6 +32,14 @@ class GenerateBlocks_Enqueue_CSS {
 	private static $has_made_css = false;
 
 	/**
+	 * Check to see if we've enqueued our CSS.
+	 *
+	 * @access private
+	 * @var boolean
+	 */
+	private static $has_enqueued_css = false;
+
+	/**
 	 * Initiator.
 	 *
 	 * @since 0.1
@@ -56,6 +64,20 @@ class GenerateBlocks_Enqueue_CSS {
 		add_action( 'init', array( $this, 'enqueue_assets' ) );
 		add_filter( 'widget_update_callback', array( $this, 'force_file_regen_on_widget_save' ) );
 		add_action( 'customize_save_after', array( $this, 'force_file_regen_on_customizer_save' ) );
+	}
+
+	/**
+	 * Tell our system it's ok to generate CSS.
+	 */
+	private function enable_enqueue() {
+		self::$has_enqueued_css = true;
+	}
+
+	/**
+	 * Check to see if we can generate CSS.
+	 */
+	public static function can_enqueue() {
+		return self::$has_enqueued_css;
 	}
 
 	/**
@@ -125,6 +147,7 @@ class GenerateBlocks_Enqueue_CSS {
 	 * Enqueue the dynamic CSS.
 	 */
 	public function enqueue_dynamic_css() {
+		$this->enable_enqueue();
 		$page_id = $this->page_id();
 
 		if ( ! $page_id ) {
@@ -151,6 +174,8 @@ class GenerateBlocks_Enqueue_CSS {
 	 * Print our inline CSS.
 	 */
 	public function print_inline_css() {
+		$this->enable_enqueue();
+
 		if ( 'inline' === $this->mode() || ! wp_style_is( 'generateblocks', 'enqueued' ) ) {
 			// Build our CSS based on the content we find.
 			generateblocks_get_dynamic_css();
