@@ -89,8 +89,18 @@ export default ( WrappedComponent ) => {
 					);
 				}
 
+				if ( ! newAttrs.sizing ) {
+					newAttrs.sizing = {};
+				}
+
 				items.forEach( ( item ) => {
-					if ( ! hasNumericValue( attributes[ item ] ) ) {
+					if ( 'width' === item || 'widthMobile' === item ) {
+						if ( ! hasNumericValue( attributes[ item ] ) ) {
+							newAttrs.sizing[ item ] = String( legacyDefaults[ item ] + '%' );
+						} else {
+							newAttrs.sizing[ item ] = String( attributes[ item ] + '%' );
+						}
+					} else if ( ! hasNumericValue( attributes[ item ] ) ) {
 						newAttrs[ item ] = legacyDefaults[ item ];
 					}
 				} );
