@@ -1114,6 +1114,10 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 			return $content;
 		}
 
+		if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() ) {
+			return $content;
+		}
+
 		$css_data = is_callable( [ $data['class_name'], 'get_css_data' ] )
 			? $data['class_name']::get_css_data( $data['attributes'] )
 			: false;
