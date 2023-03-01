@@ -1114,6 +1114,10 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 			return $content;
 		}
 
+		if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() ) {
+			return $content;
+		}
+
 		$css_data = is_callable( [ $data['class_name'], 'get_css_data' ] )
 			? $data['class_name']::get_css_data( $data['attributes'] )
 			: false;
@@ -1361,4 +1365,75 @@ function generateblocks_get_wp_filesystem() {
 	}
 
 	return $wp_filesystem;
+}
+
+/**
+ * Add global defaults to our blocks.
+ *
+ * @since 1.7.1
+ * @param array $defaults The existing defaults.
+ */
+function generateblocks_with_global_defaults( $defaults ) {
+	$display = [
+		'display',
+		'flexDirection',
+		'flexWrap',
+		'alignItems',
+		'justifyContent',
+		'columnGap',
+		'rowGap',
+		'position',
+		'overflowX',
+		'overflowY',
+		'zindex',
+	];
+
+	$flex_child = [
+		'flexGrow',
+		'flexShrink',
+		'flexBasis',
+		'order',
+	];
+
+	$spacing = [
+		'marginTop',
+		'marginRight',
+		'marginBottom',
+		'marginLeft',
+		'paddingTop',
+		'paddingRight',
+		'paddingBottom',
+		'paddingLeft',
+		'borderSizeTop',
+		'borderSizeRight',
+		'borderSizeBottom',
+		'borderSizeLeft',
+		'borderRadiusTopRight',
+		'borderRadiusBottomRight',
+		'borderRadiusBottomLeft',
+		'borderRadiusTopLeft',
+	];
+
+	$options = array_merge(
+		$display,
+		$flex_child,
+		$spacing
+	);
+
+	foreach ( $options as $option ) {
+		$defaults[ $option ] = '';
+		$defaults[ $option . 'Tablet' ] = '';
+		$defaults[ $option . 'Mobile' ] = '';
+	}
+
+	// Spacing.
+	$defaults['marginUnit'] = 'px';
+	$defaults['paddingUnit'] = 'px';
+	$defaults['borderRadiusUnit'] = 'px';
+
+	// Sizing.
+	$defaults['sizing'] = [];
+	$defaults['useGlobalMaxWidth'] = false;
+
+	return $defaults;
 }
