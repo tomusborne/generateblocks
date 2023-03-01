@@ -84,6 +84,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.7.1 =
+* Tweak: Add link to documentation under legacy layout toggle
 * Fix: Container width migration for old blockVersion: 1 blocks
 
 = 1.7.0 =
