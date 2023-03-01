@@ -20,12 +20,12 @@ function generateblocks_get_block_defaults() {
 	return apply_filters(
 		'generateblocks_defaults',
 		[
-			'container' => GenerateBlocks_Block_Container::defaults(),
-			'buttonContainer' => GenerateBlocks_Block_Button_Container::defaults(),
-			'button' => GenerateBlocks_Block_Button::defaults(),
-			'gridContainer' => GenerateBlocks_Block_Grid::defaults(),
-			'headline' => GenerateBlocks_Block_Headline::defaults(),
-			'image' => GenerateBlocks_Block_Image::defaults(),
+			'container' => generateblocks_with_global_defaults( GenerateBlocks_Block_Container::defaults() ),
+			'buttonContainer' => generateblocks_with_global_defaults( GenerateBlocks_Block_Button_Container::defaults() ),
+			'button' => generateblocks_with_global_defaults( GenerateBlocks_Block_Button::defaults() ),
+			'gridContainer' => generateblocks_with_global_defaults( GenerateBlocks_Block_Grid::defaults() ),
+			'headline' => generateblocks_with_global_defaults( GenerateBlocks_Block_Headline::defaults() ),
+			'image' => generateblocks_with_global_defaults( GenerateBlocks_Block_Image::defaults() ),
 		]
 	);
 }
