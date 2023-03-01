@@ -1,4 +1,4 @@
-import { ToggleControl, Modal, Button, Notice } from '@wordpress/components';
+import { ToggleControl, Modal, Button, Notice, ExternalLink } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useState, useContext } from '@wordpress/element';
 import { useSelect, useDispatch } from '@wordpress/data';
@@ -91,7 +91,20 @@ export default function MigrateInnerContainer( props ) {
 			{ !! useInnerContainer &&
 				<ToggleControl
 					label={ __( 'Use legacy layout system', 'generateblocks' ) }
-					help={ __( 'This Container is using an old layout system. Toggle this to migrate to the new system.', 'generateblocks' ) }
+					help={
+						<>
+							{ __( 'This Container is using an old layout system. Toggle this to migrate to the new system.', 'generateblocks' ) }
+
+							<ExternalLink
+								style={ { display: 'block', marginTop: '8px' } }
+								href={ __(
+									'https://docs.generateblocks.com/article/migrating-container-legacy-layout/'
+								) }
+							>
+								{ __( 'Learn more about the new system' ) }
+							</ExternalLink>
+						</>
+					}
 					checked={ !! useInnerContainer }
 					onChange={ openModal }
 				/>
