@@ -84,6 +84,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.7.1 =
+* Fix: Container width migration for old blockVersion: 1 blocks
 
 = 1.7.0 =
 * Feature: Add flexbox controls to all blocks
