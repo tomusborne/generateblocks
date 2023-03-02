@@ -77,7 +77,7 @@ class GenerateBlocks_Enqueue_CSS {
 	 * Check to see if we can generate CSS.
 	 */
 	public static function can_enqueue() {
-		return self::$has_enqueued_css;
+		return self::$has_enqueued_css || ( function_exists( 'wp_is_block_theme' ) && wp_is_block_theme() );
 	}
 
 	/**
