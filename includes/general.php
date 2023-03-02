@@ -400,11 +400,9 @@ add_action( 'init', 'generateblocks_register_user_meta' );
  * @return void
  */
 function generateblocks_register_user_meta() {
-	$onboarding_properties = apply_filters(
+	$additional_properties = apply_filters(
 		'generateblocks_onboarding_user_meta_properties',
-		array(
-			'insert_inner_container' => array( 'type' => 'boolean' ),
-		)
+		array()
 	);
 
 	register_meta(
@@ -416,7 +414,10 @@ function generateblocks_register_user_meta() {
 			'show_in_rest' => array(
 				'schema' => array(
 					'type'  => 'object',
-					'properties' => $onboarding_properties,
+					'properties' => array(
+						'insert_inner_container' => array( 'type' => 'boolean' ),
+					),
+					'additionalProperties' => $additional_properties,
 				),
 			),
 		)
