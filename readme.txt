@@ -5,7 +5,7 @@ Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiw
 Requires at least: 5.9
 Tested up to: 6.1
 Requires PHP: 5.6
-Stable tag: 1.7.2
+Stable tag: 1.7.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.7.3 =
+* Fix: REST API warnings
+* Fix: Old block deprecations
 
 = 1.7.2 =
 * Fix: Non-registered onboarding keys were breaking root container

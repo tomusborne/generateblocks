@@ -12,10 +12,22 @@ import {
 	InnerBlocks,
 } from '@wordpress/block-editor';
 
+import { getBlockAttributes } from '../../block-context';
+import gridContext from '../../block-context/grid';
+
+const allAttributes = Object.assign(
+	{},
+	getBlockAttributes(
+		blockAttributes,
+		gridContext,
+		generateBlocksDefaults.gridContainer
+	),
+);
+
 const deprecated = [
 	// v1 of container block. Deprecated the gb-grid-column wrapper in save component.
 	{
-		attributes: blockAttributes,
+		attributes: allAttributes,
 		supports: {
 			anchor: false,
 			className: false,
