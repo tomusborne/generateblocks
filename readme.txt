@@ -84,6 +84,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.7.3 =
+* Fix: REST API warnings
+* Fix: Old block deprecations
 
 = 1.7.2 =
 * Fix: Non-registered onboarding keys were breaking root container
