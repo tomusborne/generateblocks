@@ -13,11 +13,23 @@ import {
 	RichText,
 } from '@wordpress/block-editor';
 
+import { getBlockAttributes } from '../../block-context';
+import buttonContext from '../../block-context/button';
+
+const allAttributes = Object.assign(
+	{},
+	getBlockAttributes(
+		blockAttributes,
+		buttonContext,
+		generateBlocksDefaults.button
+	),
+);
+
 const deprecated = [
 	// v1 of button block.
 	{
 		attributes: {
-			...blockAttributes,
+			...allAttributes,
 			text: {
 				type: 'array',
 				source: 'children',

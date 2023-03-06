@@ -12,10 +12,22 @@ import {
 	applyFilters,
 } from '@wordpress/hooks';
 
+import { getBlockAttributes } from '../../block-context';
+import buttonContainerContext from '../../block-context/button-container';
+
+const allAttributes = Object.assign(
+	{},
+	getBlockAttributes(
+		blockAttributes,
+		buttonContainerContext,
+		generateBlocksDefaults.buttonContainer
+	),
+);
+
 const deprecated = [
 	// v1 of container block. Deprecated the gb-grid-column wrapper in save component.
 	{
-		attributes: blockAttributes,
+		attributes: allAttributes,
 		supports: {
 			anchor: false,
 			className: false,

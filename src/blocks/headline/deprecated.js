@@ -10,11 +10,23 @@ import {
 	applyFilters,
 } from '@wordpress/hooks';
 
+import { getBlockAttributes } from '../../block-context';
+import headlineContext from '../../block-context/headline';
+
+const allAttributes = Object.assign(
+	{},
+	getBlockAttributes(
+		blockAttributes,
+		headlineContext,
+		generateBlocksDefaults.headline
+	),
+);
+
 const deprecated = [
 	// v2 - remove wrapper.
 	{
 		attributes: {
-			...blockAttributes,
+			...allAttributes,
 			content: {
 				type: 'array',
 				source: 'children',
@@ -99,7 +111,7 @@ const deprecated = [
 	// v1 - change default h2 to p.
 	{
 		attributes: {
-			...blockAttributes,
+			...allAttributes,
 			element: {
 				type: 'string',
 				default: 'p',
