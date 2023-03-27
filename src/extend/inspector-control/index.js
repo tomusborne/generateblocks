@@ -68,14 +68,14 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				/>
 			}
 
-			{ colors.enabled &&
+			{ colors.enabled && 'desktop' === device &&
 				<ColorsControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
 			}
 
-			{ backgroundPanel.enabled &&
+			{ backgroundPanel.enabled && 'desktop' === device &&
 				<BackgroundPanel
 					attributes={ attributes }
 					setAttributes={ setAttributes }
