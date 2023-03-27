@@ -58,7 +58,16 @@ registerBlockType( 'generateblocks/headline', {
 	transforms,
 	deprecated,
 	usesContext: [ 'postId', 'postType', 'generateblocks/dynamicImage', 'generateblocks/mediaId' ],
-	__experimentalLabel: ( attrs ) => (
-		getContentTypeLabel( attrs, __( 'Headline', 'generateblocks' ) )
-	),
+	__experimentalLabel: ( attrs, { context } ) => {
+		if (
+			context === 'list-view' &&
+			attrs.content &&
+			! attrs.useDynamicData &&
+			! attrs.isCaption
+		) {
+			return attrs.content;
+		}
+
+		return getContentTypeLabel( attrs, __( 'Headline', 'generateblocks' ) );
+	},
 } );
