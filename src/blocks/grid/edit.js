@@ -26,7 +26,6 @@ const GridEdit = ( props ) => {
 		InnerBlocksRenderer = InnerBlocks,
 		LayoutSelector = GridLayoutSelector,
 		defaultLayout = false,
-		templateLock = false,
 		context,
 	} = props;
 
@@ -112,7 +111,7 @@ const GridEdit = ( props ) => {
 				{ ( attributes.isQueryLoop || attributes.columns > 0 || selectedLayout )
 					? (
 						<InnerBlocksRenderer
-							templateLock={ templateLock }
+							templateLock={ attributes.templateLock }
 							allowedBlocks={ [ 'generateblocks/container' ] }
 							renderAppender={ false }
 							clientId={ clientId }
