@@ -72,13 +72,15 @@ export default function ImageBlockControls( props ) {
 						onError={ onUploadError }
 					>
 						<>
-							<div className="gb-image-replace-url">
-								<TextControl
-									label={ __( 'Image URL', 'generateblocks' ) }
-									value={ imageUrl }
-									onChange={ ( mediaUrl ) => setAttributes( { mediaUrl } ) }
-								/>
-							</div>
+							{ imageUrl && ! mediaId &&
+								<div className="gb-image-replace-url">
+									<TextControl
+										label={ __( 'Image URL', 'generateblocks' ) }
+										value={ imageUrl }
+										onChange={ ( mediaUrl ) => setAttributes( { mediaUrl } ) }
+									/>
+								</div>
+							}
 							<MenuItem onClick={ onResetImage }>
 								{ __( 'Reset' ) }
 							</MenuItem>
