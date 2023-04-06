@@ -2,6 +2,7 @@ import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
 import { useSelect } from '@wordpress/data';
+import { ExternalLink } from '@wordpress/components';
 
 function ContainerTemplateSelector( context, props ) {
 	const {
@@ -10,18 +11,28 @@ function ContainerTemplateSelector( context, props ) {
 
 	const tabTemplates = {
 		label: __( 'Container', 'generateblocks-pro' ),
-		instructions: __( 'Choose a Container layout to start with.', 'generateblocks-pro' ),
+		instructions: <>
+			{ __( 'Choose a Container layout to start with.', 'generateblocks' ) }
+
+			{ ' ' }<ExternalLink
+				href={ __(
+					'https://docs.generateblocks.com/article/migrating-container-legacy-layout/'
+				) }
+			>
+				{ __( 'Learn more' ) }
+			</ExternalLink>
+		</>,
 		templates: [
 			{
 				id: 'plain',
-				label: __( 'Plain Container', 'generateblocks-pro' ),
-				icon: getIcon( 'container' ),
+				label: __( 'Single Container', 'generateblocks-pro' ),
+				icon: getIcon( 'single-container' ),
 				innerBlocks: [],
 			},
 			{
 				id: 'inner-container',
 				label: __( 'With Inner Container', 'generateblocks-pro' ),
-				icon: getIcon( 'section' ),
+				icon: getIcon( 'with-inner-container' ),
 				innerBlocks: [
 					[ 'generateblocks/container',
 						{
@@ -37,7 +48,7 @@ function ContainerTemplateSelector( context, props ) {
 
 	const hasParentBlock = getBlockRootClientId( props.clientId );
 
-	if ( ! hasParentBlock ) {
+	if ( ! hasParentBlock && '' === props.attributes.variantRole ) {
 		return tabTemplates;
 	}
 
