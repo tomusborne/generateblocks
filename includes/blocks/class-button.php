@@ -450,11 +450,12 @@ class GenerateBlocks_Block_Button {
 			}
 
 			$button_attributes = array(
-				'id' => isset( $settings['anchor'] ) ? $settings['anchor'] : null,
+				'id' => ! empty( $settings['anchor'] ) ? $settings['anchor'] : null,
 				'class' => implode( ' ', $classNames ),
 				'href' => 'a' === $tagName ? $dynamic_link : null,
 				'rel' => ! empty( $relAttributes ) ? implode( ' ', $relAttributes ) : null,
 				'target' => ! empty( $settings['target'] ) ? '_blank' : null,
+				'aria-label' => ! empty( $settings['ariaLabel'] ) ? $settings['ariaLabel'] : null,
 			);
 
 			if ( isset( $content['attributes'] ) ) {
