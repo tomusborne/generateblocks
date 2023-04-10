@@ -25,7 +25,7 @@ function ContainerTemplateSelector( context, props ) {
 
 			{ ' ' }<ExternalLink
 				href={ __(
-					'https://docs.generateblocks.com/article/migrating-container-legacy-layout/'
+					'https://docs.generateblocks.com/article/add-inner-container/'
 				) }
 			>
 				{ __( 'Learn more' ) }
