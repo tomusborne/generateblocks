@@ -3,11 +3,20 @@ import { __ } from '@wordpress/i18n';
 import getIcon from '../../../utils/get-icon';
 import { useSelect } from '@wordpress/data';
 import { ExternalLink } from '@wordpress/components';
+import { useEffect, useState } from '@wordpress/element';
 
 function ContainerTemplateSelector( context, props ) {
 	const {
 		getBlockRootClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const [ showSelector, setShowSelector ] = useState( false );
+
+	useEffect( () => {
+		// Existing top-level Container blocks with no innerBlocks shouldn't show the selector.
+		if ( '' === props.attributes.uniqueId ) {
+			setShowSelector( true );
+		}
+	}, [] );
 
 	const tabTemplates = {
 		label: __( 'Container', 'generateblocks-pro' ),
@@ -28,6 +37,7 @@ function ContainerTemplateSelector( context, props ) {
 				label: __( 'Single Container', 'generateblocks-pro' ),
 				icon: getIcon( 'single-container' ),
 				innerBlocks: [],
+				onClick: () => setShowSelector( false ), // Disable the selector even though there are no innerBlocks.
 			},
 			{
 				id: 'inner-container',
@@ -48,7 +58,7 @@ function ContainerTemplateSelector( context, props ) {
 
 	const hasParentBlock = getBlockRootClientId( props.clientId );
 
-	if ( ! hasParentBlock && '' === props.attributes.variantRole ) {
+	if ( ! hasParentBlock && '' === props.attributes.variantRole && showSelector ) {
 		return tabTemplates;
 	}
 

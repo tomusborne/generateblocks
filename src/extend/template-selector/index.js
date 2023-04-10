@@ -32,6 +32,10 @@ export default function TemplateSelector( { clientId, setAttributes } ) {
 									setAttributes( template.attributes );
 								}
 
+								if ( 'function' === typeof template.onClick ) {
+									template.onClick();
+								}
+
 								selectBlock( clientId );
 							} }
 						>
