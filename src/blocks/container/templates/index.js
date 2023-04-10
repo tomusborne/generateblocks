@@ -19,7 +19,7 @@ function ContainerTemplateSelector( context, props ) {
 	}, [] );
 
 	const tabTemplates = {
-		label: __( 'Container', 'generateblocks-pro' ),
+		label: __( 'Container', 'generateblocks' ),
 		instructions: <>
 			{ __( 'Choose a Container layout to start with.', 'generateblocks' ) }
 
@@ -34,14 +34,14 @@ function ContainerTemplateSelector( context, props ) {
 		templates: [
 			{
 				id: 'plain',
-				label: __( 'Single Container', 'generateblocks-pro' ),
+				label: __( 'Single Container', 'generateblocks' ),
 				icon: getIcon( 'single-container' ),
 				innerBlocks: [],
 				onClick: () => setShowSelector( false ), // Disable the selector even though there are no innerBlocks.
 			},
 			{
 				id: 'inner-container',
-				label: __( 'With Inner Container', 'generateblocks-pro' ),
+				label: __( 'With Inner Container', 'generateblocks' ),
 				icon: getIcon( 'with-inner-container' ),
 				innerBlocks: [
 					[ 'generateblocks/container',
