@@ -19,6 +19,24 @@ export default function ThemeWidth( { value, onChange } ) {
 		return null;
 	}
 
+	const options = [
+		{
+			label: __( 'Default', 'generateblocks' ),
+			value: '',
+			icon: alignNone,
+		},
+		{
+			label: __( 'Wide', 'generateblocks' ),
+			value: 'wide',
+			icon: stretchWide,
+		},
+		{
+			label: __( 'Full', 'generateblocks' ),
+			value: 'full',
+			icon: stretchFullWidth,
+		},
+	];
+
 	return (
 		<BaseControl
 			label={ __( 'Block Alignment', 'generateblocks' ) }
@@ -30,27 +48,17 @@ export default function ThemeWidth( { value, onChange } ) {
 					className="gblocks-alignment-button-group"
 					id="gblocks-theme-width-button-group"
 				>
-					<Tooltip text={ __( 'Default', 'generateblocks' ) }>
-						<Button
-							variant={ '' === value ? 'primary' : '' }
-							onClick={ () => onChange( '' ) }
-							icon={ alignNone }
-						/>
-					</Tooltip>
-					<Tooltip text={ __( 'Wide', 'generateblocks' ) }>
-						<Button
-							variant={ 'wide' === value ? 'primary' : '' }
-							onClick={ () => onChange( 'wide' ) }
-							icon={ stretchWide }
-						/>
-					</Tooltip>
-					<Tooltip text={ __( 'Full', 'generateblocks' ) }>
-						<Button
-							variant={ 'full' === value ? 'primary' : '' }
-							onClick={ () => onChange( 'full' ) }
-							icon={ stretchFullWidth }
-						/>
-					</Tooltip>
+					{ options.map( ( option ) => {
+						return (
+							<Tooltip key={ 'align' + option.value } text={ option.label }>
+								<Button
+									variant={ value === option.value ? 'primary' : '' }
+									onClick={ () => onChange( option.value ) }
+									icon={ option.icon }
+								/>
+							</Tooltip>
+						);
+					} ) }
 				</ButtonGroup>
 			</div>
 		</BaseControl>
