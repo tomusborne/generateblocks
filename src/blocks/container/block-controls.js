@@ -7,14 +7,12 @@ import useInnerBlocksCount from '../../hooks/useInnerBlocksCount';
 import { __ } from '@wordpress/i18n';
 import { addFilter } from '@wordpress/hooks';
 import { Fragment } from '@wordpress/element';
-import { BlockControls, BlockAlignmentToolbar } from '@wordpress/block-editor';
+import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { cloneBlock, getBlockSupport, createBlock } from '@wordpress/blocks';
+import { cloneBlock, createBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
 import InsertInnerContainerOnboard from '../../components/onboard-popover/onboards/insert-inner-container-onboard';
-
-const WIDE_ALIGNMENTS = [ 'wide', 'full' ];
 
 /**
  * Add controls to the Container block toolbar.
@@ -38,13 +36,11 @@ const withBlockControls = createHigherOrderComponent(
 		const {
 			attributes,
 			clientId,
-			setAttributes,
 		} = props;
 
 		const {
 			isGrid,
 			isQueryLoopItem,
-			align,
 			variantRole,
 			useInnerContainer,
 		} = attributes;
@@ -59,12 +55,6 @@ const withBlockControls = createHigherOrderComponent(
 
 		const hasParentBlock = getBlockRootClientId( clientId );
 		const innerBlocksCount = useInnerBlocksCount( clientId );
-
-		/**
-		 * We don't define "align" support in block registration as we don't want it enabled for grid items.
-		 * This allows us to enable support for regular non-grid item Containers.
-		 */
-		const hasAlignmentSupport = getBlockSupport( '', 'align', true ) && ! isGrid;
 
 		return (
 			<Fragment>
@@ -114,26 +104,6 @@ const withBlockControls = createHigherOrderComponent(
 								showTooltip
 							/>
 						</ToolbarGroup>
-					</BlockControls>
-				}
-
-				{ hasAlignmentSupport &&
-					<BlockControls>
-						<BlockAlignmentToolbar
-							value={ align }
-							onChange={ ( value ) => {
-								setAttributes( {
-									align: value,
-								} );
-
-								if ( 'full' === value ) {
-									setAttributes( {
-										outerContainer: 'full',
-									} );
-								}
-							} }
-							controls={ WIDE_ALIGNMENTS }
-						/>
 					</BlockControls>
 				}
 
