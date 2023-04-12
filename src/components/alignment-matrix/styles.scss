@@ -1,0 +1,53 @@
+.gb-matrix {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	color: #000;
+
+	&-cell {
+		display: flex;
+		width: 32px;
+		height: 32px;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+
+		&-state {
+			height: 6px;
+			width: 6px;
+			background: currentColor;
+			transition: all 120ms linear 0s;
+		}
+
+		&.active &-state {
+			box-shadow: currentColor 0 0 0 2px;
+		}
+
+		&:hover &-state {
+			background: #3983c5;
+		}
+
+		&:hover.active &-state {
+			background: currentColor;
+		}
+	}
+
+	// Compact version
+	&.is-compact.is-open,
+	&:hover.compact {
+		color: #3983c5;
+	}
+
+	&.is-compact &-cell {
+		width: 8px;
+		height: 8px;
+
+		&-state {
+			width: 2px;
+			height: 2px;
+		}
+	}
+
+	&.is-compact &-cell.active &-cell-state {
+		box-shadow: currentColor 0 0 0 1px;
+	}
+}
