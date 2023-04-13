@@ -62,7 +62,7 @@ function AlignmentMatrix( { options = {}, onChange, value } ) {
 		<Dropdown
 			className="gb-alignment-matrix"
 			contentClassName="gb-alignment-matrix-content"
-			popoverProps={ { variant: 'toolbar', placement: 'bottom-start' } }
+			popoverProps={ { variant: 'toolbar', placement: 'bottom-center' } }
 			renderToggle={ ( { isOpen, onToggle } ) => {
 				const openOnArrowDown = ( event ) => {
 					if ( ! isOpen && event.keyCode === 40 ) {
