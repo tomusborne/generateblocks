@@ -147,8 +147,6 @@ export default class MainCSS extends Component {
 
 		cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, this.props, 'headline' );
 
-		return (
-			<style>{ buildCSS( cssObj ) }</style>
-		);
+		return buildCSS( cssObj );
 	}
 }

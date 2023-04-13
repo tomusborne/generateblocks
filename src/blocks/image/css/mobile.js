@@ -84,7 +84,5 @@ export default function MobileCSS( props ) {
 
 	cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, props, 'image' );
 
-	return (
-		<style>{ buildCSS( cssObj ) }</style>
-	);
+	return buildCSS( cssObj );
 }

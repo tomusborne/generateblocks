@@ -80,7 +80,5 @@ export default function TabletCSS( props ) {
 
 	cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, props, 'image' );
 
-	return (
-		<style>{ buildCSS( cssObj ) }</style>
-	);
+	return buildCSS( cssObj );
 }

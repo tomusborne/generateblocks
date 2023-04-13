@@ -380,8 +380,6 @@ export default function MainCSS( props ) {
 
 	cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, props, 'container' );
 
-	return (
-		<style>{ buildCSS( cssObj ) }</style>
-	);
+	return buildCSS( cssObj );
 }
 /* eslint-enable quotes */

@@ -47,8 +47,6 @@ export default class MobileCSS extends Component {
 
 		cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, this.props, 'grid' );
 
-		return (
-			<style>{ buildCSS( cssObj ) }</style>
-		);
+		return buildCSS( cssObj );
 	}
 }

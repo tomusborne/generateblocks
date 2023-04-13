@@ -1,25 +1,13 @@
 import { memo } from '@wordpress/element';
-import { useSelect } from '@wordpress/data';
 import DesktopCSS from '../css/desktop';
 import TabletCSS from '../css/tablet';
 import TabletOnlyCSS from '../css/tablet-only';
 import MobileCSS from '../css/mobile';
 import MainCSS from '../css/main';
 import shouldRebuildCSS from '../../../utils/should-rebuild-css';
+import StyleTag from '../../../components/style-tag';
 
 function ComponentCSS( props ) {
-	const deviceType = useSelect( ( select ) => {
-		if ( ! select( 'core/edit-post' ) ) {
-			return 'Desktop';
-		}
-
-		const {
-			__experimentalGetPreviewDeviceType: experimentalGetPreviewDeviceType = () => 'Desktop',
-		} = select( 'core/edit-post' );
-
-		return experimentalGetPreviewDeviceType();
-	}, [] );
-
 	const {
 		isBlockPreview = false,
 	} = props?.attributes;
@@ -30,27 +18,11 @@ function ComponentCSS( props ) {
 
 	return (
 		<>
-			<MainCSS device={ deviceType } { ...props } />
-
-			{ deviceType &&
-				<>
-					{ 'Desktop' === deviceType &&
-						<DesktopCSS { ...props } />
-					}
-
-					{ ( 'Tablet' === deviceType || 'Mobile' === deviceType ) &&
-						<TabletCSS { ...props } />
-					}
-
-					{ 'Tablet' === deviceType &&
-						<TabletOnlyCSS { ...props } />
-					}
-
-					{ 'Mobile' === deviceType &&
-						<MobileCSS { ...props } />
-					}
-				</>
-			}
+			<StyleTag><MainCSS { ...props } /></StyleTag>
+			<StyleTag mediaQuery="desktop"><DesktopCSS { ...props } /></StyleTag>
+			<StyleTag mediaQuery="tablet"><TabletCSS { ...props } /></StyleTag>
+			<StyleTag mediaQuery="tablet_only"><TabletOnlyCSS { ...props } /></StyleTag>
+			<StyleTag mediaQuery="mobile"><MobileCSS { ...props } /></StyleTag>
 		</>
 	);
 }

@@ -14,8 +14,6 @@ export default class TabletOnlyCSS extends Component {
 
 		cssObj = applyFilters( 'generateblocks.editor.tabletOnlyCSS', cssObj, this.props, 'headline' );
 
-		return (
-			<style>{ buildCSS( cssObj ) }</style>
-		);
+		return buildCSS( cssObj );
 	}
 }

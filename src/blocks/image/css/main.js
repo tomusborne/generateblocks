@@ -69,7 +69,5 @@ export default function MainCSS( props ) {
 
 	cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, props, 'image' );
 
-	return (
-		<style>{ buildCSS( cssObj ) }</style>
-	);
+	return buildCSS( cssObj );
 }

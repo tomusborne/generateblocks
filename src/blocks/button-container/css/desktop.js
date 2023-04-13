@@ -54,8 +54,6 @@ export default class DesktopCSS extends Component {
 
 		cssObj = applyFilters( 'generateblocks.editor.desktopCSS', cssObj, this.props, 'button-container' );
 
-		return (
-			<style>{ buildCSS( cssObj ) }</style>
-		);
+		return buildCSS( cssObj );
 	}
 }

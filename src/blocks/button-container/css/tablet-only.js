@@ -54,8 +54,6 @@ export default class TabletOnlyCSS extends Component {
 
 		cssObj = applyFilters( 'generateblocks.editor.tabletOnlyCSS', cssObj, this.props, 'button-container' );
 
-		return (
-			<style>{ buildCSS( cssObj ) }</style>
-		);
+		return buildCSS( cssObj );
 	}
 }

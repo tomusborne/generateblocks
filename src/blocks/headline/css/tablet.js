@@ -109,8 +109,6 @@ export default class TabletCSS extends Component {
 
 		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'text' );
 
-		return (
-			<style>{ buildCSS( cssObj ) }</style>
-		);
+		return buildCSS( cssObj );
 	}
 }
