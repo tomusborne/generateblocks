@@ -28,11 +28,16 @@ function Matrix( {
 		>
 			{ matrixCells.map( ( cell ) => (
 				<div
+					tabIndex={ ! isCompact ? '0' : null }
 					key={ cell }
 					className={ classNames( 'gb-matrix-cell', { active: activeCell === cell } ) }
 					onClick={ !! onChange ? () => onChange( cell ) : undefined }
-					onKeyDown={ !! onChange ? () => onChange( cell ) : undefined }
-					role="presentation"
+					onKeyDown={ ( e ) => {
+						if ( onChange && ( 'Enter' === e.key || ' ' === e.key ) ) {
+							onChange( cell );
+						}
+					} }
+					role={ ! isCompact ? 'button' : 'presentation' }
 				>
 					<span className="gb-matrix-cell-state" />
 				</div>

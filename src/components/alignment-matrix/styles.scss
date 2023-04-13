@@ -3,6 +3,15 @@
 	grid-template-columns: repeat(3, 1fr);
 	color: #000;
 
+	&:not(.is-compact) {
+		.gb-matrix-cell {
+			&:focus {
+				box-shadow: 0 0 0 var(--wp-admin-border-width-focus) var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
+				outline: 3px solid transparent;
+			}
+		}
+	}
+
 	&-cell {
 		display: flex;
 		width: 32px;
