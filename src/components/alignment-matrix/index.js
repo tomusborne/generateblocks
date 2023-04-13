@@ -42,12 +42,16 @@ function Matrix( {
 	);
 }
 
-function AlignmentMatrix( { options = {}, onChange, defaultOption = 'centerCenter' } ) {
-	const [ activeCell, setActiveCell ] = useState( defaultOption );
+function AlignmentMatrix( { options = {}, onChange, value } ) {
+	const [ activeCell, setActiveCell ] = useState( '' );
 
 	useEffect( () => {
 		onChange( options[ activeCell ] );
 	}, [ activeCell ] );
+
+	useEffect( () => {
+		setActiveCell( value );
+	}, [ value ] );
 
 	return (
 		<Dropdown
