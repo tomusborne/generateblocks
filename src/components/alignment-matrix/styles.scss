@@ -2,11 +2,13 @@
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
 	color: #000;
-	//border: 2px dashed currentColor;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' class='gblocks-block-icon' aria-hidden='true' focusable='false'%3E%3Cpath style='fill: none;' d='M0 0h24v24H0z'%3E%3C/path%3E%3Cpath d='M21.375 22h-3.75v-1.25h3.125v-3.125H22v3.75c0 .345-.28.625-.625.625zM9.188 20.75h5.625V22H9.188zM6.375 22h-3.75A.625.625 0 0 1 2 21.375v-3.75h1.25v3.125h3.125V22zM2 9.187h1.25v5.625H2zm1.25-2.812H2v-3.75C2 2.28 2.28 2 2.625 2h3.75v1.25H3.25v3.125zM9.188 2h5.625v1.25H9.188zM22 6.375h-1.25V3.25h-3.125V2h3.75c.345 0 .625.28.625.625v3.75zm-1.25 2.812H22v5.625h-1.25z'%3E%3C/path%3E%3C/svg%3E");
-	background-size: contain;
-	background-repeat: no-repeat;
 
+	&.is-compact {
+		background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg' xml:space='preserve' style='fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2'%3E%3Cpath d='M1 4.583H0V.25C0 .083.083 0 .25 0h4.333v1H1v3.583ZM7.25 1V0h5.417v1H7.25Zm8.167 0V0h4.333c.167 0 .25.083.25.25v4.333h-1V1h-3.583ZM19 7.25h1v5.417h-1V7.25Zm0 8.167h1v4.333c0 .167-.083.25-.25.25h-4.333v-1H19v-3.583ZM12.667 19v1H7.25v-1h5.417Zm-8.084 0v1H.25c-.167 0-.25-.083-.25-.25v-4.333h1V19h3.583ZM1 12.667H0V7.25h1v5.417Z' style='fill-rule:nonzero'/%3E%3C/svg%3E");
+		background-size: contain;
+		background-repeat: no-repeat;
+		padding: 3px;
+	}
 
 	&-cell {
 		display: flex;
@@ -19,7 +21,7 @@
 		&-state {
 			height: 10px;
 			width: 10px;
-			background: #ccc;
+			background: currentColor;
 			transition: all 120ms linear 0s;
 		}
 
@@ -40,22 +42,18 @@
 
 	// Compact version
 	&.is-compact &-cell {
-		width: 8px;
-		height: 8px;
+		width: 6px;
+		height: 6px;
 
 		&-state {
-			width: 3px;
-			height: 3px;
+			width: 2px;
+			height: 2px;
 		}
 	}
 
 	&.is-compact &-cell.active &-cell-state {
 		box-shadow: currentColor 0 0 0 1px;
 		border: none;
-	}
-
-	&.is-compact &-cell:hover &-cell-state {
-		background: #ccc;
 	}
 
 	&:not(.is-compact) &-cell:focus {
