@@ -3,7 +3,7 @@ import templates from './templates';
 
 function getTemplate( direction ) {
 	if ( direction && ! templates.hasOwnProperty( direction ) ) {
-		return templates.empty;
+		return {};
 	}
 
 	return templates[ direction || 'row' ];

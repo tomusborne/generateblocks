@@ -1,15 +1,4 @@
 export default {
-	empty: {
-		topLeft: {},
-		topCenter: {},
-		topRight: {},
-		centerLeft: {},
-		centerCenter: {},
-		centerRight: {},
-		bottomLeft: {},
-		bottomCenter: {},
-		bottomRight: {},
-	},
 	row: {
 		topLeft: {
 			display: 'flex',
