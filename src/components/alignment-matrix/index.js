@@ -9,6 +9,7 @@ function Matrix( {
 	activeCell = 'centerCenter',
 	isCompact = false,
 	isOpen = false,
+	direction = '',
 } ) {
 	const matrixCells = [
 		'topLeft',
@@ -22,14 +23,25 @@ function Matrix( {
 		'bottomRight',
 	];
 
+	const wrapperClassNames = classNames(
+		'gb-matrix',
+		{
+			'is-compact': isCompact,
+			'is-open': isOpen,
+			'is-row': 'row' === direction || 'row-reverse' === direction,
+			'is-column': 'column' === direction || 'column-reverse' === direction,
+		}
+	);
+
 	return (
 		<div
-			className={ classNames( 'gb-matrix', { 'is-compact': isCompact, 'is-open': isOpen } ) }
+			className={ wrapperClassNames }
 		>
 			{ matrixCells.map( ( cell ) => (
 				<div
 					tabIndex={ ! isCompact ? '0' : null }
 					key={ cell }
+					aria-label={ 'Something' }
 					className={ classNames( 'gb-matrix-cell', { active: activeCell === cell } ) }
 					onClick={ !! onChange ? () => onChange( cell ) : undefined }
 					onKeyDown={ ( e ) => {
@@ -47,7 +59,7 @@ function Matrix( {
 	);
 }
 
-function AlignmentMatrix( { options = {}, onChange, value } ) {
+function AlignmentMatrix( { options = {}, onChange, value, children, direction } ) {
 	const [ activeCell, setActiveCell ] = useState( '' );
 
 	useEffect( () => {
@@ -78,19 +90,29 @@ function AlignmentMatrix( { options = {}, onChange, value } ) {
 						aria-expanded={ isOpen }
 						onKeyDown={ openOnArrowDown }
 						label={ __( 'Change content position', 'generateblocks' ) }
-						icon={ <Matrix isCompact isOpen={ isOpen } activeCell={ activeCell } /> }
+						icon={ (
+							<Matrix
+								isCompact
+								isOpen={ isOpen }
+								direction={ direction }
+								activeCell={ activeCell }
+							/>
+						) }
 						showTooltip
 						disabled={ false }
 					/>
 				);
 			} }
 			renderContent={ () => (
-				<Matrix
-					activeCell={ activeCell }
-					onChange={ ( selectedCell ) => {
-						setActiveCell( selectedCell );
-					} }
-				/>
+				<div className="gb-alignment-matrix-content">
+					<Matrix
+						activeCell={ activeCell }
+						onChange={ ( selectedCell ) => {
+							setActiveCell( selectedCell );
+						} }
+					/>
+					{ children }
+				</div>
 			) }
 		/>
 	);
