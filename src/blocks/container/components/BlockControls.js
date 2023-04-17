@@ -23,7 +23,7 @@ export default ( { attributes, setAttributes } ) => {
 	} = attributes;
 
 	return (
-		<BlockControls>
+		<BlockControls group="block">
 			{ ! isFlexItem( { device: deviceType, display, displayTablet, displayMobile } ) &&
 				<AlignmentToolbar
 					value={ getAttribute( 'alignment', { attributes, deviceType } ) }
