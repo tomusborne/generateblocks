@@ -1,5 +1,4 @@
 import getIcon from '../../utils/get-icon';
-import useInnerBlocksCount from '../../hooks/useInnerBlocksCount';
 
 /**
  * WordPress Dependencies
@@ -10,9 +9,8 @@ import { Fragment } from '@wordpress/element';
 import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
-import { cloneBlock, createBlock } from '@wordpress/blocks';
+import { cloneBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
-import InsertInnerContainerOnboard from '../../components/onboard-popover/onboards/insert-inner-container-onboard';
 
 /**
  * Add controls to the Container block toolbar.
@@ -41,8 +39,6 @@ const withBlockControls = createHigherOrderComponent(
 		const {
 			isGrid,
 			isQueryLoopItem,
-			variantRole,
-			useInnerContainer,
 		} = attributes;
 
 		let parentGridId = false;
@@ -53,35 +49,8 @@ const withBlockControls = createHigherOrderComponent(
 			parentGridId = getBlockRootClientId( clientId );
 		}
 
-		const hasParentBlock = getBlockRootClientId( clientId );
-		const innerBlocksCount = useInnerBlocksCount( clientId );
-
 		return (
 			<Fragment>
-				{ ! hasParentBlock && 0 === innerBlocksCount && '' === variantRole && ! useInnerContainer &&
-					<BlockControls>
-						<ToolbarGroup>
-							<ToolbarButton
-								icon={ getIcon( 'section' ) }
-								label={ __( 'Insert Inner Container', 'generateblocks' ) }
-								onClick={ () => {
-									insertBlocks(
-										createBlock( 'generateblocks/container', {
-											useGlobalMaxWidth: true,
-											marginLeft: 'auto',
-											marginRight: 'auto',
-										} ),
-										undefined,
-										clientId
-									);
-								} }
-								showTooltip
-							/>
-							<InsertInnerContainerOnboard />
-						</ToolbarGroup>
-					</BlockControls>
-				}
-
 				{ ! isQueryLoopItem && isGrid && parentGridId &&
 					<BlockControls>
 						<ToolbarGroup>
