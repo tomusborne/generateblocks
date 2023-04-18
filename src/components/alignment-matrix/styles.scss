@@ -46,7 +46,7 @@
 		}
 
 		&:hover &-state {
-			background: currentColor;
+			background: #007cba;
 		}
 
 		&:hover.active &-state {
@@ -76,6 +76,6 @@
 	}
 
 	&:not(.is-compact) &-cell:focus:not(.active) &-cell-state {
-		background: currentColor;
+		background: #007cba;
 	}
 }
