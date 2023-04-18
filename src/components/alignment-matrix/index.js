@@ -1,63 +1,8 @@
 import { Dropdown, ToolbarButton } from '@wordpress/components';
 import './styles.scss';
 import { useEffect, useState } from '@wordpress/element';
-import classNames from 'classnames';
 import { __ } from '@wordpress/i18n';
-
-function Matrix( {
-	onChange,
-	activeCell = 'centerCenter',
-	isCompact = false,
-	isOpen = false,
-	direction = '',
-} ) {
-	const matrixCells = [
-		'topLeft',
-		'topCenter',
-		'topRight',
-		'centerLeft',
-		'centerCenter',
-		'centerRight',
-		'bottomLeft',
-		'bottomCenter',
-		'bottomRight',
-	];
-
-	const wrapperClassNames = classNames(
-		'gb-matrix',
-		{
-			'is-compact': isCompact,
-			'is-open': isOpen,
-			'is-row': 'row' === direction || 'row-reverse' === direction,
-			'is-column': 'column' === direction || 'column-reverse' === direction,
-		}
-	);
-
-	return (
-		<div
-			className={ wrapperClassNames }
-		>
-			{ matrixCells.map( ( cell ) => (
-				<div
-					tabIndex={ ! isCompact ? '0' : null }
-					key={ cell }
-					aria-label={ 'Something' }
-					className={ classNames( 'gb-matrix-cell', { active: activeCell === cell } ) }
-					onClick={ !! onChange ? () => onChange( cell ) : undefined }
-					onKeyDown={ ( e ) => {
-						if ( onChange && ( 'Enter' === e.key || ' ' === e.key ) ) {
-							onChange( cell );
-						}
-					} }
-					role={ ! isCompact ? 'button' : 'presentation' }
-				>
-					<span className="gb-matrix-cell-state" />
-				</div>
-			) )
-			}
-		</div>
-	);
-}
+import Matrix from './components/matrix';
 
 function AlignmentMatrix( { options = {}, onChange, value, children, direction } ) {
 	const [ activeCell, setActiveCell ] = useState( '' );
