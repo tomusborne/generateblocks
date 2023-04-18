@@ -125,7 +125,7 @@ export default function Dimensions( props ) {
 								? computedStyles.marginTop
 								: ''
 						) }
-						type={ 'margin' === type ? 'text' : 'number' }
+						type={ 'text' }
 						onChange={ ( event ) => {
 							let value = event.target.value;
 
@@ -158,7 +158,7 @@ export default function Dimensions( props ) {
 						id={ attributeNames.right }
 						className="components-gblocks-dimensions-control__number"
 						placeholder={ getResponsivePlaceholder( attributeNames.right, attributes, device, '' ) }
-						type={ 'margin' === type ? 'text' : 'number' }
+						type={ 'text' }
 						onChange={ ( event ) => {
 							let value = event.target.value;
 
@@ -198,7 +198,7 @@ export default function Dimensions( props ) {
 								? computedStyles.marginBottom
 								: ''
 						) }
-						type={ 'margin' === type ? 'text' : 'number' }
+						type={ 'text' }
 						onChange={ ( event ) => {
 							let value = event.target.value;
 
@@ -231,7 +231,7 @@ export default function Dimensions( props ) {
 						id={ attributeNames.left }
 						className="components-gblocks-dimensions-control__number"
 						placeholder={ getResponsivePlaceholder( attributeNames.left, attributes, device, '' ) }
-						type={ 'margin' === type ? 'text' : 'number' }
+						type={ 'text' }
 						onChange={ ( event ) => {
 							let value = event.target.value;
 

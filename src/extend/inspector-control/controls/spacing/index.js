@@ -6,9 +6,12 @@ import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import DeviceControls from './components/device-controls';
 import getDeviceType from '../../../../utils/get-device-type';
+import DimensionsControl from '../../../../components/dimensions-control';
+import useDeviceAttributes from '../../../../hooks/useDeviceAttributes';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
+	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const { id, supports: { spacing } } = useContext( ControlsContext );
 	const {
 		inlineWidth,
@@ -30,6 +33,26 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			className="gblocks-panel-label"
 			id={ `${ id }Spacing` }
 		>
+			<DimensionsControl
+				outerLabel={ __( 'Margin', 'generateblocks' ) }
+				innerLabel={ __( 'Padding', 'generateblocks' ) }
+				outerAttributes={ {
+					marginTop: deviceAttributes.marginTop,
+					marginRight: deviceAttributes.marginRight,
+					marginBottom: deviceAttributes.marginBottom,
+					marginLeft: deviceAttributes.marginLeft,
+				} }
+				innerAttributes={ {
+					paddingTop: deviceAttributes.paddingTop,
+					paddingRight: deviceAttributes.paddingRight,
+					paddingBottom: deviceAttributes.paddingBottom,
+					paddingLeft: deviceAttributes.paddingLeft,
+				} }
+				onChange={ ( name, value ) => {
+					setDeviceAttributes( { [ name ]: value } );
+				} }
+			/>
+
 			{ spacing.dimensions &&
 				<DimensionsGroup
 					deviceType={ device }
