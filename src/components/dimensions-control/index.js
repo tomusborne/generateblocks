@@ -3,6 +3,8 @@ import './editor.scss';
 import { BaseControl, Button } from '@wordpress/components';
 import UnitControl from '../unit-control';
 import classnames from 'classnames';
+import getResponsivePlaceholder from '../../utils/get-responsive-placeholder';
+import { labels } from './labels';
 
 export default function DimensionsControl( props ) {
 	const {
@@ -11,16 +13,22 @@ export default function DimensionsControl( props ) {
 		outerLabel,
 		innerLabel,
 		onChange,
+		attributes,
+		device,
 	} = props;
 
 	const [ selectedOption, setSelectedOption ] = useState( '' );
 	const [ selectedPresets, setSelectedPresets ] = useState( [] );
 	const [ selectedUnit, setSelectedUnit ] = useState( '' );
+	const [ selectedValue, setSelectedValue ] = useState( '' );
 	const allAttributes = { ...outerAttributes, ...innerAttributes };
-	const selectedValue = allAttributes[ selectedOption ] || '';
 
 	useEffect( () => {
-		const unit = selectedValue ? selectedValue.replace( /[0-9]/g, '' ) : '';
+		setSelectedValue( allAttributes[ selectedOption ] || '' );
+	}, [ JSON.stringify( allAttributes ), selectedOption ] );
+
+	useEffect( () => {
+		const unit = selectedValue ? selectedValue.replace( /(\d+|auto)/g, '' ) : 'px';
 		setSelectedUnit( unit );
 	}, [ selectedValue ] );
 
@@ -49,7 +57,7 @@ export default function DimensionsControl( props ) {
 							onClick={ () => setSelectedOption( name ) }
 							aria-expanded={ selectedOption ? true : false }
 						>
-							{ value || '0' }
+							{ value || getResponsivePlaceholder( name, attributes, device, '0' ) }
 						</button>
 					) ) }
 					<span className="gblocks-dimentions-control-label">{ outerLabel }</span>
@@ -61,7 +69,7 @@ export default function DimensionsControl( props ) {
 								onClick={ () => setSelectedOption( name ) }
 								aria-expanded={ selectedOption ? true : false }
 							>
-								{ value || '0' }
+								{ value || getResponsivePlaceholder( name, attributes, device, '0' ) }
 							</button>
 						) ) }
 						<span className="gblocks-dimentions-control-label">{ innerLabel }</span>
@@ -72,8 +80,12 @@ export default function DimensionsControl( props ) {
 					<>
 						<div className="gblocks-dimensions-control__picker">
 							<UnitControl
+								label={ labels[ selectedOption ] || '' }
 								value={ selectedValue }
 								units={ [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ] }
+								desktopValue={ attributes[ selectedOption ] }
+								tabletValue={ attributes[ selectedOption + 'Tablet' ] }
+								focusOnMount={ true }
 								onChange={ ( newValue ) => {
 									onChange( selectedOption, newValue );
 								} }
@@ -91,7 +103,7 @@ export default function DimensionsControl( props ) {
 									<Button
 										onClick={ () => onChange( selectedOption, 'auto' ) }
 										variant={ selectedValue === 'auto' ? 'primary' : '' }
-										style={ { 'grid-row': 'span 2' } }
+										style={ { gridRow: 'span 2' } }
 									>
 										auto
 									</Button>

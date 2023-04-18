@@ -33,25 +33,29 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			className="gblocks-panel-label"
 			id={ `${ id }Spacing` }
 		>
-			<DimensionsControl
-				outerLabel={ __( 'Margin', 'generateblocks' ) }
-				innerLabel={ __( 'Padding', 'generateblocks' ) }
-				outerAttributes={ {
-					marginTop: deviceAttributes.marginTop,
-					marginRight: deviceAttributes.marginRight,
-					marginBottom: deviceAttributes.marginBottom,
-					marginLeft: deviceAttributes.marginLeft,
-				} }
-				innerAttributes={ {
-					paddingTop: deviceAttributes.paddingTop,
-					paddingRight: deviceAttributes.paddingRight,
-					paddingBottom: deviceAttributes.paddingBottom,
-					paddingLeft: deviceAttributes.paddingLeft,
-				} }
-				onChange={ ( name, value ) => {
-					setDeviceAttributes( { [ name ]: value } );
-				} }
-			/>
+			{ spacing.dimensions &&
+				<DimensionsControl
+					outerLabel={ __( 'Margin', 'generateblocks' ) }
+					innerLabel={ __( 'Padding', 'generateblocks' ) }
+					outerAttributes={ {
+						marginTop: deviceAttributes.marginTop,
+						marginRight: deviceAttributes.marginRight,
+						marginBottom: deviceAttributes.marginBottom,
+						marginLeft: deviceAttributes.marginLeft,
+					} }
+					innerAttributes={ {
+						paddingTop: deviceAttributes.paddingTop,
+						paddingRight: deviceAttributes.paddingRight,
+						paddingBottom: deviceAttributes.paddingBottom,
+						paddingLeft: deviceAttributes.paddingLeft,
+					} }
+					attributes={ attributes } // Needed for getResponsivePlaceholder() and UnitControl.
+					device={ device } // Needed for getResponsivePlaceholder().
+					onChange={ ( name, value ) => {
+						setDeviceAttributes( { [ name ]: value } );
+					} }
+				/>
+			}
 
 			{ spacing.dimensions &&
 				<DimensionsGroup
