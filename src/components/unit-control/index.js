@@ -97,11 +97,13 @@ export default function UnitControl( props ) {
 			setNumericValue( newValue );
 			setUnitValue( '' );
 		}
+	}, [ device, value, overrideValue ] );
 
+	useEffect( () => {
 		// Set the device placeholders and switch the units to match
 		// their parent device value if no device-specific value exists.
 		setPlaceholders();
-	}, [ device, value, overrideValue ] );
+	}, [ device, desktopValue, tabletValue ] );
 
 	useEffect( () => {
 		// Don't run this on first render.
