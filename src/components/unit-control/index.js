@@ -29,6 +29,7 @@ export default function UnitControl( props ) {
 		tabletValue,
 		presets = [],
 		help = '',
+		focusOnMount = false,
 	} = props;
 
 	const device = getDeviceType();
@@ -138,6 +139,12 @@ export default function UnitControl( props ) {
 			onChange( fullValue );
 		}
 	}, [ numericValue, unitValue ] );
+
+	useEffect( () => {
+		if ( focusOnMount && inputRef?.current ) {
+			inputRef.current.focus();
+		}
+	}, [ label ] );
 
 	const useOutsideClick = ( ref, callback ) => {
 		useEffect( () => {
