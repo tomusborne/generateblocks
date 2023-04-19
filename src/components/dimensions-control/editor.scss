@@ -13,6 +13,20 @@
 	&__inner {
 		grid-area: middle;
 		border: 3px solid #fff;
+		border-radius: 4px;
+		box-shadow: 0 0 0 4px #000;
+		z-index: 10;
+		overflow: hidden;
+
+		&.gblocks-dimensions-control--is-grid {
+			& > button:nth-child(1) {
+				clip-path: polygon(0% 0%, 100% 0%, 75% 95%, 25% 100%);
+			}
+
+			& > button:nth-child(3) {
+				clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+			}
+		}
 	}
 
 	&__middle {
@@ -34,6 +48,7 @@
 		& > button:nth-child(1) {
 			grid-area: top;
 			background-color: #c6c6c6;
+			clip-path: polygon(0% 0%, 100% 0%, 84% 100%, 16% 100%);
 		}
 
 		& > button:nth-child(2) {
@@ -43,6 +58,7 @@
 		& > button:nth-child(3) {
 			grid-area: bottom;
 			background-color: #c6c6c6;
+			clip-path: polygon(16% 0%, 84% 0%, 100% 100%, 0% 100%);
 		}
 
 		& > button:nth-child(4) {
@@ -52,6 +68,32 @@
 		& > button.gblocks-dimensions-control__selected-button {
 			background-color: var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
 			color: #fff;
+
+			&:nth-child(2):before,
+			&:nth-child(4):before {
+				background: var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
+			}
+		}
+
+		& > button:nth-child(1),
+		& > button:nth-child(3) {
+			position: relative;
+			z-index: 1;
+		}
+
+		& > button:nth-child(2),
+		& > button:nth-child(4) {
+			position: relative;
+			z-index: 0;
+
+			&:before {
+				content: '';
+				position: absolute;
+				inset: -40px 0 -40px 0;
+				background: #d7d7d7;
+				pointer-events: none;
+				z-index: -1;
+			}
 		}
 
 		.gblocks-dimentions-control-label {
@@ -63,6 +105,7 @@
 			color: #fff;
 			padding: 0 2px;
 			text-transform: uppercase;
+			z-index: 2;
 		}
 	}
 
