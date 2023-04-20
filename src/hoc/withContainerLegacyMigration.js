@@ -136,7 +136,31 @@ export default ( WrappedComponent ) => {
 		// @since 1.8.0.
 		useEffect( () => {
 			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 4 ) ) {
-				MigrateDimensions( { attributes, setAttributes } );
+				const newDimensions = MigrateDimensions( {
+					attributesToMigrate: [
+						'paddingTop',
+						'paddingRight',
+						'paddingBottom',
+						'paddingLeft',
+						'marginTop',
+						'marginRight',
+						'marginBottom',
+						'marginLeft',
+						'borderSizeTop',
+						'borderSizeRight',
+						'borderSizeBottom',
+						'borderSizeLeft',
+						'borderRadiusTopRight',
+						'borderRadiusBottomRight',
+						'borderRadiusBottomLeft',
+						'borderRadiusTopLeft',
+					],
+					attributes,
+				} );
+
+				if ( Object.keys( newDimensions ).length ) {
+					setAttributes( newDimensions );
+				}
 			}
 		}, [] );
 

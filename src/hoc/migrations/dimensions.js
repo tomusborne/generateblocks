@@ -1,23 +1,6 @@
-export default function MigrateDimensions( { attributes, setAttributes } ) {
-	const dimensionAttributes = [
-		'paddingTop',
-		'paddingRight',
-		'paddingBottom',
-		'paddingLeft',
-		'marginTop',
-		'marginRight',
-		'marginBottom',
-		'marginLeft',
-		'borderSizeTop',
-		'borderSizeRight',
-		'borderSizeBottom',
-		'borderSizeLeft',
-		'borderRadiusTopRight',
-		'borderRadiusBottomRight',
-		'borderRadiusBottomLeft',
-		'borderRadiusTopLeft',
-	];
+import isNumeric from '../../utils/is-numeric';
 
+export default function MigrateDimensions( { attributesToMigrate, attributes } ) {
 	function unitValue( name ) {
 		if ( name.startsWith( 'padding' ) ) {
 			return attributes.paddingUnit;
@@ -39,16 +22,14 @@ export default function MigrateDimensions( { attributes, setAttributes } ) {
 	const newAttributes = {};
 
 	[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
-		dimensionAttributes.forEach( ( dimension ) => {
+		attributesToMigrate.forEach( ( dimension ) => {
 			const oldValue = attributes[ dimension + device ];
 
-			if ( oldValue && ! isNaN( oldValue ) ) {
+			if ( isNumeric( oldValue ) ) {
 				newAttributes[ dimension + device ] = oldValue + unitValue( dimension );
 			}
 		} );
 	} );
 
-	if ( Object.keys( newAttributes ).length ) {
-		setAttributes( newAttributes );
-	}
+	return newAttributes;
 }
