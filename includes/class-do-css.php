@@ -86,7 +86,7 @@ class GenerateBlocks_Dynamic_CSS {
 			! array_filter(
 				$value,
 				function( $v ) {
-					return is_numeric( $v ) || 'auto' === $v;
+					return is_numeric( $v ) || $v;
 				}
 			)
 		) {
