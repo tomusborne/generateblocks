@@ -8,7 +8,6 @@ describe( 'Value with unit function', () => {
 			marginUnit: 'px',
 			paddingTop: '20',
 			paddingTopMobile: '10',
-			paddingTopTablet: '15em',
 			paddingUnit: '%',
 		};
 
@@ -22,6 +21,24 @@ describe( 'Value with unit function', () => {
 			marginTopTablet: '20px',
 			paddingTop: '20%',
 			paddingTopMobile: '10%',
+		} );
+	} );
+
+	it( 'can ignore values with included units', () => {
+		const oldAttributes = {
+			marginTop: '10',
+			marginUnit: 'px',
+			paddingTop: '20em',
+			paddingUnit: '%',
+		};
+
+		const newAttributes = MigrateDimensions( {
+			attributesToMigrate: [ 'marginTop', 'paddingTop' ],
+			attributes: oldAttributes,
+		} );
+
+		expect( newAttributes ).toEqual( {
+			marginTop: '10px',
 		} );
 	} );
 } );
