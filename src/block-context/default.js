@@ -51,6 +51,10 @@ const defaultContext = {
 		},
 		spacing: {
 			enabled: false,
+			outerAttributes: [],
+			innerAttributes: [],
+			outerAttributesLabel: '',
+			innerAttributesLabel: '',
 			inlineWidth: false,
 			stackVertically: false,
 			fillHorizontalSpace: false,

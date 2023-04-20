@@ -50,29 +50,38 @@ export default function DimensionsControl( props ) {
 		<BaseControl>
 			<div className="gblocks-dimensions-control">
 				<div className="gblocks-dimensions-control--is-grid">
-					{ Object.entries( outerAttributes ).map( ( [ name, value ] ) => (
-						<button
-							key={ name }
-							className={ selectedOption === name ? 'gblocks-dimensions-control__selected-button' : '' }
-							onClick={ () => setSelectedOption( name ) }
-							aria-expanded={ selectedOption ? true : false }
-						>
-							{ value || getResponsivePlaceholder( name, attributes, device, '0' ) }
-						</button>
-					) ) }
-					<span className="gblocks-dimentions-control-label">{ outerLabel }</span>
+					{ !! Object.keys( outerAttributes ).length &&
+						<>
+							{ Object.entries( outerAttributes ).map( ( [ name, value ] ) => (
+								<button
+									key={ name }
+									className={ selectedOption === name ? 'gblocks-dimensions-control__selected-button' : '' }
+									onClick={ () => setSelectedOption( name ) }
+									aria-expanded={ selectedOption ? true : false }
+								>
+									{ value || getResponsivePlaceholder( name, attributes, device, '0' ) }
+								</button>
+							) ) }
+							<span className="gblocks-dimentions-control-label">{ outerLabel }</span>
+						</>
+					}
+
 					<div className="gblocks-dimensions-control__inner gblocks-dimensions-control--is-grid">
-						{ Object.entries( innerAttributes ).map( ( [ name, value ] ) => (
-							<button
-								key={ name }
-								className={ selectedOption === name ? 'gblocks-dimensions-control__selected-button' : '' }
-								onClick={ () => setSelectedOption( name ) }
-								aria-expanded={ selectedOption ? true : false }
-							>
-								{ value || getResponsivePlaceholder( name, attributes, device, '0' ) }
-							</button>
-						) ) }
-						<span className="gblocks-dimentions-control-label">{ innerLabel }</span>
+						{ !! Object.keys( innerAttributes ).length &&
+							<>
+								{ Object.entries( innerAttributes ).map( ( [ name, value ] ) => (
+									<button
+										key={ name }
+										className={ selectedOption === name ? 'gblocks-dimensions-control__selected-button' : '' }
+										onClick={ () => setSelectedOption( name ) }
+										aria-expanded={ selectedOption ? true : false }
+									>
+										{ value || getResponsivePlaceholder( name, attributes, device, '0' ) }
+									</button>
+								) ) }
+								<span className="gblocks-dimentions-control-label">{ innerLabel }</span>
+							</>
+						}
 					</div>
 				</div>
 

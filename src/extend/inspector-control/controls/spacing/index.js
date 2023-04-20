@@ -13,6 +13,7 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 	const device = getDeviceType();
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const { id, supports: { spacing } } = useContext( ControlsContext );
+
 	const {
 		inlineWidth,
 		inlineWidthTablet,
@@ -35,20 +36,10 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 		>
 			{ spacing.dimensions &&
 				<DimensionsControl
-					outerLabel={ __( 'Margin', 'generateblocks' ) }
-					innerLabel={ __( 'Padding', 'generateblocks' ) }
-					outerAttributes={ {
-						marginTop: deviceAttributes.marginTop,
-						marginRight: deviceAttributes.marginRight,
-						marginBottom: deviceAttributes.marginBottom,
-						marginLeft: deviceAttributes.marginLeft,
-					} }
-					innerAttributes={ {
-						paddingTop: deviceAttributes.paddingTop,
-						paddingRight: deviceAttributes.paddingRight,
-						paddingBottom: deviceAttributes.paddingBottom,
-						paddingLeft: deviceAttributes.paddingLeft,
-					} }
+					outerLabel={ spacing.outerAttributesLabel }
+					innerLabel={ spacing.innerAttributesLabel }
+					outerAttributes={ spacing.outerAttributes.reduce( ( o, key ) => ( { ...o, [ key ]: deviceAttributes[ key ] } ), {} ) }
+					innerAttributes={ spacing.innerAttributes.reduce( ( o, key ) => ( { ...o, [ key ]: deviceAttributes[ key ] } ), {} ) }
 					attributes={ attributes } // Needed for getResponsivePlaceholder() and UnitControl.
 					device={ device } // Needed for getResponsivePlaceholder().
 					onChange={ ( name, value ) => {

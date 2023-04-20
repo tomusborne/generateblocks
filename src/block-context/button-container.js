@@ -8,6 +8,8 @@ const buttonContainerContext = defaultsDeep( {
 		responsiveTabs: true,
 		spacing: {
 			enabled: true,
+			outerAttributes: [ 'marginTop', 'marginRight', 'marginBottom', 'marginLeft' ],
+			outerAttributesLabel: __( 'Margin', 'generateblocks' ),
 			stackVertically: true,
 			fillHorizontalSpace: true,
 			dimensions: [
