@@ -2,7 +2,7 @@ import { useEffect } from '@wordpress/element';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import flexboxAlignment from '../utils/flexbox-alignment';
-import MigrateDimensions from './migrations/dimensions';
+import MigrateDimensions from './migrations/migrateDimensions';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {

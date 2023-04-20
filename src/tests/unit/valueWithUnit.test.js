@@ -1,4 +1,4 @@
-import valueWithUnit from '../value-with-unit';
+import valueWithUnit from '../../utils/value-with-unit';
 
 describe( 'Value with unit function', () => {
 	it( 'can create a string given a single unit', () => {

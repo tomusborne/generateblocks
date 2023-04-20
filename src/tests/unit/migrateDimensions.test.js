@@ -1,4 +1,4 @@
-import MigrateDimensions from '../dimensions';
+import MigrateDimensions from '../../hoc/migrations/migrateDimensions';
 
 describe( 'Value with unit function', () => {
 	it( 'can migrate values with separate units', () => {

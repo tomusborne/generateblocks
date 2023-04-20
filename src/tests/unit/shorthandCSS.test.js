@@ -1,4 +1,4 @@
-import shorthandCSS from '../shorthand-css';
+import shorthandCSS from '../../utils/shorthand-css';
 
 describe( 'Shorthand CSS function', () => {
 	it( 'can create a string given a single unit', () => {

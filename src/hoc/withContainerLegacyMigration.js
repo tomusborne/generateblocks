@@ -3,7 +3,7 @@ import hasNumericValue from '../utils/has-numeric-value';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import MigrateSizing from '../blocks/container/migrate-sizing';
-import MigrateDimensions from './migrations/dimensions';
+import MigrateDimensions from './migrations/migrateDimensions';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
