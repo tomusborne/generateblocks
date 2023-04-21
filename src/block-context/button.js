@@ -48,10 +48,6 @@ const buttonContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			outerAttributes: [ 'marginTop', 'marginRight', 'marginBottom', 'marginLeft' ],
-			innerAttributes: [ 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft' ],
-			outerAttributesLabel: __( 'Margin', 'generateblocks' ),
-			innerAttributesLabel: __( 'Padding', 'generateblocks' ),
 			dimensions: [
 				{
 					type: 'padding',
