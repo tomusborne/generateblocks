@@ -50,24 +50,20 @@ const containerContext = defaultsDeep( {
 			enabled: true,
 			dimensions: [
 				{
-					type: 'padding',
 					label: __( 'Padding', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					attributes: [ 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft' ],
 				},
 				{
-					type: 'margin',
 					label: __( 'Margin', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					attributes: [ 'marginTop', 'marginRight', 'marginBottom', 'marginLeft' ],
 				},
 				{
-					type: 'borderSize',
 					label: __( 'Border Size', 'generateblocks' ),
-					units: [ 'px' ],
+					attributes: [ 'borderSizeTop', 'borderSizeRight', 'borderSizeBottom', 'borderSizeLeft' ],
 				},
 				{
-					type: 'borderRadius',
 					label: __( 'Border Radius', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					attributes: [ 'borderRadiusTopLeft', 'borderRadiusTopRight', 'borderRadiusBottomRight', 'borderRadiusBottomLeft' ],
 				},
 			],
 		},
