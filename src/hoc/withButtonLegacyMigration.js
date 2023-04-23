@@ -93,6 +93,10 @@ export default ( WrappedComponent ) => {
 						'borderRadiusBottomRight',
 						'borderRadiusBottomLeft',
 						'borderRadiusTopLeft',
+						'iconPaddingTop',
+						'iconPaddingRight',
+						'iconPaddingBottom',
+						'iconPaddingLeft',
 					],
 					attributes,
 				} );

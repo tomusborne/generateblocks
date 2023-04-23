@@ -17,6 +17,10 @@ export default function MigrateDimensions( { attributesToMigrate, attributes } )
 		if ( name.startsWith( 'borderRadius' ) ) {
 			return attributes.borderRadiusUnit;
 		}
+
+		if ( name.startsWith( 'iconPadding' ) ) {
+			return attributes.iconPaddingUnit;
+		}
 	}
 
 	const newAttributes = {};
