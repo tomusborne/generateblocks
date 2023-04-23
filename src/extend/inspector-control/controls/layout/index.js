@@ -35,10 +35,6 @@ export default function Layout( { attributes, setAttributes } ) {
 		useInnerContainer,
 		zindex,
 		innerZindex,
-		columnGap,
-		columnGapTablet,
-		rowGap,
-		rowGapTablet,
 	} = attributes;
 
 	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
@@ -146,8 +142,7 @@ export default function Layout( { attributes, setAttributes } ) {
 									id="gblocks-column-gap"
 									units={ [ 'px', '%', 'vw', 'em', 'rem' ] }
 									value={ getAttribute( 'columnGap', componentProps ) }
-									desktopValue={ columnGap }
-									tabletValue={ columnGapTablet }
+									placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
 									onChange={ ( value ) => setAttributes( {
 										[ getAttribute( 'columnGap', componentProps, true ) ]: value,
 									} ) }
@@ -160,8 +155,7 @@ export default function Layout( { attributes, setAttributes } ) {
 									id="gblocks-row-gap"
 									units={ [ 'px', '%', 'vw', 'em', 'rem' ] }
 									value={ getAttribute( 'rowGap', componentProps ) }
-									desktopValue={ rowGap }
-									tabletValue={ rowGapTablet }
+									placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
 									onChange={ ( value ) => setAttributes( {
 										[ getAttribute( 'rowGap', componentProps, true ) ]: value,
 									} ) }
