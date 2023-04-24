@@ -46,17 +46,22 @@ const GridEdit = ( props ) => {
 
 		if ( ! attributes.isQueryLoop && layout ) {
 			const columnsData = getColumnsFromLayout( layout, attributes.uniqueId );
+			const newColumns = [];
 
 			columnsData.forEach( ( colAttrs ) => {
+				newColumns.push( createBlock( 'generateblocks/container', colAttrs ) );
+			} );
+
+			setTimeout( () => {
 				insertBlocks(
-					createBlock( 'generateblocks/container', colAttrs ),
+					newColumns,
 					undefined,
 					props.clientId,
 					false
 				);
-			} );
 
-			setSelectedLayout( false );
+				setSelectedLayout( false );
+			}, 50 );
 		}
 	}, [
 		selectedLayout,
