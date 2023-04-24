@@ -35,7 +35,7 @@
         "lint:wpcs": "@lint ./vendor/squizlabs/php_codesniffer/bin/phpcs",
         "lint:php": "@lint ./vendor/bin/parallel-lint --exclude .git --exclude vendor --exclude node_modules .",
         "make-pot": "wp i18n make-pot . languages/_s.pot",
-		"test": "phpuinit"
+		"test": "phpunit"
     },
     "support": {
         "issues": "https://github.com/tomusborne/generateblocks/issues",
