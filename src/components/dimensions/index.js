@@ -45,7 +45,7 @@ export default function Dimensions( props ) {
 	};
 
 	return (
-		<BaseControl className="components-gblocks-dimensions-control" label={ label } id={ attributeNames.top }>
+		<BaseControl className="components-gblocks-dimensions-control" label={ label } id={ attributeNames[ 0 ] }>
 			<Tooltip text={ !! sync ? __( 'Unlink Sides', 'generateblocks' ) : __( 'Link Sides', 'generateblocks' ) } >
 				<Button
 					className="components-gblocks-dimensions-control_sync"
