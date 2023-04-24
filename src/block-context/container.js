@@ -22,6 +22,7 @@ const containerContext = defaultsDeep( {
 			zIndex: true,
 			position: true,
 			overflow: true,
+			themeWidth: true,
 		},
 		flexChildPanel: {
 			enabled: true,

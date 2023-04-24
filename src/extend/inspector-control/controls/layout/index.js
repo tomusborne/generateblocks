@@ -18,6 +18,7 @@ import { SelectControl } from '@wordpress/components';
 import { positionOptions, overflowOptions } from './options';
 import FlexControl from '../../../../components/flex-control';
 import getDeviceType from '../../../../utils/get-device-type';
+import ThemeWidth from './components/ThemeWidth';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const device = getDeviceType();
@@ -35,6 +36,7 @@ export default function Layout( { attributes, setAttributes } ) {
 		useInnerContainer,
 		zindex,
 		innerZindex,
+		align,
 	} = attributes;
 
 	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
@@ -234,6 +236,19 @@ export default function Layout( { attributes, setAttributes } ) {
 							} ) }
 						/>
 					}
+				</>
+			}
+
+			{ layout.themeWidth &&
+				<>
+					<ThemeWidth
+						value={ align }
+						onChange={ ( value ) => {
+							setAttributes( {
+								align: value,
+							} );
+						} }
+					/>
 				</>
 			}
 
