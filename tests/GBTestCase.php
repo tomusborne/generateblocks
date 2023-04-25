@@ -24,6 +24,9 @@ class GBTestCase extends TestCase {
 					}
 					return \trim( $string );
 				},
+				'get_option' => static function( $option, $default ) {
+					return $default;
+				},
 			]
 		);
 	}
