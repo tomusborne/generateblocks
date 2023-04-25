@@ -31,7 +31,10 @@ function AlignmentMatrixControl( { attributes, setAttributes } ) {
 				flexDirection: ! isFlex && ! flexDirection ? 'column' : flexDirection,
 			} );
 		}
-	}, [ activeCell ] );
+	}, [
+		activeCell,
+		flexDirection,
+	] );
 
 	const realActiveCell = useMemo( () => (
 		Object
