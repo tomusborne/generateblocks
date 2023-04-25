@@ -120,7 +120,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$this->_css .= 'border-top-style: solid;';
 					}
 
-					if ( 0 === $value[0] || '0' === $value[0] || 'auto' === $value[0] ) {
+					if ( ! is_numeric( $value[0] ) || 0 === $value[0] || '0' === $value[0] ) {
 						$unit_top = '';
 					}
 
@@ -138,7 +138,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$this->_css .= 'border-right-style: solid;';
 					}
 
-					if ( 0 === $value[1] || '0' === $value[1] || 'auto' === $value[1] ) {
+					if ( ! is_numeric( $value[1] ) || 0 === $value[1] || '0' === $value[1] ) {
 						$unit_right = '';
 					}
 
@@ -156,7 +156,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$this->_css .= 'border-bottom-style: solid;';
 					}
 
-					if ( 0 === $value[2] || '0' === $value[2] || 'auto' === $value[2] ) {
+					if ( ! is_numeric( $value[2] ) || 0 === $value[2] || '0' === $value[2] ) {
 						$unit_bottom = '';
 					}
 
@@ -174,7 +174,7 @@ class GenerateBlocks_Dynamic_CSS {
 						$this->_css .= 'border-left-style: solid;';
 					}
 
-					if ( 0 === $value[3] || '0' === $value[3] || 'auto' === $value[3] ) {
+					if ( ! is_numeric( $value[3] ) || 0 === $value[3] || '0' === $value[3] ) {
 						$unit_left = '';
 					}
 
@@ -186,7 +186,7 @@ class GenerateBlocks_Dynamic_CSS {
 		}
 
 		// Add our unit to our value if it exists.
-		if ( $unit ) {
+		if ( $unit && is_numeric( $value ) ) {
 			$value = $value . $unit;
 		}
 
