@@ -1,12 +1,25 @@
-.gb-alignment-matrix-content {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+.components-popover.gb-alignment-matrix-content {
+	.components-popover__content {
+		padding: 8px;
+	}
+}
 
+.gb-alignment-matrix-content {
 	&-buttons {
 		display: flex;
-		justify-content: space-between;
-		margin-bottom: 8px;
+		justify-content: center;
+		border-bottom: 1px solid currentColor;
+		margin: 0 -8px 8px;
+		padding: 0 8px 8px;
+		gap: 10px;
+
+		button {
+			width: 30px;
+			height: 30px;
+			padding: 0;
+			display: flex;
+			justify-content: center;
+		}
 	}
 }
 
