@@ -1,20 +1,9 @@
 import { Dropdown, ToolbarButton } from '@wordpress/components';
 import './styles.scss';
-import { useEffect, useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import Matrix from './components/matrix';
 
-function AlignmentMatrix( { options = {}, onChange, value, children, direction } ) {
-	const [ activeCell, setActiveCell ] = useState( '' );
-
-	useEffect( () => {
-		onChange( options[ activeCell ] );
-	}, [ activeCell ] );
-
-	useEffect( () => {
-		setActiveCell( value );
-	}, [ value ] );
-
+function AlignmentMatrix( { activeCell, onChange, direction, children } ) {
 	return (
 		<Dropdown
 			className="gb-alignment-matrix"
@@ -50,13 +39,13 @@ function AlignmentMatrix( { options = {}, onChange, value, children, direction }
 			} }
 			renderContent={ () => (
 				<div className="gb-alignment-matrix-content">
+					<div className="gb-alignment-matrix-content-buttons">
+						{ children }
+					</div>
 					<Matrix
 						activeCell={ activeCell }
-						onChange={ ( selectedCell ) => {
-							setActiveCell( selectedCell );
-						} }
+						onChange={ onChange }
 					/>
-					{ children }
 				</div>
 			) }
 		/>
