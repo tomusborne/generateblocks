@@ -3,6 +3,7 @@ import isBlockVersionLessThan from '../utils/check-block-version';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import flexboxAlignment from '../utils/flexbox-alignment';
 import MigrateDimensions from './migrations/migrateDimensions';
+import hasNumericValue from '../utils/has-numeric-value';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -54,10 +55,24 @@ export default ( WrappedComponent ) => {
 			}
 		}, [] );
 
+		// Set our old defaults as static values.
+		// @since 1.8.0.
+		useEffect( () => {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 3 ) ) {
+				const legacyDefaults = generateBlocksLegacyDefaults.v_1_8_0.headline;
+
+				if ( ! hasNumericValue( attributes.iconPaddingRight ) ) {
+					setAttributes( {
+						iconPaddingRight: legacyDefaults.iconPaddingRight + attributes.iconPaddingUnit,
+					} );
+				}
+			}
+		}, [] );
+
 		// Merge dimensions with their units.
 		// @since 1.8.0.
 		useEffect( () => {
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 4 ) ) {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
 				const newDimensions = MigrateDimensions( {
 					attributesToMigrate: [
 						'paddingTop',

@@ -72,7 +72,7 @@ class GenerateBlocks_Block_Button {
 			'gradientColorTwoOpacity' => '',
 			'gradientColorStopTwo' => '',
 			'iconPaddingTop' => '',
-			'iconPaddingRight' => '0.5',
+			'iconPaddingRight' => '',
 			'iconPaddingBottom' => '',
 			'iconPaddingLeft' => '',
 			'iconPaddingTopTablet' => '',
@@ -141,6 +141,10 @@ class GenerateBlocks_Block_Button {
 		// Use legacy settings if needed.
 		if ( $blockVersion < 2 ) {
 			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $attributes );
+		}
+
+		if ( $blockVersion < 4 ) {
+			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.8.0', 'button', $settings, $attributes );
 		}
 
 		$selector = generateblocks_get_css_selector( 'button', $attributes );

@@ -71,6 +71,20 @@ export default ( WrappedComponent ) => {
 			}
 		}, [] );
 
+		// Set our old defaults as static values.
+		// @since 1.8.0.
+		useEffect( () => {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 4 ) ) {
+				const legacyDefaults = generateBlocksLegacyDefaults.v_1_8_0.button;
+
+				if ( ! hasNumericValue( attributes.iconPaddingRight ) ) {
+					setAttributes( {
+						iconPaddingRight: legacyDefaults.iconPaddingRight + attributes.iconPaddingUnit,
+					} );
+				}
+			}
+		}, [] );
+
 		// Merge dimensions with their units.
 		// @since 1.8.0.
 		useEffect( () => {
