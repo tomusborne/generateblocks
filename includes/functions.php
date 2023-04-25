@@ -152,6 +152,8 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
 		if ( $value ) {
 			if ( is_numeric( $value ) && $unit ) {
 				$value = floatval( $value ) . $unit;
+			} elseif ( '0px' === $value ) {
+				$value = '0';
 			}
 		} else {
 			$value = '0';
