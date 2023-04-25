@@ -7,7 +7,7 @@ const cellsLabels = {
 	topCenter: __( 'Top center', 'generateblocks' ),
 	topRight: __( 'Top right', 'generateblocks' ),
 	centerLeft: __( 'Center left', 'generateblocks' ),
-	centerCenter: __( 'Center center', 'generateblocks' ),
+	centerCenter: __( 'Center', 'generateblocks' ),
 	centerRight: __( 'Center right', 'generateblocks' ),
 	bottomLeft: __( 'Bottom left', 'generateblocks' ),
 	bottomCenter: __( 'Bottom center', 'generateblocks' ),

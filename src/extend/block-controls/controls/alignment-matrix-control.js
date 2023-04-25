@@ -4,83 +4,73 @@ import useDeviceAttributes from '../../../hooks/useDeviceAttributes';
 import getIcon from '../../../utils/get-icon';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-
-function getTemplate( direction ) {
-	if ( direction && ! templates.hasOwnProperty( direction ) ) {
-		return {};
-	}
-
-	return templates[ direction || 'row' ];
-}
-
-function findActiveCell( activeTemplate, display, alignItems, justifyContent ) {
-	if ( 'flex' !== display ) {
-		return '';
-	}
-
-	return Object.entries( activeTemplate ).reduce( ( activeCell, [ key, cell ] ) => {
-		if ( cell.alignItems === alignItems && cell.justifyContent === justifyContent ) {
-			return key;
-		}
-
-		return activeCell;
-	}, '' );
-}
+import { useEffect, useMemo, useState } from '@wordpress/element';
 
 function AlignmentMatrixControl( { attributes, setAttributes } ) {
+	const [ activeCell, setActiveCell ] = useState( '' );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
-	const activeTemplate = getTemplate( deviceAttributes.flexDirection );
-	const activeCell = findActiveCell(
-		activeTemplate,
-		deviceAttributes.display,
-		deviceAttributes.alignItems,
-		deviceAttributes.justifyContent
-	);
+	const {
+		display,
+		flexDirection,
+		alignItems,
+		justifyContent,
+	} = deviceAttributes;
 
-	const isDefault = (
-		'' === deviceAttributes.display ||
-		'block' === deviceAttributes.display
-	);
-	const isFlex = 'flex' === deviceAttributes.display;
-	const isRow = (
-		'row' === deviceAttributes.flexDirection ||
-		'row-reverse' === deviceAttributes.flexDirection
-	);
-	const isColumn = (
-		'column' === deviceAttributes.flexDirection ||
-		'column-reverse' === deviceAttributes.flexDirection
-	);
+	const directionTemplate = templates[ flexDirection || 'column' ];
+
+	const isDefault = '' === display || 'block' === display;
+	const isFlex = 'flex' === display || 'inline-flex' === display;
+	const isRow = 'row' === flexDirection || 'row-reverse' === flexDirection;
+	const isColumn = 'column' === flexDirection || 'column-reverse' === flexDirection;
+
+	useEffect( () => {
+		if ( activeCell ) {
+			setDeviceAttributes( {
+				...directionTemplate[ activeCell ],
+				display: ! isFlex ? 'flex' : display,
+				flexDirection: ! isFlex && ! flexDirection ? 'column' : flexDirection,
+			} );
+		}
+	}, [
+		activeCell,
+		flexDirection,
+	] );
+
+	const realActiveCell = useMemo( () => (
+		Object
+			.entries( directionTemplate )
+			.reduce( ( realCell, [ key, cell ] ) => {
+				if ( cell.alignItems === alignItems && cell.justifyContent === justifyContent ) {
+					return key;
+				}
+
+				return realCell;
+			}, '' )
+	), [ flexDirection, alignItems, justifyContent ] );
 
 	return (
 		<AlignmentMatrix
-			value={ activeCell }
-			direction={ isFlex && deviceAttributes.flexDirection }
-			options={ activeTemplate }
-			onChange={ setDeviceAttributes }
+			activeCell={ realActiveCell }
+			onChange={ setActiveCell }
+			direction={ isFlex && flexDirection }
 		>
-			<div style={ { display: 'flex', justifyContent: 'space-between', marginTop: '8px' } }>
+			<>
 				<Button
-					isSmall
 					isPressed={ isDefault }
-					label={ __( 'Default behavior', 'generateblocks' ) }
+					label={ __( 'Default', 'generateblocks' ) }
 					onClick={ () => {
-						setDeviceAttributes( { display: '' } );
+						setActiveCell( '' );
+						setDeviceAttributes( {
+							display: '',
+							flexDirection: '',
+							alignItems: '',
+							justifyContent: '',
+						} );
 					} }
 				>
 					{ getIcon( 'container-default' ) }
 				</Button>
 				<Button
-					isSmall
-					label={ __( 'Arrange blocks horizontally', 'generateblocks' ) }
-					isPressed={ isFlex && isRow }
-					onClick={ () => {
-						setDeviceAttributes( { display: 'flex', flexDirection: 'row' } );
-					} }
-				>
-					{ getIcon( 'container-flex-row' ) }
-				</Button>
-				<Button
-					isSmall
 					label={ __( 'Arrange blocks vertically', 'generateblocks' ) }
 					isPressed={ isFlex && isColumn }
 					onClick={ () => {
@@ -89,7 +79,16 @@ function AlignmentMatrixControl( { attributes, setAttributes } ) {
 				>
 					{ getIcon( 'container-flex-column' ) }
 				</Button>
-			</div>
+				<Button
+					label={ __( 'Arrange blocks horizontally', 'generateblocks' ) }
+					onClick={ () => {
+						setDeviceAttributes( { display: 'flex', flexDirection: 'row' } );
+					} }
+					isPressed={ isFlex && isRow }
+				>
+					{ getIcon( 'container-flex-row' ) }
+				</Button>
+			</>
 		</AlignmentMatrix>
 	);
 }
