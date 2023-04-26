@@ -45,7 +45,7 @@ function RenderBlocks( props ) {
 			if ( 1 === uniqueBlockNames.length ) {
 				if ( 'generateblocks/button' !== uniqueBlockNames[ 0 ] && 'button-container' === props.attributes.variantRole ) {
 					newAttributes.variantRole = '';
-				} else if ( 'generateblocks/button' === uniqueBlockNames[ 0 ] ) {
+				} else if ( 'generateblocks/button' === uniqueBlockNames[ 0 ] && ! props.attributes.variantRole ) {
 					newAttributes.variantRole = 'button-container';
 				}
 			} else if ( 'button-container' === props.attributes.variantRole ) {
