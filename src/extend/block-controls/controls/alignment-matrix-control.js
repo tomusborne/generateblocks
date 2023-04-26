@@ -56,9 +56,8 @@ function AlignmentMatrixControl( { attributes, setAttributes } ) {
 		>
 			<>
 				<Button
-					isSmall
 					isPressed={ isDefault }
-					label={ __( 'Default behavior', 'generateblocks' ) }
+					label={ __( 'Default', 'generateblocks' ) }
 					onClick={ () => {
 						setActiveCell( '' );
 						setDeviceAttributes( {
@@ -72,7 +71,6 @@ function AlignmentMatrixControl( { attributes, setAttributes } ) {
 					{ getIcon( 'container-default' ) }
 				</Button>
 				<Button
-					isSmall
 					label={ __( 'Arrange blocks vertically', 'generateblocks' ) }
 					isPressed={ isFlex && isColumn }
 					onClick={ () => {
@@ -82,7 +80,6 @@ function AlignmentMatrixControl( { attributes, setAttributes } ) {
 					{ getIcon( 'container-flex-column' ) }
 				</Button>
 				<Button
-					isSmall
 					label={ __( 'Arrange blocks horizontally', 'generateblocks' ) }
 					onClick={ () => {
 						setDeviceAttributes( { display: 'flex', flexDirection: 'row' } );
