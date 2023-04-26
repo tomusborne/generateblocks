@@ -44,6 +44,10 @@ export default function Dimensions( props ) {
 		setSync( ! sync );
 	};
 
+	const style = attributeNames.find( ( name ) => name.includes( 'borderRadius' ) )
+		? 'corners'
+		: 'circle';
+
 	return (
 		<BaseControl className="components-gblocks-dimensions-control" label={ label } id={ attributeNames[ 0 ] }>
 			<Tooltip text={ !! sync ? __( 'Unlink Sides', 'generateblocks' ) : __( 'Link Sides', 'generateblocks' ) } >
@@ -59,7 +63,7 @@ export default function Dimensions( props ) {
 				</Button>
 			</Tooltip>
 
-			<div className="components-gblocks-dimensions-control__inputs">
+			<div className={ 'components-gblocks-dimensions-control__inputs style-' + style }>
 				{ attributeNames.map( ( attributeName, index ) => {
 					return (
 						<div key={ attributeName }>
