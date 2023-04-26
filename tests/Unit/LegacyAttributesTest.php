@@ -5,8 +5,6 @@ use \GenerateBlocks\Tests\GBTestCase;
 
 final class LegacyAttributesTest extends GBTestCase {
 	public function testOldButtonDefaults() {
-		$css = new \GenerateBlocks_Dynamic_CSS();
-
 		$defaults = generateblocks_get_block_defaults();
 
 		$attributes = [
@@ -48,8 +46,6 @@ final class LegacyAttributesTest extends GBTestCase {
 	}
 
 	public function testOldContainerDefaults() {
-		$css = new \GenerateBlocks_Dynamic_CSS();
-
 		$defaults = generateblocks_get_block_defaults();
 
 		$attributes = [
@@ -97,8 +93,6 @@ final class LegacyAttributesTest extends GBTestCase {
 	}
 
 	public function testOldGridDefaults() {
-		$css = new \GenerateBlocks_Dynamic_CSS();
-
 		$defaults = generateblocks_get_block_defaults();
 
 		$attributes = [
@@ -126,8 +120,6 @@ final class LegacyAttributesTest extends GBTestCase {
 	}
 
 	public function testOldHeadlineDefaults() {
-		$css = new \GenerateBlocks_Dynamic_CSS();
-
 		$defaults = generateblocks_get_block_defaults();
 
 		$attributes = [
