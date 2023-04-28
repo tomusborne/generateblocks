@@ -1,8 +1,8 @@
 import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
-import { addFilter, applyFilters } from '@wordpress/hooks';
+import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { createBlock, cloneBlock } from '@wordpress/blocks';
+import { createBlock } from '@wordpress/blocks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { BlockControls } from '@wordpress/block-editor';
 import getIcon from '../../../utils/get-icon';
@@ -25,7 +25,6 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 		const {
 			getBlocksByClientId,
 			getSelectedBlockClientIds,
-			getBlockParents,
 			getBlockRootClientId,
 		} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
@@ -39,15 +38,6 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 		const innerBlocksCount = useInnerBlocksCount( clientId );
 		const blocksSelection = getBlocksByClientId( clientIds );
 		const hasParentBlock = getBlockRootClientId( clientId );
-		const parentBlockId = getBlockParents( clientId, true );
-		const parentBlocks = getBlocksByClientId( parentBlockId );
-		const parentBlock = parentBlocks ? parentBlocks[ 0 ] : null;
-		const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
-		let showContainerWrappers = true;
-
-		if ( 'generateblocks/container' === parentBlock?.name && 'button-container' === parentBlock?.attributes.variantRole ) {
-			showContainerWrappers = false;
-		}
 
 		const onConvertToContainer = ( layout = '' ) => {
 			if ( ! blocksSelection.length ) {
@@ -85,14 +75,6 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			}
 		};
 
-		const iconPostfix = () => {
-			if ( 'generateblocks/button' === name ) {
-				return '-button';
-			}
-
-			return '';
-		};
-
 		let buttons = '';
 
 		if (
@@ -125,101 +107,33 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			</>;
 		}
 
-		if ( showContainerWrappers ) {
-			if ( 'generateblocks/button' !== name ) {
-				buttons = <>
-					{ buttons }
-					<ToolbarButton
-						icon={ getIcon( 'add-to-container' + iconPostfix() ) }
-						label={ __( 'Add to Container', 'generateblocks' ) }
-						onClick={ () => onConvertToContainer( '' ) }
-					/>
-				</>;
-			}
+		buttons = <>
+			{ buttons }
+			<ToolbarButton
+				icon={ getIcon( 'add-to-container' ) }
+				label={ __( 'Add to Container', 'generateblocks' ) }
+				onClick={ () => onConvertToContainer( '' ) }
+			/>
+		</>;
 
-			if ( 'generateblocks/button' === name || blocksSelection.length > 1 ) {
-				buttons = <>
-					{ buttons }
-					<ToolbarButton
-						icon={ getIcon( 'add-to-row' + iconPostfix() ) }
-						label={ __( 'Add to Row', 'generateblocks' ) }
-						onClick={ () => onConvertToContainer( 'row' ) }
-					/>
-				</>;
-			}
-
-			if ( blocksSelection.length > 1 ) {
-				buttons = <>
-					{ buttons }
-					<ToolbarButton
-						icon={ getIcon( 'add-to-stack' + iconPostfix() ) }
-						label={ __( 'Add to Stack', 'generateblocks' ) }
-						onClick={ () => onConvertToContainer( 'stack' ) }
-					/>
-				</>;
-			}
-		}
-
-		if ( 'generateblocks/button' === name && showAppender && parentBlock && 'button-container' === parentBlock?.attributes.variantRole ) {
+		if ( blocksSelection.length > 1 ) {
 			buttons = <>
 				{ buttons }
 				<ToolbarButton
-					className="gblocks-add-new-button"
-					icon={ getIcon( 'add-button' ) }
-					label={ __( 'Add Button', 'generateblocks' ) }
-					onClick={ () => {
-						const thisBlock = getBlocksByClientId( clientId )[ 0 ];
-
-						const clonedBlock = cloneBlock(
-							thisBlock,
-							{
-								uniqueId: '',
-							}
-						);
-
-						insertBlocks( clonedBlock, undefined, parentBlockId[ 0 ] );
-					} }
-					showTooltip
+					icon={ getIcon( 'add-to-row' ) }
+					label={ __( 'Add to Row', 'generateblocks' ) }
+					onClick={ () => onConvertToContainer( 'row' ) }
 				/>
 			</>;
 		}
 
-		if ( 'button-container' === variantRole && showAppender ) {
+		if ( blocksSelection.length > 1 ) {
 			buttons = <>
 				{ buttons }
 				<ToolbarButton
-					className="gblocks-add-new-button"
-					icon={ getIcon( 'add-button' ) }
-					label={ __( 'Add Button', 'generateblocks' ) }
-					onClick={ () => {
-						const thisBlock = getBlocksByClientId( clientId )[ 0 ];
-
-						if ( thisBlock ) {
-							const childBlocks = thisBlock.innerBlocks;
-							const keys = Object.keys( childBlocks );
-							const lastKey = keys[ keys.length - 1 ];
-
-							if ( typeof childBlocks[ lastKey ] !== 'undefined' ) {
-								const blockToCopyId = childBlocks[ lastKey ].clientId;
-
-								if ( blockToCopyId ) {
-									const blockToCopy = getBlocksByClientId( blockToCopyId )[ 0 ];
-
-									const clonedBlock = cloneBlock(
-										blockToCopy,
-										{
-											uniqueId: '',
-										}
-									);
-
-									insertBlocks( clonedBlock, undefined, clientId );
-								}
-							} else if ( 0 === childBlocks.length ) {
-								insertBlocks( createBlock( 'generateblocks/button', generateBlocksStyling.button ), undefined, clientId );
-							}
-						}
-					} }
-					showTooltip
+					icon={ getIcon( 'add-to-stack' ) }
+					label={ __( 'Add to Stack', 'generateblocks' ) }
+					onClick={ () => onConvertToContainer( 'stack' ) }
 				/>
 			</>;
 		}
