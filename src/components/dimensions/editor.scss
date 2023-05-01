@@ -38,6 +38,8 @@
 			gap: 5px;
 
 			& > div {
+				position: relative;
+
 				&:nth-child(1) {
 					grid-area: top;
 					display: flex;
