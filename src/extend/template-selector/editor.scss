@@ -1,15 +1,28 @@
 .editor-styles-wrapper {
-  .gb-templates-wrapper {
-	display: flex;
-	gap: 16px;
+	.gb-templates-wrapper {
+		display: flex;
+		gap: 16px;
 
-	.gb-template-selector-button {
-	  font-size: 13px;
-	  display: inline-flex;
-	  flex-direction: column;
-	  height: 100%;
-	  padding: 0;
-	  gap: 8px;
+		.gb-template-selector-button {
+			font-size: 13px;
+			display: inline-flex;
+			flex-direction: column;
+			height: 100%;
+			padding: 0;
+			gap: 8px;
+
+			svg {
+				height: 50px;
+			}
+		}
 	}
-  }
+
+	.gb-select-layout {
+		&__actions {
+			margin-top: 30px;
+			display: flex;
+			justify-content: center;
+			flex-basis: 100%;
+		}
+	}
 }
