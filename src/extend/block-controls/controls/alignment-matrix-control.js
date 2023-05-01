@@ -4,11 +4,16 @@ import useDeviceAttributes from '../../../hooks/useDeviceAttributes';
 import getIcon from '../../../utils/get-icon';
 import { Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useEffect, useMemo, useState } from '@wordpress/element';
+import { useEffect, useMemo, useState, useContext } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+import getUniqueBlockNames from '../../../utils/get-unique-block-names';
+import ControlsContext from '../../../block-context';
 
 function AlignmentMatrixControl( { attributes, setAttributes } ) {
 	const [ activeCell, setActiveCell ] = useState( '' );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
+	const { getBlock } = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const { clientId } = useContext( ControlsContext );
 	const {
 		display,
 		flexDirection,
@@ -25,10 +30,15 @@ function AlignmentMatrixControl( { attributes, setAttributes } ) {
 
 	useEffect( () => {
 		if ( activeCell ) {
+			const uniqueBlockNames = getUniqueBlockNames( getBlock( clientId )?.innerBlocks );
+			const direction = 1 === uniqueBlockNames.length && 'generateblocks/button' === uniqueBlockNames[ 0 ]
+				? 'row'
+				: 'column';
+
 			setDeviceAttributes( {
 				...directionTemplate[ activeCell ],
 				display: ! isFlex ? 'flex' : display,
-				flexDirection: ! isFlex && ! flexDirection ? 'column' : flexDirection,
+				flexDirection: ! isFlex && ! flexDirection ? direction : flexDirection,
 			} );
 		}
 	}, [
