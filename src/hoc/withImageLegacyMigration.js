@@ -14,43 +14,28 @@ export default ( WrappedComponent ) => {
 			blockVersion,
 		} = attributes;
 
-		useEffect( () => {
-			// This block used to be static. Set it to dynamic by default from now on.
-			if ( 'undefined' === typeof attributes.isDynamic || ! attributes.isDynamic ) {
-				setAttributes( { isDynamic: true } );
-			}
-
-			// Set our responsive stack and fill options if set on desktop.
-			// @since 1.4.0.
-			if ( 'undefined' === typeof attributes.blockVersion || attributes.blockVersion < 2 ) {
-				if ( attributes.stack || attributes.fillHorizontalSpace ) {
-					if ( attributes.stack ) {
-						setAttributes( {
-							stackTablet: true,
-							stackMobile: true,
-						} );
-					}
-
-					if ( attributes.fillHorizontalSpace ) {
-						setAttributes( {
-							fillHorizontalSpaceTablet: true,
-							fillHorizontalSpaceMobile: true,
-						} );
-					}
-				}
-			}
-		}, [] );
-
 		// Merge dimensions with their units.
 		// @since 1.8.0.
 		useEffect( () => {
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
 				const newDimensions = MigrateDimensions( {
 					attributesToMigrate: [
+						'paddingTop',
+						'paddingRight',
+						'paddingBottom',
+						'paddingLeft',
 						'marginTop',
 						'marginRight',
 						'marginBottom',
 						'marginLeft',
+						'borderSizeTop',
+						'borderSizeRight',
+						'borderSizeBottom',
+						'borderSizeLeft',
+						'borderRadiusTopRight',
+						'borderRadiusBottomRight',
+						'borderRadiusBottomLeft',
+						'borderRadiusTopLeft',
 					],
 					attributes,
 				} );
@@ -64,8 +49,8 @@ export default ( WrappedComponent ) => {
 		// Update block version flag if it's out of date.
 		useEffect( () => {
 			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( blockVersion, 3 ) ) {
-				setAttributes( { blockVersion: 3 } );
+			if ( isBlockVersionLessThan( blockVersion, 2 ) ) {
+				setAttributes( { blockVersion: 2 } );
 			}
 		}, [] );
 

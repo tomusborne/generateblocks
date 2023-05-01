@@ -146,29 +146,38 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
 		return;
 	}
 
-	$top_fallback = 'auto' === $top ? 'auto ' : '0 ';
-	$right_fallback = 'auto' === $right ? 'auto ' : '0 ';
-	$bottom_fallback = 'auto' === $bottom ? 'auto ' : '0 ';
-	$left_fallback = 'auto' === $left ? 'auto ' : '0 ';
+	$values = [ $top, $right, $bottom, $left ];
 
-	$top = ( floatval( $top ) <> 0 ) ? floatval( $top ) . $unit . ' ' : $top_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$right = ( floatval( $right ) <> 0 ) ? floatval( $right ) . $unit . ' ' : $right_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$bottom = ( floatval( $bottom ) <> 0 ) ? floatval( $bottom ) . $unit . ' ' : $bottom_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
-	$left = ( floatval( $left ) <> 0 ) ? floatval( $left ) . $unit . ' ' : $left_fallback; // phpcs:ignore WordPress.PHP.StrictComparisons.LooseComparison
+	foreach ( $values as $key => $value ) {
+		if ( $value ) {
+			if ( is_numeric( $value ) && $unit ) {
+				$value = floatval( $value ) . $unit;
+			} elseif ( '0px' === $value ) {
+				$value = '0';
+			}
+		} else {
+			$value = '0';
+		}
 
-	if ( $right === $left ) {
-		$left = '';
+		$values[ $key ] = $value;
+	}
 
-		if ( $top === $bottom ) {
-			$bottom = '';
+	// Right === Left.
+	if ( $values[1] === $values[3] ) {
+		unset( $values[3] );
 
-			if ( $top === $right ) {
-				$right = '';
+		// Top === Bottom.
+		if ( $values[0] === $values[2] ) {
+			unset( $values[2] );
+
+			// Top === Right.
+			if ( $values[0] === $values[1] ) {
+				unset( $values[1] );
 			}
 		}
 	}
 
-	return trim( $top . $right . $bottom . $left );
+	return implode( ' ', $values );
 }
 
 /**

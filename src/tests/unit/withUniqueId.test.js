@@ -1,5 +1,5 @@
 import getEditorBlocks from '../../utils/get-editor-blocks';
-import { getUniqueIdFromBlocks, hasDuplicates } from '../withUniqueId';
+import { getUniqueIdFromBlocks, hasDuplicates } from '../../hoc/withUniqueId';
 
 function mockGetBlocks( returnBlocks = [], returnInnerBlocks = [] ) {
 	window.wp = {
