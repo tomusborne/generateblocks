@@ -12,9 +12,8 @@ const buttonContainerContext = defaultsDeep( {
 			fillHorizontalSpace: true,
 			dimensions: [
 				{
-					type: 'margin',
 					label: __( 'Margin', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					attributes: [ 'marginTop', 'marginRight', 'marginBottom', 'marginLeft' ],
 				},
 			],
 		},

@@ -4,8 +4,7 @@ import UnitControl from '../../../../../components/unit-control';
 export default function Width( props ) {
 	const {
 		value,
-		desktopValue,
-		tabletValue,
+		placeholder,
 		onChange,
 		units,
 	} = props;
@@ -16,8 +15,7 @@ export default function Width( props ) {
 			id="gblocks-width"
 			units={ units }
 			value={ value }
-			desktopValue={ desktopValue }
-			tabletValue={ tabletValue }
+			placeholder={ placeholder }
 			onChange={ onChange }
 		/>
 	);
