@@ -16,7 +16,6 @@ import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 import { getBlockAttributes } from '../../block-context';
 import containerContext from '../../block-context/container';
 import transforms from './transforms';
-import './variations';
 import './templates';
 
 const attributes = Object.assign(
