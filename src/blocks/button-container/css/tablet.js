@@ -1,5 +1,4 @@
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
 
 import {
@@ -21,16 +20,15 @@ export default class TabletCSS extends Component {
 			marginRightTablet,
 			marginBottomTablet,
 			marginLeftTablet,
-			marginUnit,
 		} = attributes;
 
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId ] = [ {
-			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
-			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
+			'margin-top': marginTopTablet,
+			'margin-right': marginRightTablet,
+			'margin-bottom': marginBottomTablet,
+			'margin-left': marginLeftTablet,
 			'justify-content': flexboxAlignment( alignmentTablet ),
 		} ];
 

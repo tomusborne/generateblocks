@@ -28,7 +28,6 @@ export default class TabletCSS extends Component {
 			paddingRightTablet,
 			paddingBottomTablet,
 			paddingLeftTablet,
-			paddingUnit,
 			borderSizeTopTablet,
 			borderSizeRightTablet,
 			borderSizeBottomTablet,
@@ -37,12 +36,10 @@ export default class TabletCSS extends Component {
 			borderRadiusBottomRightTablet,
 			borderRadiusBottomLeftTablet,
 			borderRadiusTopLeftTablet,
-			borderRadiusUnit,
 			iconPaddingTopTablet,
 			iconPaddingRightTablet,
 			iconPaddingBottomTablet,
 			iconPaddingLeftTablet,
-			iconPaddingUnit,
 			iconSizeTablet,
 			iconSizeUnit,
 			hasButtonContainer,
@@ -56,14 +53,14 @@ export default class TabletCSS extends Component {
 		let cssObj = [];
 
 		cssObj[ selector ] = [ {
-			'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
-			'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
-			'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
-			'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
-			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
-			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
-			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
-			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
+			'padding-top': paddingTopTablet,
+			'padding-right': paddingRightTablet,
+			'padding-bottom': paddingBottomTablet,
+			'padding-left': paddingLeftTablet,
+			'border-top-left-radius': borderRadiusTopLeftTablet,
+			'border-top-right-radius': borderRadiusTopRightTablet,
+			'border-bottom-right-radius': borderRadiusBottomRightTablet,
+			'border-bottom-left-radius': borderRadiusBottomLeftTablet,
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
 			'text-align': alignmentTablet,
@@ -76,19 +73,19 @@ export default class TabletCSS extends Component {
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ selector ].push( {
-				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
-				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
-				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
-				'border-left-width': valueWithUnit( borderSizeLeftTablet, 'px' ),
+				'border-top-width': borderSizeTopTablet,
+				'border-right-width': borderSizeRightTablet,
+				'border-bottom-width': borderSizeBottomTablet,
+				'border-left-width': borderSizeLeftTablet,
 				'border-style': 'solid',
 			} );
 		}
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
-			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopTablet, iconPaddingUnit ) : false,
-			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightTablet, iconPaddingUnit ) : false,
-			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomTablet, iconPaddingUnit ) : false,
-			'padding-left': ! removeText ? valueWithUnit( iconPaddingLeftTablet, iconPaddingUnit ) : false,
+			'padding-top': ! removeText ? iconPaddingTopTablet : false,
+			'padding-right': ! removeText ? iconPaddingRightTablet : false,
+			'padding-bottom': ! removeText ? iconPaddingBottomTablet : false,
+			'padding-left': ! removeText ? iconPaddingLeftTablet : false,
 			'font-size': valueWithUnit( iconSizeTablet, iconSizeUnit ),
 		} ];
 

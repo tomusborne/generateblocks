@@ -73,7 +73,7 @@ class GenerateBlocks_Block_Headline {
 			'iconVerticalAlignmentTablet' => '',
 			'iconVerticalAlignmentMobile' => '',
 			'iconPaddingTop' => '',
-			'iconPaddingRight' => '0.5',
+			'iconPaddingRight' => '',
 			'iconPaddingBottom' => '',
 			'iconPaddingLeft' => '',
 			'iconPaddingTopTablet' => '',
@@ -137,6 +137,11 @@ class GenerateBlocks_Block_Headline {
 
 		$id = $attributes['uniqueId'];
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+		if ( $blockVersion < 3 ) {
+			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.8.0', 'headline', $settings, $attributes );
+		}
+
 		$selector = generateblocks_get_css_selector( 'headline', $attributes );
 
 		// Back-compatibility for when icon held a value.
