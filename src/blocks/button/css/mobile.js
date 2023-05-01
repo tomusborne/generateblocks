@@ -28,7 +28,6 @@ export default class MobileCSS extends Component {
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
-			paddingUnit,
 			borderSizeTopMobile,
 			borderSizeRightMobile,
 			borderSizeBottomMobile,
@@ -37,12 +36,10 @@ export default class MobileCSS extends Component {
 			borderRadiusBottomRightMobile,
 			borderRadiusBottomLeftMobile,
 			borderRadiusTopLeftMobile,
-			borderRadiusUnit,
 			iconPaddingTopMobile,
 			iconPaddingRightMobile,
 			iconPaddingBottomMobile,
 			iconPaddingLeftMobile,
-			iconPaddingUnit,
 			iconSizeMobile,
 			iconSizeUnit,
 			hasButtonContainer,
@@ -56,14 +53,14 @@ export default class MobileCSS extends Component {
 		let cssObj = [];
 
 		cssObj[ selector ] = [ {
-			'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
-			'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
-			'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
-			'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
-			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
-			'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
-			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
-			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
+			'padding-top': paddingTopMobile,
+			'padding-right': paddingRightMobile,
+			'padding-bottom': paddingBottomMobile,
+			'padding-left': paddingLeftMobile,
+			'border-top-left-radius': borderRadiusTopLeftMobile,
+			'border-top-right-radius': borderRadiusTopRightMobile,
+			'border-bottom-right-radius': borderRadiusBottomRightMobile,
+			'border-bottom-left-radius': borderRadiusBottomLeftMobile,
 			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
 			'text-align': alignmentMobile,
@@ -76,19 +73,19 @@ export default class MobileCSS extends Component {
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ selector ].push( {
-				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
-				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
-				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
-				'border-left-width': valueWithUnit( borderSizeLeftMobile, 'px' ),
+				'border-top-width': borderSizeTopMobile,
+				'border-right-width': borderSizeRightMobile,
+				'border-bottom-width': borderSizeBottomMobile,
+				'border-left-width': borderSizeLeftMobile,
 				'border-style': 'solid',
 			} );
 		}
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
-			'padding-top': ! removeText ? valueWithUnit( iconPaddingTopMobile, iconPaddingUnit ) : false,
-			'padding-right': ! removeText ? valueWithUnit( iconPaddingRightMobile, iconPaddingUnit ) : false,
-			'padding-bottom': ! removeText ? valueWithUnit( iconPaddingBottomMobile, iconPaddingUnit ) : false,
-			'padding-left': ! removeText ? valueWithUnit( iconPaddingLeftMobile, iconPaddingUnit ) : false,
+			'padding-top': ! removeText ? iconPaddingTopMobile : false,
+			'padding-right': ! removeText ? iconPaddingRightMobile : false,
+			'padding-bottom': ! removeText ? iconPaddingBottomMobile : false,
+			'padding-left': ! removeText ? iconPaddingLeftMobile : false,
 			'font-size': valueWithUnit( iconSizeMobile, iconSizeUnit ),
 		} ];
 

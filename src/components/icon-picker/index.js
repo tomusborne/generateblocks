@@ -72,6 +72,20 @@ class IconPicker extends Component {
 
 		iconSVGSets = applyFilters( 'generateblocks.editor.iconSVGSets', iconSVGSets, { attributes } );
 
+		const flexAttributes = {};
+
+		if ( ! attributes.display.includes( 'flex' ) ) {
+			flexAttributes.display = 'headline' === id ? 'flex' : 'inline-flex';
+		}
+
+		if ( ! attributes.alignItems ) {
+			flexAttributes.alignItems = 'center';
+		}
+
+		if ( ! attributes.columnGap ) {
+			flexAttributes.columnGap = '0.5em';
+		}
+
 		return (
 			<Fragment>
 				<BaseControl className="gb-svg-html">
@@ -85,13 +99,12 @@ class IconPicker extends Component {
 
 							if ( '' !== value ) {
 								setAttributes( {
-									'hasIcon': true, // eslint-disable-line quote-props
-									display: 'headline' === id ? 'flex' : 'inline-flex',
-									alignItems: 'center',
+									hasIcon: true,
+									...flexAttributes,
 								} );
 							} else {
 								setAttributes( {
-									'hasIcon': false, // eslint-disable-line quote-props
+									hasIcon: false,
 								} );
 							}
 						} }
@@ -145,8 +158,7 @@ class IconPicker extends Component {
 																			setAttributes( {
 																				[ this.props.attrIcon ]: iconValue,
 																				hasIcon: true,
-																				display: 'headline' === id ? 'flex' : 'inline-flex',
-																				alignItems: 'center',
+																				...flexAttributes,
 																			} );
 																		} }
 																	>
@@ -185,59 +197,6 @@ class IconPicker extends Component {
 						value={ attributes[ attrIconLocation ] }
 						options={ locationOptions }
 						onChange={ ( value ) => {
-							const leftPadding 		= attributes.iconPaddingLeft,
-								rightPadding 		= attributes.iconPaddingRight,
-								rightPaddingTablet 	= attributes.iconPaddingRightTablet,
-								leftPaddingTablet 	= attributes.iconPaddingLeftTablet,
-								rightPaddingMobile 	= attributes.iconPaddingRightMobile,
-								leftPaddingMobile 	= attributes.iconPaddingLeftMobile;
-
-							if ( 'right' === value ) {
-								if ( ! leftPadding && rightPadding ) {
-									setAttributes( {
-										iconPaddingLeft: rightPadding,
-										iconPaddingRight: '',
-									} );
-								}
-
-								if ( ! leftPaddingTablet && rightPaddingTablet ) {
-									setAttributes( {
-										iconPaddingLeftTablet: rightPaddingTablet,
-										iconPaddingRightTablet: '',
-									} );
-								}
-
-								if ( ! leftPaddingMobile && rightPaddingMobile ) {
-									setAttributes( {
-										iconPaddingLeftMobile: rightPaddingMobile,
-										iconPaddingRightMobile: '',
-									} );
-								}
-							}
-
-							if ( 'left' === value ) {
-								if ( ! rightPadding && leftPadding ) {
-									setAttributes( {
-										iconPaddingRight: leftPadding,
-										iconPaddingLeft: '',
-									} );
-								}
-
-								if ( ! rightPaddingTablet && leftPaddingTablet ) {
-									setAttributes( {
-										iconPaddingRightTablet: leftPaddingTablet,
-										iconPaddingLeftTablet: '',
-									} );
-								}
-
-								if ( ! rightPaddingMobile && leftPaddingMobile ) {
-									setAttributes( {
-										iconPaddingRightMobile: leftPaddingMobile,
-										iconPaddingLeftMobile: '',
-									} );
-								}
-							}
-
 							setAttributes( {
 								[ this.props[ 'attrIconLocation' ] ]: value, // eslint-disable-line dot-notation
 							} );

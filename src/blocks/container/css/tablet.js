@@ -29,7 +29,6 @@ export default class TabletCSS extends Component {
 			paddingRightTablet,
 			paddingBottomTablet,
 			paddingLeftTablet,
-			paddingUnit,
 			borderSizeTopTablet,
 			borderSizeRightTablet,
 			borderSizeBottomTablet,
@@ -38,7 +37,6 @@ export default class TabletCSS extends Component {
 			borderRadiusBottomRightTablet,
 			borderRadiusBottomLeftTablet,
 			borderRadiusTopLeftTablet,
-			borderRadiusUnit,
 			verticalAlignmentTablet,
 			alignmentTablet,
 			fontSizeTablet,
@@ -54,10 +52,10 @@ export default class TabletCSS extends Component {
 
 		let cssObj = [];
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
-			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
-			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
-			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
-			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
+			'border-top-left-radius': borderRadiusTopLeftTablet,
+			'border-top-right-radius': borderRadiusTopRightTablet,
+			'border-bottom-right-radius': borderRadiusBottomRightTablet,
+			'border-bottom-left-radius': borderRadiusBottomLeftTablet,
 			'text-align': alignmentTablet,
 			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 		} ];
@@ -69,29 +67,29 @@ export default class TabletCSS extends Component {
 
 		if ( ! useInnerContainer ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
-				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
-				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
-				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
+				'padding-top': paddingTopTablet,
+				'padding-right': paddingRightTablet,
+				'padding-bottom': paddingBottomTablet,
+				'padding-left': paddingLeftTablet,
 			} );
 		}
 
 		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
-				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
-				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
-				'border-left-width': valueWithUnit( borderSizeLeftTablet, 'px' ),
+				'border-top-width': borderSizeTopTablet,
+				'border-right-width': borderSizeRightTablet,
+				'border-bottom-width': borderSizeBottomTablet,
+				'border-left-width': borderSizeLeftTablet,
 				'border-style': 'solid',
 			} );
 		}
 
 		if ( useInnerContainer ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
-				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
-				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
-				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
+				'padding-top': paddingTopTablet,
+				'padding-right': paddingRightTablet,
+				'padding-bottom': paddingBottomTablet,
+				'padding-left': paddingLeftTablet,
 				'width': sizingValue( 'minHeightTablet', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
 
@@ -130,10 +128,10 @@ export default class TabletCSS extends Component {
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
-				'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
-				'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
-				'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
-				'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
+				'border-top-left-radius': borderRadiusTopLeftTablet,
+				'border-top-right-radius': borderRadiusTopRightTablet,
+				'border-bottom-right-radius': borderRadiusBottomRightTablet,
+				'border-bottom-left-radius': borderRadiusBottomLeftTablet,
 			} ];
 		}
 
