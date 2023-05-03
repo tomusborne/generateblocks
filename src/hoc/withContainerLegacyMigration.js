@@ -1,9 +1,11 @@
 import { useEffect } from '@wordpress/element';
+import { getBlockType } from '@wordpress/blocks';
 import hasNumericValue from '../utils/has-numeric-value';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import MigrateSizing from '../blocks/container/migrate-sizing';
 import MigrateDimensions from './migrations/migrateDimensions';
+import MigrateTypography from './migrations/migrateTypography';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -160,6 +162,37 @@ export default ( WrappedComponent ) => {
 
 				if ( Object.keys( newDimensions ).length ) {
 					setAttributes( newDimensions );
+				}
+			}
+		}, [] );
+
+		// Migrate typography controls.
+		// @since 1.8.0.
+		useEffect( () => {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 4 ) ) {
+				const newTypography = MigrateTypography( {
+					attributesToMigrate: [
+						'fontFamily',
+						'fontSize',
+						'fontWeight',
+						'textTransform',
+						'alignment',
+					],
+					attributes,
+					defaults: getBlockType( 'generateblocks/container' )?.attributes,
+				} );
+
+				if (
+					Object.keys( newTypography.newAttributes ).length &&
+					Object.keys( newTypography.oldAttributes ).length
+				) {
+					setAttributes( {
+						typography: {
+							...attributes.typography,
+							...newTypography.newAttributes,
+						},
+						...newTypography.oldAttributes,
+					} );
 				}
 			}
 		}, [] );

@@ -4,6 +4,7 @@ import LayoutCSS from '../../../extend/inspector-control/controls/layout/compone
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -24,12 +25,6 @@ export default class TabletCSS extends Component {
 		const {
 			uniqueId,
 			element,
-			alignmentTablet,
-			fontSizeTablet,
-			fontSizeUnit,
-			lineHeightTablet,
-			lineHeightUnit,
-			letterSpacingTablet,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
@@ -57,10 +52,6 @@ export default class TabletCSS extends Component {
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
-			'text-align': alignmentTablet,
-			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
-			'line-height': valueWithUnit( lineHeightTablet, lineHeightUnit ),
-			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
 			'padding-top': paddingTopTablet,
 			'padding-right': paddingRightTablet,
 			'padding-bottom': paddingBottomTablet,
@@ -71,6 +62,7 @@ export default class TabletCSS extends Component {
 			'border-bottom-left-radius': borderRadiusBottomLeftTablet,
 		} ];
 
+		TypographyCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.typography, 'Tablet' );
 		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );

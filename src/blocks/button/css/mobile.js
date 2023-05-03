@@ -5,6 +5,7 @@ import LayoutCSS from '../../../extend/inspector-control/controls/layout/compone
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -21,9 +22,6 @@ export default class MobileCSS extends Component {
 		const {
 			uniqueId,
 			removeText,
-			letterSpacingMobile,
-			fontSizeMobile,
-			fontSizeUnit,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -43,7 +41,6 @@ export default class MobileCSS extends Component {
 			iconSizeMobile,
 			iconSizeUnit,
 			hasButtonContainer,
-			alignmentMobile,
 		} = attributes;
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
@@ -61,11 +58,9 @@ export default class MobileCSS extends Component {
 			'border-top-right-radius': borderRadiusTopRightMobile,
 			'border-bottom-right-radius': borderRadiusBottomRightMobile,
 			'border-bottom-left-radius': borderRadiusBottomLeftMobile,
-			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
-			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
-			'text-align': alignmentMobile,
 		} ];
 
+		TypographyCSS( cssObj, selector, attributes.typography, 'Mobile' );
 		SpacingCSS( cssObj, selector, attributes, 'Mobile' );
 		LayoutCSS( cssObj, selector, attributes, 'Mobile' );
 		SizingCSS( cssObj, selector, attributes, 'Mobile' );

@@ -33,31 +33,17 @@ class GenerateBlocks_Block_Button {
 	public static function defaults() {
 		return [
 			'backgroundColor' => '',
-			'backgroundColorOpacity' => 1,
 			'backgroundColorHover' => '',
-			'backgroundColorHoverOpacity' => 1,
 			'backgroundColorCurrent' => '',
 			'textColor' => '',
 			'textColorHover' => '',
 			'textColorCurrent' => '',
 			'borderColor' => '',
-			'borderColorOpacity' => 1,
 			'borderColorHover' => '',
-			'borderColorHoverOpacity' => 1,
 			'borderColorCurrent' => '',
-			'fontFamily' => '',
 			'fontFamilyFallback' => '',
 			'googleFont' => false,
 			'googleFontVariants' => '',
-			'fontWeight' => '',
-			'fontSize' => false,
-			'fontSizeTablet' => false,
-			'fontSizeMobile' => false,
-			'fontSizeUnit' => 'px',
-			'textTransform' => '',
-			'letterSpacing' => '',
-			'letterSpacingTablet' => '',
-			'letterSpacingMobile' => '',
 			'icon' => '',
 			'hasIcon' => false,
 			'iconLocation' => 'left',
@@ -89,11 +75,26 @@ class GenerateBlocks_Block_Button {
 			'iconSizeMobile' => '',
 			'iconSizeUnit' => 'em',
 			'hasButtonContainer' => false,
+			'variantRole' => '',
+			'buttonType' => 'link',
+			// Deprecated attributes.
+			'backgroundColorOpacity' => 1,
+			'backgroundColorHoverOpacity' => 1,
+			'borderColorHoverOpacity' => 1,
+			'borderColorOpacity' => 1,
+			'fontSize' => false,
+			'fontSizeTablet' => false,
+			'fontSizeMobile' => false,
+			'fontSizeUnit' => 'px',
+			'letterSpacing' => '',
+			'letterSpacingTablet' => '',
+			'letterSpacingMobile' => '',
+			'fontWeight' => '',
+			'textTransform' => '',
 			'alignment' => '',
 			'alignmentTablet' => '',
 			'alignmentMobile' => '',
-			'variantRole' => '',
-			'buttonType' => 'link',
+			'fontFamily' => '',
 		];
 	}
 
@@ -156,12 +157,6 @@ class GenerateBlocks_Block_Button {
 			$settings['hasIcon'] = true;
 		}
 
-		$fontFamily = $settings['fontFamily'];
-
-		if ( $fontFamily && $settings['fontFamilyFallback'] ) {
-			$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
-		}
-
 		$gradientColorStopOneValue = '';
 		$gradientColorStopTwoValue = '';
 
@@ -203,6 +198,7 @@ class GenerateBlocks_Block_Button {
 		generateblocks_add_layout_css( $css, $settings );
 		generateblocks_add_sizing_css( $css, $settings );
 		generateblocks_add_flex_child_css( $css, $settings );
+		generateblocks_add_typography_css( $css, $settings );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
 
@@ -210,12 +206,6 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
 		}
 
-		$css->add_property( 'font-family', $fontFamily );
-		$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
-		$css->add_property( 'font-weight', $settings['fontWeight'] );
-		$css->add_property( 'text-transform', $settings['textTransform'] );
-		$css->add_property( 'text-align', $settings['alignment'] );
-		$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 		$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 		$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
 		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
@@ -267,9 +257,7 @@ class GenerateBlocks_Block_Button {
 		generateblocks_add_layout_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
-		$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
-		$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
-		$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
+		generateblocks_add_typography_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 		$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
 		$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
@@ -288,9 +276,7 @@ class GenerateBlocks_Block_Button {
 		generateblocks_add_layout_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
-		$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
-		$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
-		$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
+		generateblocks_add_typography_css( $mobile_css, $settings, 'Mobile' );
 		$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
 		$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );

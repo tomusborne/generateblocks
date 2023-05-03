@@ -5,6 +5,7 @@ import SizingCSS from '../../../extend/inspector-control/controls/sizing/compone
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -38,9 +39,6 @@ export default class TabletCSS extends Component {
 			borderRadiusBottomLeftTablet,
 			borderRadiusTopLeftTablet,
 			verticalAlignmentTablet,
-			alignmentTablet,
-			fontSizeTablet,
-			fontSizeUnit,
 			orderTablet,
 			shapeDividers,
 			bgImage,
@@ -56,10 +54,9 @@ export default class TabletCSS extends Component {
 			'border-top-right-radius': borderRadiusTopRightTablet,
 			'border-bottom-right-radius': borderRadiusBottomRightTablet,
 			'border-bottom-left-radius': borderRadiusBottomLeftTablet,
-			'text-align': alignmentTablet,
-			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
 		} ];
 
+		TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.typography, 'Tablet' );
 		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );

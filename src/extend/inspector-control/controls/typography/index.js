@@ -13,11 +13,13 @@ import Alignment from './components/alignment';
 import getAttribute from '../../../../utils/get-attribute';
 import FlexControl from '../../../../components/flex-control';
 import getDeviceType from '../../../../utils/get-device-type';
+import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 import './editor.scss';
 
 export default function Typography( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { id, supports: { typography } } = useContext( ControlsContext );
+	const { id, supports: { typography: typographySupports } } = useContext( ControlsContext );
+	const { typography } = attributes;
 	const isDesktop = 'Desktop' === device;
 
 	return (
@@ -28,53 +30,97 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 			className="gblocks-panel-label"
 			id={ `${ id }Typography` }
 		>
-			{ typography.alignment &&
+			{ typographySupports.alignment &&
 				<Alignment
-					value={ getAttribute( 'alignment', { attributes, deviceType: device } ) }
-					onChange={ ( value ) => setAttributes( { [ getAttribute( 'alignment', { attributes, deviceType: device }, true ) ]: value } ) }
+					value={ getAttribute( 'textAlign', { attributes: typography, deviceType: device } ) }
+					onChange={ ( value ) => {
+						setAttributes( {
+							typography: {
+								...typography,
+								[ getAttribute( 'textAlign', { attributes: typography, deviceType: device }, true ) ]: value,
+							},
+						} );
+					} }
 				/>
 			}
 
-			{ !! isDesktop && ( typography.fontWeight || typography.textTransform ) &&
+			{ !! isDesktop && ( typographySupports.fontWeight || typographySupports.textTransform ) &&
 				<FlexControl>
 					<FontWeight
-						value={ attributes.fontWeight }
-						onChange={ ( value ) => setAttributes( { fontWeight: value } ) }
+						value={ typography?.fontWeight }
+						onChange={ ( value ) => {
+							setAttributes( {
+								typography: {
+									...typography,
+									[ getAttribute( 'fontWeight', { attributes: typography, deviceType: device }, true ) ]: value,
+								},
+							} );
+						} }
 					/>
 
 					<TextTransform
-						value={ attributes.textTransform }
-						onChange={ ( textTransform ) => setAttributes( { textTransform } ) }
+						value={ typography?.textTransform }
+						onChange={ ( value ) => {
+							setAttributes( {
+								typography: {
+									...typography,
+									[ getAttribute( 'textTransform', { attributes: typography, deviceType: device }, true ) ]: value,
+								},
+							} );
+						} }
 					/>
 				</FlexControl>
 			}
 
-			{ typography.fontSize &&
+			{ typographySupports.fontSize &&
 				<FontSize
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					computedStyles={ computedStyles }
-					device={ device }
+					units={ [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ] }
+					value={ getAttribute( 'fontSize', { attributes: typography, deviceType: device } ) }
+					placeholder={ getResponsivePlaceholder( 'fontSize', typography, device, computedStyles.fontSize ) }
+					onChange={ ( value ) => {
+						setAttributes( {
+							typography: {
+								...typography,
+								[ getAttribute( 'fontSize', { attributes: typography, deviceType: device }, true ) ]: value,
+							},
+						} );
+					} }
 				/>
 			}
 
-			{ typography.lineHeight &&
+			{ typographySupports.lineHeight &&
 				<LineHeight
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					device={ device }
+					units={ [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ] }
+					value={ getAttribute( 'lineHeight', { attributes: typography, deviceType: device } ) }
+					placeholder={ getResponsivePlaceholder( 'lineHeight', typography, device, computedStyles.lineHeight ) }
+					onChange={ ( value ) => {
+						setAttributes( {
+							typography: {
+								...typography,
+								[ getAttribute( 'lineHeight', { attributes: typography, deviceType: device }, true ) ]: value,
+							},
+						} );
+					} }
 				/>
 			}
 
-			{ typography.letterSpacing &&
+			{ typographySupports.letterSpacing &&
 				<LetterSpacing
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					device={ device }
+					units={ [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ] }
+					value={ getAttribute( 'letterSpacing', { attributes: typography, deviceType: device } ) }
+					placeholder={ getResponsivePlaceholder( 'letterSpacing', typography, device, computedStyles.letterSpacing ) }
+					onChange={ ( value ) => {
+						setAttributes( {
+							typography: {
+								...typography,
+								[ getAttribute( 'letterSpacing', { attributes: typography, deviceType: device }, true ) ]: value,
+							},
+						} );
+					} }
 				/>
 			}
 
-			{ typography.fontFamily && isDesktop &&
+			{ typographySupports.fontFamily && isDesktop &&
 				<FontFamily
 					attributes={ attributes }
 					setAttributes={ setAttributes }
