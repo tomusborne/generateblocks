@@ -176,8 +176,6 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'text-decoration', 'none' );
 
 			$css->set_selector( '.gb-icon svg' );
-			$css->add_property( 'height', '1em' );
-			$css->add_property( 'width', '1em' );
 			$css->add_property( 'fill', 'currentColor' );
 
 			do_action(
@@ -240,7 +238,11 @@ class GenerateBlocks_Block_Button {
 
 		if ( $settings['hasIcon'] ) {
 			$css->set_selector( $selector . ' .gb-icon' );
-			$css->add_property( 'font-size', $settings['iconSize'], $settings['iconSizeUnit'] );
+
+			if ( $blockVersion < 4 ) {
+				$css->add_property( 'font-size', $settings['iconSize'], $settings['iconSizeUnit'] );
+			}
+
 			$css->add_property( 'line-height', '0' );
 
 			if ( ! $settings['removeText'] ) {
@@ -251,6 +253,16 @@ class GenerateBlocks_Block_Button {
 				$css->add_property( 'align-items', 'center' );
 				$css->add_property( 'display', 'inline-flex' );
 			}
+
+			$css->set_selector( $selector . ' .gb-icon svg' );
+
+			if ( $blockVersion < 4 ) {
+				$css->add_property( 'height', '1em' );
+				$css->add_property( 'width', '1em' );
+			}
+
+			$css->add_property( 'width', generateblocks_get_array_attribute_value( 'width', $settings['iconStyles'] ) );
+			$css->add_property( 'height', generateblocks_get_array_attribute_value( 'height', $settings['iconStyles'] ) );
 		}
 
 		$tablet_css->set_selector( $selector );
@@ -265,11 +277,18 @@ class GenerateBlocks_Block_Button {
 
 		if ( $settings['hasIcon'] ) {
 			$tablet_css->set_selector( $selector . ' .gb-icon' );
-			$tablet_css->add_property( 'font-size', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+
+			if ( $blockVersion < 4 ) {
+				$tablet_css->add_property( 'font-size', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+			}
 
 			if ( ! $settings['removeText'] ) {
 				$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
 			}
+
+			$tablet_css->set_selector( $selector . ' .gb-icon svg' );
+			$tablet_css->add_property( 'width', generateblocks_get_array_attribute_value( 'widthTablet', $settings['iconStyles'] ) );
+			$tablet_css->add_property( 'height', generateblocks_get_array_attribute_value( 'heightTablet', $settings['iconStyles'] ) );
 		}
 
 		$mobile_css->set_selector( $selector );
@@ -284,11 +303,18 @@ class GenerateBlocks_Block_Button {
 
 		if ( $settings['hasIcon'] ) {
 			$mobile_css->set_selector( $selector . ' .gb-icon' );
-			$mobile_css->add_property( 'font-size', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+
+			if ( $blockVersion < 4 ) {
+				$mobile_css->add_property( 'font-size', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+			}
 
 			if ( ! $settings['removeText'] ) {
 				$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
 			}
+
+			$mobile_css->set_selector( $selector . ' .gb-icon svg' );
+			$mobile_css->add_property( 'width', generateblocks_get_array_attribute_value( 'widthMobile', $settings['iconStyles'] ) );
+			$mobile_css->add_property( 'height', generateblocks_get_array_attribute_value( 'heightMobile', $settings['iconStyles'] ) );
 		}
 
 		// Store this block ID in memory.

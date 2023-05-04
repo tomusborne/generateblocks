@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
@@ -38,9 +37,8 @@ export default class MobileCSS extends Component {
 			iconPaddingRightMobile,
 			iconPaddingBottomMobile,
 			iconPaddingLeftMobile,
-			iconSizeMobile,
-			iconSizeUnit,
 			hasButtonContainer,
+			iconStyles,
 		} = attributes;
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
@@ -81,7 +79,11 @@ export default class MobileCSS extends Component {
 			'padding-right': ! removeText ? iconPaddingRightMobile : false,
 			'padding-bottom': ! removeText ? iconPaddingBottomMobile : false,
 			'padding-left': ! removeText ? iconPaddingLeftMobile : false,
-			'font-size': valueWithUnit( iconSizeMobile, iconSizeUnit ),
+		} ];
+
+		cssObj[ selector + ' .gb-icon svg' ] = [ {
+			width: iconStyles?.widthMobile,
+			height: iconStyles?.heightMobile,
 		} ];
 
 		cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, this.props, 'button' );

@@ -132,6 +132,7 @@ const headlineContext = defaultsDeep( {
 		},
 		icon: {
 			enabled: true,
+			iconSize: true,
 		},
 	},
 }, defaultContext );

@@ -1,5 +1,4 @@
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
@@ -41,11 +40,10 @@ export default class MobileCSS extends Component {
 			iconPaddingRightMobile,
 			iconPaddingBottomMobile,
 			iconPaddingLeftMobile,
-			iconSizeMobile,
-			iconSizeUnit,
 			removeText,
 			displayMobile,
 			inlineWidthMobile,
+			iconStyles,
 		} = attributes;
 
 		const selector = element + '.gb-headline-' + uniqueId;
@@ -86,8 +84,8 @@ export default class MobileCSS extends Component {
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
-			'width': valueWithUnit( iconSizeMobile, iconSizeUnit ), // eslint-disable-line quote-props
-			'height': valueWithUnit( iconSizeMobile, iconSizeUnit ), // eslint-disable-line quote-props
+			width: iconStyles?.widthMobile,
+			height: iconStyles?.heightMobile,
 		} ];
 
 		if ( inlineWidthMobile ) {

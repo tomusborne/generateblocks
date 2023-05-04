@@ -1519,5 +1519,8 @@ function generateblocks_with_global_defaults( $defaults ) {
 	// Typography.
 	$defaults['typography'] = [];
 
+	// Icons.
+	$defaults['iconStyles'] = [];
+
 	return $defaults;
 }
