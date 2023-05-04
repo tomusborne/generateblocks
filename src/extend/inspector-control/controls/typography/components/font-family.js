@@ -76,7 +76,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 				/>
 			</BaseControl>
 
-			{ '' !== typography.fontFamily &&
+			{ !! typography.fontFamily &&
 				<Fragment>
 					<ToggleControl
 						label={ __( 'Use Google Fonts API', 'generateblocks' ) }
