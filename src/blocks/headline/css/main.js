@@ -6,6 +6,7 @@ import LayoutCSS from '../../../extend/inspector-control/controls/layout/compone
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -26,7 +27,6 @@ export default class MainCSS extends Component {
 		const {
 			uniqueId,
 			element,
-			alignment,
 			backgroundColor,
 			backgroundColorOpacity,
 			textColor,
@@ -37,13 +37,6 @@ export default class MainCSS extends Component {
 			highlightTextColor,
 			fontFamily,
 			fontFamilyFallback,
-			fontWeight,
-			fontSize,
-			fontSizeUnit,
-			textTransform,
-			lineHeight,
-			lineHeightUnit,
-			letterSpacing,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -85,14 +78,9 @@ export default class MainCSS extends Component {
 		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
 			color: textColor,
 			'font-family': fontFamily + fontFamilyFallbackValue,
-			'font-weight': fontWeight,
-			'text-transform': textTransform,
-			'text-align': alignment,
-			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
-			'line-height': valueWithUnit( lineHeight, lineHeightUnit ),
-			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
 		} ];
 
+		TypographyCSS( cssObj, '.editor-styles-wrapper ' + selector, { ...attributes.typography, fontFamilyFallback } );
 		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );

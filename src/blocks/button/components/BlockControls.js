@@ -76,10 +76,13 @@ export default ( props ) => {
 
 				{ ! isFlexItem( { device: deviceType, display, displayTablet, displayMobile } ) &&
 					<AlignmentToolbar
-						value={ getAttribute( 'alignment', { attributes, deviceType } ) }
+						value={ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType } ) }
 						onChange={ ( value ) => {
 							setAttributes( {
-								[ getAttribute( 'alignment', { attributes, deviceType }, true ) ]: value,
+								typography: {
+									...attributes.typography,
+									[ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType }, true ) ]: value,
+								},
 							} );
 						} }
 						alignmentControls={ typographyOptions.alignments }

@@ -5,6 +5,7 @@ import LayoutCSS from '../../../extend/inspector-control/controls/layout/compone
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -21,9 +22,6 @@ export default class TabletCSS extends Component {
 		const {
 			uniqueId,
 			removeText,
-			letterSpacingTablet,
-			fontSizeTablet,
-			fontSizeUnit,
 			paddingTopTablet,
 			paddingRightTablet,
 			paddingBottomTablet,
@@ -43,7 +41,6 @@ export default class TabletCSS extends Component {
 			iconSizeTablet,
 			iconSizeUnit,
 			hasButtonContainer,
-			alignmentTablet,
 		} = attributes;
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
@@ -61,11 +58,9 @@ export default class TabletCSS extends Component {
 			'border-top-right-radius': borderRadiusTopRightTablet,
 			'border-bottom-right-radius': borderRadiusBottomRightTablet,
 			'border-bottom-left-radius': borderRadiusBottomLeftTablet,
-			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
-			'letter-spacing': valueWithUnit( letterSpacingTablet, 'em' ),
-			'text-align': alignmentTablet,
 		} ];
 
+		TypographyCSS( cssObj, selector, attributes.typography, 'Tablet' );
 		SpacingCSS( cssObj, selector, attributes, 'Tablet' );
 		LayoutCSS( cssObj, selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, selector, attributes, 'Tablet' );

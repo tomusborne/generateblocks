@@ -4,6 +4,7 @@ import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -39,9 +40,6 @@ export default class MobileCSS extends Component {
 			borderRadiusTopLeftMobile,
 			verticalAlignmentMobile,
 			removeVerticalGapMobile,
-			alignmentMobile,
-			fontSizeMobile,
-			fontSizeUnit,
 			orderMobile,
 			shapeDividers,
 			bgImage,
@@ -57,10 +55,9 @@ export default class MobileCSS extends Component {
 			'border-top-right-radius': borderRadiusTopRightMobile,
 			'border-bottom-right-radius': borderRadiusBottomRightMobile,
 			'border-bottom-left-radius': borderRadiusBottomLeftMobile,
-			'text-align': alignmentMobile,
-			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
 		} ];
 
+		TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.typography, 'Mobile' );
 		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );

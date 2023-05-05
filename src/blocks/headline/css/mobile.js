@@ -4,6 +4,7 @@ import LayoutCSS from '../../../extend/inspector-control/controls/layout/compone
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -24,12 +25,6 @@ export default class MobileCSS extends Component {
 		const {
 			uniqueId,
 			element,
-			alignmentMobile,
-			fontSizeMobile,
-			fontSizeUnit,
-			lineHeightMobile,
-			lineHeightUnit,
-			letterSpacingMobile,
 			paddingTopMobile,
 			paddingRightMobile,
 			paddingBottomMobile,
@@ -57,10 +52,6 @@ export default class MobileCSS extends Component {
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
-			'text-align': alignmentMobile,
-			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
-			'line-height': valueWithUnit( lineHeightMobile, lineHeightUnit ),
-			'letter-spacing': valueWithUnit( letterSpacingMobile, 'em' ),
 			'padding-top': paddingTopMobile,
 			'padding-right': paddingRightMobile,
 			'padding-bottom': paddingBottomMobile,
@@ -71,6 +62,7 @@ export default class MobileCSS extends Component {
 			'border-bottom-left-radius': borderRadiusBottomLeftMobile,
 		} ];
 
+		TypographyCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.typography, 'Mobile' );
 		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Mobile' );

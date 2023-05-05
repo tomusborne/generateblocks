@@ -241,7 +241,9 @@ function generateblocks_get_google_fonts( $content = '' ) {
 						}
 
 						$font_data[ $id ] = array(
-							'name' => $button_settings['fontFamily'],
+							'name' => $button_settings['fontFamily'] ?
+								$button_settings['fontFamily'] :
+								generateblocks_get_array_attribute_value( 'fontFamily', $button_settings['typography'] ),
 							'variants' => $variants,
 						);
 					}
@@ -265,7 +267,9 @@ function generateblocks_get_google_fonts( $content = '' ) {
 						}
 
 						$font_data[ $id ] = array(
-							'name' => $headline_settings['fontFamily'],
+							'name' => $headline_settings['fontFamily'] ?
+								$headline_settings['fontFamily'] :
+								generateblocks_get_array_attribute_value( 'fontFamily', $headline_settings['typography'] ),
 							'variants' => $variants,
 						);
 					}
@@ -289,7 +293,9 @@ function generateblocks_get_google_fonts( $content = '' ) {
 						}
 
 						$font_data[ $id ] = array(
-							'name' => $container_settings['fontFamily'],
+							'name' => $container_settings['fontFamily'] ?
+								$container_settings['fontFamily'] :
+								generateblocks_get_array_attribute_value( 'fontFamily', $container_settings['typography'] ),
 							'variants' => $variants,
 						);
 					}
@@ -1268,6 +1274,72 @@ function generateblocks_add_flex_child_css( $css, $settings, $device = '' ) {
 }
 
 /**
+ * Add our Typography component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_typography_css( $css, $settings, $device = '' ) {
+	$options = [
+		'font-family' => 'fontFamily',
+		'font-size' => 'fontSize',
+		'line-height' => 'lineHeight',
+		'letter-spacing' => 'letterSpacing',
+		'font-weight' => 'fontWeight',
+		'text-transform' => 'textTransform',
+		'text-align' => 'textAlign',
+	];
+
+	foreach ( $options as $property => $option ) {
+		$option_name = $option . $device;
+
+		// We need this for backward compatibility when these were standalone options with separate units.
+		if (
+			! empty( $settings[ $option_name ] ) ||
+			( isset( $settings[ $option_name ] ) && is_numeric( $settings[ $option_name ] ) )
+		) {
+			$unit = '';
+
+			switch ( $option ) {
+				case 'fontSize':
+					$unit = $settings['fontSizeUnit'];
+					break;
+
+				case 'lineHeight':
+					$unit = $settings['lineHeightUnit'];
+					break;
+
+				case 'letterSpacing':
+					$unit = 'em';
+					break;
+			}
+
+			if ( 'fontFamily' === $option && $settings['fontFamilyFallback'] ) {
+				$settings[ $option_name ] .= ', ' . $settings['fontFamilyFallback'];
+			}
+
+			$css->add_property( $property, $settings[ $option_name ], $unit );
+			continue;
+		}
+
+		// textAlign used to be called "alignment".
+		if ( 'textAlign' === $option && ! empty( $settings[ 'alignment' . $device ] ) ) {
+			$css->add_property( $property, $settings[ 'alignment' . $device ] );
+			continue;
+		}
+
+		$value = generateblocks_get_array_attribute_value( $option_name, $settings['typography'] );
+
+		if ( 'fontFamily' === $option && $value && $settings['fontFamilyFallback'] ) {
+			$value .= ', ' . $settings['fontFamilyFallback'];
+		}
+
+		$css->add_property( $property, $value );
+	}
+}
+
+/**
  * Helper function to get an attribute value from an array.
  *
  * @param string $name The name of the attribute.
@@ -1443,6 +1515,9 @@ function generateblocks_with_global_defaults( $defaults ) {
 	// Sizing.
 	$defaults['sizing'] = [];
 	$defaults['useGlobalMaxWidth'] = false;
+
+	// Typography.
+	$defaults['typography'] = [];
 
 	return $defaults;
 }
