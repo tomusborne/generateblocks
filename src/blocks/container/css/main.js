@@ -13,6 +13,7 @@ import LayoutCSS from '../../../extend/inspector-control/controls/layout/compone
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import isFlexItem from '../../../utils/is-flex-item';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -59,13 +60,8 @@ export default function MainCSS( props ) {
 		verticalAlignment,
 		zindex,
 		innerZindex,
-		alignment,
 		fontFamily,
 		fontFamilyFallback,
-		fontWeight,
-		fontSize,
-		fontSizeUnit,
-		textTransform,
 		shapeDividers,
 		gridId,
 		useDynamicData,
@@ -100,14 +96,11 @@ export default function MainCSS( props ) {
 		'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 		'color': textColor, // eslint-disable-line quote-props
 		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
-		'text-align': alignment,
 		'font-family': fontFamily + fontFamilyFallbackValue,
-		'font-weight': fontWeight,
-		'text-transform': textTransform,
-		'font-size': valueWithUnit( fontSize, fontSizeUnit ),
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 	} ];
 
+	TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.typography, fontFamilyFallback } );
 	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
