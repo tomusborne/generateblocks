@@ -49,20 +49,6 @@ class GenerateBlocks_Legacy_Attributes {
 				)
 			);
 		}
-
-		if ( '1.8.0' === $version ) {
-			return apply_filters(
-				'generateblocks_defaults',
-				array(
-					'button' => array(
-						'iconPaddingRight' => '0.5',
-					),
-					'headline' => array(
-						'iconPaddingRight' => '0.5',
-					),
-				)
-			);
-		}
 	}
 
 	/**
@@ -121,26 +107,6 @@ class GenerateBlocks_Legacy_Attributes {
 				$settings['gradientColorTwo'] = $button_legacy_settings['gradientColorTwo'];
 				$settings['gradientColorTwoOpacity'] = $button_legacy_settings['gradientColorTwoOpacity'];
 				$settings['gradientDirection'] = $button_legacy_settings['gradientDirection'];
-			}
-		}
-
-		if ( '1.8.0' === $version ) {
-			if ( 'button' === $block ) {
-				$button_legacy_settings = wp_parse_args(
-					$atts,
-					$legacy_defaults['button']
-				);
-
-				$settings['iconPaddingRight'] = $button_legacy_settings['iconPaddingRight'];
-			}
-
-			if ( 'headline' === $block ) {
-				$headline_legacy_settings = wp_parse_args(
-					$atts,
-					$legacy_defaults['headline']
-				);
-
-				$settings['iconPaddingRight'] = $headline_legacy_settings['iconPaddingRight'];
 			}
 		}
 

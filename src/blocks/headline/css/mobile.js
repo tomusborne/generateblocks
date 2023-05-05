@@ -36,10 +36,6 @@ export default class MobileCSS extends Component {
 			borderRadiusBottomRightMobile,
 			borderRadiusBottomLeftMobile,
 			borderRadiusTopLeftMobile,
-			iconPaddingTopMobile,
-			iconPaddingRightMobile,
-			iconPaddingBottomMobile,
-			iconPaddingLeftMobile,
 			removeText,
 			displayMobile,
 			inlineWidthMobile,
@@ -77,10 +73,10 @@ export default class MobileCSS extends Component {
 		}
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
-			'padding-top': ! removeText ? iconPaddingTopMobile : false,
-			'padding-right': ! removeText ? iconPaddingRightMobile : false,
-			'padding-bottom': ! removeText ? iconPaddingBottomMobile : false,
-			'padding-left': ! removeText ? iconPaddingLeftMobile : false,
+			'padding-top': ! removeText ? iconStyles?.paddingTopMobile : null,
+			'padding-right': ! removeText ? iconStyles?.paddingRightMobile : null,
+			'padding-bottom': ! removeText ? iconStyles?.paddingBottomMobile : null,
+			'padding-left': ! removeText ? iconStyles?.paddingLeftMobile : null,
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {

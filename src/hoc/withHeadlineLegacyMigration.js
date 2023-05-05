@@ -3,10 +3,46 @@ import { getBlockType } from '@wordpress/blocks';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import flexboxAlignment from '../utils/flexbox-alignment';
-import MigrateDimensions from './migrations/migrateDimensions';
-import hasNumericValue from '../utils/has-numeric-value';
-import MigrateTypography from './migrations/migrateTypography';
-import MigrateIconSizing from './migrations/migratingIconSizing';
+import {
+	pipe,
+	updateBlockVersion,
+	migrateIconPadding,
+	migrateIconSizing,
+	migrateTypography,
+	migrateDimensions,
+} from './migrations/utils';
+
+// Set our layout attributes for old Headline blocks.
+// @since 1.7.0
+export function migrateFlex( attrs ) {
+	if ( ! wasBlockJustInserted( attrs ) && isBlockVersionLessThan( attrs.blockVersion, 2 ) ) {
+		if ( attrs.hasIcon ) {
+			attrs.display = 'flex';
+		}
+
+		[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
+			if ( attrs[ 'inlineWidth' + device ] ) {
+				attrs[ 'display' + device ] = attrs.hasIcon ? 'inline-flex' : 'inline-block';
+			}
+
+			if ( attrs.hasIcon ) {
+				if ( 'above' !== attrs[ 'iconLocation' + device ] && attrs[ 'alignment' + device ] ) {
+					attrs[ 'justifyContent' + device ] = flexboxAlignment( attrs.alignment + device );
+				}
+
+				if ( 'inline' === attrs[ 'iconLocation' + device ] && attrs[ 'iconVerticalAlignment' + device ] ) {
+					attrs[ 'alignItems' + device ] = flexboxAlignment( attrs.iconVerticalAlignment + device );
+				}
+
+				if ( 'above' === attrs[ 'iconLocation' + device ] ) {
+					attrs[ 'flexDirection' + device ] = 'column';
+				}
+			}
+		} );
+	}
+
+	return attrs;
+}
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -15,161 +51,60 @@ export default ( WrappedComponent ) => {
 			setAttributes,
 		} = props;
 
-		const {
-			blockVersion,
-			hasIcon,
-			iconVerticalAlignment,
-			alignment,
-		} = attributes;
+		const defaults = getBlockType( 'generateblocks/button' )?.attributes;
 
 		useEffect( () => {
-			// Set our layout attributes for old Button blocks.
-			// @since 1.7.0
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 2 ) ) {
-				const flexAttributes = {};
+			const newAttributes = pipe(
+				attributes,
+				[
+					migrateFlex,
+					migrateDimensions( {
+						blockVersion: 3,
+						attributesToMigrate: [
+							'paddingTop',
+							'paddingRight',
+							'paddingBottom',
+							'paddingLeft',
+							'marginTop',
+							'marginRight',
+							'marginBottom',
+							'marginLeft',
+							'borderSizeTop',
+							'borderSizeRight',
+							'borderSizeBottom',
+							'borderSizeLeft',
+							'borderRadiusTopRight',
+							'borderRadiusBottomRight',
+							'borderRadiusBottomLeft',
+							'borderRadiusTopLeft',
+						],
+					} ),
+					migrateTypography( {
+						blockVersion: 3,
+						defaults,
+						attributesToMigrate: [
+							'fontFamily',
+							'fontSize',
+							'lineHeight',
+							'letterSpacing',
+							'fontWeight',
+							'textTransform',
+							'alignment',
+						],
+					} ),
+					migrateIconSizing( {
+						blockVersion: 3,
+						defaults,
+					} ),
+					migrateIconPadding( {
+						blockVersion: 3,
+						defaults,
+					} ),
+					updateBlockVersion( 3 ),
+				]
+			);
 
-				if ( hasIcon ) {
-					flexAttributes.display = 'flex';
-				}
-
-				[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
-					if ( attributes[ 'inlineWidth' + device ] ) {
-						flexAttributes[ 'display' + device ] = hasIcon ? 'inline-flex' : 'inline-block';
-					}
-
-					if ( hasIcon ) {
-						if ( 'above' !== attributes[ 'iconLocation' + device ] && attributes[ 'alignment' + device ] ) {
-							flexAttributes[ 'justifyContent' + device ] = flexboxAlignment( alignment + device );
-						}
-
-						if ( 'inline' === attributes[ 'iconLocation' + device ] && attributes[ 'iconVerticalAlignment' + device ] ) {
-							flexAttributes[ 'alignItems' + device ] = flexboxAlignment( iconVerticalAlignment + device );
-						}
-
-						if ( 'above' === attributes[ 'iconLocation' + device ] ) {
-							flexAttributes[ 'flexDirection' + device ] = 'column';
-						}
-					}
-				} );
-
-				if ( Object.keys( flexAttributes ).length ) {
-					setAttributes( flexAttributes );
-				}
-			}
-		}, [] );
-
-		// Set our old defaults as static values.
-		// @since 1.8.0.
-		useEffect( () => {
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 3 ) ) {
-				const legacyDefaults = generateBlocksLegacyDefaults.v_1_8_0.headline;
-
-				if ( ! hasNumericValue( attributes.iconPaddingRight ) ) {
-					setAttributes( {
-						iconPaddingRight: legacyDefaults.iconPaddingRight + attributes.iconPaddingUnit,
-					} );
-				}
-			}
-		}, [] );
-
-		// Merge dimensions with their units.
-		// @since 1.8.0.
-		useEffect( () => {
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				const newDimensions = MigrateDimensions( {
-					attributesToMigrate: [
-						'paddingTop',
-						'paddingRight',
-						'paddingBottom',
-						'paddingLeft',
-						'marginTop',
-						'marginRight',
-						'marginBottom',
-						'marginLeft',
-						'borderSizeTop',
-						'borderSizeRight',
-						'borderSizeBottom',
-						'borderSizeLeft',
-						'borderRadiusTopRight',
-						'borderRadiusBottomRight',
-						'borderRadiusBottomLeft',
-						'borderRadiusTopLeft',
-						'iconPaddingTop',
-						'iconPaddingRight',
-						'iconPaddingBottom',
-						'iconPaddingLeft',
-					],
-					attributes,
-				} );
-
-				if ( Object.keys( newDimensions ).length ) {
-					setAttributes( newDimensions );
-				}
-			}
-		}, [] );
-
-		// Migrate typography controls.
-		// @since 1.8.0.
-		useEffect( () => {
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				const newTypography = MigrateTypography( {
-					attributesToMigrate: [
-						'fontFamily',
-						'fontSize',
-						'lineHeight',
-						'letterSpacing',
-						'fontWeight',
-						'textTransform',
-						'alignment',
-					],
-					attributes,
-					defaults: getBlockType( 'generateblocks/headline' )?.attributes,
-				} );
-
-				if (
-					Object.keys( newTypography.newAttributes ).length &&
-					Object.keys( newTypography.oldAttributes ).length
-				) {
-					setAttributes( {
-						typography: {
-							...attributes.typography,
-							...newTypography.newAttributes,
-						},
-						...newTypography.oldAttributes,
-					} );
-				}
-			}
-		}, [] );
-
-		// Migrate old icon sizing.
-		// @since 1.8.0.
-		useEffect( () => {
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				const newSizing = MigrateIconSizing( {
-					attributes,
-					defaults: getBlockType( 'generateblocks/headline' )?.attributes,
-				} );
-
-				if (
-					Object.keys( newSizing.newAttributes ).length &&
-					Object.keys( newSizing.oldAttributes ).length
-				) {
-					setAttributes( {
-						iconStyles: {
-							...attributes.iconStyles,
-							...newSizing.newAttributes,
-						},
-						...newSizing.oldAttributes,
-					} );
-				}
-			}
-		}, [] );
-
-		// Update block version flag if it's out of date.
-		useEffect( () => {
-			if ( isBlockVersionLessThan( blockVersion, 3 ) ) {
-				setAttributes( { blockVersion: 3 } );
-			}
+			setAttributes( newAttributes );
 		}, [] );
 
 		return ( <WrappedComponent { ...props } /> );

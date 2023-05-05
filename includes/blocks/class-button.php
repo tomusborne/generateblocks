@@ -57,19 +57,6 @@ class GenerateBlocks_Block_Button {
 			'gradientColorTwo' => '',
 			'gradientColorTwoOpacity' => '',
 			'gradientColorStopTwo' => '',
-			'iconPaddingTop' => '',
-			'iconPaddingRight' => '',
-			'iconPaddingBottom' => '',
-			'iconPaddingLeft' => '',
-			'iconPaddingTopTablet' => '',
-			'iconPaddingRightTablet' => '',
-			'iconPaddingBottomTablet' => '',
-			'iconPaddingLeftTablet' => '',
-			'iconPaddingTopMobile' => '',
-			'iconPaddingRightMobile' => '',
-			'iconPaddingBottomMobile' => '',
-			'iconPaddingLeftMobile' => '',
-			'iconPaddingUnit' => 'em',
 			'iconSize' => 1,
 			'iconSizeTablet' => '',
 			'iconSizeMobile' => '',
@@ -95,6 +82,19 @@ class GenerateBlocks_Block_Button {
 			'alignmentTablet' => '',
 			'alignmentMobile' => '',
 			'fontFamily' => '',
+			'iconPaddingTop' => '',
+			'iconPaddingRight' => '0.5',
+			'iconPaddingBottom' => '',
+			'iconPaddingLeft' => '',
+			'iconPaddingTopTablet' => '',
+			'iconPaddingRightTablet' => '',
+			'iconPaddingBottomTablet' => '',
+			'iconPaddingLeftTablet' => '',
+			'iconPaddingTopMobile' => '',
+			'iconPaddingRightMobile' => '',
+			'iconPaddingBottomMobile' => '',
+			'iconPaddingLeftMobile' => '',
+			'iconPaddingUnit' => 'em',
 		];
 	}
 
@@ -142,10 +142,6 @@ class GenerateBlocks_Block_Button {
 		// Use legacy settings if needed.
 		if ( $blockVersion < 2 ) {
 			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $attributes );
-		}
-
-		if ( $blockVersion < 4 ) {
-			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.8.0', 'button', $settings, $attributes );
 		}
 
 		$selector = generateblocks_get_css_selector( 'button', $attributes );
@@ -246,7 +242,19 @@ class GenerateBlocks_Block_Button {
 			$css->add_property( 'line-height', '0' );
 
 			if ( ! $settings['removeText'] ) {
-				$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
+				if ( $blockVersion < 4 ) {
+					$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
+				} else {
+					$css->add_property(
+						'padding',
+						array(
+							generateblocks_get_array_attribute_value( 'paddingTop', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingRight', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingBottom', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingLeft', $settings['iconStyles'] ),
+						)
+					);
+				}
 			}
 
 			if ( $blockVersion < 3 ) {
@@ -283,7 +291,19 @@ class GenerateBlocks_Block_Button {
 			}
 
 			if ( ! $settings['removeText'] ) {
-				$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
+				if ( $blockVersion < 4 ) {
+					$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
+				} else {
+					$tablet_css->add_property(
+						'padding',
+						array(
+							generateblocks_get_array_attribute_value( 'paddingTopTablet', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingRightTablet', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingBottomTablet', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingLeftTablet', $settings['iconStyles'] ),
+						)
+					);
+				}
 			}
 
 			$tablet_css->set_selector( $selector . ' .gb-icon svg' );
@@ -309,7 +329,19 @@ class GenerateBlocks_Block_Button {
 			}
 
 			if ( ! $settings['removeText'] ) {
-				$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
+				if ( $blockVersion < 4 ) {
+					$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
+				} else {
+					$mobile_css->add_property(
+						'padding',
+						array(
+							generateblocks_get_array_attribute_value( 'paddingTopMobile', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingRightMobile', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingBottomMobile', $settings['iconStyles'] ),
+							generateblocks_get_array_attribute_value( 'paddingLeftMobile', $settings['iconStyles'] ),
+						)
+					);
+				}
 			}
 
 			$mobile_css->set_selector( $selector . ' .gb-icon svg' );

@@ -1,4 +1,4 @@
-import MigrateIconSizing from '../../hoc/migrations/migratingIconSizing';
+import { pipe, migrateIconSizing } from '../../hoc/migrations/utils';
 
 describe( 'Migrating icon sizing', () => {
 	const defaults = {
@@ -17,27 +17,23 @@ describe( 'Migrating icon sizing', () => {
 	};
 
 	it( 'can migrate values with separate units', () => {
-		const oldAttributes = {
+		const attributes = {
+			blockVersion: 3,
 			iconSize: 2,
 			iconSizeUnit: 'em',
 			iconSizeTablet: 1.5,
 			iconSizeMobile: 0.8,
 		};
 
-		const newSizing = MigrateIconSizing( {
-			attributes: oldAttributes,
-			defaults,
-		} );
-
-		const existingStyles = {};
-
-		const newAttributes = {
-			iconStyles: {
-				...existingStyles,
-				...newSizing.newAttributes,
-			},
-			...newSizing.oldAttributes,
-		};
+		const newAttributes = pipe(
+			attributes,
+			[
+				migrateIconSizing( {
+					blockVersion: 4,
+					defaults,
+				} ),
+			]
+		);
 
 		expect( newAttributes ).toEqual( {
 			iconStyles: {
@@ -48,6 +44,7 @@ describe( 'Migrating icon sizing', () => {
 				widthMobile: '0.8em',
 				heightMobile: '0.8em',
 			},
+			blockVersion: 3,
 			iconSize: 1,
 			iconSizeTablet: '',
 			iconSizeMobile: '',

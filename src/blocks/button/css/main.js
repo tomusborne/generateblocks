@@ -58,11 +58,6 @@ export default class MainCSS extends Component {
 			gradientColorTwo,
 			gradientColorTwoOpacity,
 			gradientColorStopTwo,
-			iconPaddingTop,
-			iconPaddingRight,
-			iconPaddingBottom,
-			iconPaddingLeft,
-			iconPaddingUnit,
 			hasButtonContainer,
 			backgroundColorCurrent,
 			textColorCurrent,
@@ -140,7 +135,10 @@ export default class MainCSS extends Component {
 		} ];
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
-			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
+			'padding-top': ! removeText ? iconStyles?.paddingTop : null,
+			'padding-right': ! removeText ? iconStyles?.paddingRight : null,
+			'padding-bottom': ! removeText ? iconStyles?.paddingBottom : null,
+			'padding-left': ! removeText ? iconStyles?.paddingLeft : null,
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
