@@ -58,9 +58,11 @@ registerBlockType( 'generateblocks/container', {
 	},
 	deprecated,
 	__experimentalLabel: ( attrs ) => {
-		return attrs.isQueryLoopItem
-			? __( 'Post Template', 'generateblocks' )
-			: __( 'Container', 'generateblocks' );
+		if ( attrs.isQueryLoopItem ) {
+			return __( 'Post Template', 'generateblocks' );
+		}
+
+		return attrs.blockLabel || __( 'Container', 'generateblocks' );
 	},
 	transforms,
 } );
