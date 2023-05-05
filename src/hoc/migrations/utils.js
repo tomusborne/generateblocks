@@ -5,16 +5,16 @@ import MigrateIconSizing from './migratingIconSizing';
 import MigrateTypography from './migrateTypography';
 import MigrateDimensions from './migrateDimensions';
 
-function pipe( attrs, callbacks = [] ) {
+function pipe( existingAttributes, callbacks = [] ) {
 	return callbacks.reduce( ( resultAttrs, callback ) => {
-		const result = callback( resultAttrs );
+		const result = callback( resultAttrs, existingAttributes );
 		return Object.assign( {}, result );
-	}, attrs );
+	}, {} );
 }
 
 function updateBlockVersion( newBlockVersion ) {
-	return function( attrs ) {
-		if ( isBlockVersionLessThan( attrs.blockVersion, newBlockVersion ) ) {
+	return function( attrs, existingAttrs ) {
+		if ( isBlockVersionLessThan( existingAttrs.blockVersion, newBlockVersion ) ) {
 			attrs.blockVersion = newBlockVersion;
 		}
 
@@ -25,10 +25,10 @@ function updateBlockVersion( newBlockVersion ) {
 // Migrate old icon padding.
 // @since 1.8.0.
 function migrateIconPadding( { blockVersion, defaults } ) {
-	return function( attrs ) {
-		if ( ! wasBlockJustInserted( attrs ) && isBlockVersionLessThan( attrs.blockVersion, blockVersion ) ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
 			const newSizing = MigrateIconPadding( {
-				attributes: attrs,
+				attributes: existingAttrs,
 				defaults,
 			} );
 
@@ -39,6 +39,7 @@ function migrateIconPadding( { blockVersion, defaults } ) {
 				attrs = {
 					...attrs,
 					iconStyles: {
+						...existingAttrs.iconStyles,
 						...attrs.iconStyles,
 						...newSizing.newAttributes,
 					},
@@ -54,10 +55,10 @@ function migrateIconPadding( { blockVersion, defaults } ) {
 // Migrate old icon sizing.
 // @since 1.8.0.
 function migrateIconSizing( { blockVersion, defaults } ) {
-	return function( attrs ) {
-		if ( ! wasBlockJustInserted( attrs ) && isBlockVersionLessThan( attrs.blockVersion, blockVersion ) ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
 			const newSizing = MigrateIconSizing( {
-				attributes: attrs,
+				attributes: existingAttrs,
 				defaults,
 			} );
 
@@ -66,8 +67,8 @@ function migrateIconSizing( { blockVersion, defaults } ) {
 				Object.keys( newSizing.oldAttributes ).length
 			) {
 				attrs = {
-					...attrs,
 					iconStyles: {
+						...existingAttrs.iconStyles,
 						...attrs.iconStyles,
 						...newSizing.newAttributes,
 					},
@@ -83,11 +84,11 @@ function migrateIconSizing( { blockVersion, defaults } ) {
 // Migrate typography controls.
 // @since 1.8.0.
 function migrateTypography( { blockVersion, defaults, attributesToMigrate = [] } ) {
-	return function( attrs ) {
-		if ( ! wasBlockJustInserted( attrs ) && isBlockVersionLessThan( attrs.blockVersion, blockVersion ) ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
 			const newTypography = MigrateTypography( {
 				attributesToMigrate,
-				attributes: attrs,
+				attributes: existingAttrs,
 				defaults,
 			} );
 
@@ -98,6 +99,7 @@ function migrateTypography( { blockVersion, defaults, attributesToMigrate = [] }
 				attrs = {
 					...attrs,
 					typography: {
+						...existingAttrs.typography,
 						...attrs.typography,
 						...newTypography.newAttributes,
 					},
@@ -111,11 +113,11 @@ function migrateTypography( { blockVersion, defaults, attributesToMigrate = [] }
 }
 
 function migrateDimensions( { blockVersion, attributesToMigrate = [] } ) {
-	return function( attrs ) {
-		if ( ! wasBlockJustInserted( attrs ) && isBlockVersionLessThan( attrs.blockVersion, blockVersion ) ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
 			const newDimensions = MigrateDimensions( {
 				attributesToMigrate,
-				attributes: attrs,
+				attributes: existingAttrs,
 			} );
 
 			attrs = {

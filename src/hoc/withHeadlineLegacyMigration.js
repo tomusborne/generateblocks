@@ -14,27 +14,27 @@ import {
 
 // Set our layout attributes for old Headline blocks.
 // @since 1.7.0
-export function migrateFlex( attrs ) {
-	if ( ! wasBlockJustInserted( attrs ) && isBlockVersionLessThan( attrs.blockVersion, 2 ) ) {
-		if ( attrs.hasIcon ) {
+export function migrateFlex( attrs, existingAttrs ) {
+	if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, 2 ) ) {
+		if ( existingAttrs.hasIcon ) {
 			attrs.display = 'flex';
 		}
 
 		[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
-			if ( attrs[ 'inlineWidth' + device ] ) {
-				attrs[ 'display' + device ] = attrs.hasIcon ? 'inline-flex' : 'inline-block';
+			if ( existingAttrs[ 'inlineWidth' + device ] ) {
+				attrs[ 'display' + device ] = existingAttrs.hasIcon ? 'inline-flex' : 'inline-block';
 			}
 
-			if ( attrs.hasIcon ) {
-				if ( 'above' !== attrs[ 'iconLocation' + device ] && attrs[ 'alignment' + device ] ) {
-					attrs[ 'justifyContent' + device ] = flexboxAlignment( attrs.alignment + device );
+			if ( existingAttrs.hasIcon ) {
+				if ( 'above' !== existingAttrs[ 'iconLocation' + device ] && existingAttrs[ 'alignment' + device ] ) {
+					attrs[ 'justifyContent' + device ] = flexboxAlignment( existingAttrs.alignment + device );
 				}
 
-				if ( 'inline' === attrs[ 'iconLocation' + device ] && attrs[ 'iconVerticalAlignment' + device ] ) {
-					attrs[ 'alignItems' + device ] = flexboxAlignment( attrs.iconVerticalAlignment + device );
+				if ( 'inline' === existingAttrs[ 'iconLocation' + device ] && existingAttrs[ 'iconVerticalAlignment' + device ] ) {
+					attrs[ 'alignItems' + device ] = flexboxAlignment( existingAttrs.iconVerticalAlignment + device );
 				}
 
-				if ( 'above' === attrs[ 'iconLocation' + device ] ) {
+				if ( 'above' === existingAttrs[ 'iconLocation' + device ] ) {
 					attrs[ 'flexDirection' + device ] = 'column';
 				}
 			}
