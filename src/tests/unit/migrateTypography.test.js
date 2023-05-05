@@ -67,12 +67,9 @@ describe( 'Test typography migrations', () => {
 				fontWeight: 'bold',
 				textTransform: 'uppercase',
 			},
-			blockVersion: 3,
 			fontFamily: '',
 			fontWeight: '',
 			textTransform: '',
-			fontFamilyFallback: 'sans-serif',
-			googleFont: true,
 		} );
 	} );
 
@@ -102,7 +99,6 @@ describe( 'Test typography migrations', () => {
 				fontSizeTablet: '11em',
 				fontSizeMobile: '10em',
 			},
-			blockVersion: 3,
 			fontSize: '',
 			fontSizeTablet: '',
 			fontSizeMobile: '',
@@ -136,7 +132,6 @@ describe( 'Test typography migrations', () => {
 				lineHeightTablet: '1.1em',
 				lineHeightMobile: '1em',
 			},
-			blockVersion: 3,
 			lineHeight: '',
 			lineHeightTablet: '',
 			lineHeightMobile: '',
@@ -167,11 +162,10 @@ describe( 'Test typography migrations', () => {
 
 		expect( newAttributes ).toEqual( {
 			typography: {
-				lineHeight: '1.1em',
 				letterSpacing: '0.02em',
 				letterSpacingTablet: '0.01em',
+				lineHeight: '1.1em',
 			},
-			blockVersion: 3,
 			letterSpacing: '',
 			letterSpacingTablet: '', // Intentionally has no default defined.
 		} );

@@ -14,9 +14,7 @@ describe( 'Headline flexbox migration', () => {
 			]
 		);
 
-		expect( newAttributes ).toEqual( {
-			blockVersion: 1,
-		} );
+		expect( newAttributes ).toEqual( {} );
 	} );
 
 	it( 'should turn on flex', () => {
@@ -33,8 +31,6 @@ describe( 'Headline flexbox migration', () => {
 		);
 
 		expect( newAttributes ).toEqual( {
-			blockVersion: 1,
-			hasIcon: true,
 			display: 'flex',
 		} );
 	} );
@@ -55,11 +51,7 @@ describe( 'Headline flexbox migration', () => {
 		);
 
 		expect( newAttributes ).toEqual( {
-			blockVersion: 1,
-			hasIcon: true,
 			display: 'flex',
-			iconLocation: 'inline',
-			iconVerticalAlignment: 'top',
 			alignItems: 'flex-start',
 		} );
 	} );

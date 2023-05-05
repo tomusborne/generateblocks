@@ -44,7 +44,6 @@ describe( 'Migrating icon sizing', () => {
 				widthMobile: '0.8em',
 				heightMobile: '0.8em',
 			},
-			blockVersion: 3,
 			iconSize: 1,
 			iconSizeTablet: '',
 			iconSizeMobile: '',

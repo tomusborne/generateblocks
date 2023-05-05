@@ -23,13 +23,10 @@ describe( 'Value with unit function', () => {
 		);
 
 		expect( newAttributes ).toEqual( {
-			blockVersion: 3,
 			marginTop: '10px',
 			marginTopTablet: '20px',
-			marginUnit: 'px',
 			paddingTop: '20%',
 			paddingTopMobile: '10%',
-			paddingUnit: '%',
 		} );
 	} );
 
@@ -53,11 +50,7 @@ describe( 'Value with unit function', () => {
 		);
 
 		expect( newAttributes ).toEqual( {
-			blockVersion: 3,
 			marginTop: '10px',
-			marginUnit: 'px',
-			paddingTop: '20em',
-			paddingUnit: '%',
 		} );
 	} );
 } );
