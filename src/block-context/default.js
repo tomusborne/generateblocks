@@ -23,6 +23,7 @@ const defaultContext = {
 			zIndex: false,
 			position: false,
 			overflow: false,
+			themeWidth: false,
 		},
 		flexChildPanel: {
 			enabled: false,
@@ -71,6 +72,7 @@ const defaultContext = {
 		icon: {
 			enabled: false,
 			location: [],
+			iconSize: false,
 		},
 	},
 };

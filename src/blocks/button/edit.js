@@ -26,7 +26,7 @@ const ButtonEdit = ( props ) => {
 	const {
 		anchor,
 		ariaLabel,
-		fontFamily,
+		typography,
 		googleFont,
 		googleFontVariants,
 		isBlockPreview = false,
@@ -99,7 +99,7 @@ const ButtonEdit = ( props ) => {
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<GoogleFontLink
-				fontFamily={ fontFamily }
+				fontFamily={ typography.fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
 				isBlockPreview={ isBlockPreview }

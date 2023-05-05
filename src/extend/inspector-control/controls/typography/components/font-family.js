@@ -7,7 +7,7 @@ import AdvancedSelect from '../../../../../components/advanced-select';
 
 export default function FontFamily( { attributes, setAttributes } ) {
 	const {
-		fontFamily,
+		typography,
 		fontFamilyFallback,
 		googleFont,
 		googleFontVariants,
@@ -33,7 +33,12 @@ export default function FontFamily( { attributes, setAttributes } ) {
 	}, [] );
 
 	function onFontChange( value ) {
-		setAttributes( { fontFamily: value } );
+		setAttributes( {
+			typography: {
+				...typography,
+				fontFamily: value,
+			},
+		} );
 
 		if ( typeof googleFonts[ value ] !== 'undefined' ) {
 			setAttributes( {
@@ -50,7 +55,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 		}
 	}
 
-	const value = !! fontFamily ? { value: fontFamily, label: fontFamily } : '';
+	const value = !! typography.fontFamily ? { value: typography.fontFamily, label: typography.fontFamily } : '';
 
 	return (
 		<>
@@ -71,7 +76,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 				/>
 			</BaseControl>
 
-			{ '' !== fontFamily &&
+			{ !! typography.fontFamily &&
 				<Fragment>
 					<ToggleControl
 						label={ __( 'Use Google Fonts API', 'generateblocks' ) }
@@ -82,10 +87,10 @@ export default function FontFamily( { attributes, setAttributes } ) {
 							} );
 
 							if ( newGoogleFontValue ) {
-								if ( typeof googleFonts[ fontFamily ] !== 'undefined' ) {
+								if ( typeof googleFonts[ typography.fontFamily ] !== 'undefined' ) {
 									setAttributes( {
-										fontFamilyFallback: googleFonts[ fontFamily ].fallback,
-										googleFontVariants: googleFonts[ fontFamily ].weight.join( ', ' ),
+										fontFamilyFallback: googleFonts[ typography.fontFamily ].fallback,
+										googleFontVariants: googleFonts[ typography.fontFamily ].weight.join( ', ' ),
 									} );
 								}
 							}

@@ -112,6 +112,9 @@
     "alignmentMobile": {
       "type": "string",
       "default": ""
+    },
+    "blockVersion": {
+      "type": "number"
     }
   },
   "usesContext": [

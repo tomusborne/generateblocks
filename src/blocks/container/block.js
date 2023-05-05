@@ -15,7 +15,8 @@ import { InnerBlocks } from '@wordpress/block-editor';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 import { getBlockAttributes } from '../../block-context';
 import containerContext from '../../block-context/container';
-import './variations';
+import transforms from './transforms';
+import './templates';
 
 const attributes = Object.assign(
 	{},
@@ -61,4 +62,5 @@ registerBlockType( 'generateblocks/container', {
 			? __( 'Post Template', 'generateblocks' )
 			: __( 'Container', 'generateblocks' );
 	},
+	transforms,
 } );

@@ -1,7 +1,11 @@
 import { useEffect } from '@wordpress/element';
+import { getBlockType } from '@wordpress/blocks';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import hasNumericValue from '../utils/has-numeric-value';
+import MigrateDimensions from './migrations/migrateDimensions';
+import MigrateTypography from './migrations/migrateTypography';
+import MigrateIconSizing from './migrations/migratingIconSizing';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -68,10 +72,119 @@ export default ( WrappedComponent ) => {
 					setAttributes( newAttrs );
 				}
 			}
+		}, [] );
 
+		// Set our old defaults as static values.
+		// @since 1.8.0.
+		useEffect( () => {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 4 ) ) {
+				const legacyDefaults = generateBlocksLegacyDefaults.v_1_8_0.button;
+
+				if ( ! hasNumericValue( attributes.iconPaddingRight ) ) {
+					setAttributes( {
+						iconPaddingRight: legacyDefaults.iconPaddingRight + attributes.iconPaddingUnit,
+					} );
+				}
+			}
+		}, [] );
+
+		// Merge dimensions with their units.
+		// @since 1.8.0.
+		useEffect( () => {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 4 ) ) {
+				const newDimensions = MigrateDimensions( {
+					attributesToMigrate: [
+						'paddingTop',
+						'paddingRight',
+						'paddingBottom',
+						'paddingLeft',
+						'marginTop',
+						'marginRight',
+						'marginBottom',
+						'marginLeft',
+						'borderSizeTop',
+						'borderSizeRight',
+						'borderSizeBottom',
+						'borderSizeLeft',
+						'borderRadiusTopRight',
+						'borderRadiusBottomRight',
+						'borderRadiusBottomLeft',
+						'borderRadiusTopLeft',
+						'iconPaddingTop',
+						'iconPaddingRight',
+						'iconPaddingBottom',
+						'iconPaddingLeft',
+					],
+					attributes,
+				} );
+
+				if ( Object.keys( newDimensions ).length ) {
+					setAttributes( newDimensions );
+				}
+			}
+		}, [] );
+
+		// Migrate typography controls.
+		// @since 1.8.0.
+		useEffect( () => {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 4 ) ) {
+				const newTypography = MigrateTypography( {
+					attributesToMigrate: [
+						'fontFamily',
+						'fontSize',
+						'letterSpacing',
+						'fontWeight',
+						'textTransform',
+						'alignment',
+					],
+					attributes,
+					defaults: getBlockType( 'generateblocks/button' )?.attributes,
+				} );
+
+				if (
+					Object.keys( newTypography.newAttributes ).length &&
+					Object.keys( newTypography.oldAttributes ).length
+				) {
+					setAttributes( {
+						typography: {
+							...attributes.typography,
+							...newTypography.newAttributes,
+						},
+						...newTypography.oldAttributes,
+					} );
+				}
+			}
+		}, [] );
+
+		// Migrate old icon sizing.
+		// @since 1.8.0.
+		useEffect( () => {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 4 ) ) {
+				const newSizing = MigrateIconSizing( {
+					attributes,
+					defaults: getBlockType( 'generateblocks/button' )?.attributes,
+				} );
+
+				if (
+					Object.keys( newSizing.newAttributes ).length &&
+					Object.keys( newSizing.oldAttributes ).length
+				) {
+					setAttributes( {
+						iconStyles: {
+							...attributes.iconStyles,
+							...newSizing.newAttributes,
+						},
+						...newSizing.oldAttributes,
+					} );
+				}
+			}
+		}, [] );
+
+		// Update block version flag if it's out of date.
+		useEffect( () => {
 			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( blockVersion, 3 ) ) {
-				setAttributes( { blockVersion: 3 } );
+			if ( isBlockVersionLessThan( blockVersion, 4 ) ) {
+				setAttributes( { blockVersion: 4 } );
 			}
 		}, [] );
 
