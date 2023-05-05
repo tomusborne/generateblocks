@@ -13,14 +13,14 @@ export default function IconPadding( { attributes, setAttributes } ) {
 		<DimensionsControl
 			label={ __( 'Padding', 'generateblocks' ) }
 			attributeNames={ attributeNames }
-			values={ attributeNames.reduce( ( o, key ) => ( { ...o, [ key ]: deviceAttributes[ key ] } ), {} ) }
+			values={ deviceAttributes }
 			placeholders={ attributeNames.reduce( ( o, key ) => (
 				{ ...o, [ key ]: getResponsivePlaceholder( key, attributes.iconStyles, device, '' ) }
 			), {} ) }
 			onChange={ ( values ) => setDeviceAttributes( {
 				iconStyles: {
 					...attributes.iconStyles,
-					values,
+					...values,
 				},
 			} ) }
 		/>
