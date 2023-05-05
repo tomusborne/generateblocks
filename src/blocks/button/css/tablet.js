@@ -1,6 +1,4 @@
-/* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
@@ -38,9 +36,8 @@ export default class TabletCSS extends Component {
 			iconPaddingRightTablet,
 			iconPaddingBottomTablet,
 			iconPaddingLeftTablet,
-			iconSizeTablet,
-			iconSizeUnit,
 			hasButtonContainer,
+			iconStyles,
 		} = attributes;
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
@@ -81,7 +78,11 @@ export default class TabletCSS extends Component {
 			'padding-right': ! removeText ? iconPaddingRightTablet : false,
 			'padding-bottom': ! removeText ? iconPaddingBottomTablet : false,
 			'padding-left': ! removeText ? iconPaddingLeftTablet : false,
-			'font-size': valueWithUnit( iconSizeTablet, iconSizeUnit ),
+		} ];
+
+		cssObj[ selector + ' .gb-icon svg' ] = [ {
+			width: iconStyles?.widthTablet,
+			height: iconStyles?.heightTablet,
 		} ];
 
 		cssObj = applyFilters( 'generateblocks.editor.tabletCSS', cssObj, this.props, 'button' );
@@ -91,4 +92,3 @@ export default class TabletCSS extends Component {
 		);
 	}
 }
-/* eslint-enable quotes */

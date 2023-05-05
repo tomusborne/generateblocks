@@ -153,8 +153,6 @@ class GenerateBlocks_Block_Headline {
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-icon svg' );
-			$css->add_property( 'height', '1em' );
-			$css->add_property( 'width', '1em' );
 			$css->add_property( 'fill', 'currentColor' );
 
 			$css->set_selector( '.gb-highlight' );
@@ -237,8 +235,14 @@ class GenerateBlocks_Block_Headline {
 				}
 
 				$css->set_selector( $selector . ' .gb-icon svg' );
-				$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
-				$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
+
+				if ( $blockVersion < 3 ) {
+					$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
+					$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
+				}
+
+				$css->add_property( 'width', generateblocks_get_array_attribute_value( 'width', $settings['iconStyles'] ) );
+				$css->add_property( 'height', generateblocks_get_array_attribute_value( 'height', $settings['iconStyles'] ) );
 			}
 
 			if ( $settings['highlightTextColor'] ) {
@@ -294,8 +298,14 @@ class GenerateBlocks_Block_Headline {
 				}
 
 				$tablet_css->set_selector( $selector . ' .gb-icon svg' );
-				$tablet_css->add_property( 'width', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
-				$tablet_css->add_property( 'height', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+
+				if ( $blockVersion < 3 ) {
+					$tablet_css->add_property( 'width', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+					$tablet_css->add_property( 'height', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+				}
+
+				$tablet_css->add_property( 'width', generateblocks_get_array_attribute_value( 'widthTablet', $settings['iconStyles'] ) );
+				$tablet_css->add_property( 'height', generateblocks_get_array_attribute_value( 'heightTablet', $settings['iconStyles'] ) );
 			}
 
 			$mobile_css->set_selector( $selector );
@@ -346,8 +356,14 @@ class GenerateBlocks_Block_Headline {
 				}
 
 				$mobile_css->set_selector( $selector . ' .gb-icon svg' );
-				$mobile_css->add_property( 'width', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
-				$mobile_css->add_property( 'height', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+
+				if ( $blockVersion < 3 ) {
+					$mobile_css->add_property( 'width', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+					$mobile_css->add_property( 'height', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+				}
+
+				$mobile_css->add_property( 'width', generateblocks_get_array_attribute_value( 'widthMobile', $settings['iconStyles'] ) );
+				$mobile_css->add_property( 'height', generateblocks_get_array_attribute_value( 'heightMobile', $settings['iconStyles'] ) );
 			}
 		} else {
 			// The below CSS is for users using the old headline wrapper.

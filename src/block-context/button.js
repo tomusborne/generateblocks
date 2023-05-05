@@ -125,6 +125,7 @@ const buttonContext = defaultsDeep( {
 				{ label: __( 'Left', 'generateblocks' ), value: 'left' },
 				{ label: __( 'Right', 'generateblocks' ), value: 'right' },
 			],
+			iconSize: true,
 		},
 	},
 }, defaultContext );

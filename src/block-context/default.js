@@ -72,6 +72,7 @@ const defaultContext = {
 		icon: {
 			enabled: false,
 			location: [],
+			iconSize: false,
 		},
 	},
 };

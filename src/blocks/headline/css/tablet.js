@@ -1,5 +1,4 @@
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
@@ -41,11 +40,10 @@ export default class TabletCSS extends Component {
 			iconPaddingRightTablet,
 			iconPaddingBottomTablet,
 			iconPaddingLeftTablet,
-			iconSizeTablet,
-			iconSizeUnit,
 			removeText,
 			displayTablet,
 			inlineWidthTablet,
+			iconStyles,
 		} = attributes;
 
 		const selector = element + '.gb-headline-' + uniqueId;
@@ -86,8 +84,8 @@ export default class TabletCSS extends Component {
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
-			'width': valueWithUnit( iconSizeTablet, iconSizeUnit ), // eslint-disable-line quote-props
-			'height': valueWithUnit( iconSizeTablet, iconSizeUnit ), // eslint-disable-line quote-props
+			width: iconStyles?.widthTablet,
+			height: iconStyles?.heightTablet,
 		} ];
 
 		if ( inlineWidthTablet ) {

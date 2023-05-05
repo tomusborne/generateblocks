@@ -5,6 +5,7 @@ import isBlockVersionLessThan from '../utils/check-block-version';
 import hasNumericValue from '../utils/has-numeric-value';
 import MigrateDimensions from './migrations/migrateDimensions';
 import MigrateTypography from './migrations/migrateTypography';
+import MigrateIconSizing from './migrations/migratingIconSizing';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -150,6 +151,30 @@ export default ( WrappedComponent ) => {
 							...newTypography.newAttributes,
 						},
 						...newTypography.oldAttributes,
+					} );
+				}
+			}
+		}, [] );
+
+		// Migrate old icon sizing.
+		// @since 1.8.0.
+		useEffect( () => {
+			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 4 ) ) {
+				const newSizing = MigrateIconSizing( {
+					attributes,
+					defaults: getBlockType( 'generateblocks/button' )?.attributes,
+				} );
+
+				if (
+					Object.keys( newSizing.newAttributes ).length &&
+					Object.keys( newSizing.oldAttributes ).length
+				) {
+					setAttributes( {
+						iconStyles: {
+							...attributes.iconStyles,
+							...newSizing.newAttributes,
+						},
+						...newSizing.oldAttributes,
 					} );
 				}
 			}

@@ -1,5 +1,4 @@
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
@@ -58,11 +57,10 @@ export default class MainCSS extends Component {
 			iconPaddingBottom,
 			iconPaddingLeft,
 			iconPaddingUnit,
-			iconSize,
-			iconSizeUnit,
 			removeText,
 			display,
 			inlineWidth,
+			iconStyles,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '';
@@ -119,8 +117,8 @@ export default class MainCSS extends Component {
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
-			'width': valueWithUnit( iconSize, iconSizeUnit ), // eslint-disable-line quote-props
-			'height': valueWithUnit( iconSize, iconSizeUnit ), // eslint-disable-line quote-props
+			width: iconStyles?.width,
+			height: iconStyles?.height,
 		} ];
 
 		cssObj[ selector + ' .gb-highlight' ] = [ {

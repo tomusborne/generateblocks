@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
@@ -64,12 +63,11 @@ export default class MainCSS extends Component {
 			iconPaddingBottom,
 			iconPaddingLeft,
 			iconPaddingUnit,
-			iconSize,
-			iconSizeUnit,
 			hasButtonContainer,
 			backgroundColorCurrent,
 			textColorCurrent,
 			borderColorCurrent,
+			iconStyles,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -143,7 +141,11 @@ export default class MainCSS extends Component {
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
-			'font-size': valueWithUnit( iconSize, iconSizeUnit ),
+		} ];
+
+		cssObj[ selector + ' .gb-icon svg' ] = [ {
+			width: iconStyles?.width,
+			height: iconStyles?.height,
 		} ];
 
 		cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, this.props, 'button' );

@@ -121,5 +121,9 @@ export default function getIconAttributes( defaults ) {
 			type: 'boolean',
 			default: defaults.removeText,
 		},
+		iconStyles: {
+			type: 'object',
+			default: {},
+		},
 	};
 }
