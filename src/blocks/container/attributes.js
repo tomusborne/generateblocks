@@ -265,6 +265,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	blockLabel: {
+		type: 'string',
+		default: '',
+	},
 	// deprecated since 1.2.0.
 	elementId: {
 		type: 'string',
