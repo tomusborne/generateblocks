@@ -151,6 +151,7 @@ function generateblocks_do_block_editor_assets() {
 		'generateBlocksLegacyDefaults',
 		array(
 			'v_1_4_0' => GenerateBlocks_Legacy_Attributes::get_defaults( '1.4.0' ),
+			'v_1_8_0' => GenerateBlocks_Legacy_Attributes::get_defaults( '1.8.0' ),
 		)
 	);
 }

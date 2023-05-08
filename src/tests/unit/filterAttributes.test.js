@@ -1,4 +1,4 @@
-import filterAttributes from '../index';
+import filterAttributes from '../../utils/filter-attributes';
 
 describe( 'filterAttributes', () => {
 	it( 'should return an empty object if allowed keys were not given', () => {

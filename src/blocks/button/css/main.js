@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
@@ -16,6 +15,7 @@ import {
 } from '@wordpress/hooks';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import { sprintf } from '@wordpress/i18n';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 export default class MainCSS extends Component {
 	render() {
@@ -32,11 +32,6 @@ export default class MainCSS extends Component {
 			textColorHover,
 			fontFamily,
 			fontFamilyFallback,
-			fontWeight,
-			textTransform,
-			letterSpacing,
-			fontSize,
-			fontSizeUnit,
 			paddingTop,
 			paddingRight,
 			paddingBottom,
@@ -68,13 +63,11 @@ export default class MainCSS extends Component {
 			iconPaddingBottom,
 			iconPaddingLeft,
 			iconPaddingUnit,
-			iconSize,
-			iconSizeUnit,
 			hasButtonContainer,
-			alignment,
 			backgroundColorCurrent,
 			textColorCurrent,
 			borderColorCurrent,
+			iconStyles,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '',
@@ -113,14 +106,10 @@ export default class MainCSS extends Component {
 			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
 			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 			'font-family': fontFamily + fontFamilyFallbackValue,
-			'font-weight': fontWeight,
-			'text-transform': textTransform,
-			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
-			'text-align': alignment,
-			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
 
+		TypographyCSS( cssObj, selector, { ...attributes.typography, fontFamilyFallback } );
 		SpacingCSS( cssObj, selector, attributes );
 		LayoutCSS( cssObj, selector, attributes );
 		SizingCSS( cssObj, selector, attributes );
@@ -152,7 +141,11 @@ export default class MainCSS extends Component {
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
-			'font-size': valueWithUnit( iconSize, iconSizeUnit ),
+		} ];
+
+		cssObj[ selector + ' .gb-icon svg' ] = [ {
+			width: iconStyles?.width,
+			height: iconStyles?.height,
 		} ];
 
 		cssObj = applyFilters( 'generateblocks.editor.mainCSS', cssObj, this.props, 'button' );

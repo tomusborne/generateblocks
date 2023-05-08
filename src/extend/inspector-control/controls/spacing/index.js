@@ -10,6 +10,7 @@ import getDeviceType from '../../../../utils/get-device-type';
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
 	const { id, supports: { spacing } } = useContext( ControlsContext );
+
 	const {
 		inlineWidth,
 		inlineWidthTablet,
