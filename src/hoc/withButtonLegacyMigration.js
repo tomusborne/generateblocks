@@ -3,13 +3,13 @@ import { getBlockType } from '@wordpress/blocks';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import hasNumericValue from '../utils/has-numeric-value';
+import migrateDimensions from './migrations/migrateDimensions';
+import migrateTypography from './migrations/migrateTypography';
+import migrateIconSizing from './migrations/migratingIconSizing';
+import migrateIconPadding from './migrations/migrateIconPadding';
 import {
-	pipe,
+	migrationPipe,
 	updateBlockVersion,
-	migrateIconPadding,
-	migrateIconSizing,
-	migrateTypography,
-	migrateDimensions,
 } from './migrations/utils';
 
 function oldMigrations( attrs ) {
@@ -69,7 +69,7 @@ export default ( WrappedComponent ) => {
 		const defaults = getBlockType( 'generateblocks/button' )?.attributes;
 
 		useEffect( () => {
-			const newAttributes = pipe(
+			const newAttributes = migrationPipe(
 				attributes,
 				[
 					oldMigrations,

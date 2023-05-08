@@ -1,4 +1,5 @@
-import { pipe, migrateTypography } from '../../hoc/migrations/utils';
+import { migrationPipe } from '../../hoc/migrations/utils';
+import migrateTypography from '../../hoc/migrations/migrateTypography';
 
 describe( 'Test typography migrations', () => {
 	const defaults = {
@@ -50,7 +51,7 @@ describe( 'Test typography migrations', () => {
 			textTransform: 'uppercase',
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateTypography( {
@@ -82,7 +83,7 @@ describe( 'Test typography migrations', () => {
 			fontSizeUnit: 'em',
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateTypography( {
@@ -115,7 +116,7 @@ describe( 'Test typography migrations', () => {
 			lineHeightUnit: 'em',
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateTypography( {
@@ -149,7 +150,7 @@ describe( 'Test typography migrations', () => {
 			},
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateTypography( {

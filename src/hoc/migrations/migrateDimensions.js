@@ -1,6 +1,8 @@
 import isNumeric from '../../utils/is-numeric';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
+import isBlockVersionLessThan from '../../utils/check-block-version';
 
-export default function MigrateDimensions( { attributesToMigrate, attributes } ) {
+function buildDimensionAttributes( { attributesToMigrate, attributes } ) {
 	function unitValue( name ) {
 		if ( name.startsWith( 'padding' ) ) {
 			return attributes.paddingUnit;
@@ -32,4 +34,22 @@ export default function MigrateDimensions( { attributesToMigrate, attributes } )
 	} );
 
 	return newAttributes;
+}
+
+export default function migrateDimensions( { blockVersion, attributesToMigrate = [] } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
+			const newDimensions = buildDimensionAttributes( {
+				attributesToMigrate,
+				attributes: existingAttrs,
+			} );
+
+			attrs = {
+				...attrs,
+				...newDimensions,
+			};
+		}
+
+		return attrs;
+	};
 }

@@ -1,4 +1,4 @@
-import { pipe } from '../../hoc/migrations/utils';
+import { migrationPipe } from '../../hoc/migrations/utils';
 import { migrateFlex } from '../../hoc/withHeadlineLegacyMigration';
 
 describe( 'Headline flexbox migration', () => {
@@ -7,7 +7,7 @@ describe( 'Headline flexbox migration', () => {
 			blockVersion: 1,
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateFlex,
@@ -23,7 +23,7 @@ describe( 'Headline flexbox migration', () => {
 			hasIcon: true,
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateFlex,
@@ -43,7 +43,7 @@ describe( 'Headline flexbox migration', () => {
 			iconVerticalAlignment: 'top',
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateFlex,

@@ -1,4 +1,4 @@
-import { pipe, updateBlockVersion } from '../../hoc/migrations/utils';
+import { migrationPipe, updateBlockVersion } from '../../hoc/migrations/utils';
 
 describe( 'blockVersion', () => {
 	it( 'should update blockVersion', () => {
@@ -6,7 +6,7 @@ describe( 'blockVersion', () => {
 			blockVersion: 1,
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				updateBlockVersion( 2 ),

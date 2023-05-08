@@ -1,4 +1,5 @@
-import { pipe, migrateDimensions } from '../../hoc/migrations/utils';
+import { migrationPipe } from '../../hoc/migrations/utils';
+import migrateDimensions from '../../hoc/migrations/migrateDimensions';
 
 describe( 'Value with unit function', () => {
 	it( 'can migrate values with separate units', () => {
@@ -12,7 +13,7 @@ describe( 'Value with unit function', () => {
 			paddingUnit: '%',
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateDimensions( {
@@ -39,7 +40,7 @@ describe( 'Value with unit function', () => {
 			paddingUnit: '%',
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateDimensions( {

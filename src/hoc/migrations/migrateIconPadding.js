@@ -1,6 +1,8 @@
 import isNumeric from '../../utils/is-numeric';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
+import isBlockVersionLessThan from '../../utils/check-block-version';
 
-export default function MigrateIconPadding( { attributes, defaults } ) {
+function buildPaddingAttributes( { attributes, defaults } ) {
 	const newAttributes = {};
 	const oldAttributes = {};
 	const attributesToMigrate = [ 'iconPaddingTop', 'iconPaddingRight', 'iconPaddingBottom', 'iconPaddingLeft' ];
@@ -42,4 +44,34 @@ export default function MigrateIconPadding( { attributes, defaults } ) {
 	} );
 
 	return { newAttributes, oldAttributes };
+}
+
+// Migrate old icon padding.
+// @since 1.8.0.
+export default function migrateIconPadding( { blockVersion, defaults } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
+			const newSizing = buildPaddingAttributes( {
+				attributes: existingAttrs,
+				defaults,
+			} );
+
+			if (
+				Object.keys( newSizing.newAttributes ).length &&
+				Object.keys( newSizing.oldAttributes ).length
+			) {
+				attrs = {
+					...attrs,
+					iconStyles: {
+						...existingAttrs.iconStyles,
+						...attrs.iconStyles,
+						...newSizing.newAttributes,
+					},
+					...newSizing.oldAttributes,
+				};
+			}
+		}
+
+		return attrs;
+	};
 }

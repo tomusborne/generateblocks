@@ -1,4 +1,5 @@
-import { pipe, migrateIconSizing } from '../../hoc/migrations/utils';
+import { migrationPipe } from '../../hoc/migrations/utils';
+import migrateIconSizing from '../../hoc/migrations/migratingIconSizing';
 
 describe( 'Migrating icon sizing', () => {
 	const defaults = {
@@ -25,7 +26,7 @@ describe( 'Migrating icon sizing', () => {
 			iconSizeMobile: 0.8,
 		};
 
-		const newAttributes = pipe(
+		const newAttributes = migrationPipe(
 			attributes,
 			[
 				migrateIconSizing( {
