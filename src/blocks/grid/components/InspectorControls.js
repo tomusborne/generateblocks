@@ -62,7 +62,6 @@ export default ( props ) => {
 					<SelectControl
 						label={ __( 'Vertical Alignment', 'generateblocks' ) }
 						value={ verticalAlignment }
-						help={ __( 'Align grid items. Removes same height columns and overrides grid item content alignment.', 'generateblocks' ) }
 						options={ [
 							{ label: __( 'Default', 'generateblocks' ), value: '' },
 							{ label: __( 'Top', 'generateblocks' ), value: 'flex-start' },

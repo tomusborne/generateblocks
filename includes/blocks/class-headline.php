@@ -34,46 +34,23 @@ class GenerateBlocks_Block_Headline {
 		return [
 			'element' => 'h2',
 			'cssClasses' => '',
-			'alignment' => false,
-			'alignmentTablet' => false,
-			'alignmentMobile' => false,
-			'backgroundColor' => false,
-			'backgroundColorOpacity' => 1,
-			'textColor' => false,
-			'linkColor' => false,
-			'linkColorHover' => false,
-			'borderColor' => false,
-			'borderColorOpacity' => 1,
-			'highlightTextColor' => false,
-			'fontFamily' => '',
+			'backgroundColor' => '',
+			'textColor' => '',
+			'linkColor' => '',
+			'linkColorHover' => '',
+			'borderColor' => '',
+			'highlightTextColor' => '',
 			'fontFamilyFallback' => '',
 			'googleFont' => false,
 			'googleFontVariants' => '',
-			'fontWeight' => '',
-			'fontSize' => '',
-			'fontSizeTablet' => '',
-			'fontSizeMobile' => '',
-			'fontSizeUnit' => 'px',
-			'textTransform' => '',
-			'lineHeight' => '',
-			'lineHeightTablet' => '',
-			'lineHeightMobile' => '',
-			'lineHeightUnit' => 'em',
-			'letterSpacing' => '',
-			'letterSpacingTablet' => '',
-			'letterSpacingMobile' => '',
 			'icon' => '',
 			'hasIcon' => false,
-			'iconColor' => false,
-			'iconColorOpacity' => 1,
+			'iconColor' => '',
 			'iconLocation' => 'inline',
 			'iconLocationTablet' => '',
 			'iconLocationMobile' => '',
-			'iconVerticalAlignment' => 'center',
-			'iconVerticalAlignmentTablet' => '',
-			'iconVerticalAlignmentMobile' => '',
 			'iconPaddingTop' => '',
-			'iconPaddingRight' => '0.5',
+			'iconPaddingRight' => '',
 			'iconPaddingBottom' => '',
 			'iconPaddingLeft' => '',
 			'iconPaddingTopTablet' => '',
@@ -89,11 +66,35 @@ class GenerateBlocks_Block_Headline {
 			'iconSizeTablet' => '',
 			'iconSizeMobile' => '',
 			'iconSizeUnit' => 'em',
+			'removeText' => false,
+			'ariaLabel' => '',
+			// Deprecated attributes.
+			'backgroundColorOpacity' => 1,
+			'borderColorOpacity' => 1,
+			'iconColorOpacity' => 1,
+			'fontSize' => '',
+			'fontSizeTablet' => '',
+			'fontSizeMobile' => '',
+			'fontSizeUnit' => 'px',
+			'lineHeight' => '',
+			'lineHeightTablet' => '',
+			'lineHeightMobile' => '',
+			'lineHeightUnit' => 'em',
+			'letterSpacing' => '',
+			'letterSpacingTablet' => '',
+			'letterSpacingMobile' => '',
+			'fontWeight' => '',
+			'textTransform' => '',
+			'alignment' => '',
+			'alignmentTablet' => '',
+			'alignmentMobile' => '',
+			'iconVerticalAlignment' => 'center',
+			'iconVerticalAlignmentTablet' => '',
+			'iconVerticalAlignmentMobile' => '',
 			'inlineWidth' => false,
 			'inlineWidthTablet' => false,
 			'inlineWidthMobile' => false,
-			'removeText' => false,
-			'ariaLabel' => '',
+			'fontFamily' => '',
 		];
 	}
 
@@ -137,6 +138,11 @@ class GenerateBlocks_Block_Headline {
 
 		$id = $attributes['uniqueId'];
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
+
+		if ( $blockVersion < 3 ) {
+			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.8.0', 'headline', $settings, $attributes );
+		}
+
 		$selector = generateblocks_get_css_selector( 'headline', $attributes );
 
 		// Back-compatibility for when icon held a value.
@@ -144,17 +150,9 @@ class GenerateBlocks_Block_Headline {
 			$settings['hasIcon'] = true;
 		}
 
-		$fontFamily = $settings['fontFamily'];
-
-		if ( $fontFamily && $settings['fontFamilyFallback'] ) {
-			$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
-		}
-
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-icon svg' );
-			$css->add_property( 'height', '1em' );
-			$css->add_property( 'width', '1em' );
 			$css->add_property( 'fill', 'currentColor' );
 
 			$css->set_selector( '.gb-highlight' );
@@ -176,15 +174,9 @@ class GenerateBlocks_Block_Headline {
 			generateblocks_add_layout_css( $css, $settings );
 			generateblocks_add_sizing_css( $css, $settings );
 			generateblocks_add_flex_child_css( $css, $settings );
-			$css->add_property( 'font-family', $fontFamily );
-			$css->add_property( 'text-align', $settings['alignment'] );
+			generateblocks_add_typography_css( $css, $settings );
 			$css->add_property( 'color', $settings['textColor'] );
 			$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
-			$css->add_property( 'font-size', $settings['fontSize'], $settings['fontSizeUnit'] );
-			$css->add_property( 'font-weight', $settings['fontWeight'] );
-			$css->add_property( 'text-transform', $settings['textTransform'] );
-			$css->add_property( 'line-height', $settings['lineHeight'], $settings['lineHeightUnit'] );
-			$css->add_property( 'letter-spacing', $settings['letterSpacing'], 'em' );
 			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
 			$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 			$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
@@ -243,8 +235,14 @@ class GenerateBlocks_Block_Headline {
 				}
 
 				$css->set_selector( $selector . ' .gb-icon svg' );
-				$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
-				$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
+
+				if ( $blockVersion < 3 ) {
+					$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
+					$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
+				}
+
+				$css->add_property( 'width', generateblocks_get_array_attribute_value( 'width', $settings['iconStyles'] ) );
+				$css->add_property( 'height', generateblocks_get_array_attribute_value( 'height', $settings['iconStyles'] ) );
 			}
 
 			if ( $settings['highlightTextColor'] ) {
@@ -256,10 +254,7 @@ class GenerateBlocks_Block_Headline {
 			generateblocks_add_layout_css( $tablet_css, $settings, 'Tablet' );
 			generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 			generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
-			$tablet_css->add_property( 'text-align', $settings['alignmentTablet'] );
-			$tablet_css->add_property( 'font-size', $settings['fontSizeTablet'], $settings['fontSizeUnit'] );
-			$tablet_css->add_property( 'line-height', $settings['lineHeightTablet'], $settings['lineHeightUnit'] );
-			$tablet_css->add_property( 'letter-spacing', $settings['letterSpacingTablet'], 'em' );
+			generateblocks_add_typography_css( $tablet_css, $settings, 'Tablet' );
 			$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 			$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
@@ -303,18 +298,21 @@ class GenerateBlocks_Block_Headline {
 				}
 
 				$tablet_css->set_selector( $selector . ' .gb-icon svg' );
-				$tablet_css->add_property( 'width', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
-				$tablet_css->add_property( 'height', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+
+				if ( $blockVersion < 3 ) {
+					$tablet_css->add_property( 'width', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+					$tablet_css->add_property( 'height', $settings['iconSizeTablet'], $settings['iconSizeUnit'] );
+				}
+
+				$tablet_css->add_property( 'width', generateblocks_get_array_attribute_value( 'widthTablet', $settings['iconStyles'] ) );
+				$tablet_css->add_property( 'height', generateblocks_get_array_attribute_value( 'heightTablet', $settings['iconStyles'] ) );
 			}
 
 			$mobile_css->set_selector( $selector );
 			generateblocks_add_layout_css( $mobile_css, $settings, 'Mobile' );
 			generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 			generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
-			$mobile_css->add_property( 'text-align', $settings['alignmentMobile'] );
-			$mobile_css->add_property( 'font-size', $settings['fontSizeMobile'], $settings['fontSizeUnit'] );
-			$mobile_css->add_property( 'line-height', $settings['lineHeightMobile'], $settings['lineHeightUnit'] );
-			$mobile_css->add_property( 'letter-spacing', $settings['letterSpacingMobile'], 'em' );
+			generateblocks_add_typography_css( $mobile_css, $settings, 'Mobile' );
 			$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
 			$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
@@ -358,8 +356,14 @@ class GenerateBlocks_Block_Headline {
 				}
 
 				$mobile_css->set_selector( $selector . ' .gb-icon svg' );
-				$mobile_css->add_property( 'width', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
-				$mobile_css->add_property( 'height', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+
+				if ( $blockVersion < 3 ) {
+					$mobile_css->add_property( 'width', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+					$mobile_css->add_property( 'height', $settings['iconSizeMobile'], $settings['iconSizeUnit'] );
+				}
+
+				$mobile_css->add_property( 'width', generateblocks_get_array_attribute_value( 'widthMobile', $settings['iconStyles'] ) );
+				$mobile_css->add_property( 'height', generateblocks_get_array_attribute_value( 'heightMobile', $settings['iconStyles'] ) );
 			}
 		} else {
 			// The below CSS is for users using the old headline wrapper.
