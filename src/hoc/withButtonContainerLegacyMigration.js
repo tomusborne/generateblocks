@@ -1,7 +1,38 @@
 import { useEffect } from '@wordpress/element';
+import { getBlockType } from '@wordpress/blocks';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
-import MigrateDimensions from './migrations/migrateDimensions';
+import { migrationPipe, updateBlockVersion, setIsDynamic } from './migrations/utils';
+import migrateDimensions from './migrations/migrateDimensions';
+import { isEmpty } from 'lodash';
+
+/**
+ * Migrate our stack and fillHorizontal space attributes to their devices.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @return {Object} Updated attributes.
+ * @since 1.4.0
+ */
+export function migrateStackFill( { blockVersionLessThan } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			if ( existingAttrs.stack || existingAttrs.fillHorizontalSpace ) {
+				if ( existingAttrs.stack ) {
+					attrs.stackTablet = true;
+					attrs.stackMobile = true;
+				}
+
+				if ( existingAttrs.fillHorizontalSpace ) {
+					attrs.fillHorizontalSpaceTablet = true;
+					attrs.fillHorizontalSpaceMobile = true;
+				}
+			}
+		}
+
+		return attrs;
+	};
+}
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -10,62 +41,32 @@ export default ( WrappedComponent ) => {
 			setAttributes,
 		} = props;
 
-		const {
-			blockVersion,
-		} = attributes;
-
 		useEffect( () => {
-			// This block used to be static. Set it to dynamic by default from now on.
-			if ( 'undefined' === typeof attributes.isDynamic || ! attributes.isDynamic ) {
-				setAttributes( { isDynamic: true } );
-			}
+			const defaults = getBlockType( 'generateblocks/button-container' )?.attributes;
 
-			// Set our responsive stack and fill options if set on desktop.
-			// @since 1.4.0.
-			if ( 'undefined' === typeof attributes.blockVersion || attributes.blockVersion < 2 ) {
-				if ( attributes.stack || attributes.fillHorizontalSpace ) {
-					if ( attributes.stack ) {
-						setAttributes( {
-							stackTablet: true,
-							stackMobile: true,
-						} );
-					}
+			const newAttributes = migrationPipe(
+				attributes,
+				[
+					setIsDynamic,
+					migrateStackFill( {
+						blockVersionLessThan: 2,
+					} ),
+					migrateDimensions( {
+						blockVersionLessThan: 3,
+						defaults,
+						attributesToMigrate: [
+							'marginTop',
+							'marginRight',
+							'marginBottom',
+							'marginLeft',
+						],
+					} ),
+					updateBlockVersion( 3 ),
+				]
+			);
 
-					if ( attributes.fillHorizontalSpace ) {
-						setAttributes( {
-							fillHorizontalSpaceTablet: true,
-							fillHorizontalSpaceMobile: true,
-						} );
-					}
-				}
-			}
-		}, [] );
-
-		// Merge dimensions with their units.
-		// @since 1.8.0.
-		useEffect( () => {
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				const newDimensions = MigrateDimensions( {
-					attributesToMigrate: [
-						'marginTop',
-						'marginRight',
-						'marginBottom',
-						'marginLeft',
-					],
-					attributes,
-				} );
-
-				if ( Object.keys( newDimensions ).length ) {
-					setAttributes( newDimensions );
-				}
-			}
-		}, [] );
-
-		// Update block version flag if it's out of date.
-		useEffect( () => {
-			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( blockVersion, 3 ) ) {
-				setAttributes( { blockVersion: 3 } );
+			if ( ! isEmpty( newAttributes ) ) {
+				setAttributes( newAttributes );
 			}
 		}, [] );
 

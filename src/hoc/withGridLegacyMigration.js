@@ -2,6 +2,49 @@ import { useEffect } from '@wordpress/element';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import hasNumericValue from '../utils/has-numeric-value';
+import { migrationPipe, updateBlockVersion, setIsDynamic } from './migrations/utils';
+import { isEmpty } from 'lodash';
+
+/**
+ * Set our old defaults as static values.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @param {Object} Props.oldDefaults          Old defaults that were changed and need to be added to attributes.
+ * @return {Object} Updated attributes.
+ * @since 1.4.0
+ */
+export function migrateOldGridDefaults( { blockVersionLessThan, oldDefaults } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			const hasGlobalStyle = existingAttrs.useGlobalStyle && existingAttrs.globalStyleId;
+
+			if ( ! hasGlobalStyle && ! hasNumericValue( existingAttrs.horizontalGap ) ) {
+				attrs.horizontalGap = oldDefaults.horizontalGap;
+			}
+		}
+
+		return attrs;
+	};
+}
+
+/**
+ * Prevent layouts from switching to row-gap.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @return {Object} Updated attributes.
+ * @since 1.7.0
+ */
+export function migrateLegacyRowGap( { blockVersionLessThan } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			attrs.useLegacyRowGap = true;
+		}
+
+		return attrs;
+	};
+}
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -11,38 +54,23 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			if ( ! attributes.isDynamic ) {
-				setAttributes( { isDynamic: true } );
-			}
+			const newAttributes = migrationPipe(
+				attributes,
+				[
+					setIsDynamic,
+					migrateOldGridDefaults( {
+						blockVersionLessThan: 2,
+						oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.gridContainer,
+					} ),
+					migrateLegacyRowGap( {
+						blockVersionLessThan: 3,
+					} ),
+					updateBlockVersion( 3 ),
+				]
+			);
 
-			// Prevent layouts from switching to row-gap.
-			// @since 1.7.0
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				setAttributes( {
-					useLegacyRowGap: true,
-				} );
-			}
-
-			// Set our old defaults as static values.
-			// @since 1.4.0.
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
-				const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.gridContainer;
-
-				const newAttrs = {};
-
-				const hasGlobalStyle = attributes.useGlobalStyle && attributes.globalStyleId;
-
-				if ( ! hasGlobalStyle && ! hasNumericValue( attributes.horizontalGap ) ) {
-					newAttrs.horizontalGap = legacyDefaults.horizontalGap;
-				}
-
-				if ( Object.keys( newAttrs ).length > 0 ) {
-					setAttributes( newAttrs );
-				}
-			}
-
-			if ( isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				setAttributes( { blockVersion: 3 } );
+			if ( ! isEmpty( newAttributes ) ) {
+				setAttributes( newAttributes );
 			}
 		}, [] );
 

@@ -1,7 +1,17 @@
 import isNumeric from '../../utils/is-numeric';
 import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../../utils/check-block-version';
+import { addToAttrsObject } from './utils';
 
+/**
+ * Build an object with new migrated attributes and old attributes reverted to defaults.
+ *
+ * @param {Object} Props            Function props.
+ * @param {Object} Props.attributes The existing block attributes.
+ * @param {Object} Props.defaults   The block defaults.
+ * @return {Object} New attributes.
+ * @since 1.8.0
+ */
 function buildPaddingAttributes( { attributes, defaults } ) {
 	const newAttributes = {};
 	const oldAttributes = {};
@@ -46,30 +56,30 @@ function buildPaddingAttributes( { attributes, defaults } ) {
 	return { newAttributes, oldAttributes };
 }
 
-// Migrate old icon padding.
-// @since 1.8.0.
-export default function migrateIconPadding( { blockVersion, defaults } ) {
+/**
+ * Build an iconStyles padding object to be used by setAttributes with our new attributes.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @param {Object} Props.defaults             The block defaults.
+ * @return {Object} New attributes.
+ * @since 1.8.0
+ */
+export default function migrateIconPadding( { blockVersionLessThan, defaults } ) {
 	return function( attrs, existingAttrs ) {
-		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
-			const newSizing = buildPaddingAttributes( {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			const newPadding = buildPaddingAttributes( {
 				attributes: existingAttrs,
 				defaults,
 			} );
 
-			if (
-				Object.keys( newSizing.newAttributes ).length &&
-				Object.keys( newSizing.oldAttributes ).length
-			) {
-				attrs = {
-					...attrs,
-					iconStyles: {
-						...existingAttrs.iconStyles,
-						...attrs.iconStyles,
-						...newSizing.newAttributes,
-					},
-					...newSizing.oldAttributes,
-				};
-			}
+			attrs = addToAttrsObject( {
+				attrs,
+				attributeName: 'iconStyles',
+				existingAttrs: existingAttrs.iconStyles,
+				newAttrs: newPadding.newAttributes,
+				oldAttrs: newPadding.oldAttributes,
+			} );
 		}
 
 		return attrs;

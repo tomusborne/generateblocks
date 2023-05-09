@@ -1,5 +1,5 @@
-import { migrationPipe } from '../../hoc/migrations/utils';
-import migrateIconSizing from '../../hoc/migrations/migratingIconSizing';
+import { migrationPipe } from '../../../hoc/migrations/utils';
+import migrateIconSizing from '../../../hoc/migrations/migratingIconSizing';
 
 describe( 'Migrating icon sizing', () => {
 	const defaults = {
@@ -30,7 +30,7 @@ describe( 'Migrating icon sizing', () => {
 			attributes,
 			[
 				migrateIconSizing( {
-					blockVersion: 4,
+					blockVersionLessThan: 4,
 					defaults,
 				} ),
 			]

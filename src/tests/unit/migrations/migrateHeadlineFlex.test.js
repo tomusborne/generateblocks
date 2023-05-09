@@ -1,5 +1,5 @@
-import { migrationPipe } from '../../hoc/migrations/utils';
-import { migrateFlex } from '../../hoc/withHeadlineLegacyMigration';
+import { migrationPipe } from '../../../hoc/migrations/utils';
+import { migrateFlex } from '../../../hoc/withHeadlineLegacyMigration';
 
 describe( 'Headline flexbox migration', () => {
 	it( 'should do nothing', () => {
