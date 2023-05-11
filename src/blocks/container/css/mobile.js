@@ -4,6 +4,7 @@ import valueWithUnit from '../../../utils/value-with-unit';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -29,7 +30,6 @@ export default class MobileCSS extends Component {
 			paddingRightMobile,
 			paddingBottomMobile,
 			paddingLeftMobile,
-			paddingUnit,
 			borderSizeTopMobile,
 			borderSizeRightMobile,
 			borderSizeBottomMobile,
@@ -38,12 +38,8 @@ export default class MobileCSS extends Component {
 			borderRadiusBottomRightMobile,
 			borderRadiusBottomLeftMobile,
 			borderRadiusTopLeftMobile,
-			borderRadiusUnit,
 			verticalAlignmentMobile,
 			removeVerticalGapMobile,
-			alignmentMobile,
-			fontSizeMobile,
-			fontSizeUnit,
 			orderMobile,
 			shapeDividers,
 			bgImage,
@@ -55,14 +51,13 @@ export default class MobileCSS extends Component {
 
 		let cssObj = [];
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
-			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
-			'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
-			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
-			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
-			'text-align': alignmentMobile,
-			'font-size': valueWithUnit( fontSizeMobile, fontSizeUnit ),
+			'border-top-left-radius': borderRadiusTopLeftMobile,
+			'border-top-right-radius': borderRadiusTopRightMobile,
+			'border-bottom-right-radius': borderRadiusBottomRightMobile,
+			'border-bottom-left-radius': borderRadiusBottomLeftMobile,
 		} ];
 
+		TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.typography, 'Mobile' );
 		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
@@ -70,29 +65,29 @@ export default class MobileCSS extends Component {
 
 		if ( ! useInnerContainer ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
-				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
-				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
-				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
+				'padding-top': paddingTopMobile,
+				'padding-right': paddingRightMobile,
+				'padding-bottom': paddingBottomMobile,
+				'padding-left': paddingLeftMobile,
 			} );
 		}
 
 		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
 			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'border-top-width': valueWithUnit( borderSizeTopMobile, 'px' ),
-				'border-right-width': valueWithUnit( borderSizeRightMobile, 'px' ),
-				'border-bottom-width': valueWithUnit( borderSizeBottomMobile, 'px' ),
-				'border-left-width': valueWithUnit( borderSizeLeftMobile, 'px' ),
+				'border-top-width': borderSizeTopMobile,
+				'border-right-width': borderSizeRightMobile,
+				'border-bottom-width': borderSizeBottomMobile,
+				'border-left-width': borderSizeLeftMobile,
 				'border-style': 'solid',
 			} );
 		}
 
 		if ( useInnerContainer ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-				'padding-top': valueWithUnit( paddingTopMobile, paddingUnit ),
-				'padding-right': valueWithUnit( paddingRightMobile, paddingUnit ),
-				'padding-bottom': valueWithUnit( paddingBottomMobile, paddingUnit ),
-				'padding-left': valueWithUnit( paddingLeftMobile, paddingUnit ),
+				'padding-top': paddingTopMobile,
+				'padding-right': paddingRightMobile,
+				'padding-bottom': paddingBottomMobile,
+				'padding-left': paddingLeftMobile,
 				'width': sizingValue( 'minHeightMobile', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
 
@@ -137,10 +132,10 @@ export default class MobileCSS extends Component {
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
-				'border-top-left-radius': valueWithUnit( borderRadiusTopLeftMobile, borderRadiusUnit ),
-				'border-top-right-radius': valueWithUnit( borderRadiusTopRightMobile, borderRadiusUnit ),
-				'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightMobile, borderRadiusUnit ),
-				'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftMobile, borderRadiusUnit ),
+				'border-top-left-radius': borderRadiusTopLeftMobile,
+				'border-top-right-radius': borderRadiusTopRightMobile,
+				'border-bottom-right-radius': borderRadiusBottomRightMobile,
+				'border-bottom-left-radius': borderRadiusBottomLeftMobile,
 			} ];
 		}
 
