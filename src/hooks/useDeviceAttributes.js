@@ -1,5 +1,66 @@
 import { useDeviceType } from './index';
 import { useMemo } from '@wordpress/element';
+import isObject from 'lodash/isObject';
+import merge from 'lodash/merge';
+
+/**
+ * List of attributes that are device related.
+ *
+ * @type {string[]}
+ */
+const attributesWithDevice = [
+	'flexGrow',
+	'flexShrink',
+	'flexBasis',
+	'order',
+	'iconLocation',
+	'display',
+	'flexDirection',
+	'flexWrap',
+	'alignItems',
+	'justifyContent',
+	'columnGap',
+	'rowGap',
+	'position',
+	'overflowX',
+	'overflowY',
+	'zindex',
+	'marginTop',
+	'marginRight',
+	'marginBottom',
+	'marginLeft',
+	'paddingTop',
+	'paddingRight',
+	'paddingBottom',
+	'paddingLeft',
+	'borderSizeTop',
+	'borderSizeRight',
+	'borderSizeBottom',
+	'borderSizeLeft',
+	'borderRadiusTopRight',
+	'borderRadiusBottomRight',
+	'borderRadiusBottomLeft',
+	'borderRadiusTopLeft',
+	'inlineWidth',
+	'stack',
+	'fillHorizontalSpace',
+	'alignment',
+	'fontSize',
+	'lineHeight',
+	'letterSpacing',
+	'width',
+	'height',
+	'minHeight',
+	'maxHeight',
+	'minWidth',
+	'maxWidth',
+	'verticalAlignment',
+	'removeVerticalGap',
+	'horizontalGap',
+	'verticalGap',
+	'verticalAlignment',
+	'horizontalAlignment',
+];
 
 /**
  * Given an object of attributes will split by device.
@@ -16,8 +77,21 @@ export function splitAttributes( attributes ) {
 				deviceKeys.tablet[ key.replace( 'Tablet', '' ) ] = value;
 			} else if ( key.includes( 'Mobile' ) ) {
 				deviceKeys.mobile[ key.replace( 'Mobile', '' ) ] = value;
+			}
+
+			if ( isObject( value ) ) {
+				const valueDeviceKeys = splitAttributes( value );
+
+				deviceKeys.desktop[ key ] = valueDeviceKeys.desktop;
+				deviceKeys.tablet[ key ] = valueDeviceKeys.tablet;
+				deviceKeys.mobile[ key ] = valueDeviceKeys.mobile;
 			} else {
 				deviceKeys.desktop[ key ] = value;
+
+				if ( ! attributesWithDevice.includes( key ) ) {
+					deviceKeys.tablet[ key ] = value;
+					deviceKeys.mobile[ key ] = value;
+				}
 			}
 
 			return deviceKeys;
@@ -34,7 +108,17 @@ export function splitAttributes( attributes ) {
  */
 export function addDeviceToAttributes( attrs, device = 'Tablet' ) {
 	return Object.entries( attrs ).reduce( ( result, [ key, value ] ) => {
-		result[ key + device ] = value;
+		if ( attributesWithDevice.includes( key ) ) {
+			result[ key + device ] = value;
+
+			return result;
+		}
+
+		if ( isObject( value ) ) {
+			result[ key ] = addDeviceToAttributes( value, device );
+		} else {
+			result[ key ] = value;
+		}
 
 		return result;
 	}, {} );
@@ -56,12 +140,12 @@ export default function useDeviceAttributes( attributes, setAttributes ) {
 	), [ JSON.stringify( attributes ) ] );
 
 	const tabletSetAttributes = useMemo( () => ( attrs = {} ) => {
-		setAttributes( addDeviceToAttributes( attrs, 'Tablet' ) );
-	}, [ setAttributes ] );
+		setAttributes( merge( attributes, addDeviceToAttributes( attrs, 'Tablet' ) ) );
+	}, [ setAttributes, JSON.stringify( attributes ) ] );
 
 	const mobileSetAttributes = useMemo( () => ( attrs = {} ) => {
-		setAttributes( addDeviceToAttributes( attrs, 'Mobile' ) );
-	}, [ setAttributes ] );
+		setAttributes( merge( attributes, addDeviceToAttributes( attrs, 'Mobile' ) ) );
+	}, [ setAttributes, JSON.stringify( attributes ) ] );
 
 	const deviceSetAttributes = {
 		desktop: setAttributes,
