@@ -58,9 +58,13 @@ registerBlockType( 'generateblocks/button', {
 	__experimentalLabel: ( attrs, { context } ) => {
 		if (
 			context === 'list-view' &&
-			attrs.text &&
+			( attrs.text || attrs.removeText ) &&
 			! attrs.useDynamicData
 		) {
+			if ( attrs.removeText ) {
+				return __( 'Icon', 'generateblocks' );
+			}
+
 			return attrs.text;
 		}
 
