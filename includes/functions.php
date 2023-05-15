@@ -1486,6 +1486,13 @@ function generateblocks_add_border_css( $css, $settings, $device = '' ) {
 	}
 }
 
+/**
+ * Add border color CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $state The state we're adding to.
+ */
 function generateblocks_add_border_color_css( $css, $settings, $state = '' ) {
 	$colors = [
 		'border-top-color' => 'borderTopColor',
@@ -1500,24 +1507,28 @@ function generateblocks_add_border_color_css( $css, $settings, $state = '' ) {
 		$value = generateblocks_get_array_attribute_value( $value_name . $state, $settings['borders'] );
 
 		if ( $value ) {
-			$color_values[ $property ] = $value;
+			$color_values[ $state ][ $property ] = $value;
 		}
 	}
 
-	$number_of_colors = count( (array) $color_values );
-	$all_equal = 1 === count( array_unique( $color_values ) );
+	if ( isset( $color_values[ $state ] ) ) {
+		$number_of_colors = count( (array) $color_values[ $state ] );
+		$all_equal = 4 === $number_of_colors && 1 === count( array_unique( $color_values[ $state ] ) );
 
-	if ( $all_equal ) {
-		$css->add_property(
-			'border-color',
-			$color_values['border-top-color']
-		);
-	} else {
-		foreach ( $color_values as $property => $value ) {
+		if ( $all_equal ) {
+			$first_color = array_values( $color_values[ $state ] )[0];
+
 			$css->add_property(
-				$property,
-				$value
+				'border-color',
+				$first_color
 			);
+		} else {
+			foreach ( $color_values[ $state ] as $property => $value ) {
+				$css->add_property(
+					$property,
+					$value
+				);
+			}
 		}
 	}
 }
