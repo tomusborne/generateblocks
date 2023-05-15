@@ -14,6 +14,7 @@ import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-
 import isFlexItem from '../../../utils/is-flex-item';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -32,20 +33,6 @@ export default function MainCSS( props ) {
 		outerContainer,
 		innerContainer,
 		containerWidth,
-		paddingTop,
-		paddingRight,
-		paddingBottom,
-		paddingLeft,
-		paddingUnit,
-		borderSizeTop,
-		borderSizeRight,
-		borderSizeBottom,
-		borderSizeLeft,
-		borderRadiusTopRight,
-		borderRadiusBottomRight,
-		borderRadiusBottomLeft,
-		borderRadiusTopLeft,
-		borderRadiusUnit,
 		borderColor,
 		borderColorOpacity,
 		backgroundColor,
@@ -75,6 +62,20 @@ export default function MainCSS( props ) {
 		displayMobile,
 	} = attributes;
 
+	const {
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+	} = attributes.spacing;
+
+	const {
+		borderTopLeftRadius,
+		borderTopRightRadius,
+		borderBottomRightRadius,
+		borderBottomLeftRadius,
+	} = attributes.borders;
+
 	let containerWidthPreview = containerWidth;
 
 	if ( ! containerWidthPreview ) {
@@ -95,22 +96,16 @@ export default function MainCSS( props ) {
 	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
 		'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 		'color': textColor, // eslint-disable-line quote-props
-		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 		'font-family': fontFamily + fontFamilyFallbackValue,
 		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 	} ];
 
 	TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.typography, fontFamilyFallback } );
-	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
+	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.spacing, useInnerContainer } );
+	BorderCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.borders );
 	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
 	FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
-
-	if ( ! useInnerContainer ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
-		} );
-	}
 
 	if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
 		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
@@ -169,13 +164,6 @@ export default function MainCSS( props ) {
 		'color': textColor, // eslint-disable-line quote-props
 	} ];
 
-	if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
-			'border-style': 'solid',
-		} );
-	}
-
 	if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 		cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 			'content': '""', // eslint-disable-line quote-props
@@ -190,7 +178,7 @@ export default function MainCSS( props ) {
 			'right': '0', // eslint-disable-line quote-props
 			'bottom': '0', // eslint-disable-line quote-props
 			'left': '0', // eslint-disable-line quote-props
-			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
+			'border-radius': shorthandCSS( borderTopLeftRadius, borderTopRightRadius, borderBottomRightRadius, borderBottomLeftRadius ),
 			'pointer-events': 'none',
 		} ];
 
@@ -233,7 +221,7 @@ export default function MainCSS( props ) {
 		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
+			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft ),
 			'width': sizingValue( 'minHeight', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 

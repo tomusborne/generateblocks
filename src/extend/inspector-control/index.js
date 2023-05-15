@@ -4,6 +4,7 @@ import ControlsContext from '../../block-context';
 import ResponsiveTabs from './controls/responsive-tabs';
 import TypographyControls from './controls/typography';
 import SpacingControls from './controls/spacing';
+import BorderControls from './controls/borders';
 import ColorsControls from './controls/colors';
 import IconControls from './controls/icon';
 import SettingsPanel from './controls/settings-panel';
@@ -22,6 +23,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			layout,
 			typography,
 			spacing,
+			borders,
 			colors,
 			backgroundPanel,
 			shapesPanel,
@@ -50,6 +52,13 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 					computedStyles={ computedStyles }
+				/>
+			}
+
+			{ borders.enabled &&
+				<BorderControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
 				/>
 			}
 

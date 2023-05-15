@@ -335,4 +335,76 @@ export default function getIcon( icon ) {
 			</svg>
 		);
 	}
+
+	if ( 'border-none' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+			>
+				<path d="M9.414 8l3.293-3.293-1.414-1.414L8 6.586 4.707 3.293 3.293 4.707 6.586 8l-3.293 3.293 1.414 1.414L8 9.414l3.293 3.293 1.414-1.414L9.414 8z"></path>
+			</svg>
+		);
+	}
+
+	if ( 'border-solid' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+			>
+				<path d="M1 7h14v2H1z"></path>
+			</svg>
+		);
+	}
+
+	if ( 'border-dashed' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+			>
+				<path d="M0 7h4v2H0zm6 0h4v2H6zm6 0h4v2h-4z"></path>
+			</svg>
+		);
+	}
+
+	if ( 'border-dotted' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+			>
+				<path d="M1 7h2v2H1zm4 0h2v2H5zm4 0h2v2H9zm4 0h2v2h-2z"></path>
+			</svg>
+		);
+	}
+
+	if ( 'border-default' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 256 256"
+				style={ { opacity: 0.1 } }
+			>
+				<rect width="256" height="256" fill="none" />
+				<rect x="32" y="32" width="192" height="192" rx="16" />
+			</svg>
+		);
+	}
 }

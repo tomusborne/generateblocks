@@ -4,7 +4,8 @@ import hasNumericValue from '../utils/has-numeric-value';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import { migrationPipe, updateBlockVersion, setIsDynamic } from './migrations/utils';
-import migrateDimensions from './migrations/migrateDimensions';
+import migrateSpacing from './migrations/migrateSpacing';
+import migrateBorders from './migrations/migrateBorders';
 import migrateTypography from './migrations/migrateTypography';
 import migrateSizing from './migrations/migrateSizing';
 import { isEmpty } from 'lodash';
@@ -200,7 +201,7 @@ export default ( WrappedComponent ) => {
 					migrateSizing( {
 						blockVersionLessThan: 3,
 					} ),
-					migrateDimensions( {
+					migrateSpacing( {
 						blockVersionLessThan: 4,
 						defaults,
 						attributesToMigrate: [
@@ -212,6 +213,12 @@ export default ( WrappedComponent ) => {
 							'marginRight',
 							'marginBottom',
 							'marginLeft',
+						],
+					} ),
+					migrateBorders( {
+						blockVersionLessThan: 4,
+						defaults,
+						attributesToMigrate: [
 							'borderSizeTop',
 							'borderSizeRight',
 							'borderSizeBottom',

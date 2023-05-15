@@ -5,6 +5,7 @@ import LayoutCSS from '../../../extend/inspector-control/controls/layout/compone
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 import {
 	Component,
@@ -26,18 +27,6 @@ export default class MobileCSS extends Component {
 			flexGrowMobile,
 			flexShrinkMobile,
 			flexBasisMobile,
-			paddingTopMobile,
-			paddingRightMobile,
-			paddingBottomMobile,
-			paddingLeftMobile,
-			borderSizeTopMobile,
-			borderSizeRightMobile,
-			borderSizeBottomMobile,
-			borderSizeLeftMobile,
-			borderRadiusTopRightMobile,
-			borderRadiusBottomRightMobile,
-			borderRadiusBottomLeftMobile,
-			borderRadiusTopLeftMobile,
 			verticalAlignmentMobile,
 			removeVerticalGapMobile,
 			orderMobile,
@@ -49,38 +38,28 @@ export default class MobileCSS extends Component {
 			sizing,
 		} = attributes;
 
+		const {
+			paddingTopMobile,
+			paddingRightMobile,
+			paddingBottomMobile,
+			paddingLeftMobile,
+		} = attributes.spacing;
+
+		const {
+			borderTopLeftRadiusMobile,
+			borderTopRightRadiusMobile,
+			borderBottomRightRadiusMobile,
+			borderBottomLeftRadiusMobile,
+		} = attributes.borders;
+
 		let cssObj = [];
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
-			'border-top-left-radius': borderRadiusTopLeftMobile,
-			'border-top-right-radius': borderRadiusTopRightMobile,
-			'border-bottom-right-radius': borderRadiusBottomRightMobile,
-			'border-bottom-left-radius': borderRadiusBottomLeftMobile,
-		} ];
 
 		TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.typography, 'Mobile' );
-		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.spacing, useInnerContainer }, 'Mobile' );
+		BorderCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.borders, 'Mobile' );
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
-
-		if ( ! useInnerContainer ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'padding-top': paddingTopMobile,
-				'padding-right': paddingRightMobile,
-				'padding-bottom': paddingBottomMobile,
-				'padding-left': paddingLeftMobile,
-			} );
-		}
-
-		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'border-top-width': borderSizeTopMobile,
-				'border-right-width': borderSizeRightMobile,
-				'border-bottom-width': borderSizeBottomMobile,
-				'border-left-width': borderSizeLeftMobile,
-				'border-style': 'solid',
-			} );
-		}
 
 		if ( useInnerContainer ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
@@ -132,10 +111,10 @@ export default class MobileCSS extends Component {
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
-				'border-top-left-radius': borderRadiusTopLeftMobile,
-				'border-top-right-radius': borderRadiusTopRightMobile,
-				'border-bottom-right-radius': borderRadiusBottomRightMobile,
-				'border-bottom-left-radius': borderRadiusBottomLeftMobile,
+				'border-top-left-radius': borderTopLeftRadiusMobile,
+				'border-top-right-radius': borderTopRightRadiusMobile,
+				'border-bottom-right-radius': borderBottomRightRadiusMobile,
+				'border-bottom-left-radius': borderBottomLeftRadiusMobile,
 			} ];
 		}
 

@@ -15,6 +15,7 @@ import {
 	applyFilters,
 } from '@wordpress/hooks';
 import sizingValue from '../../../utils/sizingValue';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default class TabletCSS extends Component {
 	render() {
@@ -26,18 +27,6 @@ export default class TabletCSS extends Component {
 			flexGrowTablet,
 			flexShrinkTablet,
 			flexBasisTablet,
-			paddingTopTablet,
-			paddingRightTablet,
-			paddingBottomTablet,
-			paddingLeftTablet,
-			borderSizeTopTablet,
-			borderSizeRightTablet,
-			borderSizeBottomTablet,
-			borderSizeLeftTablet,
-			borderRadiusTopRightTablet,
-			borderRadiusBottomRightTablet,
-			borderRadiusBottomLeftTablet,
-			borderRadiusTopLeftTablet,
 			verticalAlignmentTablet,
 			orderTablet,
 			shapeDividers,
@@ -48,38 +37,28 @@ export default class TabletCSS extends Component {
 			sizing,
 		} = attributes;
 
+		const {
+			paddingTopTablet,
+			paddingRightTablet,
+			paddingBottomTablet,
+			paddingLeftTablet,
+		} = attributes.spacing;
+
+		const {
+			borderTopLeftRadiusTablet,
+			borderTopRightRadiusTablet,
+			borderBottomRightRadiusTablet,
+			borderBottomLeftRadiusTablet,
+		} = attributes.borders;
+
 		let cssObj = [];
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
-			'border-top-left-radius': borderRadiusTopLeftTablet,
-			'border-top-right-radius': borderRadiusTopRightTablet,
-			'border-bottom-right-radius': borderRadiusBottomRightTablet,
-			'border-bottom-left-radius': borderRadiusBottomLeftTablet,
-		} ];
 
 		TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.typography, 'Tablet' );
-		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.spacing, useInnerContainer }, 'Tablet' );
+		BorderCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.borders, 'Tablet' );
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
-
-		if ( ! useInnerContainer ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'padding-top': paddingTopTablet,
-				'padding-right': paddingRightTablet,
-				'padding-bottom': paddingBottomTablet,
-				'padding-left': paddingLeftTablet,
-			} );
-		}
-
-		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'border-top-width': borderSizeTopTablet,
-				'border-right-width': borderSizeRightTablet,
-				'border-bottom-width': borderSizeBottomTablet,
-				'border-left-width': borderSizeLeftTablet,
-				'border-style': 'solid',
-			} );
-		}
 
 		if ( useInnerContainer ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
@@ -125,10 +104,10 @@ export default class TabletCSS extends Component {
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
-				'border-top-left-radius': borderRadiusTopLeftTablet,
-				'border-top-right-radius': borderRadiusTopRightTablet,
-				'border-bottom-right-radius': borderRadiusBottomRightTablet,
-				'border-bottom-left-radius': borderRadiusBottomLeftTablet,
+				'border-top-left-radius': borderTopLeftRadiusTablet,
+				'border-top-right-radius': borderTopRightRadiusTablet,
+				'border-bottom-right-radius': borderBottomRightRadiusTablet,
+				'border-bottom-left-radius': borderBottomLeftRadiusTablet,
 			} ];
 		}
 

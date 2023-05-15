@@ -49,7 +49,7 @@ export default function Dimensions( props ) {
 		setSync( ! sync );
 	};
 
-	const style = attributeNames.find( ( name ) => name.includes( 'borderRadius' ) )
+	const style = attributeNames.find( ( name ) => name.includes( 'Radius' ) )
 		? 'corners'
 		: 'circle';
 

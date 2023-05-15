@@ -1340,6 +1340,189 @@ function generateblocks_add_typography_css( $css, $settings, $device = '' ) {
 }
 
 /**
+ * Add our Spacing component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_spacing_css( $css, $settings, $device = '' ) {
+	$padding_values = array_map(
+		function( $attribute ) use ( $device, $settings ) {
+			return generateblocks_get_array_attribute_value( $attribute . $device, $settings['spacing'] );
+		},
+		[
+			'paddingTop',
+			'paddingRight',
+			'paddingBottom',
+			'paddingLeft',
+		]
+	);
+
+	$css->add_property(
+		'padding',
+		$padding_values
+	);
+
+	$margin_values = array_map(
+		function( $attribute ) use ( $device, $settings ) {
+			return generateblocks_get_array_attribute_value( $attribute . $device, $settings['spacing'] );
+		},
+		[
+			'marginTop',
+			'marginRight',
+			'marginBottom',
+			'marginLeft',
+		]
+	);
+
+	$css->add_property(
+		'margin',
+		$margin_values
+	);
+}
+
+/**
+ * Add our Borders component CSS.
+ *
+ * @param object $css The CSS object to add to.
+ * @param array  $settings Block settings.
+ * @param string $device The device we're adding to.
+ */
+function generateblocks_add_border_css( $css, $settings, $device = '' ) {
+	$border_radius_values = array_map(
+		function( $attribute ) use ( $device, $settings ) {
+			return generateblocks_get_array_attribute_value( $attribute . $device, $settings['borders'] );
+		},
+		[
+			'borderTopLeftRadius',
+			'borderTopRightRadius',
+			'borderBottomRightRadius',
+			'borderBottomLeftRadius',
+		]
+	);
+
+	$css->add_property(
+		'border-radius',
+		$border_radius_values
+	);
+
+	$borders = [
+		'border-top' => [
+			'border-top-width' => 'borderTopWidth',
+			'border-top-style' => 'borderTopStyle',
+			'border-top-color' => 'borderTopColor',
+		],
+		'border-right' => [
+			'border-right-width' => 'borderRightWidth',
+			'border-right-style' => 'borderRightStyle',
+			'border-right-color' => 'borderRightColor',
+		],
+		'border-bottom' => [
+			'border-bottom-width' => 'borderBottomWidth',
+			'border-bottom-style' => 'borderBottomStyle',
+			'border-bottom-color' => 'borderBottomColor',
+		],
+		'border-left' => [
+			'border-left-width' => 'borderLeftWidth',
+			'border-left-style' => 'borderLeftStyle',
+			'border-left-color' => 'borderLeftColor',
+		],
+	];
+
+	$border_values = [];
+
+	foreach ( $borders as $property => $values ) {
+		foreach ( $values as $property_name => $value_name ) {
+			$value = generateblocks_get_array_attribute_value( $value_name . $device, $settings['borders'] );
+
+			if ( $value || is_numeric( $value ) ) {
+				$border_values[ $property ][ $property_name ] = $value;
+			}
+		}
+	}
+
+	if ( ! empty( $border_values ) ) {
+		$number_of_borders = count( (array) $border_values );
+		$all_equal = false;
+
+		if ( 4 === $number_of_borders ) {
+			$all_values = array_map(
+				function( $value ) {
+					return trim( implode( ' ', array_values( $value ) ) );
+				},
+				$border_values
+			);
+
+			$all_equal = 1 === count( array_unique( $all_values ) );
+		}
+
+		if ( $all_equal ) {
+			$css->add_property(
+				'border',
+				trim( implode( ' ', array_values( $border_values['border-top'] ) ) )
+			);
+		} else {
+			foreach ( $border_values as $shorthand_property => $values ) {
+				$number_of_values = count( (array) $values );
+
+				if ( 3 === $number_of_values ) {
+					// Use the shorthand property with all three values.
+					$css->add_property(
+						$shorthand_property,
+						trim( implode( ' ', array_values( $values ) ) )
+					);
+				} else {
+					foreach ( $values as $property => $value ) {
+						// Use the longhand property as we don't have all three values.
+						$css->add_property(
+							$property,
+							$value
+						);
+					}
+				}
+			}
+		}
+	}
+}
+
+function generateblocks_add_border_color_css( $css, $settings, $state = '' ) {
+	$colors = [
+		'border-top-color' => 'borderTopColor',
+		'border-right-color' => 'borderRightColor',
+		'border-bottom-color' => 'borderBottomColor',
+		'border-left-color' => 'borderLeftColor',
+	];
+
+	$color_values = [];
+
+	foreach ( $colors as $property => $value_name ) {
+		$value = generateblocks_get_array_attribute_value( $value_name . $state, $settings['borders'] );
+
+		if ( $value ) {
+			$color_values[ $property ] = $value;
+		}
+	}
+
+	$number_of_colors = count( (array) $color_values );
+	$all_equal = 1 === count( array_unique( $color_values ) );
+
+	if ( $all_equal ) {
+		$css->add_property(
+			'border-color',
+			$color_values['border-top-color']
+		);
+	} else {
+		foreach ( $color_values as $property => $value ) {
+			$css->add_property(
+				$property,
+				$value
+			);
+		}
+	}
+}
+
+/**
  * Helper function to get an attribute value from an array.
  *
  * @param string $name The name of the attribute.
@@ -1508,6 +1691,7 @@ function generateblocks_with_global_defaults( $defaults ) {
 	}
 
 	// Spacing.
+	$defaults['spacing'] = [];
 	$defaults['marginUnit'] = 'px';
 	$defaults['paddingUnit'] = 'px';
 	$defaults['borderRadiusUnit'] = 'px';
@@ -1521,6 +1705,9 @@ function generateblocks_with_global_defaults( $defaults ) {
 
 	// Icons.
 	$defaults['iconStyles'] = [];
+
+	// Borders.
+	$defaults['borders'] = [];
 
 	return $defaults;
 }

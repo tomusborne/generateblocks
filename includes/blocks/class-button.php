@@ -144,6 +144,9 @@ class GenerateBlocks_Block_Button {
 			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $attributes );
 		}
 
+		// Map deprecated settings.
+		$settings = GenerateBlocks_Map_Deprecated_Attributes::map_attributes( $settings );
+
 		$selector = generateblocks_get_css_selector( 'button', $attributes );
 		$use_visited_selector = generateblocks_use_visited_selector( 'button', $attributes );
 		$using_global_style = isset( $settings['useGlobalStyle'] ) && $settings['useGlobalStyle'];
@@ -193,18 +196,14 @@ class GenerateBlocks_Block_Button {
 		generateblocks_add_sizing_css( $css, $settings );
 		generateblocks_add_flex_child_css( $css, $settings );
 		generateblocks_add_typography_css( $css, $settings );
+		generateblocks_add_spacing_css( $css, $settings );
+		generateblocks_add_border_css( $css, $settings );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
 
 		if ( $settings['gradient'] ) {
 			$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
 		}
-
-		$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
-		$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
-		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
-		$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
-		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 
 		if ( $blockVersion < 3 && ! $using_global_style ) {
 			$css->add_property( 'display', 'inline-flex' );
@@ -214,9 +213,9 @@ class GenerateBlocks_Block_Button {
 		}
 
 		$css->set_selector( $selector . ':hover, ' . $selector . ':active, ' . $selector . ':focus' );
+		generateblocks_add_border_color_css( $css, $settings, 'Hover' );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColorHover'], $settings['backgroundColorHoverOpacity'] ) );
 		$css->add_property( 'color', $settings['textColorHover'] );
-		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColorHover'], $settings['borderColorHoverOpacity'] ) );
 
 		$visited_selector = $use_visited_selector
 			? ', ' . $selector . '.gb-block-is-current:visited'
@@ -228,9 +227,9 @@ class GenerateBlocks_Block_Button {
 		);
 
 		$css->set_selector( $current_selector . $visited_selector );
+		generateblocks_add_border_color_css( $css, $settings, 'Current' );
 		$css->add_property( 'background-color', $settings['backgroundColorCurrent'] );
 		$css->add_property( 'color', $settings['textColorCurrent'] );
-		$css->add_property( 'border-color', $settings['borderColorCurrent'] );
 
 		if ( $settings['hasIcon'] ) {
 			$css->set_selector( $selector . ' .gb-icon' );
@@ -278,10 +277,8 @@ class GenerateBlocks_Block_Button {
 		generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_typography_css( $tablet_css, $settings, 'Tablet' );
-		$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
-		$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
-		$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
-		$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
+		generateblocks_add_spacing_css( $tablet_css, $settings, 'Tablet' );
+		generateblocks_add_border_css( $tablet_css, $settings, 'Tablet' );
 
 		if ( $settings['hasIcon'] ) {
 			$tablet_css->set_selector( $selector . ' .gb-icon' );
@@ -316,10 +313,8 @@ class GenerateBlocks_Block_Button {
 		generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_typography_css( $mobile_css, $settings, 'Mobile' );
-		$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
-		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
-		$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
-		$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
+		generateblocks_add_spacing_css( $mobile_css, $settings, 'Mobile' );
+		generateblocks_add_border_css( $mobile_css, $settings, 'Mobile' );
 
 		if ( $settings['hasIcon'] ) {
 			$mobile_css->set_selector( $selector . ' .gb-icon' );

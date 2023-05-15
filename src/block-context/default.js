@@ -52,10 +52,20 @@ const defaultContext = {
 		},
 		spacing: {
 			enabled: false,
+			padding: false,
+			margin: false,
 			inlineWidth: false,
 			stackVertically: false,
 			fillHorizontalSpace: false,
-			dimensions: [],
+		},
+		borders: {
+			enabled: false,
+			borderColors: [],
+			borderTop: false,
+			borderRight: false,
+			borderBottom: false,
+			borderLeft: false,
+			borderRadius: false,
 		},
 		colors: {
 			enabled: false,

@@ -1,5 +1,4 @@
 import defaultContext from './default';
-import { __ } from '@wordpress/i18n';
 import { defaultsDeep } from 'lodash';
 
 const buttonContainerContext = defaultsDeep( {
@@ -8,14 +7,9 @@ const buttonContainerContext = defaultsDeep( {
 		responsiveTabs: true,
 		spacing: {
 			enabled: true,
+			margin: true,
 			stackVertically: true,
 			fillHorizontalSpace: true,
-			dimensions: [
-				{
-					label: __( 'Margin', 'generateblocks' ),
-					attributes: [ 'marginTop', 'marginRight', 'marginBottom', 'marginLeft' ],
-				},
-			],
 		},
 	},
 }, defaultContext );

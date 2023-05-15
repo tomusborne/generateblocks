@@ -1,6 +1,6 @@
 import buildCSS from '../../../utils/build-css';
-import shorthandCSS from '../../../utils/shorthand-css';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -17,19 +17,15 @@ export default class MainCSS extends Component {
 		const {
 			uniqueId,
 			alignment,
-			marginTop,
-			marginRight,
-			marginBottom,
-			marginLeft,
-			marginUnit,
 		} = attributes;
 
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId ] = [ {
-			'margin': shorthandCSS( marginTop, marginRight, marginBottom, marginLeft, marginUnit ), // eslint-disable-line quote-props
 			'justify-content': flexboxAlignment( alignment ),
 		} ];
+
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId, attributes.spacing );
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'justify-content': flexboxAlignment( alignment ),

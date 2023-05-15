@@ -5,6 +5,7 @@ import SizingCSS from '../../../extend/inspector-control/controls/sizing/compone
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 import {
 	Component,
@@ -21,18 +22,6 @@ export default class MobileCSS extends Component {
 		const {
 			uniqueId,
 			removeText,
-			paddingTopMobile,
-			paddingRightMobile,
-			paddingBottomMobile,
-			paddingLeftMobile,
-			borderSizeTopMobile,
-			borderSizeRightMobile,
-			borderSizeBottomMobile,
-			borderSizeLeftMobile,
-			borderRadiusTopRightMobile,
-			borderRadiusBottomRightMobile,
-			borderRadiusBottomLeftMobile,
-			borderRadiusTopLeftMobile,
 			hasButtonContainer,
 			iconStyles,
 		} = attributes;
@@ -43,32 +32,12 @@ export default class MobileCSS extends Component {
 
 		let cssObj = [];
 
-		cssObj[ selector ] = [ {
-			'padding-top': paddingTopMobile,
-			'padding-right': paddingRightMobile,
-			'padding-bottom': paddingBottomMobile,
-			'padding-left': paddingLeftMobile,
-			'border-top-left-radius': borderRadiusTopLeftMobile,
-			'border-top-right-radius': borderRadiusTopRightMobile,
-			'border-bottom-right-radius': borderRadiusBottomRightMobile,
-			'border-bottom-left-radius': borderRadiusBottomLeftMobile,
-		} ];
-
 		TypographyCSS( cssObj, selector, attributes.typography, 'Mobile' );
-		SpacingCSS( cssObj, selector, attributes, 'Mobile' );
+		SpacingCSS( cssObj, selector, attributes.spacing, 'Mobile' );
+		BorderCSS( cssObj, selector, attributes.borders, 'Mobile' );
 		LayoutCSS( cssObj, selector, attributes, 'Mobile' );
 		SizingCSS( cssObj, selector, attributes, 'Mobile' );
 		FlexChildCSS( cssObj, selector, attributes, 'Mobile' );
-
-		if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
-			cssObj[ selector ].push( {
-				'border-top-width': borderSizeTopMobile,
-				'border-right-width': borderSizeRightMobile,
-				'border-bottom-width': borderSizeBottomMobile,
-				'border-left-width': borderSizeLeftMobile,
-				'border-style': 'solid',
-			} );
-		}
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? iconStyles?.paddingTopMobile : null,

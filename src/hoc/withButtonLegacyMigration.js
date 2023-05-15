@@ -3,12 +3,13 @@ import { getBlockType } from '@wordpress/blocks';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import hasNumericValue from '../utils/has-numeric-value';
-import migrateDimensions from './migrations/migrateDimensions';
 import migrateTypography from './migrations/migrateTypography';
 import migrateIconSizing from './migrations/migratingIconSizing';
 import migrateIconPadding from './migrations/migrateIconPadding';
 import { migrationPipe, updateBlockVersion } from './migrations/utils';
 import { isEmpty } from 'lodash';
+import migrateSpacing from './migrations/migrateSpacing';
+import migrateBorders from './migrations/migrateBorders';
 
 function oldMigrations( attrs, existingAttrs ) {
 	if ( ! existingAttrs.hasIcon && !! existingAttrs.icon ) {
@@ -102,7 +103,7 @@ export default ( WrappedComponent ) => {
 					migrateButtonLayout( {
 						blockVersionLessThan: 3,
 					} ),
-					migrateDimensions( {
+					migrateSpacing( {
 						blockVersionLessThan: 4,
 						defaults,
 						attributesToMigrate: [
@@ -114,6 +115,12 @@ export default ( WrappedComponent ) => {
 							'marginRight',
 							'marginBottom',
 							'marginLeft',
+						],
+					} ),
+					migrateBorders( {
+						blockVersionLessThan: 4,
+						defaults,
+						attributesToMigrate: [
 							'borderSizeTop',
 							'borderSizeRight',
 							'borderSizeBottom',

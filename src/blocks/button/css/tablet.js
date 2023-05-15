@@ -4,6 +4,7 @@ import SizingCSS from '../../../extend/inspector-control/controls/sizing/compone
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 import {
 	Component,
@@ -20,18 +21,6 @@ export default class TabletCSS extends Component {
 		const {
 			uniqueId,
 			removeText,
-			paddingTopTablet,
-			paddingRightTablet,
-			paddingBottomTablet,
-			paddingLeftTablet,
-			borderSizeTopTablet,
-			borderSizeRightTablet,
-			borderSizeBottomTablet,
-			borderSizeLeftTablet,
-			borderRadiusTopRightTablet,
-			borderRadiusBottomRightTablet,
-			borderRadiusBottomLeftTablet,
-			borderRadiusTopLeftTablet,
 			hasButtonContainer,
 			iconStyles,
 		} = attributes;
@@ -42,32 +31,12 @@ export default class TabletCSS extends Component {
 
 		let cssObj = [];
 
-		cssObj[ selector ] = [ {
-			'padding-top': paddingTopTablet,
-			'padding-right': paddingRightTablet,
-			'padding-bottom': paddingBottomTablet,
-			'padding-left': paddingLeftTablet,
-			'border-top-left-radius': borderRadiusTopLeftTablet,
-			'border-top-right-radius': borderRadiusTopRightTablet,
-			'border-bottom-right-radius': borderRadiusBottomRightTablet,
-			'border-bottom-left-radius': borderRadiusBottomLeftTablet,
-		} ];
-
 		TypographyCSS( cssObj, selector, attributes.typography, 'Tablet' );
-		SpacingCSS( cssObj, selector, attributes, 'Tablet' );
+		SpacingCSS( cssObj, selector, attributes.spacing, 'Tablet' );
+		BorderCSS( cssObj, selector, attributes.borders, 'Tablet' );
 		LayoutCSS( cssObj, selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, selector, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, selector, attributes, 'Tablet' );
-
-		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ selector ].push( {
-				'border-top-width': borderSizeTopTablet,
-				'border-right-width': borderSizeRightTablet,
-				'border-bottom-width': borderSizeBottomTablet,
-				'border-left-width': borderSizeLeftTablet,
-				'border-style': 'solid',
-			} );
-		}
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? iconStyles?.paddingTopTablet : null,
