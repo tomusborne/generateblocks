@@ -99,16 +99,6 @@ const headlineContext = defaultsDeep( {
 					],
 				},
 				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
-						},
-					],
-				},
-				{
 					group: 'icon',
 					label: __( 'Icon', 'generateblocks' ),
 					items: [

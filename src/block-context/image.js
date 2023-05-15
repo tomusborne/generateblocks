@@ -30,21 +30,6 @@ const imageContext = defaultsDeep( {
 			borderLeft: true,
 			borderRadius: true,
 		},
-		colors: {
-			enabled: true,
-			elements: [
-				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
-						},
-					],
-				},
-			],
-		},
 	},
 }, defaultContext );
 

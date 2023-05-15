@@ -102,16 +102,6 @@ const containerContext = defaultsDeep( {
 						},
 					],
 				},
-				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
-						},
-					],
-				},
 			],
 		},
 		backgroundPanel: {

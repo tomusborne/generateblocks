@@ -102,21 +102,6 @@ const buttonContext = defaultsDeep( {
 						},
 					],
 				},
-				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
-						},
-						{
-							tooltip: __( 'Hover', 'generateblocks' ),
-							attribute: 'borderColorHover',
-							alpha: true,
-						},
-					],
-				},
 			],
 		},
 		backgroundPanel: {
