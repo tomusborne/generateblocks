@@ -55,13 +55,6 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				/>
 			}
 
-			{ borders.enabled &&
-				<BorderControls
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
-			}
-
 			{ sizingPanel.enabled &&
 				<SizingControls
 					attributes={ attributes }
@@ -86,6 +79,13 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 
 			{ backgroundPanel.enabled && 'Desktop' === device &&
 				<BackgroundPanel
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				/>
+			}
+
+			{ borders.enabled &&
+				<BorderControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
