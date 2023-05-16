@@ -110,6 +110,7 @@ export function addDeviceToAttributes( attrs, device = 'Tablet' ) {
 	return Object.entries( attrs ).reduce( ( result, [ key, value ] ) => {
 		if ( attributesWithDevice.includes( key ) ) {
 			result[ key + device ] = value;
+
 			return result;
 		}
 
