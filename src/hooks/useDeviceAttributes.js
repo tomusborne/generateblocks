@@ -1,7 +1,6 @@
 import { useDeviceType } from './index';
 import { useMemo } from '@wordpress/element';
 import isObject from 'lodash/isObject';
-import merge from 'lodash/merge';
 
 /**
  * List of attributes that are device related.
@@ -45,6 +44,7 @@ const attributesWithDevice = [
 	'stack',
 	'fillHorizontalSpace',
 	'alignment',
+	'textAlign',
 	'fontSize',
 	'lineHeight',
 	'letterSpacing',
@@ -134,27 +134,30 @@ export function addDeviceToAttributes( attrs, device = 'Tablet' ) {
  */
 export default function useDeviceAttributes( attributes, setAttributes ) {
 	const [ device ] = useDeviceType();
+	const deviceName = 'Desktop' !== device
+		? device
+		: '';
 
 	const deviceAttributes = useMemo( () => (
 		splitAttributes( attributes )
 	), [ JSON.stringify( attributes ) ] );
 
-	const tabletSetAttributes = useMemo( () => ( attrs = {} ) => {
-		setAttributes( merge( attributes, addDeviceToAttributes( attrs, 'Tablet' ) ) );
-	}, [ setAttributes, JSON.stringify( attributes ) ] );
+	const setDeviceAttributes = useMemo( () => ( attrs = {}, objName = '' ) => {
+		if ( objName ) {
+			setAttributes( {
+				[ objName ]: {
+					...attributes[ objName ],
+					...addDeviceToAttributes( attrs, deviceName ),
+				},
+			} );
 
-	const mobileSetAttributes = useMemo( () => ( attrs = {} ) => {
-		setAttributes( merge( attributes, addDeviceToAttributes( attrs, 'Mobile' ) ) );
-	}, [ setAttributes, JSON.stringify( attributes ) ] );
+			return;
+		}
 
-	const deviceSetAttributes = {
-		desktop: setAttributes,
-		tablet: tabletSetAttributes,
-		mobile: mobileSetAttributes,
-	};
+		setAttributes( addDeviceToAttributes( attrs, deviceName ) );
+	}, [ deviceName, setAttributes, JSON.stringify( attributes ) ] );
 
 	const activeDevice = device.toLowerCase();
 
-	return [ deviceAttributes[ activeDevice ], deviceSetAttributes[ activeDevice ] ];
+	return [ deviceAttributes[ activeDevice ], setDeviceAttributes ];
 }
-
