@@ -50,4 +50,11 @@ registerBlockType( 'generateblocks/grid', {
 		);
 	},
 	deprecated,
+	__experimentalLabel: ( attrs, { context } ) => {
+		if ( 'list-view' === context && attrs.blockLabel ) {
+			return attrs.blockLabel;
+		}
+
+		return __( 'Grid', 'generateblocks' );
+	},
 } );

@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function MaxHeight( { value, desktopValue, tabletValue, onChange, units } ) {
+export default function MaxHeight( { value, onChange, units, placeholder } ) {
 	return (
 		<>
 			<UnitControl
@@ -9,8 +9,7 @@ export default function MaxHeight( { value, desktopValue, tabletValue, onChange,
 				id="gblocks-max-height"
 				units={ units }
 				value={ value }
-				desktopValue={ desktopValue }
-				tabletValue={ tabletValue }
+				placeholder={ placeholder }
 				onChange={ onChange }
 			/>
 		</>
