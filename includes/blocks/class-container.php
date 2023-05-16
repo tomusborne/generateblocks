@@ -388,6 +388,27 @@ class GenerateBlocks_Block_Container {
 		}
 
 		/**
+		 * Container hover.
+		 *
+		 * Example: .gb-container-{ $uniqueId }:hover
+		 */
+		$css->set_selector( $selector . ':hover' );
+		generateblocks_add_border_color_css( $css, $settings, 'Hover' );
+
+		/**
+		 * Container current.
+		 *
+		 * Example: .gb-container-{ $uniqueId }.gb-block-is-current
+		 */
+		$current_selector = sprintf(
+			'%1$s.gb-block-is-current, %1$s.gb-block-is-current:hover, %1$s.gb-block-is-current:active, %1$s.gb-block-is-current:focus',
+			$selector
+		);
+
+		$css->set_selector( $current_selector );
+		generateblocks_add_border_color_css( $css, $settings, 'Current' );
+
+		/**
 		 * Container links.
 		 *
 		 * Example: .gb-container-{ $uniqueId } a

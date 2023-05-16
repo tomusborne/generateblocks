@@ -14,7 +14,7 @@ import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-
 import isFlexItem from '../../../utils/is-flex-item';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
-import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
+import BorderCSS, { BorderCSSColor } from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -33,8 +33,6 @@ export default function MainCSS( props ) {
 		outerContainer,
 		innerContainer,
 		containerWidth,
-		borderColor,
-		borderColorOpacity,
 		backgroundColor,
 		backgroundColorOpacity,
 		gradient,
@@ -91,24 +89,24 @@ export default function MainCSS( props ) {
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
+	const selector = '.editor-styles-wrapper .gb-container-' + uniqueId;
 
 	let cssObj = [];
-	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
+	cssObj[ selector ] = [ {
 		'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 		'color': textColor, // eslint-disable-line quote-props
 		'font-family': fontFamily + fontFamilyFallbackValue,
-		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 	} ];
 
-	TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.typography, fontFamilyFallback } );
-	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.spacing, useInnerContainer } );
-	BorderCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.borders );
-	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
-	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
-	FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
+	TypographyCSS( cssObj, selector, { ...attributes.typography, fontFamilyFallback } );
+	SpacingCSS( cssObj, selector, { ...attributes.spacing, useInnerContainer } );
+	BorderCSS( cssObj, selector, attributes.borders );
+	SizingCSS( cssObj, selector, attributes );
+	LayoutCSS( cssObj, selector, attributes );
+	FlexChildCSS( cssObj, selector, attributes );
 
 	if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+		cssObj[ selector ].push( {
 			'background-image': ! bgImageInline ? backgroundImageValue : null,
 			'background-size': bgOptions.size,
 			'background-position': bgOptions.position,
@@ -116,10 +114,15 @@ export default function MainCSS( props ) {
 			'background-attachment': bgOptions.attachment,
 		} );
 	} else if ( gradient && 'element' === gradientSelector ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+		cssObj[ selector ].push( {
 			'background-image': gradientValue,
 		} );
 	}
+
+	BorderCSSColor( cssObj, selector + ':hover', { ...attributes.borders }, 'Hover' );
+
+	const currentSelector = selector + '[data-container-is-current], ' + selector + '[data-container-is-current]:hover';
+	BorderCSSColor( cssObj, currentSelector, { ...attributes.borders }, 'Current' );
 
 	if ( useInnerContainer ) {
 		if (

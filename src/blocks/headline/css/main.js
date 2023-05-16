@@ -31,8 +31,6 @@ export default class MainCSS extends Component {
 			textColor,
 			linkColor,
 			linkColorHover,
-			borderColor,
-			borderColorOpacity,
 			highlightTextColor,
 			fontFamily,
 			fontFamilyFallback,
@@ -73,7 +71,6 @@ export default class MainCSS extends Component {
 		cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
-			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} );
 
 		cssObj[ '.editor-styles-wrapper ' + selector + ' a' ] = [ {

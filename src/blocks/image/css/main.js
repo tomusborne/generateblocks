@@ -9,7 +9,6 @@ export default function MainCSS( props ) {
 
 	const {
 		uniqueId,
-		borderColor,
 		objectFit,
 		width,
 		height,
@@ -42,7 +41,6 @@ export default function MainCSS( props ) {
 	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-block-image-' + uniqueId, attributes.spacing );
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
-		'border-color': borderColor,
 		width,
 		height,
 		'object-fit': objectFit,

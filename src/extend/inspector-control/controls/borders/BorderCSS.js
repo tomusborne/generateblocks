@@ -24,3 +24,16 @@ export default function BorderCSS( css, selector, attributes, device = '' ) {
 		addToCSS( css, selector, styles )
 	);
 }
+
+export function BorderCSSColor( css, selector, attributes, state = '' ) {
+	const styles = {
+		'border-top-color': attributes[ 'borderTopColor' + state ],
+		'border-right-color': attributes[ 'borderRightColor' + state ],
+		'border-bottom-color': attributes[ 'borderBottomColor' + state ],
+		'border-left-color': attributes[ 'borderLeftColor' + state ],
+	};
+
+	return (
+		addToCSS( css, selector, styles )
+	);
+}

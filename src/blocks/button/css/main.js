@@ -15,7 +15,7 @@ import {
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import { sprintf } from '@wordpress/i18n';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
-import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
+import BorderCSS, { BorderCSSColor } from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default class MainCSS extends Component {
 	render() {
@@ -100,20 +100,16 @@ export default class MainCSS extends Component {
 		cssObj[ currentSelector ] = [ {
 			'background-color': backgroundColorCurrent,
 			color: textColorCurrent,
-			'border-top-color': attributes.borders?.borderTopColorCurrent,
-			'border-right-color': attributes.borders?.borderRightColorCurrent,
-			'border-bottom-color': attributes.borders?.borderBottomColorCurrent,
-			'border-left-color': attributes.borders?.borderLeftColorCurrent,
 		} ];
+
+		BorderCSSColor( cssObj, currentSelector, { ...attributes.borders }, 'Current' );
 
 		cssObj[ selector + ':hover, ' + selector + ':focus, ' + selector + ':active' ] = [ {
 			'background-color': hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),
 			'color': textColorHover, // eslint-disable-line quote-props
-			'border-top-color': attributes.borders?.borderTopColorHover,
-			'border-right-color': attributes.borders?.borderRightColorHover,
-			'border-bottom-color': attributes.borders?.borderBottomColorHover,
-			'border-left-color': attributes.borders?.borderLeftColorHover,
 		} ];
+
+		BorderCSSColor( cssObj, selector + ':hover, ' + selector + ':focus, ' + selector + ':active', { ...attributes.borders }, 'Hover' );
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? iconStyles?.paddingTop : null,

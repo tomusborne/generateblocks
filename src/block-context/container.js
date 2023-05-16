@@ -60,6 +60,11 @@ const containerContext = defaultsDeep( {
 					tooltip: __( 'Border', 'generateblocks' ),
 					alpha: true,
 				},
+				{
+					state: 'Hover',
+					tooltip: __( 'Border Hover', 'generateblocks' ),
+					alpha: true,
+				},
 			],
 			borderTop: true,
 			borderRight: true,
