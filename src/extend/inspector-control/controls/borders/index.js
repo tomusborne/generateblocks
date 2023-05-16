@@ -44,7 +44,7 @@ export default function Borders( { attributes, setAttributes } ) {
 		<PanelArea
 			title={ __( 'Borders', 'generateblocks' ) }
 			initialOpen={ false }
-			icon={ getIcon( 'spacing' ) }
+			icon={ getIcon( 'borders' ) }
 			className="gblocks-panel-label"
 			id={ `${ id }Borders` }
 		>
