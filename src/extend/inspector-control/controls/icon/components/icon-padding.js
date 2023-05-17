@@ -6,23 +6,18 @@ import getResponsivePlaceholder from '../../../../../utils/get-responsive-placeh
 
 export default function IconPadding( { attributes, setAttributes } ) {
 	const device = getDeviceType();
-	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes.iconStyles, setAttributes );
+	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const attributeNames = [ 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft' ];
 
 	return (
 		<DimensionsControl
 			label={ __( 'Padding', 'generateblocks' ) }
 			attributeNames={ attributeNames }
-			values={ deviceAttributes }
+			values={ deviceAttributes.iconStyles }
 			placeholders={ attributeNames.reduce( ( o, key ) => (
 				{ ...o, [ key ]: getResponsivePlaceholder( key, attributes.iconStyles, device, '' ) }
 			), {} ) }
-			onChange={ ( values ) => setDeviceAttributes( {
-				iconStyles: {
-					...attributes.iconStyles,
-					...values,
-				},
-			} ) }
+			onChange={ ( newAttributes ) => setDeviceAttributes( newAttributes, 'iconStyles' ) }
 		/>
 	);
 }
