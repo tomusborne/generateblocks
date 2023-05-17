@@ -20,17 +20,12 @@ final class LegacyAttributesTest extends GBTestCase {
 			$settings = \GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'button', $settings, $attributes );
 		}
 
-		if ( $attributes['blockVersion'] < 4 ) {
-			$settings = \GenerateBlocks_Legacy_Attributes::get_settings( '1.8.0', 'button', $settings, $attributes );
-		}
-
 		$actual = [
 			'gradientDirection' => $settings['gradientDirection'],
 			'gradientColorOne' => $settings['gradientColorOne'],
 			'gradientColorOneOpacity' => $settings['gradientColorOneOpacity'],
 			'gradientColorTwo' => $settings['gradientColorTwo'],
 			'gradientColorTwoOpacity' => $settings['gradientColorTwoOpacity'],
-			'iconPaddingRight' => $settings['iconPaddingRight' ],
 		];
 
 		$expected = [
@@ -39,7 +34,6 @@ final class LegacyAttributesTest extends GBTestCase {
 			'gradientColorOneOpacity' => 0.1,
 			'gradientColorTwo' => '#000000',
 			'gradientColorTwoOpacity' => 0.3,
-			'iconPaddingRight' => '0.5',
 		];
 
 		$this->assertEquals( $expected, $actual );
@@ -114,33 +108,6 @@ final class LegacyAttributesTest extends GBTestCase {
 
 		$expected = [
 			'horizontalGap' => 30,
-		];
-
-		$this->assertEquals( $expected, $actual );
-	}
-
-	public function testOldHeadlineDefaults() {
-		$defaults = generateblocks_get_block_defaults();
-
-		$attributes = [
-			'blockVersion' => 1,
-		];
-
-		$settings = wp_parse_args(
-			$attributes,
-			$defaults['headline']
-		);
-
-		if ( $attributes['blockVersion'] < 3 ) {
-			$settings = \GenerateBlocks_Legacy_Attributes::get_settings( '1.8.0', 'headline', $settings, $attributes );
-		}
-
-		$actual = [
-			'iconPaddingRight' => $settings['iconPaddingRight'],
-		];
-
-		$expected = [
-			'iconPaddingRight' => '0.5',
 		];
 
 		$this->assertEquals( $expected, $actual );

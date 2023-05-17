@@ -1,6 +1,8 @@
 import isNumeric from '../../utils/is-numeric';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
+import isBlockVersionLessThan from '../../utils/check-block-version';
 
-export default function MigrateTypography( { attributesToMigrate, attributes, defaults } ) {
+function buildTypographyAttributes( { attributesToMigrate, attributes, defaults } ) {
 	function unitValue( name ) {
 		if ( 'fontSize' === name ) {
 			return attributes.fontSizeUnit;
@@ -49,4 +51,35 @@ export default function MigrateTypography( { attributesToMigrate, attributes, de
 	} );
 
 	return { newAttributes, oldAttributes };
+}
+
+// Migrate typography controls.
+// @since 1.8.0.
+export default function migrateTypography( { blockVersion, defaults, attributesToMigrate = [] } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
+			const newTypography = buildTypographyAttributes( {
+				attributesToMigrate,
+				attributes: existingAttrs,
+				defaults,
+			} );
+
+			if (
+				Object.keys( newTypography.newAttributes ).length &&
+				Object.keys( newTypography.oldAttributes ).length
+			) {
+				attrs = {
+					...attrs,
+					typography: {
+						...existingAttrs.typography,
+						...attrs.typography,
+						...newTypography.newAttributes,
+					},
+					...newTypography.oldAttributes,
+				};
+			}
+		}
+
+		return attrs;
+	};
 }

@@ -1,8 +1,10 @@
-import MigrateDimensions from '../../hoc/migrations/migrateDimensions';
+import { migrationPipe } from '../../hoc/migrations/utils';
+import migrateDimensions from '../../hoc/migrations/migrateDimensions';
 
 describe( 'Value with unit function', () => {
 	it( 'can migrate values with separate units', () => {
-		const oldAttributes = {
+		const attributes = {
+			blockVersion: 3,
 			marginTop: '10',
 			marginTopTablet: '20',
 			marginUnit: 'px',
@@ -11,10 +13,15 @@ describe( 'Value with unit function', () => {
 			paddingUnit: '%',
 		};
 
-		const newAttributes = MigrateDimensions( {
-			attributesToMigrate: [ 'marginTop', 'paddingTop' ],
-			attributes: oldAttributes,
-		} );
+		const newAttributes = migrationPipe(
+			attributes,
+			[
+				migrateDimensions( {
+					blockVersion: 4,
+					attributesToMigrate: [ 'marginTop', 'paddingTop' ],
+				} ),
+			]
+		);
 
 		expect( newAttributes ).toEqual( {
 			marginTop: '10px',
@@ -25,17 +32,23 @@ describe( 'Value with unit function', () => {
 	} );
 
 	it( 'can ignore values with included units', () => {
-		const oldAttributes = {
+		const attributes = {
+			blockVersion: 3,
 			marginTop: '10',
 			marginUnit: 'px',
 			paddingTop: '20em',
 			paddingUnit: '%',
 		};
 
-		const newAttributes = MigrateDimensions( {
-			attributesToMigrate: [ 'marginTop', 'paddingTop' ],
-			attributes: oldAttributes,
-		} );
+		const newAttributes = migrationPipe(
+			attributes,
+			[
+				migrateDimensions( {
+					blockVersion: 4,
+					attributesToMigrate: [ 'marginTop', 'paddingTop' ],
+				} ),
+			]
+		);
 
 		expect( newAttributes ).toEqual( {
 			marginTop: '10px',

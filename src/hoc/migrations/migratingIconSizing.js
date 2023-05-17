@@ -1,6 +1,8 @@
 import isNumeric from '../../utils/is-numeric';
+import wasBlockJustInserted from '../../utils/was-block-just-inserted';
+import isBlockVersionLessThan from '../../utils/check-block-version';
 
-export default function MigrateIconSizing( { attributes, defaults } ) {
+function buildIconSizingAttributes( { attributes, defaults } ) {
 	const newAttributes = {};
 	const oldAttributes = {};
 
@@ -18,4 +20,33 @@ export default function MigrateIconSizing( { attributes, defaults } ) {
 	} );
 
 	return { newAttributes, oldAttributes };
+}
+
+// Migrate old icon sizing.
+// @since 1.8.0.
+export default function migrateIconSizing( { blockVersion, defaults } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
+			const newSizing = buildIconSizingAttributes( {
+				attributes: existingAttrs,
+				defaults,
+			} );
+
+			if (
+				Object.keys( newSizing.newAttributes ).length &&
+				Object.keys( newSizing.oldAttributes ).length
+			) {
+				attrs = {
+					iconStyles: {
+						...existingAttrs.iconStyles,
+						...attrs.iconStyles,
+						...newSizing.newAttributes,
+					},
+					...newSizing.oldAttributes,
+				};
+			}
+		}
+
+		return attrs;
+	};
 }

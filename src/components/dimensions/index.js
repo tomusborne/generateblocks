@@ -12,6 +12,7 @@ import { useState } from '@wordpress/element';
 import './editor.scss';
 import UnitControl from '../unit-control';
 import { labels } from './labels';
+import isNumeric from '../../utils/is-numeric';
 
 export default function Dimensions( props ) {
 	const {
@@ -27,7 +28,11 @@ export default function Dimensions( props ) {
 	const [ lastFocused, setLastFocused ] = useState( '' );
 
 	const syncUnits = () => {
-		const firstValue = Object.values( values ).find( ( value ) => '' !== value );
+		const sides = [ ...attributeNames ].reverse();
+
+		const firstValue = sides.reduce( ( result, key ) => {
+			return values[ key ] || isNumeric( values[ key ] ) ? values[ key ] : result;
+		}, '' );
 
 		if ( ! firstValue ) {
 			setSync( ! sync );

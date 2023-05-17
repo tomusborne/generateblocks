@@ -1,4 +1,5 @@
-import MigrateTypography from '../../hoc/migrations/migrateTypography';
+import { migrationPipe } from '../../hoc/migrations/utils';
+import migrateTypography from '../../hoc/migrations/migrateTypography';
 
 describe( 'Test typography migrations', () => {
 	const defaults = {
@@ -41,7 +42,8 @@ describe( 'Test typography migrations', () => {
 	};
 
 	it( 'can migrate font family', () => {
-		const oldAttributes = {
+		const attributes = {
+			blockVersion: 3,
 			fontFamily: 'Roboto',
 			fontFamilyFallback: 'sans-serif',
 			googleFont: true,
@@ -49,21 +51,16 @@ describe( 'Test typography migrations', () => {
 			textTransform: 'uppercase',
 		};
 
-		const newTypography = MigrateTypography( {
-			attributesToMigrate: [ 'fontFamily', 'fontWeight', 'textTransform' ],
-			attributes: oldAttributes,
-			defaults,
-		} );
-
-		const existingTypography = {};
-
-		const newAttributes = {
-			typography: {
-				...existingTypography,
-				...newTypography.newAttributes,
-			},
-			...newTypography.oldAttributes,
-		};
+		const newAttributes = migrationPipe(
+			attributes,
+			[
+				migrateTypography( {
+					blockVersion: 4,
+					attributesToMigrate: [ 'fontFamily', 'fontWeight', 'textTransform' ],
+					defaults,
+				} ),
+			]
+		);
 
 		expect( newAttributes ).toEqual( {
 			typography: {
@@ -78,28 +75,24 @@ describe( 'Test typography migrations', () => {
 	} );
 
 	it( 'can migrate font size', () => {
-		const oldAttributes = {
+		const attributes = {
+			blockVersion: 3,
 			fontSize: 12,
 			fontSizeTablet: 11,
 			fontSizeMobile: 10,
 			fontSizeUnit: 'em',
 		};
 
-		const newTypography = MigrateTypography( {
-			attributesToMigrate: [ 'fontSize' ],
-			attributes: oldAttributes,
-			defaults,
-		} );
-
-		const existingTypography = {};
-
-		const newAttributes = {
-			typography: {
-				...existingTypography,
-				...newTypography.newAttributes,
-			},
-			...newTypography.oldAttributes,
-		};
+		const newAttributes = migrationPipe(
+			attributes,
+			[
+				migrateTypography( {
+					blockVersion: 4,
+					attributesToMigrate: [ 'fontSize' ],
+					defaults,
+				} ),
+			]
+		);
 
 		expect( newAttributes ).toEqual( {
 			typography: {
@@ -115,34 +108,27 @@ describe( 'Test typography migrations', () => {
 	} );
 
 	it( 'can migrate line height', () => {
-		const oldAttributes = {
+		const attributes = {
+			blockVersion: 3,
 			lineHeight: 1.2,
 			lineHeightTablet: 1.1,
 			lineHeightMobile: 1,
 			lineHeightUnit: 'em',
 		};
 
-		const newTypography = MigrateTypography( {
-			attributesToMigrate: [ 'lineHeight' ],
-			attributes: oldAttributes,
-			defaults,
-		} );
-
-		const existingTypography = {
-			fontSize: '10px',
-		};
-
-		const newAttributes = {
-			typography: {
-				...existingTypography,
-				...newTypography.newAttributes,
-			},
-			...newTypography.oldAttributes,
-		};
+		const newAttributes = migrationPipe(
+			attributes,
+			[
+				migrateTypography( {
+					blockVersion: 4,
+					attributesToMigrate: [ 'lineHeight' ],
+					defaults,
+				} ),
+			]
+		);
 
 		expect( newAttributes ).toEqual( {
 			typography: {
-				fontSize: '10px',
 				lineHeight: '1.2em',
 				lineHeightTablet: '1.1em',
 				lineHeightMobile: '1em',
@@ -155,34 +141,31 @@ describe( 'Test typography migrations', () => {
 	} );
 
 	it( 'can migrate letter spacing', () => {
-		const oldAttributes = {
+		const attributes = {
+			blockVersion: 3,
 			letterSpacing: 0.02,
 			letterSpacingTablet: 0.01,
-		};
-
-		const newTypography = MigrateTypography( {
-			attributesToMigrate: [ 'letterSpacing' ],
-			attributes: oldAttributes,
-			defaults,
-		} );
-
-		const existingTypography = {
-			lineHeight: '1.1em',
-		};
-
-		const newAttributes = {
 			typography: {
-				...existingTypography,
-				...newTypography.newAttributes,
+				lineHeight: '1.1em',
 			},
-			...newTypography.oldAttributes,
 		};
+
+		const newAttributes = migrationPipe(
+			attributes,
+			[
+				migrateTypography( {
+					blockVersion: 4,
+					attributesToMigrate: [ 'letterSpacing' ],
+					defaults,
+				} ),
+			]
+		);
 
 		expect( newAttributes ).toEqual( {
 			typography: {
-				lineHeight: '1.1em',
 				letterSpacing: '0.02em',
 				letterSpacingTablet: '0.01em',
+				lineHeight: '1.1em',
 			},
 			letterSpacing: '',
 			letterSpacingTablet: '', // Intentionally has no default defined.

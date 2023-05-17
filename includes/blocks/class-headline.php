@@ -50,7 +50,7 @@ class GenerateBlocks_Block_Headline {
 			'iconLocationTablet' => '',
 			'iconLocationMobile' => '',
 			'iconPaddingTop' => '',
-			'iconPaddingRight' => '',
+			'iconPaddingRight' => '0.5',
 			'iconPaddingBottom' => '',
 			'iconPaddingLeft' => '',
 			'iconPaddingTopTablet' => '',
@@ -139,10 +139,6 @@ class GenerateBlocks_Block_Headline {
 		$id = $attributes['uniqueId'];
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
-		if ( $blockVersion < 3 ) {
-			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.8.0', 'headline', $settings, $attributes );
-		}
-
 		$selector = generateblocks_get_css_selector( 'headline', $attributes );
 
 		// Back-compatibility for when icon held a value.
@@ -223,7 +219,19 @@ class GenerateBlocks_Block_Headline {
 				$css->add_property( 'color', generateblocks_hex2rgba( $settings['iconColor'], $settings['iconColorOpacity'] ) );
 
 				if ( ! $settings['removeText'] ) {
-					$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
+					if ( $blockVersion < 3 ) {
+						$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
+					} else {
+						$css->add_property(
+							'padding',
+							array(
+								generateblocks_get_array_attribute_value( 'paddingTop', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingRight', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingBottom', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingLeft', $settings['iconStyles'] ),
+							)
+						);
+					}
 				}
 
 				if ( $blockVersion < 2 ) {
@@ -284,7 +292,19 @@ class GenerateBlocks_Block_Headline {
 				$tablet_css->set_selector( $selector . ' .gb-icon' );
 
 				if ( ! $settings['removeText'] ) {
-					$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
+					if ( $blockVersion < 3 ) {
+						$tablet_css->add_property( 'padding', array( $settings['iconPaddingTopTablet'], $settings['iconPaddingRightTablet'], $settings['iconPaddingBottomTablet'], $settings['iconPaddingLeftTablet'] ), $settings['iconPaddingUnit'] );
+					} else {
+						$tablet_css->add_property(
+							'padding',
+							array(
+								generateblocks_get_array_attribute_value( 'paddingTopTablet', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingRightTablet', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingBottomTablet', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingLeftTablet', $settings['iconStyles'] ),
+							)
+						);
+					}
 				}
 
 				if ( $blockVersion < 2 ) {
@@ -342,7 +362,19 @@ class GenerateBlocks_Block_Headline {
 				$mobile_css->set_selector( $selector . ' .gb-icon' );
 
 				if ( ! $settings['removeText'] ) {
-					$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
+					if ( $blockVersion < 3 ) {
+						$mobile_css->add_property( 'padding', array( $settings['iconPaddingTopMobile'], $settings['iconPaddingRightMobile'], $settings['iconPaddingBottomMobile'], $settings['iconPaddingLeftMobile'] ), $settings['iconPaddingUnit'] );
+					} else {
+						$mobile_css->add_property(
+							'padding',
+							array(
+								generateblocks_get_array_attribute_value( 'paddingTopMobile', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingRightMobile', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingBottomMobile', $settings['iconStyles'] ),
+								generateblocks_get_array_attribute_value( 'paddingLeftMobile', $settings['iconStyles'] ),
+							)
+						);
+					}
 				}
 
 				if ( $blockVersion < 2 ) {

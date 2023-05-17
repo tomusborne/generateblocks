@@ -32,10 +32,6 @@ export default class TabletCSS extends Component {
 			borderRadiusBottomRightTablet,
 			borderRadiusBottomLeftTablet,
 			borderRadiusTopLeftTablet,
-			iconPaddingTopTablet,
-			iconPaddingRightTablet,
-			iconPaddingBottomTablet,
-			iconPaddingLeftTablet,
 			hasButtonContainer,
 			iconStyles,
 		} = attributes;
@@ -74,10 +70,10 @@ export default class TabletCSS extends Component {
 		}
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
-			'padding-top': ! removeText ? iconPaddingTopTablet : false,
-			'padding-right': ! removeText ? iconPaddingRightTablet : false,
-			'padding-bottom': ! removeText ? iconPaddingBottomTablet : false,
-			'padding-left': ! removeText ? iconPaddingLeftTablet : false,
+			'padding-top': ! removeText ? iconStyles?.paddingTopTablet : null,
+			'padding-right': ! removeText ? iconStyles?.paddingRightTablet : null,
+			'padding-bottom': ! removeText ? iconStyles?.paddingBottomTablet : null,
+			'padding-left': ! removeText ? iconStyles?.paddingLeftTablet : null,
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
