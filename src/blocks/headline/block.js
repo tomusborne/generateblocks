@@ -61,10 +61,14 @@ registerBlockType( 'generateblocks/headline', {
 	__experimentalLabel: ( attrs, { context } ) => {
 		if (
 			context === 'list-view' &&
-			attrs.content &&
+			( attrs.content || attrs.removeText ) &&
 			! attrs.useDynamicData &&
 			! attrs.isCaption
 		) {
+			if ( attrs.removeText ) {
+				return __( 'Icon', 'generateblocks' );
+			}
+
 			return attrs.content;
 		}
 
