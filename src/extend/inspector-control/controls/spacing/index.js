@@ -12,7 +12,7 @@ import DimensionsControl from '../../../../components/dimensions';
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
 	const { id, supports: { spacing } } = useContext( ControlsContext );
-	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes.spacing, setAttributes );
+	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 
 	const {
 		inlineWidth,
@@ -41,16 +41,11 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 				<DimensionsControl
 					label={ __( 'Padding', 'generateblocks' ) }
 					attributeNames={ paddingAttributes }
-					values={ deviceAttributes }
+					values={ deviceAttributes.spacing }
 					placeholders={ paddingAttributes.reduce( ( o, key ) => (
 						{ ...o, [ key ]: getResponsivePlaceholder( key, attributes.spacing, device, '' ) }
 					), {} ) }
-					onChange={ ( values ) => setDeviceAttributes( {
-						spacing: {
-							...attributes.spacing,
-							...values,
-						},
-					} ) }
+					onChange={ ( values ) => setDeviceAttributes( values, 'spacing' ) }
 				/>
 			}
 
@@ -58,16 +53,11 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 				<DimensionsControl
 					label={ __( 'Margin', 'generateblocks' ) }
 					attributeNames={ marginAttributes }
-					values={ deviceAttributes }
+					values={ deviceAttributes.spacing }
 					placeholders={ marginAttributes.reduce( ( o, key ) => (
 						{ ...o, [ key ]: getResponsivePlaceholder( key, attributes.spacing, device, computedStyles[ key ] ) }
 					), {} ) }
-					onChange={ ( values ) => setDeviceAttributes( {
-						spacing: {
-							...attributes.spacing,
-							...values,
-						},
-					} ) }
+					onChange={ ( values ) => setDeviceAttributes( values, 'spacing' ) }
 				/>
 			}
 

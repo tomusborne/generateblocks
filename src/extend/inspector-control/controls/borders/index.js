@@ -13,13 +13,12 @@ import UnitControl from '../../../../components/unit-control';
 import './editor.scss';
 import ColorPicker from '../../../../components/color-picker';
 import StyleDropdown from './components/style-dropdown';
-import getAttribute from '../../../../utils/get-attribute';
 import { link, linkOff } from '@wordpress/icons';
 
 export default function Borders( { attributes, setAttributes } ) {
 	const device = getDeviceType();
 	const { id, supports: { borders: bordersPanel } } = useContext( ControlsContext );
-	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes.borders, setAttributes );
+	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const borderRadiusAttributes = [ 'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius' ];
 	const borderLabels = {
 		borderTop: __( 'Top', 'generateblocks' ),
@@ -29,16 +28,6 @@ export default function Borders( { attributes, setAttributes } ) {
 	};
 	const [ borderAreas, setBorderAreas ] = useState( [ 'borderTop', 'borderRight', 'borderBottom', 'borderLeft' ] );
 	const [ sync, setSync ] = useState( false );
-
-	function getValue( name ) {
-		return attributes.borders && attributes.borders[ getAttribute( name, { attributes: attributes.borders, deviceType: device }, true ) ]
-			? attributes.borders[ getAttribute( name, { attributes: attributes.borders, deviceType: device }, true ) ]
-			: '';
-	}
-
-	function getAttributeName( name ) {
-		return getAttribute( name, { attributes: attributes.borders, deviceType: device }, true );
-	}
 
 	return (
 		<PanelArea
@@ -92,65 +81,55 @@ export default function Borders( { attributes, setAttributes } ) {
 
 								<UnitControl
 									id={ 'gblocks-' + borderArea + '-width' }
-									value={ getValue( borderArea + 'Width' ) }
+									value={ deviceAttributes.borders[ borderArea + 'Width' ] || '' }
 									placeholder={ getResponsivePlaceholder( borderArea + 'Width', attributes.borders, device ) }
 									onChange={ ( value ) => {
 										const newAttributes = {
-											[ getAttributeName( borderArea + 'Width' ) ]: value,
+											[ borderArea + 'Width' ]: value,
 										};
 
 										if ( sync ) {
-											newAttributes[ getAttributeName( 'borderRightWidth' ) ] = value;
-											newAttributes[ getAttributeName( 'borderBottomWidth' ) ] = value;
-											newAttributes[ getAttributeName( 'borderLeftWidth' ) ] = value;
+											newAttributes.borderRightWidth = value;
+											newAttributes.borderBottomWidth = value;
+											newAttributes.borderLeftWidth = value;
 										}
 
 										if ( ! value ) {
-											newAttributes[ getAttributeName( borderArea + 'Style' ) ] = '';
+											newAttributes[ borderArea + 'Style' ] = '';
 
 											if ( sync ) {
-												newAttributes[ getAttributeName( 'borderRightStyle' ) ] = '';
-												newAttributes[ getAttributeName( 'borderBottomStyle' ) ] = '';
-												newAttributes[ getAttributeName( 'borderLeftStyle' ) ] = '';
+												newAttributes.borderRightStyle = '';
+												newAttributes.borderBottomStyle = '';
+												newAttributes.borderLeftStyle = '';
 											}
 										} else if ( ! attributes.borders[ borderArea + 'Style' ] ) {
-											newAttributes[ getAttributeName( borderArea + 'Style' ) ] = 'solid';
+											newAttributes[ borderArea + 'Style' ] = 'solid';
 
 											if ( sync ) {
-												newAttributes[ getAttributeName( 'borderRightStyle' ) ] = 'solid';
-												newAttributes[ getAttributeName( 'borderBottomStyle' ) ] = 'solid';
-												newAttributes[ getAttributeName( 'borderLeftStyle' ) ] = 'solid';
+												newAttributes.borderRightStyle = 'solid';
+												newAttributes.borderBottomStyle = 'solid';
+												newAttributes.borderLeftStyle = 'solid';
 											}
 										}
 
-										setAttributes( {
-											borders: {
-												...attributes.borders,
-												...newAttributes,
-											},
-										} );
+										setDeviceAttributes( newAttributes, 'borders' );
 									} }
 								/>
 
 								<StyleDropdown
-									value={ getValue( borderArea + 'Style' ) || getResponsivePlaceholder( borderArea + 'Style', attributes.borders, device ) }
+									value={ deviceAttributes.borders[ borderArea + 'Style' ] || getResponsivePlaceholder( borderArea + 'Style', attributes.borders, device ) }
 									onChange={ ( value ) => {
 										const newAttributes = {
-											[ getAttribute( borderArea + 'Style', { attributes, deviceType: device }, true ) ]: value,
+											[ borderArea + 'Style' ]: value,
 										};
 
 										if ( sync ) {
-											newAttributes[ getAttributeName( 'borderRightStyle' ) ] = value;
-											newAttributes[ getAttributeName( 'borderBottomStyle' ) ] = value;
-											newAttributes[ getAttributeName( 'borderLeftStyle' ) ] = value;
+											newAttributes.borderRightStyle = value;
+											newAttributes.borderBottomStyle = value;
+											newAttributes.borderLeftStyle = value;
 										}
 
-										setAttributes( {
-											borders: {
-												...attributes.borders,
-												...newAttributes,
-											},
-										} );
+										setDeviceAttributes( newAttributes, 'borders' );
 									} }
 								/>
 
@@ -169,9 +148,9 @@ export default function Borders( { attributes, setAttributes } ) {
 														};
 
 														if ( sync ) {
-															newAttributes[ getAttributeName( 'borderRightColor' ) ] = nextBackgroundColor;
-															newAttributes[ getAttributeName( 'borderBottomColor' ) ] = nextBackgroundColor;
-															newAttributes[ getAttributeName( 'borderLeftColor' ) ] = nextBackgroundColor;
+															newAttributes.borderRightColor = nextBackgroundColor;
+															newAttributes.borderBottomColor = nextBackgroundColor;
+															newAttributes.borderLeftColor = nextBackgroundColor;
 														}
 
 														setAttributes( {
@@ -196,16 +175,11 @@ export default function Borders( { attributes, setAttributes } ) {
 				<DimensionsControl
 					label={ __( 'Border Radius', 'generateblocks' ) }
 					attributeNames={ borderRadiusAttributes }
-					values={ deviceAttributes }
+					values={ deviceAttributes.borders }
 					placeholders={ borderRadiusAttributes.reduce( ( o, key ) => (
 						{ ...o, [ key ]: getResponsivePlaceholder( key, attributes.borders, device, '' ) }
 					), {} ) }
-					onChange={ ( values ) => setDeviceAttributes( {
-						borders: {
-							...attributes.borders,
-							...values,
-						},
-					} ) }
+					onChange={ ( values ) => setDeviceAttributes( values, 'borders' ) }
 				/>
 			}
 		</PanelArea>
