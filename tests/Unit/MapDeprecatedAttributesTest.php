@@ -67,4 +67,40 @@ final class MapDeprecatedAttributesTest extends GBTestCase {
 		$this->assertArrayHasKey( 'borders', $settings );
 		$this->assertEquals( $expected, $settings['borders'] );
 	}
+
+	public function testOldTypographyAttributes() {
+		$defaults = generateblocks_get_block_defaults();
+
+		$attributes = [
+			'fontFamily' => 'Arial',
+			'fontSize' => 20,
+			'fontSizeMobile' => 10,
+			'fontSizeUnit' => 'em',
+			'alignment' => 'left',
+			'alignmentTablet' => 'center',
+			'letterSpacing' => 0.02,
+			'lineHeightMobile' => 100,
+			'lineHeightUnit' => '%'
+		];
+
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['button']
+		);
+
+		$settings = \GenerateBlocks_Map_Deprecated_Attributes::map_attributes( $settings );
+
+		$expected = [
+			'fontFamily' => 'Arial',
+			'fontSize' => '20em',
+			'fontSizeMobile' => '10em',
+			'textAlign' => 'left',
+			'textAlignTablet' => 'center',
+			'letterSpacing' => '0.02em',
+			'lineHeightMobile' => '100%',
+		];
+
+		$this->assertArrayHasKey( 'typography', $settings );
+		$this->assertEquals( $expected, $settings['typography'] );
+	}
 }

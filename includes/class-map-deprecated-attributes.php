@@ -48,6 +48,7 @@ class GenerateBlocks_Map_Deprecated_Attributes {
 	public static function map_attributes( $settings ) {
 		$settings = self::map_spacing( $settings );
 		$settings = self::map_borders( $settings );
+		$settings = self::map_typography( $settings );
 
 		return $settings;
 	}
@@ -177,6 +178,62 @@ class GenerateBlocks_Map_Deprecated_Attributes {
 						$border_color_current_name = str_replace( 'Width', 'ColorCurrent', $new_attribute_name );
 						$settings['borders'][ $border_color_current_name ] = $settings['borderColorCurrent'];
 					}
+				}
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Map our old typography attributes.
+	 *
+	 * @param array $settings Existing settings.
+	 * @return array Mapped spacing settings.
+	 */
+	public static function map_typography( $settings ) {
+		if ( ! empty( $settings['typography'] ) ) {
+			return $settings;
+		}
+
+		$old_attributes = [
+			'fontFamily',
+			'fontSize',
+			'lineHeight',
+			'letterSpacing',
+			'fontWeight',
+			'textTransform',
+			'alignment',
+		];
+
+		foreach ( self::$devices as $device ) {
+			foreach ( $old_attributes as $attribute ) {
+				$setting_name = $attribute . $device;
+
+				if ( isset( $settings[ $setting_name ] ) && ( $settings[ $setting_name ] || is_numeric( $settings[ $setting_name ] ) ) ) {
+					$unit = '';
+
+					switch ( $attribute ) {
+						case 'fontSize':
+							$unit = $settings['fontSizeUnit'];
+							break;
+
+						case 'lineHeight':
+							$unit = $settings['lineHeightUnit'];
+							break;
+
+						case 'letterSpacing':
+							$unit = 'em';
+							break;
+					}
+
+					// textAlign used to be called "alignment".
+					if ( 'alignment' === $attribute ) {
+						$settings['typography'][ 'textAlign' . $device ] = $settings[ $setting_name ];
+						continue;
+					}
+
+					$settings['typography'][ $setting_name ] = $settings[ $setting_name ] . $unit;
 				}
 			}
 		}

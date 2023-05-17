@@ -81,6 +81,57 @@ final class DynamicCSSTest extends GBTestCase {
 		$this->assertEquals( $expected_css, $actual['.test-class'][0] );
 	}
 
+	public function testMappedAttributes() {
+		$css = new \GenerateBlocks_Dynamic_CSS();
+		$defaults = generateblocks_get_block_defaults();
+
+		$attributes = [
+			'paddingTop' => '20',
+			'paddingRight' => '30',
+			'paddingUnit' => 'px',
+			'marginBottom' => '10',
+			'marginRight' => 'auto',
+			'marginLeft' => 'auto',
+			'marginUnit' => 'em',
+			'fontFamily' => 'Arial',
+			'fontFamilyFallback' => 'sans-serif',
+			'fontSize' => 12,
+			'fontSizeUnit' => 'px',
+			'borderSizeTop' => '1',
+			'borderColor' => '#ffffff',
+		];
+
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['button']
+		);
+
+		$settings = \GenerateBlocks_Map_Deprecated_Attributes::map_attributes( $settings );
+
+		$css->set_selector( '.test-padding' );
+		generateblocks_add_spacing_css( $css, $settings );
+
+		$css->set_selector( '.test-typography' );
+		generateblocks_add_typography_css( $css, $settings );
+
+		$css->set_selector( '.test-border' );
+		generateblocks_add_border_css( $css, $settings );
+
+		$actual = $css->css_output();
+		$expected_padding_css = 'padding-top:20px;padding-right:30px;margin-right:auto;margin-bottom:10em;margin-left:auto;';
+
+		$this->assertArrayHasKey( '.test-padding', $actual );
+		$this->assertEquals( $expected_padding_css, $actual['.test-padding'][0] );
+
+		$expected_typography_css = 'font-family:Arial, sans-serif;font-size:12px;';
+		$this->assertArrayHasKey( '.test-typography', $actual );
+		$this->assertEquals( $expected_typography_css, $actual['.test-typography'][0] );
+
+		$expected_border_css = 'border-top:1px solid #ffffff;';
+		$this->assertArrayHasKey( '.test-border', $actual );
+		$this->assertEquals( $expected_border_css, $actual['.test-border'][0] );
+	}
+
 	public function testSelector() {
 		$css = new \GenerateBlocks_Dynamic_CSS();
 		$selector = generateblocks_get_css_selector( 'container', [ 'uniqueId' => '72478d91' ] );
