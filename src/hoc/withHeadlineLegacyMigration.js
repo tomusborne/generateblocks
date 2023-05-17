@@ -1,7 +1,48 @@
 import { useEffect } from '@wordpress/element';
+import { getBlockType } from '@wordpress/blocks';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import flexboxAlignment from '../utils/flexbox-alignment';
+import migrateDimensions from './migrations/migrateDimensions';
+import migrateTypography from './migrations/migrateTypography';
+import migrateIconSizing from './migrations/migratingIconSizing';
+import migrateIconPadding from './migrations/migrateIconPadding';
+import {
+	migrationPipe,
+	updateBlockVersion,
+} from './migrations/utils';
+
+// Set our layout attributes for old Headline blocks.
+// @since 1.7.0
+export function migrateFlex( attrs, existingAttrs ) {
+	if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, 2 ) ) {
+		if ( existingAttrs.hasIcon ) {
+			attrs.display = 'flex';
+		}
+
+		[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
+			if ( existingAttrs[ 'inlineWidth' + device ] ) {
+				attrs[ 'display' + device ] = existingAttrs.hasIcon ? 'inline-flex' : 'inline-block';
+			}
+
+			if ( existingAttrs.hasIcon ) {
+				if ( 'above' !== existingAttrs[ 'iconLocation' + device ] && existingAttrs[ 'alignment' + device ] ) {
+					attrs[ 'justifyContent' + device ] = flexboxAlignment( existingAttrs.alignment + device );
+				}
+
+				if ( 'inline' === existingAttrs[ 'iconLocation' + device ] && existingAttrs[ 'iconVerticalAlignment' + device ] ) {
+					attrs[ 'alignItems' + device ] = flexboxAlignment( existingAttrs.iconVerticalAlignment + device );
+				}
+
+				if ( 'above' === existingAttrs[ 'iconLocation' + device ] ) {
+					attrs[ 'flexDirection' + device ] = 'column';
+				}
+			}
+		} );
+	}
+
+	return attrs;
+}
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -10,52 +51,60 @@ export default ( WrappedComponent ) => {
 			setAttributes,
 		} = props;
 
-		const {
-			blockVersion,
-			hasIcon,
-			iconVerticalAlignment,
-			alignment,
-		} = attributes;
+		const defaults = getBlockType( 'generateblocks/button' )?.attributes;
 
 		useEffect( () => {
-			// Set our layout attributes for old Button blocks.
-			// @since 1.7.0
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 2 ) ) {
-				const flexAttributes = {};
+			const newAttributes = migrationPipe(
+				attributes,
+				[
+					migrateFlex,
+					migrateDimensions( {
+						blockVersion: 3,
+						attributesToMigrate: [
+							'paddingTop',
+							'paddingRight',
+							'paddingBottom',
+							'paddingLeft',
+							'marginTop',
+							'marginRight',
+							'marginBottom',
+							'marginLeft',
+							'borderSizeTop',
+							'borderSizeRight',
+							'borderSizeBottom',
+							'borderSizeLeft',
+							'borderRadiusTopRight',
+							'borderRadiusBottomRight',
+							'borderRadiusBottomLeft',
+							'borderRadiusTopLeft',
+						],
+					} ),
+					migrateTypography( {
+						blockVersion: 3,
+						defaults,
+						attributesToMigrate: [
+							'fontFamily',
+							'fontSize',
+							'lineHeight',
+							'letterSpacing',
+							'fontWeight',
+							'textTransform',
+							'alignment',
+						],
+					} ),
+					migrateIconSizing( {
+						blockVersion: 3,
+						defaults,
+					} ),
+					migrateIconPadding( {
+						blockVersion: 3,
+						defaults,
+					} ),
+					updateBlockVersion( 3 ),
+				]
+			);
 
-				if ( hasIcon ) {
-					flexAttributes.display = 'flex';
-				}
-
-				[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
-					if ( attributes[ 'inlineWidth' + device ] ) {
-						flexAttributes[ 'display' + device ] = hasIcon ? 'inline-flex' : 'inline-block';
-					}
-
-					if ( hasIcon ) {
-						if ( 'above' !== attributes[ 'iconLocation' + device ] && attributes[ 'alignment' + device ] ) {
-							flexAttributes[ 'justifyContent' + device ] = flexboxAlignment( alignment + device );
-						}
-
-						if ( 'inline' === attributes[ 'iconLocation' + device ] && attributes[ 'iconVerticalAlignment' + device ] ) {
-							flexAttributes[ 'alignItems' + device ] = flexboxAlignment( iconVerticalAlignment + device );
-						}
-
-						if ( 'above' === attributes[ 'iconLocation' + device ] ) {
-							flexAttributes[ 'flexDirection' + device ] = 'column';
-						}
-					}
-				} );
-
-				if ( Object.keys( flexAttributes ).length ) {
-					setAttributes( flexAttributes );
-				}
-			}
-
-			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( blockVersion, 2 ) ) {
-				setAttributes( { blockVersion: 2 } );
-			}
+			setAttributes( newAttributes );
 		}, [] );
 
 		return ( <WrappedComponent { ...props } /> );

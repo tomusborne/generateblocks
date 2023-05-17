@@ -15,6 +15,7 @@ import MinWidth from './components/MinWidth';
 import MaxHeight from './components/MaxHeight';
 import './editor.scss';
 import getDeviceType from '../../../../utils/get-device-type';
+import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 
 export default function Sizing( props ) {
 	const { id, supports: { sizingPanel } } = useContext( ControlsContext );
@@ -57,8 +58,7 @@ export default function Sizing( props ) {
 				{ sizingPanel.width &&
 					<Width
 						value={ getValue( 'width' ) }
-						desktopValue={ sizing?.width }
-						tabletValue={ sizing?.widthTablet }
+						placeholder={ getResponsivePlaceholder( 'width', attributes.sizing, device ) }
 						units={ getUnits( 'width' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -74,8 +74,7 @@ export default function Sizing( props ) {
 				{ sizingPanel.height &&
 					<Height
 						value={ getValue( 'height' ) }
-						desktopValue={ sizing?.height }
-						tabletValue={ sizing?.heightTablet }
+						placeholder={ getResponsivePlaceholder( 'height', attributes.sizing, device ) }
 						units={ getUnits( 'height' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -91,8 +90,7 @@ export default function Sizing( props ) {
 				{ sizingPanel.minWidth &&
 					<MinWidth
 						value={ getValue( 'minWidth' ) }
-						desktopValue={ sizing?.minWidth }
-						tabletValue={ sizing?.minWidthTablet }
+						placeholder={ getResponsivePlaceholder( 'minWidth', attributes.sizing, device ) }
 						units={ getUnits( 'minWidth' ) }
 						disabled={ isGrid }
 						onChange={ ( value ) => {
@@ -109,8 +107,7 @@ export default function Sizing( props ) {
 				{ sizingPanel.minHeight &&
 					<MinHeight
 						value={ getValue( 'minHeight' ) }
-						desktopValue={ sizing?.minHeight }
-						tabletValue={ sizing?.minHeightTablet }
+						placeholder={ getResponsivePlaceholder( 'minHeight', attributes.sizing, device ) }
 						units={ getUnits( 'minHeight' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -126,8 +123,7 @@ export default function Sizing( props ) {
 				{ sizingPanel.maxWidth &&
 					<MaxWidth
 						value={ getValue( 'maxWidth' ) }
-						desktopValue={ sizing?.maxWidth }
-						tabletValue={ sizing?.maxWidthTablet }
+						placeholder={ getResponsivePlaceholder( 'maxWidth', attributes.sizing, device ) }
 						units={ getUnits( 'maxWidth' ) }
 						overrideValue={ !! useGlobalMaxWidth ? generateBlocksInfo.globalContainerWidth : null }
 						disabled={ useInnerContainer || isGrid || ( useGlobalMaxWidth && 'Desktop' === device ) }
@@ -164,8 +160,7 @@ export default function Sizing( props ) {
 				{ sizingPanel.maxHeight &&
 					<MaxHeight
 						value={ getValue( 'maxHeight' ) }
-						desktopValue={ sizing?.maxHeight }
-						tabletValue={ sizing?.maxHeightTablet }
+						placeholder={ getResponsivePlaceholder( 'maxHeight', attributes.sizing, device ) }
 						units={ getUnits( 'maxHeight' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
