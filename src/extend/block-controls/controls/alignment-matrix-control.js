@@ -24,7 +24,7 @@ function AlignmentMatrixControl( { attributes, setAttributes } ) {
 	const directionTemplate = templates[ flexDirection || 'column' ];
 
 	const isDefault = '' === display || 'block' === display;
-	const isFlex = 'flex' === display || 'inline-flex' === display;
+	const isFlex = 'flex' === display;
 	const isRow = 'row' === flexDirection || 'row-reverse' === flexDirection;
 	const isColumn = 'column' === flexDirection || 'column-reverse' === flexDirection;
 
@@ -37,8 +37,8 @@ function AlignmentMatrixControl( { attributes, setAttributes } ) {
 
 			setDeviceAttributes( {
 				...directionTemplate[ activeCell ],
-				display: ! isFlex ? 'flex' : display,
-				flexDirection: ! isFlex && ! flexDirection ? direction : flexDirection,
+				display: 'flex',
+				flexDirection: ! flexDirection ? direction : flexDirection,
 			} );
 		}
 	}, [

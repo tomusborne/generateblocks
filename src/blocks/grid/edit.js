@@ -107,6 +107,7 @@ const GridEdit = ( props ) => {
 
 			<InspectorAdvancedControls
 				anchor={ attributes.anchor }
+				blockLabel={ attributes.blockLabel }
 				setAttributes={ setAttributes }
 			/>
 
