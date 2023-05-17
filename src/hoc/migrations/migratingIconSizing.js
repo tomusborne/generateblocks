@@ -1,5 +1,4 @@
 import isNumeric from '../../utils/is-numeric';
-import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../../utils/check-block-version';
 import { addToAttrsObject } from './utils';
 
@@ -43,7 +42,7 @@ function buildIconSizingAttributes( { attributes, defaults } ) {
  */
 export default function migrateIconSizing( { blockVersionLessThan, defaults } ) {
 	return function( attrs, existingAttrs ) {
-		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newSizing = buildIconSizingAttributes( {
 				attributes: existingAttrs,
 				defaults,
