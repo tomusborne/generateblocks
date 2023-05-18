@@ -1293,42 +1293,6 @@ function generateblocks_add_typography_css( $css, $settings, $device = '' ) {
 
 	foreach ( $options as $property => $option ) {
 		$option_name = $option . $device;
-
-		// We need this for backward compatibility when these were standalone options with separate units.
-		if (
-			! empty( $settings[ $option_name ] ) ||
-			( isset( $settings[ $option_name ] ) && is_numeric( $settings[ $option_name ] ) )
-		) {
-			$unit = '';
-
-			switch ( $option ) {
-				case 'fontSize':
-					$unit = $settings['fontSizeUnit'];
-					break;
-
-				case 'lineHeight':
-					$unit = $settings['lineHeightUnit'];
-					break;
-
-				case 'letterSpacing':
-					$unit = 'em';
-					break;
-			}
-
-			if ( 'fontFamily' === $option && $settings['fontFamilyFallback'] ) {
-				$settings[ $option_name ] .= ', ' . $settings['fontFamilyFallback'];
-			}
-
-			$css->add_property( $property, $settings[ $option_name ], $unit );
-			continue;
-		}
-
-		// textAlign used to be called "alignment".
-		if ( 'textAlign' === $option && ! empty( $settings[ 'alignment' . $device ] ) ) {
-			$css->add_property( $property, $settings[ 'alignment' . $device ] );
-			continue;
-		}
-
 		$value = generateblocks_get_array_attribute_value( $option_name, $settings['typography'] );
 
 		if ( 'fontFamily' === $option && $value && $settings['fontFamilyFallback'] ) {

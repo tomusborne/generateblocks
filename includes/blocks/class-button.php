@@ -242,6 +242,7 @@ class GenerateBlocks_Block_Button {
 
 			if ( ! $settings['removeText'] ) {
 				if ( $blockVersion < 4 ) {
+					// Need to  check for blockVersion here instead of mapping as iconPaddingRight has a default.
 					$css->add_property( 'padding', array( $settings['iconPaddingTop'], $settings['iconPaddingRight'], $settings['iconPaddingBottom'], $settings['iconPaddingLeft'] ), $settings['iconPaddingUnit'] );
 				} else {
 					$css->add_property(
