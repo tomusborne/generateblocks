@@ -23,7 +23,7 @@ const ContainerEdit = ( props ) => {
 
 	const {
 		anchor,
-		fontFamily,
+		typography,
 		googleFont,
 		googleFontVariants,
 		isBlockPreview = false,
@@ -123,7 +123,7 @@ const ContainerEdit = ( props ) => {
 			/>
 
 			<GoogleFontLink
-				fontFamily={ fontFamily }
+				fontFamily={ typography.fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
 				isBlockPreview={ isBlockPreview }

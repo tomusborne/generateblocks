@@ -1,5 +1,5 @@
 import { BlockControls, MediaReplaceFlow } from '@wordpress/block-editor';
-import { MenuItem, ToolbarGroup, ToolbarButton } from '@wordpress/components';
+import { MenuItem, ToolbarGroup, ToolbarButton, TextControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import LinkControl from '../../../components/link-control';
 import { useDispatch } from '@wordpress/data';
@@ -71,9 +71,20 @@ export default function ImageBlockControls( props ) {
 						onSelect={ onSelectImage }
 						onError={ onUploadError }
 					>
-						<MenuItem onClick={ onResetImage }>
-							{ __( 'Reset' ) }
-						</MenuItem>
+						<>
+							{ imageUrl && ! mediaId &&
+								<div className="gb-image-replace-url">
+									<TextControl
+										label={ __( 'Image URL', 'generateblocks' ) }
+										value={ imageUrl }
+										onChange={ ( mediaUrl ) => setAttributes( { mediaUrl } ) }
+									/>
+								</div>
+							}
+							<MenuItem onClick={ onResetImage }>
+								{ __( 'Reset' ) }
+							</MenuItem>
+						</>
 					</MediaReplaceFlow>
 				</ToolbarGroup>
 			}

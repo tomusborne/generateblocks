@@ -1,7 +1,85 @@
 import { useEffect } from '@wordpress/element';
+import { getBlockType } from '@wordpress/blocks';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import hasNumericValue from '../utils/has-numeric-value';
+import migrateDimensions from './migrations/migrateDimensions';
+import migrateTypography from './migrations/migrateTypography';
+import migrateIconSizing from './migrations/migratingIconSizing';
+import migrateIconPadding from './migrations/migrateIconPadding';
+import { migrationPipe, updateBlockVersion } from './migrations/utils';
+import { isEmpty } from 'lodash';
+
+function oldMigrations( attrs, existingAttrs ) {
+	if ( ! existingAttrs.hasIcon && !! existingAttrs.icon ) {
+		attrs.hasIcon = true;
+	}
+
+	if ( ! existingAttrs.hasUrl && !! existingAttrs.url ) {
+		attrs.hasUrl = true;
+	}
+
+	return attrs;
+}
+
+/**
+ * Set our old defaults as static values.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @param {Object} Props.oldDefaults          Old defaults that were changed and need to be added to attributes.
+ * @return {Object} Updated attributes.
+ * @since 1.4.0
+ */
+export function migrateOldButtonDefaults( { blockVersionLessThan, oldDefaults } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			const items = [];
+
+			if ( existingAttrs.gradient ) {
+				items.push(
+					'gradientDirection',
+					'gradientColorOne',
+					'gradientColorOneOpacity',
+					'gradientColorTwo',
+					'gradientColorTwoOpacity'
+				);
+			}
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( existingAttrs[ item ] ) ) {
+					attrs[ item ] = oldDefaults[ item ];
+				}
+			} );
+		}
+
+		return attrs;
+	};
+}
+
+/**
+ * Set our layout attributes for old Button blocks.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @return {Object} Updated attributes.
+ * @since 1.7.0
+ */
+export function migrateButtonLayout( { blockVersionLessThan } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) && ! existingAttrs.useGlobalStyle ) {
+			attrs = {
+				...attrs,
+				display: 'inline-flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				alignment: 'center',
+			};
+		}
+
+		return attrs;
+	};
+}
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -10,68 +88,68 @@ export default ( WrappedComponent ) => {
 			setAttributes,
 		} = props;
 
-		const {
-			hasIcon,
-			icon,
-			hasUrl,
-			url,
-			blockVersion,
-			gradient,
-			useGlobalStyle,
-		} = attributes;
-
 		useEffect( () => {
-			if ( ! hasIcon && icon ) {
-				setAttributes( { hasIcon: true } );
-			}
+			const defaults = getBlockType( 'generateblocks/button' )?.attributes;
 
-			if ( ! hasUrl ) {
-				setAttributes( { hasUrl: ( !! url ) } );
-			}
+			const newAttributes = migrationPipe(
+				attributes,
+				[
+					oldMigrations,
+					migrateOldButtonDefaults( {
+						blockVersionLessThan: 2,
+						oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.button,
+					} ),
+					migrateButtonLayout( {
+						blockVersionLessThan: 3,
+					} ),
+					migrateDimensions( {
+						blockVersionLessThan: 4,
+						defaults,
+						attributesToMigrate: [
+							'paddingTop',
+							'paddingRight',
+							'paddingBottom',
+							'paddingLeft',
+							'marginTop',
+							'marginRight',
+							'marginBottom',
+							'marginLeft',
+							'borderSizeTop',
+							'borderSizeRight',
+							'borderSizeBottom',
+							'borderSizeLeft',
+							'borderRadiusTopRight',
+							'borderRadiusBottomRight',
+							'borderRadiusBottomLeft',
+							'borderRadiusTopLeft',
+						],
+					} ),
+					migrateTypography( {
+						blockVersionLessThan: 4,
+						defaults,
+						attributesToMigrate: [
+							'fontFamily',
+							'fontSize',
+							'letterSpacing',
+							'fontWeight',
+							'textTransform',
+							'alignment',
+						],
+					} ),
+					migrateIconSizing( {
+						blockVersionLessThan: 4,
+						defaults,
+					} ),
+					migrateIconPadding( {
+						blockVersionLessThan: 4,
+						defaults,
+					} ),
+					updateBlockVersion( 4 ),
+				]
+			);
 
-			// Set our layout attributes for old Button blocks.
-			// @since 1.7.0
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 3 ) && ! useGlobalStyle ) {
-				setAttributes( {
-					display: 'inline-flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					alignment: 'center',
-				} );
-			}
-
-			// Set our old defaults as static values.
-			// @since 1.4.0.
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( blockVersion, 2 ) ) {
-				const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.button;
-
-				const newAttrs = {};
-				const items = [];
-
-				if ( gradient ) {
-					items.push(
-						'gradientDirection',
-						'gradientColorOne',
-						'gradientColorOneOpacity',
-						'gradientColorTwo',
-						'gradientColorTwoOpacity'
-					);
-				}
-
-				items.forEach( ( item ) => {
-					if ( ! hasNumericValue( attributes[ item ] ) ) {
-						newAttrs[ item ] = legacyDefaults[ item ];
-					}
-				} );
-
-				if ( Object.keys( newAttrs ).length > 0 ) {
-					setAttributes( newAttrs );
-				}
-			}
-
-			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( blockVersion, 3 ) ) {
-				setAttributes( { blockVersion: 3 } );
+			if ( ! isEmpty( newAttributes ) ) {
+				setAttributes( newAttributes );
 			}
 		}, [] );
 

@@ -1,15 +1,17 @@
 export default function getTypographyAttributes( defaults ) {
 	return {
+		typography: {
+			type: 'object',
+			default: {},
+		},
 		fontWeight: {
 			type: 'string',
 			default: defaults.fontWeight,
 		},
-
 		textTransform: {
 			type: 'string',
 			default: '',
 		},
-
 		alignment: {
 			type: 'string',
 			default: defaults.alignment,
@@ -22,7 +24,6 @@ export default function getTypographyAttributes( defaults ) {
 			type: 'string',
 			default: defaults.alignmentMobile,
 		},
-
 		// FONT SIZE ATTRIBUTES
 		fontSize: {
 			type: 'number',
