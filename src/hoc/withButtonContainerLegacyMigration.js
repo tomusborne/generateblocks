@@ -1,4 +1,38 @@
 import { useEffect } from '@wordpress/element';
+import { getBlockType } from '@wordpress/blocks';
+import isBlockVersionLessThan from '../utils/check-block-version';
+import wasBlockJustInserted from '../utils/was-block-just-inserted';
+import { migrationPipe, updateBlockVersion, setIsDynamic } from './migrations/utils';
+import { isEmpty } from 'lodash';
+import migrateSpacing from './migrations/migrateSpacing';
+
+/**
+ * Migrate our stack and fillHorizontal space attributes to their devices.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @return {Object} Updated attributes.
+ * @since 1.4.0
+ */
+export function migrateStackFill( { blockVersionLessThan } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			if ( existingAttrs.stack || existingAttrs.fillHorizontalSpace ) {
+				if ( existingAttrs.stack ) {
+					attrs.stackTablet = true;
+					attrs.stackMobile = true;
+				}
+
+				if ( existingAttrs.fillHorizontalSpace ) {
+					attrs.fillHorizontalSpaceTablet = true;
+					attrs.fillHorizontalSpaceMobile = true;
+				}
+			}
+		}
+
+		return attrs;
+	};
+}
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -8,36 +42,31 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			// This block used to be static. Set it to dynamic by default from now on.
-			if ( 'undefined' === typeof attributes.isDynamic || ! attributes.isDynamic ) {
-				setAttributes( { isDynamic: true } );
-			}
+			const defaults = getBlockType( 'generateblocks/button-container' )?.attributes;
 
-			// Set our responsive stack and fill options if set on desktop.
-			// @since 1.4.0.
-			if ( 'undefined' === typeof attributes.blockVersion || attributes.blockVersion < 2 ) {
-				if ( attributes.stack || attributes.fillHorizontalSpace ) {
-					if ( attributes.stack ) {
-						setAttributes( {
-							stackTablet: true,
-							stackMobile: true,
-						} );
-					}
+			const newAttributes = migrationPipe(
+				attributes,
+				[
+					setIsDynamic,
+					migrateStackFill( {
+						blockVersionLessThan: 2,
+					} ),
+					migrateSpacing( {
+						blockVersionLessThan: 3,
+						defaults,
+						attributesToMigrate: [
+							'marginTop',
+							'marginRight',
+							'marginBottom',
+							'marginLeft',
+						],
+					} ),
+					updateBlockVersion( 3 ),
+				]
+			);
 
-					if ( attributes.fillHorizontalSpace ) {
-						setAttributes( {
-							fillHorizontalSpaceTablet: true,
-							fillHorizontalSpaceMobile: true,
-						} );
-					}
-				}
-			}
-
-			// Update block version flag if it's out of date.
-			const blockVersion = 2;
-
-			if ( 'undefined' === typeof attributes.blockVersion || attributes.blockVersion < blockVersion ) {
-				setAttributes( { blockVersion } );
+			if ( ! isEmpty( newAttributes ) ) {
+				setAttributes( newAttributes );
 			}
 		}, [] );
 

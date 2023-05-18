@@ -26,7 +26,6 @@ const GridEdit = ( props ) => {
 		InnerBlocksRenderer = InnerBlocks,
 		LayoutSelector = GridLayoutSelector,
 		defaultLayout = false,
-		templateLock = false,
 		context,
 	} = props;
 
@@ -47,17 +46,22 @@ const GridEdit = ( props ) => {
 
 		if ( ! attributes.isQueryLoop && layout ) {
 			const columnsData = getColumnsFromLayout( layout, attributes.uniqueId );
+			const newColumns = [];
 
 			columnsData.forEach( ( colAttrs ) => {
+				newColumns.push( createBlock( 'generateblocks/container', colAttrs ) );
+			} );
+
+			setTimeout( () => {
 				insertBlocks(
-					createBlock( 'generateblocks/container', colAttrs ),
+					newColumns,
 					undefined,
 					props.clientId,
 					false
 				);
-			} );
 
-			setSelectedLayout( false );
+				setSelectedLayout( false );
+			}, 50 );
 		}
 	}, [
 		selectedLayout,
@@ -103,6 +107,7 @@ const GridEdit = ( props ) => {
 
 			<InspectorAdvancedControls
 				anchor={ attributes.anchor }
+				blockLabel={ attributes.blockLabel }
 				setAttributes={ setAttributes }
 			/>
 
@@ -112,7 +117,7 @@ const GridEdit = ( props ) => {
 				{ ( attributes.isQueryLoop || attributes.columns > 0 || selectedLayout )
 					? (
 						<InnerBlocksRenderer
-							templateLock={ templateLock }
+							templateLock={ attributes.templateLock }
 							allowedBlocks={ [ 'generateblocks/container' ] }
 							renderAppender={ false }
 							clientId={ clientId }
