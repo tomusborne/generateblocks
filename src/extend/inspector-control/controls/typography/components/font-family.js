@@ -15,19 +15,29 @@ export default function FontFamily( { attributes, setAttributes } ) {
 
 	const fonts = useMemo( () => {
 		const fontFamilyOptions = typographyOptions.fontFamily;
+		const googleFontFamilyOptions = {
+			label: __( 'Google Fonts', 'generateblocks' ),
+			options: [],
+		};
 
-		Object
-			.keys( googleFonts )
-			.slice( 0, 20 )
-			.forEach( ( k ) => {
-				const fontExists = Object.keys( fontFamilyOptions ).some( ( font ) => {
-					return fontFamilyOptions[ font ]?.value === k;
+		if ( ! generateBlocksInfo.disableGoogleFonts ) {
+			Object
+				.keys( googleFonts )
+				.slice( 0, 20 )
+				.forEach( ( k ) => {
+					const fontExists = Object.keys( googleFontFamilyOptions.options ).some( ( font ) => {
+						return googleFontFamilyOptions.options[ font ]?.value === k;
+					} );
+
+					if ( ! fontExists ) {
+						googleFontFamilyOptions.options.push( { value: k, label: k } );
+					}
 				} );
+		}
 
-				if ( ! fontExists ) {
-					fontFamilyOptions.push( { value: k, label: k } );
-				}
-			} );
+		if ( googleFontFamilyOptions.options.length ) {
+			fontFamilyOptions.push( googleFontFamilyOptions );
+		}
 
 		return fontFamilyOptions;
 	}, [] );
@@ -40,7 +50,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 			},
 		} );
 
-		if ( typeof googleFonts[ value ] !== 'undefined' ) {
+		if ( ! generateBlocksInfo.disableGoogleFonts && typeof googleFonts[ value ] !== 'undefined' ) {
 			setAttributes( {
 				googleFont: true,
 				fontFamilyFallback: googleFonts[ value ].fallback,
@@ -76,7 +86,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 				/>
 			</BaseControl>
 
-			{ !! typography.fontFamily &&
+			{ !! typography.fontFamily && ! generateBlocksInfo.disableGoogleFonts &&
 				<Fragment>
 					<ToggleControl
 						label={ __( 'Use Google Fonts API', 'generateblocks' ) }
