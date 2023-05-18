@@ -7,13 +7,17 @@ import migrateDimensions from './migrations/migrateDimensions';
 import migrateTypography from './migrations/migrateTypography';
 import migrateIconSizing from './migrations/migratingIconSizing';
 import migrateIconPadding from './migrations/migrateIconPadding';
-import {
-	migrationPipe,
-	updateBlockVersion,
-} from './migrations/utils';
+import { migrationPipe, updateBlockVersion } from './migrations/utils';
+import { isEmpty } from 'lodash';
 
-// Set our layout attributes for old Headline blocks.
-// @since 1.7.0
+/**
+ * Set our layout attributes for old Headline blocks.
+ *
+ * @param {Object} attrs         Attributes from previous migrations.
+ * @param {Object} existingAttrs Pre-existing block attributes.
+ * @return {Object} Updated attributes.
+ * @since 1.7.0
+ */
 export function migrateFlex( attrs, existingAttrs ) {
 	if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, 2 ) ) {
 		if ( existingAttrs.hasIcon ) {
@@ -51,15 +55,16 @@ export default ( WrappedComponent ) => {
 			setAttributes,
 		} = props;
 
-		const defaults = getBlockType( 'generateblocks/button' )?.attributes;
-
 		useEffect( () => {
+			const defaults = getBlockType( 'generateblocks/button' )?.attributes;
+
 			const newAttributes = migrationPipe(
 				attributes,
 				[
 					migrateFlex,
 					migrateDimensions( {
-						blockVersion: 3,
+						blockVersionLessThan: 3,
+						defaults,
 						attributesToMigrate: [
 							'paddingTop',
 							'paddingRight',
@@ -80,7 +85,7 @@ export default ( WrappedComponent ) => {
 						],
 					} ),
 					migrateTypography( {
-						blockVersion: 3,
+						blockVersionLessThan: 3,
 						defaults,
 						attributesToMigrate: [
 							'fontFamily',
@@ -93,18 +98,20 @@ export default ( WrappedComponent ) => {
 						],
 					} ),
 					migrateIconSizing( {
-						blockVersion: 3,
+						blockVersionLessThan: 3,
 						defaults,
 					} ),
 					migrateIconPadding( {
-						blockVersion: 3,
+						blockVersionLessThan: 3,
 						defaults,
 					} ),
 					updateBlockVersion( 3 ),
 				]
 			);
 
-			setAttributes( newAttributes );
+			if ( ! isEmpty( newAttributes ) ) {
+				setAttributes( newAttributes );
+			}
 		}, [] );
 
 		return ( <WrappedComponent { ...props } /> );

@@ -7,56 +7,78 @@ import migrateDimensions from './migrations/migrateDimensions';
 import migrateTypography from './migrations/migrateTypography';
 import migrateIconSizing from './migrations/migratingIconSizing';
 import migrateIconPadding from './migrations/migrateIconPadding';
-import {
-	migrationPipe,
-	updateBlockVersion,
-} from './migrations/utils';
+import { migrationPipe, updateBlockVersion } from './migrations/utils';
+import { isEmpty } from 'lodash';
 
-function oldMigrations( attrs ) {
-	if ( ! attrs.hasIcon && attrs.icon ) {
+function oldMigrations( attrs, existingAttrs ) {
+	if ( ! existingAttrs.hasIcon && !! existingAttrs.icon ) {
 		attrs.hasIcon = true;
 	}
 
-	if ( ! attrs.hasUrl ) {
-		attrs.hasUrl = !! attrs.url;
-	}
-
-	// Set our layout attributes for old Button blocks.
-	// @since 1.7.0
-	if ( ! wasBlockJustInserted( attrs ) && isBlockVersionLessThan( attrs.blockVersion, 3 ) && ! attrs.useGlobalStyle ) {
-		attrs = {
-			...attrs,
-			display: 'inline-flex',
-			alignItems: 'center',
-			justifyContent: 'center',
-			alignment: 'center',
-		};
-	}
-
-	// Set our old defaults as static values.
-	// @since 1.4.0.
-	if ( ! wasBlockJustInserted( attrs ) && isBlockVersionLessThan( attrs.blockVersion, 2 ) ) {
-		const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.button;
-		const items = [];
-
-		if ( attrs.gradient ) {
-			items.push(
-				'gradientDirection',
-				'gradientColorOne',
-				'gradientColorOneOpacity',
-				'gradientColorTwo',
-				'gradientColorTwoOpacity'
-			);
-		}
-
-		items.forEach( ( item ) => {
-			if ( ! hasNumericValue( attrs[ item ] ) ) {
-				attrs[ item ] = legacyDefaults[ item ];
-			}
-		} );
+	if ( ! existingAttrs.hasUrl && !! existingAttrs.url ) {
+		attrs.hasUrl = true;
 	}
 
 	return attrs;
+}
+
+/**
+ * Set our old defaults as static values.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @param {Object} Props.oldDefaults          Old defaults that were changed and need to be added to attributes.
+ * @return {Object} Updated attributes.
+ * @since 1.4.0
+ */
+export function migrateOldButtonDefaults( { blockVersionLessThan, oldDefaults } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			const items = [];
+
+			if ( existingAttrs.gradient ) {
+				items.push(
+					'gradientDirection',
+					'gradientColorOne',
+					'gradientColorOneOpacity',
+					'gradientColorTwo',
+					'gradientColorTwoOpacity'
+				);
+			}
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( existingAttrs[ item ] ) ) {
+					attrs[ item ] = oldDefaults[ item ];
+				}
+			} );
+		}
+
+		return attrs;
+	};
+}
+
+/**
+ * Set our layout attributes for old Button blocks.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @return {Object} Updated attributes.
+ * @since 1.7.0
+ */
+export function migrateButtonLayout( { blockVersionLessThan } ) {
+	return function( attrs, existingAttrs ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) && ! existingAttrs.useGlobalStyle ) {
+			attrs = {
+				...attrs,
+				display: 'inline-flex',
+				alignItems: 'center',
+				justifyContent: 'center',
+				alignment: 'center',
+			};
+		}
+
+		return attrs;
+	};
 }
 
 export default ( WrappedComponent ) => {
@@ -66,15 +88,23 @@ export default ( WrappedComponent ) => {
 			setAttributes,
 		} = props;
 
-		const defaults = getBlockType( 'generateblocks/button' )?.attributes;
-
 		useEffect( () => {
+			const defaults = getBlockType( 'generateblocks/button' )?.attributes;
+
 			const newAttributes = migrationPipe(
 				attributes,
 				[
 					oldMigrations,
+					migrateOldButtonDefaults( {
+						blockVersionLessThan: 2,
+						oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.button,
+					} ),
+					migrateButtonLayout( {
+						blockVersionLessThan: 3,
+					} ),
 					migrateDimensions( {
-						blockVersion: 4,
+						blockVersionLessThan: 4,
+						defaults,
 						attributesToMigrate: [
 							'paddingTop',
 							'paddingRight',
@@ -95,7 +125,7 @@ export default ( WrappedComponent ) => {
 						],
 					} ),
 					migrateTypography( {
-						blockVersion: 4,
+						blockVersionLessThan: 4,
 						defaults,
 						attributesToMigrate: [
 							'fontFamily',
@@ -107,18 +137,20 @@ export default ( WrappedComponent ) => {
 						],
 					} ),
 					migrateIconSizing( {
-						blockVersion: 4,
+						blockVersionLessThan: 4,
 						defaults,
 					} ),
 					migrateIconPadding( {
-						blockVersion: 4,
+						blockVersionLessThan: 4,
 						defaults,
 					} ),
 					updateBlockVersion( 4 ),
 				]
 			);
 
-			setAttributes( newAttributes );
+			if ( ! isEmpty( newAttributes ) ) {
+				setAttributes( newAttributes );
+			}
 		}, [] );
 
 		return ( <WrappedComponent { ...props } /> );

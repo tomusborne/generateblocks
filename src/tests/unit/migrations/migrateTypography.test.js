@@ -1,5 +1,5 @@
-import { migrationPipe } from '../../hoc/migrations/utils';
-import migrateTypography from '../../hoc/migrations/migrateTypography';
+import { migrationPipe } from '../../../hoc/migrations/utils';
+import migrateTypography from '../../../hoc/migrations/migrateTypography';
 
 describe( 'Test typography migrations', () => {
 	const defaults = {
@@ -55,7 +55,7 @@ describe( 'Test typography migrations', () => {
 			attributes,
 			[
 				migrateTypography( {
-					blockVersion: 4,
+					blockVersionLessThan: 4,
 					attributesToMigrate: [ 'fontFamily', 'fontWeight', 'textTransform' ],
 					defaults,
 				} ),
@@ -87,7 +87,7 @@ describe( 'Test typography migrations', () => {
 			attributes,
 			[
 				migrateTypography( {
-					blockVersion: 4,
+					blockVersionLessThan: 4,
 					attributesToMigrate: [ 'fontSize' ],
 					defaults,
 				} ),
@@ -120,7 +120,7 @@ describe( 'Test typography migrations', () => {
 			attributes,
 			[
 				migrateTypography( {
-					blockVersion: 4,
+					blockVersionLessThan: 4,
 					attributesToMigrate: [ 'lineHeight' ],
 					defaults,
 				} ),
@@ -154,7 +154,7 @@ describe( 'Test typography migrations', () => {
 			attributes,
 			[
 				migrateTypography( {
-					blockVersion: 4,
+					blockVersionLessThan: 4,
 					attributesToMigrate: [ 'letterSpacing' ],
 					defaults,
 				} ),

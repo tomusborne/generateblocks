@@ -1,7 +1,19 @@
-import { migrationPipe } from '../../hoc/migrations/utils';
-import migrateDimensions from '../../hoc/migrations/migrateDimensions';
+import { migrationPipe } from '../../../hoc/migrations/utils';
+import migrateDimensions from '../../../hoc/migrations/migrateDimensions';
 
-describe( 'Value with unit function', () => {
+describe( 'Migrate dimensions', () => {
+	const defaults = {
+		paddingUnit: {
+			default: 'px',
+		},
+		marginUnit: {
+			default: 'px',
+		},
+		borderRadiusUnit: {
+			default: 'px',
+		},
+	};
+
 	it( 'can migrate values with separate units', () => {
 		const attributes = {
 			blockVersion: 3,
@@ -17,7 +29,8 @@ describe( 'Value with unit function', () => {
 			attributes,
 			[
 				migrateDimensions( {
-					blockVersion: 4,
+					blockVersionLessThan: 4,
+					defaults,
 					attributesToMigrate: [ 'marginTop', 'paddingTop' ],
 				} ),
 			]
@@ -25,9 +38,11 @@ describe( 'Value with unit function', () => {
 
 		expect( newAttributes ).toEqual( {
 			marginTop: '10px',
+			marginUnit: 'px',
 			marginTopTablet: '20px',
 			paddingTop: '20%',
 			paddingTopMobile: '10%',
+			paddingUnit: 'px',
 		} );
 	} );
 
@@ -44,7 +59,8 @@ describe( 'Value with unit function', () => {
 			attributes,
 			[
 				migrateDimensions( {
-					blockVersion: 4,
+					blockVersionLessThan: 4,
+					defaults,
 					attributesToMigrate: [ 'marginTop', 'paddingTop' ],
 				} ),
 			]
@@ -52,6 +68,7 @@ describe( 'Value with unit function', () => {
 
 		expect( newAttributes ).toEqual( {
 			marginTop: '10px',
+			marginUnit: 'px',
 		} );
 	} );
 } );

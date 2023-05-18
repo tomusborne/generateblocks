@@ -1,7 +1,18 @@
 import isNumeric from '../../utils/is-numeric';
 import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../../utils/check-block-version';
+import { addToAttrsObject } from './utils';
 
+/**
+ * Build an object with new migrated attributes and old attributes reverted to defaults.
+ *
+ * @param {Object} Props                     Function props.
+ * @param {Array}  Props.attributesToMigrate The attributes we want to migrate.
+ * @param {Object} Props.attributes          The existing block attributes.
+ * @param {Object} Props.defaults            The block defaults.
+ * @return {Object} New attributes.
+ * @since 1.8.0
+ */
 function buildTypographyAttributes( { attributesToMigrate, attributes, defaults } ) {
 	function unitValue( name ) {
 		if ( 'fontSize' === name ) {
@@ -53,31 +64,32 @@ function buildTypographyAttributes( { attributesToMigrate, attributes, defaults 
 	return { newAttributes, oldAttributes };
 }
 
-// Migrate typography controls.
-// @since 1.8.0.
-export default function migrateTypography( { blockVersion, defaults, attributesToMigrate = [] } ) {
+/**
+ * Build a typography object to be used by setAttributes with our new attributes.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @param {Object} Props.defaults             The block defaults.
+ * @param {Array}  Props.attributesToMigrate  The attributes we want to migrate.
+ * @return {Object} New attributes.
+ * @since 1.8.0
+ */
+export default function migrateTypography( { blockVersionLessThan, defaults, attributesToMigrate = [] } ) {
 	return function( attrs, existingAttrs ) {
-		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersion ) ) {
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newTypography = buildTypographyAttributes( {
 				attributesToMigrate,
 				attributes: existingAttrs,
 				defaults,
 			} );
 
-			if (
-				Object.keys( newTypography.newAttributes ).length &&
-				Object.keys( newTypography.oldAttributes ).length
-			) {
-				attrs = {
-					...attrs,
-					typography: {
-						...existingAttrs.typography,
-						...attrs.typography,
-						...newTypography.newAttributes,
-					},
-					...newTypography.oldAttributes,
-				};
-			}
+			attrs = addToAttrsObject( {
+				attrs,
+				attributeName: 'typography',
+				existingAttrs: existingAttrs.typography,
+				newAttrs: newTypography.newAttributes,
+				oldAttrs: newTypography.oldAttributes,
+			} );
 		}
 
 		return attrs;

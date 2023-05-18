@@ -1,3 +1,4 @@
+import { isEmpty } from 'lodash';
 import isBlockVersionLessThan from '../../utils/check-block-version';
 
 function migrationPipe( existingAttributes, callbacks = [] ) {
@@ -17,7 +18,33 @@ function updateBlockVersion( newBlockVersion ) {
 	};
 }
 
+function addToAttrsObject( { attrs = {}, attributeName, existingAttrs = {}, newAttrs = {}, oldAttrs = {} } ) {
+	if ( isEmpty( newAttrs ) ) {
+		return attrs;
+	}
+
+	return {
+		...attrs,
+		[ attributeName ]: {
+			...existingAttrs,
+			...attrs[ attributeName ],
+			...newAttrs,
+		},
+		...oldAttrs,
+	};
+}
+
+function setIsDynamic( attrs, existingAttrs ) {
+	if ( ! existingAttrs.isDynamic ) {
+		attrs.isDynamic = true;
+	}
+
+	return attrs;
+}
+
 export {
 	migrationPipe,
 	updateBlockVersion,
+	addToAttrsObject,
+	setIsDynamic,
 };
