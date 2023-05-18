@@ -3,7 +3,8 @@ import { getBlockType } from '@wordpress/blocks';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import flexboxAlignment from '../utils/flexbox-alignment';
-import migrateDimensions from './migrations/migrateDimensions';
+import migrateSpacing from './migrations/migrateSpacing';
+import migrateBorders from './migrations/migrateBorders';
 import migrateTypography from './migrations/migrateTypography';
 import migrateIconSizing from './migrations/migratingIconSizing';
 import migrateIconPadding from './migrations/migrateIconPadding';
@@ -62,7 +63,7 @@ export default ( WrappedComponent ) => {
 				attributes,
 				[
 					migrateFlex,
-					migrateDimensions( {
+					migrateSpacing( {
 						blockVersionLessThan: 3,
 						defaults,
 						attributesToMigrate: [
@@ -74,6 +75,12 @@ export default ( WrappedComponent ) => {
 							'marginRight',
 							'marginBottom',
 							'marginLeft',
+						],
+					} ),
+					migrateBorders( {
+						blockVersionLessThan: 3,
+						defaults,
+						attributesToMigrate: [
 							'borderSizeTop',
 							'borderSizeRight',
 							'borderSizeBottom',

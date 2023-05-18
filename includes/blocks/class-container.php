@@ -156,6 +156,9 @@ class GenerateBlocks_Block_Container {
 			$settings = GenerateBlocks_Legacy_Attributes::get_settings( '1.4.0', 'container', $settings, $attributes );
 		}
 
+		// Map deprecated settings.
+		$settings = GenerateBlocks_Map_Deprecated_Attributes::map_attributes( $settings );
+
 		$selector = generateblocks_get_css_selector( 'container', $attributes );
 		$use_visited_selector = generateblocks_use_visited_selector( 'container', $attributes );
 		$settings['useInnerContainer'] = $blockVersion < 3 || $settings['useInnerContainer'];
@@ -211,16 +214,10 @@ class GenerateBlocks_Block_Container {
 		generateblocks_add_layout_css( $css, $settings );
 		generateblocks_add_flex_child_css( $css, $settings );
 		generateblocks_add_typography_css( $css, $settings );
-		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
+		generateblocks_add_spacing_css( $css, $settings );
+		generateblocks_add_border_css( $css, $settings );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
-		$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
-		$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
-		$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
-
-		if ( ! $useInnerContainer ) {
-			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
-		}
 
 		if ( $hasBgImage && 'element' === $settings['bgOptions']['selector'] && $backgroundImageValue ) {
 			if ( ! $settings['bgImageInline'] || ( $settings['bgImageInline'] && 'element' !== $settings['bgOptions']['selector'] ) ) {
@@ -307,7 +304,15 @@ class GenerateBlocks_Block_Container {
 			$css->add_property( 'bottom', '0' );
 			$css->add_property( 'left', '0' );
 			$css->add_property( 'transition', 'inherit' );
-			$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
+			$css->add_property(
+				'border-radius',
+				array(
+					generateblocks_get_array_attribute_value( 'borderTopLeftRadius', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderTopRightRadius', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderBottomRightRadius', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderBottomLeftRadius', $settings['borders'] ),
+				)
+			);
 			$css->add_property( 'pointer-events', 'none' );
 
 			if ( isset( $settings['bgOptions']['opacity'] ) && 1 !== $settings['bgOptions']['opacity'] ) {
@@ -348,7 +353,19 @@ class GenerateBlocks_Block_Container {
 		 */
 		if ( $useInnerContainer ) {
 			$css->set_selector( $selector . ' > .gb-inside-container' );
-			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
+			if ( $blockVersion < 4 ) {
+				$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
+			} else {
+				$css->add_property(
+					'padding',
+					array(
+						generateblocks_get_array_attribute_value( 'paddingTop', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingRight', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingBottom', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingLeft', $settings['spacing'] ),
+					)
+				);
+			}
 
 			if ( 'contained' === $settings['innerContainer'] && ! $settings['isGrid'] ) {
 				if ( ! empty( $containerWidth ) ) {
@@ -369,6 +386,27 @@ class GenerateBlocks_Block_Container {
 				$css->add_property( 'position', 'relative' );
 			}
 		}
+
+		/**
+		 * Container hover.
+		 *
+		 * Example: .gb-container-{ $uniqueId }:hover
+		 */
+		$css->set_selector( $selector . ':hover' );
+		generateblocks_add_border_color_css( $css, $settings, 'Hover' );
+
+		/**
+		 * Container current.
+		 *
+		 * Example: .gb-container-{ $uniqueId }.gb-block-is-current
+		 */
+		$current_selector = sprintf(
+			'%1$s.gb-block-is-current, %1$s.gb-block-is-current:hover, %1$s.gb-block-is-current:active, %1$s.gb-block-is-current:focus',
+			$selector
+		);
+
+		$css->set_selector( $current_selector );
+		generateblocks_add_border_color_css( $css, $settings, 'Current' );
 
 		/**
 		 * Container links.
@@ -521,16 +559,11 @@ class GenerateBlocks_Block_Container {
 		generateblocks_add_layout_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
 		generateblocks_add_typography_css( $tablet_css, $settings, 'Tablet' );
-		$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
-		$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
-		$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
+		generateblocks_add_spacing_css( $tablet_css, $settings, 'Tablet' );
+		generateblocks_add_border_css( $tablet_css, $settings, 'Tablet' );
 
 		if ( $blockVersion < 3 ) {
 			$tablet_css->add_property( 'min-height', $settings['minHeightTablet'], $settings['minHeightUnitTablet'] );
-		}
-
-		if ( ! $useInnerContainer ) {
-			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
 		}
 
 		if ( $useInnerContainer ) {
@@ -556,7 +589,20 @@ class GenerateBlocks_Block_Container {
 			 * Example: .gb-container-{ $uniqueId } > .gb-inside-container
 			 */
 			$tablet_css->set_selector( $selector . ' > .gb-inside-container' );
-			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
+
+			if ( $blockVersion < 4 ) {
+				$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
+			} else {
+				$tablet_css->add_property(
+					'padding',
+					array(
+						generateblocks_get_array_attribute_value( 'paddingTopTablet', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingRightTablet', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingBottomTablet', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingLeftTablet', $settings['spacing'] ),
+					)
+				);
+			}
 
 			$usingMinHeightInnerWidthBoxSizing = false;
 
@@ -639,7 +685,15 @@ class GenerateBlocks_Block_Container {
 		 */
 		if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 			$tablet_css->set_selector( $selector . ':before' );
-			$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
+			$tablet_css->add_property(
+				'border-radius',
+				array(
+					generateblocks_get_array_attribute_value( 'borderTopLeftRadiusTablet', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderTopRightRadiusTablet', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderBottomRightRadiusTablet', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderBottomLeftRadiusTablet', $settings['borders'] ),
+				)
+			);
 		}
 
 		/**
@@ -674,13 +728,8 @@ class GenerateBlocks_Block_Container {
 		generateblocks_add_layout_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
 		generateblocks_add_typography_css( $mobile_css, $settings, 'Mobile' );
-		$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
-		$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
-		$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
-
-		if ( ! $useInnerContainer ) {
-			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
-		}
+		generateblocks_add_spacing_css( $mobile_css, $settings, 'Mobile' );
+		generateblocks_add_border_css( $mobile_css, $settings, 'Mobile' );
 
 		if ( $blockVersion < 3 ) {
 			$mobile_css->add_property( 'min-height', $settings['minHeightMobile'], $settings['minHeightUnitMobile'] );
@@ -709,7 +758,20 @@ class GenerateBlocks_Block_Container {
 			 * Example: .gb-container-{ $uniqueId } > .gb-inside-container
 			 */
 			$mobile_css->set_selector( $selector . ' > .gb-inside-container' );
-			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+
+			if ( $blockVersion < 4 ) {
+				$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
+			} else {
+				$mobile_css->add_property(
+					'padding',
+					array(
+						generateblocks_get_array_attribute_value( 'paddingTopMobile', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingRightMobile', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingBottomMobile', $settings['spacing'] ),
+						generateblocks_get_array_attribute_value( 'paddingLeftMobile', $settings['spacing'] ),
+					)
+				);
+			}
 
 			if ( ! $settings['isGrid'] ) {
 				// Needs 100% width if it's a flex item.
@@ -788,7 +850,15 @@ class GenerateBlocks_Block_Container {
 		 */
 		if ( $hasBgImage && 'pseudo-element' === $settings['bgOptions']['selector'] ) {
 			$mobile_css->set_selector( $selector . ':before' );
-			$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
+			$mobile_css->add_property(
+				'border-radius',
+				array(
+					generateblocks_get_array_attribute_value( 'borderTopLeftRadiusMobile', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderTopRightRadiusMobile', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderBottomRightRadiusMobile', $settings['borders'] ),
+					generateblocks_get_array_attribute_value( 'borderBottomLeftRadiusMobile', $settings['borders'] ),
+				)
+			);
 		}
 
 		/**

@@ -1,6 +1,6 @@
 import { migrationPipe, setIsDynamic, updateBlockVersion } from '../../../hoc/migrations/utils';
 import { migrateStackFill } from '../../../hoc/withButtonContainerLegacyMigration';
-import migrateDimensions from '../../../hoc/migrations/migrateDimensions';
+import migrateSpacing from '../../../hoc/migrations/migrateSpacing';
 
 describe( 'Test button container migration', () => {
 	const defaults = {
@@ -28,7 +28,7 @@ describe( 'Test button container migration', () => {
 				migrateStackFill( {
 					blockVersionLessThan: 2,
 				} ),
-				migrateDimensions( {
+				migrateSpacing( {
 					blockVersionLessThan: 3,
 					defaults,
 					attributesToMigrate: [
@@ -48,10 +48,16 @@ describe( 'Test button container migration', () => {
 			stackMobile: true,
 			fillHorizontalSpaceTablet: true,
 			fillHorizontalSpaceMobile: true,
-			marginTop: '20em',
-			marginRight: '30em',
-			marginBottom: '40em',
-			marginLeft: '50em',
+			spacing: {
+				marginTop: '20em',
+				marginRight: '30em',
+				marginBottom: '40em',
+				marginLeft: '50em',
+			},
+			marginTop: '',
+			marginRight: '',
+			marginBottom: '',
+			marginLeft: '',
 			marginUnit: 'px',
 			blockVersion: 3,
 		} );
@@ -76,7 +82,7 @@ describe( 'Test button container migration', () => {
 				migrateStackFill( {
 					blockVersionLessThan: 2,
 				} ),
-				migrateDimensions( {
+				migrateSpacing( {
 					blockVersionLessThan: 3,
 					defaults,
 					attributesToMigrate: [
@@ -92,10 +98,16 @@ describe( 'Test button container migration', () => {
 
 		expect( newAttributes ).toEqual( {
 			isDynamic: true,
-			marginTop: '20em',
-			marginRight: '30em',
-			marginBottom: '40em',
-			marginLeft: '50em',
+			spacing: {
+				marginTop: '20em',
+				marginRight: '30em',
+				marginBottom: '40em',
+				marginLeft: '50em',
+			},
+			marginTop: '',
+			marginRight: '',
+			marginBottom: '',
+			marginLeft: '',
 			marginUnit: 'px',
 			blockVersion: 3,
 		} );

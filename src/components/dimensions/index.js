@@ -24,6 +24,14 @@ export default function Dimensions( props ) {
 		onChange,
 	} = props;
 
+	// values can have other attributes not related to this component.
+	// This builds an object of values related to this component.
+	const attributes = attributeNames.reduce( ( o, k ) => {
+		o[ k ] = values[ k ];
+
+		return o;
+	}, {} );
+
 	const [ sync, setSync ] = useState( false );
 	const [ lastFocused, setLastFocused ] = useState( '' );
 
@@ -31,7 +39,7 @@ export default function Dimensions( props ) {
 		const sides = [ ...attributeNames ].reverse();
 
 		const firstValue = sides.reduce( ( result, key ) => {
-			return values[ key ] || isNumeric( values[ key ] ) ? values[ key ] : result;
+			return attributes[ key ] || isNumeric( attributes[ key ] ) ? attributes[ key ] : result;
 		}, '' );
 
 		if ( ! firstValue ) {
@@ -41,7 +49,7 @@ export default function Dimensions( props ) {
 		}
 
 		const syncValue = lastFocused
-			? values[ lastFocused ]
+			? attributes[ lastFocused ]
 			: firstValue;
 
 		const newAttributes = attributeNames.reduce( ( o, key ) => ( { ...o, [ key ]: syncValue } ), {} );
@@ -49,7 +57,7 @@ export default function Dimensions( props ) {
 		setSync( ! sync );
 	};
 
-	const style = attributeNames.find( ( name ) => name.includes( 'borderRadius' ) )
+	const style = attributeNames.find( ( name ) => name.includes( 'Radius' ) )
 		? 'corners'
 		: 'circle';
 
@@ -74,7 +82,7 @@ export default function Dimensions( props ) {
 						<div key={ attributeName }>
 							<UnitControl
 								id={ attributeName }
-								value={ values[ attributeName ] || '' }
+								value={ attributes[ attributeName ] || '' }
 								placeholder={ placeholders[ attributeName ] || '' }
 								units={ units }
 								onChange={ ( value ) => {

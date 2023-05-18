@@ -3,8 +3,8 @@ import { getBlockType } from '@wordpress/blocks';
 import isBlockVersionLessThan from '../utils/check-block-version';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import { migrationPipe, updateBlockVersion, setIsDynamic } from './migrations/utils';
-import migrateDimensions from './migrations/migrateDimensions';
 import { isEmpty } from 'lodash';
+import migrateSpacing from './migrations/migrateSpacing';
 
 /**
  * Migrate our stack and fillHorizontal space attributes to their devices.
@@ -51,7 +51,7 @@ export default ( WrappedComponent ) => {
 					migrateStackFill( {
 						blockVersionLessThan: 2,
 					} ),
-					migrateDimensions( {
+					migrateSpacing( {
 						blockVersionLessThan: 3,
 						defaults,
 						attributesToMigrate: [

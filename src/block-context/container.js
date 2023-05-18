@@ -49,24 +49,28 @@ const containerContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			dimensions: [
+			padding: true,
+			margin: true,
+		},
+		borders: {
+			enabled: true,
+			borderColors: [
 				{
-					label: __( 'Padding', 'generateblocks' ),
-					attributes: [ 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft' ],
+					state: '',
+					tooltip: __( 'Border', 'generateblocks' ),
+					alpha: true,
 				},
 				{
-					label: __( 'Margin', 'generateblocks' ),
-					attributes: [ 'marginTop', 'marginRight', 'marginBottom', 'marginLeft' ],
-				},
-				{
-					label: __( 'Border Size', 'generateblocks' ),
-					attributes: [ 'borderSizeTop', 'borderSizeRight', 'borderSizeBottom', 'borderSizeLeft' ],
-				},
-				{
-					label: __( 'Border Radius', 'generateblocks' ),
-					attributes: [ 'borderRadiusTopLeft', 'borderRadiusTopRight', 'borderRadiusBottomRight', 'borderRadiusBottomLeft' ],
+					state: 'Hover',
+					tooltip: __( 'Border Hover', 'generateblocks' ),
+					alpha: true,
 				},
 			],
+			borderTop: true,
+			borderRight: true,
+			borderBottom: true,
+			borderLeft: true,
+			borderRadius: true,
 		},
 		colors: {
 			enabled: true,
@@ -100,16 +104,6 @@ const containerContext = defaultsDeep( {
 						{
 							tooltip: __( 'Hover', 'generateblocks' ),
 							attribute: 'linkColorHover',
-						},
-					],
-				},
-				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
 						},
 					],
 				},

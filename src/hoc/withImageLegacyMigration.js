@@ -1,7 +1,8 @@
 import { useEffect } from '@wordpress/element';
 import { getBlockType } from '@wordpress/blocks';
 import { migrationPipe, updateBlockVersion } from './migrations/utils';
-import migrateDimensions from './migrations/migrateDimensions';
+import migrateSpacing from './migrations/migrateSpacing';
+import migrateBorders from './migrations/migrateBorders';
 import { isEmpty } from 'lodash';
 
 export default ( WrappedComponent ) => {
@@ -17,7 +18,7 @@ export default ( WrappedComponent ) => {
 			const newAttributes = migrationPipe(
 				attributes,
 				[
-					migrateDimensions( {
+					migrateSpacing( {
 						blockVersionLessThan: 2,
 						defaults,
 						attributesToMigrate: [
@@ -29,6 +30,12 @@ export default ( WrappedComponent ) => {
 							'marginRight',
 							'marginBottom',
 							'marginLeft',
+						],
+					} ),
+					migrateBorders( {
+						blockVersionLessThan: 2,
+						defaults,
+						attributesToMigrate: [
 							'borderSizeTop',
 							'borderSizeRight',
 							'borderSizeBottom',

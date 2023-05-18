@@ -60,10 +60,12 @@ function generateblocks_get_default_styles() {
 			'textColor' => $defaults['button']['textColor'] ? $defaults['button']['textColor'] : '#ffffff',
 			'backgroundColorHover' => $defaults['button']['backgroundColorHover'] ? $defaults['button']['backgroundColorHover'] : '#222222',
 			'textColorHover' => $defaults['button']['textColorHover'] ? $defaults['button']['textColorHover'] : '#ffffff',
-			'paddingTop' => $defaults['button']['paddingTop'] ? $defaults['button']['paddingTop'] : '15px',
-			'paddingRight' => $defaults['button']['paddingRight'] ? $defaults['button']['paddingRight'] : '20px',
-			'paddingBottom' => $defaults['button']['paddingBottom'] ? $defaults['button']['paddingBottom'] : '15px',
-			'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20px',
+			'spacing' => [
+				'paddingTop' => $defaults['button']['paddingTop'] ? $defaults['button']['paddingTop'] : '15px',
+				'paddingRight' => $defaults['button']['paddingRight'] ? $defaults['button']['paddingRight'] : '20px',
+				'paddingBottom' => $defaults['button']['paddingBottom'] ? $defaults['button']['paddingBottom'] : '15px',
+				'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20px',
+			],
 			'display' => 'inline-flex',
 		),
 		'container' => array(

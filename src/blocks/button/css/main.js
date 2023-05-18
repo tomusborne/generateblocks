@@ -1,6 +1,5 @@
 /* eslint-disable quotes */
 import buildCSS from '../../../utils/build-css';
-import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
@@ -16,6 +15,7 @@ import {
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import { sprintf } from '@wordpress/i18n';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
+import BorderCSS, { BorderCSSColor } from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default class MainCSS extends Component {
 	render() {
@@ -32,24 +32,8 @@ export default class MainCSS extends Component {
 			textColorHover,
 			fontFamily,
 			fontFamilyFallback,
-			paddingTop,
-			paddingRight,
-			paddingBottom,
-			paddingLeft,
-			paddingUnit,
-			borderSizeTop,
-			borderSizeRight,
-			borderSizeBottom,
-			borderSizeLeft,
-			borderRadiusTopRight,
-			borderRadiusBottomRight,
-			borderRadiusBottomLeft,
-			borderRadiusTopLeft,
-			borderRadiusUnit,
 			borderColor,
 			borderColorOpacity,
-			borderColorHover,
-			borderColorHoverOpacity,
 			gradient,
 			gradientDirection,
 			gradientColorOne,
@@ -61,7 +45,6 @@ export default class MainCSS extends Component {
 			hasButtonContainer,
 			backgroundColorCurrent,
 			textColorCurrent,
-			borderColorCurrent,
 			iconStyles,
 		} = attributes;
 
@@ -98,24 +81,16 @@ export default class MainCSS extends Component {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'background-image': backgroundImageValue,
 			'color': textColor, // eslint-disable-line quote-props
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
-			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
 			'font-family': fontFamily + fontFamilyFallbackValue,
 			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
 
 		TypographyCSS( cssObj, selector, { ...attributes.typography, fontFamilyFallback } );
-		SpacingCSS( cssObj, selector, attributes );
+		SpacingCSS( cssObj, selector, attributes.spacing );
+		BorderCSS( cssObj, selector, attributes.borders );
 		LayoutCSS( cssObj, selector, attributes );
 		SizingCSS( cssObj, selector, attributes );
 		FlexChildCSS( cssObj, selector, attributes );
-
-		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			cssObj[ selector ].push( {
-				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
-				'border-style': 'solid',
-			} );
-		}
 
 		const currentSelector = sprintf(
 			'%1$s[data-button-is-current], %1$s[data-button-is-current]:hover, %1$s[data-button-is-current]:active, %1$s[data-button-is-current]:focus',
@@ -125,14 +100,16 @@ export default class MainCSS extends Component {
 		cssObj[ currentSelector ] = [ {
 			'background-color': backgroundColorCurrent,
 			color: textColorCurrent,
-			'border-color': borderColorCurrent,
 		} ];
+
+		BorderCSSColor( cssObj, currentSelector, { ...attributes.borders }, 'Current' );
 
 		cssObj[ selector + ':hover, ' + selector + ':focus, ' + selector + ':active' ] = [ {
 			'background-color': hexToRGBA( backgroundColorHover, backgroundColorHoverOpacity ),
 			'color': textColorHover, // eslint-disable-line quote-props
-			'border-color': hexToRGBA( borderColorHover, borderColorHoverOpacity ),
 		} ];
+
+		BorderCSSColor( cssObj, selector + ':hover, ' + selector + ':focus, ' + selector + ':active', { ...attributes.borders }, 'Hover' );
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? iconStyles?.paddingTop : null,

@@ -335,4 +335,85 @@ export default function getIcon( icon ) {
 			</svg>
 		);
 	}
+
+	if ( 'border-none' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+			>
+				<path d="M9.414 8l3.293-3.293-1.414-1.414L8 6.586 4.707 3.293 3.293 4.707 6.586 8l-3.293 3.293 1.414 1.414L8 9.414l3.293 3.293 1.414-1.414L9.414 8z"></path>
+			</svg>
+		);
+	}
+
+	if ( 'border-solid' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+			>
+				<path d="M1 7h14v2H1z"></path>
+			</svg>
+		);
+	}
+
+	if ( 'border-dashed' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+			>
+				<path d="M0 7h4v2H0zm6 0h4v2H6zm6 0h4v2h-4z"></path>
+			</svg>
+		);
+	}
+
+	if ( 'border-dotted' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 16 16"
+			>
+				<path d="M1 7h2v2H1zm4 0h2v2H5zm4 0h2v2H9zm4 0h2v2h-2z"></path>
+			</svg>
+		);
+	}
+
+	if ( 'border-default' === icon ) {
+		return (
+			<svg
+				aria-hidden="true"
+				focusable="false"
+				width="16"
+				height="16"
+				viewBox="0 0 256 256"
+				style={ { opacity: 0.1 } }
+			>
+				<rect width="256" height="256" fill="none" />
+				<rect x="32" y="32" width="192" height="192" rx="16" />
+			</svg>
+		);
+	}
+
+	if ( 'borders' === icon ) {
+		return (
+			<svg width="20" height="20" viewBox="0 0 20 20" fillRule="evenodd" aria-hidden="true" focusable="false">
+				<path d="M18.895,1.105C20.368,2.579 20.368,17.421 18.895,18.895C17.421,20.368 2.579,20.368 1.105,18.895C-0.368,17.421 -0.368,2.579 1.105,1.105C2.579,-0.368 17.421,-0.368 18.895,1.105ZM17.116,2.884C18.295,4.063 18.295,15.937 17.116,17.116C15.937,18.295 4.063,18.295 2.884,17.116C1.705,15.937 1.705,4.063 2.884,2.884C4.063,1.705 15.937,1.705 17.116,2.884Z" />
+				<path d="M15.93,4.07C16.912,5.053 16.912,14.947 15.93,15.93C14.947,16.912 5.053,16.912 4.07,15.93C3.088,14.947 3.088,5.053 4.07,4.07C5.053,3.088 14.947,3.088 15.93,4.07Z" />
+			</svg>
+		);
+	}
 }

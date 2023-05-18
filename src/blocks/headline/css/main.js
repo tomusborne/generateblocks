@@ -1,5 +1,4 @@
 import buildCSS from '../../../utils/build-css';
-import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
@@ -14,6 +13,7 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default class MainCSS extends Component {
 	render() {
@@ -31,25 +31,9 @@ export default class MainCSS extends Component {
 			textColor,
 			linkColor,
 			linkColorHover,
-			borderColor,
-			borderColorOpacity,
 			highlightTextColor,
 			fontFamily,
 			fontFamilyFallback,
-			paddingTop,
-			paddingRight,
-			paddingBottom,
-			paddingLeft,
-			paddingUnit,
-			borderSizeTop,
-			borderSizeRight,
-			borderSizeBottom,
-			borderSizeLeft,
-			borderRadiusTopRight,
-			borderRadiusBottomRight,
-			borderRadiusBottomLeft,
-			borderRadiusTopLeft,
-			borderRadiusUnit,
 			iconColor,
 			iconColorOpacity,
 			removeText,
@@ -74,7 +58,8 @@ export default class MainCSS extends Component {
 		} ];
 
 		TypographyCSS( cssObj, '.editor-styles-wrapper ' + selector, { ...attributes.typography, fontFamilyFallback } );
-		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.spacing );
+		BorderCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.borders );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
@@ -86,17 +71,7 @@ export default class MainCSS extends Component {
 		cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
-			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
-			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} );
-
-		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
-				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
-				'border-style': 'solid',
-			} );
-		}
 
 		cssObj[ '.editor-styles-wrapper ' + selector + ' a' ] = [ {
 			color: linkColor,

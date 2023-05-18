@@ -1,6 +1,6 @@
 import isNumeric from '../../utils/is-numeric';
-import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../../utils/check-block-version';
+import { addToAttrsObject } from './utils';
 
 /**
  * Build an object with new migrated attributes and old attributes reverted to defaults.
@@ -12,7 +12,7 @@ import isBlockVersionLessThan from '../../utils/check-block-version';
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-function buildDimensionAttributes( { attributesToMigrate, attributes, defaults } ) {
+function buildSpacingAttributes( { attributesToMigrate = [], attributes, defaults } ) {
 	function unitValue( name ) {
 		if ( name.startsWith( 'padding' ) ) {
 			return attributes.paddingUnit;
@@ -21,36 +21,32 @@ function buildDimensionAttributes( { attributesToMigrate, attributes, defaults }
 		if ( name.startsWith( 'margin' ) ) {
 			return attributes.marginUnit;
 		}
-
-		if ( name.startsWith( 'borderSize' ) ) {
-			return 'px';
-		}
-
-		if ( name.startsWith( 'borderRadius' ) ) {
-			return attributes.borderRadiusUnit;
-		}
 	}
 
 	const newAttributes = {};
 	const oldAttributes = {};
 
 	[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
-		attributesToMigrate.forEach( ( dimension ) => {
-			const oldValue = attributes[ dimension + device ];
+		attributesToMigrate.forEach( ( attribute ) => {
+			const oldValue = attributes[ attribute + device ];
 
-			if ( isNumeric( oldValue ) ) {
-				newAttributes[ dimension + device ] = oldValue + unitValue( dimension );
+			if ( oldValue || isNumeric( oldValue ) ) {
+				if ( attribute ) {
+					newAttributes[ attribute + device ] = isNumeric( oldValue )
+						? oldValue + unitValue( attribute )
+						: oldValue;
 
-				if ( dimension.startsWith( 'padding' ) ) {
-					oldAttributes.paddingUnit = defaults.paddingUnit.default;
-				}
+					oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
+						? defaults[ attribute + device ].default
+						: '';
 
-				if ( dimension.startsWith( 'margin' ) ) {
-					oldAttributes.marginUnit = defaults.marginUnit.default;
-				}
+					if ( attribute.startsWith( 'padding' ) ) {
+						oldAttributes.paddingUnit = defaults.paddingUnit.default;
+					}
 
-				if ( dimension.startsWith( 'borderRadius' ) ) {
-					oldAttributes.borderRadiusUnit = defaults.borderRadiusUnit.default;
+					if ( attribute.startsWith( 'margin' ) ) {
+						oldAttributes.marginUnit = defaults.marginUnit.default;
+					}
 				}
 			}
 		} );
@@ -60,7 +56,7 @@ function buildDimensionAttributes( { attributesToMigrate, attributes, defaults }
 }
 
 /**
- * Build an object of dimensions to be used by setAttributes with our new attributes.
+ * Build an iconStyles padding object to be used by setAttributes with our new attributes.
  *
  * @param {Object} Props                      Function props.
  * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
@@ -69,20 +65,22 @@ function buildDimensionAttributes( { attributesToMigrate, attributes, defaults }
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-export default function migrateDimensions( { blockVersionLessThan, defaults, attributesToMigrate = [] } ) {
+export default function migrateSpacing( { blockVersionLessThan, defaults, attributesToMigrate = [] } ) {
 	return function( attrs, existingAttrs ) {
-		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
-			const newDimensions = buildDimensionAttributes( {
+		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			const newSpacing = buildSpacingAttributes( {
 				attributesToMigrate,
 				attributes: existingAttrs,
 				defaults,
 			} );
 
-			attrs = {
-				...attrs,
-				...newDimensions.newAttributes,
-				...newDimensions.oldAttributes,
-			};
+			attrs = addToAttrsObject( {
+				attrs,
+				attributeName: 'spacing',
+				existingAttrs: existingAttrs.spacing,
+				newAttrs: newSpacing.newAttributes,
+				oldAttrs: newSpacing.oldAttributes,
+			} );
 		}
 
 		return attrs;

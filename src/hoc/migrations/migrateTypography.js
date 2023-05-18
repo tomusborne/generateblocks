@@ -1,5 +1,4 @@
 import isNumeric from '../../utils/is-numeric';
-import wasBlockJustInserted from '../../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../../utils/check-block-version';
 import { addToAttrsObject } from './utils';
 
@@ -76,7 +75,7 @@ function buildTypographyAttributes( { attributesToMigrate, attributes, defaults 
  */
 export default function migrateTypography( { blockVersionLessThan, defaults, attributesToMigrate = [] } ) {
 	return function( attrs, existingAttrs ) {
-		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newTypography = buildTypographyAttributes( {
 				attributesToMigrate,
 				attributes: existingAttrs,

@@ -4,6 +4,7 @@ import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 import {
 	Component,
@@ -24,18 +25,6 @@ export default class TabletCSS extends Component {
 		const {
 			uniqueId,
 			element,
-			paddingTopTablet,
-			paddingRightTablet,
-			paddingBottomTablet,
-			paddingLeftTablet,
-			borderSizeTopTablet,
-			borderSizeRightTablet,
-			borderSizeBottomTablet,
-			borderSizeLeftTablet,
-			borderRadiusTopRightTablet,
-			borderRadiusBottomRightTablet,
-			borderRadiusBottomLeftTablet,
-			borderRadiusTopLeftTablet,
 			removeText,
 			displayTablet,
 			inlineWidthTablet,
@@ -45,32 +34,12 @@ export default class TabletCSS extends Component {
 		const selector = element + '.gb-headline-' + uniqueId;
 		let cssObj = [];
 
-		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
-			'padding-top': paddingTopTablet,
-			'padding-right': paddingRightTablet,
-			'padding-bottom': paddingBottomTablet,
-			'padding-left': paddingLeftTablet,
-			'border-top-left-radius': borderRadiusTopLeftTablet,
-			'border-top-right-radius': borderRadiusTopRightTablet,
-			'border-bottom-right-radius': borderRadiusBottomRightTablet,
-			'border-bottom-left-radius': borderRadiusBottomLeftTablet,
-		} ];
-
 		TypographyCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.typography, 'Tablet' );
-		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.spacing, 'Tablet' );
+		BorderCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.borders, 'Tablet' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes, 'Tablet' );
-
-		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
-				'border-top-width': borderSizeTopTablet,
-				'border-right-width': borderSizeRightTablet,
-				'border-bottom-width': borderSizeBottomTablet,
-				'border-left-width': borderSizeLeftTablet,
-				'border-style': 'solid',
-			} );
-		}
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
 			'padding-top': ! removeText ? iconStyles?.paddingTopTablet : null,

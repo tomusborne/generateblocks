@@ -3,66 +3,6 @@ import { useMemo } from '@wordpress/element';
 import isObject from 'lodash/isObject';
 
 /**
- * List of attributes that are device related.
- *
- * @type {string[]}
- */
-const attributesWithDevice = [
-	'flexGrow',
-	'flexShrink',
-	'flexBasis',
-	'order',
-	'iconLocation',
-	'display',
-	'flexDirection',
-	'flexWrap',
-	'alignItems',
-	'justifyContent',
-	'columnGap',
-	'rowGap',
-	'position',
-	'overflowX',
-	'overflowY',
-	'zindex',
-	'marginTop',
-	'marginRight',
-	'marginBottom',
-	'marginLeft',
-	'paddingTop',
-	'paddingRight',
-	'paddingBottom',
-	'paddingLeft',
-	'borderSizeTop',
-	'borderSizeRight',
-	'borderSizeBottom',
-	'borderSizeLeft',
-	'borderRadiusTopRight',
-	'borderRadiusBottomRight',
-	'borderRadiusBottomLeft',
-	'borderRadiusTopLeft',
-	'inlineWidth',
-	'stack',
-	'fillHorizontalSpace',
-	'alignment',
-	'textAlign',
-	'fontSize',
-	'lineHeight',
-	'letterSpacing',
-	'width',
-	'height',
-	'minHeight',
-	'maxHeight',
-	'minWidth',
-	'maxWidth',
-	'verticalAlignment',
-	'removeVerticalGap',
-	'horizontalGap',
-	'verticalGap',
-	'verticalAlignment',
-	'horizontalAlignment',
-];
-
-/**
  * Given an object of attributes will split by device.
  *
  * @param {Object} attributes The block attributes.
@@ -87,11 +27,6 @@ export function splitAttributes( attributes ) {
 				deviceKeys.mobile[ key ] = valueDeviceKeys.mobile;
 			} else {
 				deviceKeys.desktop[ key ] = value;
-
-				if ( ! attributesWithDevice.includes( key ) ) {
-					deviceKeys.tablet[ key ] = value;
-					deviceKeys.mobile[ key ] = value;
-				}
 			}
 
 			return deviceKeys;
@@ -108,16 +43,10 @@ export function splitAttributes( attributes ) {
  */
 export function addDeviceToAttributes( attrs, device = 'Tablet' ) {
 	return Object.entries( attrs ).reduce( ( result, [ key, value ] ) => {
-		if ( attributesWithDevice.includes( key ) ) {
-			result[ key + device ] = value;
-
-			return result;
-		}
-
 		if ( isObject( value ) ) {
 			result[ key ] = addDeviceToAttributes( value, device );
 		} else {
-			result[ key ] = value;
+			result[ key + device ] = value;
 		}
 
 		return result;

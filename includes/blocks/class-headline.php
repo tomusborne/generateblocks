@@ -139,6 +139,9 @@ class GenerateBlocks_Block_Headline {
 		$id = $attributes['uniqueId'];
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
+		// Map deprecated settings.
+		$settings = GenerateBlocks_Map_Deprecated_Attributes::map_attributes( $settings );
+
 		$selector = generateblocks_get_css_selector( 'headline', $attributes );
 
 		// Back-compatibility for when icon held a value.
@@ -171,13 +174,10 @@ class GenerateBlocks_Block_Headline {
 			generateblocks_add_sizing_css( $css, $settings );
 			generateblocks_add_flex_child_css( $css, $settings );
 			generateblocks_add_typography_css( $css, $settings );
+			generateblocks_add_spacing_css( $css, $settings );
+			generateblocks_add_border_css( $css, $settings );
 			$css->add_property( 'color', $settings['textColor'] );
 			$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
-			$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
-			$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
-			$css->add_property( 'border-radius', array( $settings['borderRadiusTopLeft'], $settings['borderRadiusTopRight'], $settings['borderRadiusBottomRight'], $settings['borderRadiusBottomLeft'] ), $settings['borderRadiusUnit'] );
-			$css->add_property( 'border-width', array( $settings['borderSizeTop'], $settings['borderSizeRight'], $settings['borderSizeBottom'], $settings['borderSizeLeft'] ), 'px' );
-			$css->add_property( 'border-color', generateblocks_hex2rgba( $settings['borderColor'], $settings['borderColorOpacity'] ) );
 
 			if ( $blockVersion < 2 && $settings['inlineWidth'] ) {
 				if ( $settings['hasIcon'] ) {
@@ -263,10 +263,8 @@ class GenerateBlocks_Block_Headline {
 			generateblocks_add_sizing_css( $tablet_css, $settings, 'Tablet' );
 			generateblocks_add_flex_child_css( $tablet_css, $settings, 'Tablet' );
 			generateblocks_add_typography_css( $tablet_css, $settings, 'Tablet' );
-			$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
-			$tablet_css->add_property( 'padding', array( $settings['paddingTopTablet'], $settings['paddingRightTablet'], $settings['paddingBottomTablet'], $settings['paddingLeftTablet'] ), $settings['paddingUnit'] );
-			$tablet_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftTablet'], $settings['borderRadiusTopRightTablet'], $settings['borderRadiusBottomRightTablet'], $settings['borderRadiusBottomLeftTablet'] ), $settings['borderRadiusUnit'] );
-			$tablet_css->add_property( 'border-width', array( $settings['borderSizeTopTablet'], $settings['borderSizeRightTablet'], $settings['borderSizeBottomTablet'], $settings['borderSizeLeftTablet'] ), 'px' );
+			generateblocks_add_spacing_css( $tablet_css, $settings, 'Tablet' );
+			generateblocks_add_border_css( $tablet_css, $settings, 'Tablet' );
 
 			if ( $blockVersion < 2 && $settings['inlineWidthTablet'] ) {
 				if ( $settings['hasIcon'] ) {
@@ -333,10 +331,8 @@ class GenerateBlocks_Block_Headline {
 			generateblocks_add_sizing_css( $mobile_css, $settings, 'Mobile' );
 			generateblocks_add_flex_child_css( $mobile_css, $settings, 'Mobile' );
 			generateblocks_add_typography_css( $mobile_css, $settings, 'Mobile' );
-			$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
-			$mobile_css->add_property( 'padding', array( $settings['paddingTopMobile'], $settings['paddingRightMobile'], $settings['paddingBottomMobile'], $settings['paddingLeftMobile'] ), $settings['paddingUnit'] );
-			$mobile_css->add_property( 'border-radius', array( $settings['borderRadiusTopLeftMobile'], $settings['borderRadiusTopRightMobile'], $settings['borderRadiusBottomRightMobile'], $settings['borderRadiusBottomLeftMobile'] ), $settings['borderRadiusUnit'] );
-			$mobile_css->add_property( 'border-width', array( $settings['borderSizeTopMobile'], $settings['borderSizeRightMobile'], $settings['borderSizeBottomMobile'], $settings['borderSizeLeftMobile'] ), 'px' );
+			generateblocks_add_spacing_css( $mobile_css, $settings, 'Mobile' );
+			generateblocks_add_border_css( $mobile_css, $settings, 'Mobile' );
 
 			if ( $blockVersion < 2 && $settings['inlineWidthMobile'] ) {
 				if ( $settings['hasIcon'] ) {

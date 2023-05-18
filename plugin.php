@@ -37,6 +37,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-dynamic-content.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-legacy-attributes.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-map-deprecated-attributes.php';
 
 // Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';
