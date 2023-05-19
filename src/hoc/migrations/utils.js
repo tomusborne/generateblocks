@@ -1,15 +1,19 @@
 import { isEmpty } from 'lodash';
 import isBlockVersionLessThan from '../../utils/check-block-version';
 
-function migrationPipe( existingAttributes, callbacks = [] ) {
+function migrationPipe( existingAttributes, callbacks = [], mode ) {
 	return callbacks.reduce( ( resultAttrs, callback ) => {
-		const result = callback( resultAttrs, existingAttributes );
+		const result = callback( resultAttrs, existingAttributes, mode );
 		return Object.assign( {}, result );
 	}, {} );
 }
 
 function updateBlockVersion( newBlockVersion ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, newBlockVersion ) ) {
 			attrs.blockVersion = newBlockVersion;
 		}
@@ -34,7 +38,11 @@ function addToAttrsObject( { attrs = {}, attributeName, existingAttrs = {}, newA
 	};
 }
 
-function setIsDynamic( attrs, existingAttrs ) {
+function setIsDynamic( attrs, existingAttrs, mode ) {
+	if ( 'css' === mode ) {
+		return attrs;
+	}
+
 	if ( ! existingAttrs.isDynamic ) {
 		attrs.isDynamic = true;
 	}

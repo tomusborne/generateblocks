@@ -15,7 +15,11 @@ import { isEmpty } from 'lodash';
  * @since 1.4.0
  */
 export function migrateOldGridDefaults( { blockVersionLessThan, oldDefaults } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const hasGlobalStyle = existingAttrs.useGlobalStyle && existingAttrs.globalStyleId;
 
@@ -37,13 +41,44 @@ export function migrateOldGridDefaults( { blockVersionLessThan, oldDefaults } ) 
  * @since 1.7.0
  */
 export function migrateLegacyRowGap( { blockVersionLessThan } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			attrs.useLegacyRowGap = true;
 		}
 
 		return attrs;
 	};
+}
+
+/**
+ * Migrate our Grid attributes.
+ *
+ * @param {Object} Props            Function props.
+ * @param {Object} Props.attributes The block attributes.
+ * @param {string} Props.mode       The migration mode.
+ * @return {Object} Updated attributes.
+ * @since 1.8.0
+ */
+export function migrateGridAttributes( { attributes, mode = '' } ) {
+	return migrationPipe(
+		attributes,
+		[
+			setIsDynamic,
+			migrateOldGridDefaults( {
+				blockVersionLessThan: 2,
+				oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.gridContainer,
+			} ),
+			migrateLegacyRowGap( {
+				blockVersionLessThan: 3,
+			} ),
+			updateBlockVersion( 3 ),
+		],
+		mode
+	);
 }
 
 export default ( WrappedComponent ) => {
@@ -54,20 +89,7 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			const newAttributes = migrationPipe(
-				attributes,
-				[
-					setIsDynamic,
-					migrateOldGridDefaults( {
-						blockVersionLessThan: 2,
-						oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.gridContainer,
-					} ),
-					migrateLegacyRowGap( {
-						blockVersionLessThan: 3,
-					} ),
-					updateBlockVersion( 3 ),
-				]
-			);
+			const newAttributes = migrateGridAttributes( { attributes } );
 
 			if ( ! isEmpty( newAttributes ) ) {
 				setAttributes( newAttributes );

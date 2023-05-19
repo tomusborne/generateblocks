@@ -16,10 +16,15 @@ import { isEmpty } from 'lodash';
  *
  * @param {Object} attrs         Attributes from previous migrations.
  * @param {Object} existingAttrs Pre-existing block attributes.
+ * @param {string} mode          The migration mode.
  * @return {Object} Updated attributes.
  * @since 1.7.0
  */
-export function migrateFlex( attrs, existingAttrs ) {
+export function migrateFlex( attrs, existingAttrs, mode ) {
+	if ( 'css' === mode ) {
+		return attrs;
+	}
+
 	if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, 2 ) ) {
 		if ( existingAttrs.hasIcon ) {
 			attrs.display = 'flex';
@@ -49,6 +54,76 @@ export function migrateFlex( attrs, existingAttrs ) {
 	return attrs;
 }
 
+/**
+ * Migrate our Headline attributes.
+ *
+ * @param {Object} Props            Function props.
+ * @param {Object} Props.attributes The block attributes.
+ * @param {Object} Props.defaults   The block defaults.
+ * @param {string} Props.mode       The migration mode.
+ * @return {Object} Updated attributes.
+ * @since 1.8.0
+ */
+export function migrateHeadlineAttributes( { attributes, defaults, mode } ) {
+	return migrationPipe(
+		attributes,
+		[
+			migrateFlex,
+			migrateSpacing( {
+				blockVersionLessThan: 3,
+				defaults,
+				attributesToMigrate: [
+					'paddingTop',
+					'paddingRight',
+					'paddingBottom',
+					'paddingLeft',
+					'marginTop',
+					'marginRight',
+					'marginBottom',
+					'marginLeft',
+				],
+			} ),
+			migrateBorders( {
+				blockVersionLessThan: 3,
+				defaults,
+				attributesToMigrate: [
+					'borderSizeTop',
+					'borderSizeRight',
+					'borderSizeBottom',
+					'borderSizeLeft',
+					'borderRadiusTopRight',
+					'borderRadiusBottomRight',
+					'borderRadiusBottomLeft',
+					'borderRadiusTopLeft',
+				],
+			} ),
+			migrateTypography( {
+				blockVersionLessThan: 3,
+				defaults,
+				attributesToMigrate: [
+					'fontFamily',
+					'fontSize',
+					'lineHeight',
+					'letterSpacing',
+					'fontWeight',
+					'textTransform',
+					'alignment',
+				],
+			} ),
+			migrateIconSizing( {
+				blockVersionLessThan: 3,
+				defaults,
+			} ),
+			migrateIconPadding( {
+				blockVersionLessThan: 3,
+				defaults,
+			} ),
+			updateBlockVersion( 3 ),
+		],
+		mode
+	);
+}
+
 export default ( WrappedComponent ) => {
 	return ( props ) => {
 		const {
@@ -57,64 +132,10 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			const defaults = getBlockType( 'generateblocks/button' )?.attributes;
-
-			const newAttributes = migrationPipe(
+			const newAttributes = migrateHeadlineAttributes( {
 				attributes,
-				[
-					migrateFlex,
-					migrateSpacing( {
-						blockVersionLessThan: 3,
-						defaults,
-						attributesToMigrate: [
-							'paddingTop',
-							'paddingRight',
-							'paddingBottom',
-							'paddingLeft',
-							'marginTop',
-							'marginRight',
-							'marginBottom',
-							'marginLeft',
-						],
-					} ),
-					migrateBorders( {
-						blockVersionLessThan: 3,
-						defaults,
-						attributesToMigrate: [
-							'borderSizeTop',
-							'borderSizeRight',
-							'borderSizeBottom',
-							'borderSizeLeft',
-							'borderRadiusTopRight',
-							'borderRadiusBottomRight',
-							'borderRadiusBottomLeft',
-							'borderRadiusTopLeft',
-						],
-					} ),
-					migrateTypography( {
-						blockVersionLessThan: 3,
-						defaults,
-						attributesToMigrate: [
-							'fontFamily',
-							'fontSize',
-							'lineHeight',
-							'letterSpacing',
-							'fontWeight',
-							'textTransform',
-							'alignment',
-						],
-					} ),
-					migrateIconSizing( {
-						blockVersionLessThan: 3,
-						defaults,
-					} ),
-					migrateIconPadding( {
-						blockVersionLessThan: 3,
-						defaults,
-					} ),
-					updateBlockVersion( 3 ),
-				]
-			);
+				defaults: getBlockType( 'generateblocks/button' )?.attributes,
+			} );
 
 			if ( ! isEmpty( newAttributes ) ) {
 				setAttributes( newAttributes );
