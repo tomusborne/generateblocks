@@ -76,7 +76,7 @@ export default function Borders( { attributes, setAttributes } ) {
 						return (
 							<FlexControl key={ borderArea }>
 								<Tooltip text={ borderLabels[ borderArea ] }>
-									<div className={ 'gblocks-border-icon ' + iconBorderStyle } style={ { 'border-style': attributes.borders[ borderArea + 'Style' ] } }></div>
+									<div className={ 'gblocks-border-icon ' + iconBorderStyle } style={ { borderStyle: attributes.borders[ borderArea + 'Style' ] } }></div>
 								</Tooltip>
 
 								<UnitControl

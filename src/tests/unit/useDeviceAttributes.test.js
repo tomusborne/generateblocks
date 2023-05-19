@@ -18,8 +18,8 @@ describe( 'useDeviceAttributes', () => {
 		} );
 
 		expect( result.desktop.content ).toBe( 'all devices' );
-		expect( result.tablet.content ).toBe( 'all devices' );
-		expect( result.mobile.content ).toBe( 'all devices' );
+		expect( result.tablet.content ).toBeUndefined();
+		expect( result.mobile.content ).toBeUndefined();
 
 		expect( result.desktop.paddingTop ).toBe( 'desktop' );
 		expect( result.tablet.paddingTop ).toBe( 'tablet' );
@@ -36,7 +36,6 @@ describe( 'useDeviceAttributes', () => {
 
 	it( 'should add device to attributes', () => {
 		const resultTablet = addDeviceToAttributes( {
-			content: 'all devices',
 			paddingTop: 'tablet',
 			nested: {
 				marginTop: 'tablet',
@@ -44,18 +43,15 @@ describe( 'useDeviceAttributes', () => {
 		}, 'Tablet' );
 
 		const resultMobile = addDeviceToAttributes( {
-			content: 'all devices',
 			width: 'mobile',
 			nested: {
 				height: 'mobile',
 			},
 		}, 'Mobile' );
 
-		expect( resultTablet.content ).toBe( 'all devices' );
 		expect( resultTablet.paddingTopTablet ).toBe( 'tablet' );
 		expect( resultTablet.nested.marginTopTablet ).toBe( 'tablet' );
 
-		expect( resultMobile.content ).toBe( 'all devices' );
 		expect( resultMobile.widthMobile ).toBe( 'mobile' );
 		expect( resultMobile.nested.heightMobile ).toBe( 'mobile' );
 	} );
