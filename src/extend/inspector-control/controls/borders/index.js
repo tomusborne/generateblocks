@@ -148,9 +148,9 @@ export default function Borders( { attributes, setAttributes } ) {
 														};
 
 														if ( sync ) {
-															newAttributes.borderRightColor = nextBackgroundColor;
-															newAttributes.borderBottomColor = nextBackgroundColor;
-															newAttributes.borderLeftColor = nextBackgroundColor;
+															newAttributes[ 'borderRightColor' + borderColor.state ] = nextBackgroundColor;
+															newAttributes[ 'borderBottomColor' + borderColor.state ] = nextBackgroundColor;
+															newAttributes[ 'borderLeftColor' + borderColor.state ] = nextBackgroundColor;
 														}
 
 														setAttributes( {
