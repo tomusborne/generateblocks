@@ -5,6 +5,7 @@ import SizingCSS from '../../../extend/inspector-control/controls/sizing/compone
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -14,6 +15,7 @@ import {
 	applyFilters,
 } from '@wordpress/hooks';
 import sizingValue from '../../../utils/sizingValue';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default class TabletCSS extends Component {
 	render() {
@@ -25,24 +27,7 @@ export default class TabletCSS extends Component {
 			flexGrowTablet,
 			flexShrinkTablet,
 			flexBasisTablet,
-			paddingTopTablet,
-			paddingRightTablet,
-			paddingBottomTablet,
-			paddingLeftTablet,
-			paddingUnit,
-			borderSizeTopTablet,
-			borderSizeRightTablet,
-			borderSizeBottomTablet,
-			borderSizeLeftTablet,
-			borderRadiusTopRightTablet,
-			borderRadiusBottomRightTablet,
-			borderRadiusBottomLeftTablet,
-			borderRadiusTopLeftTablet,
-			borderRadiusUnit,
 			verticalAlignmentTablet,
-			alignmentTablet,
-			fontSizeTablet,
-			fontSizeUnit,
 			orderTablet,
 			shapeDividers,
 			bgImage,
@@ -52,46 +37,35 @@ export default class TabletCSS extends Component {
 			sizing,
 		} = attributes;
 
-		let cssObj = [];
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
-			'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
-			'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
-			'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
-			'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
-			'text-align': alignmentTablet,
-			'font-size': valueWithUnit( fontSizeTablet, fontSizeUnit ),
-		} ];
+		const {
+			paddingTopTablet,
+			paddingRightTablet,
+			paddingBottomTablet,
+			paddingLeftTablet,
+		} = attributes.spacing;
 
-		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+		const {
+			borderTopLeftRadiusTablet,
+			borderTopRightRadiusTablet,
+			borderBottomRightRadiusTablet,
+			borderBottomLeftRadiusTablet,
+		} = attributes.borders;
+
+		let cssObj = [];
+
+		TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.typography, 'Tablet' );
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.spacing, useInnerContainer }, 'Tablet' );
+		BorderCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.borders, 'Tablet' );
 		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 
-		if ( ! useInnerContainer ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
-				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
-				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
-				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
-			} );
-		}
-
-		if ( borderSizeTopTablet || borderSizeRightTablet || borderSizeBottomTablet || borderSizeLeftTablet ) {
-			cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-				'border-top-width': valueWithUnit( borderSizeTopTablet, 'px' ),
-				'border-right-width': valueWithUnit( borderSizeRightTablet, 'px' ),
-				'border-bottom-width': valueWithUnit( borderSizeBottomTablet, 'px' ),
-				'border-left-width': valueWithUnit( borderSizeLeftTablet, 'px' ),
-				'border-style': 'solid',
-			} );
-		}
-
 		if ( useInnerContainer ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-				'padding-top': valueWithUnit( paddingTopTablet, paddingUnit ),
-				'padding-right': valueWithUnit( paddingRightTablet, paddingUnit ),
-				'padding-bottom': valueWithUnit( paddingBottomTablet, paddingUnit ),
-				'padding-left': valueWithUnit( paddingLeftTablet, paddingUnit ),
+				'padding-top': paddingTopTablet,
+				'padding-right': paddingRightTablet,
+				'padding-bottom': paddingBottomTablet,
+				'padding-left': paddingLeftTablet,
 				'width': sizingValue( 'minHeightTablet', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 			} ];
 
@@ -130,10 +104,10 @@ export default class TabletCSS extends Component {
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
 			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
-				'border-top-left-radius': valueWithUnit( borderRadiusTopLeftTablet, borderRadiusUnit ),
-				'border-top-right-radius': valueWithUnit( borderRadiusTopRightTablet, borderRadiusUnit ),
-				'border-bottom-right-radius': valueWithUnit( borderRadiusBottomRightTablet, borderRadiusUnit ),
-				'border-bottom-left-radius': valueWithUnit( borderRadiusBottomLeftTablet, borderRadiusUnit ),
+				'border-top-left-radius': borderTopLeftRadiusTablet,
+				'border-top-right-radius': borderTopRightRadiusTablet,
+				'border-bottom-right-radius': borderBottomRightRadiusTablet,
+				'border-bottom-left-radius': borderBottomLeftRadiusTablet,
 			} ];
 		}
 
