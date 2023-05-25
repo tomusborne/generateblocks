@@ -1076,6 +1076,19 @@ class GenerateBlocks_Dynamic_Content {
 				in_array( 'gb-headline-text', $classes ) ||
 				in_array( 'gb-block-image', $classes )
 			) {
+				// Captions are added dynamically in class-image.php, so we can remove
+				// the static one here if it exists.
+				if ( in_array( 'gb-block-image', $classes ) ) {
+					$figcaptions = $node->getElementsByTagName( 'figcaption' );
+
+					if ( ! empty( $figcaptions ) ) {
+						foreach ( $figcaptions as $figcaption ) {
+							// phpcs:ignore -- DOMDocument doesn't use snake-case.
+							$figcaption->parentNode->removeChild( $figcaption );
+						}
+					}
+				}
+
 				// phpcs:ignore -- DOMDocument doesn't use snake-case.
 				foreach ( $node->childNodes as $childNode ) {
 					$static_content .= $doc->saveHTML( $childNode );
