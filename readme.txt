@@ -90,6 +90,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Feature: Mix and match padding/margin units across sides and devices
 * Feature: Add more available units to all options that accept them
 * Feature: Allow text values (calc(), var(), etc...) in options that accept them
+* Feature: New "Add to Container" icon added to the toolbar of all blocks
 * Feature: Allow removal of Container block around innerBlocks
 * Feature: Add Container template selector for root Container blocks
 * Feature: Display text field to allow user to replace image URL
