@@ -45,13 +45,12 @@ jobs:
         if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'npm'
 
       - name: Download deps
         if: steps.js-files.outputs.any_changed == 'true'
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
 
       - name: Lint
         if: steps.js-files.outputs.any_changed == 'true'
@@ -78,13 +77,12 @@ jobs:
         if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'npm'
 
       - name: Download deps
         if: steps.js-files.outputs.any_changed == 'true'
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
 
       - name: Run tests
         if: steps.js-files.outputs.any_changed == 'true'
@@ -113,13 +111,12 @@ jobs:
         if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
+          cache: 'npm'
 
       - name: Download deps
         if: steps.js-files.outputs.any_changed == 'true'
         uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
 
       - name: Build files
         if: steps.js-files.outputs.any_changed == 'true'
