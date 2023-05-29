@@ -23,7 +23,6 @@ export default function FontFamily( { attributes, setAttributes } ) {
 		if ( ! generateBlocksInfo.disableGoogleFonts ) {
 			Object
 				.keys( googleFonts )
-				.slice( 0, 20 )
 				.forEach( ( k ) => {
 					const fontExists = Object.keys( googleFontFamilyOptions.options ).some( ( font ) => {
 						return googleFontFamilyOptions.options[ font ]?.value === k;
