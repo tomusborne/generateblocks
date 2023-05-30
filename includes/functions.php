@@ -1686,3 +1686,38 @@ function generateblocks_with_global_defaults( $defaults ) {
 
 	return $defaults;
 }
+
+/**
+ * Get the list of font families for our font family control.
+ *
+ * @since 1.8.0
+ * @return array List of grouped fonts.
+ */
+function generateblocks_get_font_family_list() {
+	return apply_filters(
+		'generateblocks_typography_font_family_list',
+		[
+			[
+				'label' => __( 'System Fonts', 'generateblocks' ),
+				'options' => [
+					[
+						'value' => 'Arial',
+						'label' => 'Arial',
+					],
+					[
+						'value' => 'Helvetica',
+						'label' => 'Helvetica',
+					],
+					[
+						'value' => 'Times New Roman',
+						'label' => 'Times New Roman',
+					],
+					[
+						'value' => 'Georgia',
+						'label' => 'Georgia',
+					],
+				],
+			],
+		]
+	);
+}
