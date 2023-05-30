@@ -1313,6 +1313,10 @@ function generateblocks_add_typography_css( $css, $settings, $device = '' ) {
 function generateblocks_add_spacing_css( $css, $settings, $device = '' ) {
 	$padding_values = array_map(
 		function( $attribute ) use ( $device, $settings ) {
+			if ( isset( $settings['useInnerContainer'] ) && $settings['useInnerContainer'] ) {
+				return false;
+			}
+
 			return generateblocks_get_array_attribute_value( $attribute . $device, $settings['spacing'] );
 		},
 		[
