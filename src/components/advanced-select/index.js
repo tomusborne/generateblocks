@@ -58,6 +58,7 @@ export default ( props ) => {
 		maxMenuHeight: 250,
 		theme: customTheme,
 		menuPortalTarget: document.querySelector( 'body' ),
+		menuPlacement: 'auto',
 	};
 
 	const wrapperStyles = Object.assign( {}, {

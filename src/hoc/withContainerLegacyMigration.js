@@ -1,8 +1,272 @@
 import { useEffect } from '@wordpress/element';
+import { getBlockType } from '@wordpress/blocks';
 import hasNumericValue from '../utils/has-numeric-value';
 import wasBlockJustInserted from '../utils/was-block-just-inserted';
 import isBlockVersionLessThan from '../utils/check-block-version';
-import MigrateSizing from '../blocks/container/migrate-sizing';
+import { migrationPipe, updateBlockVersion, setIsDynamic } from './migrations/utils';
+import migrateSpacing from './migrations/migrateSpacing';
+import migrateBorders from './migrations/migrateBorders';
+import migrateTypography from './migrations/migrateTypography';
+import migrateSizing from './migrations/migrateSizing';
+import { isEmpty } from 'lodash';
+
+/**
+ * Add late-added attributes to the bgOptions object.
+ * This was to prevent an error where `selector` was undefined.
+ * Really not sure it's still needed.
+ *
+ * @param {Object} attrs         New attributes from previous migrations.
+ * @param {Object} existingAttrs Pre-existing block attributes.
+ * @param {string} mode          The migration mode.
+ * @return {Object} Updated attributes.
+ * @since 1.1.2
+ */
+export function migrateBgSelectorOpacity( attrs, existingAttrs, mode ) {
+	if ( 'css' === mode ) {
+		return attrs;
+	}
+
+	if ( 'undefined' === typeof existingAttrs.bgOptions.selector ) {
+		attrs = {
+			...attrs,
+			bgOptions: {
+				...existingAttrs.bgOptions,
+				...attrs.bgOptions,
+				selector: 'element',
+			},
+		};
+	}
+
+	if ( 'undefined' === typeof existingAttrs.bgOptions.opacity ) {
+		attrs = {
+			...attrs,
+			bgOptions: {
+				...existingAttrs.bgOptions,
+				...attrs.bgOptions,
+				opacity: 1,
+			},
+		};
+	}
+
+	return attrs;
+}
+
+/**
+ * Set our old defaults as static values.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @param {Object} Props.oldDefaults          Old defaults that were changed and need to be added to attributes.
+ * @return {Object} Updated attributes.
+ * @since 1.4.0
+ */
+export function migrateOldContainerDefaults( { blockVersionLessThan, oldDefaults } ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			const useGlobalStyle = 'undefined' !== typeof existingAttrs.useGlobalStyle && existingAttrs.useGlobalStyle;
+			const items = [];
+
+			if ( ! useGlobalStyle ) {
+				items.push(
+					'paddingTop',
+					'paddingRight',
+					'paddingBottom',
+					'paddingLeft',
+				);
+			}
+
+			if ( existingAttrs.isGrid ) {
+				items.push(
+					'width',
+					'widthMobile',
+				);
+			}
+
+			if ( existingAttrs.gradient ) {
+				items.push(
+					'gradientDirection',
+					'gradientColorOne',
+					'gradientColorOneOpacity',
+					'gradientColorTwo',
+					'gradientColorTwoOpacity'
+				);
+			}
+
+			items.forEach( ( item ) => {
+				if ( ! hasNumericValue( existingAttrs[ item ] ) ) {
+					attrs[ item ] = oldDefaults[ item ];
+				}
+			} );
+		}
+
+		return attrs;
+	};
+}
+
+/**
+ * Set our inner z-index if we're using a gradient overlay or pseudo background.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @return {Object} Updated attributes.
+ * @since 1.4.0
+ */
+export function migrateContainerZIndex( { blockVersionLessThan } ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			let updateOldZindex =
+			existingAttrs.gradient && 'pseudo-element' === existingAttrs.gradientSelector &&
+				! hasNumericValue( existingAttrs.innerZindex );
+
+			if ( ! updateOldZindex ) {
+				updateOldZindex = !! existingAttrs.bgImage && 'undefined' !== typeof existingAttrs.bgOptions.selector && 'pseudo-element' === existingAttrs.bgOptions.selector;
+			}
+
+			if ( ! updateOldZindex ) {
+				updateOldZindex = 'undefined' !== typeof existingAttrs.useAdvBackgrounds && existingAttrs.useAdvBackgrounds;
+			}
+
+			if ( updateOldZindex ) {
+				attrs.innerZindex = 1;
+			}
+		}
+
+		return attrs;
+	};
+}
+
+/**
+ * Set our useInnerContainer attribute on old Containers.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @return {Object} Updated attributes.
+ * @since 1.7.0
+ */
+export function migrateInnerContainer( { blockVersionLessThan } ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			attrs.useInnerContainer = true;
+		}
+
+		return attrs;
+	};
+}
+
+/**
+ * Migrate our flexBasis attributes to include their unit.
+ *
+ * @param {Object} Props                      Function props.
+ * @param {number} Props.blockVersionLessThan The version blocks should be less than for this to run.
+ * @return {Object} Updated attributes.
+ * @since 1.7.0
+ */
+export function migrateFlexBasis( { blockVersionLessThan } ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
+		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
+			[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
+				if ( existingAttrs[ 'flexBasis' + device ] && ! isNaN( existingAttrs[ 'flexBasis' + device ] ) ) {
+					attrs[ 'flexBasis' + device ] = existingAttrs[ 'flexBasis' + device ] + existingAttrs.flexBasisUnit;
+				}
+			} );
+		}
+
+		return attrs;
+	};
+}
+
+/**
+ * Migrate our Container attributes.
+ *
+ * @param {Object} Props            Function props.
+ * @param {Object} Props.attributes The block attributes.
+ * @param {Object} Props.defaults   The block defaults.
+ * @param {string} Props.mode       The migration mode.
+ * @return {Object} Updated attributes.
+ * @since 1.8.0
+ */
+export function migrateContainerAttributes( { attributes, defaults, mode = '' } ) {
+	return migrationPipe(
+		attributes,
+		[
+			setIsDynamic,
+			migrateBgSelectorOpacity,
+			migrateContainerZIndex( {
+				blockVersionLessThan: 2,
+			} ),
+			migrateOldContainerDefaults( {
+				blockVersionLessThan: 2,
+				oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.container,
+			} ),
+			migrateInnerContainer( {
+				blockVersionLessThan: 3,
+			} ),
+			migrateFlexBasis( {
+				blockVersionLessThan: 3,
+			} ),
+			migrateSizing( {
+				blockVersionLessThan: 3,
+			} ),
+			migrateSpacing( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'paddingTop',
+					'paddingRight',
+					'paddingBottom',
+					'paddingLeft',
+					'marginTop',
+					'marginRight',
+					'marginBottom',
+					'marginLeft',
+				],
+			} ),
+			migrateBorders( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'borderSizeTop',
+					'borderSizeRight',
+					'borderSizeBottom',
+					'borderSizeLeft',
+					'borderRadiusTopRight',
+					'borderRadiusBottomRight',
+					'borderRadiusBottomLeft',
+					'borderRadiusTopLeft',
+				],
+			} ),
+			migrateTypography( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'fontFamily',
+					'fontSize',
+					'fontWeight',
+					'textTransform',
+					'alignment',
+				],
+			} ),
+			updateBlockVersion( 4 ),
+		],
+		mode
+	);
+}
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -12,127 +276,13 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			// This block used to be static. Set it to dynamic by default from now on.
-			if ( 'undefined' === typeof attributes.isDynamic || ! attributes.isDynamic ) {
-				setAttributes( { isDynamic: true } );
-			}
+			const newAttributes = migrateContainerAttributes( {
+				attributes,
+				defaults: getBlockType( 'generateblocks/container' )?.attributes,
+			} );
 
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				MigrateSizing( { attributes, setAttributes } );
-
-				const flexBasisAttributes = {};
-
-				[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
-					if ( attributes[ 'flexBasis' + device ] && ! isNaN( attributes[ 'flexBasis' + device ] ) ) {
-						flexBasisAttributes[ 'flexBasis' + device ] = attributes[ 'flexBasis' + device ] + attributes.flexBasisUnit;
-					}
-				} );
-
-				setAttributes( {
-					useInnerContainer: true,
-					...flexBasisAttributes,
-				} );
-			}
-
-			// Set our inner z-index if we're using a gradient overlay or pseudo background.
-			// @since 1.4.0.
-			if ( 'undefined' === typeof attributes.blockVersion || attributes.blockVersion < 2 ) {
-				let updateOldZindex =
-					attributes.gradient && 'pseudo-element' === attributes.gradientSelector &&
-					! hasNumericValue( attributes.innerZindex );
-
-				if ( ! updateOldZindex ) {
-					updateOldZindex = !! attributes.bgImage && 'undefined' !== typeof attributes.bgOptions.selector && 'pseudo-element' === attributes.bgOptions.selector;
-				}
-
-				if ( ! updateOldZindex ) {
-					updateOldZindex = 'undefined' !== typeof attributes.useAdvBackgrounds && attributes.useAdvBackgrounds;
-				}
-
-				if ( updateOldZindex ) {
-					setAttributes( { innerZindex: 1 } );
-				}
-			}
-
-			// Set our old defaults as static values.
-			// @since 1.4.0.
-			if ( ! wasBlockJustInserted( attributes ) && isBlockVersionLessThan( attributes.blockVersion, 2 ) ) {
-				const legacyDefaults = generateBlocksLegacyDefaults.v_1_4_0.container;
-				const useGlobalStyle = 'undefined' !== typeof attributes.useGlobalStyle && attributes.useGlobalStyle;
-
-				const newAttrs = {};
-				const items = [];
-
-				if ( ! useGlobalStyle ) {
-					items.push(
-						'paddingTop',
-						'paddingRight',
-						'paddingBottom',
-						'paddingLeft',
-					);
-				}
-
-				if ( attributes.isGrid ) {
-					items.push(
-						'width',
-						'widthMobile',
-					);
-				}
-
-				if ( attributes.gradient ) {
-					items.push(
-						'gradientDirection',
-						'gradientColorOne',
-						'gradientColorOneOpacity',
-						'gradientColorTwo',
-						'gradientColorTwoOpacity'
-					);
-				}
-
-				if ( ! newAttrs.sizing ) {
-					newAttrs.sizing = {};
-				}
-
-				items.forEach( ( item ) => {
-					if ( 'width' === item || 'widthMobile' === item ) {
-						if ( ! hasNumericValue( attributes[ item ] ) ) {
-							newAttrs.sizing[ item ] = String( legacyDefaults[ item ] + '%' );
-						} else {
-							newAttrs.sizing[ item ] = String( attributes[ item ] + '%' );
-						}
-					} else if ( ! hasNumericValue( attributes[ item ] ) ) {
-						newAttrs[ item ] = legacyDefaults[ item ];
-					}
-				} );
-
-				if ( Object.keys( newAttrs ).length > 0 ) {
-					setAttributes( newAttrs );
-				}
-			}
-
-			// Attribute defaults added to an object late don't get defaults.
-			// @since 1.1.2
-			if ( 'undefined' === typeof attributes.bgOptions.selector ) {
-				setAttributes( {
-					bgOptions: {
-						...attributes.bgOptions,
-						selector: 'element',
-					},
-				} );
-			}
-
-			if ( 'undefined' === typeof attributes.bgOptions.opacity ) {
-				setAttributes( {
-					bgOptions: {
-						...attributes.bgOptions,
-						opacity: 1,
-					},
-				} );
-			}
-
-			// Update block version flag if it's out of date.
-			if ( isBlockVersionLessThan( attributes.blockVersion, 3 ) ) {
-				setAttributes( { blockVersion: 3 } );
+			if ( ! isEmpty( newAttributes ) ) {
+				setAttributes( newAttributes );
 			}
 		}, [] );
 

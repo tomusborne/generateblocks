@@ -15,4 +15,9 @@ export default Object.assign( {}, gridAttributes, {
 		type: 'object',
 		default: {},
 	},
+
+	blockLabel: {
+		type: 'string',
+		default: '',
+	},
 } );
