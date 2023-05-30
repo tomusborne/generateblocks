@@ -11,6 +11,50 @@ import migrateSizing from './migrations/migrateSizing';
 import { isEmpty } from 'lodash';
 
 /**
+ * Add late-added attributes to the bgOptions object.
+ * This was to prevent an error where `selector` was undefined.
+ *
+ * @param {Object} attrs         New attributes from previous migrations.
+ * @param {Object} existingAttrs Pre-existing block attributes.
+ * @param {string} mode          The migration mode.
+ * @return {Object} Updated attributes.
+ * @since 1.1.2
+ */
+export function migrateBgSelectorOpacity( attrs, existingAttrs, mode ) {
+	if ( 'css' === mode ) {
+		return attrs;
+	}
+
+	if ( ! existingAttrs.bgOptions || ! Object.keys( existingAttrs.bgOptions ).length ) {
+		return attrs;
+	}
+
+	if ( 'undefined' === typeof existingAttrs.bgOptions.selector ) {
+		attrs = {
+			...attrs,
+			bgOptions: {
+				...existingAttrs.bgOptions,
+				...attrs.bgOptions,
+				selector: 'element',
+			},
+		};
+	}
+
+	if ( 'undefined' === typeof existingAttrs.bgOptions.opacity ) {
+		attrs = {
+			...attrs,
+			bgOptions: {
+				...existingAttrs.bgOptions,
+				...attrs.bgOptions,
+				opacity: 1,
+			},
+		};
+	}
+
+	return attrs;
+}
+
+/**
  * Set our old defaults as static values.
  *
  * @param {Object} Props                      Function props.
@@ -168,6 +212,7 @@ export function migrateContainerAttributes( { attributes, defaults, mode = '', o
 		attributes,
 		[
 			setIsDynamic,
+			migrateBgSelectorOpacity,
 			migrateContainerZIndex( {
 				blockVersionLessThan: 2,
 			} ),
