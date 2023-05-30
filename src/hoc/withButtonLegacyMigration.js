@@ -11,7 +11,11 @@ import { isEmpty } from 'lodash';
 import migrateSpacing from './migrations/migrateSpacing';
 import migrateBorders from './migrations/migrateBorders';
 
-function oldMigrations( attrs, existingAttrs ) {
+function oldMigrations( attrs, existingAttrs, mode ) {
+	if ( 'css' === mode ) {
+		return attrs;
+	}
+
 	if ( ! existingAttrs.hasIcon && !! existingAttrs.icon ) {
 		attrs.hasIcon = true;
 	}
@@ -33,7 +37,11 @@ function oldMigrations( attrs, existingAttrs ) {
  * @since 1.4.0
  */
 export function migrateOldButtonDefaults( { blockVersionLessThan, oldDefaults } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const items = [];
 
@@ -67,7 +75,11 @@ export function migrateOldButtonDefaults( { blockVersionLessThan, oldDefaults } 
  * @since 1.7.0
  */
 export function migrateButtonLayout( { blockVersionLessThan } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) && ! existingAttrs.useGlobalStyle ) {
 			attrs = {
 				...attrs,
@@ -82,6 +94,82 @@ export function migrateButtonLayout( { blockVersionLessThan } ) {
 	};
 }
 
+/**
+ * Migrate our Button attributes.
+ *
+ * @param {Object} Props            Function props.
+ * @param {Object} Props.attributes The block attributes.
+ * @param {Object} Props.defaults   The block defaults.
+ * @param {string} Props.mode       The migration mode.
+ * @return {Object} Updated attributes.
+ * @since 1.8.0
+ */
+export function migrateButtonAttributes( { attributes, defaults, mode = '' } ) {
+	return migrationPipe(
+		attributes,
+		[
+			oldMigrations,
+			migrateOldButtonDefaults( {
+				blockVersionLessThan: 2,
+				oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.button,
+			} ),
+			migrateButtonLayout( {
+				blockVersionLessThan: 3,
+			} ),
+			migrateSpacing( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'paddingTop',
+					'paddingRight',
+					'paddingBottom',
+					'paddingLeft',
+					'marginTop',
+					'marginRight',
+					'marginBottom',
+					'marginLeft',
+				],
+			} ),
+			migrateBorders( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'borderSizeTop',
+					'borderSizeRight',
+					'borderSizeBottom',
+					'borderSizeLeft',
+					'borderRadiusTopRight',
+					'borderRadiusBottomRight',
+					'borderRadiusBottomLeft',
+					'borderRadiusTopLeft',
+				],
+			} ),
+			migrateTypography( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'fontFamily',
+					'fontSize',
+					'letterSpacing',
+					'fontWeight',
+					'textTransform',
+					'alignment',
+				],
+			} ),
+			migrateIconSizing( {
+				blockVersionLessThan: 4,
+				defaults,
+			} ),
+			migrateIconPadding( {
+				blockVersionLessThan: 4,
+				defaults,
+			} ),
+			updateBlockVersion( 4 ),
+		],
+		mode
+	);
+}
+
 export default ( WrappedComponent ) => {
 	return ( props ) => {
 		const {
@@ -90,70 +178,10 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			const defaults = getBlockType( 'generateblocks/button' )?.attributes;
-
-			const newAttributes = migrationPipe(
+			const newAttributes = migrateButtonAttributes( {
 				attributes,
-				[
-					oldMigrations,
-					migrateOldButtonDefaults( {
-						blockVersionLessThan: 2,
-						oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.button,
-					} ),
-					migrateButtonLayout( {
-						blockVersionLessThan: 3,
-					} ),
-					migrateSpacing( {
-						blockVersionLessThan: 4,
-						defaults,
-						attributesToMigrate: [
-							'paddingTop',
-							'paddingRight',
-							'paddingBottom',
-							'paddingLeft',
-							'marginTop',
-							'marginRight',
-							'marginBottom',
-							'marginLeft',
-						],
-					} ),
-					migrateBorders( {
-						blockVersionLessThan: 4,
-						defaults,
-						attributesToMigrate: [
-							'borderSizeTop',
-							'borderSizeRight',
-							'borderSizeBottom',
-							'borderSizeLeft',
-							'borderRadiusTopRight',
-							'borderRadiusBottomRight',
-							'borderRadiusBottomLeft',
-							'borderRadiusTopLeft',
-						],
-					} ),
-					migrateTypography( {
-						blockVersionLessThan: 4,
-						defaults,
-						attributesToMigrate: [
-							'fontFamily',
-							'fontSize',
-							'letterSpacing',
-							'fontWeight',
-							'textTransform',
-							'alignment',
-						],
-					} ),
-					migrateIconSizing( {
-						blockVersionLessThan: 4,
-						defaults,
-					} ),
-					migrateIconPadding( {
-						blockVersionLessThan: 4,
-						defaults,
-					} ),
-					updateBlockVersion( 4 ),
-				]
-			);
+				defaults: getBlockType( 'generateblocks/button' )?.attributes,
+			} );
 
 			if ( ! isEmpty( newAttributes ) ) {
 				setAttributes( newAttributes );

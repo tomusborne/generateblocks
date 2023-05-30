@@ -11,7 +11,7 @@ import { addToAttrsObject } from './utils';
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-function buildPaddingAttributes( { attributes, defaults } ) {
+function buildPaddingAttributes( { attributes, defaults = {} } ) {
 	const newAttributes = {};
 	const oldAttributes = {};
 	const attributesToMigrate = [ 'iconPaddingTop', 'iconPaddingRight', 'iconPaddingBottom', 'iconPaddingLeft' ];
@@ -43,10 +43,13 @@ function buildPaddingAttributes( { attributes, defaults } ) {
 
 				if ( newAttributeName ) {
 					newAttributes[ newAttributeName + device ] = oldValue + attributes.iconPaddingUnit;
-					oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
-						? defaults[ attribute + device ].default
-						: '';
-					oldAttributes.iconPaddingUnit = defaults.iconPaddingUnit.default;
+
+					if ( Object.keys( defaults ).length ) {
+						oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
+							? defaults[ attribute + device ].default
+							: '';
+						oldAttributes.iconPaddingUnit = defaults.iconPaddingUnit.default;
+					}
 				}
 			}
 		} );
@@ -64,7 +67,7 @@ function buildPaddingAttributes( { attributes, defaults } ) {
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-export default function migrateIconPadding( { blockVersionLessThan, defaults } ) {
+export default function migrateIconPadding( { blockVersionLessThan, defaults = {} } ) {
 	return function( attrs, existingAttrs ) {
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newPadding = buildPaddingAttributes( {

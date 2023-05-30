@@ -12,7 +12,7 @@ import { addToAttrsObject } from './utils';
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-function buildTypographyAttributes( { attributesToMigrate, attributes, defaults } ) {
+function buildTypographyAttributes( { attributesToMigrate, attributes = {}, defaults = {} } ) {
 	function unitValue( name ) {
 		if ( 'fontSize' === name ) {
 			return attributes.fontSizeUnit;
@@ -45,16 +45,18 @@ function buildTypographyAttributes( { attributesToMigrate, attributes, defaults 
 					newAttributes[ attribute + device ] = oldValue;
 				}
 
-				oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
-					? defaults[ attribute + device ].default
-					: '';
+				if ( Object.keys( defaults ).length ) {
+					oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
+						? defaults[ attribute + device ].default
+						: '';
 
-				if ( attribute.startsWith( 'fontSize' ) ) {
-					oldAttributes.fontSizeUnit = defaults.fontSizeUnit.default;
-				}
+					if ( attribute.startsWith( 'fontSize' ) ) {
+						oldAttributes.fontSizeUnit = defaults.fontSizeUnit.default;
+					}
 
-				if ( attribute.startsWith( 'lineHeight' ) ) {
-					oldAttributes.lineHeightUnit = defaults.lineHeightUnit.default;
+					if ( attribute.startsWith( 'lineHeight' ) ) {
+						oldAttributes.lineHeightUnit = defaults.lineHeightUnit.default;
+					}
 				}
 			}
 		} );
@@ -73,7 +75,7 @@ function buildTypographyAttributes( { attributesToMigrate, attributes, defaults 
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-export default function migrateTypography( { blockVersionLessThan, defaults, attributesToMigrate = [] } ) {
+export default function migrateTypography( { blockVersionLessThan, defaults = {}, attributesToMigrate = [] } ) {
 	return function( attrs, existingAttrs ) {
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newTypography = buildTypographyAttributes( {

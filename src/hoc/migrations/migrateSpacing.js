@@ -12,7 +12,7 @@ import { addToAttrsObject } from './utils';
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-function buildSpacingAttributes( { attributesToMigrate = [], attributes, defaults } ) {
+function buildSpacingAttributes( { attributesToMigrate = [], attributes = {}, defaults = {} } ) {
 	function unitValue( name ) {
 		if ( name.startsWith( 'padding' ) ) {
 			return attributes.paddingUnit;
@@ -36,16 +36,18 @@ function buildSpacingAttributes( { attributesToMigrate = [], attributes, default
 						? oldValue + unitValue( attribute )
 						: oldValue;
 
-					oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
-						? defaults[ attribute + device ].default
-						: '';
+					if ( Object.keys( defaults ).length ) {
+						oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
+							? defaults[ attribute + device ].default
+							: '';
 
-					if ( attribute.startsWith( 'padding' ) ) {
-						oldAttributes.paddingUnit = defaults.paddingUnit.default;
-					}
+						if ( attribute.startsWith( 'padding' ) ) {
+							oldAttributes.paddingUnit = defaults.paddingUnit.default;
+						}
 
-					if ( attribute.startsWith( 'margin' ) ) {
-						oldAttributes.marginUnit = defaults.marginUnit.default;
+						if ( attribute.startsWith( 'margin' ) ) {
+							oldAttributes.marginUnit = defaults.marginUnit.default;
+						}
 					}
 				}
 			}
@@ -65,7 +67,7 @@ function buildSpacingAttributes( { attributesToMigrate = [], attributes, default
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-export default function migrateSpacing( { blockVersionLessThan, defaults, attributesToMigrate = [] } ) {
+export default function migrateSpacing( { blockVersionLessThan, defaults = {}, attributesToMigrate = [] } ) {
 	return function( attrs, existingAttrs ) {
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newSpacing = buildSpacingAttributes( {

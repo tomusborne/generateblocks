@@ -13,7 +13,7 @@ import hexToRGBA from '../../utils/hex-to-rgba';
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-function buildBorderAttributes( { attributesToMigrate = [], attributes, defaults } ) {
+function buildBorderAttributes( { attributesToMigrate = [], attributes = {}, defaults = {} } ) {
 	function unitValue( name ) {
 		if ( name.startsWith( 'borderSize' ) ) {
 			return 'px';
@@ -70,6 +70,7 @@ function buildBorderAttributes( { attributesToMigrate = [], attributes, defaults
 
 				if ( attributeName ) {
 					newAttributes[ attributeName + device ] = oldValue + unitValue( attribute );
+					const hasDefaults = Object.keys( defaults ).length;
 
 					if ( attributeName.includes( 'Width' ) ) {
 						// We used to manually use "solid" is a borderWidth existed.
@@ -77,28 +78,39 @@ function buildBorderAttributes( { attributesToMigrate = [], attributes, defaults
 
 						if ( attributes.borderColor ) {
 							newAttributes[ attributeName.replace( 'Width', 'Color' ) + device ] = hexToRGBA( attributes.borderColor, attributes.borderColorOpacity );
-							oldAttributes.borderColor = defaults.borderColor?.default;
-							oldAttributes.borderColorOpacity = defaults.borderColorOpacity?.default;
+
+							if ( hasDefaults ) {
+								oldAttributes.borderColor = defaults.borderColor?.default;
+								oldAttributes.borderColorOpacity = defaults.borderColorOpacity?.default;
+							}
 						}
 
 						if ( attributes.borderColorHover ) {
 							newAttributes[ attributeName.replace( 'Width', 'ColorHover' ) + device ] = hexToRGBA( attributes.borderColorHover, attributes.borderColorHoverOpacity );
-							oldAttributes.borderColorHover = defaults.borderColorHover?.default;
-							oldAttributes.borderColorHoverOpacity = defaults.borderColorHoverOpacity?.default;
+
+							if ( hasDefaults ) {
+								oldAttributes.borderColorHover = defaults.borderColorHover?.default;
+								oldAttributes.borderColorHoverOpacity = defaults.borderColorHoverOpacity?.default;
+							}
 						}
 
 						if ( attributes.borderColorCurrent ) {
 							newAttributes[ attributeName.replace( 'Width', 'ColorCurrent' ) + device ] = attributes.borderColorCurrent;
-							oldAttributes.borderColorCurrent = defaults.borderColorCurrent?.default;
+
+							if ( hasDefaults ) {
+								oldAttributes.borderColorCurrent = defaults.borderColorCurrent?.default;
+							}
 						}
 					}
 
-					oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
-						? defaults[ attribute + device ].default
-						: '';
+					if ( hasDefaults ) {
+						oldAttributes[ attribute + device ] = defaults[ attribute + device ]?.default
+							? defaults[ attribute + device ].default
+							: '';
 
-					if ( attribute.startsWith( 'borderRadius' ) ) {
-						oldAttributes.borderRadiusUnit = defaults.borderRadiusUnit.default;
+						if ( attribute.startsWith( 'borderRadius' ) ) {
+							oldAttributes.borderRadiusUnit = defaults.borderRadiusUnit.default;
+						}
 					}
 				}
 			}
@@ -118,7 +130,7 @@ function buildBorderAttributes( { attributesToMigrate = [], attributes, defaults
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-export default function migrateBorders( { blockVersionLessThan, defaults, attributesToMigrate = [] } ) {
+export default function migrateBorders( { blockVersionLessThan, defaults = {}, attributesToMigrate = [] } ) {
 	return function( attrs, existingAttrs ) {
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newSpacing = buildBorderAttributes( {

@@ -17,10 +17,15 @@ import { isEmpty } from 'lodash';
  *
  * @param {Object} attrs         New attributes from previous migrations.
  * @param {Object} existingAttrs Pre-existing block attributes.
+ * @param {string} mode          The migration mode.
  * @return {Object} Updated attributes.
  * @since 1.1.2
  */
-export function migrateBgSelectorOpacity( attrs, existingAttrs ) {
+export function migrateBgSelectorOpacity( attrs, existingAttrs, mode ) {
+	if ( 'css' === mode ) {
+		return attrs;
+	}
+
 	if ( 'undefined' === typeof existingAttrs.bgOptions.selector ) {
 		attrs = {
 			...attrs,
@@ -56,7 +61,11 @@ export function migrateBgSelectorOpacity( attrs, existingAttrs ) {
  * @since 1.4.0
  */
 export function migrateOldContainerDefaults( { blockVersionLessThan, oldDefaults } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const useGlobalStyle = 'undefined' !== typeof existingAttrs.useGlobalStyle && existingAttrs.useGlobalStyle;
 			const items = [];
@@ -107,7 +116,11 @@ export function migrateOldContainerDefaults( { blockVersionLessThan, oldDefaults
  * @since 1.4.0
  */
 export function migrateContainerZIndex( { blockVersionLessThan } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			let updateOldZindex =
 			existingAttrs.gradient && 'pseudo-element' === existingAttrs.gradientSelector &&
@@ -139,7 +152,11 @@ export function migrateContainerZIndex( { blockVersionLessThan } ) {
  * @since 1.7.0
  */
 export function migrateInnerContainer( { blockVersionLessThan } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			attrs.useInnerContainer = true;
 		}
@@ -157,7 +174,11 @@ export function migrateInnerContainer( { blockVersionLessThan } ) {
  * @since 1.7.0
  */
 export function migrateFlexBasis( { blockVersionLessThan } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
 				if ( existingAttrs[ 'flexBasis' + device ] && ! isNaN( existingAttrs[ 'flexBasis' + device ] ) ) {
@@ -170,6 +191,83 @@ export function migrateFlexBasis( { blockVersionLessThan } ) {
 	};
 }
 
+/**
+ * Migrate our Container attributes.
+ *
+ * @param {Object} Props            Function props.
+ * @param {Object} Props.attributes The block attributes.
+ * @param {Object} Props.defaults   The block defaults.
+ * @param {string} Props.mode       The migration mode.
+ * @return {Object} Updated attributes.
+ * @since 1.8.0
+ */
+export function migrateContainerAttributes( { attributes, defaults, mode = '' } ) {
+	return migrationPipe(
+		attributes,
+		[
+			setIsDynamic,
+			migrateBgSelectorOpacity,
+			migrateContainerZIndex( {
+				blockVersionLessThan: 2,
+			} ),
+			migrateOldContainerDefaults( {
+				blockVersionLessThan: 2,
+				oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.container,
+			} ),
+			migrateInnerContainer( {
+				blockVersionLessThan: 3,
+			} ),
+			migrateFlexBasis( {
+				blockVersionLessThan: 3,
+			} ),
+			migrateSizing( {
+				blockVersionLessThan: 3,
+			} ),
+			migrateSpacing( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'paddingTop',
+					'paddingRight',
+					'paddingBottom',
+					'paddingLeft',
+					'marginTop',
+					'marginRight',
+					'marginBottom',
+					'marginLeft',
+				],
+			} ),
+			migrateBorders( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'borderSizeTop',
+					'borderSizeRight',
+					'borderSizeBottom',
+					'borderSizeLeft',
+					'borderRadiusTopRight',
+					'borderRadiusBottomRight',
+					'borderRadiusBottomLeft',
+					'borderRadiusTopLeft',
+				],
+			} ),
+			migrateTypography( {
+				blockVersionLessThan: 4,
+				defaults,
+				attributesToMigrate: [
+					'fontFamily',
+					'fontSize',
+					'fontWeight',
+					'textTransform',
+					'alignment',
+				],
+			} ),
+			updateBlockVersion( 4 ),
+		],
+		mode
+	);
+}
+
 export default ( WrappedComponent ) => {
 	return ( props ) => {
 		const {
@@ -178,71 +276,10 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			const defaults = getBlockType( 'generateblocks/container' )?.attributes;
-
-			const newAttributes = migrationPipe(
+			const newAttributes = migrateContainerAttributes( {
 				attributes,
-				[
-					setIsDynamic,
-					migrateBgSelectorOpacity,
-					migrateContainerZIndex( {
-						blockVersionLessThan: 2,
-					} ),
-					migrateOldContainerDefaults( {
-						blockVersionLessThan: 2,
-						oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.container,
-					} ),
-					migrateInnerContainer( {
-						blockVersionLessThan: 3,
-					} ),
-					migrateFlexBasis( {
-						blockVersionLessThan: 3,
-					} ),
-					migrateSizing( {
-						blockVersionLessThan: 3,
-					} ),
-					migrateSpacing( {
-						blockVersionLessThan: 4,
-						defaults,
-						attributesToMigrate: [
-							'paddingTop',
-							'paddingRight',
-							'paddingBottom',
-							'paddingLeft',
-							'marginTop',
-							'marginRight',
-							'marginBottom',
-							'marginLeft',
-						],
-					} ),
-					migrateBorders( {
-						blockVersionLessThan: 4,
-						defaults,
-						attributesToMigrate: [
-							'borderSizeTop',
-							'borderSizeRight',
-							'borderSizeBottom',
-							'borderSizeLeft',
-							'borderRadiusTopRight',
-							'borderRadiusBottomRight',
-							'borderRadiusBottomLeft',
-							'borderRadiusTopLeft',
-						],
-					} ),
-					migrateTypography( {
-						blockVersionLessThan: 4,
-						defaults,
-						attributesToMigrate: [
-							'fontFamily',
-							'fontSize',
-							'fontWeight',
-							'textTransform',
-							'alignment',
-						],
-					} ),
-					updateBlockVersion( 4 ),
-				]
-			);
+				defaults: getBlockType( 'generateblocks/container' )?.attributes,
+			} );
 
 			if ( ! isEmpty( newAttributes ) ) {
 				setAttributes( newAttributes );

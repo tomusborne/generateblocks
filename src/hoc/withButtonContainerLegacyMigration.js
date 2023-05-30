@@ -15,7 +15,11 @@ import migrateSpacing from './migrations/migrateSpacing';
  * @since 1.4.0
  */
 export function migrateStackFill( { blockVersionLessThan } ) {
-	return function( attrs, existingAttrs ) {
+	return function( attrs, existingAttrs, mode ) {
+		if ( 'css' === mode ) {
+			return attrs;
+		}
+
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			if ( existingAttrs.stack || existingAttrs.fillHorizontalSpace ) {
 				if ( existingAttrs.stack ) {
@@ -34,6 +38,40 @@ export function migrateStackFill( { blockVersionLessThan } ) {
 	};
 }
 
+/**
+ * Migrate our Button Container attributes.
+ *
+ * @param {Object} Props            Function props.
+ * @param {Object} Props.attributes The block attributes.
+ * @param {Object} Props.defaults   The block defaults.
+ * @param {string} Props.mode       The migration mode.
+ * @return {Object} Updated attributes.
+ * @since 1.8.0
+ */
+export function migrateButtonContainerAttributes( { attributes, defaults, mode = '' } ) {
+	return migrationPipe(
+		attributes,
+		[
+			setIsDynamic,
+			migrateStackFill( {
+				blockVersionLessThan: 2,
+			} ),
+			migrateSpacing( {
+				blockVersionLessThan: 3,
+				defaults,
+				attributesToMigrate: [
+					'marginTop',
+					'marginRight',
+					'marginBottom',
+					'marginLeft',
+				],
+			} ),
+			updateBlockVersion( 3 ),
+		],
+		mode
+	);
+}
+
 export default ( WrappedComponent ) => {
 	return ( props ) => {
 		const {
@@ -42,28 +80,10 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			const defaults = getBlockType( 'generateblocks/button-container' )?.attributes;
-
-			const newAttributes = migrationPipe(
+			const newAttributes = migrateButtonContainerAttributes( {
 				attributes,
-				[
-					setIsDynamic,
-					migrateStackFill( {
-						blockVersionLessThan: 2,
-					} ),
-					migrateSpacing( {
-						blockVersionLessThan: 3,
-						defaults,
-						attributesToMigrate: [
-							'marginTop',
-							'marginRight',
-							'marginBottom',
-							'marginLeft',
-						],
-					} ),
-					updateBlockVersion( 3 ),
-				]
-			);
+				defaults: getBlockType( 'generateblocks/button-container' )?.attributes,
+			} );
 
 			if ( ! isEmpty( newAttributes ) ) {
 				setAttributes( newAttributes );

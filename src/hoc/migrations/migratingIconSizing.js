@@ -11,7 +11,7 @@ import { addToAttrsObject } from './utils';
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-function buildIconSizingAttributes( { attributes, defaults } ) {
+function buildIconSizingAttributes( { attributes = {}, defaults = {} } ) {
 	const newAttributes = {};
 	const oldAttributes = {};
 
@@ -21,10 +21,13 @@ function buildIconSizingAttributes( { attributes, defaults } ) {
 		if ( oldValue || isNumeric( oldValue ) ) {
 			newAttributes[ 'width' + device ] = oldValue + attributes.iconSizeUnit;
 			newAttributes[ 'height' + device ] = oldValue + attributes.iconSizeUnit;
-			oldAttributes[ 'iconSize' + device ] = defaults[ 'iconSize' + device ]?.default
-				? defaults[ 'iconSize' + device ].default
-				: '';
-			oldAttributes.iconSizeUnit = defaults.iconSizeUnit.default;
+
+			if ( Object.keys( defaults ).length ) {
+				oldAttributes[ 'iconSize' + device ] = defaults[ 'iconSize' + device ]?.default
+					? defaults[ 'iconSize' + device ].default
+					: '';
+				oldAttributes.iconSizeUnit = defaults.iconSizeUnit.default;
+			}
 		}
 	} );
 
@@ -40,7 +43,7 @@ function buildIconSizingAttributes( { attributes, defaults } ) {
  * @return {Object} New attributes.
  * @since 1.8.0
  */
-export default function migrateIconSizing( { blockVersionLessThan, defaults } ) {
+export default function migrateIconSizing( { blockVersionLessThan, defaults = {} } ) {
 	return function( attrs, existingAttrs ) {
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newSizing = buildIconSizingAttributes( {
