@@ -1,11 +1,10 @@
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
-import shorthandCSS from '../../../utils/shorthand-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 
 import {
 	Component,
@@ -14,6 +13,7 @@ import {
 import {
 	applyFilters,
 } from '@wordpress/hooks';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default class MainCSS extends Component {
 	render() {
@@ -26,50 +26,20 @@ export default class MainCSS extends Component {
 		const {
 			uniqueId,
 			element,
-			alignment,
 			backgroundColor,
 			backgroundColorOpacity,
 			textColor,
 			linkColor,
 			linkColorHover,
-			borderColor,
-			borderColorOpacity,
 			highlightTextColor,
 			fontFamily,
 			fontFamilyFallback,
-			fontWeight,
-			fontSize,
-			fontSizeUnit,
-			textTransform,
-			lineHeight,
-			lineHeightUnit,
-			letterSpacing,
-			paddingTop,
-			paddingRight,
-			paddingBottom,
-			paddingLeft,
-			paddingUnit,
-			borderSizeTop,
-			borderSizeRight,
-			borderSizeBottom,
-			borderSizeLeft,
-			borderRadiusTopRight,
-			borderRadiusBottomRight,
-			borderRadiusBottomLeft,
-			borderRadiusTopLeft,
-			borderRadiusUnit,
 			iconColor,
 			iconColorOpacity,
-			iconPaddingTop,
-			iconPaddingRight,
-			iconPaddingBottom,
-			iconPaddingLeft,
-			iconPaddingUnit,
-			iconSize,
-			iconSizeUnit,
 			removeText,
 			display,
 			inlineWidth,
+			iconStyles,
 		} = attributes;
 
 		let fontFamilyFallbackValue = '';
@@ -85,15 +55,11 @@ export default class MainCSS extends Component {
 		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
 			color: textColor,
 			'font-family': fontFamily + fontFamilyFallbackValue,
-			'font-weight': fontWeight,
-			'text-transform': textTransform,
-			'text-align': alignment,
-			'font-size': valueWithUnit( fontSize, fontSizeUnit ),
-			'line-height': valueWithUnit( lineHeight, lineHeightUnit ),
-			'letter-spacing': valueWithUnit( letterSpacing, 'em' ),
 		} ];
 
-		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
+		TypographyCSS( cssObj, '.editor-styles-wrapper ' + selector, { ...attributes.typography, fontFamilyFallback } );
+		SpacingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.spacing );
+		BorderCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.borders );
 		LayoutCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		SizingCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
 		FlexChildCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes );
@@ -105,17 +71,7 @@ export default class MainCSS extends Component {
 		cssObj[ '.editor-styles-wrapper ' + selector ].push( {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'color': textColor, // eslint-disable-line quote-props
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
-			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
-			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} );
-
-		if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-			cssObj[ '.editor-styles-wrapper ' + selector ].push( {
-				'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
-				'border-style': 'solid',
-			} );
-		}
 
 		cssObj[ '.editor-styles-wrapper ' + selector + ' a' ] = [ {
 			color: linkColor,
@@ -126,13 +82,16 @@ export default class MainCSS extends Component {
 		} ];
 
 		cssObj[ selector + ' .gb-icon' ] = [ {
-			'padding': ! removeText ? shorthandCSS( iconPaddingTop, iconPaddingRight, iconPaddingBottom, iconPaddingLeft, iconPaddingUnit ) : false, // eslint-disable-line quote-props
+			'padding-top': ! removeText ? iconStyles?.paddingTop : null,
+			'padding-right': ! removeText ? iconStyles?.paddingRight : null,
+			'padding-bottom': ! removeText ? iconStyles?.paddingBottom : null,
+			'padding-left': ! removeText ? iconStyles?.paddingLeft : null,
 			'color': hexToRGBA( iconColor, iconColorOpacity ), // eslint-disable-line quote-props
 		} ];
 
 		cssObj[ selector + ' .gb-icon svg' ] = [ {
-			'width': valueWithUnit( iconSize, iconSizeUnit ), // eslint-disable-line quote-props
-			'height': valueWithUnit( iconSize, iconSizeUnit ), // eslint-disable-line quote-props
+			width: iconStyles?.width,
+			height: iconStyles?.height,
 		} ];
 
 		cssObj[ selector + ' .gb-highlight' ] = [ {

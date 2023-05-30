@@ -29,4 +29,15 @@ registerBlockType( 'generateblocks/image', {
 	edit,
 	save,
 	transforms,
+	__experimentalLabel: ( attrs, { context } ) => {
+		if (
+			context === 'list-view' &&
+			! attrs.useDynamicData &&
+			( attrs.alt || attrs.title )
+		) {
+			return attrs.alt || attrs.title;
+		}
+
+		return __( 'Image', 'generateblocks' );
+	},
 } );

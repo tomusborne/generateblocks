@@ -2,26 +2,13 @@ import buildCSS from '../../../utils/build-css';
 import { applyFilters } from '@wordpress/hooks';
 import shorthandCSS from '../../../utils/shorthand-css';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default function MobileCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
 
 	const {
 		uniqueId,
-		paddingTopMobile,
-		paddingRightMobile,
-		paddingBottomMobile,
-		paddingLeftMobile,
-		paddingUnit,
-		borderSizeTopMobile,
-		borderSizeRightMobile,
-		borderSizeBottomMobile,
-		borderSizeLeftMobile,
-		borderRadiusTopRightMobile,
-		borderRadiusBottomRightMobile,
-		borderRadiusBottomLeftMobile,
-		borderRadiusTopLeftMobile,
-		borderRadiusUnit,
 		borderColor,
 		objectFitMobile,
 		widthMobile,
@@ -30,6 +17,13 @@ export default function MobileCSS( props ) {
 		alignmentTablet,
 		alignmentMobile,
 	} = attributes;
+
+	const {
+		borderTopLeftRadiusTablet,
+		borderTopRightRadiusTablet,
+		borderBottomRightRadiusTablet,
+		borderBottomLeftRadiusTablet,
+	} = attributes.borders;
 
 	let cssObj = [];
 
@@ -54,33 +48,26 @@ export default function MobileCSS( props ) {
 	}
 
 	cssObj[ '.editor-styles-wrapper .gb-block-image-' + uniqueId ] = [ {
-		padding: shorthandCSS( paddingTopMobile, paddingRightMobile, paddingBottomMobile, paddingLeftMobile, paddingUnit ),
 		'text-align': ! alignmentMobile.startsWith( 'float' ) ? alignmentMobile : null,
 		float,
 		position: float && 'none' !== float ? 'relative' : null,
 		'z-index': float && 'none' !== float ? '22' : null,
 	} ];
 
-	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-block-image-' + uniqueId, attributes, 'Mobile' );
+	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-block-image-' + uniqueId, attributes.spacing, 'Mobile' );
 
 	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
-		'border-radius': shorthandCSS( borderRadiusTopLeftMobile, borderRadiusTopRightMobile, borderRadiusBottomRightMobile, borderRadiusBottomLeftMobile, borderRadiusUnit ),
 		'border-color': borderColor,
 		width: widthMobile,
 		height: heightMobile,
 		'object-fit': objectFitMobile,
 	} ];
 
-	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId + ' + .components-placeholder__illustration' ] = [ {
-		'border-radius': shorthandCSS( borderRadiusTopLeftMobile, borderRadiusTopRightMobile, borderRadiusBottomRightMobile, borderRadiusBottomLeftMobile, borderRadiusUnit ),
-	} ];
+	BorderCSS( cssObj, '.editor-styles-wrapper .gb-image-' + uniqueId, attributes.borders, 'Mobile' );
 
-	if ( borderSizeTopMobile || borderSizeRightMobile || borderSizeBottomMobile || borderSizeLeftMobile ) {
-		cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ].push( {
-			'border-width': shorthandCSS( borderSizeTopMobile, borderSizeRightMobile, borderSizeBottomMobile, borderSizeLeftMobile, 'px' ),
-			'border-style': 'solid',
-		} );
-	}
+	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId + ' + .components-placeholder__illustration' ] = [ {
+		'border-radius': shorthandCSS( borderTopLeftRadiusTablet, borderTopRightRadiusTablet, borderBottomRightRadiusTablet, borderBottomLeftRadiusTablet ),
+	} ];
 
 	cssObj = applyFilters( 'generateblocks.editor.mobileCSS', cssObj, props, 'image' );
 
