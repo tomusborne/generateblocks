@@ -20,7 +20,7 @@ function buildPaddingAttributes( { attributes, defaults = {} } ) {
 		attributesToMigrate.forEach( ( attribute ) => {
 			const oldValue = attributes[ attribute + device ];
 
-			if ( isNumeric( oldValue ) ) {
+			if ( attributes.hasIcon && isNumeric( oldValue ) ) {
 				let newAttributeName = '';
 
 				switch ( attribute ) {
@@ -71,7 +71,7 @@ export default function migrateIconPadding( { blockVersionLessThan, defaults = {
 	return function( attrs, existingAttrs ) {
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newPadding = buildPaddingAttributes( {
-				attributes: existingAttrs,
+				attributes: { ...existingAttrs, ...attrs },
 				defaults,
 			} );
 

@@ -1,22 +1,8 @@
 import { migrationPipe } from '../../../hoc/migrations/utils';
 import migrateIconSizing from '../../../hoc/migrations/migratingIconSizing';
+import { blockDefaults as defaults } from './defaults';
 
 describe( 'Migrating icon sizing', () => {
-	const defaults = {
-		iconSize: {
-			default: 1,
-		},
-		iconSizeTablet: {
-			default: '',
-		},
-		iconSizeMobile: {
-			default: '',
-		},
-		iconSizeUnit: {
-			default: 'em',
-		},
-	};
-
 	it( 'can migrate values with separate units', () => {
 		const attributes = {
 			blockVersion: 3,
@@ -24,6 +10,7 @@ describe( 'Migrating icon sizing', () => {
 			iconSizeUnit: 'em',
 			iconSizeTablet: 1.5,
 			iconSizeMobile: 0.8,
+			hasIcon: true,
 		};
 
 		const newAttributes = migrationPipe(

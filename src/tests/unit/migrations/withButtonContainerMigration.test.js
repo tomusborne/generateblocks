@@ -1,16 +1,11 @@
-import { migrationPipe, setIsDynamic, updateBlockVersion } from '../../../hoc/migrations/utils';
-import { migrateStackFill } from '../../../hoc/withButtonContainerLegacyMigration';
-import migrateSpacing from '../../../hoc/migrations/migrateSpacing';
+import { migrateButtonContainerAttributes, currentBlockVersion } from '../../../hoc/withButtonContainerLegacyMigration';
+import { blockDefaults as defaults, defaultAttributes } from './defaults';
 
-describe( 'Test button container migration', () => {
-	const defaults = {
-		marginUnit: {
-			default: 'px',
-		},
-	};
-
+describe( 'Test Button Container migrations', () => {
 	it( 'can complete full migration', () => {
 		const attributes = {
+			...defaultAttributes,
+			uniqueId: 'test',
 			blockVersion: 1,
 			stack: true,
 			fillHorizontalSpace: true,
@@ -18,29 +13,14 @@ describe( 'Test button container migration', () => {
 			marginRight: 30,
 			marginBottom: 40,
 			marginLeft: 50,
+			marginBottomMobile: 10,
 			marginUnit: 'em',
 		};
 
-		const newAttributes = migrationPipe(
+		const newAttributes = migrateButtonContainerAttributes( {
 			attributes,
-			[
-				setIsDynamic,
-				migrateStackFill( {
-					blockVersionLessThan: 2,
-				} ),
-				migrateSpacing( {
-					blockVersionLessThan: 3,
-					defaults,
-					attributesToMigrate: [
-						'marginTop',
-						'marginRight',
-						'marginBottom',
-						'marginLeft',
-					],
-				} ),
-				updateBlockVersion( 3 ),
-			]
-		);
+			defaults,
+		} );
 
 		expect( newAttributes ).toEqual( {
 			isDynamic: true,
@@ -53,18 +33,22 @@ describe( 'Test button container migration', () => {
 				marginRight: '30em',
 				marginBottom: '40em',
 				marginLeft: '50em',
+				marginBottomMobile: '10em',
 			},
 			marginTop: '',
 			marginRight: '',
 			marginBottom: '',
 			marginLeft: '',
+			marginBottomMobile: '',
 			marginUnit: 'px',
-			blockVersion: 3,
+			blockVersion: currentBlockVersion,
 		} );
 	} );
 
-	it( 'can complete dimension migration', () => {
+	it( 'can complete spacing migration', () => {
 		const attributes = {
+			...defaultAttributes,
+			uniqueId: 'test',
 			blockVersion: 2,
 			stack: true,
 			fillHorizontalSpace: true,
@@ -75,26 +59,10 @@ describe( 'Test button container migration', () => {
 			marginUnit: 'em',
 		};
 
-		const newAttributes = migrationPipe(
+		const newAttributes = migrateButtonContainerAttributes( {
 			attributes,
-			[
-				setIsDynamic,
-				migrateStackFill( {
-					blockVersionLessThan: 2,
-				} ),
-				migrateSpacing( {
-					blockVersionLessThan: 3,
-					defaults,
-					attributesToMigrate: [
-						'marginTop',
-						'marginRight',
-						'marginBottom',
-						'marginLeft',
-					],
-				} ),
-				updateBlockVersion( 3 ),
-			]
-		);
+			defaults,
+		} );
 
 		expect( newAttributes ).toEqual( {
 			isDynamic: true,
@@ -109,7 +77,23 @@ describe( 'Test button container migration', () => {
 			marginBottom: '',
 			marginLeft: '',
 			marginUnit: 'px',
-			blockVersion: 3,
+			blockVersion: currentBlockVersion,
+		} );
+	} );
+
+	it( 'should do nothing when first inserted', () => {
+		const attributes = {
+			...defaultAttributes,
+		};
+
+		const newAttributes = migrateButtonContainerAttributes( {
+			attributes,
+			defaults,
+		} );
+
+		expect( newAttributes ).toEqual( {
+			blockVersion: currentBlockVersion,
+			isDynamic: true,
 		} );
 	} );
 } );

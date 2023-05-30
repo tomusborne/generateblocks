@@ -18,7 +18,7 @@ function buildIconSizingAttributes( { attributes = {}, defaults = {} } ) {
 	[ '', 'Tablet', 'Mobile' ].forEach( ( device ) => {
 		const oldValue = attributes[ 'iconSize' + device ];
 
-		if ( oldValue || isNumeric( oldValue ) ) {
+		if ( attributes.hasIcon && ( oldValue || isNumeric( oldValue ) ) ) {
 			newAttributes[ 'width' + device ] = oldValue + attributes.iconSizeUnit;
 			newAttributes[ 'height' + device ] = oldValue + attributes.iconSizeUnit;
 
@@ -47,7 +47,7 @@ export default function migrateIconSizing( { blockVersionLessThan, defaults = {}
 	return function( attrs, existingAttrs ) {
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newSizing = buildIconSizingAttributes( {
-				attributes: existingAttrs,
+				attributes: { ...existingAttrs, ...attrs },
 				defaults,
 			} );
 

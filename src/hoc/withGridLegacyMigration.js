@@ -54,28 +54,31 @@ export function migrateLegacyRowGap( { blockVersionLessThan } ) {
 	};
 }
 
+export const currentBlockVersion = 3;
+
 /**
  * Migrate our Grid attributes.
  *
- * @param {Object} Props            Function props.
- * @param {Object} Props.attributes The block attributes.
- * @param {string} Props.mode       The migration mode.
+ * @param {Object} Props             Function props.
+ * @param {Object} Props.attributes  The block attributes.
+ * @param {string} Props.mode        The migration mode.
+ * @param {Object} Props.oldDefaults An object of old defaults keyed by version.
  * @return {Object} Updated attributes.
  * @since 1.8.0
  */
-export function migrateGridAttributes( { attributes, mode = '' } ) {
+export function migrateGridAttributes( { attributes, mode = '', oldDefaults = {} } ) {
 	return migrationPipe(
 		attributes,
 		[
 			setIsDynamic,
 			migrateOldGridDefaults( {
 				blockVersionLessThan: 2,
-				oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.gridContainer,
+				oldDefaults: oldDefaults.v1_4_0,
 			} ),
 			migrateLegacyRowGap( {
 				blockVersionLessThan: 3,
 			} ),
-			updateBlockVersion( 3 ),
+			updateBlockVersion( currentBlockVersion ),
 		],
 		mode
 	);
@@ -89,7 +92,12 @@ export default ( WrappedComponent ) => {
 		} = props;
 
 		useEffect( () => {
-			const newAttributes = migrateGridAttributes( { attributes } );
+			const newAttributes = migrateGridAttributes( {
+				attributes,
+				oldDefaults: {
+					v1_4_0: generateBlocksLegacyDefaults.v_1_4_0.gridContainer,
+				},
+			} );
 
 			if ( ! isEmpty( newAttributes ) ) {
 				setAttributes( newAttributes );

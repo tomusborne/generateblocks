@@ -1,31 +1,8 @@
 import { migrationPipe } from '../../../hoc/migrations/utils';
 import migrateSpacing from '../../../hoc/migrations/migrateSpacing';
+import { blockDefaults as defaults } from './defaults';
 
 describe( 'Test spacing migrations', () => {
-	const defaults = {
-		paddingTop: {
-			default: '',
-		},
-		paddingRight: {
-			default: '',
-		},
-		paddingTopTablet: {
-			default: '',
-		},
-		paddingBottom: {
-			default: '',
-		},
-		paddingLeft: {
-			default: '',
-		},
-		paddingLeftMobile: {
-			default: '',
-		},
-		paddingUnit: {
-			default: 'px',
-		},
-	};
-
 	it( 'can migrate padding', () => {
 		const attributes = {
 			blockVersion: 3,

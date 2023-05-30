@@ -11,47 +11,6 @@ import migrateSizing from './migrations/migrateSizing';
 import { isEmpty } from 'lodash';
 
 /**
- * Add late-added attributes to the bgOptions object.
- * This was to prevent an error where `selector` was undefined.
- * Really not sure it's still needed.
- *
- * @param {Object} attrs         New attributes from previous migrations.
- * @param {Object} existingAttrs Pre-existing block attributes.
- * @param {string} mode          The migration mode.
- * @return {Object} Updated attributes.
- * @since 1.1.2
- */
-export function migrateBgSelectorOpacity( attrs, existingAttrs, mode ) {
-	if ( 'css' === mode ) {
-		return attrs;
-	}
-
-	if ( 'undefined' === typeof existingAttrs.bgOptions.selector ) {
-		attrs = {
-			...attrs,
-			bgOptions: {
-				...existingAttrs.bgOptions,
-				...attrs.bgOptions,
-				selector: 'element',
-			},
-		};
-	}
-
-	if ( 'undefined' === typeof existingAttrs.bgOptions.opacity ) {
-		attrs = {
-			...attrs,
-			bgOptions: {
-				...existingAttrs.bgOptions,
-				...attrs.bgOptions,
-				opacity: 1,
-			},
-		};
-	}
-
-	return attrs;
-}
-
-/**
  * Set our old defaults as static values.
  *
  * @param {Object} Props                      Function props.
@@ -191,28 +150,30 @@ export function migrateFlexBasis( { blockVersionLessThan } ) {
 	};
 }
 
+export const currentBlockVersion = 4;
+
 /**
  * Migrate our Container attributes.
  *
- * @param {Object} Props            Function props.
- * @param {Object} Props.attributes The block attributes.
- * @param {Object} Props.defaults   The block defaults.
- * @param {string} Props.mode       The migration mode.
+ * @param {Object} Props             Function props.
+ * @param {Object} Props.attributes  The block attributes.
+ * @param {Object} Props.defaults    The block defaults.
+ * @param {string} Props.mode        The migration mode.
+ * @param {Object} Props.oldDefaults An object of old defaults keyed by version.
  * @return {Object} Updated attributes.
  * @since 1.8.0
  */
-export function migrateContainerAttributes( { attributes, defaults, mode = '' } ) {
+export function migrateContainerAttributes( { attributes, defaults, mode = '', oldDefaults = {} } ) {
 	return migrationPipe(
 		attributes,
 		[
 			setIsDynamic,
-			migrateBgSelectorOpacity,
 			migrateContainerZIndex( {
 				blockVersionLessThan: 2,
 			} ),
 			migrateOldContainerDefaults( {
 				blockVersionLessThan: 2,
-				oldDefaults: generateBlocksLegacyDefaults.v_1_4_0.container,
+				oldDefaults: oldDefaults.v1_4_0,
 			} ),
 			migrateInnerContainer( {
 				blockVersionLessThan: 3,
@@ -262,7 +223,7 @@ export function migrateContainerAttributes( { attributes, defaults, mode = '' } 
 					'alignment',
 				],
 			} ),
-			updateBlockVersion( 4 ),
+			updateBlockVersion( currentBlockVersion ),
 		],
 		mode
 	);
@@ -279,6 +240,9 @@ export default ( WrappedComponent ) => {
 			const newAttributes = migrateContainerAttributes( {
 				attributes,
 				defaults: getBlockType( 'generateblocks/container' )?.attributes,
+				oldDefaults: {
+					v1_4_0: generateBlocksLegacyDefaults.v_1_4_0.container,
+				},
 			} );
 
 			if ( ! isEmpty( newAttributes ) ) {

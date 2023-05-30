@@ -1,46 +1,8 @@
 import { migrationPipe } from '../../../hoc/migrations/utils';
 import migrateTypography from '../../../hoc/migrations/migrateTypography';
+import { blockDefaults as defaults } from './defaults';
 
 describe( 'Test typography migrations', () => {
-	const defaults = {
-		fontFamily: {
-			default: '',
-		},
-		fontWeight: {
-			default: '',
-		},
-		textTransform: {
-			default: '',
-		},
-		fontSize: {
-			default: '',
-		},
-		fontSizeTablet: {
-			default: '',
-		},
-		fontSizeMobile: {
-			default: '',
-		},
-		fontSizeUnit: {
-			default: 'px',
-		},
-		lineHeight: {
-			default: '',
-		},
-		lineHeightTablet: {
-			default: '',
-		},
-		lineHeightMobile: {
-			default: '',
-		},
-		lineHeightUnit: {
-			default: 'em',
-		},
-		letterSpacing: {
-			default: '',
-		},
-	};
-
 	it( 'can migrate font family', () => {
 		const attributes = {
 			blockVersion: 3,

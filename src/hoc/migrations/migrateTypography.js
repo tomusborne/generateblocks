@@ -80,7 +80,7 @@ export default function migrateTypography( { blockVersionLessThan, defaults = {}
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newTypography = buildTypographyAttributes( {
 				attributesToMigrate,
-				attributes: existingAttrs,
+				attributes: { ...existingAttrs, ...attrs },
 				defaults,
 			} );
 

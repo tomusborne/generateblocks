@@ -135,7 +135,7 @@ export default function migrateBorders( { blockVersionLessThan, defaults = {}, a
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newSpacing = buildBorderAttributes( {
 				attributesToMigrate,
-				attributes: existingAttrs,
+				attributes: { ...existingAttrs, ...attrs },
 				defaults,
 			} );
 

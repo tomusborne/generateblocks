@@ -67,7 +67,7 @@ export default function migrateSizing( { blockVersionLessThan } ) {
 	return function( attrs, existingAttrs ) {
 		if ( ! wasBlockJustInserted( existingAttrs ) && isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newSizing = buildSizingAttributes( {
-				attributes: existingAttrs,
+				attributes: { ...existingAttrs, ...attrs },
 			} );
 
 			attrs = addToAttrsObject( {

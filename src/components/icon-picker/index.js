@@ -86,6 +86,16 @@ class IconPicker extends Component {
 			flexAttributes.columnGap = '0.5em';
 		}
 
+		const styleAttributes = {};
+
+		if ( ! attributes.iconStyles.height ) {
+			styleAttributes.height = '1em';
+		}
+
+		if ( ! attributes.iconStyles.width ) {
+			styleAttributes.width = '1em';
+		}
+
 		return (
 			<Fragment>
 				<BaseControl className="gb-svg-html">
@@ -101,6 +111,10 @@ class IconPicker extends Component {
 								setAttributes( {
 									hasIcon: true,
 									...flexAttributes,
+									iconStyles: {
+										...attributes.iconStyles,
+										...styleAttributes,
+									},
 								} );
 							} else {
 								setAttributes( {
@@ -159,6 +173,10 @@ class IconPicker extends Component {
 																				[ this.props.attrIcon ]: iconValue,
 																				hasIcon: true,
 																				...flexAttributes,
+																				iconStyles: {
+																					...attributes.iconStyles,
+																					...styleAttributes,
+																				},
 																			} );
 																		} }
 																	>
