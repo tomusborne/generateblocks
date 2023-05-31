@@ -32,7 +32,9 @@ export default function Dimensions( props ) {
 		return o;
 	}, {} );
 
-	const [ sync, setSync ] = useState( false );
+	const uniqueValues = Object.values( attributes ).filter( ( n ) => n );
+	const areAllValuesEqual = ( arr ) => arr.length === attributeNames.length && arr.every( ( value ) => value === arr[ 0 ] );
+	const [ sync, setSync ] = useState( areAllValuesEqual( uniqueValues ) );
 	const [ lastFocused, setLastFocused ] = useState( '' );
 
 	const syncUnits = () => {
@@ -76,8 +78,15 @@ export default function Dimensions( props ) {
 				</Button>
 			</Tooltip>
 
-			<div className={ 'components-gblocks-dimensions-control__inputs style-' + style }>
+			<div
+				className={ 'components-gblocks-dimensions-control__inputs style-' + style }
+				style={ { display: !! sync ? 'block' : '' } }
+			>
 				{ attributeNames.map( ( attributeName, index ) => {
+					if ( sync && index > 0 ) {
+						return null;
+					}
+
 					return (
 						<div key={ attributeName }>
 							<UnitControl
@@ -99,13 +108,15 @@ export default function Dimensions( props ) {
 								onFocus={ () => setLastFocused( attributeName ) }
 							/>
 
-							<label htmlFor={ attributeName } className="gblocks-dimensions-control__label">
-								{
-									attributeName.includes( 'borderRadius' )
-										? labels.borderRadius[ index ]
-										: labels.default[ index ]
-								}
-							</label>
+							{ ! sync &&
+								<label htmlFor={ attributeName } className="gblocks-dimensions-control__label">
+									{
+										attributeName.includes( 'borderRadius' )
+											? labels.borderRadius[ index ]
+											: labels.default[ index ]
+									}
+								</label>
+							}
 						</div>
 					);
 				} ) }
