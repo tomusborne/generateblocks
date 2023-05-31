@@ -32,9 +32,9 @@ export default function Dimensions( props ) {
 		return o;
 	}, {} );
 
-	const uniqueValues = Object.values( attributes ).filter( ( n ) => n );
 	const areAllValuesEqual = ( arr ) => arr.length === attributeNames.length && arr.every( ( value ) => value === arr[ 0 ] );
-	const [ sync, setSync ] = useState( areAllValuesEqual( uniqueValues ) );
+	const attributeValues = Object.values( attributes ).filter( ( n ) => n );
+	const [ sync, setSync ] = useState( areAllValuesEqual( attributeValues ) );
 	const [ lastFocused, setLastFocused ] = useState( '' );
 
 	const syncUnits = () => {
