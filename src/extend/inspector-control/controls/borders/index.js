@@ -14,20 +14,50 @@ import './editor.scss';
 import ColorPicker from '../../../../components/color-picker';
 import StyleDropdown from './components/style-dropdown';
 import { link, linkOff } from '@wordpress/icons';
+import isNumeric from '../../../../utils/is-numeric';
 
 export default function Borders( { attributes, setAttributes } ) {
 	const device = getDeviceType();
 	const { id, supports: { borders: bordersPanel } } = useContext( ControlsContext );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const borderRadiusAttributes = [ 'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius' ];
+	const borderAreas = [ 'borderTop', 'borderRight', 'borderBottom', 'borderLeft' ];
 	const borderLabels = {
 		borderTop: __( 'Top', 'generateblocks' ),
 		borderRight: __( 'Right', 'generateblocks' ),
 		borderBottom: __( 'Bottom', 'generateblocks' ),
 		borderLeft: __( 'Left', 'generateblocks' ),
 	};
-	const [ borderAreas, setBorderAreas ] = useState( [ 'borderTop', 'borderRight', 'borderBottom', 'borderLeft' ] );
 	const [ sync, setSync ] = useState( false );
+
+	function manualSync() {
+		const areasWithWidth = borderAreas.filter( ( area ) => deviceAttributes.borders[ area + 'Width' ] || isNumeric( deviceAttributes.borders[ area + 'Width' ] ) );
+
+		if ( ! areasWithWidth.length ) {
+			return;
+		}
+
+		const firstArea = areasWithWidth[ 0 ];
+
+		const valuesToSync = Object.entries( deviceAttributes.borders ).reduce( ( newObject, [ key, value ] ) => {
+			if ( key.startsWith( firstArea ) ) {
+				const newKey = key.replace( firstArea, '' );
+				newObject[ newKey ] = value;
+			}
+
+			return newObject;
+		}, {} );
+
+		const newDeviceAttributes = Object.entries( valuesToSync ).reduce( ( newObject, [ key, value ] ) => {
+			borderAreas.forEach( ( area ) => {
+				newObject[ area + key ] = value;
+			} );
+
+			return newObject;
+		}, {} );
+
+		setDeviceAttributes( newDeviceAttributes, 'borders' );
+	}
 
 	return (
 		<PanelArea
@@ -50,12 +80,10 @@ export default function Borders( { attributes, setAttributes } ) {
 							variant={ !! sync ? 'primary' : '' }
 							aria-pressed={ !! sync }
 							onClick={ () => {
+								setSync( ! sync );
+
 								if ( ! sync ) {
-									setBorderAreas( [ 'borderTop' ] );
-									setSync( true );
-								} else {
-									setBorderAreas( [ 'borderTop', 'borderRight', 'borderBottom', 'borderLeft' ] );
-									setSync( false );
+									manualSync();
 								}
 							} }
 							isSmall
@@ -64,8 +92,12 @@ export default function Borders( { attributes, setAttributes } ) {
 						</Button>
 					</Tooltip>
 
-					{ borderAreas.map( ( borderArea ) => {
+					{ borderAreas.map( ( borderArea, areaIndex ) => {
 						if ( ! bordersPanel[ borderArea ] ) {
+							return null;
+						}
+
+						if ( sync && areaIndex > 0 ) {
 							return null;
 						}
 
