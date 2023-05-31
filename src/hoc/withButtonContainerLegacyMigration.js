@@ -38,6 +38,8 @@ export function migrateStackFill( { blockVersionLessThan } ) {
 	};
 }
 
+export const currentBlockVersion = 3;
+
 /**
  * Migrate our Button Container attributes.
  *
@@ -66,7 +68,7 @@ export function migrateButtonContainerAttributes( { attributes, defaults, mode =
 					'marginLeft',
 				],
 			} ),
-			updateBlockVersion( 3 ),
+			updateBlockVersion( currentBlockVersion ),
 		],
 		mode
 	);

@@ -5,6 +5,8 @@ import migrateSpacing from './migrations/migrateSpacing';
 import migrateBorders from './migrations/migrateBorders';
 import { isEmpty } from 'lodash';
 
+export const currentBlockVersion = 2;
+
 /**
  * Migrate our Image attributes.
  *
@@ -47,7 +49,7 @@ export function migrateImageAttributes( { attributes, defaults, mode } ) {
 					'borderRadiusTopLeft',
 				],
 			} ),
-			updateBlockVersion( 2 ),
+			updateBlockVersion( currentBlockVersion ),
 		],
 		mode
 	);

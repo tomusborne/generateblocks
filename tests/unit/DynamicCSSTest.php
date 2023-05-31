@@ -140,4 +140,31 @@ final class DynamicCSSTest extends GBTestCase {
 		$actual = $css->css_output();
 		$this->assertArrayHasKey( '.gb-container-72478d91', $actual );
 	}
+
+	public function testOuterContainerPadding() {
+		$css = new \GenerateBlocks_Dynamic_CSS();
+		$defaults = generateblocks_get_block_defaults();
+
+		$attributes = [
+			'useInnerContainer' => true,
+			'spacing' => [
+				'paddingTop' => '20px',
+				'marginLeft' => 'auto',
+				'marginRight' => 'auto',
+			],
+		];
+
+		$settings = wp_parse_args(
+			$attributes,
+			$defaults['container']
+		);
+
+		$css->set_selector( '.test-padding' );
+		generateblocks_add_spacing_css( $css, $settings );
+
+		$actual = $css->css_output();
+		$expected_padding_css = 'margin-right:auto;margin-left:auto;';
+		$this->assertArrayHasKey( '.test-padding', $actual );
+		$this->assertEquals( $expected_padding_css, $actual['.test-padding'][0] );
+	}
 }

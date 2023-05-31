@@ -72,7 +72,7 @@ export default function migrateSpacing( { blockVersionLessThan, defaults = {}, a
 		if ( isBlockVersionLessThan( existingAttrs.blockVersion, blockVersionLessThan ) ) {
 			const newSpacing = buildSpacingAttributes( {
 				attributesToMigrate,
-				attributes: existingAttrs,
+				attributes: { ...existingAttrs, ...attrs },
 				defaults,
 			} );
 

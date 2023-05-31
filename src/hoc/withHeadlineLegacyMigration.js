@@ -54,6 +54,8 @@ export function migrateFlex( attrs, existingAttrs, mode ) {
 	return attrs;
 }
 
+export const currentBlockVersion = 3;
+
 /**
  * Migrate our Headline attributes.
  *
@@ -118,7 +120,7 @@ export function migrateHeadlineAttributes( { attributes, defaults, mode } ) {
 				blockVersionLessThan: 3,
 				defaults,
 			} ),
-			updateBlockVersion( 3 ),
+			updateBlockVersion( currentBlockVersion ),
 		],
 		mode
 	);

@@ -1,46 +1,8 @@
 import { migrationPipe } from '../../../hoc/migrations/utils';
 import migrateBorders from '../../../hoc/migrations/migrateBorders';
+import { blockDefaults as defaults } from './defaults';
 
 describe( 'Test border migrations', () => {
-	const defaults = {
-		borderSizeTop: {
-			default: '',
-		},
-		borderSizeRight: {
-			default: '',
-		},
-		borderColor: {
-			default: '',
-		},
-		borderColorOpacity: {
-			default: 1,
-		},
-		borderColorHover: {
-			default: '',
-		},
-		borderColorHoverOpacity: {
-			default: 1,
-		},
-		borderRadiusTopLeft: {
-			default: '',
-		},
-		bordeRadiusTopLeftMobile: {
-			default: '',
-		},
-		borderRadiusTopRight: {
-			default: '',
-		},
-		borderRadiusBottomRight: {
-			default: '',
-		},
-		borderRadiusBottomLeft: {
-			default: '',
-		},
-		borderRadiusUnit: {
-			default: 'px',
-		},
-	};
-
 	it( 'can migrate borders', () => {
 		const attributes = {
 			blockVersion: 3,
