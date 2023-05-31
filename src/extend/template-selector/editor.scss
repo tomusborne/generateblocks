@@ -18,6 +18,13 @@
 	}
 
 	.gb-select-layout {
+		.components-placeholder__fieldset {
+			overflow: hidden;
+			display: flex;
+			justify-content: center;
+			text-align: center;
+		}
+
 		&__actions {
 			margin-top: 30px;
 			display: flex;
