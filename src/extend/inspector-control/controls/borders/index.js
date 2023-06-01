@@ -15,7 +15,7 @@ import ColorPicker from '../../../../components/color-picker';
 import StyleDropdown from './components/style-dropdown';
 import { link, linkOff } from '@wordpress/icons';
 import isNumeric from '../../../../utils/is-numeric';
-import { isEqual } from 'lodash';
+import { isEqual, isEmpty } from 'lodash';
 
 export default function Borders( { attributes, setAttributes } ) {
 	const device = getDeviceType();
@@ -47,7 +47,10 @@ export default function Borders( { attributes, setAttributes } ) {
 			}, {} );
 		} );
 
-		if ( 4 === allValues.length && allValues.every( ( obj ) => isEqual( obj, allValues[ 0 ] ) ) ) {
+		if (
+			4 === allValues.length &&
+			allValues.every( ( obj ) => ! isEmpty( obj ) && isEqual( obj, allValues[ 0 ] ) )
+		) {
 			setSync( true );
 		}
 	}, [] );
