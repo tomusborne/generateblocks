@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
-import { useContext, useState } from '@wordpress/element';
+import { useContext, useState, useEffect } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import getDeviceType from '../../../../utils/get-device-type';
 import useDeviceAttributes from '../../../../hooks/useDeviceAttributes';
@@ -15,6 +15,7 @@ import ColorPicker from '../../../../components/color-picker';
 import StyleDropdown from './components/style-dropdown';
 import { link, linkOff } from '@wordpress/icons';
 import isNumeric from '../../../../utils/is-numeric';
+import { isEqual } from 'lodash';
 
 export default function Borders( { attributes, setAttributes } ) {
 	const device = getDeviceType();
@@ -29,6 +30,27 @@ export default function Borders( { attributes, setAttributes } ) {
 		borderLeft: __( 'Left', 'generateblocks' ),
 	};
 	const [ sync, setSync ] = useState( false );
+
+	useEffect( () => {
+		const allValues = borderAreas.map( ( area ) => {
+			return Object.entries( deviceAttributes.borders ).reduce( ( newObject, [ key, value ] ) => {
+				if ( key.startsWith( area ) ) {
+					const newKey = key.replace( area, '' );
+
+					newObject = {
+						...newObject,
+						[ newKey ]: value,
+					};
+				}
+
+				return newObject;
+			}, {} );
+		} );
+
+		if ( 4 === allValues.length && allValues.every( ( obj ) => isEqual( obj, allValues[ 0 ] ) ) ) {
+			setSync( true );
+		}
+	}, [] );
 
 	function manualSync() {
 		const areasWithWidth = borderAreas.filter( ( area ) => deviceAttributes.borders[ area + 'Width' ] || isNumeric( deviceAttributes.borders[ area + 'Width' ] ) );
