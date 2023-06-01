@@ -4,7 +4,6 @@ import getIcon from '../../../../utils/get-icon';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import { Tooltip, Button } from '@wordpress/components';
-import { globe } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
 import MinHeight from './components/MinHeight';
 import getAttribute from '../../../../utils/get-attribute';
@@ -143,7 +142,7 @@ export default function Sizing( props ) {
 							return (
 								<Tooltip text={ __( 'Use global max-width', 'generateblocks' ) }>
 									<Button
-										icon={ globe }
+										icon={ getIcon( 'globe' ) }
 										isPrimary={ !! useGlobalMaxWidth }
 										onClick={ () => {
 											setAttributes( {
