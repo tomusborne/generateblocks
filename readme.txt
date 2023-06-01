@@ -92,7 +92,6 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Feature: Allow text values (calc(), var(), etc...) in options that accept them
 * Feature: New "Add to Container" icon added to the toolbar of all blocks
 * Feature: Allow removal of Container block around innerBlocks
-* Feature: Add Container template selector for root Container blocks
 * Feature: Display text field to allow user to replace image URL
 * Feature: Headline block show text in List View
 * Feature: Button block show text in List View
