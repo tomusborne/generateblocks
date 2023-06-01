@@ -129,7 +129,7 @@ export default function Borders( { attributes, setAttributes } ) {
 
 						return (
 							<FlexControl key={ borderArea }>
-								<Tooltip text={ borderLabels[ borderArea ] }>
+								<Tooltip text={ !! sync ? __( 'All sides', 'generateblocks' ) : borderLabels[ borderArea ] }>
 									<div className={ 'gblocks-border-icon ' + iconBorderStyle } style={ { borderStyle: attributes.borders[ borderArea + 'Style' ] } }></div>
 								</Tooltip>
 
