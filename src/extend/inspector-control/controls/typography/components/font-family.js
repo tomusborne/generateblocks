@@ -1,7 +1,7 @@
 import { BaseControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useMemo } from '@wordpress/element';
-import googleFonts from '../../../../../components/typography/google-fonts.json';
+import googleFonts from '../google-fonts.json';
 import typographyOptions from '../options';
 import AdvancedSelect from '../../../../../components/advanced-select';
 
