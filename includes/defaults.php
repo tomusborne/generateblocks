@@ -42,6 +42,7 @@ function generateblocks_get_option_defaults() {
 			'container_width' => 1100,
 			'css_print_method' => 'file',
 			'sync_responsive_previews' => true,
+			'disable_google_fonts' => false,
 		)
 	);
 }
@@ -60,10 +61,12 @@ function generateblocks_get_default_styles() {
 			'textColor' => $defaults['button']['textColor'] ? $defaults['button']['textColor'] : '#ffffff',
 			'backgroundColorHover' => $defaults['button']['backgroundColorHover'] ? $defaults['button']['backgroundColorHover'] : '#222222',
 			'textColorHover' => $defaults['button']['textColorHover'] ? $defaults['button']['textColorHover'] : '#ffffff',
-			'paddingTop' => $defaults['button']['paddingTop'] ? $defaults['button']['paddingTop'] : '15',
-			'paddingRight' => $defaults['button']['paddingRight'] ? $defaults['button']['paddingRight'] : '20',
-			'paddingBottom' => $defaults['button']['paddingBottom'] ? $defaults['button']['paddingBottom'] : '15',
-			'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20',
+			'spacing' => [
+				'paddingTop' => $defaults['button']['paddingTop'] ? $defaults['button']['paddingTop'] : '15px',
+				'paddingRight' => $defaults['button']['paddingRight'] ? $defaults['button']['paddingRight'] : '20px',
+				'paddingBottom' => $defaults['button']['paddingBottom'] ? $defaults['button']['paddingBottom'] : '15px',
+				'paddingLeft' => $defaults['button']['paddingLeft'] ? $defaults['button']['paddingLeft'] : '20px',
+			],
 			'display' => 'inline-flex',
 		),
 		'container' => array(

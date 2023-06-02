@@ -1,6 +1,6 @@
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -17,22 +17,15 @@ export default class TabletCSS extends Component {
 		const {
 			uniqueId,
 			alignmentTablet,
-			marginTopTablet,
-			marginRightTablet,
-			marginBottomTablet,
-			marginLeftTablet,
-			marginUnit,
 		} = attributes;
 
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId ] = [ {
-			'margin-top': valueWithUnit( marginTopTablet, marginUnit ),
-			'margin-right': valueWithUnit( marginRightTablet, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomTablet, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftTablet, marginUnit ),
 			'justify-content': flexboxAlignment( alignmentTablet ),
 		} ];
+
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId, attributes.spacing, 'Tablet' );
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'justify-content': flexboxAlignment( alignmentTablet ),

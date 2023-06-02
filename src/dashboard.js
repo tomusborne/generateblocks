@@ -215,6 +215,22 @@ class App extends Component {
 								/>
 							</PanelRow>
 
+							<PanelRow>
+								<ToggleControl
+									label={ __( 'Disable Google Fonts', 'generateblocks' ) }
+									help={ __( 'Prevent Google Fonts from being called on your website and remove them from the font family lists.', 'generateblocks' ) }
+									checked={ this.getSetting( 'disable_google_fonts' ) }
+									onChange={ ( value ) => {
+										this.setState( {
+											settings: {
+												...this.state.settings,
+												disable_google_fonts: value,
+											},
+										} );
+									} }
+								/>
+							</PanelRow>
+
 							{ applyFilters( 'generateblocks.dashboard.settings', '', this ) }
 
 							<div className="gblocks-action-button">
