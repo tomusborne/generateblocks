@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { BaseControl, Button, Tooltip } from '@wordpress/components';
 import { link, linkOff } from '@wordpress/icons';
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -34,6 +34,12 @@ export default function Dimensions( props ) {
 
 	const [ sync, setSync ] = useState( false );
 	const [ lastFocused, setLastFocused ] = useState( '' );
+
+	useEffect( () => {
+		const areAllValuesEqual = ( arr ) => arr.length === attributeNames.length && arr.every( ( value ) => value === arr[ 0 ] );
+		const attributeValues = Object.values( attributes ).filter( ( n ) => n );
+		setSync( areAllValuesEqual( attributeValues ) );
+	}, [ JSON.stringify( attributes ) ] );
 
 	const syncUnits = () => {
 		const sides = [ ...attributeNames ].reverse();
@@ -76,8 +82,15 @@ export default function Dimensions( props ) {
 				</Button>
 			</Tooltip>
 
-			<div className={ 'components-gblocks-dimensions-control__inputs style-' + style }>
+			<div
+				className={ 'components-gblocks-dimensions-control__inputs style-' + style }
+				style={ { display: !! sync ? 'block' : '' } }
+			>
 				{ attributeNames.map( ( attributeName, index ) => {
+					if ( sync && index > 0 ) {
+						return null;
+					}
+
 					return (
 						<div key={ attributeName }>
 							<UnitControl
@@ -99,13 +112,15 @@ export default function Dimensions( props ) {
 								onFocus={ () => setLastFocused( attributeName ) }
 							/>
 
-							<label htmlFor={ attributeName } className="gblocks-dimensions-control__label">
-								{
-									attributeName.includes( 'borderRadius' )
-										? labels.borderRadius[ index ]
-										: labels.default[ index ]
-								}
-							</label>
+							{ ! sync &&
+								<label htmlFor={ attributeName } className="gblocks-dimensions-control__label">
+									{
+										attributeName.includes( 'borderRadius' )
+											? labels.borderRadius[ index ]
+											: labels.default[ index ]
+									}
+								</label>
+							}
 						</div>
 					);
 				} ) }
