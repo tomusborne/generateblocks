@@ -1,29 +1,15 @@
-import NumberControl from '../../../../../components/number-control';
 import { __ } from '@wordpress/i18n';
+import UnitControl from '../../../../../components/unit-control';
 
-export default function FontSize( { attributes, computedStyles, setAttributes, device } ) {
+export default function FontSize( { units, value, placeholder, onChange } ) {
 	return (
-		<NumberControl
+		<UnitControl
 			label={ __( 'Font Size', 'generateblocks' ) }
-			attributeName="fontSize"
-			units={ [ 'px', 'em', '%' ] }
-			defaultPlaceholder={
-				computedStyles.fontSize && 'px' === attributes.fontSizeUnit
-					? computedStyles.fontSize
-					: ''
-			}
-			presets={
-				[
-					{
-						unit: 'px',
-						data: [ 13, 17, 25, 35 ],
-					},
-				]
-			}
-			min="1"
-			attributes={ attributes }
-			setAttributes={ setAttributes }
-			device={ device }
+			id="gblocks-font-size"
+			units={ units }
+			value={ value }
+			placeholder={ placeholder }
+			onChange={ onChange }
 		/>
 	);
 }

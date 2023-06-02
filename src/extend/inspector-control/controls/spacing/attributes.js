@@ -1,5 +1,9 @@
 export default function getSpacingAttributes( defaults ) {
 	return {
+		spacing: {
+			type: 'object',
+			default: {},
+		},
 		marginTop: {
 			type: 'string',
 			default: defaults.marginTop,
