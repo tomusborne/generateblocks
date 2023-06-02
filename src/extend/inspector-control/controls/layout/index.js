@@ -39,7 +39,7 @@ export default function Layout( { attributes, setAttributes } ) {
 		align,
 	} = attributes;
 
-	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
+	const directionValue = getAttribute( 'flexDirection', componentProps ) || getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
 
 	return (
 		<PanelArea
