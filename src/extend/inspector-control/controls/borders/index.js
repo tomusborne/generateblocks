@@ -34,7 +34,7 @@ export default function Borders( { attributes, setAttributes } ) {
 	useEffect( () => {
 		const allValues = borderAreas.map( ( area ) => {
 			return Object.entries( deviceAttributes.borders ).reduce( ( newObject, [ key, value ] ) => {
-				if ( key.startsWith( area ) ) {
+				if ( key.startsWith( area ) && value ) {
 					const newKey = key.replace( area, '' );
 
 					newObject = {
