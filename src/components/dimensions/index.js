@@ -4,7 +4,7 @@
 import { __ } from '@wordpress/i18n';
 import { BaseControl, Button, Tooltip } from '@wordpress/components';
 import { link, linkOff } from '@wordpress/icons';
-import { useState } from '@wordpress/element';
+import { useState, useEffect } from '@wordpress/element';
 
 /**
  * Internal dependencies
@@ -32,10 +32,14 @@ export default function Dimensions( props ) {
 		return o;
 	}, {} );
 
-	const areAllValuesEqual = ( arr ) => arr.length === attributeNames.length && arr.every( ( value ) => value === arr[ 0 ] );
-	const attributeValues = Object.values( attributes ).filter( ( n ) => n );
-	const [ sync, setSync ] = useState( areAllValuesEqual( attributeValues ) );
+	const [ sync, setSync ] = useState( false );
 	const [ lastFocused, setLastFocused ] = useState( '' );
+
+	useEffect( () => {
+		const areAllValuesEqual = ( arr ) => arr.length === attributeNames.length && arr.every( ( value ) => value === arr[ 0 ] );
+		const attributeValues = Object.values( attributes ).filter( ( n ) => n );
+		setSync( areAllValuesEqual( attributeValues ) );
+	}, [ JSON.stringify( attributes ) ] );
 
 	const syncUnits = () => {
 		const sides = [ ...attributeNames ].reverse();
