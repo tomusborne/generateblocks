@@ -44,10 +44,10 @@
 					grid-area: top;
 					display: flex;
 					flex-direction: column-reverse;
-					gap: 5px;
 
 					.gblocks-dimensions-control__label {
 						text-align: center;
+						padding-bottom: 5px;
 					}
 				}
 
@@ -65,10 +65,10 @@
 					grid-area: bottom;
 					display: flex;
 					flex-direction: column;
-					gap: 5px;
 
 					.gblocks-dimensions-control__label {
 						text-align: center;
+						padding-top: 5px;
 					}
 				}
 

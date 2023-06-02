@@ -408,4 +408,14 @@ export default function getIcon( icon ) {
 			</svg>
 		);
 	}
+
+	if ( 'globe' === icon ) {
+		return (
+			<svg width="20" height="20" viewBox="0 0 256 256">
+				<path fill="none" d="M0 0h256v256H0z" />
+				<circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" />
+				<path d="M88 128c0 37.46 13.33 70.92 34.28 93.49a7.77 7.77 0 0 0 11.44 0C154.67 198.92 168 165.46 168 128s-13.33-70.92-34.28-93.49a7.77 7.77 0 0 0-11.44 0C101.33 57.08 88 90.54 88 128ZM32 128h192" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" />
+			</svg>
+		);
+	}
 }
