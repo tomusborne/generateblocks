@@ -117,9 +117,12 @@ class GenerateBlocks_Block_Button_Container {
 			self::$singular_css_added = true;
 		}
 
+		// Map deprecated settings.
+		$settings = GenerateBlocks_Map_Deprecated_Attributes::map_attributes( $settings );
+
 		$css->set_selector( '.gb-button-wrapper-' . $id );
-		$css->add_property( 'margin', array( $settings['marginTop'], $settings['marginRight'], $settings['marginBottom'], $settings['marginLeft'] ), $settings['marginUnit'] );
 		$css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignment'] ) );
+		generateblocks_add_spacing_css( $css, $settings );
 
 		$stack_desktop = $desktop_css;
 		$stack_tablet_only = $tablet_only_css;
@@ -146,8 +149,8 @@ class GenerateBlocks_Block_Button_Container {
 		}
 
 		$tablet_css->set_selector( '.gb-button-wrapper-' . $id );
-		$tablet_css->add_property( 'margin', array( $settings['marginTopTablet'], $settings['marginRightTablet'], $settings['marginBottomTablet'], $settings['marginLeftTablet'] ), $settings['marginUnit'] );
 		$tablet_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentTablet'] ) );
+		generateblocks_add_spacing_css( $tablet_css, $settings, 'Tablet' );
 
 		if ( $settings['stackTablet'] ) {
 			$stack_tablet_only->set_selector( '.gb-button-wrapper-' . $id );
@@ -166,8 +169,8 @@ class GenerateBlocks_Block_Button_Container {
 		}
 
 		$mobile_css->set_selector( '.gb-button-wrapper-' . $id );
-		$mobile_css->add_property( 'margin', array( $settings['marginTopMobile'], $settings['marginRightMobile'], $settings['marginBottomMobile'], $settings['marginLeftMobile'] ), $settings['marginUnit'] );
 		$mobile_css->add_property( 'justify-content', generateblocks_get_flexbox_alignment( $settings['alignmentMobile'] ) );
+		generateblocks_add_spacing_css( $mobile_css, $settings, 'Mobile' );
 
 		if ( $settings['stackMobile'] ) {
 			$mobile_css->add_property( 'flex-direction', 'column' );

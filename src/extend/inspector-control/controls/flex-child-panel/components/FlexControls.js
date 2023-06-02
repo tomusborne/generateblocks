@@ -17,11 +17,6 @@ export default function FlexChildControls( props ) {
 		setAttributes,
 	} = props;
 
-	const {
-		flexBasis,
-		flexBasisTablet,
-	} = attributes;
-
 	const deviceType = getDeviceType();
 
 	return (
@@ -104,8 +99,7 @@ export default function FlexChildControls( props ) {
 						<UnitControl
 							help={ __( 'Basis', 'generateblocks' ) }
 							value={ getAttribute( 'flexBasis', { attributes, deviceType } ) }
-							desktopValue={ flexBasis }
-							tabletValue={ flexBasisTablet }
+							placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, deviceType ) }
 							onChange={ ( value ) => {
 								setAttributes( {
 									[ getAttribute( 'flexBasis', { attributes, deviceType }, true ) ]: value,

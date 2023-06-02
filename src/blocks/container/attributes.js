@@ -3,6 +3,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	templateLock: {
+		type: [ 'string', 'boolean' ],
+		enum: [ 'all', 'insert', 'contentOnly', false ],
+	},
 	anchor: {
 		type: 'string',
 		default: '',
@@ -258,6 +262,10 @@ export default {
 		default: false,
 	},
 	variantRole: {
+		type: 'string',
+		default: '',
+	},
+	blockLabel: {
 		type: 'string',
 		default: '',
 	},
