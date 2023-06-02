@@ -1,6 +1,6 @@
 import buildCSS from '../../../utils/build-css';
-import valueWithUnit from '../../../utils/value-with-unit';
 import flexboxAlignment from '../../../utils/flexbox-alignment';
+import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 
 import {
 	Component,
@@ -17,11 +17,6 @@ export default class MobileCSS extends Component {
 		const {
 			uniqueId,
 			alignmentMobile,
-			marginTopMobile,
-			marginRightMobile,
-			marginBottomMobile,
-			marginLeftMobile,
-			marginUnit,
 			stackMobile,
 			fillHorizontalSpaceMobile,
 		} = attributes;
@@ -30,14 +25,12 @@ export default class MobileCSS extends Component {
 
 		cssObj[ '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId ] = [ {
 			'display': fillHorizontalSpaceMobile ? 'block' : false, // eslint-disable-line quote-props
-			'margin-top': valueWithUnit( marginTopMobile, marginUnit ),
-			'margin-right': valueWithUnit( marginRightMobile, marginUnit ),
-			'margin-bottom': valueWithUnit( marginBottomMobile, marginUnit ),
-			'margin-left': valueWithUnit( marginLeftMobile, marginUnit ),
 			'justify-content': flexboxAlignment( alignmentMobile ),
 			'flex-direction': stackMobile ? 'column' : false,
 			'align-items': stackMobile ? flexboxAlignment( alignmentMobile ) : false,
 		} ];
+
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-button-wrapper-' + uniqueId, attributes.spacing, 'Mobile' );
 
 		cssObj[ '.gb-button-wrapper-' + uniqueId + ' > .block-editor-inner-blocks > .block-editor-block-list__layout' ] = [ {
 			'flex-direction': stackMobile ? 'column' : false,

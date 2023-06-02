@@ -11,7 +11,7 @@ export default function Colors( { attributes, setAttributes } ) {
 	return (
 		<PanelArea
 			title={ __( 'Colors', 'generateblocks' ) }
-			initialOpen={ true }
+			initialOpen={ false }
 			icon={ getIcon( 'colors' ) }
 			className="gblocks-panel-label"
 			id={ `${ id }Colors` }
