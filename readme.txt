@@ -97,6 +97,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Feature: Button block show text in List View
 * Feature: Image block show alt/title in List View
 * Feature: Add Block Label option to label Container, Query Loop, and Grid blocks in List View
+* Feature: Only show one dimension field if synced
 * Fix: Color and Background panels are visible/accessible on responsive views
 * Fix: Template lock system not applying to inner blocks
 * Fix: Button with dynamic content not displaying the aria-label
@@ -110,6 +111,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Move block alignment to Layout panel
 * Tweak: Remove help text from Grid vertical alignment
 * Tweak: Remove the Button Container variation
+* Tweak: Clean up UnitControl display across all browsers
 * Dev: Rebuild how block migrations run
 * Dev: Migrate spacing attributes to new spacing object attribute
 * Dev: Migrate typography attributes to new typography object attribute
