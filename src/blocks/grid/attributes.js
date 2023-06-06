@@ -4,6 +4,10 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	templateLock: {
+		type: [ 'string', 'boolean' ],
+		enum: [ 'all', 'insert', 'contentOnly', false ],
+	},
 	anchor: {
 		type: 'string',
 		default: '',
@@ -73,6 +77,10 @@ export default {
 	useLegacyRowGap: {
 		type: 'boolean',
 		default: false,
+	},
+	blockLabel: {
+		type: 'string',
+		default: '',
 	},
 	// deprecated since 1.2.0
 	elementId: {

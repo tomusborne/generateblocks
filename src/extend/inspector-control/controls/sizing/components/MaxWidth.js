@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function MaxWidth( { value, desktopValue, tabletValue, onChange, disabled, overrideValue, units, overrideAction } ) {
+export default function MaxWidth( { value, onChange, disabled, overrideValue, units, overrideAction, placeholder } ) {
 	return (
 		<>
 			<UnitControl
@@ -11,8 +11,7 @@ export default function MaxWidth( { value, desktopValue, tabletValue, onChange, 
 				overrideValue={ overrideValue }
 				disabled={ disabled }
 				value={ value }
-				desktopValue={ desktopValue }
-				tabletValue={ tabletValue }
+				placeholder={ placeholder }
 				onChange={ onChange }
 				overrideAction={ overrideAction }
 			/>
