@@ -1,13 +1,13 @@
 import { BaseControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { Fragment, useMemo } from '@wordpress/element';
-import googleFonts from '../../../../../components/typography/google-fonts.json';
+import googleFonts from '../google-fonts.json';
 import typographyOptions from '../options';
 import AdvancedSelect from '../../../../../components/advanced-select';
 
 export default function FontFamily( { attributes, setAttributes } ) {
 	const {
-		fontFamily,
+		typography,
 		fontFamilyFallback,
 		googleFont,
 		googleFontVariants,
@@ -15,27 +15,41 @@ export default function FontFamily( { attributes, setAttributes } ) {
 
 	const fonts = useMemo( () => {
 		const fontFamilyOptions = typographyOptions.fontFamily;
+		const googleFontFamilyOptions = {
+			label: __( 'Google Fonts', 'generateblocks' ),
+			options: [],
+		};
 
-		Object
-			.keys( googleFonts )
-			.slice( 0, 20 )
-			.forEach( ( k ) => {
-				const fontExists = Object.keys( fontFamilyOptions ).some( ( font ) => {
-					return fontFamilyOptions[ font ]?.value === k;
+		if ( ! generateBlocksInfo.disableGoogleFonts ) {
+			Object
+				.keys( googleFonts )
+				.forEach( ( k ) => {
+					const fontExists = Object.keys( googleFontFamilyOptions.options ).some( ( font ) => {
+						return googleFontFamilyOptions.options[ font ]?.value === k;
+					} );
+
+					if ( ! fontExists ) {
+						googleFontFamilyOptions.options.push( { value: k, label: k } );
+					}
 				} );
+		}
 
-				if ( ! fontExists ) {
-					fontFamilyOptions.push( { value: k, label: k } );
-				}
-			} );
+		if ( googleFontFamilyOptions.options.length ) {
+			fontFamilyOptions.push( googleFontFamilyOptions );
+		}
 
 		return fontFamilyOptions;
 	}, [] );
 
 	function onFontChange( value ) {
-		setAttributes( { fontFamily: value } );
+		setAttributes( {
+			typography: {
+				...typography,
+				fontFamily: value,
+			},
+		} );
 
-		if ( typeof googleFonts[ value ] !== 'undefined' ) {
+		if ( ! generateBlocksInfo.disableGoogleFonts && typeof googleFonts[ value ] !== 'undefined' ) {
 			setAttributes( {
 				googleFont: true,
 				fontFamilyFallback: googleFonts[ value ].fallback,
@@ -50,7 +64,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 		}
 	}
 
-	const value = !! fontFamily ? { value: fontFamily, label: fontFamily } : '';
+	const value = !! typography.fontFamily ? { value: typography.fontFamily, label: typography.fontFamily } : '';
 
 	return (
 		<>
@@ -71,7 +85,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 				/>
 			</BaseControl>
 
-			{ '' !== fontFamily &&
+			{ !! typography.fontFamily && ! generateBlocksInfo.disableGoogleFonts &&
 				<Fragment>
 					<ToggleControl
 						label={ __( 'Use Google Fonts API', 'generateblocks' ) }
@@ -82,10 +96,10 @@ export default function FontFamily( { attributes, setAttributes } ) {
 							} );
 
 							if ( newGoogleFontValue ) {
-								if ( typeof googleFonts[ fontFamily ] !== 'undefined' ) {
+								if ( typeof googleFonts[ typography.fontFamily ] !== 'undefined' ) {
 									setAttributes( {
-										fontFamilyFallback: googleFonts[ fontFamily ].fallback,
-										googleFontVariants: googleFonts[ fontFamily ].weight.join( ', ' ),
+										fontFamilyFallback: googleFonts[ typography.fontFamily ].fallback,
+										googleFontVariants: googleFonts[ typography.fontFamily ].weight.join( ', ' ),
 									} );
 								}
 							}
