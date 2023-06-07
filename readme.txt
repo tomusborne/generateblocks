@@ -98,6 +98,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Feature: Image block show alt/title in List View
 * Feature: Add Block Label option to label Container, Query Loop, and Grid blocks in List View
 * Feature: Only show one dimension field if synced
+* Feature: Add option to disable Google fonts
 * Fix: Color and Background panels are visible/accessible on responsive views
 * Fix: Template lock system not applying to inner blocks
 * Fix: Button with dynamic content not displaying the aria-label
@@ -107,11 +108,15 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Query loop parameter delete button size
 * Fix: Advanced select jumping when near the bottom of the page
 * Fix: Triple captions using static image with dynamic link
+* Fix: Flex icons based on direction in device previews
+* Fix: Container appender icon spacing
+* Fix: useDeviceType state was one state behind when triggered from core buttons
 * Tweak: Require at least PHP 7.2
 * Tweak: Move block alignment to Layout panel
 * Tweak: Remove help text from Grid vertical alignment
 * Tweak: Remove the Button Container variation
 * Tweak: Clean up UnitControl display across all browsers
+* Tweak: Show all Google fonts in font family dropdown
 * Dev: Rebuild how block migrations run
 * Dev: Migrate spacing attributes to new spacing object attribute
 * Dev: Migrate typography attributes to new typography object attribute
