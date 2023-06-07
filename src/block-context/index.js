@@ -15,6 +15,7 @@ import getLayoutAttributes from '../extend/inspector-control/controls/layout/att
 import getSizingAttributes from '../extend/inspector-control/controls/sizing/attributes';
 import getFlexChildAttributes from '../extend/inspector-control/controls/flex-child-panel/attributes';
 import { addFilter, applyFilters } from '@wordpress/hooks';
+import getBorderAttributes from '../extend/inspector-control/controls/borders/attributes';
 
 /**
  * The BlockContext represents the layer to build the block components.
@@ -112,6 +113,10 @@ export function getBlockAttributes( blockAttributes, context, defaults ) {
 
 	if ( context.supports.spacing.enabled ) {
 		attributes = Object.assign( {}, attributes, getSpacingAttributes( defaults ) );
+	}
+
+	if ( context.supports.borders.enabled ) {
+		attributes = Object.assign( {}, attributes, getBorderAttributes() );
 	}
 
 	if ( context.supports.colors.enabled ) {

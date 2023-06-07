@@ -45,28 +45,23 @@ const headlineContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			dimensions: [
+			padding: true,
+			margin: true,
+		},
+		borders: {
+			enabled: true,
+			borderColors: [
 				{
-					type: 'padding',
-					label: __( 'Padding', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
-				},
-				{
-					type: 'margin',
-					label: __( 'Margin', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
-				},
-				{
-					type: 'borderSize',
-					label: __( 'Border Size', 'generateblocks' ),
-					units: [ 'px' ],
-				},
-				{
-					type: 'borderRadius',
-					label: __( 'Border Radius', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					state: '',
+					tooltip: __( 'Border', 'generateblocks' ),
+					alpha: true,
 				},
 			],
+			borderTop: true,
+			borderRight: true,
+			borderBottom: true,
+			borderLeft: true,
+			borderRadius: true,
 		},
 		colors: {
 			enabled: true,
@@ -104,16 +99,6 @@ const headlineContext = defaultsDeep( {
 					],
 				},
 				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
-						},
-					],
-				},
-				{
 					group: 'icon',
 					label: __( 'Icon', 'generateblocks' ),
 					items: [
@@ -136,6 +121,7 @@ const headlineContext = defaultsDeep( {
 		},
 		icon: {
 			enabled: true,
+			iconSize: true,
 		},
 	},
 }, defaultContext );
