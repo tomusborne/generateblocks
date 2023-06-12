@@ -32,7 +32,6 @@ export default class MainCSS extends Component {
 			linkColor,
 			linkColorHover,
 			highlightTextColor,
-			fontFamily,
 			fontFamilyFallback,
 			iconColor,
 			iconColorOpacity,
@@ -42,19 +41,12 @@ export default class MainCSS extends Component {
 			iconStyles,
 		} = attributes;
 
-		let fontFamilyFallbackValue = '';
-
-		if ( fontFamily && fontFamilyFallback ) {
-			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
-		}
-
 		const selector = element + '.gb-headline-' + uniqueId;
 
 		let cssObj = [];
 
 		cssObj[ '.editor-styles-wrapper ' + selector ] = [ {
 			color: textColor,
-			'font-family': fontFamily + fontFamilyFallbackValue,
 		} ];
 
 		TypographyCSS( cssObj, '.editor-styles-wrapper ' + selector, { ...attributes.typography, fontFamilyFallback } );

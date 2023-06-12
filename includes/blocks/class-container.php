@@ -40,7 +40,6 @@ class GenerateBlocks_Block_Container {
 		return [
 			'tagName' => 'div',
 			'isGrid' => false,
-			'borderColor' => '',
 			'backgroundColor' => '',
 			'gradient' => false,
 			'gradientDirection' => '',
@@ -66,7 +65,6 @@ class GenerateBlocks_Block_Container {
 			),
 			'bgImageSize' => 'full',
 			'bgImageInline' => false,
-			'innerZindex' => '',
 			'fontFamilyFallback' => '',
 			'googleFont' => false,
 			'googleFontVariants' => '',
@@ -107,6 +105,8 @@ class GenerateBlocks_Block_Container {
 			'removeVerticalGapTablet' => false,
 			'removeVerticalGapMobile' => false,
 			'fontFamily' => '',
+			'borderColor' => '',
+			'innerZindex' => '',
 		];
 	}
 

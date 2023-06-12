@@ -30,10 +30,7 @@ export default class MainCSS extends Component {
 			backgroundColorHover,
 			backgroundColorHoverOpacity,
 			textColorHover,
-			fontFamily,
 			fontFamilyFallback,
-			borderColor,
-			borderColorOpacity,
 			gradient,
 			gradientDirection,
 			gradientColorOne,
@@ -48,8 +45,7 @@ export default class MainCSS extends Component {
 			iconStyles,
 		} = attributes;
 
-		let fontFamilyFallbackValue = '',
-			backgroundImageValue,
+		let backgroundImageValue,
 			gradientColorStopOneValue = '',
 			gradientColorStopTwoValue = '';
 
@@ -67,10 +63,6 @@ export default class MainCSS extends Component {
 			backgroundImageValue = 'linear-gradient(' + gradientDirection + 'deg, ' + hexToRGBA( gradientColorOne, gradientColorOneOpacity ) + gradientColorStopOneValue + ', ' + hexToRGBA( gradientColorTwo, gradientColorTwoOpacity ) + gradientColorStopTwoValue + ');';
 		}
 
-		if ( fontFamily && fontFamilyFallback ) {
-			fontFamilyFallbackValue = ', ' + fontFamilyFallback;
-		}
-
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
 		let selector = '.gb-button-' + uniqueId;
 		selector = '.editor-styles-wrapper ' + containerSelector + selector;
@@ -81,8 +73,6 @@ export default class MainCSS extends Component {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'background-image': backgroundImageValue,
 			'color': textColor, // eslint-disable-line quote-props
-			'font-family': fontFamily + fontFamilyFallbackValue,
-			'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 		} ];
 
 		TypographyCSS( cssObj, selector, { ...attributes.typography, fontFamilyFallback } );
