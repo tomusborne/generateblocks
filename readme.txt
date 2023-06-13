@@ -111,6 +111,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Flex icons based on direction in device previews
 * Fix: Container appender icon spacing
 * Fix: useDeviceType state was one state behind when triggered from core buttons
+* Fix: Use unit in UnitControl if value starts with decimal
 * Tweak: Require at least PHP 7.2
 * Tweak: Move block alignment to Layout panel
 * Tweak: Remove help text from Grid vertical alignment
