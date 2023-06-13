@@ -44,5 +44,11 @@ export default ( initialDeviceType = 'Desktop' ) => {
 		setLocalDeviceType( type );
 	};
 
+	// Here we are anticipating the return of the correct device value, instead of waiting another update from the useEffect above.
+	// This avoids attributes with old values when changing devices using the core buttons.
+	if ( previewDeviceType !== localDeviceType ) {
+		return [ previewDeviceType, setDeviceType ];
+	}
+
 	return [ localDeviceType, setDeviceType ];
 };

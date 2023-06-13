@@ -124,6 +124,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 				'container_width' => 'absint',
 				'css_print_method' => 'sanitize_text_field',
 				'sync_responsive_previews' => 'rest_sanitize_boolean',
+				'disable_google_fonts' => 'rest_sanitize_boolean',
 			)
 		);
 
