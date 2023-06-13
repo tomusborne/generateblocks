@@ -13,6 +13,8 @@ import LayoutCSS from '../../../extend/inspector-control/controls/layout/compone
 import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import isFlexItem from '../../../utils/is-flex-item';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
+import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
+import BorderCSS, { BorderCSSColor } from '../../../extend/inspector-control/controls/borders/BorderCSS';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -31,22 +33,6 @@ export default function MainCSS( props ) {
 		outerContainer,
 		innerContainer,
 		containerWidth,
-		paddingTop,
-		paddingRight,
-		paddingBottom,
-		paddingLeft,
-		paddingUnit,
-		borderSizeTop,
-		borderSizeRight,
-		borderSizeBottom,
-		borderSizeLeft,
-		borderRadiusTopRight,
-		borderRadiusBottomRight,
-		borderRadiusBottomLeft,
-		borderRadiusTopLeft,
-		borderRadiusUnit,
-		borderColor,
-		borderColorOpacity,
 		backgroundColor,
 		backgroundColorOpacity,
 		gradient,
@@ -59,13 +45,7 @@ export default function MainCSS( props ) {
 		verticalAlignment,
 		zindex,
 		innerZindex,
-		alignment,
-		fontFamily,
 		fontFamilyFallback,
-		fontWeight,
-		fontSize,
-		fontSizeUnit,
-		textTransform,
 		shapeDividers,
 		gridId,
 		useDynamicData,
@@ -79,48 +59,46 @@ export default function MainCSS( props ) {
 		displayMobile,
 	} = attributes;
 
+	const {
+		paddingTop,
+		paddingRight,
+		paddingBottom,
+		paddingLeft,
+	} = attributes.spacing;
+
+	const {
+		borderTopLeftRadius,
+		borderTopRightRadius,
+		borderBottomRightRadius,
+		borderBottomLeftRadius,
+	} = attributes.borders;
+
 	let containerWidthPreview = containerWidth;
 
 	if ( ! containerWidthPreview ) {
 		containerWidthPreview = generateBlocksDefaults.container.containerWidth;
 	}
 
-	let fontFamilyFallbackValue = '';
-
-	if ( fontFamily && fontFamilyFallback ) {
-		fontFamilyFallbackValue = ', ' + fontFamilyFallback;
-	}
-
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
+	const selector = '.editor-styles-wrapper .gb-container-' + uniqueId;
 
 	let cssObj = [];
-	cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ] = [ {
+	cssObj[ selector ] = [ {
 		'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 		'color': textColor, // eslint-disable-line quote-props
-		'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
-		'text-align': alignment,
-		'font-family': fontFamily + fontFamilyFallbackValue,
-		'font-weight': fontWeight,
-		'text-transform': textTransform,
-		'font-size': valueWithUnit( fontSize, fontSizeUnit ),
-		'border-color': hexToRGBA( borderColor, borderColorOpacity ),
 	} ];
 
-	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
-	SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
-	LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
-	FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes );
-
-	if ( ! useInnerContainer ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ),
-		} );
-	}
+	TypographyCSS( cssObj, selector, { ...attributes.typography, fontFamilyFallback } );
+	SpacingCSS( cssObj, selector, { ...attributes.spacing, useInnerContainer } );
+	BorderCSS( cssObj, selector, attributes.borders );
+	SizingCSS( cssObj, selector, attributes );
+	LayoutCSS( cssObj, selector, attributes );
+	FlexChildCSS( cssObj, selector, attributes );
 
 	if ( hasBgImage && 'element' === bgOptions.selector && backgroundImageValue ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+		cssObj[ selector ].push( {
 			'background-image': ! bgImageInline ? backgroundImageValue : null,
 			'background-size': bgOptions.size,
 			'background-position': bgOptions.position,
@@ -128,10 +106,15 @@ export default function MainCSS( props ) {
 			'background-attachment': bgOptions.attachment,
 		} );
 	} else if ( gradient && 'element' === gradientSelector ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+		cssObj[ selector ].push( {
 			'background-image': gradientValue,
 		} );
 	}
+
+	BorderCSSColor( cssObj, selector + ':hover', { ...attributes.borders }, 'Hover' );
+
+	const currentSelector = selector + '[data-container-is-current], ' + selector + '[data-container-is-current]:hover';
+	BorderCSSColor( cssObj, currentSelector, { ...attributes.borders }, 'Current' );
 
 	if ( useInnerContainer ) {
 		if (
@@ -176,13 +159,6 @@ export default function MainCSS( props ) {
 		'color': textColor, // eslint-disable-line quote-props
 	} ];
 
-	if ( borderSizeTop || borderSizeRight || borderSizeBottom || borderSizeLeft ) {
-		cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
-			'border-width': shorthandCSS( borderSizeTop, borderSizeRight, borderSizeBottom, borderSizeLeft, 'px' ),
-			'border-style': 'solid',
-		} );
-	}
-
 	if ( hasBgImage && 'pseudo-element' === bgOptions.selector ) {
 		cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 			'content': '""', // eslint-disable-line quote-props
@@ -197,7 +173,7 @@ export default function MainCSS( props ) {
 			'right': '0', // eslint-disable-line quote-props
 			'bottom': '0', // eslint-disable-line quote-props
 			'left': '0', // eslint-disable-line quote-props
-			'border-radius': shorthandCSS( borderRadiusTopLeft, borderRadiusTopRight, borderRadiusBottomRight, borderRadiusBottomLeft, borderRadiusUnit ),
+			'border-radius': shorthandCSS( borderTopLeftRadius, borderTopRightRadius, borderBottomRightRadius, borderBottomLeftRadius ),
 			'pointer-events': 'none',
 		} ];
 
@@ -240,7 +216,7 @@ export default function MainCSS( props ) {
 		}
 
 		cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
-			'padding': shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft, paddingUnit ), // eslint-disable-line quote-props
+			padding: shorthandCSS( paddingTop, paddingRight, paddingBottom, paddingLeft ),
 			'width': sizingValue( 'minHeight', sizing ) && ! isGrid ? '100%' : false, // eslint-disable-line quote-props
 		} ];
 

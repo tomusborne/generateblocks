@@ -44,7 +44,7 @@ const HeadlineEdit = ( props ) => {
 
 	const {
 		anchor,
-		fontFamily,
+		typography,
 		googleFont,
 		googleFontVariants,
 		icon,
@@ -98,7 +98,7 @@ const HeadlineEdit = ( props ) => {
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<GoogleFontLink
-				fontFamily={ fontFamily }
+				fontFamily={ typography.fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
 				isBlockPreview={ isBlockPreview }

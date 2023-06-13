@@ -22,17 +22,20 @@
 		"wp-coding-standards/wpcs" : "^2.3.0",
         "php-parallel-lint/php-parallel-lint": "^1.2.0",
         "phpcompatibility/phpcompatibility-wp": "^2.1.0",
-        "wp-cli/i18n-command": "^2.2.5"
+        "wp-cli/i18n-command": "^2.2.5",
+		"phpunit/phpunit": "^8.0",
+		"brain/monkey": "^2.6"
     },
     "scripts": {
-        "php": [
+        "lint": [
             "phpcs -p .",
             "parallel-lint --exclude .git --exclude vendor --exclude node_modules .",
-            "phpcs -p . --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6- --ignore=*/vendor/,*/node_modules/"
+            "phpcs -p . --standard=PHPCompatibilityWP --extensions=php --runtime-set testVersion 5.6- --ignore=*/vendor/,*/node_modules/,*/tests/"
 		],
-        "lint:wpcs": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs",
-        "lint:php": "@php ./vendor/bin/parallel-lint --exclude .git --exclude vendor --exclude node_modules .",
-        "make-pot": "wp i18n make-pot . languages/_s.pot"
+        "lint:wpcs": "@lint ./vendor/squizlabs/php_codesniffer/bin/phpcs",
+        "lint:php": "@lint ./vendor/bin/parallel-lint --exclude .git --exclude vendor --exclude node_modules .",
+        "make-pot": "wp i18n make-pot . languages/_s.pot",
+		"test": "phpunit"
     },
     "support": {
         "issues": "https://github.com/tomusborne/generateblocks/issues",
@@ -42,5 +45,15 @@
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true
         }
-    }
+    },
+	"autoload": {
+		"classmap": [
+			"includes/"
+		]
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"GenerateBlocks\\Tests\\": "tests/"
+		}
+	}
 }
