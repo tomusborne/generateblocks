@@ -45,7 +45,6 @@ export default function MainCSS( props ) {
 		verticalAlignment,
 		zindex,
 		innerZindex,
-		fontFamily,
 		fontFamilyFallback,
 		shapeDividers,
 		gridId,
@@ -80,12 +79,6 @@ export default function MainCSS( props ) {
 		containerWidthPreview = generateBlocksDefaults.container.containerWidth;
 	}
 
-	let fontFamilyFallbackValue = '';
-
-	if ( fontFamily && fontFamilyFallback ) {
-		fontFamilyFallbackValue = ', ' + fontFamilyFallback;
-	}
-
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
@@ -95,7 +88,6 @@ export default function MainCSS( props ) {
 	cssObj[ selector ] = [ {
 		'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 		'color': textColor, // eslint-disable-line quote-props
-		'font-family': fontFamily + fontFamilyFallbackValue,
 	} ];
 
 	TypographyCSS( cssObj, selector, { ...attributes.typography, fontFamilyFallback } );
