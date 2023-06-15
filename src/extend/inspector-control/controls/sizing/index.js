@@ -62,7 +62,6 @@ export default function Sizing( props ) {
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
-									...sizing,
 									[ getAttribute( 'width', { attributes, deviceType: device }, true ) ]: value,
 								},
 							} );
@@ -78,7 +77,6 @@ export default function Sizing( props ) {
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
-									...sizing,
 									[ getAttribute( 'height', { attributes, deviceType: device }, true ) ]: value,
 								},
 							} );
@@ -95,7 +93,6 @@ export default function Sizing( props ) {
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
-									...sizing,
 									[ getAttribute( 'minWidth', { attributes, deviceType: device }, true ) ]: value,
 								},
 							} );
@@ -111,7 +108,6 @@ export default function Sizing( props ) {
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
-									...sizing,
 									[ getAttribute( 'minHeight', { attributes, deviceType: device }, true ) ]: value,
 								},
 							} );
@@ -129,7 +125,6 @@ export default function Sizing( props ) {
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
-									...sizing,
 									[ getAttribute( 'maxWidth', { attributes, deviceType: device }, true ) ]: value,
 								},
 							} );
@@ -164,7 +159,6 @@ export default function Sizing( props ) {
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
-									...sizing,
 									[ getAttribute( 'maxHeight', { attributes, deviceType: device }, true ) ]: value,
 								},
 							} );

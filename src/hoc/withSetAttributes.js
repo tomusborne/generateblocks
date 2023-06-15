@@ -18,8 +18,6 @@ export function deepMergeAttributes( current, attrs ) {
 				...current[ key ],
 				...deepMergeAttributes( current[ key ], value ),
 			};
-		} else if ( isArray( value ) && isArray( current[ key ] ) ) {
-			result[ key ] = concat( current[ key ], value );
 		} else {
 			result[ key ] = value;
 		}
