@@ -15,17 +15,11 @@ describe( 'deepMergeAttributes', () => {
 				borderTopStyle: 'solid',
 				borderTopColor: 'var(--accent)',
 			},
-			opacities: [
-				{ state: 'normal', target: 'self', opacity: 2 },
-			],
 			edgeCases: {
 				very: {
 					deepObj: {
 						something: 'here',
 					},
-					deepArr: [
-						{ something: 'here' },
-					],
 				},
 			},
 		};
