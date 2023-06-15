@@ -14,6 +14,7 @@ import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import { applyFilters } from '@wordpress/hooks';
 import getDeviceType from '../../utils/get-device-type';
 import './components/ConditionalColors';
+import withSetAttributes from '../../hoc/withSetAttributes';
 
 const ButtonEdit = ( props ) => {
 	const {
@@ -111,6 +112,7 @@ const ButtonEdit = ( props ) => {
 };
 
 export default compose(
+	withSetAttributes,
 	withDeviceType,
 	withBlockContext,
 	withDynamicContent,
