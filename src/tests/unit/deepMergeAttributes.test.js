@@ -40,17 +40,11 @@ describe( 'deepMergeAttributes', () => {
 			borders: {
 				borderTopWidth: '5px',
 			},
-			opacities: [
-				{ state: 'normal', target: 'self', opacity: 1 },
-			],
 			edgeCases: {
 				very: {
 					deepObj: {
 						something: 'working',
 					},
-					deepArr: [
-						{ something: 'also working' },
-					],
 				},
 			},
 		} );
@@ -68,13 +62,6 @@ describe( 'deepMergeAttributes', () => {
 		expect( result.borders.borderTopStyle ).toBe( 'solid' );
 		expect( result.borders.borderTopColor ).toBe( 'var(--accent)' );
 
-		expect( result.opacities.length ).toBe( 2 );
-		expect( result.opacities[ 0 ]?.opacity ).toBe( 2 );
-		expect( result.opacities[ 1 ]?.opacity ).toBe( 1 );
-
 		expect( result.edgeCases.very.deepObj.something ).toBe( 'working' );
-		expect( result.edgeCases.very.deepArr.length ).toBe( 2 );
-		expect( result.edgeCases.very.deepArr[ 0 ]?.something ).toBe( 'here' );
-		expect( result.edgeCases.very.deepArr[ 1 ]?.something ).toBe( 'also working' );
 	} );
 } );

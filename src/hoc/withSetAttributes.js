@@ -1,6 +1,6 @@
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useMemo } from '@wordpress/element';
-import { concat, isArray, isPlainObject } from 'lodash';
+import { isPlainObject } from 'lodash';
 
 /**
  * Deep merge attributes.
