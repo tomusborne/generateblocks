@@ -10,7 +10,7 @@ export default ( initialDeviceType = 'Desktop' ) => {
 		}
 	);
 
-	if ( ! dispatch( 'core/edit-post' ) ) {
+	if ( ! dispatch( 'core/edit-post' ) || ( generateBlocksInfo && ! generateBlocksInfo.syncResponsivePreviews ) ) {
 		const setDeviceType = ( type ) => {
 			setLocalDeviceType( type );
 		};
@@ -37,10 +37,7 @@ export default ( initialDeviceType = 'Desktop' ) => {
 	}, [ previewDeviceType ] );
 
 	const setDeviceType = ( type ) => {
-		if ( generateBlocksInfo && generateBlocksInfo.syncResponsivePreviews ) {
-			setPreviewDeviceType( type );
-		}
-
+		setPreviewDeviceType( type );
 		setLocalDeviceType( type );
 	};
 
