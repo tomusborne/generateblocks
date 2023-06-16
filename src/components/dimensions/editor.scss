@@ -1,31 +1,87 @@
 .components-gblocks-dimensions-control {
-	&__inputs {
+	& > .components-base-control__field {
 		display: flex;
+		flex-wrap: wrap;
+	}
+
+	&__inputs {
+		flex-basis: 100%;
+		display: grid;
+		grid-template-areas:
+		"top  right "
+		"left bottom";
+		gap: 10px;
 
 		& > div {
-			width: calc(25% - 5px);
+			.components-base-control {
+				margin-bottom: 0;
+
+				&__field {
+					margin-bottom: 0;
+				}
+			}
+
+			&:nth-child(3) {
+				grid-area: bottom;
+			}
+
+			&:nth-child(4) {
+				grid-area: left;
+			}
 		}
 
-		input[type="number"],
-		input[type="text"] {
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
-			height: 30px;
-			margin: 0;
-			padding: 5px;
-			-moz-appearance: textfield;
-			appearance: textfield;
-			width: 100%;
-			border-right: 0;
-		}
+		&.style-circle {
+			grid-template-areas:
+			". top top ."
+			"left left right right"
+			". bottom bottom .";
+			gap: 5px;
 
-		div:nth-child(1) input {
-			border-top-right-radius: 0;
-			border-bottom-right-radius: 0;
-		}
+			& > div {
+				position: relative;
 
-		div:not(:nth-child(1)) input {
-			border-radius: 0;
+				&:nth-child(1) {
+					grid-area: top;
+					display: flex;
+					flex-direction: column-reverse;
+
+					.gblocks-dimensions-control__label {
+						text-align: center;
+						padding-bottom: 5px;
+					}
+				}
+
+				&:nth-child(2) {
+					grid-area: right;
+
+					.gblocks-dimensions-control__label {
+						position: absolute;
+						bottom: calc(100% + 5px);
+						right: 0;
+					}
+				}
+
+				&:nth-child(3) {
+					grid-area: bottom;
+					display: flex;
+					flex-direction: column;
+
+					.gblocks-dimensions-control__label {
+						text-align: center;
+						padding-top: 5px;
+					}
+				}
+
+				&:nth-child(4) {
+					grid-area: left;
+
+					.gblocks-dimensions-control__label {
+						position: absolute;
+						bottom: calc(100% + 5px);
+						right: auto;
+					}
+				}
+			}
 		}
 	}
 }
@@ -38,31 +94,16 @@
 
 .components-gblocks-dimensions-control_sync {
 	&.components-button {
-		border-top-left-radius: 0;
-		border-bottom-left-radius: 0;
-		box-shadow: none;
-		justify-content: center;
 		padding: 0;
 		text-align: center;
-		text-shadow: none;
-		width: 30px;
-		height: 30px;
-
-		&:not(.is-primary) {
-			background: #fff;
-			border: 1px solid #8d96a0;
-			color: #555d66;
-		}
+		width: 15px;
+		height: 15px;
+		margin-left: 5px;
 
 		svg {
 			width: 18px;
 			height: 18px;
 			fill: currentColor;
-		}
-
-		&:hover,
-		&:focus {
-			box-shadow: none !important;
 		}
 	}
 }

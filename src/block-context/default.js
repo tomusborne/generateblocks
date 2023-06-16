@@ -23,6 +23,7 @@ const defaultContext = {
 			zIndex: false,
 			position: false,
 			overflow: false,
+			themeWidth: false,
 		},
 		flexChildPanel: {
 			enabled: false,
@@ -51,10 +52,20 @@ const defaultContext = {
 		},
 		spacing: {
 			enabled: false,
+			padding: false,
+			margin: false,
 			inlineWidth: false,
 			stackVertically: false,
 			fillHorizontalSpace: false,
-			dimensions: [],
+		},
+		borders: {
+			enabled: false,
+			borderColors: [],
+			borderTop: false,
+			borderRight: false,
+			borderBottom: false,
+			borderLeft: false,
+			borderRadius: false,
 		},
 		colors: {
 			enabled: false,
@@ -71,6 +82,7 @@ const defaultContext = {
 		icon: {
 			enabled: false,
 			location: [],
+			iconSize: false,
 		},
 	},
 };

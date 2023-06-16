@@ -5,6 +5,7 @@ import withContainerLegacyMigration from './withContainerLegacyMigration';
 import withButtonContainerLegacyMigration from './withButtonContainerLegacyMigration';
 import withDeviceType from './withDeviceType';
 import './withDocumentation';
+import './migrations/migrateGlobalStyleAttrs';
 
 export {
 	withUniqueId,

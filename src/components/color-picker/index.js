@@ -66,6 +66,12 @@ export default function ColorPicker( props ) {
 
 	useEffect( () => {
 		if ( value !== valueState ) {
+			setValueState( value );
+		}
+	}, [ value ] );
+
+	useEffect( () => {
+		if ( value !== valueState ) {
 			debouncedSetColor( valueState );
 		}
 
