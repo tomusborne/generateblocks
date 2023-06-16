@@ -112,7 +112,6 @@ class IconPicker extends Component {
 									hasIcon: true,
 									...flexAttributes,
 									iconStyles: {
-										...attributes.iconStyles,
 										...styleAttributes,
 									},
 								} );
@@ -174,7 +173,6 @@ class IconPicker extends Component {
 																				hasIcon: true,
 																				...flexAttributes,
 																				iconStyles: {
-																					...attributes.iconStyles,
 																					...styleAttributes,
 																				},
 																			} );
