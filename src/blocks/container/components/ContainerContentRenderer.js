@@ -101,7 +101,7 @@ export default function ContainerContentRenderer( props ) {
 			? blockProps
 			: { className: 'gb-inside-container' },
 		{
-			templateLock: applyFilters( 'generateblocks.editor.containerTemplateLock', templateLock, props ),
+			templateLock: applyFilters( 'generateblocks.editor.containerTemplateLock', templateLock || false, props ),
 			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ props.isSelected } attributes={ attributes } />,
 		}
 	);
