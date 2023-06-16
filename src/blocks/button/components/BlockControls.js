@@ -80,7 +80,6 @@ export default ( props ) => {
 						onChange={ ( value ) => {
 							setAttributes( {
 								typography: {
-									...attributes.typography,
 									[ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType }, true ) ]: value,
 								},
 							} );

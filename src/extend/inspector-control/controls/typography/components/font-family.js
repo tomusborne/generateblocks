@@ -44,7 +44,6 @@ export default function FontFamily( { attributes, setAttributes } ) {
 	function onFontChange( value ) {
 		setAttributes( {
 			typography: {
-				...typography,
 				fontFamily: value,
 			},
 		} );

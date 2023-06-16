@@ -28,7 +28,6 @@ export default ( { attributes, setAttributes } ) => {
 				onChange={ ( value ) => {
 					setAttributes( {
 						typography: {
-							...attributes.typography,
 							[ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType }, true ) ]: value,
 						},
 					} );
