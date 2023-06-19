@@ -1,9 +1,10 @@
 import { __ } from '@wordpress/i18n';
 import { Button, Tooltip } from '@wordpress/components';
 import { Icon, desktop, tablet, mobile } from '@wordpress/icons';
-import { memo, useCallback, useEffect, render } from '@wordpress/element';
+import { memo, useCallback, useEffect } from '@wordpress/element';
 import { useDeviceType } from '../../../../hooks';
 import './editor.scss';
+import compatibleRender from '../../../../utils/compatible-render';
 
 function DeviceButton( { deviceKey, label, isActive, onClick, icon } ) {
 	return (
@@ -71,9 +72,9 @@ function ResponsiveTabs() {
 		buttonWrapper.style.top = panelHeaderHeight;
 		BlockInspectorControls.prepend( buttonWrapper );
 
-		render(
-			<ResponsiveTabButtons />,
-			document.querySelector( '.gb-responsive-tabs' )
+		compatibleRender(
+			document.querySelector( '.gb-responsive-tabs' ),
+			<ResponsiveTabButtons />
 		);
 	}, [] );
 

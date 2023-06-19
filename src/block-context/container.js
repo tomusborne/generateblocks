@@ -22,6 +22,7 @@ const containerContext = defaultsDeep( {
 			zIndex: true,
 			position: true,
 			overflow: true,
+			themeWidth: true,
 		},
 		flexChildPanel: {
 			enabled: true,
@@ -48,28 +49,28 @@ const containerContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			dimensions: [
+			padding: true,
+			margin: true,
+		},
+		borders: {
+			enabled: true,
+			borderColors: [
 				{
-					type: 'padding',
-					label: __( 'Padding', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					state: '',
+					tooltip: __( 'Border', 'generateblocks' ),
+					alpha: true,
 				},
 				{
-					type: 'margin',
-					label: __( 'Margin', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
-				},
-				{
-					type: 'borderSize',
-					label: __( 'Border Size', 'generateblocks' ),
-					units: [ 'px' ],
-				},
-				{
-					type: 'borderRadius',
-					label: __( 'Border Radius', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					state: 'Hover',
+					tooltip: __( 'Border Hover', 'generateblocks' ),
+					alpha: true,
 				},
 			],
+			borderTop: true,
+			borderRight: true,
+			borderBottom: true,
+			borderLeft: true,
+			borderRadius: true,
 		},
 		colors: {
 			enabled: true,
@@ -103,16 +104,6 @@ const containerContext = defaultsDeep( {
 						{
 							tooltip: __( 'Hover', 'generateblocks' ),
 							attribute: 'linkColorHover',
-						},
-					],
-				},
-				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
 						},
 					],
 				},

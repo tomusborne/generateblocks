@@ -1,12 +1,11 @@
 import ToolbarGroup from './ToolbarGroup';
-import { memo } from '@wordpress/element';
 import { AlignmentToolbar, BlockControls } from '@wordpress/block-editor';
 import isFlexItem from '../../../utils/is-flex-item';
 import getAttribute from '../../../utils/get-attribute';
 import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
 import getDeviceType from '../../../utils/get-device-type';
 
-function HeadlineBlockControls( props ) {
+export default function HeadlineBlockControls( props ) {
 	const {
 		attributes,
 		setAttributes,
@@ -33,10 +32,12 @@ function HeadlineBlockControls( props ) {
 			{ ! isFlexItem( { device, display, displayTablet, displayMobile } ) &&
 				<>
 					<AlignmentToolbar
-						value={ getAttribute( 'alignment', { attributes, deviceType: device } ) }
+						value={ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType: device } ) }
 						onChange={ ( value ) => {
 							setAttributes( {
-								[ getAttribute( 'alignment', { attributes, deviceType: device }, true ) ]: value,
+								typography: {
+									[ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType: device }, true ) ]: value,
+								},
 							} );
 						} }
 						alignmentControls={ typographyOptions.alignments }
@@ -46,17 +47,3 @@ function HeadlineBlockControls( props ) {
 		</BlockControls>
 	);
 }
-
-export default memo( HeadlineBlockControls, ( prevProps, nextProps ) => {
-	return [
-		'element',
-		'alignment',
-		'alignmentTablet',
-		'alignmentMobile',
-		'display',
-		'displayTablet',
-		'displayMobile',
-	].every( ( key ) => {
-		return prevProps.attributes[ key ] === nextProps.attributes[ key ];
-	} ) && prevProps.deviceType === nextProps.deviceType;
-} );

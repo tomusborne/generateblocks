@@ -12,43 +12,23 @@ const imageContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			dimensions: [
-				{
-					type: 'padding',
-					label: __( 'Padding', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
-				},
-				{
-					type: 'margin',
-					label: __( 'Margin', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
-				},
-				{
-					type: 'borderSize',
-					label: __( 'Border Size', 'generateblocks' ),
-					units: [ 'px' ],
-				},
-				{
-					type: 'borderRadius',
-					label: __( 'Border Radius', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
-				},
-			],
+			padding: true,
+			margin: true,
 		},
-		colors: {
+		borders: {
 			enabled: true,
-			elements: [
+			borderColors: [
 				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
-						},
-					],
+					state: '',
+					tooltip: __( 'Border', 'generateblocks' ),
+					alpha: true,
 				},
 			],
+			borderTop: true,
+			borderRight: true,
+			borderBottom: true,
+			borderLeft: true,
+			borderRadius: true,
 		},
 	},
 }, defaultContext );
