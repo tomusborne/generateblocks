@@ -212,7 +212,6 @@ export default function Borders( { attributes, setAttributes } ) {
 
 														setAttributes( {
 															borders: {
-																...attributes.borders,
 																...newAttributes,
 															},
 														} );

@@ -74,10 +74,7 @@ export default function useDeviceAttributes( attributes, setAttributes ) {
 	const setDeviceAttributes = useMemo( () => ( attrs = {}, objName = '' ) => {
 		if ( objName ) {
 			setAttributes( {
-				[ objName ]: {
-					...attributes[ objName ],
-					...addDeviceToAttributes( attrs, deviceName ),
-				},
+				[ objName ]: addDeviceToAttributes( attrs, deviceName ),
 			} );
 
 			return;

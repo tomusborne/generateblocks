@@ -99,6 +99,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Feature: Add Block Label option to label Container, Query Loop, and Grid blocks in List View
 * Feature: Only show one dimension field if synced
 * Feature: Add option to disable Google fonts
+* Fix: Attributes merging incorrect values when multiple blocks are selected
 * Fix: Color and Background panels are visible/accessible on responsive views
 * Fix: Template lock system not applying to inner blocks
 * Fix: Button with dynamic content not displaying the aria-label

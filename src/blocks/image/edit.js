@@ -18,6 +18,7 @@ import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import { applyFilters } from '@wordpress/hooks';
 import getDeviceType from '../../utils/get-device-type';
 import withImageLegacyMigration from '../../hoc/withImageLegacyMigration';
+import withSetAttributes from '../../hoc/withSetAttributes';
 
 function ImageEdit( props ) {
 	const {
@@ -196,6 +197,7 @@ function ImageEdit( props ) {
 }
 
 export default compose(
+	withSetAttributes,
 	withDeviceType,
 	withBlockContext,
 	withDynamicContent,

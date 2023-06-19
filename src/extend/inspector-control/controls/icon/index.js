@@ -106,7 +106,6 @@ export default function IconControls( { attributes, setAttributes } ) {
 						onChange={ ( value ) => {
 							setAttributes( {
 								iconStyles: {
-									...attributes.iconStyles,
 									[ getAttribute( 'width', { attributes: attributes.iconStyles, deviceType: device }, true ) ]: value,
 									[ getAttribute( 'height', { attributes: attributes.iconStyles, deviceType: device }, true ) ]: value,
 								},

@@ -36,7 +36,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 					onChange={ ( value ) => {
 						setAttributes( {
 							typography: {
-								...typography,
 								[ getAttribute( 'textAlign', { attributes: typography, deviceType: device }, true ) ]: value,
 							},
 						} );
@@ -51,7 +50,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 						onChange={ ( value ) => {
 							setAttributes( {
 								typography: {
-									...typography,
 									[ getAttribute( 'fontWeight', { attributes: typography, deviceType: device }, true ) ]: value,
 								},
 							} );
@@ -63,7 +61,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 						onChange={ ( value ) => {
 							setAttributes( {
 								typography: {
-									...typography,
 									[ getAttribute( 'textTransform', { attributes: typography, deviceType: device }, true ) ]: value,
 								},
 							} );
@@ -80,7 +77,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 					onChange={ ( value ) => {
 						setAttributes( {
 							typography: {
-								...typography,
 								[ getAttribute( 'fontSize', { attributes: typography, deviceType: device }, true ) ]: value,
 							},
 						} );
@@ -97,7 +93,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 					onChange={ ( value ) => {
 						setAttributes( {
 							typography: {
-								...typography,
 								[ getAttribute( 'lineHeight', { attributes: typography, deviceType: device }, true ) ]: value,
 							},
 						} );
@@ -114,7 +109,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 					onChange={ ( value ) => {
 						setAttributes( {
 							typography: {
-								...typography,
 								[ getAttribute( 'letterSpacing', { attributes: typography, deviceType: device }, true ) ]: value,
 							},
 						} );

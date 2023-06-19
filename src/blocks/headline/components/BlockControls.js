@@ -36,7 +36,6 @@ export default function HeadlineBlockControls( props ) {
 						onChange={ ( value ) => {
 							setAttributes( {
 								typography: {
-									...attributes.typography,
 									[ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType: device }, true ) ]: value,
 								},
 							} );
