@@ -44,7 +44,7 @@ function GridItemSettings( content, props ) {
 								<Fragment key={ 'gridItemWidth' + index }>
 									<Button
 										isPrimary={ width.value === getValue( 'width' ) }
-										onClick={ () => setAttributes( { sizing: { ...sizing, [ getAttribute( 'width', { attributes, deviceType: device }, true ) ]: width.value } } ) }
+										onClick={ () => setAttributes( { sizing: { [ getAttribute( 'width', { attributes, deviceType: device }, true ) ]: width.value } } ) }
 									>
 										{ width.label }
 									</Button>

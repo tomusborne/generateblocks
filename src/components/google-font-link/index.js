@@ -5,6 +5,14 @@ export default ( { fontFamily, googleFont, googleFontVariants, isBlockPreview } 
 		return null;
 	}
 
+	if ( ! fontFamily ) {
+		return null;
+	}
+
+	if ( generateBlocksInfo.disableGoogleFonts ) {
+		return null;
+	}
+
 	const gFontsUrl = 'https://fonts.googleapis.com/css?family=';
 	const googleFontsAttr = googleFontVariants ? `:${ googleFontVariants }` : '';
 	const href = gFontsUrl + fontFamily.replace( / /g, '+' ) + googleFontsAttr;

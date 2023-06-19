@@ -34,6 +34,7 @@ export default function ContainerContentRenderer( props ) {
 		align,
 		isBlockPreview = false,
 		useInnerContainer,
+		templateLock,
 	} = attributes;
 
 	const TagName = filterTagName( applyFilters( 'generateblocks.frontend.containerTagName', tagName, attributes ) );
@@ -100,7 +101,7 @@ export default function ContainerContentRenderer( props ) {
 			? blockProps
 			: { className: 'gb-inside-container' },
 		{
-			templateLock: applyFilters( 'generateblocks.editor.containerTemplateLock', false, props ),
+			templateLock: applyFilters( 'generateblocks.editor.containerTemplateLock', templateLock || false, props ),
 			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ props.isSelected } attributes={ attributes } />,
 		}
 	);
