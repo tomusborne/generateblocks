@@ -1,15 +1,11 @@
 .gblocks-unit-control {
 	&__disabled {
-		.gblocks-unit-control__input > *:not(.gblocks-unit-control__override-action):not(.popover-slot) {
+		.gblocks-unit-control__input > .components-base-control {
 			opacity: 0.5;
 		}
 	}
 
 	&__override-action {
-		position: absolute;
-		right: 28px;
-		top: 0;
-		bottom: 0;
 		display: flex;
 		align-items: center;
 
@@ -18,8 +14,11 @@
 			height: 20px;
 			min-width: 20px;
 			padding: 0;
-			border-radius: 100%;
 			justify-content: center !important;
+
+			&.is-primary:focus:not(.disabled) {
+				box-shadow: 0 0 0;
+			}
 
 			svg {
 				width: 15px;
@@ -42,11 +41,16 @@
 			margin-bottom: 0;
 		}
 
-		.gblocks-unit-control-units {
+		&--action {
 			position: absolute;
 			right: 5px;
 			top: 0;
 			bottom: 0;
+			display: flex;
+			gap: 3px;
+		}
+
+		.gblocks-unit-control-units {
 			display: flex;
 			justify-content: center;
 			align-items: center;
@@ -62,8 +66,13 @@
 				align-items: center;
 				border: 1px solid rgba(0,0,0,0.1);
 
-				&:hover, &.is-opened {
+				&:hover:not(:disabled), &.is-opened {
 					border-color: currentColor;
+				}
+
+				&.is-opened {
+					background: var(--wp-components-color-accent, var(--wp-admin-theme-color, #007cba));
+					color: var(--wp-components-color-accent-inverted, #fff);
 				}
 			}
 		}

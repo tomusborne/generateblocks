@@ -138,7 +138,7 @@ export default function Sizing( props ) {
 								<Tooltip text={ __( 'Use global max-width', 'generateblocks' ) }>
 									<Button
 										icon={ getIcon( 'globe' ) }
-										isPrimary={ !! useGlobalMaxWidth }
+										variant={ !! useGlobalMaxWidth ? 'primary' : '' }
 										onClick={ () => {
 											setAttributes( {
 												useGlobalMaxWidth: useGlobalMaxWidth ? false : true,

@@ -145,22 +145,24 @@ export default function UnitControl( props ) {
 					ref={ inputRef }
 				/>
 
-				{ !! overrideAction && <div className="gblocks-unit-control__override-action">{ overrideAction() } </div> }
+				<div className="gblocks-unit-control__input--action">
+					{ !! overrideAction && <div className="gblocks-unit-control__override-action">{ overrideAction() } </div> }
 
-				{ (
-					startsWithNumber( numericValue ) ||
-					(
-						! numericValue &&
-						( ! placeholderValue || startsWithNumber( placeholderValue ) )
-					)
-				) &&
-					<UnitDropdown
-						value={ unitValue }
-						disabled={ disabled || 1 === units.length }
-						units={ units }
-						onChange={ ( newValue ) => setUnitValue( newValue ) }
-					/>
-				}
+					{ (
+						startsWithNumber( numericValue ) ||
+						(
+							! numericValue &&
+							( ! placeholderValue || startsWithNumber( placeholderValue ) )
+						)
+					) &&
+						<UnitDropdown
+							value={ unitValue }
+							disabled={ disabled || 1 === units.length }
+							units={ units }
+							onChange={ ( newValue ) => setUnitValue( newValue ) }
+						/>
+					}
+				</div>
 			</div>
 		</BaseControl>
 	);
