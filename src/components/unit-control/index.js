@@ -48,7 +48,7 @@ export default function UnitControl( props ) {
 			: [];
 	};
 
-	const getNumericValue = ( values ) => values.length > 0 ? values[ 0 ] : '';
+	const getNumericValue = ( values ) => values.length > 0 ? values[ 0 ].trim() : '';
 	const defaultUnitValue = defaultUnit ? defaultUnit : units[ 0 ];
 	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : defaultUnitValue;
 
