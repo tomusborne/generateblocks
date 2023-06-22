@@ -10,6 +10,7 @@ import classnames from 'classnames';
  */
 
 import './editor.scss';
+import UnitDropdown from './unit-dropdown';
 
 export default function UnitControl( props ) {
 	const {
@@ -153,15 +154,12 @@ export default function UnitControl( props ) {
 						( ! placeholderValue || startsWithNumber( placeholderValue ) )
 					)
 				) &&
-					<span className="gblocks-unit-control__unit-select">
-						<select
-							value={ unitValue }
-							disabled={ disabled || 1 === units.length }
-							onChange={ ( e ) => setUnitValue( e.target.value ) }
-						>
-							{ units.map( ( unitOption ) => <option key={ unitOption } value={ unitOption }>{ unitOption }</option> ) }
-						</select>
-					</span>
+					<UnitDropdown
+						value={ unitValue }
+						disabled={ disabled || 1 === units.length }
+						units={ units }
+						onChange={ ( newValue ) => setUnitValue( newValue ) }
+					/>
 				}
 			</div>
 		</BaseControl>

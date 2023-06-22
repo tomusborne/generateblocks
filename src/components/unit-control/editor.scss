@@ -42,47 +42,43 @@
 			margin-bottom: 0;
 		}
 
-		select {
-			appearance: none;
-			background: transparent;
-			border-radius: 0px 2px 2px 0px;
-			box-sizing: border-box;
-			color: rgb(85, 93, 102);
-			display: block;
-			font-size: 8px;
-			letter-spacing: -0.5px;
-			outline: none;
-			padding: 2px 3px;
-			text-transform: uppercase;
-			width: 25px;
-			cursor: pointer;
-			height: 100%;
-			margin: 0;
-			border: 0;
+		.gblocks-unit-control-units {
+			position: absolute;
+			right: 5px;
+			top: 0;
+			bottom: 0;
+			display: flex;
+			justify-content: center;
+			align-items: center;
 
-			&:disabled {
-				background: none;
-				color: rgb(85, 93, 102);
-				border-color: rgb(85, 93, 102);
+			button {
+				width: auto;
+				min-width: 20px;
+				height: 20px;
+				font-size: 10px;
+				padding: 0 3px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border: 1px solid rgba(0,0,0,0.1);
+
+				&:hover, &.is-opened {
+					border-color: currentColor;
+				}
 			}
 		}
 	}
+}
 
-	&__unit-select {
-		position: absolute;
-		top: 0;
-		right: 0;
-		bottom: 0;
-	}
+.gblocks-unit-control-popover .components-menu-group > div[role="group"] {
+	display: flex;
 
-	&__popover {
-		margin-top: 5px;
-		border: 0;
+	button {
+		min-height: auto;
 
-		.components-popover__content {
-			box-shadow: 0 0 0;
-			border: 0;
-			outline: 0;
+		.components-menu-item__item {
+			min-width: auto;
+			font-size: 11px;
 		}
 	}
 }
