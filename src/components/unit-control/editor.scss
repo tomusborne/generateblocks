@@ -66,7 +66,11 @@
 				align-items: center;
 				border: 1px solid rgba(0,0,0,0.1);
 
-				&:hover:not(:disabled), &.is-opened {
+				&:disabled {
+					pointer-events: none;
+				}
+
+				&:hover, &.is-opened {
 					border-color: currentColor;
 				}
 
