@@ -10,12 +10,12 @@ import classnames from 'classnames';
  */
 
 import './editor.scss';
-import getDeviceType from '../../utils/get-device-type';
 
 export default function UnitControl( props ) {
 	const {
 		label,
 		units = [ 'px', 'em', '%', 'rem' ],
+		defaultUnit = '',
 		min = 0,
 		max,
 		step,
@@ -25,13 +25,13 @@ export default function UnitControl( props ) {
 		overrideAction = () => null,
 		onChange,
 		value,
-		desktopValue,
-		tabletValue,
+		placeholder,
 		presets = [],
 		help = '',
+		focusOnMount = false,
+		onFocus = () => null,
 	} = props;
 
-	const device = getDeviceType();
 	const [ unitValue, setUnitValue ] = useState( '' );
 	const [ numericValue, setNumericValue ] = useState( '' );
 	const [ placeholderValue, setPlaceholderValue ] = useState( '' );
@@ -45,41 +45,25 @@ export default function UnitControl( props ) {
 		const splitRegex = new RegExp( `(${ unitRegex })` );
 
 		return values
-			? values.split( splitRegex ).filter( ( singleValue ) => '' !== singleValue )
+			? values.toString().split( splitRegex ).filter( ( singleValue ) => '' !== singleValue )
 			: [];
 	};
 
 	const getNumericValue = ( values ) => values.length > 0 ? values[ 0 ] : '';
-	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : units[ 0 ];
-	const startsWithNumber = ( number ) => /^\d/.test( number );
-	const desktopValues = splitValues( desktopValue );
-	const tabletValues = splitValues( tabletValue );
+	const defaultUnitValue = defaultUnit ? defaultUnit : units[ 0 ];
+	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : defaultUnitValue;
+
+	// Test if the value starts with a number, decimal or a single dash.
+	const startsWithNumber = ( number ) => /^([-]?\d|[-]?\.)/.test( number );
 
 	const setPlaceholders = () => {
 		if ( ! value ) {
-			// Set desktop value as placeholder.
-			if ( ! tabletValue ) {
-				if (
-					'Tablet' === device ||
-					(
-						'Mobile' === device &&
-						( desktopValue || overrideValue )
-					)
-				) {
-					const overridePlaceholder = splitValues( overrideValue );
-					setPlaceholderValue( getNumericValue( desktopValues.length ? desktopValues : overridePlaceholder ) );
-					setUnitValue( getUnitValue( desktopValues.length ? desktopValues : overridePlaceholder ) );
-				}
-			}
+			const placeholderValues = overrideValue
+				? splitValues( overrideValue )
+				: splitValues( placeholder );
 
-			// Set tablet value as placeholder.
-			if (
-				'Mobile' === device &&
-				tabletValue
-			) {
-				setPlaceholderValue( getNumericValue( tabletValues ) );
-				setUnitValue( getUnitValue( tabletValues ) );
-			}
+			setPlaceholderValue( getNumericValue( placeholderValues ) );
+			setUnitValue( getUnitValue( placeholderValues ) );
 		}
 	};
 
@@ -98,10 +82,8 @@ export default function UnitControl( props ) {
 			setUnitValue( '' );
 		}
 
-		// Set the device placeholders and switch the units to match
-		// their parent device value if no device-specific value exists.
 		setPlaceholders();
-	}, [ device, value, overrideValue ] );
+	}, [ value, overrideValue ] );
 
 	useEffect( () => {
 		// Don't run this on first render.
@@ -118,17 +100,10 @@ export default function UnitControl( props ) {
 
 		// Clear the placeholder if the units don't match.
 		if ( ! fullValue ) {
-			const deviceValues = {
-				Tablet: desktopValues,
-				Mobile: tabletValues,
-			};
-
-			if ( device in deviceValues ) {
-				if ( unitValue !== getUnitValue( deviceValues[ device ] ) ) {
-					setPlaceholderValue( '' );
-				} else {
-					setPlaceholders();
-				}
+			if ( unitValue !== getUnitValue( splitValues( placeholder ) ) ) {
+				setPlaceholderValue( '' );
+			} else {
+				setPlaceholders();
 			}
 		}
 
@@ -136,6 +111,12 @@ export default function UnitControl( props ) {
 			onChange( fullValue );
 		}
 	}, [ numericValue, unitValue ] );
+
+	useEffect( () => {
+		if ( focusOnMount && inputRef?.current ) {
+			inputRef.current.focus();
+		}
+	}, [ label ] );
 
 	const useOutsideClick = ( ref, callback ) => {
 		useEffect( () => {
@@ -182,7 +163,10 @@ export default function UnitControl( props ) {
 						autoComplete="off"
 						disabled={ disabled }
 						onChange={ ( newValue ) => setNumericValue( newValue ) }
-						onFocus={ () => setShowPresets( true ) }
+						onFocus={ () => {
+							onFocus();
+							setShowPresets( true );
+						} }
 						ref={ inputRef }
 					/>
 
