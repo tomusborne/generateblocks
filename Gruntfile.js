@@ -92,7 +92,7 @@ module.exports = function( grunt ) {
 					};
 				} );
 
-				fs.writeFile( 'src/components/typography/google-fonts.json', JSON.stringify( fonts, undefined, 4 ), function( err ) {
+				fs.writeFile( 'src/extend/inspector-controls/controls/typography/google-fonts.json', JSON.stringify( fonts, undefined, 4 ), function( err ) {
 					if ( ! err ) {
 						// eslint-disable-next-line no-console
 						console.log( 'Google Fonts Updated!' );

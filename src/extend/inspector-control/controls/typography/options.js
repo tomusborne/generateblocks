@@ -2,12 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { alignLeft, alignCenter, alignRight, alignJustify } from '@wordpress/icons';
 
 const typographyOptions = {
-	fontFamily: [
-		{ value: 'Arial', label: 'Arial' },
-		{ value: 'Helvetica', label: 'Helvetica' },
-		{ value: 'Times New Roman', label: 'Times New Roman' },
-		{ value: 'Georgia', label: 'Georgia' },
-	],
+	fontFamily: generateBlocksInfo.typographyFontFamilyList,
 	fontWeight: [
 		{ value: '', 		label: __( 'Default', 'generateblocks' ) },
 		{ value: 'normal', 	label: __( 'Normal', 'generateblocks' ) },

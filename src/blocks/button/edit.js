@@ -14,6 +14,7 @@ import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import { applyFilters } from '@wordpress/hooks';
 import getDeviceType from '../../utils/get-device-type';
 import './components/ConditionalColors';
+import withSetAttributes from '../../hoc/withSetAttributes';
 
 const ButtonEdit = ( props ) => {
 	const {
@@ -26,7 +27,7 @@ const ButtonEdit = ( props ) => {
 	const {
 		anchor,
 		ariaLabel,
-		fontFamily,
+		typography,
 		googleFont,
 		googleFontVariants,
 		isBlockPreview = false,
@@ -99,7 +100,7 @@ const ButtonEdit = ( props ) => {
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<GoogleFontLink
-				fontFamily={ fontFamily }
+				fontFamily={ typography.fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
 				isBlockPreview={ isBlockPreview }
@@ -111,6 +112,7 @@ const ButtonEdit = ( props ) => {
 };
 
 export default compose(
+	withSetAttributes,
 	withDeviceType,
 	withBlockContext,
 	withDynamicContent,
