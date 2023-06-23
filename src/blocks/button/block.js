@@ -55,7 +55,19 @@ registerBlockType( 'generateblocks/button', {
 	save: saveButton,
 	deprecated,
 	usesContext: [ 'postId', 'postType', 'generateblocks/query', 'generateblocks/inheritQuery' ],
-	__experimentalLabel: ( attrs ) => (
-		getContentTypeLabel( attrs, __( 'Button', 'generateblocks' ) )
-	),
+	__experimentalLabel: ( attrs, { context } ) => {
+		if (
+			context === 'list-view' &&
+			( attrs.text || attrs.removeText ) &&
+			! attrs.useDynamicData
+		) {
+			if ( attrs.removeText ) {
+				return __( 'Icon', 'generateblocks' );
+			}
+
+			return attrs.text;
+		}
+
+		return getContentTypeLabel( attrs, __( 'Button', 'generateblocks' ) );
+	},
 } );
