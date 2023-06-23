@@ -84,14 +84,18 @@
 }
 
 .gblocks-unit-control-popover .components-menu-group > div[role="group"] {
-	display: flex;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
 
 	button {
 		min-height: auto;
+		display: flex;
+		justify-content: center;
 
 		.components-menu-item__item {
 			min-width: auto;
 			font-size: 11px;
+			margin: 0;
 		}
 	}
 }
