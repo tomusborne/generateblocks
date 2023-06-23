@@ -11,7 +11,7 @@ import classnames from 'classnames';
 
 import './editor.scss';
 import UnitDropdown from './unit-dropdown';
-import unitList from './units';
+import unitList from './unit-list';
 
 export default function UnitControl( props ) {
 	const {
