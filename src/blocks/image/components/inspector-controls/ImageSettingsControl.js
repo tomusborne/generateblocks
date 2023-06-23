@@ -78,7 +78,6 @@ export default function ImageSettingsControls( props ) {
 							} );
 						} }
 						min="1"
-						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 
 					<UnitControl
@@ -92,7 +91,6 @@ export default function ImageSettingsControls( props ) {
 							} );
 						} }
 						min="1"
-						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 				</div>
 			</BaseControl>

@@ -102,7 +102,6 @@ export default function IconControls( { attributes, setAttributes } ) {
 						label={ __( 'Icon Size', 'generateblocks' ) }
 						value={ getAttribute( 'width', { attributes: attributes.iconStyles, deviceType: device } ) }
 						placeholder={ getResponsivePlaceholder( 'width', attributes.iconStyles, device ) }
-						units={ [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ] }
 						onChange={ ( value ) => {
 							setAttributes( {
 								iconStyles: {

@@ -142,7 +142,6 @@ export default function Layout( { attributes, setAttributes } ) {
 								<UnitControl
 									label={ __( 'Column Gap', 'generateblocks' ) }
 									id="gblocks-column-gap"
-									units={ [ 'px', '%', 'vw', 'em', 'rem' ] }
 									value={ getAttribute( 'columnGap', componentProps ) }
 									placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
 									onChange={ ( value ) => setAttributes( {
@@ -155,7 +154,6 @@ export default function Layout( { attributes, setAttributes } ) {
 								<UnitControl
 									label={ __( 'Row Gap', 'generateblocks' ) }
 									id="gblocks-row-gap"
-									units={ [ 'px', '%', 'vw', 'em', 'rem' ] }
 									value={ getAttribute( 'rowGap', componentProps ) }
 									placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
 									onChange={ ( value ) => setAttributes( {
