@@ -4,7 +4,6 @@ import getIcon from '../../../../utils/get-icon';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import { Tooltip, Button } from '@wordpress/components';
-import { applyFilters } from '@wordpress/hooks';
 import MinHeight from './components/MinHeight';
 import getAttribute from '../../../../utils/get-attribute';
 import Width from './components/Width';
@@ -37,14 +36,6 @@ export default function Sizing( props ) {
 			: '';
 	}
 
-	function getUnits( context ) {
-		return applyFilters(
-			'generateblocks.editor.sizingUnits',
-			[ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ],
-			context
-		);
-	}
-
 	return (
 		<PanelArea
 			title={ __( 'Sizing', 'generateblocks' ) }
@@ -58,7 +49,6 @@ export default function Sizing( props ) {
 					<Width
 						value={ getValue( 'width' ) }
 						placeholder={ getResponsivePlaceholder( 'width', attributes.sizing, device ) }
-						units={ getUnits( 'width' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -73,7 +63,6 @@ export default function Sizing( props ) {
 					<Height
 						value={ getValue( 'height' ) }
 						placeholder={ getResponsivePlaceholder( 'height', attributes.sizing, device ) }
-						units={ getUnits( 'height' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -88,7 +77,6 @@ export default function Sizing( props ) {
 					<MinWidth
 						value={ getValue( 'minWidth' ) }
 						placeholder={ getResponsivePlaceholder( 'minWidth', attributes.sizing, device ) }
-						units={ getUnits( 'minWidth' ) }
 						disabled={ isGrid }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -104,7 +92,6 @@ export default function Sizing( props ) {
 					<MinHeight
 						value={ getValue( 'minHeight' ) }
 						placeholder={ getResponsivePlaceholder( 'minHeight', attributes.sizing, device ) }
-						units={ getUnits( 'minHeight' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -119,7 +106,6 @@ export default function Sizing( props ) {
 					<MaxWidth
 						value={ getValue( 'maxWidth' ) }
 						placeholder={ getResponsivePlaceholder( 'maxWidth', attributes.sizing, device ) }
-						units={ getUnits( 'maxWidth' ) }
 						overrideValue={ !! useGlobalMaxWidth ? generateBlocksInfo.globalContainerWidth : null }
 						disabled={ useInnerContainer || isGrid || ( useGlobalMaxWidth && 'Desktop' === device ) }
 						onChange={ ( value ) => {
@@ -155,7 +141,6 @@ export default function Sizing( props ) {
 					<MaxHeight
 						value={ getValue( 'maxHeight' ) }
 						placeholder={ getResponsivePlaceholder( 'maxHeight', attributes.sizing, device ) }
-						units={ getUnits( 'maxHeight' ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {

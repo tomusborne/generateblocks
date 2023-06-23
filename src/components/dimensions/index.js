@@ -17,7 +17,7 @@ import isNumeric from '../../utils/is-numeric';
 export default function Dimensions( props ) {
 	const {
 		label = __( 'Padding', 'generateblocks' ),
-		units = [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ],
+		units = [],
 		attributeNames = [],
 		values,
 		placeholders,

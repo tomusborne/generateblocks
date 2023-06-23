@@ -71,7 +71,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 
 			{ typographySupports.fontSize &&
 				<FontSize
-					units={ [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ] }
 					value={ getAttribute( 'fontSize', { attributes: typography, deviceType: device } ) }
 					placeholder={ getResponsivePlaceholder( 'fontSize', typography, device, computedStyles.fontSize ) }
 					onChange={ ( value ) => {
@@ -86,7 +85,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 
 			{ typographySupports.lineHeight &&
 				<LineHeight
-					units={ [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ] }
 					defaultUnit="em"
 					value={ getAttribute( 'lineHeight', { attributes: typography, deviceType: device } ) }
 					placeholder={ getResponsivePlaceholder( 'lineHeight', typography, device, computedStyles.lineHeight ) }
@@ -102,7 +100,6 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 
 			{ typographySupports.letterSpacing &&
 				<LetterSpacing
-					units={ [ 'px', 'em', '%', 'rem', 'vw', 'vh', 'ch' ] }
 					defaultUnit="em"
 					value={ getAttribute( 'letterSpacing', { attributes: typography, deviceType: device } ) }
 					placeholder={ getResponsivePlaceholder( 'letterSpacing', typography, device, computedStyles.letterSpacing ) }
