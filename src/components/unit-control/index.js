@@ -11,12 +11,14 @@ import classnames from 'classnames';
 
 import './editor.scss';
 import UnitDropdown from './unit-dropdown';
+import unitList from './units';
 
 export default function UnitControl( props ) {
 	const {
 		label,
-		units = [ 'px', 'em', '%', 'rem' ],
+		units = [],
 		defaultUnit = '',
+		unitCount = 7,
 		min = 0,
 		max,
 		step,
@@ -32,6 +34,7 @@ export default function UnitControl( props ) {
 		onFocus = () => null,
 	} = props;
 
+	const visibleUnits = units.concat( unitList ).slice( 0, unitCount );
 	const [ unitValue, setUnitValue ] = useState( '' );
 	const [ numericValue, setNumericValue ] = useState( '' );
 	const [ placeholderValue, setPlaceholderValue ] = useState( '' );
@@ -40,7 +43,7 @@ export default function UnitControl( props ) {
 	const inputRef = useRef( false );
 
 	const splitValues = ( values ) => {
-		const unitRegex = units.join( '|' );
+		const unitRegex = unitList.join( '|' );
 		const splitRegex = new RegExp( `(${ unitRegex })` );
 
 		return values
@@ -49,7 +52,7 @@ export default function UnitControl( props ) {
 	};
 
 	const getNumericValue = ( values ) => values.length > 0 ? values[ 0 ].trim() : '';
-	const defaultUnitValue = defaultUnit ? defaultUnit : units[ 0 ];
+	const defaultUnitValue = defaultUnit ? defaultUnit : visibleUnits[ 0 ];
 	const getUnitValue = ( values ) => values.length > 1 ? values[ 1 ] : defaultUnitValue;
 
 	// Test if the value starts with a number or a decimal.
@@ -157,8 +160,8 @@ export default function UnitControl( props ) {
 					) &&
 						<UnitDropdown
 							value={ unitValue }
-							disabled={ disabled || 1 === units.length }
-							units={ units }
+							disabled={ disabled || 1 === visibleUnits.length }
+							units={ visibleUnits }
 							onChange={ ( newValue ) => setUnitValue( newValue ) }
 						/>
 					}

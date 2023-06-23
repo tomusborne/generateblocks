@@ -6,6 +6,11 @@ export default function UnitDropdown( { value, onChange, units = [], disabled } 
 		return null;
 	}
 
+	// Replace the last item with our value if it's not a part of the visible list.
+	if ( ! units.includes( value ) ) {
+		units[ units.length - 1 ] = value;
+	}
+
 	return (
 		<>
 			<DropdownMenu
