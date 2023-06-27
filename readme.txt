@@ -119,6 +119,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Remove the Button Container variation
 * Tweak: Clean up UnitControl display across all browsers
 * Tweak: Show all Google fonts in font family dropdown
+* Tweak: Remove top/bottom margin from Query Loop in the editor
 * Dev: Rebuild how block migrations run
 * Dev: Migrate spacing attributes to new spacing object attribute
 * Dev: Migrate typography attributes to new typography object attribute
