@@ -76,7 +76,6 @@ export default function Dimensions( props ) {
 					variant={ !! sync ? 'primary' : '' }
 					aria-pressed={ !! sync }
 					onClick={ () => syncUnits() }
-					isSmall
 				>
 					{ !! sync ? link : linkOff }
 				</Button>

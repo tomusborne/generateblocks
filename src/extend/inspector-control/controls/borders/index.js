@@ -111,7 +111,6 @@ export default function Borders( { attributes, setAttributes } ) {
 									manualSync();
 								}
 							} }
-							isSmall
 						>
 							{ !! sync ? link : linkOff }
 						</Button>
