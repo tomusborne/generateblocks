@@ -21,7 +21,7 @@ export default function Borders( { attributes, setAttributes } ) {
 	const device = getDeviceType();
 	const { id, supports: { borders: bordersPanel } } = useContext( ControlsContext );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
-	const borderRadiusAttributes = [ 'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomRightRadius', 'borderBottomLeftRadius' ];
+	const borderRadiusAttributes = [ 'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius' ];
 	const borderAreas = [ 'borderTop', 'borderRight', 'borderBottom', 'borderLeft' ];
 	const borderLabels = {
 		borderTop: __( 'Top', 'generateblocks' ),
