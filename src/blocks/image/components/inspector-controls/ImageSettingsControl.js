@@ -6,6 +6,7 @@ import getMediaUrl from '../../../../utils/get-media-url';
 import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
+import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 
 export default function ImageSettingsControls( props ) {
 	const {
@@ -22,10 +23,6 @@ export default function ImageSettingsControls( props ) {
 		title,
 		sizeSlug,
 		mediaUrl,
-		width,
-		widthTablet,
-		height,
-		heightTablet,
 	} = attributes;
 
 	const mediaData = useSelect( ( select ) => {
@@ -74,30 +71,26 @@ export default function ImageSettingsControls( props ) {
 						label={ __( 'Width', 'generateblocks' ) }
 						id="gblocks-image-width"
 						value={ getAttribute( 'width', { attributes, deviceType } ) }
-						desktopValue={ width }
-						tabletValue={ widthTablet }
+						placeholder={ getResponsivePlaceholder( 'width', attributes, deviceType ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								[ getAttribute( 'width', { attributes, deviceType }, true ) ]: value,
 							} );
 						} }
 						min="1"
-						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 
 					<UnitControl
 						label={ __( 'Height', 'generateblocks' ) }
 						id="gblocks-image-height"
 						value={ getAttribute( 'height', { attributes, deviceType } ) }
-						desktopValue={ height }
-						tabletValue={ heightTablet }
+						placeholder={ getResponsivePlaceholder( 'height', attributes, deviceType ) }
 						onChange={ ( value ) => {
 							setAttributes( {
 								[ getAttribute( 'height', { attributes, deviceType }, true ) ]: value,
 							} );
 						} }
 						min="1"
-						units={ [ 'px', '%', 'vw', 'rem' ] }
 					/>
 				</div>
 			</BaseControl>

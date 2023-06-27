@@ -10,7 +10,7 @@ export default ( initialDeviceType = 'Desktop' ) => {
 		}
 	);
 
-	if ( ! dispatch( 'core/edit-post' ) ) {
+	if ( ! dispatch( 'core/edit-post' ) || ( generateBlocksInfo && ! generateBlocksInfo.syncResponsivePreviews ) ) {
 		const setDeviceType = ( type ) => {
 			setLocalDeviceType( type );
 		};
@@ -37,12 +37,15 @@ export default ( initialDeviceType = 'Desktop' ) => {
 	}, [ previewDeviceType ] );
 
 	const setDeviceType = ( type ) => {
-		if ( generateBlocksInfo && generateBlocksInfo.syncResponsivePreviews ) {
-			setPreviewDeviceType( type );
-		}
-
+		setPreviewDeviceType( type );
 		setLocalDeviceType( type );
 	};
+
+	// Here we are anticipating the return of the correct device value, instead of waiting another update from the useEffect above.
+	// This avoids attributes with old values when changing devices using the core buttons.
+	if ( previewDeviceType !== localDeviceType ) {
+		return [ previewDeviceType, setDeviceType ];
+	}
 
 	return [ localDeviceType, setDeviceType ];
 };

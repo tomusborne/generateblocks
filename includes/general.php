@@ -79,7 +79,9 @@ function generateblocks_do_block_editor_assets() {
 				'square' => GENERATEBLOCKS_DIR_URL . 'assets/images/square-image-placeholder.png',
 			),
 			'globalContainerWidth' => generateblocks_get_global_container_width(),
-			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ), // phpcs:ignore -- Core filter.
+			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
+			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
+			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
 		)
 	);
 
@@ -186,6 +188,10 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_google_fonts' );
  * @since 0.1
  */
 function generateblocks_do_google_fonts() {
+	if ( generateblocks_get_option( 'disable_google_fonts' ) ) {
+		return;
+	}
+
 	$fonts_url = generateblocks_get_google_fonts_uri();
 
 	if ( $fonts_url ) {
