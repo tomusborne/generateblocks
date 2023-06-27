@@ -22,11 +22,11 @@
 			}
 
 			&:nth-child(3) {
-				grid-area: bottom;
+				grid-area: left;
 			}
 
 			&:nth-child(4) {
-				grid-area: left;
+				grid-area: bottom;
 			}
 		}
 
@@ -52,6 +52,16 @@
 				}
 
 				&:nth-child(2) {
+					grid-area: left;
+
+					.gblocks-dimensions-control__label {
+						position: absolute;
+						bottom: calc(100% + 5px);
+						left: 0;
+					}
+				}
+
+				&:nth-child(3) {
 					grid-area: right;
 
 					.gblocks-dimensions-control__label {
@@ -61,7 +71,7 @@
 					}
 				}
 
-				&:nth-child(3) {
+				&:nth-child(4) {
 					grid-area: bottom;
 					display: flex;
 					flex-direction: column;
@@ -69,16 +79,6 @@
 					.gblocks-dimensions-control__label {
 						text-align: center;
 						padding-top: 5px;
-					}
-				}
-
-				&:nth-child(4) {
-					grid-area: left;
-
-					.gblocks-dimensions-control__label {
-						position: absolute;
-						bottom: calc(100% + 5px);
-						right: auto;
 					}
 				}
 			}

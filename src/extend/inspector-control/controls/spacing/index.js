@@ -26,8 +26,8 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 		fillHorizontalSpaceMobile,
 	} = attributes;
 
-	const paddingAttributes = [ 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft' ];
-	const marginAttributes = [ 'marginTop', 'marginRight', 'marginBottom', 'marginLeft' ];
+	const paddingAttributes = [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ];
+	const marginAttributes = [ 'marginTop', 'marginLeft', 'marginRight', 'marginBottom' ];
 
 	return (
 		<PanelArea
