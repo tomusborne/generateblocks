@@ -1,15 +1,15 @@
 import { ToolbarButton, ToolbarGroup, Dropdown, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { cloneBlock, createBlock } from '@wordpress/blocks';
+import { cloneBlock } from '@wordpress/blocks';
 import { BlockControls, URLInput, AlignmentToolbar } from '@wordpress/block-editor';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { link, plus } from '@wordpress/icons';
+import { link } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
-import getIcon from '../../../utils/get-icon';
 import isFlexItem from '../../../utils/is-flex-item';
 import getAttribute from '../../../utils/get-attribute';
 import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
 import getDeviceType from '../../../utils/get-device-type';
+import getIcon from '../../../utils/get-icon';
 
 export default ( props ) => {
 	const {
@@ -18,13 +18,10 @@ export default ( props ) => {
 		setAttributes,
 	} = props;
 
-	const { insertBlocks, replaceBlocks } = useDispatch( 'core/block-editor' );
+	const { insertBlocks } = useDispatch( 'core/block-editor' );
 	const {
 		getBlockParentsByBlockName,
 		getBlocksByClientId,
-		getBlockAttributes,
-		getSelectedBlockClientIds,
-		getBlock,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	const {
@@ -48,64 +45,17 @@ export default ( props ) => {
 	const deviceType = getDeviceType();
 	const hasDynamicLink = useDynamicData && dynamicLinkType;
 	const showAppender = applyFilters( 'generateblocks.editor.showButtonAppender', true, props );
-	const showButtonContainer = applyFilters( 'generateblocks.editor.showButtonContainerControl', true, props );
 	const showButtonLinkControl = applyFilters( 'generateblocks.editor.showButtonLinkControl', 'link' === buttonType, props );
-	let containerId = false;
 	const buttonContainerId = getBlockParentsByBlockName( clientId, 'generateblocks/button-container', true )[ 0 ];
-	const containerVariantId = getBlockParentsByBlockName( clientId, 'generateblocks/container', true )[ 0 ];
-
-	if ( buttonContainerId ) {
-		containerId = buttonContainerId;
-	} else if ( containerVariantId ) {
-		const containerAttributes = getBlockAttributes( containerVariantId );
-
-		if ( 'button-container' === containerAttributes.variantRole ) {
-			containerId = containerVariantId;
-		}
-	}
 
 	return (
 		<>
 			<BlockControls>
-				{ !! showButtonContainer && ! containerId &&
-					<ToolbarGroup>
-						<ToolbarButton
-							icon={ getIcon( 'button-container' ) }
-							label={ __( 'Add to Button Container', 'generateblocks' ) }
-							onClick={ () => {
-								const selectedBlockIds = getSelectedBlockClientIds();
-
-								const selectedBlocks = selectedBlockIds.map( ( blockId ) => {
-									const block = getBlock( blockId );
-
-									return createBlock(
-										block.name,
-										block.attributes,
-										block.innerBlocks
-									);
-								} );
-
-								const groupedBlocks = createBlock(
-									'generateblocks/container',
-									{
-										display: 'flex',
-										variantRole: 'button-container',
-									},
-									selectedBlocks
-								);
-
-								replaceBlocks( selectedBlockIds, groupedBlocks );
-							} }
-							showTooltip
-						/>
-					</ToolbarGroup>
-				}
-
 				<ToolbarGroup>
-					{ showAppender && containerId &&
+					{ showAppender && buttonContainerId && // Add appender when using our deprecated button-container block.
 						<ToolbarButton
 							className="gblocks-add-new-button"
-							icon={ plus }
+							icon={ getIcon( 'add-button' ) }
 							label={ __( 'Add Button', 'generateblocks' ) }
 							onClick={ () => {
 								const thisBlock = getBlocksByClientId( clientId )[ 0 ];
@@ -117,7 +67,7 @@ export default ( props ) => {
 									}
 								);
 
-								insertBlocks( clonedBlock, undefined, containerId );
+								insertBlocks( clonedBlock, undefined, buttonContainerId );
 							} }
 							showTooltip
 						/>
@@ -126,10 +76,12 @@ export default ( props ) => {
 
 				{ ! isFlexItem( { device: deviceType, display, displayTablet, displayMobile } ) &&
 					<AlignmentToolbar
-						value={ getAttribute( 'alignment', { attributes, deviceType } ) }
+						value={ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType } ) }
 						onChange={ ( value ) => {
 							setAttributes( {
-								[ getAttribute( 'alignment', { attributes, deviceType }, true ) ]: value,
+								typography: {
+									[ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType }, true ) ]: value,
+								},
 							} );
 						} }
 						alignmentControls={ typographyOptions.alignments }

@@ -25,7 +25,6 @@ export default function BackgroundOptions( { attributes, setAttributes } ) {
 					onChange={ ( nextOverlay ) => {
 						setAttributes( {
 							bgOptions: {
-								...bgOptions,
 								overlay: nextOverlay,
 							},
 						} );
@@ -45,7 +44,7 @@ export default function BackgroundOptions( { attributes, setAttributes } ) {
 						position={ position }
 						useInnerContainer={ useInnerContainer }
 						onChange={ ( value ) => {
-							setAttributes( { bgOptions: { ...bgOptions, selector: value } } );
+							setAttributes( { bgOptions: { selector: value } } );
 
 							if ( useInnerContainer && 'pseudo-element' === value && ! innerZindex && 0 !== innerZindex ) {
 								setAttributes( { innerZindex: 1 } );
@@ -66,7 +65,7 @@ export default function BackgroundOptions( { attributes, setAttributes } ) {
 						isPseudoElement={ 'pseudo-element' === bgOptions.selector }
 						onChange={ ( value ) => {
 							setAttributes( {
-								bgOptions: { ...bgOptions, opacity: value, selector: 'pseudo-element' },
+								bgOptions: { opacity: value, selector: 'pseudo-element' },
 							} );
 
 							if ( useInnerContainer && ! innerZindex && 0 !== innerZindex ) {

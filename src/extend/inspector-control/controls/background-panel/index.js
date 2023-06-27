@@ -57,27 +57,27 @@ export default function BackgroundPanel( { attributes, setAttributes } ) {
 
 							<Size
 								value={ bgOptions.size }
-								onChange={ ( nextSize ) => setAttributes( { bgOptions: { ...bgOptions, size: nextSize } } ) }
+								onChange={ ( nextSize ) => setAttributes( { bgOptions: { size: nextSize } } ) }
 							/>
 
 							<Position
 								value={ bgOptions.position }
 								onChange={ ( nextPosition ) => setAttributes( {
-									bgOptions: { ...bgOptions, position: nextPosition },
+									bgOptions: { position: nextPosition },
 								} ) }
 							/>
 
 							<Repeat
 								value={ bgOptions.repeat }
 								onChange={ ( nextRepeat ) => setAttributes( {
-									bgOptions: { ...bgOptions, repeat: nextRepeat },
+									bgOptions: { repeat: nextRepeat },
 								} ) }
 							/>
 
 							<Attachment
 								value={ bgOptions.attachment }
 								onChange={ ( nextAttachment ) => setAttributes( {
-									bgOptions: { ...bgOptions, attachment: nextAttachment },
+									bgOptions: { attachment: nextAttachment },
 								} ) }
 							/>
 						</>
