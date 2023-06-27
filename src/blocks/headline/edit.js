@@ -14,6 +14,7 @@ import { withBlockContext } from '../../block-context';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import withHeadlineLegacyMigration from '../../hoc/withHeadlineLegacyMigration';
 import getDeviceType from '../../utils/get-device-type';
+import withSetAttributes from '../../hoc/withSetAttributes';
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	let block;
@@ -44,7 +45,7 @@ const HeadlineEdit = ( props ) => {
 
 	const {
 		anchor,
-		fontFamily,
+		typography,
 		googleFont,
 		googleFontVariants,
 		icon,
@@ -98,7 +99,7 @@ const HeadlineEdit = ( props ) => {
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
 			<GoogleFontLink
-				fontFamily={ fontFamily }
+				fontFamily={ typography.fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
 				isBlockPreview={ isBlockPreview }
@@ -112,6 +113,7 @@ const HeadlineEdit = ( props ) => {
 };
 
 export default compose(
+	withSetAttributes,
 	withDeviceType,
 	withBlockContext,
 	withDynamicContent,

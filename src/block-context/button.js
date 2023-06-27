@@ -48,28 +48,28 @@ const buttonContext = defaultsDeep( {
 		},
 		spacing: {
 			enabled: true,
-			dimensions: [
+			padding: true,
+			margin: true,
+		},
+		borders: {
+			enabled: true,
+			borderColors: [
 				{
-					type: 'padding',
-					label: __( 'Padding', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					state: '',
+					tooltip: __( 'Border', 'generateblocks' ),
+					alpha: true,
 				},
 				{
-					type: 'margin',
-					label: __( 'Margin', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
-				},
-				{
-					type: 'borderSize',
-					label: __( 'Border Size', 'generateblocks' ),
-					units: [ 'px' ],
-				},
-				{
-					type: 'borderRadius',
-					label: __( 'Border Radius', 'generateblocks' ),
-					units: [ 'px', 'em', '%' ],
+					state: 'Hover',
+					tooltip: __( 'Border Hover', 'generateblocks' ),
+					alpha: true,
 				},
 			],
+			borderTop: true,
+			borderRight: true,
+			borderBottom: true,
+			borderLeft: true,
+			borderRadius: true,
 		},
 		colors: {
 			enabled: true,
@@ -102,21 +102,6 @@ const buttonContext = defaultsDeep( {
 						},
 					],
 				},
-				{
-					group: 'border',
-					label: __( 'Border', 'generateblocks' ),
-					items: [
-						{
-							attribute: 'borderColor',
-							alpha: true,
-						},
-						{
-							tooltip: __( 'Hover', 'generateblocks' ),
-							attribute: 'borderColorHover',
-							alpha: true,
-						},
-					],
-				},
 			],
 		},
 		backgroundPanel: {
@@ -129,6 +114,7 @@ const buttonContext = defaultsDeep( {
 				{ label: __( 'Left', 'generateblocks' ), value: 'left' },
 				{ label: __( 'Right', 'generateblocks' ), value: 'right' },
 			],
+			iconSize: true,
 		},
 	},
 }, defaultContext );
