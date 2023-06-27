@@ -115,7 +115,7 @@ export default function Dimensions( props ) {
 							{ ! sync &&
 								<label htmlFor={ attributeName } className="gblocks-dimensions-control__label">
 									{
-										attributeName.includes( 'borderRadius' )
+										attributeName.includes( 'Radius' )
 											? labels.borderRadius[ index ]
 											: labels.default[ index ]
 									}
