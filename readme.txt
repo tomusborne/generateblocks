@@ -99,6 +99,8 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Feature: Add Block Label option to label Container, Query Loop, and Grid blocks in List View
 * Feature: Only show one dimension field if synced
 * Feature: Add option to disable Google fonts
+* Feature: Allow all unit types in UnitControl
+* Feature: Add help icon to unit list
 * Fix: Attributes merging incorrect values when multiple blocks are selected
 * Fix: Color and Background panels are visible/accessible on responsive views
 * Fix: Template lock system not applying to inner blocks
@@ -113,6 +115,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Fix: Container appender icon spacing
 * Fix: useDeviceType state was one state behind when triggered from core buttons
 * Fix: Use unit in UnitControl if value starts with decimal
+* Fix: Remove trailing spaces from UnitControl numeric value
 * Tweak: Require at least PHP 7.2
 * Tweak: Move block alignment to Layout panel
 * Tweak: Remove help text from Grid vertical alignment
@@ -120,6 +123,10 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Clean up UnitControl display across all browsers
 * Tweak: Show all Google fonts in font family dropdown
 * Tweak: Remove top/bottom margin from Query Loop in the editor
+* Tweak: Force lowercase units in UnitControl
+* Tweak: Improve UnitControl unit visibility
+* Tweak: Show units in 2 rows
+* Tweak: Use same unit list for all UnitControl controls
 * Dev: Rebuild how block migrations run
 * Dev: Migrate spacing attributes to new spacing object attribute
 * Dev: Migrate typography attributes to new typography object attribute
