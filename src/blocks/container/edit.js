@@ -12,6 +12,7 @@ import { withBlockContext } from '../../block-context';
 import { useSelect } from '@wordpress/data';
 import { withTemplateContext } from '../../extend/template-selector/templateContext';
 import getDeviceType from '../../utils/get-device-type';
+import withSetAttributes from '../../hoc/withSetAttributes';
 
 const ContainerEdit = ( props ) => {
 	const {
@@ -23,7 +24,7 @@ const ContainerEdit = ( props ) => {
 
 	const {
 		anchor,
-		fontFamily,
+		typography,
 		googleFont,
 		googleFontVariants,
 		isBlockPreview = false,
@@ -123,7 +124,7 @@ const ContainerEdit = ( props ) => {
 			/>
 
 			<GoogleFontLink
-				fontFamily={ fontFamily }
+				fontFamily={ typography.fontFamily }
 				googleFont={ googleFont }
 				googleFontVariants={ googleFontVariants }
 				isBlockPreview={ isBlockPreview }
@@ -142,6 +143,7 @@ const ContainerEdit = ( props ) => {
 };
 
 export default compose(
+	withSetAttributes,
 	withDeviceType,
 	withTemplateContext,
 	withBlockContext,
