@@ -18,6 +18,7 @@ import { SelectControl } from '@wordpress/components';
 import { positionOptions, overflowOptions } from './options';
 import FlexControl from '../../../../components/flex-control';
 import getDeviceType from '../../../../utils/get-device-type';
+import ThemeWidth from './components/ThemeWidth';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const device = getDeviceType();
@@ -35,13 +36,10 @@ export default function Layout( { attributes, setAttributes } ) {
 		useInnerContainer,
 		zindex,
 		innerZindex,
-		columnGap,
-		columnGapTablet,
-		rowGap,
-		rowGapTablet,
+		align,
 	} = attributes;
 
-	const directionValue = getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
+	const directionValue = getAttribute( 'flexDirection', componentProps ) || getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
 
 	return (
 		<PanelArea
@@ -144,10 +142,8 @@ export default function Layout( { attributes, setAttributes } ) {
 								<UnitControl
 									label={ __( 'Column Gap', 'generateblocks' ) }
 									id="gblocks-column-gap"
-									units={ [ 'px', '%', 'vw', 'em', 'rem' ] }
 									value={ getAttribute( 'columnGap', componentProps ) }
-									desktopValue={ columnGap }
-									tabletValue={ columnGapTablet }
+									placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
 									onChange={ ( value ) => setAttributes( {
 										[ getAttribute( 'columnGap', componentProps, true ) ]: value,
 									} ) }
@@ -158,10 +154,8 @@ export default function Layout( { attributes, setAttributes } ) {
 								<UnitControl
 									label={ __( 'Row Gap', 'generateblocks' ) }
 									id="gblocks-row-gap"
-									units={ [ 'px', '%', 'vw', 'em', 'rem' ] }
 									value={ getAttribute( 'rowGap', componentProps ) }
-									desktopValue={ rowGap }
-									tabletValue={ rowGapTablet }
+									placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
 									onChange={ ( value ) => setAttributes( {
 										[ getAttribute( 'rowGap', componentProps, true ) ]: value,
 									} ) }
@@ -240,6 +234,19 @@ export default function Layout( { attributes, setAttributes } ) {
 							} ) }
 						/>
 					}
+				</>
+			}
+
+			{ layout.themeWidth &&
+				<>
+					<ThemeWidth
+						value={ align }
+						onChange={ ( value ) => {
+							setAttributes( {
+								align: value,
+							} );
+						} }
+					/>
 				</>
 			}
 

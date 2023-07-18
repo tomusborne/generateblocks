@@ -3,13 +3,17 @@ import { __ } from '@wordpress/i18n';
 import getIcon from '../../../../utils/get-icon';
 import IconPicker from '../../../../components/icon-picker';
 import IconStyles from './components/icon-styles';
-import IconSize from './components/icon-size';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import getDeviceType from '../../../../utils/get-device-type';
+import FlexControl from '../../../../components/flex-control';
+import UnitControl from '../../../../components/unit-control';
+import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
+import getAttribute from '../../../../utils/get-attribute';
 
 export default function IconControls( { attributes, setAttributes } ) {
 	const { id, supports: { icon: iconSupport } } = useContext( ControlsContext );
+
 	const device = getDeviceType();
 	const {
 		icon,
@@ -91,7 +95,24 @@ export default function IconControls( { attributes, setAttributes } ) {
 				/>
 			}
 
-			{ !! icon && <IconSize attributes={ attributes } setAttributes={ setAttributes } /> }
+			{ !! icon && !! iconSupport.iconSize &&
+				<FlexControl>
+					<UnitControl
+						id="gblocks-icon-width"
+						label={ __( 'Icon Size', 'generateblocks' ) }
+						value={ getAttribute( 'width', { attributes: attributes.iconStyles, deviceType: device } ) }
+						placeholder={ getResponsivePlaceholder( 'width', attributes.iconStyles, device ) }
+						onChange={ ( value ) => {
+							setAttributes( {
+								iconStyles: {
+									[ getAttribute( 'width', { attributes: attributes.iconStyles, deviceType: device }, true ) ]: value,
+									[ getAttribute( 'height', { attributes: attributes.iconStyles, deviceType: device }, true ) ]: value,
+								},
+							} );
+						} }
+					/>
+				</FlexControl>
+			}
 		</PanelArea>
 	);
 }

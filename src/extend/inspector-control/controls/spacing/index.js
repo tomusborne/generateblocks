@@ -1,15 +1,19 @@
 import { __ } from '@wordpress/i18n';
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
-import DimensionsGroup from '../../../../components/dimensions-group';
 import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import DeviceControls from './components/device-controls';
 import getDeviceType from '../../../../utils/get-device-type';
+import useDeviceAttributes from '../../../../hooks/useDeviceAttributes';
+import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
+import DimensionsControl from '../../../../components/dimensions';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
 	const { id, supports: { spacing } } = useContext( ControlsContext );
+	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
+
 	const {
 		inlineWidth,
 		inlineWidthTablet,
@@ -22,6 +26,9 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 		fillHorizontalSpaceMobile,
 	} = attributes;
 
+	const paddingAttributes = [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ];
+	const marginAttributes = [ 'marginTop', 'marginLeft', 'marginRight', 'marginBottom' ];
+
 	return (
 		<PanelArea
 			title={ __( 'Spacing', 'generateblocks' ) }
@@ -30,13 +37,27 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			className="gblocks-panel-label"
 			id={ `${ id }Spacing` }
 		>
-			{ spacing.dimensions &&
-				<DimensionsGroup
-					deviceType={ device }
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-					computedStyles={ computedStyles }
-					dimensions={ spacing.dimensions }
+			{ spacing.padding &&
+				<DimensionsControl
+					label={ __( 'Padding', 'generateblocks' ) }
+					attributeNames={ paddingAttributes }
+					values={ deviceAttributes.spacing }
+					placeholders={ paddingAttributes.reduce( ( o, key ) => (
+						{ ...o, [ key ]: getResponsivePlaceholder( key, attributes.spacing, device, '' ) }
+					), {} ) }
+					onChange={ ( values ) => setDeviceAttributes( values, 'spacing' ) }
+				/>
+			}
+
+			{ spacing.margin &&
+				<DimensionsControl
+					label={ __( 'Margin', 'generateblocks' ) }
+					attributeNames={ marginAttributes }
+					values={ deviceAttributes.spacing }
+					placeholders={ marginAttributes.reduce( ( o, key ) => (
+						{ ...o, [ key ]: getResponsivePlaceholder( key, attributes.spacing, device, computedStyles[ key ] ) }
+					), {} ) }
+					onChange={ ( values ) => setDeviceAttributes( values, 'spacing' ) }
 				/>
 			}
 
