@@ -85,6 +85,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 = 1.8.1 =
 * Fix: Icon padding controls order
+* Fix: Global styles overwriting local attributes
 
 = 1.8.0 =
 * Feature: Add flexbox alignment matrix component to Container toolbar
