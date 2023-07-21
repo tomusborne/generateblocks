@@ -1725,3 +1725,37 @@ function generateblocks_get_font_family_list() {
 		]
 	);
 }
+
+/**
+ * Transforms a string to camelCase.
+ *
+ * @param string $str The string to be transformed.
+ *
+ * @return string
+ */
+function generateblocks_to_camel_case( string $str ): string {
+	return lcfirst(
+		str_replace(
+			'_',
+			'',
+			ucwords( $str, '_' )
+		)
+	);
+}
+
+/**
+ * Transforms a string to snake_case.
+ *
+ * @param string $str The string to be transformed.
+ *
+ * @return string
+ */
+function generateblocks_to_snake_case( string $str ): string {
+	return strtolower(
+		preg_replace(
+			'/(?<!^)[A-Z0-9]/',
+			'_$0',
+			$str
+		)
+	);
+}
