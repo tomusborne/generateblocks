@@ -5,6 +5,7 @@ import { migrateContainerAttributes } from '../withContainerLegacyMigration';
 import { migrateHeadlineAttributes } from '../withHeadlineLegacyMigration';
 import { migrateGridAttributes } from '../withGridLegacyMigration';
 import { migrateImageAttributes } from '../withImageLegacyMigration';
+import { isEmpty, isObject } from 'lodash';
 
 /**
  * This ensures that Global Styles pass the correct attributes
@@ -62,7 +63,26 @@ addFilter(
 				mode: 'css',
 			} );
 
-			return { ...attributes, ...migratedAttributes };
+			const newAttributes = {};
+
+			// We only need these migrated attributes if a local attribute doesn't exist.
+			Object.entries( migratedAttributes ).forEach( ( [ attributeName, attributeValue ] ) => {
+				if ( isObject( attributeValue ) ) {
+					Object.entries( attributeValue ).forEach( ( [ objectProperty, objectValue ] ) => {
+						if ( isEmpty( attributes[ attributeName ]?.[ objectProperty ] ) ) {
+							newAttributes[ attributeName ] = {
+								...attributes[ attributeName ],
+								...newAttributes[ attributeName ],
+								[ objectProperty ]: objectValue,
+							};
+						}
+					} );
+				} else if ( isEmpty( attributes[ attributeName ] ) ) {
+					newAttributes[ attributeName ] = attributeValue;
+				}
+			} );
+
+			return { ...attributes, ...newAttributes };
 		}
 
 		return attributes;
