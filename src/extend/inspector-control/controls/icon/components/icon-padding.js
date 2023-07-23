@@ -7,7 +7,7 @@ import getResponsivePlaceholder from '../../../../../utils/get-responsive-placeh
 export default function IconPadding( { attributes, setAttributes } ) {
 	const device = getDeviceType();
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
-	const attributeNames = [ 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft' ];
+	const attributeNames = [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ];
 
 	return (
 		<DimensionsControl
