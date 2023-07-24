@@ -23,20 +23,25 @@ export default function LibrariesList( props ) {
 
 			{ data?.size === 0 && <p>{ __( 'No results found.', 'generateblocks' ) }</p> }
 
-			{ !! remoteList.length &&
-				<div className="gblocks-library">
-					<h3>{ __( 'Remote Libraries', 'generateblocks' ) }</h3>
+			<div className="gblocks-library">
+				{ !! remoteList.length &&
+					<>
+						<h3>{ __( 'Remote Libraries', 'generateblocks' ) }</h3>
+						{ remoteList.map( ( item ) => (
+							<LibraryForm
+								key={ item.id }
+								{ ...item }
+								onChange={ onChange }
+								onDelete={ onDelete }
+							/>
+						) ) }
+					</>
+				}
 
-					{ remoteList.map( ( item ) => (
-						<LibraryForm
-							key={ item.id }
-							{ ...item }
-							onChange={ onChange }
-							onDelete={ onDelete }
-						/>
-					) ) }
-				</div>
-			}
+				<Button style={ { marginTop: '10px' } } isSmall variant="secondary" onClick={ onAdd }>
+					{ __( 'Add Library (Move to GBP)', 'generateblocks' ) }
+				</Button>
+			</div>
 
 			{ !! localList.length &&
 				<div className="gblocks-library">
@@ -51,10 +56,6 @@ export default function LibrariesList( props ) {
 					) ) }
 				</div>
 			}
-
-			<Button isSmall variant="secondary" onClick={ onAdd }>
-				{ __( 'Add Library (Move to GBP)', 'generateblocks' ) }
-			</Button>
 		</>
 	);
 }
