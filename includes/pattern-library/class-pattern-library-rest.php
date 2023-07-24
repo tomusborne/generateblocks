@@ -103,6 +103,7 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 		$is_enabled = $request->get_param( 'is_enabled' );
 		$libraries = GenerateBlocks_Libraries::get_instance();
 		$data = $libraries->get_all( ! ! $is_enabled );
+		$data = array_values( $data ); // Fix indexes.
 
 		return new WP_REST_Response(
 			array(
