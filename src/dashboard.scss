@@ -170,25 +170,73 @@ $settings-container-width: 750px;
     position: relative;
 }
 
+.gblocks-library {
+	margin-bottom: 1.5em;
+
+	h3 {
+		font-size: 16px;
+		margin-bottom: 1em;
+		font-weight: 500;
+	}
+
+	&:first-child {
+		margin-bottom: 2.5em;
+	}
+}
+
 .gblocks-library-item {
 	display: flex;
 	gap: 24px;
+	justify-content: space-between;
+	align-items: center;
+	padding: 15px;
+	background: #ffffff;
+	flex-wrap: wrap;
 
-	.delete-placeholder {
-		width: 80px;
-		height: 24px;
+	&:nth-child(even) {
+		background: #efefef;
 	}
 
-	.components-button.is-small.has-text.has-icon {
-		max-width: 80px;
+	&__edit {
+		flex-basis: 100%;
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
 	}
 
-	.components-base-control:not(.components-toggle-control) {
-		flex: 1 1 auto;
+	&__name {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		button.components-button {
+			min-width: 25px;
+			height: 25px;
+			width: 25px;
+		}
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		button.components-button {
+			min-width: 25px;
+			height: 25px;
+			width: 25px;
+		}
+
+		.components-toggle-control {
+			label {
+				font-size: 11px;
+			}
+		}
 	}
 
 	.components-toggle-control {
 		margin-bottom: 0;
+
 		.components-base-control__field {
 			margin-bottom: 0!important;
 		}
