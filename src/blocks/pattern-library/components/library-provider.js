@@ -22,6 +22,7 @@ async function fetchLibraryCategories( libraryId, isLocal, publicKey ) {
 		method: 'GET',
 		headers: {
 			'X-GB-Public-Key': publicKey,
+			'X-GB-Library-Collection': btoa( libraryId ),
 		},
 	} );
 
@@ -43,6 +44,7 @@ async function fetchLibraryPatterns( libraryId, categoryId, search, isLocal, pub
 		method: 'GET',
 		headers: {
 			'X-GB-Public-Key': publicKey,
+			'X-GB-Library-Collection': btoa( libraryId ),
 		},
 	} );
 
