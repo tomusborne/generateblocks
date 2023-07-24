@@ -82,7 +82,7 @@ function generateblocks_do_block_editor_assets() {
 			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
-			'siteUrl' => site_url(),
+			'siteUrl' => site_url() . "?gb-template-viewer=1",
 		)
 	);
 
@@ -426,4 +426,54 @@ function generateblocks_register_user_meta() {
 			),
 		)
 	);
+}
+
+add_filter( 'query_vars', 'generateblocks_add_query_vars');
+/**
+ * Adds GB custom query variables.
+ *
+ * @param array $vars The variables.
+ *
+ * @return array
+ */
+function generateblocks_add_query_vars( array $vars ): array {
+	$vars[] = 'gb-template-viewer';
+	return $vars;
+}
+
+add_action( 'init', 'generateblocks_rewrite_endpoints' );
+
+/**
+ * Adds GB custom rewrite endpoints.
+ *
+ * @return void
+ */
+function generateblocks_rewrite_endpoints(): void {
+	add_rewrite_endpoint( 'gb-template-viewer', EP_ROOT );
+}
+
+add_action( 'template_include', 'generateblocks_template_viewer' );
+/**
+ * Register the template viewer template.
+ *
+ * @param string $template The current template.
+ *
+ * @return string
+ */
+function generateblocks_template_viewer( string $template ): string {
+	if ( false !== get_query_var( 'gb-template-viewer', false ) ) {
+		return GENERATEBLOCKS_DIR . 'templates/gb-template-viewer.php';
+	}
+
+	return $template;
+}
+
+add_filter('show_admin_bar', 'generateblocks_hide_admin_bar');
+/**
+ * Hide the admin bar if we are on the template viewer.
+ *
+ * @return bool
+ */
+function generateblocks_hide_admin_bar(): bool {
+	return false === get_query_var( 'gb-template-viewer', false );
 }
