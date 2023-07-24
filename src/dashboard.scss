@@ -169,3 +169,28 @@ $settings-container-width: 750px;
 .gblocks-container-width {
     position: relative;
 }
+
+.gblocks-library-item {
+	display: flex;
+	gap: 24px;
+
+	.delete-placeholder {
+		width: 80px;
+		height: 24px;
+	}
+
+	.components-button.is-small.has-text.has-icon {
+		max-width: 80px;
+	}
+
+	.components-base-control:not(.components-toggle-control) {
+		flex: 1 1 auto;
+	}
+
+	.components-toggle-control {
+		margin-bottom: 0;
+		.components-base-control__field {
+			margin-bottom: 0!important;
+		}
+	}
+}
