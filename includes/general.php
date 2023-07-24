@@ -82,7 +82,7 @@ function generateblocks_do_block_editor_assets() {
 			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
-			'siteUrl' => site_url() . "?gb-template-viewer=1",
+			'siteUrl' => site_url() . '?gb-template-viewer=1',
 		)
 	);
 
@@ -428,7 +428,7 @@ function generateblocks_register_user_meta() {
 	);
 }
 
-add_filter( 'query_vars', 'generateblocks_add_query_vars');
+add_filter( 'query_vars', 'generateblocks_add_query_vars' );
 /**
  * Adds GB custom query variables.
  *
@@ -468,7 +468,7 @@ function generateblocks_template_viewer( string $template ): string {
 	return $template;
 }
 
-add_filter('show_admin_bar', 'generateblocks_hide_admin_bar');
+add_filter( 'show_admin_bar', 'generateblocks_hide_admin_bar' );
 /**
  * Hide the admin bar if we are on the template viewer.
  *

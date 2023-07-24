@@ -210,15 +210,12 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 	): WP_REST_Response {
 		$endpoint = "$library->domain/wp-json/generateblocks-pro/v1/pattern-library/$collection";
 		$url = add_query_arg( $query_args, $endpoint );
-		$key = 'gb_default_free_library' === $library->id
-			? 'GxroZpidKoLZ2ofWNJdXtanAK9ZozWKo'
-			: $library->public_key;
 
 		$request = wp_remote_get(
 			$url,
 			array(
 				'headers' => array(
-					'X-GB-Public-Key' => $key,
+					'X-GB-Public-Key' => $library->public_key,
 				),
 			)
 		);

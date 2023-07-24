@@ -102,8 +102,8 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 		return ( new GenerateBlocks_Library_DTO() )
 			->set( 'id', $this->default_library_id )
 			->set( 'name', __( 'Free', 'generateblocks' ) )
-			->set( 'domain', 'http://gb-free.local' )
-			->set( 'public_key', '********************************' )
+			->set( 'domain', 'https://patterns.generateblocks.com' )
+			->set( 'public_key', 'GxroZpidKoLZ2ofWNJdXtanAK9ZozWKo' )
 			->set( 'is_enabled', true )
 			->set( 'is_default', true );
 	}
