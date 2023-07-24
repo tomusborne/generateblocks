@@ -4,14 +4,13 @@ import { __ } from '@wordpress/i18n';
 import { withTemplateContext } from '../../extend/template-selector/templateContext';
 import { Button, Modal, Placeholder } from '@wordpress/components';
 import { useDispatch } from '@wordpress/data';
-import { useRef, useState } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import LibraryLayout from './components/library-layout';
 import { LibraryProvider } from './components/library-provider';
 
 function PatternLibraryEdit( { clientId } ) {
 	const { removeBlock } = useDispatch( 'core/block-editor' );
 	const [ isOpen, setIsOpen ] = useState( true );
-	const hasLoaded = useRef( false );
 
 	return (
 		<div className="wp-block">
@@ -39,13 +38,11 @@ function PatternLibraryEdit( { clientId } ) {
 					title={ __( 'Pattern library', 'generateblocks' ) }
 					isFullScreen
 					onRequestClose={ ( event ) => {
-						if ( hasLoaded.current ) {
-							removeBlock( clientId );
+						if ( 'blur' === event.type ) {
+							return;
 						}
 
-						if ( 'blur' === event.type ) {
-							hasLoaded.current = true;
-						}
+						removeBlock( clientId );
 					} }
 				>
 					<LibraryProvider clientId={ clientId }>
