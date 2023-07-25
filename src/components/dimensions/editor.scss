@@ -98,12 +98,24 @@
 		text-align: center;
 		width: 15px;
 		height: 15px;
-		margin-left: 5px;
+		margin-inline-start: 5px;
 
 		svg {
 			width: 18px;
 			height: 18px;
 			fill: currentColor;
+		}
+	}
+}
+
+.rtl {
+	.components-gblocks-dimensions-control__inputs.style-circle {
+		& > div:nth-child(2) {
+			grid-area: right;
+		}
+
+		& > div:nth-child(3) {
+			grid-area: left;
 		}
 	}
 }
