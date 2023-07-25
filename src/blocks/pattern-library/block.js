@@ -5,7 +5,8 @@
 import Edit from './edit';
 import getIcon from '../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType, unregisterBlockType } from '@wordpress/blocks';
+import domReady from '@wordpress/dom-ready';
 
 /**
  * Register our Pattern Library block.
@@ -15,6 +16,7 @@ import { registerBlockType } from '@wordpress/blocks';
  */
 
 registerBlockType( 'generateblocks/pattern-library', {
+	apiVersion: 2,
 	title: __( 'Pattern Library', 'generateblocks' ),
 	description: __( 'Insert pre-built patterns directly into your content.', 'generateblocks' ),
 	icon: getIcon( 'pattern-library' ),
@@ -30,4 +32,10 @@ registerBlockType( 'generateblocks/pattern-library', {
 	},
 	edit: Edit,
 	save: () => undefined,
+} );
+
+domReady( () => {
+	if ( ! generateBlocksInfo.useLegacyPatternLibrary ) {
+		unregisterBlockType( 'generateblocks/template-library' );
+	}
 } );

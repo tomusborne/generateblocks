@@ -83,6 +83,7 @@ function generateblocks_do_block_editor_assets() {
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
 			'siteUrl' => site_url() . '?gb-template-viewer=1',
+			'useLegacyPatternLibrary' => generateblocks_use_legacy_pattern_library(),
 		)
 	);
 

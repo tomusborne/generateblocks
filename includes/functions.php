@@ -1759,3 +1759,12 @@ function generateblocks_to_snake_case( string $str ): string {
 		)
 	);
 }
+
+/**
+ * Disable the legacy pattern library in GB Pro.
+ *
+ * @since 1.9.0
+ */
+function generateblocks_use_legacy_pattern_library() {
+	return apply_filters( 'generateblocks_use_legacy_pattern_library', false );
+}
