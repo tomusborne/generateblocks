@@ -16,7 +16,10 @@ export default function LibraryLayout() {
 
 	return (
 		<div className="pattern-library-layout">
-			<LibrarySelector />
+			{ ! activePatternId &&
+				<LibrarySelector />
+			}
+
 			<div className="library-sidebar">
 				{ ! activePatternId &&
 					<>
