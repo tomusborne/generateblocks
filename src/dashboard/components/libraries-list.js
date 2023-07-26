@@ -1,6 +1,7 @@
-import { Button, Spinner } from '@wordpress/components';
+import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import LibraryForm from './library-form';
+import { applyFilters } from '@wordpress/hooks';
 
 export default function LibrariesList( props ) {
 	const {
@@ -38,9 +39,7 @@ export default function LibrariesList( props ) {
 					</>
 				}
 
-				<Button style={ { marginTop: '10px' } } isSmall variant="secondary" onClick={ onAdd }>
-					{ __( 'Add Library (Move to GBP)', 'generateblocks' ) }
-				</Button>
+				{ applyFilters( 'generateblocks.settings.afterRemoteLibraries', '', { onAdd } ) }
 			</div>
 
 			{ !! localList.length &&
