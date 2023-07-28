@@ -1134,7 +1134,7 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 			false,
 			[
 				'content' => $content,
-				'data' => $data
+				'data' => $data,
 			]
 		);
 
