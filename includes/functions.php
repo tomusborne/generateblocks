@@ -1129,7 +1129,16 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 			return $content;
 		}
 
-		if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() ) {
+		$inline_style_override = apply_filters(
+			'generateblocks_do_inline_styles',
+			false,
+			[
+				'content' => $content,
+				'data' => $data
+			]
+		);
+
+		if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() && ! $inline_style_override ) {
 			return $content;
 		}
 
@@ -1141,7 +1150,7 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 			return $content;
 		}
 
-		if ( did_action( 'wp_head' ) ) {
+		if ( did_action( 'wp_head' ) || $inline_style_override ) {
 			// Add inline <style> elements if we don't have access to wp_head.
 			$grouped_css = generateblocks_group_css_data( [], $css_data );
 			$compiled_css = generateblocks_get_compiled_css( $grouped_css );
