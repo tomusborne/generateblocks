@@ -8,6 +8,13 @@
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-
-get_header();
-get_footer();
+?><!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+	<head>
+		<meta charset="<?php bloginfo( 'charset' ); ?>">
+		<?php wp_head(); ?>
+	</head>
+	<body>
+		<?php do_action( 'wp_footer' ); // phpcs:ignore -- Need to use core action. ?>
+	</body>
+</html>
