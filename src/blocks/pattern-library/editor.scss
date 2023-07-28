@@ -27,6 +27,18 @@
 		position: fixed;
 	}
 
+	.gb-pattern {
+		cursor: pointer;
+		background: #f0f0f0;
+		box-shadow: 0 0 0 10px #f0f0f0;
+		box-sizing: border-box;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+	}
+
 	.library-content {
 		padding-left: 312px;
 
@@ -36,17 +48,6 @@
 			grid-gap: 32px;
 			position: relative;
 			top: 10px; /* box-shadow width */
-
-			.gb-pattern {
-				cursor: pointer;
-				background: #f0f0f0;
-				box-shadow: 0 0 0 10px #f0f0f0;
-				box-sizing: border-box;
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: center;
-			}
 		}
 	}
 
