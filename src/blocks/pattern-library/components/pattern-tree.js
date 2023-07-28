@@ -29,7 +29,7 @@ export default function PatternTree( { pattern } ) {
 				{ sprintf( 'Add: %s', pattern.label ) }
 			</Button>
 
-			{ pattern.tree && pattern.tree.map( ( child ) => (
+			{ pattern.tree.length > 1 && pattern.tree.map( ( child ) => (
 				<Button
 					key={ child.id }
 					variant="tertiary"
