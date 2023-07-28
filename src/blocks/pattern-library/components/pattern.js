@@ -36,7 +36,6 @@ export default function Pattern( props ) {
 		const document = iframeRef.current.contentWindow.document;
 		document.body.innerHTML = preview;
 		document.head.innerHTML += '<style id="block-active"></style>';
-		document.body.style.background = 'transparent';
 
 		if ( document.images.length > 0 ) {
 			allImagesLoaded( document.images, () => {
@@ -53,7 +52,7 @@ export default function Pattern( props ) {
 		if ( document && document.querySelector && document.querySelector( '#block-active' ) ) {
 			document.querySelector( '#block-active' ).innerHTML = ! patternHover
 				? ''
-				: `.gb-pattern-block.${ patternHover } {outline: 5px #349ad8 dashed;outline-offset: -5px;}`;
+				: `.gb-pattern-block:not(.${ patternHover }) {opacity:0.3}`;
 		}
 	}, [ patternHover ] );
 
@@ -63,6 +62,7 @@ export default function Pattern( props ) {
 	return (
 		<>
 			<div
+				className="gb-pattern"
 				role="presentation"
 				style={ wrapperStyle }
 				onClick={ () => setActivePattern( id ) }

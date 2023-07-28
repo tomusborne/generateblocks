@@ -14,7 +14,6 @@
 	.pattern-tree {
 		display: flex;
 		flex-direction: column;
-		margin-top: 16px;
 
 		.pattern-tree .components-button {
 			flex-direction: row-reverse;
@@ -25,7 +24,6 @@
 	.library-sidebar {
 		max-width: 280px;
 		width: 100%;
-		height: calc( 100% - 108px );
 		position: fixed;
 	}
 
@@ -36,6 +34,19 @@
 			display: grid;
 			grid-template-columns: 1fr 1fr;
 			grid-gap: 32px;
+			position: relative;
+			top: 10px; /* box-shadow width */
+
+			.gb-pattern {
+				cursor: pointer;
+				background: #f0f0f0;
+				box-shadow: 0 0 0 10px #f0f0f0;
+				box-sizing: border-box;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
 		}
 	}
 
@@ -44,9 +55,5 @@
 		justify-content: center;
 		align-items: center;
 		min-height: 30vh;
-	}
-
-	.library-content iframe .gb-pattern-block.active {
-		outline: 5px red solid;outline-offset: -5px;
 	}
 }

@@ -15,7 +15,7 @@ function PatternLibraryEdit( { clientId } ) {
 	return (
 		<div className="wp-block">
 			<Placeholder
-				label={ __( 'Pattern library', 'generateblocks' ) }
+				label={ __( 'Pattern Library', 'generateblocks' ) }
 				instructions={ __( 'Insert pre-built patterns directly into your content.', 'generateblocks' ) }
 				className="gb-select-layout"
 			>
@@ -35,7 +35,7 @@ function PatternLibraryEdit( { clientId } ) {
 
 			{ isOpen && (
 				<Modal
-					title={ __( 'Pattern library', 'generateblocks' ) }
+					title={ __( 'Pattern Library', 'generateblocks' ) }
 					isFullScreen
 					onRequestClose={ ( event ) => {
 						if ( 'blur' === event.type ) {

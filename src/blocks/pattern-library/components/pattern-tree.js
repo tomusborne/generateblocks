@@ -3,7 +3,7 @@ import { useDispatch } from '@wordpress/data';
 import { parse } from '@wordpress/blocks';
 import { __, sprintf } from '@wordpress/i18n';
 import { useLibrary } from './library-provider';
-import { arrowLeft, Icon } from '@wordpress/icons';
+import { arrowLeft, plus } from '@wordpress/icons';
 
 export default function PatternTree( { pattern } ) {
 	const { clientId, setActivePatternId, setHoverPattern } = useLibrary();
@@ -12,30 +12,28 @@ export default function PatternTree( { pattern } ) {
 	return (
 		<div className="pattern-tree">
 			<Button
-				icon={ <Icon icon={ arrowLeft } /> }
+				icon={ arrowLeft }
 				onClick={ () => setActivePatternId( '' ) }
 			>
 				{ __( 'Return to library' ) }
 			</Button>
 
 			<Button
-				icon="plus"
-				iconPosition="right"
+				icon={ plus }
+				variant="primary"
 				onClick={ () => {
 					insertBlocks( parse( pattern.pattern, {} ), undefined, undefined, false );
 					removeBlock( clientId );
 				} }
-				onMouseEnter={ () => setHoverPattern( pattern.id ) }
-				onMouseLeave={ () => setHoverPattern( '' ) }
 			>
-				{ sprintf( 'Add to page: %s', pattern.id ) }
+				{ sprintf( 'Add: %s', pattern.label ) }
 			</Button>
 
 			{ pattern.tree && pattern.tree.map( ( child ) => (
 				<Button
 					key={ child.id }
-					icon="plus"
-					iconPosition="right"
+					variant="tertiary"
+					icon={ plus }
 					onClick={ () => {
 						insertBlocks( parse( child.pattern, {} ), undefined, undefined, false );
 						removeBlock( clientId );
@@ -43,7 +41,7 @@ export default function PatternTree( { pattern } ) {
 					onMouseEnter={ () => setHoverPattern( child.id ) }
 					onMouseLeave={ () => setHoverPattern( '' ) }
 				>
-					{ sprintf( 'Add to page: %s', child.id ) }
+					{ sprintf( 'Add: %s', child.label ) }
 				</Button>
 			) ) }
 		</div>
