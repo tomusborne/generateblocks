@@ -8,6 +8,7 @@ export default function LibrarySelector() {
 		setActiveLibrary,
 		setIsLocal,
 		setPublicKey,
+		setActiveCategory,
 	} = useLibrary();
 
 	return (
@@ -16,13 +17,13 @@ export default function LibrarySelector() {
 				{ libraries.map( ( library ) => (
 					<Button
 						key={ library.id }
-						isSmall
 						isPressed={ library.id === activeLibrary }
 						variant="secondary"
 						onClick={ () => {
 							setActiveLibrary( library.id );
 							setIsLocal( !! library.isLocal );
 							setPublicKey( library.publicKey );
+							setActiveCategory( '' );
 						} }
 					>
 						{ library.name }
