@@ -57,6 +57,10 @@ export default function Pattern( props ) {
 	}, [ injectContent ] );
 
 	useLayoutEffect( () => {
+		if ( 'fullPattern' === patternHover ) {
+			return;
+		}
+
 		const document = iframeRef.current?.contentWindow?.document;
 
 		if ( document && document.querySelector && document.querySelector( '#block-active' ) ) {
@@ -70,7 +74,9 @@ export default function Pattern( props ) {
 		const document = iframeRef?.current?.contentWindow?.document;
 
 		if ( scrollToPattern && patternHover ) {
-			const elementInIframe = document.querySelector( '.' + patternHover );
+			const elementInIframe = 'fullPattern' === patternHover
+				? document.querySelector( 'body' )
+				: document.querySelector( '.' + patternHover );
 
 			if ( elementInIframe ) {
 				const modal = iframeRef?.current?.closest( '.components-modal__content' );

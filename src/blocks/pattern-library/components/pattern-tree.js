@@ -25,6 +25,10 @@ export default function PatternTree( { pattern } ) {
 					insertBlocks( parse( pattern.pattern, {} ), undefined, undefined, false );
 					removeBlock( clientId );
 				} }
+				onMouseEnter={ () => {
+					setHoverPattern( 'fullPattern' );
+					setScrollToPattern( 'fullPattern' );
+				} }
 			>
 				{ sprintf( 'Add: %s', pattern.label ) }
 			</Button>
