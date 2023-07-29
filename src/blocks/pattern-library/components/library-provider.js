@@ -66,6 +66,7 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ activeCategory, setActiveCategory ] = useState( '' );
 	const [ activePatternId, setActivePatternId ] = useState( '' );
 	const [ hoverPattern, setHoverPattern ] = useState( '' );
+	const [ loading, setLoading ] = useState( true );
 	const defaultContext = {
 		clientId,
 		libraries,
@@ -83,6 +84,8 @@ export function LibraryProvider( { clientId, children } ) {
 		patterns,
 		setIsLocal,
 		setPublicKey,
+		loading,
+		setLoading,
 	};
 
 	useEffect( () => {
@@ -99,8 +102,10 @@ export function LibraryProvider( { clientId, children } ) {
 	useEffect( () => {
 		( async function() {
 			if ( activeLibrary ) {
+				setLoading( true );
 				const { data } = await fetchLibraryCategories( activeLibrary, isLocal, publicKey );
 				setCategories( data );
+				setTimeout( () => setLoading( false ), 500 );
 			}
 		}() );
 	}, [ activeLibrary ] );
@@ -108,8 +113,10 @@ export function LibraryProvider( { clientId, children } ) {
 	useEffect( () => {
 		( async function() {
 			if ( activeLibrary ) {
+				setLoading( true );
 				const { data } = await fetchLibraryPatterns( activeLibrary, activeCategory, search, isLocal, publicKey );
 				setPatterns( data );
+				setTimeout( () => setLoading( false ), 500 );
 			}
 		}() );
 	}, [ activeLibrary, activeCategory, search, publicKey ] );

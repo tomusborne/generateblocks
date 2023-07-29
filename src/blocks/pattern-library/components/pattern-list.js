@@ -10,10 +10,11 @@ export default function PatternList() {
 		activePatternId,
 		setActivePatternId,
 		hoverPattern,
-		activeCategory,
+		loading,
+		setLoading,
 	} = useLibrary();
 	const [ patternWidth, setPatternWidth ] = useState( 0 );
-	const [ loading, setLoading ] = useState( true );
+	const firstUpdate = useRef( true );
 
 	useEffect( () => {
 		if ( ref.current?.clientWidth ) {
@@ -27,22 +28,19 @@ export default function PatternList() {
 	}, [ activePatternId ] );
 
 	useEffect( () => {
-		const timer = setTimeout( () => {
-			setLoading( false );
-		}, 1000 );
+		if ( firstUpdate.current ) {
+			firstUpdate.current = false;
+			return;
+		}
 
-		return () => clearTimeout( timer );
-	}, [] );
-
-	useEffect( () => {
 		setLoading( true );
 
 		const timer = setTimeout( () => {
 			setLoading( false );
-		}, 700 );
+		}, 500 );
 
 		return () => clearTimeout( timer );
-	}, [ activePatternId, activeCategory ] );
+	}, [ activePatternId ] );
 
 	const hide = loading ? { opacity: 0 } : {};
 

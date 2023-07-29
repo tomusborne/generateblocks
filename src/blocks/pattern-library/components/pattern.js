@@ -33,6 +33,11 @@ export default function Pattern( props ) {
 	const iframe = 1280;
 
 	useEffect( () => {
+		if ( firstUpdate.current ) {
+			firstUpdate.current = false;
+			return;
+		}
+
 		const document = iframeRef.current.contentWindow.document;
 		document.body.innerHTML = preview;
 		document.head.innerHTML += '<style id="block-active"></style>';
