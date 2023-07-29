@@ -6,7 +6,7 @@ import { useLibrary } from './library-provider';
 import { arrowLeft, plus } from '@wordpress/icons';
 
 export default function PatternTree( { pattern } ) {
-	const { clientId, setActivePatternId, setHoverPattern } = useLibrary();
+	const { clientId, setActivePatternId, setHoverPattern, setScrollToPattern } = useLibrary();
 	const { insertBlocks, removeBlock } = useDispatch( 'core/block-editor' );
 
 	return (
@@ -38,7 +38,10 @@ export default function PatternTree( { pattern } ) {
 						insertBlocks( parse( child.pattern, {} ), undefined, undefined, false );
 						removeBlock( clientId );
 					} }
-					onMouseEnter={ () => setHoverPattern( child.id ) }
+					onMouseEnter={ () => {
+						setHoverPattern( child.id );
+						setScrollToPattern( child.id );
+					} }
 					onMouseLeave={ () => setHoverPattern( '' ) }
 				>
 					{ sprintf( 'Add: %s', child.label ) }

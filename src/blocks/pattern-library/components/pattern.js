@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useLayoutEffect } from '@wordpress/element';
+import { useLibrary } from './library-provider';
 
 function allImagesLoaded( images, callback ) {
 	Promise.all( Array.from( images ).map( ( img ) => {
@@ -26,7 +27,11 @@ export default function Pattern( props ) {
 		isLoading,
 		patternHover,
 	} = props;
+	const {
+		scrollToPattern,
+	} = useLibrary();
 	const iframeRef = useRef();
+	const firstUpdate = useRef( true );
 	const [ height, setHeight ] = useState( 0 );
 	const [ injectContent, setInjectContent ] = useState( false );
 	const viewport = width;
@@ -52,7 +57,7 @@ export default function Pattern( props ) {
 	}, [ injectContent ] );
 
 	useLayoutEffect( () => {
-		const document = iframeRef.current.contentWindow.document;
+		const document = iframeRef.current?.contentWindow?.document;
 
 		if ( document && document.querySelector && document.querySelector( '#block-active' ) ) {
 			document.querySelector( '#block-active' ).innerHTML = ! patternHover
@@ -60,6 +65,31 @@ export default function Pattern( props ) {
 				: `.gb-pattern-block:not(.${ patternHover }) {opacity:0.3}`;
 		}
 	}, [ patternHover ] );
+
+	useLayoutEffect( () => {
+		const document = iframeRef?.current?.contentWindow?.document;
+
+		if ( scrollToPattern && patternHover ) {
+			const elementInIframe = document.querySelector( '.' + patternHover );
+
+			if ( elementInIframe ) {
+				const modal = iframeRef?.current?.closest( '.components-modal__content' );
+				const elementRect = elementInIframe.getBoundingClientRect();
+				const modalStyles = window.getComputedStyle( modal );
+				const margin = parseFloat( modalStyles.marginTop ) + parseFloat( modalStyles.marginBottom );
+				const padding = parseFloat( modalStyles.paddingTop ) + parseFloat( modalStyles.paddingBottom );
+
+				modal.scrollTo(
+					{
+						top: elementRect.top < ( margin + padding )
+							? elementRect.top
+							: elementRect.top + margin + padding,
+						behavior: 'smooth',
+					}
+				);
+			}
+		}
+	}, [ scrollToPattern, patternHover ] );
 
 	const viewportHeight = Math.round( height * ( viewport / iframe ) );
 	const wrapperStyle = isLoading ? { opacity: 0 } : {};
