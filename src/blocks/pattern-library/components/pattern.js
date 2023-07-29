@@ -57,14 +57,10 @@ export default function Pattern( props ) {
 	}, [ injectContent ] );
 
 	useLayoutEffect( () => {
-		if ( 'fullPattern' === patternHover ) {
-			return;
-		}
-
 		const document = iframeRef.current?.contentWindow?.document;
 
 		if ( document && document.querySelector && document.querySelector( '#block-active' ) ) {
-			document.querySelector( '#block-active' ).innerHTML = ! patternHover
+			document.querySelector( '#block-active' ).innerHTML = ! patternHover || 'fullPattern' === patternHover
 				? ''
 				: `.gb-pattern-block:not(.${ patternHover }) {opacity:0.3}`;
 		}
