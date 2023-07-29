@@ -36,6 +36,7 @@ function PatternLibraryEdit( { clientId } ) {
 			{ isOpen && (
 				<Modal
 					title={ __( 'Pattern Library', 'generateblocks' ) }
+					className="gblocks-pattern-library-modal"
 					isFullScreen
 					onRequestClose={ ( event ) => {
 						if ( 'blur' === event.type ) {

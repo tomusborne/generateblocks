@@ -1,5 +1,6 @@
 .pattern-library-layout {
 	height: 100%;
+	padding-top: 10px;
 
 	.pattern-library-selector {
 		display: flex;
@@ -56,5 +57,11 @@
 		justify-content: center;
 		align-items: center;
 		min-height: 30vh;
+	}
+}
+
+.gblocks-pattern-library-modal {
+	.components-modal__header {
+		border-bottom: 0;
 	}
 }
