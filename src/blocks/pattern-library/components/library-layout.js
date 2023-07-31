@@ -46,6 +46,8 @@ export default function LibraryLayout() {
 					<Button
 						variant="tertiary"
 						icon={ close }
+						label={ __( 'Close Pattern Library', 'generateblocks' ) }
+						showTooltip={ true }
 						onClick={ () => removeBlock( clientId ) }
 					/>
 				</div>

@@ -16,6 +16,8 @@ export default function PatternTree( { pattern } ) {
 		<div className="pattern-tree">
 			<Button
 				icon={ plus }
+				label={ __( 'Insert Pattern', 'generateblocks' ) }
+				showTooltip={ true }
 				className="pattern-tree__insert-button"
 				variant="primary"
 				onClick={ () => {
@@ -39,6 +41,8 @@ export default function PatternTree( { pattern } ) {
 								<Button
 									variant="secondary"
 									icon={ plus }
+									label={ __( 'Insert Pattern Part', 'generateblocks' ) }
+									showTooltip={ true }
 									onClick={ () => {
 										const parentClientId = getBlockParents( clientId, true )[ 0 ] ?? undefined;
 										insertBlocks( parse( child.pattern, {} ), undefined, parentClientId, false );
@@ -48,6 +52,8 @@ export default function PatternTree( { pattern } ) {
 								<Button
 									variant="tertiary"
 									icon={ getIcon( 'eye' ) }
+									label={ __( 'View Pattern Part', 'generateblocks' ) }
+									showTooltip={ true }
 									onClick={ () => {
 										setScrollToPattern( child.id );
 										setHoverPattern( child.id );
