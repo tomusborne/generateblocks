@@ -25,7 +25,6 @@
 }
 
 .pattern-library-layout {
-	height: 100%;
 	padding: 32px;
 
 	.pattern-category-list,
@@ -116,7 +115,10 @@
 	}
 }
 
-.gblocks-pattern-library-modal {
+.gblocks-pattern-library-modal.is-full-screen {
+	width: 1400px;
+	max-width: 100%;
+
 	.components-modal__header {
 		display: none;
 	}

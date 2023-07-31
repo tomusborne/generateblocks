@@ -18,6 +18,17 @@ function allImagesLoaded( images, callback ) {
 	} );
 }
 
+function getOffsetTop( element ) {
+	let offsetTop = 0;
+
+	while ( element ) {
+		offsetTop += element.offsetTop;
+		element = element.offsetParent;
+	}
+
+	return offsetTop;
+}
+
 export default function Pattern( props ) {
 	const {
 		id,
@@ -79,7 +90,7 @@ export default function Pattern( props ) {
 
 				modal.scrollTo(
 					{
-						top: elementInIframe.offsetTop - 75,
+						top: getOffsetTop( elementInIframe ) - 42,
 						behavior: 'smooth',
 					}
 				);
