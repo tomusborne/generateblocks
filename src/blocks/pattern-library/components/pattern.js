@@ -62,7 +62,7 @@ export default function Pattern( props ) {
 		if ( document && document.querySelector && document.querySelector( '#block-active' ) ) {
 			document.querySelector( '#block-active' ).innerHTML = ! patternHover || 'fullPattern' === patternHover
 				? ''
-				: `.gb-pattern-block:not(.${ patternHover }) {opacity:0.3}`;
+				: `.gb-pattern-block:not(.${ patternHover }) {opacity:0.1}`;
 		}
 	}, [ patternHover ] );
 
@@ -76,16 +76,10 @@ export default function Pattern( props ) {
 
 			if ( elementInIframe ) {
 				const modal = iframeRef?.current?.closest( '.components-modal__content' );
-				const elementRect = elementInIframe.getBoundingClientRect();
-				const modalStyles = window.getComputedStyle( modal );
-				const margin = parseFloat( modalStyles.marginTop ) + parseFloat( modalStyles.marginBottom );
-				const padding = parseFloat( modalStyles.paddingTop ) + parseFloat( modalStyles.paddingBottom );
 
 				modal.scrollTo(
 					{
-						top: elementRect.top < ( margin + padding )
-							? elementRect.top
-							: elementRect.top + margin + padding,
+						top: elementInIframe.offsetTop - 75,
 						behavior: 'smooth',
 					}
 				);

@@ -1,20 +1,76 @@
-.pattern-library-layout {
-	height: 100%;
-	padding-top: 10px;
+.pattern-library {
+	&__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		position: sticky;
+		z-index: 1000;
+		top: 0;
+		padding: 0 32px;
+		height: 75px;
+		background: #fff;
+		border-bottom: 1px solid #fafafa;
+
+		h1 {
+			font-size: 20px;
+		}
+	}
 
 	.pattern-library-selector {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		padding-top: 8px;
 		gap: 8px;
-		margin-bottom: 32px;
 	}
+}
+
+.pattern-library-layout {
+	height: 100%;
+	padding: 32px;
 
 	.pattern-category-list,
 	.pattern-tree {
 		display: flex;
 		flex-direction: column;
+		gap: 10px;
+
+		&__insert-button.components-button {
+			flex-direction: row-reverse;
+			justify-content: space-between;
+			padding-left: 12px;
+			padding-right: 12px;
+		}
+
+		&__items {
+			padding-left: 30px;
+			border-left: 1px solid #ddd;
+			display: flex;
+			flex-direction: column;
+			gap: 5px;
+		}
+
+		&__item {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			position: relative;
+
+			&:before {
+				content: "";
+				position: absolute;
+				left: -30px;
+				top: 50%;
+				height: 1px;
+				background: #ddd;
+				width: 20px;
+			}
+
+			.components-button {
+				min-width: 25px;
+				width: 25px;
+				height: 25px;
+			}
+		}
 
 		.pattern-tree .components-button {
 			flex-direction: row-reverse;
@@ -62,6 +118,11 @@
 
 .gblocks-pattern-library-modal {
 	.components-modal__header {
-		border-bottom: 0;
+		display: none;
+	}
+
+	.components-modal__content {
+		margin-top: 0;
+		padding: 0;
 	}
 }
