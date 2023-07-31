@@ -1120,23 +1120,26 @@ function generateblocks_add_to_css_data( $data ) {
  * @param array  $data Block data.
  */
 function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
+	$inline_style_override = apply_filters(
+		'generateblocks_do_inline_styles',
+		false,
+		[
+			'content' => $content,
+			'data' => $data,
+		]
+	);
+
 	if (
 		isset( $data['attributes']['uniqueId'] ) &&
-		! in_array( $data['attributes']['uniqueId'], $data['block_ids'] )
+		(
+			! in_array( $data['attributes']['uniqueId'], $data['block_ids'] ) ||
+			$inline_style_override
+		)
 	) {
 		// Don't try to print CSS for the Query Loop block.
 		if ( isset( $data['attributes']['query'] ) ) {
 			return $content;
 		}
-
-		$inline_style_override = apply_filters(
-			'generateblocks_do_inline_styles',
-			false,
-			[
-				'content' => $content,
-				'data' => $data,
-			]
-		);
 
 		if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() && ! $inline_style_override ) {
 			return $content;
