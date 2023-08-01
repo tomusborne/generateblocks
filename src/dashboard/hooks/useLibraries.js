@@ -63,6 +63,8 @@ const REQUEST_ERROR = 'request-error';
 
 const initialState = {
 	isLoading: false,
+	isSaving: false,
+	showSaveMessage: '',
 	error: false,
 	data: new Map(),
 };
@@ -72,9 +74,14 @@ const setIsLoading = ( isLoading ) => ( {
 	payload: { isLoading },
 } );
 
+const setIsSaving = ( isSaving ) => ( {
+	type: REQUEST_INITIALIZED,
+	payload: { isSaving },
+} );
+
 const setData = ( data ) => ( {
 	type: REQUEST_FINALIZED,
-	payload: { data, isLoading: false },
+	payload: { data, isLoading: false, isSaving: false },
 } );
 
 const updateData = ( id, data ) => ( {
@@ -89,7 +96,12 @@ const deleteData = ( id ) => ( {
 
 const setError = ( error ) => ( {
 	type: REQUEST_ERROR,
-	payload: { error, isLoading: false },
+	payload: { error, isLoading: false, isSaving: false },
+} );
+
+const setShowSaveMessage = ( showSaveMessage ) => ( {
+	type: REQUEST_INITIALIZED,
+	payload: { showSaveMessage },
 } );
 
 const actionsMap = new Map( [
@@ -161,10 +173,16 @@ export default function useLibraries() {
 
 	const saveAction = useCallback( () => {
 		dispatch( setIsLoading( true ) );
+		dispatch( setIsSaving( true ) );
 		const data = arrayFromCollection( state.data );
 
 		apiFetch( { method: 'POST', path: saveEndpoint, data: { data } } )
-			.then( () => fetchAction() )
+			.then( () => {
+				fetchAction();
+				dispatch( setShowSaveMessage( true ) );
+
+				setTimeout( () => dispatch( setShowSaveMessage( false ) ), 3000 );
+			} )
 			.catch( ( { error } ) => dispatch( setError( error ) ) );
 	}, [ endpoint, JSON.stringify( arrayFromCollection( state.data ) ) ] );
 

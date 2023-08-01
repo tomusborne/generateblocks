@@ -1,17 +1,9 @@
-import { Button, PanelBody, PanelRow } from '@wordpress/components';
+import { Button, PanelBody, PanelRow, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { useEffect, useState } from '@wordpress/element';
+import classnames from 'classnames';
 
 export default function SettingsPanel( props ) {
-	const { title, children, onSave, isLoading, message } = props;
-	const [ showMessage, setShowMessage ] = useState( false );
-
-	useEffect( () => {
-		setShowMessage( true );
-		return function() {
-			setTimeout( () => setShowMessage( false ), 1500 );
-		};
-	}, [ message ] );
+	const { title, children, onSave, isSaving, showSaveMessage } = props;
 
 	return (
 		<div className="generateblocks-settings-main">
@@ -20,19 +12,22 @@ export default function SettingsPanel( props ) {
 					<PanelRow>{ children }</PanelRow>
 					<div className="gblocks-action-button">
 						<Button
-							isPrimary
-							disabled={ isLoading }
+							variant="primary"
+							disabled={ isSaving }
 							onClick={ onSave }
 						>
-							{ __( 'Save', 'generateblocks' ) }
+							{ !! isSaving && <Spinner /> }
+							{ ! isSaving && __( 'Save' ) }
 						</Button>
-						{ showMessage &&
-							<span
-								className="gblocks-action-message gblocks-action-message--show"
-							>
-								{ message }
-							</span>
-						}
+
+						<span
+							className={ classnames( {
+								'gblocks-action-message': true,
+								'gblocks-action-message--show': !! showSaveMessage,
+							} ) }
+						>
+							{ __( 'Settings saved.', 'generateblocks' ) }
+						</span>
 					</div>
 				</div>
 			</PanelBody>

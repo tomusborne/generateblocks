@@ -10,12 +10,14 @@ const generateId = () => (
 
 export default function PatternLibrarySettings() {
 	const [ libraries, , updateAction, deleteAction, saveAction ] = useLibraries();
-	const { data, isLoading, error } = libraries;
+	const { data, isLoading, error, isSaving, showSaveMessage } = libraries;
 
 	return (
 		<SettingsPanel
 			title={ __( 'Pattern Library', 'generateblocks' ) }
 			onSave={ saveAction }
+			isSaving={ isSaving }
+			showSaveMessage={ showSaveMessage }
 		>
 			<LibrariesList
 				data={ arrayFromCollection( data ) }
