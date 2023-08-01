@@ -71,6 +71,11 @@
 			}
 		}
 
+		&__item-actions {
+			display: flex;
+			gap: 2px;
+		}
+
 		.pattern-tree .components-button {
 			flex-direction: row-reverse;
 			justify-content: space-between;

@@ -1,17 +1,5 @@
 import { useEffect, useRef, useState, useLayoutEffect } from '@wordpress/element';
-import { useLibrary } from './library-provider';
 import imagesLoaded from 'imagesloaded';
-
-function getOffsetTop( element ) {
-	let offsetTop = 0;
-
-	while ( element ) {
-		offsetTop += element.offsetTop;
-		element = element.offsetParent;
-	}
-
-	return offsetTop;
-}
 
 export default function Pattern( props ) {
 	const {
@@ -22,9 +10,6 @@ export default function Pattern( props ) {
 		isLoading,
 		patternHover,
 	} = props;
-	const {
-		scrollToPattern,
-	} = useLibrary();
 	const iframeRef = useRef();
 	const firstUpdate = useRef( true );
 	const [ height, setHeight ] = useState( 0 );
@@ -53,30 +38,13 @@ export default function Pattern( props ) {
 		if ( document && document.querySelector && document.querySelector( '#block-active' ) ) {
 			document.querySelector( '#block-active' ).innerHTML = ! patternHover || 'fullPattern' === patternHover
 				? ''
-				: `.gb-pattern-block:not(.${ patternHover }) {opacity:0.1}`;
+				: `.gb-pattern-block:not(.${ patternHover }) {display: none}`;
+
+			imagesLoaded( document.body, () => {
+				setHeight( document.body.scrollHeight );
+			} );
 		}
 	}, [ patternHover ] );
-
-	useLayoutEffect( () => {
-		const document = iframeRef?.current?.contentWindow?.document;
-
-		if ( scrollToPattern && patternHover ) {
-			const elementInIframe = 'fullPattern' === patternHover
-				? document.querySelector( 'body' )
-				: document.querySelector( '.' + patternHover );
-
-			if ( elementInIframe ) {
-				const modal = iframeRef?.current?.closest( '.components-modal__content' );
-
-				modal.scrollTo(
-					{
-						top: getOffsetTop( elementInIframe ) - 42,
-						behavior: 'smooth',
-					}
-				);
-			}
-		}
-	}, [ scrollToPattern, patternHover ] );
 
 	const viewportHeight = Math.round( height * ( viewport / iframe ) );
 	const wrapperStyle = isLoading ? { opacity: 0 } : {};

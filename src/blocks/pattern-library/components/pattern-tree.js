@@ -8,7 +8,7 @@ import getIcon from '../../../utils/get-icon';
 import { toast } from 'react-toastify';
 
 export default function PatternTree( { pattern } ) {
-	const { clientId, setHoverPattern, setScrollToPattern } = useLibrary();
+	const { clientId, setHoverPattern, hoverPattern } = useLibrary();
 	const { insertBlocks, removeBlock } = useDispatch( 'core/block-editor' );
 	const { getBlockParents } = useSelect( 'core/block-editor' );
 
@@ -50,15 +50,12 @@ export default function PatternTree( { pattern } ) {
 									} }
 								/>
 								<Button
-									variant="tertiary"
-									icon={ getIcon( 'eye' ) }
+									variant={ child.id === hoverPattern ? 'primary' : 'tertiary' }
+									icon={ child.id === hoverPattern ? getIcon( 'eye-no' ) : getIcon( 'eye' ) }
 									label={ __( 'View Pattern Part', 'generateblocks' ) }
 									showTooltip={ true }
 									onClick={ () => {
-										setScrollToPattern( child.id );
-										setHoverPattern( child.id );
-
-										setTimeout( () => setHoverPattern( '' ), 500 );
+										setHoverPattern( hoverPattern !== child.id ? child.id : '' );
 									} }
 								/>
 							</div>

@@ -66,7 +66,6 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ activeCategory, setActiveCategory ] = useState( '' );
 	const [ activePatternId, setActivePatternId ] = useState( '' );
 	const [ hoverPattern, setHoverPattern ] = useState( '' );
-	const [ scrollToPattern, setScrollToPattern ] = useState( '' );
 	const [ loading, setLoading ] = useState( true );
 	const defaultContext = {
 		clientId,
@@ -87,8 +86,6 @@ export function LibraryProvider( { clientId, children } ) {
 		setPublicKey,
 		loading,
 		setLoading,
-		scrollToPattern,
-		setScrollToPattern,
 	};
 
 	useEffect( () => {
