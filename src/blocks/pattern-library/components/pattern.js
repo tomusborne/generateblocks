@@ -1,22 +1,6 @@
 import { useEffect, useRef, useState, useLayoutEffect } from '@wordpress/element';
 import { useLibrary } from './library-provider';
-
-function allImagesLoaded( images, callback ) {
-	Promise.all( Array.from( images ).map( ( img ) => {
-		if ( img.complete ) {
-			return Promise.resolve( img.naturalHeight !== 0 );
-		}
-
-		return new Promise( ( resolve ) => {
-			img.addEventListener( 'load', () => resolve( true ) );
-			img.addEventListener( 'error', () => resolve( false ) );
-		} );
-	} ) ).then( ( results ) => {
-		if ( results.every( ( res ) => res ) ) {
-			callback();
-		}
-	} );
-}
+import imagesLoaded from 'imagesloaded';
 
 function getOffsetTop( element ) {
 	let offsetTop = 0;
@@ -58,13 +42,9 @@ export default function Pattern( props ) {
 		document.body.innerHTML = preview;
 		document.head.innerHTML += '<style id="block-active"></style>';
 
-		if ( document.images.length > 0 ) {
-			allImagesLoaded( document.images, () => {
-				setHeight( document.body.scrollHeight );
-			} );
-		} else {
+		imagesLoaded( document.body, () => {
 			setHeight( document.body.scrollHeight );
-		}
+		} );
 	}, [ injectContent ] );
 
 	useLayoutEffect( () => {
