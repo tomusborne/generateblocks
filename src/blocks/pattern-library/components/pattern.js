@@ -76,7 +76,7 @@ export default function Pattern( props ) {
 							id={ id }
 							onLoad={ () => setInjectContent( true ) }
 							title="id"
-							src={ generateBlocksInfo.siteUrl }
+							src={ generateBlocksInfo.patternPreviewUrl }
 							ref={ iframeRef }
 							style={ {
 								height: height + 'px',
