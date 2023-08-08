@@ -2,6 +2,7 @@ import Pattern from './pattern';
 import { useLibrary } from './library-provider';
 import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
+import Masonry from 'react-responsive-masonry';
 
 export default function PatternList() {
 	const ref = useRef();
@@ -58,15 +59,19 @@ export default function PatternList() {
 			}
 
 			<div ref={ ref } className="patterns-wrapper" style={ hide }>
-				{ ! activePattern && patterns && patterns.map( ( pattern ) => (
-					<Pattern
-						key={ pattern.id }
-						isLoading={ loading }
-						width={ patternWidth }
-						setActivePattern={ setActivePatternId }
-						{ ...pattern }
-					/>
-				) ) }
+				{ ! activePattern &&
+					<Masonry columnsCount={ 2 } gutter={ 32 }>
+						{ patterns && patterns.map( ( pattern ) => (
+							<Pattern
+								key={ pattern.id }
+								isLoading={ loading }
+								width={ patternWidth }
+								setActivePattern={ setActivePatternId }
+								{ ...pattern }
+							/>
+						) ) }
+					</Masonry>
+				}
 			</div>
 		</>
 	);

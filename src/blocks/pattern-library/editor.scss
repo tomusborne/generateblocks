@@ -90,24 +90,22 @@
 
 	.gb-pattern {
 		cursor: pointer;
-		box-shadow: 0 0 0 10px #f0f0f0;
 		box-sizing: border-box;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
+		box-shadow: 0 0 0 5px #f0f0f0;
 		overflow: hidden;
+		transition: box-shadow 500ms;
+
+		&:hover {
+			box-shadow: 0 0 0 5px #e8e8e8;
+		}
 	}
 
 	.library-content {
 		padding-left: 312px;
 
 		.patterns-wrapper {
-			display: grid;
-			grid-template-columns: 1fr 1fr;
-			grid-gap: 32px;
 			position: relative;
-			top: 10px; /* box-shadow width */
+			top: 5px; /* box-shadow width */
 		}
 	}
 
