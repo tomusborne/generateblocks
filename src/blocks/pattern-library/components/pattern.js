@@ -78,7 +78,6 @@ export default function Pattern( props ) {
 							title="id"
 							src={ generateBlocksInfo.siteUrl }
 							ref={ iframeRef }
-							loading="lazy"
 							style={ {
 								height: height + 'px',
 								border: '0',
