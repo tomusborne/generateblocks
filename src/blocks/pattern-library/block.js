@@ -5,7 +5,7 @@
 import Edit from './edit';
 import getIcon from '../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
-import { registerBlockType, unregisterBlockType } from '@wordpress/blocks';
+import { registerBlockType, unregisterBlockType, getBlockType } from '@wordpress/blocks';
 import domReady from '@wordpress/dom-ready';
 
 /**
@@ -35,7 +35,7 @@ registerBlockType( 'generateblocks/pattern-library', {
 } );
 
 domReady( () => {
-	if ( ! generateBlocksInfo.useLegacyPatternLibrary ) {
+	if ( ! generateBlocksInfo.useLegacyPatternLibrary && getBlockType( 'generateblocks/template-library' ) ) {
 		unregisterBlockType( 'generateblocks/template-library' );
 	}
 } );
