@@ -3,14 +3,16 @@ import { useDispatch, useSelect } from '@wordpress/data';
 import { parse } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import { useLibrary } from './library-provider';
-import { plus } from '@wordpress/icons';
+import { check, plus } from '@wordpress/icons';
 import getIcon from '../../../utils/get-icon';
 import { toast } from 'react-toastify';
+import { useState } from '@wordpress/element';
 
 export default function PatternTree( { pattern } ) {
 	const { clientId, setHoverPattern, hoverPattern } = useLibrary();
 	const { insertBlocks, removeBlock } = useDispatch( 'core/block-editor' );
 	const { getBlockParents } = useSelect( 'core/block-editor' );
+	const [ partInserted, setPartInserted ] = useState( '' );
 
 	return (
 		<div className="pattern-tree">
@@ -40,13 +42,15 @@ export default function PatternTree( { pattern } ) {
 							<div className="pattern-tree__item-actions">
 								<Button
 									variant="secondary"
-									icon={ plus }
+									icon={ child.id !== partInserted ? plus : check }
 									label={ __( 'Insert Pattern Part', 'generateblocks' ) }
 									showTooltip={ true }
 									onClick={ () => {
 										const parentClientId = getBlockParents( clientId, true )[ 0 ] ?? undefined;
 										insertBlocks( parse( child.pattern, {} ), undefined, parentClientId, false );
 										toast( __( 'Pattern part successfully inserted!', 'generateblocks' ) );
+										setPartInserted( child.id );
+										setTimeout( () => setPartInserted( '' ), 2000 );
 									} }
 								/>
 								<Button
