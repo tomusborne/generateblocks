@@ -908,7 +908,9 @@ function generateblocks_filter_images( $content, $attributes ) {
 
 	// Add 'loading' attribute if applicable.
 	if ( wp_lazy_loading_enabled( 'img', '' ) && false === strpos( $content, ' loading=' ) ) {
-		$content = wp_img_tag_add_loading_attr( $content, '' );
+		$content = function_exists('wp_img_tag_add_loading_optimization_attrs')
+			? wp_img_tag_add_loading_optimization_attrs( $content, '' )
+			: wp_img_tag_add_loading_attr( $content, '' );
 	}
 
 	return $content;
