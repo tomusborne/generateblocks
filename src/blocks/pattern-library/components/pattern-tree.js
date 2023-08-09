@@ -1,4 +1,4 @@
-import { Button } from '@wordpress/components';
+import { Button, Icon, Tooltip } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { parse } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
@@ -16,20 +16,19 @@ export default function PatternTree( { pattern } ) {
 
 	return (
 		<div className="pattern-tree">
-			<Button
-				icon={ plus }
-				label={ __( 'Insert Pattern', 'generateblocks' ) }
-				showTooltip={ true }
-				className="pattern-tree__insert-button"
-				variant="primary"
-				onClick={ () => {
-					const parentClientId = getBlockParents( clientId, true )[ 0 ] ?? undefined;
-					insertBlocks( parse( pattern.pattern, {} ), undefined, parentClientId, false );
-					removeBlock( clientId );
-				} }
-			>
-				{ pattern.label }
-			</Button>
+			<Tooltip text={ __( 'Insert full pattern', 'generateblocks' ) }>
+				<button
+					className="pattern-tree__insert-button components-button is-primary"
+					onClick={ () => {
+						const parentClientId = getBlockParents( clientId, true )[ 0 ] ?? undefined;
+						insertBlocks( parse( pattern.pattern, {} ), undefined, parentClientId, false );
+						removeBlock( clientId );
+					} }
+				>
+					<span>{ pattern.label }</span>
+					<Icon icon={ plus } />
+				</button>
+			</Tooltip>
 
 			{ pattern.tree.length > 1 &&
 				<div className="pattern-tree__items">

@@ -34,10 +34,13 @@
 		gap: 10px;
 
 		&__insert-button.components-button {
-			flex-direction: row-reverse;
 			justify-content: space-between;
-			padding-left: 12px;
-			padding-right: 12px;
+
+			span {
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
 		}
 
 		&__items {
@@ -74,6 +77,12 @@
 		&__item-actions {
 			display: flex;
 			gap: 2px;
+		}
+
+		&__item-name {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
 		}
 
 		.pattern-tree .components-button {

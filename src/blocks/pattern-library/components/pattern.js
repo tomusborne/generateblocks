@@ -9,6 +9,7 @@ export default function Pattern( props ) {
 		setActivePattern = () => false,
 		isLoading,
 		patternHover,
+		activePatternId,
 	} = props;
 	const iframeRef = useRef();
 	const firstUpdate = useRef( true );
@@ -97,14 +98,23 @@ export default function Pattern( props ) {
 					>
 						<iframe
 							id={ id }
-							onLoad={ () => setInjectContent( true ) }
+							onLoad={ () => {
+								setInjectContent( true );
+
+								const iframeDoc = iframeRef.current.contentDocument || iframeRef.current.contentWindow.document;
+
+								iframeDoc.addEventListener( 'click', ( event ) => {
+									event.preventDefault();
+									event.stopPropagation();
+								} );
+							} }
 							title="id"
 							src={ generateBlocksInfo.patternPreviewUrl }
 							ref={ iframeRef }
 							style={ {
 								height: height + 'px',
 								border: '0',
-								pointerEvents: 'none',
+								pointerEvents: ! activePatternId ? 'none' : '',
 								width: `${ iframe }px`,
 							} }
 						/>

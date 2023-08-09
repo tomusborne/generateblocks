@@ -54,6 +54,7 @@ export default function PatternList() {
 					isLoading={ loading }
 					patternHover={ hoverPattern }
 					width={ ref.current?.clientWidth }
+					activePatternId={ activePatternId }
 					{ ...activePattern }
 				/>
 			}
