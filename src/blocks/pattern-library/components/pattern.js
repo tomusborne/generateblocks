@@ -14,8 +14,10 @@ export default function Pattern( props ) {
 	const firstUpdate = useRef( true );
 	const [ height, setHeight ] = useState( 0 );
 	const [ injectContent, setInjectContent ] = useState( false );
+	const [ editorColors, setEditorColors ] = useState( {} );
 	const viewport = width;
 	const iframe = 1280;
+	const editorStylesWrapper = document?.querySelector( '.editor-styles-wrapper' );
 
 	useEffect( () => {
 		if ( firstUpdate.current ) {
@@ -26,11 +28,32 @@ export default function Pattern( props ) {
 		const document = iframeRef.current.contentWindow.document;
 		document.body.innerHTML = preview;
 		document.head.innerHTML += '<style id="block-active"></style>';
+		document.head.innerHTML += '<style id="pattern-styles"></style>';
 
 		imagesLoaded( document.body, () => {
 			setHeight( document.body.scrollHeight );
 		} );
 	}, [ injectContent ] );
+
+	useEffect( () => {
+		if ( ! editorStylesWrapper ) {
+			return;
+		}
+
+		const styles = getComputedStyle( editorStylesWrapper );
+
+		if ( styles ) {
+			setEditorColors( { background: styles.backgroundColor, text: styles.color } );
+		}
+	}, [ editorStylesWrapper?.style ] );
+
+	useLayoutEffect( () => {
+		const document = iframeRef.current?.contentWindow?.document;
+
+		if ( document && document.querySelector && document.querySelector( '#pattern-styles' ) ) {
+			document.querySelector( '#pattern-styles' ).innerHTML = `body{background-color:${ editorColors?.background };color:${ editorColors?.text };}`;
+		}
+	}, [ editorColors, height ] );
 
 	useLayoutEffect( () => {
 		const document = iframeRef.current?.contentWindow?.document;

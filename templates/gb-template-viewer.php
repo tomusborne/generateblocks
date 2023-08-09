@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 		<meta charset="<?php bloginfo( 'charset' ); ?>">
 		<?php wp_head(); ?>
 	</head>
-	<body style="background: transparent;">
+	<body>
 		<?php do_action( 'wp_footer' ); // phpcs:ignore -- Need to use core action. ?>
 	</body>
 </html>
