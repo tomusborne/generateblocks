@@ -85,6 +85,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 
 = 1.8.2 =
 * Fix: Border colors not showing when old attributes are set.
+* Tweak: Add support for the newly created core function "wp_img_tag_add_loading_optimization_attrs"
 
 = 1.8.1 =
 * Fix: Icon padding controls order
