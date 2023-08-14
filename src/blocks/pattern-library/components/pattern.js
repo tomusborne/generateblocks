@@ -1,3 +1,4 @@
+import { Spinner } from '@wordpress/components';
 import { useEffect, useRef, useState, useLayoutEffect } from '@wordpress/element';
 import imagesLoaded from 'imagesloaded';
 
@@ -12,17 +13,47 @@ export default function Pattern( props ) {
 		activePatternId,
 	} = props;
 	const iframeRef = useRef();
-	const firstUpdate = useRef( true );
+	const elementRef = useRef();
 	const [ height, setHeight ] = useState( 0 );
 	const [ injectContent, setInjectContent ] = useState( false );
 	const [ editorColors, setEditorColors ] = useState( {} );
+	const [ isVisible, setIsVisible ] = useState( false );
+	const [ isLoaded, setIsLoaded ] = useState( false );
 	const viewport = width;
 	const iframe = 1280;
 	const editorStylesWrapper = document?.querySelector( '.editor-styles-wrapper' );
 
 	useEffect( () => {
-		if ( firstUpdate.current ) {
-			firstUpdate.current = false;
+		const options = {
+			root: null, // Use the viewport as the root
+			rootMargin: '0px', // No margin
+			threshold: 0.01, // 1% visibility threshold
+		};
+
+		const callback = ( entries ) => {
+			entries.forEach( ( entry ) => {
+				if ( entry.isIntersecting ) {
+					setIsVisible( true );
+					observer.disconnect(); // Disconnect the observer once it's done its job
+				}
+			} );
+		};
+
+		const observer = new IntersectionObserver( callback, options );
+
+		if ( elementRef.current ) {
+			observer.observe( elementRef.current );
+		}
+
+		return () => {
+			if ( observer ) {
+				observer.disconnect(); // Disconnect the observer on unmount
+			}
+		};
+	}, [] );
+
+	useEffect( () => {
+		if ( ! isVisible || ! injectContent ) {
 			return;
 		}
 
@@ -33,8 +64,9 @@ export default function Pattern( props ) {
 
 		imagesLoaded( document.body, () => {
 			setHeight( document.body.scrollHeight );
+			setIsLoaded( true );
 		} );
-	}, [ injectContent ] );
+	}, [ injectContent, isVisible ] );
 
 	useEffect( () => {
 		if ( ! editorStylesWrapper ) {
@@ -71,17 +103,23 @@ export default function Pattern( props ) {
 	}, [ patternHover ] );
 
 	const viewportHeight = Math.round( height * ( viewport / iframe ) );
-	const wrapperStyle = isLoading ? { opacity: 0 } : {};
+
+	const wrapperStyle = {
+		opacity: isLoading ? 0 : 1,
+		height: ! height ? '200px' : '',
+	};
 
 	return (
 		<>
 			<div
+				ref={ elementRef }
 				className="gb-pattern"
 				role="presentation"
 				style={ wrapperStyle }
 				onClick={ () => setActivePattern( id ) }
 				onKeyDown={ () => setActivePattern( id ) }
 			>
+				{ ! isLoaded && <Spinner /> }
 				<div
 					style={ {
 						width: `${ viewport }px`,
@@ -116,6 +154,7 @@ export default function Pattern( props ) {
 								border: '0',
 								pointerEvents: ! activePatternId ? 'none' : '',
 								width: `${ iframe }px`,
+								opacity: ! isLoaded ? 0 : 1,
 							} }
 						/>
 					</div>

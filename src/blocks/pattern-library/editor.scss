@@ -103,9 +103,18 @@
 		box-shadow: 0 0 0 5px #f0f0f0;
 		overflow: hidden;
 		transition: box-shadow 500ms;
+		position: relative;
 
 		&:hover {
 			box-shadow: 0 0 0 5px #e8e8e8;
+		}
+
+		.components-spinner {
+			position: absolute;
+			top: calc(50% - 8px);
+			left: calc(50% - 8px);
+			width: 16px;
+			height: 16px;
 		}
 	}
 

@@ -105,7 +105,7 @@ export function LibraryProvider( { clientId, children } ) {
 				setLoading( true );
 				const { data } = await fetchLibraryCategories( activeLibrary, isLocal, publicKey );
 				setCategories( data );
-				setTimeout( () => setLoading( false ), 500 );
+				setTimeout( () => setLoading( false ), 200 );
 			}
 		}() );
 	}, [ activeLibrary ] );
@@ -114,9 +114,10 @@ export function LibraryProvider( { clientId, children } ) {
 		( async function() {
 			if ( activeLibrary ) {
 				setLoading( true );
+				setPatterns( [] );
 				const { data } = await fetchLibraryPatterns( activeLibrary, activeCategory, search, isLocal, publicKey );
 				setPatterns( data );
-				setTimeout( () => setLoading( false ), 500 );
+				setTimeout( () => setLoading( false ), 200 );
 			}
 		}() );
 	}, [ activeLibrary, activeCategory, search, publicKey ] );
