@@ -31,6 +31,7 @@ function isValidUrl( string ) {
 export default function DynamicRenderer( props ) {
 	const {
 		name,
+		isSelected,
 		attributes,
 		context,
 	} = props;
@@ -48,19 +49,34 @@ export default function DynamicRenderer( props ) {
 
 	const staticContent = 'generateblocks/headline' === name ? attributes.content : attributes.text;
 
-	let content = !! attributes.dynamicContentType ? rawContent : staticContent;
+	let content = staticContent;
 
-	if ( !! dynamicLinkType && 'terms' === dynamicContentType && 'generateblocks/headline' === name ) {
-		content = rawContent
+	if ( ! isSelected && staticContent && staticContent.includes( '{dynamic_data}' ) ) {
+		if ( !! dynamicLinkType && 'terms' !== dynamicContentType && 'generateblocks/headline' === name ) {
+			content = staticContent.replace( '{dynamic_data}', `<a>${ rawContent }</a>` );
+		} else {
+			content = staticContent.replace( '{dynamic_data}', rawContent );
+		}
+	}
+
+	if (
+		! isSelected &&
+		!! dynamicLinkType &&
+		'terms' === dynamicContentType &&
+		'generateblocks/headline' === name
+	) {
+		const contentTags = rawContent
 			.split( termSeparator )
-			.map( ( newContent, idx, fullContent ) => {
-				return ( <><a>{ newContent }</a>{ idx + 1 !== fullContent.length && termSeparator }</> ); // eslint-disable-line jsx-a11y/anchor-is-valid
-			} );
+			.map( ( newContent ) => {
+				return `<a>${ newContent }</a>`;
+			} ).join( termSeparator );
+
+		content = staticContent.replace( '{dynamic_data}', contentTags );
 	}
 
 	// Only return first term in buttons for now.
-	if ( 'terms' === dynamicContentType && 'generateblocks/button' === name ) {
-		content = rawContent.split( termSeparator )[ 0 ];
+	if ( ! isSelected && 'terms' === dynamicContentType && 'generateblocks/button' === name ) {
+		content = staticContent.replace( '{dynamic_data}', rawContent.split( termSeparator )[ 0 ] );
 	}
 
 	const dynamicImage = (
@@ -76,7 +92,6 @@ export default function DynamicRenderer( props ) {
 	} );
 
 	const newProps = Object.assign( {}, props, {
-		InnerContent: !! attributes.dynamicContentType ? RichText.Content : RichText,
 		attributes: newAttributes,
 	} );
 

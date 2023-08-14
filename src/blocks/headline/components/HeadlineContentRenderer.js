@@ -58,8 +58,6 @@ export default function HeadlineContentRenderer( props ) {
 		props
 	) ? [] : null;
 
-	const tagName = ( 'terms' !== dynamicContentType && !! dynamicLinkType ) ? 'a' : 'span';
-
 	const linkAllowedFormats = useSelect( ( select ) => ( select( 'core/rich-text' ).getFormatTypes() ), [] );
 
 	const textFormats = useMemo( () => {
@@ -87,7 +85,7 @@ export default function HeadlineContentRenderer( props ) {
 				>
 					<InnerContent
 						name={ name }
-						tagName={ tagName }
+						tagName={ 'span' }
 						value={ content }
 						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
 						onSplit={ onSplit( attributes, clientId ) }

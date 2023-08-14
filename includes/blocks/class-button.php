@@ -480,6 +480,9 @@ class GenerateBlocks_Block_Button {
 			]
 		);
 
+		preg_match('/(?:>)(.*)(?:<\/)/', $content, $matched);
+		$full_text = $matched[ 1 ];
+
 		foreach ( (array) $dynamic_content as $content ) {
 			$tagName = 'span';
 
@@ -532,9 +535,9 @@ class GenerateBlocks_Block_Button {
 			}
 
 			if ( isset( $content['content'] ) ) {
-				$output .= $content['content'];
+				$output .= str_replace( '{dynamic_data}', $content['content'], $full_text );
 			} else {
-				$output .= $content;
+				$output .= str_replace( '{dynamic_data}', $content, $full_text );
 			}
 
 			if ( $icon_html ) {

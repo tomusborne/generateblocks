@@ -103,7 +103,13 @@ export default ( { context, attributes, setAttributes, name } ) => {
 					label={ __( 'Enable Dynamic Data', 'generateblocks' ) }
 					checked={ useDynamicData }
 					onChange={ ( value ) => {
-						setAttributes( { useDynamicData: value } );
+						const content = 'generateblocks/headline' === name ? '{dynamic_data}' : undefined;
+						const text = 'generateblocks/button' === name ? '{dynamic_data}' : undefined;
+						setAttributes( {
+							useDynamicData: value,
+							content,
+							text,
+						} );
 					} }
 				/>
 

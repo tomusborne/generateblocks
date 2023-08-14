@@ -711,6 +711,20 @@ class GenerateBlocks_Block_Headline {
 			return '';
 		}
 
+		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
+
+		if ( $dynamic_link ) {
+			$dynamic_content = sprintf(
+				'<a href="%s">%s</a>',
+				$dynamic_link,
+				$dynamic_content
+			);
+		}
+
+		if ( strpos( $content, '{dynamic_data}' ) !== false ) {
+			$dynamic_content = str_replace( '{dynamic_data}', $dynamic_content, $content );
+		}
+
 		$defaults = generateblocks_get_block_defaults();
 
 		$settings = wp_parse_args(
@@ -793,16 +807,6 @@ class GenerateBlocks_Block_Headline {
 				$output .= $icon_html;
 				$output .= '<span class="gb-headline-text">';
 			}
-		}
-
-		$dynamic_link = GenerateBlocks_Dynamic_Content::get_dynamic_url( $attributes, $block );
-
-		if ( $dynamic_link ) {
-			$dynamic_content = sprintf(
-				'<a href="%s">%s</a>',
-				$dynamic_link,
-				$dynamic_content
-			);
 		}
 
 		$output .= $dynamic_content;
