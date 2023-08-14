@@ -29,7 +29,6 @@ export default function HeadlineContentRenderer( props ) {
 		anchor,
 		removeText,
 		ariaLabel,
-		dynamicContentType,
 		dynamicLinkType,
 	} = attributes;
 

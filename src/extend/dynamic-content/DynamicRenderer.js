@@ -3,7 +3,6 @@ import ButtonContentRenderer from '../../blocks/button/components/ButtonContentR
 import filterAttributes from '../../utils/filter-attributes';
 import dynamicContentAttributes from './attributes';
 import applyContext from './utils/applyContext';
-import { RichText } from '@wordpress/block-editor';
 import useDynamicContent from './hooks/useDynamicContent';
 import ContainerContentRenderer from '../../blocks/container/components/ContainerContentRenderer';
 import ImageContentRenderer from '../../blocks/image/components/ImageContentRenderer';
