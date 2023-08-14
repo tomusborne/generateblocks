@@ -142,8 +142,16 @@ export default function Pattern( props ) {
 								const iframeDoc = iframeRef.current.contentDocument || iframeRef.current.contentWindow.document;
 
 								iframeDoc.addEventListener( 'click', ( event ) => {
-									event.preventDefault();
-									event.stopPropagation();
+									const clickedElement = event.target;
+
+									if ( 'A' === clickedElement.tagName ) {
+										const href = clickedElement.getAttribute( 'href' );
+
+										if ( href && ! href.startsWith( '#' ) ) {
+											event.preventDefault();
+											event.stopPropagation();
+										}
+									}
 								} );
 							} }
 							title="id"
