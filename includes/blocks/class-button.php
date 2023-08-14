@@ -480,8 +480,8 @@ class GenerateBlocks_Block_Button {
 			]
 		);
 
-		preg_match('/(?:>)(.*)(?:<\/)/', $content, $matched);
-		$full_text = $matched[ 1 ];
+		preg_match( '/(?:>)(.*)(?:<\/)/', $content, $matched );
+		$full_text = $matched[1];
 
 		foreach ( (array) $dynamic_content as $content ) {
 			$tagName = 'span';
