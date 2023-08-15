@@ -67,6 +67,7 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ activePatternId, setActivePatternId ] = useState( '' );
 	const [ hoverPattern, setHoverPattern ] = useState( '' );
 	const [ loading, setLoading ] = useState( true );
+	const [ previewIframeWidth, setPreviewIframeWidth ] = useState( '100%' );
 	const defaultContext = {
 		clientId,
 		libraries,
@@ -86,6 +87,8 @@ export function LibraryProvider( { clientId, children } ) {
 		setPublicKey,
 		loading,
 		setLoading,
+		previewIframeWidth,
+		setPreviewIframeWidth,
 	};
 
 	useEffect( () => {
@@ -105,7 +108,7 @@ export function LibraryProvider( { clientId, children } ) {
 				setLoading( true );
 				const { data } = await fetchLibraryCategories( activeLibrary, isLocal, publicKey );
 				setCategories( data );
-				setTimeout( () => setLoading( false ), 200 );
+				setTimeout( () => setLoading( false ), 100 );
 			}
 		}() );
 	}, [ activeLibrary ] );
@@ -117,7 +120,7 @@ export function LibraryProvider( { clientId, children } ) {
 				setPatterns( [] );
 				const { data } = await fetchLibraryPatterns( activeLibrary, activeCategory, search, isLocal, publicKey );
 				setPatterns( data );
-				setTimeout( () => setLoading( false ), 200 );
+				setTimeout( () => setLoading( false ), 100 );
 			}
 		}() );
 	}, [ activeLibrary, activeCategory, search, publicKey ] );

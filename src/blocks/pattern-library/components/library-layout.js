@@ -3,31 +3,46 @@ import LibrarySelector from './library-selector';
 import { useLibrary } from './library-provider';
 import PatternList from './pattern-list';
 import PatternSearch from './pattern-search';
-import { useMemo } from '@wordpress/element';
-import PatternTree from './pattern-tree';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.min.css';
 import { Button } from '@wordpress/components';
 import { close, arrowLeft } from '@wordpress/icons';
 import { useDispatch } from '@wordpress/data';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
+import { PatternDetails } from './pattern-details';
 
 export default function LibraryLayout() {
-	const { clientId, activePatternId, patterns, setActivePatternId } = useLibrary();
-	const { removeBlock } = useDispatch( 'core/block-editor' );
-
-	const activePattern = useMemo( () => {
-		const found = patterns.filter( ( pattern ) => ( pattern.id === activePatternId ) );
-		return found[ 0 ] || undefined;
-	}, [ activePatternId ] );
+	const { clientId, activePatternId, setActivePatternId, patterns } = useLibrary();
+	const { removeBlock } = useDispatch( blockEditorStore );
+	const activePattern = patterns.find( ( pattern ) => activePatternId === pattern.id );
 
 	return (
 		<div className="pattern-library">
 			<div className="pattern-library__header">
-				<div className="pattern-library-layhout__header--title">
+				<div className="pattern-library__header--title">
 					{ ! activePatternId
 						? <h1>{ __( 'Pattern Library', 'generateblocks' ) }</h1>
-						: (
+						: <h1>{ activePattern.label }</h1>
+					}
+				</div>
+
+				<div className="pattern-library__header--action">
+					{ ! activePatternId
+						? <LibrarySelector />
+						: <PatternDetails pattern={ activePattern } />
+					}
+				</div>
+
+				<div className="pattern-library__header--close">
+					{ ! activePatternId
+						? (
+							<Button
+								variant="tertiary"
+								icon={ close }
+								label={ __( 'Close Pattern Library', 'generateblocks' ) }
+								showTooltip={ true }
+								onClick={ () => removeBlock( clientId ) }
+							/>
+						) : (
 							<Button
 								icon={ arrowLeft }
 								onClick={ () => setActivePatternId( '' ) }
@@ -36,20 +51,6 @@ export default function LibraryLayout() {
 							</Button>
 						)
 					}
-				</div>
-
-				{ ! activePatternId &&
-					<LibrarySelector />
-				}
-
-				<div className="pattern-library-layout__header--close">
-					<Button
-						variant="tertiary"
-						icon={ close }
-						label={ __( 'Close Pattern Library', 'generateblocks' ) }
-						showTooltip={ true }
-						onClick={ () => removeBlock( clientId ) }
-					/>
 				</div>
 			</div>
 
@@ -61,18 +62,15 @@ export default function LibraryLayout() {
 							<CategoryList />
 						</>
 					}
-					{ activePattern &&
-						<PatternTree pattern={ activePattern } clientId={ clientId } />
-					}
 				</div>
-				<div className="library-content">
+				<div
+					className="library-content"
+					style={ {
+						paddingLeft: !! activePatternId ? 0 : null,
+					} }
+				>
 					<PatternList />
 				</div>
-				<ToastContainer
-					position="bottom-left"
-					theme="dark"
-					progressStyle={ { backgroundColor: '#555555' } }
-				/>
 			</div>
 		</div>
 	);

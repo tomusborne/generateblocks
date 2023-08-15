@@ -1,8 +1,9 @@
 import Pattern from './pattern';
 import { useLibrary } from './library-provider';
-import { useEffect, useMemo, useRef, useState } from '@wordpress/element';
+import { useEffect, useMemo, useRef } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
-import Masonry from 'react-responsive-masonry';
+import { __ } from '@wordpress/i18n';
+import { PatternDetails } from './pattern-details';
 
 export default function PatternList() {
 	const ref = useRef();
@@ -10,18 +11,11 @@ export default function PatternList() {
 		patterns,
 		activePatternId,
 		setActivePatternId,
-		hoverPattern,
 		loading,
 		setLoading,
 	} = useLibrary();
-	const [ patternWidth, setPatternWidth ] = useState( 0 );
 	const firstUpdate = useRef( true );
-
-	useEffect( () => {
-		if ( ref.current?.clientWidth ) {
-			setPatternWidth( ( ref.current?.clientWidth - 32 ) / 2 );
-		}
-	}, [ ref.current?.clientWidth ] );
+	const patternHeight = 250;
 
 	const activePattern = useMemo( () => {
 		const found = patterns.filter( ( pattern ) => ( pattern.id === activePatternId ) );
@@ -47,32 +41,36 @@ export default function PatternList() {
 
 	return (
 		<>
-			{ loading && <div className="loading-library"><Spinner /></div> }
+			{ loading && ! activePatternId &&
+				<div className="loading-library"><Spinner />
+					{ __( 'Loading collection…', 'generateblocks' ) }
+				</div>
+			}
 
-			{ activePattern && ref.current?.clientWidth &&
+			{ !! activePattern &&
 				<Pattern
 					isLoading={ loading }
-					patternHover={ hoverPattern }
-					width={ ref.current?.clientWidth }
 					activePatternId={ activePatternId }
 					{ ...activePattern }
 				/>
 			}
 
 			<div ref={ ref } className="patterns-wrapper" style={ hide }>
-				{ ! activePattern &&
-					<Masonry columnsCount={ 2 } gutter={ 32 }>
-						{ patterns && patterns.map( ( pattern ) => (
-							<Pattern
-								key={ pattern.id }
-								isLoading={ loading }
-								width={ patternWidth }
-								setActivePattern={ setActivePatternId }
-								{ ...pattern }
-							/>
-						) ) }
-					</Masonry>
-				}
+				{ ! activePattern && patterns && patterns.map( ( pattern ) => (
+					<div key={ pattern.id } className="gb-pattern-wrapper">
+						<Pattern
+							pattern={ pattern.pattern }
+							isLoading={ loading }
+							patternHeight={ patternHeight }
+							setActivePattern={ setActivePatternId }
+							{ ...pattern }
+						/>
+
+						<PatternDetails
+							pattern={ pattern }
+						/>
+					</div>
+				) ) }
 			</div>
 		</>
 	);

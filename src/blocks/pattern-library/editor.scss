@@ -14,6 +14,16 @@
 		h1 {
 			font-size: 20px;
 		}
+
+		&--title {
+			max-width: 40%;
+		}
+
+		&--action {
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
 
 	.pattern-library-selector {
@@ -32,63 +42,6 @@
 		display: flex;
 		flex-direction: column;
 		gap: 10px;
-
-		&__insert-button.components-button {
-			justify-content: space-between;
-
-			span {
-				overflow: hidden;
-				text-overflow: ellipsis;
-				white-space: nowrap;
-			}
-		}
-
-		&__items {
-			padding-left: 30px;
-			border-left: 1px solid #ddd;
-			display: flex;
-			flex-direction: column;
-			gap: 5px;
-		}
-
-		&__item {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			position: relative;
-
-			&:before {
-				content: "";
-				position: absolute;
-				left: -30px;
-				top: 50%;
-				height: 1px;
-				background: #ddd;
-				width: 20px;
-			}
-
-			.components-button {
-				min-width: 25px;
-				width: 25px;
-				height: 25px;
-			}
-		}
-
-		&__item-actions {
-			display: flex;
-			gap: 2px;
-		}
-
-		&__item-name {
-			overflow: hidden;
-			text-overflow: ellipsis;
-			white-space: nowrap;
-		}
-
-		.pattern-tree .components-button {
-			flex-direction: row-reverse;
-			justify-content: space-between;
-		}
 	}
 
 	.library-sidebar {
@@ -97,17 +50,23 @@
 		position: fixed;
 	}
 
-	.gb-pattern {
-		cursor: pointer;
-		box-sizing: border-box;
-		box-shadow: 0 0 0 5px #f0f0f0;
+	.gb-pattern-wrapper {
 		overflow: hidden;
-		transition: box-shadow 500ms;
-		position: relative;
+		background: #fff;
+		padding: 10px 10px 0;
+		border-radius: 10px;
+	}
 
-		&:hover {
-			box-shadow: 0 0 0 5px #e8e8e8;
-		}
+	.gb-pattern-frame {
+		padding: 20px 20px 0;
+		background: #e1e1e1;
+	}
+
+	.gb-pattern {
+		overflow: hidden;
+		position: relative;
+		height: 100%;
+		background: #f7f7f7;
 
 		.components-spinner {
 			position: absolute;
@@ -124,6 +83,15 @@
 		.patterns-wrapper {
 			position: relative;
 			top: 5px; /* box-shadow width */
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 32px;
+			background: #f0f0f0;
+			padding: 30px;
+
+			&:empty {
+				display: none;
+			}
 		}
 	}
 
@@ -132,13 +100,38 @@
 		justify-content: center;
 		align-items: center;
 		min-height: 30vh;
+
+		.components-spinner {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+	}
+}
+
+.gb-pattern-details {
+	padding: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+
+	h3 {
+		margin: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 15px;
+		font-weight: 400;
+	}
+
+	&__actions {
+		flex-shrink: 0;
+		display: flex;
+		gap: 5px;
 	}
 }
 
 .gblocks-pattern-library-modal.is-full-screen {
-	width: 1400px;
-	max-width: 100%;
-
 	.components-modal__header {
 		display: none;
 	}

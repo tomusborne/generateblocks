@@ -1,27 +1,34 @@
 import { Spinner } from '@wordpress/components';
 import { useEffect, useRef, useState, useLayoutEffect } from '@wordpress/element';
 import imagesLoaded from 'imagesloaded';
+import { useLibrary } from './library-provider';
 
 export default function Pattern( props ) {
 	const {
 		id,
-		width = 0,
 		preview,
-		setActivePattern = () => false,
 		isLoading,
-		patternHover,
 		activePatternId,
+		patternHeight,
 	} = props;
 	const iframeRef = useRef();
 	const elementRef = useRef();
 	const [ height, setHeight ] = useState( 0 );
 	const [ injectContent, setInjectContent ] = useState( false );
 	const [ editorColors, setEditorColors ] = useState( {} );
-	const [ isVisible, setIsVisible ] = useState( false );
+	const [ isVisible, setIsVisible ] = useState( !! activePatternId );
 	const [ isLoaded, setIsLoaded ] = useState( false );
-	const viewport = width;
+	const [ patternWidth, setPatternWidth ] = useState( 0 );
+	const { previewIframeWidth } = useLibrary();
+	const viewport = patternWidth;
 	const iframe = 1280;
 	const editorStylesWrapper = document?.querySelector( '.editor-styles-wrapper' );
+
+	useEffect( () => {
+		if ( elementRef.current?.clientWidth ) {
+			setPatternWidth( elementRef.current?.clientWidth );
+		}
+	}, [ elementRef.current?.clientWidth ] );
 
 	useEffect( () => {
 		const options = {
@@ -88,51 +95,55 @@ export default function Pattern( props ) {
 		}
 	}, [ editorColors, height ] );
 
-	useLayoutEffect( () => {
-		const document = iframeRef.current?.contentWindow?.document;
-
-		if ( document && document.querySelector && document.querySelector( '#block-active' ) ) {
-			document.querySelector( '#block-active' ).innerHTML = ! patternHover || 'fullPattern' === patternHover
-				? ''
-				: `.gb-pattern-block:not(.${ patternHover }) {display: none}`;
-
-			imagesLoaded( document.body, () => {
-				setHeight( document.body.scrollHeight );
-			} );
+	useEffect( () => {
+		if ( ! activePatternId ) {
+			return;
 		}
-	}, [ patternHover ] );
+
+		const document = iframeRef?.current?.contentWindow?.document;
+
+		imagesLoaded( document?.body, () => {
+			setHeight( document?.body?.scrollHeight );
+		} );
+	}, [ previewIframeWidth ] );
 
 	const viewportHeight = Math.round( height * ( viewport / iframe ) );
 
 	const wrapperStyle = {
 		opacity: isLoading ? 0 : 1,
-		height: ! height ? '200px' : '',
+		height: patternHeight + 'px',
+		display: 'flex',
+		flexDirection: 'column',
+		justifyContent: ( viewportHeight + 40 ) < patternHeight ? 'center' : '',
 	};
 
 	return (
-		<>
+		<div
+			className="gb-pattern-frame"
+			style={ activePatternId ? {
+				backgroundColor: 'none',
+				padding: 0,
+			} : {} }
+		>
 			<div
 				ref={ elementRef }
 				className="gb-pattern"
-				role="presentation"
-				style={ wrapperStyle }
-				onClick={ () => setActivePattern( id ) }
-				onKeyDown={ () => setActivePattern( id ) }
+				style={ ! activePatternId ? wrapperStyle : { minHeight: '200px' } }
 			>
 				{ ! isLoaded && <Spinner /> }
 				<div
-					style={ {
+					style={ ! activePatternId ? {
 						width: `${ viewport }px`,
 						height: `${ viewportHeight }px`,
-					} }
+					} : {} }
 				>
 					<div
-						style={ {
+						style={ ! activePatternId ? {
 							height: height + 'px',
 							width: `${ ( ( iframe / viewport ) * 100 ) }%`,
 							transformOrigin: '0 0',
 							transform: `scale( ${ viewport / iframe } )`,
-						} }
+						} : {} }
 					>
 						<iframe
 							id={ id }
@@ -161,13 +172,15 @@ export default function Pattern( props ) {
 								height: height + 'px',
 								border: '0',
 								pointerEvents: ! activePatternId ? 'none' : '',
-								width: `${ iframe }px`,
+								width: activePatternId ? previewIframeWidth : `${ iframe }px`,
 								opacity: ! isLoaded ? 0 : 1,
+								display: activePatternId && '100%' !== previewIframeWidth ? 'block' : '',
+								margin: activePatternId && '100%' !== previewIframeWidth ? '0 auto' : '',
 							} }
 						/>
 					</div>
 				</div>
 			</div>
-		</>
+		</div>
 	);
 }
