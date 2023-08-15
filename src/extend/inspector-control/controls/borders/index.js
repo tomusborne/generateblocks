@@ -189,7 +189,7 @@ export default function Borders( { attributes, setAttributes } ) {
 									} }
 								/>
 
-								{ !! bordersPanel.borderColors.length && 'Desktop' === device && ! attributes.borderColor && ! attributes.borderColorHover && ! attributes.borderColorCurrent &&
+								{ !! bordersPanel.borderColors.length && 'Desktop' === device &&
 									<div className="gblocks-border-colors">
 										{ bordersPanel.borderColors.map( ( borderColor, index ) => {
 											return (
