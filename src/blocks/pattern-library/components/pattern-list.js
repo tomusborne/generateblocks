@@ -59,7 +59,6 @@ export default function PatternList() {
 				{ ! activePattern && patterns && patterns.map( ( pattern ) => (
 					<div key={ pattern.id } className="gb-pattern-wrapper">
 						<Pattern
-							pattern={ pattern.pattern }
 							isLoading={ loading }
 							patternHeight={ patternHeight }
 							setActivePattern={ setActivePatternId }

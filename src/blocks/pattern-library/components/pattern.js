@@ -65,6 +65,15 @@ export default function Pattern( props ) {
 		}
 
 		const document = iframeRef.current.contentWindow.document;
+		const scripts = props?.scripts ?? [];
+
+		scripts.forEach( ( script ) => {
+			const scriptElement = document.createElement( 'script' );
+			scriptElement.defer = true;
+			scriptElement.src = script;
+			document.head.appendChild( scriptElement );
+		} );
+
 		document.body.innerHTML = preview;
 		document.head.innerHTML += '<style id="block-active"></style>';
 		document.head.innerHTML += '<style id="pattern-styles"></style>';
