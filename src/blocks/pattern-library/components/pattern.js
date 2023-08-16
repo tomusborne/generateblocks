@@ -157,7 +157,9 @@ export default function Pattern( props ) {
 						<iframe
 							id={ id }
 							onLoad={ () => {
-								setInjectContent( true );
+								if ( isVisible ) {
+									setInjectContent( true );
+								}
 
 								const iframeDoc = iframeRef.current.contentDocument || iframeRef.current.contentWindow.document;
 
@@ -175,7 +177,7 @@ export default function Pattern( props ) {
 								} );
 							} }
 							title="id"
-							src={ generateBlocksInfo.patternPreviewUrl }
+							src={ isVisible ? generateBlocksInfo.patternPreviewUrl : '' }
 							ref={ iframeRef }
 							style={ {
 								height: height + 'px',
