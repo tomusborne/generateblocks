@@ -3,9 +3,9 @@ Contributors: edge22
 Donate link: https://generateblocks.com
 Tags: blocks, gutenberg, container, headline, grid, columns, page builder, wysiwyg, block editor, query, loop, posts
 Requires at least: 5.9
-Tested up to: 6.2
+Tested up to: 6.3
 Requires PHP: 7.2
-Stable tag: 1.8.1
+Stable tag: 1.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.8.2 =
+* Fix: Border colors not showing when old attributes are set.
+* Tweak: Add support for the newly created core function "wp_img_tag_add_loading_optimization_attrs"
 
 = 1.8.1 =
 * Fix: Icon padding controls order
