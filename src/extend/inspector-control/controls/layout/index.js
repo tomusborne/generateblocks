@@ -170,6 +170,7 @@ export default function Layout( { attributes, setAttributes } ) {
 				<>
 					{ layout.position &&
 						<SelectControl
+							className="position-select"
 							label={ __( 'Position', 'generateblocks' ) }
 							value={ getAttribute( 'position', componentProps ) }
 							options={ positionOptions }
@@ -182,6 +183,7 @@ export default function Layout( { attributes, setAttributes } ) {
 					{ layout.overflow &&
 						<FlexControl>
 							<SelectControl
+								className="overflow-x-select"
 								label={ __( 'Overflow-x', 'generateblocks' ) }
 								value={ getAttribute( 'overflowX', componentProps ) }
 								options={ overflowOptions }
@@ -191,6 +193,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							/>
 
 							<SelectControl
+								className="overflow-y-select"
 								label={ __( 'Overflow-y', 'generateblocks' ) }
 								value={ getAttribute( 'overflowY', componentProps ) }
 								options={ overflowOptions }

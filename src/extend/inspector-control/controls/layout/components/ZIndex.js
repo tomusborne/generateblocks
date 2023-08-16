@@ -4,6 +4,7 @@ import { TextControl } from '@wordpress/components';
 export default function ZIndex( { value, onChange, label, placeholder } ) {
 	return (
 		<TextControl
+			className="z-index-input"
 			label={ label || __( 'z-index', 'generateblocks' ) }
 			type={ 'number' }
 			value={ value || 0 === value ? value : '' }

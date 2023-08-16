@@ -4,6 +4,7 @@ import { SelectControl } from '@wordpress/components';
 export default function Display( { value, onChange } ) {
 	return (
 		<SelectControl
+			className="display-select"
 			label={ __( 'Display', 'generateblocks' ) }
 			value={ value }
 			options={ [

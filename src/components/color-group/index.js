@@ -35,6 +35,7 @@ export default function ColorGroup( props ) {
 							{ colorItem.items.map( ( color, colorIndex ) => {
 								return (
 									<ColorPicker
+										id={ color.attribute }
 										key={ colorIndex }
 										label={ color?.label }
 										tooltip={ color?.tooltip }

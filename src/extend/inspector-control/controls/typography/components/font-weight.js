@@ -6,6 +6,7 @@ import options from '../options';
 export default function FontWeight( { value, onChange } ) {
 	return (
 		<SelectControl
+			className="font-weight-select"
 			labelPosition={ 'top' }
 			label={ __( 'Font weight', 'generateblocks' ) }
 			value={ value }

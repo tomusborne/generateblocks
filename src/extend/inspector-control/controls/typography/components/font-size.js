@@ -4,6 +4,7 @@ import UnitControl from '../../../../../components/unit-control';
 export default function FontSize( { value, placeholder, onChange } ) {
 	return (
 		<UnitControl
+			className="font-size-input"
 			label={ __( 'Font Size', 'generateblocks' ) }
 			id="gblocks-font-size"
 			value={ value }

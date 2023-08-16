@@ -9,7 +9,11 @@ import compatibleRender from '../../../../utils/compatible-render';
 function DeviceButton( { deviceKey, label, isActive, onClick, icon } ) {
 	return (
 		<Tooltip text={ label }>
-			<Button isPressed={ isActive } onClick={ () => onClick( deviceKey ) }>
+			<Button
+				className={ deviceKey }
+				isPressed={ isActive }
+				onClick={ () => onClick( deviceKey ) }
+			>
 				<Icon icon={ icon } />
 			</Button>
 		</Tooltip>

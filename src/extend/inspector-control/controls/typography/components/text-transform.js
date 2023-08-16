@@ -5,6 +5,7 @@ import options from '../options';
 export default function TextTransform( { value, onChange } ) {
 	return (
 		<SelectControl
+			className="transform-select"
 			labelPosition={ 'top' }
 			label={ __( 'Transform', 'generateblocks' ) }
 			value={ value }

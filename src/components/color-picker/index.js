@@ -25,6 +25,7 @@ import './editor.scss';
 
 export default function ColorPicker( props ) {
 	const {
+		id,
 		value,
 		onChange,
 		onOpacityChange,
@@ -90,7 +91,7 @@ export default function ColorPicker( props ) {
 			}
 
 			<Dropdown
-				className="gblocks-color-component__toggle"
+				className={ 'gblocks-color-component__toggle ' + id }
 				contentClassName="gblocks-color-component-content"
 				position="top left"
 				renderToggle={ ( { isOpen, onToggle } ) => {
@@ -131,7 +132,7 @@ export default function ColorPicker( props ) {
 						<div className="gblocks-color-component-content__input-wrapper">
 							<TextControl
 								ref={ inputRef }
-								className="gblocks-color-input"
+								className={ 'gblocks-color-input ' + id }
 								type={ 'text' }
 								value={ valueState }
 								onChange={ ( nextColor ) => {

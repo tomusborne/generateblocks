@@ -100,6 +100,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 				className="gblocks-panel-label"
 			>
 				<ToggleControl
+					className="enable-dynamic-data-toggle"
 					label={ __( 'Enable Dynamic Data', 'generateblocks' ) }
 					checked={ useDynamicData }
 					onChange={ ( value ) => {

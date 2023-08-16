@@ -173,6 +173,7 @@ export default function Borders( { attributes, setAttributes } ) {
 								/>
 
 								<StyleDropdown
+									id={ 'gblocks-' + borderArea + '-style-btn' }
 									value={ deviceAttributes.borders[ borderArea + 'Style' ] || getResponsivePlaceholder( borderArea + 'Style', attributes.borders, device ) }
 									onChange={ ( value ) => {
 										const newAttributes = {
@@ -194,6 +195,7 @@ export default function Borders( { attributes, setAttributes } ) {
 										{ bordersPanel.borderColors.map( ( borderColor, index ) => {
 											return (
 												<ColorPicker
+													id={ borderArea + borderColor.state + 'Color' }
 													key={ 'border' + index }
 													tooltip={ borderColor?.tooltip }
 													value={ attributes.borders[ borderArea + 'Color' + borderColor.state ] || '' }
