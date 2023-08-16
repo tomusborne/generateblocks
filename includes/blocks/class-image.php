@@ -104,11 +104,10 @@ class GenerateBlocks_Block_Image {
 			);
 
 			/**
-			 * Only set the flag if we aren't in the `save_post_x` hook.
-			 * This is necessary as the flag gets set when bulk saving pages and posts,
-			 * meaning only the first post in the loop gets the singular CSS.
+			 * Sometimes it may be necessary to skip this flag. Specifically when we're inside
+			 * the `save_post` hook with multiple posts being saved in a loop (bulk edit).
 			 */
-			if ( ! generateblocks_str_starts_with( current_filter(), 'save_post' ) ) {
+			if ( ! apply_filters( 'generateblocks_skip_singular_css_added_flag', false ) ) {
 				self::$singular_css_added = true;
 			}
 		}
