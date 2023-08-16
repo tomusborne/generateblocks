@@ -184,7 +184,14 @@ class GenerateBlocks_Block_Button {
 				$css
 			);
 
-			self::$singular_css_added = true;
+			/**
+			 * Only set the flag if we aren't in the `save_post_x` hook.
+			 * This is necessary as the flag gets set when bulk saving pages and posts,
+			 * meaning only the first post in the loop gets the singular CSS.
+			 */
+			if ( ! generateblocks_str_starts_with( current_filter(), 'save_post' ) ) {
+				self::$singular_css_added = true;
+			}
 		}
 
 		$visited_selector = $use_visited_selector

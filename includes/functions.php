@@ -1782,3 +1782,15 @@ function generateblocks_to_snake_case( string $str ): string {
 function generateblocks_use_legacy_pattern_library() {
 	return apply_filters( 'generateblocks_use_legacy_pattern_library', false );
 }
+
+/**
+ * Check to see if a string starts with another string.
+ *
+ * @param string $haystack The string to check.
+ * @param string $needle What the string should start with.
+ */
+function generateblocks_str_starts_with( string $haystack, string $needle ) {
+	return function_exists( 'str_starts_with' )
+		? str_starts_with( $haystack, $needle )
+		: strncmp( $haystack, $needle, strlen( $needle ) ) === 0;
+}
