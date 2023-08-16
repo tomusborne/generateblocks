@@ -9,6 +9,7 @@ export default function LibrarySelector() {
 		setIsLocal,
 		setPublicKey,
 		setActiveCategory,
+		loading,
 	} = useLibrary();
 
 	return (
@@ -24,6 +25,9 @@ export default function LibrarySelector() {
 							setIsLocal( !! library.isLocal );
 							setPublicKey( library.publicKey );
 							setActiveCategory( '' );
+						} }
+						style={ {
+							pointerEvents: !! loading ? 'none' : '',
 						} }
 					>
 						{ library.name }
