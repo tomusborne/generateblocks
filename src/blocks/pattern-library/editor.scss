@@ -81,8 +81,6 @@
 		padding-left: 312px;
 
 		.patterns-wrapper {
-			position: relative;
-			top: 5px; /* box-shadow width */
 			display: grid;
 			grid-template-columns: repeat(3, 1fr);
 			gap: 32px;

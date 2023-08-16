@@ -1,4 +1,4 @@
-import { Button } from '@wordpress/components';
+import { Button, ButtonGroup } from '@wordpress/components';
 import { desktop, mobile, plus, seen, tablet } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { useDispatch } from '@wordpress/data';
@@ -25,29 +25,32 @@ export function PatternDetails( { pattern } ) {
 				</Button>
 
 				{ !! activePatternId &&
-					<>
+					<ButtonGroup>
 						<Button
-							variant={ '100%' === previewIframeWidth ? 'primary' : 'tertiary' }
+							isPressed={ '100%' === previewIframeWidth }
+							variant={ 'tertiary' }
 							icon={ desktop }
 							label={ __( 'Desktop', 'generateblocks' ) }
 							showTooltip
 							onClick={ () => setPreviewIframeWidth( '100%' ) }
 						/>
 						<Button
-							variant={ '900px' === previewIframeWidth ? 'primary' : 'tertiary' }
+							isPressed={ '900px' === previewIframeWidth }
+							variant={ 'tertiary' }
 							icon={ tablet }
 							label={ __( 'Tablet', 'generateblocks' ) }
 							showTooltip
 							onClick={ () => setPreviewIframeWidth( '900px' ) }
 						/>
 						<Button
-							variant={ '400px' === previewIframeWidth ? 'primary' : 'tertiary' }
+							isPressed={ '400px' === previewIframeWidth }
+							variant={ 'tertiary' }
 							icon={ mobile }
 							label={ __( 'Mobile', 'generateblocks' ) }
 							showTooltip
 							onClick={ () => setPreviewIframeWidth( '400px' ) }
 						/>
-					</>
+					</ButtonGroup>
 				}
 
 				{ ! activePatternId &&
