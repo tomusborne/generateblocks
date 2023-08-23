@@ -92,7 +92,7 @@ class GenerateBlocks_Block_Image {
 		$id = $attributes['uniqueId'];
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added ) {
+		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
 			$css->set_selector( '.gb-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
 

@@ -181,7 +181,7 @@ class GenerateBlocks_Block_Container {
 		$hasBgImage = generateblocks_has_background_image( $settings );
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added ) {
+		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
 			$css->set_selector( '.gb-container .wp-block-image img' );
 			$css->add_property( 'vertical-align', 'middle' );
 

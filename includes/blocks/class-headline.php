@@ -150,7 +150,7 @@ class GenerateBlocks_Block_Headline {
 		}
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added ) {
+		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
 			$css->set_selector( '.gb-icon svg' );
 			$css->add_property( 'fill', 'currentColor' );
 

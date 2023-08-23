@@ -108,7 +108,7 @@ class GenerateBlocks_Block_Grid {
 		}
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added ) {
+		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
 			$css->set_selector( '.gb-grid-wrapper' );
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );

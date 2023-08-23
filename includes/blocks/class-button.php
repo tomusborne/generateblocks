@@ -170,7 +170,7 @@ class GenerateBlocks_Block_Button {
 		}
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added ) {
+		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
 			$css->set_selector( '.gb-button' );
 			$css->add_property( 'text-decoration', 'none' );
 
