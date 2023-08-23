@@ -151,7 +151,7 @@ class GenerateBlocks_Block_Image {
 			}
 		}
 
-		$tablet_css->set_selector( $selector  );
+		$tablet_css->set_selector( $selector );
 		generateblocks_add_border_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'width', $settings['widthTablet'] );
 		$tablet_css->add_property( 'height', $settings['heightTablet'] );
