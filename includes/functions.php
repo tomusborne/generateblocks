@@ -1547,6 +1547,10 @@ function generateblocks_get_css_selector( $name, $attributes ) {
 		$selector = '.gb-container-' . $id;
 	}
 
+	if ( 'image' === $name ) {
+		$selector = '.gb-image-' . $id;
+	}
+
 	return apply_filters(
 		'generateblocks_block_css_selector',
 		$selector,
