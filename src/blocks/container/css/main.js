@@ -15,6 +15,7 @@ import isFlexItem from '../../../utils/is-flex-item';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 import BorderCSS, { BorderCSSColor } from '../../../extend/inspector-control/controls/borders/BorderCSS';
+import getEditorSelector from '../../../utils/get-editor-selector';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -82,7 +83,10 @@ export default function MainCSS( props ) {
 	const hasBgImage = !! bgImage || ( useDynamicData && '' !== dynamicContentType );
 	const backgroundImageValue = getBackgroundImageCSS( 'image', props );
 	const gradientValue = getBackgroundImageCSS( 'gradient', props );
-	const selector = '.editor-styles-wrapper .gb-container-' + uniqueId;
+	const selector = '.editor-styles-wrapper ' + getEditorSelector(
+		'.gb-container-' + uniqueId,
+		{ name: props.name, attributes }
+	);
 
 	let cssObj = [];
 	cssObj[ selector ] = [ {

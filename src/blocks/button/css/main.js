@@ -16,6 +16,7 @@ import SpacingCSS from '../../../extend/inspector-control/controls/spacing/compo
 import { sprintf } from '@wordpress/i18n';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 import BorderCSS, { BorderCSSColor } from '../../../extend/inspector-control/controls/borders/BorderCSS';
+import getEditorSelector from '../../../utils/get-editor-selector';
 
 export default class MainCSS extends Component {
 	render() {
@@ -65,7 +66,11 @@ export default class MainCSS extends Component {
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
 		let selector = '.gb-button-' + uniqueId;
-		selector = '.editor-styles-wrapper ' + containerSelector + selector;
+		selector = containerSelector + selector;
+		selector = '.editor-styles-wrapper ' + getEditorSelector(
+			selector,
+			{ name: this.props.name, attributes }
+		);
 
 		let cssObj = [];
 

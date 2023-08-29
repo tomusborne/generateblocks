@@ -3,6 +3,7 @@ import { applyFilters } from '@wordpress/hooks';
 import shorthandCSS from '../../../utils/shorthand-css';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
+import getEditorSelector from '../../../utils/get-editor-selector';
 
 export default function MainCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -22,6 +23,10 @@ export default function MainCSS( props ) {
 		borderBottomLeftRadius,
 	} = attributes.spacing;
 
+	const selector = '.editor-styles-wrapper ' + getEditorSelector(
+		'.gb-image-' + uniqueId,
+		{ name: props.name, attributes }
+	);
 	let cssObj = [];
 
 	const floats = {
@@ -40,15 +45,15 @@ export default function MainCSS( props ) {
 
 	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-block-image-' + uniqueId, attributes.spacing );
 
-	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
+	cssObj[ selector ] = [ {
 		width,
 		height,
 		'object-fit': objectFit,
 	} ];
 
-	BorderCSS( cssObj, '.editor-styles-wrapper .gb-image-' + uniqueId, attributes.borders );
+	BorderCSS( cssObj, selector, attributes.borders );
 
-	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId + ' + .components-placeholder__illustration' ] = [ {
+	cssObj[ selector + ' + .components-placeholder__illustration' ] = [ {
 		'border-radius': shorthandCSS( borderTopLeftRadius, borderTopRightRadius, borderBottomRightRadius, borderBottomLeftRadius ),
 	} ];
 

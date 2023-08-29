@@ -16,6 +16,7 @@ import {
 } from '@wordpress/hooks';
 import sizingValue from '../../../utils/sizingValue';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
+import getEditorSelector from '../../../utils/get-editor-selector';
 
 export default class MobileCSS extends Component {
 	render() {
@@ -52,14 +53,19 @@ export default class MobileCSS extends Component {
 			borderBottomLeftRadiusMobile,
 		} = attributes.borders;
 
+		const selector = '.editor-styles-wrapper ' + getEditorSelector(
+			'.gb-container-' + uniqueId,
+			{ name: this.props.name, attributes }
+		);
+
 		let cssObj = [];
 
-		TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.typography, 'Mobile' );
-		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.spacing, useInnerContainer }, 'Mobile' );
-		BorderCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.borders, 'Mobile' );
-		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
-		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
-		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Mobile' );
+		TypographyCSS( cssObj, selector, attributes.typography, 'Mobile' );
+		SpacingCSS( cssObj, selector, { ...attributes.spacing, useInnerContainer }, 'Mobile' );
+		BorderCSS( cssObj, selector, attributes.borders, 'Mobile' );
+		SizingCSS( cssObj, selector, attributes, 'Mobile' );
+		LayoutCSS( cssObj, selector, attributes, 'Mobile' );
+		FlexChildCSS( cssObj, selector, attributes, 'Mobile' );
 
 		if ( useInnerContainer ) {
 			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
@@ -71,7 +77,7 @@ export default class MobileCSS extends Component {
 			} ];
 
 			if ( 'inherit' !== verticalAlignmentMobile && sizingValue( 'minHeightMobile', sizing ) && ! isGrid ) {
-				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				cssObj[ selector ].push( {
 					'display': 'flex', // eslint-disable-line quote-props
 					'flex-direction': 'row',
 					'align-items': verticalAlignmentMobile,
@@ -79,7 +85,7 @@ export default class MobileCSS extends Component {
 			}
 
 			if ( isGrid && 'inherit' !== verticalAlignmentMobile ) {
-				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				cssObj[ selector ].push( {
 					'display': 'flex', // eslint-disable-line quote-props
 					'flex-direction': 'column',
 					'height': '100%', // eslint-disable-line quote-props
@@ -110,7 +116,7 @@ export default class MobileCSS extends Component {
 		}
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
-			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
+			cssObj[ selector + ':before' ] = [ {
 				'border-top-left-radius': borderTopLeftRadiusMobile,
 				'border-top-right-radius': borderTopRightRadiusMobile,
 				'border-bottom-right-radius': borderBottomRightRadiusMobile,
@@ -122,7 +128,7 @@ export default class MobileCSS extends Component {
 			shapeDividers.forEach( ( location, index ) => {
 				const shapeNumber = index + 1;
 
-				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
+				cssObj[ selector + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].heightMobile, 'px' ),
 					width: valueWithUnit( shapeDividers[ index ].widthMobile, '%' ),
 				} ];
@@ -131,13 +137,13 @@ export default class MobileCSS extends Component {
 
 		if ( !! bgImage && 'fixed' === bgOptions.attachment ) {
 			if ( 'element' === bgOptions.selector ) {
-				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
+				cssObj[ selector ].push( {
 					'background-attachment': 'initial',
 				} );
 			}
 
 			if ( 'pseudo-element' === bgOptions.selector ) {
-				cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
+				cssObj[ selector + ':before' ] = [ {
 					'background-attachment': 'initial',
 				} ];
 			}
