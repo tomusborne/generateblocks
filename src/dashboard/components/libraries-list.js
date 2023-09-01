@@ -27,7 +27,7 @@ export default function LibrariesList( props ) {
 			<div className="gblocks-library">
 				{ !! remoteList.length &&
 					<>
-						<h3>{ __( 'Remote Libraries', 'generateblocks' ) }</h3>
+						<h3>{ __( 'Remote Collections', 'generateblocks' ) }</h3>
 						{ remoteList.map( ( item ) => (
 							<LibraryForm
 								key={ item.id }
@@ -39,12 +39,12 @@ export default function LibrariesList( props ) {
 					</>
 				}
 
-				{ applyFilters( 'generateblocks.settings.afterRemoteLibraries', '', { onAdd } ) }
+				{ applyFilters( 'generateblocks.settings.afterRemoteCollections', '', { onAdd } ) }
 			</div>
 
 			{ !! localList.length &&
 				<div className="gblocks-library">
-					<h3>{ __( 'Local Libraries', 'generateblocks' ) }</h3>
+					<h3>{ __( 'Local Collections', 'generateblocks' ) }</h3>
 					{ localList.map( ( item ) => (
 						<LibraryForm
 							key={ item.id }

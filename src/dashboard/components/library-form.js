@@ -27,7 +27,7 @@ export default function LibraryForm( props ) {
 							<Button
 								variant={ isEdit ? 'primary' : 'secondary' }
 								showTooltip
-								label={ __( 'Edit Library', 'generateblocks' ) }
+								label={ __( 'Edit Collection', 'generateblocks' ) }
 								icon={ settings }
 								onClick={ () => setIsEdit( ! isEdit ) }
 							/>
@@ -37,7 +37,7 @@ export default function LibraryForm( props ) {
 							<Button
 								variant="secondary"
 								showTooltip
-								label={ __( 'Delete Library', 'generateblocks' ) }
+								label={ __( 'Delete Collection', 'generateblocks' ) }
 								icon={ close }
 								onClick={ () => onDelete( id ) }
 								isDestructive
@@ -62,7 +62,7 @@ export default function LibraryForm( props ) {
 				<div className="gblocks-library-item__edit">
 					<TextControl
 						disabled={ isDefault }
-						label="Name"
+						label={ __( 'Name', 'generateblocks' ) }
 						value={ name }
 						onChange={ ( value ) => {
 							if ( ! isDefault ) {
@@ -73,7 +73,7 @@ export default function LibraryForm( props ) {
 
 					<TextControl
 						disabled={ isDefault }
-						label="Domain"
+						label={ __( 'Domain', 'generateblocks' ) }
 						value={ domain }
 						onChange={ ( value ) => {
 							if ( ! isDefault ) {
@@ -84,7 +84,7 @@ export default function LibraryForm( props ) {
 
 					<TextControl
 						disabled={ isDefault }
-						label="Public key"
+						label={ __( 'Public key', 'generateblocks' ) }
 						value={ publicKey }
 						onChange={ ( value ) => {
 							if ( ! isDefault ) {
