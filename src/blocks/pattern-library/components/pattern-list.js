@@ -15,7 +15,7 @@ export default function PatternList() {
 		setLoading,
 	} = useLibrary();
 	const firstUpdate = useRef( true );
-	const patternHeight = 250;
+	const patternHeight = 350;
 
 	const activePattern = useMemo( () => {
 		const found = patterns.filter( ( pattern ) => ( pattern.id === activePatternId ) );
