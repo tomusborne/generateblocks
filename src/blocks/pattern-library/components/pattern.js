@@ -9,7 +9,6 @@ export default function Pattern( props ) {
 		preview,
 		isLoading,
 		activePatternId,
-		patternHeight,
 	} = props;
 	const iframeRef = useRef();
 	const elementRef = useRef();
@@ -19,16 +18,37 @@ export default function Pattern( props ) {
 	const [ isVisible, setIsVisible ] = useState( !! activePatternId );
 	const [ isLoaded, setIsLoaded ] = useState( false );
 	const [ patternWidth, setPatternWidth ] = useState( 0 );
+	const [ isResizing, setIsResizing ] = useState( false );
 	const { previewIframeWidth } = useLibrary();
+	const patternHeight = 350;
 	const viewport = patternWidth;
 	const iframe = 1280;
 	const editorStylesWrapper = document?.querySelector( '.editor-styles-wrapper' );
 
 	useEffect( () => {
-		if ( elementRef.current?.clientWidth ) {
+		let resizeTimer;
+
+		const handleResize = () => {
+			setIsResizing( true );
+			clearTimeout( resizeTimer );
+
+			resizeTimer = setTimeout( () => {
+				setIsResizing( false );
+			}, 500 );
+		};
+
+		window.addEventListener( 'resize', handleResize );
+
+		return () => {
+			window.removeEventListener( 'resize', handleResize );
+		};
+	}, [] );
+
+	useEffect( () => {
+		if ( elementRef.current?.clientWidth && ! isResizing ) {
 			setPatternWidth( elementRef.current?.clientWidth );
 		}
-	}, [ elementRef.current?.clientWidth ] );
+	}, [ elementRef.current?.clientWidth, isResizing ] );
 
 	useEffect( () => {
 		const options = {

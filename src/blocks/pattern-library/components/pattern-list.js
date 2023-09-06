@@ -15,7 +15,6 @@ export default function PatternList() {
 		setLoading,
 	} = useLibrary();
 	const firstUpdate = useRef( true );
-	const patternHeight = 350;
 
 	const activePattern = useMemo( () => {
 		const found = patterns.filter( ( pattern ) => ( pattern.id === activePatternId ) );
@@ -66,7 +65,6 @@ export default function PatternList() {
 					<div key={ pattern.id } className="gb-pattern-wrapper">
 						<Pattern
 							isLoading={ loading }
-							patternHeight={ patternHeight }
 							setActivePattern={ setActivePatternId }
 							{ ...pattern }
 						/>
