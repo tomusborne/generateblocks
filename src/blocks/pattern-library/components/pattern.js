@@ -139,7 +139,7 @@ export default function Pattern( props ) {
 				className="gb-pattern"
 				style={ ! activePatternId ? wrapperStyle : { minHeight: '200px' } }
 			>
-				{ ! isLoaded && <Spinner /> }
+				{ !! isVisible && ! isLoaded && <Spinner /> }
 				<div
 					style={ ! activePatternId ? {
 						width: `${ viewport }px`,
