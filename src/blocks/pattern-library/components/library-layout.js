@@ -9,58 +9,12 @@ import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
-import apiFetch from '@wordpress/api-fetch';
-import { useState } from '@wordpress/element';
-
-function RequiredComponents( { isActive, children } ) {
-	const [ showRefresh, setShowRefresh ] = useState( false );
-	return (
-		<>
-			{ isActive &&
-				<div style={ { maxWidth: '450px', margin: '0 auto' } }>
-					<h3>In order to use the library you need to import required components.</h3>
-					<p>Click the button below to import. Read more.</p>
-					{ ! showRefresh &&
-						<Button
-							variant="primary"
-							onClick={ () => {
-								apiFetch( {
-									path: '/generateblocks-pro/v1/pattern-library/import-required-components',
-									method: 'GET',
-								} ).then( () => {
-									setShowRefresh( true );
-								} );
-							} }
-						>
-							Import
-						</Button>
-					}
-					{ showRefresh &&
-						<Button
-							variant="secondary"
-							onClick={ () => {
-								window.location.reload();
-							} }
-						>
-							Refresh page
-						</Button>
-					}
-				</div>
-			}
-
-			{ ! isActive && children }
-		</>
-	);
-}
+import RequiredComponents from './required-components';
 
 export default function LibraryLayout() {
 	const { clientId, activeLibrary, activePatternId, setActivePatternId, patterns } = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
 	const activePattern = patterns.find( ( pattern ) => activePatternId === pattern.id );
-	const requiredMessageIsActive = (
-		'gb_default_pro_library' === activeLibrary &&
-		! generateBlocksInfo.hasImportedRequiredComponents
-	);
 
 	return (
 		<div className="pattern-library">
@@ -102,7 +56,7 @@ export default function LibraryLayout() {
 			</div>
 
 			<div className="pattern-library-layout">
-				<RequiredComponents isActive={ requiredMessageIsActive }>
+				<RequiredComponents activeLibrary={ activeLibrary }>
 					<div className="library-sidebar">
 						{ ! activePatternId &&
 							<>

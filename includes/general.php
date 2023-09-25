@@ -84,7 +84,6 @@ function generateblocks_do_block_editor_assets() {
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
 			'patternPreviewUrl' => site_url() . '?gb-template-viewer=1',
 			'useLegacyPatternLibrary' => generateblocks_use_legacy_pattern_library(),
-			'hasImportedRequiredComponents' => apply_filters( 'generateblocks_has_imported_library_required_components', false ),
 		)
 	);
 
