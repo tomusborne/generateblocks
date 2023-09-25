@@ -1,6 +1,6 @@
-import { applyFilters, doAction } from '@wordpress/hooks';
+import { applyFilters } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
-import {useState} from "@wordpress/element";
+import { useState } from '@wordpress/element';
 
 function DefaultMessage() {
 	return (
