@@ -46,7 +46,7 @@ export default function PatternList() {
 				</div>
 			}
 
-			{ ! loading && ! activePatternId && ! patterns.length &&
+			{ ! loading && ! activePatternId && ! patterns?.length &&
 				<div className="loading-library">
 					{ __( 'No patterns found.', 'generateblocks' ) }
 				</div>

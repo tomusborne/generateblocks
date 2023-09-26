@@ -125,7 +125,10 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 		$data = $request->get_param( 'data' );
 
 		$instance = GenerateBlocks_Libraries::get_instance();
-		$libraries = array_map( array( $instance, 'create' ), $data );
+		$libraries = array_map(
+			array( $instance, 'create' ),
+			$data
+		);
 
 		update_option( 'generateblocks_pattern_libraries', $libraries );
 

@@ -11,6 +11,7 @@ export default function LibraryForm( props ) {
 		publicKey,
 		isEnabled,
 		isDefault,
+		isLocal,
 		onChange,
 		onDelete,
 	} = props;
@@ -21,7 +22,7 @@ export default function LibraryForm( props ) {
 			<span className="gblocks-library-item__name">
 				{ name }
 
-				{ ! isDefault &&
+				{ ! isDefault && ! isLocal &&
 					<>
 						<span className="gblocks-library-item__actions--edit">
 							<Button
@@ -61,33 +62,33 @@ export default function LibraryForm( props ) {
 			{ !! isEdit &&
 				<div className="gblocks-library-item__edit">
 					<TextControl
-						disabled={ isDefault }
+						disabled={ isDefault || isLocal }
 						label={ __( 'Name', 'generateblocks' ) }
 						value={ name }
 						onChange={ ( value ) => {
-							if ( ! isDefault ) {
+							if ( ! isDefault && ! isLocal ) {
 								onChange( id, 'name', value );
 							}
 						} }
 					/>
 
 					<TextControl
-						disabled={ isDefault }
+						disabled={ isDefault || isLocal }
 						label={ __( 'Domain', 'generateblocks' ) }
 						value={ domain }
 						onChange={ ( value ) => {
-							if ( ! isDefault ) {
+							if ( ! isDefault && ! isLocal ) {
 								onChange( id, 'domain', value );
 							}
 						} }
 					/>
 
 					<TextControl
-						disabled={ isDefault }
+						disabled={ isDefault || isLocal }
 						label={ __( 'Public key', 'generateblocks' ) }
 						value={ publicKey }
 						onChange={ ( value ) => {
-							if ( ! isDefault ) {
+							if ( ! isDefault && ! isLocal ) {
 								onChange( id, 'publicKey', value );
 							}
 						} }
