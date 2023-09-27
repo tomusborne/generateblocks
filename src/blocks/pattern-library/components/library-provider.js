@@ -96,7 +96,7 @@ export function LibraryProvider( { clientId, children } ) {
 			const { data } = await fetchLibraries();
 
 			setLibraries( data );
-			setActiveLibrary( data[ 0 ].id );
+			setActiveLibrary( data[ 0 ] );
 			setPublicKey( data[ 0 ].publicKey );
 			setIsLocal( !! data[ 0 ].isLocal );
 		}() );
@@ -104,26 +104,26 @@ export function LibraryProvider( { clientId, children } ) {
 
 	useEffect( () => {
 		( async function() {
-			if ( activeLibrary ) {
+			if ( activeLibrary.id ) {
 				setLoading( true );
-				const { data } = await fetchLibraryCategories( activeLibrary, isLocal, publicKey );
+				const { data } = await fetchLibraryCategories( activeLibrary.id, isLocal, publicKey );
 				setCategories( data );
 				setTimeout( () => setLoading( false ), 100 );
 			}
 		}() );
-	}, [ activeLibrary ] );
+	}, [ activeLibrary.id ] );
 
 	useEffect( () => {
 		( async function() {
-			if ( activeLibrary ) {
+			if ( activeLibrary.id ) {
 				setLoading( true );
 				setPatterns( [] );
-				const { data } = await fetchLibraryPatterns( activeLibrary, activeCategory, search, isLocal, publicKey );
+				const { data } = await fetchLibraryPatterns( activeLibrary.id, activeCategory, search, isLocal, publicKey );
 				setPatterns( data );
 				setTimeout( () => setLoading( false ), 100 );
 			}
 		}() );
-	}, [ activeLibrary, activeCategory, search, publicKey ] );
+	}, [ activeLibrary.id, activeCategory, search, publicKey ] );
 
 	return (
 		<LibraryContext.Provider value={ defaultContext }>

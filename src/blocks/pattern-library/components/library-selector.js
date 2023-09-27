@@ -18,10 +18,10 @@ export default function LibrarySelector() {
 				{ libraries.map( ( library ) => (
 					<Button
 						key={ library.id }
-						isPressed={ library.id === activeLibrary }
+						isPressed={ library.id === activeLibrary.id }
 						variant="secondary"
 						onClick={ () => {
-							setActiveLibrary( library.id );
+							setActiveLibrary( library );
 							setIsLocal( !! library.isLocal );
 							setPublicKey( library.publicKey );
 							setActiveCategory( '' );

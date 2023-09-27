@@ -9,11 +9,12 @@ import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
+import RequiredComponents from './required-components';
 
 export default function LibraryLayout() {
-	const { clientId, activePatternId, setActivePatternId, patterns } = useLibrary();
+	const { clientId, activeLibrary, activePatternId, setActivePatternId, patterns } = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
-	const activePattern = patterns.find( ( pattern ) => activePatternId === pattern.id );
+	const activePattern = patterns?.find( ( pattern ) => activePatternId === pattern.id );
 
 	return (
 		<div className="pattern-library">
@@ -55,22 +56,24 @@ export default function LibraryLayout() {
 			</div>
 
 			<div className="pattern-library-layout">
-				<div className="library-sidebar">
-					{ ! activePatternId &&
-						<>
-							<PatternSearch />
-							<CategoryList />
-						</>
-					}
-				</div>
-				<div
-					className="library-content"
-					style={ {
-						paddingLeft: !! activePatternId ? 0 : null,
-					} }
-				>
-					<PatternList />
-				</div>
+				<RequiredComponents activeLibrary={ activeLibrary }>
+					<div className="library-sidebar">
+						{ ! activePatternId &&
+							<>
+								<PatternSearch />
+								<CategoryList />
+							</>
+						}
+					</div>
+					<div
+						className="library-content"
+						style={ {
+							paddingLeft: !! activePatternId ? 0 : null,
+						} }
+					>
+						<PatternList />
+					</div>
+				</RequiredComponents>
 			</div>
 		</div>
 	);
