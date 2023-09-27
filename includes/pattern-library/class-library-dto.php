@@ -36,6 +36,5 @@ class GenerateBlocks_Library_DTO extends GenerateBlocks_DTO {
 		'is_enabled' => false,
 		'is_default' => false,
 		'is_local' => false,
-		'required_classes' => [],
 	);
 }

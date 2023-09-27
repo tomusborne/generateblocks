@@ -90,8 +90,7 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 			->set( 'public_key', $data['publicKey'] )
 			->set( 'is_enabled', $data['isEnabled'] )
 			->set( 'is_default', $data['isDefault'] )
-			->set( 'is_local', $data['isLocal'] )
-			->set( 'required_classes', $data['requiredClasses'] );
+			->set( 'is_local', $data['isLocal'] );
 	}
 
 	/**
@@ -106,8 +105,7 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 			->set( 'domain', 'https://patterns.generateblocks.com' )
 			->set( 'public_key', 'GxroZpidKoLZ2ofWNJdXtanAK9ZozWKo' )
 			->set( 'is_enabled', true )
-			->set( 'is_default', true )
-			->set( 'required_classes', [] );
+			->set( 'is_default', true );
 	}
 
 	/**
