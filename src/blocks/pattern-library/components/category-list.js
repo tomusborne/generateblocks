@@ -1,6 +1,7 @@
 import { Button } from '@wordpress/components';
 import { useLibrary } from './library-provider';
 import { __ } from '@wordpress/i18n';
+import LibraryCache from './library-cache';
 
 export default function CategoryList() {
 	const { categories, activeCategory, setActiveCategory } = useLibrary();
@@ -22,6 +23,8 @@ export default function CategoryList() {
 					{ category.name }
 				</Button>
 			) ) }
+
+			<LibraryCache />
 		</div>
 	);
 }

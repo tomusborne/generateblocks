@@ -66,7 +66,7 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ activeCategory, setActiveCategory ] = useState( '' );
 	const [ activePatternId, setActivePatternId ] = useState( '' );
 	const [ hoverPattern, setHoverPattern ] = useState( '' );
-	const [ loading, setLoading ] = useState( true );
+	const [ loading, setLoading ] = useState( false );
 	const [ previewIframeWidth, setPreviewIframeWidth ] = useState( '100%' );
 	const defaultContext = {
 		clientId,
@@ -89,7 +89,23 @@ export function LibraryProvider( { clientId, children } ) {
 		setLoading,
 		previewIframeWidth,
 		setPreviewIframeWidth,
+		setLibraryCategories,
+		setLibraryPatterns,
 	};
+
+	async function setLibraryCategories() {
+		const { data } = await fetchLibraryCategories( activeLibrary.id, isLocal, publicKey );
+		setCategories( data );
+	}
+
+	async function setLibraryPatterns() {
+		setLoading( true );
+		setPatterns( [] );
+		const { data } = await fetchLibraryPatterns( activeLibrary.id, activeCategory, search, isLocal, publicKey );
+		setPatterns( data );
+		setPaginationOffset( 0 );
+		setLoading( false );
+	}
 
 	useEffect( () => {
 		( async function() {
@@ -103,26 +119,15 @@ export function LibraryProvider( { clientId, children } ) {
 	}, [] );
 
 	useEffect( () => {
-		( async function() {
-			if ( activeLibrary.id ) {
-				setLoading( true );
-				const { data } = await fetchLibraryCategories( activeLibrary.id, isLocal, publicKey );
-				setCategories( data );
-				setTimeout( () => setLoading( false ), 100 );
-			}
-		}() );
+		if ( activeLibrary.id ) {
+			setLibraryCategories();
+		}
 	}, [ activeLibrary.id ] );
 
 	useEffect( () => {
-		( async function() {
-			if ( activeLibrary.id ) {
-				setLoading( true );
-				setPatterns( [] );
-				const { data } = await fetchLibraryPatterns( activeLibrary.id, activeCategory, search, isLocal, publicKey );
-				setPatterns( data );
-				setTimeout( () => setLoading( false ), 100 );
-			}
-		}() );
+		if ( activeLibrary.id ) {
+			setLibraryPatterns();
+		}
 	}, [ activeLibrary.id, activeCategory, search, publicKey ] );
 
 	return (
