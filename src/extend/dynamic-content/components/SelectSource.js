@@ -3,11 +3,15 @@ import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
 const getOptions = ( dynamicContentType ) => {
+	const currentPostLabel = 'caption' === dynamicContentType
+		? __( 'Current image', 'generateblocks' )
+		: __( 'Current post', 'generateblocks' );
+
 	const defaultOptions = [
-		{ value: 'current-post', label: 'caption' === dynamicContentType
-			? __( 'Current image', 'generateblocks' )
-			: __( 'Current post', 'generateblocks' ) },
+		{ value: 'current-post', label: currentPostLabel },
 		{ value: 'post-type', label: __( 'Post type', 'generateblocks' ) },
+		{ value: 'next-post', label: __( 'Next post', 'generateblocks' ) },
+		{ value: 'previous-post', label: __( 'Previous post', 'generateblocks' ) },
 	];
 
 	return applyFilters(

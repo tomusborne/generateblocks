@@ -2,8 +2,20 @@ import { __ } from '@wordpress/i18n';
 import SelectPostType from '../components/SelectPostType';
 import PostTypeRecordsSelect from '../../../components/post-type-records-select';
 import SelectSource from '../components/SelectSource';
+import AdjacentPostControl from './AdjacentPostControl';
 
-export default ( { dynamicSource, postType, postId, setAttributes, dynamicContentType } ) => {
+export default ( props ) => {
+	const {
+		dynamicSource,
+		postType,
+		postId,
+		setAttributes,
+		dynamicContentType,
+		adjacentPost,
+		currentPostType,
+		currentPostId,
+	} = props;
+
 	return (
 		<>
 			<SelectSource
@@ -40,6 +52,16 @@ export default ( { dynamicSource, postType, postId, setAttributes, dynamicConten
 						isMulti={ false }
 					/>
 				</>
+			}
+
+			{ ( dynamicSource === 'next-post' || dynamicSource === 'previous-post' ) &&
+				<AdjacentPostControl
+					dynamicSource={ dynamicSource }
+					adjacentPost={ adjacentPost }
+					postType={ currentPostType }
+					postId={ currentPostId }
+					setAttributes={ setAttributes }
+				/>
 			}
 		</>
 	);

@@ -1,8 +1,6 @@
-import SimpleSelect from '../../../components/simple-select';
-import { useTaxonomies } from '../../../hooks';
-import { useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { TextControl } from '@wordpress/components';
+import TaxonomySelectControl from '../../../components/taxonomy-select-control';
 
 export default function TermsControl( props ) {
 	const {
@@ -14,22 +12,13 @@ export default function TermsControl( props ) {
 		name,
 	} = props;
 
-	const taxonomies = useTaxonomies();
-
-	const taxonomiesOptions = useMemo( () => (
-		taxonomies
-			.filter( ( tax ) => ( tax.types.includes( postType ) ) )
-			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
-	), [ taxonomies, postType ] );
-
 	return (
 		<>
 			{ isActive &&
 				<>
-					<SimpleSelect
-						label={ __( 'Taxonomy', 'generateblocks' ) }
-						options={ taxonomiesOptions }
-						value={ termTaxonomy }
+					<TaxonomySelectControl
+						postType={ postType }
+						taxonomy={ termTaxonomy }
 						onChange={ ( option ) => {
 							setAttributes( { termTaxonomy: option.value } );
 						} }

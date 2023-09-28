@@ -24,7 +24,15 @@ function getExtraLoad( contentType, attributes ) {
 }
 
 export default ( attributes, name ) => {
-	const { postId, postType } = attributes;
+	const { postId, postType, dynamicSource } = attributes;
+
+	if ( ( ! postType || ! postId ) && 'next-post' === dynamicSource ) {
+		return __( 'Next post', 'generateblocks' );
+	}
+
+	if ( ( ! postType || ! postId ) && 'previous-post' === dynamicSource ) {
+		return __( 'Previous post', 'generateblocks' );
+	}
 
 	if ( ! postType ) {
 		return __( 'Post type not selected.', 'generateblocks' );

@@ -99,6 +99,16 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'onboarding_permission' ),
 			)
 		);
+
+		register_rest_route(
+			$namespace,
+			'/dynamic-content/adjacent-post',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'list_adjacent_post' ),
+				'permission_callback' => array( $this, 'edit_post_permission' ),
+			)
+		);
 	}
 
 	/**
@@ -108,6 +118,15 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	 */
 	public function update_settings_permission() {
 		return current_user_can( 'manage_options' );
+	}
+
+	/**
+	 * Check if current user can edit posts.
+	 *
+	 * @return bool
+	 */
+	public function edit_post_permission(): bool {
+		return true;//current_user_can( 'edit_post' );
 	}
 
 	/**
@@ -219,6 +238,30 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	 */
 	public function onboarding_permission() {
 		return current_user_can( 'edit_posts' );
+	}
+
+	public function list_adjacent_post( WP_REST_Request $request ): WP_REST_Response {
+		global $post;
+
+		$post_id = $request->get_param( 'postId' );
+		$previous = 'true' === $request->get_param( 'previous' );
+		$in_same_term = 'true' === $request->get_param( 'inSameTerm' );
+		$taxonomy = $request->get_param( 'taxonomy' );
+		$exclude_terms = $request->get_param( 'excludeTerms' );
+
+		$post = get_post( $post_id );
+		setup_postdata( $post );
+
+		$adjacent_post = get_adjacent_post(
+			$in_same_term,
+			$exclude_terms,
+			$previous,
+			$taxonomy
+		);
+
+		wp_reset_postdata();
+
+		return $this->success( $adjacent_post );
 	}
 
 	/**

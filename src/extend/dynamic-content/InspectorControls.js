@@ -39,6 +39,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		useDefaultMoreLink,
 		customMoreLinkText,
 		dynamicLinkRemoveIfEmpty,
+		adjacentPost,
 	} = attributes;
 
 	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
@@ -115,6 +116,9 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							postId={ postId }
 							setAttributes={ setAttributes }
 							dynamicContentType={ dynamicContentType }
+							adjacentPost={ adjacentPost }
+							currentPostType={ context.postType }
+							currentPostId={ context.postId }
 						/>
 
 						<ContentTypeControl

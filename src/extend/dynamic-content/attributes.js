@@ -110,4 +110,14 @@ export default applyFilters( 'generateblocks.editor.dynamicContent.attributes', 
 		type: 'number',
 		default: generateBlocksInfo.excerptLength,
 	},
+
+	adjacentPost: {
+		type: 'object',
+		default: {
+			previous: false,
+			inSameTerm: false,
+			taxonomy: '',
+			excludeTerms: [],
+		},
+	},
 } );
