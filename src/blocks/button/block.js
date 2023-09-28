@@ -54,7 +54,13 @@ registerBlockType( 'generateblocks/button', {
 	edit: editButton,
 	save: saveButton,
 	deprecated,
-	usesContext: [ 'postId', 'postType', 'generateblocks/query', 'generateblocks/inheritQuery' ],
+	usesContext: [
+		'postId',
+		'postType',
+		'generateblocks/query',
+		'generateblocks/inheritQuery',
+		'generateblocks/queryId',
+	],
 	__experimentalLabel: ( attrs, { context } ) => {
 		if (
 			context === 'list-view' &&

@@ -91,6 +91,15 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		dynamicContentType,
 	] );
 
+	useEffect( () => {
+		if ( isInQueryLoop && ( 'next-post' === dynamicSource || 'previous-post' === dynamicSource ) ) {
+			setAttributes( {
+				dynamicSource: 'current-post',
+				adjacentPost: undefined,
+			} );
+		}
+	}, [ isInQueryLoop ] );
+
 	return (
 		<InspectorControls>
 			<PanelArea
@@ -117,6 +126,8 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							setAttributes={ setAttributes }
 							dynamicContentType={ dynamicContentType }
 							adjacentPost={ adjacentPost }
+							isInQueryLoop={ isInQueryLoop }
+							blockName={ name }
 							currentPostType={ context.postType }
 							currentPostId={ context.postId }
 						/>

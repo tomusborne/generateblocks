@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import AdvancedSelect from '../../../components/advanced-select';
 import { applyFilters } from '@wordpress/hooks';
 
-const getOptions = ( dynamicContentType ) => {
+const getOptions = ( dynamicContentType, isInQueryLoop, blockName ) => {
 	const currentPostLabel = 'caption' === dynamicContentType
 		? __( 'Current image', 'generateblocks' )
 		: __( 'Current post', 'generateblocks' );
@@ -10,9 +10,18 @@ const getOptions = ( dynamicContentType ) => {
 	const defaultOptions = [
 		{ value: 'current-post', label: currentPostLabel },
 		{ value: 'post-type', label: __( 'Post type', 'generateblocks' ) },
-		{ value: 'next-post', label: __( 'Next post', 'generateblocks' ) },
-		{ value: 'previous-post', label: __( 'Previous post', 'generateblocks' ) },
 	];
+
+	if ( ! isInQueryLoop && 'generateblocks/image' !== blockName ) {
+		defaultOptions.push( {
+			value: 'next-post',
+			label: __( 'Next post', 'generateblocks' ),
+		} );
+		defaultOptions.push( {
+			value: 'previous-post',
+			label: __( 'Previous post', 'generateblocks' ),
+		} );
+	}
 
 	return applyFilters(
 		'generateblocks.editor.dynamicContent.sourceOptions',
@@ -20,8 +29,8 @@ const getOptions = ( dynamicContentType ) => {
 	);
 };
 
-export default ( { source, onChange, help, dynamicContentType } ) => {
-	const options = getOptions( dynamicContentType );
+export default ( { source, onChange, help, dynamicContentType, isInQueryLoop, blockName } ) => {
+	const options = getOptions( dynamicContentType, isInQueryLoop, blockName );
 	const value = options.filter( ( option ) => ( option.value === source ) );
 
 	return (

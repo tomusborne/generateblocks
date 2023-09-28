@@ -12,6 +12,8 @@ export default ( props ) => {
 		setAttributes,
 		dynamicContentType,
 		adjacentPost,
+		isInQueryLoop,
+		blockName,
 		currentPostType,
 		currentPostId,
 	} = props;
@@ -28,6 +30,8 @@ export default ( props ) => {
 					} );
 				} }
 				dynamicContentType={ dynamicContentType }
+				isInQueryLoop={ isInQueryLoop }
+				blockName={ blockName }
 			/>
 
 			{ dynamicSource === 'post-type' &&

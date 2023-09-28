@@ -24,14 +24,22 @@ function getExtraLoad( contentType, attributes ) {
 }
 
 export default ( attributes, name ) => {
-	const { postId, postType, dynamicSource } = attributes;
+	const { postId, postType, dynamicSource, dynamicContentType } = attributes;
 
 	if ( ( ! postType || ! postId ) && 'next-post' === dynamicSource ) {
-		return __( 'Next post', 'generateblocks' );
+		return sprintf(
+			// translators: %s: Content type.
+			__( 'Next post - %s', 'generateblocks' ),
+			dynamicContentType
+		);
 	}
 
 	if ( ( ! postType || ! postId ) && 'previous-post' === dynamicSource ) {
-		return __( 'Previous post', 'generateblocks' );
+		return sprintf(
+			// translators: %s: Content type.
+			__( 'Previous post - %s', 'generateblocks' ),
+			dynamicContentType
+		);
 	}
 
 	if ( ! postType ) {

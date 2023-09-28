@@ -57,7 +57,13 @@ registerBlockType( 'generateblocks/headline', {
 	save: saveHeadline,
 	transforms,
 	deprecated,
-	usesContext: [ 'postId', 'postType', 'generateblocks/dynamicImage', 'generateblocks/mediaId' ],
+	usesContext: [
+		'postId',
+		'postType',
+		'generateblocks/dynamicImage',
+		'generateblocks/mediaId',
+		'generateblocks/queryId',
+	],
 	__experimentalLabel: ( attrs, { context } ) => {
 		if (
 			context === 'list-view' &&

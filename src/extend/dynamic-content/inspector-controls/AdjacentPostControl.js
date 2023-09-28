@@ -11,7 +11,11 @@ export default function AdjacentPostControl( props ) {
 		dynamicSource,
 		postType,
 		postId,
-		adjacentPost,
+		adjacentPost = {
+			inSameTerm: false,
+			taxonomy: 'category',
+			excludeTerms: [],
+		},
 		setAttributes,
 	} = props;
 
