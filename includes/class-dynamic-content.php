@@ -129,6 +129,17 @@ class GenerateBlocks_Dynamic_Content {
 				break;
 		}
 
+		if (
+			isset( $attributes['dynamicSource'] ) &&
+			(
+				'next-post' === $attributes['dynamicSource'] ||
+				'previous-post' === $attributes['dynamicSource']
+			) &&
+			is_null( self::get_adjacent_post_id( $attributes ) )
+		) {
+			$content = '';
+		}
+
 		return apply_filters(
 			'generateblocks_dynamic_content_output',
 			$content,
@@ -641,6 +652,16 @@ class GenerateBlocks_Dynamic_Content {
 			$id = absint( $attributes['postId'] );
 		}
 
+		if (
+			isset( $attributes['dynamicSource'] ) &&
+			(
+				'next-post' === $attributes['dynamicSource'] ||
+				'previous-post' === $attributes['dynamicSource']
+			)
+		) {
+			$id = self::get_adjacent_post_id( $attributes );
+		}
+
 		$image_content_types = array( 'caption', 'post-title', 'alt-text', 'image-description' );
 
 		if ( isset( $attributes['dynamicContentType'] ) ) {
@@ -663,6 +684,33 @@ class GenerateBlocks_Dynamic_Content {
 			$id,
 			$attributes
 		);
+	}
+
+	/**
+	 * Returns the adjacent post id.
+	 *
+	 * @param $attributes
+	 *
+	 * @return int|null
+	 */
+	public static function get_adjacent_post_id( $attributes ): ?int {
+		$in_same_term = $attributes[ 'adjacentPost' ]['inSameTerm'] ?? false;
+		$exclude_terms = $attributes[ 'adjacentPost' ][ 'excludeTerms' ] ?? [];
+		$previous = 'previous-post' === $attributes['dynamicSource'];
+		$taxonomy = $attributes[ 'adjacentPost' ][ 'taxonomy' ] ?? 'category';
+
+		$adjacent_post = get_adjacent_post(
+			$in_same_term,
+			$exclude_terms,
+			$previous,
+			$taxonomy
+		);
+
+		if ( $adjacent_post ) {
+			return $adjacent_post->ID;
+		}
+
+		return null;
 	}
 
 	/**
