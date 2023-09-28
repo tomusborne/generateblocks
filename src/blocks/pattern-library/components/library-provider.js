@@ -68,6 +68,7 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ hoverPattern, setHoverPattern ] = useState( '' );
 	const [ loading, setLoading ] = useState( false );
 	const [ previewIframeWidth, setPreviewIframeWidth ] = useState( '100%' );
+	const [ paginationOffset, setPaginationOffset ] = useState( 0 );
 	const defaultContext = {
 		clientId,
 		libraries,
@@ -89,6 +90,8 @@ export function LibraryProvider( { clientId, children } ) {
 		setLoading,
 		previewIframeWidth,
 		setPreviewIframeWidth,
+		paginationOffset,
+		setPaginationOffset,
 		setLibraryCategories,
 		setLibraryPatterns,
 	};
