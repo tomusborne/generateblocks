@@ -27,6 +27,8 @@ const contentTypeSelectors = {
 	caption: getCaption,
 	'alt-text': getAltText,
 	'image-description': getDescription,
+	'term-description': getTermDescription,
+	'term-meta': getTermMeta,
 };
 
 /**
@@ -399,4 +401,22 @@ function getAltText( record ) {
  */
 function getDescription( record ) {
 	return record?.description?.raw || __( 'Image description', 'generateblocks' );
+}
+
+/**
+ * Return the term description.
+ *
+ * @return {string} The term description.
+ */
+function getTermDescription() {
+	return __( 'Term description', 'generateblocks' );
+}
+
+/**
+ * Return the term meta.
+ *
+ * @return {string} The term meta.
+ */
+function getTermMeta() {
+	return __( 'Term meta', 'generateblocks' );
 }

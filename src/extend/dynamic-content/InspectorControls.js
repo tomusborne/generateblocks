@@ -13,6 +13,7 @@ import CommentsControl from './inspector-controls/CommentsControl';
 import TermsControl from './inspector-controls/TermsControl';
 import ExcerptControl from './inspector-controls/ExcerptControl';
 import getIcon from '../../utils/get-icon';
+import TermMetaControl from "./inspector-controls/TermMetaControl";
 
 export default ( { context, attributes, setAttributes, name } ) => {
 	const {
@@ -159,6 +160,13 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							isActive={ 'author-meta' === dynamicContentType }
 							postType={ currentPostType }
 							postId={ currentPostId }
+							metaFieldName={ metaFieldName }
+							setAttributes={ setAttributes }
+							attributes={ attributes }
+						/>
+
+						<TermMetaControl
+							isActive={ 'term-meta' === dynamicContentType }
 							metaFieldName={ metaFieldName }
 							setAttributes={ setAttributes }
 							attributes={ attributes }

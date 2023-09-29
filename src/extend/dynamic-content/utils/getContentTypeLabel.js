@@ -44,6 +44,8 @@ export default function getContentTypeLabel( attributes, defaultLabel ) {
 			caption: __( 'Caption', 'generateblocks' ),
 			terms: __( 'List of terms', 'generateblocks' ),
 			'comments-number': __( 'Comments number', 'generateblocks' ),
+			'term-description': __( 'Term description', 'generateblocks' ),
+			'term-meta': __( 'Term meta', 'generateblocks' ),
 		};
 
 		const linkLabels = {

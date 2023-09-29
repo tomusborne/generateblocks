@@ -127,6 +127,14 @@ class GenerateBlocks_Dynamic_Content {
 			case 'image-description':
 				$content = self::get_image_description( $attributes, $block );
 				break;
+
+			case 'term-description':
+				$content = term_description();
+				break;
+
+			case 'term-meta':
+				$content = self::get_term_meta( $attributes );
+				break;
 		}
 
 		if (
@@ -1246,6 +1254,21 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $button_count;
+	}
+
+	/**
+	 * Return the term meta value.
+	 *
+	 * @param array $attributes The block attributes.
+	 *
+	 * @return string The term meta value.
+	 */
+	public static function get_term_meta( $attributes ) {
+		if ( isset( $attributes[ 'metaFieldName' ] ) ) {
+			return get_term_meta( get_queried_object_id(), $attributes['metaFieldName'], true );
+		}
+
+		return '';
 	}
 }
 

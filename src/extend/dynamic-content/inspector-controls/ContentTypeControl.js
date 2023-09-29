@@ -31,6 +31,13 @@ const getOptions = ( name, isCaption ) => {
 				{ value: 'author-last-name', label: __( 'Last name', 'generateblocks' ) },
 			],
 		},
+		{
+			label: __( 'Archive', 'generateblocks' ),
+			options: [
+				{ value: 'term-description', label: __( 'Term description', 'generateblocks' ) },
+				{ value: 'term-meta', label: __( 'Term meta', 'generateblocks' ) },
+			],
+		},
 	];
 
 	if ( 'generateblocks/button' === name ) {
@@ -44,7 +51,37 @@ const getOptions = ( name, isCaption ) => {
 		);
 	}
 
-	if ( 'generateblocks/container' === name || 'generateblocks/image' === name ) {
+	if ( 'generateblocks/image' === name ) {
+		defaultOptions = [
+			{
+				options: [
+					{ value: '', label: __( 'Select…', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Post', 'generateblocks' ),
+				options: [
+					{ value: 'featured-image', label: __( 'Featured Image', 'generateblocks' ) },
+					{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Author', 'generateblocks' ),
+				options: [
+					{ value: 'author-avatar', label: __( 'Author avatar', 'generateblocks' ) },
+					{ value: 'author-meta', label: __( 'Author meta', 'generateblocks' ) },
+				],
+			},
+			{
+				label: __( 'Archive', 'generateblocks' ),
+				options: [
+					{ value: 'term-meta', label: __( 'Term meta', 'generateblocks' ) },
+				],
+			},
+		];
+	}
+
+	if ( 'generateblocks/container' === name ) {
 		defaultOptions = [
 			{
 				options: [
