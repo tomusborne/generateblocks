@@ -58,7 +58,7 @@ class GenerateBlocks_Dynamic_Content {
 
 		switch ( $attributes['dynamicContentType'] ) {
 			case 'post-title':
-				$content = self::get_post_title( $attributes );
+				$content = self::get_title( $attributes );
 				break;
 
 			case 'post-excerpt':
@@ -152,9 +152,57 @@ class GenerateBlocks_Dynamic_Content {
 	 * Get the requested post title.
 	 *
 	 * @param array $attributes The block attributes.
+	 *
+	 * @return string The post title.
 	 */
 	public static function get_post_title( $attributes ) {
 		return get_the_title( self::get_source_id( $attributes ) );
+	}
+
+	/**
+	 * Get the title.
+	 *
+	 * @param $attributes
+	 *
+	 * @return array|int|mixed|string|null
+	 */
+	public static function get_title( $attributes ) {
+		if ( ! in_the_loop() ) {
+			if ( is_tax() || is_category() || is_tag() ) {
+				return get_queried_object()->name;
+			}
+
+			if ( is_post_type_archive() ) {
+				return post_type_archive_title( '', false );
+			}
+
+			if ( is_archive() && function_exists( 'get_the_archive_title' ) ) {
+				if ( is_author() ) {
+					return get_the_author();
+				}
+
+				return get_the_archive_title();
+			}
+
+			if ( is_home() ) {
+				$posts_page = get_option('page_for_posts', true);
+				if ( $posts_page ) {
+					return get_the_title( $posts_page );
+				}
+
+				return __( 'Blog', 'generateblocks' );
+			}
+
+			if ( is_search() ) {
+				return sprintf(
+					/* translators: 1: Search query name */
+					__( 'Search Results for: %s', 'generateblocks' ),
+					get_search_query()
+				);
+			}
+		}
+
+		return self::get_post_title( $attributes );
 	}
 
 	/**
