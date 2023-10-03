@@ -41,6 +41,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		customMoreLinkText,
 		dynamicLinkRemoveIfEmpty,
 		adjacentPost,
+		adjacentPostLink,
 	} = attributes;
 
 	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
@@ -99,7 +100,14 @@ export default ( { context, attributes, setAttributes, name } ) => {
 				adjacentPost: undefined,
 			} );
 		}
-	}, [ isInQueryLoop ] );
+
+		if ( isInQueryLoop && ( 'next-post' === dynamicLinkType || 'previous-post' === dynamicLinkType ) ) {
+			setAttributes( {
+				dynamicLinkType: 'single-post',
+				adjacentPostLink: undefined,
+			} );
+		}
+ 	}, [ isInQueryLoop, dynamicSource, dynamicLinkType ] );
 
 	return (
 		<InspectorControls>
@@ -216,6 +224,7 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							linkMetaFieldType={ linkMetaFieldType }
 							isPagination={ isPagination }
 							setAttributes={ setAttributes }
+							adjacentPostLink={ adjacentPostLink }
 							name={ name }
 						/>
 					</>

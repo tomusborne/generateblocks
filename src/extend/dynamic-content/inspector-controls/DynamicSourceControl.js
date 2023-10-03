@@ -58,7 +58,7 @@ export default ( props ) => {
 				</>
 			}
 
-			{ ( dynamicSource === 'next-post' || dynamicSource === 'previous-post' ) &&
+			{ ( 'next-post' === dynamicSource || 'previous-post' === dynamicSource ) &&
 				<AdjacentPostControl
 					dynamicSource={ dynamicSource }
 					adjacentPost={ adjacentPost }

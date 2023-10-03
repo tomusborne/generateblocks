@@ -137,17 +137,6 @@ class GenerateBlocks_Dynamic_Content {
 				break;
 		}
 
-		if (
-			isset( $attributes['dynamicSource'] ) &&
-			(
-				'next-post' === $attributes['dynamicSource'] ||
-				'previous-post' === $attributes['dynamicSource']
-			) &&
-			is_null( self::get_adjacent_post_id( $attributes ) )
-		) {
-			$content = '';
-		}
-
 		return apply_filters(
 			'generateblocks_dynamic_content_output',
 			$content,
@@ -180,33 +169,22 @@ class GenerateBlocks_Dynamic_Content {
 				return get_queried_object()->name;
 			}
 
+			if ( is_archive() && is_author() ) {
+				return get_the_author();
+			}
+
 			if ( is_post_type_archive() ) {
 				return post_type_archive_title( '', false );
 			}
 
-			if ( is_archive() && function_exists( 'get_the_archive_title' ) ) {
-				if ( is_author() ) {
-					return get_the_author();
-				}
-
-				return get_the_archive_title();
-			}
-
 			if ( is_home() ) {
 				$posts_page = get_option('page_for_posts', true);
-				if ( $posts_page ) {
-					return get_the_title( $posts_page );
-				}
 
-				return __( 'Blog', 'generateblocks' );
+				return $posts_page ? get_the_title( $posts_page ) : '';
 			}
 
 			if ( is_search() ) {
-				return sprintf(
-					/* translators: 1: Search query name */
-					__( 'Search Results for: %s', 'generateblocks' ),
-					get_search_query()
-				);
+				return  get_search_query();
 			}
 		}
 
@@ -745,21 +723,19 @@ class GenerateBlocks_Dynamic_Content {
 	/**
 	 * Returns the adjacent post id.
 	 *
-	 * @param $attributes
+	 * @param array $attributes The block attributes.
+	 * @param bool $is_link Is link source.
 	 *
 	 * @return int|null
 	 */
-	public static function get_adjacent_post_id( $attributes ): ?int {
-		$in_same_term = $attributes[ 'adjacentPost' ]['inSameTerm'] ?? false;
-		$exclude_terms = $attributes[ 'adjacentPost' ][ 'excludeTerms' ] ?? [];
-		$previous = 'previous-post' === $attributes['dynamicSource'];
-		$taxonomy = $attributes[ 'adjacentPost' ][ 'taxonomy' ] ?? 'category';
+	public static function get_adjacent_post_id( $attributes, $is_link = false ): ?int {
+		$args = self::get_adjacent_post_args( $attributes, $is_link );
 
 		$adjacent_post = get_adjacent_post(
-			$in_same_term,
-			$exclude_terms,
-			$previous,
-			$taxonomy
+			$args['in_same_term'],
+			$args['exclude_terms'],
+			$args['previous'],
+			$args['taxonomy']
 		);
 
 		if ( $adjacent_post ) {
@@ -767,6 +743,32 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Return the adjacent post arguments.
+	 *
+	 * @param array $attributes The block attributes.
+	 * @param bool  $is_link Is link source.
+	 *
+	 * @return array The arguments.
+	 */
+	public static function get_adjacent_post_args( $attributes, $is_link = false ) {
+		if ( $is_link ) {
+			return [
+				'in_same_term'  => $attributes['adjacentPostLink']['inSameTerm'] ?? false,
+				'exclude_terms' => $attributes['adjacentPostLink']['excludeTerms'] ?? [],
+				'taxonomy'      => $attributes['adjacentPostLink']['taxonomy'] ?? 'category',
+				'previous'      => 'previous-post' === $attributes['dynamicLinkType'],
+			];
+		}
+
+		return [
+			'in_same_term'  => $attributes['adjacentPost']['inSameTerm'] ?? false,
+			'exclude_terms' => $attributes['adjacentPost']['excludeTerms'] ?? [],
+			'taxonomy'      => $attributes['adjacentPost']['taxonomy'] ?? 'category',
+			'previous'      => 'previous-post' === $attributes['dynamicSource'],
+		];
 	}
 
 	/**
@@ -987,6 +989,30 @@ class GenerateBlocks_Dynamic_Content {
 				}
 			} elseif ( 1 !== $page ) {
 				$url = esc_url( add_query_arg( $page_key, $page - 1 ) );
+			}
+		}
+
+		if ( is_single() && ( 'previous-post' === $link_type || 'next-post' === $link_type ) ) {
+			$id = self::get_adjacent_post_id( $attributes, true );
+
+			$url = get_permalink( $id );
+		}
+
+		if ( ! is_single() && 'next-post' === $link_type ) {
+			global $paged, $wp_query;
+
+			$next_page = (int) ( $paged ?? 1 ) + 1;
+
+			if ( $next_page <= $wp_query->max_num_pages ) {
+				$url = next_posts( $wp_query->max_num_pages, false );
+			}
+		}
+
+		if ( ! is_single() && 'previous-post' === $link_type ) {
+			global $paged;
+
+			if ( (int) $paged > 1 ) {
+				$url = previous_posts( false );
 			}
 		}
 

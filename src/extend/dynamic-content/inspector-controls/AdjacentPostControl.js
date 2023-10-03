@@ -8,6 +8,7 @@ import { addQueryArgs } from '@wordpress/url';
 
 export default function AdjacentPostControl( props ) {
 	const {
+		attributeName = 'adjacentPost',
 		dynamicSource,
 		postType,
 		postId,
@@ -20,11 +21,15 @@ export default function AdjacentPostControl( props ) {
 	} = props;
 
 	useEffect( () => {
+		if ( 'adjacentPostLink' === attributeName ) {
+			return;
+		}
+
 		( async function() {
 			const data = await apiFetch( {
 				path: addQueryArgs( '/generateblocks/v1/dynamic-content/adjacent-post', {
 					postId,
-					previous: dynamicSource === 'previous-post',
+					previous: 'previous-post' === dynamicSource,
 					inSameTerm: adjacentPost.inSameTerm,
 					taxonomy: adjacentPost.taxonomy || 'category',
 					excludeTerms: adjacentPost.excludeTerms,
@@ -43,7 +48,7 @@ export default function AdjacentPostControl( props ) {
 
 			setAttributes( { postType: '', postId: '' } );
 		}() );
-	}, [ dynamicSource, postType, postId, JSON.stringify( adjacentPost ) ] );
+	}, [ dynamicSource, postType, postId, JSON.stringify( adjacentPost ), attributeName ] );
 
 	return (
 		<>
@@ -53,10 +58,10 @@ export default function AdjacentPostControl( props ) {
 				checked={ adjacentPost.inSameTerm }
 				onChange={ ( inSameTerm ) => {
 					if ( inSameTerm ) {
-						setAttributes( { adjacentPost: { ...adjacentPost, inSameTerm } } );
+						setAttributes( { [ attributeName ]: { ...adjacentPost, inSameTerm } } );
 					} else {
 						setAttributes( {
-							adjacentPost: {
+							[ attributeName ]: {
 								...adjacentPost,
 								inSameTerm: false,
 								taxonomy: '',
@@ -73,7 +78,7 @@ export default function AdjacentPostControl( props ) {
 					postType={ postType }
 					taxonomy={ adjacentPost.taxonomy }
 					onChange={ ( option ) => {
-						setAttributes( { adjacentPost: { ...adjacentPost, taxonomy: option.value } } );
+						setAttributes( { [ attributeName ]: { ...adjacentPost, taxonomy: option.value } } );
 					} }
 				/>
 
@@ -86,7 +91,7 @@ export default function AdjacentPostControl( props ) {
 					onChange={ ( options ) => {
 						const termIds = options.map( ( option ) => option.value );
 
-						setAttributes( { adjacentPost: { ...adjacentPost, excludeTerms: termIds } } );
+						setAttributes( { [ attributeName ]: { ...adjacentPost, excludeTerms: termIds } } );
 					} }
 				/>
 			</>

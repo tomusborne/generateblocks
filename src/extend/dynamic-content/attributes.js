@@ -120,4 +120,14 @@ export default applyFilters( 'generateblocks.editor.dynamicContent.attributes', 
 			excludeTerms: [],
 		},
 	},
+
+	adjacentPostLink: {
+		type: 'object',
+		default: {
+			previous: false,
+			inSameTerm: false,
+			taxonomy: '',
+			excludeTerms: [],
+		},
+	},
 } );

@@ -8,7 +8,7 @@ export default function TaxonomySelectControl( { taxonomy, postType, onChange } 
 
 	const taxonomiesOptions = useMemo( () => (
 		taxonomies
-			.filter( ( tax ) => ( tax.types.includes( postType ) ) )
+			// .filter( ( tax ) => ( tax.types.includes( postType ) ) )
 			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
 	), [ taxonomies, postType ] );
 

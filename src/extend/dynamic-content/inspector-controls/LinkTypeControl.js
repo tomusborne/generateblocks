@@ -4,6 +4,7 @@ import { applyFilters } from '@wordpress/hooks';
 import { SelectControl, ToggleControl } from '@wordpress/components';
 import PostMetaControl from './PostMetaControl';
 import AuthorMetaControl from './AuthorMetaControl';
+import AdjacentPostControl from "./AdjacentPostControl";
 
 const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 	let defaultOptions = [
@@ -18,6 +19,8 @@ const getOptions = ( dynamicContentType, isPagination = false, name ) => {
 				{ value: 'single-post', label: __( 'Single post', 'generateblocks' ) },
 				{ value: 'comments-area', label: __( 'Comments area', 'generateblocks' ) },
 				{ value: 'post-meta', label: __( 'Post meta', 'generateblocks' ) },
+				{ value: 'next-post', label: __( 'Next post', 'generateblocks' ) },
+				{ value: 'previous-post', label: __( 'Previous post', 'generateblocks' ) },
 			],
 		},
 		{
@@ -114,6 +117,7 @@ export default ( {
 	postType,
 	postId,
 	attributes,
+	adjacentPostLink,
 } ) => {
 	const options = getOptions( dynamicContentType, isPagination, name );
 
@@ -159,6 +163,17 @@ export default ( {
 						setAttributes={ setAttributes }
 						attributes={ attributes }
 					/>
+
+					{ ( 'previous-post' === linkType || 'next-post' === linkType ) &&
+						<AdjacentPostControl
+							attributeName={ 'adjacentPostLink' }
+							dynamicSource={ linkType }
+							adjacentPost={ adjacentPostLink }
+							postType={ postType }
+							postId={ postId }
+							setAttributes={ setAttributes }
+						/>
+					}
 
 					{ (
 						'author-email' === linkType ||
