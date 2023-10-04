@@ -34,7 +34,7 @@ export default function PatternList() {
 		<>
 			{ loading && ! activePatternId &&
 				<div className="loading-library"><Spinner />
-					{ __( 'Loading collection…', 'generateblocks' ) }
+					{ __( 'Loading library', 'generateblocks' ) }
 				</div>
 			}
 

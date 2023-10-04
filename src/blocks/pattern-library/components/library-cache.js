@@ -5,7 +5,7 @@ import { addQueryArgs } from '@wordpress/url';
 import { isEmpty } from 'lodash';
 import { Button, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import getIcon from '../../../utils/get-icon';
+import { backup } from '@wordpress/icons';
 
 export default function LibraryCache() {
 	const { activeLibrary, setLibraryCategories, setLibraryPatterns } = useLibrary();
@@ -43,10 +43,10 @@ export default function LibraryCache() {
 
 	return (
 		<Button
-			variant="secondary"
+			variant="tertiary"
 			size="compact"
 			disabled={ ! cacheData.can_clear }
-			icon={ ! cacheIsClearing ? getIcon( 'arrows-clockwise' ) : '' }
+			icon={ ! cacheIsClearing ? backup : '' }
 			label={ __( 'Refresh patterns', 'generateblocks' ) }
 			showTooltip
 			onClick={ async() => {

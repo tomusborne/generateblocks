@@ -10,6 +10,8 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
 import RequiredComponents from './required-components';
+import LibraryCache from './library-cache';
+import ManageLibraries from './manage-libraries';
 
 export default function LibraryLayout() {
 	const { clientId, activeLibrary, activePatternId, setActivePatternId, patterns } = useLibrary();
@@ -34,6 +36,9 @@ export default function LibraryLayout() {
 				</div>
 
 				<div className="pattern-library__header--close">
+					<LibraryCache />
+					<ManageLibraries />
+
 					{ ! activePatternId
 						? (
 							<Button

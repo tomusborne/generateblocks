@@ -99,7 +99,7 @@ export default function ManageLibraries() {
 	return (
 		<>
 			<Button
-				variant="secondary"
+				variant="tertiary"
 				size="compact"
 				icon={ settings }
 				label={ __( 'Manage Libraries', 'generateblocks' ) }

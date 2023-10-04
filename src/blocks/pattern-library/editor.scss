@@ -24,6 +24,12 @@
 			left: 50%;
 			transform: translateX(-50%);
 		}
+
+		&--close {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+		}
 	}
 
 	.pattern-library-selector {
@@ -179,23 +185,6 @@
 	li.previous.disabled,
 	li.next.disabled {
 		display: none;
-	}
-}
-
-.pattern-manage-actions {
-	margin-top: 2em;
-	display: flex;
-	gap: 10px;
-
-	.components-spinner {
-		margin: 0;
-	}
-
-	.components-button {
-		svg {
-			width: 18px;
-			height: 18px;
-		}
 	}
 }
 
