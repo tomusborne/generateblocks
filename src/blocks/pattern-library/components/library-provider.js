@@ -6,9 +6,11 @@ import { addQueryArgs } from '@wordpress/url';
 
 const LibraryContext = createContext( undefined );
 
-async function fetchLibraries() {
+export async function fetchLibraries( isEnabled = true ) {
 	return await apiFetch( {
-		path: '/generateblocks/v1/pattern-library/libraries?is_enabled=true',
+		path: addQueryArgs( '/generateblocks/v1/pattern-library/libraries', {
+			is_enabled: isEnabled,
+		} ),
 		method: 'GET',
 	} );
 }
@@ -56,7 +58,7 @@ async function fetchLibraryPatterns( libraryId, categoryId, search, isLocal, pub
 }
 
 export function LibraryProvider( { clientId, children } ) {
-	const [ libraries, setLibraries ] = useState( [] );
+	const [ libraries, setLibraryData ] = useState( [] );
 	const [ categories, setCategories ] = useState( [] );
 	const [ patterns, setPatterns ] = useState( [] );
 	const [ search, setSearch ] = useState( '' );
@@ -94,6 +96,7 @@ export function LibraryProvider( { clientId, children } ) {
 		setPaginationOffset,
 		setLibraryCategories,
 		setLibraryPatterns,
+		setLibraries,
 	};
 
 	async function setLibraryCategories() {
@@ -110,14 +113,18 @@ export function LibraryProvider( { clientId, children } ) {
 		setLoading( false );
 	}
 
+	async function setLibraries() {
+		const { data } = await fetchLibraries();
+
+		setLibraryData( data );
+		setActiveLibrary( data[ 0 ] );
+		setPublicKey( data[ 0 ].publicKey );
+		setIsLocal( !! data[ 0 ].isLocal );
+	}
+
 	useEffect( () => {
 		( async function() {
-			const { data } = await fetchLibraries();
-
-			setLibraries( data );
-			setActiveLibrary( data[ 0 ] );
-			setPublicKey( data[ 0 ].publicKey );
-			setIsLocal( !! data[ 0 ].isLocal );
+			setLibraries();
 		}() );
 	}, [] );
 

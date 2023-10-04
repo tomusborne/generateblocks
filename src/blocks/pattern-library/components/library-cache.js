@@ -4,7 +4,8 @@ import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { isEmpty } from 'lodash';
 import { Button, Spinner } from '@wordpress/components';
-import { __, sprintf } from '@wordpress/i18n';
+import { __ } from '@wordpress/i18n';
+import getIcon from '../../../utils/get-icon';
 
 export default function LibraryCache() {
 	const { activeLibrary, setLibraryCategories, setLibraryPatterns } = useLibrary();
@@ -41,42 +42,33 @@ export default function LibraryCache() {
 	}
 
 	return (
-		<div className="gblocks-pattern-cache">
-			{ !! cacheData.can_clear &&
-				<Button
-					variant="secondary"
-					size="compact"
-					onClick={ async() => {
-						setCacheIsClearing( true );
-						const response = await apiFetch( {
-							path: '/generateblocks/v1/pattern-library/clear-cache',
-							data: {
-								id: activeLibrary.id,
-							},
-							method: 'POST',
-						} );
+		<Button
+			variant="secondary"
+			size="compact"
+			disabled={ ! cacheData.can_clear }
+			icon={ ! cacheIsClearing ? getIcon( 'arrows-clockwise' ) : '' }
+			label={ __( 'Refresh patterns', 'generateblocks' ) }
+			showTooltip
+			onClick={ async() => {
+				setCacheIsClearing( true );
+				const response = await apiFetch( {
+					path: '/generateblocks/v1/pattern-library/clear-cache',
+					data: {
+						id: activeLibrary.id,
+					},
+					method: 'POST',
+				} );
 
-						if ( response.success ) {
-							await setLibraryCategories();
-							await setLibraryPatterns();
-							await checkCacheData();
-						}
+				if ( response.success ) {
+					await setLibraryCategories();
+					await setLibraryPatterns();
+					await checkCacheData();
+				}
 
-						setCacheIsClearing( false );
-					} }
-					disabled={ ! cacheData.can_clear }
-				>
-					{ !! cacheIsClearing ? <Spinner /> : __( 'Clear cache', 'generateblocks' ) }
-				</Button>
-			}
-
-			<div className="gblocks-pattern-cache__info">
-				{ sprintf(
-					// Translators: Cache expiry date.
-					__( 'Cache expires: %s', 'generateblocks' ),
-					cacheData.expiry_time
-				) }
-			</div>
-		</div>
+				setCacheIsClearing( false );
+			} }
+		>
+			{ !! cacheIsClearing ? <Spinner /> : '' }
+		</Button>
 	);
 }

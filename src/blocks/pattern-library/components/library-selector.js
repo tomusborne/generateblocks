@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from '@wordpress/components';
 import { useLibrary } from './library-provider';
+import AddLibrary from './add-library';
 
 export default function LibrarySelector() {
 	const {
@@ -33,6 +34,8 @@ export default function LibrarySelector() {
 						{ library.name }
 					</Button>
 				) ) }
+
+				<AddLibrary />
 			</ButtonGroup>
 		</div>
 	);
