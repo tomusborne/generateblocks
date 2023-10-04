@@ -1,9 +1,10 @@
 import Pattern from './pattern';
 import { useLibrary } from './library-provider';
-import { useEffect, useMemo, useRef } from '@wordpress/element';
+import { useMemo, useRef, useState, useEffect } from '@wordpress/element';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
+import Pagination from './library-pagination';
 
 export default function PatternList() {
 	const ref = useRef();
@@ -12,31 +13,22 @@ export default function PatternList() {
 		activePatternId,
 		setActivePatternId,
 		loading,
-		setLoading,
+		paginationOffset,
 	} = useLibrary();
-	const firstUpdate = useRef( true );
 
 	const activePattern = useMemo( () => {
 		const found = patterns.filter( ( pattern ) => ( pattern.id === activePatternId ) );
 		return found[ 0 ] || undefined;
 	}, [ activePatternId ] );
 
-	useEffect( () => {
-		if ( firstUpdate.current ) {
-			firstUpdate.current = false;
-			return;
-		}
-
-		setLoading( true );
-
-		const timer = setTimeout( () => {
-			setLoading( false );
-		}, 500 );
-
-		return () => clearTimeout( timer );
-	}, [ activePatternId ] );
-
 	const hide = loading ? { opacity: 0 } : {};
+	const itemsPerPage = 12;
+	const [ visiblePatterns, setVisiblePatterns ] = useState( [] );
+
+	useEffect( () => {
+		const endOffset = paginationOffset + itemsPerPage;
+		setVisiblePatterns( patterns.slice( paginationOffset, endOffset ) );
+	}, [ paginationOffset, patterns ] );
 
 	return (
 		<>
@@ -46,7 +38,7 @@ export default function PatternList() {
 				</div>
 			}
 
-			{ ! loading && ! activePatternId && ! patterns?.length &&
+			{ ! loading && ! patterns.length && ! activePatternId &&
 				<div className="loading-library">
 					{ __( 'No patterns found.', 'generateblocks' ) }
 				</div>
@@ -61,7 +53,7 @@ export default function PatternList() {
 			}
 
 			<div ref={ ref } className="patterns-wrapper" style={ hide }>
-				{ ! activePattern && patterns && patterns.map( ( pattern ) => (
+				{ ! activePattern && visiblePatterns && visiblePatterns.map( ( pattern ) => (
 					<div key={ pattern.id } className="gb-pattern-wrapper">
 						<Pattern
 							isLoading={ loading }
@@ -75,6 +67,21 @@ export default function PatternList() {
 					</div>
 				) ) }
 			</div>
+
+			{ ! activePattern &&
+				<div
+					style={ {
+						display: patterns.length <= itemsPerPage || loading ? 'none' : '',
+						marginTop: '2em',
+					} }
+				>
+					<Pagination
+						items={ patterns }
+						itemsPerPage={ itemsPerPage }
+						wrapperRef={ ref }
+					/>
+				</div>
+			}
 		</>
 	);
 }

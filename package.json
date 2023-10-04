@@ -23,6 +23,7 @@
 		"classnames": "^2.3.1",
 		"dompurify": "^2.4.0",
 		"imagesloaded": "^5.0.0",
+		"react-paginate": "^8.2.0",
 		"react-responsive-masonry": "^2.1.7",
 		"use-debounce": "^7.0.1"
 	},
@@ -32,7 +33,7 @@
 		"@wordpress/block-editor": "9.8.0",
 		"@wordpress/blocks": "11.15.0",
 		"@wordpress/components": "20.0.0",
-		"@wordpress/compose": "5.14.0",
+		"@wordpress/compose": "6.19.0",
 		"@wordpress/core-data": "4.14.0",
 		"@wordpress/data": "7.0.0",
 		"@wordpress/date": "4.16.0",

@@ -72,6 +72,26 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 				'permission_callback' => array( $this, 'edit_posts_permission' ),
 			)
 		);
+
+		register_rest_route(
+			$namespace,
+			'/pattern-library/get-cache-data',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_cache_data' ),
+				'permission_callback' => array( $this, 'edit_posts_permission' ),
+			)
+		);
+
+		register_rest_route(
+			$namespace,
+			'/pattern-library/clear-cache',
+			array(
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'clear_cache' ),
+				'permission_callback' => array( $this, 'edit_posts_permission' ),
+			)
+		);
 	}
 
 	/**
@@ -214,6 +234,12 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 	): WP_REST_Response {
 		$endpoint = "$library->domain/wp-json/generateblocks-pro/v1/pattern-library/$collection";
 		$url = add_query_arg( $query_args, $endpoint );
+		$cache_key = $library->id . '-' . $collection;
+		$cache = GenerateBlocks_Libraries::get_cached_data( $cache_key, $query_args, $collection );
+
+		if ( false !== $cache ) {
+			return $this->success( $cache );
+		}
 
 		$request = wp_remote_get(
 			$url,
@@ -224,22 +250,111 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 			)
 		);
 
-		if ( ! is_wp_error( $request ) ) {
-			$body = wp_remote_retrieve_body( $request );
-			$body = json_decode( $body, true );
-
-			return new WP_REST_Response(
-				array(
-					'success'  => true,
-					'response' => array(
-						'data' => $body['response']['data'],
-					),
-				),
-				200
-			);
-		} else {
-			return self::error( 500, "Unable to request from $endpoint" );
+		if ( is_wp_error( $request ) ) {
+			return $this->error( 500, "Unable to request from $endpoint" );
 		}
+
+		$body = wp_remote_retrieve_body( $request );
+		$body = json_decode( $body, true );
+		$data = $body['response']['data'] ?? [];
+
+		// Cache our data.
+		GenerateBlocks_Libraries::set_cached_data( $data, $cache_key, $collection );
+
+		return $this->success( $data );
+	}
+
+	/**
+	 * Get the expiry time of a cache.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function get_cache_data( WP_REST_Request $request ): WP_REST_Response {
+		$id = $request->get_param( 'id' );
+		$expiration_time = get_option( '_transient_timeout_' . $id . '-patterns_0' );
+
+		if ( ! $expiration_time ) {
+			return $this->failed( 'no_cache' );
+		}
+
+		$current_time = time();
+		$cache_made_time = $expiration_time - GenerateBlocks_Libraries::get_cache_expiry();
+		$can_clear_cache = $current_time > ( $cache_made_time + 300 );
+
+		return $this->success(
+			[
+				'expiry_time_raw' => $expiration_time,
+				'expiry_time' => gmdate( 'Y-m-d H:i:s', $expiration_time ),
+				'can_clear' => $can_clear_cache,
+			]
+		);
+	}
+
+	/**
+	 * Clear caches for a specific collection.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function clear_cache( WP_REST_Request $request ): WP_REST_Response {
+		$id = $request->get_param( 'id' );
+
+		global $wpdb;
+		$id = sanitize_text_field( $id );
+		$prefix = $wpdb->esc_like( '_transient_' . $id );
+
+		$transient_ids = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT option_name FROM $wpdb->options WHERE option_name LIKE %s",
+				$prefix . '%'
+			)
+		);
+
+		foreach ( $transient_ids as $transient_id ) {
+			$transient = str_replace( '_transient_', '', $transient_id );
+			delete_transient( $transient );
+		}
+
+		return $this->success( [] );
+	}
+
+	/**
+	 * Returns a success response.
+	 *
+	 * @param array $data The data.
+	 *
+	 * @return WP_REST_Response
+	 */
+	private function success( array $data ): WP_REST_Response {
+		return new WP_REST_Response(
+			array(
+				'success'  => true,
+				'response' => array(
+					'data' => $data,
+				),
+			),
+			200
+		);
+	}
+
+	/**
+	 * Returns a success response.
+	 *
+	 * @param string $message The error message.
+	 *
+	 * @return WP_REST_Response
+	 */
+	private function failed( string $message ): WP_REST_Response {
+		return new WP_REST_Response(
+			array(
+				'success'  => false,
+				'response' => $message,
+			),
+			200
+		);
 	}
 
 	/**

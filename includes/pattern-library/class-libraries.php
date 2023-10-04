@@ -129,4 +129,114 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 			false
 		);
 	}
+
+	/**
+	 * Get our cached library data by collection.
+	 *
+	 * @param string $cache_key The key to look up.
+	 * @param array  $query_args Args to filter the results with.
+	 * @param string $collection The collection to check.
+	 */
+	public static function get_cached_data( $cache_key = '', $query_args = [], $collection = '' ) {
+		if ( ! $cache_key ) {
+			return [];
+		}
+
+		if ( 'patterns' !== $collection ) {
+			return get_transient( $cache_key );
+		}
+
+		$cached_data = [];
+		$has_cache = false;
+		$index = 0;
+
+		while ( true ) {
+			$option_key = $cache_key . '_' . $index;
+			$chunk = get_transient( $option_key );
+
+			if ( false === $chunk ) {
+				// No more chunks found, exit the loop.
+				break;
+			}
+
+			// Merge the chunk into the cached data.
+			$cached_data += $chunk;
+			$has_cache = true;
+
+			// Increment the index for the next iteration.
+			$index++;
+		}
+
+		// If we have no cache, return false.
+		// This allows empty arrays to be cached.
+		if ( ! $has_cache ) {
+			return false;
+		}
+
+		if ( ! empty( $query_args['categoryId'] ) ) {
+			$cached_data = array_filter(
+				$cached_data,
+				function( $data ) use ( $query_args ) {
+					return in_array( $query_args['categoryId'], $data['categories'] );
+				}
+			);
+		}
+
+		if ( ! empty( $query_args['search'] ) ) {
+			$cached_data = array_filter(
+				$cached_data,
+				function( $data ) use ( $query_args ) {
+					foreach ( $data as $key => $value ) {
+						if ( is_string( $value ) && stripos( $value, $query_args['search'] ) !== false ) {
+							return true;
+						}
+
+						continue;
+					}
+
+					return false;
+				}
+			);
+		}
+
+		$cached_data = array_values( $cached_data );
+		return $cached_data;
+	}
+
+	/**
+	 * Set the collection cache expiry.
+	 */
+	public static function get_cache_expiry() {
+		return 86400;
+	}
+
+	/**
+	 * Set our cached data. This function will split our patterns into chunks.
+	 *
+	 * @param array  $data The data to cache.
+	 * @param string $cache_key The key to set.
+	 * @param string $collection The collection to check.
+	 */
+	public static function set_cached_data( $data = [], $cache_key = '', $collection = '' ) {
+		if ( ! $cache_key ) {
+			return;
+		}
+
+		$expiration = self::get_cache_expiry();
+
+		if ( 'patterns' === $collection ) {
+			if ( ! empty( $data ) ) {
+				$chunks = array_chunk( $data, 20, true );
+
+				foreach ( $chunks as $index => $chunk ) {
+					$option_key = $cache_key . '_' . $index;
+					set_transient( $option_key, $chunk, $expiration );
+				}
+			} else {
+				set_transient( $cache_key . '_0', $data, $expiration );
+			}
+		} else {
+			set_transient( $cache_key, $data, $expiration );
+		}
+	}
 }
