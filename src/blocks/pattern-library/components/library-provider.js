@@ -3,6 +3,8 @@ import { createContext, useContext, useEffect, useState } from '@wordpress/eleme
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
+import { applyFilters } from '@wordpress/hooks';
+import { isEmpty } from 'lodash';
 
 const LibraryContext = createContext( undefined );
 
@@ -57,6 +59,32 @@ async function fetchLibraryPatterns( libraryId, categoryId, search, isLocal, pub
 	return [];
 }
 
+async function fetchRequiredClasses( activeLibrary ) {
+	const requiredClassesApiData = applyFilters(
+		'generateblocks.editor.patternLibrary.requiredClassesApiData',
+		{},
+		{ activeLibrary }
+	);
+
+	if ( isEmpty( requiredClassesApiData ) ) {
+		return [];
+	}
+
+	const response = await apiFetch( {
+		path: addQueryArgs(
+			'/generateblocks-pro/v1/pattern-library/get-required-classes',
+			requiredClassesApiData
+		),
+		method: 'GET',
+	} );
+
+	if ( response ) {
+		return response.response;
+	}
+
+	return [];
+}
+
 export function LibraryProvider( { clientId, children } ) {
 	const [ libraries, setLibraryData ] = useState( [] );
 	const [ categories, setCategories ] = useState( [] );
@@ -71,6 +99,7 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ loading, setLoading ] = useState( false );
 	const [ previewIframeWidth, setPreviewIframeWidth ] = useState( '100%' );
 	const [ paginationOffset, setPaginationOffset ] = useState( 0 );
+	const [ requiredClasses, setRequiredClasses ] = useState( [] );
 	const defaultContext = {
 		clientId,
 		libraries,
@@ -97,6 +126,8 @@ export function LibraryProvider( { clientId, children } ) {
 		setLibraryCategories,
 		setLibraryPatterns,
 		setLibraries,
+		requiredClasses,
+		setRequiredClasses,
 	};
 
 	async function setLibraryCategories() {
@@ -107,8 +138,14 @@ export function LibraryProvider( { clientId, children } ) {
 	async function setLibraryPatterns() {
 		setLoading( true );
 		setPatterns( [] );
-		const { data } = await fetchLibraryPatterns( activeLibrary.id, activeCategory, search, isLocal, publicKey );
-		setPatterns( data );
+
+		if ( ! isLocal ) {
+			const { data: fetchedRequiredClasses } = await fetchRequiredClasses( activeLibrary );
+			setRequiredClasses( fetchedRequiredClasses );
+		}
+
+		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary.id, activeCategory, search, isLocal, publicKey );
+		setPatterns( fetchedPatterns );
 		setPaginationOffset( 0 );
 		setLoading( false );
 	}

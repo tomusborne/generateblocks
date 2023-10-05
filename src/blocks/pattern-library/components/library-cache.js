@@ -3,16 +3,21 @@ import { useLibrary } from './library-provider';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
 import { isEmpty } from 'lodash';
-import { Button, Spinner } from '@wordpress/components';
+import { Button, Icon, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { backup } from '@wordpress/icons';
 
 export default function LibraryCache() {
-	const { activeLibrary, setLibraryCategories, setLibraryPatterns } = useLibrary();
+	const { activeLibrary, setLibraryCategories, setLibraryPatterns, isLocal } = useLibrary();
 	const [ cacheData, setCacheData ] = useState( false );
 	const [ cacheIsClearing, setCacheIsClearing ] = useState( false );
 
 	async function checkCacheData() {
+		if ( isLocal ) {
+			setCacheData( {} );
+			return;
+		}
+
 		const cacheDataResponse = await apiFetch( {
 			path: addQueryArgs( `/generateblocks/v1/pattern-library/get-cache-data`, {
 				id: activeLibrary.id,
@@ -43,10 +48,10 @@ export default function LibraryCache() {
 
 	return (
 		<Button
+			className="has-icon"
 			variant="tertiary"
 			size="compact"
-			disabled={ ! cacheData.can_clear }
-			icon={ ! cacheIsClearing ? backup : '' }
+			disabled={ ! cacheData.can_clear || cacheIsClearing }
 			label={ __( 'Refresh patterns', 'generateblocks' ) }
 			showTooltip
 			onClick={ async() => {
@@ -68,7 +73,7 @@ export default function LibraryCache() {
 				setCacheIsClearing( false );
 			} }
 		>
-			{ !! cacheIsClearing ? <Spinner /> : '' }
+			{ !! cacheIsClearing ? <Spinner /> : <Icon icon={ backup } /> }
 		</Button>
 	);
 }
