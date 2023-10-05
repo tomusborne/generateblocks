@@ -31,7 +31,10 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 	 * @return array
 	 */
 	public function get_all( bool $enabled_only = true ): array {
-		$libraries = get_option( 'generateblocks_pattern_libraries', array() );
+		$libraries = array_map(
+			array( $this, 'create' ),
+			get_option( 'generateblocks_pattern_libraries', [] )
+		);
 		$libraries = apply_filters( 'generateblocks_default_pattern_libraries', $libraries );
 
 		// Force to always have a default library registered.

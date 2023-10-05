@@ -24,6 +24,18 @@
 			left: 50%;
 			transform: translateX(-50%);
 		}
+
+		&--close {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			.components-button {
+				.components-spinner {
+					margin: 0;
+				}
+			}
+		}
 	}
 
 	.pattern-library-selector {
@@ -31,6 +43,10 @@
 		align-items: center;
 		justify-content: center;
 		gap: 8px;
+
+		.components-button-group {
+			display: flex;
+		}
 	}
 }
 
@@ -178,18 +194,74 @@
 	}
 }
 
-.gblocks-pattern-cache {
-	margin-top: 2em;
-	padding-top: 2em;
-	border-top: 1px solid #ddd;
+.gblocks-manage-libraries {
+	width: 400px;
+	max-width: 100%;
 
-	&__info {
-		color: #777;
-		margin-top: 5px;
-		font-size: 11px;
+	&__table {
+		border: 1px solid #ddd;
+		margin-bottom: 2em;
 	}
 
-	.components-spinner {
-		margin: 0;
+	&__library {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px;
+		border-bottom: 1px solid #ddd;
+
+		&:nth-child(even) {
+			background: #fafafa;
+		}
+
+		&:last-child {
+			border-bottom: 0;
+		}
+
+		.components-base-control {
+			margin: 0;
+
+			&__field {
+				margin: 0;
+			}
+		}
+
+		&-name {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			.components-button {
+				svg {
+					width: 17px;
+					height: 17px;
+				}
+			}
+		}
+
+		&-actions {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			.components-base-control {
+				margin: 0;
+
+				&__field {
+					margin: 0;
+				}
+			}
+		}
+	}
+
+	h4 {
+		margin: 0 0 10px;
+		font-size: 15px;
+	}
+}
+
+.gblocks-patterns-add-library {
+	.components-base-control {
+		margin-bottom: 1.5em;
 	}
 }

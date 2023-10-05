@@ -10,9 +10,11 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
 import RequiredComponents from './required-components';
+import LibraryCache from './library-cache';
+import ManageLibraries from './manage-libraries';
 
 export default function LibraryLayout() {
-	const { clientId, activeLibrary, activePatternId, setActivePatternId, patterns } = useLibrary();
+	const { clientId, activeLibrary, activePatternId, setActivePatternId, patterns, requiredClasses, setRequiredClasses } = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
 	const activePattern = patterns?.find( ( pattern ) => activePatternId === pattern.id );
 
@@ -36,13 +38,17 @@ export default function LibraryLayout() {
 				<div className="pattern-library__header--close">
 					{ ! activePatternId
 						? (
-							<Button
-								variant="tertiary"
-								icon={ close }
-								label={ __( 'Close Pattern Library', 'generateblocks' ) }
-								showTooltip={ true }
-								onClick={ () => removeBlock( clientId ) }
-							/>
+							<>
+								<LibraryCache />
+								<ManageLibraries />
+								<Button
+									variant="tertiary"
+									icon={ close }
+									label={ __( 'Close Pattern Library', 'generateblocks' ) }
+									showTooltip={ true }
+									onClick={ () => removeBlock( clientId ) }
+								/>
+							</>
 						) : (
 							<Button
 								icon={ arrowLeft }
@@ -56,7 +62,11 @@ export default function LibraryLayout() {
 			</div>
 
 			<div className="pattern-library-layout">
-				<RequiredComponents activeLibrary={ activeLibrary }>
+				<RequiredComponents
+					activeLibrary={ activeLibrary }
+					requiredClasses={ requiredClasses }
+					setRequiredClasses={ setRequiredClasses }
+				>
 					<div className="library-sidebar">
 						{ ! activePatternId &&
 							<>

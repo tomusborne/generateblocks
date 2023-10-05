@@ -33,7 +33,6 @@ import {
  * Internal dependencies
  */
 import './dashboard.scss';
-import PatternLibrarySettings from './dashboard/pattern-library-settings';
 
 class App extends Component {
 	constructor() {
@@ -248,8 +247,6 @@ class App extends Component {
 							</div>
 						</div>
 					</PanelBody>
-
-					<PatternLibrarySettings />
 
 					{ applyFilters( 'generateblocks.dashboard.afterSettings', '', this ) }
 				</div>

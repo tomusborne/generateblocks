@@ -122,7 +122,7 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 	public function list_libraries( WP_REST_Request $request ): WP_REST_Response {
 		$is_enabled = $request->get_param( 'is_enabled' );
 		$libraries = GenerateBlocks_Libraries::get_instance();
-		$data = $libraries->get_all( ! ! $is_enabled );
+		$data = $libraries->get_all( rest_sanitize_boolean( $is_enabled ) );
 		$data = array_values( $data ); // Fix indexes.
 
 		return new WP_REST_Response(
@@ -143,22 +143,8 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 	 */
 	public function save_libraries( WP_REST_Request $request ): WP_REST_Response {
 		$data = $request->get_param( 'data' );
-
-		$instance = GenerateBlocks_Libraries::get_instance();
-		$libraries = array_map(
-			array( $instance, 'create' ),
-			$data
-		);
-
-		update_option( 'generateblocks_pattern_libraries', $libraries );
-
-		return new WP_REST_Response(
-			array(
-				'error'  => false,
-				'success' => true,
-			),
-			200
-		);
+		update_option( 'generateblocks_pattern_libraries', $data );
+		return $this->success( $data );
 	}
 
 	/**
