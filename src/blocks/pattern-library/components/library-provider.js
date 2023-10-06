@@ -142,6 +142,8 @@ export function LibraryProvider( { clientId, children } ) {
 		if ( ! isLocal ) {
 			const { data: fetchedRequiredClasses } = await fetchRequiredClasses( activeLibrary );
 			setRequiredClasses( fetchedRequiredClasses );
+		} else {
+			setRequiredClasses( [] );
 		}
 
 		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary.id, activeCategory, search, isLocal, publicKey );
