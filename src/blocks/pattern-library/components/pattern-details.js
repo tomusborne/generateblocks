@@ -6,9 +6,9 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 
-export function PatternDetails( { pattern } ) {
+export function PatternDetails( { pattern, patternRef } ) {
 	const { replaceBlock } = useDispatch( blockEditorStore );
-	const { clientId, setActivePatternId, activePatternId, previewIframeWidth, setPreviewIframeWidth } = useLibrary();
+	const { clientId, setActivePatternId, activePatternId, previewIframeWidth, setPreviewIframeWidth, setScrollPosition } = useLibrary();
 
 	return (
 		<div className="gb-pattern-details">
@@ -59,7 +59,14 @@ export function PatternDetails( { pattern } ) {
 						icon={ seen }
 						label={ __( 'Preview', 'generateblocks' ) }
 						showTooltip
-						onClick={ () => setActivePatternId( pattern.id ) }
+						onClick={ () => {
+							setActivePatternId( pattern.id );
+							const modal = patternRef.current.closest( '.components-modal__content' );
+
+							if ( modal ) {
+								setScrollPosition( modal.scrollTop );
+							}
+						} }
 					/>
 				}
 			</div>

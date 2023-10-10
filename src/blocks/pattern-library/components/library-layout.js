@@ -14,7 +14,7 @@ import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
 
 export default function LibraryLayout() {
-	const { clientId, activeLibrary, activePatternId, setActivePatternId, patterns, requiredClasses, setRequiredClasses } = useLibrary();
+	const { clientId, activeLibrary, activePatternId, setActivePatternId, patterns, requiredClasses, setRequiredClasses, setScrollPosition, scrollPosition } = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
 	const activePattern = patterns?.find( ( pattern ) => activePatternId === pattern.id );
 
@@ -52,7 +52,10 @@ export default function LibraryLayout() {
 						) : (
 							<Button
 								icon={ arrowLeft }
-								onClick={ () => setActivePatternId( '' ) }
+								onClick={ () => {
+									setActivePatternId( '' );
+									setScrollPosition( scrollPosition );
+								} }
 							>
 								{ __( 'Return to library' ) }
 							</Button>

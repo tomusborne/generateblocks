@@ -98,8 +98,10 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ hoverPattern, setHoverPattern ] = useState( '' );
 	const [ loading, setLoading ] = useState( false );
 	const [ previewIframeWidth, setPreviewIframeWidth ] = useState( '100%' );
-	const [ paginationOffset, setPaginationOffset ] = useState( 0 );
 	const [ requiredClasses, setRequiredClasses ] = useState( [] );
+	const itemsPerPage = 12;
+	const [ itemCount, setItemCount ] = useState( itemsPerPage );
+	const [ scrollPosition, setScrollPosition ] = useState( 0 );
 	const defaultContext = {
 		clientId,
 		libraries,
@@ -121,13 +123,16 @@ export function LibraryProvider( { clientId, children } ) {
 		setLoading,
 		previewIframeWidth,
 		setPreviewIframeWidth,
-		paginationOffset,
-		setPaginationOffset,
 		setLibraryCategories,
 		setLibraryPatterns,
 		setLibraries,
 		requiredClasses,
 		setRequiredClasses,
+		itemsPerPage,
+		itemCount,
+		setItemCount,
+		scrollPosition,
+		setScrollPosition,
 	};
 
 	async function setLibraryCategories() {
@@ -148,7 +153,8 @@ export function LibraryProvider( { clientId, children } ) {
 
 		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary.id, activeCategory, search, isLocal, publicKey );
 		setPatterns( fetchedPatterns );
-		setPaginationOffset( 0 );
+		setItemCount( itemsPerPage );
+		setScrollPosition( 0 );
 		setLoading( false );
 	}
 
