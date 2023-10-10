@@ -25,6 +25,10 @@ export default function Pattern( props ) {
 	const iframe = 1280;
 	const editorStylesWrapper = document?.querySelector( '.editor-styles-wrapper' );
 
+	/**
+	 * Debounce our resizing event.
+	 * This is used to re-calculate the pattern width.
+	 */
 	useEffect( () => {
 		let resizeTimer;
 
@@ -44,41 +48,49 @@ export default function Pattern( props ) {
 		};
 	}, [] );
 
+	/**
+	 * Set the width of our patterns.
+	 */
 	useEffect( () => {
 		if ( elementRef.current?.clientWidth && ! isResizing ) {
 			setPatternWidth( elementRef.current?.clientWidth );
 		}
 	}, [ elementRef.current?.clientWidth, isResizing ] );
 
+	/**
+	 * Set up lazy loading on the iframes.
+	 */
 	useEffect( () => {
-		const options = {
-			root: null, // Use the viewport as the root
-			rootMargin: '0px', // No margin
-			threshold: 0.01, // 1% visibility threshold
-		};
-
-		const callback = ( entries ) => {
-			entries.forEach( ( entry ) => {
-				if ( entry.isIntersecting ) {
-					setIsVisible( true );
-					observer.disconnect(); // Disconnect the observer once it's done its job
-				}
-			} );
-		};
-
-		const observer = new IntersectionObserver( callback, options );
+		const intersectionObserver = new IntersectionObserver(
+			( entries ) => {
+				entries.forEach( ( entry ) => {
+					if ( entry.isIntersecting ) {
+						setIsVisible( true );
+						intersectionObserver.disconnect();
+					}
+				} );
+			},
+			{
+				root: null,
+				rootMargin: '0px',
+				threshold: 0.01,
+			}
+		);
 
 		if ( elementRef.current ) {
-			observer.observe( elementRef.current );
+			intersectionObserver.observe( elementRef.current );
 		}
 
 		return () => {
-			if ( observer ) {
-				observer.disconnect(); // Disconnect the observer on unmount
+			if ( intersectionObserver ) {
+				intersectionObserver.disconnect();
 			}
 		};
 	}, [] );
 
+	/**
+	 * Insert our pattern preview into the empty iframe.
+	 */
 	useEffect( () => {
 		if ( ! isVisible || ! injectContent ) {
 			return;
@@ -104,6 +116,9 @@ export default function Pattern( props ) {
 		} );
 	}, [ injectContent, isVisible ] );
 
+	/**
+	 * Store our editor background and text color.
+	 */
 	useEffect( () => {
 		if ( ! editorStylesWrapper ) {
 			return;
@@ -116,6 +131,10 @@ export default function Pattern( props ) {
 		}
 	}, [ editorStylesWrapper?.style ] );
 
+	/**
+	 * Mimic our editor styles in the pattern preview.
+	 * This allows our patterns to have the same background/text colors as the editor.
+	 */
 	useLayoutEffect( () => {
 		const document = iframeRef.current?.contentWindow?.document;
 
@@ -124,6 +143,9 @@ export default function Pattern( props ) {
 		}
 	}, [ editorColors, height ] );
 
+	/**
+	 * Set the height of the preview iframe.
+	 */
 	useEffect( () => {
 		if ( ! activePatternId ) {
 			return;
@@ -135,6 +157,31 @@ export default function Pattern( props ) {
 			setHeight( document?.body?.scrollHeight );
 		} );
 	}, [ previewIframeWidth ] );
+
+	/**
+	 * Add padding and center the pattern if it's not full width.
+	 */
+	useEffect( () => {
+		const iframeDocument = iframeRef.current.contentWindow.document;
+		const iframeBody = iframeDocument.body;
+		const elements = Array.from( iframeBody.querySelectorAll( '*' ) );
+
+		const firstVisibleElement = elements?.find( ( element ) => {
+			const { display } = getComputedStyle( element );
+			return display !== 'none';
+		} );
+
+		if ( firstVisibleElement ) {
+			const parentWidth = firstVisibleElement.parentElement.clientWidth;
+			const isFullWidth = firstVisibleElement.offsetWidth === parentWidth;
+
+			if ( ! isFullWidth ) {
+				iframeBody.style.padding = '100px';
+				firstVisibleElement.style.marginLeft = 'auto';
+				firstVisibleElement.style.marginRight = 'auto';
+			}
+		}
+	}, [ patternWidth, injectContent, isVisible ] );
 
 	const viewportHeight = Math.round( height * ( viewport / iframe ) );
 
