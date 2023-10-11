@@ -805,10 +805,20 @@ class GenerateBlocks_Block_Headline {
 			);
 		}
 
+		error_log( print_r( $attributes, true ) );
+
+		if ( isset( $attributes[ 'beforeText' ] ) ) {
+			$output .= $attributes[ 'beforeText' ];
+		}
+
 		$output .= $dynamic_content;
 
 		if ( $icon_html ) {
 			$output .= '</span>';
+		}
+
+		if ( isset( $attributes[ 'afterText' ] ) ) {
+			$output .= $attributes[ 'afterText' ];
 		}
 
 		$output .= sprintf(

@@ -33,5 +33,11 @@ export default {
 		type: 'string',
 		default: '',
 	},
+	beforeText: {
+		type: 'string',
+	},
+	afterText: {
+		type: 'string',
+	},
 };
 /* eslint-enable no-undef */

@@ -7,6 +7,7 @@ import Element from '../../components/element';
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { applyFilters } from '@wordpress/hooks';
 import IconWrapper from '../../components/icon-wrapper';
+import {RawHTML} from "@wordpress/element";
 
 export default ( { attributes } ) => {
 	const {

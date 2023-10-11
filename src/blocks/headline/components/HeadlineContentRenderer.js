@@ -6,7 +6,7 @@ import RootElement from '../../../components/root-element';
 import IconWrapper from '../../../components/icon-wrapper';
 import Element from '../../../components/element';
 import { useSelect } from '@wordpress/data';
-import { useMemo } from '@wordpress/element';
+import {createElement, RawHTML, useMemo} from '@wordpress/element';
 
 export default function HeadlineContentRenderer( props ) {
 	const {
@@ -85,16 +85,32 @@ export default function HeadlineContentRenderer( props ) {
 					wrapperClassname={ 'gb-headline-text' }
 					ariaLabel={ ( !! removeText && !! ariaLabel ? ariaLabel : undefined ) }
 				>
-					<InnerContent
-						name={ name }
-						tagName={ tagName }
-						value={ content }
-						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
-						onSplit={ onSplit( attributes, clientId ) }
-						onReplace={ onReplace }
-						placeholder={ __( 'Headline', 'generateblocks' ) }
-						allowedFormats={ textFormats }
-					/>
+					{ attributes.beforeText &&
+						<span dangerouslySetInnerHTML={ { __html: attributes.beforeText } } />
+					}
+
+					{ attributes.useDynamicData &&
+						createElement( tagName, {
+							dangerouslySetInnerHTML: { __html: content || __( 'Dynamic content', 'generateblocks' ) },
+						} )
+					}
+
+					{ ! attributes.useDynamicData &&
+						<InnerContent
+							name={ name }
+							tagName={ tagName }
+							value={ content }
+							onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
+							onSplit={ onSplit( attributes, clientId ) }
+							onReplace={ onReplace }
+							placeholder={ __( 'Headline', 'generateblocks' ) }
+							allowedFormats={ textFormats }
+						/>
+					}
+
+					{ attributes.afterText &&
+						<span dangerouslySetInnerHTML={ { __html: attributes.afterText } } />
+					}
 				</IconWrapper>
 			</Element>
 		</RootElement>

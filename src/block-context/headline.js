@@ -6,6 +6,11 @@ const headlineContext = defaultsDeep( {
 	id: 'headline',
 	supports: {
 		responsiveTabs: true,
+		settingsPanel: {
+			enabled: true,
+			label: __( 'Block Settings', 'generateblocks' ),
+			icon: 'wrench',
+		},
 		layout: {
 			enabled: true,
 			display: true,

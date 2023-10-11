@@ -15,6 +15,9 @@ import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import withHeadlineLegacyMigration from '../../hoc/withHeadlineLegacyMigration';
 import getDeviceType from '../../utils/get-device-type';
 import withSetAttributes from '../../hoc/withSetAttributes';
+import {TextControl} from "@wordpress/components";
+import {__} from "@wordpress/i18n";
+import {RichText} from "@wordpress/block-editor";
 
 const onSplit = ( attributes, clientId ) => ( ( value, isOriginal ) => {
 	let block;
@@ -87,6 +90,16 @@ const HeadlineEdit = ( props ) => {
 				setAttributes={ setAttributes }
 				computedStyles={ computedStyles }
 			>
+				<TextControl
+					label={ __( 'Before text', 'generateblocks' ) }
+					value={ attributes.beforeText }
+					onChange={ ( beforeText ) => setAttributes( { beforeText } ) }
+				/>
+				<TextControl
+					label={ __( 'After text', 'generateblocks' ) }
+					value={ attributes.afterText }
+					onChange={ ( afterText ) => setAttributes( { afterText } ) }
+				/>
 				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
 			</GenerateBlocksInspectorControls>
 
