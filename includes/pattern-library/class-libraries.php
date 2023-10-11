@@ -31,16 +31,46 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 	 * @return array
 	 */
 	public function get_all( bool $enabled_only = true ): array {
-		$libraries = array_map(
-			array( $this, 'create' ),
-			get_option( 'generateblocks_pattern_libraries', [] )
-		);
-		$libraries = apply_filters( 'generateblocks_default_pattern_libraries', $libraries );
+		// Get saved library data.
+		$saved_libraries = get_option( 'generateblocks_pattern_libraries', [] );
 
-		// Force to always have a default library registered.
+		// Create library instances for any remote sites that provide the complete set of data.
+		$remote_libraries = array_map(
+			[ $this, 'create' ],
+			array_filter(
+				$saved_libraries,
+				function( $saved_library ) {
+					return isset( $saved_library['isLocal'] ) && ! $saved_library['isLocal'];
+				}
+			)
+		);
+
+		// Allow other libraries to be added.
+		$libraries = apply_filters(
+			'generateblocks_pattern_libraries',
+			$remote_libraries
+		);
+
+		// Add our default library at the start of the list.
 		if ( ! self::exists( $libraries, $this->default_library_id ) ) {
 			$default_library = self::get_default();
 			$libraries = array_merge( array( $default_library ), $libraries );
+		}
+
+		// Loop our libraries and set their status based on their saved value.
+		foreach ( $libraries as $key => $library ) {
+			$saved_data = array_filter(
+				get_option( 'generateblocks_pattern_libraries', [] ),
+				function( $saved_library ) use ( $library ) {
+					return $saved_library['id'] === $library->id;
+				}
+			);
+
+			$saved_data = array_values( $saved_data );
+
+			if ( isset( $saved_data[0]['isEnabled'] ) ) {
+				$library->setStatus( $saved_data[0]['isEnabled'] );
+			}
 		}
 
 		return array_filter(
@@ -141,6 +171,11 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 	 * @param string $collection The collection to check.
 	 */
 	public static function get_cached_data( $cache_key = '', $query_args = [], $collection = '' ) {
+		// todo: Remove this filter, only here for pattern dev.
+		if ( apply_filters( 'pattern_library_skip_cache', false ) ) {
+			return false;
+		}
+
 		if ( ! $cache_key ) {
 			return [];
 		}

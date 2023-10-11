@@ -68,7 +68,7 @@ function ManageRow( { library, librariesToManage, setLibrariesToManage, isRemote
 						const response = await saveLibraries( newData );
 
 						if ( response.success && response?.response?.data.length ) {
-							setLibraries( response?.response?.data.length );
+							setLibraries();
 						}
 					} }
 				/>

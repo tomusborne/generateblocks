@@ -19,44 +19,44 @@ export async function fetchLibraries( isEnabled = true ) {
 
 async function fetchLibraryCategories( libraryId, isLocal, publicKey ) {
 	const pro = isLocal ? '-pro' : '';
-	const response = await apiFetch( {
-		path: addQueryArgs( `/generateblocks${ pro }/v1/pattern-library/categories`, {
-			libraryId,
-		} ),
-		method: 'GET',
-		headers: {
-			'X-GB-Public-Key': publicKey,
-			'X-GB-Library-Collection': btoa( libraryId ),
-		},
-	} );
+	try {
+		const response = await apiFetch( {
+			path: addQueryArgs( `/generateblocks${ pro }/v1/pattern-library/categories`, {
+				libraryId,
+			} ),
+			method: 'GET',
+			headers: {
+				'X-GB-Public-Key': publicKey,
+				'X-GB-Library-Collection': btoa( libraryId ),
+			},
+		} );
 
-	if ( response ) {
-		return response.response;
+		return response?.response ?? [];
+	} catch ( error ) {
+		return [];
 	}
-
-	return [];
 }
 
 async function fetchLibraryPatterns( libraryId, categoryId, search, isLocal, publicKey ) {
 	const pro = isLocal ? '-pro' : '';
-	const response = await apiFetch( {
-		path: addQueryArgs( `/generateblocks${ pro }/v1/pattern-library/patterns`, {
-			libraryId,
-			categoryId,
-			search,
-		} ),
-		method: 'GET',
-		headers: {
-			'X-GB-Public-Key': publicKey,
-			'X-GB-Library-Collection': btoa( libraryId ),
-		},
-	} );
+	try {
+		const response = await apiFetch( {
+			path: addQueryArgs( `/generateblocks${ pro }/v1/pattern-library/patterns`, {
+				libraryId,
+				categoryId,
+				search,
+			} ),
+			method: 'GET',
+			headers: {
+				'X-GB-Public-Key': publicKey,
+				'X-GB-Library-Collection': btoa( libraryId ),
+			},
+		} );
 
-	if ( response ) {
-		return response.response;
+		return response?.response ?? [];
+	} catch ( error ) {
+		return [];
 	}
-
-	return [];
 }
 
 async function fetchRequiredClasses( activeLibrary ) {
@@ -136,8 +136,8 @@ export function LibraryProvider( { clientId, children } ) {
 	};
 
 	async function setLibraryCategories() {
-		const { data } = await fetchLibraryCategories( activeLibrary.id, isLocal, publicKey );
-		setCategories( data );
+		const { data } = await fetchLibraryCategories( activeLibrary?.id, isLocal, publicKey );
+		setCategories( data ?? [] );
 	}
 
 	async function setLibraryPatterns() {
@@ -151,8 +151,8 @@ export function LibraryProvider( { clientId, children } ) {
 			setRequiredClasses( [] );
 		}
 
-		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary.id, activeCategory, search, isLocal, publicKey );
-		setPatterns( fetchedPatterns );
+		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary?.id, activeCategory, search, isLocal, publicKey );
+		setPatterns( fetchedPatterns ?? [] );
 		setItemCount( itemsPerPage );
 		setScrollPosition( 0 );
 		setLoading( false );
@@ -161,10 +161,11 @@ export function LibraryProvider( { clientId, children } ) {
 	async function setLibraries() {
 		const { data } = await fetchLibraries();
 
-		setLibraryData( data );
-		setActiveLibrary( data[ 0 ] );
-		setPublicKey( data[ 0 ].publicKey );
-		setIsLocal( !! data[ 0 ].isLocal );
+		setLibraryData( data ?? [] );
+
+		setActiveLibrary( data.length ? data[ 0 ] : false );
+		setPublicKey( data.length ? data[ 0 ].publicKey : '' );
+		setIsLocal( data.length && !! data[ 0 ].isLocal );
 	}
 
 	useEffect( () => {
@@ -176,14 +177,18 @@ export function LibraryProvider( { clientId, children } ) {
 	useEffect( () => {
 		if ( activeLibrary.id ) {
 			setLibraryCategories();
+		} else {
+			setCategories( [] );
 		}
-	}, [ activeLibrary.id ] );
+	}, [ activeLibrary?.id ] );
 
 	useEffect( () => {
 		if ( activeLibrary.id ) {
 			setLibraryPatterns();
+		} else {
+			setPatterns( [] );
 		}
-	}, [ activeLibrary.id, activeCategory, search, publicKey ] );
+	}, [ activeLibrary?.id, activeCategory, search, publicKey ] );
 
 	return (
 		<LibraryContext.Provider value={ defaultContext }>

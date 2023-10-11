@@ -143,8 +143,25 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 	 */
 	public function save_libraries( WP_REST_Request $request ): WP_REST_Response {
 		$data = $request->get_param( 'data' );
-		update_option( 'generateblocks_pattern_libraries', $data );
-		return $this->success( $data );
+		$libraries = array_map(
+			function( $library ) {
+				if ( ! $library['isLocal'] && ! $library['isDefault'] ) {
+					// Save all data if this is a remote library.
+					return $library;
+				}
+
+				// Only save the ID and status for local and default libraries.
+				// The rest of the data will be supplied via the PHP filter.
+				return [
+					'id' => $library['id'],
+					'isEnabled' => $library['isEnabled'],
+				];
+			},
+			$data
+		);
+
+		update_option( 'generateblocks_pattern_libraries', $libraries );
+		return $this->success( $libraries );
 	}
 
 	/**

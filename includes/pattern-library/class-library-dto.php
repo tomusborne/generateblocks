@@ -37,4 +37,13 @@ class GenerateBlocks_Library_DTO extends GenerateBlocks_DTO {
 		'is_default' => false,
 		'is_local' => false,
 	);
+
+	/**
+	 * Set the status for a library.
+	 *
+	 * @param boolean $newStatus The status to set.
+	 */
+	public function setStatus( $newStatus ) {
+		$this->data['is_enabled'] = $newStatus;
+	}
 }

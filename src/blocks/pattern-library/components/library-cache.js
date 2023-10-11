@@ -34,13 +34,13 @@ export default function LibraryCache() {
 
 	useEffect( () => {
 		( async function() {
-			if ( ! activeLibrary.id ) {
+			if ( ! activeLibrary?.id ) {
 				return;
 			}
 
 			checkCacheData();
 		}() );
-	}, [ activeLibrary.id ] );
+	}, [ activeLibrary?.id ] );
 
 	if ( isEmpty( cacheData ) ) {
 		return null;
@@ -59,7 +59,7 @@ export default function LibraryCache() {
 				const response = await apiFetch( {
 					path: '/generateblocks/v1/pattern-library/clear-cache',
 					data: {
-						id: activeLibrary.id,
+						id: activeLibrary?.id,
 					},
 					method: 'POST',
 				} );
