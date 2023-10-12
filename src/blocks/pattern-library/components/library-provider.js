@@ -137,13 +137,20 @@ export function LibraryProvider( { clientId, children } ) {
 
 	async function setLibraryCategories() {
 		const { data } = await fetchLibraryCategories( activeLibrary?.id, isLocal, publicKey );
-		setCategories( data ?? [] );
+		const { data: allPatterns } = await fetchLibraryPatterns( activeLibrary?.id, '', '', isLocal, publicKey );
+
+		// We only want to show categories that have patterns in this current library of collections.
+		const categoriesInPatterns = new Set( allPatterns.flatMap( ( obj ) => obj.categories ) );
+		const categoriesWithPatterns = data.filter( ( category ) => categoriesInPatterns.has( category.id ) );
+
+		setCategories( categoriesWithPatterns ?? [] );
 	}
 
 	async function setLibraryPatterns() {
 		setLoading( true );
 		setPatterns( [] );
 
+		// Check for required global classes.
 		if ( ! isLocal ) {
 			const { data: fetchedRequiredClasses } = await fetchRequiredClasses( activeLibrary );
 			setRequiredClasses( fetchedRequiredClasses );
@@ -151,8 +158,11 @@ export function LibraryProvider( { clientId, children } ) {
 			setRequiredClasses( [] );
 		}
 
+		// Fetch patterns for the active library.
 		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary?.id, activeCategory, search, isLocal, publicKey );
 		setPatterns( fetchedPatterns ?? [] );
+
+		// Reset.
 		setItemCount( itemsPerPage );
 		setScrollPosition( 0 );
 		setLoading( false );
