@@ -15,6 +15,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 1.9.0
  */
 class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
+	/**
+	 * Initialize all hooks.
+	 *
+	 * @return void
+	 */
+	public function init() {
+		add_filter( 'query_vars', [ $this, 'add_query_vars' ] );
+		add_action( 'init', [ $this, 'rewrite_endpoints' ] );
+		add_action( 'template_include', [ $this, 'template_viewer' ] );
+		add_filter( 'show_admin_bar', [ $this, 'hide_admin_bar' ] );
+	}
 
 	/**
 	 * The default id.
@@ -277,4 +288,55 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 			set_transient( $cache_key, $data, $expiration );
 		}
 	}
+
+	/**
+	 * Adds GB custom query variables.
+	 *
+	 * @param array $vars The variables.
+	 *
+	 * @return array
+	 */
+	public function add_query_vars( array $vars ): array {
+		$vars[] = 'gb-template-viewer';
+		return $vars;
+	}
+
+	/**
+	 * Adds GB custom rewrite endpoints.
+	 *
+	 * @return void
+	 */
+	public function rewrite_endpoints(): void {
+		add_rewrite_endpoint( 'gb-template-viewer', EP_ROOT );
+	}
+
+	/**
+	 * Register the template viewer template.
+	 *
+	 * @param string $template The current template.
+	 *
+	 * @return string
+	 */
+	public function template_viewer( string $template ): string {
+		if ( false !== get_query_var( 'gb-template-viewer', false ) ) {
+			return GENERATEBLOCKS_DIR . 'includes/pattern-library/templates/gb-template-viewer.php';
+		}
+
+		return $template;
+	}
+
+	/**
+	 * Hide the admin bar if we are on the template viewer.
+	 *
+	 * @return bool
+	 */
+	function hide_admin_bar( $show_admin_bar ): bool {
+		if ( false !== get_query_var( 'gb-template-viewer', false ) ) {
+			$show_admin_bar = false;
+		}
+
+		return $show_admin_bar;
+	}
 }
+
+GenerateBlocks_Libraries::get_instance()->init();
