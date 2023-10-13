@@ -23,11 +23,11 @@ async function fetchLibraryCategories( libraryId, isLocal, publicKey ) {
 		const response = await apiFetch( {
 			path: addQueryArgs( `/generateblocks${ pro }/v1/pattern-library/categories`, {
 				libraryId,
+				isLocal,
 			} ),
 			method: 'GET',
 			headers: {
 				'X-GB-Public-Key': publicKey,
-				'X-GB-Library-Collection': btoa( libraryId ),
 			},
 		} );
 
@@ -45,11 +45,11 @@ async function fetchLibraryPatterns( libraryId, categoryId, search, isLocal, pub
 				libraryId,
 				categoryId,
 				search,
+				isLocal,
 			} ),
 			method: 'GET',
 			headers: {
 				'X-GB-Public-Key': publicKey,
-				'X-GB-Library-Collection': btoa( libraryId ),
 			},
 		} );
 
@@ -70,19 +70,24 @@ async function fetchRequiredClasses( activeLibrary ) {
 		return [];
 	}
 
-	const response = await apiFetch( {
-		path: addQueryArgs(
-			'/generateblocks-pro/v1/pattern-library/get-required-classes',
-			requiredClassesApiData
-		),
-		method: 'GET',
-	} );
+	try {
+		const response = await apiFetch( {
+			path: addQueryArgs(
+				'/generateblocks-pro/v1/pattern-library/get-required-classes',
+				requiredClassesApiData
+			),
+			method: 'GET',
+			headers: {
+				'X-GB-Public-Key': activeLibrary.publicKey,
+			},
+		} );
 
-	if ( response ) {
-		return response.response;
+		if ( response ) {
+			return response.response;
+		}
+	} catch ( error ) {
+		return [];
 	}
-
-	return [];
 }
 
 export function LibraryProvider( { clientId, children } ) {

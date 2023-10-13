@@ -39,7 +39,7 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'list_libraries' ),
-				'permission_callback' => array( $this, 'manage_options_permission' ),
+				'permission_callback' => array( $this, 'edit_posts_permission' ),
 			)
 		);
 
