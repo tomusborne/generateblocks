@@ -37,13 +37,7 @@ function PatternLibraryEdit( { clientId } ) {
 				<Modal
 					className="gblocks-pattern-library-modal"
 					isFullScreen
-					onRequestClose={ ( event ) => {
-						if ( 'blur' === event.type ) {
-							return;
-						}
-
-						removeBlock( clientId );
-					} }
+					onRequestClose={ () => setIsOpen( false ) }
 				>
 					<LibraryProvider clientId={ clientId }>
 						<LibraryLayout />
