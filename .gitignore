@@ -3,7 +3,5 @@ vendor
 .DS_Store
 *.zip
 composer.lock
-## Uncomment line below if you prefer to
-## keep compiled files out of version control
-# dist/
+dist
 .phpunit.result.cache
