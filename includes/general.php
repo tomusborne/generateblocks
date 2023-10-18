@@ -438,7 +438,7 @@ add_filter( 'block_editor_settings_all', 'generateblocks_do_block_css_reset', 15
  * @param array $editor_settings The existing editor settings.
  */
 function generateblocks_do_block_css_reset( $editor_settings ) {
-	$css = '.gb-container, .gb-headline, .gb-button, .gb-image, .gb-grid-wrapper, .gb-button-wrapper {max-width:unset;margin-left:0;margin-right:0;}';
+	$css = '.gb-container, .gb-headline, .gb-button {max-width:unset;margin-left:0;margin-right:0;}';
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
 	return $editor_settings;
