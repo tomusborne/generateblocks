@@ -182,11 +182,6 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 	 * @param string $collection The collection to check.
 	 */
 	public static function get_cached_data( $cache_key = '', $query_args = [], $collection = '' ) {
-		// todo: Remove this filter, only here for pattern dev.
-		if ( apply_filters( 'pattern_library_skip_cache', false ) ) {
-			return false;
-		}
-
 		if ( ! $cache_key ) {
 			return [];
 		}
@@ -328,9 +323,10 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 	/**
 	 * Hide the admin bar if we are on the template viewer.
 	 *
+	 * @param bool $show_admin_bar Whether to show the admin bar.
 	 * @return bool
 	 */
-	function hide_admin_bar( $show_admin_bar ): bool {
+	public function hide_admin_bar( $show_admin_bar ) {
 		if ( false !== get_query_var( 'gb-template-viewer', false ) ) {
 			$show_admin_bar = false;
 		}
