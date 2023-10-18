@@ -16,7 +16,6 @@ import {
 } from '@wordpress/hooks';
 import sizingValue from '../../../utils/sizingValue';
 import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
-import getEditorSelector from '../../../utils/get-editor-selector';
 
 export default class TabletCSS extends Component {
 	render() {
@@ -52,22 +51,17 @@ export default class TabletCSS extends Component {
 			borderBottomLeftRadiusTablet,
 		} = attributes.borders;
 
-		const selector = '.editor-styles-wrapper ' + getEditorSelector(
-			'.gb-container-' + uniqueId,
-			{ name: this.props.name, attributes }
-		);
-
 		let cssObj = [];
 
-		TypographyCSS( cssObj, selector, attributes.typography, 'Tablet' );
-		SpacingCSS( cssObj, selector, { ...attributes.spacing, useInnerContainer }, 'Tablet' );
-		BorderCSS( cssObj, selector, attributes.borders, 'Tablet' );
-		SizingCSS( cssObj, selector, attributes, 'Tablet' );
-		LayoutCSS( cssObj, selector, attributes, 'Tablet' );
-		FlexChildCSS( cssObj, selector, attributes, 'Tablet' );
+		TypographyCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.typography, 'Tablet' );
+		SpacingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, { ...attributes.spacing, useInnerContainer }, 'Tablet' );
+		BorderCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes.borders, 'Tablet' );
+		SizingCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+		LayoutCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
+		FlexChildCSS( cssObj, '.editor-styles-wrapper .gb-container-' + uniqueId, attributes, 'Tablet' );
 
 		if ( useInnerContainer ) {
-			cssObj[ selector + ' > .gb-inside-container' ] = [ {
+			cssObj[ '.gb-container-' + uniqueId + ' > .gb-inside-container' ] = [ {
 				'padding-top': paddingTopTablet,
 				'padding-right': paddingRightTablet,
 				'padding-bottom': paddingBottomTablet,
@@ -76,7 +70,7 @@ export default class TabletCSS extends Component {
 			} ];
 
 			if ( sizingValue( 'minHeightTablet', sizing ) && ! isGrid ) {
-				cssObj[ selector ].push( {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 					'display': 'flex', // eslint-disable-line quote-props
 					'flex-direction': 'row',
 					'align-items': 'inherit' !== verticalAlignmentTablet ? verticalAlignmentTablet : null,
@@ -84,7 +78,7 @@ export default class TabletCSS extends Component {
 			}
 
 			if ( isGrid && 'inherit' !== verticalAlignmentTablet ) {
-				cssObj[ selector ].push( {
+				cssObj[ '.editor-styles-wrapper .gb-container-' + uniqueId ].push( {
 					'display': 'flex', // eslint-disable-line quote-props
 					'flex-direction': 'column',
 					'height': '100%', // eslint-disable-line quote-props
@@ -109,7 +103,7 @@ export default class TabletCSS extends Component {
 		}
 
 		if ( !! bgImage && 'pseudo-element' === bgOptions.selector ) {
-			cssObj[ selector + ':before' ] = [ {
+			cssObj[ '.gb-container-' + uniqueId + ':before' ] = [ {
 				'border-top-left-radius': borderTopLeftRadiusTablet,
 				'border-top-right-radius': borderTopRightRadiusTablet,
 				'border-bottom-right-radius': borderBottomRightRadiusTablet,
@@ -121,7 +115,7 @@ export default class TabletCSS extends Component {
 			shapeDividers.forEach( ( location, index ) => {
 				const shapeNumber = index + 1;
 
-				cssObj[ selector + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
+				cssObj[ '.gb-container-' + uniqueId + ' > .gb-shapes .gb-shape-' + shapeNumber + ' svg' ] = [ {
 					height: valueWithUnit( shapeDividers[ index ].heightTablet, 'px' ),
 					width: valueWithUnit( shapeDividers[ index ].widthTablet, '%' ),
 				} ];

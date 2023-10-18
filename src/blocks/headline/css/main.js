@@ -14,7 +14,6 @@ import {
 	applyFilters,
 } from '@wordpress/hooks';
 import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
-import getEditorSelector from '../../../utils/get-editor-selector';
 
 export default class MainCSS extends Component {
 	render() {
@@ -42,10 +41,7 @@ export default class MainCSS extends Component {
 			iconStyles,
 		} = attributes;
 
-		const selector = getEditorSelector(
-			element + '.gb-headline-' + uniqueId,
-			{ name: this.props.name, attributes }
-		);
+		const selector = element + '.gb-headline-' + uniqueId;
 
 		let cssObj = [];
 

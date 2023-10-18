@@ -3,7 +3,6 @@ import { applyFilters } from '@wordpress/hooks';
 import shorthandCSS from '../../../utils/shorthand-css';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
-import getEditorSelector from '../../../utils/get-editor-selector';
 
 export default function TabletCSS( props ) {
 	const attributes = applyFilters( 'generateblocks.editor.cssAttrs', props.attributes, props );
@@ -25,10 +24,6 @@ export default function TabletCSS( props ) {
 		borderBottomLeftRadiusTablet,
 	} = attributes.borders;
 
-	const selector = '.editor-styles-wrapper ' + getEditorSelector(
-		'.gb-image-' + uniqueId,
-		{ name: props.name, attributes }
-	);
 	let cssObj = [];
 
 	const floats = {
@@ -57,16 +52,16 @@ export default function TabletCSS( props ) {
 
 	SpacingCSS( cssObj, '.editor-styles-wrapper .gb-block-image-' + uniqueId, attributes.spacing, 'Tablet' );
 
-	cssObj[ selector ] = [ {
+	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId ] = [ {
 		'border-color': borderColor,
 		width: widthTablet,
 		height: heightTablet,
 		'object-fit': objectFitTablet,
 	} ];
 
-	BorderCSS( cssObj, selector, attributes.borders, 'Tablet' );
+	BorderCSS( cssObj, '.editor-styles-wrapper .gb-image-' + uniqueId, attributes.borders, 'Tablet' );
 
-	cssObj[ selector + ' + .components-placeholder__illustration' ] = [ {
+	cssObj[ '.editor-styles-wrapper .gb-image-' + uniqueId + ' + .components-placeholder__illustration' ] = [ {
 		'border-radius': shorthandCSS( borderTopLeftRadiusTablet, borderTopRightRadiusTablet, borderBottomRightRadiusTablet, borderBottomLeftRadiusTablet ),
 	} ];
 

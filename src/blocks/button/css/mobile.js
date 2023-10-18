@@ -6,7 +6,7 @@ import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
-import getEditorSelector from '../../../utils/get-editor-selector';
+
 import {
 	Component,
 } from '@wordpress/element';
@@ -28,11 +28,7 @@ export default class MobileCSS extends Component {
 
 		const containerSelector = !! hasButtonContainer ? '.gb-button-wrapper ' : '';
 		let selector = '.gb-button-' + uniqueId;
-		selector = containerSelector + selector;
-		selector = '.editor-styles-wrapper ' + getEditorSelector(
-			selector,
-			{ name: this.props.name, attributes }
-		);
+		selector = '.editor-styles-wrapper ' + containerSelector + selector;
 
 		let cssObj = [];
 

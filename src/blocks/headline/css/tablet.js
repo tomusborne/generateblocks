@@ -5,7 +5,6 @@ import SizingCSS from '../../../extend/inspector-control/controls/sizing/compone
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 import BorderCSS from '../../../extend/inspector-control/controls/borders/BorderCSS';
-import getEditorSelector from '../../../utils/get-editor-selector';
 
 import {
 	Component,
@@ -32,10 +31,7 @@ export default class TabletCSS extends Component {
 			iconStyles,
 		} = attributes;
 
-		const selector = getEditorSelector(
-			element + '.gb-headline-' + uniqueId,
-			{ name: this.props.name, attributes }
-		);
+		const selector = element + '.gb-headline-' + uniqueId;
 		let cssObj = [];
 
 		TypographyCSS( cssObj, '.editor-styles-wrapper ' + selector, attributes.typography, 'Tablet' );
