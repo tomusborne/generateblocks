@@ -426,3 +426,20 @@ function generateblocks_register_user_meta() {
 		)
 	);
 }
+
+add_filter( 'block_editor_settings_all', 'generateblocks_do_block_css_reset', 15 );
+/**
+ * This resets the `max-width`, `margin-left`, and `margin-right` properties for our blocks in the editor.
+ * We have to do this as most themes use `.wp-block` to set a `max-width` and auto margins.
+ *
+ * We used to do this directly in the block CSS if those block attributes didn't exist, but this allows us
+ * to overwrite the reset in the `block_editor_settings_all` filter with a later priority.
+ *
+ * @param array $editor_settings The existing editor settings.
+ */
+function generateblocks_do_block_css_reset( $editor_settings ) {
+	$css = '.gb-container, .gb-headline, .gb-button {max-width:unset;margin-left:0;margin-right:0;}';
+	$editor_settings['styles'][] = [ 'css' => $css ];
+
+	return $editor_settings;
+}
