@@ -157,6 +157,7 @@
 		"prefer-const": "error",
 		"quote-props": ["error", "as-needed"],
 		"react/display-name": "off",
+		"react-hooks/exhaustive-deps": "off",
 		"react/jsx-curly-spacing": [
 			"error",
 			{

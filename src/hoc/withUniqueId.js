@@ -53,7 +53,7 @@ export const hasDuplicates = ( arr, value, currentIndex ) => (
  * It will enhance a block component with the attributes.uniqueId property
  *
  * @param {any} WrappedComponent The component to add the uniqueId
- * @return {function(*)} The wrapped component
+ * @return {Function} The wrapped component
  */
 export default ( WrappedComponent ) => ( ( props ) => {
 	const { clientId, attributes } = props;
