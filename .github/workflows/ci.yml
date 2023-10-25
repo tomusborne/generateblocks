@@ -239,7 +239,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Check readme.txt
-        if: ${{ !contains(github.event.pull_request.labels.*.name, 'alpha') && !contains(github.event.pull_request.labels.*.name, 'beta') && !contains(github.event.pull_request.labels.*.name, 'rc') }}
+        if: ${{ !contains(github.event.pull_request.title, '-alpha') && !contains(github.event.pull_request.title, '-beta') && !contains(github.event.pull_request.title, '-rc') }}
         run: 'cat readme.txt | grep -w "Stable tag: ${PR_TITLE:9}"'
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
