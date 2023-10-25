@@ -26,6 +26,7 @@
 		"classnames": "^2.3.1",
 		"colord": "^2.9.2",
 		"dompurify": "^2.4.0",
+		"imagesloaded": "^5.0.0",
 		"lodash": "4.17.21",
 		"react-colorful": "^5.5.1",
 		"react-select": "^5.7.3",
