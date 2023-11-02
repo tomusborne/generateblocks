@@ -4,6 +4,7 @@ export default function getLayoutAttributes( defaults ) {
 		'display',
 		'flexDirection',
 		'flexWrap',
+		'flexBasis',
 		'alignItems',
 		'justifyContent',
 		'columnGap',
@@ -11,41 +12,39 @@ export default function getLayoutAttributes( defaults ) {
 		'position',
 		'overflowX',
 		'overflowY',
+		'gridTemplateColumns',
+		'gridTemplateRows',
+		'gridAutoColumns',
+		'gridAutoRows',
+		'gridColumn',
+		'gridRow',
+	];
+
+	const numberOptions = [
+		'zindex',
+		'flexGrow',
+		'flexShrink',
+		'order',
 	];
 
 	const attributes = {};
 
 	options.forEach( ( option ) => {
 		attributes[ option ] = {
-			type: 'string',
+			type: numberOptions.includes( option ) ? 'number' : 'string',
 			default: defaults[ option ],
 		};
 
 		attributes[ option + 'Tablet' ] = {
-			type: 'string',
+			type: numberOptions.includes( option ) ? 'number' : 'string',
 			default: defaults[ option + 'Tablet' ],
 		};
 
 		attributes[ option + 'Mobile' ] = {
-			type: 'string',
+			type: numberOptions.includes( option ) ? 'number' : 'string',
 			default: defaults[ option + 'Mobile' ],
 		};
 	} );
-
-	attributes.zindex = {
-		type: 'number',
-		default: defaults.zindex,
-	};
-
-	attributes.zindexTablet = {
-		type: 'number',
-		default: defaults.zindexTablet,
-	};
-
-	attributes.zindexMobile = {
-		type: 'number',
-		default: defaults.zindexMobile,
-	};
 
 	return attributes;
 }

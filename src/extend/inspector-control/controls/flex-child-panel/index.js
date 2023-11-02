@@ -18,11 +18,6 @@ export default function FlexChild( { attributes, setAttributes } ) {
 		deviceType: device,
 	};
 
-	const {
-		useInnerContainer,
-		isGrid,
-	} = attributes;
-
 	return (
 		<PanelArea
 			title={ __( 'Flex Child', 'generateblocks' ) }
@@ -30,14 +25,14 @@ export default function FlexChild( { attributes, setAttributes } ) {
 			className="gblocks-panel-label"
 			id={ `${ id }FlexChild` }
 		>
-			{ flexChildPanel.flex && ( ! useInnerContainer || ( useInnerContainer && isGrid ) ) &&
+			{ flexChildPanel.flex &&
 				<FlexControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				/>
 			}
 
-			{ flexChildPanel.order && ( ! useInnerContainer || ( useInnerContainer && isGrid ) ) &&
+			{ flexChildPanel.order &&
 				<TextControl
 					type={ 'number' }
 					label={ __( 'Order', 'generateblocks' ) }

@@ -5,7 +5,7 @@ import { BlockControls, URLInput, AlignmentToolbar } from '@wordpress/block-edit
 import { useDispatch, useSelect } from '@wordpress/data';
 import { link } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
-import isFlexItem from '../../../utils/is-flex-item';
+import isFlexLayout from '../../../utils/is-flex-layout';
 import getAttribute from '../../../utils/get-attribute';
 import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
 import getDeviceType from '../../../utils/get-device-type';
@@ -74,7 +74,7 @@ export default ( props ) => {
 					}
 				</ToolbarGroup>
 
-				{ ! isFlexItem( { device: deviceType, display, displayTablet, displayMobile } ) &&
+				{ ! isFlexLayout( { device: deviceType, display, displayTablet, displayMobile } ) &&
 					<AlignmentToolbar
 						value={ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType } ) }
 						onChange={ ( value ) => {

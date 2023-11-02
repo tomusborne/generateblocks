@@ -13,6 +13,7 @@ export default function Display( { value, onChange } ) {
 				{ label: 'Flex', value: 'flex' },
 				{ label: 'Inline Flex', value: 'inline-flex' },
 				{ label: 'Inline', value: 'inline' },
+				{ label: 'Grid', value: 'grid' },
 			] }
 			onChange={ onChange }
 		/>
