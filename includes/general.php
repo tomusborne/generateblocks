@@ -443,3 +443,16 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 
 	return $editor_settings;
 }
+
+add_filter( 'generateblocks_css_output', 'generateblocks_add_general_css' );
+/**
+ * Add general CSS that doesn't apply to our own blocks.
+ *
+ * @param string $css Existing CSS.
+ */
+function generateblocks_add_general_css( $css ) {
+	$css .= '.gb-container .wp-block-image img{vertical-align:middle;}';
+	$css .= '.gb-grid-wrapper .wp-block-image{margin-bottom:0;}';
+
+	return $css;
+}

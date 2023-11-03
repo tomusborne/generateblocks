@@ -151,13 +151,7 @@ class GenerateBlocks_Block_Headline {
 
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
-			$css->set_selector( '.gb-icon svg' );
-			$css->add_property( 'fill', 'currentColor' );
-
-			$css->set_selector( '.gb-highlight' );
-			$css->add_property( 'background', 'none' );
-			$css->add_property( 'color', 'unset' );
-
+			// Singular CSS is no longer supported since 1.9.0.
 			do_action(
 				'generateblocks_block_one_time_css_data',
 				'headline',
@@ -252,11 +246,13 @@ class GenerateBlocks_Block_Headline {
 
 				$css->add_property( 'width', generateblocks_get_array_attribute_value( 'width', $settings['iconStyles'] ) );
 				$css->add_property( 'height', generateblocks_get_array_attribute_value( 'height', $settings['iconStyles'] ) );
+				$css->add_property( 'fill', 'currentColor' );
 			}
 
 			if ( $settings['highlightTextColor'] ) {
 				$css->set_selector( $selector . ' .gb-highlight' );
 				$css->add_property( 'color', $settings['highlightTextColor'] );
+				$css->add_property( 'background', 'none' );
 			}
 
 			$tablet_css->set_selector( $selector );
@@ -461,6 +457,7 @@ class GenerateBlocks_Block_Headline {
 				$css->set_selector( '.gb-headline-wrapper-' . $id . ' .gb-icon svg' );
 				$css->add_property( 'width', $settings['iconSize'], $settings['iconSizeUnit'] );
 				$css->add_property( 'height', $settings['iconSize'], $settings['iconSizeUnit'] );
+				$css->add_property( 'fill', 'currentColor' );
 
 				$css->set_selector( '.gb-headline-wrapper-' . $id );
 				$css->add_property( 'padding', array( $settings['paddingTop'], $settings['paddingRight'], $settings['paddingBottom'], $settings['paddingLeft'] ), $settings['paddingUnit'] );
@@ -505,6 +502,7 @@ class GenerateBlocks_Block_Headline {
 			if ( $settings['highlightTextColor'] ) {
 				$css->set_selector( '.gb-headline-' . $id . ' .gb-highlight' );
 				$css->add_property( 'color', $settings['highlightTextColor'] );
+				$css->add_property( 'background', 'none' );
 			}
 
 			$tablet_css->set_selector( '.gb-headline-' . $id );
