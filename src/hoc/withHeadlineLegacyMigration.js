@@ -142,7 +142,7 @@ export default ( WrappedComponent ) => {
 			if ( ! isEmpty( newAttributes ) ) {
 				setAttributes( newAttributes );
 			}
-		}, [] );
+		}, [ attributes.uniqueId ] );
 
 		return ( <WrappedComponent { ...props } /> );
 	};
