@@ -17,7 +17,16 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array
  */
 function generateblocks_get_block_defaults() {
-	return apply_filters(
+	$cached_data = wp_cache_get(
+		'generateblocks_defaults_cache',
+		'generateblocks_cache_group'
+	);
+
+	if ( $cached_data ) {
+		return $cached_data;
+	}
+
+	$defaults = apply_filters(
 		'generateblocks_defaults',
 		[
 			'container' => generateblocks_with_global_defaults( GenerateBlocks_Block_Container::defaults() ),
@@ -28,6 +37,14 @@ function generateblocks_get_block_defaults() {
 			'image' => generateblocks_with_global_defaults( GenerateBlocks_Block_Image::defaults() ),
 		]
 	);
+
+	wp_cache_set(
+		'generateblocks_defaults_cache',
+		$defaults,
+		'generateblocks_cache_group'
+	);
+
+	return $defaults;
 }
 
 /**
