@@ -136,7 +136,7 @@ export default ( WrappedComponent ) => {
 		useEffect( () => {
 			const newAttributes = migrateHeadlineAttributes( {
 				attributes,
-				defaults: getBlockType( 'generateblocks/button' )?.attributes,
+				defaults: getBlockType( 'generateblocks/headline' )?.attributes,
 			} );
 
 			if ( ! isEmpty( newAttributes ) ) {
