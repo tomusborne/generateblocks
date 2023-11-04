@@ -27,6 +27,12 @@ class GBTestCase extends TestCase {
 				'get_option' => static function( $option, $default ) {
 					return $default;
 				},
+				'wp_cache_get' => static function() {
+					return false;
+				},
+				'wp_cache_set' => static function() {
+					return false;
+				},
 			]
 		);
 	}
