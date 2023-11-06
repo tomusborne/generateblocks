@@ -54,24 +54,31 @@ export default class UnitChooser extends Component {
 								unitName = _x( 'Degree', 'A size unit for CSS markup', 'generateblocks' );
 							}
 
-							return <Tooltip
-								/* translators: Unit type (px, em, %) */
-								text={ sprintf( __( '%s Units', 'generateblocks' ), unitName ) }
-								key={ unit }
-							>
-								<Button
+							return (
+								<Tooltip
+									/* translators: Unit type (px, em, %) */
+									text={ sprintf( __( '%s Units', 'generateblocks' ), unitName ) }
 									key={ unit }
-									className={ 'components-gblocks-control-button__units--' + unit }
-									isSmall
-									isPrimary={ value === unit }
-									aria-pressed={ value === unit }
-									/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
-									aria-label={ sprintf( __( '%s Units', 'generateblocks' ), unitName ) }
-									onClick={ () => onClick( unit ) }
 								>
-									{ unit }
-								</Button>
-							</Tooltip>;
+									<Button
+										key={ unit }
+										className={
+											'components-gblocks-control-button__units--' + unit
+										}
+										size="small"
+										isPrimary={ value === unit }
+										aria-pressed={ value === unit }
+										/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
+										aria-label={ sprintf(
+											__( '%s Units', 'generateblocks' ),
+											unitName
+										) }
+										onClick={ () => onClick( unit ) }
+									>
+										{ unit }
+									</Button>
+								</Tooltip>
+							);
 						} ) }
 					</ButtonGroup>
 				</div>

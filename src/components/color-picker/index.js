@@ -45,6 +45,10 @@ export default function ColorPicker( props ) {
 		return /^([0-9A-F]{3}){1,2}$/i.test( hex );
 	};
 
+	const POPOVER_PROPS = {
+		position: 'top left',
+	};
+
 	const getPaletteValue = ( colorValue ) => {
 		if ( String( colorValue ).startsWith( 'var(' ) ) {
 			const variableName = colorValue.match( /\(([^)]+)\)/ );
@@ -85,43 +89,45 @@ export default function ColorPicker( props ) {
 
 	return (
 		<div className="gblocks-color-component">
-			{ !! label &&
+			{ !! label && (
 				<span className="gblocks-color-component__label">{ label }</span>
-			}
+			) }
 
 			<Dropdown
 				className="gblocks-color-component__toggle"
 				contentClassName="gblocks-color-component-content"
-				position="top left"
+				popoverProps={ POPOVER_PROPS }
 				renderToggle={ ( { isOpen, onToggle } ) => {
-					const button = <Button
-						className="gblocks-color-component__toggle-button"
-						onClick={ onToggle }
-						aria-expanded={ isOpen }
-					>
-						<span
-							className="gblocks-color-component__toggle-indicator"
-							style={ { background: value ? hexToRGBA( value, valueOpacity ) : null } }
-						/>
-					</Button>;
+					const button = (
+						<Button
+							className="gblocks-color-component__toggle-button"
+							onClick={ onToggle }
+							aria-expanded={ isOpen }
+						>
+							<span
+								className="gblocks-color-component__toggle-indicator"
+								style={ {
+									background: value ? hexToRGBA( value, valueOpacity ) : null,
+								} }
+							/>
+						</Button>
+					);
 
 					return (
 						<>
-							{ !! tooltip
-								? <Tooltip text={ tooltip }>{ button }</Tooltip>
-								: button
-							}
+							{ !! tooltip ? <Tooltip text={ tooltip }>{ button }</Tooltip> : button }
 						</>
 					);
 				} }
-				renderContent={ () =>
+				renderContent={ () => (
 					<>
 						<Component
 							color={ rgbColor }
 							onChange={ ( nextColor ) => {
 								if ( colord( nextColor ).isValid() ) {
 									const alphaValue = colord( nextColor ).alpha();
-									nextColor = 1 === alphaValue ? colord( nextColor ).toHex() : nextColor;
+									nextColor =
+										1 === alphaValue ? colord( nextColor ).toHex() : nextColor;
 								}
 
 								setValueState( nextColor );
@@ -153,7 +159,7 @@ export default function ColorPicker( props ) {
 							/>
 
 							<Button
-								isSmall
+								size="small"
 								isSecondary
 								className="gblocks-color-input-clear"
 								onClick={ () => {
@@ -168,7 +174,7 @@ export default function ColorPicker( props ) {
 							</Button>
 						</div>
 
-						{ alpha && 1 !== valueOpacity &&
+						{ alpha && 1 !== valueOpacity && (
 							<div className="gblocks-color-component-content__opacity">
 								<Tooltip text={ __( 'Opacity', 'generateblocks' ) }>
 									{ getIcon( 'gradient' ) }
@@ -183,11 +189,9 @@ export default function ColorPicker( props ) {
 									initialPosition={ 1 }
 								/>
 							</div>
-						}
+						) }
 
-						<BaseControl
-							className="gblocks-color-component-content__palette"
-						>
+						<BaseControl className="gblocks-color-component-content__palette">
 							<ColorPalette
 								value={ value ? value : '' }
 								onChange={ ( color ) => {
@@ -198,7 +202,7 @@ export default function ColorPicker( props ) {
 							/>
 						</BaseControl>
 					</>
-				}
+				) }
 			/>
 		</div>
 	);
