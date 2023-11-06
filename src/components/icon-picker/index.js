@@ -100,149 +100,149 @@ class IconPicker extends Component {
 			<Fragment>
 				<BaseControl className="gb-svg-html">
 					<TextControl
-						label={__("Icon SVG HTML", "generateblocks")}
-						value={attributes[attrIcon]}
-						onChange={(value) => {
-							setAttributes({
-								[this.props["attrIcon"]]: sanitizeSVG(value), // eslint-disable-line dot-notation
-							});
+						label={ __( 'Icon SVG HTML', 'generateblocks' ) }
+						value={ attributes[ attrIcon ] }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ this.props[ 'attrIcon' ] ]: sanitizeSVG( value ), // eslint-disable-line dot-notation
+							} );
 
-							if ("" !== value) {
-								setAttributes({
+							if ( '' !== value ) {
+								setAttributes( {
 									hasIcon: true,
 									...flexAttributes,
 									iconStyles: {
 										...styleAttributes,
 									},
-								});
+								} );
 							} else {
-								setAttributes({
+								setAttributes( {
 									hasIcon: false,
-								});
+								} );
 							}
-						}}
+						} }
 					/>
 
 					<div className="gb-icon-preview">
 						<span
-							dangerouslySetInnerHTML={{
-								__html: sanitizeSVG(attributes[attrIcon]),
-							}}
+							dangerouslySetInnerHTML={ {
+								__html: sanitizeSVG( attributes[ attrIcon ] ),
+							} }
 						/>
 
 						<Button
 							size="small"
 							className="reset-icon is-secondary"
-							onClick={() => {
-								setAttributes({
-									[this.props["attrIcon"]]: "", // eslint-disable-line dot-notation
+							onClick={ () => {
+								setAttributes( {
+									[ this.props[ 'attrIcon' ] ]: '', // eslint-disable-line dot-notation
 									hasIcon: false,
-									[this.props["attrRemoveText"]]: false, // eslint-disable-line dot-notation
-								});
-							}}
+									[ this.props[ 'attrRemoveText' ] ]: false, // eslint-disable-line dot-notation
+								} );
+							} }
 						>
 							<span className="editor-block-types-list__item-icon">
-								{__("Clear", "generateblocks")}
+								{ __( 'Clear', 'generateblocks' ) }
 							</span>
 						</Button>
 					</div>
 				</BaseControl>
 
 				<BaseControl className="gb-icon-chooser">
-					{Object.keys(iconSVGSets).map((svg, i) => {
-						const svgItems = iconSVGSets[svg].svgs;
+					{ Object.keys( iconSVGSets ).map( ( svg, i ) => {
+						const svgItems = iconSVGSets[ svg ].svgs;
 
 						return (
 							<PanelBody
 								className="gblocks-panel-label gblocks-icon-panel"
-								title={iconSVGSets[svg].group}
-								initialOpen={false}
-								key={i}
+								title={ iconSVGSets[ svg ].group }
+								initialOpen={ false }
+								key={ i }
 							>
 								<PanelRow>
 									<BaseControl>
 										<ul className="gblocks-icon-chooser">
-											{Object.keys(svgItems).map((svgItem, index) => {
+											{ Object.keys( svgItems ).map( ( svgItem, index ) => {
 												return (
-													<li key={`editor-pblock-types-list-item-${index}`}>
-														<Tooltip text={svgItems[svgItem].label}>
+													<li key={ `editor-pblock-types-list-item-${ index }` }>
+														<Tooltip text={ svgItems[ svgItem ].label }>
 															<Button
 																className="editor-block-list-item-button"
-																onClick={() => {
-																	let iconValue = svgItems[svgItem].icon;
+																onClick={ () => {
+																	let iconValue = svgItems[ svgItem ].icon;
 
-																	if ("string" !== typeof iconValue) {
-																		iconValue = renderToString(iconValue);
+																	if ( 'string' !== typeof iconValue ) {
+																		iconValue = renderToString( iconValue );
 																	}
 
-																	setAttributes({
-																		[this.props.attrIcon]: iconValue,
+																	setAttributes( {
+																		[ this.props.attrIcon ]: iconValue,
 																		hasIcon: true,
 																		...flexAttributes,
 																		iconStyles: {
 																			...styleAttributes,
 																		},
-																	});
-																}}
+																	} );
+																} }
 															>
-																{"string" === typeof svgItems[svgItem].icon ? (
+																{ 'string' === typeof svgItems[ svgItem ].icon ? (
 																	<Fragment>
 																		<span
 																			className="editor-block-types-list__item-icon"
-																			dangerouslySetInnerHTML={{
+																			dangerouslySetInnerHTML={ {
 																				__html: sanitizeSVG(
-																					svgItems[svgItem].icon
+																					svgItems[ svgItem ].icon
 																				),
-																			}}
+																			} }
 																		/>
 																	</Fragment>
 																) : (
 																	<Fragment>
 																		<span className="editor-block-types-list__item-icon">
-																			{svgItems[svgItem].icon}
+																			{ svgItems[ svgItem ].icon }
 																		</span>
 																	</Fragment>
-																)}
+																) }
 															</Button>
 														</Tooltip>
 													</li>
 												);
-											})}
+											} ) }
 										</ul>
 									</BaseControl>
 								</PanelRow>
 							</PanelBody>
 						);
-					})}
+					} ) }
 				</BaseControl>
 
-				{typeof attributes[attrIconLocation] !== "undefined" &&
-					!attributes[attrRemoveText] &&
-					!!attributes[attrIcon] && (
-						<SelectControl
-							label={__("Icon Location", "generateblocks")}
-							value={attributes[attrIconLocation]}
-							options={locationOptions}
-							onChange={(value) => {
-								setAttributes({
-									[this.props["attrIconLocation"]]: value, // eslint-disable-line dot-notation
-								});
-							}}
-						/>
-					)}
+				{ typeof attributes[ attrIconLocation ] !== 'undefined' &&
+					! attributes[ attrRemoveText ] &&
+					!! attributes[ attrIcon ] && (
+					<SelectControl
+						label={ __( 'Icon Location', 'generateblocks' ) }
+						value={ attributes[ attrIconLocation ] }
+						options={ locationOptions }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ this.props[ 'attrIconLocation' ] ]: value, // eslint-disable-line dot-notation
+							} );
+						} }
+					/>
+				) }
 
-				{typeof attributes[attrRemoveText] !== "undefined" &&
-					!!attributes[attrIcon] && (
-						<ToggleControl
-							label={__("Remove Text", "generateblocks")}
-							checked={!!attributes[attrRemoveText]}
-							onChange={(value) => {
-								setAttributes({
-									[this.props["attrRemoveText"]]: value, // eslint-disable-line dot-notation
-								});
-							}}
-						/>
-					)}
+				{ typeof attributes[ attrRemoveText ] !== 'undefined' &&
+					!! attributes[ attrIcon ] && (
+					<ToggleControl
+						label={ __( 'Remove Text', 'generateblocks' ) }
+						checked={ !! attributes[ attrRemoveText ] }
+						onChange={ ( value ) => {
+							setAttributes( {
+								[ this.props[ 'attrRemoveText' ] ]: value, // eslint-disable-line dot-notation
+							} );
+						} }
+					/>
+				) }
 			</Fragment>
 		);
 	}
