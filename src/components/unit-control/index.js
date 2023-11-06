@@ -12,6 +12,7 @@ import classnames from 'classnames';
 import './editor.scss';
 import UnitDropdown from './unit-dropdown';
 import unitList from './unit-list';
+import { key } from '@wordpress/icons';
 
 export default function UnitControl( props ) {
 	const {
@@ -141,6 +142,20 @@ export default function UnitControl( props ) {
 					step={ step }
 					autoComplete="off"
 					disabled={ disabled }
+					onKeyDown={ ( event ) => {
+						const keyPressed = event.key;
+						const newValue = event.target.value;
+
+						if ( keyPressed === 'ArrowUp' ) {
+							if ( ! isNaN( newValue ) ) {
+								setNumericValue( +newValue + 1 );
+							}
+						} else if ( keyPressed === 'ArrowDown' ) {
+							if ( ! isNaN( newValue ) ) {
+								setNumericValue( +newValue - 1 );
+							}
+						}
+					} }
 					onChange={ ( newValue ) => setNumericValue( newValue ) }
 					onFocus={ () => {
 						onFocus();
