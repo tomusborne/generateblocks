@@ -12,7 +12,6 @@ import classnames from 'classnames';
 import './editor.scss';
 import UnitDropdown from './unit-dropdown';
 import unitList from './unit-list';
-import { key } from '@wordpress/icons';
 
 export default function UnitControl( props ) {
 	const {
