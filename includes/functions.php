@@ -181,15 +181,10 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
 }
 
 /**
- * Get our media query.
- *
- * @since 0.1
- * @param string $type The media query we're getting.
- *
- * @return string
+ * Returns a list of available media queries.
  */
-function generateblocks_get_media_query( $type ) {
-	$queries = apply_filters(
+function generateblocks_get_media_queries() {
+	return apply_filters(
 		'generateblocks_media_query',
 		array(
 			'desktop'     => '(min-width: 1025px)',
@@ -198,6 +193,18 @@ function generateblocks_get_media_query( $type ) {
 			'mobile'      => '(max-width: 767px)',
 		)
 	);
+}
+
+/**
+ * Get our media query.
+ *
+ * @since 0.1
+ * @param string $type The media query we're getting.
+ *
+ * @return string
+ */
+function generateblocks_get_media_query( $type ) {
+	$queries = generateblocks_get_media_queries();
 
 	return $queries[ $type ];
 }
