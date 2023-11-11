@@ -107,6 +107,7 @@ export function LibraryProvider( { clientId, children } ) {
 	const itemsPerPage = 12;
 	const [ itemCount, setItemCount ] = useState( itemsPerPage );
 	const [ scrollPosition, setScrollPosition ] = useState( 0 );
+	const [ selectedPatterns, setSelectedPatterns ] = useState( {} );
 	const defaultContext = {
 		clientId,
 		libraries,
@@ -118,6 +119,8 @@ export function LibraryProvider( { clientId, children } ) {
 		setActiveCategory,
 		activePatternId,
 		setActivePatternId,
+		selectedPatterns,
+		setSelectedPatterns,
 		categories,
 		hoverPattern,
 		setHoverPattern,

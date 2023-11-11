@@ -3,6 +3,7 @@ import LibrarySelector from './library-selector';
 import { useLibrary } from './library-provider';
 import PatternList from './pattern-list';
 import PatternSearch from './pattern-search';
+import { SelectedPatterns } from './selected-patterns';
 import { Button } from '@wordpress/components';
 import { close, arrowLeft } from '@wordpress/icons';
 import { useDispatch } from '@wordpress/data';
@@ -14,9 +15,25 @@ import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
 
 export default function LibraryLayout() {
-	const { clientId, activeLibrary, activePatternId, setActivePatternId, patterns, requiredClasses, setRequiredClasses, setScrollPosition, scrollPosition } = useLibrary();
+	const {
+		clientId,
+		activeLibrary,
+		activePatternId,
+		setActivePatternId,
+		patterns,
+		requiredClasses,
+		setRequiredClasses,
+		setScrollPosition,
+		scrollPosition,
+		selectedPatterns,
+		setSelectedPatterns,
+	} = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
 	const activePattern = patterns?.find( ( pattern ) => activePatternId === pattern.id );
+
+	const selectedPatternsList = Object.entries( selectedPatterns ) ?? [];
+
+	console.log( { selectedPatterns, selectedPatternsList } );
 
 	return (
 		<div className="pattern-library">
@@ -75,6 +92,7 @@ export default function LibraryLayout() {
 							<>
 								<PatternSearch />
 								<CategoryList />
+								<SelectedPatterns />
 							</>
 						}
 					</div>

@@ -1,7 +1,7 @@
 import Pattern from './pattern';
 import { useLibrary } from './library-provider';
 import { useMemo, useRef, useState, useEffect } from '@wordpress/element';
-import { Spinner } from '@wordpress/components';
+import { Button, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
 

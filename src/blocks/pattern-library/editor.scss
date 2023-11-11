@@ -265,3 +265,46 @@
 		margin-bottom: 1.5em;
 	}
 }
+
+.gb-selected-patterns {
+	padding-top: 1rem;
+
+	&__list {
+		> :first-child {
+			border-top: 1px solid #e1e1e1;
+		}
+
+		> * {
+			border-bottom: 1px solid #e1e1e1;
+		}
+	}
+}
+
+.gb-selected-pattern {
+	align-items: flex-start;
+	display: flex;
+	gap: 0.625rem;
+	line-height: 1.25rem;
+	padding-left: 0.75rem;
+
+	&__label {
+		font-weight: 500;
+		margin-top: 0.5rem;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		flex-shrink: 1;
+		gap: 0.125rem;
+		margin-left: auto;
+
+		.components-button {
+			svg {
+				display: block;
+				height: 1rem;
+				width: 1rem;
+			}
+		}
+	}
+}
