@@ -28,6 +28,7 @@
 		"dompurify": "^2.4.0",
 		"imagesloaded": "^5.0.0",
 		"lodash": "4.17.21",
+		"react-beautiful-dnd": "^13.1.1",
 		"react-colorful": "^5.5.1",
 		"react-select": "^5.7.3",
 		"request": "^2.88.2",
