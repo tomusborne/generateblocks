@@ -25,15 +25,9 @@ export default function LibraryLayout() {
 		setRequiredClasses,
 		setScrollPosition,
 		scrollPosition,
-		selectedPatterns,
-		setSelectedPatterns,
 	} = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
 	const activePattern = patterns?.find( ( pattern ) => activePatternId === pattern.id );
-
-	const selectedPatternsList = Object.entries( selectedPatterns ) ?? [];
-
-	console.log( { selectedPatterns, selectedPatternsList } );
 
 	return (
 		<div className="pattern-library">

@@ -1,5 +1,5 @@
 
-import { createContext, useContext, useEffect, useState } from '@wordpress/element';
+import { createContext, useContext, useEffect, useState, useReducer } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
@@ -107,7 +107,21 @@ export function LibraryProvider( { clientId, children } ) {
 	const itemsPerPage = 12;
 	const [ itemCount, setItemCount ] = useState( itemsPerPage );
 	const [ scrollPosition, setScrollPosition ] = useState( 0 );
-	const [ selectedPatterns, setSelectedPatterns ] = useState( {} );
+
+	function selectedPatternsReducer( state, action ) {
+		switch ( action.type ) {
+			case 'ADD':
+				return [ ...state, action.pattern ];
+			case 'REMOVE':
+				return state.filter( ( selectedPattern ) => selectedPattern.id !== action.pattern.id );
+			case 'SET':
+				return action.patterns;
+			default:
+				return state;
+		}
+	}
+
+	const [ selectedPatterns, selectedPatternsDispatch ] = useReducer( selectedPatternsReducer, [] );
 	const defaultContext = {
 		clientId,
 		libraries,
@@ -120,7 +134,7 @@ export function LibraryProvider( { clientId, children } ) {
 		activePatternId,
 		setActivePatternId,
 		selectedPatterns,
-		setSelectedPatterns,
+		selectedPatternsDispatch,
 		categories,
 		hoverPattern,
 		setHoverPattern,

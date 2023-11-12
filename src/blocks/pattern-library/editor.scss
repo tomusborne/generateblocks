@@ -276,6 +276,7 @@
 
 		> * {
 			border-bottom: 1px solid #e1e1e1;
+			margin: 0;
 		}
 	}
 }
@@ -289,7 +290,7 @@
 
 	&__label {
 		font-weight: 500;
-		margin-top: 0.5rem;
+		padding: 0.5rem 0;
 	}
 
 	&__actions {

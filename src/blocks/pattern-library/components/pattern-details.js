@@ -6,7 +6,7 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 
-export function PatternDetails( { pattern, patternRef } ) {
+export function PatternDetails( { pattern, patternRef, isSelected = false } ) {
 	const {
 		clientId,
 		setActivePatternId,
@@ -14,11 +14,9 @@ export function PatternDetails( { pattern, patternRef } ) {
 		previewIframeWidth,
 		setPreviewIframeWidth,
 		setScrollPosition,
-		selectedPatterns,
-		setSelectedPatterns,
+		selectedPatternsDispatch,
 	} = useLibrary();
 	const { replaceBlock } = useDispatch( blockEditorStore );
-	const isSelected = selectedPatterns[ pattern.id ] ?? false;
 
 	return (
 		<div className="gb-pattern-details">
@@ -37,22 +35,11 @@ export function PatternDetails( { pattern, patternRef } ) {
 					variant="secondary"
 					icon={ isSelected ? lineSolid : plus }
 					onClick={ () => {
-						if ( isSelected ) {
-							const { [ pattern.id ]: removed, ...newSelectedPatterns } = selectedPatterns;
-							setSelectedPatterns( {
-								...newSelectedPatterns,
-							} );
-						} else {
-							setSelectedPatterns( {
-								...selectedPatterns,
-								[ pattern.id ]: {
-									...pattern,
-								},
-							} );
-						}
+						const type = isSelected ? 'REMOVE' : 'ADD';
+						selectedPatternsDispatch( { type, pattern } );
 					} }
 				>
-					{ selectedPatterns[ pattern.id ] ? __( 'De-select', 'generateblocks' ) : __( 'Select', 'generateblocks' ) }
+					{ isSelected ? __( 'De-select', 'generateblocks' ) : __( 'Select', 'generateblocks' ) }
 				</Button>
 
 				{ !! activePatternId &&

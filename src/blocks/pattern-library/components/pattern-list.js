@@ -1,6 +1,6 @@
 import Pattern from './pattern';
 import { useLibrary } from './library-provider';
-import { useMemo, useRef, useState, useEffect } from '@wordpress/element';
+import { useMemo, useRef, useState, useEffect, memo } from '@wordpress/element';
 import { Button, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
@@ -17,6 +17,7 @@ export default function PatternList() {
 		itemCount,
 		setItemCount,
 		scrollPosition,
+		selectedPatterns,
 	} = useLibrary();
 
 	const activePattern = useMemo( () => {
@@ -93,6 +94,9 @@ export default function PatternList() {
 		}
 	}, [ scrollPosition, activePattern ] );
 
+	const PatternDetailsMemo = memo( PatternDetails );
+	const PatternMemo = memo( Pattern );
+
 	return (
 		<>
 			{ loading && ! activePatternId &&
@@ -123,20 +127,25 @@ export default function PatternList() {
 					display: !! activePattern ? 'none' : '',
 				} }
 			>
-				{ visiblePatterns && visiblePatterns.map( ( pattern ) => (
-					<div key={ pattern.id } className="gb-pattern-wrapper">
-						<Pattern
-							isLoading={ loading }
-							setActivePattern={ setActivePatternId }
-							{ ...pattern }
-						/>
+				{ visiblePatterns && visiblePatterns.map( ( pattern ) => {
+					const isSelected = selectedPatterns.some( ( { id } ) => id === pattern.id ) ?? false;
 
-						<PatternDetails
-							pattern={ pattern }
-							patternRef={ ref }
-						/>
-					</div>
-				) ) }
+					return (
+						<div key={ pattern.id } className="gb-pattern-wrapper">
+							<Pattern
+								isLoading={ loading }
+								setActivePattern={ setActivePatternId }
+								{ ...pattern }
+							/>
+
+							<PatternDetailsMemo
+								pattern={ pattern }
+								patternRef={ ref }
+								isSelected={ isSelected }
+							/>
+						</div>
+					);
+				} ) }
 			</div>
 
 			<div
