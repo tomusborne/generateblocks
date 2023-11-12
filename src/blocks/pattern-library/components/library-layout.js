@@ -9,7 +9,7 @@ import { close, arrowLeft } from '@wordpress/icons';
 import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { PatternDetails } from './pattern-details';
+import { PatternDetailsHeader } from './pattern-details-header';
 import RequiredComponents from './required-components';
 import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
@@ -25,9 +25,12 @@ export default function LibraryLayout() {
 		setRequiredClasses,
 		setScrollPosition,
 		scrollPosition,
+		selectedPatterns,
 	} = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
 	const activePattern = patterns?.find( ( pattern ) => activePatternId === pattern.id );
+
+	const isActivePatternSelected = selectedPatterns.some( ( pattern ) => pattern.id === activePatternId );
 
 	return (
 		<div className="pattern-library">
@@ -42,7 +45,7 @@ export default function LibraryLayout() {
 				<div className="pattern-library__header--action">
 					{ ! activePatternId
 						? <LibrarySelector />
-						: <PatternDetails pattern={ activePattern } />
+						: <PatternDetailsHeader pattern={ activePattern } isSelected={ isActivePatternSelected } />
 					}
 				</div>
 

@@ -1,18 +1,15 @@
-import { Button, ButtonGroup } from '@wordpress/components';
-import { desktop, mobile, plus, lineSolid, seen, tablet } from '@wordpress/icons';
+import { Button } from '@wordpress/components';
+import { plus, lineSolid, seen } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 
-export function PatternDetails( { pattern, patternRef, isSelected = false } ) {
+export function PatternDetails( { pattern, patternRef = null, isSelected = false, children, showPreview = true } ) {
 	const {
 		clientId,
 		setActivePatternId,
-		activePatternId,
-		previewIframeWidth,
-		setPreviewIframeWidth,
 		setScrollPosition,
 		selectedPatternsDispatch,
 	} = useLibrary();
@@ -20,7 +17,7 @@ export function PatternDetails( { pattern, patternRef, isSelected = false } ) {
 
 	return (
 		<div className="gb-pattern-details">
-			{ ! activePatternId && <h3>{ pattern.label }</h3> }
+			<h3>{ pattern.label }</h3>
 			<div className="gb-pattern-details__actions">
 				<Button
 					variant="primary"
@@ -42,36 +39,7 @@ export function PatternDetails( { pattern, patternRef, isSelected = false } ) {
 					{ isSelected ? __( 'De-select', 'generateblocks' ) : __( 'Select', 'generateblocks' ) }
 				</Button>
 
-				{ !! activePatternId &&
-					<ButtonGroup>
-						<Button
-							isPressed={ '100%' === previewIframeWidth }
-							variant={ 'tertiary' }
-							icon={ desktop }
-							label={ __( 'Desktop', 'generateblocks' ) }
-							showTooltip
-							onClick={ () => setPreviewIframeWidth( '100%' ) }
-						/>
-						<Button
-							isPressed={ '900px' === previewIframeWidth }
-							variant={ 'tertiary' }
-							icon={ tablet }
-							label={ __( 'Tablet', 'generateblocks' ) }
-							showTooltip
-							onClick={ () => setPreviewIframeWidth( '900px' ) }
-						/>
-						<Button
-							isPressed={ '400px' === previewIframeWidth }
-							variant={ 'tertiary' }
-							icon={ mobile }
-							label={ __( 'Mobile', 'generateblocks' ) }
-							showTooltip
-							onClick={ () => setPreviewIframeWidth( '400px' ) }
-						/>
-					</ButtonGroup>
-				}
-
-				{ ! activePatternId &&
+				{ showPreview && (
 					<Button
 						variant="tertiary"
 						icon={ seen }
@@ -79,14 +47,18 @@ export function PatternDetails( { pattern, patternRef, isSelected = false } ) {
 						showTooltip
 						onClick={ () => {
 							setActivePatternId( pattern.id );
-							const modal = patternRef.current.closest( '.components-modal__content' );
 
-							if ( modal ) {
-								setScrollPosition( modal.scrollTop );
+							if ( patternRef ) {
+								const modal = patternRef.current.closest( '.components-modal__content' );
+
+								if ( modal ) {
+									setScrollPosition( modal.scrollTop );
+								}
 							}
 						} }
 					/>
-				}
+				) }
+				{ children }
 			</div>
 		</div>
 	);
