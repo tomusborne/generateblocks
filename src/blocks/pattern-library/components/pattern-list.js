@@ -134,7 +134,7 @@ export default function PatternList( { bulkInsertEnabled = false } ) {
 					return (
 						<li
 							key={ pattern.id }
-							className={ classnames( 'gb-pattern-wrapper', bulkInsertEnabled && 'gb-selectable', isSelected && 'is-selected' ) }
+							className={ classnames( 'gb-pattern-wrapper', 'gb-selectable', isSelected && 'is-selected' ) }
 						>
 							{ bulkInsertEnabled && (
 								<Button
@@ -143,7 +143,8 @@ export default function PatternList( { bulkInsertEnabled = false } ) {
 										? __( 'Deselect this pattern', 'generateblocks' )
 										: __( 'Select this pattern', 'generate-blocks' )
 									}
-									onClick={ () => {
+									onClick={ ( e ) => {
+										e.stopPropagation();
 										const type = isSelected ? 'REMOVE' : 'ADD';
 										selectedPatternsDispatch( { type, pattern } );
 									} }
@@ -156,6 +157,7 @@ export default function PatternList( { bulkInsertEnabled = false } ) {
 										e.stopPropagation();
 										selectedPatternsDispatch( { type: 'REMOVE', pattern } );
 									} }
+									onBlur={ ( e ) => e.stopPropagation() }
 								>
 									<span className="media-modal-icon"></span>
 									<span className="screen-reader-text">

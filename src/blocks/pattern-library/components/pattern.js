@@ -262,6 +262,7 @@ export default function Pattern( props ) {
 								display: activePatternId && '100%' !== previewIframeWidth ? 'block' : '',
 								margin: activePatternId && '100%' !== previewIframeWidth ? '0 auto' : '',
 							} }
+							tabIndex="-1"
 						/>
 					</div>
 				</div>

@@ -100,10 +100,11 @@
 		padding-left: 312px;
 
 		.patterns-wrapper {
-			display: grid;
-			grid-template-columns: repeat(3, 1fr);
-			gap: 32px;
 			background: #f0f0f0;
+			display: grid;
+			gap: 32px;
+			grid-template-columns: repeat(3, 1fr);
+			margin-top: 0;
 			padding: 30px;
 
 			&:empty {
@@ -289,11 +290,14 @@
 	display: flex;
 	gap: 0.625rem;
 	line-height: 1.25rem;
-	padding-left: 0.75rem;
 
 	&__label {
 		font-weight: 500;
 		padding: 0.5rem 0;
+	}
+
+	&__handle {
+		flex-shrink: 1;
 	}
 
 	&__actions {
@@ -302,13 +306,13 @@
 		flex-shrink: 1;
 		gap: 0.125rem;
 		margin-left: auto;
+	}
 
-		.components-button {
-			svg {
-				display: block;
-				height: 1rem;
-				width: 1rem;
-			}
+	.components-button {
+		svg {
+			display: block;
+			height: 1rem;
+			width: 1rem;
 		}
 	}
 }

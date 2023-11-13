@@ -7,6 +7,21 @@ import { lineSolid, seen } from '@wordpress/icons';
 import { useLibrary } from './library-provider';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
+const getItemStyle = ( isDragging, draggableStyle ) => ( {
+	// some basic styles to make the items look a bit nicer
+
+	// change background colour if dragging
+	background: isDragging ? '#f0f0f0' : '#ffffff',
+	marginLeft: isDragging ? '-40px' : '',
+
+	// styles we need to apply on draggables
+	...draggableStyle,
+} );
+
+const getListStyle = ( isDraggingOver ) => ( {
+	background: isDraggingOver ? 'lightblue' : '#ffffff',
+} );
+
 export function SelectedPatterns() {
 	const { replaceBlock } = useDispatch( blockEditorStore );
 	const {
@@ -74,6 +89,22 @@ export function SelectedPatterns() {
 
 	const ZeroWidthSpace = () => <>&#8203;</>;
 
+	// This has to be a div to avoid conflicts with buttons in the native WP UI
+	// Appropriate aria attributes are added by the library.
+	const ReorderButton = ( props ) => {
+		return (
+			<div
+				className="components-button is-tertiary has-icon"
+				{ ...props }
+			>
+				{ verticalDots }
+				<span className="screen-reader-text">
+					{ __( 'Reorder Pattern', 'generateblocks' ) }
+				</span>
+			</div>
+		);
+	};
+
 	return (
 		<aside className="gb-selected-patterns">
 			<h3 className="gb-selected-patterns__headline">
@@ -81,11 +112,11 @@ export function SelectedPatterns() {
 			</h3>
 			<DragDropContext onDragEnd={ onDragEnd }>
 				<Droppable droppableId="droppable">
-					{ ( provided ) => (
-						<ul className="gb-selected-patterns__list" ref={ provided.innerRef }>
+					{ ( provided, snapshot ) => (
+						<ul className="gb-selected-patterns__list" ref={ provided.innerRef } style={ getListStyle( snapshot.isDraggingOver ) }>
 							{ selectedPatterns.map( ( pattern, index ) => (
 								<Draggable key={ pattern.id } draggableId={ pattern.id } index={ index }>
-									{ ( draggableProvided ) => (
+									{ ( draggableProvided, draggableSnapshot ) => (
 										<>
 											{ pattern !== null && (
 												<li
@@ -93,7 +124,12 @@ export function SelectedPatterns() {
 													className="gb-selected-pattern"
 													ref={ draggableProvided.innerRef }
 													{ ...draggableProvided.draggableProps }
+													style={ getItemStyle(
+														draggableSnapshot.isDragging,
+														draggableProvided.draggableProps.style
+													) }
 												>
+													<ReorderButton { ...draggableProvided.dragHandleProps } />
 													<span className="gb-selected-pattern__label">
 														{ pattern.label }
 													</span>
@@ -121,13 +157,6 @@ export function SelectedPatterns() {
 																}
 															} }
 														/>
-														<Button
-															variant="tertiary"
-															icon={ verticalDots }
-															label={ __( 'Reorder Pattern', 'generateblocks' ) }
-															showTooltip
-															{ ...draggableProvided.dragHandleProps }
-														/>
 													</div>
 												</li>
 											) }
@@ -144,9 +173,9 @@ export function SelectedPatterns() {
 				variant="primary"
 				onClick={ () => {
 					// const blockReplacements = selectedPatterns.map( ( [ , pattern ] ) => pattern.pattern ) ?? [];
-					const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev += current.pattern );
+					const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev + current.pattern, '' );
 
-					replaceBlock( clientId, parse( blockReplacements.join( '' ), {} ) );
+					replaceBlock( clientId, parse( blockReplacements, {} ) );
 				} }
 			>
 				{ __( 'Insert All', 'generateblocks' ) }
