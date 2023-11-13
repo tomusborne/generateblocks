@@ -20,8 +20,10 @@
 		}
 
 		&--action {
-			position: absolute;
+			display: flex;
+			gap: 1rem;
 			left: 50%;
+			position: absolute;
 			transform: translateX(-50%);
 		}
 
@@ -67,13 +69,14 @@
 	}
 
 	.gb-pattern-wrapper {
-		overflow: hidden;
 		background: #fff;
+		border: none;
 		padding: 10px 10px 0;
 		border-radius: 10px;
 	}
 
 	.gb-pattern-frame {
+		overflow: hidden;
 		padding: 20px 20px 0;
 		background: #e1e1e1;
 	}
@@ -305,6 +308,82 @@
 				display: block;
 				height: 1rem;
 				width: 1rem;
+			}
+		}
+	}
+}
+
+// Borrow from wp-core-ui media select styles to avoid extra unwanted styles
+.gb-selectable {
+	$selectable_blue: #2271b1;
+	position: relative;
+
+	&__toggle {
+		background: transparent;
+		border: none;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+		z-index: 1;
+	}
+
+	.check {
+		background: #f0f0f1;
+		border: 0;
+		box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba(0, 0, 0, 0.15);
+		cursor: pointer;
+		display: none;
+		height: 24px;
+		outline: none;
+		padding: 0;
+		position: absolute;
+		right: -6px;
+		top: -6px;
+		width: 24px;
+		z-index: 10;
+
+		.media-modal-icon {
+			background-position: -1px 0;
+			display: block;
+			height: 15px;
+			margin: 5px;
+			width: 15px;
+		}
+
+		&:hover .media-modal-icon {
+			background-position: -40px 0;
+		}
+	}
+	.gb-bulk-insert &:where(:hover, :focus-visible),
+	&.is-selected {
+		outline: 3px solid $selectable_blue;
+		outline-offset: -3px;
+
+		.check {
+			display: block;
+
+			&:focus,
+			& {
+				background-color: $selectable_blue;
+				box-shadow:
+					0 0 0 1px #fff,
+					0 0 0 2px $selectable_blue;
+			}
+
+			&:focus {
+				/* Only visible in Windows High Contrast mode */
+				outline: 2px solid transparent;
+			}
+
+			.media-modal-icon {
+				background-position: -21px 0;
+			}
+
+			&:focus .media-modal-icon,
+			&:hover .media-modal-icon {
+				background-position: -60px 0;
 			}
 		}
 	}

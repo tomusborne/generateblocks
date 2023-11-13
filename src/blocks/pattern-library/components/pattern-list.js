@@ -4,8 +4,9 @@ import { useMemo, useRef, useState, useEffect, memo } from '@wordpress/element';
 import { Button, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
+import classnames from 'classnames';
 
-export default function PatternList() {
+export default function PatternList( { bulkInsertEnabled = false } ) {
 	const ref = useRef();
 	const loadMoreRef = useRef();
 	const {
@@ -18,6 +19,7 @@ export default function PatternList() {
 		setItemCount,
 		scrollPosition,
 		selectedPatterns,
+		selectedPatternsDispatch,
 	} = useLibrary();
 
 	const activePattern = useMemo( () => {
@@ -95,7 +97,6 @@ export default function PatternList() {
 	}, [ scrollPosition, activePattern ] );
 
 	const PatternDetailsMemo = memo( PatternDetails );
-	const PatternMemo = memo( Pattern );
 
 	return (
 		<>
@@ -119,9 +120,9 @@ export default function PatternList() {
 				/>
 			}
 
-			<div
+			<ul
 				ref={ ref }
-				className="patterns-wrapper"
+				className={ classnames( 'patterns-wrapper', bulkInsertEnabled && 'gb-bulk-insert' ) }
 				style={ {
 					...hide,
 					display: !! activePattern ? 'none' : '',
@@ -131,7 +132,37 @@ export default function PatternList() {
 					const isSelected = selectedPatterns.some( ( { id } ) => id === pattern.id ) ?? false;
 
 					return (
-						<div key={ pattern.id } className="gb-pattern-wrapper">
+						<li
+							key={ pattern.id }
+							className={ classnames( 'gb-pattern-wrapper', bulkInsertEnabled && 'gb-selectable', isSelected && 'is-selected' ) }
+						>
+							{ bulkInsertEnabled && (
+								<Button
+									className="gb-selectable__toggle"
+									label={ isSelected
+										? __( 'Deselect this pattern', 'generateblocks' )
+										: __( 'Select this pattern', 'generate-blocks' )
+									}
+									onClick={ () => {
+										const type = isSelected ? 'REMOVE' : 'ADD';
+										selectedPatternsDispatch( { type, pattern } );
+									} }
+								/>
+							) }
+							{ ( bulkInsertEnabled || isSelected ) && (
+								<Button
+									className="check"
+									onClick={ ( e ) => {
+										e.stopPropagation();
+										selectedPatternsDispatch( { type: 'REMOVE', pattern } );
+									} }
+								>
+									<span className="media-modal-icon"></span>
+									<span className="screen-reader-text">
+										{ __( 'Deselect', 'generateblocks' ) }
+									</span>
+								</Button>
+							) }
 							<Pattern
 								isLoading={ loading }
 								setActivePattern={ setActivePatternId }
@@ -141,12 +172,12 @@ export default function PatternList() {
 							<PatternDetailsMemo
 								pattern={ pattern }
 								patternRef={ ref }
-								isSelected={ isSelected }
+								bulkInsertEnabled={ bulkInsertEnabled }
 							/>
-						</div>
+						</li>
 					);
 				} ) }
-			</div>
+			</ul>
 
 			<div
 				ref={ loadMoreRef }

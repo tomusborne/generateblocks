@@ -1,14 +1,15 @@
+import { Button } from '@wordpress/components';
+import { close, arrowLeft } from '@wordpress/icons';
+import { useDispatch } from '@wordpress/data';
+import { store as blockEditorStore } from '@wordpress/block-editor';
+import { __ } from '@wordpress/i18n';
+import { useState } from '@wordpress/element';
 import CategoryList from './category-list';
 import LibrarySelector from './library-selector';
 import { useLibrary } from './library-provider';
 import PatternList from './pattern-list';
 import PatternSearch from './pattern-search';
 import { SelectedPatterns } from './selected-patterns';
-import { Button } from '@wordpress/components';
-import { close, arrowLeft } from '@wordpress/icons';
-import { useDispatch } from '@wordpress/data';
-import { store as blockEditorStore } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
 import { PatternDetailsHeader } from './pattern-details-header';
 import RequiredComponents from './required-components';
 import LibraryCache from './library-cache';
@@ -25,12 +26,10 @@ export default function LibraryLayout() {
 		setRequiredClasses,
 		setScrollPosition,
 		scrollPosition,
-		selectedPatterns,
 	} = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
+	const [ bulkInsertEnabled, setBulkInsertEnabled ] = useState( false );
 	const activePattern = patterns?.find( ( pattern ) => activePatternId === pattern.id );
-
-	const isActivePatternSelected = selectedPatterns.some( ( pattern ) => pattern.id === activePatternId );
 
 	return (
 		<div className="pattern-library">
@@ -44,8 +43,18 @@ export default function LibraryLayout() {
 
 				<div className="pattern-library__header--action">
 					{ ! activePatternId
-						? <LibrarySelector />
-						: <PatternDetailsHeader pattern={ activePattern } isSelected={ isActivePatternSelected } />
+						? (
+							<>
+								<LibrarySelector />
+								<Button
+									variant="primary"
+									onClick={ () => setBulkInsertEnabled( ! bulkInsertEnabled ) }
+								>
+									{ bulkInsertEnabled ? __( 'Cancel', 'generateblocks' ) : __( 'Bulk Insert…', 'generateblocks' ) }
+								</Button>
+							</>
+						)
+						: <PatternDetailsHeader pattern={ activePattern } />
 					}
 				</div>
 
@@ -99,7 +108,7 @@ export default function LibraryLayout() {
 							paddingLeft: !! activePatternId ? 0 : null,
 						} }
 					>
-						<PatternList />
+						<PatternList bulkInsertEnabled={ bulkInsertEnabled } />
 					</div>
 				</RequiredComponents>
 			</div>

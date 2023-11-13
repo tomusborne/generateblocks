@@ -6,12 +6,11 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 
-export function PatternDetails( { pattern, patternRef = null, isSelected = false, children, showPreview = true } ) {
+export function PatternDetails( { pattern, patternRef = null, children, showPreview = true, bulkInsertEnabled } ) {
 	const {
 		clientId,
 		setActivePatternId,
 		setScrollPosition,
-		selectedPatternsDispatch,
 	} = useLibrary();
 	const { replaceBlock } = useDispatch( blockEditorStore );
 
@@ -19,33 +18,27 @@ export function PatternDetails( { pattern, patternRef = null, isSelected = false
 		<div className="gb-pattern-details">
 			<h3>{ pattern.label }</h3>
 			<div className="gb-pattern-details__actions">
-				<Button
-					variant="primary"
-					icon={ plus }
-					onClick={ () => {
-						replaceBlock( clientId, parse( pattern.pattern, {} ) );
-					} }
-				>
-					{ __( 'Insert', 'generateblocks' ) }
-				</Button>
-				<Button
-					variant="secondary"
-					icon={ isSelected ? lineSolid : plus }
-					onClick={ () => {
-						const type = isSelected ? 'REMOVE' : 'ADD';
-						selectedPatternsDispatch( { type, pattern } );
-					} }
-				>
-					{ isSelected ? __( 'De-select', 'generateblocks' ) : __( 'Select', 'generateblocks' ) }
-				</Button>
+				{ ! bulkInsertEnabled && (
+					<Button
+						variant="primary"
+						icon={ plus }
+						onClick={ ( e ) => {
+							e.stopPropagation();
+							replaceBlock( clientId, parse( pattern.pattern, {} ) );
+						} }
+					>
+						{ __( 'Insert', 'generateblocks' ) }
+					</Button>
+				) }
 
-				{ showPreview && (
+				{ ( showPreview && ! bulkInsertEnabled ) && (
 					<Button
 						variant="tertiary"
 						icon={ seen }
 						label={ __( 'Preview', 'generateblocks' ) }
 						showTooltip
-						onClick={ () => {
+						onClick={ ( e ) => {
+							e.stopPropagation();
 							setActivePatternId( pattern.id );
 
 							if ( patternRef ) {
