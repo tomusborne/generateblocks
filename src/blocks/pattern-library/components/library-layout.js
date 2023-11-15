@@ -32,16 +32,16 @@ export default function LibraryLayout() {
 	const activePattern = patterns?.find( ( pattern ) => activePatternId === pattern.id );
 
 	return (
-		<div className="pattern-library">
-			<div className="pattern-library__header">
-				<div className="pattern-library__header--title">
+		<div className="gb-pattern-library">
+			<div className="gb-pattern-library__header">
+				<div className="gb-pattern-library__header-title">
 					{ ! activePatternId
 						? <h1>{ __( 'Pattern Library', 'generateblocks' ) }</h1>
 						: <h1>{ activePattern.label }</h1>
 					}
 				</div>
 
-				<div className="pattern-library__header--action">
+				<div className="gb-pattern-library__header-action">
 					{ ! activePatternId
 						? (
 							<>
@@ -58,7 +58,7 @@ export default function LibraryLayout() {
 					}
 				</div>
 
-				<div className="pattern-library__header--close">
+				<div className="gb-pattern-library__header-close">
 					{ ! activePatternId
 						? (
 							<>
@@ -86,32 +86,29 @@ export default function LibraryLayout() {
 					}
 				</div>
 			</div>
-
-			<div className="pattern-library-layout">
-				<RequiredComponents
-					activeLibrary={ activeLibrary }
-					requiredClasses={ requiredClasses }
-					setRequiredClasses={ setRequiredClasses }
+			<RequiredComponents
+				activeLibrary={ activeLibrary }
+				requiredClasses={ requiredClasses }
+				setRequiredClasses={ setRequiredClasses }
+			>
+				<div className="gb-pattern-library__sidebar">
+					{ ! activePatternId &&
+					<>
+						<PatternSearch />
+						<CategoryList />
+						<SelectedPatterns />
+					</>
+					}
+				</div>
+				<div
+					className="gb-pattern-library__content"
+					style={ {
+						paddingLeft: !! activePatternId ? 0 : null,
+					} }
 				>
-					<div className="library-sidebar">
-						{ ! activePatternId &&
-							<>
-								<PatternSearch />
-								<CategoryList />
-								<SelectedPatterns />
-							</>
-						}
-					</div>
-					<div
-						className="library-content"
-						style={ {
-							paddingLeft: !! activePatternId ? 0 : null,
-						} }
-					>
-						<PatternList bulkInsertEnabled={ bulkInsertEnabled } />
-					</div>
-				</RequiredComponents>
-			</div>
+					<PatternList bulkInsertEnabled={ bulkInsertEnabled } />
+				</div>
+			</RequiredComponents>
 		</div>
 	);
 }
