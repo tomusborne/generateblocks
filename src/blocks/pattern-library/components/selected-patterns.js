@@ -7,16 +7,28 @@ import { lineSolid, seen } from '@wordpress/icons';
 import { useLibrary } from './library-provider';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
-const getItemStyle = ( isDragging, draggableStyle ) => ( {
-	// some basic styles to make the items look a bit nicer
+const getItemStyle = ( isDragging, draggableStyle ) => {
+	const newStyle = {
+		// some basic styles to make the items look a bit nicer
 
-	// change background colour if dragging
-	background: isDragging ? '#f0f0f0' : '#ffffff',
-	marginLeft: isDragging ? '-40px' : '',
+		// change background colour if dragging
+		background: isDragging ? '#f0f0f0' : '#ffffff',
+		marginLeft: isDragging ? '-40px' : '',
 
-	// styles we need to apply on draggables
-	...draggableStyle,
-} );
+		// styles we need to apply on draggables
+		...draggableStyle,
+	};
+
+	// Add axis locking for Y axis.
+	if ( draggableStyle?.transform ) {
+		const axisLockY = `translate(0px, ${ draggableStyle.transform
+			.split( ',' )
+			.pop() }`;
+		newStyle.transform = axisLockY;
+	}
+
+	return newStyle;
+};
 
 const getListStyle = ( isDraggingOver ) => ( {
 	background: isDraggingOver ? 'lightblue' : '#ffffff',
