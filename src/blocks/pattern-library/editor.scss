@@ -1,11 +1,10 @@
 .gb-pattern-library {
 	display: grid;
-	gap: 0 2rem;
 	grid-template-areas:
 		"header header"
 		"subheader subheader"
 		"sidebar content";
-	grid-template-columns: 280px 1fr;
+	grid-template-columns: 312px 1fr;
 	grid-template-rows: 75px auto 1fr;
 	height: 100%;
 
@@ -50,13 +49,16 @@
 		}
 	}
 
+	// TODO: Refactor this for better semantics and code placement
+	.gblocks-collection-required-components {
+		grid-column: 1 / -1;
+	}
+
 	&__sidebar {
 		grid-area: sidebar;
 		height: 100%;
-		max-width: 280px;
 		overflow-y: auto;
-		padding-left: 32px;
-		padding-top: 32px;
+		padding: 32px;
 		width: 100%;
 	}
 
@@ -75,6 +77,7 @@
 		height: 100%;
 		grid-area: content;
 		overflow: scroll;
+		padding-bottom: 32px;
 		position: relative;
 
 	}
