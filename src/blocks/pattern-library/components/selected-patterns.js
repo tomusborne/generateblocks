@@ -4,6 +4,7 @@ import { Button } from '@wordpress/components';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { lineSolid, seen } from '@wordpress/icons';
+import { createPortal } from '@wordpress/element';
 import { useLibrary } from './library-provider';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
@@ -82,32 +83,32 @@ export function SelectedPatterns() {
 				fill="none"
 			/>
 			<circle
-				cx="128"
+				cx="91"
 				cy="60"
 				r="16"
 			/>
 			<circle
-				cx="128"
+				cx="91"
 				cy="128"
 				r="16"
 			/>
 			<circle
-				cx="128"
+				cx="91"
 				cy="196"
 				r="16"
 			/>
 			<circle
-				cx="200"
+				cx="161"
 				cy="60"
 				r="16"
 			/>
 			<circle
-				cx="200"
+				cx="161"
 				cy="128"
 				r="16"
 			/>
 			<circle
-				cx="200"
+				cx="161"
 				cy="196"
 				r="16"
 			/>
@@ -132,6 +133,58 @@ export function SelectedPatterns() {
 		);
 	};
 
+	function SelectedPattern( { pattern, provided, snapshot, usePortal = false } ) {
+		const output = (
+			<li
+				id={ `selected-pattern-${ pattern.id }` }
+				className="gb-selected-pattern"
+				ref={ provided.innerRef }
+				{ ...provided.draggableProps }
+				style={ getItemStyle(
+					snapshot.isDragging,
+					provided.draggableProps.style
+				) }
+			>
+				<ReorderButton { ...provided.dragHandleProps } />
+				<span className="gb-selected-pattern__label">
+					{ pattern.label }
+				</span>
+				<div className="gb-selected-pattern__actions">
+					<ZeroWidthSpace />
+					<Button
+						variant="tertiary"
+						icon={ lineSolid }
+						label={ __( 'Remove Pattern', 'generateblocks' ) }
+						onClick={ () => {
+							selectedPatternsDispatch( { type: 'REMOVE', pattern } );
+						} }
+					/>
+					<Button
+						variant="tertiary"
+						icon={ seen }
+						label={ __( 'Preview Pattern', 'generateblocks' ) }
+						showTooltip
+						onClick={ () => {
+							setActivePatternId( pattern.id );
+							const modal = provided.innerRef.current.closest( '.components-modal__content' );
+
+							if ( modal ) {
+								setScrollPosition( modal.scrollTop );
+							}
+						} }
+					/>
+				</div>
+			</li>
+		);
+
+		if ( usePortal ) {
+			const modalContent = document.querySelector( '.gblocks-pattern-library-modal .components-modal__content' );
+			return modalContent && createPortal( output, modalContent );
+		}
+
+		return output;
+	}
+
 	return (
 		<aside className="gb-selected-patterns">
 			<h3 className="gb-selected-patterns__headline">
@@ -144,54 +197,16 @@ export function SelectedPatterns() {
 							{ selectedPatterns.map( ( pattern, index ) => (
 								<Draggable key={ pattern.id } draggableId={ pattern.id } index={ index }>
 									{ ( draggableProvided, draggableSnapshot ) => {
-										if ( draggableSnapshot.isDragging ) {
-											draggableProvided.draggableProps.style.top = undefined;
-										}
-
 										return <>
 											{ pattern !== null && (
-												<li
-													id={ `selected-pattern-${ pattern.id }` }
-													className="gb-selected-pattern"
-													ref={ draggableProvided.innerRef }
-													{ ...draggableProvided.draggableProps }
-													style={ getItemStyle(
-														draggableSnapshot.isDragging,
-														draggableProvided.draggableProps.style
-													) }
-												>
-													<ReorderButton { ...draggableProvided.dragHandleProps } />
-													<span className="gb-selected-pattern__label">
-														{ pattern.label }
-													</span>
-													<div className="gb-selected-pattern__actions">
-														<ZeroWidthSpace />
-														<Button
-															variant="tertiary"
-															icon={ lineSolid }
-															label={ __( 'Remove Pattern', 'generateblocks' ) }
-															onClick={ () => {
-																selectedPatternsDispatch( { type: 'REMOVE', pattern } );
-															} }
-														/>
-														<Button
-															variant="tertiary"
-															icon={ seen }
-															label={ __( 'Preview Pattern', 'generateblocks' ) }
-															showTooltip
-															onClick={ () => {
-																setActivePatternId( pattern.id );
-																const modal = provided.innerRef.current.closest( '.components-modal__content' );
-
-																if ( modal ) {
-																	setScrollPosition( modal.scrollTop );
-																}
-															} }
-														/>
-													</div>
-												</li>
+												<SelectedPattern
+													usePortal={ draggableSnapshot.isDragging }
+													pattern={ pattern }
+													provided={ draggableProvided }
+													snapshot={ draggableSnapshot }
+												/>
 											) }
-										</>
+										</>;
 									} }
 								</Draggable>
 							) ) }
