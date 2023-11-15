@@ -96,6 +96,21 @@ export function SelectedPatterns() {
 				cy="196"
 				r="16"
 			/>
+			<circle
+				cx="200"
+				cy="60"
+				r="16"
+			/>
+			<circle
+				cx="200"
+				cy="128"
+				r="16"
+			/>
+			<circle
+				cx="200"
+				cy="196"
+				r="16"
+			/>
 		</svg>
 	);
 
@@ -128,8 +143,12 @@ export function SelectedPatterns() {
 						<ul className="gb-selected-patterns__list" ref={ provided.innerRef } style={ getListStyle( snapshot.isDraggingOver ) }>
 							{ selectedPatterns.map( ( pattern, index ) => (
 								<Draggable key={ pattern.id } draggableId={ pattern.id } index={ index }>
-									{ ( draggableProvided, draggableSnapshot ) => (
-										<>
+									{ ( draggableProvided, draggableSnapshot ) => {
+										if ( draggableSnapshot.isDragging ) {
+											draggableProvided.draggableProps.style.top = undefined;
+										}
+
+										return <>
 											{ pattern !== null && (
 												<li
 													id={ `selected-pattern-${ pattern.id }` }
@@ -173,7 +192,7 @@ export function SelectedPatterns() {
 												</li>
 											) }
 										</>
-									) }
+									} }
 								</Draggable>
 							) ) }
 							{ provided.placeholder }
