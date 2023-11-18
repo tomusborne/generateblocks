@@ -294,7 +294,6 @@
 }
 
 .gb-selected-patterns {
-	padding-top: 1rem;
 
 	&__list {
 		> :first-child {
@@ -305,12 +304,29 @@
 			border-bottom: 1px solid #e1e1e1;
 			margin: 0;
 		}
+
+		&.is-dragging {
+			background-color: #bcecfb;
+		}
+
+		.gb-sortable-listitem {
+			background-color: #fefefe;
+
+			&.is-dragging {
+				background-color: #f0f0f0;
+			}
+		}
+	}
+
+	&__insert {
+		margin-top: 1rem;
 	}
 }
 
 .gb-selected-pattern {
 	align-items: flex-start;
 	display: flex;
+	flex-grow: 1;
 	gap: 0.625rem;
 	line-height: 1.25rem;
 

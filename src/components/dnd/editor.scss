@@ -1,0 +1,24 @@
+.gb-sortable-list {
+	margin: 0;
+}
+
+.gb-sortable-listitem {
+	--icon-size: 1rem;
+
+	align-items: flex-start;
+	display: flex;
+	gap: 0.625rem;
+
+	&__handle {
+		flex-shrink: 1;
+	}
+
+	.components-button {
+		svg {
+			display: block;
+			height: var(--icon-size);
+			width: var(--icon-size);
+		}
+	}
+}
+

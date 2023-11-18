@@ -4,36 +4,9 @@ import { Button } from '@wordpress/components';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { lineSolid, seen } from '@wordpress/icons';
-import { createPortal } from '@wordpress/element';
+import { useRef } from '@wordpress/element';
+import { SortableList } from '../../../components/dnd';
 import { useLibrary } from './library-provider';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-
-const getItemStyle = ( isDragging, draggableStyle ) => {
-	const newStyle = {
-		// some basic styles to make the items look a bit nicer
-
-		// change background colour if dragging
-		background: isDragging ? '#f0f0f0' : '#ffffff',
-		marginLeft: isDragging ? '-40px' : '',
-
-		// styles we need to apply on draggables
-		...draggableStyle,
-	};
-
-	// Add axis locking for Y axis.
-	if ( draggableStyle?.transform ) {
-		const axisLockY = `translate(0px, ${ draggableStyle.transform
-			.split( ',' )
-			.pop() }`;
-		newStyle.transform = axisLockY;
-	}
-
-	return newStyle;
-};
-
-const getListStyle = ( isDraggingOver ) => ( {
-	background: isDraggingOver ? 'lightblue' : '#ffffff',
-} );
 
 export function SelectedPatterns() {
 	const { replaceBlock } = useDispatch( blockEditorStore );
@@ -49,103 +22,17 @@ export function SelectedPatterns() {
 		return null;
 	}
 
-	const reorder = ( list, startIndex, endIndex ) => {
-		const result = Array.from( list );
-		const [ removed ] = result.splice( startIndex, 1 );
-		result.splice( endIndex, 0, removed );
-
-		return result;
-	};
-
-	function onDragEnd( result ) {
-		// dropped outside the list
-		if ( ! result.destination ) {
-			return;
-		}
-
-		const reorderedPatterns = reorder(
-			selectedPatterns,
-			result.source.index,
-			result.destination.index
-		);
-
-		selectedPatternsDispatch( { type: 'SET', patterns: reorderedPatterns } );
-	}
-
-	const verticalDots = (
-		<svg
-			xmlns="http://www.w3.org/2000/svg"
-			viewBox="0 0 256 256"
-		>
-			<rect
-				width="256"
-				height="256"
-				fill="none"
-			/>
-			<circle
-				cx="91"
-				cy="60"
-				r="16"
-			/>
-			<circle
-				cx="91"
-				cy="128"
-				r="16"
-			/>
-			<circle
-				cx="91"
-				cy="196"
-				r="16"
-			/>
-			<circle
-				cx="161"
-				cy="60"
-				r="16"
-			/>
-			<circle
-				cx="161"
-				cy="128"
-				r="16"
-			/>
-			<circle
-				cx="161"
-				cy="196"
-				r="16"
-			/>
-		</svg>
-	);
-
 	const ZeroWidthSpace = () => <>&#8203;</>;
 
-	// This has to be a div to avoid conflicts with buttons in the native WP UI
-	// Appropriate aria attributes are added by the library.
-	const ReorderButton = ( props ) => {
+	function SelectedPattern( { item: pattern } ) {
+		const ref = useRef( null );
+
 		return (
 			<div
-				className="components-button is-tertiary has-icon"
-				{ ...props }
-			>
-				{ verticalDots }
-				<span className="screen-reader-text">
-					{ __( 'Reorder Pattern', 'generateblocks' ) }
-				</span>
-			</div>
-		);
-	};
-
-	function SelectedPattern( { pattern, provided, snapshot, usePortal = false } ) {
-		const output = (
-			<li
 				id={ `selected-pattern-${ pattern.id }` }
 				className="gb-selected-pattern"
-				ref={ provided.innerRef }
-				{ ...provided.draggableProps }
-				style={ getItemStyle(
-					snapshot.isDragging,
-					provided.draggableProps.style
-				) }
+				ref={ ref }
 			>
-				<ReorderButton { ...provided.dragHandleProps } />
 				<span className="gb-selected-pattern__label">
 					{ pattern.label }
 				</span>
@@ -166,7 +53,7 @@ export function SelectedPatterns() {
 						showTooltip
 						onClick={ () => {
 							setActivePatternId( pattern.id );
-							const modal = provided.innerRef.current.closest( '.components-modal__content' );
+							const modal = ref.current.closest( '.components-modal__content' );
 
 							if ( modal ) {
 								setScrollPosition( modal.scrollTop );
@@ -174,15 +61,8 @@ export function SelectedPatterns() {
 						} }
 					/>
 				</div>
-			</li>
+			</div>
 		);
-
-		if ( usePortal ) {
-			const modalContent = document.querySelector( '.gblocks-pattern-library-modal .components-modal__content' );
-			return modalContent && createPortal( output, modalContent );
-		}
-
-		return output;
 	}
 
 	return (
@@ -190,35 +70,20 @@ export function SelectedPatterns() {
 			<h3 className="gb-selected-patterns__headline">
 				{ __( 'Selected Patterns', 'generateblocks' ) }
 			</h3>
-			<DragDropContext onDragEnd={ onDragEnd }>
-				<Droppable droppableId="droppable">
-					{ ( provided, snapshot ) => (
-						<ul className="gb-selected-patterns__list" ref={ provided.innerRef } style={ getListStyle( snapshot.isDraggingOver ) }>
-							{ selectedPatterns.map( ( pattern, index ) => (
-								<Draggable key={ pattern.id } draggableId={ pattern.id } index={ index }>
-									{ ( draggableProvided, draggableSnapshot ) => {
-										return <>
-											{ pattern !== null && (
-												<SelectedPattern
-													usePortal={ draggableSnapshot.isDragging }
-													pattern={ pattern }
-													provided={ draggableProvided }
-													snapshot={ draggableSnapshot }
-												/>
-											) }
-										</>;
-									} }
-								</Draggable>
-							) ) }
-							{ provided.placeholder }
-						</ul>
-					) }
-				</Droppable>
-			</DragDropContext>
+			<SortableList
+				className="gb-selected-patterns__list"
+				items={ selectedPatterns }
+				dragHandleLabel={ __( 'Reorder Patterns', 'generateblocks' ) }
+				setItems={ ( items ) => {
+					selectedPatternsDispatch( { type: 'SET', patterns: items } );
+				} }
+				itemComponent={ SelectedPattern }
+				dragHandle={ true }
+			/>
 			<Button
+				className="gb-selected-patterns__insert"
 				variant="primary"
 				onClick={ () => {
-					// const blockReplacements = selectedPatterns.map( ( [ , pattern ] ) => pattern.pattern ) ?? [];
 					const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev + current.pattern, '' );
 
 					replaceBlock( clientId, parse( blockReplacements, {} ) );
