@@ -1,5 +1,5 @@
 import { Button } from '@wordpress/components';
-import { plus, lineSolid, seen } from '@wordpress/icons';
+import { plus, seen } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
