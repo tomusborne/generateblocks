@@ -76,7 +76,7 @@
 	&__content {
 		height: 100%;
 		grid-area: content;
-		overflow: scroll;
+		overflow-y: scroll;
 		padding-bottom: 32px;
 		position: relative;
 
