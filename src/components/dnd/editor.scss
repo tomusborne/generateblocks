@@ -4,13 +4,12 @@
 
 .gb-sortable-listitem {
 	--icon-size: 1rem;
-
-	align-items: flex-start;
-	display: flex;
+	display: grid;
 	gap: 0.625rem;
+	grid-template-columns: 36px 1fr;
 
 	&__handle {
-		flex-shrink: 1;
+		height: 100%;
 	}
 
 	.components-button {
