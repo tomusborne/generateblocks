@@ -87,7 +87,6 @@ export function SortableListItem( {
 				<Button
 					className="gb-sortable-listitem__handle"
 					variant="tertiary"
-					size="compact"
 					showTooltip={ false }
 					icon={ verticalDots }
 					label={ dragHandleLabel }
