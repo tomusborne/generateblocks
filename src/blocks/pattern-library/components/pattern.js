@@ -9,6 +9,7 @@ export default function Pattern( props ) {
 		preview,
 		isLoading,
 		activePatternId,
+		label,
 	} = props;
 	const iframeRef = useRef();
 	const elementRef = useRef();
@@ -249,7 +250,7 @@ export default function Pattern( props ) {
 									}
 								} );
 							} }
-							title="id"
+							title={ label }
 							src={ isVisible ? generateBlocksInfo.patternPreviewUrl : '' }
 							ref={ iframeRef }
 							style={ {
@@ -261,6 +262,7 @@ export default function Pattern( props ) {
 								display: activePatternId && '100%' !== previewIframeWidth ? 'block' : '',
 								margin: activePatternId && '100%' !== previewIframeWidth ? '0 auto' : '',
 							} }
+							tabIndex="-1"
 						/>
 					</div>
 				</div>

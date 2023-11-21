@@ -1,74 +1,57 @@
-import { Button, ButtonGroup } from '@wordpress/components';
-import { desktop, mobile, plus, seen, tablet } from '@wordpress/icons';
+import { Button } from '@wordpress/components';
+import { plus, seen } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 
-export function PatternDetails( { pattern, patternRef } ) {
+export function PatternDetails( { pattern, patternRef = null, children, showPreview = true, bulkInsertEnabled } ) {
+	const {
+		clientId,
+		setActivePatternId,
+		setScrollPosition,
+	} = useLibrary();
 	const { replaceBlock } = useDispatch( blockEditorStore );
-	const { clientId, setActivePatternId, activePatternId, previewIframeWidth, setPreviewIframeWidth, setScrollPosition } = useLibrary();
 
 	return (
 		<div className="gb-pattern-details">
-			{ ! activePatternId && <h3>{ pattern.label }</h3> }
+			<h3>{ pattern.label }</h3>
 			<div className="gb-pattern-details__actions">
-				<Button
-					variant="secondary"
-					icon={ plus }
-					onClick={ () => {
-						replaceBlock( clientId, parse( pattern.pattern, {} ) );
-					} }
-				>
-					{ __( 'Add', 'generateblocks' ) }
-				</Button>
+				{ ! bulkInsertEnabled && (
+					<Button
+						variant="primary"
+						icon={ plus }
+						onClick={ ( e ) => {
+							e.stopPropagation();
+							replaceBlock( clientId, parse( pattern.pattern, {} ) );
+						} }
+					>
+						{ __( 'Insert', 'generateblocks' ) }
+					</Button>
+				) }
 
-				{ !! activePatternId &&
-					<ButtonGroup>
-						<Button
-							isPressed={ '100%' === previewIframeWidth }
-							variant={ 'tertiary' }
-							icon={ desktop }
-							label={ __( 'Desktop', 'generateblocks' ) }
-							showTooltip
-							onClick={ () => setPreviewIframeWidth( '100%' ) }
-						/>
-						<Button
-							isPressed={ '900px' === previewIframeWidth }
-							variant={ 'tertiary' }
-							icon={ tablet }
-							label={ __( 'Tablet', 'generateblocks' ) }
-							showTooltip
-							onClick={ () => setPreviewIframeWidth( '900px' ) }
-						/>
-						<Button
-							isPressed={ '400px' === previewIframeWidth }
-							variant={ 'tertiary' }
-							icon={ mobile }
-							label={ __( 'Mobile', 'generateblocks' ) }
-							showTooltip
-							onClick={ () => setPreviewIframeWidth( '400px' ) }
-						/>
-					</ButtonGroup>
-				}
-
-				{ ! activePatternId &&
+				{ ( showPreview && ! bulkInsertEnabled ) && (
 					<Button
 						variant="tertiary"
 						icon={ seen }
 						label={ __( 'Preview', 'generateblocks' ) }
 						showTooltip
-						onClick={ () => {
+						onClick={ ( e ) => {
+							e.stopPropagation();
 							setActivePatternId( pattern.id );
-							const modal = patternRef.current.closest( '.components-modal__content' );
 
-							if ( modal ) {
-								setScrollPosition( modal.scrollTop );
+							if ( patternRef ) {
+								const modal = patternRef.current.closest( '.components-modal__content' );
+
+								if ( modal ) {
+									setScrollPosition( modal.scrollTop );
+								}
 							}
 						} }
 					/>
-				}
+				) }
+				{ children }
 			</div>
 		</div>
 	);
