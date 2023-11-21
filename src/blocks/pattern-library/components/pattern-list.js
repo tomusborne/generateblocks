@@ -158,6 +158,7 @@ export default function PatternList( { bulkInsertEnabled = false } ) {
 										selectedPatternsDispatch( { type: 'REMOVE', pattern } );
 									} }
 									onBlur={ ( e ) => e.stopPropagation() }
+									tabIndex="-1"
 								>
 									<span className="media-modal-icon"></span>
 									<span className="screen-reader-text">

@@ -109,6 +109,10 @@
 		border: none;
 		padding: 10px 10px 0;
 		border-radius: 10px;
+
+		.gb-selectable__toggle {
+			border-radius: 10px;
+		}
 	}
 
 	.gb-pattern-frame {
@@ -393,7 +397,7 @@
 			background-position: -40px 0;
 		}
 	}
-	.gb-bulk-insert &:where(:hover, :focus-visible),
+	.gb-bulk-insert &:where(:hover, :focus-within),
 	&.is-selected {
 		outline: 3px solid $selectable_blue;
 		outline-offset: -3px;
@@ -422,6 +426,13 @@
 			&:hover .media-modal-icon {
 				background-position: -60px 0;
 			}
+		}
+	}
+
+	// Target the check when interacting with the toggle while the item is selected
+	&.is-selected .gb-selectable__toggle:where(:hover, :focus-visible) + .check {
+		.media-modal-icon {
+			background-position: -60px 0;
 		}
 	}
 }
