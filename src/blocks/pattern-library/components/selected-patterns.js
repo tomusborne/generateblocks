@@ -33,7 +33,7 @@ export function SelectedPatterns() {
 				className="gb-selected-pattern"
 				ref={ ref }
 			>
-				<span className="gb-selected-pattern__label">
+				<span className="gb-selected-pattern__label" title={ pattern.label }>
 					{ pattern.label }
 				</span>
 				<div className="gb-selected-pattern__actions">
@@ -73,7 +73,7 @@ export function SelectedPatterns() {
 			<SortableList
 				className="gb-selected-patterns__list"
 				items={ selectedPatterns }
-				dragHandleLabel={ __( 'Reorder Patterns', 'generateblocks' ) }
+				dragHandleLabel={ __( 'Reorder Pattern', 'generateblocks' ) }
 				setItems={ ( items ) => {
 					selectedPatternsDispatch( { type: 'SET', patterns: items } );
 				} }

@@ -316,15 +316,17 @@
 }
 
 .gb-selected-pattern {
-	align-items: flex-start;
+	align-items: center;
 	display: flex;
 	flex-grow: 1;
 	gap: 0.625rem;
-	line-height: 1.25rem;
 
 	&__label {
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
 		font-weight: 500;
-		padding: 0.5rem 0;
+		-webkit-line-clamp: 1;
+		overflow: hidden;
 	}
 
 	&__handle {
