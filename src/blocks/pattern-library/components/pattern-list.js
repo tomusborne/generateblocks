@@ -6,11 +6,10 @@ import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
 import classnames from 'classnames';
 
-export default function PatternList( { bulkInsertEnabled = false } ) {
+export default function PatternList( { bulkInsertEnabled = false, patterns } ) {
 	const ref = useRef();
 	const loadMoreRef = useRef();
 	const {
-		patterns,
 		activePatternId,
 		setActivePatternId,
 		loading,
