@@ -104,7 +104,7 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ loading, setLoading ] = useState( false );
 	const [ previewIframeWidth, setPreviewIframeWidth ] = useState( '100%' );
 	const [ requiredClasses, setRequiredClasses ] = useState( [] );
-	const itemsPerPage = 12;
+	const itemsPerPage = 15;
 	const [ itemCount, setItemCount ] = useState( itemsPerPage );
 	const [ scrollPosition, setScrollPosition ] = useState( 0 );
 
