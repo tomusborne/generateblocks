@@ -29,27 +29,53 @@ export default function LibraryLayout() {
 		setScrollPosition,
 		scrollPosition,
 		activeCategory,
+		search,
+		setSearch,
 	} = useLibrary();
 	const { removeBlock } = useDispatch( blockEditorStore );
 	const [ bulkInsertEnabled, setBulkInsertEnabled ] = useState( false );
 	const [ filteredPatterns, setFilteredPatterns ] = useState( patterns );
 	const activePattern = patterns.find( ( pattern ) => activePatternId === pattern.id );
 
+	function filterPatterns( value ) {
+		return patterns.filter( ( pattern ) => {
+			const viewingAll = activeCategory === '';
+			const stringMatch = pattern.label.toLowerCase().includes( value.toLowerCase() );
+			const categoryMatch = pattern.categories.includes( activeCategory );
+
+			return viewingAll ? stringMatch : stringMatch && categoryMatch;
+		} );
+	}
+
 	useEffect( () => {
 		if ( activeCategory === '' ) {
 			setFilteredPatterns( patterns );
 		} else {
-			setFilteredPatterns( patterns.filter( ( pattern ) => pattern.categories.includes( activeCategory ) ) );
+			setFilteredPatterns( filterPatterns( search ) );
 		}
-	}, [ patterns ] );
+	}, [ patterns, activeCategory ] );
 
-	function maybeGetCachedSearchResult( search ) {
-		if ( ! searchCache[ search ] ) {
+	function maybeGetCachedSearchResult( value ) {
+		const category = activeCategory === '' ? 'all' : activeCategory;
+
+		if ( ! searchCache[ category ] ) {
+			searchCache[ category ] = {};
+		}
+
+		if ( ! searchCache[ category ][ value ] ) {
 			return false;
 		}
 
-		return searchCache[ search ];
+		return searchCache[ category ][ value ];
 	}
+
+	const contentStyles = {};
+
+	if ( activePatternId ) {
+		contentStyles.gridColumn = '1 / -1';
+	}
+
+	const MemoizedCategoryList = memo( CategoryList );
 
 	return (
 		<div className="gb-pattern-library">
@@ -115,6 +141,9 @@ export default function LibraryLayout() {
 					{ ! activePatternId &&
 					<>
 						<PatternSearch onChange={ ( value ) => {
+							setSearch( value );
+
+							const category = activeCategory === '' ? 'all' : activeCategory;
 							// Check if result has been cached already
 							const cachedResult = maybeGetCachedSearchResult( value );
 
@@ -123,30 +152,25 @@ export default function LibraryLayout() {
 								return;
 							}
 
-							const newPatternList = patterns.filter( ( pattern ) => {
-								const viewingAll = activeCategory === '';
-								const stringMatch = pattern.label.toLowerCase().includes( value.toLowerCase() );
-								const categoryMatch = pattern.categories.includes( activeCategory );
+							const newPatternList = filterPatterns( value );
 
-								return viewingAll ? stringMatch : stringMatch && categoryMatch;
-							} );
-
-							searchCache[ value ] = newPatternList;
+							searchCache[ category ][ value ] = newPatternList;
 
 							setFilteredPatterns( newPatternList );
 						} } />
-						<CategoryList />
+						<MemoizedCategoryList />
 						<SelectedPatterns />
 					</>
 					}
 				</div>
 				<div
 					className="gb-pattern-library__content"
-					style={ {
-						paddingLeft: !! activePatternId ? 0 : null,
-					} }
+					style={ contentStyles }
 				>
-					<PatternList patterns={ filteredPatterns } bulkInsertEnabled={ bulkInsertEnabled } />
+					<PatternList
+						patterns={ filteredPatterns }
+						bulkInsertEnabled={ bulkInsertEnabled }
+					/>
 				</div>
 			</RequiredComponents>
 		</div>

@@ -6,12 +6,11 @@ import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
 import classnames from 'classnames';
 
-export default function PatternList( { bulkInsertEnabled = false, patterns } ) {
+export default function PatternList( { bulkInsertEnabled = false, patterns = [] } ) {
 	const ref = useRef();
 	const loadMoreRef = useRef();
 	const {
 		activePatternId,
-		setActivePatternId,
 		loading,
 		itemsPerPage,
 		itemCount,
@@ -114,8 +113,8 @@ export default function PatternList( { bulkInsertEnabled = false, patterns } ) {
 			{ !! activePattern &&
 				<Pattern
 					isLoading={ loading }
-					activePatternId={ activePatternId }
-					{ ...activePattern }
+					isActive={ true }
+					pattern={ activePattern }
 				/>
 			}
 
@@ -127,7 +126,7 @@ export default function PatternList( { bulkInsertEnabled = false, patterns } ) {
 					display: !! activePattern ? 'none' : '',
 				} }
 			>
-				{ visiblePatterns && visiblePatterns.map( ( pattern ) => {
+				{ visiblePatterns.map( ( pattern ) => {
 					const isSelected = selectedPatterns.some( ( { id } ) => id === pattern.id ) ?? false;
 
 					return (
@@ -167,8 +166,7 @@ export default function PatternList( { bulkInsertEnabled = false, patterns } ) {
 							) }
 							<Pattern
 								isLoading={ loading }
-								setActivePattern={ setActivePatternId }
-								{ ...pattern }
+								pattern={ pattern }
 							/>
 
 							<PatternDetailsMemo

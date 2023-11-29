@@ -3,20 +3,19 @@ import { useEffect, useRef, useState, useLayoutEffect } from '@wordpress/element
 import imagesLoaded from 'imagesloaded';
 import { useLibrary } from './library-provider';
 
-export default function Pattern( props ) {
+export default function Pattern( { pattern, isLoading, isActive = false } ) {
 	const {
 		id,
 		preview,
-		isLoading,
-		activePatternId,
 		label,
-	} = props;
+		scripts = [],
+	} = pattern;
 	const iframeRef = useRef();
 	const elementRef = useRef();
 	const [ height, setHeight ] = useState( 0 );
 	const [ injectContent, setInjectContent ] = useState( false );
 	const [ editorColors, setEditorColors ] = useState( {} );
-	const [ isVisible, setIsVisible ] = useState( !! activePatternId );
+	const [ isVisible, setIsVisible ] = useState( !! isActive );
 	const [ isLoaded, setIsLoaded ] = useState( false );
 	const [ patternWidth, setPatternWidth ] = useState( 0 );
 	const [ isResizing, setIsResizing ] = useState( false );
@@ -98,7 +97,6 @@ export default function Pattern( props ) {
 		}
 
 		const document = iframeRef.current.contentWindow.document;
-		const scripts = props?.scripts ?? [];
 
 		scripts.forEach( ( script ) => {
 			const scriptElement = document.createElement( 'script' );
@@ -148,7 +146,7 @@ export default function Pattern( props ) {
 	 * Set the height of the preview iframe.
 	 */
 	useEffect( () => {
-		if ( ! activePatternId ) {
+		if ( ! isActive ) {
 			return;
 		}
 
@@ -165,6 +163,11 @@ export default function Pattern( props ) {
 	useEffect( () => {
 		const iframeDocument = iframeRef.current.contentWindow.document;
 		const iframeBody = iframeDocument.body;
+
+		if ( ! iframeBody ) {
+			return;
+		}
+
 		const elements = Array.from( iframeBody.querySelectorAll( '*' ) );
 
 		const firstVisibleElement = elements?.find( ( element ) => {
@@ -197,7 +200,7 @@ export default function Pattern( props ) {
 	return (
 		<div
 			className="gb-pattern-frame"
-			style={ activePatternId ? {
+			style={ isActive ? {
 				backgroundColor: 'none',
 				padding: 0,
 			} : {} }
@@ -205,17 +208,17 @@ export default function Pattern( props ) {
 			<div
 				ref={ elementRef }
 				className="gb-pattern"
-				style={ ! activePatternId ? wrapperStyle : { minHeight: '200px' } }
+				style={ ! isActive ? wrapperStyle : { minHeight: '200px' } }
 			>
 				{ !! isVisible && ! isLoaded && <Spinner /> }
 				<div
-					style={ ! activePatternId ? {
+					style={ ! isActive ? {
 						width: `${ viewport }px`,
 						height: `${ viewportHeight }px`,
 					} : {} }
 				>
 					<div
-						style={ ! activePatternId ? {
+						style={ ! isActive ? {
 							height: height + 'px',
 							width: `${ ( ( iframe / viewport ) * 100 ) }%`,
 							transformOrigin: '0 0',
@@ -245,24 +248,25 @@ export default function Pattern( props ) {
 
 									// Reset our height when we click anything in our preview.
 									// This accounts for height changes from accordions etc...
-									if ( activePatternId ) {
+									if ( isActive ) {
 										setHeight( iframeDoc.body.scrollHeight );
 									}
 								} );
 							} }
 							title={ label }
-							src={ isVisible ? generateBlocksInfo.patternPreviewUrl : '' }
+							src={ generateBlocksInfo.patternPreviewUrl }
 							ref={ iframeRef }
 							style={ {
 								height: height + 'px',
 								border: '0',
-								pointerEvents: ! activePatternId ? 'none' : '',
-								width: activePatternId ? previewIframeWidth : `${ iframe }px`,
+								pointerEvents: ! isActive ? 'none' : '',
+								width: isActive ? previewIframeWidth : `${ iframe }px`,
 								opacity: ! isLoaded ? 0 : 1,
-								display: activePatternId && '100%' !== previewIframeWidth ? 'block' : '',
-								margin: activePatternId && '100%' !== previewIframeWidth ? '0 auto' : '',
+								display: isVisible || ( isActive && '100%' !== previewIframeWidth ) ? 'block' : '',
+								margin: isActive && '100%' !== previewIframeWidth ? '0 auto' : '',
 							} }
 							tabIndex="-1"
+							loading="lazy"
 						/>
 					</div>
 				</div>
