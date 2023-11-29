@@ -254,7 +254,7 @@ export default function Pattern( { pattern, isLoading, isActive = false } ) {
 								} );
 							} }
 							title={ label }
-							src={ generateBlocksInfo.patternPreviewUrl }
+							src={ isVisible ? generateBlocksInfo.patternPreviewUrl : '' }
 							ref={ iframeRef }
 							style={ {
 								height: height + 'px',
@@ -262,7 +262,7 @@ export default function Pattern( { pattern, isLoading, isActive = false } ) {
 								pointerEvents: ! isActive ? 'none' : '',
 								width: isActive ? previewIframeWidth : `${ iframe }px`,
 								opacity: ! isLoaded ? 0 : 1,
-								display: isVisible || ( isActive && '100%' !== previewIframeWidth ) ? 'block' : '',
+								display: ( isActive && '100%' !== previewIframeWidth ) ? 'block' : '',
 								margin: isActive && '100%' !== previewIframeWidth ? '0 auto' : '',
 							} }
 							tabIndex="-1"
