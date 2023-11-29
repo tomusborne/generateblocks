@@ -3,7 +3,7 @@ import { close, arrowLeft } from '@wordpress/icons';
 import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect } from '@wordpress/element';
+import { useState, useEffect, memo } from '@wordpress/element';
 import CategoryList from './category-list';
 import LibrarySelector from './library-selector';
 import { useLibrary } from './library-provider';
