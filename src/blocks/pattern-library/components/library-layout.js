@@ -3,7 +3,7 @@ import { close, arrowLeft } from '@wordpress/icons';
 import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect, memo } from '@wordpress/element';
+import { useState, useEffect, memo, useRef } from '@wordpress/element';
 import CategoryList from './category-list';
 import LibrarySelector from './library-selector';
 import { useLibrary } from './library-provider';
@@ -36,6 +36,7 @@ export default function LibraryLayout() {
 	const [ bulkInsertEnabled, setBulkInsertEnabled ] = useState( false );
 	const [ filteredPatterns, setFilteredPatterns ] = useState( patterns );
 	const activePattern = patterns.find( ( pattern ) => activePatternId === pattern.id );
+	const patternContentRef = useRef();
 
 	function filterPatterns( value ) {
 		return patterns.filter( ( pattern ) => {
@@ -52,6 +53,10 @@ export default function LibraryLayout() {
 			setFilteredPatterns( patterns );
 		} else {
 			setFilteredPatterns( filterPatterns( search ) );
+		}
+
+		if ( patternContentRef.current ) {
+			patternContentRef.current.scrollTop = 0;
 		}
 	}, [ patterns, activeCategory ] );
 
@@ -166,6 +171,7 @@ export default function LibraryLayout() {
 				<div
 					className="gb-pattern-library__content"
 					style={ contentStyles }
+					ref={ patternContentRef }
 				>
 					<PatternList
 						patterns={ filteredPatterns }

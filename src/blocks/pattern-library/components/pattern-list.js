@@ -86,10 +86,10 @@ export default function PatternList( { bulkInsertEnabled = false, patterns = [] 
 	 */
 	useEffect( () => {
 		if ( ref.current && ! activePattern ) {
-			const modal = ref.current.closest( '.components-modal__content' );
+			const patternContent = ref.current.closest( '.gb-pattern-library__content' );
 
-			if ( modal ) {
-				modal.scrollTop = scrollPosition;
+			if ( patternContent ) {
+				patternContent.scrollTop = scrollPosition;
 			}
 		}
 	}, [ scrollPosition, activePattern ] );
