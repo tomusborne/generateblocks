@@ -6,13 +6,11 @@ import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
 import classnames from 'classnames';
 
-export default function PatternList( { bulkInsertEnabled = false } ) {
+export default function PatternList( { bulkInsertEnabled = false, patterns = [] } ) {
 	const ref = useRef();
 	const loadMoreRef = useRef();
 	const {
-		patterns,
 		activePatternId,
-		setActivePatternId,
 		loading,
 		itemsPerPage,
 		itemCount,
@@ -88,10 +86,10 @@ export default function PatternList( { bulkInsertEnabled = false } ) {
 	 */
 	useEffect( () => {
 		if ( ref.current && ! activePattern ) {
-			const modal = ref.current.closest( '.components-modal__content' );
+			const patternContent = ref.current.closest( '.gb-pattern-library__content' );
 
-			if ( modal ) {
-				modal.scrollTop = scrollPosition;
+			if ( patternContent ) {
+				patternContent.scrollTop = scrollPosition;
 			}
 		}
 	}, [ scrollPosition, activePattern ] );
@@ -115,8 +113,8 @@ export default function PatternList( { bulkInsertEnabled = false } ) {
 			{ !! activePattern &&
 				<Pattern
 					isLoading={ loading }
-					activePatternId={ activePatternId }
-					{ ...activePattern }
+					isActive={ true }
+					pattern={ activePattern }
 				/>
 			}
 
@@ -128,7 +126,7 @@ export default function PatternList( { bulkInsertEnabled = false } ) {
 					display: !! activePattern ? 'none' : '',
 				} }
 			>
-				{ visiblePatterns && visiblePatterns.map( ( pattern ) => {
+				{ visiblePatterns.map( ( pattern ) => {
 					const isSelected = selectedPatterns.some( ( { id } ) => id === pattern.id ) ?? false;
 
 					return (
@@ -168,8 +166,7 @@ export default function PatternList( { bulkInsertEnabled = false } ) {
 							) }
 							<Pattern
 								isLoading={ loading }
-								setActivePattern={ setActivePatternId }
-								{ ...pattern }
+								pattern={ pattern }
 							/>
 
 							<PatternDetailsMemo

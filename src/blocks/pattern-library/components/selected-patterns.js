@@ -53,10 +53,10 @@ export function SelectedPatterns() {
 						showTooltip
 						onClick={ () => {
 							setActivePatternId( pattern.id );
-							const modal = ref.current.closest( '.components-modal__content' );
+							const patternContent = ref.current.closest( '.gb-pattern-library__content' );
 
-							if ( modal ) {
-								setScrollPosition( modal.scrollTop );
+							if ( patternContent ) {
+								setScrollPosition( patternContent.scrollTop );
 							}
 						} }
 					/>

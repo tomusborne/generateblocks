@@ -104,7 +104,7 @@ export function LibraryProvider( { clientId, children } ) {
 	const [ loading, setLoading ] = useState( false );
 	const [ previewIframeWidth, setPreviewIframeWidth ] = useState( '100%' );
 	const [ requiredClasses, setRequiredClasses ] = useState( [] );
-	const itemsPerPage = 12;
+	const itemsPerPage = 15;
 	const [ itemCount, setItemCount ] = useState( itemsPerPage );
 	const [ scrollPosition, setScrollPosition ] = useState( 0 );
 
@@ -159,10 +159,9 @@ export function LibraryProvider( { clientId, children } ) {
 
 	async function setLibraryCategories() {
 		const { data } = await fetchLibraryCategories( activeLibrary?.id, isLocal, publicKey );
-		const { data: allPatterns } = await fetchLibraryPatterns( activeLibrary?.id, '', '', isLocal, publicKey );
 
 		// We only want to show categories that have patterns in this current library of collections.
-		const categoriesInPatterns = new Set( allPatterns.flatMap( ( obj ) => obj.categories ) );
+		const categoriesInPatterns = new Set( patterns.flatMap( ( obj ) => obj.categories ) );
 		const categoriesWithPatterns = data.filter( ( category ) => categoriesInPatterns.has( category.id ) );
 
 		setCategories( categoriesWithPatterns ?? [] );
@@ -180,8 +179,8 @@ export function LibraryProvider( { clientId, children } ) {
 			setRequiredClasses( [] );
 		}
 
-		// Fetch patterns for the active library.
-		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary?.id, activeCategory, search, isLocal, publicKey );
+		// Fetch all patterns for the active library.
+		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary?.id, '', '', isLocal, publicKey );
 		setPatterns( fetchedPatterns ?? [] );
 
 		// Reset.
@@ -212,7 +211,7 @@ export function LibraryProvider( { clientId, children } ) {
 		} else {
 			setCategories( [] );
 		}
-	}, [ activeLibrary?.id ] );
+	}, [ activeLibrary?.id, patterns ] );
 
 	useEffect( () => {
 		if ( activeLibrary.id ) {
@@ -220,7 +219,7 @@ export function LibraryProvider( { clientId, children } ) {
 		} else {
 			setPatterns( [] );
 		}
-	}, [ activeLibrary?.id, activeCategory, search, publicKey ] );
+	}, [ activeLibrary?.id, publicKey ] );
 
 	return (
 		<LibraryContext.Provider value={ defaultContext }>

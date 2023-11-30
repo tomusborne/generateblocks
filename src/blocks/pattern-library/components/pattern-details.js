@@ -42,10 +42,10 @@ export function PatternDetails( { pattern, patternRef = null, children, showPrev
 							setActivePatternId( pattern.id );
 
 							if ( patternRef ) {
-								const modal = patternRef.current.closest( '.components-modal__content' );
+								const patternContent = patternRef.current.closest( '.gb-pattern-library__content' );
 
-								if ( modal ) {
-									setScrollPosition( modal.scrollTop );
+								if ( patternContent ) {
+									setScrollPosition( patternContent.scrollTop );
 								}
 							}
 						} }

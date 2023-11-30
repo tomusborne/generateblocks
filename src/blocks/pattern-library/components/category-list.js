@@ -8,6 +8,7 @@ export default function CategoryList() {
 	return (
 		<div className="pattern-category-list">
 			<Button
+				id="pattern-category-all"
 				isPressed={ '' === activeCategory }
 				onClick={ () => setActiveCategory( '' ) }
 			>
@@ -15,6 +16,7 @@ export default function CategoryList() {
 			</Button>
 			{ categories && categories.map( ( category ) => (
 				<Button
+					id={ `pattern-category-${ category.id }` }
 					key={ category.id }
 					isPressed={ category.id === activeCategory }
 					onClick={ () => setActiveCategory( category.id ) }
