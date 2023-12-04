@@ -108,17 +108,7 @@ class GenerateBlocks_Block_Grid {
 		}
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
-			$css->set_selector( '.gb-grid-wrapper' );
-			$css->add_property( 'display', 'flex' );
-			$css->add_property( 'flex-wrap', 'wrap' );
-
-			$css->set_selector( '.gb-grid-column' );
-			$css->add_property( 'box-sizing', 'border-box' );
-
-			$css->set_selector( '.gb-grid-wrapper .wp-block-image' );
-			$css->add_property( 'margin-bottom', '0' );
-
+		if ( ! self::$singular_css_added ) {
 			do_action(
 				'generateblocks_block_one_time_css_data',
 				'grid',
@@ -126,16 +116,12 @@ class GenerateBlocks_Block_Grid {
 				$css
 			);
 
-			/**
-			 * Sometimes it may be necessary to skip this flag. Specifically when we're inside
-			 * the `save_post` hook with multiple posts being saved in a loop (bulk edit).
-			 */
-			if ( ! apply_filters( 'generateblocks_skip_singular_css_added_flag', false ) ) {
-				self::$singular_css_added = true;
-			}
+			self::$singular_css_added = true;
 		}
 
 		$css->set_selector( '.gb-grid-wrapper-' . $id );
+		$css->add_property( 'display', 'flex' );
+		$css->add_property( 'flex-wrap', 'wrap' );
 		$css->add_property( 'align-items', $settings['verticalAlignment'] );
 		$css->add_property( 'justify-content', $settings['horizontalAlignment'] );
 
@@ -148,6 +134,7 @@ class GenerateBlocks_Block_Grid {
 		}
 
 		$css->set_selector( '.gb-grid-wrapper-' . $id . ' > .gb-grid-column' );
+		$css->add_property( 'box-sizing', 'border-box' );
 		$css->add_property( 'padding-' . $gap_direction, $settings['horizontalGap'], 'px' );
 
 		if ( $blockVersion < 3 || $settings['useLegacyRowGap'] ) {

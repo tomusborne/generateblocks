@@ -92,10 +92,7 @@ class GenerateBlocks_Block_Image {
 		$id = $attributes['uniqueId'];
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
-			$css->set_selector( '.gb-block-image img' );
-			$css->add_property( 'vertical-align', 'middle' );
-
+		if ( ! self::$singular_css_added ) {
 			do_action(
 				'generateblocks_block_one_time_css_data',
 				'image',
@@ -103,13 +100,7 @@ class GenerateBlocks_Block_Image {
 				$css
 			);
 
-			/**
-			 * Sometimes it may be necessary to skip this flag. Specifically when we're inside
-			 * the `save_post` hook with multiple posts being saved in a loop (bulk edit).
-			 */
-			if ( ! apply_filters( 'generateblocks_skip_singular_css_added_flag', false ) ) {
-				self::$singular_css_added = true;
-			}
+			self::$singular_css_added = true;
 		}
 
 		// Map deprecated settings.
@@ -136,6 +127,7 @@ class GenerateBlocks_Block_Image {
 		$css->add_property( 'width', $settings['width'] );
 		$css->add_property( 'height', $settings['height'] );
 		$css->add_property( 'object-fit', $settings['objectFit'] );
+		$css->add_property( 'vertical-align', 'middle' );
 
 		$tablet_css->set_selector( '.gb-block-image-' . $id );
 		generateblocks_add_spacing_css( $tablet_css, $settings, 'Tablet' );
