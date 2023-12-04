@@ -127,7 +127,7 @@ class IconPicker extends Component {
 						<span dangerouslySetInnerHTML={ { __html: sanitizeSVG( attributes[ attrIcon ] ) } } />
 
 						<Button
-							isSmall
+							size="small"
 							className="reset-icon is-secondary"
 							onClick={ () => {
 								setAttributes( {

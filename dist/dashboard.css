@@ -1,1 +1,204 @@
-.gblocks-dashboard-wrap{margin:0;overflow:hidden}.gblocks-dashboard-header{align-items:center;background:#fff;border-bottom:1px solid #e2e4e7;display:flex;justify-content:space-between;padding:0 20px;text-align:center}.gblocks-dashboard-header h1{align-items:center;display:flex;font-size:17px;font-weight:600;padding-bottom:0}.gblocks-dashboard-header h1 svg{fill:#006eb7;height:1em;padding-right:10px;width:1em}.gblocks-navigation{background:#fff;display:flex}.gblocks-navigation a{align-items:center;color:inherit;display:flex;padding:1rem;text-decoration:none}.gblocks-navigation a.active{box-shadow:inset 0 -3px #007cba;font-weight:600}.generateblocks-settings-area .components-placeholder.gblocks-settings-placeholder{background:#fff;border:1px solid #e2e4e7;box-shadow:none;margin-left:auto;margin-right:auto;margin-top:20px;max-width:750px}.generateblocks-settings-area .generateblocks-settings-main{margin-left:auto;margin-right:auto;max-width:750px}.generateblocks-settings-area .generateblocks-settings-main .gblocks-action-button{align-items:center;display:flex}.generateblocks-settings-area .generateblocks-settings-main .gblocks-action-message{color:green;opacity:0;padding-left:10px;pointer-events:none;transition:opacity .2s ease-in-out}.generateblocks-settings-area .generateblocks-settings-main .gblocks-action-message.gblocks-action-message--show{opacity:1;transition:opacity .2s ease-in-out}.generateblocks-settings-area .generateblocks-settings-main .gblocks-action-message.gblocks-action-message--error{color:red}.generateblocks-settings-area .generateblocks-settings-main .gblocks-css-print-method .components-base-control__label{display:block}.generateblocks-settings-area .generateblocks-settings-main .components-button .components-spinner{margin:0}.generateblocks-settings-area .generateblocks-settings-main .components-button.is-primary .components-spinner{background:rgba(0,0,0,.1);border-radius:100%}.generateblocks-settings-area .generateblocks-settings-main .components-panel__body{background:#fff;border:1px solid #e2e4e7;margin:25px 0}.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-panel__body-toggle{border-bottom:1px solid #d6e2ed}.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .gblocks-dashboard-panel-row-wrapper{padding-top:10px}.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .gblocks-dashboard-panel-row-wrapper>:last-child{margin-bottom:0}.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-panel__row{display:block;margin:0 0 25px;padding:0}.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-panel__row .components-base-control .components-base-control__help{margin:0}.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-panel__row .components-base-control .components-base-control__field{margin-bottom:5px}.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-notice{margin:0 0 10px}.generateblocks-dashboard-page #wpcontent{padding-left:0}.generateblocks-dashboard-page .update-nag{margin-bottom:20px;margin-left:22px}.generateblocks-dashboard-page.edit-php #wpbody-content .wrap{margin:0;padding:0 20px}.gblocks-units{font-size:12px;font-weight:700;position:absolute;right:0;top:0}.gblocks-container-width{position:relative}
+/*!*******************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[4].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].use[3]!./src/dashboard.scss ***!
+  \*******************************************************************************************************************************************************************************************************************************************/
+.gblocks-dashboard-wrap {
+  margin: 0;
+  overflow: hidden;
+}
+
+.gblocks-dashboard-header {
+  background: #fff;
+  border-bottom: 1px solid #e2e4e7;
+  padding: 0 20px;
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.gblocks-dashboard-header h1 {
+  font-size: 17px;
+  font-weight: 600;
+  padding-bottom: 0;
+  display: flex;
+  align-items: center;
+}
+.gblocks-dashboard-header h1 svg {
+  width: 1em;
+  height: 1em;
+  padding-right: 10px;
+  fill: #006eb7;
+}
+
+.gblocks-navigation {
+  background: #fff;
+  display: flex;
+}
+.gblocks-navigation a {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  color: inherit;
+  text-decoration: none;
+}
+.gblocks-navigation a.active {
+  font-weight: 600;
+  box-shadow: inset 0 -3px #007cba;
+}
+
+.generateblocks-settings-area .components-placeholder.gblocks-settings-placeholder {
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 750px;
+  background: #fff;
+  border: 1px solid #e2e4e7;
+  box-shadow: none;
+}
+.generateblocks-settings-area .generateblocks-settings-main {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 750px;
+  /* Only needed until WP 5.6 */
+}
+.generateblocks-settings-area .generateblocks-settings-main .gblocks-action-button {
+  display: flex;
+  align-items: center;
+}
+.generateblocks-settings-area .generateblocks-settings-main .gblocks-action-message {
+  padding-left: 10px;
+  opacity: 0;
+  transition: opacity 200ms ease-in-out;
+  color: green;
+  pointer-events: none;
+}
+.generateblocks-settings-area .generateblocks-settings-main .gblocks-action-message.gblocks-action-message--show {
+  opacity: 1;
+  transition: opacity 200ms ease-in-out;
+}
+.generateblocks-settings-area .generateblocks-settings-main .gblocks-action-message.gblocks-action-message--error {
+  color: red;
+}
+.generateblocks-settings-area .generateblocks-settings-main .gblocks-css-print-method .components-base-control__label {
+  display: block;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-button .components-spinner {
+  margin: 0;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-button.is-primary .components-spinner {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 100%;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-panel__body {
+  margin: 25px 0;
+  background: #fff;
+  border: 1px solid #e2e4e7;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-panel__body-toggle {
+  border-bottom: 1px solid #d6e2ed;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .gblocks-dashboard-panel-row-wrapper {
+  padding-top: 10px;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .gblocks-dashboard-panel-row-wrapper > *:last-child {
+  margin-bottom: 0;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-panel__row {
+  padding: 0;
+  margin: 0 0 25px;
+  display: block;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-panel__row .components-base-control .components-base-control__help {
+  margin: 0;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-panel__row .components-base-control .components-base-control__field {
+  margin-bottom: 5px;
+}
+.generateblocks-settings-area .generateblocks-settings-main .components-panel__body .components-notice {
+  margin: 0 0 10px;
+}
+
+.generateblocks-dashboard-page #wpcontent {
+  padding-left: 0;
+}
+.generateblocks-dashboard-page .update-nag {
+  margin-bottom: 20px;
+  margin-left: 22px;
+}
+.generateblocks-dashboard-page #wpbody-content .wrap {
+  padding: 0 20px;
+  margin: 0;
+}
+
+.gblocks-units {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.gblocks-container-width {
+  position: relative;
+}
+
+.gblocks-library {
+  margin-bottom: 1.5em;
+}
+.gblocks-library h3 {
+  font-size: 16px;
+  margin-bottom: 1em;
+  font-weight: 500;
+}
+.gblocks-library:first-child {
+  margin-bottom: 2.5em;
+}
+
+.gblocks-library-item {
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background: #ffffff;
+  flex-wrap: wrap;
+}
+.gblocks-library-item:nth-child(even) {
+  background: #efefef;
+}
+.gblocks-library-item__edit {
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gblocks-library-item__name {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gblocks-library-item__name button.components-button {
+  min-width: 25px;
+  height: 25px;
+  width: 25px;
+}
+.gblocks-library-item__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.gblocks-library-item__actions button.components-button {
+  min-width: 25px;
+  height: 25px;
+  width: 25px;
+}
+.gblocks-library-item__actions .components-toggle-control label {
+  font-size: 11px;
+}
+.gblocks-library-item .components-toggle-control {
+  margin-bottom: 0;
+}
+.gblocks-library-item .components-toggle-control .components-base-control__field {
+  margin-bottom: 0 !important;
+}
+
+/*# sourceMappingURL=dashboard.css.map*/
