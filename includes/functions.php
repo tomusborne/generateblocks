@@ -1793,38 +1793,3 @@ function generateblocks_to_snake_case( string $str ): string {
 function generateblocks_use_legacy_pattern_library() {
 	return apply_filters( 'generateblocks_use_legacy_pattern_library', false );
 }
-
-/**
- * Generate CSS for a specific block.
- *
- * @param string $block_name The block name.
- * @param array  $attributes The block attributes.
- */
-function generateblocks_do_block_css( string $block_name, array $attributes ) {
-	$classes = [
-		'generateblocks/grid' => 'GenerateBlocks_Block_Grid',
-		'generateblocks/container' => 'GenerateBlocks_Block_Container',
-		'generateblocks/button-container' => 'GenerateBlocks_Block_Button_Container',
-		'generateblocks/button' => 'GenerateBlocks_Block_Button',
-		'generateblocks/headline' => 'GenerateBlocks_Block_Headline',
-		'generateblocks/image' => 'GenerateBlocks_Block_Image',
-	];
-
-	if (
-		! isset( $classes[ $block_name ] ) ||
-		! class_exists( $classes[ $block_name ] ) ||
-		! is_callable( [ $classes[ $block_name ], 'get_css_data' ] )
-	) {
-		return '';
-	}
-
-	$css_data = $classes[ $block_name ]::get_css_data( $attributes );
-	$grouped_css = generateblocks_group_css_data( [], $css_data );
-	$compiled_css = generateblocks_get_compiled_css( $grouped_css );
-
-	if ( $compiled_css ) {
-		return $compiled_css;
-	}
-
-	return '';
-}
