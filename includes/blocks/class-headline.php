@@ -395,7 +395,18 @@ class GenerateBlocks_Block_Headline {
 				$mobile_css->add_property( 'height', generateblocks_get_array_attribute_value( 'heightMobile', $settings['iconStyles'] ) );
 			}
 		} else {
-			// The below CSS is for users using the old headline wrapper.
+			/**
+			 * All of the below CSS is when the Headline block had a surrounding `div` element.
+			 * This surroundng div was deprecated in 1.2.0.
+			 *
+			 * @TODO Move this CSS to separate function to clean up this function.
+			 */
+			$fontFamily = $settings['fontFamily'];
+
+			if ( $fontFamily && $settings['fontFamilyFallback'] ) {
+				$fontFamily = $fontFamily . ', ' . $settings['fontFamilyFallback'];
+			}
+
 			$css->set_selector( '.gb-headline-wrapper' );
 			$css->add_property( 'display', 'flex' );
 
