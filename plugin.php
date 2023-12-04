@@ -27,6 +27,12 @@ define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 require_once GENERATEBLOCKS_DIR . 'includes/functions.php';
 require_once GENERATEBLOCKS_DIR . 'includes/general.php';
 require_once GENERATEBLOCKS_DIR . 'includes/defaults.php';
+
+// Utils.
+require_once GENERATEBLOCKS_DIR . 'includes/utils/class-singleton.php';
+require_once GENERATEBLOCKS_DIR . 'includes/utils/class-dto.php';
+
+// General.
 require_once GENERATEBLOCKS_DIR . 'includes/class-do-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-enqueue-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/dashboard.php';
@@ -38,6 +44,11 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-legacy-attributes.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-map-deprecated-attributes.php';
+
+// Pattern library.
+require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-libraries.php';
+require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-library-dto.php';
+require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-pattern-library-rest.php';
 
 // Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';
