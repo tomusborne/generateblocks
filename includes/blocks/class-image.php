@@ -106,8 +106,6 @@ class GenerateBlocks_Block_Image {
 		// Map deprecated settings.
 		$settings = GenerateBlocks_Map_Deprecated_Attributes::map_attributes( $settings );
 
-		$selector = generateblocks_get_css_selector( 'image', $attributes );
-
 		$css->set_selector( '.gb-block-image-' . $id );
 		generateblocks_add_spacing_css( $css, $settings );
 
@@ -122,7 +120,7 @@ class GenerateBlocks_Block_Image {
 			$css->add_property( 'text-align', $settings['alignment'] );
 		}
 
-		$css->set_selector( $selector );
+		$css->set_selector( '.gb-image-' . $id );
 		generateblocks_add_border_css( $css, $settings );
 		$css->add_property( 'width', $settings['width'] );
 		$css->add_property( 'height', $settings['height'] );
@@ -143,7 +141,7 @@ class GenerateBlocks_Block_Image {
 			}
 		}
 
-		$tablet_css->set_selector( $selector );
+		$tablet_css->set_selector( '.gb-image-' . $id );
 		generateblocks_add_border_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'width', $settings['widthTablet'] );
 		$tablet_css->add_property( 'height', $settings['heightTablet'] );
@@ -169,7 +167,7 @@ class GenerateBlocks_Block_Image {
 			}
 		}
 
-		$mobile_css->set_selector( $selector );
+		$mobile_css->set_selector( '.gb-image-' . $id );
 		generateblocks_add_border_css( $mobile_css, $settings, 'Mobile' );
 		$mobile_css->add_property( 'width', $settings['widthMobile'] );
 		$mobile_css->add_property( 'height', $settings['heightMobile'] );
