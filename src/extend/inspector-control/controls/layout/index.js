@@ -1,7 +1,10 @@
 import { __ } from '@wordpress/i18n';
+import { useContext, useRef, useState } from '@wordpress/element';
+import { SelectControl } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
+
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
-import { useContext, useRef, useState } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import LayoutControl from './components/LayoutControl';
 import Display from './components/Display';
@@ -14,7 +17,6 @@ import ZIndex from './components/ZIndex';
 import FlexChild from '../flex-child-panel';
 import MigrateInnerContainer from '../../../../components/migrate-inner-container';
 import UnitControl from '../../../../components/unit-control';
-import { SelectControl } from '@wordpress/components';
 import { positionOptions, overflowOptions } from './options';
 import FlexControl from '../../../../components/flex-control';
 import getDeviceType from '../../../../utils/get-device-type';
@@ -41,6 +43,27 @@ export default function Layout( { attributes, setAttributes } ) {
 	} = attributes;
 
 	const directionValue = getAttribute( 'flexDirection', componentProps ) || getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
+
+	const labels = {
+		columnGap: applyFilters(
+			'generateblocks.editor.control.label',
+			__( 'Column Gap', 'generateblocks' ),
+			getAttribute( 'columnGap', componentProps ),
+			'columnGap',
+		),
+		rowGap: applyFilters(
+			'generateblocks.editor.control.label',
+			__( 'Row Gap', 'generateblocks' ),
+			getAttribute( 'rowGap', componentProps ),
+			'rowGap',
+		),
+		flexDirection: applyFilters(
+			'generateblocks.editor.control.label',
+			__( 'Direction', 'generateblocks' ),
+			directionValue,
+			'flexDirection',
+		),
+	};
 
 	return (
 		<PanelArea
@@ -93,7 +116,7 @@ export default function Layout( { attributes, setAttributes } ) {
 							[ getAttribute( 'flexDirection', componentProps, true ) ]: value,
 						} );
 					} }
-					label={ __( 'Direction', 'generateblocks' ) }
+					label={ labels.flexDirection }
 					directionValue={ directionValue }
 					fallback={ getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' ) }
 				/>
@@ -142,7 +165,7 @@ export default function Layout( { attributes, setAttributes } ) {
 				<FlexControl>
 					{ layout.columnGap &&
 					<UnitControl
-						label={ __( 'Column Gap', 'generateblocks' ) }
+						label={ labels.columnGap }
 						id="gblocks-column-gap"
 						value={ getAttribute( 'columnGap', componentProps ) }
 						placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
@@ -154,7 +177,7 @@ export default function Layout( { attributes, setAttributes } ) {
 
 					{ layout.rowGap &&
 					<UnitControl
-						label={ __( 'Row Gap', 'generateblocks' ) }
+						label={ labels.rowGap }
 						id="gblocks-row-gap"
 						value={ getAttribute( 'rowGap', componentProps ) }
 						placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
