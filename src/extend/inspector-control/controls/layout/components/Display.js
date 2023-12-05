@@ -1,10 +1,16 @@
 import { __ } from '@wordpress/i18n';
 import { SelectControl } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
 
 export default function Display( { value, onChange } ) {
 	return (
 		<SelectControl
-			label={ __( 'Display', 'generateblocks' ) }
+			label={ applyFilters(
+				'generateblocks.editor.control.label',
+				__( 'Display', 'generateblocks' ),
+				value,
+				'display',
+			) }
 			value={ value }
 			options={ [
 				{ label: __( 'Default', 'generateblocks' ), value: '' },

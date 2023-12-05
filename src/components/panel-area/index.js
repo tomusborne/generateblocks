@@ -1,10 +1,11 @@
-import ApplyFilters from '../apply-filters/';
-import objectIsEmpty from '../../utils/object-is-empty';
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
+import { forwardRef } from '@wordpress/element';
+import ApplyFilters from '../apply-filters/';
+import objectIsEmpty from '../../utils/object-is-empty';
 import useLocalStorageState from 'use-local-storage-state';
 
-export default function PanelArea( props ) {
+const PanelArea = forwardRef( function PanelArea( props, ref ) {
 	const {
 		title = false,
 		initialOpen = false,
@@ -37,6 +38,7 @@ export default function PanelArea( props ) {
 		<ApplyFilters name={ 'generateblocks.panel.' + id } props={ props } state={ state }>
 			{ title ? (
 				<PanelBody
+					ref={ ref }
 					title={ title }
 					initialOpen={
 						'undefined' !== typeof panels[ id ]
@@ -71,4 +73,6 @@ export default function PanelArea( props ) {
 			) }
 		</ApplyFilters>
 	);
-}
+} );
+
+export default PanelArea;
