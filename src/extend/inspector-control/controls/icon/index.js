@@ -12,7 +12,7 @@ import getResponsivePlaceholder from '../../../../utils/get-responsive-placehold
 import getAttribute from '../../../../utils/get-attribute';
 
 export default function IconControls( { attributes, setAttributes } ) {
-	const { id, supports: { icon: iconSupport } } = useContext( ControlsContext );
+	const { supports: { icon: iconSupport } } = useContext( ControlsContext );
 
 	const device = getDeviceType();
 	const {
@@ -29,7 +29,7 @@ export default function IconControls( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'icons' ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Icon` }
+			id="icon"
 		>
 			{ 'Desktop' === device &&
 				<>
@@ -39,7 +39,6 @@ export default function IconControls( { attributes, setAttributes } ) {
 						attrIcon={ 'icon' }
 						attrRemoveText={ 'removeText' }
 						attrAriaLabel={ 'ariaLabel' }
-						id={ id }
 					/>
 
 					{ !! icon && ! removeText &&
