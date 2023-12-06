@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { defaultsDeep } from 'lodash';
 
 const imageContext = defaultsDeep( {
-	id: 'image',
+	blockName: 'image',
 	supports: {
 		responsiveTabs: true,
 		settingsPanel: {

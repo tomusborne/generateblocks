@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { defaultsDeep } from 'lodash';
 
 const headlineContext = defaultsDeep( {
-	id: 'headline',
+	blockName: 'headline',
 	supports: {
 		responsiveTabs: true,
 		layout: {

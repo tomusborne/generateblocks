@@ -2,7 +2,7 @@ import defaultContext from './default';
 import { defaultsDeep } from 'lodash';
 
 const buttonContainerContext = defaultsDeep( {
-	id: 'buttonContainer',
+	blockName: 'buttonContainer',
 	supports: {
 		responsiveTabs: true,
 		spacing: {

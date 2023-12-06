@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { defaultsDeep } from 'lodash';
 
 const containerContext = defaultsDeep( {
-	id: 'container',
+	blockName: 'container',
 	supports: {
 		responsiveTabs: true,
 		settingsPanel: {
