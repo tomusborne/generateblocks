@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useContext, useRef, useState } from '@wordpress/element';
+import { useContext, useRef } from '@wordpress/element';
 import { SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
