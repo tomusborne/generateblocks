@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { defaultsDeep } from 'lodash';
 
 const gridContext = defaultsDeep( {
-	blockName: 'grid',
+	id: 'grid',
 	supports: {
 		responsiveTabs: true,
 		settingsPanel: {

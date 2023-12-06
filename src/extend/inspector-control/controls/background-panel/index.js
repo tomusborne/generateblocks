@@ -13,7 +13,7 @@ import Attachment from './components/attachment';
 import GradientControl from '../../../../components/gradient';
 
 export default function BackgroundPanel( { attributes, setAttributes } ) {
-	const { blockName, isInQueryLoop, supports: { backgroundPanel } } = useContext( ControlsContext );
+	const { id, isInQueryLoop, supports: { backgroundPanel } } = useContext( ControlsContext );
 
 	const {
 		bgImage,
@@ -30,9 +30,9 @@ export default function BackgroundPanel( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'gradients' ) }
 			className={ 'gblocks-panel-label' }
+			id={ `${ id }Background` }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
-			id="backgrounds"
 		>
 			{ !! backgroundPanel.backgroundImage &&
 				<>
@@ -97,8 +97,8 @@ export default function BackgroundPanel( { attributes, setAttributes } ) {
 					attrGradientColorStopTwo={ 'gradientColorStopTwo' }
 					attrGradientColorOneOpacity={ 'gradientColorOneOpacity' }
 					attrGradientColorTwoOpacity={ 'gradientColorTwoOpacity' }
-					defaultColorOne={ generateBlocksDefaults[ blockName ].gradientColorOne }
-					defaultColorTwo={ generateBlocksDefaults[ blockName ].gradientColorTwo }
+					defaultColorOne={ generateBlocksDefaults[ id ].gradientColorOne }
+					defaultColorTwo={ generateBlocksDefaults[ id ].gradientColorTwo }
 				/>
 			}
 		</PanelArea>

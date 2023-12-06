@@ -56,7 +56,7 @@ class IconPicker extends Component {
 			attrIconLocation,
 			locationOptions,
 			attrRemoveText,
-			blockName,
+			id,
 		} = this.props;
 
 		let iconSVGSets = {
@@ -75,7 +75,7 @@ class IconPicker extends Component {
 		const flexAttributes = {};
 
 		if ( ! attributes.display.includes( 'flex' ) ) {
-			flexAttributes.display = 'headline' === blockName ? 'flex' : 'inline-flex';
+			flexAttributes.display = 'headline' === id ? 'flex' : 'inline-flex';
 		}
 
 		if ( ! attributes.alignItems ) {

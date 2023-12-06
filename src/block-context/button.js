@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { defaultsDeep } from 'lodash';
 
 const buttonContext = defaultsDeep( {
-	blockName: 'button',
+	id: 'button',
 	supports: {
 		responsiveTabs: true,
 		settingsPanel: {
