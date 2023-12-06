@@ -6,7 +6,7 @@ import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 
 export default function Colors( { attributes, setAttributes } ) {
-	const { id, blockName, supports: { colors } } = useContext( ControlsContext );
+	const { blockName, supports: { colors } } = useContext( ControlsContext );
 
 	return (
 		<PanelArea
@@ -14,7 +14,7 @@ export default function Colors( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'colors' ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Colors` }
+			id="colors"
 		>
 			<ColorGroup
 				attributes={ attributes }
