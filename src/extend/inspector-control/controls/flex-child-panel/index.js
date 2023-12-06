@@ -28,7 +28,7 @@ export default function FlexChild( { attributes, setAttributes } ) {
 			title={ __( 'Flex Child', 'generateblocks' ) }
 			initialOpen={ false }
 			className="gblocks-panel-label"
-			id={ `${ id }FlexChild` }
+			id="flexChild"
 		>
 			{ flexChildPanel.flex && ( ! useInnerContainer || ( useInnerContainer && isGrid ) ) &&
 				<FlexControls

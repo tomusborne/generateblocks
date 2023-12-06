@@ -24,7 +24,7 @@ import ThemeWidth from './components/ThemeWidth';
 
 export default function Layout( { attributes, setAttributes } ) {
 	const device = getDeviceType();
-	const { id, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
+	const { supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 	const panelRef = useRef( null );
 
 	const componentProps = {
@@ -71,7 +71,7 @@ export default function Layout( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'layout' ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Layout` }
+			id="layout"
 			ref={ panelRef }
 		>
 			{ !! useInnerContainer &&

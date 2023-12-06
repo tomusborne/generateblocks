@@ -4,7 +4,7 @@ import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 
 export default function SettingsPanel( { children } ) {
-	const { id, supports: { settingsPanel } } = useContext( ControlsContext );
+	const { supports: { settingsPanel } } = useContext( ControlsContext );
 
 	return (
 		<PanelArea
@@ -12,7 +12,7 @@ export default function SettingsPanel( { children } ) {
 			initialOpen={ false }
 			icon={ getIcon( settingsPanel.icon ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Settings` }
+			id="settings"
 		>
 			{ children }
 		</PanelArea>

@@ -29,7 +29,7 @@ export default function IconControls( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'icons' ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Icon` }
+			id="icon"
 		>
 			{ 'Desktop' === device &&
 				<>

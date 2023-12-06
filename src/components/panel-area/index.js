@@ -1,11 +1,13 @@
 import { PanelBody } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
-import { forwardRef } from '@wordpress/element';
+import { forwardRef, useContext } from '@wordpress/element';
 import ApplyFilters from '../apply-filters/';
 import objectIsEmpty from '../../utils/object-is-empty';
 import useLocalStorageState from 'use-local-storage-state';
+import ControlsContext from '../../block-context';
 
 const PanelArea = forwardRef( function PanelArea( props, ref ) {
+	const { blockName } = useContext( ControlsContext );
 	const {
 		title = false,
 		initialOpen = false,
@@ -35,7 +37,7 @@ const PanelArea = forwardRef( function PanelArea( props, ref ) {
 	}
 
 	return (
-		<ApplyFilters name={ 'generateblocks.panel.' + id } props={ props } state={ state }>
+		<ApplyFilters name="generateblocks.editor.panel" blockName={ blockName } state={ state } { ...props }>
 			{ title ? (
 				<PanelBody
 					ref={ ref }

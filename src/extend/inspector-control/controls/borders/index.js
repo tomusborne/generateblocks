@@ -19,7 +19,7 @@ import { isEqual, isEmpty } from 'lodash';
 
 export default function Borders( { attributes, setAttributes } ) {
 	const device = getDeviceType();
-	const { id, supports: { borders: bordersPanel } } = useContext( ControlsContext );
+	const { supports: { borders: bordersPanel } } = useContext( ControlsContext );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const borderRadiusAttributes = [ 'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius' ];
 	const borderAreas = [ 'borderTop', 'borderRight', 'borderBottom', 'borderLeft' ];
@@ -90,7 +90,7 @@ export default function Borders( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'borders' ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Borders` }
+			id="borders"
 		>
 			{ ( bordersPanel.borderTop || bordersPanel.borderRight || bordersPanel.borderBottom || bordersPanel.borderLeft ) &&
 				<BaseControl

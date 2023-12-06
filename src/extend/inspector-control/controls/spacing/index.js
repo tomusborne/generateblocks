@@ -11,7 +11,7 @@ import DimensionsControl from '../../../../components/dimensions';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { id, supports: { spacing } } = useContext( ControlsContext );
+	const { supports: { spacing } } = useContext( ControlsContext );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 
 	const {
@@ -35,7 +35,7 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			initialOpen={ false }
 			icon={ getIcon( 'spacing' ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Spacing` }
+			id="spacing"
 		>
 			{ spacing.padding &&
 				<DimensionsControl

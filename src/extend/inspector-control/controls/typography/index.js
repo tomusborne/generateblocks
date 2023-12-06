@@ -18,7 +18,7 @@ import './editor.scss';
 
 export default function Typography( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { id, supports: { typography: typographySupports } } = useContext( ControlsContext );
+	const { supports: { typography: typographySupports } } = useContext( ControlsContext );
 	const { typography } = attributes;
 	const isDesktop = 'Desktop' === device;
 
@@ -28,7 +28,7 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 			initialOpen={ false }
 			icon={ getIcon( 'typography' ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Typography` }
+			id="typography"
 		>
 			{ typographySupports.alignment &&
 				<Alignment

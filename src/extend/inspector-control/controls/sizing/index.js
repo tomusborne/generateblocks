@@ -16,7 +16,7 @@ import getDeviceType from '../../../../utils/get-device-type';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 
 export default function Sizing( props ) {
-	const { id, supports: { sizingPanel } } = useContext( ControlsContext );
+	const { supports: { sizingPanel } } = useContext( ControlsContext );
 	const device = getDeviceType();
 	const {
 		attributes,
@@ -42,7 +42,7 @@ export default function Sizing( props ) {
 			initialOpen={ false }
 			icon={ getIcon( 'sizing' ) }
 			className="gblocks-panel-label"
-			id={ `${ id }Sizing` }
+			id="sizing"
 		>
 			<div className="gblocks-sizing-fields">
 				{ sizingPanel.width &&
