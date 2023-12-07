@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useContext, useRef } from '@wordpress/element';
+import { useContext, useRef, useState } from '@wordpress/element';
 import { SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
@@ -7,7 +7,6 @@ import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
 import ControlsContext from '../../../../block-context';
 import LayoutControl from './components/LayoutControl';
-import Display from './components/Display';
 import isFlexItem from '../../../../utils/is-flex-item';
 import getAttribute from '../../../../utils/get-attribute';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
@@ -26,6 +25,16 @@ export default function Layout( { attributes, setAttributes } ) {
 	const device = getDeviceType();
 	const { supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 	const panelRef = useRef( null );
+	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
+		columnGap: false,
+		rowGap: false,
+		flexDirection: false,
+		alignItems: false,
+		justifyContent: false,
+		flexWrap: false,
+		zindex: false,
+	} );
+	const hasGlobalStyle = Object.values( controlGlobalStyle ).some( ( control ) => control === true );
 
 	const componentProps = {
 		attributes,
@@ -50,18 +59,28 @@ export default function Layout( { attributes, setAttributes } ) {
 			__( 'Column Gap', 'generateblocks' ),
 			getAttribute( 'columnGap', componentProps ),
 			'columnGap',
+			setControlGlobalStyle,
 		),
 		rowGap: applyFilters(
 			'generateblocks.editor.control.label',
 			__( 'Row Gap', 'generateblocks' ),
 			getAttribute( 'rowGap', componentProps ),
 			'rowGap',
+			setControlGlobalStyle,
 		),
 		flexDirection: applyFilters(
 			'generateblocks.editor.control.label',
 			__( 'Direction', 'generateblocks' ),
 			directionValue,
 			'flexDirection',
+			setControlGlobalStyle,
+		),
+		display: applyFilters(
+			'generateblocks.editor.control.label',
+			__( 'Display', 'generateblocks' ),
+			getAttribute( 'display', componentProps ),
+			'display',
+			setControlGlobalStyle,
 		),
 	};
 
@@ -73,6 +92,7 @@ export default function Layout( { attributes, setAttributes } ) {
 			className="gblocks-panel-label"
 			id="layout"
 			ref={ panelRef }
+			hasGlobalStyle={ hasGlobalStyle }
 		>
 			{ !! useInnerContainer &&
 			<LegacyLayoutControls
@@ -84,12 +104,21 @@ export default function Layout( { attributes, setAttributes } ) {
 			}
 
 			{ layout.display && ! useInnerContainer &&
-			<Display
-				value={ getAttribute( 'display', componentProps ) }
-				onChange={ ( nextDisplay ) => setAttributes( {
-					[ getAttribute( 'display', componentProps, true ) ]: nextDisplay,
-				} ) }
-			/>
+				<SelectControl
+					label={ labels.display }
+					options={ [
+						{ label: __( 'Default', 'generateblocks' ), value: '' },
+						{ label: 'Block', value: 'block' },
+						{ label: 'Inline Block', value: 'inline-block' },
+						{ label: 'Flex', value: 'flex' },
+						{ label: 'Inline Flex', value: 'inline-flex' },
+						{ label: 'Inline', value: 'inline' },
+					] }
+					value={ getAttribute( 'display', componentProps ) }
+					onChange={ ( nextDisplay ) => setAttributes( {
+						[ getAttribute( 'display', componentProps, true ) ]: nextDisplay,
+					} ) }
+				/>
 			}
 
 			{ isFlexItem( { device, display, displayTablet, displayMobile } ) && ! useInnerContainer &&

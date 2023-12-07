@@ -1,3 +1,5 @@
+import { applyFilters } from '@wordpress/hooks';
+
 export default function isFlexItem( props ) {
 	const {
 		device,
@@ -31,5 +33,5 @@ export default function isFlexItem( props ) {
 		}
 	}
 
-	return flexItem;
+	return applyFilters( 'generateblocks.layout.isFlexItem', flexItem, props );
 }

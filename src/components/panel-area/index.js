@@ -37,7 +37,13 @@ const PanelArea = forwardRef( function PanelArea( props, ref ) {
 	}
 
 	return (
-		<ApplyFilters name="generateblocks.editor.panel" blockName={ blockName } state={ state } { ...props }>
+		<ApplyFilters
+			name="generateblocks.editor.panel"
+			blockName={ blockName }
+			state={ state }
+			panelRef={ ref }
+			{ ...props }
+		>
 			{ title ? (
 				<PanelBody
 					ref={ ref }
