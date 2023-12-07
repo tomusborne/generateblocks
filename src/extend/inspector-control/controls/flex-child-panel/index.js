@@ -11,7 +11,7 @@ import getDeviceType from '../../../../utils/get-device-type';
 
 export default function FlexChild( { attributes, setAttributes } ) {
 	const device = getDeviceType();
-	const { id, supports: { flexChildPanel } } = useContext( ControlsContext );
+	const { supports: { flexChildPanel } } = useContext( ControlsContext );
 
 	const componentProps = {
 		attributes,
