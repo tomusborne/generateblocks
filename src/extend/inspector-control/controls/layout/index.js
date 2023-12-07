@@ -32,6 +32,7 @@ export default function Layout( { attributes, setAttributes } ) {
 		alignItems: false,
 		justifyContent: false,
 		flexWrap: false,
+		position: false,
 		zindex: false,
 	} );
 	const hasGlobalStyle = Object.values( controlGlobalStyle ).some( ( control ) => control === true );
@@ -80,6 +81,13 @@ export default function Layout( { attributes, setAttributes } ) {
 			__( 'Display', 'generateblocks' ),
 			getAttribute( 'display', componentProps ),
 			'display',
+			setControlGlobalStyle,
+		),
+		position: applyFilters(
+			'generateblocks.editor.control.label',
+			__( 'Position', 'generateblocks' ),
+			getAttribute( 'position', componentProps ),
+			'position',
 			setControlGlobalStyle,
 		),
 	};
@@ -224,7 +232,7 @@ export default function Layout( { attributes, setAttributes } ) {
 			<>
 				{ layout.position &&
 				<SelectControl
-					label={ __( 'Position', 'generateblocks' ) }
+					label={ labels.position }
 					value={ getAttribute( 'position', componentProps ) }
 					options={ positionOptions }
 					onChange={ ( value ) => setAttributes( {
