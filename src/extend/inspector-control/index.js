@@ -1,5 +1,7 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { useContext } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
+
 import ControlsContext from '../../block-context';
 import ResponsiveTabs from './controls/responsive-tabs';
 import TypographyControls from './controls/typography';
@@ -13,8 +15,9 @@ import ShapesPanel from './controls/shapes-panel';
 import LayoutControls from './controls/layout';
 import SizingControls from './controls/sizing';
 import getDeviceType from '../../utils/get-device-type';
+import { useSelectedBlockElement } from '../../hooks';
 
-export default function GenerateBlocksInspectorControls( { attributes, setAttributes, computedStyles = {}, children } ) {
+export default function GenerateBlocksInspectorControls( { attributes, setAttributes, children } ) {
 	const device = getDeviceType();
 	const {
 		supports: {
@@ -31,6 +34,8 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			sizingPanel,
 		},
 	} = useContext( ControlsContext );
+	const selectedBlockElement = useSelectedBlockElement();
+	const computedStyles = getComputedStyle( selectedBlockElement );
 
 	return (
 		<InspectorControls>
@@ -44,6 +49,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				<LayoutControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					computedStyles={ computedStyles }
 				/>
 			}
 
@@ -51,6 +57,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				<SizingControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					computedStyles={ computedStyles }
 				/>
 			}
 
@@ -66,6 +73,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				<BorderControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					computedStyles={ computedStyles }
 				/>
 			}
 
@@ -81,6 +89,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				<ColorsControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					computedStyles={ computedStyles }
 				/>
 			}
 
@@ -88,6 +97,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				<BackgroundPanel
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					computedStyles={ computedStyles }
 				/>
 			}
 
@@ -95,6 +105,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				<ShapesPanel
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					computedStyles={ computedStyles }
 				/>
 			}
 
@@ -102,6 +113,7 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 				<IconControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
+					computedStyles={ computedStyles }
 				/>
 			}
 		</InspectorControls>

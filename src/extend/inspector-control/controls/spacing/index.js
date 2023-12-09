@@ -48,14 +48,20 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 					onChange={ ( values ) => setDeviceAttributes( values, 'spacing' ) }
 				/>
 			}
-
+			marginTop: parseInt( computedHeadlineStyles.marginTop ) || '',
+			marginBottom: parseInt( computedHeadlineStyles.marginBottom ) || '',
 			{ spacing.margin &&
 				<DimensionsControl
 					label={ __( 'Margin', 'generateblocks' ) }
 					attributeNames={ marginAttributes }
 					values={ deviceAttributes.spacing }
 					placeholders={ marginAttributes.reduce( ( o, key ) => (
-						{ ...o, [ key ]: getResponsivePlaceholder( key, attributes.spacing, device, computedStyles[ key ] ) }
+						{ ...o, [ key ]: getResponsivePlaceholder(
+							key,
+							attributes.spacing,
+							device,
+							parseInt( computedStyles[ key ] ) || ''
+						) }
 					), {} ) }
 					onChange={ ( values ) => setDeviceAttributes( values, 'spacing' ) }
 				/>

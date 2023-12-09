@@ -30,6 +30,7 @@ const ButtonContainerEdit = ( props ) => {
 	} = attributes;
 
 	const [ buttonCount, setButtonCount ] = useState( 0 );
+	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const deviceType = getDeviceType();
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 
@@ -43,6 +44,10 @@ const ButtonContainerEdit = ( props ) => {
 
 		setButtonCount( innerBlocksCount );
 	}, [ innerBlocksCount ] );
+
+	useEffect( () => {
+		setComputedStyles( getComputedStyle( document.querySelector( `.wp-block-generateblocks-button-container-${ uniqueId }` ) ) );
+	}, [] );
 
 	let htmlAttributes = {
 		className: classnames( {

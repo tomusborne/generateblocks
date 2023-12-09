@@ -33,5 +33,5 @@ export default function isFlexItem( props ) {
 		}
 	}
 
-	return applyFilters( 'generateblocks.layout.isFlexItem', flexItem, props );
+	return flexItem;
 }

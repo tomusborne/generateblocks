@@ -38,20 +38,11 @@ const ButtonEdit = ( props ) => {
 	} = attributes;
 
 	const ref = useRef( null );
-	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const deviceType = getDeviceType();
 	const {
 		getBlockParents,
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
-
-	useEffect( () => {
-		const computedButtonStyles = getComputedStyle( ref.current );
-
-		setComputedStyles( {
-			fontSize: parseInt( computedButtonStyles.fontSize ) || '',
-		} );
-	}, [] );
 
 	useEffect( () => {
 		const parentBlockId = getBlockParents( clientId, true );
@@ -85,7 +76,6 @@ const ButtonEdit = ( props ) => {
 			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-				computedStyles={ computedStyles }
 			>
 				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
 			</GenerateBlocksInspectorControls>

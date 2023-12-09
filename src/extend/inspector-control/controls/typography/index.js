@@ -72,7 +72,7 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 			{ typographySupports.fontSize &&
 				<FontSize
 					value={ getAttribute( 'fontSize', { attributes: typography, deviceType: device } ) }
-					placeholder={ getResponsivePlaceholder( 'fontSize', typography, device, computedStyles.fontSize ) }
+					placeholder={ getResponsivePlaceholder( 'fontSize', typography, device, parseInt( computedStyles.fontSize ) || '' ) }
 					onChange={ ( value ) => {
 						setAttributes( {
 							typography: {
