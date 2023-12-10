@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useContext, useRef, useState, useMemo } from '@wordpress/element';
+import { useContext, useRef, useState, useMemo, useEffect } from '@wordpress/element';
 import { SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
@@ -21,140 +21,14 @@ import FlexControl from '../../../../components/flex-control';
 import getDeviceType from '../../../../utils/get-device-type';
 import ThemeWidth from './components/ThemeWidth';
 
-/**
- * Helper function to get the source of CSS properties
- *
- * @param {HTMLElement} element    The element to check
- * @param {string[]}    properties The CSS properties to check
- * @param {string[]}    sources    The sources to check (e.g., 'inline', 'tag', 'stylesheet')
- * @return {Object}    An object of objects containing the source, selector, and value of each CSS property
- */
-export function getComputedStyleSources( element, properties, sources = [ 'inline', 'tag' ] ) {
-	if ( ! properties || properties.length === 0 ) {
-		throw new Error( 'Properties must be specified' );
-	}
-
-	const queryDocument =
-		document.querySelector( 'iframe[name="editor-canvas"]' )?.contentDocument || document;
-
-	const computedStyles = getComputedStyle( element );
-	const result = {};
-	const styleTags = sources.includes( 'tag' ) ? queryDocument.querySelectorAll( 'style' ) : [];
-	const styleSheets = sources.includes( 'stylesheet' ) ? queryDocument.styleSheets : [];
-
-	for ( const property of properties ) {
-		const computedValue = computedStyles[ property ];
-
-		if ( sources.includes( 'inline' ) ) {
-			// Check inline styles first
-			const inlineStyle = element.style[ property ];
-			if ( inlineStyle ) {
-				result[ property ] = { source: 'inline', selector: '', value: computedValue };
-				continue;
-			}
-		}
-
-		if ( sources.includes( 'tag' ) ) {
-			// Check all <style> tags
-			for ( const styleTag of styleTags ) {
-				try {
-					const rules = styleTag.sheet.cssRules;
-					for ( const rule of rules ) {
-						if ( rule instanceof CSSStyleRule ) {
-							if (
-								element.matches( rule.selectorText ) &&
-								rule.style[ property ] === computedValue
-							) {
-								result[ property ] = {
-									source: 'tag',
-									selector: rule.selectorText,
-									value: computedValue,
-								};
-								break;
-							}
-						}
-					}
-				} catch ( error ) {
-					// Some stylesheets may throw a SecurityError when trying to access them
-					console.error( 'Error accessing stylesheet:', error.message ); // eslint-disable-line no-console
-				}
-			}
-
-			if ( property in result ) {
-				continue;
-			}
-		}
-
-		if ( sources.includes( 'stylesheet' ) ) {
-			// Check external stylesheets
-			for ( const styleSheet of styleSheets ) {
-				try {
-					const rules = styleSheet.rules || styleSheet.cssRules;
-					for ( const rule of rules ) {
-						if ( rule instanceof CSSStyleRule ) {
-							const value = rule.style[ property ];
-							if (
-								element.matches( rule.selectorText ) &&
-								value === computedValue
-							) {
-								result[ property ] = {
-									source: 'stylesheet',
-									selector: rule.selectorText,
-									value: computedValue,
-								};
-								break;
-							}
-						}
-					}
-				} catch ( error ) {
-					// Some stylesheets may throw a SecurityError when trying to access them
-					console.error( 'Error accessing stylesheet:', error.message ); // eslint-disable-line no-console
-				}
-			}
-			if ( property in result ) {
-				continue;
-			}
-		}
-
-		// User agent style or style not found
-		result[ property ] = { source: null, selector: '', value: computedValue };
-	}
-
-	return result;
-}
-
-/**
- * Get the source and computed value of a CSS property for a list of elements
- * or a single element.
- *
- * @param {NodeList|HTMLElement} elements   A list of elements or a single element
- * @param {string|string[]}      properties A single CSS property or a list of CSS property to check
- * @return {Object[]}            An array of objects containing the source and value of the CSS property or a single object if a single element was passed.
- */
-export function getElementStyles( elements, properties ) {
-	console.log( 'getting element styles for properties:', properties.join( ', ' ) );
-
-	const singleProp = ! Array.isArray( properties );
-	const props = singleProp ? properties : [ properties ];
-
-	if ( Array.isArray( elements ) ) {
-		return Array.from( elements ).map( ( element ) => {
-			const result = getComputedStyleSources( element, props );
-
-			return singleProp ? result[ properties ] : result;
-		} );
-	}
-
-	const result = getComputedStyleSources( elements, props );
-
-	return singleProp ? result[ properties ] : result;
-}
-
 export default function Layout( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
 	const { supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 	const panelRef = useRef( null );
+	const prevContentLength = useRef( 0 );
+	const contentWasUpdated = prevContentLength.current !== attributes.content.length;
 	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
+		display: false,
 		columnGap: false,
 		rowGap: false,
 		flexDirection: false,
@@ -163,21 +37,29 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		flexWrap: false,
 		position: false,
 		zindex: false,
+		overflowX: false,
+		overflowY: false,
 	} );
-	const styleSources = useMemo( applyFilters(
+	const styleSources = applyFilters(
 		'generateblocks.editor.panel.computedStyleSources',
+		{},
 		computedStyles,
 		Object.keys( controlGlobalStyle ),
-	), [ computedStyles, controlGlobalStyle ] );
+	);
 	const hasGlobalStyle = useMemo( () => {
-		Object.values( controlGlobalStyle ).some( ( control ) => control === true );
+		return Object.values( controlGlobalStyle ).some( ( control ) => control === true );
 	}, [ controlGlobalStyle ] );
+
+	useEffect( () => {
+		prevContentLength.current = attributes.content.length;
+	}, [ attributes.content ] );
+
+	console.log( { contentWasUpdated } );
 
 	const componentProps = {
 		attributes,
 		deviceType: device,
 	};
-	console.log( { attributes } );
 
 	const {
 		display,
@@ -191,11 +73,75 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 
 	const directionValue = getAttribute( 'flexDirection', componentProps ) || getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
 
-	const showFlexChildControls = applyFilters(
-		'generateblocks.editor.layout.isFlexItem',
-		isFlexItem( { device, display, displayTablet, displayMobile } ),
-		{ device, display, displayTablet, displayMobile }
-	);
+	function getLabel( defaultLabel, property, value ) {
+		return applyFilters(
+			'generateblocks.editor.control.label',
+			defaultLabel,
+			property,
+			value,
+			styleSources,
+			setControlGlobalStyle,
+			contentWasUpdated,
+		);
+	}
+
+	const labels = {
+		display: getLabel(
+			__( 'Display', 'generateblocks' ),
+			'display',
+			getAttribute( 'display', componentProps ),
+		),
+		flexDirection: getLabel(
+			__( 'Direction', 'generateblocks' ),
+			'flexDirection',
+			directionValue,
+		),
+		alignItems: getLabel(
+			__( 'Align Items', 'generateblocks' ),
+			'alignItems',
+			getAttribute( 'alignItems', componentProps ),
+		),
+		justifyContent: getLabel(
+			__( 'Justify Content', 'generateblocks' ),
+			'justifyContent',
+			getAttribute( 'justifyContent', componentProps ),
+		),
+		flexWrap: getLabel(
+			__( 'Wrap', 'generateblocks' ),
+			'flexWrap',
+			getAttribute( 'flexWrap', componentProps ),
+		),
+		columnGap: getLabel(
+			__( 'Column Gap', 'generateblocks' ),
+			'columnGap',
+			getAttribute( 'columnGap', componentProps ),
+		),
+		rowGap: getLabel(
+			__( 'Row Gap', 'generateblocks' ),
+			'rowGap',
+			getAttribute( 'rowGap', componentProps ),
+		),
+		position: getLabel(
+			__( 'Position', 'generateblocks' ),
+			'position',
+			getAttribute( 'position', componentProps ),
+		),
+		zIndex: getLabel(
+			__( 'z-index', 'generateblocks' ),
+			'zIndex',
+			getAttribute( 'zIndex', componentProps ),
+		),
+		overflowX: getLabel(
+			__( 'Oveflow-x', 'generateblocks' ),
+			'overflowX',
+			getAttribute( 'overflowX', componentProps ),
+		),
+		overflowY: getLabel(
+			__( 'Oveflow-y', 'generateblocks' ),
+			'overflowY',
+			getAttribute( 'overflowY', componentProps ),
+		),
+	};
 
 	return (
 		<PanelArea
@@ -218,13 +164,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 
 			{ layout.display && ! useInnerContainer &&
 				<SelectControl
-					label={ applyFilters(
-						'generateblocks.editor.control.label',
-						__( 'Display', 'generateblocks' ),
-						'display',
-						getAttribute( 'display', componentProps ),
-						styleSources,
-					) }
+					label={ labels.display }
 					options={ [
 						{ label: __( 'Default', 'generateblocks' ), value: '' },
 						{ label: 'Block', value: 'block' },
@@ -240,7 +180,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 				/>
 			}
 
-			{ showFlexChildControls && ! useInnerContainer &&
+			{ isFlexItem( { device, display, displayTablet, displayMobile, computedStyles } ) && ! useInnerContainer &&
 			<>
 				{ layout.flexDirection &&
 				<FlexDirection
@@ -264,13 +204,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 							[ getAttribute( 'flexDirection', componentProps, true ) ]: value,
 						} );
 					} }
-					label={ applyFilters(
-						'generateblocks.editor.control.label',
-						__( 'Direction', 'generateblocks' ),
-						'flexDirection',
-						directionValue,
-						styleSources,
-					) }
+					label={ labels.flexDirection }
 					directionValue={ directionValue }
 					fallback={ getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' ) }
 				/>
@@ -282,13 +216,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 					onChange={ ( value ) => setAttributes( {
 						[ getAttribute( 'alignItems', componentProps, true ) ]: value !== getAttribute( 'alignItems', componentProps ) ? value : '',
 					} ) }
-					label={ applyFilters(
-						'generateblocks.editor.control.label',
-						__( 'Align Items', 'generateblocks' ),
-						'alignItems',
-						getAttribute( 'alignItems', componentProps ),
-						styleSources,
-					) }
+					label={ labels.alignItems }
 					attributeName="alignItems"
 					directionValue={ directionValue }
 					fallback={ getResponsivePlaceholder( 'alignItems', attributes, device, '' ) }
@@ -301,13 +229,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 					onChange={ ( value ) => setAttributes( {
 						[ getAttribute( 'justifyContent', componentProps, true ) ]: value !== getAttribute( 'justifyContent', componentProps ) ? value : '',
 					} ) }
-					label={ applyFilters(
-						'generateblocks.editor.control.label',
-						__( 'Justify Content', 'generateblocks' ),
-						'justifyContent',
-						getAttribute( 'justifyContent', componentProps ),
-						styleSources,
-					) }
+					label={ labels.justifyContent }
 					attributeName="justifyContent"
 					directionValue={ directionValue }
 					fallback={ getResponsivePlaceholder( 'justifyContent', attributes, device, '' ) }
@@ -320,13 +242,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 					onChange={ ( value ) => setAttributes( {
 						[ getAttribute( 'flexWrap', componentProps, true ) ]: value !== getAttribute( 'flexWrap', componentProps ) ? value : '',
 					} ) }
-					label={ applyFilters(
-						'generateblocks.editor.control.label',
-						__( 'Wrap', 'generateblocks' ),
-						'flexWrap'
-						getAttribute( 'flexWrap', componentProps ),
-						styleSources,
-					) }
+					label={ labels.flexWrap }
 					attributeName="flexWrap"
 					directionValue={ directionValue }
 					fallback={ getResponsivePlaceholder( 'flexWrap', attributes, device, '' ) }
@@ -337,13 +253,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 				<FlexControl>
 					{ layout.columnGap &&
 					<UnitControl
-						label={ applyFilters(
-							'generateblocks.editor.control.label',
-							__( 'Column Gap', 'generateblocks' ),
-							'columnGap',
-							getAttribute( 'columnGap', componentProps ),
-							styleSources,
-						) }
+						label={ labels.columnGap }
 						id="gblocks-column-gap"
 						value={ getAttribute( 'columnGap', componentProps ) }
 						placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
@@ -355,13 +265,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 
 					{ layout.rowGap &&
 					<UnitControl
-						label={ applyFilters(
-							'generateblocks.editor.control.label',
-							__( 'Row Gap', 'generateblocks' ),
-							'rowGap',
-							getAttribute( 'rowGap', componentProps ),
-							styleSources,
-						) }
+						label={ labels.rowGap }
 						id="gblocks-row-gap"
 						value={ getAttribute( 'rowGap', componentProps ) }
 						placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
@@ -379,13 +283,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 			<>
 				{ layout.position &&
 				<SelectControl
-					label={ applyFilters(
-						'generateblocks.editor.control.label',
-						__( 'Position', 'generateblocks' ),
-						'position',
-						getAttribute( 'position', componentProps ),
-						styleSources,
-					) }
+					label={ labels.position }
 					value={ getAttribute( 'position', componentProps ) }
 					options={ positionOptions }
 					onChange={ ( value ) => setAttributes( {
@@ -397,7 +295,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 				{ layout.overflow &&
 				<FlexControl>
 					<SelectControl
-						label={ __( 'Overflow-x', 'generateblocks' ) }
+						label={ labels.overflowX }
 						value={ getAttribute( 'overflowX', componentProps ) }
 						options={ overflowOptions }
 						onChange={ ( value ) => setAttributes( {
@@ -406,7 +304,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 					/>
 
 					<SelectControl
-						label={ __( 'Overflow-y', 'generateblocks' ) }
+						label={ labels.overflowY }
 						value={ getAttribute( 'overflowY', componentProps ) }
 						options={ overflowOptions }
 						onChange={ ( value ) => setAttributes( {
@@ -438,7 +336,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 
 				{ ! useInnerContainer &&
 				<ZIndex
-					label={ __( 'z-index', 'generateblocks' ) }
+					label={ labels.zIndex }
 					value={ getAttribute( 'zindex', componentProps ) }
 					placeholder={ getResponsivePlaceholder( 'zindex', attributes, device ) }
 					onChange={ ( value ) => setAttributes( {

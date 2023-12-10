@@ -48,8 +48,6 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 					onChange={ ( values ) => setDeviceAttributes( values, 'spacing' ) }
 				/>
 			}
-			marginTop: parseInt( computedHeadlineStyles.marginTop ) || '',
-			marginBottom: parseInt( computedHeadlineStyles.marginBottom ) || '',
 			{ spacing.margin &&
 				<DimensionsControl
 					label={ __( 'Margin', 'generateblocks' ) }

@@ -50,12 +50,10 @@ const HeadlineEdit = ( props ) => {
 		googleFontVariants,
 		icon,
 		hasIcon,
-		element,
 		isBlockPreview = false,
 	} = attributes;
 
 	const ref = useRef( null );
-	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const deviceType = getDeviceType();
 
 	useEffect( () => {
@@ -63,16 +61,6 @@ const HeadlineEdit = ( props ) => {
 			setAttributes( { hasIcon: true } );
 		}
 	}, [] );
-
-	useEffect( () => {
-		const computedHeadlineStyles = getComputedStyle( ref.current );
-
-		setComputedStyles( {
-			marginTop: parseInt( computedHeadlineStyles.marginTop ) || '',
-			marginBottom: parseInt( computedHeadlineStyles.marginBottom ) || '',
-			fontSize: parseInt( computedHeadlineStyles.fontSize ) || '',
-		} );
-	}, [ element ] );
 
 	return (
 		<Fragment>
@@ -85,7 +73,6 @@ const HeadlineEdit = ( props ) => {
 			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-				computedStyles={ computedStyles }
 			>
 				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
 			</GenerateBlocksInspectorControls>

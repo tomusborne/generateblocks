@@ -35,7 +35,7 @@ export function useSelectedBlockElement() {
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
 
 	const clientId = getSelectedBlockClientId();
-	const [ element, setElement ] = useState( [] );
+	const [ element, setElement ] = useState( null );
 
 	useLayoutEffect( () => {
 		if ( ! clientId ) {

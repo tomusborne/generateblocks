@@ -1,6 +1,5 @@
 import { InspectorControls } from '@wordpress/block-editor';
-import { useContext } from '@wordpress/element';
-import { applyFilters } from '@wordpress/hooks';
+import { useContext, useState, useEffect } from '@wordpress/element';
 
 import ControlsContext from '../../block-context';
 import ResponsiveTabs from './controls/responsive-tabs';
@@ -35,7 +34,14 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 		},
 	} = useContext( ControlsContext );
 	const selectedBlockElement = useSelectedBlockElement();
-	const computedStyles = getComputedStyle( selectedBlockElement );
+	const selectedBlockElementClientId = selectedBlockElement ? selectedBlockElement?.dataset.block : 0;
+	const [ computedStyles, setComputedStyles ] = useState( {} );
+
+	useEffect( () => {
+		if ( selectedBlockElement ) {
+			setComputedStyles( getComputedStyle( selectedBlockElement ) );
+		}
+	}, [ selectedBlockElementClientId ] );
 
 	return (
 		<InspectorControls>
