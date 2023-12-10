@@ -1,7 +1,7 @@
 import './markformat';
 import { applyFilters } from '@wordpress/hooks';
 import BlockControls from './components/BlockControls';
-import { Fragment, useEffect, useRef, useState } from '@wordpress/element';
+import { Fragment, useEffect, useRef } from '@wordpress/element';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
 import ComponentCSS from './components/ComponentCSS';
