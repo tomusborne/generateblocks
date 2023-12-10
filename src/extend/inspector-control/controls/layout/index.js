@@ -26,7 +26,8 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 	const { supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 	const panelRef = useRef( null );
 	const prevContentLength = useRef( 0 );
-	const contentWasUpdated = prevContentLength.current !== attributes.content.length;
+	const currentContentLength = attributes.content ? attributes.content.length : 0;
+	const contentWasUpdated = prevContentLength.current !== currentContentLength;
 	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
 		display: false,
 		columnGap: false,
@@ -51,10 +52,8 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 	}, [ controlGlobalStyle ] );
 
 	useEffect( () => {
-		prevContentLength.current = attributes.content.length;
+		prevContentLength.current = currentContentLength;
 	}, [ attributes.content ] );
-
-	console.log( { contentWasUpdated } );
 
 	const componentProps = {
 		attributes,
