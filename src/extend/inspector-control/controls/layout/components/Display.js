@@ -1,22 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { SelectControl } from '@wordpress/components';
-import { applyFilters } from '@wordpress/hooks';
 import { useCallback } from '@wordpress/element';
 
-const Display = function Display( { value, onChange, label, setControlGlobalStyle } ) {
-	const filteredLabel = useCallback( applyFilters(
-		'generateblocks.editor.control.label',
-		label,
-		value,
-		'display',
-		setControlGlobalStyle,
-	), [ value ] );
-
+const Display = function Display( { value, onChange, label } ) {
 	const onChangeHandler = useCallback( onChange, [ value ] );
 
 	return (
 		<SelectControl
-			label={ filteredLabel }
+			label={ label }
 			options={ [
 				{ label: __( 'Default', 'generateblocks' ), value: '' },
 				{ label: 'Block', value: 'block' },

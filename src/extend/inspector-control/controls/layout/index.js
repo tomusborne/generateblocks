@@ -29,17 +29,17 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 	const currentContentLength = attributes.content ? attributes.content.length : 0;
 	const contentWasUpdated = prevContentLength.current !== currentContentLength;
 	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
-		display: false,
-		columnGap: false,
-		rowGap: false,
-		flexDirection: false,
 		alignItems: false,
-		justifyContent: false,
+		columnGap: false,
+		display: false,
+		flexDirection: false,
 		flexWrap: false,
-		position: false,
-		zindex: false,
+		justifyContent: false,
 		overflowX: false,
 		overflowY: false,
+		position: false,
+		rowGap: false,
+		zIndex: false,
 	} );
 	const styleSources = applyFilters(
 		'generateblocks.editor.panel.computedStyleSources',
@@ -60,6 +60,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		deviceType: device,
 	};
 
+	console.log( { computedStyles } );
 	const {
 		display,
 		displayTablet,
@@ -128,7 +129,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		zIndex: getLabel(
 			__( 'z-index', 'generateblocks' ),
 			'zIndex',
-			getAttribute( 'zIndex', componentProps ),
+			getAttribute( 'zindex', componentProps ),
 		),
 		overflowX: getLabel(
 			__( 'Oveflow-x', 'generateblocks' ),
