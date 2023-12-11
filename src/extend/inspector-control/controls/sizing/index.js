@@ -1,9 +1,11 @@
 import { __ } from '@wordpress/i18n';
+import { useContext, useRef, useState, useMemo, useEffect } from '@wordpress/element';
+import { Tooltip, Button } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
+
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
-import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
-import { Tooltip, Button } from '@wordpress/components';
 import MinHeight from './components/MinHeight';
 import getAttribute from '../../../../utils/get-attribute';
 import Width from './components/Width';
@@ -15,13 +17,35 @@ import './editor.scss';
 import getDeviceType from '../../../../utils/get-device-type';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 
-export default function Sizing( props ) {
+export default function Sizing( { attributes, setAttributes, computedStyles } ) {
+	const panelRef = useRef( null );
+	const prevContentLength = useRef( 0 );
+	const currentContentLength = attributes.content ? attributes.content.length : 0;
+	const contentWasUpdated = prevContentLength.current !== currentContentLength;
+	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
+		width: false,
+		height: false,
+		minWidth: false,
+		minHeight: false,
+		maxWidth: false,
+		maxHeight: false,
+	 } );
+	const styleSources = applyFilters(
+		'generateblocks.editor.panel.computedStyleSources',
+		{},
+		computedStyles,
+		Object.keys( controlGlobalStyle ),
+	);
+	const hasGlobalStyle = useMemo( () => {
+		return Object.values( controlGlobalStyle ).some( ( control ) => control === true );
+	}, [ controlGlobalStyle ] );
+
+	useEffect( () => {
+		prevContentLength.current = currentContentLength;
+	}, [ attributes.content ] );
+
 	const { supports: { sizingPanel } } = useContext( ControlsContext );
 	const device = getDeviceType();
-	const {
-		attributes,
-		setAttributes,
-	} = props;
 
 	const {
 		useGlobalMaxWidth = false,
@@ -36,6 +60,51 @@ export default function Sizing( props ) {
 			: '';
 	}
 
+	function getLabel( defaultLabel, property, value ) {
+		return applyFilters(
+			'generateblocks.editor.control.label',
+			defaultLabel,
+			property,
+			value,
+			styleSources,
+			setControlGlobalStyle,
+			contentWasUpdated,
+		);
+	}
+
+	const labels = {
+		width: getLabel(
+			__( 'Width', 'generateblocks' ),
+			'width',
+			getValue( 'width' ),
+		),
+		height: getLabel(
+			__( 'Height', 'generateblocks' ),
+			'height',
+			getValue( 'height' ),
+		),
+		minWidth: getLabel(
+			__( 'Min Width', 'generateblocks' ),
+			'minWidth',
+			getValue( 'minWidth' ),
+		),
+		minHeight: getLabel(
+			__( 'Min Height', 'generateblocks' ),
+			'minHeight',
+			getValue( 'minHeight' ),
+		),
+		maxWidth: getLabel(
+			__( 'Max Width', 'generateblocks' ),
+			'maxWidth',
+			getValue( 'maxWidth' ),
+		),
+		maxHeight: getLabel(
+			__( 'Max Height', 'generateblocks' ),
+			'maxHeight',
+			getValue( 'maxHeight' ),
+		),
+	};
+
 	return (
 		<PanelArea
 			title={ __( 'Sizing', 'generateblocks' ) }
@@ -43,10 +112,13 @@ export default function Sizing( props ) {
 			icon={ getIcon( 'sizing' ) }
 			className="gblocks-panel-label"
 			id="sizing"
+			ref={ panelRef }
+			hasGlobalStyle={ hasGlobalStyle }
 		>
 			<div className="gblocks-sizing-fields">
 				{ sizingPanel.width &&
 					<Width
+						label={ labels.width }
 						value={ getValue( 'width' ) }
 						placeholder={ getResponsivePlaceholder( 'width', attributes.sizing, device ) }
 						onChange={ ( value ) => {
@@ -61,6 +133,7 @@ export default function Sizing( props ) {
 
 				{ sizingPanel.height &&
 					<Height
+						label={ labels.height }
 						value={ getValue( 'height' ) }
 						placeholder={ getResponsivePlaceholder( 'height', attributes.sizing, device ) }
 						onChange={ ( value ) => {
@@ -75,6 +148,7 @@ export default function Sizing( props ) {
 
 				{ sizingPanel.minWidth &&
 					<MinWidth
+						label={ labels.minWidth }
 						value={ getValue( 'minWidth' ) }
 						placeholder={ getResponsivePlaceholder( 'minWidth', attributes.sizing, device ) }
 						disabled={ isGrid }
@@ -90,6 +164,7 @@ export default function Sizing( props ) {
 
 				{ sizingPanel.minHeight &&
 					<MinHeight
+						label={ labels.minHeight }
 						value={ getValue( 'minHeight' ) }
 						placeholder={ getResponsivePlaceholder( 'minHeight', attributes.sizing, device ) }
 						onChange={ ( value ) => {
@@ -104,6 +179,7 @@ export default function Sizing( props ) {
 
 				{ sizingPanel.maxWidth &&
 					<MaxWidth
+						label={ labels.maxWidth }
 						value={ getValue( 'maxWidth' ) }
 						placeholder={ getResponsivePlaceholder( 'maxWidth', attributes.sizing, device ) }
 						overrideValue={ !! useGlobalMaxWidth ? generateBlocksInfo.globalContainerWidth : null }
@@ -139,6 +215,7 @@ export default function Sizing( props ) {
 
 				{ sizingPanel.maxHeight &&
 					<MaxHeight
+						label={ labels.maxHeight }
 						value={ getValue( 'maxHeight' ) }
 						placeholder={ getResponsivePlaceholder( 'maxHeight', attributes.sizing, device ) }
 						onChange={ ( value ) => {
