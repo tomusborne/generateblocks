@@ -60,7 +60,6 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		deviceType: device,
 	};
 
-	console.log( { computedStyles } );
 	const {
 		display,
 		displayTablet,
