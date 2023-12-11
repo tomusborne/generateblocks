@@ -22,7 +22,7 @@ export function useSelectedBlockElements() {
 				return null;
 			}
 
-			return editorStylesWrapper.querySelector( `[data-block="${ clientId }"]` );
+			return editorStylesWrapper.querySelector( `[data-block="${ clientId }"]:not(.gb-is-root-block)` );
 		} ).filter( ( element ) => null !== element ) );
 	}, [ clientIds ] );
 
@@ -45,7 +45,7 @@ export function useSelectedBlockElement() {
 		const queryDocument = document.querySelector( 'iframe[name="editor-canvas"]' )?.contentDocument || document;
 		const editorStylesWrapper = queryDocument.querySelector( '.editor-styles-wrapper' );
 
-		setElement( editorStylesWrapper.querySelector( `[data-block="${ clientId }"]` ) ?? null );
+		setElement( editorStylesWrapper.querySelector( `[data-block="${ clientId }"]:not(.gb-is-root-block)` ) ?? null );
 	}, [ clientId ] );
 
 	return element;
