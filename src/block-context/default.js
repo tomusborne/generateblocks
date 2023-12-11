@@ -85,7 +85,6 @@ const defaultContext = {
 			iconSize: false,
 		},
 	},
-	activeGlobalClasses: [],
 };
 
 export default defaultContext;
