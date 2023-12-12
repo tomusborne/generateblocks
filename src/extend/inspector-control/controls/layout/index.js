@@ -20,7 +20,7 @@ import { positionOptions, overflowOptions } from './options';
 import FlexControl from '../../../../components/flex-control';
 import getDeviceType from '../../../../utils/get-device-type';
 import ThemeWidth from './components/ThemeWidth';
-import { useStyleIndicator } from '../../../../hooks/useStyleIndicator';
+import { useStyleIndicator } from '../../../../hooks';
 import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Layout( { attributes, setAttributes, computedStyles } ) {
