@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useContext, useRef, useState, useMemo, useEffect } from '@wordpress/element';
+import { useContext, useRef } from '@wordpress/element';
 import { SelectControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
@@ -20,15 +20,14 @@ import { positionOptions, overflowOptions } from './options';
 import FlexControl from '../../../../components/flex-control';
 import getDeviceType from '../../../../utils/get-device-type';
 import ThemeWidth from './components/ThemeWidth';
+import { useStyleIndicator } from '../../../../hooks/useStyleIndicator';
+import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Layout( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { supports: { layout, flexChildPanel } } = useContext( ControlsContext );
-	const panelRef = useRef( null );
-	const prevContentLength = useRef( 0 );
-	const currentContentLength = attributes.content ? attributes.content.length : 0;
-	const contentWasUpdated = prevContentLength.current !== currentContentLength;
-	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
+	const { blockName, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
+	const contentValue = getContentAttribute( attributes, blockName );
+	const panelControls = {
 		alignItems: false,
 		columnGap: false,
 		display: false,
@@ -40,20 +39,14 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		position: false,
 		rowGap: false,
 		zIndex: false,
-	} );
-	const styleSources = applyFilters(
-		'generateblocks.editor.panel.computedStyleSources',
-		{},
-		computedStyles,
-		Object.keys( controlGlobalStyle ),
-	);
-	const hasGlobalStyle = useMemo( () => {
-		return Object.values( controlGlobalStyle ).some( ( control ) => control === true );
-	}, [ controlGlobalStyle ] );
-
-	useEffect( () => {
-		prevContentLength.current = currentContentLength;
-	}, [ attributes.content ] );
+	};
+	const [
+		setControlGlobalStyle,
+		styleSources,
+		hasGlobalStyle,
+		contentWasUpdated,
+	] = useStyleIndicator( computedStyles, panelControls, contentValue );
+	const panelRef = useRef( null );
 
 	const componentProps = {
 		attributes,
