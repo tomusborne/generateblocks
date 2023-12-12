@@ -36,6 +36,10 @@ const PanelArea = forwardRef( function PanelArea( props, ref ) {
 		return null;
 	}
 
+	function capitalizeFirstLetter( string ) {
+		return string.charAt( 0 ).toUpperCase() + string.slice( 1 );
+	}
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.panel"
@@ -44,41 +48,47 @@ const PanelArea = forwardRef( function PanelArea( props, ref ) {
 			panelRef={ ref }
 			{ ...props }
 		>
-			{ title ? (
-				<PanelBody
-					ref={ ref }
-					title={ title }
-					initialOpen={
-						'undefined' !== typeof panels[ id ]
-							? panels[ id ]
-							: initialOpen
-					}
-					icon={ icon }
-					className={ className }
-					onToggle={ () => {
-						const isOpen = panels[ id ] ||
+			<ApplyFilters
+				name={ `generateblocks.editor.panel.${ blockName }${ capitalizeFirstLetter( id ) }` }
+				props={ props }
+				state={ state }
+			>
+				{ title ? (
+					<PanelBody
+						ref={ ref }
+						title={ title }
+						initialOpen={
+							'undefined' !== typeof panels[ id ]
+								? panels[ id ]
+								: initialOpen
+						}
+						icon={ icon }
+						className={ className }
+						onToggle={ () => {
+							const isOpen = panels[ id ] ||
 							(
 								'undefined' === typeof panels[ id ] &&
 								initialOpen
 							);
 
-						setPanels( {
-							...panels,
-							[ id ]: ! isOpen,
-						} );
-					} }
-				>
-					{
-						applyFilters( 'generateblocks.editor.panelContents', children, id, props )
-					}
-				</PanelBody>
-			) : (
-				<PanelBody>
-					{
-						applyFilters( 'generateblocks.editor.panelContents', children, id, props )
-					}
-				</PanelBody>
-			) }
+							setPanels( {
+								...panels,
+								[ id ]: ! isOpen,
+							} );
+						} }
+					>
+						{
+							applyFilters( 'generateblocks.editor.panelContents', children, id, props )
+						}
+					</PanelBody>
+				) : (
+					<PanelBody>
+						{
+							applyFilters( 'generateblocks.editor.panelContents', children, id, props )
+						}
+					</PanelBody>
+				) }
+			</ApplyFilters>
 		</ApplyFilters>
 	);
 } );
