@@ -1,7 +1,9 @@
 import { __ } from '@wordpress/i18n';
+import { useContext, useRef, useState, useEffect, useMemo } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
+
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
-import { useContext } from '@wordpress/element';
 import ControlsContext from '../../../../block-context';
 import DeviceControls from './components/device-controls';
 import getDeviceType from '../../../../utils/get-device-type';
@@ -13,6 +15,27 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 	const device = getDeviceType();
 	const { supports: { spacing } } = useContext( ControlsContext );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
+	const panelRef = useRef( null );
+	const prevContentLength = useRef( 0 );
+	const currentContentLength = attributes.content ? attributes.content.length : 0;
+	const contentWasUpdated = prevContentLength.current !== currentContentLength;
+	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
+		margin: false,
+		padding: false,
+	} );
+	const styleSources = applyFilters(
+		'generateblocks.editor.panel.computedStyleSources',
+		{},
+		computedStyles,
+		Object.keys( controlGlobalStyle ),
+	);
+	const hasGlobalStyle = useMemo( () => {
+		return Object.values( controlGlobalStyle ).some( ( control ) => control === true );
+	}, [ controlGlobalStyle ] );
+
+	useEffect( () => {
+		prevContentLength.current = currentContentLength;
+	}, [ attributes.content ] );
 
 	const {
 		inlineWidth,
@@ -29,6 +52,31 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 	const paddingAttributes = [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ];
 	const marginAttributes = [ 'marginTop', 'marginLeft', 'marginRight', 'marginBottom' ];
 
+	function getLabel( defaultLabel, property, value ) {
+		return applyFilters(
+			'generateblocks.editor.control.label',
+			defaultLabel,
+			property,
+			value,
+			styleSources,
+			setControlGlobalStyle,
+			contentWasUpdated,
+		);
+	}
+
+	const labels = {
+		padding: getLabel(
+			__( 'Padding', 'generateblocks' ),
+			'padding',
+			deviceAttributes.spacing
+		),
+		margin: getLabel(
+			__( 'Margin', 'generateblocks' ),
+			'margin',
+			deviceAttributes.spacing
+		),
+	};
+
 	return (
 		<PanelArea
 			title={ __( 'Spacing', 'generateblocks' ) }
@@ -36,10 +84,12 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			icon={ getIcon( 'spacing' ) }
 			className="gblocks-panel-label"
 			id="spacing"
+			ref={ panelRef }
+			hasGlobalStyle={ hasGlobalStyle }
 		>
 			{ spacing.padding &&
 				<DimensionsControl
-					label={ __( 'Padding', 'generateblocks' ) }
+					label={ labels.padding }
 					attributeNames={ paddingAttributes }
 					values={ deviceAttributes.spacing }
 					placeholders={ paddingAttributes.reduce( ( o, key ) => (
