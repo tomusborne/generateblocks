@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useContext, useRef, useState, useEffect, useMemo } from '@wordpress/element';
+import { useContext, useRef, useState, useMemo } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 import PanelArea from '../../../../components/panel-area';
@@ -10,32 +10,27 @@ import getDeviceType from '../../../../utils/get-device-type';
 import useDeviceAttributes from '../../../../hooks/useDeviceAttributes';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 import DimensionsControl from '../../../../components/dimensions';
+import { useStyleIndicator } from '../../../../hooks';
+import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { supports: { spacing } } = useContext( ControlsContext );
+	const { blockName, supports: { spacing } } = useContext( ControlsContext );
+	const contentValue = getContentAttribute( attributes, blockName );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const panelRef = useRef( null );
-	const prevContentLength = useRef( 0 );
-	const currentContentLength = attributes.content ? attributes.content.length : 0;
-	const contentWasUpdated = prevContentLength.current !== currentContentLength;
-	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
+	const panelControls = useState( {
 		margin: false,
 		padding: false,
 	} );
-	const styleSources = applyFilters(
-		'generateblocks.editor.panel.computedStyleSources',
-		{},
-		computedStyles,
-		Object.keys( controlGlobalStyle ),
-	);
-	const hasGlobalStyle = useMemo( () => {
-		return Object.values( controlGlobalStyle ).some( ( control ) => control === true );
-	}, [ controlGlobalStyle ] );
+	const [
+		setControlGlobalStyle,
+		styleSources,
+		hasGlobalStyle,
+		contentWasUpdated,
+	] = useStyleIndicator( computedStyles, panelControls, contentValue );
 
-	useEffect( () => {
-		prevContentLength.current = currentContentLength;
-	}, [ attributes.content ] );
+	console.log( { contentValue } );
 
 	const {
 		inlineWidth,
@@ -64,18 +59,31 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 		);
 	}
 
+	const {
+		marginTop = '',
+		marginBottom = '',
+		marginLeft = '',
+		marginRight = '',
+		paddingTop = '',
+		paddingBottom = '',
+		paddingLeft = '',
+		paddingRight = '',
+	} = deviceAttributes.spacing;
+
 	const labels = {
 		padding: getLabel(
 			__( 'Padding', 'generateblocks' ),
 			'padding',
-			deviceAttributes.spacing
+			paddingTop,
 		),
 		margin: getLabel(
 			__( 'Margin', 'generateblocks' ),
 			'margin',
-			deviceAttributes.spacing
+			marginTop,
 		),
 	};
+
+	console.log( { styleSources } );
 
 	return (
 		<PanelArea
