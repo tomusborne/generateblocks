@@ -32,12 +32,12 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 		maxWidth: false,
 		maxHeight: false,
 	};
-	const [
-		setControlGlobalStyle,
+	const {
+		dispatchControlGlobalStyle,
 		styleSources,
 		hasGlobalStyle,
 		contentWasUpdated,
-	] = useStyleIndicator( computedStyles, panelControls, contentValue );
+	} = useStyleIndicator( computedStyles, panelControls, contentValue );
 
 	const {
 		useGlobalMaxWidth = false,
@@ -59,7 +59,7 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 			property,
 			value,
 			styleSources,
-			setControlGlobalStyle,
+			dispatchControlGlobalStyle,
 			contentWasUpdated,
 		);
 	}

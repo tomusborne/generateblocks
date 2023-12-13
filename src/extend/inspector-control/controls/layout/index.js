@@ -40,12 +40,12 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		rowGap: false,
 		zIndex: false,
 	};
-	const [
-		setControlGlobalStyle,
+	const {
+		dispatchControlGlobalStyle,
 		styleSources,
 		hasGlobalStyle,
 		contentWasUpdated,
-	] = useStyleIndicator( computedStyles, panelControls, contentValue );
+	} = useStyleIndicator( computedStyles, panelControls, contentValue );
 	const panelRef = useRef( null );
 
 	const componentProps = {
@@ -72,7 +72,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 			property,
 			value,
 			styleSources,
-			setControlGlobalStyle,
+			dispatchControlGlobalStyle,
 			contentWasUpdated,
 		);
 	}

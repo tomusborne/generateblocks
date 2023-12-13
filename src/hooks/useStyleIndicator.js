@@ -1,8 +1,15 @@
-import { useState, useMemo, useRef, useEffect } from '@wordpress/element';
+import { useReducer, useMemo, useRef, useEffect } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
+function reducer( state, action ) {
+	return {
+		...state,
+		[ action.type ]: action.value,
+	};
+}
+
 export function useStyleIndicator( computedStyles, panelControls, content = '' ) {
-	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( panelControls );
+	const [ controlGlobalStyle, dispatchControlGlobalStyle ] = useReducer( reducer, panelControls );
 
 	const styleSources = applyFilters(
 		'generateblocks.editor.panel.computedStyleSources',
@@ -22,5 +29,5 @@ export function useStyleIndicator( computedStyles, panelControls, content = '' )
 		prevContentLength.current = currentContentLength;
 	}, [ content ] );
 
-	return [ setControlGlobalStyle, styleSources, hasGlobalStyle, contentWasUpdated ];
+	return { dispatchControlGlobalStyle, styleSources, hasGlobalStyle, contentWasUpdated };
 }

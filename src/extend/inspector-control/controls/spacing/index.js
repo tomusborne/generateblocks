@@ -23,14 +23,12 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 		margin: false,
 		padding: false,
 	} );
-	const [
-		setControlGlobalStyle,
+	const {
+		dispatchControlGlobalStyle,
 		styleSources,
 		hasGlobalStyle,
 		contentWasUpdated,
-	] = useStyleIndicator( computedStyles, panelControls, contentValue );
-
-	console.log( { contentValue } );
+	} = useStyleIndicator( computedStyles, panelControls, contentValue );
 
 	const {
 		inlineWidth,
@@ -54,7 +52,7 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			property,
 			value,
 			styleSources,
-			setControlGlobalStyle,
+			dispatchControlGlobalStyle,
 			contentWasUpdated,
 		);
 	}
