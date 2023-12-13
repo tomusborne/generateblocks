@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useContext, useRef, useState, useMemo, useEffect } from '@wordpress/element';
+import { useContext, useRef } from '@wordpress/element';
 import { Tooltip, Button } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
@@ -16,36 +16,28 @@ import MaxHeight from './components/MaxHeight';
 import './editor.scss';
 import getDeviceType from '../../../../utils/get-device-type';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
+import { useStyleIndicator } from '../../../../hooks';
+import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Sizing( { attributes, setAttributes, computedStyles } ) {
+	const { blockName, supports: { sizingPanel } } = useContext( ControlsContext );
+	const device = getDeviceType();
 	const panelRef = useRef( null );
-	const prevContentLength = useRef( 0 );
-	const currentContentLength = attributes.content ? attributes.content.length : 0;
-	const contentWasUpdated = prevContentLength.current !== currentContentLength;
-	const [ controlGlobalStyle, setControlGlobalStyle ] = useState( {
+	const contentValue = getContentAttribute( attributes, blockName );
+	const panelControls = {
 		width: false,
 		height: false,
 		minWidth: false,
 		minHeight: false,
 		maxWidth: false,
 		maxHeight: false,
-	 } );
-	const styleSources = applyFilters(
-		'generateblocks.editor.panel.computedStyleSources',
-		{},
-		computedStyles,
-		Object.keys( controlGlobalStyle ),
-	);
-	const hasGlobalStyle = useMemo( () => {
-		return Object.values( controlGlobalStyle ).some( ( control ) => control === true );
-	}, [ controlGlobalStyle ] );
-
-	useEffect( () => {
-		prevContentLength.current = currentContentLength;
-	}, [ attributes.content ] );
-
-	const { supports: { sizingPanel } } = useContext( ControlsContext );
-	const device = getDeviceType();
+	};
+	const [
+		setControlGlobalStyle,
+		styleSources,
+		hasGlobalStyle,
+		contentWasUpdated,
+	] = useStyleIndicator( computedStyles, panelControls, contentValue );
 
 	const {
 		useGlobalMaxWidth = false,
