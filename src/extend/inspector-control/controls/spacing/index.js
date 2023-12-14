@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { useContext, useRef, useState, useMemo } from '@wordpress/element';
+import { useContext, useRef, useMemo } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
 
 import PanelArea from '../../../../components/panel-area';
@@ -19,16 +19,22 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 	const contentValue = getContentAttribute( attributes, blockName );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const panelRef = useRef( null );
-	const panelControls = useState( {
-		margin: false,
-		padding: false,
-	} );
+	const panelControls = {
+		marginTop: false,
+		marginBottom: false,
+		marginRight: false,
+		marginLeft: false,
+		paddingTop: false,
+		paddingBottom: false,
+		paddingRight: false,
+		paddingLeft: false,
+	};
 	const {
 		dispatchControlGlobalStyle,
 		styleSources,
 		hasGlobalStyle,
 		contentWasUpdated,
-	} = useStyleIndicator( computedStyles, panelControls, contentValue );
+	} = useStyleIndicator( computedStyles, panelControls, contentValue, deviceAttributes );
 
 	const {
 		inlineWidth,
@@ -45,12 +51,11 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 	const paddingAttributes = [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ];
 	const marginAttributes = [ 'marginTop', 'marginLeft', 'marginRight', 'marginBottom' ];
 
-	function getLabel( defaultLabel, property, value ) {
+	function getLabel( defaultLabel, rules ) {
 		return applyFilters(
 			'generateblocks.editor.control.label',
 			defaultLabel,
-			property,
-			value,
+			rules,
 			styleSources,
 			dispatchControlGlobalStyle,
 			contentWasUpdated,
@@ -58,30 +63,60 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 	}
 
 	const {
-		marginTop = '',
-		marginBottom = '',
-		marginLeft = '',
-		marginRight = '',
-		paddingTop = '',
-		paddingBottom = '',
-		paddingLeft = '',
-		paddingRight = '',
+		marginTop,
+		marginBottom,
+		marginLeft,
+		marginRight,
+		paddingTop,
+		paddingBottom,
+		paddingLeft,
+		paddingRight,
 	} = deviceAttributes.spacing;
+
+	const paddingRules = useMemo( () => {
+		const rules = {
+			paddingTop,
+			paddingRight,
+			paddingBottom,
+			paddingLeft,
+		};
+
+		const allValuesSet = Object.values( rules ).every( ( value ) => {
+			return '' !== value && undefined !== value;
+		} );
+
+		return allValuesSet ? {
+			padding: Object.values( rules ).join( ' ' ),
+		} : rules;
+	}, [ deviceAttributes.spacing ] );
+
+	const marginRules = useMemo( () => {
+		const rules = {
+			marginTop,
+			marginRight,
+			marginBottom,
+			marginLeft,
+		};
+
+		const allValuesSet = Object.values( rules ).every( ( value ) => {
+			return '' !== value && undefined !== value;
+		} );
+
+		return allValuesSet ? {
+			margin: Object.values( rules ).join( ' ' ),
+		} : rules;
+	}, [ deviceAttributes.spacing ] );
 
 	const labels = {
 		padding: getLabel(
 			__( 'Padding', 'generateblocks' ),
-			'padding',
-			paddingTop,
+			paddingRules,
 		),
 		margin: getLabel(
 			__( 'Margin', 'generateblocks' ),
-			'margin',
-			marginTop,
+			marginRules,
 		),
 	};
-
-	console.log( { styleSources } );
 
 	return (
 		<PanelArea

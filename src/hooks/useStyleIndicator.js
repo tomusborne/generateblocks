@@ -8,7 +8,7 @@ function reducer( state, action ) {
 	};
 }
 
-export function useStyleIndicator( computedStyles, panelControls, content = '' ) {
+export function useStyleIndicator( computedStyles, panelControls, content = '', deviceAttributes = {} ) {
 	const [ controlGlobalStyle, dispatchControlGlobalStyle ] = useReducer( reducer, panelControls );
 
 	const styleSources = applyFilters(
@@ -16,6 +16,7 @@ export function useStyleIndicator( computedStyles, panelControls, content = '' )
 		{},
 		computedStyles,
 		Object.keys( controlGlobalStyle ),
+		deviceAttributes,
 	);
 	const hasGlobalStyle = useMemo( () => {
 		return Object.values( controlGlobalStyle ).some( ( control ) => control === true );

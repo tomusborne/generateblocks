@@ -20,13 +20,14 @@ import { positionOptions, overflowOptions } from './options';
 import FlexControl from '../../../../components/flex-control';
 import getDeviceType from '../../../../utils/get-device-type';
 import ThemeWidth from './components/ThemeWidth';
-import { useStyleIndicator } from '../../../../hooks';
+import { useStyleIndicator, useDeviceAttributes } from '../../../../hooks';
 import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Layout( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
 	const { blockName, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 	const contentValue = getContentAttribute( attributes, blockName );
+	const [ deviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const panelControls = {
 		alignItems: false,
 		columnGap: false,
@@ -45,7 +46,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		styleSources,
 		hasGlobalStyle,
 		contentWasUpdated,
-	} = useStyleIndicator( computedStyles, panelControls, contentValue );
+	} = useStyleIndicator( computedStyles, panelControls, contentValue, deviceAttributes );
 	const panelRef = useRef( null );
 
 	const componentProps = {
@@ -65,12 +66,11 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 
 	const directionValue = getAttribute( 'flexDirection', componentProps ) || getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
 
-	function getLabel( defaultLabel, property, value ) {
+	function getLabel( defaultLabel, rules ) {
 		return applyFilters(
 			'generateblocks.editor.control.label',
 			defaultLabel,
-			property,
-			value,
+			rules,
 			styleSources,
 			dispatchControlGlobalStyle,
 			contentWasUpdated,
@@ -80,58 +80,69 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 	const labels = {
 		display: getLabel(
 			__( 'Display', 'generateblocks' ),
-			'display',
-			getAttribute( 'display', componentProps ),
+			{
+				display: getAttribute( 'display', componentProps ),
+			},
 		),
 		flexDirection: getLabel(
 			__( 'Direction', 'generateblocks' ),
-			'flexDirection',
-			directionValue,
+			{
+				flexDirection: directionValue,
+			}
 		),
 		alignItems: getLabel(
 			__( 'Align Items', 'generateblocks' ),
-			'alignItems',
-			getAttribute( 'alignItems', componentProps ),
+			{
+				alignItems: getAttribute( 'alignItems', componentProps ),
+			},
 		),
 		justifyContent: getLabel(
 			__( 'Justify Content', 'generateblocks' ),
-			'justifyContent',
-			getAttribute( 'justifyContent', componentProps ),
+			{
+				justifyContent: getAttribute( 'justifyContent', componentProps ),
+			},
 		),
 		flexWrap: getLabel(
 			__( 'Wrap', 'generateblocks' ),
-			'flexWrap',
-			getAttribute( 'flexWrap', componentProps ),
+			{
+				flexWrap: getAttribute( 'flexWrap', componentProps ),
+			},
 		),
 		columnGap: getLabel(
 			__( 'Column Gap', 'generateblocks' ),
-			'columnGap',
-			getAttribute( 'columnGap', componentProps ),
+			{
+				columnGap: getAttribute( 'columnGap', componentProps ),
+			},
 		),
 		rowGap: getLabel(
 			__( 'Row Gap', 'generateblocks' ),
-			'rowGap',
-			getAttribute( 'rowGap', componentProps ),
+			{
+				rowGap: getAttribute( 'rowGap', componentProps ),
+			},
 		),
 		position: getLabel(
 			__( 'Position', 'generateblocks' ),
-			'position',
-			getAttribute( 'position', componentProps ),
+			{
+				position: getAttribute( 'position', componentProps ),
+			},
 		),
 		zIndex: getLabel(
 			__( 'z-index', 'generateblocks' ),
-			'zIndex',
-			getAttribute( 'zindex', componentProps ),
+			{
+				zIndex: getAttribute( 'zindex', componentProps ),
+			},
 		),
 		overflowX: getLabel(
 			__( 'Oveflow-x', 'generateblocks' ),
-			'overflowX',
-			getAttribute( 'overflowX', componentProps ),
+			{
+				overflowX: getAttribute( 'overflowX', componentProps ),
+			},
 		),
 		overflowY: getLabel(
 			__( 'Oveflow-y', 'generateblocks' ),
-			'overflowY',
-			getAttribute( 'overflowY', componentProps ),
+			{
+				overflowY: getAttribute( 'overflowY', componentProps ),
+			},
 		),
 	};
 

@@ -16,7 +16,7 @@ import MaxHeight from './components/MaxHeight';
 import './editor.scss';
 import getDeviceType from '../../../../utils/get-device-type';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
-import { useStyleIndicator } from '../../../../hooks';
+import { useStyleIndicator, useDeviceAttributes } from '../../../../hooks';
 import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Sizing( { attributes, setAttributes, computedStyles } ) {
@@ -24,6 +24,7 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 	const device = getDeviceType();
 	const panelRef = useRef( null );
 	const contentValue = getContentAttribute( attributes, blockName );
+	const [ deviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const panelControls = {
 		width: false,
 		height: false,
@@ -37,7 +38,7 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 		styleSources,
 		hasGlobalStyle,
 		contentWasUpdated,
-	} = useStyleIndicator( computedStyles, panelControls, contentValue );
+	} = useStyleIndicator( computedStyles, panelControls, contentValue, deviceAttributes );
 
 	const {
 		useGlobalMaxWidth = false,
@@ -52,12 +53,11 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 			: '';
 	}
 
-	function getLabel( defaultLabel, property, value ) {
+	function getLabel( defaultLabel, rules ) {
 		return applyFilters(
 			'generateblocks.editor.control.label',
 			defaultLabel,
-			property,
-			value,
+			rules,
 			styleSources,
 			dispatchControlGlobalStyle,
 			contentWasUpdated,
@@ -67,33 +67,39 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 	const labels = {
 		width: getLabel(
 			__( 'Width', 'generateblocks' ),
-			'width',
-			getValue( 'width' ),
+			{
+				width: getValue( 'width' ),
+			},
 		),
 		height: getLabel(
 			__( 'Height', 'generateblocks' ),
-			'height',
-			getValue( 'height' ),
+			{
+				height: getValue( 'height' ),
+			},
 		),
 		minWidth: getLabel(
 			__( 'Min Width', 'generateblocks' ),
-			'minWidth',
-			getValue( 'minWidth' ),
+			{
+				minWidth: getValue( 'minWidth' ),
+			},
 		),
 		minHeight: getLabel(
 			__( 'Min Height', 'generateblocks' ),
-			'minHeight',
-			getValue( 'minHeight' ),
+			{
+				minHeight: getValue( 'minHeight' ),
+			},
 		),
 		maxWidth: getLabel(
 			__( 'Max Width', 'generateblocks' ),
-			'maxWidth',
-			getValue( 'maxWidth' ),
+			{
+				maxWidth: getValue( 'maxWidth' ),
+			},
 		),
 		maxHeight: getLabel(
 			__( 'Max Height', 'generateblocks' ),
-			'maxHeight',
-			getValue( 'maxHeight' ),
+			{
+				maxHeight: getValue( 'maxHeight' ),
+			},
 		),
 	};
 
