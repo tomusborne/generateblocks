@@ -1,10 +1,9 @@
-import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function MinWidth( { value, onChange, disabled, placeholder } ) {
+export default function MinWidth( { value, onChange, disabled, placeholder, label } ) {
 	return (
 		<UnitControl
-			label={ __( 'Min Width', 'generateblocks' ) }
+			label={ label }
 			id="gblocks-min-width"
 			value={ value }
 			placeholder={ placeholder }
