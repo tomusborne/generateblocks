@@ -1,25 +1,29 @@
 import { __ } from '@wordpress/i18n';
-import PanelArea from '../../../../components/panel-area';
-import getIcon from '../../../../utils/get-icon';
-import { useContext, useState, useEffect } from '@wordpress/element';
-import ControlsContext from '../../../../block-context';
-import getDeviceType from '../../../../utils/get-device-type';
-import useDeviceAttributes from '../../../../hooks/useDeviceAttributes';
-import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
-import DimensionsControl from '../../../../components/dimensions';
-import { BaseControl, Tooltip, Button } from '@wordpress/components';
-import FlexControl from '../../../../components/flex-control';
-import UnitControl from '../../../../components/unit-control';
-import './editor.scss';
-import ColorPicker from '../../../../components/color-picker';
-import StyleDropdown from './components/style-dropdown';
 import { link, linkOff } from '@wordpress/icons';
-import isNumeric from '../../../../utils/is-numeric';
+import { useContext, useState, useEffect, useRef } from '@wordpress/element';
+import { BaseControl, Tooltip, Button } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
 import { isEqual, isEmpty } from 'lodash';
 
-export default function Borders( { attributes, setAttributes } ) {
+import PanelArea from '../../../../components/panel-area';
+import getIcon from '../../../../utils/get-icon';
+import ControlsContext from '../../../../block-context';
+import getDeviceType from '../../../../utils/get-device-type';
+import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
+import DimensionsControl from '../../../../components/dimensions';
+import FlexControl from '../../../../components/flex-control';
+import UnitControl from '../../../../components/unit-control';
+import ColorPicker from '../../../../components/color-picker';
+import StyleDropdown from './components/style-dropdown';
+import isNumeric from '../../../../utils/is-numeric';
+import { useStyleIndicator, useDeviceAttributes } from '../../../../hooks';
+import { getContentAttribute } from '../../../../utils/get-content-attribute';
+
+import './editor.scss';
+
+export default function Borders( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { supports: { borders: bordersPanel } } = useContext( ControlsContext );
+	const { blockName, supports: { borders: bordersPanel } } = useContext( ControlsContext );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const borderRadiusAttributes = [ 'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius' ];
 	const borderAreas = [ 'borderTop', 'borderRight', 'borderBottom', 'borderLeft' ];
@@ -30,6 +34,91 @@ export default function Borders( { attributes, setAttributes } ) {
 		borderLeft: __( 'Left', 'generateblocks' ),
 	};
 	const [ sync, setSync ] = useState( false );
+	const contentValue = getContentAttribute( attributes, blockName );
+	const panelControls = {
+		borderTopColor: false,
+		borderTopStyle: false,
+		borderTopWidth: false,
+		borderRightColor: false,
+		borderRightStyle: false,
+		borderRightWidth: false,
+		borderBottomColor: false,
+		borderBottomStyle: false,
+		borderBottomWidth: false,
+		borderLeftColor: false,
+		borderLeftStyle: false,
+		borderLeftWidth: false,
+		borderTopLeftRadius: false,
+		borderTopRightRadius: false,
+		borderBottomRightRadius: false,
+		borderBottomLeftRadius: false,
+	};
+	const {
+		dispatchControlGlobalStyle,
+		styleSources,
+		hasGlobalStyle,
+		contentWasUpdated,
+	} = useStyleIndicator( computedStyles, panelControls, contentValue, deviceAttributes );
+	const panelRef = useRef( null );
+
+	function getLabel( defaultLabel, rules ) {
+		return applyFilters(
+			'generateblocks.editor.control.label',
+			defaultLabel,
+			rules,
+			styleSources,
+			dispatchControlGlobalStyle,
+			contentWasUpdated,
+		);
+	}
+
+	const {
+		borderTopColor = '',
+		borderTopStyle = '',
+		borderTopWidth = '',
+		borderRightColor = '',
+		borderRightStyle = '',
+		borderRightWidth = '',
+		borderBottomColor = '',
+		borderBottomStyle = '',
+		borderBottomWidth = '',
+		borderLeftColor = '',
+		borderLeftStyle = '',
+		borderLeftWidth = '',
+		borderTopLeftRadius = '',
+		borderTopRightRadius = '',
+		borderBottomRightRadius = '',
+		borderBottomLeftRadius = '',
+	} = deviceAttributes.borders;
+
+	const labels = {
+		borders: getLabel(
+			__( 'Border', 'generateblocks' ),
+			{
+				borderTopColor,
+				borderTopStyle,
+				borderTopWidth,
+				borderRightColor,
+				borderRightStyle,
+				borderRightWidth,
+				borderBottomColor,
+				borderBottomStyle,
+				borderBottomWidth,
+				borderLeftColor,
+				borderLeftStyle,
+				borderLeftWidth,
+			}
+		),
+		borderRadius: getLabel(
+			__( 'Border Radius', 'generateblocks' ),
+			{
+				borderTopLeftRadius,
+				borderTopRightRadius,
+				borderBottomRightRadius,
+				borderBottomLeftRadius,
+			}
+		),
+	};
 
 	useEffect( () => {
 		const allValues = borderAreas.map( ( area ) => {
@@ -91,10 +180,12 @@ export default function Borders( { attributes, setAttributes } ) {
 			icon={ getIcon( 'borders' ) }
 			className="gblocks-panel-label"
 			id="borders"
+			ref={ panelRef }
+			hasGlobalStyle={ hasGlobalStyle }
 		>
 			{ ( bordersPanel.borderTop || bordersPanel.borderRight || bordersPanel.borderBottom || bordersPanel.borderLeft ) &&
 				<BaseControl
-					label={ __( 'Border', 'generateblocks' ) }
+					label={ labels.borders }
 					id={ 'gblocks-borderTop-width' }
 					className="gblocks-border-row"
 				>
@@ -228,7 +319,7 @@ export default function Borders( { attributes, setAttributes } ) {
 
 			{ bordersPanel.borderRadius &&
 				<DimensionsControl
-					label={ __( 'Border Radius', 'generateblocks' ) }
+					label={ labels.borderRadius }
 					attributeNames={ borderRadiusAttributes }
 					values={ deviceAttributes.borders }
 					placeholders={ borderRadiusAttributes.reduce( ( o, key ) => (
