@@ -4,6 +4,8 @@ import useTaxonomies from './useTaxonomies';
 import useTaxonomyRecords from './useTaxonomyRecords';
 import useAuthors from './useAuthors';
 import { useSelectedBlockElement, useSelectedBlockElements } from './useSelectedBlockElements';
+import { useStyleIndicator } from './useStyleIndicator';
+import useDeviceAttributes from './useDeviceAttributes';
 
 export {
 	useDeviceType,
@@ -13,4 +15,6 @@ export {
 	useTaxonomyRecords,
 	useSelectedBlockElement,
 	useSelectedBlockElements,
+	useStyleIndicator,
+	useDeviceAttributes,
 };
