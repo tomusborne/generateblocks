@@ -170,13 +170,8 @@ class GenerateBlocks_Block_Button {
 		}
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
-			$css->set_selector( '.gb-button' );
-			$css->add_property( 'text-decoration', 'none' );
-
-			$css->set_selector( '.gb-icon svg' );
-			$css->add_property( 'fill', 'currentColor' );
-
+		if ( ! self::$singular_css_added ) {
+			// Singular CSS is no longer supported since 1.9.0.
 			do_action(
 				'generateblocks_block_one_time_css_data',
 				'button',
@@ -184,13 +179,7 @@ class GenerateBlocks_Block_Button {
 				$css
 			);
 
-			/**
-			 * Sometimes it may be necessary to skip this flag. Specifically when we're inside
-			 * the `save_post` hook with multiple posts being saved in a loop (bulk edit).
-			 */
-			if ( ! apply_filters( 'generateblocks_skip_singular_css_added_flag', false ) ) {
-				self::$singular_css_added = true;
-			}
+			self::$singular_css_added = true;
 		}
 
 		$visited_selector = $use_visited_selector
@@ -206,6 +195,7 @@ class GenerateBlocks_Block_Button {
 		generateblocks_add_border_css( $css, $settings );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
+		$css->add_property( 'text-decoration', 'none' );
 
 		if ( $settings['gradient'] ) {
 			$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
@@ -277,6 +267,7 @@ class GenerateBlocks_Block_Button {
 
 			$css->add_property( 'width', generateblocks_get_array_attribute_value( 'width', $settings['iconStyles'] ) );
 			$css->add_property( 'height', generateblocks_get_array_attribute_value( 'height', $settings['iconStyles'] ) );
+			$css->add_property( 'fill', 'currentColor' );
 		}
 
 		$tablet_css->set_selector( $selector );
