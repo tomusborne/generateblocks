@@ -30,7 +30,7 @@ export default function BackgroundPanel( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'gradients' ) }
 			className={ 'gblocks-panel-label' }
-			id="background"
+			id={ `${ id }Background` }
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
