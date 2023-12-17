@@ -1,21 +1,17 @@
 /**
  * Editor Styles
  */
-.editor-styles-wrapper {
-	.gb-button {
-		line-height: unset;
-		text-decoration: none !important;
-		box-sizing: border-box;
+.gb-button {
+	line-height: unset;
+	text-decoration: none;
+	box-sizing: border-box;
+	margin: 0;
+	border: none;
 
-		.editor-rich-text__tinymce {
-			line-height: 1em;
-		}
-
-		&.button {
-			font-size: inherit;
-			min-height: auto;
-			border-radius: unset;
-		}
+	&.button {
+		font-size: inherit;
+		min-height: auto;
+		border-radius: unset;
 	}
 }
 
