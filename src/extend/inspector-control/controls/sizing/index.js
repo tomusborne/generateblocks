@@ -20,7 +20,7 @@ import { useStyleIndicator, useDeviceAttributes } from '../../../../hooks';
 import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Sizing( { attributes, setAttributes, computedStyles } ) {
-	const { blockName, supports: { sizingPanel } } = useContext( ControlsContext );
+	const { id, blockName, supports: { sizingPanel } } = useContext( ControlsContext );
 	const device = getDeviceType();
 	const panelRef = useRef( null );
 	const contentValue = getContentAttribute( attributes, blockName );
@@ -109,7 +109,7 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 			initialOpen={ false }
 			icon={ getIcon( 'sizing' ) }
 			className="gblocks-panel-label"
-			id="sizing"
+			id={ `${ id }Sizing` }
 			ref={ panelRef }
 			hasGlobalStyle={ hasGlobalStyle }
 		>
