@@ -181,19 +181,7 @@ class GenerateBlocks_Block_Container {
 		$hasBgImage = generateblocks_has_background_image( $settings );
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
-			$css->set_selector( '.gb-container .wp-block-image img' );
-			$css->add_property( 'vertical-align', 'middle' );
-
-			$css->set_selector( '.gb-container .gb-shape' );
-			$css->add_property( 'position', 'absolute' );
-			$css->add_property( 'overflow', 'hidden' );
-			$css->add_property( 'pointer-events', 'none' );
-			$css->add_property( 'line-height', '0' );
-
-			$css->set_selector( '.gb-container .gb-shape svg' );
-			$css->add_property( 'fill', 'currentColor' );
-
+		if ( ! self::$singular_css_added ) {
 			do_action(
 				'generateblocks_block_one_time_css_data',
 				'container',
@@ -201,13 +189,7 @@ class GenerateBlocks_Block_Container {
 				$css
 			);
 
-			/**
-			 * Sometimes it may be necessary to skip this flag. Specifically when we're inside
-			 * the `save_post` hook with multiple posts being saved in a loop (bulk edit).
-			 */
-			if ( ! apply_filters( 'generateblocks_skip_singular_css_added_flag', false ) ) {
-				self::$singular_css_added = true;
-			}
+			self::$singular_css_added = true;
 		}
 
 		/**
@@ -518,6 +500,10 @@ class GenerateBlocks_Block_Container {
 				$css->set_selector( $selector . ' > .gb-shapes .gb-shape-' . $shapeNumber );
 				$css->add_property( 'color', generateblocks_hex2rgba( $shapeOptions['color'], $shapeOptions['colorOpacity'] ) );
 				$css->add_property( 'z-index', $shapeOptions['zindex'] );
+				$css->add_property( 'position', 'absolute' );
+				$css->add_property( 'overflow', 'hidden' );
+				$css->add_property( 'pointer-events', 'none' );
+				$css->add_property( 'line-height', '0' );
 
 				if ( 'top' === $shapeOptions['location'] || 'bottom' === $shapeOptions['location'] ) {
 					$css->add_property( 'left', '0' );
@@ -545,6 +531,7 @@ class GenerateBlocks_Block_Container {
 				$css->set_selector( $selector . ' > .gb-shapes .gb-shape-' . $shapeNumber . ' svg' );
 				$css->add_property( 'height', $shapeOptions['height'], 'px' );
 				$css->add_property( 'width', $shapeWidth );
+				$css->add_property( 'fill', 'currentColor' );
 
 				if ( 'top' === $shapeOptions['location'] || 'bottom' === $shapeOptions['location'] ) {
 					$css->add_property( 'position', 'relative' );

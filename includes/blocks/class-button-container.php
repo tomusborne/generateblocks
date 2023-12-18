@@ -99,7 +99,7 @@ class GenerateBlocks_Block_Button_Container {
 		$blockVersion = ! empty( $settings['blockVersion'] ) ? $settings['blockVersion'] : 1;
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
+		if ( ! self::$singular_css_added ) {
 			$css->set_selector( '.gb-button-wrapper' );
 			$css->add_property( 'display', 'flex' );
 			$css->add_property( 'flex-wrap', 'wrap' );
@@ -114,13 +114,7 @@ class GenerateBlocks_Block_Button_Container {
 				$css
 			);
 
-			/**
-			 * Sometimes it may be necessary to skip this flag. Specifically when we're inside
-			 * the `save_post` hook with multiple posts being saved in a loop (bulk edit).
-			 */
-			if ( ! apply_filters( 'generateblocks_skip_singular_css_added_flag', false ) ) {
-				self::$singular_css_added = true;
-			}
+			self::$singular_css_added = true;
 		}
 
 		// Map deprecated settings.

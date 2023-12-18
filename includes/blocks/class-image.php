@@ -92,10 +92,7 @@ class GenerateBlocks_Block_Image {
 		$id = $attributes['uniqueId'];
 
 		// Only add this CSS once.
-		if ( ! self::$singular_css_added && ! apply_filters( 'generateblocks_skip_singular_css', false ) ) {
-			$css->set_selector( '.gb-block-image img' );
-			$css->add_property( 'vertical-align', 'middle' );
-
+		if ( ! self::$singular_css_added ) {
 			do_action(
 				'generateblocks_block_one_time_css_data',
 				'image',
@@ -103,19 +100,11 @@ class GenerateBlocks_Block_Image {
 				$css
 			);
 
-			/**
-			 * Sometimes it may be necessary to skip this flag. Specifically when we're inside
-			 * the `save_post` hook with multiple posts being saved in a loop (bulk edit).
-			 */
-			if ( ! apply_filters( 'generateblocks_skip_singular_css_added_flag', false ) ) {
-				self::$singular_css_added = true;
-			}
+			self::$singular_css_added = true;
 		}
 
 		// Map deprecated settings.
 		$settings = GenerateBlocks_Map_Deprecated_Attributes::map_attributes( $settings );
-
-		$selector = generateblocks_get_css_selector( 'image', $attributes );
 
 		$css->set_selector( '.gb-block-image-' . $id );
 		generateblocks_add_spacing_css( $css, $settings );
@@ -131,11 +120,12 @@ class GenerateBlocks_Block_Image {
 			$css->add_property( 'text-align', $settings['alignment'] );
 		}
 
-		$css->set_selector( $selector );
+		$css->set_selector( '.gb-image-' . $id );
 		generateblocks_add_border_css( $css, $settings );
 		$css->add_property( 'width', $settings['width'] );
 		$css->add_property( 'height', $settings['height'] );
 		$css->add_property( 'object-fit', $settings['objectFit'] );
+		$css->add_property( 'vertical-align', 'middle' );
 
 		$tablet_css->set_selector( '.gb-block-image-' . $id );
 		generateblocks_add_spacing_css( $tablet_css, $settings, 'Tablet' );
@@ -151,7 +141,7 @@ class GenerateBlocks_Block_Image {
 			}
 		}
 
-		$tablet_css->set_selector( $selector );
+		$tablet_css->set_selector( '.gb-image-' . $id );
 		generateblocks_add_border_css( $tablet_css, $settings, 'Tablet' );
 		$tablet_css->add_property( 'width', $settings['widthTablet'] );
 		$tablet_css->add_property( 'height', $settings['heightTablet'] );
@@ -177,7 +167,7 @@ class GenerateBlocks_Block_Image {
 			}
 		}
 
-		$mobile_css->set_selector( $selector );
+		$mobile_css->set_selector( '.gb-image-' . $id );
 		generateblocks_add_border_css( $mobile_css, $settings, 'Mobile' );
 		$mobile_css->add_property( 'width', $settings['widthMobile'] );
 		$mobile_css->add_property( 'height', $settings['heightMobile'] );

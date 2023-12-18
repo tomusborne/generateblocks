@@ -5,18 +5,20 @@ import ApplyFilters from '../apply-filters/';
 import objectIsEmpty from '../../utils/object-is-empty';
 import useLocalStorageState from 'use-local-storage-state';
 import ControlsContext from '../../block-context';
+import classnames from 'classnames';
 
 const PanelArea = forwardRef( function PanelArea( props, ref ) {
 	const { blockName } = useContext( ControlsContext );
 	const {
-		title = false,
-		initialOpen = false,
 		icon,
 		className,
 		id,
 		state,
-		showPanel = true,
 		children,
+		title = false,
+		initialOpen = false,
+		showPanel = true,
+		hasGlobalStyle = false,
 	} = props;
 
 	const [ panels, setPanels ] = useLocalStorageState(
@@ -63,7 +65,7 @@ const PanelArea = forwardRef( function PanelArea( props, ref ) {
 								: initialOpen
 						}
 						icon={ icon }
-						className={ className }
+						className={ classnames( className, hasGlobalStyle && 'has-global-style' ) }
 						onToggle={ () => {
 							const isOpen = panels[ id ] ||
 							(
