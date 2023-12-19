@@ -11,7 +11,7 @@ import getDeviceType from '../../../../utils/get-device-type';
 
 export default function FlexChild( { attributes, setAttributes } ) {
 	const device = getDeviceType();
-	const { supports: { flexChildPanel } } = useContext( ControlsContext );
+	const { id, supports: { flexChildPanel } } = useContext( ControlsContext );
 
 	const componentProps = {
 		attributes,
@@ -28,7 +28,7 @@ export default function FlexChild( { attributes, setAttributes } ) {
 			title={ __( 'Flex Child', 'generateblocks' ) }
 			initialOpen={ false }
 			className="gblocks-panel-label"
-			id="flexChild"
+			id={ `${ id }FlexChild` }
 		>
 			{ flexChildPanel.flex && ( ! useInnerContainer || ( useInnerContainer && isGrid ) ) &&
 				<FlexControls

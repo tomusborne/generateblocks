@@ -15,7 +15,7 @@ import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Spacing( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { blockName, supports: { spacing } } = useContext( ControlsContext );
+	const { id, blockName, supports: { spacing } } = useContext( ControlsContext );
 	const contentValue = getContentAttribute( attributes, blockName );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const panelRef = useRef( null );
@@ -124,7 +124,7 @@ export default function Spacing( { attributes, setAttributes, computedStyles } )
 			initialOpen={ false }
 			icon={ getIcon( 'spacing' ) }
 			className="gblocks-panel-label"
-			id="spacing"
+			id={ `${ id }Spacing` }
 			ref={ panelRef }
 			hasGlobalStyle={ hasGlobalStyle }
 		>

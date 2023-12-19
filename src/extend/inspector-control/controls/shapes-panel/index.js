@@ -1,7 +1,8 @@
 import { __, sprintf } from '@wordpress/i18n';
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
-import { Fragment } from '@wordpress/element';
+import { Fragment, useContext } from '@wordpress/element';
+import ControlsContext from '../../../../block-context';
 import classnames from 'classnames';
 import sanitizeSVG from '../../../../utils/sanitize-svg';
 import {
@@ -19,6 +20,7 @@ import UnitPicker from '../../../../components/unit-picker';
 import getDeviceType from '../../../../utils/get-device-type';
 
 export default function ShapesPanel( { attributes, setAttributes } ) {
+	const { id } = useContext( ControlsContext );
 	const deviceType = getDeviceType();
 	const {
 		backgroundColor,
@@ -76,7 +78,7 @@ export default function ShapesPanel( { attributes, setAttributes } ) {
 			initialOpen={ false }
 			icon={ getIcon( 'shapes' ) }
 			className={ 'gblocks-panel-label' }
-			id="shapes"
+			id={ `${ id }Shapes` }
 		>
 			<BaseControl className="gb-icon-chooser gb-shape-chooser">
 				{
