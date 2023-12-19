@@ -38,10 +38,6 @@ const PanelArea = forwardRef( function PanelArea( props, ref ) {
 		return null;
 	}
 
-	function capitalizeFirstLetter( string ) {
-		return string.charAt( 0 ).toUpperCase() + string.slice( 1 );
-	}
-
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.panel"
@@ -51,7 +47,7 @@ const PanelArea = forwardRef( function PanelArea( props, ref ) {
 			{ ...props }
 		>
 			<ApplyFilters
-				name={ `generateblocks.editor.panel.${ blockName }${ capitalizeFirstLetter( id ) }` }
+				name={ 'generateblocks.panel.' + id }
 				props={ props }
 				state={ state }
 			>

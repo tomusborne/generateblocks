@@ -23,7 +23,7 @@ import './editor.scss';
 
 export default function Borders( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { blockName, supports: { borders: bordersPanel } } = useContext( ControlsContext );
+	const { id, blockName, supports: { borders: bordersPanel } } = useContext( ControlsContext );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const borderRadiusAttributes = [ 'borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius' ];
 	const borderAreas = [ 'borderTop', 'borderRight', 'borderBottom', 'borderLeft' ];
@@ -179,9 +179,9 @@ export default function Borders( { attributes, setAttributes, computedStyles } )
 			initialOpen={ false }
 			icon={ getIcon( 'borders' ) }
 			className="gblocks-panel-label"
-			id="borders"
 			ref={ panelRef }
 			hasGlobalStyle={ hasGlobalStyle }
+			id={ `${ id }Borders` }
 		>
 			{ ( bordersPanel.borderTop || bordersPanel.borderRight || bordersPanel.borderBottom || bordersPanel.borderLeft ) &&
 				<BaseControl

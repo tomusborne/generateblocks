@@ -22,7 +22,7 @@ import './editor.scss';
 
 export default function Typography( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { blockName, supports: { typography: typographySupports } } = useContext( ControlsContext );
+	const { id, blockName, supports: { typography: typographySupports } } = useContext( ControlsContext );
 	const panelRef = useRef( null );
 	const contentValue = getContentAttribute( attributes, blockName );
 	const [ deviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
@@ -102,9 +102,9 @@ export default function Typography( { attributes, setAttributes, computedStyles 
 			initialOpen={ false }
 			icon={ getIcon( 'typography' ) }
 			className="gblocks-panel-label"
-			id="typography"
 			ref={ panelRef }
 			hasGlobalStyle={ hasGlobalStyle }
+			id={ `${ id }Typography` }
 		>
 			{ typographySupports.alignment &&
 				<Alignment

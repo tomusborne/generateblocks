@@ -25,7 +25,7 @@ import { getContentAttribute } from '../../../../utils/get-content-attribute';
 
 export default function Layout( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { blockName, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
+	const { id, blockName, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
 	const contentValue = getContentAttribute( attributes, blockName );
 	const [ deviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const panelControls = {
@@ -152,7 +152,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 			initialOpen={ false }
 			icon={ getIcon( 'layout' ) }
 			className="gblocks-panel-label"
-			id="layout"
+			id={ `${ id }Layout` }
 			ref={ panelRef }
 			hasGlobalStyle={ hasGlobalStyle }
 		>
