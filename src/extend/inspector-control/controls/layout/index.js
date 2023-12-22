@@ -255,27 +255,27 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 					{ ( layout.columnGap || layout.rowGap ) &&
 						<FlexControl>
 							{ layout.columnGap &&
-							<UnitControl
-								label={ labels.columnGap }
-								id="gblocks-column-gap"
-								value={ getAttribute( 'columnGap', componentProps ) }
-								placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
-								onChange={ ( value ) => setAttributes( {
-									[ getAttribute( 'columnGap', componentProps, true ) ]: value,
-								} ) }
-							/>
+								<UnitControl
+									label={ labels.columnGap }
+									id="gblocks-column-gap"
+									value={ getAttribute( 'columnGap', componentProps ) }
+									placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
+									onChange={ ( value ) => setAttributes( {
+										[ getAttribute( 'columnGap', componentProps, true ) ]: value,
+									} ) }
+								/>
 							}
 
 							{ layout.rowGap &&
-							<UnitControl
-								label={ labels.rowGap }
-								id="gblocks-row-gap"
-								value={ getAttribute( 'rowGap', componentProps ) }
-								placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
-								onChange={ ( value ) => setAttributes( {
-									[ getAttribute( 'rowGap', componentProps, true ) ]: value,
-								} ) }
-							/>
+								<UnitControl
+									label={ labels.rowGap }
+									id="gblocks-row-gap"
+									value={ getAttribute( 'rowGap', componentProps ) }
+									placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
+									onChange={ ( value ) => setAttributes( {
+										[ getAttribute( 'rowGap', componentProps, true ) ]: value,
+									} ) }
+								/>
 							}
 						</FlexControl>
 					}
