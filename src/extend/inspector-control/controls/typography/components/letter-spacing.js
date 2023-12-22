@@ -1,4 +1,3 @@
-import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
 export default function LetterSpacing( { value, placeholder, onChange, defaultUnit, label } ) {

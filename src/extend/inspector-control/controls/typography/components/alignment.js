@@ -1,5 +1,4 @@
 import { BaseControl, Button, ButtonGroup, Tooltip } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
 import typographyOptions from '../options';
 
 export default function Alignment( { value, onChange, label } ) {
