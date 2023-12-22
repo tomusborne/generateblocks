@@ -186,98 +186,98 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 			{ isFlexItem( { device, display, displayTablet, displayMobile, computedStyles } ) && ! useInnerContainer &&
 				<>
 					{ layout.flexDirection &&
-					<FlexDirection
-						value={ getAttribute( 'flexDirection', componentProps ) }
-						onChange={ ( value ) => {
-							const currentDirection = getAttribute( 'flexDirection', componentProps );
-							value = currentDirection.includes( 'reverse' ) ? value + '-reverse' : value;
+						<FlexDirection
+							value={ getAttribute( 'flexDirection', componentProps ) }
+							onChange={ ( value ) => {
+								const currentDirection = getAttribute( 'flexDirection', componentProps );
+								value = currentDirection.includes( 'reverse' ) ? value + '-reverse' : value;
 
-							setAttributes( {
-								[ getAttribute( 'flexDirection', componentProps, true ) ]: value !== getAttribute( 'flexDirection', componentProps ) ? value : '',
-							} );
-						} }
-						onReverse={ ( value ) => {
-							if ( '' === value ) {
-								value = 'row';
-							}
+								setAttributes( {
+									[ getAttribute( 'flexDirection', componentProps, true ) ]: value !== getAttribute( 'flexDirection', componentProps ) ? value : '',
+								} );
+							} }
+							onReverse={ ( value ) => {
+								if ( '' === value ) {
+									value = 'row';
+								}
 
-							value = value.includes( 'reverse' ) ? value.replace( '-reverse', '' ) : value + '-reverse';
+								value = value.includes( 'reverse' ) ? value.replace( '-reverse', '' ) : value + '-reverse';
 
-							setAttributes( {
-								[ getAttribute( 'flexDirection', componentProps, true ) ]: value,
-							} );
-						} }
-						label={ labels.flexDirection }
-						directionValue={ directionValue }
-						fallback={ getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' ) }
-					/>
+								setAttributes( {
+									[ getAttribute( 'flexDirection', componentProps, true ) ]: value,
+								} );
+							} }
+							label={ labels.flexDirection }
+							directionValue={ directionValue }
+							fallback={ getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' ) }
+						/>
 					}
 
 					{ layout.alignItems &&
-					<LayoutControl
-						value={ getAttribute( 'alignItems', componentProps ) }
-						onChange={ ( value ) => setAttributes( {
-							[ getAttribute( 'alignItems', componentProps, true ) ]: value !== getAttribute( 'alignItems', componentProps ) ? value : '',
-						} ) }
-						label={ labels.alignItems }
-						attributeName="alignItems"
-						directionValue={ directionValue }
-						fallback={ getResponsivePlaceholder( 'alignItems', attributes, device, '' ) }
-					/>
+						<LayoutControl
+							value={ getAttribute( 'alignItems', componentProps ) }
+							onChange={ ( value ) => setAttributes( {
+								[ getAttribute( 'alignItems', componentProps, true ) ]: value !== getAttribute( 'alignItems', componentProps ) ? value : '',
+							} ) }
+							label={ labels.alignItems }
+							attributeName="alignItems"
+							directionValue={ directionValue }
+							fallback={ getResponsivePlaceholder( 'alignItems', attributes, device, '' ) }
+						/>
 					}
 
 					{ layout.justifyContent &&
-					<LayoutControl
-						value={ getAttribute( 'justifyContent', componentProps ) }
-						onChange={ ( value ) => setAttributes( {
-							[ getAttribute( 'justifyContent', componentProps, true ) ]: value !== getAttribute( 'justifyContent', componentProps ) ? value : '',
-						} ) }
-						label={ labels.justifyContent }
-						attributeName="justifyContent"
-						directionValue={ directionValue }
-						fallback={ getResponsivePlaceholder( 'justifyContent', attributes, device, '' ) }
-					/>
+						<LayoutControl
+							value={ getAttribute( 'justifyContent', componentProps ) }
+							onChange={ ( value ) => setAttributes( {
+								[ getAttribute( 'justifyContent', componentProps, true ) ]: value !== getAttribute( 'justifyContent', componentProps ) ? value : '',
+							} ) }
+							label={ labels.justifyContent }
+							attributeName="justifyContent"
+							directionValue={ directionValue }
+							fallback={ getResponsivePlaceholder( 'justifyContent', attributes, device, '' ) }
+						/>
 					}
 
 					{ layout.flexWrap &&
-					<LayoutControl
-						value={ getAttribute( 'flexWrap', componentProps ) }
-						onChange={ ( value ) => setAttributes( {
-							[ getAttribute( 'flexWrap', componentProps, true ) ]: value !== getAttribute( 'flexWrap', componentProps ) ? value : '',
-						} ) }
-						label={ labels.flexWrap }
-						attributeName="flexWrap"
-						directionValue={ directionValue }
-						fallback={ getResponsivePlaceholder( 'flexWrap', attributes, device, '' ) }
-					/>
+						<LayoutControl
+							value={ getAttribute( 'flexWrap', componentProps ) }
+							onChange={ ( value ) => setAttributes( {
+								[ getAttribute( 'flexWrap', componentProps, true ) ]: value !== getAttribute( 'flexWrap', componentProps ) ? value : '',
+							} ) }
+							label={ labels.flexWrap }
+							attributeName="flexWrap"
+							directionValue={ directionValue }
+							fallback={ getResponsivePlaceholder( 'flexWrap', attributes, device, '' ) }
+						/>
 					}
 
 					{ ( layout.columnGap || layout.rowGap ) &&
-					<FlexControl>
-						{ layout.columnGap &&
-						<UnitControl
-							label={ labels.columnGap }
-							id="gblocks-column-gap"
-							value={ getAttribute( 'columnGap', componentProps ) }
-							placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
-							onChange={ ( value ) => setAttributes( {
-								[ getAttribute( 'columnGap', componentProps, true ) ]: value,
-							} ) }
-						/>
-						}
+						<FlexControl>
+							{ layout.columnGap &&
+								<UnitControl
+									label={ labels.columnGap }
+									id="gblocks-column-gap"
+									value={ getAttribute( 'columnGap', componentProps ) }
+									placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
+									onChange={ ( value ) => setAttributes( {
+										[ getAttribute( 'columnGap', componentProps, true ) ]: value,
+									} ) }
+								/>
+							}
 
-						{ layout.rowGap &&
-						<UnitControl
-							label={ labels.rowGap }
-							id="gblocks-row-gap"
-							value={ getAttribute( 'rowGap', componentProps ) }
-							placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
-							onChange={ ( value ) => setAttributes( {
-								[ getAttribute( 'rowGap', componentProps, true ) ]: value,
-							} ) }
-						/>
-						}
-					</FlexControl>
+							{ layout.rowGap &&
+								<UnitControl
+									label={ labels.rowGap }
+									id="gblocks-row-gap"
+									value={ getAttribute( 'rowGap', componentProps ) }
+									placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
+									onChange={ ( value ) => setAttributes( {
+										[ getAttribute( 'rowGap', componentProps, true ) ]: value,
+									} ) }
+								/>
+							}
+						</FlexControl>
 					}
 				</>
 			}
@@ -285,36 +285,36 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 			{ ! useInnerContainer &&
 				<>
 					{ layout.position &&
-					<SelectControl
-						label={ labels.position }
-						value={ getAttribute( 'position', componentProps ) }
-						options={ positionOptions }
-						onChange={ ( value ) => setAttributes( {
-							[ getAttribute( 'position', componentProps, true ) ]: value,
-						} ) }
-					/>
+						<SelectControl
+							label={ labels.position }
+							value={ getAttribute( 'position', componentProps ) }
+							options={ positionOptions }
+							onChange={ ( value ) => setAttributes( {
+								[ getAttribute( 'position', componentProps, true ) ]: value,
+							} ) }
+						/>
 					}
 
 					{ layout.overflow &&
-					<FlexControl>
-						<SelectControl
-							label={ labels.overflowX }
-							value={ getAttribute( 'overflowX', componentProps ) }
-							options={ overflowOptions }
-							onChange={ ( value ) => setAttributes( {
-								[ getAttribute( 'overflowX', componentProps, true ) ]: value,
-							} ) }
-						/>
+						<FlexControl>
+							<SelectControl
+								label={ labels.overflowX }
+								value={ getAttribute( 'overflowX', componentProps ) }
+								options={ overflowOptions }
+								onChange={ ( value ) => setAttributes( {
+									[ getAttribute( 'overflowX', componentProps, true ) ]: value,
+								} ) }
+							/>
 
-						<SelectControl
-							label={ labels.overflowY }
-							value={ getAttribute( 'overflowY', componentProps ) }
-							options={ overflowOptions }
-							onChange={ ( value ) => setAttributes( {
-								[ getAttribute( 'overflowY', componentProps, true ) ]: value,
-							} ) }
-						/>
-					</FlexControl>
+							<SelectControl
+								label={ labels.overflowY }
+								value={ getAttribute( 'overflowY', componentProps ) }
+								options={ overflowOptions }
+								onChange={ ( value ) => setAttributes( {
+									[ getAttribute( 'overflowY', componentProps, true ) ]: value,
+								} ) }
+							/>
+						</FlexControl>
 					}
 				</>
 			}
@@ -322,33 +322,33 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 			{ layout.zIndex &&
 				<>
 					{ !! useInnerContainer && 'Desktop' === device &&
-					<>
-						<ZIndex
-							label={ __( 'Outer z-index', 'generateblocks' ) }
-							value={ zindex }
-							onChange={ ( value ) => setAttributes( { zindex: value } ) }
-						/>
+						<>
+							<ZIndex
+								label={ __( 'Outer z-index', 'generateblocks' ) }
+								value={ zindex }
+								onChange={ ( value ) => setAttributes( { zindex: value } ) }
+							/>
 
-						<ZIndex
-							label={ __( 'Inner z-index', 'generateblocks' ) }
-							value={ innerZindex }
-							onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
-						/>
-					</>
+							<ZIndex
+								label={ __( 'Inner z-index', 'generateblocks' ) }
+								value={ innerZindex }
+								onChange={ ( value ) => setAttributes( { innerZindex: value } ) }
+							/>
+						</>
 					}
 
 					{ ! useInnerContainer &&
-					<ZIndex
-						label={ labels.zIndex }
-						value={ getAttribute( 'zindex', componentProps ) }
-						placeholder={ getResponsivePlaceholder( 'zindex', attributes, device ) }
-						onChange={ ( value ) => setAttributes( {
-							[ getAttribute( 'zindex', componentProps, true ) ]: value,
-							[ getAttribute( 'position', componentProps, true ) ]: ! getAttribute( 'position', componentProps )
-								? 'relative'
-								: getAttribute( 'position', componentProps ),
-						} ) }
-					/>
+						<ZIndex
+							label={ labels.zIndex }
+							value={ getAttribute( 'zindex', componentProps ) }
+							placeholder={ getResponsivePlaceholder( 'zindex', attributes, device ) }
+							onChange={ ( value ) => setAttributes( {
+								[ getAttribute( 'zindex', componentProps, true ) ]: value,
+								[ getAttribute( 'position', componentProps, true ) ]: ! getAttribute( 'position', componentProps )
+									? 'relative'
+									: getAttribute( 'position', componentProps ),
+							} ) }
+						/>
 					}
 				</>
 			}
