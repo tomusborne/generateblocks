@@ -1,10 +1,10 @@
 import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function FontSize( { value, placeholder, onChange } ) {
+export default function FontSize( { value, placeholder, onChange, label } ) {
 	return (
 		<UnitControl
-			label={ __( 'Font Size', 'generateblocks' ) }
+			label={ label }
 			id="gblocks-font-size"
 			value={ value }
 			placeholder={ placeholder }
