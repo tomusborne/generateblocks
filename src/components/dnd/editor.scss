@@ -1,0 +1,23 @@
+.gb-sortable-list {
+	margin: 0;
+}
+
+.gb-sortable-listitem {
+	--icon-size: 1rem;
+	display: grid;
+	gap: 0.625rem;
+	grid-template-columns: 36px 1fr;
+
+	&__handle {
+		height: 100%;
+	}
+
+	.components-button {
+		svg {
+			display: block;
+			height: var(--icon-size);
+			width: var(--icon-size);
+		}
+	}
+}
+
