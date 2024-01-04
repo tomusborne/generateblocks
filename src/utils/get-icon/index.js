@@ -429,4 +429,16 @@ export default function getIcon( icon ) {
 			</svg>
 		);
 	}
+
+	if ( 'pattern-library' === icon ) {
+		return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path style={ { fill: 'none' } } d="M0 0h24v24H0z" /><path d="M21.375 12.625H2.625A.625.625 0 0 1 2 12V2.625C2 2.28 2.28 2 2.625 2h18.75c.345 0 .625.28.625.625V12c0 .345-.28.625-.625.625zM3.25 11.375h17.5V3.25H3.25v8.125zM10.283 22H2.625A.625.625 0 0 1 2 21.375V15.31c0-.345.28-.625.625-.625h7.658c.345 0 .625.28.625.625v6.065c0 .345-.28.625-.625.625zM3.25 20.75h6.407v-4.815H3.25v4.815zm18.125-1.783h-7.892a.625.625 0 0 1 0-1.25h7.892a.625.625 0 0 1 0 1.25zm0 3.033h-7.892a.625.625 0 0 1 0-1.25h7.892a.625.625 0 0 1 0 1.25zm0-6.065h-7.892a.625.625 0 0 1 0-1.25h7.892a.625.625 0 0 1 0 1.25z" /><path d="M12 10.106a.625.625 0 0 1-.625-.625V5.144a.625.625 0 0 1 1.25 0v4.337c0 .346-.28.625-.625.625z" /><path d="M14.169 7.938H9.831a.625.625 0 0 1 0-1.25h4.337a.625.625 0 0 1 .001 1.25z" /></svg>;
+	}
+
+	if ( 'eye' === icon ) {
+		return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><path d="M128,56C48,56,16,128,16,128s32,72,112,72,112-72,112-72S208,56,128,56Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24" /><circle cx="128" cy="128" r="32" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24" /></svg>;
+	}
+
+	if ( 'eye-no' === icon ) {
+		return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><line x1="48" y1="40" x2="208" y2="216" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24" /><path d="M74,68.6C33.23,89.24,16,128,16,128s32,72,112,72a118.05,118.05,0,0,0,54-12.6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24" /><path d="M214.41,163.59C232.12,145.73,240,128,240,128S208,56,128,56c-3.76,0-7.42.16-11,.46" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="24" /></svg>;
+	}
 }

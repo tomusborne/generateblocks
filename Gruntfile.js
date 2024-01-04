@@ -38,6 +38,7 @@ module.exports = function( grunt ) {
 					'!.eslintignore',
 					'!.eslintrc.json',
 					'!*.zip',
+					'!.nvmrc',
 				],
 				dest: 'package/generateblocks/',
 			},

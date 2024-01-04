@@ -85,7 +85,7 @@ export default function UnitControl( props ) {
 		}
 
 		setPlaceholders();
-	}, [ value, overrideValue ] );
+	}, [ value, overrideValue, placeholder ] );
 
 	useEffect( () => {
 		// Don't run this on first render.
@@ -112,7 +112,7 @@ export default function UnitControl( props ) {
 		if ( ! hasOverride && fullValue !== value ) {
 			onChange( fullValue );
 		}
-	}, [ numericValue, unitValue ] );
+	}, [ numericValue, unitValue, placeholder ] );
 
 	useEffect( () => {
 		if ( focusOnMount && inputRef?.current ) {
@@ -141,6 +141,20 @@ export default function UnitControl( props ) {
 					step={ step }
 					autoComplete="off"
 					disabled={ disabled }
+					onKeyDown={ ( event ) => {
+						const keyPressed = event.key;
+						const newValue = event.target.value;
+
+						if ( keyPressed === 'ArrowUp' ) {
+							if ( ! isNaN( newValue ) ) {
+								setNumericValue( +newValue + 1 );
+							}
+						} else if ( keyPressed === 'ArrowDown' ) {
+							if ( ! isNaN( newValue ) ) {
+								setNumericValue( +newValue - 1 );
+							}
+						}
+					} }
 					onChange={ ( newValue ) => setNumericValue( newValue ) }
 					onFocus={ () => {
 						onFocus();
