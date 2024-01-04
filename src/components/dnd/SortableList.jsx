@@ -46,8 +46,9 @@ export const SortableList = forwardRef( function SortableList( {
 
 	function reorderItems( event ) {
 		const { active, over } = event;
+		const overDisabled = over.data.current?.disabled ?? false;
 
-		if ( active.id !== over.id ) {
+		if ( active.id !== over.id && ! overDisabled ) {
 			const oldIndex = items.findIndex( ( item ) => item.id === active.id );
 			const newIndex = items.findIndex( ( item ) => item.id === over.id );
 
@@ -94,6 +95,7 @@ export const SortableList = forwardRef( function SortableList( {
 							dragHandle={ dragHandle }
 							dragHandleLabel={ dragHandleLabel }
 							className="gb-sortable-list__item"
+							disabled={ item.disabled ?? false }
 						>
 							<ItemComponent item={ item } />
 						</SortableListItem>
