@@ -10,6 +10,7 @@ tests
 .eslintrc.json
 .gitattributes
 .gitignore
+.nvmrc
 package-lock.json
 package.json
 composer.json
