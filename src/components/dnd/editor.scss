@@ -6,10 +6,14 @@
 	--icon-size: 1rem;
 	display: grid;
 	gap: 0.625rem;
-	grid-template-columns: 36px 1fr;
+	grid-template-columns: 36px minmax(0px, 1fr);
+	position: relative;
 
 	&__handle {
+		border-radius: 0;
 		height: 100%;
+		position: relative;
+		z-index: 2;
 	}
 
 	.components-button {

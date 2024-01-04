@@ -54,20 +54,32 @@ export function SortableListItem( {
 	dragHandleLabel = __( 'Reorder Item', 'generateblocks' ),
 	as = 'li',
 	className = '',
+	disabled = false,
 } ) {
 	const {
+		active,
 		attributes,
 		listeners,
 		setNodeRef,
 		transform,
 		transition,
 		isDragging,
-	} = useSortable( { id } );
+	} = useSortable( {
+		id,
+		disabled,
+		data: {
+			disabled,
+		},
+	} );
 
 	const style = {
 		transform: CSS.Transform.toString( transform ),
 		transition,
 	};
+
+	if ( active && active.id === id ) {
+		style.zIndex = 1;
+	}
 
 	const Element = as;
 
