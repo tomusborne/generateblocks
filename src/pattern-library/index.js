@@ -17,7 +17,7 @@ function PatternLibrary() {
 				<Button
 					onClick={ () => setIsOpen( true ) }
 					icon={ getIcon( 'pattern-library' ) }
-					label={ __( 'Choose patterns', 'generateblocks' ) }
+					label={ __( 'Open Pattern Library', 'generateblocks' ) }
 					showTooltip
 					isPressed={ isOpen }
 				/>,
