@@ -15,12 +15,15 @@ function PatternLibrary() {
 		<>
 			{ !! toolbar && createPortal(
 				<Button
+					className="gblocks-pattern-library-button"
 					onClick={ () => setIsOpen( true ) }
 					icon={ getIcon( 'pattern-library' ) }
 					label={ __( 'Open Pattern Library', 'generateblocks' ) }
 					showTooltip
 					isPressed={ isOpen }
-				/>,
+				>
+					{ __( 'Patterns', 'generateblocks' ) }
+				</Button>,
 				toolbar
 			) }
 
