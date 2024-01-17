@@ -1,7 +1,5 @@
 import { Button } from '@wordpress/components';
 import { close, arrowLeft } from '@wordpress/icons';
-import { useDispatch } from '@wordpress/data';
-import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, memo, useRef } from '@wordpress/element';
 import CategoryList from './category-list';
@@ -17,9 +15,8 @@ import ManageLibraries from './manage-libraries';
 
 const searchCache = {};
 
-export default function LibraryLayout() {
+export default function LibraryLayout( { setIsOpen } ) {
 	const {
-		clientId,
 		activeLibrary,
 		activePatternId,
 		setActivePatternId,
@@ -32,7 +29,6 @@ export default function LibraryLayout() {
 		search,
 		setSearch,
 	} = useLibrary();
-	const { removeBlock } = useDispatch( blockEditorStore );
 	const [ bulkInsertEnabled, setBulkInsertEnabled ] = useState( false );
 	const [ filteredPatterns, setFilteredPatterns ] = useState( patterns );
 	const activePattern = patterns.find( ( pattern ) => activePatternId === pattern.id );
@@ -120,7 +116,7 @@ export default function LibraryLayout() {
 									icon={ close }
 									label={ __( 'Close Pattern Library', 'generateblocks' ) }
 									showTooltip={ true }
-									onClick={ () => removeBlock( clientId ) }
+									onClick={ () => setIsOpen( false ) }
 								/>
 							</>
 						) : (

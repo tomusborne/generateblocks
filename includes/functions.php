@@ -1782,10 +1782,32 @@ function generateblocks_to_snake_case( string $str ): string {
 }
 
 /**
- * Disable the legacy pattern library in GB Pro.
+ * Get our script dependencies and version.
  *
- * @since 1.9.0
+ * @param string $filename The filename to use.
+ * @param array  $fallback_assets The assets to fallback to.
  */
-function generateblocks_use_legacy_pattern_library() {
-	return apply_filters( 'generateblocks_use_legacy_pattern_library', false );
+function generateblocks_get_enqueue_assets(
+	$filename = '',
+	$fallback_assets = [
+		'dependencies' => [],
+		'version' => '',
+	]
+) {
+	if ( ! $filename ) {
+		return $fallback_assets;
+	}
+
+	$assets_file = GENERATEBLOCKS_PRO_DIR . 'dist/' . $filename . '.asset.php';
+	$compiled_assets = file_exists( $assets_file )
+		? require $assets_file
+		: false;
+
+	$assets =
+		isset( $compiled_assets['dependencies'] ) &&
+		isset( $compiled_assets['version'] )
+		? $compiled_assets
+		: $fallback_assets;
+
+	return $assets;
 }

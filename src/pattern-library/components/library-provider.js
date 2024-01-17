@@ -90,7 +90,7 @@ async function fetchRequiredClasses( activeLibrary ) {
 	}
 }
 
-export function LibraryProvider( { clientId, children } ) {
+export function LibraryProvider( { children } ) {
 	const [ libraries, setLibraryData ] = useState( [] );
 	const [ categories, setCategories ] = useState( [] );
 	const [ patterns, setPatterns ] = useState( [] );
@@ -123,7 +123,6 @@ export function LibraryProvider( { clientId, children } ) {
 
 	const [ selectedPatterns, selectedPatternsDispatch ] = useReducer( selectedPatternsReducer, [] );
 	const defaultContext = {
-		clientId,
 		libraries,
 		search,
 		setSearch,

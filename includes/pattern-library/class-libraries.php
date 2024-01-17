@@ -25,6 +25,44 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 		add_action( 'init', [ $this, 'rewrite_endpoints' ] );
 		add_action( 'template_include', [ $this, 'template_viewer' ] );
 		add_filter( 'show_admin_bar', [ $this, 'hide_admin_bar' ] );
+		add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_block_editor_assets' ] );
+	}
+
+	/**
+	 * Enqueue block editor assets.
+	 *
+	 * @return void
+	 */
+	public function enqueue_block_editor_assets() {
+		$assets = generateblocks_get_enqueue_assets( 'pattern-library' );
+
+		wp_enqueue_script(
+			'generateblocks-pattern-library',
+			GENERATEBLOCKS_DIR_URL . 'dist/pattern-library.js',
+			$assets['dependencies'],
+			$assets['version'],
+			true
+		);
+
+		wp_set_script_translations(
+			'generateblocks-pattern-library',
+			'generateblocks'
+		);
+
+		wp_localize_script(
+			'generateblocks-pattern-library',
+			'generateBlocksPatternLibrary',
+			array(
+				'patternPreviewUrl' => site_url() . '?gb-template-viewer=1',
+			)
+		);
+
+		wp_enqueue_style(
+			'generateblocks-pattern-library',
+			GENERATEBLOCKS_DIR_URL . 'dist/pattern-library.css',
+			array( 'wp-components' ),
+			GENERATEBLOCKS_VERSION
+		);
 	}
 
 	/**

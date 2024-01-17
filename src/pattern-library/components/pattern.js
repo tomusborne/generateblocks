@@ -254,7 +254,7 @@ export default function Pattern( { pattern, isLoading, isActive = false } ) {
 								} );
 							} }
 							title={ label }
-							src={ generateBlocksInfo.patternPreviewUrl }
+							src={ generateBlocksPatternLibrary.patternPreviewUrl }
 							ref={ iframeRef }
 							style={ {
 								height: height + 'px',

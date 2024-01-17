@@ -1,22 +1,22 @@
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 import { Button } from '@wordpress/components';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { lineSolid, seen } from '@wordpress/icons';
 import { useRef } from '@wordpress/element';
-import { SortableList } from '../../../components/dnd';
+import { SortableList } from '../../components/dnd';
 import { useLibrary } from './library-provider';
 
 export function SelectedPatterns() {
-	const { replaceBlock } = useDispatch( blockEditorStore );
+	const { insertBlocks } = useDispatch( blockEditorStore );
 	const {
-		clientId,
 		selectedPatterns = [],
 		selectedPatternsDispatch,
 		setActivePatternId,
 		setScrollPosition,
 	} = useLibrary();
+	const { getBlockInsertionPoint } = useSelect( ( select ) => select( blockEditorStore ), [] );
 
 	if ( ! selectedPatterns.length ) {
 		return null;
@@ -85,8 +85,13 @@ export function SelectedPatterns() {
 				variant="primary"
 				onClick={ () => {
 					const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev + current.pattern, '' );
+					const blockInsertionPoint = getBlockInsertionPoint();
 
-					replaceBlock( clientId, parse( blockReplacements, {} ) );
+					insertBlocks(
+						parse( blockReplacements ),
+						blockInsertionPoint?.index ?? 0,
+						blockInsertionPoint.rootClientId ?? ''
+					);
 				} }
 			>
 				{ __( 'Insert All', 'generateblocks' ) }

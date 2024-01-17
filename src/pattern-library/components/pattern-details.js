@@ -1,18 +1,18 @@
 import { Button } from '@wordpress/components';
 import { plus, seen } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
-import { useDispatch } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 
 export function PatternDetails( { pattern, patternRef = null, children, showPreview = true, bulkInsertEnabled } ) {
 	const {
-		clientId,
 		setActivePatternId,
 		setScrollPosition,
 	} = useLibrary();
-	const { replaceBlock } = useDispatch( blockEditorStore );
+	const { insertBlocks } = useDispatch( blockEditorStore );
+	const { getBlockInsertionPoint } = useSelect( ( select ) => select( blockEditorStore ), [] );
 
 	return (
 		<div className="gb-pattern-details">
@@ -24,7 +24,13 @@ export function PatternDetails( { pattern, patternRef = null, children, showPrev
 						icon={ plus }
 						onClick={ ( e ) => {
 							e.stopPropagation();
-							replaceBlock( clientId, parse( pattern.pattern, {} ) );
+							const blockInsertionPoint = getBlockInsertionPoint();
+
+							insertBlocks(
+								parse( pattern.pattern ),
+								blockInsertionPoint?.index ?? 0,
+								blockInsertionPoint.rootClientId ?? ''
+							);
 						} }
 					>
 						{ __( 'Insert', 'generateblocks' ) }
