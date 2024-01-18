@@ -438,8 +438,18 @@
 }
 
 .gblocks-pattern-library-button {
+	margin-left: 6px;
+	height: 36px !important;
+	min-height: 36px;
+	padding: 0 12px !important;
+
 	svg {
 		width: 19px;
 		height: 19px;
 	}
+}
+
+.is-fullscreen-mode .edit-post-visual-editor .block-editor-block-contextual-toolbar.is-fixed {
+	margin-left: 332px !important;
+	//top: 0;
 }

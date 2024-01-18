@@ -9,12 +9,13 @@ import getIcon from '../utils/get-icon';
 
 function PatternLibrary() {
 	const [ isOpen, setIsOpen ] = useState( false );
-	const toolbar = document.querySelector( '.edit-post-header-toolbar__left' );
+	const toolbar = document.querySelector( '.edit-post-header-toolbar__left' ) || document.querySelector( '.editor-document-tools__left' );
 
 	return (
 		<>
 			{ !! toolbar && createPortal(
 				<Button
+					variant="primary"
 					className="gblocks-pattern-library-button"
 					onClick={ () => setIsOpen( true ) }
 					icon={ getIcon( 'pattern-library' ) }
