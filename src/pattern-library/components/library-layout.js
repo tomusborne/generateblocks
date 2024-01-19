@@ -12,6 +12,7 @@ import { PatternDetailsHeader } from './pattern-details-header';
 import RequiredComponents from './required-components';
 import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
+import getIcon from '../../utils/get-icon';
 
 const searchCache = {};
 
@@ -83,7 +84,7 @@ export default function LibraryLayout( { setIsOpen } ) {
 			<div className="gb-pattern-library__header">
 				<div className="gb-pattern-library__header-title">
 					{ ! activePatternId
-						? <h1>{ __( 'Pattern Library', 'generateblocks' ) }</h1>
+						? <h1>{ getIcon( 'generateblocks' ) } { __( 'Pattern Library', 'generateblocks' ) }</h1>
 						: <h1>{ activePattern.label }</h1>
 					}
 				</div>
