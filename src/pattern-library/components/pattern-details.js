@@ -6,7 +6,7 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 
-export function PatternDetails( { pattern, patternRef = null, children, showPreview = true, bulkInsertEnabled } ) {
+export function PatternDetails( { pattern, patternRef = null, children, showPreview = true, bulkInsertEnabled, showTitle = true } ) {
 	const {
 		setActivePatternId,
 		setScrollPosition,
@@ -16,7 +16,10 @@ export function PatternDetails( { pattern, patternRef = null, children, showPrev
 
 	return (
 		<div className="gb-pattern-details">
-			<h3>{ pattern.label }</h3>
+			{ !! showTitle && (
+				<h3>{ pattern.label }</h3>
+			) }
+
 			<div className="gb-pattern-details__actions">
 				{ ! bulkInsertEnabled && (
 					<Button
