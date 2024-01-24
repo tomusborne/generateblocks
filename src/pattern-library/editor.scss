@@ -21,6 +21,13 @@
 
 		h1 {
 			font-size: 20px;
+			display: flex;
+			gap: 10px;
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
 		}
 
 		&-title {
@@ -434,5 +441,12 @@
 		.media-modal-icon {
 			background-position: -60px 0;
 		}
+	}
+}
+
+.gblocks-pattern-library-button {
+	svg {
+		width: 19px;
+		height: 19px;
 	}
 }

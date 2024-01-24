@@ -12,7 +12,7 @@ export function PatternDetailsHeader( { pattern, isSelected } ) {
 	} = useLibrary();
 
 	return (
-		<PatternDetails pattern={ pattern } showPreview={ false } isSelected={ isSelected } >
+		<PatternDetails pattern={ pattern } showPreview={ false } isSelected={ isSelected } showTitle={ false }>
 			{ !! activePatternId && (
 				<ButtonGroup>
 					<Button

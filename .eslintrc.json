@@ -9,7 +9,8 @@
 		"generateBlocksInfo": false,
 		"generateBlocksStyling": "readonly",
 		"generateBlocksSettings": "readonly",
-		"generateBlocksLegacyDefaults": "readonly"
+		"generateBlocksLegacyDefaults": "readonly",
+		"generateBlocksPatternLibrary": "readonly"
 	},
 	"env": {
 	  "browser": true,

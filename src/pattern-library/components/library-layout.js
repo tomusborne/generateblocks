@@ -1,7 +1,5 @@
 import { Button } from '@wordpress/components';
 import { close, arrowLeft } from '@wordpress/icons';
-import { useDispatch } from '@wordpress/data';
-import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, memo, useRef } from '@wordpress/element';
 import CategoryList from './category-list';
@@ -14,12 +12,12 @@ import { PatternDetailsHeader } from './pattern-details-header';
 import RequiredComponents from './required-components';
 import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
+import getIcon from '../../utils/get-icon';
 
 const searchCache = {};
 
-export default function LibraryLayout() {
+export default function LibraryLayout( { setIsOpen } ) {
 	const {
-		clientId,
 		activeLibrary,
 		activePatternId,
 		setActivePatternId,
@@ -32,7 +30,6 @@ export default function LibraryLayout() {
 		search,
 		setSearch,
 	} = useLibrary();
-	const { removeBlock } = useDispatch( blockEditorStore );
 	const [ bulkInsertEnabled, setBulkInsertEnabled ] = useState( false );
 	const [ filteredPatterns, setFilteredPatterns ] = useState( patterns );
 	const activePattern = patterns.find( ( pattern ) => activePatternId === pattern.id );
@@ -87,7 +84,7 @@ export default function LibraryLayout() {
 			<div className="gb-pattern-library__header">
 				<div className="gb-pattern-library__header-title">
 					{ ! activePatternId
-						? <h1>{ __( 'Pattern Library', 'generateblocks' ) }</h1>
+						? <h1>{ getIcon( 'generateblocks' ) } { __( 'Pattern Library', 'generateblocks' ) }</h1>
 						: <h1>{ activePattern.label }</h1>
 					}
 				</div>
@@ -120,7 +117,7 @@ export default function LibraryLayout() {
 									icon={ close }
 									label={ __( 'Close Pattern Library', 'generateblocks' ) }
 									showTooltip={ true }
-									onClick={ () => removeBlock( clientId ) }
+									onClick={ () => setIsOpen( false ) }
 								/>
 							</>
 						) : (
