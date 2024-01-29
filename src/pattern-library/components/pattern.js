@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, useLayoutEffect } from '@wordpress/element
 import imagesLoaded from 'imagesloaded';
 import { useLibrary } from './library-provider';
 
-export default function Pattern( { pattern, isLoading, isActive = false } ) {
+export default function Pattern( { pattern, isLoading, isActive = false, globalStyleCSS } ) {
 	const {
 		id,
 		preview,
@@ -108,6 +108,12 @@ export default function Pattern( { pattern, isLoading, isActive = false } ) {
 		document.body.innerHTML = preview;
 		document.head.innerHTML += '<style id="block-active"></style>';
 		document.head.innerHTML += '<style id="pattern-styles"></style>';
+
+		const globalStyleElement = document.createElement( 'style' );
+		globalStyleElement.innerHTML = globalStyleCSS;
+
+		const firstStyleElement = document.querySelector( 'head style' );
+		document.head.insertBefore( globalStyleElement, firstStyleElement );
 
 		imagesLoaded( document.body, () => {
 			setHeight( document.body.scrollHeight );

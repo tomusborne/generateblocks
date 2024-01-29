@@ -9,29 +9,31 @@ import PatternList from './pattern-list';
 import PatternSearch from './pattern-search';
 import { SelectedPatterns } from './selected-patterns';
 import { PatternDetailsHeader } from './pattern-details-header';
-import RequiredComponents from './required-components';
 import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
 import getIcon from '../../utils/get-icon';
+import { doAction } from '@wordpress/hooks';
 
 const searchCache = {};
 
 export default function LibraryLayout( { setIsOpen } ) {
 	const {
-		activeLibrary,
 		activePatternId,
 		setActivePatternId,
 		patterns,
-		requiredClasses,
-		setRequiredClasses,
 		setScrollPosition,
 		scrollPosition,
 		activeCategory,
 		search,
 		setSearch,
+		isLocal,
+		activeLibrary,
 	} = useLibrary();
 	const [ bulkInsertEnabled, setBulkInsertEnabled ] = useState( false );
 	const [ filteredPatterns, setFilteredPatterns ] = useState( patterns );
+	const [ globalStyleCSS, setGlobalStyleCSS ] = useState( '' );
+	const [ globalStyleData, setGlobalStyleData ] = useState( [] );
+	const [ cacheIsClearing, setCacheIsClearing ] = useState( false );
 	const activePattern = patterns.find( ( pattern ) => activePatternId === pattern.id );
 	const patternContentRef = useRef();
 
@@ -79,6 +81,11 @@ export default function LibraryLayout( { setIsOpen } ) {
 
 	const MemoizedCategoryList = memo( CategoryList );
 
+	doAction(
+		'generateblocks.patterns.patternsList',
+		{ activeLibrary, setGlobalStyleCSS, setGlobalStyleData, isLocal, cacheIsClearing }
+	);
+
 	return (
 		<div className="gb-pattern-library">
 			<div className="gb-pattern-library__header">
@@ -110,7 +117,10 @@ export default function LibraryLayout( { setIsOpen } ) {
 					{ ! activePatternId
 						? (
 							<>
-								<LibraryCache />
+								<LibraryCache
+									setCacheIsClearing={ setCacheIsClearing }
+									cacheIsClearing={ cacheIsClearing }
+								/>
 								<ManageLibraries />
 								<Button
 									variant="tertiary"
@@ -134,48 +144,49 @@ export default function LibraryLayout( { setIsOpen } ) {
 					}
 				</div>
 			</div>
-			<RequiredComponents
-				activeLibrary={ activeLibrary }
-				requiredClasses={ requiredClasses }
-				setRequiredClasses={ setRequiredClasses }
-			>
-				<div className="gb-pattern-library__sidebar">
-					{ ! activePatternId &&
-					<>
-						<PatternSearch onChange={ ( value ) => {
-							setSearch( value );
+			<div className="gb-pattern-library__sidebar">
+				{ ! activePatternId &&
+				<>
+					<PatternSearch onChange={ ( value ) => {
+						setSearch( value );
 
-							const category = activeCategory === '' ? 'all' : activeCategory;
-							// Check if result has been cached already
-							const cachedResult = maybeGetCachedSearchResult( value );
+						const category = activeCategory === '' ? 'all' : activeCategory;
+						// Check if result has been cached already
+						const cachedResult = maybeGetCachedSearchResult( value );
 
-							if ( cachedResult ) {
-								setFilteredPatterns( cachedResult );
-								return;
-							}
+						if ( cachedResult ) {
+							setFilteredPatterns( cachedResult );
+							return;
+						}
 
-							const newPatternList = filterPatterns( value );
+						const newPatternList = filterPatterns( value );
 
-							searchCache[ category ][ value ] = newPatternList;
+						searchCache[ category ][ value ] = newPatternList;
 
-							setFilteredPatterns( newPatternList );
-						} } />
-						<MemoizedCategoryList />
-						<SelectedPatterns />
-					</>
-					}
-				</div>
-				<div
-					className="gb-pattern-library__content"
-					style={ contentStyles }
-					ref={ patternContentRef }
-				>
-					<PatternList
-						patterns={ filteredPatterns }
-						bulkInsertEnabled={ bulkInsertEnabled }
+						setFilteredPatterns( newPatternList );
+					} } />
+					<MemoizedCategoryList />
+					<SelectedPatterns
+						setIsOpen={ setIsOpen }
+						globalStyleCSS={ globalStyleCSS }
+						globalStyleData={ globalStyleData }
 					/>
-				</div>
-			</RequiredComponents>
+				</>
+				}
+			</div>
+			<div
+				className="gb-pattern-library__content"
+				style={ contentStyles }
+				ref={ patternContentRef }
+			>
+				<PatternList
+					patterns={ filteredPatterns }
+					bulkInsertEnabled={ bulkInsertEnabled }
+					setIsOpen={ setIsOpen }
+					globalStyleCSS={ globalStyleCSS }
+					globalStyleData={ globalStyleData }
+				/>
+			</div>
 		</div>
 	);
 }

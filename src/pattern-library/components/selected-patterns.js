@@ -7,8 +7,9 @@ import { lineSolid, seen } from '@wordpress/icons';
 import { useRef } from '@wordpress/element';
 import { SortableList } from '../../components/dnd';
 import { useLibrary } from './library-provider';
+import { InsertPattern } from './insert-pattern';
 
-export function SelectedPatterns() {
+export function SelectedPatterns( { setIsOpen, globalStyleData } ) {
 	const { insertBlocks } = useDispatch( blockEditorStore );
 	const {
 		selectedPatterns = [],
@@ -80,9 +81,11 @@ export function SelectedPatterns() {
 				itemComponent={ SelectedPattern }
 				dragHandle={ true }
 			/>
-			<Button
+			<InsertPattern
 				className="gb-selected-patterns__insert"
-				variant="primary"
+				label={ __( 'Insert All', 'generateblocks' ) }
+				patterns={ selectedPatterns }
+				globalStyleData={ globalStyleData }
 				onClick={ () => {
 					const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev + current.pattern, '' );
 					const blockInsertionPoint = getBlockInsertionPoint();
@@ -92,10 +95,10 @@ export function SelectedPatterns() {
 						blockInsertionPoint?.index ?? 0,
 						blockInsertionPoint.rootClientId ?? ''
 					);
+
+					setIsOpen( false );
 				} }
-			>
-				{ __( 'Insert All', 'generateblocks' ) }
-			</Button>
+			/>
 		</aside>
 	);
 }

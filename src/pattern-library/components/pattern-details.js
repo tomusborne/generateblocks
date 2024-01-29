@@ -1,12 +1,22 @@
 import { Button } from '@wordpress/components';
-import { plus, seen } from '@wordpress/icons';
+import { seen } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
+import { InsertPattern } from './insert-pattern';
 
-export function PatternDetails( { pattern, patternRef = null, children, showPreview = true, bulkInsertEnabled, showTitle = true } ) {
+export function PatternDetails( {
+	pattern,
+	patternRef = null,
+	children,
+	showPreview = true,
+	bulkInsertEnabled,
+	showTitle = true,
+	globalStyleData,
+	setIsOpen,
+} ) {
 	const {
 		setActivePatternId,
 		setScrollPosition,
@@ -22,11 +32,11 @@ export function PatternDetails( { pattern, patternRef = null, children, showPrev
 
 			<div className="gb-pattern-details__actions">
 				{ ! bulkInsertEnabled && (
-					<Button
-						variant="primary"
-						icon={ plus }
-						onClick={ ( e ) => {
+					<InsertPattern
+						label={ __( 'Insert', 'generateblocks' ) }
+						onClick={ async( e ) => {
 							e.stopPropagation();
+
 							const blockInsertionPoint = getBlockInsertionPoint();
 
 							insertBlocks(
@@ -34,10 +44,12 @@ export function PatternDetails( { pattern, patternRef = null, children, showPrev
 								blockInsertionPoint?.index ?? 0,
 								blockInsertionPoint.rootClientId ?? ''
 							);
+
+							setIsOpen( false );
 						} }
-					>
-						{ __( 'Insert', 'generateblocks' ) }
-					</Button>
+						patterns={ [ pattern ] }
+						globalStyleData={ globalStyleData }
+					/>
 				) }
 
 				{ ( showPreview && ! bulkInsertEnabled ) && (
