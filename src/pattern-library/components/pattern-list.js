@@ -9,7 +9,7 @@ import classnames from 'classnames';
 export default function PatternList( {
 	bulkInsertEnabled = false,
 	patterns = [],
-	setIsOpen,
+	closeModal,
 	globalStyleCSS,
 	globalStyleData,
 } ) {
@@ -182,7 +182,7 @@ export default function PatternList( {
 								patternRef={ ref }
 								bulkInsertEnabled={ bulkInsertEnabled }
 								globalStyleData={ globalStyleData }
-								setIsOpen={ setIsOpen }
+								closeModal={ closeModal }
 							/>
 						</li>
 					);

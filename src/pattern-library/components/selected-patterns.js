@@ -9,7 +9,7 @@ import { SortableList } from '../../components/dnd';
 import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
 
-export function SelectedPatterns( { setIsOpen, globalStyleData } ) {
+export function SelectedPatterns( { closeModal, globalStyleData } ) {
 	const { insertBlocks } = useDispatch( blockEditorStore );
 	const {
 		selectedPatterns = [],
@@ -96,7 +96,7 @@ export function SelectedPatterns( { setIsOpen, globalStyleData } ) {
 						blockInsertionPoint.rootClientId ?? ''
 					);
 
-					setIsOpen( false );
+					closeModal();
 				} }
 			/>
 		</aside>
