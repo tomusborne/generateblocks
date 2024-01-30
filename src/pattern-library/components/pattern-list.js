@@ -6,7 +6,13 @@ import { __ } from '@wordpress/i18n';
 import { PatternDetails } from './pattern-details';
 import classnames from 'classnames';
 
-export default function PatternList( { bulkInsertEnabled = false, patterns = [] } ) {
+export default function PatternList( {
+	bulkInsertEnabled = false,
+	patterns = [],
+	setIsOpen,
+	globalStyleCSS,
+	globalStyleData,
+} ) {
 	const ref = useRef();
 	const loadMoreRef = useRef();
 	const {
@@ -115,6 +121,7 @@ export default function PatternList( { bulkInsertEnabled = false, patterns = [] 
 					isLoading={ loading }
 					isActive={ true }
 					pattern={ activePattern }
+					globalStyleCSS={ globalStyleCSS }
 				/>
 			}
 
@@ -167,12 +174,15 @@ export default function PatternList( { bulkInsertEnabled = false, patterns = [] 
 							<Pattern
 								isLoading={ loading }
 								pattern={ pattern }
+								globalStyleCSS={ globalStyleCSS }
 							/>
 
 							<PatternDetailsMemo
 								pattern={ pattern }
 								patternRef={ ref }
 								bulkInsertEnabled={ bulkInsertEnabled }
+								globalStyleData={ globalStyleData }
+								setIsOpen={ setIsOpen }
 							/>
 						</li>
 					);

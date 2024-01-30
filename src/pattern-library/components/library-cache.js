@@ -7,10 +7,9 @@ import { Button, Icon, Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { backup } from '@wordpress/icons';
 
-export default function LibraryCache() {
+export default function LibraryCache( { setCacheIsClearing, cacheIsClearing } ) {
 	const { activeLibrary, setLibraryCategories, setLibraryPatterns, isLocal } = useLibrary();
 	const [ cacheData, setCacheData ] = useState( false );
-	const [ cacheIsClearing, setCacheIsClearing ] = useState( false );
 
 	async function checkCacheData() {
 		if ( isLocal ) {

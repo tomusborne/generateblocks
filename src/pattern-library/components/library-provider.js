@@ -3,8 +3,6 @@ import { createContext, useContext, useEffect, useState, useReducer } from '@wor
 import { __ } from '@wordpress/i18n';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs } from '@wordpress/url';
-import { applyFilters } from '@wordpress/hooks';
-import { isEmpty } from 'lodash';
 
 const LibraryContext = createContext( undefined );
 
@@ -59,37 +57,6 @@ async function fetchLibraryPatterns( libraryId, categoryId, search, isLocal, pub
 	}
 }
 
-async function fetchRequiredClasses( activeLibrary ) {
-	const requiredClassesApiData = applyFilters(
-		'generateblocks.editor.patternLibrary.requiredClassesApiData',
-		{},
-		{ activeLibrary }
-	);
-
-	if ( isEmpty( requiredClassesApiData ) ) {
-		return [];
-	}
-
-	try {
-		const response = await apiFetch( {
-			path: addQueryArgs(
-				'/generateblocks-pro/v1/pattern-library/get-required-classes',
-				requiredClassesApiData
-			),
-			method: 'GET',
-			headers: {
-				'X-GB-Public-Key': activeLibrary.publicKey,
-			},
-		} );
-
-		if ( response ) {
-			return response.response;
-		}
-	} catch ( error ) {
-		return [];
-	}
-}
-
 export function LibraryProvider( { children } ) {
 	const [ libraries, setLibraryData ] = useState( [] );
 	const [ categories, setCategories ] = useState( [] );
@@ -103,7 +70,6 @@ export function LibraryProvider( { children } ) {
 	const [ hoverPattern, setHoverPattern ] = useState( '' );
 	const [ loading, setLoading ] = useState( false );
 	const [ previewIframeWidth, setPreviewIframeWidth ] = useState( '100%' );
-	const [ requiredClasses, setRequiredClasses ] = useState( [] );
 	const itemsPerPage = 15;
 	const [ itemCount, setItemCount ] = useState( itemsPerPage );
 	const [ scrollPosition, setScrollPosition ] = useState( 0 );
@@ -138,6 +104,7 @@ export function LibraryProvider( { children } ) {
 		hoverPattern,
 		setHoverPattern,
 		patterns,
+		isLocal,
 		setIsLocal,
 		setPublicKey,
 		loading,
@@ -147,8 +114,6 @@ export function LibraryProvider( { children } ) {
 		setLibraryCategories,
 		setLibraryPatterns,
 		setLibraries,
-		requiredClasses,
-		setRequiredClasses,
 		itemsPerPage,
 		itemCount,
 		setItemCount,
@@ -169,14 +134,6 @@ export function LibraryProvider( { children } ) {
 	async function setLibraryPatterns() {
 		setLoading( true );
 		setPatterns( [] );
-
-		// Check for required global classes.
-		if ( ! isLocal ) {
-			const { data: fetchedRequiredClasses } = await fetchRequiredClasses( activeLibrary );
-			setRequiredClasses( fetchedRequiredClasses );
-		} else {
-			setRequiredClasses( [] );
-		}
 
 		// Fetch all patterns for the active library.
 		const { data: fetchedPatterns } = await fetchLibraryPatterns( activeLibrary?.id, '', '', isLocal, publicKey );
