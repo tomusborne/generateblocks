@@ -15,6 +15,6 @@ export function InsertPattern( { label, onClick, patterns, globalStyleData, clas
 				{ label }
 			</Button>
 		),
-		{ label, onClick, patterns, globalStyleData }
+		{ label, onClick, patterns, globalStyleData, className }
 	);
 }
