@@ -7,14 +7,25 @@ import { __ } from '@wordpress/i18n';
 import './editor.scss';
 import getIcon from '../utils/get-icon';
 
+// Create a new element for the portal content here so it's only created once.
+const portalElement = document.createElement( 'div' );
+
 function PatternLibrary() {
 	const [ isOpen, setIsOpen ] = useState( false );
-	const toolbar = document.querySelector( '.interface-pinned-items' );
+	const container = document.querySelector( '.edit-post-header__settings' );
+
+	if ( ! container ) {
+		return null;
+	}
+
+	// Insert the new element at the start of the container
+	container.insertBefore( portalElement, container.firstChild );
 
 	return (
 		<>
-			{ !! toolbar && createPortal(
+			{ !! container && createPortal(
 				<Button
+					style={ { paddingRight: 'start' } }
 					className="gblocks-pattern-library-button"
 					onClick={ () => setIsOpen( true ) }
 					icon={ getIcon( 'generateblocks' ) }
@@ -24,7 +35,7 @@ function PatternLibrary() {
 				>
 					{ __( 'Patterns', 'generateblocks' ) }
 				</Button>,
-				toolbar
+				portalElement
 			) }
 
 			{ !! isOpen && (
