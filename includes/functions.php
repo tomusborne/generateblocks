@@ -1798,7 +1798,7 @@ function generateblocks_get_enqueue_assets(
 		return $fallback_assets;
 	}
 
-	$assets_file = GENERATEBLOCKS_PRO_DIR . 'dist/' . $filename . '.asset.php';
+	$assets_file = GENERATEBLOCKS_DIR . 'dist/' . $filename . '.asset.php';
 	$compiled_assets = file_exists( $assets_file )
 		? require $assets_file
 		: false;
