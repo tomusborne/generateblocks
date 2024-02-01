@@ -15,7 +15,7 @@ export function PatternDetails( {
 	bulkInsertEnabled,
 	showTitle = true,
 	globalStyleData,
-	setIsOpen,
+	closeModal,
 } ) {
 	const {
 		setActivePatternId,
@@ -45,7 +45,7 @@ export function PatternDetails( {
 								blockInsertionPoint.rootClientId ?? ''
 							);
 
-							setIsOpen( false );
+							closeModal();
 						} }
 						patterns={ [ pattern ] }
 						globalStyleData={ globalStyleData }

@@ -16,7 +16,7 @@ import { doAction } from '@wordpress/hooks';
 
 const searchCache = {};
 
-export default function LibraryLayout( { setIsOpen } ) {
+export default function LibraryLayout( { closeModal } ) {
 	const {
 		activePatternId,
 		setActivePatternId,
@@ -127,7 +127,7 @@ export default function LibraryLayout( { setIsOpen } ) {
 									icon={ close }
 									label={ __( 'Close Pattern Library', 'generateblocks' ) }
 									showTooltip={ true }
-									onClick={ () => setIsOpen( false ) }
+									onClick={ closeModal }
 								/>
 							</>
 						) : (
@@ -167,7 +167,7 @@ export default function LibraryLayout( { setIsOpen } ) {
 					} } />
 					<MemoizedCategoryList />
 					<SelectedPatterns
-						setIsOpen={ setIsOpen }
+						closeModal={ closeModal }
 						globalStyleCSS={ globalStyleCSS }
 						globalStyleData={ globalStyleData }
 					/>
@@ -182,7 +182,7 @@ export default function LibraryLayout( { setIsOpen } ) {
 				<PatternList
 					patterns={ filteredPatterns }
 					bulkInsertEnabled={ bulkInsertEnabled }
-					setIsOpen={ setIsOpen }
+					closeModal={ closeModal }
 					globalStyleCSS={ globalStyleCSS }
 					globalStyleData={ globalStyleData }
 				/>
