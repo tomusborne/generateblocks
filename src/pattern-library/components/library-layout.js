@@ -1,7 +1,7 @@
 import { Button } from '@wordpress/components';
 import { close, arrowLeft } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
-import { useState, useEffect, memo, useRef } from '@wordpress/element';
+import { useState, useEffect, useRef } from '@wordpress/element';
 import CategoryList from './category-list';
 import LibrarySelector from './library-selector';
 import { useLibrary } from './library-provider';
@@ -28,6 +28,7 @@ export default function LibraryLayout( { closeModal } ) {
 		setSearch,
 		isLocal,
 		activeLibrary,
+		selectedPatterns,
 	} = useLibrary();
 	const [ bulkInsertEnabled, setBulkInsertEnabled ] = useState( false );
 	const [ filteredPatterns, setFilteredPatterns ] = useState( patterns );
@@ -79,8 +80,6 @@ export default function LibraryLayout( { closeModal } ) {
 		contentStyles.gridColumn = '1 / -1';
 	}
 
-	const MemoizedCategoryList = memo( CategoryList );
-
 	doAction(
 		'generateblocks.patterns.patternsList',
 		{ activeLibrary, setGlobalStyleCSS, setGlobalStyleData, isLocal, cacheIsClearing }
@@ -98,17 +97,7 @@ export default function LibraryLayout( { closeModal } ) {
 
 				<div className="gb-pattern-library__header-action">
 					{ ! activePatternId
-						? (
-							<>
-								<LibrarySelector />
-								<Button
-									variant="primary"
-									onClick={ () => setBulkInsertEnabled( ! bulkInsertEnabled ) }
-								>
-									{ bulkInsertEnabled ? __( 'Cancel', 'generateblocks' ) : __( 'Bulk Insert…', 'generateblocks' ) }
-								</Button>
-							</>
-						)
+						? <LibrarySelector />
 						: <PatternDetailsHeader pattern={ activePattern } />
 					}
 				</div>
@@ -165,12 +154,26 @@ export default function LibraryLayout( { closeModal } ) {
 
 						setFilteredPatterns( newPatternList );
 					} } />
-					<MemoizedCategoryList />
-					<SelectedPatterns
-						closeModal={ closeModal }
-						globalStyleCSS={ globalStyleCSS }
-						globalStyleData={ globalStyleData }
+
+					<CategoryList
+						bulkInsertEnabled={ bulkInsertEnabled }
+						selectedPatterns={ selectedPatterns }
 					/>
+
+					<Button
+						variant="primary"
+						onClick={ () => setBulkInsertEnabled( ! bulkInsertEnabled ) }
+					>
+						{ bulkInsertEnabled ? __( 'Cancel Bulk Insert', 'generateblocks' ) : __( 'Bulk Insert', 'generateblocks' ) }
+					</Button>
+
+					{ !! bulkInsertEnabled && (
+						<SelectedPatterns
+							closeModal={ closeModal }
+							globalStyleCSS={ globalStyleCSS }
+							globalStyleData={ globalStyleData }
+						/>
+					) }
 				</>
 				}
 			</div>
