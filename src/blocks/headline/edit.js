@@ -70,6 +70,12 @@ const HeadlineEdit = ( props ) => {
 				context={ context }
 			/>
 
+			{ applyFilters( 'generateblocks.editor.generativeSettingsPanel', {
+				attributes,
+				setAttributes,
+				...props,
+			} ) }
+
 			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
