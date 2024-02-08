@@ -8,6 +8,7 @@ import { useRef } from '@wordpress/element';
 import { SortableList } from '../../components/dnd';
 import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
+import { updateUniqueIds } from '../utils';
 
 export function SelectedPatterns( { closeModal, globalStyleData } ) {
 	const { insertBlocks } = useDispatch( blockEditorStore );
@@ -18,6 +19,7 @@ export function SelectedPatterns( { closeModal, globalStyleData } ) {
 		setScrollPosition,
 	} = useLibrary();
 	const { getBlockInsertionPoint } = useSelect( ( select ) => select( blockEditorStore ), [] );
+	const { updateBlockAttributes } = useDispatch( blockEditorStore );
 
 	if ( ! selectedPatterns.length ) {
 		return null;
@@ -86,15 +88,24 @@ export function SelectedPatterns( { closeModal, globalStyleData } ) {
 				label={ __( 'Insert All', 'generateblocks' ) }
 				patterns={ selectedPatterns }
 				globalStyleData={ globalStyleData }
-				onClick={ () => {
+				onClick={ async() => {
 					const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev + current.pattern, '' );
 					const blockInsertionPoint = getBlockInsertionPoint();
+					const renderedPatterns = parse( blockReplacements );
 
-					insertBlocks(
-						parse( blockReplacements ),
+					await insertBlocks(
+						renderedPatterns,
 						blockInsertionPoint?.index ?? 0,
 						blockInsertionPoint.rootClientId ?? ''
 					);
+
+					const updatedBlocks = updateUniqueIds( renderedPatterns );
+
+					updatedBlocks.forEach( ( block ) => {
+						if ( block.attributes && block.clientId ) {
+							updateBlockAttributes( block.clientId, block.attributes );
+						}
+					} );
 
 					closeModal();
 				} }
