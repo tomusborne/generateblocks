@@ -10,7 +10,7 @@ import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
 import { updateUniqueIds } from '../utils';
 
-export function SelectedPatterns( { closeModal, globalStyleData } ) {
+export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEnabled } ) {
 	const { insertBlocks } = useDispatch( blockEditorStore );
 	const {
 		selectedPatterns = [],
@@ -20,11 +20,6 @@ export function SelectedPatterns( { closeModal, globalStyleData } ) {
 	} = useLibrary();
 	const { getBlockInsertionPoint } = useSelect( ( select ) => select( blockEditorStore ), [] );
 	const { updateBlockAttributes } = useDispatch( blockEditorStore );
-
-	if ( ! selectedPatterns.length ) {
-		return null;
-	}
-
 	const ZeroWidthSpace = () => <>&#8203;</>;
 
 	function SelectedPattern( { item: pattern } ) {
@@ -73,6 +68,11 @@ export function SelectedPatterns( { closeModal, globalStyleData } ) {
 			<h3 className="gb-selected-patterns__headline">
 				{ __( 'Selected Patterns', 'generateblocks' ) }
 			</h3>
+
+			{ ! selectedPatterns.length && (
+				<p>{ __( 'Select patterns to insert.', 'generateblocks' ) }</p>
+			) }
+
 			<SortableList
 				className="gb-selected-patterns__list"
 				items={ selectedPatterns }
@@ -83,33 +83,44 @@ export function SelectedPatterns( { closeModal, globalStyleData } ) {
 				itemComponent={ SelectedPattern }
 				dragHandle={ true }
 			/>
-			<InsertPattern
-				className="gb-selected-patterns__insert"
-				label={ __( 'Insert All', 'generateblocks' ) }
-				patterns={ selectedPatterns }
-				globalStyleData={ globalStyleData }
-				onClick={ async() => {
-					const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev + current.pattern, '' );
-					const blockInsertionPoint = getBlockInsertionPoint();
-					const renderedPatterns = parse( blockReplacements );
 
-					await insertBlocks(
-						renderedPatterns,
-						blockInsertionPoint?.index ?? 0,
-						blockInsertionPoint.rootClientId ?? ''
-					);
+			<div style={ { display: 'flex', gap: '5px', justifyContent: 'space-between', marginTop: '1em' } }>
+				<InsertPattern
+					label={ __( 'Insert All', 'generateblocks' ) }
+					patterns={ selectedPatterns }
+					globalStyleData={ globalStyleData }
+					disabled={ ! selectedPatterns.length }
+					onClick={ async() => {
+						const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev + current.pattern, '' );
+						const blockInsertionPoint = getBlockInsertionPoint();
+						const renderedPatterns = parse( blockReplacements );
 
-					const updatedBlocks = updateUniqueIds( renderedPatterns );
+						await insertBlocks(
+							renderedPatterns,
+							blockInsertionPoint?.index ?? 0,
+							blockInsertionPoint.rootClientId ?? ''
+						);
 
-					updatedBlocks.forEach( ( block ) => {
-						if ( block.attributes && block.clientId ) {
-							updateBlockAttributes( block.clientId, block.attributes );
-						}
-					} );
+						const updatedBlocks = updateUniqueIds( renderedPatterns );
 
-					closeModal();
-				} }
-			/>
+						updatedBlocks.forEach( ( block ) => {
+							if ( block.attributes && block.clientId ) {
+								updateBlockAttributes( block.clientId, block.attributes );
+							}
+						} );
+
+						closeModal();
+					} }
+				/>
+
+				<Button
+					variant="secondary"
+					onClick={ () => setBulkInsertEnabled( false ) }
+					isDestructive
+				>
+					{ __( 'Cancel', 'generateblocks' ) }
+				</Button>
+			</div>
 		</aside>
 	);
 }

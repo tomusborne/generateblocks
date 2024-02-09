@@ -160,18 +160,18 @@ export default function LibraryLayout( { closeModal } ) {
 						selectedPatterns={ selectedPatterns }
 					/>
 
-					<Button
-						variant="primary"
-						onClick={ () => setBulkInsertEnabled( ! bulkInsertEnabled ) }
-					>
-						{ bulkInsertEnabled ? __( 'Cancel Bulk Insert', 'generateblocks' ) : __( 'Bulk Insert', 'generateblocks' ) }
-					</Button>
-
-					{ !! bulkInsertEnabled && (
+					{ ! bulkInsertEnabled ? (
+						<Button
+							variant="primary"
+							onClick={ () => setBulkInsertEnabled( true ) }
+						>
+							{ __( 'Bulk Insert', 'generateblocks' ) }
+						</Button>
+					) : (
 						<SelectedPatterns
 							closeModal={ closeModal }
-							globalStyleCSS={ globalStyleCSS }
 							globalStyleData={ globalStyleData }
+							setBulkInsertEnabled={ setBulkInsertEnabled }
 						/>
 					) }
 				</>

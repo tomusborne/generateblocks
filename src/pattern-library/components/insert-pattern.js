@@ -2,7 +2,7 @@ import { Button } from '@wordpress/components';
 import { plus } from '@wordpress/icons';
 import { applyFilters } from '@wordpress/hooks';
 
-export function InsertPattern( { label, onClick, patterns, globalStyleData, className } ) {
+export function InsertPattern( { label, onClick, patterns, globalStyleData, className, disabled } ) {
 	return applyFilters(
 		'generateblocks.patterns.insertPatternButton',
 		(
@@ -11,10 +11,11 @@ export function InsertPattern( { label, onClick, patterns, globalStyleData, clas
 				variant="primary"
 				icon={ plus }
 				onClick={ onClick }
+				disabled={ disabled }
 			>
 				{ label }
 			</Button>
 		),
-		{ label, onClick, patterns, globalStyleData, className }
+		{ label, onClick, patterns, globalStyleData, className, disabled }
 	);
 }

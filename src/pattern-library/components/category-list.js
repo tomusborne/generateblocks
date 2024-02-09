@@ -12,10 +12,9 @@ export default function CategoryList( { bulkInsertEnabled, selectedPatterns } ) 
 
 	return (
 		<div className="pattern-category-list">
-			{ !! bulkInsertEnabled && selectedPatterns?.length ? (
+			{ !! bulkInsertEnabled ? (
 				<DropdownMenu
 					className="pattern-category-dropdown"
-					icon={ null }
 					label={ __( 'Filter by category', 'generateblocks' ) }
 					toggleProps={ {
 						children: getNameById( activeCategory ) || __( 'Filter by category', 'generateblocks' ),
