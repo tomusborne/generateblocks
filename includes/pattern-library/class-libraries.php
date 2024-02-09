@@ -54,6 +54,10 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 			'generateBlocksPatternLibrary',
 			array(
 				'patternPreviewUrl' => site_url() . '?gb-template-viewer=1',
+				'defaultOpenLibrary' => apply_filters(
+					'generateblocks_default_open_pattern_library',
+					'gb_default_pro_library'
+				),
 			)
 		);
 

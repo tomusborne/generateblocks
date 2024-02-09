@@ -149,7 +149,9 @@ export function LibraryProvider( { children } ) {
 		const { data } = await fetchLibraries();
 		setLibraryData( data ?? [] );
 
-		const initialLibrary = data.find( ( library ) => 'gb_default_pro_library' === library.id ) ?? data[ 0 ] ?? {};
+		const initialLibrary = data.find( ( library ) => (
+			generateBlocksPatternLibrary.defaultOpenLibrary === library.id
+		) ) ?? data[ 0 ] ?? {};
 		setActiveLibrary( initialLibrary ?? false );
 		setPublicKey( initialLibrary?.publicKey ?? '' );
 		setIsLocal( initialLibrary?.isLocal ?? false );
