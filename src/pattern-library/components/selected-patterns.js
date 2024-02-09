@@ -66,7 +66,7 @@ export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEn
 	return (
 		<aside className="gb-selected-patterns">
 			<h3 className="gb-selected-patterns__headline">
-				{ __( 'Selected Patterns', 'generateblocks' ) }
+				{ __( 'Bulk Insert', 'generateblocks' ) }
 			</h3>
 
 			{ ! selectedPatterns.length && (

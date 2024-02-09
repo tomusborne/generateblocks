@@ -1,8 +1,9 @@
 import { Button, DropdownMenu, MenuGroup, MenuItem } from '@wordpress/components';
 import { useLibrary } from './library-provider';
-import { __ } from '@wordpress/i18n';
+import { __, sprintf } from '@wordpress/i18n';
+import { check, chevronDown } from '@wordpress/icons';
 
-export default function CategoryList( { bulkInsertEnabled, selectedPatterns } ) {
+export default function CategoryList( { bulkInsertEnabled } ) {
 	const { categories, activeCategory, setActiveCategory } = useLibrary();
 
 	const getNameById = ( id ) => {
@@ -11,14 +12,18 @@ export default function CategoryList( { bulkInsertEnabled, selectedPatterns } ) 
 	};
 
 	return (
-		<div className="pattern-category-list">
+		<div className="pattern-category-list" style={ { background: !! bulkInsertEnabled ? 'none' : '' } }>
 			{ !! bulkInsertEnabled ? (
 				<DropdownMenu
 					className="pattern-category-dropdown"
-					label={ __( 'Filter by category', 'generateblocks' ) }
+					icon={ chevronDown }
 					toggleProps={ {
-						children: getNameById( activeCategory ) || __( 'Filter by category', 'generateblocks' ),
 						variant: 'secondary',
+						children: sprintf(
+							/* translators: %s: category name */
+							__( 'Category: %s', 'generateblocks' ),
+							getNameById( activeCategory ) || __( 'All', 'generateblocks' )
+						),
 					} }
 				>
 					{ ( { onClose } ) => (
@@ -35,7 +40,7 @@ export default function CategoryList( { bulkInsertEnabled, selectedPatterns } ) 
 							{ categories && categories.map( ( category ) => (
 								<MenuItem
 									key={ category.id }
-									isPressed={ category.id === activeCategory }
+									icon={ category.id === activeCategory ? check : null }
 									onClick={ () => {
 										setActiveCategory( category.id );
 										onClose();

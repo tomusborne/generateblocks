@@ -110,8 +110,15 @@
 
 	.pattern-category-list {
 		margin-bottom: 10px;
-		padding-bottom: 10px;
-		border-bottom: 1px solid #e1e1e1;
+		background: #fafafa;
+		border-radius: 3px;
+
+		.pattern-category-dropdown > .components-button {
+			width: 100%;
+			display: flex;
+			flex-direction: row-reverse;
+			justify-content: space-between !important;
+		}
 	}
 
 	.gb-pattern-wrapper {
