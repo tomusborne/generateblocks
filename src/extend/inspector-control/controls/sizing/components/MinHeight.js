@@ -1,10 +1,9 @@
-import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function MinHeight( { value, onChange, placeholder } ) {
+export default function MinHeight( { value, onChange, placeholder, label } ) {
 	return (
 		<UnitControl
-			label={ __( 'Min Height', 'generateblocks' ) }
+			label={ label }
 			id="gblocks-min-height"
 			value={ value }
 			placeholder={ placeholder }
