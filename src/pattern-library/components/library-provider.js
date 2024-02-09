@@ -147,12 +147,12 @@ export function LibraryProvider( { children } ) {
 
 	async function setLibraries() {
 		const { data } = await fetchLibraries();
-
 		setLibraryData( data ?? [] );
 
-		setActiveLibrary( data.length ? data[ 0 ] : false );
-		setPublicKey( data.length ? data[ 0 ].publicKey : '' );
-		setIsLocal( data.length && !! data[ 0 ].isLocal );
+		const initialLibrary = data.find( ( library ) => 'gb_default_pro_library' === library.id ) ?? data[ 0 ] ?? {};
+		setActiveLibrary( initialLibrary ?? false );
+		setPublicKey( initialLibrary?.publicKey ?? '' );
+		setIsLocal( initialLibrary?.isLocal ?? false );
 	}
 
 	useEffect( () => {
