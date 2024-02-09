@@ -139,7 +139,7 @@ export default function PatternList( {
 					return (
 						<li
 							key={ pattern.id }
-							className={ classnames( 'gb-pattern-wrapper', 'gb-selectable', isSelected && 'is-selected' ) }
+							className={ classnames( 'gb-pattern-wrapper', 'gb-selectable', isSelected && bulkInsertEnabled && 'is-selected' ) }
 						>
 							{ bulkInsertEnabled && (
 								<Button

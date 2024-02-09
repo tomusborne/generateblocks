@@ -101,7 +101,6 @@
 		}
 	}
 
-
 	.pattern-category-list,
 	.pattern-tree {
 		display: flex;
@@ -109,7 +108,11 @@
 		gap: 10px;
 	}
 
-
+	.pattern-category-list {
+		margin-bottom: 10px;
+		padding-bottom: 10px;
+		border-bottom: 1px solid #e1e1e1;
+	}
 
 	.gb-pattern-wrapper {
 		background: #fff;
@@ -404,35 +407,36 @@
 			background-position: -40px 0;
 		}
 	}
-	.gb-bulk-insert &:where(:hover, :focus-within),
-	&.is-selected {
+
+	&.is-selected .gb-selectable__toggle,
+	.gb-selectable__toggle:where(:hover, :focus-within) {
 		outline: 3px solid $selectable_blue;
 		outline-offset: -3px;
+	}
 
-		.check {
-			display: block;
+	&.is-selected .check {
+		display: block;
 
-			&:focus,
-			& {
-				background-color: $selectable_blue;
-				box-shadow:
-					0 0 0 1px #fff,
-					0 0 0 2px $selectable_blue;
-			}
+		&:focus,
+		& {
+			background-color: $selectable_blue;
+			box-shadow:
+				0 0 0 1px #fff,
+				0 0 0 2px $selectable_blue;
+		}
 
-			&:focus {
-				/* Only visible in Windows High Contrast mode */
-				outline: 2px solid transparent;
-			}
+		&:focus {
+			/* Only visible in Windows High Contrast mode */
+			outline: 2px solid transparent;
+		}
 
-			.media-modal-icon {
-				background-position: -21px 0;
-			}
+		.media-modal-icon {
+			background-position: -21px 0;
+		}
 
-			&:focus .media-modal-icon,
-			&:hover .media-modal-icon {
-				background-position: -60px 0;
-			}
+		&:focus .media-modal-icon,
+		&:hover .media-modal-icon {
+			background-position: -60px 0;
 		}
 	}
 
