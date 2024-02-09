@@ -141,6 +141,11 @@ class GenerateBlocks_Render_Block {
 				),
 			)
 		);
+
+		register_block_type(
+			'generateblocks/pattern-library',
+			[]
+		);
 	}
 
 	/**
