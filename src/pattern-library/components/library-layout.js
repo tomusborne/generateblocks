@@ -98,7 +98,14 @@ export default function LibraryLayout( { closeModal } ) {
 				<div className="gb-pattern-library__header-action">
 					{ ! activePatternId
 						? <LibrarySelector />
-						: <PatternDetailsHeader pattern={ activePattern } />
+						: (
+							<PatternDetailsHeader
+								pattern={ activePattern }
+								bulkInsertEnabled={ bulkInsertEnabled }
+								globalStyleData={ globalStyleData }
+								closeModal={ closeModal }
+							/>
+						)
 					}
 				</div>
 
