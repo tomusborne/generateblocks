@@ -6,6 +6,7 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
+import { updateUniqueIds } from '../utils';
 
 export function PatternDetails( {
 	pattern,
@@ -23,6 +24,7 @@ export function PatternDetails( {
 	} = useLibrary();
 	const { insertBlocks } = useDispatch( blockEditorStore );
 	const { getBlockInsertionPoint } = useSelect( ( select ) => select( blockEditorStore ), [] );
+	const { updateBlockAttributes } = useDispatch( blockEditorStore );
 
 	return (
 		<div className="gb-pattern-details">
@@ -38,12 +40,21 @@ export function PatternDetails( {
 							e.stopPropagation();
 
 							const blockInsertionPoint = getBlockInsertionPoint();
+							const renderedPattern = parse( pattern.pattern );
 
-							insertBlocks(
-								parse( pattern.pattern ),
+							await insertBlocks(
+								renderedPattern,
 								blockInsertionPoint?.index ?? 0,
 								blockInsertionPoint.rootClientId ?? ''
 							);
+
+							const updatedBlocks = updateUniqueIds( renderedPattern );
+
+							updatedBlocks.forEach( ( block ) => {
+								if ( block.attributes && block.clientId ) {
+									updateBlockAttributes( block.clientId, block.attributes );
+								}
+							} );
 
 							closeModal();
 						} }

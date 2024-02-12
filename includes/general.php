@@ -155,6 +155,27 @@ function generateblocks_do_block_editor_assets() {
 			'v_1_4_0' => GenerateBlocks_Legacy_Attributes::get_defaults( '1.4.0' ),
 		)
 	);
+
+	$editor_sidebar_assets = generateblocks_get_enqueue_assets( 'editor-sidebar' );
+
+	wp_enqueue_script(
+		'generateblocks-editor-sidebar',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor-sidebar.js',
+		$editor_sidebar_assets['dependencies'],
+		$editor_sidebar_assets['version'],
+		true
+	);
+
+	if ( function_exists( 'wp_set_script_translations' ) ) {
+		wp_set_script_translations( 'generateblocks-editor-sidebar', 'generateblocks' );
+	}
+
+	wp_enqueue_style(
+		'generateblocks-editor-sidebar',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor-sidebar.css',
+		array( 'wp-components' ),
+		filemtime( GENERATEBLOCKS_DIR . 'dist/editor-sidebar.css' )
+	);
 }
 
 if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
