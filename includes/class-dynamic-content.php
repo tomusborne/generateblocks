@@ -277,6 +277,10 @@ class GenerateBlocks_Dynamic_Content {
 				is_float( $meta_value )
 			) ? $meta_value : '';
 
+			add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Content', 'expand_allowed_html' ], 10, 2 );
+			$value = wp_kses_post( $value );
+			remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Content', 'expand_allowed_html' ], 10, 2 );
+
 			return apply_filters(
 				'generateblocks_dynamic_content_post_meta',
 				$value,
@@ -1150,6 +1154,30 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		return $button_count;
+	}
+
+	/**
+	 * Expand the wp_kses_post sanitization function to allow iframe HTML tags
+	 *
+	 * @param array  $tags The allowed tags, attributes, and/or attribute values.
+	 * @param string $context Context to judge allowed tags by. Allowed values are 'post'.
+	 * @return array
+	 */
+	public static function expand_allowed_html( $tags, $context ) {
+		if ( ! isset( $tags['iframe'] ) ) {
+			$tags['iframe'] = [
+				'src'             => true,
+				'height'          => true,
+				'width'           => true,
+				'frameborder'     => true,
+				'allowfullscreen' => true,
+				'title'           => true,
+			];
+		}
+
+		$tags = apply_filters( 'generateblocks_dynamic_content_allowed_html', $tags, $context );
+
+		return $tags;
 	}
 }
 
