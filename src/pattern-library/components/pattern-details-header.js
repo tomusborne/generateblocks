@@ -4,7 +4,13 @@ import { __ } from '@wordpress/i18n';
 import { useLibrary } from './library-provider';
 import { PatternDetails } from './pattern-details';
 
-export function PatternDetailsHeader( { pattern, isSelected } ) {
+export function PatternDetailsHeader( {
+	pattern,
+	isSelected,
+	bulkInsertEnabled,
+	globalStyleData,
+	closeModal,
+} ) {
 	const {
 		activePatternId,
 		previewIframeWidth,
@@ -12,7 +18,15 @@ export function PatternDetailsHeader( { pattern, isSelected } ) {
 	} = useLibrary();
 
 	return (
-		<PatternDetails pattern={ pattern } showPreview={ false } isSelected={ isSelected } showTitle={ false }>
+		<PatternDetails
+			pattern={ pattern }
+			showPreview={ false }
+			isSelected={ isSelected }
+			showTitle={ false }
+			bulkInsertEnabled={ bulkInsertEnabled }
+			globalStyleData={ globalStyleData }
+			closeModal={ closeModal }
+		>
 			{ !! activePatternId && (
 				<ButtonGroup>
 					<Button
