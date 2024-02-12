@@ -95,12 +95,6 @@ export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEn
 						const blockInsertionPoint = getBlockInsertionPoint();
 						const renderedPatterns = parse( blockReplacements );
 
-						await insertBlocks(
-							renderedPatterns,
-							blockInsertionPoint?.index ?? 0,
-							blockInsertionPoint.rootClientId ?? ''
-						);
-
 						const updatedBlocks = updateUniqueIds( renderedPatterns );
 
 						updatedBlocks.forEach( ( block ) => {
@@ -108,6 +102,12 @@ export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEn
 								updateBlockAttributes( block.clientId, block.attributes );
 							}
 						} );
+
+						await insertBlocks(
+							updatedBlocks,
+							blockInsertionPoint?.index ?? 0,
+							blockInsertionPoint.rootClientId ?? ''
+						);
 
 						closeModal();
 					} }
