@@ -41,13 +41,6 @@ export function PatternDetails( {
 
 							const blockInsertionPoint = getBlockInsertionPoint();
 							const renderedPattern = parse( pattern.pattern );
-
-							await insertBlocks(
-								renderedPattern,
-								blockInsertionPoint?.index ?? 0,
-								blockInsertionPoint.rootClientId ?? ''
-							);
-
 							const updatedBlocks = updateUniqueIds( renderedPattern );
 
 							updatedBlocks.forEach( ( block ) => {
@@ -55,6 +48,12 @@ export function PatternDetails( {
 									updateBlockAttributes( block.clientId, block.attributes );
 								}
 							} );
+
+							await insertBlocks(
+								updatedBlocks,
+								blockInsertionPoint?.index ?? 0,
+								blockInsertionPoint.rootClientId ?? ''
+							);
 
 							closeModal();
 						} }
