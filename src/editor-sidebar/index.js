@@ -26,6 +26,7 @@ function EditorSidebar() {
 	return (
 		<PluginSidebar
 			name="gblocks-editor-sidebar"
+			className="gblocks-editor-sidebar"
 			title={ __( 'GenerateBlocks', 'generateblocks-pro' ) }
 			icon={ <Icon /> }
 		>
