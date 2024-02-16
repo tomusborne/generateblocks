@@ -6,8 +6,12 @@ import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
-function PatternLibrary( content ) {
+function PatternLibrary( content, { activePanel } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
+
+	if ( activePanel ) {
+		return content;
+	}
 
 	return (
 		<>
