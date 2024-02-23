@@ -12,3 +12,19 @@
 		font-size: 13px;
 	}
 }
+
+.gblocks-editor-sidebar-header {
+	&__inner {
+		display: flex;
+		flex-grow: 1;
+		align-items: center;
+	}
+
+	& > *:not(.gblocks-editor-sidebar-header__inner) {
+		display: none !important;
+	}
+
+	&__title {
+		font-weight: 600;
+	}
+}

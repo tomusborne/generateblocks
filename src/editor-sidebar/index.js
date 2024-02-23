@@ -1,9 +1,12 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { __ } from '@wordpress/i18n';
-import { PluginSidebar } from '@wordpress/edit-post';
+import { PluginSidebar, store as editPostStore } from '@wordpress/edit-post';
 import { applyFilters } from '@wordpress/hooks';
 import { useState } from '@wordpress/element';
 import './editor.scss';
+import { Button } from '@wordpress/components';
+import { closeSmall } from '@wordpress/icons';
+import { useDispatch } from '@wordpress/data';
 
 function SidebarItems( props ) {
 	const { name, children } = props;
@@ -23,8 +26,24 @@ function Icon() {
 	);
 }
 
+function SidebarHeader( props ) {
+	return (
+		<>
+			<div className="gblocks-editor-sidebar-header__inner">
+				{ applyFilters(
+					'generateblocks.editor.sidebarHeader',
+					props.children || '',
+					props,
+				) }
+			</div>
+		</>
+
+	);
+}
+
 function EditorSidebar() {
 	const [ activePanel, setActivePanel ] = useState( '' );
+	const { openGeneralSidebar } = useDispatch( editPostStore );
 
 	return (
 		<PluginSidebar
@@ -32,6 +51,22 @@ function EditorSidebar() {
 			className="gblocks-editor-sidebar"
 			title={ __( 'GenerateBlocks', 'generateblocks-pro' ) }
 			icon={ <Icon /> }
+			headerClassName="gblocks-editor-sidebar-header"
+			header={
+				<SidebarHeader
+					activePanel={ activePanel }
+					setActivePanel={ setActivePanel }
+				>
+					<span className="gblocks-editor-sidebar-header__title">
+						{ __( 'GenerateBlocks', 'generateblocks' ) }
+					</span>
+					<Button
+						onClick={ () => openGeneralSidebar( 'edit-post/block' ) }
+						icon={ closeSmall }
+						label={ __( 'Close', 'generateblocks-pro' ) }
+					/>
+				</SidebarHeader>
+			}
 		>
 			<SidebarItems
 				name="generateblocks.editor.sidebar"
