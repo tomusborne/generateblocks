@@ -84,6 +84,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.8.3 =
+* Security: Add user capability check to Query Loop post status
 
 = 1.8.2 =
 * Fix: Border colors not showing when old attributes are set.
