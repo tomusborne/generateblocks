@@ -17,13 +17,17 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @return array
  */
 function generateblocks_get_block_defaults() {
-	$cached_data = wp_cache_get(
-		'generateblocks_defaults_cache',
-		'generateblocks_cache_group'
-	);
+	$use_cache = apply_filters( 'generateblocks_use_block_defaults_cache', false );
 
-	if ( $cached_data ) {
-		return $cached_data;
+	if ( $use_cache ) {
+		$cached_data = wp_cache_get(
+			'generateblocks_defaults_cache',
+			'generateblocks_cache_group'
+		);
+
+		if ( $cached_data ) {
+			return $cached_data;
+		}
 	}
 
 	$defaults = apply_filters(
@@ -38,11 +42,13 @@ function generateblocks_get_block_defaults() {
 		]
 	);
 
-	wp_cache_set(
-		'generateblocks_defaults_cache',
-		$defaults,
-		'generateblocks_cache_group'
-	);
+	if ( $use_cache ) {
+		wp_cache_set(
+			'generateblocks_defaults_cache',
+			$defaults,
+			'generateblocks_cache_group'
+		);
+	}
 
 	return $defaults;
 }
