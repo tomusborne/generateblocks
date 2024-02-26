@@ -1,0 +1,30 @@
+.gblocks-editor-sidebar {
+	.components-panel__body {
+		&.is-opened {
+			padding: 16px;
+		}
+	}
+
+	&__panel-title {
+		font-weight: 500;
+		margin: 0 0 16px !important;
+		width: 100%;
+		font-size: 13px;
+	}
+}
+
+.gblocks-editor-sidebar-header {
+	&__inner {
+		display: flex;
+		flex-grow: 1;
+		align-items: center;
+	}
+
+	& > *:not(.gblocks-editor-sidebar-header__inner) {
+		display: none !important;
+	}
+
+	&__title {
+		font-weight: 600;
+	}
+}

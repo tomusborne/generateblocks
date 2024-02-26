@@ -129,6 +129,15 @@ class GenerateBlocks_Query_Loop {
 			$query_args['posts_per_page'] = $per_page;
 		}
 
+		if (
+			isset( $query_args['post_status'] ) &&
+			'publish' !== $query_args['post_status'] &&
+			! current_user_can( 'read_private_posts' )
+		) {
+			// If the user can't read private posts, we'll force the post status to be public.
+			$query_args['post_status'] = 'publish';
+		}
+
 		return $query_args;
 	}
 
