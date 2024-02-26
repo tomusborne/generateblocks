@@ -35,6 +35,7 @@ const ButtonEdit = ( props ) => {
 		blockVersion,
 		buttonType,
 		variantRole,
+		url,
 	} = attributes;
 
 	const ref = useRef( null );
@@ -43,6 +44,7 @@ const ButtonEdit = ( props ) => {
 		getBlockParents,
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
+	const [ buttonPreviewElement, setButtonPreviewElement ] = useState( 'span' );
 
 	useEffect( () => {
 		const parentBlockId = getBlockParents( clientId, true );
@@ -61,6 +63,16 @@ const ButtonEdit = ( props ) => {
 	}, [] );
 
 	useEffect( () => {
+		if ( 'link' === buttonType ) {
+			setButtonPreviewElement( url ? 'a' : 'span' );
+		}
+
+		if ( 'button' === buttonType ) {
+			setButtonPreviewElement( 'button' );
+		}
+	}, [ buttonType ] );
+
+	useEffect( () => {
 		// Add our default Button styles when inserted.
 		if ( wasBlockJustInserted( attributes ) && ! blockVersion && ! variantRole ) {
 			setAttributes( generateBlocksStyling.button );
@@ -71,6 +83,7 @@ const ButtonEdit = ( props ) => {
 		<Fragment>
 			<BlockControls
 				{ ...props }
+				setButtonPreviewElement={ setButtonPreviewElement }
 			/>
 
 			<GenerateBlocksInspectorControls
@@ -96,7 +109,11 @@ const ButtonEdit = ( props ) => {
 				isBlockPreview={ isBlockPreview }
 			/>
 
-			<ContentRenderer { ...props } buttonRef={ ref } />
+			<ContentRenderer
+				{ ...props }
+				buttonRef={ ref }
+				buttonPreviewElement={ buttonPreviewElement }
+			/>
 		</Fragment>
 	);
 };
