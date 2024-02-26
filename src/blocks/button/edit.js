@@ -2,7 +2,7 @@ import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
-import { Fragment, useRef, useEffect } from '@wordpress/element';
+import { Fragment, useRef, useEffect, useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withButtonLegacyMigration, withDeviceType, withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
