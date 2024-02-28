@@ -84,6 +84,20 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 == Changelog ==
 
 = 1.9.0 =
+* Security: Disallow scripts in custom field values
+* Feature: New Pattern Library
+* Feature: Add support for new Global Styles in Pro
+* Feature: Added opt-in defaults cache filter: `generateblocks_use_block_defaults_cache`
+* Feature: Added new `generateblocks_do_inline_styles` filter to force inline styles if needed
+* Feature: Add styles indicators to local block controls if Global Styles exist
+* Feature: Keep `p` tag when converting core paragraph block to Headline block
+* Feature: Use arrow keys to increase or decrease values in unit control
+* Fix: Button URL dropdown closing on input
+* Fix: Undefined $fontFamily in old Headline version
+* Fix: Missing block width alignment in block themes
+* Tweak: Remove "one-time" block CSS and include it for specific blocks when needed
+* Tweak: Added new `(min-width: 768px)` media query to filterable queries
+* Tweak: Replace Twitter icon with X icon
 
 = 1.8.3 =
 * Security: Add user capability check to Query Loop post status
