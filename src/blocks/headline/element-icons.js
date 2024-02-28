@@ -18,7 +18,7 @@ import {
  * Heading level icon.
  *
  * @param {WPHeadingLevelIconProps} props Component props.
- * @return {?WPComponent} The icon.
+ * @return {JSX.Element} The heading level icon.
  */
 export default function HeadingLevelIcon( { level } ) {
 	const levelToPath = {
