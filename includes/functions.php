@@ -187,10 +187,11 @@ function generateblocks_get_media_queries() {
 	return apply_filters(
 		'generateblocks_media_query',
 		array(
-			'desktop'     => '(min-width: 1025px)',
-			'tablet'      => '(max-width: 1024px)',
-			'tablet_only' => '(max-width: 1024px) and (min-width: 768px)',
-			'mobile'      => '(max-width: 767px)',
+			'desktop'        => '(min-width: 1025px)',
+			'desktop_tablet' => '(min-width: 768px)',
+			'tablet_only'    => '(max-width: 1024px) and (min-width: 768px)',
+			'tablet'         => '(max-width: 1024px)',
+			'mobile'         => '(max-width: 767px)',
 		)
 	);
 }
