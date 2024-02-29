@@ -8,17 +8,17 @@ import { useRef } from '@wordpress/element';
 import { SortableList } from '../../components/dnd';
 import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
-import { updateUniqueIds } from '../utils';
+import { isEmptyContentBlock, updateUniqueIds } from '../utils';
 
 export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEnabled } ) {
-	const { insertBlocks } = useDispatch( blockEditorStore );
+	const { insertBlocks, replaceBlock } = useDispatch( blockEditorStore );
 	const {
 		selectedPatterns = [],
 		selectedPatternsDispatch,
 		setActivePatternId,
 		setScrollPosition,
 	} = useLibrary();
-	const { getBlockInsertionPoint } = useSelect( ( select ) => select( blockEditorStore ), [] );
+	const { getBlockInsertionPoint, getSelectedBlock } = useSelect( ( select ) => select( blockEditorStore ), [] );
 	const { updateBlockAttributes } = useDispatch( blockEditorStore );
 	const ZeroWidthSpace = () => <>&#8203;</>;
 
@@ -94,8 +94,8 @@ export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEn
 						const blockReplacements = selectedPatterns.reduce( ( prev, current ) => prev + current.pattern, '' );
 						const blockInsertionPoint = getBlockInsertionPoint();
 						const renderedPatterns = parse( blockReplacements );
-
 						const updatedBlocks = updateUniqueIds( renderedPatterns );
+						const selectedBlock = getSelectedBlock();
 
 						updatedBlocks.forEach( ( block ) => {
 							if ( block.attributes && block.clientId ) {
@@ -103,11 +103,20 @@ export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEn
 							}
 						} );
 
-						await insertBlocks(
-							updatedBlocks,
-							blockInsertionPoint?.index ?? 0,
-							blockInsertionPoint.rootClientId ?? ''
-						);
+						const isEmptyContent = isEmptyContentBlock( selectedBlock );
+
+						if ( isEmptyContent ) {
+							await replaceBlock(
+								selectedBlock.clientId,
+								updatedBlocks
+							);
+						} else {
+							await insertBlocks(
+								updatedBlocks,
+								blockInsertionPoint?.index ?? 0,
+								blockInsertionPoint.rootClientId ?? ''
+							);
+						}
 
 						closeModal();
 					} }
