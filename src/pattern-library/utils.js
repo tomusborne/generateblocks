@@ -15,3 +15,17 @@ export function updateUniqueIds( blocks ) {
 		return block;
 	} );
 }
+
+export function isEmptyContentBlock( selectedBlock ) {
+	if ( 'core/paragraph' === selectedBlock?.name ) {
+		const currentContent = selectedBlock?.attributes?.content;
+
+		if ( 'string' === typeof currentContent ) {
+			return ! currentContent.trim();
+		} else if ( 'object' === typeof currentContent ) {
+			return ! currentContent?.text.trim();
+		}
+	}
+
+	return false;
+}

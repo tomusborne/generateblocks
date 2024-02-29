@@ -6,7 +6,7 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
-import { updateUniqueIds } from '../utils';
+import { isEmptyContentBlock, updateUniqueIds } from '../utils';
 
 export function PatternDetails( {
 	pattern,
@@ -22,8 +22,8 @@ export function PatternDetails( {
 		setActivePatternId,
 		setScrollPosition,
 	} = useLibrary();
-	const { insertBlocks } = useDispatch( blockEditorStore );
-	const { getBlockInsertionPoint } = useSelect( ( select ) => select( blockEditorStore ), [] );
+	const { insertBlocks, replaceBlock } = useDispatch( blockEditorStore );
+	const { getBlockInsertionPoint, getSelectedBlock } = useSelect( ( select ) => select( blockEditorStore ), [] );
 	const { updateBlockAttributes } = useDispatch( blockEditorStore );
 
 	return (
@@ -40,6 +40,7 @@ export function PatternDetails( {
 							e.stopPropagation();
 
 							const blockInsertionPoint = getBlockInsertionPoint();
+							const selectedBlock = getSelectedBlock();
 							const renderedPattern = parse( pattern.pattern );
 							const updatedBlocks = updateUniqueIds( renderedPattern );
 
@@ -49,11 +50,20 @@ export function PatternDetails( {
 								}
 							} );
 
-							await insertBlocks(
-								updatedBlocks,
-								blockInsertionPoint?.index ?? 0,
-								blockInsertionPoint.rootClientId ?? ''
-							);
+							const isEmptyContent = isEmptyContentBlock( selectedBlock );
+
+							if ( isEmptyContent ) {
+								await replaceBlock(
+									selectedBlock.clientId,
+									updatedBlocks
+								);
+							} else {
+								await insertBlocks(
+									updatedBlocks,
+									blockInsertionPoint?.index ?? 0,
+									blockInsertionPoint.rootClientId ?? ''
+								);
+							}
 
 							closeModal();
 						} }
