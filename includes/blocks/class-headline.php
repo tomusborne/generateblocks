@@ -252,7 +252,6 @@ class GenerateBlocks_Block_Headline {
 			if ( $settings['highlightTextColor'] ) {
 				$css->set_selector( $selector . ' .gb-highlight' );
 				$css->add_property( 'color', $settings['highlightTextColor'] );
-				$css->add_property( 'background', 'none' );
 			}
 
 			$tablet_css->set_selector( $selector );
@@ -513,7 +512,6 @@ class GenerateBlocks_Block_Headline {
 			if ( $settings['highlightTextColor'] ) {
 				$css->set_selector( '.gb-headline-' . $id . ' .gb-highlight' );
 				$css->add_property( 'color', $settings['highlightTextColor'] );
-				$css->add_property( 'background', 'none' );
 			}
 
 			$tablet_css->set_selector( '.gb-headline-' . $id );
