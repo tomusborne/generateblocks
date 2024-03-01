@@ -85,7 +85,7 @@ export default function UnitControl( props ) {
 		}
 
 		setPlaceholders();
-	}, [ value, overrideValue, placeholder ] );
+	}, [ value, overrideValue ] );
 
 	useEffect( () => {
 		// Don't run this on first render.
@@ -112,7 +112,7 @@ export default function UnitControl( props ) {
 		if ( ! hasOverride && fullValue !== value ) {
 			onChange( fullValue );
 		}
-	}, [ numericValue, unitValue, placeholder ] );
+	}, [ numericValue, unitValue ] );
 
 	useEffect( () => {
 		if ( focusOnMount && inputRef?.current ) {
