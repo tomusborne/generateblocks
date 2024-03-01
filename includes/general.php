@@ -474,6 +474,7 @@ add_filter( 'generateblocks_css_output', 'generateblocks_add_general_css' );
 function generateblocks_add_general_css( $css ) {
 	$css .= '.gb-container .wp-block-image img{vertical-align:middle;}';
 	$css .= '.gb-grid-wrapper .wp-block-image{margin-bottom:0;}';
+	$css .= '.gb-highlight{background:none;}';
 
 	return $css;
 }
