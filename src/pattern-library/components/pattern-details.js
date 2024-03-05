@@ -4,6 +4,7 @@ import { __ } from '@wordpress/i18n';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
+import { decodeEntities } from '@wordpress/html-entities';
 import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
 import { isEmptyContentBlock, updateUniqueIds } from '../utils';
@@ -29,7 +30,7 @@ export function PatternDetails( {
 	return (
 		<div className="gb-pattern-details">
 			{ !! showTitle && (
-				<h3>{ pattern.label }</h3>
+				<h3>{ decodeEntities( pattern.label ) }</h3>
 			) }
 
 			<div className="gb-pattern-details__actions">
