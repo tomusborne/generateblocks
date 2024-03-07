@@ -240,7 +240,7 @@ class App extends Component {
 									onClick={ ( e ) => this.updateSettings( e ) }
 								>
 									{ this.state.isAPISaving && <Spinner /> }
-									{ ! this.state.isAPISaving && __( 'Save' ) }
+									{ ! this.state.isAPISaving && __( 'Save', 'generateblocks' ) }
 								</Button>
 
 								<span className="gblocks-action-message"></span>
