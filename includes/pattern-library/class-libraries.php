@@ -58,6 +58,10 @@ class GenerateBlocks_Libraries extends GenerateBlocks_Singleton {
 					'generateblocks_default_open_pattern_library',
 					'gb_default_pro_library'
 				),
+				'defaultOpenCategory' => apply_filters(
+					'generateblocks_default_open_pattern_category',
+					''
+				),
 			)
 		);
 

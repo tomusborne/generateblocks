@@ -129,6 +129,12 @@ export function LibraryProvider( { children } ) {
 		const categoriesWithPatterns = data.filter( ( category ) => categoriesInPatterns.has( category.id ) );
 
 		setCategories( categoriesWithPatterns ?? [] );
+
+		const intialCategory = categoriesWithPatterns.find( ( category ) => (
+			generateBlocksPatternLibrary.defaultOpenCategory === category.name
+		) ) ?? '';
+
+		setActiveCategory( intialCategory?.id ?? '' );
 	}
 
 	async function setLibraryPatterns() {
