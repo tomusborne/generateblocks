@@ -73,6 +73,7 @@ export default class MainCSS extends Component {
 			'background-color': hexToRGBA( backgroundColor, backgroundColorOpacity ),
 			'background-image': backgroundImageValue,
 			'color': textColor, // eslint-disable-line quote-props
+			'text-decoration': 'none',
 		} ];
 
 		TypographyCSS( cssObj, selector, { ...attributes.typography, fontFamilyFallback } );
