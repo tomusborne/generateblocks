@@ -63,11 +63,27 @@ class GenerateBlocks_Settings {
 	 * Enqueue our scripts.
 	 */
 	public function enqueue_scripts() {
+		$generateblocks_deps = array( 'wp-api', 'wp-i18n', 'wp-components', 'wp-element', 'wp-api-fetch' );
+
+		$assets_file = GENERATEBLOCKS_DIR . 'dist/dashboard.asset.php';
+		$compiled_assets = file_exists( $assets_file )
+			? require $assets_file
+			: false;
+
+		$assets =
+			isset( $compiled_assets['dependencies'] ) &&
+			isset( $compiled_assets['version'] )
+			? $compiled_assets
+			: [
+				'dependencies' => $generateblocks_deps,
+				'version' => filemtime( GENERATEBLOCKS_DIR . 'dist/dashboard.js' ),
+			];
+
 		wp_enqueue_script(
 			'generateblocks-settings',
 			GENERATEBLOCKS_DIR_URL . 'dist/dashboard.js',
-			array( 'wp-api', 'wp-i18n', 'wp-components', 'wp-element', 'wp-api-fetch' ),
-			GENERATEBLOCKS_VERSION,
+			$assets['dependencies'],
+			$assets['version'],
 			true
 		);
 

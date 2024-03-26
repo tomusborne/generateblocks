@@ -181,6 +181,22 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
 }
 
 /**
+ * Returns a list of available media queries.
+ */
+function generateblocks_get_media_queries() {
+	return apply_filters(
+		'generateblocks_media_query',
+		array(
+			'desktop'        => '(min-width: 1025px)',
+			'desktop_tablet' => '(min-width: 768px)',
+			'tablet_only'    => '(max-width: 1024px) and (min-width: 768px)',
+			'tablet'         => '(max-width: 1024px)',
+			'mobile'         => '(max-width: 767px)',
+		)
+	);
+}
+
+/**
  * Get our media query.
  *
  * @since 0.1
@@ -189,15 +205,7 @@ function generateblocks_get_shorthand_css( $top, $right, $bottom, $left, $unit )
  * @return string
  */
 function generateblocks_get_media_query( $type ) {
-	$queries = apply_filters(
-		'generateblocks_media_query',
-		array(
-			'desktop'     => '(min-width: 1025px)',
-			'tablet'      => '(max-width: 1024px)',
-			'tablet_only' => '(max-width: 1024px) and (min-width: 768px)',
-			'mobile'      => '(max-width: 767px)',
-		)
-	);
+	$queries = generateblocks_get_media_queries();
 
 	return $queries[ $type ];
 }
@@ -1122,16 +1130,28 @@ function generateblocks_add_to_css_data( $data ) {
  * @param array  $data Block data.
  */
 function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
+	$inline_style_override = apply_filters(
+		'generateblocks_do_inline_styles',
+		false,
+		[
+			'content' => $content,
+			'data' => $data,
+		]
+	);
+
 	if (
 		isset( $data['attributes']['uniqueId'] ) &&
-		! in_array( $data['attributes']['uniqueId'], $data['block_ids'] )
+		(
+			! in_array( $data['attributes']['uniqueId'], $data['block_ids'] ) ||
+			$inline_style_override
+		)
 	) {
 		// Don't try to print CSS for the Query Loop block.
 		if ( isset( $data['attributes']['query'] ) ) {
 			return $content;
 		}
 
-		if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() ) {
+		if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() && ! $inline_style_override ) {
 			return $content;
 		}
 
@@ -1143,7 +1163,7 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 			return $content;
 		}
 
-		if ( did_action( 'wp_head' ) ) {
+		if ( did_action( 'wp_head' ) || $inline_style_override ) {
 			// Add inline <style> elements if we don't have access to wp_head.
 			$grouped_css = generateblocks_group_css_data( [], $css_data );
 			$compiled_css = generateblocks_get_compiled_css( $grouped_css );
@@ -1726,4 +1746,69 @@ function generateblocks_get_font_family_list() {
 			],
 		]
 	);
+}
+
+/**
+ * Transforms a string to camelCase.
+ *
+ * @param string $str The string to be transformed.
+ *
+ * @return string
+ */
+function generateblocks_to_camel_case( string $str ): string {
+	return lcfirst(
+		str_replace(
+			'_',
+			'',
+			ucwords( $str, '_' )
+		)
+	);
+}
+
+/**
+ * Transforms a string to snake_case.
+ *
+ * @param string $str The string to be transformed.
+ *
+ * @return string
+ */
+function generateblocks_to_snake_case( string $str ): string {
+	return strtolower(
+		preg_replace(
+			'/(?<!^)[A-Z0-9]/',
+			'_$0',
+			$str
+		)
+	);
+}
+
+/**
+ * Get our script dependencies and version.
+ *
+ * @param string $filename The filename to use.
+ * @param array  $fallback_assets The assets to fallback to.
+ */
+function generateblocks_get_enqueue_assets(
+	$filename = '',
+	$fallback_assets = [
+		'dependencies' => [],
+		'version' => '',
+	]
+) {
+	if ( ! $filename ) {
+		return $fallback_assets;
+	}
+
+	$assets_file = GENERATEBLOCKS_DIR . 'dist/' . $filename . '.asset.php';
+	$compiled_assets = file_exists( $assets_file )
+		? require $assets_file
+		: false;
+
+	$assets =
+		isset( $compiled_assets['dependencies'] ) &&
+		isset( $compiled_assets['version'] )
+		? $compiled_assets
+		: $fallback_assets;
+
+	return $assets;
 }
