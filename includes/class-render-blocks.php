@@ -58,6 +58,11 @@ class GenerateBlocks_Render_Block {
 		$container_args = [
 			'title' => esc_html__( 'Container', 'generateblocks' ),
 			'render_callback' => [ 'GenerateBlocks_Block_Container', 'render_block' ],
+			'uses_context' => array(
+				'generateblocks/query',
+				'generateblocks/query_args',
+				'generateblocks/query_type',
+			),
 		];
 
 		if ( version_compare( $GLOBALS['wp_version'], '6.1.0', '<' ) ) {
@@ -91,6 +96,19 @@ class GenerateBlocks_Render_Block {
 			array(
 				'title' => esc_html__( 'Query loop', 'generateblocks' ),
 				'render_callback' => [ 'GenerateBlocks_Block_Grid', 'render_block' ],
+				'provides_context' => array(
+					'generateblocks/query' => 'query',
+					'generateblocks/queryId' => 'uniqueId',
+					'generateblocks/inheritQuery' => 'inheritQuery',
+				),
+			)
+		);
+
+		register_block_type(
+			'generateblocks/loop',
+			array(
+				'title' => esc_html__( 'Loop', 'generateblocks' ),
+				'render_callback' => [ 'GenerateBlocks_Block_Loop', 'render_block' ],
 				'provides_context' => array(
 					'generateblocks/query' => 'query',
 					'generateblocks/queryId' => 'uniqueId',

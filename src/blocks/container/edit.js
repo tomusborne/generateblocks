@@ -13,6 +13,7 @@ import { useSelect } from '@wordpress/data';
 import { withTemplateContext } from '../../extend/template-selector/templateContext';
 import getDeviceType from '../../utils/get-device-type';
 import withSetAttributes from '../../hoc/withSetAttributes';
+import withLoop from '../loop/hoc/withLoop';
 
 const ContainerEdit = ( props ) => {
 	const {
@@ -147,6 +148,7 @@ export default compose(
 	withDeviceType,
 	withTemplateContext,
 	withBlockContext,
+	withLoop,
 	withDynamicContent,
 	withUniqueId,
 	withContainerLegacyMigration,

@@ -56,16 +56,20 @@ registerBlockType( 'generateblocks/container', {
 		);
 	},
 	deprecated,
-	__experimentalLabel: ( attrs, { context } ) => {
+	__experimentalLabel: ( attrs, { label, context } ) => {
 		if ( attrs.isQueryLoopItem ) {
 			return __( 'Post Template', 'generateblocks' );
+		}
+
+		if ( 'loopRepeater' === attrs.variantRole ) {
+			return __( 'Loop Repeater', 'generateblocks' );
 		}
 
 		if ( 'list-view' === context && attrs.blockLabel ) {
 			return attrs.blockLabel;
 		}
 
-		return __( 'Container', 'generateblocks' );
+		return label;
 	},
 	transforms,
 } );
