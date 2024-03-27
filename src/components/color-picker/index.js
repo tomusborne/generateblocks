@@ -45,6 +45,10 @@ export default function ColorPicker( props ) {
 		return /^([0-9A-F]{3}){1,2}$/i.test( hex );
 	};
 
+	const POPOVER_PROPS = {
+		position: 'top left',
+	};
+
 	const getPaletteValue = ( colorValue ) => {
 		if ( String( colorValue ).startsWith( 'var(' ) ) {
 			const variableName = colorValue.match( /\(([^)]+)\)/ );
@@ -92,7 +96,7 @@ export default function ColorPicker( props ) {
 			<Dropdown
 				className="gblocks-color-component__toggle"
 				contentClassName="gblocks-color-component-content"
-				position="top left"
+				popoverProps={ POPOVER_PROPS }
 				renderToggle={ ( { isOpen, onToggle } ) => {
 					const button = <Button
 						className="gblocks-color-component__toggle-button"
@@ -153,7 +157,7 @@ export default function ColorPicker( props ) {
 							/>
 
 							<Button
-								isSmall
+								size="small"
 								isSecondary
 								className="gblocks-color-input-clear"
 								onClick={ () => {

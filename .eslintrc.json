@@ -9,7 +9,8 @@
 		"generateBlocksInfo": false,
 		"generateBlocksStyling": "readonly",
 		"generateBlocksSettings": "readonly",
-		"generateBlocksLegacyDefaults": "readonly"
+		"generateBlocksLegacyDefaults": "readonly",
+		"generateBlocksPatternLibrary": "readonly"
 	},
 	"env": {
 	  "browser": true,
@@ -64,7 +65,7 @@
 		"no-alert": "error",
 		"no-bitwise": "error",
 		"no-caller": "error",
-		"no-console": "error",
+		"no-console": "warn",
 		"no-const-assign": "error",
 		"no-debugger": "error",
 		"no-dupe-args": "error",
@@ -157,6 +158,7 @@
 		"prefer-const": "error",
 		"quote-props": ["error", "as-needed"],
 		"react/display-name": "off",
+		"react-hooks/exhaustive-deps": "off",
 		"react/jsx-curly-spacing": [
 			"error",
 			{

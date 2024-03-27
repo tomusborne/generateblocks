@@ -2,9 +2,10 @@ import { BaseControl, Button, ButtonGroup, Tooltip } from '@wordpress/components
 import { __ } from '@wordpress/i18n';
 import { alignNone, stretchWide, stretchFullWidth } from '@wordpress/icons';
 import { useSelect } from '@wordpress/data';
-import { store as blockEditorStore } from '@wordpress/block-editor';
+import { store as blockEditorStore, useSetting } from '@wordpress/block-editor';
 
 export default function ThemeWidth( { value, onChange } ) {
+	const hasWideSize = useSetting( 'layout.wideSize' );
 	const { themeSupportsAlignWide } = useSelect(
 		( select ) => {
 			const { getSettings } = select( blockEditorStore );
@@ -15,7 +16,7 @@ export default function ThemeWidth( { value, onChange } ) {
 		[]
 	);
 
-	if ( ! themeSupportsAlignWide ) {
+	if ( ! themeSupportsAlignWide && ! hasWideSize ) {
 		return null;
 	}
 

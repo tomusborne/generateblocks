@@ -1,11 +1,10 @@
-import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function MaxHeight( { value, onChange, placeholder } ) {
+export default function MaxHeight( { value, onChange, placeholder, label } ) {
 	return (
 		<>
 			<UnitControl
-				label={ __( 'Max Height', 'generateblocks' ) }
+				label={ label }
 				id="gblocks-max-height"
 				value={ value }
 				placeholder={ placeholder }

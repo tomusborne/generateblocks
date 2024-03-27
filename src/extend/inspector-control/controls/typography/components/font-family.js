@@ -5,7 +5,7 @@ import googleFonts from '../google-fonts.json';
 import typographyOptions from '../options';
 import AdvancedSelect from '../../../../../components/advanced-select';
 
-export default function FontFamily( { attributes, setAttributes } ) {
+export default function FontFamily( { attributes, setAttributes, label } ) {
 	const {
 		typography,
 		fontFamilyFallback,
@@ -68,7 +68,7 @@ export default function FontFamily( { attributes, setAttributes } ) {
 	return (
 		<>
 			<BaseControl
-				label={ __( 'Font Family', 'generateblocks' ) }
+				label={ label }
 				id="gblocks-font-family"
 				className="gblocks-font-family"
 			>

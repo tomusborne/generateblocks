@@ -3,28 +3,19 @@
  */
 import {
 	applyFilters,
+	doAction,
 } from '@wordpress/hooks';
 
-import {
-	Component,
-} from '@wordpress/element';
+export default function ApplyFilters( props ) {
+	const { name, children } = props;
+	doAction( 'generateblocks.editor.panel.beforeFilters', props );
 
-/**
- * Component Class
- */
-export default class ApplyFilters extends Component {
-	render() {
-		const {
+	return (
+		applyFilters(
 			name,
-			children,
-		} = this.props;
-
-		return (
-			applyFilters(
-				name,
-				children || '',
-				this.props,
-			)
-		);
-	}
+			children || '',
+			props,
+		)
+	);
 }
+

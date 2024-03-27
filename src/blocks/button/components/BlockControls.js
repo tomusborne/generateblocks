@@ -16,6 +16,7 @@ export default ( props ) => {
 		attributes,
 		clientId,
 		setAttributes,
+		setButtonPreviewElement,
 	} = props;
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
@@ -93,6 +94,7 @@ export default ( props ) => {
 						<Dropdown
 							contentClassName="gblocks-button-link-dropdown"
 							popoverProps={ POPOVER_PROPS }
+							onClose={ () => setButtonPreviewElement( url ? 'a' : 'span' ) }
 							renderToggle={ ( { isOpen, onToggle } ) => (
 								<ToolbarButton
 									icon={ link }

@@ -93,9 +93,6 @@ class GenerateBlocks_Block_Image {
 
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
-			$css->set_selector( '.gb-block-image img' );
-			$css->add_property( 'vertical-align', 'middle' );
-
 			do_action(
 				'generateblocks_block_one_time_css_data',
 				'image',
@@ -128,6 +125,7 @@ class GenerateBlocks_Block_Image {
 		$css->add_property( 'width', $settings['width'] );
 		$css->add_property( 'height', $settings['height'] );
 		$css->add_property( 'object-fit', $settings['objectFit'] );
+		$css->add_property( 'vertical-align', 'middle' );
 
 		$tablet_css->set_selector( '.gb-block-image-' . $id );
 		generateblocks_add_spacing_css( $tablet_css, $settings, 'Tablet' );

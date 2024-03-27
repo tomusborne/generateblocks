@@ -1,16 +1,9 @@
-import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function Width( props ) {
-	const {
-		value,
-		placeholder,
-		onChange,
-	} = props;
-
+export default function Width( { value, placeholder, onChange, label } ) {
 	return (
 		<UnitControl
-			label={ __( 'Width', 'generateblocks' ) }
+			label={ label }
 			id="gblocks-width"
 			value={ value }
 			placeholder={ placeholder }

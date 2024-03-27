@@ -171,12 +171,7 @@ class GenerateBlocks_Block_Button {
 
 		// Only add this CSS once.
 		if ( ! self::$singular_css_added ) {
-			$css->set_selector( '.gb-button' );
-			$css->add_property( 'text-decoration', 'none' );
-
-			$css->set_selector( '.gb-icon svg' );
-			$css->add_property( 'fill', 'currentColor' );
-
+			// Singular CSS is no longer supported since 1.9.0.
 			do_action(
 				'generateblocks_block_one_time_css_data',
 				'button',
@@ -200,6 +195,7 @@ class GenerateBlocks_Block_Button {
 		generateblocks_add_border_css( $css, $settings );
 		$css->add_property( 'background-color', generateblocks_hex2rgba( $settings['backgroundColor'], $settings['backgroundColorOpacity'] ) );
 		$css->add_property( 'color', $settings['textColor'] );
+		$css->add_property( 'text-decoration', 'none' );
 
 		if ( $settings['gradient'] ) {
 			$css->add_property( 'background-image', 'linear-gradient(' . $settings['gradientDirection'] . 'deg, ' . generateblocks_hex2rgba( $settings['gradientColorOne'], $settings['gradientColorOneOpacity'] ) . $gradientColorStopOneValue . ', ' . generateblocks_hex2rgba( $settings['gradientColorTwo'], $settings['gradientColorTwoOpacity'] ) . $gradientColorStopTwoValue . ')' );
@@ -271,6 +267,7 @@ class GenerateBlocks_Block_Button {
 
 			$css->add_property( 'width', generateblocks_get_array_attribute_value( 'width', $settings['iconStyles'] ) );
 			$css->add_property( 'height', generateblocks_get_array_attribute_value( 'height', $settings['iconStyles'] ) );
+			$css->add_property( 'fill', 'currentColor' );
 		}
 
 		$tablet_css->set_selector( $selector );

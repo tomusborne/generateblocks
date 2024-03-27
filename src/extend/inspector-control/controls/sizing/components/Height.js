@@ -1,10 +1,9 @@
-import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function Height( { value, onChange, placeholder } ) {
+export default function Height( { value, onChange, placeholder, label } ) {
 	return (
 		<UnitControl
-			label={ __( 'Height', 'generateblocks' ) }
+			label={ label }
 			id="gblocks-height"
 			value={ value }
 			placeholder={ placeholder }

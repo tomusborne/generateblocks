@@ -1,0 +1,459 @@
+.gb-pattern-library {
+	display: grid;
+	grid-template-areas:
+		"header header"
+		"subheader subheader"
+		"sidebar content";
+	grid-template-columns: 312px 1fr;
+	grid-template-rows: 75px auto 1fr;
+	height: 100%;
+
+	&__header {
+		align-items: center;
+		background: #fff;
+		border-bottom: 1px solid #fafafa;
+		display: grid;
+		grid-area: header;
+		grid-template-columns: 1fr 3fr 1fr;
+		height: 75px;
+		justify-content: space-between;
+		padding: 0 32px;
+
+		h1 {
+			font-size: 20px;
+			display: flex;
+			gap: 10px;
+
+			svg {
+				width: 20px;
+				height: 20px;
+			}
+		}
+
+		&-title {
+			grid-column: 1;
+		}
+
+		&-action {
+			justify-content: center;;
+			display: flex;
+			gap: 1rem;
+			grid-column: 2;
+		}
+
+		&-close {
+			align-items: center;
+			display: flex;
+			gap: 10px;
+			grid-column: 3;
+			justify-content: flex-end;
+
+			.components-button {
+				.components-spinner {
+					margin: 0;
+				}
+			}
+		}
+	}
+
+	// TODO: Refactor this for better semantics and code placement
+	.gblocks-collection-required-components {
+		grid-column: 1 / -1;
+	}
+
+	&__sidebar {
+		grid-area: sidebar;
+		height: 100%;
+		overflow-y: auto;
+		padding: 32px;
+		width: 100%;
+	}
+
+	.pattern-library-selector {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+
+		.components-button-group {
+			display: flex;
+		}
+	}
+
+	&__content {
+		height: 100%;
+		grid-area: content;
+		overflow-y: scroll;
+		padding-bottom: 32px;
+		position: relative;
+
+	}
+	.patterns-wrapper {
+		background: #f0f0f0;
+		display: grid;
+		gap: 32px;
+		grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+		margin-top: 0;
+		padding: 30px;
+
+		&:empty {
+			display: none;
+		}
+	}
+
+	.pattern-category-list,
+	.pattern-tree {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+	}
+
+	.pattern-category-list {
+		margin-bottom: 10px;
+		background: #fafafa;
+		border-radius: 3px;
+
+		.pattern-category-dropdown > .components-button {
+			width: 100%;
+			display: flex;
+			flex-direction: row-reverse;
+			justify-content: space-between !important;
+		}
+	}
+
+	.gb-pattern-wrapper {
+		background: #fff;
+		border: none;
+		padding: 10px 10px 0;
+		border-radius: 10px;
+
+		.gb-selectable__toggle {
+			border-radius: 10px;
+		}
+	}
+
+	.gb-pattern-frame {
+		overflow: hidden;
+		padding: 20px 20px 0;
+		background: #e1e1e1;
+	}
+
+	.gb-pattern {
+		overflow: hidden;
+		position: relative;
+		height: 100%;
+		background: #f7f7f7;
+
+		.components-spinner {
+			position: absolute;
+			top: calc(50% - 8px);
+			left: calc(50% - 8px);
+			width: 16px;
+			height: 16px;
+		}
+	}
+
+	.loading-library {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		min-height: 30vh;
+
+		.components-spinner {
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+	}
+}
+
+.gb-pattern-details {
+	padding: 20px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 10px;
+
+	h3 {
+		margin: 0;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		font-size: 15px;
+		font-weight: 400;
+	}
+
+	&__actions {
+		flex-shrink: 0;
+		display: flex;
+		gap: 5px;
+	}
+}
+
+.gblocks-pattern-library-modal.is-full-screen {
+	.components-modal__header {
+		display: none;
+
+		+ div {
+			height: 100%;
+		}
+	}
+
+	.components-modal__content {
+		margin-top: 0;
+		padding: 0;
+	}
+}
+
+.gblocks-pattern-library-pagination {
+	display: flex;
+	gap: 10px;
+	justify-content: center;
+
+	a {
+		display: block;
+		font-size: 17px;
+		padding: 15px 20px;
+		border-radius: 3px;
+		background: #fff;
+		box-shadow: inset 0 0 0 1px var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+  		color: var(--wp-components-color-accent,var(--wp-admin-theme-color,#3858e9));
+
+		&:not([aria-disabled="true"]) {
+			cursor: pointer;
+		}
+
+		&[aria-current="page"] {
+			background: var(--wp-components-color-foreground, #1e1e1e);
+  			color: var(--wp-components-color-foreground-inverted, #fff);
+		}
+	}
+
+	li.previous.disabled,
+	li.next.disabled {
+		display: none;
+	}
+}
+
+.gblocks-manage-libraries {
+	width: 400px;
+	max-width: 100%;
+
+	&__table {
+		border: 1px solid #ddd;
+		margin-bottom: 2em;
+	}
+
+	&__library {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 10px;
+		border-bottom: 1px solid #ddd;
+
+		&:nth-child(even) {
+			background: #fafafa;
+		}
+
+		&:last-child {
+			border-bottom: 0;
+		}
+
+		.components-base-control {
+			margin: 0;
+
+			&__field {
+				margin: 0;
+			}
+		}
+
+		&-name {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			.components-button {
+				svg {
+					width: 17px;
+					height: 17px;
+				}
+			}
+		}
+
+		&-actions {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+
+			.components-base-control {
+				margin: 0;
+
+				&__field {
+					margin: 0;
+				}
+			}
+		}
+	}
+
+	h4 {
+		margin: 0 0 10px;
+		font-size: 15px;
+	}
+}
+
+.gblocks-patterns-add-library {
+	.components-base-control {
+		margin-bottom: 1.5em;
+	}
+}
+
+.gb-selected-patterns {
+
+	&__list {
+		> :first-child {
+			border-top: 1px solid #e1e1e1;
+		}
+
+		> * {
+			border-bottom: 1px solid #e1e1e1;
+			margin: 0;
+		}
+
+		&.is-dragging {
+			background-color: #bcecfb;
+		}
+
+		.gb-sortable-listitem {
+			background-color: #fefefe;
+
+			&.is-dragging {
+				background-color: #f0f0f0;
+			}
+		}
+	}
+}
+
+.gb-selected-pattern {
+	align-items: center;
+	display: flex;
+	flex-grow: 1;
+	gap: 0.625rem;
+
+	&__label {
+		-webkit-box-orient: vertical;
+		display: -webkit-box;
+		font-weight: 500;
+		-webkit-line-clamp: 1;
+		overflow: hidden;
+	}
+
+	&__handle {
+		flex-shrink: 1;
+	}
+
+	&__actions {
+		display: flex;
+		align-items: center;
+		flex-shrink: 1;
+		gap: 0.125rem;
+		margin-left: auto;
+	}
+
+	.components-button {
+		svg {
+			display: block;
+			height: 1rem;
+			width: 1rem;
+		}
+	}
+}
+
+// Borrow from wp-core-ui media select styles to avoid extra unwanted styles
+.gb-selectable {
+	$selectable_blue: #2271b1;
+	position: relative;
+
+	&__toggle {
+		background: transparent;
+		border: none;
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		width: 100%;
+		z-index: 1;
+	}
+
+	.check {
+		background: #f0f0f1;
+		border: 0;
+		box-shadow: 0 0 0 1px #fff, 0 0 0 2px rgba(0, 0, 0, 0.15);
+		cursor: pointer;
+		display: none;
+		height: 24px;
+		outline: none;
+		padding: 0;
+		position: absolute;
+		right: -6px;
+		top: -6px;
+		width: 24px;
+		z-index: 10;
+
+		.media-modal-icon {
+			background-position: -1px 0;
+			display: block;
+			height: 15px;
+			margin: 5px;
+			width: 15px;
+		}
+
+		&:hover .media-modal-icon {
+			background-position: -40px 0;
+		}
+	}
+
+	&.is-selected .gb-selectable__toggle,
+	.gb-selectable__toggle:where(:hover, :focus-within) {
+		outline: 3px solid $selectable_blue;
+		outline-offset: -3px;
+	}
+
+	&.is-selected .check {
+		display: block;
+
+		&:focus,
+		& {
+			background-color: $selectable_blue;
+			box-shadow:
+				0 0 0 1px #fff,
+				0 0 0 2px $selectable_blue;
+		}
+
+		&:focus {
+			/* Only visible in Windows High Contrast mode */
+			outline: 2px solid transparent;
+		}
+
+		.media-modal-icon {
+			background-position: -21px 0;
+		}
+
+		&:focus .media-modal-icon,
+		&:hover .media-modal-icon {
+			background-position: -60px 0;
+		}
+	}
+
+	// Target the check when interacting with the toggle while the item is selected
+	&.is-selected .gb-selectable__toggle:where(:hover, :focus-visible) + .check {
+		.media-modal-icon {
+			background-position: -60px 0;
+		}
+	}
+}
+
+.gblocks-pattern-library-button {
+	svg {
+		width: 19px;
+		height: 19px;
+	}
+}

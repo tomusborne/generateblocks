@@ -1,11 +1,18 @@
-import { __ } from '@wordpress/i18n';
 import UnitControl from '../../../../../components/unit-control';
 
-export default function MaxWidth( { value, onChange, disabled, overrideValue, overrideAction, placeholder } ) {
+export default function MaxWidth( {
+	value,
+	onChange,
+	disabled,
+	overrideValue,
+	overrideAction,
+	placeholder,
+	label,
+} ) {
 	return (
 		<>
 			<UnitControl
-				label={ __( 'Max Width', 'generateblocks' ) }
+				label={ label }
 				id="gblocks-max-width"
 				overrideValue={ overrideValue }
 				disabled={ disabled }

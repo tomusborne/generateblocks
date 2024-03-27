@@ -16,6 +16,7 @@ const transforms = {
 			transform: ( { content } ) => {
 				return createBlock( 'generateblocks/headline', {
 					content,
+					element: 'p',
 				} );
 			},
 		},

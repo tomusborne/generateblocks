@@ -1,13 +1,12 @@
 import { BaseControl, Button, ButtonGroup, Tooltip } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
 import typographyOptions from '../options';
 
-export default function Alignment( { value, onChange } ) {
+export default function Alignment( { value, onChange, label } ) {
 	const alignments = typographyOptions.alignments;
 
 	return (
 		<BaseControl
-			label={ __( 'Text Alignment', 'generateblocks' ) }
+			label={ label }
 			id="gblocks-alignment-button-group"
 		>
 			<div>

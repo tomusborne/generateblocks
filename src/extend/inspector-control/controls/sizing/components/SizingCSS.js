@@ -27,10 +27,6 @@ export default function SizingCSS( css, selector, attributes, device = '' ) {
 		delete styles[ 'max-width' ];
 	}
 
-	if ( ! styles[ 'max-width' ] ) {
-		styles[ 'max-width' ] = 'unset';
-	}
-
 	return (
 		addToCSS( css, selector, styles )
 	);

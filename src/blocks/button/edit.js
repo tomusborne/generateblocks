@@ -2,7 +2,7 @@ import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import ComponentCSS from './components/ComponentCSS';
 import GoogleFontLink from '../../components/google-font-link';
-import { Fragment, useRef, useState, useEffect } from '@wordpress/element';
+import { Fragment, useRef, useEffect, useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withButtonLegacyMigration, withDeviceType, withUniqueId } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
@@ -35,23 +35,16 @@ const ButtonEdit = ( props ) => {
 		blockVersion,
 		buttonType,
 		variantRole,
+		url,
 	} = attributes;
 
 	const ref = useRef( null );
-	const [ computedStyles, setComputedStyles ] = useState( {} );
 	const deviceType = getDeviceType();
 	const {
 		getBlockParents,
 		getBlocksByClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
-
-	useEffect( () => {
-		const computedButtonStyles = getComputedStyle( ref.current );
-
-		setComputedStyles( {
-			fontSize: parseInt( computedButtonStyles.fontSize ) || '',
-		} );
-	}, [] );
+	const [ buttonPreviewElement, setButtonPreviewElement ] = useState( 'span' );
 
 	useEffect( () => {
 		const parentBlockId = getBlockParents( clientId, true );
@@ -70,6 +63,16 @@ const ButtonEdit = ( props ) => {
 	}, [] );
 
 	useEffect( () => {
+		if ( 'link' === buttonType ) {
+			setButtonPreviewElement( url ? 'a' : 'span' );
+		}
+
+		if ( 'button' === buttonType ) {
+			setButtonPreviewElement( 'button' );
+		}
+	}, [ buttonType ] );
+
+	useEffect( () => {
 		// Add our default Button styles when inserted.
 		if ( wasBlockJustInserted( attributes ) && ! blockVersion && ! variantRole ) {
 			setAttributes( generateBlocksStyling.button );
@@ -80,12 +83,12 @@ const ButtonEdit = ( props ) => {
 		<Fragment>
 			<BlockControls
 				{ ...props }
+				setButtonPreviewElement={ setButtonPreviewElement }
 			/>
 
 			<GenerateBlocksInspectorControls
 				attributes={ attributes }
 				setAttributes={ setAttributes }
-				computedStyles={ computedStyles }
 			>
 				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
 			</GenerateBlocksInspectorControls>
@@ -106,7 +109,11 @@ const ButtonEdit = ( props ) => {
 				isBlockPreview={ isBlockPreview }
 			/>
 
-			<ContentRenderer { ...props } buttonRef={ ref } />
+			<ContentRenderer
+				{ ...props }
+				buttonRef={ ref }
+				buttonPreviewElement={ buttonPreviewElement }
+			/>
 		</Fragment>
 	);
 };

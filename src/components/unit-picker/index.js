@@ -62,7 +62,7 @@ export default class UnitChooser extends Component {
 								<Button
 									key={ unit }
 									className={ 'components-gblocks-control-button__units--' + unit }
-									isSmall
+									size="small"
 									isPrimary={ value === unit }
 									aria-pressed={ value === unit }
 									/* translators: %s: values associated with CSS syntax, 'Pixel', 'Em', 'Percentage' */
