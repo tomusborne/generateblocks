@@ -1,6 +1,4 @@
-import gridAttributes from '../grid/attributes';
-
-export default Object.assign( {}, gridAttributes, {
+export default {
 	uniqueId: {
 		type: 'string',
 		default: '',
@@ -20,4 +18,4 @@ export default Object.assign( {}, gridAttributes, {
 		type: 'string',
 		default: '',
 	},
-} );
+};

@@ -1,14 +1,16 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
+import { InnerBlocks } from '@wordpress/block-editor';
+
 import getIcon from '../../utils/get-icon';
 import attributes from './attributes';
-import { InnerBlocks } from '@wordpress/block-editor';
 import edit from './edit';
-import './editor.scss';
 import withUniqueId from '../../hoc/withUniqueId';
 
+import './editor.scss';
+
 registerBlockType( 'generateblocks/loop', {
-	apiVersion: 2,
+	apiVersion: 3,
 	title: __( 'Loop', 'generateblocks' ),
 	description: __( 'Build a list of posts from any post type using advanced query parameters.', 'generateblocks' ),
 	icon: getIcon( 'query-loop' ),

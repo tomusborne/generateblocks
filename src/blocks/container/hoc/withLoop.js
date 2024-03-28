@@ -1,4 +1,4 @@
-import QueryLoopRenderer from '../components/QueryLoopRenderer';
+import ContentRenderer from '../../loop/components/LoopInnerBlocksRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -7,7 +7,7 @@ export default ( WrappedComponent ) => {
 		const newProps = 'loopRepeater' === attributes.variantRole ? Object.assign( {}, props, {
 			defaultLayout: '100',
 			templateLock: 'all',
-			ContentRenderer: QueryLoopRenderer,
+			ContentRenderer,
 		} ) : props;
 
 		return <WrappedComponent { ...newProps } />;

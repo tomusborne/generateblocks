@@ -1,15 +1,16 @@
-import InspectorControls from './components/InspectorControls';
-import BlockControls from './components/BlockControls';
-import filterAttributes from '../../utils/filter-attributes';
-import queryLoopAttributes from './attributes';
 import {
 	BlockContextProvider,
 	useBlockProps,
 	store as blockEditorStore,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import LayoutSelector from './components/LayoutSelector';
 import { useSelect } from '@wordpress/data';
+
+import InspectorControls from './components/InspectorControls';
+import BlockControls from './components/BlockControls';
+import filterAttributes from '../../utils/filter-attributes';
+import queryLoopAttributes from './attributes';
+import LayoutSelector from './components/LayoutSelector';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 
 export default function LoopEdit( props ) {
