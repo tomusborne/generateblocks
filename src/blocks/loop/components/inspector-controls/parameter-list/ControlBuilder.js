@@ -72,6 +72,8 @@ export default function ControlBuilder( props ) {
 
 	const controlPlaceholder = placeholder || defaultValuePlaceholder;
 
+	const isPostsPerPage = 'number' === type && 'posts per page' === label.toLowerCase();
+
 	return (
 		<div className={ 'gblocks-parameter-component' }>
 			<Control
@@ -83,6 +85,7 @@ export default function ControlBuilder( props ) {
 				value={ value }
 				placeholder={ controlPlaceholder }
 				onChange={ onChange }
+				min={ isPostsPerPage ? -1 : undefined }
 				{ ...dependencies }
 			/>
 			{ ! isSticky && <RemoveButton id={ id } onClick={ onClickRemove } /> }

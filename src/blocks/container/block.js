@@ -48,7 +48,13 @@ registerBlockType( 'generateblocks/container', {
 		className: false,
 		html: false,
 	},
-	usesContext: [ 'postId', 'postType', 'generateblocks/queryId' ],
+	usesContext: [
+		'postId',
+		'postType',
+		'generateblocks/queryId',
+		'generateblocks/query',
+		'generateblocks/inheritQuery',
+	],
 	edit: containerEdit,
 	save: () => {
 		return (

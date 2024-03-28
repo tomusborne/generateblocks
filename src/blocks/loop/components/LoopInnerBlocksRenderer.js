@@ -4,7 +4,7 @@ import LoopRenderer from './LoopRenderer';
 import { normalizeRepeatableArgs, removeEmpty } from './utils';
 import { store as coreStore } from '@wordpress/core-data';
 
-export default function QueryLoopRenderer( props ) {
+export default function LoopInnerBlocksRenderer( props ) {
 	const { clientId, context } = props;
 	const query = context[ 'generateblocks/query' ] || {};
 
