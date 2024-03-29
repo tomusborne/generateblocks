@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GenerateBlocks_Block_Looper {
 	/**
-	 * Render the Loop block.
+	 * Render the Looper block.
 	 *
 	 * @since 1.6.0
 	 * @param array    $attributes The block attributes.
@@ -66,7 +66,7 @@ class GenerateBlocks_Block_Looper {
 	}
 
 	/**
-	 * Render the repeater items for the Loop block.
+	 * Render the repeater items for the Looper block.
 	 *
 	 * @param   array    $attributes Block attributes.
 	 * @param   string   $content InnerBlocks content.
