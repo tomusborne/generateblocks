@@ -144,9 +144,13 @@ class GenerateBlocks_Loop_Utils {
 	 * @todo: https://github.com/WordPress/wordpress-develop/blob/44e308c12e68b5c6b63845fd84369ba36985e193/src/wp-includes/blocks.php#L1126
 	 */
 	public static function get_query_args( $block, $page ) {
+		$query_attributes = ( is_array( $block->context ) && isset( $block->context['generateblocks/query'] ) )
+		? $block->context['generateblocks/query']
+		: array();
+
 		$query_attributes = is_array( $block->parsed_block['attrs'] ) && isset( $block->parsed_block['attrs']['query'] )
 			? $block->parsed_block['attrs']['query']
-			: [];
+			: $query_attributes;
 
 		// Set up our pagination.
 		$query_attributes['paged'] = $page;
@@ -211,6 +215,15 @@ class GenerateBlocks_Loop_Utils {
 
 			$query_args['offset'] = ( $per_page * ( $page - 1 ) ) + $offset;
 			$query_args['posts_per_page'] = $per_page;
+		}
+
+		if (
+			isset( $query_args['post_status'] ) &&
+			'publish' !== $query_args['post_status'] &&
+			! current_user_can( 'read_private_posts' )
+		) {
+			// If the user can't read private posts, we'll force the post status to be public.
+			$query_args['post_status'] = 'publish';
 		}
 
 		return $query_args;
