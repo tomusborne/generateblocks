@@ -44,7 +44,7 @@ class GenerateBlocks_Block_Looper {
 		}
 
 		$query_args = apply_filters(
-			'generateblocks_looper_args',
+			'generateblocks_query_loop_args',
 			$query_args,
 			$attributes,
 			$block
