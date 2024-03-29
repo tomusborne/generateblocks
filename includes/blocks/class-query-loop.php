@@ -10,9 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Add Query Loop related functions.
+ * Query Loop Block Functions.
  */
 class GenerateBlocks_Block_Query_Loop {
+
 	/**
 	 * Wrapper function for our dynamic buttons.
 	 *
@@ -24,7 +25,7 @@ class GenerateBlocks_Block_Query_Loop {
 	public static function render_block( $attributes, $content, $block ) {
 		$page_key = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] . '-page' : 'query-page';
 		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$query_args = GenerateBlocks_Query_Loop::get_query_args( $block, $page );
+		$query_args = GenerateBlocks_Loop_Utils::get_query_args( $block, $page );
 
 		// Override the custom query with the global query if needed.
 		$use_global_query = ( isset( $block->context['generateblocks/inheritQuery'] ) && $block->context['generateblocks/inheritQuery'] );

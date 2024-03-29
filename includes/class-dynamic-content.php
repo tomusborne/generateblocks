@@ -449,7 +449,7 @@ class GenerateBlocks_Dynamic_Content {
 		} else {
 			$query_args = apply_filters(
 				'generateblocks_query_loop_args',
-				GenerateBlocks_Query_Loop::get_query_args( $block, $page ),
+				GenerateBlocks_Loop_Utils::get_query_args( $block, $page ),
 				$attributes,
 				$block
 			);
@@ -861,7 +861,7 @@ class GenerateBlocks_Dynamic_Content {
 				if ( empty( $block->context['generateblocks/wpQuery'] ) ) {
 					$query_args = apply_filters(
 						'generateblocks_query_loop_args',
-						GenerateBlocks_Query_Loop::get_query_args( $block, $page ),
+						GenerateBlocks_Loop_Utils::get_query_args( $block, $page ),
 						$attributes,
 						$block
 					);
