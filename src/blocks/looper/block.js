@@ -31,6 +31,7 @@ registerBlockType( 'generateblocks/looper', {
 		'generateblocks/inheritQuery': 'inheritQuery',
 		'generateblocks/isLoop': 'isLoop',
 		'generateblocks/wpQuery': 'wpQuery',
+		'generateblocks/noResults': 'noResults',
 	},
 	edit: withUniqueId( edit ),
 	save: () => {

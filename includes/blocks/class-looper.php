@@ -57,6 +57,7 @@ class GenerateBlocks_Block_Looper {
 			new WP_Block(
 				$block->parsed_block,
 				array(
+					'generateblocks/noResults'  => 0 === $the_query->found_posts,
 					'generateblocks/wpQuery'    => $the_query,
 					'generateblocks/query_type' => $query_type,
 					'generateblocks/query_args' => $query_args,
@@ -109,9 +110,7 @@ class GenerateBlocks_Block_Looper {
 	 * @return  string  The rendered content.
 	 */
 	public static function render_no_results( $attributes, $content, $block ) {
-		$query = $block->context['generateblocks/wpQuery'] ?? null;
-
-		$no_results = ( $query->found_posts ?? 0 ) === 0;
+		$no_results = $block->context['generateblocks/noResults'] ?? false;
 
 		if ( $no_results ) {
 			$block_content = new WP_Block(

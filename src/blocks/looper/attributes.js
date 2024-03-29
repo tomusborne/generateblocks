@@ -25,4 +25,8 @@ export default Object.assign( {}, gridAttributes, {
 		type: 'boolean',
 		default: true,
 	},
+	noResults: {
+		type: 'boolean',
+		default: false,
+	},
 } );
