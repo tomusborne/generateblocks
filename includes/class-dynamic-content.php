@@ -857,14 +857,21 @@ class GenerateBlocks_Dynamic_Content {
 					$url = next_posts( $max_page, false );
 				}
 			} elseif ( ! $max_page || $max_page > $page ) {
-				$query_args = apply_filters(
-					'generateblocks_query_loop_args',
-					GenerateBlocks_Query_Loop::get_query_args( $block, $page ),
-					$attributes,
-					$block
-				);
+				// Check if there's a WP Query we can use to get the max pages.
+				if( empty( $block->context['generateblocks/wpQuery'] ) ) {
+					$query_args = apply_filters(
+						'generateblocks_query_loop_args',
+						GenerateBlocks_Query_Loop::get_query_args( $block, $page ),
+						$attributes,
+						$block
+					);
 
-				$custom_query           = new WP_Query( $query_args );
+					// Set a new query using the filtered args.
+					$custom_query = new WP_Query( $query_args );
+				} else {
+					$custom_query = $block->context['generateblocks/wpQuery'];
+				}
+
 				$custom_query_max_pages = (int) $custom_query->max_num_pages;
 
 				if ( $custom_query_max_pages && $custom_query_max_pages !== $page ) {

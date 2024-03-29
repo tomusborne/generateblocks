@@ -58,8 +58,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-grid.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-headline.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-image.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-loop.php';
-require_once GENERATEBLOCKS_DIR . 'includes/blocks/loop/class-loop.php';
-require_once GENERATEBLOCKS_DIR . 'includes/blocks/loop/class-utils.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-looper.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**

@@ -60,6 +60,7 @@ class GenerateBlocks_Render_Block {
 			'render_callback' => [ 'GenerateBlocks_Block_Container', 'render_block' ],
 			'uses_context' => array(
 				'generateblocks/query',
+				'generateblocks/wpQuery',
 				'generateblocks/query_args',
 				'generateblocks/query_type',
 			),
@@ -105,10 +106,10 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
-			'generateblocks/loop',
+			'generateblocks/looper',
 			array(
-				'title' => esc_html__( 'Loop', 'generateblocks' ),
-				'render_callback' => [ 'GenerateBlocks_Block_Loop', 'render_block' ],
+				'title' => esc_html__( 'Looper', 'generateblocks' ),
+				'render_callback' => [ 'GenerateBlocks_Block_Looper', 'render_block' ],
 				'provides_context' => array(
 					'generateblocks/query' => 'query',
 					'generateblocks/queryId' => 'uniqueId',
@@ -139,6 +140,7 @@ class GenerateBlocks_Render_Block {
 				'title' => esc_html__( 'Button', 'generateblocks' ),
 				'render_callback' => [ 'GenerateBlocks_Block_Button', 'render_block' ],
 				'uses_context' => array(
+					'generateblocks/wpQuery',
 					'generateblocks/query',
 					'generateblocks/queryId',
 					'generateblocks/inheritQuery',

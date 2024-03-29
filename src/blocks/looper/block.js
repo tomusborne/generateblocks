@@ -9,10 +9,10 @@ import withUniqueId from '../../hoc/withUniqueId';
 
 import './editor.scss';
 
-registerBlockType( 'generateblocks/loop', {
+registerBlockType( 'generateblocks/looper', {
 	apiVersion: 3,
-	title: __( 'Loop', 'generateblocks' ),
-	description: __( 'Build a list of posts from any post type using advanced query parameters.', 'generateblocks' ),
+	title: __( 'Looper', 'generateblocks' ),
+	description: __( 'Loop through data to build a list of content.', 'generateblocks' ),
 	icon: getIcon( 'query-loop' ),
 	category: 'generateblocks',
 	keywords: [
@@ -29,6 +29,8 @@ registerBlockType( 'generateblocks/loop', {
 		'generateblocks/query': 'query',
 		'generateblocks/queryId': 'uniqueId',
 		'generateblocks/inheritQuery': 'inheritQuery',
+		'generateblocks/isLoop': 'isLoop',
+		'generateblocks/wpQuery': 'wpQuery',
 	},
 	edit: withUniqueId( edit ),
 	save: () => {

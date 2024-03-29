@@ -14,7 +14,7 @@ export default ( { clientId, isDisabled } ) => {
 
 	return (
 		<Placeholder
-			label={ __( 'Query Loop', 'generateblocks' ) }
+			label={ __( 'Looper', 'generateblocks' ) }
 			icon={ getIcon( 'query-loop' ) }
 			instructions={ __( 'Choose a layout to start with.', 'generateblocks' ) }
 			className="gblocks-query-loop-layout-selector"

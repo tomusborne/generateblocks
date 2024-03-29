@@ -1,4 +1,4 @@
-import ContentRenderer from '../../loop/components/LoopInnerBlocksRenderer';
+import ContentRenderer from '../../looper/components/LoopInnerBlocksRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {

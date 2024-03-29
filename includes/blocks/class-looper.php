@@ -1,6 +1,6 @@
 <?php
 /**
- * This file handles the Query Loop functions.
+ * Handles the Query Loop block.
  *
  * @package GenerateBlocks
  */
@@ -10,45 +10,97 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Query Loop functions.
- *
- * @since 1.5.0
+ * Add Query Loop related functions.
  */
-class GenerateBlocks_Loop_Utils {
+class GenerateBlocks_Block_Looper {
 	/**
-	 * Instance.
+	 * Render the Loop block.
 	 *
-	 * @access private
-	 * @var object Instance
-	 * @since 1.2.0
+	 * @since 1.6.0
+	 * @param array    $attributes The block attributes.
+	 * @param string   $content The dynamic text to display.
+	 * @param WP_Block $block Block instance.
 	 */
-	private static $instance;
+	public static function render_block( $attributes, $content, $block ) {
+		$page_key = isset( $attributes['uniqueId'] ) ? 'query-' . $attributes['uniqueId'] . '-page' : 'query-page';
+		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$query_args = self::get_query_args( $block, $page );
 
-	/**
-	 * Initiator.
-	 *
-	 * @since 1.2.0
-	 * @return object initialized object of class.
-	 */
-	public static function get_instance() {
-		if ( ! isset( self::$instance ) ) {
-			self::$instance = new self();
+		// Override the custom query with the global query if needed.
+		$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
+
+		if ( $use_global_query ) {
+			global $wp_query;
+
+			if ( $wp_query && isset( $wp_query->query_vars ) && is_array( $wp_query->query_vars ) ) {
+				// Unset `offset` because if is set, $wp_query overrides/ignores the paged parameter and breaks pagination.
+				unset( $query_args['offset'] );
+				$query_args = wp_parse_args( $wp_query->query_vars, $query_args );
+
+				if ( empty( $query_args['post_type'] ) && is_singular() ) {
+					$query_args['post_type'] = get_post_type( get_the_ID() );
+				}
+			}
 		}
 
-		return self::$instance;
+		$query_args = apply_filters(
+			'generateblocks_looper_args',
+			$query_args,
+			$attributes,
+			$block
+		);
+
+		$query_type = 'WP_Query';
+		$the_query = new WP_Query( $query_args );
+
+		return (
+			new WP_Block(
+				$block->parsed_block,
+				array(
+					'generateblocks/wpQuery'    => $the_query,
+					'generateblocks/query_type' => $query_type,
+					'generateblocks/query_args' => $query_args,
+				)
+			)
+		)->render( array( 'dynamic' => false ) );
 	}
 
 	/**
-	 * Constructor.
+	 * Render the repeater items for the Loop block.
+	 *
+	 * @param   array    $attributes Block attributes.
+	 * @param   string   $content InnerBlocks content.
+	 * @param   WP_Block $block The block instance.
+	 * @return  string  The rendered content.
 	 */
-	public function __construct() {
-		add_filter( 'generateblocks_attr_grid-wrapper', array( $this, 'add_grid_wrapper_attributes' ), 10, 2 );
-		add_filter( 'generateblocks_attr_container', array( $this, 'add_container_attributes' ), 10, 2 );
-		add_filter( 'generateblocks_attr_grid-item', array( $this, 'add_grid_item_attributes' ), 10, 2 );
-		add_filter( 'generateblocks_attr_button-container', array( $this, 'add_button_wrapper_attributes' ), 10, 2 );
-		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
-		add_filter( 'generateblocks_query_loop_args', array( $this, 'set_query_loop_defaults' ) );
+	public static function render_repeater( $attributes, $content, $block ) {
+		$query = $block->context['generateblocks/wpQuery'];
+
+		$content = '';
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+
+				$block_content = (
+					new WP_Block(
+						$block->parsed_block,
+						array(
+							'postType' => get_post_type(),
+							'postId'   => get_the_ID(),
+						)
+					)
+				)->render( array( 'dynamic' => false ) );
+
+				$content .= $block_content;
+			}
+
+			wp_reset_postdata();
+		}
+
+		return $content;
 	}
+
+
 
 	/**
 	 * Helper function that constructs a WP_Query args array from
@@ -203,89 +255,5 @@ class GenerateBlocks_Loop_Utils {
 		return $result;
 	}
 
-	/**
-	 * Add defaults for our Query settings.
-	 *
-	 * @param array $defaults Block defaults.
-	 */
-	public function add_block_defaults( $defaults ) {
-		$defaults['container']['isQueryLoopItem'] = false;
-		$defaults['container']['isPagination'] = false;
-		$defaults['gridContainer']['isQueryLoop'] = false;
-		$defaults['buttonContainer']['isPagination'] = false;
 
-		return $defaults;
-	}
-
-	/**
-	 * Add HTML attributes to the Query Loop wrapper.
-	 *
-	 * @param array $attributes Existing HTML attributes.
-	 * @param array $settings Block settings.
-	 */
-	public function add_grid_wrapper_attributes( $attributes, $settings ) {
-		if ( $settings['isQueryLoop'] ) {
-			$attributes['class'] .= ' gb-query-loop-wrapper';
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Add HTML attributes to the Query Loop Containers.
-	 *
-	 * @param array $attributes Existing HTML attributes.
-	 * @param array $settings Block settings.
-	 */
-	public function add_container_attributes( $attributes, $settings ) {
-		if ( $settings['isPagination'] ) {
-			$attributes['class'] .= ' gb-query-loop-pagination';
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Add HTML attributes to the Query Loop Item wrapper.
-	 *
-	 * @param array $attributes Existing HTML attributes.
-	 * @param array $settings Block settings.
-	 */
-	public function add_grid_item_attributes( $attributes, $settings ) {
-		if ( $settings['isQueryLoopItem'] ) {
-			$attributes['class'] .= ' ' . implode( ' ', get_post_class( 'gb-query-loop-item' ) );
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Add HTML attributes to the Button wrapper.
-	 *
-	 * @param array $attributes Existing HTML attributes.
-	 * @param array $settings Block settings.
-	 */
-	public function add_button_wrapper_attributes( $attributes, $settings ) {
-		if ( $settings['isPagination'] ) {
-			$attributes['class'] .= ' gb-query-loop-pagination';
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Set the default query loop arguments.
-	 *
-	 * @param array $query_args The query loop arguments.
-	 * @return array The query loop arguments with defaults.
-	 */
-	public function set_query_loop_defaults( $query_args ) {
-		if ( ! isset( $query_args['posts_per_page'] ) || '' === $query_args['posts_per_page'] ) {
-			$query_args['posts_per_page'] = 10;
-		}
-
-		return $query_args;
-	}
 }
-
-GenerateBlocks_Loop_Utils::get_instance();
