@@ -47,6 +47,21 @@ export default ( { clientId } ) => {
 		],
 	];
 
+	const NO_RESULTS_TEMPLATE = [
+		'generateblocks/container', {
+			variantRole: 'no-results',
+		},
+		[
+			[
+				'generateblocks/headline',
+				{
+					placeholder: __( 'Content added here will show when the loop has no results to display.', 'generateblocks' ),
+					element: 'p',
+				},
+			],
+		],
+	];
+
 	return (
 		<BlockControls>
 			<ToolbarGroup>
@@ -55,6 +70,14 @@ export default ( { clientId } ) => {
 					label={ __( 'Add Pagination', 'generateblocks' ) }
 					onClick={ () => {
 						insertBlocks( createBlocksFromInnerBlocksTemplate( [ PAGINATION_TEMPLATE ] ), undefined, clientId );
+					} }
+					showTooltip
+				/>
+				<ToolbarButton
+					icon={ getIcon( 'addContainer' ) }
+					label={ __( 'Add No Results Found Message', 'generateblocks' ) }
+					onClick={ () => {
+						insertBlocks( createBlocksFromInnerBlocksTemplate( [ NO_RESULTS_TEMPLATE ] ), undefined, clientId );
 					} }
 					showTooltip
 				/>

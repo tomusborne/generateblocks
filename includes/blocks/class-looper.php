@@ -99,4 +99,28 @@ class GenerateBlocks_Block_Looper {
 
 		return $content;
 	}
+
+	/**
+	 * Render the No Results Found container for the Looper block.
+	 *
+	 * @param   array    $attributes Block attributes.
+	 * @param   string   $content InnerBlocks content.
+	 * @param   WP_Block $block The block instance.
+	 * @return  string  The rendered content.
+	 */
+	public static function render_no_results( $attributes, $content, $block ) {
+		$query = $block->context['generateblocks/wpQuery'] ?? null;
+
+		$no_results = ( $query->found_posts ?? 0 ) === 0;
+
+		if ( $no_results ) {
+			$block_content = new WP_Block(
+				$block->parsed_block
+			);
+
+			return $block_content->render( array( 'dynamic' => false ) );
+		}
+
+		return '';
+	}
 }

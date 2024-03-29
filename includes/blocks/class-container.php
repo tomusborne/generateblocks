@@ -1080,6 +1080,8 @@ class GenerateBlocks_Block_Container {
 
 		if ( ! empty( $attributes['variantRole'] ) && 'loopRepeater' === $attributes['variantRole'] && isset( $block->context['generateblocks/query_args'] ) ) {
 			$output .= GenerateBlocks_Block_Looper::render_repeater( $attributes, $output, $block );
+		} elseif ( ! empty( $attributes['variantRole'] ) && 'no-results' === $attributes['variantRole'] ) {
+			$output .= GenerateBlocks_Block_Looper::render_no_results( $attributes, $output, $block );
 		} else {
 			$output .= $content;
 		}

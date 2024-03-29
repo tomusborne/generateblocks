@@ -72,6 +72,14 @@ registerBlockType( 'generateblocks/container', {
 			return __( 'Loop Repeater', 'generateblocks' );
 		}
 
+		if ( attrs.isPagination ) {
+			return __( 'Pagination', 'generateblocks' );
+		}
+
+		if ( 'no-results' === attrs.variantRole ) {
+			return __( 'No Results', 'generateblocks' );
+		}
+
 		if ( 'list-view' === context && attrs.blockLabel ) {
 			return attrs.blockLabel;
 		}
