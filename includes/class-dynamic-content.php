@@ -858,7 +858,7 @@ class GenerateBlocks_Dynamic_Content {
 				}
 			} elseif ( ! $max_page || $max_page > $page ) {
 				// Check if there's a WP Query we can use to get the max pages.
-				if( empty( $block->context['generateblocks/wpQuery'] ) ) {
+				if ( empty( $block->context['generateblocks/wpQuery'] ) ) {
 					$query_args = apply_filters(
 						'generateblocks_query_loop_args',
 						GenerateBlocks_Query_Loop::get_query_args( $block, $page ),

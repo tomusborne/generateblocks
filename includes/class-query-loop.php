@@ -64,7 +64,6 @@ class GenerateBlocks_Query_Loop {
 			? $block->context['generateblocks/query']
 			: array();
 
-
 		$query_attributes = is_array( $block->parsed_block['attrs'] ) && isset( $block->parsed_block['attrs']['query'] )
 			? $block->parsed_block['attrs']['query']
 			: $query_attributes;
