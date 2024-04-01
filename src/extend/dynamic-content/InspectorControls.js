@@ -1,6 +1,6 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { ToggleControl, TextControl } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
 
 import PanelArea from '../../components/panel-area';
