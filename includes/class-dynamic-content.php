@@ -434,6 +434,8 @@ class GenerateBlocks_Dynamic_Content {
 		$page_key = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] . '-page' : 'query-page';
 		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$max_page = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
+		$mid_size = $attributes['paginationOptions']['midSize'] ?? 2;
+		$end_size = $attributes['paginationOptions']['endSize'] ?? 1;
 
 		global $wp_query;
 
@@ -443,7 +445,9 @@ class GenerateBlocks_Dynamic_Content {
 			$total = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
 			$paginate_args = array(
 				'prev_next' => false,
-				'total' => $total,
+				'total'     => $total,
+				'mid_size'  => $mid_size,
+				'end_size'  => $end_size,
 			);
 			$links = paginate_links( $paginate_args );
 		} else {
@@ -468,6 +472,8 @@ class GenerateBlocks_Dynamic_Content {
 				'current'   => max( 1, $page ),
 				'total'     => $total,
 				'prev_next' => false,
+				'mid_size'  => $mid_size,
+				'end_size'  => $end_size,
 			);
 
 			if ( 1 !== $page ) {

@@ -1,7 +1,8 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { ToggleControl } from '@wordpress/components';
+import { ToggleControl, TextControl } from '@wordpress/components';
 import { useEffect } from '@wordpress/element';
+
 import PanelArea from '../../components/panel-area';
 import DynamicSourceControl from './inspector-controls/DynamicSourceControl';
 import ContentTypeControl from './inspector-controls/ContentTypeControl';
@@ -12,6 +13,7 @@ import AuthorMetaControl from './inspector-controls/AuthorMetaControl';
 import CommentsControl from './inspector-controls/CommentsControl';
 import TermsControl from './inspector-controls/TermsControl';
 import ExcerptControl from './inspector-controls/ExcerptControl';
+import PaginationControl from './inspector-controls/PaginationControl';
 import getIcon from '../../utils/get-icon';
 
 export default ( { context, attributes, setAttributes, name } ) => {
@@ -39,8 +41,13 @@ export default ( { context, attributes, setAttributes, name } ) => {
 		useDefaultMoreLink,
 		customMoreLinkText,
 		dynamicLinkRemoveIfEmpty,
+		paginationOptions = {
+			endSize: 1,
+			midSize: 2,
+		},
 	} = attributes;
 
+	const { endSize = 1, midSize = 2 } = paginationOptions;
 	const currentPostType = dynamicSource === 'current-post' ? context.postType : postType;
 	const currentPostId = dynamicSource === 'current-post' ? context.postId : postId;
 	const isInQueryLoop = 'undefined' !== typeof context[ 'generateblocks/queryId' ];
@@ -122,6 +129,13 @@ export default ( { context, attributes, setAttributes, name } ) => {
 							setAttributes={ setAttributes }
 							name={ name }
 							isCaption={ isCaption }
+						/>
+
+						<PaginationControl
+							isActive={ 'pagination-numbers' === dynamicContentType }
+							endSize={ endSize }
+							midSize={ midSize }
+							setAttributes={ setAttributes }
 						/>
 
 						<PostDateControl

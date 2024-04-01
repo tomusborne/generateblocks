@@ -98,6 +98,7 @@ const ButtonEdit = ( props ) => {
 				ariaLabel={ ariaLabel }
 				buttonType={ buttonType }
 				setAttributes={ setAttributes }
+				attributes={ attributes }
 			/>
 
 			<ComponentCSS { ...props } deviceType={ deviceType } />

@@ -62,6 +62,7 @@ registerBlockType( 'generateblocks/button', {
 		'generateblocks/wpQuery',
 	],
 	__experimentalLabel: ( attrs, { context } ) => {
+		console.log( { attrs, context } );
 		if (
 			context === 'list-view' &&
 			( attrs.text || attrs.removeText ) &&
