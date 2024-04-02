@@ -22,9 +22,11 @@ class GenerateBlocks_Block_Looper {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function render_block( $attributes, $content, $block ) {
-		$page_key = isset( $attributes['uniqueId'] ) ? 'query-' . $attributes['uniqueId'] . '-page' : 'query-page';
-		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$query_args = GenerateBlocks_Loop_Utils::get_query_args( $block, $page );
+		$query_id     = isset( $attributes['uniqueId'] ) ? 'query-' . $attributes['uniqueId'] : 'query';
+		$page_key     = $query_id . '-page';
+		$page         = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$query_args   = GenerateBlocks_Loop_Utils::get_query_args( $block, $page );
+		$force_reload = $attributes['forceReload'] ?? true;
 
 		// Override the custom query with the global query if needed.
 		$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
@@ -53,17 +55,32 @@ class GenerateBlocks_Block_Looper {
 		$query_type = 'WP_Query';
 		$the_query = new WP_Query( $query_args );
 
-		return (
+		$parsed_content = (
 			new WP_Block(
 				$block->parsed_block,
 				array(
-					'generateblocks/noResults'  => 0 === $the_query->found_posts,
-					'generateblocks/wpQuery'    => $the_query,
-					'generateblocks/query_type' => $query_type,
-					'generateblocks/query_args' => $query_args,
+					'generateblocks/noResults'   => 0 === $the_query->found_posts,
+					'generateblocks/wpQuery'     => $the_query,
+					'generateblocks/query_type'  => $query_type,
+					'generateblocks/query_args'  => $query_args,
+					'generateblocks/forceReload' => $force_reload,
 				)
 			)
 		)->render( array( 'dynamic' => false ) );
+
+		if( false === $force_reload ) {
+			$html = new WP_HTML_Tag_Processor( $parsed_content );
+			if ( $html->next_tag() ) {
+				// Add the necessary directives.
+				$html->set_attribute( 'data-wp-interactive', 'generateblocks/looper' );
+				$html->set_attribute( 'data-wp-router-region', $query_id );
+				$html->set_attribute( 'data-wp-init', 'callbacks.setQueryRef' );
+				$html->set_attribute( 'data-wp-context', '{}' );
+				$parsed_content = $html->get_updated_html();
+			}
+		}
+
+		return $parsed_content;
 	}
 
 	/**

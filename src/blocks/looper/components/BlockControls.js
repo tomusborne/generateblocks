@@ -11,6 +11,11 @@ export default ( { clientId } ) => {
 	const DEFAULT_BUTTON_ATTRIBUTES = {
 		useDynamicData: true,
 		isPagination: true,
+		paginationOptions: {
+			endSize: 1,
+			midSize: 2,
+			forceReload: false,
+		},
 	};
 
 	const PAGINATION_TEMPLATE = [
@@ -19,6 +24,7 @@ export default ( { clientId } ) => {
 			variantRole: 'button-container',
 			display: 'flex',
 			isPagination: true,
+			tagName: 'nav',
 		},
 		[
 			[

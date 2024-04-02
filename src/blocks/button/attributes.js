@@ -56,6 +56,7 @@ export default {
 		default: {
 			midSize: 2,
 			endSize: 1,
+			forceReload: true,
 		},
 	},
 	// deprecated since 1.2.0

@@ -1,7 +1,10 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import PanelArea from '../../../components/panel-area';
 import { useEffect, useMemo, useState } from '@wordpress/element';
+import { ToggleControl, SelectControl } from '@wordpress/components';
+import { isEqual } from 'lodash';
+
+import PanelArea from '../../../components/panel-area';
 import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
 import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
 import ParameterList from './inspector-controls/parameter-list';
@@ -9,8 +12,6 @@ import useQueryReducer from '../hooks/useQueryReducer';
 import isEmpty from '../../../utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';
 import getIcon from '../../../utils/get-icon';
-import { ToggleControl } from '@wordpress/components';
-import { isEqual } from 'lodash';
 
 export default ( { attributes, setAttributes } ) => {
 	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer( attributes.query );
@@ -46,51 +47,79 @@ export default ( { attributes, setAttributes } ) => {
 				icon={ getIcon( 'query-params' ) }
 				className="gblocks-panel-label"
 			>
-				<ToggleControl
-					label={ __( 'Inherit query from template', 'generateblocks' ) }
-					help={ __( 'Toggle to use the global query context that is set with the current template, such as an archive or search.', 'generateblocks' ) }
-					checked={ !! attributes.inheritQuery }
-					onChange={ ( value ) => setAttributes( { inheritQuery: value } ) }
+				<SelectControl
+					value={ attributes.queryType }
+					onChange={ ( value ) => setAttributes( { queryType: value } ) }
+					label={ __( 'Query Type', 'generateblocks' ) }
+					options={ [
+						{ value: 'WP_Query', label: __( 'WP Query', 'generateblocks' ) },
+						{ value: 'acf', label: __( 'ACF', 'generateblocks' ) },
+					] }
 				/>
-
-				{ ! attributes.inheritQuery &&
+				{ 'WP_Query' === attributes.queryType && (
 					<>
-						<ParameterList
-							query={ queryState }
-							setParameter={ setParameter }
-							removeParameter={ removeParameter }
+						<ToggleControl
+							label={ __( 'Inherit query from template', 'generateblocks' ) }
+							help={ __( 'Toggle to use the global query context that is set with the current template, such as an archive or search.', 'generateblocks' ) }
+							checked={ !! attributes.inheritQuery }
+							onChange={ ( value ) => setAttributes( { inheritQuery: value } ) }
 						/>
+						{ ! attributes.inheritQuery &&
+							<>
+								<ParameterList
+									query={ queryState }
+									setParameter={ setParameter }
+									removeParameter={ removeParameter }
+								/>
 
-						{ ! displayParameterSelect &&
-							<AddQueryParameterButton onClick={ () => {
-								setDisplayParameterSelect( true );
-							} } />
-						}
+								{ ! displayParameterSelect &&
+									<AddQueryParameterButton onClick={ () => {
+										setDisplayParameterSelect( true );
+									} } />
+								}
 
-						{ displayParameterSelect &&
-							<SelectQueryParameter
-								options={ parameterOptions }
-								onChange={ ( option ) => {
-									if (
-										!! option.isRepeatable &&
-										Array.isArray( option.default ) &&
-										!! option.repeatableDefaultValue
-									) {
-										const parameterValue = !! queryState[ option.id ]
-											? queryState[ option.id ]
-											: option.default;
+								{ displayParameterSelect &&
+									<SelectQueryParameter
+										options={ parameterOptions }
+										onChange={ ( option ) => {
+											if (
+												!! option.isRepeatable &&
+												Array.isArray( option.default ) &&
+												!! option.repeatableDefaultValue
+											) {
+												const parameterValue = !! queryState[ option.id ]
+													? queryState[ option.id ]
+													: option.default;
 
-										setParameter( option.id, [ ...parameterValue, option.repeatableDefaultValue ] );
-									} else {
-										setParameter( option.id, option.default );
-									}
+												setParameter( option.id, [ ...parameterValue, option.repeatableDefaultValue ] );
+											} else {
+												setParameter( option.id, option.default );
+											}
 
-									setDisplayParameterSelect( false );
-								} }
-							/>
+											setDisplayParameterSelect( false );
+										} }
+									/>
+								}
+							</>
 						}
 					</>
-				}
+				) }
+				<ToggleControl
+					checked={ !! attributes.forceReload }
+					label={ __( 'Force page reload', 'generateblocks' ) }
+					help={
+						!! attributes.forceReload
+							? __(
+								'Clicking pagination links will reload the page.',
+								'generateblocks'
+							)
+							: __(
+								"Clicking pagination links won't require a page reload unless incompatible blocks are present.",
+								'generateblocks'
+							)
+					}
+					onChange={ ( value ) => setAttributes( { forceReload: value } ) }
+				/>
 			</PanelArea>
 		</InspectorControls>
 	);

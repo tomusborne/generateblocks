@@ -24,6 +24,7 @@ registerBlockType( 'generateblocks/looper', {
 	supports: {
 		className: false,
 		customClassName: false,
+		interactivity: true,
 	},
 	providesContext: {
 		'generateblocks/query': 'query',
@@ -32,6 +33,7 @@ registerBlockType( 'generateblocks/looper', {
 		'generateblocks/isLoop': 'isLoop',
 		'generateblocks/wpQuery': 'wpQuery',
 		'generateblocks/noResults': 'noResults',
+		'generateblocks/forceReload': 'forceReload',
 	},
 	edit: withUniqueId( edit ),
 	save: () => {

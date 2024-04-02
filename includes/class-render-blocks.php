@@ -116,6 +116,7 @@ class GenerateBlocks_Render_Block {
 					'generateblocks/queryId'      => 'uniqueId',
 					'generateblocks/inheritQuery' => 'inheritQuery',
 					'generateblocks/noResults'    => 'noResults',
+					'generateblocks/forceReload'  => 'forceReload',
 				),
 			)
 		);

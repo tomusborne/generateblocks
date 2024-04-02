@@ -29,4 +29,12 @@ export default Object.assign( {}, gridAttributes, {
 		type: 'boolean',
 		default: false,
 	},
+	queryType: {
+		type: 'string',
+		default: 'WP_Query',
+	},
+	forceReload: {
+		type: 'boolean',
+		default: true,
+	},
 } );

@@ -47,6 +47,7 @@ registerBlockType( 'generateblocks/container', {
 		align: false,
 		className: false,
 		html: false,
+		interactivity: true,
 	},
 	usesContext: [
 		'postId',

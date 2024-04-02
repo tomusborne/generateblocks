@@ -50,6 +50,7 @@ registerBlockType( 'generateblocks/button', {
 	attributes,
 	supports: {
 		className: false,
+		interactivity: true,
 	},
 	edit: editButton,
 	save: saveButton,
@@ -60,6 +61,7 @@ registerBlockType( 'generateblocks/button', {
 		'generateblocks/query',
 		'generateblocks/inheritQuery',
 		'generateblocks/wpQuery',
+		'generateblocks/forceReload',
 	],
 	__experimentalLabel: ( attrs, { context } ) => {
 		if (
