@@ -35,8 +35,10 @@ registerBlockType( 'generateblocks/query-loop', {
 		);
 	},
 	__experimentalLabel: ( attrs, { context } ) => {
-		if ( 'list-view' === context && attrs.blockLabel ) {
-			return attrs.blockLabel;
+		const customName = attrs?.metadata?.name || attrs?.blockLabel;
+
+		if ( 'list-view' === context && customName ) {
+			return customName;
 		}
 
 		return __( 'Query Loop', 'generateblocks' );

@@ -59,6 +59,12 @@ registerBlockType( 'generateblocks/headline', {
 	deprecated,
 	usesContext: [ 'postId', 'postType', 'generateblocks/dynamicImage', 'generateblocks/mediaId' ],
 	__experimentalLabel: ( attrs, { context } ) => {
+		const customName = attrs?.metadata?.name;
+
+		if ( 'list-view' === context && customName ) {
+			return customName;
+		}
+
 		if (
 			context === 'list-view' &&
 			( attrs.content || attrs.removeText ) &&

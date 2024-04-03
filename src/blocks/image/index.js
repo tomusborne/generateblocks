@@ -30,6 +30,12 @@ registerBlockType( 'generateblocks/image', {
 	save,
 	transforms,
 	__experimentalLabel: ( attrs, { context } ) => {
+		const customName = attrs?.metadata?.name;
+
+		if ( 'list-view' === context && customName ) {
+			return customName;
+		}
+
 		if (
 			context === 'list-view' &&
 			! attrs.useDynamicData &&
