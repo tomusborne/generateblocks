@@ -40,5 +40,7 @@ registerBlockType( 'generateblocks/query-loop', {
 		if ( 'list-view' === context && customName ) {
 			return customName;
 		}
+
+		return __( 'Query Loop', 'generateblocks' );
 	},
 } );
