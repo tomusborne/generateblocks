@@ -44,8 +44,8 @@ export function getBlockContext( blockName ) {
 /**
  * High order component to wrap a component within the BlockContext provider.
  *
- * @param {function(*)} WrappedComponent The component to add the context provider.
- * @return {function(*)} The component with context provider.
+ * @param {Function} WrappedComponent The component to add the context provider.
+ * @return {Function} The component with context provider.
  */
 export const withBlockContext = ( WrappedComponent ) => ( ( props ) => {
 	const blockContext = applyFilters(

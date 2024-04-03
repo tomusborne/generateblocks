@@ -56,6 +56,12 @@ registerBlockType( 'generateblocks/button', {
 	deprecated,
 	usesContext: [ 'postId', 'postType', 'generateblocks/query', 'generateblocks/inheritQuery' ],
 	__experimentalLabel: ( attrs, { context } ) => {
+		const customName = attrs?.metadata?.name;
+
+		if ( 'list-view' === context && customName ) {
+			return customName;
+		}
+
 		if (
 			context === 'list-view' &&
 			( attrs.text || attrs.removeText ) &&
