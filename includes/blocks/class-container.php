@@ -1029,6 +1029,7 @@ class GenerateBlocks_Block_Container {
 				'header',
 				'footer',
 				'aside',
+				'nav',
 				'a',
 			),
 			$attributes,
