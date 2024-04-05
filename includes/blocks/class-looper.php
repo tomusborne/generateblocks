@@ -71,11 +71,18 @@ class GenerateBlocks_Block_Looper {
 		if( false === $force_reload ) {
 			$html = new WP_HTML_Tag_Processor( $parsed_content );
 			if ( $html->next_tag() ) {
+
+				$asset_info = generateblocks_get_enqueue_assets( 'generateblocks-looper' );
+				wp_enqueue_script(
+					'generateblocks-looper',
+					GENERATEBLOCKS_DIR_URL . 'dist/looper.js',
+					$asset_info['dependencies'],
+					$asset_info['version'],
+					true,
+				);
+
 				// Add the necessary directives.
-				$html->set_attribute( 'data-wp-interactive', 'generateblocks/looper' );
-				$html->set_attribute( 'data-wp-router-region', $query_id );
-				$html->set_attribute( 'data-wp-init', 'callbacks.setQueryRef' );
-				$html->set_attribute( 'data-wp-context', '{}' );
+				$html->set_attribute( 'data-gb-router-region', $query_id );
 				$parsed_content = $html->get_updated_html();
 			}
 		}

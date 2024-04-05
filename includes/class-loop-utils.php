@@ -43,7 +43,7 @@ class GenerateBlocks_Loop_Utils {
 	 */
 	public function __construct() {
 		add_filter( 'generateblocks_attr_grid-wrapper', array( $this, 'add_grid_wrapper_attributes' ), 10, 2 );
-		add_filter( 'generateblocks_attr_container', array( $this, 'add_container_attributes' ), 10, 2 );
+		add_filter( 'generateblocks_attr_container', array( $this, 'add_container_attributes' ), 20, 2 );
 		add_filter( 'generateblocks_attr_grid-item', array( $this, 'add_grid_item_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_attr_button-container', array( $this, 'add_button_wrapper_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
@@ -87,6 +87,10 @@ class GenerateBlocks_Loop_Utils {
 	public function add_container_attributes( $attributes, $settings ) {
 		if ( $settings['isPagination'] ) {
 			$attributes['class'] .= ' gb-query-loop-pagination';
+
+			if( !isset( $attributes['aria-label'] ) && 'nav' === $settings['tagName'] ) {
+				$attributes['aria-label'] = __( 'Pagination', 'generateblocks' );
+			}
 		}
 
 		return $attributes;

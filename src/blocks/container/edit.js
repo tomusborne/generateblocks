@@ -46,6 +46,7 @@ const ContainerEdit = ( props ) => {
 			'header',
 			'footer',
 			'aside',
+			'nav',
 			'a',
 		]
 	);

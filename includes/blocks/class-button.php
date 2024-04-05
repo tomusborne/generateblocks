@@ -387,6 +387,9 @@ class GenerateBlocks_Block_Button {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function render_block( $attributes, $content, $block ) {
+		$query_id     = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] : 'query';
+		$force_reload = isset( $block->context['forceReload'] ) ? $block->context['forceReload'] : false;
+
 		if ( ! isset( $attributes['hasUrl'] ) && strpos( trim( $content ), '<a' ) === 0 ) {
 			$attributes['hasUrl'] = true;
 		}
@@ -498,6 +501,11 @@ class GenerateBlocks_Block_Button {
 				'target' => ! empty( $settings['target'] ) ? '_blank' : null,
 				'aria-label' => ! empty( $settings['ariaLabel'] ) ? $settings['ariaLabel'] : null,
 			);
+
+			if( false === $force_reload && $query_id ) {
+				$button_attributes['data-gb-router-target'] = $query_id;
+				$button_attributes['data-gb-prefetch']      = true;
+			}
 
 			if ( isset( $content['attributes'] ) ) {
 				foreach ( $content['attributes'] as $attribute => $value ) {

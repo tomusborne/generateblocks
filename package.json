@@ -49,8 +49,8 @@
 		"grunt-contrib-copy": "^1.0.0"
 	},
 	"scripts": {
-		"build": "wp-scripts build src/blocks.js src/dashboard.js src/pattern-library.js src/editor-sidebar.js --output-path=dist",
-		"start": "wp-scripts start src/blocks.js src/dashboard.js src/pattern-library.js src/editor-sidebar.js --output-path=dist",
+		"build": "wp-scripts build src/blocks.js src/dashboard.js src/pattern-library.js src/editor-sidebar.js src/blocks/looper/looper.js --output-path=dist",
+		"start": "wp-scripts start src/blocks.js src/dashboard.js src/pattern-library.js src/editor-sidebar.js src/blocks/looper/looper.js --output-path=dist",
 		"lint:js": "wp-scripts lint-js",
 		"lint:pkg-json": "wp-scripts lint-pkg-json",
 		"package": "grunt package",

@@ -118,7 +118,7 @@ export default function ContainerContentRenderer( props ) {
 					<TagName { ...containerBlockProps }>
 						<>
 							{ useInnerContainer
-								? <div { ...innerBlocksProps }>{ innerBlocksProps.children }</div>
+								? <div { ...innerBlocksProps } />
 								: innerBlocksProps.children
 							}
 							<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
