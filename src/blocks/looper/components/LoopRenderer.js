@@ -1,6 +1,7 @@
 import {
 	BlockContextProvider,
-	InnerBlocks,
+	useInnerBlocksProps,
+	useBlockProps,
 	__experimentalUseBlockPreview as useBlockPreview, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
@@ -60,7 +61,10 @@ export default function LoopRenderer( props ) {
 		hasResolvedData,
 		templateLock,
 		contextCallback,
+		attributes,
 	} = props;
+
+	console.log( { attributes } );
 
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
@@ -85,6 +89,9 @@ export default function LoopRenderer( props ) {
 		'generateblocks/headline',
 		'generateblocks/button',
 	];
+
+	const blockProps = useBlockProps( { className: 'gb-loop-repeater' } );
+	const innerBlocksProps = useInnerBlocksProps( { className: 'gb-loop-repeater__inner', templateLock } );
 
 	useEffect( () => {
 		const selectedBlock = getSelectedBlock();
@@ -115,23 +122,25 @@ export default function LoopRenderer( props ) {
 		return ( <h5>{ __( 'No results found.', 'generateblocks' ) }</h5> );
 	}
 
-	return (
-		dataContexts &&
-		dataContexts.map( ( postContext ) => (
-			<BlockContextProvider key={ postContext.postId } value={ postContext }>
+	return dataContexts && (
+		<div { ...blockProps }>
+			{ dataContexts.map( ( postContext ) => (
+				<BlockContextProvider key={ postContext.postId } value={ postContext }>
 
-				{ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId )
-					? ( <InnerBlocks { ...props } templateLock={ templateLock } /> )
-					: null
-				}
+					{ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId )
+						? ( <div { ...innerBlocksProps } /> )
+						: null
+					}
 
-				<MemoizedBlockPreview
-					blocks={ innerBlockData }
-					contextId={ postContext.postId }
-					setActiveContextId={ setActiveContextId }
-					isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
-				/>
+					<MemoizedBlockPreview
+						blocks={ innerBlockData }
+						contextId={ postContext.postId }
+						setActiveContextId={ setActiveContextId }
+						isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
+					/>
 
-			</BlockContextProvider>
-		) ) );
+				</BlockContextProvider>
+			) ) }
+		</div>
+	);
 }

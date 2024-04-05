@@ -20,8 +20,7 @@ export default function LoopEdit( props ) {
 		setAttributes,
 	} = props;
 
-	const blockProps = useBlockProps();
-	const innerBlocksProps = useInnerBlocksProps( blockProps );
+	const innerBlocksProps = useInnerBlocksProps();
 
 	const hasInnerBlocks = useSelect(
 		( select ) =>
@@ -31,29 +30,27 @@ export default function LoopEdit( props ) {
 
 	return (
 		<>
-			<div { ...innerBlocksProps }>
-				{ ! hasInnerBlocks
-					? <LayoutSelector clientId={ clientId } />
-					: <>
-						<BlockControls clientId={ clientId } />
+			{ ! hasInnerBlocks
+				? <LayoutSelector clientId={ clientId } />
+				: <>
+					<BlockControls clientId={ clientId } />
 
-						<InspectorControls
-							attributes={ filterAttributes( attributes, Object.keys( queryLoopAttributes ) ) }
-							setAttributes={ setAttributes }
-							clientId={ clientId }
-						/>
+					<InspectorControls
+						attributes={ filterAttributes( attributes, Object.keys( queryLoopAttributes ) ) }
+						setAttributes={ setAttributes }
+						clientId={ clientId }
+					/>
 
-						<InspectorAdvancedControls
-							blockLabel={ attributes.blockLabel }
-							setAttributes={ setAttributes }
-						/>
+					<InspectorAdvancedControls
+						blockLabel={ attributes.blockLabel }
+						setAttributes={ setAttributes }
+					/>
 
-						<BlockContextProvider value={ { 'generateblocks/query': attributes.query } }>
-							{ innerBlocksProps.children }
-						</BlockContextProvider>
-					</>
-				}
-			</div>
+					<BlockContextProvider value={ { 'generateblocks/query': attributes.query } }>
+						{ innerBlocksProps.children }
+					</BlockContextProvider>
+				</>
+			}
 		</>
 	);
 }

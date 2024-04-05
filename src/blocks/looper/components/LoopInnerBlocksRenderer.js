@@ -5,7 +5,7 @@ import { normalizeRepeatableArgs, removeEmpty } from './utils';
 import { store as coreStore } from '@wordpress/core-data';
 
 export default function LoopInnerBlocksRenderer( props ) {
-	const { clientId, context } = props;
+	const { clientId, context, attributes } = props;
 	const query = context[ 'generateblocks/query' ] || {};
 
 	const normalizedQuery = useMemo( () => {
@@ -44,6 +44,7 @@ export default function LoopInnerBlocksRenderer( props ) {
 
 	return (
 		<LoopRenderer
+			attributes={ attributes }
 			data={ data }
 			hasData={ !! ( hasResolvedData && data?.length ) }
 			isResolvingData={ isResolvingData }
