@@ -65,7 +65,13 @@ registerBlockType( 'generateblocks/container', {
 		);
 	},
 	deprecated,
-	__experimentalLabel: ( attrs, { label, context } ) => {
+	__experimentalLabel: ( attrs, { context } ) => {
+		const customName = attrs?.metadata?.name || attrs?.blockLabel;
+
+		if ( 'list-view' === context && customName ) {
+			return customName;
+		}
+
 		if ( attrs.isQueryLoopItem ) {
 			return __( 'Post Template', 'generateblocks' );
 		}
@@ -81,12 +87,6 @@ registerBlockType( 'generateblocks/container', {
 		if ( 'no-results' === attrs.variantRole ) {
 			return __( 'No Results', 'generateblocks' );
 		}
-
-		if ( 'list-view' === context && attrs.blockLabel ) {
-			return attrs.blockLabel;
-		}
-
-		return label;
 	},
 	transforms,
 } );

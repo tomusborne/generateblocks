@@ -98,6 +98,7 @@ GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://gener
 * Tweak: Remove "one-time" block CSS and include it for specific blocks when needed
 * Tweak: Added new `(min-width: 768px)` media query to filterable queries
 * Tweak: Replace Twitter icon with X icon
+* Tweak: Use core Block Name for block labelling
 
 = 1.8.3 =
 * Security: Add user capability check to Query Loop post status
