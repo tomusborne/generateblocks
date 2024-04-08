@@ -68,7 +68,7 @@ class GenerateBlocks_Block_Looper {
 			)
 		)->render( array( 'dynamic' => false ) );
 
-		if( false === $force_reload ) {
+		if ( false === $force_reload ) {
 			$html = new WP_HTML_Tag_Processor( $parsed_content );
 			if ( $html->next_tag() ) {
 

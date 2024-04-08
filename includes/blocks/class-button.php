@@ -502,7 +502,7 @@ class GenerateBlocks_Block_Button {
 				'aria-label' => ! empty( $settings['ariaLabel'] ) ? $settings['ariaLabel'] : null,
 			);
 
-			if( false === $force_reload && $query_id ) {
+			if ( false === $force_reload && $query_id ) {
 				$button_attributes['data-gb-router-target'] = $query_id;
 				$button_attributes['data-gb-prefetch']      = true;
 			}

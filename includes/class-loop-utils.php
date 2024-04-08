@@ -88,7 +88,7 @@ class GenerateBlocks_Loop_Utils {
 		if ( $settings['isPagination'] ) {
 			$attributes['class'] .= ' gb-query-loop-pagination';
 
-			if( !isset( $attributes['aria-label'] ) && 'nav' === $settings['tagName'] ) {
+			if ( ! isset( $attributes['aria-label'] ) && 'nav' === $settings['tagName'] ) {
 				$attributes['aria-label'] = __( 'Pagination', 'generateblocks' );
 			}
 		}
