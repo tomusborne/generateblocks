@@ -1,4 +1,4 @@
-import ContentRenderer from '../../looper/components/LoopInnerBlocksRenderer';
+import InnerBlocksRenderer from '../../looper/components/LoopInnerBlocksRenderer';
 
 export default ( WrappedComponent ) => {
 	return ( props ) => {
@@ -7,7 +7,8 @@ export default ( WrappedComponent ) => {
 		const newProps = 'loopRepeater' === attributes.variantRole ? Object.assign( {}, props, {
 			defaultLayout: '100',
 			templateLock: 'all',
-			ContentRenderer,
+			InnerBlocksRenderer,
+			isBlockPreview: true,
 		} ) : props;
 
 		return <WrappedComponent { ...newProps } />;

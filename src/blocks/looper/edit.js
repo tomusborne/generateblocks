@@ -20,6 +20,7 @@ export default function LoopEdit( props ) {
 		setAttributes,
 	} = props;
 
+	const blockProps = useBlockProps();
 	const innerBlocksProps = useInnerBlocksProps();
 
 	const hasInnerBlocks = useSelect(
@@ -29,7 +30,7 @@ export default function LoopEdit( props ) {
 	);
 
 	return (
-		<>
+		<div { ...blockProps }>
 			{ ! hasInnerBlocks
 				? <LayoutSelector clientId={ clientId } />
 				: <>
@@ -51,6 +52,6 @@ export default function LoopEdit( props ) {
 					</BlockContextProvider>
 				</>
 			}
-		</>
+		</div>
 	);
 }
