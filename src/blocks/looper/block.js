@@ -7,8 +7,6 @@ import attributes from './attributes';
 import edit from './edit';
 import withUniqueId from '../../hoc/withUniqueId';
 
-import './editor.scss';
-
 registerBlockType( 'generateblocks/looper', {
 	apiVersion: 3,
 	title: __( 'Looper', 'generateblocks' ),

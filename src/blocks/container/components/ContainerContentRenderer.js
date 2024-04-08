@@ -21,7 +21,6 @@ export default function ContainerContentRenderer( props ) {
 		deviceType,
 		containerRef,
 		InnerBlocksRenderer,
-		isRoot = false,
 	} = props;
 
 	const {
@@ -70,6 +69,7 @@ export default function ContainerContentRenderer( props ) {
 			'gb-container-empty': ! hasChildBlocks && ! isBlockPreview,
 			'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling && ! props.isSelected && ! isBlockPreview,
 			[ `align${ align }` ]: supportsLayout,
+			'gb-block-preview': isBlockPreview,
 		} ),
 		id: anchor ? anchor : null,
 		'data-align': align && ! supportsLayout ? align : null,

@@ -1,56 +1,22 @@
 import {
 	BlockContextProvider,
 	useInnerBlocksProps,
-	useBlockProps,
 	__experimentalUseBlockPreview as useBlockPreview, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
 import { Spinner } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { createPortal, memo, useEffect, useMemo, useState, useRef } from '@wordpress/element';
+import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 
 import { useDebouncedCallback } from 'use-debounce';
 
-function BlockPreview( {
-	blocks,
-	contextId,
-	setActiveContextId,
-	isHidden,
-} ) {
+function BlockPreview( { blocks } ) {
 	const blockPreviewProps = useBlockPreview( {
 		blocks,
 	} );
 
-	const handleOnClick = () => setActiveContextId( contextId );
-
-	const style = {
-		display: isHidden ? 'none' : 'contents',
-	};
-
-	const ref = useRef();
-	const target = ref.current ? ref.current.querySelector( '.wp-block' ) : null;
-
-	return (
-		<>
-			<div
-				{ ...blockPreviewProps }
-				className={ 'block-editor-inner-blocks wp-block-generateblocks-looper__preview' }
-				style={ style }
-				ref={ ref }
-			/>
-			{ target && createPortal(
-				<button
-					tabIndex={ 0 }
-					onClick={ handleOnClick }
-					type="button"
-					aria-label={ __( 'Select Block', 'generateblocks' ) }
-					className="wp-block-generateblocks-looper__preview-toggle"
-				/>,
-				target
-			) }
-		</>
-	);
+	return blockPreviewProps.children;
 }
 
 const MemoizedBlockPreview = memo( BlockPreview );
@@ -70,7 +36,6 @@ export default function LoopRenderer( {
 	hasData,
 	isResolvingData,
 	hasResolvedData,
-	templateLock,
 	contextCallback,
 } ) {
 	const innerBlocks = useSelect( ( select ) => {
@@ -79,7 +44,6 @@ export default function LoopRenderer( {
 
 	const { getSelectedBlock } = useSelect( blockEditorStore );
 	const [ innerBlockData, setInnerBlockData ] = useState( [] );
-	const [ activeContextId, setActiveContextId ] = useState();
 
 	useEffect( () => {
 		setInnerBlockData( setIsBlockPreview( innerBlocks ) );
@@ -97,8 +61,7 @@ export default function LoopRenderer( {
 		'generateblocks/button',
 	];
 
-	const blockProps = useBlockProps( { className: 'gb-loop-repeater' } );
-	const innerBlocksProps = useInnerBlocksProps( { className: 'gb-loop-repeater__inner', templateLock } );
+	const innerBlocksProps = useInnerBlocksProps( {}, { templateLock: 'all', renderAppender: () => null }, innerBlockData );
 
 	useEffect( () => {
 		const selectedBlock = getSelectedBlock();
@@ -132,17 +95,12 @@ export default function LoopRenderer( {
 	return dataContexts && dataContexts.map( ( postContext ) => (
 		<BlockContextProvider key={ postContext.postId } value={ postContext }>
 
-			{ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId )
-				? ( <div { ...innerBlocksProps } /> )
-				: null
+			{ postContext.postId === dataContexts[ 0 ]?.postId
+				? innerBlocksProps.children
+				: (
+					<MemoizedBlockPreview blocks={ innerBlockData } />
+				)
 			}
-
-			<MemoizedBlockPreview
-				blocks={ innerBlockData }
-				contextId={ postContext.postId }
-				setActiveContextId={ setActiveContextId }
-				isHidden={ postContext.postId === ( activeContextId || dataContexts[ 0 ]?.postId ) }
-			/>
 
 		</BlockContextProvider>
 	) );

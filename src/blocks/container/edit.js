@@ -125,14 +125,14 @@ const ContainerEdit = ( props ) => {
 				setAttributes={ setAttributes }
 			/>
 
-			<div className="gb-controls-wrapper">
+			<>
 				<GenerateBlocksInspectorControls
 					attributes={ attributes }
 					setAttributes={ setAttributes }
 				>
 					{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
 				</GenerateBlocksInspectorControls>
-			</div>
+			</>
 			<InspectorAdvancedControls
 				anchor={ anchor }
 				attributes={ attributes }

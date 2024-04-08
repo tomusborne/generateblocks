@@ -11,7 +11,7 @@ function fetchPrefetchedPage( url ) {
 			return response.text();
 		} )
 		.catch( ( error ) => {
-			console.error( 'Error fetching prefetched page:', error );
+			console.error( 'Error fetching prefetched page:', error ); // eslint-disable-line no-console
 		} );
 }
 
@@ -32,7 +32,7 @@ function updatePostsContainer( region = '', prefetchedContent = '' ) {
 		container.innerHTML = prefetchedPosts.innerHTML;
 		paginationContainer.innerHTML = pagination.innerHTML;
 	} else {
-		console.error( 'Unable to update posts container: Missing elements' );
+		console.error( 'Unable to update posts container: Missing elements' ); // eslint-disable-line no-console
 	}
 }
 
