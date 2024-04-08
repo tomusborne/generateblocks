@@ -78,7 +78,7 @@ class GenerateBlocks_Block_Looper {
 					GENERATEBLOCKS_DIR_URL . 'dist/looper.js',
 					$asset_info['dependencies'],
 					$asset_info['version'],
-					true,
+					true
 				);
 
 				// Add the necessary directives.
