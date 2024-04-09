@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 
-export default applyFilters( 'generateblocks.editor.query-loop.query-parameters', [
+export default applyFilters( 'generateblocks.editor.looper.query-parameters', [
 	{
 		id: 'post_type',
 		type: 'postTypeSelect',

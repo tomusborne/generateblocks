@@ -1,3 +1,4 @@
+const { resolve } = require( 'path' );
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const ESLintPlugin = require( 'eslint-webpack-plugin' );
 
@@ -5,6 +6,15 @@ const isProduction = process.env.NODE_ENV === 'production';
 
 const config = {
 	...defaultConfig,
+	resolve: {
+		...defaultConfig.resolve,
+		alias: {
+			...defaultConfig.resolve.alias,
+			'@utils': resolve( __dirname, 'src/utils' ),
+			'@components': resolve( __dirname, 'src/components' ),
+		},
+		enforceExtension: false,
+	},
 };
 
 if ( ! isProduction ) {

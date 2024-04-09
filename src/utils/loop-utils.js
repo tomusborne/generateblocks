@@ -11,7 +11,7 @@ export function removeEmpty( obj ) {
 	} ) );
 }
 
-function getTaxQueryParam( taxQuery, isExclude = false ) {
+export function getTaxQueryParam( taxQuery, isExclude = false ) {
 	const paramKey = isExclude ? `${ taxQuery.rest }_exclude` : taxQuery.rest;
 	return { [ paramKey ]: {
 		terms: taxQuery.terms,
@@ -19,7 +19,7 @@ function getTaxQueryParam( taxQuery, isExclude = false ) {
 	} };
 }
 
-function normalizeTaxQuery( taxQueryValue, isExclude = false ) {
+export function normalizeTaxQuery( taxQueryValue, isExclude = false ) {
 	return taxQueryValue.reduce( ( normalized, taxQuery ) => {
 		return Object.assign( {}, normalized, getTaxQueryParam( taxQuery, isExclude ) );
 	}, {} );

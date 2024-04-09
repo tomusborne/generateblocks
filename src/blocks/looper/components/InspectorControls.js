@@ -2,6 +2,8 @@ import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { ToggleControl, SelectControl } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
+
 import { isEqual } from 'lodash';
 
 import PanelArea from '../../../components/panel-area';
@@ -9,9 +11,9 @@ import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
 import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
 import ParameterList from './inspector-controls/parameter-list';
 import useQueryReducer from '../hooks/useQueryReducer';
-import isEmpty from '../../../utils/object-is-empty';
+import isEmpty from '@utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';
-import getIcon from '../../../utils/get-icon';
+import getIcon from '@utils/get-icon';
 
 export default ( { attributes, setAttributes } ) => {
 	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer( attributes.query );
@@ -51,10 +53,13 @@ export default ( { attributes, setAttributes } ) => {
 					value={ attributes.queryType }
 					onChange={ ( value ) => setAttributes( { queryType: value } ) }
 					label={ __( 'Query Type', 'generateblocks' ) }
-					options={ [
-						{ value: 'WP_Query', label: __( 'WP Query', 'generateblocks' ) },
-						{ value: 'acf', label: __( 'ACF', 'generateblocks' ) },
-					] }
+					options={ applyFilters(
+						'generateblocks.looper.queryTypes',
+						[
+							{ value: 'WP_Query', label: __( 'WP Query', 'generateblocks' ) },
+						],
+						attributes
+					) }
 				/>
 				{ 'WP_Query' === attributes.queryType && (
 					<>

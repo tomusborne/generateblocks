@@ -8,7 +8,7 @@ import { useSelect } from '@wordpress/data';
 
 import InspectorControls from './components/InspectorControls';
 import BlockControls from './components/BlockControls';
-import filterAttributes from '../../utils/filter-attributes';
+import filterAttributes from '@utils/filter-attributes';
 import queryLoopAttributes from './attributes';
 import LayoutSelector from './components/LayoutSelector';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';

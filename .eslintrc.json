@@ -33,6 +33,17 @@
 	"settings": {
 		"react": {
 			"pragma": "wp"
+		},
+		"import/resolver": {
+			"node": {
+        "extensions": [".js", ".jsx"]
+      },
+			"eslint-import-resolver-custom-alias": {
+				"alias": {
+					"@utils": "./src/utils",
+					"@components": "./src/components"
+				}
+			}
 		}
 	},
 	"rules": {

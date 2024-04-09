@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import templates from '../templates';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { useDispatch } from '@wordpress/data';
-import getIcon from '../../../utils/get-icon';
+import getIcon from '@utils/get-icon';
 
 export default ( { clientId, isDisabled } ) => {
 	if ( isDisabled ) {
@@ -17,9 +17,9 @@ export default ( { clientId, isDisabled } ) => {
 			label={ __( 'Looper', 'generateblocks' ) }
 			icon={ getIcon( 'query-loop' ) }
 			instructions={ __( 'Choose a layout to start with.', 'generateblocks' ) }
-			className="gblocks-query-loop-layout-selector"
+			className="gb-looper-layout-selector"
 		>
-			<div className="gblocks-query-loop-layout-selector__content">
+			<div className="gb-looper-layout-selector__content">
 				{ templates.map( ( template ) => {
 					return (
 						<Button

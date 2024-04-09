@@ -2,7 +2,7 @@ import { registerBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import { InnerBlocks } from '@wordpress/block-editor';
 
-import getIcon from '../../utils/get-icon';
+import getIcon from '@utils/get-icon';
 import attributes from './attributes';
 import edit from './edit';
 import withUniqueId from '../../hoc/withUniqueId';
