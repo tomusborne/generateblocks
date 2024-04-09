@@ -1,9 +1,10 @@
 import { BlockControls } from '@wordpress/block-editor';
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
-import getIcon from '@utils/get-icon';
 import { __ } from '@wordpress/i18n';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { useDispatch } from '@wordpress/data';
+
+import getIcon from '@utils/get-icon';
 
 export default ( { clientId } ) => {
 	const { insertBlocks } = useDispatch( 'core/block-editor' );

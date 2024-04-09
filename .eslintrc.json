@@ -39,9 +39,12 @@
         "extensions": [".js", ".jsx"]
       },
 			"eslint-import-resolver-custom-alias": {
+				"extensions": [".js", ".jsx"],
 				"alias": {
 					"@utils": "./src/utils",
-					"@components": "./src/components"
+					"@components": "./src/components",
+					"@hooks": "./src/hooks",
+					"@hoc": "./src/hoc"
 				}
 			}
 		}

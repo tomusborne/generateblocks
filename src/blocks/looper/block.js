@@ -3,9 +3,9 @@ import { __ } from '@wordpress/i18n';
 import { InnerBlocks } from '@wordpress/block-editor';
 
 import getIcon from '@utils/get-icon';
+import withUniqueId from '@hoc/withUniqueId';
 import attributes from './attributes';
 import edit from './edit';
-import withUniqueId from '../../hoc/withUniqueId';
 
 registerBlockType( 'generateblocks/looper', {
 	apiVersion: 3,

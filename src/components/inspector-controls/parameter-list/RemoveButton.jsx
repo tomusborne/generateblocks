@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { Button, Tooltip } from '@wordpress/components';
-import getIcon from '../../../../../utils/get-icon';
+import getIcon from '../../../utils/get-icon';
 
 export default function RemoveButton( { id, onClick } ) {
 	return (

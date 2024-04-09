@@ -1,9 +1,10 @@
 import { Placeholder, Button } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import templates from '../templates';
 import { createBlocksFromInnerBlocksTemplate } from '@wordpress/blocks';
 import { useDispatch } from '@wordpress/data';
+
 import getIcon from '@utils/get-icon';
+import templates from '../templates';
 
 export default ( { clientId, isDisabled } ) => {
 	if ( isDisabled ) {

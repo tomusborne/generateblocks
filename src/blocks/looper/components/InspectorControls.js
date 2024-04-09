@@ -6,11 +6,11 @@ import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
 
-import PanelArea from '../../../components/panel-area';
-import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
-import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
-import ParameterList from './inspector-controls/parameter-list';
-import useQueryReducer from '../hooks/useQueryReducer';
+import PanelArea from '@components/panel-area';
+import SelectQueryParameter from '@components/inspector-controls/SelectQueryParameter';
+import AddQueryParameterButton from '@components/inspector-controls/AddQueryParameterButton';
+import ParameterList from './ParameterList';
+import useQueryReducer from '@hooks/useQueryReducer';
 import isEmpty from '@utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';
 import getIcon from '@utils/get-icon';

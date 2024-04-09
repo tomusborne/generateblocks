@@ -12,7 +12,10 @@ const config = {
 			...defaultConfig.resolve.alias,
 			'@utils': resolve( __dirname, 'src/utils' ),
 			'@components': resolve( __dirname, 'src/components' ),
+			'@hooks': resolve( __dirname, 'src/hooks' ),
+			'@hoc': resolve( __dirname, 'src/hoc' ),
 		},
+		extensions: [ '.js', '.jsx', '.json' ],
 		enforceExtension: false,
 	},
 };
