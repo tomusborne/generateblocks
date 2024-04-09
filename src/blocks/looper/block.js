@@ -29,7 +29,7 @@ registerBlockType( 'generateblocks/looper', {
 		'generateblocks/queryId': 'uniqueId',
 		'generateblocks/inheritQuery': 'inheritQuery',
 		'generateblocks/isLoop': 'isLoop',
-		'generateblocks/wpQuery': 'wpQuery',
+		'generateblocks/queryData': 'queryData',
 		'generateblocks/noResults': 'noResults',
 		'generateblocks/forceReload': 'forceReload',
 	},

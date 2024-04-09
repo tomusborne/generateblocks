@@ -9,7 +9,7 @@ export default Object.assign( {}, gridAttributes, {
 		type: 'boolean',
 		default: false,
 	},
-	wpQuery: {
+	queryData: {
 		type: 'object',
 		default: {},
 	},

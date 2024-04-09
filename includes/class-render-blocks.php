@@ -62,8 +62,8 @@ class GenerateBlocks_Render_Block {
 				'generateblocks/query',
 				'generateblocks/wpQuery',
 				'generateblocks/noResults',
-				'generateblocks/query_args',
-				'generateblocks/query_type',
+				'generateblocks/query',
+				'generateblocks/queryType',
 			),
 		];
 

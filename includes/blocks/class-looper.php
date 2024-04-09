@@ -27,6 +27,7 @@ class GenerateBlocks_Block_Looper {
 		$page         = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$query_args   = GenerateBlocks_Loop_Utils::get_query_args( $block, $page );
 		$force_reload = $attributes['forceReload'] ?? true;
+		$query_type   = $attributes['queryType'] ?? 'WP_Query';
 
 		// Override the custom query with the global query if needed.
 		$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
@@ -52,18 +53,16 @@ class GenerateBlocks_Block_Looper {
 			$block
 		);
 
-		$query_type = 'WP_Query';
 		$the_query = new WP_Query( $query_args );
 
 		$parsed_content = (
 			new WP_Block(
 				$block->parsed_block,
 				array(
-					'generateblocks/noResults'   => 0 === $the_query->found_posts,
-					'generateblocks/wpQuery'     => $the_query,
-					'generateblocks/query_type'  => $query_type,
-					'generateblocks/query_args'  => $query_args,
-					'generateblocks/forceReload' => $force_reload,
+					'generateblocks/noResults' => 0 === $the_query->found_posts,
+					'generateblocks/queryData' => $the_query,
+					'generateblocks/query'     => $query_args,
+					'generateblocks/queryType' => $query_type,
 				)
 			)
 		)->render( array( 'dynamic' => false ) );
@@ -99,7 +98,12 @@ class GenerateBlocks_Block_Looper {
 	 * @return  string  The rendered content.
 	 */
 	public static function render_repeater( $attributes, $content, $block ) {
-		$query = $block->context['generateblocks/wpQuery'];
+		$query      = $block->context['generateblocks/queryData'] ?? null;
+		$query_type = $block->context['generateblocks/queryType'] ?? null;
+
+		if ( 'WP_Query' !== $query_type || ! $query ) {
+			return '';
+		}
 
 		$content = '';
 		if ( $query->have_posts() ) {

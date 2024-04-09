@@ -17,9 +17,9 @@ export default ( { clientId, isDisabled } ) => {
 			label={ __( 'Looper', 'generateblocks' ) }
 			icon={ getIcon( 'query-loop' ) }
 			instructions={ __( 'Choose a layout to start with.', 'generateblocks' ) }
-			className="gb-looper-layout-selector"
+			className="gblocks-query-loop-layout-selector"
 		>
-			<div className="gb-looper-layout-selector__content">
+			<div className="gblocks-query-loop-layout-selector__content">
 				{ templates.map( ( template ) => {
 					return (
 						<Button
