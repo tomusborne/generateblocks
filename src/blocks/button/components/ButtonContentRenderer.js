@@ -16,13 +16,13 @@ export default function ButtonContentRenderer( props ) {
 		name,
 		buttonRef,
 		clientId,
+		buttonPreviewElement,
 	} = props;
 
 	const {
 		uniqueId,
 		anchor,
 		text,
-		url,
 		target,
 		relNoFollow,
 		relSponsored,
@@ -74,19 +74,11 @@ export default function ButtonContentRenderer( props ) {
 		props
 	) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ];
 
-	let buttonTagName = url ? 'a' : 'span';
-
-	// The `button` element prevents RichText from allowing spaces.
-	// To fix that we'll return a `span` element in the editor only.
-	if ( 'button' === buttonType ) {
-		buttonTagName = 'span';
-	}
-
 	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: buttonRef } );
 
 	return (
 		<RootElement name={ name } clientId={ clientId }>
-			<Element tagName={ buttonTagName } htmlAttrs={ blockProps }>
+			<Element tagName={ buttonPreviewElement } htmlAttrs={ blockProps }>
 				<IconWrapper
 					hasIcon={ !! icon }
 					icon={ icon }

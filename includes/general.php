@@ -155,6 +155,27 @@ function generateblocks_do_block_editor_assets() {
 			'v_1_4_0' => GenerateBlocks_Legacy_Attributes::get_defaults( '1.4.0' ),
 		)
 	);
+
+	$editor_sidebar_assets = generateblocks_get_enqueue_assets( 'editor-sidebar' );
+
+	wp_enqueue_script(
+		'generateblocks-editor-sidebar',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor-sidebar.js',
+		$editor_sidebar_assets['dependencies'],
+		$editor_sidebar_assets['version'],
+		true
+	);
+
+	if ( function_exists( 'wp_set_script_translations' ) ) {
+		wp_set_script_translations( 'generateblocks-editor-sidebar', 'generateblocks' );
+	}
+
+	wp_enqueue_style(
+		'generateblocks-editor-sidebar',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor-sidebar.css',
+		array( 'wp-components' ),
+		filemtime( GENERATEBLOCKS_DIR . 'dist/editor-sidebar.css' )
+	);
 }
 
 if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
@@ -425,4 +446,35 @@ function generateblocks_register_user_meta() {
 			),
 		)
 	);
+}
+
+add_filter( 'block_editor_settings_all', 'generateblocks_do_block_css_reset', 15 );
+/**
+ * This resets the `max-width`, `margin-left`, and `margin-right` properties for our blocks in the editor.
+ * We have to do this as most themes use `.wp-block` to set a `max-width` and auto margins.
+ *
+ * We used to do this directly in the block CSS if those block attributes didn't exist, but this allows us
+ * to overwrite the reset in the `block_editor_settings_all` filter with a later priority.
+ *
+ * @param array $editor_settings The existing editor settings.
+ */
+function generateblocks_do_block_css_reset( $editor_settings ) {
+	$css = '.gb-container, .gb-headline, .gb-button {max-width:unset;margin-left:0;margin-right:0;}';
+	$editor_settings['styles'][] = [ 'css' => $css ];
+
+	return $editor_settings;
+}
+
+add_filter( 'generateblocks_css_output', 'generateblocks_add_general_css' );
+/**
+ * Add general CSS that doesn't apply to our own blocks.
+ *
+ * @param string $css Existing CSS.
+ */
+function generateblocks_add_general_css( $css ) {
+	$css .= '.gb-container .wp-block-image img{vertical-align:middle;}';
+	$css .= '.gb-grid-wrapper .wp-block-image{margin-bottom:0;}';
+	$css .= '.gb-highlight{background:none;}';
+
+	return $css;
 }

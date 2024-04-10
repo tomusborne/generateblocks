@@ -57,12 +57,14 @@ registerBlockType( 'generateblocks/container', {
 	},
 	deprecated,
 	__experimentalLabel: ( attrs, { context } ) => {
-		if ( attrs.isQueryLoopItem ) {
-			return __( 'Post Template', 'generateblocks' );
+		const customName = attrs?.metadata?.name || attrs?.blockLabel;
+
+		if ( 'list-view' === context && customName ) {
+			return customName;
 		}
 
-		if ( 'list-view' === context && attrs.blockLabel ) {
-			return attrs.blockLabel;
+		if ( attrs.isQueryLoopItem ) {
+			return __( 'Post Template', 'generateblocks' );
 		}
 
 		return __( 'Container', 'generateblocks' );
