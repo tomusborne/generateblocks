@@ -7,6 +7,7 @@ import './editor.scss';
 import { Button } from '@wordpress/components';
 import { closeSmall } from '@wordpress/icons';
 import { useDispatch } from '@wordpress/data';
+import classnames from 'classnames';
 
 function SidebarItems( props ) {
 	const { name, children } = props;
@@ -51,7 +52,9 @@ function EditorSidebar() {
 			className="gblocks-editor-sidebar"
 			title={ __( 'GenerateBlocks', 'generateblocks-pro' ) }
 			icon={ <Icon /> }
-			headerClassName="gblocks-editor-sidebar-header"
+			headerClassName={ classnames( 'gblocks-editor-sidebar-header', {
+				[ `gblocks-editor-sidebar-header--${ activePanel }` ]: activePanel,
+			} ) }
 			header={
 				<SidebarHeader
 					activePanel={ activePanel }
