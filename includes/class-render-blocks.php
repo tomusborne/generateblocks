@@ -59,8 +59,7 @@ class GenerateBlocks_Render_Block {
 			'title' => esc_html__( 'Container', 'generateblocks' ),
 			'render_callback' => [ 'GenerateBlocks_Block_Container', 'render_block' ],
 			'uses_context' => array(
-				'generateblocks/query',
-				'generateblocks/wpQuery',
+				'generateblocks/queryData',
 				'generateblocks/noResults',
 				'generateblocks/query',
 				'generateblocks/queryType',
@@ -143,7 +142,7 @@ class GenerateBlocks_Render_Block {
 				'title' => esc_html__( 'Button', 'generateblocks' ),
 				'render_callback' => [ 'GenerateBlocks_Block_Button', 'render_block' ],
 				'uses_context' => array(
-					'generateblocks/wpQuery',
+					'generateblocks/queryData',
 					'generateblocks/query',
 					'generateblocks/queryId',
 					'generateblocks/inheritQuery',

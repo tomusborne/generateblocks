@@ -60,7 +60,7 @@ registerBlockType( 'generateblocks/button', {
 		'postType',
 		'generateblocks/query',
 		'generateblocks/inheritQuery',
-		'generateblocks/wpQuery',
+		'generateblocks/queryData',
 		'generateblocks/forceReload',
 	],
 	__experimentalLabel: ( attrs, { context } ) => {

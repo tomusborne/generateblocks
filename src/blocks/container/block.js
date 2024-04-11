@@ -55,7 +55,7 @@ registerBlockType( 'generateblocks/container', {
 		'generateblocks/queryId',
 		'generateblocks/query',
 		'generateblocks/inheritQuery',
-		'generateblocks/wpQuery',
+		'generateblocks/queryData',
 		'generateblocks/noResults',
 	],
 	edit: containerEdit,
