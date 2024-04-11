@@ -1,7 +1,7 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useEffect, useMemo, useState } from '@wordpress/element';
-import { ToggleControl, SelectControl } from '@wordpress/components';
+import { ToggleControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
@@ -40,6 +40,12 @@ export default ( { attributes, setAttributes } ) => {
 		} )
 	), [ queryState ] );
 
+	const queryType = applyFilters(
+		'generateblocks.looper.queryType',
+		attributes.queryType,
+		attributes
+	);
+
 	return (
 		<InspectorControls>
 			<PanelArea
@@ -49,19 +55,7 @@ export default ( { attributes, setAttributes } ) => {
 				icon={ getIcon( 'query-params' ) }
 				className="gblocks-panel-label"
 			>
-				<SelectControl
-					value={ attributes.queryType }
-					onChange={ ( value ) => setAttributes( { queryType: value } ) }
-					label={ __( 'Query Type', 'generateblocks' ) }
-					options={ applyFilters(
-						'generateblocks.looper.queryTypes',
-						[
-							{ value: 'WP_Query', label: __( 'WP Query', 'generateblocks' ) },
-						],
-						attributes
-					) }
-				/>
-				{ 'WP_Query' === attributes.queryType && (
+				{ 'WP_Query' === queryType && (
 					<>
 						<ToggleControl
 							label={ __( 'Inherit query from template', 'generateblocks' ) }
