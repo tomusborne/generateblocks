@@ -1,0 +1,35 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/element",
+    "title": "Element",
+    "category": "generateblocks",
+    "description": "Shows warning, error or success notices...",
+    "keywords": [ "alert", "message" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+    "attributes": {
+        "uniqueId": {
+            "type": "string"
+        },
+		"tagName": {
+			"type": "string",
+			"default": ""
+		},
+		"styles": {
+			"type": "object"
+		},
+		"css": {
+			"type": "string"
+		},
+		"globalClasses": {
+			"type": "array"
+		}
+    },
+    "supports": {
+        "align": false,
+		"className": false
+    },
+    "editorScript": "file:./index.js",
+    "editorStyle": "file:./index.css"
+}

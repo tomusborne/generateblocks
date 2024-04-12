@@ -141,6 +141,14 @@ class GenerateBlocks_Render_Block {
 				),
 			)
 		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . '/dist/blocks/text'
+		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . '/dist/blocks/element'
+		);
 	}
 
 	/**
