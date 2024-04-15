@@ -439,52 +439,57 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 
 			{ ( isFlexItem || isGridBlockItem ) && (
 				<>
-					{ layout.flexGrow &&
-						<TextControl
-							label={ labels.flexGrow }
-							id="gblocks-flex-grow"
-							type={ 'number' }
-							value={ flexGrow }
-							min="0"
-							step="1"
-							placeholder={ getResponsivePlaceholder( 'flexGrow', attributes, device, '0' ) }
-							onChange={ ( value ) => setDeviceAttributes( { flexGrow: value } ) }
-							onBlur={ () => {
-								if ( '' !== flexGrow ) {
-									setDeviceAttributes( { flexGrow: parseFloat( flexGrow ) } );
-								}
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
-					}
+					{ ( layout.flexGrow || layout.flexShrink ) &&
+						<FlexControl>
+							{ layout.flexGrow &&
+								<TextControl
+									label={ labels.flexGrow }
+									id="gblocks-flex-grow"
+									type={ 'number' }
+									value={ flexGrow }
+									min="0"
+									step="1"
+									placeholder={ getResponsivePlaceholder( 'flexGrow', attributes, device, '0' ) }
+									onChange={ ( value ) => setDeviceAttributes( { flexGrow: value } ) }
+									onBlur={ () => {
+										if ( '' !== flexGrow ) {
+											setDeviceAttributes( { flexGrow: parseFloat( flexGrow ) } );
+										}
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
+									} }
+								/>
+							}
 
-					{ layout.flexShrink &&
-						<TextControl
-							label={ labels.flexShrink }
-							id="gblocks-flex-shrink"
-							type={ 'number' }
-							value={ flexShrink }
-							min="0"
-							step="1"
-							placeholder={ getResponsivePlaceholder( 'flexShrink', attributes, device, '1' ) }
-							onChange={ ( value ) => setDeviceAttributes( { flexShrink: value } ) }
-							onBlur={ () => {
-								if ( '' !== flexShrink ) {
-									setDeviceAttributes( { flexShrink: parseFloat( flexShrink ) } );
-								}
-							} }
-							onClick={ ( e ) => {
-								// Make sure onBlur fires in Firefox.
-								e.currentTarget.focus();
-							} }
-						/>
+							{ layout.flexShrink &&
+								<TextControl
+									label={ labels.flexShrink }
+									id="gblocks-flex-shrink"
+									type={ 'number' }
+									value={ flexShrink }
+									min="0"
+									step="1"
+									placeholder={ getResponsivePlaceholder( 'flexShrink', attributes, device, '1' ) }
+									onChange={ ( value ) => setDeviceAttributes( { flexShrink: value } ) }
+									onBlur={ () => {
+										if ( '' !== flexShrink ) {
+											setDeviceAttributes( { flexShrink: parseFloat( flexShrink ) } );
+										}
+									} }
+									onClick={ ( e ) => {
+										// Make sure onBlur fires in Firefox.
+										e.currentTarget.focus();
+									} }
+								/>
+							}
+						</FlexControl>
 					}
 
 					{ layout.flexBasis &&
 						<UnitControl
+							id="gblocks-flex-basis"
 							label={ labels.flexBasis }
 							value={ flexBasis }
 							placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, device ) }

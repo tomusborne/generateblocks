@@ -1655,6 +1655,10 @@ function generateblocks_with_global_defaults( $defaults ) {
 		'overflowX',
 		'overflowY',
 		'zindex',
+		'gridTemplateColumns',
+		'gridTemplateRows',
+		'gridColumn',
+		'gridRow',
 	];
 
 	$flex_child = [
