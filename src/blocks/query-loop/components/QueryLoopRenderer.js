@@ -17,9 +17,20 @@ export default function QueryLoopRenderer( props ) {
 			getEntityRecords,
 			isResolving,
 			hasFinishedResolution,
+			canUser,
 		} = select( coreStore );
 
-		const queryParams = [ 'postType', query.post_type || 'post', normalizedQuery ];
+		let queryData = normalizedQuery;
+
+		// If the user can't update settings, we'll only show published posts.
+		if ( ! canUser( 'update', 'settings' ) ) {
+			queryData = {
+				...queryData,
+				status: 'publish',
+			};
+		}
+
+		const queryParams = [ 'postType', query.post_type || 'post', queryData ];
 
 		return {
 			data: getEntityRecords( ...queryParams ),

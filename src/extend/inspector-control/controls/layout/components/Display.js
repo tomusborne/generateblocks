@@ -1,11 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { SelectControl } from '@wordpress/components';
+import { useCallback } from '@wordpress/element';
 
-export default function Display( { value, onChange } ) {
+const Display = function Display( { value, onChange, label } ) {
+	const onChangeHandler = useCallback( onChange, [ value ] );
+
 	return (
 		<SelectControl
-			label={ __( 'Display', 'generateblocks' ) }
-			value={ value }
+			label={ label }
 			options={ [
 				{ label: __( 'Default', 'generateblocks' ), value: '' },
 				{ label: 'Block', value: 'block' },
@@ -15,7 +17,10 @@ export default function Display( { value, onChange } ) {
 				{ label: 'Inline', value: 'inline' },
 				{ label: 'Grid', value: 'grid' },
 			] }
-			onChange={ onChange }
+			value={ value }
+			onChange={ onChangeHandler }
 		/>
 	);
-}
+};
+
+export { Display };
