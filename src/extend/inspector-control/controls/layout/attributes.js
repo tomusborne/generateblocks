@@ -16,6 +16,10 @@ export default function getLayoutAttributes( defaults ) {
 		'gridTemplateRows',
 		'gridColumn',
 		'gridRow',
+		'flexGrow',
+		'flexShrink',
+		'flexBasis',
+		'order',
 	];
 
 	const numberOptions = [

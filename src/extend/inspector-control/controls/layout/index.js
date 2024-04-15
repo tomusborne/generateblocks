@@ -14,7 +14,6 @@ import getResponsivePlaceholder from '../../../../utils/get-responsive-placehold
 import FlexDirection from './components/FlexDirection';
 import LegacyLayoutControls from '../../../../blocks/container/components/LegacyLayoutControls';
 import ZIndex from './components/ZIndex';
-import FlexChild from '../flex-child-panel';
 import MigrateInnerContainer from '../../../../components/migrate-inner-container';
 import UnitControl from '../../../../components/unit-control';
 import { positionOptions, overflowOptions } from './options';
@@ -25,10 +24,11 @@ import { useStyleIndicator, useDeviceAttributes } from '../../../../hooks';
 import { getContentAttribute } from '../../../../utils/get-content-attribute';
 import useParentAttributes from '../../../../hooks/useParentAttributes';
 import { GridTemplateSelector } from './components/GridColumnSelector';
+import hasNumericValue from '../../../../utils/has-numeric-value';
 
 export default function Layout( { attributes, setAttributes, computedStyles } ) {
 	const device = getDeviceType();
-	const { clientId, id, blockName, supports: { layout, flexChildPanel } } = useContext( ControlsContext );
+	const { clientId, id, blockName, supports: { layout } } = useContext( ControlsContext );
 	const contentValue = getContentAttribute( attributes, blockName );
 	const [ deviceAttributes, setDeviceAttributes ] = useDeviceAttributes( attributes, setAttributes );
 	const [ isFlexItem, setIsFlexItem ] = useState( false );
@@ -73,6 +73,11 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		gridTemplateRows,
 		gridColumn,
 		gridRow,
+		order,
+		flexGrow,
+		flexShrink,
+		flexBasis,
+		isGrid: isGridBlockItem,
 	} = attributes;
 
 	const directionValue = getAttribute( 'flexDirection', componentProps ) || getResponsivePlaceholder( 'flexDirection', attributes, device, 'row' );
@@ -197,6 +202,30 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 				overflowY: getAttribute( 'overflowY', componentProps ),
 			},
 		),
+		flexGrow: getLabel(
+			__( 'Flex Grow', 'generateblocks' ),
+			{
+				flexGrow: getAttribute( 'flexGrow', componentProps ),
+			},
+		),
+		flexShrink: getLabel(
+			__( 'Flex Shrink', 'generateblocks' ),
+			{
+				flexShrink: getAttribute( 'flexShrink', componentProps ),
+			},
+		),
+		flexBasis: getLabel(
+			__( 'Flex Basis', 'generateblocks' ),
+			{
+				flexBasis: getAttribute( 'flexBasis', componentProps ),
+			},
+		),
+		order: getLabel(
+			__( 'Order', 'generateblocks' ),
+			{
+				order: getAttribute( 'order', componentProps ),
+			},
+		),
 	};
 
 	return (
@@ -286,7 +315,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 				<>
 					{ layout.gridTemplateColumns &&
 						<BaseControl
-							label={ __( 'Grid Template Columns', 'generateblocks-pro' ) }
+							label={ labels.gridTemplateColumns }
 							id="grid-template-columns"
 						>
 							<div className="gb-grid-control__grid-template-columns-rows">
@@ -318,7 +347,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 
 					{ layout.gridTemplateRows &&
 						<TextControl
-							label={ __( 'Grid Template Rows', 'generateblocks' ) }
+							label={ labels.gridTemplateRows }
 							value={ gridTemplateRows }
 							onChange={ ( value ) => setDeviceAttributes( { gridTemplateRows: value } ) }
 						/>
@@ -334,7 +363,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 							onChange={ ( value ) => setAttributes( {
 								[ getAttribute( 'alignItems', componentProps, true ) ]: value !== getAttribute( 'alignItems', componentProps ) ? value : '',
 							} ) }
-							label={ __( 'Align Items', 'generateblocks' ) }
+							label={ labels.alignItems }
 							attributeName="alignItems"
 							directionValue={ directionValue }
 							fallback={ getResponsivePlaceholder( 'alignItems', attributes, device, '' ) }
@@ -347,7 +376,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 							onChange={ ( value ) => setAttributes( {
 								[ getAttribute( 'justifyContent', componentProps, true ) ]: value !== getAttribute( 'justifyContent', componentProps ) ? value : '',
 							} ) }
-							label={ __( 'Justify Content', 'generateblocks' ) }
+							label={ labels.justifyContent }
 							attributeName="justifyContent"
 							directionValue={ directionValue }
 							fallback={ getResponsivePlaceholder( 'justifyContent', attributes, device, '' ) }
@@ -358,7 +387,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 						<FlexControl>
 							{ layout.columnGap &&
 								<UnitControl
-									label={ __( 'Column Gap', 'generateblocks' ) }
+									label={ labels.columnGap }
 									id="gblocks-column-gap"
 									value={ getAttribute( 'columnGap', componentProps ) }
 									placeholder={ getResponsivePlaceholder( 'columnGap', attributes, device ) }
@@ -370,7 +399,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 
 							{ layout.rowGap &&
 								<UnitControl
-									label={ __( 'Row Gap', 'generateblocks' ) }
+									label={ labels.rowGap }
 									id="gblocks-row-gap"
 									value={ getAttribute( 'rowGap', componentProps ) }
 									placeholder={ getResponsivePlaceholder( 'rowGap', attributes, device ) }
@@ -387,32 +416,105 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 			{ isGridItem && ! useInnerContainer && (
 				<>
 					{ layout.gridColumn &&
-					<TextControl
-						type="text"
-						label={ __( 'Grid Column', 'generateblocks' ) }
-						value={ gridColumn }
-						placeholder={ getResponsivePlaceholder( 'gridColumn', attributes, device ) }
-						onChange={ ( value ) => setDeviceAttributes( { gridColumn: value } ) }
-					/>
+						<TextControl
+							type="text"
+							label={ labels.gridColumn }
+							value={ gridColumn }
+							placeholder={ getResponsivePlaceholder( 'gridColumn', attributes, device ) }
+							onChange={ ( value ) => setDeviceAttributes( { gridColumn: value } ) }
+						/>
 					}
 
 					{ layout.gridRow &&
-					<TextControl
-						type="text"
-						label={ __( 'Grid Row', 'generateblocks' ) }
-						value={ gridRow }
-						placeholder={ getResponsivePlaceholder( 'gridRow', attributes, device ) }
-						onChange={ ( value ) => setDeviceAttributes( { gridRow: value } ) }
-					/>
+						<TextControl
+							type="text"
+							label={ labels.gridRow }
+							value={ gridRow }
+							placeholder={ getResponsivePlaceholder( 'gridRow', attributes, device ) }
+							onChange={ ( value ) => setDeviceAttributes( { gridRow: value } ) }
+						/>
 					}
 				</>
 			) }
 
-			{ isFlexItem && flexChildPanel.enabled &&
-				<FlexChild
-					attributes={ attributes }
-					setAttributes={ setAttributes }
-				/>
+			{ ( isFlexItem || isGridBlockItem ) && (
+				<>
+					{ layout.flexGrow &&
+						<TextControl
+							label={ labels.flexGrow }
+							id="gblocks-flex-grow"
+							type={ 'number' }
+							value={ flexGrow }
+							min="0"
+							step="1"
+							placeholder={ getResponsivePlaceholder( 'flexGrow', attributes, device, '0' ) }
+							onChange={ ( value ) => setDeviceAttributes( { flexGrow: value } ) }
+							onBlur={ () => {
+								if ( '' !== flexGrow ) {
+									setDeviceAttributes( { flexGrow: parseFloat( flexGrow ) } );
+								}
+							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
+						/>
+					}
+
+					{ layout.flexShrink &&
+						<TextControl
+							label={ labels.flexShrink }
+							id="gblocks-flex-shrink"
+							type={ 'number' }
+							value={ flexShrink }
+							min="0"
+							step="1"
+							placeholder={ getResponsivePlaceholder( 'flexShrink', attributes, device, '1' ) }
+							onChange={ ( value ) => setDeviceAttributes( { flexShrink: value } ) }
+							onBlur={ () => {
+								if ( '' !== flexShrink ) {
+									setDeviceAttributes( { flexShrink: parseFloat( flexShrink ) } );
+								}
+							} }
+							onClick={ ( e ) => {
+								// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
+						/>
+					}
+
+					{ layout.flexBasis &&
+						<UnitControl
+							label={ labels.flexBasis }
+							value={ flexBasis }
+							placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, device ) }
+							onChange={ ( value ) => setDeviceAttributes( { flexBasis: value } ) }
+						/>
+					}
+				</>
+			) }
+
+			{ ( isFlexItem || isGridItem || isGridBlockItem ) &&
+				<>
+					{ layout.order &&
+						<TextControl
+							type={ 'number' }
+							label={ labels.order }
+							value={ hasNumericValue( order ) ? order : '' }
+							placeholder={ getResponsivePlaceholder( 'order', attributes, device ) }
+							onChange={ ( value ) => setDeviceAttributes( { order: value } ) }
+							onBlur={ () => {
+								if ( '' !== order ) {
+									setDeviceAttributes( { order: parseFloat( order ) } );
+								}
+							} }
+							onClick={ ( e ) => {
+							// Make sure onBlur fires in Firefox.
+								e.currentTarget.focus();
+							} }
+						/>
+					}
+				</>
 			}
 
 			{ ! useInnerContainer &&
