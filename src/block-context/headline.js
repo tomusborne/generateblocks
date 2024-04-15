@@ -11,8 +11,6 @@ const headlineContext = defaultsDeep( {
 			display: true,
 			gridTemplateColumns: true,
 			gridTemplateRows: true,
-			gridAutoColumns: true,
-			gridAutoRows: true,
 			gridColumn: true,
 			gridRow: true,
 			order: true,

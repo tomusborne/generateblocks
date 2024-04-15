@@ -16,8 +16,6 @@ const defaultContext = {
 			display: false,
 			gridTemplateColumns: false,
 			gridTemplateRows: false,
-			gridAutoColumns: false,
-			gridAutoRows: false,
 			gridColumn: false,
 			gridRow: false,
 			order: false,
