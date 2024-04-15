@@ -1223,8 +1223,6 @@ function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
 		'overflow-y' => 'overflowY',
 		'grid-template-columns' => 'gridTemplateColumns',
 		'grid-template-rows' => 'gridTemplateRows',
-		'grid-auto-columns' => 'gridAutoColumns',
-		'grid-auto-rows' => 'gridAutoRows',
 		'grid-column' => 'gridColumn',
 		'grid-row' => 'gridRow',
 	];

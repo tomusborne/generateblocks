@@ -19,8 +19,6 @@ export default function LayoutCSS( css, selector, attributes, device = '' ) {
 		styles[ 'overflow-y' ] = attributes[ 'overflowY' + device ];
 		styles[ 'grid-template-rows' ] = attributes[ 'gridTemplateRows' + device ];
 		styles[ 'grid-template-columns' ] = attributes[ 'gridTemplateColumns' + device ];
-		styles[ 'grid-auto-columns' ] = attributes[ 'gridAutoColumns' + device ];
-		styles[ 'grid-auto-rows' ] = attributes[ 'gridAutoRows' + device ];
 		styles[ 'grid-column' ] = attributes[ 'gridColumn' + device ];
 		styles[ 'grid-row' ] = attributes[ 'gridRow' + device ];
 	}

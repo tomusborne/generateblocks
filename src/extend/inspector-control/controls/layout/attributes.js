@@ -14,8 +14,6 @@ export default function getLayoutAttributes( defaults ) {
 		'overflowY',
 		'gridTemplateColumns',
 		'gridTemplateRows',
-		'gridAutoColumns',
-		'gridAutoRows',
 		'gridColumn',
 		'gridRow',
 	];
