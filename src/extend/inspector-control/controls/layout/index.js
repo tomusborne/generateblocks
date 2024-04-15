@@ -23,7 +23,7 @@ import ThemeWidth from './components/ThemeWidth';
 import { useStyleIndicator, useDeviceAttributes } from '../../../../hooks';
 import { getContentAttribute } from '../../../../utils/get-content-attribute';
 import useParentAttributes from '../../../../hooks/useParentAttributes';
-import { GridTemplateSelector } from './components/GridColumnSelector';
+import { GridColumnSelector } from './components/GridColumnSelector';
 import hasNumericValue from '../../../../utils/has-numeric-value';
 
 export default function Layout( { attributes, setAttributes, computedStyles } ) {
@@ -69,14 +69,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 		zindex,
 		innerZindex,
 		align,
-		gridTemplateColumns,
-		gridTemplateRows,
-		gridColumn,
-		gridRow,
 		order,
-		flexGrow,
-		flexShrink,
-		flexBasis,
 		isGrid: isGridBlockItem,
 	} = attributes;
 
@@ -321,7 +314,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 							<div className="gb-grid-control__grid-template-columns-rows">
 								<TextControl
 									id="grid-template-columns"
-									value={ gridTemplateColumns }
+									value={ deviceAttributes.gridTemplateColumns }
 									onChange={ ( value ) => setDeviceAttributes( { gridTemplateColumns: value } ) }
 								/>
 								<Button
@@ -335,8 +328,8 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 							</div>
 
 							{ !! showGridTemplateColumns && (
-								<GridTemplateSelector
-									value={ gridTemplateColumns }
+								<GridColumnSelector
+									value={ deviceAttributes.gridTemplateColumns }
 									onClick={ ( value ) => {
 										setDeviceAttributes( { gridTemplateColumns: value } );
 									} }
@@ -348,7 +341,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 					{ layout.gridTemplateRows &&
 						<TextControl
 							label={ labels.gridTemplateRows }
-							value={ gridTemplateRows }
+							value={ deviceAttributes.gridTemplateRows }
 							onChange={ ( value ) => setDeviceAttributes( { gridTemplateRows: value } ) }
 						/>
 					}
@@ -419,7 +412,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 						<TextControl
 							type="text"
 							label={ labels.gridColumn }
-							value={ gridColumn }
+							value={ deviceAttributes.gridColumn }
 							placeholder={ getResponsivePlaceholder( 'gridColumn', attributes, device ) }
 							onChange={ ( value ) => setDeviceAttributes( { gridColumn: value } ) }
 						/>
@@ -429,7 +422,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 						<TextControl
 							type="text"
 							label={ labels.gridRow }
-							value={ gridRow }
+							value={ deviceAttributes.gridRow }
 							placeholder={ getResponsivePlaceholder( 'gridRow', attributes, device ) }
 							onChange={ ( value ) => setDeviceAttributes( { gridRow: value } ) }
 						/>
@@ -446,14 +439,14 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 									label={ labels.flexGrow }
 									id="gblocks-flex-grow"
 									type={ 'number' }
-									value={ flexGrow }
+									value={ deviceAttributes.flexGrow }
 									min="0"
 									step="1"
 									placeholder={ getResponsivePlaceholder( 'flexGrow', attributes, device, '0' ) }
 									onChange={ ( value ) => setDeviceAttributes( { flexGrow: value } ) }
 									onBlur={ () => {
-										if ( '' !== flexGrow ) {
-											setDeviceAttributes( { flexGrow: parseFloat( flexGrow ) } );
+										if ( '' !== deviceAttributes.flexGrow ) {
+											setDeviceAttributes( { flexGrow: parseFloat( deviceAttributes.flexGrow ) } );
 										}
 									} }
 									onClick={ ( e ) => {
@@ -468,14 +461,14 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 									label={ labels.flexShrink }
 									id="gblocks-flex-shrink"
 									type={ 'number' }
-									value={ flexShrink }
+									value={ deviceAttributes.flexShrink }
 									min="0"
 									step="1"
 									placeholder={ getResponsivePlaceholder( 'flexShrink', attributes, device, '1' ) }
 									onChange={ ( value ) => setDeviceAttributes( { flexShrink: value } ) }
 									onBlur={ () => {
-										if ( '' !== flexShrink ) {
-											setDeviceAttributes( { flexShrink: parseFloat( flexShrink ) } );
+										if ( '' !== deviceAttributes.flexShrink ) {
+											setDeviceAttributes( { flexShrink: parseFloat( deviceAttributes.flexShrink ) } );
 										}
 									} }
 									onClick={ ( e ) => {
@@ -491,7 +484,7 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 						<UnitControl
 							id="gblocks-flex-basis"
 							label={ labels.flexBasis }
-							value={ flexBasis }
+							value={ deviceAttributes.flexBasis }
 							placeholder={ getResponsivePlaceholder( 'flexBasis', attributes, device ) }
 							onChange={ ( value ) => setDeviceAttributes( { flexBasis: value } ) }
 						/>
@@ -505,11 +498,11 @@ export default function Layout( { attributes, setAttributes, computedStyles } ) 
 						<TextControl
 							type={ 'number' }
 							label={ labels.order }
-							value={ hasNumericValue( order ) ? order : '' }
+							value={ hasNumericValue( deviceAttributes.order ) ? deviceAttributes.order : '' }
 							placeholder={ getResponsivePlaceholder( 'order', attributes, device ) }
 							onChange={ ( value ) => setDeviceAttributes( { order: value } ) }
 							onBlur={ () => {
-								if ( '' !== order ) {
+								if ( '' !== deviceAttributes.order ) {
 									setDeviceAttributes( { order: parseFloat( order ) } );
 								}
 							} }

@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import { Button } from '@wordpress/components';
 
-export function GridTemplateSelector( { onClick, value } ) {
+export function GridColumnSelector( { onClick, value } ) {
 	const layouts = {
 		'': 1,
 		'repeat(2, 1fr)': 2,
