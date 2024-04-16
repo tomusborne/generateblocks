@@ -17,7 +17,6 @@ import getDeviceType from '../../utils/get-device-type';
 import { useSelectedBlockElement } from '../../hooks';
 
 export default function GenerateBlocksInspectorControls( { attributes, setAttributes, children } ) {
-	const device = getDeviceType();
 	const {
 		supports: {
 			responsiveTabs,
@@ -42,6 +41,12 @@ export default function GenerateBlocksInspectorControls( { attributes, setAttrib
 			setComputedStyles( getComputedStyle( selectedBlockElement ) );
 		}
 	}, [ selectedBlockElementClientId ] );
+
+	if ( false === attributes.useLegacyStyles ) {
+		return null;
+	}
+
+	const device = getDeviceType();
 
 	return (
 		<InspectorControls>

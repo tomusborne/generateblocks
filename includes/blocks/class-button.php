@@ -57,6 +57,7 @@ class GenerateBlocks_Block_Button {
 			'hasButtonContainer' => false,
 			'variantRole' => '',
 			'buttonType' => 'link',
+			'useLegacyStyles' => false,
 			// Deprecated attributes.
 			'backgroundColorOpacity' => 1,
 			'backgroundColorHoverOpacity' => 1,
@@ -114,6 +115,33 @@ class GenerateBlocks_Block_Button {
 	 */
 	public static function block_id_exists( $id ) {
 		return in_array( $id, (array) self::$block_ids );
+	}
+
+	/**
+	 * Check if we should use legacy styles.
+	 *
+	 * @param array $attributes Our block attributes.
+	 */
+	public static function use_legacy_styles( $attributes ) {
+		return (
+			( isset( $attributes['useLegacyStyles'] ) && $attributes['useLegacyStyles'] ) ||
+			( isset( $attributes['blockVersion'] ) && $attributes['blockVersion'] < 5 )
+		);
+	}
+
+	/**
+	 * Get our block CSS.
+	 *
+	 * @param array $attributes Our block attributes.
+	 */
+	public static function get_block_css( $attributes ) {
+		if ( self::use_legacy_styles( $attributes ) ) {
+			return '';
+		}
+
+		self::store_block_id( $attributes['uniqueId'] );
+
+		return $attributes['css'] ?? '';
 	}
 
 	/**

@@ -51,6 +51,17 @@ export default {
 		type: 'string',
 		default: 'link',
 	},
+	useLegacyStyles: {
+		type: 'boolean',
+		default: false,
+	},
+	styles: {
+		type: 'object',
+	},
+	css: {
+		type: 'string',
+		default: '',
+	},
 	// deprecated since 1.2.0
 	elementId: {
 		type: 'string',

@@ -10,6 +10,7 @@ import { migrationPipe, updateBlockVersion } from './migrations/utils';
 import { isEmpty } from 'lodash';
 import migrateSpacing from './migrations/migrateSpacing';
 import migrateBorders from './migrations/migrateBorders';
+import { migrateUseLegacyStyles } from './migrations/migrateUseLegacyStyles';
 
 function oldMigrations( attrs, existingAttrs, mode ) {
 	if ( 'css' === mode ) {
@@ -94,7 +95,7 @@ export function migrateButtonLayout( { blockVersionLessThan } ) {
 	};
 }
 
-export const currentBlockVersion = 4;
+export const currentBlockVersion = 5;
 
 /**
  * Migrate our Button attributes.
@@ -166,6 +167,9 @@ export function migrateButtonAttributes( { attributes, defaults, mode = '', oldD
 			migrateIconPadding( {
 				blockVersionLessThan: 4,
 				defaults,
+			} ),
+			migrateUseLegacyStyles( {
+				blockVersionLessThan: 5,
 			} ),
 			updateBlockVersion( currentBlockVersion ),
 		],

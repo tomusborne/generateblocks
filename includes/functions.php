@@ -1084,10 +1084,25 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 					continue;
 				}
 
-				if ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
-					if ( $store_block_id_only ) {
-						$blocks[ $name ]::store_block_id( $atts['uniqueId'] );
-					} elseif ( ! $blocks[ $name ]::block_id_exists( $atts['uniqueId'] ) ) {
+				if ( $store_block_id_only ) {
+					$blocks[ $name ]::store_block_id( $atts['uniqueId'] );
+				} elseif ( ! $blocks[ $name ]::block_id_exists( $atts['uniqueId'] ) ) {
+					if ( is_callable( [ $blocks[ $name ], 'use_legacy_styles' ] ) && ! $blocks[ $name ]::use_legacy_styles( $atts ) ) {
+						add_filter(
+							'generateblocks_css_output',
+							function( $css ) use ( $blocks, $name, $atts ) {
+								$styles = is_callable( [ $blocks[ $name ], 'get_block_css' ] )
+									? $blocks[ $name ]::get_block_css( $atts )
+									: false;
+
+								if ( $styles ) {
+									return $css . $styles;
+								}
+
+								return $css;
+							}
+						);
+					} elseif ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
 						generateblocks_add_to_css_data(
 							$blocks[ $name ]::get_css_data( $atts )
 						);
@@ -1155,28 +1170,55 @@ function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
 			return $content;
 		}
 
-		$css_data = is_callable( [ $data['class_name'], 'get_css_data' ] )
-			? $data['class_name']::get_css_data( $data['attributes'] )
-			: false;
+		$use_legacy_styles = is_callable( [ $data['class_name'], 'use_legacy_styles' ] )
+			? $data['class_name']::use_legacy_styles( $data['attributes'] )
+			: true;
 
-		if ( ! $css_data ) {
-			return $content;
-		}
+		if ( $use_legacy_styles ) {
+			$css_data = is_callable( [ $data['class_name'], 'get_css_data' ] )
+				? $data['class_name']::get_css_data( $data['attributes'] )
+				: false;
 
-		if ( did_action( 'wp_head' ) || $inline_style_override ) {
-			// Add inline <style> elements if we don't have access to wp_head.
-			$grouped_css = generateblocks_group_css_data( [], $css_data );
-			$compiled_css = generateblocks_get_compiled_css( $grouped_css );
+			if ( ! $css_data ) {
+				return $content;
+			}
 
-			if ( $compiled_css ) {
-				$content = sprintf(
-					'<style>%s</style>',
-					$compiled_css
-				) . $content;
+			if ( did_action( 'wp_head' ) || $inline_style_override ) {
+				// Add inline <style> elements if we don't have access to wp_head.
+				$grouped_css = generateblocks_group_css_data( [], $css_data );
+				$compiled_css = generateblocks_get_compiled_css( $grouped_css );
+
+				if ( $compiled_css ) {
+					$content = sprintf(
+						'<style>%s</style>',
+						$compiled_css
+					) . $content;
+				}
+			} else {
+				// Add our CSS to the pool of existing CSS in wp_head.
+				generateblocks_add_to_css_data( $css_data );
 			}
 		} else {
-			// Add our CSS to the pool of existing CSS in wp_head.
-			generateblocks_add_to_css_data( $css_data );
+			// Add inline styles for blocks that don't use legacy styles.
+			$styles = is_callable( [ $data['class_name'], 'get_block_css' ] )
+				? $data['class_name']::get_block_css( $data['attributes'] )
+				: false;
+
+			if ( $styles ) {
+				if ( did_action( 'wp_head' ) || $inline_style_override ) {
+					$content = sprintf(
+						'<style>%s</style>',
+						$styles
+					) . $content;
+				} else {
+					add_filter(
+						'generateblocks_css_output',
+						function( $css ) use ( $styles ) {
+							return $css . $styles;
+						}
+					);
+				}
+			}
 		}
 	}
 
@@ -1811,4 +1853,69 @@ function generateblocks_get_enqueue_assets(
 		: $fallback_assets;
 
 	return $assets;
+}
+
+/**
+ * Check if we should use legacy styles.
+ *
+ * @param array $attributes The block attributes.
+ * @param int   $version_to_check The version to check against.
+ */
+function generateblocks_use_legacy_styles( $attributes, $version_to_check ) {
+	if ( ! isset( $attributes['blockVersion'] ) ) {
+		return true;
+	}
+
+	if ( $attributes['blockVersion'] < $version_to_check ) {
+		return true;
+	}
+
+	if ( ! isset( $attributes['useLegacyStyles'] ) || $attributes['useLegacyStyles'] ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Output our block css.
+ *
+ * @param array $data The block data.
+ */
+function generateblocks_do_block_css( $data ) {
+	$attributes            = $data['attributes'] ?? [];
+	$css                   = $attributes['css'] ?? '';
+	$id                    = $attributes['uniqueId'] ?? '';
+	$inline_style_override = apply_filters(
+		'generateblocks_do_inline_styles',
+		false,
+		[
+			'attributes' => $attributes,
+		]
+	);
+
+	if ( ! $css || ! $id ) {
+		return;
+	}
+
+	global $gp_block_ids;
+
+	if (
+		! in_array( $id, (array) $gp_block_ids ) ||
+		$inline_style_override
+	) {
+		if ( did_action( 'wp_head' ) || $inline_style_override ) {
+			printf(
+				'<style>%s</style>',
+				wp_strip_all_tags( $css ) // phpcs:ignore -- Outputting CSS.
+			);
+		} else {
+			add_filter(
+				'generateblocks_css_output',
+				function( $output ) use ( $css ) {
+					return $output .= wp_strip_all_tags( $css );
+				}
+			);
+		}
+	}
 }
