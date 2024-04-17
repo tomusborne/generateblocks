@@ -16,7 +16,7 @@ import { doAction } from '@wordpress/hooks';
 
 const searchCache = {};
 
-export default function LibraryLayout( { closeModal } ) {
+export default function LibraryLayout( { closeModal, readOnly } ) {
 	const {
 		activePatternId,
 		setActivePatternId,
@@ -97,13 +97,14 @@ export default function LibraryLayout( { closeModal } ) {
 
 				<div className="gb-pattern-library__header-action">
 					{ ! activePatternId
-						? <LibrarySelector />
+						? <LibrarySelector readOnly={ readOnly } />
 						: (
 							<PatternDetailsHeader
 								pattern={ activePattern }
 								bulkInsertEnabled={ bulkInsertEnabled }
 								globalStyleData={ globalStyleData }
 								closeModal={ closeModal }
+								readOnly={ readOnly }
 							/>
 						)
 					}
@@ -113,18 +114,24 @@ export default function LibraryLayout( { closeModal } ) {
 					{ ! activePatternId
 						? (
 							<>
-								<LibraryCache
-									setCacheIsClearing={ setCacheIsClearing }
-									cacheIsClearing={ cacheIsClearing }
-								/>
-								<ManageLibraries />
-								<Button
-									variant="tertiary"
-									icon={ close }
-									label={ __( 'Close Pattern Library', 'generateblocks' ) }
-									showTooltip={ true }
-									onClick={ closeModal }
-								/>
+								{ ! readOnly && (
+									<>
+										<LibraryCache
+											setCacheIsClearing={ setCacheIsClearing }
+											cacheIsClearing={ cacheIsClearing }
+										/>
+										<ManageLibraries />
+									</>
+								) }
+								{ typeof closeModal === 'function' && (
+									<Button
+										variant="tertiary"
+										icon={ close }
+										label={ __( 'Close Pattern Library', 'generateblocks' ) }
+										showTooltip={ true }
+										onClick={ closeModal }
+									/>
+								) }
 							</>
 						) : (
 							<Button
@@ -167,19 +174,23 @@ export default function LibraryLayout( { closeModal } ) {
 						selectedPatterns={ selectedPatterns }
 					/>
 
-					{ ! bulkInsertEnabled ? (
-						<Button
-							variant="primary"
-							onClick={ () => setBulkInsertEnabled( true ) }
-						>
-							{ __( 'Bulk Insert', 'generateblocks' ) }
-						</Button>
-					) : (
-						<SelectedPatterns
-							closeModal={ closeModal }
-							globalStyleData={ globalStyleData }
-							setBulkInsertEnabled={ setBulkInsertEnabled }
-						/>
+					{ ! readOnly && (
+						<>
+							{ ! bulkInsertEnabled ? (
+								<Button
+									variant="primary"
+									onClick={ () => setBulkInsertEnabled( true ) }
+								>
+									{ __( 'Bulk Insert', 'generateblocks' ) }
+								</Button>
+							) : (
+								<SelectedPatterns
+									closeModal={ closeModal }
+									globalStyleData={ globalStyleData }
+									setBulkInsertEnabled={ setBulkInsertEnabled }
+								/>
+							) }
+						</>
 					) }
 				</>
 				}
@@ -195,6 +206,7 @@ export default function LibraryLayout( { closeModal } ) {
 					closeModal={ closeModal }
 					globalStyleCSS={ globalStyleCSS }
 					globalStyleData={ globalStyleData }
+					readOnly={ readOnly }
 				/>
 			</div>
 		</div>
