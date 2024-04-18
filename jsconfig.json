@@ -4,6 +4,8 @@
     "paths": {
       "@utils/*": ["./src/utils/*"],
 			"@components/*": ["./src/components/*"],
+			"@hooks/*": ["./src/hooks/*"],
+			"@hoc/*": ["./src/hoc/*"],
     }
   },
 	"exclude": ["node_modules", "dist"]

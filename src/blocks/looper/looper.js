@@ -1,5 +1,3 @@
-// import { __, sprintf } from '@wordpress/i18n';
-
 const SELECTOR = 'a[data-gb-prefetch][href]';
 
 function fetchPrefetchedPage( url ) {

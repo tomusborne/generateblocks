@@ -1,4 +1,4 @@
-import AdvancedSelect from '../../../../components/advanced-select';
+import AdvancedSelect from '../advanced-select';
 import { __ } from '@wordpress/i18n';
 
 const groupBy = function( arr, key, common ) {

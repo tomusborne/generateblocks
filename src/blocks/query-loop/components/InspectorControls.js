@@ -1,16 +1,18 @@
 import { InspectorControls } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import PanelArea from '../../../components/panel-area';
-import { useEffect, useMemo, useState } from '@wordpress/element';
-import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
-import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
-import ParameterList from './inspector-controls/parameter-list';
-import useQueryReducer from '../hooks/useQueryReducer';
-import isEmpty from '../../../utils/object-is-empty';
-import queryParameterOptions from '../query-parameters';
-import getIcon from '../../../utils/get-icon';
 import { ToggleControl } from '@wordpress/components';
+import { useEffect, useMemo, useState } from '@wordpress/element';
+
 import { isEqual } from 'lodash';
+
+import PanelArea from '@components/panel-area';
+import SelectQueryParameter from '@components/inspector-controls/SelectQueryParameter';
+import AddQueryParameterButton from '@components/inspector-controls/AddQueryParameterButton';
+import ParameterList from './inspector-controls/ParameterList';
+import useQueryReducer from '../hooks/useQueryReducer';
+import isEmpty from '@utils/object-is-empty';
+import queryParameterOptions from '../query-parameters';
+import getIcon from '@utils/get-icon';
 
 export default ( { attributes, setAttributes } ) => {
 	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer( attributes.query );

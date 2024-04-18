@@ -6,12 +6,11 @@ import {
 } from '@wordpress/block-editor';
 import { useSelect } from '@wordpress/data';
 
+import filterAttributes from '@utils/filter-attributes';
 import InspectorControls from './components/InspectorControls';
 import BlockControls from './components/BlockControls';
-import filterAttributes from '@utils/filter-attributes';
 import queryLoopAttributes from './attributes';
 import LayoutSelector from './components/LayoutSelector';
-import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 
 export default function LoopEdit( props ) {
 	const {
@@ -40,11 +39,6 @@ export default function LoopEdit( props ) {
 						attributes={ filterAttributes( attributes, Object.keys( queryLoopAttributes ) ) }
 						setAttributes={ setAttributes }
 						clientId={ clientId }
-					/>
-
-					<InspectorAdvancedControls
-						blockLabel={ attributes.blockLabel }
-						setAttributes={ setAttributes }
 					/>
 
 					<BlockContextProvider value={ { 'generateblocks/query': attributes.query } }>
