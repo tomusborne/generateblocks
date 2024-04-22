@@ -60,7 +60,7 @@ export const layouts = [
 	{
 		id: 'three-column-20-60-20',
 		label: __( 'Three Columns (20/60/20)', 'generateblocks' ),
-		layout: '20% 1fr 20%',
+		layout: '1fr 3fr 1fr',
 		divs: 3,
 	},
 	{
