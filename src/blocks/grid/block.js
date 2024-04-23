@@ -51,8 +51,10 @@ registerBlockType( 'generateblocks/grid', {
 	},
 	deprecated,
 	__experimentalLabel: ( attrs, { context } ) => {
-		if ( 'list-view' === context && attrs.blockLabel ) {
-			return attrs.blockLabel;
+		const customName = attrs?.metadata?.name || attrs?.blockLabel;
+
+		if ( 'list-view' === context && customName ) {
+			return customName;
 		}
 
 		return __( 'Grid', 'generateblocks' );
