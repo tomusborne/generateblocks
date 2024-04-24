@@ -221,7 +221,9 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 									// Reset our height when we click anything in our preview.
 									// This accounts for height changes from accordions etc...
 									if ( isActive ) {
-										setHeight( iframeDoc.body.scrollHeight );
+										setTimeout( () => {
+											setHeight( iframeDoc.body.scrollHeight );
+										}, 500 );
 									}
 								} );
 							} }
