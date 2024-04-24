@@ -4,13 +4,15 @@
 
 import './editor.scss';
 import './block-controls.js';
+import './templates.js';
+import './components/GridBlockSettings.js';
 
 import containerEdit from './edit';
 import blockAttributes from './attributes';
 import deprecated from './deprecated';
 import getIcon from '../../utils/get-icon';
 import { __ } from '@wordpress/i18n';
-import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
 import { InnerBlocks } from '@wordpress/block-editor';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 import { getBlockAttributes } from '../../block-context';
@@ -90,3 +92,18 @@ registerBlockType( 'generateblocks/container', {
 	},
 	transforms,
 } );
+
+registerBlockVariation(
+	'generateblocks/container',
+	{
+		title: __( 'Grid', 'generateblocks' ),
+		name: 'grid',
+		icon: getIcon( 'grid' ),
+		description: __( 'Build a series of tabs using our Container and Button blocks.', 'generateblocks-pro' ),
+		attributes: {
+			variantRole: 'grid',
+		},
+		innerBlocks: [],
+		isActive: ( attrs ) => 'grid' === attrs.variantRole,
+	}
+);
