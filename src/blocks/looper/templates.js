@@ -17,7 +17,6 @@ const templates = [
 					[ 'generateblocks/container',
 						{
 							isQueryLoopItem: true,
-							sizing: { width: '100%' },
 							lock: {
 								remove: true,
 								move: true,
@@ -63,7 +62,6 @@ const templates = [
 					[ 'generateblocks/container',
 						{
 							isQueryLoopItem: true,
-							sizing: { width: '100%' },
 							lock: {
 								remove: true,
 								move: true,
@@ -99,6 +97,9 @@ const templates = [
 			[ 'generateblocks/container',
 				{
 					variantRole: 'loopRepeater',
+					display: 'grid',
+					gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+					gridTemplateColumnsMobile: '1fr',
 					lock: {
 						remove: true,
 					},
@@ -107,7 +108,6 @@ const templates = [
 					[ 'generateblocks/container',
 						{
 							isQueryLoopItem: true,
-							sizing: { width: '50%', widthMobile: '100%' },
 							backgroundColor: '#fafafa',
 							paddingTop: '20',
 							paddingRight: '20',
@@ -153,6 +153,9 @@ const templates = [
 			[ 'generateblocks/container',
 				{
 					variantRole: 'loopRepeater',
+					display: 'grid',
+					gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+					gridTemplateColumnsMobile: '1fr',
 					lock: {
 						remove: true,
 					},
@@ -161,7 +164,6 @@ const templates = [
 					[ 'generateblocks/container',
 						{
 							isQueryLoopItem: true,
-							sizing: { width: '50%', widthMobile: '100%' },
 							backgroundColor: '#fafafa',
 							paddingTop: '20',
 							paddingRight: '20',
@@ -220,7 +222,6 @@ const templates = [
 					[ 'generateblocks/container',
 						{
 							isQueryLoopItem: true,
-							sizing: { width: '100%' },
 							lock: {
 								remove: true,
 								move: true,
