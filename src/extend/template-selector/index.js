@@ -22,6 +22,8 @@ export default function TemplateSelector( { clientId, setAttributes } ) {
 						<Button
 							key={ `template-${ template.id }` }
 							className="gb-template-selector-button"
+							label={ template.labelAsTooltip ? template.label : null }
+							showTooltip={ template.labelAsTooltip ?? false }
 							onClick={ () => {
 								replaceInnerBlocks(
 									clientId,
@@ -39,7 +41,7 @@ export default function TemplateSelector( { clientId, setAttributes } ) {
 								selectBlock( clientId );
 							} }
 						>
-							{ template.icon }<span>{ template.label }</span>
+							{ template.icon }{ ! template.labelAsTooltip && <span>{ template.label }</span> }
 						</Button>
 					) ) }
 				</div>
