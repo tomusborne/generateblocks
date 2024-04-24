@@ -22,6 +22,7 @@ registerBlockType( 'generateblocks/query-loop', {
 	supports: {
 		className: false,
 		customClassName: false,
+		inserter: false,
 	},
 	providesContext: {
 		'generateblocks/query': 'query',
