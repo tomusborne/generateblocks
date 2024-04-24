@@ -13,6 +13,7 @@ import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
 import getIcon from '../../utils/get-icon';
 import { doAction } from '@wordpress/hooks';
+import classnames from 'classnames';
 
 const searchCache = {};
 
@@ -196,7 +197,10 @@ export default function LibraryLayout( { closeModal, readOnly } ) {
 				}
 			</div>
 			<div
-				className="gb-pattern-library__content"
+				className={ classnames( {
+					'gb-pattern-library__content': true,
+					'gb-pattern-library__content--active': activePatternId,
+				} ) }
 				style={ contentStyles }
 				ref={ patternContentRef }
 			>
