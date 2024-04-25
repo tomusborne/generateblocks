@@ -48,13 +48,13 @@ jobs:
           node-version: 16
           cache: 'npm'
 
-      - name: Download deps
-        if: steps.js-files.outputs.any_changed == 'true'
-        uses: bahmutov/npm-install@v1
-
       - name: Configure npm for private registry
         if: steps.js-files.outputs.any_changed == 'true'
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Download deps
+        if: steps.js-files.outputs.any_changed == 'true'
+        uses: bahmutov/npm-install@v1
 
       - name: Lint
         if: steps.js-files.outputs.any_changed == 'true'
@@ -84,13 +84,13 @@ jobs:
           node-version: 16
           cache: 'npm'
 
-      - name: Download deps
-        if: steps.js-files.outputs.any_changed == 'true'
-        uses: bahmutov/npm-install@v1
-
       - name: Configure npm for private registry
         if: steps.js-files.outputs.any_changed == 'true'
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Download deps
+        if: steps.js-files.outputs.any_changed == 'true'
+        uses: bahmutov/npm-install@v1
 
       - name: Run tests
         if: steps.js-files.outputs.any_changed == 'true'
@@ -122,13 +122,13 @@ jobs:
           node-version: 16
           cache: 'npm'
 
-      - name: Download deps
-        if: steps.js-files.outputs.any_changed == 'true'
-        uses: bahmutov/npm-install@v1
-
       - name: Configure npm for private registry
         if: steps.js-files.outputs.any_changed == 'true'
         run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
+
+      - name: Download deps
+        if: steps.js-files.outputs.any_changed == 'true'
+        uses: bahmutov/npm-install@v1
 
       - name: Build files
         if: steps.js-files.outputs.any_changed == 'true'
