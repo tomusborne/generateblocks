@@ -62,16 +62,19 @@ export default function LibraryLayout( { closeModal } ) {
 
 	function maybeGetCachedSearchResult( value ) {
 		const category = activeCategory === '' ? 'all' : activeCategory;
+		const library = activeLibrary?.id || '';
 
-		if ( ! searchCache[ category ] ) {
-			searchCache[ category ] = {};
+		if ( ! searchCache[ library ] || ! searchCache[ library ][ category ] ) {
+			searchCache[ library ] = searchCache[ library ] || {};
+			searchCache[ library ][ category ] = searchCache[ library ][ category ] || {};
 		}
 
-		if ( ! searchCache[ category ][ value ] ) {
+		// Check if the value exists in the cache
+		if ( ! searchCache[ library ][ category ][ value ] ) {
 			return false;
 		}
 
-		return searchCache[ category ][ value ];
+		return searchCache[ library ][ category ][ value ];
 	}
 
 	const contentStyles = {};
@@ -147,6 +150,7 @@ export default function LibraryLayout( { closeModal } ) {
 						setSearch( value );
 
 						const category = activeCategory === '' ? 'all' : activeCategory;
+
 						// Check if result has been cached already
 						const cachedResult = maybeGetCachedSearchResult( value );
 
@@ -157,7 +161,11 @@ export default function LibraryLayout( { closeModal } ) {
 
 						const newPatternList = filterPatterns( value );
 
-						searchCache[ category ][ value ] = newPatternList;
+						const library = activeLibrary?.id;
+
+						if ( library ) {
+							searchCache[ library ][ category ][ value ] = newPatternList;
+						}
 
 						setFilteredPatterns( newPatternList );
 					} } />
