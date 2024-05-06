@@ -187,6 +187,7 @@ export default function LibraryLayout( { closeModal } ) {
 							closeModal={ closeModal }
 							globalStyleData={ globalStyleData }
 							setBulkInsertEnabled={ setBulkInsertEnabled }
+							filteredPatterns={ filteredPatterns }
 						/>
 					) }
 				</>
