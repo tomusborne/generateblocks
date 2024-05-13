@@ -10,7 +10,7 @@ import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
 import { isEmptyContentBlock, updateUniqueIds } from '../utils';
 
-export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEnabled } ) {
+export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEnabled, filteredPatterns } ) {
 	const { insertBlocks, replaceBlock } = useDispatch( blockEditorStore );
 	const {
 		selectedPatterns = [],
@@ -49,6 +49,7 @@ export function SelectedPatterns( { closeModal, globalStyleData, setBulkInsertEn
 						icon={ seen }
 						label={ __( 'Preview Pattern', 'generateblocks' ) }
 						showTooltip
+						disabled={ ! filteredPatterns.find( ( { id } ) => id === pattern.id ) }
 						onClick={ () => {
 							setActivePatternId( pattern.id );
 							const patternContent = ref.current.closest( '.gb-pattern-library__content' );
