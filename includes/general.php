@@ -24,6 +24,28 @@ function generateblocks_do_block_editor_assets() {
 
 	$generateblocks_deps = array( 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', 'wp-compose', 'wp-data' );
 
+	// Adds wp-editor as a dep for the Element block editor script.
+	wp_deregister_script( 'generateblocks-element-editor-script' );
+	$element_block_assets = generateblocks_get_enqueue_assets( 'blocks/element/index' );
+	wp_register_script(
+		'generateblocks-element-editor-script',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks/element/index.js',
+		array_merge( $element_block_assets['dependencies'], [ 'wp-editor' ] ),
+		$element_block_assets['version'],
+		false
+	);
+
+	// Adds wp-editor as a dep for the Text block editor script.
+	wp_deregister_script( 'generateblocks-text-editor-script' );
+	$text_block_assets = generateblocks_get_enqueue_assets( 'blocks/text/index' );
+	wp_register_script(
+		'generateblocks-text-editor-script',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks/text/index.js',
+		array_merge( $text_block_assets['dependencies'], [ 'wp-editor' ] ),
+		$text_block_assets['version'],
+		false
+	);
+
 	if ( 'widgets.php' === $pagenow ) {
 		unset( $generateblocks_deps[2] );
 	}
