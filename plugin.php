@@ -38,7 +38,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-enqueue-css.php';
 require_once GENERATEBLOCKS_DIR . 'includes/dashboard.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-settings.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-plugin-update.php';
-require_once GENERATEBLOCKS_DIR . 'includes/class-query-loop.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-loop-utils.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-dynamic-content.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
@@ -58,6 +58,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-grid.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-headline.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-image.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-loop.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-looper.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**

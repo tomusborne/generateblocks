@@ -1029,6 +1029,7 @@ class GenerateBlocks_Block_Container {
 				'header',
 				'footer',
 				'aside',
+				'nav',
 				'a',
 			),
 			$attributes,
@@ -1078,7 +1079,13 @@ class GenerateBlocks_Block_Container {
 			$block
 		);
 
-		$output .= $content;
+		if ( ! empty( $attributes['variantRole'] ) && 'loopRepeater' === $attributes['variantRole'] && isset( $block->context['generateblocks/query'] ) ) {
+			$output .= GenerateBlocks_Block_Looper::render_repeater( $attributes, $output, $block );
+		} elseif ( ! empty( $attributes['variantRole'] ) && 'no-results' === $attributes['variantRole'] ) {
+			$output .= GenerateBlocks_Block_Looper::render_no_results( $attributes, $output, $block );
+		} else {
+			$output .= $content;
+		}
 
 		if ( $useInnerContainer ) {
 			$output .= '</div>';

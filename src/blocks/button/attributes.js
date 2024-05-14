@@ -51,6 +51,14 @@ export default {
 		type: 'string',
 		default: 'link',
 	},
+	paginationOptions: {
+		type: 'object',
+		default: {
+			midSize: 2,
+			endSize: 1,
+			forceReload: true,
+		},
+	},
 	// deprecated since 1.2.0
 	elementId: {
 		type: 'string',

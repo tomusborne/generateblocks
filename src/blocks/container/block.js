@@ -49,8 +49,17 @@ registerBlockType( 'generateblocks/container', {
 		align: false,
 		className: false,
 		html: false,
+		interactivity: true,
 	},
-	usesContext: [ 'postId', 'postType', 'generateblocks/queryId' ],
+	usesContext: [
+		'postId',
+		'postType',
+		'generateblocks/queryId',
+		'generateblocks/query',
+		'generateblocks/inheritQuery',
+		'generateblocks/queryData',
+		'generateblocks/noResults',
+	],
 	edit: containerEdit,
 	save: () => {
 		return (
@@ -69,7 +78,17 @@ registerBlockType( 'generateblocks/container', {
 			return __( 'Post Template', 'generateblocks' );
 		}
 
-		return __( 'Container', 'generateblocks' );
+		if ( 'loopRepeater' === attrs.variantRole ) {
+			return __( 'Loop Repeater', 'generateblocks' );
+		}
+
+		if ( attrs.isPagination ) {
+			return __( 'Pagination', 'generateblocks' );
+		}
+
+		if ( 'no-results' === attrs.variantRole ) {
+			return __( 'No Results', 'generateblocks' );
+		}
 	},
 	transforms,
 } );

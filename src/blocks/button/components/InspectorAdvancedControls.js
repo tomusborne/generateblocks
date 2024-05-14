@@ -7,7 +7,6 @@ export default ( { anchor, ariaLabel, buttonType, setAttributes } ) => {
 	return (
 		<InspectorAdvancedControls>
 			<HTMLAnchor anchor={ anchor } setAttributes={ setAttributes } />
-
 			<TextControl
 				label={ __( 'ARIA Label', 'generateblocks' ) }
 				help={ __( 'Helpful to people using screen readers.', 'generateblocks' ) }

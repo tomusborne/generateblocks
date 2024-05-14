@@ -332,3 +332,11 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 	list-style-type: disc;
 	margin-left: 1em;
 }
+
+.gb-block-preview {
+	&,
+	& * {
+		pointer-events: none !important;
+		user-select: none;
+	}
+}

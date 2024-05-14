@@ -58,6 +58,12 @@ class GenerateBlocks_Render_Block {
 		$container_args = [
 			'title' => esc_html__( 'Container', 'generateblocks' ),
 			'render_callback' => [ 'GenerateBlocks_Block_Container', 'render_block' ],
+			'uses_context' => array(
+				'generateblocks/queryData',
+				'generateblocks/noResults',
+				'generateblocks/query',
+				'generateblocks/queryType',
+			),
 		];
 
 		if ( version_compare( $GLOBALS['wp_version'], '6.1.0', '<' ) ) {
@@ -100,6 +106,21 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
+			'generateblocks/looper',
+			array(
+				'title' => esc_html__( 'Looper', 'generateblocks' ),
+				'render_callback' => [ 'GenerateBlocks_Block_Looper', 'render_block' ],
+				'provides_context' => array(
+					'generateblocks/query'        => 'query',
+					'generateblocks/queryId'      => 'uniqueId',
+					'generateblocks/inheritQuery' => 'inheritQuery',
+					'generateblocks/noResults'    => 'noResults',
+					'generateblocks/forceReload'  => 'forceReload',
+				),
+			)
+		);
+
+		register_block_type(
 			'generateblocks/button-container',
 			array(
 				'title' => esc_html__( 'Buttons', 'generateblocks' ),
@@ -121,6 +142,7 @@ class GenerateBlocks_Render_Block {
 				'title' => esc_html__( 'Button', 'generateblocks' ),
 				'render_callback' => [ 'GenerateBlocks_Block_Button', 'render_block' ],
 				'uses_context' => array(
+					'generateblocks/queryData',
 					'generateblocks/query',
 					'generateblocks/queryId',
 					'generateblocks/inheritQuery',

@@ -31,6 +31,7 @@ export default function HeadlineContentRenderer( props ) {
 		ariaLabel,
 		dynamicContentType,
 		dynamicLinkType,
+		placeholder = __( 'Headline', 'generateblocks' ),
 	} = attributes;
 
 	let htmlAttributes = {
@@ -92,7 +93,7 @@ export default function HeadlineContentRenderer( props ) {
 						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
 						onSplit={ onSplit( attributes, clientId ) }
 						onReplace={ onReplace }
-						placeholder={ __( 'Headline', 'generateblocks' ) }
+						placeholder={ placeholder }
 						allowedFormats={ textFormats }
 					/>
 				</IconWrapper>

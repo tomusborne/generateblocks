@@ -20,6 +20,7 @@ export default function TagName( props ) {
 			{ label: 'header', value: 'header' },
 			{ label: 'footer', value: 'footer' },
 			{ label: 'aside', value: 'aside' },
+			{ label: 'nav', value: 'nav' },
 		],
 		{ ...props, deviceType: device }
 	);

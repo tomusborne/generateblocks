@@ -1,4 +1,4 @@
-import ControlBuilder from './ControlBuilder';
+import ControlBuilder from '../ControlBuilder';
 
 const attributeValueNormalizer = ( attribute, value ) => {
 	switch ( attribute ) {

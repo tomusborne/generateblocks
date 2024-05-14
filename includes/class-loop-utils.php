@@ -10,11 +10,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Query Loop functions.
+ * Utilities for any blocks that use the Query Loop or do loop-like things.
  *
  * @since 1.5.0
  */
-class GenerateBlocks_Query_Loop {
+class GenerateBlocks_Loop_Utils {
 	/**
 	 * Instance.
 	 *
@@ -43,11 +43,99 @@ class GenerateBlocks_Query_Loop {
 	 */
 	public function __construct() {
 		add_filter( 'generateblocks_attr_grid-wrapper', array( $this, 'add_grid_wrapper_attributes' ), 10, 2 );
-		add_filter( 'generateblocks_attr_container', array( $this, 'add_container_attributes' ), 10, 2 );
+		add_filter( 'generateblocks_attr_container', array( $this, 'add_container_attributes' ), 20, 2 );
 		add_filter( 'generateblocks_attr_grid-item', array( $this, 'add_grid_item_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_attr_button-container', array( $this, 'add_button_wrapper_attributes' ), 10, 2 );
 		add_filter( 'generateblocks_defaults', array( $this, 'add_block_defaults' ) );
 		add_filter( 'generateblocks_query_loop_args', array( $this, 'set_query_loop_defaults' ) );
+	}
+
+	/**
+	 * Add defaults for our Query settings.
+	 *
+	 * @param array $defaults Block defaults.
+	 */
+	public function add_block_defaults( $defaults ) {
+		$defaults['container']['isQueryLoopItem'] = false;
+		$defaults['container']['isPagination'] = false;
+		$defaults['gridContainer']['isQueryLoop'] = false;
+		$defaults['buttonContainer']['isPagination'] = false;
+
+		return $defaults;
+	}
+
+	/**
+	 * Add HTML attributes to the Query Loop wrapper.
+	 *
+	 * @param array $attributes Existing HTML attributes.
+	 * @param array $settings Block settings.
+	 */
+	public function add_grid_wrapper_attributes( $attributes, $settings ) {
+		if ( $settings['isQueryLoop'] ) {
+			$attributes['class'] .= ' gb-query-loop-wrapper';
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Add HTML attributes to the Query Loop Containers.
+	 *
+	 * @param array $attributes Existing HTML attributes.
+	 * @param array $settings Block settings.
+	 */
+	public function add_container_attributes( $attributes, $settings ) {
+		if ( $settings['isPagination'] ) {
+			$attributes['class'] .= ' gb-query-loop-pagination';
+
+			if ( ! isset( $attributes['aria-label'] ) && 'nav' === $settings['tagName'] ) {
+				$attributes['aria-label'] = __( 'Pagination', 'generateblocks' );
+			}
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Add HTML attributes to the Query Loop Item wrapper.
+	 *
+	 * @param array $attributes Existing HTML attributes.
+	 * @param array $settings Block settings.
+	 */
+	public function add_grid_item_attributes( $attributes, $settings ) {
+		if ( $settings['isQueryLoopItem'] ) {
+			$attributes['class'] .= ' ' . implode( ' ', get_post_class( 'gb-query-loop-item' ) );
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Add HTML attributes to the Button wrapper.
+	 *
+	 * @param array $attributes Existing HTML attributes.
+	 * @param array $settings Block settings.
+	 */
+	public function add_button_wrapper_attributes( $attributes, $settings ) {
+		if ( $settings['isPagination'] ) {
+			$attributes['class'] .= ' gb-query-loop-pagination';
+		}
+
+		return $attributes;
+	}
+
+	/**
+	 * Set the default query loop arguments.
+	 *
+	 * @param array $query_args The query loop arguments.
+	 * @return array The query loop arguments with defaults.
+	 */
+	public function set_query_loop_defaults( $query_args ) {
+		if ( ! isset( $query_args['posts_per_page'] ) || '' === $query_args['posts_per_page'] ) {
+			$query_args['posts_per_page'] = 10;
+		}
+
+		return $query_args;
 	}
 
 	/**
@@ -61,8 +149,12 @@ class GenerateBlocks_Query_Loop {
 	 */
 	public static function get_query_args( $block, $page ) {
 		$query_attributes = ( is_array( $block->context ) && isset( $block->context['generateblocks/query'] ) )
-			? $block->context['generateblocks/query']
-			: array();
+		? $block->context['generateblocks/query']
+		: array();
+
+		$query_attributes = is_array( $block->parsed_block['attrs'] ) && isset( $block->parsed_block['attrs']['query'] )
+			? $block->parsed_block['attrs']['query']
+			: $query_attributes;
 
 		// Set up our pagination.
 		$query_attributes['paged'] = $page;
@@ -211,90 +303,6 @@ class GenerateBlocks_Query_Loop {
 
 		return $result;
 	}
-
-	/**
-	 * Add defaults for our Query settings.
-	 *
-	 * @param array $defaults Block defaults.
-	 */
-	public function add_block_defaults( $defaults ) {
-		$defaults['container']['isQueryLoopItem'] = false;
-		$defaults['container']['isPagination'] = false;
-		$defaults['gridContainer']['isQueryLoop'] = false;
-		$defaults['buttonContainer']['isPagination'] = false;
-
-		return $defaults;
-	}
-
-	/**
-	 * Add HTML attributes to the Query Loop wrapper.
-	 *
-	 * @param array $attributes Existing HTML attributes.
-	 * @param array $settings Block settings.
-	 */
-	public function add_grid_wrapper_attributes( $attributes, $settings ) {
-		if ( $settings['isQueryLoop'] ) {
-			$attributes['class'] .= ' gb-query-loop-wrapper';
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Add HTML attributes to the Query Loop Containers.
-	 *
-	 * @param array $attributes Existing HTML attributes.
-	 * @param array $settings Block settings.
-	 */
-	public function add_container_attributes( $attributes, $settings ) {
-		if ( $settings['isPagination'] ) {
-			$attributes['class'] .= ' gb-query-loop-pagination';
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Add HTML attributes to the Query Loop Item wrapper.
-	 *
-	 * @param array $attributes Existing HTML attributes.
-	 * @param array $settings Block settings.
-	 */
-	public function add_grid_item_attributes( $attributes, $settings ) {
-		if ( $settings['isQueryLoopItem'] ) {
-			$attributes['class'] .= ' ' . implode( ' ', get_post_class( 'gb-query-loop-item' ) );
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Add HTML attributes to the Button wrapper.
-	 *
-	 * @param array $attributes Existing HTML attributes.
-	 * @param array $settings Block settings.
-	 */
-	public function add_button_wrapper_attributes( $attributes, $settings ) {
-		if ( $settings['isPagination'] ) {
-			$attributes['class'] .= ' gb-query-loop-pagination';
-		}
-
-		return $attributes;
-	}
-
-	/**
-	 * Set the default query loop arguments.
-	 *
-	 * @param array $query_args The query loop arguments.
-	 * @return array The query loop arguments with defaults.
-	 */
-	public function set_query_loop_defaults( $query_args ) {
-		if ( ! isset( $query_args['posts_per_page'] ) || '' === $query_args['posts_per_page'] ) {
-			$query_args['posts_per_page'] = 10;
-		}
-
-		return $query_args;
-	}
 }
 
-GenerateBlocks_Query_Loop::get_instance();
+GenerateBlocks_Loop_Utils::get_instance();

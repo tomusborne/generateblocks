@@ -3,7 +3,13 @@ import { useSelect } from '@wordpress/data';
 import classnames from 'classnames';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 
-export default function RootElement( { name, clientId, align, children } ) {
+export default function RootElement( {
+	name,
+	clientId,
+	align,
+	children,
+	isBlockPreview,
+} ) {
 	const {
 		getBlockRootClientId,
 	} = useSelect( ( select ) => select( 'core/block-editor' ), [] );
@@ -15,6 +21,11 @@ export default function RootElement( { name, clientId, align, children } ) {
 
 		return getSettings().supportsLayout || false;
 	}, [] );
+
+	// Stop here if we know for sure this is a preview.
+	if ( isBlockPreview ) {
+		return children;
+	}
 
 	const blockName = name.toString().replace( '/', '-' );
 

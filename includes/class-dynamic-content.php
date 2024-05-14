@@ -431,9 +431,12 @@ class GenerateBlocks_Dynamic_Content {
 	 * @param WP_Block $block Block instance.
 	 */
 	public static function get_paginate_links( $attributes, $block ) {
-		$page_key = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] . '-page' : 'query-page';
+		$query_id = isset( $block->context['generateblocks/queryId'] ) ? 'query-' . $block->context['generateblocks/queryId'] : 'query';
+		$page_key = $query_id . '-page';
 		$page     = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$max_page = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
+		$mid_size = $attributes['paginationOptions']['midSize'] ?? 2;
+		$end_size = $attributes['paginationOptions']['endSize'] ?? 1;
 
 		global $wp_query;
 
@@ -443,13 +446,15 @@ class GenerateBlocks_Dynamic_Content {
 			$total = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
 			$paginate_args = array(
 				'prev_next' => false,
-				'total' => $total,
+				'total'     => $total,
+				'mid_size'  => $mid_size,
+				'end_size'  => $end_size,
 			);
 			$links = paginate_links( $paginate_args );
 		} else {
 			$query_args = apply_filters(
 				'generateblocks_query_loop_args',
-				GenerateBlocks_Query_Loop::get_query_args( $block, $page ),
+				GenerateBlocks_Loop_Utils::get_query_args( $block, $page ),
 				$attributes,
 				$block
 			);
@@ -468,6 +473,8 @@ class GenerateBlocks_Dynamic_Content {
 				'current'   => max( 1, $page ),
 				'total'     => $total,
 				'prev_next' => false,
+				'mid_size'  => $mid_size,
+				'end_size'  => $end_size,
 			);
 
 			if ( 1 !== $page ) {
@@ -857,14 +864,21 @@ class GenerateBlocks_Dynamic_Content {
 					$url = next_posts( $max_page, false );
 				}
 			} elseif ( ! $max_page || $max_page > $page ) {
-				$query_args = apply_filters(
-					'generateblocks_query_loop_args',
-					GenerateBlocks_Query_Loop::get_query_args( $block, $page ),
-					$attributes,
-					$block
-				);
+				// Check if there's a WP Query we can use to get the max pages.
+				if ( empty( $block->context['generateblocks/queryData'] ) ) {
+					$query_args = apply_filters(
+						'generateblocks_query_loop_args',
+						GenerateBlocks_Loop_Utils::get_query_args( $block, $page ),
+						$attributes,
+						$block
+					);
 
-				$custom_query           = new WP_Query( $query_args );
+					// Set a new query using the filtered args.
+					$custom_query = new WP_Query( $query_args );
+				} else {
+					$custom_query = $block->context['generateblocks/queryData'];
+				}
+
 				$custom_query_max_pages = (int) $custom_query->max_num_pages;
 
 				if ( $custom_query_max_pages && $custom_query_max_pages !== $page ) {

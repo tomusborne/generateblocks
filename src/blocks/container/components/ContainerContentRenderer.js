@@ -1,11 +1,12 @@
-import RootElement from '../../../components/root-element';
-import GridItem from './GridItem';
 import { applyFilters, doAction } from '@wordpress/hooks';
 import { useBlockProps, store as blockEditorStore, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
+
+import RootElement from '../../../components/root-element';
+import GridItem from './GridItem';
 import ShapeDividers from './ShapeDividers';
 import classnames from 'classnames';
 import { useInnerBlocksCount } from '../../../hooks';
-import { useSelect } from '@wordpress/data';
 import ComponentCSS from './ComponentCSS';
 import getBackgroundImageUrl from '../../../utils/get-background-image-url';
 import BlockAppender from './BlockAppender';
@@ -19,6 +20,7 @@ export default function ContainerContentRenderer( props ) {
 		allShapes,
 		deviceType,
 		containerRef,
+		InnerBlocksRenderer,
 	} = props;
 
 	const {
@@ -67,6 +69,7 @@ export default function ContainerContentRenderer( props ) {
 			'gb-container-empty': ! hasChildBlocks && ! isBlockPreview,
 			'gb-container-visual-guides': ! hasChildBlocks && ! hasStyling && ! props.isSelected && ! isBlockPreview,
 			[ `align${ align }` ]: supportsLayout,
+			'gb-block-preview': isBlockPreview,
 		} ),
 		id: anchor ? anchor : null,
 		'data-align': align && ! supportsLayout ? align : null,
@@ -113,16 +116,16 @@ export default function ContainerContentRenderer( props ) {
 		<>
 			<ComponentCSS { ...props } deviceType={ deviceType } />
 
-			<RootElement name={ name } clientId={ clientId } align={ align }>
+			<RootElement name={ name } clientId={ clientId } align={ align } isBlockPreview={ isBlockPreview }>
 				<GridItem isGrid={ isGrid } uniqueId={ uniqueId }>
 					<TagName { ...containerBlockProps }>
-						<>
-							{ useInnerContainer
-								? <div { ...innerBlocksProps }>{ innerBlocksProps.children }</div>
-								: innerBlocksProps.children
-							}
-							<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
-						</>
+						<InnerBlocksRenderer
+							{ ...props }
+							useInnerContainer={ useInnerContainer }
+							innerBlocksProps={ innerBlocksProps }
+							containerRef={ containerRef }
+						/>
+						<ShapeDividers attributes={ attributes } allShapes={ allShapes } />
 					</TagName>
 				</GridItem>
 			</RootElement>

@@ -1,24 +1,39 @@
+import { applyFilters } from '@wordpress/hooks';
+import { Fragment, useEffect, useRef, memo } from '@wordpress/element';
+import { compose } from '@wordpress/compose';
+import { useSelect } from '@wordpress/data';
+
 import BlockControls from './components/BlockControls';
 import InspectorAdvancedControls from './components/InspectorAdvancedControls';
 import GoogleFontLink from '../../components/google-font-link';
-import { applyFilters } from '@wordpress/hooks';
-import { Fragment, useEffect, useRef } from '@wordpress/element';
-import { compose } from '@wordpress/compose';
 import { withUniqueId, withContainerLegacyMigration, withDeviceType } from '../../hoc';
 import withDynamicContent from '../../extend/dynamic-content/hoc/withDynamicContent';
 import ContainerContentRenderer from './components/ContainerContentRenderer';
 import GenerateBlocksInspectorControls from '../../extend/inspector-control';
 import { withBlockContext } from '../../block-context';
-import { useSelect } from '@wordpress/data';
 import { withTemplateContext } from '../../extend/template-selector/templateContext';
 import getDeviceType from '../../utils/get-device-type';
 import withSetAttributes from '../../hoc/withSetAttributes';
+import withLoop from './hoc/withLoop';
+
+const InnerBlocksComponent = memo( function InnerBlocksComponent( { innerBlocksProps, useInnerContainer } ) {
+	return (
+		<>
+			{
+				useInnerContainer
+					? <div { ...innerBlocksProps } />
+					: innerBlocksProps.children
+			}
+		</>
+	);
+} );
 
 const ContainerEdit = ( props ) => {
 	const {
 		clientId,
 		attributes,
 		setAttributes,
+		InnerBlocksRenderer = InnerBlocksComponent,
 		ContentRenderer = ContainerContentRenderer,
 	} = props;
 
@@ -45,6 +60,7 @@ const ContainerEdit = ( props ) => {
 			'header',
 			'footer',
 			'aside',
+			'nav',
 			'a',
 		]
 	);
@@ -109,13 +125,14 @@ const ContainerEdit = ( props ) => {
 				setAttributes={ setAttributes }
 			/>
 
-			<GenerateBlocksInspectorControls
-				attributes={ attributes }
-				setAttributes={ setAttributes }
-			>
-				{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
-			</GenerateBlocksInspectorControls>
-
+			<>
+				<GenerateBlocksInspectorControls
+					attributes={ attributes }
+					setAttributes={ setAttributes }
+				>
+					{ applyFilters( 'generateblocks.editor.settingsPanel', undefined, { ...props, device: deviceType } ) }
+				</GenerateBlocksInspectorControls>
+			</>
 			<InspectorAdvancedControls
 				anchor={ anchor }
 				attributes={ attributes }
@@ -137,6 +154,7 @@ const ContainerEdit = ( props ) => {
 				allShapes={ allShapes }
 				deviceType={ deviceType }
 				containerRef={ ref }
+				InnerBlocksRenderer={ InnerBlocksRenderer }
 			/>
 		</Fragment>
 	);
@@ -147,6 +165,7 @@ export default compose(
 	withDeviceType,
 	withTemplateContext,
 	withBlockContext,
+	withLoop,
 	withDynamicContent,
 	withUniqueId,
 	withContainerLegacyMigration,

@@ -50,11 +50,19 @@ registerBlockType( 'generateblocks/button', {
 	attributes,
 	supports: {
 		className: false,
+		interactivity: true,
 	},
 	edit: editButton,
 	save: saveButton,
 	deprecated,
-	usesContext: [ 'postId', 'postType', 'generateblocks/query', 'generateblocks/inheritQuery' ],
+	usesContext: [
+		'postId',
+		'postType',
+		'generateblocks/query',
+		'generateblocks/inheritQuery',
+		'generateblocks/queryData',
+		'generateblocks/forceReload',
+	],
 	__experimentalLabel: ( attrs, { context } ) => {
 		const customName = attrs?.metadata?.name;
 
