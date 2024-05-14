@@ -1,9 +1,11 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 
+const defaultEntries = defaultConfig.entry();
+
 module.exports = {
 	...defaultConfig,
 	entry: {
-		...defaultConfig.entry(),
+		...defaultEntries,
 		blocks: './src/blocks.js',
 		dashboard: './src/dashboard.js',
 		'pattern-library': './src/pattern-library.js',

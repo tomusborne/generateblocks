@@ -7,8 +7,13 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import BlockAppender from './components/BlockAppender.jsx';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
+import { store as editorStore } from '@wordpress/editor';
 
 function EditBlock( props ) {
+	// Loads @wordpress/editor to ensure it's available for useUpdateEditorStyleCSS.
+	// @TODO: See if there's a less ghetto way to do this.
+	const loadingEditorStore = editorStore; // eslint-disable-line no-unused-vars
+
 	const {
 		attributes,
 		setAttributes,
