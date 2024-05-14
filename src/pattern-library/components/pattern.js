@@ -15,7 +15,6 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 	const [ height, setHeight ] = useState( 0 );
 	const [ injectContent, setInjectContent ] = useState( false );
 	const [ editorColors, setEditorColors ] = useState( {} );
-	const [ isVisible, setIsVisible ] = useState( !! isActive );
 	const [ isLoaded, setIsLoaded ] = useState( false );
 	const [ patternWidth, setPatternWidth ] = useState( 0 );
 	const [ isResizing, setIsResizing ] = useState( false );
@@ -58,41 +57,10 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 	}, [ elementRef.current?.clientWidth, isResizing ] );
 
 	/**
-	 * Set up lazy loading on the iframes.
-	 */
-	useEffect( () => {
-		const intersectionObserver = new IntersectionObserver(
-			( entries ) => {
-				entries.forEach( ( entry ) => {
-					if ( entry.isIntersecting ) {
-						setIsVisible( true );
-						intersectionObserver.disconnect();
-					}
-				} );
-			},
-			{
-				root: null,
-				rootMargin: '0px',
-				threshold: 0.01,
-			}
-		);
-
-		if ( elementRef.current ) {
-			intersectionObserver.observe( elementRef.current );
-		}
-
-		return () => {
-			if ( intersectionObserver ) {
-				intersectionObserver.disconnect();
-			}
-		};
-	}, [] );
-
-	/**
 	 * Insert our pattern preview into the empty iframe.
 	 */
 	useEffect( () => {
-		if ( ! isVisible || ! injectContent ) {
+		if ( ! injectContent ) {
 			return;
 		}
 
@@ -119,7 +87,7 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 			setHeight( document.body.scrollHeight );
 			setIsLoaded( true );
 		} );
-	}, [ injectContent, isVisible ] );
+	}, [ injectContent ] );
 
 	/**
 	 * Store our editor background and text color.
@@ -191,7 +159,7 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 				firstVisibleElement.style.marginRight = 'auto';
 			}
 		}
-	}, [ patternWidth, injectContent, isVisible ] );
+	}, [ patternWidth, injectContent ] );
 
 	const viewportHeight = Math.round( height * ( viewport / iframe ) );
 
@@ -202,6 +170,14 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 		flexDirection: 'column',
 		justifyContent: ( viewportHeight + 40 ) < patternHeight ? 'center' : '',
 	};
+
+	const sandbox = [
+		'allow-same-origin',
+	];
+
+	if ( isActive ) {
+		sandbox.push( 'allow-scripts' );
+	}
 
 	return (
 		<div
@@ -216,7 +192,7 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 				className="gb-pattern"
 				style={ ! isActive ? wrapperStyle : { minHeight: '200px' } }
 			>
-				{ !! isVisible && ! isLoaded && <Spinner /> }
+				{ ! isLoaded && <Spinner /> }
 				<div
 					style={ ! isActive ? {
 						width: `${ viewport }px`,
@@ -234,9 +210,7 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 						<iframe
 							id={ id }
 							onLoad={ () => {
-								if ( isVisible ) {
-									setInjectContent( true );
-								}
+								setInjectContent( true );
 
 								const iframeDoc = iframeRef.current.contentDocument || iframeRef.current.contentWindow.document;
 
@@ -273,6 +247,7 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 							} }
 							tabIndex="-1"
 							loading="lazy"
+							sandbox={ sandbox.join( ' ' ) }
 						/>
 					</div>
 				</div>

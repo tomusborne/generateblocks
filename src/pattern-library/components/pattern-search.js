@@ -4,13 +4,17 @@ import { useDebounce } from '@wordpress/compose';
 import { useLibrary } from './library-provider';
 
 export default function PatternSearch( { onChange } ) {
-	const { setSearch } = useLibrary();
+	const { setSearch, activeLibrary } = useLibrary();
 	const [ searchInput, setSearchInput ] = useState( '' );
 	const setDebouncedInput = useDebounce( setSearch, 500 );
 
 	useEffect( () => {
 		setDebouncedInput( searchInput );
 	}, [ searchInput ] );
+
+	useEffect( () => {
+		setSearchInput( '' );
+	}, [ activeLibrary?.id ] );
 
 	return (
 		<SearchControl
