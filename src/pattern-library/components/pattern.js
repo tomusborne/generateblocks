@@ -171,6 +171,14 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 		justifyContent: ( viewportHeight + 40 ) < patternHeight ? 'center' : '',
 	};
 
+	const sandbox = [
+		'allow-same-origin',
+	];
+
+	if ( isActive ) {
+		sandbox.push( 'allow-scripts' );
+	}
+
 	return (
 		<div
 			className="gb-pattern-frame"
@@ -241,6 +249,7 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 							} }
 							tabIndex="-1"
 							loading="lazy"
+							sandbox={ sandbox.join( ' ' ) }
 						/>
 					</div>
 				</div>

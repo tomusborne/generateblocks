@@ -3,7 +3,7 @@ import buildCSS from '../../../utils/build-css';
 import hexToRGBA from '../../../utils/hex-to-rgba';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
-import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/layout/components/FlexChildCSS';
 
 import {
 	Component,
