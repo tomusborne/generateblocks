@@ -79,7 +79,7 @@ function generateblocks_do_block_editor_assets() {
 	wp_enqueue_style(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.css',
-		array( 'wp-edit-blocks' ),
+		array( 'wp-edit-blocks', 'generateblocks-components' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.css' )
 	);
 
@@ -197,6 +197,14 @@ function generateblocks_do_block_editor_assets() {
 		GENERATEBLOCKS_DIR_URL . 'dist/editor-sidebar.css',
 		array( 'wp-components' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/editor-sidebar.css' )
+	);
+
+	$component_asset_info = generateblocks_get_enqueue_assets( 'components' );
+	wp_register_style(
+		'generateblocks-components',
+		GENERATEBLOCKS_DIR_URL . 'dist/components.css',
+		'',
+		$component_asset_info['version']
 	);
 }
 
