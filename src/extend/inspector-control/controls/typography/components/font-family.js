@@ -1,6 +1,6 @@
 import { BaseControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { Fragment, useMemo } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import googleFonts from '../google-fonts.json';
 import typographyOptions from '../options';
 import AdvancedSelect from '../../../../../components/advanced-select';
@@ -17,6 +17,7 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 		const fontFamilyOptions = typographyOptions.fontFamily;
 		const googleFontFamilyOptions = {
 			label: __( 'Google Fonts', 'generateblocks' ),
+			id: 'google-fonts',
 			options: [],
 		};
 
@@ -85,7 +86,7 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 			</BaseControl>
 
 			{ !! typography.fontFamily && ! generateBlocksInfo.disableGoogleFonts &&
-				<Fragment>
+				<>
 					<ToggleControl
 						label={ __( 'Use Google Fonts API', 'generateblocks' ) }
 						checked={ !! googleFont }
@@ -130,7 +131,7 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 							/>
 						</>
 					}
-				</Fragment>
+				</>
 			}
 		</>
 	);
