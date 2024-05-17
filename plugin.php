@@ -50,6 +50,11 @@ require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-libraries.php'
 require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-library-dto.php';
 require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-pattern-library-rest.php';
 
+// Dynamic tags.
+require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-register-dynamic-tag.php';
+require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-dynamic-tag-callbacks.php';
+require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-dynamic-tags.php';
+
 // Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-container.php';
