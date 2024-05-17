@@ -5,6 +5,7 @@ import Element from '../../../components/element';
 import RootElement from '../../../components/root-element';
 import classnames from 'classnames';
 import { applyFilters, doAction } from '@wordpress/hooks';
+import { useMemo } from '@wordpress/element';
 
 export default function ButtonContentRenderer( props ) {
 	const {
@@ -17,6 +18,7 @@ export default function ButtonContentRenderer( props ) {
 		buttonRef,
 		clientId,
 		buttonPreviewElement,
+		dynamicTagValue,
 	} = props;
 
 	const {
@@ -74,6 +76,14 @@ export default function ButtonContentRenderer( props ) {
 		props
 	) ? [] : [ 'core/bold', 'core/italic', 'core/strikethrough' ];
 
+	const contentValue = useMemo( () => {
+		if ( dynamicTagValue ) {
+			return dynamicTagValue;
+		}
+
+		return text;
+	}, [ dynamicTagValue ] );
+
 	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: buttonRef } );
 
 	return (
@@ -90,7 +100,7 @@ export default function ButtonContentRenderer( props ) {
 					<InnerContent
 						name={ name }
 						placeholder={ __( 'Add text…', 'generateblocks' ) }
-						value={ text }
+						value={ contentValue }
 						onChange={ ( value ) => setAttributes( { text: value } ) }
 						allowedFormats={ richTextFormats }
 						isSelected={ isSelected }

@@ -25,6 +25,16 @@ export default function ImageBlockControls( props ) {
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 	const innerBlocksCount = useInnerBlocksCount( clientId );
+	const imageUrlValue = ( url ) => {
+		const urlObj = new URL( url );
+		const dynamicTagValue = urlObj.searchParams.get( 'dynamicTag' );
+
+		if ( dynamicTagValue ) {
+			return dynamicTagValue;
+		}
+
+		return url;
+	};
 
 	return (
 		<BlockControls>
@@ -76,7 +86,7 @@ export default function ImageBlockControls( props ) {
 								<div className="gb-image-replace-url">
 									<TextControl
 										label={ __( 'Image URL', 'generateblocks' ) }
-										value={ imageUrl }
+										value={ imageUrlValue( imageUrl ) }
 										onChange={ ( mediaUrl ) => setAttributes( { mediaUrl } ) }
 									/>
 								</div>

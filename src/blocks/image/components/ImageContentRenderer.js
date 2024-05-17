@@ -19,6 +19,7 @@ export default function ImageContentRenderer( props ) {
 		clientId,
 		deviceType,
 		temporaryURL,
+		dynamicTagValue,
 	} = props;
 
 	const {
@@ -118,8 +119,16 @@ export default function ImageContentRenderer( props ) {
 		disabled: true,
 	};
 
+	const srcValue = useMemo( () => {
+		if ( ! imageUrl.startsWith( '{' ) ) {
+			return imageUrl;
+		}
+
+		return dynamicTagValue;
+	}, [ dynamicTagValue, imageUrl ] );
+
 	const imageProps = {
-		src: imageUrl,
+		src: srcValue,
 		alt: altText,
 		title: titleText,
 		setAttributes,
@@ -138,14 +147,14 @@ export default function ImageContentRenderer( props ) {
 		<>
 			<BlockControls
 				{ ...props }
-				imageUrl={ imageUrl }
+				imageUrl={ srcValue }
 				canUploadImage={ canUploadImage }
 				deviceType={ deviceType }
 			/>
 
 			<RootElement name={ name } clientId={ clientId } align={ align }>
 				<Element tagName="figure" htmlAttrs={ figureAttributes }>
-					{ ( !! temporaryURL || !! imageUrl )
+					{ ( !! temporaryURL || !! srcValue )
 						? <Image { ...imageProps } />
 						: <ImagePlaceholder { ...props } canUploadImage={ canUploadImage } />
 					}

@@ -45,6 +45,10 @@ class GenerateBlocks_Register_Dynamic_Tag {
 		$pairs = explode( '|', $options_string );
 		$result = [];
 
+		if ( empty( $pairs ) ) {
+			return $result;
+		}
+
 		foreach ( $pairs as $pair ) {
 			list( $key, $value ) = explode( '=', $pair );
 
@@ -70,20 +74,55 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 * @param array  $block The block.
 	 * @return string
 	 */
-	public static function replace_tags( $content, $block ) {
+	public static function replace_tags( $content, $block = [] ) {
 		foreach ( self::$tags as $tag_name => $callback ) {
-			$pattern = '/\{' . $tag_name . '(\s+([^}]+))*\}/';
-			preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
+			$opening_tag = '{' . $tag_name;
 
-			foreach ( $matches as $match ) {
-				$full_tag = $match[0];
-				$options_string = $match[2] ?? '';
-				$options = self::parse_options( $options_string );
-				$replacement = call_user_func( $callback, $options );
-				$content = str_replace( $full_tag, $replacement, $content );
+			if ( ! generateblocks_str_contains( $content, $opening_tag ) ) {
+				continue;
+			}
+
+			$full_tag = $opening_tag . '}';
+
+			if ( generateblocks_str_contains( $content, $full_tag ) ) {
+				$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
+				$content = str_replace( $full_tag, call_user_func( $callback, [] ), $content );
+			} else {
+				$pattern = '/\{' . $tag_name . '(\s+([^}]+))*\}/';
+				preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
+
+				foreach ( $matches as $match ) {
+					$full_tag = $match[0];
+					$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
+					$options_string = $match[2] ?? '';
+					$options = self::parse_options( $options_string );
+					$replacement = call_user_func( $callback, $options );
+					$content = str_replace( $full_tag, $replacement, $content );
+				}
 			}
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Maybe prepend the protocol to our dynamic tag.
+	 * Some core blocks automatically prepend the protocol to URLs, so we need to account for that.
+	 * This function checks if the protocol is already prepended and if so, prepends it to the tag so the entire thing is replaced.
+	 *
+	 * @param string $content The content.
+	 * @param string $tag The tag.
+	 * @return string
+	 */
+	public static function maybe_prepend_protocol( $content, $tag ) {
+		if ( generateblocks_str_contains( $content, 'http://' . $tag ) ) {
+			$tag = 'http://' . $tag;
+		}
+
+		if ( generateblocks_str_contains( $content, 'https://' . $tag ) ) {
+			$tag = 'https://' . $tag;
+		}
+
+		return $tag;
 	}
 }

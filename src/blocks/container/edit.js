@@ -13,6 +13,7 @@ import { useSelect } from '@wordpress/data';
 import { withTemplateContext } from '../../extend/template-selector/templateContext';
 import getDeviceType from '../../utils/get-device-type';
 import withSetAttributes from '../../hoc/withSetAttributes';
+import { withDynamicTag } from '../../hoc/withDynamicTag';
 
 const ContainerEdit = ( props ) => {
 	const {
@@ -143,6 +144,7 @@ const ContainerEdit = ( props ) => {
 };
 
 export default compose(
+	withDynamicTag,
 	withSetAttributes,
 	withDeviceType,
 	withTemplateContext,

@@ -1820,3 +1820,17 @@ function generateblocks_get_enqueue_assets(
 
 	return $assets;
 }
+
+/**
+ * Check if a string contains another string.
+ *
+ * @param string $haystack The string to search in.
+ * @param string $needle The string to search for.
+ */
+function generateblocks_str_contains( $haystack, $needle ) {
+	if ( function_exists( 'str_contains' ) ) {
+		return str_contains( $haystack, $needle );
+	}
+
+	return '' !== $needle && false !== strpos( $haystack, $needle );
+}
