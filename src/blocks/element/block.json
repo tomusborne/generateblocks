@@ -14,7 +14,33 @@
         },
 		"tagName": {
 			"type": "string",
-			"default": ""
+			"default": "",
+			"enum": [
+				"div",
+				"span",
+				"p",
+				"h1",
+				"h2",
+				"h3",
+				"h4",
+				"h5",
+				"h6",
+				"ul",
+				"ol",
+				"li",
+				"section",
+				"article",
+				"aside",
+				"header",
+				"footer",
+				"nav",
+				"main",
+				"figure",
+				"figcaption",
+				"blockquote",
+				"pre",
+				"code"
+			]
 		},
 		"styles": {
 			"type": "object"
@@ -31,5 +57,5 @@
 		"className": false
     },
     "editorScript": "file:./index.js",
-    "editorStyle": "file:./index.css"
+    "editorStyle": [ "file:./index.css", "generateblocks-block-styles", "generateblocks-components" ]
 }

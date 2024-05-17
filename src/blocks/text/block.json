@@ -36,5 +36,5 @@
 		"className": false
     },
     "editorScript": "file:./index.js",
-    "editorStyle": "file:./editor.scss"
+    "editorStyle": [ "file:./editor.scss", "generateblocks-block-styles" ]
 }

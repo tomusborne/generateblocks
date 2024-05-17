@@ -14,6 +14,7 @@ const config = {
 		'pattern-library': './src/pattern-library.js',
 		'editor-sidebar': './src/editor-sidebar.js',
 		components: './src/components.scss',
+		'block-styles': './src/block-styles.scss',
 	},
 	output: {
 		...defaultConfig.output,

@@ -3,10 +3,15 @@ import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { BlockStyles, withUniqueId, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
+import { ColorPicker } from '@edge22/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import BlockAppender from './components/BlockAppender.jsx';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
+import { PanelBody, SelectControl } from '@wordpress/components';
+import { getBlockType } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
+import { colorControls } from './design.js';
 
 function EditBlock( props ) {
 	const {
@@ -33,7 +38,7 @@ function EditBlock( props ) {
 		classNames.push( className );
 	}
 
-	if ( Object.keys( styles ).length ) {
+	if ( Object.keys( styles ).length > 0 ) {
 		classNames.push( `gb-element-${ uniqueId }` );
 	}
 
@@ -85,7 +90,11 @@ function EditBlock( props ) {
 		updateEditorCSS( selector, css );
 	}, [ css, selector ] );
 
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps(
+		{
+			className: classNames.join( ' ' ),
+		}
+	);
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
@@ -93,6 +102,11 @@ function EditBlock( props ) {
 		}
 	);
 	const TagName = tagName || 'div';
+	const tagNames = getBlockType( 'generateblocks/element' )?.attributes?.tagName?.enum;
+	const tagNameOptions = tagNames.map( ( tag ) => ( {
+		label: tag,
+		value: tag,
+	} ) );
 
 	return (
 		<>
@@ -106,7 +120,29 @@ function EditBlock( props ) {
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
 				>
-					test
+					<PanelBody>
+						<SelectControl
+							label={ __( 'Tag Name' ) }
+							value={ tagName }
+							options={ tagNameOptions }
+							onChange={ ( value ) => setAttributes( { tagName: value } ) }
+						/>
+					</PanelBody>
+					<PanelBody
+						title={ __( 'Design', 'generateblocks' ) }
+						initialOpen={ false }
+					>
+						{ colorControls.map( ( control ) => {
+							return (
+								<ColorPicker
+									key={ control.label }
+									label={ control.label }
+									value={ getStyleValue( control.value, control.selector ) }
+									onChange={ ( value ) => onStyleChange( control.value, value, '', control.selector ) }
+								/>
+							);
+						} ) }
+					</PanelBody>
 				</BlockStyles>
 			</InspectorControls>
 			<TagName { ...innerBlocksProps } />
