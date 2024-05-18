@@ -29,6 +29,9 @@
 		},
 		"globalClasses": {
 			"type": "array"
+		},
+		"htmlAttributes": {
+			"type": "array"
 		}
     },
     "supports": {
@@ -36,5 +39,6 @@
 		"className": false
     },
     "editorScript": "file:./index.js",
-    "editorStyle": [ "file:./editor.scss", "generateblocks-block-styles" ]
+    "editorStyle": [ "file:./index.css", "generateblocks-block-styles" ],
+	"usesContext": [ "postId" ]
 }

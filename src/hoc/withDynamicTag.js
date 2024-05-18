@@ -8,38 +8,16 @@ export function withDynamicTag( WrappedComponent ) {
 			context,
 			isSelected,
 			attributes,
-			name,
 		} = props;
 
 		const {
 			content,
-			text,
-			mediaUrl,
-			bgImage,
 		} = attributes;
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
-		const getContentValue = () => {
-			if ( 'generateblocks/button' === name ) {
-				return text;
-			} else if ( 'generateblocks/image' === name ) {
-				return mediaUrl;
-			} else if ( 'generateblocks/container' === name ) {
-				return bgImage?.image?.url;
-			}
-
-			return content;
-		};
-		const contentValue = getContentValue();
 
 		useEffect( () => {
-			console.log( contentValue );
-			if ( ! contentValue || ! contentValue.startsWith( '{' ) || isSelected ) {
-				// We don't need to remove the dynamic value for the image block.
-				if ( isSelected && ( 'generateblocks/image' === name || 'generateblocks/container' === name ) ) {
-					return;
-				}
-
+			if ( ! content || ! content.includes( '{' ) || isSelected ) {
 				setDynamicTagValue( false );
 				return;
 			}
@@ -51,23 +29,14 @@ export function withDynamicTag( WrappedComponent ) {
 						path: addQueryArgs(
 							'/generateblocks/v1/dynamic-tag?content=',
 							{
-								content: encodeURIComponent( contentValue ),
+								content: encodeURIComponent( content ),
 								postId: context?.postId,
 							},
 						),
 						method: 'GET',
 					} );
 
-					let fetchedValue = response;
-
-					// Append dynamic tag to image URL so we can show the dynamic tag in the editor.
-					if ( 'generateblocks/image' === name ) {
-						fetchedValue += '?dynamicTag=' + contentValue;
-					}
-
-					console.log( context?.postId );
-
-					setDynamicTagValue( fetchedValue );
+					setDynamicTagValue( response );
 				} catch ( error ) {
 					console.error( 'Error fetching data:', error ); // eslint-disable-line no-console
 					setDynamicTagValue( null ); // Handle error case
@@ -75,7 +44,7 @@ export function withDynamicTag( WrappedComponent ) {
 			};
 
 			fetchData(); // Call the async function
-		}, [ contentValue, isSelected ] );
+		}, [ content, isSelected ] );
 
 		return ( <WrappedComponent { ...props } dynamicTagValue={ dynamicTagValue } /> );
 	} );

@@ -18,7 +18,6 @@ export default function HeadlineContentRenderer( props ) {
 		onReplace,
 		InnerContent = RichText,
 		headlineRef,
-		dynamicTagValue,
 	} = props;
 
 	const {
@@ -73,14 +72,6 @@ export default function HeadlineContentRenderer( props ) {
 		return richTextFormats;
 	}, [ linkAllowedFormats, richTextFormats, dynamicLinkType ] );
 
-	const contentValue = useMemo( () => {
-		if ( dynamicTagValue ) {
-			return dynamicTagValue;
-		}
-
-		return content;
-	}, [ dynamicTagValue ] );
-
 	doAction( 'generateblocks.editor.renderBlock', { ...props, ref: headlineRef } );
 
 	return (
@@ -97,7 +88,7 @@ export default function HeadlineContentRenderer( props ) {
 					<InnerContent
 						name={ name }
 						tagName={ tagName }
-						value={ contentValue }
+						value={ content }
 						onChange={ ( newContent ) => setAttributes( { content: newContent } ) }
 						onSplit={ onSplit( attributes, clientId ) }
 						onReplace={ onReplace }

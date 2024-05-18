@@ -143,11 +143,17 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
-			GENERATEBLOCKS_DIR . '/dist/blocks/text'
+			GENERATEBLOCKS_DIR . '/dist/blocks/text',
+			[
+				'render_callback' => [ 'GenerateBlocks_Block_Text', 'render_block' ],
+			]
 		);
 
 		register_block_type(
-			GENERATEBLOCKS_DIR . '/dist/blocks/element'
+			GENERATEBLOCKS_DIR . '/dist/blocks/element',
+			[
+				'render_callback' => [ 'GenerateBlocks_Block_Element', 'render_block' ],
+			]
 		);
 	}
 

@@ -10,7 +10,6 @@ export default function shouldRebuildCSS( prevProps, nextProps ) {
 	return (
 		prevProps.deviceType === nextProps.deviceType &&
 		prevProps.clientId === nextProps.clientId &&
-		prevProps.dynamicTagValue === nextProps.dynamicTagValue &&
 		compareAttributes( prevProps.attributes, nextProps.attributes )
 	);
 }

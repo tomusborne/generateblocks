@@ -124,11 +124,17 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$content = urldecode( $request->get_param( 'content' ) );
 		$post_id = $request->get_param( 'postId' );
 
-		// Build the string to include a postId if necessary.
-		if ( strpos( $content, ' ' ) === false ) {
-			$content = str_replace( '}', ' postId=' . $post_id . '}', $content );
-		} elseif ( strpos( $content, 'postId=' ) === false ) {
-			$content = str_replace( '}', '|postId=' . $post_id . '}', $content );
+		// Match the content inside the curly brackets.
+		preg_match( '/\{(.*?)\}/', $content, $matches );
+
+		if ( ! empty( $matches ) ) {
+			$inside_brackets = $matches[1];
+
+			if ( strpos( $inside_brackets, ' ' ) === false ) {
+				$content = str_replace( '}', ' postId=' . $post_id . '}', $content );
+			} elseif ( strpos( $inside_brackets, 'postId=' ) === false ) {
+				$content = str_replace( '}', '|postId=' . $post_id . '}', $content );
+			}
 		}
 
 		$value = GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content );

@@ -1834,3 +1834,49 @@ function generateblocks_str_contains( $haystack, $needle ) {
 
 	return '' !== $needle && false !== strpos( $haystack, $needle );
 }
+
+/**
+ * Output our block css.
+ *
+ * @param string $block_content The block content.
+ * @param array  $data The block data.
+ */
+function generateblocks_do_block_css( $block_content, $data ) {
+	$attributes            = $data['attributes'] ?? [];
+	$css                   = $attributes['css'] ?? '';
+	$id                    = $attributes['uniqueId'] ?? '';
+	$inline_style_override = apply_filters(
+		'generateblocks_do_inline_styles',
+		false,
+		[
+			'attributes' => $attributes,
+		]
+	);
+
+	if ( ! $css || ! $id ) {
+		return $block_content;
+	}
+
+	global $gb_block_ids;
+
+	if (
+		! in_array( $id, (array) $gb_block_ids ) ||
+		$inline_style_override
+	) {
+		if ( did_action( 'wp_head' ) || $inline_style_override ) {
+			$block_content = sprintf(
+				'<style>%s</style>',
+				wp_strip_all_tags( $css ) // phpcs:ignore -- Outputting CSS.
+			) . $block_content;
+		} else {
+			add_filter(
+				'generateblocks_css_output',
+				function( $output ) use ( $css ) {
+					return $output .= wp_strip_all_tags( $css );
+				}
+			);
+		}
+	}
+
+	return $block_content;
+}

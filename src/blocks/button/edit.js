@@ -15,7 +15,6 @@ import { applyFilters } from '@wordpress/hooks';
 import getDeviceType from '../../utils/get-device-type';
 import './components/ConditionalColors';
 import withSetAttributes from '../../hoc/withSetAttributes';
-import { withDynamicTag } from '../../hoc/withDynamicTag';
 
 const ButtonEdit = ( props ) => {
 	const {
@@ -120,7 +119,6 @@ const ButtonEdit = ( props ) => {
 };
 
 export default compose(
-	withDynamicTag,
 	withSetAttributes,
 	withDeviceType,
 	withBlockContext,
