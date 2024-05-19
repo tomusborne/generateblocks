@@ -34,6 +34,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	public function register() {
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'  => __( 'Post Title', 'generateblocks' ),
 				'tag'    => 'post_title',
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_title' ],
 			]
@@ -41,6 +42,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'  => __( 'Post Permalink', 'generateblocks' ),
 				'tag'    => 'post_permalink',
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_permalink' ],
 			]
@@ -48,6 +50,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'  => __( 'Published Date', 'generateblocks' ),
 				'tag'    => 'published_date',
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_published_date' ],
 			]
@@ -55,6 +58,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'  => __( 'Modified Date', 'generateblocks' ),
 				'tag'    => 'modified_date',
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_modified_date' ],
 			]
@@ -62,6 +66,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'  => __( 'Featured Image URL', 'generateblocks' ),
 				'tag'    => 'featured_image_url',
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_url' ],
 			]
@@ -112,6 +117,15 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'callback' => [ $this, 'get_dynamic_tag' ],
 			]
 		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/dynamic-tags',
+			[
+				'methods'  => 'GET',
+				'callback' => [ $this, 'get_dynamic_tags' ],
+			]
+		);
 	}
 
 	/**
@@ -140,6 +154,25 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$value = GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content );
 
 		return rest_ensure_response( $value );
+	}
+
+	/**
+	 * Get dynamic tags.
+	 *
+	 * @return WP_REST_Response
+	 */
+	public function get_dynamic_tags() {
+		$tags = GenerateBlocks_Register_Dynamic_Tag::get_tags();
+		$tag_list = [];
+
+		foreach ( $tags as $tag => $data ) {
+			$tag_list[] = [
+				'title' => $data['title'],
+				'tag'   => $data['tag'],
+			];
+		}
+
+		return rest_ensure_response( $tag_list );
 	}
 }
 

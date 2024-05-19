@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n';
 import { createBlock, getBlockType } from '@wordpress/blocks';
-import { RichText, useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import { RichText, useBlockProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
 import { Platform, useEffect, useMemo } from '@wordpress/element';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import { SelectControl, ToolbarButton } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
 import { withDynamicTag } from '../../hoc/withDynamicTag';
@@ -12,6 +12,10 @@ import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
 import { HtmlAttributes } from '../../components/html-attributes/index.js';
+import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
+import { DynamicTagBlockToolbar } from '../../components/dynamic-tags/DynamicTagBlockToolbar.jsx';
+import getIcon from '../../utils/get-icon/index.js';
+import { applyFilters } from '@wordpress/hooks';
 
 function EditBlock( props ) {
 	const {
@@ -51,7 +55,7 @@ function EditBlock( props ) {
 		}
 
 		return content;
-	}, [ dynamicTagValue ] );
+	}, [ dynamicTagValue, content ] );
 
 	const classNames = [];
 	const { getStyles } = useSelect( stylesStore );
@@ -114,20 +118,35 @@ function EditBlock( props ) {
 		updateEditorCSS( selector, css );
 	}, [ css, selector ] );
 
-	const customAttributes = htmlAttributes.reduce( ( acc, item ) => {
-		acc[ item.key ] = item.value;
-		return acc;
-	}, {} );
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ),
-			...customAttributes,
+			...htmlAttributes,
 		}
 	);
 
 	return (
 		<>
+			<LinkBlockToolbar
+				setAttributes={ setAttributes }
+				htmlAttributes={ htmlAttributes }
+				tagName={ tagName }
+			/>
+
+			<DynamicTagBlockToolbar
+				tooltip={ __( 'Insert dynamic tag', 'generateblocks' ) }
+				onInsert={ ( value ) => setAttributes( { content: value } ) }
+				content={ content?.text ?? content }
+				renderToggle={ ( { isOpen, onToggle } ) => (
+					<ToolbarButton
+						icon={ getIcon( 'database' ) }
+						label={ __( 'Dynamic Tags', 'generateblocks' ) }
+						onClick={ onToggle }
+						aria-expanded={ isOpen }
+					/>
+				) }
+			/>
+
 			<InspectorControls>
 				<BlockStyles
 					selector={ selector }
@@ -138,26 +157,34 @@ function EditBlock( props ) {
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
 				>
-					<PanelBody>
-						<SelectControl
-							label={ __( 'Tag Name' ) }
-							value={ tagName }
-							options={ tagNameOptions }
-							onChange={ ( value ) => setAttributes( { tagName: value } ) }
-						/>
-
-						<HtmlAttributes
-							items={ htmlAttributes }
-							onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-							onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-							onChange={ ( value ) => {
-								console.log( value );
-								setAttributes( { htmlAttributes: value } );
-							} }
-						/>
-					</PanelBody>
+					{
+						applyFilters(
+							'generateblocks.editor.blockStyles',
+							null,
+							{
+								...props,
+								onStyleChange,
+								getStyleValue,
+							}
+						)
+					}
 				</BlockStyles>
 			</InspectorControls>
+			<InspectorAdvancedControls>
+				<SelectControl
+					label={ __( 'Tag Name' ) }
+					value={ tagName }
+					options={ tagNameOptions }
+					onChange={ ( value ) => setAttributes( { tagName: value } ) }
+				/>
+
+				<HtmlAttributes
+					items={ htmlAttributes }
+					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+				/>
+			</InspectorAdvancedControls>
 			<RichText
 				identifier="content"
 				tagName={ tagName || 'span' }

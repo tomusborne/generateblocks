@@ -9,6 +9,7 @@ export function Save( props ) {
 		className,
 		styles = {},
 		uniqueId,
+		htmlAttributes = {},
 	} = props.attributes;
 
 	const classNames = [];
@@ -23,6 +24,7 @@ export function Save( props ) {
 	const blockProps = useBlockProps.save(
 		{
 			className: classNames.join( ' ' ),
+			...htmlAttributes,
 		}
 	);
 

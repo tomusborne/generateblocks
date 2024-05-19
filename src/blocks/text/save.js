@@ -15,15 +15,10 @@ export function Save( { attributes } ) {
 		classNames.push( `gb-text-${ uniqueId }` );
 	}
 
-	const customAttributes = htmlAttributes.reduce( ( acc, item ) => {
-		acc[ item.key ] = item.value;
-		return acc;
-	}, {} );
-
 	const blockProps = useBlockProps.save(
 		{
 			className: classNames.join( ' ' ),
-			...customAttributes,
+			...htmlAttributes,
 		}
 	);
 

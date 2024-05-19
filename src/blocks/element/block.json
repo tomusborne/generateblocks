@@ -50,6 +50,9 @@
 		},
 		"globalClasses": {
 			"type": "array"
+		},
+		"htmlAttributes": {
+			"type": "object"
 		}
     },
     "supports": {

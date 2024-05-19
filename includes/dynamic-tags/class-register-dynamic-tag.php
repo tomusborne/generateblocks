@@ -28,11 +28,15 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 * @param array $args The arguments.
 	 */
 	public function __construct( $args ) {
-		if ( ! isset( $args['tag'] ) || ! isset( $args['return'] ) ) {
+		if ( ! isset( $args['tag'] ) || ! isset( $args['return'] ) || ! isset( $args['title'] ) ) {
 			return;
 		}
 
-		self::$tags[ $args['tag'] ] = $args['return'];
+		self::$tags[ $args['tag'] ] = [
+			'title'  => $args['title'],
+			'tag'    => $args['tag'],
+			'return' => $args['return'],
+		];
 	}
 
 	/**

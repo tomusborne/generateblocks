@@ -1,17 +1,18 @@
-import { useBlockProps, useInnerBlocksProps, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { BlockStyles, withUniqueId, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
-import { ColorPicker } from '@edge22/components';
 import { useSelect, useDispatch } from '@wordpress/data';
 import BlockAppender from './components/BlockAppender.jsx';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { PanelBody, SelectControl } from '@wordpress/components';
+import { SelectControl } from '@wordpress/components';
 import { getBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
-import { colorControls } from './design.js';
+import { applyFilters } from '@wordpress/hooks';
+import { HtmlAttributes } from '../../components/html-attributes/index.js';
+import './local-options.js';
 
 function EditBlock( props ) {
 	const {
@@ -27,6 +28,7 @@ function EditBlock( props ) {
 		styles = {},
 		uniqueId,
 		css,
+		htmlAttributes = {},
 	} = attributes;
 
 	const classNames = [];
@@ -93,6 +95,7 @@ function EditBlock( props ) {
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ),
+			...htmlAttributes,
 		}
 	);
 	const innerBlocksProps = useInnerBlocksProps(
@@ -120,31 +123,34 @@ function EditBlock( props ) {
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
 				>
-					<PanelBody>
-						<SelectControl
-							label={ __( 'Tag Name' ) }
-							value={ tagName }
-							options={ tagNameOptions }
-							onChange={ ( value ) => setAttributes( { tagName: value } ) }
-						/>
-					</PanelBody>
-					<PanelBody
-						title={ __( 'Design', 'generateblocks' ) }
-						initialOpen={ false }
-					>
-						{ colorControls.map( ( control ) => {
-							return (
-								<ColorPicker
-									key={ control.label }
-									label={ control.label }
-									value={ getStyleValue( control.value, control.selector ) }
-									onChange={ ( value ) => onStyleChange( control.value, value, '', control.selector ) }
-								/>
-							);
-						} ) }
-					</PanelBody>
+					{
+						applyFilters(
+							'generateblocks.editor.blockStyles',
+							null,
+							{
+								...props,
+								onStyleChange,
+								getStyleValue,
+							}
+						)
+					}
 				</BlockStyles>
 			</InspectorControls>
+			<InspectorAdvancedControls>
+				<SelectControl
+					label={ __( 'Tag Name' ) }
+					value={ tagName }
+					options={ tagNameOptions }
+					onChange={ ( value ) => setAttributes( { tagName: value } ) }
+				/>
+
+				<HtmlAttributes
+					items={ htmlAttributes }
+					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+				/>
+			</InspectorAdvancedControls>
 			<TagName { ...innerBlocksProps } />
 		</>
 	);

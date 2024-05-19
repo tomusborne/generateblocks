@@ -31,7 +31,7 @@
 			"type": "array"
 		},
 		"htmlAttributes": {
-			"type": "array"
+			"type": "object"
 		}
     },
     "supports": {
