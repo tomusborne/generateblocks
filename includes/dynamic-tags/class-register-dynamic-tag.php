@@ -79,7 +79,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 * @return string
 	 */
 	public static function replace_tags( $content, $block = [] ) {
-		foreach ( self::$tags as $tag_name => $callback ) {
+		foreach ( self::$tags as $tag_name => $data ) {
 			$opening_tag = '{' . $tag_name;
 
 			if ( ! generateblocks_str_contains( $content, $opening_tag ) ) {
@@ -90,7 +90,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 
 			if ( generateblocks_str_contains( $content, $full_tag ) ) {
 				$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
-				$content = str_replace( $full_tag, call_user_func( $callback, [] ), $content );
+				$content = str_replace( $full_tag, call_user_func( $data['return'], [] ), $content );
 			} else {
 				$pattern = '/\{' . $tag_name . '(\s+([^}]+))*\}/';
 				preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
@@ -100,7 +100,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
 					$options_string = $match[2] ?? '';
 					$options = self::parse_options( $options_string );
-					$replacement = call_user_func( $callback, $options );
+					$replacement = call_user_func( $data['return'], $options );
 					$content = str_replace( $full_tag, $replacement, $content );
 				}
 			}
