@@ -13,6 +13,7 @@ import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import './local-options.js';
+import { convertInlineStyleStringToObject } from './utils.js';
 
 function EditBlock( props ) {
 	const {
@@ -92,10 +93,14 @@ function EditBlock( props ) {
 		updateEditorCSS( selector, css );
 	}, [ css, selector ] );
 
+	const { style = '', ...otherAttributes } = htmlAttributes;
+	const inlineStyleObject = convertInlineStyleStringToObject( style );
+	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
+
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ),
-			...htmlAttributes,
+			...combinedAttributes,
 		}
 	);
 	const innerBlocksProps = useInnerBlocksProps(

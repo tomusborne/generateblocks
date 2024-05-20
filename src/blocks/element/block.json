@@ -4,8 +4,8 @@
     "name": "generateblocks/element",
     "title": "Element",
     "category": "generateblocks",
-    "description": "Shows warning, error or success notices...",
-    "keywords": [ "alert", "message" ],
+    "description": "An HTML element that you can add blocks inside of.",
+    "keywords": [ "element", "container", "group" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",
     "attributes": {

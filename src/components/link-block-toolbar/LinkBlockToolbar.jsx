@@ -1,7 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import { ToolbarGroup, ToolbarButton, Dropdown, ToggleControl } from '@wordpress/components';
-import { BlockControls, URLInput } from '@wordpress/block-editor';
+import { ToolbarGroup, ToolbarButton, Dropdown } from '@wordpress/components';
+import { BlockControls } from '@wordpress/block-editor';
 import { link } from '@wordpress/icons';
+import { URLControls } from '../../components/url-controls';
 
 export function LinkBlockToolbar( { tagName, setAttributes, htmlAttributes } ) {
 	const POPOVER_PROPS = {
@@ -13,8 +14,6 @@ export function LinkBlockToolbar( { tagName, setAttributes, htmlAttributes } ) {
 	}
 
 	const url = htmlAttributes?.href ?? '';
-	const target = htmlAttributes?.target ?? '';
-	const rel = htmlAttributes?.rel ?? '';
 
 	return (
 		<BlockControls>
@@ -33,89 +32,9 @@ export function LinkBlockToolbar( { tagName, setAttributes, htmlAttributes } ) {
 					) }
 					renderContent={ () => (
 						<>
-							<URLInput
-								className={ 'gblocks-button-link' }
-								value={ url }
-								onChange={ ( value ) => {
-									setAttributes( {
-										htmlAttributes: {
-											...htmlAttributes,
-											href: value,
-										},
-									} );
-								} }
-							/>
-
-							<ToggleControl
-								label={ __( 'Open link in a new tab', 'generateblocks' ) }
-								checked={ target || '' }
-								onChange={ ( value ) => {
-									const newHtmlAttributes = { ...htmlAttributes };
-
-									if ( value ) {
-										newHtmlAttributes.target = '_blank';
-									} else {
-										delete newHtmlAttributes.target;
-									}
-
-									setAttributes( {
-										htmlAttributes: newHtmlAttributes,
-									} );
-								} }
-							/>
-
-							<ToggleControl
-								label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
-								checked={ rel?.includes( 'nofollow' ) || '' }
-								onChange={ ( value ) => {
-									const newHtmlAttributes = { ...htmlAttributes };
-									const relItems = rel ? rel.split( ' ' ) : [];
-
-									if ( value && ! relItems.includes( 'nofollow' ) ) {
-										relItems.push( 'nofollow' );
-									}
-
-									if ( ! value && relItems.includes( 'nofollow' ) ) {
-										relItems.splice( relItems.indexOf( 'nofollow' ), 1 );
-									}
-
-									if ( relItems.length > 0 ) {
-										newHtmlAttributes.rel = relItems.join( ' ' );
-									} else {
-										delete newHtmlAttributes.rel;
-									}
-
-									setAttributes( {
-										htmlAttributes: newHtmlAttributes,
-									} );
-								} }
-							/>
-
-							<ToggleControl
-								label={ __( 'Add rel="sponsored"', 'generateblocks' ) }
-								checked={ rel?.includes( 'sponsored' ) || '' }
-								onChange={ ( value ) => {
-									const newHtmlAttributes = { ...htmlAttributes };
-									const relItems = rel ? rel.split( ' ' ) : [];
-
-									if ( value && ! relItems.includes( 'sponsored' ) ) {
-										relItems.push( 'sponsored' );
-									}
-
-									if ( ! value && relItems.includes( 'sponsored' ) ) {
-										relItems.splice( relItems.indexOf( 'sponsored' ), 1 );
-									}
-
-									if ( relItems.length > 0 ) {
-										newHtmlAttributes.rel = relItems.join( ' ' );
-									} else {
-										delete newHtmlAttributes.rel;
-									}
-
-									setAttributes( {
-										htmlAttributes: newHtmlAttributes,
-									} );
-								} }
+							<URLControls
+								htmlAttributes={ htmlAttributes }
+								setAttributes={ setAttributes }
 							/>
 						</>
 					) }

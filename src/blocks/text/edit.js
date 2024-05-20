@@ -13,9 +13,10 @@ import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
 import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
-import { DynamicTagBlockToolbar } from '../../components/dynamic-tags/DynamicTagBlockToolbar.jsx';
+import { DynamicTagBlockToolbar } from '../../dynamic-tags/components/DynamicTagBlockToolbar.jsx';
 import getIcon from '../../utils/get-icon/index.js';
 import { applyFilters } from '@wordpress/hooks';
+import { convertInlineStyleStringToObject } from '../element/utils.js';
 
 function EditBlock( props ) {
 	const {
@@ -118,10 +119,14 @@ function EditBlock( props ) {
 		updateEditorCSS( selector, css );
 	}, [ css, selector ] );
 
+	const { style = '', ...otherAttributes } = htmlAttributes;
+	const inlineStyleObject = convertInlineStyleStringToObject( style );
+	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
+
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ),
-			...htmlAttributes,
+			...combinedAttributes,
 		}
 	);
 
@@ -136,13 +141,13 @@ function EditBlock( props ) {
 			<DynamicTagBlockToolbar
 				tooltip={ __( 'Insert dynamic tag', 'generateblocks' ) }
 				onInsert={ ( value ) => setAttributes( { content: value } ) }
-				content={ content?.text ?? content }
-				renderToggle={ ( { isOpen, onToggle } ) => (
+				renderToggle={ ( { isOpen, onToggle, isPressed } ) => (
 					<ToolbarButton
 						icon={ getIcon( 'database' ) }
 						label={ __( 'Dynamic Tags', 'generateblocks' ) }
 						onClick={ onToggle }
 						aria-expanded={ isOpen }
+						isPressed={ isPressed }
 					/>
 				) }
 			/>

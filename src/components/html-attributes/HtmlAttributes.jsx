@@ -1,140 +1,117 @@
 import { Button, TextControl, BaseControl } from '@wordpress/components';
-import { closeSmall, plus } from '@wordpress/icons';
+import { check, closeSmall, plus } from '@wordpress/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from '@wordpress/element';
 import './editor.scss';
 
-function sanitizeAttribute( attribute ) {
-	const safeValues = [
-		'title',
-		'role',
-		'download',
-		'itemtype',
-		'itemscope',
-		'itemprop',
-		'href',
-		'style',
-	];
+const safeValues = [
+	'title', 'role', 'download', 'itemtype', 'itemscope', 'itemprop', 'href', 'style',
+];
 
-	let isValueSafe = false;
-
-	if ( attribute.startsWith( 'data-' ) ) {
-		isValueSafe = true;
-	}
-
-	if ( attribute.startsWith( 'aria-' ) ) {
-		isValueSafe = true;
-	}
-
-	if ( safeValues.includes( attribute ) ) {
-		isValueSafe = true;
-	}
-
-	if ( ! isValueSafe ) {
-		attribute = '';
-	}
-
-	return attribute;
+function isAllowedName( attribute ) {
+	return attribute.startsWith( 'data-' ) || attribute.startsWith( 'aria-' ) || safeValues.includes( attribute );
 }
 
 export function HtmlAttributes( { items, onAdd, onRemove, onChange } ) {
-	const [ attributeName, setAttributeName ] = useState( '' );
-	const [ attributeValue, setAttributeValue ] = useState( '' );
-	const [ hasChanged, setHasChanged ] = useState( false );
+	const [ newAttributeName, setNewAttributeName ] = useState( '' );
+	const [ newAttributeValue, setNewAttributeValue ] = useState( '' );
+	const [ errorMessage, setErrorMessage ] = useState( '' );
+	const [ editingItem, setEditingItem ] = useState( null );
 
-	function onAddItem( key, value ) {
-		const htmlAttributes = { ...items };
-		htmlAttributes[ key ] = value;
-		onAdd( htmlAttributes );
-	}
-
-	function onRemoveItem( key ) {
-		const htmlAttributes = { ...items };
-		delete htmlAttributes[ key ];
-		onRemove( htmlAttributes );
-	}
-
-	function onChangeItem( value, key, type ) {
-		const htmlAttributes = { ...items };
-
-		if ( 'key' === type ) {
-			const oldKey = key;
-			const existingValue = htmlAttributes[ oldKey ];
-			delete htmlAttributes[ oldKey ];
-			htmlAttributes[ value ] = existingValue;
+	const handleAddItem = () => {
+		if ( ! isAllowedName( newAttributeName ) ) {
+			setErrorMessage( 'This attribute name is not allowed.' );
+			return;
 		}
-
-		if ( 'value' === type ) {
-			htmlAttributes[ key ] = value;
+		if ( ! newAttributeName ) {
+			setErrorMessage( 'Attribute name is required.' );
+			return;
 		}
+		onAdd( { ...items, [ newAttributeName ]: newAttributeValue } );
+		setNewAttributeName( '' );
+		setNewAttributeValue( '' );
+		setErrorMessage( '' );
+	};
 
-		onChange( htmlAttributes );
-	}
+	const handleRemoveItem = ( key ) => {
+		const updatedItems = { ...items };
+		delete updatedItems[ key ];
+		onRemove( updatedItems );
+	};
+
+	const handleChangeItem = ( oldKey ) => {
+		if ( ! isAllowedName( editingItem.key ) ) {
+			setErrorMessage( 'This attribute name is not allowed.' );
+			return;
+		}
+		if ( ! editingItem.key ) {
+			setErrorMessage( 'Attribute name is required.' );
+			return;
+		}
+		const updatedItems = { ...items };
+		delete updatedItems[ oldKey ];
+		updatedItems[ editingItem.key ] = editingItem.value;
+		onChange( updatedItems );
+		setEditingItem( null );
+		setErrorMessage( '' );
+	};
 
 	return (
-		<>
-			<BaseControl
-				label="HTML Attributes"
-				id={ uuidv4() }
-			>
-				<div className="gb-html-attributes">
-					{ Object.entries( items ).map( ( [ key, value ], index ) => (
-						<div className="gb-html-attributes__item" key={ index }>
-							<TextControl
-								type="text"
-								value={ key }
-								onChange={ ( newValue ) => {
-									onChangeItem( newValue, key, 'key' );
-									setHasChanged( true );
-								} }
-							/>
-
-							<TextControl
-								type="text"
-								value={ value }
-								onChange={ ( newValue ) => {
-									onChangeItem( newValue, key, 'value' );
-									setHasChanged( true );
-								} }
-							/>
-
+		<BaseControl label="HTML Attributes" id={ uuidv4() }>
+			<div className="gb-html-attributes">
+				{ Object.entries( items ).map( ( [ key, value ], index ) => (
+					<div className="gb-html-attributes__item" key={ index }>
+						<TextControl
+							type="text"
+							value={ editingItem && editingItem.oldKey === key ? editingItem.key : key }
+							onChange={ ( newKey ) => setEditingItem( { oldKey: key, key: newKey, value } ) }
+						/>
+						<TextControl
+							type="text"
+							value={ editingItem && editingItem.oldKey === key ? editingItem.value : value }
+							onChange={ ( newValue ) => setEditingItem( { oldKey: key, key, value: newValue } ) }
+						/>
+						{ editingItem && editingItem.oldKey === key ? (
 							<Button
-								onClick={ () => onRemoveItem( key ) }
+								onClick={ () => handleChangeItem( key ) }
+								icon={ check }
+								size="small"
+								iconSize="20"
+								variant="primary"
+							/>
+						) : (
+							<Button
+								onClick={ () => handleRemoveItem( key ) }
 								icon={ closeSmall }
 								size="small"
 								iconSize="20"
 								isDestructive
 							/>
-						</div>
-					) ) }
-					<div className="gb-html-attributes__item">
-						<TextControl
-							type="text"
-							value={ attributeName }
-							onChange={ ( newValue ) => setAttributeName( newValue ) }
-						/>
-
-						<TextControl
-							type="text"
-							value={ attributeValue }
-							onChange={ ( newValue ) => setAttributeValue( newValue ) }
-						/>
-
-						<Button
-							onClick={ () => {
-								onAddItem( attributeName, attributeValue );
-								setAttributeName( '' );
-								setAttributeValue( '' );
-							} }
-							icon={ plus }
-							size="small"
-							iconSize="20"
-							disabled={ ! attributeName }
-							variant="primary"
-						/>
+						) }
 					</div>
+				) ) }
+				<div className="gb-html-attributes__item">
+					<TextControl
+						type="text"
+						value={ newAttributeName }
+						onChange={ ( newValue ) => setNewAttributeName( newValue ) }
+					/>
+					<TextControl
+						type="text"
+						value={ newAttributeValue }
+						onChange={ ( newValue ) => setNewAttributeValue( newValue ) }
+					/>
+					<Button
+						onClick={ handleAddItem }
+						icon={ plus }
+						size="small"
+						iconSize="20"
+						disabled={ ! newAttributeName }
+						variant="primary"
+					/>
 				</div>
-			</BaseControl>
-		</>
+				{ errorMessage && <div className="error-message">{ errorMessage }</div> }
+			</div>
+		</BaseControl>
 	);
 }

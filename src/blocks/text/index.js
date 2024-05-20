@@ -1,4 +1,5 @@
 import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 import { Edit } from './edit';
 import metadata from './block.json';
 import getIcon from '../../utils/get-icon';
@@ -16,6 +17,7 @@ registerBlockVariation(
 	{
 		name: 'generateblocks/button',
 		title: 'Button',
+		description: __( 'An interactive button element.', 'generateblocks' ),
 		icon: getIcon( 'button' ),
 		attributes: {
 			tagName: 'a',
@@ -40,6 +42,7 @@ registerBlockVariation(
 	{
 		name: 'generateblocks/heading',
 		title: 'Heading',
+		description: __( 'A heading text element.', 'generateblocks' ),
 		icon: getIcon( 'Headline' ),
 		attributes: {
 			tagName: 'h2',
@@ -53,6 +56,7 @@ registerBlockVariation(
 	{
 		name: 'generateblocks/paragraph',
 		title: 'Paragraph',
+		description: __( 'A paragraph text element.', 'generateblocks' ),
 		icon: getIcon( 'paragraph' ),
 		attributes: {
 			tagName: 'p',

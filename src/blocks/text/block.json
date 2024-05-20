@@ -4,8 +4,8 @@
     "name": "generateblocks/text",
     "title": "Text",
     "category": "generateblocks",
-    "description": "Shows warning, error or success notices...",
-    "keywords": [ "alert", "message" ],
+    "description": "A text element where you can choose your own tag name, content, and styles.",
+    "keywords": [ "text", "heading", "headline", "paragraph" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",
     "attributes": {

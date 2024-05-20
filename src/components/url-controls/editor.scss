@@ -1,0 +1,25 @@
+.gb-url-controls {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+
+	& > .components-base-control {
+		&, &__field {
+			margin: 0;
+		}
+	}
+
+	&__link {
+		&-input {
+			input[type="text"] {
+				width: 100%;
+			}
+
+			&.components-base-control {
+				&, &__field {
+					margin: 0;
+				}
+			}
+		}
+	}
+}
