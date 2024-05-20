@@ -15,6 +15,7 @@ const config = {
 		'editor-sidebar': './src/editor-sidebar.js',
 		components: './src/components.scss',
 		'block-styles': './src/block-styles.scss',
+		editor: './src/editor.js',
 	},
 	output: {
 		...defaultConfig.output,

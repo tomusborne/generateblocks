@@ -12,7 +12,6 @@ import { getBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { HtmlAttributes } from '../../components/html-attributes/index.js';
-import './local-options.js';
 import { convertInlineStyleStringToObject } from './utils.js';
 
 function EditBlock( props ) {

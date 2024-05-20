@@ -3,10 +3,10 @@ import { Button, PanelBody, SelectControl } from '@wordpress/components';
 import { ColorPicker } from '@edge22/components';
 import { containerColorControls, buttonColorControls, linkElementColorControls, textColorControls } from './design.js';
 import { addFilter } from '@wordpress/hooks';
-import DimensionsControl from '../../components/dimensions';
-import { ColorPickerGroup } from '../../components/color-picker-group/ColorPickerGroup.jsx';
-import UnitControl from '../../components/unit-control/index.js';
-import { URLControls } from '../../components/url-controls';
+import DimensionsControl from '../components/dimensions/index.js';
+import { ColorPickerGroup } from '../components/color-picker-group/ColorPickerGroup.jsx';
+import UnitControl from '../components/unit-control/index.js';
+import { URLControls } from '../components/url-controls/index.js';
 import { styles } from '@wordpress/icons';
 
 function Padding( { getStyleValue, onStyleChange } ) {

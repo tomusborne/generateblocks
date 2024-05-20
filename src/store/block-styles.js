@@ -1,4 +1,4 @@
-import { createReduxStore, register } from '@wordpress/data';
+import { createReduxStore } from '@wordpress/data';
 import {
 	currentStyleActions,
 	currentStyleSelectors,
@@ -64,9 +64,3 @@ export const tabsStore = createReduxStore(
 		selectors: settingTabsSelectors,
 	}
 );
-
-register( currentStyleStore );
-register( stylesStore );
-register( atRuleStore );
-register( nestedRuleStore );
-register( tabsStore );

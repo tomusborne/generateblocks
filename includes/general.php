@@ -214,6 +214,16 @@ function generateblocks_do_block_editor_assets() {
 		'',
 		$styles_builder_asset_info['version']
 	);
+
+	$editor_assets = generateblocks_get_enqueue_assets( 'editor' );
+
+	wp_enqueue_script(
+		'generateblocks-editor',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor.js',
+		$editor_assets['dependencies'],
+		$editor_assets['version'],
+		true
+	);
 }
 
 if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
