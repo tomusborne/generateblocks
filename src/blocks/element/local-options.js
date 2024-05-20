@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { Button, PanelBody, SelectControl } from '@wordpress/components';
 import { ColorPicker } from '@edge22/components';
-import { containerColorControls, buttonColorControls } from './design.js';
+import { containerColorControls, buttonColorControls, linkElementColorControls, textColorControls } from './design.js';
 import { addFilter } from '@wordpress/hooks';
 import DimensionsControl from '../../components/dimensions';
 import { ColorPickerGroup } from '../../components/color-picker-group/ColorPickerGroup.jsx';
@@ -47,9 +47,14 @@ export function ContainerOptions( options, props ) {
 		getStyleValue,
 		onStyleChange,
 		name,
+		attributes,
 	} = props;
 
-	if ( 'generateblocks/element' !== name ) {
+	const {
+		tagName,
+	} = attributes;
+
+	if ( 'generateblocks/element' !== name || 'a' === tagName ) {
 		return options;
 	}
 
@@ -96,7 +101,7 @@ addFilter(
 	ContainerOptions
 );
 
-export function ButtonOptions( options, props ) {
+export function LinkElementOptions( options, props ) {
 	const {
 		getStyleValue,
 		onStyleChange,
@@ -110,7 +115,7 @@ export function ButtonOptions( options, props ) {
 		tagName,
 	} = attributes;
 
-	if ( 'generateblocks/text' !== name ) {
+	if ( 'generateblocks/element' !== name || 'a' !== tagName ) {
 		return options;
 	}
 
@@ -129,7 +134,81 @@ export function ButtonOptions( options, props ) {
 				title={ __( 'Design', 'generateblocks' ) }
 				initialOpen={ true }
 			>
-				{ buttonColorControls.map( ( control ) => {
+				{ linkElementColorControls.map( ( control ) => {
+					return (
+						<ColorPickerGroup label={ control.label } key={ control.label }>
+							{ control.items.map( ( item ) => {
+								return (
+									<ColorPicker
+										key={ item.tooltip }
+										tooltip={ item.tooltip }
+										value={ getStyleValue( item.value, item.selector ) }
+										onChange={ ( value ) => onStyleChange( item.value, value, '', item.selector ) }
+									/>
+								);
+							}
+							) }
+						</ColorPickerGroup>
+					);
+				} ) }
+
+				<Padding
+					getStyleValue={ getStyleValue }
+					onStyleChange={ onStyleChange }
+				/>
+
+				<MoreDesignOptions />
+			</PanelBody>
+
+			{ options }
+		</>
+	);
+}
+
+addFilter(
+	'generateblocks.editor.blockStyles',
+	'generateblocks/linkElementOptions',
+	LinkElementOptions
+);
+
+export function ButtonOptions( options, props ) {
+	const {
+		getStyleValue,
+		onStyleChange,
+		name,
+		attributes,
+		setAttributes,
+	} = props;
+
+	const {
+		htmlAttributes,
+		tagName,
+	} = attributes;
+
+	if ( 'generateblocks/text' !== name ) {
+		return options;
+	}
+
+	const colorControls = 'a' === tagName || 'button' === tagName
+		? buttonColorControls
+		: textColorControls;
+
+	return (
+		<>
+			{ 'a' === tagName && (
+				<PanelBody>
+					<URLControls
+						setAttributes={ setAttributes }
+						htmlAttributes={ htmlAttributes }
+					/>
+				</PanelBody>
+			) }
+
+			<PanelBody
+				title={ __( 'Design', 'generateblocks' ) }
+				initialOpen={ true }
+			>
+				{ colorControls.map( ( control ) => {
 					return (
 						<ColorPickerGroup label={ control.label } key={ control.label }>
 							{ control.items.map( ( item ) => {
