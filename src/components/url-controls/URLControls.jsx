@@ -46,77 +46,81 @@ export function URLControls( { htmlAttributes, setAttributes } ) {
 				</Stack>
 			</BaseControl>
 
-			<ToggleControl
-				label={ __( 'Open link in a new tab', 'generateblocks' ) }
-				checked={ target || '' }
-				onChange={ ( value ) => {
-					const newHtmlAttributes = { ...htmlAttributes };
+			{ ( !! url || !! target || !! rel ) && (
+				<>
+					<ToggleControl
+						label={ __( 'Open link in a new tab', 'generateblocks' ) }
+						checked={ target || '' }
+						onChange={ ( value ) => {
+							const newHtmlAttributes = { ...htmlAttributes };
 
-					if ( value ) {
-						newHtmlAttributes.target = '_blank';
-					} else {
-						delete newHtmlAttributes.target;
-					}
+							if ( value ) {
+								newHtmlAttributes.target = '_blank';
+							} else {
+								delete newHtmlAttributes.target;
+							}
 
-					setAttributes( {
-						htmlAttributes: newHtmlAttributes,
-					} );
-				} }
-			/>
+							setAttributes( {
+								htmlAttributes: newHtmlAttributes,
+							} );
+						} }
+					/>
 
-			<ToggleControl
-				label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
-				checked={ rel?.includes( 'nofollow' ) || '' }
-				onChange={ ( value ) => {
-					const newHtmlAttributes = { ...htmlAttributes };
-					const relItems = rel ? rel.split( ' ' ) : [];
+					<ToggleControl
+						label={ __( 'Add rel="nofollow"', 'generateblocks' ) }
+						checked={ rel?.includes( 'nofollow' ) || '' }
+						onChange={ ( value ) => {
+							const newHtmlAttributes = { ...htmlAttributes };
+							const relItems = rel ? rel.split( ' ' ) : [];
 
-					if ( value && ! relItems.includes( 'nofollow' ) ) {
-						relItems.push( 'nofollow' );
-					}
+							if ( value && ! relItems.includes( 'nofollow' ) ) {
+								relItems.push( 'nofollow' );
+							}
 
-					if ( ! value && relItems.includes( 'nofollow' ) ) {
-						relItems.splice( relItems.indexOf( 'nofollow' ), 1 );
-					}
+							if ( ! value && relItems.includes( 'nofollow' ) ) {
+								relItems.splice( relItems.indexOf( 'nofollow' ), 1 );
+							}
 
-					if ( relItems.length > 0 ) {
-						newHtmlAttributes.rel = relItems.join( ' ' );
-					} else {
-						delete newHtmlAttributes.rel;
-					}
+							if ( relItems.length > 0 ) {
+								newHtmlAttributes.rel = relItems.join( ' ' );
+							} else {
+								delete newHtmlAttributes.rel;
+							}
 
-					setAttributes( {
-						htmlAttributes: newHtmlAttributes,
-					} );
-				} }
-			/>
+							setAttributes( {
+								htmlAttributes: newHtmlAttributes,
+							} );
+						} }
+					/>
 
-			<ToggleControl
-				label={ __( 'Add rel="sponsored"', 'generateblocks' ) }
-				checked={ rel?.includes( 'sponsored' ) || '' }
-				onChange={ ( value ) => {
-					const newHtmlAttributes = { ...htmlAttributes };
-					const relItems = rel ? rel.split( ' ' ) : [];
+					<ToggleControl
+						label={ __( 'Add rel="sponsored"', 'generateblocks' ) }
+						checked={ rel?.includes( 'sponsored' ) || '' }
+						onChange={ ( value ) => {
+							const newHtmlAttributes = { ...htmlAttributes };
+							const relItems = rel ? rel.split( ' ' ) : [];
 
-					if ( value && ! relItems.includes( 'sponsored' ) ) {
-						relItems.push( 'sponsored' );
-					}
+							if ( value && ! relItems.includes( 'sponsored' ) ) {
+								relItems.push( 'sponsored' );
+							}
 
-					if ( ! value && relItems.includes( 'sponsored' ) ) {
-						relItems.splice( relItems.indexOf( 'sponsored' ), 1 );
-					}
+							if ( ! value && relItems.includes( 'sponsored' ) ) {
+								relItems.splice( relItems.indexOf( 'sponsored' ), 1 );
+							}
 
-					if ( relItems.length > 0 ) {
-						newHtmlAttributes.rel = relItems.join( ' ' );
-					} else {
-						delete newHtmlAttributes.rel;
-					}
+							if ( relItems.length > 0 ) {
+								newHtmlAttributes.rel = relItems.join( ' ' );
+							} else {
+								delete newHtmlAttributes.rel;
+							}
 
-					setAttributes( {
-						htmlAttributes: newHtmlAttributes,
-					} );
-				} }
-			/>
+							setAttributes( {
+								htmlAttributes: newHtmlAttributes,
+							} );
+						} }
+					/>
+				</>
+			) }
 		</div>
 	);
 }

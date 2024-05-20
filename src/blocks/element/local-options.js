@@ -35,6 +35,7 @@ function MoreDesignOptions() {
 			size="compact"
 			icon={ styles }
 			onClick={ () => document.querySelector( '.gb-block-styles-tab-panel__styles-tab' )?.click() }
+			style={ { width: '100%', justifyContent: 'center' } }
 		>
 			{ __( 'More design options', 'generateblocks' ) }
 		</Button>

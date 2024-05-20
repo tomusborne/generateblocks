@@ -39,7 +39,8 @@
 				"figcaption",
 				"blockquote",
 				"pre",
-				"code"
+				"code",
+				"a"
 			]
 		},
 		"styles": {
