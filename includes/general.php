@@ -224,6 +224,13 @@ function generateblocks_do_block_editor_assets() {
 		$editor_assets['version'],
 		true
 	);
+
+	wp_enqueue_style(
+		'generateblocks-editor',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor.css',
+		array( 'wp-edit-blocks', 'generateblocks-components' ),
+		filemtime( GENERATEBLOCKS_DIR . 'dist/editor.css' )
+	);
 }
 
 if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
