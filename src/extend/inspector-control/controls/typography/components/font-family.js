@@ -64,7 +64,11 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 		}
 	}
 
-	const value = !! typography.fontFamily ? { value: typography.fontFamily, label: typography.fontFamily } : '';
+	const value = useMemo( () => !! typography.fontFamily ? { value: typography.fontFamily, label: typography.fontFamily } : '', [ typography ] );
+	const inGoogleFonts = useMemo( () => {
+		const googleFontItems = typographyOptions.fontFamily.find( ( item ) => 'google-fonts' === item.id );
+		return googleFontItems?.options.some( ( item ) => item.value === value.label );
+	}, [ typographyOptions, value ] );
 
 	return (
 		<>
@@ -81,30 +85,34 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 					isCreatable
 					isClearable
 					formatCreateLabel={ ( input ) => ( `Add "${ input }"` ) }
-					onChange={ ( option ) => onFontChange( option?.value || '' ) }
+					onChange={ ( option ) => {
+						onFontChange( option?.value || '' );
+					} }
 				/>
 			</BaseControl>
 
 			{ !! typography.fontFamily && ! generateBlocksInfo.disableGoogleFonts &&
 				<>
-					<ToggleControl
-						label={ __( 'Use Google Fonts API', 'generateblocks' ) }
-						checked={ !! googleFont }
-						onChange={ ( newGoogleFontValue ) => {
-							setAttributes( {
-								googleFont: newGoogleFontValue,
-							} );
+					{ inGoogleFonts &&
+						<ToggleControl
+							label={ __( 'Use Google Fonts API', 'generateblocks' ) }
+							checked={ !! googleFont }
+							onChange={ ( newGoogleFontValue ) => {
+								setAttributes( {
+									googleFont: newGoogleFontValue,
+								} );
 
-							if ( newGoogleFontValue ) {
-								if ( typeof googleFonts[ typography.fontFamily ] !== 'undefined' ) {
-									setAttributes( {
-										fontFamilyFallback: googleFonts[ typography.fontFamily ].fallback,
-										googleFontVariants: googleFonts[ typography.fontFamily ].weight.join( ', ' ),
-									} );
+								if ( newGoogleFontValue ) {
+									if ( typeof googleFonts[ typography.fontFamily ] !== 'undefined' ) {
+										setAttributes( {
+											fontFamilyFallback: googleFonts[ typography.fontFamily ].fallback,
+											googleFontVariants: googleFonts[ typography.fontFamily ].weight.join( ', ' ),
+										} );
+									}
 								}
-							}
-						} }
-					/>
+							} }
+						/>
+					}
 
 					{ !! googleFont &&
 						<>
