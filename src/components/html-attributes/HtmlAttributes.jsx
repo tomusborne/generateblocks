@@ -5,7 +5,17 @@ import { useState } from '@wordpress/element';
 import './editor.scss';
 
 const safeValues = [
-	'title', 'role', 'download', 'itemtype', 'itemscope', 'itemprop', 'href', 'style',
+	'title',
+	'role',
+	'download',
+	'itemtype',
+	'itemscope',
+	'itemprop',
+	'href',
+	'style',
+	'src',
+	'height',
+	'width',
 ];
 
 function isAllowedName( attribute ) {

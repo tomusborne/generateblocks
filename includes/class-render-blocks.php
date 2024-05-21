@@ -155,6 +155,13 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => [ 'GenerateBlocks_Block_Element', 'render_block' ],
 			]
 		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . '/dist/blocks/void-element',
+			[
+				'render_callback' => [ 'GenerateBlocks_Block_Void_Element', 'render_block' ],
+			]
+		);
 	}
 
 	/**

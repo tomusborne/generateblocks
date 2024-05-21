@@ -12,12 +12,27 @@ export function withDynamicTag( WrappedComponent ) {
 
 		const {
 			content,
+			htmlAttributes,
+			tagName,
 		} = attributes;
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
+		const getContentValue = () => {
+			if ( 'img' === tagName ) {
+				return htmlAttributes?.src;
+			}
+
+			return content;
+		};
+		const contentValue = getContentValue();
 
 		useEffect( () => {
-			if ( ! content || ! content.includes( '{' ) || isSelected ) {
+			if ( ! contentValue || ! contentValue.includes( '{' ) ) {
+				setDynamicTagValue( false );
+				return;
+			}
+
+			if ( isSelected && 'img' !== tagName ) {
 				setDynamicTagValue( false );
 				return;
 			}
@@ -29,7 +44,7 @@ export function withDynamicTag( WrappedComponent ) {
 						path: addQueryArgs(
 							'/generateblocks/v1/dynamic-tag?content=',
 							{
-								content: encodeURIComponent( content ),
+								content: encodeURIComponent( contentValue ),
 								postId: context?.postId,
 							},
 						),
@@ -44,7 +59,7 @@ export function withDynamicTag( WrappedComponent ) {
 			};
 
 			fetchData(); // Call the async function
-		}, [ content, isSelected ] );
+		}, [ contentValue, isSelected ] );
 
 		return ( <WrappedComponent { ...props } dynamicTagValue={ dynamicTagValue } /> );
 	} );

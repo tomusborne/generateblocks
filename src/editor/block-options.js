@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { Button, PanelBody, SelectControl } from '@wordpress/components';
+import { Button, PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { ColorPicker } from '@edge22/components';
 import { containerColorControls, buttonColorControls, linkElementColorControls, textColorControls } from './design.js';
 import { addFilter } from '@wordpress/hooks';
@@ -8,6 +8,7 @@ import { ColorPickerGroup } from '../components/color-picker-group/ColorPickerGr
 import UnitControl from '../components/unit-control/index.js';
 import { URLControls } from '../components/url-controls/index.js';
 import { styles } from '@wordpress/icons';
+import { ImageUpload } from '../components/image-upload/ImageUpload.jsx';
 
 function Padding( { getStyleValue, onStyleChange } ) {
 	const paddingTop = getStyleValue( 'paddingTop' );
@@ -267,4 +268,110 @@ addFilter(
 	'generateblocks.editor.blockStyles',
 	'generateblocks/buttonOptions',
 	ButtonOptions
+);
+
+function ImageOptions( options, props ) {
+	const {
+		getStyleValue,
+		onStyleChange,
+		name,
+		attributes,
+		setAttributes,
+		onSelectImage,
+	} = props;
+
+	const {
+		htmlAttributes,
+		tagName,
+	} = attributes;
+
+	if ( 'generateblocks/void-element' !== name || 'img' !== tagName ) {
+		return options;
+	}
+
+	return (
+		<>
+			<PanelBody>
+				<ImageUpload
+					url={ htmlAttributes?.src }
+					onInsert={ ( value ) => {
+						setAttributes( {
+							htmlAttributes: {
+								...htmlAttributes,
+								src: value,
+							},
+						} );
+					} }
+					onSelectImage={ onSelectImage }
+				/>
+
+				<TextControl
+					label={ __( 'Width', 'generateblocks' ) }
+					value={ htmlAttributes?.width }
+					onChange={ ( value ) => {
+						setAttributes( {
+							htmlAttributes: {
+								...htmlAttributes,
+								width: value,
+							},
+						} );
+					} }
+				/>
+
+				<TextControl
+					label={ __( 'Height', 'generateblocks' ) }
+					value={ htmlAttributes?.height }
+					onChange={ ( value ) => {
+						setAttributes( {
+							htmlAttributes: {
+								...htmlAttributes,
+								height: value,
+							},
+						} );
+					} }
+				/>
+
+				<TextControl
+					label={ __( 'Alt text', 'generateblocks' ) }
+					value={ htmlAttributes?.alt }
+					onChange={ ( value ) => {
+						setAttributes( {
+							htmlAttributes: {
+								...htmlAttributes,
+								alt: value,
+							},
+						} );
+					} }
+				/>
+			</PanelBody>
+			<PanelBody
+				title={ __( 'Design', 'generateblocks' ) }
+				initialOpen={ true }
+			>
+				<UnitControl
+					id="width"
+					label={ __( 'Width', 'generateblocks' ) }
+					value={ getStyleValue( 'width' ) }
+					onChange={ ( value ) => onStyleChange( 'width', value ) }
+				/>
+
+				<UnitControl
+					id="height"
+					label={ __( 'Height', 'generateblocks' ) }
+					value={ getStyleValue( 'height' ) }
+					onChange={ ( value ) => onStyleChange( 'height', value ) }
+				/>
+
+				<MoreDesignOptions />
+			</PanelBody>
+
+			{ options }
+		</>
+	);
+}
+
+addFilter(
+	'generateblocks.editor.blockStyles',
+	'generateblocks/imageOptions',
+	ImageOptions
 );

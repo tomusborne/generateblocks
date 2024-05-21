@@ -1,0 +1,42 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/void-element",
+    "title": "Void Element",
+    "category": "generateblocks",
+    "description": "A self-closing element.",
+    "keywords": [ "element", "container", "group" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+    "attributes": {
+        "uniqueId": {
+            "type": "string"
+        },
+		"tagName": {
+			"type": "string",
+			"default": "",
+			"enum": [
+				"img"
+			]
+		},
+		"styles": {
+			"type": "object"
+		},
+		"css": {
+			"type": "string"
+		},
+		"globalClasses": {
+			"type": "array"
+		},
+		"htmlAttributes": {
+			"type": "object"
+		}
+    },
+    "supports": {
+        "align": false,
+		"className": false
+    },
+    "editorScript": "file:./index.js",
+    "editorStyle": [ "file:./index.css", "generateblocks-block-styles", "generateblocks-components" ],
+	"usesContext": [ "postId" ]
+}
