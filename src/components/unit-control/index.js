@@ -133,7 +133,7 @@ export default function UnitControl( props ) {
 			<div className="gblocks-unit-control__input" ref={ wrapperRef }>
 				<TextControl
 					type="text"
-					value={ numericValue }
+					value={ numericValue ? numericValue : '' }
 					placeholder={ placeholderValue }
 					id={ id }
 					min={ min }

@@ -65,9 +65,22 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 	}
 
 	const value = useMemo( () => !! typography.fontFamily ? { value: typography.fontFamily, label: typography.fontFamily } : '', [ typography ] );
-	const inGoogleFonts = useMemo( () => {
-		const googleFontItems = typographyOptions.fontFamily.find( ( item ) => 'google-fonts' === item.id );
-		return googleFontItems?.options.some( ( item ) => item.value === value.label );
+	const displayGoogleToggle = useMemo( () => {
+		const fontItemsList = typographyOptions.fontFamily.reduce( ( acc, obj ) => {
+			if ( obj.id === 'font-library' || obj.id === 'system-fonts' ) {
+				return acc.concat( obj.options );
+			}
+			return acc;
+		}, [] );
+		const displayToggle = ! fontItemsList?.some( ( item ) => item.value === value.label );
+		if ( ! displayToggle ) {
+			setAttributes( {
+				googleFont: false,
+				fontFamilyFallback: '',
+				googleFontVariants: '',
+			} );
+		}
+		return displayToggle;
 	}, [ typographyOptions, value ] );
 
 	return (
@@ -93,7 +106,7 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 
 			{ !! typography.fontFamily && ! generateBlocksInfo.disableGoogleFonts &&
 				<>
-					{ inGoogleFonts &&
+					{ displayGoogleToggle &&
 						<ToggleControl
 							label={ __( 'Use Google Fonts API', 'generateblocks' ) }
 							checked={ !! googleFont }
@@ -114,7 +127,7 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 						/>
 					}
 
-					{ !! googleFont &&
+					{ !! googleFont && displayGoogleToggle &&
 						<>
 							<TextControl
 								label={ __( 'Font fallback', 'generateblocks' ) }
