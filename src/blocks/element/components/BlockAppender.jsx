@@ -6,17 +6,34 @@ import { Button, Icon, Tooltip } from '@wordpress/components';
 import getIcon from '../../../utils/get-icon';
 import { applyFilters } from '@wordpress/hooks';
 import { plus } from '@wordpress/icons';
+import { getElementType } from '../block-types';
 
 export default ( { clientId, isSelected, attributes } ) => {
 	const { isBlockPreview } = attributes;
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 	const hasChildBlocks = 0 < innerBlocksCount;
 	const { selectBlock } = useDispatch( 'core/block-editor' );
+	const { tagName } = attributes;
 
 	let appender = false;
+	let showAppender = true;
 
 	if ( isBlockPreview ) {
-		return false;
+		showAppender = false;
+	}
+
+	if ( 'button' === getElementType( tagName ) || 'heading' === getElementType( tagName ) ) {
+		showAppender = false;
+	}
+
+	showAppender = applyFilters(
+		'generateblocks.editor.showElementAppender',
+		showAppender,
+		{ clientId, isSelected, attributes }
+	);
+
+	if ( ! showAppender ) {
+		return null;
 	}
 
 	function ButtonBlockAppender() {

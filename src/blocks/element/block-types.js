@@ -28,7 +28,16 @@ export const paragraphTagNames = [
 	'p',
 ];
 
-export function getBlockType( tagName ) {
+export const textTagNames = [
+	'span',
+];
+
+export const listTagNames = [
+	'ul',
+	'ol',
+];
+
+export function getElementType( tagName ) {
 	if ( containerTagNames.includes( tagName ) ) {
 		return 'container';
 	}
@@ -43,6 +52,14 @@ export function getBlockType( tagName ) {
 
 	if ( paragraphTagNames.includes( tagName ) ) {
 		return 'paragraph';
+	}
+
+	if ( textTagNames.includes( tagName ) ) {
+		return 'text';
+	}
+
+	if ( listTagNames.includes( tagName ) ) {
+		return 'list';
 	}
 
 	return tagName;

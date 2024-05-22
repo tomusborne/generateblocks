@@ -1,8 +1,8 @@
 {
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
-    "name": "generateblocks/text",
-    "title": "Text",
+    "name": "generateblocks/html-render",
+    "title": "HTML Render",
     "category": "generateblocks",
     "description": "A text element where you can choose your own tag name, content, and styles.",
     "keywords": [ "text", "heading", "headline", "paragraph" ],
@@ -12,14 +12,14 @@
         "uniqueId": {
             "type": "string"
         },
-		"tagName": {
+		"html": {
 			"type": "string",
-			"default": ""
+			"source": "html",
+			"selector": ".gb-html"
 		},
-		"content": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": "p,h1,h2,h3,h4,h5,h6,div,li,span,button,a"
+		"htmlType": {
+			"type": "string",
+			"default": "icon"
 		},
 		"styles": {
 			"type": "object"

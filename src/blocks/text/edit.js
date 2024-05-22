@@ -17,6 +17,9 @@ import { DynamicTagBlockToolbar } from '../../dynamic-tags/components/DynamicTag
 import getIcon from '../../utils/get-icon/index.js';
 import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
+import { useBlockParent } from '../../hooks/useBlockParent.js';
+import { getElementType } from '../element/block-types.js';
+import { useTagNameCheck } from '../../hooks/useTagNameCheck.js';
 
 function EditBlock( props ) {
 	const {
@@ -38,6 +41,19 @@ function EditBlock( props ) {
 		htmlAttributes = [],
 	} = attributes;
 
+	const { getStyles } = useSelect( stylesStore );
+	const { addStyle } = useDispatch( stylesStore );
+	const updateEditorCSS = useUpdateEditorStyleCSS();
+	const tagNameCheck = useTagNameCheck();
+	const blockParent = useBlockParent();
+	const parentElementType = useMemo( () => {
+		if ( ! blockParent ) {
+			return null;
+		}
+
+		return getElementType( blockParent.attributes.tagName );
+	}, [ blockParent?.name ] );
+
 	useEffect( () => {
 		if ( ! tagName ) {
 			setAttributes( { tagName: 'span' } );
@@ -48,6 +64,7 @@ function EditBlock( props ) {
 	const tagNameOptions = tagNames.map( ( tag ) => ( {
 		label: tag,
 		value: tag,
+		disabled: ! tagNameCheck( tag ).isValid,
 	} ) );
 
 	const contentValue = useMemo( () => {
@@ -59,9 +76,6 @@ function EditBlock( props ) {
 	}, [ dynamicTagValue, content ] );
 
 	const classNames = [];
-	const { getStyles } = useSelect( stylesStore );
-	const { addStyle } = useDispatch( stylesStore );
-	const updateEditorCSS = useUpdateEditorStyleCSS();
 
 	if ( className ) {
 		classNames.push( className );
@@ -118,6 +132,18 @@ function EditBlock( props ) {
 
 		updateEditorCSS( selector, css );
 	}, [ css, selector ] );
+
+	useEffect( () => {
+		if ( 'generateblocks/text' !== blockParent?.name && 'generateblocks/element' !== blockParent?.name ) {
+			return;
+		}
+
+		const tagNameValidity = tagNameCheck( tagName );
+
+		if ( ! tagNameValidity.isValid ) {
+			setAttributes( { tagName: tagNameValidity.validTagName ?? 'span' } );
+		}
+	}, [ tagName, parentElementType ] );
 
 	const { style = '', ...otherAttributes } = htmlAttributes;
 	const inlineStyleObject = convertInlineStyleStringToObject( style );
