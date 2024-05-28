@@ -1,6 +1,6 @@
 import { BaseControl, TextControl, ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
-import { Fragment, useMemo } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import googleFonts from '../google-fonts.json';
 import typographyOptions from '../options';
 import AdvancedSelect from '../../../../../components/advanced-select';
@@ -17,6 +17,7 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 		const fontFamilyOptions = typographyOptions.fontFamily;
 		const googleFontFamilyOptions = {
 			label: __( 'Google Fonts', 'generateblocks' ),
+			id: 'google-fonts',
 			options: [],
 		};
 
@@ -63,7 +64,24 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 		}
 	}
 
-	const value = !! typography.fontFamily ? { value: typography.fontFamily, label: typography.fontFamily } : '';
+	const value = useMemo( () => !! typography.fontFamily ? { value: typography.fontFamily, label: typography.fontFamily } : '', [ typography ] );
+	const displayGoogleToggle = useMemo( () => {
+		const fontItemsList = typographyOptions.fontFamily.reduce( ( acc, obj ) => {
+			if ( obj.id === 'font-library' || obj.id === 'system-fonts' ) {
+				return acc.concat( obj.options );
+			}
+			return acc;
+		}, [] );
+		const displayToggle = ! fontItemsList?.some( ( item ) => item.value === value.label );
+		if ( ! displayToggle ) {
+			setAttributes( {
+				googleFont: false,
+				fontFamilyFallback: '',
+				googleFontVariants: '',
+			} );
+		}
+		return displayToggle;
+	}, [ typographyOptions, value ] );
 
 	return (
 		<>
@@ -80,32 +98,36 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 					isCreatable
 					isClearable
 					formatCreateLabel={ ( input ) => ( `Add "${ input }"` ) }
-					onChange={ ( option ) => onFontChange( option?.value || '' ) }
+					onChange={ ( option ) => {
+						onFontChange( option?.value || '' );
+					} }
 				/>
 			</BaseControl>
 
 			{ !! typography.fontFamily && ! generateBlocksInfo.disableGoogleFonts &&
-				<Fragment>
-					<ToggleControl
-						label={ __( 'Use Google Fonts API', 'generateblocks' ) }
-						checked={ !! googleFont }
-						onChange={ ( newGoogleFontValue ) => {
-							setAttributes( {
-								googleFont: newGoogleFontValue,
-							} );
+				<>
+					{ displayGoogleToggle &&
+						<ToggleControl
+							label={ __( 'Use Google Fonts API', 'generateblocks' ) }
+							checked={ !! googleFont }
+							onChange={ ( newGoogleFontValue ) => {
+								setAttributes( {
+									googleFont: newGoogleFontValue,
+								} );
 
-							if ( newGoogleFontValue ) {
-								if ( typeof googleFonts[ typography.fontFamily ] !== 'undefined' ) {
-									setAttributes( {
-										fontFamilyFallback: googleFonts[ typography.fontFamily ].fallback,
-										googleFontVariants: googleFonts[ typography.fontFamily ].weight.join( ', ' ),
-									} );
+								if ( newGoogleFontValue ) {
+									if ( typeof googleFonts[ typography.fontFamily ] !== 'undefined' ) {
+										setAttributes( {
+											fontFamilyFallback: googleFonts[ typography.fontFamily ].fallback,
+											googleFontVariants: googleFonts[ typography.fontFamily ].weight.join( ', ' ),
+										} );
+									}
 								}
-							}
-						} }
-					/>
+							} }
+						/>
+					}
 
-					{ !! googleFont &&
+					{ !! googleFont && displayGoogleToggle &&
 						<>
 							<TextControl
 								label={ __( 'Font fallback', 'generateblocks' ) }
@@ -130,7 +152,7 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 							/>
 						</>
 					}
-				</Fragment>
+				</>
 			}
 		</>
 	);

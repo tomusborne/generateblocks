@@ -1733,6 +1733,7 @@ function generateblocks_get_font_family_list() {
 		[
 			[
 				'label' => __( 'System Fonts', 'generateblocks' ),
+				'id' => 'system-fonts',
 				'options' => [
 					[
 						'value' => 'Arial',
