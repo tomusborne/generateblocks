@@ -1,6 +1,7 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { __ } from '@wordpress/i18n';
 import { PluginSidebar, store as editPostStore } from '@wordpress/edit-post';
+import { PluginSidebar as SiteEditorPluginSidebar } from '@wordpress/edit-site';
 import { applyFilters } from '@wordpress/hooks';
 import { useState } from '@wordpress/element';
 import './editor.scss';
@@ -42,12 +43,15 @@ function SidebarHeader( props ) {
 	);
 }
 
-function EditorSidebar() {
+function EditorSidebar( { context } ) {
 	const [ activePanel, setActivePanel ] = useState( '' );
 	const { openGeneralSidebar } = useDispatch( editPostStore );
+	const Sidebar = 'site-editor' === context
+		? SiteEditorPluginSidebar
+		: PluginSidebar;
 
 	return (
-		<PluginSidebar
+		<Sidebar
 			name="gblocks-editor-sidebar"
 			className="gblocks-editor-sidebar"
 			title={ __( 'GenerateBlocks', 'generateblocks-pro' ) }
@@ -76,10 +80,14 @@ function EditorSidebar() {
 				activePanel={ activePanel }
 				setActivePanel={ setActivePanel }
 			/>
-		</PluginSidebar>
+		</Sidebar>
 	);
 }
 
 registerPlugin( 'gblocks-editor-sidebar', {
-	render: EditorSidebar,
+	render: () => <EditorSidebar context="post-editor" />,
+} );
+
+registerPlugin( 'gblocks-site-editor-sidebar', {
+	render: () => <EditorSidebar context="site-editor" />,
 } );
