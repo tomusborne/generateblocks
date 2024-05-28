@@ -1221,6 +1221,10 @@ function generateblocks_add_layout_css( $css, $settings, $device = '' ) {
 		'position' => 'position',
 		'overflow-x' => 'overflowX',
 		'overflow-y' => 'overflowY',
+		'grid-template-columns' => 'gridTemplateColumns',
+		'grid-template-rows' => 'gridTemplateRows',
+		'grid-column' => 'gridColumn',
+		'grid-row' => 'gridRow',
 	];
 
 	foreach ( $options as $property => $option ) {
@@ -1651,6 +1655,10 @@ function generateblocks_with_global_defaults( $defaults ) {
 		'overflowX',
 		'overflowY',
 		'zindex',
+		'gridTemplateColumns',
+		'gridTemplateRows',
+		'gridColumn',
+		'gridRow',
 	];
 
 	$flex_child = [
