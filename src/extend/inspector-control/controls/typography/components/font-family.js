@@ -48,7 +48,10 @@ export default function FontFamily( { attributes, setAttributes, label } ) {
 			},
 		} );
 
-		if ( ! generateBlocksInfo.disableGoogleFonts && typeof googleFonts[ value ] !== 'undefined' ) {
+		const fontLibraryItems = typographyOptions.fontFamily.find( ( item ) => 'font-library' === item.id );
+		const isFontLibraryItem = fontLibraryItems?.options.some( ( item ) => item.value === value );
+
+		if ( ! generateBlocksInfo.disableGoogleFonts && typeof googleFonts[ value ] !== 'undefined' && ! isFontLibraryItem ) {
 			setAttributes( {
 				googleFont: true,
 				fontFamilyFallback: googleFonts[ value ].fallback,
