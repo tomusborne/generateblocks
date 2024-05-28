@@ -42,6 +42,7 @@ registerBlockType( 'generateblocks/grid', {
 	supports: {
 		className: false,
 		html: false,
+		inserter: false,
 	},
 	edit: editGridContainer,
 	save: () => {

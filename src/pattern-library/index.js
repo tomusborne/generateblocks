@@ -39,7 +39,10 @@ function PatternLibrary( content, { activePanel } ) {
 					onRequestClose={ () => setIsOpen( false ) }
 				>
 					<LibraryProvider>
-						<LibraryLayout closeModal={ () => setIsOpen( false ) } />
+						<LibraryLayout
+							closeModal={ () => setIsOpen( false ) }
+							readOnly={ false }
+						/>
 					</LibraryProvider>
 				</Modal>
 			) }

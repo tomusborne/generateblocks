@@ -1,4 +1,4 @@
-export default function isFlexItem( props ) {
+export default function isFlexLayout( props ) {
 	const {
 		device,
 		display,

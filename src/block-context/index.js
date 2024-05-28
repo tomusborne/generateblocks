@@ -13,7 +13,6 @@ import getIconAttributes from '../extend/inspector-control/controls/icon/attribu
 import getBackgroundGradientAttributes from '../extend/inspector-control/controls/background-panel/attributes';
 import getLayoutAttributes from '../extend/inspector-control/controls/layout/attributes';
 import getSizingAttributes from '../extend/inspector-control/controls/sizing/attributes';
-import getFlexChildAttributes from '../extend/inspector-control/controls/flex-child-panel/attributes';
 import { addFilter, applyFilters } from '@wordpress/hooks';
 import getBorderAttributes from '../extend/inspector-control/controls/borders/attributes';
 
@@ -97,10 +96,6 @@ export function getBlockAttributes( blockAttributes, context, defaults ) {
 
 	if ( context.supports.layout.enabled ) {
 		attributes = Object.assign( {}, attributes, getLayoutAttributes( defaults ) );
-	}
-
-	if ( context.supports.flexChildPanel.enabled ) {
-		attributes = Object.assign( {}, attributes, getFlexChildAttributes( defaults ) );
 	}
 
 	if ( context.supports.sizingPanel.enabled ) {
