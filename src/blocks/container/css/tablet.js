@@ -3,7 +3,7 @@ import buildCSS from '../../../utils/build-css';
 import valueWithUnit from '../../../utils/value-with-unit';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
-import FlexChildCSS from '../../../extend/inspector-control/controls/layout/components/FlexChildCSS';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 

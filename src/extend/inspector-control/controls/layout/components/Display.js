@@ -15,7 +15,6 @@ const Display = function Display( { value, onChange, label } ) {
 				{ label: 'Flex', value: 'flex' },
 				{ label: 'Inline Flex', value: 'inline-flex' },
 				{ label: 'Inline', value: 'inline' },
-				{ label: 'Grid', value: 'grid' },
 			] }
 			value={ value }
 			onChange={ onChangeHandler }
