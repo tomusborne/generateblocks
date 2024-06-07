@@ -124,3 +124,16 @@ export const textColorControls = [
 		],
 	},
 ];
+
+export const shapeColorControls = [
+	{
+		label: 'Color',
+		items: [
+			{
+				tooltip: 'Color',
+				value: 'fill',
+				selector: 'svg',
+			},
+		],
+	},
+];

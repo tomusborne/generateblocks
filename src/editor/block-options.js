@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { Button, PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { ColorPicker } from '@edge22/components';
-import { containerColorControls, buttonColorControls, linkElementColorControls, textColorControls } from './design.js';
+import { containerColorControls, buttonColorControls, linkElementColorControls, textColorControls, shapeColorControls } from './design.js';
 import { addFilter } from '@wordpress/hooks';
 import DimensionsControl from '../components/dimensions/index.js';
 import { ColorPickerGroup } from '../components/color-picker-group/ColorPickerGroup.jsx';
@@ -386,6 +386,11 @@ function ShapeOptions( options, props ) {
 					onChange={ ( value ) => onStyleChange( 'height', value, '', 'svg' ) }
 				/>
 
+				<ColorPickerControls
+					items={ shapeColorControls }
+					getStyleValue={ getStyleValue }
+					onStyleChange={ onStyleChange }
+				/>
 				<MoreDesignOptions />
 			</PanelBody>
 
