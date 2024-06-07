@@ -536,7 +536,7 @@ function generateblocks_add_general_css( $css ) {
 	$css .= '.gb-container .wp-block-image img{vertical-align:middle;}';
 	$css .= '.gb-grid-wrapper .wp-block-image{margin-bottom:0;}';
 	$css .= '.gb-highlight{background:none;}';
-	$css .= '.gb-icon{line-height:0;}';
+	$css .= '.gb-shape{line-height:0;}';
 
 	return $css;
 }
@@ -555,7 +555,7 @@ function generateblocks_do_block_editor_styles( $editor_settings ) {
 	);
 
 	$editor_settings['styles'][] = array(
-		'css' => '.gb-icon{line-height:0;}',
+		'css' => '.gb-shape{line-height:0;}',
 	);
 
 	return $editor_settings;

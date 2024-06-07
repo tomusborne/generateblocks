@@ -36,7 +36,7 @@
 		"icon": {
 			"type": "string",
 			"source": "html",
-			"selector": ".gb-icon"
+			"selector": ".gb-shape"
 		},
 		"iconLocation": {
 			"type": "string",

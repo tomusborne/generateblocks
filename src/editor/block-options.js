@@ -335,3 +335,67 @@ addFilter(
 	'generateblocks/imageOptions',
 	ImageOptions
 );
+
+function ShapeOptions( options, props ) {
+	const {
+		getStyleValue,
+		onStyleChange,
+		name,
+		attributes,
+		setAttributes,
+	} = props;
+
+	const {
+		html,
+	} = attributes;
+
+	if ( 'generateblocks/shape' !== name ) {
+		return options;
+	}
+
+	return (
+		<>
+			<PanelBody>
+				<IconControl
+					value={ html }
+					onChange={ ( value ) => {
+						setAttributes( { html: value } );
+					} }
+					onClear={ () => {
+						setAttributes( { html: '' } );
+					} }
+					attributes={ attributes }
+				/>
+			</PanelBody>
+
+			<PanelBody
+				title={ __( 'Design', 'generateblocks' ) }
+				initialOpen={ true }
+			>
+				<UnitControl
+					id="width"
+					label={ __( 'Width', 'generateblocks' ) }
+					value={ getStyleValue( 'width', 'svg' ) }
+					onChange={ ( value ) => onStyleChange( 'width', value, '', 'svg' ) }
+				/>
+
+				<UnitControl
+					id="height"
+					label={ __( 'Height', 'generateblocks' ) }
+					value={ getStyleValue( 'height', 'svg' ) }
+					onChange={ ( value ) => onStyleChange( 'height', value, '', 'svg' ) }
+				/>
+
+				<MoreDesignOptions />
+			</PanelBody>
+
+			{ options }
+		</>
+	);
+}
+
+addFilter(
+	'generateblocks.editor.blockStyles',
+	'generateblocks/shapeOptions',
+	ShapeOptions
+);

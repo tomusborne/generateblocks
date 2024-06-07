@@ -1,9 +1,7 @@
-import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
+import { registerBlockType } from '@wordpress/blocks';
 import { Edit } from './edit';
 import metadata from './block.json';
-import getIcon from '../../utils/get-icon';
 import { Save } from './save';
-import { __ } from '@wordpress/i18n';
 
 export function shapesIcon() {
 	return (
@@ -14,23 +12,5 @@ export function shapesIcon() {
 registerBlockType( metadata.name, {
 	edit: Edit,
 	save: Save,
-	icon: getIcon( 'headline' ),
+	icon: shapesIcon,
 } );
-
-registerBlockVariation(
-	'generateblocks/html-render',
-	{
-		name: 'generateblocks/icon',
-		title: 'Icon',
-		description: __( 'A paragraph text element.', 'generateblocks' ),
-		icon: shapesIcon,
-		attributes: {
-			htmlType: 'icon',
-			styles: {
-				lineHeight: '0',
-			},
-		},
-		isActive: ( blockAttributes ) => 'icon' === blockAttributes.htmlType,
-		isDefault: true,
-	},
-);

@@ -164,9 +164,9 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
-			GENERATEBLOCKS_DIR . '/dist/blocks/html-render',
+			GENERATEBLOCKS_DIR . '/dist/blocks/shape',
 			[
-				'render_callback' => [ 'GenerateBlocks_Block_HTML_Render', 'render_block' ],
+				'render_callback' => [ 'GenerateBlocks_Block_Shape', 'render_block' ],
 			]
 		);
 	}

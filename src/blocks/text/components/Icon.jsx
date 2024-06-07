@@ -4,7 +4,7 @@ export function Icon( { icon } ) {
 	}
 
 	return <span
-		className="gb-icon"
+		className="gb-shape"
 		dangerouslySetInnerHTML={ { __html: icon } }
 	/>;
 }

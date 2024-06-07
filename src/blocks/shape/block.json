@@ -1,8 +1,8 @@
 {
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
-    "name": "generateblocks/html-render",
-    "title": "HTML Render",
+    "name": "generateblocks/shape",
+    "title": "Shape",
     "category": "generateblocks",
     "description": "A text element where you can choose your own tag name, content, and styles.",
     "keywords": [ "text", "heading", "headline", "paragraph" ],
@@ -15,11 +15,7 @@
 		"html": {
 			"type": "string",
 			"source": "html",
-			"selector": ".gb-html"
-		},
-		"htmlType": {
-			"type": "string",
-			"default": "icon"
+			"selector": ".gb-shape"
 		},
 		"styles": {
 			"type": "object"

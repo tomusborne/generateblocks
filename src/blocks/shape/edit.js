@@ -2,7 +2,6 @@ import { useBlockProps, InspectorControls, InspectorAdvancedControls } from '@wo
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
-import { withDynamicTag } from '../../hoc/withDynamicTag';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
@@ -11,9 +10,7 @@ import { defaultAtRules } from '../../utils/defaultAtRules.js';
 import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
-import { TextControl } from '@wordpress/components';
-import { __ } from '@wordpress/i18n';
-import sanitizeSVG from '../../utils/sanitize-svg';
+import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 
 function EditBlock( props ) {
 	const {
@@ -30,7 +27,7 @@ function EditBlock( props ) {
 		htmlAttributes = [],
 	} = attributes;
 
-	const classNames = [ 'gb-html' ];
+	const classNames = [ 'gb-shape' ];
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
@@ -40,7 +37,7 @@ function EditBlock( props ) {
 	}
 
 	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-html-${ uniqueId }` );
+		classNames.push( `gb-shape-${ uniqueId }` );
 	}
 
 	const selector = useMemo( () => {
@@ -48,7 +45,7 @@ function EditBlock( props ) {
 			return '';
 		}
 
-		return '.gb-html-' + uniqueId;
+		return '.gb-shape-' + uniqueId;
 	}, [ uniqueId ] );
 
 	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
@@ -99,12 +96,6 @@ function EditBlock( props ) {
 	return (
 		<>
 			<InspectorControls>
-				<TextControl
-					label={ __( 'HTML' ) }
-					value={ html }
-					onChange={ ( value ) => setAttributes( { html: value } ) }
-					onBlur={ () => setAttributes( { html: sanitizeSVG( html ) } ) }
-				/>
 				<BlockStyles
 					selector={ selector }
 					onStyleChange={ onStyleChange }
@@ -138,7 +129,7 @@ function EditBlock( props ) {
 			<span
 				{ ...blockProps }
 				dangerouslySetInnerHTML={
-					{ __html: html }
+					{ __html: sanitizeSVG( html ) }
 
 				}
 			/>
@@ -147,7 +138,6 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
-	withDynamicTag,
 	withUniqueId
 )( EditBlock );
 

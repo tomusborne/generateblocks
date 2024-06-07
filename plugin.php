@@ -67,7 +67,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-loop.php';
 // Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-text.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-element.php';
-require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-html-render.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-shape.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**

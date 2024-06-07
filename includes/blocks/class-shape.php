@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The Element block.
  */
-class GenerateBlocks_Block_HTML_Render {
+class GenerateBlocks_Block_Shape {
 	/**
 	 * Render the Element block.
 	 *
