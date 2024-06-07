@@ -28,13 +28,15 @@ export const paragraphTagNames = [
 	'p',
 ];
 
-export const textTagNames = [
+export const inlineTextTagNames = [
 	'span',
 ];
 
-export const listTagNames = [
-	'ul',
-	'ol',
+export const textTagNames = [
+	...headingTagNames,
+	...buttonTagNames,
+	...paragraphTagNames,
+	...inlineTextTagNames,
 ];
 
 export function getElementType( tagName ) {
@@ -50,17 +52,9 @@ export function getElementType( tagName ) {
 		return 'button';
 	}
 
-	if ( paragraphTagNames.includes( tagName ) ) {
-		return 'paragraph';
-	}
-
-	if ( textTagNames.includes( tagName ) ) {
-		return 'text';
-	}
-
-	if ( listTagNames.includes( tagName ) ) {
-		return 'list';
-	}
-
 	return tagName;
+}
+
+export function isTextElement( tagName ) {
+	return textTagNames.includes( tagName );
 }

@@ -22,7 +22,7 @@ export function withDynamicTag( WrappedComponent ) {
 				return htmlAttributes?.src;
 			}
 
-			return content;
+			return content?.text ?? content;
 		};
 		const contentValue = getContentValue();
 

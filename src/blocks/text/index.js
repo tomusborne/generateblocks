@@ -3,7 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { Edit } from './edit';
 import metadata from './block.json';
 import { Save } from './save';
-import { getElementType } from '../element/block-types';
+import { getElementType } from '../element/utils/getElementType';
 
 export function textIcon() {
 	return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><line x1="128" y1="56" x2="128" y2="200" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><polyline points="56 88 56 56 200 56 200 88" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><line x1="96" y1="200" x2="160" y2="200" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /></svg>;
@@ -26,21 +26,6 @@ registerBlockType( metadata.name, {
 	save: Save,
 	icon: textIcon,
 } );
-
-registerBlockVariation(
-	'generateblocks/text',
-	{
-		name: 'generateblocks/paragraph',
-		title: 'Paragraph',
-		description: __( 'A paragraph text element.', 'generateblocks' ),
-		icon: paragraphIcon,
-		attributes: {
-			tagName: 'p',
-		},
-		isActive: ( blockAttributes ) => 'paragraph' === getElementType( blockAttributes.tagName ),
-		isDefault: true,
-	},
-);
 
 registerBlockVariation(
 	'generateblocks/text',

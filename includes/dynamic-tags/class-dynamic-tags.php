@@ -115,6 +115,9 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			[
 				'methods'  => 'GET',
 				'callback' => [ $this, 'get_dynamic_tag' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
 			]
 		);
 
@@ -124,6 +127,9 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			[
 				'methods'  => 'GET',
 				'callback' => [ $this, 'get_dynamic_tags' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
 			]
 		);
 	}

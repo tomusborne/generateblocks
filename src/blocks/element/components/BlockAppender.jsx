@@ -6,7 +6,8 @@ import { Button, Icon, Tooltip } from '@wordpress/components';
 import getIcon from '../../../utils/get-icon';
 import { applyFilters } from '@wordpress/hooks';
 import { plus } from '@wordpress/icons';
-import { getElementType } from '../block-types';
+import { getElementType } from '../utils/getElementType';
+import classNames from 'classnames';
 
 export default ( { clientId, isSelected, attributes } ) => {
 	const { isBlockPreview } = attributes;
@@ -19,10 +20,6 @@ export default ( { clientId, isSelected, attributes } ) => {
 	let showAppender = true;
 
 	if ( isBlockPreview ) {
-		showAppender = false;
-	}
-
-	if ( 'button' === getElementType( tagName ) || 'heading' === getElementType( tagName ) ) {
 		showAppender = false;
 	}
 

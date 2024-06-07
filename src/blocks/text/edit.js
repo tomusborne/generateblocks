@@ -1,5 +1,4 @@
 import { __ } from '@wordpress/i18n';
-import { createBlock, getBlockType } from '@wordpress/blocks';
 import { RichText, useBlockProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
 import { Platform, useEffect, useMemo } from '@wordpress/element';
 import { SelectControl, ToolbarButton } from '@wordpress/components';
@@ -17,9 +16,7 @@ import { DynamicTagBlockToolbar } from '../../dynamic-tags/components/DynamicTag
 import getIcon from '../../utils/get-icon/index.js';
 import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
-import { useBlockParent } from '../../hooks/useBlockParent.js';
-import { getElementType } from '../element/block-types.js';
-import { useTagNameCheck } from '../../hooks/useTagNameCheck.js';
+import { TextElement } from './components/TextElement.jsx';
 
 function EditBlock( props ) {
 	const {
@@ -27,8 +24,8 @@ function EditBlock( props ) {
 		setAttributes,
 		mergeBlocks,
 		onReplace,
-		clientId,
 		dynamicTagValue,
+		isSelected,
 	} = props;
 
 	const {
@@ -39,20 +36,13 @@ function EditBlock( props ) {
 		styles = {},
 		css,
 		htmlAttributes = [],
+		icon = '',
+		iconLocation,
 	} = attributes;
 
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
-	const tagNameCheck = useTagNameCheck();
-	const blockParent = useBlockParent();
-	const parentElementType = useMemo( () => {
-		if ( ! blockParent ) {
-			return null;
-		}
-
-		return getElementType( blockParent.attributes.tagName );
-	}, [ blockParent?.name ] );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -60,12 +50,25 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
-	const tagNames = getBlockType( 'generateblocks/text' )?.attributes?.content?.selector?.split( ',' );
-	const tagNameOptions = tagNames.map( ( tag ) => ( {
-		label: tag,
-		value: tag,
-		disabled: ! tagNameCheck( tag ).isValid,
-	} ) );
+	const tagNames = [
+		'p',
+		'span',
+		'div',
+		'h1',
+		'h2',
+		'h3',
+		'h4',
+		'h5',
+		'h6',
+		'a',
+		'button',
+	];
+	const tagNameOptions = tagNames.map( ( tag ) => {
+		return {
+			label: tag,
+			value: tag,
+		};
+	} ).filter( Boolean );
 
 	const contentValue = useMemo( () => {
 		if ( dynamicTagValue ) {
@@ -85,9 +88,13 @@ function EditBlock( props ) {
 		classNames.push( `gb-text-${ uniqueId }` );
 	}
 
+	if ( ! icon ) {
+		classNames.push( 'gb-text' );
+	}
+
 	useEffect( () => {
 		if ( ! tagName ) {
-			setAttributes( { tagName: 'div' } );
+			setAttributes( { tagName: 'p' } );
 		}
 	}, [ tagName ] );
 
@@ -133,19 +140,7 @@ function EditBlock( props ) {
 		updateEditorCSS( selector, css );
 	}, [ css, selector ] );
 
-	useEffect( () => {
-		if ( 'generateblocks/text' !== blockParent?.name && 'generateblocks/element' !== blockParent?.name ) {
-			return;
-		}
-
-		const tagNameValidity = tagNameCheck( tagName );
-
-		if ( ! tagNameValidity.isValid ) {
-			setAttributes( { tagName: tagNameValidity.validTagName ?? 'span' } );
-		}
-	}, [ tagName, parentElementType ] );
-
-	const { style = '', ...otherAttributes } = htmlAttributes;
+	const { style = '', href, ...otherAttributes } = htmlAttributes;
 	const inlineStyleObject = convertInlineStyleStringToObject( style );
 	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
 
@@ -155,6 +150,9 @@ function EditBlock( props ) {
 			...combinedAttributes,
 		}
 	);
+
+	const componentTagName = ! icon && tagName ? tagName : 'span';
+	const componentBlockProps = ! icon ? blockProps : {};
 
 	return (
 		<>
@@ -216,39 +214,26 @@ function EditBlock( props ) {
 					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</InspectorAdvancedControls>
-			<RichText
-				identifier="content"
-				tagName={ tagName || 'span' }
-				value={ contentValue }
-				onChange={ ( value ) => setAttributes( { content: value } ) }
-				onMerge={ mergeBlocks }
-				onSplit={ ( value, isOriginal ) => {
-					let block;
-
-					if ( isOriginal || value ) {
-						block = createBlock( 'generateblocks/text', {
-							...attributes,
-							content: value,
-						} );
-					} else {
-						block = createBlock(
-							'generateblocks/text'
-						);
-					}
-
-					if ( isOriginal ) {
-						block.clientId = clientId;
-					}
-
-					return block;
-				} }
-				onReplace={ onReplace }
-				onRemove={ () => onReplace( [] ) }
-				placeholder={ __( 'Text' ) }
-				withoutInteractiveFormatting={ 'a' === tagName || 'button' === tagName }
-				{ ...( Platform.isNative && { deleteEnter: true } ) } // setup RichText on native mobile to delete the "Enter" key as it's handled by the JS/RN side
-				{ ...blockProps }
-			/>
+			<TextElement
+				icon={ icon }
+				iconLocation={ iconLocation }
+				tagName={ tagName }
+				blockProps={ blockProps }
+			>
+				<RichText
+					identifier="content"
+					tagName={ componentTagName }
+					value={ contentValue }
+					onChange={ ( value ) => setAttributes( { content: value } ) }
+					onMerge={ mergeBlocks }
+					onReplace={ onReplace }
+					onRemove={ () => onReplace( [] ) }
+					placeholder={ icon && ! isSelected ? '' : __( 'Text', 'generateblocks' ) }
+					withoutInteractiveFormatting={ 'a' === tagName || 'button' === tagName }
+					{ ...( Platform.isNative && { deleteEnter: true } ) } // setup RichText on native mobile to delete the "Enter" key as it's handled by the JS/RN side
+					{ ...componentBlockProps }
+				/>
+			</TextElement>
 		</>
 	);
 }

@@ -9,6 +9,7 @@ import UnitControl from '../components/unit-control/index.js';
 import { URLControls } from '../components/url-controls/index.js';
 import { styles } from '@wordpress/icons';
 import { ImageUpload } from '../components/image-upload/ImageUpload.jsx';
+import { IconControl } from '../components/icon-control';
 
 function Padding( { getStyleValue, onStyleChange } ) {
 	const paddingTop = getStyleValue( 'paddingTop' );
@@ -43,45 +44,68 @@ function MoreDesignOptions() {
 	);
 }
 
+function ColorPickerControls( { items, getStyleValue, onStyleChange } ) {
+	return (
+		<>
+			{ items.map( ( control ) => {
+				return (
+					<ColorPickerGroup label={ control.label } key={ control.label }>
+						{ control.items.map( ( item ) => {
+							return (
+								<ColorPicker
+									key={ item.tooltip }
+									tooltip={ item.tooltip }
+									value={ getStyleValue( item.value, item.selector ) }
+									onChange={ ( value ) => onStyleChange( item.value, value, '', item.selector ) }
+								/>
+							);
+						}
+						) }
+					</ColorPickerGroup>
+				);
+			} ) }
+		</>
+	);
+}
+
 export function ContainerOptions( options, props ) {
 	const {
 		getStyleValue,
 		onStyleChange,
 		name,
 		attributes,
+		setAttributes,
 	} = props;
 
 	const {
 		tagName,
+		htmlAttributes = {},
 	} = attributes;
 
-	if ( 'generateblocks/element' !== name || 'a' === tagName ) {
+	if ( 'generateblocks/element' !== name ) {
 		return options;
 	}
 
 	return (
 		<>
+			{ 'a' === tagName && (
+				<PanelBody>
+					<URLControls
+						setAttributes={ setAttributes }
+						htmlAttributes={ htmlAttributes }
+					/>
+				</PanelBody>
+			) }
+
 			<PanelBody
 				title={ __( 'Design', 'generateblocks' ) }
 				initialOpen={ true }
 			>
-				{ containerColorControls.map( ( control ) => {
-					return (
-						<ColorPickerGroup label={ control.label } key={ control.label }>
-							{ control.items.map( ( item ) => {
-								return (
-									<ColorPicker
-										key={ item.tooltip }
-										tooltip={ item.tooltip }
-										value={ getStyleValue( item.value, item.selector ) }
-										onChange={ ( value ) => onStyleChange( item.value, value, '', item.selector ) }
-									/>
-								);
-							}
-							) }
-						</ColorPickerGroup>
-					);
-				} ) }
+				<ColorPickerControls
+					items={ 'a' === tagName ? linkElementColorControls : containerColorControls }
+					getStyleValue={ getStyleValue }
+					onStyleChange={ onStyleChange }
+				/>
 
 				<Padding
 					getStyleValue={ getStyleValue }
@@ -102,7 +126,7 @@ addFilter(
 	ContainerOptions
 );
 
-export function LinkElementOptions( options, props ) {
+export function TextOptions( options, props ) {
 	const {
 		getStyleValue,
 		onStyleChange,
@@ -114,76 +138,7 @@ export function LinkElementOptions( options, props ) {
 	const {
 		htmlAttributes,
 		tagName,
-	} = attributes;
-
-	if ( 'generateblocks/element' !== name || 'a' !== tagName ) {
-		return options;
-	}
-
-	return (
-		<>
-			{ 'a' === tagName && (
-				<PanelBody>
-					<URLControls
-						setAttributes={ setAttributes }
-						htmlAttributes={ htmlAttributes }
-					/>
-				</PanelBody>
-			) }
-
-			<PanelBody
-				title={ __( 'Design', 'generateblocks' ) }
-				initialOpen={ true }
-			>
-				{ linkElementColorControls.map( ( control ) => {
-					return (
-						<ColorPickerGroup label={ control.label } key={ control.label }>
-							{ control.items.map( ( item ) => {
-								return (
-									<ColorPicker
-										key={ item.tooltip }
-										tooltip={ item.tooltip }
-										value={ getStyleValue( item.value, item.selector ) }
-										onChange={ ( value ) => onStyleChange( item.value, value, '', item.selector ) }
-									/>
-								);
-							}
-							) }
-						</ColorPickerGroup>
-					);
-				} ) }
-
-				<Padding
-					getStyleValue={ getStyleValue }
-					onStyleChange={ onStyleChange }
-				/>
-
-				<MoreDesignOptions />
-			</PanelBody>
-
-			{ options }
-		</>
-	);
-}
-
-addFilter(
-	'generateblocks.editor.blockStyles',
-	'generateblocks/linkElementOptions',
-	LinkElementOptions
-);
-
-export function ButtonOptions( options, props ) {
-	const {
-		getStyleValue,
-		onStyleChange,
-		name,
-		attributes,
-		setAttributes,
-	} = props;
-
-	const {
-		htmlAttributes,
-		tagName,
+		icon,
 	} = attributes;
 
 	if ( 'generateblocks/text' !== name ) {
@@ -207,24 +162,13 @@ export function ButtonOptions( options, props ) {
 
 			<PanelBody
 				title={ __( 'Design', 'generateblocks' ) }
-				initialOpen={ true }
+				initialOpen={ false }
 			>
-				{ colorControls.map( ( control ) => {
-					return (
-						<ColorPickerGroup label={ control.label } key={ control.label }>
-							{ control.items.map( ( item ) => {
-								return (
-									<ColorPicker
-										key={ item.tooltip }
-										tooltip={ item.tooltip }
-										value={ getStyleValue( item.value, item.selector ) }
-										onChange={ ( value ) => onStyleChange( item.value, value, '', item.selector ) }
-									/>
-								);
-							} ) }
-						</ColorPickerGroup>
-					);
-				} ) }
+				<ColorPickerControls
+					items={ colorControls }
+					getStyleValue={ getStyleValue }
+					onStyleChange={ onStyleChange }
+				/>
 
 				<UnitControl
 					id="fontSize"
@@ -259,6 +203,22 @@ export function ButtonOptions( options, props ) {
 				<MoreDesignOptions />
 			</PanelBody>
 
+			<PanelBody
+				title={ __( 'Icon', 'generateblocks' ) }
+				initialOpen={ false }
+			>
+				<IconControl
+					value={ icon }
+					onChange={ ( value ) => {
+						setAttributes( { icon: value } );
+					} }
+					onClear={ () => {
+						setAttributes( { icon: '' } );
+					} }
+					attributes={ attributes }
+				/>
+			</PanelBody>
+
 			{ options }
 		</>
 	);
@@ -266,8 +226,8 @@ export function ButtonOptions( options, props ) {
 
 addFilter(
 	'generateblocks.editor.blockStyles',
-	'generateblocks/buttonOptions',
-	ButtonOptions
+	'generateblocks/textOptions',
+	TextOptions
 );
 
 function ImageOptions( options, props ) {
