@@ -2,6 +2,7 @@ import { createElement } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import classnames from 'classnames';
 import { store as blockEditorStore } from '@wordpress/block-editor';
+import { applyFilters } from '@wordpress/hooks';
 
 export default function RootElement( { name, clientId, align, children } ) {
 	const {
@@ -31,7 +32,7 @@ export default function RootElement( { name, clientId, align, children } ) {
 
 	const parentBlock = getBlockRootClientId( clientId );
 
-	if ( parentBlock ) {
+	if ( applyFilters( 'generateblocks.rootElement.disable', parentBlock, { name } ) ) {
 		return children;
 	}
 

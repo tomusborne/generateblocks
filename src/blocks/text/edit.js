@@ -16,7 +16,8 @@ import { DynamicTagBlockToolbar } from '../../dynamic-tags/components/DynamicTag
 import getIcon from '../../utils/get-icon/index.js';
 import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
-import { TextElement } from './components/TextElement.jsx';
+import { Icon } from './components/Icon.jsx';
+import RootElement from '../../components/root-element/index.js';
 
 function EditBlock( props ) {
 	const {
@@ -26,6 +27,8 @@ function EditBlock( props ) {
 		onReplace,
 		dynamicTagValue,
 		isSelected,
+		name,
+		clientId,
 	} = props;
 
 	const {
@@ -36,7 +39,7 @@ function EditBlock( props ) {
 		styles = {},
 		css,
 		htmlAttributes = [],
-		icon = '',
+		icon,
 		iconLocation,
 	} = attributes;
 
@@ -78,19 +81,23 @@ function EditBlock( props ) {
 		return content;
 	}, [ dynamicTagValue, content ] );
 
-	const classNames = [];
+	const classNames = useMemo( () => {
+		const classes = [];
 
-	if ( className ) {
-		classNames.push( className );
-	}
+		if ( className ) {
+			classes.push( className );
+		}
 
-	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-text-${ uniqueId }` );
-	}
+		if ( Object.keys( styles ).length > 0 ) {
+			classes.push( `gb-text-${ uniqueId }` );
+		}
 
-	if ( ! icon ) {
-		classNames.push( 'gb-text' );
-	}
+		if ( ! icon ) {
+			classes.push( 'gb-text' );
+		}
+
+		return classes;
+	}, [ className, styles, icon, uniqueId ] );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -151,8 +158,18 @@ function EditBlock( props ) {
 		}
 	);
 
-	const componentTagName = ! icon && tagName ? tagName : 'span';
-	const componentBlockProps = ! icon ? blockProps : {};
+	const TagNameWithIcon = tagName || 'span';
+	const richTextProps = {
+		identifier: content,
+		value: contentValue,
+		onChange: ( value ) => setAttributes( { content: value } ),
+		onMerge: mergeBlocks,
+		onReplace,
+		onRemove: () => onReplace( [] ),
+		placeholder: !! icon && ! isSelected ? '' : __( 'Text', 'generateblocks' ),
+		withoutInteractiveFormatting: 'a' === tagName || 'button' === tagName,
+		...( Platform.isNative && { deleteEnter: true } ), // setup RichText on native mobile to delete the "Enter" key as it's handled by the JS/RN side
+	};
 
 	return (
 		<>
@@ -214,26 +231,32 @@ function EditBlock( props ) {
 					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</InspectorAdvancedControls>
-			<TextElement
-				icon={ icon }
-				iconLocation={ iconLocation }
-				tagName={ tagName }
-				blockProps={ blockProps }
+
+			<RootElement
+				name={ name }
+				clientId={ clientId }
 			>
-				<RichText
-					identifier="content"
-					tagName={ componentTagName }
-					value={ contentValue }
-					onChange={ ( value ) => setAttributes( { content: value } ) }
-					onMerge={ mergeBlocks }
-					onReplace={ onReplace }
-					onRemove={ () => onReplace( [] ) }
-					placeholder={ icon && ! isSelected ? '' : __( 'Text', 'generateblocks' ) }
-					withoutInteractiveFormatting={ 'a' === tagName || 'button' === tagName }
-					{ ...( Platform.isNative && { deleteEnter: true } ) } // setup RichText on native mobile to delete the "Enter" key as it's handled by the JS/RN side
-					{ ...componentBlockProps }
-				/>
-			</TextElement>
+				<>
+					{ !! icon && (
+						<TagNameWithIcon { ...blockProps }>
+							{ 'before' === iconLocation && ( <Icon icon={ icon } /> ) }
+							<RichText
+								{ ...richTextProps }
+								tagName="span"
+							/>
+							{ 'after' === iconLocation && ( <Icon icon={ icon } /> ) }
+						</TagNameWithIcon>
+					) }
+
+					{ ! icon && (
+						<RichText
+							{ ...richTextProps }
+							{ ...blockProps }
+							tagName={ tagName || 'span' }
+						/>
+					) }
+				</>
+			</RootElement>
 		</>
 	);
 }

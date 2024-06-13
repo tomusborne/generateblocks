@@ -68,6 +68,24 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['image'][] = $block['attrs'];
 			}
 
+			if ( 'generateblocks/text' === $block['blockName'] ) {
+				$data['text'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/element' === $block['blockName'] ) {
+				$data['element'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/shape' === $block['blockName'] ) {
+				$data['shape'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/void-element' === $block['blockName'] ) {
+				$data['void-element'][] = $block['attrs'];
+			}
+
+			$data = apply_filters( 'generateblocks_modify_block_data', $data, $block );
+
 			if ( 'core/block' === $block['blockName'] ) {
 				if ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) {
 					$atts = $block['attrs'];
@@ -1064,7 +1082,17 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 		return;
 	}
 
-	$blocks = [
+	$blocks = apply_filters(
+		'generateblocks_dynamic_css_blocks',
+		[
+			'text'         => 'GenerateBlocks_Block_Text',
+			'element'      => 'GenerateBlocks_Block_Element',
+			'void-element' => 'GenerateBlocks_Block_Void_Element',
+			'shape'        => 'GenerateBlocks_Block_Shape',
+		]
+	);
+
+	$legacy_blocks = [
 		'grid' => 'GenerateBlocks_Block_Grid',
 		'container' => 'GenerateBlocks_Block_Container',
 		'button-container' => 'GenerateBlocks_Block_Button_Container',
@@ -1073,24 +1101,51 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 		'image' => 'GenerateBlocks_Block_Image',
 	];
 
+	$all_blocks = array_merge(
+		$blocks,
+		$legacy_blocks
+	);
+
 	foreach ( $data as $name => $blockData ) {
-		if ( isset( $blocks[ $name ] ) ) {
+		if ( isset( $all_blocks[ $name ] ) ) {
 			if ( empty( $blockData ) ) {
 				continue;
 			}
 
-			foreach ( $blockData as $atts ) {
-				if ( ! isset( $atts['uniqueId'] ) ) {
+			foreach ( $blockData as $attributes ) {
+				$id = $attributes['uniqueId'] ?? '';
+
+				if ( ! $id ) {
 					continue;
 				}
 
-				if ( is_callable( [ $blocks[ $name ], 'get_css_data' ] ) ) {
-					if ( $store_block_id_only ) {
-						$blocks[ $name ]::store_block_id( $atts['uniqueId'] );
-					} elseif ( ! $blocks[ $name ]::block_id_exists( $atts['uniqueId'] ) ) {
-						generateblocks_add_to_css_data(
-							$blocks[ $name ]::get_css_data( $atts )
+				if ( $store_block_id_only ) {
+					$all_blocks[ $name ]::store_block_id( $id );
+				} elseif ( ! $all_blocks[ $name ]::block_id_exists( $id ) ) {
+					// Generate CSS for our block.
+					if ( isset( $blocks[ $name ] ) ) {
+						$css = $blocks[ $name ]::get_css( $attributes );
+						$css = wp_strip_all_tags( $css );
+
+						add_filter(
+							'generateblocks_css_output',
+							function( $output ) use ( $css ) {
+								return $output .= wp_strip_all_tags( $css );
+							}
 						);
+
+						if ( is_callable( [ $blocks[ $name ], 'enqueue_assets' ] ) ) {
+							$blocks[ $name ]::enqueue_assets();
+						}
+					}
+
+					// Generate CSS for our legacy block.
+					if ( isset( $legacy_blocks[ $name ] ) ) {
+						if ( is_callable( [ $legacy_blocks[ $name ], 'get_css_data' ] ) ) {
+							generateblocks_add_to_css_data(
+								$legacy_blocks[ $name ]::get_css_data( $attributes )
+							);
+						}
 					}
 				}
 			}
@@ -1123,13 +1178,82 @@ function generateblocks_add_to_css_data( $data ) {
 }
 
 /**
- * Maybe add block CSS  if it hasn't already been added for this block.
+ * Maybe add block CSS if it hasn't already been added for this block.
  *
  * @since 1.6.0
  * @param string $content Our block content.
  * @param array  $data Block data.
  */
 function generateblocks_maybe_add_block_css( $content = '', $data = [] ) {
+	$legacy_blocks = [
+		'grid' => 'GenerateBlocks_Block_Grid',
+		'container' => 'GenerateBlocks_Block_Container',
+		'button-container' => 'GenerateBlocks_Block_Button_Container',
+		'button' => 'GenerateBlocks_Block_Button',
+		'headline' => 'GenerateBlocks_Block_Headline',
+		'image' => 'GenerateBlocks_Block_Image',
+	];
+
+	if ( in_array( $data['class_name'], $legacy_blocks ) ) {
+		return generateblocks_maybe_add_legacy_block_css( $content, $data );
+	}
+
+	$inline_style_override = apply_filters(
+		'generateblocks_do_inline_styles',
+		false,
+		[
+			'content' => $content,
+			'data' => $data,
+		]
+	);
+
+	$id = $data['attributes']['uniqueId'] ?? '';
+
+	if ( ! $id ) {
+		return $content;
+	}
+
+	if ( in_array( $id, $data['block_ids'] ) && ! $inline_style_override ) {
+		return $content;
+	}
+
+	if ( ! GenerateBlocks_Enqueue_CSS::can_enqueue() && ! $inline_style_override ) {
+		return $content;
+	}
+
+	$css = $data['class_name']::get_css( $data['attributes'] );
+
+	if ( ! $css ) {
+		return $content;
+	}
+
+	if ( did_action( 'wp_head' ) || $inline_style_override ) {
+		// Add inline <style> elements if we don't have access to wp_head.
+		$content = sprintf(
+			'<style>%s</style>',
+			$css
+		) . $content;
+	} else {
+		// Add our CSS to the pool of existing CSS in wp_head.
+		add_filter(
+			'generateblocks_css_output',
+			function( $output ) use ( $css ) {
+				return $output .= wp_strip_all_tags( $css );
+			}
+		);
+	}
+
+	return $content;
+}
+
+/**
+ * Maybe add block CSS if it hasn't already been added for this block.
+ *
+ * @since 1.6.0
+ * @param string $content Our block content.
+ * @param array  $data Block data.
+ */
+function generateblocks_maybe_add_legacy_block_css( $content = '', $data = [] ) {
 	$inline_style_override = apply_filters(
 		'generateblocks_do_inline_styles',
 		false,
@@ -1833,50 +1957,4 @@ function generateblocks_str_contains( $haystack, $needle ) {
 	}
 
 	return '' !== $needle && false !== strpos( $haystack, $needle );
-}
-
-/**
- * Output our block css.
- *
- * @param string $block_content The block content.
- * @param array  $data The block data.
- */
-function generateblocks_do_block_css( $block_content, $data ) {
-	$attributes            = $data['attributes'] ?? [];
-	$css                   = $attributes['css'] ?? '';
-	$id                    = $attributes['uniqueId'] ?? '';
-	$inline_style_override = apply_filters(
-		'generateblocks_do_inline_styles',
-		false,
-		[
-			'attributes' => $attributes,
-		]
-	);
-
-	if ( ! $css || ! $id ) {
-		return $block_content;
-	}
-
-	global $gb_block_ids;
-
-	if (
-		! in_array( $id, (array) $gb_block_ids ) ||
-		$inline_style_override
-	) {
-		if ( did_action( 'wp_head' ) || $inline_style_override ) {
-			$block_content = sprintf(
-				'<style>%s</style>',
-				wp_strip_all_tags( $css ) // phpcs:ignore -- Outputting CSS.
-			) . $block_content;
-		} else {
-			add_filter(
-				'generateblocks_css_output',
-				function( $output ) use ( $css ) {
-					return $output .= wp_strip_all_tags( $css );
-				}
-			);
-		}
-	}
-
-	return $block_content;
 }

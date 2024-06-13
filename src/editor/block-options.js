@@ -139,6 +139,7 @@ export function TextOptions( options, props ) {
 		htmlAttributes,
 		tagName,
 		icon,
+		iconLocation,
 	} = attributes;
 
 	if ( 'generateblocks/text' !== name ) {
@@ -216,6 +217,16 @@ export function TextOptions( options, props ) {
 						setAttributes( { icon: '' } );
 					} }
 					attributes={ attributes }
+				/>
+
+				<SelectControl
+					label={ __( 'Icon Location', 'generateblocks' ) }
+					value={ iconLocation }
+					options={ [
+						{ label: __( 'Before', 'generateblocks' ), value: 'before' },
+						{ label: __( 'After', 'generateblocks' ), value: 'after' },
+					] }
+					onChange={ ( value ) => setAttributes( { iconLocation: value } ) }
 				/>
 			</PanelBody>
 

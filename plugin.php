@@ -55,7 +55,13 @@ require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-register-dynamic-
 require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-dynamic-tag-callbacks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-dynamic-tags.php';
 
-// Deprecated Blocks.
+// Blocks.
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-block.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-text.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-element.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-shape.php';
+
+// Legacy Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-container.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button-container.php';
@@ -63,11 +69,6 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-grid.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-headline.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-image.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-loop.php';
-
-// Blocks.
-require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-text.php';
-require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-element.php';
-require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-shape.php';
 
 add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
 /**
