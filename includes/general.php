@@ -20,31 +20,17 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
  * @since 0.1
  */
 function generateblocks_do_block_editor_assets() {
+	// Register our block scripts.
+	// We have to do this manually so we can add `wp-editor` as a dep.
+	// This doesn't happen automatically as we're using the dep in the @edge22/block-styles package.
+	generateblocks_register_block_script( 'element' );
+	generateblocks_register_block_script( 'text' );
+	generateblocks_register_block_script( 'shape' );
+	generateblocks_register_block_script( 'void-element' );
+
 	global $pagenow;
 
 	$generateblocks_deps = array( 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', 'wp-compose', 'wp-data' );
-
-	// Adds wp-editor as a dep for the Element block editor script.
-	wp_deregister_script( 'generateblocks-element-editor-script' );
-	$element_block_assets = generateblocks_get_enqueue_assets( 'blocks/element/index' );
-	wp_register_script(
-		'generateblocks-element-editor-script',
-		GENERATEBLOCKS_DIR_URL . 'dist/blocks/element/index.js',
-		array_merge( $element_block_assets['dependencies'], [ 'wp-editor' ] ),
-		$element_block_assets['version'],
-		false
-	);
-
-	// Adds wp-editor as a dep for the Text block editor script.
-	wp_deregister_script( 'generateblocks-text-editor-script' );
-	$text_block_assets = generateblocks_get_enqueue_assets( 'blocks/text/index' );
-	wp_register_script(
-		'generateblocks-text-editor-script',
-		GENERATEBLOCKS_DIR_URL . 'dist/blocks/text/index.js',
-		array_merge( $text_block_assets['dependencies'], [ 'wp-editor' ] ),
-		$text_block_assets['version'],
-		false
-	);
 
 	if ( 'widgets.php' === $pagenow ) {
 		unset( $generateblocks_deps[2] );
