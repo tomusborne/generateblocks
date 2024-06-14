@@ -41,6 +41,7 @@ function EditBlock( props ) {
 		htmlAttributes = [],
 		icon,
 		iconLocation,
+		globalClasses = [],
 	} = attributes;
 
 	const { getStyles } = useSelect( stylesStore );
@@ -88,6 +89,10 @@ function EditBlock( props ) {
 			classes.push( className );
 		}
 
+		if ( globalClasses.length > 0 ) {
+			classes.push( ...globalClasses );
+		}
+
 		if ( Object.keys( styles ).length > 0 ) {
 			classes.push( `gb-text-${ uniqueId }` );
 		}
@@ -97,7 +102,7 @@ function EditBlock( props ) {
 		}
 
 		return classes;
-	}, [ className, styles, icon, uniqueId ] );
+	}, [ className, styles, icon, uniqueId, globalClasses ] );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -153,7 +158,7 @@ function EditBlock( props ) {
 
 	const blockProps = useBlockProps(
 		{
-			className: classNames.join( ' ' ),
+			className: classNames.join( ' ' ).trim(),
 			...combinedAttributes,
 		}
 	);

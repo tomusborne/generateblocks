@@ -16,12 +16,15 @@ import { isBlobURL, getBlobByURL, revokeBlobURL } from '@wordpress/blob';
 import { useImageFunctions } from './hooks/useImageFunctions.js';
 import { Image } from './components/Image.jsx';
 import { withDynamicTag } from '../../hoc/withDynamicTag.js';
+import RootElement from '../../components/root-element/index.js';
 
 function EditBlock( props ) {
 	const {
 		attributes,
 		setAttributes,
 		isSelected,
+		name,
+		clientId,
 	} = props;
 
 	const {
@@ -31,6 +34,7 @@ function EditBlock( props ) {
 		uniqueId,
 		css,
 		htmlAttributes = {},
+		globalClasses = [],
 	} = attributes;
 
 	const [ temporaryURL, setTemporaryURL ] = useState();
@@ -42,6 +46,10 @@ function EditBlock( props ) {
 
 	if ( className ) {
 		classNames.push( className );
+	}
+
+	if ( globalClasses.length > 0 ) {
+		classNames.push( ...globalClasses );
 	}
 
 	if ( Object.keys( styles ).length > 0 ) {
@@ -101,7 +109,7 @@ function EditBlock( props ) {
 	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
 	const blockProps = useBlockProps();
 	const elementAttributes = {
-		className: classNames.join( ' ' ),
+		className: classNames.join( ' ' ).trim(),
 		...combinedAttributes,
 	};
 
@@ -261,13 +269,18 @@ function EditBlock( props ) {
 				/>
 			</InspectorAdvancedControls>
 
-			{ !! shouldWrapBlock ? (
-				<div { ...innerBlocksProps }>
-					{ elementRender() }
-				</div>
-			) : (
-				elementRender()
-			) }
+			<RootElement
+				name={ name }
+				clientId={ clientId }
+			>
+				{ !! shouldWrapBlock ? (
+					<div { ...innerBlocksProps }>
+						{ elementRender() }
+					</div>
+				) : (
+					elementRender()
+				) }
+			</RootElement>
 		</>
 	);
 }

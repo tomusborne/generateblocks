@@ -3,7 +3,10 @@
 		position: relative;
 		width: 35px;
 		padding: 0;
-		margin-top: 10px;
+
+		&:not(:first-child) {
+			margin-top: 10px;
+		}
 
 		&:empty {
 			display: none;

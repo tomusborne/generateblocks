@@ -10,11 +10,16 @@ export function Save( props ) {
 		styles = {},
 		uniqueId,
 		htmlAttributes = {},
+		globalClasses = [],
 	} = props.attributes;
 
 	const classNames = [];
 	if ( className ) {
 		classNames.push( className );
+	}
+
+	if ( globalClasses.length > 0 ) {
+		classNames.push( ...globalClasses );
 	}
 
 	if ( Object.keys( styles ).length > 0 ) {
@@ -23,7 +28,7 @@ export function Save( props ) {
 
 	const blockProps = useBlockProps.save(
 		{
-			className: classNames.join( ' ' ),
+			className: classNames.join( ' ' ).trim(),
 			...htmlAttributes,
 		}
 	);

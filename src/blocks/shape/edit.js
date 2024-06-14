@@ -25,6 +25,7 @@ function EditBlock( props ) {
 		styles = {},
 		css,
 		htmlAttributes = [],
+		globalClasses = [],
 	} = attributes;
 
 	const classNames = [ 'gb-shape' ];
@@ -34,6 +35,10 @@ function EditBlock( props ) {
 
 	if ( className ) {
 		classNames.push( className );
+	}
+
+	if ( globalClasses.length > 0 ) {
+		classNames.push( ...globalClasses );
 	}
 
 	if ( Object.keys( styles ).length > 0 ) {
@@ -88,7 +93,7 @@ function EditBlock( props ) {
 
 	const blockProps = useBlockProps(
 		{
-			className: classNames.join( ' ' ),
+			className: classNames.join( ' ' ).trim(),
 			...combinedAttributes,
 		}
 	);

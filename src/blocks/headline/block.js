@@ -52,6 +52,7 @@ registerBlockType( 'generateblocks/headline', {
 	attributes,
 	supports: {
 		className: false,
+		inserter: false,
 	},
 	edit: editHeadline,
 	save: saveHeadline,

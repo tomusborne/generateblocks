@@ -50,6 +50,7 @@ registerBlockType( 'generateblocks/button', {
 	attributes,
 	supports: {
 		className: false,
+		inserter: false,
 	},
 	edit: editButton,
 	save: saveButton,

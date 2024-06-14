@@ -131,7 +131,7 @@ export const shapeColorControls = [
 		items: [
 			{
 				tooltip: 'Color',
-				value: 'fill',
+				value: 'color',
 				selector: 'svg',
 			},
 		],

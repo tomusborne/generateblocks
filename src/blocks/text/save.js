@@ -14,11 +14,16 @@ export function Save( { attributes } ) {
 		htmlAttributes = [],
 		icon,
 		iconLocation,
+		globalClasses = [],
 	} = attributes;
 	const TagName = tagName;
 	const classNames = [];
 	if ( className ) {
 		classNames.push( className );
+	}
+
+	if ( globalClasses.length > 0 ) {
+		classNames.push( ...globalClasses );
 	}
 
 	if ( Object.keys( styles ).length > 0 ) {
@@ -31,7 +36,7 @@ export function Save( { attributes } ) {
 
 	const blockProps = useBlockProps.save(
 		{
-			className: classNames.join( ' ' ),
+			className: classNames.join( ' ' ).trim(),
 			...htmlAttributes,
 		}
 	);

@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
-import { Button, PanelBody, SelectControl, TextControl } from '@wordpress/components';
+import { Button, PanelBody, SelectControl, TextControl, BaseControl } from '@wordpress/components';
+import { useState } from '@wordpress/element';
 import { ColorPicker } from '@edge22/components';
 import { containerColorControls, buttonColorControls, linkElementColorControls, textColorControls, shapeColorControls } from './design.js';
 import { addFilter } from '@wordpress/hooks';
@@ -7,9 +8,14 @@ import DimensionsControl from '../components/dimensions/index.js';
 import { ColorPickerGroup } from '../components/color-picker-group/ColorPickerGroup.jsx';
 import UnitControl from '../components/unit-control/index.js';
 import { URLControls } from '../components/url-controls/index.js';
-import { styles } from '@wordpress/icons';
+import { styles as stylesIcon } from '@wordpress/icons';
+import { createBlock } from '@wordpress/blocks';
+import { useDispatch } from '@wordpress/data';
+import { store as blockEditorStore } from '@wordpress/block-editor';
 import { ImageUpload } from '../components/image-upload/ImageUpload.jsx';
 import { IconControl } from '../components/icon-control';
+import { GridColumnSelector } from '../components/grid-column-selector';
+import { DividerModal } from '../components/icon-control/DividerModal.jsx';
 
 function Padding( { getStyleValue, onStyleChange } ) {
 	const paddingTop = getStyleValue( 'paddingTop' );
@@ -35,7 +41,7 @@ function MoreDesignOptions() {
 		<Button
 			variant="tertiary"
 			size="compact"
-			icon={ styles }
+			icon={ stylesIcon }
 			onClick={ () => document.querySelector( '.gb-block-styles-tab-panel__styles-tab' )?.click() }
 			style={ { width: '100%', justifyContent: 'center' } }
 		>
@@ -75,12 +81,19 @@ export function ContainerOptions( options, props ) {
 		name,
 		attributes,
 		setAttributes,
+		clientId,
 	} = props;
 
 	const {
 		tagName,
 		htmlAttributes = {},
+		styles = {},
 	} = attributes;
+
+	const [ openShapeLibrary, setOpenShapeLibrary ] = useState( false );
+	const {
+		insertBlocks,
+	} = useDispatch( blockEditorStore );
 
 	if ( 'generateblocks/element' !== name ) {
 		return options;
@@ -97,9 +110,40 @@ export function ContainerOptions( options, props ) {
 				</PanelBody>
 			) }
 
+			{ 'grid' === styles?.display && (
+				<PanelBody
+					title={ __( 'Grid', 'generateblocks' ) }
+					initialOpen={ false }
+				>
+					<BaseControl
+						label={ __( 'Layout', 'generateblocks' ) }
+						id="grid-template-columns"
+					>
+						<GridColumnSelector
+							value={ getStyleValue( 'gridTemplateColumns' ) }
+							onClick={ ( value ) => onStyleChange( 'gridTemplateColumns', value ) }
+						/>
+					</BaseControl>
+
+					<UnitControl
+						id="columnGap"
+						label={ __( 'Horizontal Gap', 'generateblocks' ) }
+						value={ getStyleValue( 'columnGap' ) }
+						onChange={ ( value ) => onStyleChange( 'columnGap', value ) }
+					/>
+
+					<UnitControl
+						id="rowGap"
+						label={ __( 'Vertical Gap', 'generateblocks' ) }
+						value={ getStyleValue( 'rowGap' ) }
+						onChange={ ( value ) => onStyleChange( 'rowGap', value ) }
+					/>
+				</PanelBody>
+			) }
+
 			<PanelBody
 				title={ __( 'Design', 'generateblocks' ) }
-				initialOpen={ true }
+				initialOpen={ false }
 			>
 				<ColorPickerControls
 					items={ 'a' === tagName ? linkElementColorControls : containerColorControls }
@@ -113,6 +157,62 @@ export function ContainerOptions( options, props ) {
 				/>
 
 				<MoreDesignOptions />
+			</PanelBody>
+
+			<PanelBody
+				title={ __( 'Shapes', 'generateblocks' ) }
+				initialOpen={ false }
+			>
+				<Button
+					variant="secondary"
+					onClick={ () => setOpenShapeLibrary( true ) }
+				>
+					{ __( 'Open Shape Library', 'generateblocks' ) }
+				</Button>
+
+				{ !! openShapeLibrary && (
+					<DividerModal
+						setIsOpen={ setOpenShapeLibrary }
+						onChange={ ( value ) => {
+							setAttributes( {
+								styles: {
+									...styles,
+									position: 'relative',
+								},
+							} );
+
+							const newShapeBlock = createBlock(
+								'generateblocks/shape',
+								{
+									html: value,
+									styles: {
+										position: 'absolute',
+										bottom: '0',
+										left: '0',
+										right: '0',
+										overflowX: 'hidden',
+										overflowY: 'hidden',
+										pointerEvents: 'none',
+										color: '#000000',
+										svg: {
+											fill: 'currentColor',
+											width: '100%',
+										},
+									},
+								},
+							);
+
+							insertBlocks(
+								newShapeBlock,
+								0,
+								clientId,
+								true
+							);
+
+							setOpenShapeLibrary( false );
+						} }
+					/>
+				) }
 			</PanelBody>
 
 			{ options }

@@ -1,23 +1,35 @@
 import { useState, useMemo, renderToString } from '@wordpress/element';
 import { Button } from '@wordpress/components';
+import './editor.scss';
+import classNames from 'classnames';
 
-export function IconLibrary( { icons, onInsert } ) {
-	const [ currentCategory, setCurrentCategory ] = useState( 'general' );
+export function IconLibrary( { icons, onInsert, category = '', iconType = '' } ) {
+	const defaultCategory = category || Object.keys( icons )[ 0 ];
+	const [ currentCategory, setCurrentCategory ] = useState( defaultCategory );
 	const categories = Object.keys( icons );
 	const currentIcons = useMemo( () => Object.values( icons[ currentCategory ].svgs ), [ currentCategory ] );
 
 	return (
-		<div className="gb-icon-library">
+		<div
+			className={
+				classNames(
+					'gb-icon-library',
+					{
+						[ `gb-icon-library--${ iconType }` ]: iconType,
+					}
+				)
+			}
+		>
 			<div className="gb-icon-library__categories">
-				{ categories.map( ( category, index ) => {
+				{ categories.map( ( categoryId, index ) => {
 					return (
 						<Button
 							key={ index }
 							className="gb-icon-library__category"
-							onClick={ () => setCurrentCategory( category ) }
-							isPressed={ category === currentCategory }
+							onClick={ () => setCurrentCategory( categoryId ) }
+							isPressed={ categoryId === currentCategory }
 						>
-							{ icons[ category ].group }
+							{ icons[ categoryId ].group }
 						</Button>
 					);
 				} ) }

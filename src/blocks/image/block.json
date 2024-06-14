@@ -121,6 +121,7 @@
   	"supports": {
 		"className": false,
 		"customClassName": true,
-		"html": false
+		"html": false,
+		"inserter": false
   	}
 }

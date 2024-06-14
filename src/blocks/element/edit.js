@@ -13,6 +13,7 @@ import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
 import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { convertInlineStyleStringToObject } from './utils.js';
+import RootElement from '../../components/root-element/index.js';
 
 function EditBlock( props ) {
 	const {
@@ -20,6 +21,7 @@ function EditBlock( props ) {
 		setAttributes,
 		clientId,
 		isSelected,
+		name,
 	} = props;
 
 	const {
@@ -29,6 +31,7 @@ function EditBlock( props ) {
 		uniqueId,
 		css,
 		htmlAttributes = {},
+		globalClasses = [],
 	} = attributes;
 
 	const classNames = [];
@@ -38,6 +41,10 @@ function EditBlock( props ) {
 
 	if ( className ) {
 		classNames.push( className );
+	}
+
+	if ( globalClasses.length > 0 ) {
+		classNames.push( ...globalClasses );
 	}
 
 	if ( Object.keys( styles ).length > 0 ) {
@@ -98,7 +105,7 @@ function EditBlock( props ) {
 
 	const blockProps = useBlockProps(
 		{
-			className: classNames.join( ' ' ),
+			className: classNames.join( ' ' ).trim(),
 			...combinedAttributes,
 		}
 	);
@@ -155,7 +162,12 @@ function EditBlock( props ) {
 					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</InspectorAdvancedControls>
-			<TagName { ...innerBlocksProps } />
+			<RootElement
+				name={ name }
+				clientId={ clientId }
+			>
+				<TagName { ...innerBlocksProps } />
+			</RootElement>
 		</>
 	);
 }
