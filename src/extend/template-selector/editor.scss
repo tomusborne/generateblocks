@@ -2,28 +2,17 @@
 	.gb-templates-wrapper {
 		display: flex;
 		gap: 16px;
-		flex-wrap: wrap;
-		justify-content: center;
 
 		.gb-template-selector-button {
 			font-size: 13px;
 			display: inline-flex;
 			flex-direction: column;
-			height: unset;
+			height: 100%;
 			padding: 0;
 			gap: 8px;
-			margin: 0;
 
 			svg {
 				height: 50px;
-			}
-		}
-
-		.gb-grid-control__grid-template-columns-rows--presets-button {
-			width: 80px;
-
-			.gb-preview-column {
-				height: 30px;
 			}
 		}
 	}
