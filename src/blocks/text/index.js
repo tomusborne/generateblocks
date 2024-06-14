@@ -63,5 +63,6 @@ registerBlockVariation(
 			tagName: 'h2',
 		},
 		isActive: ( blockAttributes ) => 'heading' === getElementType( blockAttributes.tagName ),
+		scope: [ 'block' ],
 	},
 );
