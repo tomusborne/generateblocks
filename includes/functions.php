@@ -1950,3 +1950,42 @@ function generateblocks_str_contains( $haystack, $needle ) {
 
 	return '' !== $needle && false !== strpos( $haystack, $needle );
 }
+
+/**
+ * Check if we should show our legacy blocks.
+ *
+ * @since 2.0.0
+ * @return bool
+ */
+function generateblocks_should_show_legacy_blocks() {
+	$show_legacy_blocks = false;
+
+	if ( defined( 'GENERATEBLOCKS_PRO_VERSION' ) ) {
+		if ( ! class_exists( 'GenerateBlocks_Block_Accordion_Item' ) ) {
+			$show_legacy_blocks = true;
+		}
+	}
+
+	return apply_filters(
+		'generateblocks_show_legacy_blocks',
+		$show_legacy_blocks
+	);
+}
+
+/**
+ * Register a block script.
+ * This deregisters the script registered by block.json and registers it with our custom deps.
+ *
+ * @param string $block_name The block name.
+ */
+function generateblocks_register_block_script( $block_name ) {
+	wp_deregister_script( 'generateblocks-' . $block_name . '-editor-script' );
+	$block_assets = generateblocks_get_enqueue_assets( 'blocks/' . $block_name . '/index' );
+	wp_register_script(
+		'generateblocks-' . $block_name . '-editor-script',
+		GENERATEBLOCKS_DIR_URL . 'dist/blocks/' . $block_name . '/index.js',
+		array_merge( $block_assets['dependencies'], [ 'wp-editor' ] ),
+		$block_assets['version'],
+		false
+	);
+}

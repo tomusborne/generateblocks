@@ -36,7 +36,7 @@ registerBlockType( 'generateblocks/container', {
 	title: __( 'Container', 'generateblocks' ),
 	description: __( 'Organize your content into rows and sections.', 'generateblocks' ),
 	icon: getIcon( 'container' ),
-	category: 'generateblocks',
+	category: 'generateblocks-legacy',
 	keywords: [
 		__( 'section' ),
 		__( 'container' ),
@@ -47,7 +47,7 @@ registerBlockType( 'generateblocks/container', {
 		align: false,
 		className: false,
 		html: false,
-		inserter: false,
+		inserter: generateBlocksInfo.shouldShowLegacyBlocks,
 	},
 	usesContext: [ 'postId', 'postType', 'generateblocks/queryId' ],
 	edit: containerEdit,

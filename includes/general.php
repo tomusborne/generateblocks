@@ -104,6 +104,7 @@ function generateblocks_do_block_editor_assets() {
 			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
+			'shouldShowLegacyBlocks' => generateblocks_should_show_legacy_blocks(),
 		)
 	);
 
@@ -233,11 +234,7 @@ function generateblocks_do_block_editor_assets() {
 	);
 }
 
-if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
-	add_filter( 'block_categories', 'generateblocks_do_category' );
-} else {
-	add_filter( 'block_categories_all', 'generateblocks_do_category' );
-}
+add_filter( 'block_categories_all', 'generateblocks_do_category' );
 /**
  * Add GeneratePress category to Gutenberg.
  *
@@ -245,15 +242,23 @@ if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
  * @since 0.1
  */
 function generateblocks_do_category( $categories ) {
-	return array_merge(
-		array(
-			array(
-				'slug'  => 'generateblocks',
-				'title' => __( 'GenerateBlocks', 'generateblocks' ),
-			),
-		),
-		$categories
+	array_unshift(
+		$categories,
+		[
+			'slug'  => 'generateblocks-legacy',
+			'title' => __( 'GenerateBlocks Legacy', 'generateblocks' ),
+		]
 	);
+
+	array_unshift(
+		$categories,
+		[
+			'slug'  => 'generateblocks',
+			'title' => __( 'GenerateBlocks', 'generateblocks' ),
+		]
+	);
+
+	return $categories;
 }
 
 add_action( 'wp_enqueue_scripts', 'generateblocks_do_google_fonts' );

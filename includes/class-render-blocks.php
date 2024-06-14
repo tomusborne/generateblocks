@@ -55,17 +55,9 @@ class GenerateBlocks_Render_Block {
 	 * @since 1.2.0
 	 */
 	public function register_blocks() {
-		$should_show_legacy_blocks = generateblocks_should_show_legacy_blocks();
-
 		$container_args = [
 			'title' => esc_html__( 'Container', 'generateblocks' ),
 			'render_callback' => [ 'GenerateBlocks_Block_Container', 'render_block' ],
-			'supports' => [
-				'align'     => false,
-				'className' => false,
-				'html'      => false,
-				'inserter'  => $should_show_legacy_blocks,
-			],
 		];
 
 		if ( version_compare( $GLOBALS['wp_version'], '6.1.0', '<' ) ) {
@@ -132,10 +124,6 @@ class GenerateBlocks_Render_Block {
 					'generateblocks/query',
 					'generateblocks/queryId',
 					'generateblocks/inheritQuery',
-				),
-				'supports' => array(
-					'className' => false,
-					'inserter' => $should_show_legacy_blocks,
 				),
 			)
 		);
