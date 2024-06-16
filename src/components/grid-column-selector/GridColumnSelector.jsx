@@ -1,6 +1,7 @@
 import classnames from 'classnames';
 import { Button } from '@wordpress/components';
 import { layouts } from './layouts';
+import './editor.scss';
 
 export function GridColumnSelector( { onClick, value } ) {
 	return (

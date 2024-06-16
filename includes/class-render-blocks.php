@@ -129,7 +129,7 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
-			GENERATEBLOCKS_DIR . 'dist/blocks/image',
+			'generateblocks/image',
 			array(
 				'title' => esc_html__( 'Image', 'generateblocks' ),
 				'render_callback' => [ 'GenerateBlocks_Block_Image', 'render_block' ],

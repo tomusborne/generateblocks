@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { Button, PanelBody, SelectControl, TextControl, BaseControl } from '@wordpress/components';
+import { Button, SelectControl, TextControl, BaseControl } from '@wordpress/components';
 import { useState } from '@wordpress/element';
 import { ColorPicker } from '@edge22/components';
 import { containerColorControls, buttonColorControls, linkElementColorControls, textColorControls, shapeColorControls } from './design.js';
@@ -8,7 +8,6 @@ import DimensionsControl from '../components/dimensions/index.js';
 import { ColorPickerGroup } from '../components/color-picker-group/ColorPickerGroup.jsx';
 import UnitControl from '../components/unit-control/index.js';
 import { URLControls } from '../components/url-controls/index.js';
-import { styles as stylesIcon } from '@wordpress/icons';
 import { createBlock } from '@wordpress/blocks';
 import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
@@ -16,6 +15,7 @@ import { ImageUpload } from '../components/image-upload/ImageUpload.jsx';
 import { IconControl } from '../components/icon-control';
 import { GridColumnSelector } from '../components/grid-column-selector';
 import { DividerModal } from '../components/icon-control/DividerModal.jsx';
+import { OpenPanel } from '../components/open-panel';
 
 function Padding( { getStyleValue, onStyleChange } ) {
 	const paddingTop = getStyleValue( 'paddingTop' );
@@ -36,19 +36,10 @@ function Padding( { getStyleValue, onStyleChange } ) {
 	);
 }
 
-function MoreDesignOptions() {
-	return (
-		<Button
-			variant="tertiary"
-			size="compact"
-			icon={ stylesIcon }
-			onClick={ () => document.querySelector( '.gb-block-styles-tab-panel__styles-tab' )?.click() }
-			style={ { width: '100%', justifyContent: 'center' } }
-		>
-			{ __( 'More design options', 'generateblocks' ) }
-		</Button>
-	);
-}
+const moreDesignOptions = {
+	title: __( 'More design options', 'generateblocks' ),
+	onClick: () => document.querySelector( '.gb-block-styles-tab-panel__styles-tab' )?.click(),
+};
 
 function ColorPickerControls( { items, getStyleValue, onStyleChange } ) {
 	return (
@@ -102,18 +93,19 @@ export function ContainerOptions( options, props ) {
 	return (
 		<>
 			{ 'a' === tagName && (
-				<PanelBody>
+				<OpenPanel
+					title={ __( 'Link Destination', 'generateblocks' ) }
+				>
 					<URLControls
 						setAttributes={ setAttributes }
 						htmlAttributes={ htmlAttributes }
 					/>
-				</PanelBody>
+				</OpenPanel>
 			) }
 
 			{ 'grid' === styles?.display && (
-				<PanelBody
+				<OpenPanel
 					title={ __( 'Grid', 'generateblocks' ) }
-					initialOpen={ false }
 				>
 					<BaseControl
 						label={ __( 'Layout', 'generateblocks' ) }
@@ -138,12 +130,14 @@ export function ContainerOptions( options, props ) {
 						value={ getStyleValue( 'rowGap' ) }
 						onChange={ ( value ) => onStyleChange( 'rowGap', value ) }
 					/>
-				</PanelBody>
+				</OpenPanel>
 			) }
 
-			<PanelBody
+			<OpenPanel
 				title={ __( 'Design', 'generateblocks' ) }
-				initialOpen={ false }
+				dropdownOptions={ [
+					moreDesignOptions,
+				] }
 			>
 				<ColorPickerControls
 					items={ 'a' === tagName ? linkElementColorControls : containerColorControls }
@@ -155,16 +149,14 @@ export function ContainerOptions( options, props ) {
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
 				/>
+			</OpenPanel>
 
-				<MoreDesignOptions />
-			</PanelBody>
-
-			<PanelBody
+			<OpenPanel
 				title={ __( 'Shapes', 'generateblocks' ) }
-				initialOpen={ false }
 			>
 				<Button
 					variant="secondary"
+					size="compact"
 					onClick={ () => setOpenShapeLibrary( true ) }
 				>
 					{ __( 'Open Shape Library', 'generateblocks' ) }
@@ -213,7 +205,7 @@ export function ContainerOptions( options, props ) {
 						} }
 					/>
 				) }
-			</PanelBody>
+			</OpenPanel>
 
 			{ options }
 		</>
@@ -253,17 +245,21 @@ export function TextOptions( options, props ) {
 	return (
 		<>
 			{ 'a' === tagName && (
-				<PanelBody>
+				<OpenPanel
+					title={ __( 'Link Destination', 'generateblocks' ) }
+				>
 					<URLControls
 						setAttributes={ setAttributes }
 						htmlAttributes={ htmlAttributes }
 					/>
-				</PanelBody>
+				</OpenPanel>
 			) }
 
-			<PanelBody
+			<OpenPanel
 				title={ __( 'Design', 'generateblocks' ) }
-				initialOpen={ false }
+				dropdownOptions={ [
+					moreDesignOptions,
+				] }
 			>
 				<ColorPickerControls
 					items={ colorControls }
@@ -300,13 +296,10 @@ export function TextOptions( options, props ) {
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
 				/>
+			</OpenPanel>
 
-				<MoreDesignOptions />
-			</PanelBody>
-
-			<PanelBody
+			<OpenPanel
 				title={ __( 'Icon', 'generateblocks' ) }
-				initialOpen={ false }
 			>
 				<IconControl
 					value={ icon }
@@ -328,7 +321,7 @@ export function TextOptions( options, props ) {
 					] }
 					onChange={ ( value ) => setAttributes( { iconLocation: value } ) }
 				/>
-			</PanelBody>
+			</OpenPanel>
 
 			{ options }
 		</>
@@ -362,7 +355,9 @@ function ImageOptions( options, props ) {
 
 	return (
 		<>
-			<PanelBody>
+			<OpenPanel
+				title={ __( 'Settings', 'generateblocks' ) }
+			>
 				<ImageUpload
 					url={ htmlAttributes?.src }
 					onInsert={ ( value ) => {
@@ -414,10 +409,12 @@ function ImageOptions( options, props ) {
 						} );
 					} }
 				/>
-			</PanelBody>
-			<PanelBody
+			</OpenPanel>
+			<OpenPanel
 				title={ __( 'Design', 'generateblocks' ) }
-				initialOpen={ true }
+				dropdownOptions={ [
+					moreDesignOptions,
+				] }
 			>
 				<UnitControl
 					id="width"
@@ -432,9 +429,7 @@ function ImageOptions( options, props ) {
 					value={ getStyleValue( 'height' ) }
 					onChange={ ( value ) => onStyleChange( 'height', value ) }
 				/>
-
-				<MoreDesignOptions />
-			</PanelBody>
+			</OpenPanel>
 
 			{ options }
 		</>
@@ -466,7 +461,9 @@ function ShapeOptions( options, props ) {
 
 	return (
 		<>
-			<PanelBody>
+			<OpenPanel
+				title={ __( 'Shape', 'generateblocks' ) }
+			>
 				<IconControl
 					value={ html }
 					onChange={ ( value ) => {
@@ -477,11 +474,13 @@ function ShapeOptions( options, props ) {
 					} }
 					attributes={ attributes }
 				/>
-			</PanelBody>
+			</OpenPanel>
 
-			<PanelBody
+			<OpenPanel
 				title={ __( 'Design', 'generateblocks' ) }
-				initialOpen={ true }
+				dropdownOptions={ [
+					moreDesignOptions,
+				] }
 			>
 				<UnitControl
 					id="width"
@@ -502,8 +501,7 @@ function ShapeOptions( options, props ) {
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
 				/>
-				<MoreDesignOptions />
-			</PanelBody>
+			</OpenPanel>
 
 			{ options }
 		</>
