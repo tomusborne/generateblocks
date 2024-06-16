@@ -80,8 +80,8 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['shape'][] = $block['attrs'];
 			}
 
-			if ( 'generateblocks/void-element' === $block['blockName'] ) {
-				$data['void-element'][] = $block['attrs'];
+			if ( 'generateblocks/media' === $block['blockName'] ) {
+				$data['media'][] = $block['attrs'];
 			}
 
 			$data = apply_filters( 'generateblocks_modify_block_data', $data, $block );
@@ -1085,10 +1085,10 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 	$blocks = apply_filters(
 		'generateblocks_dynamic_css_blocks',
 		[
-			'text'         => 'GenerateBlocks_Block_Text',
-			'element'      => 'GenerateBlocks_Block_Element',
-			'void-element' => 'GenerateBlocks_Block_Void_Element',
-			'shape'        => 'GenerateBlocks_Block_Shape',
+			'text'    => 'GenerateBlocks_Block_Text',
+			'element' => 'GenerateBlocks_Block_Element',
+			'media'   => 'GenerateBlocks_Block_Media',
+			'shape'   => 'GenerateBlocks_Block_Shape',
 		]
 	);
 

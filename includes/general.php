@@ -26,7 +26,7 @@ function generateblocks_do_block_editor_assets() {
 	generateblocks_register_block_script( 'element' );
 	generateblocks_register_block_script( 'text' );
 	generateblocks_register_block_script( 'shape' );
-	generateblocks_register_block_script( 'void-element' );
+	generateblocks_register_block_script( 'media' );
 
 	global $pagenow;
 
@@ -508,7 +508,7 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 	$css = '.gb-container, .gb-headline, .gb-button {max-width:unset;margin-left:0;margin-right:0;}';
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
-	$css = '.wp-block-generateblocks-text, .wp-block-generateblocks-element, .wp-block-generateblocks-shape, .wp-block-generateblocks-void-element {max-width:unset;margin:0;}';
+	$css = '.wp-block-generateblocks-text, .wp-block-generateblocks-element, .wp-block-generateblocks-shape, .wp-block-generateblocks-media {max-width:unset;margin:0;}';
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
 	return $editor_settings;

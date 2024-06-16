@@ -23,7 +23,7 @@ export function Save( props ) {
 	}
 
 	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-void-element-${ uniqueId }` );
+		classNames.push( `gb-media-${ uniqueId }` );
 	}
 
 	const blockProps = useBlockProps.save(

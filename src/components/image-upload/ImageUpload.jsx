@@ -15,7 +15,7 @@ export function ImageUpload( { url, onInsert, onSelectImage } ) {
 				className="gb-image-upload-stack"
 				layout="flex"
 				direction="horizontal"
-				gap="2"
+				gap="5px"
 				wrap={ false }
 			>
 				<TextControl
@@ -32,6 +32,7 @@ export function ImageUpload( { url, onInsert, onSelectImage } ) {
 							<Button
 								onClick={ open }
 								variant="secondary"
+								size="compact"
 							>
 								{ __( 'Browse', 'generateblocks' ) }
 							</Button>

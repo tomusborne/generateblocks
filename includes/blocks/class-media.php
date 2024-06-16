@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * The Element block.
  */
-class GenerateBlocks_Block_Void_Element extends GenerateBlocks_Block {
+class GenerateBlocks_Block_Media extends GenerateBlocks_Block {
 	/**
 	 * Keep track of all blocks of this type on the page.
 	 *

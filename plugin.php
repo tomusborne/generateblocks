@@ -60,6 +60,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-block.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-text.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-element.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-shape.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-media.php';
 
 // Legacy Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';

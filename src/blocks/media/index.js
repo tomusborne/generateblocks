@@ -16,10 +16,10 @@ registerBlockType( metadata.name, {
 } );
 
 registerBlockVariation(
-	'generateblocks/void-element',
+	'generateblocks/media',
 	{
 		name: 'generateblocks/image',
-		description: __( 'Organize your content into sections and rows.', 'generateblocks' ),
+		description: __( 'Add images to your content to make a visual statement.', 'generateblocks' ),
 		title: 'Image',
 		attributes: {
 			tagName: 'img',

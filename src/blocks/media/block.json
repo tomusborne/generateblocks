@@ -1,10 +1,10 @@
 {
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
-    "name": "generateblocks/void-element",
-    "title": "Void Element",
+    "name": "generateblocks/media",
+    "title": "Media",
     "category": "generateblocks",
-    "description": "A self-closing element.",
+    "description": "A self-closing media element.",
     "keywords": [ "element", "container", "group" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",

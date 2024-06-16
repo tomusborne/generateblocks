@@ -53,12 +53,12 @@ function EditBlock( props ) {
 	}
 
 	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-void-element-${ uniqueId }` );
+		classNames.push( `gb-media-${ uniqueId }` );
 	}
 
 	useEffect( () => {
 		if ( ! tagName ) {
-			setAttributes( { tagName: 'div' } );
+			setAttributes( { tagName: 'img' } );
 		}
 	}, [ tagName ] );
 
@@ -67,7 +67,7 @@ function EditBlock( props ) {
 			return '';
 		}
 
-		return '.gb-void-element-' + uniqueId;
+		return '.gb-media-' + uniqueId;
 	}, [ uniqueId ] );
 
 	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
@@ -114,8 +114,8 @@ function EditBlock( props ) {
 	};
 
 	const innerBlocksProps = useInnerBlocksProps( blockProps );
-	const TagName = tagName || 'div';
-	const tagNames = getBlockType( 'generateblocks/void-element' )?.attributes?.tagName?.enum;
+	const TagName = tagName || 'img';
+	const tagNames = getBlockType( 'generateblocks/media' )?.attributes?.tagName?.enum;
 	const tagNameOptions = tagNames.map( ( tag ) => ( {
 		label: tag,
 		value: tag,

@@ -157,9 +157,9 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type(
-			GENERATEBLOCKS_DIR . '/dist/blocks/void-element',
+			GENERATEBLOCKS_DIR . '/dist/blocks/media',
 			[
-				'render_callback' => [ 'GenerateBlocks_Block_Void_Element', 'render_block' ],
+				'render_callback' => [ 'GenerateBlocks_Block_Media', 'render_block' ],
 			]
 		);
 
