@@ -8,14 +8,15 @@ import DimensionsControl from '../components/dimensions/index.js';
 import { ColorPickerGroup } from '../components/color-picker-group/ColorPickerGroup.jsx';
 import UnitControl from '../components/unit-control/index.js';
 import { URLControls } from '../components/url-controls/index.js';
-import { createBlock } from '@wordpress/blocks';
-import { useDispatch } from '@wordpress/data';
+import { createBlock, cloneBlock } from '@wordpress/blocks';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { ImageUpload } from '../components/image-upload/ImageUpload.jsx';
 import { IconControl } from '../components/icon-control';
 import { GridColumnSelector } from '../components/grid-column-selector';
 import { DividerModal } from '../components/icon-control/DividerModal.jsx';
 import { OpenPanel } from '../components/open-panel';
+import { layouts } from '../components/grid-column-selector/layouts';
 
 function Padding( { getStyleValue, onStyleChange } ) {
 	const paddingTop = getStyleValue( 'paddingTop' );
@@ -84,7 +85,9 @@ export function ContainerOptions( options, props ) {
 	const [ openShapeLibrary, setOpenShapeLibrary ] = useState( false );
 	const {
 		insertBlocks,
+		removeBlock,
 	} = useDispatch( blockEditorStore );
+	const { getBlock } = useSelect( ( select ) => select( blockEditorStore ), [] );
 
 	if ( 'generateblocks/element' !== name ) {
 		return options;
@@ -113,7 +116,46 @@ export function ContainerOptions( options, props ) {
 					>
 						<GridColumnSelector
 							value={ getStyleValue( 'gridTemplateColumns' ) }
-							onClick={ ( value ) => onStyleChange( 'gridTemplateColumns', value ) }
+							onClick={ ( value ) => {
+								onStyleChange( 'gridTemplateColumns', value );
+								const selectedLayout = layouts.find( ( { layout } ) => layout === value );
+								const selectedLayoutDivCount = selectedLayout?.divs || 0;
+								const innerBlocksCount = getBlock( clientId ).innerBlocks.length;
+
+								if ( selectedLayoutDivCount > innerBlocksCount ) {
+									const lastInnerBlock = getBlock( clientId ).innerBlocks[ innerBlocksCount - 1 ];
+
+									if ( lastInnerBlock ) {
+										const newBlockCount = selectedLayoutDivCount - innerBlocksCount;
+										const newBlocksToInsert = [];
+
+										for ( let i = 0; i < newBlockCount; i++ ) {
+											const clonedBlock = cloneBlock(
+												lastInnerBlock,
+												{
+													uniqueId: '',
+												}
+											);
+											newBlocksToInsert.push( clonedBlock );
+										}
+
+										insertBlocks( newBlocksToInsert, innerBlocksCount, clientId, false );
+									}
+								} else if ( selectedLayoutDivCount < innerBlocksCount ) {
+									const blocksToRemove = getBlock( clientId )?.innerBlocks
+										.slice( selectedLayoutDivCount )
+										.filter( ( block ) => (
+											'generateblocks/element' === block.name &&
+											0 === block.innerBlocks.length
+										) );
+
+									if ( blocksToRemove.length ) {
+										blocksToRemove.forEach( ( block ) => {
+											removeBlock( block.clientId, false );
+										} );
+									}
+								}
+							} }
 						/>
 					</BaseControl>
 
@@ -349,7 +391,7 @@ function ImageOptions( options, props ) {
 		tagName,
 	} = attributes;
 
-	if ( 'generateblocks/void-element' !== name || 'img' !== tagName ) {
+	if ( 'generateblocks/media' !== name || 'img' !== tagName ) {
 		return options;
 	}
 
