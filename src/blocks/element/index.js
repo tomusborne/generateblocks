@@ -24,7 +24,7 @@ registerBlockVariation(
 	'generateblocks/element',
 	{
 		name: 'generateblocks/container',
-		description: __( 'Organize your content into sections and rows.', 'generateblocks' ),
+		description: __( 'A container to add your blocks to.', 'generateblocks' ),
 		title: 'Container',
 		attributes: {
 			tagName: 'div',

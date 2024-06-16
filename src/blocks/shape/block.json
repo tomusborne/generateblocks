@@ -4,7 +4,7 @@
     "name": "generateblocks/shape",
     "title": "Shape",
     "category": "generateblocks",
-    "description": "A text element where you can choose your own tag name, content, and styles.",
+    "description": "A custom SVG shape.",
     "keywords": [ "text", "heading", "headline", "paragraph" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",

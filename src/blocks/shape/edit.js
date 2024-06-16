@@ -11,11 +11,14 @@ import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
+import RootElement from '../../components/root-element/index.js';
 
 function EditBlock( props ) {
 	const {
 		attributes,
 		setAttributes,
+		name,
+		clientId,
 	} = props;
 
 	const {
@@ -131,13 +134,18 @@ function EditBlock( props ) {
 					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</InspectorAdvancedControls>
-			<span
-				{ ...blockProps }
-				dangerouslySetInnerHTML={
-					{ __html: sanitizeSVG( html ) }
+			<RootElement
+				name={ name }
+				clientId={ clientId }
+			>
+				<span
+					{ ...blockProps }
+					dangerouslySetInnerHTML={
+						{ __html: sanitizeSVG( html ) }
 
-				}
-			/>
+					}
+				/>
+			</RootElement>
 		</>
 	);
 }
