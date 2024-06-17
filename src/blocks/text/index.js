@@ -17,10 +17,6 @@ export function buttonIcon() {
 	return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><circle cx="128" cy="128" r="96" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><circle cx="128" cy="128" r="10" /><circle cx="84" cy="128" r="10" /><circle cx="172" cy="128" r="10" /></svg>;
 }
 
-export function paragraphIcon() {
-	return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><line x1="184" y1="48" x2="184" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><line x1="144" y1="48" x2="144" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><path d="M144,160H96A56,56,0,0,1,96,48H208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /></svg>;
-}
-
 registerBlockType( metadata.name, {
 	edit: Edit,
 	save: Save,
@@ -46,6 +42,10 @@ registerBlockVariation(
 				paddingBottom: '1rem',
 				paddingLeft: '2rem',
 				textDecoration: 'none',
+				'&:is(:hover, :focus)': {
+					backgroundColor: '#1a4a9b',
+					color: '#ffffff',
+				},
 			},
 		},
 		isActive: ( blockAttributes ) => 'button' === getElementType( blockAttributes.tagName ),

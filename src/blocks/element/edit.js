@@ -7,7 +7,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import BlockAppender from './components/BlockAppender.jsx';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, Notice, BaseControl } from '@wordpress/components';
 import { getBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
@@ -152,8 +152,25 @@ function EditBlock( props ) {
 					label={ __( 'Tag Name' ) }
 					value={ tagName }
 					options={ tagNameOptions }
-					onChange={ ( value ) => setAttributes( { tagName: value } ) }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
+
+						if ( 'a' === value && ! styles?.display ) {
+							onStyleChange( 'display', 'block' );
+						}
+					} }
 				/>
+
+				{ 'a' === tagName && (
+					<BaseControl>
+						<Notice
+							status="warning"
+							isDismissible={ false }
+						>
+							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
+						</Notice>
+					</BaseControl>
+				) }
 
 				<HtmlAttributes
 					items={ htmlAttributes }

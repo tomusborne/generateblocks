@@ -1,2 +1,2 @@
-import './block-options.js';
+import './block-controls';
 import './stores.js';

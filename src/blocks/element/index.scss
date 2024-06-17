@@ -13,19 +13,6 @@
 		}
 	}
 
-	&:is(a, button, h1, h2, h3, h4, h5, h6, p, li) {
-		& > .block-list-appender {
-			width: 25px;
-			margin-top: 0;
-		}
-
-		button.block-editor-button-block-appender {
-			height: 25px;
-			width: 25px;
-			min-height: 25px;
-		}
-	}
-
 	button.block-editor-button-block-appender {
 		background: #000;
 		color: #fff;
