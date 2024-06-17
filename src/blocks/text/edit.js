@@ -66,6 +66,7 @@ function EditBlock( props ) {
 		'h6',
 		'a',
 		'button',
+		'figcaption',
 	];
 	const tagNameOptions = tagNames.map( ( tag ) => {
 		return {
