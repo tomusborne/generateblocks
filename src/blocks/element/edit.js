@@ -34,22 +34,26 @@ function EditBlock( props ) {
 		globalClasses = [],
 	} = attributes;
 
-	const classNames = [];
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
+	const classNames = useMemo( () => {
+		const classes = [];
 
-	if ( className ) {
-		classNames.push( className );
-	}
+		if ( className ) {
+			classes.push( className );
+		}
 
-	if ( globalClasses.length > 0 ) {
-		classNames.push( ...globalClasses );
-	}
+		if ( globalClasses.length > 0 ) {
+			classes.push( ...globalClasses );
+		}
 
-	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-element-${ uniqueId }` );
-	}
+		if ( Object.keys( styles ).length > 0 ) {
+			classes.push( `gb-element-${ uniqueId }` );
+		}
+
+		return classes;
+	}, [ className, globalClasses, styles, uniqueId ] );
 
 	useEffect( () => {
 		if ( ! tagName ) {

@@ -39,23 +39,27 @@ function EditBlock( props ) {
 	} = attributes;
 
 	const [ temporaryURL, setTemporaryURL ] = useState();
-	const classNames = [];
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
 	const { isTemporaryImage, mediaUpload, onUploadError } = useImageFunctions();
+	const classNames = useMemo( () => {
+		const classes = [];
 
-	if ( className ) {
-		classNames.push( className );
-	}
+		if ( className ) {
+			classes.push( className );
+		}
 
-	if ( globalClasses.length > 0 ) {
-		classNames.push( ...globalClasses );
-	}
+		if ( globalClasses.length > 0 ) {
+			classes.push( ...globalClasses );
+		}
 
-	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-media-${ uniqueId }` );
-	}
+		if ( Object.keys( styles ).length > 0 ) {
+			classes.push( `gb-media-${ uniqueId }` );
+		}
+
+		return classes;
+	}, [ className, globalClasses, styles, uniqueId ] );
 
 	useEffect( () => {
 		if ( ! tagName ) {

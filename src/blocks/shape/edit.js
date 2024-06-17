@@ -31,22 +31,28 @@ function EditBlock( props ) {
 		globalClasses = [],
 	} = attributes;
 
-	const classNames = [ 'gb-shape' ];
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
+	const classNames = useMemo( () => {
+		const classes = [];
 
-	if ( className ) {
-		classNames.push( className );
-	}
+		if ( className ) {
+			classes.push( className );
+		}
 
-	if ( globalClasses.length > 0 ) {
-		classNames.push( ...globalClasses );
-	}
+		if ( globalClasses.length > 0 ) {
+			classes.push( ...globalClasses );
+		}
 
-	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-shape-${ uniqueId }` );
-	}
+		if ( Object.keys( styles ).length > 0 ) {
+			classes.push( `gb-shape-${ uniqueId }` );
+		}
+
+		classes.push( 'gb-shape' );
+
+		return classes;
+	}, [ className, globalClasses, styles, uniqueId ] );
 
 	const selector = useMemo( () => {
 		if ( ! uniqueId ) {
