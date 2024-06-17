@@ -14,6 +14,7 @@ export function DynamicTagDropdown( { onInsert, renderToggle, tooltip } ) {
 	const [ postIdSource, setPostIdSource ] = useState( 0 );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
+	const [ metaKey, setMetaKey ] = useState( '' );
 
 	async function loadTags() {
 		if ( dynamicTagData.length ) {
@@ -44,10 +45,14 @@ export function DynamicTagDropdown( { onInsert, renderToggle, tooltip } ) {
 			tagToInsert += ` postId=${ postIdSource }`;
 		}
 
+		if ( metaKey ) {
+			tagToInsert += ` metaKey=${ metaKey }`;
+		}
+
 		tagToInsert = `{${ tagToInsert }}`;
 
 		setDynamicTagToInsert( tagToInsert );
-	}, [ postIdSource, dynamicTag ] );
+	}, [ postIdSource, dynamicTag, metaKey ] );
 
 	return (
 		<>
@@ -122,6 +127,14 @@ export function DynamicTagDropdown( { onInsert, renderToggle, tooltip } ) {
 												isMulti={ false }
 											/>
 										</>
+									) }
+
+									{ dynamicTagToInsert.startsWith( '{post_meta' ) && (
+										<TextControl
+											label={ __( 'Meta key', 'generateblocks' ) }
+											value={ metaKey }
+											onChange={ ( value ) => setMetaKey( value ) }
+										/>
 									) }
 
 									<TextControl

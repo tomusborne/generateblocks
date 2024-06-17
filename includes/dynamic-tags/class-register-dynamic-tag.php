@@ -101,7 +101,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					$options_string = $match[2] ?? '';
 					$options = self::parse_options( $options_string );
 					$replacement = call_user_func( $data['return'], $options );
-					$content = str_replace( $full_tag, $replacement, $content );
+					$content = str_replace( $full_tag, (string) $replacement, $content );
 				}
 			}
 		}

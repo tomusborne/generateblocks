@@ -71,6 +71,14 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_url' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Post Meta', 'generateblocks' ),
+				'tag'    => 'post_meta',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
+			]
+		);
 	}
 
 	/**

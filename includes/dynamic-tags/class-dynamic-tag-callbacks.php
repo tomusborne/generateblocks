@@ -83,4 +83,21 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		return $image[0];
 	}
+
+	/**
+	 * Get the post meta.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_post_meta( $options ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$meta = get_post_meta( $id, $options['metaKey'], true );
+
+		if ( ! $meta ) {
+			return '';
+		}
+
+		return $meta;
+	}
 }
