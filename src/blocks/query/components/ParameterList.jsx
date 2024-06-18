@@ -1,5 +1,5 @@
-import queryParameterOptions from '../../../query-parameters';
-import ParameterControl from './ParameterControl';
+import queryParameterOptions from '../../query-loop/query-parameters';
+import ParameterControl from '../../../components/inspector-controls/parameter-list/ParameterControl';
 
 const getParametersList = ( query ) => {
 	const options = queryParameterOptions.filter( ( param ) => param.isSticky );

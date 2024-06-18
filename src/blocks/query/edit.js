@@ -1,38 +1,35 @@
-import { useBlockProps, useInnerBlocksProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
-import { useEffect, useMemo, useRef } from '@wordpress/element';
+import { useBlockProps, InspectorControls, InspectorAdvancedControls, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { BlockStyles, withUniqueId, useUpdateEditorStyleCSS } from '@edge22/block-styles';
-import { getCss } from '@edge22/styles-builder';
+import { __ } from '@wordpress/i18n';
+import { withUniqueId } from '../../hoc';
 import { useSelect, useDispatch } from '@wordpress/data';
-import BlockAppender from './components/BlockAppender.jsx';
+import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
+import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { SelectControl, Notice, BaseControl } from '@wordpress/components';
-import { getBlockType } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
-import { applyFilters } from '@wordpress/hooks';
 import { HtmlAttributes } from '../../components/html-attributes/index.js';
-import { convertInlineStyleStringToObject } from './utils.js';
+import { convertInlineStyleStringToObject } from '../element/utils.js';
 import RootElement from '../../components/root-element/index.js';
+import { OpenPanel } from '@components/open-panel';
+import { QueryInspectorControls } from './components/QueryInspectorControls';
 
 function EditBlock( props ) {
 	const {
 		attributes,
 		setAttributes,
-		clientId,
-		isSelected,
 		name,
+		clientId,
 	} = props;
 
 	const {
-		tagName,
 		className,
-		styles = {},
 		uniqueId,
+		styles = {},
 		css,
-		htmlAttributes = {},
+		htmlAttributes = [],
 		globalClasses = [],
-		isBlockPreview = false,
+		tagName,
 	} = attributes;
 
 	const { getStyles } = useSelect( stylesStore );
@@ -50,7 +47,7 @@ function EditBlock( props ) {
 		}
 
 		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-element-${ uniqueId }` );
+			classes.push( `gb-query-${ uniqueId }` );
 		}
 
 		return classes;
@@ -67,7 +64,7 @@ function EditBlock( props ) {
 			return '';
 		}
 
-		return '.gb-element-' + uniqueId;
+		return '.gb-query-' + uniqueId;
 	}, [ uniqueId ] );
 
 	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
@@ -75,14 +72,6 @@ function EditBlock( props ) {
 
 		const updatedStyles = getStyles();
 		setAttributes( { styles: updatedStyles } );
-	}
-
-	function getStyleValue( property, nestedRuleValue = '' ) {
-		if ( ! nestedRuleValue ) {
-			return styles?.[ property ] ?? '';
-		}
-
-		return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
 	}
 
 	useEffect( () => {
@@ -104,7 +93,6 @@ function EditBlock( props ) {
 		updateEditorCSS( selector, css );
 	}, [ css, selector ] );
 
-	const ref = useRef();
 	const { style = '', ...otherAttributes } = htmlAttributes;
 	const inlineStyleObject = convertInlineStyleStringToObject( style );
 	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
@@ -113,21 +101,20 @@ function EditBlock( props ) {
 		{
 			className: classNames.join( ' ' ).trim(),
 			...combinedAttributes,
-			ref,
 		}
 	);
+
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
-			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ isSelected } attributes={ attributes } />,
+			allowedBlocks: [
+				'generateblocks/looper',
+				'generateblocks/query-no-results',
+			],
 		}
 	);
+
 	const TagName = tagName || 'div';
-	const tagNames = getBlockType( 'generateblocks/element' )?.attributes?.tagName?.enum;
-	const tagNameOptions = tagNames.map( ( tag ) => ( {
-		label: tag,
-		value: tag,
-	} ) );
 
 	return (
 		<>
@@ -141,44 +128,17 @@ function EditBlock( props ) {
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
 				>
-					{
-						applyFilters(
-							'generateblocks.editor.blockStyles',
-							null,
-							{
-								...props,
-								onStyleChange,
-								getStyleValue,
-							}
-						)
-					}
+					<OpenPanel
+						title={ __( 'Settings', 'generateblocks' ) }
+					>
+						<QueryInspectorControls
+							attributes={ attributes }
+							setAttributes={ setAttributes }
+						/>
+					</OpenPanel>
 				</BlockStyles>
 			</InspectorControls>
 			<InspectorAdvancedControls>
-				<SelectControl
-					label={ __( 'Tag Name' ) }
-					value={ tagName }
-					options={ tagNameOptions }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-
-						if ( 'a' === value && ! styles?.display ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
-
-				{ 'a' === tagName && (
-					<BaseControl>
-						<Notice
-							status="warning"
-							isDismissible={ false }
-						>
-							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
-						</Notice>
-					</BaseControl>
-				) }
-
 				<HtmlAttributes
 					items={ htmlAttributes }
 					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
@@ -189,7 +149,6 @@ function EditBlock( props ) {
 			<RootElement
 				name={ name }
 				clientId={ clientId }
-				isBlockPreview={ isBlockPreview }
 			>
 				<TagName { ...innerBlocksProps } />
 			</RootElement>

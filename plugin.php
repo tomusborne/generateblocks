@@ -44,6 +44,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-legacy-attributes.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-map-deprecated-attributes.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-query-utils.php';
 
 // Pattern library.
 require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-libraries.php';
@@ -61,6 +62,9 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-text.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-element.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-shape.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-media.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-looper.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-no-results.php';
 
 // Legacy Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';

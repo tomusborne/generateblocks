@@ -1,15 +1,15 @@
 import { ToggleControl } from '@wordpress/components';
 import { sprintf } from '@wordpress/i18n';
-import SelectPostType from '../../../../../extend/dynamic-content/components/SelectPostType';
-import SimpleSelect from '../../../../../components/simple-select';
-import AuthorsSelect from '../../../../../components/authors-select';
-import { CategoriesSelect, TagsSelect } from '../../../../../components/taxonomies-select';
-import RemoveButton from './RemoveButton';
-import TaxonomyParameterControl from '../controls/TaxonomyParameterControl';
-import PostTypeRecordsSelect from '../../../../../components/post-type-records-select';
-import DateTimePicker from '../controls/DateTimePicker';
-import DebouncedTextControl from '../../../../../components/debounced-text-control';
-import SimpleMultiSelect from '../../../../../components/simple-multi-select';
+import SelectPostType from '../../extend/dynamic-content/components/SelectPostType';
+import SimpleSelect from '../simple-select';
+import AuthorsSelect from '../authors-select';
+import { CategoriesSelect, TagsSelect } from '../taxonomies-select';
+import RemoveButton from './parameter-list/RemoveButton';
+import TaxonomyParameterControl from './parameter-list/TaxonomyParameterControl';
+import PostTypeRecordsSelect from '../post-type-records-select';
+import DateTimePicker from './DateTimePicker/DateTimePicker';
+import DebouncedTextControl from '../debounced-text-control';
+import SimpleMultiSelect from '../simple-multi-select';
 import { isArray, isObject } from 'lodash';
 
 const getParameterControl = ( parameterType ) => {
@@ -71,6 +71,7 @@ export default function ControlBuilder( props ) {
 		: undefined;
 
 	const controlPlaceholder = placeholder || defaultValuePlaceholder;
+	const isPostsPerPage = 'number' === type && 'posts per page' === label.toLowerCase();
 
 	return (
 		<div className={ 'gblocks-parameter-component' }>
@@ -83,6 +84,7 @@ export default function ControlBuilder( props ) {
 				value={ value }
 				placeholder={ controlPlaceholder }
 				onChange={ onChange }
+				min={ isPostsPerPage ? -1 : undefined }
 				{ ...dependencies }
 			/>
 			{ ! isSticky && <RemoveButton id={ id } onClick={ onClickRemove } /> }

@@ -1,0 +1,58 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/looper",
+    "title": "Looper",
+    "category": "generateblocks",
+    "description": "An HTML element that you can add blocks inside of.",
+    "keywords": [ "query", "loop", "posts" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+    "attributes": {
+        "uniqueId": {
+            "type": "string"
+        },
+		"tagName": {
+			"type": "string",
+			"default": "",
+			"enum": [
+				"div",
+				"section",
+				"article",
+				"aside",
+				"header",
+				"footer",
+				"nav",
+				"main"
+			]
+		},
+		"styles": {
+			"type": "object"
+		},
+		"css": {
+			"type": "string"
+		},
+		"globalClasses": {
+			"type": "array"
+		},
+		"htmlAttributes": {
+			"type": "object"
+		}
+    },
+    "supports": {
+        "align": false,
+		"className": false
+    },
+    "editorScript": "file:./index.js",
+    "editorStyle": [ "file:./index.css", "generateblocks-block-styles", "generateblocks-components" ],
+	"usesContext": [
+		"postId",
+		"postType",
+		"generateblocks/queryId",
+		"generateblocks/query",
+		"generateblocks/inheritQuery",
+		"generateblocks/queryData",
+		"generateblocks/noResults",
+		"generateblocks/queryType"
+	]
+}

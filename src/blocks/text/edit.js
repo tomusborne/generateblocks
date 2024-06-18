@@ -77,7 +77,13 @@ function EditBlock( props ) {
 
 	const contentValue = useMemo( () => {
 		if ( dynamicTagValue ) {
-			return dynamicTagValue;
+			// Create a temp element so we can get the text-only value.
+			// This allows us to replace the text inside links for example.
+			const tempElement = document.createElement( 'div' );
+			tempElement.innerHTML = content;
+			const textContent = tempElement.textContent;
+
+			return content.replace( textContent, dynamicTagValue );
 		}
 
 		return content;

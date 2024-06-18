@@ -84,6 +84,14 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['media'][] = $block['attrs'];
 			}
 
+			if ( 'generateblocks/query' === $block['blockName'] ) {
+				$data['query'][] = $block['attrs'];
+			}
+
+			if ( 'generateblocks/looper' === $block['blockName'] ) {
+				$data['looper'][] = $block['attrs'];
+			}
+
 			$data = apply_filters( 'generateblocks_modify_block_data', $data, $block );
 
 			if ( 'core/block' === $block['blockName'] ) {
@@ -1089,6 +1097,8 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 			'element' => 'GenerateBlocks_Block_Element',
 			'media'   => 'GenerateBlocks_Block_Media',
 			'shape'   => 'GenerateBlocks_Block_Shape',
+			'query'   => 'GenerateBlocks_Block_Query',
+			'looper'  => 'GenerateBlocks_Block_Looper',
 		]
 	);
 

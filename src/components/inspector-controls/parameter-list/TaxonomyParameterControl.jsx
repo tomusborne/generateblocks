@@ -1,7 +1,7 @@
-import SimpleSelect from '../../../../../components/simple-select';
-import TaxonomiesSelect from '../../../../../components/taxonomies-select';
+import SimpleSelect from '../../simple-select';
+import TaxonomiesSelect from '../../taxonomies-select';
 import { useEffect, useMemo, useState } from '@wordpress/element';
-import { useTaxonomies } from '../../../../../hooks';
+import { useTaxonomies } from '../../../hooks';
 import { ToggleControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 

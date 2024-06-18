@@ -169,6 +169,27 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => [ 'GenerateBlocks_Block_Shape', 'render_block' ],
 			]
 		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . '/dist/blocks/query',
+			[
+				'render_callback' => [ 'GenerateBlocks_Block_Query', 'render_block' ],
+			]
+		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . '/dist/blocks/looper',
+			[
+				'render_callback' => [ 'GenerateBlocks_Block_Looper', 'render_block' ],
+			]
+		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . '/dist/blocks/query-no-results',
+			[
+				'render_callback' => [ 'GenerateBlocks_Block_Query_No_Results', 'render_block' ],
+			]
+		);
 	}
 
 	/**
