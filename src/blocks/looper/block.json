@@ -8,6 +8,7 @@
     "keywords": [ "query", "loop", "posts" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",
+	"parent": [ "generateblocks/query" ],
     "attributes": {
         "uniqueId": {
             "type": "string"
