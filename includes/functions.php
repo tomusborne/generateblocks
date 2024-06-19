@@ -1987,8 +1987,9 @@ function generateblocks_should_show_legacy_blocks() {
  * This deregisters the script registered by block.json and registers it with our custom deps.
  *
  * @param string $block_name The block name.
+ * @param array  $variables The variables to localize.
  */
-function generateblocks_register_block_script( $block_name ) {
+function generateblocks_register_block_script( $block_name, $variables = [] ) {
 	wp_deregister_script( 'generateblocks-' . $block_name . '-editor-script' );
 	$block_assets = generateblocks_get_enqueue_assets( 'blocks/' . $block_name . '/index' );
 	wp_register_script(
@@ -1997,5 +1998,12 @@ function generateblocks_register_block_script( $block_name ) {
 		array_merge( $block_assets['dependencies'], [ 'wp-editor' ] ),
 		$block_assets['version'],
 		false
+	);
+
+	$capitlized_block_name = ucfirst( $block_name );
+	wp_localize_script(
+		'generateblocks-' . $block_name . '-editor-script',
+		'generateblocksBlock' . $capitlized_block_name,
+		$variables
 	);
 }

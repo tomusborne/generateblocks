@@ -10,7 +10,8 @@
 		"generateBlocksStyling": "readonly",
 		"generateBlocksSettings": "readonly",
 		"generateBlocksLegacyDefaults": "readonly",
-		"generateBlocksPatternLibrary": "readonly"
+		"generateBlocksPatternLibrary": "readonly",
+		"generateblocksBlockMedia": "readonly"
 	},
 	"env": {
 	  "browser": true,

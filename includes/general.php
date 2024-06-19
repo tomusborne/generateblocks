@@ -26,7 +26,13 @@ function generateblocks_do_block_editor_assets() {
 	generateblocks_register_block_script( 'element' );
 	generateblocks_register_block_script( 'text' );
 	generateblocks_register_block_script( 'shape' );
-	generateblocks_register_block_script( 'media' );
+	generateblocks_register_block_script(
+		'media',
+		[
+			'standardPlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder1280x720.png',
+			'squarePlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder800x.png',
+		]
+	);
 
 	global $pagenow;
 
