@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { Button, BaseControl } from '@wordpress/components';
-import { useState } from '@wordpress/element';
+import { useState, useMemo } from '@wordpress/element';
 import { containerColorControls, linkElementColorControls } from './colorControls.js';
 import { addFilter } from '@wordpress/hooks';
 import UnitControl from '../../components/unit-control/index.js';
@@ -13,6 +13,7 @@ import { DividerModal } from '../../components/icon-control/DividerModal.jsx';
 import { OpenPanel } from '../../components/open-panel/index.js';
 import { layouts } from '../../components/grid-column-selector/layouts.js';
 import { moreDesignOptions, Padding, ColorPickerControls } from './index.js';
+import { ImageUpload } from '../../components/image-upload/ImageUpload.jsx';
 
 export function ElementOptions( options, props ) {
 	const {
@@ -36,6 +37,17 @@ export function ElementOptions( options, props ) {
 		removeBlock,
 	} = useDispatch( blockEditorStore );
 	const { getBlock } = useSelect( ( select ) => select( blockEditorStore ), [] );
+
+	const backgroundImageUrl = useMemo( () => {
+		const url = getStyleValue( 'backgroundImage' );
+
+		const regex = /url\((['"]?)(.*?)\1\)/;
+		const match = url.match( regex );
+
+		if ( match && match[ 2 ] ) {
+			return match[ 2 ];
+		}
+	}, [ getStyleValue( 'backgroundImage' ) ] );
 
 	if ( 'generateblocks/element' !== name ) {
 		return options;
@@ -138,6 +150,15 @@ export function ElementOptions( options, props ) {
 				<Padding
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
+				/>
+
+				<ImageUpload
+					label={ __( 'Background Image', 'generateblocks' ) }
+					value={ getStyleValue( 'backgroundImage' ) }
+					onInsert={ ( value ) => onStyleChange( 'backgroundImage', `url(${ value })` ) }
+					onSelectImage={ ( media ) => onStyleChange( 'backgroundImage', `url(${ media.url })` ) }
+					showInput={ false }
+					previewUrl={ backgroundImageUrl }
 				/>
 			</OpenPanel>
 

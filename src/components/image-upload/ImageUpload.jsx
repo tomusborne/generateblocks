@@ -5,10 +5,18 @@ import { Stack } from '@edge22/components';
 import { DynamicTagDropdown } from '../../dynamic-tags';
 import './editor.scss';
 
-export function ImageUpload( { url, onInsert, onSelectImage } ) {
+export function ImageUpload( {
+	label = __( 'Image', 'generateblocks' ),
+	value,
+	onInsert,
+	onSelectImage,
+	showInput = true,
+	previewUrl = '',
+	allowDynamicTags = false,
+} ) {
 	return (
 		<BaseControl
-			label={ __( 'Image', 'generateblocks' ) }
+			label={ label }
 			id=""
 		>
 			<Stack
@@ -18,11 +26,21 @@ export function ImageUpload( { url, onInsert, onSelectImage } ) {
 				gap="5px"
 				wrap={ false }
 			>
-				<TextControl
-					value={ url }
-					onChange={ ( value ) => onInsert( value ) }
-					style={ { marginBottom: 0 } }
-				/>
+				{ !! showInput && (
+					<TextControl
+						value={ value }
+						onChange={ ( newValue ) => onInsert( newValue ) }
+						style={ { marginBottom: 0 } }
+					/>
+				) }
+
+				{ !! previewUrl && (
+					<img
+						src={ previewUrl }
+						alt=""
+						style={ { width: 'auto', height: '32px', objectFit: 'cover' } }
+					/>
+				) }
 
 				<MediaUploadCheck>
 					<MediaUpload
@@ -40,9 +58,11 @@ export function ImageUpload( { url, onInsert, onSelectImage } ) {
 					/>
 				</MediaUploadCheck>
 
-				<DynamicTagDropdown
-					onInsert={ ( value ) => onInsert( value ) }
-				/>
+				{ allowDynamicTags && (
+					<DynamicTagDropdown
+						onInsert={ ( newValue ) => onInsert( newValue ) }
+					/>
+				) }
 			</Stack>
 		</BaseControl>
 	);

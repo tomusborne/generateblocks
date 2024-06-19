@@ -31,7 +31,7 @@ function ImageOptions( options, props ) {
 				title={ __( 'Settings', 'generateblocks' ) }
 			>
 				<ImageUpload
-					url={ htmlAttributes?.src }
+					value={ htmlAttributes?.src }
 					onInsert={ ( value ) => {
 						setAttributes( {
 							htmlAttributes: {
@@ -41,6 +41,7 @@ function ImageOptions( options, props ) {
 						} );
 					} }
 					onSelectImage={ onSelectImage }
+					allowDynamicTags={ true }
 				/>
 
 				<TextControl
