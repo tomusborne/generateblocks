@@ -41,7 +41,23 @@ export function Image( {
 		imageRef.current?.complete,
 	] );
 
-	const imageSrc = dynamicTagValue || temporaryURL || elementAttributes?.src;
+	const imageSrc = useMemo( () => {
+		if ( dynamicTagValue ) {
+			return dynamicTagValue;
+		}
+
+		if ( temporaryURL ) {
+			return temporaryURL;
+		}
+
+		if ( elementAttributes?.src ) {
+			if ( elementAttributes?.src.startsWith( '{' ) ) {
+				return generateblocksBlockMedia.squarePlaceholder;
+			}
+
+			return elementAttributes.src;
+		}
+	}, [ dynamicTagValue, temporaryURL, elementAttributes?.src ] );
 
 	/* eslint-disable jsx-a11y/alt-text */
 	// The alt tag below is added via elementAttributes.

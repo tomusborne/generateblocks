@@ -90,7 +90,14 @@ class GenerateBlocks_Register_Dynamic_Tag {
 
 			if ( generateblocks_str_contains( $content, $full_tag ) ) {
 				$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
-				$content = str_replace( $full_tag, call_user_func( $data['return'], [] ), $content );
+				$replacement = call_user_func( $data['return'], [] );
+
+				if ( ! $replacement && 'src="' === substr( $full_tag, 0, 5 ) ) {
+					$content = '';
+					continue;
+				}
+
+				$content = str_replace( $full_tag, (string) $replacement, $content );
 			} else {
 				$pattern = '/\{' . $tag_name . '(\s+([^}]+))*\}/';
 				preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
@@ -101,6 +108,12 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					$options_string = $match[2] ?? '';
 					$options = self::parse_options( $options_string );
 					$replacement = call_user_func( $data['return'], $options );
+
+					if ( ! $replacement && 'src="' === substr( $full_tag, 0, 5 ) ) {
+						$content = '';
+						continue;
+					}
+
 					$content = str_replace( $full_tag, (string) $replacement, $content );
 				}
 			}
