@@ -190,24 +190,23 @@ function EditBlock( props ) {
 							min="0"
 							max="10"
 						/>
+
+						<SelectControl
+							label={ __( 'Tag Name' ) }
+							value={ tagName }
+							options={ tagNameOptions }
+							onChange={ ( value ) => setAttributes( { tagName: value } ) }
+						/>
+
+						<HtmlAttributes
+							items={ htmlAttributes }
+							onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+							onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+							onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+						/>
 					</OpenPanel>
 				</BlockStyles>
 			</InspectorControls>
-			<InspectorAdvancedControls>
-				<SelectControl
-					label={ __( 'Tag Name' ) }
-					value={ tagName }
-					options={ tagNameOptions }
-					onChange={ ( value ) => setAttributes( { tagName: value } ) }
-				/>
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</InspectorAdvancedControls>
 			<TagName { ...blockProps }>
 				{ previewPaginationNumbers( midSize ) }
 			</TagName>

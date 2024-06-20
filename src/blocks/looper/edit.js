@@ -16,6 +16,7 @@ import { useCurrentAtRule } from '@hooks/useCurrentAtRule';
 
 import './editor.scss';
 import { GridColumnSelector } from '@components/grid-column-selector';
+import { moreDesignOptions } from '../../editor/block-controls';
 
 function EditBlock( props ) {
 	const {
@@ -135,7 +136,10 @@ function EditBlock( props ) {
 					defaultAtRules={ defaultAtRules }
 				>
 					<OpenPanel
-						title={ __( 'Settings', 'generateblocks' ) }
+						title={ __( 'Design', 'generateblocks' ) }
+						dropdownOptions={ [
+							moreDesignOptions,
+						] }
 					>
 						<GridColumnSelector
 							value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
@@ -145,16 +149,19 @@ function EditBlock( props ) {
 							} }
 						/>
 					</OpenPanel>
+
+					<OpenPanel
+						title={ __( 'Settings', 'generateblocks' ) }
+					>
+						<HtmlAttributes
+							items={ htmlAttributes }
+							onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+							onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+							onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+						/>
+					</OpenPanel>
 				</BlockStyles>
 			</InspectorControls>
-			<InspectorAdvancedControls>
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</InspectorAdvancedControls>
 			<TagName { ...blockProps }>
 				<LoopInnerBlocksRenderer { ...props } />
 			</TagName>

@@ -146,23 +146,25 @@ function EditBlock( props ) {
 					defaultAtRules={ defaultAtRules }
 				>
 					<OpenPanel
-						title={ __( 'Settings', 'generateblocks' ) }
+						title={ __( 'Query Parameters', 'generateblocks' ) }
 					>
 						<QueryInspectorControls
 							attributes={ attributes }
 							setAttributes={ setAttributes }
 						/>
 					</OpenPanel>
+					<OpenPanel
+						title={ __( 'Settings', 'generateblocks' ) }
+					>
+						<HtmlAttributes
+							items={ htmlAttributes }
+							onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+							onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+							onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+						/>
+					</OpenPanel>
 				</BlockStyles>
 			</InspectorControls>
-			<InspectorAdvancedControls>
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</InspectorAdvancedControls>
 			<RootElement
 				name={ name }
 				clientId={ clientId }
