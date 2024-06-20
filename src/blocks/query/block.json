@@ -57,6 +57,10 @@
 		"inheritQuery": {
 			"type": "boolean",
 			"default": false
+		},
+		"showTemplateSelector": {
+			"type": "boolean",
+			"default": false
 		}
     },
     "supports": {

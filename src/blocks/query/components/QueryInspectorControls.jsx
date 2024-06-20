@@ -9,21 +9,11 @@ import SelectQueryParameter from '@components/inspector-controls/SelectQueryPara
 import AddQueryParameterButton from '@components/inspector-controls/AddQueryParameterButton';
 import ParameterList from './ParameterList';
 import useQueryReducer from '@hooks/useQueryReducer';
-import isEmpty from '@utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';
 
 export function QueryInspectorControls( { attributes, setAttributes } ) {
-	const { queryState, insertParameters, setParameter, removeParameter } = useQueryReducer( attributes.query );
+	const { queryState, setParameter, removeParameter } = useQueryReducer( attributes.query );
 	const [ displayParameterSelect, setDisplayParameterSelect ] = useState( false );
-
-	useEffect( () => {
-		if ( isEmpty( attributes.query ) ) {
-			insertParameters( {
-				post_type: 'post',
-				per_page: 10,
-			} );
-		}
-	}, [] );
 
 	useEffect( () => {
 		setAttributes( { query: queryState } );

@@ -74,17 +74,31 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	/**
 	 * Check if we should remove the entire block based on the tag replacement.
 	 *
+	 * @param string $content The content.
 	 * @param string $full_tag The full tag.
 	 * @param mixed  $replacement The replacement.
 	 * @return bool
 	 */
-	public static function should_remove_block( $full_tag, $replacement ) {
+	public static function should_remove_block( $content, $full_tag, $replacement ) {
 		if ( $replacement ) {
 			return false;
 		}
 
-		if ( 'src="' === substr( $full_tag, 0, 5 ) ) {
-			return true;
+		// Remove image blocks if they have no src.
+		if ( generateblocks_str_contains( $full_tag, '{featured_image_url' ) ) {
+			$p = new WP_HTML_Tag_Processor( $content );
+
+			if ( $p->next_tag(
+				[
+					'tag_name'   => 'img',
+				]
+			) ) {
+				$src = $p->get_attribute( 'src' );
+
+				if ( generateblocks_str_contains( $src, '{featured_image_url' ) ) {
+					return true;
+				}
+			}
 		}
 
 		if ( generateblocks_str_contains( $full_tag, '{previous_posts_page_url' ) ) {
@@ -120,7 +134,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 				$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
 				$replacement = $data['return']( [], $block, $instance );
 
-				if ( self::should_remove_block( $full_tag, $replacement ) ) {
+				if ( self::should_remove_block( $content, $full_tag, $replacement ) ) {
 					$content = '';
 					continue;
 				}
@@ -160,7 +174,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					$options = self::parse_options( $options_string );
 					$replacement = $data['return']( $options, $block, $instance );
 
-					if ( self::should_remove_block( $full_tag, $replacement ) ) {
+					if ( self::should_remove_block( $content, $full_tag, $replacement ) ) {
 						$content = '';
 						continue;
 					}

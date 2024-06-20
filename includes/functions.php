@@ -92,6 +92,10 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['looper'][] = $block['attrs'];
 			}
 
+			if ( 'generateblocks/query-page-numbers' === $block['blockName'] ) {
+				$data['query-page-numbers'][] = $block['attrs'];
+			}
+
 			$data = apply_filters( 'generateblocks_modify_block_data', $data, $block );
 
 			if ( 'core/block' === $block['blockName'] ) {
@@ -1093,12 +1097,13 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 	$blocks = apply_filters(
 		'generateblocks_dynamic_css_blocks',
 		[
-			'text'    => 'GenerateBlocks_Block_Text',
-			'element' => 'GenerateBlocks_Block_Element',
-			'media'   => 'GenerateBlocks_Block_Media',
-			'shape'   => 'GenerateBlocks_Block_Shape',
-			'query'   => 'GenerateBlocks_Block_Query',
-			'looper'  => 'GenerateBlocks_Block_Looper',
+			'text'               => 'GenerateBlocks_Block_Text',
+			'element'            => 'GenerateBlocks_Block_Element',
+			'media'              => 'GenerateBlocks_Block_Media',
+			'shape'              => 'GenerateBlocks_Block_Shape',
+			'query'              => 'GenerateBlocks_Block_Query',
+			'looper'             => 'GenerateBlocks_Block_Looper',
+			'query-page-numbers' => 'GenerateBlocks_Block_Query_Page_Numbers',
 		]
 	);
 

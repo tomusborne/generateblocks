@@ -13,6 +13,8 @@ import { convertInlineStyleStringToObject } from '../element/utils.js';
 import RootElement from '../../components/root-element/index.js';
 import { OpenPanel } from '@components/open-panel';
 import { QueryInspectorControls } from './components/QueryInspectorControls';
+import { TemplateSelector } from '@components/template-selector';
+import { templates } from './templates';
 
 function EditBlock( props ) {
 	const {
@@ -30,6 +32,7 @@ function EditBlock( props ) {
 		htmlAttributes = [],
 		globalClasses = [],
 		tagName,
+		showTemplateSelector,
 	} = attributes;
 
 	const { getStyles } = useSelect( stylesStore );
@@ -117,6 +120,18 @@ function EditBlock( props ) {
 	);
 
 	const TagName = tagName || 'div';
+
+	if ( showTemplateSelector ) {
+		return (
+			<TemplateSelector
+				clientId={ clientId }
+				setAttributes={ setAttributes }
+				label={ __( 'Tabs', 'generateblocks-pro' ) }
+				instructions={ __( 'Choose a tabs layout to start with.', 'generateblocks-pro' ) }
+				templates={ templates }
+			/>
+		);
+	}
 
 	return (
 		<>

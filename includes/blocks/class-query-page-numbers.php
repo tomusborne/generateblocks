@@ -136,7 +136,7 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 		$unique_id = $attributes['uniqueId'] ?? '';
 
 		if ( $unique_id && ! empty( $attributes['css'] ) ) {
-			$classes[] = 'gb-query-' . $unique_id;
+			$classes[] = 'gb-query-page-numbers-' . $unique_id;
 		}
 
 		$tag_name = $attributes['tagName'] ?? 'div';

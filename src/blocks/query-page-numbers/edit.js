@@ -79,7 +79,7 @@ function EditBlock( props ) {
 		}
 
 		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-pagination-${ uniqueId }` );
+			classes.push( `gb-query-page-numbers-${ uniqueId }` );
 		}
 
 		return classes;
@@ -96,7 +96,7 @@ function EditBlock( props ) {
 			return '';
 		}
 
-		return '.gb-pagination-' + uniqueId;
+		return '.gb-query-page-numbers-' + uniqueId;
 	}, [ uniqueId ] );
 
 	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
@@ -162,6 +162,15 @@ function EditBlock( props ) {
 					css={ css }
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
+					selectorShortcuts={ {
+						default: {
+							label: __( 'Numbers', 'generateblocks-pro' ),
+							items: [
+								{ label: __( 'Page Number', 'generateblocks-pro' ), value: '.page-numbers' },
+								{ label: __( 'Current Page Number', 'generateblocks-pro' ), value: '.page-numbers.current' },
+							],
+						},
+					} }
 				>
 					<OpenPanel
 						title={ __( 'Settings', 'generateblocks' ) }
