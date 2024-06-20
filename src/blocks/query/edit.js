@@ -110,6 +110,8 @@ function EditBlock( props ) {
 			allowedBlocks: [
 				'generateblocks/looper',
 				'generateblocks/query-no-results',
+				'generateblocks/query-page-numbers',
+				'generateblocks/element',
 			],
 		}
 	);

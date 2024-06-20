@@ -1,25 +1,26 @@
 {
     "$schema": "https://schemas.wp.org/trunk/block.json",
     "apiVersion": 3,
-    "name": "generateblocks/text",
-    "title": "Text",
+    "name": "generateblocks/query-page-numbers",
+    "title": "Page Numbers",
     "category": "generateblocks",
-    "description": "A text element where you can choose your own tag name, content, and styles.",
+    "description": "A custom SVG shape.",
     "keywords": [ "text", "heading", "headline", "paragraph" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",
+	"ancestor": [ "generateblocks/query" ],
     "attributes": {
         "uniqueId": {
             "type": "string"
         },
 		"tagName": {
 			"type": "string",
-			"default": ""
-		},
-		"content": {
-			"type": "rich-text",
-			"source": "rich-text",
-			"selector": ".gb-text"
+			"default": "",
+			"enum": [
+				"div",
+				"section",
+				"nav"
+			]
 		},
 		"styles": {
 			"type": "object"
@@ -33,29 +34,20 @@
 		"htmlAttributes": {
 			"type": "object"
 		},
-		"icon": {
-			"type": "string",
-			"source": "html",
-			"selector": ".gb-shape"
-		},
-		"iconLocation": {
-			"type": "string",
-			"default": "before"
+		"midSize": {
+			"type": "number",
+			"default": 3
 		}
     },
     "supports": {
         "align": false,
-		"className": false,
-		"splitting": true
+		"className": false
     },
     "editorScript": "file:./index.js",
     "editorStyle": [ "file:./index.css", "generateblocks-block-styles" ],
 	"usesContext": [
-		"postId",
-		"postType",
-		"generateblocks/query",
 		"generateblocks/queryData",
-		"generateblocks/inheritQuery",
+		"generateblocks/query",
 		"generateblocks/queryId",
 		"generateblocks/forceReload"
 	]

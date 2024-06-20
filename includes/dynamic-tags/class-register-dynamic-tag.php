@@ -72,13 +72,41 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	}
 
 	/**
+	 * Check if we should remove the entire block based on the tag replacement.
+	 *
+	 * @param string $full_tag The full tag.
+	 * @param mixed  $replacement The replacement.
+	 * @return bool
+	 */
+	public static function should_remove_block( $full_tag, $replacement ) {
+		if ( $replacement ) {
+			return false;
+		}
+
+		if ( 'src="' === substr( $full_tag, 0, 5 ) ) {
+			return true;
+		}
+
+		if ( generateblocks_str_contains( $full_tag, '{previous_posts_page_url' ) ) {
+			return true;
+		}
+
+		if ( generateblocks_str_contains( $full_tag, '{next_posts_page_url' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Replace tags.
 	 *
 	 * @param string $content The content.
 	 * @param array  $block The block.
+	 * @param Object $instance The block instance.
 	 * @return string
 	 */
-	public static function replace_tags( $content, $block = [] ) {
+	public static function replace_tags( $content, $block, $instance ) {
 		foreach ( self::$tags as $tag_name => $data ) {
 			$opening_tag = '{' . $tag_name;
 
@@ -90,12 +118,35 @@ class GenerateBlocks_Register_Dynamic_Tag {
 
 			if ( generateblocks_str_contains( $content, $full_tag ) ) {
 				$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
-				$replacement = call_user_func( $data['return'], [] );
+				$replacement = $data['return']( [], $block, $instance );
 
-				if ( ! $replacement && 'src="' === substr( $full_tag, 0, 5 ) ) {
+				if ( self::should_remove_block( $full_tag, $replacement ) ) {
 					$content = '';
 					continue;
 				}
+
+				/**
+				 * Allow developers to filter the content before dynamic tag replacement.
+				 *
+				 * @since 2.0.0
+				 *
+				 * @param string $content The content.
+				 * @param string $full_tag The full tag.
+				 * @param mixed  $replacement The replacement.
+				 * @param array  $block The block.
+				 * @param Object $instance The block instance.
+				 */
+				$content = apply_filters(
+					'generateblocks_before_dynamic_tag_replace',
+					$content,
+					[
+						'tag'         => $full_tag,
+						'replacement' => $replacement,
+						'block'       => $block,
+						'instance'    => $instance,
+						'options'     => [],
+					]
+				);
 
 				$content = str_replace( $full_tag, (string) $replacement, $content );
 			} else {
@@ -107,12 +158,35 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
 					$options_string = $match[2] ?? '';
 					$options = self::parse_options( $options_string );
-					$replacement = call_user_func( $data['return'], $options );
+					$replacement = $data['return']( $options, $block, $instance );
 
-					if ( ! $replacement && 'src="' === substr( $full_tag, 0, 5 ) ) {
+					if ( self::should_remove_block( $full_tag, $replacement ) ) {
 						$content = '';
 						continue;
 					}
+
+					/**
+					 * Allow developers to filter the content before dynamic tag replacement.
+					 *
+					 * @since 2.0.0
+					 *
+					 * @param string $content The content.
+					 * @param string $full_tag The full tag.
+					 * @param mixed  $replacement The replacement.
+					 * @param array  $block The block.
+					 * @param Object $instance The block instance.
+					 */
+					$content = apply_filters(
+						'generateblocks_before_dynamic_tag_replace',
+						$content,
+						[
+							'tag'         => $full_tag,
+							'replacement' => $replacement,
+							'block'       => $block,
+							'instance'    => $instance,
+							'options'     => $options,
+						]
+					);
 
 					$content = str_replace( $full_tag, (string) $replacement, $content );
 				}

@@ -46,5 +46,9 @@
 		"className": false
     },
     "editorScript": "file:./index.js",
-    "editorStyle": [ "file:./index.css", "generateblocks-block-styles", "generateblocks-components" ]
+    "editorStyle": [ "file:./index.css", "generateblocks-block-styles", "generateblocks-components" ],
+	"usesContext": [
+		"generateblocks/queryData",
+		"generateblocks/forceReload"
+	]
 }

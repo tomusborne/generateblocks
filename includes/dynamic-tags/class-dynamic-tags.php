@@ -22,8 +22,9 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public function init() {
 		add_action( 'init', [ $this, 'register' ] );
-		add_filter( 'render_block', [ $this, 'replace_tags' ], 10, 2 );
+		add_filter( 'render_block', [ $this, 'replace_tags' ], 10, 3 );
 		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
+		add_filter( 'generateblocks_before_dynamic_tag_replace', [ $this, 'before_tag_replace' ], 10, 2 );
 	}
 
 	/**
@@ -79,6 +80,22 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Previous Posts URL', 'generateblocks' ),
+				'tag'    => 'previous_posts_page_url',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_previous_posts_page_url' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Next Posts URL', 'generateblocks' ),
+				'tag'    => 'next_posts_page_url',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
+			]
+		);
 	}
 
 	/**
@@ -86,10 +103,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 *
 	 * @param string $content The content.
 	 * @param array  $block The block.
+	 * @param array  $instance The block instance.
 	 * @return string
 	 */
-	public function replace_tags( $content, $block ) {
-		return GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, $block );
+	public function replace_tags( $content, $block, $instance ) {
+		return GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, $block, $instance );
 	}
 
 	/**
@@ -165,7 +183,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			}
 		}
 
-		$value = GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content );
+		$value = GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, [], new stdClass() );
 
 		return rest_ensure_response( $value );
 	}
@@ -187,6 +205,39 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		}
 
 		return rest_ensure_response( $tag_list );
+	}
+
+	/**
+	 * Before tag replace.
+	 *
+	 * @param string $content The content.
+	 * @param array  $args The arguments.
+	 * @return string
+	 */
+	public function before_tag_replace( $content, $args ) {
+		if (
+			generateblocks_str_contains( $content, '{previous_posts_page_url' ) ||
+			generateblocks_str_contains( $content, '{next_posts_page_url' )
+		) {
+			$force_reload = $args['instance']->context['generateblocks/forceReload'] ?? true;
+			$query_id     = $args['instance']->context['generateblocks/queryId'] ?? '';
+
+			if ( ! $force_reload && class_exists( 'WP_HTML_Tag_Processor' ) ) {
+				$p = new WP_HTML_Tag_Processor( $content );
+
+				if ( $p->next_tag(
+					[
+						'tag_name'   => 'a',
+					]
+				) ) {
+					$p->set_attribute( 'data-gb-router-target', 'query-' . $query_id );
+					$p->set_attribute( 'data-gb-prefetch', true );
+					$content = $p->get_updated_html();
+				}
+			}
+		}
+
+		return $content;
 	}
 }
 

@@ -12,6 +12,7 @@ import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { OpenPanel } from '@components/open-panel';
 import { LoopInnerBlocksRenderer } from './components/LoopInnerBlocksRenderer';
+import './editor.scss';
 
 function EditBlock( props ) {
 	const {

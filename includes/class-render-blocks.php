@@ -190,6 +190,13 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => [ 'GenerateBlocks_Block_Query_No_Results', 'render_block' ],
 			]
 		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . '/dist/blocks/query-page-numbers',
+			[
+				'render_callback' => [ 'GenerateBlocks_Block_Query_Page_Numbers', 'render_block' ],
+			]
+		);
 	}
 
 	/**
