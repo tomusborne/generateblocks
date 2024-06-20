@@ -12,7 +12,10 @@ import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { OpenPanel } from '@components/open-panel';
 import { LoopInnerBlocksRenderer } from './components/LoopInnerBlocksRenderer';
+import { useCurrentAtRule } from '@hooks/useCurrentAtRule';
+
 import './editor.scss';
+import { GridColumnSelector } from '@components/grid-column-selector';
 
 function EditBlock( props ) {
 	const {
@@ -33,6 +36,7 @@ function EditBlock( props ) {
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
+	const currentAtRule = useCurrentAtRule();
 	const classNames = useMemo( () => {
 		const classes = [];
 
@@ -70,6 +74,20 @@ function EditBlock( props ) {
 
 		const updatedStyles = getStyles();
 		setAttributes( { styles: updatedStyles } );
+	}
+
+	function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
+		if ( nestedRuleValue ) {
+			if ( atRuleValue ) {
+				return styles?.[ atRuleValue ]?.[ nestedRuleValue ]?.[ property ] ?? '';
+			}
+
+			return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
+		} else if ( atRuleValue ) {
+			return styles?.[ atRuleValue ]?.[ property ] ?? '';
+		}
+
+		return styles?.[ property ] ?? '';
 	}
 
 	useEffect( () => {
@@ -119,7 +137,13 @@ function EditBlock( props ) {
 					<OpenPanel
 						title={ __( 'Settings', 'generateblocks' ) }
 					>
-						testing
+						<GridColumnSelector
+							value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
+							onClick={ ( value ) => {
+								onStyleChange( 'display', 'grid', currentAtRule );
+								onStyleChange( 'gridTemplateColumns', value, currentAtRule );
+							} }
+						/>
 					</OpenPanel>
 				</BlockStyles>
 			</InspectorControls>

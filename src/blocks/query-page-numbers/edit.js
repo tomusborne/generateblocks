@@ -106,12 +106,18 @@ function EditBlock( props ) {
 		setAttributes( { styles: updatedStyles } );
 	}
 
-	function getStyleValue( property, nestedRuleValue = '' ) {
-		if ( ! nestedRuleValue ) {
-			return styles?.[ property ] ?? '';
+	function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
+		if ( nestedRuleValue ) {
+			if ( atRuleValue ) {
+				return styles?.[ atRuleValue ]?.[ nestedRuleValue ]?.[ property ] ?? '';
+			}
+
+			return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
+		} else if ( atRuleValue ) {
+			return styles?.[ atRuleValue ]?.[ property ] ?? '';
 		}
 
-		return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
+		return styles?.[ property ] ?? '';
 	}
 
 	useEffect( () => {
