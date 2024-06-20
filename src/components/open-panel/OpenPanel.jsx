@@ -7,7 +7,12 @@ export function OpenPanel( {
 	title,
 	children,
 	dropdownOptions = [],
+	shouldRender = true,
 } ) {
+	if ( ! shouldRender ) {
+		return null;
+	}
+
 	return (
 		<div className="gb-open-panel">
 			<PanelBody>

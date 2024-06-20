@@ -10,6 +10,7 @@ function ShapeOptions( options, props ) {
 	const {
 		getStyleValue,
 		onStyleChange,
+		currentAtRule,
 		name,
 		attributes,
 		setAttributes,
@@ -27,6 +28,7 @@ function ShapeOptions( options, props ) {
 		<>
 			<OpenPanel
 				title={ __( 'Shape', 'generateblocks' ) }
+				shouldRender={ '' === currentAtRule }
 			>
 				<IconControl
 					value={ html }
@@ -49,21 +51,22 @@ function ShapeOptions( options, props ) {
 				<UnitControl
 					id="width"
 					label={ __( 'Width', 'generateblocks' ) }
-					value={ getStyleValue( 'width', 'svg' ) }
-					onChange={ ( value ) => onStyleChange( 'width', value, '', 'svg' ) }
+					value={ getStyleValue( 'width', currentAtRule, 'svg' ) }
+					onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule, 'svg' ) }
 				/>
 
 				<UnitControl
 					id="height"
 					label={ __( 'Height', 'generateblocks' ) }
-					value={ getStyleValue( 'height', 'svg' ) }
-					onChange={ ( value ) => onStyleChange( 'height', value, '', 'svg' ) }
+					value={ getStyleValue( 'height', currentAtRule, 'svg' ) }
+					onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule, 'svg' ) }
 				/>
 
 				<ColorPickerControls
 					items={ shapeColorControls }
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
+					currentAtRule={ currentAtRule }
 				/>
 			</OpenPanel>
 

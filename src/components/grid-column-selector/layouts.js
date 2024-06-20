@@ -4,7 +4,7 @@ export const layouts = [
 	{
 		id: 'one-column',
 		label: __( 'One Column', 'generateblocks' ),
-		layout: '',
+		layout: '1fr',
 		divs: 1,
 	},
 	{

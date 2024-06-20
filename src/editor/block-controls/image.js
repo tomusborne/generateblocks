@@ -10,6 +10,7 @@ function ImageOptions( options, props ) {
 	const {
 		getStyleValue,
 		onStyleChange,
+		currentAtRule,
 		name,
 		attributes,
 		setAttributes,
@@ -29,6 +30,7 @@ function ImageOptions( options, props ) {
 		<>
 			<OpenPanel
 				title={ __( 'Settings', 'generateblocks' ) }
+				shouldRender={ '' === currentAtRule }
 			>
 				<ImageUpload
 					value={ htmlAttributes?.src }
@@ -92,15 +94,15 @@ function ImageOptions( options, props ) {
 				<UnitControl
 					id="width"
 					label={ __( 'Width', 'generateblocks' ) }
-					value={ getStyleValue( 'width' ) }
-					onChange={ ( value ) => onStyleChange( 'width', value ) }
+					value={ getStyleValue( 'width', currentAtRule ) }
+					onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule ) }
 				/>
 
 				<UnitControl
 					id="height"
 					label={ __( 'Height', 'generateblocks' ) }
-					value={ getStyleValue( 'height' ) }
-					onChange={ ( value ) => onStyleChange( 'height', value ) }
+					value={ getStyleValue( 'height', currentAtRule ) }
+					onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule ) }
 				/>
 			</OpenPanel>
 
