@@ -44,3 +44,9 @@ export const defaultAtRules = [
 		id: 'smallWidth',
 	},
 ];
+
+export const mapDevices = {
+	Desktop: 'all',
+	Tablet: 'mediumSmallWidth',
+	Mobile: 'smallWidth',
+};

@@ -18,6 +18,7 @@ import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
+import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
 
 function EditBlock( props ) {
 	const {
@@ -47,6 +48,7 @@ function EditBlock( props ) {
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
+	const currentAtRule = useCurrentAtRule();
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -126,12 +128,18 @@ function EditBlock( props ) {
 		setAttributes( { styles: updatedStyles } );
 	}
 
-	function getStyleValue( property, nestedRuleValue = '' ) {
-		if ( ! nestedRuleValue ) {
-			return styles?.[ property ] ?? '';
+	function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
+		if ( nestedRuleValue ) {
+			if ( atRuleValue ) {
+				return styles?.[ atRuleValue ]?.[ nestedRuleValue ]?.[ property ] ?? '';
+			}
+
+			return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
+		} else if ( atRuleValue ) {
+			return styles?.[ atRuleValue ]?.[ property ] ?? '';
 		}
 
-		return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
+		return styles?.[ property ] ?? '';
 	}
 
 	useEffect( () => {
@@ -217,6 +225,7 @@ function EditBlock( props ) {
 								...props,
 								onStyleChange,
 								getStyleValue,
+								currentAtRule,
 							}
 						)
 					}

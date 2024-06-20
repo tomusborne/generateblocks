@@ -18,6 +18,7 @@ import { Image } from './components/Image.jsx';
 import { withDynamicTag } from '../../hoc/withDynamicTag.js';
 import RootElement from '../../components/root-element/index.js';
 import { AddCaption } from './components/AddCaption.jsx';
+import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
 
 function EditBlock( props ) {
 	const {
@@ -42,6 +43,7 @@ function EditBlock( props ) {
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
+	const currentAtRule = useCurrentAtRule();
 	const { isTemporaryImage, mediaUpload, onUploadError } = useImageFunctions();
 	const classNames = useMemo( () => {
 		const classes = [];
@@ -82,12 +84,18 @@ function EditBlock( props ) {
 		setAttributes( { styles: updatedStyles } );
 	}
 
-	function getStyleValue( property, nestedRuleValue = '' ) {
-		if ( ! nestedRuleValue ) {
-			return styles?.[ property ] ?? '';
+	function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
+		if ( nestedRuleValue ) {
+			if ( atRuleValue ) {
+				return styles?.[ atRuleValue ]?.[ nestedRuleValue ]?.[ property ] ?? '';
+			}
+
+			return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
+		} else if ( atRuleValue ) {
+			return styles?.[ atRuleValue ]?.[ property ] ?? '';
 		}
 
-		return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
+		return styles?.[ property ] ?? '';
 	}
 
 	useEffect( () => {
@@ -255,6 +263,7 @@ function EditBlock( props ) {
 								...props,
 								onStyleChange,
 								getStyleValue,
+								currentAtRule,
 								onSelectImage,
 							}
 						)

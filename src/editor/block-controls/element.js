@@ -19,6 +19,7 @@ export function ElementOptions( options, props ) {
 	const {
 		getStyleValue,
 		onStyleChange,
+		currentAtRule,
 		name,
 		attributes,
 		setAttributes,
@@ -39,7 +40,7 @@ export function ElementOptions( options, props ) {
 	const { getBlock } = useSelect( ( select ) => select( blockEditorStore ), [] );
 
 	const backgroundImageUrl = useMemo( () => {
-		const url = getStyleValue( 'backgroundImage' );
+		const url = getStyleValue( 'backgroundImage', currentAtRule );
 
 		const regex = /url\((['"]?)(.*?)\1\)/;
 		const match = url.match( regex );
@@ -47,7 +48,7 @@ export function ElementOptions( options, props ) {
 		if ( match && match[ 2 ] ) {
 			return match[ 2 ];
 		}
-	}, [ getStyleValue( 'backgroundImage' ) ] );
+	}, [ getStyleValue( 'backgroundImage' ), currentAtRule ] );
 
 	if ( 'generateblocks/element' !== name ) {
 		return options;
@@ -55,85 +56,83 @@ export function ElementOptions( options, props ) {
 
 	return (
 		<>
-			{ 'a' === tagName && (
-				<OpenPanel
-					title={ __( 'Link Destination', 'generateblocks' ) }
+			<OpenPanel
+				title={ __( 'Link Destination', 'generateblocks' ) }
+				shouldRender={ 'a' === tagName && '' === currentAtRule }
+			>
+				<URLControls
+					setAttributes={ setAttributes }
+					htmlAttributes={ htmlAttributes }
+				/>
+			</OpenPanel>
+
+			<OpenPanel
+				title={ __( 'Grid', 'generateblocks' ) }
+				shouldRender={ 'grid' === getStyleValue( 'display', currentAtRule ) }
+			>
+				<BaseControl
+					label={ __( 'Layout', 'generateblocks' ) }
+					id="grid-template-columns"
 				>
-					<URLControls
-						setAttributes={ setAttributes }
-						htmlAttributes={ htmlAttributes }
-					/>
-				</OpenPanel>
-			) }
+					<GridColumnSelector
+						value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
+						onClick={ ( value ) => {
+							onStyleChange( 'gridTemplateColumns', value, currentAtRule );
+							const selectedLayout = layouts.find( ( { layout } ) => layout === value );
+							const selectedLayoutDivCount = selectedLayout?.divs || 0;
+							const innerBlocksCount = getBlock( clientId ).innerBlocks.length;
 
-			{ 'grid' === styles?.display && (
-				<OpenPanel
-					title={ __( 'Grid', 'generateblocks' ) }
-				>
-					<BaseControl
-						label={ __( 'Layout', 'generateblocks' ) }
-						id="grid-template-columns"
-					>
-						<GridColumnSelector
-							value={ getStyleValue( 'gridTemplateColumns' ) }
-							onClick={ ( value ) => {
-								onStyleChange( 'gridTemplateColumns', value );
-								const selectedLayout = layouts.find( ( { layout } ) => layout === value );
-								const selectedLayoutDivCount = selectedLayout?.divs || 0;
-								const innerBlocksCount = getBlock( clientId ).innerBlocks.length;
+							if ( selectedLayoutDivCount > innerBlocksCount ) {
+								const lastInnerBlock = getBlock( clientId ).innerBlocks[ innerBlocksCount - 1 ];
 
-								if ( selectedLayoutDivCount > innerBlocksCount ) {
-									const lastInnerBlock = getBlock( clientId ).innerBlocks[ innerBlocksCount - 1 ];
+								if ( lastInnerBlock ) {
+									const newBlockCount = selectedLayoutDivCount - innerBlocksCount;
+									const newBlocksToInsert = [];
 
-									if ( lastInnerBlock ) {
-										const newBlockCount = selectedLayoutDivCount - innerBlocksCount;
-										const newBlocksToInsert = [];
-
-										for ( let i = 0; i < newBlockCount; i++ ) {
-											const clonedBlock = cloneBlock(
-												lastInnerBlock,
-												{
-													uniqueId: '',
-												}
-											);
-											newBlocksToInsert.push( clonedBlock );
-										}
-
-										insertBlocks( newBlocksToInsert, innerBlocksCount, clientId, false );
+									for ( let i = 0; i < newBlockCount; i++ ) {
+										const clonedBlock = cloneBlock(
+											lastInnerBlock,
+											{
+												uniqueId: '',
+											}
+										);
+										newBlocksToInsert.push( clonedBlock );
 									}
-								} else if ( selectedLayoutDivCount < innerBlocksCount ) {
-									const blocksToRemove = getBlock( clientId )?.innerBlocks
-										.slice( selectedLayoutDivCount )
-										.filter( ( block ) => (
-											'generateblocks/element' === block.name &&
-											0 === block.innerBlocks.length
-										) );
 
-									if ( blocksToRemove.length ) {
-										blocksToRemove.forEach( ( block ) => {
-											removeBlock( block.clientId, false );
-										} );
-									}
+									insertBlocks( newBlocksToInsert, innerBlocksCount, clientId, false );
 								}
-							} }
-						/>
-					</BaseControl>
+							} else if ( selectedLayoutDivCount < innerBlocksCount ) {
+								const blocksToRemove = getBlock( clientId )?.innerBlocks
+									.slice( selectedLayoutDivCount )
+									.filter( ( block ) => (
+										'generateblocks/element' === block.name &&
+										0 === block.innerBlocks.length
+									) );
 
-					<UnitControl
-						id="columnGap"
-						label={ __( 'Horizontal Gap', 'generateblocks' ) }
-						value={ getStyleValue( 'columnGap' ) }
-						onChange={ ( value ) => onStyleChange( 'columnGap', value ) }
+								if ( blocksToRemove.length ) {
+									blocksToRemove.forEach( ( block ) => {
+										removeBlock( block.clientId, false );
+									} );
+								}
+							}
+						} }
 					/>
+				</BaseControl>
 
-					<UnitControl
-						id="rowGap"
-						label={ __( 'Vertical Gap', 'generateblocks' ) }
-						value={ getStyleValue( 'rowGap' ) }
-						onChange={ ( value ) => onStyleChange( 'rowGap', value ) }
-					/>
-				</OpenPanel>
-			) }
+				<UnitControl
+					id="columnGap"
+					label={ __( 'Horizontal Gap', 'generateblocks' ) }
+					value={ getStyleValue( 'columnGap', currentAtRule ) }
+					onChange={ ( value ) => onStyleChange( 'columnGap', value, currentAtRule ) }
+				/>
+
+				<UnitControl
+					id="rowGap"
+					label={ __( 'Vertical Gap', 'generateblocks' ) }
+					value={ getStyleValue( 'rowGap', currentAtRule ) }
+					onChange={ ( value ) => onStyleChange( 'rowGap', value, currentAtRule ) }
+				/>
+			</OpenPanel>
 
 			<OpenPanel
 				title={ __( 'Design', 'generateblocks' ) }
@@ -145,18 +144,20 @@ export function ElementOptions( options, props ) {
 					items={ 'a' === tagName ? linkElementColorControls : containerColorControls }
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
+					currentAtRule={ currentAtRule }
 				/>
 
 				<Padding
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
+					currentAtRule={ currentAtRule }
 				/>
 
 				<ImageUpload
 					label={ __( 'Background Image', 'generateblocks' ) }
-					value={ getStyleValue( 'backgroundImage' ) }
-					onInsert={ ( value ) => onStyleChange( 'backgroundImage', `url(${ value })` ) }
-					onSelectImage={ ( media ) => onStyleChange( 'backgroundImage', `url(${ media.url })` ) }
+					value={ getStyleValue( 'backgroundImage', currentAtRule ) }
+					onInsert={ ( value ) => onStyleChange( 'backgroundImage', `url(${ value })`, currentAtRule ) }
+					onSelectImage={ ( media ) => onStyleChange( 'backgroundImage', `url(${ media.url })`, currentAtRule ) }
 					showInput={ false }
 					previewUrl={ backgroundImageUrl }
 				/>
@@ -164,6 +165,7 @@ export function ElementOptions( options, props ) {
 
 			<OpenPanel
 				title={ __( 'Shapes', 'generateblocks' ) }
+				shouldRender={ '' === currentAtRule }
 			>
 				<Button
 					variant="secondary"

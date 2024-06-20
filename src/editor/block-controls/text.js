@@ -13,6 +13,7 @@ export function TextOptions( options, props ) {
 	const {
 		getStyleValue,
 		onStyleChange,
+		currentAtRule,
 		name,
 		attributes,
 		setAttributes,
@@ -47,16 +48,15 @@ export function TextOptions( options, props ) {
 
 	return (
 		<>
-			{ 'a' === tagName && (
-				<OpenPanel
-					title={ __( 'Link Destination', 'generateblocks' ) }
-				>
-					<URLControls
-						setAttributes={ setAttributes }
-						htmlAttributes={ htmlAttributes }
-					/>
-				</OpenPanel>
-			) }
+			<OpenPanel
+				title={ __( 'Link Destination', 'generateblocks' ) }
+				shouldRender={ 'a' === tagName && '' === currentAtRule }
+			>
+				<URLControls
+					setAttributes={ setAttributes }
+					htmlAttributes={ htmlAttributes }
+				/>
+			</OpenPanel>
 
 			<OpenPanel
 				title={ __( 'Design', 'generateblocks' ) }
@@ -68,18 +68,19 @@ export function TextOptions( options, props ) {
 					items={ colorControls }
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
+					currentAtRule={ currentAtRule }
 				/>
 
 				<UnitControl
 					id="fontSize"
 					label={ __( 'Font size', 'generateblocks' ) }
-					value={ getStyleValue( 'fontSize' ) }
-					onChange={ ( value ) => onStyleChange( 'fontSize', value ) }
+					value={ getStyleValue( 'fontSize', currentAtRule ) }
+					onChange={ ( value ) => onStyleChange( 'fontSize', value, currentAtRule ) }
 				/>
 
 				<SelectControl
 					label={ __( 'Appearance', 'generateblocks' ) }
-					value={ getStyleValue( 'fontWeight' ) }
+					value={ getStyleValue( 'fontWeight', currentAtRule ) }
 					options={ [
 						{ label: __( 'Default', 'generateblocks' ), value: '' },
 						{ label: __( 'Thin', 'generateblocks' ), value: '100' },
@@ -92,17 +93,19 @@ export function TextOptions( options, props ) {
 						{ label: __( 'Extra Bold', 'generateblocks' ), value: '800' },
 						{ label: __( 'Black', 'generateblocks' ), value: '900' },
 					] }
-					onChange={ ( value ) => onStyleChange( 'fontWeight', value ) }
+					onChange={ ( value ) => onStyleChange( 'fontWeight', value, currentAtRule ) }
 				/>
 
 				<Padding
 					getStyleValue={ getStyleValue }
 					onStyleChange={ onStyleChange }
+					currentAtRule={ currentAtRule }
 				/>
 			</OpenPanel>
 
 			<OpenPanel
 				title={ __( 'Icon', 'generateblocks' ) }
+				shouldRender={ '' === currentAtRule }
 			>
 				<IconControl
 					value={ icon }
