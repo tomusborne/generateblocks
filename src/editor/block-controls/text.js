@@ -8,6 +8,8 @@ import { URLControls } from '../../components/url-controls/index.js';
 import { IconControl } from '../../components/icon-control';
 import { OpenPanel } from '../../components/open-panel';
 import { moreDesignOptions, Padding, ColorPickerControls } from './index.js';
+import { TagNameControl } from '@components/tagname-control';
+import { HtmlAttributes } from '@components/html-attributes';
 
 export function TextOptions( options, props ) {
 	const {
@@ -45,6 +47,27 @@ export function TextOptions( options, props ) {
 	if ( 'generateblocks/text' !== name ) {
 		return options;
 	}
+
+	const tagNames = [
+		'p',
+		'span',
+		'div',
+		'h1',
+		'h2',
+		'h3',
+		'h4',
+		'h5',
+		'h6',
+		'a',
+		'button',
+		'figcaption',
+	];
+	const tagNameOptions = tagNames.map( ( tag ) => {
+		return {
+			label: tag,
+			value: tag,
+		};
+	} ).filter( Boolean );
 
 	return (
 		<>
@@ -133,6 +156,30 @@ export function TextOptions( options, props ) {
 						{ label: __( 'After', 'generateblocks' ), value: 'after' },
 					] }
 					onChange={ ( value ) => setAttributes( { iconLocation: value } ) }
+				/>
+			</OpenPanel>
+
+			<OpenPanel
+				title={ __( 'Settings', 'generateblocks' ) }
+				shouldRender={ '' === currentAtRule }
+			>
+				<TagNameControl
+					options={ tagNameOptions }
+					value={ tagName }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
+
+						if ( 'a' === value && ! getStyleValue( 'display', currentAtRule ) ) {
+							onStyleChange( 'display', 'block' );
+						}
+					} }
+				/>
+
+				<HtmlAttributes
+					items={ htmlAttributes }
+					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</OpenPanel>
 

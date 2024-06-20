@@ -5,6 +5,7 @@ import UnitControl from '../../components/unit-control/index.js';
 import { ImageUpload } from '../../components/image-upload/ImageUpload.jsx';
 import { OpenPanel } from '../../components/open-panel';
 import { moreDesignOptions } from './index.js';
+import { HtmlAttributes } from '@components/html-attributes';
 
 function ImageOptions( options, props ) {
 	const {
@@ -84,7 +85,15 @@ function ImageOptions( options, props ) {
 						} );
 					} }
 				/>
+
+				<HtmlAttributes
+					items={ htmlAttributes }
+					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+				/>
 			</OpenPanel>
+
 			<OpenPanel
 				title={ __( 'Design', 'generateblocks' ) }
 				dropdownOptions={ [

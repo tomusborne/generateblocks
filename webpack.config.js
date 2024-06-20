@@ -1,6 +1,7 @@
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const ESLintPlugin = require( 'eslint-webpack-plugin' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
+const { resolve } = require( 'path' );
 
 const defaultEntries = defaultConfig.entry();
 const isProduction = process.env.NODE_ENV === 'production';
@@ -27,6 +28,18 @@ const config = {
 			stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
 		} ),
 	],
+	resolve: {
+		...defaultConfig.resolve,
+		alias: {
+			...defaultConfig.resolve.alias,
+			'@utils': resolve( __dirname, 'src/utils' ),
+			'@components': resolve( __dirname, 'src/components' ),
+			'@hooks': resolve( __dirname, 'src/hooks' ),
+			'@hoc': resolve( __dirname, 'src/hoc' ),
+		},
+		extensions: [ '.js', '.jsx', '.json' ],
+		enforceExtension: false,
+	},
 };
 
 if ( ! isProduction ) {

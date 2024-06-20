@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
-import { RichText, useBlockProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
+import { RichText, useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Platform, useEffect, useMemo } from '@wordpress/element';
-import { SelectControl, ToolbarButton } from '@wordpress/components';
+import { ToolbarButton } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
 import { withDynamicTag } from '../../hoc/withDynamicTag';
@@ -10,7 +10,6 @@ import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
 import { DynamicTagBlockToolbar } from '../../dynamic-tags/components/DynamicTagBlockToolbar.jsx';
 import getIcon from '../../utils/get-icon/index.js';
@@ -55,27 +54,6 @@ function EditBlock( props ) {
 			setAttributes( { tagName: 'span' } );
 		}
 	}, [ tagName ] );
-
-	const tagNames = [
-		'p',
-		'span',
-		'div',
-		'h1',
-		'h2',
-		'h3',
-		'h4',
-		'h5',
-		'h6',
-		'a',
-		'button',
-		'figcaption',
-	];
-	const tagNameOptions = tagNames.map( ( tag ) => {
-		return {
-			label: tag,
-			value: tag,
-		};
-	} ).filter( Boolean );
 
 	const contentValue = useMemo( () => {
 		if ( dynamicTagValue ) {
@@ -231,21 +209,6 @@ function EditBlock( props ) {
 					}
 				</BlockStyles>
 			</InspectorControls>
-			<InspectorAdvancedControls>
-				<SelectControl
-					label={ __( 'Tag Name' ) }
-					value={ tagName }
-					options={ tagNameOptions }
-					onChange={ ( value ) => setAttributes( { tagName: value } ) }
-				/>
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</InspectorAdvancedControls>
 
 			<RootElement
 				name={ name }

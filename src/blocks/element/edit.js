@@ -1,4 +1,4 @@
-import { useBlockProps, useInnerBlocksProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { BlockStyles, withUniqueId, useUpdateEditorStyleCSS } from '@edge22/block-styles';
@@ -7,11 +7,7 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import BlockAppender from './components/BlockAppender.jsx';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { SelectControl, Notice, BaseControl } from '@wordpress/components';
-import { getBlockType } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { convertInlineStyleStringToObject } from './utils.js';
 import RootElement from '../../components/root-element/index.js';
 import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
@@ -128,11 +124,6 @@ function EditBlock( props ) {
 		}
 	);
 	const TagName = tagName || 'div';
-	const tagNames = getBlockType( 'generateblocks/element' )?.attributes?.tagName?.enum;
-	const tagNameOptions = tagNames.map( ( tag ) => ( {
-		label: tag,
-		value: tag,
-	} ) );
 
 	return (
 		<>
@@ -160,38 +151,6 @@ function EditBlock( props ) {
 					}
 				</BlockStyles>
 			</InspectorControls>
-			<InspectorAdvancedControls>
-				<SelectControl
-					label={ __( 'Tag Name' ) }
-					value={ tagName }
-					options={ tagNameOptions }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-
-						if ( 'a' === value && ! styles?.display ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
-
-				{ 'a' === tagName && (
-					<BaseControl>
-						<Notice
-							status="warning"
-							isDismissible={ false }
-						>
-							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
-						</Notice>
-					</BaseControl>
-				) }
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</InspectorAdvancedControls>
 			<RootElement
 				name={ name }
 				clientId={ clientId }

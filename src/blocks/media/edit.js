@@ -1,4 +1,4 @@
-import { useBlockProps, useInnerBlocksProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { BlockStyles, withUniqueId, useUpdateEditorStyleCSS } from '@edge22/block-styles';
@@ -6,11 +6,7 @@ import { getCss } from '@edge22/styles-builder';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { SelectControl } from '@wordpress/components';
-import { getBlockType } from '@wordpress/blocks';
-import { __ } from '@wordpress/i18n';
 import { applyFilters } from '@wordpress/hooks';
-import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { isBlobURL, getBlobByURL, revokeBlobURL } from '@wordpress/blob';
 import { useImageFunctions } from './hooks/useImageFunctions.js';
@@ -128,11 +124,6 @@ function EditBlock( props ) {
 
 	const innerBlocksProps = useInnerBlocksProps( blockProps );
 	const TagName = tagName || 'img';
-	const tagNames = getBlockType( 'generateblocks/media' )?.attributes?.tagName?.enum;
-	const tagNameOptions = tagNames.map( ( tag ) => ( {
-		label: tag,
-		value: tag,
-	} ) );
 
 	function onSelectImage( image ) {
 		if ( ! image || ! image.url ) {
@@ -270,23 +261,6 @@ function EditBlock( props ) {
 					}
 				</BlockStyles>
 			</InspectorControls>
-			<InspectorAdvancedControls>
-				{ tagNameOptions.length > 1 && (
-					<SelectControl
-						label={ __( 'Tag Name' ) }
-						value={ tagName }
-						options={ tagNameOptions }
-						onChange={ ( value ) => setAttributes( { tagName: value } ) }
-					/>
-				) }
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</InspectorAdvancedControls>
 
 			<RootElement
 				name={ name }

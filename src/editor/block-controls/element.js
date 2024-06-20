@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { Button, BaseControl } from '@wordpress/components';
+import { Button, BaseControl, Notice } from '@wordpress/components';
 import { useState, useMemo } from '@wordpress/element';
 import { containerColorControls, linkElementColorControls } from './colorControls.js';
 import { addFilter } from '@wordpress/hooks';
@@ -14,6 +14,8 @@ import { OpenPanel } from '../../components/open-panel/index.js';
 import { layouts } from '../../components/grid-column-selector/layouts.js';
 import { moreDesignOptions, Padding, ColorPickerControls } from './index.js';
 import { ImageUpload } from '../../components/image-upload/ImageUpload.jsx';
+import { TagNameControl } from '../../components/tagname-control/TagNameControl.jsx';
+import { HtmlAttributes } from '../../components/html-attributes';
 
 export function ElementOptions( options, props ) {
 	const {
@@ -218,6 +220,41 @@ export function ElementOptions( options, props ) {
 						} }
 					/>
 				) }
+			</OpenPanel>
+
+			<OpenPanel
+				title={ __( 'Settings', 'generateblocks' ) }
+				shouldRender={ '' === currentAtRule }
+			>
+				<TagNameControl
+					blockName="generateblocks/element"
+					value={ tagName }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
+
+						if ( 'a' === value && ! styles?.display ) {
+							onStyleChange( 'display', 'block' );
+						}
+					} }
+				/>
+
+				{ 'a' === tagName && (
+					<BaseControl>
+						<Notice
+							status="warning"
+							isDismissible={ false }
+						>
+							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
+						</Notice>
+					</BaseControl>
+				) }
+
+				<HtmlAttributes
+					items={ htmlAttributes }
+					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+				/>
 			</OpenPanel>
 
 			{ options }
