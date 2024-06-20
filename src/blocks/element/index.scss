@@ -31,3 +31,37 @@
 		}
 	}
 }
+
+.components-button.gblocks-element-selector {
+	display: block;
+	text-align: left;
+	color: inherit;
+	padding: 0;
+	border: 0;
+	height: 35px;
+
+	.gblocks-element-selector__icon {
+		background: #fff;
+		opacity: 0.3;
+		display: inline-flex;
+		height: 35px;
+		width: 35px;
+		align-items: center;
+		justify-content: center;
+		border-radius: 2px;
+		transition: opacity 500ms ease;
+
+		svg {
+			width: 35px;
+			height: 35px;
+			transform: scale(0.7);
+			color: #000;
+		}
+	}
+
+	&:hover {
+		.gblocks-element-selector__icon {
+			opacity: 0.4;
+		}
+	}
+}

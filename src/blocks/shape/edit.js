@@ -1,4 +1,4 @@
-import { useBlockProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
@@ -7,7 +7,6 @@ import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
@@ -141,14 +140,6 @@ function EditBlock( props ) {
 					}
 				</BlockStyles>
 			</InspectorControls>
-			<InspectorAdvancedControls>
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</InspectorAdvancedControls>
 			<RootElement
 				name={ name }
 				clientId={ clientId }

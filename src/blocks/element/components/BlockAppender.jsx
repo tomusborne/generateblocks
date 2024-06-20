@@ -3,9 +3,9 @@ import { Inserter } from '@wordpress/block-editor';
 import { useDispatch } from '@wordpress/data';
 import { __, sprintf, _x } from '@wordpress/i18n';
 import { Button, Icon, Tooltip } from '@wordpress/components';
-import getIcon from '../../../utils/get-icon';
 import { applyFilters } from '@wordpress/hooks';
 import { plus } from '@wordpress/icons';
+import { containerIcon } from '../index.js';
 
 export default ( { clientId, isSelected, attributes } ) => {
 	const { isBlockPreview } = attributes;
@@ -78,18 +78,18 @@ export default ( { clientId, isSelected, attributes } ) => {
 	// Empty non-selected Container.
 	if ( ! hasChildBlocks && ! isSelected ) {
 		appender = <Button
-			className="gblocks-container-selector"
+			className="gblocks-element-selector"
 			onClick={ () => selectBlock( clientId ) }
 			aria-label={ __( 'Select Container', 'generateblocks' ) }
 		>
-			<span className="gblocks-container-selector__icon">
-				{ getIcon( 'container' ) }
+			<span className="gblocks-element-selector__icon">
+				{ containerIcon() }
 			</span>
 		</Button>;
 	}
 
 	return applyFilters(
-		'generateblocks.editor.containerAppender',
+		'generateblocks.editor.elementAppender',
 		appender,
 		{ clientId, isSelected, attributes }
 	);

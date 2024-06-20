@@ -38,7 +38,8 @@
 			"type": "array"
 		},
 		"htmlAttributes": {
-			"type": "object"
+			"type": "object",
+			"default": {}
 		}
     },
     "supports": {
