@@ -51,10 +51,15 @@ class GenerateBlocks_Block_Query_Loop {
 		);
 
 		$the_query = new WP_Query( $query_args );
+		
+		$posts_count = 1;
+		$limit = isset ( $query_args['posts_per_page'] )
+			? $query_args['posts_per_page']
+			: null;
 
 		$content = '';
 		if ( $the_query->have_posts() ) {
-			while ( $the_query->have_posts() ) {
+			while ( $the_query->have_posts() && ( $limit === null || $posts_count <= $limit ) ) {
 				$the_query->the_post();
 
 				$block_content = (
@@ -68,6 +73,7 @@ class GenerateBlocks_Block_Query_Loop {
 				)->render( array( 'dynamic' => false ) );
 
 				$content .= $block_content;
+				$posts_count++;
 			}
 		}
 
