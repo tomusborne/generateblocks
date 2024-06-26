@@ -13,6 +13,7 @@ export function ImageUpload( {
 	showInput = true,
 	previewUrl = '',
 	allowDynamicTags = false,
+	onInsertDynamicTag,
 } ) {
 	return (
 		<BaseControl
@@ -60,7 +61,7 @@ export function ImageUpload( {
 
 				{ allowDynamicTags && (
 					<DynamicTagDropdown
-						onInsert={ ( newValue ) => onInsert( newValue ) }
+						onInsert={ ( newValue ) => onInsertDynamicTag( newValue ) }
 					/>
 				) }
 			</Stack>

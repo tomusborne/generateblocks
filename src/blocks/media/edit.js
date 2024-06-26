@@ -147,7 +147,14 @@ function EditBlock( props ) {
 				width: image.width,
 			};
 
-			setAttributes( { htmlAttributes: newAttributes } );
+			if ( newAttributes?.[ 'data-media-id' ] ) {
+				delete newAttributes[ 'data-media-id' ];
+			}
+
+			setAttributes( {
+				htmlAttributes: newAttributes,
+				mediaId: image.id ?? 0,
+			} );
 		}
 	}
 
@@ -170,7 +177,10 @@ function EditBlock( props ) {
 		delete newAttributes.alt;
 		delete newAttributes.title;
 
-		setAttributes( { htmlAttributes: newAttributes } );
+		setAttributes( {
+			htmlAttributes: newAttributes,
+			mediaId: 0,
+		} );
 	}
 
 	let isTemp = isTemporaryImage( htmlAttributes?.src );

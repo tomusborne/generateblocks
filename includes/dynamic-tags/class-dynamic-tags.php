@@ -22,7 +22,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public function init() {
 		add_action( 'init', [ $this, 'register' ] );
-		add_filter( 'render_block', [ $this, 'replace_tags' ], 10, 2 );
+		add_filter( 'render_block', [ $this, 'replace_tags' ], 10, 3 );
 		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
 	}
 
@@ -74,6 +74,14 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'  => __( 'Featured Image ID', 'generateblocks' ),
+				'tag'    => 'featured_image_id',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_id' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
 				'title'  => __( 'Post Meta', 'generateblocks' ),
 				'tag'    => 'post_meta',
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
@@ -86,10 +94,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 *
 	 * @param string $content The content.
 	 * @param array  $block The block.
+	 * @param array  $instance The instance.
 	 * @return string
 	 */
-	public function replace_tags( $content, $block ) {
-		return GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, $block );
+	public function replace_tags( $content, $block, $instance ) {
+		return GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, $block, $instance );
 	}
 
 	/**
@@ -165,7 +174,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			}
 		}
 
-		$value = GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content );
+		$value = GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, [], new stdClass() );
 
 		return rest_ensure_response( $value );
 	}

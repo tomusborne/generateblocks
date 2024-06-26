@@ -85,6 +85,23 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Get the featured image ID.
+	 *
+	 * @param array $options The options.
+	 * @return int
+	 */
+	public static function get_featured_image_id( $options ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$image_id = get_post_thumbnail_id( $id );
+
+		if ( ! $image_id ) {
+			return 0;
+		}
+
+		return $image_id;
+	}
+
+	/**
 	 * Get the post meta.
 	 *
 	 * @param array $options The options.
