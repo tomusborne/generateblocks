@@ -46,6 +46,11 @@
 		"className": false
     },
     "editorScript": "file:./index.js",
-    "editorStyle": [ "file:./index.css", "generateblocks-block-styles", "generateblocks-components" ],
+    "editorStyle": [
+		"file:./index.css",
+		"generateblocks-block-styles",
+		"generateblocks-components",
+		"generateblocks-styles-builder"
+	],
 	"usesContext": [ "postId" ]
 }

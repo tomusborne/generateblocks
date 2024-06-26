@@ -255,6 +255,8 @@ function EditBlock( props ) {
 					css={ css }
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
+					scope="gb-block-styles-wrapper"
+					stylesBuilderScope="gb-styles-builder-wrapper"
 				>
 					<BlockSettings
 						{ ...props }

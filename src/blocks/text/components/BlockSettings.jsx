@@ -176,7 +176,7 @@ export function BlockSettings( {
 
 				<UnitControl
 					id="fontSize"
-					label={ __( 'Font size', 'generateblocks' ) }
+					label={ __( 'Text size', 'generateblocks' ) }
 					value={ getStyleValue( 'fontSize', currentAtRule ) }
 					onChange={ ( value ) => onStyleChange( 'fontSize', value, currentAtRule ) }
 				/>
@@ -246,15 +246,17 @@ export function BlockSettings( {
 					attributes={ attributes }
 				/>
 
-				<SelectControl
-					label={ __( 'Icon Location', 'generateblocks' ) }
-					value={ iconLocation }
-					options={ [
-						{ label: __( 'Before', 'generateblocks' ), value: 'before' },
-						{ label: __( 'After', 'generateblocks' ), value: 'after' },
-					] }
-					onChange={ ( value ) => setAttributes( { iconLocation: value } ) }
-				/>
+				{ !! icon && (
+					<SelectControl
+						label={ __( 'Icon Location', 'generateblocks' ) }
+						value={ iconLocation }
+						options={ [
+							{ label: __( 'Before', 'generateblocks' ), value: 'before' },
+							{ label: __( 'After', 'generateblocks' ), value: 'after' },
+						] }
+						onChange={ ( value ) => setAttributes( { iconLocation: value } ) }
+					/>
+				) }
 			</OpenPanel>
 
 			<OpenPanel

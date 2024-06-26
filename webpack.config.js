@@ -16,6 +16,7 @@ const config = {
 		'editor-sidebar': './src/editor-sidebar.js',
 		components: './src/components.scss',
 		'block-styles': './src/block-styles.scss',
+		'styles-builder': './src/styles-builder.scss',
 		editor: './src/editor.js',
 		looper: './src/blocks/query/looper.js',
 	},
@@ -40,6 +41,7 @@ const config = {
 		},
 		extensions: [ '.js', '.jsx', '.json' ],
 		enforceExtension: false,
+		symlinks: false,
 	},
 };
 
