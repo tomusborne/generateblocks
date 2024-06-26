@@ -54,6 +54,11 @@
 		"splitting": true
     },
     "editorScript": "file:./index.js",
-    "editorStyle": [ "file:./index.css", "generateblocks-block-styles" ],
+    "editorStyle": [
+		"file:./index.css",
+		"generateblocks-block-styles",
+		"generateblocks-components",
+		"generateblocks-styles-builder"
+	],
 	"usesContext": [ "postId" ]
 }

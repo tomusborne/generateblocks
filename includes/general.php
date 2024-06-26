@@ -200,10 +200,18 @@ function generateblocks_do_block_editor_assets() {
 		$component_asset_info['version']
 	);
 
-	$styles_builder_asset_info = generateblocks_get_enqueue_assets( 'block-styles' );
+	$block_styles_asset_info = generateblocks_get_enqueue_assets( 'block-styles' );
 	wp_register_style(
 		'generateblocks-block-styles',
 		GENERATEBLOCKS_DIR_URL . 'dist/block-styles.css',
+		'',
+		$block_styles_asset_info['version']
+	);
+
+	$styles_builder_asset_info = generateblocks_get_enqueue_assets( 'styles-builder' );
+	wp_register_style(
+		'generateblocks-styles-builder',
+		GENERATEBLOCKS_DIR_URL . 'dist/styles-builder.css',
 		'',
 		$styles_builder_asset_info['version']
 	);

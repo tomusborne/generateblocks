@@ -16,6 +16,7 @@ const config = {
 		'editor-sidebar': './src/editor-sidebar.js',
 		components: './src/components.scss',
 		'block-styles': './src/block-styles.scss',
+		'styles-builder': './src/styles-builder.scss',
 		editor: './src/editor.js',
 	},
 	output: {
@@ -39,6 +40,7 @@ const config = {
 		},
 		extensions: [ '.js', '.jsx', '.json' ],
 		enforceExtension: false,
+		symlinks: false,
 	},
 };
 
