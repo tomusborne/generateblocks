@@ -36,15 +36,40 @@ function ImageOptions( options, props ) {
 				<ImageUpload
 					value={ htmlAttributes?.src }
 					onInsert={ ( value ) => {
+						const newHtmlAttributes = {
+							...htmlAttributes,
+							src: value,
+						};
+
+						if ( newHtmlAttributes?.[ 'data-media-id' ] ) {
+							delete newHtmlAttributes[ 'data-media-id' ];
+						}
+
 						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								src: value,
-							},
+							htmlAttributes: newHtmlAttributes,
+							mediaId: 0,
 						} );
 					} }
 					onSelectImage={ onSelectImage }
 					allowDynamicTags={ true }
+					onInsertDynamicTag={ ( value ) => {
+						const newHtmlAttributes = {
+							...htmlAttributes,
+							src: value,
+						};
+						const featuredImageIdTag = value.startsWith( '{featured_image_url' )
+							? value.replace( '{featured_image_url', '{featured_image_id' )
+							: null;
+
+						if ( featuredImageIdTag ) {
+							newHtmlAttributes[ 'data-media-id' ] = featuredImageIdTag;
+						}
+
+						setAttributes( {
+							htmlAttributes: newHtmlAttributes,
+							mediaId: 0,
+						} );
+					} }
 				/>
 
 				<TextControl

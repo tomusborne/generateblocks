@@ -35,6 +35,10 @@
 		"htmlAttributes": {
 			"type": "object",
 			"default": {}
+		},
+		"mediaId": {
+			"type": "number",
+			"default": 0
 		}
     },
     "supports": {

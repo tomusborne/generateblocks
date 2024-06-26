@@ -46,6 +46,7 @@ class GenerateBlocks_Render_Block {
 
 		if ( version_compare( $GLOBALS['wp_version'], '5.9', '>' ) ) {
 			add_filter( 'render_block', array( $this, 'filter_rendered_blocks' ), 10, 3 );
+			add_filter( 'render_block', array( $this, 'late_filter_rendered_blocks' ), 20, 3 );
 		}
 	}
 
@@ -216,6 +217,53 @@ class GenerateBlocks_Render_Block {
 
 			if ( ! $dynamic_link ) {
 				return '';
+			}
+		}
+
+		return $block_content;
+	}
+
+	/**
+	 * Filter existing rendered blocks. Fires later than `filter_rendered_blocks`.
+	 *
+	 * @since 2.0.0
+	 * @param string   $block_content The block content.
+	 * @param array    $block The block data.
+	 * @param WP_Block $instance Block instance.
+	 */
+	public function late_filter_rendered_blocks( $block_content, $block, $instance ) {
+		$block_name = $block['blockName'] ?? '';
+		$attributes = $block['attrs'] ?? [];
+
+		if ( 'generateblocks/media' === $block_name ) {
+			$attachment_id = $attributes['mediaId'] ?? 0;
+
+			if ( ! $attachment_id ) {
+				$p = new WP_HTML_Tag_Processor( $block_content );
+
+				if ( $p->next_tag(
+					[
+						'tag_name'   => 'img',
+					]
+				) ) {
+					$attachment_id = (int) $p->get_attribute( 'data-media-id' ) ?? 0;
+				}
+			}
+
+			if ( $attachment_id > 0 && 'img' === $attributes['tagName'] ) {
+				$context = current_filter();
+
+				if ( ! generateblocks_str_contains( $block_content, ' width=' ) && ! generateblocks_str_contains( $block_content, ' height=' ) ) {
+					$block_content = wp_img_tag_add_width_and_height_attr( $block_content, $context, $attachment_id );
+				}
+
+				// Add 'srcset' and 'sizes' attributes if applicable.
+				if ( ! generateblocks_str_contains( $block_content, ' srcset=' ) ) {
+					$block_content = wp_img_tag_add_srcset_and_sizes_attr( $block_content, $context, $attachment_id );
+				}
+
+				// Add loading optimization attributes if applicable.
+				$block_content = wp_img_tag_add_loading_optimization_attrs( $block_content, $context );
 			}
 		}
 
