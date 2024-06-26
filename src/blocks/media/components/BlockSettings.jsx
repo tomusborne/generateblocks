@@ -1,34 +1,36 @@
 import { __ } from '@wordpress/i18n';
 import { TextControl } from '@wordpress/components';
-import { addFilter } from '@wordpress/hooks';
-import UnitControl from '../../components/unit-control/index.js';
-import { ImageUpload } from '../../components/image-upload/ImageUpload.jsx';
-import { OpenPanel } from '../../components/open-panel';
-import { moreDesignOptions } from './index.js';
+
+import ApplyFilters from '@components/apply-filters';
+import { OpenPanel } from '@components/open-panel';
+import { moreDesignOptions } from '@components/open-panel/utils';
+import UnitControl from '@components/unit-control';
 import { HtmlAttributes } from '@components/html-attributes';
+import { ImageUpload } from '@components/image-upload';
 
-function ImageOptions( options, props ) {
-	const {
-		getStyleValue,
-		onStyleChange,
-		currentAtRule,
-		name,
-		attributes,
-		setAttributes,
-		onSelectImage,
-	} = props;
-
+export function BlockSettings( {
+	getStyleValue,
+	onStyleChange,
+	currentAtRule,
+	name,
+	attributes,
+	setAttributes,
+	onSelectImage,
+} ) {
 	const {
 		htmlAttributes,
-		tagName,
 	} = attributes;
 
-	if ( 'generateblocks/media' !== name || 'img' !== tagName ) {
-		return options;
-	}
-
 	return (
-		<>
+		<ApplyFilters
+			name="generateblocks.editor.blockControls"
+			blockName={ name }
+			getStyleValue={ getStyleValue }
+			onStyleChange={ onStyleChange }
+			currentAtRule={ currentAtRule }
+			attributes={ attributes }
+			setAttributes={ setAttributes }
+		>
 			<OpenPanel
 				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
@@ -139,14 +141,6 @@ function ImageOptions( options, props ) {
 					onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule ) }
 				/>
 			</OpenPanel>
-
-			{ options }
-		</>
+		</ApplyFilters>
 	);
 }
-
-addFilter(
-	'generateblocks.editor.blockStyles',
-	'generateblocks/imageOptions',
-	ImageOptions
-);

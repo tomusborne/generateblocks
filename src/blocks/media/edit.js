@@ -6,7 +6,6 @@ import { getCss } from '@edge22/styles-builder';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { isBlobURL, getBlobByURL, revokeBlobURL } from '@wordpress/blob';
 import { useImageFunctions } from './hooks/useImageFunctions.js';
@@ -15,6 +14,7 @@ import { withDynamicTag } from '../../hoc/withDynamicTag.js';
 import RootElement from '../../components/root-element/index.js';
 import { AddCaption } from './components/AddCaption.jsx';
 import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
+import { BlockSettings } from './components/BlockSettings';
 
 function EditBlock( props ) {
 	const {
@@ -256,19 +256,13 @@ function EditBlock( props ) {
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
 				>
-					{
-						applyFilters(
-							'generateblocks.editor.blockStyles',
-							null,
-							{
-								...props,
-								onStyleChange,
-								getStyleValue,
-								currentAtRule,
-								onSelectImage,
-							}
-						)
-					}
+					<BlockSettings
+						{ ...props }
+						getStyleValue={ getStyleValue }
+						onStyleChange={ onStyleChange }
+						currentAtRule={ currentAtRule }
+						onSelectImage={ onSelectImage }
+					/>
 				</BlockStyles>
 			</InspectorControls>
 

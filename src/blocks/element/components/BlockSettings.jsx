@@ -1,33 +1,109 @@
 import { __ } from '@wordpress/i18n';
 import { Button, BaseControl, Notice } from '@wordpress/components';
 import { useState, useMemo } from '@wordpress/element';
-import { containerColorControls, linkElementColorControls } from './colorControls.js';
-import { addFilter } from '@wordpress/hooks';
-import UnitControl from '../../components/unit-control/index.js';
-import { URLControls } from '../../components/url-controls/index.js';
 import { createBlock, cloneBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
-import { GridColumnSelector } from '../../components/grid-column-selector/index.js';
-import { DividerModal } from '../../components/icon-control/DividerModal.jsx';
-import { OpenPanel } from '../../components/open-panel/index.js';
-import { layouts } from '../../components/grid-column-selector/layouts.js';
-import { moreDesignOptions, Padding, ColorPickerControls } from './index.js';
-import { ImageUpload } from '../../components/image-upload/ImageUpload.jsx';
-import { TagNameControl } from '../../components/tagname-control/TagNameControl.jsx';
-import { HtmlAttributes } from '../../components/html-attributes';
 
-export function ElementOptions( options, props ) {
-	const {
-		getStyleValue,
-		onStyleChange,
-		currentAtRule,
-		name,
-		attributes,
-		setAttributes,
-		clientId,
-	} = props;
+import ApplyFilters from '@components/apply-filters';
+import { OpenPanel } from '@components/open-panel';
+import { URLControls } from '@components/url-controls';
+import { ColorPickerControls } from '@components/color-picker-group';
+import { moreDesignOptions } from '@components/open-panel/utils';
+import UnitControl from '@components/unit-control';
+import { TagNameControl } from '@components/tagname-control';
+import { HtmlAttributes } from '@components/html-attributes';
+import DimensionsControl from '@components/dimensions';
+import { ImageUpload } from '@components/image-upload';
+import { GridColumnSelector } from '@components/grid-column-selector';
+import { layouts } from '@components/grid-column-selector/layouts.js';
+import { DividerModal } from '@components/icon-control/DividerModal';
 
+export const containerColorControls = [
+	{
+		label: 'Background Color',
+		id: 'container-background-color',
+		items: [
+			{
+				tooltip: 'Background Color',
+				value: 'backgroundColor',
+				selector: '',
+			},
+		],
+	},
+	{
+		label: 'Text Color',
+		id: 'container-text-color',
+		items: [
+			{
+				tooltip: 'Text Color',
+				value: 'color',
+				selector: '',
+			},
+		],
+	},
+	{
+		label: 'Link Color',
+		id: 'container-link-color',
+		items: [
+			{
+				tooltip: 'Link Color',
+				value: 'color',
+				selector: 'a',
+			},
+			{
+				tooltip: 'Link Hover Color',
+				value: 'color',
+				selector: 'a:is(:hover, :focus)',
+			},
+		],
+	},
+];
+
+export const linkElementColorControls = [
+	{
+		label: 'Background Color',
+		id: 'link-element-background-color',
+		items: [
+			{
+				tooltip: 'Background Color',
+				value: 'backgroundColor',
+				selector: '',
+			},
+			{
+				tooltip: 'Hover Background Color',
+				value: 'backgroundColor',
+				selector: '&:is(:hover, :focus)',
+			},
+		],
+	},
+	{
+		label: 'Text Color',
+		id: 'link-element-text-color',
+		items: [
+			{
+				tooltip: 'Text Color',
+				value: 'color',
+				selector: '',
+			},
+			{
+				tooltip: 'Hover Text Color',
+				value: 'color',
+				selector: '&:is(:hover, :focus)',
+			},
+		],
+	},
+];
+
+export function BlockSettings( {
+	getStyleValue,
+	onStyleChange,
+	currentAtRule,
+	name,
+	attributes,
+	setAttributes,
+	clientId,
+} ) {
 	const {
 		tagName,
 		htmlAttributes = {},
@@ -52,12 +128,16 @@ export function ElementOptions( options, props ) {
 		}
 	}, [ getStyleValue( 'backgroundImage' ), currentAtRule ] );
 
-	if ( 'generateblocks/element' !== name ) {
-		return options;
-	}
-
 	return (
-		<>
+		<ApplyFilters
+			name="generateblocks.editor.blockControls"
+			blockName={ name }
+			getStyleValue={ getStyleValue }
+			onStyleChange={ onStyleChange }
+			currentAtRule={ currentAtRule }
+			attributes={ attributes }
+			setAttributes={ setAttributes }
+		>
 			<OpenPanel
 				title={ __( 'Link Destination', 'generateblocks' ) }
 				shouldRender={ 'a' === tagName && '' === currentAtRule }
@@ -149,10 +229,19 @@ export function ElementOptions( options, props ) {
 					currentAtRule={ currentAtRule }
 				/>
 
-				<Padding
-					getStyleValue={ getStyleValue }
-					onStyleChange={ onStyleChange }
-					currentAtRule={ currentAtRule }
+				<DimensionsControl
+					label={ __( 'Padding', 'generateblocks-pro' ) }
+					attributeNames={ [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ] }
+					values={ {
+						paddingTop: getStyleValue( 'paddingTop', currentAtRule ),
+						paddingRight: getStyleValue( 'paddingRight', currentAtRule ),
+						paddingBottom: getStyleValue( 'paddingBottom', currentAtRule ),
+						paddingLeft: getStyleValue( 'paddingLeft', currentAtRule ),
+					} }
+					onChange={ ( values ) => Object.keys( values ).forEach( ( property ) => (
+						onStyleChange( property, values[ property ], currentAtRule )
+					) ) }
+					placeholders={ {} }
 				/>
 
 				<ImageUpload
@@ -256,14 +345,6 @@ export function ElementOptions( options, props ) {
 					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</OpenPanel>
-
-			{ options }
-		</>
+		</ApplyFilters>
 	);
 }
-
-addFilter(
-	'generateblocks.editor.blockStyles',
-	'generateblocks/elementOptions',
-	ElementOptions
-);

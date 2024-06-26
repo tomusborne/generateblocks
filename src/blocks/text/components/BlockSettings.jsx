@@ -1,26 +1,102 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl } from '@wordpress/components';
 import { useMemo } from '@wordpress/element';
-import { buttonColorControls, textColorControls } from './colorControls.js';
-import { addFilter } from '@wordpress/hooks';
-import UnitControl from '../../components/unit-control/index.js';
-import { URLControls } from '../../components/url-controls/index.js';
-import { IconControl } from '../../components/icon-control';
-import { OpenPanel } from '../../components/open-panel';
-import { moreDesignOptions, Padding, ColorPickerControls } from './index.js';
+import { SelectControl } from '@wordpress/components';
+
+import ApplyFilters from '@components/apply-filters';
+import { OpenPanel } from '@components/open-panel';
+import { URLControls } from '@components/url-controls';
+import { IconControl } from '@components/icon-control';
+import { ColorPickerControls } from '@components/color-picker-group';
+import { moreDesignOptions } from '@components/open-panel/utils';
+import UnitControl from '@components/unit-control';
 import { TagNameControl } from '@components/tagname-control';
 import { HtmlAttributes } from '@components/html-attributes';
+import DimensionsControl from '@components/dimensions';
 
-export function TextOptions( options, props ) {
-	const {
-		getStyleValue,
-		onStyleChange,
-		currentAtRule,
-		name,
-		attributes,
-		setAttributes,
-	} = props;
+export const buttonColorControls = [
+	{
+		label: 'Background Color',
+		id: 'button-background-color',
+		items: [
+			{
+				tooltip: 'Background Color',
+				value: 'backgroundColor',
+				selector: '',
+			},
+			{
+				tooltip: 'Hover Background Color',
+				value: 'backgroundColor',
+				selector: '&:is(:hover, :focus)',
+			},
+		],
+	},
+	{
+		label: 'Text Color',
+		id: 'button-text-color',
+		items: [
+			{
+				tooltip: 'Text Color',
+				value: 'color',
+				selector: '',
+			},
+			{
+				tooltip: 'Hover Text Color',
+				value: 'color',
+				selector: '&:is(:hover, :focus)',
+			},
+		],
+	},
+	{
+		label: 'Icon Color',
+		id: 'icon-color',
+		items: [
+			{
+				tooltip: 'Icon Color',
+				value: 'color',
+				selector: 'svg',
+			},
+			{
+				tooltip: 'Hover Icon Color',
+				value: 'color',
+				selector: '&:is(:hover, :focus) svg',
+			},
+		],
+	},
+];
 
+export const textColorControls = [
+	{
+		label: 'Text Color',
+		id: 'text-text-color',
+		items: [
+			{
+				tooltip: 'Text Color',
+				value: 'color',
+				selector: '',
+			},
+		],
+	},
+	{
+		label: 'Icon Color',
+		id: 'icon-color',
+		items: [
+			{
+				tooltip: 'Icon Color',
+				value: 'color',
+				selector: 'svg',
+			},
+		],
+	},
+];
+
+export function BlockSettings( {
+	getStyleValue,
+	onStyleChange,
+	currentAtRule,
+	name,
+	attributes,
+	setAttributes,
+} ) {
 	const {
 		htmlAttributes,
 		tagName,
@@ -44,10 +120,6 @@ export function TextOptions( options, props ) {
 		return controls;
 	}, [ tagName, icon ] );
 
-	if ( 'generateblocks/text' !== name ) {
-		return options;
-	}
-
 	const tagNames = [
 		'p',
 		'span',
@@ -70,7 +142,15 @@ export function TextOptions( options, props ) {
 	} ).filter( Boolean );
 
 	return (
-		<>
+		<ApplyFilters
+			name="generateblocks.editor.blockControls"
+			blockName={ name }
+			getStyleValue={ getStyleValue }
+			onStyleChange={ onStyleChange }
+			currentAtRule={ currentAtRule }
+			attributes={ attributes }
+			setAttributes={ setAttributes }
+		>
 			<OpenPanel
 				title={ __( 'Link Destination', 'generateblocks' ) }
 				shouldRender={ 'a' === tagName && '' === currentAtRule }
@@ -119,11 +199,29 @@ export function TextOptions( options, props ) {
 					onChange={ ( value ) => onStyleChange( 'fontWeight', value, currentAtRule ) }
 				/>
 
-				<Padding
-					getStyleValue={ getStyleValue }
-					onStyleChange={ onStyleChange }
-					currentAtRule={ currentAtRule }
-				/>
+				{ 'a' === tagName || 'button' === tagName ? (
+					<DimensionsControl
+						label={ __( 'Padding', 'generateblocks-pro' ) }
+						attributeNames={ [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ] }
+						values={ {
+							paddingTop: getStyleValue( 'paddingTop', currentAtRule ),
+							paddingRight: getStyleValue( 'paddingRight', currentAtRule ),
+							paddingBottom: getStyleValue( 'paddingBottom', currentAtRule ),
+							paddingLeft: getStyleValue( 'paddingLeft', currentAtRule ),
+						} }
+						onChange={ ( values ) => Object.keys( values ).forEach( ( property ) => (
+							onStyleChange( property, values[ property ], currentAtRule )
+						) ) }
+						placeholders={ {} }
+					/>
+				) : (
+					<UnitControl
+						id="marginBottom"
+						label={ __( 'Bottom spacing', 'generateblocks' ) }
+						value={ getStyleValue( 'marginBottom', currentAtRule ) }
+						onChange={ ( value ) => onStyleChange( 'marginBottom', value, currentAtRule ) }
+					/>
+				) }
 			</OpenPanel>
 
 			<OpenPanel
@@ -182,14 +280,6 @@ export function TextOptions( options, props ) {
 					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</OpenPanel>
-
-			{ options }
-		</>
+		</ApplyFilters>
 	);
 }
-
-addFilter(
-	'generateblocks.editor.blockStyles',
-	'generateblocks/textOptions',
-	TextOptions
-);

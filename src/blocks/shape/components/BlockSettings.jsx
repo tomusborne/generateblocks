@@ -1,33 +1,50 @@
 import { __ } from '@wordpress/i18n';
-import { shapeColorControls } from './colorControls.js';
-import { addFilter } from '@wordpress/hooks';
-import UnitControl from '../../components/unit-control/index.js';
-import { IconControl } from '../../components/icon-control';
-import { OpenPanel } from '../../components/open-panel';
-import { moreDesignOptions, ColorPickerControls } from './index.js';
+
+import ApplyFilters from '@components/apply-filters';
+import { OpenPanel } from '@components/open-panel';
+import { IconControl } from '@components/icon-control';
+import { ColorPickerControls } from '@components/color-picker-group';
+import { moreDesignOptions } from '@components/open-panel/utils';
+import UnitControl from '@components/unit-control';
 import { HtmlAttributes } from '@components/html-attributes';
 
-function ShapeOptions( options, props ) {
-	const {
-		getStyleValue,
-		onStyleChange,
-		currentAtRule,
-		name,
-		attributes,
-		setAttributes,
-	} = props;
+export const shapeColorControls = [
+	{
+		label: 'Color',
+		id: 'shape-color',
+		items: [
+			{
+				tooltip: 'Color',
+				value: 'color',
+				selector: 'svg',
+			},
+		],
+	},
+];
 
+export function BlockSettings( {
+	getStyleValue,
+	onStyleChange,
+	currentAtRule,
+	name,
+	attributes,
+	setAttributes,
+} ) {
 	const {
-		html,
 		htmlAttributes,
+		html,
 	} = attributes;
 
-	if ( 'generateblocks/shape' !== name ) {
-		return options;
-	}
-
 	return (
-		<>
+		<ApplyFilters
+			name="generateblocks.editor.blockControls"
+			blockName={ name }
+			getStyleValue={ getStyleValue }
+			onStyleChange={ onStyleChange }
+			currentAtRule={ currentAtRule }
+			attributes={ attributes }
+			setAttributes={ setAttributes }
+		>
 			<OpenPanel
 				title={ __( 'Shape', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
@@ -83,14 +100,6 @@ function ShapeOptions( options, props ) {
 					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</OpenPanel>
-
-			{ options }
-		</>
+		</ApplyFilters>
 	);
 }
-
-addFilter(
-	'generateblocks.editor.blockStyles',
-	'generateblocks/shapeOptions',
-	ShapeOptions
-);
