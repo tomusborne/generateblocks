@@ -1,4 +1,4 @@
-import { useBlockProps, InspectorControls, InspectorAdvancedControls, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';

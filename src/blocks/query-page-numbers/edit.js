@@ -1,4 +1,4 @@
-import { useBlockProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
