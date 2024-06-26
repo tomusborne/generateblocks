@@ -177,6 +177,8 @@ function EditBlock( props ) {
 							],
 						},
 					} }
+					scope="gb-block-styles-wrapper"
+					stylesBuilderScope="gb-styles-builder-wrapper"
 				>
 					<OpenPanel
 						title={ __( 'Settings', 'generateblocks' ) }

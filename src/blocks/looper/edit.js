@@ -1,4 +1,4 @@
-import { useBlockProps, InspectorControls, InspectorAdvancedControls } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
@@ -16,7 +16,7 @@ import { useCurrentAtRule } from '@hooks/useCurrentAtRule';
 
 import './editor.scss';
 import { GridColumnSelector } from '@components/grid-column-selector';
-import { moreDesignOptions } from '../../editor/block-controls';
+import { moreDesignOptions } from '@components/open-panel/utils';
 
 function EditBlock( props ) {
 	const {
@@ -134,6 +134,8 @@ function EditBlock( props ) {
 					css={ css }
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
+					scope="gb-block-styles-wrapper"
+					stylesBuilderScope="gb-styles-builder-wrapper"
 				>
 					<OpenPanel
 						title={ __( 'Design', 'generateblocks' ) }
