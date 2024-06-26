@@ -13,11 +13,11 @@ import { defaultAtRules } from '../../utils/defaultAtRules.js';
 import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
 import { DynamicTagBlockToolbar } from '../../dynamic-tags/components/DynamicTagBlockToolbar.jsx';
 import getIcon from '../../utils/get-icon/index.js';
-import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
 import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
+import { BlockSettings } from './components/BlockSettings';
 
 function EditBlock( props ) {
 	const {
@@ -201,18 +201,12 @@ function EditBlock( props ) {
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
 				>
-					{
-						applyFilters(
-							'generateblocks.editor.blockStyles',
-							null,
-							{
-								...props,
-								onStyleChange,
-								getStyleValue,
-								currentAtRule,
-							}
-						)
-					}
+					<BlockSettings
+						{ ...props }
+						getStyleValue={ getStyleValue }
+						onStyleChange={ onStyleChange }
+						currentAtRule={ currentAtRule }
+					/>
 				</BlockStyles>
 			</InspectorControls>
 

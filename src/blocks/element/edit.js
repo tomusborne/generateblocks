@@ -7,10 +7,10 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import BlockAppender from './components/BlockAppender.jsx';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { applyFilters } from '@wordpress/hooks';
 import { convertInlineStyleStringToObject } from './utils.js';
 import RootElement from '../../components/root-element/index.js';
 import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
+import { BlockSettings } from './components/BlockSettings';
 
 function EditBlock( props ) {
 	const {
@@ -142,18 +142,12 @@ function EditBlock( props ) {
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
 				>
-					{
-						applyFilters(
-							'generateblocks.editor.blockStyles',
-							null,
-							{
-								...props,
-								onStyleChange,
-								getStyleValue,
-								currentAtRule,
-							}
-						)
-					}
+					<BlockSettings
+						{ ...props }
+						getStyleValue={ getStyleValue }
+						onStyleChange={ onStyleChange }
+						currentAtRule={ currentAtRule }
+					/>
 				</BlockStyles>
 			</InspectorControls>
 			<RootElement

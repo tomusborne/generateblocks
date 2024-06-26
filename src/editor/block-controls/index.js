@@ -2,10 +2,6 @@ import { __ } from '@wordpress/i18n';
 import { ColorPicker } from '@edge22/components';
 import DimensionsControl from '../../components/dimensions/index.js';
 import { ColorPickerGroup } from '../../components/color-picker-group/ColorPickerGroup.jsx';
-import './element.js';
-import './image.js';
-import './text.js';
-import './shape.js';
 
 export function Padding( { getStyleValue, onStyleChange, currentAtRule } ) {
 	const paddingTop = getStyleValue( 'paddingTop', currentAtRule );
