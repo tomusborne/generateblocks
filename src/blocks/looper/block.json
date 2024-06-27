@@ -11,7 +11,8 @@
 	"ancestor": [ "generateblocks/query" ],
     "attributes": {
         "uniqueId": {
-            "type": "string"
+            "type": "string",
+			"default": ""
         },
 		"tagName": {
 			"type": "string",
@@ -28,16 +29,20 @@
 			]
 		},
 		"styles": {
-			"type": "object"
+			"type": "object",
+			"default": {}
 		},
 		"css": {
-			"type": "string"
+			"type": "string",
+			"default": ""
 		},
 		"globalClasses": {
-			"type": "array"
+			"type": "array",
+			"default": []
 		},
 		"htmlAttributes": {
-			"type": "object"
+			"type": "object",
+			"default": {}
 		}
     },
     "supports": {

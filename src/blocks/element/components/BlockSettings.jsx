@@ -106,8 +106,8 @@ export function BlockSettings( {
 } ) {
 	const {
 		tagName,
-		htmlAttributes = {},
-		styles = {},
+		htmlAttributes,
+		styles,
 	} = attributes;
 
 	const [ openShapeLibrary, setOpenShapeLibrary ] = useState( false );

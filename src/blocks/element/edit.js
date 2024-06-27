@@ -11,6 +11,7 @@ import { convertInlineStyleStringToObject } from './utils.js';
 import RootElement from '../../components/root-element/index.js';
 import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
 import { BlockSettings } from './components/BlockSettings';
+import { selectorShortcuts } from '@utils/selectorShortcuts.js';
 
 function EditBlock( props ) {
 	const {
@@ -141,6 +142,7 @@ function EditBlock( props ) {
 					css={ css }
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
+					selectorShortcuts={ selectorShortcuts }
 					scope="gb-block-styles-wrapper"
 					stylesBuilderScope="gb-styles-builder-wrapper"
 				>

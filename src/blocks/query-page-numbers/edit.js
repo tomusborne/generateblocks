@@ -7,12 +7,9 @@ import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { HtmlAttributes } from '../../components/html-attributes/index.js';
-import { SelectControl, RangeControl } from '@wordpress/components';
-import { getBlockType } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
-import { OpenPanel } from '@components/open-panel';
+import { BlockSettings } from './components/BlockSettings';
 
 const createPaginationItem = ( content, Tag = 'a', extraClass = '' ) => (
 	<Tag key={ content } className={ `page-numbers ${ extraClass }` }>
@@ -151,11 +148,6 @@ function EditBlock( props ) {
 	);
 
 	const TagName = tagName || 'div';
-	const tagNames = getBlockType( 'generateblocks/query-page-numbers' )?.attributes?.tagName?.enum;
-	const tagNameOptions = tagNames.map( ( tag ) => ( {
-		label: tag,
-		value: tag,
-	} ) );
 
 	return (
 		<>
@@ -180,33 +172,11 @@ function EditBlock( props ) {
 					scope="gb-block-styles-wrapper"
 					stylesBuilderScope="gb-styles-builder-wrapper"
 				>
-					<OpenPanel
-						title={ __( 'Settings', 'generateblocks' ) }
-					>
-						<RangeControl
-							type="number"
-							label={ __( 'Mid Size', 'generateblocks' ) }
-							value={ midSize }
-							onChange={ ( value ) => setAttributes( { midSize: value } ) }
-							step="1"
-							min="0"
-							max="10"
-						/>
-
-						<SelectControl
-							label={ __( 'Tag Name' ) }
-							value={ tagName }
-							options={ tagNameOptions }
-							onChange={ ( value ) => setAttributes( { tagName: value } ) }
-						/>
-
-						<HtmlAttributes
-							items={ htmlAttributes }
-							onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-							onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-							onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-						/>
-					</OpenPanel>
+					<BlockSettings
+						{ ...props }
+						getStyleValue={ getStyleValue }
+						onStyleChange={ onStyleChange }
+					/>
 				</BlockStyles>
 			</InspectorControls>
 			<TagName { ...blockProps }>

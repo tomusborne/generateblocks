@@ -8,13 +8,11 @@ import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import RootElement from '../../components/root-element/index.js';
-import { OpenPanel } from '@components/open-panel';
-import { QueryInspectorControls } from './components/QueryInspectorControls';
 import { TemplateSelector } from '@components/template-selector';
 import { templates } from './templates';
+import { BlockSettings } from './components/BlockSettings';
 
 function EditBlock( props ) {
 	const {
@@ -147,24 +145,10 @@ function EditBlock( props ) {
 					scope="gb-block-styles-wrapper"
 					stylesBuilderScope="gb-styles-builder-wrapper"
 				>
-					<OpenPanel
-						title={ __( 'Query Parameters', 'generateblocks' ) }
-					>
-						<QueryInspectorControls
-							attributes={ attributes }
-							setAttributes={ setAttributes }
-						/>
-					</OpenPanel>
-					<OpenPanel
-						title={ __( 'Settings', 'generateblocks' ) }
-					>
-						<HtmlAttributes
-							items={ htmlAttributes }
-							onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-							onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-							onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-						/>
-					</OpenPanel>
+					<BlockSettings
+						{ ...props }
+						onStyleChange={ onStyleChange }
+					/>
 				</BlockStyles>
 			</InspectorControls>
 			<RootElement

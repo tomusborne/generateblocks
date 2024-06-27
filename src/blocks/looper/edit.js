@@ -1,22 +1,18 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { __ } from '@wordpress/i18n';
 import { withUniqueId } from '../../hoc';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { HtmlAttributes } from '../../components/html-attributes/index.js';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
-import { OpenPanel } from '@components/open-panel';
 import { LoopInnerBlocksRenderer } from './components/LoopInnerBlocksRenderer';
 import { useCurrentAtRule } from '@hooks/useCurrentAtRule';
+import { BlockSettings } from './components/BlockSettings';
 
 import './editor.scss';
-import { GridColumnSelector } from '@components/grid-column-selector';
-import { moreDesignOptions } from '@components/open-panel/utils';
 
 function EditBlock( props ) {
 	const {
@@ -27,9 +23,9 @@ function EditBlock( props ) {
 	const {
 		className,
 		uniqueId,
-		styles = {},
+		styles,
 		css,
-		htmlAttributes = [],
+		htmlAttributes,
 		globalClasses = [],
 		tagName,
 	} = attributes;
@@ -137,31 +133,12 @@ function EditBlock( props ) {
 					scope="gb-block-styles-wrapper"
 					stylesBuilderScope="gb-styles-builder-wrapper"
 				>
-					<OpenPanel
-						title={ __( 'Design', 'generateblocks' ) }
-						dropdownOptions={ [
-							moreDesignOptions,
-						] }
-					>
-						<GridColumnSelector
-							value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
-							onClick={ ( value ) => {
-								onStyleChange( 'display', 'grid', currentAtRule );
-								onStyleChange( 'gridTemplateColumns', value, currentAtRule );
-							} }
-						/>
-					</OpenPanel>
-
-					<OpenPanel
-						title={ __( 'Settings', 'generateblocks' ) }
-					>
-						<HtmlAttributes
-							items={ htmlAttributes }
-							onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-							onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-							onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-						/>
-					</OpenPanel>
+					<BlockSettings
+						{ ...props }
+						getStyleValue={ getStyleValue }
+						onStyleChange={ onStyleChange }
+						currentAtRule={ currentAtRule }
+					/>
 				</BlockStyles>
 			</InspectorControls>
 			<TagName { ...blockProps }>
