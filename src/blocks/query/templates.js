@@ -257,6 +257,7 @@ export const templates = [
 								htmlAttributes: {
 									src: '{featured_image_url}',
 									alt: '{post_title}',
+									'data-media-id': '{featured_image_id}',
 								},
 								styles: {
 									marginBottom: '30px',
