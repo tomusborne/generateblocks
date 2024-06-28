@@ -19,8 +19,8 @@
 			"default": "",
 			"enum": [
 				"div",
-				"section",
-				"nav"
+				"article",
+				"a"
 			]
 		},
 		"styles": {

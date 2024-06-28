@@ -15,7 +15,21 @@
         },
 		"tagName": {
 			"type": "string",
-			"default": ""
+			"default": "",
+			"enum": [
+				"p",
+				"span",
+				"div",
+				"h1",
+				"h2",
+				"h3",
+				"h4",
+				"h5",
+				"h6",
+				"a",
+				"button",
+				"figcaption"
+			]
 		},
 		"content": {
 			"type": "rich-text",

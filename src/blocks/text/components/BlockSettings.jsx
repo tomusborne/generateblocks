@@ -120,27 +120,6 @@ export function BlockSettings( {
 		return controls;
 	}, [ tagName, icon ] );
 
-	const tagNames = [
-		'p',
-		'span',
-		'div',
-		'h1',
-		'h2',
-		'h3',
-		'h4',
-		'h5',
-		'h6',
-		'a',
-		'button',
-		'figcaption',
-	];
-	const tagNameOptions = tagNames.map( ( tag ) => {
-		return {
-			label: tag,
-			value: tag,
-		};
-	} ).filter( Boolean );
-
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -264,7 +243,7 @@ export function BlockSettings( {
 				shouldRender={ '' === currentAtRule }
 			>
 				<TagNameControl
-					options={ tagNameOptions }
+					blockName="generateblocks/text"
 					value={ tagName }
 					onChange={ ( value ) => {
 						setAttributes( { tagName: value } );
