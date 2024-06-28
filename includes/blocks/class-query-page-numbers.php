@@ -141,15 +141,20 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 
 		$tag_name = $attributes['tagName'] ?? 'div';
 
+		$html_attributes = generateblocks_with_html_attributes(
+			array(
+				'id'    => $attributes['anchor'] ?? null,
+				'class' => implode( ' ', $classes ),
+			),
+			$attributes
+		);
+
 		$output = sprintf(
 			'<%1$s %2$s>%3$s</%1$s>',
 			$tag_name,
 			generateblocks_attr(
 				'query-page-numbers',
-				array(
-					'id'    => $attributes['anchor'] ?? null,
-					'class' => implode( ' ', $classes ),
-				),
+				$html_attributes,
 				$attributes,
 				$block
 			),

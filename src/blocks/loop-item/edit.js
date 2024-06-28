@@ -1,18 +1,17 @@
-import { useBlockProps, useInnerBlocksProps, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls, useInnerBlocksProps } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
-import { BlockStyles, withUniqueId, useUpdateEditorStyleCSS } from '@edge22/block-styles';
-import { getCss } from '@edge22/styles-builder';
+import { withUniqueId } from '../../hoc';
 import { useSelect, useDispatch } from '@wordpress/data';
-import BlockAppender from './components/BlockAppender.jsx';
+import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
+import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
-import { convertInlineStyleStringToObject } from './utils.js';
-import RootElement from '../../components/root-element/index.js';
-import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
+import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
-import { selectorShortcuts } from '@utils/selectorShortcuts.js';
+import BlockAppender from '../element/components/BlockAppender';
+import { selectorShortcuts } from '@utils/selectorShortcuts';
 
 function EditBlock( props ) {
 	const {
@@ -20,26 +19,25 @@ function EditBlock( props ) {
 		setAttributes,
 		clientId,
 		isSelected,
-		name,
 	} = props;
 
 	const {
-		tagName,
 		className,
-		styles = {},
 		uniqueId,
+		styles,
 		css,
-		htmlAttributes = {},
-		globalClasses = [],
-		isBlockPreview = false,
+		htmlAttributes,
+		globalClasses,
+		tagName,
 	} = attributes;
 
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
-	const currentAtRule = useCurrentAtRule();
 	const classNames = useMemo( () => {
-		const classes = [];
+		const classes = [
+			'gb-loop-item',
+		];
 
 		if ( className ) {
 			classes.push( className );
@@ -50,15 +48,11 @@ function EditBlock( props ) {
 		}
 
 		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-element-${ uniqueId }` );
-		}
-
-		if ( isBlockPreview ) {
-			classes.push( 'gb-block-preview' );
+			classes.push( `gb-loop-item-${ uniqueId }` );
 		}
 
 		return classes;
-	}, [ className, globalClasses, styles, uniqueId, isBlockPreview ] );
+	}, [ className, globalClasses, styles, uniqueId ] );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -71,7 +65,7 @@ function EditBlock( props ) {
 			return '';
 		}
 
-		return '.gb-element-' + uniqueId;
+		return '.gb-loop-item-' + uniqueId;
 	}, [ uniqueId ] );
 
 	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
@@ -130,6 +124,7 @@ function EditBlock( props ) {
 			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ isSelected } attributes={ attributes } />,
 		}
 	);
+
 	const TagName = tagName || 'div';
 	const shortcuts = useMemo( () => {
 		const visibleSelectors = [
@@ -181,17 +176,10 @@ function EditBlock( props ) {
 						{ ...props }
 						getStyleValue={ getStyleValue }
 						onStyleChange={ onStyleChange }
-						currentAtRule={ currentAtRule }
 					/>
 				</BlockStyles>
 			</InspectorControls>
-			<RootElement
-				name={ name }
-				clientId={ clientId }
-				isBlockPreview={ isBlockPreview }
-			>
-				<TagName { ...innerBlocksProps } />
-			</RootElement>
+			<TagName { ...innerBlocksProps } />
 		</>
 	);
 }

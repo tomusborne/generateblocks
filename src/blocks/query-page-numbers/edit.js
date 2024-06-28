@@ -53,10 +53,10 @@ function EditBlock( props ) {
 	const {
 		className,
 		uniqueId,
-		styles = {},
+		styles,
 		css,
-		htmlAttributes = [],
-		globalClasses = [],
+		htmlAttributes,
+		globalClasses,
 		tagName,
 		midSize,
 	} = attributes;

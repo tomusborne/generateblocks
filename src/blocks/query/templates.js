@@ -111,7 +111,7 @@ export const templates = [
 					},
 				},
 				[
-					[ 'generateblocks/element',
+					[ 'generateblocks/loop-item',
 						{},
 						[
 							[ 'generateblocks/text', {
@@ -148,7 +148,7 @@ export const templates = [
 					},
 				},
 				[
-					[ 'generateblocks/element',
+					[ 'generateblocks/loop-item',
 						{},
 						[
 							[ 'generateblocks/text', {
@@ -190,7 +190,7 @@ export const templates = [
 					},
 				},
 				[
-					[ 'generateblocks/element',
+					[ 'generateblocks/loop-item',
 						{
 							styles: {
 								backgroundColor: '#fafafa',
@@ -241,7 +241,7 @@ export const templates = [
 					},
 				},
 				[
-					[ 'generateblocks/element',
+					[ 'generateblocks/loop-item',
 						{
 							styles: {
 								backgroundColor: '#fafafa',
@@ -296,7 +296,7 @@ export const templates = [
 			[ 'generateblocks/looper',
 				{},
 				[
-					[ 'generateblocks/element',
+					[ 'generateblocks/loop-item',
 						{},
 					],
 				],

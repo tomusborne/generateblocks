@@ -1,6 +1,7 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
+import { __ } from '@wordpress/i18n';
 import { withUniqueId } from '../../hoc';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
@@ -11,6 +12,7 @@ import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { LoopInnerBlocksRenderer } from './components/LoopInnerBlocksRenderer';
 import { useCurrentAtRule } from '@hooks/useCurrentAtRule';
 import { BlockSettings } from './components/BlockSettings';
+import { selectorShortcuts as defaultSelectorShortcuts } from '@utils/selectorShortcuts.js';
 
 import './editor.scss';
 
@@ -118,6 +120,29 @@ function EditBlock( props ) {
 	);
 
 	const TagName = tagName || 'div';
+	const shortcuts = useMemo( () => {
+		const selectorShortcuts = {
+			...defaultSelectorShortcuts,
+			default: {
+				items: [
+					{ label: __( 'First item', 'generateblocks' ), value: '> .gb-loop-item:first-child' },
+					...defaultSelectorShortcuts.default.items,
+				],
+			},
+		};
+
+		const visibleSelectors = [
+			{
+				label: __( 'Main', 'generateblocks' ),
+				value: '',
+			},
+		];
+
+		return {
+			selectorShortcuts,
+			visibleShortcuts: visibleSelectors,
+		};
+	}, [] );
 
 	return (
 		<>
@@ -130,6 +155,8 @@ function EditBlock( props ) {
 					css={ css }
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
+					selectorShortcuts={ shortcuts.selectorShortcuts }
+					visibleSelectors={ shortcuts.visibleShortcuts }
 					scope="gb-block-styles-wrapper"
 					stylesBuilderScope="gb-styles-builder-wrapper"
 				>

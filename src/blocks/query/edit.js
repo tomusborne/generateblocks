@@ -13,6 +13,7 @@ import RootElement from '../../components/root-element/index.js';
 import { TemplateSelector } from '@components/template-selector';
 import { templates } from './templates';
 import { BlockSettings } from './components/BlockSettings';
+import { selectorShortcuts } from '@utils/selectorShortcuts';
 
 function EditBlock( props ) {
 	const {
@@ -118,6 +119,23 @@ function EditBlock( props ) {
 	);
 
 	const TagName = tagName || 'div';
+	const shortcuts = useMemo( () => {
+		const visibleShortcuts = [
+			{
+				label: __( 'Main', 'generateblocks' ),
+				value: '',
+			},
+			{
+				label: __( 'Links', 'generateblocks' ),
+				value: 'a',
+			},
+		];
+
+		return {
+			selectorShortcuts,
+			visibleShortcuts,
+		};
+	}, [] );
 
 	if ( showTemplateSelector ) {
 		return (
@@ -142,6 +160,8 @@ function EditBlock( props ) {
 					css={ css }
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
+					selectorShortcuts={ shortcuts.selectorShortcuts }
+					visibleSelectors={ shortcuts.visibleShortcuts }
 					scope="gb-block-styles-wrapper"
 					stylesBuilderScope="gb-styles-builder-wrapper"
 				>

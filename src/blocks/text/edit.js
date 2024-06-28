@@ -18,6 +18,7 @@ import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
 import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
 import { BlockSettings } from './components/BlockSettings';
+import { selectorShortcuts } from '@utils/selectorShortcuts';
 
 function EditBlock( props ) {
 	const {
@@ -168,6 +169,52 @@ function EditBlock( props ) {
 		withoutInteractiveFormatting: 'a' === tagName || 'button' === tagName,
 		...( Platform.isNative && { deleteEnter: true } ), // setup RichText on native mobile to delete the "Enter" key as it's handled by the JS/RN side
 	};
+	const shortcuts = useMemo( () => {
+		const visibleSelectors = [
+			{
+				label: __( 'Main', 'generateblocks' ),
+				value: '',
+			},
+		];
+
+		if ( 'a' === tagName || 'button' === tagName ) {
+			visibleSelectors.push(
+				{
+					label: __( 'Hover', 'generateblocks' ),
+					value: ':is(:hover, :focus)',
+				}
+			);
+
+			delete selectorShortcuts.links;
+		}
+
+		if ( icon ) {
+			visibleSelectors.push(
+				{
+					label: __( 'Icon', 'generateblocks' ),
+					value: '.gb-shape svg',
+				},
+			);
+
+			selectorShortcuts.default.items.push(
+				{ label: __( 'Icon', 'generateblocks' ), value: '.gb-shape svg' },
+				{ label: __( 'Hovered icon', 'generateblocks' ), value: '&:is(:hover, :focus) .gb-shape svg' },
+			);
+
+			selectorShortcuts.icons = {
+				label: __( 'Icon', 'generateblocks' ),
+				items: [
+					{ label: __( 'Icon', 'generateblocks' ), value: '.gb-shape svg' },
+					{ label: __( 'Hovered icon', 'generateblocks' ), value: '&:is(:hover, :focus) .gb-shape svg' },
+				],
+			};
+		}
+
+		return {
+			selectorShortcuts,
+			visibleShortcuts: visibleSelectors,
+		};
+	}, [ tagName, icon ] );
 
 	return (
 		<>
@@ -200,6 +247,8 @@ function EditBlock( props ) {
 					css={ css }
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
+					selectorShortcuts={ shortcuts.selectorShortcuts }
+					visibleSelectors={ shortcuts.visibleShortcuts }
 					scope="gb-block-styles-wrapper"
 					stylesBuilderScope="gb-styles-builder-wrapper"
 				>

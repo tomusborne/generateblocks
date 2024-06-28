@@ -83,6 +83,7 @@
 		"generateblocks/query": "query",
 		"generateblocks/queryId": "uniqueId",
 		"generateblocks/inheritQuery": "inheritQuery",
-		"generateblocks/forceReload": "forceReload"
+		"generateblocks/forceReload": "forceReload",
+		"generateblocks/queryType": "queryType"
 	}
 }

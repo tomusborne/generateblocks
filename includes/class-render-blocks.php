@@ -198,6 +198,13 @@ class GenerateBlocks_Render_Block {
 				'render_callback' => [ 'GenerateBlocks_Block_Query_Page_Numbers', 'render_block' ],
 			]
 		);
+
+		register_block_type(
+			GENERATEBLOCKS_DIR . '/dist/blocks/loop-item',
+			[
+				'render_callback' => [ 'GenerateBlocks_Block_Loop_Item', 'render_block' ],
+			]
+		);
 	}
 
 	/**

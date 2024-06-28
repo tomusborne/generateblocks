@@ -97,16 +97,21 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			)
 		)->render( array( 'dynamic' => false ) );
 
+		$html_attributes = generateblocks_with_html_attributes(
+			[
+				'id'                    => $attributes['anchor'] ?? null,
+				'class'                 => implode( ' ', $classes ),
+				'data-gb-router-region' => false === $force_reload ? $query_id : null,
+			],
+			$attributes
+		);
+
 		$output = sprintf(
 			'<%1$s %2$s>%3$s</%1$s>',
 			$tag_name,
 			generateblocks_attr(
 				'query',
-				array(
-					'id'    => $attributes['anchor'] ?? null,
-					'class' => implode( ' ', $classes ),
-					'data-gb-router-region' => false === $force_reload ? $query_id : null,
-				),
+				$html_attributes,
 				$attributes,
 				$block
 			),

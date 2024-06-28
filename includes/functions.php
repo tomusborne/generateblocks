@@ -92,6 +92,10 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['looper'][] = $block['attrs'];
 			}
 
+			if ( 'generateblocks/loop-item' === $block['blockName'] ) {
+				$data['loop-item'][] = $block['attrs'];
+			}
+
 			if ( 'generateblocks/query-page-numbers' === $block['blockName'] ) {
 				$data['query-page-numbers'][] = $block['attrs'];
 			}
@@ -1104,6 +1108,7 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 			'query'              => 'GenerateBlocks_Block_Query',
 			'looper'             => 'GenerateBlocks_Block_Looper',
 			'query-page-numbers' => 'GenerateBlocks_Block_Query_Page_Numbers',
+			'loop-item'          => 'GenerateBlocks_Block_Loop_Item',
 		]
 	);
 
@@ -2011,4 +2016,27 @@ function generateblocks_register_block_script( $block_name, $variables = [] ) {
 		'generateblocksBlock' . $capitlized_block_name,
 		$variables
 	);
+}
+
+/**
+ * Add custom attributes to a block.
+ *
+ * @since 2.0.0
+ * @param array $html_attributes The existing attributes.
+ * @param array $block_attributes The settings for the block.
+ */
+function generateblocks_with_html_attributes( $html_attributes, $block_attributes ) {
+	if ( ! empty( $block_attributes['htmlAttributes'] ) && is_array( $block_attributes['htmlAttributes'] ) ) {
+		foreach ( $block_attributes['htmlAttributes'] as $key => $value ) {
+			if ( ! $key ) {
+				continue;
+			}
+
+			$html_attributes[ esc_attr( $key ) ] = isset( $value ) && '' !== $value
+			? esc_attr( $value )
+			: true;
+		}
+	}
+
+	return $html_attributes;
 }
