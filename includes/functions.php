@@ -2027,7 +2027,12 @@ function generateblocks_register_block_script( $block_name, $variables = [] ) {
 		false
 	);
 
-	$capitlized_block_name = ucfirst( $block_name );
+	$capitlized_block_name = str_replace(
+		'-',
+		'',
+		ucwords( $block_name, '-' )
+	);
+
 	wp_localize_script(
 		'generateblocks-' . $block_name . '-editor-script',
 		'generateblocksBlock' . $capitlized_block_name,
