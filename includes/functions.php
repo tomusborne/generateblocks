@@ -1972,6 +1972,23 @@ function generateblocks_str_contains( $haystack, $needle ) {
 }
 
 /**
+ * Check if a string starts with another string.
+ *
+ * @since 2.0.0
+ *
+ * @param string $string The string to search in.
+ * @param string $prefix The string to search for.
+ * @return bool
+ */
+function generateblocks_str_starts_with( $string, $prefix ) {
+	if ( function_exists( 'str_starts_with' ) ) {
+		return str_starts_with( $string, $prefix );
+	} else {
+		return substr( $string, 0, strlen( $prefix ) ) === $prefix;
+	}
+}
+
+/**
  * Check if we should show our legacy blocks.
  *
  * @since 2.0.0
@@ -2026,16 +2043,40 @@ function generateblocks_register_block_script( $block_name, $variables = [] ) {
  * @param array $block_attributes The settings for the block.
  */
 function generateblocks_with_html_attributes( $html_attributes, $block_attributes ) {
-	if ( ! empty( $block_attributes['htmlAttributes'] ) && is_array( $block_attributes['htmlAttributes'] ) ) {
-		foreach ( $block_attributes['htmlAttributes'] as $key => $value ) {
-			if ( ! $key ) {
-				continue;
-			}
+	if ( empty( $block_attributes['htmlAttributes'] ) ) {
+		return $html_attributes;
+	}
 
-			$html_attributes[ esc_attr( $key ) ] = isset( $value ) && '' !== $value
-			? esc_attr( $value )
-			: true;
+	$allowed_attributes = [
+		'title',
+		'role',
+		'download',
+		'itemtype',
+		'itemscope',
+		'itemprop',
+		'href',
+		'style',
+		'src',
+		'height',
+		'width',
+	];
+
+	foreach ( (array) $block_attributes['htmlAttributes'] as $key => $value ) {
+		if ( ! $key ) {
+			continue;
 		}
+
+		if (
+			! in_array( $key, $allowed_attributes )
+			&& ! generateblocks_str_starts_with( $key, 'data-' )
+			&& ! generateblocks_str_starts_with( $key, 'aria-' )
+		) {
+			continue;
+		}
+
+		$html_attributes[ esc_attr( $key ) ] = isset( $value ) && '' !== $value
+		? esc_attr( $value )
+		: true;
 	}
 
 	return $html_attributes;
