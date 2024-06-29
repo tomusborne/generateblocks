@@ -33,6 +33,11 @@ function generateblocks_do_block_editor_assets() {
 			'squarePlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder800x.png',
 		]
 	);
+	generateblocks_register_block_script( 'query' );
+	generateblocks_register_block_script( 'looper' );
+	generateblocks_register_block_script( 'query-no-results' );
+	generateblocks_register_block_script( 'query-page-numbers' );
+	generateblocks_register_block_script( 'loop-item' );
 
 	global $pagenow;
 
