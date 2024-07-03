@@ -236,6 +236,7 @@ function EditBlock( props ) {
 						isPressed={ isPressed }
 					/>
 				) }
+				textValue={ content }
 			/>
 
 			<InspectorControls>

@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { BaseControl, Button, TextControl } from '@wordpress/components';
 import { MediaUpload, MediaUploadCheck } from '@wordpress/block-editor';
 import { Stack } from '@edge22/components';
-import { DynamicTagDropdown } from '../../dynamic-tags';
+import { DynamicTagModal } from '../../dynamic-tags';
 import './editor.scss';
 
 export function ImageUpload( {
@@ -60,7 +60,7 @@ export function ImageUpload( {
 				</MediaUploadCheck>
 
 				{ allowDynamicTags && (
-					<DynamicTagDropdown
+					<DynamicTagModal
 						onInsert={ ( newValue ) => onInsertDynamicTag( newValue ) }
 					/>
 				) }

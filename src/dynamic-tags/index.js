@@ -1,7 +1,9 @@
-import { DynamicTagDropdown } from './components/DynamicTagDropdown.jsx';
-import { DynamicTagBlockToolbar } from './components/DynamicTagBlockToolbar.jsx';
+import { DynamicTagBlockToolbar } from './components/DynamicTagBlockToolbar';
+import { DynamicTagSelect } from './components/DynamicTagSelect';
+import { DynamicTagModal } from './components/DynamicTagModal';
 
 export {
-	DynamicTagDropdown,
 	DynamicTagBlockToolbar,
+	DynamicTagSelect,
+	DynamicTagModal,
 };

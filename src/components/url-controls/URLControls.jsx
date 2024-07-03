@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { BaseControl, ToggleControl } from '@wordpress/components';
 import { URLInput } from '@wordpress/block-editor';
 import './editor.scss';
-import { DynamicTagDropdown } from '../../dynamic-tags';
+import { DynamicTagModal } from '../../dynamic-tags';
 import { Stack } from '@edge22/components';
 
 export function URLControls( { htmlAttributes, setAttributes } ) {
@@ -33,7 +33,7 @@ export function URLControls( { htmlAttributes, setAttributes } ) {
 						disableSuggestions={ url.includes( '{' ) }
 					/>
 
-					<DynamicTagDropdown
+					<DynamicTagModal
 						onInsert={ ( value ) => {
 							setAttributes( {
 								htmlAttributes: {
