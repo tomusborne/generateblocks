@@ -67,6 +67,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-looper.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-no-results.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-page-numbers.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-loop-item.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-terms-list.php';
 
 // Legacy Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';

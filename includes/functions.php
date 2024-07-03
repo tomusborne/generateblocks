@@ -100,6 +100,10 @@ function generateblocks_get_block_data( $content, $data = array(), $depth = 0 ) 
 				$data['query-page-numbers'][] = $block['attrs'];
 			}
 
+			if ( 'generateblocks/query-terms-list' === $block['blockName'] ) {
+				$data['query-terms-list'][] = $block['attrs'];
+			}
+
 			$data = apply_filters( 'generateblocks_modify_block_data', $data, $block );
 
 			if ( 'core/block' === $block['blockName'] ) {
@@ -1108,17 +1112,18 @@ function generateblocks_get_dynamic_css( $content = '', $store_block_id_only = f
 			'query'              => 'GenerateBlocks_Block_Query',
 			'looper'             => 'GenerateBlocks_Block_Looper',
 			'query-page-numbers' => 'GenerateBlocks_Block_Query_Page_Numbers',
+			'query-terms-list'   => 'GenerateBlocks_Block_Query_Terms_List',
 			'loop-item'          => 'GenerateBlocks_Block_Loop_Item',
 		]
 	);
 
 	$legacy_blocks = [
-		'grid' => 'GenerateBlocks_Block_Grid',
-		'container' => 'GenerateBlocks_Block_Container',
+		'grid'             => 'GenerateBlocks_Block_Grid',
+		'container'        => 'GenerateBlocks_Block_Container',
 		'button-container' => 'GenerateBlocks_Block_Button_Container',
-		'button' => 'GenerateBlocks_Block_Button',
-		'headline' => 'GenerateBlocks_Block_Headline',
-		'image' => 'GenerateBlocks_Block_Image',
+		'button'           => 'GenerateBlocks_Block_Button',
+		'headline'         => 'GenerateBlocks_Block_Headline',
+		'image'            => 'GenerateBlocks_Block_Image',
 	];
 
 	$all_blocks = array_merge(

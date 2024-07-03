@@ -1,24 +1,34 @@
-import { useBlockProps, InspectorControls, useInnerBlocksProps } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { __ } from '@wordpress/i18n';
 import { withUniqueId } from '../../hoc';
 import { useSelect, useDispatch } from '@wordpress/data';
 import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
 import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
+import { __ } from '@wordpress/i18n';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
-import BlockAppender from '../element/components/BlockAppender';
-import { selectorShortcuts } from '@utils/selectorShortcuts';
+
+function TermLink() {
+	return (
+		<>
+			<a
+				href="/"
+				onClick={ ( e ) => e.preventDefault() }
+				className="gb-query-terms-list__term"
+			>
+				{ __( 'Term item', 'generateblocks' ) }
+			</a>
+		</>
+	);
+}
 
 function EditBlock( props ) {
 	const {
 		attributes,
 		setAttributes,
-		clientId,
-		isSelected,
 	} = props;
 
 	const {
@@ -29,16 +39,14 @@ function EditBlock( props ) {
 		htmlAttributes,
 		globalClasses,
 		tagName,
-		isBlockPreview = false,
+		separator,
 	} = attributes;
 
 	const { getStyles } = useSelect( stylesStore );
 	const { addStyle } = useDispatch( stylesStore );
 	const updateEditorCSS = useUpdateEditorStyleCSS();
 	const classNames = useMemo( () => {
-		const classes = [
-			'gb-loop-item',
-		];
+		const classes = [];
 
 		if ( className ) {
 			classes.push( className );
@@ -49,15 +57,11 @@ function EditBlock( props ) {
 		}
 
 		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-loop-item-${ uniqueId }` );
-		}
-
-		if ( isBlockPreview ) {
-			classes.push( 'gb-block-preview' );
+			classes.push( `gb-query-terms-list-${ uniqueId }` );
 		}
 
 		return classes;
-	}, [ className, globalClasses, styles, uniqueId, isBlockPreview ] );
+	}, [ className, globalClasses, styles, uniqueId ] );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -70,7 +74,7 @@ function EditBlock( props ) {
 			return '';
 		}
 
-		return '.gb-loop-item-' + uniqueId;
+		return '.gb-query-terms-list-' + uniqueId;
 	}, [ uniqueId ] );
 
 	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
@@ -123,43 +127,8 @@ function EditBlock( props ) {
 			...combinedAttributes,
 		}
 	);
-	const innerBlocksProps = useInnerBlocksProps(
-		blockProps,
-		{
-			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ isSelected } attributes={ attributes } />,
-		}
-	);
 
 	const TagName = tagName || 'div';
-	const shortcuts = useMemo( () => {
-		const visibleSelectors = [
-			{
-				label: __( 'Main', 'generateblocks' ),
-				value: '',
-			},
-		];
-
-		if ( 'a' === tagName ) {
-			visibleSelectors.push(
-				{
-					label: __( 'Hover', 'generateblocks' ),
-					value: ':is(:hover, :focus)',
-				}
-			);
-		}
-
-		visibleSelectors.push(
-			{
-				label: __( 'Links', 'generateblocks' ),
-				value: 'a',
-			}
-		);
-
-		return {
-			selectorShortcuts,
-			visibleShortcuts: visibleSelectors,
-		};
-	}, [ tagName ] );
 
 	return (
 		<>
@@ -172,8 +141,15 @@ function EditBlock( props ) {
 					css={ css }
 					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
 					defaultAtRules={ defaultAtRules }
-					selectorShortcuts={ shortcuts.selectorShortcuts }
-					visibleSelectors={ shortcuts.visibleShortcuts }
+					selectorShortcuts={ {
+						default: {
+							label: __( 'Term Items', 'generateblocks' ),
+							items: [
+								{ label: __( 'Item', 'generateblocks' ), value: 'a' },
+								{ label: __( 'Hovered item', 'generateblocks' ), value: 'a:is(:hover, :focus)' },
+							],
+						},
+					} }
 					scope="gb-block-styles-wrapper"
 					stylesBuilderScope="gb-styles-builder-wrapper"
 				>
@@ -184,7 +160,11 @@ function EditBlock( props ) {
 					/>
 				</BlockStyles>
 			</InspectorControls>
-			<TagName { ...innerBlocksProps } />
+			<TagName { ...blockProps }>
+				<TermLink />{ separator ? separator : '' }
+				<TermLink />{ separator ? separator : '' }
+				<TermLink />
+			</TagName>
 		</>
 	);
 }

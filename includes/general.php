@@ -38,6 +38,7 @@ function generateblocks_do_block_editor_assets() {
 	generateblocks_register_block_script( 'query-no-results' );
 	generateblocks_register_block_script( 'query-page-numbers' );
 	generateblocks_register_block_script( 'loop-item' );
+	generateblocks_register_block_script( 'query-terms-list' );
 
 	global $pagenow;
 
@@ -537,6 +538,7 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 		'.wp-block-generateblocks-query-page-numbers',
 		'.wp-block-generateblocks-looper',
 		'.wp-block-generateblocks-loop-item',
+		'.wp-block-generateblocks-query-terms-list',
 	];
 
 	$css = implode( ',', $blocks_to_reset ) . '{max-width:unset;margin:0;}';

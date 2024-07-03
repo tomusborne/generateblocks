@@ -31,7 +31,6 @@ function EditBlock( props ) {
 		css,
 		htmlAttributes = {},
 		globalClasses = [],
-		isBlockPreview = false,
 	} = attributes;
 
 	const { getStyles } = useSelect( stylesStore );
@@ -53,12 +52,8 @@ function EditBlock( props ) {
 			classes.push( `gb-element-${ uniqueId }` );
 		}
 
-		if ( isBlockPreview ) {
-			classes.push( 'gb-block-preview' );
-		}
-
 		return classes;
-	}, [ className, globalClasses, styles, uniqueId, isBlockPreview ] );
+	}, [ className, globalClasses, styles, uniqueId ] );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -188,7 +183,6 @@ function EditBlock( props ) {
 			<RootElement
 				name={ name }
 				clientId={ clientId }
-				isBlockPreview={ isBlockPreview }
 			>
 				<TagName { ...innerBlocksProps } />
 			</RootElement>

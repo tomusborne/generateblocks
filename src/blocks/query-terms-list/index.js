@@ -1,4 +1,5 @@
-import { registerBlockType } from '@wordpress/blocks';
+import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
+import { __ } from '@wordpress/i18n';
 import { Edit } from './edit';
 import metadata from './block.json';
 
@@ -13,3 +14,19 @@ registerBlockType( metadata.name, {
 	save: () => null,
 	icon: paginationIcon,
 } );
+
+registerBlockVariation(
+	'generateblocks/query-terms-list',
+	{
+		name: 'terms-list',
+		title: __( 'Terms List', 'generateblocks' ),
+		isDefault: true,
+		icon: paginationIcon,
+		attributes: {
+			separator: ', ',
+			styles: {
+				marginTop: '1em',
+			},
+		},
+	},
+);

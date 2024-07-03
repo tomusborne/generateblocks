@@ -1,0 +1,73 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/query-terms-list",
+    "title": "Terms List",
+    "category": "generateblocks",
+    "description": "A custom SVG shape.",
+    "keywords": [ "text", "heading", "headline", "paragraph" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+	"ancestor": [ "generateblocks/loop-item" ],
+    "attributes": {
+        "uniqueId": {
+            "type": "string",
+			"default": ""
+        },
+		"tagName": {
+			"type": "string",
+			"default": "",
+			"enum": [
+				"div",
+				"section",
+				"nav"
+			]
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"css": {
+			"type": "string",
+			"default": ""
+		},
+		"globalClasses": {
+			"type": "array",
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"taxonomy": {
+			"type": "string",
+			"default": ""
+		},
+		"before": {
+			"type": "string",
+			"default": ""
+		},
+		"separator": {
+			"type": "string",
+			"default": ""
+		},
+		"after": {
+			"type": "string",
+			"default": ""
+		}
+    },
+    "supports": {
+        "align": false,
+		"className": false
+    },
+    "editorScript": "file:./index.js",
+    "editorStyle": [
+		"file:./index.css",
+		"generateblocks-block-styles",
+		"generateblocks-components",
+		"generateblocks-styles-builder"
+	],
+	"usesContext": [
+		"generateblocks/queryData"
+	]
+}
