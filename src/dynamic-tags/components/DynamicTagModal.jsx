@@ -5,7 +5,7 @@ import getIcon from '../../utils/get-icon';
 import '../editor.scss';
 import { DynamicTagSelect } from './DynamicTagSelect';
 
-export function DynamicTagModal( { onInsert, renderToggle, tooltip, textValue } ) {
+export function DynamicTagModal( { onInsert, renderToggle, tooltip } ) {
 	const [ isOpen, setOpen ] = useState( false );
 
 	function onToggle() {
@@ -50,7 +50,6 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, textValue } 
 							onInsert( newValue );
 							onToggle();
 						} }
-						textValue={ textValue }
 					/>
 				</Modal>
 			) }

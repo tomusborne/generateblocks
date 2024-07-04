@@ -1,9 +1,11 @@
 import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
+import { registerFormatType } from '@wordpress/rich-text';
 import { Edit } from './edit';
 import metadata from './block.json';
 import { Save } from './save';
 import { getElementType } from '../element/utils/getElementType';
+import { DynamicTag } from './components/DynamicTag';
 
 export function textIcon() {
 	return <svg className="gb-block-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><line x1="128" y1="56" x2="128" y2="200" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><polyline points="56 88 56 56 200 56 200 88" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><line x1="96" y1="200" x2="160" y2="200" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /></svg>;
@@ -65,4 +67,14 @@ registerBlockVariation(
 		isActive: ( blockAttributes ) => 'heading' === getElementType( blockAttributes.tagName ),
 		scope: [ 'block' ],
 	},
+);
+
+registerFormatType(
+	'generateblocks/dynamic-tag',
+	{
+		title: 'Dynamic tags',
+		tagName: 'samp',
+		className: null,
+		edit: DynamicTag,
+	}
 );

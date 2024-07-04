@@ -7,7 +7,7 @@ import { useSelect } from '@wordpress/data';
 import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
 
-export function DynamicTagSelect( { onInsert, textValue } ) {
+export function DynamicTagSelect( { onInsert } ) {
 	const [ dynamicTagData, setDynamicTagData ] = useState( [] );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ postTypeSource, setPostTypeSource ] = useState( 'post' );
@@ -136,24 +136,10 @@ export function DynamicTagSelect( { onInsert, textValue } ) {
 					<Button
 						variant="primary"
 						onClick={ () => {
-							const text = textValue?.text || textValue;
-
-							if ( text && insertAsLink ) {
-								const start = selectionStart?.offset;
-								const end = selectionEnd?.offset;
-
-								if ( start !== undefined && end !== undefined && start < end ) {
-									const selectedText = text.substring( start, end );
-									const beforeSelection = text.substring( 0, start );
-									const afterSelection = text.substring( end );
-
-									const newText = beforeSelection + `<a href="${ dynamicTagToInsert }">${ selectedText }</a>` + afterSelection;
-									onInsert( newText );
-									return;
-								}
-							}
-
-							onInsert( dynamicTagToInsert );
+							onInsert( {
+								value: dynamicTagToInsert,
+								insertAsLink,
+							} );
 						} }
 					>
 						{ __( 'Insert dynamic tag', 'generateblocks' ) }

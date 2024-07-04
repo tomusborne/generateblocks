@@ -1,7 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { RichText, useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Platform, useEffect, useMemo } from '@wordpress/element';
-import { ToolbarButton } from '@wordpress/components';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
 import { withDynamicTag } from '../../hoc/withDynamicTag';
@@ -11,8 +10,6 @@ import { getCss } from '@edge22/styles-builder';
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
 import { defaultAtRules } from '../../utils/defaultAtRules.js';
 import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
-import { DynamicTagBlockToolbar } from '../../dynamic-tags/components/DynamicTagBlockToolbar.jsx';
-import getIcon from '../../utils/get-icon/index.js';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
@@ -222,21 +219,6 @@ function EditBlock( props ) {
 				setAttributes={ setAttributes }
 				htmlAttributes={ htmlAttributes }
 				tagName={ tagName }
-			/>
-
-			<DynamicTagBlockToolbar
-				tooltip={ __( 'Insert dynamic tag', 'generateblocks' ) }
-				onInsert={ ( value ) => setAttributes( { content: value } ) }
-				renderToggle={ ( { isOpen, onToggle, isPressed } ) => (
-					<ToolbarButton
-						icon={ getIcon( 'database' ) }
-						label={ __( 'Dynamic Tags', 'generateblocks' ) }
-						onClick={ onToggle }
-						aria-expanded={ isOpen }
-						isPressed={ isPressed }
-					/>
-				) }
-				textValue={ content }
 			/>
 
 			<InspectorControls>

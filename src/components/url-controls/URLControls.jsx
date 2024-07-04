@@ -34,7 +34,7 @@ export function URLControls( { htmlAttributes, setAttributes } ) {
 					/>
 
 					<DynamicTagModal
-						onInsert={ ( value ) => {
+						onInsert={ ( { value } ) => {
 							setAttributes( {
 								htmlAttributes: {
 									...htmlAttributes,
