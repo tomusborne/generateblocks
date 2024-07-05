@@ -55,19 +55,16 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 			return;
 		}
 
-		let tagToInsert = dynamicTag;
 		const tags = [];
 
 		if ( postIdSource ) {
 			tags.push( `postId=${ postIdSource }` );
 		}
 
-		if ( (
-			dynamicTag.startsWith( 'post_meta' ) ||
-			dynamicTag.startsWith( 'user_meta' )
-		) &&
-			metaKey
-		) {
+		const isMetaTag = dynamicTag.startsWith( 'post_meta' ) ||
+            dynamicTag.startsWith( 'author_meta' );
+
+		if ( isMetaTag && metaKey ) {
 			tags.push( `metaKey=${ metaKey }` );
 		}
 
@@ -79,6 +76,8 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 
 		const tagOptions = tags.join( '|' );
 
+		let tagToInsert = dynamicTag;
+
 		if ( tagOptions ) {
 			tagToInsert += ' ' + tagOptions;
 		}
@@ -86,7 +85,7 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 		tagToInsert = `{${ tagToInsert }}`;
 
 		setDynamicTagToInsert( tagToInsert );
-	}, [ postIdSource, dynamicTag, metaKey ] );
+	}, [ postIdSource, dynamicTag, metaKey, commentsCountText ] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
 
@@ -132,7 +131,7 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 
 					{ (
 						dynamicTagToInsert.startsWith( '{post_meta' ) ||
-						dynamicTagToInsert.startsWith( '{user_meta' )
+						dynamicTagToInsert.startsWith( '{author_meta' )
 					) && (
 						<TextControl
 							label={ __( 'Meta key', 'generateblocks' ) }

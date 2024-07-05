@@ -22,6 +22,10 @@ export function withDynamicTag( WrappedComponent ) {
 				return htmlAttributes?.src;
 			}
 
+			if ( content?.originalHTML ) {
+				return content.originalHTML;
+			}
+
 			return content?.text ?? content;
 		};
 		const contentValue = getContentValue();
@@ -42,7 +46,7 @@ export function withDynamicTag( WrappedComponent ) {
 				try {
 					const response = await apiFetch( {
 						path: addQueryArgs(
-							'/generateblocks/v1/dynamic-tag?content=',
+							'/generateblocks/v1/dynamic-tag-replacements?content=',
 							{
 								content: encodeURIComponent( contentValue ),
 								postId: context?.postId,

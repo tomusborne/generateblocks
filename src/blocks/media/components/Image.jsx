@@ -42,8 +42,8 @@ export function Image( {
 	] );
 
 	const imageSrc = useMemo( () => {
-		if ( dynamicTagValue ) {
-			return dynamicTagValue;
+		if ( dynamicTagValue?.[ 0 ]?.replacement ) {
+			return dynamicTagValue?.[ 0 ]?.replacement;
 		}
 
 		if ( temporaryURL ) {

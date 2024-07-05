@@ -235,12 +235,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Get the user meta.
+	 * Get the author meta.
 	 *
 	 * @param array $options The options.
 	 * @return string
 	 */
-	public static function get_user_meta( $options ) {
+	public static function get_author_meta( $options ) {
 		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$user_id = get_post_field( 'post_author', $id );
 		$key     = $options['metaKey'] ?? '';
@@ -284,5 +284,22 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 
 		return $meta;
+	}
+
+	/**
+	 * Get the author archive URL.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_author_archive_url( $options ) {
+		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$user_id = get_post_field( 'post_author', $id );
+
+		if ( ! $user_id ) {
+			return '';
+		}
+
+		return get_author_posts_url( $user_id );
 	}
 }

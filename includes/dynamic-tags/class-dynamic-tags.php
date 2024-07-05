@@ -123,9 +123,17 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'  => __( 'User Meta', 'generateblocks' ),
-				'tag'    => 'user_meta',
-				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
+				'title'  => __( 'Author Meta', 'generateblocks' ),
+				'tag'    => 'author_meta',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Author Archives URL', 'generateblocks' ),
+				'tag'    => 'author_archives_url',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_archive_url' ],
 			]
 		);
 	}
@@ -169,10 +177,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	public function register_rest_routes() {
 		register_rest_route(
 			'generateblocks/v1',
-			'/dynamic-tag',
+			'/dynamic-tag-replacements',
 			[
 				'methods'  => 'GET',
-				'callback' => [ $this, 'get_dynamic_tag' ],
+				'callback' => [ $this, 'get_dynamic_tag_replacements' ],
 				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
 				},
@@ -198,9 +206,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @param WP_REST_Request $request The request.
 	 * @return WP_REST_Response
 	 */
-	public function get_dynamic_tag( $request ) {
-		$content = urldecode( $request->get_param( 'content' ) );
-		$post_id = $request->get_param( 'postId' );
+	public function get_dynamic_tag_replacements( $request ) {
+		$content      = urldecode( $request->get_param( 'content' ) );
+		$post_id      = $request->get_param( 'postId' );
+		$replacements = [];
 
 		// Match the content inside the curly brackets.
 		preg_match_all( '/\{(.*?)\}/', $content, $matches );
@@ -208,20 +217,35 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		if ( ! empty( $matches ) ) {
 			$inside_brackets = $matches[1];
 
+			// Loop through our tags and add the `postId` option if it doesn't exist.
+			// We need to do this to ensure the dynamic tag is replaced correctly.
 			foreach ( (array) $inside_brackets as $tag ) {
 				if ( ! generateblocks_str_contains( $tag, ' ' ) ) {
-					// Add the postId after the tag if there are no attributes.
-					$content = str_replace( $tag, "{$tag} postId={$post_id}", $content );
+					// There are no spaces in the tag, so there are no options.
+					$content = str_replace( $tag, "{$tag} postId={$post_id}", $tag );
+
+					$replacements[] = [
+						'original' => "{{$tag}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], new stdClass() ),
+					];
 				} elseif ( ! generateblocks_str_contains( $tag, 'postId' ) ) {
-					// Add the postId after the tag if there are attributes but no postId.
-					$content = str_replace( $tag, "{$tag}|postId={$post_id}", $content );
+					// There are spaces in the tag, but no `postId` option.
+					$content = str_replace( $tag, "{$tag}|postId={$post_id}", $tag );
+
+					$replacements[] = [
+						'original' => "{{$tag}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], new stdClass() ),
+					];
+				} else {
+					$replacements[] = [
+						'original' => "{{$tag}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$tag}}", [], new stdClass() ),
+					];
 				}
 			}
 		}
 
-		$value = GenerateBlocks_Register_Dynamic_Tag::replace_tags( $content, [], new stdClass() );
-
-		return rest_ensure_response( $value );
+		return rest_ensure_response( $replacements );
 	}
 
 	/**

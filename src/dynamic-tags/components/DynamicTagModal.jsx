@@ -41,17 +41,20 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName } ) 
 
 			{ isOpen && (
 				<Modal
-					title={ __( 'Dynamic tags', 'generateblocks' ) }
+					title={ __( 'Dynamic Tags', 'generateblocks' ) }
 					onRequestClose={ onToggle }
+					className="gb-dynamic-tag-modal"
 					size="medium"
 				>
-					<DynamicTagSelect
-						onInsert={ ( newValue ) => {
-							onInsert( newValue );
-							onToggle();
-						} }
-						tagName={ tagName }
-					/>
+					<div className="gb-dynamic-tag-modal__content">
+						<DynamicTagSelect
+							onInsert={ ( newValue ) => {
+								onInsert( newValue );
+								onToggle();
+							} }
+							tagName={ tagName }
+						/>
+					</div>
 				</Modal>
 			) }
 		</>
