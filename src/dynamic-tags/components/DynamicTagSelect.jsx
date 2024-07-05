@@ -7,7 +7,7 @@ import { useSelect } from '@wordpress/data';
 import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
 
-export function DynamicTagSelect( { onInsert } ) {
+export function DynamicTagSelect( { onInsert, tagName } ) {
 	const [ dynamicTagData, setDynamicTagData ] = useState( [] );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ postTypeSource, setPostTypeSource ] = useState( 'post' );
@@ -16,6 +16,12 @@ export function DynamicTagSelect( { onInsert } ) {
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
 	const [ insertAsLink, setInsertAsLink ] = useState( false );
+	const [ commentsCountText, setCommentsCountText ] = useState( {
+		none: __( 'No comments', 'generateblocks' ),
+		one: __( 'One comment', 'generateblocks' ),
+		// translators: %s: number of comments
+		multiple: __( '%s comments', 'generateblocks' ),
+	} );
 
 	const { getSelectionStart, getSelectionEnd } = useSelect( blockEditorStore, [] );
 	const selectionStart = getSelectionStart();
@@ -56,8 +62,19 @@ export function DynamicTagSelect( { onInsert } ) {
 			tags.push( `postId=${ postIdSource }` );
 		}
 
-		if ( metaKey ) {
+		if ( (
+			dynamicTag.startsWith( 'post_meta' ) ||
+			dynamicTag.startsWith( 'user_meta' )
+		) &&
+			metaKey
+		) {
 			tags.push( `metaKey=${ metaKey }` );
+		}
+
+		if ( dynamicTag.startsWith( 'comments_count' ) ) {
+			tags.push( `none=${ commentsCountText.none }` );
+			tags.push( `one=${ commentsCountText.one }` );
+			tags.push( `multiple=${ commentsCountText.multiple }` );
 		}
 
 		const tagOptions = tags.join( '|' );
@@ -70,6 +87,8 @@ export function DynamicTagSelect( { onInsert } ) {
 
 		setDynamicTagToInsert( tagToInsert );
 	}, [ postIdSource, dynamicTag, metaKey ] );
+
+	const interactiveTagNames = [ 'a', 'button' ];
 
 	return (
 		<>
@@ -111,12 +130,37 @@ export function DynamicTagSelect( { onInsert } ) {
 						</>
 					) }
 
-					{ dynamicTagToInsert.startsWith( '{post_meta' ) && (
+					{ (
+						dynamicTagToInsert.startsWith( '{post_meta' ) ||
+						dynamicTagToInsert.startsWith( '{user_meta' )
+					) && (
 						<TextControl
 							label={ __( 'Meta key', 'generateblocks' ) }
 							value={ metaKey }
 							onChange={ ( value ) => setMetaKey( value ) }
 						/>
+					) }
+
+					{ dynamicTagToInsert.startsWith( '{comments_count' ) && (
+						<>
+							<TextControl
+								label={ __( 'No comments text', 'generateblocks' ) }
+								value={ commentsCountText.none }
+								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, none: value } ) }
+							/>
+
+							<TextControl
+								label={ __( 'One comment text', 'generateblocks' ) }
+								value={ commentsCountText.one }
+								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, one: value } ) }
+							/>
+
+							<TextControl
+								label={ __( 'Multiple comments text', 'generateblocks' ) }
+								value={ commentsCountText.multiple }
+								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, multiple: value } ) }
+							/>
+						</>
 					) }
 
 					<TextControl
@@ -125,7 +169,7 @@ export function DynamicTagSelect( { onInsert } ) {
 						onChange={ ( value ) => setDynamicTagToInsert( value ) }
 					/>
 
-					{ !! hasSelection && (
+					{ !! hasSelection && ! interactiveTagNames.includes( tagName ) && (
 						<CheckboxControl
 							label={ __( 'Insert as link', 'generateblocks' ) }
 							checked={ insertAsLink }

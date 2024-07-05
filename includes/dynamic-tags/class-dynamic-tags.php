@@ -1,8 +1,8 @@
 <?php
 /**
- * The Libraries class file.
+ * The Dynamic Tags class file.
  *
- * @package GenerateBlocks\Pattern_Library
+ * @package GenerateBlocks\Dynamic_Tags
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,9 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class for handling with libraries.
+ * Class for handling dynamic tags.
  *
- * @since 1.9.0
+ * @since 2.0.0
  */
 class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	/**
@@ -104,6 +104,30 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Comments Count', 'generateblocks' ),
+				'tag'    => 'comments_count',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_count' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Comments URL', 'generateblocks' ),
+				'tag'    => 'comments_url',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_url' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'User Meta', 'generateblocks' ),
+				'tag'    => 'user_meta',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
+			]
+		);
 	}
 
 	/**
@@ -179,15 +203,19 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$post_id = $request->get_param( 'postId' );
 
 		// Match the content inside the curly brackets.
-		preg_match( '/\{(.*?)\}/', $content, $matches );
+		preg_match_all( '/\{(.*?)\}/', $content, $matches );
 
 		if ( ! empty( $matches ) ) {
 			$inside_brackets = $matches[1];
 
-			if ( strpos( $inside_brackets, ' ' ) === false ) {
-				$content = str_replace( '}', ' postId=' . $post_id . '}', $content );
-			} elseif ( strpos( $inside_brackets, 'postId=' ) === false ) {
-				$content = str_replace( '}', '|postId=' . $post_id . '}', $content );
+			foreach ( (array) $inside_brackets as $tag ) {
+				if ( ! generateblocks_str_contains( $tag, ' ' ) ) {
+					// Add the postId after the tag if there are no attributes.
+					$content = str_replace( $tag, "{$tag} postId={$post_id}", $content );
+				} elseif ( ! generateblocks_str_contains( $tag, 'postId' ) ) {
+					// Add the postId after the tag if there are attributes but no postId.
+					$content = str_replace( $tag, "{$tag}|postId={$post_id}", $content );
+				}
 			}
 		}
 
@@ -246,6 +274,30 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Expand the wp_kses_post sanitization function to allow iframe HTML tags
+	 *
+	 * @param array  $tags The allowed tags, attributes, and/or attribute values.
+	 * @param string $context Context to judge allowed tags by. Allowed values are 'post'.
+	 * @return array
+	 */
+	public static function expand_allowed_html( $tags, $context ) {
+		if ( ! isset( $tags['iframe'] ) ) {
+			$tags['iframe'] = [
+				'src'             => true,
+				'height'          => true,
+				'width'           => true,
+				'frameborder'     => true,
+				'allowfullscreen' => true,
+				'title'           => true,
+			];
+		}
+
+		$tags = apply_filters( 'generateblocks_dynamic_tags_allowed_html', $tags, $context );
+
+		return $tags;
 	}
 }
 

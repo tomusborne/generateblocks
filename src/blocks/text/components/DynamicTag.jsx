@@ -2,6 +2,7 @@ import { useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { ToolbarButton } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useMemo } from '@wordpress/element';
 import { create, insert, applyFormat } from '@wordpress/rich-text';
 import getIcon from '@utils/get-icon';
 import { DynamicTagBlockToolbar } from '../../../dynamic-tags';
@@ -11,6 +12,14 @@ export function DynamicTag( { onChange, value } ) {
 		return select( blockEditorStore ).getSelectedBlock();
 	}, [] );
 
+	const tagName = useMemo( () => {
+		if ( ! selectedBlock ) {
+			return '';
+		}
+
+		return selectedBlock.attributes.tagName;
+	}, [ selectedBlock ] );
+
 	if ( selectedBlock && 'generateblocks/text' !== selectedBlock.name ) {
 		return null;
 	}
@@ -18,6 +27,7 @@ export function DynamicTag( { onChange, value } ) {
 	return (
 		<DynamicTagBlockToolbar
 			tooltip={ __( 'Insert dynamic tag', 'generateblocks' ) }
+			tagName={ tagName }
 			onInsert={ ( newValue ) => {
 				if ( ! newValue?.value ) {
 					return;

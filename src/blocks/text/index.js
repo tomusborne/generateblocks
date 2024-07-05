@@ -73,7 +73,7 @@ registerFormatType(
 	'generateblocks/dynamic-tag',
 	{
 		title: 'Dynamic tags',
-		tagName: 'samp',
+		tagName: 'dynamic', // We don't use this.
 		className: null,
 		edit: DynamicTag,
 	}

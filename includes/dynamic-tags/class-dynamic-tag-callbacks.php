@@ -1,8 +1,8 @@
 <?php
 /**
- * The Libraries class file.
+ * The Dynamic Tag Callbacks class file.
  *
- * @package GenerateBlocks\Pattern_Library
+ * @package GenerateBlocks\Dynamic_Tags
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -10,9 +10,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Class for handling with libraries.
+ * Class for dynamic tag callbacks.
  *
- * @since 1.9.0
+ * @since 2.0.0
  */
 class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
@@ -115,6 +115,10 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return '';
 		}
 
+		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
+		$meta = wp_kses_post( $meta );
+		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
+
 		return $meta;
 	}
 
@@ -189,5 +193,96 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		}
 
 		return $url ?? '';
+	}
+
+	/**
+	 * Get the comments count.
+	 *
+	 * @param array $options The options.
+	 * @return int
+	 */
+	public static function get_the_comments_count( $options ) {
+		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$none   = $options['none'] ?? __( 'No comments', 'generateblocks' );
+		$single = $options['single'] ?? __( '1 comment', 'generateblocks' );
+		$multi  = $options['multi'] ?? __( '% comments', 'generateblocks' );
+
+		if ( ! post_password_required( $id ) && ( comments_open( $id ) || get_comments_number( $id ) ) ) {
+			if ( '' === $none && get_comments_number( $id ) < 1 ) {
+				return $none;
+			}
+
+			return get_comments_number_text(
+				$none,
+				$single,
+				$multi
+			);
+		} else {
+			return $none;
+		}
+	}
+
+	/**
+	 * Get the comments URL.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_the_comments_url( $options ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options );
+
+		return get_comments_link( $id );
+	}
+
+	/**
+	 * Get the user meta.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_user_meta( $options ) {
+		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$user_id = get_post_field( 'post_author', $id );
+		$key     = $options['metaKey'] ?? '';
+
+		if ( ! $user_id || ! $key ) {
+			return '';
+		}
+
+		$meta = get_user_meta( $user_id, $key, true );
+
+		if ( ! $meta ) {
+			$user_data_names = array(
+				'user_nicename',
+				'user_email',
+				'display_name',
+			);
+
+			if ( in_array( $key, $user_data_names ) ) {
+				$user_data = get_userdata( $user_id );
+
+				if ( $user_data ) {
+					switch ( $key ) {
+						case 'user_nicename':
+							$meta = $user_data->user_nicename;
+							break;
+
+						case 'user_email':
+							$meta = $user_data->user_email;
+							break;
+
+						case 'display_name':
+							$meta = $user_data->display_name;
+							break;
+					}
+				}
+			}
+		}
+
+		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
+		$meta = wp_kses_post( $meta );
+		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
+
+		return $meta;
 	}
 }
