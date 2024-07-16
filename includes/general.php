@@ -77,7 +77,7 @@ function generateblocks_do_block_editor_assets() {
 	wp_enqueue_style(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.css',
-		array( 'wp-edit-blocks', 'generateblocks-components' ),
+		array( 'wp-edit-blocks', 'generateblocks-packages' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.css' )
 	);
 
@@ -198,28 +198,12 @@ function generateblocks_do_block_editor_assets() {
 		filemtime( GENERATEBLOCKS_DIR . 'dist/editor-sidebar.css' )
 	);
 
-	$component_asset_info = generateblocks_get_enqueue_assets( 'components' );
+	$packages_asset_info = generateblocks_get_enqueue_assets( 'packages' );
 	wp_register_style(
-		'generateblocks-components',
-		GENERATEBLOCKS_DIR_URL . 'dist/components.css',
+		'generateblocks-packages',
+		GENERATEBLOCKS_DIR_URL . 'dist/packages.css',
 		'',
-		$component_asset_info['version']
-	);
-
-	$block_styles_asset_info = generateblocks_get_enqueue_assets( 'block-styles' );
-	wp_register_style(
-		'generateblocks-block-styles',
-		GENERATEBLOCKS_DIR_URL . 'dist/block-styles.css',
-		'',
-		$block_styles_asset_info['version']
-	);
-
-	$styles_builder_asset_info = generateblocks_get_enqueue_assets( 'styles-builder' );
-	wp_register_style(
-		'generateblocks-styles-builder',
-		GENERATEBLOCKS_DIR_URL . 'dist/styles-builder.css',
-		'',
-		$styles_builder_asset_info['version']
+		$packages_asset_info['version']
 	);
 
 	$editor_assets = generateblocks_get_enqueue_assets( 'editor' );
@@ -235,7 +219,7 @@ function generateblocks_do_block_editor_assets() {
 	wp_enqueue_style(
 		'generateblocks-editor',
 		GENERATEBLOCKS_DIR_URL . 'dist/editor.css',
-		array( 'wp-edit-blocks', 'generateblocks-components' ),
+		array( 'wp-edit-blocks', 'generateblocks-packages' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/editor.css' )
 	);
 }

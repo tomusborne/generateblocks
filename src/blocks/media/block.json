@@ -47,10 +47,7 @@
     },
     "editorScript": "file:./index.js",
     "editorStyle": [
-		"file:./index.css",
-		"generateblocks-block-styles",
-		"generateblocks-components",
-		"generateblocks-styles-builder"
+		"file:./index.css"
 	],
 	"usesContext": [ "postId" ]
 }
