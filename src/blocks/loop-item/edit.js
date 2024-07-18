@@ -12,6 +12,7 @@ import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
 import BlockAppender from '../element/components/BlockAppender';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
+import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 
 function EditBlock( props ) {
 	const {
@@ -190,6 +191,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

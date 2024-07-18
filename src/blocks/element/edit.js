@@ -13,6 +13,7 @@ import RootElement from '../../components/root-element/index.js';
 import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts.js';
+import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix.js';
 
 function EditBlock( props ) {
 	const {
@@ -191,6 +192,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

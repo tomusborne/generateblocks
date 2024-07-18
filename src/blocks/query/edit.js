@@ -14,6 +14,7 @@ import { TemplateSelector } from '@components/template-selector';
 import { templates } from './templates';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
+import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 
 function EditBlock( props ) {
 	const {
@@ -182,6 +183,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

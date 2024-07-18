@@ -10,6 +10,7 @@ import { defaultAtRules } from '../../utils/defaultAtRules.js';
 import { __ } from '@wordpress/i18n';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
+import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 
 const createPaginationItem = ( content, Tag = 'a', extraClass = '' ) => (
 	<Tag key={ content } className={ `page-numbers ${ extraClass }` }>
@@ -187,6 +188,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

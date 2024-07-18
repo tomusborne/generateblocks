@@ -15,6 +15,7 @@ import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts as defaultSelectorShortcuts } from '@utils/selectorShortcuts.js';
 
 import './editor.scss';
+import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 
 function EditBlock( props ) {
 	const {
@@ -176,6 +177,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

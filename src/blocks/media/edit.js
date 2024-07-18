@@ -15,6 +15,7 @@ import RootElement from '../../components/root-element/index.js';
 import { AddCaption } from './components/AddCaption.jsx';
 import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
 import { BlockSettings } from './components/BlockSettings';
+import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 
 function EditBlock( props ) {
 	const {
@@ -285,6 +286,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withEmptyObjectFix,
 	withDynamicTag,
 	withUniqueId
 )( EditBlock );
