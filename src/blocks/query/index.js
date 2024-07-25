@@ -7,7 +7,7 @@ import { getIcon } from '@utils';
 registerBlockType( metadata, {
 	edit: Edit,
 	save: () => <InnerBlocks.Content />,
-	icon: queryIcon,
+	icon: getIcon( 'query' ),
 } );
 
 registerBlockVariation(
@@ -15,7 +15,6 @@ registerBlockVariation(
 	{
 		title: 'Query',
 		name: 'query',
-		icon: getIcon('query'),
 		isDefault: true,
 		description: 'Build a series of tabs.',
 		attributes: {
