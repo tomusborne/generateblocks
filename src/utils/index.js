@@ -5,6 +5,7 @@ import {
 	normalizeRepeatableArgs,
 	normalizeArgs,
 } from './loop-utils';
+import getIcon from './get-icon';
 
 export {
 	removeEmpty,
@@ -12,4 +13,5 @@ export {
 	getTaxQueryParam,
 	normalizeRepeatableArgs,
 	normalizeArgs,
+	getIcon,
 };

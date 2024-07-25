@@ -9,7 +9,7 @@ export function noResultsIcon() {
 	);
 }
 
-registerBlockType( metadata.name, {
+registerBlockType( metadata, {
 	edit: Edit,
 	save: () => <InnerBlocks.Content />,
 	icon: noResultsIcon,

@@ -8,7 +8,7 @@ export function paginationIcon() {
 	);
 }
 
-registerBlockType( metadata.name, {
+registerBlockType( metadata, {
 	edit: Edit,
 	save: () => null,
 	icon: paginationIcon,

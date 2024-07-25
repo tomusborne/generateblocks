@@ -9,7 +9,9 @@ export function queryIcon() {
 	);
 }
 
-registerBlockType( metadata.name, {
+console.log( 'registering generateblocks/query ' );
+
+registerBlockType( metadata, {
 	edit: Edit,
 	save: () => <InnerBlocks.Content />,
 	icon: queryIcon,

@@ -1,11 +1,12 @@
-import { useInnerBlocksCount } from '../../../hooks';
 import { Inserter } from '@wordpress/block-editor';
 import { useDispatch } from '@wordpress/data';
 import { __, sprintf, _x } from '@wordpress/i18n';
 import { Button, Icon, Tooltip } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { plus } from '@wordpress/icons';
-import { containerIcon } from '../index.js';
+
+import { useInnerBlocksCount } from '../../../hooks';
+import { getIcon } from '@utils';
 
 export default ( { clientId, isSelected, attributes } ) => {
 	const { isBlockPreview } = attributes;
@@ -83,7 +84,7 @@ export default ( { clientId, isSelected, attributes } ) => {
 			aria-label={ __( 'Select Container', 'generateblocks' ) }
 		>
 			<span className="gblocks-element-selector__icon">
-				{ containerIcon() }
+				{ getIcon( 'container' ) }
 			</span>
 		</Button>;
 	}

@@ -20,25 +20,14 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
  * @since 0.1
  */
 function generateblocks_do_block_editor_assets() {
-	// Register our block scripts.
-	// We have to do this manually so we can add `wp-editor` as a dep.
-	// This doesn't happen automatically as we're using the dep in the @edge22/block-styles package.
-	generateblocks_register_block_script( 'element' );
-	generateblocks_register_block_script( 'text' );
-	generateblocks_register_block_script( 'shape' );
-	generateblocks_register_block_script(
-		'media',
+	wp_localize_script(
+		'generateblocks-media-editor-script',
+		'generateblocksBlockMedia',
 		[
 			'standardPlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder1280x720.png',
 			'squarePlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder800x.png',
 		]
 	);
-	generateblocks_register_block_script( 'query' );
-	generateblocks_register_block_script( 'looper' );
-	generateblocks_register_block_script( 'query-no-results' );
-	generateblocks_register_block_script( 'query-page-numbers' );
-	generateblocks_register_block_script( 'loop-item' );
-	generateblocks_register_block_script( 'query-terms-list' );
 
 	global $pagenow;
 

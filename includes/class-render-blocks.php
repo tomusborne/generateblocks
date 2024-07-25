@@ -143,70 +143,70 @@ class GenerateBlocks_Render_Block {
 			)
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/text',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Text', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/element',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Element', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/media',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Media', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/shape',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Shape', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/query',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Query', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/looper',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Looper', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/query-no-results',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Query_No_Results', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/query-page-numbers',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Query_Page_Numbers', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/query-terms-list',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Query_Terms_List', 'render_block' ],
 			]
 		);
 
-		register_block_type(
+		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/loop-item',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Loop_Item', 'render_block' ],

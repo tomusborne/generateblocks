@@ -10,7 +10,7 @@ export function shapesIcon() {
 	);
 }
 
-registerBlockType( metadata.name, {
+registerBlockType( metadata, {
 	edit: Edit,
 	save: Save,
 	icon: shapesIcon,
