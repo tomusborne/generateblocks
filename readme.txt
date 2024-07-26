@@ -1,6 +1,6 @@
 === GenerateBlocks ===
 Contributors: edge22
-Donate link: https://generateblocks.com
+Donate link: https://generatepress.com
 Tags: blocks, gutenberg, editor, page builder, posts
 Requires at least: 5.9
 Tested up to: 6.5
@@ -15,9 +15,9 @@ A small collection of lightweight WordPress blocks that can accomplish nearly an
 
 Add incredible versatility to your editor without bloating it with tons of one-dimensional Gutenberg blocks. With GenerateBlocks, you can learn a handful of blocks deeply and use them to build anything.
 
-[GenerateBlocks](https://generateblocks.com?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) works hand-in-hand with [GeneratePress](https://generatepress.com?utm_source=wp-repo&utm_medium=link&utm_campaign=generateblocks-readme), but is built to work with any theme.
+[GenerateBlocks](https://generatepress.com.com/blocks?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) works hand-in-hand with [GeneratePress](https://generatepress.com/theme?utm_source=wp-repo&utm_medium=link&utm_campaign=generateblocks-readme), but is built to work with any theme.
 
-Looking for more features? Check out [GenerateBlocks Pro](https://generateblocks.com/pro?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
+Looking for more features? Check out [GenerateBlocks Pro](https://generatepress.com/blocks?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
 = Container =
 
