@@ -15,7 +15,7 @@ A small collection of lightweight WordPress blocks that can accomplish nearly an
 
 Add incredible versatility to your editor without bloating it with tons of one-dimensional Gutenberg blocks. With GenerateBlocks, you can learn a handful of blocks deeply and use them to build anything.
 
-[GenerateBlocks](https://generatepress.com.com/blocks?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) works hand-in-hand with [GeneratePress](https://generatepress.com/theme?utm_source=wp-repo&utm_medium=link&utm_campaign=generateblocks-readme), but is built to work with any theme.
+[GenerateBlocks](https://generatepress.com/blocks?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) works hand-in-hand with [GeneratePress](https://generatepress.com/theme?utm_source=wp-repo&utm_medium=link&utm_campaign=generateblocks-readme), but is built to work with any theme.
 
 Looking for more features? Check out [GenerateBlocks Pro](https://generatepress.com/blocks?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
