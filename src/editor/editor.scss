@@ -1,7 +1,6 @@
-.gb-block-icon {
-	color: #1e72bd;
-}
-
-.block-editor-list-view-leaf.is-selected .gb-block-icon {
-    color: currentColor;
+.components-autocomplete__result.components-button:not(.is-selected) {
+	// Set the default color for generateblocks icons to blue.
+	&[id*="generateblocks"] .block-editor-block-icon {
+		color: #1e72bd;
+	}
 }
