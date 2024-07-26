@@ -1,3 +1,3 @@
-import { OpenPanel } from './OpenPanel.jsx';
+import { OpenPanel, moreDesignOptions } from './OpenPanel.jsx';
 
-export { OpenPanel };
+export { OpenPanel, moreDesignOptions };

@@ -2,9 +2,11 @@ import { __ } from '@wordpress/i18n';
 import { RangeControl, SelectControl } from '@wordpress/components';
 import { getBlockType } from '@wordpress/blocks';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { HtmlAttributes } from '@components/html-attributes';
+import {
+	ApplyFilters,
+	OpenPanel,
+	HtmlAttributes,
+} from '@components';
 
 export function BlockSettings( {
 	getStyleValue,

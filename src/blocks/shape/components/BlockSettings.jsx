@@ -1,12 +1,14 @@
 import { __ } from '@wordpress/i18n';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { IconControl } from '@components/icon-control';
-import { ColorPickerControls } from '@components/color-picker-group';
-import { moreDesignOptions } from '@components/open-panel/utils';
-import UnitControl from '@components/unit-control';
-import { HtmlAttributes } from '@components/html-attributes';
+import {
+	ApplyFilters,
+	OpenPanel,
+	IconControl,
+	ColorPickerControls,
+	moreDesignOptions,
+	UnitControl,
+	HtmlAttributes,
+} from '@components';
 
 export const shapeColorControls = [
 	{

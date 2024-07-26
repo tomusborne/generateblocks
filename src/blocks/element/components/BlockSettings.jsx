@@ -5,19 +5,21 @@ import { createBlock, cloneBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { URLControls } from '@components/url-controls';
-import { ColorPickerControls } from '@components/color-picker-group';
-import { moreDesignOptions } from '@components/open-panel/utils';
-import UnitControl from '@components/unit-control';
-import { TagNameControl } from '@components/tagname-control';
-import { HtmlAttributes } from '@components/html-attributes';
-import DimensionsControl from '@components/dimensions';
-import { ImageUpload } from '@components/image-upload';
-import { GridColumnSelector } from '@components/grid-column-selector';
-import { layouts } from '@components/grid-column-selector/layouts.js';
-import { DividerModal } from '@components/icon-control/DividerModal';
+import {
+	ApplyFilters,
+	OpenPanel,
+	URLControls,
+	ColorPickerControls,
+	moreDesignOptions,
+	UnitControl,
+	TagNameControl,
+	HtmlAttributes,
+	DimensionsControl,
+	ImageUpload,
+	GridColumnSelector,
+	gridColumnLayouts as layouts,
+	DividerModal,
+} from '@components';
 
 export const containerColorControls = [
 	{

@@ -1,8 +1,11 @@
 import { __ } from '@wordpress/i18n';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { HtmlAttributes } from '@components/html-attributes';
+import {
+	ApplyFilters,
+	OpenPanel,
+	HtmlAttributes,
+} from '@components';
+
 import { QueryInspectorControls } from './QueryInspectorControls';
 
 export function BlockSettings( {

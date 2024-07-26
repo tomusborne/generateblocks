@@ -2,16 +2,18 @@ import { __ } from '@wordpress/i18n';
 import { useMemo } from '@wordpress/element';
 import { SelectControl } from '@wordpress/components';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { URLControls } from '@components/url-controls';
-import { IconControl } from '@components/icon-control';
-import { ColorPickerControls } from '@components/color-picker-group';
-import { moreDesignOptions } from '@components/open-panel/utils';
-import UnitControl from '@components/unit-control';
-import { TagNameControl } from '@components/tagname-control';
-import { HtmlAttributes } from '@components/html-attributes';
-import DimensionsControl from '@components/dimensions';
+import {
+	ApplyFilters,
+	OpenPanel,
+	URLControls,
+	IconControl,
+	ColorPickerControls,
+	moreDesignOptions,
+	UnitControl,
+	TagNameControl,
+	HtmlAttributes,
+	DimensionsControl,
+} from '@components';
 
 export const buttonColorControls = [
 	{

@@ -3,6 +3,11 @@ import { moreVertical } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
+export const moreDesignOptions = {
+	title: __( 'More design options', 'generateblocks' ),
+	onClick: () => document.querySelector( '.gb-block-styles-tab-panel button[id*="styles"]' )?.click(),
+};
+
 export function OpenPanel( {
 	title,
 	children,
