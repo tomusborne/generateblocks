@@ -12,7 +12,7 @@ import {
 	HtmlAttributes,
 	DimensionsControl,
 	ImageUpload,
-} from '@components';
+} from '@components/index.js';
 import { containerColorControls, linkElementColorControls } from '../../element/components/BlockSettings';
 
 export function BlockSettings( {

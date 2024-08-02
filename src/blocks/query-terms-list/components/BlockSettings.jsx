@@ -7,7 +7,7 @@ import {
 	ApplyFilters,
 	OpenPanel,
 	HtmlAttributes,
-} from '@components';
+} from '@components/index.js';
 import useTaxonomies from '@hooks/useTaxonomies';
 
 export function BlockSettings( {

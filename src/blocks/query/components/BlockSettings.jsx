@@ -4,7 +4,7 @@ import {
 	ApplyFilters,
 	OpenPanel,
 	HtmlAttributes,
-} from '@components';
+} from '@components/index.js';
 
 import { QueryInspectorControls } from './QueryInspectorControls';
 

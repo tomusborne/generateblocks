@@ -195,6 +195,52 @@ function generateblocks_do_block_editor_assets() {
 		$packages_asset_info['version']
 	);
 
+	// Enqueue scripts for all edge22 packages in the plugin.
+	$package_json = GENERATEBLOCKS_DIR . 'package.json';
+
+	if ( file_exists( $package_json ) ) {
+		$package_json_parsed = json_decode( file_get_contents( $package_json ), true );
+
+		$edge22_packages = array_filter(
+			$package_json_parsed['dependencies'],
+			function( $package_name ) {
+				return 0 === strpos( $package_name, '@edge22/' );
+			},
+			ARRAY_FILTER_USE_KEY
+		);
+
+		foreach ( $edge22_packages as $name => $version ) {
+			$package_info = generateblocks_get_enqueue_assets( $name );
+
+			$name = str_replace( '@edge22/', '', $name );
+
+			wp_register_script(
+				"generateblocks-$name",
+				GENERATEBLOCKS_DIR_URL . 'dist/' . $name . '.js',
+				$package_info['dependencies'],
+				$version,
+				true
+			);
+
+			wp_register_style(
+				"generateblocks-$name",
+				GENERATEBLOCKS_DIR_URL . 'dist/' . $name . '.css',
+				[],
+				$version
+			);
+		}
+	}
+
+	$styles_builder_assets = generateblocks_get_enqueue_assets( 'styles-builder' );
+
+	wp_enqueue_script(
+		'generateblocks-styles-builder',
+		GENERATEBLOCKS_DIR_URL . 'dist/styles-builder.js',
+		$styles_builder_assets['dependencies'],
+		$styles_builder_assets['version'],
+		true
+	);
+
 	$editor_assets = generateblocks_get_enqueue_assets( 'editor' );
 
 	wp_enqueue_script(

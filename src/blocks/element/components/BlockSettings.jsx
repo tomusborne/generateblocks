@@ -19,7 +19,7 @@ import {
 	GridColumnSelector,
 	gridColumnLayouts as layouts,
 	DividerModal,
-} from '@components';
+} from '@components/index.js';
 
 export const containerColorControls = [
 	{

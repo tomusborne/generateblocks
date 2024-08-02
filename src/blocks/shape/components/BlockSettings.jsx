@@ -8,7 +8,7 @@ import {
 	moreDesignOptions,
 	UnitControl,
 	HtmlAttributes,
-} from '@components';
+} from '@components/index.js';
 
 export const shapeColorControls = [
 	{

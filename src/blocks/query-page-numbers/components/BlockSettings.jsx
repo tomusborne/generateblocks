@@ -6,7 +6,7 @@ import {
 	ApplyFilters,
 	OpenPanel,
 	HtmlAttributes,
-} from '@components';
+} from '@components/index.js';
 
 export function BlockSettings( {
 	getStyleValue,

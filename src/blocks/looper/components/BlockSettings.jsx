@@ -6,7 +6,7 @@ import {
 	moreDesignOptions,
 	HtmlAttributes,
 	GridColumnSelector,
-} from '@components';
+} from '@components/index.js';
 
 export function BlockSettings( {
 	getStyleValue,

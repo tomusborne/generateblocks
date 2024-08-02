@@ -13,7 +13,7 @@ import {
 	TagNameControl,
 	HtmlAttributes,
 	DimensionsControl,
-} from '@components';
+} from '@components/index.js';
 
 export const buttonColorControls = [
 	{

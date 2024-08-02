@@ -8,7 +8,7 @@ import {
 	UnitControl,
 	HtmlAttributes,
 	ImageUpload,
-} from '@components';
+} from '@components/index.js';
 
 export function BlockSettings( {
 	getStyleValue,
