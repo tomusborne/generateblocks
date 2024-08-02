@@ -35,8 +35,6 @@ const packageEntries = Object.fromEntries(
 	] )
 );
 
-console.log( packageEntries );
-
 // Declare any other entries specific to this plugin.
 const pluginEntries = {
 	blocks: './src/blocks.js',
