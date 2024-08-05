@@ -1,12 +1,14 @@
 import { __ } from '@wordpress/i18n';
 import { TextControl } from '@wordpress/components';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { moreDesignOptions } from '@components/open-panel/utils';
-import UnitControl from '@components/unit-control';
-import { HtmlAttributes } from '@components/html-attributes';
-import { ImageUpload } from '@components/image-upload';
+import {
+	moreDesignOptions,
+	ApplyFilters,
+	OpenPanel,
+	UnitControl,
+	HtmlAttributes,
+	ImageUpload,
+} from '@components/index.js';
 
 export function BlockSettings( {
 	getStyleValue,

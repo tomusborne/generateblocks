@@ -1,10 +1,12 @@
 import { __ } from '@wordpress/i18n';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { moreDesignOptions } from '@components/open-panel/utils';
-import { HtmlAttributes } from '@components/html-attributes';
-import { GridColumnSelector } from '@components/grid-column-selector';
+import {
+	ApplyFilters,
+	OpenPanel,
+	moreDesignOptions,
+	HtmlAttributes,
+	GridColumnSelector,
+} from '@components/index.js';
 
 export function BlockSettings( {
 	getStyleValue,

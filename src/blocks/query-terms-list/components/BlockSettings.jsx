@@ -3,9 +3,11 @@ import { SelectControl, TextControl } from '@wordpress/components';
 import { getBlockType } from '@wordpress/blocks';
 import { useMemo, useEffect } from '@wordpress/element';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { HtmlAttributes } from '@components/html-attributes';
+import {
+	ApplyFilters,
+	OpenPanel,
+	HtmlAttributes,
+} from '@components/index.js';
 import useTaxonomies from '@hooks/useTaxonomies';
 
 export function BlockSettings( {

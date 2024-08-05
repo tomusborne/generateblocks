@@ -2,15 +2,17 @@ import { __ } from '@wordpress/i18n';
 import { BaseControl, Notice } from '@wordpress/components';
 import { useMemo } from '@wordpress/element';
 
-import ApplyFilters from '@components/apply-filters';
-import { OpenPanel } from '@components/open-panel';
-import { URLControls } from '@components/url-controls';
-import { ColorPickerControls } from '@components/color-picker-group';
-import { moreDesignOptions } from '@components/open-panel/utils';
-import { TagNameControl } from '@components/tagname-control';
-import { HtmlAttributes } from '@components/html-attributes';
-import DimensionsControl from '@components/dimensions';
-import { ImageUpload } from '@components/image-upload';
+import {
+	ApplyFilters,
+	OpenPanel,
+	URLControls,
+	ColorPickerControls,
+	moreDesignOptions,
+	TagNameControl,
+	HtmlAttributes,
+	DimensionsControl,
+	ImageUpload,
+} from '@components/index.js';
 import { containerColorControls, linkElementColorControls } from '../../element/components/BlockSettings';
 
 export function BlockSettings( {
