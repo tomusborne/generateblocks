@@ -125,9 +125,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the previous post page URL.
 	 *
-	 * @param array $options The options.
-	 * @param array $block The block.
-	 * @param array $instance The block instance.
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
 	 * @return string
 	 */
 	public static function get_previous_posts_page_url( $options, $block, $instance ) {
@@ -150,9 +150,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the next post page URL.
 	 *
-	 * @param array $options The options.
-	 * @param array $block The block.
-	 * @param array $instance The block instance.
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
 	 * @return string
 	 */
 	public static function get_next_posts_page_url( $options, $block, $instance ) {
