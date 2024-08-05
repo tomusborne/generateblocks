@@ -199,7 +199,10 @@ function generateblocks_do_block_editor_assets() {
 	$package_json = GENERATEBLOCKS_DIR . 'package.json';
 
 	if ( file_exists( $package_json ) ) {
-		$package_json_parsed = json_decode( file_get_contents( $package_json ), true );
+		$package_json_parsed = json_decode(
+			file_get_contents( $package_json ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			true
+		);
 
 		$edge22_packages = array_filter(
 			$package_json_parsed['dependencies'],
