@@ -2004,10 +2004,11 @@ function generateblocks_str_starts_with( $string, $prefix ) {
 function generateblocks_should_show_legacy_blocks() {
 	$show_legacy_blocks = false;
 
-	if ( defined( 'GENERATEBLOCKS_PRO_VERSION' ) ) {
-		if ( ! class_exists( 'GenerateBlocks_Block_Accordion_Item' ) ) {
-			$show_legacy_blocks = true;
-		}
+	if (
+		defined( 'GENERATEBLOCKS_PRO_VERSION' )
+		&& version_compare( GENERATEBLOCKS_PRO_VERSION, '1.8.0', '<' )
+	) {
+		$show_legacy_blocks = true;
 	}
 
 	return apply_filters(
