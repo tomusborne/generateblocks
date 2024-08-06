@@ -1934,8 +1934,9 @@ function generateblocks_to_snake_case( string $str ): string {
 /**
  * Get our script dependencies and version.
  *
- * @param string $filename The filename to use.
+ * @param string $filename        The filename to use.
  * @param array  $fallback_assets The assets to fallback to.
+ * @param string $base_path       The base path on disk to use for the check.
  */
 function generateblocks_get_enqueue_assets(
 	$filename = '',
