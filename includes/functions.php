@@ -2002,7 +2002,10 @@ function generateblocks_str_starts_with( $string, $prefix ) {
 function generateblocks_should_show_legacy_blocks() {
 	$show_legacy_blocks = false;
 
-	if ( defined( 'GENERATEBLOCKS_VERSION' ) && GENERATEBLOCKS_VERSION < 2.0 ) {
+	if (
+		defined( 'GENERATEBLOCKS_PRO_VERSION' )
+		&& version_compare( GENERATEBLOCKS_PRO_VERSION, '1.8.0', '<' )
+	) {
 		$show_legacy_blocks = true;
 	}
 
