@@ -1942,13 +1942,14 @@ function generateblocks_get_enqueue_assets(
 	$fallback_assets = [
 		'dependencies' => [],
 		'version' => '',
-	]
+	],
+	$base_path = GENERATEBLOCKS_DIR . 'dist/'
 ) {
 	if ( ! $filename ) {
 		return $fallback_assets;
 	}
 
-	$assets_file = GENERATEBLOCKS_DIR . 'dist/' . $filename . '.asset.php';
+	$assets_file = $base_path . $filename . '.asset.php';
 	$compiled_assets = file_exists( $assets_file )
 		? require $assets_file
 		: false;
