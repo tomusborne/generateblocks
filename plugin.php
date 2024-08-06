@@ -44,13 +44,32 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-render-blocks.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-legacy-attributes.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-map-deprecated-attributes.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-query-utils.php';
 
 // Pattern library.
 require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-libraries.php';
 require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-library-dto.php';
 require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-pattern-library-rest.php';
 
+// Dynamic tags.
+require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-register-dynamic-tag.php';
+require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-dynamic-tag-callbacks.php';
+require_once GENERATEBLOCKS_DIR . 'includes/dynamic-tags/class-dynamic-tags.php';
+
 // Blocks.
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-block.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-text.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-element.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-shape.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-media.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-looper.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-no-results.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-page-numbers.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-loop-item.php';
+require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-terms-list.php';
+
+// Legacy Blocks.
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-container.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-button-container.php';
