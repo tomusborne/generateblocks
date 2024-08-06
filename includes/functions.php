@@ -2006,7 +2006,7 @@ function generateblocks_should_show_legacy_blocks() {
 
 	if (
 		defined( 'GENERATEBLOCKS_PRO_VERSION' )
-		&& version_compare( GENERATEBLOCKS_PRO_VERSION, '1.8.0', '<' )
+		&& version_compare( GENERATEBLOCKS_PRO_VERSION, '1.8.0-alpha.1', '<' )
 	) {
 		$show_legacy_blocks = true;
 	}
