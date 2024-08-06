@@ -1,6 +1,6 @@
 import ToolbarGroup from './ToolbarGroup';
 import { AlignmentToolbar, BlockControls } from '@wordpress/block-editor';
-import isFlexLayout from '../../../utils/is-flex-layout';
+import isFlexItem from '../../../utils/is-flex-item';
 import getAttribute from '../../../utils/get-attribute';
 import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
 import getDeviceType from '../../../utils/get-device-type';
@@ -29,7 +29,7 @@ export default function HeadlineBlockControls( props ) {
 				isCaption={ isCaption }
 			/>
 
-			{ ! isFlexLayout( { device, display, displayTablet, displayMobile } ) &&
+			{ ! isFlexItem( { device, display, displayTablet, displayMobile } ) &&
 				<>
 					<AlignmentToolbar
 						value={ getAttribute( 'textAlign', { attributes: attributes.typography, deviceType: device } ) }

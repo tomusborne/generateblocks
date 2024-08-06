@@ -10,8 +10,8 @@ import {
 } from '@wordpress/hooks';
 import SizingCSS from '../../../extend/inspector-control/controls/sizing/components/SizingCSS';
 import LayoutCSS from '../../../extend/inspector-control/controls/layout/components/LayoutCSS';
-import FlexChildCSS from '../../../extend/inspector-control/controls/layout/components/FlexChildCSS';
-import isFlexLayout from '../../../utils/is-flex-layout';
+import FlexChildCSS from '../../../extend/inspector-control/controls/flex-child-panel/components/FlexChildCSS';
+import isFlexItem from '../../../utils/is-flex-item';
 import SpacingCSS from '../../../extend/inspector-control/controls/spacing/components/SpacingCSS';
 import TypographyCSS from '../../../extend/inspector-control/controls/typography/components/TypographyCSS';
 import BorderCSS, { BorderCSSColor } from '../../../extend/inspector-control/controls/borders/BorderCSS';
@@ -348,7 +348,7 @@ export default function MainCSS( props ) {
 		} );
 	}
 
-	if ( isFlexLayout( { device, display, displayTablet, displayMobile } ) ) {
+	if ( isFlexItem( { device, display, displayTablet, displayMobile } ) ) {
 		cssObj[ '.gb-container-' + uniqueId + '.block-editor-block-list__block > .block-list-appender' ] = [ {
 			'margin-top': 0,
 		} ];
