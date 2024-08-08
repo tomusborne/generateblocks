@@ -41,7 +41,7 @@ registerBlockType( 'generateblocks/button', {
 	title: __( 'Button', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	icon: getIcon( 'button' ),
-	category: 'generateblocks',
+	category: 'generateblocks-legacy',
 	keywords: [
 		__( 'button' ),
 		__( 'buttons' ),
@@ -50,6 +50,7 @@ registerBlockType( 'generateblocks/button', {
 	attributes,
 	supports: {
 		className: false,
+		inserter: generateBlocksInfo.shouldShowLegacyBlocks,
 	},
 	edit: editButton,
 	save: saveButton,

@@ -10,6 +10,7 @@ export function PatternDetailsHeader( {
 	bulkInsertEnabled,
 	globalStyleData,
 	closeModal,
+	readOnly,
 } ) {
 	const {
 		activePatternId,
@@ -26,6 +27,7 @@ export function PatternDetailsHeader( {
 			bulkInsertEnabled={ bulkInsertEnabled }
 			globalStyleData={ globalStyleData }
 			closeModal={ closeModal }
+			readOnly={ readOnly }
 		>
 			{ !! activePatternId && (
 				<ButtonGroup>

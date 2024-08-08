@@ -5,7 +5,9 @@ import { store as blockEditorStore } from '@wordpress/block-editor';
 import { parse } from '@wordpress/blocks';
 import { lineSolid, seen } from '@wordpress/icons';
 import { useRef } from '@wordpress/element';
-import { SortableList } from '../../components/dnd';
+
+import { SortableList } from '@edge22/components';
+
 import { useLibrary } from './library-provider';
 import { InsertPattern } from './insert-pattern';
 import { isEmptyContentBlock, updateUniqueIds } from '../utils';

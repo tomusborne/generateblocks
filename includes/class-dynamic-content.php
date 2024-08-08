@@ -584,7 +584,7 @@ class GenerateBlocks_Dynamic_Content {
 		}
 
 		$html_attributes = array(
-			'id' => isset( $attributes['anchor'] ) ? $attributes['anchor'] : null,
+			'id' => isset( $attributes['anchor'] ) ? $attributes['anchor'] : '',
 			'class' => implode( ' ', $classes ),
 		);
 

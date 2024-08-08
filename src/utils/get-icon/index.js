@@ -50,6 +50,10 @@ export default function getIcon( icon ) {
 		return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path style={ { fill: 'none' } } d="M0 0h24v24H0z" /><path d="M21.375 10.755h-4.689a.625.625 0 0 1-.625-.625V2.625c0-.345.28-.625.625-.625h4.689a.624.624 0 0 1 .625.625v7.505c0 .345-.28.625-.625.625zm-4.064-1.251h3.44V3.25h-3.44v6.254zm-4.474 1.251H2.625A.625.625 0 0 1 2 10.13V2.625C2 2.28 2.28 2 2.625 2h10.212c.345 0 .625.28.625.625v7.505a.626.626 0 0 1-.625.625zM3.249 9.504h8.963V3.25H3.249v6.254zm4.064 12.497H2.625A.625.625 0 0 1 2 21.375V13.87c0-.345.28-.625.625-.625h4.688c.345 0 .625.28.625.625v7.505a.627.627 0 0 1-.625.626zM3.249 20.75h3.439v-6.255H3.249v6.255zm18.126 1.251H11.162a.625.625 0 0 1-.625-.625V13.87c0-.345.28-.625.625-.625h10.213c.345 0 .625.28.625.625v7.505c0 .346-.28.626-.625.626zm-9.588-1.251h8.964v-6.255h-8.964v6.255z" /></svg>;
 	}
 
+	if ( 'element-grid' === icon ) {
+		return <svg className="gb-block-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="256" height="256" fill="none" /><rect x="48" y="48" width="160" height="160" rx="8" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><line x1="128" y1="48" x2="128" y2="208" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><line x1="48" y1="128" x2="208" y2="128" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /></svg>;
+	}
+
 	if ( 'container' === icon ) {
 		return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="gblocks-block-icon"><path style={ { fill: 'none' } } d="M0 0h24v24H0z" /><path d="M21.375 22h-3.75v-1.25h3.125v-3.125H22v3.75c0 .345-.28.625-.625.625zM9.188 20.75h5.625V22H9.188zM6.375 22h-3.75A.625.625 0 0 1 2 21.375v-3.75h1.25v3.125h3.125V22zM2 9.187h1.25v5.625H2zm1.25-2.812H2v-3.75C2 2.28 2.28 2 2.625 2h3.75v1.25H3.25v3.125zM9.188 2h5.625v1.25H9.188zM22 6.375h-1.25V3.25h-3.125V2h3.75c.345 0 .625.28.625.625v3.75zm-1.25 2.812H22v5.625h-1.25z" /></svg>;
 	}
@@ -444,5 +448,17 @@ export default function getIcon( icon ) {
 
 	if ( 'generateblocks' === icon ) {
 		return <svg viewBox="0 0 50 60.12" xmlns="http://www.w3.org/2000/svg"><path d="M6.686 31.622V18.918a.077.077 0 0 1 .05-.072l6.5-2.313 6.5-2.313 9.682-3.445L39.1 7.33a.067.067 0 0 0 .036-.028.074.074 0 0 0 .014-.044V.076a.077.077 0 0 0-.032-.062.076.076 0 0 0-.069-.009l-13 4.625-13 4.625-6.5 2.313-6.5 2.313a.067.067 0 0 0-.036.028.097.097 0 0 0-.013.046V52.067c0 .026.013.048.032.062s.044.018.069.009l3.267-1.163 3.267-1.163c.015-.005.028-.015.036-.028s.014-.028.014-.044V37.999l.001-6.377c-.001 0 0 0 0 0z" /><path d="m23.949 29.976 13-4.625 13-4.625c.015-.005.028-.015.036-.028s.015-.028.015-.044V8.056a.077.077 0 0 0-.032-.062.076.076 0 0 0-.069-.009l-13 4.625-13 4.625-6.5 2.313-6.5 2.313a.067.067 0 0 0-.036.028.074.074 0 0 0-.014.044V60.045c0 .026.013.048.032.062a.076.076 0 0 0 .069.009l6.475-2.304 6.475-2.304 6.525-2.322 6.525-2.322 6.5-2.313 6.5-2.313c.015-.005.028-.015.036-.028s.014-.025.014-.041V27.193a.077.077 0 0 0-.032-.062.076.076 0 0 0-.069-.009l-6.45 2.295L37 31.711a.067.067 0 0 0-.036.028.074.074 0 0 0-.014.044v6.272a.077.077 0 0 1-.05.072l-6.45 2.295L24 42.715a.075.075 0 0 1-.101-.071V30.046c0-.016.005-.031.014-.044a.08.08 0 0 1 .036-.026z" /></svg>;
+	}
+
+	if ( 'database' === icon ) {
+		return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><ellipse cx="128" cy="80" rx="88" ry="48" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><path d="M40,80v48c0,26.51,39.4,48,88,48s88-21.49,88-48V80" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><path d="M40,128v48c0,26.51,39.4,48,88,48s88-21.49,88-48V128" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /></svg>;
+	}
+
+	if ( 'query' === icon ) {
+		return <svg className="gb-block-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><path d="M106.63,152.13l-8.69,9.81a48,48,0,1,1,0-67.88l60.12,67.88a48,48,0,1,0,0-67.88l-8.69,9.81" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="16" /></svg>;
+	}
+
+	if ( 'element' === icon ) {
+		return <svg className="gb-block-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256"><rect width="256" height="256" fill="none" /><line x1="144" y1="40" x2="112" y2="40" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><line x1="112" y1="216" x2="144" y2="216" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><path d="M184,40h24a8,8,0,0,1,8,8V72" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><line x1="216" y1="144" x2="216" y2="112" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><path d="M184,216h24a8,8,0,0,0,8-8V184" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><line x1="40" y1="112" x2="40" y2="144" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><path d="M72,216H48a8,8,0,0,1-8-8V184" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /><path d="M72,40H48a8,8,0,0,0-8,8V72" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="12" /></svg>;
 	}
 }

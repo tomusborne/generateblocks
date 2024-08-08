@@ -1,0 +1,16 @@
+.gb-icon-control {
+	.components-base-control {
+		margin-bottom: 0;
+	}
+
+	&__preview {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+
+		svg {
+			height: 20px;
+			width: auto;
+		}
+	}
+}

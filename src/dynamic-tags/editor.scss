@@ -1,0 +1,22 @@
+.gb-dynamic-tag-content {
+	.components-popover__content {
+		width: 300px;
+	}
+}
+
+.gb-dynamic-tag-modal {
+	.components-modal__content {
+		width: 400px;
+		height: 400px;
+	}
+
+	&__content {
+		display: flex;
+		flex-direction: column;
+		gap: 15px;
+
+		.components-button {
+			align-self: flex-start;
+		}
+	}
+}

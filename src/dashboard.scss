@@ -1,18 +1,34 @@
 $settings-container-width: 750px;
 
 .gblocks-dashboard-wrap {
-    margin: 0;
-    overflow: hidden;
+	margin: 0;
+	overflow: hidden;
 }
 
 .gblocks-dashboard-header {
-    background: #fff;
+	$padding-inline: 20px;
+	$padding-inline-half: $padding-inline / 2;
+	align-items: center;
+	background: #fff;
 	border-bottom: 1px solid #e2e4e7;
-    padding: 0 20px;
-	text-align: center;
 	display: flex;
 	justify-content: space-between;
-	align-items: center;
+	overflow-x: auto;
+	padding-right: $padding-inline;
+	text-align: center;
+
+	// Add the padding from tablet widths to mobile so the header doesn't overlap the admin bar.
+	@media (max-width: 600px) {
+		padding-top: var(--wp-admin--admin-bar--height);
+	}
+
+	&-title {
+		background: #fff;
+		left: 0;
+		padding: $padding-inline-half;
+		padding-left: $padding-inline;
+		position: sticky;
+	}
 
 	h1 {
 		font-size: 17px;
@@ -23,7 +39,7 @@ $settings-container-width: 750px;
 
 		svg {
 			width: 1em;
-    		height: 1em;
+			height: 1em;
 			padding-right: 10px;
 			fill: #006eb7;
 		}
@@ -31,7 +47,7 @@ $settings-container-width: 750px;
 }
 
 .gblocks-navigation {
-    background: #fff;
+	background: #fff;
 	display: flex;
 
 	a {
@@ -98,7 +114,7 @@ $settings-container-width: 750px;
 		}
 
 		.components-button.is-primary .components-spinner {
-			background: rgba(0,0,0,0.1);
+			background: rgba(0, 0, 0, 0.1);
 			border-radius: 100%;
 		}
 
@@ -159,15 +175,15 @@ $settings-container-width: 750px;
 }
 
 .gblocks-units {
-    position: absolute;
-    top: 0;
-    right: 0;
+	position: absolute;
+	top: 0;
+	right: 0;
 	font-size: 12px;
 	font-weight: bold;
 }
 
 .gblocks-container-width {
-    position: relative;
+	position: relative;
 }
 
 .gblocks-library {
@@ -238,7 +254,7 @@ $settings-container-width: 750px;
 		margin-bottom: 0;
 
 		.components-base-control__field {
-			margin-bottom: 0!important;
+			margin-bottom: 0 !important;
 		}
 	}
 }

@@ -1,0 +1,40 @@
+.gb-icon-library {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+
+	&__categories {
+		button {
+			width: 100%;
+		}
+	}
+
+	&__icons {
+		.components-button {
+			height: 50px;
+			padding: 20px;
+
+			svg {
+				height: 40px;
+				min-width: 20px;
+			}
+		}
+	}
+
+	&--divider {
+		.gb-icon-library__icons {
+			.components-button {
+				height: auto;
+
+				&, span {
+					width: 100%;
+				}
+
+				svg {
+					min-width: 0;
+					width: 100%;
+					height: auto;
+				}
+			}
+		}
+	}
+}
