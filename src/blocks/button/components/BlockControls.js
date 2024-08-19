@@ -10,6 +10,7 @@ import getAttribute from '../../../utils/get-attribute';
 import typographyOptions from '../../../extend/inspector-control/controls/typography/options';
 import getDeviceType from '../../../utils/get-device-type';
 import getIcon from '../../../utils/get-icon';
+import { ConvertBlock } from './ConvertBlock';
 
 export default ( props ) => {
 	const {
@@ -17,6 +18,7 @@ export default ( props ) => {
 		clientId,
 		setAttributes,
 		setButtonPreviewElement,
+		name,
 	} = props;
 
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
@@ -169,6 +171,12 @@ export default ( props ) => {
 						/>
 					}
 				</ToolbarGroup>
+
+				<ConvertBlock
+					clientId={ clientId }
+					name={ name }
+					attributes={ attributes }
+				/>
 			</BlockControls>
 		</>
 	);
