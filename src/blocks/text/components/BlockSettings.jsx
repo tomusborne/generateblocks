@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl } from '@wordpress/components';
+import { SelectControl, ToggleControl } from '@wordpress/components';
 
 import {
 	ApplyFilters,
@@ -99,6 +99,7 @@ export function BlockSettings( {
 		tagName,
 		icon,
 		iconLocation,
+		iconOnly,
 	} = attributes;
 
 	return (
@@ -168,15 +169,25 @@ export function BlockSettings( {
 				/>
 
 				{ !! icon && (
-					<SelectControl
-						label={ __( 'Icon Location', 'generateblocks' ) }
-						value={ iconLocation }
-						options={ [
-							{ label: __( 'Before', 'generateblocks' ), value: 'before' },
-							{ label: __( 'After', 'generateblocks' ), value: 'after' },
-						] }
-						onChange={ ( value ) => setAttributes( { iconLocation: value } ) }
-					/>
+					<>
+						{ ! iconOnly && (
+							<SelectControl
+								label={ __( 'Icon Location', 'generateblocks' ) }
+								value={ iconLocation }
+								options={ [
+									{ label: __( 'Before', 'generateblocks' ), value: 'before' },
+									{ label: __( 'After', 'generateblocks' ), value: 'after' },
+								] }
+								onChange={ ( value ) => setAttributes( { iconLocation: value } ) }
+							/>
+						) }
+
+						<ToggleControl
+							label={ __( 'Show icon only', 'generateblocks' ) }
+							checked={ !! iconOnly }
+							onChange={ () => setAttributes( { iconOnly: ! iconOnly } ) }
+						/>
+					</>
 				) }
 			</OpenPanel>
 		</ApplyFilters>

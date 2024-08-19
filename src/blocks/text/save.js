@@ -15,6 +15,7 @@ export function Save( { attributes } ) {
 		icon,
 		iconLocation,
 		globalClasses = [],
+		iconOnly,
 	} = attributes;
 	const TagName = tagName;
 	const classNames = [];
@@ -46,7 +47,7 @@ export function Save( { attributes } ) {
 			{ !! icon ? (
 				<>
 					{ 'before' === iconLocation && ( <Icon icon={ icon } /> ) }
-					{ !! content && ( <span className="gb-text"><RichText.Content value={ content } /></span> ) }
+					{ !! content && ! iconOnly && ( <span className="gb-text"><RichText.Content value={ content } /></span> ) }
 					{ 'after' === iconLocation && ( <Icon icon={ icon } /> ) }
 				</>
 			) : (
