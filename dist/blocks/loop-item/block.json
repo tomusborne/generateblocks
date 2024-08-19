@@ -1,0 +1,62 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "generateblocks/loop-item",
+  "title": "Loop Item",
+  "category": "generateblocks",
+  "description": "A custom SVG shape.",
+  "keywords": [
+    "text",
+    "heading",
+    "headline",
+    "paragraph"
+  ],
+  "version": "1.0.0",
+  "textdomain": "generateblocks",
+  "parent": [
+    "generateblocks/looper"
+  ],
+  "attributes": {
+    "uniqueId": {
+      "type": "string",
+      "default": ""
+    },
+    "tagName": {
+      "type": "string",
+      "default": "",
+      "enum": [
+        "div",
+        "article",
+        "a"
+      ]
+    },
+    "styles": {
+      "type": "object",
+      "default": {}
+    },
+    "css": {
+      "type": "string",
+      "default": ""
+    },
+    "globalClasses": {
+      "type": "array",
+      "default": []
+    },
+    "htmlAttributes": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "supports": {
+    "align": false,
+    "className": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": [
+    "file:./index.css"
+  ],
+  "usesContext": [
+    "generateblocks/queryData",
+    "generateblocks/queryType"
+  ]
+}
