@@ -1,5 +1,4 @@
 import { __ } from '@wordpress/i18n';
-import { useMemo } from '@wordpress/element';
 import { SelectControl } from '@wordpress/components';
 
 import {
@@ -7,12 +6,8 @@ import {
 	OpenPanel,
 	URLControls,
 	IconControl,
-	ColorPickerControls,
-	moreDesignOptions,
-	UnitControl,
 	TagNameControl,
 	HtmlAttributes,
-	DimensionsControl,
 } from '@components/index.js';
 
 export const buttonColorControls = [
@@ -106,22 +101,6 @@ export function BlockSettings( {
 		iconLocation,
 	} = attributes;
 
-	const colorControls = useMemo( () => {
-		let controls = textColorControls;
-
-		if ( 'a' === tagName || 'button' === tagName ) {
-			controls = buttonColorControls;
-		}
-
-		if ( ! icon ) {
-			controls = controls.filter( ( control ) => (
-				'icon-color' !== control.id
-			) );
-		}
-
-		return controls;
-	}, [ tagName, icon ] );
-
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -143,66 +122,27 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
-				title={ __( 'Design', 'generateblocks' ) }
-				dropdownOptions={ [
-					moreDesignOptions,
-				] }
+				title={ __( 'Settings', 'generateblocks' ) }
+				shouldRender={ '' === currentAtRule }
 			>
-				<ColorPickerControls
-					items={ colorControls }
-					getStyleValue={ getStyleValue }
-					onStyleChange={ onStyleChange }
-					currentAtRule={ currentAtRule }
+				<TagNameControl
+					blockName="generateblocks/text"
+					value={ tagName }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
+
+						if ( 'a' === value && ! getStyleValue( 'display', currentAtRule ) ) {
+							onStyleChange( 'display', 'block' );
+						}
+					} }
 				/>
 
-				<UnitControl
-					id="fontSize"
-					label={ __( 'Text size', 'generateblocks' ) }
-					value={ getStyleValue( 'fontSize', currentAtRule ) }
-					onChange={ ( value ) => onStyleChange( 'fontSize', value, currentAtRule ) }
+				<HtmlAttributes
+					items={ htmlAttributes }
+					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
-
-				<SelectControl
-					label={ __( 'Appearance', 'generateblocks' ) }
-					value={ getStyleValue( 'fontWeight', currentAtRule ) }
-					options={ [
-						{ label: __( 'Default', 'generateblocks' ), value: '' },
-						{ label: __( 'Thin', 'generateblocks' ), value: '100' },
-						{ label: __( 'Extra Light', 'generateblocks' ), value: '200' },
-						{ label: __( 'Light', 'generateblocks' ), value: '300' },
-						{ label: __( 'Normal', 'generateblocks' ), value: '400' },
-						{ label: __( 'Medium', 'generateblocks' ), value: '500' },
-						{ label: __( 'Semi Bold', 'generateblocks' ), value: '600' },
-						{ label: __( 'Bold', 'generateblocks' ), value: '700' },
-						{ label: __( 'Extra Bold', 'generateblocks' ), value: '800' },
-						{ label: __( 'Black', 'generateblocks' ), value: '900' },
-					] }
-					onChange={ ( value ) => onStyleChange( 'fontWeight', value, currentAtRule ) }
-				/>
-
-				{ 'a' === tagName || 'button' === tagName ? (
-					<DimensionsControl
-						label={ __( 'Padding', 'generateblocks-pro' ) }
-						attributeNames={ [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ] }
-						values={ {
-							paddingTop: getStyleValue( 'paddingTop', currentAtRule ),
-							paddingRight: getStyleValue( 'paddingRight', currentAtRule ),
-							paddingBottom: getStyleValue( 'paddingBottom', currentAtRule ),
-							paddingLeft: getStyleValue( 'paddingLeft', currentAtRule ),
-						} }
-						onChange={ ( values ) => Object.keys( values ).forEach( ( property ) => (
-							onStyleChange( property, values[ property ], currentAtRule )
-						) ) }
-						placeholders={ {} }
-					/>
-				) : (
-					<UnitControl
-						id="marginBottom"
-						label={ __( 'Bottom spacing', 'generateblocks' ) }
-						value={ getStyleValue( 'marginBottom', currentAtRule ) }
-						onChange={ ( value ) => onStyleChange( 'marginBottom', value, currentAtRule ) }
-					/>
-				) }
 			</OpenPanel>
 
 			<OpenPanel
@@ -238,30 +178,6 @@ export function BlockSettings( {
 						onChange={ ( value ) => setAttributes( { iconLocation: value } ) }
 					/>
 				) }
-			</OpenPanel>
-
-			<OpenPanel
-				title={ __( 'Settings', 'generateblocks' ) }
-				shouldRender={ '' === currentAtRule }
-			>
-				<TagNameControl
-					blockName="generateblocks/text"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-
-						if ( 'a' === value && ! getStyleValue( 'display', currentAtRule ) ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
 			</OpenPanel>
 		</ApplyFilters>
 	);

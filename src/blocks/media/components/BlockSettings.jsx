@@ -2,10 +2,8 @@ import { __ } from '@wordpress/i18n';
 import { TextControl } from '@wordpress/components';
 
 import {
-	moreDesignOptions,
 	ApplyFilters,
 	OpenPanel,
-	UnitControl,
 	HtmlAttributes,
 	ImageUpload,
 } from '@components/index.js';
@@ -120,27 +118,6 @@ export function BlockSettings( {
 					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</OpenPanel>
-
-			<OpenPanel
-				title={ __( 'Design', 'generateblocks' ) }
-				dropdownOptions={ [
-					moreDesignOptions,
-				] }
-			>
-				<UnitControl
-					id="width"
-					label={ __( 'Width', 'generateblocks' ) }
-					value={ getStyleValue( 'width', currentAtRule ) }
-					onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule ) }
-				/>
-
-				<UnitControl
-					id="height"
-					label={ __( 'Height', 'generateblocks' ) }
-					value={ getStyleValue( 'height', currentAtRule ) }
-					onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule ) }
 				/>
 			</OpenPanel>
 		</ApplyFilters>

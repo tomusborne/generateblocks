@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { Button, BaseControl, Notice } from '@wordpress/components';
-import { useState, useMemo } from '@wordpress/element';
+import { useState } from '@wordpress/element';
 import { createBlock, cloneBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
@@ -9,13 +9,8 @@ import {
 	ApplyFilters,
 	OpenPanel,
 	URLControls,
-	ColorPickerControls,
-	moreDesignOptions,
-	UnitControl,
 	TagNameControl,
 	HtmlAttributes,
-	DimensionsControl,
-	ImageUpload,
 	GridColumnSelector,
 	gridColumnLayouts as layouts,
 	DividerModal,
@@ -119,17 +114,6 @@ export function BlockSettings( {
 	} = useDispatch( blockEditorStore );
 	const { getBlock } = useSelect( ( select ) => select( blockEditorStore ), [] );
 
-	const backgroundImageUrl = useMemo( () => {
-		const url = getStyleValue( 'backgroundImage', currentAtRule );
-
-		const regex = /url\((['"]?)(.*?)\1\)/;
-		const match = url.match( regex );
-
-		if ( match && match[ 2 ] ) {
-			return match[ 2 ];
-		}
-	}, [ getStyleValue( 'backgroundImage' ), currentAtRule ] );
-
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -202,57 +186,40 @@ export function BlockSettings( {
 						} }
 					/>
 				</BaseControl>
-
-				<UnitControl
-					id="columnGap"
-					label={ __( 'Horizontal Gap', 'generateblocks' ) }
-					value={ getStyleValue( 'columnGap', currentAtRule ) }
-					onChange={ ( value ) => onStyleChange( 'columnGap', value, currentAtRule ) }
-				/>
-
-				<UnitControl
-					id="rowGap"
-					label={ __( 'Vertical Gap', 'generateblocks' ) }
-					value={ getStyleValue( 'rowGap', currentAtRule ) }
-					onChange={ ( value ) => onStyleChange( 'rowGap', value, currentAtRule ) }
-				/>
 			</OpenPanel>
 
 			<OpenPanel
-				title={ __( 'Design', 'generateblocks' ) }
-				dropdownOptions={ [
-					moreDesignOptions,
-				] }
+				title={ __( 'Settings', 'generateblocks' ) }
+				shouldRender={ '' === currentAtRule }
 			>
-				<ColorPickerControls
-					items={ 'a' === tagName ? linkElementColorControls : containerColorControls }
-					getStyleValue={ getStyleValue }
-					onStyleChange={ onStyleChange }
-					currentAtRule={ currentAtRule }
-				/>
+				<TagNameControl
+					blockName="generateblocks/element"
+					value={ tagName }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
 
-				<DimensionsControl
-					label={ __( 'Padding', 'generateblocks-pro' ) }
-					attributeNames={ [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ] }
-					values={ {
-						paddingTop: getStyleValue( 'paddingTop', currentAtRule ),
-						paddingRight: getStyleValue( 'paddingRight', currentAtRule ),
-						paddingBottom: getStyleValue( 'paddingBottom', currentAtRule ),
-						paddingLeft: getStyleValue( 'paddingLeft', currentAtRule ),
+						if ( 'a' === value && ! styles?.display ) {
+							onStyleChange( 'display', 'block' );
+						}
 					} }
-					onChange={ ( values ) => Object.keys( values ).forEach( ( property ) => (
-						onStyleChange( property, values[ property ], currentAtRule )
-					) ) }
-					placeholders={ {} }
 				/>
 
-				<ImageUpload
-					label={ __( 'Background Image', 'generateblocks' ) }
-					value={ getStyleValue( 'backgroundImage', currentAtRule ) }
-					onInsert={ ( value ) => onStyleChange( 'backgroundImage', `url(${ value })`, currentAtRule ) }
-					onSelectImage={ ( media ) => onStyleChange( 'backgroundImage', `url(${ media.url })`, currentAtRule ) }
-					showInput={ false }
-					previewUrl={ backgroundImageUrl }
+				{ 'a' === tagName && (
+					<BaseControl>
+						<Notice
+							status="warning"
+							isDismissible={ false }
+						>
+							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
+						</Notice>
+					</BaseControl>
+				) }
+
+				<HtmlAttributes
+					items={ htmlAttributes }
+					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
+					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</OpenPanel>
 
@@ -311,41 +278,6 @@ export function BlockSettings( {
 						} }
 					/>
 				) }
-			</OpenPanel>
-
-			<OpenPanel
-				title={ __( 'Settings', 'generateblocks' ) }
-				shouldRender={ '' === currentAtRule }
-			>
-				<TagNameControl
-					blockName="generateblocks/element"
-					value={ tagName }
-					onChange={ ( value ) => {
-						setAttributes( { tagName: value } );
-
-						if ( 'a' === value && ! styles?.display ) {
-							onStyleChange( 'display', 'block' );
-						}
-					} }
-				/>
-
-				{ 'a' === tagName && (
-					<BaseControl>
-						<Notice
-							status="warning"
-							isDismissible={ false }
-						>
-							{ __( 'This container is now a link element. Be sure not to add any interactive elements inside of it, like buttons or other links.', 'generateblocks' ) }
-						</Notice>
-					</BaseControl>
-				) }
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
 			</OpenPanel>
 		</ApplyFilters>
 	);

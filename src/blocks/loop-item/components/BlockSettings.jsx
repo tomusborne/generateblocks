@@ -1,19 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { BaseControl, Notice } from '@wordpress/components';
-import { useMemo } from '@wordpress/element';
 
 import {
 	ApplyFilters,
 	OpenPanel,
 	URLControls,
-	ColorPickerControls,
-	moreDesignOptions,
 	TagNameControl,
 	HtmlAttributes,
-	DimensionsControl,
-	ImageUpload,
 } from '@components/index.js';
-import { containerColorControls, linkElementColorControls } from '../../element/components/BlockSettings';
 
 export function BlockSettings( {
 	getStyleValue,
@@ -28,17 +22,6 @@ export function BlockSettings( {
 		htmlAttributes,
 		styles,
 	} = attributes;
-
-	const backgroundImageUrl = useMemo( () => {
-		const url = getStyleValue( 'backgroundImage', currentAtRule );
-
-		const regex = /url\((['"]?)(.*?)\1\)/;
-		const match = url.match( regex );
-
-		if ( match && match[ 2 ] ) {
-			return match[ 2 ];
-		}
-	}, [ getStyleValue( 'backgroundImage' ), currentAtRule ] );
 
 	return (
 		<ApplyFilters
@@ -57,44 +40,6 @@ export function BlockSettings( {
 				<URLControls
 					setAttributes={ setAttributes }
 					htmlAttributes={ htmlAttributes }
-				/>
-			</OpenPanel>
-
-			<OpenPanel
-				title={ __( 'Design', 'generateblocks' ) }
-				dropdownOptions={ [
-					moreDesignOptions,
-				] }
-			>
-				<ColorPickerControls
-					items={ 'a' === tagName ? linkElementColorControls : containerColorControls }
-					getStyleValue={ getStyleValue }
-					onStyleChange={ onStyleChange }
-					currentAtRule={ currentAtRule }
-				/>
-
-				<DimensionsControl
-					label={ __( 'Padding', 'generateblocks-pro' ) }
-					attributeNames={ [ 'paddingTop', 'paddingLeft', 'paddingRight', 'paddingBottom' ] }
-					values={ {
-						paddingTop: getStyleValue( 'paddingTop', currentAtRule ),
-						paddingRight: getStyleValue( 'paddingRight', currentAtRule ),
-						paddingBottom: getStyleValue( 'paddingBottom', currentAtRule ),
-						paddingLeft: getStyleValue( 'paddingLeft', currentAtRule ),
-					} }
-					onChange={ ( values ) => Object.keys( values ).forEach( ( property ) => (
-						onStyleChange( property, values[ property ], currentAtRule )
-					) ) }
-					placeholders={ {} }
-				/>
-
-				<ImageUpload
-					label={ __( 'Background Image', 'generateblocks' ) }
-					value={ getStyleValue( 'backgroundImage', currentAtRule ) }
-					onInsert={ ( value ) => onStyleChange( 'backgroundImage', `url(${ value })`, currentAtRule ) }
-					onSelectImage={ ( media ) => onStyleChange( 'backgroundImage', `url(${ media.url })`, currentAtRule ) }
-					showInput={ false }
-					previewUrl={ backgroundImageUrl }
 				/>
 			</OpenPanel>
 
