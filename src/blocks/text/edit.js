@@ -25,7 +25,6 @@ function EditBlock( props ) {
 		mergeBlocks,
 		onReplace,
 		dynamicTagValue,
-		isSelected,
 		name,
 		clientId,
 	} = props;
@@ -41,6 +40,7 @@ function EditBlock( props ) {
 		icon,
 		iconLocation,
 		globalClasses = [],
+		iconOnly,
 	} = attributes;
 
 	const { getStyles } = useSelect( stylesStore );
@@ -159,7 +159,7 @@ function EditBlock( props ) {
 		onMerge: mergeBlocks,
 		onReplace,
 		onRemove: () => onReplace( [] ),
-		placeholder: !! icon && ! isSelected ? '' : __( 'Text', 'generateblocks' ),
+		placeholder: __( 'Text', 'generateblocks' ),
 		withoutInteractiveFormatting: 'a' === tagName || 'button' === tagName,
 		...( Platform.isNative && { deleteEnter: true } ), // setup RichText on native mobile to delete the "Enter" key as it's handled by the JS/RN side
 	};
@@ -249,10 +249,12 @@ function EditBlock( props ) {
 					{ !! icon && (
 						<TagNameWithIcon { ...blockProps }>
 							{ 'before' === iconLocation && ( <Icon icon={ icon } /> ) }
-							<RichText
-								{ ...richTextProps }
-								tagName="span"
-							/>
+							{ ! iconOnly && (
+								<RichText
+									{ ...richTextProps }
+									tagName="span"
+								/>
+							) }
 							{ 'after' === iconLocation && ( <Icon icon={ icon } /> ) }
 						</TagNameWithIcon>
 					) }

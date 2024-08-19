@@ -60,6 +60,10 @@
 		"iconLocation": {
 			"type": "string",
 			"default": "before"
+		},
+		"iconOnly": {
+			"type": "boolean",
+			"default": false
 		}
     },
     "supports": {
