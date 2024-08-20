@@ -30,7 +30,10 @@
         "nav",
         "main",
         "figure",
-        "a"
+        "a",
+        "ul",
+        "ol",
+        "li"
       ]
     },
     "styles": {
