@@ -64,7 +64,6 @@ const config = {
 				plugin.constructor.name !== 'DependencyExtractionWebpackPlugin'
 		),
 		new DependencyExtractionWebpackPlugin( {
-			injectPolyfill: true, // Required, from default config.
 			useDefaults: true,
 			requestToExternal( request ) {
 				// Only externalize edge22 package imports.
