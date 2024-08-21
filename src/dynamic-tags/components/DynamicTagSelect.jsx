@@ -7,7 +7,31 @@ import { useSelect } from '@wordpress/data';
 import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
 
-export function DynamicTagSelect( { onInsert, tagName } ) {
+function parseTag( tagString ) {
+	const regex = /\{([\w_]+)(?:\s+(\w+(?:=(?:[^|]+))?(?:\|[\w_]+(?:=(?:[^|]+))?)*))?\}/;
+	const match = tagString.match( regex );
+
+	if ( ! match ) {
+		return null;
+	}
+
+	const [ , tag, paramsString ] = match;
+	const params = {};
+
+	if ( paramsString ) {
+		paramsString.split( '|' ).forEach( ( param ) => {
+			const [ key, value ] = param.split( '=' );
+			params[ key ] = value || true;
+		} );
+	}
+
+	return {
+		tag,
+		params,
+	};
+}
+
+export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) {
 	const [ dynamicTagData, setDynamicTagData ] = useState( [] );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ postTypeSource, setPostTypeSource ] = useState( 'post' );
@@ -28,6 +52,57 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 	const selectionEnd = getSelectionEnd();
 	const hasSelection = selectionStart?.offset !== selectionEnd?.offset;
 
+	/**
+	 * If there's an existing value we're highlighting, fill in our fields with the
+	 * appropriate values.
+	 */
+	useEffect( () => {
+		if ( ! selectedValue ) {
+			return;
+		}
+
+		const parsedTag = parseTag( selectedValue );
+		const tag = parsedTag?.tag;
+
+		if ( ! tag ) {
+			return;
+		}
+
+		setDynamicTag( tag );
+
+		const params = parsedTag?.params;
+
+		if ( params?.postId ) {
+			setDynamicSource( 'post' );
+			setPostIdSource( parseInt( params.postId ) );
+		}
+
+		if ( params?.metaKey ) {
+			setMetaKey( params.metaKey );
+		}
+
+		if ( 'comments_count' === tag ) {
+			const existingCommentsCountText = { ...commentsCountText };
+
+			if ( params.none ) {
+				existingCommentsCountText.none = params.none;
+			}
+
+			if ( params.one ) {
+				existingCommentsCountText.one = params.one;
+			}
+
+			if ( params.multiple ) {
+				existingCommentsCountText.multiple = params.multiple;
+			}
+
+			setCommentsCountText( existingCommentsCountText );
+		}
+	}, [ selectedValue ] );
+
+	/**
+	 * Load the dynamic tags.
+	 */
 	async function loadTags() {
 		if ( dynamicTagData.length ) {
 			return;
