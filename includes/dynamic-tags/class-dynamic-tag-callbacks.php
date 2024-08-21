@@ -41,7 +41,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		if ( $link ) {
 			$output = sprintf(
 				'<a href="%s">%s</a>',
-				$link,
+				esc_url( $link ),
 				$output
 			);
 		}
