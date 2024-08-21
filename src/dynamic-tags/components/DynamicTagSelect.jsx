@@ -135,30 +135,30 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 			return;
 		}
 
-		const tags = [];
+		const options = [];
 
 		if ( postIdSource ) {
-			tags.push( `postId=${ postIdSource }` );
+			options.push( `postId=${ postIdSource }` );
 		}
 
 		const isMetaTag = dynamicTag.startsWith( 'post_meta' ) ||
             dynamicTag.startsWith( 'author_meta' );
 
 		if ( isMetaTag && metaKey ) {
-			tags.push( `metaKey=${ metaKey }` );
+			options.push( `metaKey=${ metaKey }` );
 		}
 
 		if ( dynamicTag.startsWith( 'comments_count' ) ) {
-			tags.push( `none=${ commentsCountText.none }` );
-			tags.push( `one=${ commentsCountText.one }` );
-			tags.push( `multiple=${ commentsCountText.multiple }` );
+			options.push( `none=${ commentsCountText.none }` );
+			options.push( `one=${ commentsCountText.one }` );
+			options.push( `multiple=${ commentsCountText.multiple }` );
 		}
 
 		if ( linkTo ) {
-			tags.push( `linkTo=${ linkTo }` );
+			options.push( `linkTo=${ linkTo }` );
 		}
 
-		const tagOptions = tags.join( '|' );
+		const tagOptions = options.join( '|' );
 
 		let tagToInsert = dynamicTag;
 
