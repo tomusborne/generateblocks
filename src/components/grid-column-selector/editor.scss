@@ -1,0 +1,33 @@
+.gb-grid-control__grid-template-columns-rows--presets {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	background: #efefef;
+	padding: 10px;
+	gap: 7px;
+	margin-top: -2px;
+	border-radius: 3px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+
+	&-button {
+		display: grid;
+		grid-template-columns: var(--grid-template-columns);
+		width: 40px;
+		padding: 3px;
+		overflow: hidden;
+		cursor: pointer;
+		background: none;
+		border-radius: 0;
+		border: 0;
+		gap: 1px;
+		height: auto;
+
+		.gb-preview-column {
+			background: #fff;
+			border: 1px solid #000;
+			height: 15px;
+			border-radius: 1px;
+		}
+	}
+}
