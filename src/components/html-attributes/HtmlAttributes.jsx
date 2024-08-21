@@ -2,6 +2,7 @@ import { Button, TextControl, BaseControl } from '@wordpress/components';
 import { check, closeSmall, plus } from '@wordpress/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from '@wordpress/element';
+import { __ } from '@wordpress/i18n';
 import './editor.scss';
 
 const safeValues = [
@@ -22,7 +23,13 @@ function isAllowedName( attribute ) {
 	return attribute.startsWith( 'data-' ) || attribute.startsWith( 'aria-' ) || safeValues.includes( attribute );
 }
 
-export function HtmlAttributes( { items, onAdd, onRemove, onChange } ) {
+export function HtmlAttributes( {
+	items,
+	onAdd,
+	onRemove,
+	onChange,
+	label = __( 'HTML Attributes', 'generateblocks' ),
+} ) {
 	const [ newAttributeName, setNewAttributeName ] = useState( '' );
 	const [ newAttributeValue, setNewAttributeValue ] = useState( '' );
 	const [ errorMessage, setErrorMessage ] = useState( '' );
@@ -67,7 +74,7 @@ export function HtmlAttributes( { items, onAdd, onRemove, onChange } ) {
 	};
 
 	return (
-		<BaseControl label="HTML Attributes" id={ uuidv4() }>
+		<BaseControl label={ label } id={ uuidv4() }>
 			<div className="gb-html-attributes">
 				{ Object.entries( items ).map( ( [ key, value ], index ) => (
 					<div className="gb-html-attributes__item" key={ index }>

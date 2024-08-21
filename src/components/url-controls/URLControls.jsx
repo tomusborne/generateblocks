@@ -5,15 +5,20 @@ import './editor.scss';
 import { DynamicTagModal } from '../../dynamic-tags';
 import { Stack } from '@edge22/components';
 
-export function URLControls( { htmlAttributes, setAttributes } ) {
+export function URLControls( {
+	htmlAttributes,
+	setAttributes,
+	attributesName = 'htmlAttributes',
+	label = __( 'Link', 'generateblocks' ),
+} ) {
 	const url = htmlAttributes?.href ?? '';
 	const target = htmlAttributes?.target ?? '';
 	const rel = htmlAttributes?.rel ?? '';
 
 	return (
-		<div className="gb-url-controls">
+		<div className="gb-url-controls components-base-control">
 			<BaseControl
-				label={ __( 'Link', 'generateblocks' ) }
+				label={ label }
 				id="gb-url-controls__link"
 				htmlFor="gb-url-controls__link-input"
 			>
@@ -24,7 +29,7 @@ export function URLControls( { htmlAttributes, setAttributes } ) {
 						value={ url }
 						onChange={ ( value ) => {
 							setAttributes( {
-								htmlAttributes: {
+								[ attributesName ]: {
 									...htmlAttributes,
 									href: value,
 								},
@@ -36,7 +41,7 @@ export function URLControls( { htmlAttributes, setAttributes } ) {
 					<DynamicTagModal
 						onInsert={ ( { value } ) => {
 							setAttributes( {
-								htmlAttributes: {
+								[ attributesName ]: {
 									...htmlAttributes,
 									href: value,
 								},
@@ -61,7 +66,7 @@ export function URLControls( { htmlAttributes, setAttributes } ) {
 							}
 
 							setAttributes( {
-								htmlAttributes: newHtmlAttributes,
+								[ attributesName ]: newHtmlAttributes,
 							} );
 						} }
 					/>
@@ -88,7 +93,7 @@ export function URLControls( { htmlAttributes, setAttributes } ) {
 							}
 
 							setAttributes( {
-								htmlAttributes: newHtmlAttributes,
+								[ attributesName ]: newHtmlAttributes,
 							} );
 						} }
 					/>
@@ -115,7 +120,7 @@ export function URLControls( { htmlAttributes, setAttributes } ) {
 							}
 
 							setAttributes( {
-								htmlAttributes: newHtmlAttributes,
+								[ attributesName ]: newHtmlAttributes,
 							} );
 						} }
 					/>

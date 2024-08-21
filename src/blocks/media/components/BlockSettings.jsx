@@ -6,6 +6,7 @@ import {
 	OpenPanel,
 	HtmlAttributes,
 	ImageUpload,
+	URLControls,
 } from '@components/index.js';
 
 export function BlockSettings( {
@@ -19,6 +20,7 @@ export function BlockSettings( {
 } ) {
 	const {
 		htmlAttributes,
+		linkHtmlAttributes,
 	} = attributes;
 
 	return (
@@ -73,6 +75,22 @@ export function BlockSettings( {
 						} );
 					} }
 				/>
+
+				<URLControls
+					setAttributes={ setAttributes }
+					htmlAttributes={ linkHtmlAttributes }
+					attributesName="linkHtmlAttributes"
+				/>
+
+				{ !! linkHtmlAttributes.href && (
+					<HtmlAttributes
+						label={ __( 'Link Attributes', 'generateblocks' ) }
+						items={ linkHtmlAttributes }
+						onAdd={ ( value ) => setAttributes( { linkHtmlAttributes: value } ) }
+						onRemove={ ( value ) => setAttributes( { linkHtmlAttributes: value } ) }
+						onChange={ ( value ) => setAttributes( { linkHtmlAttributes: value } ) }
+					/>
+				) }
 
 				<TextControl
 					label={ __( 'Width', 'generateblocks' ) }
