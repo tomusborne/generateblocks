@@ -116,7 +116,7 @@ export const templates = [
 						[
 							[ 'generateblocks/text', {
 								tagName: 'h2',
-								content: '{post_title}',
+								content: '{post_title linkTo=post}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
@@ -157,7 +157,7 @@ export const templates = [
 									fontSize: '20px',
 									marginBottom: '5px',
 								},
-								content: '<a href="{post_permalink}">{post_title}</a>',
+								content: '{post_title linkTo=post}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
@@ -207,7 +207,7 @@ export const templates = [
 									fontSize: '30px',
 									marginBottom: '5px',
 								},
-								content: '<a href="{post_permalink}">{post_title}</a>',
+								content: '{post_title linkTo=post}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',
@@ -269,7 +269,7 @@ export const templates = [
 									fontSize: '30px',
 									marginBottom: '5px',
 								},
-								content: '<a href="{post_permalink}">{post_title}</a>',
+								content: '{post_title linkTo=post}',
 							} ],
 							[ 'generateblocks/text', {
 								tagName: 'p',

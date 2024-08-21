@@ -43,11 +43,14 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	 * Parse options.
 	 *
 	 * @param string $options_string The options string.
+	 * @param string $tag_name The tag name.
 	 * @return array
 	 */
-	private static function parse_options( $options_string ) {
+	private static function parse_options( $options_string, $tag_name ) {
 		$pairs = explode( '|', $options_string );
-		$result = [];
+		$result = [
+			'tag_name' => $tag_name, // Make it so the tag name is available to us in $options.
+		];
 
 		if ( empty( $pairs ) ) {
 			return $result;
@@ -171,7 +174,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					$full_tag = $match[0];
 					$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
 					$options_string = $match[2] ?? '';
-					$options = self::parse_options( $options_string );
+					$options = self::parse_options( $options_string, $tag_name );
 					$replacement = $data['return']( $options, $block, $instance );
 
 					if ( self::should_remove_block( $content, $full_tag, $replacement ) ) {

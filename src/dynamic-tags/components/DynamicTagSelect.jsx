@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { ComboboxControl, Button, TextControl, CheckboxControl } from '@wordpress/components';
+import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
@@ -46,6 +46,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 		// translators: %s: number of comments
 		multiple: __( '%s comments', 'generateblocks' ),
 	} );
+	const [ linkTo, setLinkTo ] = useState( '' );
 
 	const { getSelectionStart, getSelectionEnd } = useSelect( blockEditorStore, [] );
 	const selectionStart = getSelectionStart();
@@ -98,6 +99,10 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 
 			setCommentsCountText( existingCommentsCountText );
 		}
+
+		if ( params?.linkTo ) {
+			setLinkTo( params.linkTo );
+		}
 	}, [ selectedValue ] );
 
 	/**
@@ -149,6 +154,10 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 			tags.push( `multiple=${ commentsCountText.multiple }` );
 		}
 
+		if ( linkTo ) {
+			tags.push( `linkTo=${ linkTo }` );
+		}
+
 		const tagOptions = tags.join( '|' );
 
 		let tagToInsert = dynamicTag;
@@ -160,9 +169,11 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 		tagToInsert = `{${ tagToInsert }}`;
 
 		setDynamicTagToInsert( tagToInsert );
-	}, [ postIdSource, dynamicTag, metaKey, commentsCountText ] );
+	}, [ postIdSource, dynamicTag, metaKey, commentsCountText, linkTo ] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
+	const canBeLinked = [ 'post_title', 'comments_count', 'published_date', 'modified_date' ];
+	const showLinkTo = canBeLinked.includes( dynamicTag );
 
 	return (
 		<>
@@ -237,13 +248,26 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 						</>
 					) }
 
+					{ showLinkTo && ! interactiveTagNames.includes( tagName ) && (
+						<SelectControl
+							label={ __( 'Link to', 'generateblocks' ) }
+							value={ linkTo }
+							options={ [
+								{ label: __( 'None', 'generateblocks' ), value: '' },
+								{ label: __( 'Post', 'generateblocks' ), value: 'post' },
+								{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
+							] }
+							onChange={ ( value ) => setLinkTo( value ) }
+						/>
+					) }
+
 					<TextControl
 						label={ __( 'Dynamic tag to insert', 'generateblocks' ) }
 						value={ dynamicTagToInsert }
 						onChange={ ( value ) => setDynamicTagToInsert( value ) }
 					/>
 
-					{ !! hasSelection && ! interactiveTagNames.includes( tagName ) && (
+					{ !! hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo && (
 						<CheckboxControl
 							label={ __( 'Insert as link', 'generateblocks' ) }
 							checked={ insertAsLink }
