@@ -60,6 +60,10 @@ function EditBlock( props ) {
 		}
 
 		return dynamicTagValue.reduce( ( acc, { original, replacement } ) => {
+			if ( ! replacement ) {
+				return acc;
+			}
+
 			return acc.replaceAll( original, replacement );
 		}, content );
 	}, [ dynamicTagValue, content ] );

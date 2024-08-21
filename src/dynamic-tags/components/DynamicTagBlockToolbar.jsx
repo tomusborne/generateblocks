@@ -2,7 +2,7 @@ import { ToolbarGroup } from '@wordpress/components';
 import { BlockControls } from '@wordpress/block-editor';
 import { DynamicTagModal } from '../index.js';
 
-export function DynamicTagBlockToolbar( { onInsert, tooltip, renderToggle = false, tagName } ) {
+export function DynamicTagBlockToolbar( { onInsert, tooltip, renderToggle = false, tagName, value } ) {
 	return (
 		<BlockControls>
 			<ToolbarGroup>
@@ -11,6 +11,7 @@ export function DynamicTagBlockToolbar( { onInsert, tooltip, renderToggle = fals
 					tooltip={ tooltip }
 					renderToggle={ renderToggle }
 					tagName={ tagName }
+					value={ value }
 				/>
 			</ToolbarGroup>
 		</BlockControls>

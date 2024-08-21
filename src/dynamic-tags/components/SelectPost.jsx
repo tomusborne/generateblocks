@@ -14,7 +14,7 @@ export function SelectPost(
 		filterName = 'generateblocks.editor.post-type-record-select',
 	}
 ) {
-	const [ loadValues, setLoadValues ] = useState( value.length > 0 );
+	const [ loadValues, setLoadValues ] = useState( value?.length > 0 );
 	const [ search, setSearch ] = useDebounceState( '', 500 );
 	const isSearchById = !! search.trim() && ! search.trim().match( /\D/g );
 	const includeSearchId = isSearchById ? [ search.replace( /\D/g, '' ) ] : undefined;

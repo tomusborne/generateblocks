@@ -12,6 +12,22 @@ export function DynamicTag( { onChange, value } ) {
 		return select( blockEditorStore ).getSelectedBlock();
 	}, [] );
 
+	const selectionStart = useSelect( ( select ) => {
+		return select( blockEditorStore ).getSelectionStart();
+	}, [] );
+
+	const selectionEnd = useSelect( ( select ) => {
+		return select( blockEditorStore ).getSelectionEnd();
+	}, [] );
+
+	const selectedText = useMemo( () => {
+		if ( selectionStart?.offset === selectionEnd?.offset ) {
+			return '';
+		}
+
+		return value.text.substring( selectionStart.offset, selectionEnd.offset );
+	}, [ selectionStart, selectionEnd, value ] );
+
 	const tagName = useMemo( () => {
 		if ( ! selectedBlock ) {
 			return '';
@@ -19,6 +35,14 @@ export function DynamicTag( { onChange, value } ) {
 
 		return selectedBlock.attributes.tagName;
 	}, [ selectedBlock ] );
+
+	const isSelected = useMemo( () => {
+		if ( ! selectedText ) {
+			return false;
+		}
+
+		return selectedText.startsWith( '{' ) && selectedText.endsWith( '}' );
+	}, [ selectedText ] );
 
 	if ( selectedBlock && 'generateblocks/text' !== selectedBlock.name ) {
 		return null;
@@ -28,6 +52,7 @@ export function DynamicTag( { onChange, value } ) {
 		<DynamicTagBlockToolbar
 			tooltip={ __( 'Insert dynamic tag', 'generateblocks' ) }
 			tagName={ tagName }
+			value={ isSelected ? selectedText : '' }
 			onInsert={ ( newValue ) => {
 				if ( ! newValue?.value ) {
 					return;
@@ -53,13 +78,13 @@ export function DynamicTag( { onChange, value } ) {
 				const richTextValue = create( { html: newValue?.value } );
 				onChange( insert( value, richTextValue ) );
 			} }
-			renderToggle={ ( { isOpen, onToggle, isPressed } ) => (
+			renderToggle={ ( { isOpen, onToggle } ) => (
 				<ToolbarButton
 					icon={ getIcon( 'database' ) }
 					label={ __( 'Dynamic Tags', 'generateblocks' ) }
 					onClick={ onToggle }
 					aria-expanded={ isOpen }
-					isPressed={ isPressed }
+					isPressed={ isSelected }
 				/>
 			) }
 		/>
