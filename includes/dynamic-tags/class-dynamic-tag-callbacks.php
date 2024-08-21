@@ -21,7 +21,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @param string $output The output.
 	 * @param array  $options The options.
 	 */
-	private static function withLink( $output, $options ) {
+	private static function with_link( $output, $options ) {
 		if ( empty( $options['linkTo'] ) ) {
 			return $output;
 		}
@@ -56,7 +56,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @param array  $options The options.
 	 */
 	private static function output( $output, $options ) {
-		$output = self::withLink( $output, $options );
+		$output = self::with_link( $output, $options );
 		$output = apply_filters( 'generateblocks_dynamic_tag_output', $output, $options );
 
 		return $output;
