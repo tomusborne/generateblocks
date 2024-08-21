@@ -47,6 +47,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 		multiple: __( '%s comments', 'generateblocks' ),
 	} );
 	const [ linkTo, setLinkTo ] = useState( '' );
+	const [ renderIfEmpty, setRenderIfEmpty ] = useState( false );
 
 	const { getSelectionStart, getSelectionEnd } = useSelect( blockEditorStore, [] );
 	const selectionStart = getSelectionStart();
@@ -103,6 +104,10 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 		if ( params?.linkTo ) {
 			setLinkTo( params.linkTo );
 		}
+
+		if ( params?.renderIfEmpty ) {
+			setRenderIfEmpty( true );
+		}
 	}, [ selectedValue ] );
 
 	/**
@@ -158,6 +163,10 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 			options.push( `linkTo=${ linkTo }` );
 		}
 
+		if ( renderIfEmpty ) {
+			options.push( 'renderIfEmpty=true' );
+		}
+
 		const tagOptions = options.join( '|' );
 
 		let tagToInsert = dynamicTag;
@@ -169,7 +178,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 		tagToInsert = `{${ tagToInsert }}`;
 
 		setDynamicTagToInsert( tagToInsert );
-	}, [ postIdSource, dynamicTag, metaKey, commentsCountText, linkTo ] );
+	}, [ postIdSource, dynamicTag, metaKey, commentsCountText, linkTo, renderIfEmpty ] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
 	const canBeLinked = [ 'post_title', 'comments_count', 'published_date', 'modified_date' ];
@@ -261,6 +270,13 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 							onChange={ ( value ) => setLinkTo( value ) }
 						/>
 					) }
+
+					<CheckboxControl
+						label={ __( 'Render block if empty', 'generateblocks' ) }
+						checked={ !! renderIfEmpty }
+						onChange={ ( value ) => setRenderIfEmpty( value ) }
+						help={ __( 'Render the block even if this dynamic tag has no value.', 'generateblocks' ) }
+					/>
 
 					<TextControl
 						label={ __( 'Dynamic tag to insert', 'generateblocks' ) }
