@@ -173,7 +173,8 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 
 	const interactiveTagNames = [ 'a', 'button' ];
 	const canBeLinked = [ 'post_title', 'comments_count', 'published_date', 'modified_date' ];
-	const showLinkTo = canBeLinked.includes( dynamicTag );
+	const showLinkTo = canBeLinked.includes( dynamicTag ) && ! interactiveTagNames.includes( tagName );
+	const showInsertAsLink = hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
 
 	return (
 		<>
@@ -248,7 +249,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 						</>
 					) }
 
-					{ showLinkTo && ! interactiveTagNames.includes( tagName ) && (
+					{ showLinkTo && (
 						<SelectControl
 							label={ __( 'Link to', 'generateblocks' ) }
 							value={ linkTo }
@@ -267,7 +268,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 						onChange={ ( value ) => setDynamicTagToInsert( value ) }
 					/>
 
-					{ !! hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo && (
+					{ !! showInsertAsLink && (
 						<CheckboxControl
 							label={ __( 'Insert as link', 'generateblocks' ) }
 							checked={ insertAsLink }
