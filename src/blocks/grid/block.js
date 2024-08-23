@@ -32,7 +32,7 @@ registerBlockType( 'generateblocks/grid', {
 	title: __( 'Grid', 'generateblocks' ),
 	description: __( 'Create advanced layouts with flexible grids.', 'generateblocks' ),
 	icon: getIcon( 'grid' ),
-	category: 'generateblocks',
+	category: 'generateblocks-legacy',
 	keywords: [
 		__( 'grid' ),
 		__( 'column' ),
@@ -42,6 +42,7 @@ registerBlockType( 'generateblocks/grid', {
 	supports: {
 		className: false,
 		html: false,
+		inserter: generateBlocksInfo.shouldShowLegacyBlocks,
 	},
 	edit: editGridContainer,
 	save: () => {

@@ -95,6 +95,7 @@
 		grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 		margin-top: 0;
 		padding: 30px;
+		list-style-type: none;
 
 		&:empty {
 			display: none;

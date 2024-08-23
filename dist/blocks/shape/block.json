@@ -1,0 +1,54 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "generateblocks/shape",
+  "title": "Shape",
+  "category": "generateblocks",
+  "description": "A custom SVG shape.",
+  "keywords": [
+    "text",
+    "heading",
+    "headline",
+    "paragraph"
+  ],
+  "version": "1.0.0",
+  "textdomain": "generateblocks",
+  "attributes": {
+    "uniqueId": {
+      "type": "string",
+      "default": ""
+    },
+    "html": {
+      "type": "string",
+      "source": "html",
+      "selector": ".gb-shape"
+    },
+    "styles": {
+      "type": "object",
+      "default": {}
+    },
+    "css": {
+      "type": "string",
+      "default": ""
+    },
+    "globalClasses": {
+      "type": "array",
+      "default": []
+    },
+    "htmlAttributes": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "supports": {
+    "align": false,
+    "className": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": [
+    "file:./index.css"
+  ],
+  "usesContext": [
+    "postId"
+  ]
+}
