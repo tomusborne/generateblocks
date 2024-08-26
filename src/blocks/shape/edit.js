@@ -1,18 +1,15 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { useEffect, useMemo } from '@wordpress/element';
+import { useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
-import { getCss } from '@edge22/styles-builder';
-import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
-import { defaultAtRules } from '../../utils/defaultAtRules.js';
+import { BlockStyles } from '@edge22/block-styles';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 import RootElement from '../../components/root-element/index.js';
-import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
 import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
+import { withStyles } from '@hoc/withStyles';
+import { BlockStylesBuilder } from '@components/index';
 
 function EditBlock( props ) {
 	const {
@@ -20,6 +17,8 @@ function EditBlock( props ) {
 		setAttributes,
 		name,
 		clientId,
+		selector,
+		onStyleChange,
 	} = props;
 
 	const {
@@ -27,15 +26,10 @@ function EditBlock( props ) {
 		className,
 		uniqueId,
 		styles = {},
-		css,
 		htmlAttributes = [],
 		globalClasses = [],
 	} = attributes;
 
-	const { getStyles } = useSelect( stylesStore );
-	const { addStyle } = useDispatch( stylesStore );
-	const updateEditorCSS = useUpdateEditorStyleCSS();
-	const currentAtRule = useCurrentAtRule();
 	const classNames = useMemo( () => {
 		const classes = [];
 
@@ -56,54 +50,6 @@ function EditBlock( props ) {
 		return classes;
 	}, [ className, globalClasses, styles, uniqueId ] );
 
-	const selector = useMemo( () => {
-		if ( ! uniqueId ) {
-			return '';
-		}
-
-		return '.gb-shape-' + uniqueId;
-	}, [ uniqueId ] );
-
-	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
-		addStyle( property, value, atRuleValue, nestedRuleValue );
-
-		const updatedStyles = getStyles();
-		setAttributes( { styles: updatedStyles } );
-	}
-
-	function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
-		if ( nestedRuleValue ) {
-			if ( atRuleValue ) {
-				return styles?.[ atRuleValue ]?.[ nestedRuleValue ]?.[ property ] ?? '';
-			}
-
-			return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
-		} else if ( atRuleValue ) {
-			return styles?.[ atRuleValue ]?.[ property ] ?? '';
-		}
-
-		return styles?.[ property ] ?? '';
-	}
-
-	useEffect( () => {
-		if ( ! selector ) {
-			return;
-		}
-
-		( async function() {
-			const generateCss = await getCss( selector, styles );
-			setAttributes( { css: generateCss } );
-		}() );
-	}, [ JSON.stringify( styles ), selector ] );
-
-	useEffect( () => {
-		if ( ! selector ) {
-			return;
-		}
-
-		updateEditorCSS( selector, css );
-	}, [ css, selector ] );
-
 	const { style = '', ...otherAttributes } = htmlAttributes;
 	const inlineStyleObject = convertInlineStyleStringToObject( style );
 	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
@@ -119,23 +65,20 @@ function EditBlock( props ) {
 		<>
 			<InspectorControls>
 				<BlockStyles
-					selector={ selector }
-					onStyleChange={ onStyleChange }
-					setAttributes={ setAttributes }
-					styles={ styles }
-					css={ css }
-					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
-					defaultAtRules={ defaultAtRules }
-					scope="gb-block-styles-wrapper"
-					stylesBuilderScope="gb-styles-builder-wrapper"
-				>
-					<BlockSettings
-						{ ...props }
-						getStyleValue={ getStyleValue }
-						onStyleChange={ onStyleChange }
-						currentAtRule={ currentAtRule }
-					/>
-				</BlockStyles>
+					settingsTab={ (
+						<BlockSettings
+							{ ...props }
+						/>
+					) }
+					stylesTab={ (
+						<BlockStylesBuilder
+							selector={ selector }
+							setAttributes={ setAttributes }
+							shortcuts={ {} }
+							onStyleChange={ onStyleChange }
+						/>
+					) }
+				/>
 			</InspectorControls>
 			<RootElement
 				name={ name }
@@ -154,6 +97,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withStyles,
 	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );

@@ -2,15 +2,13 @@ import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { withUniqueId } from '../../hoc';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
-import { getCss } from '@edge22/styles-builder';
-import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
-import { defaultAtRules } from '../../utils/defaultAtRules.js';
+import { BlockStyles } from '@edge22/block-styles';
 import { __ } from '@wordpress/i18n';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
+import { withStyles } from '@hoc/withStyles';
+import { BlockStylesBuilder } from '@components/index';
 
 const createPaginationItem = ( content, Tag = 'a', extraClass = '' ) => (
 	<Tag key={ content } className={ `page-numbers ${ extraClass }` }>
@@ -49,22 +47,20 @@ function EditBlock( props ) {
 	const {
 		attributes,
 		setAttributes,
+		selector,
+		onStyleChange,
 	} = props;
 
 	const {
 		className,
 		uniqueId,
 		styles,
-		css,
 		htmlAttributes,
 		globalClasses,
 		tagName,
 		midSize,
 	} = attributes;
 
-	const { getStyles } = useSelect( stylesStore );
-	const { addStyle } = useDispatch( stylesStore );
-	const updateEditorCSS = useUpdateEditorStyleCSS();
 	const classNames = useMemo( () => {
 		const classes = [];
 
@@ -89,54 +85,6 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
-	const selector = useMemo( () => {
-		if ( ! uniqueId ) {
-			return '';
-		}
-
-		return '.gb-query-page-numbers-' + uniqueId;
-	}, [ uniqueId ] );
-
-	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
-		addStyle( property, value, atRuleValue, nestedRuleValue );
-
-		const updatedStyles = getStyles();
-		setAttributes( { styles: updatedStyles } );
-	}
-
-	function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
-		if ( nestedRuleValue ) {
-			if ( atRuleValue ) {
-				return styles?.[ atRuleValue ]?.[ nestedRuleValue ]?.[ property ] ?? '';
-			}
-
-			return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
-		} else if ( atRuleValue ) {
-			return styles?.[ atRuleValue ]?.[ property ] ?? '';
-		}
-
-		return styles?.[ property ] ?? '';
-	}
-
-	useEffect( () => {
-		if ( ! selector ) {
-			return;
-		}
-
-		( async function() {
-			const generateCss = await getCss( selector, styles );
-			setAttributes( { css: generateCss } );
-		}() );
-	}, [ JSON.stringify( styles ), selector ] );
-
-	useEffect( () => {
-		if ( ! selector ) {
-			return;
-		}
-
-		updateEditorCSS( selector, css );
-	}, [ css, selector ] );
-
 	const { style = '', ...otherAttributes } = htmlAttributes;
 	const inlineStyleObject = convertInlineStyleStringToObject( style );
 	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
@@ -150,35 +98,46 @@ function EditBlock( props ) {
 
 	const TagName = tagName || 'div';
 
+	const shortcuts = useMemo( () => {
+		const visibleSelectors = [
+			{
+				label: __( 'Main', 'generateblocks' ),
+				value: '',
+			},
+		];
+
+		return {
+			selectorShortcuts: {
+				default: {
+					label: __( 'Numbers', 'generateblocks-pro' ),
+					items: [
+						{ label: __( 'Page Number', 'generateblocks-pro' ), value: '.page-numbers' },
+						{ label: __( 'Current Page Number', 'generateblocks-pro' ), value: '.page-numbers.current' },
+					],
+				},
+			},
+			visibleShortcuts: visibleSelectors,
+		};
+	}, [] );
+
 	return (
 		<>
 			<InspectorControls>
 				<BlockStyles
-					selector={ selector }
-					onStyleChange={ onStyleChange }
-					setAttributes={ setAttributes }
-					styles={ styles }
-					css={ css }
-					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
-					defaultAtRules={ defaultAtRules }
-					selectorShortcuts={ {
-						default: {
-							label: __( 'Numbers', 'generateblocks-pro' ),
-							items: [
-								{ label: __( 'Page Number', 'generateblocks-pro' ), value: '.page-numbers' },
-								{ label: __( 'Current Page Number', 'generateblocks-pro' ), value: '.page-numbers.current' },
-							],
-						},
-					} }
-					scope="gb-block-styles-wrapper"
-					stylesBuilderScope="gb-styles-builder-wrapper"
-				>
-					<BlockSettings
-						{ ...props }
-						getStyleValue={ getStyleValue }
-						onStyleChange={ onStyleChange }
-					/>
-				</BlockStyles>
+					settingsTab={ (
+						<BlockSettings
+							{ ...props }
+						/>
+					) }
+					stylesTab={ (
+						<BlockStylesBuilder
+							selector={ selector }
+							setAttributes={ setAttributes }
+							shortcuts={ shortcuts }
+							onStyleChange={ onStyleChange }
+						/>
+					) }
+				/>
 			</InspectorControls>
 			<TagName { ...blockProps }>
 				{ previewPaginationNumbers( midSize ) }
@@ -188,6 +147,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withStyles,
 	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );

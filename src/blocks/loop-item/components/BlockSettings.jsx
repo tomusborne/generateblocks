@@ -8,11 +8,11 @@ import {
 	TagNameControl,
 	HtmlAttributes,
 } from '@components/index.js';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockSettings( {
 	getStyleValue,
 	onStyleChange,
-	currentAtRule,
 	name,
 	attributes,
 	setAttributes,
@@ -22,6 +22,10 @@ export function BlockSettings( {
 		htmlAttributes,
 		styles,
 	} = attributes;
+
+	const {
+		currentAtRule,
+	} = useBlockStyles();
 
 	return (
 		<ApplyFilters
