@@ -37,6 +37,7 @@
 		"lodash": "4.17.21",
 		"react-colorful": "^5.5.1",
 		"react-select": "^5.7.3",
+		"react-use": "^17.5.1",
 		"request": "^2.88.2",
 		"use-debounce": "^7.0.1",
 		"use-local-storage-state": "^16.0.0",
