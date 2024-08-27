@@ -43,6 +43,10 @@
     "mediaId": {
       "type": "number",
       "default": 0
+    },
+    "linkHtmlAttributes": {
+      "type": "object",
+      "default": {}
     }
   },
   "supports": {
