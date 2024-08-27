@@ -12,7 +12,7 @@ registerBlockType( 'generateblocks/query-loop', {
 	title: __( 'Query Loop', 'generateblocks' ),
 	description: __( 'Build a list of posts from any post type using advanced query parameters.', 'generateblocks' ),
 	icon: getIcon( 'query-loop' ),
-	category: 'generateblocks',
+	category: 'generateblocks-legacy',
 	keywords: [
 		__( 'query' ),
 		__( 'loop' ),
@@ -22,6 +22,7 @@ registerBlockType( 'generateblocks/query-loop', {
 	supports: {
 		className: false,
 		customClassName: false,
+		inserter: generateBlocksInfo.shouldShowLegacyBlocks,
 	},
 	providesContext: {
 		'generateblocks/query': 'query',
