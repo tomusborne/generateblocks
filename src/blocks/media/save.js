@@ -11,6 +11,7 @@ export function Save( props ) {
 		uniqueId,
 		htmlAttributes = {},
 		globalClasses = [],
+		linkHtmlAttributes,
 	} = props.attributes;
 
 	const classNames = [];
@@ -34,6 +35,14 @@ export function Save( props ) {
 	);
 
 	return (
-		<Tag { ...useInnerBlocksProps.save( blockProps ) } />
+		<>
+			{ !! linkHtmlAttributes.href ? (
+				<a { ...linkHtmlAttributes }>
+					<Tag { ...useInnerBlocksProps.save( blockProps ) } />
+				</a>
+			) : (
+				<Tag { ...useInnerBlocksProps.save( blockProps ) } />
+			) }
+		</>
 	);
 }

@@ -32,6 +32,7 @@ function EditBlock( props ) {
 		uniqueId,
 		htmlAttributes = {},
 		globalClasses = [],
+		linkHtmlAttributes = {},
 	} = attributes;
 
 	const [ temporaryURL, setTemporaryURL ] = useState();
@@ -176,6 +177,7 @@ function EditBlock( props ) {
 						onSelectURL={ onSelectURL }
 						onResetImage={ onResetImage }
 						onUploadError={ onUploadError }
+						linkHtmlAttributes={ linkHtmlAttributes }
 					/>
 				) : (
 					<TagName { ...elementAttributes } />
