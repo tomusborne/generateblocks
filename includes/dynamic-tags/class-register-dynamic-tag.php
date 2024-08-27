@@ -75,47 +75,6 @@ class GenerateBlocks_Register_Dynamic_Tag {
 	}
 
 	/**
-	 * Check if we should remove the entire block based on the tag replacement.
-	 *
-	 * @param string $content The content.
-	 * @param string $full_tag The full tag.
-	 * @param mixed  $replacement The replacement.
-	 * @return bool
-	 */
-	public static function should_remove_block( $content, $full_tag, $replacement ) {
-		if ( $replacement ) {
-			return false;
-		}
-
-		// Remove image blocks if they have no src.
-		if ( generateblocks_str_contains( $full_tag, '{featured_image_url' ) ) {
-			$p = new WP_HTML_Tag_Processor( $content );
-
-			if ( $p->next_tag(
-				[
-					'tag_name'   => 'img',
-				]
-			) ) {
-				$src = $p->get_attribute( 'src' );
-
-				if ( generateblocks_str_contains( $src, '{featured_image_url' ) ) {
-					return true;
-				}
-			}
-		}
-
-		if ( generateblocks_str_contains( $full_tag, '{previous_posts_page_url' ) ) {
-			return true;
-		}
-
-		if ( generateblocks_str_contains( $full_tag, '{next_posts_page_url' ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Replace tags.
 	 *
 	 * @param string $content The content.
@@ -137,7 +96,10 @@ class GenerateBlocks_Register_Dynamic_Tag {
 				$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
 				$replacement = $data['return']( [], $block, $instance );
 
-				if ( self::should_remove_block( $content, $full_tag, $replacement ) ) {
+				if ( ! $replacement ) {
+					// If we have no replacement, don't output the block.
+					// There's an option to output the block even if there's no replacement within
+					// the next condition.
 					$content = '';
 					continue;
 				}
@@ -171,13 +133,14 @@ class GenerateBlocks_Register_Dynamic_Tag {
 				preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
 
 				foreach ( $matches as $match ) {
-					$full_tag = $match[0];
-					$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
-					$options_string = $match[2] ?? '';
-					$options = self::parse_options( $options_string, $tag_name );
-					$replacement = $data['return']( $options, $block, $instance );
+					$full_tag         = $match[0];
+					$full_tag         = self::maybe_prepend_protocol( $content, $full_tag );
+					$options_string   = $match[2] ?? '';
+					$options          = self::parse_options( $options_string, $tag_name );
+					$replacement      = $data['return']( $options, $block, $instance );
+					$render_if_empty  = $options['renderIfEmpty'] ?? false;
 
-					if ( self::should_remove_block( $content, $full_tag, $replacement ) ) {
+					if ( ! $replacement && ! $render_if_empty ) {
 						$content = '';
 						continue;
 					}
