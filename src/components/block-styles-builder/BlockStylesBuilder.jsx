@@ -1,7 +1,7 @@
 import { StylesBuilder } from '@edge22/styles-builder';
+import { defaultAtRules } from '@edge22/block-styles';
 
 import { useBlockStyles } from '@hooks/useBlockStyles';
-import { defaultAtRules } from '@utils/defaultAtRules';
 
 export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyleChange } ) {
 	const {

@@ -1,8 +1,7 @@
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useDeviceType, getPreviewDevice } from '@edge22/block-styles';
+import { useDeviceType, getPreviewDevice, useCurrentAtRule } from '@edge22/block-styles';
 
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore } from '../store/block-styles';
-import { useCurrentAtRule } from './useCurrentAtRule';
 
 export function useBlockStyles() {
 	const { getStyles } = useSelect( stylesStore );
