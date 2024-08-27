@@ -15,6 +15,7 @@ import {
 	gridColumnLayouts as layouts,
 	DividerModal,
 } from '@components/index.js';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export const containerColorControls = [
 	{
@@ -95,7 +96,6 @@ export const linkElementColorControls = [
 export function BlockSettings( {
 	getStyleValue,
 	onStyleChange,
-	currentAtRule,
 	name,
 	attributes,
 	setAttributes,
@@ -113,6 +113,9 @@ export function BlockSettings( {
 		removeBlock,
 	} = useDispatch( blockEditorStore );
 	const { getBlock } = useSelect( ( select ) => select( blockEditorStore ), [] );
+	const {
+		currentAtRule,
+	} = useBlockStyles();
 
 	return (
 		<ApplyFilters

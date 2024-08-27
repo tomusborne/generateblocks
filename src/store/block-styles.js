@@ -14,12 +14,6 @@ import {
 	atRuleReducer,
 } from '@edge22/styles-builder';
 
-import {
-	settingTabsActions,
-	settingTabsSelectors,
-	settingTabsReducer,
-} from '@edge22/block-styles';
-
 export const currentStyleStore = createReduxStore(
 	'gb-block-styles-current-style',
 	{
@@ -53,14 +47,5 @@ export const stylesStore = createReduxStore(
 		reducer: styleReducer,
 		actions: styleActions,
 		selectors: styleSelectors,
-	}
-);
-
-export const tabsStore = createReduxStore(
-	'gb-block-setting-tabs',
-	{
-		reducer: settingTabsReducer,
-		actions: settingTabsActions,
-		selectors: settingTabsSelectors,
 	}
 );

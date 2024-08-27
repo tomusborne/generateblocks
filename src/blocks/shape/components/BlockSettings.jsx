@@ -9,6 +9,7 @@ import {
 	UnitControl,
 	HtmlAttributes,
 } from '@components/index.js';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export const shapeColorControls = [
 	{
@@ -27,7 +28,6 @@ export const shapeColorControls = [
 export function BlockSettings( {
 	getStyleValue,
 	onStyleChange,
-	currentAtRule,
 	name,
 	attributes,
 	setAttributes,
@@ -36,6 +36,10 @@ export function BlockSettings( {
 		htmlAttributes,
 		html,
 	} = attributes;
+
+	const {
+		currentAtRule,
+	} = useBlockStyles();
 
 	return (
 		<ApplyFilters
