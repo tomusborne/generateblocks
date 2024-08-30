@@ -1,4 +1,5 @@
 import { useSelect, useDispatch } from '@wordpress/data';
+import { applyFilters } from '@wordpress/hooks';
 import { useDeviceType, getPreviewDevice, useCurrentAtRule } from '@edge22/block-styles';
 
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore } from '../store/block-styles';
@@ -16,6 +17,11 @@ export function useBlockStyles() {
 	const currentStyle = useSelect( ( select ) => select( currentStyleStore ).currentStyle() );
 	const { deviceType, setDeviceType } = useDeviceType();
 
+	const setGlobalStyle = applyFilters( 'generateblocks.useBlockStyles.setGlobalStyle', () => {} );
+	const cancelEditGlobalStyle = applyFilters( 'generateblocks.useBlockStyles.cancelEditGlobalStyle', () => {} );
+
+	console.log( { setGlobalStyle, cancelEditGlobalStyle } );
+
 	return {
 		setStyles,
 		getStyles,
@@ -32,5 +38,7 @@ export function useBlockStyles() {
 		setCurrentStyle,
 		currentStyle,
 		getPreviewDevice,
+		setGlobalStyle,
+		cancelEditGlobalStyle,
 	};
 }

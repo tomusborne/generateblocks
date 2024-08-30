@@ -1,6 +1,5 @@
 import { StylesBuilder, SEARCH_STORAGE_KEY } from '@edge22/styles-builder';
-import { defaultAtRules } from '@edge22/block-styles';
-
+import { defaultAtRules, TABS_STORAGE_KEY } from '@edge22/block-styles';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyleChange } ) {
@@ -15,6 +14,8 @@ export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyl
 		getPreviewDevice,
 		updateKey,
 		deviceType,
+		setGlobalStyle,
+		cancelEditGlobalStyle,
 	} = useBlockStyles();
 
 	const defaultSearch = sessionStorage.getItem( SEARCH_STORAGE_KEY ?? 'gbp-styles-builder-search' ) ?? '';
@@ -48,6 +49,11 @@ export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyl
 			selectorShortcuts={ shortcuts.selectorShortcuts }
 			visibleSelectors={ shortcuts.visibleShortcuts }
 			defaultSearch={ defaultSearch }
+			onEditStyle={ setGlobalStyle }
+			cancelEditStyle={ cancelEditGlobalStyle }
+			setLocalTab={ ( tab ) => {
+				sessionStorage.setItem( TABS_STORAGE_KEY, tab );
+			} }
 		/>
 	);
 }
