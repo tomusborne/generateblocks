@@ -1,4 +1,4 @@
-import { StylesBuilder } from '@edge22/styles-builder';
+import { StylesBuilder, SEARCH_STORAGE_KEY } from '@edge22/styles-builder';
 import { defaultAtRules } from '@edge22/block-styles';
 
 import { useBlockStyles } from '@hooks/useBlockStyles';
@@ -16,6 +16,8 @@ export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyl
 		updateKey,
 		deviceType,
 	} = useBlockStyles();
+
+	const defaultSearch = sessionStorage.getItem( SEARCH_STORAGE_KEY ?? 'gbp-styles-builder-search' ) ?? '';
 
 	return (
 		<StylesBuilder
@@ -45,6 +47,7 @@ export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyl
 			defaultAtRules={ defaultAtRules }
 			selectorShortcuts={ shortcuts.selectorShortcuts }
 			visibleSelectors={ shortcuts.visibleShortcuts }
+			defaultSearch={ defaultSearch }
 		/>
 	);
 }
