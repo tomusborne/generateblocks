@@ -277,14 +277,6 @@ function generateblocks_do_category( $categories ) {
 	array_unshift(
 		$categories,
 		[
-			'slug'  => 'generateblocks-legacy',
-			'title' => __( 'GenerateBlocks Legacy', 'generateblocks' ),
-		]
-	);
-
-	array_unshift(
-		$categories,
-		[
 			'slug'  => 'generateblocks',
 			'title' => __( 'GenerateBlocks', 'generateblocks' ),
 		]
