@@ -42,7 +42,7 @@ registerBlockType( 'generateblocks/headline', {
 	title: __( 'Headline', 'generateblocks' ),
 	description: __( 'Craft text-rich content with advanced typography.', 'generateblocks' ),
 	icon: getIcon( 'headline' ),
-	category: 'generateblocks-legacy',
+	category: 'generateblocks',
 	keywords: [
 		__( 'heading' ),
 		__( 'headline' ),
@@ -52,7 +52,6 @@ registerBlockType( 'generateblocks/headline', {
 	attributes,
 	supports: {
 		className: false,
-		inserter: generateBlocksInfo.shouldShowLegacyBlocks,
 	},
 	edit: editHeadline,
 	save: saveHeadline,

@@ -91,7 +91,6 @@ function generateblocks_do_block_editor_assets() {
 			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
-			'shouldShowLegacyBlocks' => generateblocks_should_show_legacy_blocks(),
 		)
 	);
 
@@ -249,6 +248,14 @@ function generateblocks_do_block_editor_assets() {
 		$editor_assets['dependencies'],
 		$editor_assets['version'],
 		true
+	);
+
+	wp_localize_script(
+		'generateblocks-editor',
+		'generateBlocksEditor',
+		[
+			'activeBlockVersion' => generateblocks_get_active_block_version(),
+		]
 	);
 
 	wp_enqueue_style(
