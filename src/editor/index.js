@@ -1,3 +1,3 @@
 import './stores.js';
-import './disable-legacy-blocks.js';
+import './disable-blocks.js';
 import './editor.scss';

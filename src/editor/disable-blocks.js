@@ -9,7 +9,7 @@ const v1Blocks = [
 	'generateblocks/query-loop',
 ];
 
-function disableLegacyBlocks( settings, name ) {
+function disableBlocks( settings, name ) {
 	const activeBlockVersion = parseInt( generateBlocksEditor.activeBlockVersion );
 
 	// Disable our version 1 blocks.
@@ -46,6 +46,6 @@ function disableLegacyBlocks( settings, name ) {
 
 addFilter(
 	'blocks.registerBlockType',
-	'generateblocks/disableLegacyBlocks',
-	disableLegacyBlocks,
+	'generateblocks/disableBlocks',
+	disableBlocks,
 );
