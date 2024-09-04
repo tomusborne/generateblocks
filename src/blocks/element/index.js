@@ -13,7 +13,7 @@ export const Test = 'bazinga';
 registerBlockType( metadata, {
 	edit: Edit,
 	save: Save,
-	icon: getIcon( 'element' ),
+	icon: getIcon( 'container' ),
 } );
 
 registerBlockVariation(
