@@ -33,7 +33,7 @@ registerBlockType( 'generateblocks/button-container', {
 	title: __( 'Buttons', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	icon: getIcon( 'button-container' ),
-	category: 'generateblocks-legacy',
+	category: 'generateblocks',
 	keywords: [
 		__( 'button' ),
 		__( 'buttons' ),

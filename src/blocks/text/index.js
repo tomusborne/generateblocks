@@ -28,6 +28,20 @@ registerBlockType( metadata, {
 registerBlockVariation(
 	'generateblocks/text',
 	{
+		name: 'generateblocks/heading',
+		title: 'Headline',
+		description: __( 'A heading text element.', 'generateblocks' ),
+		icon: headingIcon,
+		attributes: {
+			tagName: 'h2',
+		},
+		isActive: ( blockAttributes ) => 'heading' === getElementType( blockAttributes.tagName ),
+	},
+);
+
+registerBlockVariation(
+	'generateblocks/text',
+	{
 		name: 'generateblocks/button',
 		title: 'Button',
 		description: __( 'An interactive button element.', 'generateblocks' ),
@@ -51,21 +65,6 @@ registerBlockVariation(
 			},
 		},
 		isActive: ( blockAttributes ) => 'button' === getElementType( blockAttributes.tagName ),
-	},
-);
-
-registerBlockVariation(
-	'generateblocks/text',
-	{
-		name: 'generateblocks/heading',
-		title: 'Heading',
-		description: __( 'A heading text element.', 'generateblocks' ),
-		icon: headingIcon,
-		attributes: {
-			tagName: 'h2',
-		},
-		isActive: ( blockAttributes ) => 'heading' === getElementType( blockAttributes.tagName ),
-		scope: [ 'block' ],
 	},
 );
 

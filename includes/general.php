@@ -91,7 +91,6 @@ function generateblocks_do_block_editor_assets() {
 			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
-			'shouldShowLegacyBlocks' => generateblocks_should_show_legacy_blocks(),
 		)
 	);
 
@@ -251,6 +250,14 @@ function generateblocks_do_block_editor_assets() {
 		true
 	);
 
+	wp_localize_script(
+		'generateblocks-editor',
+		'generateBlocksEditor',
+		[
+			'activeBlockVersion' => generateblocks_get_active_block_version(),
+		]
+	);
+
 	wp_enqueue_style(
 		'generateblocks-editor',
 		GENERATEBLOCKS_DIR_URL . 'dist/editor.css',
@@ -267,14 +274,6 @@ add_filter( 'block_categories_all', 'generateblocks_do_category' );
  * @since 0.1
  */
 function generateblocks_do_category( $categories ) {
-	array_unshift(
-		$categories,
-		[
-			'slug'  => 'generateblocks-legacy',
-			'title' => __( 'GenerateBlocks Legacy', 'generateblocks' ),
-		]
-	);
-
 	array_unshift(
 		$categories,
 		[
