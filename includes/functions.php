@@ -2001,19 +2001,25 @@ function generateblocks_str_starts_with( $string, $prefix ) {
  * @since 2.0.0
  * @return bool
  */
-function generateblocks_should_show_legacy_blocks() {
-	$show_legacy_blocks = false;
+function generateblocks_get_active_block_version() {
+	$block_version = 2;
 
 	if (
 		defined( 'GENERATEBLOCKS_PRO_VERSION' )
 		&& version_compare( GENERATEBLOCKS_PRO_VERSION, '1.8.0-alpha.1', '<' )
 	) {
-		$show_legacy_blocks = true;
+		$block_version = 1;
+	}
+
+	$legacy_global_styles = get_option( 'generateblocks_global_styles', [] );
+
+	if ( ! empty( $legacy_global_styles ) ) {
+		$block_version = 1;
 	}
 
 	return apply_filters(
-		'generateblocks_show_legacy_blocks',
-		$show_legacy_blocks
+		'generateblocks_active_block_version',
+		(int) $block_version
 	);
 }
 

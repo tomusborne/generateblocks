@@ -11,7 +11,8 @@
 		"generateBlocksSettings": "readonly",
 		"generateBlocksLegacyDefaults": "readonly",
 		"generateBlocksPatternLibrary": "readonly",
-		"generateblocksBlockMedia": "readonly"
+		"generateblocksBlockMedia": "readonly",
+		"generateBlocksEditor": "readonly"
 	},
 	"env": {
 	  "browser": true,
