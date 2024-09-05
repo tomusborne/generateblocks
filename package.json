@@ -24,7 +24,7 @@
 		"@dnd-kit/utilities": "^3.2.2",
 		"@edge22/block-styles": "^1.1.16",
 		"@edge22/components": "^1.1.2",
-		"@edge22/styles-builder": "^1.1.14",
+		"@edge22/styles-builder": "^1.1.15",
 		"@wordpress/block-editor": "^12.12.0",
 		"@wordpress/blocks": "^12.21.0",
 		"@wordpress/components": "^25.10.0",

@@ -20,8 +20,6 @@ export function useBlockStyles() {
 	const setGlobalStyle = applyFilters( 'generateblocks.useBlockStyles.setGlobalStyle', () => {} );
 	const cancelEditGlobalStyle = applyFilters( 'generateblocks.useBlockStyles.cancelEditGlobalStyle', () => {} );
 
-	console.log( { setGlobalStyle, cancelEditGlobalStyle } );
-
 	return {
 		setStyles,
 		getStyles,

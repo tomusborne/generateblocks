@@ -18,7 +18,7 @@ export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyl
 		cancelEditGlobalStyle,
 	} = useBlockStyles();
 
-	const defaultSearch = sessionStorage.getItem( SEARCH_STORAGE_KEY ?? 'gbp-styles-builder-search' ) ?? '';
+	const defaultSearch = SEARCH_STORAGE_KEY ? sessionStorage.getItem( SEARCH_STORAGE_KEY ) : '';
 
 	return (
 		<StylesBuilder
