@@ -547,7 +547,7 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
 	$blocks_to_reset = [
-		'.wp-block-generateblocks-text:not(h1, h2, h3, h4, h5, h6)',
+		'.wp-block-generateblocks-text:not(h1, h2, h3, h4, h5, h6, p)',
 		'.wp-block-generateblocks-element',
 		'.wp-block-generateblocks-shape',
 		'.wp-block-generateblocks-media',
@@ -560,7 +560,7 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 	];
 
 	$heading_blocks_to_reset = [
-		'.wp-block-generateblocks-text:is(h1, h2, h3, h4, h5, h6)',
+		'.wp-block-generateblocks-text:is(h1, h2, h3, h4, h5, h6, p)',
 	];
 
 	$css  = implode( ',', $blocks_to_reset ) . '{max-width:unset;margin:0;}';

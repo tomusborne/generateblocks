@@ -25,7 +25,7 @@ export function IconControl( { value, onChange, onClear, attributes } ) {
 
 				<div className="gb-icon-control__preview">
 					{ !! value && (
-						<span style={ { lineHeight: '0' } } dangerouslySetInnerHTML={ { __html: value } } />
+						<span dangerouslySetInnerHTML={ { __html: value } } />
 					) }
 
 					{ !! value && (
