@@ -211,6 +211,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$post_id      = $request->get_param( 'id' );
 		$replacements = [];
 
+		$all_tags  = GenerateBlocks_Register_Dynamic_Tag::get_tags();
+		$tags_list = [];
+
+		foreach ( $all_tags as $tag => $data ) {
+			$tags_list[] = $data['tag'];
+		}
+
 		// Match the content inside the curly brackets.
 		preg_match_all( '/\{(.*?)\}/', $content, $matches );
 
@@ -220,6 +227,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			// Loop through our tags and add the `id` option if it doesn't exist.
 			// We need to do this to ensure the dynamic tag is replaced correctly.
 			foreach ( (array) $inside_brackets as $tag ) {
+				$split_tag = preg_split( '/[\s|]/', $tag, 2 );
+				$tag_name  = $split_tag[0];
+
+				if ( ! in_array( $tag_name, $tags_list, true ) ) {
+					continue;
+				}
+
 				if ( ! generateblocks_str_contains( $tag, ' ' ) ) {
 					// There are no spaces in the tag, so there are no options.
 					$content = str_replace( $tag, "{$tag} id:{$post_id}", $tag );
