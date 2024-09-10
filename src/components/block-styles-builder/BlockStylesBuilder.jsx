@@ -1,4 +1,6 @@
-import { StylesBuilder, SEARCH_STORAGE_KEY } from '@edge22/styles-builder';
+import { applyFilters } from '@wordpress/hooks';
+
+import { StylesBuilder } from '@edge22/styles-builder';
 import { defaultAtRules, TABS_STORAGE_KEY } from '@edge22/block-styles';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -18,7 +20,7 @@ export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyl
 		cancelEditGlobalStyle,
 	} = useBlockStyles();
 
-	const defaultSearch = SEARCH_STORAGE_KEY ? sessionStorage.getItem( SEARCH_STORAGE_KEY ) : '';
+	const defaultSearch = applyFilters( 'generateblocks/local-styles/default-search', '' );
 
 	return (
 		<StylesBuilder
@@ -48,12 +50,12 @@ export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyl
 			defaultAtRules={ defaultAtRules }
 			selectorShortcuts={ shortcuts.selectorShortcuts }
 			visibleSelectors={ shortcuts.visibleShortcuts }
-			defaultSearch={ defaultSearch }
 			onEditStyle={ setGlobalStyle }
 			cancelEditStyle={ cancelEditGlobalStyle }
 			setLocalTab={ ( tab ) => {
 				sessionStorage.setItem( TABS_STORAGE_KEY, tab );
 			} }
+			defaultSearch={ defaultSearch }
 		/>
 	);
 }
