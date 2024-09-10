@@ -22,12 +22,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @param array  $options The options.
 	 */
 	private static function with_link( $output, $options ) {
-		if ( empty( $options['linkTo'] ) ) {
+		if ( empty( $options['link'] ) ) {
 			return $output;
 		}
 
 		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$link_to = $options['linkTo'];
+		$link_to = $options['link'];
 		$link    = '';
 
 		if ( 'post' === $link_to ) {
@@ -166,7 +166,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 */
 	public static function get_post_meta( $options ) {
 		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$meta   = get_post_meta( $id, $options['metaKey'], true );
+		$meta   = get_post_meta( $id, $options['key'], true );
 		$output = '';
 
 		if ( ! $meta ) {
@@ -307,7 +307,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	public static function get_author_meta( $options ) {
 		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$user_id = get_post_field( 'post_author', $id );
-		$key     = $options['metaKey'] ?? '';
+		$key     = $options['key'] ?? '';
 		$output  = '';
 
 		if ( ! $user_id || ! $key ) {

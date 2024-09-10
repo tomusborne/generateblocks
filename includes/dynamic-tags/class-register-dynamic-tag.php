@@ -57,7 +57,12 @@ class GenerateBlocks_Register_Dynamic_Tag {
 		}
 
 		foreach ( $pairs as $pair ) {
-			list( $key, $value ) = explode( '=', $pair );
+			if ( generateblocks_str_contains( $pair, ':' ) ) {
+				list( $key, $value ) = explode( ':', $pair, 2 );
+			} else {
+				$key = $pair;
+				$value = true; // Default value if no colon is present.
+			}
 
 			$result[ $key ] = $value;
 		}

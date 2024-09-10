@@ -8,7 +8,7 @@ import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
 
 function parseTag( tagString ) {
-	const regex = /\{([\w_]+)(?:\s+(\w+(?:=(?:[^|]+))?(?:\|[\w_]+(?:=(?:[^|]+))?)*))?\}/;
+	const regex = /\{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}/;
 	const match = tagString.match( regex );
 
 	if ( ! match ) {
@@ -20,7 +20,7 @@ function parseTag( tagString ) {
 
 	if ( paramsString ) {
 		paramsString.split( '|' ).forEach( ( param ) => {
-			const [ key, value ] = param.split( '=' );
+			const [ key, value ] = param.split( ':' );
 			params[ key ] = value || true;
 		} );
 	}
@@ -74,13 +74,13 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 
 		const params = parsedTag?.params;
 
-		if ( params?.postId ) {
+		if ( params?.id ) {
 			setDynamicSource( 'post' );
-			setPostIdSource( parseInt( params.postId ) );
+			setPostIdSource( parseInt( params.id ) );
 		}
 
-		if ( params?.metaKey ) {
-			setMetaKey( params.metaKey );
+		if ( params?.key ) {
+			setMetaKey( params.key );
 		}
 
 		if ( 'comments_count' === tag ) {
@@ -101,8 +101,8 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 			setCommentsCountText( existingCommentsCountText );
 		}
 
-		if ( params?.linkTo ) {
-			setLinkTo( params.linkTo );
+		if ( params?.link ) {
+			setLinkTo( params.link );
 		}
 
 		if ( params?.renderIfEmpty ) {
@@ -143,28 +143,28 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 		const options = [];
 
 		if ( postIdSource ) {
-			options.push( `postId=${ postIdSource }` );
+			options.push( `id:${ postIdSource }` );
 		}
 
 		const isMetaTag = dynamicTag.startsWith( 'post_meta' ) ||
             dynamicTag.startsWith( 'author_meta' );
 
 		if ( isMetaTag && metaKey ) {
-			options.push( `metaKey=${ metaKey }` );
+			options.push( `key:${ metaKey }` );
 		}
 
 		if ( dynamicTag.startsWith( 'comments_count' ) ) {
-			options.push( `none=${ commentsCountText.none }` );
-			options.push( `one=${ commentsCountText.one }` );
-			options.push( `multiple=${ commentsCountText.multiple }` );
+			options.push( `none:${ commentsCountText.none }` );
+			options.push( `one:${ commentsCountText.one }` );
+			options.push( `multiple:${ commentsCountText.multiple }` );
 		}
 
 		if ( linkTo ) {
-			options.push( `linkTo=${ linkTo }` );
+			options.push( `link:${ linkTo }` );
 		}
 
 		if ( renderIfEmpty ) {
-			options.push( 'renderIfEmpty=true' );
+			options.push( 'renderIfEmpty' );
 		}
 
 		const tagOptions = options.join( '|' );
@@ -192,6 +192,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 				value={ dynamicTag }
 				options={ dynamicTagOptions }
 				onChange={ ( value ) => setDynamicTag( value ) }
+				className="gb-dynamic-tag-select"
 			/>
 
 			{ !! dynamicTag && (
@@ -273,6 +274,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 
 					<CheckboxControl
 						label={ __( 'Render block if empty', 'generateblocks' ) }
+						className="gb-dynamic-tag-select__render-if-empty"
 						checked={ !! renderIfEmpty }
 						onChange={ ( value ) => setRenderIfEmpty( value ) }
 						help={ __( 'Render the block even if this dynamic tag has no value.', 'generateblocks' ) }

@@ -1,15 +1,4 @@
-.gb-dynamic-tag-content {
-	.components-popover__content {
-		width: 300px;
-	}
-}
-
 .gb-dynamic-tag-modal {
-	.components-modal__content {
-		width: 400px;
-		height: 400px;
-	}
-
 	&__content {
 		display: flex;
 		flex-direction: column;
@@ -17,6 +6,29 @@
 
 		.components-button {
 			align-self: flex-start;
+		}
+	}
+
+	.components-base-control__help {
+		margin-bottom: 0;
+	}
+
+	.gb-dynamic-tag-select__render-if-empty > * {
+		margin: 0;
+	}
+
+	.components-combobox-control__suggestions-container {
+		position: relative;
+
+		.components-form-token-field__suggestions-list {
+			position: absolute;
+			max-height: 300px;
+			background: #fff;
+			top: calc(100% + 5px);
+			border: 1px solid currentColor;
+			z-index: 1;
+			box-shadow: 0 0 0;
+			border-radius: 3px;
 		}
 	}
 }
