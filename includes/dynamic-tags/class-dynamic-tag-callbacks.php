@@ -370,4 +370,41 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		return self::output( $output, $options );
 	}
+
+
+	/**
+	 * Get the current year.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_current_year( $options ) {
+		$output = wp_date( 'Y' );
+
+		return self::output( $output, $options );
+	}
+
+	/**
+	 * Get the site title from settings.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_site_title( $options ) {
+		$output = get_option( 'blogname' );
+
+		return self::output( $output, $options );
+	}
+
+	/**
+	 * Get the site tagline from settings.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_site_tagline( $options ) {
+		$output = get_option( 'blogdescription' );
+
+		return self::output( $output, $options );
+	}
 }
