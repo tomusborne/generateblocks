@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 2.0.0
  */
 class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
+
+	const DATE_FORMAT_KEY = 'dateFormat';
+
 	/**
 	 * Wrap a link around the output.
 	 *
@@ -50,13 +53,71 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Truncate the output by character length.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_trunc( $output, $options ) {
+		if ( empty( $options['trunc'] ) ) {
+			return $output;
+		}
+
+		return substr( $output, 0, (int) $options['trunc'] );
+	}
+
+	/**
+	 * Remove leading and trailing whitespace from the output.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_trim( $output, $options ) {
+		if ( empty( $options['trim'] ) ) {
+			return $output;
+		}
+
+		return trim( $output );
+	}
+
+	/**
+	 * Transform the case of the output.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_case( $output, $options ) {
+		if ( empty( $options['case'] ) ) {
+			return $output;
+		}
+
+		switch ( $options['case'] ) {
+			case 'lower':
+				return strtolower( $output );
+			case 'upper':
+				return strtoupper( $output );
+			case 'title':
+				return ucwords( $output );
+			default:
+				return $output;
+		}
+	}
+
+
+	/**
 	 * Output the dynamic tag.
 	 *
 	 * @param string $output The output.
 	 * @param array  $options The options.
 	 */
 	private static function output( $output, $options ) {
+		$output = self::with_trunc( $output, $options );
+		$output = self::with_trim( $output, $options );
+		$output = self::with_case( $output, $options );
+
+		// Any wrapping output filters should go after direct string transformations.
 		$output = self::with_link( $output, $options );
+
 		$output = apply_filters( 'generateblocks_dynamic_tag_output', $output, $options );
 
 		return $output;
@@ -95,8 +156,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_published_date( $options ) {
+		$format = $options[ self::DATE_FORMAT_KEY ] ?? '';
 		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$output = get_the_date( '', $id );
+		$output = get_the_date( $format, $id );
 
 		return self::output( $output, $options );
 	}
@@ -108,8 +170,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_modified_date( $options ) {
+		$format = $options[ self::DATE_FORMAT_KEY ] ?? '';
 		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$output = get_the_modified_date( '', $id );
+		$output = get_the_modified_date( $format, $id );
 
 		return self::output( $output, $options );
 	}
