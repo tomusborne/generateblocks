@@ -49,7 +49,7 @@ export function withDynamicTag( WrappedComponent ) {
 							'/generateblocks/v1/dynamic-tag-replacements?content=',
 							{
 								content: encodeURIComponent( contentValue ),
-								postId: context?.postId,
+								id: context?.postId,
 							},
 						),
 						method: 'GET',
