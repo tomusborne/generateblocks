@@ -77,7 +77,15 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return $output;
 		}
 
-		return trim( $output );
+		switch ( $options['trim'] ) {
+			case 'left':
+				return ltrim( $output );
+			case 'right':
+				return rtrim( $output );
+			default:
+				return trim( $output );       }
+
+		return $output;
 	}
 
 	/**
@@ -103,6 +111,42 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		}
 	}
 
+	/**
+	 * Transform the case of the output.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_replace( $output, $options ) {
+		if ( empty( $options['replace'] ) ) {
+			return $output;
+		}
+
+		$replace_parts = explode( ',', $options['replace'] );
+		if ( count( $replace_parts ) !== 2 ) {
+			return $output;
+		}
+
+		$search = $replace_parts[0] ?? '';
+		$replace = $replace_parts[1] ?? '';
+
+		return str_replace( $search, $replace, $output );
+	}
+
+	/**
+	 * Transform the case of the output.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_wpautop( $output, $options ) {
+		if ( empty( $options['wpautop'] ) ) {
+			return $output;
+		}
+
+		return wpautop( $output );
+	}
+
 
 	/**
 	 * Output the dynamic tag.
@@ -111,11 +155,13 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @param array  $options The options.
 	 */
 	private static function output( $output, $options ) {
+		$output = self::with_replace( $output, $options );
 		$output = self::with_trunc( $output, $options );
 		$output = self::with_trim( $output, $options );
 		$output = self::with_case( $output, $options );
 
 		// Any wrapping output filters should go after direct string transformations.
+		$output = self::with_wpautop( $output, $options );
 		$output = self::with_link( $output, $options );
 
 		$output = apply_filters( 'generateblocks_dynamic_tag_output', $output, $options );
