@@ -14,6 +14,8 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 
+import clsx from 'clsx';
+
 function EditBlock( props ) {
 	const {
 		attributes,
@@ -67,10 +69,14 @@ function EditBlock( props ) {
 	const blockProps = useBlockProps();
 	const elementAttributes = {
 		className: classNames.join( ' ' ).trim(),
+		'data-block': clientId,
 		...combinedAttributes,
 	};
 
-	const innerBlocksProps = useInnerBlocksProps( blockProps );
+	const innerBlocksProps = useInnerBlocksProps( {
+		...blockProps,
+		className: clsx( blockProps.className, 'gb-is-root-block' ),
+	} );
 	const TagName = tagName || 'img';
 
 	function onSelectImage( image ) {
