@@ -136,6 +136,30 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_archive_url' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Current year', 'generateblocks' ),
+				'tag'    => 'current_year',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_current_year' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Site Title', 'generateblocks' ),
+				'tag'    => 'site_title',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_title' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Site Tagline', 'generateblocks' ),
+				'tag'    => 'site_tagline',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_tagline' ],
+			]
+		);
 	}
 
 	/**
