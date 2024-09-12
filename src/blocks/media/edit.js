@@ -1,9 +1,11 @@
-import { useBlockProps, useInnerBlocksProps, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { BlockStyles, withUniqueId } from '@edge22/block-styles';
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { isBlobURL, getBlobByURL, revokeBlobURL } from '@wordpress/blob';
+
+import { BlockStyles, withUniqueId } from '@edge22/block-styles';
+
+import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { useImageFunctions } from './hooks/useImageFunctions.js';
 import { Image } from './components/Image.jsx';
 import { withDynamicTag } from '../../hoc/withDynamicTag.js';
@@ -13,8 +15,6 @@ import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
-
-import clsx from 'clsx';
 
 function EditBlock( props ) {
 	const {
@@ -72,11 +72,6 @@ function EditBlock( props ) {
 		'data-block': clientId,
 		...combinedAttributes,
 	};
-
-	const innerBlocksProps = useInnerBlocksProps( {
-		...blockProps,
-		className: clsx( blockProps.className, 'gb-is-root-block' ),
-	} );
 	const TagName = tagName || 'img';
 
 	function onSelectImage( image ) {
@@ -225,7 +220,7 @@ function EditBlock( props ) {
 				clientId={ clientId }
 			>
 				{ !! shouldWrapBlock ? (
-					<div { ...innerBlocksProps }>
+					<div { ...blockProps } data-block-wrapper>
 						{ elementRender() }
 					</div>
 				) : (
