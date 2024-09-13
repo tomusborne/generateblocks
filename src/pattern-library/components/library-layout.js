@@ -2,6 +2,11 @@ import { Button } from '@wordpress/components';
 import { close, arrowLeft } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
+import { doAction } from '@wordpress/hooks';
+
+import classnames from 'classnames';
+
 import CategoryList from './category-list';
 import LibrarySelector from './library-selector';
 import { useLibrary } from './library-provider';
@@ -12,8 +17,6 @@ import { PatternDetailsHeader } from './pattern-details-header';
 import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
 import getIcon from '../../utils/get-icon';
-import { doAction } from '@wordpress/hooks';
-import classnames from 'classnames';
 
 const searchCache = {};
 
@@ -95,7 +98,7 @@ export default function LibraryLayout( { closeModal, readOnly } ) {
 				<div className="gb-pattern-library__header-title">
 					{ ! activePatternId
 						? <h1>{ getIcon( 'generateblocks' ) } { __( 'Pattern Library', 'generateblocks' ) }</h1>
-						: <h1>{ activePattern.label }</h1>
+						: <h1>{ decodeEntities( activePattern.label ) }</h1>
 					}
 				</div>
 
