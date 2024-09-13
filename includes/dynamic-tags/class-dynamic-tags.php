@@ -136,6 +136,30 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_archive_url' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Current year', 'generateblocks' ),
+				'tag'    => 'current_year',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_current_year' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Site Title', 'generateblocks' ),
+				'tag'    => 'site_title',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_title' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Site Tagline', 'generateblocks' ),
+				'tag'    => 'site_tagline',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_tagline' ],
+			]
+		);
 	}
 
 	/**
@@ -159,8 +183,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	public static function get_id( $options ) {
 		$id = get_the_ID();
 
-		if ( isset( $options['postId'] ) ) {
-			$id = absint( $options['postId'] );
+		if ( isset( $options['id'] ) ) {
+			$id = absint( $options['id'] );
 		}
 
 		return apply_filters(
@@ -208,8 +232,15 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public function get_dynamic_tag_replacements( $request ) {
 		$content      = urldecode( $request->get_param( 'content' ) );
-		$post_id      = $request->get_param( 'postId' );
+		$post_id      = $request->get_param( 'id' );
 		$replacements = [];
+
+		$all_tags  = GenerateBlocks_Register_Dynamic_Tag::get_tags();
+		$tags_list = [];
+
+		foreach ( $all_tags as $tag => $data ) {
+			$tags_list[] = $data['tag'];
+		}
 
 		// Match the content inside the curly brackets.
 		preg_match_all( '/\{(.*?)\}/', $content, $matches );
@@ -217,20 +248,27 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		if ( ! empty( $matches ) ) {
 			$inside_brackets = $matches[1];
 
-			// Loop through our tags and add the `postId` option if it doesn't exist.
+			// Loop through our tags and add the `id` option if it doesn't exist.
 			// We need to do this to ensure the dynamic tag is replaced correctly.
 			foreach ( (array) $inside_brackets as $tag ) {
+				$split_tag = preg_split( '/[\s|]/', $tag, 2 );
+				$tag_name  = $split_tag[0];
+
+				if ( ! in_array( $tag_name, $tags_list, true ) ) {
+					continue;
+				}
+
 				if ( ! generateblocks_str_contains( $tag, ' ' ) ) {
 					// There are no spaces in the tag, so there are no options.
-					$content = str_replace( $tag, "{$tag} postId={$post_id}", $tag );
+					$content = str_replace( $tag, "{$tag} id:{$post_id}", $tag );
 
 					$replacements[] = [
 						'original' => "{{$tag}}",
 						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], new stdClass() ),
 					];
-				} elseif ( ! generateblocks_str_contains( $tag, 'postId' ) ) {
-					// There are spaces in the tag, but no `postId` option.
-					$content = str_replace( $tag, "{$tag}|postId={$post_id}", $tag );
+				} elseif ( ! generateblocks_str_contains( $tag, 'id' ) ) {
+					// There are spaces in the tag, but no `id` option.
+					$content = str_replace( $tag, "{$tag}|id:{$post_id}", $tag );
 
 					$replacements[] = [
 						'original' => "{{$tag}}",
@@ -287,7 +325,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 				if ( $p->next_tag(
 					[
-						'tag_name'   => 'a',
+						'tag_name' => 'a',
 					]
 				) ) {
 					$p->set_attribute( 'data-gb-router-target', 'query-' . $query_id );

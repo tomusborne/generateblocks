@@ -12,6 +12,7 @@ export function Image( {
 	dynamicTagValue,
 	isSelected,
 	clientId,
+	linkHtmlAttributes,
 } ) {
 	const imageRef = useRef();
 	const [
@@ -67,38 +68,58 @@ export function Image( {
 	// This allows us to not render the surrounding `<div>` with the `blockProps`
 	// unless the image is selected.
 
+	/* eslint-disable jsx-a11y/anchor-is-valid */
+	// We disable the anchor in the editor only.
+
+	const image = (
+		<>
+			<img
+				width={ naturalWidth }
+				height={ naturalHeight }
+				{ ...elementAttributes }
+				src={ imageSrc }
+				ref={ imageRef }
+				onLoad={ ( event ) => {
+					setLoadedNaturalSize( {
+						loadedNaturalWidth: event.target?.naturalWidth,
+						loadedNaturalHeight: event.target?.naturalHeight,
+					} );
+				} }
+				onClick={ () => {
+					if ( isSelected ) {
+						return;
+					}
+
+					selectBlock( clientId );
+				} }
+				onKeyDown={ () => {
+					if ( isSelected ) {
+						return;
+					}
+
+					selectBlock( clientId );
+				} }
+				role={ ! isSelected ? 'button' : undefined }
+				tabIndex={ ! isSelected ? 0 : undefined }
+			/>
+		</>
+	);
+
 	return (
 		<>
 			{ ( !! temporaryURL || !! elementAttributes?.src ) ? (
-				<img
-					width={ naturalWidth }
-					height={ naturalHeight }
-					{ ...elementAttributes }
-					src={ imageSrc }
-					ref={ imageRef }
-					onLoad={ ( event ) => {
-						setLoadedNaturalSize( {
-							loadedNaturalWidth: event.target?.naturalWidth,
-							loadedNaturalHeight: event.target?.naturalHeight,
-						} );
-					} }
-					onClick={ () => {
-						if ( isSelected ) {
-							return;
-						}
-
-						selectBlock( clientId );
-					} }
-					onKeyDown={ () => {
-						if ( isSelected ) {
-							return;
-						}
-
-						selectBlock( clientId );
-					} }
-					role={ ! isSelected ? 'button' : undefined }
-					tabIndex={ ! isSelected ? 0 : undefined }
-				/>
+				<>
+					{ linkHtmlAttributes.href ? (
+						<a
+							{ ...linkHtmlAttributes }
+							href="#"
+						>
+							{ image }
+						</a>
+					) : (
+						image
+					) }
+				</>
 			) : (
 				<ImagePlaceholder
 					onSelectImage={ onSelectImage }
@@ -111,4 +132,5 @@ export function Image( {
 
 	/* eslint-enable jsx-a11y/alt-text */
 	/* eslint-enable jsx-a11y/no-noninteractive-element-interactions */
+	/* eslint-enable jsx-a11y/anchor-is-valid */
 }

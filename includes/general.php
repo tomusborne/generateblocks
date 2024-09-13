@@ -91,7 +91,6 @@ function generateblocks_do_block_editor_assets() {
 			'queryLoopEditorPostsCap' => apply_filters( 'generateblocks_query_loop_editor_posts_cap', 50 ),
 			'disableGoogleFonts' => generateblocks_get_option( 'disable_google_fonts' ),
 			'typographyFontFamilyList' => generateblocks_get_font_family_list(),
-			'shouldShowLegacyBlocks' => generateblocks_should_show_legacy_blocks(),
 		)
 	);
 
@@ -251,6 +250,14 @@ function generateblocks_do_block_editor_assets() {
 		true
 	);
 
+	wp_localize_script(
+		'generateblocks-editor',
+		'generateBlocksEditor',
+		[
+			'activeBlockVersion' => generateblocks_get_active_block_version(),
+		]
+	);
+
 	wp_enqueue_style(
 		'generateblocks-editor',
 		GENERATEBLOCKS_DIR_URL . 'dist/editor.css',
@@ -267,14 +274,6 @@ add_filter( 'block_categories_all', 'generateblocks_do_category' );
  * @since 0.1
  */
 function generateblocks_do_category( $categories ) {
-	array_unshift(
-		$categories,
-		[
-			'slug'  => 'generateblocks-legacy',
-			'title' => __( 'GenerateBlocks Legacy', 'generateblocks' ),
-		]
-	);
-
 	array_unshift(
 		$categories,
 		[
@@ -548,7 +547,7 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
 	$blocks_to_reset = [
-		'.wp-block-generateblocks-text',
+		'.wp-block-generateblocks-text:not(h1, h2, h3, h4, h5, h6, p)',
 		'.wp-block-generateblocks-element',
 		'.wp-block-generateblocks-shape',
 		'.wp-block-generateblocks-media',
@@ -560,7 +559,12 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 		'.wp-block-generateblocks-query-terms-list',
 	];
 
-	$css = implode( ',', $blocks_to_reset ) . '{max-width:unset;margin:0;}';
+	$heading_blocks_to_reset = [
+		'.wp-block-generateblocks-text:is(h1, h2, h3, h4, h5, h6, p)',
+	];
+
+	$css  = implode( ',', $blocks_to_reset ) . '{max-width:unset;margin:0;}';
+	$css .= implode( ',', $heading_blocks_to_reset ) . '{max-width:unset;margin-left:0;margin-right:0;}';
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
 	return $editor_settings;

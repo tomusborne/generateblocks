@@ -7,7 +7,7 @@ import { getIcon } from '@utils';
 registerBlockType( metadata, {
 	edit: Edit,
 	save: () => <InnerBlocks.Content />,
-	icon: getIcon( 'query' ),
+	icon: getIcon( 'query-loop' ),
 } );
 
 registerBlockVariation(

@@ -2,21 +2,17 @@ import { __ } from '@wordpress/i18n';
 import { RichText, useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Platform, useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { withUniqueId } from '../../hoc';
 import { withDynamicTag } from '../../hoc/withDynamicTag';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { BlockStyles, useUpdateEditorStyleCSS } from '@edge22/block-styles';
-import { getCss } from '@edge22/styles-builder';
-import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } from '../../store/block-styles';
-import { defaultAtRules } from '../../utils/defaultAtRules.js';
+import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
-import { useCurrentAtRule } from '../../hooks/useCurrentAtRule.js';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
+import { withStyles } from '@hoc/withStyles';
+import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
 
 function EditBlock( props ) {
 	const {
@@ -27,6 +23,8 @@ function EditBlock( props ) {
 		dynamicTagValue,
 		name,
 		clientId,
+		selector,
+		onStyleChange,
 	} = props;
 
 	const {
@@ -35,18 +33,12 @@ function EditBlock( props ) {
 		className,
 		uniqueId,
 		styles = {},
-		css,
 		htmlAttributes = [],
 		icon,
 		iconLocation,
 		globalClasses = [],
 		iconOnly,
 	} = attributes;
-
-	const { getStyles } = useSelect( stylesStore );
-	const { addStyle } = useDispatch( stylesStore );
-	const updateEditorCSS = useUpdateEditorStyleCSS();
-	const currentAtRule = useCurrentAtRule();
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -60,6 +52,10 @@ function EditBlock( props ) {
 		}
 
 		return dynamicTagValue.reduce( ( acc, { original, replacement } ) => {
+			if ( ! replacement ) {
+				return acc;
+			}
+
 			return acc.replaceAll( original, replacement );
 		}, content );
 	}, [ dynamicTagValue, content ] );
@@ -85,60 +81,6 @@ function EditBlock( props ) {
 
 		return classes;
 	}, [ className, styles, icon, uniqueId, globalClasses ] );
-
-	useEffect( () => {
-		if ( ! tagName ) {
-			setAttributes( { tagName: 'p' } );
-		}
-	}, [ tagName ] );
-
-	const selector = useMemo( () => {
-		if ( ! uniqueId ) {
-			return '';
-		}
-
-		return '.gb-text-' + uniqueId;
-	}, [ uniqueId ] );
-
-	function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
-		addStyle( property, value, atRuleValue, nestedRuleValue );
-
-		const updatedStyles = getStyles();
-		setAttributes( { styles: updatedStyles } );
-	}
-
-	function getStyleValue( property, atRuleValue = '', nestedRuleValue = '' ) {
-		if ( nestedRuleValue ) {
-			if ( atRuleValue ) {
-				return styles?.[ atRuleValue ]?.[ nestedRuleValue ]?.[ property ] ?? '';
-			}
-
-			return styles?.[ nestedRuleValue ]?.[ property ] ?? '';
-		} else if ( atRuleValue ) {
-			return styles?.[ atRuleValue ]?.[ property ] ?? '';
-		}
-
-		return styles?.[ property ] ?? '';
-	}
-
-	useEffect( () => {
-		if ( ! selector ) {
-			return;
-		}
-
-		( async function() {
-			const generateCss = await getCss( selector, styles );
-			setAttributes( { css: generateCss } );
-		}() );
-	}, [ JSON.stringify( styles ), selector ] );
-
-	useEffect( () => {
-		if ( ! selector ) {
-			return;
-		}
-
-		updateEditorCSS( selector, css );
-	}, [ css, selector ] );
 
 	const { style = '', href, ...otherAttributes } = htmlAttributes;
 	const inlineStyleObject = convertInlineStyleStringToObject( style );
@@ -220,25 +162,20 @@ function EditBlock( props ) {
 
 			<InspectorControls>
 				<BlockStyles
-					selector={ selector }
-					onStyleChange={ onStyleChange }
-					setAttributes={ setAttributes }
-					styles={ styles }
-					css={ css }
-					stores={ { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore, tabsStore } }
-					defaultAtRules={ defaultAtRules }
-					selectorShortcuts={ shortcuts.selectorShortcuts }
-					visibleSelectors={ shortcuts.visibleShortcuts }
-					scope="gb-block-styles-wrapper"
-					stylesBuilderScope="gb-styles-builder-wrapper"
-				>
-					<BlockSettings
-						{ ...props }
-						getStyleValue={ getStyleValue }
-						onStyleChange={ onStyleChange }
-						currentAtRule={ currentAtRule }
-					/>
-				</BlockStyles>
+					settingsTab={ (
+						<BlockSettings
+							{ ...props }
+						/>
+					) }
+					stylesTab={ (
+						<BlockStylesBuilder
+							selector={ selector }
+							setAttributes={ setAttributes }
+							shortcuts={ shortcuts }
+							onStyleChange={ onStyleChange }
+						/>
+					) }
+				/>
 			</InspectorControls>
 
 			<RootElement
@@ -273,6 +210,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withStyles,
 	withEmptyObjectFix,
 	withDynamicTag,
 	withUniqueId

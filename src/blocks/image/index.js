@@ -25,7 +25,7 @@ const attributes = Object.assign(
 registerBlockType( 'generateblocks/image', {
 	apiVersion: 2,
 	title: __( 'Image', 'generateblocks' ),
-	category: 'generateblocks-legacy',
+	category: 'generateblocks',
 	description: __( 'Add images to your content to make a visual statement.', 'generateblocks' ),
 	icon: getIcon( 'image' ),
 	attributes,
@@ -54,6 +54,5 @@ registerBlockType( 'generateblocks/image', {
 		className: false,
 		customClassName: true,
 		html: false,
-		inserter: generateBlocksInfo.shouldShowLegacyBlocks,
 	},
 } );

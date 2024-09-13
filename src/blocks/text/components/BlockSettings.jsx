@@ -9,6 +9,7 @@ import {
 	TagNameControl,
 	HtmlAttributes,
 } from '@components/index.js';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export const buttonColorControls = [
 	{
@@ -89,7 +90,6 @@ export const textColorControls = [
 export function BlockSettings( {
 	getStyleValue,
 	onStyleChange,
-	currentAtRule,
 	name,
 	attributes,
 	setAttributes,
@@ -101,6 +101,10 @@ export function BlockSettings( {
 		iconLocation,
 		iconOnly,
 	} = attributes;
+
+	const {
+		currentAtRule,
+	} = useBlockStyles();
 
 	return (
 		<ApplyFilters

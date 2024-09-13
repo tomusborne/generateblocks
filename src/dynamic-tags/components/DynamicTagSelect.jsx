@@ -1,13 +1,37 @@
 import { useState, useEffect, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { ComboboxControl, Button, TextControl, CheckboxControl } from '@wordpress/components';
+import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
 
-export function DynamicTagSelect( { onInsert, tagName } ) {
+function parseTag( tagString ) {
+	const regex = /\{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}/;
+	const match = tagString.match( regex );
+
+	if ( ! match ) {
+		return null;
+	}
+
+	const [ , tag, paramsString ] = match;
+	const params = {};
+
+	if ( paramsString ) {
+		paramsString.split( '|' ).forEach( ( param ) => {
+			const [ key, value ] = param.split( ':' );
+			params[ key ] = value || true;
+		} );
+	}
+
+	return {
+		tag,
+		params,
+	};
+}
+
+export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) {
 	const [ dynamicTagData, setDynamicTagData ] = useState( [] );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ postTypeSource, setPostTypeSource ] = useState( 'post' );
@@ -22,12 +46,73 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 		// translators: %s: number of comments
 		multiple: __( '%s comments', 'generateblocks' ),
 	} );
+	const [ linkTo, setLinkTo ] = useState( '' );
+	const [ renderIfEmpty, setRenderIfEmpty ] = useState( false );
 
 	const { getSelectionStart, getSelectionEnd } = useSelect( blockEditorStore, [] );
 	const selectionStart = getSelectionStart();
 	const selectionEnd = getSelectionEnd();
 	const hasSelection = selectionStart?.offset !== selectionEnd?.offset;
 
+	/**
+	 * If there's an existing value we're highlighting, fill in our fields with the
+	 * appropriate values.
+	 */
+	useEffect( () => {
+		if ( ! selectedValue ) {
+			return;
+		}
+
+		const parsedTag = parseTag( selectedValue );
+		const tag = parsedTag?.tag;
+
+		if ( ! tag ) {
+			return;
+		}
+
+		setDynamicTag( tag );
+
+		const params = parsedTag?.params;
+
+		if ( params?.id ) {
+			setDynamicSource( 'post' );
+			setPostIdSource( parseInt( params.id ) );
+		}
+
+		if ( params?.key ) {
+			setMetaKey( params.key );
+		}
+
+		if ( 'comments_count' === tag ) {
+			const existingCommentsCountText = { ...commentsCountText };
+
+			if ( params.none ) {
+				existingCommentsCountText.none = params.none;
+			}
+
+			if ( params.one ) {
+				existingCommentsCountText.one = params.one;
+			}
+
+			if ( params.multiple ) {
+				existingCommentsCountText.multiple = params.multiple;
+			}
+
+			setCommentsCountText( existingCommentsCountText );
+		}
+
+		if ( params?.link ) {
+			setLinkTo( params.link );
+		}
+
+		if ( params?.renderIfEmpty ) {
+			setRenderIfEmpty( true );
+		}
+	}, [ selectedValue ] );
+
+	/**
+	 * Load the dynamic tags.
+	 */
 	async function loadTags() {
 		if ( dynamicTagData.length ) {
 			return;
@@ -55,26 +140,34 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 			return;
 		}
 
-		const tags = [];
+		const options = [];
 
 		if ( postIdSource ) {
-			tags.push( `postId=${ postIdSource }` );
+			options.push( `id:${ postIdSource }` );
 		}
 
 		const isMetaTag = dynamicTag.startsWith( 'post_meta' ) ||
             dynamicTag.startsWith( 'author_meta' );
 
 		if ( isMetaTag && metaKey ) {
-			tags.push( `metaKey=${ metaKey }` );
+			options.push( `key:${ metaKey }` );
 		}
 
 		if ( dynamicTag.startsWith( 'comments_count' ) ) {
-			tags.push( `none=${ commentsCountText.none }` );
-			tags.push( `one=${ commentsCountText.one }` );
-			tags.push( `multiple=${ commentsCountText.multiple }` );
+			options.push( `none:${ commentsCountText.none }` );
+			options.push( `one:${ commentsCountText.one }` );
+			options.push( `multiple:${ commentsCountText.multiple }` );
 		}
 
-		const tagOptions = tags.join( '|' );
+		if ( linkTo ) {
+			options.push( `link:${ linkTo }` );
+		}
+
+		if ( renderIfEmpty ) {
+			options.push( 'renderIfEmpty' );
+		}
+
+		const tagOptions = options.join( '|' );
 
 		let tagToInsert = dynamicTag;
 
@@ -85,9 +178,12 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 		tagToInsert = `{${ tagToInsert }}`;
 
 		setDynamicTagToInsert( tagToInsert );
-	}, [ postIdSource, dynamicTag, metaKey, commentsCountText ] );
+	}, [ postIdSource, dynamicTag, metaKey, commentsCountText, linkTo, renderIfEmpty ] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
+	const canBeLinked = [ 'post_title', 'comments_count', 'published_date', 'modified_date' ];
+	const showLinkTo = canBeLinked.includes( dynamicTag ) && ! interactiveTagNames.includes( tagName );
+	const showInsertAsLink = hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
 
 	return (
 		<>
@@ -96,6 +192,7 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 				value={ dynamicTag }
 				options={ dynamicTagOptions }
 				onChange={ ( value ) => setDynamicTag( value ) }
+				className="gb-dynamic-tag-select"
 			/>
 
 			{ !! dynamicTag && (
@@ -162,13 +259,34 @@ export function DynamicTagSelect( { onInsert, tagName } ) {
 						</>
 					) }
 
+					{ showLinkTo && (
+						<SelectControl
+							label={ __( 'Link to', 'generateblocks' ) }
+							value={ linkTo }
+							options={ [
+								{ label: __( 'None', 'generateblocks' ), value: '' },
+								{ label: __( 'Post', 'generateblocks' ), value: 'post' },
+								{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
+							] }
+							onChange={ ( value ) => setLinkTo( value ) }
+						/>
+					) }
+
+					<CheckboxControl
+						label={ __( 'Render block if empty', 'generateblocks' ) }
+						className="gb-dynamic-tag-select__render-if-empty"
+						checked={ !! renderIfEmpty }
+						onChange={ ( value ) => setRenderIfEmpty( value ) }
+						help={ __( 'Render the block even if this dynamic tag has no value.', 'generateblocks' ) }
+					/>
+
 					<TextControl
 						label={ __( 'Dynamic tag to insert', 'generateblocks' ) }
 						value={ dynamicTagToInsert }
 						onChange={ ( value ) => setDynamicTagToInsert( value ) }
 					/>
 
-					{ !! hasSelection && ! interactiveTagNames.includes( tagName ) && (
+					{ !! showInsertAsLink && (
 						<CheckboxControl
 							label={ __( 'Insert as link', 'generateblocks' ) }
 							checked={ insertAsLink }

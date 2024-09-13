@@ -8,9 +8,16 @@
 		align-items: center;
 		gap: 10px;
 
+		& > span {
+			line-height: 0;
+			display: block;
+			max-width: 50%;
+		}
+
 		svg {
 			height: 20px;
 			width: auto;
+			max-width: 100%;
 		}
 	}
 }

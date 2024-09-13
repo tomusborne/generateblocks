@@ -37,6 +37,8 @@ import UnitControl from './unit-control';
 import UnitPicker from './unit-picker';
 import { URLControls } from './url-controls';
 import AdvancedSelect from './advanced-select';
+import { PortaledStyles } from './portaled-styles';
+import { BlockStylesBuilder } from './block-styles-builder';
 
 export {
 	AdvancedSelect,
@@ -83,4 +85,6 @@ export {
 	UnitControl,
 	UnitPicker,
 	URLControls,
+	PortaledStyles,
+	BlockStylesBuilder,
 };

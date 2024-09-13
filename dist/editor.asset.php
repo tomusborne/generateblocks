@@ -1,1 +1,1 @@
-<?php return array('dependencies' => array('generateblocks-block-styles', 'generateblocks-styles-builder', 'wp-data', 'wp-polyfill'), 'version' => '9cefaab2dcbf85d7677a');
+<?php return array('dependencies' => array('generateblocks-styles-builder', 'wp-data', 'wp-dom-ready', 'wp-hooks'), 'version' => 'f4cb44dd69264628e541');
