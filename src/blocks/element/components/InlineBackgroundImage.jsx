@@ -4,9 +4,7 @@ import { ImageUpload } from '@components/index.js';
 
 export function InlineBackgroundImage( { htmlAttributes, setAttributes, styles, onStyleChange } ) {
 	const inlineBackgroundURL = useMemo( () => {
-		const style = htmlAttributes?.style
-			? htmlAttributes?.style
-			: '';
+		const { style = '' } = htmlAttributes;
 
 		const styleParts = style.split( ';' );
 
@@ -26,9 +24,7 @@ export function InlineBackgroundImage( { htmlAttributes, setAttributes, styles, 
 	}, [ htmlAttributes?.style ] );
 
 	function onChange( value ) {
-		const style = htmlAttributes?.style
-			? htmlAttributes?.style
-			: '';
+		const { style = '' } = htmlAttributes;
 
 		if ( ! value ) {
 			if ( style ) {
