@@ -24,7 +24,7 @@
 		"@dnd-kit/utilities": "^3.2.2",
 		"@edge22/block-styles": "^1.1.18",
 		"@edge22/components": "^1.1.3",
-		"@edge22/styles-builder": "^1.1.32",
+		"@edge22/styles-builder": "^1.1.33",
 		"@wordpress/block-editor": "^12.12.0",
 		"@wordpress/blocks": "^12.21.0",
 		"@wordpress/components": "^25.10.0",
@@ -54,6 +54,7 @@
 		"grunt-contrib-clean": "^2.0.1",
 		"grunt-contrib-compress": "^2.0.0",
 		"grunt-contrib-copy": "^1.0.0",
+		"json2php": "^0.0.9",
 		"webpack-remove-empty-scripts": "^1.0.4"
 	},
 	"scripts": {
