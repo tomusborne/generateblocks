@@ -41,6 +41,12 @@ export function BlockSettings( {
 		currentAtRule,
 	} = useBlockStyles();
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -52,8 +58,10 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Shape', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
+				panelId="shape"
 			>
 				<IconControl
 					value={ html }
@@ -68,10 +76,12 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Design', 'generateblocks' ) }
 				dropdownOptions={ [
 					moreDesignOptions,
 				] }
+				panelId="design"
 			>
 				<UnitControl
 					id="width"
@@ -96,8 +106,10 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
+				panelId="settings"
 			>
 				<HtmlAttributes
 					items={ htmlAttributes }

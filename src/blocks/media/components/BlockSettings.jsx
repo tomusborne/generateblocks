@@ -115,6 +115,12 @@ export function BlockSettings( {
 		return key;
 	}, [ htmlAttributes?.src, imageData?.sizes ] );
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -126,8 +132,10 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
+				panelId="settings"
 			>
 				<ImageUpload
 					value={ htmlAttributes?.src }

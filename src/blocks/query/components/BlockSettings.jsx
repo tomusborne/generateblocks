@@ -18,6 +18,12 @@ export function BlockSettings( {
 		htmlAttributes,
 	} = attributes;
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -27,7 +33,9 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Query Parameters', 'generateblocks' ) }
+				panelId="query-parameters"
 			>
 				<QueryInspectorControls
 					attributes={ attributes }
@@ -35,7 +43,9 @@ export function BlockSettings( {
 				/>
 			</OpenPanel>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
+				panelId="settings"
 			>
 				<HtmlAttributes
 					items={ htmlAttributes }

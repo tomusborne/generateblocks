@@ -24,6 +24,12 @@ export function BlockSettings( {
 		currentAtRule,
 	} = useBlockStyles();
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -35,10 +41,12 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Design', 'generateblocks' ) }
 				dropdownOptions={ [
 					moreDesignOptions,
 				] }
+				panelId="design"
 			>
 				<GridColumnSelector
 					value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
@@ -50,7 +58,9 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
+				panelId="settings"
 			>
 				<HtmlAttributes
 					items={ htmlAttributes }

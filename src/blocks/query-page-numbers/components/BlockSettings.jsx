@@ -27,6 +27,12 @@ export function BlockSettings( {
 		value: tag,
 	} ) );
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -37,7 +43,9 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
+				panelId="settings"
 			>
 				<RangeControl
 					type="number"

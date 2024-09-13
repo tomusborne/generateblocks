@@ -117,6 +117,13 @@ export function BlockSettings( {
 		currentAtRule,
 	} = useBlockStyles();
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+		clientId,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -128,8 +135,10 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Link Destination', 'generateblocks' ) }
 				shouldRender={ 'a' === tagName && '' === currentAtRule }
+				panelId="link-destination"
 			>
 				<URLControls
 					setAttributes={ setAttributes }
@@ -138,8 +147,10 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Grid', 'generateblocks' ) }
 				shouldRender={ 'grid' === getStyleValue( 'display', currentAtRule ) }
+				panelId="grid"
 			>
 				<BaseControl
 					label={ __( 'Layout', 'generateblocks' ) }
@@ -192,8 +203,10 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
+				panelId="settings"
 			>
 				<TagNameControl
 					blockName="generateblocks/element"
@@ -227,8 +240,10 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Shapes', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
+				panelId="shapes"
 			>
 				<Button
 					variant="secondary"

@@ -42,6 +42,12 @@ export function BlockSettings( {
 		}
 	}, [ taxonomy ] );
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -52,7 +58,9 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
+				panelId="settings"
 			>
 				<SelectControl
 					label={ __( 'Taxonomy' ) }
