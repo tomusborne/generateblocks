@@ -15,6 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 2.0.0
  */
 class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
+
+	const DATE_FORMAT_KEY = 'dateFormat';
+
 	/**
 	 * Wrap a link around the output.
 	 *
@@ -22,12 +25,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @param array  $options The options.
 	 */
 	private static function with_link( $output, $options ) {
-		if ( empty( $options['linkTo'] ) ) {
+		if ( empty( $options['link'] ) ) {
 			return $output;
 		}
 
 		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$link_to = $options['linkTo'];
+		$link_to = $options['link'];
 		$link    = '';
 
 		if ( 'post' === $link_to ) {
@@ -50,13 +53,117 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Truncate the output by character length.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_trunc( $output, $options ) {
+		if ( empty( $options['trunc'] ) ) {
+			return $output;
+		}
+
+		return substr( $output, 0, (int) $options['trunc'] );
+	}
+
+	/**
+	 * Remove leading and trailing whitespace from the output.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_trim( $output, $options ) {
+		if ( empty( $options['trim'] ) ) {
+			return $output;
+		}
+
+		switch ( $options['trim'] ) {
+			case 'left':
+				return ltrim( $output );
+			case 'right':
+				return rtrim( $output );
+			default:
+				return trim( $output );       }
+
+		return $output;
+	}
+
+	/**
+	 * Transform the case of the output.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_case( $output, $options ) {
+		if ( empty( $options['case'] ) ) {
+			return $output;
+		}
+
+		switch ( $options['case'] ) {
+			case 'lower':
+				return strtolower( $output );
+			case 'upper':
+				return strtoupper( $output );
+			case 'title':
+				return ucwords( $output );
+			default:
+				return $output;
+		}
+	}
+
+	/**
+	 * Transform the case of the output.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_replace( $output, $options ) {
+		if ( empty( $options['replace'] ) ) {
+			return $output;
+		}
+
+		$replace_parts = explode( ',', $options['replace'] );
+		if ( count( $replace_parts ) !== 2 ) {
+			return $output;
+		}
+
+		$search = $replace_parts[0] ?? '';
+		$replace = $replace_parts[1] ?? '';
+
+		return str_replace( $search, $replace, $output );
+	}
+
+	/**
+	 * Transform the case of the output.
+	 *
+	 * @param string $output The tag output.
+	 * @param array  $options The options.
+	 */
+	private static function with_wpautop( $output, $options ) {
+		if ( empty( $options['wpautop'] ) ) {
+			return $output;
+		}
+
+		return wpautop( $output );
+	}
+
+
+	/**
 	 * Output the dynamic tag.
 	 *
 	 * @param string $output The output.
 	 * @param array  $options The options.
 	 */
 	private static function output( $output, $options ) {
+		$output = self::with_replace( $output, $options );
+		$output = self::with_trunc( $output, $options );
+		$output = self::with_trim( $output, $options );
+		$output = self::with_case( $output, $options );
+
+		// Any wrapping output filters should go after direct string transformations.
+		$output = self::with_wpautop( $output, $options );
 		$output = self::with_link( $output, $options );
+
 		$output = apply_filters( 'generateblocks_dynamic_tag_output', $output, $options );
 
 		return $output;
@@ -95,8 +202,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_published_date( $options ) {
+		$format = $options[ self::DATE_FORMAT_KEY ] ?? '';
 		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$output = get_the_date( '', $id );
+		$output = get_the_date( $format, $id );
 
 		return self::output( $output, $options );
 	}
@@ -108,8 +216,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_modified_date( $options ) {
+		$format = $options[ self::DATE_FORMAT_KEY ] ?? '';
 		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$output = get_the_modified_date( '', $id );
+		$output = get_the_modified_date( $format, $id );
 
 		return self::output( $output, $options );
 	}
@@ -166,7 +275,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 */
 	public static function get_post_meta( $options ) {
 		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$meta   = get_post_meta( $id, $options['metaKey'], true );
+		$meta   = get_post_meta( $id, $options['key'], true );
 		$output = '';
 
 		if ( ! $meta ) {
@@ -307,7 +416,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	public static function get_author_meta( $options ) {
 		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$user_id = get_post_field( 'post_author', $id );
-		$key     = $options['metaKey'] ?? '';
+		$key     = $options['key'] ?? '';
 		$output  = '';
 
 		if ( ! $user_id || ! $key ) {
@@ -367,6 +476,43 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		}
 
 		$output = get_author_posts_url( $user_id );
+
+		return self::output( $output, $options );
+	}
+
+
+	/**
+	 * Get the current year.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_current_year( $options ) {
+		$output = wp_date( 'Y' );
+
+		return self::output( $output, $options );
+	}
+
+	/**
+	 * Get the site title from settings.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_site_title( $options ) {
+		$output = get_option( 'blogname' );
+
+		return self::output( $output, $options );
+	}
+
+	/**
+	 * Get the site tagline from settings.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_site_tagline( $options ) {
+		$output = get_option( 'blogdescription' );
 
 		return self::output( $output, $options );
 	}
