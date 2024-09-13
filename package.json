@@ -54,7 +54,6 @@
 		"grunt-contrib-clean": "^2.0.1",
 		"grunt-contrib-compress": "^2.0.0",
 		"grunt-contrib-copy": "^1.0.0",
-		"json2php": "^0.0.9",
 		"webpack-remove-empty-scripts": "^1.0.4"
 	},
 	"scripts": {

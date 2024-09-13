@@ -1,8 +1,9 @@
 const WPDependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
-const json2php = require( 'json2php' );
 
 class DependencyExtractionWebpackPlugin extends WPDependencyExtractionWebpackPlugin {
 	/**
+	 * Extend the default stringify behavior to sort dependencies by name before returning them.
+	 *
 	 * @param {any} asset Asset Data
 	 * @return {string} Stringified asset data suitable for output
 	 */
@@ -24,13 +25,8 @@ class DependencyExtractionWebpackPlugin extends WPDependencyExtractionWebpackPlu
 
 		const updatedAsset = { ...asset, dependencies: sortedDeps };
 
-		if ( this.options.outputFormat === 'php' ) {
-			return `<?php return ${ json2php(
-				JSON.parse( JSON.stringify( updatedAsset ) )
-			) };\n`;
-		}
-
-		return JSON.stringify( updatedAsset );
+		// Fallback to the original method with the updated asset.
+		return super.stringify( updatedAsset );
 	}
 }
 
