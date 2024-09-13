@@ -1,5 +1,5 @@
 import { Button, TextControl, BaseControl } from '@wordpress/components';
-import { check, closeSmall, plus } from '@wordpress/icons';
+import { check, closeSmall } from '@wordpress/icons';
 import { v4 as uuidv4 } from 'uuid';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -120,11 +120,12 @@ export function HtmlAttributes( {
 					/>
 					<Button
 						onClick={ handleAddItem }
-						icon={ plus }
+						icon={ check }
 						size="small"
 						iconSize="20"
 						disabled={ ! newAttributeName }
 						variant="primary"
+						style={ { opacity: ! newAttributeName ? 0 : '' } }
 					/>
 				</div>
 				{ errorMessage && <div className="error-message">{ errorMessage }</div> }

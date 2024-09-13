@@ -1,9 +1,11 @@
-import { useBlockProps, useInnerBlocksProps, InspectorControls } from '@wordpress/block-editor';
+import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { BlockStyles, withUniqueId } from '@edge22/block-styles';
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { isBlobURL, getBlobByURL, revokeBlobURL } from '@wordpress/blob';
+
+import { BlockStyles, withUniqueId } from '@edge22/block-styles';
+
+import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { useImageFunctions } from './hooks/useImageFunctions.js';
 import { Image } from './components/Image.jsx';
 import { withDynamicTag } from '../../hoc/withDynamicTag.js';
@@ -67,10 +69,9 @@ function EditBlock( props ) {
 	const blockProps = useBlockProps();
 	const elementAttributes = {
 		className: classNames.join( ' ' ).trim(),
+		'data-block': clientId,
 		...combinedAttributes,
 	};
-
-	const innerBlocksProps = useInnerBlocksProps( blockProps );
 	const TagName = tagName || 'img';
 
 	function onSelectImage( image ) {
@@ -219,7 +220,7 @@ function EditBlock( props ) {
 				clientId={ clientId }
 			>
 				{ !! shouldWrapBlock ? (
-					<div { ...innerBlocksProps }>
+					<div { ...blockProps } data-block-wrapper>
 						{ elementRender() }
 					</div>
 				) : (

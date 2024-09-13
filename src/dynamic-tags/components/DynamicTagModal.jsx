@@ -44,7 +44,7 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, val
 					title={ __( 'Dynamic Tags', 'generateblocks' ) }
 					onRequestClose={ onToggle }
 					className="gb-dynamic-tag-modal"
-					size="medium"
+					size="large"
 				>
 					<div className="gb-dynamic-tag-modal__content">
 						<DynamicTagSelect
