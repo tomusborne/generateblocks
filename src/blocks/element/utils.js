@@ -1,10 +1,22 @@
 export const convertInlineStyleStringToObject = ( styleString ) => {
 	return styleString.split( ';' ).reduce( ( acc, style ) => {
-		const [ key, value ] = style.split( ':' ).map( ( s ) => s.trim() );
+		const colonIndex = style.indexOf( ':' );
+		if ( colonIndex === -1 ) {
+			return acc;
+		} // Skip if there's no colon
+
+		let key = style.slice( 0, colonIndex ).trim();
+		const value = style.slice( colonIndex + 1 ).trim();
 
 		if ( key && value ) {
-			const camelCaseKey = key.replace( /-([a-z])/g, ( g ) => g[ 1 ].toUpperCase() );
-			acc[ camelCaseKey ] = value;
+			if ( key.startsWith( '--' ) ) {
+				// It's a CSS custom property, keep the original format
+				acc[ key ] = value;
+			} else {
+				// For regular CSS properties, convert to camelCase
+				key = key.replace( /-([a-z])/g, ( g ) => g[ 1 ].toUpperCase() );
+				acc[ key ] = value;
+			}
 		}
 
 		return acc;

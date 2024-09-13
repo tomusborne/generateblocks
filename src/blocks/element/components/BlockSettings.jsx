@@ -16,6 +16,8 @@ import {
 	DividerModal,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
+import { getElementType } from '../utils/getElementType';
+import { InlineBackgroundImage } from './InlineBackgroundImage';
 
 export const containerColorControls = [
 	{
@@ -281,6 +283,18 @@ export function BlockSettings( {
 						} }
 					/>
 				) }
+			</OpenPanel>
+
+			<OpenPanel
+				title={ __( 'Inline Background Image', 'generateblocks' ) }
+				shouldRender={ 'container' === getElementType( tagName ) }
+			>
+				<InlineBackgroundImage
+					htmlAttributes={ htmlAttributes }
+					setAttributes={ setAttributes }
+					styles={ styles }
+					onStyleChange={ onStyleChange }
+				/>
 			</OpenPanel>
 		</ApplyFilters>
 	);
