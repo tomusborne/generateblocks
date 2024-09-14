@@ -1,7 +1,7 @@
 const {
 	camelCaseDash,
 } = require( '@wordpress/dependency-extraction-webpack-plugin/lib/util' );
-const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
+const DependencyExtractionWebpackPlugin = require( './config/webpack-dependency-extraction' );
 
 const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const ESLintPlugin = require( 'eslint-webpack-plugin' );
