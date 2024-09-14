@@ -47,6 +47,7 @@ export function BlockSettings( {
 		currentAtRule,
 	} = useBlockStyles();
 	const [ imageData, setImageData ] = useState( null );
+	const [ hasResolved, setHasResolved ] = useState( false );
 
 	useEffect( () => {
 		if ( ! isURL( htmlAttributes?.src ) ) {
@@ -60,8 +61,11 @@ export function BlockSettings( {
 				if ( image ) {
 					setImageData( image );
 				}
+
+				setHasResolved( true );
 			} catch ( error ) {
 				console.info( 'Error fetching image:', error ); // eslint-disable-line no-console
+				setHasResolved( true );
 			}
 		}() );
 	}, [ htmlAttributes?.src ] );
@@ -69,7 +73,7 @@ export function BlockSettings( {
 	useEffect( () => {
 		const id = imageData?.id;
 
-		if ( id !== mediaId ) {
+		if ( hasResolved && id !== mediaId ) {
 			setAttributes( {
 				mediaId: id ?? 0,
 			} );
