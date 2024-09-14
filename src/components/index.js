@@ -11,7 +11,6 @@ import GoogleFontLink from './google-font-link';
 import Gradient from './gradient';
 import { GridColumnSelector, gridColumnLayouts } from './grid-column-selector';
 import HtmlAnchor from './html-anchor';
-import { HtmlAttributes } from './html-attributes';
 import { IconControl, DividerModal } from './icon-control';
 import { IconLibrary } from './icon-library';
 import IconPicker from './icon-picker';
@@ -23,7 +22,6 @@ import LinkControl from './link-control';
 import MigrateInnerContainer from './migrate-inner-container';
 import NumberControl from './number-control';
 import OnboardPopover from './onboard-popover';
-import { OpenPanel, moreDesignOptions } from './open-panel';
 import PanelArea from './panel-area';
 import PostTypeRecordsSelect from './post-type-records-select';
 import RangeControl from './range-control';
@@ -60,7 +58,6 @@ export {
 	GridColumnSelector,
 	gridColumnLayouts,
 	HtmlAnchor,
-	HtmlAttributes,
 	IconControl,
 	IconLibrary,
 	IconPicker,
@@ -69,10 +66,8 @@ export {
 	LinkBlockToolbar,
 	LinkControl,
 	MigrateInnerContainer,
-	moreDesignOptions,
 	NumberControl,
 	OnboardPopover,
-	OpenPanel,
 	PanelArea,
 	PostTypeRecordsSelect,
 	RangeControl,

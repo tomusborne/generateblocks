@@ -1,14 +1,14 @@
 import { __ } from '@wordpress/i18n';
 
+import { OpenPanel } from '@edge22/components';
+
 import {
 	ApplyFilters,
-	OpenPanel,
 	IconControl,
 	ColorPickerControls,
-	moreDesignOptions,
 	UnitControl,
-	HtmlAttributes,
 } from '@components/index.js';
+import { moreDesignOptions } from '@utils';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export const shapeColorControls = [
@@ -33,13 +33,18 @@ export function BlockSettings( {
 	setAttributes,
 } ) {
 	const {
-		htmlAttributes,
 		html,
 	} = attributes;
 
 	const {
 		currentAtRule,
 	} = useBlockStyles();
+
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
 
 	return (
 		<ApplyFilters
@@ -52,8 +57,10 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Shape', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
+				panelId="shape"
 			>
 				<IconControl
 					value={ html }
@@ -68,10 +75,12 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Design', 'generateblocks' ) }
 				dropdownOptions={ [
 					moreDesignOptions,
 				] }
+				panelId="design"
 			>
 				<UnitControl
 					id="width"
@@ -96,16 +105,11 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
-			>
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</OpenPanel>
+				panelId="settings"
+			/>
 		</ApplyFilters>
 	);
 }

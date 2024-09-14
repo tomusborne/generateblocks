@@ -1,13 +1,14 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl } from '@wordpress/components';
+import { SelectControl, TextControl, Flex, FlexBlock } from '@wordpress/components';
 import { useEffect, useState, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { addQueryArgs, isURL } from '@wordpress/url';
+import { applyFilters } from '@wordpress/hooks';
+
+import { OpenPanel } from '@edge22/components';
 
 import {
 	ApplyFilters,
-	OpenPanel,
-	HtmlAttributes,
 	ImageUpload,
 	URLControls,
 } from '@components/index.js';
@@ -115,6 +116,12 @@ export function BlockSettings( {
 		return key;
 	}, [ htmlAttributes?.src, imageData?.sizes ] );
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -126,8 +133,10 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
+				panelId="settings"
 			>
 				<ImageUpload
 					value={ htmlAttributes?.src }
@@ -173,17 +182,13 @@ export function BlockSettings( {
 					attributesName="linkHtmlAttributes"
 				/>
 
-				{ !! linkHtmlAttributes.href && (
-					<HtmlAttributes
-						label={ __( 'Link Attributes', 'generateblocks' ) }
-						items={ linkHtmlAttributes }
-						onAdd={ ( value ) => setAttributes( { linkHtmlAttributes: value } ) }
-						onRemove={ ( value ) => setAttributes( { linkHtmlAttributes: value } ) }
-						onChange={ ( value ) => setAttributes( { linkHtmlAttributes: value } ) }
-					/>
+				{ applyFilters(
+					'generateblocks.blockSettings.afterImageUrlControls',
+					null,
+					panelProps
 				) }
 
-				{ sizes?.length && (
+				{ !! sizes?.length && (
 					<SelectControl
 						label={ __( 'Size', 'generateblocks' ) }
 						options={ sizes }
@@ -214,31 +219,37 @@ export function BlockSettings( {
 					/>
 				) }
 
-				<TextControl
-					label={ __( 'Width', 'generateblocks' ) }
-					value={ htmlAttributes?.width }
-					onChange={ ( value ) => {
-						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								width: value,
-							},
-						} );
-					} }
-				/>
+				<Flex>
+					<FlexBlock>
+						<TextControl
+							label={ __( 'Width', 'generateblocks' ) }
+							value={ htmlAttributes?.width }
+							onChange={ ( value ) => {
+								setAttributes( {
+									htmlAttributes: {
+										...htmlAttributes,
+										width: value,
+									},
+								} );
+							} }
+						/>
+					</FlexBlock>
 
-				<TextControl
-					label={ __( 'Height', 'generateblocks' ) }
-					value={ htmlAttributes?.height }
-					onChange={ ( value ) => {
-						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								height: value,
-							},
-						} );
-					} }
-				/>
+					<FlexBlock>
+						<TextControl
+							label={ __( 'Height', 'generateblocks' ) }
+							value={ htmlAttributes?.height }
+							onChange={ ( value ) => {
+								setAttributes( {
+									htmlAttributes: {
+										...htmlAttributes,
+										height: value,
+									},
+								} );
+							} }
+						/>
+					</FlexBlock>
+				</Flex>
 
 				<TextControl
 					label={ __( 'Alt text', 'generateblocks' ) }
@@ -251,13 +262,6 @@ export function BlockSettings( {
 							},
 						} );
 					} }
-				/>
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</OpenPanel>
 		</ApplyFilters>

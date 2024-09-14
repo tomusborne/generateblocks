@@ -6,6 +6,7 @@ import {
 	normalizeArgs,
 } from './loop-utils';
 import getIcon from './get-icon';
+import { moreDesignOptions } from './more-design-options';
 
 export {
 	removeEmpty,
@@ -14,4 +15,5 @@ export {
 	normalizeRepeatableArgs,
 	normalizeArgs,
 	getIcon,
+	moreDesignOptions,
 };

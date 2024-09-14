@@ -1,12 +1,12 @@
 import { __ } from '@wordpress/i18n';
 import { BaseControl, Notice } from '@wordpress/components';
 
+import { OpenPanel } from '@edge22/components';
+
 import {
 	ApplyFilters,
-	OpenPanel,
 	URLControls,
 	TagNameControl,
-	HtmlAttributes,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -27,6 +27,12 @@ export function BlockSettings( {
 		currentAtRule,
 	} = useBlockStyles();
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -38,8 +44,10 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Link Destination', 'generateblocks' ) }
 				shouldRender={ 'a' === tagName && '' === currentAtRule }
+				panelId="link-destination"
 			>
 				<URLControls
 					setAttributes={ setAttributes }
@@ -48,8 +56,10 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
+				panelId="settings"
 			>
 				<TagNameControl
 					blockName="generateblocks/loop-item"
@@ -73,13 +83,6 @@ export function BlockSettings( {
 						</Notice>
 					</BaseControl>
 				) }
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
 			</OpenPanel>
 		</ApplyFilters>
 	);

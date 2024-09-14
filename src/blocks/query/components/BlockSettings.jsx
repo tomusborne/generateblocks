@@ -1,9 +1,9 @@
 import { __ } from '@wordpress/i18n';
 
+import { OpenPanel } from '@edge22/components';
+
 import {
 	ApplyFilters,
-	OpenPanel,
-	HtmlAttributes,
 } from '@components/index.js';
 
 import { QueryInspectorControls } from './QueryInspectorControls';
@@ -14,9 +14,11 @@ export function BlockSettings( {
 	attributes,
 	setAttributes,
 } ) {
-	const {
-		htmlAttributes,
-	} = attributes;
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
 
 	return (
 		<ApplyFilters
@@ -27,7 +29,9 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Query Parameters', 'generateblocks' ) }
+				panelId="query-parameters"
 			>
 				<QueryInspectorControls
 					attributes={ attributes }
@@ -35,15 +39,10 @@ export function BlockSettings( {
 				/>
 			</OpenPanel>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
-			>
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</OpenPanel>
+				panelId="settings"
+			/>
 		</ApplyFilters>
 	);
 }

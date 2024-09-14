@@ -1,12 +1,12 @@
 import { __ } from '@wordpress/i18n';
 
+import { OpenPanel } from '@edge22/components';
+
 import {
 	ApplyFilters,
-	OpenPanel,
-	moreDesignOptions,
-	HtmlAttributes,
 	GridColumnSelector,
 } from '@components/index.js';
+import { moreDesignOptions } from '@utils';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockSettings( {
@@ -17,12 +17,14 @@ export function BlockSettings( {
 	setAttributes,
 } ) {
 	const {
-		htmlAttributes,
-	} = attributes;
-
-	const {
 		currentAtRule,
 	} = useBlockStyles();
+
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
 
 	return (
 		<ApplyFilters
@@ -35,10 +37,12 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Design', 'generateblocks' ) }
 				dropdownOptions={ [
 					moreDesignOptions,
 				] }
+				panelId="design"
 			>
 				<GridColumnSelector
 					value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
@@ -50,15 +54,10 @@ export function BlockSettings( {
 			</OpenPanel>
 
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
-			>
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</OpenPanel>
+				panelId="settings"
+			/>
 		</ApplyFilters>
 	);
 }

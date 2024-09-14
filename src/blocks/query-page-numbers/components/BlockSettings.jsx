@@ -2,10 +2,10 @@ import { __ } from '@wordpress/i18n';
 import { RangeControl, SelectControl } from '@wordpress/components';
 import { getBlockType } from '@wordpress/blocks';
 
+import { OpenPanel } from '@edge22/components';
+
 import {
 	ApplyFilters,
-	OpenPanel,
-	HtmlAttributes,
 } from '@components/index.js';
 
 export function BlockSettings( {
@@ -16,7 +16,6 @@ export function BlockSettings( {
 	setAttributes,
 } ) {
 	const {
-		htmlAttributes,
 		midSize,
 		tagName,
 	} = attributes;
@@ -26,6 +25,12 @@ export function BlockSettings( {
 		label: tag,
 		value: tag,
 	} ) );
+
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
 
 	return (
 		<ApplyFilters
@@ -37,7 +42,9 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
+				panelId="settings"
 			>
 				<RangeControl
 					type="number"
@@ -54,13 +61,6 @@ export function BlockSettings( {
 					value={ tagName }
 					options={ tagNameOptions }
 					onChange={ ( value ) => setAttributes( { tagName: value } ) }
-				/>
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</OpenPanel>
 		</ApplyFilters>

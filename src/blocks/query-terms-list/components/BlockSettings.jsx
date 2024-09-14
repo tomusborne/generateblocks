@@ -3,10 +3,10 @@ import { SelectControl, TextControl } from '@wordpress/components';
 import { getBlockType } from '@wordpress/blocks';
 import { useMemo, useEffect } from '@wordpress/element';
 
+import { OpenPanel } from '@edge22/components';
+
 import {
 	ApplyFilters,
-	OpenPanel,
-	HtmlAttributes,
 } from '@components/index.js';
 import useTaxonomies from '@hooks/useTaxonomies';
 
@@ -18,7 +18,6 @@ export function BlockSettings( {
 	setAttributes,
 } ) {
 	const {
-		htmlAttributes,
 		taxonomy,
 		tagName,
 		separator,
@@ -42,6 +41,12 @@ export function BlockSettings( {
 		}
 	}, [ taxonomy ] );
 
+	const panelProps = {
+		name,
+		attributes,
+		setAttributes,
+	};
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -52,7 +57,9 @@ export function BlockSettings( {
 			setAttributes={ setAttributes }
 		>
 			<OpenPanel
+				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
+				panelId="settings"
 			>
 				<SelectControl
 					label={ __( 'Taxonomy' ) }
@@ -72,13 +79,6 @@ export function BlockSettings( {
 					value={ tagName }
 					options={ tagNameOptions }
 					onChange={ ( value ) => setAttributes( { tagName: value } ) }
-				/>
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
 				/>
 			</OpenPanel>
 		</ApplyFilters>
