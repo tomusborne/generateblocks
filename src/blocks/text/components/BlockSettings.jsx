@@ -1,91 +1,15 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, ToggleControl } from '@wordpress/components';
+import { SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+
+import { OpenPanel } from '@edge22/components';
 
 import {
 	ApplyFilters,
-	OpenPanel,
 	URLControls,
 	IconControl,
 	TagNameControl,
-	HtmlAttributes,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
-
-export const buttonColorControls = [
-	{
-		label: 'Background Color',
-		id: 'button-background-color',
-		items: [
-			{
-				tooltip: 'Background Color',
-				value: 'backgroundColor',
-				selector: '',
-			},
-			{
-				tooltip: 'Hover Background Color',
-				value: 'backgroundColor',
-				selector: '&:is(:hover, :focus)',
-			},
-		],
-	},
-	{
-		label: 'Text Color',
-		id: 'button-text-color',
-		items: [
-			{
-				tooltip: 'Text Color',
-				value: 'color',
-				selector: '',
-			},
-			{
-				tooltip: 'Hover Text Color',
-				value: 'color',
-				selector: '&:is(:hover, :focus)',
-			},
-		],
-	},
-	{
-		label: 'Icon Color',
-		id: 'icon-color',
-		items: [
-			{
-				tooltip: 'Icon Color',
-				value: 'color',
-				selector: 'svg',
-			},
-			{
-				tooltip: 'Hover Icon Color',
-				value: 'color',
-				selector: '&:is(:hover, :focus) svg',
-			},
-		],
-	},
-];
-
-export const textColorControls = [
-	{
-		label: 'Text Color',
-		id: 'text-text-color',
-		items: [
-			{
-				tooltip: 'Text Color',
-				value: 'color',
-				selector: '',
-			},
-		],
-	},
-	{
-		label: 'Icon Color',
-		id: 'icon-color',
-		items: [
-			{
-				tooltip: 'Icon Color',
-				value: 'color',
-				selector: 'svg',
-			},
-		],
-	},
-];
 
 export function BlockSettings( {
 	getStyleValue,
@@ -151,13 +75,6 @@ export function BlockSettings( {
 						}
 					} }
 				/>
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
 			</OpenPanel>
 
 			<OpenPanel
@@ -202,6 +119,24 @@ export function BlockSettings( {
 							label={ __( 'Show icon only', 'generateblocks' ) }
 							checked={ !! iconOnly }
 							onChange={ () => setAttributes( { iconOnly: ! iconOnly } ) }
+						/>
+
+						<TextControl
+							label={ __( 'ARIA Label', 'generateblocks' ) }
+							value={ htmlAttributes[ 'aria-label' ] ?? '' }
+							onChange={ ( value ) => {
+								const newHtmlAttributes = { ...htmlAttributes };
+
+								if ( ! value && htmlAttributes[ 'aria-label' ] ) {
+									delete newHtmlAttributes[ 'aria-label' ];
+								} else if ( value ) {
+									newHtmlAttributes[ 'aria-label' ] = value;
+								}
+
+								setAttributes( {
+									htmlAttributes: newHtmlAttributes,
+								} );
+							} }
 						/>
 					</>
 				) }

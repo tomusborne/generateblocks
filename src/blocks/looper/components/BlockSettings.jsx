@@ -1,12 +1,12 @@
 import { __ } from '@wordpress/i18n';
 
+import { OpenPanel } from '@edge22/components';
+
 import {
 	ApplyFilters,
-	OpenPanel,
-	moreDesignOptions,
-	HtmlAttributes,
 	GridColumnSelector,
 } from '@components/index.js';
+import { moreDesignOptions } from '@utils';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockSettings( {
@@ -16,10 +16,6 @@ export function BlockSettings( {
 	attributes,
 	setAttributes,
 } ) {
-	const {
-		htmlAttributes,
-	} = attributes;
-
 	const {
 		currentAtRule,
 	} = useBlockStyles();
@@ -61,14 +57,7 @@ export function BlockSettings( {
 				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
 				panelId="settings"
-			>
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
-			</OpenPanel>
+			/>
 		</ApplyFilters>
 	);
 }

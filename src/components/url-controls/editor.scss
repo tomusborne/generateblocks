@@ -3,16 +3,6 @@
 	flex-direction: column;
 	gap: 5px;
 
-	.components-base-control {
-		&, &__field {
-			margin: 0 !important;
-		}
-	}
-
-	& > .components-base-control:first-child {
-		margin-bottom: 5px !important;
-	}
-
 	&__link {
 		&-input {
 			input[type="text"] {

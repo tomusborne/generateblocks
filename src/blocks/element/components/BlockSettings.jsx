@@ -5,93 +5,17 @@ import { createBlock, cloneBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 
+import { OpenPanel } from '@edge22/components';
+
 import {
 	ApplyFilters,
-	OpenPanel,
 	URLControls,
 	TagNameControl,
-	HtmlAttributes,
 	GridColumnSelector,
 	gridColumnLayouts as layouts,
 	DividerModal,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
-
-export const containerColorControls = [
-	{
-		label: 'Background Color',
-		id: 'container-background-color',
-		items: [
-			{
-				tooltip: 'Background Color',
-				value: 'backgroundColor',
-				selector: '',
-			},
-		],
-	},
-	{
-		label: 'Text Color',
-		id: 'container-text-color',
-		items: [
-			{
-				tooltip: 'Text Color',
-				value: 'color',
-				selector: '',
-			},
-		],
-	},
-	{
-		label: 'Link Color',
-		id: 'container-link-color',
-		items: [
-			{
-				tooltip: 'Link Color',
-				value: 'color',
-				selector: 'a',
-			},
-			{
-				tooltip: 'Link Hover Color',
-				value: 'color',
-				selector: 'a:is(:hover, :focus)',
-			},
-		],
-	},
-];
-
-export const linkElementColorControls = [
-	{
-		label: 'Background Color',
-		id: 'link-element-background-color',
-		items: [
-			{
-				tooltip: 'Background Color',
-				value: 'backgroundColor',
-				selector: '',
-			},
-			{
-				tooltip: 'Hover Background Color',
-				value: 'backgroundColor',
-				selector: '&:is(:hover, :focus)',
-			},
-		],
-	},
-	{
-		label: 'Text Color',
-		id: 'link-element-text-color',
-		items: [
-			{
-				tooltip: 'Text Color',
-				value: 'color',
-				selector: '',
-			},
-			{
-				tooltip: 'Hover Text Color',
-				value: 'color',
-				selector: '&:is(:hover, :focus)',
-			},
-		],
-	},
-];
 
 export function BlockSettings( {
 	getStyleValue,
@@ -230,13 +154,6 @@ export function BlockSettings( {
 						</Notice>
 					</BaseControl>
 				) }
-
-				<HtmlAttributes
-					items={ htmlAttributes }
-					onAdd={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onRemove={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-					onChange={ ( value ) => setAttributes( { htmlAttributes: value } ) }
-				/>
 			</OpenPanel>
 
 			<OpenPanel
