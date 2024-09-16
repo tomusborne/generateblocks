@@ -212,16 +212,14 @@ function generateblocks_do_block_editor_assets() {
 		);
 
 		foreach ( $edge22_packages as $name => $version ) {
-			$package_info = generateblocks_get_enqueue_assets(
-				'index',
-				[
-					'dependencies' => [],
-					'version' => '',
-				],
-				GENERATEBLOCKS_DIR . "node_modules/{$name}/dist"
-			);
-
 			$name = str_replace( '@edge22/', '', $name );
+			$path = GENERATEBLOCKS_PRO_DIR . "dist/{$name}-imported.asset.php";
+
+			if ( ! file_exists( $path ) ) {
+				continue;
+			}
+
+			$package_info = require $path;
 
 			wp_register_script(
 				"generateblocks-$name",

@@ -7,6 +7,7 @@ const defaultConfig = require( '@wordpress/scripts/config/webpack.config' );
 const ESLintPlugin = require( 'eslint-webpack-plugin' );
 const RemoveEmptyScriptsPlugin = require( 'webpack-remove-empty-scripts' );
 const { resolve } = require( 'path' );
+const CopyPlugin = require( 'copy-webpack-plugin' );
 
 const defaultEntries = defaultConfig.entry();
 const isProduction = process.env.NODE_ENV === 'production';
@@ -34,6 +35,15 @@ const packageEntries = Object.fromEntries(
 		},
 	] )
 );
+
+const packageCopyPatterns = edge22Packages.map( ( packageName ) => {
+	const from = resolve( `./node_modules/@edge22/${ packageName }/dist/index.asset.php` );
+	const to = resolve( __dirname, `dist/${ packageName }-imported.asset.php` );
+	return {
+		from,
+		to,
+	};
+} );
 
 // Declare any other entries specific to this plugin.
 const pluginEntries = {
@@ -84,6 +94,9 @@ const config = {
 		} ),
 		new RemoveEmptyScriptsPlugin( {
 			stage: RemoveEmptyScriptsPlugin.STAGE_AFTER_PROCESS_PLUGINS,
+		} ),
+		new CopyPlugin( {
+			patterns: packageCopyPatterns,
 		} ),
 	],
 	resolve: {
