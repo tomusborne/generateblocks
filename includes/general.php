@@ -20,6 +20,15 @@ add_action( 'enqueue_block_editor_assets', 'generateblocks_do_block_editor_asset
  * @since 0.1
  */
 function generateblocks_do_block_editor_assets() {
+	wp_localize_script(
+		'generateblocks-media-editor-script',
+		'generateblocksBlockMedia',
+		[
+			'standardPlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder1280x720.png',
+			'squarePlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder800x.png',
+		]
+	);
+
 	global $pagenow;
 
 	$generateblocks_deps = array( 'wp-blocks', 'wp-i18n', 'wp-editor', 'wp-element', 'wp-compose', 'wp-data' );
@@ -57,7 +66,7 @@ function generateblocks_do_block_editor_assets() {
 	wp_enqueue_style(
 		'generateblocks',
 		GENERATEBLOCKS_DIR_URL . 'dist/blocks.css',
-		array( 'wp-edit-blocks' ),
+		array( 'wp-edit-blocks', 'generateblocks-packages' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/blocks.css' )
 	);
 
@@ -176,13 +185,86 @@ function generateblocks_do_block_editor_assets() {
 		array( 'wp-components' ),
 		filemtime( GENERATEBLOCKS_DIR . 'dist/editor-sidebar.css' )
 	);
+
+	$packages_asset_info = generateblocks_get_enqueue_assets( 'packages' );
+	wp_register_style(
+		'generateblocks-packages',
+		GENERATEBLOCKS_DIR_URL . 'dist/packages.css',
+		'',
+		$packages_asset_info['version']
+	);
+
+	// Enqueue scripts for all edge22 packages in the plugin.
+	$package_json = GENERATEBLOCKS_DIR . 'package.json';
+
+	if ( file_exists( $package_json ) ) {
+		$package_json_parsed = json_decode(
+			file_get_contents( $package_json ), // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			true
+		);
+
+		$edge22_packages = array_filter(
+			$package_json_parsed['dependencies'],
+			function( $package_name ) {
+				return 0 === strpos( $package_name, '@edge22/' );
+			},
+			ARRAY_FILTER_USE_KEY
+		);
+
+		foreach ( $edge22_packages as $name => $version ) {
+			$name = str_replace( '@edge22/', '', $name );
+			$path = GENERATEBLOCKS_PRO_DIR . "dist/{$name}-imported.asset.php";
+
+			if ( ! file_exists( $path ) ) {
+				continue;
+			}
+
+			$package_info = require $path;
+
+			wp_register_script(
+				"generateblocks-$name",
+				GENERATEBLOCKS_DIR_URL . 'dist/' . $name . '.js',
+				$package_info['dependencies'],
+				$version,
+				true
+			);
+
+			wp_register_style(
+				"generateblocks-$name",
+				GENERATEBLOCKS_DIR_URL . 'dist/' . $name . '.css',
+				[],
+				$version
+			);
+		}
+	}
+
+	$editor_assets = generateblocks_get_enqueue_assets( 'editor' );
+
+	wp_enqueue_script(
+		'generateblocks-editor',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor.js',
+		$editor_assets['dependencies'],
+		$editor_assets['version'],
+		true
+	);
+
+	wp_localize_script(
+		'generateblocks-editor',
+		'generateBlocksEditor',
+		[
+			'activeBlockVersion' => generateblocks_get_active_block_version(),
+		]
+	);
+
+	wp_enqueue_style(
+		'generateblocks-editor',
+		GENERATEBLOCKS_DIR_URL . 'dist/editor.css',
+		array( 'wp-edit-blocks', 'generateblocks-packages' ),
+		filemtime( GENERATEBLOCKS_DIR . 'dist/editor.css' )
+	);
 }
 
-if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
-	add_filter( 'block_categories', 'generateblocks_do_category' );
-} else {
-	add_filter( 'block_categories_all', 'generateblocks_do_category' );
-}
+add_filter( 'block_categories_all', 'generateblocks_do_category' );
 /**
  * Add GeneratePress category to Gutenberg.
  *
@@ -190,15 +272,15 @@ if ( version_compare( $GLOBALS['wp_version'], '5.8-alpha-1', '<' ) ) {
  * @since 0.1
  */
 function generateblocks_do_category( $categories ) {
-	return array_merge(
-		array(
-			array(
-				'slug'  => 'generateblocks',
-				'title' => __( 'GenerateBlocks', 'generateblocks' ),
-			),
-		),
-		$categories
+	array_unshift(
+		$categories,
+		[
+			'slug'  => 'generateblocks',
+			'title' => __( 'GenerateBlocks', 'generateblocks' ),
+		]
 	);
+
+	return $categories;
 }
 
 add_action( 'wp_enqueue_scripts', 'generateblocks_do_google_fonts' );
@@ -462,6 +544,27 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 	$css = '.gb-container, .gb-headline, .gb-button {max-width:unset;margin-left:0;margin-right:0;}';
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
+	$blocks_to_reset = [
+		'.wp-block-generateblocks-text:not(h1, h2, h3, h4, h5, h6, p)',
+		'.wp-block-generateblocks-element',
+		'.wp-block-generateblocks-shape',
+		'.wp-block-generateblocks-media',
+		'.wp-block-generateblocks-query',
+		'.wp-block-generateblocks-query-no-results',
+		'.wp-block-generateblocks-query-page-numbers',
+		'.wp-block-generateblocks-looper',
+		'.wp-block-generateblocks-loop-item',
+		'.wp-block-generateblocks-query-terms-list',
+	];
+
+	$heading_blocks_to_reset = [
+		'.wp-block-generateblocks-text:is(h1, h2, h3, h4, h5, h6, p)',
+	];
+
+	$css  = implode( ',', $blocks_to_reset ) . '{max-width:unset;margin:0;}';
+	$css .= implode( ',', $heading_blocks_to_reset ) . '{max-width:unset;margin-left:0;margin-right:0;}';
+	$editor_settings['styles'][] = [ 'css' => $css ];
+
 	return $editor_settings;
 }
 
@@ -472,9 +575,36 @@ add_filter( 'generateblocks_css_output', 'generateblocks_add_general_css' );
  * @param string $css Existing CSS.
  */
 function generateblocks_add_general_css( $css ) {
+	$container_width = generateblocks_get_global_container_width();
+
+	if ( $container_width ) {
+		$css .= ':root{--gb-container-width:' . $container_width . ';}';
+	}
+
 	$css .= '.gb-container .wp-block-image img{vertical-align:middle;}';
 	$css .= '.gb-grid-wrapper .wp-block-image{margin-bottom:0;}';
 	$css .= '.gb-highlight{background:none;}';
+	$css .= '.gb-shape{line-height:0;}';
 
 	return $css;
+}
+
+add_filter( 'block_editor_settings_all', 'generateblocks_do_block_editor_styles', 15 );
+/**
+ * Add our block editor styles.
+ *
+ * @param array $editor_settings The existing editor settings.
+ */
+function generateblocks_do_block_editor_styles( $editor_settings ) {
+	$container_width = generateblocks_get_global_container_width();
+
+	$editor_settings['styles'][] = array(
+		'css' => ':root{--gb-container-width:' . $container_width . ';}',
+	);
+
+	$editor_settings['styles'][] = array(
+		'css' => '.gb-shape{line-height:0;}',
+	);
+
+	return $editor_settings;
 }
