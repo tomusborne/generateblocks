@@ -65,7 +65,7 @@ function ResponsiveTabs() {
 			return;
 		}
 
-		const panelHeader = document.querySelector( '.edit-post-sidebar .edit-post-sidebar__panel-tabs' );
+		const panelHeader = document.querySelector( '.interface-complementary-area-header' );
 		const panelHeaderHeight = panelHeader ? `${ panelHeader.offsetHeight }px` : 0;
 		const buttonWrapper = document.createElement( 'div' );
 		buttonWrapper.classList.add( 'gb-responsive-tabs' );
@@ -76,6 +76,14 @@ function ResponsiveTabs() {
 			document.querySelector( '.gb-responsive-tabs' ),
 			<ResponsiveTabButtons />
 		);
+
+		return () => {
+			if ( ! buttonWrapper ) {
+				return;
+			}
+
+			buttonWrapper.remove();
+		};
 	}, [] );
 
 	return null;
