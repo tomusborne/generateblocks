@@ -1,9 +1,12 @@
 import { __ } from '@wordpress/i18n';
 import { BaseControl, ToggleControl } from '@wordpress/components';
 import { URLInput } from '@wordpress/block-editor';
-import './editor.scss';
-import { DynamicTagModal } from '../../dynamic-tags';
+import { useEffect } from '@wordpress/element';
+
 import { Stack } from '@edge22/components';
+
+import { DynamicTagModal } from '../../dynamic-tags';
+import './editor.scss';
 
 export function URLControls( {
 	htmlAttributes,
@@ -14,6 +17,32 @@ export function URLControls( {
 	const url = htmlAttributes?.href ?? '';
 	const target = htmlAttributes?.target ?? '';
 	const rel = htmlAttributes?.rel ?? '';
+
+	useEffect( () => {
+		if ( '_blank' === target ) {
+			if ( ! rel.includes( 'noopener' ) ) {
+				const relItems = rel ? rel.split( ' ' ) : [];
+				relItems.push( 'noopener' );
+
+				setAttributes( {
+					[ attributesName ]: {
+						...htmlAttributes,
+						rel: relItems.join( ' ' ),
+					},
+				} );
+			}
+		} else if ( rel.includes( 'noopener' ) ) {
+			const relItems = rel ? rel.split( ' ' ) : [];
+			relItems.splice( relItems.indexOf( 'noopener' ), 1 );
+
+			setAttributes( {
+				[ attributesName ]: {
+					...htmlAttributes,
+					rel: relItems.join( ' ' ),
+				},
+			} );
+		}
+	}, [ target, rel ] );
 
 	return (
 		<div className="gb-url-controls components-base-control">
