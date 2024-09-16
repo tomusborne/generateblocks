@@ -213,7 +213,7 @@ function generateblocks_do_block_editor_assets() {
 
 		foreach ( $edge22_packages as $name => $version ) {
 			$name = str_replace( '@edge22/', '', $name );
-			$path = GENERATEBLOCKS_PRO_DIR . "dist/{$name}-imported.asset.php";
+			$path = GENERATEBLOCKS_DIR . "dist/{$name}-imported.asset.php";
 
 			if ( ! file_exists( $path ) ) {
 				continue;
