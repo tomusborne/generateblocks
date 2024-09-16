@@ -37,6 +37,8 @@ import { URLControls } from './url-controls';
 import AdvancedSelect from './advanced-select';
 import { PortaledStyles } from './portaled-styles';
 import { BlockStylesBuilder } from './block-styles-builder';
+import { DynamicTagsOnboarder } from './dynamic-tags-onboarder/DynamicTagsOnboarder';
+import { StylesOnboarder } from './styles-onboarder/StylesOnboarder';
 
 export {
 	AdvancedSelect,
@@ -82,4 +84,6 @@ export {
 	URLControls,
 	PortaledStyles,
 	BlockStylesBuilder,
+	DynamicTagsOnboarder,
+	StylesOnboarder,
 };

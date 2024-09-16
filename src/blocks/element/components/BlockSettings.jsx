@@ -14,6 +14,8 @@ import {
 	GridColumnSelector,
 	gridColumnLayouts as layouts,
 	DividerModal,
+	DynamicTagsOnboarder,
+	StylesOnboarder,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 import { getElementType } from '../utils/getElementType';
@@ -60,6 +62,7 @@ export function BlockSettings( {
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
+			<StylesOnboarder />
 			<OpenPanel
 				{ ...panelProps }
 				title={ __( 'Link Destination', 'generateblocks' ) }
@@ -230,6 +233,10 @@ export function BlockSettings( {
 					onStyleChange={ onStyleChange }
 				/>
 			</OpenPanel>
+
+			<DynamicTagsOnboarder
+				screenshot={ generateblocksBlockElement.dynamicTagsScreenshot }
+			/>
 		</ApplyFilters>
 	);
 }

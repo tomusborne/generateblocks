@@ -8,6 +8,8 @@ import {
 	URLControls,
 	IconControl,
 	TagNameControl,
+	DynamicTagsOnboarder,
+	StylesOnboarder,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -46,6 +48,7 @@ export function BlockSettings( {
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
+			<StylesOnboarder />
 			<OpenPanel
 				{ ...panelProps }
 				title={ __( 'Link Destination', 'generateblocks' ) }
@@ -141,6 +144,10 @@ export function BlockSettings( {
 					</>
 				) }
 			</OpenPanel>
+
+			<DynamicTagsOnboarder
+				screenshot={ generateblocksBlockText.dynamicTagsScreenshot }
+			/>
 		</ApplyFilters>
 	);
 }
