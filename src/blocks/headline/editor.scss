@@ -4,12 +4,6 @@
 		color: unset;
 	}
 
-	.gb-headline {
-		span.rich-text {
-			display: inline-block;
-		}
-	}
-
 	:where(div.gb-headline) {
 		margin-top: 0;
 		margin-bottom: 0;

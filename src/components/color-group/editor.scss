@@ -3,6 +3,13 @@
 		display: flex;
 		align-items: center;
 		padding: 7px 0;
+
+		& > .components-base-control {
+			&,
+			& > .components-base-control__field {
+				margin: 0 !important;
+			}
+		}
 	}
 
 	&__row-label {
