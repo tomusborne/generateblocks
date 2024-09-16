@@ -160,14 +160,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_tagline' ],
 			]
 		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'  => __( 'Post Excerpt', 'generateblocks' ),
-				'tag'    => 'post_excerpt',
-				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_excerpt' ],
-			]
-		);
 	}
 
 	/**

@@ -532,17 +532,4 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		return self::output( $output, $options );
 	}
-
-	/**
-	 * Get the post excerpt from the current post or a specified post ID.
-	 *
-	 * @param array $options The options.
-	 * @return string
-	 */
-	public static function get_post_excerpt( $options ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$output = get_the_excerpt( $id );
-
-		return self::output( $output, $options );
-	}
 }
