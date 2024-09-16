@@ -62,6 +62,13 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		if ( empty( $options['trunc'] ) ) {
 			return $output;
 		}
+		$trunc_parts = explode( ',', $options['trunc'] );
+		$trunc_words = ! empty( $trunc_parts[1] ) && strpos( $trunc_parts[1], 'words' ) === 0;
+
+		if ( $trunc_words ) {
+			$output = wp_trim_words( $output, (int) $trunc_parts[0] );
+			return $output;
+		}
 
 		return substr( $output, 0, (int) $options['trunc'] );
 	}
@@ -127,8 +134,8 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return $output;
 		}
 
-		$search = $replace_parts[0] ?? '';
-		$replace = $replace_parts[1] ?? '';
+		$search = (string) $replace_parts[0] ?? '';
+		$replace = (string) $replace_parts[1] ?? '';
 
 		return str_replace( $search, $replace, $output );
 	}
@@ -155,8 +162,11 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @param array  $options The options.
 	 */
 	private static function output( $output, $options ) {
-		$output = self::with_replace( $output, $options );
+		// Store original output for filtering.
+		$raw_output = $output;
+
 		$output = self::with_trunc( $output, $options );
+		$output = self::with_replace( $output, $options );
 		$output = self::with_trim( $output, $options );
 		$output = self::with_case( $output, $options );
 
@@ -164,7 +174,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$output = self::with_wpautop( $output, $options );
 		$output = self::with_link( $output, $options );
 
-		$output = apply_filters( 'generateblocks_dynamic_tag_output', $output, $options );
+		$output = apply_filters( 'generateblocks_dynamic_tag_output', $output, $options, $raw_output );
 
 		return $output;
 	}
@@ -275,7 +285,13 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 */
 	public static function get_post_meta( $options ) {
 		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$meta   = get_post_meta( $id, $options['key'], true );
+		$key    = $options['key'] ?? '';
+
+		if ( empty( $key ) ) {
+			return '';
+		}
+
+		$meta   = get_post_meta( $id, $key, true );
 		$output = '';
 
 		if ( ! $meta ) {
