@@ -37,6 +37,10 @@ import { URLControls } from './url-controls';
 import AdvancedSelect from './advanced-select';
 import { PortaledStyles } from './portaled-styles';
 import { BlockStylesBuilder } from './block-styles-builder';
+import { DynamicTagsOnboarder } from './dynamic-tags-onboarder/DynamicTagsOnboarder';
+import { StylesOnboarder } from './styles-onboarder/StylesOnboarder';
+import { NoticePanel } from './notice-panel/NoticePanel';
+import { OnboardNotice } from './onboard-notice/OnboardNotice';
 import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
 
 export {
@@ -83,5 +87,9 @@ export {
 	URLControls,
 	PortaledStyles,
 	BlockStylesBuilder,
+	DynamicTagsOnboarder,
+	StylesOnboarder,
+	NoticePanel,
+	OnboardNotice,
 	TagNameToolbar,
 };

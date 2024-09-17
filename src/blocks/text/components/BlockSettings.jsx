@@ -8,6 +8,7 @@ import {
 	URLControls,
 	IconControl,
 	TagNameControl,
+	DynamicTagsOnboarder,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -141,6 +142,8 @@ export function BlockSettings( {
 					</>
 				) }
 			</OpenPanel>
+
+			<DynamicTagsOnboarder />
 		</ApplyFilters>
 	);
 }

@@ -11,6 +11,7 @@ import {
 	ApplyFilters,
 	ImageUpload,
 	URLControls,
+	DynamicTagsOnboarder,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -268,6 +269,8 @@ export function BlockSettings( {
 					} }
 				/>
 			</OpenPanel>
+
+			<DynamicTagsOnboarder />
 		</ApplyFilters>
 	);
 }

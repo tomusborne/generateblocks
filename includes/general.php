@@ -24,8 +24,8 @@ function generateblocks_do_block_editor_assets() {
 		'generateblocks-media-editor-script',
 		'generateblocksBlockMedia',
 		[
-			'standardPlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder1280x720.png',
-			'squarePlaceholder' => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder800x.png',
+			'standardPlaceholder'   => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder1280x720.png',
+			'squarePlaceholder'     => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder800x.png',
 		]
 	);
 
@@ -252,7 +252,7 @@ function generateblocks_do_block_editor_assets() {
 		'generateblocks-editor',
 		'generateBlocksEditor',
 		[
-			'activeBlockVersion' => generateblocks_get_active_block_version(),
+			'activeBlockVersion'     => generateblocks_get_active_block_version(),
 		]
 	);
 
