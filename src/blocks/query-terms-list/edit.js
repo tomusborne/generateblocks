@@ -5,11 +5,11 @@ import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 
 function TermLink() {
 	return (
@@ -31,13 +31,13 @@ function EditBlock( props ) {
 		setAttributes,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
 		className,
 		uniqueId,
 		styles,
-		htmlAttributes,
 		globalClasses,
 		tagName,
 		separator,
@@ -67,14 +67,10 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
-	const { style = '', ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 
@@ -131,6 +127,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withUniqueId

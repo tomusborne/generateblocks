@@ -5,13 +5,13 @@ import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -21,6 +21,7 @@ function EditBlock( props ) {
 		clientId,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
@@ -28,7 +29,6 @@ function EditBlock( props ) {
 		className,
 		uniqueId,
 		styles = {},
-		htmlAttributes = [],
 		globalClasses = [],
 	} = attributes;
 
@@ -73,14 +73,10 @@ function EditBlock( props ) {
 		};
 	}, [] );
 
-	const { style = '', ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 
@@ -120,6 +116,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withUniqueId

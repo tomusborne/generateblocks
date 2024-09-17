@@ -5,7 +5,6 @@ import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { LoopInnerBlocksRenderer } from './components/LoopInnerBlocksRenderer';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts as defaultSelectorShortcuts } from '@utils/selectorShortcuts.js';
@@ -14,6 +13,7 @@ import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 
 import './editor.scss';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -21,13 +21,13 @@ function EditBlock( props ) {
 		setAttributes,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
 		className,
 		uniqueId,
 		styles,
-		htmlAttributes,
 		globalClasses = [],
 		tagName,
 	} = attributes;
@@ -56,14 +56,10 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
-	const { style = '', ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 
@@ -119,6 +115,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withUniqueId

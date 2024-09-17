@@ -7,7 +7,6 @@ import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
 import { withDynamicTag } from '../../hoc/withDynamicTag';
 import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
@@ -16,6 +15,7 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
 import { StylesOnboarder } from '@components/index';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 
 function EditBlock( props ) {
 	const {
@@ -28,6 +28,7 @@ function EditBlock( props ) {
 		clientId,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
@@ -36,7 +37,6 @@ function EditBlock( props ) {
 		className,
 		uniqueId,
 		styles = {},
-		htmlAttributes = [],
 		icon,
 		iconLocation,
 		globalClasses = [],
@@ -85,14 +85,10 @@ function EditBlock( props ) {
 		return classes;
 	}, [ className, styles, icon, uniqueId, globalClasses ] );
 
-	const { style = '', href, ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 
@@ -214,6 +210,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withDynamicTag,

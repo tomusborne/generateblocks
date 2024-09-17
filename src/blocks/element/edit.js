@@ -4,13 +4,13 @@ import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 import BlockAppender from './components/BlockAppender.jsx';
-import { convertInlineStyleStringToObject } from './utils.js';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts.js';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix.js';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -21,6 +21,7 @@ function EditBlock( props ) {
 		name,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
@@ -28,7 +29,6 @@ function EditBlock( props ) {
 		className,
 		styles = {},
 		uniqueId,
-		htmlAttributes = {},
 		globalClasses = [],
 	} = attributes;
 
@@ -56,14 +56,10 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
-	const { style = '', ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 	const innerBlocksProps = useInnerBlocksProps(
@@ -134,6 +130,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withUniqueId
