@@ -14,7 +14,7 @@ import { AddCaption } from './components/AddCaption.jsx';
 import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
-import { BlockStylesBuilder } from '@components/index';
+import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
 
 function EditBlock( props ) {
 	const {
@@ -197,6 +197,7 @@ function EditBlock( props ) {
 			/>
 
 			<InspectorControls>
+				<StylesOnboarder />
 				<BlockStyles
 					settingsTab={ (
 						<BlockSettings

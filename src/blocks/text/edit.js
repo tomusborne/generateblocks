@@ -13,6 +13,7 @@ import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
+import { StylesOnboarder } from '@components/index';
 
 function EditBlock( props ) {
 	const {
@@ -161,6 +162,7 @@ function EditBlock( props ) {
 			/>
 
 			<InspectorControls>
+				<StylesOnboarder />
 				<BlockStyles
 					settingsTab={ (
 						<BlockSettings

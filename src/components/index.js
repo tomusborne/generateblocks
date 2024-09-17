@@ -39,6 +39,8 @@ import { PortaledStyles } from './portaled-styles';
 import { BlockStylesBuilder } from './block-styles-builder';
 import { DynamicTagsOnboarder } from './dynamic-tags-onboarder/DynamicTagsOnboarder';
 import { StylesOnboarder } from './styles-onboarder/StylesOnboarder';
+import { NoticePanel } from './notice-panel/NoticePanel';
+import { OnboardNotice } from './onboard-notice/OnboardNotice';
 
 export {
 	AdvancedSelect,
@@ -86,4 +88,6 @@ export {
 	BlockStylesBuilder,
 	DynamicTagsOnboarder,
 	StylesOnboarder,
+	NoticePanel,
+	OnboardNotice,
 };

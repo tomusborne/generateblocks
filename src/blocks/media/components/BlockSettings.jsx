@@ -12,7 +12,6 @@ import {
 	ImageUpload,
 	URLControls,
 	DynamicTagsOnboarder,
-	StylesOnboarder,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -134,7 +133,6 @@ export function BlockSettings( {
 			attributes={ attributes }
 			setAttributes={ setAttributes }
 		>
-			<StylesOnboarder />
 			<OpenPanel
 				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
