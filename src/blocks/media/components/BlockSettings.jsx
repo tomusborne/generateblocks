@@ -266,9 +266,7 @@ export function BlockSettings( {
 				/>
 			</OpenPanel>
 
-			<DynamicTagsOnboarder
-				screenshot={ generateblocksBlockMedia.dynamicTagsScreenshot }
-			/>
+			<DynamicTagsOnboarder />
 		</ApplyFilters>
 	);
 }

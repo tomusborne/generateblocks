@@ -232,9 +232,7 @@ export function BlockSettings( {
 				/>
 			</OpenPanel>
 
-			<DynamicTagsOnboarder
-				screenshot={ generateblocksBlockElement.dynamicTagsScreenshot }
-			/>
+			<DynamicTagsOnboarder />
 		</ApplyFilters>
 	);
 }

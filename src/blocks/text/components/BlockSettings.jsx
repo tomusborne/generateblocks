@@ -143,9 +143,7 @@ export function BlockSettings( {
 				) }
 			</OpenPanel>
 
-			<DynamicTagsOnboarder
-				screenshot={ generateblocksBlockText.dynamicTagsScreenshot }
-			/>
+			<DynamicTagsOnboarder />
 		</ApplyFilters>
 	);
 }

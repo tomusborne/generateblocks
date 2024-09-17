@@ -26,23 +26,6 @@ function generateblocks_do_block_editor_assets() {
 		[
 			'standardPlaceholder'   => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder1280x720.png',
 			'squarePlaceholder'     => GENERATEBLOCKS_DIR_URL . 'assets/images/placeholder800x.png',
-			'dynamicTagsScreenshot' => GENERATEBLOCKS_DIR_URL . 'assets/images/media-dynamic-tags-settings.jpeg',
-		]
-	);
-
-	wp_localize_script(
-		'generateblocks-text-editor-script',
-		'generateblocksBlockText',
-		[
-			'dynamicTagsScreenshot' => GENERATEBLOCKS_DIR_URL . 'assets/images/text-dynamic-tags-toolbar.jpeg',
-		]
-	);
-
-	wp_localize_script(
-		'generateblocks-element-editor-script',
-		'generateblocksBlockElement',
-		[
-			'dynamicTagsScreenshot' => GENERATEBLOCKS_DIR_URL . 'assets/images/container-dynamic-tags-settings.jpeg',
 		]
 	);
 
@@ -270,7 +253,6 @@ function generateblocks_do_block_editor_assets() {
 		'generateBlocksEditor',
 		[
 			'activeBlockVersion'     => generateblocks_get_active_block_version(),
-			'stylesButtonScreenshot' => GENERATEBLOCKS_DIR_URL . 'assets/images/styles-button.jpeg',
 		]
 	);
 
