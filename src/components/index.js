@@ -37,6 +37,7 @@ import { URLControls } from './url-controls';
 import AdvancedSelect from './advanced-select';
 import { PortaledStyles } from './portaled-styles';
 import { BlockStylesBuilder } from './block-styles-builder';
+import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
 
 export {
 	AdvancedSelect,
@@ -82,4 +83,5 @@ export {
 	URLControls,
 	PortaledStyles,
 	BlockStylesBuilder,
+	TagNameToolbar,
 };
