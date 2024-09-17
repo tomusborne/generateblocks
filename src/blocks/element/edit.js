@@ -85,17 +85,17 @@ function EditBlock( props ) {
 			visibleSelectors.push(
 				{
 					label: __( 'Hover', 'generateblocks' ),
-					value: ':is(:hover, :focus)',
+					value: '&:is(:hover, :focus)',
+				}
+			);
+		} else {
+			visibleSelectors.push(
+				{
+					label: __( 'Links', 'generateblocks' ),
+					value: 'a',
 				}
 			);
 		}
-
-		visibleSelectors.push(
-			{
-				label: __( 'Links', 'generateblocks' ),
-				value: 'a',
-			}
-		);
 
 		return {
 			selectorShortcuts,
