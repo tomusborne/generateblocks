@@ -3,9 +3,8 @@ import { useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 
-import { BlockStyles } from '@edge22/block-styles';
+import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
-import { withUniqueId } from '../../hoc';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 import RootElement from '../../components/root-element/index.js';

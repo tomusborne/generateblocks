@@ -1,10 +1,10 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { withUniqueId } from '../../hoc';
-import { BlockStyles } from '@edge22/block-styles';
-import { getCss } from '@edge22/styles-builder';
 import { __ } from '@wordpress/i18n';
+
+import { BlockStyles, withUniqueId } from '@edge22/block-styles';
+
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
@@ -66,17 +66,6 @@ function EditBlock( props ) {
 			setAttributes( { tagName: 'div' } );
 		}
 	}, [ tagName ] );
-
-	useEffect( () => {
-		if ( ! selector ) {
-			return;
-		}
-
-		( async function() {
-			const generateCss = await getCss( selector, styles );
-			setAttributes( { css: generateCss } );
-		}() );
-	}, [ JSON.stringify( styles ), selector ] );
 
 	const { style = '', ...otherAttributes } = htmlAttributes;
 	const inlineStyleObject = convertInlineStyleStringToObject( style );
