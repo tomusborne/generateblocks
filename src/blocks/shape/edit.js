@@ -12,6 +12,7 @@ import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
+import { useBlockStyles } from '@hooks/useBlockStyles';
 
 function EditBlock( props ) {
 	const {
@@ -31,6 +32,10 @@ function EditBlock( props ) {
 		htmlAttributes = [],
 		globalClasses = [],
 	} = attributes;
+
+	const {
+		setNestedRule,
+	} = useBlockStyles();
 
 	const classNames = useMemo( () => {
 		const classes = [];
@@ -101,6 +106,11 @@ function EditBlock( props ) {
 							onStyleChange={ onStyleChange }
 						/>
 					) }
+					onTabSelect={ ( tabName ) => {
+						if ( 'styles' === tabName ) {
+							setNestedRule( 'svg' );
+						}
+					} }
 				/>
 			</InspectorControls>
 			<RootElement
