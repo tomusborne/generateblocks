@@ -14,6 +14,8 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
+import { getBlockClasses } from '@utils/getBlockClasses.js';
 
 function EditBlock( props ) {
 	const {
@@ -27,31 +29,12 @@ function EditBlock( props ) {
 	} = props;
 
 	const {
-		className,
-		uniqueId,
-		styles = {},
-		globalClasses = [],
 		tagName,
 		showTemplateSelector,
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-query-${ uniqueId }` );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-query', classNameAttributes );
 
 	useEffect( () => {
 		if ( ! tagName ) {

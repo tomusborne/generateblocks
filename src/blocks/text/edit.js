@@ -16,6 +16,8 @@ import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
 import { StylesOnboarder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
+import { getBlockClasses } from '@utils/getBlockClasses';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 
 function EditBlock( props ) {
 	const {
@@ -34,12 +36,8 @@ function EditBlock( props ) {
 	const {
 		tagName,
 		content,
-		className,
-		uniqueId,
-		styles = {},
 		icon,
 		iconLocation,
-		globalClasses = [],
 		iconOnly,
 	} = attributes;
 
@@ -63,27 +61,8 @@ function EditBlock( props ) {
 		}, content );
 	}, [ dynamicTagValue, content ] );
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-text-${ uniqueId }` );
-		}
-
-		if ( ! icon ) {
-			classes.push( 'gb-text' );
-		}
-
-		return classes;
-	}, [ className, styles, icon, uniqueId, globalClasses ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-text', classNameAttributes, ! icon );
 
 	const blockProps = useBlockProps(
 		{
@@ -116,7 +95,7 @@ function EditBlock( props ) {
 			visibleSelectors.push(
 				{
 					label: __( 'Hover', 'generateblocks' ),
-					value: ':is(:hover, :focus)',
+					value: '&:is(:hover, :focus)',
 				}
 			);
 

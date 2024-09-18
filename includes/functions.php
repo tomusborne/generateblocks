@@ -2100,3 +2100,81 @@ function generateblocks_with_html_attributes( $html_attributes, $block_attribute
 
 	return $html_attributes;
 }
+
+/**
+ * Get the classes for a block.
+ *
+ * @since 2.0.0
+ * @param string $block_slug The block slug.
+ * @param array  $block_attributes The block attributes.
+ * @param bool   $with_base_class Whether to include the base class.
+ */
+function generateblocks_get_block_classes( $block_slug, $block_attributes, $with_base_class = false ) {
+	$classes = [];
+
+	if ( $with_base_class ) {
+		$classes[] = $block_slug;
+	}
+
+	if ( ! empty( $block_attributes['className'] ) ) {
+		$classes[] = $block_attributes['className'];
+	}
+
+	if ( ! empty( $block_attributes['globalClasses'] ) ) {
+		$classes = array_merge(
+			$classes,
+			$block_attributes['globalClasses']
+		);
+	}
+
+	if ( ! empty( $block_attributes['styles'] ) ) {
+		$classes[] = $block_slug . '-' . $block_attributes['uniqueId'];
+	}
+
+	return $classes;
+}
+
+/**
+ * Get the HTML attributes for a block.
+ * This function is only used if generateblocks_get_processed_html_attributes() returns nothing.
+ *
+ * @since 2.0.0
+ * @param string $block_slug The block slug.
+ * @param array  $attributes The block attributes.
+ */
+function generateblocks_get_backup_html_attributes( $block_slug, $attributes ) {
+	$classes = generateblocks_get_block_classes( $block_slug, $attributes );
+
+	$html_attributes = generateblocks_with_html_attributes(
+		[
+			'id'    => $attributes['anchor'] ?? null,
+			'class' => implode( ' ', $classes ),
+		],
+		$attributes
+	);
+
+	return $html_attributes;
+}
+
+/**
+ * Get the HTML attributes from an HTML element.
+ *
+ * @since 2.0.0
+ * @param string $html The HTML.
+ */
+function generateblocks_get_processed_html_attributes( $html ) {
+	$html_attributes = [];
+
+	if ( ! class_exists( 'WP_HTML_Tag_Processor' ) ) {
+		return $html_attributes;
+	}
+
+	$processor = new WP_HTML_Tag_Processor( $html );
+	if ( $processor->next_tag() ) {
+		foreach ( $processor->get_attribute_names_with_prefix( '' ) as $name ) {
+			$html_attributes[ $name ] = $processor->get_attribute( $name );
+		}
+	}
+
+	return $html_attributes;
+}

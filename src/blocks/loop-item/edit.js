@@ -12,6 +12,8 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
+import { getBlockClasses } from '@utils/getBlockClasses';
 
 function EditBlock( props ) {
 	const {
@@ -25,37 +27,16 @@ function EditBlock( props ) {
 	} = props;
 
 	const {
-		className,
-		uniqueId,
-		styles,
-		globalClasses,
 		tagName,
 		isBlockPreview = false,
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [
-			'gb-loop-item',
-		];
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-loop-item', classNameAttributes, true );
 
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-loop-item-${ uniqueId }` );
-		}
-
-		if ( isBlockPreview ) {
-			classes.push( 'gb-block-preview' );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId, isBlockPreview ] );
+	if ( isBlockPreview ) {
+		classNames.push( 'gb-block-preview' );
+	}
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -89,7 +70,7 @@ function EditBlock( props ) {
 			visibleSelectors.push(
 				{
 					label: __( 'Hover', 'generateblocks' ),
-					value: ':is(:hover, :focus)',
+					value: '&:is(:hover, :focus)',
 				}
 			);
 		}

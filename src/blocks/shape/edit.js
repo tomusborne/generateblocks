@@ -12,6 +12,8 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { getBlockClasses } from '@utils/getBlockClasses.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -26,31 +28,10 @@ function EditBlock( props ) {
 
 	const {
 		html,
-		className,
-		uniqueId,
-		styles = {},
-		globalClasses = [],
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-shape-${ uniqueId }` );
-		}
-
-		classes.push( 'gb-shape' );
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-shape', classNameAttributes, true );
 
 	const shortcuts = useMemo( () => {
 		const visibleSelectors = [

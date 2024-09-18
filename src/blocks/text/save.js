@@ -3,37 +3,19 @@
  */
 import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { Icon } from './components/Icon.jsx';
+import { getBlockClasses } from '@utils/getBlockClasses.js';
 
 export function Save( { attributes } ) {
 	const {
 		content,
 		tagName,
-		className,
-		uniqueId,
-		styles = {},
-		htmlAttributes = [],
+		htmlAttributes = {},
 		icon,
 		iconLocation,
-		globalClasses = [],
 		iconOnly,
 	} = attributes;
 	const TagName = tagName;
-	const classNames = [];
-	if ( className ) {
-		classNames.push( className );
-	}
-
-	if ( globalClasses.length > 0 ) {
-		classNames.push( ...globalClasses );
-	}
-
-	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-text-${ uniqueId }` );
-	}
-
-	if ( ! icon ) {
-		classNames.push( 'gb-text' );
-	}
+	const classNames = getBlockClasses( 'gb-text', attributes, ! icon );
 
 	const blockProps = useBlockProps.save(
 		{

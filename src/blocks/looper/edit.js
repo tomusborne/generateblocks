@@ -14,6 +14,8 @@ import { BlockStylesBuilder } from '@components/index';
 
 import './editor.scss';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
+import { getBlockClasses } from '@utils/getBlockClasses';
 
 function EditBlock( props ) {
 	const {
@@ -25,30 +27,11 @@ function EditBlock( props ) {
 	} = props;
 
 	const {
-		className,
-		uniqueId,
-		styles,
-		globalClasses = [],
 		tagName,
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-looper-${ uniqueId }` );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-looper', classNameAttributes );
 
 	useEffect( () => {
 		if ( ! tagName ) {

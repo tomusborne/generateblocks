@@ -11,6 +11,8 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix.js';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
+import { getBlockClasses } from '@utils/getBlockClasses.js';
 
 function EditBlock( props ) {
 	const {
@@ -26,29 +28,10 @@ function EditBlock( props ) {
 
 	const {
 		tagName,
-		className,
-		styles = {},
-		uniqueId,
-		globalClasses = [],
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-element-${ uniqueId }` );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-element', classNameAttributes );
 
 	useEffect( () => {
 		if ( ! tagName ) {

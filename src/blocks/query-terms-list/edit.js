@@ -10,6 +10,8 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { getBlockClasses } from '@utils/getBlockClasses';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 
 function TermLink() {
 	return (
@@ -35,31 +37,12 @@ function EditBlock( props ) {
 	} = props;
 
 	const {
-		className,
-		uniqueId,
-		styles,
-		globalClasses,
 		tagName,
 		separator,
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-query-terms-list-${ uniqueId }` );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-query-terms-list', classNameAttributes );
 
 	useEffect( () => {
 		if ( ! tagName ) {

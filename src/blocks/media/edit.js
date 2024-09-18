@@ -1,5 +1,5 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { useEffect, useMemo, useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { isBlobURL, getBlobByURL, revokeBlobURL } from '@wordpress/blob';
 
@@ -15,6 +15,8 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
+import { getBlockClasses } from '@utils/getBlockClasses.js';
 
 function EditBlock( props ) {
 	const {
@@ -30,32 +32,13 @@ function EditBlock( props ) {
 
 	const {
 		tagName,
-		className,
-		styles = {},
-		uniqueId,
-		globalClasses = [],
 		linkHtmlAttributes = {},
 	} = attributes;
 
 	const [ temporaryURL, setTemporaryURL ] = useState();
 	const { isTemporaryImage, mediaUpload, onUploadError } = useImageFunctions();
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-media-${ uniqueId }` );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-media', classNameAttributes );
 
 	useEffect( () => {
 		if ( ! tagName ) {
