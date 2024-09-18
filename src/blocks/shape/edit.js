@@ -1,8 +1,10 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { withUniqueId } from '../../hoc';
-import { BlockStyles } from '@edge22/block-styles';
+import { __ } from '@wordpress/i18n';
+
+import { BlockStyles, withUniqueId } from '@edge22/block-styles';
+
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 import RootElement from '../../components/root-element/index.js';
@@ -50,6 +52,27 @@ function EditBlock( props ) {
 		return classes;
 	}, [ className, globalClasses, styles, uniqueId ] );
 
+	const shortcuts = useMemo( () => {
+		const visibleSelectors = [
+			{
+				label: __( 'Main', 'generateblocks' ),
+				value: '',
+			},
+		];
+
+		visibleSelectors.push(
+			{
+				label: 'SVG Element',
+				value: 'svg',
+			}
+		);
+
+		return {
+			selectorShortcuts: {},
+			visibleShortcuts: visibleSelectors,
+		};
+	}, [] );
+
 	const { style = '', ...otherAttributes } = htmlAttributes;
 	const inlineStyleObject = convertInlineStyleStringToObject( style );
 	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
@@ -74,7 +97,7 @@ function EditBlock( props ) {
 						<BlockStylesBuilder
 							selector={ selector }
 							setAttributes={ setAttributes }
-							shortcuts={ {} }
+							shortcuts={ shortcuts }
 							onStyleChange={ onStyleChange }
 						/>
 					) }

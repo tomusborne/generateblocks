@@ -2,8 +2,10 @@ import { __ } from '@wordpress/i18n';
 import { RichText, useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { Platform, useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
-import { withDynamicTag } from '../../hoc/withDynamicTag';
+
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
+
+import { withDynamicTag } from '../../hoc/withDynamicTag';
 import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { Icon } from './components/Icon.jsx';
@@ -13,6 +15,7 @@ import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
+import { StylesOnboarder } from '@components/index';
 
 function EditBlock( props ) {
 	const {
@@ -161,6 +164,7 @@ function EditBlock( props ) {
 			/>
 
 			<InspectorControls>
+				<StylesOnboarder />
 				<BlockStyles
 					settingsTab={ (
 						<BlockSettings

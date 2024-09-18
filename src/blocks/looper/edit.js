@@ -2,17 +2,18 @@ import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
-import { withUniqueId } from '../../hoc';
-import { BlockStyles } from '@edge22/block-styles';
+
+import { BlockStyles, withUniqueId } from '@edge22/block-styles';
+
 import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { LoopInnerBlocksRenderer } from './components/LoopInnerBlocksRenderer';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts as defaultSelectorShortcuts } from '@utils/selectorShortcuts.js';
-
-import './editor.scss';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
+
+import './editor.scss';
 
 function EditBlock( props ) {
 	const {
