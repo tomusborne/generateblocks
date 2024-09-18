@@ -120,7 +120,7 @@ function EditBlock( props ) {
 			visibleSelectors.push(
 				{
 					label: __( 'Hover', 'generateblocks' ),
-					value: ':is(:hover, :focus)',
+					value: '&:is(:hover, :focus)',
 				}
 			);
 
