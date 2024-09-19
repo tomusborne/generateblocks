@@ -5,7 +5,7 @@ import { IconModal } from './IconModal.jsx';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 import './editor.scss';
 
-export function IconControl( { value, onChange, onClear, attributes } ) {
+export function IconControl( { value, onChange, onClear, attributes, iconType } ) {
 	const [ isOpen, setIsOpen ] = useState( false );
 
 	return (
@@ -55,6 +55,7 @@ export function IconControl( { value, onChange, onClear, attributes } ) {
 					onChange={ onChange }
 					setIsOpen={ setIsOpen }
 					attributes={ attributes }
+					iconType={ iconType }
 				/>
 			) }
 		</>

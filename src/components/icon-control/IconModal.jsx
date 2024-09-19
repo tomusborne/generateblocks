@@ -5,8 +5,8 @@ import { applyFilters } from '@wordpress/hooks';
 import generalSvgs from '../icon-picker/svgs-general';
 import socialSvgs from '../icon-picker/svgs-social';
 
-export function IconModal( { attributes, setIsOpen, onChange } ) {
-	const icons = applyFilters(
+export function IconModal( { attributes, setIsOpen, onChange, iconType = 'icon' } ) {
+	let icons = applyFilters(
 		'generateblocks.editor.iconSVGSets',
 		{
 			general: {
@@ -21,6 +21,10 @@ export function IconModal( { attributes, setIsOpen, onChange } ) {
 		{ attributes }
 	);
 
+	if ( 'divider' === iconType ) {
+		icons = generateBlocksInfo.svgShapes;
+	}
+
 	return (
 		<Modal
 			title={ __( 'Icon Library', 'generateblocks' ) }
@@ -34,6 +38,7 @@ export function IconModal( { attributes, setIsOpen, onChange } ) {
 					onChange( icon );
 					setIsOpen( false );
 				} }
+				iconType={ iconType }
 			/>
 		</Modal>
 	);
