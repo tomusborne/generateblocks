@@ -14,7 +14,7 @@ import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
-import { StylesOnboarder } from '@components/index';
+import { StylesOnboarder, TagNameToolbar } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
@@ -136,6 +136,12 @@ function EditBlock( props ) {
 				setAttributes={ setAttributes }
 				htmlAttributes={ htmlAttributes }
 				tagName={ tagName }
+			/>
+
+			<TagNameToolbar
+				label={ __( 'Choose tag name', 'generateblocks' ) }
+				tagName={ tagName }
+				onChange={ ( value ) => setAttributes( { tagName: value } ) }
 			/>
 
 			<InspectorControls>

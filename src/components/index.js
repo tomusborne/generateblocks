@@ -41,6 +41,7 @@ import { DynamicTagsOnboarder } from './dynamic-tags-onboarder/DynamicTagsOnboar
 import { StylesOnboarder } from './styles-onboarder/StylesOnboarder';
 import { NoticePanel } from './notice-panel/NoticePanel';
 import { OnboardNotice } from './onboard-notice/OnboardNotice';
+import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
 
 export {
 	AdvancedSelect,
@@ -90,4 +91,5 @@ export {
 	StylesOnboarder,
 	NoticePanel,
 	OnboardNotice,
+	TagNameToolbar,
 };
