@@ -230,7 +230,7 @@ export function BlockSettings( {
 						<UnitControl
 							id="width"
 							label={ __( 'Width', 'generateblocks' ) }
-							value={ getStyleValue( 'width', currentAtRule, 'svg' ) }
+							value={ getStyleValue( 'width', currentAtRule ) }
 							onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule ) }
 						/>
 					</FlexBlock>
@@ -239,7 +239,7 @@ export function BlockSettings( {
 						<UnitControl
 							id="height"
 							label={ __( 'Height', 'generateblocks' ) }
-							value={ getStyleValue( 'height', currentAtRule, 'svg' ) }
+							value={ getStyleValue( 'height', currentAtRule ) }
 							onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule ) }
 						/>
 					</FlexBlock>
