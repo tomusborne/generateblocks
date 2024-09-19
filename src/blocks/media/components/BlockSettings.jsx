@@ -12,6 +12,7 @@ import {
 	ImageUpload,
 	URLControls,
 	DynamicTagsOnboarder,
+	UnitControl,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -226,32 +227,20 @@ export function BlockSettings( {
 
 				<Flex>
 					<FlexBlock>
-						<TextControl
+						<UnitControl
+							id="width"
 							label={ __( 'Width', 'generateblocks' ) }
-							value={ htmlAttributes?.width }
-							onChange={ ( value ) => {
-								setAttributes( {
-									htmlAttributes: {
-										...htmlAttributes,
-										width: value,
-									},
-								} );
-							} }
+							value={ getStyleValue( 'width', currentAtRule, 'svg' ) }
+							onChange={ ( value ) => onStyleChange( 'width', value, currentAtRule ) }
 						/>
 					</FlexBlock>
 
 					<FlexBlock>
-						<TextControl
+						<UnitControl
+							id="height"
 							label={ __( 'Height', 'generateblocks' ) }
-							value={ htmlAttributes?.height }
-							onChange={ ( value ) => {
-								setAttributes( {
-									htmlAttributes: {
-										...htmlAttributes,
-										height: value,
-									},
-								} );
-							} }
+							value={ getStyleValue( 'height', currentAtRule, 'svg' ) }
+							onChange={ ( value ) => onStyleChange( 'height', value, currentAtRule ) }
 						/>
 					</FlexBlock>
 				</Flex>
