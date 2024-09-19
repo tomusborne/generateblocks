@@ -68,22 +68,31 @@ export function withHtmlAttributes( WrappedComponent ) {
 		const inlineStyleObject = typeof style === 'string'
 			? convertInlineStyleStringToObject( style )
 			: style;
-		const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
+		const combinedAttributes = {
+			...otherAttributes,
+			style: inlineStyleObject,
+		};
 
 		useEffect( () => {
-			// Create a shallow copy of the htmlAttributes object
+			// Create a shallow copy of the htmlAttributes object.
 			const updatedHtmlAttributes = { ...htmlAttributes };
 
-			// Loop through the htmlAttributes object and delete those with invalid values
+			// Loop through the htmlAttributes object and delete those with invalid values.
 			Object.keys( updatedHtmlAttributes ).forEach( ( key ) => {
 				const value = updatedHtmlAttributes[ key ];
 
-				// Remove non-boolean attributes if they have empty values
+				// Remove non-boolean attributes if they have empty values.
 				if ( ! booleanAttributes.includes( key ) && '' === value ) {
 					delete updatedHtmlAttributes[ key ];
 				}
 
-				if ( 'string' !== typeof value ) {
+				// Remove any values that are not a simple string.
+				if ( 'string' !== typeof value && 'boolean' !== typeof value ) {
+					delete updatedHtmlAttributes[ key ];
+				}
+
+				// We add the `class` attribute elsewhere.
+				if ( 'class' === key ) {
 					delete updatedHtmlAttributes[ key ];
 				}
 			} );
@@ -92,7 +101,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			if ( ! shallowEqual( updatedHtmlAttributes, htmlAttributes ) ) {
 				setAttributes( { htmlAttributes: updatedHtmlAttributes } );
 			}
-		}, [ htmlAttributes ] ); // Run whenever htmlAttributes changes
+		}, [ JSON.stringify( htmlAttributes ) ] );
 
 		return (
 			<>
