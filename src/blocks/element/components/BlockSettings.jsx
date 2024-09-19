@@ -13,8 +13,8 @@ import {
 	TagNameControl,
 	GridColumnSelector,
 	gridColumnLayouts as layouts,
-	DividerModal,
 	DynamicTagsOnboarder,
+	IconModal,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 import { getElementType } from '../utils/getElementType';
@@ -174,7 +174,8 @@ export function BlockSettings( {
 				</Button>
 
 				{ !! openShapeLibrary && (
-					<DividerModal
+					<IconModal
+						iconType="divider"
 						setIsOpen={ setOpenShapeLibrary }
 						onChange={ ( value ) => {
 							setAttributes( {
@@ -188,6 +189,7 @@ export function BlockSettings( {
 								'generateblocks/shape',
 								{
 									html: value,
+									className: 'gb-shape--divider',
 									styles: {
 										position: 'absolute',
 										bottom: '0',

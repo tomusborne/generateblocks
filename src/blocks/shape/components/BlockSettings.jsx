@@ -34,6 +34,7 @@ export function BlockSettings( {
 } ) {
 	const {
 		html,
+		className,
 	} = attributes;
 
 	const {
@@ -71,6 +72,7 @@ export function BlockSettings( {
 						setAttributes( { html: '' } );
 					} }
 					attributes={ attributes }
+					iconType={ className.includes( 'gb-shape--divider' ) ? 'divider' : 'icon' }
 				/>
 			</OpenPanel>
 

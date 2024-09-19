@@ -11,7 +11,7 @@ import GoogleFontLink from './google-font-link';
 import Gradient from './gradient';
 import { GridColumnSelector, gridColumnLayouts } from './grid-column-selector';
 import HtmlAnchor from './html-anchor';
-import { IconControl, DividerModal } from './icon-control';
+import { IconControl, IconModal } from './icon-control';
 import { IconLibrary } from './icon-library';
 import IconPicker from './icon-picker';
 import IconWrapper from './icon-wrapper';
@@ -55,7 +55,6 @@ export {
 	DateTimePickerControl,
 	DebouncedTextControl,
 	DimensionsControl,
-	DividerModal,
 	Element,
 	FlexControl,
 	GoogleFontLink,
@@ -92,4 +91,5 @@ export {
 	NoticePanel,
 	OnboardNotice,
 	TagNameToolbar,
+	IconModal,
 };
