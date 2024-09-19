@@ -2,7 +2,7 @@ import { useEffect } from '@wordpress/element';
 
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
 
-const booleanAttributes = [
+export const booleanAttributes = [
 	'allowfullscreen',
 	'async',
 	'autofocus',
