@@ -1,11 +1,10 @@
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { useEffect, useMemo, useState } from '@wordpress/element';
+import { useEffect, useState } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { isBlobURL, getBlobByURL, revokeBlobURL } from '@wordpress/blob';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { useImageFunctions } from './hooks/useImageFunctions.js';
 import { Image } from './components/Image.jsx';
 import { withDynamicTag } from '../../hoc/withDynamicTag.js';
@@ -15,6 +14,9 @@ import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
+import { getBlockClasses } from '@utils/getBlockClasses.js';
 
 function EditBlock( props ) {
 	const {
@@ -25,37 +27,18 @@ function EditBlock( props ) {
 		clientId,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
 		tagName,
-		className,
-		styles = {},
-		uniqueId,
-		htmlAttributes = {},
-		globalClasses = [],
 		linkHtmlAttributes = {},
 	} = attributes;
 
 	const [ temporaryURL, setTemporaryURL ] = useState();
 	const { isTemporaryImage, mediaUpload, onUploadError } = useImageFunctions();
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-media-${ uniqueId }` );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-media', classNameAttributes );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -63,14 +46,11 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
-	const { style = '', ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
 	const blockProps = useBlockProps();
 	const elementAttributes = {
 		className: classNames.join( ' ' ).trim(),
 		'data-block': clientId,
-		...combinedAttributes,
+		...htmlAttributes,
 	};
 	const TagName = tagName || 'img';
 
@@ -233,6 +213,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withDynamicTag,

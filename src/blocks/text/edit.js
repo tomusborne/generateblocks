@@ -7,7 +7,6 @@ import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
 import { withDynamicTag } from '../../hoc/withDynamicTag';
 import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
@@ -16,6 +15,9 @@ import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
 import { StylesOnboarder, TagNameToolbar } from '@components/index';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
+import { getBlockClasses } from '@utils/getBlockClasses';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 
 function EditBlock( props ) {
 	const {
@@ -28,18 +30,14 @@ function EditBlock( props ) {
 		clientId,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
 		tagName,
 		content,
-		className,
-		uniqueId,
-		styles = {},
-		htmlAttributes = [],
 		icon,
 		iconLocation,
-		globalClasses = [],
 		iconOnly,
 	} = attributes;
 
@@ -63,36 +61,13 @@ function EditBlock( props ) {
 		}, content );
 	}, [ dynamicTagValue, content ] );
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-text-${ uniqueId }` );
-		}
-
-		if ( ! icon ) {
-			classes.push( 'gb-text' );
-		}
-
-		return classes;
-	}, [ className, styles, icon, uniqueId, globalClasses ] );
-
-	const { style = '', href, ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-text', classNameAttributes, ! icon );
 
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 
@@ -220,6 +195,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withDynamicTag,
