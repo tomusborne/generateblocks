@@ -1,0 +1,43 @@
+.gb-template-selector {
+	display: flex;
+	gap: 16px;
+
+	&-button {
+		font-size: 13px;
+		display: inline-flex;
+		flex-direction: column;
+		height: 100%;
+		padding: 0;
+		gap: 8px;
+		margin: 0 !important;
+		width: 120px;
+
+		svg {
+			height: 50px;
+		}
+	}
+}
+
+.gb-select-template-layout {
+	.components-placeholder__label {
+		margin: 0 auto;
+	}
+
+	.components-placeholder__instructions {
+		margin: 2em auto;
+	}
+
+	.components-placeholder__fieldset {
+		overflow: hidden;
+		display: flex;
+		justify-content: center;
+		text-align: center;
+	}
+
+	&__actions {
+		margin-top: 30px;
+		display: flex;
+		justify-content: center;
+		flex-basis: 100%;
+	}
+}
