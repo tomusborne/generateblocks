@@ -81,7 +81,12 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record, isLoading } = usePostRecord( postRecordArgs );
 
-	console.log( { record } );
+	function updateDynamicTag( newTag ) {
+		setDynamicTag( newTag );
+		setDynamicTagType( dynamicTagData[ newTag ]?.type ?? 'post' );
+		setLinkTo( '' );
+		setInsertAsLink( false );
+	}
 
 	/**
 	 * If there's an existing value we're highlighting, fill in our fields with the
@@ -99,8 +104,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 			return;
 		}
 
-		setDynamicTag( tag );
-		setDynamicTagType( dynamicTagData[ tag ]?.type ?? 'post' );
+		updateDynamicTag( tag );
 
 		const params = parsedTag?.params;
 
@@ -138,7 +142,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		if ( params?.renderIfEmpty ) {
 			setRenderIfEmpty( true );
 		}
-	}, [ selectedValue ] );
+	}, [ selectedValue, dynamicTagData ] );
 
 	/**
 	 * Load the dynamic tags.
@@ -219,6 +223,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	const showLinkTo = canBeLinked.includes( dynamicTag ) && ! interactiveTagNames.includes( tagName );
 	const showInsertAsLink = hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
 	const postMetaKeyList = useMemo( () => {
+		console.log( { dynamicTagType } );
 		switch ( dynamicTagType ) {
 			case 'post':
 				if ( ! record?.meta ) {
@@ -271,7 +276,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 				label={ __( 'Select a dynamic tag', 'generateblocks' ) }
 				value={ dynamicTag }
 				options={ dynamicTagOptions }
-				onChange={ ( value ) => setDynamicTag( value ) }
+				onChange={ ( value ) => updateDynamicTag( value ) }
 				className="gb-dynamic-tag-select"
 			/>
 
@@ -373,20 +378,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 						/>
 					) }
 
-					<CheckboxControl
-						label={ __( 'Render block if empty', 'generateblocks' ) }
-						className="gb-dynamic-tag-select__render-if-empty"
-						checked={ !! renderIfEmpty }
-						onChange={ ( value ) => setRenderIfEmpty( value ) }
-						help={ __( 'Render the block even if this dynamic tag has no value.', 'generateblocks' ) }
-					/>
-
-					<TextControl
-						label={ __( 'Dynamic tag to insert', 'generateblocks' ) }
-						value={ dynamicTagToInsert }
-						onChange={ ( value ) => setDynamicTagToInsert( value ) }
-					/>
-
 					{ !! showInsertAsLink && (
 						<CheckboxControl
 							label={ __( 'Insert as link', 'generateblocks' ) }
@@ -394,6 +385,20 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 							onChange={ ( value ) => setInsertAsLink( value ) }
 						/>
 					) }
+
+					<TextControl
+						label={ __( 'Dynamic tag to insert', 'generateblocks' ) }
+						value={ dynamicTagToInsert }
+						onChange={ ( value ) => setDynamicTagToInsert( value ) }
+					/>
+
+					<CheckboxControl
+						label={ __( 'Render block if empty', 'generateblocks' ) }
+						className="gb-dynamic-tag-select__render-if-empty"
+						checked={ !! renderIfEmpty }
+						onChange={ ( value ) => setRenderIfEmpty( value ) }
+						help={ __( 'Render the block even if this dynamic tag has no value.', 'generateblocks' ) }
+					/>
 
 					<Button
 						variant="primary"
