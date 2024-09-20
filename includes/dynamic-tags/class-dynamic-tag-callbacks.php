@@ -570,4 +570,30 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		return self::output( $output, $options );
 	}
+
+	/**
+	 * Get the site tagline from settings.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_term_list( $options ) {
+		$id        = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$taxonomy  = $options['tax'] ?? '';
+		$separator = empty( $options['sep'] ) ? ', ' : $options['sep'];
+		$before    = $options['before'] ?? '';
+		$after     = $options['after'] ?? '';
+		$link      = empty( $options['link'] ) ? false : (bool) $options['link'];
+		$output    = get_the_term_list( $id, $taxonomy, $before, $separator, $after );
+
+		if ( is_wp_error( $output ) ) {
+			return '';
+		}
+
+		if ( ! $link ) {
+			$output = wp_strip_all_tags( $output );
+		}
+
+		return self::output( $output, $options );
+	}
 }

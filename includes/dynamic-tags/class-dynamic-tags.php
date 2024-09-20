@@ -176,6 +176,15 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_tagline' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Term List', 'generateblocks' ),
+				'tag'    => 'term_list',
+				'type'   => 'term',
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
+			]
+		);
 	}
 
 	/**
