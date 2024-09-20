@@ -4,8 +4,13 @@ import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } 
 import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
+import { applyFilters } from '@wordpress/hooks';
+
+import { Autocomplete } from '@edge22/components';
+
 import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
+import { usePostRecord } from '../hooks/usePostRecord';
 
 function parseTag( tagString ) {
 	const regex = /\{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}/;
@@ -31,12 +36,13 @@ function parseTag( tagString ) {
 	};
 }
 
-export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) {
-	const [ dynamicTagData, setDynamicTagData ] = useState( [] );
+export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, currentPost } ) {
+	const [ dynamicTagData, setDynamicTagData ] = useState( {} );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
-	const [ postTypeSource, setPostTypeSource ] = useState( 'post' );
+	const [ postTypeSource, setPostTypeSource ] = useState( currentPost?.type ?? 'post' );
 	const [ postIdSource, setPostIdSource ] = useState( 0 );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
+	const [ dynamicTagType, setDynamicTagType ] = useState( 'post' );
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
 	const [ insertAsLink, setInsertAsLink ] = useState( false );
@@ -53,6 +59,29 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 	const selectionStart = getSelectionStart();
 	const selectionEnd = getSelectionEnd();
 	const hasSelection = selectionStart?.offset !== selectionEnd?.offset;
+	const currentPostId = currentPost?.id ?? 0;
+
+	const postRecordArgs = useMemo( () => {
+		const load = [];
+		if ( 'author' === dynamicTagType ) {
+			load.push( 'author' );
+		} else if ( 'comment' === dynamicTagType ) {
+			load.push( 'comments' );
+		} else if ( 'term' === dynamicTagType ) {
+			load.push( 'terms' );
+		}
+		return {
+			load,
+			postType: postTypeSource,
+			postId: postIdSource ? postIdSource : currentPostId,
+			options: {},
+		};
+	}, [ dynamicTagType, postIdSource, postTypeSource ] );
+
+	// Use getEntityRecord to get the post to retrieve meta from.
+	const { record, isLoading } = usePostRecord( postRecordArgs );
+
+	console.log( { record } );
 
 	/**
 	 * If there's an existing value we're highlighting, fill in our fields with the
@@ -71,6 +100,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 		}
 
 		setDynamicTag( tag );
+		setDynamicTagType( dynamicTagData[ tag ]?.type ?? 'post' );
 
 		const params = parsedTag?.params;
 
@@ -114,7 +144,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 	 * Load the dynamic tags.
 	 */
 	async function loadTags() {
-		if ( dynamicTagData.length ) {
+		if ( Object.keys( dynamicTagData ).length ) {
 			return;
 		}
 
@@ -123,11 +153,15 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 			method: 'GET',
 		} );
 
-		setDynamicTagData( response );
+		setDynamicTagData( response.reduce( ( prev, curr ) => {
+			return { ...prev, [ curr.tag ]: curr };
+		}, {} ) );
 	}
 
 	const dynamicTagOptions = useMemo( () => (
-		dynamicTagData.map( ( { title, tag } ) => ( { label: title, value: tag } ) )
+		Object.entries( dynamicTagData ).map(
+			( [ tag, { title, type } ] ) => ( { label: title, value: tag, type } )
+		)
 	), [ dynamicTagData ] );
 
 	useEffect( () => {
@@ -184,9 +218,55 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 	const canBeLinked = [ 'post_title', 'comments_count', 'published_date', 'modified_date' ];
 	const showLinkTo = canBeLinked.includes( dynamicTag ) && ! interactiveTagNames.includes( tagName );
 	const showInsertAsLink = hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
+	const postMetaKeyList = useMemo( () => {
+		switch ( dynamicTagType ) {
+			case 'post':
+				if ( ! record?.meta ) {
+					return [];
+				}
+
+				return [
+					{
+						id: 'post_meta',
+						label: __( 'Post Meta', 'generateblocks' ),
+						items: Object.keys( record.meta ).map( ( key ) => ( { label: key, value: key } ) ),
+					},
+				];
+			case 'author':
+				const authorMeta = record?.author?.meta;
+
+				if ( ! authorMeta ) {
+					return [];
+				}
+
+				return [
+					{
+						id: 'author_meta',
+						label: __( 'Author Meta', 'generateblocks' ),
+						items: Object.keys( authorMeta ).map( ( key ) => ( { label: key, value: key } ) ),
+					},
+				];
+			default:
+				return [];
+		}
+	}, [ record, isLoading, dynamicTagType ] );
+
+	const metaKeyOptions = applyFilters(
+		'generateblocks.editor.dynamicTags.metaKeys.list',
+		postMetaKeyList,
+		record,
+		{
+			dynamicTagType,
+			dynamicSource,
+			postTypeSource,
+			postIdSource,
+			dynamicTag,
+			isLoading,
+		} );
 
 	return (
 		<>
+			{ isLoading && <p>{ __( 'Loading…', 'generateblocks' ) }</p> }
 			<ComboboxControl
 				label={ __( 'Select a dynamic tag', 'generateblocks' ) }
 				value={ dynamicTag }
@@ -230,10 +310,31 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 						dynamicTagToInsert.startsWith( '{post_meta' ) ||
 						dynamicTagToInsert.startsWith( '{author_meta' )
 					) && (
-						<TextControl
+						<Autocomplete
 							label={ __( 'Meta key', 'generateblocks' ) }
-							value={ metaKey }
-							onChange={ ( value ) => setMetaKey( value ) }
+							defaultValue={ metaKey }
+							selected={ metaKey }
+							onSelect={ ( { value } ) => {
+								setMetaKey( value );
+							} }
+							source={ metaKeyOptions }
+							showClear={ true }
+							onClear={ () => setMetaKey( '' ) }
+							afterInputWrapper={ ( { inputValue, items } ) => {
+								return (
+									<Button
+										variant="primary"
+										size="compact"
+										className="gb-gc-add__button"
+										disabled={ ! inputValue || items.length > 0 }
+										onClick={ () => {
+											setMetaKey( inputValue );
+										} }
+									>
+										{ __( 'Add', 'generateblocks' ) }
+									</Button>
+								);
+							} }
 						/>
 					) }
 

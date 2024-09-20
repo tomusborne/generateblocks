@@ -291,7 +291,26 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return '';
 		}
 
-		$meta   = get_post_meta( $id, $key, true );
+		/**
+		 * Allow a filter to set this post meta value using some
+		 * custom setter function (such as get_field in ACF). If this value returns
+		 * something we can skip calling get_post_meta for it and return the value instead.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string|null $pre_value The pre-filtered value, or null if unset.
+		 * @param int   $id The post ID used to fetch the meta value.
+		 * @param string $key The meta key to fetch.
+		 */
+		$pre_value = apply_filters(
+			'generateblocks_dynamic_tag_get_post_meta_pre_value',
+			null,
+			$id,
+			$key
+		);
+
+		$meta = is_string( $pre_value ) ? $pre_value : get_post_meta( $id, $key, true );
+
 		$output = '';
 
 		if ( ! $meta ) {
@@ -439,7 +458,26 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return self::output( $output, $options );
 		}
 
-		$meta = get_user_meta( $user_id, $key, true );
+		/**
+		 * Allow a filter to set this post meta value using some
+		 * custom setter function (such as get_field in ACF). If this value returns
+		 * something we can skip calling get_post_meta for it and return the value instead.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string|null $pre_value The pre-filtered value, or null if unset.
+		 * @param int   $id The post ID used to fetch the meta value.
+		 * @param string $key The meta key to fetch.
+		 */
+		$pre_value = apply_filters(
+			'generateblocks_dynamic_tag_get_author_meta_pre_value',
+			null,
+			$user_id,
+			$key,
+			$id
+		);
+
+		$meta = $pre_value ? $pre_value : get_user_meta( $user_id, $key, true );
 
 		if ( ! $meta ) {
 			$user_data_names = array(

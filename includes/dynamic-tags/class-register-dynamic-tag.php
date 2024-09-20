@@ -35,6 +35,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 		self::$tags[ $args['tag'] ] = [
 			'title'  => $args['title'],
 			'tag'    => $args['tag'],
+			'type'   => $args['type'] ?? 'post',
 			'return' => $args['return'],
 		];
 	}
