@@ -24,20 +24,24 @@ const edge22Packages = Object.keys( dependencies )
 
 // Setup entries for each edge22 package.
 const packageEntries = Object.fromEntries(
-	edge22Packages.map( ( packageName ) => [
-		packageName,
-		{
-			import: require.resolve( `./node_modules/@edge22/${ packageName }/dist/index.js` ),
-			library: {
-				name: [ 'gb', camelCaseDash( packageName ) ],
-				type: 'window',
+	edge22Packages.map( ( packageName ) => {
+		const filename = 'styles-builder' === packageName ? 'generateblocks' : 'index';
+		return [
+			packageName,
+			{
+				import: require.resolve( `./node_modules/@edge22/${ packageName }/dist/${ filename }.js` ),
+				library: {
+					name: [ 'gb', camelCaseDash( packageName ) ],
+					type: 'window',
+				},
 			},
-		},
-	] )
+		];
+	} )
 );
 
 const packageCopyPatterns = edge22Packages.map( ( packageName ) => {
-	const from = resolve( `./node_modules/@edge22/${ packageName }/dist/index.asset.php` );
+	const filename = 'styles-builder' === packageName ? 'generateblocks' : 'index';
+	const from = resolve( `./node_modules/@edge22/${ packageName }/dist/${ filename }.asset.php` );
 	const to = resolve( __dirname, `dist/${ packageName }-imported.asset.php` );
 	return {
 		from,
