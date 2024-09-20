@@ -1,15 +1,16 @@
 import { __ } from '@wordpress/i18n';
-
-import { OpenPanel } from '@edge22/components';
+import { applyFilters } from '@wordpress/hooks';
+import { OpenPanel, IconControl } from '@edge22/components';
 
 import {
 	ApplyFilters,
-	IconControl,
 	ColorPickerControls,
 	UnitControl,
 } from '@components/index.js';
 import { moreDesignOptions } from '@utils';
 import { useBlockStyles } from '@hooks/useBlockStyles';
+import generalSvgs from '@components/icon-picker/svgs-general';
+import socialSvgs from '@components/icon-picker/svgs-social';
 
 export const shapeColorControls = [
 	{
@@ -47,6 +48,27 @@ export function BlockSettings( {
 		setAttributes,
 	};
 
+	const iconType = className?.includes( 'gb-shape--divider' ) ? 'divider' : 'icon';
+
+	let icons = applyFilters(
+		'generateblocks.editor.iconSVGSets',
+		{
+			general: {
+				group: __( 'General', 'generateblocks' ),
+				svgs: generalSvgs,
+			},
+			social: {
+				group: __( 'Social', 'generateblocks' ),
+				svgs: socialSvgs,
+			},
+		},
+		{ attributes }
+	);
+
+	if ( 'divider' === iconType ) {
+		icons = generateBlocksInfo.svgShapes;
+	}
+
 	return (
 		<ApplyFilters
 			name="generateblocks.editor.blockControls"
@@ -64,15 +86,15 @@ export function BlockSettings( {
 				panelId="shape"
 			>
 				<IconControl
+					label={ __( 'Icon', 'generateblocks' ) }
 					value={ html }
-					onChange={ ( value ) => {
-						setAttributes( { html: value } );
-					} }
-					onClear={ () => {
-						setAttributes( { html: '' } );
-					} }
-					attributes={ attributes }
-					iconType={ className.includes( 'gb-shape--divider' ) ? 'divider' : 'icon' }
+					onChange={ ( value ) => setAttributes( { html: value } ) }
+					onClear={ () => setAttributes( { html: '' } ) }
+					icons={ icons }
+					iconType={ iconType }
+					clearLabel={ __( 'Clear', 'generateblocks' ) }
+					openLabel={ __( 'Open Library', 'generateblocks' ) }
+					modalTitle={ __( 'Shape Library', 'generateblocks' ) }
 				/>
 			</OpenPanel>
 

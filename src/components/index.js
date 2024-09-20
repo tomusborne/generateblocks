@@ -11,8 +11,6 @@ import GoogleFontLink from './google-font-link';
 import Gradient from './gradient';
 import { GridColumnSelector, gridColumnLayouts } from './grid-column-selector';
 import HtmlAnchor from './html-anchor';
-import { IconControl, IconModal } from './icon-control';
-import { IconLibrary } from './icon-library';
 import IconPicker from './icon-picker';
 import IconWrapper from './icon-wrapper';
 import { ImageUpload } from './image-upload';
@@ -62,8 +60,6 @@ export {
 	GridColumnSelector,
 	gridColumnLayouts,
 	HtmlAnchor,
-	IconControl,
-	IconLibrary,
 	IconPicker,
 	IconWrapper,
 	ImageUpload,
@@ -91,5 +87,4 @@ export {
 	NoticePanel,
 	OnboardNotice,
 	TagNameToolbar,
-	IconModal,
 };

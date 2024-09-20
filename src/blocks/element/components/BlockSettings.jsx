@@ -5,7 +5,7 @@ import { createBlock, cloneBlock } from '@wordpress/blocks';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
 
-import { OpenPanel } from '@edge22/components';
+import { OpenPanel, IconModal } from '@edge22/components';
 
 import {
 	ApplyFilters,
@@ -14,7 +14,6 @@ import {
 	GridColumnSelector,
 	gridColumnLayouts as layouts,
 	DynamicTagsOnboarder,
-	IconModal,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 import { getElementType } from '../utils/getElementType';
@@ -175,8 +174,10 @@ export function BlockSettings( {
 
 				{ !! openShapeLibrary && (
 					<IconModal
+						title={ __( 'Shape Library', 'generateblocks' ) }
 						iconType="divider"
 						setIsOpen={ setOpenShapeLibrary }
+						icons={ generateBlocksInfo.svgShapes }
 						onChange={ ( value ) => {
 							setAttributes( {
 								styles: {
