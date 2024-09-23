@@ -67,24 +67,6 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			}
 		}
 
-		$classes = [];
-
-		if ( isset( $attributes['className'] ) ) {
-			$classes[] = $attributes['className'];
-		}
-
-		if ( ! empty( $attributes['globalClasses'] ) ) {
-			$classes = array_merge( $classes, $attributes['globalClasses'] );
-		}
-
-		$unique_id = $attributes['uniqueId'] ?? '';
-
-		if ( $unique_id && ! empty( $attributes['css'] ) ) {
-			$classes[] = 'gb-query-' . $unique_id;
-		}
-
-		$tag_name = $attributes['tagName'] ?? 'div';
-
 		$parsed_content = (
 			new WP_Block(
 				$block->parsed_block,
@@ -97,36 +79,17 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			)
 		)->render( array( 'dynamic' => false ) );
 
-		$html_attributes = generateblocks_with_html_attributes(
-			[
-				'id'                    => $attributes['anchor'] ?? null,
-				'class'                 => implode( ' ', $classes ),
-				'data-gb-router-region' => false === $force_reload ? $query_id : null,
-			],
-			$attributes
-		);
-
-		$output = sprintf(
-			'<%1$s %2$s>%3$s</%1$s>',
-			$tag_name,
-			generateblocks_attr(
-				'query',
-				$html_attributes,
-				$attributes,
-				$block
-			),
-			$parsed_content
-		);
-
 		// Add styles to this block if needed.
 		$output = generateblocks_maybe_add_block_css(
-			$output,
+			'',
 			[
 				'class_name' => __CLASS__,
 				'attributes' => $attributes,
 				'block_ids' => self::$block_ids,
 			]
 		);
+
+		$output .= $parsed_content;
 
 		return $output;
 	}

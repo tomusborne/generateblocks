@@ -1,4 +1,4 @@
-export const convertInlineStyleStringToObject = ( styleString ) => {
+export function convertInlineStyleStringToObject( styleString ) {
 	return styleString.split( ';' ).reduce( ( acc, style ) => {
 		const colonIndex = style.indexOf( ':' );
 		if ( colonIndex === -1 ) {
@@ -21,4 +21,4 @@ export const convertInlineStyleStringToObject = ( styleString ) => {
 
 		return acc;
 	}, {} );
-};
+}

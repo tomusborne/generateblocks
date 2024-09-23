@@ -123,33 +123,26 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 			$content = $p->get_updated_html();
 		}
 
-		$classes = [];
+		$html_attributes = generateblocks_get_processed_html_attributes( $block_content );
 
-		if ( isset( $attributes['className'] ) ) {
-			$classes[] = $attributes['className'];
-		}
-
-		if ( ! empty( $attributes['globalClasses'] ) ) {
-			$classes = array_merge( $classes, $attributes['globalClasses'] );
-		}
-
-		$unique_id = $attributes['uniqueId'] ?? '';
-
-		if ( $unique_id && ! empty( $attributes['css'] ) ) {
-			$classes[] = 'gb-query-page-numbers-' . $unique_id;
+		// If our processing returned nothing, let's try to build our attributes from the block attributes.
+		if ( empty( $html_attributes ) ) {
+			$html_attributes = generateblocks_get_backup_html_attributes( 'gb-query-page-numbers', $attributes );
 		}
 
 		$tag_name = $attributes['tagName'] ?? 'div';
 
-		$html_attributes = generateblocks_with_html_attributes(
-			array(
-				'id'    => $attributes['anchor'] ?? null,
-				'class' => implode( ' ', $classes ),
-			),
-			$attributes
+		// Add styles to this block if needed.
+		$output = generateblocks_maybe_add_block_css(
+			'',
+			[
+				'class_name' => __CLASS__,
+				'attributes' => $attributes,
+				'block_ids' => self::$block_ids,
+			]
 		);
 
-		$output = sprintf(
+		$output .= sprintf(
 			'<%1$s %2$s>%3$s</%1$s>',
 			$tag_name,
 			generateblocks_attr(
@@ -159,16 +152,6 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 				$block
 			),
 			$content
-		);
-
-		// Add styles to this block if needed.
-		$output = generateblocks_maybe_add_block_css(
-			$output,
-			[
-				'class_name' => __CLASS__,
-				'attributes' => $attributes,
-				'block_ids' => self::$block_ids,
-			]
 		);
 
 		return $output;

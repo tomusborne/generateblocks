@@ -1,6 +1,7 @@
 import { registerBlockType } from '@wordpress/blocks';
 import { Edit } from './edit';
 import metadata from './block.json';
+import { Save } from './save';
 
 export function paginationIcon() {
 	return (
@@ -10,6 +11,6 @@ export function paginationIcon() {
 
 registerBlockType( metadata, {
 	edit: Edit,
-	save: () => null,
+	save: Save,
 	icon: paginationIcon,
 } );

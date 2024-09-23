@@ -1,16 +1,18 @@
 import { __ } from '@wordpress/i18n';
 import { SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { applyFilters } from '@wordpress/hooks';
 
-import { OpenPanel } from '@edge22/components';
+import { OpenPanel, IconControl } from '@edge22/components';
 
 import {
 	ApplyFilters,
 	URLControls,
-	IconControl,
 	TagNameControl,
 	DynamicTagsOnboarder,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
+import generalSvgs from '@components/icon-picker/svgs-general';
+import socialSvgs from '@components/icon-picker/svgs-social';
 
 export function BlockSettings( {
 	getStyleValue,
@@ -36,6 +38,21 @@ export function BlockSettings( {
 		attributes,
 		setAttributes,
 	};
+
+	const icons = applyFilters(
+		'generateblocks.editor.iconSVGSets',
+		{
+			general: {
+				group: __( 'General', 'generateblocks' ),
+				svgs: generalSvgs,
+			},
+			social: {
+				group: __( 'Social', 'generateblocks' ),
+				svgs: socialSvgs,
+			},
+		},
+		{ attributes }
+	);
 
 	return (
 		<ApplyFilters
@@ -85,6 +102,7 @@ export function BlockSettings( {
 				panelId="icon"
 			>
 				<IconControl
+					label={ __( 'Icon SVG', 'generateblocks' ) }
 					value={ icon }
 					onChange={ ( value ) => {
 						// If the user hasn't done this before, align the icon and text.
@@ -96,10 +114,11 @@ export function BlockSettings( {
 
 						setAttributes( { icon: value } );
 					} }
-					onClear={ () => {
-						setAttributes( { icon: '' } );
-					} }
-					attributes={ attributes }
+					onClear={ () => setAttributes( { icon: '' } ) }
+					icons={ icons }
+					clearLabel={ __( 'Clear', 'generateblocks' ) }
+					openLabel={ __( 'Open Library', 'generateblocks' ) }
+					modalTitle={ __( 'Shape Library', 'generateblocks' ) }
 				/>
 
 				{ !! icon && (

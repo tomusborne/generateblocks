@@ -5,13 +5,15 @@ import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { getBlockClasses } from '@utils/getBlockClasses.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -21,36 +23,15 @@ function EditBlock( props ) {
 		clientId,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
 		html,
-		className,
-		uniqueId,
-		styles = {},
-		htmlAttributes = [],
-		globalClasses = [],
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-shape-${ uniqueId }` );
-		}
-
-		classes.push( 'gb-shape' );
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-shape', classNameAttributes, true );
 
 	const shortcuts = useMemo( () => {
 		const visibleSelectors = [
@@ -73,14 +54,10 @@ function EditBlock( props ) {
 		};
 	}, [] );
 
-	const { style = '', ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 
@@ -120,6 +97,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withUniqueId

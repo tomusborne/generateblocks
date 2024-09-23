@@ -23,12 +23,11 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	/**
 	 * Render the repeater items for the Looper block.
 	 *
-	 * @param   array    $attributes Block attributes.
-	 * @param   string   $content InnerBlocks content.
-	 * @param   WP_Block $block The block instance.
-	 * @return  string  The rendered content.
+	 * @param  array    $attributes Block attributes.
+	 * @param  WP_Block $block The block instance.
+	 * @return string  The rendered content.
 	 */
-	public static function render_repeater( $attributes, $content, $block ) {
+	public static function render_loop_items( $attributes, $block ) {
 		$query      = $block->context['generateblocks/queryData'] ?? null;
 		$query_type = $block->context['generateblocks/queryType'] ?? null;
 
@@ -43,7 +42,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 
 				$block_content = (
 					new WP_Block(
-						$block->parsed_block,
+						$block->parsed_block['innerBlocks'][0],
 						array(
 							'postType'                 => get_post_type(),
 							'postId'                   => get_the_ID(),
@@ -69,20 +68,11 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	 * @param array  $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
-		$classes = [];
+		$html_attributes = generateblocks_get_processed_html_attributes( $block_content );
 
-		if ( isset( $attributes['className'] ) ) {
-			$classes[] = $attributes['className'];
-		}
-
-		if ( ! empty( $attributes['globalClasses'] ) ) {
-			$classes = array_merge( $classes, $attributes['globalClasses'] );
-		}
-
-		$unique_id = $attributes['uniqueId'] ?? '';
-
-		if ( $unique_id && ! empty( $attributes['css'] ) ) {
-			$classes[] = 'gb-looper-' . $unique_id;
+		// If our processing returned nothing, let's try to build our attributes from the block attributes.
+		if ( empty( $html_attributes ) ) {
+			$html_attributes = generateblocks_get_backup_html_attributes( 'gb-looper', $attributes );
 		}
 
 		$tag_name = $attributes['tagName'] ?? 'div';
@@ -97,14 +87,6 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 			]
 		);
 
-		$html_attributes = generateblocks_with_html_attributes(
-			[
-				'id'    => $attributes['anchor'] ?? null,
-				'class' => implode( ' ', $classes ),
-			],
-			$attributes
-		);
-
 		$output .= sprintf(
 			'<%1$s %2$s>%3$s</%1$s>',
 			$tag_name,
@@ -114,7 +96,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 				$attributes,
 				$block
 			),
-			self::render_repeater( $attributes, $block_content, $block )
+			self::render_loop_items( $attributes, $block )
 		);
 
 		return $output;

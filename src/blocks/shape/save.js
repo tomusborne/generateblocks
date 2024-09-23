@@ -3,29 +3,14 @@
  */
 import { useBlockProps } from '@wordpress/block-editor';
 import sanitizeSVG from '../../utils/sanitize-svg';
+import { getBlockClasses } from '@utils/getBlockClasses';
 
 export function Save( { attributes } ) {
 	const {
 		html,
-		className,
-		uniqueId,
-		styles = {},
-		htmlAttributes = [],
-		globalClasses = [],
+		htmlAttributes = {},
 	} = attributes;
-	const classNames = [ 'gb-shape' ];
-	if ( className ) {
-		classNames.push( className );
-	}
-
-	if ( globalClasses.length > 0 ) {
-		classNames.push( ...globalClasses );
-	}
-
-	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-shape-${ uniqueId }` );
-	}
-
+	const classNames = getBlockClasses( 'gb-shape', attributes, true );
 	const blockProps = useBlockProps.save(
 		{
 			className: classNames.join( ' ' ).trim(),

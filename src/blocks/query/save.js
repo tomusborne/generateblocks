@@ -10,7 +10,7 @@ export function Save( props ) {
 		htmlAttributes = {},
 	} = props.attributes;
 
-	const classNames = getBlockClasses( 'gb-element', props.attributes );
+	const classNames = getBlockClasses( 'gb-query', props.attributes );
 
 	const blockProps = useBlockProps.save(
 		{

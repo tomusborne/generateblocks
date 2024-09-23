@@ -5,6 +5,10 @@ export function withEmptyObjectFix( WrappedComponent ) {
 			props.setAttributes( { styles: {} } );
 		}
 
+		if ( Array.isArray( props.attributes.htmlAttributes ) ) {
+			props.setAttributes( { htmlAttributes: {} } );
+		}
+
 		return ( <WrappedComponent { ...props } /> );
 	};
 }

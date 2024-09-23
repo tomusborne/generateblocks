@@ -1,31 +1,17 @@
 /**
  * WordPress dependencies
  */
+import { getBlockClasses } from '@utils/getBlockClasses';
 import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
 export function Save( props ) {
 	const {
 		tagName: Tag,
-		className,
-		styles = {},
-		uniqueId,
 		htmlAttributes = {},
-		globalClasses = [],
 		linkHtmlAttributes,
 	} = props.attributes;
 
-	const classNames = [];
-	if ( className ) {
-		classNames.push( className );
-	}
-
-	if ( globalClasses.length > 0 ) {
-		classNames.push( ...globalClasses );
-	}
-
-	if ( Object.keys( styles ).length > 0 ) {
-		classNames.push( `gb-media-${ uniqueId }` );
-	}
+	const classNames = getBlockClasses( 'gb-media', props.attributes );
 
 	const blockProps = useBlockProps.save(
 		{

@@ -5,13 +5,15 @@ import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
 import BlockAppender from '../element/components/BlockAppender';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
+import { getBlockClasses } from '@utils/getBlockClasses';
 
 function EditBlock( props ) {
 	const {
@@ -21,41 +23,20 @@ function EditBlock( props ) {
 		isSelected,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
-		className,
-		uniqueId,
-		styles,
-		htmlAttributes,
-		globalClasses,
 		tagName,
 		isBlockPreview = false,
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [
-			'gb-loop-item',
-		];
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-loop-item', classNameAttributes, true );
 
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-loop-item-${ uniqueId }` );
-		}
-
-		if ( isBlockPreview ) {
-			classes.push( 'gb-block-preview' );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId, isBlockPreview ] );
+	if ( isBlockPreview ) {
+		classNames.push( 'gb-block-preview' );
+	}
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -63,14 +44,10 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
-	const { style = '', ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 	const innerBlocksProps = useInnerBlocksProps(
@@ -93,7 +70,7 @@ function EditBlock( props ) {
 			visibleSelectors.push(
 				{
 					label: __( 'Hover', 'generateblocks' ),
-					value: ':is(:hover, :focus)',
+					value: '&:is(:hover, :focus)',
 				}
 			);
 		}
@@ -136,6 +113,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withUniqueId

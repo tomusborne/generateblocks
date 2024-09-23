@@ -5,11 +5,13 @@ import { __ } from '@wordpress/i18n';
 
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
-import { convertInlineStyleStringToObject } from '../element/utils.js';
 import { BlockSettings } from './components/BlockSettings';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
+import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
+import { getBlockClasses } from '@utils/getBlockClasses';
+import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 
 function TermLink() {
 	return (
@@ -31,35 +33,16 @@ function EditBlock( props ) {
 		setAttributes,
 		selector,
 		onStyleChange,
+		htmlAttributes,
 	} = props;
 
 	const {
-		className,
-		uniqueId,
-		styles,
-		htmlAttributes,
-		globalClasses,
 		tagName,
 		separator,
 	} = attributes;
 
-	const classNames = useMemo( () => {
-		const classes = [];
-
-		if ( className ) {
-			classes.push( className );
-		}
-
-		if ( globalClasses.length > 0 ) {
-			classes.push( ...globalClasses );
-		}
-
-		if ( Object.keys( styles ).length > 0 ) {
-			classes.push( `gb-query-terms-list-${ uniqueId }` );
-		}
-
-		return classes;
-	}, [ className, globalClasses, styles, uniqueId ] );
+	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNames = getBlockClasses( 'gb-query-terms-list', classNameAttributes );
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -67,14 +50,10 @@ function EditBlock( props ) {
 		}
 	}, [ tagName ] );
 
-	const { style = '', ...otherAttributes } = htmlAttributes;
-	const inlineStyleObject = convertInlineStyleStringToObject( style );
-	const combinedAttributes = { ...otherAttributes, style: inlineStyleObject };
-
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...combinedAttributes,
+			...htmlAttributes,
 		}
 	);
 
@@ -131,6 +110,7 @@ function EditBlock( props ) {
 }
 
 const Edit = compose(
+	withHtmlAttributes,
 	withStyles,
 	withEmptyObjectFix,
 	withUniqueId
