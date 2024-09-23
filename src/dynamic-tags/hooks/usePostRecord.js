@@ -17,7 +17,6 @@ export function usePostRecord( { postType, postId, load = [], options = {} } ) {
 			'generateblocks.editor.dynamicTags.post-request-params',
 			[ 'postType', postType, postId ]
 		);
-		console.log( { params } );
 
 		let postRecord = getEntityRecord( ...params );
 
@@ -34,7 +33,7 @@ export function usePostRecord( { postType, postId, load = [], options = {} } ) {
 				'generateblocks.editor.dynamicTags.author-request-params',
 				[ postRecord.author ]
 			);
-			console.log( { authorParams } );
+
 			const author = getUser( ...authorParams );
 
 			authorIsLoading = (
@@ -73,7 +72,7 @@ export function usePostRecord( { postType, postId, load = [], options = {} } ) {
 		if ( load.includes( 'terms' ) && ! postRecordIsLoading && !! postRecord ) {
 			const termParams = applyFilters(
 				'generateblocks.editor.dynamicTags.terms-request-params',
-				[ 'taxonomy', options.taxonomy, { post: postId } ]
+				[ 'taxonomy', options.taxonomy, { object_id: postId } ]
 			);
 			const terms = getEntityRecords( ...termParams );
 

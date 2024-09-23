@@ -32,12 +32,11 @@ class GenerateBlocks_Register_Dynamic_Tag {
 			return;
 		}
 
-		self::$tags[ $args['tag'] ] = [
-			'title'  => $args['title'],
-			'tag'    => $args['tag'],
-			'type'   => $args['type'] ?? 'post',
-			'return' => $args['return'],
-		];
+		if ( ! isset( $args['type'] ) ) {
+			$args['type'] = 'post';
+		}
+
+		self::$tags[ $args['tag'] ] = $args;
 	}
 
 	/**

@@ -38,6 +38,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Post Title', 'generateblocks' ),
 				'tag'    => 'post_title',
 				'type'   => 'post',
+				'supports' => [ 'link' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_title' ],
 			]
 		);
@@ -47,6 +48,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Post Permalink', 'generateblocks' ),
 				'tag'    => 'post_permalink',
 				'type'   => 'post',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_permalink' ],
 			]
 		);
@@ -56,6 +58,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Published Date', 'generateblocks' ),
 				'tag'    => 'published_date',
 				'type'   => 'post',
+				'supports' => [ 'date', 'link' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_published_date' ],
 			]
 		);
@@ -65,6 +68,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Modified Date', 'generateblocks' ),
 				'tag'    => 'modified_date',
 				'type'   => 'post',
+				'supports' => [ 'date', 'link' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_modified_date' ],
 			]
 		);
@@ -74,6 +78,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Featured Image URL', 'generateblocks' ),
 				'tag'    => 'featured_image_url',
 				'type'   => 'post',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_url' ],
 			]
 		);
@@ -83,6 +88,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Featured Image ID', 'generateblocks' ),
 				'tag'    => 'featured_image_id',
 				'type'   => 'post',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_id' ],
 			]
 		);
@@ -92,6 +98,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Post Meta', 'generateblocks' ),
 				'tag'    => 'post_meta',
 				'type'   => 'post',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
 			]
 		);
@@ -101,6 +108,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Previous Posts URL', 'generateblocks' ),
 				'tag'    => 'previous_posts_page_url',
 				'type'   => 'post',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_previous_posts_page_url' ],
 			]
 		);
@@ -110,6 +118,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Next Posts URL', 'generateblocks' ),
 				'tag'    => 'next_posts_page_url',
 				'type'   => 'post',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
 			]
 		);
@@ -119,6 +128,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Comments Count', 'generateblocks' ),
 				'tag'    => 'comments_count',
 				'type'   => 'post',
+				'supports' => [ 'link' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_count' ],
 			]
 		);
@@ -128,6 +138,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Comments URL', 'generateblocks' ),
 				'tag'    => 'comments_url',
 				'type'   => 'post',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_url' ],
 			]
 		);
@@ -137,6 +148,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Author Meta', 'generateblocks' ),
 				'tag'    => 'author_meta',
 				'type'   => 'author',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
 			]
 		);
@@ -146,6 +158,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Author Archives URL', 'generateblocks' ),
 				'tag'    => 'author_archives_url',
 				'type'   => 'author',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_archive_url' ],
 			]
 		);
@@ -155,6 +168,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Current year', 'generateblocks' ),
 				'tag'    => 'current_year',
 				'type'   => 'site',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_current_year' ],
 			]
 		);
@@ -164,6 +178,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Site Title', 'generateblocks' ),
 				'tag'    => 'site_title',
 				'type'   => 'site',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_title' ],
 			]
 		);
@@ -173,6 +188,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Site Tagline', 'generateblocks' ),
 				'tag'    => 'site_tagline',
 				'type'   => 'site',
+				'supports' => [],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_tagline' ],
 			]
 		);
@@ -182,7 +198,18 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Term List', 'generateblocks' ),
 				'tag'    => 'term_list',
 				'type'   => 'term',
+				'supports' => [ 'link' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Term Meta', 'generateblocks' ),
+				'tag'    => 'term_meta',
+				'type'   => 'term',
+				'supports' => [],
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
 			]
 		);
 	}
@@ -321,12 +348,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		$tag_list = [];
 
 		foreach ( $tags as $tag => $data ) {
+			$relevant_data = $data;
+			unset( $relevant_data['return'] );
 			if ( $data ) {
-				$tag_list[] = [
-					'title' => $data['title'],
-					'tag'   => $data['tag'],
-					'type'  => $data['type'],
-				];
+				$tag_list[] = $relevant_data;
 			}
 		}
 

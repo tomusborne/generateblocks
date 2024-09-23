@@ -10,6 +10,7 @@ import { Autocomplete } from '@edge22/components';
 
 import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
+import { SelectTaxonomy } from './SelectTaxonomy';
 import { usePostRecord } from '../hooks/usePostRecord';
 
 function parseTag( tagString ) {
@@ -36,13 +37,33 @@ function parseTag( tagString ) {
 	};
 }
 
+function getLinkToOptions( type ) {
+	switch ( type ) {
+		case 'term':
+			return [
+				{ label: __( 'None', 'generateblocks' ), value: '' },
+				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
+			];
+		default:
+			return [
+				{ label: __( 'None', 'generateblocks' ), value: '' },
+				{ label: __( 'Post', 'generateblocks' ), value: 'post' },
+				{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
+			];
+	}
+}
+
 export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, currentPost } ) {
-	const [ dynamicTagData, setDynamicTagData ] = useState( {} );
+	const [ availableTags, setAvailableTags ] = useState( {} );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ postTypeSource, setPostTypeSource ] = useState( currentPost?.type ?? 'post' );
 	const [ postIdSource, setPostIdSource ] = useState( 0 );
+	const [ taxonomySource, setTaxonomySource ] = useState( '' );
+	const [ termSource, setTermSource ] = useState( 0 );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
-	const [ dynamicTagType, setDynamicTagType ] = useState( 'post' );
+	const [ dynamicTagData, setDynamicTagData ] = useState( { type: 'post' } );
+	const dynamicTagSupports = dynamicTagData?.supports ?? [];
+	const dynamicTagType = dynamicTagData?.type ?? 'post';
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
 	const [ insertAsLink, setInsertAsLink ] = useState( false );
@@ -62,6 +83,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	const currentPostId = currentPost?.id ?? 0;
 
 	const postRecordArgs = useMemo( () => {
+		const options = {};
 		const load = [];
 		if ( 'author' === dynamicTagType ) {
 			load.push( 'author' );
@@ -70,20 +92,25 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		} else if ( 'term' === dynamicTagType ) {
 			load.push( 'terms' );
 		}
+
+		if ( taxonomySource ) {
+			options.taxonomy = taxonomySource;
+		}
+
 		return {
 			load,
+			options,
 			postType: postTypeSource,
 			postId: postIdSource ? postIdSource : currentPostId,
-			options: {},
 		};
-	}, [ dynamicTagType, postIdSource, postTypeSource ] );
+	}, [ dynamicTagType, postIdSource, postTypeSource, taxonomySource ] );
 
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record, isLoading } = usePostRecord( postRecordArgs );
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
-		setDynamicTagType( dynamicTagData[ newTag ]?.type ?? 'post' );
+		setDynamicTagData( availableTags[ newTag ] );
 		setLinkTo( '' );
 		setInsertAsLink( false );
 	}
@@ -135,6 +162,14 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 			setCommentsCountText( existingCommentsCountText );
 		}
 
+		if ( params?.tax ) {
+			setTaxonomySource( params.tax );
+		}
+
+		if ( params?.term ) {
+			setTaxonomySource( params.term );
+		}
+
 		if ( params?.link ) {
 			setLinkTo( params.link );
 		}
@@ -142,13 +177,13 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		if ( params?.renderIfEmpty ) {
 			setRenderIfEmpty( true );
 		}
-	}, [ selectedValue, dynamicTagData ] );
+	}, [ selectedValue, availableTags ] );
 
 	/**
 	 * Load the dynamic tags.
 	 */
 	async function loadTags() {
-		if ( Object.keys( dynamicTagData ).length ) {
+		if ( Object.keys( availableTags ).length ) {
 			return;
 		}
 
@@ -157,16 +192,16 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 			method: 'GET',
 		} );
 
-		setDynamicTagData( response.reduce( ( prev, curr ) => {
+		setAvailableTags( response.reduce( ( prev, curr ) => {
 			return { ...prev, [ curr.tag ]: curr };
 		}, {} ) );
 	}
 
 	const dynamicTagOptions = useMemo( () => (
-		Object.entries( dynamicTagData ).map(
+		Object.entries( availableTags ).map(
 			( [ tag, { title, type } ] ) => ( { label: title, value: tag, type } )
 		)
-	), [ dynamicTagData ] );
+	), [ availableTags ] );
 
 	useEffect( () => {
 		loadTags();
@@ -180,12 +215,17 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 
 		const options = [];
 
-		if ( postIdSource ) {
-			options.push( `id:${ postIdSource }` );
+		if ( 'term_meta' === dynamicTag && 'term' !== dynamicSource ) {
+			setDynamicSource( 'term' );
 		}
 
-		const isMetaTag = dynamicTag.startsWith( 'post_meta' ) ||
-            dynamicTag.startsWith( 'author_meta' );
+		if ( postIdSource && 'post' === dynamicSource ) {
+			options.push( `id:${ postIdSource }` );
+		} else if ( termSource && 'term' === dynamicSource ) {
+			options.push( `id:${ termSource }` );
+		}
+
+		const isMetaTag = dynamicTag.includes( '_meta' );
 
 		if ( isMetaTag && metaKey ) {
 			options.push( `key:${ metaKey }` );
@@ -197,12 +237,16 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 			options.push( `multiple:${ commentsCountText.multiple }` );
 		}
 
-		if ( linkTo ) {
+		if ( linkTo && dynamicTagSupports.includes( 'link' ) ) {
 			options.push( `link:${ linkTo }` );
 		}
 
 		if ( renderIfEmpty ) {
 			options.push( 'renderIfEmpty' );
+		}
+
+		if ( taxonomySource && 'term' === dynamicTagType && ! isMetaTag ) {
+			options.push( `tax:${ taxonomySource }` );
 		}
 
 		const tagOptions = options.join( '|' );
@@ -216,14 +260,35 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		tagToInsert = `{${ tagToInsert }}`;
 
 		setDynamicTagToInsert( tagToInsert );
-	}, [ postIdSource, dynamicTag, metaKey, commentsCountText, linkTo, renderIfEmpty ] );
+	}, [
+		postIdSource,
+		dynamicTag,
+		dynamicTagType,
+		dynamicTagSupports,
+		metaKey,
+		commentsCountText,
+		linkTo,
+		renderIfEmpty,
+		taxonomySource,
+		termSource,
+	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
-	const canBeLinked = [ 'post_title', 'comments_count', 'published_date', 'modified_date' ];
-	const showLinkTo = canBeLinked.includes( dynamicTag ) && ! interactiveTagNames.includes( tagName );
+	const supportsLink = dynamicTagSupports.includes( 'link' );
+	const showLinkTo = supportsLink && ! interactiveTagNames.includes( tagName );
 	const showInsertAsLink = hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
+	const linkToOptions = useMemo( () => {
+		if ( ! showLinkTo ) {
+			return [];
+		}
+
+		return getLinkToOptions( dynamicTagType );
+	}, [ dynamicTagType, showLinkTo ] );
 	const postMetaKeyList = useMemo( () => {
-		console.log( { dynamicTagType } );
+		if ( ! dynamicTag.includes( '_meta' ) ) {
+			return [];
+		}
+
 		switch ( dynamicTagType ) {
 			case 'post':
 				if ( ! record?.meta ) {
@@ -251,10 +316,26 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 						items: Object.keys( authorMeta ).map( ( key ) => ( { label: key, value: key } ) ),
 					},
 				];
+			case 'term':
+				const recordTerms = record?.term ?? [];
+				const termData = recordTerms.find( ( term ) => term.id === termSource );
+				const termMeta = termData?.meta ?? {};
+
+				if ( ! termMeta ) {
+					return [];
+				}
+
+				return [
+					{
+						id: 'term_meta',
+						label: __( 'Term Meta', 'generateblocks' ),
+						items: Object.keys( termMeta ).map( ( key ) => ( { label: key, value: key } ) ),
+					},
+				];
 			default:
 				return [];
 		}
-	}, [ record, isLoading, dynamicTagType ] );
+	}, [ record, isLoading, dynamicTag, dynamicTagType ] );
 
 	const metaKeyOptions = applyFilters(
 		'generateblocks.editor.dynamicTags.metaKeys.list',
@@ -263,11 +344,39 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		{
 			dynamicTagType,
 			dynamicSource,
+			termSource,
 			postTypeSource,
 			postIdSource,
 			dynamicTag,
 			isLoading,
 		} );
+
+	const termOptions = useMemo( () => {
+		if ( ! record?.terms?.length ) {
+			return [];
+		}
+
+		return record.terms.map( ( term ) => {
+			return {
+				label: term.name,
+				value: term.id,
+			};
+		} );
+	}, [ record, taxonomySource ] );
+
+	const sourceOptions = useMemo( () => {
+		if ( 'term_meta' === dynamicTag ) {
+			return [
+				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
+			];
+		}
+		return [
+			{ label: __( 'Current', 'generateblocks' ), value: 'current' },
+			{ label: __( 'Post', 'generateblocks' ), value: 'post' },
+		];
+	}, [ dynamicTag ] );
+
+	console.log( { record } );
 
 	return (
 		<>
@@ -285,10 +394,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 					<ComboboxControl
 						label={ __( 'Source', 'generateblocks' ) }
 						value={ dynamicSource }
-						options={ [
-							{ label: __( 'Current', 'generateblocks' ), value: 'current' },
-							{ label: __( 'Post', 'generateblocks' ), value: 'post' },
-						] }
+						options={ sourceOptions }
 						onChange={ ( value ) => setDynamicSource( value ) }
 					/>
 
@@ -311,10 +417,27 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 						</>
 					) }
 
-					{ (
-						dynamicTagToInsert.startsWith( '{post_meta' ) ||
-						dynamicTagToInsert.startsWith( '{author_meta' )
-					) && (
+					{ 'term' === dynamicTagType && (
+						<SelectTaxonomy
+							onChange={ setTaxonomySource }
+							value={ taxonomySource }
+							postType={ postTypeSource }
+							currentPostOnly={ 'term' !== dynamicSource }
+						/>
+					) }
+
+					{ ( 'term' === dynamicSource ) && (
+						<ComboboxControl
+							id={ 'gblocks-select-term' }
+							label={ __( 'Select Term', 'generateblocks' ) }
+							placeholder={ __( 'Select Term', 'generateblocks' ) }
+							options={ termOptions }
+							value={ termSource }
+							onChange={ setTermSource }
+						/>
+					) }
+
+					{ dynamicTag.includes( '_meta' ) && (
 						<Autocomplete
 							label={ __( 'Meta key', 'generateblocks' ) }
 							defaultValue={ metaKey }
@@ -369,11 +492,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 						<SelectControl
 							label={ __( 'Link to', 'generateblocks' ) }
 							value={ linkTo }
-							options={ [
-								{ label: __( 'None', 'generateblocks' ), value: '' },
-								{ label: __( 'Post', 'generateblocks' ), value: 'post' },
-								{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
-							] }
+							options={ linkToOptions }
 							onChange={ ( value ) => setLinkTo( value ) }
 						/>
 					) }
