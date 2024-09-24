@@ -252,7 +252,8 @@ function generateblocks_do_block_editor_assets() {
 		'generateblocks-editor',
 		'generateBlocksEditor',
 		[
-			'activeBlockVersion'     => generateblocks_get_active_block_version(),
+			'activeBlockVersion' => generateblocks_get_active_block_version(),
+			'dynamicTags'        => GenerateBlocks_Register_Dynamic_Tag::get_tags(),
 		]
 	);
 

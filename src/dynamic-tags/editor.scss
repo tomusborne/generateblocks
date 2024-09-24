@@ -33,3 +33,18 @@
 		}
 	}
 }
+
+.components-toolbar-group {
+	.components-button.gb-dynamic-tag-content-mode-toggle {
+		padding-inline: 10px !important;
+		font-size: 12px;
+
+		svg {
+			margin-left: -3px;
+		}
+	}
+}
+
+.gb-dynamic-tag-toolbar-button[disabled] {
+	opacity: 1;
+}

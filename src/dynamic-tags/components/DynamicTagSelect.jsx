@@ -1,9 +1,7 @@
 import { useState, useEffect, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
-import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
 import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
 
@@ -39,7 +37,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
-	const [ insertAsLink, setInsertAsLink ] = useState( false );
 	const [ commentsCountText, setCommentsCountText ] = useState( {
 		none: __( 'No comments', 'generateblocks' ),
 		one: __( 'One comment', 'generateblocks' ),
@@ -48,11 +45,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 	} );
 	const [ linkTo, setLinkTo ] = useState( '' );
 	const [ renderIfEmpty, setRenderIfEmpty ] = useState( false );
-
-	const { getSelectionStart, getSelectionEnd } = useSelect( blockEditorStore, [] );
-	const selectionStart = getSelectionStart();
-	const selectionEnd = getSelectionEnd();
-	const hasSelection = selectionStart?.offset !== selectionEnd?.offset;
 
 	/**
 	 * If there's an existing value we're highlighting, fill in our fields with the
@@ -183,7 +175,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 	const interactiveTagNames = [ 'a', 'button' ];
 	const canBeLinked = [ 'post_title', 'comments_count', 'published_date', 'modified_date' ];
 	const showLinkTo = canBeLinked.includes( dynamicTag ) && ! interactiveTagNames.includes( tagName );
-	const showInsertAsLink = hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
 
 	return (
 		<>
@@ -286,21 +277,10 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 						onChange={ ( value ) => setDynamicTagToInsert( value ) }
 					/>
 
-					{ !! showInsertAsLink && (
-						<CheckboxControl
-							label={ __( 'Insert as link', 'generateblocks' ) }
-							checked={ insertAsLink }
-							onChange={ ( value ) => setInsertAsLink( value ) }
-						/>
-					) }
-
 					<Button
 						variant="primary"
 						onClick={ () => {
-							onInsert( {
-								value: dynamicTagToInsert,
-								insertAsLink,
-							} );
+							onInsert( dynamicTagToInsert );
 						} }
 					>
 						{ __( 'Insert dynamic tag', 'generateblocks' ) }
