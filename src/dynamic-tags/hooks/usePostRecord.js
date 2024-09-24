@@ -2,7 +2,7 @@ import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 import { applyFilters } from '@wordpress/hooks';
 
-export function usePostRecord( { postType, postId, load = [], options = {} } ) {
+export function usePostRecord( { postId, postType = 'post', load = [], options = {} } ) {
 	return useSelect( ( select ) => {
 		const {
 			getUser,

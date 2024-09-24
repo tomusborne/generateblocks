@@ -12,6 +12,7 @@ import { SelectPostType } from './SelectPostType';
 import { SelectPost } from './SelectPost';
 import { SelectTaxonomy } from './SelectTaxonomy';
 import { usePostRecord } from '../hooks/usePostRecord';
+import { useTermRecord } from '../hooks/useTermRecord';
 
 function parseTag( tagString ) {
 	const regex = /\{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}/;
@@ -107,6 +108,10 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record, isLoading } = usePostRecord( postRecordArgs );
+	const { record: termRecord, isLoading: termRecordLoading } = useTermRecord( {
+		termId: termSource,
+		taxonomy: taxonomySource,
+	} );
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
@@ -136,8 +141,13 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		const params = parsedTag?.params;
 
 		if ( params?.id ) {
-			setDynamicSource( 'post' );
-			setPostIdSource( parseInt( params.id ) );
+			if ( 'term_meta' === tag ) {
+				setDynamicSource( 'term' );
+				setTermSource( parseInt( params.id ) );
+			} else {
+				setDynamicSource( 'post' );
+				setPostIdSource( parseInt( params.id ) );
+			}
 		}
 
 		if ( params?.key ) {
@@ -166,10 +176,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 			setTaxonomySource( params.tax );
 		}
 
-		if ( params?.term ) {
-			setTaxonomySource( params.term );
-		}
-
 		if ( params?.link ) {
 			setLinkTo( params.link );
 		}
@@ -177,25 +183,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		if ( params?.renderIfEmpty ) {
 			setRenderIfEmpty( true );
 		}
-	}, [ selectedValue, availableTags ] );
-
-	/**
-	 * Load the dynamic tags.
-	 */
-	async function loadTags() {
-		if ( Object.keys( availableTags ).length ) {
-			return;
-		}
-
-		const response = await apiFetch( {
-			path: '/generateblocks/v1/dynamic-tags',
-			method: 'GET',
-		} );
-
-		setAvailableTags( response.reduce( ( prev, curr ) => {
-			return { ...prev, [ curr.tag ]: curr };
-		}, {} ) );
-	}
+	}, [ selectedValue, availableTags, dynamicTagType ] );
 
 	const dynamicTagOptions = useMemo( () => (
 		Object.entries( availableTags ).map(
@@ -204,6 +192,24 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	), [ availableTags ] );
 
 	useEffect( () => {
+		/**
+		 * Load the dynamic tags.
+		 */
+		async function loadTags() {
+			if ( Object.keys( availableTags ).length ) {
+				return;
+			}
+
+			const response = await apiFetch( {
+				path: '/generateblocks/v1/dynamic-tags',
+				method: 'GET',
+			} );
+
+			setAvailableTags( response.reduce( ( prev, curr ) => {
+				return { ...prev, [ curr.tag ]: curr };
+			}, {} ) );
+		}
+
 		loadTags();
 	}, [] );
 
@@ -245,7 +251,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 			options.push( 'renderIfEmpty' );
 		}
 
-		if ( taxonomySource && 'term' === dynamicTagType && ! isMetaTag ) {
+		if ( taxonomySource && 'term' === dynamicTagType ) {
 			options.push( `tax:${ taxonomySource }` );
 		}
 
@@ -276,7 +282,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	const interactiveTagNames = [ 'a', 'button' ];
 	const supportsLink = dynamicTagSupports.includes( 'link' );
 	const showLinkTo = supportsLink && ! interactiveTagNames.includes( tagName );
-	const showInsertAsLink = hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
+	const showInsertAsLink = supportsLink && hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
 	const linkToOptions = useMemo( () => {
 		if ( ! showLinkTo ) {
 			return [];
@@ -295,11 +301,17 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 					return [];
 				}
 
+				const postItems = Object.keys( record.meta ).map( ( key ) => ( { label: key, value: key } ) );
+
+				if ( postItems.length === 0 ) {
+					return [];
+				}
+
 				return [
 					{
 						id: 'post_meta',
 						label: __( 'Post Meta', 'generateblocks' ),
-						items: Object.keys( record.meta ).map( ( key ) => ( { label: key, value: key } ) ),
+						items: postItems,
 					},
 				];
 			case 'author':
@@ -309,19 +321,28 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 					return [];
 				}
 
+				const authorItems = Object.keys( termMeta ).map( ( key ) => ( { label: key, value: key } ) );
+
+				if ( authorItems.length === 0 ) {
+					return [];
+				}
+
 				return [
 					{
 						id: 'author_meta',
 						label: __( 'Author Meta', 'generateblocks' ),
-						items: Object.keys( authorMeta ).map( ( key ) => ( { label: key, value: key } ) ),
+						items: authorItems,
 					},
 				];
 			case 'term':
-				const recordTerms = record?.term ?? [];
-				const termData = recordTerms.find( ( term ) => term.id === termSource );
-				const termMeta = termData?.meta ?? {};
+				const termMeta = termRecord?.meta ?? {};
 
 				if ( ! termMeta ) {
+					return [];
+				}
+				const termItems = Object.keys( termMeta ).map( ( key ) => ( { label: key, value: key } ) );
+
+				if ( termItems.length === 0 ) {
 					return [];
 				}
 
@@ -329,19 +350,20 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 					{
 						id: 'term_meta',
 						label: __( 'Term Meta', 'generateblocks' ),
-						items: Object.keys( termMeta ).map( ( key ) => ( { label: key, value: key } ) ),
+						items: termItems,
 					},
 				];
 			default:
 				return [];
 		}
-	}, [ record, isLoading, dynamicTag, dynamicTagType ] );
+	}, [ record, isLoading, dynamicTag, dynamicTagType, termRecordLoading, termRecord ] );
 
 	const metaKeyOptions = applyFilters(
 		'generateblocks.editor.dynamicTags.metaKeys.list',
 		postMetaKeyList,
-		record,
 		{
+			postRecord: record,
+			termRecord,
 			dynamicTagType,
 			dynamicSource,
 			termSource,
@@ -376,7 +398,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		];
 	}, [ dynamicTag ] );
 
-	console.log( { record } );
+	console.log( { record, dynamicSource } );
 
 	return (
 		<>
