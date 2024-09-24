@@ -398,8 +398,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		];
 	}, [ dynamicTag ] );
 
-	console.log( { record, dynamicSource } );
-
 	return (
 		<>
 			{ isLoading && <p>{ __( 'Loading…', 'generateblocks' ) }</p> }

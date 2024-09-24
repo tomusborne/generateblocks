@@ -6,7 +6,6 @@ import { ComboboxControl } from '@wordpress/components';
 export function SelectTaxonomy( { onChange, value, help, postType = 'post', currentPostOnly = true } ) {
 	const taxonomies = useTaxonomies();
 	const options = useMemo( () => {
-		console.log( { taxonomies, currentPostOnly } );
 		const availableTaxonomies = currentPostOnly
 			? taxonomies.filter( ( tax ) => ( tax.types.includes( postType ) ) )
 			: taxonomies;
