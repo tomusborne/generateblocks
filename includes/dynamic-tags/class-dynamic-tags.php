@@ -265,14 +265,52 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		register_rest_route(
 			'generateblocks/v1',
-			'/dynamic-tags',
+			'/get-posts',
 			[
 				'methods'  => 'GET',
-				'callback' => [ $this, 'get_dynamic_tags' ],
+				'callback' => [ $this, 'get_latest_posts' ],
 				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
 				},
 			]
+		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/post-record',
+			array(
+				'methods'  => 'GET',
+				'callback' => [ $this, 'get_custom_post_record' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+				'args'     => array(
+					'postId'   => array(
+						'required' => true,
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_numeric( $param );
+						},
+					),
+					'load'     => array(
+						'required' => false,
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param ) || is_array( $param );
+						},
+						'sanitize_callback' => function( $param, $request, $key ) {
+							return is_string( $param ) ? explode( ',', $param ) : $param;
+						},
+					),
+					'options'  => array(
+						'required' => false,
+						'validate_callback' => function( $param, $request, $key ) {
+							return is_string( $param ) || is_array( $param );
+						},
+						'sanitize_callback' => function( $param, $request, $key ) {
+							return is_string( $param ) ? json_decode( $param, true ) : $param;
+						},
+					),
+				),
+			)
 		);
 	}
 
@@ -339,24 +377,88 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Get dynamic tags.
+	 * Get all of our posts in all public post types.
 	 *
-	 * @return WP_REST_Response
+	 * @param WP_REST_Request $request The request.
 	 */
-	public function get_dynamic_tags() {
-		$tags = GenerateBlocks_Register_Dynamic_Tag::get_tags();
-		$tag_list = [];
+	public function get_latest_posts( WP_REST_Request $request ) {
+		$search = $request->get_param( 'search' );
+		$post_types = get_post_types( array( 'public' => true ), 'names' );
+		$result = [];
 
-		foreach ( $tags as $tag => $data ) {
-			$relevant_data = $data;
-			unset( $relevant_data['return'] );
-			if ( $data ) {
-				$tag_list[] = $relevant_data;
+		foreach ( $post_types as $post_type ) {
+			$args = array(
+				'post_type' => $post_type,
+				'posts_per_page' => 10,
+				's' => $search,
+			);
+
+			$posts = get_posts( $args );
+
+			if ( ! empty( $posts ) ) {
+				$result[] = array(
+					'id' => $post_type,
+					'label' => ucfirst( $post_type ),
+					'items' => array_map(
+						function ( $post ) {
+							return array(
+								'value' => (string) $post->ID,
+								'label' => '#' . $post->ID . ': ' . get_the_title( $post->ID ),
+							);
+						},
+						$posts
+					),
+				);
 			}
 		}
 
-		return rest_ensure_response( $tag_list );
+		return rest_ensure_response( $result );
 	}
+
+	/**
+	 * Get our post record based on the requested load and post ID.
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 */
+	public function get_custom_post_record( WP_REST_Request $request ) {
+		$postId = $request->get_param( 'postId' );
+		$load = $request->get_param( 'load' ) ?? [];
+		$options = $request->get_param( 'options' ) ?? [];
+
+		// Fetch the post.
+		$post = get_post( $postId );
+		if ( ! $post ) {
+			return new WP_Error( 'no_post', 'Post not found', array( 'status' => 404 ) );
+		}
+
+		$response = array( 'post' => $post );
+
+		if ( in_array( 'post', $load ) ) {
+			$post_meta = get_post_meta( $postId );
+			$response['meta'] = $post_meta;
+		}
+
+		// Fetch author data if requested.
+		if ( in_array( 'author', $load ) ) {
+			$author = get_user_by( 'ID', $post->post_author );
+			$response['author'] = $author;
+		}
+
+		// Fetch comments if requested.
+		if ( in_array( 'comments', $load ) ) {
+			$comments = get_comments( array( 'post_id' => $postId ) );
+			$response['comments'] = $comments;
+		}
+
+		// Fetch terms if requested and if taxonomy is provided in options.
+		if ( in_array( 'terms', $load ) && isset( $options['taxonomy'] ) ) {
+			$terms = wp_get_post_terms( $postId, $options['taxonomy'] );
+			$response['terms'] = $terms;
+		}
+
+		return rest_ensure_response( $response );
+	}
+
 
 	/**
 	 * Before tag replace.
