@@ -132,7 +132,7 @@ export function DynamicTagBlockToolbar( {
 					</>
 				) }
 
-				{ 'edit' === contentMode && !! selectionStart?.offset && (
+				{ 'edit' === contentMode && undefined !== selectionStart?.offset && (
 					<DynamicTagModal
 						onInsert={ ( newValue ) => {
 							if ( ! newValue ) {
