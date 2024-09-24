@@ -435,6 +435,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		if ( in_array( 'post', $load ) ) {
 			$post_meta = get_post_meta( $postId );
+			$post_meta = array_filter(
+				$post_meta,
+				function ( $value, $key ) {
+					return ! generateblocks_str_starts_with( $key, '_' );
+				},
+				ARRAY_FILTER_USE_BOTH
+			);
 			$response['meta'] = $post_meta;
 		}
 
@@ -453,7 +460,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		// Fetch terms if requested and if taxonomy is provided in options.
 		if ( in_array( 'terms', $load ) && isset( $options['taxonomy'] ) ) {
 			$terms = wp_get_post_terms( $postId, $options['taxonomy'] );
-			$response['terms'] = $terms;
+
+			foreach ( $terms as $key => $data ) {
+				$response['terms'][] = [
+					'id'   => $data->term_id,
+					'name' => $data->name,
+				];
+			}
 		}
 
 		return rest_ensure_response( $response );

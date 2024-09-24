@@ -221,6 +221,8 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 
 		if ( 'term_meta' === dynamicTag && 'term' !== dynamicSource ) {
 			setDynamicSource( 'term' );
+		} else if ( ! dynamicSource || 'term_meta' === dynamicSource ) {
+			setDynamicSource( 'current' );
 		}
 
 		if ( postIdSource && 'post' === dynamicSource ) {
@@ -417,9 +419,9 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 						<>
 							<Autocomplete
 								label={ __( 'Select source post', 'generateblocks' ) }
-								defaultValue={ postIdSource.toString() }
-								selected={ postIdSource.toString() }
-								onSelect={ ( { value } ) => setPostIdSource( value.toString() ) }
+								defaultValue={ postIdSource }
+								selected={ postIdSource }
+								onSelect={ ( { value } ) => setPostIdSource( value ) }
 								source={ allPosts }
 								showClear={ true }
 								onClear={ () => setPostIdSource( '' ) }
