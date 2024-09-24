@@ -3,20 +3,30 @@ import { BlockControls, store as blockEditorStore } from '@wordpress/block-edito
 import { useEffect, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
-import { create, insert, RichTextData } from '@wordpress/rich-text';
+import { create, insert, replace, RichTextData } from '@wordpress/rich-text';
 
 import { DynamicTagModal } from '../index.js';
 import { getIcon } from '@utils/index.js';
-import { edit, plus } from '@wordpress/icons';
+import { chevronDownSmall } from '@wordpress/icons';
 
-function containsTag( value, data ) {
+function getTags( value, data ) {
+	const foundTags = [];
+
 	for ( const key in data ) {
 		const tag = data[ key ].tag;
-		if ( value.includes( `{${ tag }` ) ) {
-			return true; // Or return tag if you need to know which tag was found
+		// Create a regular expression to match {tag_name ...}
+		const regex = new RegExp( `\\{${ tag }[^}]*\\}`, 'g' );
+
+		// Find all matches for the current tag
+		const matches = value.match( regex );
+
+		// If matches are found, push them to the foundTags array
+		if ( matches ) {
+			foundTags.push( ...matches );
 		}
 	}
-	return false;
+
+	return foundTags;
 }
 
 export function DynamicTagBlockToolbar( {
@@ -28,7 +38,7 @@ export function DynamicTagBlockToolbar( {
 	onChange,
 } ) {
 	const allTags = generateBlocksEditor.dynamicTags;
-	const hasTag = containsTag( value, allTags );
+	const foundTags = getTags( value, allTags );
 
 	const contentValue = useMemo( () => {
 		return value?.text || value;
@@ -50,48 +60,61 @@ export function DynamicTagBlockToolbar( {
 		return contentValue.substring( selectionStart.offset, selectionEnd.offset );
 	}, [ selectionStart, selectionEnd, value ] );
 
-	const isTagSelected = useMemo( () => {
-		if ( ! selectedText ) {
-			return false;
-		}
-
-		return selectedText.startsWith( '{' ) && selectedText.endsWith( '}' );
-	}, [ selectedText ] );
-
 	useEffect( () => {
-		if ( hasTag && ! isSelected ) {
+		if ( foundTags.length && ! isSelected ) {
 			setContentMode( 'preview' );
 		}
-	}, [ hasTag, isSelected ] );
-
-	function getButtonLabel() {
-		if ( 'preview' === contentMode ) {
-			return __( 'Enable edit mode to edit or add dynamic tags', 'generateblocks' );
-		}
-
-		if ( isTagSelected ) {
-			return __( 'Edit dynamic tag', 'generateblocks' );
-		}
-
-		return __( 'Add dynamic tag', 'generateblocks' );
-	}
-
-	function getEditIcon() {
-		if ( isTagSelected ) {
-			return edit;
-		}
-
-		if ( hasTag ) {
-			return plus;
-		}
-
-		return getIcon( 'database' );
-	}
+	}, [ foundTags.length, isSelected ] );
 
 	return (
 		<BlockControls>
 			<ToolbarGroup>
-				{ hasTag && (
+				<DynamicTagModal
+					onInsert={ ( newValue, options ) => {
+						if ( ! newValue ) {
+							return;
+						}
+
+						const selectionOffset = selectionStart?.offset ?? value.length;
+						const selectionEndOffset = selectionEnd?.offset ?? value.length;
+
+						let richTextValue = insert(
+							value,
+							create( { html: newValue } ),
+							selectionOffset,
+							selectionEndOffset
+						);
+
+						if ( options?.tagToReplace ) {
+							richTextValue = replace(
+								value,
+								options.tagToReplace,
+								create( { html: newValue } )
+							);
+						}
+
+						onChange( new RichTextData( richTextValue ) );
+					} }
+					onRemove={ ( tagToRemove ) => {
+						const newValue = replace( value, tagToRemove, '' );
+						onChange( new RichTextData( newValue ) );
+					} }
+					renderToggle={ ( { isOpen, onToggle } ) => (
+						<ToolbarButton
+							icon={ getIcon( 'database' ) }
+							label={ __( 'Open dynamic tags', 'generateblocks' ) }
+							showTooltip
+							onClick={ onToggle }
+							aria-expanded={ isOpen }
+							className="gb-dynamic-tag-toolbar-button"
+						/>
+					) }
+					tagName={ tagName }
+					value={ value }
+					selectedText={ selectedText }
+					foundTags={ foundTags }
+				/>
+				{ !! foundTags.length && (
 					<>
 						<Dropdown
 							renderToggle={ ( { onToggle } ) => (
@@ -99,7 +122,8 @@ export function DynamicTagBlockToolbar( {
 									onClick={ onToggle }
 									isPressed={ true }
 									className="gb-dynamic-tag-content-mode-toggle"
-									icon={ getIcon( 'database' ) }
+									icon={ chevronDownSmall }
+									iconPosition="right"
 								>
 									{ 'preview' === contentMode ? __( 'Preview Mode', 'generateblocks' ) : __( 'Edit Mode', 'generateblocks' ) }
 								</ToolbarButton>
@@ -131,39 +155,7 @@ export function DynamicTagBlockToolbar( {
 						/>
 					</>
 				) }
-
-				{ 'edit' === contentMode && undefined !== selectionStart?.offset && (
-					<DynamicTagModal
-						onInsert={ ( newValue ) => {
-							if ( ! newValue ) {
-								return;
-							}
-
-							const richTextValue = insert(
-								value,
-								create( { html: newValue } ),
-								selectionStart?.offset,
-								selectionEnd?.offset
-							);
-
-							onChange( new RichTextData( richTextValue ) );
-						} }
-						renderToggle={ ( { isOpen, onToggle } ) => (
-							<ToolbarButton
-								icon={ getEditIcon() }
-								label={ getButtonLabel() }
-								showTooltip
-								onClick={ onToggle }
-								aria-expanded={ isOpen }
-								className="gb-dynamic-tag-toolbar-button"
-							/>
-						) }
-						tagName={ tagName }
-						value={ selectedText }
-					/>
-				) }
 			</ToolbarGroup>
 		</BlockControls>
-
 	);
 }

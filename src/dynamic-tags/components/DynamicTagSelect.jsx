@@ -29,7 +29,7 @@ function parseTag( tagString ) {
 	};
 }
 
-export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) {
+export function DynamicTagSelect( { onInsert, tagName, selectedText } ) {
 	const [ dynamicTagData, setDynamicTagData ] = useState( [] );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ postTypeSource, setPostTypeSource ] = useState( 'post' );
@@ -51,11 +51,11 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 	 * appropriate values.
 	 */
 	useEffect( () => {
-		if ( ! selectedValue ) {
+		if ( ! selectedText ) {
 			return;
 		}
 
-		const parsedTag = parseTag( selectedValue );
+		const parsedTag = parseTag( selectedText );
 		const tag = parsedTag?.tag;
 
 		if ( ! tag ) {
@@ -100,7 +100,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue } ) 
 		if ( params?.renderIfEmpty ) {
 			setRenderIfEmpty( true );
 		}
-	}, [ selectedValue ] );
+	}, [ selectedText ] );
 
 	/**
 	 * Load the dynamic tags.
