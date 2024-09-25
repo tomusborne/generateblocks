@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { create, insert, replace, RichTextData } from '@wordpress/rich-text';
 
-import { DynamicTagModal } from '../index.js';
+import { DynamicTagModal } from '..';
 import { getIcon } from '@utils/index.js';
 import { chevronDownSmall } from '@wordpress/icons';
 
