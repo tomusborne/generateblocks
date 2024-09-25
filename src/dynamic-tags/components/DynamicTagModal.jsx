@@ -1,5 +1,7 @@
 import { Modal, Button, Tooltip } from '@wordpress/components';
 import { useState } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
+import { store as editorStore } from '@wordpress/editor';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
 import '../editor.scss';
@@ -7,6 +9,14 @@ import { DynamicTagSelect } from './DynamicTagSelect';
 
 export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, value } ) {
 	const [ isOpen, setOpen ] = useState( false );
+
+	// Use getEntityRecord to get the current post from the block editor
+
+	const currentPost = useSelect( ( select ) => {
+		const { getCurrentPost } = select( editorStore );
+
+		return getCurrentPost ? getCurrentPost() : null;
+	} );
 
 	function onToggle() {
 		setOpen( ! isOpen );
@@ -54,6 +64,7 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, val
 							} }
 							tagName={ tagName }
 							value={ value }
+							currentPost={ currentPost }
 						/>
 					</div>
 				</Modal>
