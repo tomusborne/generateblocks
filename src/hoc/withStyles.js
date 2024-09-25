@@ -6,6 +6,7 @@ import {
 	useGenerateCSSEffect,
 	useStyleSelectorEffect,
 	useUpdateEditorCSSEffect,
+	useSyncStyles,
 } from '@edge22/block-styles';
 
 import { useBlockStyles } from '@hooks/useBlockStyles';
@@ -111,6 +112,12 @@ export function withStyles( WrappedComponent ) {
 		useUpdateEditorCSSEffect( {
 			selector,
 			css,
+		} );
+
+		useSyncStyles( {
+			stylesAttribute: styles,
+			styles: getStyles(),
+			setStyles,
 		} );
 
 		return (
