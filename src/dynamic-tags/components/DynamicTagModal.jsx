@@ -78,7 +78,7 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, sel
 						onToggle();
 					} }
 					className="gb-dynamic-tag-modal"
-					size="large"
+					size="medium"
 				>
 					<div className="gb-dynamic-tag-modal__content">
 						{ !! foundTags.length && null === tagToEdit && ! selectedText ? (
