@@ -158,13 +158,10 @@ function EditBlock( props ) {
 
 	return (
 		<>
-			<DynamicTagBlockToolbar
-				value={ content }
+			<TagNameToolbar
+				label={ __( 'Choose tag name', 'generateblocks' ) }
 				tagName={ tagName }
-				setContentMode={ setContentMode }
-				contentMode={ contentMode }
-				isSelected={ isSelected }
-				onChange={ ( newValue ) => setAttributes( { content: newValue } ) }
+				onChange={ ( value ) => setAttributes( { tagName: value } ) }
 			/>
 
 			<LinkBlockToolbar
@@ -173,10 +170,13 @@ function EditBlock( props ) {
 				tagName={ tagName }
 			/>
 
-			<TagNameToolbar
-				label={ __( 'Choose tag name', 'generateblocks' ) }
+			<DynamicTagBlockToolbar
+				value={ content }
 				tagName={ tagName }
-				onChange={ ( value ) => setAttributes( { tagName: value } ) }
+				setContentMode={ setContentMode }
+				contentMode={ contentMode }
+				isSelected={ isSelected }
+				onChange={ ( newValue ) => setAttributes( { content: newValue } ) }
 			/>
 
 			<InspectorControls>
