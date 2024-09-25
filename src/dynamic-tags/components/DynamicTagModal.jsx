@@ -81,7 +81,7 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, sel
 					size="medium"
 				>
 					<div className="gb-dynamic-tag-modal__content">
-						{ !! foundTags.length && null === tagToEdit && ! selectedText ? (
+						{ !! foundTags && !! foundTags.length && null === tagToEdit && ! selectedText ? (
 							<>
 								<p style={ { margin: 0 } }>{ foundTagsDescription }</p>
 								<ul className="gb-dynamic-tag-modal__found-tags">
