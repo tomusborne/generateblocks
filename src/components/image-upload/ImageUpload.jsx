@@ -61,7 +61,7 @@ export function ImageUpload( {
 
 				{ allowDynamicTags && (
 					<DynamicTagModal
-						onInsert={ ( newValue ) => onInsertDynamicTag( newValue?.value ) }
+						onInsert={ ( newValue ) => onInsertDynamicTag( newValue ) }
 					/>
 				) }
 			</Stack>
