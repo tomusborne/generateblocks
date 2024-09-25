@@ -7,5 +7,5 @@ import { Save } from './save';
 registerBlockType( metadata, {
 	edit: Edit,
 	save: Save,
-	icon: getIcon( 'query' ),
+	icon: getIcon( 'query-loop' ),
 } );
