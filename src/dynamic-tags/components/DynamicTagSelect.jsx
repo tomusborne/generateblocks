@@ -164,7 +164,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 				setTermSource( parseInt( params.id ) );
 			} else {
 				setDynamicSource( 'post' );
-				setPostIdSource( parseInt( params.id ) );
+				setPostIdSource( params.id );
 			}
 		}
 
