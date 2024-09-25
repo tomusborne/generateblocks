@@ -1,0 +1,61 @@
+{
+    "$schema": "https://schemas.wp.org/trunk/block.json",
+    "apiVersion": 3,
+    "name": "generateblocks/query-page-numbers",
+    "title": "Page Numbers",
+    "category": "generateblocks",
+    "description": "A custom SVG shape.",
+    "keywords": [ "text", "heading", "headline", "paragraph" ],
+    "version": "1.0.0",
+    "textdomain": "generateblocks",
+	"ancestor": [ "generateblocks/query" ],
+    "attributes": {
+        "uniqueId": {
+            "type": "string",
+			"default": ""
+        },
+		"tagName": {
+			"type": "string",
+			"default": "",
+			"enum": [
+				"div",
+				"section",
+				"nav"
+			]
+		},
+		"styles": {
+			"type": "object",
+			"default": {}
+		},
+		"css": {
+			"type": "string",
+			"default": ""
+		},
+		"globalClasses": {
+			"type": "array",
+			"default": []
+		},
+		"htmlAttributes": {
+			"type": "object",
+			"default": {}
+		},
+		"midSize": {
+			"type": "number",
+			"default": 3
+		}
+    },
+    "supports": {
+        "align": false,
+		"className": false
+    },
+    "editorScript": "file:./index.js",
+    "editorStyle": [
+		"file:./index.css"
+	],
+	"usesContext": [
+		"generateblocks/queryData",
+		"generateblocks/query",
+		"generateblocks/queryId",
+		"generateblocks/forceReload"
+	]
+}
