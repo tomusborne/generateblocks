@@ -6,7 +6,6 @@ export function withDynamicTag( WrappedComponent ) {
 	return ( ( props ) => {
 		const {
 			context,
-			isSelected,
 			attributes,
 		} = props;
 
@@ -17,6 +16,7 @@ export function withDynamicTag( WrappedComponent ) {
 		} = attributes;
 
 		const [ dynamicTagValue, setDynamicTagValue ] = useState( '' );
+		const [ contentMode, setContentMode ] = useState( 'edit' );
 		const getContentValue = () => {
 			if ( 'img' === tagName ) {
 				return htmlAttributes?.src;
@@ -36,7 +36,7 @@ export function withDynamicTag( WrappedComponent ) {
 				return;
 			}
 
-			if ( isSelected && 'img' !== tagName ) {
+			if ( 'edit' === contentMode && 'img' !== tagName ) {
 				setDynamicTagValue( false );
 				return;
 			}
@@ -63,8 +63,15 @@ export function withDynamicTag( WrappedComponent ) {
 			};
 
 			fetchData(); // Call the async function
-		}, [ contentValue, isSelected ] );
+		}, [ contentValue, contentMode ] );
 
-		return ( <WrappedComponent { ...props } dynamicTagValue={ dynamicTagValue } /> );
+		return (
+			<WrappedComponent
+				{ ...props }
+				dynamicTagValue={ dynamicTagValue }
+				contentMode={ contentMode }
+				setContentMode={ setContentMode }
+			/>
+		);
 	} );
 }

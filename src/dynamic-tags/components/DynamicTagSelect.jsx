@@ -1,9 +1,7 @@
 import { useState, useEffect, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
-import { store as blockEditorStore } from '@wordpress/block-editor';
 import { __ } from '@wordpress/i18n';
-import { useSelect } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
 
 import { Autocomplete } from '@edge22/components';
@@ -52,7 +50,7 @@ function getLinkToOptions( type ) {
 	}
 }
 
-export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, currentPost } ) {
+export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost } ) {
 	const availableTags = generateBlocksEditor?.dynamicTags;
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ allPosts, setAllPosts ] = useState( [] );
@@ -65,7 +63,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
-	const [ insertAsLink, setInsertAsLink ] = useState( false );
 	const [ commentsCountText, setCommentsCountText ] = useState( {
 		none: __( 'No comments', 'generateblocks' ),
 		one: __( 'One comment', 'generateblocks' ),
@@ -74,10 +71,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	} );
 	const [ linkTo, setLinkTo ] = useState( '' );
 	const [ renderIfEmpty, setRenderIfEmpty ] = useState( false );
-	const { getSelectionStart, getSelectionEnd } = useSelect( blockEditorStore, [] );
-	const selectionStart = getSelectionStart();
-	const selectionEnd = getSelectionEnd();
-	const hasSelection = selectionStart?.offset !== selectionEnd?.offset;
 	const currentPostId = currentPost?.id ?? 0;
 
 	useEffect( () => {
@@ -135,7 +128,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		setDynamicTag( newTag );
 		setDynamicTagData( availableTags.find( ( tag ) => tag.tag === newTag ) );
 		setLinkTo( '' );
-		setInsertAsLink( false );
 	}
 
 	/**
@@ -143,11 +135,11 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	 * appropriate values.
 	 */
 	useEffect( () => {
-		if ( ! selectedValue ) {
+		if ( ! selectedText ) {
 			return;
 		}
 
-		const parsedTag = parseTag( selectedValue );
+		const parsedTag = parseTag( selectedText );
 		const tag = parsedTag?.tag;
 
 		if ( ! tag ) {
@@ -201,7 +193,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		if ( params?.renderIfEmpty ) {
 			setRenderIfEmpty( true );
 		}
-	}, [ selectedValue ] );
+	}, [ selectedText ] );
 
 	const dynamicTagOptions = useMemo( () => (
 		Object.entries( availableTags ).map(
@@ -282,7 +274,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	const interactiveTagNames = [ 'a', 'button' ];
 	const supportsLink = dynamicTagSupports.includes( 'link' );
 	const showLinkTo = supportsLink && ! interactiveTagNames.includes( tagName );
-	const showInsertAsLink = supportsLink && hasSelection && ! interactiveTagNames.includes( tagName ) && ! linkTo;
 	const linkToOptions = useMemo( () => {
 		if ( ! showLinkTo ) {
 			return [];
@@ -520,14 +511,6 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 						/>
 					) }
 
-					{ !! showInsertAsLink && (
-						<CheckboxControl
-							label={ __( 'Insert as link', 'generateblocks' ) }
-							checked={ insertAsLink }
-							onChange={ ( value ) => setInsertAsLink( value ) }
-						/>
-					) }
-
 					<TextControl
 						label={ __( 'Dynamic tag to insert', 'generateblocks' ) }
 						value={ dynamicTagToInsert }
@@ -545,10 +528,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 					<Button
 						variant="primary"
 						onClick={ () => {
-							onInsert( {
-								value: dynamicTagToInsert,
-								insertAsLink,
-							} );
+							onInsert( dynamicTagToInsert );
 						} }
 					>
 						{ __( 'Insert dynamic tag', 'generateblocks' ) }

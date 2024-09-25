@@ -18,6 +18,7 @@ import { StylesOnboarder, TagNameToolbar } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
+import { DynamicTagBlockToolbar } from '../../dynamic-tags';
 
 function EditBlock( props ) {
 	const {
@@ -26,11 +27,14 @@ function EditBlock( props ) {
 		mergeBlocks,
 		onReplace,
 		dynamicTagValue,
+		setContentMode,
+		contentMode,
 		name,
 		clientId,
 		selector,
 		onStyleChange,
 		htmlAttributes,
+		isSelected,
 	} = props;
 
 	const {
@@ -130,8 +134,39 @@ function EditBlock( props ) {
 		};
 	}, [ tagName, icon ] );
 
+	const renderContent = ( elementTagName, withBlockProps = false ) => {
+		if ( 'preview' === contentMode ) {
+			const ElementTagName = elementTagName;
+
+			// Render a plain HTML tag in preview mode
+			return (
+				<ElementTagName
+					{ ...( withBlockProps && blockProps ) }
+					dangerouslySetInnerHTML={ { __html: contentValue } }
+				/>
+			);
+		}
+
+		return (
+			<RichText
+				{ ...richTextProps }
+				{ ...( withBlockProps && blockProps ) }
+				tagName={ elementTagName }
+			/>
+		);
+	};
+
 	return (
 		<>
+			<DynamicTagBlockToolbar
+				value={ content }
+				tagName={ tagName }
+				setContentMode={ setContentMode }
+				contentMode={ contentMode }
+				isSelected={ isSelected }
+				onChange={ ( newValue ) => setAttributes( { content: newValue } ) }
+			/>
+
 			<LinkBlockToolbar
 				setAttributes={ setAttributes }
 				htmlAttributes={ htmlAttributes }
@@ -172,21 +207,14 @@ function EditBlock( props ) {
 						<TagNameWithIcon { ...blockProps }>
 							{ 'before' === iconLocation && ( <Icon icon={ icon } /> ) }
 							{ ! iconOnly && (
-								<RichText
-									{ ...richTextProps }
-									tagName="span"
-								/>
+								renderContent( 'span' )
 							) }
 							{ 'after' === iconLocation && ( <Icon icon={ icon } /> ) }
 						</TagNameWithIcon>
 					) }
 
 					{ ! icon && (
-						<RichText
-							{ ...richTextProps }
-							{ ...blockProps }
-							tagName={ tagName || 'span' }
-						/>
+						renderContent( tagName || 'span', true )
 					) }
 				</>
 			</RootElement>

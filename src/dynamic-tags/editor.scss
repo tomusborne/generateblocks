@@ -33,3 +33,41 @@
 		}
 	}
 }
+
+.components-toolbar-group {
+	.components-button.gb-dynamic-tag-content-mode-toggle {
+		padding-inline: 10px !important;
+		font-size: 12px;
+
+		svg {
+			margin-right: -3px;
+		}
+	}
+}
+
+.gb-dynamic-tag-toolbar-button[disabled] {
+	opacity: 1;
+}
+
+.gb-dynamic-tag-modal__found-tags {
+	margin: 0;
+
+	li {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 5px 10px;
+
+		&:nth-child(odd) {
+			background: #f7f7f7;
+		}
+
+		.components-button {
+			align-self: auto;
+
+			&.is-link {
+				text-decoration: none;
+			}
+		}
+	}
+}

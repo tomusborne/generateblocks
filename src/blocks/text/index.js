@@ -1,11 +1,9 @@
 import { registerBlockType, registerBlockVariation } from '@wordpress/blocks';
 import { __ } from '@wordpress/i18n';
-import { registerFormatType } from '@wordpress/rich-text';
 import { Edit } from './edit';
 import metadata from './block.json';
 import { Save } from './save';
 import { getElementType } from '../element/utils/getElementType';
-import { DynamicTag } from './components/DynamicTag';
 import { getIcon } from '@utils';
 
 registerBlockType( metadata, {
@@ -55,14 +53,4 @@ registerBlockVariation(
 		},
 		isActive: ( blockAttributes ) => 'button' === getElementType( blockAttributes.tagName ),
 	},
-);
-
-registerFormatType(
-	'generateblocks/dynamic-tag',
-	{
-		title: 'Dynamic tags',
-		tagName: 'dynamic', // We don't use this.
-		className: null,
-		edit: DynamicTag,
-	}
 );
