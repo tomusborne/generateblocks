@@ -106,7 +106,7 @@ body.gutenberg-editor-page [data-type="generateblocks/container"] .editor-block-
 }
 
 /* Shape divider */
-.gb-container .gb-shape {
+.gb-container .gb-shapes > .gb-shape {
 	position: absolute;
 	overflow: hidden;
 	line-height: 0;
