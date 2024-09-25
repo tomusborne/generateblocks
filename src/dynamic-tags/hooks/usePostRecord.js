@@ -1,97 +1,31 @@
-import { useSelect } from '@wordpress/data';
-import { store as coreStore } from '@wordpress/core-data';
-import { applyFilters } from '@wordpress/hooks';
+import { useState, useEffect } from '@wordpress/element';
+import apiFetch from '@wordpress/api-fetch';
 
-export function usePostRecord( { postId, postType = 'post', load = [], options = {} } ) {
-	return useSelect( ( select ) => {
-		const {
-			getUser,
-			isResolving,
-			getEntityRecord,
-			getEntityRecords,
-			hasFinishedResolution,
-		} = select( coreStore );
+export function usePostRecord( { postId, load = [], options = {} } ) {
+	const [ record, setRecord ] = useState( null );
+	const [ isLoading, setIsLoading ] = useState( true );
 
-		// Post data fetching.
-		const params = applyFilters(
-			'generateblocks.editor.dynamicTags.post-request-params',
-			[ 'postType', postType, postId ]
-		);
+	useEffect( () => {
+		if ( ! postId || ! load.length ) {
+			return;
+		}
+		async function fetchPostRecord() {
+			setIsLoading( true );
 
-		let postRecord = getEntityRecord( ...params );
-
-		const postRecordIsLoading = (
-			! hasFinishedResolution( 'getEntityRecord', params ) ||
-			isResolving( 'getEntityRecord', params )
-		);
-
-		// Author data fetching.
-		let authorIsLoading = false;
-
-		if ( load.includes( 'author' ) && ! postRecordIsLoading && !! postRecord ) {
-			const authorParams = applyFilters(
-				'generateblocks.editor.dynamicTags.author-request-params',
-				[ postRecord.author ]
-			);
-
-			const author = getUser( ...authorParams );
-
-			authorIsLoading = (
-				! hasFinishedResolution( 'getUser', authorParams ) ||
-				isResolving( 'getUser', authorParams )
-			);
-
-			if ( ! authorIsLoading && !! author ) {
-				postRecord = Object.assign( {}, postRecord, { author } );
+			try {
+				const response = await apiFetch( {
+					path: `/generateblocks/v1/post-record?postId=${ postId }&load=${ load.join() }&options=${ JSON.stringify( options ) }`,
+				} );
+				setRecord( response );
+			} catch ( error ) {
+				console.error( 'Error fetching post record:', error ); // eslint-disable-line no-console
+			} finally {
+				setIsLoading( false );
 			}
 		}
 
-		// Comments data fetching.
-		let commentsIsLoading = false;
+		fetchPostRecord();
+	}, [ postId, load, options ] );
 
-		if ( load.includes( 'comments' ) && ! postRecordIsLoading && !! postRecord ) {
-			const commentsParams = applyFilters(
-				'generateblocks.editor.dynamicTags.comments-request-params',
-				[ 'root', 'comment', { post: postId } ]
-			);
-			const comments = getEntityRecords( ...commentsParams );
-
-			commentsIsLoading = (
-				! hasFinishedResolution( 'getEntityRecords', commentsParams ) ||
-				isResolving( 'getEntityRecords', commentsParams )
-			);
-
-			if ( ! commentsIsLoading && !! comments ) {
-				postRecord = Object.assign( {}, postRecord, { comments } );
-			}
-		}
-
-		// Terms data fetching.
-		let termsIsLoading = false;
-
-		if ( load.includes( 'terms' ) && ! postRecordIsLoading && !! postRecord ) {
-			const termParams = applyFilters(
-				'generateblocks.editor.dynamicTags.terms-request-params',
-				[ 'taxonomy', options.taxonomy, { object_id: postId } ]
-			);
-			const terms = getEntityRecords( ...termParams );
-
-			termsIsLoading = (
-				! hasFinishedResolution( 'getEntityRecords', termParams ) ||
-				isResolving( 'getEntityRecords', termParams )
-			);
-
-			if ( ! termsIsLoading && !! terms ) {
-				postRecord = Object.assign( {}, postRecord, { terms } );
-			}
-		}
-
-		return {
-			record: applyFilters(
-				'generateblocks.editor.dynamicTags.postRecord',
-				postRecord
-			),
-			isLoading: ( postRecordIsLoading || authorIsLoading || commentsIsLoading || termsIsLoading ),
-		};
-	}, [ postType, postId, load.join(), JSON.stringify( options ) ] );
+	return { record, isLoading };
 }

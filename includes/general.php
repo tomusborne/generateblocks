@@ -248,11 +248,23 @@ function generateblocks_do_block_editor_assets() {
 		true
 	);
 
+	$tags = GenerateBlocks_Register_Dynamic_Tag::get_tags();
+	$tag_list = [];
+
+	foreach ( $tags as $tag => $data ) {
+		$relevant_data = $data;
+		unset( $relevant_data['return'] );
+		if ( $data ) {
+			$tag_list[] = $relevant_data;
+		}
+	}
+
 	wp_localize_script(
 		'generateblocks-editor',
 		'generateBlocksEditor',
 		[
-			'activeBlockVersion'     => generateblocks_get_active_block_version(),
+			'activeBlockVersion' => generateblocks_get_active_block_version(),
+			'dynamicTags'        => $tag_list,
 		]
 	);
 

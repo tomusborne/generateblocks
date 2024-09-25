@@ -3,15 +3,12 @@ import { useMemo } from '@wordpress/element';
 import { useTaxonomies } from '@hooks';
 import { ComboboxControl } from '@wordpress/components';
 
-export function SelectTaxonomy( { onChange, value, help, postType = 'post', currentPostOnly = true } ) {
+export function SelectTaxonomy( { onChange, value, help } ) {
 	const taxonomies = useTaxonomies();
 	const options = useMemo( () => {
-		const availableTaxonomies = currentPostOnly
-			? taxonomies.filter( ( tax ) => ( tax.types.includes( postType ) ) )
-			: taxonomies;
-		return availableTaxonomies
+		return taxonomies
 			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) );
-	}, [ taxonomies, postType, currentPostOnly ] );
+	}, [ taxonomies ] );
 
 	return (
 		<ComboboxControl
