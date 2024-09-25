@@ -99,6 +99,16 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'onboarding_permission' ),
 			)
 		);
+
+		register_rest_route(
+			$namespace,
+			'/get-attachment-by-url/',
+			array(
+				'methods'             => WP_REST_Server::READABLE,
+				'callback'            => array( $this, 'get_attachment_by_url' ),
+				'permission_callback' => array( $this, 'can_edit_posts' ),
+			)
+		);
 	}
 
 	/**
@@ -213,11 +223,74 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	}
 
 	/**
+	 * Get the attachment object by its URL.
+	 *
+	 * @param WP_REST_Request $request request object.
+	 *
+	 * @return WP_REST_Response The response.
+	 */
+	public function get_attachment_by_url( WP_REST_Request $request ) {
+		$url = $request->get_param( 'url' );
+
+		if ( ! $url ) {
+			return $this->error( 'no_url', __( 'No URL provided.', 'generateblocks' ) );
+		}
+
+		// Regular expression to remove '-300x300' like size patterns from the URL.
+
+		$pattern = '/-\d+x\d+(?=\.\w{3,4}$)/';
+		$url = preg_replace( $pattern, '', $url );
+		$id = attachment_url_to_postid( $url );
+
+		if ( ! $id ) {
+			return $this->error( 'no_attachment', __( 'No attachment found.', 'generateblocks' ) );
+		}
+
+		// Get image metadata, such as width, height, and sizes.
+		$image_metadata = wp_get_attachment_metadata( $id );
+
+		// Get the full URL of the image.
+		$full_url = wp_get_attachment_url( $id );
+
+		// Get URLs for all available sizes.
+		$sizes = [];
+		$image_sizes = get_intermediate_image_sizes();
+		foreach ( $image_sizes as $size ) {
+			$image_src = wp_get_attachment_image_src( $id, $size );
+			if ( $image_src && $image_src[0] !== $full_url ) {
+				$sizes[ $size ] = [
+					'url'    => $image_src[0],
+					'width'  => $image_src[1],
+					'height' => $image_src[2],
+				];
+			}
+		}
+
+		$response = [
+			'id'       => $id,
+			'full_url' => $full_url,
+			'width'    => isset( $image_metadata['width'] ) ? $image_metadata['width'] : '',
+			'height'   => isset( $image_metadata['height'] ) ? $image_metadata['height'] : '',
+			'sizes'    => $sizes,
+		];
+
+		return $this->success( $response );
+	}
+
+
+	/**
 	 * Get onboarding edit permission.
 	 *
 	 * @return bool
 	 */
 	public function onboarding_permission() {
+		return current_user_can( 'edit_posts' );
+	}
+
+	/**
+	 * Check if the user can edit posts.
+	 */
+	public function can_edit_posts() {
 		return current_user_can( 'edit_posts' );
 	}
 
