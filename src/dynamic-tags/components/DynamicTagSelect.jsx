@@ -56,9 +56,9 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 	const availableTags = generateBlocksEditor?.dynamicTags;
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ allPosts, setAllPosts ] = useState( [] );
-	const [ postIdSource, setPostIdSource ] = useState( 0 );
+	const [ postIdSource, setPostIdSource ] = useState( '' );
 	const [ taxonomySource, setTaxonomySource ] = useState( '' );
-	const [ termSource, setTermSource ] = useState( 0 );
+	const [ termSource, setTermSource ] = useState( '' );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagData, setDynamicTagData ] = useState( { type: 'post' } );
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
@@ -161,7 +161,7 @@ export function DynamicTagSelect( { onInsert, tagName, value: selectedValue, cur
 		if ( params?.id ) {
 			if ( 'term_meta' === tag ) {
 				setDynamicSource( 'term' );
-				setTermSource( parseInt( params.id ) );
+				setTermSource( params.id );
 			} else {
 				setDynamicSource( 'post' );
 				setPostIdSource( params.id );
