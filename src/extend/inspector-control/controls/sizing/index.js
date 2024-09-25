@@ -18,6 +18,7 @@ import getDeviceType from '../../../../utils/get-device-type';
 import getResponsivePlaceholder from '../../../../utils/get-responsive-placeholder';
 import { useStyleIndicator, useDeviceAttributes } from '../../../../hooks';
 import { getContentAttribute } from '../../../../utils/get-content-attribute';
+import { getVariableValue } from '../../../../utils/get-variable-value';
 
 export default function Sizing( { attributes, setAttributes, computedStyles } ) {
 	const { id, blockName, supports: { sizingPanel } } = useContext( ControlsContext );
@@ -39,7 +40,6 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 		hasGlobalStyle,
 		contentWasUpdated,
 	} = useStyleIndicator( computedStyles, panelControls, contentValue, deviceAttributes );
-
 	const {
 		useGlobalMaxWidth = false,
 		useInnerContainer = false,
@@ -178,10 +178,19 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 				{ sizingPanel.maxWidth &&
 					<MaxWidth
 						label={ labels.maxWidth }
-						value={ getValue( 'maxWidth' ) }
+						value={
+							'var(--gb-container-width)' === getValue( 'maxWidth' )
+								? getVariableValue( getValue( 'maxWidth' ) )
+								: getValue( 'maxWidth' )
+						}
 						placeholder={ getResponsivePlaceholder( 'maxWidth', attributes.sizing, device ) }
 						overrideValue={ !! useGlobalMaxWidth ? generateBlocksInfo.globalContainerWidth : null }
-						disabled={ useInnerContainer || isGrid || ( useGlobalMaxWidth && 'Desktop' === device ) }
+						disabled={
+							useInnerContainer ||
+							isGrid ||
+							( useGlobalMaxWidth && 'Desktop' === device ) ||
+							( 'var(--gb-container-width)' === getValue( 'maxWidth' ) && 'Desktop' === device )
+						}
 						onChange={ ( value ) => {
 							setAttributes( {
 								sizing: {
@@ -190,7 +199,13 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 							} );
 						} }
 						overrideAction={ () => {
-							if ( ! sizingPanel.useGlobalMaxWidth || useInnerContainer || isGrid || 'Desktop' !== device || getValue( 'maxWidth' ) ) {
+							if (
+								! sizingPanel.useGlobalMaxWidth ||
+								useInnerContainer ||
+								isGrid ||
+								'Desktop' !== device ||
+								( getValue( 'maxWidth' ) && 'var(--gb-container-width)' !== getValue( 'maxWidth' ) )
+							) {
 								return null;
 							}
 
@@ -198,11 +213,27 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 								<Tooltip text={ __( 'Use global max-width', 'generateblocks' ) }>
 									<Button
 										icon={ getIcon( 'globe' ) }
-										variant={ !! useGlobalMaxWidth ? 'primary' : '' }
+										variant={
+											!! useGlobalMaxWidth || 'var(--gb-container-width)' === getValue( 'maxWidth' )
+												? 'primary'
+												: ''
+										}
 										onClick={ () => {
-											setAttributes( {
-												useGlobalMaxWidth: useGlobalMaxWidth ? false : true,
-											} );
+											if ( useGlobalMaxWidth ) {
+												setAttributes( {
+													useGlobalMaxWidth: false,
+												} );
+											}
+
+											const newSizing = {};
+
+											if ( 'var(--gb-container-width)' === getValue( 'maxWidth' ) ) {
+												newSizing[ getAttribute( 'maxWidth', { attributes, deviceType: device }, true ) ] = '';
+											} else {
+												newSizing[ getAttribute( 'maxWidth', { attributes, deviceType: device }, true ) ] = 'var(--gb-container-width)';
+											}
+
+											setAttributes( { sizing: newSizing } );
 										} }
 									/>
 								</Tooltip>
