@@ -1,6 +1,5 @@
 export function getBlockClasses( blockSlug, attributes, withBaseClass = false ) {
 	const {
-		className = '',
 		styles = {},
 		uniqueId = '',
 		globalClasses = [],
@@ -10,10 +9,6 @@ export function getBlockClasses( blockSlug, attributes, withBaseClass = false ) 
 
 	if ( withBaseClass ) {
 		classNames.push( blockSlug );
-	}
-
-	if ( className ) {
-		classNames.push( className );
 	}
 
 	if ( globalClasses.length > 0 ) {
