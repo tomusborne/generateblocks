@@ -35,6 +35,7 @@ const pagination = [ 'generateblocks/element',
 			columnGap: '10px',
 			rowGap: '10px',
 		},
+		className: 'gb-query-loop-pagination',
 	},
 	[
 		[ 'generateblocks/text',

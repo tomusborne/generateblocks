@@ -79,6 +79,15 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			)
 		)->render( array( 'dynamic' => false ) );
 
+		if ( ! $force_reload && class_exists( 'WP_HTML_Tag_Processor' ) ) {
+			$processor = new WP_HTML_Tag_Processor( $parsed_content );
+
+			if ( $processor->next_tag( $attributes['tagName'] ) ) {
+				$processor->set_attribute( 'data-gb-router-region', $query_id );
+				$parsed_content = $processor->get_updated_html();
+			}
+		}
+
 		// Add styles to this block if needed.
 		$output = generateblocks_maybe_add_block_css(
 			'',

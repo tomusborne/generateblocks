@@ -28,6 +28,7 @@ function updatePostsContainer( region = '', prefetchedContent = '' ) {
 
 	if ( prefetchedPosts && container ) {
 		container.innerHTML = prefetchedPosts.innerHTML;
+		container.scrollIntoView( { behavior: 'smooth', block: 'start' } );
 		paginationContainer.innerHTML = pagination.innerHTML;
 	} else {
 		console.error( 'Unable to update posts container: Missing elements' ); // eslint-disable-line no-console
