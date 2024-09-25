@@ -265,6 +265,9 @@ function generateblocks_do_block_editor_assets() {
 		[
 			'activeBlockVersion' => generateblocks_get_active_block_version(),
 			'dynamicTags'        => $tag_list,
+			'hasGPFontLibrary'   => function_exists( 'generatepress_is_module_active' )
+				? generatepress_is_module_active( 'generate_package_font_library', 'GENERATE_FONT_LIBRARY' )
+				: false,
 		]
 	);
 
