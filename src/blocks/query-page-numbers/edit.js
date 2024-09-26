@@ -52,7 +52,7 @@ function EditBlock( props ) {
 		setAttributes,
 		selector,
 		onStyleChange,
-		htmlAttributes,
+		editorHtmlAttributes,
 	} = props;
 
 	const {
@@ -72,7 +72,7 @@ function EditBlock( props ) {
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...htmlAttributes,
+			...editorHtmlAttributes,
 		}
 	);
 

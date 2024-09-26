@@ -207,8 +207,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			return;
 		}
 
-		updateDynamicTag( dynamicTag );
-
 		const options = [];
 
 		if ( 'term_meta' === dynamicTag && 'term' !== dynamicSource ) {

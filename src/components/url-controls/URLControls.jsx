@@ -68,7 +68,7 @@ export function URLControls( {
 					/>
 
 					<DynamicTagModal
-						onInsert={ ( { value } ) => {
+						onInsert={ ( value ) => {
 							setAttributes( {
 								[ attributesName ]: {
 									...htmlAttributes,

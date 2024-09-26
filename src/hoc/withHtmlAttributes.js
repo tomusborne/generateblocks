@@ -107,7 +107,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 			<>
 				<WrappedComponent
 					{ ...props }
-					htmlAttributes={ combinedAttributes }
+					editorHtmlAttributes={ combinedAttributes }
 				/>
 			</>
 		);

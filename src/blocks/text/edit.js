@@ -33,7 +33,7 @@ function EditBlock( props ) {
 		clientId,
 		selector,
 		onStyleChange,
-		htmlAttributes,
+		editorHtmlAttributes,
 		isSelected,
 	} = props;
 
@@ -43,11 +43,12 @@ function EditBlock( props ) {
 		icon,
 		iconLocation,
 		iconOnly,
+		htmlAttributes = {},
 	} = attributes;
 
 	useEffect( () => {
 		if ( ! tagName ) {
-			setAttributes( { tagName: 'span' } );
+			setAttributes( { tagName: 'p' } );
 		}
 	}, [ tagName ] );
 
@@ -71,11 +72,11 @@ function EditBlock( props ) {
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...htmlAttributes,
+			...editorHtmlAttributes,
 		}
 	);
 
-	const TagNameWithIcon = tagName || 'span';
+	const TagNameWithIcon = tagName || 'p';
 	const richTextProps = {
 		identifier: content,
 		value: contentValue,

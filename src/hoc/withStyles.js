@@ -115,6 +115,7 @@ export function withStyles( WrappedComponent ) {
 		} );
 
 		useSyncStyles( {
+			isSelected,
 			stylesAttribute: styles,
 			styles: getStyles(),
 			setStyles,
