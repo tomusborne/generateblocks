@@ -4,7 +4,7 @@
   "name": "generateblocks/query",
   "title": "Query",
   "category": "generateblocks",
-  "description": "An HTML element that you can add blocks inside of.",
+  "description": "Query posts and display them in a loop.",
   "keywords": [
     "query",
     "loop",
@@ -51,9 +51,9 @@
       "type": "string",
       "default": "WP_Query"
     },
-    "forceReload": {
+    "instantPagination": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "query": {
       "type": "object",
@@ -84,7 +84,7 @@
     "generateblocks/query": "query",
     "generateblocks/queryId": "uniqueId",
     "generateblocks/inheritQuery": "inheritQuery",
-    "generateblocks/forceReload": "forceReload",
+    "generateblocks/instantPagination": "instantPagination",
     "generateblocks/queryType": "queryType"
   }
 }

@@ -4,7 +4,7 @@
   "name": "generateblocks/query-no-results",
   "title": "No Results",
   "category": "generateblocks",
-  "description": "A custom SVG shape.",
+  "description": "Display blocks when your query has no results.",
   "keywords": [
     "text",
     "heading",

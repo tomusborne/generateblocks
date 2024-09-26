@@ -4,12 +4,10 @@
   "name": "generateblocks/query-page-numbers",
   "title": "Page Numbers",
   "category": "generateblocks",
-  "description": "A custom SVG shape.",
+  "description": "Display page numbers for a paginated query loop.",
   "keywords": [
-    "text",
-    "heading",
-    "headline",
-    "paragraph"
+    "pagination",
+    "numbers"
   ],
   "version": "1.0.0",
   "textdomain": "generateblocks",
@@ -63,6 +61,6 @@
     "generateblocks/queryData",
     "generateblocks/query",
     "generateblocks/queryId",
-    "generateblocks/forceReload"
+    "generateblocks/instantPagination"
   ]
 }
