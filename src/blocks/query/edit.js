@@ -85,8 +85,8 @@ function EditBlock( props ) {
 			<TemplateSelector
 				clientId={ clientId }
 				setAttributes={ setAttributes }
-				label={ __( 'Query', 'generateblocks-pro' ) }
-				instructions={ __( 'Choose a layout to start with.', 'generateblocks-pro' ) }
+				label={ __( 'Query', 'generateblocks' ) }
+				instructions={ __( 'Choose a layout to start with.', 'generateblocks' ) }
 				templates={ templates }
 			/>
 		);
