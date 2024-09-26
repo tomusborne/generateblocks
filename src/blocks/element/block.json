@@ -55,7 +55,7 @@
     },
 	"usesContext": [
 		"generateblocks/queryData",
-		"generateblocks/forceReload"
+		"generateblocks/instantPagination"
 	],
     "editorScript": "file:./index.js",
     "editorStyle": [

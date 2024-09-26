@@ -21,11 +21,11 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 	 * @param array  $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
-		$query_id            = $block->context['generateblocks/queryId'] ?? null;
-		$page_key            = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
-		$force_reload        = isset( $block->context['generateblocks/forceReload'] ) && $block->context['generateblocks/forceReload'];
-		$page                = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$max_page            = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
+		$query_id           = $block->context['generateblocks/queryId'] ?? null;
+		$page_key           = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
+		$instant_pagination = isset( $block->context['generateblocks/instantPagination'] ) && $block->context['generateblocks/instantPagination'];
+		$page               = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$max_page           = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
 		$content            = '';
 
 		global $wp_query;
@@ -109,7 +109,7 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 			return '';
 		}
 
-		if ( ! $force_reload && class_exists( 'WP_HTML_Tag_Processor' ) ) {
+		if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
 			$p = new WP_HTML_Tag_Processor( $content );
 
 			while ( $p->next_tag(
