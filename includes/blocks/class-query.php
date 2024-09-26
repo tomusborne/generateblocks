@@ -28,12 +28,12 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 	 * @param array  $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
-		$query_id     = isset( $attributes['uniqueId'] ) ? 'query-' . $attributes['uniqueId'] : 'query';
-		$page_key     = $query_id . '-page';
-		$page         = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$query_args   = GenerateBlocks_Query_Utils::get_query_args( $block, $page );
-		$force_reload = $attributes['forceReload'] ?? true;
-		$query_type   = $attributes['queryType'] ?? 'WP_Query';
+		$query_id           = isset( $attributes['uniqueId'] ) ? 'query-' . $attributes['uniqueId'] : 'query';
+		$page_key           = $query_id . '-page';
+		$page               = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$query_args         = GenerateBlocks_Query_Utils::get_query_args( $block, $page );
+		$instant_pagination = $attributes['instantPagination'] ?? true;
+		$query_type         = $attributes['queryType'] ?? 'WP_Query';
 
 		// Override the custom query with the global query if needed.
 		$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
@@ -61,7 +61,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 
 		$the_query = new WP_Query( $query_args );
 
-		if ( false === $force_reload ) {
+		if ( $instant_pagination ) {
 			if ( ! wp_script_is( 'generateblocks-looper', 'enqueued' ) ) {
 				self::enqueue_assets();
 			}
@@ -79,7 +79,7 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 			)
 		)->render( array( 'dynamic' => false ) );
 
-		if ( ! $force_reload && class_exists( 'WP_HTML_Tag_Processor' ) ) {
+		if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
 			$processor = new WP_HTML_Tag_Processor( $parsed_content );
 
 			if ( $processor->next_tag( $attributes['tagName'] ) ) {

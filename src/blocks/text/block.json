@@ -78,7 +78,7 @@
 		"generateblocks/queryData",
 		"generateblocks/inheritQuery",
 		"generateblocks/queryId",
-		"generateblocks/forceReload"
+		"generateblocks/instantPagination"
 	],
     "editorScript": "file:./index.js",
     "editorStyle": [

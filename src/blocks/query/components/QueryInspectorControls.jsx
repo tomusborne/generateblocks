@@ -84,20 +84,10 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 				</>
 			) }
 			<ToggleControl
-				checked={ !! attributes.forceReload }
-				label={ __( 'Force page reload', 'generateblocks' ) }
-				help={
-					!! attributes.forceReload
-						? __(
-							'Clicking pagination links will reload the page.',
-							'generateblocks'
-						)
-						: __(
-							"Clicking pagination links won't require a page reload unless incompatible blocks are present.",
-							'generateblocks'
-						)
-				}
-				onChange={ ( value ) => setAttributes( { forceReload: value } ) }
+				checked={ !! attributes.instantPagination }
+				label={ __( 'Instant pagination', 'generateblocks' ) }
+				help={ __( 'Clicking pagination links will instantly load the next set of posts without reloading the page.', 'generateblocks' ) }
+				onChange={ ( value ) => setAttributes( { instantPagination: value } ) }
 			/>
 		</>
 	);

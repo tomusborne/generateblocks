@@ -485,10 +485,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			generateblocks_str_contains( $content, '{previous_posts_page_url' ) ||
 			generateblocks_str_contains( $content, '{next_posts_page_url' )
 		) {
-			$force_reload = $args['instance']->context['generateblocks/forceReload'] ?? true;
-			$query_id     = $args['instance']->context['generateblocks/queryId'] ?? '';
+			$instant_pagination = $args['instance']->context['generateblocks/instantPagination'] ?? true;
+			$query_id           = $args['instance']->context['generateblocks/queryId'] ?? '';
 
-			if ( ! $force_reload && class_exists( 'WP_HTML_Tag_Processor' ) ) {
+			if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
 				$p = new WP_HTML_Tag_Processor( $content );
 
 				if ( $p->next_tag(
