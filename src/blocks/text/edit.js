@@ -48,7 +48,7 @@ function EditBlock( props ) {
 
 	useEffect( () => {
 		if ( ! tagName ) {
-			setAttributes( { tagName: 'span' } );
+			setAttributes( { tagName: 'p' } );
 		}
 	}, [ tagName ] );
 
@@ -76,7 +76,7 @@ function EditBlock( props ) {
 		}
 	);
 
-	const TagNameWithIcon = tagName || 'span';
+	const TagNameWithIcon = tagName || 'p';
 	const richTextProps = {
 		identifier: content,
 		value: contentValue,
