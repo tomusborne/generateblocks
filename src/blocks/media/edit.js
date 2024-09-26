@@ -28,12 +28,13 @@ function EditBlock( props ) {
 		clientId,
 		selector,
 		onStyleChange,
-		htmlAttributes,
+		editorHtmlAttributes,
 		getStyleValue,
 	} = props;
 
 	const {
 		tagName,
+		htmlAttributes = {},
 		linkHtmlAttributes = {},
 	} = attributes;
 
@@ -53,7 +54,7 @@ function EditBlock( props ) {
 	const elementAttributes = {
 		className: classNames.join( ' ' ).trim(),
 		'data-block': clientId,
-		...htmlAttributes,
+		...editorHtmlAttributes,
 	};
 	const TagName = tagName || 'img';
 

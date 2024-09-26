@@ -33,7 +33,7 @@ function EditBlock( props ) {
 		clientId,
 		selector,
 		onStyleChange,
-		htmlAttributes,
+		editorHtmlAttributes,
 		isSelected,
 	} = props;
 
@@ -43,6 +43,7 @@ function EditBlock( props ) {
 		icon,
 		iconLocation,
 		iconOnly,
+		htmlAttributes = {},
 	} = attributes;
 
 	useEffect( () => {
@@ -71,7 +72,7 @@ function EditBlock( props ) {
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...htmlAttributes,
+			...editorHtmlAttributes,
 		}
 	);
 
