@@ -421,55 +421,75 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @param WP_REST_Request $request Full data about the request.
 	 */
 	public function get_custom_post_record( WP_REST_Request $request ) {
-		$postId = $request->get_param( 'postId' );
-		$load = $request->get_param( 'load' ) ?? [];
+		$id      = $request->get_param( 'postId' );
+		$load    = $request->get_param( 'load' ) ?? [];
 		$options = $request->get_param( 'options' ) ?? [];
 
 		// Fetch the post.
-		$post = get_post( $postId );
+		$post = get_post( $id );
 		if ( ! $post ) {
 			return new WP_Error( 'no_post', 'Post not found', array( 'status' => 404 ) );
 		}
 
-		$response = array( 'post' => $post );
+		$response = $post;
 
-		if ( in_array( 'post', $load ) ) {
-			$post_meta = get_post_meta( $postId );
+		if ( in_array( 'post', $load, true ) ) {
 			$post_meta = array_filter(
-				$post_meta,
-				function ( $value, $key ) {
+				get_post_meta( $id ),
+				function ( $key ) {
 					return ! generateblocks_str_starts_with( $key, '_' );
 				},
-				ARRAY_FILTER_USE_BOTH
+				ARRAY_FILTER_USE_KEY
 			);
-			$response['meta'] = $post_meta;
+			$response->meta = $post_meta;
 		}
 
 		// Fetch author data if requested.
-		if ( in_array( 'author', $load ) ) {
+		if ( in_array( 'author', $load, true ) ) {
 			$author = get_user_by( 'ID', $post->post_author );
-			$response['author'] = $author;
+			$response->author = $author;
 		}
 
 		// Fetch comments if requested.
-		if ( in_array( 'comments', $load ) ) {
-			$comments = get_comments( array( 'post_id' => $postId ) );
-			$response['comments'] = $comments;
+		if ( in_array( 'comments', $load, true ) ) {
+			$comments = get_comments( array( 'post_id' => $id ) );
+			$response->comments = $comments;
 		}
 
 		// Fetch terms if requested and if taxonomy is provided in options.
-		if ( in_array( 'terms', $load ) && isset( $options['taxonomy'] ) ) {
-			$terms = wp_get_post_terms( $postId, $options['taxonomy'] );
-
+		if ( in_array( 'terms', $load, true ) && isset( $options['taxonomy'] ) ) {
+			$terms = wp_get_post_terms( $id, $options['taxonomy'] );
+			if ( ! isset( $response->terms ) ) {
+				$response->terms = [];
+			}
 			foreach ( $terms as $key => $data ) {
-				$response['terms'][] = [
+				$response->terms[] = [
 					'id'   => $data->term_id,
 					'name' => $data->name,
 				];
 			}
 		}
 
-		return rest_ensure_response( $response );
+		/**
+		 * Allows filtering of the post record response data to add or alter data.
+		 *
+		 * @since 2.0.0
+		 * @param array $response Array of response data.
+		 * @param int $id ID of the post record.
+		 * @param string[] $load Array of additional data to include with the post record.
+		 * @param array $options Additional options for the record lookup.
+		 *
+		 * @return \WP_REST_Response|\WP_Error Response object.
+		 */
+		$filtered_response = apply_filters(
+			'generateblocks_dynamic_tags_post_record_response',
+			$response,
+			$id,
+			$load,
+			$options
+		);
+
+		return rest_ensure_response( $filtered_response );
 	}
 
 
