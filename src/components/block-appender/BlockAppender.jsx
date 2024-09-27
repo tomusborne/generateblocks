@@ -5,10 +5,12 @@ import { Button, Icon, Tooltip } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { plus } from '@wordpress/icons';
 
-import { useInnerBlocksCount } from '../../../hooks';
+import { useInnerBlocksCount } from '../../hooks';
 import { getIcon } from '@utils';
 
-export default ( { clientId, isSelected, attributes } ) => {
+import './editor.scss';
+
+export function BlockAppender( { clientId, isSelected, attributes } ) {
 	const { isBlockPreview } = attributes;
 	const innerBlocksCount = useInnerBlocksCount( clientId );
 	const hasChildBlocks = 0 < innerBlocksCount;
@@ -22,7 +24,7 @@ export default ( { clientId, isSelected, attributes } ) => {
 	}
 
 	showAppender = applyFilters(
-		'generateblocks.editor.showElementAppender',
+		'generateblocks.editor.showBlockAppender',
 		showAppender,
 		{ clientId, isSelected, attributes }
 	);
@@ -34,7 +36,7 @@ export default ( { clientId, isSelected, attributes } ) => {
 	function ButtonBlockAppender() {
 		return (
 			<Inserter
-				position="bottom right"
+				placement="bottom right"
 				rootClientId={ clientId }
 				__experimentalIsQuick
 				renderToggle={ ( {
@@ -54,7 +56,7 @@ export default ( { clientId, isSelected, attributes } ) => {
 					return (
 						<Tooltip text={ label }>
 							<Button
-								className={ 'block-editor-button-block-appender' }
+								className={ 'block-editor-button-block-appender gb-block-appender__button' }
 								onClick={ onToggle }
 								aria-haspopup={ ! hasSingleBlockType ? 'true' : undefined }
 								aria-expanded={ ! hasSingleBlockType ? isOpen : undefined }
@@ -90,8 +92,8 @@ export default ( { clientId, isSelected, attributes } ) => {
 	}
 
 	return applyFilters(
-		'generateblocks.editor.elementAppender',
+		'generateblocks.editor.blockAppender',
 		appender,
 		{ clientId, isSelected, attributes }
 	);
-};
+}

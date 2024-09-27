@@ -3,7 +3,6 @@ import { useEffect, useMemo } from '@wordpress/element';
 import { compose } from '@wordpress/compose';
 import { __ } from '@wordpress/i18n';
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
-import BlockAppender from './components/BlockAppender.jsx';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts.js';
@@ -13,6 +12,7 @@ import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
+import { BlockAppender } from '@components';
 
 function EditBlock( props ) {
 	const {

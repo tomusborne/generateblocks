@@ -6,11 +6,10 @@ import { __ } from '@wordpress/i18n';
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
 import { BlockSettings } from './components/BlockSettings';
-import BlockAppender from '../element/components/BlockAppender';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
-import { BlockStylesBuilder } from '@components/index';
+import { BlockStylesBuilder, BlockAppender } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
