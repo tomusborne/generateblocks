@@ -5,10 +5,11 @@ import { RichText, useBlockProps } from '@wordpress/block-editor';
 import { Icon } from './components/Icon.jsx';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 
-export function Save( { attributes, htmlAttributes } ) {
+export function Save( { attributes } ) {
 	const {
 		content,
 		tagName,
+		htmlAttributes = {},
 		icon,
 		iconLocation,
 		iconOnly,

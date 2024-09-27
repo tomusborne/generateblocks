@@ -7,6 +7,7 @@ import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 export function Save( props ) {
 	const {
 		tagName: Tag,
+		htmlAttributes = {},
 		linkHtmlAttributes,
 	} = props.attributes;
 
@@ -15,7 +16,7 @@ export function Save( props ) {
 	const blockProps = useBlockProps.save(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...props.htmlAttributes,
+			...htmlAttributes,
 		}
 	);
 
