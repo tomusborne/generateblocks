@@ -11,11 +11,9 @@ import { withDynamicTag } from '../../hoc/withDynamicTag.js';
 import RootElement from '../../components/root-element/index.js';
 import { AddCaption } from './components/AddCaption.jsx';
 import { BlockSettings } from './components/BlockSettings';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 import { useBlockStyles } from '@hooks/useBlockStyles.js';
 
@@ -28,20 +26,26 @@ function EditBlock( props ) {
 		clientId,
 		onStyleChange,
 		editorHtmlAttributes,
+		htmlAttributes,
 		getStyleValue,
+		styles,
 	} = props;
 
 	const {
 		tagName,
-		htmlAttributes = {},
 		linkHtmlAttributes = {},
 	} = attributes;
 
 	const { currentAtRule } = useBlockStyles();
 	const [ temporaryURL, setTemporaryURL ] = useState();
 	const { isTemporaryImage, mediaUpload, onUploadError } = useImageFunctions();
-	const classNameAttributes = useBlockClassAttributes( attributes );
-	const classNames = getBlockClasses( 'gb-media', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-media',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -225,7 +229,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withDynamicTag,
 	withUniqueId
 )( EditBlock );

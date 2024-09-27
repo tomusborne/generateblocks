@@ -10,7 +10,13 @@ export function Save( { attributes } ) {
 		html,
 		htmlAttributes = {},
 	} = attributes;
-	const classNames = getBlockClasses( 'gb-shape', attributes, true );
+
+	const classNames = getBlockClasses(
+		'gb-shape',
+		attributes,
+		true
+	);
+
 	const blockProps = useBlockProps.save(
 		{
 			className: classNames.join( ' ' ).trim(),

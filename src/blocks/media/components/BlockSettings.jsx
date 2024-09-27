@@ -38,9 +38,9 @@ export function BlockSettings( {
 	attributes,
 	setAttributes,
 	onSelectImage,
+	htmlAttributes,
 } ) {
 	const {
-		htmlAttributes,
 		linkHtmlAttributes,
 		mediaId,
 	} = attributes;

@@ -6,11 +6,9 @@ import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts.js';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix.js';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 import { BlockAppender } from '@components';
 
@@ -23,14 +21,20 @@ function EditBlock( props ) {
 		name,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
 		tagName,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
-	const classNames = getBlockClasses( 'gb-element', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-element',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -119,7 +123,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

@@ -26,11 +26,11 @@ export function BlockSettings( {
 	attributes,
 	setAttributes,
 	clientId,
+	htmlAttributes,
+	styles,
 } ) {
 	const {
 		tagName,
-		htmlAttributes,
-		styles,
 	} = attributes;
 
 	const [ openShapeLibrary, setOpenShapeLibrary ] = useState( false );

@@ -11,13 +11,11 @@ import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStylesBuilder';
 import { StylesOnboarder, TagNameToolbar } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { DynamicTagBlockToolbar } from '../../dynamic-tags';
 
 function EditBlock( props ) {
@@ -34,6 +32,7 @@ function EditBlock( props ) {
 		onStyleChange,
 		editorHtmlAttributes,
 		isSelected,
+		styles,
 	} = props;
 
 	const {
@@ -67,8 +66,14 @@ function EditBlock( props ) {
 		}, content );
 	}, [ dynamicTagValue, content ] );
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
-	const classNames = getBlockClasses( 'gb-text', classNameAttributes, ! icon );
+	const classNames = getBlockClasses(
+		'gb-text',
+		{
+			...attributes,
+			styles,
+		},
+		! icon
+	);
 
 	const blockProps = useBlockProps(
 		{
@@ -226,7 +231,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withDynamicTag,
 	withUniqueId
 )( EditBlock );

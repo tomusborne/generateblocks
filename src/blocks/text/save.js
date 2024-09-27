@@ -14,8 +14,14 @@ export function Save( { attributes } ) {
 		iconLocation,
 		iconOnly,
 	} = attributes;
+
 	const TagName = tagName;
-	const classNames = getBlockClasses( 'gb-text', attributes, ! icon );
+
+	const classNames = getBlockClasses(
+		'gb-text',
+		attributes,
+		! icon
+	);
 
 	const blockProps = useBlockProps.save(
 		{
