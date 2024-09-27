@@ -23,7 +23,7 @@ function EditBlock( props ) {
 		name,
 		selector,
 		onStyleChange,
-		htmlAttributes,
+		editorHtmlAttributes,
 	} = props;
 
 	const {
@@ -42,7 +42,7 @@ function EditBlock( props ) {
 	const blockProps = useBlockProps(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...htmlAttributes,
+			...editorHtmlAttributes,
 		}
 	);
 	const innerBlocksProps = useInnerBlocksProps(

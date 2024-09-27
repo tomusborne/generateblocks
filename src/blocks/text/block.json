@@ -28,7 +28,8 @@
 				"h6",
 				"a",
 				"button",
-				"figcaption"
+				"figcaption",
+				"li"
 			]
 		},
 		"content": {
