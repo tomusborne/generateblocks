@@ -4,7 +4,7 @@ import { StylesBuilder } from '@edge22/styles-builder';
 import { defaultAtRules, TABS_STORAGE_KEY } from '@edge22/block-styles';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
-export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyleChange } ) {
+export function BlockStylesBuilder( { setAttributes, shortcuts, onStyleChange } ) {
 	const {
 		getStyles,
 		deleteStyle,
@@ -18,13 +18,14 @@ export function BlockStylesBuilder( { selector, setAttributes, shortcuts, onStyl
 		deviceType,
 		setGlobalStyle,
 		cancelEditGlobalStyle,
+		currentStyle,
 	} = useBlockStyles();
 
 	const defaultSearch = applyFilters( 'generateblocks/local-styles/default-search', '' );
 
 	return (
 		<StylesBuilder
-			currentSelector={ selector }
+			currentSelector={ currentStyle?.selector }
 			styles={ getStyles( atRule, nestedRule ) }
 			allStyles={ getStyles() }
 			onDeleteStyle={ ( property ) => {
