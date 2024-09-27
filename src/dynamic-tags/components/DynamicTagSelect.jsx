@@ -71,6 +71,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	} );
 	const [ linkTo, setLinkTo ] = useState( '' );
 	const [ renderIfEmpty, setRenderIfEmpty ] = useState( false );
+	const [ separator, setSeparator ] = useState( '' );
 	const currentPostId = currentPost?.id ?? 0;
 
 	useEffect( () => {
@@ -186,6 +187,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setTaxonomySource( params.tax );
 		}
 
+		if ( params?.sep ) {
+			setSeparator( params.sep );
+		}
+
 		if ( params?.link ) {
 			setLinkTo( params.link );
 		}
@@ -237,6 +242,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `link:${ linkTo }` );
 		}
 
+		if ( dynamicTag.startsWith( 'term_list' ) && separator ) {
+			options.push( `sep:${ separator }` );
+		}
+
 		if ( renderIfEmpty ) {
 			options.push( 'renderIfEmpty' );
 		}
@@ -267,6 +276,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		renderIfEmpty,
 		taxonomySource,
 		termSource,
+		separator,
 	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
@@ -503,6 +513,16 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 								label={ __( 'Multiple comments text', 'generateblocks' ) }
 								value={ commentsCountText.multiple }
 								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, multiple: value } ) }
+							/>
+						</>
+					) }
+
+					{ dynamicTagToInsert.startsWith( '{term_list' ) && (
+						<>
+							<TextControl
+								label={ __( 'Separator', 'generateblocks' ) }
+								value={ separator }
+								onChange={ ( value ) => setSeparator( value ) }
 							/>
 						</>
 					) }

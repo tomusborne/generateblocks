@@ -200,13 +200,6 @@ class GenerateBlocks_Render_Block {
 		);
 
 		register_block_type_from_metadata(
-			GENERATEBLOCKS_DIR . '/dist/blocks/query-terms-list',
-			[
-				'render_callback' => [ 'GenerateBlocks_Block_Query_Terms_List', 'render_block' ],
-			]
-		);
-
-		register_block_type_from_metadata(
 			GENERATEBLOCKS_DIR . '/dist/blocks/loop-item',
 			[
 				'render_callback' => [ 'GenerateBlocks_Block_Loop_Item', 'render_block' ],

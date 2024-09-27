@@ -569,7 +569,6 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 		'.wp-block-generateblocks-query-page-numbers',
 		'.wp-block-generateblocks-looper',
 		'.wp-block-generateblocks-loop-item',
-		'.wp-block-generateblocks-query-terms-list',
 	];
 
 	$heading_blocks_to_reset = [
