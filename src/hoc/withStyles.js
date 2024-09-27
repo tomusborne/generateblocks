@@ -68,6 +68,10 @@ export function withStyles( WrappedComponent ) {
 				return {};
 			}
 
+			if ( ! Object.keys( styles ).length ) {
+				return {};
+			}
+
 			return styles;
 		}, [ JSON.stringify( styles ) ] );
 
@@ -100,7 +104,7 @@ export function withStyles( WrappedComponent ) {
 
 		useGenerateCSSEffect( {
 			selector,
-			frontendStyles,
+			styles: frontendStyles,
 			setAttributes,
 			getCss,
 		} );
@@ -113,7 +117,7 @@ export function withStyles( WrappedComponent ) {
 			setNestedRule,
 			setAtRule,
 			setStyles,
-			frontendStyles,
+			styles: frontendStyles,
 		} );
 
 		useUpdateEditorCSSEffect( {
