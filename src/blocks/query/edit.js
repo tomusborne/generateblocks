@@ -12,7 +12,7 @@ import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
-import { BlockStylesBuilder } from '@components/index';
+import { BlockAppender, BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
@@ -26,6 +26,7 @@ function EditBlock( props ) {
 		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		isSelected,
 	} = props;
 
 	const {
@@ -58,6 +59,13 @@ function EditBlock( props ) {
 				'generateblocks/query-page-numbers',
 				'generateblocks/element',
 			],
+			renderAppender: () => (
+				<BlockAppender
+					clientId={ clientId }
+					isSelected={ isSelected }
+					attributes={ attributes }
+				/>
+			),
 		}
 	);
 
