@@ -21,7 +21,6 @@ function EditBlock( props ) {
 		clientId,
 		isSelected,
 		name,
-		selector,
 		onStyleChange,
 		editorHtmlAttributes,
 	} = props;
@@ -100,7 +99,6 @@ function EditBlock( props ) {
 					) }
 					stylesTab={ (
 						<BlockStylesBuilder
-							selector={ selector }
 							setAttributes={ setAttributes }
 							shortcuts={ shortcuts }
 							onStyleChange={ onStyleChange }
