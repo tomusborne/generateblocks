@@ -62,7 +62,9 @@ function EditBlock( props ) {
 				return acc;
 			}
 
-			return acc.replaceAll( original, replacement );
+			const replacementWithNoLinks = replacement.replace( /href="[^"]*"/g, 'href="#"' );
+
+			return acc.replaceAll( original, replacementWithNoLinks );
 		}, content );
 	}, [ dynamicTagValue, content ] );
 
