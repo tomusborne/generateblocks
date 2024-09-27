@@ -12,7 +12,6 @@ import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -30,8 +29,14 @@ function EditBlock( props ) {
 		html,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( styles, attributes );
-	const classNames = getBlockClasses( 'gb-shape', classNameAttributes, true );
+	const classNames = getBlockClasses(
+		'gb-shape',
+		{
+			...attributes,
+			styles,
+		},
+		true
+	);
 
 	const shortcuts = useMemo( () => {
 		const visibleSelectors = [

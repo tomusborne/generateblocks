@@ -9,7 +9,6 @@ import { selectorShortcuts } from '@utils/selectorShortcuts.js';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 import { BlockAppender } from '@components';
 
@@ -30,8 +29,13 @@ function EditBlock( props ) {
 		tagName,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( styles, attributes );
-	const classNames = getBlockClasses( 'gb-element', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-element',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {

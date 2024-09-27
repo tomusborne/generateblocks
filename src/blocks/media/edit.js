@@ -14,7 +14,6 @@ import { BlockSettings } from './components/BlockSettings';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 import { useBlockStyles } from '@hooks/useBlockStyles.js';
 
@@ -41,8 +40,13 @@ function EditBlock( props ) {
 	const { currentAtRule } = useBlockStyles();
 	const [ temporaryURL, setTemporaryURL ] = useState();
 	const { isTemporaryImage, mediaUpload, onUploadError } = useImageFunctions();
-	const classNameAttributes = useBlockClassAttributes( styles, attributes );
-	const classNames = getBlockClasses( 'gb-media', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-media',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {

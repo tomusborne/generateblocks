@@ -9,7 +9,6 @@ import { BlockSettings } from './components/BlockSettings';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 
 const createPaginationItem = ( content, Tag = 'a', extraClass = '' ) => (
@@ -60,8 +59,13 @@ function EditBlock( props ) {
 		midSize,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( styles, attributes );
-	const classNames = getBlockClasses( 'gb-query-page-numbers', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-query-page-numbers',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {

@@ -16,7 +16,6 @@ import { BlockStylesBuilder } from '@components/block-styles-builder/BlockStyles
 import { StylesOnboarder, TagNameToolbar } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { DynamicTagBlockToolbar } from '../../dynamic-tags';
 
 function EditBlock( props ) {
@@ -68,8 +67,14 @@ function EditBlock( props ) {
 		}, content );
 	}, [ dynamicTagValue, content ] );
 
-	const classNameAttributes = useBlockClassAttributes( styles, attributes );
-	const classNames = getBlockClasses( 'gb-text', classNameAttributes, ! icon );
+	const classNames = getBlockClasses(
+		'gb-text',
+		{
+			...attributes,
+			styles,
+		},
+		! icon
+	);
 
 	const blockProps = useBlockProps(
 		{

@@ -10,7 +10,6 @@ import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, BlockAppender } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 
 function EditBlock( props ) {
@@ -30,8 +29,14 @@ function EditBlock( props ) {
 		isBlockPreview = false,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( styles, attributes );
-	const classNames = getBlockClasses( 'gb-loop-item', classNameAttributes, true );
+	const classNames = getBlockClasses(
+		'gb-loop-item',
+		{
+			...attributes,
+			styles,
+		},
+		true
+	);
 
 	if ( isBlockPreview ) {
 		classNames.push( 'gb-block-preview' );

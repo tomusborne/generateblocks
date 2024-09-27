@@ -13,7 +13,6 @@ import { BlockStylesBuilder } from '@components/index';
 
 import './editor.scss';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 
 function EditBlock( props ) {
@@ -30,8 +29,13 @@ function EditBlock( props ) {
 		tagName,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( styles, attributes );
-	const classNames = getBlockClasses( 'gb-looper', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-looper',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {
