@@ -20,9 +20,9 @@ export function BlockSettings( {
 	name,
 	attributes,
 	setAttributes,
+	htmlAttributes,
 } ) {
 	const {
-		htmlAttributes,
 		tagName,
 		icon,
 		iconLocation,

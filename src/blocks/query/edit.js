@@ -10,7 +10,6 @@ import { TemplateSelector } from '@components/template-selector';
 import { templates } from './templates';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
@@ -26,6 +25,7 @@ function EditBlock( props ) {
 		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
@@ -33,7 +33,7 @@ function EditBlock( props ) {
 		showTemplateSelector,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNameAttributes = useBlockClassAttributes( styles, attributes );
 	const classNames = getBlockClasses( 'gb-query', classNameAttributes );
 
 	useEffect( () => {
@@ -124,7 +124,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

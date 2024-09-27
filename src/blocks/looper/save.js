@@ -7,7 +7,6 @@ import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 export function Save( props ) {
 	const {
 		tagName: Tag,
-		htmlAttributes = {},
 	} = props.attributes;
 
 	const classNames = getBlockClasses( 'gb-looper', props.attributes );
@@ -15,7 +14,7 @@ export function Save( props ) {
 	const blockProps = useBlockProps.save(
 		{
 			className: classNames.join( ' ' ).trim(),
-			...htmlAttributes,
+			...props.htmlAttributes,
 		}
 	);
 

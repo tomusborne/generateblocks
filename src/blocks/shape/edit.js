@@ -8,7 +8,6 @@ import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
@@ -24,13 +23,14 @@ function EditBlock( props ) {
 		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
 		html,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNameAttributes = useBlockClassAttributes( styles, attributes );
 	const classNames = getBlockClasses( 'gb-shape', classNameAttributes, true );
 
 	const shortcuts = useMemo( () => {
@@ -99,7 +99,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

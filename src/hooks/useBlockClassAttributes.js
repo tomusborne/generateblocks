@@ -1,9 +1,8 @@
 import { useMemo } from '@wordpress/element';
 
-export function useBlockClassAttributes( attributes ) {
+export function useBlockClassAttributes( styles, attributes ) {
 	const {
 		className = '',
-		styles = {},
 		uniqueId = '',
 		globalClasses = [],
 	} = attributes;

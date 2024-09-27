@@ -8,7 +8,6 @@ import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 import { LoopInnerBlocksRenderer } from './components/LoopInnerBlocksRenderer';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts as defaultSelectorShortcuts } from '@utils/selectorShortcuts.js';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 
@@ -24,13 +23,14 @@ function EditBlock( props ) {
 		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
 		tagName,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNameAttributes = useBlockClassAttributes( styles, attributes );
 	const classNames = getBlockClasses( 'gb-looper', classNameAttributes );
 
 	useEffect( () => {
@@ -100,7 +100,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

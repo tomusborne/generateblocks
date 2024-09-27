@@ -7,7 +7,6 @@ import BlockAppender from './components/BlockAppender.jsx';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts.js';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix.js';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index.js';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
@@ -24,13 +23,14 @@ function EditBlock( props ) {
 		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
 		tagName,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
+	const classNameAttributes = useBlockClassAttributes( styles, attributes );
 	const classNames = getBlockClasses( 'gb-element', classNameAttributes );
 
 	useEffect( () => {
@@ -115,7 +115,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 
