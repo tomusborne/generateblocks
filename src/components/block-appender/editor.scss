@@ -13,7 +13,7 @@
 		}
 	}
 
-    button.components-button.gb-block-appender__button {
+	button.components-button.gb-block-appender__button {
 		background: #000;
 		color: #fff;
 		padding: 5px;
@@ -62,7 +62,7 @@
 		}
 	}
 
-	&:hover {
+	&:hover, &:focus {
 		.gblocks-element-selector__icon {
 			opacity: 0.4;
 		}

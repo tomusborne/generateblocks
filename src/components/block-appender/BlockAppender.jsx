@@ -17,15 +17,10 @@ export function BlockAppender( { clientId, isSelected, attributes } ) {
 	const { selectBlock } = useDispatch( 'core/block-editor' );
 
 	let appender = false;
-	let showAppender = true;
 
-	if ( isBlockPreview ) {
-		showAppender = false;
-	}
-
-	showAppender = applyFilters(
+	const showAppender = applyFilters(
 		'generateblocks.editor.showBlockAppender',
-		showAppender,
+		isBlockPreview ? false : true,
 		{ clientId, isSelected, attributes }
 	);
 

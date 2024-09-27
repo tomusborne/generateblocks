@@ -52,7 +52,13 @@ function EditBlock( props ) {
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
-			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ isSelected } attributes={ attributes } />,
+			renderAppender: () => (
+				<BlockAppender
+					clientId={ clientId }
+					isSelected={ isSelected }
+					attributes={ attributes }
+				/>
+			),
 		}
 	);
 

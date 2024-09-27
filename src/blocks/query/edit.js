@@ -59,7 +59,13 @@ function EditBlock( props ) {
 				'generateblocks/query-page-numbers',
 				'generateblocks/element',
 			],
-			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ isSelected } attributes={ attributes } />,
+			renderAppender: () => (
+				<BlockAppender
+					clientId={ clientId }
+					isSelected={ isSelected }
+					attributes={ attributes }
+				/>
+			),
 		}
 	);
 
