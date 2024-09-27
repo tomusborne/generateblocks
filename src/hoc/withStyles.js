@@ -20,7 +20,6 @@ function getSelector( blockName, uniqueId ) {
 		'generateblocks/media': 'media',
 		'generateblocks/query': 'query',
 		'generateblocks/query-page-numbers': 'query-page-numbers',
-		'generateblocks/query-terms-list': 'query-terms-list',
 		'generateblocks/shape': 'shape',
 	};
 

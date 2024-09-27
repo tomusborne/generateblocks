@@ -578,7 +578,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	public static function get_term_list( $options ) {
 		$id        = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$taxonomy  = $options['tax'] ?? '';
-		$separator = empty( $options['sep'] ) ? ', ' : $options['sep'];
+		$separator = ! empty( $options['sep'] ) ? $options['sep'] : '';
 		$before    = $options['before'] ?? '';
 		$after     = $options['after'] ?? '';
 		$link      = empty( $options['link'] ) ? false : (bool) $options['link'];
