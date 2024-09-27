@@ -68,10 +68,6 @@ export function withStyles( WrappedComponent ) {
 				return {};
 			}
 
-			if ( ! Object.keys( styles ).length ) {
-				return {};
-			}
-
 			return styles;
 		}, [ JSON.stringify( styles ) ] );
 
