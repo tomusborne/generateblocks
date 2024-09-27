@@ -4,6 +4,7 @@ import { useContext, useState, useEffect, useRef } from '@wordpress/element';
 import { BaseControl, Tooltip, Button } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 import { isEqual, isEmpty } from 'lodash';
+import { ColorPicker } from '@edge22/components';
 
 import PanelArea from '../../../../components/panel-area';
 import getIcon from '../../../../utils/get-icon';
@@ -13,7 +14,6 @@ import getResponsivePlaceholder from '../../../../utils/get-responsive-placehold
 import DimensionsControl from '../../../../components/dimensions';
 import FlexControl from '../../../../components/flex-control';
 import UnitControl from '../../../../components/unit-control';
-import ColorPicker from '../../../../components/color-picker';
 import StyleDropdown from './components/style-dropdown';
 import isNumeric from '../../../../utils/is-numeric';
 import { useStyleIndicator, useDeviceAttributes } from '../../../../hooks';
