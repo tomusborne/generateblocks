@@ -290,7 +290,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					return [];
 				}
 
-				const postItems = Object.keys( record.meta ).map( ( key ) => ( { label: key, value: key } ) );
+				const postItems = applyFilters(
+					'generateblocks.editor.dynamicTags.postMetaKeys',
+					Object.keys( record.meta ).map( ( key ) => ( { label: key, value: key } ) ),
+					record
+				);
 
 				if ( postItems.length === 0 ) {
 					return [];
@@ -358,7 +362,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			termSource,
 			postIdSource,
 			dynamicTag,
-		} );
+		}
+	);
 
 	const termOptions = useMemo( () => {
 		if ( ! record?.terms?.length ) {
@@ -453,11 +458,13 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 					{ dynamicTag.includes( '_meta' ) && (
 						<Autocomplete
+							className="gb-meta-key-select"
 							label={ __( 'Meta key', 'generateblocks' ) }
 							defaultValue={ metaKey }
 							selected={ metaKey }
 							onSelect={ ( { value } ) => setMetaKey( value ) }
 							source={ metaKeyOptions }
+							toStringKey="value"
 							showClear={ true }
 							onClear={ () => setMetaKey( '' ) }
 							afterInputWrapper={ ( { inputValue, items } ) => {
