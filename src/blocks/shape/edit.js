@@ -8,12 +8,10 @@ import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 import sanitizeSVG from '../../utils/sanitize-svg/index.js';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 
 function EditBlock( props ) {
 	const {
@@ -21,17 +19,23 @@ function EditBlock( props ) {
 		setAttributes,
 		name,
 		clientId,
-		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
 		html,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
-	const classNames = getBlockClasses( 'gb-shape', classNameAttributes, true );
+	const classNames = getBlockClasses(
+		'gb-shape',
+		{
+			...attributes,
+			styles,
+		},
+		true
+	);
 
 	const shortcuts = useMemo( () => {
 		const visibleSelectors = [
@@ -72,7 +76,6 @@ function EditBlock( props ) {
 					) }
 					stylesTab={ (
 						<BlockStylesBuilder
-							selector={ selector }
 							setAttributes={ setAttributes }
 							shortcuts={ shortcuts }
 							onStyleChange={ onStyleChange }
@@ -99,7 +102,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

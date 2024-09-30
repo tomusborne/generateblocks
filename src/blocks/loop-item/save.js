@@ -4,13 +4,17 @@
 import { getBlockClasses } from '@utils/getBlockClasses';
 import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
-export function Save( props ) {
+export function Save( { attributes } ) {
 	const {
 		tagName: Tag,
 		htmlAttributes = {},
-	} = props.attributes;
+	} = attributes;
 
-	const classNames = getBlockClasses( 'gb-loop-item', props.attributes, true );
+	const classNames = getBlockClasses(
+		'gb-loop-item',
+		attributes,
+		true
+	);
 
 	const blockProps = useBlockProps.save(
 		{

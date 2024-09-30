@@ -4,14 +4,17 @@
 import { getBlockClasses } from '@utils/getBlockClasses';
 import { useInnerBlocksProps, useBlockProps } from '@wordpress/block-editor';
 
-export function Save( props ) {
+export function Save( { attributes } ) {
 	const {
 		tagName: Tag,
 		htmlAttributes = {},
-		linkHtmlAttributes,
-	} = props.attributes;
+		linkHtmlAttributes = {},
+	} = attributes;
 
-	const classNames = getBlockClasses( 'gb-media', props.attributes );
+	const classNames = getBlockClasses(
+		'gb-media',
+		attributes,
+	);
 
 	const blockProps = useBlockProps.save(
 		{

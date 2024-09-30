@@ -1,4 +1,4 @@
-import { useEffect } from '@wordpress/element';
+import { useEffect, useMemo } from '@wordpress/element';
 
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
 
@@ -72,6 +72,13 @@ export function withHtmlAttributes( WrappedComponent ) {
 			...otherAttributes,
 			style: inlineStyleObject,
 		};
+		const frontendHtmlAttributes = useMemo( () => {
+			if ( Array.isArray( htmlAttributes ) ) {
+				return {};
+			}
+
+			return htmlAttributes;
+		}, [ JSON.stringify( htmlAttributes ) ] );
 
 		useEffect( () => {
 			// Create a shallow copy of the htmlAttributes object.
@@ -108,6 +115,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 				<WrappedComponent
 					{ ...props }
 					editorHtmlAttributes={ combinedAttributes }
+					htmlAttributes={ frontendHtmlAttributes }
 				/>
 			</>
 		);

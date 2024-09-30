@@ -16,11 +16,11 @@ export function BlockSettings( {
 	name,
 	attributes,
 	setAttributes,
+	htmlAttributes,
+	styles,
 } ) {
 	const {
 		tagName,
-		htmlAttributes,
-		styles,
 	} = attributes;
 
 	const {

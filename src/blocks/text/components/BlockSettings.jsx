@@ -1,8 +1,8 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { SelectControl, TextControl, BaseControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
-import { OpenPanel, IconControl } from '@edge22/components';
+import { OpenPanel, IconControl, ColorPicker, Checkbox } from '@edge22/components';
 
 import {
 	ApplyFilters,
@@ -20,9 +20,9 @@ export function BlockSettings( {
 	name,
 	attributes,
 	setAttributes,
+	htmlAttributes,
 } ) {
 	const {
-		htmlAttributes,
 		tagName,
 		icon,
 		iconLocation,
@@ -123,6 +123,12 @@ export function BlockSettings( {
 
 				{ !! icon && (
 					<>
+						<ColorPicker
+							label={ __( 'Icon Color', 'generateblocks' ) }
+							value={ getStyleValue( 'color', currentAtRule, '.gb-shape svg' ) }
+							onChange={ ( value ) => onStyleChange( 'color', value, currentAtRule, '.gb-shape svg' ) }
+						/>
+
 						{ ! iconOnly && (
 							<SelectControl
 								label={ __( 'Icon Location', 'generateblocks' ) }
@@ -135,11 +141,17 @@ export function BlockSettings( {
 							/>
 						) }
 
-						<ToggleControl
-							label={ __( 'Show icon only', 'generateblocks' ) }
-							checked={ !! iconOnly }
-							onChange={ () => setAttributes( { iconOnly: ! iconOnly } ) }
-						/>
+						<BaseControl
+							label={ __( 'Icon Display', 'generateblocks' ) }
+							id="gb-icon-only"
+						>
+							<Checkbox
+								id="gb-icon-only"
+								label={ __( 'Show the icon by itself', 'generateblocks' ) }
+								checked={ !! iconOnly }
+								onChange={ () => setAttributes( { iconOnly: ! iconOnly } ) }
+							/>
+						</BaseControl>
 
 						<TextControl
 							label={ __( 'ARIA Label', 'generateblocks' ) }
