@@ -64,6 +64,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ dynamicTagData, setDynamicTagData ] = useState( { type: 'post' } );
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
+	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' );
+	const showSource = ! [ 'site', 'option' ].includes( dynamicTagType );
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
 	const [ commentsCountText, setCommentsCountText ] = useState( {
@@ -150,7 +152,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
-		setDynamicTagData( availableTags.find( ( tag ) => tag.tag === newTag ) );
+		const tagData = availableTags.find( ( tag ) => tag.tag === newTag );
+		setDynamicTagData( tagData );
 		setLinkTo( '' );
 		setDynamicSource( 'current' );
 		setPostIdSource( '' );
@@ -158,6 +161,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		setTermSource( '' );
 		setUserSource( '' );
 		setMetaKey( '' );
+
+		return tagData;
 	}
 
 	/**
@@ -176,14 +181,17 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			return;
 		}
 
-		updateDynamicTag( tag );
+		const { type } = updateDynamicTag( tag );
 
 		const params = parsedTag?.params;
 
 		if ( params?.id ) {
-			if ( 'term_meta' === tag ) {
+			if ( 'term' === type ) {
 				setDynamicSource( 'term' );
 				setTermSource( params.id );
+			} else if ( 'user' === type ) {
+				setDynamicSource( 'user' );
+				setUserSource( params.id );
 			} else {
 				setDynamicSource( 'post' );
 				setPostIdSource( params.id );
@@ -255,9 +263,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `id:${ termSource }` );
 		}
 
-		const isMetaTag = dynamicTag.includes( '_meta' );
-
-		if ( isMetaTag && metaKey ) {
+		if ( tagSupportsMeta && metaKey ) {
 			options.push( `key:${ metaKey }` );
 		}
 
@@ -319,7 +325,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		return getLinkToOptions( dynamicTagType );
 	}, [ dynamicTagType, showLinkTo ] );
 	const metaKeys = useMemo( () => {
-		if ( ! dynamicTag.includes( '_meta' ) ) {
+		if ( ! tagSupportsMeta ) {
 			return [];
 		}
 
@@ -407,7 +413,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			default:
 				return [];
 		}
-	}, [ record, dynamicTag, dynamicTagType, termRecordLoading, termRecord ] );
+	}, [ record, dynamicTag, dynamicTagType, termRecordLoading, termRecord, tagSupportsMeta, currentUser, userRecord, dynamicSource ] );
 
 	const metaKeyOptions = applyFilters(
 		'generateblocks.editor.dynamicTags.metaKeys',
@@ -470,12 +476,14 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 			{ !! dynamicTag && (
 				<>
-					<ComboboxControl
-						label={ __( 'Source', 'generateblocks' ) }
-						value={ dynamicSource }
-						options={ sourceOptions }
-						onChange={ ( value ) => setDynamicSource( value ) }
-					/>
+					{ showSource && (
+						<ComboboxControl
+							label={ __( 'Source', 'generateblocks' ) }
+							value={ dynamicSource }
+							options={ sourceOptions }
+							onChange={ setDynamicSource }
+						/>
+					) }
 
 					{ 'post' === dynamicSource && (
 						<>
@@ -553,7 +561,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						/>
 					) }
 
-					{ dynamicTag.includes( '_meta' ) && (
+					{ tagSupportsMeta && (
 						<Autocomplete
 							className="gb-meta-key-select"
 							label={ __( 'Meta key', 'generateblocks' ) }

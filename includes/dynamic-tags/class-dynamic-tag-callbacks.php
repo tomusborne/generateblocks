@@ -649,14 +649,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_user_meta( $options ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user' );
+		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$key    = $options['key'] ?? '';
 
 		if ( empty( $key ) ) {
 			return '';
 		}
-
-		error_log( "user_id: $id" );
 
 		/**
 		 * Allow a filter to set this user meta value using some
@@ -677,6 +675,54 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		);
 
 		$meta = is_string( $pre_value ) ? $pre_value : get_user_meta( $id, $key, true );
+
+		$output = '';
+
+		if ( ! $meta ) {
+			return self::output( $output, $options );
+		}
+
+		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
+		$output = wp_kses_post( $meta );
+		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
+
+		return self::output( $output, $options );
+	}
+
+	/**
+	 * Get the option.
+	 *
+	 * @param array $options The options.
+	 * @return string
+	 */
+	public static function get_option( $options ) {
+		$id      = 'option';
+		$key     = $options['key'] ?? '';
+		$default = $options['default'] ?? '';
+
+		if ( empty( $key ) ) {
+			return '';
+		}
+
+		/**
+		 * Allow a filter to set this option value using some
+		 * custom setter function (such as get_field in ACF). If this value returns
+		 * something we can skip calling get_option for it and return the value instead.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param string|null $pre_value The pre-filtered value, or null if unset.
+		 * @param int   $id The user ID used to fetch the meta value.
+		 * @param string $key The meta key to fetch.
+		 */
+		$pre_value = apply_filters(
+			'generateblocks_dynamic_tag_get_option_pre_value',
+			null,
+			$id,
+			$key
+		);
+
+		$meta = is_string( $pre_value ) ? $pre_value : get_option( $key, $default );
 
 		$output = '';
 

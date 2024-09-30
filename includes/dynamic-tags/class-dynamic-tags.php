@@ -98,7 +98,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Post Meta', 'generateblocks' ),
 				'tag'    => 'post_meta',
 				'type'   => 'post',
-				'supports' => [],
+				'supports' => [ 'meta' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
 			]
 		);
@@ -128,7 +128,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Comments Count', 'generateblocks' ),
 				'tag'    => 'comments_count',
 				'type'   => 'post',
-				'supports' => [ 'link' ],
+				'supports' => [ 'link', 'comments' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_count' ],
 			]
 		);
@@ -138,7 +138,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Comments URL', 'generateblocks' ),
 				'tag'    => 'comments_url',
 				'type'   => 'post',
-				'supports' => [],
+				'supports' => [ 'comments' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_url' ],
 			]
 		);
@@ -148,7 +148,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Author Meta', 'generateblocks' ),
 				'tag'    => 'author_meta',
 				'type'   => 'author',
-				'supports' => [],
+				'supports' => [ 'meta' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
 			]
 		);
@@ -208,7 +208,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'Term Meta', 'generateblocks' ),
 				'tag'    => 'term_meta',
 				'type'   => 'term',
-				'supports' => [],
+				'supports' => [ 'meta' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
 			]
 		);
@@ -218,8 +218,18 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'  => __( 'User Meta', 'generateblocks' ),
 				'tag'    => 'user_meta',
 				'type'   => 'user',
-				'supports' => [],
+				'supports' => [ 'meta' ],
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'Option', 'generateblocks' ),
+				'tag'    => 'option',
+				'type'   => 'option',
+				'supports' => [ 'meta' ],
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_option' ],
 			]
 		);
 	}
