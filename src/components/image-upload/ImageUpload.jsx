@@ -62,6 +62,7 @@ export function ImageUpload( {
 				{ allowDynamicTags && (
 					<DynamicTagModal
 						onInsert={ ( newValue ) => onInsertDynamicTag( newValue ) }
+						selectedText={ value.startsWith( '{' ) ? value : '' }
 					/>
 				) }
 			</Stack>
