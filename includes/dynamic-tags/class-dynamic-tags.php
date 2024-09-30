@@ -25,6 +25,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		add_filter( 'render_block', [ $this, 'replace_tags' ], 10, 3 );
 		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
 		add_filter( 'generateblocks_before_dynamic_tag_replace', [ $this, 'before_tag_replace' ], 10, 2 );
+		add_filter( 'generateblocks_dynamic_tag_replacement', [ $this, 'alter_replacement' ], 10, 2 );
 	}
 
 	/**
@@ -548,6 +549,29 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		}
 
 		return $content;
+	}
+
+	/**
+	 * Alter replacement.
+	 *
+	 * @param string $replacement The replacement.
+	 * @param array  $args The arguments.
+	 * @return string
+	 */
+	public function alter_replacement( $replacement, $args ) {
+		if ( isset( $args['block']['blockName'] ) && 'generateblocks/media' === $args['block']['blockName'] ) {
+			$src = $args['block']['attrs']['htmlAttributes']['src'] ?? '';
+
+			if ( $src && $src === $args['tag'] && is_int( $replacement ) ) {
+				$url = wp_get_attachment_url( $replacement, 'full' );
+
+				if ( $url ) {
+					$replacement = $url;
+				}
+			}
+		}
+
+		return $replacement;
 	}
 
 	/**

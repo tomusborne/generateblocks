@@ -101,6 +101,29 @@ class GenerateBlocks_Register_Dynamic_Tag {
 				$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
 				$replacement = $data['return']( [], $block, $instance );
 
+				/**
+				 * Allow developers to filter the replacement.
+				 *
+				 * @since 2.0.0
+				 *
+				 * @param string $replacement The replacement.
+				 * @param string $full_tag The full tag.
+				 * @param mixed  $content The replacement.
+				 * @param array  $block The block.
+				 * @param Object $instance The block instance.
+				 */
+				$replacement = apply_filters(
+					'generateblocks_dynamic_tag_replacement',
+					$replacement,
+					[
+						'tag'      => $full_tag,
+						'content'  => $content,
+						'block'    => $block,
+						'instance' => $instance,
+						'options'  => [],
+					]
+				);
+
 				if ( ! $replacement ) {
 					// If we have no replacement, don't output the block.
 					// There's an option to output the block even if there's no replacement within
@@ -144,6 +167,29 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					$options          = self::parse_options( $options_string, $tag_name );
 					$replacement      = $data['return']( $options, $block, $instance );
 					$render_if_empty  = $options['renderIfEmpty'] ?? false;
+
+					/**
+					 * Allow developers to filter the replacement.
+					 *
+					 * @since 2.0.0
+					 *
+					 * @param string $replacement The replacement.
+					 * @param string $full_tag The full tag.
+					 * @param mixed  $content The replacement.
+					 * @param array  $block The block.
+					 * @param Object $instance The block instance.
+					 */
+					$replacement = apply_filters(
+						'generateblocks_dynamic_tag_replacement',
+						$replacement,
+						[
+							'tag'      => $full_tag,
+							'content'  => $content,
+							'block'    => $block,
+							'instance' => $instance,
+							'options'  => $options,
+						]
+					);
 
 					if ( ! $replacement && ! $render_if_empty ) {
 						$content = '';
