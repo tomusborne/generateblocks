@@ -76,6 +76,7 @@ export function URLControls( {
 								},
 							} );
 						} }
+						selectedText={ url.startsWith( '{' ) ? url : '' }
 					/>
 				</Stack>
 			</BaseControl>
