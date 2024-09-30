@@ -104,7 +104,9 @@ export function LoopInnerBlocksRenderer( props ) {
 
 	const innerBlocksProps = useInnerBlocksProps(
 		{},
-		{},
+		{
+			renderAppender: false,
+		},
 		innerBlockData
 	);
 
