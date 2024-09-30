@@ -9,6 +9,8 @@ import { Autocomplete } from '@edge22/components';
 import { SelectTaxonomy } from './SelectTaxonomy';
 import { usePostRecord } from '../hooks/usePostRecord';
 import { useTermRecord } from '../hooks/useTermRecord';
+import { useUserRecord } from '../hooks/useUserRecord';
+import { useUsers } from '@hooks';
 
 function parseTag( tagString ) {
 	const regex = /\{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}/;
@@ -50,13 +52,14 @@ function getLinkToOptions( type ) {
 	}
 }
 
-export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost } ) {
+export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser } ) {
 	const availableTags = generateBlocksEditor?.dynamicTags;
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ allPosts, setAllPosts ] = useState( [] );
 	const [ postIdSource, setPostIdSource ] = useState( '' );
 	const [ taxonomySource, setTaxonomySource ] = useState( '' );
 	const [ termSource, setTermSource ] = useState( '' );
+	const [ userSource, setUserSource ] = useState( '' );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagData, setDynamicTagData ] = useState( { type: 'post' } );
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
@@ -94,6 +97,17 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		loadPosts();
 	}, [] );
 
+	const { records: allUsers } = useUsers( 'user' === dynamicSource );
+
+	const userOptions = useMemo( () => {
+		return Array.isArray( allUsers ) ? allUsers.map( ( user ) => {
+			return {
+				label: `#${ user.id } ${ user.username }`,
+				value: `${ user.id }`,
+			};
+		} ) : [];
+	}, [ allUsers ] );
+
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
@@ -111,11 +125,19 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.taxonomy = taxonomySource;
 		}
 
-		return {
+		const args = {
 			load,
 			options,
-			postId: postIdSource ? postIdSource : currentPostId,
+			postId: 0,
 		};
+
+		if ( postIdSource ) {
+			args.postId = parseInt( postIdSource, 10 );
+		} else if ( 'current' === dynamicSource ) {
+			args.postId = currentPostId;
+		}
+
+		return args;
 	}, [ dynamicTagType, postIdSource, taxonomySource ] );
 
 	// Use getEntityRecord to get the post to retrieve meta from.
@@ -124,11 +146,18 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		termId: termSource,
 		taxonomy: taxonomySource,
 	} );
+	const { record: userRecord } = useUserRecord( userSource );
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
 		setDynamicTagData( availableTags.find( ( tag ) => tag.tag === newTag ) );
 		setLinkTo( '' );
+		setDynamicSource( 'current' );
+		setPostIdSource( '' );
+		setTaxonomySource( '' );
+		setTermSource( '' );
+		setUserSource( '' );
+		setMetaKey( '' );
 	}
 
 	/**
@@ -289,7 +318,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		return getLinkToOptions( dynamicTagType );
 	}, [ dynamicTagType, showLinkTo ] );
-	const postMetaKeyList = useMemo( () => {
+	const metaKeys = useMemo( () => {
 		if ( ! dynamicTag.includes( '_meta' ) ) {
 			return [];
 		}
@@ -324,7 +353,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					return [];
 				}
 
-				const authorItems = Object.keys( termMeta ).map( ( key ) => ( { label: key, value: key } ) );
+				const authorItems = Object.keys( authorMeta ).map( ( key ) => ( { label: key, value: key } ) );
 
 				if ( authorItems.length === 0 ) {
 					return [];
@@ -335,6 +364,25 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						id: 'author_meta',
 						label: __( 'Author Meta', 'generateblocks' ),
 						items: authorItems,
+					},
+				];
+			case 'user':
+				const userMeta = 'current' === dynamicSource ? currentUser?.meta : userRecord?.meta ?? {};
+
+				if ( ! userMeta ) {
+					return [];
+				}
+				const userItems = Object.keys( userMeta ).map( ( key ) => ( { label: key, value: key } ) );
+
+				if ( userItems.length === 0 ) {
+					return [];
+				}
+
+				return [
+					{
+						id: 'user_meta',
+						label: __( 'User Meta', 'generateblocks' ),
+						items: userItems,
 					},
 				];
 			case 'term':
@@ -362,10 +410,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	}, [ record, dynamicTag, dynamicTagType, termRecordLoading, termRecord ] );
 
 	const metaKeyOptions = applyFilters(
-		'generateblocks.editor.dynamicTags.metaKeys.list',
-		postMetaKeyList,
+		'generateblocks.editor.dynamicTags.metaKeys',
+		metaKeys,
 		{
 			postRecord: record,
+			userRecord: userRecord ? userRecord : currentUser,
 			termRecord,
 			dynamicTagType,
 			dynamicSource,
@@ -391,12 +440,21 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const sourceOptions = useMemo( () => {
 		if ( 'term_meta' === dynamicTag ) {
 			return [
+				{ label: __( 'Current Term', 'generateblocks' ), value: 'current' },
 				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
 			];
 		}
+
+		if ( 'user' === dynamicTagType ) {
+			return [
+				{ label: __( 'Current User', 'generateblocks' ), value: 'current' },
+				{ label: __( 'Specific User', 'generateblocks' ), value: 'user' },
+			];
+		}
+
 		return [
-			{ label: __( 'Current', 'generateblocks' ), value: 'current' },
-			{ label: __( 'Post', 'generateblocks' ), value: 'post' },
+			{ label: __( 'Current Post', 'generateblocks' ), value: 'current' },
+			{ label: __( 'Specific Post', 'generateblocks' ), value: 'post' },
 		];
 	}, [ dynamicTag ] );
 
@@ -406,7 +464,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 				label={ __( 'Select a dynamic tag', 'generateblocks' ) }
 				value={ dynamicTag }
 				options={ dynamicTagOptions }
-				onChange={ ( value ) => updateDynamicTag( value ) }
+				onChange={ updateDynamicTag }
 				className="gb-dynamic-tag-select"
 			/>
 
@@ -438,6 +496,35 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 											disabled={ ! inputValue || items.length > 0 }
 											onClick={ () => {
 												setPostIdSource( inputValue );
+											} }
+										>
+											{ __( 'Add', 'generateblocks' ) }
+										</Button>
+									);
+								} }
+							/>
+						</>
+					) }
+
+					{ 'user' === dynamicSource && (
+						<>
+							<Autocomplete
+								label={ __( 'Select source user', 'generateblocks' ) }
+								defaultValue={ userSource }
+								selected={ userSource }
+								onSelect={ ( { value } ) => setUserSource( value ) }
+								source={ userOptions }
+								showClear={ true }
+								onClear={ () => setUserSource( '' ) }
+								afterInputWrapper={ ( { inputValue, items } ) => {
+									return (
+										<Button
+											variant="primary"
+											size="compact"
+											className="gb-gc-add__button"
+											disabled={ ! inputValue || items.length > 0 }
+											onClick={ () => {
+												setUserSource( inputValue );
 											} }
 										>
 											{ __( 'Add', 'generateblocks' ) }
@@ -522,7 +609,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							<TextControl
 								label={ __( 'Separator', 'generateblocks' ) }
 								value={ separator }
-								onChange={ ( value ) => setSeparator( value ) }
+								onChange={ setSeparator }
 							/>
 						</>
 					) }
@@ -532,21 +619,21 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							label={ __( 'Link to', 'generateblocks' ) }
 							value={ linkTo }
 							options={ linkToOptions }
-							onChange={ ( value ) => setLinkTo( value ) }
+							onChange={ setLinkTo }
 						/>
 					) }
 
 					<TextControl
 						label={ __( 'Dynamic tag to insert', 'generateblocks' ) }
 						value={ dynamicTagToInsert }
-						onChange={ ( value ) => setDynamicTagToInsert( value ) }
+						onChange={ setDynamicTagToInsert }
 					/>
 
 					<CheckboxControl
 						label={ __( 'Render block if empty', 'generateblocks' ) }
 						className="gb-dynamic-tag-select__render-if-empty"
 						checked={ !! renderIfEmpty }
-						onChange={ ( value ) => setRenderIfEmpty( value ) }
+						onChange={ setRenderIfEmpty }
 						help={ __( 'Render the block even if this dynamic tag has no value.', 'generateblocks' ) }
 					/>
 

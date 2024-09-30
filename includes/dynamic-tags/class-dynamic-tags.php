@@ -212,6 +212,16 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'User Meta', 'generateblocks' ),
+				'tag'    => 'user_meta',
+				'type'   => 'user',
+				'supports' => [],
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
+			]
+		);
 	}
 
 	/**
@@ -229,14 +239,21 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	/**
 	 * Get the source ID.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param string $fallback_type The fallback type.
 	 * @return int
 	 */
-	public static function get_id( $options ) {
-		$id = get_the_ID();
-
+	public static function get_id( $options, $fallback_type = 'post' ) {
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
+		} elseif ( 'user' === $fallback_type ) {
+			$id = get_current_user_id();
+		} else {
+			if ( is_tax() || is_category() || is_tag() || is_archive() ) {
+				$id = get_queried_object_id();
+			} else {
+				$id = get_the_ID();
+			}
 		}
 
 		return apply_filters(
@@ -322,7 +339,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public function get_dynamic_tag_replacements( $request ) {
 		$content      = urldecode( $request->get_param( 'content' ) );
-		$post_id      = $request->get_param( 'id' );
+		$fallback_id  = $request->get_param( 'id' );
 		$replacements = [];
 
 		$all_tags  = GenerateBlocks_Register_Dynamic_Tag::get_tags();
@@ -348,17 +365,24 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					continue;
 				}
 
+				$tag_details = GenerateBlocks_Register_Dynamic_Tag::get_tag_details( $tag_name );
+				$type        = $tag_details['type'];
+
+				if ( 'user' === $type ) {
+					$fallback_id = get_current_user_id();
+				}
+
 				if ( ! generateblocks_str_contains( $tag, ' ' ) ) {
 					// There are no spaces in the tag, so there are no options.
-					$content = str_replace( $tag, "{$tag} id:{$post_id}", $tag );
+					$content = str_replace( $tag, "{$tag} id:{$fallback_id}", $tag );
 
 					$replacements[] = [
 						'original' => "{{$tag}}",
 						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], new stdClass() ),
 					];
-				} elseif ( ! generateblocks_str_contains( $tag, 'id' ) ) {
+				} elseif ( ! generateblocks_str_contains( $tag, 'id:' ) ) {
 					// There are spaces in the tag, but no `id` option.
-					$content = str_replace( $tag, "{$tag}|id:{$post_id}", $tag );
+					$content = str_replace( $tag, "{$tag}|id:{$fallback_id}", $tag );
 
 					$replacements[] = [
 						'original' => "{{$tag}}",

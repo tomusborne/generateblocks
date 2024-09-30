@@ -2,6 +2,7 @@ import { Modal, Button, Tooltip } from '@wordpress/components';
 import { useState, createInterpolateElement } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { store as editorStore } from '@wordpress/editor';
+import { store as coreStore } from '@wordpress/core-data';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
 import '../editor.scss';
@@ -18,6 +19,12 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, sel
 		const { getCurrentPost } = select( editorStore );
 
 		return getCurrentPost ? getCurrentPost() : null;
+	} );
+
+	const currentUser = useSelect( ( select ) => {
+		const { getCurrentUser } = select( coreStore );
+
+		return getCurrentUser ? getCurrentUser() : null;
 	} );
 
 	function onToggle() {
@@ -121,6 +128,7 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, sel
 								selectedText={ tagToEdit || selectedText }
 								tagToReplace={ tagToEdit }
 								currentPost={ currentPost }
+								currentUser={ currentUser }
 							/>
 						) }
 					</div>

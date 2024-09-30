@@ -201,4 +201,15 @@ class GenerateBlocks_Register_Dynamic_Tag {
 
 		return $tag;
 	}
+
+
+	/**
+	 * Get the details of a specific registered tag.
+	 *
+	 * @param string $tag The dynamic tag used for lookup.
+	 * @return array|null The tag details or null if not found.
+	 */
+	public static function get_tag_details( $tag ) {
+		return self::$tags[ $tag ] ?? null;
+	}
 }
