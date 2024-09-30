@@ -656,8 +656,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return '';
 		}
 
-		error_log( "user_id: $id" );
-
 		/**
 		 * Allow a filter to set this user meta value using some
 		 * custom setter function (such as get_field in ACF). If this value returns
