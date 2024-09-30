@@ -1,0 +1,14 @@
+.gb-datetime-control {
+	.components-base-control {
+		margin-bottom: 0 !important;
+	}
+
+	.components-datetime__time-separator {
+		border-bottom-color: var(--wp-components-color-gray-600, #949494);
+		border-top-color: var(--wp-components-color-gray-600, #949494);
+	}
+
+	.components-datetime__date > :last-child {
+		grid-template-columns: 0.5fr repeat(5, minmax(0px, 1fr)) 0.5fr; // Copied from Core, adds minmax to prevent layout bug
+	}
+}
