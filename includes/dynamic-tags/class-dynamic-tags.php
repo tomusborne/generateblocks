@@ -239,7 +239,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	/**
 	 * Get the source ID.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param string $fallback_type The fallback type.
 	 * @return int
 	 */
 	public static function get_id( $options, $fallback_type = 'post' ) {
@@ -248,7 +249,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		} elseif ( 'user' === $fallback_type ) {
 			$id = get_current_user_id();
 		} else {
-
 			if ( is_tax() || is_category() || is_tag() || is_archive() ) {
 				$id = get_queried_object_id();
 			} else {
