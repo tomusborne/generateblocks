@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import { SelectControl, TextControl } from '@wordpress/components';
+import { SelectControl, TextControl, BaseControl } from '@wordpress/components';
 import { applyFilters } from '@wordpress/hooks';
 
 import { OpenPanel, IconControl, ColorPicker, Checkbox } from '@edge22/components';
@@ -13,7 +13,6 @@ import {
 import { useBlockStyles } from '@hooks/useBlockStyles';
 import generalSvgs from '@components/icon-picker/svgs-general';
 import socialSvgs from '@components/icon-picker/svgs-social';
-import { BaseControl } from '@wordpress/components';
 
 export function BlockSettings( {
 	getStyleValue,
@@ -143,12 +142,12 @@ export function BlockSettings( {
 						) }
 
 						<BaseControl
-							label={ __( 'Show Icon Only', 'generateblocks' ) }
+							label={ __( 'Icon Display', 'generateblocks' ) }
 							id="gb-icon-only"
 						>
 							<Checkbox
 								id="gb-icon-only"
-								label={ __( 'Remove the text', 'generateblocks' ) }
+								label={ __( 'Show the icon by itself', 'generateblocks' ) }
 								checked={ !! iconOnly }
 								onChange={ () => setAttributes( { iconOnly: ! iconOnly } ) }
 							/>
