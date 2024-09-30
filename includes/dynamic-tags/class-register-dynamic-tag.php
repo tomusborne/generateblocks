@@ -163,13 +163,13 @@ class GenerateBlocks_Register_Dynamic_Tag {
 				preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
 
 				foreach ( $matches as $match ) {
-					$full_tag         = $match[0];
-					$full_tag         = self::maybe_prepend_protocol( $content, $full_tag );
-					$options_string   = $match[2] ?? '';
-					$options          = self::parse_options( $options_string, $tag_name );
-					$replacement      = $data['return']( $options, $block, $instance );
-					$og_replacement   = $replacement; // Keep a copy of this in case it's manipulated via filter.
-					$render_if_empty  = $options['renderIfEmpty'] ?? false;
+					$full_tag        = $match[0];
+					$full_tag        = self::maybe_prepend_protocol( $content, $full_tag );
+					$options_string  = $match[2] ?? '';
+					$options         = self::parse_options( $options_string, $tag_name );
+					$replacement     = $data['return']( $options, $block, $instance );
+					$og_replacement  = $replacement; // Keep a copy of this in case it's manipulated via filter.
+					$render_if_empty = $options['renderIfEmpty'] ?? false;
 
 					/**
 					 * Allow developers to filter the replacement.
