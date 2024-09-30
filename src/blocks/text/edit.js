@@ -177,14 +177,16 @@ function EditBlock( props ) {
 				tagName={ tagName }
 			/>
 
-			<DynamicTagBlockToolbar
-				value={ content }
-				tagName={ tagName }
-				setContentMode={ setContentMode }
-				contentMode={ contentMode }
-				isSelected={ isSelected }
-				onChange={ ( newValue ) => setAttributes( { content: newValue } ) }
-			/>
+			{ ! iconOnly && (
+				<DynamicTagBlockToolbar
+					value={ content }
+					tagName={ tagName }
+					setContentMode={ setContentMode }
+					contentMode={ contentMode }
+					isSelected={ isSelected }
+					onChange={ ( newValue ) => setAttributes( { content: newValue } ) }
+				/>
+			) }
 
 			<InspectorControls>
 				<StylesOnboarder />
