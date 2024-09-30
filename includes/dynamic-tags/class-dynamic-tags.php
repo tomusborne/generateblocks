@@ -212,6 +212,16 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'  => __( 'User Meta', 'generateblocks' ),
+				'tag'    => 'user_meta',
+				'type'   => 'user',
+				'supports' => [],
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
+			]
+		);
 	}
 
 	/**
@@ -232,11 +242,15 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @param array $options The options.
 	 * @return int
 	 */
-	public static function get_id( $options ) {
-		$id = get_the_ID();
-
+	public static function get_id( $options, $fallback_type = 'post' ) {
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
+		} else {
+			$id = 'user' === $fallback_type ? get_current_user_id() : get_the_ID();
+
+			if ( is_tax() || is_archive() || is_category() ) {
+				$id = get_queried_object_id();
+			}
 		}
 
 		return apply_filters(
@@ -356,7 +370,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'original' => "{{$tag}}",
 						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], new stdClass() ),
 					];
-				} elseif ( ! generateblocks_str_contains( $tag, 'id' ) ) {
+				} elseif ( ! generateblocks_str_contains( $tag, 'id:' ) ) {
 					// There are spaces in the tag, but no `id` option.
 					$content = str_replace( $tag, "{$tag}|id:{$post_id}", $tag );
 

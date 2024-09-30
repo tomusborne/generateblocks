@@ -3,7 +3,7 @@ import { store as coreStore } from '@wordpress/core-data';
 
 import { applyFilters } from '@wordpress/hooks';
 
-export function useTermRecord( { termId, taxonomy } ) {
+export function useUserRecord( { userId } ) {
 	return useSelect( ( select ) => {
 		const {
 			isResolving,
@@ -11,14 +11,14 @@ export function useTermRecord( { termId, taxonomy } ) {
 			hasFinishedResolution,
 		} = select( coreStore );
 
-		if ( ! termId || ! taxonomy ) {
+		if ( ! userId ) {
 			return { record: null, isLoading: false };
 		}
 
-		// Get the term entity record.
+		// Get the user entity record.
 		const params = applyFilters(
-			'generateblocks.editor.dynamicTags.term-request-params',
-			[ 'taxonomy', taxonomy, termId ]
+			'generateblocks.editor.dynamicTags.user-request-params',
+			[ 'root', 'user', userId ]
 		);
 
 		const record = getEntityRecord( ...params );
@@ -30,7 +30,7 @@ export function useTermRecord( { termId, taxonomy } ) {
 
 		return {
 			record: applyFilters(
-				'generateblocks.editor.dynamicTags.termRecord',
+				'generateblocks.editor.dynamicTags.userRecord',
 				record
 			),
 			isLoading,
