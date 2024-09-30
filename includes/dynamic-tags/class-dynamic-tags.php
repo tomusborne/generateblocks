@@ -548,6 +548,35 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			}
 		}
 
+		// If our image `src` is an ID, add the `data-media-id` attribute so we can alter the image output later.
+		if ( isset( $args['block']['blockName'] ) && 'generateblocks/media' === $args['block']['blockName'] ) {
+			$src = $args['block']['attrs']['htmlAttributes']['src'] ?? '';
+
+			if ( $src && $src === $args['tag'] && class_exists( 'WP_HTML_Tag_Processor' ) ) {
+				$processor = new WP_HTML_Tag_Processor( $content );
+
+				if ( $processor->next_tag( 'img' ) ) {
+					$media_id    = 0;
+					$replacement = $args['original_replacement'];
+
+					if ( is_int( $replacement ) ) {
+						$media_id = $replacement;
+					} elseif ( generateblocks_str_starts_with( $args['tag'], '{featured_image_url' ) ) {
+						$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image_id(
+							$args['options'],
+							$args['block'],
+							$args['instance']
+						);
+					}
+
+					if ( $media_id ) {
+						$processor->set_attribute( 'data-media-id', $media_id );
+						$content = $processor->get_updated_html();
+					}
+				}
+			}
+		}
+
 		return $content;
 	}
 

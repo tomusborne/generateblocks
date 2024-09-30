@@ -152,10 +152,6 @@ export function BlockSettings( {
 							src: value,
 						};
 
-						if ( newHtmlAttributes?.[ 'data-media-id' ] ) {
-							delete newHtmlAttributes[ 'data-media-id' ];
-						}
-
 						setAttributes( {
 							htmlAttributes: newHtmlAttributes,
 						} );
@@ -167,13 +163,6 @@ export function BlockSettings( {
 							...htmlAttributes,
 							src: value,
 						};
-						const featuredImageIdTag = value.startsWith( '{featured_image_url' )
-							? value.replace( '{featured_image_url', '{featured_image_id' )
-							: null;
-
-						if ( featuredImageIdTag ) {
-							newHtmlAttributes[ 'data-media-id' ] = featuredImageIdTag;
-						}
 
 						setAttributes( {
 							htmlAttributes: newHtmlAttributes,

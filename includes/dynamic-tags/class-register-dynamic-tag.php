@@ -98,8 +98,9 @@ class GenerateBlocks_Register_Dynamic_Tag {
 			$full_tag = $opening_tag . '}';
 
 			if ( generateblocks_str_contains( $content, $full_tag ) ) {
-				$full_tag = self::maybe_prepend_protocol( $content, $full_tag );
-				$replacement = $data['return']( [], $block, $instance );
+				$full_tag       = self::maybe_prepend_protocol( $content, $full_tag );
+				$replacement    = $data['return']( [], $block, $instance );
+				$og_replacement = $replacement; // Keep a copy of this in case it's manipulated via filter.
 
 				/**
 				 * Allow developers to filter the replacement.
@@ -147,11 +148,12 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					'generateblocks_before_dynamic_tag_replace',
 					$content,
 					[
-						'tag'         => $full_tag,
-						'replacement' => $replacement,
-						'block'       => $block,
-						'instance'    => $instance,
-						'options'     => [],
+						'tag'                  => $full_tag,
+						'replacement'          => $replacement,
+						'original_replacement' => $og_replacement,
+						'block'                => $block,
+						'instance'             => $instance,
+						'options'              => [],
 					]
 				);
 
@@ -166,6 +168,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					$options_string   = $match[2] ?? '';
 					$options          = self::parse_options( $options_string, $tag_name );
 					$replacement      = $data['return']( $options, $block, $instance );
+					$og_replacement   = $replacement; // Keep a copy of this in case it's manipulated via filter.
 					$render_if_empty  = $options['renderIfEmpty'] ?? false;
 
 					/**
@@ -211,11 +214,12 @@ class GenerateBlocks_Register_Dynamic_Tag {
 						'generateblocks_before_dynamic_tag_replace',
 						$content,
 						[
-							'tag'         => $full_tag,
-							'replacement' => $replacement,
-							'block'       => $block,
-							'instance'    => $instance,
-							'options'     => $options,
+							'tag'                  => $full_tag,
+							'replacement'          => $replacement,
+							'original_replacement' => $og_replacement,
+							'block'                => $block,
+							'instance'             => $instance,
+							'options'              => $options,
 						]
 					);
 

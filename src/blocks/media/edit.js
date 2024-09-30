@@ -83,10 +83,6 @@ function EditBlock( props ) {
 				width: image.width,
 			};
 
-			if ( newAttributes?.[ 'data-media-id' ] ) {
-				delete newAttributes[ 'data-media-id' ];
-			}
-
 			setAttributes( {
 				htmlAttributes: newAttributes,
 				mediaId: image.id ?? 0,
