@@ -2,6 +2,7 @@ import { useState, useMemo, useRef } from '@wordpress/element';
 import { ImagePlaceholder } from './ImagePlaceholder.jsx';
 import { useDispatch } from '@wordpress/data';
 import { store as blockEditorStore } from '@wordpress/block-editor';
+import { isURL } from '@wordpress/url';
 
 export function Image( {
 	elementAttributes,
@@ -43,7 +44,7 @@ export function Image( {
 	] );
 
 	const imageSrc = useMemo( () => {
-		if ( dynamicTagValue?.[ 0 ]?.replacement ) {
+		if ( dynamicTagValue?.[ 0 ]?.replacement && isURL( dynamicTagValue?.[ 0 ]?.replacement ) ) {
 			return dynamicTagValue?.[ 0 ]?.replacement;
 		}
 
