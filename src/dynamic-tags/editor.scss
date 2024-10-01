@@ -34,10 +34,17 @@
 	}
 }
 
-.components-toolbar-group {
-	.components-button.gb-dynamic-tag-content-mode-toggle {
+.gb-dynamic-tag-content-mode {
+	padding-right: 8px;
+
+	&__toggle.components-button {
 		padding-inline: 10px !important;
 		font-size: 12px;
+
+		&:before {
+			left: 0;
+			right: 0;
+		}
 
 		svg {
 			margin-right: -3px;

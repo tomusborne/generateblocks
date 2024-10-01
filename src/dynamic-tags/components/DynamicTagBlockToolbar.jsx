@@ -1,4 +1,4 @@
-import { ToolbarGroup, Dropdown, ToolbarButton, MenuItem, MenuGroup } from '@wordpress/components';
+import { ToolbarGroup, ToolbarButton, Button } from '@wordpress/components';
 import { BlockControls, store as blockEditorStore } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -7,7 +7,6 @@ import { create, insert, replace, RichTextData } from '@wordpress/rich-text';
 
 import { DynamicTagModal } from '..';
 import { getIcon } from '@utils/index.js';
-import { chevronDownSmall } from '@wordpress/icons';
 
 function getTags( value, data ) {
 	const foundTags = [];
@@ -116,6 +115,7 @@ export function DynamicTagBlockToolbar( {
 						}
 
 						onChange( new RichTextData( richTextValue ) );
+						setContentMode( 'preview' );
 					} }
 					onRemove={ ( tagToRemove ) => {
 						const newValue = replace( value, tagToRemove, '' );
@@ -137,45 +137,26 @@ export function DynamicTagBlockToolbar( {
 					foundTags={ foundTags }
 				/>
 				{ !! foundTags.length && (
-					<>
-						<Dropdown
-							renderToggle={ ( { onToggle } ) => (
-								<ToolbarButton
-									onClick={ onToggle }
-									isPressed={ true }
-									className="gb-dynamic-tag-content-mode-toggle"
-									icon={ chevronDownSmall }
-									iconPosition="right"
-								>
-									{ 'preview' === contentMode ? __( 'Preview Mode', 'generateblocks' ) : __( 'Edit Mode', 'generateblocks' ) }
-								</ToolbarButton>
-							) }
-							renderContent={ ( { onClose } ) => {
-								return (
-									<MenuGroup>
-										<MenuItem
-											onClick={ () => {
-												setContentMode( 'edit' );
-												onClose();
-											} }
-											isPressed={ 'edit' === contentMode }
-										>
-											{ __( 'Edit Mode', 'generateblocks' ) }
-										</MenuItem>
-										<MenuItem
-											onClick={ () => {
-												setContentMode( 'preview' );
-												onClose();
-											} }
-											isPressed={ 'preview' === contentMode }
-										>
-											{ __( 'Preview Mode', 'generateblocks' ) }
-										</MenuItem>
-									</MenuGroup>
-								);
+					<div className="gb-dynamic-tag-content-mode">
+						<Button
+							onClick={ () => {
+								setContentMode( 'preview' );
 							} }
-						/>
-					</>
+							isPressed={ 'preview' === contentMode }
+							className="gb-dynamic-tag-content-mode__toggle"
+						>
+							{ __( 'Preview', 'generateblocks' ) }
+						</Button>
+						<Button
+							onClick={ () => {
+								setContentMode( 'edit' );
+							} }
+							isPressed={ 'edit' === contentMode }
+							className="gb-dynamic-tag-content-mode__toggle"
+						>
+							{ __( 'Edit', 'generateblocks' ) }
+						</Button>
+					</div>
 				) }
 			</ToolbarGroup>
 		</BlockControls>
