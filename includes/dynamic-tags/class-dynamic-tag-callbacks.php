@@ -178,6 +178,53 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Check to see if a value if array-like and if so, get the provided property from it.
+	 *
+	 * @param mixed $value The value to check the property against.
+	 * @param mixed $property The property to retrieve from the value if it exists.
+	 * @return mixed The $property value if it exists, otherwise the $value.
+	 */
+	public static function maybe_get_property( $value, $property ) {
+		if ( is_array( $value ) ) {
+			return $value[ $property ] ?? $value;
+		} elseif ( is_object( $value ) ) {
+			return $value->$property ?? $value;
+		}
+
+		// Return the value if it's not an array or object.
+		return $value;
+	}
+
+	/**
+	 * Parse a dynamic tag key and retrieve a value from it.
+	 *
+	 * @param string     $key The key from the parent value for retrieval.
+	 * @param string|int $parent_value The parent value to check the key against.
+	 * @return string
+	 */
+	public static function get_value( $key, $parent_value ) {
+		$parts = explode( '.', $key );
+
+		// Bail if we can't find at least one sub field name in the key .
+		if ( count( $parts ) < 2 ) {
+			return is_string( $parent_value ) ? $parent_value : '';
+		}
+
+		$sub_name     = $parts[1];
+		$sub_value    = self::maybe_get_property( $parent_value, $sub_name );
+
+		if ( is_array( $sub_value ) || is_object( $sub_value ) ) {
+			return self::get_value(
+				implode( '.', array_slice( $parts, 1 ) ),
+				$sub_value
+			);
+		}
+
+		// Coerce simple values to strings.
+		return (string) $sub_value;
+	}
+
+	/**
 	 * Get the title.
 	 *
 	 * @param array $options The options.
@@ -282,8 +329,10 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_post_meta( $options ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$key    = $options['key'] ?? '';
+		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$key         = $options['key'] ?? '';
+		$key_parts   = explode( '.', $key );
+		$parent_name = $key_parts[0];
 
 		if ( empty( $key ) ) {
 			return '';
@@ -307,16 +356,16 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$key
 		);
 
-		$meta = is_string( $pre_value ) ? $pre_value : get_post_meta( $id, $key, true );
-
+		$meta   = is_string( $pre_value ) ? $pre_value : get_post_meta( $id, $parent_name, true );
+		$value  = self::get_value( $key, $meta );
 		$output = '';
 
-		if ( ! $meta ) {
+		if ( ! $value ) {
 			return self::output( $output, $options );
 		}
 
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $meta );
+		$output = wp_kses_post( $value );
 		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 
 		return self::output( $output, $options );
@@ -440,6 +489,24 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		return self::output( $output, $options );
 	}
 
+
+	/**
+	 * Get filtered userdata with only the relevant keys.
+	 *
+	 * @param int $user_id The user ID to get data for.
+	 * @return array Filtered data array
+	 */
+	private static function get_userdata( $user_id ) {
+		$userdata = get_userdata( $user_id )->data ?? new stdClass();
+
+		return [
+			'user_nicename' => $userdata->user_nicename ?? '',
+			'user_email'    => $userdata->user_email ?? '',
+			'display_name'  => $userdata->display_name ?? '',
+			'ID'            => $userdata->ID ?? '',
+		];
+	}
+
 	/**
 	 * Get the author meta.
 	 *
@@ -447,10 +514,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_author_meta( $options ) {
-		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$user_id = get_post_field( 'post_author', $id );
-		$key     = $options['key'] ?? '';
-		$output  = '';
+		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$user_id     = get_post_field( 'post_author', $id );
+		$key         = $options['key'] ?? '';
+		$key_parts   = explode( '.', $key );
+		$parent_name = $key_parts[0];
+		$output      = '';
 
 		if ( ! $user_id || ! $key ) {
 			return self::output( $output, $options );
@@ -475,38 +544,16 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$id
 		);
 
-		$meta = $pre_value ? $pre_value : get_user_meta( $user_id, $key, true );
+		$meta = $pre_value ? $pre_value : get_user_meta( $user_id, $parent_name, true );
 
 		if ( ! $meta ) {
-			$user_data_names = array(
-				'user_nicename',
-				'user_email',
-				'display_name',
-			);
-
-			if ( in_array( $key, $user_data_names ) ) {
-				$user_data = get_userdata( $user_id );
-
-				if ( $user_data ) {
-					switch ( $key ) {
-						case 'user_nicename':
-							$meta = $user_data->user_nicename;
-							break;
-
-						case 'user_email':
-							$meta = $user_data->user_email;
-							break;
-
-						case 'display_name':
-							$meta = $user_data->display_name;
-							break;
-					}
-				}
-			}
+			$meta = self::get_userdata( $user_id )[ $parent_name ] ?? '';
 		}
 
+		$value = self::get_value( $key, $meta );
+
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $meta );
+		$output = wp_kses_post( $value );
 		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 
 		return self::output( $output, $options );
@@ -602,8 +649,10 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_term_meta( $options ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$key    = $options['key'] ?? '';
+		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$key         = $options['key'] ?? '';
+		$key_parts   = explode( '.', $key );
+		$parent_name = $key_parts[0];
 
 		if ( empty( $key ) ) {
 			return '';
@@ -612,7 +661,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		/**
 		 * Allow a filter to set this post meta value using some
 		 * custom setter function (such as get_field in ACF). If this value returns
-		 * something we can skip calling get_post_meta for it and return the value instead.
+		 * something we can skip calling get_term_meta for it and return the value instead.
 		 *
 		 * @since 2.0.0
 		 *
@@ -627,16 +676,16 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$key
 		);
 
-		$meta = is_string( $pre_value ) ? $pre_value : get_term_meta( $id, $key, true );
-
+		$meta   = is_string( $pre_value ) ? $pre_value : get_term_meta( $id, $parent_name, true );
+		$value  = self::get_value( $key, $meta );
 		$output = '';
 
-		if ( ! $meta ) {
+		if ( ! $value ) {
 			return self::output( $output, $options );
 		}
 
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $meta );
+		$output = wp_kses_post( $value );
 		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 
 		return self::output( $output, $options );
@@ -649,8 +698,10 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_user_meta( $options ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user' );
-		$key    = $options['key'] ?? '';
+		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user' );
+		$key         = $options['key'] ?? '';
+		$key_parts   = explode( '.', $key );
+		$parent_name = $key_parts[0];
 
 		if ( empty( $key ) ) {
 			return '';
@@ -674,16 +725,16 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$key
 		);
 
-		$meta = is_string( $pre_value ) ? $pre_value : get_user_meta( $id, $key, true );
-
+		$meta   = is_string( $pre_value ) ? $pre_value : get_user_meta( $id, $parent_name, true );
+		$value  = self::get_value( $key, $meta );
 		$output = '';
 
-		if ( ! $meta ) {
+		if ( ! $value ) {
 			return self::output( $output, $options );
 		}
 
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $meta );
+		$output = wp_kses_post( $value );
 		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 
 		return self::output( $output, $options );
@@ -696,9 +747,11 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_option( $options ) {
-		$id      = 'option';
-		$key     = $options['key'] ?? '';
-		$default = $options['default'] ?? '';
+		$id          = 'option';
+		$default     = $options['default'] ?? '';
+		$key         = $options['key'] ?? '';
+		$key_parts   = explode( '.', $key );
+		$parent_name = $key_parts[0];
 
 		if ( empty( $key ) ) {
 			return '';
@@ -722,16 +775,16 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$key
 		);
 
-		$meta = is_string( $pre_value ) ? $pre_value : get_option( $key, $default );
-
+		$meta   = is_string( $pre_value ) ? $pre_value : get_option( $parent_name, $default );
+		$value  = self::get_value( $key, $meta );
 		$output = '';
 
-		if ( ! $meta ) {
+		if ( ! $value ) {
 			return self::output( $output, $options );
 		}
 
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $meta );
+		$output = wp_kses_post( $value );
 		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 
 		return self::output( $output, $options );
