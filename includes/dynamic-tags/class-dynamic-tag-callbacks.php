@@ -210,8 +210,8 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return is_string( $parent_value ) ? $parent_value : '';
 		}
 
-		$sub_name     = $parts[1];
-		$sub_value    = self::maybe_get_property( $parent_value, $sub_name );
+		$sub_name  = $parts[1];
+		$sub_value = self::maybe_get_property( $parent_value, $sub_name );
 
 		if ( is_array( $sub_value ) || is_object( $sub_value ) ) {
 			return self::get_value(
@@ -331,7 +331,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	public static function get_post_meta( $options ) {
 		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$key         = $options['key'] ?? '';
-		$key_parts   = explode( '.', $key );
+		$key_parts   = array_map( 'trim', explode( '.', $key ) );
 		$parent_name = $key_parts[0];
 
 		if ( empty( $key ) ) {
@@ -356,7 +356,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$key
 		);
 
-		$meta   = is_string( $pre_value ) ? $pre_value : get_post_meta( $id, $parent_name, true );
+		$meta   = $pre_value ? $pre_value : get_post_meta( $id, $parent_name, true );
 		$value  = self::get_value( $key, $meta );
 		$output = '';
 
@@ -517,7 +517,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$user_id     = get_post_field( 'post_author', $id );
 		$key         = $options['key'] ?? '';
-		$key_parts   = explode( '.', $key );
+		$key_parts   = array_map( 'trim', explode( '.', $key ) );
 		$parent_name = $key_parts[0];
 		$output      = '';
 
@@ -651,7 +651,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	public static function get_term_meta( $options ) {
 		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$key         = $options['key'] ?? '';
-		$key_parts   = explode( '.', $key );
+		$key_parts   = array_map( 'trim', explode( '.', $key ) );
 		$parent_name = $key_parts[0];
 
 		if ( empty( $key ) ) {
@@ -676,7 +676,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$key
 		);
 
-		$meta   = is_string( $pre_value ) ? $pre_value : get_term_meta( $id, $parent_name, true );
+		$meta   = $pre_value ? $pre_value : get_term_meta( $id, $parent_name, true );
 		$value  = self::get_value( $key, $meta );
 		$output = '';
 
@@ -700,7 +700,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	public static function get_user_meta( $options ) {
 		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user' );
 		$key         = $options['key'] ?? '';
-		$key_parts   = explode( '.', $key );
+		$key_parts   = array_map( 'trim', explode( '.', $key ) );
 		$parent_name = $key_parts[0];
 
 		if ( empty( $key ) ) {
@@ -725,7 +725,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$key
 		);
 
-		$meta   = is_string( $pre_value ) ? $pre_value : get_user_meta( $id, $parent_name, true );
+		$meta   = $pre_value ? $pre_value : get_user_meta( $id, $parent_name, true );
 		$value  = self::get_value( $key, $meta );
 		$output = '';
 
@@ -750,7 +750,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$id          = 'option';
 		$default     = $options['default'] ?? '';
 		$key         = $options['key'] ?? '';
-		$key_parts   = explode( '.', $key );
+		$key_parts   = array_map( 'trim', explode( '.', $key ) );
 		$parent_name = $key_parts[0];
 
 		if ( empty( $key ) ) {
@@ -775,7 +775,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$key
 		);
 
-		$meta   = is_string( $pre_value ) ? $pre_value : get_option( $parent_name, $default );
+		$meta   = null !== $pre_value ? $pre_value : get_option( $parent_name, $default );
 		$value  = self::get_value( $key, $meta );
 		$output = '';
 
