@@ -649,7 +649,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_user_meta( $options ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user' );
 		$key    = $options['key'] ?? '';
 
 		if ( empty( $key ) ) {
