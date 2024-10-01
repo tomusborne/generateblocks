@@ -29,6 +29,20 @@ function getTags( value, data ) {
 	return foundTags;
 }
 
+function isSelectionInsideTags( selectionOffset, selectionEndOffset, foundTags, value ) {
+	return foundTags.some( ( tag ) => {
+		const tagStart = value.indexOf( tag );
+		const tagEnd = tagStart + tag.length;
+
+		// Check if the selection falls strictly inside the tag range (excluding boundaries)
+		return (
+			( selectionOffset > tagStart && selectionOffset < tagEnd ) || // Start strictly inside tag
+            ( selectionEndOffset > tagStart && selectionEndOffset < tagEnd ) || // End strictly inside tag
+            ( selectionOffset <= tagStart && selectionEndOffset >= tagEnd ) // Selection wraps around the tag
+		);
+	} );
+}
+
 export function DynamicTagBlockToolbar( {
 	tagName,
 	value,
@@ -75,8 +89,16 @@ export function DynamicTagBlockToolbar( {
 							return;
 						}
 
-						const selectionOffset = selectionStart?.offset ?? value.length;
-						const selectionEndOffset = selectionEnd?.offset ?? value.length;
+						let selectionOffset = selectionStart?.offset ?? value.length;
+						let selectionEndOffset = selectionEnd?.offset ?? value.length;
+
+						const isInsideTag = isSelectionInsideTags( selectionOffset, selectionEndOffset, foundTags, value );
+
+						// If inside a tag, adjust the selection to insert at the end.
+						if ( isInsideTag ) {
+							selectionOffset = value.length;
+							selectionEndOffset = value.length;
+						}
 
 						let richTextValue = insert(
 							value,
