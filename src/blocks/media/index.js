@@ -3,6 +3,7 @@ import { __ } from '@wordpress/i18n';
 import { Edit } from './edit';
 import metadata from './block.json';
 import { Save } from './save';
+import { transforms } from './transforms';
 import './index.scss';
 import getIcon from '@utils/get-icon';
 
@@ -10,6 +11,7 @@ registerBlockType( metadata, {
 	edit: Edit,
 	save: Save,
 	icon: getIcon( 'image' ),
+	transforms,
 } );
 
 registerBlockVariation(
