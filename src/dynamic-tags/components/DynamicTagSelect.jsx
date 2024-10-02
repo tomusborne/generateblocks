@@ -70,6 +70,7 @@ function groupFilter( source, query, itemToString ) {
 export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser } ) {
 	const availableTags = generateBlocksEditor?.dynamicTags;
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
+	const [ extraTagParams, setExtraTagParams ] = useState( {} );
 	const [ allPosts, setAllPosts ] = useState( [] );
 	const [ postIdSource, setPostIdSource ] = useState( '' );
 	const [ taxonomySource, setTaxonomySource ] = useState( '' );
@@ -199,57 +200,72 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		const { type } = updateDynamicTag( tag );
 
-		const params = parsedTag?.params;
+		const {
+			id = null,
+			key = null,
+			none = null,
+			one = null,
+			multiple = null,
+			link = null,
+			renderIfEmpty: renderIfEmptyParam = null,
+			sep = null,
+			tax = null,
+			...extraParams
+		} = parsedTag?.params;
 
-		if ( params?.id ) {
+		if ( id ) {
 			if ( 'term' === type ) {
 				setDynamicSource( 'term' );
-				setTermSource( params.id );
+				setTermSource( id );
 			} else if ( 'user' === type ) {
 				setDynamicSource( 'user' );
-				setUserSource( params.id );
+				setUserSource( id );
 			} else {
 				setDynamicSource( 'post' );
-				setPostIdSource( params.id );
+				setPostIdSource( id );
 			}
 		}
 
-		if ( params?.key ) {
-			setMetaKey( params.key );
+		if ( key ) {
+			setMetaKey( key );
 		}
 
 		if ( 'comments_count' === tag ) {
 			const existingCommentsCountText = { ...commentsCountText };
 
-			if ( params.none ) {
-				existingCommentsCountText.none = params.none;
+			if ( none ) {
+				existingCommentsCountText.none = none;
 			}
 
-			if ( params.one ) {
-				existingCommentsCountText.one = params.one;
+			if ( one ) {
+				existingCommentsCountText.one = one;
 			}
 
-			if ( params.multiple ) {
-				existingCommentsCountText.multiple = params.multiple;
+			if ( multiple ) {
+				existingCommentsCountText.multiple = multiple;
 			}
 
 			setCommentsCountText( existingCommentsCountText );
 		}
 
-		if ( params?.tax ) {
-			setTaxonomySource( params.tax );
+		if ( tax ) {
+			setTaxonomySource( tax );
 		}
 
-		if ( params?.sep ) {
-			setSeparator( params.sep );
+		if ( sep ) {
+			setSeparator( sep );
 		}
 
-		if ( params?.link ) {
-			setLinkTo( params.link );
+		if ( link ) {
+			setLinkTo( link );
 		}
 
-		if ( params?.renderIfEmpty ) {
+		if ( renderIfEmptyParam ) {
 			setRenderIfEmpty( true );
+		}
+
+		if ( extraParams ) {
+			setExtraTagParams( extraParams );
 		}
 	}, [ selectedText ] );
 
@@ -303,6 +319,12 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( taxonomySource && 'term' === dynamicTagType ) {
 			options.push( `tax:${ taxonomySource }` );
+		}
+
+		if ( extraTagParams ) {
+			Object.entries( extraTagParams ).forEach( ( [ key, value ] ) => {
+				options.push( `${ key }:${ value }` );
+			} );
 		}
 
 		const tagOptions = options.join( '|' );
@@ -590,7 +612,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							toStringKey="value"
 							showClear={ true }
 							onEnter={ ( inputValue ) => {
-								console.log( 'enter pressed, ' + inputValue );
 								setMetaKey( inputValue );
 							} }
 							onClear={ () => setMetaKey( '' ) }
