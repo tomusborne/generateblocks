@@ -1,4 +1,4 @@
-import { ToolbarGroup, ToolbarButton, Button } from '@wordpress/components';
+import { ToolbarGroup, ToolbarButton } from '@wordpress/components';
 import { BlockControls, store as blockEditorStore } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -138,7 +138,7 @@ export function DynamicTagBlockToolbar( {
 				/>
 				{ !! foundTags.length && (
 					<div className="gb-dynamic-tag-content-mode">
-						<Button
+						<ToolbarButton
 							onClick={ () => {
 								setContentMode( 'preview' );
 							} }
@@ -146,8 +146,8 @@ export function DynamicTagBlockToolbar( {
 							className="gb-dynamic-tag-content-mode__toggle"
 						>
 							{ __( 'Preview', 'generateblocks' ) }
-						</Button>
-						<Button
+						</ToolbarButton>
+						<ToolbarButton
 							onClick={ () => {
 								setContentMode( 'edit' );
 							} }
@@ -155,7 +155,7 @@ export function DynamicTagBlockToolbar( {
 							className="gb-dynamic-tag-content-mode__toggle"
 						>
 							{ __( 'Edit', 'generateblocks' ) }
-						</Button>
+						</ToolbarButton>
 					</div>
 				) }
 			</ToolbarGroup>
