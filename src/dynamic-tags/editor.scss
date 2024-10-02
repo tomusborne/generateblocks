@@ -1,4 +1,6 @@
 .gb-dynamic-tag-modal {
+	height: min(70%, 700px);
+
 	&__content {
 		display: flex;
 		flex-direction: column;

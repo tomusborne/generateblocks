@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
 import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
+import { useDebounce } from '@wordpress/compose';
 import { applyFilters } from '@wordpress/hooks';
 
 import { Autocomplete } from '@edge22/components';
@@ -52,6 +53,20 @@ function getLinkToOptions( type ) {
 	}
 }
 
+function groupFilter( source, query, itemToString ) {
+	return source
+		.map( ( item ) => {
+			const { items = [] } = item;
+			return {
+				...item,
+				items: items.filter( ( subItem ) =>
+					itemToString( subItem ).toLowerCase().includes( query.toLowerCase() )
+				),
+			};
+		} )
+		.filter( ( f ) => f.items.length > 0 );
+}
+
 export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser } ) {
 	const availableTags = generateBlocksEditor?.dynamicTags;
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
@@ -68,6 +83,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const showSource = ! [ 'site', 'option' ].includes( dynamicTagType );
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
+	const debouncedSetMetaKey = useDebounce( setMetaKey, 200 );
 	const [ commentsCountText, setCommentsCountText ] = useState( {
 		none: __( 'No comments', 'generateblocks' ),
 		one: __( 'One comment', 'generateblocks' ),
@@ -565,13 +581,19 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						<Autocomplete
 							className="gb-meta-key-select"
 							label={ __( 'Meta key', 'generateblocks' ) }
-							defaultValue={ metaKey }
 							selected={ metaKey }
-							onSelect={ ( { value } ) => setMetaKey( value ) }
+							onSelect={ ( newSelected ) => {
+								const newMetaKey = newSelected?.value ?? newSelected;
+								debouncedSetMetaKey( newMetaKey ? newMetaKey : '' );
+							} }
 							source={ metaKeyOptions }
 							toStringKey="value"
 							showClear={ true }
-							onClear={ () => setMetaKey( '' ) }
+							onClear={ () => {
+								console.log( 'clearing' );
+								setMetaKey( '' );
+							} }
+							itemFilter={ groupFilter }
 							afterInputWrapper={ ( { inputValue, items } ) => {
 								return (
 									<Button
@@ -580,6 +602,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 										className="gb-gc-add__button"
 										disabled={ ! inputValue || items.length > 0 }
 										onClick={ () => {
+											console.log( 'adding...' );
 											setMetaKey( inputValue );
 										} }
 									>
