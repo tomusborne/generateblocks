@@ -21,8 +21,6 @@ export function BlockStylesBuilder( { setAttributes, shortcuts, onStyleChange } 
 		currentStyle,
 	} = useBlockStyles();
 
-	const defaultSearch = applyFilters( 'generateblocks/local-styles/default-search', '' );
-
 	return (
 		<StylesBuilder
 			currentSelector={ currentStyle?.selector }
@@ -56,7 +54,7 @@ export function BlockStylesBuilder( { setAttributes, shortcuts, onStyleChange } 
 			setLocalTab={ ( tab ) => {
 				sessionStorage.setItem( TABS_STORAGE_KEY, tab );
 			} }
-			defaultSearch={ defaultSearch }
+			scope="local"
 		/>
 	);
 }
