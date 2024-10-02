@@ -40,6 +40,7 @@ import { StylesOnboarder } from './styles-onboarder/StylesOnboarder';
 import { NoticePanel } from './notice-panel/NoticePanel';
 import { OnboardNotice } from './onboard-notice/OnboardNotice';
 import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
+import { BlockAppender } from './block-appender/BlockAppender';
 
 export {
 	AdvancedSelect,
@@ -87,4 +88,5 @@ export {
 	NoticePanel,
 	OnboardNotice,
 	TagNameToolbar,
+	BlockAppender,
 };

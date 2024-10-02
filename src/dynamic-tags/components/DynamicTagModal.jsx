@@ -1,5 +1,5 @@
 import { Modal, Button, Tooltip } from '@wordpress/components';
-import { useState, createInterpolateElement } from '@wordpress/element';
+import { useState, createInterpolateElement, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { store as editorStore } from '@wordpress/editor';
 import { store as coreStore } from '@wordpress/core-data';
@@ -72,6 +72,24 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, sel
 			CreateNew: <CreateNew />,
 		}
 	);
+
+	useEffect( () => {
+		if ( ! isOpen ) {
+			return;
+		}
+
+		const urlPopover = document.querySelector( '.gblocks-button-link-dropdown' ) ?? '';
+
+		if ( urlPopover ) {
+			urlPopover.style.zIndex = 0;
+		}
+
+		return () => {
+			if ( urlPopover ) {
+				urlPopover.style.zIndex = '';
+			}
+		};
+	}, [ isOpen ] );
 
 	return (
 		<>

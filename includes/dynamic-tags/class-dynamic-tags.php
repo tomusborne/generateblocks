@@ -25,6 +25,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		add_filter( 'render_block', [ $this, 'replace_tags' ], 10, 3 );
 		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
 		add_filter( 'generateblocks_before_dynamic_tag_replace', [ $this, 'before_tag_replace' ], 10, 2 );
+		add_filter( 'generateblocks_dynamic_tag_replacement', [ $this, 'alter_replacement' ], 10, 2 );
 	}
 
 	/**
@@ -249,7 +250,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		} elseif ( 'user' === $fallback_type ) {
 			$id = get_current_user_id();
 		} else {
-
 			if ( is_tax() || is_category() || is_tag() || is_archive() ) {
 				$id = get_queried_object_id();
 			} else {
@@ -548,7 +548,59 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			}
 		}
 
+		// If our image `src` is an ID, add the `data-media-id` attribute so we can alter the image output later.
+		if ( isset( $args['block']['blockName'] ) && 'generateblocks/media' === $args['block']['blockName'] ) {
+			$src = $args['block']['attrs']['htmlAttributes']['src'] ?? '';
+
+			if ( $src && $src === $args['tag'] && class_exists( 'WP_HTML_Tag_Processor' ) ) {
+				$processor = new WP_HTML_Tag_Processor( $content );
+
+				if ( $processor->next_tag( 'img' ) ) {
+					$media_id    = 0;
+					$replacement = $args['original_replacement'];
+
+					if ( is_int( $replacement ) ) {
+						$media_id = $replacement;
+					} elseif ( generateblocks_str_starts_with( $args['tag'], '{featured_image_url' ) ) {
+						$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image_id(
+							$args['options'],
+							$args['block'],
+							$args['instance']
+						);
+					}
+
+					if ( $media_id ) {
+						$processor->set_attribute( 'data-media-id', $media_id );
+						$content = $processor->get_updated_html();
+					}
+				}
+			}
+		}
+
 		return $content;
+	}
+
+	/**
+	 * Alter replacement.
+	 *
+	 * @param string $replacement The replacement.
+	 * @param array  $args The arguments.
+	 * @return string
+	 */
+	public function alter_replacement( $replacement, $args ) {
+		if ( isset( $args['block']['blockName'] ) && 'generateblocks/media' === $args['block']['blockName'] ) {
+			$src = $args['block']['attrs']['htmlAttributes']['src'] ?? '';
+
+			if ( $src && $src === $args['tag'] && is_int( $replacement ) ) {
+				$url = wp_get_attachment_url( $replacement, 'full' );
+
+				if ( $url ) {
+					$replacement = $url;
+				}
+			}
+		}
+
+		return $replacement;
 	}
 
 	/**

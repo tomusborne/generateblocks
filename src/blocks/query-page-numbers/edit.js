@@ -6,11 +6,9 @@ import { __ } from '@wordpress/i18n';
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
 import { BlockSettings } from './components/BlockSettings';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 
 const createPaginationItem = ( content, Tag = 'a', extraClass = '' ) => (
@@ -50,9 +48,9 @@ function EditBlock( props ) {
 	const {
 		attributes,
 		setAttributes,
-		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
@@ -60,8 +58,13 @@ function EditBlock( props ) {
 		midSize,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
-	const classNames = getBlockClasses( 'gb-query-page-numbers', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-query-page-numbers',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -111,7 +114,6 @@ function EditBlock( props ) {
 					) }
 					stylesTab={ (
 						<BlockStylesBuilder
-							selector={ selector }
 							setAttributes={ setAttributes }
 							shortcuts={ shortcuts }
 							onStyleChange={ onStyleChange }
@@ -129,7 +131,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

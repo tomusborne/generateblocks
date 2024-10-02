@@ -1,4 +1,4 @@
-import { ToolbarGroup, Dropdown, ToolbarButton, MenuItem, MenuGroup } from '@wordpress/components';
+import { ToolbarGroup, ToolbarButton, Button } from '@wordpress/components';
 import { BlockControls, store as blockEditorStore } from '@wordpress/block-editor';
 import { useEffect, useMemo } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -7,7 +7,6 @@ import { create, insert, replace, RichTextData } from '@wordpress/rich-text';
 
 import { DynamicTagModal } from '..';
 import { getIcon } from '@utils/index.js';
-import { chevronDownSmall } from '@wordpress/icons';
 
 function getTags( value, data ) {
 	const foundTags = [];
@@ -27,6 +26,20 @@ function getTags( value, data ) {
 	}
 
 	return foundTags;
+}
+
+function isSelectionInsideTags( selectionOffset, selectionEndOffset, foundTags, value ) {
+	return foundTags.some( ( tag ) => {
+		const tagStart = value.indexOf( tag );
+		const tagEnd = tagStart + tag.length;
+
+		// Check if the selection falls strictly inside the tag range (excluding boundaries)
+		return (
+			( selectionOffset > tagStart && selectionOffset < tagEnd ) || // Start strictly inside tag
+            ( selectionEndOffset > tagStart && selectionEndOffset < tagEnd ) || // End strictly inside tag
+            ( selectionOffset <= tagStart && selectionEndOffset >= tagEnd ) // Selection wraps around the tag
+		);
+	} );
 }
 
 export function DynamicTagBlockToolbar( {
@@ -75,8 +88,16 @@ export function DynamicTagBlockToolbar( {
 							return;
 						}
 
-						const selectionOffset = selectionStart?.offset ?? value.length;
-						const selectionEndOffset = selectionEnd?.offset ?? value.length;
+						let selectionOffset = selectionStart?.offset ?? value.length;
+						let selectionEndOffset = selectionEnd?.offset ?? value.length;
+
+						const isInsideTag = isSelectionInsideTags( selectionOffset, selectionEndOffset, foundTags, value );
+
+						// If inside a tag, adjust the selection to insert at the end.
+						if ( isInsideTag ) {
+							selectionOffset = value.length;
+							selectionEndOffset = value.length;
+						}
 
 						let richTextValue = insert(
 							value,
@@ -94,6 +115,7 @@ export function DynamicTagBlockToolbar( {
 						}
 
 						onChange( new RichTextData( richTextValue ) );
+						setContentMode( 'preview' );
 					} }
 					onRemove={ ( tagToRemove ) => {
 						const newValue = replace( value, tagToRemove, '' );
@@ -115,45 +137,26 @@ export function DynamicTagBlockToolbar( {
 					foundTags={ foundTags }
 				/>
 				{ !! foundTags.length && (
-					<>
-						<Dropdown
-							renderToggle={ ( { onToggle } ) => (
-								<ToolbarButton
-									onClick={ onToggle }
-									isPressed={ true }
-									className="gb-dynamic-tag-content-mode-toggle"
-									icon={ chevronDownSmall }
-									iconPosition="right"
-								>
-									{ 'preview' === contentMode ? __( 'Preview Mode', 'generateblocks' ) : __( 'Edit Mode', 'generateblocks' ) }
-								</ToolbarButton>
-							) }
-							renderContent={ ( { onClose } ) => {
-								return (
-									<MenuGroup>
-										<MenuItem
-											onClick={ () => {
-												setContentMode( 'edit' );
-												onClose();
-											} }
-											isPressed={ 'edit' === contentMode }
-										>
-											{ __( 'Edit Mode', 'generateblocks' ) }
-										</MenuItem>
-										<MenuItem
-											onClick={ () => {
-												setContentMode( 'preview' );
-												onClose();
-											} }
-											isPressed={ 'preview' === contentMode }
-										>
-											{ __( 'Preview Mode', 'generateblocks' ) }
-										</MenuItem>
-									</MenuGroup>
-								);
+					<div className="gb-dynamic-tag-content-mode">
+						<Button
+							onClick={ () => {
+								setContentMode( 'preview' );
 							} }
-						/>
-					</>
+							isPressed={ 'preview' === contentMode }
+							className="gb-dynamic-tag-content-mode__toggle"
+						>
+							{ __( 'Preview', 'generateblocks' ) }
+						</Button>
+						<Button
+							onClick={ () => {
+								setContentMode( 'edit' );
+							} }
+							isPressed={ 'edit' === contentMode }
+							className="gb-dynamic-tag-content-mode__toggle"
+						>
+							{ __( 'Edit', 'generateblocks' ) }
+						</Button>
+					</div>
 				) }
 			</ToolbarGroup>
 		</BlockControls>

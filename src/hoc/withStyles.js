@@ -63,6 +63,14 @@ export function withStyles( WrappedComponent ) {
 			return getSelector( name, uniqueId );
 		}, [ name, uniqueId ] );
 
+		const frontendStyles = useMemo( () => {
+			if ( Array.isArray( styles ) ) {
+				return {};
+			}
+
+			return styles;
+		}, [ JSON.stringify( styles ) ] );
+
 		function onStyleChange( property, value = '', atRuleValue = '', nestedRuleValue = '' ) {
 			addStyle( property, value, atRuleValue, nestedRuleValue );
 
@@ -92,7 +100,7 @@ export function withStyles( WrappedComponent ) {
 
 		useGenerateCSSEffect( {
 			selector,
-			styles,
+			styles: frontendStyles,
 			setAttributes,
 			getCss,
 		} );
@@ -105,7 +113,7 @@ export function withStyles( WrappedComponent ) {
 			setNestedRule,
 			setAtRule,
 			setStyles,
-			styles,
+			styles: frontendStyles,
 		} );
 
 		useUpdateEditorCSSEffect( {
@@ -115,7 +123,7 @@ export function withStyles( WrappedComponent ) {
 
 		useSyncStyles( {
 			isSelected,
-			stylesAttribute: styles,
+			stylesAttribute: frontendStyles,
 			styles: getStyles(),
 			setStyles,
 		} );
@@ -127,6 +135,7 @@ export function withStyles( WrappedComponent ) {
 					selector={ selector }
 					onStyleChange={ onStyleChange }
 					getStyleValue={ getStyleValue }
+					styles={ frontendStyles }
 				/>
 			</>
 		);

@@ -8,30 +8,33 @@ import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 import { LoopInnerBlocksRenderer } from './components/LoopInnerBlocksRenderer';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts as defaultSelectorShortcuts } from '@utils/selectorShortcuts.js';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder } from '@components/index';
 
 import './editor.scss';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 
 function EditBlock( props ) {
 	const {
 		attributes,
 		setAttributes,
-		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
 		tagName,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
-	const classNames = getBlockClasses( 'gb-looper', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-looper',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -82,7 +85,6 @@ function EditBlock( props ) {
 					) }
 					stylesTab={ (
 						<BlockStylesBuilder
-							selector={ selector }
 							setAttributes={ setAttributes }
 							shortcuts={ shortcuts }
 							onStyleChange={ onStyleChange }
@@ -100,7 +102,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

@@ -6,13 +6,10 @@ import { __ } from '@wordpress/i18n';
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
 import { BlockSettings } from './components/BlockSettings';
-import BlockAppender from '../element/components/BlockAppender';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
-import { BlockStylesBuilder } from '@components/index';
+import { BlockStylesBuilder, BlockAppender } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes';
 import { getBlockClasses } from '@utils/getBlockClasses';
 
 function EditBlock( props ) {
@@ -21,9 +18,9 @@ function EditBlock( props ) {
 		setAttributes,
 		clientId,
 		isSelected,
-		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
 	} = props;
 
 	const {
@@ -31,8 +28,14 @@ function EditBlock( props ) {
 		isBlockPreview = false,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
-	const classNames = getBlockClasses( 'gb-loop-item', classNameAttributes, true );
+	const classNames = getBlockClasses(
+		'gb-loop-item',
+		{
+			...attributes,
+			styles,
+		},
+		true
+	);
 
 	if ( isBlockPreview ) {
 		classNames.push( 'gb-block-preview' );
@@ -53,7 +56,13 @@ function EditBlock( props ) {
 	const innerBlocksProps = useInnerBlocksProps(
 		blockProps,
 		{
-			renderAppender: () => <BlockAppender clientId={ clientId } isSelected={ isSelected } attributes={ attributes } />,
+			renderAppender: () => (
+				<BlockAppender
+					clientId={ clientId }
+					isSelected={ isSelected }
+					attributes={ attributes }
+				/>
+			),
 		}
 	);
 
@@ -99,7 +108,6 @@ function EditBlock( props ) {
 					) }
 					stylesTab={ (
 						<BlockStylesBuilder
-							selector={ selector }
 							setAttributes={ setAttributes }
 							shortcuts={ shortcuts }
 							onStyleChange={ onStyleChange }
@@ -115,7 +123,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 

@@ -10,11 +10,9 @@ import { TemplateSelector } from '@components/template-selector';
 import { templates } from './templates';
 import { BlockSettings } from './components/BlockSettings';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
-import { withEmptyObjectFix } from '@hoc/withEmptyObjectFix';
 import { withStyles } from '@hoc/withStyles';
-import { BlockStylesBuilder } from '@components/index';
+import { BlockAppender, BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
-import { useBlockClassAttributes } from '@hooks/useBlockClassAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
 
 function EditBlock( props ) {
@@ -23,9 +21,10 @@ function EditBlock( props ) {
 		setAttributes,
 		name,
 		clientId,
-		selector,
 		onStyleChange,
 		editorHtmlAttributes,
+		styles,
+		isSelected,
 	} = props;
 
 	const {
@@ -33,8 +32,13 @@ function EditBlock( props ) {
 		showTemplateSelector,
 	} = attributes;
 
-	const classNameAttributes = useBlockClassAttributes( attributes );
-	const classNames = getBlockClasses( 'gb-query', classNameAttributes );
+	const classNames = getBlockClasses(
+		'gb-query',
+		{
+			...attributes,
+			styles,
+		}
+	);
 
 	useEffect( () => {
 		if ( ! tagName ) {
@@ -58,6 +62,13 @@ function EditBlock( props ) {
 				'generateblocks/query-page-numbers',
 				'generateblocks/element',
 			],
+			renderAppender: () => (
+				<BlockAppender
+					clientId={ clientId }
+					isSelected={ isSelected }
+					attributes={ attributes }
+				/>
+			),
 		}
 	);
 
@@ -103,7 +114,6 @@ function EditBlock( props ) {
 					) }
 					stylesTab={ (
 						<BlockStylesBuilder
-							selector={ selector }
 							setAttributes={ setAttributes }
 							shortcuts={ shortcuts }
 							onStyleChange={ onStyleChange }
@@ -124,7 +134,6 @@ function EditBlock( props ) {
 const Edit = compose(
 	withHtmlAttributes,
 	withStyles,
-	withEmptyObjectFix,
 	withUniqueId
 )( EditBlock );
 
