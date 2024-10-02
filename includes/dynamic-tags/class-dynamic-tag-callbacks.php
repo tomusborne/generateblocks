@@ -159,7 +159,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @param string $output The output.
 	 * @param array  $options The options.
 	 */
-	private static function output( $output, $options ) {
+	public static function output( $output, $options ) {
 		// Store original output for filtering.
 		$raw_output = $output;
 
@@ -726,56 +726,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		);
 
 		$meta   = $pre_value ? $pre_value : get_user_meta( $id, $parent_name, true );
-		$value  = self::get_value( $key, $meta );
-		$output = '';
-
-		if ( ! $value ) {
-			return self::output( $output, $options );
-		}
-
-		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $value );
-		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-
-		return self::output( $output, $options );
-	}
-
-	/**
-	 * Get the option.
-	 *
-	 * @param array $options The options.
-	 * @return string
-	 */
-	public static function get_option( $options ) {
-		$id          = 'option';
-		$default     = $options['default'] ?? '';
-		$key         = $options['key'] ?? '';
-		$key_parts   = array_map( 'trim', explode( '.', $key ) );
-		$parent_name = $key_parts[0];
-
-		if ( empty( $key ) ) {
-			return '';
-		}
-
-		/**
-		 * Allow a filter to set this option value using some
-		 * custom setter function (such as get_field in ACF). If this value returns
-		 * something we can skip calling get_option for it and return the value instead.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param string|null $pre_value The pre-filtered value, or null if unset.
-		 * @param int   $id The user ID used to fetch the meta value.
-		 * @param string $key The meta key to fetch.
-		 */
-		$pre_value = apply_filters(
-			'generateblocks_dynamic_tag_get_option_pre_value',
-			null,
-			$id,
-			$key
-		);
-
-		$meta   = null !== $pre_value ? $pre_value : get_option( $parent_name, $default );
 		$value  = self::get_value( $key, $meta );
 		$output = '';
 

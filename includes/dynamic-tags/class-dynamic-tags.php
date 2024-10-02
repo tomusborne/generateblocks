@@ -222,16 +222,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
 			]
 		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Option', 'generateblocks' ),
-				'tag'      => 'option',
-				'type'     => 'option',
-				'supports' => [ 'meta' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_option' ],
-			]
-		);
 	}
 
 	/**
