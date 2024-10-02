@@ -1,5 +1,3 @@
-import { applyFilters } from '@wordpress/hooks';
-
 import { StylesBuilder } from '@edge22/styles-builder';
 import { defaultAtRules, TABS_STORAGE_KEY } from '@edge22/block-styles';
 import { useBlockStyles } from '@hooks/useBlockStyles';
