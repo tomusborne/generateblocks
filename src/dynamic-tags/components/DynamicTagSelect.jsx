@@ -589,10 +589,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							source={ metaKeyOptions }
 							toStringKey="value"
 							showClear={ true }
-							onClear={ () => {
-								console.log( 'clearing' );
-								setMetaKey( '' );
+							onEnter={ ( inputValue ) => {
+								console.log( 'enter pressed, ' + inputValue );
+								setMetaKey( inputValue );
 							} }
+							onClear={ () => setMetaKey( '' ) }
 							itemFilter={ groupFilter }
 							afterInputWrapper={ ( { inputValue, items } ) => {
 								return (
@@ -601,10 +602,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 										size="compact"
 										className="gb-gc-add__button"
 										disabled={ ! inputValue || items.length > 0 }
-										onClick={ () => {
-											console.log( 'adding...' );
-											setMetaKey( inputValue );
-										} }
+										onClick={ () => setMetaKey( inputValue ) }
 									>
 										{ __( 'Add', 'generateblocks' ) }
 									</Button>
