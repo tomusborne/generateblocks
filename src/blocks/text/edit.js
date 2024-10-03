@@ -33,6 +33,7 @@ function EditBlock( props ) {
 		editorHtmlAttributes,
 		isSelected,
 		styles,
+		context,
 	} = props;
 
 	const {
@@ -185,6 +186,7 @@ function EditBlock( props ) {
 					contentMode={ contentMode }
 					isSelected={ isSelected }
 					onChange={ ( newValue ) => setAttributes( { content: newValue } ) }
+					context={ context }
 				/>
 			) }
 

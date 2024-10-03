@@ -9,7 +9,17 @@ import '../editor.scss';
 import { DynamicTagSelect } from './DynamicTagSelect';
 import { closeSmall } from '@wordpress/icons';
 
-export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, selectedText, value, foundTags, onRemove } ) {
+export function DynamicTagModal( {
+	onInsert,
+	renderToggle,
+	tooltip,
+	tagName,
+	selectedText,
+	value,
+	foundTags,
+	onRemove,
+	context,
+} ) {
 	const [ isOpen, setOpen ] = useState( false );
 	const [ tagToEdit, setTagToEdit ] = useState( null );
 
@@ -147,6 +157,7 @@ export function DynamicTagModal( { onInsert, renderToggle, tooltip, tagName, sel
 								tagToReplace={ tagToEdit }
 								currentPost={ currentPost }
 								currentUser={ currentUser }
+								context={ context }
 							/>
 						) }
 					</div>

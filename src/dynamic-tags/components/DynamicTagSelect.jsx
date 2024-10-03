@@ -128,8 +128,28 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 	} );
 }
 
-export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser } ) {
-	const availableTags = generateBlocksEditor?.dynamicTags;
+function getVisibleTags( dynamicTags, context ) {
+	return dynamicTags.filter( ( tag ) => {
+		const { visibility = true } = tag;
+
+		if ( ! visibility ) {
+			return false;
+		}
+
+		if ( true === visibility ) {
+			return true;
+		}
+
+		if ( visibility?.context ) {
+			return visibility.context.every( ( key ) => context?.[ key ] );
+		}
+
+		return true;
+	} );
+}
+
+export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser, context } ) {
+	const availableTags = getVisibleTags( generateBlocksEditor?.dynamicTags, context );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ extraTagParams, setExtraTagParams ] = useState( {} );
 	const [ allPosts, setAllPosts ] = useState( [] );
