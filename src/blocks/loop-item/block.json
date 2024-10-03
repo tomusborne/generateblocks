@@ -50,6 +50,7 @@
 	],
 	"usesContext": [
 		"generateblocks/queryData",
-		"generateblocks/queryType"
+		"generateblocks/queryType",
+		"generateblocks/loopIndex"
 	]
 }

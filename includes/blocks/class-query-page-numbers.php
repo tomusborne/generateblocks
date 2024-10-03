@@ -18,7 +18,7 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 	 *
 	 * @param array  $attributes    The block attributes.
 	 * @param string $block_content The block content.
-	 * @param array  $block         The block.
+	 * @param object $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
 		$query_id           = $block->context['generateblocks/queryId'] ?? null;

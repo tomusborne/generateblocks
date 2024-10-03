@@ -36,10 +36,19 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		}
 
 		$content = '';
+
+		$query_id    = $block->context['generateblocks/queryId'] ?? null;
+		$page_key    = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
+		$per_page    = $query->query_vars['posts_per_page'];
+		$page        = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$page_index  = $page - 1; // Zero based index for pages.
+		$offset      = $page_index * $per_page;
+
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
+				// Get the current index of the Loop.
 				$block_content = (
 					new WP_Block(
 						$block->parsed_block['innerBlocks'][0],
@@ -47,6 +56,8 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 							'postType'                 => get_post_type(),
 							'postId'                   => get_the_ID(),
 							'generateblocks/queryType' => $query_type,
+							'generateblocks/loopIndex' => $offset + $query->current_post + 1,
+
 						)
 					)
 				)->render( array( 'dynamic' => false ) );

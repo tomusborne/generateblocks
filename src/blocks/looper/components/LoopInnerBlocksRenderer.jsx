@@ -71,6 +71,7 @@ export function LoopInnerBlocksRenderer( props ) {
 			data: getEntityRecords( ...queryParams ),
 			isResolvingData: isResolving( 'getEntityRecords', queryParams ),
 			hasResolvedData: hasFinishedResolution( 'getEntityRecords', queryParams ),
+			queryParams,
 		};
 	}, [ JSON.stringify( normalizedQuery ) ] );
 
@@ -141,8 +142,14 @@ export function LoopInnerBlocksRenderer( props ) {
 		return ( <h5>{ __( 'No results found.', 'generateblocks' ) }</h5> );
 	}
 
-	return dataContexts && dataContexts.map( ( postContext ) => (
-		<BlockContextProvider key={ postContext.postId } value={ postContext }>
+	return dataContexts && dataContexts.map( ( postContext, i ) => (
+		<BlockContextProvider
+			key={ postContext.postId }
+			value={ {
+				...postContext,
+				'generateblocks/loopIndex': i + 0,
+			} }
+		>
 			{ postContext.postId === dataContexts[ 0 ]?.postId
 				? innerBlocksProps.children
 				: (

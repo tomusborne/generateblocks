@@ -79,7 +79,8 @@
 		"generateblocks/queryData",
 		"generateblocks/inheritQuery",
 		"generateblocks/queryId",
-		"generateblocks/instantPagination"
+		"generateblocks/instantPagination",
+		"generateblocks/loopIndex"
 	],
     "editorScript": "file:./index.js",
     "editorStyle": [
