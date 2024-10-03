@@ -14,6 +14,23 @@ registerBlockType( metadata, {
 	edit: Edit,
 	save: Save,
 	icon: getIcon( 'container' ),
+	__experimentalLabel: ( attrs, { context } ) => {
+		if ( 'list-view' === context ) {
+			if ( attrs.tagName ) {
+				if ( 'figure' === attrs.tagName ) {
+					return __( 'Figure', 'generateblocks' );
+				}
+
+				if ( 'li' === attrs.tagName ) {
+					return __( 'List Item', 'generateblocks' );
+				}
+
+				if ( 'ol' === attrs.tagName || 'ul' === attrs.tagName ) {
+					return __( 'List', 'generateblocks' );
+				}
+			}
+		}
+	},
 } );
 
 registerBlockVariation(

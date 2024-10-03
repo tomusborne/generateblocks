@@ -4,7 +4,7 @@
     "name": "generateblocks/loop-item",
     "title": "Loop Item",
     "category": "generateblocks",
-    "description": "A custom SVG shape.",
+    "description": "The item that is looped inside of the Looper.",
     "keywords": [ "text", "heading", "headline", "paragraph" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",
