@@ -12,6 +12,17 @@ registerBlockType( metadata, {
 	save: Save,
 	icon: getIcon( 'text' ),
 	transforms,
+	__experimentalLabel: ( attrs, { context } ) => {
+		if ( 'list-view' === context ) {
+			if ( attrs.content || attrs.iconOnly ) {
+				if ( attrs.iconOnly ) {
+					return __( 'Icon', 'generateblocks' );
+				}
+
+				return attrs.content;
+			}
+		}
+	},
 } );
 
 registerBlockVariation(
