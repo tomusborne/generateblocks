@@ -67,6 +67,67 @@ function groupFilter( source, query, itemToString ) {
 		.filter( ( f ) => f.items.length > 0 );
 }
 
+function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
+	if ( ! options ) {
+		return null;
+	}
+
+	return Object.entries( options ).map( ( option ) => {
+		const { type, label, help, choices } = option[ 1 ];
+
+		function handleChange( newValue ) {
+			return setExtraTagParams( ( prevState ) => {
+				return {
+					...prevState,
+					[ option[ 0 ] ]: newValue,
+				};
+			} );
+		}
+
+		const value = extraTagParams?.[ option[ 0 ] ];
+		const props = {
+			label,
+			help,
+			value,
+			onChange: handleChange,
+		};
+
+		let Component = TextControl;
+
+		switch ( type ) {
+			case 'checkbox':
+				Component = CheckboxControl;
+				break;
+			case 'select':
+				Component = SelectControl;
+				break;
+		}
+
+		if ( Array.isArray( choices ) ) {
+			props.options = choices;
+		}
+
+		if ( 'checkbox' === type ) {
+			props.checked = !! value;
+			delete props.value;
+		}
+
+		/**
+		 * Allow developers to filter the control output.
+		 *
+		 * @since 2.0
+		 * @param {Object} options Options object from tag registration.
+		 * @param {Object} state   The current state and state setter.
+		 */
+		return applyFilters(
+			'generateblocks.editor.tagSpecificControls',
+			<Component key={ option[ 0 ] } { ...props } />,
+			options,
+			{ state: extraTagParams, setState: setExtraTagParams }
+		);
+	} );
+}
+
 export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser } ) {
 	const availableTags = generateBlocksEditor?.dynamicTags;
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
@@ -81,7 +142,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
 	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' );
-	const showSource = ! [ 'site', 'option' ].includes( dynamicTagType );
+	const showSource = [ 'post', 'user', 'term' ].includes( dynamicTagType );
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
 	const debouncedSetMetaKey = useDebounce( setMetaKey, 200 );
@@ -323,7 +384,17 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( extraTagParams ) {
 			Object.entries( extraTagParams ).forEach( ( [ key, value ] ) => {
-				options.push( `${ key }:${ value }` );
+				// If the value is false just remove it.
+				if ( false === value ) {
+					return;
+				}
+
+				// If value is true, we only need to add the key.
+				if ( true === value ) {
+					options.push( key );
+				} else {
+					options.push( `${ key }:${ value }` );
+				}
 			} );
 		}
 
@@ -350,6 +421,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		taxonomySource,
 		termSource,
 		separator,
+		extraTagParams,
 	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
@@ -501,6 +573,15 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			{ label: __( 'Specific Post', 'generateblocks' ), value: 'post' },
 		];
 	}, [ dynamicTag ] );
+
+	const tagSpecificControls = useMemo( () => {
+		console.log( { extraTagParams } );
+		return getTagSpecificControls(
+			dynamicTagData?.options,
+			extraTagParams,
+			setExtraTagParams
+		);
+	}, [ dynamicTagData?.options, extraTagParams, setExtraTagParams ] );
 
 	return (
 		<>
@@ -663,6 +744,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							/>
 						</>
 					) }
+
+					{ tagSpecificControls }
 
 					{ showLinkTo && (
 						<SelectControl

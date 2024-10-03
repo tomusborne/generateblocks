@@ -235,7 +235,14 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'generateblocks/loopIndex',
 					],
 				],
-				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_index' ],
+				'options' => [
+					'zeroBased' => [
+						'type'  => 'checkbox',
+						'label' => __( 'Use zero-based index', 'generateblocks' ),
+						'help'  => __( 'Enable this to start the loop index count from 0.', 'generateblocks' ),
+					],
+				],
+				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_index' ],
 			]
 		);
 	}
