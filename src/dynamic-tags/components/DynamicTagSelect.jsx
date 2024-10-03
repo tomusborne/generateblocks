@@ -595,7 +595,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	}, [ dynamicTag ] );
 
 	const tagSpecificControls = useMemo( () => {
-		console.log( { extraTagParams } );
 		return getTagSpecificControls(
 			dynamicTagData?.options,
 			extraTagParams,
