@@ -194,7 +194,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 						]
 					);
 
-					if ( ! $replacement && ! $render_if_empty ) {
+					if ( '' === $replacement && ! $render_if_empty ) {
 						$content = '';
 						continue;
 					}

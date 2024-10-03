@@ -356,7 +356,12 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	public function get_dynamic_tag_replacements( $request ) {
 		$content      = urldecode( $request->get_param( 'content' ) );
 		$fallback_id  = $request->get_param( 'id' );
+		$context      = $request->get_param( 'context' );
+		$instance     = new stdClass();
 		$replacements = [];
+
+		// Set up an instance object with a context key.
+		$instance->context = $context;
 
 		$all_tags  = GenerateBlocks_Register_Dynamic_Tag::get_tags();
 		$tags_list = [];
@@ -394,7 +399,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 					$replacements[] = [
 						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], new stdClass() ),
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], $instance ),
 					];
 				} elseif ( ! generateblocks_str_contains( $tag, 'id:' ) ) {
 					// There are spaces in the tag, but no `id` option.
@@ -402,12 +407,12 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 					$replacements[] = [
 						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], new stdClass() ),
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], $instance ),
 					];
 				} else {
 					$replacements[] = [
 						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$tag}}", [], new stdClass() ),
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$tag}}", [], $instance ),
 					];
 				}
 			}

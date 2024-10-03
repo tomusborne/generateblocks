@@ -750,12 +750,16 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 */
 	public static function get_loop_index( $options, $block, $instance ) {
 		$use_zero_based = $options['zeroBased'] ?? false;
-		$loop_index = isset( $instance->context['generateblocks/loopIndex'] )
+		$loop_index = (int) isset( $instance->context['generateblocks/loopIndex'] )
 		? $instance->context['generateblocks/loopIndex']
-		: '-1';
+		: -1;
+
+		if ( $use_zero_based ) {
+			--$loop_index;
+		}
 
 		if ( $loop_index > -1 ) {
-			return $loop_index;
+			return (string) $loop_index;
 		}
 	}
 }

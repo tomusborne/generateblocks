@@ -147,7 +147,7 @@ export function LoopInnerBlocksRenderer( props ) {
 			key={ postContext.postId }
 			value={ {
 				...postContext,
-				'generateblocks/loopIndex': i + 0,
+				'generateblocks/loopIndex': i + 1,
 			} }
 		>
 			{ postContext.postId === dataContexts[ 0 ]?.postId
