@@ -142,7 +142,7 @@ function EditBlock( props ) {
 	}, [ tagName, icon ] );
 
 	const renderContent = ( elementTagName, withBlockProps = false ) => {
-		if ( 'preview' === contentMode ) {
+		if ( 'preview' === contentMode && dynamicTagValue ) {
 			const ElementTagName = elementTagName;
 
 			// Render a plain HTML tag in preview mode
