@@ -61,6 +61,7 @@
     "generateblocks/queryData",
     "generateblocks/query",
     "generateblocks/queryId",
-    "generateblocks/instantPagination"
+    "generateblocks/instantPagination",
+    "generateblocks/loopIndex"
   ]
 }
