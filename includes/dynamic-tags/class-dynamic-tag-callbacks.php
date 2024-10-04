@@ -18,6 +18,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 	const DATE_FORMAT_KEY = 'dateFormat';
 
+
 	/**
 	 * Wrap a link around the output.
 	 *
@@ -139,7 +140,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Transform the case of the output.
+	 * Add line breaks to content like the classic editor.
 	 *
 	 * @param string $output The tag output.
 	 * @param array  $options The options.
@@ -151,7 +152,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		return wpautop( $output );
 	}
-
 
 	/**
 	 * Output the dynamic tag.
@@ -738,5 +738,28 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 
 		return self::output( $output, $options );
+	}
+
+	/**
+	 * Get the index of the current looper block loop.
+	 *
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
+	 * @return int The loop index number.
+	 */
+	public static function get_loop_index( $options, $block, $instance ) {
+		$use_zero_based = $options['zeroBased'] ?? false;
+		$loop_index = (int) isset( $instance->context['generateblocks/loopIndex'] )
+		? $instance->context['generateblocks/loopIndex']
+		: -1;
+
+		if ( $use_zero_based ) {
+			--$loop_index;
+		}
+
+		if ( $loop_index > -1 ) {
+			return (string) $loop_index;
+		}
 	}
 }

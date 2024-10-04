@@ -61,6 +61,7 @@
 		"generateblocks/inheritQuery",
 		"generateblocks/queryData",
 		"generateblocks/noResults",
-		"generateblocks/queryType"
+		"generateblocks/queryType",
+		"generateblocks/loopIndex"
 	]
 }

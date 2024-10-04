@@ -49,6 +49,7 @@ export function DynamicTagBlockToolbar( {
 	setContentMode,
 	isSelected,
 	onChange,
+	context,
 } ) {
 	const allTags = generateBlocksEditor.dynamicTags;
 	const foundTags = getTags( value, allTags );
@@ -135,6 +136,7 @@ export function DynamicTagBlockToolbar( {
 					value={ value }
 					selectedText={ selectedText }
 					foundTags={ foundTags }
+					context={ context }
 				/>
 				{ !! foundTags.length && (
 					<div className="gb-dynamic-tag-content-mode">

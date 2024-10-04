@@ -50,6 +50,7 @@ export function withDynamicTag( WrappedComponent ) {
 							{
 								content: encodeURIComponent( contentValue ),
 								id: context?.postId,
+								context,
 							},
 						),
 						method: 'GET',
