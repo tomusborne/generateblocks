@@ -1,5 +1,5 @@
-import { StylesBuilder } from '@edge22/styles-builder';
-import { defaultAtRules, TABS_STORAGE_KEY } from '@edge22/block-styles';
+import { StylesBuilder, defaultAtRules } from '@edge22/styles-builder';
+import { TABS_STORAGE_KEY } from '@edge22/block-styles';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
 export function BlockStylesBuilder( { setAttributes, shortcuts, onStyleChange } ) {
@@ -36,7 +36,7 @@ export function BlockStylesBuilder( { setAttributes, shortcuts, onStyleChange } 
 			onNestedRuleChange={ ( value ) => setNestedRule( value ) }
 			onAtRuleChange={ ( value ) => {
 				setAtRule( value );
-				setDeviceType( getPreviewDevice( value, deviceType ) );
+				setDeviceType( getPreviewDevice( value, deviceType, defaultAtRules ) );
 			} }
 			onUpdateKey={ ( oldKey, newKey ) => {
 				updateKey( oldKey, newKey );
@@ -44,7 +44,6 @@ export function BlockStylesBuilder( { setAttributes, shortcuts, onStyleChange } 
 				const updatedStyles = getStyles();
 				setAttributes( { styles: updatedStyles } );
 			} }
-			defaultAtRules={ defaultAtRules }
 			selectorShortcuts={ shortcuts.selectorShortcuts }
 			visibleSelectors={ shortcuts.visibleShortcuts }
 			onEditStyle={ setGlobalStyle }
