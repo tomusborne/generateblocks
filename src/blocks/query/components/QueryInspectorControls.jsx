@@ -1,12 +1,11 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { ToggleControl } from '@wordpress/components';
-import { applyFilters } from '@wordpress/hooks';
+import { applyFilters, doAction } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
 
-import SelectQueryParameter from '@components/inspector-controls/SelectQueryParameter';
-import AddQueryParameterButton from '@components/inspector-controls/AddQueryParameterButton';
+import { SelectQueryParameter, AdvancedSelect, AddQueryParameterButton } from '@components';
 import ParameterList from './ParameterList';
 import useQueryReducer from '@hooks/useQueryReducer';
 import queryParameterOptions from '../query-parameters';
@@ -27,15 +26,30 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 		} )
 	), [ queryState ] );
 
-	const queryType = applyFilters(
-		'generateblocks.looper.queryType',
-		attributes.queryType,
+	const queryTypes = applyFilters(
+		'generateblocks.editor.query.queryTypes',
+		[
+			{
+				label: __( 'Post Query', 'generateblocks' ),
+				value: 'WP_Query',
+			},
+		],
 		attributes
 	);
 
+	const queryType = useMemo( () => {
+		return queryTypes.find( ( option ) => option.value === attributes.queryType );
+	}, [ queryTypes, attributes.queryType ] );
+
 	return (
 		<>
-			{ 'WP_Query' === queryType && (
+			<AdvancedSelect
+				value={ queryType }
+				options={ queryTypes }
+				onChange={ ( { value } ) => setAttributes( { queryType: value } ) }
+				label={ __( 'Query Type', 'generateblocks' ) }
+			/>
+			{ 'WP_Query' === attributes.queryType ? (
 				<>
 					<ToggleControl
 						label={ __( 'Inherit query from template', 'generateblocks' ) }
@@ -82,7 +96,7 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 						</>
 					}
 				</>
-			) }
+			) : doAction( 'generateblocks.editor.query.queryType.inspectorControls', attributes.queryType, { attributes, setAttributes } ) }
 			<ToggleControl
 				checked={ !! attributes.instantPagination }
 				label={ __( 'Instant pagination', 'generateblocks' ) }
