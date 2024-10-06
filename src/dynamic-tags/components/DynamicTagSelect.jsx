@@ -212,6 +212,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		} ) : [];
 	}, [ allUsers ] );
 
+	// TODO: Check if we need to do the terms thing anymore now that we're using SelectTerm.
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
