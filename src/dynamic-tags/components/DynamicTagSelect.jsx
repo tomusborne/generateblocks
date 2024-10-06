@@ -8,6 +8,7 @@ import { applyFilters } from '@wordpress/hooks';
 import { Autocomplete } from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
+import { SelectTerm } from './SelectTerm';
 import { usePostRecord } from '../hooks/usePostRecord';
 import { useTermRecord } from '../hooks/useTermRecord';
 import { useUserRecord } from '../hooks/useUserRecord';
@@ -54,17 +55,19 @@ function getLinkToOptions( type ) {
 }
 
 function groupFilter( source, query, itemToString ) {
-	return source
-		.map( ( item ) => {
-			const { items = [] } = item;
-			return {
-				...item,
-				items: items.filter( ( subItem ) =>
-					itemToString( subItem ).toLowerCase().includes( query.toLowerCase() )
-				),
-			};
-		} )
-		.filter( ( f ) => f.items.length > 0 );
+	return Array.isArray( source )
+		? source
+			.map( ( item ) => {
+				const { items = [] } = item;
+				return {
+					...item,
+					items: items.filter( ( subItem ) =>
+						itemToString( subItem ).toLowerCase().includes( query.toLowerCase() )
+					),
+				};
+			} )
+			.filter( ( f ) => f.items.length > 0 )
+		: [];
 }
 
 function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
@@ -156,6 +159,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ postIdSource, setPostIdSource ] = useState( '' );
 	const [ taxonomySource, setTaxonomySource ] = useState( '' );
 	const [ termSource, setTermSource ] = useState( '' );
+	const debouncedSetTermSource = useDebounce( setTermSource, 200 );
 	const [ userSource, setUserSource ] = useState( '' );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagData, setDynamicTagData ] = useState( { type: 'post' } );
@@ -560,19 +564,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}
 	);
 
-	const termOptions = useMemo( () => {
-		if ( ! record?.terms?.length ) {
-			return [];
-		}
-
-		return record.terms.map( ( term ) => {
-			return {
-				label: term.name,
-				value: term.id,
-			};
-		} );
-	}, [ record, taxonomySource ] );
-
 	const sourceOptions = useMemo( () => {
 		if ( 'term_meta' === dynamicTag ) {
 			return [
@@ -689,13 +680,15 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					) }
 
 					{ ( 'term' === dynamicSource ) && (
-						<ComboboxControl
-							id={ 'gblocks-select-term' }
-							label={ __( 'Select Term', 'generateblocks' ) }
-							placeholder={ __( 'Select Term', 'generateblocks' ) }
-							options={ termOptions }
+						<SelectTerm
+							postId={ postIdSource }
 							value={ termSource }
 							onChange={ setTermSource }
+							onSelect={ ( selected ) => {
+								const newTermSource = selected?.value ?? selected;
+								setTermSource( newTermSource ? newTermSource : 0 );
+							} }
+							taxonomy={ taxonomySource }
 						/>
 					) }
 
