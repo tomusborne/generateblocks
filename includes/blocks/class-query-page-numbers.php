@@ -48,7 +48,7 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 		} else {
 			$block_query = $block->context['generateblocks/queryData'] ?? null;
 
-			if ( ! $block_query ) {
+			if ( ! $block_query || ! $block_query instanceof WP_Query ) {
 				return '';
 			}
 

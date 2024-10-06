@@ -144,6 +144,7 @@ function getVisibleTags( dynamicTags, context ) {
 		}
 
 		if ( visibility?.context ) {
+			console.log( visibility.context, context );
 			return visibility.context.every( ( key ) => context?.[ key ] );
 		}
 
@@ -684,10 +685,9 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						<SelectTerm
 							postId={ postIdSource }
 							value={ termSource }
-							onChange={ setTermSource }
 							onSelect={ ( selected ) => {
 								const newTermSource = selected?.value ?? selected;
-								setTermSource( newTermSource ? newTermSource : 0 );
+								debouncedSetTermSource( newTermSource ? newTermSource : 0 );
 							} }
 							taxonomy={ taxonomySource }
 						/>

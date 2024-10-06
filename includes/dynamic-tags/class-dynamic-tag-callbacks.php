@@ -640,4 +640,21 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return (string) $loop_index;
 		}
 	}
+
+	/**
+	 * Get the current loop item.
+	 *
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
+	 * @return string Value of the loop item or a given key's value from the loop item.
+	 */
+	public static function get_loop_item( $options, $block, $instance ) {
+		$key       = $options['key'] ?? '';
+		$fallback  = $options['fallback'] ?? '';
+		$loop_item = $instance->context['generateblocks/loopItem'] ?? [];
+		$output    = GenerateBlocks_Meta_Handler::get_value( $key, $loop_item, true, $fallback );
+
+		return self::output( $output, $options );
+	}
 }

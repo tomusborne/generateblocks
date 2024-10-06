@@ -21,6 +21,63 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	 * @return void
 	 */
 	public function init() {
+		add_action( 'rest_api_init', [ $this, 'register_rest_routes' ] );
+	}
+
+	/**
+	 * Register class REST routes.
+	 *
+	 * @return void
+	 */
+	public function register_rest_routes() {
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/meta/get-post-meta',
+			[
+				'methods'  => 'GET',
+				'callback' => [ $this, 'get_post_meta_rest' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/meta/get-user-meta',
+			[
+				'methods'  => 'GET',
+				'callback' => [ $this, 'get_user_meta_rest' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/meta/get-term-meta',
+			[
+				'methods'  => 'GET',
+				'callback' => [ $this, 'get_post_meta_rest' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+
+		register_rest_route(
+			'generateblocks/v1',
+			'/meta/get_option',
+			[
+				'methods'  => 'GET',
+				'callback' => [ $this, 'get_option_rest' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
 
 	}
 
@@ -51,6 +108,16 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Check if a value is an array or object.
+	 *
+	 * @param mixed $value The value to check.
+	 * @return bool If the value is an array or object.
+	 */
+	public static function is_array_or_object( $value ) {
+		return is_array( $value ) || is_object( $value );
+	}
+
+	/**
 	 * Parse a dynamic tag key and retrieve a value from it.
 	 *
 	 * @param string     $key The key from the parent value for retrieval.
@@ -62,24 +129,26 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	public static function get_value( $key, $parent_value, $single_only = true, $fallback = '' ) {
 		$parts = explode( '.', $key );
 
-		// var_dump( $key, $parts, $parent_value );
-
-		// Stop here if we can't find at least one sub field name in the key.
-		if ( count( $parts ) < 2 ) {
+		// Stop here if the key is empty.
+		if ( empty( $key ) ) {
 			if ( $single_only ) {
-				return is_string( $parent_value ) ? $parent_value : $fallback;
-			} elseif ( is_array( $parent_value ) || is_object( $parent_value ) ) {
-				return $parent_value ? $parent_value : $fallback;
+				$parent_value = self::is_array_or_object( $parent_value ) ? $fallback : (string) $parent_value;
+
+				return '' !== $parent_value ? $parent_value : $fallback;
 			}
+
+			return self::is_array_or_object( $parent_value ) ? $parent_value : $fallback;
 		}
 
-		$sub_name  = $parts[1];
+		$sub_name  = $parts[1] ?? $parts[0];
 		$sub_value = self::maybe_get_property( $parent_value, $sub_name, $single_only );
 
-		if ( is_array( $sub_value ) || is_object( $sub_value ) ) {
+		if ( self::is_array_or_object( $sub_value ) ) {
 			return self::get_value(
 				implode( '.', array_slice( $parts, 1 ) ),
-				$sub_value
+				$sub_value,
+				$single_only,
+				$fallback
 			);
 		}
 
@@ -168,6 +237,24 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 		return self::get_meta( $id, $key, $single_only, 'get_post_meta' );
 	}
 
+	/**
+	 * Rest handler for get_post_meta
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 * @return WP_REST_Response|WP_Error The response object.
+	 */
+	public function get_post_meta_rest( $request ) {
+		$id          = (int) $request->get_param( 'id' );
+		$key         = $request->get_param( 'key' );
+		$single_only = true;
+
+		if ( 'false' === $request->get_param( 'singleOnly' ) ) {
+			$single_only = false;
+		}
+
+		return rest_ensure_response( self::get_post_meta( $id, $key, $single_only ) );
+	}
+
 
 	/**
 	 * Get the user meta.
@@ -179,6 +266,20 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	 */
 	public static function get_user_meta( $id, $key, $single_only = true ) {
 		return self::get_meta( $id, $key, $single_only, 'get_user_meta' );
+	}
+
+	/**
+	 * Rest handler for get_user_meta
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 * @return WP_REST_Response|WP_Error The response object.
+	 */
+	public function get_user_meta_rest( $request ) {
+		$id          = (int) $request->get_param( 'id' );
+		$key         = $request->get_param( 'key' );
+		$single_only = $request->get_param( 'singleOnly', true );
+
+		return rest_ensure_response( self::get_user_meta( $id, $key, $single_only ) );
 	}
 
 	/**
@@ -194,6 +295,20 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Rest handler for get_term_meta
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 * @return WP_REST_Response|WP_Error The response object.
+	 */
+	public function get_term_meta_rest( $request ) {
+		$id          = (int) $request->get_param( 'id' );
+		$key         = $request->get_param( 'key' );
+		$single_only = $request->get_param( 'singleOnly', true );
+
+		return rest_ensure_response( self::get_term_meta( $id, $key, $single_only ) );
+	}
+
+	/**
 	 * Get the term meta.
 	 *
 	 * @param string $key The meta key to fetch. May include one or more sub keys separated by a period.
@@ -202,6 +317,19 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	 */
 	public static function get_option( $key, $single_only = true ) {
 		return self::get_meta( 'option', $key, $single_only, 'get_option' );
+	}
+
+	/**
+	 * Rest handler for get_option
+	 *
+	 * @param WP_REST_Request $request The request object.
+	 * @return WP_REST_Response|WP_Error The response object.
+	 */
+	public function get_option_rest( $request ) {
+		$key         = $request->get_param( 'key' );
+		$single_only = $request->get_param( 'singleOnly', true );
+
+		return rest_ensure_response( self::get_option( 'option', $key, $single_only ) );
 	}
 }
 

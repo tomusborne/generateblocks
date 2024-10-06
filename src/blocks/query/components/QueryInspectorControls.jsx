@@ -1,7 +1,7 @@
 import { __ } from '@wordpress/i18n';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import { ToggleControl } from '@wordpress/components';
-import { applyFilters, doAction } from '@wordpress/hooks';
+import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
 
@@ -32,24 +32,26 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 			{
 				label: __( 'Post Query', 'generateblocks' ),
 				value: 'WP_Query',
+				help: __( 'Standard WP_Query for posts and pages.', 'generateblocks' ),
 			},
 		],
 		attributes
 	);
 
-	const queryType = useMemo( () => {
+	const selectedQueryType = useMemo( () => {
 		return queryTypes.find( ( option ) => option.value === attributes.queryType );
 	}, [ queryTypes, attributes.queryType ] );
 
 	return (
 		<>
 			<AdvancedSelect
-				value={ queryType }
+				value={ selectedQueryType }
 				options={ queryTypes }
 				onChange={ ( { value } ) => setAttributes( { queryType: value } ) }
 				label={ __( 'Query Type', 'generateblocks' ) }
+				help={ selectedQueryType?.help }
 			/>
-			{ 'WP_Query' === attributes.queryType ? (
+			{ 'WP_Query' === attributes.queryType && (
 				<>
 					<ToggleControl
 						label={ __( 'Inherit query from template', 'generateblocks' ) }
@@ -96,7 +98,14 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 						</>
 					}
 				</>
-			) : doAction( 'generateblocks.editor.query.queryType.inspectorControls', attributes.queryType, { attributes, setAttributes } ) }
+			) }
+			{
+				applyFilters(
+					'generateblocks.editor.query.inspectorControls',
+					null,
+					{ queryType: attributes.queryType, attributes, setAttributes, queryState, setParameter, removeParameter }
+				)
+			}
 			<ToggleControl
 				checked={ !! attributes.instantPagination }
 				label={ __( 'Instant pagination', 'generateblocks' ) }

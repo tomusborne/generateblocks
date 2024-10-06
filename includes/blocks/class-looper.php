@@ -28,44 +28,101 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	 * @return string  The rendered content.
 	 */
 	public static function render_loop_items( $attributes, $block ) {
-		$query      = $block->context['generateblocks/queryData'] ?? null;
+		$query_data = $block->context['generateblocks/queryData'] ?? null;
 		$query_type = $block->context['generateblocks/queryType'] ?? null;
 
-		if ( 'WP_Query' !== $query_type || ! $query ) {
-			return '';
+		if ( 'WP_Query' === $query_type && $query_data ) {
+			return self::render_wp_query( $query_data, $attributes, $block );
 		}
 
-		$content = '';
+		if ( 'post_meta' === $query_type && $query_data ) {
+			return self::render_post_meta( $query_data, $attributes, $block );
+		}
 
+		return '';
+	}
+
+	/**
+	 * Render the repeater items for the Looper block.
+	 *
+	 * @param WP_Query $query The WP_Query instance.
+	 * @param array    $attributes Block attributes.
+	 * @param WP_Block $block The block instance.
+	 * @return string  The rendered content.
+	 */
+	public static function render_wp_query( $query, $attributes, $block ) {
 		$query_id    = $block->context['generateblocks/queryId'] ?? null;
 		$page_key    = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
 		$per_page    = $query->query_vars['posts_per_page'];
 		$page        = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$page_index  = $page - 1; // Zero based index for pages.
 		$offset      = $page_index * $per_page;
+		$content     = '';
 
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 
 				// Get the current index of the Loop.
-				$block_content = (
-					new WP_Block(
-						$block->parsed_block['innerBlocks'][0],
-						array(
-							'postType'                 => get_post_type(),
-							'postId'                   => get_the_ID(),
-							'generateblocks/queryType' => $query_type,
-							'generateblocks/loopIndex' => $offset + $query->current_post + 1,
+				$content .= (
+				new WP_Block(
+					$block->parsed_block['innerBlocks'][0],
+					array(
+						'postType'                 => get_post_type(),
+						'postId'                   => get_the_ID(),
+						'generateblocks/queryType' => 'WP_Query',
+						'generateblocks/loopIndex' => $offset + $query->current_post + 1,
 
-						)
 					)
+				)
 				)->render( array( 'dynamic' => false ) );
-
-				$content .= $block_content;
 			}
 
 			wp_reset_postdata();
+		}
+
+		return $content;
+	}
+
+	/**
+	 * Render the repeater items for the Looper block.
+	 *
+	 * @param array    $items      The items to loop over.
+	 * @param array    $attributes Block attributes.
+	 * @param WP_Block $block      The block instance.
+	 * @return string  The rendered content.
+	 */
+	public static function render_post_meta( $items, $attributes, $block ) {
+		$query_id    = $block->context['generateblocks/queryId'] ?? null;
+		$page_key    = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
+		$args        = $block->context['generateblocks/query'] ?? [];
+		$per_page    = $args['per_page'] ?? 10;
+		$page        = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$page_index  = $page - 1; // Zero based index for pages.
+		$offset      = $page_index * $per_page;
+		$content = '';
+
+		if ( ! $items ) {
+			return $content;
+		}
+
+		$index = 1;
+		foreach ( $items as $item ) {
+			// Get the current index of the Loop.
+			$content .= (
+				new WP_Block(
+					$block->parsed_block['innerBlocks'][0],
+					array(
+						'postType'                 => get_post_type(),
+						'postId'                   => get_the_ID(),
+						'generateblocks/queryType' => 'post_meta',
+						'generateblocks/loopIndex' => $offset + $index,
+						'generateblocks/loopItem' => $item,
+
+					)
+				)
+			)->render( array( 'dynamic' => false ) );
+			$index++;
 		}
 
 		return $content;

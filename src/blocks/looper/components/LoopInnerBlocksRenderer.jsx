@@ -9,6 +9,7 @@ import { useSelect } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { memo, useEffect, useMemo, useState } from '@wordpress/element';
+import { applyFilters } from '@wordpress/hooks';
 
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -33,18 +34,15 @@ function setIsBlockPreview( innerBlocks ) {
 	} );
 }
 
-export function LoopInnerBlocksRenderer( props ) {
-	const {
-		clientId,
-		context,
-	} = props;
-	const query = context[ 'generateblocks/query' ] || {};
-
+function useWpQuery( shouldRequest = true, query ) {
 	const normalizedQuery = useMemo( () => {
 		return normalizeRepeatableArgs( removeEmpty( query ) );
 	}, [ JSON.stringify( query ) ] );
 
-	const { data, isResolvingData, hasResolvedData } = useSelect( ( select ) => {
+	return useSelect( ( select ) => {
+		if ( ! shouldRequest ) {
+			return null;
+		}
 		const {
 			getEntityRecords,
 			isResolving,
@@ -74,11 +72,52 @@ export function LoopInnerBlocksRenderer( props ) {
 			queryParams,
 		};
 	}, [ JSON.stringify( normalizedQuery ) ] );
+}
 
-	const contextCallback = ( post ) => ( {
-		postType: post.type,
-		postId: post.id,
+export function LoopInnerBlocksRenderer( props ) {
+	const {
+		clientId,
+		context,
+	} = props;
+	const {
+		'generateblocks/query': query = {},
+		'generateblocks/queryType': queryType = 'WP_Query',
+	} = context;
+	const [ dataState, setDataState ] = useState( {
+		data: [],
+		isResolvingData: false,
+		hasResolvedData: false,
+		queryParams: [],
 	} );
+
+	const wpQuery = useWpQuery( 'WP_Query' === queryType, query );
+
+	useEffect( () => {
+		if ( null !== wpQuery ) {
+			setDataState( { ...wpQuery } );
+		}
+	}, [ wpQuery ] );
+
+	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
+		query,
+		queryType,
+		context,
+		props,
+	} );
+
+	useEffect( () => {
+		if ( null !== wpQuery ) {
+			setDataState( { ...wpQuery } );
+		} else if ( null !== otherQuery && null === wpQuery ) {
+			setDataState( { ...otherQuery } );
+		}
+	}, [ otherQuery, wpQuery ] );
+
+	const {
+		data,
+		isResolvingData,
+		hasResolvedData,
+	} = dataState;
 	const hasData = useMemo( () => !! ( hasResolvedData && data?.length, [ hasResolvedData, data ] ) );
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
@@ -126,9 +165,17 @@ export function LoopInnerBlocksRenderer( props ) {
 		}
 	}, [ JSON.stringify( innerBlocks ) ] );
 
-	const dataContexts = useMemo( () => {
+	const loopItemsContext = useMemo( () => {
 		if ( hasData && Array.isArray( data ) ) {
-			return data.map( ( item ) => ( contextCallback( item ) ) );
+			return data.map( ( item, index ) => {
+				const { ID = null, id = null, type = 'post' } = item;
+				return {
+					postType: type,
+					postId: id ? id : ID,
+					'generateblocks/loopItem': item,
+					'generateblocks/loopIndex': index + 1, // Preview doesn't support pagination so this index is correct.
+				};
+			} );
 		}
 
 		return [];
@@ -142,20 +189,21 @@ export function LoopInnerBlocksRenderer( props ) {
 		return ( <h5>{ __( 'No results found.', 'generateblocks' ) }</h5> );
 	}
 
-	return dataContexts && dataContexts.map( ( postContext, i ) => (
-		<BlockContextProvider
-			key={ postContext.postId }
-			value={ {
-				...postContext,
-				'generateblocks/loopIndex': i + 1,
-			} }
-		>
-			{ postContext.postId === dataContexts[ 0 ]?.postId
-				? innerBlocksProps.children
-				: (
-					<MemoizedBlockPreview blocks={ innerBlockData } />
-				)
-			}
-		</BlockContextProvider>
-	) );
+	return loopItemsContext && loopItemsContext.map( ( loopItemContext, index ) => {
+		// Include index in case the postId is the same for all loop items.
+		const key = `${ loopItemContext.postId }-${ index }`;
+		return (
+			<BlockContextProvider
+				key={ key }
+				value={ loopItemContext }
+			>
+				{ 0 === index
+					? innerBlocksProps.children
+					: (
+						<MemoizedBlockPreview blocks={ innerBlockData } />
+					)
+				}
+			</BlockContextProvider>
+		);
+	} );
 }

@@ -80,7 +80,8 @@
 		"generateblocks/inheritQuery",
 		"generateblocks/queryId",
 		"generateblocks/instantPagination",
-		"generateblocks/loopIndex"
+		"generateblocks/loopIndex",
+		"generateblocks/loopItem"
 	],
     "editorScript": "file:./index.js",
     "editorStyle": [
