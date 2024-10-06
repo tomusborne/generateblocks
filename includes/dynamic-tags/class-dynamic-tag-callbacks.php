@@ -178,53 +178,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Check to see if a value if array-like and if so, get the provided property from it.
-	 *
-	 * @param mixed $value The value to check the property against.
-	 * @param mixed $property The property to retrieve from the value if it exists.
-	 * @return mixed The $property value if it exists, otherwise the $value.
-	 */
-	public static function maybe_get_property( $value, $property ) {
-		if ( is_array( $value ) ) {
-			return $value[ $property ] ?? $value;
-		} elseif ( is_object( $value ) ) {
-			return $value->$property ?? $value;
-		}
-
-		// Return the value if it's not an array or object.
-		return $value;
-	}
-
-	/**
-	 * Parse a dynamic tag key and retrieve a value from it.
-	 *
-	 * @param string     $key The key from the parent value for retrieval.
-	 * @param string|int $parent_value The parent value to check the key against.
-	 * @return string
-	 */
-	public static function get_value( $key, $parent_value ) {
-		$parts = explode( '.', $key );
-
-		// Bail if we can't find at least one sub field name in the key .
-		if ( count( $parts ) < 2 ) {
-			return is_string( $parent_value ) ? $parent_value : '';
-		}
-
-		$sub_name  = $parts[1];
-		$sub_value = self::maybe_get_property( $parent_value, $sub_name );
-
-		if ( is_array( $sub_value ) || is_object( $sub_value ) ) {
-			return self::get_value(
-				implode( '.', array_slice( $parts, 1 ) ),
-				$sub_value
-			);
-		}
-
-		// Coerce simple values to strings.
-		return (string) $sub_value;
-	}
-
-	/**
 	 * Get the title.
 	 *
 	 * @param array $options The options.
@@ -329,36 +282,15 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_post_meta( $options ) {
-		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$key         = $options['key'] ?? '';
-		$key_parts   = array_map( 'trim', explode( '.', $key ) );
-		$parent_name = $key_parts[0];
+		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$key    = $options['key'] ?? '';
+		$output = '';
 
-		if ( empty( $key ) ) {
-			return '';
+		if ( ! $key ) {
+			return self::output( $output, $options );
 		}
 
-		/**
-		 * Allow a filter to set this post meta value using some
-		 * custom setter function (such as get_field in ACF). If this value returns
-		 * something we can skip calling get_post_meta for it and return the value instead.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param string|null $pre_value The pre-filtered value, or null if unset.
-		 * @param int   $id The post ID used to fetch the meta value.
-		 * @param string $key The meta key to fetch.
-		 */
-		$pre_value = apply_filters(
-			'generateblocks_dynamic_tag_get_post_meta_pre_value',
-			null,
-			$id,
-			$key
-		);
-
-		$meta   = $pre_value ? $pre_value : get_post_meta( $id, $parent_name, true );
-		$value  = self::get_value( $key, $meta );
-		$output = '';
+		$value = GenerateBlocks_Meta_Handler::get_post_meta( $id, $key, true );
 
 		if ( ! $value ) {
 			return self::output( $output, $options );
@@ -514,43 +446,31 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_author_meta( $options ) {
-		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
-		$user_id     = get_post_field( 'post_author', $id );
-		$key         = $options['key'] ?? '';
-		$key_parts   = array_map( 'trim', explode( '.', $key ) );
-		$parent_name = $key_parts[0];
-		$output      = '';
+		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options );
+		$user_id = get_post_field( 'post_author', $id );
+		$key     = $options['key'] ?? '';
+		$output  = '';
 
 		if ( ! $user_id || ! $key ) {
 			return self::output( $output, $options );
 		}
 
-		/**
-		 * Allow a filter to set this post meta value using some
-		 * custom setter function (such as get_field in ACF). If this value returns
-		 * something we can skip calling get_post_meta for it and return the value instead.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param string|null $pre_value The pre-filtered value, or null if unset.
-		 * @param int   $id The post ID used to fetch the meta value.
-		 * @param string $key The meta key to fetch.
-		 */
-		$pre_value = apply_filters(
-			'generateblocks_dynamic_tag_get_author_meta_pre_value',
-			null,
-			$user_id,
-			$key,
-			$id
+		add_filter(
+			'generateblocks_get_meta_object',
+			function ( $meta, $id, $meta_key, $callable ) use ( $user_id ) {
+				$parent_name = explode( '.', $meta_key ) [0];
+
+				if ( 'get_user_meta' !== $callable ) {
+					return $meta;
+				}
+
+				if ( ! $meta && $parent_name ) {
+					return self::get_userdata( $user_id )[ $parent_name ] ?? '';
+				}
+			}
 		);
 
-		$meta = $pre_value ? $pre_value : get_user_meta( $user_id, $parent_name, true );
-
-		if ( ! $meta ) {
-			$meta = self::get_userdata( $user_id )[ $parent_name ] ?? '';
-		}
-
-		$value = self::get_value( $key, $meta );
+		$value = GenerateBlocks_Meta_Handler::get_user_meta( $user_id, $key );
 
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 		$output = wp_kses_post( $value );
@@ -651,34 +571,13 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	public static function get_term_meta( $options ) {
 		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options );
 		$key         = $options['key'] ?? '';
-		$key_parts   = array_map( 'trim', explode( '.', $key ) );
-		$parent_name = $key_parts[0];
+		$output      = '';
 
 		if ( empty( $key ) ) {
-			return '';
+			return self::output( $output, $options );
 		}
 
-		/**
-		 * Allow a filter to set this post meta value using some
-		 * custom setter function (such as get_field in ACF). If this value returns
-		 * something we can skip calling get_term_meta for it and return the value instead.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param string|null $pre_value The pre-filtered value, or null if unset.
-		 * @param int   $id The post ID used to fetch the meta value.
-		 * @param string $key The meta key to fetch.
-		 */
-		$pre_value = apply_filters(
-			'generateblocks_dynamic_tag_get_term_meta_pre_value',
-			null,
-			$id,
-			$key
-		);
-
-		$meta   = $pre_value ? $pre_value : get_term_meta( $id, $parent_name, true );
-		$value  = self::get_value( $key, $meta );
-		$output = '';
+		$value = GenerateBlocks_Meta_Handler::get_term_meta( $id, $key, true );
 
 		if ( ! $value ) {
 			return self::output( $output, $options );
@@ -698,36 +597,15 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_user_meta( $options ) {
-		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user' );
-		$key         = $options['key'] ?? '';
-		$key_parts   = array_map( 'trim', explode( '.', $key ) );
-		$parent_name = $key_parts[0];
+		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user' );
+		$key    = $options['key'] ?? '';
+		$output = '';
 
 		if ( empty( $key ) ) {
-			return '';
+			return self::output( $output, $options );
 		}
 
-		/**
-		 * Allow a filter to set this user meta value using some
-		 * custom setter function (such as get_field in ACF). If this value returns
-		 * something we can skip calling get_user_meta for it and return the value instead.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param string|null $pre_value The pre-filtered value, or null if unset.
-		 * @param int   $id The user ID used to fetch the meta value.
-		 * @param string $key The meta key to fetch.
-		 */
-		$pre_value = apply_filters(
-			'generateblocks_dynamic_tag_get_user_meta_pre_value',
-			null,
-			$id,
-			$key
-		);
-
-		$meta   = $pre_value ? $pre_value : get_user_meta( $id, $parent_name, true );
-		$value  = self::get_value( $key, $meta );
-		$output = '';
+		$value = GenerateBlocks_Meta_Handler::get_user_meta( $id, $key, true );
 
 		if ( ! $value ) {
 			return self::output( $output, $options );

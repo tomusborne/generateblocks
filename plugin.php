@@ -45,6 +45,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/class-rest.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-legacy-attributes.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-map-deprecated-attributes.php';
 require_once GENERATEBLOCKS_DIR . 'includes/class-query-utils.php';
+require_once GENERATEBLOCKS_DIR . 'includes/class-meta-handler.php';
 
 // Pattern library.
 require_once GENERATEBLOCKS_DIR . 'includes/pattern-library/class-libraries.php';
