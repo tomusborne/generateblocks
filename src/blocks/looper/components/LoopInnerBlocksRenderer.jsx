@@ -167,7 +167,15 @@ export function LoopInnerBlocksRenderer( props ) {
 
 	const loopItemsContext = useMemo( () => {
 		if ( hasData && Array.isArray( data ) ) {
-			return data.map( ( item, index ) => {
+			let perPage = query?.perPage ?? 10;
+
+			if ( -1 === perPage ) {
+				perPage = data.length;
+			}
+
+			const items = data.slice( 0, perPage );
+
+			return items.map( ( item, index ) => {
 				const { ID = null, id = null, type = 'post' } = item;
 				return {
 					postType: type,
@@ -179,7 +187,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		}
 
 		return [];
-	}, [ data, hasData ] );
+	}, [ data, hasData, query?.per_page ] );
 
 	if ( isResolvingData ) {
 		return ( <Spinner /> );

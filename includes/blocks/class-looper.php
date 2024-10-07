@@ -31,7 +31,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		$query_data = $block->context['generateblocks/queryData'] ?? null;
 		$query_type = $block->context['generateblocks/queryType'] ?? null;
 
-		if ( 'WP_Query' === $query_type && $query_data ) {
+		if ( GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type && $query_data ) {
 			return self::render_wp_query( $query_data, $attributes, $block );
 		}
 
@@ -106,7 +106,15 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 			return $content;
 		}
 
-		$index = 1;
+		$index = $offset + 1;
+
+		// Adjust value to support array_slice.
+		if( '-1' === $per_page ) {
+			$per_page = count( $items );
+		}
+
+		$items = array_slice( $items, $offset, $per_page );
+
 		foreach ( $items as $item ) {
 			// Get the current index of the Loop.
 			$content .= (
@@ -116,7 +124,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 						'postType'                 => get_post_type(),
 						'postId'                   => get_the_ID(),
 						'generateblocks/queryType' => 'post_meta',
-						'generateblocks/loopIndex' => $offset + $index,
+						'generateblocks/loopIndex' => $index,
 						'generateblocks/loopItem' => $item,
 
 					)

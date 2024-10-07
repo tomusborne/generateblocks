@@ -21,24 +21,18 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 	 * @param object $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
-		$query_id           = $block->context['generateblocks/queryId'] ?? null;
-		$page_key           = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
-		$instant_pagination = isset( $block->context['generateblocks/instantPagination'] ) && $block->context['generateblocks/instantPagination'];
-		$page               = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$max_page           = isset( $block->context['generateblocks/query']['pages'] ) ? (int) $block->context['generateblocks/query']['pages'] : 0;
-		$content            = '';
+		$query_id      = $block->context['generateblocks/queryId'] ?? null;
+		$page_key      = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
+		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
+		$args          = $block->context['generateblocks/query'] ?? [];
+		$per_page      = $args['per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
+		$content       = '';
+		$mid_size      = isset( $block->attributes['midSize'] ) ? (int) $block->attributes['midSize'] : null;
+		$inherit_query = $block->context['generateblocks/inheritQuery'] ?? false;
 
-		global $wp_query;
-		$mid_size = isset( $block->attributes['midSize'] ) ? (int) $block->attributes['midSize'] : null;
 
-		if ( isset( $block->context['generateblocks/inheritQuery'] ) && $block->context['generateblocks/inheritQuery'] ) {
-			// Take into account if we have set a bigger `max page`
-			// than what the query has.
-			$total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
-			$paginate_args = array(
-				'prev_next' => false,
-				'total'     => $total,
-			);
+		if ( $inherit_query ) {
+			$paginate_args = [ 'prev_next' => false ];
 
 			if ( null !== $mid_size ) {
 				$paginate_args['mid_size'] = $mid_size;
@@ -46,22 +40,20 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 
 			$content = paginate_links( $paginate_args );
 		} else {
-			$block_query = $block->context['generateblocks/queryData'] ?? null;
+			$query_data  = $block->context['generateblocks/queryData'] ?? null;
+			$query_type  = $block->context['generateblocks/queryType'] ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
+			$is_wp_query = $query_type === GenerateBlocks_Block_Query::TYPE_WP_QUERY;
+			$is_array    = is_array( $query_data );
 
-			if ( ! $block_query || ! $block_query instanceof WP_Query ) {
+			if ( ! $query_data || ( !$is_wp_query && ! $is_array ) ) {
 				return '';
 			}
 
-			// `paginate_links` works with the global $wp_query, so we have to
-			// temporarily switch it with our custom query.
-			$prev_wp_query = $wp_query;
-			$wp_query      = $block_query; // phpcs:ignore -- This is the way to do it.
-			$total         = ! $max_page || $max_page > $wp_query->max_num_pages ? $wp_query->max_num_pages : $max_page;
 			$paginate_args = array(
 				'base'      => '%_%',
 				'format'    => "?$page_key=%#%",
 				'current'   => max( 1, $page ),
-				'total'     => $total,
+				'total'     => $is_wp_query ? $query_data->max_num_pages : ceil( count( $query_data ) / $per_page ),
 				'prev_next' => false,
 			);
 
@@ -101,13 +93,13 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 			}
 
 			$content = paginate_links( $paginate_args );
-			wp_reset_postdata(); // Restore original Post Data.
-			$wp_query = $prev_wp_query; // phpcs:ignore -- This is the way to do it.
 		}
 
 		if ( empty( $content ) ) {
 			return '';
 		}
+
+		$instant_pagination = $block->context['generateblocks/instantPagination'] ?? false;
 
 		if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
 			$p = new WP_HTML_Tag_Processor( $content );

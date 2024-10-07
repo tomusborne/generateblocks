@@ -60,6 +60,7 @@
 		"generateblocks/query",
 		"generateblocks/inheritQuery",
 		"generateblocks/queryData",
+		"generateblocks/queryType",
 		"generateblocks/noResults",
 		"generateblocks/queryType",
 		"generateblocks/loopIndex",

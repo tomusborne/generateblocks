@@ -53,5 +53,9 @@
     "editorStyle": [
 		"file:./index.css"
 	],
-	"usesContext": [ "postId" ]
+	"usesContext": [
+		"postId",
+		"generateblocks/loopItem",
+		"generateblocks/loopIndex"
+	]
 }

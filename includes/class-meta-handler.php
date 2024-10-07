@@ -140,8 +140,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 			return self::is_array_or_object( $parent_value ) ? $parent_value : $fallback;
 		}
 
-		$sub_name  = $parts[1] ?? $parts[0];
-		$sub_value = self::maybe_get_property( $parent_value, $sub_name, $single_only );
+		$sub_value = self::maybe_get_property( $parent_value, $parts[0], $single_only );
 
 		if ( self::is_array_or_object( $sub_value ) ) {
 			return self::get_value(
@@ -211,7 +210,10 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 			$callable
 		);
 
-		$value = self::get_value( $key, $meta, $single_only, $fallback );
+		// Only send the sub key(s) through. If they're empty this will return the value of $meta.
+		array_shift( $key_parts );
+		$sub_key = implode( '.', $key_parts );
+		$value   = self::get_value( $sub_key, $meta, $single_only, $fallback );
 
 		/**
 		 * Filter the result of get_value for entity meta.
