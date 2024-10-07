@@ -74,6 +74,13 @@ function useWpQuery( shouldRequest = true, query ) {
 	}, [ JSON.stringify( normalizedQuery ) ] );
 }
 
+const defaultDataState = {
+	data: [],
+	isResolvingData: false,
+	hasResolvedData: false,
+	queryParams: [],
+};
+
 export function LoopInnerBlocksRenderer( props ) {
 	const {
 		clientId,
@@ -83,12 +90,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
 	} = context;
-	const [ dataState, setDataState ] = useState( {
-		data: [],
-		isResolvingData: false,
-		hasResolvedData: false,
-		queryParams: [],
-	} );
+	const [ dataState, setDataState ] = useState( defaultDataState );
 
 	const wpQuery = useWpQuery( 'WP_Query' === queryType, query );
 
@@ -110,6 +112,8 @@ export function LoopInnerBlocksRenderer( props ) {
 			setDataState( { ...wpQuery } );
 		} else if ( null !== otherQuery && null === wpQuery ) {
 			setDataState( { ...otherQuery } );
+		} else {
+			setDataState( defaultDataState );
 		}
 	}, [ otherQuery, wpQuery ] );
 

@@ -5,7 +5,7 @@ import { __ } from '@wordpress/i18n';
 import { useDebounce } from '@wordpress/compose';
 import { applyFilters } from '@wordpress/hooks';
 
-import { Autocomplete } from '@edge22/components';
+import { SelectMeta, Autocomplete } from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
 import { SelectTerm } from './SelectTerm';
@@ -13,7 +13,6 @@ import { usePostRecord } from '../hooks/usePostRecord';
 import { useTermRecord } from '../hooks/useTermRecord';
 import { useUserRecord } from '../hooks/useUserRecord';
 import { useUsers } from '@hooks';
-import { SelectMeta } from '@components';
 
 function parseTag( tagString ) {
 	const regex = /\{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}/;

@@ -43,7 +43,6 @@ import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
 import { BlockAppender } from './block-appender/BlockAppender';
 import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
 import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
-import { SelectMeta } from './select-meta/SelectMeta';
 
 export {
 	AdvancedSelect,
@@ -76,7 +75,6 @@ export {
 	PostTypeRecordsSelect,
 	RangeControl,
 	RootElement,
-	SelectMeta,
 	SimpleMultiSelect,
 	SimpleSelect,
 	TagNameControl,
