@@ -279,11 +279,19 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 *
 	 * @param array  $options The options.
 	 * @param string $fallback_type The type of entity used for the fallback value.
+	 * @param object $instance The block instance.
 	 * @return int
 	 */
-	public static function get_id( $options, $fallback_type = 'post' ) {
+	public static function get_id( $options, $fallback_type = 'post', $instance = new stdClass() ) {
+		$post_id = $instance->context['postId'] ?? null;
+
+		var_dump( $instance->context ?? null );
+
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
+		}
+		else if( 'post' === $fallback_type && $post_id ) {
+			$id = $post_id;
 		} elseif ( 'user' === $fallback_type ) {
 			$id = get_current_user_id();
 		} else {
@@ -310,7 +318,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			'generateblocks/v1',
 			'/dynamic-tag-replacements',
 			[
-				'methods'  => 'GET',
+				'methods'  => 'POST',
 				'callback' => [ $this, 'get_dynamic_tag_replacements' ],
 				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
@@ -377,8 +385,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public function get_dynamic_tag_replacements( $request ) {
 		$content      = urldecode( $request->get_param( 'content' ) );
-		$fallback_id  = $request->get_param( 'id' );
 		$context      = $request->get_param( 'context' );
+		$fallback_id  = $context['postId'] ?? 0;
 		$instance     = new stdClass();
 		$replacements = [];
 
