@@ -283,15 +283,9 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return int
 	 */
 	public static function get_id( $options, $fallback_type = 'post', $instance = new stdClass() ) {
-		$post_id = $instance->context['postId'] ?? null;
-
-		var_dump( $instance->context ?? null );
 
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
-		}
-		else if( 'post' === $fallback_type && $post_id ) {
-			$id = $post_id;
 		} elseif ( 'user' === $fallback_type ) {
 			$id = get_current_user_id();
 		} else {
@@ -302,9 +296,18 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			}
 		}
 
+		/**
+		 * Allow users to filter the id option for a dynamic tag.
+		 *
+		 * @param int    $id The current ID value for the tag.
+		 * @param array  $options The tag options.
+		 * @param object $instance The block instance for the block containing the tag.
+		 */
 		return apply_filters(
-			'generateblocks_dynamic_source_id',
-			$id
+			'generateblocks_dynamic_tag_id',
+			$id,
+			$options,
+			$instance
 		);
 	}
 
