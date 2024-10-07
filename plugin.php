@@ -59,7 +59,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-headline.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-image.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-loop.php';
 
-add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
+add_action( 'after_setup_theme', 'generateblocks_load_plugin_textdomain' );
 /**
  * Load GenerateBlocks textdomain.
  *
