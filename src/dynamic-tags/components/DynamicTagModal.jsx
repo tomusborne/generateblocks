@@ -31,12 +31,6 @@ export function DynamicTagModal( {
 		return getCurrentPost ? getCurrentPost() : null;
 	} );
 
-	const currentUser = useSelect( ( select ) => {
-		const { getCurrentUser } = select( coreStore );
-
-		return getCurrentUser ? getCurrentUser() : null;
-	} );
-
 	function onToggle() {
 		setOpen( ! isOpen );
 	}
@@ -156,7 +150,6 @@ export function DynamicTagModal( {
 								selectedText={ tagToEdit || selectedText }
 								tagToReplace={ tagToEdit }
 								currentPost={ currentPost }
-								currentUser={ currentUser }
 								context={ context }
 							/>
 						) }
