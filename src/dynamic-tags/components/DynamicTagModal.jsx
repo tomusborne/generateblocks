@@ -2,7 +2,6 @@ import { Modal, Button, Tooltip } from '@wordpress/components';
 import { useState, createInterpolateElement, useEffect } from '@wordpress/element';
 import { useSelect } from '@wordpress/data';
 import { store as editorStore } from '@wordpress/editor';
-import { store as coreStore } from '@wordpress/core-data';
 import { __ } from '@wordpress/i18n';
 import getIcon from '../../utils/get-icon';
 import '../editor.scss';
@@ -22,9 +21,6 @@ export function DynamicTagModal( {
 } ) {
 	const [ isOpen, setOpen ] = useState( false );
 	const [ tagToEdit, setTagToEdit ] = useState( null );
-
-	// Use getEntityRecord to get the current post from the block editor
-
 	const currentPost = useSelect( ( select ) => {
 		const { getCurrentPost } = select( editorStore );
 
