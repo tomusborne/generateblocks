@@ -168,7 +168,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	 * @return string|array|object The returned value or an empty string if not found.
 	 */
 	public static function get_meta( $id, $key, $single_only = true, $callable = null, $fallback = '' ) {
-		if ( ! is_string( $callable ) || ! function_exists( $callable ) ) {
+		if ( ! is_string( $callable ) || ! function_exists( $callable ) || ! is_string( $key ) ) {
 			return '';
 		}
 
