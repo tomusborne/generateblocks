@@ -30,7 +30,6 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 		$mid_size      = isset( $block->attributes['midSize'] ) ? (int) $block->attributes['midSize'] : null;
 		$inherit_query = $block->context['generateblocks/inheritQuery'] ?? false;
 
-
 		if ( $inherit_query ) {
 			$paginate_args = [ 'prev_next' => false ];
 
@@ -42,10 +41,10 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 		} else {
 			$query_data  = $block->context['generateblocks/queryData'] ?? null;
 			$query_type  = $block->context['generateblocks/queryType'] ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
-			$is_wp_query = $query_type === GenerateBlocks_Block_Query::TYPE_WP_QUERY;
+			$is_wp_query = GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type;
 			$is_array    = is_array( $query_data );
 
-			if ( ! $query_data || ( !$is_wp_query && ! $is_array ) ) {
+			if ( ! $query_data || ( ! $is_wp_query && ! $is_array ) ) {
 				return '';
 			}
 

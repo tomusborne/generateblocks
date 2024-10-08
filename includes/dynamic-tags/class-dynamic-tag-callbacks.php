@@ -244,9 +244,11 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Get the featuredimage URL.
+	 * Get the featured image URL.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
 	 * @return int
 	 */
 	public static function get_featured_image_url( $options, $block, $instance ) {
@@ -272,7 +274,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the featured image ID.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
 	 * @return int
 	 */
 	public static function get_featured_image_id( $options, $block, $instance ) {
@@ -377,7 +381,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			$query_data  = $instance->context['generateblocks/queryData'] ?? null;
 			$is_wp_query = $query_data instanceof WP_Query;
 
-			if ( null === $query_data || ( !$is_wp_query && ! is_array( $query_data ) ) ) {
+			if ( null === $query_data || ( ! $is_wp_query && ! is_array( $query_data ) ) ) {
 				return self::output( $output, $options, $instance );
 			}
 
@@ -398,7 +402,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the comments count.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
 	 * @return int
 	 */
 	public static function get_the_comments_count( $options, $block, $instance ) {
@@ -503,7 +509,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the author archive URL.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
 	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
@@ -526,7 +532,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the current year.
 	 *
-	 * @param array  $options The options.
+	 * @param array $options The options.
 	 * @return string
 	 */
 	public static function get_current_year( $options ) {
@@ -538,7 +544,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the site title from settings.
 	 *
-	 * @param array  $options The options.
+	 * @param array $options The options.
 	 * @return string
 	 */
 	public static function get_site_title( $options ) {
@@ -550,7 +556,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the site tagline from settings.
 	 *
-	 * @param array  $options The options.
+	 * @param array $options The options.
 	 * @return string
 	 */
 	public static function get_site_tagline( $options ) {
@@ -562,7 +568,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the site tagline from settings.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
 	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
@@ -590,7 +596,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the term meta.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
 	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string
@@ -620,7 +626,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the user meta.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
 	 * @param array  $block The block.
 	 * @param object $instance The block instance.
 	 * @return string

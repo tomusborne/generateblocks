@@ -472,7 +472,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					'_builtin' => false,
 				],
 				'names'
-			),
+			)
 		);
 		$result = [];
 
@@ -480,7 +480,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			$args = array(
 				'post_type'      => $post_type,
 				'posts_per_page' => 10,
-				's' 			 => $search,
+				's'              => $search,
 			);
 
 			$posts = get_posts( $args );
@@ -489,7 +489,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'label' => __( 'No posts found', 'generateblocks' ),
 			];
 
-			if( !empty( $posts ) ) {
+			if ( ! empty( $posts ) ) {
 				$items = array_map(
 					function ( $post ) {
 						return [
@@ -506,8 +506,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					'items' => $items,
 				];
 			}
-
-
 		}
 
 		return rest_ensure_response( $result );
