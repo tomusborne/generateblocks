@@ -307,7 +307,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			'generateblocks_dynamic_tag_id',
 			$id,
 			$options,
-			is_object( $instance ) ? $instance : new stdClass(),
+			is_object( $instance ) ? $instance : new stdClass()
 		);
 	}
 
