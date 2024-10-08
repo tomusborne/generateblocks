@@ -461,32 +461,47 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public function get_latest_posts( WP_REST_Request $request ) {
 		$search = $request->get_param( 'search' );
-		$post_types = get_post_types( array( 'public' => true ), 'names' );
+		$post_types = array_merge(
+			[
+				'post',
+				'page',
+			],
+			get_post_types(
+				[
+					'public'   => true,
+					'_builtin' => false,
+				],
+				'names'
+			),
+		);
 		$result = [];
 
 		foreach ( $post_types as $post_type ) {
 			$args = array(
-				'post_type' => $post_type,
+				'post_type'      => $post_type,
 				'posts_per_page' => 10,
-				's' => $search,
+				's' 			 => $search,
 			);
 
 			$posts = get_posts( $args );
 
 			if ( ! empty( $posts ) ) {
-				$result[] = array(
+				$result[] = [
 					'id' => $post_type,
 					'label' => ucfirst( $post_type ),
-					'items' => array_map(
+					'items' => ! empty( $posts ) ? array_map(
 						function ( $post ) {
-							return array(
+							return [
 								'value' => (string) $post->ID,
 								'label' => '#' . $post->ID . ': ' . get_the_title( $post->ID ),
-							);
+							];
 						},
 						$posts
-					),
-				);
+					) : [
+						'value' => '',
+						'label' => __( 'No posts found', 'generateblocks' ),
+					],
+				];
 			}
 		}
 
