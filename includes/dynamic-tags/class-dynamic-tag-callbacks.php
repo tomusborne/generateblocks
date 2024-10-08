@@ -163,7 +163,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 *
 	 * @return string The tag output.
 	 */
-	public static function output( $output, $options, $instance = new stdClass() ) {
+	public static function output( $output, $options, $instance = null ) {
 		// Store original output for filtering.
 		$raw_output = $output;
 

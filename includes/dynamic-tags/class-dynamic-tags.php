@@ -282,7 +282,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @param object $instance The block instance.
 	 * @return int
 	 */
-	public static function get_id( $options, $fallback_type = 'post', $instance = new stdClass() ) {
+	public static function get_id( $options, $fallback_type = 'post', $instance ) {
 
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
@@ -307,7 +307,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			'generateblocks_dynamic_tag_id',
 			$id,
 			$options,
-			$instance
+			is_object( $instance ) ? $instance : new stdClass(),
 		);
 	}
 
