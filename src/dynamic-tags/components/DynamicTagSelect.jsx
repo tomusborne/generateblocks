@@ -1,17 +1,20 @@
 import { useState, useEffect, useMemo } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
 import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useDebounce } from '@wordpress/compose';
 import { applyFilters } from '@wordpress/hooks';
 
-import { SelectMeta, Autocomplete } from '@edge22/components';
+import {
+	SelectPost,
+	SelectMeta,
+	Autocomplete,
+	usePostRecord,
+	useTermRecord,
+	useUserRecord,
+} from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
 import { SelectTerm } from './SelectTerm';
-import { usePostRecord } from '../hooks/usePostRecord';
-import { useTermRecord } from '../hooks/useTermRecord';
-import { useUserRecord } from '../hooks/useUserRecord';
 import { useUsers } from '@hooks';
 
 function parseTag( tagString ) {
@@ -52,22 +55,6 @@ function getLinkToOptions( type ) {
 				{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
 			];
 	}
-}
-
-function groupFilter( source, query, itemToString ) {
-	return Array.isArray( source )
-		? source
-			.map( ( item ) => {
-				const { items = [] } = item;
-				return {
-					...item,
-					items: items.filter( ( subItem ) =>
-						itemToString( subItem ).toLowerCase().includes( query.toLowerCase() )
-					),
-				};
-			} )
-			.filter( ( f ) => f.items.length > 0 )
-		: [];
 }
 
 function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
@@ -155,7 +142,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const availableTags = getVisibleTags( generateBlocksEditor?.dynamicTags, context );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ extraTagParams, setExtraTagParams ] = useState( {} );
-	const [ allPosts, setAllPosts ] = useState( [] );
 	const [ postIdSource, setPostIdSource ] = useState( '' );
 	const [ taxonomySource, setTaxonomySource ] = useState( '' );
 	const [ termSource, setTermSource ] = useState( '' );
@@ -180,37 +166,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ renderIfEmpty, setRenderIfEmpty ] = useState( false );
 	const [ separator, setSeparator ] = useState( '' );
 	const currentPostId = currentPost?.id ?? 0;
-
-	useEffect( () => {
-		/**
-		 * Load the dynamic tags.
-		 */
-		async function loadPosts() {
-			if ( Object.keys( allPosts ).length ) {
-				return;
-			}
-
-			const response = await apiFetch( {
-				path: '/generateblocks/v1/get-posts',
-				method: 'GET',
-			} );
-
-			setAllPosts( response );
-		}
-
-		loadPosts();
-	}, [] );
-
-	const { records: allUsers } = useUsers( 'user' === dynamicSource );
-
-	const userOptions = useMemo( () => {
-		return Array.isArray( allUsers ) ? allUsers.map( ( user ) => {
-			return {
-				label: `#${ user.id } ${ user.username }`,
-				value: `${ user.id }`,
-			};
-		} ) : [];
-	}, [ allUsers ] );
 
 	// TODO: Check if we need to do the terms thing anymore now that we're using SelectTerm.
 	const postRecordArgs = useMemo( () => {
@@ -247,7 +202,18 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record } = usePostRecord( postRecordArgs );
-	const { record: termRecord, isLoading: termRecordLoading } = useTermRecord( {
+	const { records: allUsers } = useUsers( 'user' === dynamicSource );
+
+	const userOptions = useMemo( () => {
+		return Array.isArray( allUsers ) ? allUsers.map( ( user ) => {
+			return {
+				label: `#${ user.id } ${ user.username }`,
+				value: `${ user.id }`,
+			};
+		} ) : [];
+	}, [ allUsers ] );
+
+	const { record: termRecord } = useTermRecord( {
 		termId: termSource,
 		taxonomy: taxonomySource,
 	} );
@@ -512,29 +478,16 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 					{ 'post' === dynamicSource && (
 						<>
-							<Autocomplete
+							<SelectPost
 								label={ __( 'Select source post', 'generateblocks' ) }
-								defaultValue={ postIdSource }
-								selected={ postIdSource }
+								value={ postIdSource }
 								onSelect={ ( { value } ) => setPostIdSource( value ) }
-								source={ allPosts }
-								showClear={ true }
 								onClear={ () => setPostIdSource( '' ) }
-								afterInputWrapper={ ( { inputValue, items } ) => {
-									return (
-										<Button
-											variant="primary"
-											size="compact"
-											className="gb-gc-add__button"
-											disabled={ ! inputValue || items.length > 0 }
-											onClick={ () => {
-												setPostIdSource( inputValue );
-											} }
-										>
-											{ __( 'Add', 'generateblocks' ) }
-										</Button>
-									);
+								onAdd={ ( { inputValue } ) => setPostIdSource( inputValue ) }
+								onEnter={ ( inputValue ) => {
+									setPostIdSource( inputValue );
 								} }
+								currentPostId={ currentPostId }
 							/>
 						</>
 					) }

@@ -484,25 +484,30 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			);
 
 			$posts = get_posts( $args );
+			$items = [
+				'value' => '',
+				'label' => __( 'No posts found', 'generateblocks' ),
+			];
 
-			if ( ! empty( $posts ) ) {
+			if( !empty( $posts ) ) {
+				$items = array_map(
+					function ( $post ) {
+						return [
+							'value' => (string) $post->ID,
+							'label' => '#' . $post->ID . ': ' . get_the_title( $post->ID ),
+						];
+					},
+					$posts
+				);
+
 				$result[] = [
 					'id' => $post_type,
 					'label' => ucfirst( $post_type ),
-					'items' => ! empty( $posts ) ? array_map(
-						function ( $post ) {
-							return [
-								'value' => (string) $post->ID,
-								'label' => '#' . $post->ID . ': ' . get_the_title( $post->ID ),
-							];
-						},
-						$posts
-					) : [
-						'value' => '',
-						'label' => __( 'No posts found', 'generateblocks' ),
-					],
+					'items' => $items,
 				];
 			}
+
+
 		}
 
 		return rest_ensure_response( $result );
