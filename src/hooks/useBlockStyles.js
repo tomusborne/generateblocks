@@ -1,6 +1,8 @@
 import { useSelect, useDispatch } from '@wordpress/data';
 import { applyFilters } from '@wordpress/hooks';
+
 import { useDeviceType, getPreviewDevice, useCurrentAtRule } from '@edge22/block-styles';
+import { defaultAtRules } from '@edge22/styles-builder';
 
 import { currentStyleStore, stylesStore, atRuleStore, nestedRuleStore } from '../store/block-styles';
 
@@ -12,7 +14,7 @@ export function useBlockStyles() {
 	const { setAtRule } = useDispatch( atRuleStore );
 	const nestedRule = useSelect( ( select ) => select( nestedRuleStore ).getNestedRule() );
 	const { setNestedRule } = useDispatch( nestedRuleStore );
-	const currentAtRule = useCurrentAtRule();
+	const currentAtRule = useCurrentAtRule( defaultAtRules );
 	const { setCurrentStyle } = useDispatch( currentStyleStore );
 	const currentStyle = useSelect( ( select ) => select( currentStyleStore ).currentStyle() );
 	const { deviceType, setDeviceType } = useDeviceType();

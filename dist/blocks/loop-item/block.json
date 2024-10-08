@@ -4,7 +4,7 @@
   "name": "generateblocks/loop-item",
   "title": "Loop Item",
   "category": "generateblocks",
-  "description": "A custom SVG shape.",
+  "description": "The item that is looped inside of the Looper.",
   "keywords": [
     "text",
     "heading",
@@ -57,6 +57,7 @@
   ],
   "usesContext": [
     "generateblocks/queryData",
-    "generateblocks/queryType"
+    "generateblocks/queryType",
+    "generateblocks/loopIndex"
   ]
 }

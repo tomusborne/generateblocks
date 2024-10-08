@@ -1,6 +1,6 @@
 import { useMemo } from '@wordpress/element';
 
-import { getCss } from '@edge22/styles-builder';
+import { defaultAtRules, getCss } from '@edge22/styles-builder';
 import {
 	useAtRuleEffect,
 	useGenerateCSSEffect,
@@ -96,6 +96,7 @@ export function withStyles( WrappedComponent ) {
 			deviceType,
 			atRule,
 			setAtRule,
+			defaultAtRules,
 		} );
 
 		useGenerateCSSEffect( {

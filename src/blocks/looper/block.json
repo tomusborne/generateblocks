@@ -4,7 +4,7 @@
     "name": "generateblocks/looper",
     "title": "Looper",
     "category": "generateblocks",
-    "description": "An HTML element that you can add blocks inside of.",
+    "description": "Loops its children based on the data provided by the Query block.",
     "keywords": [ "query", "loop", "posts" ],
     "version": "1.0.0",
     "textdomain": "generateblocks",
