@@ -69,7 +69,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 
 		register_rest_route(
 			'generateblocks/v1',
-			'/meta/get_option',
+			'/meta/get-option',
 			[
 				'methods'  => 'GET',
 				'callback' => [ $this, 'get_option_rest' ],
@@ -200,7 +200,11 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 			$callable
 		);
 
-		$meta = $pre_value ? $pre_value : call_user_func( $callable, $id, $parent_name, true );
+		if ( is_int( $id ) ) {
+			$meta = $pre_value ? $pre_value : call_user_func( $callable, $id, $parent_name, true );
+		} else {
+			$meta = $pre_value ? $pre_value : call_user_func( $callable, $parent_name );
+		}
 
 		$meta = apply_filters(
 			'generateblocks_get_meta_object',
@@ -213,7 +217,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 		// Only send the sub key(s) through. If they're empty this will return the value of $meta.
 		array_shift( $key_parts );
 		$sub_key = implode( '.', $key_parts );
-		$value   = self::get_value( $sub_key, $meta, $single_only, $fallback );
+		$value = self::get_value( $sub_key, $meta, $single_only, $fallback );
 
 		/**
 		 * Filter the result of get_value for entity meta.
@@ -279,7 +283,11 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	public function get_user_meta_rest( $request ) {
 		$id          = (int) $request->get_param( 'id' );
 		$key         = $request->get_param( 'key' );
-		$single_only = $request->get_param( 'singleOnly', true );
+		$single_only = true;
+
+		if ( 'false' === $request->get_param( 'singleOnly' ) ) {
+			$single_only = false;
+		}
 
 		return rest_ensure_response( self::get_user_meta( $id, $key, $single_only ) );
 	}
@@ -305,7 +313,11 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	public function get_term_meta_rest( $request ) {
 		$id          = (int) $request->get_param( 'id' );
 		$key         = $request->get_param( 'key' );
-		$single_only = $request->get_param( 'singleOnly', true );
+		$single_only = true;
+
+		if ( 'false' === $request->get_param( 'singleOnly' ) ) {
+			$single_only = false;
+		}
 
 		return rest_ensure_response( self::get_term_meta( $id, $key, $single_only ) );
 	}
@@ -329,9 +341,13 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 	 */
 	public function get_option_rest( $request ) {
 		$key         = $request->get_param( 'key' );
-		$single_only = $request->get_param( 'singleOnly', true );
+		$single_only = true;
 
-		return rest_ensure_response( self::get_option( 'option', $key, $single_only ) );
+		if ( 'false' === $request->get_param( 'singleOnly' ) ) {
+			$single_only = false;
+		}
+
+		return rest_ensure_response( self::get_option( $key, $single_only ) );
 	}
 }
 

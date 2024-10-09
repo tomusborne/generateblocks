@@ -2,7 +2,7 @@ import { useEffect, useMemo } from '@wordpress/element';
 
 import { ImageUpload } from '@components/index.js';
 
-export function InlineBackgroundImage( { htmlAttributes, setAttributes, styles, onStyleChange } ) {
+export function InlineBackgroundImage( { htmlAttributes, setAttributes, styles, onStyleChange, context } ) {
 	const inlineBackgroundURL = useMemo( () => {
 		const { style = '' } = htmlAttributes;
 
@@ -123,6 +123,7 @@ export function InlineBackgroundImage( { htmlAttributes, setAttributes, styles, 
 			onInsertDynamicTag={ ( tag ) => {
 				onChange( tag );
 			} }
+			context={ context }
 		/>
 	);
 }

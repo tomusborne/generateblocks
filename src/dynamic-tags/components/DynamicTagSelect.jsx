@@ -139,7 +139,8 @@ function getVisibleTags( dynamicTags, context ) {
 }
 
 export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, context } ) {
-	const availableTags = getVisibleTags( generateBlocksEditor?.dynamicTags, context );
+	const allTags = generateBlocksEditor?.dynamicTags;
+	const availableTags = getVisibleTags( allTags, context );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ extraTagParams, setExtraTagParams ] = useState( {} );
 	const [ postIdSource, setPostIdSource ] = useState( '' );
@@ -221,7 +222,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
-		const tagData = availableTags.find( ( tag ) => tag.tag === newTag );
+		const tagData = allTags.find( ( tag ) => tag.tag === newTag );
 		setDynamicTagData( tagData );
 		setLinkTo( '' );
 		setDynamicSource( 'current' );
