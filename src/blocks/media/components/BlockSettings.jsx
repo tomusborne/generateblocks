@@ -39,6 +39,7 @@ export function BlockSettings( {
 	setAttributes,
 	onSelectImage,
 	htmlAttributes,
+	context,
 } ) {
 	const {
 		linkHtmlAttributes,
@@ -145,6 +146,7 @@ export function BlockSettings( {
 				panelId="settings"
 			>
 				<ImageUpload
+					context={ context }
 					value={ htmlAttributes?.src }
 					onInsert={ ( value ) => {
 						const newHtmlAttributes = {
@@ -175,6 +177,7 @@ export function BlockSettings( {
 					setAttributes={ setAttributes }
 					htmlAttributes={ linkHtmlAttributes }
 					attributesName="linkHtmlAttributes"
+					context={ context }
 				/>
 
 				{ applyFilters(

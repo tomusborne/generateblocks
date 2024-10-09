@@ -1,7 +1,2 @@
-import ControlBuilder from './ControlBuilder';
-import DateTimePickerControl from './DateTimePicker/DateTimePicker';
-
-export {
-	ControlBuilder,
-	DateTimePickerControl,
-};
+export { default as ControlBuilder } from './ControlBuilder';
+export { default as DateTimePickerControl } from './DateTimePicker/DateTimePicker';

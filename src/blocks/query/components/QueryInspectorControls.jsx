@@ -5,8 +5,7 @@ import { applyFilters } from '@wordpress/hooks';
 
 import { isEqual } from 'lodash';
 
-import SelectQueryParameter from '@components/inspector-controls/SelectQueryParameter';
-import AddQueryParameterButton from '@components/inspector-controls/AddQueryParameterButton';
+import { SelectQueryParameter, AdvancedSelect, AddQueryParameterButton } from '@components';
 import ParameterList from './ParameterList';
 import useQueryReducer from '@hooks/useQueryReducer';
 import queryParameterOptions from '../query-parameters';
@@ -27,15 +26,32 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 		} )
 	), [ queryState ] );
 
-	const queryType = applyFilters(
-		'generateblocks.looper.queryType',
-		attributes.queryType,
+	const queryTypes = applyFilters(
+		'generateblocks.editor.query.queryTypes',
+		[
+			{
+				label: __( 'Post Query', 'generateblocks' ),
+				value: 'WP_Query',
+				help: __( 'Standard WP_Query for posts and pages.', 'generateblocks' ),
+			},
+		],
 		attributes
 	);
 
+	const selectedQueryType = useMemo( () => {
+		return queryTypes.find( ( option ) => option.value === attributes.queryType );
+	}, [ queryTypes, attributes.queryType ] );
+
 	return (
 		<>
-			{ 'WP_Query' === queryType && (
+			<AdvancedSelect
+				value={ selectedQueryType }
+				options={ queryTypes }
+				onChange={ ( { value } ) => setAttributes( { queryType: value } ) }
+				label={ __( 'Query Type', 'generateblocks' ) }
+				help={ selectedQueryType?.help }
+			/>
+			{ 'WP_Query' === attributes.queryType && (
 				<>
 					<ToggleControl
 						label={ __( 'Inherit query from template', 'generateblocks' ) }
@@ -83,6 +99,13 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 					}
 				</>
 			) }
+			{
+				applyFilters(
+					'generateblocks.editor.query.inspectorControls',
+					null,
+					{ queryType: attributes.queryType, attributes, setAttributes, queryState, setParameter, removeParameter }
+				)
+			}
 			<ToggleControl
 				checked={ !! attributes.instantPagination }
 				label={ __( 'Instant pagination', 'generateblocks' ) }

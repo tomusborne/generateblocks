@@ -1,6 +1,5 @@
 import { useState, useEffect } from '@wordpress/element';
 import apiFetch from '@wordpress/api-fetch';
-import { addQueryArgs } from '@wordpress/url';
 
 export function withDynamicTag( WrappedComponent ) {
 	return ( ( props ) => {
@@ -45,15 +44,12 @@ export function withDynamicTag( WrappedComponent ) {
 			const fetchData = async() => {
 				try {
 					const response = await apiFetch( {
-						path: addQueryArgs(
-							'/generateblocks/v1/dynamic-tag-replacements?content=',
-							{
-								content: encodeURIComponent( contentValue ),
-								id: context?.postId,
-								context,
-							},
-						),
-						method: 'GET',
+						path: '/generateblocks/v1/dynamic-tag-replacements',
+						method: 'POST',
+						data: {
+							content: contentValue,
+							context,
+						},
 					} );
 
 					setDynamicTagValue( response );

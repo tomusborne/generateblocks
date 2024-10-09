@@ -4,7 +4,7 @@ import { BlockControls } from '@wordpress/block-editor';
 import { link } from '@wordpress/icons';
 import { URLControls } from '../../components/url-controls';
 
-export function LinkBlockToolbar( { tagName, setAttributes, htmlAttributes } ) {
+export function LinkBlockToolbar( { tagName, setAttributes, htmlAttributes, context } ) {
 	const POPOVER_PROPS = {
 		position: 'bottom right',
 	};
@@ -35,6 +35,7 @@ export function LinkBlockToolbar( { tagName, setAttributes, htmlAttributes } ) {
 							<URLControls
 								htmlAttributes={ htmlAttributes }
 								setAttributes={ setAttributes }
+								context={ context }
 							/>
 						</>
 					) }

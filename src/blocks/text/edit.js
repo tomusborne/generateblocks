@@ -176,6 +176,7 @@ function EditBlock( props ) {
 				setAttributes={ setAttributes }
 				htmlAttributes={ htmlAttributes }
 				tagName={ tagName }
+				context={ context }
 			/>
 
 			{ ! iconOnly && (

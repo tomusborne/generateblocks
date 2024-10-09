@@ -41,6 +41,8 @@ import { NoticePanel } from './notice-panel/NoticePanel';
 import { OnboardNotice } from './onboard-notice/OnboardNotice';
 import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
 import { BlockAppender } from './block-appender/BlockAppender';
+import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
+import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
 
 export {
 	AdvancedSelect,
@@ -89,4 +91,6 @@ export {
 	OnboardNotice,
 	TagNameToolbar,
 	BlockAppender,
+	SelectQueryParameter,
+	AddQueryParameterButton,
 };

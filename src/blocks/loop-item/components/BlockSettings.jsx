@@ -18,6 +18,7 @@ export function BlockSettings( {
 	setAttributes,
 	htmlAttributes,
 	styles,
+	context,
 } ) {
 	const {
 		tagName,
@@ -52,6 +53,7 @@ export function BlockSettings( {
 				<URLControls
 					setAttributes={ setAttributes }
 					htmlAttributes={ htmlAttributes }
+					context={ context }
 				/>
 			</OpenPanel>
 

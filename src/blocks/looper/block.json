@@ -62,6 +62,7 @@
 		"generateblocks/queryData",
 		"generateblocks/noResults",
 		"generateblocks/queryType",
-		"generateblocks/loopIndex"
+		"generateblocks/loopIndex",
+		"generateblocks/loopItem"
 	]
 }

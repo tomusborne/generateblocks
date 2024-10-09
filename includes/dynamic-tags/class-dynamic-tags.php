@@ -39,7 +39,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Post Title', 'generateblocks' ),
 				'tag'      => 'post_title',
 				'type'     => 'post',
-				'supports' => [ 'link' ],
+				'supports' => [ 'link', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_title' ],
 			]
 		);
@@ -49,7 +49,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Post Permalink', 'generateblocks' ),
 				'tag'      => 'post_permalink',
 				'type'     => 'post',
-				'supports' => [],
+				'supports' => [ 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_permalink' ],
 			]
 		);
@@ -59,7 +59,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Published Date', 'generateblocks' ),
 				'tag'      => 'published_date',
 				'type'     => 'post',
-				'supports' => [ 'date', 'link' ],
+				'supports' => [ 'date', 'link', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_published_date' ],
 			]
 		);
@@ -69,7 +69,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Modified Date', 'generateblocks' ),
 				'tag'      => 'modified_date',
 				'type'     => 'post',
-				'supports' => [ 'date', 'link' ],
+				'supports' => [ 'date', 'link', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_modified_date' ],
 			]
 		);
@@ -79,7 +79,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Featured Image URL', 'generateblocks' ),
 				'tag'      => 'featured_image_url',
 				'type'     => 'post',
-				'supports' => [],
+				'supports' => [ 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_url' ],
 			]
 		);
@@ -89,7 +89,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Featured Image ID', 'generateblocks' ),
 				'tag'      => 'featured_image_id',
 				'type'     => 'post',
-				'supports' => [],
+				'supports' => [ 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_id' ],
 			]
 		);
@@ -99,7 +99,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Post Meta', 'generateblocks' ),
 				'tag'      => 'post_meta',
 				'type'     => 'post',
-				'supports' => [ 'meta' ],
+				'supports' => [ 'meta', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
 			]
 		);
@@ -109,7 +109,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Previous Posts URL', 'generateblocks' ),
 				'tag'      => 'previous_posts_page_url',
 				'type'     => 'post',
-				'supports' => [],
+				'supports' => [ 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_previous_posts_page_url' ],
 			]
 		);
@@ -119,7 +119,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Next Posts URL', 'generateblocks' ),
 				'tag'      => 'next_posts_page_url',
 				'type'     => 'post',
-				'supports' => [],
+				'supports' => [ 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
 			]
 		);
@@ -129,7 +129,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Comments Count', 'generateblocks' ),
 				'tag'      => 'comments_count',
 				'type'     => 'post',
-				'supports' => [ 'link', 'comments' ],
+				'supports' => [ 'link', 'comments', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_count' ],
 			]
 		);
@@ -139,7 +139,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Comments URL', 'generateblocks' ),
 				'tag'      => 'comments_url',
 				'type'     => 'post',
-				'supports' => [ 'comments' ],
+				'supports' => [ 'comments', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_url' ],
 			]
 		);
@@ -149,7 +149,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Author Meta', 'generateblocks' ),
 				'tag'      => 'author_meta',
 				'type'     => 'author',
-				'supports' => [ 'meta' ],
+				'supports' => [ 'meta', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
 			]
 		);
@@ -159,7 +159,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Author Archives URL', 'generateblocks' ),
 				'tag'      => 'author_archives_url',
 				'type'     => 'author',
-				'supports' => [],
+				'supports' => [ 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_archive_url' ],
 			]
 		);
@@ -199,7 +199,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Term List', 'generateblocks' ),
 				'tag'      => 'term_list',
 				'type'     => 'term',
-				'supports' => [ 'link' ],
+				'supports' => [ 'link', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
 			]
 		);
@@ -209,7 +209,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Term Meta', 'generateblocks' ),
 				'tag'      => 'term_meta',
 				'type'     => 'term',
-				'supports' => [ 'meta' ],
+				'supports' => [ 'meta', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
 			]
 		);
@@ -219,7 +219,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'User Meta', 'generateblocks' ),
 				'tag'      => 'user_meta',
 				'type'     => 'user',
-				'supports' => [ 'meta' ],
+				'supports' => [ 'meta', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
 			]
 		);
@@ -245,6 +245,21 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_index' ],
 			]
 		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'      => __( 'Loop Item', 'generateblocks' ),
+				'tag'        => 'loop_item',
+				'type'       => 'looper',
+				'supports'   => [ 'meta' ],
+				'visibility' => [
+					'context' => [
+						'generateblocks/loopItem',
+					],
+				],
+				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_item' ],
+			]
+		);
 	}
 
 	/**
@@ -264,9 +279,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 *
 	 * @param array  $options The options.
 	 * @param string $fallback_type The type of entity used for the fallback value.
+	 * @param object $instance The block instance.
 	 * @return int
 	 */
-	public static function get_id( $options, $fallback_type = 'post' ) {
+	public static function get_id( $options, $fallback_type = 'post', $instance = null ) {
+
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
 		} elseif ( 'user' === $fallback_type ) {
@@ -279,9 +296,18 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			}
 		}
 
+		/**
+		 * Allow users to filter the id option for a dynamic tag.
+		 *
+		 * @param int    $id The current ID value for the tag.
+		 * @param array  $options The tag options.
+		 * @param object $instance The block instance for the block containing the tag.
+		 */
 		return apply_filters(
-			'generateblocks_dynamic_source_id',
-			$id
+			'generateblocks_dynamic_tag_id',
+			$id,
+			$options,
+			is_object( $instance ) ? $instance : new stdClass()
 		);
 	}
 
@@ -295,7 +321,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			'generateblocks/v1',
 			'/dynamic-tag-replacements',
 			[
-				'methods'  => 'GET',
+				'methods'  => 'POST',
 				'callback' => [ $this, 'get_dynamic_tag_replacements' ],
 				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
@@ -362,8 +388,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public function get_dynamic_tag_replacements( $request ) {
 		$content      = urldecode( $request->get_param( 'content' ) );
-		$fallback_id  = $request->get_param( 'id' );
 		$context      = $request->get_param( 'context' );
+		$fallback_id  = $context['postId'] ?? 0;
 		$instance     = new stdClass();
 		$replacements = [];
 
@@ -435,32 +461,50 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public function get_latest_posts( WP_REST_Request $request ) {
 		$search = $request->get_param( 'search' );
-		$post_types = get_post_types( array( 'public' => true ), 'names' );
+		$post_types = array_merge(
+			[
+				'post',
+				'page',
+			],
+			get_post_types(
+				[
+					'public'   => true,
+					'_builtin' => false,
+				],
+				'names'
+			)
+		);
 		$result = [];
 
 		foreach ( $post_types as $post_type ) {
 			$args = array(
-				'post_type' => $post_type,
+				'post_type'      => $post_type,
 				'posts_per_page' => 10,
-				's' => $search,
+				's'              => $search,
 			);
 
 			$posts = get_posts( $args );
+			$items = [
+				'value' => '',
+				'label' => __( 'No posts found', 'generateblocks' ),
+			];
 
 			if ( ! empty( $posts ) ) {
-				$result[] = array(
+				$items = array_map(
+					function ( $post ) {
+						return [
+							'value' => (string) $post->ID,
+							'label' => '#' . $post->ID . ': ' . get_the_title( $post->ID ),
+						];
+					},
+					$posts
+				);
+
+				$result[] = [
 					'id' => $post_type,
 					'label' => ucfirst( $post_type ),
-					'items' => array_map(
-						function ( $post ) {
-							return array(
-								'value' => (string) $post->ID,
-								'label' => '#' . $post->ID . ': ' . get_the_title( $post->ID ),
-							);
-						},
-						$posts
-					),
-				);
+					'items' => $items,
+				];
 			}
 		}
 
