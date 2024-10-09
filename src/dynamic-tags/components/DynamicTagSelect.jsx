@@ -1,16 +1,20 @@
 import { useState, useEffect, useMemo } from '@wordpress/element';
-import apiFetch from '@wordpress/api-fetch';
 import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useDebounce } from '@wordpress/compose';
 import { applyFilters } from '@wordpress/hooks';
 
-import { Autocomplete } from '@edge22/components';
+import {
+	SelectPost,
+	SelectMeta,
+	Autocomplete,
+	usePostRecord,
+	useTermRecord,
+	useUserRecord,
+} from '@edge22/components';
 
 import { SelectTaxonomy } from './SelectTaxonomy';
-import { usePostRecord } from '../hooks/usePostRecord';
-import { useTermRecord } from '../hooks/useTermRecord';
-import { useUserRecord } from '../hooks/useUserRecord';
+import { SelectTerm } from './SelectTerm';
 import { useUsers } from '@hooks';
 
 function parseTag( tagString ) {
@@ -51,20 +55,6 @@ function getLinkToOptions( type ) {
 				{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
 			];
 	}
-}
-
-function groupFilter( source, query, itemToString ) {
-	return source
-		.map( ( item ) => {
-			const { items = [] } = item;
-			return {
-				...item,
-				items: items.filter( ( subItem ) =>
-					itemToString( subItem ).toLowerCase().includes( query.toLowerCase() )
-				),
-			};
-		} )
-		.filter( ( f ) => f.items.length > 0 );
 }
 
 function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
@@ -148,14 +138,15 @@ function getVisibleTags( dynamicTags, context ) {
 	} );
 }
 
-export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, currentUser, context } ) {
-	const availableTags = getVisibleTags( generateBlocksEditor?.dynamicTags, context );
+export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, context } ) {
+	const allTags = generateBlocksEditor?.dynamicTags;
+	const availableTags = getVisibleTags( allTags, context );
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ extraTagParams, setExtraTagParams ] = useState( {} );
-	const [ allPosts, setAllPosts ] = useState( [] );
 	const [ postIdSource, setPostIdSource ] = useState( '' );
 	const [ taxonomySource, setTaxonomySource ] = useState( '' );
 	const [ termSource, setTermSource ] = useState( '' );
+	const debouncedSetTermSource = useDebounce( setTermSource, 200 );
 	const [ userSource, setUserSource ] = useState( '' );
 	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagData, setDynamicTagData ] = useState( { type: 'post' } );
@@ -177,37 +168,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ separator, setSeparator ] = useState( '' );
 	const currentPostId = currentPost?.id ?? 0;
 
-	useEffect( () => {
-		/**
-		 * Load the dynamic tags.
-		 */
-		async function loadPosts() {
-			if ( Object.keys( allPosts ).length ) {
-				return;
-			}
-
-			const response = await apiFetch( {
-				path: '/generateblocks/v1/get-posts',
-				method: 'GET',
-			} );
-
-			setAllPosts( response );
-		}
-
-		loadPosts();
-	}, [] );
-
-	const { records: allUsers } = useUsers( 'user' === dynamicSource );
-
-	const userOptions = useMemo( () => {
-		return Array.isArray( allUsers ) ? allUsers.map( ( user ) => {
-			return {
-				label: `#${ user.id } ${ user.username }`,
-				value: `${ user.id }`,
-			};
-		} ) : [];
-	}, [ allUsers ] );
-
+	// TODO: Check if we need to do the terms thing anymore now that we're using SelectTerm.
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
@@ -242,7 +203,18 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record } = usePostRecord( postRecordArgs );
-	const { record: termRecord, isLoading: termRecordLoading } = useTermRecord( {
+	const { records: allUsers } = useUsers( 'user' === dynamicSource );
+
+	const userOptions = useMemo( () => {
+		return Array.isArray( allUsers ) ? allUsers.map( ( user ) => {
+			return {
+				label: `#${ user.id } ${ user.username }`,
+				value: `${ user.id }`,
+			};
+		} ) : [];
+	}, [ allUsers ] );
+
+	const { record: termRecord } = useTermRecord( {
 		termId: termSource,
 		taxonomy: taxonomySource,
 	} );
@@ -250,7 +222,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
-		const tagData = availableTags.find( ( tag ) => tag.tag === newTag );
+		const tagData = allTags.find( ( tag ) => tag.tag === newTag );
 		setDynamicTagData( tagData );
 		setLinkTo( '' );
 		setDynamicSource( 'current' );
@@ -454,124 +426,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		return getLinkToOptions( dynamicTagType );
 	}, [ dynamicTagType, showLinkTo ] );
-	const metaKeys = useMemo( () => {
-		if ( ! tagSupportsMeta ) {
-			return [];
-		}
-
-		switch ( dynamicTagType ) {
-			case 'post':
-				if ( ! record?.meta ) {
-					return [];
-				}
-
-				const postItems = applyFilters(
-					'generateblocks.editor.dynamicTags.postMetaKeys',
-					Object.keys( record.meta ).map( ( key ) => ( { label: key, value: key } ) ),
-					record
-				);
-
-				if ( postItems.length === 0 ) {
-					return [];
-				}
-
-				return [
-					{
-						id: 'post_meta',
-						label: __( 'Post Meta', 'generateblocks' ),
-						items: postItems,
-					},
-				];
-			case 'author':
-				const authorMeta = record?.author?.meta;
-
-				if ( ! authorMeta ) {
-					return [];
-				}
-
-				const authorItems = Object.keys( authorMeta ).map( ( key ) => ( { label: key, value: key } ) );
-
-				if ( authorItems.length === 0 ) {
-					return [];
-				}
-
-				return [
-					{
-						id: 'author_meta',
-						label: __( 'Author Meta', 'generateblocks' ),
-						items: authorItems,
-					},
-				];
-			case 'user':
-				const userMeta = 'current' === dynamicSource ? currentUser?.meta : userRecord?.meta ?? {};
-
-				if ( ! userMeta ) {
-					return [];
-				}
-				const userItems = Object.keys( userMeta ).map( ( key ) => ( { label: key, value: key } ) );
-
-				if ( userItems.length === 0 ) {
-					return [];
-				}
-
-				return [
-					{
-						id: 'user_meta',
-						label: __( 'User Meta', 'generateblocks' ),
-						items: userItems,
-					},
-				];
-			case 'term':
-				const termMeta = termRecord?.meta ?? {};
-
-				if ( ! termMeta ) {
-					return [];
-				}
-				const termItems = Object.keys( termMeta ).map( ( key ) => ( { label: key, value: key } ) );
-
-				if ( termItems.length === 0 ) {
-					return [];
-				}
-
-				return [
-					{
-						id: 'term_meta',
-						label: __( 'Term Meta', 'generateblocks' ),
-						items: termItems,
-					},
-				];
-			default:
-				return [];
-		}
-	}, [ record, dynamicTag, dynamicTagType, termRecordLoading, termRecord, tagSupportsMeta, currentUser, userRecord, dynamicSource ] );
-
-	const metaKeyOptions = applyFilters(
-		'generateblocks.editor.dynamicTags.metaKeys',
-		metaKeys,
-		{
-			postRecord: record,
-			userRecord: userRecord ? userRecord : currentUser,
-			termRecord,
-			dynamicTagType,
-			dynamicSource,
-			termSource,
-			postIdSource,
-			dynamicTag,
-		}
-	);
-
-	const termOptions = useMemo( () => {
-		if ( ! record?.terms?.length ) {
-			return [];
-		}
-
-		return record.terms.map( ( term ) => {
-			return {
-				label: term.name,
-				value: term.id,
-			};
-		} );
-	}, [ record, taxonomySource ] );
 
 	const sourceOptions = useMemo( () => {
 		if ( 'term_meta' === dynamicTag ) {
@@ -625,29 +479,16 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 					{ 'post' === dynamicSource && (
 						<>
-							<Autocomplete
+							<SelectPost
 								label={ __( 'Select source post', 'generateblocks' ) }
-								defaultValue={ postIdSource }
-								selected={ postIdSource }
-								onSelect={ ( { value } ) => setPostIdSource( value ) }
-								source={ allPosts }
-								showClear={ true }
+								value={ postIdSource }
+								onSelect={ ( selected ) => setPostIdSource( selected?.value ?? '' ) }
 								onClear={ () => setPostIdSource( '' ) }
-								afterInputWrapper={ ( { inputValue, items } ) => {
-									return (
-										<Button
-											variant="primary"
-											size="compact"
-											className="gb-gc-add__button"
-											disabled={ ! inputValue || items.length > 0 }
-											onClick={ () => {
-												setPostIdSource( inputValue );
-											} }
-										>
-											{ __( 'Add', 'generateblocks' ) }
-										</Button>
-									);
+								onAdd={ ( { inputValue } ) => setPostIdSource( inputValue ) }
+								onEnter={ ( inputValue ) => {
+									setPostIdSource( inputValue );
 								} }
+								currentPostId={ currentPostId }
 							/>
 						</>
 					) }
@@ -658,7 +499,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 								label={ __( 'Select source user', 'generateblocks' ) }
 								defaultValue={ userSource }
 								selected={ userSource }
-								onSelect={ ( { value } ) => setUserSource( value ) }
+								onSelect={ ( selected ) => setUserSource( selected?.value ?? '' ) }
 								source={ userOptions }
 								showClear={ true }
 								onClear={ () => setUserSource( '' ) }
@@ -689,46 +530,35 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					) }
 
 					{ ( 'term' === dynamicSource ) && (
-						<ComboboxControl
-							id={ 'gblocks-select-term' }
-							label={ __( 'Select Term', 'generateblocks' ) }
-							placeholder={ __( 'Select Term', 'generateblocks' ) }
-							options={ termOptions }
+						<SelectTerm
+							postId={ postIdSource }
 							value={ termSource }
-							onChange={ setTermSource }
+							onSelect={ ( selected ) => {
+								const newTermSource = selected?.value ?? selected;
+								debouncedSetTermSource( newTermSource ? newTermSource : 0 );
+							} }
+							taxonomy={ taxonomySource }
 						/>
 					) }
 
 					{ tagSupportsMeta && (
-						<Autocomplete
-							className="gb-meta-key-select"
-							label={ __( 'Meta key', 'generateblocks' ) }
-							selected={ metaKey }
+						<SelectMeta
+							value={ metaKey }
 							onSelect={ ( newSelected ) => {
 								const newMetaKey = newSelected?.value ?? newSelected;
 								debouncedSetMetaKey( newMetaKey ? newMetaKey : '' );
 							} }
-							source={ metaKeyOptions }
-							toStringKey="value"
-							showClear={ true }
 							onEnter={ ( inputValue ) => {
 								setMetaKey( inputValue );
 							} }
 							onClear={ () => setMetaKey( '' ) }
-							itemFilter={ groupFilter }
-							afterInputWrapper={ ( { inputValue, items } ) => {
-								return (
-									<Button
-										variant="primary"
-										size="compact"
-										className="gb-gc-add__button"
-										disabled={ ! inputValue || items.length > 0 }
-										onClick={ () => setMetaKey( inputValue ) }
-									>
-										{ __( 'Add', 'generateblocks' ) }
-									</Button>
-								);
-							} }
+							onAdd={ ( { inputValue } ) => setMetaKey( inputValue ) }
+							post={ record }
+							user={ userRecord }
+							term={ termRecord }
+							source={ dynamicSource }
+							sourceId={ postIdSource || userSource || termSource }
+							type={ dynamicTagType }
 						/>
 					) }
 

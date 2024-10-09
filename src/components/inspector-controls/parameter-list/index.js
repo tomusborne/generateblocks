@@ -1,9 +1,4 @@
-import ParameterControl from './ParameterControl';
-import RemoveButton from './RemoveButton';
-import TaxonomyParameterControl from './TaxonomyParameterControl';
+export { default as ParameterControl } from './ParameterControl';
+export { default as RemoveButton } from './RemoveButton';
+export { default as TaxonomyParameterControl } from './TaxonomyParameterControl';
 
-export {
-	ParameterControl,
-	RemoveButton,
-	TaxonomyParameterControl,
-};

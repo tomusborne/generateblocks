@@ -11,35 +11,46 @@ import { BlockStylesBuilder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses';
 
-const createPaginationItem = ( content, Tag = 'a', extraClass = '' ) => (
-	<Tag key={ content } className={ `page-numbers ${ extraClass }` }>
+const createPaginationItem = ( content, Tag = 'a', extraClass = '', key = content ) => (
+	<Tag key={ key } className={ `page-numbers ${ extraClass }` }>
 		{ content }
 	</Tag>
 );
 
-const previewPaginationNumbers = ( midSize ) => {
+const previewPaginationNumbers = ( midSize, totalPages, currentPage ) => {
 	const paginationItems = [];
 
-	// First set of pagination items.
-	for ( let i = 1; i <= midSize; i++ ) {
-		paginationItems.push( createPaginationItem( i ) );
+	// First set of pagination items (from page 1 to currentPage - midSize).
+	const startPage = Math.max( 1, currentPage - midSize );
+	const endPage = Math.min( currentPage + midSize, totalPages );
+
+	// Add first page if it's not within the range.
+	if ( startPage > 1 ) {
+		paginationItems.push( createPaginationItem( 1, 'a', '', 'page-1' ) );
+		if ( startPage > 2 ) {
+			// Add dots if there's a gap between the first page and the range.
+			paginationItems.push( createPaginationItem( '...', 'span', 'dots', 'dots-start' ) );
+		}
 	}
 
-	// Current pagination item.
-	paginationItems.push(
-		createPaginationItem( midSize + 1, 'span', 'current' )
-	);
-
-	// Second set of pagination items.
-	for ( let i = 1; i <= midSize; i++ ) {
-		paginationItems.push( createPaginationItem( midSize + 1 + i ) );
+	// Loop through the pages in the calculated range.
+	for ( let i = startPage; i <= endPage; i++ ) {
+		if ( i === currentPage ) {
+			// Current page
+			paginationItems.push( createPaginationItem( i, 'span', 'current', `current-${ i }` ) );
+		} else {
+			paginationItems.push( createPaginationItem( i, 'a', '', `page-${ i }` ) );
+		}
 	}
 
-	// Dots.
-	paginationItems.push( createPaginationItem( '...', 'span', 'dots' ) );
-
-	// Last pagination item.
-	paginationItems.push( createPaginationItem( ( midSize * 2 ) + 3 ) );
+	// Add last page if it's not within the range.
+	if ( endPage < totalPages ) {
+		if ( endPage < totalPages - 1 ) {
+			// Add dots if there's a gap between the last page in the range and totalPages.
+			paginationItems.push( createPaginationItem( '...', 'span', 'dots', 'dots-end' ) );
+		}
+		paginationItems.push( createPaginationItem( totalPages, 'a', '', `last-${ totalPages }` ) );
+	}
 
 	return <>{ paginationItems }</>;
 };
@@ -122,7 +133,7 @@ function EditBlock( props ) {
 				/>
 			</InspectorControls>
 			<TagName { ...blockProps }>
-				{ previewPaginationNumbers( midSize ) }
+				{ previewPaginationNumbers( midSize, 6, 1 ) }
 			</TagName>
 		</>
 	);

@@ -14,6 +14,7 @@ export function ImageUpload( {
 	previewUrl = '',
 	allowDynamicTags = false,
 	onInsertDynamicTag,
+	context,
 } ) {
 	return (
 		<BaseControl
@@ -63,6 +64,7 @@ export function ImageUpload( {
 					<DynamicTagModal
 						onInsert={ ( newValue ) => onInsertDynamicTag( newValue ) }
 						selectedText={ value?.startsWith( '{' ) ? value : '' }
+						context={ context }
 					/>
 				) }
 			</Stack>

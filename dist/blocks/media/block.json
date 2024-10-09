@@ -58,6 +58,8 @@
     "file:./index.css"
   ],
   "usesContext": [
-    "postId"
+    "postId",
+    "generateblocks/loopItem",
+    "generateblocks/loopIndex"
   ]
 }

@@ -54,9 +54,11 @@
 	],
 	"usesContext": [
 		"generateblocks/queryData",
+		"generateblocks/queryType",
 		"generateblocks/query",
 		"generateblocks/queryId",
 		"generateblocks/instantPagination",
-		"generateblocks/loopIndex"
+		"generateblocks/loopIndex",
+		"generateblocks/loopItem"
 	]
 }
