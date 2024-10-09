@@ -357,37 +357,38 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$args          = $instance->context['generateblocks/query'] ?? [];
 		$inherit_query = $instance->context['generateblocks/inheritQuery'] ?? false;
-		$max_page      = isset( $args['pages'] ) ? (int) $instance->context['generateblocks/query']['pages'] : 0;
 		$per_page      = $args['per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
 		$output        = '';
 
 		if ( $inherit_query ) {
 			global $wp_query, $paged;
 
-			if ( ! $max_page || $max_page > $wp_query->max_num_pages ) {
-				$max_page = $wp_query->max_num_pages;
-			}
-
 			if ( ! $paged ) {
 				$paged = 1; // phpcs:ignore -- Need to overrite global here.
 			}
 
-			$nextpage = (int) $paged + 1;
+			$next_page = (int) $paged + 1;
 
-			if ( $nextpage <= $max_page ) {
-				$output = next_posts( $max_page, false );
+			if ( $next_page <= $wp_query->max_num_pages ) {
+				$output = next_posts( $wp_query->max_num_pages, false );
 			}
-		} elseif ( ! $max_page || $max_page > $page ) {
+		} else {
 			$query_data  = $instance->context['generateblocks/queryData'] ?? null;
-			$is_wp_query = $query_data instanceof WP_Query;
+			$query_type  = $instance->context['generateblocks/queryType'] ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
+			$is_wp_query = GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type;
 
-			if ( null === $query_data || ( ! $is_wp_query && ! is_array( $query_data ) ) ) {
+			if ( ! $query_data || ( ! $is_wp_query && ! is_array( $query_data ) ) ) {
 				return self::output( $output, $options, $instance );
 			}
 
+			$next_page              = $page + 1;
 			$custom_query_max_pages = $is_wp_query
 				? (int) $query_data->max_num_pages
 				: ceil( count( $query_data ) / $per_page );
+
+			if ( $custom_query_max_pages < $next_page ) {
+				return self::output( $output, $options, $instance );
+			}
 
 			if ( $custom_query_max_pages && $custom_query_max_pages !== $page ) {
 				$output = esc_url( add_query_arg( $page_key, $page + 1 ) );
