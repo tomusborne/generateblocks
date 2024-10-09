@@ -5,9 +5,9 @@ export const transforms = {
 	to: [
 		{
 			type: 'block',
-			blocks: [ 'generateblocks/element' ],
-			isMatch: ( { useInnerContainer, variantRole } ) => {
-				if ( useInnerContainer || variantRole ) {
+			blocks: [ 'generateblocks/text' ],
+			isMatch: ( { hasButtonContainer, variantRole } ) => {
+				if ( hasButtonContainer || variantRole ) {
 					return false;
 				}
 
