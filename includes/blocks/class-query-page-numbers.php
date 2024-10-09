@@ -42,9 +42,8 @@ class GenerateBlocks_Block_Query_Page_Numbers extends GenerateBlocks_Block {
 			$query_data  = $block->context['generateblocks/queryData'] ?? null;
 			$query_type  = $block->context['generateblocks/queryType'] ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
 			$is_wp_query = GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type;
-			$is_array    = is_array( $query_data );
 
-			if ( ! $query_data || ( ! $is_wp_query && ! $is_array ) ) {
+			if ( ! $query_data || ( ! $is_wp_query && ! is_array( $query_data ) ) ) {
 				return '';
 			}
 
