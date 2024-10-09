@@ -62,6 +62,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 
 		const {
 			htmlAttributes = {},
+			uniqueId,
 		} = attributes;
 
 		const { style = '', href, ...otherAttributes } = htmlAttributes;
@@ -71,6 +72,7 @@ export function withHtmlAttributes( WrappedComponent ) {
 		const combinedAttributes = {
 			...otherAttributes,
 			style: inlineStyleObject,
+			'data-gb-id': uniqueId,
 		};
 		const frontendHtmlAttributes = useMemo( () => {
 			if ( Array.isArray( htmlAttributes ) ) {

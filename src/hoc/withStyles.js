@@ -1,4 +1,4 @@
-import { useMemo } from '@wordpress/element';
+import { useMemo, useState, useLayoutEffect } from '@wordpress/element';
 
 import { defaultAtRules, getCss } from '@edge22/styles-builder';
 import {
@@ -55,6 +55,7 @@ export function withStyles( WrappedComponent ) {
 			getStyles,
 		} = useBlockStyles();
 
+		const [ isPreviewingBlock, setIsPreviewingBlock ] = useState( false );
 		const selector = useMemo( () => {
 			if ( ! uniqueId ) {
 				return '';
@@ -92,6 +93,19 @@ export function withStyles( WrappedComponent ) {
 			return styles?.[ property ] ?? '';
 		}
 
+		useLayoutEffect( () => {
+			const queryDocument = document.querySelector( 'iframe[name="editor-canvas"]' )?.contentDocument || document;
+			const existingId = queryDocument.querySelector( `.editor-styles-wrapper [data-gb-id="${ uniqueId }"]` );
+
+			if ( existingId ) {
+				return;
+			}
+
+			// If the block doesn't exist in the document, it's likely that we're previewing it.
+
+			setIsPreviewingBlock( true );
+		}, [ uniqueId ] );
+
 		useAtRuleEffect( {
 			deviceType,
 			atRule,
@@ -120,6 +134,7 @@ export function withStyles( WrappedComponent ) {
 		useUpdateEditorCSSEffect( {
 			selector,
 			css,
+			isPreviewingBlock,
 		} );
 
 		useSyncStyles( {
@@ -138,6 +153,10 @@ export function withStyles( WrappedComponent ) {
 					getStyleValue={ getStyleValue }
 					styles={ frontendStyles }
 				/>
+
+				{ !! isPreviewingBlock && (
+					<style>{ css }</style>
+				) }
 			</>
 		);
 	} );
