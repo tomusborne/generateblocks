@@ -1,3 +1,4 @@
+import { convertLegacyHtmlAttributes } from '@utils/convertLegacyHtmlAttributes';
 import { convertLocalToStyles } from '@utils/legacyStyleUtils';
 import { createBlock, getBlockType } from '@wordpress/blocks';
 
@@ -14,11 +15,11 @@ export const transforms = {
 				return true;
 			},
 			transform: ( attributes ) => {
-				const { url, target, relNoFollow, relSponsored, globalClasses, text, icon, removeText } = attributes;
+				const { url, target, relNoFollow, relSponsored, globalClasses, text, icon, removeText, htmlAttributes, iconLocation } = attributes;
 				const attributeData = getBlockType( 'generateblocks/button' )?.attributes;
 				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
+				const newHtmlAttributes = convertLegacyHtmlAttributes( htmlAttributes );
 				const relAttributes = [];
-				const htmlAttributes = {};
 
 				if ( url ) {
 					if ( target ) {
@@ -36,16 +37,20 @@ export const transforms = {
 				}
 
 				if ( url ) {
-					htmlAttributes.href = url;
+					newHtmlAttributes.href = url;
 				}
 
 				if ( target ) {
-					htmlAttributes.target = '_blank';
+					newHtmlAttributes.target = '_blank';
 				}
 
 				if ( relAttributes.length ) {
-					htmlAttributes.rel = relAttributes.join( ' ' );
+					newHtmlAttributes.rel = relAttributes.join( ' ' );
 				}
+
+				const newIconLocation = 'left' === iconLocation
+					? 'before'
+					: 'after';
 
 				// Legacy button reverts to a `span` if there is no URL set.
 				// In some cases, this is just a button with no URL (in our patterns).
@@ -57,13 +62,14 @@ export const transforms = {
 					globalClasses,
 					content: text,
 					tagName: isButton ? 'a' : 'span',
-					htmlAttributes,
+					htmlAttributes: newHtmlAttributes,
 					styles: {
 						...styles,
 						textDecoration: 'none',
 					},
 					icon,
 					iconOnly: removeText,
+					iconLocation: newIconLocation,
 				} );
 			},
 		},
