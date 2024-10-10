@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "generateblocks/media",
-  "title": "Media",
+  "title": "Image",
   "category": "generateblocks",
   "description": "A self-closing media element.",
   "keywords": [
