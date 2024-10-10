@@ -226,7 +226,7 @@ export function BlockSettings( {
 			<OpenPanel
 				{ ...panelProps }
 				title={ __( 'Inline Background Image', 'generateblocks' ) }
-				shouldRender={ 'container' === getElementType( tagName ) }
+				shouldRender={ 'container' === getElementType( tagName ) && '' === currentAtRule }
 				panelId="inline-background-image"
 			>
 				<InlineBackgroundImage
