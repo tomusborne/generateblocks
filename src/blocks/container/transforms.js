@@ -56,8 +56,6 @@ export const transforms = {
 					);
 				} );
 
-				console.log( groupInnerBlocks );
-
 				return createBlock(
 					'generateblocks/element',
 					{
