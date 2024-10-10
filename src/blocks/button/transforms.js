@@ -1,3 +1,4 @@
+import { convertLegacyHtmlAttributes } from '@utils/convertLegacyHtmlAttributes';
 import { convertLocalToStyles } from '@utils/legacyStyleUtils';
 import { createBlock, getBlockType } from '@wordpress/blocks';
 
@@ -14,11 +15,32 @@ export const transforms = {
 				return true;
 			},
 			transform: ( attributes ) => {
-				const { url, target, relNoFollow, relSponsored, globalClasses, text, icon, removeText } = attributes;
+				const {
+					url,
+					target,
+					relNoFollow,
+					relSponsored,
+					globalClasses,
+					text,
+					icon,
+					removeText,
+					htmlAttributes,
+					iconLocation,
+					anchor,
+					className,
+					blockLabel,
+					ariaLabel,
+					buttonType,
+				} = attributes;
 				const attributeData = getBlockType( 'generateblocks/button' )?.attributes;
 				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
+				const newHtmlAttributes = convertLegacyHtmlAttributes( htmlAttributes );
 				const relAttributes = [];
-				const htmlAttributes = {};
+				const metaData = {};
+
+				if ( blockLabel ) {
+					metaData.name = blockLabel;
+				}
 
 				if ( url ) {
 					if ( target ) {
@@ -36,16 +58,28 @@ export const transforms = {
 				}
 
 				if ( url ) {
-					htmlAttributes.href = url;
+					newHtmlAttributes.href = url;
 				}
 
 				if ( target ) {
-					htmlAttributes.target = '_blank';
+					newHtmlAttributes.target = '_blank';
 				}
 
 				if ( relAttributes.length ) {
-					htmlAttributes.rel = relAttributes.join( ' ' );
+					newHtmlAttributes.rel = relAttributes.join( ' ' );
 				}
+
+				if ( anchor ) {
+					newHtmlAttributes.id = anchor;
+				}
+
+				if ( ariaLabel ) {
+					newHtmlAttributes[ 'aria-label' ] = ariaLabel;
+				}
+
+				const newIconLocation = 'left' === iconLocation
+					? 'before'
+					: 'after';
 
 				// Legacy button reverts to a `span` if there is no URL set.
 				// In some cases, this is just a button with no URL (in our patterns).
@@ -53,17 +87,32 @@ export const transforms = {
 				// In this case, we should convert to a Text block with an icon.
 				const isButton = !! url || ( ! url && ! icon );
 
+				const tagName = () => {
+					if ( isButton ) {
+						return 'a';
+					}
+
+					if ( 'button' === buttonType ) {
+						return 'button';
+					}
+
+					return 'span';
+				};
+
 				return createBlock( 'generateblocks/text', {
 					globalClasses,
 					content: text,
-					tagName: isButton ? 'a' : 'span',
-					htmlAttributes,
+					tagName: tagName(),
+					htmlAttributes: newHtmlAttributes,
 					styles: {
 						...styles,
 						textDecoration: 'none',
 					},
 					icon,
 					iconOnly: removeText,
+					iconLocation: newIconLocation,
+					className,
+					metadata: metaData,
 				} );
 			},
 		},

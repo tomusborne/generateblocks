@@ -1,3 +1,4 @@
+import { convertLegacyHtmlAttributes } from '@utils/convertLegacyHtmlAttributes';
 import { convertLocalToStyles } from '@utils/legacyStyleUtils';
 import { createBlock, getBlockType } from '@wordpress/blocks';
 
@@ -6,65 +7,65 @@ export const transforms = {
 		{
 			type: 'block',
 			blocks: [ 'generateblocks/element' ],
-			isMatch: ( { useInnerContainer, variantRole } ) => {
-				if ( useInnerContainer || variantRole ) {
+			isMatch: ( {
+				useInnerContainer,
+				variantRole,
+				shapeDividers,
+				googleFont,
+				isGrid,
+				isQueryLoopItem,
+			} ) => {
+				if (
+					useInnerContainer ||
+					variantRole ||
+					shapeDividers.length > 0 ||
+					googleFont ||
+					isGrid ||
+					isQueryLoopItem
+				) {
 					return false;
 				}
 
 				return true;
 			},
-			transform: ( attributes ) => {
-				const { url, target, relNoFollow, relSponsored, globalClasses, text, icon, removeText } = attributes;
-				const attributeData = getBlockType( 'generateblocks/button' )?.attributes;
-				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
-				const relAttributes = [];
-				const htmlAttributes = {};
-
-				if ( url ) {
-					if ( target ) {
-						relAttributes.push( 'noopener' );
-						relAttributes.push( 'noreferrer' );
-					}
-
-					if ( relNoFollow ) {
-						relAttributes.push( 'nofollow' );
-					}
-
-					if ( relSponsored ) {
-						relAttributes.push( 'sponsored' );
-					}
-				}
-
-				if ( url ) {
-					htmlAttributes.href = url;
-				}
-
-				if ( target ) {
-					htmlAttributes.target = '_blank';
-				}
-
-				if ( relAttributes.length ) {
-					htmlAttributes.rel = relAttributes.join( ' ' );
-				}
-
-				// Legacy button reverts to a `span` if there is no URL set.
-				// In some cases, this is just a button with no URL (in our patterns).
-				// In other cases, users have used a Button block to show an icon with no URL.
-				// In this case, we should convert to a Text block with an icon.
-				const isButton = !! url || ( ! url && ! icon );
-
-				return createBlock( 'generateblocks/text', {
-					globalClasses,
-					content: text,
-					tagName: isButton ? 'a' : 'span',
+			transform: ( attributes, blocks ) => {
+				const {
+					tagName,
 					htmlAttributes,
-					styles: {
-						...styles,
-						textDecoration: 'none',
-					},
-					icon,
-					iconOnly: removeText,
+					blockLabel,
+				} = attributes;
+				const attributeData = getBlockType( 'generateblocks/container' )?.attributes;
+				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
+				const newHtmlAttributes = convertLegacyHtmlAttributes( htmlAttributes );
+				const metaData = {};
+
+				if ( blockLabel ) {
+					metaData.name = blockLabel;
+				}
+
+				// Clone the Blocks to be Grouped
+				// Failing to create new block references causes the original blocks
+				// to be replaced in the switchToBlockType call thereby meaning they
+				// are removed both from their original location and within the
+				// new group block.
+				const groupInnerBlocks = blocks.map( ( block ) => {
+					return createBlock(
+						block.name,
+						block.attributes,
+						block.innerBlocks
+					);
 				} );
+
+				return createBlock(
+					'generateblocks/element',
+					{
+						tagName,
+						styles,
+						htmlAttributes: newHtmlAttributes,
+						metadata: metaData,
+					},
+					groupInnerBlocks
+				);
 			},
 		},
 	],
