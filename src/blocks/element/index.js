@@ -16,6 +16,10 @@ registerBlockType( metadata, {
 	icon: getIcon( 'container' ),
 	__experimentalLabel: ( attrs, { context } ) => {
 		if ( 'list-view' === context ) {
+			if ( attrs?.metadata?.name ) {
+				return attrs.metadata.name;
+			}
+
 			if ( attrs.tagName ) {
 				if ( 'figure' === attrs.tagName ) {
 					return __( 'Figure', 'generateblocks' );

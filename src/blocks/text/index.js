@@ -14,7 +14,13 @@ registerBlockType( metadata, {
 	transforms,
 	__experimentalLabel: ( attrs, { context } ) => {
 		if ( 'list-view' === context ) {
-			if ( attrs.content || attrs.iconOnly ) {
+			if ( attrs?.metadata?.name ) {
+				return attrs.metadata.name;
+			}
+
+			const text = attrs.content?.text ?? attrs.content;
+
+			if ( text || attrs.iconOnly ) {
 				if ( attrs.iconOnly ) {
 					return __( 'Icon', 'generateblocks' );
 				}
