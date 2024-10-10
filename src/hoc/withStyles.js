@@ -133,7 +133,8 @@ export function withStyles( WrappedComponent ) {
 
 		useUpdateEditorCSSEffect( {
 			selector,
-			css,
+			getCss,
+			styles: frontendStyles,
 			isPreviewingBlock,
 		} );
 
