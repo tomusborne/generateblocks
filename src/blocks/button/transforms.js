@@ -7,8 +7,18 @@ export const transforms = {
 		{
 			type: 'block',
 			blocks: [ 'generateblocks/text' ],
-			isMatch: ( { hasButtonContainer, variantRole } ) => {
-				if ( hasButtonContainer || variantRole ) {
+			isMatch: ( {
+				hasButtonContainer,
+				variantRole,
+				useGlobalStyle = false,
+				isGlobalStyle = false,
+			} ) => {
+				if (
+					hasButtonContainer ||
+					variantRole,
+					useGlobalStyle ||
+					isGlobalStyle
+				) {
 					return false;
 				}
 

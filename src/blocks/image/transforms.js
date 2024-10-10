@@ -46,6 +46,15 @@ const transforms = {
 			type: 'block',
 			blocks: [ 'generateblocks/media' ],
 			isMatch: ( attributes, block ) => {
+				const { useGlobalStyle, isGlobalStyle } = attributes;
+
+				if (
+					useGlobalStyle ||
+					isGlobalStyle
+				) {
+					return false;
+				}
+
 				return block.innerBlocks.length === 0;
 			},
 			transform: ( attributes ) => {
@@ -124,6 +133,15 @@ const transforms = {
 			type: 'block',
 			blocks: [ 'generateblocks/element' ],
 			isMatch: ( attributes, block ) => {
+				const { useGlobalStyle, isGlobalStyle } = attributes;
+
+				if (
+					useGlobalStyle ||
+					isGlobalStyle
+				) {
+					return false;
+				}
+
 				return block.innerBlocks.length > 0;
 			},
 			transform: ( attributes, blocks ) => {
