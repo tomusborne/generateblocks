@@ -65,10 +65,35 @@ const transforms = {
 				return true;
 			},
 			transform: ( attributes ) => {
-				const { element, globalClasses, content, icon, removeText, htmlAttributes } = attributes;
+				const {
+					element,
+					globalClasses,
+					content,
+					icon,
+					removeText,
+					htmlAttributes,
+					anchor,
+					className,
+					blockLabel,
+					ariaLabel,
+				} = attributes;
 				const attributeData = getBlockType( 'generateblocks/headline' )?.attributes;
 				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
 				const newHtmlAttributes = convertLegacyHtmlAttributes( htmlAttributes );
+
+				if ( anchor ) {
+					newHtmlAttributes.id = anchor;
+				}
+
+				if ( ariaLabel ) {
+					newHtmlAttributes[ 'aria-label' ] = ariaLabel;
+				}
+
+				const metaData = {};
+
+				if ( blockLabel ) {
+					metaData.name = blockLabel;
+				}
 
 				return createBlock( 'generateblocks/text', {
 					globalClasses,
@@ -78,6 +103,8 @@ const transforms = {
 					styles,
 					icon,
 					iconOnly: removeText,
+					className,
+					metadata: metaData,
 				} );
 			},
 		},

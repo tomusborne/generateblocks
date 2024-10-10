@@ -15,11 +15,32 @@ export const transforms = {
 				return true;
 			},
 			transform: ( attributes ) => {
-				const { url, target, relNoFollow, relSponsored, globalClasses, text, icon, removeText, htmlAttributes, iconLocation } = attributes;
+				const {
+					url,
+					target,
+					relNoFollow,
+					relSponsored,
+					globalClasses,
+					text,
+					icon,
+					removeText,
+					htmlAttributes,
+					iconLocation,
+					anchor,
+					className,
+					blockLabel,
+					ariaLabel,
+					buttonType,
+				} = attributes;
 				const attributeData = getBlockType( 'generateblocks/button' )?.attributes;
 				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
 				const newHtmlAttributes = convertLegacyHtmlAttributes( htmlAttributes );
 				const relAttributes = [];
+				const metaData = {};
+
+				if ( blockLabel ) {
+					metaData.name = blockLabel;
+				}
 
 				if ( url ) {
 					if ( target ) {
@@ -48,6 +69,14 @@ export const transforms = {
 					newHtmlAttributes.rel = relAttributes.join( ' ' );
 				}
 
+				if ( anchor ) {
+					newHtmlAttributes.id = anchor;
+				}
+
+				if ( ariaLabel ) {
+					newHtmlAttributes[ 'aria-label' ] = ariaLabel;
+				}
+
 				const newIconLocation = 'left' === iconLocation
 					? 'before'
 					: 'after';
@@ -58,10 +87,22 @@ export const transforms = {
 				// In this case, we should convert to a Text block with an icon.
 				const isButton = !! url || ( ! url && ! icon );
 
+				const tagName = () => {
+					if ( isButton ) {
+						return 'a';
+					}
+
+					if ( 'button' === buttonType ) {
+						return 'button';
+					}
+
+					return 'span';
+				};
+
 				return createBlock( 'generateblocks/text', {
 					globalClasses,
 					content: text,
-					tagName: isButton ? 'a' : 'span',
+					tagName: tagName(),
 					htmlAttributes: newHtmlAttributes,
 					styles: {
 						...styles,
@@ -70,6 +111,8 @@ export const transforms = {
 					icon,
 					iconOnly: removeText,
 					iconLocation: newIconLocation,
+					className,
+					metadata: metaData,
 				} );
 			},
 		},

@@ -7,18 +7,41 @@ export const transforms = {
 		{
 			type: 'block',
 			blocks: [ 'generateblocks/element' ],
-			isMatch: ( { useInnerContainer, variantRole } ) => {
-				if ( useInnerContainer || variantRole ) {
+			isMatch: ( {
+				useInnerContainer,
+				variantRole,
+				shapeDividers,
+				googleFont,
+				isGrid,
+				isQueryLoopItem,
+			} ) => {
+				if (
+					useInnerContainer ||
+					variantRole ||
+					shapeDividers.length > 0 ||
+					googleFont ||
+					isGrid ||
+					isQueryLoopItem
+				) {
 					return false;
 				}
 
 				return true;
 			},
 			transform: ( attributes, blocks ) => {
-				const { tagName, htmlAttributes } = attributes;
+				const {
+					tagName,
+					htmlAttributes,
+					blockLabel,
+				} = attributes;
 				const attributeData = getBlockType( 'generateblocks/container' )?.attributes;
 				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
 				const newHtmlAttributes = convertLegacyHtmlAttributes( htmlAttributes );
+				const metaData = {};
+
+				if ( blockLabel ) {
+					metaData.name = blockLabel;
+				}
 
 				// Clone the Blocks to be Grouped
 				// Failing to create new block references causes the original blocks
@@ -33,12 +56,15 @@ export const transforms = {
 					);
 				} );
 
+				console.log( groupInnerBlocks );
+
 				return createBlock(
 					'generateblocks/element',
 					{
 						tagName,
 						styles,
 						htmlAttributes: newHtmlAttributes,
+						metadata: metaData,
 					},
 					groupInnerBlocks
 				);
