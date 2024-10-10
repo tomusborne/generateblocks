@@ -57,8 +57,18 @@ const transforms = {
 		{
 			type: 'block',
 			blocks: [ 'generateblocks/text' ],
-			isMatch: ( { hasButtonContainer, variantRole } ) => {
-				if ( hasButtonContainer || variantRole ) {
+			isMatch: ( {
+				variantRole,
+				googleFont,
+				useGlobalStyle = false,
+				isGlobalStyle = false,
+			} ) => {
+				if (
+					variantRole ||
+					useGlobalStyle ||
+					isGlobalStyle ||
+					googleFont
+				) {
 					return false;
 				}
 

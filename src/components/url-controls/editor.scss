@@ -5,6 +5,8 @@
 
 	&__link {
 		&-input {
+			min-width: auto;
+
 			input[type="text"] {
 				width: 100%;
 			}
