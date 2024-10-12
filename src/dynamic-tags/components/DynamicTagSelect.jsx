@@ -164,7 +164,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		multiple: __( '%s comments', 'generateblocks' ),
 	} );
 	const [ linkTo, setLinkTo ] = useState( '' );
-	const [ renderIfEmpty, setRenderIfEmpty ] = useState( false );
+	const [ required, setRequired ] = useState( true );
 	const [ separator, setSeparator ] = useState( '' );
 	const currentPostId = currentPost?.id ?? 0;
 
@@ -260,7 +260,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			one = null,
 			multiple = null,
 			link = null,
-			renderIfEmpty: renderIfEmptyParam = null,
+			required: requiredParam = true,
 			sep = null,
 			tax = null,
 			...extraParams
@@ -313,8 +313,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setLinkTo( link );
 		}
 
-		if ( renderIfEmptyParam ) {
-			setRenderIfEmpty( true );
+		if ( 'false' === requiredParam ) {
+			setRequired( false );
 		}
 
 		if ( extraParams ) {
@@ -366,8 +366,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `sep:${ separator }` );
 		}
 
-		if ( renderIfEmpty ) {
-			options.push( 'renderIfEmpty' );
+		if ( ! required ) {
+			options.push( 'required:false' );
 		}
 
 		if ( taxonomySource && 'term' === dynamicTagType ) {
@@ -409,7 +409,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		metaKey,
 		commentsCountText,
 		linkTo,
-		renderIfEmpty,
+		required,
 		taxonomySource,
 		termSource,
 		separator,
@@ -612,11 +612,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					/>
 
 					<CheckboxControl
-						label={ __( 'Render block if empty', 'generateblocks' ) }
+						label={ __( 'Required to render', 'generateblocks' ) }
 						className="gb-dynamic-tag-select__render-if-empty"
-						checked={ !! renderIfEmpty }
-						onChange={ setRenderIfEmpty }
-						help={ __( 'Render the block even if this dynamic tag has no value.', 'generateblocks' ) }
+						checked={ !! required }
+						onChange={ setRequired }
+						help={ __( 'This tag must output a value for the block to be rendered.', 'generateblocks' ) }
 					/>
 
 					<Button
