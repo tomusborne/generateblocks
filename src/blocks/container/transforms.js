@@ -14,6 +14,8 @@ export const transforms = {
 				googleFont,
 				isGrid,
 				isQueryLoopItem,
+				useGlobalStyle = false,
+				isGlobalStyle = false,
 			} ) => {
 				if (
 					useInnerContainer ||
@@ -21,7 +23,9 @@ export const transforms = {
 					shapeDividers.length > 0 ||
 					googleFont ||
 					isGrid ||
-					isQueryLoopItem
+					isQueryLoopItem ||
+					useGlobalStyle ||
+					isGlobalStyle
 				) {
 					return false;
 				}
@@ -33,10 +37,18 @@ export const transforms = {
 					tagName,
 					htmlAttributes,
 					blockLabel,
+					globalClasses,
+					anchor,
+					className,
 				} = attributes;
 				const attributeData = getBlockType( 'generateblocks/container' )?.attributes;
 				const styles = convertLocalToStyles( attributeData, attributes, '&:is(:hover, :focus)' );
 				const newHtmlAttributes = convertLegacyHtmlAttributes( htmlAttributes );
+
+				if ( anchor ) {
+					newHtmlAttributes.id = anchor;
+				}
+
 				const metaData = {};
 
 				if ( blockLabel ) {
@@ -63,6 +75,8 @@ export const transforms = {
 						styles,
 						htmlAttributes: newHtmlAttributes,
 						metadata: metaData,
+						globalClasses,
+						className,
 					},
 					groupInnerBlocks
 				);

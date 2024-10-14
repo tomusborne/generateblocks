@@ -6,7 +6,7 @@
  * Author: Tom Usborne
  * Author URI: https://tomusborne.com
  * Version: 2.0.0-alpha.1
- * Requires at least: 5.9
+ * Requires at least: 6.5
  * Requires PHP: 7.2
  * License: GPL2+
  * License URI: https://www.gnu.org/licenses/gpl-2.0.txt

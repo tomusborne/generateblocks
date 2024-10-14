@@ -560,19 +560,19 @@ function generateblocks_do_block_css_reset( $editor_settings ) {
 	$editor_settings['styles'][] = [ 'css' => $css ];
 
 	$blocks_to_reset = [
-		'.wp-block-generateblocks-text:where(:not(h1, h2, h3, h4, h5, h6, p))',
-		'.wp-block-generateblocks-element',
-		'.wp-block-generateblocks-shape',
-		'.wp-block-generateblocks-media',
-		'.wp-block-generateblocks-query',
-		'.wp-block-generateblocks-query-no-results',
-		'.wp-block-generateblocks-query-page-numbers',
-		'.wp-block-generateblocks-looper',
-		'.wp-block-generateblocks-loop-item',
+		'.editor-styles-wrapper .wp-block-generateblocks-text:where(:not(h1, h2, h3, h4, h5, h6, p))',
+		'.editor-styles-wrapper .wp-block-generateblocks-element',
+		'.editor-styles-wrapper .wp-block-generateblocks-shape',
+		'.editor-styles-wrapper .wp-block-generateblocks-media',
+		'.editor-styles-wrapper .wp-block-generateblocks-query',
+		'.editor-styles-wrapper .wp-block-generateblocks-query-no-results',
+		'.editor-styles-wrapper .wp-block-generateblocks-query-page-numbers',
+		'.editor-styles-wrapper .wp-block-generateblocks-looper',
+		'.editor-styles-wrapper .wp-block-generateblocks-loop-item',
 	];
 
 	$heading_blocks_to_reset = [
-		'.wp-block-generateblocks-text:where(h1, h2, h3, h4, h5, h6, p)',
+		'.editor-styles-wrapper .wp-block-generateblocks-text:where(h1, h2, h3, h4, h5, h6, p)',
 	];
 
 	$css  = implode( ',', $blocks_to_reset ) . '{max-width:unset;margin:0;}';
