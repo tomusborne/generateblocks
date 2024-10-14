@@ -19,8 +19,6 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 		currentStyle,
 	} = useBlockStyles();
 
-	console.log( attributes.globalClasses );
-
 	return (
 		<StylesBuilder
 			key={ attributes?.globalClasses }
