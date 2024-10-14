@@ -1,5 +1,1 @@
-import { BlockStylesBuilder } from './BlockStylesBuilder';
-
-export {
-	BlockStylesBuilder,
-};
+export { BlockStylesBuilder } from './BlockStylesBuilder';

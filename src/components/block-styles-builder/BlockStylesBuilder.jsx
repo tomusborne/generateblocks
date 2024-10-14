@@ -2,7 +2,7 @@ import { StylesBuilder, defaultAtRules } from '@edge22/styles-builder';
 import { TABS_STORAGE_KEY } from '@edge22/block-styles';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
-export function BlockStylesBuilder( { setAttributes, shortcuts, onStyleChange } ) {
+export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onStyleChange } ) {
 	const {
 		getStyles,
 		deleteStyle,
@@ -19,8 +19,11 @@ export function BlockStylesBuilder( { setAttributes, shortcuts, onStyleChange } 
 		currentStyle,
 	} = useBlockStyles();
 
+	console.log( attributes.globalClasses );
+
 	return (
 		<StylesBuilder
+			key={ attributes?.globalClasses }
 			currentSelector={ currentStyle?.selector }
 			styles={ getStyles( atRule, nestedRule ) }
 			allStyles={ getStyles() }
