@@ -125,12 +125,11 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					]
 				);
 
+				// Tags are required to have a value by default. Since this tag has no options,
+				// we can remove the block and break out of the loop if there is no replacement.
 				if ( ! $replacement ) {
-					// If we have no replacement, don't output the block.
-					// There's an option to output the block even if there's no replacement within
-					// the next condition.
 					$content = '';
-					continue;
+					break;
 				}
 
 				/**
@@ -163,13 +162,13 @@ class GenerateBlocks_Register_Dynamic_Tag {
 				preg_match_all( $pattern, $content, $matches, PREG_SET_ORDER );
 
 				foreach ( $matches as $match ) {
-					$full_tag        = $match[0];
-					$full_tag        = self::maybe_prepend_protocol( $content, $full_tag );
-					$options_string  = $match[2] ?? '';
-					$options         = self::parse_options( $options_string, $tag_name );
-					$replacement     = $data['return']( $options, $block, $instance );
-					$og_replacement  = $replacement; // Keep a copy of this in case it's manipulated via filter.
-					$render_if_empty = $options['renderIfEmpty'] ?? false;
+					$full_tag       = $match[0];
+					$full_tag       = self::maybe_prepend_protocol( $content, $full_tag );
+					$options_string = $match[2] ?? '';
+					$options        = self::parse_options( $options_string, $tag_name );
+					$replacement    = $data['return']( $options, $block, $instance );
+					$og_replacement = $replacement; // Keep a copy of this in case it's manipulated via filter.
+					$required       = isset( $options['required'] ) && 'false' === $options['required'] ? false : true;
 
 					/**
 					 * Allow developers to filter the replacement.
@@ -194,9 +193,11 @@ class GenerateBlocks_Register_Dynamic_Tag {
 						]
 					);
 
-					if ( '' === $replacement && ! $render_if_empty ) {
+					// If this tag is required for the block to render and there is no replacement,
+					// we can remove the block and break out of the loop.
+					if ( $required && ! $replacement ) {
 						$content = '';
-						continue;
+						break;
 					}
 
 					/**
