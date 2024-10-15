@@ -77,7 +77,7 @@ function useWpQuery( shouldRequest = true, query ) {
 const defaultDataState = {
 	data: [],
 	isResolvingData: false,
-	hasResolvedData: false,
+	hasResolvedData: true,
 	queryParams: [],
 };
 
@@ -122,7 +122,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		isResolvingData,
 		hasResolvedData,
 	} = dataState;
-	const hasData = useMemo( () => !! ( hasResolvedData && data?.length, [ hasResolvedData, data ] ) );
+	const hasData = hasResolvedData && data?.length;
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
@@ -201,21 +201,23 @@ export function LoopInnerBlocksRenderer( props ) {
 		return ( <h5>{ __( 'No results found.', 'generateblocks' ) }</h5> );
 	}
 
-	return loopItemsContext && loopItemsContext.map( ( loopItemContext, index ) => {
+	return loopItemsContext.length > 0 ? loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
 		const key = `${ loopItemContext.postId }-${ index }`;
 		return (
-			<BlockContextProvider
-				key={ key }
-				value={ loopItemContext }
-			>
-				{ 0 === index
-					? innerBlocksProps.children
-					: (
-						<MemoizedBlockPreview blocks={ innerBlockData } />
-					)
-				}
-			</BlockContextProvider>
+			<>
+				<BlockContextProvider
+					key={ key }
+					value={ loopItemContext }
+				>
+					{ 0 === index
+						? innerBlocksProps.children
+						: (
+							<MemoizedBlockPreview blocks={ innerBlockData } />
+						)
+					}
+				</BlockContextProvider>
+			</>
 		);
-	} );
+	} ) : innerBlocksProps.children;
 }
