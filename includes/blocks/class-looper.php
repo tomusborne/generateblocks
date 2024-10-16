@@ -32,7 +32,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		$query_type = $block->context['generateblocks/queryType'] ?? null;
 		$output     = '';
 
-		if ( GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type && $query_data ) {
+		if ( GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type ) {
 			$output = self::render_wp_query( $query_data, $attributes, $block );
 		}
 
@@ -67,22 +67,38 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		$offset      = $page_index * $per_page;
 		$content     = '';
 
+		// Fallback to support preview in Elements.
+		if ( ! $query ) {
+			return (
+				new WP_Block(
+					$block->parsed_block['innerBlocks'][0],
+					array(
+						'postType'                 => 'post',
+						'postId'                   => 0,
+						'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
+						'generateblocks/loopIndex' => 1,
+						'generateblocks/loopItem'  => [ 'ID' => 0 ],
+					)
+				)
+			)->render( array( 'dynamic' => false ) );
+		}
+
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
 				global $post;
 				// Get the current index of the Loop.
 				$content .= (
-				new WP_Block(
-					$block->parsed_block['innerBlocks'][0],
-					array(
-						'postType'                 => get_post_type(),
-						'postId'                   => get_the_ID(),
-						'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
-						'generateblocks/loopIndex' => $offset + $query->current_post + 1,
-						'generateblocks/loopItem'  => $post,
+					new WP_Block(
+						$block->parsed_block['innerBlocks'][0],
+						array(
+							'postType'                 => get_post_type(),
+							'postId'                   => get_the_ID(),
+							'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
+							'generateblocks/loopIndex' => $offset + $query->current_post + 1,
+							'generateblocks/loopItem'  => $post,
+						)
 					)
-				)
 				)->render( array( 'dynamic' => false ) );
 			}
 

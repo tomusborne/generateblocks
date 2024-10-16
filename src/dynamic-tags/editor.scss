@@ -13,7 +13,13 @@
 	}
 
 	.components-base-control__help {
-		margin: 0;
+		margin-bottom: 0;
+	}
+
+	.components-checkbox-control {
+		.components-base-control__help {
+			margin-top: 0;
+		}
 	}
 
 	.components-base-control__field {
