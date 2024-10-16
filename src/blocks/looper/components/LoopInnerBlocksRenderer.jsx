@@ -197,11 +197,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		return ( <Spinner /> );
 	}
 
-	if ( hasResolvedData && ! hasData ) {
-		return ( <h5>{ __( 'No results found.', 'generateblocks' ) }</h5> );
-	}
-
-	return loopItemsContext.length > 0 ? loopItemsContext.map( ( loopItemContext, index ) => {
+	return ( hasResolvedData && hasData ) ? loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
 		const key = `${ loopItemContext.postId }-${ index }`;
 		return (
@@ -219,5 +215,10 @@ export function LoopInnerBlocksRenderer( props ) {
 				</BlockContextProvider>
 			</>
 		);
-	} ) : innerBlocksProps.children;
+	} ) : (
+		<>
+			<h5>{ __( 'No results found.', 'generateblocks' ) }</h5>
+			{ innerBlocksProps.children }
+		</>
+	);
 }

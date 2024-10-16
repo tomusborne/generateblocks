@@ -166,7 +166,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ linkTo, setLinkTo ] = useState( '' );
 	const [ required, setRequired ] = useState( true );
 	const [ separator, setSeparator ] = useState( '' );
-	const currentPostId = currentPost?.id ?? 0;
+	const contextPostId = context?.postId ?? 0;
+	const currentPostId = contextPostId ? contextPostId : currentPost?.id ?? 0;
 
 	// TODO: Check if we need to do the terms thing anymore now that we're using SelectTerm.
 	const postRecordArgs = useMemo( () => {
