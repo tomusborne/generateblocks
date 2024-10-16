@@ -74,13 +74,6 @@ function useWpQuery( shouldRequest = true, query ) {
 	}, [ JSON.stringify( normalizedQuery ) ] );
 }
 
-const defaultDataState = {
-	data: [],
-	isResolvingData: false,
-	hasResolvedData: true,
-	queryParams: [],
-};
-
 export function LoopInnerBlocksRenderer( props ) {
 	const {
 		clientId,
@@ -90,7 +83,12 @@ export function LoopInnerBlocksRenderer( props ) {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
 	} = context;
-	const [ dataState, setDataState ] = useState( defaultDataState );
+	const [ dataState, setDataState ] = useState( {
+		data: [],
+		isResolvingData: true,
+		hasResolvedData: false,
+		queryParams: [],
+	} );
 
 	const wpQuery = useWpQuery( 'WP_Query' === queryType, query );
 
@@ -113,7 +111,12 @@ export function LoopInnerBlocksRenderer( props ) {
 		} else if ( null !== otherQuery && null === wpQuery ) {
 			setDataState( { ...otherQuery } );
 		} else {
-			setDataState( defaultDataState );
+			setDataState( {
+				data: [],
+				isResolvingData: false,
+				hasResolvedData: true,
+				queryParams: [],
+			} );
 		}
 	}, [ otherQuery, wpQuery ] );
 
@@ -122,7 +125,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		isResolvingData,
 		hasResolvedData,
 	} = dataState;
-	const hasData = hasResolvedData && data?.length;
+	const hasData = ! isResolvingData && hasResolvedData && data?.length;
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
@@ -193,7 +196,7 @@ export function LoopInnerBlocksRenderer( props ) {
 		return [];
 	}, [ data, hasData, query?.per_page ] );
 
-	if ( isResolvingData ) {
+	if ( isResolvingData || ! hasResolvedData ) {
 		return ( <Spinner /> );
 	}
 
@@ -201,19 +204,17 @@ export function LoopInnerBlocksRenderer( props ) {
 		// Include index in case the postId is the same for all loop items.
 		const key = `${ loopItemContext.postId }-${ index }`;
 		return (
-			<>
-				<BlockContextProvider
-					key={ key }
-					value={ loopItemContext }
-				>
-					{ 0 === index
-						? innerBlocksProps.children
-						: (
-							<MemoizedBlockPreview blocks={ innerBlockData } />
-						)
-					}
-				</BlockContextProvider>
-			</>
+			<BlockContextProvider
+				key={ key }
+				value={ loopItemContext }
+			>
+				{ 0 === index
+					? innerBlocksProps.children
+					: (
+						<MemoizedBlockPreview blocks={ innerBlockData } />
+					)
+				}
+			</BlockContextProvider>
 		);
 	} ) : (
 		<>
