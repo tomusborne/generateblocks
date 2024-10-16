@@ -131,7 +131,6 @@ function getVisibleTags( dynamicTags, context ) {
 		}
 
 		if ( visibility?.context ) {
-			console.log( visibility.context, context );
 			return visibility.context.every( ( key ) => context?.[ key ] );
 		}
 
