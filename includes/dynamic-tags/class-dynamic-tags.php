@@ -48,8 +48,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			[
 				'title'    => __( 'Archive Title', 'generateblocks' ),
 				'tag'      => 'archive_title',
-				'type'     => 'post',
-				'supports' => [ 'link', 'source' ],
+				'type'     => 'archive',
+				'supports' => [],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_archive_title' ],
 			]
 		);
