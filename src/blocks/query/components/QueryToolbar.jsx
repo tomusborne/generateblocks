@@ -10,7 +10,7 @@ import { PAGINATION_TEMPLATE, NO_RESULTS_TEMPLATE } from '../templates';
 const paginationIcon = getIcon( 'pagination' );
 const noResultsIcon = getIcon( 'no-results' );
 
-export function PaginationToolbar( { clientId } ) {
+export function QueryToolbar( { clientId } ) {
 	const { insertBlocks } = useDispatch( 'core/block-editor' );
 	return (
 		<BlockControls>

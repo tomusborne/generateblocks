@@ -560,6 +560,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							source={ dynamicSource }
 							sourceId={ postIdSource || userSource || termSource }
 							type={ dynamicTagType }
+							help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
 						/>
 					) }
 
