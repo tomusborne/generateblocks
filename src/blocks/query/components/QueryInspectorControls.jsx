@@ -47,7 +47,7 @@ export function QueryInspectorControls( { attributes, setAttributes } ) {
 			<AdvancedSelect
 				value={ selectedQueryType }
 				options={ queryTypes }
-				onChange={ ( { value } ) => setAttributes( { queryType: value } ) }
+				onChange={ ( { value } ) => setAttributes( { queryType: value, queryData: [], query: [] } ) }
 				label={ __( 'Query Type', 'generateblocks' ) }
 				help={ selectedQueryType?.help }
 			/>

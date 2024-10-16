@@ -7,8 +7,9 @@ import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
 import RootElement from '../../components/root-element/index.js';
 import { TemplateSelector } from '@components/template-selector';
-import { templates } from './templates';
+import { TEMPLATES } from './templates';
 import { BlockSettings } from './components/BlockSettings';
+import { QueryToolbar } from './components/QueryToolbar.jsx';
 import { selectorShortcuts } from '@utils/selectorShortcuts';
 import { withStyles } from '@hoc/withStyles';
 import { BlockAppender, BlockStylesBuilder } from '@components/index';
@@ -98,7 +99,7 @@ function EditBlock( props ) {
 				setAttributes={ setAttributes }
 				label={ __( 'Query', 'generateblocks' ) }
 				instructions={ __( 'Choose a layout to start with.', 'generateblocks' ) }
-				templates={ templates }
+				templates={ TEMPLATES }
 			/>
 		);
 	}
@@ -122,6 +123,7 @@ function EditBlock( props ) {
 					) }
 				/>
 			</InspectorControls>
+			<QueryToolbar clientId={ clientId } />
 			<RootElement
 				name={ name }
 				clientId={ clientId }

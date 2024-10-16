@@ -56,16 +56,23 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 						$query_args['post_type'] = get_post_type( get_the_ID() );
 					}
 				}
+				$data = $wp_query;
+			} else {
+				/**
+				 * Allow users to filter the query args for a custom WP Query. This is ignored
+				 * if the query is inherited from the current
+				 */
+				$query_args = apply_filters(
+					'generateblocks_query_wp_query_args',
+					$query_args,
+					$attributes,
+					$block
+				);
+
+				// Make the new WP_Query with filtered args.
+				$data = new WP_Query( $query_args );
 			}
 
-			$query_args = apply_filters(
-				'generateblocks_query_wp_query_args',
-				$query_args,
-				$attributes,
-				$block
-			);
-
-			$data       = new WP_Query( $query_args );
 			$query_data = [
 				'data'       => $data,
 				'no_results' => 0 === $data->found_posts,

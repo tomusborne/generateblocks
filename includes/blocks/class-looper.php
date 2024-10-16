@@ -70,7 +70,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
-
+				global $post;
 				// Get the current index of the Loop.
 				$content .= (
 				new WP_Block(
@@ -78,9 +78,9 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 					array(
 						'postType'                 => get_post_type(),
 						'postId'                   => get_the_ID(),
-						'generateblocks/queryType' => 'WP_Query',
+						'generateblocks/queryType' => GenerateBlocks_Block_Query::TYPE_WP_QUERY,
 						'generateblocks/loopIndex' => $offset + $query->current_post + 1,
-
+						'generateblocks/loopItem'  => $post,
 					)
 				)
 				)->render( array( 'dynamic' => false ) );

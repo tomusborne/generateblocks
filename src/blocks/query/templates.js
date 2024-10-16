@@ -1,6 +1,6 @@
 import { __ } from '@wordpress/i18n';
 
-const buttonStyles = {
+export const buttonStyles = {
 	paddingTop: '1rem',
 	paddingRight: '1rem',
 	paddingBottom: '1rem',
@@ -25,7 +25,7 @@ const buttonStyles = {
 	fontSize: '14px',
 };
 
-const pagination = [ 'generateblocks/element',
+export const PAGINATION_TEMPLATE = [ 'generateblocks/element',
 	{
 		styles: {
 			display: 'flex',
@@ -85,7 +85,7 @@ const pagination = [ 'generateblocks/element',
 	],
 ];
 
-const noResults = [ 'generateblocks/query-no-results',
+export const NO_RESULTS_TEMPLATE = [ 'generateblocks/query-no-results',
 	{},
 	[
 		[ 'generateblocks/text',
@@ -97,7 +97,7 @@ const noResults = [ 'generateblocks/query-no-results',
 	],
 ];
 
-export const templates = [
+export const TEMPLATES = [
 	{
 		id: 'title-date-excerpt',
 		label: __( 'Title, date, & excerpt', 'generateblocks' ),
@@ -131,8 +131,8 @@ export const templates = [
 					],
 				],
 			],
-			pagination,
-			noResults,
+			PAGINATION_TEMPLATE,
+			NO_RESULTS_TEMPLATE,
 		],
 	},
 	{
@@ -172,8 +172,8 @@ export const templates = [
 					],
 				],
 			],
-			pagination,
-			noResults,
+			PAGINATION_TEMPLATE,
+			NO_RESULTS_TEMPLATE,
 		],
 	},
 	{
@@ -223,8 +223,8 @@ export const templates = [
 					],
 				],
 			],
-			pagination,
-			noResults,
+			PAGINATION_TEMPLATE,
+			NO_RESULTS_TEMPLATE,
 		],
 	},
 	{
@@ -284,8 +284,8 @@ export const templates = [
 					],
 				],
 			],
-			pagination,
-			noResults,
+			PAGINATION_TEMPLATE,
+			NO_RESULTS_TEMPLATE,
 		],
 	},
 	{
