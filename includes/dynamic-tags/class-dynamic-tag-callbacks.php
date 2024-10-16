@@ -197,6 +197,32 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Get the archive title.
+	 *
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
+	 * @return string
+	 */
+	public static function get_archive_title( $options, $block, $instance ) {
+		$output = '';
+
+		if ( is_category() ) {
+			$output = single_cat_title( '', false );
+		} elseif ( is_tag() ) {
+			$output = single_tag_title( '', false );
+		} elseif ( is_author() ) {
+			$output = get_the_author();
+		} elseif ( is_post_type_archive() ) {
+			$output = post_type_archive_title( '', false );
+		} elseif ( is_tax() ) {
+			$output = single_term_title( '', false );
+		}
+
+		return self::output( $output, $options, $instance );
+	}
+
+	/**
 	 * Get the permalink.
 	 *
 	 * @param array  $options The options.

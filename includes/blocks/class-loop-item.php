@@ -25,12 +25,12 @@ class GenerateBlocks_Block_Loop_Item extends GenerateBlocks_Block {
 	 *
 	 * @param array  $attributes    The block attributes.
 	 * @param string $block_content The block content.
-	 * @param array  $block         The block.
+	 * @param object $block         The block.
 	 */
 	public static function render_block( $attributes, $block_content, $block ) {
 		$query_type = $block->context['generateblocks/queryType'] ?? null;
 
-		if ( 'WP_Query' === $query_type ) {
+		if ( GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type ) {
 			$post_classes = get_post_class();
 
 			if ( class_exists( 'WP_HTML_Tag_Processor' ) ) {

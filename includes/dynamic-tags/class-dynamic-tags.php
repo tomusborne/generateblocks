@@ -46,6 +46,53 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'    => __( 'Archive Title', 'generateblocks' ),
+				'tag'      => 'archive_title',
+				'type'     => 'post',
+				'supports' => [ 'link', 'source' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_archive_title' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'      => __( 'Loop Index', 'generateblocks' ),
+				'tag'        => 'loop_index',
+				'type'       => 'looper',
+				'supports'   => [],
+				'visibility' => [
+					'context' => [
+						'generateblocks/loopIndex',
+					],
+				],
+				'options' => [
+					'zeroBased' => [
+						'type'  => 'checkbox',
+						'label' => __( 'Use zero-based index', 'generateblocks' ),
+						'help'  => __( 'Enable this to start the loop index count from 0.', 'generateblocks' ),
+					],
+				],
+				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_index' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'      => __( 'Loop Item', 'generateblocks' ),
+				'tag'        => 'loop_item',
+				'type'       => 'looper',
+				'supports'   => [ 'meta' ],
+				'visibility' => [
+					'context' => [
+						'generateblocks/loopItem',
+					],
+				],
+				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_item' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
 				'title'    => __( 'Post Permalink', 'generateblocks' ),
 				'tag'      => 'post_permalink',
 				'type'     => 'post',
@@ -106,6 +153,36 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'    => __( 'Author Meta', 'generateblocks' ),
+				'tag'      => 'author_meta',
+				'type'     => 'author',
+				'supports' => [ 'meta', 'source' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'    => __( 'Term Meta', 'generateblocks' ),
+				'tag'      => 'term_meta',
+				'type'     => 'term',
+				'supports' => [ 'meta', 'source' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'    => __( 'User Meta', 'generateblocks' ),
+				'tag'      => 'user_meta',
+				'type'     => 'user',
+				'supports' => [ 'meta', 'source' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
 				'title'    => __( 'Previous Posts URL', 'generateblocks' ),
 				'tag'      => 'previous_posts_page_url',
 				'type'     => 'post',
@@ -141,16 +218,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'type'     => 'post',
 				'supports' => [ 'comments', 'source' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_url' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Author Meta', 'generateblocks' ),
-				'tag'      => 'author_meta',
-				'type'     => 'author',
-				'supports' => [ 'meta', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
 			]
 		);
 
@@ -203,63 +270,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
 			]
 		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Term Meta', 'generateblocks' ),
-				'tag'      => 'term_meta',
-				'type'     => 'term',
-				'supports' => [ 'meta', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'User Meta', 'generateblocks' ),
-				'tag'      => 'user_meta',
-				'type'     => 'user',
-				'supports' => [ 'meta', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'      => __( 'Loop Index', 'generateblocks' ),
-				'tag'        => 'loop_index',
-				'type'       => 'looper',
-				'supports'   => [],
-				'visibility' => [
-					'context' => [
-						'generateblocks/loopIndex',
-					],
-				],
-				'options' => [
-					'zeroBased' => [
-						'type'  => 'checkbox',
-						'label' => __( 'Use zero-based index', 'generateblocks' ),
-						'help'  => __( 'Enable this to start the loop index count from 0.', 'generateblocks' ),
-					],
-				],
-				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_index' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'      => __( 'Loop Item', 'generateblocks' ),
-				'tag'        => 'loop_item',
-				'type'       => 'looper',
-				'supports'   => [ 'meta' ],
-				'visibility' => [
-					'context' => [
-						'generateblocks/loopItem',
-					],
-				],
-				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_item' ],
-			]
-		);
 	}
 
 	/**
@@ -284,10 +294,14 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 */
 	public static function get_id( $options, $fallback_type = 'post', $instance = null ) {
 
+		$is_loop_item = $instance->context['generateblocks/loopItem'] ?? false;
+
 		if ( isset( $options['id'] ) ) {
 			$id = absint( $options['id'] );
 		} elseif ( 'user' === $fallback_type ) {
 			$id = get_current_user_id();
+		} elseif ( ! $is_loop_item && ( is_tax() || is_category() || is_tag() || is_archive() ) ) {
+			$id = get_queried_object_id();
 		} else {
 			$id = get_the_ID();
 		}
