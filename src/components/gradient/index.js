@@ -2,7 +2,6 @@
  * Internal dependencies
  */
 import './editor.scss';
-import ColorPicker from '../color-picker';
 import hasNumericValue from '../../utils/has-numeric-value';
 
 /**
@@ -24,6 +23,11 @@ import {
 	RangeControl,
 	SelectControl,
 } from '@wordpress/components';
+
+/**
+ * External dependencies
+ */
+import { ColorPicker } from '@edge22/components';
 
 /**
  * Typography Component

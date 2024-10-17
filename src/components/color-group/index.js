@@ -2,11 +2,11 @@
  * External dependencies
  */
 import { applyFilters } from '@wordpress/hooks';
+import { ColorPicker } from '@edge22/components';
 
 /**
  * Internal dependencies
  */
-import ColorPicker from '../color-picker';
 import './editor.scss';
 
 export default function ColorGroup( props ) {

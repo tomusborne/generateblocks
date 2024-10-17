@@ -1,0 +1,18 @@
+.gb-notice-panel {
+	background-color: #f7f9ff;
+
+	&__header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1em;
+
+		h2 {
+			margin: 0;
+		}
+	}
+
+	& > *:last-child {
+		margin-bottom: 0;
+	}
+}

@@ -45,8 +45,12 @@ jobs:
         if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
+
+      - name: Configure npm for private registry
+        if: steps.js-files.outputs.any_changed == 'true'
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Download deps
         if: steps.js-files.outputs.any_changed == 'true'
@@ -77,8 +81,12 @@ jobs:
         if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
+
+      - name: Configure npm for private registry
+        if: steps.js-files.outputs.any_changed == 'true'
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Download deps
         if: steps.js-files.outputs.any_changed == 'true'
@@ -111,8 +119,12 @@ jobs:
         if: steps.js-files.outputs.any_changed == 'true'
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
           cache: 'npm'
+
+      - name: Configure npm for private registry
+        if: steps.js-files.outputs.any_changed == 'true'
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Download deps
         if: steps.js-files.outputs.any_changed == 'true'
@@ -209,7 +221,10 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 18
+
+      - name: Configure npm for private registry
+        run: echo "//registry.npmjs.org/:_authToken=${{ secrets.NPM_TOKEN }}" > ~/.npmrc
 
       - name: Download deps
         uses: bahmutov/npm-install@v1
