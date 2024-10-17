@@ -4,7 +4,6 @@ import {
 	__experimentalUseBlockPreview as useBlockPreview, // eslint-disable-line @wordpress/no-unsafe-wp-apis
 	store as blockEditorStore,
 } from '@wordpress/block-editor';
-import { __ } from '@wordpress/i18n';
 import { useSelect } from '@wordpress/data';
 import { Spinner } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
@@ -193,16 +192,25 @@ export function LoopInnerBlocksRenderer( props ) {
 			} );
 		}
 
-		return [];
+		// If no data found, return limited context for the preview loop item.
+		return [ {
+			postType: applyFilters( 'generateblocks.editor.looper.fallback.postType', 'post', props ),
+			postId: applyFilters( 'generateblocks.editor.looper.fallback.postId', 0, props ),
+			'generateblocks/loopItem': {
+				ID: 0,
+			},
+			'generateblocks/loopIndex': 1,
+		} ];
 	}, [ data, hasData, query?.per_page ] );
 
 	if ( isResolvingData || ! hasResolvedData ) {
 		return ( <Spinner /> );
 	}
 
-	return ( hasResolvedData && hasData ) ? loopItemsContext.map( ( loopItemContext, index ) => {
+	return hasResolvedData ? loopItemsContext.map( ( loopItemContext, index ) => {
 		// Include index in case the postId is the same for all loop items.
 		const key = `${ loopItemContext.postId }-${ index }`;
+
 		return (
 			<BlockContextProvider
 				key={ key }
@@ -216,10 +224,5 @@ export function LoopInnerBlocksRenderer( props ) {
 				}
 			</BlockContextProvider>
 		);
-	} ) : (
-		<>
-			<h5>{ __( 'No results found.', 'generateblocks' ) }</h5>
-			{ innerBlocksProps.children }
-		</>
-	);
+	} ) : innerBlocksProps.children;
 }

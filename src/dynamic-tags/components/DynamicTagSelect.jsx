@@ -148,8 +148,16 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ termSource, setTermSource ] = useState( '' );
 	const debouncedSetTermSource = useDebounce( setTermSource, 200 );
 	const [ userSource, setUserSource ] = useState( '' );
-	const [ dynamicTag, setDynamicTag ] = useState( '' );
-	const [ dynamicTagData, setDynamicTagData ] = useState( { type: 'post' } );
+	const [ dynamicTag, setDynamicTag ] = useState( () => {
+		if ( 'loop_item' === availableTags[ 0 ]?.tag ) {
+			return availableTags[ 0 ]?.tag;
+		}
+	} );
+	const [ dynamicTagData, setDynamicTagData ] = useState( () => {
+		if ( dynamicTag ) {
+			return allTags.find( ( tag ) => tag.tag === dynamicTag );
+		}
+	} );
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
 	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' );
@@ -465,6 +473,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 				options={ dynamicTagOptions }
 				onChange={ updateDynamicTag }
 				className="gb-dynamic-tag-select"
+				help={ dynamicTagData?.description }
 			/>
 
 			{ !! dynamicTag && (

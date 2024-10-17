@@ -34,23 +34,20 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return void
 	 */
 	public function register() {
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Post Title', 'generateblocks' ),
-				'tag'      => 'post_title',
-				'type'     => 'post',
-				'supports' => [ 'link', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_title' ],
-			]
-		);
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'    => __( 'Archive Title', 'generateblocks' ),
-				'tag'      => 'archive_title',
-				'type'     => 'archive',
-				'supports' => [],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_archive_title' ],
+				'title'      => __( 'Loop Item', 'generateblocks' ),
+				'tag'        => 'loop_item',
+				'type'       => 'looper',
+				'supports'   => [ 'meta' ],
+				'visibility' => [
+					'context' => [
+						'generateblocks/loopItem',
+					],
+				],
+				'description' => __( 'The current loop item data.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_item' ],
 			]
 		);
 
@@ -72,22 +69,29 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'help'  => __( 'Enable this to start the loop index count from 0.', 'generateblocks' ),
 					],
 				],
-				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_index' ],
+				'description' => __( 'The numbered index of the loop item.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_index' ],
 			]
 		);
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'      => __( 'Loop Item', 'generateblocks' ),
-				'tag'        => 'loop_item',
-				'type'       => 'looper',
-				'supports'   => [ 'meta' ],
-				'visibility' => [
-					'context' => [
-						'generateblocks/loopItem',
-					],
-				],
-				'return'  => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_item' ],
+				'title'    => __( 'Post Title', 'generateblocks' ),
+				'tag'      => 'post_title',
+				'type'     => 'post',
+				'supports' => [ 'link', 'source' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_title' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
+				'title'       => __( 'Archive Title', 'generateblocks' ),
+				'tag'         => 'archive_title',
+				'type'        => 'archive',
+				'supports'    => [],
+				'description' => __( 'Get the title for the current archive being viewed.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_archive_title' ],
 			]
 		);
 
@@ -143,41 +147,45 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'    => __( 'Post Meta', 'generateblocks' ),
-				'tag'      => 'post_meta',
-				'type'     => 'post',
-				'supports' => [ 'meta', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
+				'title'       => __( 'Post Meta', 'generateblocks' ),
+				'tag'         => 'post_meta',
+				'type'        => 'post',
+				'supports'    => [ 'meta', 'source' ],
+				'description' => __( 'Access post meta by key for the specified post. Return value must be a string.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
 			]
 		);
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'    => __( 'Author Meta', 'generateblocks' ),
-				'tag'      => 'author_meta',
-				'type'     => 'author',
-				'supports' => [ 'meta', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
+				'title'       => __( 'Author Meta', 'generateblocks' ),
+				'tag'         => 'author_meta',
+				'type'        => 'author',
+				'supports'    => [ 'meta', 'source' ],
+				'description' => __( 'Access user meta by key for the author of the specified post. Return value must be a string.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
 			]
 		);
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'    => __( 'Term Meta', 'generateblocks' ),
-				'tag'      => 'term_meta',
-				'type'     => 'term',
-				'supports' => [ 'meta', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
+				'title'       => __( 'Term Meta', 'generateblocks' ),
+				'tag'         => 'term_meta',
+				'type'        => 'term',
+				'supports'    => [ 'meta', 'source' ],
+				'description' => __( 'Access term meta by key for the specified term. Return value must be a string.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
 			]
 		);
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'    => __( 'User Meta', 'generateblocks' ),
-				'tag'      => 'user_meta',
-				'type'     => 'user',
-				'supports' => [ 'meta', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
+				'title'       => __( 'User Meta', 'generateblocks' ),
+				'tag'         => 'user_meta',
+				'type'        => 'user',
+				'supports'    => [ 'meta', 'source' ],
+				'description' => __( 'Access user meta by key for the specified user. Return value must be a string.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
 			]
 		);
 
@@ -263,11 +271,12 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'    => __( 'Term List', 'generateblocks' ),
-				'tag'      => 'term_list',
-				'type'     => 'term',
-				'supports' => [ 'link', 'source' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
+				'title'       => __( 'Term List', 'generateblocks' ),
+				'tag'         => 'term_list',
+				'type'        => 'term',
+				'supports'    => [ 'link', 'source' ],
+				'description' => __( 'Get a list of terms for the specified post.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
 			]
 		);
 	}
