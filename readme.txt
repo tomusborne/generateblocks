@@ -1,4 +1,4 @@
-=== GenerateBlocks ===
+#=== GenerateBlocks ===
 Contributors: edge22
 Donate link: https://generatepress.com
 Tags: blocks, gutenberg, editor, page builder, posts
