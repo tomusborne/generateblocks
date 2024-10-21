@@ -9,6 +9,7 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 		preview,
 		label,
 		scripts = [],
+		styles = [],
 	} = pattern;
 	const iframeRef = useRef();
 	const elementRef = useRef();
@@ -73,6 +74,13 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 			document.head.appendChild( scriptElement );
 		} );
 
+		styles.forEach( ( style ) => {
+			const styleElement = document.createElement( 'link' );
+			styleElement.rel = 'stylesheet';
+			styleElement.href = style;
+			document.head.appendChild( styleElement );
+		} );
+
 		document.body.innerHTML = preview;
 		document.head.innerHTML += '<style id="block-active"></style>';
 		document.head.innerHTML += '<style id="pattern-styles"></style>';
@@ -97,10 +105,10 @@ export default function Pattern( { pattern, isLoading, isActive = false, globalS
 			return;
 		}
 
-		const styles = getComputedStyle( editorStylesWrapper );
+		const editorStyles = getComputedStyle( editorStylesWrapper );
 
-		if ( styles ) {
-			setEditorColors( { background: styles.backgroundColor, text: styles.color } );
+		if ( editorStyles ) {
+			setEditorColors( { background: editorStyles.backgroundColor, text: editorStyles.color } );
 		}
 	}, [ editorStylesWrapper?.style ] );
 
