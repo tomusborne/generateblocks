@@ -1,0 +1,15 @@
+.gb-url-controls {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+
+	&__link {
+		&-input {
+			min-width: auto;
+
+			input[type="text"] {
+				width: 100%;
+			}
+		}
+	}
+}
