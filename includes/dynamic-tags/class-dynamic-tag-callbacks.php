@@ -521,7 +521,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 				if ( ! $meta && $parent_name ) {
 					return self::get_userdata( $user_id )[ $parent_name ] ?? '';
 				}
-			}
+			},
+			10,
+			4
 		);
 
 		$value = GenerateBlocks_Meta_Handler::get_user_meta( $user_id, $key );
