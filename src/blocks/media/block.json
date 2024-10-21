@@ -22,7 +22,10 @@
 		},
 		"styles": {
 			"type": "object",
-			"default": {}
+			"default": {
+				"height": "auto",
+				"maxWidth": "100%"
+			}
 		},
 		"css": {
 			"type": "string",
