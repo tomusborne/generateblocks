@@ -1,0 +1,65 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "generateblocks/media",
+  "title": "Image",
+  "category": "generateblocks",
+  "description": "A self-closing media element.",
+  "keywords": [
+    "element",
+    "container",
+    "group"
+  ],
+  "version": "1.0.0",
+  "textdomain": "generateblocks",
+  "attributes": {
+    "uniqueId": {
+      "type": "string",
+      "default": ""
+    },
+    "tagName": {
+      "type": "string",
+      "default": "",
+      "enum": [
+        "img"
+      ]
+    },
+    "styles": {
+      "type": "object",
+      "default": {}
+    },
+    "css": {
+      "type": "string",
+      "default": ""
+    },
+    "globalClasses": {
+      "type": "array",
+      "default": []
+    },
+    "htmlAttributes": {
+      "type": "object",
+      "default": {}
+    },
+    "mediaId": {
+      "type": "number",
+      "default": 0
+    },
+    "linkHtmlAttributes": {
+      "type": "object",
+      "default": {}
+    }
+  },
+  "supports": {
+    "align": false,
+    "className": false
+  },
+  "editorScript": "file:./index.js",
+  "editorStyle": [
+    "file:./index.css"
+  ],
+  "usesContext": [
+    "postId",
+    "generateblocks/loopItem",
+    "generateblocks/loopIndex"
+  ]
+}

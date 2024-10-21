@@ -15,7 +15,7 @@ import { InnerBlocks } from '@wordpress/block-editor';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
 import { getBlockAttributes } from '../../block-context';
 import containerContext from '../../block-context/container';
-import transforms from './transforms';
+import { transforms } from './transforms';
 
 const attributes = Object.assign(
 	{},

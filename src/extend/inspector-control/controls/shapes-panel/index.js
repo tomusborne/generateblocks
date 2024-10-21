@@ -15,9 +15,9 @@ import {
 	TextControl, ToggleControl,
 	Tooltip,
 } from '@wordpress/components';
-import ColorPicker from '../../../../components/color-picker';
 import UnitPicker from '../../../../components/unit-picker';
 import getDeviceType from '../../../../utils/get-device-type';
+import { ColorPicker } from '@edge22/components';
 
 export default function ShapesPanel( { attributes, setAttributes } ) {
 	const { id } = useContext( ControlsContext );

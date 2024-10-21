@@ -2,6 +2,11 @@ import { Button } from '@wordpress/components';
 import { close, arrowLeft } from '@wordpress/icons';
 import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useRef } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
+import { doAction } from '@wordpress/hooks';
+
+import classnames from 'classnames';
+
 import CategoryList from './category-list';
 import LibrarySelector from './library-selector';
 import { useLibrary } from './library-provider';
@@ -12,11 +17,10 @@ import { PatternDetailsHeader } from './pattern-details-header';
 import LibraryCache from './library-cache';
 import ManageLibraries from './manage-libraries';
 import getIcon from '../../utils/get-icon';
-import { doAction } from '@wordpress/hooks';
 
 const searchCache = {};
 
-export default function LibraryLayout( { closeModal } ) {
+export default function LibraryLayout( { closeModal, readOnly } ) {
 	const {
 		activePatternId,
 		setActivePatternId,
@@ -94,19 +98,20 @@ export default function LibraryLayout( { closeModal } ) {
 				<div className="gb-pattern-library__header-title">
 					{ ! activePatternId
 						? <h1>{ getIcon( 'generateblocks' ) } { __( 'Pattern Library', 'generateblocks' ) }</h1>
-						: <h1>{ activePattern.label }</h1>
+						: <h1>{ decodeEntities( activePattern.label ) }</h1>
 					}
 				</div>
 
 				<div className="gb-pattern-library__header-action">
 					{ ! activePatternId
-						? <LibrarySelector />
+						? <LibrarySelector readOnly={ readOnly } />
 						: (
 							<PatternDetailsHeader
 								pattern={ activePattern }
 								bulkInsertEnabled={ bulkInsertEnabled }
 								globalStyleData={ globalStyleData }
 								closeModal={ closeModal }
+								readOnly={ readOnly }
 							/>
 						)
 					}
@@ -116,18 +121,24 @@ export default function LibraryLayout( { closeModal } ) {
 					{ ! activePatternId
 						? (
 							<>
-								<LibraryCache
-									setCacheIsClearing={ setCacheIsClearing }
-									cacheIsClearing={ cacheIsClearing }
-								/>
-								<ManageLibraries />
-								<Button
-									variant="tertiary"
-									icon={ close }
-									label={ __( 'Close Pattern Library', 'generateblocks' ) }
-									showTooltip={ true }
-									onClick={ closeModal }
-								/>
+								{ ! readOnly && (
+									<>
+										<LibraryCache
+											setCacheIsClearing={ setCacheIsClearing }
+											cacheIsClearing={ cacheIsClearing }
+										/>
+										<ManageLibraries />
+									</>
+								) }
+								{ typeof closeModal === 'function' && (
+									<Button
+										variant="tertiary"
+										icon={ close }
+										label={ __( 'Close Pattern Library', 'generateblocks' ) }
+										showTooltip={ true }
+										onClick={ closeModal }
+									/>
+								) }
 							</>
 						) : (
 							<Button
@@ -175,26 +186,33 @@ export default function LibraryLayout( { closeModal } ) {
 						selectedPatterns={ selectedPatterns }
 					/>
 
-					{ ! bulkInsertEnabled ? (
-						<Button
-							variant="primary"
-							onClick={ () => setBulkInsertEnabled( true ) }
-						>
-							{ __( 'Bulk Insert', 'generateblocks' ) }
-						</Button>
-					) : (
-						<SelectedPatterns
-							closeModal={ closeModal }
-							globalStyleData={ globalStyleData }
-							setBulkInsertEnabled={ setBulkInsertEnabled }
-							filteredPatterns={ filteredPatterns }
-						/>
+					{ ! readOnly && (
+						<>
+							{ ! bulkInsertEnabled ? (
+								<Button
+									variant="primary"
+									onClick={ () => setBulkInsertEnabled( true ) }
+								>
+									{ __( 'Bulk Insert', 'generateblocks' ) }
+								</Button>
+							) : (
+								<SelectedPatterns
+									closeModal={ closeModal }
+									globalStyleData={ globalStyleData }
+									setBulkInsertEnabled={ setBulkInsertEnabled }
+									filteredPatterns={ filteredPatterns }
+								/>
+							) }
+						</>
 					) }
 				</>
 				}
 			</div>
 			<div
-				className="gb-pattern-library__content"
+				className={ classnames( {
+					'gb-pattern-library__content': true,
+					'gb-pattern-library__content--active': activePatternId,
+				} ) }
 				style={ contentStyles }
 				ref={ patternContentRef }
 			>
@@ -204,6 +222,7 @@ export default function LibraryLayout( { closeModal } ) {
 					closeModal={ closeModal }
 					globalStyleCSS={ globalStyleCSS }
 					globalStyleData={ globalStyleData }
+					readOnly={ readOnly }
 				/>
 			</div>
 		</div>

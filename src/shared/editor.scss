@@ -33,40 +33,40 @@
 }
 
 .gblocks-control-tabs .components-tab-panel__tabs {
-    display: flex;
-    flex-wrap: wrap;
-    margin-bottom: 15px;
-    border-bottom: 1px solid #e8eaeb;
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 15px;
+	border-bottom: 1px solid #e8eaeb;
 }
 
 .gblocks-control-tabs .components-tab-panel__tabs button {
-    padding: 8px;
-    height: auto;
-    margin: 0;
-    margin-bottom: -1px;
-    cursor: pointer;
-    border: none;
-    border: 0;
-    border-radius: 0;
-    outline-offset: -1px;
-    flex: 1;
-    justify-content: center;
-    font-size: 11px;
-    font-weight: 400;
+	padding: 8px;
+	height: auto;
+	margin: 0;
+	margin-bottom: -1px;
+	cursor: pointer;
+	border: none;
+	border: 0;
+	border-radius: 0;
+	outline-offset: -1px;
+	flex: 1;
+	justify-content: center;
+	font-size: 11px;
+	font-weight: 400;
 
-    &.active-tab {
-        position: relative;
-        z-index: 1;
-        background: #222 !important;
-        color: #fff !important;
-        box-shadow: 0 0 0 !important;
-    }
+	&.active-tab {
+		position: relative;
+		z-index: 1;
+		background: #222 !important;
+		color: #fff !important;
+		box-shadow: 0 0 0 !important;
+	}
 }
 
 .gblocks-block-control-icon svg {
-    margin-right: 0 !important;
+	margin-right: 0 !important;
 	margin-left: 0 !important;
-    padding: 2px;
+	padding: 2px;
 }
 
 .gblocks-block-control-icon.gblocks-add-grid-item svg {
@@ -74,15 +74,15 @@
 }
 
 .gblocks-block-control-icon svg path {
-    fill: inherit;
+	fill: inherit;
 }
 
 .gblocks-option-notice.components-notice {
-    margin: 0 0 24px;
+	margin: 0 0 24px;
 
-    .components-notice__content {
-        margin: 5px;
-    }
+	.components-notice__content {
+		margin: 5px;
+	}
 }
 
 .gblocks-small-notice-description {
@@ -92,8 +92,8 @@
 }
 
 .gblocks-utility-label {
-    display: flex;
-    align-items: flex-end;
+	display: flex;
+	align-items: flex-end;
 	margin-bottom: 5px;
 
 	label {
@@ -132,18 +132,18 @@
 	position: relative;
 }
 
-.gblocks-block-icon {
-	path {
-		fill: #1e72bd;
+.block-editor-list-view-leaf {
+	:is(.gb-block-icon, .gblocks-block-icon) {
+		color: #1e72bd;
+	}
+
+	&.is-selected :is(.gb-block-icon, .gblocks-block-icon) {
+		color: currentColor;
 	}
 }
 
-.block-editor-list-view-leaf.is-selected .gblocks-block-icon path {
-    fill: currentColor;
-}
-
 .gblocks-action-panel {
-    padding: 0 !important;
+	padding: 0 !important;
 
 	.components-panel__body-title {
 		margin: 0 !important;
@@ -175,7 +175,7 @@
 		font-size: 12px;
 
 		&.is-inherited {
-			background: rgba(0,0,0,0.07);
+			background: rgba(0, 0, 0, 0.07);
 		}
 
 		svg {
@@ -183,4 +183,3 @@
 		}
 	}
 }
-

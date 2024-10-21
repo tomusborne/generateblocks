@@ -1,6 +1,7 @@
 import { registerPlugin } from '@wordpress/plugins';
 import { __ } from '@wordpress/i18n';
-import { PluginSidebar, store as editPostStore } from '@wordpress/edit-post';
+import { store as editPostStore } from '@wordpress/edit-post';
+import { PluginSidebar } from '@wordpress/editor';
 import { applyFilters } from '@wordpress/hooks';
 import { useState } from '@wordpress/element';
 import './editor.scss';
