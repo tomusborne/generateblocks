@@ -22,6 +22,11 @@ registerBlockVariation(
 		title: 'Image',
 		attributes: {
 			tagName: 'img',
+			styles: {
+				height: 'auto',
+				maxWidth: '100%',
+				objectFit: 'cover',
+			},
 		},
 		isActive: ( blockAttributes ) => 'img' === blockAttributes.tagName,
 		isDefault: true,
