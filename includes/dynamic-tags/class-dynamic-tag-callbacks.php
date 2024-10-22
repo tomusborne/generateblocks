@@ -557,14 +557,62 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		return self::output( $output, $options, $instance );
 	}
 
+	/**
+	 * Get the author avatar URL.
+	 *
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
+	 * @return string
+	 */
+	public static function get_author_avatar_url( $options, $block, $instance ) {
+		$id            = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$size          = $options['size'] ?? null;
+		$default       = $options['default'] ?? null;
+		$user_id       = get_post_field( 'post_author', $id );
+		$force_default = $options['forceDefault'] ?? null;
+		$rating        = $options['rating'] ?? null;
+		$output        = '';
+
+		if ( ! $user_id ) {
+			return self::output( $output, $options, $instance );
+		}
+
+		$args = [];
+
+		if ( $size ) {
+			$args['size'] = $size;
+		}
+
+		if ( $default ) {
+			$args['default'] = $default;
+		}
+
+		// This is false by default so only add the arg if it's true.
+		if ( $force_default ) {
+			$args['force_default'] = $force_default;
+		}
+
+		if ( $rating ) {
+			$args['rating'] = $rating;
+		}
+
+		$output = get_avatar_url( $user_id, $args );
+
+		return self::output( $output, $options, $instance );
+	}
+
 
 	/**
 	 * Get the current year.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
+	 *
 	 * @return string
 	 */
-	public static function get_current_year( $options ) {
+	public static function get_current_year( $options, $block, $instance ) {
 		$output = wp_date( 'Y' );
 
 		return self::output( $output, $options, $instance );
@@ -573,10 +621,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the site title from settings.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
 	 * @return string
 	 */
-	public static function get_site_title( $options ) {
+	public static function get_site_title( $options, $block, $instance ) {
 		$output = get_option( 'blogname' );
 
 		return self::output( $output, $options, $instance );
@@ -585,10 +635,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the site tagline from settings.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
 	 * @return string
 	 */
-	public static function get_site_tagline( $options ) {
+	public static function get_site_tagline( $options, $block, $instance ) {
 		$output = get_option( 'blogdescription' );
 
 		return self::output( $output, $options, $instance );

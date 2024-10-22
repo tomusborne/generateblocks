@@ -63,14 +63,19 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 	}
 
 	return Object.entries( options ).map( ( option ) => {
-		const { type, label, help, choices } = option[ 1 ];
+		const { type, label, help, options: choices } = option[ 1 ];
 
 		function handleChange( newValue ) {
 			return setExtraTagParams( ( prevState ) => {
-				return {
-					...prevState,
-					[ option[ 0 ] ]: newValue,
-				};
+				const newState = { ...prevState };
+
+				if ( newValue ) {
+					newState[ option[ 0 ] ] = newValue;
+				} else {
+					delete newState[ option[ 0 ] ];
+				}
+
+				return newState;
 			} );
 		}
 
@@ -94,7 +99,26 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 		}
 
 		if ( Array.isArray( choices ) ) {
-			props.options = choices;
+			props.options = [
+				{
+					value: '',
+					label: __( 'Default', 'generateblocks' ),
+				},
+				...choices.map( ( choice ) => {
+					if ( 'object' === typeof choice ) {
+						return {
+							value: choice.value,
+							label: choice?.label ?? choice.value,
+						};
+					}
+
+					return { label: choice, value: choice };
+				} ),
+			];
+		}
+
+		if ( 'number' === type ) {
+			props.type = 'number';
 		}
 
 		if ( 'checkbox' === type ) {

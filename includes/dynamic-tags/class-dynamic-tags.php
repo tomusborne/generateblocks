@@ -241,6 +241,53 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'    => __( 'Author Avatar URL', 'generateblocks' ),
+				'tag'      => 'author_avatar_url',
+				'type'     => 'author',
+				'supports' => [ 'source' ],
+				'options'  => [
+					'size' => [
+						'type'  => 'number',
+						'label' => __( 'Avatar Size', 'generateblocks' ),
+						'help'  => __( 'Enter the image size in pixels. Default: 96' ),
+					],
+					'default' => [
+						'type'  => 'select',
+						'label' => __( 'Default URL', 'generateblocks' ),
+						'options' => [
+							'404',
+							'retro',
+							'robohash',
+							'monsterid',
+							'wavatar',
+							'identicon',
+							'mystery',
+							'blank',
+							'gravatar_default',
+						],
+					],
+					'forceDefault' => [
+						'type'  => 'checkbox',
+						'label' => __( 'Force default avatar', 'generateblocks' ),
+						'help'  => __( 'Check this box to show the default URL instead of the actual avatar URL.' ),
+					],
+					'rating' => [
+						'type'    => 'select',
+						'label'   => __( 'Rating', 'generateblocks' ),
+						'options' => [
+							'G',
+							'PG',
+							'R',
+							'X',
+						],
+					],
+				],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_avatar_url' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
 				'title'    => __( 'Current year', 'generateblocks' ),
 				'tag'      => 'current_year',
 				'type'     => 'site',
