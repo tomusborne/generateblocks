@@ -509,23 +509,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return self::output( $output, $options, $instance );
 		}
 
-		add_filter(
-			'generateblocks_get_meta_object',
-			function ( $meta, $id, $meta_key, $callable ) use ( $user_id ) {
-				$parent_name = explode( '.', $meta_key ) [0];
-
-				if ( 'get_user_meta' !== $callable ) {
-					return $meta;
-				}
-
-				if ( ! $meta && $parent_name ) {
-					return self::get_userdata( $user_id )[ $parent_name ] ?? '';
-				}
-			},
-			10,
-			4
-		);
-
 		$value = GenerateBlocks_Meta_Handler::get_user_meta( $user_id, $key );
 
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
