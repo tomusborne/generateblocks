@@ -61,7 +61,7 @@ class GenerateBlocks_Block_Looper extends GenerateBlocks_Block {
 	public static function render_wp_query( $query, $attributes, $block ) {
 		$query_id    = $block->context['generateblocks/queryId'] ?? null;
 		$page_key    = $query_id ? 'query-' . $query_id . '-page' : 'query-page';
-		$per_page    = $query->query_vars['posts_per_page'] ?? 10;
+		$per_page    = $query->query_vars['posts_per_page'] ?? get_option( 'posts_per_page', 10 );
 		$page        = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
 		$page_index  = $page - 1; // Zero based index for pages.
 		$offset      = $page_index * $per_page;
