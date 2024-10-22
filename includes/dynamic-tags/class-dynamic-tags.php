@@ -169,6 +169,17 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'       => __( 'Author Avatar URL', 'generateblocks' ),
+				'tag'         => 'author_avatar_url',
+				'type'        => 'post',
+				'supports'    => [ 'source' ],
+				'description' => __( 'Get the avatar URL for a specific author.', 'generateblocks' ),
+				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_avatar_url' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
 				'title'       => __( 'Term Meta', 'generateblocks' ),
 				'tag'         => 'term_meta',
 				'type'        => 'term',

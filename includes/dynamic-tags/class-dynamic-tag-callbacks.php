@@ -314,6 +314,21 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Get the author avatar URL.
+	 *
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
+	 */
+	public static function get_author_avatar_url( $options, $block, $instance ) {
+		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$size   = $options['size'] ?? 96;
+		$output = get_avatar_url( $id, [ 'size' => $size ] );
+
+		return self::output( $output, $options, $instance );
+	}
+
+	/**
 	 * Get the post meta.
 	 *
 	 * @param array  $options The options.
