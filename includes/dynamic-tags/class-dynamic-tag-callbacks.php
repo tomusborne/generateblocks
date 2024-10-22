@@ -314,6 +314,21 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
+	 * Get the author avatar URL.
+	 *
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
+	 */
+	public static function get_author_avatar_url( $options, $block, $instance ) {
+		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$size   = $options['size'] ?? 96;
+		$output = get_avatar_url( $id, [ 'size' => $size ] );
+
+		return self::output( $output, $options, $instance );
+	}
+
+	/**
 	 * Get the post meta.
 	 *
 	 * @param array  $options The options.
@@ -508,23 +523,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		if ( ! $user_id || ! $key ) {
 			return self::output( $output, $options, $instance );
 		}
-
-		add_filter(
-			'generateblocks_get_meta_object',
-			function ( $meta, $id, $meta_key, $callable ) use ( $user_id ) {
-				$parent_name = explode( '.', $meta_key ) [0];
-
-				if ( 'get_user_meta' !== $callable ) {
-					return $meta;
-				}
-
-				if ( ! $meta && $parent_name ) {
-					return self::get_userdata( $user_id )[ $parent_name ] ?? '';
-				}
-			},
-			10,
-			4
-		);
 
 		$value = GenerateBlocks_Meta_Handler::get_user_meta( $user_id, $key );
 
