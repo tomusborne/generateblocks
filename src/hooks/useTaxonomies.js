@@ -1,10 +1,16 @@
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 
-export default () => (
-	useSelect( ( select ) => {
+export function useTaxonomies( postType ) {
+	return useSelect( ( select ) => {
 		const { getTaxonomies } = select( coreStore );
 
-		return getTaxonomies( { per_page: -1 } ) || [];
-	}, [] )
-);
+		const args = { per_page: -1 };
+
+		if ( postType ) {
+			args.type = postType;
+		}
+
+		return getTaxonomies( args ) || [];
+	}, [] );
+}

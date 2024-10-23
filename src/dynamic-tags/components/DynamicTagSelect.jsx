@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from '@wordpress/element';
+import { useState, useEffect, useMemo, useCallback } from '@wordpress/element';
 import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useDebounce } from '@wordpress/compose';
@@ -47,7 +47,13 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 	}
 
 	return Object.entries( options ).map( ( option ) => {
-		const { type, label, help, options: choices } = option[ 1 ];
+		const {
+			type,
+			label,
+			help,
+			options: choices,
+			placeholder = '',
+		} = option[ 1 ];
 
 		function handleChange( newValue ) {
 			return setExtraTagParams( ( prevState ) => {
@@ -63,11 +69,13 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 			} );
 		}
 
-		const value = extraTagParams?.[ option[ 0 ] ];
+		const value = extraTagParams?.[ option[ 0 ] ] ?? '';
+
 		const props = {
 			label,
 			help,
 			value,
+			placeholder,
 			onChange: handleChange,
 		};
 
@@ -184,6 +192,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		if ( 'loop_item' === availableTags[ 0 ]?.tag ) {
 			return availableTags[ 0 ]?.tag;
 		}
+
+		return '';
 	} );
 	const [ dynamicTagData, setDynamicTagData ] = useState( () => {
 		if ( dynamicTag ) {
@@ -197,17 +207,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
 	const [ metaKey, setMetaKey ] = useState( '' );
 	const debouncedSetMetaKey = useDebounce( setMetaKey, 200 );
-	const [ commentsCountText, setCommentsCountText ] = useState( {
-		none: __( 'No comments', 'generateblocks' ),
-		one: __( 'One comment', 'generateblocks' ),
-		// translators: %s: number of comments
-		multiple: __( '%s comments', 'generateblocks' ),
-	} );
 	const [ linkTo, setLinkTo ] = useState( '' );
 	const [ linkToKey, setLinkToKey ] = useState( '' );
 	const debouncedSetLinkToKey = useDebounce( setLinkToKey, 200 );
 	const [ required, setRequired ] = useState( true );
-	const [ separator, setSeparator ] = useState( '' );
 	const contextPostId = context?.postId ?? 0;
 	const currentPostId = contextPostId ? contextPostId : currentPost?.id ?? 0;
 
@@ -263,7 +266,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	} );
 	const { record: userRecord } = useUserRecord( userSource );
 
-	function updateDynamicTag( newTag ) {
+	const updateDynamicTag = useCallback( function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
 		const tagData = allTags.find( ( tag ) => tag.tag === newTag );
 		setDynamicTagData( tagData );
@@ -274,9 +277,21 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		setTermSource( '' );
 		setUserSource( '' );
 		setMetaKey( '' );
+		setExtraTagParams( {} );
 
 		return tagData;
-	}
+	}, {
+		setDynamicTag,
+		setDynamicTagData,
+		setLinkTo,
+		setDynamicSource,
+		setPostIdSource,
+		setTaxonomySource,
+		setTermSource,
+		setUserSource,
+		setMetaKey,
+		setExtraTagParams,
+	} );
 
 	/**
 	 * If there's an existing value we're highlighting, fill in our fields with the
@@ -304,7 +319,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			multiple = null,
 			link = null,
 			required: requiredParam = true,
-			sep = null,
 			tax = null,
 			...extraParams
 		} = parsedTag?.params;
@@ -326,30 +340,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setMetaKey( key );
 		}
 
-		if ( 'comments_count' === tag ) {
-			const existingCommentsCountText = { ...commentsCountText };
-
-			if ( none ) {
-				existingCommentsCountText.none = none;
-			}
-
-			if ( one ) {
-				existingCommentsCountText.one = one;
-			}
-
-			if ( multiple ) {
-				existingCommentsCountText.multiple = multiple;
-			}
-
-			setCommentsCountText( existingCommentsCountText );
-		}
-
 		if ( tax ) {
 			setTaxonomySource( tax );
-		}
-
-		if ( sep ) {
-			setSeparator( sep );
 		}
 
 		if ( link ) {
@@ -401,12 +393,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `key:${ metaKey }` );
 		}
 
-		if ( dynamicTag.startsWith( 'comments_count' ) ) {
-			options.push( `none:${ commentsCountText.none }` );
-			options.push( `one:${ commentsCountText.one }` );
-			options.push( `multiple:${ commentsCountText.multiple }` );
-		}
-
 		if ( linkTo && dynamicTagSupports.includes( 'link' ) ) {
 			const linkToValues = [ linkTo ];
 
@@ -415,10 +401,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			}
 
 			options.push( `link:${ linkToValues.join( ',' ) }` );
-		}
-
-		if ( dynamicTag.startsWith( 'term_list' ) && separator ) {
-			options.push( `sep:${ separator }` );
 		}
 
 		if ( ! required ) {
@@ -462,13 +444,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		dynamicTagType,
 		dynamicTagSupports,
 		metaKey,
-		commentsCountText,
 		linkTo,
 		linkToKey,
 		required,
 		taxonomySource,
 		termSource,
-		separator,
 		extraTagParams,
 	] );
 
@@ -599,6 +579,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					{ 'term' === dynamicTagType && (
 						<SelectTaxonomy
 							onChange={ setTaxonomySource }
+							postType={ record?.post_type ?? currentPost?.type }
 							value={ taxonomySource }
 						/>
 					) }
@@ -635,38 +616,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							type={ dynamicTagType }
 							help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
 						/>
-					) }
-
-					{ dynamicTagToInsert.startsWith( '{comments_count' ) && (
-						<>
-							<TextControl
-								label={ __( 'No comments text', 'generateblocks' ) }
-								value={ commentsCountText.none }
-								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, none: value } ) }
-							/>
-
-							<TextControl
-								label={ __( 'One comment text', 'generateblocks' ) }
-								value={ commentsCountText.one }
-								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, one: value } ) }
-							/>
-
-							<TextControl
-								label={ __( 'Multiple comments text', 'generateblocks' ) }
-								value={ commentsCountText.multiple }
-								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, multiple: value } ) }
-							/>
-						</>
-					) }
-
-					{ dynamicTagToInsert.startsWith( '{term_list' ) && (
-						<>
-							<TextControl
-								label={ __( 'Separator', 'generateblocks' ) }
-								value={ separator }
-								onChange={ setSeparator }
-							/>
-						</>
 					) }
 
 					{ tagSpecificControls }

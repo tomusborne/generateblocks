@@ -194,7 +194,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Previous Posts URL', 'generateblocks' ),
 				'tag'      => 'previous_posts_page_url',
 				'type'     => 'post',
-				'supports' => [ 'source' ],
+				'supports' => [ 'source', 'instant-pagination' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_previous_posts_page_url' ],
 			]
 		);
@@ -204,7 +204,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Next Posts URL', 'generateblocks' ),
 				'tag'      => 'next_posts_page_url',
 				'type'     => 'post',
-				'supports' => [ 'source' ],
+				'supports' => [ 'source', 'instant-pagination' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
 			]
 		);
@@ -215,6 +215,24 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'tag'      => 'comments_count',
 				'type'     => 'post',
 				'supports' => [ 'link', 'comments', 'source' ],
+				'options'  => [
+					'none' => [
+						'label'       => __( 'No comments text', 'generateblocks' ),
+						'placeholder' => __( 'No comments', 'generateblocks' ),
+						'type'        => 'text',
+					],
+					'one' => [
+						'label'       => __( 'One comment text', 'generateblocks' ),
+						'placeholder' => __( 'One comment', 'generateblocks' ),
+						'type'        => 'text',
+					],
+					'multiple' => [
+						'label'       => __( 'Multiple comments text', 'generateblocks' ),
+						// Translators: %s is the number of comments.
+						'placeholder' => __( '%s comments', 'generateblocks' ),
+						'type'        => 'text',
+					],
+				],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_the_comments_count' ],
 			]
 		);
@@ -323,6 +341,14 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'type'        => 'term',
 				'supports'    => [ 'link', 'source' ],
 				'description' => __( 'Get a list of terms for the specified post.', 'generateblocks' ),
+				'options'     => [
+					'sep' => [
+						'type'        => 'text',
+						'label'       => __( 'Separator', 'generateblocks' ),
+						'placeholder' => ', ',
+						'help'        => __( 'Enter the separator between terms. Default: ", ".' ),
+					],
+				],
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
 			]
 		);
@@ -673,30 +699,29 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public function before_tag_replace( $content, $args ) {
-		if (
-			generateblocks_str_contains( $content, '{previous_posts_page_url' ) ||
-			generateblocks_str_contains( $content, '{next_posts_page_url' )
-		) {
+		if ( in_array( 'instant-pagination', $args['supports'], true ) ) {
 			$instant_pagination = $args['instance']->context['generateblocks/instantPagination'] ?? true;
 			$query_id           = $args['instance']->context['generateblocks/queryId'] ?? '';
 
 			if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
-				$p = new WP_HTML_Tag_Processor( $content );
+				$processor = new WP_HTML_Tag_Processor( $content );
 
-				if ( $p->next_tag(
+				if ( $processor->next_tag(
 					[
 						'tag_name' => 'a',
 					]
 				) ) {
-					$p->set_attribute( 'data-gb-router-target', 'query-' . $query_id );
-					$p->set_attribute( 'data-gb-prefetch', true );
-					$content = $p->get_updated_html();
+					$processor->set_attribute( 'data-gb-router-target', 'query-' . $query_id );
+					$processor->set_attribute( 'data-gb-prefetch', true );
+					$content = $processor->get_updated_html();
 				}
 			}
 		}
 
+		$block_name = $args['block']['blockName'] ?? '';
+
 		// If our image `src` is an ID, add the `data-media-id` attribute so we can alter the image output later.
-		if ( isset( $args['block']['blockName'] ) && 'generateblocks/media' === $args['block']['blockName'] ) {
+		if ( 'generateblocks/media' === $block_name ) {
 			$src = $args['block']['attrs']['htmlAttributes']['src'] ?? '';
 
 			if ( $src && $src === $args['tag'] && class_exists( 'WP_HTML_Tag_Processor' ) ) {
@@ -704,11 +729,11 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 				if ( $processor->next_tag( 'img' ) ) {
 					$media_id    = 0;
-					$replacement = $args['original_replacement'];
+					$replacement = $args['og_replacement'];
 
 					if ( is_int( $replacement ) ) {
 						$media_id = $replacement;
-					} elseif ( generateblocks_str_starts_with( $args['tag'], '{featured_image_url' ) ) {
+					} elseif ( 'featured_image_url' === $args['tag'] ) {
 						$media_id = GenerateBlocks_Dynamic_Tag_Callbacks::get_featured_image_id(
 							$args['options'],
 							$args['block'],

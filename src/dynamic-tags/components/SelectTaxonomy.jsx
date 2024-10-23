@@ -3,11 +3,13 @@ import { useMemo } from '@wordpress/element';
 import { useTaxonomies } from '@hooks';
 import { ComboboxControl } from '@wordpress/components';
 
-export function SelectTaxonomy( { onChange, value, help } ) {
-	const taxonomies = useTaxonomies();
+export function SelectTaxonomy( { onChange, value, help, postType } ) {
+	const taxonomies = useTaxonomies( postType );
 	const options = useMemo( () => {
 		return taxonomies
-			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) );
+			? taxonomies
+				.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
+			: [];
 	}, [ taxonomies ] );
 
 	return (
@@ -17,7 +19,7 @@ export function SelectTaxonomy( { onChange, value, help } ) {
 			help={ help }
 			placeholder={ __( 'Select taxonomy', 'generateblocks' ) }
 			options={ options }
-			value={ value }
+			value={ value ? value : options[ 0 ]?.value ?? '' }
 			onChange={ onChange }
 		/>
 	);

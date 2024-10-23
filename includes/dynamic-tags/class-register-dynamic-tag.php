@@ -96,6 +96,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 			}
 
 			$full_tag = $opening_tag . '}';
+			$supports = $data['supports'];
 
 			if ( generateblocks_str_contains( $content, $full_tag ) ) {
 				$full_tag       = self::maybe_prepend_protocol( $content, $full_tag );
@@ -121,6 +122,7 @@ class GenerateBlocks_Register_Dynamic_Tag {
 						'content'  => $content,
 						'block'    => $block,
 						'instance' => $instance,
+						'supports' => $supports,
 						'options'  => [],
 					]
 				);
@@ -147,12 +149,14 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					'generateblocks_before_dynamic_tag_replace',
 					$content,
 					[
-						'tag'                  => $full_tag,
-						'replacement'          => $replacement,
-						'original_replacement' => $og_replacement,
-						'block'                => $block,
-						'instance'             => $instance,
-						'options'              => [],
+						'tag'            => $tag_name,
+						'full_tag'       => $full_tag,
+						'replacement'    => $replacement,
+						'og_replacement' => $og_replacement,
+						'block'          => $block,
+						'instance'       => $instance,
+						'supports'       => $supports,
+						'options'        => [],
 					]
 				);
 
@@ -185,11 +189,13 @@ class GenerateBlocks_Register_Dynamic_Tag {
 						'generateblocks_dynamic_tag_replacement',
 						$replacement,
 						[
-							'tag'      => $full_tag,
+							'tag'      => $tag_name,
+							'full_tag' => $full_tag,
 							'content'  => $content,
 							'block'    => $block,
 							'instance' => $instance,
 							'options'  => $options,
+							'supports' => $supports,
 						]
 					);
 
@@ -215,12 +221,13 @@ class GenerateBlocks_Register_Dynamic_Tag {
 						'generateblocks_before_dynamic_tag_replace',
 						$content,
 						[
-							'tag'                  => $full_tag,
-							'replacement'          => $replacement,
-							'original_replacement' => $og_replacement,
-							'block'                => $block,
-							'instance'             => $instance,
-							'options'              => $options,
+							'tag'            => $full_tag,
+							'replacement'    => $replacement,
+							'og_replacement' => $og_replacement,
+							'block'          => $block,
+							'instance'       => $instance,
+							'options'        => $options,
+							'supports'       => $supports,
 						]
 					);
 
