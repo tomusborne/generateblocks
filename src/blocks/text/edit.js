@@ -56,9 +56,9 @@ function EditBlock( props ) {
 			return content;
 		}
 
-		return dynamicTagValue.reduce( ( acc, { original, replacement } ) => {
+		return dynamicTagValue.reduce( ( acc, { original, replacement, fallback } ) => {
 			if ( ! replacement ) {
-				return acc;
+				return acc.replaceAll( original, fallback );
 			}
 
 			const replacementWithNoLinks = replacement.replace( /href="[^"]*"/g, 'href="#"' );
