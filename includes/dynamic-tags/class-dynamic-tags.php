@@ -451,6 +451,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 				$tag_details = GenerateBlocks_Register_Dynamic_Tag::get_tag_details( $tag_name );
 				$type        = $tag_details['type'];
+				$fallback    = $tag_details['title'];
 
 				if ( 'user' === $type ) {
 					$fallback_id = get_current_user_id();
@@ -463,6 +464,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$replacements[] = [
 						'original' => "{{$tag}}",
 						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], $instance ),
+						'fallback'    => $fallback,
 					];
 				} elseif ( ! generateblocks_str_contains( $tag, 'id:' ) ) {
 					// There are spaces in the tag, but no `id` option.
@@ -471,11 +473,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$replacements[] = [
 						'original' => "{{$tag}}",
 						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], $instance ),
+						'fallback'    => $fallback,
 					];
 				} else {
 					$replacements[] = [
 						'original' => "{{$tag}}",
 						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$tag}}", [], $instance ),
+						'fallback'    => $fallback,
 					];
 				}
 			}
