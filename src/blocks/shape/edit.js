@@ -80,6 +80,7 @@ function EditBlock( props ) {
 							setAttributes={ setAttributes }
 							shortcuts={ shortcuts }
 							onStyleChange={ onStyleChange }
+							name={ name }
 						/>
 					) }
 				/>
