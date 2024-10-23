@@ -4,7 +4,7 @@ import PanelArea from '../../../components/panel-area';
 import { useEffect, useMemo, useState } from '@wordpress/element';
 import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
 import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
-import ParameterList from './inspector-controls/parameter-list';
+import ParameterList from '../../query/components/ParameterList';
 import useQueryReducer from '../hooks/useQueryReducer';
 import isEmpty from '../../../utils/object-is-empty';
 import queryParameterOptions from '../query-parameters';

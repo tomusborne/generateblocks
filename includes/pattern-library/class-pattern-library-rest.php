@@ -39,7 +39,12 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'list_libraries' ),
-				'permission_callback' => array( $this, 'edit_posts_permission' ),
+				'permission_callback' => function() {
+					return apply_filters(
+						'generateblocks_can_view_pattern_library',
+						$this->edit_posts_permission()
+					);
+				},
 			)
 		);
 
@@ -59,7 +64,12 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'list_categories' ),
-				'permission_callback' => array( $this, 'edit_posts_permission' ),
+				'permission_callback' => function() {
+					return apply_filters(
+						'generateblocks_can_view_pattern_library',
+						$this->edit_posts_permission()
+					);
+				},
 			)
 		);
 
@@ -69,7 +79,12 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'list_patterns' ),
-				'permission_callback' => array( $this, 'edit_posts_permission' ),
+				'permission_callback' => function() {
+					return apply_filters(
+						'generateblocks_can_view_pattern_library',
+						$this->edit_posts_permission()
+					);
+				},
 			)
 		);
 
@@ -79,7 +94,12 @@ class GenerateBlocks_Pattern_Library_Rest extends GenerateBlocks_Singleton {
 			array(
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_cache_data' ),
-				'permission_callback' => array( $this, 'edit_posts_permission' ),
+				'permission_callback' => function() {
+					return apply_filters(
+						'generateblocks_can_view_pattern_library',
+						$this->edit_posts_permission()
+					);
+				},
 			)
 		);
 

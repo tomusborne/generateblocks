@@ -55,17 +55,21 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			const containerAttributes = {};
 
 			if ( 'row' === layout ) {
-				containerAttributes.display = 'flex';
-				containerAttributes.flexDirection = 'row';
+				containerAttributes.styles = {
+					display: 'flex',
+					flexDirection: 'row',
+				};
 			}
 
 			if ( 'stack' === layout ) {
-				containerAttributes.display = 'flex';
-				containerAttributes.flexDirection = 'column';
+				containerAttributes.styles = {
+					display: 'flex',
+					flexDirection: 'column',
+				};
 			}
 
 			const newBlocks = createBlock(
-				'generateblocks/container',
+				'generateblocks/element',
 				containerAttributes,
 				newChildBlocks
 			);
@@ -104,6 +108,35 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 					showTooltip
 				/>
 				<InsertInnerContainerOnboard />
+			</>;
+		}
+
+		if (
+			'generateblocks/element' === name &&
+			! hasParentBlock &&
+			0 === innerBlocksCount &&
+			1 === clientIds.length
+		) {
+			buttons = <>
+				{ buttons }
+				<ToolbarButton
+					icon={ getIcon( 'section' ) }
+					label={ __( 'Add Inner Container', 'generateblocks' ) }
+					onClick={ () => {
+						insertBlocks(
+							createBlock( 'generateblocks/element', {
+								styles: {
+									maxWidth: 'var(--gb-container-width)',
+									marginLeft: 'auto',
+									marginRight: 'auto',
+								},
+							} ),
+							undefined,
+							clientId
+						);
+					} }
+					showTooltip
+				/>
 			</>;
 		}
 

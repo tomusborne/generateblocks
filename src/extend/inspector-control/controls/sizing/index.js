@@ -39,7 +39,6 @@ export default function Sizing( { attributes, setAttributes, computedStyles } ) 
 		hasGlobalStyle,
 		contentWasUpdated,
 	} = useStyleIndicator( computedStyles, panelControls, contentValue, deviceAttributes );
-
 	const {
 		useGlobalMaxWidth = false,
 		useInnerContainer = false,
