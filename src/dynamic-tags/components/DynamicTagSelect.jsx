@@ -176,6 +176,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ separator, setSeparator ] = useState( '' );
 	const contextPostId = context?.postId ?? 0;
 	const currentPostId = contextPostId ? contextPostId : currentPost?.id ?? 0;
+	const sourcesInOptions = applyFilters(
+		'generateblocks.dynamicTags.sourcesInOptions',
+		[]
+	);
 
 	// TODO: Check if we need to do the terms thing anymore now that we're using SelectTerm.
 	const postRecordArgs = useMemo( () => {
@@ -264,6 +268,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		const {
 			id = null,
+			source = null,
 			key = null,
 			none = null,
 			one = null,
@@ -286,6 +291,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 				setDynamicSource( 'post' );
 				setPostIdSource( id );
 			}
+		}
+
+		if ( sourcesInOptions.includes( source ) ) {
+			setDynamicSource( source );
 		}
 
 		if ( key ) {
@@ -351,6 +360,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setDynamicSource( 'current' );
 		}
 
+		if ( sourcesInOptions.includes( dynamicSource ) ) {
+			options.push( `source:${ dynamicSource }` );
+		}
+
 		if ( postIdSource && 'post' === dynamicSource ) {
 			options.push( `id:${ postIdSource }` );
 		} else if ( termSource && 'term' === dynamicSource ) {
@@ -414,6 +427,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		postIdSource,
 		dynamicTag,
 		dynamicTagType,
+		dynamicSource,
 		dynamicTagSupports,
 		metaKey,
 		commentsCountText,
@@ -437,25 +451,33 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	}, [ dynamicTagType, showLinkTo ] );
 
 	const sourceOptions = useMemo( () => {
-		if ( 'term_meta' === dynamicTag ) {
-			return [
+		const options = [];
+
+		if ( dynamicTagType === 'term' ) {
+			options.push(
 				{ label: __( 'Current Term', 'generateblocks' ), value: 'current' },
-				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
-			];
-		}
-
-		if ( 'user' === dynamicTagType ) {
-			return [
+				{ label: __( 'Term', 'generateblocks' ), value: 'term' }
+			);
+		} else if ( dynamicTagType === 'user' ) {
+			options.push(
 				{ label: __( 'Current User', 'generateblocks' ), value: 'current' },
-				{ label: __( 'Specific User', 'generateblocks' ), value: 'user' },
-			];
+				{ label: __( 'Specific User', 'generateblocks' ), value: 'user' }
+			);
+		} else {
+			options.push(
+				{ label: __( 'Current Post', 'generateblocks' ), value: 'current' },
+				{ label: __( 'Specific Post', 'generateblocks' ), value: 'post' }
+			);
 		}
 
-		return [
-			{ label: __( 'Current Post', 'generateblocks' ), value: 'current' },
-			{ label: __( 'Specific Post', 'generateblocks' ), value: 'post' },
-		];
-	}, [ dynamicTag ] );
+		return applyFilters(
+			'generateblocks.dynamicTags.sourceOptions',
+			options,
+			{
+				dynamicTagType,
+			},
+		);
+	}, [ dynamicTagType ] );
 
 	const tagSpecificControls = useMemo( () => {
 		return getTagSpecificControls(
