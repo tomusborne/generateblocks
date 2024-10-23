@@ -43,13 +43,17 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 				$url = get_permalink( $id );
 
 				break;
+			case 'post_meta':
+				$url = $key ? GenerateBlocks_Meta_Handler::get_post_meta( $id, $key, true ) : '';
+
+				break;
 			case 'comments':
 				$url = get_comments_link( $id );
 
 				break;
 			case 'author_meta':
 				$user_id = get_post_field( 'post_author', $id );
-				$url     = GenerateBlocks_Meta_Handler::get_user_meta( $user_id, $key, true );
+				$url     = $key ? GenerateBlocks_Meta_Handler::get_user_meta( $user_id, $key, true ) : '';
 
 				break;
 			case 'author_archive':

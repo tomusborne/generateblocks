@@ -41,27 +41,6 @@ function parseTag( tagString ) {
 	};
 }
 
-function getLinkToOptions( type ) {
-	switch ( type ) {
-		case 'term':
-			return [
-				{ label: __( 'None', 'generateblocks' ), value: '' },
-				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
-				{ label: __( 'Term Meta', 'generateblocks' ), value: 'term_meta' },
-			];
-		default:
-			return [
-				{ label: __( 'None', 'generateblocks' ), value: '' },
-				{ label: __( 'Post', 'generateblocks' ), value: 'post' },
-				{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
-				{ label: __( 'Post Meta', 'generateblocks' ), value: 'post_meta' },
-				{ label: __( 'Author Meta', 'generateblocks' ), value: 'author_meta' },
-				{ label: __( 'Author Archive', 'generateblocks' ), value: 'author_archive' },
-				{ label: __( 'Author Email', 'generateblocks' ), value: 'author_email' },
-			];
-	}
-}
-
 function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 	if ( ! options ) {
 		return null;
@@ -502,7 +481,23 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			return [];
 		}
 
-		return getLinkToOptions( dynamicTagType );
+		switch ( dynamicTagType ) {
+			case 'term':
+				return [
+					{ label: __( 'None', 'generateblocks' ), value: '' },
+					{ label: __( 'Term', 'generateblocks' ), value: 'term' },
+				];
+			default:
+				return [
+					{ label: __( 'None', 'generateblocks' ), value: '' },
+					{ label: __( 'Post', 'generateblocks' ), value: 'post' },
+					{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
+					{ label: __( 'Post Meta', 'generateblocks' ), value: 'post_meta' },
+					{ label: __( 'Author Meta', 'generateblocks' ), value: 'author_meta' },
+					{ label: __( 'Author Archive', 'generateblocks' ), value: 'author_archive' },
+					{ label: __( 'Author Email', 'generateblocks' ), value: 'author_email' },
+				];
+		}
 	}, [ dynamicTagType, showLinkTo ] );
 
 	const sourceOptions = useMemo( () => {
@@ -533,8 +528,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setExtraTagParams
 		);
 	}, [ dynamicTagData?.options, extraTagParams, setExtraTagParams ] );
-
-	console.log( { userRecord } );
 
 	return (
 		<>
@@ -680,7 +673,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 					{ showLinkTo && (
 						<>
-							<SelectControl
+							<ComboboxControl
 								label={ __( 'Link to', 'generateblocks' ) }
 								value={ linkTo }
 								options={ linkToOptions }
@@ -690,7 +683,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 								<SelectMeta
 									value={ linkToKey }
 									onSelect={ ( newSelected ) => {
-										console.log( { newSelected } );
 										const newMetaKey = newSelected?.value ?? newSelected;
 										debouncedSetLinkToKey( newMetaKey ? newMetaKey : '' );
 									} }
