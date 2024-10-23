@@ -167,12 +167,28 @@ function getVisibleTags( dynamicTags, context ) {
 	} );
 }
 
-function getLinkToKeySourceId( linkTo, postRecord, userRecord, termRecord ) {
+function getLinkToKeySourceId( linkTo, postRecord, postId, userId, termId ) {
 	if ( linkTo.includes( 'author' ) && postRecord ) {
-		return postRecord?.author;
+		return postRecord?.post_author;
 	}
 
-	return postRecord || userRecord || termRecord;
+	return postId || userId || termId;
+}
+
+function getLinkToType( linkTo ) {
+	if ( linkTo.includes( 'term' ) ) {
+		return 'term';
+	}
+
+	if ( linkTo.includes( 'author' ) ) {
+		return 'author';
+	}
+
+	if ( linkTo.includes( 'user' ) ) {
+		return 'user';
+	}
+
+	return 'post';
 }
 
 export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, context } ) {
@@ -220,11 +236,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
-		if ( 'author' === dynamicTagType ) {
+		if ( 'author' === dynamicTagType || linkTo.includes( 'author' ) ) {
 			load.push( 'author' );
-		} else if ( 'comment' === dynamicTagType ) {
+		} else if ( 'comment' === dynamicTagType || linkTo.includes( 'comment' ) ) {
 			load.push( 'comments' );
-		} else if ( 'term' === dynamicTagType ) {
+		} else if ( 'term' === dynamicTagType || linkTo.includes( 'term' ) ) {
 			load.push( 'terms' );
 		} else if ( 'post' === dynamicTagType ) {
 			load.push( 'post' );
@@ -247,7 +263,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}
 
 		return args;
-	}, [ dynamicTagType, postIdSource, taxonomySource ] );
+	}, [ dynamicTagType, postIdSource, taxonomySource, linkTo ] );
 
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record } = usePostRecord( postRecordArgs );
@@ -358,7 +374,13 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}
 
 		if ( link ) {
-			setLinkTo( link );
+			const linkToValues = link.split( ',' );
+
+			setLinkTo( linkToValues[ 0 ] );
+
+			if ( linkToValues[ 1 ] ) {
+				setLinkToKey( linkToValues[ 1 ] );
+			}
 		}
 
 		if ( 'false' === requiredParam ) {
@@ -407,7 +429,13 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}
 
 		if ( linkTo && dynamicTagSupports.includes( 'link' ) ) {
-			options.push( `link:${ linkTo }` );
+			const linkToValues = [ linkTo ];
+
+			if ( linkToKey ) {
+				linkToValues.push( linkToKey );
+			}
+
+			options.push( `link:${ linkToValues.join( ',' ) }` );
 		}
 
 		if ( dynamicTag.startsWith( 'term_list' ) && separator ) {
@@ -457,6 +485,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		metaKey,
 		commentsCountText,
 		linkTo,
+		linkToKey,
 		required,
 		taxonomySource,
 		termSource,
@@ -504,6 +533,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setExtraTagParams
 		);
 	}, [ dynamicTagData?.options, extraTagParams, setExtraTagParams ] );
+
+	console.log( { userRecord } );
 
 	return (
 		<>
@@ -659,6 +690,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 								<SelectMeta
 									value={ linkToKey }
 									onSelect={ ( newSelected ) => {
+										console.log( { newSelected } );
 										const newMetaKey = newSelected?.value ?? newSelected;
 										debouncedSetLinkToKey( newMetaKey ? newMetaKey : '' );
 									} }
@@ -669,8 +701,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 									user={ userRecord }
 									term={ termRecord }
 									source={ dynamicSource }
-									sourceId={ getLinkToKeySourceId( linkTo, postIdSource, userSource, termSource ) }
-									type={ dynamicTagType }
+									sourceId={ getLinkToKeySourceId( linkTo, record, postIdSource, userSource, termSource ) }
+									type={ getLinkToType( linkTo ) }
 									help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
 								/>
 							) }

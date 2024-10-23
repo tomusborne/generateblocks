@@ -32,19 +32,41 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		}
 
 		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-		$link_to = $options['link'];
-		$link    = '';
+		$link    = $options['link'];
+		$parts   = explode( ',', $link );
+		$link_to = $parts[0] ?? 'post';
+		$key     = $parts[1] ?? null;
+		$url     = '';
 
-		if ( 'post' === $link_to ) {
-			$link = get_permalink( $id );
-		} elseif ( 'comments' === $link_to ) {
-			$link = get_comments_link( $id );
+		switch ( $link_to ) {
+			case 'post':
+				$url = get_permalink( $id );
+
+				break;
+			case 'comments':
+				$url = get_comments_link( $id );
+
+				break;
+			case 'author_meta':
+				$user_id = get_post_field( 'post_author', $id );
+				$url     = GenerateBlocks_Meta_Handler::get_user_meta( $user_id, $key, true );
+
+				break;
+			case 'author_archive':
+				$user_id = get_post_field( 'post_author', $id );
+				$url     = get_author_posts_url( $user_id );
+
+				break;
+			case 'author_email':
+				$user_id = get_post_field( 'post_author', $id );
+				$url     = 'mailto:' . get_the_author_meta( 'user_email', $user_id );
+				break;
 		}
 
-		if ( $link ) {
+		if ( $url ) {
 			$output = sprintf(
 				'<a href="%s">%s</a>',
-				esc_url( $link ),
+				esc_url( $url ),
 				$output
 			);
 		}
@@ -309,21 +331,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$id       = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
 		$image_id = get_post_thumbnail_id( $id );
 		$output   = $image_id ? $image_id : 0;
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the author avatar URL.
-	 *
-	 * @param array  $options The options.
-	 * @param object $block The block.
-	 * @param object $instance The block instance.
-	 */
-	public static function get_author_avatar_url( $options, $block, $instance ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-		$size   = $options['size'] ?? 96;
-		$output = get_avatar_url( $id, [ 'size' => $size ] );
 
 		return self::output( $output, $options, $instance );
 	}

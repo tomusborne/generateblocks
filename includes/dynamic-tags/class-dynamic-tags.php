@@ -169,17 +169,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
-				'title'       => __( 'Author Avatar URL', 'generateblocks' ),
-				'tag'         => 'author_avatar_url',
-				'type'        => 'post',
-				'supports'    => [ 'source' ],
-				'description' => __( 'Get the avatar URL for a specific author.', 'generateblocks' ),
-				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_avatar_url' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
 				'title'       => __( 'Term Meta', 'generateblocks' ),
 				'tag'         => 'term_meta',
 				'type'        => 'term',
@@ -620,7 +609,17 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		// Fetch author data if requested.
 		if ( in_array( 'author', $load, true ) ) {
 			$author = get_user_by( 'ID', $post->post_author );
-			$response->author = $author;
+
+			// Remove all hidden meta fields.
+			$author->meta = array_filter(
+				get_user_meta( $post->post_author ),
+				function( $key ) {
+					return ! generateblocks_str_starts_with( $key, '_' );
+				},
+				ARRAY_FILTER_USE_KEY
+			);
+
+			$response->author = $author->data;
 		}
 
 		// Fetch comments if requested.
