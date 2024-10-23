@@ -47,12 +47,17 @@ function getLinkToOptions( type ) {
 			return [
 				{ label: __( 'None', 'generateblocks' ), value: '' },
 				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
+				{ label: __( 'Term Meta', 'generateblocks' ), value: 'term_meta' },
 			];
 		default:
 			return [
 				{ label: __( 'None', 'generateblocks' ), value: '' },
 				{ label: __( 'Post', 'generateblocks' ), value: 'post' },
 				{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
+				{ label: __( 'Post Meta', 'generateblocks' ), value: 'post_meta' },
+				{ label: __( 'Author Meta', 'generateblocks' ), value: 'author_meta' },
+				{ label: __( 'Author Archive', 'generateblocks' ), value: 'author_archive' },
+				{ label: __( 'Author Email', 'generateblocks' ), value: 'author_email' },
 			];
 	}
 }
@@ -162,6 +167,14 @@ function getVisibleTags( dynamicTags, context ) {
 	} );
 }
 
+function getLinkToKeySourceId( linkTo, postRecord, userRecord, termRecord ) {
+	if ( linkTo.includes( 'author' ) && postRecord ) {
+		return postRecord?.author;
+	}
+
+	return postRecord || userRecord || termRecord;
+}
+
 export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, context } ) {
 	const allTags = generateBlocksEditor?.dynamicTags;
 	const availableTags = getVisibleTags( allTags, context );
@@ -196,6 +209,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		multiple: __( '%s comments', 'generateblocks' ),
 	} );
 	const [ linkTo, setLinkTo ] = useState( '' );
+	const [ linkToKey, setLinkToKey ] = useState( '' );
+	const debouncedSetLinkToKey = useDebounce( setLinkToKey, 200 );
 	const [ required, setRequired ] = useState( true );
 	const [ separator, setSeparator ] = useState( '' );
 	const contextPostId = context?.postId ?? 0;
@@ -452,6 +467,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const interactiveTagNames = [ 'a', 'button' ];
 	const supportsLink = dynamicTagSupports.includes( 'link' );
 	const showLinkTo = supportsLink && ! interactiveTagNames.includes( tagName );
+	const showLinkToKey = showLinkTo && ( linkTo.includes( 'meta' ) || linkTo.includes( 'option' ) );
 	const linkToOptions = useMemo( () => {
 		if ( ! showLinkTo ) {
 			return [];
@@ -632,12 +648,33 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					{ tagSpecificControls }
 
 					{ showLinkTo && (
-						<SelectControl
-							label={ __( 'Link to', 'generateblocks' ) }
-							value={ linkTo }
-							options={ linkToOptions }
-							onChange={ setLinkTo }
-						/>
+						<>
+							<SelectControl
+								label={ __( 'Link to', 'generateblocks' ) }
+								value={ linkTo }
+								options={ linkToOptions }
+								onChange={ setLinkTo }
+							/>
+							{ showLinkToKey && (
+								<SelectMeta
+									value={ linkToKey }
+									onSelect={ ( newSelected ) => {
+										const newMetaKey = newSelected?.value ?? newSelected;
+										debouncedSetLinkToKey( newMetaKey ? newMetaKey : '' );
+									} }
+									onEnter={ setLinkToKey }
+									onClear={ () => setLinkToKey( '' ) }
+									onAdd={ ( { inputValue } ) => setLinkToKey( inputValue ) }
+									post={ record }
+									user={ userRecord }
+									term={ termRecord }
+									source={ dynamicSource }
+									sourceId={ getLinkToKeySourceId( linkTo, postIdSource, userSource, termSource ) }
+									type={ dynamicTagType }
+									help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
+								/>
+							) }
+						</>
 					) }
 
 					<TextControl
