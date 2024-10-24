@@ -3,9 +3,9 @@ Contributors: edge22
 Donate link: https://generatepress.com
 Tags: blocks, gutenberg, editor, page builder, posts
 Requires at least: 5.9
-Tested up to: 6.6
+Tested up to: 6.7
 Requires PHP: 7.2
-Stable tag: 1.9.1
+Stable tag: 1.9.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -82,6 +82,10 @@ In most cases, #1 will work fine and is way easier.
 GenerateBlocks was built to work hand-in-hand with [GeneratePress](https://generatepress.com). However, it will work with any theme you choose.
 
 == Changelog ==
+
+= 1.9.2 =
+* Fix: Use latest getDeviceType functions in 6.7 if available
+* Tweak: Loading order of load_plugin_textdomain()
 
 = 1.9.1 =
 * Fix: Patterns not loading properly in Chrome

@@ -5,7 +5,7 @@
  * Description: A small collection of lightweight WordPress blocks that can accomplish nearly anything.
  * Author: Tom Usborne
  * Author URI: https://tomusborne.com
- * Version: 1.9.1
+ * Version: 1.9.2
  * Requires at least: 5.9
  * Requires PHP: 7.2
  * License: GPL2+
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-define( 'GENERATEBLOCKS_VERSION', '1.9.1' );
+define( 'GENERATEBLOCKS_VERSION', '1.9.2' );
 define( 'GENERATEBLOCKS_DIR', plugin_dir_path( __FILE__ ) );
 define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 
@@ -59,7 +59,7 @@ require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-headline.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-image.php';
 require_once GENERATEBLOCKS_DIR . 'includes/blocks/class-query-loop.php';
 
-add_action( 'plugins_loaded', 'generateblocks_load_plugin_textdomain' );
+add_action( 'after_setup_theme', 'generateblocks_load_plugin_textdomain' );
 /**
  * Load GenerateBlocks textdomain.
  *
