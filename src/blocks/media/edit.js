@@ -196,6 +196,7 @@ function EditBlock( props ) {
 							setAttributes={ setAttributes }
 							shortcuts={ {} }
 							onStyleChange={ onStyleChange }
+							name={ name }
 						/>
 					) }
 				/>

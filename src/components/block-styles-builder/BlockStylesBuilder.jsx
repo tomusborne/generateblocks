@@ -1,8 +1,10 @@
+import { applyFilters } from '@wordpress/hooks';
+
 import { StylesBuilder, defaultAtRules } from '@edge22/styles-builder';
 import { TABS_STORAGE_KEY } from '@edge22/block-styles';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
-export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onStyleChange } ) {
+export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onStyleChange, name } ) {
 	const {
 		getStyles,
 		deleteStyle,
@@ -18,6 +20,18 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 		cancelEditGlobalStyle,
 		currentStyle,
 	} = useBlockStyles();
+
+	const allowCustomAdvancedSelector = applyFilters(
+		'generateblocks.editor.allowCustomAdvancedSelector',
+		false,
+		{ name }
+	);
+
+	const allowCustomAtRule = applyFilters(
+		'generateblocks.editor.allowCustomAtRule',
+		false,
+		{ name }
+	);
 
 	return (
 		<StylesBuilder
@@ -53,6 +67,8 @@ export function BlockStylesBuilder( { attributes, setAttributes, shortcuts, onSt
 				sessionStorage.setItem( TABS_STORAGE_KEY, tab );
 			} }
 			scope="local"
+			allowCustomAdvancedSelector={ allowCustomAdvancedSelector }
+			allowCustomAtRule={ allowCustomAtRule }
 		/>
 	);
 }
