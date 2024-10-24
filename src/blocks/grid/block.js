@@ -28,7 +28,7 @@ const attributes = getBlockAttributes(
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/grid', {
-	apiVersion: 2,
+	apiVersion: 3,
 	title: __( 'Grid', 'generateblocks' ),
 	description: __( 'Create advanced layouts with flexible grids.', 'generateblocks' ),
 	icon: getIcon( 'grid' ),

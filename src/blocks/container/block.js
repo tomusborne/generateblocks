@@ -32,7 +32,7 @@ const attributes = Object.assign(
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/container', {
-	apiVersion: 2,
+	apiVersion: 3,
 	title: __( 'Container', 'generateblocks' ),
 	description: __( 'Organize your content into rows and sections.', 'generateblocks' ),
 	icon: getIcon( 'container' ),

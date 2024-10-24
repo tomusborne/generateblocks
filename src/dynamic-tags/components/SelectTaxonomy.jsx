@@ -7,7 +7,9 @@ export function SelectTaxonomy( { onChange, value, help } ) {
 	const taxonomies = useTaxonomies();
 	const options = useMemo( () => {
 		return taxonomies
-			.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) );
+			? taxonomies
+				.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
+			: [];
 	}, [ taxonomies ] );
 
 	return (
@@ -17,7 +19,7 @@ export function SelectTaxonomy( { onChange, value, help } ) {
 			help={ help }
 			placeholder={ __( 'Select taxonomy', 'generateblocks' ) }
 			options={ options }
-			value={ value }
+			value={ value ? value : options[ 0 ]?.value ?? '' }
 			onChange={ onChange }
 		/>
 	);

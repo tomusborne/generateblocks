@@ -29,7 +29,7 @@ const attributes = getBlockAttributes(
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/button-container', {
-	apiVersion: 2,
+	apiVersion: 2, // Left at version 2 to ensure iframe isn't used until GP is updated.
 	title: __( 'Buttons', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	icon: getIcon( 'button-container' ),

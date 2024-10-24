@@ -1,6 +1,6 @@
 export { default as useDeviceType } from './useDeviceType';
 export { default as useInnerBlocksCount } from './useInnerBlocksCount';
-export { default as useTaxonomies } from './useTaxonomies';
+export { useTaxonomies } from './useTaxonomies';
 export { default as useTaxonomyRecords } from './useTaxonomyRecords';
 export { default as useAuthors } from './useAuthors';
 export { useSelectedBlockElement, useSelectedBlockElements } from './useSelectedBlockElements';

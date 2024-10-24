@@ -8,7 +8,7 @@ import './editor.scss';
 import withUniqueId from '../../hoc/withUniqueId';
 
 registerBlockType( 'generateblocks/query-loop', {
-	apiVersion: 2,
+	apiVersion: 3,
 	title: __( 'Query Loop', 'generateblocks' ),
 	description: __( 'Build a list of posts from any post type using advanced query parameters.', 'generateblocks' ),
 	icon: getIcon( 'query-loop' ),

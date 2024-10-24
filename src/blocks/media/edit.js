@@ -54,6 +54,7 @@ function EditBlock( props ) {
 	}, [ tagName ] );
 
 	const blockProps = useBlockProps();
+	const shouldWrapBlock = isSelected || ( 'img' === tagName && ! temporaryURL && ! htmlAttributes?.src );
 	const elementAttributes = {
 		className: classNames.join( ' ' ).trim(),
 		'data-block': clientId,
@@ -170,7 +171,6 @@ function EditBlock( props ) {
 		);
 	}
 
-	const shouldWrapBlock = isSelected || ( 'img' === tagName && ! temporaryURL && ! htmlAttributes?.src );
 	const hasObjectFit = getStyleValue( 'objectFit', currentAtRule );
 
 	return (
@@ -205,20 +205,20 @@ function EditBlock( props ) {
 				name={ name }
 				clientId={ clientId }
 			>
-				{ !! shouldWrapBlock ? (
-					<div
-						{ ...blockProps }
-						data-block-wrapper
-						style={ {
-							width: hasObjectFit ? 'auto' : undefined,
-							height: hasObjectFit ? '100%' : undefined,
-						} }
-					>
-						{ elementRender() }
-					</div>
-				) : (
-					elementRender()
-				) }
+				<div
+					{ ...blockProps }
+					data-block-wrapper
+					style={ {
+						width: hasObjectFit ? 'auto' : undefined,
+						height: hasObjectFit ? '100%' : undefined,
+						display: ! shouldWrapBlock ? 'none' : undefined,
+					} }
+				>
+					{ elementRender() }
+				</div>
+				<div style={ { display: shouldWrapBlock ? 'none' : 'contents' } }>
+					{ elementRender() }
+				</div>
 			</RootElement>
 		</>
 	);

@@ -38,7 +38,7 @@ const attributes = Object.assign(
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/button', {
-	apiVersion: 2,
+	apiVersion: 3,
 	title: __( 'Button', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	icon: getIcon( 'button' ),
