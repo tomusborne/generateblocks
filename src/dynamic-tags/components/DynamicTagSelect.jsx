@@ -579,8 +579,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		);
 	}, [ dynamicTagData?.options, extraTagParams, setExtraTagParams ] );
 
-	console.log( { dynamicTagOptions } );
-
 	return (
 		<>
 			<Autocomplete
