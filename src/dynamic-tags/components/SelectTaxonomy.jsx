@@ -1,16 +1,19 @@
 import { __ } from '@wordpress/i18n';
-import { useMemo } from '@wordpress/element';
 import { useTaxonomies } from '@hooks';
 import { ComboboxControl } from '@wordpress/components';
 
-export function SelectTaxonomy( { onChange, value, help } ) {
-	const taxonomies = useTaxonomies();
-	const options = useMemo( () => {
-		return taxonomies
+export function SelectTaxonomy( { onChange, value, help, postType } ) {
+	const taxonomies = useTaxonomies( postType );
+	const options = [
+		{
+			value: '',
+			label: __( 'Select Taxonomy…', 'generateblocks' ),
+		},
+		...( taxonomies
 			? taxonomies
 				.map( ( tax ) => ( { value: tax.slug, label: tax.name } ) )
-			: [];
-	}, [ taxonomies ] );
+			: [] ),
+	];
 
 	return (
 		<ComboboxControl

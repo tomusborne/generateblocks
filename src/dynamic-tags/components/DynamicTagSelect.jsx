@@ -238,6 +238,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
 	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' );
 	const tagSupportsImageSize = dynamicTagSupports?.includes( 'image-size' );
+	const tagSupportsTaxonomy = dynamicTagSupports?.includes( 'taxonomy' );
 	const showSource = dynamicTagSupports?.includes( 'source' );
 	const contextPostId = context?.postId ?? 0;
 	const currentPostId = contextPostId ? contextPostId : currentPost?.id ?? 0;
@@ -410,9 +411,9 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		const options = [];
 
-		if ( 'term_meta' === dynamicTag && 'term' !== dynamicSource ) {
+		if ( 'term' === dynamicTagType && 'term' !== dynamicSource ) {
 			setDynamicSource( 'term' );
-		} else if ( ! dynamicSource || 'term_meta' === dynamicSource ) {
+		} else if ( ! dynamicSource || 'term' !== dynamicTagType ) {
 			setDynamicSource( 'current' );
 		}
 
@@ -444,7 +445,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( 'required:false' );
 		}
 
-		if ( taxonomySource && 'term' === dynamicTagType ) {
+		if ( taxonomySource && ( 'term' === dynamicTagType || tagSupportsTaxonomy ) ) {
 			options.push( `tax:${ taxonomySource }` );
 		}
 
@@ -488,6 +489,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		termSource,
 		extraTagParams,
 		imageSize,
+		tagSupportsTaxonomy,
 	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
@@ -499,27 +501,26 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			return [];
 		}
 
-		switch ( dynamicTagType ) {
-			case 'term':
-				return [
-					{ label: __( 'None', 'generateblocks' ), value: '' },
-					{ label: __( 'Term', 'generateblocks' ), value: 'term' },
-				];
-			default:
-				return [
-					{ label: __( 'None', 'generateblocks' ), value: '' },
-					{ label: __( 'Post', 'generateblocks' ), value: 'post' },
-					{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
-					{ label: __( 'Post Meta', 'generateblocks' ), value: 'post_meta' },
-					{ label: __( 'Author Meta', 'generateblocks' ), value: 'author_meta' },
-					{ label: __( 'Author Archive', 'generateblocks' ), value: 'author_archive' },
-					{ label: __( 'Author Email', 'generateblocks' ), value: 'author_email' },
-				];
+		if ( 'term' === dynamicTagType || tagSupportsTaxonomy ) {
+			return [
+				{ label: __( 'None', 'generateblocks' ), value: '' },
+				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
+			];
 		}
-	}, [ dynamicTagType, showLinkTo ] );
+
+		return [
+			{ label: __( 'None', 'generateblocks' ), value: '' },
+			{ label: __( 'Post', 'generateblocks' ), value: 'post' },
+			{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
+			{ label: __( 'Post Meta', 'generateblocks' ), value: 'post_meta' },
+			{ label: __( 'Author Meta', 'generateblocks' ), value: 'author_meta' },
+			{ label: __( 'Author Archive', 'generateblocks' ), value: 'author_archive' },
+			{ label: __( 'Author Email', 'generateblocks' ), value: 'author_email' },
+		];
+	}, [ dynamicTagType, showLinkTo, tagSupportsTaxonomy ] );
 
 	const sourceOptions = useMemo( () => {
-		if ( 'term_meta' === dynamicTag ) {
+		if ( 'term' === dynamicTagType ) {
 			return [
 				{ label: __( 'Current Term', 'generateblocks' ), value: 'current' },
 				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
@@ -537,7 +538,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			{ label: __( 'Current Post', 'generateblocks' ), value: 'current' },
 			{ label: __( 'Specific Post', 'generateblocks' ), value: 'post' },
 		];
-	}, [ dynamicTag ] );
+	}, [ dynamicTag, dynamicTagType ] );
 
 	const tagSpecificControls = useMemo( () => {
 		return getTagSpecificControls(
@@ -614,9 +615,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						</>
 					) }
 
-					{ 'term' === dynamicTagType && (
+					{ ( 'term' === dynamicTagType || tagSupportsTaxonomy ) && (
 						<SelectTaxonomy
 							onChange={ setTaxonomySource }
+							postType={ record?.post_type }
 							value={ taxonomySource }
 						/>
 					) }

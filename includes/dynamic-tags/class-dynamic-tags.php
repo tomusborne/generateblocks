@@ -338,8 +338,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			[
 				'title'       => __( 'Term List', 'generateblocks' ),
 				'tag'         => 'term_list',
-				'type'        => 'term',
-				'supports'    => [ 'link', 'source' ],
+				'type'        => 'post',
+				'supports'    => [ 'link', 'source', 'taxonomy' ],
 				'description' => __( 'Get a list of terms for the specified post.', 'generateblocks' ),
 				'options'     => [
 					'sep' => [
