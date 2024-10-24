@@ -118,7 +118,8 @@ class GenerateBlocks_Register_Dynamic_Tag {
 					'generateblocks_dynamic_tag_replacement',
 					$replacement,
 					[
-						'tag'      => $full_tag,
+						'full_tag' => $full_tag,
+						'tag'      => $tag_name,
 						'content'  => $content,
 						'block'    => $block,
 						'instance' => $instance,
@@ -221,7 +222,8 @@ class GenerateBlocks_Register_Dynamic_Tag {
 						'generateblocks_before_dynamic_tag_replace',
 						$content,
 						[
-							'tag'            => $full_tag,
+							'full_tag'       => $full_tag,
+							'tag'            => $tag_name,
 							'replacement'    => $replacement,
 							'og_replacement' => $og_replacement,
 							'block'          => $block,

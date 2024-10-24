@@ -7,7 +7,13 @@ export function useTaxonomies( postType ) {
 
 		const args = { per_page: -1 };
 
-		if ( postType ) {
+		/**
+		 * Certain post types are excluded from this behavior since they are "pattern-like" and might display in a different
+		 * content type than the one being edited.
+		 */
+		const excludedPostTypes = [ 'gp_elements', 'wp_block' ];
+
+		if ( postType && ! excludedPostTypes.includes( postType ) ) {
 			args.type = postType;
 		}
 

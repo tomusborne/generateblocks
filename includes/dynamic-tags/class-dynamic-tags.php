@@ -130,7 +130,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'    => __( 'Featured Image URL', 'generateblocks' ),
 				'tag'      => 'featured_image_url',
 				'type'     => 'post',
-				'supports' => [ 'source' ],
+				'supports' => [ 'source', 'image-size' ],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_featured_image_url' ],
 			]
 		);
@@ -704,16 +704,16 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			$query_id           = $args['instance']->context['generateblocks/queryId'] ?? '';
 
 			if ( $instant_pagination && class_exists( 'WP_HTML_Tag_Processor' ) ) {
-				$processor = new WP_HTML_Tag_Processor( $content );
+				$pagination_processor = new WP_HTML_Tag_Processor( $content );
 
-				if ( $processor->next_tag(
+				if ( $pagination_processor->next_tag(
 					[
 						'tag_name' => 'a',
 					]
 				) ) {
-					$processor->set_attribute( 'data-gb-router-target', 'query-' . $query_id );
-					$processor->set_attribute( 'data-gb-prefetch', true );
-					$content = $processor->get_updated_html();
+					$pagination_processor->set_attribute( 'data-gb-router-target', 'query-' . $query_id );
+					$pagination_processor->set_attribute( 'data-gb-prefetch', true );
+					$content = $pagination_processor->get_updated_html();
 				}
 			}
 		}
@@ -724,7 +724,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		if ( 'generateblocks/media' === $block_name ) {
 			$src = $args['block']['attrs']['htmlAttributes']['src'] ?? '';
 
-			if ( $src && $src === $args['tag'] && class_exists( 'WP_HTML_Tag_Processor' ) ) {
+			if ( $src && $src === $args['full_tag'] && class_exists( 'WP_HTML_Tag_Processor' ) ) {
 				$processor = new WP_HTML_Tag_Processor( $content );
 
 				if ( $processor->next_tag( 'img' ) ) {
