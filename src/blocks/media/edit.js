@@ -58,7 +58,6 @@ function EditBlock( props ) {
 	const elementAttributes = {
 		className: classNames.join( ' ' ).trim(),
 		'data-block': clientId,
-		'data-should-wrap': shouldWrapBlock,
 		...editorHtmlAttributes,
 	};
 	const TagName = tagName || 'img';
