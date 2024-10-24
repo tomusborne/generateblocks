@@ -346,7 +346,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'type'        => 'text',
 						'label'       => __( 'Separator', 'generateblocks' ),
 						'placeholder' => ', ',
-						'help'        => __( 'Enter the separator between terms. Default: ", ".' ),
+						'help'        => __( 'Enter the separator between terms.' ),
 					],
 				],
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],
