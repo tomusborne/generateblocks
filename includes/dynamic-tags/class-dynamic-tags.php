@@ -40,7 +40,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'      => __( 'Loop Item', 'generateblocks' ),
 				'tag'        => 'loop_item',
 				'type'       => 'looper',
-				'supports'   => [ 'meta' ],
+				'supports'   => [ 'properties' ],
 				'visibility' => [
 					'context' => [
 						'generateblocks/loopItem',
