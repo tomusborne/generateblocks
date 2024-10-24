@@ -4,8 +4,9 @@ import { Edit } from './edit';
 import metadata from './block.json';
 import { Save } from './save';
 import { transforms } from './transforms';
-import './index.scss';
 import getIcon from '@utils/get-icon';
+
+import './editor.scss';
 
 registerBlockType( metadata, {
 	edit: Edit,

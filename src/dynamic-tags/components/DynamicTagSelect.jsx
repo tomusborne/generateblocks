@@ -1,5 +1,13 @@
 import { useState, useEffect, useMemo, useCallback } from '@wordpress/element';
-import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
+import {
+	ComboboxControl,
+	Button,
+	TextControl,
+	CheckboxControl,
+	SelectControl,
+	Flex,
+	FlexBlock,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useDebounce } from '@wordpress/compose';
 import { applyFilters } from '@wordpress/hooks';
@@ -181,6 +189,24 @@ function getLinkToType( linkTo ) {
 export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, context } ) {
 	const allTags = generateBlocksEditor?.dynamicTags;
 	const availableTags = getVisibleTags( allTags, context );
+	const imageSizeOptions = useMemo( () => {
+		const imageSizes = generateBlocksInfo?.imageSizes ?? [];
+
+		return [
+			...imageSizes.map( ( size ) => {
+				const sanitizedSizeLabel = size
+					.replace( '-', ' ' )
+					.replace( '_', ' ' );
+
+				return {
+					value: size,
+					label: sanitizedSizeLabel.charAt( 0 ).toUpperCase() + sanitizedSizeLabel.slice( 1 ),
+				};
+			} ),
+		];
+	}, [] );
+
+	// State.
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ extraTagParams, setExtraTagParams ] = useState( {} );
 	const [ postIdSource, setPostIdSource ] = useState( '' );
@@ -188,6 +214,14 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ termSource, setTermSource ] = useState( '' );
 	const debouncedSetTermSource = useDebounce( setTermSource, 200 );
 	const [ userSource, setUserSource ] = useState( '' );
+	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
+	const [ metaKey, setMetaKey ] = useState( '' );
+	const debouncedSetMetaKey = useDebounce( setMetaKey, 200 );
+	const [ linkTo, setLinkTo ] = useState( '' );
+	const [ linkToKey, setLinkToKey ] = useState( '' );
+	const debouncedSetLinkToKey = useDebounce( setLinkToKey, 200 );
+	const [ required, setRequired ] = useState( true );
+	const [ imageSize, setImageSize ] = useState( 'full' );
 	const [ dynamicTag, setDynamicTag ] = useState( () => {
 		if ( 'loop_item' === availableTags[ 0 ]?.tag ) {
 			return availableTags[ 0 ]?.tag;
@@ -200,17 +234,13 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			return allTags.find( ( tag ) => tag.tag === dynamicTag );
 		}
 	} );
+
+	// Derived state and values.
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
 	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' );
+	const tagSupportsImageSize = dynamicTagSupports?.includes( 'image-size' );
 	const showSource = [ 'post', 'user', 'term' ].includes( dynamicTagType );
-	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
-	const [ metaKey, setMetaKey ] = useState( '' );
-	const debouncedSetMetaKey = useDebounce( setMetaKey, 200 );
-	const [ linkTo, setLinkTo ] = useState( '' );
-	const [ linkToKey, setLinkToKey ] = useState( '' );
-	const debouncedSetLinkToKey = useDebounce( setLinkToKey, 200 );
-	const [ required, setRequired ] = useState( true );
 	const contextPostId = context?.postId ?? 0;
 	const currentPostId = contextPostId ? contextPostId : currentPost?.id ?? 0;
 
@@ -278,9 +308,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		setUserSource( '' );
 		setMetaKey( '' );
 		setExtraTagParams( {} );
+		setImageSize( 'full' );
 
 		return tagData;
-	}, {
+	}, [
 		setDynamicTag,
 		setDynamicTagData,
 		setLinkTo,
@@ -291,7 +322,9 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		setUserSource,
 		setMetaKey,
 		setExtraTagParams,
-	} );
+		setImageSize,
+		allTags,
+	] );
 
 	/**
 	 * If there's an existing value we're highlighting, fill in our fields with the
@@ -314,12 +347,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		const {
 			id = null,
 			key = null,
-			none = null,
-			one = null,
-			multiple = null,
 			link = null,
 			required: requiredParam = true,
 			tax = null,
+			size = null,
 			...extraParams
 		} = parsedTag?.params;
 
@@ -352,6 +383,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			if ( linkToValues[ 1 ] ) {
 				setLinkToKey( linkToValues[ 1 ] );
 			}
+		}
+
+		if ( size ) {
+			setImageSize( size );
 		}
 
 		if ( 'false' === requiredParam ) {
@@ -403,6 +438,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `link:${ linkToValues.join( ',' ) }` );
 		}
 
+		if ( imageSize && 'full' !== imageSize ) {
+			options.push( `size:${ imageSize }` );
+		}
+
 		if ( ! required ) {
 			options.push( 'required:false' );
 		}
@@ -450,6 +489,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		taxonomySource,
 		termSource,
 		extraTagParams,
+		imageSize,
 	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
@@ -579,7 +619,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					{ 'term' === dynamicTagType && (
 						<SelectTaxonomy
 							onChange={ setTaxonomySource }
-							postType={ record?.post_type ?? currentPost?.type }
+							postType={ record?.post_type }
 							value={ taxonomySource }
 						/>
 					) }
@@ -615,6 +655,15 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							sourceId={ postIdSource || userSource || termSource }
 							type={ dynamicTagType }
 							help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
+						/>
+					) }
+
+					{ tagSupportsImageSize && (
+						<ComboboxControl
+							label={ __( 'Image Size', 'generateblocks' ) }
+							value={ imageSize }
+							options={ imageSizeOptions }
+							onChange={ setImageSize }
 						/>
 					) }
 

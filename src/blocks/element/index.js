@@ -5,10 +5,7 @@ import metadata from './block.json';
 import { Save } from './save';
 import { getElementType } from './utils/getElementType';
 import { getIcon } from '@utils';
-
-import './index.scss';
-
-export const Test = 'bazinga';
+import './editor.scss';
 
 registerBlockType( metadata, {
 	edit: Edit,

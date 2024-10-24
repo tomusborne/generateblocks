@@ -304,15 +304,17 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return int
 	 */
 	public static function get_featured_image_url( $options, $block, $instance ) {
-		$id       = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-		$image_id = get_post_thumbnail_id( $id );
-		$output   = '';
+		$id         = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$image_id   = get_post_thumbnail_id( $id );
+		$output     = '';
 
 		if ( ! $image_id ) {
 			return self::output( $output, $options, $instance );
 		}
 
-		$image = wp_get_attachment_image_src( $image_id, 'full' );
+		$size = $options['size'] ?? 'full';
+
+		$image = wp_get_attachment_image_src( $image_id, $size );
 
 		if ( ! $image ) {
 			return self::output( $output, $options, $instance );
