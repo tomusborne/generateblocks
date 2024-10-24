@@ -5,8 +5,6 @@ import {
 	TextControl,
 	CheckboxControl,
 	SelectControl,
-	Flex,
-	FlexBlock,
 } from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useDebounce } from '@wordpress/compose';
