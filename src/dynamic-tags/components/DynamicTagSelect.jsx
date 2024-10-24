@@ -236,7 +236,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	// Derived state and values.
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
-	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' );
+	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' ) || dynamicTagSupports?.includes( 'properties' );
 	const tagSupportsImageSize = dynamicTagSupports?.includes( 'image-size' );
 	const tagSupportsTaxonomy = dynamicTagSupports?.includes( 'taxonomy' );
 	const showSource = dynamicTagSupports?.includes( 'source' );
@@ -647,6 +647,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							} }
 							onClear={ () => setMetaKey( '' ) }
 							onAdd={ ( { inputValue } ) => setMetaKey( inputValue ) }
+							fallback={ Object.keys( currentLoopItem ).map( ( key ) => ( { label: key, value: key } ) ) }
 							post={ record }
 							user={ userRecord }
 							term={ termRecord }
