@@ -617,7 +617,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					{ 'term' === dynamicTagType && (
 						<SelectTaxonomy
 							onChange={ setTaxonomySource }
-							postType={ record?.post_type }
 							value={ taxonomySource }
 						/>
 					) }
