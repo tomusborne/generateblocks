@@ -238,7 +238,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
 	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' );
 	const tagSupportsImageSize = dynamicTagSupports?.includes( 'image-size' );
-	const showSource = [ 'post', 'user', 'term' ].includes( dynamicTagType );
+	const showSource = dynamicTagSupports?.includes( 'source' );
 	const contextPostId = context?.postId ?? 0;
 	const currentPostId = contextPostId ? contextPostId : currentPost?.id ?? 0;
 
