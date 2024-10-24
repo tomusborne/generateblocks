@@ -3,8 +3,8 @@ import { useMemo } from '@wordpress/element';
 import { useTaxonomies } from '@hooks';
 import { ComboboxControl } from '@wordpress/components';
 
-export function SelectTaxonomy( { onChange, value, help, postType } ) {
-	const taxonomies = useTaxonomies( postType );
+export function SelectTaxonomy( { onChange, value, help } ) {
+	const taxonomies = useTaxonomies();
 	const options = useMemo( () => {
 		return taxonomies
 			? taxonomies
