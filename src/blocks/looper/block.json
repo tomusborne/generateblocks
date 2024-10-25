@@ -25,7 +25,9 @@
 				"header",
 				"footer",
 				"nav",
-				"main"
+				"main",
+				"ul",
+				"ol"
 			]
 		},
 		"styles": {

@@ -5,6 +5,7 @@ import { OpenPanel } from '@edge22/components';
 import {
 	ApplyFilters,
 	GridColumnSelector,
+	TagNameControl,
 } from '@components/index.js';
 import { moreDesignOptions } from '@utils';
 import { useBlockStyles } from '@hooks/useBlockStyles';
@@ -25,6 +26,10 @@ export function BlockSettings( {
 		attributes,
 		setAttributes,
 	};
+
+	const {
+		tagName,
+	} = attributes;
 
 	return (
 		<ApplyFilters
@@ -57,7 +62,15 @@ export function BlockSettings( {
 				{ ...panelProps }
 				title={ __( 'Settings', 'generateblocks' ) }
 				panelId="settings"
-			/>
+			>
+				<TagNameControl
+					blockName="generateblocks/looper"
+					value={ tagName }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
+					} }
+				/>
+			</OpenPanel>
 		</ApplyFilters>
 	);
 }
