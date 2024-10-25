@@ -32,19 +32,45 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		}
 
 		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-		$link_to = $options['link'];
-		$link    = '';
+		$link    = $options['link'];
+		$parts   = explode( ',', $link );
+		$link_to = $parts[0] ?? 'post';
+		$key     = $parts[1] ?? null;
+		$url     = '';
 
-		if ( 'post' === $link_to ) {
-			$link = get_permalink( $id );
-		} elseif ( 'comments' === $link_to ) {
-			$link = get_comments_link( $id );
+		switch ( $link_to ) {
+			case 'post':
+				$url = get_permalink( $id );
+
+				break;
+			case 'post_meta':
+				$url = $key ? GenerateBlocks_Meta_Handler::get_post_meta( $id, $key, true ) : '';
+
+				break;
+			case 'comments':
+				$url = get_comments_link( $id );
+
+				break;
+			case 'author_meta':
+				$user_id = get_post_field( 'post_author', $id );
+				$url     = $key ? GenerateBlocks_Meta_Handler::get_user_meta( $user_id, $key, true ) : '';
+
+				break;
+			case 'author_archive':
+				$user_id = get_post_field( 'post_author', $id );
+				$url     = get_author_posts_url( $user_id );
+
+				break;
+			case 'author_email':
+				$user_id = get_post_field( 'post_author', $id );
+				$url     = 'mailto:' . get_the_author_meta( 'user_email', $user_id );
+				break;
 		}
 
-		if ( $link ) {
+		if ( $url ) {
 			$output = sprintf(
 				'<a href="%s">%s</a>',
-				esc_url( $link ),
+				esc_url( $url ),
 				$output
 			);
 		}
@@ -310,7 +336,9 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			return self::output( '', $options, $instance );
 		}
 
-		$image = wp_get_attachment_image_src( $image_id, 'full' );
+		$size = $options['size'] ?? 'full';
+
+		$image = wp_get_attachment_image_src( $image_id, $size );
 
 		if ( ! $image ) {
 			return self::output( '', $options, $instance );
@@ -338,26 +366,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		$image_id = get_post_thumbnail_id( $id );
 		$output   = $image_id ? $image_id : 0;
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the author avatar URL.
-	 *
-	 * @param array  $options The options.
-	 * @param object $block The block.
-	 * @param object $instance The block instance.
-	 */
-	public static function get_author_avatar_url( $options, $block, $instance ) {
-		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-
-		if ( ! $id ) {
-			return self::output( '', $options, $instance );
-		}
-
-		$size   = $options['size'] ?? 96;
-		$output = get_avatar_url( $id, [ 'size' => $size ] );
 
 		return self::output( $output, $options, $instance );
 	}
@@ -613,14 +621,62 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		return self::output( $output, $options, $instance );
 	}
 
+	/**
+	 * Get the author avatar URL.
+	 *
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
+	 * @return string
+	 */
+	public static function get_author_avatar_url( $options, $block, $instance ) {
+		$id            = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$size          = $options['size'] ?? null;
+		$default       = $options['default'] ?? null;
+		$user_id       = get_post_field( 'post_author', $id );
+		$force_default = $options['forceDefault'] ?? null;
+		$rating        = $options['rating'] ?? null;
+		$output        = '';
+
+		if ( ! $user_id ) {
+			return self::output( $output, $options, $instance );
+		}
+
+		$args = [];
+
+		if ( $size ) {
+			$args['size'] = $size;
+		}
+
+		if ( $default ) {
+			$args['default'] = $default;
+		}
+
+		// This is false by default so only add the arg if it's true.
+		if ( $force_default ) {
+			$args['force_default'] = $force_default;
+		}
+
+		if ( $rating ) {
+			$args['rating'] = $rating;
+		}
+
+		$output = get_avatar_url( $user_id, $args );
+
+		return self::output( $output, $options, $instance );
+	}
+
 
 	/**
 	 * Get the current year.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
+	 *
 	 * @return string
 	 */
-	public static function get_current_year( $options ) {
+	public static function get_current_year( $options, $block, $instance ) {
 		$output = wp_date( 'Y' );
 
 		return self::output( $output, $options, $instance );
@@ -629,10 +685,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the site title from settings.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
 	 * @return string
 	 */
-	public static function get_site_title( $options ) {
+	public static function get_site_title( $options, $block, $instance ) {
 		$output = get_option( 'blogname' );
 
 		return self::output( $output, $options, $instance );
@@ -641,10 +699,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	/**
 	 * Get the site tagline from settings.
 	 *
-	 * @param array $options The options.
+	 * @param array  $options The options.
+	 * @param array  $block The block.
+	 * @param object $instance The block instance.
 	 * @return string
 	 */
-	public static function get_site_tagline( $options ) {
+	public static function get_site_tagline( $options, $block, $instance ) {
 		$output = get_option( 'blogdescription' );
 
 		return self::output( $output, $options, $instance );

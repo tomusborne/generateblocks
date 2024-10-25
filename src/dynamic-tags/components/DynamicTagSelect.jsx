@@ -1,5 +1,11 @@
 import { useState, useEffect, useMemo } from '@wordpress/element';
-import { ComboboxControl, Button, TextControl, CheckboxControl, SelectControl } from '@wordpress/components';
+import {
+	ComboboxControl,
+	Button,
+	TextControl,
+	CheckboxControl,
+	SelectControl,
+} from '@wordpress/components';
 import { __ } from '@wordpress/i18n';
 import { useDebounce } from '@wordpress/compose';
 import { applyFilters } from '@wordpress/hooks';
@@ -41,44 +47,41 @@ function parseTag( tagString ) {
 	};
 }
 
-function getLinkToOptions( type ) {
-	switch ( type ) {
-		case 'term':
-			return [
-				{ label: __( 'None', 'generateblocks' ), value: '' },
-				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
-			];
-		default:
-			return [
-				{ label: __( 'None', 'generateblocks' ), value: '' },
-				{ label: __( 'Post', 'generateblocks' ), value: 'post' },
-				{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
-			];
-	}
-}
-
 function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 	if ( ! options ) {
 		return null;
 	}
 
 	return Object.entries( options ).map( ( option ) => {
-		const { type, label, help, choices } = option[ 1 ];
+		const {
+			type,
+			label,
+			help,
+			options: choices,
+			placeholder = '',
+		} = option[ 1 ];
 
 		function handleChange( newValue ) {
 			return setExtraTagParams( ( prevState ) => {
-				return {
-					...prevState,
-					[ option[ 0 ] ]: newValue,
-				};
+				const newState = { ...prevState };
+
+				if ( newValue ) {
+					newState[ option[ 0 ] ] = newValue;
+				} else {
+					delete newState[ option[ 0 ] ];
+				}
+
+				return newState;
 			} );
 		}
 
-		const value = extraTagParams?.[ option[ 0 ] ];
+		const value = extraTagParams?.[ option[ 0 ] ] ?? '';
+
 		const props = {
 			label,
 			help,
 			value,
+			placeholder,
 			onChange: handleChange,
 		};
 
@@ -94,7 +97,26 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 		}
 
 		if ( Array.isArray( choices ) ) {
-			props.options = choices;
+			props.options = [
+				{
+					value: '',
+					label: __( 'Default', 'generateblocks' ),
+				},
+				...choices.map( ( choice ) => {
+					if ( 'object' === typeof choice ) {
+						return {
+							value: choice.value,
+							label: choice?.label ?? choice.value,
+						};
+					}
+
+					return { label: choice, value: choice };
+				} ),
+			];
+		}
+
+		if ( 'number' === type ) {
+			props.type = 'number';
 		}
 
 		if ( 'checkbox' === type ) {
@@ -138,9 +160,53 @@ function getVisibleTags( dynamicTags, context ) {
 	} );
 }
 
+function getLinkToKeySourceId( linkTo, postRecord, postId, userId, termId ) {
+	if ( linkTo.includes( 'author' ) && postRecord ) {
+		return postRecord?.post_author;
+	}
+
+	return postId || userId || termId;
+}
+
+function getLinkToType( linkTo ) {
+	if ( linkTo.includes( 'term' ) ) {
+		return 'term';
+	}
+
+	if ( linkTo.includes( 'author' ) ) {
+		return 'author';
+	}
+
+	if ( linkTo.includes( 'user' ) ) {
+		return 'user';
+	}
+
+	return 'post';
+}
+
 export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost, context } ) {
+	const currentLoopItem = context?.[ 'generateblocks/loopItem' ] ?? {};
+	const queryType = context?.[ 'generateblocks/queryType' ] ?? 'WP_Query';
 	const allTags = generateBlocksEditor?.dynamicTags;
 	const availableTags = getVisibleTags( allTags, context );
+	const imageSizeOptions = useMemo( () => {
+		const imageSizes = generateBlocksInfo?.imageSizes ?? [];
+
+		return [
+			...imageSizes.map( ( size ) => {
+				const sanitizedSizeLabel = size
+					.replace( '-', ' ' )
+					.replace( '_', ' ' );
+
+				return {
+					value: size,
+					label: sanitizedSizeLabel.charAt( 0 ).toUpperCase() + sanitizedSizeLabel.slice( 1 ),
+				};
+			} ),
+		];
+	}, [] );
+
+	// State.
 	const [ dynamicSource, setDynamicSource ] = useState( 'current' );
 	const [ extraTagParams, setExtraTagParams ] = useState( {} );
 	const [ postIdSource, setPostIdSource ] = useState( '' );
@@ -148,32 +214,28 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const [ termSource, setTermSource ] = useState( '' );
 	const debouncedSetTermSource = useDebounce( setTermSource, 200 );
 	const [ userSource, setUserSource ] = useState( '' );
-	const [ dynamicTag, setDynamicTag ] = useState( () => {
-		if ( 'loop_item' === availableTags[ 0 ]?.tag ) {
-			return availableTags[ 0 ]?.tag;
-		}
-	} );
+	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
+	const [ metaKey, setMetaKey ] = useState( '' );
+	const debouncedSetMetaKey = useDebounce( setMetaKey, 200 );
+	const [ linkTo, setLinkTo ] = useState( '' );
+	const [ linkToKey, setLinkToKey ] = useState( '' );
+	const debouncedSetLinkToKey = useDebounce( setLinkToKey, 200 );
+	const [ required, setRequired ] = useState( true );
+	const [ imageSize, setImageSize ] = useState( 'full' );
+	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagData, setDynamicTagData ] = useState( () => {
 		if ( dynamicTag ) {
 			return allTags.find( ( tag ) => tag.tag === dynamicTag );
 		}
 	} );
+
+	// Derived state and values.
 	const dynamicTagSupports = dynamicTagData?.supports ?? [];
 	const dynamicTagType = dynamicTagData?.type ?? 'post';
-	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' );
-	const showSource = [ 'post', 'user', 'term' ].includes( dynamicTagType );
-	const [ dynamicTagToInsert, setDynamicTagToInsert ] = useState( '' );
-	const [ metaKey, setMetaKey ] = useState( '' );
-	const debouncedSetMetaKey = useDebounce( setMetaKey, 200 );
-	const [ commentsCountText, setCommentsCountText ] = useState( {
-		none: __( 'No comments', 'generateblocks' ),
-		one: __( 'One comment', 'generateblocks' ),
-		// translators: %s: number of comments
-		multiple: __( '%s comments', 'generateblocks' ),
-	} );
-	const [ linkTo, setLinkTo ] = useState( '' );
-	const [ required, setRequired ] = useState( true );
-	const [ separator, setSeparator ] = useState( '' );
+	const tagSupportsMeta = dynamicTagSupports?.includes( 'meta' ) || dynamicTagSupports?.includes( 'properties' );
+	const tagSupportsImageSize = dynamicTagSupports?.includes( 'image-size' );
+	const tagSupportsTaxonomy = dynamicTagSupports?.includes( 'taxonomy' );
+	const showSource = dynamicTagSupports?.includes( 'source' );
 	const contextPostId = context?.postId ?? 0;
 	const currentPostId = contextPostId ? contextPostId : currentPost?.id ?? 0;
 	const sourcesInOptions = applyFilters(
@@ -185,11 +247,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const postRecordArgs = useMemo( () => {
 		const options = {};
 		const load = [];
-		if ( 'author' === dynamicTagType ) {
+		if ( 'author' === dynamicTagType || linkTo.includes( 'author' ) ) {
 			load.push( 'author' );
-		} else if ( 'comment' === dynamicTagType ) {
+		} else if ( 'comment' === dynamicTagType || linkTo.includes( 'comment' ) ) {
 			load.push( 'comments' );
-		} else if ( 'term' === dynamicTagType ) {
+		} else if ( 'term' === dynamicTagType || linkTo.includes( 'term' ) ) {
 			load.push( 'terms' );
 		} else if ( 'post' === dynamicTagType ) {
 			load.push( 'post' );
@@ -212,7 +274,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}
 
 		return args;
-	}, [ dynamicTagType, postIdSource, taxonomySource ] );
+	}, [ dynamicTagType, postIdSource, taxonomySource, linkTo ] );
 
 	// Use getEntityRecord to get the post to retrieve meta from.
 	const { record } = usePostRecord( postRecordArgs );
@@ -244,6 +306,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		setTermSource( '' );
 		setUserSource( '' );
 		setMetaKey( '' );
+		setExtraTagParams( {} );
+		setImageSize( 'full' );
 
 		return tagData;
 	}
@@ -270,13 +334,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			id = null,
 			source = null,
 			key = null,
-			none = null,
-			one = null,
-			multiple = null,
 			link = null,
 			required: requiredParam = true,
-			sep = null,
 			tax = null,
+			size = null,
 			...extraParams
 		} = parsedTag?.params;
 
@@ -301,34 +362,22 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			setMetaKey( key );
 		}
 
-		if ( 'comments_count' === tag ) {
-			const existingCommentsCountText = { ...commentsCountText };
-
-			if ( none ) {
-				existingCommentsCountText.none = none;
-			}
-
-			if ( one ) {
-				existingCommentsCountText.one = one;
-			}
-
-			if ( multiple ) {
-				existingCommentsCountText.multiple = multiple;
-			}
-
-			setCommentsCountText( existingCommentsCountText );
-		}
-
 		if ( tax ) {
 			setTaxonomySource( tax );
 		}
 
-		if ( sep ) {
-			setSeparator( sep );
+		if ( link ) {
+			const linkToValues = link.split( ',' );
+
+			setLinkTo( linkToValues[ 0 ] );
+
+			if ( linkToValues[ 1 ] ) {
+				setLinkToKey( linkToValues[ 1 ] );
+			}
 		}
 
-		if ( link ) {
-			setLinkTo( link );
+		if ( size ) {
+			setImageSize( size );
 		}
 
 		if ( 'false' === requiredParam ) {
@@ -340,11 +389,40 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		}
 	}, [ selectedText ] );
 
-	const dynamicTagOptions = useMemo( () => (
-		Object.entries( availableTags ).map(
-			( [ , { title, tag } ] ) => ( { label: title, value: tag } )
-		)
-	), [ availableTags ] );
+	const dynamicTagOptions = useMemo( () => {
+		const groups = Object.values( availableTags ).reduce( ( acc, { type, title, tag } ) => {
+			const typeLabel = type.charAt( 0 ).toUpperCase() + type.slice( 1 );
+
+			return {
+				...acc,
+				[ type ]: {
+					id: type,
+					label: typeLabel,
+					items: Array.isArray( acc[ type ]?.items )
+						? [ ...acc[ type ].items, { label: title, value: tag } ]
+						: [ { label: title, value: tag } ],
+				},
+			};
+		}, {} );
+		const options = Object.values( groups );
+
+		if ( 'WP_Query' === queryType ) {
+			options.sort( ( a, b ) => {
+				// Ensure the 'post' group is first then leave the order unchanged.
+				if ( a.id === 'post' && b.id !== 'post' ) {
+					return -1;
+				}
+
+				if ( b.id === 'post' && a.id !== 'post' ) {
+					return 1;
+				}
+
+				return 0;
+			} );
+		}
+
+		return options;
+	}, [ availableTags, queryType ] );
 
 	useEffect( () => {
 		if ( ! dynamicTag ) {
@@ -354,9 +432,9 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		const options = [];
 
-		if ( 'term_meta' === dynamicTag && 'term' !== dynamicSource ) {
+		if ( 'term' === dynamicTagType && 'term' !== dynamicSource ) {
 			setDynamicSource( 'term' );
-		} else if ( ! dynamicSource || 'term_meta' === dynamicSource ) {
+		} else if ( ! dynamicSource || ( 'term' !== dynamicTagType && ! postIdSource ) ) {
 			setDynamicSource( 'current' );
 		}
 
@@ -374,25 +452,25 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `key:${ metaKey }` );
 		}
 
-		if ( dynamicTag.startsWith( 'comments_count' ) ) {
-			options.push( `none:${ commentsCountText.none }` );
-			options.push( `one:${ commentsCountText.one }` );
-			options.push( `multiple:${ commentsCountText.multiple }` );
-		}
-
 		if ( linkTo && dynamicTagSupports.includes( 'link' ) ) {
-			options.push( `link:${ linkTo }` );
+			const linkToValues = [ linkTo ];
+
+			if ( linkToKey ) {
+				linkToValues.push( linkToKey );
+			}
+
+			options.push( `link:${ linkToValues.join( ',' ) }` );
 		}
 
-		if ( dynamicTag.startsWith( 'term_list' ) && separator ) {
-			options.push( `sep:${ separator }` );
+		if ( imageSize && 'full' !== imageSize ) {
+			options.push( `size:${ imageSize }` );
 		}
 
 		if ( ! required ) {
 			options.push( 'required:false' );
 		}
 
-		if ( taxonomySource && 'term' === dynamicTagType ) {
+		if ( taxonomySource && ( 'term' === dynamicTagType || tagSupportsTaxonomy ) ) {
 			options.push( `tax:${ taxonomySource }` );
 		}
 
@@ -430,30 +508,47 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		dynamicSource,
 		dynamicTagSupports,
 		metaKey,
-		commentsCountText,
 		linkTo,
+		linkToKey,
 		required,
 		taxonomySource,
 		termSource,
-		separator,
 		extraTagParams,
+		imageSize,
+		tagSupportsTaxonomy,
 	] );
 
 	const interactiveTagNames = [ 'a', 'button' ];
 	const supportsLink = dynamicTagSupports.includes( 'link' );
 	const showLinkTo = supportsLink && ! interactiveTagNames.includes( tagName );
+	const showLinkToKey = showLinkTo && ( linkTo.includes( 'meta' ) || linkTo.includes( 'option' ) );
 	const linkToOptions = useMemo( () => {
 		if ( ! showLinkTo ) {
 			return [];
 		}
 
-		return getLinkToOptions( dynamicTagType );
-	}, [ dynamicTagType, showLinkTo ] );
+		if ( 'term' === dynamicTagType || tagSupportsTaxonomy ) {
+			return [
+				{ label: __( 'None', 'generateblocks' ), value: '' },
+				{ label: __( 'Term', 'generateblocks' ), value: 'term' },
+			];
+		}
+
+		return [
+			{ label: __( 'None', 'generateblocks' ), value: '' },
+			{ label: __( 'Post', 'generateblocks' ), value: 'post' },
+			{ label: __( 'Comments area', 'generateblocks' ), value: 'comments' },
+			{ label: __( 'Post Meta', 'generateblocks' ), value: 'post_meta' },
+			{ label: __( 'Author Meta', 'generateblocks' ), value: 'author_meta' },
+			{ label: __( 'Author Archive', 'generateblocks' ), value: 'author_archive' },
+			{ label: __( 'Author Email', 'generateblocks' ), value: 'author_email' },
+		];
+	}, [ dynamicTagType, showLinkTo, tagSupportsTaxonomy ] );
 
 	const sourceOptions = useMemo( () => {
 		const options = [];
 
-		if ( dynamicTagType === 'term' ) {
+		if ( 'term' === dynamicTagType ) {
 			options.push(
 				{ label: __( 'Current Term', 'generateblocks' ), value: 'current' },
 				{ label: __( 'Term', 'generateblocks' ), value: 'term' }
@@ -487,15 +582,29 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		);
 	}, [ dynamicTagData?.options, extraTagParams, setExtraTagParams ] );
 
+	const loopItemKeys = useMemo( () => {
+		return currentLoopItem
+			? Object.keys( currentLoopItem )
+				.filter( ( key ) => ( key.startsWith( '_' ) || 'password' === key.toLowerCase() )
+					? false
+					: true
+				)
+				.map( ( key ) => ( { label: key, value: key } ) )
+			: [];
+	}, [ currentLoopItem ] );
+
 	return (
 		<>
-			<ComboboxControl
+			<Autocomplete
 				label={ __( 'Select a dynamic tag', 'generateblocks' ) }
-				value={ dynamicTag }
-				options={ dynamicTagOptions }
-				onChange={ updateDynamicTag }
+				selected={ dynamicTag }
+				source={ dynamicTagOptions }
+				onSelect={ ( selected ) => updateDynamicTag( selected?.value ?? '' ) }
 				className="gb-dynamic-tag-select"
 				help={ dynamicTagData?.description }
+				toStringKey="label"
+				itemFilter={ Autocomplete.groupItemFilter }
+				filterOnSelect={ false }
 			/>
 
 			{ !! dynamicTag && (
@@ -529,7 +638,6 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						<>
 							<Autocomplete
 								label={ __( 'Select source user', 'generateblocks' ) }
-								defaultValue={ userSource }
 								selected={ userSource }
 								onSelect={ ( selected ) => setUserSource( selected?.value ?? '' ) }
 								source={ userOptions }
@@ -554,9 +662,10 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						</>
 					) }
 
-					{ 'term' === dynamicTagType && (
+					{ ( 'term' === dynamicTagType || tagSupportsTaxonomy ) && (
 						<SelectTaxonomy
 							onChange={ setTaxonomySource }
+							postType={ record?.post_type }
 							value={ taxonomySource }
 						/>
 					) }
@@ -585,6 +694,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							} }
 							onClear={ () => setMetaKey( '' ) }
 							onAdd={ ( { inputValue } ) => setMetaKey( inputValue ) }
+							fallback={ loopItemKeys }
 							post={ record }
 							user={ userRecord }
 							term={ termRecord }
@@ -595,47 +705,45 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 						/>
 					) }
 
-					{ dynamicTagToInsert.startsWith( '{comments_count' ) && (
-						<>
-							<TextControl
-								label={ __( 'No comments text', 'generateblocks' ) }
-								value={ commentsCountText.none }
-								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, none: value } ) }
-							/>
-
-							<TextControl
-								label={ __( 'One comment text', 'generateblocks' ) }
-								value={ commentsCountText.one }
-								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, one: value } ) }
-							/>
-
-							<TextControl
-								label={ __( 'Multiple comments text', 'generateblocks' ) }
-								value={ commentsCountText.multiple }
-								onChange={ ( value ) => setCommentsCountText( { ...commentsCountText, multiple: value } ) }
-							/>
-						</>
-					) }
-
-					{ dynamicTagToInsert.startsWith( '{term_list' ) && (
-						<>
-							<TextControl
-								label={ __( 'Separator', 'generateblocks' ) }
-								value={ separator }
-								onChange={ setSeparator }
-							/>
-						</>
+					{ tagSupportsImageSize && (
+						<ComboboxControl
+							label={ __( 'Image Size', 'generateblocks' ) }
+							value={ imageSize }
+							options={ imageSizeOptions }
+							onChange={ setImageSize }
+						/>
 					) }
 
 					{ tagSpecificControls }
 
 					{ showLinkTo && (
-						<SelectControl
-							label={ __( 'Link to', 'generateblocks' ) }
-							value={ linkTo }
-							options={ linkToOptions }
-							onChange={ setLinkTo }
-						/>
+						<>
+							<ComboboxControl
+								label={ __( 'Link to', 'generateblocks' ) }
+								value={ linkTo }
+								options={ linkToOptions }
+								onChange={ setLinkTo }
+							/>
+							{ showLinkToKey && (
+								<SelectMeta
+									value={ linkToKey }
+									onSelect={ ( newSelected ) => {
+										const newMetaKey = newSelected?.value ?? newSelected;
+										debouncedSetLinkToKey( newMetaKey ? newMetaKey : '' );
+									} }
+									onEnter={ setLinkToKey }
+									onClear={ () => setLinkToKey( '' ) }
+									onAdd={ ( { inputValue } ) => setLinkToKey( inputValue ) }
+									post={ record }
+									user={ userRecord }
+									term={ termRecord }
+									source={ dynamicSource }
+									sourceId={ getLinkToKeySourceId( linkTo, record, postIdSource, userSource, termSource ) }
+									type={ getLinkToType( linkTo ) }
+									help={ __( 'Enter an existing meta key or choose from the list.', 'generateblocks' ) }
+								/>
+							) }
+						</>
 					) }
 
 					<TextControl
