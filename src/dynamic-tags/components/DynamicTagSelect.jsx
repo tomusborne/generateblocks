@@ -569,7 +569,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			{ label: __( 'Current Post', 'generateblocks' ), value: 'current' },
 			{ label: __( 'Specific Post', 'generateblocks' ), value: 'post' },
 		];
-	}, [ dynamicTag, dynamicTagType ] );
+	}, [ dynamicTagType ] );
 
 	const tagSpecificControls = useMemo( () => {
 		return getTagSpecificControls(
