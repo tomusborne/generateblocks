@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from '@wordpress/element';
+import { useState, useEffect, useMemo } from '@wordpress/element';
 import {
 	ComboboxControl,
 	Button,
