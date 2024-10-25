@@ -444,7 +444,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( 'term' === dynamicTagType && 'term' !== dynamicSource ) {
 			setDynamicSource( 'term' );
-		} else if ( ! dynamicSource || 'term' !== dynamicTagType ) {
+		} else if ( ! dynamicSource || ( 'term' !== dynamicTagType && ! postIdSource ) ) {
 			setDynamicSource( 'current' );
 		}
 
@@ -569,7 +569,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			{ label: __( 'Current Post', 'generateblocks' ), value: 'current' },
 			{ label: __( 'Specific Post', 'generateblocks' ), value: 'post' },
 		];
-	}, [ dynamicTag, dynamicTagType ] );
+	}, [ dynamicTagType ] );
 
 	const tagSpecificControls = useMemo( () => {
 		return getTagSpecificControls(
