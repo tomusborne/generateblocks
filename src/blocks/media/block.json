@@ -51,7 +51,7 @@
     },
     "editorScript": "file:./index.js",
     "editorStyle": [
-		"file:./index.css"
+		"file:./editor.scss"
 	],
 	"usesContext": [
 		"postId",

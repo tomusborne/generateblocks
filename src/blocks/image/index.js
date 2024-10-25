@@ -23,7 +23,7 @@ const attributes = Object.assign(
 );
 
 registerBlockType( 'generateblocks/image', {
-	apiVersion: 2,
+	apiVersion: 3,
 	title: __( 'Image', 'generateblocks' ),
 	category: 'generateblocks',
 	description: __( 'Add images to your content to make a visual statement.', 'generateblocks' ),
