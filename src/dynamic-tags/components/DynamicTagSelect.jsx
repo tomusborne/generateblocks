@@ -222,13 +222,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	const debouncedSetLinkToKey = useDebounce( setLinkToKey, 200 );
 	const [ required, setRequired ] = useState( true );
 	const [ imageSize, setImageSize ] = useState( 'full' );
-	const [ dynamicTag, setDynamicTag ] = useState( () => {
-		if ( 'loop_item' === availableTags[ 0 ]?.tag ) {
-			return availableTags[ 0 ]?.tag;
-		}
-
-		return '';
-	} );
+	const [ dynamicTag, setDynamicTag ] = useState( '' );
 	const [ dynamicTagData, setDynamicTagData ] = useState( () => {
 		if ( dynamicTag ) {
 			return allTags.find( ( tag ) => tag.tag === dynamicTag );
@@ -297,7 +291,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 	} );
 	const { record: userRecord } = useUserRecord( userSource );
 
-	const updateDynamicTag = useCallback( function updateDynamicTag( newTag ) {
+	function updateDynamicTag( newTag ) {
 		setDynamicTag( newTag );
 		const tagData = allTags.find( ( tag ) => tag.tag === newTag );
 		setDynamicTagData( tagData );
@@ -312,20 +306,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		setImageSize( 'full' );
 
 		return tagData;
-	}, [
-		setDynamicTag,
-		setDynamicTagData,
-		setLinkTo,
-		setDynamicSource,
-		setPostIdSource,
-		setTaxonomySource,
-		setTermSource,
-		setUserSource,
-		setMetaKey,
-		setExtraTagParams,
-		setImageSize,
-		allTags,
-	] );
+	}
 
 	/**
 	 * If there's an existing value we're highlighting, fill in our fields with the
@@ -589,6 +570,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 				className="gb-dynamic-tag-select"
 				help={ dynamicTagData?.description }
 				toStringKey="label"
+				itemFilter={ Autocomplete.groupItemFilter }
+				filterOnSelect={ false }
 			/>
 
 			{ !! dynamicTag && (
