@@ -40,7 +40,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'      => __( 'Loop Item', 'generateblocks' ),
 				'tag'        => 'loop_item',
 				'type'       => 'looper',
-				'supports'   => [ 'meta' ],
+				'supports'   => [ 'properties' ],
 				'visibility' => [
 					'context' => [
 						'generateblocks/loopItem',
@@ -338,15 +338,15 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			[
 				'title'       => __( 'Term List', 'generateblocks' ),
 				'tag'         => 'term_list',
-				'type'        => 'term',
-				'supports'    => [ 'link', 'source' ],
+				'type'        => 'post',
+				'supports'    => [ 'link', 'source', 'taxonomy' ],
 				'description' => __( 'Get a list of terms for the specified post.', 'generateblocks' ),
 				'options'     => [
 					'sep' => [
 						'type'        => 'text',
 						'label'       => __( 'Separator', 'generateblocks' ),
 						'placeholder' => ', ',
-						'help'        => __( 'Enter the separator between terms. Default: ", ".' ),
+						'help'        => __( 'Enter the separator between terms.' ),
 					],
 				],
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_list' ],

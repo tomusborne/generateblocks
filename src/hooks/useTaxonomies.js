@@ -1,7 +1,7 @@
 import { useSelect } from '@wordpress/data';
 import { store as coreStore } from '@wordpress/core-data';
 
-export function useTaxonomies() {
+export function useTaxonomies( postType ) {
 	return useSelect( ( select ) => {
 		const { getTaxonomies } = select( coreStore );
 
@@ -13,12 +13,10 @@ export function useTaxonomies() {
 		 */
 		const excludedPostTypes = [ 'gp_elements', 'wp_block' ];
 
-		const taxonomies = getTaxonomies( args ) || [];
+		if ( postType && ! excludedPostTypes.includes( postType ) ) {
+			args.type = postType;
+		}
 
-		return taxonomies.filter( ( taxonomy ) => {
-			return ! taxonomy.types.some( ( type ) => {
-				return excludedPostTypes.includes( type );
-			} );
-		} );
-	}, [] );
+		return getTaxonomies( args ) || [];
+	}, [ postType ] );
 }
