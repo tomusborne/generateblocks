@@ -588,6 +588,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 				onSelect={ ( selected ) => updateDynamicTag( selected?.value ?? '' ) }
 				className="gb-dynamic-tag-select"
 				help={ dynamicTagData?.description }
+				toStringKey="label"
 			/>
 
 			{ !! dynamicTag && (
