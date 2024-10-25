@@ -444,7 +444,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		if ( 'term' === dynamicTagType && 'term' !== dynamicSource ) {
 			setDynamicSource( 'term' );
-		} else if ( ! dynamicSource || 'term' !== dynamicTagType ) {
+		} else if ( ! dynamicSource || ( 'term' !== dynamicTagType && ! postIdSource ) ) {
 			setDynamicSource( 'current' );
 		}
 
