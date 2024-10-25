@@ -560,6 +560,17 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		);
 	}, [ dynamicTagData?.options, extraTagParams, setExtraTagParams ] );
 
+	const loopItemKeys = useMemo( () => {
+		return currentLoopItem
+			? Object.keys( currentLoopItem )
+				.filter( ( key ) => ( key.startsWith( '_' ) || 'password' === key.toLowerCase() )
+					? false
+					: true
+				)
+				.map( ( key ) => ( { label: key, value: key } ) )
+			: [];
+	}, [ currentLoopItem ] );
+
 	return (
 		<>
 			<Autocomplete
@@ -661,7 +672,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 							} }
 							onClear={ () => setMetaKey( '' ) }
 							onAdd={ ( { inputValue } ) => setMetaKey( inputValue ) }
-							fallback={ Object.keys( currentLoopItem ).map( ( key ) => ( { label: key, value: key } ) ) }
+							fallback={ loopItemKeys }
 							post={ record }
 							user={ userRecord }
 							term={ termRecord }
