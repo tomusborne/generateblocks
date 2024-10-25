@@ -150,7 +150,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'       => __( 'Post Meta', 'generateblocks' ),
 				'tag'         => 'post_meta',
 				'type'        => 'post',
-				'supports'    => [ 'meta', 'source' ],
+				'supports'    => [ 'meta', 'source', 'link' ],
 				'description' => __( 'Access post meta by key for the specified post. Return value must be a string.', 'generateblocks' ),
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_meta' ],
 			]
@@ -161,7 +161,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'title'       => __( 'Author Meta', 'generateblocks' ),
 				'tag'         => 'author_meta',
 				'type'        => 'author',
-				'supports'    => [ 'meta', 'source' ],
+				'supports'    => [ 'meta', 'source', 'link' ],
 				'description' => __( 'Access user meta by key for the author of the specified post. Return value must be a string.', 'generateblocks' ),
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
 			]
@@ -345,7 +345,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					'sep' => [
 						'type'        => 'text',
 						'label'       => __( 'Separator', 'generateblocks' ),
-						'placeholder' => ', ',
 						'help'        => __( 'Enter the separator between terms.' ),
 					],
 				],
