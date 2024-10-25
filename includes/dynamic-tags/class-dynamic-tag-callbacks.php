@@ -216,7 +216,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_the_title( $options, $block, $instance ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$output = get_the_title( $id );
 
 		return self::output( $output, $options, $instance );
@@ -257,7 +262,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_the_permalink( $options, $block, $instance ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$output = get_permalink( $id );
 
 		return self::output( $output, $options, $instance );
@@ -272,8 +282,13 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_published_date( $options, $block, $instance ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$format = $options[ self::DATE_FORMAT_KEY ] ?? '';
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
 		$output = get_the_date( $format, $id );
 
 		return self::output( $output, $options, $instance );
@@ -288,8 +303,13 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_modified_date( $options, $block, $instance ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$format = $options[ self::DATE_FORMAT_KEY ] ?? '';
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
 		$output = get_the_modified_date( $format, $id );
 
 		return self::output( $output, $options, $instance );
@@ -304,12 +324,16 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return int
 	 */
 	public static function get_featured_image_url( $options, $block, $instance ) {
-		$id         = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-		$image_id   = get_post_thumbnail_id( $id );
-		$output     = '';
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
+		$image_id = get_post_thumbnail_id( $id );
 
 		if ( ! $image_id ) {
-			return self::output( $output, $options, $instance );
+			return self::output( '', $options, $instance );
 		}
 
 		$size = $options['size'] ?? 'full';
@@ -317,7 +341,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$image = wp_get_attachment_image_src( $image_id, $size );
 
 		if ( ! $image ) {
-			return self::output( $output, $options, $instance );
+			return self::output( '', $options, $instance );
 		}
 
 		$output = $image[0];
@@ -334,7 +358,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return int
 	 */
 	public static function get_featured_image_id( $options, $block, $instance ) {
-		$id       = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$image_id = get_post_thumbnail_id( $id );
 		$output   = $image_id ? $image_id : 0;
 
@@ -350,18 +379,22 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_post_meta( $options, $block, $instance ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
-		$key    = $options['key'] ?? '';
-		$output = '';
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
+		$key = $options['key'] ?? '';
 
 		if ( ! $key ) {
-			return self::output( $output, $options, $instance );
+			return self::output( '', $options, $instance );
 		}
 
 		$value = GenerateBlocks_Meta_Handler::get_post_meta( $id, $key, true );
 
 		if ( ! $value ) {
-			return self::output( $output, $options, $instance );
+			return self::output( '', $options, $instance );
 		}
 
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
@@ -463,7 +496,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return int
 	 */
 	public static function get_the_comments_count( $options, $block, $instance ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$none   = $options['none'] ?? __( 'No comments', 'generateblocks' );
 		$single = $options['single'] ?? __( '1 comment', 'generateblocks' );
 		$multi  = $options['multi'] ?? __( '% comments', 'generateblocks' );
@@ -495,7 +533,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_the_comments_url( $options, $block, $instance ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$output = get_comments_link( $id );
 
 		return self::output( $output, $options, $instance );
@@ -528,7 +571,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_author_meta( $options, $block, $instance ) {
-		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$user_id = get_post_field( 'post_author', $id );
 		$key     = $options['key'] ?? '';
 		$output  = '';
@@ -555,7 +603,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_author_archive_url( $options, $block, $instance ) {
-		$id      = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$user_id = get_post_field( 'post_author', $id );
 		$output  = '';
 
@@ -666,7 +719,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_term_list( $options, $block, $instance ) {
-		$id        = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$taxonomy  = $options['tax'] ?? '';
 		$separator = ! empty( $options['sep'] ) ? $options['sep'] : '';
 		$before    = $options['before'] ?? '';
@@ -694,7 +752,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_term_meta( $options, $block, $instance ) {
-		$id          = GenerateBlocks_Dynamic_Tags::get_id( $options, 'term', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'term', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$key         = $options['key'] ?? '';
 		$output      = '';
 
@@ -724,7 +787,12 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	 * @return string
 	 */
 	public static function get_user_meta( $options, $block, $instance ) {
-		$id     = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user', $instance );
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
 		$key    = $options['key'] ?? '';
 		$output = '';
 
