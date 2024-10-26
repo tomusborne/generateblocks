@@ -1,11 +1,12 @@
 import { __ } from '@wordpress/i18n';
-import { RangeControl, SelectControl } from '@wordpress/components';
-import { getBlockType } from '@wordpress/blocks';
+import { RangeControl } from '@wordpress/components';
 
 import { OpenPanel } from '@edge22/components';
 
 import {
 	ApplyFilters,
+	IdAttributeControl,
+	TagNameControl,
 } from '@components/index.js';
 
 export function BlockSettings( {
@@ -18,13 +19,8 @@ export function BlockSettings( {
 	const {
 		midSize,
 		tagName,
+		htmlAttributes,
 	} = attributes;
-
-	const tagNames = getBlockType( 'generateblocks/query-page-numbers' )?.attributes?.tagName?.enum;
-	const tagNameOptions = tagNames.map( ( tag ) => ( {
-		label: tag,
-		value: tag,
-	} ) );
 
 	const panelProps = {
 		name,
@@ -56,11 +52,24 @@ export function BlockSettings( {
 					max="10"
 				/>
 
-				<SelectControl
-					label={ __( 'Tag Name' ) }
+				<TagNameControl
+					blockName="generateblocks/query-page-numbers"
 					value={ tagName }
-					options={ tagNameOptions }
-					onChange={ ( value ) => setAttributes( { tagName: value } ) }
+					onChange={ ( value ) => {
+						setAttributes( { tagName: value } );
+					} }
+				/>
+
+				<IdAttributeControl
+					value={ htmlAttributes.id }
+					onChange={ ( value ) => {
+						setAttributes( {
+							htmlAttributes: {
+								...htmlAttributes,
+								id: value,
+							},
+						} );
+					} }
 				/>
 			</OpenPanel>
 		</ApplyFilters>

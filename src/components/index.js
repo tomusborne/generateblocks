@@ -43,6 +43,7 @@ import { TagNameToolbar } from './TagNameToolbar/TagNameToolbar';
 import { BlockAppender } from './block-appender/BlockAppender';
 import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
 import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
+import { IdAttributeControl } from './IdAttributeControl/IdAttributeControl';
 
 export {
 	AdvancedSelect,
@@ -93,4 +94,5 @@ export {
 	BlockAppender,
 	SelectQueryParameter,
 	AddQueryParameterButton,
+	IdAttributeControl,
 };

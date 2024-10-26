@@ -13,6 +13,7 @@ import {
 	URLControls,
 	DynamicTagsOnboarder,
 	UnitControl,
+	IdAttributeControl,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -245,6 +246,18 @@ export function BlockSettings( {
 							htmlAttributes: {
 								...htmlAttributes,
 								alt: value,
+							},
+						} );
+					} }
+				/>
+
+				<IdAttributeControl
+					value={ htmlAttributes.id }
+					onChange={ ( value ) => {
+						setAttributes( {
+							htmlAttributes: {
+								...htmlAttributes,
+								id: value,
 							},
 						} );
 					} }
