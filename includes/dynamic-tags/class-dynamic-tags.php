@@ -86,6 +86,24 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
+				'title'    => __( 'Post Excerpt', 'generateblocks' ),
+				'tag'      => 'post_excerpt',
+				'type'     => 'post',
+				'supports' => [ 'source' ],
+				'options'  => [
+					'readMore' => [
+						'type'  => 'text',
+						'label' => __( 'Read More Text', 'generateblocks' ),
+						'placeholder' => __( '…', 'generateblocks' ),
+						'help'  => __( 'Enter the text for the "Read More" link.', 'generateblocks' ),
+					],
+				],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_excerpt' ],
+			]
+		);
+
+		new GenerateBlocks_Register_Dynamic_Tag(
+			[
 				'title'       => __( 'Archive Title', 'generateblocks' ),
 				'tag'         => 'archive_title',
 				'type'        => 'archive',

@@ -852,4 +852,24 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		return self::output( $output, $options, $instance );
 	}
+
+	/**
+	 * Get the post's excerpt, optionally with a custom read more link.
+	 *
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
+	 * @return string
+	 */
+	public static function get_post_excerpt( $options, $block, $instance ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
+		$output = get_the_excerpt( $id );
+
+		return self::output( $output, $options, $instance );
+	}
 }
