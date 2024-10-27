@@ -92,10 +92,10 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'supports' => [ 'source' ],
 				'options'  => [
 					'readMore' => [
-						'type'  => 'text',
-						'label' => __( 'Read More Text', 'generateblocks' ),
+						'type'        => 'text',
+						'label'       => __( 'Read More Text', 'generateblocks' ),
 						'placeholder' => __( '…', 'generateblocks' ),
-						'help'  => __( 'Enter the text for the "Read More" link.', 'generateblocks' ),
+						'help'        => __( 'Enter the text for the "Read More" link.', 'generateblocks' ),
 					],
 				],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_excerpt' ],
