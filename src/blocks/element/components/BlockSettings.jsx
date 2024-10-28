@@ -77,7 +77,7 @@ export function BlockSettings( {
 			<OpenPanel
 				{ ...panelProps }
 				title={ __( 'Grid', 'generateblocks' ) }
-				shouldRender={ 'grid' === getStyleValue( 'display', currentAtRule ) }
+				shouldRender={ 'grid' === getStyleValue( 'display' ) }
 				panelId="grid"
 			>
 				<BaseControl
@@ -87,7 +87,19 @@ export function BlockSettings( {
 					<GridColumnSelector
 						value={ getStyleValue( 'gridTemplateColumns', currentAtRule ) }
 						onClick={ ( value ) => {
+							if ( value === getStyleValue( 'gridTemplateColumns', currentAtRule ) ) {
+								// If the same layout is clicked, remove the layout.
+								onStyleChange( 'gridTemplateColumns', '', currentAtRule );
+								return;
+							}
+
 							onStyleChange( 'gridTemplateColumns', value, currentAtRule );
+
+							if ( '' !== currentAtRule ) {
+								// Don't add/remove blocks for at rules.
+								return;
+							}
+
 							const selectedLayout = layouts.find( ( { layout } ) => layout === value );
 							const selectedLayoutDivCount = selectedLayout?.divs || 0;
 							const innerBlocksCount = getBlock( clientId ).innerBlocks.length;
