@@ -1,6 +1,8 @@
 import { useEffect, useMemo } from '@wordpress/element';
+import { InspectorAdvancedControls } from '@wordpress/block-editor';
 
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
+import { IdAttributeControl } from '@components/index';
 
 export const booleanAttributes = [
 	'allowfullscreen',
@@ -119,6 +121,20 @@ export function withHtmlAttributes( WrappedComponent ) {
 					editorHtmlAttributes={ combinedAttributes }
 					htmlAttributes={ frontendHtmlAttributes }
 				/>
+
+				<InspectorAdvancedControls>
+					<IdAttributeControl
+						value={ htmlAttributes.id }
+						onChange={ ( value ) => {
+							setAttributes( {
+								htmlAttributes: {
+									...htmlAttributes,
+									id: value,
+								},
+							} );
+						} }
+					/>
+				</InspectorAdvancedControls>
 			</>
 		);
 	} );
