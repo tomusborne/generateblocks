@@ -16,21 +16,20 @@ export function BlockSettings( {
 	name,
 	attributes,
 	setAttributes,
-	styles,
 } ) {
 	const {
 		currentAtRule,
 	} = useBlockStyles();
-
-	const {
-		tagName,
-	} = attributes;
 
 	const panelProps = {
 		name,
 		attributes,
 		setAttributes,
 	};
+
+	const {
+		tagName,
+	} = attributes;
 
 	return (
 		<ApplyFilters
@@ -69,10 +68,6 @@ export function BlockSettings( {
 					value={ tagName }
 					onChange={ ( value ) => {
 						setAttributes( { tagName: value } );
-
-						if ( 'a' === value && ! styles?.display ) {
-							onStyleChange( 'display', 'block' );
-						}
 					} }
 				/>
 			</OpenPanel>

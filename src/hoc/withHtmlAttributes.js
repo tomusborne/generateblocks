@@ -1,4 +1,6 @@
 import { useEffect, useMemo } from '@wordpress/element';
+import { InspectorAdvancedControls } from '@wordpress/block-editor';
+import { TextControl } from '@wordpress/components';
 
 import { convertInlineStyleStringToObject } from '@utils/convertInlineStyleStringToObject';
 
@@ -119,6 +121,21 @@ export function withHtmlAttributes( WrappedComponent ) {
 					editorHtmlAttributes={ combinedAttributes }
 					htmlAttributes={ frontendHtmlAttributes }
 				/>
+
+				<InspectorAdvancedControls>
+					<TextControl
+						label="HTML ID"
+						value={ htmlAttributes.id }
+						onChange={ ( value ) => {
+							setAttributes( {
+								htmlAttributes: {
+									...htmlAttributes,
+									id: value,
+								},
+							} );
+						} }
+					/>
+				</InspectorAdvancedControls>
 			</>
 		);
 	} );

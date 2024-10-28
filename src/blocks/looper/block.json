@@ -25,6 +25,7 @@
 				"header",
 				"footer",
 				"nav",
+				"main",
 				"ul",
 				"ol"
 			]

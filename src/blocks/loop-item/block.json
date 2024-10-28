@@ -19,11 +19,9 @@
 			"default": "",
 			"enum": [
 				"div",
-				"a",
-				"li",
 				"article",
-				"section",
-				"aside"
+				"a",
+				"li"
 			]
 		},
 		"styles": {
