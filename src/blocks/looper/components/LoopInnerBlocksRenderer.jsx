@@ -9,6 +9,8 @@ import { Spinner } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { memo, useEffect, useMemo, useState } from '@wordpress/element';
 import { applyFilters } from '@wordpress/hooks';
+import { useWarnOnChange } from '@wordpress/compose';
+import apiFetch from '@wordpress/api-fetch';
 
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -33,44 +35,92 @@ function setIsBlockPreview( innerBlocks ) {
 	} );
 }
 
-function useWpQuery( shouldRequest = true, query ) {
-	const normalizedQuery = useMemo( () => {
-		return normalizeRepeatableArgs( removeEmpty( query ) );
-	}, [ JSON.stringify( query ) ] );
+// function useWpQuery( shouldRequest = true, query ) {
+// 	const normalizedQuery = useMemo( () => {
+// 		return normalizeRepeatableArgs( removeEmpty( query ) );
+// 	}, [ JSON.stringify( query ) ] );
 
-	return useSelect( ( select ) => {
+// 	return useSelect( ( select ) => {
+// 		if ( ! shouldRequest ) {
+// 			return null;
+// 		}
+// 		const {
+// 			getEntityRecords,
+// 			isResolving,
+// 			hasFinishedResolution,
+// 			canUser,
+// 		} = select( coreStore );
+
+// 		/**
+// 		 * Include capabilities check for 'update' and 'settings'
+// 		 * to determine if the user can update settings.
+// 		 */
+// 		const queryParams = [
+// 			'postType',
+// 			query.post_type || 'post',
+// 			canUser( 'update', 'settings' )
+// 				? normalizedQuery
+// 				: {
+// 					...normalizedQuery,
+// 					status: 'publish',
+// 				},
+// 		];
+
+// 		return {
+// 			data: getEntityRecords( ...queryParams ),
+// 			isResolvingData: isResolving( 'getEntityRecords', queryParams ),
+// 			hasResolvedData: hasFinishedResolution( 'getEntityRecords', queryParams ),
+// 			queryParams,
+// 		};
+// 	}, [ JSON.stringify( normalizedQuery ) ] );
+// }
+
+function useWpQuery( shouldRequest = true, query ) {
+	const canUser = useSelect( ( select ) => shouldRequest ? select( coreStore ).canUser : null, [] );
+
+	const [ data, setData ] = useState( [] );
+	const [ isLoading, setIsLoading ] = useState( true );
+
+	useEffect( () => {
 		if ( ! shouldRequest ) {
 			return null;
 		}
-		const {
-			getEntityRecords,
-			isResolving,
-			hasFinishedResolution,
-			canUser,
-		} = select( coreStore );
 
-		/**
-		 * Include capabilities check for 'update' and 'settings'
-		 * to determine if the user can update settings.
-		 */
-		const queryParams = [
-			'postType',
-			query.post_type || 'post',
-			canUser( 'update', 'settings' )
-				? normalizedQuery
-				: {
-					...normalizedQuery,
-					status: 'publish',
-				},
-		];
-
-		return {
-			data: getEntityRecords( ...queryParams ),
-			isResolvingData: isResolving( 'getEntityRecords', queryParams ),
-			hasResolvedData: hasFinishedResolution( 'getEntityRecords', queryParams ),
-			queryParams,
+		const args = {
+			...query,
+			post_type: query.post_type || 'post',
 		};
-	}, [ JSON.stringify( normalizedQuery ) ] );
+
+		if ( ! canUser( 'update', 'settings' ) ) {
+			args.post_status = 'publish';
+		}
+
+		async function fetchPosts() {
+			setIsLoading( true );
+
+			try {
+				const response = await apiFetch( {
+					path: '/generateblocks/v1/get-posts',
+					method: 'POST',
+					data: {
+						args,
+					},
+				} );
+
+				setData( response );
+			} catch ( error ) {
+				console.error( 'Error fetching post record:', error ); // eslint-disable-line no-console
+			} finally {
+				setIsLoading( false );
+			}
+		}
+
+		fetchPosts();
+	}, [ query ] );
+
+	const result = { data, isResolvingData: isLoading, hasResolvedData: data?.length > 0 };
+
+	return shouldRequest ? result : null;
 }
 
 export function LoopInnerBlocksRenderer( props ) {
@@ -82,20 +132,16 @@ export function LoopInnerBlocksRenderer( props ) {
 		'generateblocks/query': query = {},
 		'generateblocks/queryType': queryType = 'WP_Query',
 	} = context;
-	const [ dataState, setDataState ] = useState( {
-		data: [],
+	let dataState = {
+		data: null,
 		isResolvingData: true,
 		hasResolvedData: false,
 		queryParams: [],
-	} );
+	};
 
 	const wpQuery = useWpQuery( 'WP_Query' === queryType, query );
 
-	useEffect( () => {
-		if ( null !== wpQuery ) {
-			setDataState( { ...wpQuery } );
-		}
-	}, [ wpQuery ] );
+	useWarnOnChange( wpQuery );
 
 	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
 		query,
@@ -104,27 +150,24 @@ export function LoopInnerBlocksRenderer( props ) {
 		props,
 	} );
 
-	useEffect( () => {
-		if ( null !== wpQuery ) {
-			setDataState( { ...wpQuery } );
-		} else if ( null !== otherQuery && null === wpQuery ) {
-			setDataState( { ...otherQuery } );
-		} else {
-			setDataState( {
-				data: [],
-				isResolvingData: false,
-				hasResolvedData: true,
-				queryParams: [],
-			} );
-		}
-	}, [ otherQuery, wpQuery ] );
+	if ( null !== wpQuery ) {
+		dataState = ( { ...wpQuery } );
+	} else if ( null !== otherQuery && null === wpQuery ) {
+		dataState = ( { ...otherQuery } );
+	} else {
+		dataState = {
+			data: [],
+			isResolvingData: false,
+			hasResolvedData: false,
+		};
+	}
 
 	const {
 		data,
 		isResolvingData,
 		hasResolvedData,
 	} = dataState;
-	const hasData = ! isResolvingData && hasResolvedData && data?.length;
+
 	const innerBlocks = useSelect( ( select ) => {
 		return select( 'core/block-editor' )?.getBlocks( clientId );
 	}, [] );
@@ -172,7 +215,7 @@ export function LoopInnerBlocksRenderer( props ) {
 	}, [ JSON.stringify( innerBlocks ) ] );
 
 	const loopItemsContext = useMemo( () => {
-		if ( hasData && Array.isArray( data ) ) {
+		if ( hasResolvedData && Array.isArray( data ) ) {
 			let perPage = query?.per_page ?? 10;
 
 			if ( -1 === perPage ) {
@@ -201,9 +244,9 @@ export function LoopInnerBlocksRenderer( props ) {
 			},
 			'generateblocks/loopIndex': 1,
 		} ];
-	}, [ data, hasData, query?.per_page ] );
+	}, [ data, hasResolvedData, query?.per_page ] );
 
-	if ( isResolvingData || ! hasResolvedData ) {
+	if ( isResolvingData ) {
 		return ( <Spinner /> );
 	}
 

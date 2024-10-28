@@ -434,6 +434,18 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		register_rest_route(
 			'generateblocks/v1',
+			'/get-posts',
+			[
+				'methods'             => 'POST',
+				'callback'            => [ $this, 'get_posts' ],
+				'permission_callback' => function() {
+					return current_user_can( 'edit_posts' );
+				},
+			]
+		);
+
+		register_rest_route(
+			'generateblocks/v1',
 			'/post-record',
 			array(
 				'methods'  => 'GET',
@@ -547,6 +559,19 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		}
 
 		return rest_ensure_response( $replacements );
+	}
+
+	/**
+	 * Gets posts and returns an array of WP_Post objects.
+	 *
+	 * @param WP_REST_Request $request The request.
+	 */
+	public function get_posts( $request ) {
+		$args = $request->get_param( 'args' );
+
+		error_log( print_r( $args, true ) );
+
+		return get_posts( $args );
 	}
 
 	/**
