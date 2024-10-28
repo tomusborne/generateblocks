@@ -19,13 +19,13 @@ export function TemplateSelector( {
 			<Placeholder
 				label={ label }
 				instructions={ instructions }
-				className="gb-select-template-layout"
+				className="gb-select-variation"
 			>
-				<div className="gb-template-selector">
+				<div className="gb-variation-selector">
 					{ templates && templates.map( ( template ) => (
 						<Button
 							key={ `template-${ template.id }` }
-							className="gb-template-selector-button"
+							className="gb-variation-selector__button"
 							onClick={ () => {
 								replaceInnerBlocks(
 									clientId,
@@ -52,9 +52,9 @@ export function TemplateSelector( {
 					) ) }
 				</div>
 
-				<div className="gb-select-template-layout__actions">
+				<div className="gb-select-variation__actions">
 					<Button
-						className="gblocks-cancel-placeholder is-small"
+						className="is-small"
 						onClick={ () => removeBlock( clientId ) }
 						variant="secondary"
 					>

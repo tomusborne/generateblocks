@@ -1,12 +1,13 @@
-.gb-template-selector {
+.gb-variation-selector {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 16px;
 
-	&-button {
+	&__button {
 		font-size: 13px;
 		display: inline-flex;
 		flex-direction: column;
-		height: 100%;
+		height: auto;
 		padding: 0;
 		gap: 8px;
 		margin: 0 !important;
@@ -18,13 +19,10 @@
 	}
 }
 
-.gb-select-template-layout {
-	.components-placeholder__label {
-		margin: 0 auto;
-	}
-
+.gb-select-variation {
+	.components-placeholder__label,
 	.components-placeholder__instructions {
-		margin: 2em auto;
+		margin: 0 auto;
 	}
 
 	.components-placeholder__fieldset {
