@@ -422,7 +422,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		register_rest_route(
 			'generateblocks/v1',
-			'/get-posts',
+			'/get-latest-posts',
 			[
 				'methods'  => 'GET',
 				'callback' => [ $this, 'get_latest_posts' ],
