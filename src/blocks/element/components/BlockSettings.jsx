@@ -14,6 +14,7 @@ import {
 	GridColumnSelector,
 	gridColumnLayouts as layouts,
 	DynamicTagsOnboarder,
+	IdAttributeControl,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 import { getElementType } from '../utils/getElementType';
@@ -158,6 +159,18 @@ export function BlockSettings( {
 						</Notice>
 					</BaseControl>
 				) }
+
+				<IdAttributeControl
+					value={ htmlAttributes.id }
+					onChange={ ( value ) => {
+						setAttributes( {
+							htmlAttributes: {
+								...htmlAttributes,
+								id: value,
+							},
+						} );
+					} }
+				/>
 			</OpenPanel>
 
 			<OpenPanel

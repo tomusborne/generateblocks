@@ -20,7 +20,8 @@
 			"enum": [
 				"div",
 				"article",
-				"a"
+				"a",
+				"li"
 			]
 		},
 		"styles": {
