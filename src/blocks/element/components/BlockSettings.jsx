@@ -77,7 +77,13 @@ export function BlockSettings( {
 			<OpenPanel
 				{ ...panelProps }
 				title={ __( 'Grid', 'generateblocks' ) }
-				shouldRender={ 'grid' === getStyleValue( 'display' ) }
+				shouldRender={
+					'grid' === getStyleValue( 'display' ) &&
+					(
+						'grid' === getStyleValue( 'display', currentAtRule ) ||
+						'' === getStyleValue( 'display', currentAtRule )
+					)
+				}
 				panelId="grid"
 			>
 				<BaseControl
