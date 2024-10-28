@@ -10,6 +10,7 @@ import deprecated from './deprecated';
 import blockAttributes from './attributes';
 import getIcon from '../../utils/get-icon';
 import dynamicContentAttributes from '../../extend/dynamic-content/attributes';
+import { transforms } from './transforms';
 
 import {
 	__,
@@ -37,7 +38,7 @@ const attributes = Object.assign(
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'generateblocks/button', {
-	apiVersion: 2,
+	apiVersion: 3,
 	title: __( 'Button', 'generateblocks' ),
 	description: __( 'Drive conversions with beautiful buttons.', 'generateblocks' ),
 	icon: getIcon( 'button' ),
@@ -54,6 +55,7 @@ registerBlockType( 'generateblocks/button', {
 	edit: editButton,
 	save: saveButton,
 	deprecated,
+	transforms,
 	usesContext: [ 'postId', 'postType', 'generateblocks/query', 'generateblocks/inheritQuery' ],
 	__experimentalLabel: ( attrs, { context } ) => {
 		const customName = attrs?.metadata?.name;
