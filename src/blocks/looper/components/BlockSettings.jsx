@@ -5,7 +5,6 @@ import { OpenPanel } from '@edge22/components';
 import {
 	ApplyFilters,
 	GridColumnSelector,
-	IdAttributeControl,
 	TagNameControl,
 } from '@components/index.js';
 import { moreDesignOptions } from '@utils';
@@ -30,7 +29,6 @@ export function BlockSettings( {
 
 	const {
 		tagName,
-		htmlAttributes,
 	} = attributes;
 
 	return (
@@ -70,18 +68,6 @@ export function BlockSettings( {
 					value={ tagName }
 					onChange={ ( value ) => {
 						setAttributes( { tagName: value } );
-					} }
-				/>
-
-				<IdAttributeControl
-					value={ htmlAttributes.id }
-					onChange={ ( value ) => {
-						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								id: value,
-							},
-						} );
 					} }
 				/>
 			</OpenPanel>

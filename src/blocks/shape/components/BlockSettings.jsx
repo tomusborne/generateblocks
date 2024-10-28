@@ -5,7 +5,6 @@ import { OpenPanel, IconControl } from '@edge22/components';
 import {
 	ApplyFilters,
 	ColorPickerControls,
-	IdAttributeControl,
 	UnitControl,
 } from '@components/index.js';
 import { moreDesignOptions } from '@utils';
@@ -37,7 +36,6 @@ export function BlockSettings( {
 	const {
 		html,
 		className,
-		htmlAttributes,
 	} = attributes;
 
 	const {
@@ -135,19 +133,7 @@ export function BlockSettings( {
 				title={ __( 'Settings', 'generateblocks' ) }
 				shouldRender={ '' === currentAtRule }
 				panelId="settings"
-			>
-				<IdAttributeControl
-					value={ htmlAttributes.id }
-					onChange={ ( value ) => {
-						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								id: value,
-							},
-						} );
-					} }
-				/>
-			</OpenPanel>
+			/>
 		</ApplyFilters>
 	);
 }

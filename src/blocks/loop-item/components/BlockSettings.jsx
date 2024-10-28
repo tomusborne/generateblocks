@@ -7,7 +7,6 @@ import {
 	ApplyFilters,
 	URLControls,
 	TagNameControl,
-	IdAttributeControl,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 
@@ -86,18 +85,6 @@ export function BlockSettings( {
 						</Notice>
 					</BaseControl>
 				) }
-
-				<IdAttributeControl
-					value={ htmlAttributes.id }
-					onChange={ ( value ) => {
-						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								id: value,
-							},
-						} );
-					} }
-				/>
 			</OpenPanel>
 		</ApplyFilters>
 	);

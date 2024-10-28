@@ -9,7 +9,6 @@ import {
 	URLControls,
 	TagNameControl,
 	DynamicTagsOnboarder,
-	IdAttributeControl,
 } from '@components/index.js';
 import { useBlockStyles } from '@hooks/useBlockStyles';
 import generalSvgs from '@components/icon-picker/svgs-general';
@@ -94,18 +93,6 @@ export function BlockSettings( {
 						if ( 'a' === value && ! getStyleValue( 'display', currentAtRule ) ) {
 							onStyleChange( 'display', 'block' );
 						}
-					} }
-				/>
-
-				<IdAttributeControl
-					value={ htmlAttributes.id }
-					onChange={ ( value ) => {
-						setAttributes( {
-							htmlAttributes: {
-								...htmlAttributes,
-								id: value,
-							},
-						} );
 					} }
 				/>
 			</OpenPanel>
