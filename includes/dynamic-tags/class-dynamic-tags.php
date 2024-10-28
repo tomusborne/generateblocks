@@ -91,11 +91,23 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'type'     => 'post',
 				'supports' => [ 'source' ],
 				'options'  => [
+					'length' => [
+						'type'        => 'number',
+						'label'       => __( 'Excerpt Length', 'generateblocks' ),
+						'placeholder' => __( '55', 'generateblocks' ),
+						'help'        => __( 'Enter the number of words to display in the excerpt. If empty, the default theme behavior is used.', 'generateblocks' ),
+					],
+					'pre' => [
+						'type'        => 'text',
+						'label'       => __( 'Pre Read More Text', 'generateblocks' ),
+						'placeholder' => __( '...', 'generateblocks' ),
+						'help'        => __( 'Enter text between the truncated post excerpt and the read more link.', 'generateblocks' ),
+					],
 					'readMore' => [
 						'type'        => 'text',
 						'label'       => __( 'Read More Text', 'generateblocks' ),
-						'placeholder' => __( '…', 'generateblocks' ),
-						'help'        => __( 'Enter the text for the "Read More" link.', 'generateblocks' ),
+						'placeholder' => __( 'Read More', 'generateblocks' ),
+						'help'        => __( 'Enter the text for the "Read More" link. Leave blank to hide the link.', 'generateblocks' ),
 					],
 				],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_excerpt' ],
