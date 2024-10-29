@@ -5,8 +5,10 @@ import { useSelect, useDispatch } from '@wordpress/data';
 import { createBlock } from '@wordpress/blocks';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { BlockControls } from '@wordpress/block-editor';
-import useInnerBlocksCount from '@hooks/useInnerBlocksCount';
+
 import { isEmpty } from 'lodash';
+
+import useInnerBlocksCount from '@hooks/useInnerBlocksCount';
 
 function AddInnerContainerIcon() {
 	return (
