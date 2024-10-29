@@ -1,13 +1,11 @@
 import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
-import { useWarnOnChange } from '@wordpress/compose';
 
 import { Autocomplete } from '@edge22/components';
 
 export function SelectTerm( props ) {
 	const { value, taxonomy, onSelect, postId } = props;
-	useWarnOnChange( props );
 	const terms = useSelect( ( select ) => {
 		const { getEntityRecords } = select( coreStore );
 		const params = [ 'taxonomy', taxonomy ];
