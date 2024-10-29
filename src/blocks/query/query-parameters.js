@@ -12,7 +12,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		isSticky: true,
 	},
 	{
-		id: 'per_page',
+		id: 'posts_per_page',
 		type: 'number',
 		default: 10,
 		label: __( 'Posts per page', 'generateblocks' ),
@@ -21,7 +21,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		isSticky: true,
 	},
 	{
-		id: 'page',
+		id: 'paged',
 		type: 'number',
 		default: 1,
 		label: __( 'Page', 'generateblocks' ),
@@ -37,7 +37,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Pagination', 'generateblocks' ),
 	},
 	{
-		id: 'search',
+		id: 's',
 		type: 'text',
 		default: '',
 		label: __( 'Search', 'generateblocks' ),
@@ -75,7 +75,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Order & Order by', 'generateblocks' ),
 	},
 	{
-		id: 'author',
+		id: 'author__in',
 		type: 'authorsSelect',
 		default: [],
 		dependencies: {
@@ -86,7 +86,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Author', 'generateblocks' ),
 	},
 	{
-		id: 'author_exclude',
+		id: 'author__not_in',
 		type: 'authorsSelect',
 		default: [],
 		dependencies: {
@@ -117,7 +117,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		repeatableDefaultValue: { taxonomy: '', terms: [], rest: '', includeChildren: true },
 	},
 	{
-		id: 'status',
+		id: 'post_status',
 		type: 'multiSelect',
 		default: [],
 		selectOptions: [
@@ -136,7 +136,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Status', 'generateblocks' ),
 	},
 	{
-		id: 'parent',
+		id: 'post_parent__in',
 		type: 'postsSelect',
 		default: [],
 		dependencies: {
@@ -148,7 +148,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
-		id: 'parent_exclude',
+		id: 'post_parent__not_in',
 		type: 'postsSelect',
 		default: [],
 		dependencies: {
@@ -160,7 +160,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
-		id: 'include',
+		id: 'post__in',
 		type: 'postsSelect',
 		default: [],
 		dependencies: {
@@ -171,7 +171,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
-		id: 'exclude',
+		id: 'post__not_in',
 		type: 'postsSelect',
 		default: [],
 		dependencies: {
@@ -197,7 +197,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Post', 'generateblocks' ),
 	},
 	{
-		id: 'after',
+		id: 'date_query_after',
 		type: 'dateTimePicker',
 		default: '',
 		label: __( 'After', 'generateblocks' ),
@@ -205,7 +205,7 @@ export default applyFilters( 'generateblocks.editor.query.query-parameters', [
 		group: __( 'Date', 'generateblocks' ),
 	},
 	{
-		id: 'before',
+		id: 'date_query_before',
 		type: 'dateTimePicker',
 		default: '',
 		label: __( 'Before', 'generateblocks' ),

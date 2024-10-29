@@ -27,7 +27,11 @@ import RootElement from './root-element';
 import SimpleMultiSelect from './simple-multi-select';
 import SimpleSelect from './simple-select';
 import { TagNameControl } from './tagname-control';
-import TaxonomiesSelect from './taxonomies-select';
+import {
+	default as TaxonomiesSelect,
+	CategoriesSelect,
+	TagsSelect,
+} from './taxonomies-select';
 import { TemplateSelector } from './template-selector';
 import UnitControl from './unit-control';
 import UnitPicker from './unit-picker';
@@ -45,10 +49,14 @@ import SelectQueryParameter from './inspector-controls/SelectQueryParameter';
 import AddQueryParameterButton from './inspector-controls/AddQueryParameterButton';
 
 export {
+	AddQueryParameterButton,
 	AdvancedSelect,
 	AlignmentMatrix,
 	ApplyFilters,
 	AuthorsSelect,
+	BlockAppender,
+	BlockStylesBuilder,
+	CategoriesSelect,
 	ColorGroup,
 	ColorPickerControls,
 	ColorPickerGroup,
@@ -56,12 +64,13 @@ export {
 	DateTimePickerControl,
 	DebouncedTextControl,
 	DimensionsControl,
+	DynamicTagsOnboarder,
 	Element,
 	FlexControl,
 	GoogleFontLink,
 	Gradient,
-	GridColumnSelector,
 	gridColumnLayouts,
+	GridColumnSelector,
 	HtmlAnchor,
 	IconPicker,
 	IconWrapper,
@@ -69,28 +78,25 @@ export {
 	LinkBlockToolbar,
 	LinkControl,
 	MigrateInnerContainer,
+	NoticePanel,
 	NumberControl,
+	OnboardNotice,
 	OnboardPopover,
 	PanelArea,
+	PortaledStyles,
 	PostTypeRecordsSelect,
 	RangeControl,
 	RootElement,
+	SelectQueryParameter,
 	SimpleMultiSelect,
 	SimpleSelect,
+	StylesOnboarder,
 	TagNameControl,
+	TagNameToolbar,
+	TagsSelect,
 	TaxonomiesSelect,
 	TemplateSelector,
 	UnitControl,
 	UnitPicker,
 	URLControls,
-	PortaledStyles,
-	BlockStylesBuilder,
-	DynamicTagsOnboarder,
-	StylesOnboarder,
-	NoticePanel,
-	OnboardNotice,
-	TagNameToolbar,
-	BlockAppender,
-	SelectQueryParameter,
-	AddQueryParameterButton,
 };
