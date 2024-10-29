@@ -6,7 +6,6 @@ import { compose } from '@wordpress/compose';
 import { BlockStyles, withUniqueId } from '@edge22/block-styles';
 
 import { withDynamicTag } from '../../hoc/withDynamicTag';
-import { LinkBlockToolbar } from '../../components/link-block-toolbar/LinkBlockToolbar.jsx';
 import { Icon } from './components/Icon.jsx';
 import RootElement from '../../components/root-element/index.js';
 import { BlockSettings } from './components/BlockSettings';
@@ -42,7 +41,6 @@ function EditBlock( props ) {
 		icon,
 		iconLocation,
 		iconOnly,
-		htmlAttributes = {},
 	} = attributes;
 
 	useEffect( () => {
@@ -170,13 +168,6 @@ function EditBlock( props ) {
 				label={ __( 'Choose tag name', 'generateblocks' ) }
 				tagName={ tagName }
 				onChange={ ( value ) => setAttributes( { tagName: value } ) }
-			/>
-
-			<LinkBlockToolbar
-				setAttributes={ setAttributes }
-				htmlAttributes={ htmlAttributes }
-				tagName={ tagName }
-				context={ context }
 			/>
 
 			{ ! iconOnly && (
