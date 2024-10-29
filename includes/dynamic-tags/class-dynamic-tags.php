@@ -569,9 +569,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	public function get_posts( $request ) {
 		$args = $request->get_param( 'args' );
 
-		error_log( print_r( $args, true ) );
-
-		return get_posts( $args );
+		return rest_ensure_response( get_posts( $args ) );
 	}
 
 	/**

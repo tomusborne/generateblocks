@@ -16,6 +16,8 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { normalizeRepeatableArgs, removeEmpty } from '@utils/index';
 
+const DISALLOWED_KEYS = [ 'post_password', 'password' ];
+
 function BlockPreview( { blocks } ) {
 	const blockPreviewProps = useBlockPreview( {
 		blocks,
@@ -35,46 +37,6 @@ function setIsBlockPreview( innerBlocks ) {
 	} );
 }
 
-// function useWpQuery( shouldRequest = true, query ) {
-// 	const normalizedQuery = useMemo( () => {
-// 		return normalizeRepeatableArgs( removeEmpty( query ) );
-// 	}, [ JSON.stringify( query ) ] );
-
-// 	return useSelect( ( select ) => {
-// 		if ( ! shouldRequest ) {
-// 			return null;
-// 		}
-// 		const {
-// 			getEntityRecords,
-// 			isResolving,
-// 			hasFinishedResolution,
-// 			canUser,
-// 		} = select( coreStore );
-
-// 		/**
-// 		 * Include capabilities check for 'update' and 'settings'
-// 		 * to determine if the user can update settings.
-// 		 */
-// 		const queryParams = [
-// 			'postType',
-// 			query.post_type || 'post',
-// 			canUser( 'update', 'settings' )
-// 				? normalizedQuery
-// 				: {
-// 					...normalizedQuery,
-// 					status: 'publish',
-// 				},
-// 		];
-
-// 		return {
-// 			data: getEntityRecords( ...queryParams ),
-// 			isResolvingData: isResolving( 'getEntityRecords', queryParams ),
-// 			hasResolvedData: hasFinishedResolution( 'getEntityRecords', queryParams ),
-// 			queryParams,
-// 		};
-// 	}, [ JSON.stringify( normalizedQuery ) ] );
-// }
-
 function useWpQuery( shouldRequest = true, query ) {
 	const canUser = useSelect( ( select ) => shouldRequest ? select( coreStore ).canUser : null, [] );
 
@@ -83,7 +45,7 @@ function useWpQuery( shouldRequest = true, query ) {
 
 	useEffect( () => {
 		if ( ! shouldRequest ) {
-			return null;
+			return;
 		}
 
 		const args = {
@@ -140,8 +102,6 @@ export function LoopInnerBlocksRenderer( props ) {
 	};
 
 	const wpQuery = useWpQuery( 'WP_Query' === queryType, query );
-
-	useWarnOnChange( wpQuery );
 
 	const otherQuery = applyFilters( 'generateblocks.editor.looper.query', null, {
 		query,
@@ -226,6 +186,14 @@ export function LoopInnerBlocksRenderer( props ) {
 
 			return items.map( ( item, index ) => {
 				const { ID = null, id = null, type = 'post' } = item;
+
+				// Remove any disallowed or hidden keys
+				for ( const itemKey in item ) {
+					if ( DISALLOWED_KEYS.includes( itemKey ) || itemKey.startsWith( '_' ) ) {
+						delete item[ itemKey ];
+					}
+				}
+
 				return {
 					postType: type,
 					postId: id ? id : ID,

@@ -15,6 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @since 2.0.0
  */
 class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
+
+	const DISALLOWED_KEYS = [
+		'post_password',
+		'password',
+	];
+
 	/**
 	 * Initialize all hooks.
 	 *
@@ -174,7 +180,7 @@ class GenerateBlocks_Meta_Handler extends GenerateBlocks_Singleton {
 		$key_parts = array_map( 'trim', explode( '.', $key ) );
 		$parent_name = $key_parts[0];
 
-		if ( empty( $key ) ) {
+		if ( empty( $key ) || in_array( $parent_name, self::DISALLOWED_KEYS, true ) ) {
 			return '';
 		}
 

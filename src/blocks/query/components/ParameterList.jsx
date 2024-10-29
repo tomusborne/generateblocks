@@ -1,4 +1,4 @@
-import queryParameterOptions from '../../query-loop/query-parameters';
+import queryParameterOptions from '../query-parameters';
 import ParameterControl from '../../../components/inspector-controls/parameter-list/ParameterControl';
 
 const getParametersList = ( query ) => {
