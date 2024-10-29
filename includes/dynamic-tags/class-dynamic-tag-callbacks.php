@@ -881,34 +881,32 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			100
 		);
 
-		if ( $use_custom_read_more ) {
-			$filter_more_text = function() use ( $read_more, $pre_read_more ) {
-				if ( ! $read_more ) {
-					return $pre_read_more;
-				}
+		$filter_more_text = function() use ( $read_more, $pre_read_more ) {
+			if ( ! $read_more ) {
+				return $pre_read_more;
+			}
 
-				return apply_filters(
-					'generateblocks_dynamic_excerpt_more_link',
+			return apply_filters(
+				'generateblocks_dynamic_excerpt_more_link',
+				sprintf(
+					'%1$s<a class="gb-dynamic-read-more" href="%2$s" aria-label="%3$s">%4$s</a>',
+					wp_kses_post( $pre_read_more ),
+					esc_url( get_permalink( get_the_ID() ) ),
 					sprintf(
-						'%1$s<a class="gb-dynamic-read-more" href="%2$s" aria-label="%3$s">%4$s</a>',
-						wp_kses_post( $pre_read_more ),
-						esc_url( get_permalink( get_the_ID() ) ),
-						sprintf(
-							/* translators: Aria-label describing the read more button */
-							_x( 'More on %s', 'more on post title', 'gp-premium' ),
-							the_title_attribute( 'echo=0' )
-						),
-						wp_kses_post( $read_more )
-					)
-				);
-			};
-
-			add_filter(
-				'excerpt_more',
-				$filter_more_text,
-				100
+						/* translators: Aria-label describing the read more button */
+						_x( 'More on %s', 'more on post title', 'gp-premium' ),
+						the_title_attribute( 'echo=0' )
+					),
+					wp_kses_post( $read_more )
+				)
 			);
-		}
+		};
+
+		add_filter(
+			'excerpt_more',
+			$filter_more_text,
+			100
+		);
 
 		$output = get_the_excerpt( $id );
 

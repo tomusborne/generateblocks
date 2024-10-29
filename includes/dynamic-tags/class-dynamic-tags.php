@@ -101,14 +101,12 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					'pre' => [
 						'type'        => 'text',
 						'label'       => __( 'Pre Read More Text', 'generateblocks' ),
-						'placeholder' => __( '...', 'generateblocks' ),
-						'default'     => '...',
+						'default'     => '... ',
 						'help'        => __( 'Enter text between the truncated post excerpt and the read more link.', 'generateblocks' ),
 					],
 					'readMore' => [
 						'type'        => 'text',
 						'label'       => __( 'Read More Text', 'generateblocks' ),
-						'placeholder' => __( 'Read More', 'generateblocks' ),
 						'default'     => __( 'Read More', 'generateblocks' ),
 						'help'        => __( 'Enter the text for the "Read More" link. Leave blank to hide the link.', 'generateblocks' ),
 					],
