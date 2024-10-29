@@ -109,9 +109,25 @@ export function BlockSettings( {
 					onChange={ ( value ) => {
 						// If the user hasn't done this before, align the icon and text.
 						if ( ! icon ) {
-							onStyleChange( 'display', 'inline-flex' );
-							onStyleChange( 'alignItems', 'center' );
-							onStyleChange( 'columnGap', '0.5em' );
+							if ( ! getStyleValue( 'display' ) ) {
+								onStyleChange( 'display', 'inline-flex' );
+							}
+
+							if ( ! getStyleValue( 'alignItems' ) ) {
+								onStyleChange( 'alignItems', 'center' );
+							}
+
+							if ( ! getStyleValue( 'columnGap' ) ) {
+								onStyleChange( 'columnGap', '0.5em' );
+							}
+
+							if ( ! getStyleValue( 'width', '', '.gb-shape svg' ) ) {
+								onStyleChange( 'width', '1em', '', '.gb-shape svg' );
+							}
+
+							if ( ! getStyleValue( 'height', '', '.gb-shape svg' ) ) {
+								onStyleChange( 'height', '1em', '', '.gb-shape svg' );
+							}
 						}
 
 						setAttributes( { icon: value } );
@@ -120,7 +136,7 @@ export function BlockSettings( {
 					icons={ icons }
 					clearLabel={ __( 'Clear', 'generateblocks' ) }
 					openLabel={ __( 'Open Library', 'generateblocks' ) }
-					modalTitle={ __( 'Shape Library', 'generateblocks' ) }
+					modalTitle={ __( 'Icon Library', 'generateblocks' ) }
 				/>
 
 				{ !! icon && (
