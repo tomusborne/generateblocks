@@ -90,6 +90,9 @@ function getTagSpecificControls( options, extraTagParams, setExtraTagParams ) {
 		switch ( type ) {
 			case 'checkbox':
 				Component = CheckboxControl;
+				props.checked = !! value;
+				delete props.value;
+
 				break;
 			case 'select':
 				Component = SelectControl;
@@ -306,8 +309,23 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		setTermSource( '' );
 		setUserSource( '' );
 		setMetaKey( '' );
-		setExtraTagParams( {} );
 		setImageSize( 'full' );
+
+		// Check if there are any tag specific controls with default values to set.
+		const defaultExtraTagParams = {};
+		const options = tagData?.options;
+
+		if ( options ) {
+			for ( const option in options ) {
+				const { default: defaultValue = null } = options[ option ];
+
+				if ( null !== defaultValue ) {
+					defaultExtraTagParams[ option ] = defaultValue;
+				}
+			}
+		}
+
+		setExtraTagParams( defaultExtraTagParams );
 
 		return tagData;
 	}
@@ -667,14 +685,14 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 					{ ( 'term' === dynamicTagType || tagSupportsTaxonomy ) && (
 						<SelectTaxonomy
 							onChange={ setTaxonomySource }
-							postType={ record?.post_type }
+							postType={ 'term' !== dynamicTagType && record?.post_type }
 							value={ taxonomySource }
 						/>
 					) }
 
 					{ ( 'term' === dynamicSource ) && (
 						<SelectTerm
-							postId={ postIdSource }
+							postId={ 'post' === dynamicTagType && postIdSource }
 							value={ termSource }
 							onSelect={ ( selected ) => {
 								const newTermSource = selected?.value ?? selected;

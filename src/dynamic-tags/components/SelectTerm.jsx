@@ -4,7 +4,8 @@ import { __ } from '@wordpress/i18n';
 
 import { Autocomplete } from '@edge22/components';
 
-export function SelectTerm( { value, taxonomy, onSelect, postId } ) {
+export function SelectTerm( props ) {
+	const { value, taxonomy, onSelect, postId } = props;
 	const terms = useSelect( ( select ) => {
 		const { getEntityRecords } = select( coreStore );
 		const params = [ 'taxonomy', taxonomy ];
@@ -32,7 +33,9 @@ export function SelectTerm( { value, taxonomy, onSelect, postId } ) {
 			selected={ value }
 			source={ terms }
 			onSelect={ onSelect }
+			toStringKey="label"
 			showClear={ true }
+			filterOnSelect={ false }
 		/>
 	);
 }
