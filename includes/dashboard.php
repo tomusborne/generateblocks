@@ -24,14 +24,6 @@ function generateblocks_register_dashboard() {
 		'generateblocks_do_dashboard'
 	);
 
-	add_submenu_page(
-		'generateblocks',
-		__( 'Dashboard', 'generateblocks' ),
-		__( 'Dashboard', 'generateblocks' ),
-		'manage_options',
-		'generateblocks'
-	);
-
 	add_action( "admin_print_styles-$dashboard", 'generateblocks_enqueue_dashboard_scripts' );
 }
 
@@ -98,7 +90,6 @@ function generateblocks_get_dashboard_pages() {
 	return apply_filters(
 		'generateblocks_dashboard_screens',
 		array(
-			'toplevel_page_generateblocks',
 			'generateblocks_page_generateblocks-settings',
 		)
 	);
@@ -173,11 +164,6 @@ function generateblocks_dashboard_navigation() {
 	$tabs = apply_filters(
 		'generateblocks_dashboard_tabs',
 		array(
-			'dashboard' => array(
-				'name'  => __( 'Dashboard', 'generateblocks' ),
-				'url'   => admin_url( 'admin.php?page=generateblocks' ),
-				'class' => 'toplevel_page_generateblocks' === $screen->id ? 'active' : '',
-			),
 			'settings'  => array(
 				'name'  => __( 'Settings', 'generateblocks' ),
 				'url'   => admin_url( 'admin.php?page=generateblocks-settings' ),
@@ -237,20 +223,4 @@ function generateblocks_do_dashboard() {
 			<div id="gblocks-dashboard" />
 		</div>
 	<?php
-}
-
-add_action( 'admin_init', 'generateblocks_dashboard_redirect' );
-/**
- * Redirect to the Dashboard page on single plugin activation.
- *
- * @since 0.1
- */
-function generateblocks_dashboard_redirect() {
-	$do_redirect = apply_filters( 'generateblocks_do_activation_redirect', get_option( 'generateblocks_do_activation_redirect', false ) );
-
-	if ( $do_redirect ) {
-		delete_option( 'generateblocks_do_activation_redirect' );
-		wp_safe_redirect( esc_url( admin_url( 'admin.php?page=generateblocks' ) ) );
-		exit;
-	}
 }

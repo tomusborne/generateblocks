@@ -56,6 +56,8 @@ class GenerateBlocks_Settings {
 			1
 		);
 
+		remove_submenu_page( 'generateblocks', 'generateblocks' );
+
 		add_action( "admin_print_scripts-$settings", array( $this, 'enqueue_scripts' ) );
 	}
 

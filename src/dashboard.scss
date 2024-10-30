@@ -4,6 +4,7 @@ $container-width: 750px;
 	.gb-dashboard-info {
 		max-width: $container-width;
 		margin: 0 auto;
+		box-sizing: border-box;
 	}
 
 	.gblocks-sub-navigation {

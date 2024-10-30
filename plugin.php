@@ -25,6 +25,7 @@ define( 'GENERATEBLOCKS_DIR_URL', plugin_dir_url( __FILE__ ) );
 
 // Load necessary files.
 require_once GENERATEBLOCKS_DIR . 'includes/functions.php';
+require_once GENERATEBLOCKS_DIR . 'includes/deprecated.php';
 require_once GENERATEBLOCKS_DIR . 'includes/general.php';
 require_once GENERATEBLOCKS_DIR . 'includes/defaults.php';
 
@@ -87,18 +88,3 @@ add_action( 'after_setup_theme', 'generateblocks_load_plugin_textdomain' );
 function generateblocks_load_plugin_textdomain() {
 	load_plugin_textdomain( 'generateblocks' );
 }
-
-/**
- * Adds a redirect option during plugin activation on non-multisite installs.
- *
- * @since 0.1
- *
- * @param bool $network_wide Whether or not the plugin is being network activated.
- */
-function generateblocks_do_activate( $network_wide = false ) {
-	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only used to do a redirect. False positive.
-	if ( ! $network_wide && ! isset( $_GET['activate-multi'] ) ) {
-		update_option( 'generateblocks_do_activation_redirect', true );
-	}
-}
-register_activation_hook( __FILE__, 'generateblocks_do_activate' );
