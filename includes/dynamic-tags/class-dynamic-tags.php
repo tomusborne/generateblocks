@@ -98,7 +98,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'default'     => 55,
 						'help'        => __( 'Enter the number of words to display in the excerpt. If empty, the default theme behavior is used.', 'generateblocks' ),
 					],
-					'useThemeReadMore' => [
+					'useTheme' => [
 						'type'        => 'checkbox',
 						'label'       => __( 'Use Theme Read More', 'generateblocks' ),
 						'help'        => __( 'Use the theme read more text. Uncheck to use the custom settings below.', 'generateblocks' ),
