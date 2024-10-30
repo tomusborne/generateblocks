@@ -432,9 +432,11 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 
 		const options = [];
 
-		if ( 'term' === dynamicTagType && 'term' !== dynamicSource ) {
+		if ( postIdSource && 'post' === dynamicTagType && 'post' !== dynamicSource ) {
+			setDynamicSource( 'post' );
+		} else if ( termSource && 'term' === dynamicTagType && 'term' !== dynamicSource ) {
 			setDynamicSource( 'term' );
-		} else if ( 'user' === dynamicTagType && 'user' !== dynamicSource ) {
+		} else if ( userSource && 'user' === dynamicTagType && 'user' !== dynamicSource ) {
 			setDynamicSource( 'user' );
 		} else if ( ! dynamicSource ) {
 			setDynamicSource( 'current' );
@@ -448,6 +450,8 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			options.push( `id:${ postIdSource }` );
 		} else if ( termSource && 'term' === dynamicSource ) {
 			options.push( `id:${ termSource }` );
+		} else if ( 0 < userSource && 'user' === dynamicSource ) {
+			options.push( `id:${ userSource }` );
 		}
 
 		if ( tagSupportsMeta && metaKey ) {
@@ -515,6 +519,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 		required,
 		taxonomySource,
 		termSource,
+		userSource,
 		extraTagParams,
 		imageSize,
 		tagSupportsTaxonomy,
