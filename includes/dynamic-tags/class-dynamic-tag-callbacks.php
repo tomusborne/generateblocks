@@ -92,7 +92,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$trunc_words = ! empty( $trunc_parts[1] ) && strpos( $trunc_parts[1], 'words' ) === 0;
 
 		if ( $trunc_words ) {
-			$output = wp_trim_words( $output, (int) $trunc_parts[0] );
+			$output = wp_trim_words( $output, (int) $trunc_parts[0], '' );
 			return $output;
 		}
 
@@ -849,6 +849,84 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		$fallback  = $options['fallback'] ?? '';
 		$loop_item = $instance->context['generateblocks/loopItem'] ?? [];
 		$output    = GenerateBlocks_Meta_Handler::get_value( $key, $loop_item, true, $fallback );
+
+		return self::output( $output, $options, $instance );
+	}
+
+	/**
+	 * Get the post's excerpt, optionally with a custom read more link.
+	 *
+	 * @param array  $options The options.
+	 * @param object $block The block.
+	 * @param object $instance The block instance.
+	 * @return string
+	 */
+	public static function get_post_excerpt( $options, $block, $instance ) {
+		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'post', $instance );
+
+		if ( ! $id ) {
+			return self::output( '', $options, $instance );
+		}
+
+		$read_more             = $options['readMore'] ?? '';
+		$pre_read_more         = $options['pre'] ?? '';
+		$use_theme_read_more   = $options['useTheme'] ?? true;
+		$filter_excerpt_length = function( $length ) use ( $options ) {
+			return $options['length'] ?? $length;
+		};
+
+		add_filter(
+			'excerpt_length',
+			$filter_excerpt_length,
+			100
+		);
+
+		if ( ! $use_theme_read_more ) {
+			$filter_more_text = function() use ( $read_more, $pre_read_more ) {
+				if ( ! $read_more ) {
+					return $pre_read_more;
+				}
+
+				return apply_filters(
+					'generateblocks_dynamic_excerpt_more_link',
+					sprintf(
+						'%1$s<a class="gb-dynamic-read-more" href="%2$s" aria-label="%3$s">%4$s</a>',
+						wp_kses_post( $pre_read_more ),
+						esc_url( get_permalink( get_the_ID() ) ),
+						sprintf(
+							/* translators: Aria-label describing the read more button */
+							_x( 'More on %s', 'more on post title', 'gp-premium' ),
+							the_title_attribute( 'echo=0' )
+						),
+						wp_kses_post( $read_more )
+					)
+				);
+			};
+
+			add_filter(
+				'excerpt_more',
+				$filter_more_text,
+				100
+			);
+		}
+
+		$output = get_the_excerpt( $id );
+
+		if ( isset( $filter_excerpt_length ) ) {
+			remove_filter(
+				'excerpt_length',
+				$filter_excerpt_length,
+				100
+			);
+		}
+
+		if ( isset( $filter_more_text ) ) {
+			remove_filter(
+				'excerpt_more',
+				$filter_more_text,
+				100
+			);
+		}
 
 		return self::output( $output, $options, $instance );
 	}
