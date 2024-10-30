@@ -24,7 +24,7 @@ import { SelectTerm } from './SelectTerm';
 import { useUsers } from '@hooks';
 
 function parseTag( tagString ) {
-	const regex = /\{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}/;
+	const regex = /\{{([\w_]+)(?:\s+(\w+(?::(?:[^|]+))?(?:\|[\w_]+(?::(?:[^|]+))?)*)?)?\}}/;
 	const match = tagString.match( regex );
 
 	if ( ! match ) {
