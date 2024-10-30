@@ -504,7 +504,7 @@ export function DynamicTagSelect( { onInsert, tagName, selectedText, currentPost
 			tagToInsert += ' ' + tagOptions;
 		}
 
-		tagToInsert = `{${ tagToInsert }}`;
+		tagToInsert = `{{${ tagToInsert }}}`;
 
 		setDynamicTagToInsert( tagToInsert );
 	}, [
