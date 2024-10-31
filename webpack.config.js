@@ -52,6 +52,7 @@ const packageCopyPatterns = edge22Packages.map( ( packageName ) => {
 // Declare any other entries specific to this plugin.
 const pluginEntries = {
 	blocks: './src/blocks.js',
+	settings: './src/settings.js',
 	dashboard: './src/dashboard.js',
 	'pattern-library': './src/pattern-library.js',
 	'editor-sidebar': './src/editor-sidebar.js',
