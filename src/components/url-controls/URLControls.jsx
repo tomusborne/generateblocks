@@ -65,7 +65,7 @@ export function URLControls( {
 								},
 							} );
 						} }
-						disableSuggestions={ url.includes( '{' ) }
+						disableSuggestions={ url.includes( '{{' ) }
 					/>
 
 					<DynamicTagModal
@@ -77,7 +77,7 @@ export function URLControls( {
 								},
 							} );
 						} }
-						selectedText={ url.startsWith( '{' ) ? url : '' }
+						selectedText={ url.startsWith( '{{' ) ? url : '' }
 						context={ context }
 					/>
 				</Stack>

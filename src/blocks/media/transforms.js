@@ -31,7 +31,7 @@ export const transforms = {
 				return createBlock( 'generateblocks/media', {
 					tagName: 'img',
 					htmlAttributes: {
-						src: '{featured_image_url}',
+						src: '{{featured_image_url}}',
 					},
 				} );
 			},
