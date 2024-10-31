@@ -55,21 +55,17 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			const containerAttributes = {};
 
 			if ( 'row' === layout ) {
-				containerAttributes.styles = {
-					display: 'flex',
-					flexDirection: 'row',
-				};
+				containerAttributes.display = 'flex';
+				containerAttributes.flexDirection = 'row';
 			}
 
 			if ( 'stack' === layout ) {
-				containerAttributes.styles = {
-					display: 'flex',
-					flexDirection: 'column',
-				};
+				containerAttributes.display = 'flex';
+				containerAttributes.flexDirection = 'column';
 			}
 
 			const newBlocks = createBlock(
-				'generateblocks/element',
+				'generateblocks/container',
 				containerAttributes,
 				newChildBlocks
 			);
@@ -79,6 +75,7 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			}
 		};
 
+		const blocksVersion = parseInt( generateBlocksInfo.activeBlockVersion );
 		let buttons = '';
 
 		if (
@@ -111,64 +108,37 @@ const withToolbarAppenders = createHigherOrderComponent( ( BlockEdit ) => {
 			</>;
 		}
 
-		if (
-			'generateblocks/element' === name &&
-			! hasParentBlock &&
-			0 === innerBlocksCount &&
-			1 === clientIds.length
-		) {
+		if ( 1 === blocksVersion ) {
 			buttons = <>
 				{ buttons }
 				<ToolbarButton
-					icon={ getIcon( 'section' ) }
-					label={ __( 'Add Inner Container', 'generateblocks' ) }
-					onClick={ () => {
-						insertBlocks(
-							createBlock( 'generateblocks/element', {
-								styles: {
-									maxWidth: 'var(--gb-container-width)',
-									marginLeft: 'auto',
-									marginRight: 'auto',
-								},
-							} ),
-							undefined,
-							clientId
-						);
-					} }
-					showTooltip
+					icon={ getIcon( 'add-to-container' ) }
+					label={ __( 'Add to Container', 'generateblocks' ) }
+					onClick={ () => onConvertToContainer( '' ) }
 				/>
 			</>;
-		}
 
-		buttons = <>
-			{ buttons }
-			<ToolbarButton
-				icon={ getIcon( 'add-to-container' ) }
-				label={ __( 'Add to Container', 'generateblocks' ) }
-				onClick={ () => onConvertToContainer( '' ) }
-			/>
-		</>;
+			if ( blocksSelection.length > 1 ) {
+				buttons = <>
+					{ buttons }
+					<ToolbarButton
+						icon={ getIcon( 'add-to-row' ) }
+						label={ __( 'Add to Row', 'generateblocks' ) }
+						onClick={ () => onConvertToContainer( 'row' ) }
+					/>
+				</>;
+			}
 
-		if ( blocksSelection.length > 1 ) {
-			buttons = <>
-				{ buttons }
-				<ToolbarButton
-					icon={ getIcon( 'add-to-row' ) }
-					label={ __( 'Add to Row', 'generateblocks' ) }
-					onClick={ () => onConvertToContainer( 'row' ) }
-				/>
-			</>;
-		}
-
-		if ( blocksSelection.length > 1 ) {
-			buttons = <>
-				{ buttons }
-				<ToolbarButton
-					icon={ getIcon( 'add-to-stack' ) }
-					label={ __( 'Add to Stack', 'generateblocks' ) }
-					onClick={ () => onConvertToContainer( 'stack' ) }
-				/>
-			</>;
+			if ( blocksSelection.length > 1 ) {
+				buttons = <>
+					{ buttons }
+					<ToolbarButton
+						icon={ getIcon( 'add-to-stack' ) }
+						label={ __( 'Add to Stack', 'generateblocks' ) }
+						onClick={ () => onConvertToContainer( 'stack' ) }
+					/>
+				</>;
+			}
 		}
 
 		return (
