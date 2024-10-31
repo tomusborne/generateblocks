@@ -31,6 +31,7 @@ function EditBlock( props ) {
 	const {
 		tagName,
 		showTemplateSelector,
+		query,
 	} = attributes;
 
 	const classNames = getBlockClasses(

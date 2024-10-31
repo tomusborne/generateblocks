@@ -62,7 +62,7 @@ function useWpQuery( shouldRequest = true, query ) {
 
 			try {
 				const response = await apiFetch( {
-					path: '/generateblocks/v1/get-posts',
+					path: '/generateblocks/v1/get-wp-query',
 					method: 'POST',
 					data: {
 						args,

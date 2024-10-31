@@ -455,7 +455,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		register_rest_route(
 			'generateblocks/v1',
-			'/get-latest-posts',
+			'/get-posts', // TODO: Update this properly once this PR is up by editing SelectPost in components.
 			[
 				'methods'  => 'GET',
 				'callback' => [ $this, 'get_latest_posts' ],
@@ -467,7 +467,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 
 		register_rest_route(
 			'generateblocks/v1',
-			'/get-posts',
+			'/get-wp-query',
 			[
 				'methods'             => 'POST',
 				'callback'            => [ $this, 'get_posts' ],
