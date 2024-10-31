@@ -606,7 +606,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		$read_more             = $options['readMore'] ?? '';
 		$pre_read_more         = $options['pre'] ?? '';
-		$use_theme_read_more   = $options['useTheme'] ?? true;
+		$use_theme_read_more   = isset( $options['useTheme'] ) ? true : false;
 		$filter_excerpt_length = function( $length ) use ( $options ) {
 			return $options['length'] ?? $length;
 		};
