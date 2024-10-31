@@ -427,7 +427,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 		}
 
 		// Match the content inside the curly brackets.
-		preg_match_all( '/\{(.*?)\}/', $content, $matches );
+		preg_match_all( '/\{{(.*?)\}}/', $content, $matches );
 
 		if ( ! empty( $matches ) ) {
 			$inside_brackets = $matches[1];
@@ -455,8 +455,8 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$content = str_replace( $tag, "{$tag} id:{$fallback_id}", $tag );
 
 					$replacements[] = [
-						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], $instance ),
+						'original' => "{{{$tag}}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$content}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				} elseif ( ! generateblocks_str_contains( $tag, 'id:' ) ) {
@@ -464,14 +464,14 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					$content = str_replace( $tag, "{$tag}|id:{$fallback_id}", $tag );
 
 					$replacements[] = [
-						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$content}}", [], $instance ),
+						'original' => "{{{$tag}}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$content}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				} else {
 					$replacements[] = [
-						'original' => "{{$tag}}",
-						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{$tag}}", [], $instance ),
+						'original' => "{{{$tag}}}",
+						'replacement' => GenerateBlocks_Register_Dynamic_Tag::replace_tags( "{{{$tag}}}", [], $instance ),
 						'fallback'    => $fallback,
 					];
 				}
