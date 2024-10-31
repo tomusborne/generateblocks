@@ -69,7 +69,6 @@ function generateblocks_enqueue_dashboard_scripts() {
 			'gbpVersion'    => defined( 'GENERATEBLOCKS_PRO_VERSION' )
 				? GENERATEBLOCKS_PRO_VERSION
 				: false,
-			'blocksVersion' => generateblocks_get_active_block_version(),
 		)
 	);
 

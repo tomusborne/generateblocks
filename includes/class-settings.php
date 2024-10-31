@@ -40,6 +40,7 @@ class GenerateBlocks_Settings {
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'generateblocks_settings_area', array( $this, 'add_settings_container' ) );
+		add_action( 'generateblocks_settings_area', array( $this, 'add_blocks_version_settings_container' ), 100 );
 	}
 
 	/**
@@ -109,6 +110,7 @@ class GenerateBlocks_Settings {
 						wp_customize_url()
 					) :
 					false,
+				'useV1Blocks' => generateblocks_use_v1_blocks(),
 			)
 		);
 	}
@@ -120,6 +122,15 @@ class GenerateBlocks_Settings {
 	 */
 	public function add_settings_container() {
 		echo '<div id="gblocks-block-default-settings"></div>';
+	}
+
+	/**
+	 * Add blocks version settings container.
+	 *
+	 * @since 2.0.0
+	 */
+	public function add_blocks_version_settings_container() {
+		echo '<div id="gblocks-blocks-version-settings"></div>';
 	}
 
 	/**

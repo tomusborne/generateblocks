@@ -79,6 +79,17 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 			)
 		);
 
+		// Update single setting.
+		register_rest_route(
+			$namespace,
+			'/setting/',
+			array(
+				'methods'             => WP_REST_Server::EDITABLE,
+				'callback'            => array( $this, 'update_setting' ),
+				'permission_callback' => array( $this, 'update_settings_permission' ),
+			)
+		);
+
 		// Regenerate CSS Files.
 		register_rest_route(
 			$namespace,
@@ -131,10 +142,11 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 		$callbacks = apply_filters(
 			'generateblocks_option_sanitize_callbacks',
 			array(
-				'container_width' => 'absint',
-				'css_print_method' => 'sanitize_text_field',
+				'container_width'          => 'absint',
+				'css_print_method'         => 'sanitize_text_field',
 				'sync_responsive_previews' => 'rest_sanitize_boolean',
-				'disable_google_fonts' => 'rest_sanitize_boolean',
+				'disable_google_fonts'     => 'rest_sanitize_boolean',
+				'gb_use_v1_blocks'         => 'rest_sanitize_boolean',
 			)
 		);
 
@@ -148,6 +160,30 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	}
 
 	/**
+	 * Update a single setting.
+	 *
+	 * @param WP_REST_Request $request Full data about the request.
+	 */
+	public function update_setting( WP_REST_Request $request ) {
+		$name  = $request->get_param( 'name' );
+		$value = $request->get_param( 'value' );
+
+		$allowed_settings = [
+			'gb_use_v1_blocks',
+		];
+
+		if ( ! in_array( $name, $allowed_settings, true ) ) {
+			return $this->error( 'rest_forbidden', 'Sorry, you are not allowed to update this setting.' );
+		}
+
+		$value = $this->sanitize_value( $name, $value );
+
+		update_option( $name, $value );
+
+		return $this->success( __( 'Settings saved.', 'generateblocks' ) );
+	}
+
+	/**
 	 * Update Settings.
 	 *
 	 * @param WP_REST_Request $request  request object.
@@ -156,7 +192,7 @@ class GenerateBlocks_Rest extends WP_REST_Controller {
 	 */
 	public function update_settings( WP_REST_Request $request ) {
 		$current_settings = get_option( 'generateblocks', array() );
-		$new_settings = $request->get_param( 'settings' );
+		$new_settings     = $request->get_param( 'settings' );
 
 		foreach ( $new_settings as $name => $value ) {
 			// Skip if the option hasn't changed.

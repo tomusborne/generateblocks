@@ -53,7 +53,6 @@ export function Dashboard() {
 							) : (
 								<li><strong>Pro Version:</strong> Not Installed. <a href="https://generatepress.com/blocks">Get Pro</a></li>
 							) }
-							<li><strong>Blocks Version:</strong> { generateblocksDashboard.blocksVersion }</li>
 						</ul>
 					</PanelRow>
 				</div>

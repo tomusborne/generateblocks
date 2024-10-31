@@ -1991,31 +1991,13 @@ function generateblocks_str_starts_with( $string, $prefix ) {
 }
 
 /**
- * Check if we should show our legacy blocks.
+ * Check if we're using the v1 blocks.
  *
  * @since 2.0.0
  * @return bool
  */
-function generateblocks_get_active_block_version() {
-	$block_version = 2;
-
-	if (
-		defined( 'GENERATEBLOCKS_PRO_VERSION' )
-		&& version_compare( GENERATEBLOCKS_PRO_VERSION, '1.8.0-alpha.1', '<' )
-	) {
-		$block_version = 1;
-	}
-
-	$legacy_global_styles = get_option( 'generateblocks_global_styles', [] );
-
-	if ( ! empty( $legacy_global_styles ) ) {
-		$block_version = 1;
-	}
-
-	return apply_filters(
-		'generateblocks_active_block_version',
-		(int) $block_version
-	);
+function generateblocks_use_v1_blocks() {
+	return get_option( 'gb_use_v1_blocks', false );
 }
 
 /**

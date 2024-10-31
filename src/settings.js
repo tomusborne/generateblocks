@@ -32,8 +32,10 @@ import {
 /**
  * Internal dependencies
  */
-import './settings.scss';
 import compatibleRender from '@utils/compatible-render';
+import './settings/blocks-version';
+
+import './settings.scss';
 
 function Settings() {
 	const [ isAPILoaded, setIsAPILoaded ] = useState( false );
@@ -184,36 +186,36 @@ function Settings() {
 							</PanelRow>
 						}
 
-						{ 1 === generateBlocksSettings.blocksVersion && (
-							<PanelRow>
-								<ToggleControl
-									label={ __( 'Sync Responsive Previews', 'generateblocks' ) }
-									help={ __( 'Sync our responsive preview controls with the editor responsive previews.', 'generateblocks' ) }
-									checked={ getSetting( 'sync_responsive_previews' ) }
-									onChange={ ( value ) => {
-										setSettings( {
-											...settings,
-											sync_responsive_previews: value,
-										} );
-									} }
-								/>
-							</PanelRow>
-						) }
+						{ !! generateBlocksSettings.useV1Blocks && (
+							<>
+								<PanelRow>
+									<ToggleControl
+										label={ __( 'Sync Responsive Previews', 'generateblocks' ) }
+										help={ __( 'Sync our responsive preview controls with the editor responsive previews.', 'generateblocks' ) }
+										checked={ getSetting( 'sync_responsive_previews' ) }
+										onChange={ ( value ) => {
+											setSettings( {
+												...settings,
+												sync_responsive_previews: value,
+											} );
+										} }
+									/>
+								</PanelRow>
 
-						{ 1 === generateBlocksSettings.blocksVersion && (
-							<PanelRow>
-								<ToggleControl
-									label={ __( 'Disable Google Fonts', 'generateblocks' ) }
-									help={ __( 'Prevent Google Fonts from being called on your website and remove them from the font family lists.', 'generateblocks' ) }
-									checked={ getSetting( 'disable_google_fonts' ) }
-									onChange={ ( value ) => {
-										setSettings( {
-											...settings,
-											disable_google_fonts: value,
-										} );
-									} }
-								/>
-							</PanelRow>
+								<PanelRow>
+									<ToggleControl
+										label={ __( 'Disable Google Fonts', 'generateblocks' ) }
+										help={ __( 'Prevent Google Fonts from being called on your website and remove them from the font family lists.', 'generateblocks' ) }
+										checked={ getSetting( 'disable_google_fonts' ) }
+										onChange={ ( value ) => {
+											setSettings( {
+												...settings,
+												disable_google_fonts: value,
+											} );
+										} }
+									/>
+								</PanelRow>
+							</>
 						) }
 
 						{ applyFilters(

@@ -10,12 +10,12 @@ const v1Blocks = [
 ];
 
 function disableBlocks( settings, name ) {
-	const activeBlockVersion = parseInt( generateBlocksEditor.activeBlockVersion );
+	const useV1Blocks = generateBlocksEditor.useV1Blocks;
 
 	// Disable our version 1 blocks.
 	if (
 		v1Blocks.includes( name ) &&
-		1 !== activeBlockVersion
+		! useV1Blocks
 	) {
 		return {
 			...settings,
@@ -30,7 +30,7 @@ function disableBlocks( settings, name ) {
 	if (
 		! v1Blocks.includes( name ) &&
 		name.startsWith( 'generateblocks' ) &&
-		1 === activeBlockVersion
+		useV1Blocks
 	) {
 		return {
 			...settings,
