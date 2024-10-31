@@ -34,46 +34,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 * @return void
 	 */
 	public function register() {
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'      => __( 'Loop Item', 'generateblocks' ),
-				'tag'        => 'loop_item',
-				'type'       => 'looper',
-				'supports'   => [ 'properties' ],
-				'visibility' => [
-					'context' => [
-						'generateblocks/loopItem',
-					],
-				],
-				'description' => __( 'The current loop item data.', 'generateblocks' ),
-				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_item' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'      => __( 'Loop Index', 'generateblocks' ),
-				'tag'        => 'loop_index',
-				'type'       => 'looper',
-				'supports'   => [],
-				'visibility' => [
-					'context' => [
-						'generateblocks/loopIndex',
-					],
-				],
-				'options' => [
-					'zeroBased' => [
-						'type'  => 'checkbox',
-						'label' => __( 'Use zero-based index', 'generateblocks' ),
-						'help'  => __( 'Enable this to start the loop index count from 0.', 'generateblocks' ),
-					],
-				],
-				'description' => __( 'The numbered index of the loop item.', 'generateblocks' ),
-				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_loop_index' ],
-			]
-		);
-
 		new GenerateBlocks_Register_Dynamic_Tag(
 			[
 				'title'    => __( 'Post Title', 'generateblocks' ),
@@ -98,33 +58,24 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 						'default'     => 55,
 						'help'        => __( 'Enter the number of words to display in the excerpt. If empty, the default theme behavior is used.', 'generateblocks' ),
 					],
+					'useTheme' => [
+						'type'        => 'checkbox',
+						'label'       => __( 'Use Theme Read More', 'generateblocks' ),
+						'help'        => __( 'Use the theme read more text. Uncheck to use the custom settings below.', 'generateblocks' ),
+						'default'     => true,
+					],
 					'pre' => [
 						'type'        => 'text',
 						'label'       => __( 'Pre Read More Text', 'generateblocks' ),
-						'placeholder' => __( '...', 'generateblocks' ),
-						'default'     => '...',
 						'help'        => __( 'Enter text between the truncated post excerpt and the read more link.', 'generateblocks' ),
 					],
 					'readMore' => [
 						'type'        => 'text',
 						'label'       => __( 'Read More Text', 'generateblocks' ),
-						'placeholder' => __( 'Read More', 'generateblocks' ),
-						'default'     => __( 'Read More', 'generateblocks' ),
 						'help'        => __( 'Enter the text for the "Read More" link. Leave blank to hide the link.', 'generateblocks' ),
 					],
 				],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_excerpt' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'       => __( 'Archive Title', 'generateblocks' ),
-				'tag'         => 'archive_title',
-				'type'        => 'archive',
-				'supports'    => [],
-				'description' => __( 'Get the title for the current archive being viewed.', 'generateblocks' ),
-				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_archive_title' ],
+				'return' => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_post_excerpt' ],
 			]
 		);
 
@@ -197,48 +148,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'supports'    => [ 'meta', 'source', 'link' ],
 				'description' => __( 'Access user meta by key for the author of the specified post. Return value must be a string.', 'generateblocks' ),
 				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_meta' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'       => __( 'Term Meta', 'generateblocks' ),
-				'tag'         => 'term_meta',
-				'type'        => 'term',
-				'supports'    => [ 'meta', 'source' ],
-				'description' => __( 'Access term meta by key for the specified term. Return value must be a string.', 'generateblocks' ),
-				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_term_meta' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'       => __( 'User Meta', 'generateblocks' ),
-				'tag'         => 'user_meta',
-				'type'        => 'user',
-				'supports'    => [ 'meta', 'source' ],
-				'description' => __( 'Access user meta by key for the specified user. Return value must be a string.', 'generateblocks' ),
-				'return'      => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_user_meta' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Previous Posts URL', 'generateblocks' ),
-				'tag'      => 'previous_posts_page_url',
-				'type'     => 'post',
-				'supports' => [ 'source', 'instant-pagination' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_previous_posts_page_url' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Next Posts URL', 'generateblocks' ),
-				'tag'      => 'next_posts_page_url',
-				'type'     => 'post',
-				'supports' => [ 'source', 'instant-pagination' ],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
 			]
 		);
 
@@ -334,36 +243,6 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 					],
 				],
 				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_author_avatar_url' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Current year', 'generateblocks' ),
-				'tag'      => 'current_year',
-				'type'     => 'site',
-				'supports' => [],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_current_year' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Site Title', 'generateblocks' ),
-				'tag'      => 'site_title',
-				'type'     => 'site',
-				'supports' => [],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_title' ],
-			]
-		);
-
-		new GenerateBlocks_Register_Dynamic_Tag(
-			[
-				'title'    => __( 'Site Tagline', 'generateblocks' ),
-				'tag'      => 'site_tagline',
-				'type'     => 'site',
-				'supports' => [],
-				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_site_tagline' ],
 			]
 		);
 

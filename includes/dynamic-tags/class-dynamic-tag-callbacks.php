@@ -228,32 +228,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 	}
 
 	/**
-	 * Get the archive title.
-	 *
-	 * @param array  $options The options.
-	 * @param object $block The block.
-	 * @param object $instance The block instance.
-	 * @return string
-	 */
-	public static function get_archive_title( $options, $block, $instance ) {
-		$output = '';
-
-		if ( is_category() ) {
-			$output = single_cat_title( '', false );
-		} elseif ( is_tag() ) {
-			$output = single_tag_title( '', false );
-		} elseif ( is_author() ) {
-			$output = get_the_author();
-		} elseif ( is_post_type_archive() ) {
-			$output = post_type_archive_title( '', false );
-		} elseif ( is_tax() ) {
-			$output = single_term_title( '', false );
-		}
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
 	 * Get the permalink.
 	 *
 	 * @param array  $options The options.
@@ -400,89 +374,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
 		$output = wp_kses_post( $value );
 		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the previous post page URL.
-	 *
-	 * @param array  $options The options.
-	 * @param object $block The block.
-	 * @param object $instance The block instance.
-	 * @return string
-	 */
-	public static function get_previous_posts_page_url( $options, $block, $instance ) {
-		$page_key      = isset( $instance->context['generateblocks/queryId'] ) ? 'query-' . $instance->context['generateblocks/queryId'] . '-page' : 'query-page';
-		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$inherit_query = $instance->context['generateblocks/inheritQuery'] ?? false;
-		$output   = '';
-
-		if ( $inherit_query ) {
-			global $paged;
-
-			if ( $paged > 1 ) {
-				$output = previous_posts( false );
-			}
-		} elseif ( 1 !== $page ) {
-			$output = esc_url( add_query_arg( $page_key, $page - 1 ) );
-		}
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the next post page URL.
-	 *
-	 * @param array  $options The options.
-	 * @param object $block The block.
-	 * @param object $instance The block instance.
-	 * @return string
-	 */
-	public static function get_next_posts_page_url( $options, $block, $instance ) {
-		$page_key      = isset( $instance->context['generateblocks/queryId'] ) ? 'query-' . $instance->context['generateblocks/queryId'] . '-page' : 'query-page';
-		$page          = empty( $_GET[ $page_key ] ) ? 1 : (int) $_GET[ $page_key ]; // phpcs:ignore -- No data processing happening.
-		$args          = $instance->context['generateblocks/query'] ?? [];
-		$inherit_query = $instance->context['generateblocks/inheritQuery'] ?? false;
-		$per_page      = $args['per_page'] ?? apply_filters( 'generateblocks_query_per_page_default', 10, $args );
-		$output        = '';
-
-		if ( $inherit_query ) {
-			global $wp_query, $paged;
-
-			if ( ! $paged ) {
-				$paged = 1; // phpcs:ignore -- Need to overrite global here.
-			}
-
-			$next_page = (int) $paged + 1;
-
-			if ( $next_page <= $wp_query->max_num_pages ) {
-				$output = next_posts( $wp_query->max_num_pages, false );
-			}
-		} else {
-			$query_data  = $instance->context['generateblocks/queryData'] ?? null;
-			$query_type  = $instance->context['generateblocks/queryType'] ?? GenerateBlocks_Block_Query::TYPE_WP_QUERY;
-			$is_wp_query = GenerateBlocks_Block_Query::TYPE_WP_QUERY === $query_type;
-
-			if ( ! $query_data || ( ! $is_wp_query && ! is_array( $query_data ) ) ) {
-				return self::output( $output, $options, $instance );
-			}
-
-			$next_page              = $page + 1;
-			$custom_query_max_pages = $is_wp_query
-				? (int) $query_data->max_num_pages
-				: ceil( count( $query_data ) / $per_page );
-
-			if ( $custom_query_max_pages < $next_page ) {
-				return self::output( $output, $options, $instance );
-			}
-
-			if ( $custom_query_max_pages && $custom_query_max_pages !== $page ) {
-				$output = esc_url( add_query_arg( $page_key, $page + 1 ) );
-			}
-
-			wp_reset_postdata(); // Restore original Post Data.
-		}
 
 		return self::output( $output, $options, $instance );
 	}
@@ -666,50 +557,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 		return self::output( $output, $options, $instance );
 	}
 
-
-	/**
-	 * Get the current year.
-	 *
-	 * @param array  $options The options.
-	 * @param array  $block The block.
-	 * @param object $instance The block instance.
-	 *
-	 * @return string
-	 */
-	public static function get_current_year( $options, $block, $instance ) {
-		$output = wp_date( 'Y' );
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the site title from settings.
-	 *
-	 * @param array  $options The options.
-	 * @param array  $block The block.
-	 * @param object $instance The block instance.
-	 * @return string
-	 */
-	public static function get_site_title( $options, $block, $instance ) {
-		$output = get_option( 'blogname' );
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the site tagline from settings.
-	 *
-	 * @param array  $options The options.
-	 * @param array  $block The block.
-	 * @param object $instance The block instance.
-	 * @return string
-	 */
-	public static function get_site_tagline( $options, $block, $instance ) {
-		$output = get_option( 'blogdescription' );
-
-		return self::output( $output, $options, $instance );
-	}
-
 	/**
 	 * Get the site tagline from settings.
 	 *
@@ -742,117 +589,6 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		return self::output( $output, $options, $instance );
 	}
-
-	/**
-	 * Get the term meta.
-	 *
-	 * @param array  $options The options.
-	 * @param array  $block The block.
-	 * @param object $instance The block instance.
-	 * @return string
-	 */
-	public static function get_term_meta( $options, $block, $instance ) {
-		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'term', $instance );
-
-		if ( ! $id ) {
-			return self::output( '', $options, $instance );
-		}
-
-		$key         = $options['key'] ?? '';
-		$output      = '';
-
-		if ( empty( $key ) ) {
-			return self::output( $output, $options, $instance );
-		}
-
-		$value = GenerateBlocks_Meta_Handler::get_term_meta( $id, $key, true );
-
-		if ( ! $value ) {
-			return self::output( $output, $options, $instance );
-		}
-
-		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $value );
-		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the user meta.
-	 *
-	 * @param array  $options The options.
-	 * @param array  $block The block.
-	 * @param object $instance The block instance.
-	 * @return string
-	 */
-	public static function get_user_meta( $options, $block, $instance ) {
-		$id = GenerateBlocks_Dynamic_Tags::get_id( $options, 'user', $instance );
-
-		if ( ! $id ) {
-			return self::output( '', $options, $instance );
-		}
-
-		$key    = $options['key'] ?? '';
-		$output = '';
-
-		if ( empty( $key ) ) {
-			return self::output( $output, $options, $instance );
-		}
-
-		$value = GenerateBlocks_Meta_Handler::get_user_meta( $id, $key, true );
-
-		if ( ! $value ) {
-			return self::output( $output, $options, $instance );
-		}
-
-		add_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-		$output = wp_kses_post( $value );
-		remove_filter( 'wp_kses_allowed_html', [ 'GenerateBlocks_Dynamic_Tags', 'expand_allowed_html' ], 10, 2 );
-
-		return self::output( $output, $options, $instance );
-	}
-
-	/**
-	 * Get the index of the current looper block loop.
-	 *
-	 * @param array  $options The options.
-	 * @param array  $block The block.
-	 * @param object $instance The block instance.
-	 * @return int The loop index number.
-	 */
-	public static function get_loop_index( $options, $block, $instance ) {
-		$use_zero_based = $options['zeroBased'] ?? false;
-		$loop_index = (int) isset( $instance->context['generateblocks/loopIndex'] )
-		? $instance->context['generateblocks/loopIndex']
-		: -1;
-
-		if ( $use_zero_based ) {
-			--$loop_index;
-		}
-
-		if ( $loop_index > -1 ) {
-			return (string) $loop_index;
-		}
-	}
-
-	/**
-	 * Get the current loop item.
-	 *
-	 * @param array  $options The options.
-	 * @param array  $block The block.
-	 * @param object $instance The block instance.
-	 * @return string Value of the loop item or a given key's value from the loop item.
-	 */
-	public static function get_loop_item( $options, $block, $instance ) {
-		$key       = $options['key'] ?? '';
-		$fallback  = $options['fallback'] ?? '';
-		$loop_item = $instance->context['generateblocks/loopItem'] ?? [];
-		$output    = GenerateBlocks_Meta_Handler::get_value( $key, $loop_item, true, $fallback );
-
-		return self::output( $output, $options, $instance );
-	}
-
 	/**
 	 * Get the post's excerpt, optionally with a custom read more link.
 	 *
@@ -870,7 +606,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 
 		$read_more             = $options['readMore'] ?? '';
 		$pre_read_more         = $options['pre'] ?? '';
-		$use_custom_read_more  = $read_more || $pre_read_more;
+		$use_theme_read_more   = $options['useTheme'] ?? true;
 		$filter_excerpt_length = function( $length ) use ( $options ) {
 			return $options['length'] ?? $length;
 		};
@@ -881,7 +617,7 @@ class GenerateBlocks_Dynamic_Tag_Callbacks extends GenerateBlocks_Singleton {
 			100
 		);
 
-		if ( $use_custom_read_more ) {
+		if ( ! $use_theme_read_more ) {
 			$filter_more_text = function() use ( $read_more, $pre_read_more ) {
 				if ( ! $read_more ) {
 					return $pre_read_more;
