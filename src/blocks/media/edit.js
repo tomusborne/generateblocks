@@ -15,7 +15,6 @@ import { withStyles } from '@hoc/withStyles';
 import { BlockStylesBuilder, StylesOnboarder } from '@components/index';
 import { withHtmlAttributes } from '@hoc/withHtmlAttributes.js';
 import { getBlockClasses } from '@utils/getBlockClasses.js';
-import { useBlockStyles } from '@hooks/useBlockStyles.js';
 
 function EditBlock( props ) {
 	const {
@@ -27,7 +26,6 @@ function EditBlock( props ) {
 		onStyleChange,
 		editorHtmlAttributes,
 		htmlAttributes,
-		getStyleValue,
 		styles,
 	} = props;
 
@@ -36,7 +34,6 @@ function EditBlock( props ) {
 		linkHtmlAttributes = {},
 	} = attributes;
 
-	const { currentAtRule } = useBlockStyles();
 	const [ temporaryURL, setTemporaryURL ] = useState();
 	const { isTemporaryImage, mediaUpload, onUploadError } = useImageFunctions();
 	const classNames = getBlockClasses(
@@ -171,8 +168,6 @@ function EditBlock( props ) {
 		);
 	}
 
-	const hasObjectFit = getStyleValue( 'objectFit', currentAtRule );
-
 	return (
 		<>
 			<AddCaption
@@ -209,8 +204,6 @@ function EditBlock( props ) {
 					{ ...blockProps }
 					data-block-wrapper
 					style={ {
-						width: hasObjectFit ? 'auto' : undefined,
-						height: hasObjectFit ? '100%' : undefined,
 						display: ! shouldWrapBlock ? 'none' : undefined,
 					} }
 				>
