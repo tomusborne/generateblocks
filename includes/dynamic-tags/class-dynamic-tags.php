@@ -349,7 +349,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 			'/get-wp-query',
 			[
 				'methods'             => 'POST',
-				'callback'            => [ $this, 'get_posts' ],
+				'callback'            => [ $this, 'get_wp_query' ],
 				'permission_callback' => function() {
 					return current_user_can( 'edit_posts' );
 				},
@@ -478,10 +478,13 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 	 *
 	 * @param WP_REST_Request $request The request.
 	 */
-	public function get_posts( $request ) {
-		$args = $request->get_param( 'args' );
-
-		return rest_ensure_response( get_posts( $args ) );
+	public function get_wp_query( $request ) {
+		$args  = $request->get_param( 'args' );
+		$page  = $args['paged'] ?? $request->get_param( 'page' ) ?? 1;
+		$query = new WP_Query(
+			GenerateBlocks_Query_Utils::get_wp_query_args( $args, $page )
+		);
+		return rest_ensure_response( $query );
 	}
 
 	/**

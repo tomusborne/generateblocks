@@ -33,14 +33,15 @@ class GenerateBlocks_Block_Query extends GenerateBlocks_Block {
 	 * @return array Array of query data including the data for looping and no_results.
 	 */
 	public static function get_query_data( $query_type, $attributes, $block, $page ) {
-		$query_data = [
+		$original_args = $attributes['query'] ?? [];
+		$query_data    = [
 			'data'       => [],
 			'no_results' => true,
-			'args'       => $attributes['query'] ?? [],
+			'args'       => $original_args,
 		];
 
 		if ( self::TYPE_WP_QUERY === $query_type ) {
-			$query_args = GenerateBlocks_Query_Utils::get_query_args( $block, $page );
+			$query_args = GenerateBlocks_Query_Utils::get_wp_query_args( $query_data['args'], $page );
 			// Override the custom query with the global query if needed.
 			$use_global_query = ( isset( $attributes['inheritQuery'] ) && $attributes['inheritQuery'] );
 

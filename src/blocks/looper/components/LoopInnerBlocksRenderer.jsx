@@ -69,7 +69,8 @@ function useWpQuery( shouldRequest = true, query ) {
 					},
 				} );
 
-				setData( response );
+				const { posts = [] } = response;
+				setData( posts );
 			} catch ( error ) {
 				console.error( 'Error fetching post record:', error ); // eslint-disable-line no-console
 			} finally {

@@ -16,38 +16,26 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 	/**
-	 * Helper function that constructs a WP_Query args array from
-	 * a `Query` block properties.
+	 * Helper function that optimizes the query attribute from the Query block.
 	 *
-	 * @param WP_Block $block Block instance.
-	 * @param int      $page  Current query's page.
+	 * @param array $args The WP_Query args to parse.
+	 * @param int   $page  Current query's page.
 	 *
-	 * @todo: https://github.com/WordPress/wordpress-develop/blob/44e308c12e68b5c6b63845fd84369ba36985e193/src/wp-includes/blocks.php#L1126
+	 * @return array $query_args The optimized WP_Query args array.
 	 */
-	public static function get_query_args( $block, $page ) {
-		$query_attributes = is_array( $block->parsed_block['attrs'] ) && isset( $block->parsed_block['attrs']['query'] )
-			? $block->parsed_block['attrs']['query']
-			: [];
-
+	public static function get_wp_query_args( $args = [], $page = 1 ) {
 		// Set up our pagination.
-		$query_attributes['paged'] = $page;
+		if ( ! isset( $args['paged'] ) && -1 < (int) $page ) {
+			$args['paged'] = $page;
+		}
 
-		$query_args = self::map_post_type_attributes( $query_attributes );
+		$query_args = self::map_post_type_attributes( $args );
 
 		if ( isset( $query_args['tax_query'] ) ) {
 			$query_args['tax_query'] = self::normalize_tax_query_attributes( $query_args['tax_query'] );
 		}
 
-		if ( isset( $query_args['date_query_after'] ) || isset( $query_args['date_query_before'] ) ) {
-			$query_args['date_query'] = self::normalize_date_query_attributes(
-				isset( $query_args['date_query_after'] ) ? $query_args['date_query_after'] : null,
-				isset( $query_args['date_query_before'] ) ? $query_args['date_query_before'] : null
-			);
-
-			unset( $query_args['date_query_after'] );
-			unset( $query_args['date_query_before'] );
-		}
-
+		// Sticky posts handling.
 		if ( isset( $query_args['stickyPosts'] ) && 'ignore' === $query_args['stickyPosts'] ) {
 			$query_args['ignore_sticky_posts'] = true;
 			unset( $query_args['stickyPosts'] );
@@ -76,12 +64,15 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			unset( $query_args['tax_query_exclude'] );
 		}
 
+		// Ensure offset works correctly with pagination.
+		$posts_per_page = (int) $query_args['posts_per_page'] ?? get_option( 'posts_per_page', -1 );
 		if (
 			isset( $query_args['posts_per_page'] ) &&
-			is_numeric( $query_args['posts_per_page'] )
+			is_numeric( $query_args['posts_per_page'] ) &&
+			$posts_per_page > -1
 		) {
-			$per_page = intval( $query_args['posts_per_page'] );
-			$offset   = 0;
+
+			$offset = 0;
 
 			if (
 				isset( $query_args['offset'] ) &&
@@ -90,20 +81,25 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 				$offset = absint( $query_args['offset'] );
 			}
 
-			$query_args['offset'] = ( $per_page * ( $page - 1 ) ) + $offset;
-			$query_args['posts_per_page'] = $per_page;
+			$query_args['offset']         = ( $posts_per_page * ( $page - 1 ) ) + $offset;
+			$query_args['posts_per_page'] = $posts_per_page;
 		}
 
+		$post_status = $query_args['post_status'] ?? 'publish';
 		if (
-			isset( $query_args['post_status'] ) &&
-			'publish' !== $query_args['post_status'] &&
+			'publish' !== $post_status &&
 			! current_user_can( 'read_private_posts' )
 		) {
 			// If the user can't read private posts, we'll force the post status to be public.
 			$query_args['post_status'] = 'publish';
 		}
 
-		return $query_args;
+		/**
+		 * Filter the final result of get_query_args.
+		 *
+		 * @param array @query_args The array of args for the WP_Query.
+		 */
+		return apply_filters( 'generateblocks_query_get_wp_query_args', $query_args );
 	}
 
 	/**
@@ -153,27 +149,5 @@ class GenerateBlocks_Query_Utils extends GenerateBlocks_Singleton {
 			},
 			$raw_tax_query
 		);
-	}
-
-	/**
-	 * Normalize the date query attributes to be used in the WP_Query
-	 *
-	 * @param string|null $after The after date.
-	 * @param string|null $before The before date.
-	 *
-	 * @return array
-	 */
-	public static function normalize_date_query_attributes( $after = null, $before = null ) {
-		$result = array( 'inclusive' => true );
-
-		if ( generateblocks_is_valid_date( $after ) ) {
-			$result['after'] = $after;
-		}
-
-		if ( generateblocks_is_valid_date( $before ) ) {
-			$result['before'] = $before;
-		}
-
-		return $result;
 	}
 }
