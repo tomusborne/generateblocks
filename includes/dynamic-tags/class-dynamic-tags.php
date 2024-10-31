@@ -270,7 +270,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'tag'      => 'previous_posts_page_url',
 				'type'     => 'post',
 				'supports' => [ 'source', 'instant-pagination' ],
-				'return'   => [ $this, 'get_previous_posts_page_url' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_previous_posts_page_url' ],
 			]
 		);
 
@@ -280,7 +280,7 @@ class GenerateBlocks_Dynamic_Tags extends GenerateBlocks_Singleton {
 				'tag'      => 'next_posts_page_url',
 				'type'     => 'post',
 				'supports' => [ 'source', 'instant-pagination' ],
-				'return'   => [ $this, 'get_next_posts_page_url' ],
+				'return'   => [ 'GenerateBlocks_Dynamic_Tag_Callbacks', 'get_next_posts_page_url' ],
 			]
 		);
 	}
