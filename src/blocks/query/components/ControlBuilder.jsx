@@ -14,7 +14,7 @@ import {
 } from '@components';
 import { SelectPostType } from '../../../dynamic-tags/components/SelectPostType'; // @TODO: Move this to a better location
 
-import TaxonomyParameterControl from '@components/inspector-controls/parameter-list/TaxonomyParameterControl';
+import { TaxonomyParameterControl } from './TaxonomyParameterControl';
 import DateTimePicker from '@components/inspector-controls/DateTimePicker/DateTimePicker';
 
 import getIcon from '@utils/get-icon';

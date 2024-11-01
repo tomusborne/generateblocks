@@ -34,6 +34,8 @@ function EditBlock( props ) {
 		query,
 	} = attributes;
 
+	console.dir( query );
+
 	const classNames = getBlockClasses(
 		'gb-query',
 		{
