@@ -15,7 +15,7 @@ import {
 import { SelectPostType } from '../../../dynamic-tags/components/SelectPostType'; // @TODO: Move this to a better location
 
 import { TaxonomyParameterControl } from './TaxonomyParameterControl';
-import DateTimePicker from '@components/inspector-controls/DateTimePicker/DateTimePicker';
+import { DateTimeControl } from './DateTimeControl';
 
 import getIcon from '@utils/get-icon';
 
@@ -41,7 +41,7 @@ const getParameterControl = ( parameterType ) => {
 		case 'postsSelect':
 			return PostTypeRecordsSelect;
 		case 'dateTimePicker':
-			return DateTimePicker;
+			return DateTimeControl;
 		case 'toggleControl':
 			return ToggleControl;
 	}
@@ -79,6 +79,8 @@ export function ControlBuilder( props ) {
 
 	const controlPlaceholder = placeholder || defaultValuePlaceholder;
 	const isPostsPerPage = 'number' === type && 'posts per page' === label.toLowerCase();
+
+	console.log( label, value );
 
 	return (
 		<div className={ 'gblocks-parameter-component' }>
